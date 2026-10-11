@@ -1,4 +1,5 @@
 using System.Globalization;
+using System.Text.RegularExpressions;
 using System.Text.Json;
 using Godot;
 using Urman.Core.Persistence;
@@ -1405,11 +1406,12 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
     }
 
     /// <summary>A "Play from here" request from URMAN Studio, passed on the command line.</summary>
-    internal sealed record StudioPlayRequest(string ZoneId, string SpawnPointId, Vector3? Position, float Yaw, string Label)
+    internal sealed record StudioPlayRequest(string ZoneId, string SpawnPointId, Vector3? Position, float Yaw, string Label, string? RunId = null)
     {
         public const string PlayPrefix = "--urman-studio-play=";
         public const string AtPrefix = "--urman-studio-at=";
         public const string LabelPrefix = "--urman-studio-label=";
+        public const string RunPrefix = "--urman-studio-run=";
 
         public static StudioPlayRequest? Parse(IReadOnlyList<string> arguments)
         {
@@ -1427,6 +1429,22 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
                 return null;
             }
 
+            var runArguments = arguments.Where(argument => argument.StartsWith(RunPrefix, StringComparison.Ordinal)).ToArray();
+            if (runArguments.Length > 1)
+            {
+                GD.PushError("URMAN Studio play request refused: multiple run IDs were supplied.");
+                return null;
+            }
+
+            var runId = runArguments.Length == 0 ? null : runArguments[0][RunPrefix.Length..];
+            if (runId is not null
+                && (!Regex.IsMatch(runId, @"\Arun-[0-9]{8}-[0-9]{6}-[0-9a-f]{6}\z", RegexOptions.CultureInvariant)
+                    || !DateTime.TryParseExact(runId[4..19], "yyyyMMdd-HHmmss", CultureInfo.InvariantCulture, DateTimeStyles.None, out _)))
+            {
+                GD.PushError("URMAN Studio play request refused: invalid run ID.");
+                return null;
+            }
+
             var target = play[PlayPrefix.Length..].Split('@');
             Vector3? position = null;
             var yaw = 0f;
@@ -1438,7 +1456,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
             }
 
             var label = arguments.FirstOrDefault(argument => argument.StartsWith(LabelPrefix, StringComparison.Ordinal))?[LabelPrefix.Length..] ?? "";
-            return new(target[0], target.Length > 1 ? target[1] : "arrival", position, yaw, label);
+            return new(target[0], target.Length > 1 ? target[1] : "arrival", position, yaw, label, runId);
         }
     }
 
@@ -1467,7 +1485,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
         };
         banner.AddThemeFontSizeOverride("font_size", 14);
         layer.AddChild(banner);
-        GD.Print($"urman-studio-play: started {request.ZoneId}@{request.SpawnPointId} label={request.Label}");
+        GD.Print($"urman-studio-play: started {request.ZoneId}@{request.SpawnPointId} label={request.Label} run={request.RunId ?? "unknown"} pid={OS.GetProcessId()}");
     }
 
     /// <summary>

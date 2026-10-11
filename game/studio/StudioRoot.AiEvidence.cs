@@ -4,6 +4,7 @@ using System.Text.RegularExpressions;
 using System.Text.Json;
 using Godot;
 using FileAccess = System.IO.FileAccess;
+using Urman.Godot;
 using Urman.Studio.Core.AI;
 using Urman.Studio.Core.Editing;
 using Urman.Studio.Core.Handoff;
@@ -19,6 +20,7 @@ public partial class StudioRoot
     private const int AiActionPngLimit = 16 * 1024 * 1024;
     private const int AiRequestLimit = HouseWindowProposalValidator.MaximumSerializedRequestBytes;
     private const int AiProposalLimit = 32 * 1024;
+    private const int AiHouseRecipeLimit = 32 * 1024;
     private const long AiPilotTargetHashLimit = 128L * 1024 * 1024;
     private static readonly byte[] PngSignature = [137, 80, 78, 71, 13, 10, 26, 10];
     private static readonly UTF8Encoding StrictUtf8 = new(false, true);
@@ -72,13 +74,17 @@ public partial class StudioRoot
         return new(requestId, AtomicFile.Sha256(requestBytes), AtomicFile.Sha256(proposalBytes), request.SnapshotHash);
     }
 
-    private byte[] ReadBoundedAiArtifact(string relativePath, int maximumBytes)
+    private byte[] ReadBoundedAiArtifact(string relativePath, int maximumBytes) =>
+        ReadBoundedAuthoringFile(Workspace.Root, relativePath, maximumBytes, allowStudioMetadata: true);
+
+    private static byte[] ReadBoundedAuthoringFile(string root, string relativePath, int maximumBytes,
+        bool allowStudioMetadata = false)
     {
-        StudioFileTransaction.EnsureNoLinks(Workspace.Root, relativePath, allowStudioMetadata: true);
-        var path = Path.Combine(Workspace.Root, relativePath.Replace('/', Path.DirectorySeparatorChar));
+        StudioFileTransaction.EnsureNoLinks(root, relativePath, allowStudioMetadata);
+        var path = Path.Combine(root, relativePath.Replace('/', Path.DirectorySeparatorChar));
         using var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
         if (stream.Length < 0 || stream.Length > maximumBytes)
-            throw new InvalidDataException("A stored pilot artifact exceeds its size limit.");
+            throw new InvalidDataException("A stored authoring file exceeds its size limit.");
 
         var bytes = new byte[(int)stream.Length];
         var offset = 0;
@@ -89,7 +95,7 @@ public partial class StudioRoot
             offset += read;
         }
         if (stream.ReadByte() != -1)
-            throw new InvalidDataException("A stored pilot artifact grew while being read.");
+            throw new InvalidDataException("A stored authoring file grew while being read.");
         return bytes;
     }
 
@@ -292,39 +298,69 @@ public partial class StudioRoot
         }
     }
 
-    private static IReadOnlyList<string?> CapturePilotTargetHashes(string root, string requestId)
+    private static IReadOnlyDictionary<string, string> CapturePlayHouseSources(string root)
     {
-        var paths = PilotPaths(requestId);
-        var hashes = new List<string?>(paths.Length);
-        foreach (var relativePath in paths)
+        // shortcut: hashes cover house geometry/placement inputs; include other rendered resources when accepting broader scene provenance.
+        var paths = new[]
         {
-            StudioFileTransaction.EnsureNoLinks(root, relativePath);
-            var path = Path.Combine(root, relativePath.Replace('/', Path.DirectorySeparatorChar));
-            if (!File.Exists(path))
-            {
-                hashes.Add(null);
-                continue;
-            }
-            using var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
-            var expectedLength = stream.Length;
-            if (expectedLength < 0 || expectedLength > AiPilotTargetHashLimit)
-                throw new InvalidDataException("A pilot target exceeds the bounded fingerprint size.");
-            using var hash = IncrementalHash.CreateHash(HashAlgorithmName.SHA256);
-            var buffer = new byte[64 * 1024];
-            long total = 0;
-            int read;
-            while ((read = stream.Read(buffer, 0, buffer.Length)) > 0)
-            {
-                total += read;
-                if (total > AiPilotTargetHashLimit)
-                    throw new InvalidDataException("A pilot target grew beyond the bounded fingerprint size.");
-                hash.AppendData(buffer, 0, read);
-            }
-            if (total != expectedLength || stream.Length != expectedLength || stream.ReadByte() != -1)
-                throw new InvalidDataException("A pilot target changed while its fingerprint was read.");
-            hashes.Add(Convert.ToHexStringLower(hash.GetHashAndReset()));
+            "game/content/studio/hero_house.recipe.json",
+            "game/content/world/act1_village_kit.world.v1.json",
+            "game/assets/models/act1/urman_village_exterior_kit.glb",
+            "game/assets/generated/urman_modular_kit.glb"
+        };
+        var sources = new Dictionary<string, string>(StringComparer.Ordinal);
+        foreach (var relativePath in paths)
+            sources.Add(relativePath, CaptureAuthoringFileHash(root, relativePath)
+                ?? throw new FileNotFoundException("A required Play source is missing.", relativePath));
+
+        var recipePath = paths[0];
+        var recipeBytes = ReadBoundedAuthoringFile(root, recipePath, AiHouseRecipeLimit);
+        if (!string.Equals(sources[recipePath], Convert.ToHexStringLower(SHA256.HashData(recipeBytes)), StringComparison.Ordinal))
+            throw new InvalidDataException("The Play recipe changed while its sources were being captured.");
+        var recipe = HeroHouseRecipe.Parse(StrictUtf8.GetString(recipeBytes));
+        if (recipe.ModelPath is { } modelPath)
+        {
+            var relativePath = "game/" + modelPath["res://".Length..];
+            sources.Add(relativePath, CaptureAuthoringFileHash(root, relativePath)
+                ?? throw new FileNotFoundException("The Play recipe model is missing.", relativePath));
         }
-        return hashes;
+        return sources;
+    }
+
+    private static bool PlayHouseSourcesMatch(string root, IReadOnlyDictionary<string, string> expected)
+    {
+        var current = CapturePlayHouseSources(root);
+        return current.Count == expected.Count
+            && current.OrderBy(source => source.Key, StringComparer.Ordinal)
+                .SequenceEqual(expected.OrderBy(source => source.Key, StringComparer.Ordinal));
+    }
+
+    private static IReadOnlyList<string?> CapturePilotTargetHashes(string root, string requestId) =>
+        PilotPaths(requestId).Select(relativePath => CaptureAuthoringFileHash(root, relativePath)).ToArray();
+
+    private static string? CaptureAuthoringFileHash(string root, string relativePath)
+    {
+        StudioFileTransaction.EnsureNoLinks(root, relativePath);
+        var path = Path.Combine(root, relativePath.Replace('/', Path.DirectorySeparatorChar));
+        if (!File.Exists(path)) return null;
+        using var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
+        var expectedLength = stream.Length;
+        if (expectedLength < 0 || expectedLength > AiPilotTargetHashLimit)
+            throw new InvalidDataException("An authored file exceeds the bounded fingerprint size.");
+        using var hash = IncrementalHash.CreateHash(HashAlgorithmName.SHA256);
+        var buffer = new byte[64 * 1024];
+        long total = 0;
+        int read;
+        while ((read = stream.Read(buffer, 0, buffer.Length)) > 0)
+        {
+            total += read;
+            if (total > AiPilotTargetHashLimit)
+                throw new InvalidDataException("An authored file grew beyond the bounded fingerprint size.");
+            hash.AppendData(buffer, 0, read);
+        }
+        if (total != expectedLength || stream.Length != expectedLength || stream.ReadByte() != -1)
+            throw new InvalidDataException("An authored file changed while its fingerprint was read.");
+        return Convert.ToHexStringLower(hash.GetHashAndReset());
     }
 
     private static bool PilotTargetHashesMatch(string root, string requestId, IReadOnlyList<string?> expected) =>

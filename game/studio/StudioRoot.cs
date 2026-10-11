@@ -780,11 +780,18 @@ public partial class StudioRoot : Control
             RefreshStatus("Подготовка запуска…");
             if (!SaveAll(autosave: false)) return;
 
+            var houseSources = CapturePlayHouseSources(Workspace.Root);
             var build = await PlayPreparation.CompileAsync(Workspace.Root);
             if (_closing) return;
             if (!build.Ready)
             {
                 ShowBanner("Черновик не готов к запуску: " + string.Join("; ", build.Problems.Take(3)) + (build.Problems.Count > 3 ? $" и ещё {build.Problems.Count - 3}" : ""), error: true);
+                return;
+            }
+
+            if (!PlayHouseSourcesMatch(Workspace.Root, houseSources))
+            {
+                ShowBanner("Дом изменился во время подготовки запуска. Запустите текущую версию ещё раз.", error: true);
                 return;
             }
 
@@ -798,7 +805,9 @@ public partial class StudioRoot : Control
             }
 
             arguments.Add($"--urman-studio-label={build.RevisionLabel}");
-            var folder = new RunFolders(Workspace.Root).Create(build.RevisionLabel, DateTimeOffset.Now);
+            var folder = new RunFolders(Workspace.Root).Create(build.RevisionLabel, DateTimeOffset.Now,
+                build.CampaignFingerprint, houseSources);
+            arguments.Add($"--urman-studio-run={folder.RunId}");
             var info = new ProcessStartInfo(godot) { UseShellExecute = false, RedirectStandardOutput = true, RedirectStandardError = true };
             foreach (var argument in arguments)
             {

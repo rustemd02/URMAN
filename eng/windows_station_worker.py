@@ -32,6 +32,7 @@ STUDIO_OWNER = 'urman.world:act1/kit/house-old-pc-babai-approach'
 STUDIO_PRESERVE_MARKER = '.preserve-source'
 STUDIO_MAX_REQUESTS = 32
 STUDIO_MAX_TRANSACTIONS = 32
+STUDIO_MAX_RUNS = 32
 STUDIO_MAX_REQUEST = 256 * 1024
 STUDIO_MAX_PROPOSAL = 32 * 1024
 STUDIO_MAX_PREVIEW_FAILURE = 4 * 1024
@@ -39,6 +40,8 @@ STUDIO_MAX_ACTIONS = 32
 STUDIO_MAX_ACTION_RECEIPT = 8 * 1024
 STUDIO_MAX_ACTION_FRAME = 16 * 1024**2
 STUDIO_MAX_JOURNAL = 64 * 1024
+STUDIO_MAX_RUN_MANIFEST = 16 * 1024
+STUDIO_MAX_RUN_LOG = 8 * 1024**2
 STUDIO_MAX_BINARY = 128 * 1024**2
 STUDIO_MAX_EXPORT = 512 * 1024**2
 
@@ -381,7 +384,7 @@ def _studio_write_durable_json(path, value):
 
 
 def export_studio_session(source, output):
-    """Export only bounded raw pilot request and transaction evidence."""
+    """Export only bounded pilot request, transaction, and play-run evidence."""
     source = Path(source)
     output = Path(output)
     payloads = []
@@ -657,6 +660,76 @@ def export_studio_session(source, output):
                 raise ValueError('Studio transaction evidence contains a link or non-file: ' + transaction_id)
             payloads.append((journal_relative, journal_bytes, None))
 
+    runs_root = _studio_path(source, '.urman-studio/runs', kind='dir', missing=True)
+    if runs_root is not None:
+        required_run_fields = {'runId', 'revision', 'started', 'pinned', 'files'}
+        provenance_fields = {'evidenceKind', 'campaignFingerprint', 'houseSources'}
+        base_house_sources = {
+            'game/content/studio/hero_house.recipe.json',
+            'game/content/world/act1_village_kit.world.v1.json',
+            'game/assets/models/act1/urman_village_exterior_kit.glb',
+            'game/assets/generated/urman_modular_kit.glb',
+        }
+        run_pattern = r'run-[0-9]{8}-[0-9]{6}-[a-f0-9]{6}'
+        staged_model_prefix = 'game/assets/models/studio/hero-house-'
+        run_dirs = _studio_children(runs_root, STUDIO_MAX_RUNS, 'Studio run directories')
+        for directory in run_dirs:
+            info = directory.lstat()
+            if _studio_reparse(info) or not stat.S_ISDIR(info.st_mode) or not re.fullmatch(run_pattern, directory.name):
+                raise ValueError('Studio run directory is not a canonical run ID')
+            try:
+                time.strptime(directory.name[4:19], '%Y%m%d-%H%M%S')
+            except ValueError as error:
+                raise ValueError('Studio run directory has an invalid timestamp: ' + directory.name) from error
+
+            run_id = directory.name
+            manifest_relative = f'.urman-studio/runs/{run_id}/manifest.json'
+            log_relative = f'.urman-studio/runs/{run_id}/game.log'
+            contents = _studio_children(directory, 2, 'Studio run directory')
+            names = {item.name for item in contents}
+            if names not in ({'manifest.json'}, {'manifest.json', 'game.log'}):
+                raise ValueError('Studio run directory has missing or unexpected files: ' + run_id)
+            if any(_studio_reparse(item.lstat()) or not stat.S_ISREG(item.lstat().st_mode) for item in contents):
+                raise ValueError('Studio run evidence contains a link or non-file: ' + run_id)
+
+            _, manifest_bytes = _studio_read(source, manifest_relative, STUDIO_MAX_RUN_MANIFEST,
+                                             'Studio run manifest')
+            manifest = _studio_json(manifest_bytes, STUDIO_MAX_RUN_MANIFEST, 'Studio run manifest')
+            if (not isinstance(manifest, dict) or not required_run_fields.issubset(manifest)
+                    or set(manifest) - required_run_fields - provenance_fields):
+                raise ValueError('Studio run manifest has missing or unexpected fields: ' + run_id)
+            if (manifest['runId'] != run_id or not isinstance(manifest['revision'], str)
+                    or not manifest['revision'].strip() or not isinstance(manifest['started'], str)
+                    or not manifest['started'].strip() or type(manifest['pinned']) is not bool
+                    or manifest['files'] != ['game.log', 'manifest.json']):
+                raise ValueError('Studio run manifest identity or owned files are invalid: ' + run_id)
+
+            present_provenance = provenance_fields & set(manifest)
+            if present_provenance and present_provenance != provenance_fields:
+                raise ValueError('Studio run provenance fields are incomplete: ' + run_id)
+            if present_provenance:
+                house_sources = manifest['houseSources']
+                if (manifest['evidenceKind'] != 'prelaunch-source'
+                        or not isinstance(manifest['campaignFingerprint'], str)
+                        or not re.fullmatch('[a-f0-9]{64}', manifest['campaignFingerprint'])
+                        or not isinstance(house_sources, dict) or not 4 <= len(house_sources) <= 5
+                        or not base_house_sources.issubset(house_sources)):
+                    raise ValueError('Studio run provenance is invalid: ' + run_id)
+                extra_sources = set(house_sources) - base_house_sources
+                if (len(extra_sources) > 1
+                        or any(not path.startswith(staged_model_prefix) or not path.lower().endswith('.glb')
+                               or '/' in path[len(staged_model_prefix):]
+                               or any(part in path for part in ('..', '\\', ':')) for path in extra_sources)
+                        or any(not isinstance(sha, str) or not re.fullmatch('[a-f0-9]{64}', sha)
+                               for sha in house_sources.values())):
+                    raise ValueError('Studio run house-source evidence is invalid: ' + run_id)
+
+            payloads.append((manifest_relative, manifest_bytes, hashlib.sha256(manifest_bytes).hexdigest()))
+            if 'game.log' in names:
+                log_path = _studio_path(source, log_relative)
+                _, log_hash = _studio_hash(log_path, STUDIO_MAX_RUN_LOG)
+                payloads.append((log_relative, log_path, log_hash))
+
     for request_id, action_id, transaction_id in action_transaction_refs:
         if transaction_id not in transactions_by_request.get(request_id, set()):
             raise ValueError('Studio action transaction does not belong to its request: ' + action_id)
@@ -707,9 +780,12 @@ def export_studio_session(source, output):
             file_limit = STUDIO_MAX_BINARY
         else:
             size = _studio_path(source, relative).lstat().st_size
-            file_limit = (STUDIO_MAX_ACTION_FRAME if re.fullmatch(
-                r'\.urman-studio/ai-jobs/[a-f0-9]{32}/actions/[a-f0-9]{32}\.png', relative)
-                else STUDIO_MAX_BINARY)
+            if re.fullmatch(r'\.urman-studio/runs/run-[0-9]{8}-[0-9]{6}-[a-f0-9]{6}/game\.log', relative):
+                file_limit = STUDIO_MAX_RUN_LOG
+            elif re.fullmatch(r'\.urman-studio/ai-jobs/[a-f0-9]{32}/actions/[a-f0-9]{32}\.png', relative):
+                file_limit = STUDIO_MAX_ACTION_FRAME
+            else:
+                file_limit = STUDIO_MAX_BINARY
         if size > file_limit:
             raise ValueError('Studio evidence file exceeds its size limit')
         total_bytes += size
@@ -749,9 +825,12 @@ def export_studio_session(source, output):
                 source_path = _studio_path(source, relative)
                 source_info = source_path.lstat()
                 source_size = source_info.st_size
-                file_limit = (STUDIO_MAX_ACTION_FRAME if re.fullmatch(
-                    r'\.urman-studio/ai-jobs/[a-f0-9]{32}/actions/[a-f0-9]{32}\.png', relative)
-                    else STUDIO_MAX_BINARY)
+                if re.fullmatch(r'\.urman-studio/runs/run-[0-9]{8}-[0-9]{6}-[a-f0-9]{6}/game\.log', relative):
+                    file_limit = STUDIO_MAX_RUN_LOG
+                elif re.fullmatch(r'\.urman-studio/ai-jobs/[a-f0-9]{32}/actions/[a-f0-9]{32}\.png', relative):
+                    file_limit = STUDIO_MAX_ACTION_FRAME
+                else:
+                    file_limit = STUDIO_MAX_BINARY
                 if source_size > file_limit:
                     raise ValueError('Studio evidence file exceeds its size limit')
                 with source_path.open('rb') as incoming:

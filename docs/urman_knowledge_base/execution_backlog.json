@@ -74309,6 +74309,20 @@
                       ],
                       "verification": "Five Luna bounded source implementation/research tasks; independent Sol6.1medium final diff review with no remaining blocker. Final narrow game --no-restore compile: zero warnings/errors; tracker validation and diff check. No runtime/tests/probes.",
                       "remaining": "Existing campaign-only run label does not identify house recipe/selected GLB or prove loaded rendered bytes. Bind exact run provenance in existing run manifest next; actual Codex/native matched game/byte-exact Undo acceptance remains deferred by author."
+                    },
+                    {
+                      "date": "2026-10-11",
+                      "kind": "source-progress",
+                      "result": "Existing Play manifest now stores full chapter1 campaign fingerprint plus bounded prelaunch house geometry/placement source path hashes; source comparison before/after content compilation rejects changed inputs. Existing game-child started log echoes validated run ID and PID. Windows exporter retains raw run manifests and optional child logs (32 runs, 16 KiB manifest, 8 MiB log) under studio-session with exact file ownership and copy-time hash/budget checks; no synthetic provenance for old manifests.",
+                      "source": [
+                        "src-dotnet/Urman.Studio.Core/Play/RunFolders.cs",
+                        "game/studio/StudioRoot.cs",
+                        "game/studio/StudioRoot.AiEvidence.cs",
+                        "game/scripts/Act1DemoRoot.cs",
+                        "eng/windows_station_worker.py"
+                      ],
+                      "verification": "Five Luna bounded source implementation/research assignments; independent Sol6.1medium final source review without confirmed blockers. Root affected game --no-restore compile zero warnings/errors, worker Python syntax, tracker validation and diff-check. No launches, probes, tests or Windows deployment.",
+                      "remaining": "Prelaunch source map covers recipe/placement/house model inputs, not all visible NPC/textures/C# or imported/rendered bytes. External edits after final snapshot are not prevented. Actual Codex proposal, matched native game frames and byte-exact Undo are still unaccepted under author runtime pause."
                     }
                   ],
                   "assigned_owner": "codex/b20-2026-10-10",
@@ -74316,7 +74330,7 @@
                   "activity": {
                     "state": "runtime_deferred_by_author",
                     "reason": "11.10 пользователь остановил игровые и Studio запуски из-за сильных лагов; production/source review/узкая компиляция продолжаются.",
-                    "verification_question": "Source race slice: does Play preparation exclusively hold a gate across content compilation and child launch, preventing duplicate preparation and overlap with AI Apply/Undo/Redo and rendered action capture, with gates released on every error/return? Narrow game compile and independent source review only; native acceptance remains deferred by author."
+                    "verification_question": "Source Play provenance: does existing run manifest record full campaign fingerprint and bounded current house source path/hash map; does pre/post compile comparison refuse changed house inputs; does child log echo validated run identity and PID without claiming rendered-byte or native acceptance? Narrow compile and independent source review only."
                   },
                   "task_type": "integration_check",
                   "status": "blocked",
@@ -74328,7 +74342,7 @@
                     "Overall Windows kit smoke FAIL: shutdown resource leaks; scenario5checks и compile0/0 не заменяют чистый runtime result.",
                     "Windows direct .exe-only discovery исправлен и source-reviewed; actual Windows installed/login readiness остаётся непроверенным."
                   ],
-                  "next_action": "Continue source Play provenance: bind current house recipe and actual runtime model hashes to existing run manifest and child start identity; source metadata alone cannot prove rendered bytes. Windows worker must update/restart before prerequisite check. After explicit runtime resume execute actual Studio main-seven Codex preview/Apply, matched game frames, then byte-exact Undo including original absences.",
+                  "next_action": "Continue source matched-game evidence/camera workflow, keeping game-rendered frames distinct from Studio frames and prelaunch hashes. Windows worker update/restart needed for readiness/export deployment. After explicit runtime resume: actual Studio selected main-seven Codex request→preview→Apply→matched game frames→byte-exact Undo preserving absence, and inspect raw run/action/transaction evidence before closing AI-12.",
                   "blocker": {
                     "reason": "Native UI/game verification deferred by author; Front0 could not be selected during Mac attempt.",
                     "release_when": "Автор возобновил runtime; доступен native выбор окна и защищённый Studio/game сценарий."
