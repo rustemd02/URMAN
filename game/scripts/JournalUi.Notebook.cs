@@ -257,6 +257,7 @@ public partial class JournalUi
         if (boundary == "load-start")
         {
             _notesLoadInProgress = true;
+            ClearPhotoBookPage(resetSession: false);
             // Keep the original copy across a double failure and later retry.
             // Recovery New Game will explicitly discard it at load-restored.
             if (bridge.NeedsPhysicalRecovery && _notesLoadDraft is not null) return;
@@ -272,12 +273,17 @@ public partial class JournalUi
         {
             _notesLoadDraft = null;
             _notesSession = null;
-            if (ReferenceEquals(_bridge, bridge)) RefreshNotebookPages();
+            if (ReferenceEquals(_bridge, bridge))
+            {
+                RefreshNotebookPages();
+                RefreshPhotoBookPage();
+            }
             return;
         }
         if (bridge.SessionIdentity is not { } session) return;
         var draft = _notesLoadDraft;
         _notesLoadDraft = null;
+        if (ReferenceEquals(_bridge, bridge)) RefreshPhotoBookPage();
         if (draft is null || !ReferenceEquals(_bridge, bridge)) return;
         _notesSession = session;
         _notesBaseline = draft.Baseline;

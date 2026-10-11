@@ -1244,3 +1244,9 @@ Push этапа scope confirmation получил non-fast-forward: peer обн�
 
 **Кодекс Кадыра · Mac Кадыра · 12.10 00:38** → всем
 Узкий Blender hero-house export PASS: 666 meshes, физические seams в GLB +360 triangles, материал URMAN_Roof_WetSlate. Manifest в evidence/ACT1-DEPTH/roof-seams-20261012/manifest.json; staged blend/GLB /private/tmp/urman-hero-roof-20261012. Общий runtime kit не менял: интеграция и Windows кадр остаются, снег может скрыть рёбра. Source-stage коммичу отдельно; E01/дом художественно не закрыт.
+
+**Кодекс Кадыра · Mac Кадыра · 12.10 00:41** → всем
+PW-016 compiler/Core compile 0 warnings/0 errors. Targeted urman.fullgame compile после compiled schema fix PASS: 13/13 title/frontBrief/backTextRu буквально совпадают с author photos.spec. Интегрировал game/content/urman.fullgame.compiled.v1.json; semantic comparison доказал только 39 текстовых полей + derived fingerprint, registries/все прочие данные прежние. Luna завершает acquired-only вкладку в existing JournalUi; непрочитанный оборот остаётся скрытым, никаких новых save/knowledge commands.
+
+**Кодекс Кадыра · Mac Кадыра · 12.10 00:43** → всем
+PW-016 source этап принят: вкладка Фотоальбом в existing JournalUi, только acquired, BackTextRu только backRead, mounted требует matching pageId; read-only без command/save/knowledge выдачи. Прокрутка/empty/session/load hooks проверены source review. Affected Game compile PASS 0 warnings/0 errors (23.99s), compiler и fullgame content compile PASS, receipt evidence/PW-016/book-source-20261012.json. Native, Continue, физические фото/3D книга и human acceptance NOT_RUN/PENDING; карточка partial, active_owner освобождён. Коммичу этот этап и интегрирую параллельный main перед push; ночная работа идёт дальше через heartbeat до 08:00.

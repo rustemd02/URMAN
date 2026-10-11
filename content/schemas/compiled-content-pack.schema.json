@@ -89,7 +89,7 @@
             "$ref": "#/$defs/TransitionOverride"
           }
         },
-        "photoBook": { "$ref": "campaign-manifest.schema.json#/$defs/PhotoBook" }
+        "photoBook": { "$ref": "#/$defs/CompiledPhotoBook" }
       },
       "additionalProperties": false
     },
@@ -252,6 +252,46 @@
   },
   "additionalProperties": false,
   "$defs": {
+    "CompiledPhotoBook": {
+      "type": "object",
+      "required": ["schemaVersion", "namespaceId", "playerId", "book", "photos", "worlds", "facts", "evidence", "requiredAnchors"],
+      "properties": {
+        "schemaVersion": { "$ref": "campaign-manifest.schema.json#/$defs/PhotoBook/properties/schemaVersion" },
+        "namespaceId": { "$ref": "campaign-manifest.schema.json#/$defs/PhotoBook/properties/namespaceId" },
+        "playerId": { "$ref": "campaign-manifest.schema.json#/$defs/PhotoBook/properties/playerId" },
+        "book": { "$ref": "campaign-manifest.schema.json#/$defs/PhotoBook/properties/book" },
+        "photos": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/CompiledPhotoDefinition" }
+        },
+        "worlds": { "$ref": "campaign-manifest.schema.json#/$defs/PhotoBook/properties/worlds" },
+        "facts": { "$ref": "campaign-manifest.schema.json#/$defs/PhotoBook/properties/facts" },
+        "evidence": { "$ref": "campaign-manifest.schema.json#/$defs/PhotoBook/properties/evidence" },
+        "requiredAnchors": { "$ref": "campaign-manifest.schema.json#/$defs/PhotoBook/properties/requiredAnchors" }
+      },
+      "additionalProperties": false
+    },
+    "CompiledPhotoDefinition": {
+      "type": "object",
+      "required": ["id", "pageId", "sourceId", "permissionId", "provenanceKind", "contextSourceIds", "captionable", "requiresBookHandoff"],
+      "properties": {
+        "id": { "$ref": "campaign-manifest.schema.json#/$defs/PhotoBook/properties/photos/items/properties/id" },
+        "pageId": { "$ref": "campaign-manifest.schema.json#/$defs/PhotoBook/properties/photos/items/properties/pageId" },
+        "sourceId": { "$ref": "campaign-manifest.schema.json#/$defs/PhotoBook/properties/photos/items/properties/sourceId" },
+        "permissionId": { "$ref": "campaign-manifest.schema.json#/$defs/PhotoBook/properties/photos/items/properties/permissionId" },
+        "sourceAuthorId": { "$ref": "campaign-manifest.schema.json#/$defs/PhotoBook/properties/photos/items/properties/sourceAuthorId" },
+        "provenanceKind": { "$ref": "campaign-manifest.schema.json#/$defs/PhotoBook/properties/photos/items/properties/provenanceKind" },
+        "contextSourceIds": { "$ref": "campaign-manifest.schema.json#/$defs/PhotoBook/properties/photos/items/properties/contextSourceIds" },
+        "captionable": { "$ref": "campaign-manifest.schema.json#/$defs/PhotoBook/properties/photos/items/properties/captionable" },
+        "requiresBookHandoff": { "$ref": "campaign-manifest.schema.json#/$defs/PhotoBook/properties/photos/items/properties/requiresBookHandoff" },
+        "initial": { "$ref": "campaign-manifest.schema.json#/$defs/PhotoBook/properties/photos/items/properties/initial" },
+        "title": { "type": "string", "minLength": 1, "pattern": "\\S" },
+        "frontBrief": { "type": "string", "minLength": 1, "pattern": "\\S" },
+        "backTextRu": { "type": "string", "minLength": 1, "pattern": "\\S" }
+      },
+      "additionalProperties": false
+    },
     "TransitionOverride": {
       "type": "object",
       "required": [

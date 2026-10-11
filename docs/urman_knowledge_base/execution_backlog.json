@@ -103755,7 +103755,7 @@
       "title": "Переработать журнал в семейную книгу без потери функций",
       "milestone": "PW-M1",
       "status": "in_progress",
-      "active_owner": "Кодекс Кадыра / Luna book",
+      "active_owner": null,
       "owner": "integration",
       "priority": "P0",
       "complexity": "complex",
@@ -103900,8 +103900,8 @@
       },
       "assigned_owner": "integration",
       "activity": {
-        "state": "confirmed_active",
-        "reason": "Прямое ночное поручение автора 12.10; source/compiler/catalog и существующий JournalUi acquired photo slice."
+        "state": "not_active",
+        "reason": "Ограниченный source/compile этап принят root; native и полный DoD открыты."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -103911,7 +103911,7 @@
         "Фотомиры не открывают клетки наружной карты.",
         "После обычного получения снимка игрок находит фронт/оборот и вклейку в семейной книге; Continue сохраняет личные записи и состояния снимка. Карта/адреса/словарь/прежний инвентарь используют существующий источник состояния; открытие страницы не выдаёт непрочитанное знание или внешнее подтверждение."
       ],
-      "next_action": "Доставить существующие авторские тексты через compiler/catalog и acquired-only вкладку существующей книги; native/Continue и physical book остаются открыты.",
+      "next_action": "После update Windows worker проверить acquired/unread/read/mounted/Continue и размер альбома; реальные фото/inspect-flip и physical book остаются открыты.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -104089,7 +104089,12 @@
         "scope": "Existing author title/front_brief/back_text_ru in photos.spec; compiler/catalog retain text, existing JournalUi reads existing acquired/mounted photo state. No invented images/transcription/new save state.",
         "owners": "Luna transport_cabin: compiler/Core catalog; Luna bath_firewood_source: RuntimeBridge.PhotoBook, JournalUi.PhotoBook + minimal hooks; root: review/compile/JSON.",
         "verification_question": "Доступны ли только найденные снимки и авторские тексты без выдачи знания при открытии и без потери notes/map/vocab/inventory?",
-        "remaining": "Native scenario, Continue persistence, authored photo images and physical 3D book, human acceptance."
+        "remaining": "Native scenario, Continue persistence, authored photo images and physical 3D book, human acceptance.",
+        "result": "Author text retained by compiler/catalog and actual fullgame pack; existing JournalUi tab7 acquired-only read-only album, unread back hidden, mounted/PageId match human wording, scroll/empty/session-load lifecycle integrated.",
+        "evidence": "evidence/PW-016/book-source-20261012.json",
+        "content_verification": "PASS: compiler/Core0/0; targeted urman.fullgame compile; all13x3strings exact author source; semantic delta text+derived fingerprint only.",
+        "runtime_verification": "NOT_RUN: Windows worker update pending. Native acquired/backRead/mounted/Continue/view dimensions not accepted.",
+        "game_compile": "PASS: affected Urman.Game build0warnings0errors23.99s"
       }
     },
     {

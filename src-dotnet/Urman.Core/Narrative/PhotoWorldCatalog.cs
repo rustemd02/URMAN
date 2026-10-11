@@ -41,7 +41,12 @@ public sealed record PhotoWorldCatalog(
             var photos = RequiredArray(value, "photos").EnumerateArray()
                 .Select(photo => new PhotoWorldPhotoDefinition(
                     RequiredString(photo, "id"),
-                    RequiredString(photo, "pageId")))
+                    RequiredString(photo, "pageId"))
+                {
+                    Title = OptionalString(photo, "title"),
+                    FrontBrief = OptionalString(photo, "frontBrief"),
+                    BackTextRu = OptionalString(photo, "backTextRu")
+                })
                 .ToArray()
                 .AsReadOnly();
             var worlds = RequiredArray(value, "worlds").EnumerateArray()
@@ -169,6 +174,15 @@ public sealed record PhotoWorldCatalog(
         return value.GetString()!;
     }
 
+    private static string? OptionalString(JsonElement value, string name)
+    {
+        if (value.ValueKind != JsonValueKind.Object || !value.TryGetProperty(name, out var property))
+            return null;
+        if (property.ValueKind != JsonValueKind.String || string.IsNullOrWhiteSpace(property.GetString()))
+            throw new InvalidDataException($"PhotoWorlds {name} must be a non-empty string when present.");
+        return property.GetString();
+    }
+
     private static int RequiredInt(JsonElement value, string name)
     {
         if (!value.TryGetProperty(name, out var property) || !property.TryGetInt32(out var result))
@@ -183,7 +197,12 @@ public sealed record PhotoWorldCatalog(
     }
 }
 
-public sealed record PhotoWorldPhotoDefinition(string Id, string PageId);
+public sealed record PhotoWorldPhotoDefinition(string Id, string PageId)
+{
+    public string? Title { get; init; }
+    public string? FrontBrief { get; init; }
+    public string? BackTextRu { get; init; }
+}
 
 public sealed record PhotoWorldDefinition(
     string Id,

@@ -77,6 +77,7 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
         BuildNotebookUi();
         BuildVocabularyUi();
         BuildInventoryUi();
+        BuildPhotoBookUi();
         _close.Pressed += Close;
         _entries.ItemSelected += SelectEntry;
         GetViewport().SizeChanged += RefitToViewport;
@@ -180,6 +181,7 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
         _sourceProjection = _bridge?.JournalEntries() ?? [];
         _projection = NotebookProjection();
         RefreshNotebookPages();
+        RefreshPhotoBookPage();
         var objectives = _bridge?.ActiveObjectives() ?? [];
         // An active investigation is not yet an actionable source comparison.
         // Use the same readiness gate as the comparison tab, including both sources.
@@ -481,7 +483,8 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
 
     private void FocusCurrentPage()
     {
-        if (_tabs.CurrentTab == 6) _inventoryPage.GetChild<Label>(0).GrabFocus();
+        if (_tabs.CurrentTab == PhotoBookTabIndex) FocusPhotoBookPage();
+        else if (_tabs.CurrentTab == 6) _inventoryPage.GetChild<Label>(0).GrabFocus();
         else if (_tabs.CurrentTab == 5) _wordSearch.GrabFocus();
         else if (_tabs.CurrentTab == 4) _notesText.GrabFocus();
         else if (_tabs.CurrentTab == 3) _map.FocusSketch();

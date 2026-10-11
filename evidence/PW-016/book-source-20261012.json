@@ -1,0 +1,31 @@
+{
+  "stage": "PW-016 authored photo text delivery + acquired photo reader",
+  "compiler_build": "passed: 0 warnings, 0 errors",
+  "content_compile": "passed: urman.fullgame",
+  "photo_count": 13,
+  "authored_text_matches": true,
+  "semantic_delta": "39 authored text properties + derived campaign fingerprint only; other compiled data equal baseline",
+  "campaign_fingerprint": "19e9be2a110cd7afd7181f0e820a4847abc17c91e6713bb6c77d630a5c169bec",
+  "sha256": {
+    "content/campaigns/urman.fullgame/photoworlds-sources/photos.spec.json": "6127fe5180785ac303d4372b4537c38d253c255e88dc04a5d8c821e4a01bc2cc",
+    "game/content/urman.fullgame.compiled.v1.json": "ffff3a089dcc06ff1cf17defcedbec0e2fcebb243f915ad89970e0c7de757ec2"
+  },
+  "native_runtime": "NOT_RUN",
+  "author_acceptance": "PENDING",
+  "physical_photo_images": "NOT_PRODUCED; frontBrief is descriptive text",
+  "game_build": "passed:0warnings0errors23.99s",
+  "source_sha256": {
+    "game/scripts/JournalUi.PhotoBook.cs": "8fa73208353300d8c78c842baa0e2e7fe2ed40cc61700b13780409ae4ff258a4",
+    "game/scripts/RuntimeBridge.PhotoBook.cs": "2b37e4642d1ba7205a1c0088a72e88a7bd36c78f24c837fbef4607468162de57",
+    "game/scripts/JournalUi.cs": "19049ae4754789ef830db236ef0fff63ecd4e62688019761672fbf6c774472ad",
+    "game/scripts/JournalUi.Notebook.cs": "29692b5bdef6c536382fcba98b22e15ad05f7d4cefec61c128c3beed3a7e32eb"
+  },
+  "ui_gates": [
+    "acquired-only",
+    "back text only when backRead",
+    "mounted requires matching pageId",
+    "no dispatch or save writes",
+    "session/load clears provisional projection",
+    "scroll + empty sections hidden"
+  ]
+}

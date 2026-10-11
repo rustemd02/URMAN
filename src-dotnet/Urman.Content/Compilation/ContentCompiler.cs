@@ -148,7 +148,10 @@ public sealed partial class ContentCompiler
         }
 
         ValidateActiveQuestIds(root, campaignPath, campaign, registries["quests"], diagnostics);
-        await ValidatePhotoWorldCatalogAsync(root, campaignPath, campaign, registries, diagnostics, cancellationToken);
+        JsonObject? photoSpecs = null;
+        if (campaign["photoBook"] is JsonObject photoBook)
+            photoSpecs = await ReadPhotoWorldSpecAsync(root, campaignPath, photoBook, "photos", diagnostics, cancellationToken);
+        await ValidatePhotoWorldCatalogAsync(root, campaignPath, campaign, registries, photoSpecs, diagnostics, cancellationToken);
         if (diagnostics.Count > 0)
         {
             return new(null, diagnostics);
@@ -160,7 +163,7 @@ public sealed partial class ContentCompiler
             return new(null, diagnostics);
         }
 
-        var campaignNode = BuildCampaign(campaign, modules, registries);
+        var campaignNode = BuildCampaign(campaign, modules, registries, photoSpecs);
         var moduleFingerprints = moduleFingerprintInputs
             .Select(input => new JsonObject
             {
@@ -245,7 +248,8 @@ public sealed partial class ContentCompiler
     private static JsonObject BuildCampaign(
         JsonObject campaign,
         IReadOnlyCollection<LoadedModule> modules,
-        IReadOnlyDictionary<string, Dictionary<string, JsonObject>> registries)
+        IReadOnlyDictionary<string, Dictionary<string, JsonObject>> registries,
+        JsonObject? photoSpecs)
     {
         var roleBindings = new JsonObject();
         foreach (var binding in campaign["roleBindings"]!.AsObject().OrderBy(binding => binding.Key, JsLocaleComparer))
@@ -313,6 +317,7 @@ public sealed partial class ContentCompiler
             // These paths are build-time validation inputs. The compiled
             // runtime catalog is self-contained and never resolves docs files.
             compiledPhotoBook.Remove("authoringSpecSources");
+            AttachPhotoTextMetadata(compiledPhotoBook, photoSpecs);
             result["photoBook"] = compiledPhotoBook;
         }
 
@@ -333,6 +338,36 @@ public sealed partial class ContentCompiler
         }
 
         return result;
+    }
+
+    private static void AttachPhotoTextMetadata(JsonObject compiledPhotoBook, JsonObject? photoSpecs)
+    {
+        if (photoSpecs?["photos"] is not JsonArray sourcePhotos
+            || compiledPhotoBook["photos"] is not JsonArray compiledPhotos)
+            return;
+
+        var sourceById = sourcePhotos
+            .OfType<JsonObject>()
+            .Select(photo => (Id: ReadOptionalString(photo, "id"), Photo: photo))
+            .Where(entry => entry.Id is not null)
+            .ToDictionary(entry => entry.Id!, entry => entry.Photo, StringComparer.Ordinal);
+
+        foreach (var compiledPhoto in compiledPhotos.OfType<JsonObject>())
+        {
+            var id = ReadOptionalString(compiledPhoto, "id");
+            if (id is null || !sourceById.TryGetValue(id, out var sourcePhoto))
+                continue;
+
+            CopyText(sourcePhoto, "title", compiledPhoto, "title");
+            CopyText(sourcePhoto, "front_brief", compiledPhoto, "frontBrief");
+            CopyText(sourcePhoto, "back_text_ru", compiledPhoto, "backTextRu");
+        }
+    }
+
+    private static void CopyText(JsonObject source, string sourceProperty, JsonObject target, string targetProperty)
+    {
+        if (ReadOptionalString(source, sourceProperty) is { } text)
+            target[targetProperty] = text;
     }
 
     private static void ValidateActiveQuestIds(
@@ -364,6 +399,7 @@ public sealed partial class ContentCompiler
         string campaignPath,
         JsonObject campaign,
         IReadOnlyDictionary<string, Dictionary<string, JsonObject>> registries,
+        JsonObject? photoSpecs,
         ICollection<ContentDiagnostic> diagnostics,
         CancellationToken cancellationToken)
     {
@@ -493,7 +529,7 @@ public sealed partial class ContentCompiler
         }
 
         await ValidateAuthoredPhotoWorldDefinitionsAsync(
-            root, campaignPath, catalog, photos, diagnostics, cancellationToken);
+            root, campaignPath, catalog, photos, photoSpecs, diagnostics, cancellationToken);
     }
 
     private static async Task ValidateAuthoredPhotoWorldDefinitionsAsync(
@@ -501,6 +537,7 @@ public sealed partial class ContentCompiler
         string campaignPath,
         JsonObject catalog,
         JsonArray photos,
+        JsonObject? photoSpecs,
         ICollection<ContentDiagnostic> diagnostics,
         CancellationToken cancellationToken)
     {
@@ -512,7 +549,6 @@ public sealed partial class ContentCompiler
             return;
         }
 
-        var photoSpecs = await ReadPhotoWorldSpecAsync(root, campaignPath, catalog, "photos", diagnostics, cancellationToken);
         var worldSpecs = await ReadPhotoWorldSpecAsync(root, campaignPath, catalog, "worlds", diagnostics, cancellationToken);
         var assetSpecs = await ReadPhotoWorldSpecAsync(root, campaignPath, catalog, "assets", diagnostics, cancellationToken);
         if (photoSpecs is null || worldSpecs is null || assetSpecs is null)
