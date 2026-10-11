@@ -1,0 +1,16 @@
+== base: 6a8f0297cd36e5d7cf4af92030178691675de9e0 (origin/main f703f132 + my branch, then ai13-write-boundary.patch and ai-deepseek-studio-wiring-v7.patch)
+== both patches pass git apply --check on a pristine f703f132 worktree, then applied
+    Ошибок: 0
+
+Прошло времени 00:00:03.14
+    Ошибок: 0
+
+Прошло времени 00:00:13.18
+== existing suites
+=== TEST EXECUTION SUMMARY ===
+   Urman.Studio.Tests  Total: 38, Errors: 0, Failed: 0, Skipped: 0, Not Run: 0, Time: 2,308s
+=== TEST EXECUTION SUMMARY ===
+   Urman.Core.Tests  Total: 68, Errors: 0, Failed: 0, Skipped: 0, Not Run: 0, Time: 0,201s
+== probe
+
+PROBE RESULT: PASS

@@ -23743,6 +23743,13 @@
                 "source": "evidence evidence/STUDIO/b20-deepseek-ai-13/2026-10-10-parity-diagnosis/live-artifacts.log and receipt.json; no repository file was changed",
                 "verification": "On PURE origin/main f703f132: git ls-files lists 32 .compiled.v1.json files, 28 of them under evidence/; a fresh compile matches game/content/urman.chapter1.compiled.v1.json and game/content/urman.fullgame.compiled.v1.json (aecbc853...) while tests-dotnet/fixtures/content/urman.chapter1.compiled.v1.json is the only mismatch (57789cd3...); tests-dotnet/fixtures contains no other file. The owner's action is unchanged: regenerate that one fixture, or make a canon-level decision about the Tamara content. Historical evidence captures are explicitly out of scope and must not be regenerated"
               }
+,
+              {
+                "stage": "2026-10-10 write ban on the shared session boundary (answer to the 22:39 review)",
+                "result": "correction by deepseek v4.1 flash: EditSession carries WriteBlockReason and refuses SetField, Set and ApplyFilesAsync without throwing, the Studio root sets the reason from the capability gate, and the rule-coverage verifier anchors the sixteen PhotoWorld operations by name",
+                "source": "evidence evidence/STUDIO/b20-deepseek-ai-13/2026-10-10-write-boundary/ai13-write-boundary.patch (EditSession.cs) and ai-deepseek-studio-wiring-v7.patch; check.log and receipt.json there; src-dotnet/Urman.Studio.Core/Editing/RuleCatalogCoverage.cs",
+                "verification": "Both patches pass git apply --check on a pristine f703f132 worktree in the order session patch then v7; Urman.Studio.Core 0/0; game/Urman.Game.csproj 0/0; Urman.Studio.Tests 38/38; Urman.Core.Tests 68/68; probe PASS with all 35 anchored operations found by name. The review's other points were already closed in v6 (PlayStart before the await, broadened fallback catch, frozen state restated after reload) and in the audio panel (level range validated through the registry for both scopes). No Studio window: interface NOT_RUN"
+              }
 
             ],
             "assigned_owner": "deepseek/b20-2026-10-10"
@@ -24747,6 +24754,13 @@
                 "result": "correction by deepseek v4.1 flash: the coverage verifier checks every anchor operation by name, the report can be scoped to one campaign through its own manifest, the shared authored sources are named separately, and the report states that it is a source projection rather than proof of behaviour",
                 "source": "src-dotnet/Urman.Studio.Core/Editing/RuleCatalogCoverage.cs; evidence evidence/STUDIO/b20-deepseek-ai-37/2026-10-10-campaign-scope/ (check.log, probe/, receipt.json)",
                 "verification": "probe PASS 297/297. The verifier checks 19 named anchors instead of accepting any surviving arm; CampaignModulePrefixes reads the module list from content/campaigns/<id>/campaign.json; an unscoped or unknown campaign falls back to the whole workspace and says so. Real finding: with the campaign scope chapter1 counts 0 operations while the whole workspace counts 34, because the campaign's own modules define no rule operations and the rules live in the shared game/content sources; the report names the shared area and states that a zero campaign count does not mean there are no rules. Urman.Studio.Core and game/Urman.Game.csproj build with 0 warnings/0 errors. No rule was executed in the game: the semantics remain NOT_RUN and the report says so itself"
+              }
+,
+              {
+                "stage": "2026-10-10 write ban on the shared session boundary (answer to the 22:39 review)",
+                "result": "correction by deepseek v4.1 flash: EditSession carries WriteBlockReason and refuses SetField, Set and ApplyFilesAsync without throwing, the Studio root sets the reason from the capability gate, and the rule-coverage verifier anchors the sixteen PhotoWorld operations by name",
+                "source": "evidence evidence/STUDIO/b20-deepseek-ai-13/2026-10-10-write-boundary/ai13-write-boundary.patch (EditSession.cs) and ai-deepseek-studio-wiring-v7.patch; check.log and receipt.json there; src-dotnet/Urman.Studio.Core/Editing/RuleCatalogCoverage.cs",
+                "verification": "Both patches pass git apply --check on a pristine f703f132 worktree in the order session patch then v7; Urman.Studio.Core 0/0; game/Urman.Game.csproj 0/0; Urman.Studio.Tests 38/38; Urman.Core.Tests 68/68; probe PASS with all 35 anchored operations found by name. The review's other points were already closed in v6 (PlayStart before the await, broadened fallback catch, frozen state restated after reload) and in the audio panel (level range validated through the registry for both scopes). No Studio window: interface NOT_RUN"
               }
 
             ],

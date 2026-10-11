@@ -79,7 +79,17 @@ public static class RuleCatalogCoverage
     [
         "all", "any", "not", "knowledge.status", "vocabulary.status", "quest.status", "npc.state", "beat.state", "location.is",
         "knowledge.set-status", "vocabulary.set-status", "npc.set-state", "beat.set-state", "pressure.change", "route.unlock",
-        "audio.request", "scene.request", "document.open", "journal.record"
+        "audio.request", "scene.request", "document.open", "journal.record",
+
+        // The PhotoWorld routing sets live in PhotoWorldState rather than in the engine
+        // switch, so they are anchored by name too: a verifier that only looked at the
+        // engine cases would not notice one of them disappearing.
+        "photoworlds.book.received", "photoworlds.photo.state", "photoworlds.fact.observed",
+        "photoworlds.evidence.confirmed", "photoworlds.caption.prepared", "photoworlds.prologue.completed",
+        "photoworlds.book.receive", "photoworlds.photo.acquire", "photoworlds.photo.mount",
+        "photoworlds.photo.back-read", "photoworlds.photo.context-known", "photoworlds.fact.observe",
+        "photoworlds.evidence.verify", "photoworlds.prologue.enter", "photoworlds.prologue.complete",
+        "photoworlds.epilogue.finish"
     ];
 
     /// <summary>Conditions and effects the engine executes, read from its sources.</summary>

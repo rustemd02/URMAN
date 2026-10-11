@@ -1,0 +1,29 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-13",
+    "STUDIO/AI-37"
+  ],
+  "stage": "answer to the 22:35/22:39 reviews: a real write ban on the shared session boundary, and the PhotoWorld operation anchors",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-11 04:54 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "f703f132",
+  "deliverables": {
+    "ai13-write-boundary.patch": "src-dotnet/Urman.Studio.Core/Editing/EditSession.cs: WriteBlockReason, LastWriteRefusal and RefuseWrite(), consulted by SetField, Set and ApplyFilesAsync. The root sets the reason when a world is frozen, so a stray callback from any section cannot save around the gate; the write is refused without throwing inside a Godot callback and the reason is available for the author",
+    "ai-deepseek-studio-wiring-v7.patch": "v7 of the consolidated wiring patch: StudioRoot.SetWriteBlock now also sets Session.WriteBlockReason, on top of the editor freeze from v6",
+    "RuleCatalogCoverage anchors": "the verifier now anchors the sixteen PhotoWorld routing operations by name as well, so a disappearing PhotoWorldState entry is reported instead of hiding behind the engine switch"
+  },
+  "verified": {
+    "apply": "both patches pass git apply --check on a pristine f703f132 worktree, in the order session patch then v7",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors; game/Urman.Game.csproj 0 warnings/0 errors with both patches",
+    "existing_tests": "Urman.Studio.Tests 38/38 and Urman.Core.Tests 68/68",
+    "probe": "PASS 304/304, including every one of the 35 anchored operations being found by name",
+    "not_run": "no Studio window: the ban and the freeze are compile-, test- and probe-verified, the interface is NOT_RUN"
+  },
+  "note": "the review also listed items that were already closed before it was written: PlayStart captured before the await, the broadened fallback catch and the frozen-state restatement are in v6; the stem level range is validated through the registry for both scopes in the audio panel; path containment is a separate check from ResourceLoader.Exists",
+  "open": [
+    "v7 supersedes v6 of the consolidated patch",
+    "runtime and visual acceptance are NOT_RUN"
+  ]
+}
