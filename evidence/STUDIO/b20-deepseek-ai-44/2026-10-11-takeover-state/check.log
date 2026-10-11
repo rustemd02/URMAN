@@ -1,0 +1,16 @@
+== AI-44: what retired and hidden really do to a taken-over placement
+
+
+Прошло времени 00:00:00.55
+
+Прошло времени 00:00:13.02
+== existing tests
+=== TEST EXECUTION SUMMARY ===
+   Urman.Studio.Tests  Total: 38, Errors: 0, Failed: 0, Skipped: 0, Not Run: 0, Time: 2,384s
+== probe
+    note: Размещений: 196; retired: 100; hidden: 1; видимых: 95.
+    note: Рантайм: «hidden» только снимает видимость, а «retired» вызывает Retire и помечает узел retiredByPlot — такая часть не рисуется и не сталкивается. Разница существенная: скрытая, но не retired часть остаётся в столкновениях.
+    note: Скрыты, но не retired: 1 (village_day@babai-cleared-approach). Проверьте, задумано ли это: рантайм такую часть не рисует, но она продолжает участвовать в столкновениях.
+    note: Сверка с предложением сборщика (URMAN_KIT_HARVEST и Unmatched в рантайме) требует запуска сборщика и здесь не выполняется — это NOT_RUN.
+  state gaps: 0
+PROBE RESULT: PASS

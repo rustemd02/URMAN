@@ -81786,6 +81786,12 @@
                 "result": "partial implementation by deepseek v4.1 flash: a new projection checks the preconditions the takeover really relies on - 196 authored kit placements with unique logical anchors (the runtime dictionary key), a named component, readable three-number position and scale vectors, a present and readable yawDegrees (read with GetProperty), a two-number optional grounding reference and boolean visibility flags; the retired/hidden/terrain-bound states are reported as states",
                 "source": "new file src-dotnet/Urman.Studio.Core/Editing/KitTakeover.cs; evidence evidence/STUDIO/b20-deepseek-ai-44/2026-10-11-takeover",
                 "verification": "probe PASS with 196 placements and no problems plus the synthetic cases (a duplicate anchor, a missing yaw, a two-number scale, a one-number grounding reference, a non-boolean flag); Core 0/0; game/Urman.Game.csproj 0/0; Urman.Studio.Tests 38/38. A shape lesson is recorded: the component name is a kit part type reused across placements, and my first version reported 110 false problems for treating it as an identity. The unmatched-anchor list stays with the builder. Frame comparison before/after the takeover is NOT_RUN"
+              },
+              {
+                "stage": "2026-10-11 what retired and hidden really do to a taken-over placement",
+                "result": "deepening by deepseek v4.1 flash: the takeover plot holds one hundred and ninety-six kit placements, all carrying the logicalAnchor the runtime looks up and none repeated, so the anchor dictionary drops nothing. State: one hundred retired, one hidden, ninety-five visible. The runtime treats the flags differently - hidden only clears visibility while retired calls Retire and marks the node retiredByPlot, so a retired part neither draws nor collides. One placement (village_day@babai-cleared-approach) is hidden without being retired and therefore still collides; it is reported for confirmation, not called a defect. Whether the plot still matches the builder's proposal needs the harvest run and is NOT_RUN",
+                "source": "src-dotnet/Urman.Studio.Core/Editing/KitTakeover.cs (StateNotes, StateGaps); evidence evidence/STUDIO/b20-deepseek-ai-44/2026-10-11-takeover-state",
+                "verification": "probe PASS 559/559 including the state counts, the quoted flag semantics, no non-boolean flag and the harvest comparison declared NOT_RUN; Core 0/0; game/Urman.Game.csproj 0/0; Urman.Studio.Tests 38/38. No builder run: the harvest comparison and the visual result are NOT_RUN"
               }
             ],
             "stage_tasks": [
@@ -81817,7 +81823,9 @@
             "technical_verification_state": "not_run",
             "remaining": [
               "Генерируемый участок можно сделать авторским без двух владельцев transform.; отсутствует подтверждение собственного конечного DoD, перечисленного ниже.",
-              "Ранее переданный частичный этап (2026-10-11 the takeover preconditions on the authored kit plot) ждёт ревью/приёмки; полный done_when не выполнен."
+              "Ранее переданный частичный этап (2026-10-11 the takeover preconditions on the authored kit plot) ждёт ревью/приёмки; полный done_when не выполнен.",
+              "Одно размещение скрыто, но не retired (village_day@babai-cleared-approach): нужно авторское подтверждение, что это задумано.",
+              "Ранее переданный частичный этап (2026-10-11 what retired and hidden really do to a taken-over placement) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
             "next_action": "Показать generator ownership; materialize snapshot с stable IDs/provenance; исключить участок из live generation; сохранить overrides; regenerate proposal с diff.",
             "blocker": null,

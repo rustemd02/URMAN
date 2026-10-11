@@ -1,0 +1,31 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-44"
+  ],
+  "stage": "what retired and hidden really do to a taken-over placement",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-11 19:45 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "e8bb01ec",
+  "result": {
+    "plot": "the takeover plot holds one hundred and ninety-six kit placements, all with the logicalAnchor the runtime looks up and none repeated, so nothing is silently dropped by the anchor dictionary",
+    "state": "one hundred retired, one hidden and ninety-five visible",
+    "semantics": "the runtime treats the two flags differently: hidden only clears visibility, while retired calls Retire and marks the node retiredByPlot, so a retired part neither draws nor collides. A hidden part that was not retired still takes part in collisions",
+    "finding": "one placement, village_day@babai-cleared-approach, is hidden without being retired: per the runtime it draws nothing and still collides. It may be an intentional invisible barrier, so it is reported for confirmation rather than called a defect",
+    "boundary": "whether the plot still matches the builder's own proposal needs the harvest run (URMAN_KIT_HARVEST and the runtime's Unmatched list), so it is NOT_RUN and named as such"
+  },
+  "verified": {
+    "probe": "PASS 559/559 with the new checks: the state counts, the flag semantics named, no non-boolean flag, and the harvest comparison declared NOT_RUN",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors; game/Urman.Game.csproj 0 warnings/0 errors",
+    "existing_tests": "Urman.Studio.Tests 38/38",
+    "not_run": "no builder run: the harvest comparison and the visual result are NOT_RUN"
+  },
+  "files": {
+    "evidence/STUDIO/b20-deepseek-ai-44/2026-10-11-takeover-state/check.log": "606fe51ce554cf48463b22020f58167177a87a6830b8082e4546c8af2de77c56"
+  },
+  "open": [
+    "the hidden-but-not-retired placement needs an author decision",
+    "the harvest comparison needs the builder"
+  ]
+}

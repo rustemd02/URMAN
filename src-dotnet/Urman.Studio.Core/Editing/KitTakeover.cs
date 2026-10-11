@@ -169,4 +169,93 @@ public static class KitTakeover
 
     private static bool IsTrue(JsonNode? node) =>
         node is JsonValue value && value.TryGetValue<bool>(out var flag) && flag;
+    /// <summary>
+    /// The two state flags the runtime reads, and what each of them really does: "hidden"
+    /// only clears visibility, while "retired" runs Retire, which also marks the node as
+    /// retiredByPlot so it neither draws nor collides. A placement that is hidden without
+    /// being retired is therefore invisible and still there, which may be intended (an
+    /// invisible barrier) or may not.
+    /// </summary>
+    public static IReadOnlyList<string> StateNotes(StudioWorkspace workspace)
+    {
+        ArgumentNullException.ThrowIfNull(workspace);
+        var retired = 0;
+        var hidden = 0;
+        var visible = 0;
+        var hiddenNotRetired = new List<string>();
+        foreach (var id in workspace.EntityIds)
+        {
+            if (workspace.Get(id) is not JsonObject entity || (string?)entity["kind"] != "kit-placement")
+            {
+                continue;
+            }
+
+            var parameters = entity["params"] as JsonObject;
+            var isRetired = (bool?)parameters?["retired"] ?? false;
+            var isHidden = (bool?)parameters?["hidden"] ?? false;
+            if (isRetired)
+            {
+                retired++;
+            }
+
+            if (isHidden)
+            {
+                hidden++;
+                if (!isRetired)
+                {
+                    hiddenNotRetired.Add(((string?)parameters?["logicalAnchor"] ?? id).ToString());
+                }
+            }
+            else if (!isRetired)
+            {
+                visible++;
+            }
+        }
+
+        return
+        [
+            $"Размещений: {retired + hidden + visible}; retired: {retired}; hidden: {hidden}; видимых: {visible}.",
+            "Рантайм: «hidden» только снимает видимость, а «retired» вызывает Retire и помечает узел retiredByPlot — такая часть не рисуется и не сталкивается. Разница существенная: скрытая, но не retired часть остаётся в столкновениях.",
+            hiddenNotRetired.Count == 0
+                ? "Нет частей, которые скрыты, но не retired."
+                : $"Скрыты, но не retired: {hiddenNotRetired.Count} ({string.Join(", ", hiddenNotRetired.Take(4))}). Проверьте, задумано ли это: рантайм такую часть не рисует, но она продолжает участвовать в столкновениях.",
+            "Сверка с предложением сборщика (URMAN_KIT_HARVEST и Unmatched в рантайме) требует запуска сборщика и здесь не выполняется — это NOT_RUN."
+        ];
+    }
+
+    /// <summary>Placements whose state flags are not the booleans the runtime reads.</summary>
+    public static IReadOnlyList<string> StateGaps(StudioWorkspace workspace)
+    {
+        ArgumentNullException.ThrowIfNull(workspace);
+        var gaps = new List<string>();
+        foreach (var id in workspace.EntityIds)
+        {
+            if (workspace.Get(id) is not JsonObject entity || (string?)entity["kind"] != "kit-placement")
+            {
+                continue;
+            }
+
+            var parameters = entity["params"] as JsonObject;
+            foreach (var flag in new[] { "hidden", "retired" })
+            {
+                var value = parameters?[flag];
+                if (value is null)
+                {
+                    continue;
+                }
+
+                if (value is not JsonValue json)
+                {
+                    gaps.Add($"{id}: поле «{flag}» не значение, а {value.GetType().Name}: рантайм читает его через GetBoolean и упадёт на этом размещении.");
+                }
+                else if (!json.TryGetValue<bool>(out _))
+                {
+                    gaps.Add($"{id}: поле «{flag}» не булево: рантайм читает его через GetBoolean и упадёт на этом размещении.");
+                }
+            }
+        }
+
+        return gaps;
+    }
+
 }
