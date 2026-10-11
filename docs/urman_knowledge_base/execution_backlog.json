@@ -76676,6 +76676,12 @@
                 "result": "deepening by deepseek v4.1 flash, with a shared-foundation finding. The book has 13 photos, 5 worlds, 33 facts, 2 evidence records and 7 required anchors, and nothing it names is absent from both the project and the authored files: pages are unique, every world names an existing photo and anchor, its spawn and exit nodes are inside its own node list, and evidence constituents resolve by kind with a satisfiable minimum. BUT 64 book references exist in the authored files and are invisible to the workspace index, because the index carries no interaction at all (measured: zero interaction ids indexed) while the book's photo sources, permissions, context sources and the handoff all name interactions held in nested records. That is an indexer gap in the shared workspace, not an authoring mistake; the projection separates the two cases so it does not report 64 false absences. Own mistakes fixed while building it: a recursive id walk overflowed the stack on nested plots (now iterative) and a string cast on a numeric id threw (now TryGetValue)",
                 "source": "new file src-dotnet/Urman.Studio.Core/Editing/PhotoBook.cs; evidence evidence/STUDIO/b20-deepseek-ai-24/2026-10-11-photo-book-indexing",
                 "verification": "probe PASS 591/591 including the book counts, zero real absences, the separated indexing gaps and the measured zero indexed interactions; Core 0/0. No game run: how the book reads is author and language acceptance"
+              },
+              {
+                "stage": "2026-10-11 the book projection takes the active campaign and mirrors the compiler's evidence rules",
+                "result": "fix by deepseek v4.1 flash to the four reviewed defects: (1) Inspect and Notes take the active campaign and read only its manifest, refusing when none is selected instead of mixing campaigns; (2) an evidence kind the compiler does not know is reported, since it yields no candidate sources; (3) photo-acquired AND photo-back-read both resolve through the photo id, so a wrong id is UnknownPhotoWorldPhoto; (4) minimumDistinctSources is compared with the number of DISTINCT underlying source ids and the evidence must pass the compiler's own distinct-source assignment, mirrored from ContentCompiler.HasDistinctSourceAssignment (lines 831-839). Candidate sources follow ContentCompiler lines 405-435 (a fact offers its sourceIds, a photo offers the sourceId it came from). Verified: probe PASS 612/612 - the real book is unchanged at 13/5/33/2/7 with zero problems, fullgame has a book and chapter1 has none, an unselected campaign refuses, and the four synthetic cases are reported. My own leniencies in (2) and (3) are recorded. The helper still has no UI caller, so this is a partial SOURCE stage",
+                "source": "src-dotnet/Urman.Studio.Core/Editing/PhotoBook.cs; evidence evidence/STUDIO/b20-deepseek-ai-24/2026-10-11-book-compiler-rules",
+                "verification": "probe PASS 612/612; Core 0/0. SOURCE stage: no UI caller yet, so AI-24 acceptance stays open"
               }
             ],
             "stage_tasks": [
@@ -76709,7 +76715,9 @@
               "Ранее переданный частичный этап (2026-10-10 PC threads, hints, strict parsing and a static preview) ждёт ревью/приёмки; полный done_when не выполнен.",
               "Ранее переданный частичный этап (2026-10-11 the authored dialogues checked as a graph the engine can walk) ждёт ревью/приёмки; полный done_when не выполнен.",
               "Общий индексатор рабочего пространства не несёт вложенные записи интеракций: без этого редактор книги не сможет ссылаться на них.",
-              "Ранее переданный частичный этап (2026-10-11 the book graph, and the references the workspace cannot see) ждёт ревью/приёмки; полный done_when не выполнен."
+              "Ранее переданный частичный этап (2026-10-11 the book graph, and the references the workspace cannot see) ждёт ревью/приёмки; полный done_when не выполнен.",
+              "Проекция книги ждёт UI-caller: без него это частичный исходный этап, а не приёмка AI-24.",
+              "Ранее переданный частичный этап (2026-10-11 the book projection takes the active campaign and mirrors the compiler's evidence rules) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
             "next_action": "Трассировать bindings активной кампании; human forms; AI exact-field edits; проверить Markdown/учебные токены; preview в игре.",
             "blocker": null,

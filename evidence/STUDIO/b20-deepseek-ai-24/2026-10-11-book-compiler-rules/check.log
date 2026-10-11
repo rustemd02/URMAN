@@ -1,0 +1,10 @@
+== AI-24 fix: the book projection now takes the active campaign and mirrors the compiler's evidence rules
+
+
+Прошло времени 00:00:00.53
+    book synthetic: urman.mini: улика «E1» состоит из вида «mystery», которого компилятор не знает: такой элемент не даёт источников, и улику нельзя доказать.
+    book synthetic: urman.mini: улика «E2» ссылается на неизвестное фото «NOPE» (photo-back-read, UnknownPhotoWorldPhoto).
+    book synthetic: urman.mini: улика «E3» требует 2 различных источников, а их доступно 1: её нельзя собрать.
+  photos: 13, worlds: 5, facts: 33, evidence: 2, anchors: 7, problems: 0
+  book references that exist in the files but are NOT indexed by the workspace: 64
+PROBE RESULT: PASS

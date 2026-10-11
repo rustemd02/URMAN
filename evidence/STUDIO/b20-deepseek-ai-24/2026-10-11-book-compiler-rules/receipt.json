@@ -1,0 +1,30 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-24"
+  ],
+  "stage": "the book projection takes the active campaign and mirrors the compiler's evidence rules",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-11 21:21 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "d80f92c5",
+  "answer_to_review": {
+    "1 campaign scope": "Inspect and Notes now take the active campaign selection and read only that campaign's manifest; an unselected campaign refuses with a clear reason instead of mixing every campaign's facts and photos into one scope",
+    "2 unknown evidence kind": "the compiler gives an unknown kind no candidate sources at all, so it can never prove anything. My previous switch treated it as known; it is now reported as a kind the compiler does not know",
+    "3 photo-back-read": "both photo-acquired and photo-back-read now resolve through the photo id, so a back-read constituent with a wrong id is reported as UnknownPhotoWorldPhoto",
+    "4 minimumDistinctSources": "the minimum is now compared with the number of DISTINCT underlying source ids, not with the number of constituents, and the evidence must additionally pass the compiler's own distinct-source assignment (ContentCompiler.HasDistinctSourceAssignment, lines 831-839), which is mirrored rather than reinvented",
+    "reuse": "the candidate sources follow ContentCompiler lines 405-435: a fact offers its sourceIds and a photo offers the sourceId it was acquired from"
+  },
+  "verified": {
+    "probe": "PASS 612/612: the real book still has thirteen photos, five worlds, thirty-three facts, two evidence records and zero problems; fullgame has a book, chapter1 has none, an unselected campaign refuses; and the four synthetic cases report the unknown kind, the unknown photo-back-read id, and two photos of one source failing to prove an evidence that needs two distinct sources",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors (composed tree with my branch and the v15 patch)",
+    "not_run": "no game run: this is a SOURCE stage"
+  },
+  "own_mistakes": "my own two leniencies were the unknown-kind default and the unchecked photo-back-read; both are now the compiler's rules. The helper still has no UI caller, so it remains a partial source stage, not AI-24 acceptance",
+  "files": {
+    "evidence/STUDIO/b20-deepseek-ai-24/2026-10-11-book-compiler-rules/check.log": "d75f1bcd0aef18e14c1ce0a37cd80e863b4d7aaf6abcd576a803f96be1f8593b"
+  },
+  "open": [
+    "the projection needs its Studio caller before this unit can be accepted"
+  ]
+}

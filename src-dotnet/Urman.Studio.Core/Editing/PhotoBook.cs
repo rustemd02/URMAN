@@ -27,10 +27,10 @@ public static class PhotoBookFacts
     public static IReadOnlyList<string> IndexingGaps { get; private set; } = [];
 
     /// <summary>The book's own records of one campaign, or empty when it has no book.</summary>
-    public static IReadOnlyList<string> Notes(StudioWorkspace workspace, string root)
+    public static IReadOnlyList<string> Notes(StudioWorkspace workspace, string root, string? campaignSelection)
     {
         ArgumentNullException.ThrowIfNull(workspace);
-        var (photos, worlds, facts, evidence, anchors, problems) = Inspect(workspace, root);
+        var (photos, worlds, facts, evidence, anchors, problems) = Inspect(workspace, root, campaignSelection);
         var usedAnchors = worlds.Select(world => world.Anchor).ToHashSet(StringComparer.Ordinal);
         var unused = anchors.Where(anchor => !usedAnchors.Contains(anchor)).Order(StringComparer.Ordinal).ToArray();
         return
@@ -145,9 +145,17 @@ public static class PhotoBookFacts
         }
     }
 
-    public static (IReadOnlyList<PhotoFacts> Photos, IReadOnlyList<PhotoWorld> Worlds, IReadOnlyList<string> Facts, IReadOnlyList<string> Evidence, IReadOnlyList<string> Anchors, IReadOnlyList<string> Problems) Inspect(StudioWorkspace workspace, string root)
+    public static (IReadOnlyList<PhotoFacts> Photos, IReadOnlyList<PhotoWorld> Worlds, IReadOnlyList<string> Facts, IReadOnlyList<string> Evidence, IReadOnlyList<string> Anchors, IReadOnlyList<string> Problems) Inspect(StudioWorkspace workspace, string root, string? campaignSelection)
     {
         ArgumentNullException.ThrowIfNull(workspace);
+        ArgumentException.ThrowIfNullOrWhiteSpace(root);
+        // The book belongs to ONE campaign: reading every manifest would mix each campaign's
+        // facts and photos into one scope, which is exactly the defect this signature prevents.
+        if (string.IsNullOrWhiteSpace(campaignSelection))
+        {
+            IndexingGaps = [];
+            return ([], [], [], [], [], ["Кампания не выбрана: книга не определена, и смешивать кампании нельзя."]);
+        }
         var full = Path.GetFullPath(root);
         var authored = AuthoredIds(root);
         var indexing = new List<string>();
@@ -157,17 +165,16 @@ public static class PhotoBookFacts
         var evidence = new List<string>();
         var anchors = new List<string>();
         var problems = new List<string>();
-        var folder = Path.Combine(full, CampaignsFolder.Replace('/', Path.DirectorySeparatorChar));
-        if (!Directory.Exists(folder))
+        var file = Path.Combine(full, CampaignsFolder.Replace('/', Path.DirectorySeparatorChar), campaignSelection, "campaign.json");
+        if (!File.Exists(file))
         {
-            return ([], [], [], [], [], ["Каталога кампаний нет: книгу проверять нечем."]);
+            return ([], [], [], [], [], [$"Манифеста кампании «{campaignSelection}» нет: книгу проверять нечем."]);
         }
 
-        foreach (var file in Directory.EnumerateFiles(folder, "campaign.json", SearchOption.AllDirectories).Order(StringComparer.Ordinal))
         {
             if (JsonNode.Parse(File.ReadAllText(file)) is not JsonObject manifest || manifest["photoBook"] is not JsonObject book)
             {
-                continue;
+                return ([], [], [], [], [], [$"У кампании «{campaignSelection}» нет книги: проверять нечего."]);
             }
 
             var campaign = (string?)manifest["id"] ?? Path.GetFileName(Path.GetDirectoryName(file)) ?? "";
@@ -249,6 +256,31 @@ public static class PhotoBookFacts
             anchors.AddRange((book["requiredAnchors"] as JsonArray ?? []).OfType<JsonValue>().Select(value => value.GetValue<string>()));
             facts.AddRange((book["facts"] as JsonArray ?? []).OfType<JsonObject>().Select(fact => (string?)fact["id"] ?? ""));
             var factIds = facts.ToHashSet(StringComparer.Ordinal);
+            // The candidate sources the compiler itself uses (ContentCompiler lines 405-435): a
+            // fact offers its sourceIds and a photo offers the sourceId it was acquired from, so
+            // two photos of one source cannot prove an evidence twice.
+            var factSources = new Dictionary<string, string[]>(StringComparer.Ordinal);
+            foreach (var fact in (book["facts"] as JsonArray ?? []).OfType<JsonObject>())
+            {
+                if ((string?)fact["id"] is not { Length: > 0 } factId)
+                {
+                    continue;
+                }
+
+                factSources[factId] = (fact["sourceIds"] as JsonArray ?? []).OfType<JsonValue>()
+                    .Select(value => value.GetValue<string>())
+                    .Where(value => value.Length > 0)
+                    .ToArray();
+            }
+
+            var photoSources = new Dictionary<string, string>(StringComparer.Ordinal);
+            foreach (var photo in (book["photos"] as JsonArray ?? []).OfType<JsonObject>())
+            {
+                if ((string?)photo["id"] is { Length: > 0 } sourcePhotoId && (string?)photo["sourceId"] is { Length: > 0 } photoSource)
+                {
+                    photoSources[sourcePhotoId] = photoSource;
+                }
+            }
             foreach (var fact in (book["facts"] as JsonArray ?? []).OfType<JsonObject>())
             {
                 foreach (var reference in (fact["sourceIds"] as JsonArray ?? []).OfType<JsonValue>().Select(value => value.GetValue<string>()))
@@ -267,25 +299,58 @@ public static class PhotoBookFacts
                 var id = (string?)item["id"] ?? "";
                 var constituents = (item["constituents"] as JsonArray ?? []).OfType<JsonObject>().ToArray();
                 evidence.Add(id);
+                var candidates = new List<string[]>();
                 foreach (var constituent in constituents)
                 {
                     var kind = (string?)constituent["kind"] ?? "";
                     var reference = (string?)constituent["id"] ?? "";
-                    var known = kind switch
+                    switch (kind)
                     {
-                        "fact" => factIds.Contains(reference),
-                        "photo-acquired" => photoIds.Contains(reference),
-                        _ => true
-                    };
-                    if (!known)
-                    {
-                        problems.Add($"{campaign}: улика «{id}» состоит из {kind} «{reference}», которого нет среди объявленных.");
+                        case "fact":
+                            if (!factSources.TryGetValue(reference, out var factCandidate))
+                            {
+                                problems.Add($"{campaign}: улика «{id}» ссылается на неизвестный факт «{reference}» (UnknownPhotoWorldFact).");
+                                candidates.Add([]);
+                            }
+                            else
+                            {
+                                candidates.Add(factCandidate);
+                            }
+
+                            break;
+                        case "photo-acquired":
+                        case "photo-back-read":
+                            // Both photo kinds resolve through the photo id, exactly as the
+                            // compiler does; photo-back-read was the one I used to let pass.
+                            if (!photoSources.TryGetValue(reference, out var photoCandidate))
+                            {
+                                problems.Add($"{campaign}: улика «{id}» ссылается на неизвестное фото «{reference}» ({kind}, UnknownPhotoWorldPhoto).");
+                                candidates.Add([]);
+                            }
+                            else
+                            {
+                                candidates.Add([photoCandidate]);
+                            }
+
+                            break;
+                        default:
+                            // The compiler gives an unknown kind NO candidates, so it cannot
+                            // prove anything. Treating it as known was my own leniency.
+                            problems.Add($"{campaign}: улика «{id}» состоит из вида «{kind}», которого компилятор не знает: такой элемент не даёт источников, и улику нельзя доказать.");
+                            candidates.Add([]);
+                            break;
                     }
                 }
 
-                if ((int?)item["minimumDistinctSources"] is { } minimum && minimum > constituents.Length)
+                var distinctAvailable = candidates.SelectMany(candidate => candidate).Distinct(StringComparer.Ordinal).Count();
+                if ((int?)item["minimumDistinctSources"] is { } minimum && minimum > distinctAvailable)
                 {
-                    problems.Add($"{campaign}: улика «{id}» требует {minimum} источников, а объявлено {constituents.Length}: её нельзя собрать.");
+                    problems.Add($"{campaign}: улика «{id}» требует {minimum} различных источников, а их доступно {distinctAvailable}: её нельзя собрать.");
+                }
+
+                if (candidates.Count == 0 || !HasDistinctSourceAssignment(candidates, 0, []))
+                {
+                    problems.Add($"{campaign}: улику «{id}» нельзя доказать различными источниками (UnprovablePhotoWorldEvidence).");
                 }
             }
         }
@@ -295,6 +360,37 @@ public static class PhotoBookFacts
         IndexingGaps = indexing;
         return (photos, worlds, facts, evidence, anchors, problems);
     }
+    /// <summary>
+    /// The compiler's own rule (ContentCompiler.HasDistinctSourceAssignment, consulted at lines
+    /// 831-839): every constituent must receive a source, and no source may be used twice.
+    /// Mirrored here rather than reimplemented differently, so the projection and the compiler
+    /// cannot disagree about whether an evidence is provable.
+    /// </summary>
+    private static bool HasDistinctSourceAssignment(IReadOnlyList<string[]> candidates, int index, HashSet<string> used)
+    {
+        if (index == candidates.Count)
+        {
+            return true;
+        }
+
+        foreach (var source in candidates[index])
+        {
+            if (!used.Add(source))
+            {
+                continue;
+            }
+
+            if (HasDistinctSourceAssignment(candidates, index + 1, used))
+            {
+                return true;
+            }
+
+            used.Remove(source);
+        }
+
+        return false;
+    }
+
 }
 
 /// <summary>One PhotoWorld of the book: its photo, its anchor and its own node chain.</summary>
