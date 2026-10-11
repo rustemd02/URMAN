@@ -16,9 +16,18 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
     private readonly StudioRoot _studio;
     private readonly TextEdit _prompt = new() { CustomMinimumSize = new(560, 100), WrapMode = TextEdit.LineWrappingMode.Boundary, TabInputMode = false, PlaceholderText = "Например: сделай окна этого дома шире" };
     private readonly Label _status = new() { AutowrapMode = TextServer.AutowrapMode.WordSmart };
+    private string? _openedSelection;
+    private StudioWorldSection.SelectedPart? _openedPart;
+    private Control? _previousFocus;
+    private bool _focusCaptured;
+    private readonly CheckButton _wholeHouseScope = new() { Text = "Изменить все 8 окон этого дома" };
     private readonly CheckButton _globalInstructions = new() { Text = "Использовать мои глобальные инструкции Codex" };
     private readonly Button _ask;
     private readonly Button _apply;
+    private readonly Button _copy;
+    private readonly Button _paste;
+    private readonly Button _saveRequest;
+    private readonly Button _importFile;
     private readonly Button _beforeView;
     private readonly Button _afterView;
     private readonly SubViewport _preview = new() { Size = new(560, 260), OwnWorld3D = true, RenderTargetUpdateMode = SubViewport.UpdateMode.Always };
@@ -32,6 +41,7 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
     private string? _stage;
     private string? _recipeText;
     private string? _snapshot;
+    private JsonObject? _capturedWidths;
     private string? _consentIoWarning;
     private bool _busy;
     private int _providerWarningSeen;
@@ -50,7 +60,7 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
     public StudioAiPanel(StudioRoot studio)
     {
         _studio = studio;
-        Title = "Изменить выбранный дом с Codex";
+        Title = "Изменить окна выбранного дома";
         OkButtonText = "Закрыть";
         MinSize = new(600, 560);
         WrapControls = true;
@@ -58,6 +68,8 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
         AddChild(body);
         body.AddChild(_status);
         body.AddChild(_prompt);
+        body.AddChild(_wholeHouseScope);
+        _wholeHouseScope.Toggled += _ => SetBusy(_busy);
         body.AddChild(_globalInstructions);
         var permissionFile = Path.Combine(studio.Workspace.Root, ".urman-studio/codex-pilot.json");
         LoadGlobalInstructionConsent(permissionFile);
@@ -78,9 +90,22 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
         };
         StudioRoot.Button(row, "Проверить Codex", () => _ = DoctorAsync());
         StudioRoot.Button(row, "Остановить", () => _cancel?.Cancel());
-        StudioRoot.Button(row, "Скопировать запрос", CopyRequest);
         _apply = StudioRoot.Button(row, "Применить", () => _ = ApplyAsync());
         _apply.Disabled = true;
+        var handoff = new HBoxContainer();
+        body.AddChild(handoff);
+        _copy = StudioRoot.Button(handoff, "Скопировать запрос для агента", CopyRequest);
+        _copy.TooltipText = "Вставьте запрос в свой Codex или Claude. Это ручной перенос: Studio не управляет внешней сессией.";
+        _paste = StudioRoot.Button(handoff, "Вставить JSON-ответ", () => _ = RunProposalAsync(fromManual: true));
+        _paste.TooltipText = "Скопируйте чистый JSON ответа. Studio проверит его и покажет модель до применения.";
+        _paste.Disabled = true;
+        var files = new HBoxContainer();
+        body.AddChild(files);
+        _saveRequest = StudioRoot.Button(files, "Сохранить запрос в файл", SaveRequest);
+        _saveRequest.TooltipText = "Передайте текст своему агенту. Его внешней сессией Studio не управляет.";
+        _importFile = StudioRoot.Button(files, "Открыть JSON-ответ…", OpenProposalFile);
+        _importFile.TooltipText = "Проверить ответ по сохранённому запросу и показать модель до применения";
+        _importFile.Disabled = true;
         var compare = new HBoxContainer();
         body.AddChild(compare);
         _beforeView = StudioRoot.Button(compare, "До", () => ShowPreview(after: false));
@@ -94,7 +119,24 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
         _preview.AddChild(new DirectionalLight3D { RotationDegrees = new(-40, -25, 0), LightEnergy = 1.5f });
         _previewCamera.Ready += () => _previewCamera.LookAt(new(0, 1.5f, 0));
         _preview.AddChild(_previewCamera);
-        VisibilityChanged += () => { if (!Visible) _cancel?.Cancel(); };
+        VisibilityChanged += () =>
+        {
+            if (Visible) return;
+            _cancel?.Cancel();
+            if (!_focusCaptured) return;
+            var previousFocus = _previousFocus;
+            _previousFocus = null;
+            _focusCaptured = false;
+            Callable.From(() =>
+            {
+                if (Visible) return;
+                if (GodotObject.IsInstanceValid(previousFocus) && previousFocus!.IsInsideTree()
+                    && previousFocus.IsVisibleInTree() && previousFocus.FocusMode != Control.FocusModeEnum.None)
+                    previousFocus.GrabFocus();
+                else
+                    ((StudioWorldSection)_studio.Section("world")).RestoreViewportFocus();
+            }).CallDeferred();
+        };
     }
 
     private void LoadGlobalInstructionConsent(string path)
@@ -148,13 +190,29 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
 
     public void Open(string? selected)
     {
-        if (_busy) { PopupCenteredClamped(new(600, 560), 0.9f); return; }
+        if (Visible) { _prompt.GrabFocus(); return; }
+        _previousFocus = _studio.GetViewport().GuiGetFocusOwner();
+        _focusCaptured = true;
+        ((StudioWorldSection)_studio.Section("world")).SuspendForAi();
+        if (_busy)
+        {
+            PopupCenteredClamped(new(600, 560), 0.9f);
+            _prompt.GrabFocus();
+            return;
+        }
         ClearProposal();
         _request = null;
-        _ask.Disabled = selected != HeroHouseRecipe.EntityId;
+        _openedSelection = selected;
+        _openedPart = ((StudioWorldSection)_studio.Section("world")).SelectionPart;
+        var windowSelected = _openedPart is { PartId: var partId } && !partId.StartsWith("wall/", StringComparison.Ordinal);
+        _wholeHouseScope.Visible = windowSelected;
+        _wholeHouseScope.SetPressedNoSignal(!windowSelected);
+        SetBusy(false);
         _status.Text = selected == HeroHouseRecipe.EntityId
             ? "Эталонный дом · все 8 окон, включая окно в сенях. Codex предложит ширину, вы увидите новую модель перед применением. ⌘/Ctrl+Z полностью отменяет применение."
             : "Выберите эталонный дом Бабая в мире. Другие объекты будут подключены следующими этапами B20.";
+        if (windowSelected)
+            _status.Text = $"{_openedPart!.Label} · будет изменено только это окно. Остальные проёмы, высоты и двери сохранятся. Для всего дома включите охват ниже.";
         if (_consentIoWarning is not null) _status.Text += "\n" + _consentIoWarning;
         ResetSize();
         PopupCenteredClamped(new(600, 560), 0.9f);
@@ -171,70 +229,169 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
 
     private HouseWindowRequest Capture()
     {
-        if (_studio.Selection != HeroHouseRecipe.EntityId) throw new InvalidOperationException("Выбор изменился: снова выберите эталонный дом.");
+        if (_openedSelection != HeroHouseRecipe.EntityId || _studio.Selection != _openedSelection) throw new InvalidOperationException("Выбор изменился: снова выберите эталонный дом.");
+        if (_studio.Workspace.Locate(HeroHouseRecipe.EntityId) is null)
+            throw new InvalidOperationException("Источник дома не найден или его ID повторяется. Исправьте идентичность перед запросом.");
         if (string.IsNullOrWhiteSpace(_prompt.Text)) throw new InvalidOperationException("Опишите изменение окон.");
         _recipeText = File.ReadAllText(Path.Combine(_studio.Workspace.Root, RecipePath));
+        _ = HeroHouseRecipe.Parse(_recipeText);
         var recipe = JsonNode.Parse(_recipeText)!.AsObject();
+        if (recipe["modelPath"] is null && ((decimal)recipe["windowClearWidth"]! != 1.06m
+            || recipe["windowWidths"] is JsonObject existingWidths && existingWidths.Count > 0))
+            throw new InvalidOperationException("Рецепт изменён без согласованной модели. Сначала восстановите принятый исходный дом.");
+        _capturedWidths = new JsonObject();
+        foreach (var id in HeroHouseRecipe.WindowIds)
+            _capturedWidths[id] = (decimal?)recipe["windowWidths"]?[id]
+                ?? (id == "SeniOuter0" && recipe["modelPath"] is null ? .80m : (decimal)recipe["windowClearWidth"]!);
+        var partId = !_wholeHouseScope.ButtonPressed ? _openedPart?.PartId : null;
+        if (partId is not null && !HeroHouseRecipe.WindowIds.Contains(partId, StringComparer.Ordinal))
+            throw new InvalidOperationException("Выбранная часть не является поддерживаемым окном.");
         _snapshot = Fingerprint(_recipeText);
         return new(Guid.NewGuid().ToString("N"), _snapshot, HeroHouseRecipe.EntityId,
-            (decimal)recipe["windowClearWidth"]!, _prompt.Text);
+            partId is null ? (decimal)recipe["windowClearWidth"]! : (decimal)_capturedWidths[partId]!, _prompt.Text, partId);
     }
 
     private string Fingerprint(string recipe)
     {
         var world = _studio.Workspace.Locate(HeroHouseRecipe.EntityId)!;
+        var current = HeroHouseRecipe.Parse(recipe);
+        var modelPath = current.ModelPath ?? "res://assets/models/act1/urman_village_exterior_kit.glb";
+        var modelHash = AtomicFile.Sha256OfFile(Path.Combine(_studio.Workspace.Root, "game", modelPath["res://".Length..]));
         var source = File.ReadAllBytes(Path.Combine(_studio.Workspace.Root, GeneratorPath));
         return AtomicFile.Sha256(System.Text.Encoding.UTF8.GetBytes(recipe + "\n" +
-            _studio.Workspace.File(world.RelativePath).Text + "\n" + AtomicFile.Sha256(source) + "\n" +
+            _studio.Workspace.File(world.RelativePath).Text + "\n" + AtomicFile.Sha256(source) + "\n" + modelHash + "\n" +
             AtomicFile.Sha256OfFile(Path.Combine(_studio.Workspace.Root, "assets/source/blender/act1/urman_village_exterior_kit.blend")) + "\n" + Revision()));
     }
 
     private string Revision()
     {
-        var start = new ProcessStartInfo("git") { UseShellExecute = false, RedirectStandardOutput = true,
-            RedirectStandardError = true, WorkingDirectory = _studio.Workspace.Root };
-        start.ArgumentList.Add("rev-parse"); start.ArgumentList.Add("HEAD");
-        using var process = Process.Start(start) ?? throw new IOException("Не удалось определить Git-ревизию.");
-        var result = process.StandardOutput.ReadToEnd();
-        if (!process.WaitForExit(5_000)) { process.Kill(entireProcessTree: true); throw new IOException("Git не ответил."); }
-        if (process.ExitCode != 0 || result.Trim().Length != 40) throw new IOException("Нет полной Git-ревизии.");
-        return result.Trim();
+        var revision = Urman.Studio.Core.Handoff.DeveloperContext.ResolveRevision(_studio.Workspace.Root);
+        if (revision == "неизвестна") throw new IOException("Нет полной Git-ревизии. Проверьте checkout перед запросом.");
+        return revision;
+    }
+
+    private HouseWindowRequest PrepareManualRequest()
+    {
+        if (_proposal is null) _request = Capture();
+        var request = _request ?? throw new InvalidOperationException("Запрос ещё не подготовлен.");
+        HouseWindowProposalValidator.ValidateRequest(request);
+        SetBusy(false);
+        return request;
     }
 
     private void CopyRequest()
     {
+        if (_busy) return;
         try
         {
-            if (!_busy && _proposal is null) _request = Capture();
-            if (_request is null) throw new InvalidOperationException("Запрос ещё не подготовлен.");
-            DisplayServer.ClipboardSet(JsonSerializer.Serialize(_request));
-            if (!_busy && _proposal is null) _status.Text = "Запрос скопирован. Применение остаётся только в Studio.";
+            DisplayServer.ClipboardSet(CodexProposalProvider.CreateClipboardPrompt(PrepareManualRequest()));
+            if (_proposal is null) _status.Text = "Вставьте запрос в свой агент, затем скопируйте JSON ответа и нажмите «Вставить JSON-ответ». Studio покажет модель до применения. Внешняя сессия работает отдельно.";
         }
         catch (Exception error) { _status.Text = error.Message; }
     }
 
-    private async Task AskAsync()
+    private void SaveRequest()
     {
         if (_busy) return;
+        try
+        {
+            var request = PrepareManualRequest();
+            var path = Urman.Studio.Core.Handoff.DeveloperContext.WriteHouseWindowRequest(_studio.Workspace.Root, request);
+            var message = "Запрос сохранён. Передайте файл своему агенту, затем откройте его чистый JSON-ответ. Проект ещё не изменён.";
+            _status.Text = _proposal is null ? message : _status.Text + "\n" + message;
+            OS.ShellShowInFileManager(path);
+        }
+        catch (Exception error) when (error is IOException or UnauthorizedAccessException or ArgumentException or InvalidOperationException)
+        {
+            var message = "Запрос не сохранён: проверьте выбранный дом, описание и доступ к папке. Существующий файл не перезаписывается.";
+            _status.Text = _proposal is null ? message : _status.Text + "\n" + message;
+        }
+    }
+
+    private void OpenProposalFile()
+    {
+        if (_busy || _request is null || _proposal is not null || !Visible) return;
+        var requestId = _request.RequestId;
+        var picker = new FileDialog
+        {
+            FileMode = FileDialog.FileModeEnum.OpenFile, Access = FileDialog.AccessEnum.Filesystem,
+            Title = "Открыть JSON-ответ агента", UseNativeDialog = true, Filters = ["*.json ; Ответ агента"]
+        };
+        picker.FileSelected += path =>
+        {
+            picker.QueueFree();
+            if (_busy || !Visible || _request?.RequestId != requestId)
+            {
+                _status.Text = "Ответ не открыт: запрос изменился или панель недоступна. Выберите файл для актуального запроса.";
+                return;
+            }
+            _ = RunProposalAsync(fromManual: true, proposalFile: path);
+        };
+        picker.Canceled += picker.QueueFree;
+        _studio.AddChild(picker);
+        picker.PopupCentered(new Vector2I(900, 600));
+    }
+
+    private Task AskAsync() => RunProposalAsync(fromManual: false);
+
+    private async Task RunProposalAsync(bool fromManual, string? proposalFile = null)
+    {
+        if (_busy || !Visible) return;
+        HouseWindowProposal? imported = null;
+        if (fromManual)
+        {
+            try
+            {
+                if (_request is null || _proposal is not null)
+                    throw new InvalidOperationException("Сначала скопируйте новый запрос для агента.");
+                if (_prompt.Text != _request.Prompt
+                    || (_wholeHouseScope.ButtonPressed ? null : _openedPart?.PartId) != _request.PartId)
+                    throw new InvalidOperationException("Описание или охват изменились. Скопируйте новый запрос.");
+                if (_openedSelection != _studio.Selection
+                    || _snapshot != Fingerprint(File.ReadAllText(Path.Combine(_studio.Workspace.Root, RecipePath))))
+                    throw new InvalidOperationException("Выбор или исходник изменился. Скопируйте новый запрос.");
+                imported = proposalFile is null
+                    ? CodexProposalProvider.ParseProposal(DisplayServer.ClipboardGet(), _request)
+                    : CodexProposalProvider.ParseProposalFile(proposalFile, _request);
+            }
+            catch (Exception error)
+            {
+                _status.Text = error is JsonException or CodexProposalProvider.CodexProposalException or IOException or UnauthorizedAccessException or System.Text.DecoderFallbackException or NotSupportedException
+                    ? "Ответ не принят. Нужен чистый JSON по схеме именно скопированного запроса. Проект не изменён."
+                    : "Ответ не принят: " + error.Message;
+                return;
+            }
+        }
         SetBusy(true);
         ClearProposal();
         Interlocked.Exchange(ref _providerWarningSeen, 0);
         _cancel = new();
         try
         {
-            _request = Capture();
-            _stage = Path.Combine(Path.GetTempPath(), "urman-house-" + _request.RequestId);
+            if (!fromManual) _request = Capture();
+            var request = _request ?? throw new InvalidOperationException("Запрос ещё не подготовлен.");
+            _stage = Path.Combine(Path.GetTempPath(), "urman-house-" + request.RequestId);
             Directory.CreateDirectory(_stage);
             File.WriteAllText(Path.Combine(_stage, "request.json"), JsonSerializer.Serialize(_request));
             AtomicFile.WriteAllText(Path.Combine(_studio.Workspace.Root, ".urman-studio/ai-jobs", _request.RequestId, "request.json"), JsonSerializer.Serialize(_request));
-            _status.Text = "Codex готовит предложение…";
-            _proposal = await new CodexProposalProvider(allowGlobalInstructions: _globalInstructions.ButtonPressed)
-                .RunAsync(_request, _stage, _cancel.Token, this);
+            _status.Text = fromManual ? "Проверяю перенесённое предложение…" : "Codex готовит предложение…";
+            _proposal = imported ?? await new CodexProposalProvider(allowGlobalInstructions: _globalInstructions.ButtonPressed)
+                .RunAsync(_request!, _stage, _cancel.Token, this);
             if (!Visible) throw new OperationCanceledException();
             File.WriteAllText(Path.Combine(_stage, "proposal.json"), JsonSerializer.Serialize(_proposal));
             AtomicFile.WriteAllText(Path.Combine(_studio.Workspace.Root, ".urman-studio/ai-jobs", _request.RequestId, "proposal.json"), JsonSerializer.Serialize(_proposal));
             var recipe = JsonNode.Parse(_recipeText!)!.AsObject();
-            recipe["windowClearWidth"] = _proposal.WindowWidth;
+            if (_request.PartId is { } partId)
+            {
+                var widths = (JsonObject)_capturedWidths!.DeepClone();
+                widths[partId] = _proposal.WindowWidth;
+                recipe["windowWidths"] = widths;
+            }
+            else
+            {
+                recipe["windowClearWidth"] = _proposal.WindowWidth;
+                recipe.Remove("windowWidths");
+            }
             recipe["modelPath"] = "res://assets/models/studio/hero-house-" + _request.RequestId + ".glb";
             File.WriteAllText(Path.Combine(_stage, "recipe.json"), recipe.ToJsonString(new() { WriteIndented = true }));
             _status.Text = "Создаю настоящий проём и согласованный интерьер…";
@@ -248,10 +405,11 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
             _beforeView.Disabled = false;
             _afterView.Disabled = false;
             ShowPreview(after: true);
-            _status.Text = $"{_proposal.Summary}\nШирина: {_proposal.ExpectedWidth:0.00} → {_proposal.WindowWidth:0.00} м. Только выбранный дом; 8 реальных проёмов, включая сени. Ещё не применено.";
+            _status.Text = $"{_proposal.Summary}\nШирина: {_proposal.ExpectedWidth:0.00} → {_proposal.WindowWidth:0.00} м. {(_request.PartId is null ? "Все 8 окон выбранного дома, включая сени" : "Только окно " + _request.PartId)}. Ещё не применено.";
             if (Volatile.Read(ref _providerWarningSeen) != 0)
                 _status.Text += "\nCodex сообщил предупреждение в сессии. Перед запросом проверено: MCP отключены, доступных MCP-инструментов нет.";
             if (_consentIoWarning is not null) _status.Text += "\n" + _consentIoWarning;
+            if (fromManual) _status.Text += "\nОтвет перенесён вручную. Studio не управляет внешней сессией агента.";
             _apply.Disabled = false;
         }
         catch (OperationCanceledException) { ClearProposal(); _status.Text = "Остановлено. Проект не изменён."; }
@@ -448,8 +606,17 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
             || (string?)manifest["component"] != HeroHouseRecipe.Component
             || (string?)manifest["modelPath"] != "res://assets/models/studio/hero-house-" + _request!.RequestId + ".glb"
             || (decimal?)manifest["windowClearHeight"] != 1.40m
-            || (decimal?)manifest["windowClearWidth"] != _proposal!.WindowWidth)
+            || (decimal?)manifest["windowClearWidth"] != (_request.PartId is null ? _proposal!.WindowWidth : (decimal)JsonNode.Parse(_recipeText!)!["windowClearWidth"]!))
             throw new InvalidDataException("Сборка не соответствует принятому предложению.");
+        if (manifest["windowWidths"] is not JsonObject widths || widths.Count != HeroHouseRecipe.WindowIds.Count)
+            throw new InvalidDataException("Сборка не содержит точный охват восьми окон.");
+        foreach (var id in HeroHouseRecipe.WindowIds)
+        {
+            var expected = _request!.PartId is null || _request.PartId == id
+                ? _proposal!.WindowWidth : (decimal)_capturedWidths![id]!;
+            if ((decimal?)widths[id] != expected)
+                throw new InvalidDataException("Сборка изменила ширину вне принятого охвата: " + id);
+        }
         foreach (var (key, name) in new[] { ("glb", "hero_house.glb"), ("blend", "hero_house.blend") })
             if ((string?)manifest["outputs"]?[key]?["sha256"] != AtomicFile.Sha256OfFile(Path.Combine(_stage!, name)))
                 throw new InvalidDataException("Артефакт изменился после сборки: " + name);
@@ -463,7 +630,13 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
     private void SetBusy(bool busy)
     {
         _busy = busy;
-        _ask.Disabled = busy || _studio.Selection != HeroHouseRecipe.EntityId;
+        _wholeHouseScope.Disabled = busy || _proposal is not null;
+        _ask.Disabled = busy || _openedSelection != HeroHouseRecipe.EntityId
+            || _studio.Selection != _openedSelection;
+        _copy.Disabled = _ask.Disabled;
+        _saveRequest.Disabled = _ask.Disabled;
+        _paste.Disabled = _ask.Disabled || _request is null || _proposal is not null;
+        _importFile.Disabled = _paste.Disabled;
         _apply.Disabled = busy || _proposal is null || _request is null || _stage is null;
     }
     private void ClearProposal()

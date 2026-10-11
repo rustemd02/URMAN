@@ -23143,6 +23143,21 @@
                 "result": "partial implementation; full done_when remains open",
                 "source": "game/studio/StudioAiPanel.cs; game/scripts/HeroHouseRecipe.cs; src-dotnet/Urman.Studio.Core/AI; Storage/StudioFileTransaction.cs; Editing/EditSession.cs",
                 "verification": "affected game/Core compilation PASS; staged Blender 1.06/1.35 and Core roundtrip/conflict/failure/barrier/recovery assertions PASS; provider inference/game/UI NOT_RUN at this checkpoint"
+              },
+              {
+                "stage": "2026-10-11 selected-window identity and explicit scope",
+                "result": "SOURCE_ACCEPTED_GAME_COMPILE_0_0_FULL_UNIT_OPEN",
+                "source": "game/studio/StudioWorldSection.cs; game/studio/StudioAiPanel.cs",
+                "implementation": "Immutable selected-part context uses semantic Front0–2/Rear0–1/Left0/Right0/SeniOuter0 identities mapped to current generator, recipe relative source and existing global /windowClearWidth pointer; mesh path remains diagnostic hint. Panel captures opened entity/part; selected window blocks Ask and request copy until author explicitly opts into all eight windows. Scope toggle locked during request/prepared proposal.",
+                "verification": "Sol6.1medium independent source acceptance; root affected Game compile 0 warnings/0 errors; git diff --check PASS.",
+                "remaining": "Native UI/picking/rebuild/DPI/focus walkthrough not verified. Recipe/request/provider still house-wide; real per-window overrides/target validation/exterior+interior consumers and runtime proof required, not replaced by scope opt-in."
+              },
+              {
+                "stage": "2026-10-11 modal focus and shortcut routing",
+                "result": "SOURCE_ACCEPTED_NARROW_GAME_COMPILE_0_0_FULL_UNIT_OPEN",
+                "source": "game/studio/StudioRoot.cs; StudioAiPanel.cs; StudioWorldSection.cs",
+                "implementation": "Viewport Cmd/Ctrl+Enter opens frozen context before point-pick Enter; Cmd/Ctrl+K existing search. Modal guards viewport/workspace input, ends gestures, preserves visible reentry request/proposal/draft, deferred restores valid prior focus without mouse recapture.",
+                "verification": "Root source review + narrow game build0 warnings/0 errors + diff check. NativeUI keyboard/focus/text Undo NOT_VERIFIED."
               }
             ],
             "stage_tasks": [
@@ -23187,6 +23202,38 @@
                 "implementation": "One ray pick resolves authored parent ID and collision shape authoredSourceMesh; recognized HeroHouse wall/window labels appear in inspector with source path under Advanced. Existing Locate/EditSession and parent selection preserved; breadcrumbs clear on selection change, move and geometry reload. No second registry or persistent part identity introduced.",
                 "verification": "Independent Sol6.1medium source review accepted. Initial compile caught switch-scope local name conflict; corrected selectedHit. Affected Game build: 0 warnings, 0 errors; git diff --check PASS.",
                 "remaining": "Native wall/window selection, overlapping objects, DPI/viewport offset and rebuild identity walkthrough not verified; stable part ID/source locator contract and full done_when remain open."
+              },
+              {
+                "stage": "2026-10-11 selected-window identity and explicit scope",
+                "result": "SOURCE_ACCEPTED_GAME_COMPILE_0_0_FULL_UNIT_OPEN",
+                "source": "game/studio/StudioWorldSection.cs; game/studio/StudioAiPanel.cs",
+                "implementation": "Immutable selected-part context uses semantic Front0–2/Rear0–1/Left0/Right0/SeniOuter0 identities mapped to current generator, recipe relative source and existing global /windowClearWidth pointer; mesh path remains diagnostic hint. Panel captures opened entity/part; selected window blocks Ask and request copy until author explicitly opts into all eight windows. Scope toggle locked during request/prepared proposal.",
+                "verification": "Sol6.1medium independent source acceptance; root affected Game compile 0 warnings/0 errors; git diff --check PASS.",
+                "remaining": "Native UI/picking/rebuild/DPI/focus walkthrough not verified. Recipe/request/provider still house-wide; real per-window overrides/target validation/exterior+interior consumers and runtime proof required, not replaced by scope opt-in."
+              },
+              {
+                "stage": "2026-10-11 genuine selected-window recipe and panel wiring",
+                "result": "SOURCE_ACCEPTED_STAGED_FRONT0_GEOMETRY_VERIFIED_FULL_RUNTIME_GATE_OPEN",
+                "source": "game/scripts/HeroHouseRecipe.cs; game/scripts/StyleBenchmarkInteriorFactory.cs; assets/source/blender/act1/urman_village_exterior_kit.py; game/studio/StudioAiPanel.cs",
+                "implementation": "Strict optional windowWidths keyed by eight canonical IDs; exterior holes/joinery/logcuts and seven main-room interior openings/windows share per-ID lookup. Panel defaults selected window to one target, freezes eight effective widths including baseline Seni .80, updates only selected override; all-eight operation removes overrides. Manifest requires exact eight effective widths and frozen global width. Captured text is validated via shared Parse, fingerprint includes current model, inconsistent modelnull baseline refused.",
+                "verification": "Sol6.1medium backend implementation and independent panel source review; two frozen-source/staged-default findings corrected and accepted. Root affected Game compile0/0 and diff-check PASS. Real staged Blender generation exit0; generated GLB accessor dimensions: only Street_Window1 (Front0) glass .96→1.20, other seven pane dimensions unchanged; thirteen door-node vertex attribute signatures identical.",
+                "evidence": "evidence/STUDIO/b20-house-pilot-2026-10-10/single-window-staging/{recipe,manifest,geometry-measurement}.json",
+                "remaining": "No actual per-window Codex inference, native UI, wall/reveal/collision game verification or single-window Apply/Undo accepted yet. Staged receipt is geometry measurement, not game completion; original all-eight game/Undo evidence remains valid history."
+              },
+              {
+                "stage": "2026-10-11 marker occlusion depth guard",
+                "result": "SOURCE_ACCEPTED_NARROW_GAME_COMPILE_0_0_FULL_UNIT_OPEN",
+                "source": "game/studio/StudioWorldSection.cs:Pick",
+                "verification": "Sol independent source review; Root narrow game build0/0 and diff check. Overlap/DPI/rebuild nativeUI acceptance remains open.",
+                "limitation": "Conservative center-depth check may refuse off-axis/steep-ground markers; not render visibility proof."
+              },
+              {
+                "stage": "2026-10-11 reject ambiguous authored IDs in derived index",
+                "result": "PARTIAL_SOURCE_ACCEPTED_GAME_COMPILE_0_0_EXISTING_UNDO_TESTS_2_2",
+                "source": "Editing/StudioWorkspace.cs:Reindex/IsAmbiguous/CreateFile/NewId; Editing/EditSession.cs:Apply/SetOrder; game/studio/StudioRoot.cs:SaveAll/CheckContent/OfferRecoveredDrafts/OnEdited; game/studio/StudioAiPanel.cs:Capture",
+                "implementation": "Build replacement derived index locally, report every duplicate occurrence with relative sources, remove all ambiguousIDs rather than firstwin; reserve ambiguousIDs in NewId. Reindex immediately after registering nonempty newfile. Explicit entity Set/Delete and changed SetOrder reject ambiguity before authoringPut/Reorder, noops precedeguards; compensation/Undo restoration remains available. Startup/edit/check dialogs show conflicts, manualSave refuses before clean saved shortcut/sourcewrites, autosave drafts preserved. House capture explicitly refuses missing/ambiguous source before fingerprint. Recovery preflights incoming ID collisions before Begin and preserves skipped artifacts. No IDs automatically renamed, files rewritten or second registry created.",
+                "verification": "Root affected Game final compile0/0 and existing test-project compile0/0; targeted ADragIsOneUndoStep/ReorderingIsOneUndoableStepAndKeepsTheFileStyle PASS2/2, diffcheck. Sol6.1medium independent source review accepted after no-op guard placement/recovery collision preflight correction. Read-only JSON-source inspection in existing sourcefolders found no current repeated explicit IDs; not Markdown/runtime proof. No newtests/probes/fixtures.",
+                "remaining": "Actual duplicate ID/recovery/native UI branch not exercised; existingtests prove unchanged ordinary Undo/reorder, not negative ambiguitycases. Same-file duplicate repair bykey is deliberately refused; manual source repair required. Fullsemantic registry/render mapping and typedcontext remaining."
               }
             ],
             "stage_tasks": [
@@ -23223,6 +23270,15 @@
                 "result": "partial implementation; full done_when remains open",
                 "source": "game/studio/StudioAiPanel.cs; game/scripts/HeroHouseRecipe.cs; src-dotnet/Urman.Studio.Core/AI; Storage/StudioFileTransaction.cs; Editing/EditSession.cs",
                 "verification": "affected game/Core compilation PASS; staged Blender 1.06/1.35 and Core roundtrip/conflict/failure/barrier/recovery assertions PASS; provider inference/game/UI NOT_RUN at this checkpoint"
+              },
+              {
+                "stage": "2026-10-11 genuine selected-window recipe and panel wiring",
+                "result": "SOURCE_ACCEPTED_STAGED_FRONT0_GEOMETRY_VERIFIED_FULL_RUNTIME_GATE_OPEN",
+                "source": "game/scripts/HeroHouseRecipe.cs; game/scripts/StyleBenchmarkInteriorFactory.cs; assets/source/blender/act1/urman_village_exterior_kit.py; game/studio/StudioAiPanel.cs",
+                "implementation": "Strict optional windowWidths keyed by eight canonical IDs; exterior holes/joinery/logcuts and seven main-room interior openings/windows share per-ID lookup. Panel defaults selected window to one target, freezes eight effective widths including baseline Seni .80, updates only selected override; all-eight operation removes overrides. Manifest requires exact eight effective widths and frozen global width. Captured text is validated via shared Parse, fingerprint includes current model, inconsistent modelnull baseline refused.",
+                "verification": "Sol6.1medium backend implementation and independent panel source review; two frozen-source/staged-default findings corrected and accepted. Root affected Game compile0/0 and diff-check PASS. Real staged Blender generation exit0; generated GLB accessor dimensions: only Street_Window1 (Front0) glass .96→1.20, other seven pane dimensions unchanged; thirteen door-node vertex attribute signatures identical.",
+                "evidence": "evidence/STUDIO/b20-house-pilot-2026-10-10/single-window-staging/{recipe,manifest,geometry-measurement}.json",
+                "remaining": "No actual per-window Codex inference, native UI, wall/reveal/collision game verification or single-window Apply/Undo accepted yet. Staged receipt is geometry measurement, not game completion; original all-eight game/Undo evidence remains valid history."
               }
             ],
             "stage_tasks": [
@@ -23259,6 +23315,55 @@
                 "result": "partial implementation; full done_when remains open",
                 "source": "game/studio/StudioAiPanel.cs; game/scripts/HeroHouseRecipe.cs; src-dotnet/Urman.Studio.Core/AI; Storage/StudioFileTransaction.cs; Editing/EditSession.cs",
                 "verification": "affected game/Core compilation PASS; staged Blender 1.06/1.35 and Core roundtrip/conflict/failure/barrier/recovery assertions PASS; provider inference/game/UI NOT_RUN at this checkpoint"
+              },
+              {
+                "stage": "2026-10-11 typed selected-window request boundary",
+                "result": "PARTIAL_SOURCE_IMPLEMENTATION_CORE_COMPILE_PASS",
+                "source": "src-dotnet/Urman.Studio.Core/AI/HouseWindowProposal.cs; CodexProposalProvider.cs",
+                "implementation": "Optional canonical PartId selects one of eight known windows; absent/null retains existing all-eight wire. Request validation rejects unknown parts; proposal must match frozen part exactly. Selected-part output schema requires exact partId const and parser rejects missing/extra/duplicate fields. Prompt distinguishes one-window and whole-house scope; tools/no-write protocol unchanged.",
+                "verification": "Root affected Studio.Core compile 0 warnings/0 errors; source inspection and diff-check. No actual per-window model call or game/UI acceptance yet.",
+                "remaining": "UI/recipe consumer wiring, frozen effective per-part widths, manifest invariants, staged geometry and native Apply/Undo runtime proof open; full portable Request v2/unsaved overlay contract not supplied by this optional field."
+              },
+              {
+                "stage": "2026-10-11 genuine selected-window recipe and panel wiring",
+                "result": "SOURCE_ACCEPTED_STAGED_FRONT0_GEOMETRY_VERIFIED_FULL_RUNTIME_GATE_OPEN",
+                "source": "game/scripts/HeroHouseRecipe.cs; game/scripts/StyleBenchmarkInteriorFactory.cs; assets/source/blender/act1/urman_village_exterior_kit.py; game/studio/StudioAiPanel.cs",
+                "implementation": "Strict optional windowWidths keyed by eight canonical IDs; exterior holes/joinery/logcuts and seven main-room interior openings/windows share per-ID lookup. Panel defaults selected window to one target, freezes eight effective widths including baseline Seni .80, updates only selected override; all-eight operation removes overrides. Manifest requires exact eight effective widths and frozen global width. Captured text is validated via shared Parse, fingerprint includes current model, inconsistent modelnull baseline refused.",
+                "verification": "Sol6.1medium backend implementation and independent panel source review; two frozen-source/staged-default findings corrected and accepted. Root affected Game compile0/0 and diff-check PASS. Real staged Blender generation exit0; generated GLB accessor dimensions: only Street_Window1 (Front0) glass .96→1.20, other seven pane dimensions unchanged; thirteen door-node vertex attribute signatures identical.",
+                "evidence": "evidence/STUDIO/b20-house-pilot-2026-10-10/single-window-staging/{recipe,manifest,geometry-measurement}.json",
+                "remaining": "No actual per-window Codex inference, native UI, wall/reveal/collision game verification or single-window Apply/Undo accepted yet. Staged receipt is geometry measurement, not game completion; original all-eight game/Undo evidence remains valid history."
+              },
+              {
+                "stage": "2026-10-11 shared full Git revision for context handoff",
+                "result": "PARTIAL_SOURCE_REVIEW_ACCEPTED_COMPILE_0_0_EXISTING_PACKAGE_TEST_1_1_WORKTREE_UI_OPEN",
+                "source": "Handoff/DeveloperContext.cs:ResolveRevision/ReadBoundedAsync/BuildText/WritePackage; StudioAiPanel.cs:Revision",
+                "implementation": "One shared Git resolver handles root .git dir/gitfile, validates full lowercase40/64 commit hash and prevents short ref/name fallback. Concurrent bounded4096 stdout/stderr reads with ConfigureAwait(false), bounded wait and owned process kill on timeout; inherited Git root/object/namespace overrides removed, lazy fetch disabled. Legacy v1 unknown fallback remains; AI capture rejects unknown. Export captures one revision for context summary and manifest; existing v1 entity payload unchanged.",
+                "verification": "Root affected Game build0/0; final Core/test-project compile0/0 after ConfigureAwait correction; existing ANewDraftTravelsAsDataWithItsDependencies PASS1/1; diffcheck. Independent Sol6.1medium source review accepted after fixing UI synchronization-context deadlock. No new tests/fixtures/probes.",
+                "remaining": "Actual resolver invocation in managed worktree and native UI not exercised; existing test proves draft package caller/data compatibility, not worktree process handling. General AuthoringRequestv2, complete dependencies/truncation and versioned hash/result package reader still open."
+              },
+              {
+                "stage": "2026-10-11 explicit legacy context dependency truncation",
+                "result": "PARTIAL_SOURCE_ACCEPTED_GAME_COMPILE_0_0_EXISTING_PACKAGE_TEST_1_1",
+                "source": "src-dotnet/Urman.Studio.Core/Handoff/DeveloperContext.cs; game/studio/StudioProperties.cs:OpenContext",
+                "implementation": "Capture first200 existing entities once per Text/package, expand outgoing references of200th before cutoff; optional v1 truncated flag and pendingDependencyIds frontier, explicitly not exhaustive omitted descendants. Package summary and manifest share capture. Missing subject refused before directory/ZIP writes; Text fixed diagnostic. Export UI retains warning as current context and catches IO/access/invalid-operation refusal. Existing v1 subject/entity payload and return tuple preserved.",
+                "verification": "Root affected Game compile0/0 and test-project compile0/0; existing ANewDraftTravelsAsDataWithItsDependencies PASS1/1; diffcheck. Sol6.1medium source review accepted; no new tests/probes.",
+                "remaining": "200+ frontier runtime branch and native UI not exercised by existing test. Legacy colon-string heuristic remains; typed references/non-entity assets, immutable full payload, atomic ZIP, v2 hashes/result reader/path-size checks and relocation remain open. Saved UI summary is current context, not archived receipt."
+              },
+              {
+                "stage": "2026-10-11 atomic context archive and exact payload receipts",
+                "result": "PARTIAL_SOURCE_ACCEPTED_GAME_COMPILE_0_0_EXISTING_PACKAGE_TEST_1_1",
+                "source": "Handoff/DeveloperContext.cs:WritePackage/Write; Storage/AtomicFile.cs:WriteAllBytes; game/studio/StudioProperties.cs:OpenContext",
+                "implementation": "Serialize exact UTF8-noBOM context/entities once, optional v1 manifest SHA256/byte lengths for both fixed entry names. Aggregate manifest/context/entities text budget256KiB refused before destination writes, no partial JSON truncation. Finalize ZipArchive in MemoryStream then publish through existing AtomicFile flushed temp+rename. New optional overwrite=true preserves old callers; export false makes File.Move refuse collisions, fullGUID case ID. UI fixed unavailable-subject/budget guidance separate from IO/access refusal.",
+                "verification": "Root final affected Game compile0 warnings/0 errors, test-project compile0/0; existing ANewDraftTravelsAsDataWithItsDependencies PASS1/1; diffcheck. Sol6.1medium source review found overwrite compatibility and hidden budget guidance, both corrected. No new tests/probes.",
+                "remaining": "Actual overbudget/failure/collision branch and native UI not exercised; existing test proves payload/export compatibility. Budget validation is not serialization memory-allocation bound. Existing AtomicFile export-path/no-links limitations unchanged. No safe reader/relocation/hash-validation-import proof; v2 Request/Proposal/Receipt and typed/non-entity dependencies still open."
+              },
+              {
+                "stage": "2026-10-11 reject ambiguous authored IDs in derived index",
+                "result": "PARTIAL_SOURCE_ACCEPTED_GAME_COMPILE_0_0_EXISTING_UNDO_TESTS_2_2",
+                "source": "Editing/StudioWorkspace.cs:Reindex/IsAmbiguous/CreateFile/NewId; Editing/EditSession.cs:Apply/SetOrder; game/studio/StudioRoot.cs:SaveAll/CheckContent/OfferRecoveredDrafts/OnEdited; game/studio/StudioAiPanel.cs:Capture",
+                "implementation": "Build replacement derived index locally, report every duplicate occurrence with relative sources, remove all ambiguousIDs rather than firstwin; reserve ambiguousIDs in NewId. Reindex immediately after registering nonempty newfile. Explicit entity Set/Delete and changed SetOrder reject ambiguity before authoringPut/Reorder, noops precedeguards; compensation/Undo restoration remains available. Startup/edit/check dialogs show conflicts, manualSave refuses before clean saved shortcut/sourcewrites, autosave drafts preserved. House capture explicitly refuses missing/ambiguous source before fingerprint. Recovery preflights incoming ID collisions before Begin and preserves skipped artifacts. No IDs automatically renamed, files rewritten or second registry created.",
+                "verification": "Root affected Game final compile0/0 and existing test-project compile0/0; targeted ADragIsOneUndoStep/ReorderingIsOneUndoableStepAndKeepsTheFileStyle PASS2/2, diffcheck. Sol6.1medium independent source review accepted after no-op guard placement/recovery collision preflight correction. Read-only JSON-source inspection in existing sourcefolders found no current repeated explicit IDs; not Markdown/runtime proof. No newtests/probes/fixtures.",
+                "remaining": "Actual duplicate ID/recovery/native UI branch not exercised; existingtests prove unchanged ordinary Undo/reorder, not negative ambiguitycases. Same-file duplicate repair bykey is deliberately refused; manual source repair required. Fullsemantic registry/render mapping and typedcontext remaining."
               }
             ],
             "stage_tasks": [
@@ -23343,6 +23448,22 @@
                 "result": "partial implementation; full done_when remains open",
                 "source": "game/studio/StudioAiPanel.cs; game/scripts/HeroHouseRecipe.cs; src-dotnet/Urman.Studio.Core/AI; Storage/StudioFileTransaction.cs; Editing/EditSession.cs",
                 "verification": "affected game/Core compilation PASS; staged Blender 1.06/1.35 and Core roundtrip/conflict/failure/barrier/recovery assertions PASS; provider inference/game/UI NOT_RUN at this checkpoint"
+              },
+              {
+                "stage": "2026-10-11 manual clipboard proposal handoff",
+                "result": "PARTIAL_SOURCE_REVIEW_ACCEPTED_GAME_COMPILE_0_0_NATIVE_HANDOFF_OPEN",
+                "source": "game/studio/StudioAiPanel.cs:CopyRequest/RunProposalAsync/SetBusy; src-dotnet/Urman.Studio.Core/AI/CodexProposalProvider.cs:CreateClipboardPrompt/ParseProposal",
+                "implementation": "Copy exports existing trusted prompt and exact schema with frozen request. Paste bounded strict JSON reuses adapter parser, validates original request ID/hash/entity/part/width and checks unchanged prompt/scope/selection/source fingerprint before stage mutation. Accepted imported proposal shares existing generation/manifest/preview/Apply/Undo path. Separate handoff row and explicit external-session statement; no direct Claude adapter or control of external tools claimed.",
+                "verification": "Root affected Game compile0 warnings/0 errors after correcting nested exception type; diffcheck. Sol6.1medium independent source review accepted. No new tests/probes or external inference.",
+                "remaining": "Native clipboard/buttons/render and external-agent round trip not exercised. This is narrow HouseWindowRequest manual handoff, not completed AuthoringRequest v2/ZIP/relocation/legacy package compatibility or direct Claude readiness. Multi-command actual restart gate remains open; existing manual harness only supports single transaction."
+              },
+              {
+                "stage": "2026-10-11 manual house request/result file transport",
+                "result": "PARTIAL_SOURCE_REVIEW_ACCEPTED_GAME_COMPILE_0_0_NATIVE_FILE_ROUNDTRIP_OPEN",
+                "source": "game/studio/StudioAiPanel.cs:PrepareManualRequest/SaveRequest/OpenProposalFile/RunProposalAsync/SetBusy; AI/CodexProposalProvider.cs:ParseProposalFile; Handoff/DeveloperContext.cs:WriteHouseWindowRequest",
+                "implementation": "Copy and save share validated captured HouseWindowRequest. Trusted prompt/schema saved as UTF8 withoutBOM under guarded canonical requestId metadata path via existing no-links+AtomicFile no-overwrite; only Studio-owned export writes. JSON picker remembers requestId and checks visibility/busy/request continuity. Shared manual pipeline verifies unchanged prompt/scope/selection/fingerprint before file parser and staging; read-only actual32768byte bound+strictUTF8 feeds same8192char duplicate/schema/request/part/width parser. Import uses existing generation/preview/Apply/CAS/Undo, never invokes external session tools. Parse failures return before ClearProposal and retain preview/Apply; save success/refusal retains prepared proposal summary with fixed file note.",
+                "verification": "Root affected Game compile0/0 after correcting internalCore guard accessibility by moving guarded export into existing DeveloperContext; final Game compile after Sol status fix also0/0. Diffcheck. Sol6.1medium source review accepted storage/trust path and requested preserving prepared summary; corrected and confirmed. No added tests/probes or model/native inference.",
+                "remaining": "Native file picker/buttons/layout, actual external-agent file roundtrip, malformed/oversize/decoder/no-overwrite branches not exercised. This is narrow HouseWindowRequest text+JSON manual transport, not completed general AuthoringRequestv2/ZIP/Receipt relocation or direct Claude adapter. Existing no-links preflight is not filesystem-race isolation."
               }
             ],
             "stage_tasks": [
@@ -23430,6 +23551,23 @@
                 "result": "partial implementation; full done_when remains open",
                 "source": "game/studio/StudioAiPanel.cs; game/scripts/HeroHouseRecipe.cs; src-dotnet/Urman.Studio.Core/AI; Storage/StudioFileTransaction.cs; Editing/EditSession.cs",
                 "verification": "affected game/Core compilation PASS; staged Blender 1.06/1.35 and Core roundtrip/conflict/failure/barrier/recovery assertions PASS; provider inference/game/UI NOT_RUN at this checkpoint"
+              },
+              {
+                "stage": "2026-10-11 selected-window identity and explicit scope",
+                "result": "SOURCE_ACCEPTED_GAME_COMPILE_0_0_FULL_UNIT_OPEN",
+                "source": "game/studio/StudioWorldSection.cs; game/studio/StudioAiPanel.cs",
+                "implementation": "Immutable selected-part context uses semantic Front0–2/Rear0–1/Left0/Right0/SeniOuter0 identities mapped to current generator, recipe relative source and existing global /windowClearWidth pointer; mesh path remains diagnostic hint. Panel captures opened entity/part; selected window blocks Ask and request copy until author explicitly opts into all eight windows. Scope toggle locked during request/prepared proposal.",
+                "verification": "Sol6.1medium independent source acceptance; root affected Game compile 0 warnings/0 errors; git diff --check PASS.",
+                "remaining": "Native UI/picking/rebuild/DPI/focus walkthrough not verified. Recipe/request/provider still house-wide; real per-window overrides/target validation/exterior+interior consumers and runtime proof required, not replaced by scope opt-in."
+              },
+              {
+                "stage": "2026-10-11 genuine selected-window recipe and panel wiring",
+                "result": "SOURCE_ACCEPTED_STAGED_FRONT0_GEOMETRY_VERIFIED_FULL_RUNTIME_GATE_OPEN",
+                "source": "game/scripts/HeroHouseRecipe.cs; game/scripts/StyleBenchmarkInteriorFactory.cs; assets/source/blender/act1/urman_village_exterior_kit.py; game/studio/StudioAiPanel.cs",
+                "implementation": "Strict optional windowWidths keyed by eight canonical IDs; exterior holes/joinery/logcuts and seven main-room interior openings/windows share per-ID lookup. Panel defaults selected window to one target, freezes eight effective widths including baseline Seni .80, updates only selected override; all-eight operation removes overrides. Manifest requires exact eight effective widths and frozen global width. Captured text is validated via shared Parse, fingerprint includes current model, inconsistent modelnull baseline refused.",
+                "verification": "Sol6.1medium backend implementation and independent panel source review; two frozen-source/staged-default findings corrected and accepted. Root affected Game compile0/0 and diff-check PASS. Real staged Blender generation exit0; generated GLB accessor dimensions: only Street_Window1 (Front0) glass .96→1.20, other seven pane dimensions unchanged; thirteen door-node vertex attribute signatures identical.",
+                "evidence": "evidence/STUDIO/b20-house-pilot-2026-10-10/single-window-staging/{recipe,manifest,geometry-measurement}.json",
+                "remaining": "No actual per-window Codex inference, native UI, wall/reveal/collision game verification or single-window Apply/Undo accepted yet. Staged receipt is geometry measurement, not game completion; original all-eight game/Undo evidence remains valid history."
               }
             ],
             "stage_tasks": [
@@ -23542,6 +23680,23 @@
                 "result": "All eight clear openings width1.30; primary height1.40/Seniheight1.06 and doors preserved; Windows matched three-view before/after/Undo PASS, root inspected; accepted Apply/Undo journal committed/before, exact original files restored and three variants absent.",
                 "source": "evidence/STUDIO/b20-house-pilot-2026-10-10/eight-window-transaction-receipt.json; codex-eight-window-attempt2; eight-before; eight-after; eight-undo",
                 "remaining": "Native Studio UI path not proven by CLI harness; Claude/restart/Redo and full done_when remain open. Actual LOW/FSR.7 is functional proof, not HIGH art acceptance."
+              },
+              {
+                "stage": "2026-10-11 genuine selected-window recipe and panel wiring",
+                "result": "SOURCE_ACCEPTED_STAGED_FRONT0_GEOMETRY_VERIFIED_FULL_RUNTIME_GATE_OPEN",
+                "source": "game/scripts/HeroHouseRecipe.cs; game/scripts/StyleBenchmarkInteriorFactory.cs; assets/source/blender/act1/urman_village_exterior_kit.py; game/studio/StudioAiPanel.cs",
+                "implementation": "Strict optional windowWidths keyed by eight canonical IDs; exterior holes/joinery/logcuts and seven main-room interior openings/windows share per-ID lookup. Panel defaults selected window to one target, freezes eight effective widths including baseline Seni .80, updates only selected override; all-eight operation removes overrides. Manifest requires exact eight effective widths and frozen global width. Captured text is validated via shared Parse, fingerprint includes current model, inconsistent modelnull baseline refused.",
+                "verification": "Sol6.1medium backend implementation and independent panel source review; two frozen-source/staged-default findings corrected and accepted. Root affected Game compile0/0 and diff-check PASS. Real staged Blender generation exit0; generated GLB accessor dimensions: only Street_Window1 (Front0) glass .96→1.20, other seven pane dimensions unchanged; thirteen door-node vertex attribute signatures identical.",
+                "evidence": "evidence/STUDIO/b20-house-pilot-2026-10-10/single-window-staging/{recipe,manifest,geometry-measurement}.json",
+                "remaining": "No actual per-window Codex inference, native UI, wall/reveal/collision game verification or single-window Apply/Undo accepted yet. Staged receipt is geometry measurement, not game completion; original all-eight game/Undo evidence remains valid history."
+              },
+              {
+                "stage": "2026-10-11 explicitly ordered file history",
+                "result": "PARTIAL_SOURCE_REVIEW_ACCEPTED_GAME_COMPILE_0_0_NATIVE_RESTART_OPEN",
+                "source": "StudioFileTransaction.cs:Accept/AllocateAcceptedOrder/ReadHistorySequence/LoadCommittedFileHistory/ReadManifest/FromManifest; EditSession.cs:Push/RestoreCommittedFileHistory; StudioRoot.cs:startup restoration caller",
+                "implementation": "New accepted file commands retain bounded label and positive explicit acceptance order. Stable exclusive allocator lock held through AtomicFile counter update and accepted journal; gaps survive failed acceptance. Counter scope/version/max validated, missing or malformed counter with ordered journals refuses. Loader checks all images/exact path sets, continuous hash chains for repeated paths, aggregate current cursor boundary and after-prefix/before-suffix side sequence, then hydrates correctly ordered Undo/Redo stacks and persisted labels. No GUID/mtime ordering or image cleanup.",
+                "verification": "Root affected Game build0/0 + diffcheck. Independent Sol6.1medium source review accepted after fixing malformed counter startup exception and actual counter-volume budget path. No new tests/probes; actual multi-command restart and native Undo/Redo not executed.",
+                "remaining": "Entity/mixed/redo-branch history remains fenced. Multiple legacy journals or mixed legacy/ordered journals require explicit migration decision. No multi-process promotion isolation claimed; existing conflict/rollback protection remains. Full ledger/epoch/pending transition and UI acceptance still open."
               }
             ],
             "stage_tasks": [
@@ -23604,6 +23759,15 @@
                 "result": "All eight clear openings width1.30; primary height1.40/Seniheight1.06 and doors preserved; Windows matched three-view before/after/Undo PASS, root inspected; accepted Apply/Undo journal committed/before, exact original files restored and three variants absent.",
                 "source": "evidence/STUDIO/b20-house-pilot-2026-10-10/eight-window-transaction-receipt.json; codex-eight-window-attempt2; eight-before; eight-after; eight-undo",
                 "remaining": "Native Studio UI path not proven by CLI harness; Claude/restart/Redo and full done_when remain open. Actual LOW/FSR.7 is functional proof, not HIGH art acceptance."
+              },
+              {
+                "stage": "2026-10-11 genuine selected-window recipe and panel wiring",
+                "result": "SOURCE_ACCEPTED_STAGED_FRONT0_GEOMETRY_VERIFIED_FULL_RUNTIME_GATE_OPEN",
+                "source": "game/scripts/HeroHouseRecipe.cs; game/scripts/StyleBenchmarkInteriorFactory.cs; assets/source/blender/act1/urman_village_exterior_kit.py; game/studio/StudioAiPanel.cs",
+                "implementation": "Strict optional windowWidths keyed by eight canonical IDs; exterior holes/joinery/logcuts and seven main-room interior openings/windows share per-ID lookup. Panel defaults selected window to one target, freezes eight effective widths including baseline Seni .80, updates only selected override; all-eight operation removes overrides. Manifest requires exact eight effective widths and frozen global width. Captured text is validated via shared Parse, fingerprint includes current model, inconsistent modelnull baseline refused.",
+                "verification": "Sol6.1medium backend implementation and independent panel source review; two frozen-source/staged-default findings corrected and accepted. Root affected Game compile0/0 and diff-check PASS. Real staged Blender generation exit0; generated GLB accessor dimensions: only Street_Window1 (Front0) glass .96→1.20, other seven pane dimensions unchanged; thirteen door-node vertex attribute signatures identical.",
+                "evidence": "evidence/STUDIO/b20-house-pilot-2026-10-10/single-window-staging/{recipe,manifest,geometry-measurement}.json",
+                "remaining": "No actual per-window Codex inference, native UI, wall/reveal/collision game verification or single-window Apply/Undo accepted yet. Staged receipt is geometry measurement, not game completion; original all-eight game/Undo evidence remains valid history."
               }
             ],
             "stage_tasks": [
@@ -24411,7 +24575,38 @@
             "verification": "A08/A11/A16: остановка owned процесса на выбранном checkpoint в disposable data, внешняя правка одного файла.",
             "risks_recovery_external_gates": "Новые fault-injection инфраструктуры не создавать без разрешения; использовать доступные ручные checkpoints/существующие средства; реальные saves исключены.",
             "required": true,
-            "evidence": [],
+            "evidence": [
+              {
+                "stage": "2026-10-11 guarded Markdown/JSON draft recovery",
+                "result": "PARTIAL_SOURCE_IMPLEMENTED_GAME_0_0_EXISTING_TARGETED_TESTS_2_2_FULL_UNIT_OPEN",
+                "source": "DraftStore.cs; EditSession.cs; StudioFileTransaction.cs:no-links accessibility; StudioRoot.cs:OfferRecoveredDrafts/SaveAll",
+                "verification": "Root narrow Game compile0/0; existing DraftsSurvive+Reordering tests2/2; no new suite/fixtures. Sol source review identified and root fixed kind mismatch, pending-artifact autosave loss and SaveAll exception messaging.",
+                "remaining": "Actual native UI/crash edge-case acceptance, filesystem race/dual-file atomicity and ordered durable history remain open."
+              },
+              {
+                "stage": "2026-10-11 persistent history fence",
+                "result": "PARTIAL_SOURCE_REVIEW_ACCEPTED_GAME_0_0_EXISTING_TARGETED_TESTS_2_2_FULL_UNIT_OPEN",
+                "source": "StudioFileTransaction.cs:FenceIncompleteHistory/LoadSingleCommittedFileCommand; EditSession.cs:Apply/SetOrder/Push; StudioWorkspace.cs:CreateFile",
+                "verification": "Root affected Game build0/0, targeted existing ADragIsOneUndoStep + ReorderingIsOneUndoableStepAndKeepsTheFileStyle PASS2/2; independent Sol6.1medium source review accepted. No new tests/probes. Loader refusal source-reviewed; actual restart UI not verified.",
+                "remaining": "Fence prevents unsafe partial hydration after unsupported command order; it does not restore full ordered history. Legacy absence does not prove continuity, direct AuthoredFile mutation is outside session API. Keep journals/images intact; explicit ordered ledger, pending transitions and migration decision remain necessary."
+              },
+              {
+                "stage": "2026-10-11 disk capacity preflight",
+                "result": "PARTIAL_SOURCE_REVIEW_ACCEPTED_GAME_COMPILE_0_0_ACTUAL_ENOSPC_OPEN",
+                "source": "src-dotnet/Urman.Studio.Core/Storage/StudioFileTransaction.cs:CreateStaging/EnsureRestoreCapacity/EnsureDiskCapacity/WriteJournal",
+                "verification": "Root affected Game build0 warnings/0 errors and diffcheck. Sol6.1medium independent source review found no confirmed sizing/safety blocker; phase-neutral wording correction applied. No new tests/probes or broad suite.",
+                "implementation": "Checked conservative retained image+promotion/rollback capacity before staging; exact UTF8 journal reserve; preflight before sync/async Undo/Redo applying journal and promotion/restore target writes. Longest containing ready DriveInfo mount with separator boundary; bounded pilot refuses different identified metadata/target volumes. No history cleanup or bypass of AtomicFile/conflict/rollback paths.",
+                "remaining": "Actual ENOSPC, volume aliases/UNC inventory and user-facing refusal not exercised; available-space query cannot reserve capacity against other writers. Cross-volume transactions require future per-volume budgeting. Complete AI29 ordered history/checkpoint acceptance still open."
+              },
+              {
+                "stage": "2026-10-11 explicitly ordered file history",
+                "result": "PARTIAL_SOURCE_REVIEW_ACCEPTED_GAME_COMPILE_0_0_NATIVE_RESTART_OPEN",
+                "source": "StudioFileTransaction.cs:Accept/AllocateAcceptedOrder/ReadHistorySequence/LoadCommittedFileHistory/ReadManifest/FromManifest; EditSession.cs:Push/RestoreCommittedFileHistory; StudioRoot.cs:startup restoration caller",
+                "implementation": "New accepted file commands retain bounded label and positive explicit acceptance order. Stable exclusive allocator lock held through AtomicFile counter update and accepted journal; gaps survive failed acceptance. Counter scope/version/max validated, missing or malformed counter with ordered journals refuses. Loader checks all images/exact path sets, continuous hash chains for repeated paths, aggregate current cursor boundary and after-prefix/before-suffix side sequence, then hydrates correctly ordered Undo/Redo stacks and persisted labels. No GUID/mtime ordering or image cleanup.",
+                "verification": "Root affected Game build0/0 + diffcheck. Independent Sol6.1medium source review accepted after fixing malformed counter startup exception and actual counter-volume budget path. No new tests/probes; actual multi-command restart and native Undo/Redo not executed.",
+                "remaining": "Entity/mixed/redo-branch history remains fenced. Multiple legacy journals or mixed legacy/ordered journals require explicit migration decision. No multi-process promotion isolation claimed; existing conflict/rollback protection remains. Full ledger/epoch/pending transition and UI acceptance still open."
+              }
+            ],
             "stage_tasks": [
               "STUDIO.P6"
             ],
@@ -24446,7 +24641,56 @@
             "verification": "Две disposable копии с разными путями; corrupt/path-escape archive отклонён до записи.",
             "risks_recovery_external_gates": "Ручной путь не называть автоматическим; asset licenses/large data boundaries; несовпадение базы вызывает conflict.",
             "required": true,
-            "evidence": [],
+            "evidence": [
+              {
+                "stage": "2026-10-11 manual clipboard proposal handoff",
+                "result": "PARTIAL_SOURCE_REVIEW_ACCEPTED_GAME_COMPILE_0_0_NATIVE_HANDOFF_OPEN",
+                "source": "game/studio/StudioAiPanel.cs:CopyRequest/RunProposalAsync/SetBusy; src-dotnet/Urman.Studio.Core/AI/CodexProposalProvider.cs:CreateClipboardPrompt/ParseProposal",
+                "implementation": "Copy exports existing trusted prompt and exact schema with frozen request. Paste bounded strict JSON reuses adapter parser, validates original request ID/hash/entity/part/width and checks unchanged prompt/scope/selection/source fingerprint before stage mutation. Accepted imported proposal shares existing generation/manifest/preview/Apply/Undo path. Separate handoff row and explicit external-session statement; no direct Claude adapter or control of external tools claimed.",
+                "verification": "Root affected Game compile0 warnings/0 errors after correcting nested exception type; diffcheck. Sol6.1medium independent source review accepted. No new tests/probes or external inference.",
+                "remaining": "Native clipboard/buttons/render and external-agent round trip not exercised. This is narrow HouseWindowRequest manual handoff, not completed AuthoringRequest v2/ZIP/relocation/legacy package compatibility or direct Claude readiness. Multi-command actual restart gate remains open; existing manual harness only supports single transaction."
+              },
+              {
+                "stage": "2026-10-11 shared full Git revision for context handoff",
+                "result": "PARTIAL_SOURCE_REVIEW_ACCEPTED_COMPILE_0_0_EXISTING_PACKAGE_TEST_1_1_WORKTREE_UI_OPEN",
+                "source": "Handoff/DeveloperContext.cs:ResolveRevision/ReadBoundedAsync/BuildText/WritePackage; StudioAiPanel.cs:Revision",
+                "implementation": "One shared Git resolver handles root .git dir/gitfile, validates full lowercase40/64 commit hash and prevents short ref/name fallback. Concurrent bounded4096 stdout/stderr reads with ConfigureAwait(false), bounded wait and owned process kill on timeout; inherited Git root/object/namespace overrides removed, lazy fetch disabled. Legacy v1 unknown fallback remains; AI capture rejects unknown. Export captures one revision for context summary and manifest; existing v1 entity payload unchanged.",
+                "verification": "Root affected Game build0/0; final Core/test-project compile0/0 after ConfigureAwait correction; existing ANewDraftTravelsAsDataWithItsDependencies PASS1/1; diffcheck. Independent Sol6.1medium source review accepted after fixing UI synchronization-context deadlock. No new tests/fixtures/probes.",
+                "remaining": "Actual resolver invocation in managed worktree and native UI not exercised; existing test proves draft package caller/data compatibility, not worktree process handling. General AuthoringRequestv2, complete dependencies/truncation and versioned hash/result package reader still open."
+              },
+              {
+                "stage": "2026-10-11 explicit legacy context dependency truncation",
+                "result": "PARTIAL_SOURCE_ACCEPTED_GAME_COMPILE_0_0_EXISTING_PACKAGE_TEST_1_1",
+                "source": "src-dotnet/Urman.Studio.Core/Handoff/DeveloperContext.cs; game/studio/StudioProperties.cs:OpenContext",
+                "implementation": "Capture first200 existing entities once per Text/package, expand outgoing references of200th before cutoff; optional v1 truncated flag and pendingDependencyIds frontier, explicitly not exhaustive omitted descendants. Package summary and manifest share capture. Missing subject refused before directory/ZIP writes; Text fixed diagnostic. Export UI retains warning as current context and catches IO/access/invalid-operation refusal. Existing v1 subject/entity payload and return tuple preserved.",
+                "verification": "Root affected Game compile0/0 and test-project compile0/0; existing ANewDraftTravelsAsDataWithItsDependencies PASS1/1; diffcheck. Sol6.1medium source review accepted; no new tests/probes.",
+                "remaining": "200+ frontier runtime branch and native UI not exercised by existing test. Legacy colon-string heuristic remains; typed references/non-entity assets, immutable full payload, atomic ZIP, v2 hashes/result reader/path-size checks and relocation remain open. Saved UI summary is current context, not archived receipt."
+              },
+              {
+                "stage": "2026-10-11 atomic context archive and exact payload receipts",
+                "result": "PARTIAL_SOURCE_ACCEPTED_GAME_COMPILE_0_0_EXISTING_PACKAGE_TEST_1_1",
+                "source": "Handoff/DeveloperContext.cs:WritePackage/Write; Storage/AtomicFile.cs:WriteAllBytes; game/studio/StudioProperties.cs:OpenContext",
+                "implementation": "Serialize exact UTF8-noBOM context/entities once, optional v1 manifest SHA256/byte lengths for both fixed entry names. Aggregate manifest/context/entities text budget256KiB refused before destination writes, no partial JSON truncation. Finalize ZipArchive in MemoryStream then publish through existing AtomicFile flushed temp+rename. New optional overwrite=true preserves old callers; export false makes File.Move refuse collisions, fullGUID case ID. UI fixed unavailable-subject/budget guidance separate from IO/access refusal.",
+                "verification": "Root final affected Game compile0 warnings/0 errors, test-project compile0/0; existing ANewDraftTravelsAsDataWithItsDependencies PASS1/1; diffcheck. Sol6.1medium source review found overwrite compatibility and hidden budget guidance, both corrected. No new tests/probes.",
+                "remaining": "Actual overbudget/failure/collision branch and native UI not exercised; existing test proves payload/export compatibility. Budget validation is not serialization memory-allocation bound. Existing AtomicFile export-path/no-links limitations unchanged. No safe reader/relocation/hash-validation-import proof; v2 Request/Proposal/Receipt and typed/non-entity dependencies still open."
+              },
+              {
+                "stage": "2026-10-11 bounded legacy context package reader and read-only viewer",
+                "result": "PARTIAL_SOURCE_ACCEPTED_GAME_COMPILE_0_0_EXISTING_EXPORT_READ_TEST_1_1",
+                "source": "Handoff/DeveloperContext.cs:ContextPackage/ReadPackage/ParsePackageJson; game/studio/StudioProperties.cs:OpenContextPackage; tests-dotnet/Urman.Studio.Tests/TemplateTests.cs:ANewDraftTravelsAsDataWithItsDependencies",
+                "implementation": "Pure-data reader never extracts entries or writes project. Archive<=1MiB/exact3fixed distinct names; regular/unspecified Unix mode only and DOS directory/reparse refusal; declared and actual streamed global bytes<=256KiB before buffer growth; strict UTF8/JSON depth64/recursive duplicate-key refusal. V1 kind/version/count/subject unique payload/source-relative validation, optional authored data.id matches wrapper. Complete optional receipt set verifies both exact entry byte lengths/SHA256; malformed partial receipts refused, wholly hashless legacy labelled unverified. Existing FileDialog pattern opens ZIP in plain read-only TextEdit with full entity payload; completeness attributed to manifest and project applicability explicitly unverified, no Apply.",
+                "verification": "Root final affected Game compile0/0, existing test-project compile0/0; existing draft export test minimally switched manualZIP parsing to newreader for same payload assertions, PASS1/1; diffcheck. Sol6.1medium independent review found DOS-directory flag and unverified completeness wording, both fixed and confirmed. No added tests/probes/fixtures.",
+                "remaining": "Existing test covers new v1 receipts export/read, not historical hashless archive, corrupt/traversal/oversize/partial receipt branches, native picker/viewer or two disposable roots. Read-only schema/integrity preview does not prove content semantics, manifest authority, safe result Apply or relocation. Full typed Request/Proposal/Receiptv2 still open."
+              },
+              {
+                "stage": "2026-10-11 manual house request/result file transport",
+                "result": "PARTIAL_SOURCE_REVIEW_ACCEPTED_GAME_COMPILE_0_0_NATIVE_FILE_ROUNDTRIP_OPEN",
+                "source": "game/studio/StudioAiPanel.cs:PrepareManualRequest/SaveRequest/OpenProposalFile/RunProposalAsync/SetBusy; AI/CodexProposalProvider.cs:ParseProposalFile; Handoff/DeveloperContext.cs:WriteHouseWindowRequest",
+                "implementation": "Copy and save share validated captured HouseWindowRequest. Trusted prompt/schema saved as UTF8 withoutBOM under guarded canonical requestId metadata path via existing no-links+AtomicFile no-overwrite; only Studio-owned export writes. JSON picker remembers requestId and checks visibility/busy/request continuity. Shared manual pipeline verifies unchanged prompt/scope/selection/fingerprint before file parser and staging; read-only actual32768byte bound+strictUTF8 feeds same8192char duplicate/schema/request/part/width parser. Import uses existing generation/preview/Apply/CAS/Undo, never invokes external session tools. Parse failures return before ClearProposal and retain preview/Apply; save success/refusal retains prepared proposal summary with fixed file note.",
+                "verification": "Root affected Game compile0/0 after correcting internalCore guard accessibility by moving guarded export into existing DeveloperContext; final Game compile after Sol status fix also0/0. Diffcheck. Sol6.1medium source review accepted storage/trust path and requested preserving prepared summary; corrected and confirmed. No added tests/probes or model/native inference.",
+                "remaining": "Native file picker/buttons/layout, actual external-agent file roundtrip, malformed/oversize/decoder/no-overwrite branches not exercised. This is narrow HouseWindowRequest text+JSON manual transport, not completed general AuthoringRequestv2/ZIP/Receipt relocation or direct Claude adapter. Existing no-links preflight is not filesystem-race isolation."
+              }
+            ],
             "stage_tasks": [
               "STUDIO.P6"
             ],
@@ -24523,7 +24767,15 @@
             "verification": "A16 и безвредный staged code diff без реального исполнения до разрешения; compare userdata guard evidence.",
             "risks_recovery_external_gates": "Без OS/tool boundary proof нельзя включать automatic adapter; не расширять scope ради прохождения проверки.",
             "required": true,
-            "evidence": [],
+            "evidence": [
+              {
+                "stage": "2026-10-11 guarded Markdown/JSON draft recovery",
+                "result": "PARTIAL_SOURCE_IMPLEMENTED_GAME_0_0_EXISTING_TARGETED_TESTS_2_2_FULL_UNIT_OPEN",
+                "source": "DraftStore.cs; EditSession.cs; StudioFileTransaction.cs:no-links accessibility; StudioRoot.cs:OfferRecoveredDrafts/SaveAll",
+                "verification": "Root narrow Game compile0/0; existing DraftsSurvive+Reordering tests2/2; no new suite/fixtures. Sol source review identified and root fixed kind mismatch, pending-artifact autosave loss and SaveAll exception messaging.",
+                "remaining": "Actual native UI/crash edge-case acceptance, filesystem race/dual-file atomicity and ordered durable history remain open."
+              }
+            ],
             "stage_tasks": [
               "STUDIO.P6"
             ],
@@ -24764,7 +25016,16 @@
             "verification": "A22 в disposable campaign fixtures/существующих примерах; узкие existing runtime checks по конкретной семантике.",
             "risks_recovery_external_gates": "Не включать real-time clock, если канон требует story conditions; не считать неподдерживаемое конечным продуктом; new runtime work согласовать с владельцем.",
             "required": true,
-            "evidence": [],
+            "evidence": [
+              {
+                "stage": "2026-10-11 Root source-slice integration",
+                "result": "PARTIAL_SOURCE_ACCEPTED_FULL_UNIT_OPEN",
+                "source_commit": "06058d6d",
+                "source": "src-dotnet/Urman.Studio.Core/Editing/RuleCatalogCoverage.cs; game/studio/StudioRoot.cs:CheckContent",
+                "verification": "Sol source review incl IO/missing-source fixes; Root narrow Game0/0 + diff check. Actual dialog UI and rule semantics NOT_VERIFIED.",
+                "scope": "Whole workspace including dirty snapshots; source declarations vs catalogue, no second runtime registry. Peer new probe suites/evidence not imported."
+              }
+            ],
             "stage_tasks": [
               "STUDIO.P3"
             ],
@@ -25895,7 +26156,12 @@
               "1dc9ce15": "Cached-stream mutation, stable source selection, stop-before-listen, loop flags fixed; stem volume range, malformed raw values and path containment still require correction. UI patch not applied; auditory gate open.",
               "b94d2ccf": "Empty actor/repeat and successful-dispatch semantics corrected; finite double can overflow float, direct inspector casts can throw. Distinguish editor policy from runtime defaults.",
               "19925af7": "Hint fields/title/opening preview and malformed node/choice diagnostics corrected; hint integer/range/target constraints, text entity kind, required-field diagnostics and save-persistent HintsSeen label remain.",
-              "06058d6d": "Current source mappings match runtime switches; source-only projection does not prove operation semantics/persistence. Verifier checks any arms, not every key; counts workspace rather than selected campaign. No current missing handler claimed."
+              "06058d6d": "Current source mappings match runtime switches; source-only projection does not prove operation semantics/persistence. Verifier checks any arms, not every key; counts workspace rather than selected campaign. No current missing handler claimed.",
+              "ed426748": "Hint bounds/kind and null/static/persisted label fixes closed; chat refs still need text-kind, missing schema-required fields still silent, epsilon IsIntegral rejects exact-schema intent.",
+              "ai13-write-boundary.patch": "P1 incomplete public/private write coverage and context-race; successful refusal Task produces false applied UI. Guard all authoring entry points without blocking compensation/recovery; source-only NOT_INTEGRATED.",
+              "bcdbad27": "Sol source-only review: trigger float overflow and v7 ReadText/ReadFlag casts fixed; countIfInside:null still differs from runtime GetBoolean. Audio volumeDb:null and minWait>maxWait<=0 registry holes remain; lexical containment permits symlink escape before stat. Extra size axes diagnostic overstates runtime failure. No current authored failure claimed; NOT_INTEGRATED.",
+              "46ad8306": "Sol AI17 scatter source review: present malformed seed/catalogIds/exclude/scales still coerced; min/max UI writes before full proposed validation; mixed array diagnostics direct cast crashes. NOT_INTEGRATED. Not actor-schedule scope.",
+              "2d6091d4": "Sol AI20 v6 artifact-only: valid nonempty Russian display/write fixed; empty edit can empty matching default rejected by runtime, empty ru display differs from fallback. No production source change; narrow hunks only after blank guard, no wholesale v6."
             }
           },
           "native_ui_after_cua_reset": {
@@ -25916,6 +26182,219 @@
             "result": "BOUNDED_SOURCE_STAGE_ACCEPTED",
             "verification": "LunaFAST implementation; Sol6.1medium independent source acceptance; root affected Game compile0/0 after local-name fix; diff-check PASS",
             "remaining": "Native picking/rebuild/overlap/DPI checks and full persistent part contract open; no full unit completion claimed."
+          },
+          "selected_window_scope": {
+            "result": "PER_WINDOW_RECIPE_PANEL_IMPLEMENTED_STAGING_VERIFIED_RUNTIME_OPEN",
+            "verification_question": "Does selecting one window avoid silently changing all eight? Source success: semantic part capture and no request until explicit whole-house scope; UI gate remains open.",
+            "next": "Fresh per-window request on committed source, actual Codex proposal then guarded native/game Apply and complete Undo; verify wall/reveal/collider and unchanged seven windows. Native input routing and account/provider availability remain prerequisites, no repeat without new condition.",
+            "owner": "Codex",
+            "files": "game/studio/StudioWorldSection.cs; game/studio/StudioAiPanel.cs",
+            "verification": "Root Game compile0/0, diff-check; Sol source acceptance after fixes; Blender exit0 and actual GLB measurement onlyFront0 changed,13door attribute signatures identical.",
+            "typed_boundary": "Optional canonical PartId added to existing request/proposal with exact frozen identity validation, output schema const and strict parser. Core compile0/0; not yet enabled by panel.",
+            "active_implementation": {
+              "owner": "Codex integration; Sol completed bounded backend source",
+              "files": [
+                "game/scripts/HeroHouseRecipe.cs",
+                "game/scripts/StyleBenchmarkInteriorFactory.cs",
+                "assets/source/blender/act1/urman_village_exterior_kit.py"
+              ],
+              "result": "SOURCE_STAGE_ACCEPTED",
+              "boundary": "Optional strict per-ID overrides; preserve global behavior and door/height/center invariants; root owns panel/provider/callers."
+            }
+          },
+          "subagent_availability": {
+            "observed": "Five LunaFAST turns returned account usage-limit error; no partial source edits left. Sol6.1medium completed scope audit and independent source review.",
+            "action": "Root continues implementation; no repeated Luna invocation or claim of active work until availability changes."
+          },
+          "single_window_actual_attempt": {
+            "request_id": "2287c5d6f61447cd8cf4b122845426a3",
+            "base_commit": "14349e6a",
+            "result": "ACTUAL_CODEX_SINGLE_WINDOW_GAME_AND_BYTE_EXACT_UNDO_ACCEPTED",
+            "part_id": "Front0",
+            "native_studio_ui": false,
+            "question": "Does only Front0 widen1.06→1.30 in matched exterior/interior Windows views while seven other windows/doors remain unchanged, and does full Undo restore exact hashes and remove all three request variants?",
+            "success": "Parent-inspected matched game before/after/Undo, target and unchanged window geometry, userdata restored receipt, exact original three hashes/new variant absence.",
+            "evidence": "evidence/STUDIO/b20-house-pilot-2026-10-10/codex-single-window-attempt1/{request,proposal,runtime-binding,provider-diagnostic,generator-manifest}.json",
+            "next": "Native Studio UI end-to-end remains open. Implement AI02 focus/hotkey routing and AI03 occlusion fix before next guarded UI attempt. Full B20 remains open.",
+            "before_job": "a598c4df140b41ccba801414e8c86216",
+            "before_snapshot": "0c9e08ea236147380000234db5af0766efb20b1e00bb3985705abe6619527f61",
+            "before_review": "Root personally inspected three frames; beforePASS exit0 userdataRestoredtrue.",
+            "transaction_session": 13192,
+            "actual_glb_sha256": "7972cdacb15719e7ba5d623e7beb0889ecdd311400eff4d2c04a29aca5d43a8f",
+            "geometry_review": "Byte-identical to measured single-window-staging GLB: Front0 only pane width changed, other7 dimensions and13door attributes identical.",
+            "after_job": "a0009bcaaa3b42768c11d1f9192e5890",
+            "after_snapshot": "55230742f17ca76f0a29bad5f92b61e8c9d7269a964f175f9c62508bc7796428",
+            "after_review": "Root personally inspected three frames: Front0 wider exterior/interior, adjacent windows and Seni unchanged; exact camera/FOV/resolution/LOW FSR0.7 metadata match before, userdataRestored true.",
+            "undo_job": "165f01c2c2574bbc9a9573e475fa6460",
+            "undo_snapshot": "7d9956cbe5e8c5d35c060a914cb63939e00f69fc297acb76cf249c5e1992f0e2",
+            "transaction_receipt": "evidence/STUDIO/b20-house-pilot-2026-10-10/single-window-transaction-receipt.json",
+            "undo_review": "Root personally inspected all three restored frames; exact before camera/FOV/resolution/LOW FSR0.7 match; Undo PASS exit0 userdataRestored true; terminal owned PTY exit0 TRANSACTION_UNDONE_AND_VERIFIED. Original recipe/GLB/blend SHA restored and all three request variants absent."
+          },
+          "native_ui_single_window_attempt": {
+            "result": "BLOCKED_UI_TOOL_TIMEOUT_MODEL_NOT_SENT",
+            "source_commit": "14349e6a",
+            "observed": "Guarded native Studio launched; Godot app inventory and owned child8318 confirmed alive. Two getApp(bundle) observations timed out (-10005) before screenshot/input. No model request or Apply through UI.",
+            "guard": "Owned child8318 TERM; parent4712 terminal143; original files and permissions restored and verified."
+          },
+          "ai02_modal_focus_slice": {
+            "owner": "Sol6.1medium via root",
+            "files": [
+              "game/studio/StudioRoot.cs",
+              "game/studio/StudioAiPanel.cs",
+              "game/studio/StudioWorldSection.cs"
+            ],
+            "question": "Does AI opening suspend viewport gesture/input, preserve frozen request on reentry, use viewport Cmd/Ctrl+Enter and restore prior focus without stealing text history or recapturing mouse?",
+            "success": "Narrow Game compile and source review; native UI focus/keyboard acceptance remains separate until actually exercised.",
+            "result": "SOURCE_REVIEW_AND_NARROW_GAME_COMPILE_0_0_ACCEPTED_UI_OPEN",
+            "next": "Guarded native Studio attempt from new source; actual prompt/focus/text-history/viewport behavior still must be exercised."
+          },
+          "claude_cli_readiness_local_help": {
+            "result": "NOT_READY_FOR_TOOLLESS_PERSONAL_SUBSCRIPTION_REQUEST",
+            "source": "installed claude --help (read-only, no model request)",
+            "facts": [
+              "--tools empty disables built-in tools; --strict-mcp-config restricts configured MCP.",
+              "--bare skips hooks/settings/plugins but requires API key/API helper and never reads OAuth/keychain; not applicable to subscription-only pilot.",
+              "--safe-mode still applies administrator managed-policy settings; no proven managed-hook bypass."
+            ],
+            "next": "Design honest fail-closed readiness without API billing or config/credential copying; AI08 remains open."
+          },
+          "ai03_marker_depth_slice": {
+            "result": "SOURCE_REVIEW_AND_NARROW_GAME_COMPILE_0_0_ACCEPTED_UI_OPEN",
+            "source": "game/studio/StudioWorldSection.cs:Pick",
+            "implementation": "Normalized cursor ray records first-hit depth; fallback refuses marker centers behind nearest collider (including unknown/locked hit) with0.05m tolerance; no-hit retains fallback.",
+            "review": "Sol6.1medium independent source review accepted; off-axis/steep-ground visible markers can be conservatively refused. Physics depth is not per-marker render visibility proof.",
+            "next": "Actual overlapping objects and DPI/viewport offset acceptance remains open."
+          },
+          "native_ui_focus_attempt": {
+            "base_commit": "71c9851c",
+            "result": "CUA_APP_SELECTION_TIMEOUT_UI_NOT_VERIFIED",
+            "guard_session": 96501,
+            "guard_exit": 143,
+            "owned_child_pid": 13114,
+            "observations": "Two getApp timeouts; between them CUA inventory confirms Godot running. No screenshot/input/model/Apply. Same process observed, no restart due to timeout.",
+            "cleanup": "Owned child TERM; parent terminal exit143, userdata guard original files and permissions restored verified.",
+            "next": "UI gate remains open; proceed safe accepted source integration without repeating unchanged CUA failure."
+          },
+          "deepseek_ai37_source_integration": {
+            "source_commit": "06058d6d",
+            "method": "git cherry-pick -n; retained reviewed production source only; peer tracker claims and new probe suites excluded.",
+            "files": [
+              "src-dotnet/Urman.Studio.Core/Editing/RuleCatalogCoverage.cs",
+              "game/studio/StudioRoot.cs"
+            ],
+            "result": "SOURCE_REVIEW_ACCEPTED_NARROW_GAME_COMPILE_0_0_UI_OPEN",
+            "user_result": "Existing Check dialog gains whole-workspace/dirty rule-operation usage and source-vs-Studio catalogue gaps. Missing sources and IO failures explicitly suppress incomplete analysis without losing compiler result.",
+            "verification": "Root narrow Game build0/0 and diff check; Sol reviewed integration and two IO/missing-PhotoWorld source corrections. No new test suite/probe imported; nativeUI dialog NOT_VERIFIED.",
+            "remaining": "Full AI37 runtime branch/parallel/repeat/timer/persistence and missing Studio operations remain DeepSeek scope; source presence is not executor-semantic proof."
+          },
+          "draft_recovery_source_slice": {
+            "result": "SOURCE_REVIEW_ACCEPTED_GAME_0_0_TWO_EXISTING_TARGETED_TESTS_PASS_UI_OPEN",
+            "files": [
+              "src-dotnet/Urman.Studio.Core/Storage/DraftStore.cs",
+              "src-dotnet/Urman.Studio.Core/Storage/StudioFileTransaction.cs:EnsureNoLinks accessibility only",
+              "src-dotnet/Urman.Studio.Core/Editing/EditSession.cs:structural order snapshots and membership-before-order revert",
+              "game/studio/StudioRoot.cs:OfferRecoveredDrafts and SaveAll",
+              "tests-dotnet/Urman.Studio.Tests/StorageTests.cs:existing Recover caller only"
+            ],
+            "implementation": "Recover binds metadata to same workspace/source kind/canonical filename/SHA/date, guards no-links before source/metadata IO, reuses AuthoredFile Markdown/JSON parsing and validates addressing. Rejected/declined/changed artifacts protected from automatic discard/overwrite until accepted recovery; confirmation rechecks source/base/text and dirty state. Restores entity deletion/order through one group; structural Undo/Redo captures exact key order. Autosave reports partial refusal; saved source and failed draft cleanup are distinguished.",
+            "verification": "Affected Game compile0 warnings/0 errors, diffcheck; direct existing xUnit runner DraftsSurviveACrashAndPointAtTheLastSavedVersion + ReorderingIsOneUndoableStepAndKeepsTheFileStyle PASS2/2. No new tests/fixtures/probes. Dotnet-test rejected repo runner configuration; targeted project restore and built-in xUnit method filter used without changing global config. Final independent Sol6.1medium source review accepted; no additional confirmed defect.",
+            "limitations": [
+              "Native Markdown/damaged-draft UI NOT_VERIFIED; source review only for newly protected edge cases.",
+              "New absent sources and orphan draft without metadata preserved but not recovered.",
+              "World wrapper/header byte restoration not claimed: existing authored entity model owns changes.",
+              "No-link checks do not eliminate filesystem races; two draft artifacts independently atomic; tilde source paths refused to avoid legacy flattened filename collisions.",
+              "Multiple v1 transaction history order remains ambiguous; full AI29/AI32 and durable mixed history open."
+            ],
+            "next": "Accepted and pushed in 1f4a07da; continue explicit durable ordered history without legacy timestamp inference."
+          },
+          "history_fence_source_slice": {
+            "stage": "2026-10-11 persistent history fence",
+            "result": "PARTIAL_SOURCE_REVIEW_ACCEPTED_GAME_0_0_EXISTING_TARGETED_TESTS_2_2_FULL_UNIT_OPEN",
+            "source": "StudioFileTransaction.cs:FenceIncompleteHistory/LoadSingleCommittedFileCommand; EditSession.cs:Apply/SetOrder/Push; StudioWorkspace.cs:CreateFile",
+            "verification": "Root affected Game build0/0, targeted existing ADragIsOneUndoStep + ReorderingIsOneUndoableStepAndKeepsTheFileStyle PASS2/2; independent Sol6.1medium source review accepted. No new tests/probes. Loader refusal source-reviewed; actual restart UI not verified.",
+            "remaining": "Fence prevents unsafe partial hydration after unsupported command order; it does not restore full ordered history. Legacy absence does not prove continuity, direct AuthoredFile mutation is outside session API. Keep journals/images intact; explicit ordered ledger, pending transitions and migration decision remain necessary.",
+            "next": "Implement explicit ordered ledger with cursor/pending transition and verified restoration; never automatically clear fence or infer old journal order."
+          },
+          "disk_capacity_source_slice": {
+            "stage": "2026-10-11 disk capacity preflight",
+            "result": "PARTIAL_SOURCE_REVIEW_ACCEPTED_GAME_COMPILE_0_0_ACTUAL_ENOSPC_OPEN",
+            "source": "src-dotnet/Urman.Studio.Core/Storage/StudioFileTransaction.cs:CreateStaging/EnsureRestoreCapacity/EnsureDiskCapacity/WriteJournal",
+            "verification": "Root affected Game build0 warnings/0 errors and diffcheck. Sol6.1medium independent source review found no confirmed sizing/safety blocker; phase-neutral wording correction applied. No new tests/probes or broad suite.",
+            "implementation": "Checked conservative retained image+promotion/rollback capacity before staging; exact UTF8 journal reserve; preflight before sync/async Undo/Redo applying journal and promotion/restore target writes. Longest containing ready DriveInfo mount with separator boundary; bounded pilot refuses different identified metadata/target volumes. No history cleanup or bypass of AtomicFile/conflict/rollback paths.",
+            "remaining": "Actual ENOSPC, volume aliases/UNC inventory and user-facing refusal not exercised; available-space query cannot reserve capacity against other writers. Cross-volume transactions require future per-volume budgeting. Complete AI29 ordered history/checkpoint acceptance still open.",
+            "next": "Continue explicit ordered history/cursor/pending transition and native UI end-to-end; exercise low-space failure using existing permitted means when available."
+          },
+          "ordered_file_history_source_slice": {
+            "stage": "2026-10-11 explicitly ordered file history",
+            "result": "PARTIAL_SOURCE_REVIEW_ACCEPTED_GAME_COMPILE_0_0_NATIVE_RESTART_OPEN",
+            "source": "StudioFileTransaction.cs:Accept/AllocateAcceptedOrder/ReadHistorySequence/LoadCommittedFileHistory/ReadManifest/FromManifest; EditSession.cs:Push/RestoreCommittedFileHistory; StudioRoot.cs:startup restoration caller",
+            "implementation": "New accepted file commands retain bounded label and positive explicit acceptance order. Stable exclusive allocator lock held through AtomicFile counter update and accepted journal; gaps survive failed acceptance. Counter scope/version/max validated, missing or malformed counter with ordered journals refuses. Loader checks all images/exact path sets, continuous hash chains for repeated paths, aggregate current cursor boundary and after-prefix/before-suffix side sequence, then hydrates correctly ordered Undo/Redo stacks and persisted labels. No GUID/mtime ordering or image cleanup.",
+            "verification": "Root affected Game build0/0 + diffcheck. Independent Sol6.1medium source review accepted after fixing malformed counter startup exception and actual counter-volume budget path. No new tests/probes; actual multi-command restart and native Undo/Redo not executed.",
+            "remaining": "Entity/mixed/redo-branch history remains fenced. Multiple legacy journals or mixed legacy/ordered journals require explicit migration decision. No multi-process promotion isolation claimed; existing conflict/rollback protection remains. Full ledger/epoch/pending transition and UI acceptance still open.",
+            "next": "Verify real multiple-file-command restart/Undo/Redo via existing tools, then complete mixed/entity order, branch intent and explicit legacy migration. Preserve native full panel gate and entire B20 scope."
+          },
+          "clipboard_handoff_source_slice": {
+            "stage": "2026-10-11 manual clipboard proposal handoff",
+            "result": "PARTIAL_SOURCE_REVIEW_ACCEPTED_GAME_COMPILE_0_0_NATIVE_HANDOFF_OPEN",
+            "source": "game/studio/StudioAiPanel.cs:CopyRequest/RunProposalAsync/SetBusy; src-dotnet/Urman.Studio.Core/AI/CodexProposalProvider.cs:CreateClipboardPrompt/ParseProposal",
+            "implementation": "Copy exports existing trusted prompt and exact schema with frozen request. Paste bounded strict JSON reuses adapter parser, validates original request ID/hash/entity/part/width and checks unchanged prompt/scope/selection/source fingerprint before stage mutation. Accepted imported proposal shares existing generation/manifest/preview/Apply/Undo path. Separate handoff row and explicit external-session statement; no direct Claude adapter or control of external tools claimed.",
+            "verification": "Root affected Game compile0 warnings/0 errors after correcting nested exception type; diffcheck. Sol6.1medium independent source review accepted. No new tests/probes or external inference.",
+            "remaining": "Native clipboard/buttons/render and external-agent round trip not exercised. This is narrow HouseWindowRequest manual handoff, not completed AuthoringRequest v2/ZIP/relocation/legacy package compatibility or direct Claude readiness. Multi-command actual restart gate remains open; existing manual harness only supports single transaction.",
+            "next": "Verify native handoff and actual multi-command restart when UI control available; continue full mixed ledger and versioned portable result package, preserving both provider gates."
+          },
+          "full_revision_context_source_slice": {
+            "stage": "2026-10-11 shared full Git revision for context handoff",
+            "result": "PARTIAL_SOURCE_REVIEW_ACCEPTED_COMPILE_0_0_EXISTING_PACKAGE_TEST_1_1_WORKTREE_UI_OPEN",
+            "source": "Handoff/DeveloperContext.cs:ResolveRevision/ReadBoundedAsync/BuildText/WritePackage; StudioAiPanel.cs:Revision",
+            "implementation": "One shared Git resolver handles root .git dir/gitfile, validates full lowercase40/64 commit hash and prevents short ref/name fallback. Concurrent bounded4096 stdout/stderr reads with ConfigureAwait(false), bounded wait and owned process kill on timeout; inherited Git root/object/namespace overrides removed, lazy fetch disabled. Legacy v1 unknown fallback remains; AI capture rejects unknown. Export captures one revision for context summary and manifest; existing v1 entity payload unchanged.",
+            "verification": "Root affected Game build0/0; final Core/test-project compile0/0 after ConfigureAwait correction; existing ANewDraftTravelsAsDataWithItsDependencies PASS1/1; diffcheck. Independent Sol6.1medium source review accepted after fixing UI synchronization-context deadlock. No new tests/fixtures/probes.",
+            "remaining": "Actual resolver invocation in managed worktree and native UI not exercised; existing test proves draft package caller/data compatibility, not worktree process handling. General AuthoringRequestv2, complete dependencies/truncation and versioned hash/result package reader still open.",
+            "next": "Continue versioned portable request/result package with complete dependency accounting, bounded paths/sizes/hashes and safe import; native provider/Undo acceptance remains open."
+          },
+          "dependency_truncation_context_source_slice": {
+            "stage": "2026-10-11 explicit legacy context dependency truncation",
+            "result": "PARTIAL_SOURCE_ACCEPTED_GAME_COMPILE_0_0_EXISTING_PACKAGE_TEST_1_1",
+            "source": "src-dotnet/Urman.Studio.Core/Handoff/DeveloperContext.cs; game/studio/StudioProperties.cs:OpenContext",
+            "implementation": "Capture first200 existing entities once per Text/package, expand outgoing references of200th before cutoff; optional v1 truncated flag and pendingDependencyIds frontier, explicitly not exhaustive omitted descendants. Package summary and manifest share capture. Missing subject refused before directory/ZIP writes; Text fixed diagnostic. Export UI retains warning as current context and catches IO/access/invalid-operation refusal. Existing v1 subject/entity payload and return tuple preserved.",
+            "verification": "Root affected Game compile0/0 and test-project compile0/0; existing ANewDraftTravelsAsDataWithItsDependencies PASS1/1; diffcheck. Sol6.1medium source review accepted; no new tests/probes.",
+            "remaining": "200+ frontier runtime branch and native UI not exercised by existing test. Legacy colon-string heuristic remains; typed references/non-entity assets, immutable full payload, atomic ZIP, v2 hashes/result reader/path-size checks and relocation remain open. Saved UI summary is current context, not archived receipt.",
+            "next": "Implement typed reference context and versioned bounded request/result archive; keep native/portable runtime gates open."
+          },
+          "atomic_context_archive_source_slice": {
+            "stage": "2026-10-11 atomic context archive and exact payload receipts",
+            "result": "PARTIAL_SOURCE_ACCEPTED_GAME_COMPILE_0_0_EXISTING_PACKAGE_TEST_1_1",
+            "source": "Handoff/DeveloperContext.cs:WritePackage/Write; Storage/AtomicFile.cs:WriteAllBytes; game/studio/StudioProperties.cs:OpenContext",
+            "implementation": "Serialize exact UTF8-noBOM context/entities once, optional v1 manifest SHA256/byte lengths for both fixed entry names. Aggregate manifest/context/entities text budget256KiB refused before destination writes, no partial JSON truncation. Finalize ZipArchive in MemoryStream then publish through existing AtomicFile flushed temp+rename. New optional overwrite=true preserves old callers; export false makes File.Move refuse collisions, fullGUID case ID. UI fixed unavailable-subject/budget guidance separate from IO/access refusal.",
+            "verification": "Root final affected Game compile0 warnings/0 errors, test-project compile0/0; existing ANewDraftTravelsAsDataWithItsDependencies PASS1/1; diffcheck. Sol6.1medium source review found overwrite compatibility and hidden budget guidance, both corrected. No new tests/probes.",
+            "remaining": "Actual overbudget/failure/collision branch and native UI not exercised; existing test proves payload/export compatibility. Budget validation is not serialization memory-allocation bound. Existing AtomicFile export-path/no-links limitations unchanged. No safe reader/relocation/hash-validation-import proof; v2 Request/Proposal/Receipt and typed/non-entity dependencies still open.",
+            "next": "Implement bounded versioned reader and same-validator result import; retain native UI and relocation runtime gates."
+          },
+          "legacy_context_reader_source_slice": {
+            "stage": "2026-10-11 bounded legacy context package reader and read-only viewer",
+            "result": "PARTIAL_SOURCE_ACCEPTED_GAME_COMPILE_0_0_EXISTING_EXPORT_READ_TEST_1_1",
+            "source": "Handoff/DeveloperContext.cs:ContextPackage/ReadPackage/ParsePackageJson; game/studio/StudioProperties.cs:OpenContextPackage; tests-dotnet/Urman.Studio.Tests/TemplateTests.cs:ANewDraftTravelsAsDataWithItsDependencies",
+            "implementation": "Pure-data reader never extracts entries or writes project. Archive<=1MiB/exact3fixed distinct names; regular/unspecified Unix mode only and DOS directory/reparse refusal; declared and actual streamed global bytes<=256KiB before buffer growth; strict UTF8/JSON depth64/recursive duplicate-key refusal. V1 kind/version/count/subject unique payload/source-relative validation, optional authored data.id matches wrapper. Complete optional receipt set verifies both exact entry byte lengths/SHA256; malformed partial receipts refused, wholly hashless legacy labelled unverified. Existing FileDialog pattern opens ZIP in plain read-only TextEdit with full entity payload; completeness attributed to manifest and project applicability explicitly unverified, no Apply.",
+            "verification": "Root final affected Game compile0/0, existing test-project compile0/0; existing draft export test minimally switched manualZIP parsing to newreader for same payload assertions, PASS1/1; diffcheck. Sol6.1medium independent review found DOS-directory flag and unverified completeness wording, both fixed and confirmed. No added tests/probes/fixtures.",
+            "remaining": "Existing test covers new v1 receipts export/read, not historical hashless archive, corrupt/traversal/oversize/partial receipt branches, native picker/viewer or two disposable roots. Read-only schema/integrity preview does not prove content semantics, manifest authority, safe result Apply or relocation. Full typed Request/Proposal/Receiptv2 still open.",
+            "next": "Versioned request/result transport through shared proposal validator; actual relocation and native UI acceptance remain required."
+          },
+          "manual_file_transport_source_slice": {
+            "stage": "2026-10-11 manual house request/result file transport",
+            "result": "PARTIAL_SOURCE_REVIEW_ACCEPTED_GAME_COMPILE_0_0_NATIVE_FILE_ROUNDTRIP_OPEN",
+            "source": "game/studio/StudioAiPanel.cs:PrepareManualRequest/SaveRequest/OpenProposalFile/RunProposalAsync/SetBusy; AI/CodexProposalProvider.cs:ParseProposalFile; Handoff/DeveloperContext.cs:WriteHouseWindowRequest",
+            "implementation": "Copy and save share validated captured HouseWindowRequest. Trusted prompt/schema saved as UTF8 withoutBOM under guarded canonical requestId metadata path via existing no-links+AtomicFile no-overwrite; only Studio-owned export writes. JSON picker remembers requestId and checks visibility/busy/request continuity. Shared manual pipeline verifies unchanged prompt/scope/selection/fingerprint before file parser and staging; read-only actual32768byte bound+strictUTF8 feeds same8192char duplicate/schema/request/part/width parser. Import uses existing generation/preview/Apply/CAS/Undo, never invokes external session tools. Parse failures return before ClearProposal and retain preview/Apply; save success/refusal retains prepared proposal summary with fixed file note.",
+            "verification": "Root affected Game compile0/0 after correcting internalCore guard accessibility by moving guarded export into existing DeveloperContext; final Game compile after Sol status fix also0/0. Diffcheck. Sol6.1medium source review accepted storage/trust path and requested preserving prepared summary; corrected and confirmed. No added tests/probes or model/native inference.",
+            "remaining": "Native file picker/buttons/layout, actual external-agent file roundtrip, malformed/oversize/decoder/no-overwrite branches not exercised. This is narrow HouseWindowRequest text+JSON manual transport, not completed general AuthoringRequestv2/ZIP/Receipt relocation or direct Claude adapter. Existing no-links preflight is not filesystem-race isolation.",
+            "next": "Continue full versioned request/proposal/receipt transport and typed context, native/relocation gates remain open."
+          },
+          "ambiguous_identity_source_slice": {
+            "stage": "2026-10-11 reject ambiguous authored IDs in derived index",
+            "result": "PARTIAL_SOURCE_ACCEPTED_GAME_COMPILE_0_0_EXISTING_UNDO_TESTS_2_2",
+            "source": "Editing/StudioWorkspace.cs:Reindex/IsAmbiguous/CreateFile/NewId; Editing/EditSession.cs:Apply/SetOrder; game/studio/StudioRoot.cs:SaveAll/CheckContent/OfferRecoveredDrafts/OnEdited; game/studio/StudioAiPanel.cs:Capture",
+            "implementation": "Build replacement derived index locally, report every duplicate occurrence with relative sources, remove all ambiguousIDs rather than firstwin; reserve ambiguousIDs in NewId. Reindex immediately after registering nonempty newfile. Explicit entity Set/Delete and changed SetOrder reject ambiguity before authoringPut/Reorder, noops precedeguards; compensation/Undo restoration remains available. Startup/edit/check dialogs show conflicts, manualSave refuses before clean saved shortcut/sourcewrites, autosave drafts preserved. House capture explicitly refuses missing/ambiguous source before fingerprint. Recovery preflights incoming ID collisions before Begin and preserves skipped artifacts. No IDs automatically renamed, files rewritten or second registry created.",
+            "verification": "Root affected Game final compile0/0 and existing test-project compile0/0; targeted ADragIsOneUndoStep/ReorderingIsOneUndoableStepAndKeepsTheFileStyle PASS2/2, diffcheck. Sol6.1medium independent source review accepted after no-op guard placement/recovery collision preflight correction. Read-only JSON-source inspection in existing sourcefolders found no current repeated explicit IDs; not Markdown/runtime proof. No newtests/probes/fixtures.",
+            "remaining": "Actual duplicate ID/recovery/native UI branch not exercised; existingtests prove unchanged ordinary Undo/reorder, not negative ambiguitycases. Same-file duplicate repair bykey is deliberately refused; manual source repair required. Fullsemantic registry/render mapping and typedcontext remaining.",
+            "next": "Continue full typed semantic target/context and versioned transport; retain native/picking/duplicate-recovery acceptance gates."
           }
         }
       },

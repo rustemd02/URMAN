@@ -964,33 +964,72 @@ public sealed class CodexProposalProvider
     {
         var input = JsonSerializer.Serialize(request, WireJsonOptions);
         return "Propose exactly one operation of type house.windows.resize using only the immutable request JSON below. " +
+               (request.PartId is null ? "Scope: all eight windows of this one house. " : "Scope: only window part " + request.PartId + ". Keep every other window unchanged. ") +
                "Window widths are metres. Keep expectedWidth exactly equal to currentWidth. Choose a different windowWidth in the inclusive range 0.65–1.35 metres. If the prompt specifies a target width, use that exact decimal value, without approximation or extra digits. The summary must describe the actual windowWidth returned. " +
                "Do not use tools, read files, execute commands, change files, or perform any other action. Return only the structured result required by the schema.\n\n" +
                "Immutable request JSON:\n" + input;
     }
 
-    private static Dictionary<string, object?> BuildOutputSchema(HouseWindowRequest request) => new()
+    private static Dictionary<string, object?> BuildOutputSchema(HouseWindowRequest request)
     {
-        ["type"] = "object",
-        ["additionalProperties"] = false,
-        ["required"] = new[] { "operation", "requestId", "snapshotHash", "entityId", "expectedWidth", "windowWidth", "summary" },
-        ["properties"] = new Dictionary<string, object?>
+        Dictionary<string, object?> schema = new()
         {
-            ["operation"] = new Dictionary<string, object?> { ["type"] = "string", ["const"] = HouseWindowProposal.Operation },
-            ["requestId"] = new Dictionary<string, object?> { ["type"] = "string", ["const"] = request.RequestId },
-            ["snapshotHash"] = new Dictionary<string, object?> { ["type"] = "string", ["const"] = request.SnapshotHash },
-            ["entityId"] = new Dictionary<string, object?> { ["type"] = "string", ["const"] = request.EntityId },
-            ["expectedWidth"] = new Dictionary<string, object?> { ["type"] = "number", ["const"] = request.CurrentWidth },
-            ["windowWidth"] = new Dictionary<string, object?>
+            ["type"] = "object",
+            ["additionalProperties"] = false,
+            ["required"] = new[] { "operation", "requestId", "snapshotHash", "entityId", "expectedWidth", "windowWidth", "summary" },
+            ["properties"] = new Dictionary<string, object?>
             {
-                ["type"] = "number"
-            },
-            ["summary"] = new Dictionary<string, object?> { ["type"] = "string", ["minLength"] = 1, ["maxLength"] = 500 }
+                ["operation"] = new Dictionary<string, object?> { ["type"] = "string", ["const"] = HouseWindowProposal.Operation },
+                ["requestId"] = new Dictionary<string, object?> { ["type"] = "string", ["const"] = request.RequestId },
+                ["snapshotHash"] = new Dictionary<string, object?> { ["type"] = "string", ["const"] = request.SnapshotHash },
+                ["entityId"] = new Dictionary<string, object?> { ["type"] = "string", ["const"] = request.EntityId },
+                ["expectedWidth"] = new Dictionary<string, object?> { ["type"] = "number", ["const"] = request.CurrentWidth },
+                ["windowWidth"] = new Dictionary<string, object?>
+                {
+                    ["type"] = "number"
+                },
+                ["summary"] = new Dictionary<string, object?> { ["type"] = "string", ["minLength"] = 1, ["maxLength"] = 500 }
+            }
+        };
+        if (request.PartId is not null)
+        {
+            var properties = (Dictionary<string, object?>)schema["properties"]!;
+            properties["partId"] = new Dictionary<string, object?> { ["type"] = "string", ["const"] = request.PartId };
+            schema["required"] = ((string[])schema["required"]!).Append("partId").ToArray();
         }
-    };
+        return schema;
+    }
 
-    private static HouseWindowProposal ParseProposal(string json, HouseWindowRequest request)
+    /// <summary>Manual handoff uses the same exact schema and immutable-request policy as the adapter.</summary>
+    public static string CreateClipboardPrompt(HouseWindowRequest request)
     {
+        HouseWindowProposalValidator.ValidateRequest(request);
+        return BuildPrompt(request) + "\n\nReturn only a JSON object, without Markdown fences or commentary.\nOutput JSON schema:\n"
+            + JsonSerializer.Serialize(BuildOutputSchema(request));
+    }
+
+    /// <summary>A bounded, read-only file transport into the same structured proposal validator.</summary>
+    public static HouseWindowProposal ParseProposalFile(string path, HouseWindowRequest request)
+    {
+        HouseWindowProposalValidator.ValidateRequest(request);
+        using var input = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
+        if (input.Length > 32_768) throw new CodexProposalException("The proposal file exceeds 32768 bytes.");
+        using var bytes = new MemoryStream();
+        var buffer = new byte[4096];
+        int count;
+        while ((count = input.Read(buffer)) > 0)
+        {
+            if (bytes.Length + count > 32_768) throw new CodexProposalException("The proposal file exceeds 32768 bytes.");
+            bytes.Write(buffer, 0, count);
+        }
+        return ParseProposal(new UTF8Encoding(false, true).GetString(bytes.ToArray()), request);
+    }
+
+    public static HouseWindowProposal ParseProposal(string json, HouseWindowRequest request)
+    {
+        HouseWindowProposalValidator.ValidateRequest(request);
+        if (string.IsNullOrWhiteSpace(json) || json.Length > 8_192)
+            throw new CodexProposalException("The proposal must contain one JSON object of at most 8192 characters.");
         using var document = JsonDocument.Parse(json, new JsonDocumentOptions { MaxDepth = 12, CommentHandling = JsonCommentHandling.Disallow, AllowTrailingCommas = false });
         var root = document.RootElement;
         if (root.ValueKind != JsonValueKind.Object) throw new CodexProposalException("Codex returned an invalid structured proposal.");
@@ -1002,6 +1041,7 @@ public sealed class CodexProposalProvider
         }
 
         string[] expectedProperties = ["operation", "requestId", "snapshotHash", "entityId", "expectedWidth", "windowWidth", "summary"];
+        if (request.PartId is not null) expectedProperties = [.. expectedProperties, "partId"];
         if (values.Count != expectedProperties.Length || expectedProperties.Any(property => !values.ContainsKey(property)))
         {
             throw new CodexProposalException("Codex returned an invalid structured proposal.");
@@ -1018,7 +1058,8 @@ public sealed class CodexProposalProvider
             ReadString(values["entityId"]),
             ReadDecimal(values["expectedWidth"]),
             ReadDecimal(values["windowWidth"]),
-            ReadString(values["summary"]));
+            ReadString(values["summary"]),
+            request.PartId is null ? null : ReadString(values["partId"]));
         try
         {
             HouseWindowProposalValidator.Validate(request, proposal);

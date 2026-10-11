@@ -17,12 +17,14 @@ public sealed class StudioWorkspace
 {
     private static readonly string[] SourceGlobs = ["content/modules", "content/campaigns", "content/studio", "game/content/world", "game/content/cutscenes", "game/content/animations"];
     private readonly Dictionary<string, AuthoredFile> _files = new(StringComparer.Ordinal);
-    private readonly Dictionary<string, EntityAddress> _index = new(StringComparer.Ordinal);
+    private Dictionary<string, EntityAddress> _index = new(StringComparer.Ordinal);
+    private HashSet<string> _ambiguousIds = new(StringComparer.Ordinal);
 
     private StudioWorkspace(string root) => Root = Path.GetFullPath(root);
 
     public string Root { get; }
     public IReadOnlyCollection<AuthoredFile> Files => _files.Values;
+    public IReadOnlyList<string> IdentityConflicts { get; private set; } = [];
 
     public static StudioWorkspace Open(string root)
     {
@@ -74,9 +76,13 @@ public sealed class StudioWorkspace
         }
 
         var file = AuthoredFile.CreateNew(Root, relativePath, initialText);
+        StudioFileTransaction.FenceIncompleteHistory(Root);
         _files[relativePath] = file;
+        Reindex();
         return file;
     }
+
+    public bool IsAmbiguous(string id) => _ambiguousIds.Contains(id);
 
     public EntityAddress? Locate(string id) => _index.GetValueOrDefault(id);
 
@@ -86,8 +92,10 @@ public sealed class StudioWorkspace
 
     public void Reindex()
     {
-        _index.Clear();
-        foreach (var file in _files.Values)
+        var index = new Dictionary<string, EntityAddress>(StringComparer.Ordinal);
+        var ambiguous = new HashSet<string>(StringComparer.Ordinal);
+        var conflicts = new List<string>();
+        foreach (var file in _files.Values.OrderBy(file => file.RelativePath, StringComparer.Ordinal))
         {
             if (!file.RootIsArray)
             {
@@ -96,9 +104,17 @@ public sealed class StudioWorkspace
 
             foreach (var key in file.Keys())
             {
-                _index.TryAdd(key, new(file.RelativePath, key));
+                if (!index.TryAdd(key, new(file.RelativePath, key)))
+                {
+                    ambiguous.Add(key);
+                    conflicts.Add($"Повторный ID {key}: {index[key].RelativePath} и {file.RelativePath}. Цель не выбирается автоматически.");
+                }
             }
         }
+        foreach (var id in ambiguous) index.Remove(id);
+        _index = index;
+        _ambiguousIds = ambiguous;
+        IdentityConflicts = conflicts.ToArray();
     }
 
     /// <summary>
@@ -112,7 +128,7 @@ public sealed class StudioWorkspace
             var random = Convert.ToHexStringLower(RandomNumberGenerator.GetBytes(4));
             var slug = Slug(hint);
             var id = $"{ns}:{kind}/{(slug.Length == 0 ? "" : slug + "-")}{random}";
-            if (!_index.ContainsKey(id))
+            if (!_index.ContainsKey(id) && !_ambiguousIds.Contains(id))
             {
                 return id;
             }

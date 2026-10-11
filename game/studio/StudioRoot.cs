@@ -104,7 +104,7 @@ public partial class StudioRoot : Control
         string? pilotHistoryWarning;
         try
         {
-            pilotHistoryWarning = Session.RestoreSingleCommittedFileCommand(
+            pilotHistoryWarning = Session.RestoreCommittedFileHistory(
                 "изменить окна дома через Codex",
                 "urman.world:act1/kit/house-old-pc-babai-approach",
                 StudioAiPanel.OwnsFile,
@@ -167,6 +167,8 @@ public partial class StudioRoot : Control
         }
 
         OfferRecoveredDrafts();
+        if (Workspace.IdentityConflicts.Count > 0)
+            ShowBanner("Повторные ID: неоднозначные объекты недоступны для выбора. " + Workspace.IdentityConflicts[0], error: true);
         if (!StudioTour.Done(Workspace.Root))
         {
             CallDeferred(nameof(StartTour));
@@ -203,6 +205,7 @@ public partial class StudioRoot : Control
 
     public override void _UnhandledKeyInput(InputEvent @event)
     {
+        if (IsAiPanelVisible) return;
         if (@event is not InputEventKey { Pressed: true } key || Workspace is null)
         {
             return;
@@ -220,12 +223,13 @@ public partial class StudioRoot : Control
             if (key.ShiftPressed) Redo(); else Undo();
             GetViewport().SetInputAsHandled();
         }
-        else if (command && key.Keycode == Key.F)
+        else if (command && (key.Keycode is Key.F or Key.K))
         {
             _search.GrabFocus();
             GetViewport().SetInputAsHandled();
         }
-        else if (command && key.Keycode == Key.K)
+        else if (command && !key.Echo && (key.Keycode is Key.Enter or Key.KpEnter)
+            && ((StudioWorldSection)Section("world")).HasViewportFocus)
         {
             OpenAiPanel();
             GetViewport().SetInputAsHandled();
@@ -234,6 +238,7 @@ public partial class StudioRoot : Control
 
     public override void _Input(InputEvent @event)
     {
+        if (IsAiPanelVisible) return;
         if (_results is not null && _results.Visible)
         {
             if (@event is InputEventMouseButton { Pressed: true } click
@@ -299,6 +304,7 @@ public partial class StudioRoot : Control
     public void Refresh() => OnEdited();
 
     private StudioAiPanel? _aiPanel;
+    public bool IsAiPanelVisible => _aiPanel is { Visible: true };
     public void OpenAiPanel()
     {
         _aiPanel ??= new StudioAiPanel(this);
@@ -448,6 +454,8 @@ public partial class StudioRoot : Control
 
         ShowProperties();
         RefreshStatus();
+        if (Workspace.IdentityConflicts.Count > 0)
+            ShowBanner("Повторные ID: неоднозначные объекты недоступны для выбора. " + Workspace.IdentityConflicts[0], error: true);
     }
 
     private static bool IsExactHeroHousePilotFileSet(IReadOnlyList<string> paths)
@@ -479,6 +487,13 @@ public partial class StudioRoot : Control
             if (!autosave) ShowBanner("Дождитесь изменения модели и обновления вида.", error: false);
             return false;
         }
+        if (!autosave && Workspace.IdentityConflicts.Count > 0)
+        {
+            _saveError = "Исходники не сохранены: исправьте повторные ID. " + Workspace.IdentityConflicts[0];
+            ShowBanner(_saveError, error: true);
+            RefreshStatus();
+            return false;
+        }
         if (Workspace.Files.All(file => !file.Dirty))
         {
             if (!autosave) RefreshStatus("Сохранено");
@@ -490,19 +505,34 @@ public partial class StudioRoot : Control
             if (autosave)
             {
                 // Autosave keeps a crash-safe draft; the authored files change on Cmd+S.
-                Drafts.Write(Workspace, DateTimeOffset.Now);
+                var dirtyCount = Workspace.Files.Count(file => file.Dirty);
+                if (Drafts.Write(Workspace, DateTimeOffset.Now) < dirtyCount)
+                {
+                    _saveError = "Часть новых правок не записана в черновики: прежние артефакты ждут решения о восстановлении.";
+                    ShowBanner(_saveError, error: true);
+                    RefreshStatus();
+                    return false;
+                }
                 RefreshStatus();
                 return true;
             }
 
+            var draftCleanupBlocked = false;
             foreach (var file in Workspace.Files.Where(file => file.Dirty))
             {
                 file.Save();
-                Drafts.Discard(file.RelativePath);
+                try { Drafts.Discard(file.RelativePath); }
+                catch (Exception error) when (error is IOException or UnauthorizedAccessException or ArgumentException)
+                {
+                    draftCleanupBlocked = true;
+                }
             }
 
             _saveError = null;
-            HideBanner();
+            if (draftCleanupBlocked)
+                ShowBanner("Исходники сохранены, но очистка части черновиков запрещена или недоступна. Их артефакты оставлены на месте.", error: false);
+            else
+                HideBanner();
             RefreshStatus("Сохранено");
             return true;
         }
@@ -512,11 +542,10 @@ public partial class StudioRoot : Control
             WatchDisk();
             return false;
         }
-        catch (IOException error)
+        catch (Exception error) when (error is IOException or UnauthorizedAccessException or ArgumentException)
         {
-            // The last complete version stays on disk; edits stay in memory (SAVE03).
-            _saveError = error.Message;
-            ShowBanner($"Не удалось сохранить: {error.Message}. Последняя целая версия на диске не тронута, ваши изменения остаются в Studio. Освободите место или проверьте права и сохраните снова.", error: true);
+            _saveError = "Сохранение не завершено: проверьте доступ и допустимость путей. Часть файлов могла сохраниться; остальные правки остаются в Studio.";
+            ShowBanner(_saveError, error: true);
             RefreshStatus();
             return false;
         }
@@ -547,7 +576,8 @@ public partial class StudioRoot : Control
 
     private void OfferRecoveredDrafts()
     {
-        var drafts = Drafts.Recover();
+        var drafts = Drafts.Recover(Workspace, out var warnings);
+        if (warnings.Count > 0) ShowBanner(string.Join("\n", warnings.Take(3)), error: true);
         if (drafts.Count == 0)
         {
             return;
@@ -564,19 +594,40 @@ public partial class StudioRoot : Control
         };
         dialog.Confirmed += () =>
         {
+            var currentDrafts = Drafts.Recover(Workspace, out var currentWarnings);
+            var skipped = currentWarnings.Count;
             foreach (var draft in drafts.Where(draft => !draft.DiskChangedSince))
             {
-                var recovered = Urman.Studio.Core.Storage.JsonSpanDocument.Parse(draft.DraftText);
                 var file = Workspace.File(draft.RelativePath);
-                using var scope = Session.Begin("восстановленный черновик");
-                var node = recovered.ToNode();
-                foreach (var item in (node as System.Text.Json.Nodes.JsonArray ?? node["entities"] as System.Text.Json.Nodes.JsonArray ?? []).OfType<System.Text.Json.Nodes.JsonObject>())
+                var current = currentDrafts.FirstOrDefault(item => item.RelativePath == draft.RelativePath);
+                if (current is null || current.DiskChangedSince || current.DraftText != draft.DraftText
+                    || current.DiskSha256AtDraft != draft.DiskSha256AtDraft || file.Dirty
+                    || !string.Equals(file.LoadedSha256, draft.DiskSha256AtDraft, StringComparison.OrdinalIgnoreCase))
                 {
-                    Session.Set(draft.RelativePath, (string)item["id"]!, item, "восстановленный черновик");
+                    skipped++;
+                    continue;
                 }
-
-                _ = file;
+                var recovered = AuthoredFile.CreateNew(Workspace.Root, draft.RelativePath, draft.DraftText);
+                var keys = recovered.Keys().ToArray();
+                if (recovered.RootIsArray && (keys.Distinct(StringComparer.Ordinal).Count() != keys.Length
+                    || file.Keys().Any(Workspace.IsAmbiguous)
+                    || keys.Any(key => Workspace.IsAmbiguous(key)
+                        || Workspace.Locate(key) is { } address && address.RelativePath != draft.RelativePath)))
+                {
+                    skipped++;
+                    continue;
+                }
+                using (Session.Begin("восстановленный черновик"))
+                {
+                    foreach (var key in file.Keys().Except(keys, StringComparer.Ordinal).ToArray())
+                        Session.Delete(draft.RelativePath, key, "восстановленный черновик");
+                    foreach (var key in keys)
+                        Session.Set(draft.RelativePath, key, recovered.Get(key), "восстановленный черновик");
+                    Session.SetOrder(draft.RelativePath, keys, "восстановленный черновик");
+                }
+                Drafts.AcceptRecoveredDraft(draft.RelativePath);
             }
+            if (skipped > 0) ShowBanner("Часть черновиков не восстановлена: данные изменились или недоступны. Артефакты сохранены; текущие правки не заменены.", error: true);
         };
         AddChild(dialog);
         dialog.PopupCentered();
@@ -694,7 +745,7 @@ public partial class StudioRoot : Control
         _undo = Button(top, "↶ Отменить", Undo);
         _undo.Name = "UndoButton";
         _redo = Button(top, "↷", Redo);
-        Button(top, "Изменить с ИИ", OpenAiPanel).TooltipText = "Выберите объект и опишите изменение (⌘/Ctrl+K)";
+        Button(top, "Изменить с ИИ", OpenAiPanel).TooltipText = "Выберите объект и опишите изменение (⌘/Ctrl+Enter в окне мира)";
         Button(top, "Сохранить", () => SaveAll(autosave: false)).TooltipText = "Сохранить все изменения (⌘S)";
         _search = new LineEdit { PlaceholderText = "Поиск: имя, ID, тип, текст реплики — или вставьте ID от разработчика", CustomMinimumSize = new(420, 0), SizeFlagsHorizontal = SizeFlags.ExpandFill };
         _search.TextChanged += OnSearch;
@@ -858,13 +909,33 @@ public partial class StudioRoot : Control
         var result = await new Urman.Content.Compilation.ContentCompiler().CompileAsync(Workspace.Root, PlayPreparation.Campaign, []);
         var dirty = Workspace.Files.Count(file => file.Dirty);
         var unsupported = Urman.Studio.Core.Editing.ConditionPhrases.FindNotExecuted(Workspace);
+        string coverageText;
+        try
+        {
+            var sourceProblems = RuleCatalogCoverage.VerifyAgainstSources(Workspace.Root);
+            if (sourceProblems.Count > 0)
+                coverageText = "Проекция неполна; сравнение каталога не выполнено.\n" + string.Join("\n", sourceProblems.Take(6));
+            else
+            {
+                var coverage = RuleCatalogCoverage.Inspect(Workspace);
+                coverageText = coverage.Notes[0] + "\n" + coverage.Notes[1] + "\n" +
+                    string.Join("\n", coverage.Problems.Take(6).Select(problem => "• " + problem));
+            }
+        }
+        catch (Exception error) when (error is IOException or UnauthorizedAccessException)
+        {
+            coverageText = "Анализ каталога недоступен: не удалось прочитать исходники игры. Результат проверки контента сохранён.";
+        }
         var dialog = new AcceptDialog
         {
             Title = "Проверка",
-            DialogText = (result.IsSuccess
+            DialogText = "Ошибки идентичности в workspace: " + Workspace.IdentityConflicts.Count + "\n" +
+                string.Join("\n", Workspace.IdentityConflicts.Take(6)) + "\n" + (result.IsSuccess
                     ? "Ошибки ссылок и данных: 0.\n"
                     : $"Ошибки ссылок и данных: {result.Diagnostics.Count}\n" + string.Join("\n", result.Diagnostics.Take(8).Select(d => $"• {d.Message}")) + "\n") +
                 (unsupported.Count == 0 ? "Правила, которые игра не исполняет: 0.\n" : $"Правила, которые игра не исполняет: {unsupported.Count}\n" + string.Join("\n", unsupported.Take(6).Select(item => $"• «{Catalog.NameOf(item.EntityId)}»: {item.Op} — нужна новая механика")) + "\n") +
+                "\nКаталог правил · весь workspace, включая несохранённые данные; только анализ исходников:\n" +
+                coverageText + "\n" +
                 (dirty > 0 ? $"\nПроверены сохранённые файлы; несохранённых изменений: {dirty} файл(ов).\n" : "") +
                 "\nЛогические и художественные замечания здесь не проверяются. Проверка не доказывает, что проходимы все ветки игры."
         };

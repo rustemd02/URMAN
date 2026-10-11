@@ -15,6 +15,8 @@ public sealed record PendingStudioFileTransaction(
 /// <summary>A read-only attempt to restore one committed file command into a fresh session.</summary>
 public sealed record StudioFileHistoryLoadResult(StudioFileTransaction? Transaction, string? Warning);
 
+public sealed record StudioFileHistoryStackLoadResult(IReadOnlyList<StudioFileTransaction> Transactions, int Cursor, string? Warning);
+
 /// <summary>
 /// Durable before/after images for a bounded set of project files. Promotion is
 /// journaled and each target uses <see cref="AtomicFile"/>; recovery only
@@ -24,6 +26,9 @@ public sealed class StudioFileTransaction
 {
     private const string TransactionDirectory = ".urman-studio/transactions";
     private const string JournalName = "journal.json";
+    private const string HistoryFencePath = ".urman-studio/history-fence.json";
+    private const string HistorySequencePath = ".urman-studio/history-sequence.json";
+    private const string HistorySequenceLock = ".urman-studio/history-sequence.lock";
     private const int JournalVersion = 1;
     private readonly string _root;
     private readonly string _directory;
@@ -33,6 +38,8 @@ public sealed class StudioFileTransaction
     private readonly Func<Task>? _afterPromotionAsync;
     private string _currentSide;
     private bool _accepted;
+    private long? _acceptedOrder;
+    private string? _commandLabel;
 
     private StudioFileTransaction(
         string root,
@@ -60,6 +67,7 @@ public sealed class StudioFileTransaction
 
     public string Id { get; }
     public string Owner { get; }
+    public string? CommandLabel => _commandLabel;
     public IReadOnlyList<string> RelativePaths => _changes.Select(change => change.RelativePath).ToArray();
     internal bool IsAtAfterSide => _currentSide == "after";
 
@@ -182,6 +190,18 @@ public sealed class StudioFileTransaction
         var id = Guid.NewGuid().ToString("N");
         var transactionRoot = ResolveInternal(root, TransactionDirectory);
         EnsureNoLinks(root, TransactionDirectory, allowStudioMetadata: true);
+        long requiredBytes = 1 << 20;
+        checked
+        {
+            requiredBytes += 6L * (owner.Length + prepared.Sum(item => (long)item.RelativePath.Length) + 512L * prepared.Count);
+            foreach (var item in prepared)
+            {
+                var before = item.BeforeBytes?.LongLength ?? 0;
+                var after = item.AfterBytes?.LongLength ?? 0;
+                requiredBytes += before + after + Math.Max(before, after);
+            }
+        }
+        EnsureDiskCapacity(transactionRoot, requiredBytes, prepared.Select(item => ResolveTarget(root, item.RelativePath)));
         Directory.CreateDirectory(transactionRoot);
         EnsureNoLinks(root, TransactionDirectory, allowStudioMetadata: true);
         var directory = Path.Combine(transactionRoot, id);
@@ -221,14 +241,66 @@ public sealed class StudioFileTransaction
     }
 
     /// <summary>Commit the applying journal once its command is accepted into the edit stack.</summary>
-    internal void Accept()
+    internal void Accept(string label)
     {
         if (_accepted) return;
+        if (string.IsNullOrWhiteSpace(label) || label.Length > 1024) throw new ArgumentException("A command label of at most 1024 characters is required.", nameof(label));
+        EnsureNoLinks(_root, HistorySequenceLock, allowStudioMetadata: true);
+        // The stable lock inode is retained; replacing it would split concurrent allocators.
+        using var sequenceLock = new FileStream(ResolveInternal(_root, HistorySequenceLock), FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None);
         EnsureCurrentSide(_currentSide);
+        _acceptedOrder ??= AllocateAcceptedOrder();
+        _commandLabel = label;
         // Persist acceptance before EditSession exposes the command as undoable.
         // A crash during later Undo/Redo can then recover the last accepted side.
         WriteJournal("committed", rollbackSide: _currentSide, targetSide: _currentSide, side: _currentSide, accepted: true);
         _accepted = true;
+    }
+
+    private long AllocateAcceptedOrder()
+    {
+        EnsureNoLinks(_root, HistorySequencePath, allowStudioMetadata: true);
+        long largestOrder = 0;
+        foreach (var directory in Directory.EnumerateDirectories(ResolveInternal(_root, TransactionDirectory)))
+        {
+            EnsureNoLinks(_root, Path.GetRelativePath(_root, directory).Replace('\\', '/'), allowStudioMetadata: true);
+            var manifest = ReadManifest(_root, directory);
+            largestOrder = Math.Max(largestOrder, manifest.AcceptedOrder ?? 0);
+        }
+        var lastOrder = ReadHistorySequence(_root, largestOrder);
+        var path = ResolveInternal(_root, HistorySequencePath);
+        if (lastOrder == long.MaxValue) throw new InvalidDataException("The persistent history sequence is exhausted.");
+        var next = lastOrder + 1;
+        var text = new JsonObject { ["version"] = 1, ["scope"] = "studio-file-history", ["lastOrder"] = next }.ToJsonString();
+        EnsureDiskCapacity(path, (1L << 20) + System.Text.Encoding.UTF8.GetByteCount(text), []);
+        AtomicFile.WriteAllText(path, text);
+        return next;
+    }
+
+    private static long ReadHistorySequence(string root, long largestOrder)
+    {
+        EnsureNoLinks(root, HistorySequencePath, allowStudioMetadata: true);
+        var path = ResolveInternal(root, HistorySequencePath);
+        long lastOrder = 0;
+        if (File.Exists(path))
+        {
+            try
+            {
+                var counter = JsonNode.Parse(File.ReadAllText(path)) as JsonObject;
+                if (counter is null || (int?)counter["version"] != 1 || (string?)counter["scope"] != "studio-file-history"
+                    || counter["lastOrder"] is not JsonValue value || !value.TryGetValue<long>(out lastOrder)
+                    || lastOrder < 0 || lastOrder < largestOrder)
+                    throw new InvalidDataException("The persistent history sequence needs inspection.");
+            }
+            catch (Exception error) when (error is System.Text.Json.JsonException or InvalidOperationException or FormatException or OverflowException)
+            {
+                throw new InvalidDataException("The persistent history sequence needs inspection.", error);
+            }
+        }
+        else if (largestOrder != 0)
+            throw new InvalidDataException("The persistent history sequence is missing; recorded command orders were preserved.");
+
+        return lastOrder;
     }
 
     /// <summary>Retire or restore only this command's journal; project files may belong to a newer command.</summary>
@@ -239,6 +311,7 @@ public sealed class StudioFileTransaction
         EnsureNoLinks(_root, Path.GetRelativePath(_root, _directory).Replace('\\', '/'), allowStudioMetadata: true);
         var manifest = ReadManifest(_root, _directory);
         if (manifest.Id != Id || manifest.Owner != Owner || !manifest.Accepted
+            || manifest.AcceptedOrder != _acceptedOrder || manifest.CommandLabel != _commandLabel
             || manifest.Side != _currentSide || manifest.RollbackSide != _currentSide || manifest.TargetSide != _currentSide
             || !manifest.Changes.SequenceEqual(_changes))
         {
@@ -294,6 +367,7 @@ public sealed class StudioFileTransaction
         var conflicts = ConflictsForSide(sourceSide, acceptEitherSide: false);
         if (conflicts.Count > 0) throw new StudioFileTransactionConflictException(Id, conflicts);
 
+        EnsureRestoreCapacity();
         WriteJournal("applying", rollbackSide: sourceSide, targetSide: targetSide, side: sourceSide);
         try
         {
@@ -330,6 +404,7 @@ public sealed class StudioFileTransaction
         var conflicts = ConflictsForSide(sourceSide, acceptEitherSide: false);
         if (conflicts.Count > 0) throw new StudioFileTransactionConflictException(Id, conflicts);
 
+        EnsureRestoreCapacity();
         WriteJournal("applying", rollbackSide: sourceSide, targetSide: targetSide, side: sourceSide);
         try
         {
@@ -425,11 +500,36 @@ public sealed class StudioFileTransaction
         return pending;
     }
 
+    // shortcut: unsupported command order fences restart hydration; replace with an explicit ordered ledger and migration decision.
+    internal static void FenceIncompleteHistory(string root)
+    {
+        var rootPath = NormalizeRoot(root);
+        EnsureNoLinks(rootPath, HistoryFencePath, allowStudioMetadata: true);
+        var path = ResolveInternal(rootPath, HistoryFencePath);
+        if (File.Exists(path)) return;
+        AtomicFile.WriteAllText(path, new JsonObject
+        {
+            ["version"] = 1,
+            ["scope"] = "studio-command-history",
+            ["reason"] = "unsupported-command-order"
+        }.ToJsonString());
+    }
+
     /// <summary>
     /// Read one accepted file-only pilot command for a new session. This deliberately
     /// refuses to order multiple journals and never changes a journal or target file.
     /// </summary>
     public static StudioFileHistoryLoadResult LoadSingleCommittedFileCommand(
+        string root, string owner, Func<string, bool> allowedPath, Func<IReadOnlyList<string>, bool> allowedFileSet)
+    {
+        var result = LoadCommittedFileHistory(root, owner, allowedPath, allowedFileSet);
+        return result.Transactions.Count == 1
+            ? new(result.Transactions[0], result.Warning)
+            : new(null, result.Warning ?? (result.Transactions.Count == 0 ? null : "Use ordered file history to restore multiple commands."));
+    }
+
+    /// <summary>Validate explicit file command order, cursor and aggregate source boundary before hydrating any history.</summary>
+    public static StudioFileHistoryStackLoadResult LoadCommittedFileHistory(
         string root,
         string owner,
         Func<string, bool> allowedPath,
@@ -440,8 +540,13 @@ public sealed class StudioFileTransaction
         if (string.IsNullOrWhiteSpace(owner)) throw new ArgumentException("A stable transaction owner is required.", nameof(owner));
 
         var rootPath = NormalizeRoot(root);
+        EnsureNoLinks(rootPath, HistoryFencePath, allowStudioMetadata: true);
+        var historyFence = ResolveInternal(rootPath, HistoryFencePath);
+        if (File.Exists(historyFence) || Directory.Exists(historyFence))
+            return new([], 0, "История Undo после перезапуска недоступна: порядок файловых и других команд не сохранён полностью. "
+                + "Журналы и исходные версии сохранены; для восстановления нужен явный выбор истории.");
         var transactionRoot = ResolveInternal(rootPath, TransactionDirectory);
-        if (!Directory.Exists(transactionRoot)) return new(null, null);
+        if (!Directory.Exists(transactionRoot)) return new([], 0, null);
         EnsureNoLinks(rootPath, TransactionDirectory, allowStudioMetadata: true);
 
         var matching = new List<(string Directory, Manifest Manifest)>();
@@ -473,53 +578,63 @@ public sealed class StudioFileTransaction
 
         if (unreadable.Count > 0)
         {
-            return new(null, "Persistent HeroHouse Undo was not restored because transaction metadata needs inspection: "
+            return new([], 0, "Persistent HeroHouse Undo was not restored because transaction metadata needs inspection: "
                 + string.Join("; ", unreadable.Take(4)));
         }
 
-        if (matching.Count == 0) return new(null, null);
-        if (matching.Count > 1)
-        {
-            return new(null, "Persistent HeroHouse Undo was not restored: multiple committed file commands exist, and their order is ambiguous. "
-                + "The editor is available; the pilot history needs a manual decision.");
-        }
+        if (matching.Count == 0) return new([], 0, null);
+        if (matching.Count > 1 && (matching.Any(item => item.Manifest.AcceptedOrder is null)
+            || matching.Select(item => item.Manifest.AcceptedOrder).Distinct().Count() != matching.Count))
+            return new([], 0, "История Undo не восстановлена: порядок журналов отсутствует или повторяется. Журналы сохранены для явного выбора истории.");
 
-        var (manifestDirectory, candidate) = matching[0];
-        if (candidate.Side != candidate.RollbackSide || candidate.Side != candidate.TargetSide)
+        matching = matching.OrderBy(item => item.Manifest.AcceptedOrder ?? 0).ToList();
+        if (matching.Any(item => item.Manifest.AcceptedOrder is not null))
+            _ = ReadHistorySequence(rootPath, matching.Max(item => item.Manifest.AcceptedOrder ?? 0));
+        var cursor = 0;
+        var redoStarted = false;
+        var chain = new Dictionary<string, string?>(StringComparer.Ordinal);
+        var boundary = new Dictionary<string, string?>(StringComparer.Ordinal);
+        var transactions = new List<StudioFileTransaction>();
+        foreach (var (manifestDirectory, candidate) in matching)
         {
-            return new(null, $"Persistent HeroHouse Undo was not restored: transaction {candidate.Id} has inconsistent committed-side metadata.");
-        }
+            if (candidate.Side != candidate.RollbackSide || candidate.Side != candidate.TargetSide)
+                return new([], 0, "История Undo не восстановлена: стороны журнала противоречат друг другу.");
+            if (candidate.Side == "before") redoStarted = true;
+            else if (redoStarted)
+                return new([], 0, "История Undo не восстановлена: последовательность отменённых команд противоречива.");
+            else cursor++;
 
-        var normalizedPaths = new List<string>(candidate.Changes.Count);
-        foreach (var change in candidate.Changes)
-        {
-            if (!TryNormalizeForRecovery(rootPath, change.RelativePath, allowedPath, out var normalized))
+            var normalizedPaths = new List<string>(candidate.Changes.Count);
+            foreach (var change in candidate.Changes)
             {
-                return new(null, $"Persistent HeroHouse Undo was not restored: {change.RelativePath} is outside its path policy.");
+                if (!TryNormalizeForRecovery(rootPath, change.RelativePath, allowedPath, out var normalized))
+                    return new([], 0, "История Undo не восстановлена: файл вне разрешённых границ.");
+                normalizedPaths.Add(normalized);
             }
-            normalizedPaths.Add(normalized);
-        }
+            if (normalizedPaths.Distinct(StringComparer.Ordinal).Count() != normalizedPaths.Count || !allowedFileSet(normalizedPaths))
+                return new([], 0, "История Undo не восстановлена: набор файлов не соответствует контракту изменения дома.");
+            if (ValidateManifestImages(rootPath, manifestDirectory, candidate).Count > 0)
+                return new([], 0, "История Undo не восстановлена: сохранённые версии файлов повреждены или недоступны.");
 
-        if (normalizedPaths.Distinct(StringComparer.Ordinal).Count() != normalizedPaths.Count
-            || !allowedFileSet(normalizedPaths))
+            foreach (var change in candidate.Changes)
+            {
+                var path = NormalizeRelativePath(change.RelativePath);
+                if (chain.TryGetValue(path, out var previous) && previous != change.BeforeSha256)
+                    return new([], 0, "История Undo не восстановлена: исходные версии команд не образуют непрерывную цепочку.");
+                chain[path] = change.AfterSha256;
+                boundary.TryAdd(path, change.BeforeSha256);
+                if (candidate.Side == "after") boundary[path] = change.AfterSha256;
+            }
+            transactions.Add(FromManifest(rootPath, manifestDirectory, candidate,
+                normalizedPaths.ToHashSet(StringComparer.Ordinal), afterPromotion: null));
+        }
+        foreach (var (path, expectedHash) in boundary)
         {
-            return new(null, $"Persistent HeroHouse Undo was not restored: transaction {candidate.Id} does not contain the exact pilot file set.");
+            EnsureNoLinks(rootPath, path);
+            if (CurrentSha256(rootPath, path) != expectedHash)
+                return new([], 0, "История Undo не восстановлена: файлы изменились после сохранённых команд. Текущие файлы оставлены без изменений.");
         }
-
-        var imageConflicts = ValidateManifestImages(rootPath, manifestDirectory, candidate);
-        if (imageConflicts.Count > 0)
-        {
-            return new(null, $"Persistent HeroHouse Undo was not restored: saved transaction images need inspection ({string.Join(", ", imageConflicts)}).");
-        }
-
-        var currentConflicts = ConflictsForManifest(rootPath, manifestDirectory, candidate, allowedPath, candidate.Side, acceptEitherSide: false);
-        if (currentConflicts.Count > 0)
-        {
-            return new(null, $"Persistent HeroHouse Undo was not restored because files changed since the transaction: {string.Join(", ", currentConflicts)}.");
-        }
-
-        var allowlist = normalizedPaths.ToHashSet(StringComparer.Ordinal);
-        return new(FromManifest(rootPath, manifestDirectory, candidate, allowlist, afterPromotion: null), null);
+        return new(transactions, cursor, null);
     }
 
     /// <summary>Roll back interrupted promotions only when every current file is still one of the saved images.</summary>
@@ -626,6 +741,7 @@ public sealed class StudioFileTransaction
     private void PromoteSide(string side)
     {
         ValidateImages(side);
+        EnsureRestoreCapacity();
         var sourceSide = side == "after" ? "before" : "after";
         EnsureCurrentSide(sourceSide);
         for (var index = 0; index < _changes.Count; index++)
@@ -650,6 +766,7 @@ public sealed class StudioFileTransaction
         ValidateImages(side);
         var conflicts = ConflictsForSide(side, acceptEitherSide);
         if (conflicts.Count > 0) throw new StudioFileTransactionConflictException(Id, conflicts);
+        EnsureRestoreCapacity();
         for (var index = 0; index < _changes.Count; index++)
         {
             var change = _changes[index];
@@ -684,6 +801,57 @@ public sealed class StudioFileTransaction
             : !string.Equals(actual, side == "before" ? change.BeforeSha256 : change.AfterSha256, StringComparison.Ordinal))
         {
             throw new StudioFileTransactionConflictException(Id, [change.RelativePath]);
+        }
+    }
+
+    private void EnsureRestoreCapacity()
+    {
+        long requiredBytes = 1 << 20;
+        checked
+        {
+            requiredBytes += 6L * (Owner.Length + _changes.Sum(change => (long)change.RelativePath.Length) + 512L * _changes.Count);
+            foreach (var change in _changes)
+                requiredBytes += Math.Max(ImageLength(change.BeforeImage), ImageLength(change.AfterImage));
+        }
+        EnsureDiskCapacity(_directory, requiredBytes, _changes.Select(change => ResolveTarget(change.RelativePath)));
+
+        long ImageLength(string? name)
+        {
+            if (name is null) return 0;
+            var path = Path.Combine(_directory, name);
+            EnsureNoLinks(_root, Path.GetRelativePath(_root, path).Replace('\\', '/'), allowStudioMetadata: true);
+            return new FileInfo(path).Length;
+        }
+    }
+
+    private static void EnsureDiskCapacity(string metadataPath, long requiredBytes, IEnumerable<string> targets)
+    {
+        var comparison = OperatingSystem.IsWindows() ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal;
+        var drives = DriveInfo.GetDrives();
+        var metadataDrive = DriveFor(metadataPath);
+        foreach (var target in targets)
+        {
+            // shortcut: pilot writes require one volume; bucket capacities before supporting cross-volume transactions.
+            if (!string.Equals(DriveFor(target).Name, metadataDrive.Name, comparison))
+                throw new IOException("Запись приостановлена: файлы и журнал находятся на разных дисках. Проверьте состояние восстановления.");
+        }
+        if (metadataDrive.AvailableFreeSpace < requiredBytes)
+            throw new IOException("Недостаточно свободного места для изменения и сохранения исходных версий. Файлы истории не удалялись.");
+
+        DriveInfo DriveFor(string path)
+        {
+            path = Path.GetFullPath(path);
+            while (!Directory.Exists(path))
+                path = Path.GetDirectoryName(path) ?? throw new IOException("Не удалось определить диск для записи.");
+            var drive = drives.Where(candidate =>
+            {
+                var name = Path.TrimEndingDirectorySeparator(Path.GetFullPath(candidate.Name));
+                var prefix = Path.EndsInDirectorySeparator(name) ? name : name + Path.DirectorySeparatorChar;
+                return string.Equals(path, name, comparison) || path.StartsWith(prefix, comparison);
+            }).OrderByDescending(candidate => candidate.Name.Length).FirstOrDefault();
+            if (drive is null || !drive.IsReady)
+                throw new IOException("Не удалось проверить свободное место на диске. Запись приостановлена; проверьте состояние восстановления.");
+            return drive;
         }
     }
 
@@ -824,11 +992,15 @@ public sealed class StudioFileTransaction
             ["targetSide"] = targetSide,
             ["side"] = side,
             ["accepted"] = accepted ?? _accepted,
+            ["acceptedOrder"] = _acceptedOrder,
+            ["commandLabel"] = _commandLabel,
             ["files"] = files
         };
         var journalPath = Path.Combine(_directory, JournalName);
         EnsureNoLinks(_root, Path.GetRelativePath(_root, journalPath).Replace('\\', '/'), allowStudioMetadata: true);
-        AtomicFile.WriteAllText(journalPath, manifest.ToJsonString());
+        var text = manifest.ToJsonString();
+        EnsureDiskCapacity(_directory, checked((1L << 20) + System.Text.Encoding.UTF8.GetByteCount(text)), []);
+        AtomicFile.WriteAllText(journalPath, text);
     }
 
     private static IReadOnlyList<PreparedChange> Prepare(string root, IReadOnlyList<StudioFileWrite> writes, HashSet<string> allowlist)
@@ -956,7 +1128,7 @@ public sealed class StudioFileTransaction
         return full;
     }
 
-    private static void EnsureNoLinks(string root, string relativePath, bool allowStudioMetadata = false)
+    internal static void EnsureNoLinks(string root, string relativePath, bool allowStudioMetadata = false)
     {
         var normalized = allowStudioMetadata ? NormalizeInternalRelativePath(relativePath) : NormalizeRelativePath(relativePath);
         var current = root;
@@ -1057,18 +1229,29 @@ public sealed class StudioFileTransaction
             throw new InvalidDataException("Transaction directory and ID do not match.");
         }
 
-        return new(id, (string?)node["owner"] ?? "", status, rollbackSide, targetSide, side, accepted, changes);
+        long? order = null;
+        if (node["acceptedOrder"] is not null)
+        {
+            if (node["acceptedOrder"] is not JsonValue orderNode || !orderNode.TryGetValue<long>(out var number) || number <= 0)
+                throw new InvalidDataException("Transaction command order is invalid.");
+            order = number;
+        }
+        var label = (string?)node["commandLabel"];
+        if (label is not null && (string.IsNullOrWhiteSpace(label) || label.Length > 1024)
+            || order is not null && label is null)
+            throw new InvalidDataException("An ordered transaction command label is missing.");
+        return new(id, (string?)node["owner"] ?? "", status, rollbackSide, targetSide, side, accepted, changes, order, label);
     }
 
     private static StudioFileTransaction FromManifest(string root, string directory, Manifest manifest, HashSet<string> allowlist, Action? afterPromotion) =>
         new(root, directory, manifest.Id, manifest.Owner, allowlist, manifest.Changes, afterPromotion, null,
-            manifest.Side, accepted: manifest.Accepted);
+            manifest.Side, accepted: manifest.Accepted) { _acceptedOrder = manifest.AcceptedOrder, _commandLabel = manifest.CommandLabel };
 
     private static bool IsSide(string side) => side is "before" or "after";
 
     private sealed record PreparedChange(string RelativePath, string? ExpectedSha256, byte[]? BeforeBytes, byte[]? AfterBytes, string? BeforeSha256, string? AfterSha256);
     private sealed record FileChange(string RelativePath, string? ExpectedSha256, string? BeforeSha256, string? AfterSha256, string? BeforeImage, string? AfterImage);
-    private sealed record Manifest(string Id, string Owner, string Status, string RollbackSide, string TargetSide, string Side, bool Accepted, IReadOnlyList<FileChange> Changes);
+    private sealed record Manifest(string Id, string Owner, string Status, string RollbackSide, string TargetSide, string Side, bool Accepted, IReadOnlyList<FileChange> Changes, long? AcceptedOrder, string? CommandLabel);
 }
 
 public sealed class StudioFileTransactionConflictException(string transactionId, IReadOnlyList<string> relativePaths)

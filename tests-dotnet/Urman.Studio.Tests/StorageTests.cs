@@ -206,7 +206,8 @@ public sealed class StorageTests : IDisposable
         Assert.Equal(1, drafts.Write(workspace, DateTimeOffset.Parse("2026-09-27T12:00:00Z")));
 
         // "Crash": a fresh workspace sees the saved file and the recovered draft.
-        var recovered = Assert.Single(new DraftStore(_root).Recover());
+        var recovered = Assert.Single(new DraftStore(_root).Recover(StudioWorkspace.Open(_root), out var warnings));
+        Assert.Empty(warnings);
         Assert.Equal("content/modules/urman-chapter1/tamara-fence.json", recovered.RelativePath);
         Assert.Contains("Эти годятся.", recovered.DraftText, StringComparison.Ordinal);
         Assert.False(recovered.DiskChangedSince);

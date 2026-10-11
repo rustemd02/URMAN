@@ -66,13 +66,69 @@ public partial class StudioProperties : VBoxContainer
         });
         StudioRoot.Button(row, "Сохранить пакет с черновиком", () =>
         {
-            var (path, entities, bytes) = context.WritePackage(id, Path.Combine(_studio.Workspace.Root, ".urman-studio", "handoff"), problem.Text);
-            preview.Text = $"Пакет сохранён: {Path.GetFileName(path)} — {entities} объектов, {bytes / 1024.0:0.#} КБ. Без ваших путей и сохранений.";
-            OS.ShellShowInFileManager(path);
+            try
+            {
+                var (path, entities, bytes) = context.WritePackage(id, Path.Combine(_studio.Workspace.Root, ".urman-studio", "handoff"), problem.Text);
+                preview.Text = $"Пакет сохранён: {Path.GetFileName(path)} — {entities} объектов, {bytes / 1024.0:0.#} КБ. Без ваших путей и сохранений.\n\nТекущий контекст:\n" + context.Text(id, problem: problem.Text);
+                OS.ShellShowInFileManager(path);
+            }
+            catch (InvalidOperationException)
+            {
+                preview.Text = "Пакет не записан: объект недоступен или текстовый бюджет 256 КБ превышен. Выберите существующий меньший объект или область; данные не обрезаны.";
+                _studio.RefreshStatus("Пакет контекста не сохранён");
+            }
+            catch (Exception error) when (error is IOException or UnauthorizedAccessException)
+            {
+                preview.Text = "Не удалось сохранить пакет. Проверьте, что объект существует и папка доступна для записи; неполный архив использовать нельзя.";
+                _studio.RefreshStatus("Пакет контекста не сохранён");
+            }
         });
+        StudioRoot.Button(row, "Открыть пакет…", OpenContextPackage).TooltipText = "Посмотреть контекст с другого компьютера без изменения проекта";
         box.AddChild(row);
         _studio.AddChild(dialog);
         dialog.PopupCentered();
+    }
+
+    private void OpenContextPackage()
+    {
+        var picker = new FileDialog
+        {
+            FileMode = FileDialog.FileModeEnum.OpenFile, Access = FileDialog.AccessEnum.Filesystem,
+            Title = "Открыть пакет контекста", UseNativeDialog = true, Filters = ["*.zip ; Контекст URMAN Studio"]
+        };
+        picker.FileSelected += path =>
+        {
+            try
+            {
+                var package = Urman.Studio.Core.Handoff.DeveloperContext.ReadPackage(path);
+                var integrity = package.HasIntegrityReceipts ? "Контрольные суммы вложений совпадают." : "Старый пакет без контрольных сумм: целостность не подтверждена.";
+                var completeness = package.Manifest["truncated"] is null ? "Полнота зависимостей в старом пакете не указана."
+                    : package.Manifest["truncated"]!.GetValue<bool>() ? "По манифесту пакета приложена часть зависимостей." : "По манифесту пакета обход зависимостей не был сокращён.";
+                var viewer = new AcceptDialog { Title = "Контекст из пакета", OkButtonText = "Закрыть" };
+                var content = new VBoxContainer();
+                viewer.AddChild(content);
+                content.AddChild(new Label
+                {
+                    Text = $"{package.Entities.Count} объектов. {integrity}\n{completeness}\nПолнота ресурсов и применимость к этому проекту не проверены.\nТолько просмотр: проект не изменён.",
+                    AutowrapMode = TextServer.AutowrapMode.WordSmart
+                });
+                content.AddChild(new TextEdit
+                {
+                    Text = package.Text + "\n\nДанные объектов:\n" + package.Entities.ToJsonString(new System.Text.Json.JsonSerializerOptions { WriteIndented = true }),
+                    Editable = false, CustomMinimumSize = new Vector2(720, 440)
+                });
+                _studio.AddChild(viewer);
+                viewer.PopupCentered(new Vector2I(800, 600));
+            }
+            catch (Exception error) when (error is IOException or UnauthorizedAccessException or ArgumentException)
+            {
+                _studio.RefreshStatus("Пакет не открыт: недоступен, повреждён или имеет неподдерживаемый формат. Проект не изменён.");
+            }
+            finally { picker.QueueFree(); }
+        };
+        picker.Canceled += picker.QueueFree;
+        _studio.AddChild(picker);
+        picker.PopupCentered(new Vector2I(900, 600));
     }
 
     public void Text(string text, bool muted = false) =>

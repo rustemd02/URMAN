@@ -1,0 +1,22 @@
+{
+  "base_commit": "14349e6a7797837f23ab3bd3b5f5216f1c1590bd",
+  "source_matches_loaded": true,
+  "assemblies": [
+    {
+      "assembly": "Urman.Studio.Core",
+      "source_sha256": "32fd0a1062590b96e5539ecf4f4702868db00a09db4650e1baf81a472b49f660",
+      "loaded_sha256": "32fd0a1062590b96e5539ecf4f4702868db00a09db4650e1baf81a472b49f660"
+    },
+    {
+      "assembly": "Urman.Core",
+      "source_sha256": "6790b5eb9ef8bac61c0051524b68165c15afabaad73603cc071892ec3bb2f26f",
+      "loaded_sha256": "6790b5eb9ef8bac61c0051524b68165c15afabaad73603cc071892ec3bb2f26f"
+    },
+    {
+      "assembly": "Urman.Content",
+      "source_sha256": "a14faecb62890ab7d6796899c14eb03d5553b471c7eae08dd2ffebb782ce2120",
+      "loaded_sha256": "a14faecb62890ab7d6796899c14eb03d5553b471c7eae08dd2ffebb782ce2120"
+    }
+  ],
+  "helper_reference_resolution": "Default None candidate globs disabled; stale diagout assembly no longer overrides explicit source HintPath. Helper rebuilt0/0."
+}

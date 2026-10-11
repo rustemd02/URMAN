@@ -8,7 +8,8 @@ public sealed record HouseWindowRequest(
     [property: JsonPropertyName("snapshotHash"), JsonPropertyOrder(1)] string SnapshotHash,
     [property: JsonPropertyName("entityId"), JsonPropertyOrder(2)] string EntityId,
     [property: JsonPropertyName("currentWidth"), JsonPropertyOrder(3)] decimal CurrentWidth,
-    [property: JsonPropertyName("prompt"), JsonPropertyOrder(4)] string Prompt);
+    [property: JsonPropertyName("prompt"), JsonPropertyOrder(4)] string Prompt,
+    [property: JsonPropertyName("partId"), JsonPropertyOrder(5), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)] string? PartId = null);
 
 /// <summary>
 /// A validated proposal for the single supported operation. Widths are in metres.
@@ -20,7 +21,8 @@ public sealed record HouseWindowProposal(
     [property: JsonPropertyName("entityId"), JsonPropertyOrder(2)] string EntityId,
     [property: JsonPropertyName("expectedWidth"), JsonPropertyOrder(3)] decimal ExpectedWidth,
     [property: JsonPropertyName("windowWidth"), JsonPropertyOrder(4)] decimal WindowWidth,
-    [property: JsonPropertyName("summary"), JsonPropertyOrder(5)] string Summary)
+    [property: JsonPropertyName("summary"), JsonPropertyOrder(5)] string Summary,
+    [property: JsonPropertyName("partId"), JsonPropertyOrder(6), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)] string? PartId = null)
 {
     public const string Operation = "house.windows.resize";
 }
@@ -43,6 +45,8 @@ public static class HouseWindowProposalValidator
         ValidateSnapshotHash(request.SnapshotHash);
         ValidateIdentifier(request.EntityId, nameof(request.EntityId), maximumLength: 256);
         ValidateWidth(request.CurrentWidth, nameof(request.CurrentWidth));
+        if (request.PartId is not null && request.PartId is not ("Front0" or "Front1" or "Front2" or "Rear0" or "Rear1" or "Left0" or "Right0" or "SeniOuter0"))
+            throw new ArgumentException("The selected window part ID is not supported.", nameof(request));
 
         if (string.IsNullOrWhiteSpace(request.Prompt) || request.Prompt.Length > 8_000 || ContainsUnsupportedPromptControl(request.Prompt))
         {
@@ -69,6 +73,9 @@ public static class HouseWindowProposalValidator
         {
             throw new ArgumentException("The proposal entity ID does not match its input.", nameof(proposal));
         }
+
+        if (!string.Equals(proposal.PartId, request.PartId, StringComparison.Ordinal))
+            throw new ArgumentException("The proposal window part does not match its frozen input.", nameof(proposal));
 
         if (proposal.ExpectedWidth != request.CurrentWidth)
         {

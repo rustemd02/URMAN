@@ -20,7 +20,11 @@ public sealed record StudioPlayStart(string Zone, string Spawn, Vector3? Positio
 public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSection
 {
     private const float PickRadiusPixels = 22f;
-    private readonly record struct WorldPick(string EntityId, string? PartLabel, string? SourceMeshPath);
+    public sealed record SelectedPart(string EntityId, string PartId, string Label, string SourcePath, string SourcePointer, string MeshPath);
+    private readonly record struct WorldPick(string EntityId, string? PartLabel, string? SourceMeshPath, string? PartId = null);
+    public SelectedPart? SelectionPart => _pickedPart is { PartId: { } partId, PartLabel: { } label, SourceMeshPath: { } meshPath } picked
+        && picked.EntityId == studio.Selection
+        ? new(picked.EntityId, partId, label, "game/content/studio/hero_house.recipe.json", "/windowClearWidth", meshPath) : null;
     public const string StreetPlotPath = "game/content/world/studio-street.world.v1.json";
     private readonly Dictionary<string, Node3D> _markers = new(StringComparer.Ordinal);
     private readonly Dictionary<string, string> _previewed = new(StringComparer.Ordinal);
@@ -79,6 +83,20 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
     public Control View => _view ??= Build();
     public Vector3 Pivot => _pivot;
     public bool WorldReady => _demo is not null && _hint is { Visible: false };
+    public bool HasViewportFocus => _container is not null && _container.IsVisibleInTree() && _container.HasFocus();
+
+    public void SuspendForAi()
+    {
+        _orbiting = false;
+        _panning = false;
+        if (Input.MouseMode == Input.MouseModeEnum.Captured) Input.MouseMode = Input.MouseModeEnum.Visible;
+        EndDrag();
+    }
+
+    public void RestoreViewportFocus()
+    {
+        if (_container is not null && _container.IsVisibleInTree()) _container.GrabFocus();
+    }
 
     // ---- view -------------------------------------------------------------------
 
@@ -587,6 +605,14 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
 
     private void OnViewportInput(InputEvent @event)
     {
+        if (studio.IsAiPanelVisible) return;
+        if (@event is InputEventKey { Pressed: true, Echo: false, Keycode: global::Godot.Key.Enter or global::Godot.Key.KpEnter } key
+            && (key.MetaPressed || key.CtrlPressed) && HasViewportFocus)
+        {
+            _container.AcceptEvent();
+            studio.OpenAiPanel();
+            return;
+        }
         switch (@event)
         {
             case InputEventMouseButton { ButtonIndex: MouseButton.WheelUp, Pressed: true }:
@@ -727,8 +753,11 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
     {
         // The collision mesh belongs to the same authored placement as its visible facade.
         var origin = _camera.ProjectRayOrigin(screen);
-        var ray = PhysicsRayQueryParameters3D.Create(origin, origin + _camera.ProjectRayNormal(screen) * 600f);
+        var direction = _camera.ProjectRayNormal(screen).Normalized();
+        var ray = PhysicsRayQueryParameters3D.Create(origin, origin + direction * 600f);
         var hit = _camera.GetWorld3D().DirectSpaceState.IntersectRay(ray);
+        var hitDepth = hit.TryGetValue("position", out var hitPosition)
+            ? (hitPosition.AsVector3() - origin).Dot(direction) : float.PositiveInfinity;
         if (hit.TryGetValue("collider", out var collider))
         {
             var colliderNode = collider.AsGodotObject() as Node;
@@ -747,7 +776,8 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
                 if (studio.Workspace.Locate(hitId) is not null && !Locked(hitId))
                 {
                     var partLabel = hitId == HeroHouseRecipe.EntityId ? HeroHousePartLabel(sourceMeshPath) : null;
-                    return new WorldPick(hitId, partLabel, partLabel is null ? null : sourceMeshPath);
+                    return new WorldPick(hitId, partLabel, partLabel is null ? null : sourceMeshPath,
+                        partLabel is null ? null : HeroHousePartId(sourceMeshPath!));
                 }
             }
         }
@@ -757,11 +787,35 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
         {
             var world = marker.GlobalPosition + new Vector3(0, .6f, 0);
             if (_camera.IsPositionBehind(world) || Locked(id)) continue;
+            // Marker rendering ignores depth; selection must respect the first collider.
+            var depth = (world - origin).Dot(direction);
+            if (depth < 0f || depth > hitDepth + .05f) continue;
             var distance = _camera.UnprojectPosition(world).DistanceTo(screen);
             if (distance < bestDistance) { bestDistance = distance; best = id; }
         }
 
         return best is null ? null : new WorldPick(best, null, null);
+    }
+
+    private static string? HeroHousePartId(string sourceMeshPath)
+    {
+        var meshName = sourceMeshPath[(sourceMeshPath.LastIndexOf('/') + 1)..];
+        const string prefix = "HeroHouse_";
+        const string wallSuffix = "_Wall_LOD0";
+        if (meshName.EndsWith(wallSuffix, StringComparison.Ordinal))
+            return "wall/" + meshName[prefix.Length..^wallSuffix.Length];
+        var start = meshName.IndexOf("_Window", prefix.Length, StringComparison.Ordinal);
+        var end = meshName.IndexOf('_', start + 1);
+        var section = meshName[prefix.Length..start];
+        var ordinal = meshName[(start + "_Window".Length)..end];
+        // Street aperture zero is the door; window ordinals start at one.
+        return (section, ordinal) switch
+        {
+            ("Street", "1") => "Front0", ("Street", "2") => "Front1", ("Street", "3") => "Front2",
+            ("Rear", "0") => "Rear0", ("Rear", "1") => "Rear1",
+            ("Left", "0") => "Left0", ("Right", "0") => "Right0", ("SeniOuter", "0") => "SeniOuter0",
+            _ => null
+        };
     }
 
     private static string? HeroHousePartLabel(string? sourceMeshPath)
@@ -917,9 +971,10 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
 
     private void EndDrag()
     {
-        _drag?.Dispose();
+        var drag = _drag;
         _drag = null;
         _dragId = null;
+        drag?.Dispose();
     }
 
     private bool Movable(string id) => studio.Workspace.Get(id)?["params"]?["position"] is JsonArray;

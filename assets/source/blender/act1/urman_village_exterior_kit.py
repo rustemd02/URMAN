@@ -196,8 +196,30 @@ def arguments() -> argparse.Namespace:
     return parser.parse_args(tokens)
 
 
+HERO_WINDOW_IDS = ("Front0", "Front1", "Front2", "Rear0", "Rear1", "Left0", "Right0", "SeniOuter0")
+
+
+def hero_window_widths(recipe: dict) -> dict:
+    return {window_id: recipe.get("windowWidths", {}).get(window_id, recipe["windowClearWidth"])
+            for window_id in HERO_WINDOW_IDS}
+
+
 def load_hero_house_recipe(path: Path) -> dict:
-    recipe = json.loads(path.read_text(encoding="utf-8"))
+    def unique_object(pairs):
+        result = {}
+        for key, value in pairs:
+            if key in result:
+                raise ValueError("Hero-house recipe contains duplicate JSON properties")
+            result[key] = value
+        return result
+
+    def invalid_constant(value):
+        raise ValueError("Hero-house recipe contains a non-finite JSON number")
+
+    recipe = json.loads(path.read_text(encoding="utf-8"), object_pairs_hook=unique_object,
+                        parse_constant=invalid_constant)
+    if not isinstance(recipe, dict):
+        raise ValueError("Hero-house recipe must be an object")
     if recipe.get("schema") != "house-recipe/v1":
         raise ValueError("Hero-house recipe schema must be house-recipe/v1")
     if recipe.get("entityId") != "urman.world:act1/kit/house-old-pc-babai-approach":
@@ -216,6 +238,12 @@ def load_hero_house_recipe(path: Path) -> dict:
         raise ValueError("windowClearWidth must be within the fixed 0.65..1.35 metre clearance envelope")
     if abs(height - 1.40) > 1e-6:
         raise ValueError("windowClearHeight is fixed at 1.40 metres by the sill/head contract")
+    overrides = recipe.get("windowWidths", {})
+    if not isinstance(overrides, dict) or any(window_id not in HERO_WINDOW_IDS for window_id in overrides):
+        raise ValueError("windowWidths must be an object keyed by known hero-house window IDs")
+    if any(isinstance(value, bool) or not isinstance(value, (int, float)) or not math.isfinite(value)
+           or not 0.65 <= value <= 1.35 for value in overrides.values()):
+        raise ValueError("windowWidths values must be finite numbers within 0.65..1.35 metres")
     model_path = recipe.get("modelPath")
     prefix = "res://assets/models/studio/hero-house-"
     if model_path is not None and (not isinstance(model_path, str) or not model_path.startswith(prefix)
@@ -2164,7 +2192,7 @@ def author_variant_parcels(root: bpy.types.Object) -> None:
 
 def author_rural_dwelling(parent, width=6.2, depth=6.0, eave=2.9, ridge=4.65,
                           wall_material="URMAN_Plaster_Ochre", hero_layout=False,
-                          window_clear_width=1.06, seni_window_clear_width=0.80):
+                          window_clear_width=1.06, seni_window_clear_width=0.80, window_widths=None):
     """One inhabited house: pierced wall shell, boarded gables and enclosed side seni.
 
     Parcel street elevations have windows only; the hero retains its portal.
@@ -2378,8 +2406,9 @@ def author_rural_dwelling(parent, width=6.2, depth=6.0, eave=2.9, ridge=4.65,
         door_x = HERO_HOUSE_CONTRACT["room_door_x"]
         sill, top = [wall_base + z for z in HERO_HOUSE_CONTRACT["window_sill_top_above_floor"]]
         street_windows = [(door_x-.65, door_x+.65, wall_base, wall_base+2.25, "Portal")]
-        street_windows += [(x-window_clear_width/2, x+window_clear_width/2, sill, top, "Window")
-                           for x in HERO_HOUSE_CONTRACT["front_window_room_x"]]
+        street_windows += [(x-clear_width/2, x+clear_width/2, sill, top, "Window")
+                           for index, x in enumerate(HERO_HOUSE_CONTRACT["front_window_room_x"])
+                           for clear_width in [(window_widths or {}).get(f"Front{index}", window_clear_width)]]
     wall("Street", (0,front), (1,0), width, street_windows)
     if parent.name == DWELLING_ROOT or hero_layout:
         # One removable visual leaf: runtime hides only this child at Babai's
@@ -2403,12 +2432,15 @@ def author_rural_dwelling(parent, width=6.2, depth=6.0, eave=2.9, ridge=4.65,
                     ("URMAN_Wood_WetShadow","URMAN_Wood_Weathered","URMAN_Metal_Dulled"),indices,
                     component_root=root_name,role="removable closed street door; hidden only at Babai gameplay portal")
     if hero_layout:
-        rear_holes = [(-x-window_clear_width/2,-x+window_clear_width/2,sill,top,"Window")
-                      for x in HERO_HOUSE_CONTRACT["rear_window_room_x"]]
-        left_holes = [(z-window_clear_width/2,z+window_clear_width/2,sill,top,"Window")
-                      for z in HERO_HOUSE_CONTRACT["left_window_room_z"]]
-        right_holes = [(-z-window_clear_width/2,-z+window_clear_width/2,sill,top,"Window")
-                       for z in HERO_HOUSE_CONTRACT["right_window_room_z"]]
+        rear_holes = [(-x-clear_width/2,-x+clear_width/2,sill,top,"Window")
+                      for index, x in enumerate(HERO_HOUSE_CONTRACT["rear_window_room_x"])
+                      for clear_width in [(window_widths or {}).get(f"Rear{index}", window_clear_width)]]
+        left_holes = [(z-clear_width/2,z+clear_width/2,sill,top,"Window")
+                      for index, z in enumerate(HERO_HOUSE_CONTRACT["left_window_room_z"])
+                      for clear_width in [(window_widths or {}).get(f"Left{index}", window_clear_width)]]
+        right_holes = [(-z-clear_width/2,-z+clear_width/2,sill,top,"Window")
+                       for index, z in enumerate(HERO_HOUSE_CONTRACT["right_window_room_z"])
+                       for clear_width in [(window_widths or {}).get(f"Right{index}", window_clear_width)]]
         wall("Rear", (0,back), (-1,0), width, rear_holes)
         wall("Left", (-half,(front+back)/2), (0,-1), depth, left_holes)
         wall("Right", (half,(front+back)/2), (0,1), depth, right_holes)
@@ -2765,7 +2797,7 @@ def author_rural_dwelling(parent, width=6.2, depth=6.0, eave=2.9, ridge=4.65,
     sx=(half+outer)/2
     wall("SeniEntry",(sx,entry_y),(1,0),1.50,[(-.47,.47,.30,2.32,"Door")],2.48,trim,face=0.0)
     seni_window_center = -0.05  # Preserve the original [-.45, .35] centre when width is 0.80 m.
-    seni_window_half_width = seni_window_clear_width / 2.0
+    seni_window_half_width = (window_widths or {}).get("SeniOuter0", seni_window_clear_width) / 2.0
     wall("SeniOuter",(outer,(entry_y+back)/2),(0,1),2.55,
          [(seni_window_center-seni_window_half_width, seni_window_center+seni_window_half_width,
            1.04, 2.10, "Window")],2.48,trim,face=0.0)
@@ -3097,7 +3129,7 @@ def author_hero_carving(parent, prefix, root_name, half, front, back, eave, ridg
 
 
 def author_hero_house(root: bpy.types.Object, window_clear_width: float = 1.06,
-                      seni_window_clear_width: float = 0.80) -> bpy.types.Object:
+                      seni_window_clear_width: float = 0.80, window_widths=None) -> bpy.types.Object:
     """A metric hero variation in this kit, not a scale change to the village."""
     HERO_HOUSE_CONTRACT["window_clear_width"] = window_clear_width
     ensure_hero_materials()
@@ -3105,7 +3137,7 @@ def author_hero_house(root: bpy.types.Object, window_clear_width: float = 1.06,
                          "hero house shell paired with an 8 by 7 metre clear room", "hero house")
     author_rural_dwelling(hero, width=8.4, depth=7.4, eave=3.05, ridge=4.8, hero_layout=True,
                           window_clear_width=window_clear_width,
-                          seni_window_clear_width=seni_window_clear_width)
+                          seni_window_clear_width=seni_window_clear_width, window_widths=window_widths)
     for child in hero.children:
         child.location.x += HERO_HOUSE_CONTRACT["room_center_xz"][0]
         child["urman_asset_id"] = "urman.act1.village.hero_house_timberplaster"
@@ -3781,6 +3813,7 @@ def save_hero_house_stage(hero: bpy.types.Object,
         "previewOriginRemoved": True,
         "modelPath": recipe.get("modelPath"),
         "windowClearWidth": recipe["windowClearWidth"],
+        "windowWidths": hero_window_widths(recipe),
         "windowClearHeight": recipe["windowClearHeight"],
         "source": {
             "generator": {"path": path_label(generator_path, project_root), "sha256": sha256_file(generator_path)},
@@ -3831,7 +3864,8 @@ def main() -> None:
         recipe_path = (recipe_arg if recipe_arg.is_absolute() else root_path / recipe_arg).resolve()
         recipe = load_hero_house_recipe(recipe_path)
         recipe_window_width = float(recipe["windowClearWidth"])
-        author_hero_house(root, recipe_window_width, seni_window_clear_width=recipe_window_width)
+        author_hero_house(root, recipe_window_width, seni_window_clear_width=recipe_window_width,
+                          window_widths=hero_window_widths(recipe))
         bpy.context.view_layer.update()
         validate_hero_house(root)
         save_hero_house_stage(bpy.data.objects[HERO_DWELLING_ROOT], blend_path,

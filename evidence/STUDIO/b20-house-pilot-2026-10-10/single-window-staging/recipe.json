@@ -1,0 +1,24 @@
+{
+  "schema": "house-recipe/v1",
+  "entityId": "urman.world:act1/kit/house-old-pc-babai-approach",
+  "component": "HeroHouse_TimberPlaster",
+  "modelPath": "res://assets/models/studio/hero-house-9b2ec1b3e99049cdbd6e2327582b5337.glb",
+  "windowClearWidth": 1.06,
+  "windowClearHeight": 1.4,
+  "limits": {
+    "windowClearWidth": {
+      "min": 0.65,
+      "max": 1.35
+    }
+  },
+  "windowWidths": {
+    "Front0": 1.3,
+    "Front1": 1.06,
+    "Front2": 1.06,
+    "Rear0": 1.06,
+    "Rear1": 1.06,
+    "Left0": 1.06,
+    "Right0": 1.06,
+    "SeniOuter0": 0.8
+  }
+}

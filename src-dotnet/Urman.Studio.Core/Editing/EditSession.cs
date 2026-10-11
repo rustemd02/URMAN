@@ -95,6 +95,28 @@ public sealed class EditSession(StudioWorkspace workspace)
         return result.Warning;
     }
 
+    /// <summary>Restore the explicitly ordered file-only stack; unsupported mixed history remains fenced.</summary>
+    public string? RestoreCommittedFileHistory(
+        string legacyLabel, string owner, Func<string, bool> allowedPath, Func<IReadOnlyList<string>, bool> allowedFileSet)
+    {
+        EnsureAvailable();
+        if (_open is not null || _undo.Count != 0 || _redo.Count != 0)
+            throw new InvalidOperationException("Persistent history requires an empty edit session.");
+        var result = StudioFileTransaction.LoadCommittedFileHistory(Workspace.Root, owner, allowedPath, allowedFileSet);
+        for (var index = 0; index < result.Cursor; index++)
+        {
+            var transaction = result.Transactions[index];
+            _undo.Push(new(transaction.CommandLabel ?? legacyLabel, [], transaction));
+        }
+        for (var index = result.Transactions.Count - 1; index >= result.Cursor; index--)
+        {
+            var transaction = result.Transactions[index];
+            _redo.Push(new(transaction.CommandLabel ?? legacyLabel, [], transaction));
+        }
+        if (result.Transactions.Count > 0) Changed?.Invoke();
+        return result.Warning;
+    }
+
     /// <summary>Attach source/model file writes to this command. Call inside the same Begin scope as the entity edits.</summary>
     public void ApplyFiles(string label, string owner, IReadOnlyList<StudioFileWrite> writes, IReadOnlySet<string> allowedPaths, Action? afterPromotion = null)
     {
@@ -181,6 +203,9 @@ public sealed class EditSession(StudioWorkspace workspace)
         var before = new JsonArray(file.Keys().Select(key => (JsonNode?)key).ToArray());
         var after = new JsonArray(keys.Select(key => (JsonNode?)key).ToArray());
         if (JsonNode.DeepEquals(before, after)) return;
+        if (file.RootIsArray && file.Keys().Any(Workspace.IsAmbiguous))
+            throw new InvalidOperationException("Порядок не изменён: в файле есть неоднозначные ID. Исправьте исходник вручную.");
+        StudioFileTransaction.FenceIncompleteHistory(Workspace.Root);
         file.Reorder(keys);
         var change = new EntityChange(relativePath, OrderKey, before, after);
         if (_open is not null)
@@ -365,16 +390,26 @@ public sealed class EditSession(StudioWorkspace workspace)
             return;
         }
 
+        if (file.RootIsArray && Workspace.IsAmbiguous(key))
+            throw new InvalidOperationException("Объект не изменён: ID повторяется. Исправьте исходник вручную.");
+        var beforeKeys = file.Keys().ToArray();
+        StudioFileTransaction.FenceIncompleteHistory(Workspace.Root);
         file.Put(key, after, remove);
         Workspace.Reindex();
         var change = new EntityChange(relativePath, key, before, after);
+        var changes = new List<EntityChange> { change };
+        var afterKeys = file.Keys().ToArray();
+        if (!beforeKeys.SequenceEqual(afterKeys, StringComparer.Ordinal))
+            changes.Add(new EntityChange(relativePath, OrderKey,
+                new JsonArray(beforeKeys.Select(item => (JsonNode?)item).ToArray()),
+                new JsonArray(afterKeys.Select(item => (JsonNode?)item).ToArray())));
         if (_open is not null)
         {
-            _open.Add(change);
+            _open.AddRange(changes);
         }
         else
         {
-            var command = new EditCommand(label, [change]);
+            var command = new EditCommand(label, changes);
             try { Push(command); }
             catch
             {
@@ -390,6 +425,8 @@ public sealed class EditSession(StudioWorkspace workspace)
         var retired = new List<StudioFileTransaction>();
         try
         {
+            if (_redo.Any(redo => redo.Files is not null))
+                StudioFileTransaction.FenceIncompleteHistory(Workspace.Root);
             // shortcut: redo journals retire one by one; use shared history metadata if full-stack recovery becomes supported.
             foreach (var redo in _redo)
             {
@@ -398,7 +435,7 @@ public sealed class EditSession(StudioWorkspace workspace)
                 retired.Add(files);
             }
 
-            command.Files?.Accept();
+            command.Files?.Accept(command.Label);
         }
         catch (Exception error)
         {
@@ -495,7 +532,8 @@ public sealed class EditSession(StudioWorkspace workspace)
 
     private void RevertChanges(IReadOnlyList<EntityChange> changes)
     {
-        foreach (var change in changes.Reverse())
+        foreach (var change in changes.Where(change => change.Key != OrderKey).Reverse()
+            .Concat(changes.Where(change => change.Key == OrderKey).Reverse()))
         {
             if (change.Key == OrderKey)
             {
@@ -518,7 +556,10 @@ public sealed class EditSession(StudioWorkspace workspace)
             throw new UndoConflictException(command.Label, blocked);
         }
 
-        foreach (var change in forward ? command.Changes : command.Changes.Reverse())
+        var orderedChanges = forward ? command.Changes : command.Changes.Reverse();
+        // Restore membership before applying the saved order, including deleted entities.
+        foreach (var change in orderedChanges.Where(change => change.Key != OrderKey)
+            .Concat(orderedChanges.Where(change => change.Key == OrderKey)))
         {
             var target = forward ? change.After : change.Before;
             if (change.Key == OrderKey)
