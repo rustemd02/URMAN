@@ -13,8 +13,10 @@ public partial class JournalUi
     private Label _photoBookEmpty = null!;
     private Label _photoBookTitle = null!;
     private Label _photoBookPlacement = null!;
+    private PanelContainer _photoBookFrontCard = null!;
     private Label _photoBookFrontHeading = null!;
     private Label _photoBookFrontBrief = null!;
+    private Label _photoBookFoldMarker = null!;
     private HSeparator _photoBookSeparator = null!;
     private Label _photoBookBackHeading = null!;
     private Label _photoBookBackText = null!;
@@ -26,6 +28,8 @@ public partial class JournalUi
     private object? _photoBookSession;
     private bool _photoBookRefreshing;
     private bool _photoBookActionBusy;
+    private Tween? _photoBookPlacementTween;
+    private long _photoBookPlacementGeneration;
 
     private void BuildPhotoBookUi()
     {
@@ -85,13 +89,42 @@ public partial class JournalUi
         _photoBookSpread.AddChild(_photoBookTitle);
         _photoBookPlacement = new Label { Name = "Placement", AutowrapMode = TextServer.AutowrapMode.WordSmart };
         _photoBookSpread.AddChild(_photoBookPlacement);
-        _photoBookFrontHeading = new Label { Text = "На лицевой стороне · описание снимка",
-            AutowrapMode = TextServer.AutowrapMode.WordSmart };
-        _photoBookSpread.AddChild(_photoBookFrontHeading);
+        _photoBookFrontCard = new PanelContainer
+        {
+            Name = "FrontDescriptionCard",
+            ThemeTypeVariation = UrmanUiTheme.Sheet,
+            PivotOffset = Vector2.Zero
+        };
+        _photoBookFrontCard.Resized += () =>
+            _photoBookFrontCard.PivotOffset = _photoBookFrontCard.Size / 2f;
+        var frontCardContent = new VBoxContainer { Name = "PaperContents" };
+        frontCardContent.AddThemeConstantOverride("separation", 6);
+        _photoBookFrontCard.AddChild(frontCardContent);
+        _photoBookSpread.AddChild(_photoBookFrontCard);
+        var frontCardHeading = new HBoxContainer { Name = "PaperHeading" };
+        frontCardContent.AddChild(frontCardHeading);
+        _photoBookFrontHeading = new Label
+        {
+            Text = "Описание снимка",
+            AutowrapMode = TextServer.AutowrapMode.WordSmart
+        };
+        frontCardHeading.AddChild(_photoBookFrontHeading);
+        frontCardHeading.AddChild(new Control { SizeFlagsHorizontal = Control.SizeFlags.ExpandFill });
+        _photoBookFoldMarker = new Label
+        {
+            Name = "FoldedCorner",
+            Text = "⌝",
+            HorizontalAlignment = HorizontalAlignment.Right,
+            VerticalAlignment = VerticalAlignment.Center,
+            CustomMinimumSize = new Vector2(18, 18),
+            MouseFilter = Control.MouseFilterEnum.Ignore,
+            FocusMode = Control.FocusModeEnum.None
+        };
+        frontCardHeading.AddChild(_photoBookFoldMarker);
         _photoBookFrontBrief = new Label { Name = "FrontDescription",
             AutowrapMode = TextServer.AutowrapMode.WordSmart,
             SizeFlagsHorizontal = Control.SizeFlags.ExpandFill };
-        _photoBookSpread.AddChild(_photoBookFrontBrief);
+        frontCardContent.AddChild(_photoBookFrontBrief);
         _photoBookSeparator = new HSeparator();
         _photoBookSpread.AddChild(_photoBookSeparator);
         _photoBookBackHeading = new Label { Text = "Оборот",
@@ -126,10 +159,19 @@ public partial class JournalUi
         _tabs.TabChanged += index =>
         {
             _photoBookPage.Visible = index == PhotoBookTabIndex;
-            if (index != PhotoBookTabIndex) return;
+            if (index != PhotoBookTabIndex)
+            {
+                CancelPhotoBookPlacementAnimation();
+                return;
+            }
             RefreshPhotoBookPage();
             if (_screen.Visible) FocusPhotoBookPage();
         };
+        _screen.VisibilityChanged += () =>
+        {
+            if (!_screen.Visible) CancelPhotoBookPlacementAnimation();
+        };
+        _screen.TreeExiting += CancelPhotoBookPlacementAnimation;
     }
 
     internal void OpenPhotoBook(RuntimeBridge bridge)
@@ -161,6 +203,7 @@ public partial class JournalUi
 
         if (!ReferenceEquals(_photoBookSession, session))
         {
+            CancelPhotoBookPlacementAnimation();
             _photoBookSession = session;
             _photoBookSelectedId = null;
             _photoBookActionStatus.Text = string.Empty;
@@ -173,7 +216,10 @@ public partial class JournalUi
         if (selectedIndex < 0 && _photoBookProjection.Count > 0) selectedIndex = 0;
         var nextSelectedId = selectedIndex < 0 ? null : _photoBookProjection[selectedIndex].PhotoId;
         if (!StringComparer.Ordinal.Equals(previousSelectedId, nextSelectedId))
+        {
+            CancelPhotoBookPlacementAnimation();
             _photoBookActionStatus.Text = string.Empty;
+        }
 
         _photoBookRefreshing = true;
         _photoBookList.Clear();
@@ -184,8 +230,7 @@ public partial class JournalUi
         _photoBookEmpty.Visible = !hasPhotos;
         _photoBookTitle.Visible = hasPhotos;
         _photoBookPlacement.Visible = hasPhotos;
-        _photoBookFrontHeading.Visible = hasPhotos;
-        _photoBookFrontBrief.Visible = hasPhotos;
+        _photoBookFrontCard.Visible = hasPhotos;
         _photoBookSeparator.Visible = hasPhotos;
         _photoBookBackHeading.Visible = hasPhotos;
         _photoBookBackText.Visible = hasPhotos;
@@ -211,6 +256,7 @@ public partial class JournalUi
 
     private void ClearPhotoBookPage(bool resetSession)
     {
+        CancelPhotoBookPlacementAnimation();
         if (resetSession)
         {
             _photoBookSession = null;
@@ -222,8 +268,7 @@ public partial class JournalUi
         _photoBookEmpty.Visible = true;
         _photoBookTitle.Visible = false;
         _photoBookPlacement.Visible = false;
-        _photoBookFrontHeading.Visible = false;
-        _photoBookFrontBrief.Visible = false;
+        _photoBookFrontCard.Visible = false;
         _photoBookSeparator.Visible = false;
         _photoBookBackHeading.Visible = false;
         _photoBookBackText.Visible = false;
@@ -241,7 +286,10 @@ public partial class JournalUi
         if (_photoBookRefreshing || index < 0 || index >= _photoBookProjection.Count) return;
         var selected = _photoBookProjection[(int)index];
         if (!StringComparer.Ordinal.Equals(_photoBookSelectedId, selected.PhotoId))
+        {
+            CancelPhotoBookPlacementAnimation();
             _photoBookActionStatus.Text = string.Empty;
+        }
         _photoBookSelectedId = selected.PhotoId;
         ShowPhotoBookPhoto(selected);
         RefreshPhotoBookActionButtons();
@@ -293,6 +341,82 @@ public partial class JournalUi
         && ReferenceEquals(bridge.SessionIdentity, session)
         && ReferenceEquals(_photoBookSession, session);
 
+    private bool IsCurrentMountedPhotoCard(RuntimeBridge bridge, object session, string photoId) =>
+        IsCurrentPhotoBookOperation(bridge, session)
+        && _screen.Visible
+        && _tabs.CurrentTab == PhotoBookTabIndex
+        && _photoBookPage.Visible
+        && StringComparer.Ordinal.Equals(_photoBookSelectedId, photoId)
+        && _photoBookProjection.Any(photo => photo.PhotoId == photoId && photo.Mounted);
+
+    private void CancelPhotoBookPlacementAnimation()
+    {
+        _photoBookPlacementGeneration++;
+        if (_photoBookPlacementTween is { } tween && GodotObject.IsInstanceValid(tween)) tween.Kill();
+        _photoBookPlacementTween = null;
+        if (GodotObject.IsInstanceValid(_photoBookFrontCard))
+        {
+            _photoBookFrontCard.Scale = Vector2.One;
+            _photoBookFrontCard.Rotation = 0f;
+            _photoBookFrontCard.Modulate = Colors.White;
+        }
+        if (GodotObject.IsInstanceValid(_photoBookFoldMarker))
+        {
+            _photoBookFoldMarker.Scale = Vector2.One;
+            _photoBookFoldMarker.Rotation = 0f;
+        }
+    }
+
+    private void StartPhotoBookPlacementAnimation(RuntimeBridge bridge, object session, string photoId)
+    {
+        if (!IsCurrentMountedPhotoCard(bridge, session, photoId)) return;
+        CancelPhotoBookPlacementAnimation();
+        var generation = _photoBookPlacementGeneration;
+        var reducedMotion = _accessibility.ReducedMotion;
+        _photoBookFrontCard.Modulate = reducedMotion ? new Color(1f, 1f, 1f, 0f) : new Color(1f, 1f, 1f, .88f);
+        _photoBookFrontCard.Scale = reducedMotion ? Vector2.One : new Vector2(.97f, .97f);
+        _photoBookFrontCard.Rotation = reducedMotion ? 0f : -.025f;
+        _photoBookFoldMarker.Scale = reducedMotion ? Vector2.One : new Vector2(.72f, .72f);
+        _photoBookFoldMarker.Rotation = reducedMotion ? 0f : .32f;
+
+        var duration = reducedMotion ? .15 : .95;
+        var tween = CreateTween().SetParallel(true);
+        _photoBookPlacementTween = tween;
+        if (reducedMotion)
+        {
+            tween.TweenProperty(_photoBookFrontCard, "modulate:a", 1f, duration)
+                .SetTrans(Tween.TransitionType.Sine).SetEase(Tween.EaseType.Out);
+        }
+        else
+        {
+            tween.TweenProperty(_photoBookFrontCard, "scale", Vector2.One, duration)
+                .SetTrans(Tween.TransitionType.Back).SetEase(Tween.EaseType.Out);
+            tween.TweenProperty(_photoBookFrontCard, "rotation", 0f, duration)
+                .SetTrans(Tween.TransitionType.Cubic).SetEase(Tween.EaseType.Out);
+            tween.TweenProperty(_photoBookFrontCard, "modulate", Colors.White, duration)
+                .SetTrans(Tween.TransitionType.Sine).SetEase(Tween.EaseType.Out);
+            tween.TweenProperty(_photoBookFoldMarker, "scale", Vector2.One, .42)
+                .SetTrans(Tween.TransitionType.Back).SetEase(Tween.EaseType.Out);
+            tween.TweenProperty(_photoBookFoldMarker, "rotation", 0f, .42)
+                .SetTrans(Tween.TransitionType.Cubic).SetEase(Tween.EaseType.Out);
+        }
+        tween.Finished += () =>
+        {
+            if (generation != _photoBookPlacementGeneration) return;
+            _photoBookPlacementTween = null;
+            if (!IsCurrentMountedPhotoCard(bridge, session, photoId))
+            {
+                CancelPhotoBookPlacementAnimation();
+                return;
+            }
+            _photoBookFrontCard.Scale = Vector2.One;
+            _photoBookFrontCard.Rotation = 0f;
+            _photoBookFrontCard.Modulate = Colors.White;
+            _photoBookFoldMarker.Scale = Vector2.One;
+            _photoBookFoldMarker.Rotation = 0f;
+        };
+    }
+
     private async Task PerformPhotoBookActionAsync(bool readBack)
     {
         if (_photoBookActionBusy || _notesLoadInProgress
@@ -308,6 +432,7 @@ public partial class JournalUi
         _photoBookActionBusy = true;
         _photoBookActionStatus.Text = readBack ? "Читаю оборот…" : "Вклеиваю снимок…";
         RefreshPhotoBookActionButtons();
+        var animatePlacement = false;
         try
         {
             var completed = readBack
@@ -316,6 +441,9 @@ public partial class JournalUi
             if (!IsCurrentPhotoBookOperation(bridge, session)) return;
 
             RefreshPhotoBookPage();
+            animatePlacement = !readBack && completed && !photo.Mounted
+                && StringComparer.Ordinal.Equals(_photoBookSelectedId, photoId)
+                && _photoBookProjection.Any(item => item.PhotoId == photoId && item.Mounted);
             if (_photoBookSelectedId == photoId)
                 _photoBookActionStatus.Text = completed
                     ? readBack ? "Оборот прочитан." : "Снимок вклеен в альбом."
@@ -338,5 +466,6 @@ public partial class JournalUi
             _photoBookActionBusy = false;
             if (GodotObject.IsInstanceValid(this) && IsInsideTree()) RefreshPhotoBookActionButtons();
         }
+        if (animatePlacement) StartPhotoBookPlacementAnimation(bridge, session, photoId);
     }
 }

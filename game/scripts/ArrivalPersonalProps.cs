@@ -138,8 +138,16 @@ internal partial class ArrivalPersonalProps : Node3D
             new(0f, -.017f, 0f), cloth, .0015f);
         AddBookPart(book, "RecessedPageBlock", new(FamilyBookWidth - .010f, .028f, FamilyBookDepth - .010f),
             Vector3.Zero, paper, .001f);
-        AddBookPart(book, "UpperClothBoard", new(FamilyBookWidth, .004f, FamilyBookDepth),
-            new(0f, .017f, 0f), cloth, .0015f);
+        var upperClothBoard = new MeshInstance3D
+        {
+            Name = "UpperClothBoard",
+            Position = new(0f, .0162f, 0f),
+            RotationDegrees = new(-90f, 0f, 0f),
+            Mesh = RuralPropGeometry.BowedPanel(FamilyBookWidth, FamilyBookDepth, .004f, .0015f, .0008f),
+            MaterialOverride = cloth
+        };
+        upperClothBoard.SetMeta("visualOnly", true);
+        book.AddChild(upperClothBoard);
         AddBookPart(book, "ClothSpine", new(.020f, .030f, FamilyBookDepth),
             new(-FamilyBookWidth * .5f + .010f, 0f, 0f), cloth, .004f);
 
