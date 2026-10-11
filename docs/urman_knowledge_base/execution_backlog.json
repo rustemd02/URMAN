@@ -75520,6 +75520,12 @@
                 "result": "deepening by deepseek v4.1 flash: nine ambient beds, every file present (res:// maps to the game folder), every bed declaring a source and a licence, every bed naming a zone, and the runtime director AmbientAudioDirector really loading this manifest. Nineteen of twenty zone bindings resolve; two beds (ambient.village-return, ambient.village-yard) bind village_day@from_forest and village_day@from_house, which appear nowhere in the content or the runtime sources, so they cannot be selected by the current zone string. A second catalogue exists under act1/sound_mood and is named so one manifest is not mistaken for the whole picture. Own mistakes recorded: I first called all five files missing by mapping res:// to the repository root, and nearly claimed there was no runtime consumer until I searched past the tests. Audit listening/mix/loop/culture stays an external gate",
                 "source": "new file src-dotnet/Urman.Studio.Core/Editing/AmbientBeds.cs; evidence evidence/STUDIO/b20-deepseek-ai-18/2026-10-11-ambient-beds",
                 "verification": "probe PASS 552/552 including the nine beds, the file and licence checks, the director link, the two unknown zone strings and the second catalogue; Core 0/0; game/Urman.Game.csproj 0/0; Urman.Studio.Tests 38/38. No listening was done: auditory acceptance is NOT_RUN"
+              },
+              {
+                "stage": "2026-10-11 the second bed catalogue and its provenance record",
+                "result": "deepening by deepseek v4.1 flash, closing the loose end I had named myself: the second catalogue holds two prepared beds and both declare their own sha256, PCM bytes, rms, peak, loop policy and full recipe. Verified true: every bed file exists, its own sha256 matches the bytes and its pcmBytes matches the WAV data chunk, and all sixteen source references point at existing files with a licence. FINDING: three of the sixteen source hashes are stale - sound_mood/tv.wav is declared 1446c223d4d5 but is b92071531bb5 on disk (two references) and laughter.wav is declared 60b71aa8b575 but is 7297a2d9025e - so the recipe describes different audio than the files it names and a rebuild would not reproduce what is documented. The catalogue's own listening field says external/not-run and is quoted as the auditory gate",
+                "source": "new file src-dotnet/Urman.Studio.Core/Editing/SoundMoodBeds.cs; evidence evidence/STUDIO/b20-deepseek-ai-18/2026-10-11-sound-mood-provenance",
+                "verification": "probe PASS 601/601 including the bed hashes, the PCM chunk check, the three stale source hashes and the quoted acceptance state; Core 0/0. No listening: auditory acceptance is NOT_RUN"
               }
             ],
             "stage_tasks": [
@@ -75552,7 +75558,9 @@
               "Принятие source corrections1097165e; manual editing/audition/world binding UI proof; слух отдельный.",
               "Ранее переданный частичный этап (2026-10-10/11 atmosphere registry and audio sources, five review rounds) ждёт ревью/приёмки; полный done_when не выполнен.",
               "Две зоны бедов (village_day@from_forest, village_day@from_house) не встречаются в контенте и исходниках: нужно авторское решение.",
-              "Ранее переданный частичный этап (2026-10-11 the ambient beds against the runtime director, the disk and the rights) ждёт ревью/приёмки; полный done_when не выполнен."
+              "Ранее переданный частичный этап (2026-10-11 the ambient beds against the runtime director, the disk and the rights) ждёт ревью/приёмки; полный done_when не выполнен.",
+              "Три хеша источников второго каталога устарели: tv.wav (×2) и laughter.wav — нужно решение владельца звука.",
+              "Ранее переданный частичный этап (2026-10-11 the second bed catalogue and its provenance record) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
             "next_action": "Исправить пять source findings из Codex сообщения11.10 12:21 в AudioSourceRegistry/StudioAudioPanel и передать отдельный SHA, без новых probes.",
             "blocker": {

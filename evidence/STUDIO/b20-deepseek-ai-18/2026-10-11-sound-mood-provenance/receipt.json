@@ -1,0 +1,28 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-18"
+  ],
+  "stage": "the second bed catalogue and its provenance record",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-11 21:09 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "57504c79",
+  "result": {
+    "catalogue": "the second catalogue (game/assets/audio/act1/sound_mood/beds_manifest.json) holds two prepared beds, and both declare their own sha256, PCM byte count, rms, peak, loop policy and the full recipe that mixed them",
+    "verified_true": "every bed file exists, its own sha256 matches the bytes on disk and its pcmBytes matches the WAV data chunk, and all sixteen source references point at files that exist with a licence declared",
+    "finding": "THREE of the sixteen source hashes are stale: game/assets/audio/act1/sound_mood/tv.wav is declared as 1446c223d4d5... but is b92071531bb5... on disk (two references), and laughter.wav is declared as 60b71aa8b575... but is 7297a2d9025e.... The recipe therefore describes different audio than the files it names, and rebuilding the beds would not reproduce what is documented - a provenance and reproducibility finding for the sound owner, not something a projection may quietly rewrite",
+    "external_gate": "the catalogue's own listening field says external/not-run, which is quoted as the auditory acceptance gate"
+  },
+  "verified": {
+    "probe": "PASS 601/601 including the bed hashes, the PCM chunk check, the reported stale source hashes and the quoted acceptance state",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors (composed tree with my branch and the v15 patch)",
+    "not_run": "no listening: how the beds sound is auditory acceptance"
+  },
+  "files": {
+    "evidence/STUDIO/b20-deepseek-ai-18/2026-10-11-sound-mood-provenance/check.log": "ca9a1f38b06375aa6d5d871383ef40448ff8b3719849d0e4cef0d54913d7c297"
+  },
+  "open": [
+    "three source hashes need the sound owner's attention: either the files changed after the record or the record was written from other takes"
+  ]
+}
