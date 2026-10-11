@@ -61205,25 +61205,23 @@
             "active_owner": null,
             "activity": {
               "state": "not_active",
-              "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+              "reason": "Ограниченный source/export этап принят root; runtime интеграция и Windows визуальная приёмка открыты."
             },
             "task_type": "engineering",
-            "status": "todo",
+            "status": "in_progress",
             "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
               "Согласовать силуэт, цоколь, вынос кровли и глубину проёмов эталонного дома с выбранным reference ID; собственного целевого receipt пока нет."
             ],
-            "next_action": "Сопоставить текущий результат: Согласовать силуэт, цоколь, вынос кровли и глубину проёмов эталонного дома с выбранным reference ID. Затем изменить только установленный остаток.",
+            "next_action": "Интегрировать staged hero через существующий controlled pipeline и проверить подходящий Windows кадр после update worker; full E01/дом не закрыт.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
             "work_contract": {
               "result": "Согласовать силуэт, цоколь, вынос кровли и глубину проёмов эталонного дома с выбранным reference ID",
               "targets": [
-                "game/assets/textures/ui/act1_menu_winter_v1.png",
-                "docs/production/act1_takeover_evidence_2026-09-16/house-log-hero-20260922-01/act1_visual_review_receipt.json",
-                "docs/urman_knowledge_base/decision_log.md"
+                "assets/source/blender/act1/urman_village_exterior_kit.py"
               ],
               "required_inputs": [],
               "scope_in": [
@@ -61243,7 +61241,7 @@
               ],
               "verification": {
                 "method": "targeted_runtime_scenario",
-                "question": "Согласовать силуэт, цоколь, вынос кровли и глубину проёмов эталонного дома с выбранным reference ID",
+                "question": "Идут ли фальцевые рёбра обоих скатов вдоль плоскости кровли, с правдоподобным шагом, без изменения существующих roof/snow/root/recipe и проходов?",
                 "scenario": "ART",
                 "success": "Наблюдаемый результат этой единицы и обратное действие/восстановление там, где меняются данные. Для ассета — импорт выбранного файла и целевой вид/движение; для кода — узкая компиляция только затронутого модуля, затем указанный пользовательский сценарий. Компиляция не доказывает изображение или GUI.",
                 "repeat_only_if": "Изменился покрываемый вход/consumer/контракт; без этого уже принятая проверка используется повторно без запуска."
@@ -61256,7 +61254,17 @@
               "verification": [],
               "acceptance": []
             },
-            "depends_on": []
+            "depends_on": [],
+            "progress_2026_10_12_roof_seams": {
+              "reference": "T2; docs/URMAN_VISUAL_RESET_2026-10-07/references/approved/T2_dark_log_house_blue_casings.webp; exact image viewed",
+              "observed": "Продольные поднятые фальцы ржаво-коричневого листового железа; текущая hero Roof_LOD0 непрерывная без физического профиля seams.",
+              "scope": "Add thin raised ribs for hero_layout only; preserve snow and other geometry.",
+              "remaining": "Полная конструкция/силуэт/проёмы и текущая Windows художественная приёмка остаются открытыми; снег может скрывать ribs.",
+              "result": "30 физических фальцев, 15 на скат, шаг .54 м, высота .03 м; +360 triangles, существующий roof material. Targeted Blender hero-house export PASS, 666 meshes. Общий runtime kit не перезаписан.",
+              "evidence": "evidence/ACT1-DEPTH/roof-seams-20261012/manifest.json",
+              "staged_glb": "/private/tmp/urman-hero-roof-20261012/hero_house.glb",
+              "native_verification": "NOT_RUN: old Windows worker; snow may cover seams"
+            }
           },
           {
             "id": "ACT1-DEPTH.12/E02",
@@ -103746,8 +103754,8 @@
       "id": "PW-016",
       "title": "Переработать журнал в семейную книгу без потери функций",
       "milestone": "PW-M1",
-      "status": "todo",
-      "active_owner": null,
+      "status": "in_progress",
+      "active_owner": "Кодекс Кадыра / Luna book",
       "owner": "integration",
       "priority": "P0",
       "complexity": "complex",
@@ -103892,22 +103900,22 @@
       },
       "assigned_owner": "integration",
       "activity": {
-        "state": "not_active",
-        "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+        "state": "confirmed_active",
+        "reason": "Прямое ночное поручение автора 12.10; source/compiler/catalog и существующий JournalUi acquired photo slice."
       },
       "task_type": "engineering",
-      "implementation_state": "not_started",
+      "implementation_state": "partial",
       "technical_verification_state": "not_run",
       "remaining": [
         "Все старые полезные функции доступны.",
         "Фотомиры не открывают клетки наружной карты.",
         "После обычного получения снимка игрок находит фронт/оборот и вклейку в семейной книге; Continue сохраняет личные записи и состояния снимка. Карта/адреса/словарь/прежний инвентарь используют существующий источник состояния; открытие страницы не выдаёт непрочитанное знание или внешнее подтверждение."
       ],
-      "next_action": "Добавить развороты/оглавление/сопоставление фото в существующий UI owner.",
+      "next_action": "Доставить существующие авторские тексты через compiler/catalog и acquired-only вкладку существующей книги; native/Continue и physical book остаются открыты.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
-      "execution_mode": "production_paused_during_tracker_migration",
+      "execution_mode": "production",
       "work_contract": {
         "result": "Переработать журнал в семейную книгу без потери функций",
         "targets": [
@@ -104076,7 +104084,13 @@
           "evidence_ref": "PW-016.evidence and named history progress; source_review shows available/missing inputs"
         }
       ],
-      "assignment_state": "preserved_person_or_existing_role; activity separate"
+      "assignment_state": "preserved_person_or_existing_role; activity separate",
+      "progress_2026_10_12_book": {
+        "scope": "Existing author title/front_brief/back_text_ru in photos.spec; compiler/catalog retain text, existing JournalUi reads existing acquired/mounted photo state. No invented images/transcription/new save state.",
+        "owners": "Luna transport_cabin: compiler/Core catalog; Luna bath_firewood_source: RuntimeBridge.PhotoBook, JournalUi.PhotoBook + minimal hooks; root: review/compile/JSON.",
+        "verification_question": "Доступны ли только найденные снимки и авторские тексты без выдачи знания при открытии и без потери notes/map/vocab/inventory?",
+        "remaining": "Native scenario, Continue persistence, authored photo images and physical 3D book, human acceptance."
+      }
     },
     {
       "id": "PW-017",

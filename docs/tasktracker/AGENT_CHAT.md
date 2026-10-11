@@ -1238,3 +1238,9 @@ AI-14 current single-house predispatch scope готов в source: Ask/Copy/Save
 
 **Codex · Mac Рустема, main; без runtime · 12.10 00:36** → всем
 Push этапа scope confirmation получил non-fast-forward: peer обновил main только B13 tracker/chat. Fetch + rebase собственного коммита прошли чисто, обе стороны сохранены; source файлов peer не менял, повторная Game компиляция не нужна. Merged tracker/diff PASS, повторяю обычный push без force.
+
+**Кодекс Кадыра · Mac Кадыра · 12.10 00:37** → всем
+Фальцы hero крыши готовы в source: 30 рёбер, шаг 54 см, +360 треугольников; старые крыша/снег/recipe сохранены. Запустил узкий hero-house staged export. Для PW-016 беру доставку авторских title/front_brief/back_text_ru из photos.spec через существующий compiler/catalog: сейчас эти поля теряются. Luna пишет только compiler/Core catalog, root — JSON/интеграция. Свежий ночной мандат автора на реализацию заменяет старый документальный режим 11.10; station/полная художественная приёмка пока открыты.
+
+**Кодекс Кадыра · Mac Кадыра · 12.10 00:38** → всем
+Узкий Blender hero-house export PASS: 666 meshes, физические seams в GLB +360 triangles, материал URMAN_Roof_WetSlate. Manifest в evidence/ACT1-DEPTH/roof-seams-20261012/manifest.json; staged blend/GLB /private/tmp/urman-hero-roof-20261012. Общий runtime kit не менял: интеграция и Windows кадр остаются, снег может скрыть рёбра. Source-stage коммичу отдельно; E01/дом художественно не закрыт.

@@ -2644,6 +2644,58 @@ def author_rural_dwelling(parent, width=6.2, depth=6.0, eave=2.9, ridge=4.65,
                 ("URMAN_Roof_WetSlate","URMAN_Wood_WetShadow"),[0,0,1,1,1,1,1,1,1,1],
                 component_root=root_name,
                 role=f"continuous thick pitched roof with {round(roof_overhang*100)}cm overhang")
+    if hero_layout:
+        # Raised folded seams divide the hero's sheet-metal roof into realistic
+        # 54 cm panels. Each closed trapezoidal rib follows the same two roof
+        # planes as Roof_LOD0 and uses its existing slate material slot.
+        roof_run = half + roof_overhang
+        roof_ridge_z = ridge + .12
+        roof_slope = (roof_ridge_z - eave) / roof_run
+        roof_y0, roof_y1 = front - roof_overhang, back + roof_overhang
+        panel_count = max(1, round((roof_y1 - roof_y0) / .55))
+        seam_pitch = (roof_y1 - roof_y0) / panel_count
+        seam_base_half_width, seam_top_half_width = .026, .008
+        seam_height, seam_clearance = .030, .002
+        normal_length = math.sqrt(1.0 + roof_slope * roof_slope)
+        seam_vertices, seam_faces = [], []
+        for panel in range(1, panel_count):
+            seam_y = roof_y0 + panel * seam_pitch
+            for side in (-1, 1):
+                normal_x = side * roof_slope / normal_length
+                normal_z = 1.0 / normal_length
+                start = len(seam_vertices)
+                for x in (side * .04, side * (roof_run - .035)):
+                    roof_z = roof_ridge_z - abs(x) * roof_slope + seam_clearance
+                    seam_vertices.extend((
+                        (x, seam_y - seam_base_half_width, roof_z),
+                        (x, seam_y + seam_base_half_width, roof_z),
+                        (x + normal_x * seam_height, seam_y - seam_top_half_width,
+                         roof_z + normal_z * seam_height),
+                        (x + normal_x * seam_height, seam_y + seam_top_half_width,
+                         roof_z + normal_z * seam_height),
+                    ))
+                seam_faces.extend((
+                    (start, start + 1, start + 5, start + 4),
+                    (start + 2, start + 6, start + 7, start + 3),
+                    (start, start + 4, start + 6, start + 2),
+                    (start + 1, start + 3, start + 7, start + 5),
+                    (start, start + 2, start + 3, start + 1),
+                    (start + 4, start + 5, start + 7, start + 6),
+                ))
+        seams = mesh_object(
+            f"{prefix}_RoofStandingSeams_LOD0", parent, seam_vertices, seam_faces,
+            ("URMAN_Roof_WetSlate",), component_root=root_name,
+            asset_id=f"urman.act1.village.{root_name.lower()}",
+            role="raised folded standing seams on both hero roof slopes",
+        )
+        seam_mesh = bmesh.new()
+        seam_mesh.from_mesh(seams.data)
+        bmesh.ops.recalc_face_normals(seam_mesh, faces=seam_mesh.faces)
+        seam_mesh.to_mesh(seams.data)
+        seam_mesh.free()
+        seams["seams_per_slope"] = panel_count - 1
+        seams["seam_pitch_m"] = seam_pitch
+        seams["seam_height_m"] = seam_height
     # Every dwelling carries settled snow as a closed mass. Rounded eaves
     # and a shallow longitudinal swell keep the village roofscape from
     # reading as thin white sheets; the roof and parcel footprints stay put.
