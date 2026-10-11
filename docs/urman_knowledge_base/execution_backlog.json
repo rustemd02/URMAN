@@ -24278,7 +24278,15 @@
             "verification": "A08/A11/A16: остановка owned процесса на выбранном checkpoint в disposable data, внешняя правка одного файла.",
             "risks_recovery_external_gates": "Новые fault-injection инфраструктуры не создавать без разрешения; использовать доступные ручные checkpoints/существующие средства; реальные saves исключены.",
             "required": true,
-            "evidence": [],
+            "evidence": [
+              {
+                "stage": "2026-10-11 guarded Markdown/JSON draft recovery",
+                "result": "PARTIAL_SOURCE_IMPLEMENTED_GAME_0_0_EXISTING_TARGETED_TESTS_2_2_FULL_UNIT_OPEN",
+                "source": "DraftStore.cs; EditSession.cs; StudioFileTransaction.cs:no-links accessibility; StudioRoot.cs:OfferRecoveredDrafts/SaveAll",
+                "verification": "Root narrow Game compile0/0; existing DraftsSurvive+Reordering tests2/2; no new suite/fixtures. Sol source review identified and root fixed kind mismatch, pending-artifact autosave loss and SaveAll exception messaging.",
+                "remaining": "Actual native UI/crash edge-case acceptance, filesystem race/dual-file atomicity and ordered durable history remain open."
+              }
+            ],
             "stage_tasks": [
               "STUDIO.P6"
             ],
@@ -24390,7 +24398,15 @@
             "verification": "A16 и безвредный staged code diff без реального исполнения до разрешения; compare userdata guard evidence.",
             "risks_recovery_external_gates": "Без OS/tool boundary proof нельзя включать automatic adapter; не расширять scope ради прохождения проверки.",
             "required": true,
-            "evidence": [],
+            "evidence": [
+              {
+                "stage": "2026-10-11 guarded Markdown/JSON draft recovery",
+                "result": "PARTIAL_SOURCE_IMPLEMENTED_GAME_0_0_EXISTING_TARGETED_TESTS_2_2_FULL_UNIT_OPEN",
+                "source": "DraftStore.cs; EditSession.cs; StudioFileTransaction.cs:no-links accessibility; StudioRoot.cs:OfferRecoveredDrafts/SaveAll",
+                "verification": "Root narrow Game compile0/0; existing DraftsSurvive+Reordering tests2/2; no new suite/fixtures. Sol source review identified and root fixed kind mismatch, pending-artifact autosave loss and SaveAll exception messaging.",
+                "remaining": "Actual native UI/crash edge-case acceptance, filesystem race/dual-file atomicity and ordered durable history remain open."
+              }
+            ],
             "stage_tasks": [
               "STUDIO.P6"
             ],
@@ -25838,6 +25854,26 @@
             "user_result": "Existing Check dialog gains whole-workspace/dirty rule-operation usage and source-vs-Studio catalogue gaps. Missing sources and IO failures explicitly suppress incomplete analysis without losing compiler result.",
             "verification": "Root narrow Game build0/0 and diff check; Sol reviewed integration and two IO/missing-PhotoWorld source corrections. No new test suite/probe imported; nativeUI dialog NOT_VERIFIED.",
             "remaining": "Full AI37 runtime branch/parallel/repeat/timer/persistence and missing Studio operations remain DeepSeek scope; source presence is not executor-semantic proof."
+          },
+          "draft_recovery_source_slice": {
+            "result": "SOURCE_REVIEW_ACCEPTED_GAME_0_0_TWO_EXISTING_TARGETED_TESTS_PASS_UI_OPEN",
+            "files": [
+              "src-dotnet/Urman.Studio.Core/Storage/DraftStore.cs",
+              "src-dotnet/Urman.Studio.Core/Storage/StudioFileTransaction.cs:EnsureNoLinks accessibility only",
+              "src-dotnet/Urman.Studio.Core/Editing/EditSession.cs:structural order snapshots and membership-before-order revert",
+              "game/studio/StudioRoot.cs:OfferRecoveredDrafts and SaveAll",
+              "tests-dotnet/Urman.Studio.Tests/StorageTests.cs:existing Recover caller only"
+            ],
+            "implementation": "Recover binds metadata to same workspace/source kind/canonical filename/SHA/date, guards no-links before source/metadata IO, reuses AuthoredFile Markdown/JSON parsing and validates addressing. Rejected/declined/changed artifacts protected from automatic discard/overwrite until accepted recovery; confirmation rechecks source/base/text and dirty state. Restores entity deletion/order through one group; structural Undo/Redo captures exact key order. Autosave reports partial refusal; saved source and failed draft cleanup are distinguished.",
+            "verification": "Affected Game compile0 warnings/0 errors, diffcheck; direct existing xUnit runner DraftsSurviveACrashAndPointAtTheLastSavedVersion + ReorderingIsOneUndoableStepAndKeepsTheFileStyle PASS2/2. No new tests/fixtures/probes. Dotnet-test rejected repo runner configuration; targeted project restore and built-in xUnit method filter used without changing global config. Final independent Sol6.1medium source review accepted; no additional confirmed defect.",
+            "limitations": [
+              "Native Markdown/damaged-draft UI NOT_VERIFIED; source review only for newly protected edge cases.",
+              "New absent sources and orphan draft without metadata preserved but not recovered.",
+              "World wrapper/header byte restoration not claimed: existing authored entity model owns changes.",
+              "No-link checks do not eliminate filesystem races; two draft artifacts independently atomic; tilde source paths refused to avoid legacy flattened filename collisions.",
+              "Multiple v1 transaction history order remains ambiguous; full AI29/AI32 and durable mixed history open."
+            ],
+            "next": "Commit/push accepted source slice; next durable history work needs explicit order/intent, never legacy timestamp inference."
           }
         }
       },

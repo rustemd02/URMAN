@@ -494,19 +494,34 @@ public partial class StudioRoot : Control
             if (autosave)
             {
                 // Autosave keeps a crash-safe draft; the authored files change on Cmd+S.
-                Drafts.Write(Workspace, DateTimeOffset.Now);
+                var dirtyCount = Workspace.Files.Count(file => file.Dirty);
+                if (Drafts.Write(Workspace, DateTimeOffset.Now) < dirtyCount)
+                {
+                    _saveError = "Часть новых правок не записана в черновики: прежние артефакты ждут решения о восстановлении.";
+                    ShowBanner(_saveError, error: true);
+                    RefreshStatus();
+                    return false;
+                }
                 RefreshStatus();
                 return true;
             }
 
+            var draftCleanupBlocked = false;
             foreach (var file in Workspace.Files.Where(file => file.Dirty))
             {
                 file.Save();
-                Drafts.Discard(file.RelativePath);
+                try { Drafts.Discard(file.RelativePath); }
+                catch (Exception error) when (error is IOException or UnauthorizedAccessException or ArgumentException)
+                {
+                    draftCleanupBlocked = true;
+                }
             }
 
             _saveError = null;
-            HideBanner();
+            if (draftCleanupBlocked)
+                ShowBanner("Исходники сохранены, но очистка части черновиков запрещена или недоступна. Их артефакты оставлены на месте.", error: false);
+            else
+                HideBanner();
             RefreshStatus("Сохранено");
             return true;
         }
@@ -516,11 +531,10 @@ public partial class StudioRoot : Control
             WatchDisk();
             return false;
         }
-        catch (IOException error)
+        catch (Exception error) when (error is IOException or UnauthorizedAccessException or ArgumentException)
         {
-            // The last complete version stays on disk; edits stay in memory (SAVE03).
-            _saveError = error.Message;
-            ShowBanner($"Не удалось сохранить: {error.Message}. Последняя целая версия на диске не тронута, ваши изменения остаются в Studio. Освободите место или проверьте права и сохраните снова.", error: true);
+            _saveError = "Сохранение не завершено: проверьте доступ и допустимость путей. Часть файлов могла сохраниться; остальные правки остаются в Studio.";
+            ShowBanner(_saveError, error: true);
             RefreshStatus();
             return false;
         }
@@ -551,7 +565,8 @@ public partial class StudioRoot : Control
 
     private void OfferRecoveredDrafts()
     {
-        var drafts = Drafts.Recover();
+        var drafts = Drafts.Recover(Workspace, out var warnings);
+        if (warnings.Count > 0) ShowBanner(string.Join("\n", warnings.Take(3)), error: true);
         if (drafts.Count == 0)
         {
             return;
@@ -568,19 +583,32 @@ public partial class StudioRoot : Control
         };
         dialog.Confirmed += () =>
         {
+            var currentDrafts = Drafts.Recover(Workspace, out var currentWarnings);
+            var skipped = currentWarnings.Count;
             foreach (var draft in drafts.Where(draft => !draft.DiskChangedSince))
             {
-                var recovered = Urman.Studio.Core.Storage.JsonSpanDocument.Parse(draft.DraftText);
                 var file = Workspace.File(draft.RelativePath);
-                using var scope = Session.Begin("восстановленный черновик");
-                var node = recovered.ToNode();
-                foreach (var item in (node as System.Text.Json.Nodes.JsonArray ?? node["entities"] as System.Text.Json.Nodes.JsonArray ?? []).OfType<System.Text.Json.Nodes.JsonObject>())
+                var current = currentDrafts.FirstOrDefault(item => item.RelativePath == draft.RelativePath);
+                if (current is null || current.DiskChangedSince || current.DraftText != draft.DraftText
+                    || current.DiskSha256AtDraft != draft.DiskSha256AtDraft || file.Dirty
+                    || !string.Equals(file.LoadedSha256, draft.DiskSha256AtDraft, StringComparison.OrdinalIgnoreCase))
                 {
-                    Session.Set(draft.RelativePath, (string)item["id"]!, item, "восстановленный черновик");
+                    skipped++;
+                    continue;
                 }
-
-                _ = file;
+                var recovered = AuthoredFile.CreateNew(Workspace.Root, draft.RelativePath, draft.DraftText);
+                var keys = recovered.Keys().ToArray();
+                using (Session.Begin("восстановленный черновик"))
+                {
+                    foreach (var key in file.Keys().Except(keys, StringComparer.Ordinal).ToArray())
+                        Session.Delete(draft.RelativePath, key, "восстановленный черновик");
+                    foreach (var key in keys)
+                        Session.Set(draft.RelativePath, key, recovered.Get(key), "восстановленный черновик");
+                    Session.SetOrder(draft.RelativePath, keys, "восстановленный черновик");
+                }
+                Drafts.AcceptRecoveredDraft(draft.RelativePath);
             }
+            if (skipped > 0) ShowBanner("Часть черновиков не восстановлена: данные изменились или недоступны. Артефакты сохранены; текущие правки не заменены.", error: true);
         };
         AddChild(dialog);
         dialog.PopupCentered();

@@ -365,16 +365,23 @@ public sealed class EditSession(StudioWorkspace workspace)
             return;
         }
 
+        var beforeKeys = file.Keys().ToArray();
         file.Put(key, after, remove);
         Workspace.Reindex();
         var change = new EntityChange(relativePath, key, before, after);
+        var changes = new List<EntityChange> { change };
+        var afterKeys = file.Keys().ToArray();
+        if (!beforeKeys.SequenceEqual(afterKeys, StringComparer.Ordinal))
+            changes.Add(new EntityChange(relativePath, OrderKey,
+                new JsonArray(beforeKeys.Select(item => (JsonNode?)item).ToArray()),
+                new JsonArray(afterKeys.Select(item => (JsonNode?)item).ToArray())));
         if (_open is not null)
         {
-            _open.Add(change);
+            _open.AddRange(changes);
         }
         else
         {
-            var command = new EditCommand(label, [change]);
+            var command = new EditCommand(label, changes);
             try { Push(command); }
             catch
             {
@@ -495,7 +502,8 @@ public sealed class EditSession(StudioWorkspace workspace)
 
     private void RevertChanges(IReadOnlyList<EntityChange> changes)
     {
-        foreach (var change in changes.Reverse())
+        foreach (var change in changes.Where(change => change.Key != OrderKey).Reverse()
+            .Concat(changes.Where(change => change.Key == OrderKey).Reverse()))
         {
             if (change.Key == OrderKey)
             {
@@ -518,7 +526,10 @@ public sealed class EditSession(StudioWorkspace workspace)
             throw new UndoConflictException(command.Label, blocked);
         }
 
-        foreach (var change in forward ? command.Changes : command.Changes.Reverse())
+        var orderedChanges = forward ? command.Changes : command.Changes.Reverse();
+        // Restore membership before applying the saved order, including deleted entities.
+        foreach (var change in orderedChanges.Where(change => change.Key != OrderKey)
+            .Concat(orderedChanges.Where(change => change.Key == OrderKey)))
         {
             var target = forward ? change.After : change.Before;
             if (change.Key == OrderKey)

@@ -956,7 +956,7 @@ public sealed class StudioFileTransaction
         return full;
     }
 
-    private static void EnsureNoLinks(string root, string relativePath, bool allowStudioMetadata = false)
+    internal static void EnsureNoLinks(string root, string relativePath, bool allowStudioMetadata = false)
     {
         var normalized = allowStudioMetadata ? NormalizeInternalRelativePath(relativePath) : NormalizeRelativePath(relativePath);
         var current = root;
