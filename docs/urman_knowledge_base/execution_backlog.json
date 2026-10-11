@@ -103901,7 +103901,7 @@
       "assigned_owner": "integration",
       "activity": {
         "state": "not_active",
-        "reason": "Bounded physical handoff consumer source+compile accepted; full native/author DoD remains open."
+        "reason": "Explicit album actions source+compile accepted root; native/fullbook/art acceptance open."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -103911,7 +103911,7 @@
         "Фотомиры не открывают клетки наружной карты.",
         "После обычного получения снимка игрок находит фронт/оборот и вклейку в семейной книге; Continue сохраняет личные записи и состояния снимка. Карта/адреса/словарь/прежний инвентарь используют существующий источник состояния; открытие страницы не выдаёт непрочитанное знание или внешнее подтверждение."
       ],
-      "next_action": "Проверить Windows successful/rejected handoff → album modal, acquired/read/mounted/Continue после worker update; реальные фото и physical book art остаются открыты.",
+      "next_action": "После Windowsworker update проверить реальные кнопки/состояния/Continue; продолжить физическую книгу/настоящие снимки без ослабления fullB01.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -104106,6 +104106,20 @@
           "result": "Existing target AfterDispatch opens existing JournalUi photo tab only after committed handoff; preserves author conditions, beat/giver, scene/session ownership and existing modal owner. MissingUI does not falsely reject committed state.",
           "next": "Windows native successful/rejected handoff + UI/modal/Continue; artwork/real physical book remains open.",
           "compile": "PASS Game0warnings0errors26.42s"
+        },
+        "explicit_actions": {
+          "files": [
+            "game/scripts/RuntimeBridge.PhotoBook.cs",
+            "game/scripts/JournalUi.PhotoBook.cs",
+            "game/scripts/CompiledCampaignRepository.cs"
+          ],
+          "scope": "Explicit back-read existing typed reducer; mount only under existing authored matching interaction conditions + scene ownership; one mount effect, no fabricated context/evidence/scene/beat.",
+          "verification_question": "Изменяются ли backRead/mounted только по явному нажатию и committed existing kernel action, сохраняются ли acquired/book/page/authored scene gates, load/session и защита от double click?",
+          "native": "NOT_RUN",
+          "secondary_fallback": "For catalog photos with no matching authored mount route in ANY scene: acquired+book.received+exact catalog PageId+unmounted; unavailable existing routes never fall back.",
+          "result": "Read/mount buttons integrated with existing typed reducers, authored route guards + absent-route7secondary fallback; real source review, affected Game build0/0 24.73s.",
+          "evidence": "evidence/PW-016/book-source-20261012.json",
+          "remaining": "Native acquired/book/read/mount/scene-unavailable/no-route/duplicate/load/Continue checks, image/physical book/human acceptance."
         }
       }
     },

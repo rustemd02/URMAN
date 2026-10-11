@@ -1,4 +1,5 @@
 using Godot;
+using System.Threading.Tasks;
 
 namespace Urman.Godot;
 
@@ -17,10 +18,14 @@ public partial class JournalUi
     private HSeparator _photoBookSeparator = null!;
     private Label _photoBookBackHeading = null!;
     private Label _photoBookBackText = null!;
+    private Button _photoBookReadBackButton = null!;
+    private Button _photoBookMountButton = null!;
+    private Label _photoBookActionStatus = null!;
     private IReadOnlyList<RuntimeBridge.PhotoBookPhoto> _photoBookProjection = [];
     private string? _photoBookSelectedId;
     private object? _photoBookSession;
     private bool _photoBookRefreshing;
+    private bool _photoBookActionBusy;
 
     private void BuildPhotoBookUi()
     {
@@ -96,6 +101,27 @@ public partial class JournalUi
             AutowrapMode = TextServer.AutowrapMode.WordSmart,
             SizeFlagsHorizontal = Control.SizeFlags.ExpandFill };
         _photoBookSpread.AddChild(_photoBookBackText);
+        var photoActions = new HBoxContainer { Name = "PhotoActions" };
+        _photoBookSpread.AddChild(photoActions);
+        _photoBookReadBackButton = new Button
+        {
+            Name = "ReadBack",
+            Text = "Прочитать оборот",
+            Disabled = true
+        };
+        photoActions.AddChild(_photoBookReadBackButton);
+        _photoBookReadBackButton.Pressed += () => _ = PerformPhotoBookActionAsync(readBack: true);
+        _photoBookMountButton = new Button
+        {
+            Name = "MountPhoto",
+            Text = "Вклеить снимок",
+            Disabled = true
+        };
+        photoActions.AddChild(_photoBookMountButton);
+        _photoBookMountButton.Pressed += () => _ = PerformPhotoBookActionAsync(readBack: false);
+        _photoBookActionStatus = new Label { Name = "ActionStatus",
+            AutowrapMode = TextServer.AutowrapMode.WordSmart };
+        _photoBookSpread.AddChild(_photoBookActionStatus);
 
         _tabs.TabChanged += index =>
         {
@@ -137,12 +163,17 @@ public partial class JournalUi
         {
             _photoBookSession = session;
             _photoBookSelectedId = null;
+            _photoBookActionStatus.Text = string.Empty;
         }
 
         _photoBookProjection = bridge.PhotoBookPhotos();
+        var previousSelectedId = _photoBookSelectedId;
         var selectedIndex = _photoBookProjection.ToList()
             .FindIndex(photo => photo.PhotoId == _photoBookSelectedId);
         if (selectedIndex < 0 && _photoBookProjection.Count > 0) selectedIndex = 0;
+        var nextSelectedId = selectedIndex < 0 ? null : _photoBookProjection[selectedIndex].PhotoId;
+        if (!StringComparer.Ordinal.Equals(previousSelectedId, nextSelectedId))
+            _photoBookActionStatus.Text = string.Empty;
 
         _photoBookRefreshing = true;
         _photoBookList.Clear();
@@ -175,6 +206,7 @@ public partial class JournalUi
         }
 
         _photoBookRefreshing = false;
+        RefreshPhotoBookActionButtons();
     }
 
     private void ClearPhotoBookPage(bool resetSession)
@@ -199,15 +231,20 @@ public partial class JournalUi
         _photoBookPlacement.Text = string.Empty;
         _photoBookFrontBrief.Text = string.Empty;
         _photoBookBackText.Text = string.Empty;
+        _photoBookActionStatus.Text = string.Empty;
         _photoBookRefreshing = false;
+        RefreshPhotoBookActionButtons();
     }
 
     private void SelectPhotoBookPhoto(long index)
     {
         if (_photoBookRefreshing || index < 0 || index >= _photoBookProjection.Count) return;
         var selected = _photoBookProjection[(int)index];
+        if (!StringComparer.Ordinal.Equals(_photoBookSelectedId, selected.PhotoId))
+            _photoBookActionStatus.Text = string.Empty;
         _photoBookSelectedId = selected.PhotoId;
         ShowPhotoBookPhoto(selected);
+        RefreshPhotoBookActionButtons();
     }
 
     private void ShowPhotoBookPhoto(RuntimeBridge.PhotoBookPhoto photo)
@@ -230,5 +267,76 @@ public partial class JournalUi
     {
         if (_photoBookProjection.Count > 0) _photoBookList.GrabFocus();
         else _photoBookEmpty.GrabFocus();
+    }
+
+    private void RefreshPhotoBookActionButtons()
+    {
+        var currentProjection = !_notesLoadInProgress
+            && _bridge is { } bridge
+            && GodotObject.IsInstanceValid(bridge)
+            && !bridge.IsQueuedForDeletion()
+            && bridge.IsPhotoWorldsCampaign
+            && bridge.SessionIdentity is { } session
+            && ReferenceEquals(_photoBookSession, session);
+        var selected = currentProjection
+            ? _photoBookProjection.FirstOrDefault(photo => photo.PhotoId == _photoBookSelectedId)
+            : null;
+        _photoBookReadBackButton.Disabled = _photoBookActionBusy || selected?.CanReadBack != true;
+        _photoBookMountButton.Disabled = _photoBookActionBusy || selected?.CanMount != true;
+    }
+
+    private bool IsCurrentPhotoBookOperation(RuntimeBridge bridge, object session) =>
+        GodotObject.IsInstanceValid(this) && IsInsideTree() && !IsQueuedForDeletion()
+        && GodotObject.IsInstanceValid(bridge) && !bridge.IsQueuedForDeletion()
+        && !_notesLoadInProgress
+        && ReferenceEquals(_bridge, bridge)
+        && ReferenceEquals(bridge.SessionIdentity, session)
+        && ReferenceEquals(_photoBookSession, session);
+
+    private async Task PerformPhotoBookActionAsync(bool readBack)
+    {
+        if (_photoBookActionBusy || _notesLoadInProgress
+            || _bridge is not { } bridge || !bridge.IsPhotoWorldsCampaign
+            || bridge.SessionIdentity is not { } session
+            || !ReferenceEquals(_photoBookSession, session))
+            return;
+
+        var photo = _photoBookProjection.FirstOrDefault(item => item.PhotoId == _photoBookSelectedId);
+        if (photo is null || (readBack ? !photo.CanReadBack : !photo.CanMount)) return;
+
+        var photoId = photo.PhotoId;
+        _photoBookActionBusy = true;
+        _photoBookActionStatus.Text = readBack ? "Читаю оборот…" : "Вклеиваю снимок…";
+        RefreshPhotoBookActionButtons();
+        try
+        {
+            var completed = readBack
+                ? await bridge.ReadPhotoBookBackAsync(photoId)
+                : await bridge.MountPhotoBookPhotoAsync(photoId);
+            if (!IsCurrentPhotoBookOperation(bridge, session)) return;
+
+            RefreshPhotoBookPage();
+            if (_photoBookSelectedId == photoId)
+                _photoBookActionStatus.Text = completed
+                    ? readBack ? "Оборот прочитан." : "Снимок вклеен в альбом."
+                    : readBack ? "Не удалось прочитать оборот. Попробуйте ещё раз."
+                    : "Не удалось вклеить снимок. Попробуйте ещё раз.";
+        }
+        catch (Exception exception)
+        {
+            GD.PushWarning($"Photo book action failed: {exception.GetType().Name}");
+            if (!IsCurrentPhotoBookOperation(bridge, session)) return;
+
+            RefreshPhotoBookPage();
+            if (_photoBookSelectedId == photoId)
+                _photoBookActionStatus.Text = readBack
+                    ? "Не удалось прочитать оборот. Попробуйте ещё раз."
+                    : "Не удалось вклеить снимок. Попробуйте ещё раз.";
+        }
+        finally
+        {
+            _photoBookActionBusy = false;
+            if (GodotObject.IsInstanceValid(this) && IsInsideTree()) RefreshPhotoBookActionButtons();
+        }
     }
 }

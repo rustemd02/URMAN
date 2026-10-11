@@ -13,13 +13,14 @@
   "native_runtime": "NOT_RUN",
   "author_acceptance": "PENDING",
   "physical_photo_images": "NOT_PRODUCED; frontBrief is descriptive text",
-  "game_build": "passed:0warnings0errors26.42s",
+  "game_build": "passed:0warnings0errors24.73s",
   "source_sha256": {
-    "game/scripts/JournalUi.PhotoBook.cs": "42c77998d62ec7ca00fbcbcee2e20cda67249f62b0381b238be96b6019da2e7d",
-    "game/scripts/RuntimeBridge.PhotoBook.cs": "2b37e4642d1ba7205a1c0088a72e88a7bd36c78f24c837fbef4607468162de57",
+    "game/scripts/JournalUi.PhotoBook.cs": "596291296803650946d701673925fa2e853517e651d0d97810cfcce8914478fb",
+    "game/scripts/RuntimeBridge.PhotoBook.cs": "34993d1283c435ae8eb3a301fd17d611c1d0773ad70bfbe2601c518aa1343b59",
     "game/scripts/JournalUi.cs": "19049ae4754789ef830db236ef0fff63ecd4e62688019761672fbf6c774472ad",
     "game/scripts/JournalUi.Notebook.cs": "29692b5bdef6c536382fcba98b22e15ad05f7d4cefec61c128c3beed3a7e32eb",
-    "game/scripts/ArrivalPersonalProps.cs": "320afa3fba7c069bf296796c8406e55120d9286727e9cdd72c99361691d7fac7"
+    "game/scripts/ArrivalPersonalProps.cs": "320afa3fba7c069bf296796c8406e55120d9286727e9cdd72c99361691d7fac7",
+    "game/scripts/CompiledCampaignRepository.cs": "38020f8663ca6b0842b14e36672bf1cc672496fab4c75c61264c7d027ec96926"
   },
   "ui_gates": [
     "acquired-only",
@@ -40,5 +41,38 @@
       "active scene ownership",
       "InteractionTarget session checks"
     ]
+  },
+  "explicit_actions": {
+    "result": "Explicit UI presses call existing typed back-read/mount reducers; acquired/text/book gates; authored mount route conditions/ownership and commit-time scene guard; single effect; inflight/session/load checks.",
+    "authored_mount_routes": {
+      "S-NOW": [
+        "urman.fullgame:interaction/pw-take-now-photo"
+      ],
+      "P-WATER": [
+        "urman.fullgame:interaction/pw-mount-water-photo"
+      ],
+      "P-HOUSE": [
+        "urman.fullgame:interaction/pw-mount-house-photo"
+      ],
+      "P-COMMON": [
+        "urman.fullgame:interaction/pw-print-common-photo"
+      ],
+      "P-CELLAR": [
+        "urman.fullgame:interaction/pw-mount-cellar-photo"
+      ]
+    },
+    "no_route_unmounted_catalog_photos": [
+      "S-SCHOOL",
+      "S-BANK",
+      "S-PHOTOGRAPHER",
+      "S-GARDEN",
+      "S-PRINT",
+      "S-MARAT",
+      "S-HAND"
+    ],
+    "fallback": "No authored route anywhere; acquired+receivedbook+unmounted+catalog PageId. Never fallback from unavailable authored route.",
+    "game_build": "passed:0warnings0errors24.73s",
+    "native_runtime": "NOT_RUN",
+    "remaining": "Actual read/mount outcomes, rollback/duplicate/Continue scenarios and visual/native/human acceptance; real photo images and physical book art."
   }
 }

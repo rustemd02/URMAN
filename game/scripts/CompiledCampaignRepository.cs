@@ -304,6 +304,10 @@ public sealed class CompiledCampaignRepository
 
     public IReadOnlyList<CompiledDocumentContent> Documents { get; }
 
+    /// <summary>Read-only compiled interactions in stable ID order.</summary>
+    public IEnumerable<CompiledInteractionContent> Interactions =>
+        _interactionsById.Values.OrderBy(interaction => interaction.Id, StringComparer.Ordinal);
+
     public CompiledDocumentContent RequireDocument(string documentId) =>
         _documentsById.TryGetValue(documentId, out var document)
             ? document
