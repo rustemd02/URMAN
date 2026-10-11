@@ -23332,6 +23332,14 @@
                 "implementation": "One shared Git resolver handles root .git dir/gitfile, validates full lowercase40/64 commit hash and prevents short ref/name fallback. Concurrent bounded4096 stdout/stderr reads with ConfigureAwait(false), bounded wait and owned process kill on timeout; inherited Git root/object/namespace overrides removed, lazy fetch disabled. Legacy v1 unknown fallback remains; AI capture rejects unknown. Export captures one revision for context summary and manifest; existing v1 entity payload unchanged.",
                 "verification": "Root affected Game build0/0; final Core/test-project compile0/0 after ConfigureAwait correction; existing ANewDraftTravelsAsDataWithItsDependencies PASS1/1; diffcheck. Independent Sol6.1medium source review accepted after fixing UI synchronization-context deadlock. No new tests/fixtures/probes.",
                 "remaining": "Actual resolver invocation in managed worktree and native UI not exercised; existing test proves draft package caller/data compatibility, not worktree process handling. General AuthoringRequestv2, complete dependencies/truncation and versioned hash/result package reader still open."
+              },
+              {
+                "stage": "2026-10-11 explicit legacy context dependency truncation",
+                "result": "PARTIAL_SOURCE_ACCEPTED_GAME_COMPILE_0_0_EXISTING_PACKAGE_TEST_1_1",
+                "source": "src-dotnet/Urman.Studio.Core/Handoff/DeveloperContext.cs; game/studio/StudioProperties.cs:OpenContext",
+                "implementation": "Capture first200 existing entities once per Text/package, expand outgoing references of200th before cutoff; optional v1 truncated flag and pendingDependencyIds frontier, explicitly not exhaustive omitted descendants. Package summary and manifest share capture. Missing subject refused before directory/ZIP writes; Text fixed diagnostic. Export UI retains warning as current context and catches IO/access/invalid-operation refusal. Existing v1 subject/entity payload and return tuple preserved.",
+                "verification": "Root affected Game compile0/0 and test-project compile0/0; existing ANewDraftTravelsAsDataWithItsDependencies PASS1/1; diffcheck. Sol6.1medium source review accepted; no new tests/probes.",
+                "remaining": "200+ frontier runtime branch and native UI not exercised by existing test. Legacy colon-string heuristic remains; typed references/non-entity assets, immutable full payload, atomic ZIP, v2 hashes/result reader/path-size checks and relocation remain open. Saved UI summary is current context, not archived receipt."
               }
             ],
             "stage_tasks": [
@@ -24384,6 +24392,14 @@
                 "implementation": "One shared Git resolver handles root .git dir/gitfile, validates full lowercase40/64 commit hash and prevents short ref/name fallback. Concurrent bounded4096 stdout/stderr reads with ConfigureAwait(false), bounded wait and owned process kill on timeout; inherited Git root/object/namespace overrides removed, lazy fetch disabled. Legacy v1 unknown fallback remains; AI capture rejects unknown. Export captures one revision for context summary and manifest; existing v1 entity payload unchanged.",
                 "verification": "Root affected Game build0/0; final Core/test-project compile0/0 after ConfigureAwait correction; existing ANewDraftTravelsAsDataWithItsDependencies PASS1/1; diffcheck. Independent Sol6.1medium source review accepted after fixing UI synchronization-context deadlock. No new tests/fixtures/probes.",
                 "remaining": "Actual resolver invocation in managed worktree and native UI not exercised; existing test proves draft package caller/data compatibility, not worktree process handling. General AuthoringRequestv2, complete dependencies/truncation and versioned hash/result package reader still open."
+              },
+              {
+                "stage": "2026-10-11 explicit legacy context dependency truncation",
+                "result": "PARTIAL_SOURCE_ACCEPTED_GAME_COMPILE_0_0_EXISTING_PACKAGE_TEST_1_1",
+                "source": "src-dotnet/Urman.Studio.Core/Handoff/DeveloperContext.cs; game/studio/StudioProperties.cs:OpenContext",
+                "implementation": "Capture first200 existing entities once per Text/package, expand outgoing references of200th before cutoff; optional v1 truncated flag and pendingDependencyIds frontier, explicitly not exhaustive omitted descendants. Package summary and manifest share capture. Missing subject refused before directory/ZIP writes; Text fixed diagnostic. Export UI retains warning as current context and catches IO/access/invalid-operation refusal. Existing v1 subject/entity payload and return tuple preserved.",
+                "verification": "Root affected Game compile0/0 and test-project compile0/0; existing ANewDraftTravelsAsDataWithItsDependencies PASS1/1; diffcheck. Sol6.1medium source review accepted; no new tests/probes.",
+                "remaining": "200+ frontier runtime branch and native UI not exercised by existing test. Legacy colon-string heuristic remains; typed references/non-entity assets, immutable full payload, atomic ZIP, v2 hashes/result reader/path-size checks and relocation remain open. Saved UI summary is current context, not archived receipt."
               }
             ],
             "stage_tasks": [
@@ -25982,6 +25998,15 @@
             "verification": "Root affected Game build0/0; final Core/test-project compile0/0 after ConfigureAwait correction; existing ANewDraftTravelsAsDataWithItsDependencies PASS1/1; diffcheck. Independent Sol6.1medium source review accepted after fixing UI synchronization-context deadlock. No new tests/fixtures/probes.",
             "remaining": "Actual resolver invocation in managed worktree and native UI not exercised; existing test proves draft package caller/data compatibility, not worktree process handling. General AuthoringRequestv2, complete dependencies/truncation and versioned hash/result package reader still open.",
             "next": "Continue versioned portable request/result package with complete dependency accounting, bounded paths/sizes/hashes and safe import; native provider/Undo acceptance remains open."
+          },
+          "dependency_truncation_context_source_slice": {
+            "stage": "2026-10-11 explicit legacy context dependency truncation",
+            "result": "PARTIAL_SOURCE_ACCEPTED_GAME_COMPILE_0_0_EXISTING_PACKAGE_TEST_1_1",
+            "source": "src-dotnet/Urman.Studio.Core/Handoff/DeveloperContext.cs; game/studio/StudioProperties.cs:OpenContext",
+            "implementation": "Capture first200 existing entities once per Text/package, expand outgoing references of200th before cutoff; optional v1 truncated flag and pendingDependencyIds frontier, explicitly not exhaustive omitted descendants. Package summary and manifest share capture. Missing subject refused before directory/ZIP writes; Text fixed diagnostic. Export UI retains warning as current context and catches IO/access/invalid-operation refusal. Existing v1 subject/entity payload and return tuple preserved.",
+            "verification": "Root affected Game compile0/0 and test-project compile0/0; existing ANewDraftTravelsAsDataWithItsDependencies PASS1/1; diffcheck. Sol6.1medium source review accepted; no new tests/probes.",
+            "remaining": "200+ frontier runtime branch and native UI not exercised by existing test. Legacy colon-string heuristic remains; typed references/non-entity assets, immutable full payload, atomic ZIP, v2 hashes/result reader/path-size checks and relocation remain open. Saved UI summary is current context, not archived receipt.",
+            "next": "Implement typed reference context and versioned bounded request/result archive; keep native/portable runtime gates open."
           }
         }
       },

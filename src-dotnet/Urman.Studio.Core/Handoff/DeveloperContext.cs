@@ -90,9 +90,13 @@ public sealed class DeveloperContext(StudioWorkspace workspace, EntityCatalog ca
     }
 
     public string Text(string id, string? step = null, string? problem = null)
-        => BuildText(id, step, problem, Revision());
+    {
+        if (workspace.Locate(id) is null || workspace.Get(id) is null)
+            return "Объект больше не существует. Выберите существующий объект для передачи контекста.";
+        return BuildText(id, step, problem, Revision(), CaptureDependencies(id));
+    }
 
-    private string BuildText(string id, string? step, string? problem, string revision)
+    private string BuildText(string id, string? step, string? problem, string revision, DependencyCapture capture)
     {
         var summary = catalog.Describe(id);
         var builder = new StringBuilder();
@@ -101,8 +105,10 @@ public sealed class DeveloperContext(StudioWorkspace workspace, EntityCatalog ca
         if (step is not null) builder.AppendLine($"Выделено: {step}.");
         var parents = new ReferenceIndex(workspace).UsedBy(id).Take(6).Select(user => $"{catalog.Describe(user).KindLabel} «{catalog.NameOf(user)}» ({user})").ToArray();
         if (parents.Length > 0) builder.AppendLine("Используется в: " + string.Join("; ", parents) + ".");
-        var dependencies = Dependencies(id).Where(dependency => dependency != id).Take(8).Select(dependency => $"«{catalog.NameOf(dependency)}» ({dependency})").ToArray();
+        var dependencies = capture.Entities.Where(dependency => dependency != id).Take(8).Select(dependency => $"«{catalog.NameOf(dependency)}» ({dependency})").ToArray();
         if (dependencies.Length > 0) builder.AppendLine("Ссылается на: " + string.Join("; ", dependencies) + ".");
+        if (capture.Truncated)
+            builder.AppendLine($"Контекст неполный: включены первые {capture.Entities.Count} объектов; ещё {capture.Pending.Count} обнаруженных зависимостей не приложены. Их собственные зависимости ещё не просмотрены.");
         builder.AppendLine($"Файл: {summary.RelativePath}.");
         if (!string.IsNullOrWhiteSpace(problem)) builder.AppendLine($"Проблема: {problem.Trim()}");
         if (DraftState(id) != "сохранён локально")
@@ -113,9 +119,19 @@ public sealed class DeveloperContext(StudioWorkspace workspace, EntityCatalog ca
         return builder.ToString().TrimEnd();
     }
 
-    /// <summary>The entity and every entity it references, transitively, that exists in this project.</summary>
-    public IReadOnlyList<string> Dependencies(string id)
+    /// <summary>The first 200 existing entities reached through ID-shaped strings, including the subject.</summary>
+    public IReadOnlyList<string> Dependencies(string id) => CaptureDependencies(id).Entities;
+
+    private sealed record DependencyCapture(IReadOnlyList<string> Entities, IReadOnlyList<string> Pending)
     {
+        public bool Truncated => Pending.Count > 0;
+    }
+
+    private DependencyCapture CaptureDependencies(string id)
+    {
+        if (workspace.Locate(id) is null || workspace.Get(id) is null)
+            throw new InvalidOperationException("Объект больше не существует. Выберите существующий объект для передачи контекста.");
+        // shortcut: legacy v1 discovers ID-shaped strings; v2 must use typed references and include non-entity assets.
         var result = new List<string>();
         var queue = new Queue<string>([id]);
         var seen = new HashSet<string>(StringComparer.Ordinal) { id };
@@ -133,17 +149,18 @@ public sealed class DeveloperContext(StudioWorkspace workspace, EntityCatalog ca
             }
         }
 
-        return result;
+        return new DependencyCapture(result, queue.ToArray());
     }
 
     /// <summary>A portable package: manifest, readable text and the entities themselves (HAND04, HAND05).</summary>
     public (string Path, int Entities, long Bytes) WritePackage(string id, string directory, string? problem = null)
     {
+        var capture = CaptureDependencies(id);
+        var dependencies = capture.Entities;
+        var revision = Revision();
         Directory.CreateDirectory(directory);
         var caseId = $"ctx-{DateTimeOffset.Now:yyyyMMdd-HHmmss}-{Convert.ToHexStringLower(RandomNumberGenerator.GetBytes(3))}";
         var path = Path.Combine(directory, caseId + ".zip");
-        var dependencies = Dependencies(id);
-        var revision = Revision();
         using (var zip = ZipFile.Open(path, ZipArchiveMode.Create))
         {
             var entities = new JsonArray();
@@ -168,9 +185,12 @@ public sealed class DeveloperContext(StudioWorkspace workspace, EntityCatalog ca
                 ["baseRevision"] = revision,
                 ["created"] = DateTimeOffset.Now.ToString("O"),
                 ["entities"] = dependencies.Count,
-                ["note"] = "Сущности приложены целиком; пути пользователя и сохранения не включены."
+                ["truncated"] = capture.Truncated,
+                ["pendingDependencyIds"] = new JsonArray(capture.Pending.Select(value => (JsonNode?)JsonValue.Create(value)).ToArray()),
+                ["dependencyDiscovery"] = "legacy-id-shaped-strings",
+                ["note"] = "Приложенные сущности переданы целиком; truncated означает остановленный обход; pendingDependencyIds — обнаруженные, но не приложенные IDs, не полный список пропущенных транзитивных зависимостей. Пути пользователя и сохранения не включены."
             }.ToJsonString(new System.Text.Json.JsonSerializerOptions { WriteIndented = true, Encoder = System.Text.Encodings.Web.JavaScriptEncoder.Create(System.Text.Unicode.UnicodeRanges.All) }));
-            Write(zip, "context.txt", BuildText(id, null, problem, revision));
+            Write(zip, "context.txt", BuildText(id, null, problem, revision, capture));
             Write(zip, "entities.json", entities.ToJsonString(new System.Text.Json.JsonSerializerOptions { WriteIndented = true, Encoder = System.Text.Encodings.Web.JavaScriptEncoder.Create(System.Text.Unicode.UnicodeRanges.All) }));
         }
 

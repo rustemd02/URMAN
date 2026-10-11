@@ -66,9 +66,17 @@ public partial class StudioProperties : VBoxContainer
         });
         StudioRoot.Button(row, "Сохранить пакет с черновиком", () =>
         {
-            var (path, entities, bytes) = context.WritePackage(id, Path.Combine(_studio.Workspace.Root, ".urman-studio", "handoff"), problem.Text);
-            preview.Text = $"Пакет сохранён: {Path.GetFileName(path)} — {entities} объектов, {bytes / 1024.0:0.#} КБ. Без ваших путей и сохранений.";
-            OS.ShellShowInFileManager(path);
+            try
+            {
+                var (path, entities, bytes) = context.WritePackage(id, Path.Combine(_studio.Workspace.Root, ".urman-studio", "handoff"), problem.Text);
+                preview.Text = $"Пакет сохранён: {Path.GetFileName(path)} — {entities} объектов, {bytes / 1024.0:0.#} КБ. Без ваших путей и сохранений.\n\nТекущий контекст:\n" + context.Text(id, problem: problem.Text);
+                OS.ShellShowInFileManager(path);
+            }
+            catch (Exception error) when (error is IOException or UnauthorizedAccessException or InvalidOperationException)
+            {
+                preview.Text = "Не удалось сохранить пакет. Проверьте, что объект существует и папка доступна для записи; неполный архив использовать нельзя.";
+                _studio.RefreshStatus("Пакет контекста не сохранён");
+            }
         });
         box.AddChild(row);
         _studio.AddChild(dialog);
