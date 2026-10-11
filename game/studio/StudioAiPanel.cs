@@ -254,14 +254,9 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
 
     private string Revision()
     {
-        var start = new ProcessStartInfo("git") { UseShellExecute = false, RedirectStandardOutput = true,
-            RedirectStandardError = true, WorkingDirectory = _studio.Workspace.Root };
-        start.ArgumentList.Add("rev-parse"); start.ArgumentList.Add("HEAD");
-        using var process = Process.Start(start) ?? throw new IOException("Не удалось определить Git-ревизию.");
-        var result = process.StandardOutput.ReadToEnd();
-        if (!process.WaitForExit(5_000)) { process.Kill(entireProcessTree: true); throw new IOException("Git не ответил."); }
-        if (process.ExitCode != 0 || result.Trim().Length != 40) throw new IOException("Нет полной Git-ревизии.");
-        return result.Trim();
+        var revision = Urman.Studio.Core.Handoff.DeveloperContext.ResolveRevision(_studio.Workspace.Root);
+        if (revision == "неизвестна") throw new IOException("Нет полной Git-ревизии. Проверьте checkout перед запросом.");
+        return revision;
     }
 
     private void CopyRequest()

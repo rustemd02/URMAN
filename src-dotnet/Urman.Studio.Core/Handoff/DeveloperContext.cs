@@ -1,4 +1,5 @@
 using System.IO.Compression;
+using System.Diagnostics;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json.Nodes;
@@ -15,40 +16,62 @@ namespace Urman.Studio.Core.Handoff;
 /// </summary>
 public sealed class DeveloperContext(StudioWorkspace workspace, EntityCatalog catalog)
 {
-    public string Revision()
+    public string Revision() => ResolveRevision(workspace.Root);
+
+    /// <summary>Git resolves normal checkouts, packed refs and worktree gitfiles identically.</summary>
+    public static string ResolveRevision(string root)
     {
-        var git = Path.Combine(workspace.Root, ".git");
         try
         {
-            var head = File.ReadAllText(Path.Combine(git, "HEAD")).Trim();
-            if (head.StartsWith("ref: ", StringComparison.Ordinal))
+            if (!Directory.Exists(Path.Combine(root, ".git")) && !File.Exists(Path.Combine(root, ".git"))) return "неизвестна";
+            var start = new ProcessStartInfo("git")
             {
-                var name = head[5..];
-                var reference = Path.Combine(git, name);
-                head = File.Exists(reference) ? File.ReadAllText(reference).Trim() : PackedReference(git, name) ?? name;
+                WorkingDirectory = root, UseShellExecute = false,
+                RedirectStandardOutput = true, RedirectStandardError = true
+            };
+            foreach (var argument in new[] { "rev-parse", "--verify", "HEAD^{commit}" }) start.ArgumentList.Add(argument);
+            foreach (var name in new[] { "GIT_DIR", "GIT_WORK_TREE", "GIT_COMMON_DIR", "GIT_OBJECT_DIRECTORY", "GIT_ALTERNATE_OBJECT_DIRECTORIES", "GIT_NAMESPACE" })
+                start.Environment.Remove(name);
+            start.Environment["GIT_NO_LAZY_FETCH"] = "1";
+            using var process = Process.Start(start);
+            if (process is null) return "неизвестна";
+            var output = ReadBoundedAsync(process.StandardOutput);
+            var errors = ReadBoundedAsync(process.StandardError);
+            try
+            {
+                if (!process.WaitForExit(2000) || !Task.WaitAll([output, errors], 1000) || process.ExitCode != 0)
+                    return "неизвестна";
+                var head = output.Result.Trim();
+                return head.Length is 40 or 64 && head.All(character => character is >= '0' and <= '9' or >= 'a' and <= 'f')
+                    ? head : "неизвестна";
             }
-
-            return head.Length >= 7 ? head[..7] : head;
+            finally
+            {
+                if (!process.HasExited)
+                {
+                    process.Kill(entireProcessTree: true);
+                    process.WaitForExit(1000);
+                }
+            }
         }
-        catch (IOException)
+        catch (Exception error) when (error is IOException or UnauthorizedAccessException or InvalidOperationException
+            or System.ComponentModel.Win32Exception or AggregateException)
         {
             return "неизвестна";
         }
     }
 
-    // A checkout that ran "git gc" keeps branch tips only in .git/packed-refs.
-    private static string? PackedReference(string git, string name)
+    private static async Task<string> ReadBoundedAsync(StreamReader reader)
     {
-        var path = Path.Combine(git, "packed-refs");
-        if (!File.Exists(path)) return null;
-        foreach (var line in File.ReadLines(path))
+        var text = new StringBuilder();
+        var buffer = new char[256];
+        int count;
+        while ((count = await reader.ReadAsync(buffer.AsMemory()).ConfigureAwait(false)) != 0)
         {
-            if (line.Length == 0 || line[0] is '#' or '^') continue;
-            var space = line.IndexOf(' ');
-            if (space > 0 && line[(space + 1)..] == name) return line[..space];
+            if (text.Length + count > 4096) throw new IOException("Git revision output exceeds its bound.");
+            text.Append(buffer, 0, count);
         }
-
-        return null;
+        return text.ToString();
     }
 
     /// <summary>Whether the entity exists only in this Studio (unsaved) or only in this checkout (not yet in the shared history).</summary>
@@ -67,11 +90,14 @@ public sealed class DeveloperContext(StudioWorkspace workspace, EntityCatalog ca
     }
 
     public string Text(string id, string? step = null, string? problem = null)
+        => BuildText(id, step, problem, Revision());
+
+    private string BuildText(string id, string? step, string? problem, string revision)
     {
         var summary = catalog.Describe(id);
         var builder = new StringBuilder();
         builder.AppendLine($"{summary.KindLabel} «{summary.Name}», ID {id}.");
-        builder.AppendLine($"Проект URMAN, ревизия {Revision()}; состояние: {DraftState(id)}.");
+        builder.AppendLine($"Проект URMAN, ревизия {revision}; состояние: {DraftState(id)}.");
         if (step is not null) builder.AppendLine($"Выделено: {step}.");
         var parents = new ReferenceIndex(workspace).UsedBy(id).Take(6).Select(user => $"{catalog.Describe(user).KindLabel} «{catalog.NameOf(user)}» ({user})").ToArray();
         if (parents.Length > 0) builder.AppendLine("Используется в: " + string.Join("; ", parents) + ".");
@@ -117,6 +143,7 @@ public sealed class DeveloperContext(StudioWorkspace workspace, EntityCatalog ca
         var caseId = $"ctx-{DateTimeOffset.Now:yyyyMMdd-HHmmss}-{Convert.ToHexStringLower(RandomNumberGenerator.GetBytes(3))}";
         var path = Path.Combine(directory, caseId + ".zip");
         var dependencies = Dependencies(id);
+        var revision = Revision();
         using (var zip = ZipFile.Open(path, ZipArchiveMode.Create))
         {
             var entities = new JsonArray();
@@ -138,12 +165,12 @@ public sealed class DeveloperContext(StudioWorkspace workspace, EntityCatalog ca
                 ["schemaVersion"] = 1,
                 ["caseId"] = caseId,
                 ["subject"] = id,
-                ["baseRevision"] = Revision(),
+                ["baseRevision"] = revision,
                 ["created"] = DateTimeOffset.Now.ToString("O"),
                 ["entities"] = dependencies.Count,
                 ["note"] = "Сущности приложены целиком; пути пользователя и сохранения не включены."
             }.ToJsonString(new System.Text.Json.JsonSerializerOptions { WriteIndented = true, Encoder = System.Text.Encodings.Web.JavaScriptEncoder.Create(System.Text.Unicode.UnicodeRanges.All) }));
-            Write(zip, "context.txt", Text(id, problem: problem));
+            Write(zip, "context.txt", BuildText(id, null, problem, revision));
             Write(zip, "entities.json", entities.ToJsonString(new System.Text.Json.JsonSerializerOptions { WriteIndented = true, Encoder = System.Text.Encodings.Web.JavaScriptEncoder.Create(System.Text.Unicode.UnicodeRanges.All) }));
         }
 

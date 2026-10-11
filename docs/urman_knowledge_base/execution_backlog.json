@@ -23324,6 +23324,14 @@
                 "verification": "Sol6.1medium backend implementation and independent panel source review; two frozen-source/staged-default findings corrected and accepted. Root affected Game compile0/0 and diff-check PASS. Real staged Blender generation exit0; generated GLB accessor dimensions: only Street_Window1 (Front0) glass .96→1.20, other seven pane dimensions unchanged; thirteen door-node vertex attribute signatures identical.",
                 "evidence": "evidence/STUDIO/b20-house-pilot-2026-10-10/single-window-staging/{recipe,manifest,geometry-measurement}.json",
                 "remaining": "No actual per-window Codex inference, native UI, wall/reveal/collision game verification or single-window Apply/Undo accepted yet. Staged receipt is geometry measurement, not game completion; original all-eight game/Undo evidence remains valid history."
+              },
+              {
+                "stage": "2026-10-11 shared full Git revision for context handoff",
+                "result": "PARTIAL_SOURCE_REVIEW_ACCEPTED_COMPILE_0_0_EXISTING_PACKAGE_TEST_1_1_WORKTREE_UI_OPEN",
+                "source": "Handoff/DeveloperContext.cs:ResolveRevision/ReadBoundedAsync/BuildText/WritePackage; StudioAiPanel.cs:Revision",
+                "implementation": "One shared Git resolver handles root .git dir/gitfile, validates full lowercase40/64 commit hash and prevents short ref/name fallback. Concurrent bounded4096 stdout/stderr reads with ConfigureAwait(false), bounded wait and owned process kill on timeout; inherited Git root/object/namespace overrides removed, lazy fetch disabled. Legacy v1 unknown fallback remains; AI capture rejects unknown. Export captures one revision for context summary and manifest; existing v1 entity payload unchanged.",
+                "verification": "Root affected Game build0/0; final Core/test-project compile0/0 after ConfigureAwait correction; existing ANewDraftTravelsAsDataWithItsDependencies PASS1/1; diffcheck. Independent Sol6.1medium source review accepted after fixing UI synchronization-context deadlock. No new tests/fixtures/probes.",
+                "remaining": "Actual resolver invocation in managed worktree and native UI not exercised; existing test proves draft package caller/data compatibility, not worktree process handling. General AuthoringRequestv2, complete dependencies/truncation and versioned hash/result package reader still open."
               }
             ],
             "stage_tasks": [
@@ -24368,6 +24376,14 @@
                 "implementation": "Copy exports existing trusted prompt and exact schema with frozen request. Paste bounded strict JSON reuses adapter parser, validates original request ID/hash/entity/part/width and checks unchanged prompt/scope/selection/source fingerprint before stage mutation. Accepted imported proposal shares existing generation/manifest/preview/Apply/Undo path. Separate handoff row and explicit external-session statement; no direct Claude adapter or control of external tools claimed.",
                 "verification": "Root affected Game compile0 warnings/0 errors after correcting nested exception type; diffcheck. Sol6.1medium independent source review accepted. No new tests/probes or external inference.",
                 "remaining": "Native clipboard/buttons/render and external-agent round trip not exercised. This is narrow HouseWindowRequest manual handoff, not completed AuthoringRequest v2/ZIP/relocation/legacy package compatibility or direct Claude readiness. Multi-command actual restart gate remains open; existing manual harness only supports single transaction."
+              },
+              {
+                "stage": "2026-10-11 shared full Git revision for context handoff",
+                "result": "PARTIAL_SOURCE_REVIEW_ACCEPTED_COMPILE_0_0_EXISTING_PACKAGE_TEST_1_1_WORKTREE_UI_OPEN",
+                "source": "Handoff/DeveloperContext.cs:ResolveRevision/ReadBoundedAsync/BuildText/WritePackage; StudioAiPanel.cs:Revision",
+                "implementation": "One shared Git resolver handles root .git dir/gitfile, validates full lowercase40/64 commit hash and prevents short ref/name fallback. Concurrent bounded4096 stdout/stderr reads with ConfigureAwait(false), bounded wait and owned process kill on timeout; inherited Git root/object/namespace overrides removed, lazy fetch disabled. Legacy v1 unknown fallback remains; AI capture rejects unknown. Export captures one revision for context summary and manifest; existing v1 entity payload unchanged.",
+                "verification": "Root affected Game build0/0; final Core/test-project compile0/0 after ConfigureAwait correction; existing ANewDraftTravelsAsDataWithItsDependencies PASS1/1; diffcheck. Independent Sol6.1medium source review accepted after fixing UI synchronization-context deadlock. No new tests/fixtures/probes.",
+                "remaining": "Actual resolver invocation in managed worktree and native UI not exercised; existing test proves draft package caller/data compatibility, not worktree process handling. General AuthoringRequestv2, complete dependencies/truncation and versioned hash/result package reader still open."
               }
             ],
             "stage_tasks": [
@@ -25957,6 +25973,15 @@
             "verification": "Root affected Game compile0 warnings/0 errors after correcting nested exception type; diffcheck. Sol6.1medium independent source review accepted. No new tests/probes or external inference.",
             "remaining": "Native clipboard/buttons/render and external-agent round trip not exercised. This is narrow HouseWindowRequest manual handoff, not completed AuthoringRequest v2/ZIP/relocation/legacy package compatibility or direct Claude readiness. Multi-command actual restart gate remains open; existing manual harness only supports single transaction.",
             "next": "Verify native handoff and actual multi-command restart when UI control available; continue full mixed ledger and versioned portable result package, preserving both provider gates."
+          },
+          "full_revision_context_source_slice": {
+            "stage": "2026-10-11 shared full Git revision for context handoff",
+            "result": "PARTIAL_SOURCE_REVIEW_ACCEPTED_COMPILE_0_0_EXISTING_PACKAGE_TEST_1_1_WORKTREE_UI_OPEN",
+            "source": "Handoff/DeveloperContext.cs:ResolveRevision/ReadBoundedAsync/BuildText/WritePackage; StudioAiPanel.cs:Revision",
+            "implementation": "One shared Git resolver handles root .git dir/gitfile, validates full lowercase40/64 commit hash and prevents short ref/name fallback. Concurrent bounded4096 stdout/stderr reads with ConfigureAwait(false), bounded wait and owned process kill on timeout; inherited Git root/object/namespace overrides removed, lazy fetch disabled. Legacy v1 unknown fallback remains; AI capture rejects unknown. Export captures one revision for context summary and manifest; existing v1 entity payload unchanged.",
+            "verification": "Root affected Game build0/0; final Core/test-project compile0/0 after ConfigureAwait correction; existing ANewDraftTravelsAsDataWithItsDependencies PASS1/1; diffcheck. Independent Sol6.1medium source review accepted after fixing UI synchronization-context deadlock. No new tests/fixtures/probes.",
+            "remaining": "Actual resolver invocation in managed worktree and native UI not exercised; existing test proves draft package caller/data compatibility, not worktree process handling. General AuthoringRequestv2, complete dependencies/truncation and versioned hash/result package reader still open.",
+            "next": "Continue versioned portable request/result package with complete dependency accounting, bounded paths/sizes/hashes and safe import; native provider/Undo acceptance remains open."
           }
         }
       },
