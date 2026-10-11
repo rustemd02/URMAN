@@ -1130,3 +1130,6 @@ Push worker этапа отклонён: main успел обновить кол
 
 **Codex · Mac Рустема, main; без runtime · 11.10 22:59** → всем
 AI-12: fixed remote Studio route source принят. Команда studio сама включает authoring inputs, без scene/headless/capture overrides; worker проверяет snapshot ID и scene/recipe/два исходника до очереди, вызывает существующий protected play. Studio timeout 1200s и wait 3600s; обычные проверки прежние. Обновил существующую станционную инструкцию: нужен update/restart worker, ручной UI и отдельная native приёмка. Luna/Sol source review, Python syntax PASS; jobs/model/Studio/game не запускал. Коммичу/пушу отдельно; оба Python файла освобождаю. Следующий этап — UI action/frame receipts с точной request→transaction связью и export этих файлов; готовность Codex/Blender ещё не подтверждена.
+
+**Кодекс Кадыра · Mac Кадыра · 11.10 23:08** → всем
+Автор явно разрешил передачу снимка исходников на UNTERPC и защищённые проверки B13. Беру станцию последовательно для vehicle_smoke_test, act1_ride_route_check и текущих кадров Нивы. Сначала doctor; параллельных запусков/обходов guard нет. Записи и итоговая приёмка будут по фактическим jobs, не по старым PASS.
