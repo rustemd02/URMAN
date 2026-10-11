@@ -74297,6 +74297,18 @@
                       "implementation": "Authenticated /health/studio checks station baseline first and refuses busy/recovery/pipeline/orphan states; native Codex candidate precedence matches Studio, inherited profile, fixed --version/login status accepts ChatGPT only; pinned Blender --version must match toolchain. Probes use existing Win64 Job Object helpers with suspended assign/resume, bounded time/output, process-handle release and job drain; reader owns pipe close, unconfirmed containment/cleanup stops further checks. Redacted response has runtime_verified:false. doctor --studio-readiness is explicit; Studio preflight rejects missing/false endpoint before hash/upload; ordinary doctor and game routes stay unchanged.",
                       "verification": "Five Luna bounded implementation/parity/process/source research tasks and independent Sol6.1medium final source review; root Python syntax compilation of affected client/worker, tracker validation and diff-check. No CLI probes, Windows deployment, model, Blender, Studio/game or new tests.",
                       "remaining": "Windows must update/restart worker and execute prerequisite check; reported credentials do not prove full app-server/package/model access. Runtime pause remains; native selection/main-seven real Codex proposal, matched game frames and byte-exact Undo are not accepted."
+                    },
+                    {
+                      "date": "2026-10-11",
+                      "kind": "source-progress",
+                      "result": "Play preparation now holds an exclusive gate before SaveAll through asynchronous compilation and child setup. Undo/Redo hold history gates through mutation/reload/action frame receipt. AI panel direct entry points and buttons honor these gates; finally releases them after failure or return. Startup errors distinguish unstarted from live tracked child and avoid UI after close.",
+                      "source": [
+                        "game/studio/StudioRoot.cs",
+                        "game/studio/StudioRoot.AiEvidence.cs",
+                        "game/studio/StudioAiPanel.cs"
+                      ],
+                      "verification": "Five Luna bounded source implementation/research tasks; independent Sol6.1medium final diff review with no remaining blocker. Final narrow game --no-restore compile: zero warnings/errors; tracker validation and diff check. No runtime/tests/probes.",
+                      "remaining": "Existing campaign-only run label does not identify house recipe/selected GLB or prove loaded rendered bytes. Bind exact run provenance in existing run manifest next; actual Codex/native matched game/byte-exact Undo acceptance remains deferred by author."
                     }
                   ],
                   "assigned_owner": "codex/b20-2026-10-10",
@@ -74304,7 +74316,7 @@
                   "activity": {
                     "state": "runtime_deferred_by_author",
                     "reason": "11.10 пользователь остановил игровые и Studio запуски из-за сильных лагов; production/source review/узкая компиляция продолжаются.",
-                    "verification_question": "Source readiness stage: do fixed authenticated native Codex/ChatGPT and pinned Blender checks use bounded contained processes without secrets, preserve ordinary health, and stop Studio before upload if unavailable? Source review/Python compile only; deployed Windows checks and model/game acceptance remain open."
+                    "verification_question": "Source race slice: does Play preparation exclusively hold a gate across content compilation and child launch, preventing duplicate preparation and overlap with AI Apply/Undo/Redo and rendered action capture, with gates released on every error/return? Narrow game compile and independent source review only; native acceptance remains deferred by author."
                   },
                   "task_type": "integration_check",
                   "status": "blocked",
@@ -74316,7 +74328,7 @@
                     "Overall Windows kit smoke FAIL: shutdown resource leaks; scenario5checks и compile0/0 не заменяют чистый runtime result.",
                     "Windows direct .exe-only discovery исправлен и source-reviewed; actual Windows installed/login readiness остаётся непроверенным."
                   ],
-                  "next_action": "Source fixed Studio readiness and action receipts are integrated. Update/restart Windows worker and run doctor --studio-readiness when read-only checks are authorized; actual installed CLI/pinned Blender still unverified. Continue source B20 independently during author runtime pause. After explicit runtime resume run fixed Studio window/main-seven request→preview→Apply→matched game→byte-exact Undo and inspect actual raw receipts, native frames and restored hashes/absence.",
+                  "next_action": "Continue source Play provenance: bind current house recipe and actual runtime model hashes to existing run manifest and child start identity; source metadata alone cannot prove rendered bytes. Windows worker must update/restart before prerequisite check. After explicit runtime resume execute actual Studio main-seven Codex preview/Apply, matched game frames, then byte-exact Undo including original absences.",
                   "blocker": {
                     "reason": "Native UI/game verification deferred by author; Front0 could not be selected during Mac attempt.",
                     "release_when": "Автор возобновил runtime; доступен native выбор окна и защищённый Studio/game сценарий."

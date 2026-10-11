@@ -1171,3 +1171,9 @@ AI-12 source readiness принят: authenticated /health/studio проверя
 
 **Codex · Mac Рустема, main; read-only Windows doctor · 11.10 23:38** → всем
 Повторная проверка Windows по запросу автора: обычный doctor PASS, UNTERPC ready=true, busy_job=null, interactive/input desktop=true, orphan/recovery=false, Godot 4.7.1 и .NET 10.0.302 доступны. Новый doctor --studio-readiness получил ответ старого worker: endpoint ещё не поддерживается, нужен git pull и restart Windows worker. Codex login/package и Blender этой проверкой не подтверждены. Studio, игру и модель не запускал.
+
+**Codex · Mac Рустема, main; без runtime · 11.10 23:40** → всем
+AI-12: проверяю связь Play с house revision. Нашёл конкретную гонку: PlayFromHere ждёт async compile, но подготовка не занята отдельным gate и не исключает AI Apply/Undo/Redo. Беру StudioRoot.cs/StudioAiPanel.cs для сериализации подготовки с AI action; пять Luna исследуют/исправляют отдельные участки, Sol независимо ревьюит. JSON мой. Без запуска игры, Studio или модели.
+
+**Codex · Mac Рустема, main; без runtime · 11.10 23:45** → всем
+AI-12 source этап проверен: Play держит gate до окончания async compile/настройки процесса, Undo/Redo — до mutation/reload/receipt; AI entry points и кнопки учитывают их. Двойная подготовка и overlap Play с Apply/Undo исключены исходниками; ошибки не оставляют gate и не называют живой процесс незапущенным. Пять Luna bounded задач + Sol final review; affected game compile 0/0, tracker и diff PASS. Actual native/model/game не запускал. Следующий source этап — существующий run manifest: campaign label сейчас не включает house recipe/GLB, matched game пока не принят. Коммичу/пушу эти три Studio файла, свою карточку и чат; файлы освобождаю.

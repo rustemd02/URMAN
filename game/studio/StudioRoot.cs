@@ -56,6 +56,8 @@ public partial class StudioRoot : Control
     private double _sinceWatch;
     private Process? _run;
     private bool _closing;
+    private bool _playPreparing;
+    private bool _historyActionBusy;
 
     public StudioWorkspace Workspace { get; private set; } = null!;
     public EditSession Session { get; private set; } = null!;
@@ -328,6 +330,7 @@ public partial class StudioRoot : Control
 
     private StudioAiPanel? _aiPanel;
     public bool IsAiPanelVisible => _aiPanel is { Visible: true };
+    internal bool IsPlayOrHistoryBusy => _playPreparing || _historyActionBusy;
     public void OpenAiPanel()
     {
         _aiPanel ??= new StudioAiPanel(this);
@@ -436,47 +439,62 @@ public partial class StudioRoot : Control
             return;
         }
 
-        AiActionIdentity? evidenceIdentity = null;
-        string? transactionId = null;
-        string? requestId = null;
-        string? evidenceReadError = null;
-        try { TryGetPilotActionIdentity(redo: false, out evidenceIdentity, out transactionId, out requestId); }
-        catch (Exception error) { evidenceReadError = error.GetType().Name; }
+        _historyActionBusy = true;
         try
         {
-            await Session.UndoAsync(ReloadCheckpointSourcesAndWorldAsync);
-        }
-        catch (UndoConflictException error)
-        {
-            ShowBanner(error.Message + " Откройте сравнение, чтобы решить вручную.", error: true);
-            return;
-        }
-        catch (IOException error)
-        {
-            ShowBanner("Отмена не завершена: " + error.Message, error: true);
-            return;
-        }
-        catch (InvalidOperationException error)
-        {
-            ShowBanner(error.Message, error: true);
-            return;
-        }
+            if (_aiPanel is not null && GodotObject.IsInstanceValid(_aiPanel)) _aiPanel.RefreshBusyState();
+            RefreshStatus();
+            AiActionIdentity? evidenceIdentity = null;
+            string? transactionId = null;
+            string? requestId = null;
+            string? evidenceReadError = null;
+            try { TryGetPilotActionIdentity(redo: false, out evidenceIdentity, out transactionId, out requestId); }
+            catch (Exception error) { evidenceReadError = error.GetType().Name; }
+            try
+            {
+                await Session.UndoAsync(ReloadCheckpointSourcesAndWorldAsync);
+            }
+            catch (UndoConflictException error)
+            {
+                ShowBanner(error.Message + " Откройте сравнение, чтобы решить вручную.", error: true);
+                return;
+            }
+            catch (IOException error)
+            {
+                ShowBanner("Отмена не завершена: " + error.Message, error: true);
+                return;
+            }
+            catch (InvalidOperationException error)
+            {
+                ShowBanner(error.Message, error: true);
+                return;
+            }
 
-        if (transactionId is null) return;
-        var moved = Session.History(redo: true).FirstOrDefault();
-        if (!IsPilotStep(moved, requestId ?? string.Empty, transactionId))
-        {
-            ShowAiEvidenceBanner("Отмена завершена, но Studio не подтвердила перемещение точной транзакции; receipt не записан.", error: true);
-            return;
-        }
-        if (evidenceIdentity is null)
-        {
-            ShowAiEvidenceBanner("Отмена завершена, но frozen request/proposal receipt не прочитан (" + (evidenceReadError ?? "unknown") + ").", error: true);
-            return;
-        }
+            if (transactionId is null) return;
+            var moved = Session.History(redo: true).FirstOrDefault();
+            if (!IsPilotStep(moved, requestId ?? string.Empty, transactionId))
+            {
+                ShowAiEvidenceBanner("Отмена завершена, но Studio не подтвердила перемещение точной транзакции; receipt не записан.", error: true);
+                return;
+            }
+            if (evidenceIdentity is null)
+            {
+                ShowAiEvidenceBanner("Отмена завершена, но frozen request/proposal receipt не прочитан (" + (evidenceReadError ?? "unknown") + ").", error: true);
+                return;
+            }
 
-        await RecordAiActionEvidenceAsync(evidenceIdentity, AiEvidenceAction.Undo, transactionId,
-            () => IsPilotStep(Session.History(redo: true).FirstOrDefault(), evidenceIdentity.RequestId, transactionId));
+            await RecordAiActionEvidenceAsync(evidenceIdentity, AiEvidenceAction.Undo, transactionId,
+                () => IsPilotStep(Session.History(redo: true).FirstOrDefault(), evidenceIdentity.RequestId, transactionId));
+        }
+        finally
+        {
+            _historyActionBusy = false;
+            if (GodotObject.IsInstanceValid(this))
+            {
+                if (_aiPanel is not null && GodotObject.IsInstanceValid(_aiPanel)) _aiPanel.RefreshBusyState();
+                RefreshStatus();
+            }
+        }
     }
 
     public async void Redo()
@@ -487,47 +505,62 @@ public partial class StudioRoot : Control
             return;
         }
 
-        AiActionIdentity? evidenceIdentity = null;
-        string? transactionId = null;
-        string? requestId = null;
-        string? evidenceReadError = null;
-        try { TryGetPilotActionIdentity(redo: true, out evidenceIdentity, out transactionId, out requestId); }
-        catch (Exception error) { evidenceReadError = error.GetType().Name; }
+        _historyActionBusy = true;
         try
         {
-            await Session.RedoAsync(ReloadCheckpointSourcesAndWorldAsync);
-        }
-        catch (UndoConflictException error)
-        {
-            ShowBanner(error.Message, error: true);
-            return;
-        }
-        catch (IOException error)
-        {
-            ShowBanner("Повтор не завершён: " + error.Message, error: true);
-            return;
-        }
-        catch (InvalidOperationException error)
-        {
-            ShowBanner(error.Message, error: true);
-            return;
-        }
+            if (_aiPanel is not null && GodotObject.IsInstanceValid(_aiPanel)) _aiPanel.RefreshBusyState();
+            RefreshStatus();
+            AiActionIdentity? evidenceIdentity = null;
+            string? transactionId = null;
+            string? requestId = null;
+            string? evidenceReadError = null;
+            try { TryGetPilotActionIdentity(redo: true, out evidenceIdentity, out transactionId, out requestId); }
+            catch (Exception error) { evidenceReadError = error.GetType().Name; }
+            try
+            {
+                await Session.RedoAsync(ReloadCheckpointSourcesAndWorldAsync);
+            }
+            catch (UndoConflictException error)
+            {
+                ShowBanner(error.Message, error: true);
+                return;
+            }
+            catch (IOException error)
+            {
+                ShowBanner("Повтор не завершён: " + error.Message, error: true);
+                return;
+            }
+            catch (InvalidOperationException error)
+            {
+                ShowBanner(error.Message, error: true);
+                return;
+            }
 
-        if (transactionId is null) return;
-        var moved = Session.History().FirstOrDefault();
-        if (!IsPilotStep(moved, requestId ?? string.Empty, transactionId))
-        {
-            ShowAiEvidenceBanner("Повтор завершён, но Studio не подтвердила перемещение точной транзакции; receipt не записан.", error: true);
-            return;
-        }
-        if (evidenceIdentity is null)
-        {
-            ShowAiEvidenceBanner("Повтор завершён, но frozen request/proposal receipt не прочитан (" + (evidenceReadError ?? "unknown") + ").", error: true);
-            return;
-        }
+            if (transactionId is null) return;
+            var moved = Session.History().FirstOrDefault();
+            if (!IsPilotStep(moved, requestId ?? string.Empty, transactionId))
+            {
+                ShowAiEvidenceBanner("Повтор завершён, но Studio не подтвердила перемещение точной транзакции; receipt не записан.", error: true);
+                return;
+            }
+            if (evidenceIdentity is null)
+            {
+                ShowAiEvidenceBanner("Повтор завершён, но frozen request/proposal receipt не прочитан (" + (evidenceReadError ?? "unknown") + ").", error: true);
+                return;
+            }
 
-        await RecordAiActionEvidenceAsync(evidenceIdentity, AiEvidenceAction.Redo, transactionId,
-            () => IsPilotStep(Session.History().FirstOrDefault(), evidenceIdentity.RequestId, transactionId));
+            await RecordAiActionEvidenceAsync(evidenceIdentity, AiEvidenceAction.Redo, transactionId,
+                () => IsPilotStep(Session.History().FirstOrDefault(), evidenceIdentity.RequestId, transactionId));
+        }
+        finally
+        {
+            _historyActionBusy = false;
+            if (GodotObject.IsInstanceValid(this))
+            {
+                if (_aiPanel is not null && GodotObject.IsInstanceValid(_aiPanel)) _aiPanel.RefreshBusyState();
+                RefreshStatus();
+            }
+        }
     }
 
     private void OnEdited()
@@ -724,78 +757,109 @@ public partial class StudioRoot : Control
     public async void PlayFromHere()
     {
         if (_closing) return;
+        if (_playPreparing)
+        {
+            ShowBanner("Подготовка пробного запуска уже идёт. Дождитесь её завершения.", error: false);
+            return;
+        }
+        if (IsAiActionBusy)
+        {
+            ShowBanner("Завершите текущее действие Studio, прежде чем запускать игру.", error: false);
+            return;
+        }
         if (_run is not null)
         {
             ShowBanner("Пробный запуск уже идёт. Закройте окно игры, чтобы запустить новую версию.", error: false);
             return;
         }
 
-        if (!SaveAll(autosave: false))
+        _playPreparing = true;
+        try
         {
-            return;
-        }
+            if (_aiPanel is not null && GodotObject.IsInstanceValid(_aiPanel)) _aiPanel.RefreshBusyState();
+            RefreshStatus("Подготовка запуска…");
+            if (!SaveAll(autosave: false)) return;
 
-        RefreshStatus("Подготовка запуска…");
-        var build = await PlayPreparation.CompileAsync(Workspace.Root);
-        if (_closing) return;
-        if (_run is not null)
-        {
-            ShowBanner("Пробный запуск уже идёт. Закройте окно игры, чтобы запустить новую версию.", error: false);
-            return;
-        }
-        if (!build.Ready)
-        {
-            ShowBanner("Черновик не готов к запуску: " + string.Join("; ", build.Problems.Take(3)) + (build.Problems.Count > 3 ? $" и ещё {build.Problems.Count - 3}" : ""), error: true);
-            RefreshStatus();
-            return;
-        }
-
-        var start = _current is not null && _sections[_current] is StudioWorldSection world ? world.PlayStart() : null;
-        var godot = OS.GetExecutablePath();
-        var arguments = new List<string> { "--path", ProjectSettings.GlobalizePath("res://"), "res://scenes/act1_demo.tscn", "--" };
-        arguments.Add($"--urman-studio-play={start?.Zone ?? "village_day"}@{start?.Spawn ?? "arrival"}");
-        if (start?.Position is { } at)
-        {
-            arguments.Add(FormattableString.Invariant($"--urman-studio-at={at.X:0.###},{at.Y:0.###},{at.Z:0.###},{start.Yaw:0.#}"));
-        }
-
-        arguments.Add($"--urman-studio-label={build.RevisionLabel}");
-        var folder = new RunFolders(Workspace.Root).Create(build.RevisionLabel, DateTimeOffset.Now);
-        var info = new ProcessStartInfo(godot) { UseShellExecute = false, RedirectStandardOutput = true, RedirectStandardError = true };
-        foreach (var argument in arguments)
-        {
-            info.ArgumentList.Add(argument);
-        }
-
-        // The child inherits Studio's guarded, disposable userdata (PLAY07).
-        _run = Process.Start(info)!;
-        LastRun = folder;
-        var log = new StreamWriter(folder.LogPath) { AutoFlush = true };
-        var closedStreams = 0;
-        var logClosed = false;
-        void Write(string? line)
-        {
-            lock (log)
+            var build = await PlayPreparation.CompileAsync(Workspace.Root);
+            if (_closing) return;
+            if (!build.Ready)
             {
-                if (line is null)
+                ShowBanner("Черновик не готов к запуску: " + string.Join("; ", build.Problems.Take(3)) + (build.Problems.Count > 3 ? $" и ещё {build.Problems.Count - 3}" : ""), error: true);
+                return;
+            }
+
+            var start = _current is not null && _sections[_current] is StudioWorldSection world ? world.PlayStart() : null;
+            var godot = OS.GetExecutablePath();
+            var arguments = new List<string> { "--path", ProjectSettings.GlobalizePath("res://"), "res://scenes/act1_demo.tscn", "--" };
+            arguments.Add($"--urman-studio-play={start?.Zone ?? "village_day"}@{start?.Spawn ?? "arrival"}");
+            if (start?.Position is { } at)
+            {
+                arguments.Add(FormattableString.Invariant($"--urman-studio-at={at.X:0.###},{at.Y:0.###},{at.Z:0.###},{start.Yaw:0.#}"));
+            }
+
+            arguments.Add($"--urman-studio-label={build.RevisionLabel}");
+            var folder = new RunFolders(Workspace.Root).Create(build.RevisionLabel, DateTimeOffset.Now);
+            var info = new ProcessStartInfo(godot) { UseShellExecute = false, RedirectStandardOutput = true, RedirectStandardError = true };
+            foreach (var argument in arguments)
+            {
+                info.ArgumentList.Add(argument);
+            }
+
+            var log = new StreamWriter(folder.LogPath) { AutoFlush = true };
+            var closedStreams = 0;
+            var logClosed = false;
+            void Write(string? line)
+            {
+                lock (log)
                 {
-                    if (!logClosed && ++closedStreams == 2)
+                    if (line is null)
                     {
-                        logClosed = true;
-                        log.Dispose();
+                        if (!logClosed && ++closedStreams == 2)
+                        {
+                            logClosed = true;
+                            log.Dispose();
+                        }
+                        return;
                     }
-                    return;
+                    if (!logClosed) log.WriteLine(line);
                 }
-                if (!logClosed) log.WriteLine(line);
+            }
+
+            // The child inherits Studio's guarded, disposable userdata (PLAY07).
+            Process run;
+            try { run = Process.Start(info) ?? throw new IOException("Не удалось начать процесс игры."); }
+            catch
+            {
+                lock (log)
+                {
+                    logClosed = true;
+                    log.Dispose();
+                }
+                throw;
+            }
+            _run = run;
+            LastRun = folder;
+            run.OutputDataReceived += (_, data) => Write(data.Data);
+            run.ErrorDataReceived += (_, data) => Write(data.Data);
+            run.EnableRaisingEvents = true;
+            run.BeginOutputReadLine();
+            run.BeginErrorReadLine();
+            RefreshStatus($"▶ Запущена проверка · {build.RevisionLabel}");
+        }
+        catch (Exception error)
+        {
+            if (!_closing && GodotObject.IsInstanceValid(this))
+                ShowBanner((_run is null ? "Пробный запуск не начат: " : "Игра уже запущена, но Studio не смогла настроить журнал вывода: ") + error.Message, error: true);
+        }
+        finally
+        {
+            _playPreparing = false;
+            if (!_closing && GodotObject.IsInstanceValid(this))
+            {
+                if (_aiPanel is not null && GodotObject.IsInstanceValid(_aiPanel)) _aiPanel.RefreshBusyState();
+                RefreshStatus();
             }
         }
-
-        _run.OutputDataReceived += (_, data) => Write(data.Data);
-        _run.ErrorDataReceived += (_, data) => Write(data.Data);
-        _run.EnableRaisingEvents = true;
-        _run.BeginOutputReadLine();
-        _run.BeginErrorReadLine();
-        RefreshStatus($"▶ Запущена проверка · {build.RevisionLabel}");
     }
 
     private void OnWindowCloseRequested()
@@ -833,6 +897,7 @@ public partial class StudioRoot : Control
 
     public void RefreshStatus(string? transient = null)
     {
+        _play.Disabled = IsAiActionBusy;
         _undo.Disabled = !Session.CanUndo || IsAiActionBusy;
         _redo.Disabled = !Session.CanRedo || IsAiActionBusy;
         _undo.TooltipText = Session.UndoLabel is { } undo ? $"Отменить: {undo} (⌘Z)" : "Нечего отменять";

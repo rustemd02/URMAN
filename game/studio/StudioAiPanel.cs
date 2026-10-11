@@ -62,7 +62,7 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
     private bool _previewFailureClearFailed;
     private int _providerWarningSeen;
 
-    internal bool IsActionBusy => _busy || _evidenceBusy;
+    internal bool IsActionBusy => _busy || _evidenceBusy || _studio.IsPlayOrHistoryBusy;
 
     void IProgress<CodexProposalProgress>.Report(CodexProposalProgress progress)
     {
@@ -88,7 +88,7 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
         body.AddChild(_prompt);
         _prompt.TextChanged += () =>
         {
-            if (_busy || _request is not { } request || _prompt.Text == request.Prompt) return;
+            if (IsActionBusy || _request is not { } request || _prompt.Text == request.Prompt) return;
             if (!TryClearPreviewFailure(request))
             {
                 ClearProposal();
@@ -283,7 +283,7 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
         _previousFocus = _studio.GetViewport().GuiGetFocusOwner();
         _focusCaptured = true;
         ((StudioWorldSection)_studio.Section("world")).SuspendForAi();
-        if (_busy)
+        if (IsActionBusy)
         {
             PopupCenteredClamped(new(600, 560), 0.9f);
             _prompt.GrabFocus();
@@ -530,7 +530,7 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
 
     private void OpenDisclosure()
     {
-        if (_busy || _openedSelection != HeroHouseRecipe.EntityId || _studio.Selection != _openedSelection)
+        if (IsActionBusy || _openedSelection != HeroHouseRecipe.EntityId || _studio.Selection != _openedSelection)
             return;
         try
         {
@@ -619,7 +619,7 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
 
     private void CopyRequest()
     {
-        if (_busy) return;
+        if (IsActionBusy) return;
         try
         {
             DisplayServer.ClipboardSet(CodexProposalProvider.CreateClipboardPrompt(PrepareRequest()));
@@ -630,7 +630,7 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
 
     private void SaveRequest()
     {
-        if (_busy) return;
+        if (IsActionBusy) return;
         try
         {
             var request = PrepareRequest();
@@ -648,7 +648,7 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
 
     private void OpenProposalFile()
     {
-        if (_busy || _request is null || _proposal is not null || !Visible) return;
+        if (IsActionBusy || _request is null || _proposal is not null || !Visible) return;
         var requestId = _request.RequestId;
         var picker = new FileDialog
         {
@@ -658,7 +658,7 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
         picker.FileSelected += path =>
         {
             picker.QueueFree();
-            if (_busy || !Visible || _request?.RequestId != requestId)
+            if (IsActionBusy || !Visible || _request?.RequestId != requestId)
             {
                 _status.Text = "Ответ не открыт: запрос изменился или панель недоступна. Выберите файл для актуального запроса.";
                 return;
@@ -672,7 +672,7 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
 
     private void OpenPreviewFailurePicker()
     {
-        if (_busy || !Visible || _openedSelection != HeroHouseRecipe.EntityId || _studio.Selection != _openedSelection
+        if (IsActionBusy || !Visible || _openedSelection != HeroHouseRecipe.EntityId || _studio.Selection != _openedSelection
             || _request is not null || _proposal is not null || _previewFailureClearFailed)
             return;
         var jobsDirectory = Path.Combine(_studio.Workspace.Root, ".urman-studio", "ai-jobs");
@@ -703,7 +703,7 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
 
     private void RestorePreviewFailure(string selectedPath)
     {
-        if (_busy || !Visible || _openedSelection != HeroHouseRecipe.EntityId || _studio.Selection != _openedSelection
+        if (IsActionBusy || !Visible || _openedSelection != HeroHouseRecipe.EntityId || _studio.Selection != _openedSelection
             || _request is not null || _proposal is not null || _previewFailureClearFailed)
             return;
 
@@ -826,6 +826,11 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
 
     private void StopCurrentOperation()
     {
+        if (_studio.IsPlayOrHistoryBusy)
+        {
+            _status.Text = "Дождитесь завершения текущего действия Studio.";
+            return;
+        }
         if (_evidenceBusy)
         {
             _status.Text = "Снимок действия записывается. Дождитесь его завершения.";
@@ -1405,7 +1410,10 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
     {
         _busy = busy;
         UpdateBusyState();
+        if (GodotObject.IsInstanceValid(_studio)) _studio.RefreshStatus();
     }
+
+    internal void RefreshBusyState() => UpdateBusyState();
 
     internal void SetEvidenceBusy(bool busy)
     {
@@ -1418,7 +1426,7 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
         var busy = IsActionBusy;
         _prompt.Editable = !busy;
         _doctor.Disabled = busy;
-        _stop.Disabled = _evidenceBusy;
+        _stop.Disabled = _studio.IsPlayOrHistoryBusy || _evidenceBusy;
         _globalInstructions.Disabled = busy || _previewFailureClearFailed;
         var houseSelected = _openedSelection == HeroHouseRecipe.EntityId && _studio.Selection == _openedSelection;
         _scope.Disabled = busy || _previewFailureClearFailed || _proposal is not null || _openedSelection != HeroHouseRecipe.EntityId;

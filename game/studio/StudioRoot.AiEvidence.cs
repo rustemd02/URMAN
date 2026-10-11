@@ -28,7 +28,7 @@ public partial class StudioRoot
     internal sealed record AiActionIdentity(string RequestId, string RequestHash, string ProposalHash, string SnapshotHash);
     internal enum AiEvidenceAction { Preview, Apply, Undo, Redo }
 
-    internal bool IsAiActionBusy => _aiEvidenceCaptureBusy
+    internal bool IsAiActionBusy => _playPreparing || _historyActionBusy || _aiEvidenceCaptureBusy
         || _aiPanel is not null && GodotObject.IsInstanceValid(_aiPanel) && _aiPanel.IsActionBusy;
 
     internal AiActionIdentity FreezeAiActionIdentity(
