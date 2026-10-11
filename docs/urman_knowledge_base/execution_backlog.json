@@ -75807,6 +75807,12 @@
                 "result": "deepening by deepseek v4.1 flash: 13 quests with 15 stages and 20 objectives are checked as a structure - title texts resolve, stage and objective ids do not repeat, a stage has at least one objective, every condition and effect names an operation the engine executes (sets read from the engine sources), every reference to an AUTHORED entity resolves in the workspace, and the retry/checkpoint modes are among the ones the engine understands. A beat id is deliberately not required to be authored because beat.set-state writes into the runtime beats map",
                 "source": "new file src-dotnet/Urman.Studio.Core/Editing/QuestStructure.cs; evidence evidence/STUDIO/b20-deepseek-ai-19/2026-10-11-quest-structure",
                 "verification": "probe PASS 504/504 including the structure checks and the synthetic cases (unresolved title, repeated objective id, unexecuted condition/effect, missing authored reference, unsupported retry mode); Core 0/0; game/Urman.Game.csproj 0/0; Urman.Studio.Tests 38/38. Own mistake recorded: treating beats as authored entities produced 13 false problems before the engine source settled it. The quest editor UI and the author/language acceptance are NOT_RUN"
+              },
+              {
+                "stage": "2026-10-11 the one-journal boundary, verified site by site",
+                "result": "re-verification by deepseek v4.1 flash of the requirement that manual and AI editing share one model: twelve direct writes exist in the Studio sources, fifty writes go through the session and twelve stay outside it, and I inspected all twelve by hand - the AI panel's own preference, three AI staging files, the catalogue rebuild behind its explicit --urman-studio-build-catalog flag, the imported asset copy (whose catalogue entry does go through the session, as its own comment says), .urman-studio/layout.json which is the graph layout and not content, the run log, three self-check fixtures and the tour state. The probe now ASSERTS that no outside write is unclassified, so an interactive authored edit can no longer slip past the journal unnoticed. This remains a source inventory, not a proof of absence",
+                "source": "src-dotnet/Urman.Studio.Core/Editing/StudioWritePaths.cs; evidence evidence/STUDIO/b20-deepseek-ai-19/2026-10-11-write-path-invariant",
+                "verification": "probe PASS 607/607 including the two new assertions (no unclassified write outside the session; more writes through the session than around it); Core 0/0. No Studio window: the audit reads sources"
               }
             ],
             "stage_tasks": [
@@ -75838,7 +75844,8 @@
             "remaining": [
               "ИИ меняет шаг/развилку квеста через ту же модель, что ручной список и граф.; отсутствует подтверждение собственного конечного DoD, перечисленного ниже.",
               "Ранее переданный частичный этап (2026-10-11 one model for manual and AI authoring, verified as a write-path inventory) ждёт ревью/приёмки; полный done_when не выполнен.",
-              "Ранее переданный частичный этап (2026-10-11 the authored quests checked as a structure the runtime can run) ждёт ревью/приёмки; полный done_when не выполнен."
+              "Ранее переданный частичный этап (2026-10-11 the authored quests checked as a structure the runtime can run) ждёт ревью/приёмки; полный done_when не выполнен.",
+              "Ранее переданный частичный этап (2026-10-11 the one-journal boundary, verified site by site) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
             "next_action": "Убрать tamara-biased initial selection; открыть active quest; schema DTO edits; clone validate; синхронизировать tree/graph; compile affected module.",
             "blocker": null,

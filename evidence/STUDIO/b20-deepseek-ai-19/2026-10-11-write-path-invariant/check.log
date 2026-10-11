@@ -1,0 +1,20 @@
+== AI-19: the one-journal boundary, verified site by site
+
+
+Прошло времени 00:00:00.63
+    note: Ни одной неопознанной записи вне сессии нет: каждая попадает в известную категорию (состояние редактора, staging, журнал, генератор, импорт, самопроверка), поэтому ни один интерактивный авторский контент не пишется мимо журнала.
+--- studio writes: 12 sites, 50 session-mediated, 12 outside
+    outside: game/studio/StudioAiPanel.cs:220 -> editor-state (AtomicFile.WriteAllText)
+    outside: game/studio/StudioAiPanel.cs:449 -> ai-staging (File.WriteAllText)
+    outside: game/studio/StudioAiPanel.cs:454 -> ai-staging (File.WriteAllText)
+    outside: game/studio/StudioAiPanel.cs:475 -> ai-staging (File.WriteAllText)
+    outside: game/studio/StudioCatalogBuilder.cs:166 -> generator (AtomicFile.WriteAllText)
+    outside: game/studio/StudioImporter.cs:133 -> import (AtomicFile.WriteAllBytes)
+    outside: game/studio/StudioQuestSection.cs:595 -> editor-state (AtomicFile.WriteAllText)
+    outside: game/studio/StudioRoot.cs:697 -> log (new StreamWriter()
+    outside: game/studio/StudioSelfCheck.cs:50 -> self-check (File.WriteAllText)
+    outside: game/studio/StudioSelfCheck.cs:108 -> self-check (File.WriteAllText)
+    outside: game/studio/StudioSelfCheck.cs:110 -> self-check (File.WriteAllText)
+    outside: game/studio/StudioTour.cs:90 -> editor-state (AtomicFile.WriteAllText)
+    note: Ни одной неопознанной записи вне сессии нет: каждая попадает в известную категорию (состояние редактора, staging, журнал, генератор, импорт, самопроверка), поэтому ни один интерактивный авторский контент не пишется мимо журнала.
+PROBE RESULT: PASS

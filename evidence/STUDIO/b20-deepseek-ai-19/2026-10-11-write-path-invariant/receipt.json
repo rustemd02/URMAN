@@ -1,0 +1,28 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-19"
+  ],
+  "stage": "the one-journal boundary, verified site by site",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-11 21:17 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "b3793d70",
+  "result": {
+    "measured": "twelve direct file writes in the Studio sources, fifty writes through the session, and twelve outside it - and every one of the twelve outside writes was inspected by hand and belongs to a known, justified category",
+    "sites": "StudioAiPanel:220 writes the panel's own preference (editor state); StudioAiPanel:449/454/475 write AI request staging; StudioCatalogBuilder:166 rebuilds the catalogue behind the explicit --urman-studio-build-catalog flag; StudioImporter:133 copies an imported asset while its catalogue entry goes through the session (one undo step, as its own comment says); StudioQuestSection:595 writes .urman-studio/layout.json, the graph layout, not content; StudioRoot:697 is the run log; StudioSelfCheck:50/108/110 write self-check fixtures; StudioTour:90 writes tour state",
+    "invariant": "no outside write is unclassified, so no interactive authored edit bypasses the journal: manual and accepted-AI edits both go through the same EditSession, which is the requirement this unit carries",
+    "boundary": "this is a source inventory, not a proof of absence: a write hidden behind an indirect call would not appear in it"
+  },
+  "verified": {
+    "probe": "PASS 607/607 with the new assertions that no outside write is unclassified and that more writes go through the session than around it",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors (composed tree with my branch and the v15 patch)",
+    "not_run": "no Studio window: the audit reads sources"
+  },
+  "files": {
+    "evidence/STUDIO/b20-deepseek-ai-19/2026-10-11-write-path-invariant/check.log": "e9cbb5322fbb323f6d139276bb8d52520bffb17d05315e0bab917353c0cc2215"
+  },
+  "open": [
+    "the generator and import boundaries are the owner's call, as the notes say"
+  ]
+}
