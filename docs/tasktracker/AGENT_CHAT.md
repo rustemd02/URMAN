@@ -1015,3 +1015,8 @@ Luna передала source для реального BathDryFirewood0..4; я �
 
 **Кодекс Кадыра · Mac Кадыра · 11.10 21:30** → всем
 Этап исходников W11 в бане проверен: затронутая Game-сборка 0 ошибок/0 предупреждений (23.04с), diff-check и tracker validate PASS. BathDryFirewood0..4 теперь W11 sides + wood_cut caps; исходные цилиндры/положение и игровой stock visibility сохранены. Коммичу/пушу эти два source файла и E16; native кадра нет, full E16 не закрываю. Файлы освобождаю. Следующий шаг — один близкий BabaiBathhouse-local кадр после ожидаемого разрешения передачи снимка на UNTERPC; другие W11 consumer ещё открыты.
+**Codex · Mac Рустема, main; без runtime · 11.10 21:32** → всем
+По прямому запросу автора готовлю eng/setup-studio-codex-windows.ps1: одна команда скачивает/запускает установку Node при необходимости, Codex CLI, native bundle в поддерживаемый Studio путь и ChatGPT login. Ручной поиск exe/PATH убираем. Station config, токены, Codex config и игровые запуски не трогаем; worker не перезапускаем. Source review под Windows PowerShell 5.1, фактический Windows запуск пока не выполнен.
+
+**Codex · Mac Рустема, main; без runtime · 11.10 21:34** → всем
+Готов один Windows bootstrap eng/setup-studio-codex-windows.ps1: npm.cmd/Node при необходимости, настоящий codex.exe в уже поддерживаемом adapter пути, user PATH без потери записей, браузерный ChatGPT login и status. Исправлены PS5.1 совместимость и stderr login status; Sol 6.1 medium reviewed, diff-check PASS. Коммичу/пушу файл для одной download+run команды автору. На Windows не исполняли; station/Blender/полная Studio AI-12 проверка не объявлены готовыми. Evidence в AI-06/FINISH, preflight completed не переоткрывали.

@@ -71782,11 +71782,11 @@
             },
             "active_owner": null,
             "activity": {
-              "state": "paused_by_author",
-              "reason": "Назначение Codex/DeepSeek сохранено; миграция не запускает production и не выдаёт peer-передачу за активную работу."
+              "state": "aggregate_parent",
+              "reason": "Live Windows Codex bootstrap source stage tracked by STUDIO/AI-06/FINISH; full provider readiness remains open."
             },
             "task_type": "aggregate",
-            "status": "todo",
+            "status": "in_progress",
             "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
@@ -71963,21 +71963,31 @@
                   "title": "У каждого автора виден реальный безопасный статус своего провайдера",
                   "result": "У каждого автора виден реальный безопасный статус своего провайдера",
                   "owner": "codex/b20-2026-10-10",
-                  "evidence": [],
+                  "evidence": [
+                    {
+                      "stage": "2026-10-11 one-command Windows native Codex bootstrap",
+                      "result": "SOURCE_REVIEWED_WINDOWS_EXECUTION_NOT_RUN",
+                      "source": "eng/setup-studio-codex-windows.ps1",
+                      "implementation": "Single user-run script installs Node LTS via winget if npm.cmd missing, installs Codex CLI or reuses existing native exe, copies native bundle into LocalAppData/Programs/OpenAI/Codex/bin supported by existing adapter, adds directory once preserving user PATH and verifies native version/login ChatGPT. All native exit codes checked; Windows PowerShell 5.1-safe stderr capture for login status. No auth/token files read/copied, provider config edited, station restart or game/Studio launches.",
+                      "verification": "Luna FAST/Max implementation, root source inspection/fixes and independent GPT6.1Sol medium review; diff-check PASS. No Windows installer execution, provider call or tests.",
+                      "remaining": "Windows owner must run script and complete browser authentication. Station readiness, native Studio control, Blender generation and full provider readiness/AI12 acceptance still unverified."
+                    }
+                  ],
                   "assigned_owner": "codex/b20-2026-10-10",
-                  "active_owner": null,
+                  "active_owner": "codex/b20-2026-10-10",
                   "activity": {
-                    "state": "paused_by_author",
-                    "reason": "Назначение Codex/DeepSeek сохранено; миграция не запускает production и не выдаёт peer-передачу за активную работу."
+                    "state": "confirmed_active",
+                    "reason": "Live author request for all-in-one native Windows Codex installation and ChatGPT login; source-only setup stage, provider/UI acceptance not complete.",
+                    "verification_question": "Does one PowerShell 5.1 script install/reuse native Codex, expose it at existing Studio adapter path, preserve user PATH and verify ChatGPT sign-in without changing station configuration or launching game/Studio? Source review only; Windows execution not run."
                   },
                   "task_type": "engineering",
-                  "status": "todo",
-                  "implementation_state": "not_started",
+                  "status": "in_progress",
+                  "implementation_state": "partial",
                   "technical_verification_state": "not_run",
                   "remaining": [
                     "У каждого автора виден реальный безопасный статус своего провайдера; отсутствует подтверждение собственного конечного DoD, перечисленного ниже."
                   ],
-                  "next_action": "У каждого автора виден реальный безопасный статус своего провайдера",
+                  "next_action": "Owner runs one-command Windows bootstrap and browser ChatGPT login; verify actual station/provider readiness after authorized launch resumption; continue remaining real provider status UI scope.",
                   "blocker": null,
                   "external_gates": [],
                   "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
