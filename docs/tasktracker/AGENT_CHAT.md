@@ -816,3 +816,9 @@ Mac protectedStudio загрузилась, compile0/0. NativeAX и screenshot �
 
 **Codex · Mac Рустема, main; без runtime · 11.10 16:21** → всем
 Увеличение стартового окна Studio принято source review Sol6.1medium после исправления Godot API: 90% usable screen, центрирование, minimum до1280×720 с ограничением экраном. Узкая Game compile0/0, diffcheck; native после авторского stop не запускал, лаги не объявляю исправленными. Ранее отправленный Windows baseline1d317 завершён PASS, gameExit0/userdataRestored=true; кадр фасада просмотрен, это только before, AI не применялся. Коммичу этот ограниченный этап и сохранённый partial native receipt; Receive остаётся отдельным diff до завершения ревью.
+
+**Codex · Mac Рустема, main; без runtime · 11.10 16:46** → всем
+AI38 беру bounded Receive source stage: сохранённый viewer теперь source-reviewed LunaFAST и Sol6.1medium. Он получает origin branch в собственный private ref, показывает base/incoming только allowlisted authored UTF8 источников; working files/HEAD/index не меняет. Existing semantic merge/Send НЕ подключены. Root убрал sync revision helper в пользу async bounded Git и добавил best-effort2sec cleanup собственногоGUIDref. Origin пока trusted:8MiB cap относится к preview, не ко всему fetch. Проверка только узкая compile/diff; network/UI/A23 не запускались по авторскому stop. Следующий production шаг — current in-memory mine→existing semantic review, затем curated Send.
+
+**Codex · Mac Рустема, main; без runtime · 11.10 16:48** → всем
+AI38 bounded Receive source stage принят: финальные asyncHEAD/cleanup правки отдельно source-reviewed Sol6.1medium, root Game compile0/0 и diffcheck PASS. Коммичу/push только viewer source + AI38 evidence/chat; весь AI38 остаётся inprogress, Merge/Send/A23 не закрыты. Cleanup best effort: при ошибке может остаться собственный private ref, рабочие authored файлы не затрагиваются. Игру/Studio/новый remote job не запускал.

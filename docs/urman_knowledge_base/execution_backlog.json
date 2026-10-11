@@ -80135,7 +80135,18 @@
             "verification": "A23 на безопасной разрешённой ветке/репозитории по действующей политике, без push в main ради проверки.",
             "risks_recovery_external_gates": "Нельзя автоматически commit/push на Save; host Git credentials не копируются; неизвестный результат Send сначала проверяется по ID; net loss не блокирует локальный editor.",
             "required": true,
-            "evidence": [],
+            "evidence": [
+              {
+                "stage": "2026-10-11 readonly Receive source viewer",
+                "result": "SOURCE_GAME_COMPILE_0_0_FULL_AI38_OPEN",
+                "source": [
+                  "game/studio/StudioCollabSection.cs",
+                  "src-dotnet/Urman.Studio.Core/Collaboration/GitRevisionInbox.cs"
+                ],
+                "verification": "Independent LunaFAST+Sol6.1medium source review; root affected Game compile 0 warnings/0 errors and git diff --check. No tests, Git receive, Studio/game launch.",
+                "remaining": "SemanticMerge/Send/new authored sources/network/native A23 remain open. Only trusted origin; fetch bytes not bounded by preview cap."
+              }
+            ],
             "stage_tasks": [
               "STUDIO.P6"
             ],
@@ -80154,20 +80165,22 @@
               ],
               "done_when": "Два checkout с разными корнями обмениваются одной ревизией; конфликт видим; unrelated код не отправлен; повтор передачи не дублирует commit/изменение."
             },
-            "active_owner": null,
+            "active_owner": "codex/b20-2026-10-10",
             "activity": {
-              "state": "paused_by_author",
-              "reason": "Назначение Codex/DeepSeek сохранено; миграция не запускает production и не выдаёт peer-передачу за активную работу."
+              "state": "confirmed_active",
+              "reason": "Production возобновлён автором без runtime; root интегрирует bounded read-only Receive source stage."
             },
             "task_type": "engineering",
-            "status": "todo",
+            "status": "in_progress",
             "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
-              "Незакоммиченный readonly Receive source сохранён отдельно; source/compile проверены, network/native UI NOT_RUN.",
-              "Merge/Send semantic CAS + curated diff/idempotent receipt; не заявлять сохранённый draft как delivery."
+              "Readonly Receive viewer реализован; новый source вне текущего workspace allowlist пока исключается.",
+              "Existing semantic merge preview/Send/curated diff/idempotency не подключены.",
+              "Network receive/native UI/cancellation и два checkout A23 не проверены; runtime запрещён автором.",
+              "Trusted origin fetch может скачивать history/assets сверх8MiB preview cap; cleanup own private ref best effort2sec."
             ],
-            "next_action": "После отдельного возобновления отревьюить сохранённый Receive diff и выполнить один pinned-remote readonly fetch/preview до Merge/Send.",
+            "next_action": "Подключить полученные base/incoming к текущему in-memory mine через existing SemanticMerge, затем curated Send; native/network A23 остаётся до снятия авторского runtime stop.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -80213,7 +80226,7 @@
                 "success": "Два checkout с разными корнями обмениваются одной ревизией; конфликт видим; unrelated код не отправлен; повтор передачи не дублирует commit/изменение.",
                 "repeat_only_if": "Изменён предметный contract/input или предыдущий сценарий неполон."
               },
-              "actual_result": "UNCOMMITTED: game/studio/StudioCollabSection.cs и Core/Collaboration/GitRevisionInbox.cs; оставлены вне документационного коммита.",
+              "actual_result": "Read-only Git origin branch→unique private ref→allowlisted pinned UTF8 blobs→base/incoming viewer. No working files/index/HEAD writes. Async revision checks, bounded cancellation, best-effort own-ref cleanup. Source stage only, no semantic merge/network/native PASS.",
               "evidence_refs": [
                 "STUDIO/AI-38.evidence"
               ]

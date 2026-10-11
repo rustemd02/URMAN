@@ -20,6 +20,10 @@ public sealed class StudioCollabSection(StudioRoot studio) : IStudioSection
     private readonly List<string> _log = [];
     private Control? _view;
     private VBoxContainer _list = null!;
+    private string _receiveBranch = "main";
+    private string? _receiveMessage;
+    private GitIncomingRevision? _incoming;
+    private CancellationTokenSource? _receiveCancellation;
 
     public string Key => "collab";
     public string Title => "Совместная работа";
@@ -53,20 +57,34 @@ public sealed class StudioCollabSection(StudioRoot studio) : IStudioSection
         _list = new VBoxContainer { SizeFlagsHorizontal = Control.SizeFlags.ExpandFill };
         _list.AddThemeConstantOverride("separation", 10);
         scroll.AddChild(_list);
+        studio.TreeExiting += () => _receiveCancellation?.Cancel();
         Refresh();
         return scroll;
     }
 
     public void Refresh()
     {
-        if (_list is null) return;
+        if (_list is null || !GodotObject.IsInstanceValid(_list)) return;
         foreach (var child in _list.GetChildren()) child.QueueFree();
         _list.AddChild(new Label { Text = "Совместная работа", ThemeTypeVariation = "HeaderLabel" });
         _list.AddChild(new Label
         {
-            Text = "Изменения, пришедшие извне (от разработчика или другого автора), объединяются по объектам и полям. Здесь — только то, где нужно ваше решение. Получение и отправка ревизий через общий репозиторий подключаются после решения автора о способе обмена.",
+            Text = "Изменения файлов объединяются по объектам и полям. Общую версию можно получить для просмотра: текущая работа останется на месте. Объединение и отправка общей версии ещё не подключены.",
             AutowrapMode = TextServer.AutowrapMode.WordSmart, ThemeTypeVariation = "MutedLabel"
         });
+        var receive = new HBoxContainer();
+        _list.AddChild(receive);
+        var branch = new LineEdit { Text = _receiveBranch, PlaceholderText = "Ветка общей версии", Editable = _receiveCancellation is null };
+        branch.TextChanged += text => _receiveBranch = text;
+        receive.AddChild(branch);
+        var fetch = StudioRoot.Button(receive, "Получить для просмотра", () => _ = ReceiveAsync());
+        fetch.Disabled = _receiveCancellation is not null;
+        var cancel = StudioRoot.Button(receive, "Остановить получение", () => _receiveCancellation?.Cancel());
+        cancel.Disabled = _receiveCancellation is null;
+        if (_receiveMessage is not null)
+            _list.AddChild(new Label { Text = _receiveMessage, AutowrapMode = TextServer.AutowrapMode.WordSmart });
+        if (_incoming is not null)
+            StudioRoot.Button(_list, "Посмотреть полученную версию…", ShowIncomingRevision);
         if (_pending.Count == 0)
         {
             _list.AddChild(new Label { Text = "✓ Конфликтов нет.", ThemeTypeVariation = "MutedLabel" });
@@ -92,6 +110,64 @@ public sealed class StudioCollabSection(StudioRoot studio) : IStudioSection
             _list.AddChild(new Label { Text = "Журнал полученных изменений", ThemeTypeVariation = "HeaderLabel" });
             foreach (var line in _log.TakeLast(20).Reverse()) _list.AddChild(new Label { Text = line, ThemeTypeVariation = "MutedLabel" });
         }
+    }
+
+    private async Task ReceiveAsync()
+    {
+        if (_receiveCancellation is not null) return;
+        using var cancellation = new CancellationTokenSource();
+        _receiveCancellation = cancellation;
+        _receiveMessage = "Получаю общую версию. Можно продолжать локальное редактирование.";
+        Refresh();
+        try
+        {
+            _incoming = await new GitRevisionInbox(studio.Workspace).ReceiveAsync(_receiveBranch, cancellation.Token);
+            _receiveMessage = $"Получена версия: {_incoming.Files.Count} исходников для просмотра, {_incoming.ExcludedPaths.Count} прочих путей исключено. Ничего не применено.";
+        }
+        catch (OperationCanceledException) { _receiveMessage = "Получение остановлено. Локальная работа остаётся на месте; ранее полученная версия остаётся доступной."; }
+        catch (Exception error) when (error is IOException or UnauthorizedAccessException or ArgumentException or InvalidOperationException)
+        { _receiveMessage = "Не удалось получить версию: проверьте сеть, доступ к общему репозиторию и название ветки. Локальная работа и ранее полученная версия остаются на месте."; }
+        finally { _receiveCancellation = null; Refresh(); }
+    }
+
+    private void ShowIncomingRevision()
+    {
+        if (_incoming is not { } incoming) return;
+        var dialog = new AcceptDialog { Title = "Полученная версия — просмотр", OkButtonText = "Закрыть" };
+        var box = new VBoxContainer();
+        dialog.AddChild(box);
+        box.AddChild(new Label
+        {
+            Text = $"Ветка: {incoming.Branch}\nПередача: {incoming.OperationId}\nОбщая база: {incoming.BaseRevision}\nПолученная версия: {incoming.IncomingRevision}\nЭто исходники для просмотра. Они не заменяют текущие файлы или черновики.",
+            AutowrapMode = TextServer.AutowrapMode.WordSmart
+        });
+        var paths = new ItemList { CustomMinimumSize = new Vector2(760, 100) };
+        foreach (var file in incoming.Files) paths.AddItem(file.RelativePath);
+        box.AddChild(paths);
+        var row = new HBoxContainer();
+        box.AddChild(row);
+        var before = new TextEdit { Editable = false, CustomMinimumSize = new Vector2(370, 260) };
+        var after = new TextEdit { Editable = false, CustomMinimumSize = new Vector2(370, 260) };
+        row.AddChild(before);
+        row.AddChild(after);
+        void Select(int index)
+        {
+            var file = incoming.Files[index];
+            before.Text = "Общая база:\n" + (file.BaseText ?? "Файл отсутствовал");
+            after.Text = "Получено:\n" + (file.IncomingText ?? "Файл удалён в полученной версии");
+        }
+        paths.ItemSelected += index => Select((int)index);
+        if (incoming.Files.Count > 0) { paths.Select(0); Select(0); }
+        if (incoming.ExcludedPaths.Count > 0)
+        {
+            var excluded = new TextEdit { Editable = false, CustomMinimumSize = new Vector2(760, 80), Text = "Исключённые пути:\n" + string.Join("\n", incoming.ExcludedPaths) };
+            box.AddChild(excluded);
+        }
+        dialog.Confirmed += dialog.QueueFree;
+        dialog.Canceled += dialog.QueueFree;
+        dialog.CloseRequested += dialog.QueueFree;
+        studio.AddChild(dialog);
+        dialog.PopupCentered(new Vector2I(820, 640));
     }
 
     private Control Card(string file, MergeConflict conflict, ConditionPhrases phrases)
