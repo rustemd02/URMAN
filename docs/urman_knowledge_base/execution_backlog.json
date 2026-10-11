@@ -23275,6 +23275,14 @@
                 "result": "partial implementation; full done_when remains open",
                 "source": "game/studio/StudioAiPanel.cs; game/scripts/HeroHouseRecipe.cs; src-dotnet/Urman.Studio.Core/AI; Storage/StudioFileTransaction.cs; Editing/EditSession.cs",
                 "verification": "affected game/Core compilation PASS; staged Blender 1.06/1.35 and Core roundtrip/conflict/failure/barrier/recovery assertions PASS; provider inference/game/UI NOT_RUN at this checkpoint"
+              },
+              {
+                "stage": "2026-10-11 typed selected-window request boundary",
+                "result": "PARTIAL_SOURCE_IMPLEMENTATION_CORE_COMPILE_PASS",
+                "source": "src-dotnet/Urman.Studio.Core/AI/HouseWindowProposal.cs; CodexProposalProvider.cs",
+                "implementation": "Optional canonical PartId selects one of eight known windows; absent/null retains existing all-eight wire. Request validation rejects unknown parts; proposal must match frozen part exactly. Selected-part output schema requires exact partId const and parser rejects missing/extra/duplicate fields. Prompt distinguishes one-window and whole-house scope; tools/no-write protocol unchanged.",
+                "verification": "Root affected Studio.Core compile 0 warnings/0 errors; source inspection and diff-check. No actual per-window model call or game/UI acceptance yet.",
+                "remaining": "UI/recipe consumer wiring, frozen effective per-part widths, manifest invariants, staged geometry and native Apply/Undo runtime proof open; full portable Request v2/unsaved overlay contract not supplied by this optional field."
               }
             ],
             "stage_tasks": [
@@ -25651,7 +25659,18 @@
             "next": "Implement per-part recipe widths with identical semantic IDs in generator/interior, frozen typed target set and exact expected widths in proposal/stage validation; prove unchanged other windows and full Undo.",
             "owner": "Codex",
             "files": "game/studio/StudioWorldSection.cs; game/studio/StudioAiPanel.cs",
-            "verification": "Affected Game compile0/0; Sol6.1medium source review accepted; no native UI run."
+            "verification": "Affected Game compile0/0; Sol6.1medium source review accepted; no native UI run.",
+            "typed_boundary": "Optional canonical PartId added to existing request/proposal with exact frozen identity validation, output schema const and strict parser. Core compile0/0; not yet enabled by panel.",
+            "active_implementation": {
+              "owner": "Codex / Sol6.1medium",
+              "files": [
+                "game/scripts/HeroHouseRecipe.cs",
+                "game/scripts/StyleBenchmarkInteriorFactory.cs",
+                "assets/source/blender/act1/urman_village_exterior_kit.py"
+              ],
+              "result": "IN_PROGRESS_NOT_VERIFIED",
+              "boundary": "Optional strict per-ID overrides; preserve global behavior and door/height/center invariants; root owns panel/provider/callers."
+            }
           },
           "subagent_availability": {
             "observed": "Five LunaFAST turns returned account usage-limit error; no partial source edits left. Sol6.1medium completed scope audit and independent source review.",
