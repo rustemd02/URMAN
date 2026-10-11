@@ -113,7 +113,7 @@ public static class PcChat
                                 Required(choice, "id", choiceWhere, malformed),
                                 Required(choice, "textId", choiceWhere, malformed),
                                 Nullable(choice["nextNodeId"], $"{choiceWhere}, nextNodeId", malformed),
-                                Ops(choice["requires"], $"{choiceWhere}, requires", malformed)));
+                                Ops(choice, "requires", $"{choiceWhere}, requires", malformed)));
                         }
                     }
                 }
@@ -144,8 +144,8 @@ public static class PcChat
                     Required(node, "textId", where, malformed),
                     Nullable(node["nextNodeId"], $"{where}, nextNodeId", malformed),
                     choices,
-                    Strings(node["reveals"]),
-                    Ops(node["requires"], $"{where}, requires", malformed)));
+                    Strings(node, "reveals", $"{where}, reveals", malformed),
+                    Ops(node, "requires", $"{where}, requires", malformed)));
 
                 if (choices.Count > 3)
                 {
@@ -161,11 +161,11 @@ public static class PcChat
         var isHint = entityId.Contains(":hint/", StringComparison.Ordinal);
         return new PcChatContent(
             entityId,
-            Text(entity?["presence"], "presence", malformed),
+            Optional(entity, "presence", "тред", malformed),
             Required(entity, "startNodeId", "тред", malformed, required: !isHint),
-            Text(entity?["freeTextReply"], "freeTextReply", malformed),
+            Optional(entity, "freeTextReply", "тред", malformed),
             entity?["freeTextReply"] is not null,
-            Ops(entity?["requires"], "requires", malformed),
+            entity is null ? [] : Ops(entity, "requires", "тред, requires", malformed),
             nodes,
             (int)Number(entity?["level"]),
             entity?["level"] is JsonValue levelValue && IsIntegral(levelValue),
@@ -526,6 +526,34 @@ public static class PcChat
         return text;
     }
 
+    /// <summary>
+    /// An optional string field. An absent key is simply not mentioned, while an
+    /// explicit null and a value of the wrong type are two different findings: the
+    /// review asked for them instead of a silent normalisation.
+    /// </summary>
+    private static string Optional(JsonObject? owner, string name, string where, List<string> malformed)
+    {
+        if (owner is null || !owner.ContainsKey(name))
+        {
+            return "";
+        }
+
+        var node = owner[name];
+        if (node is null)
+        {
+            malformed.Add($"У «{where}» поле «{name}» равно null.");
+            return "";
+        }
+
+        if (node is JsonValue value && value.TryGetValue<string>(out var text))
+        {
+            return text;
+        }
+
+        malformed.Add($"У «{where}» поле «{name}» не строка.");
+        return "";
+    }
+
     private static string Text(JsonNode? node, string where, List<string> malformed)
     {
         if (node is null)
@@ -551,38 +579,71 @@ public static class PcChat
 
         if (node is JsonValue value && value.TryGetValue<string>(out var text))
         {
-            return text.Length > 0 ? text : null;
+            if (text.Length == 0)
+            {
+                malformed.Add($"Поле «{where}» пустое: рантайм прочитает это как конец ветки.");
+                return null;
+            }
+
+            return text;
         }
 
         malformed.Add($"Поле «{where}» не строка.");
         return null;
     }
 
-    private static IReadOnlyList<string> Strings(JsonNode? node)
+    private static IReadOnlyList<string> Strings(JsonObject owner, string name, string where, List<string> malformed)
     {
         var values = new List<string>();
-        if (node is not JsonArray array)
+        if (!owner.ContainsKey(name))
         {
             return values;
         }
 
-        foreach (var item in array)
+        var node = owner[name];
+        if (node is null)
         {
-            if (item is JsonValue value && value.TryGetValue<string>(out var text) && text.Length > 0)
+            malformed.Add($"Поле «{where}» равно null вместо массива подписей.");
+            return values;
+        }
+
+        if (node is not JsonArray array)
+        {
+            malformed.Add($"Поле «{where}» не массив подписей.");
+            return values;
+        }
+
+        for (var index = 0; index < array.Count; index++)
+        {
+            if (array[index] is JsonValue value && value.TryGetValue<string>(out var text) && text.Length > 0)
             {
                 values.Add(text);
+                continue;
             }
+
+            malformed.Add(array[index] is null
+                ? $"Подпись #{index + 1} в «{where}» равна null."
+                : $"Подпись #{index + 1} в «{where}» не строка.");
         }
 
         return values;
     }
 
     /// <summary>The condition operations of a rule list, each one named for its diagnostics.</summary>
-    private static IReadOnlyList<string> Ops(JsonNode? node, string where, List<string> malformed)
+    private static IReadOnlyList<string> Ops(JsonObject owner, string name, string where, List<string> malformed)
     {
         var ops = new List<string>();
+        if (!owner.ContainsKey(name))
+        {
+            // An absent key is simply not mentioned; only an explicit null is a finding,
+            // because that is a state the schema does not describe.
+            return ops;
+        }
+
+        var node = owner[name];
         if (node is null)
         {
+            malformed.Add($"Поле «{where}» равно null вместо массива правил.");
             return ops;
         }
 
@@ -600,9 +661,9 @@ public static class PcChat
                 continue;
             }
 
-            if (rule["op"] is JsonValue op && op.TryGetValue<string>(out var name) && name.Length > 0)
+            if (rule["op"] is JsonValue op && op.TryGetValue<string>(out var operation) && operation.Length > 0)
             {
-                ops.Add(name);
+                ops.Add(operation);
             }
             else
             {

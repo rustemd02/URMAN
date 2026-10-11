@@ -1,0 +1,18 @@
+== AI-24: explicit null/type diagnostics and the static preview label
+== tree: origin/main f703f132 + my branch 1f9a8a29 + session patch + wiring v8
+
+== builds
+    Ошибок: 0
+
+Прошло времени 00:00:03.18
+    Ошибок: 0
+
+Прошло времени 00:00:12.74
+== existing tests
+=== TEST EXECUTION SUMMARY ===
+   Urman.Studio.Tests  Total: 38, Errors: 0, Failed: 0, Skipped: 0, Not Run: 0, Time: 2,265s
+=== TEST EXECUTION SUMMARY ===
+   Urman.Core.Tests  Total: 68, Errors: 0, Failed: 0, Skipped: 0, Not Run: 0, Time: 0,206s
+== probe
+
+PROBE RESULT: PASS

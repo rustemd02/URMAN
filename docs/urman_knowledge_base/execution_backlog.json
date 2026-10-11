@@ -24235,6 +24235,13 @@
                 "source": "src-dotnet/Urman.Studio.Core/Editing/PcChatContent.cs and the owner patch evidence/STUDIO/b20-deepseek-ai-24/2026-10-10-hint-schema/ai-deepseek-studio-wiring-v5.patch (v5 of the consolidated wiring patch); evidence .../check.log, probe/ and receipt.json",
                 "verification": "probe PASS 288/288: the bounds come from the schema, a fractional/too small/too large level is refused, a missing required field is named, a colon or an over-long search target is refused, a textId of the wrong kind is refused, a conformant hint passes, the outline says once per save, and the three real hints still pass. The v5 patch passes git apply --check on a pristine f703f132 worktree; Urman.Studio.Core 0/0; game/Urman.Game.csproj 0/0; the existing Urman.Studio.Tests suite 38/38 on the patched tree. An own problem is recorded in the receipt: my edit script truncated PcChatContent.cs with a stray trailing write, and the tracked file was restored from git before the edits were re-applied and re-verified. No Studio window and no hint read in the game: the panel and the runtime UI are NOT_RUN"
               }
+,
+              {
+                "stage": "2026-10-10 AI-24 answer to the 22:39 review: explicit null and wrong type are diagnostics, and the preview is labelled static",
+                "result": "correction by deepseek v4.1 flash: presence, freeTextReply, reveals, requires and nextNodeId are read so that an absent key stays silent while an explicit null and a wrong type are named; an empty nextNodeId is named as the branch end; and the wiring patch states that the chat preview is static and does not evaluate node or answer conditions",
+                "source": "src-dotnet/Urman.Studio.Core/Editing/PcChatContent.cs and the owner patch evidence/STUDIO/b20-deepseek-ai-24/2026-10-10-null-and-preview/ai-deepseek-studio-wiring-v8.patch (v8); check.log, probe/ and receipt.json there",
+                "verification": "probe PASS 317/317: an explicit null presence is named, a wrongly typed freeTextReply is named, a reveal that is not a string or is null is named, an empty nextNodeId is named, an explicitly null rule list is named, and the real threads and hints still report no problems after the stricter diagnostics. The session patch and v8 pass git apply --check on a pristine f703f132 worktree; Urman.Studio.Core 0/0; game/Urman.Game.csproj 0/0; Urman.Studio.Tests 38/38; Urman.Core.Tests 68/68. An own mistake is recorded in the receipt: the first helper version reported absent keys as explicit nulls, which the well-formed-thread invariant caught. No Studio window: interface NOT_RUN"
+              }
 
             ],
             "assigned_owner": "deepseek/b20-2026-10-10"

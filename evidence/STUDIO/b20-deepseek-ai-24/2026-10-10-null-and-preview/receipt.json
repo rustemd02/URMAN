@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-24"
+  ],
+  "stage": "answer to the 22:39 review: explicit null and wrong type are diagnostics, and the preview says it is static",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-11 05:01 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "f703f132",
+  "addressed": {
+    "explicit null and missing were normalised": "presence, freeTextReply, reveals, requires and nextNodeId are read through helpers that know the owner and the field name, so an ABSENT key stays silent while an explicit null and a value of the wrong type are two named findings; a reveal element that is null or not a string is named instead of dropped",
+    "an empty nextNodeId was normalised": "an empty string is reported as the branch end the runtime will read, not silently treated as a plan",
+    "the chat preview looked playable": "the wiring patch now states that the preview is static: only the opening line is shown and node/answer conditions are not evaluated there"
+  },
+  "files": {
+    "evidence/STUDIO/b20-deepseek-ai-24/2026-10-10-null-and-preview/ai-deepseek-studio-wiring-v8.patch": "91f20db6a082176f3106f873ac7685f3c9db2f285e96f780fe38ba69ba638f7f",
+    "evidence/STUDIO/b20-deepseek-ai-24/2026-10-10-null-and-preview/check.log": "0096cb053695aff1efcdcbda4adfa8d06ca87ad3be820f526728b9371318bec9"
+  },
+  "verified": {
+    "probe": "PASS 317/317, including: an explicit null presence is named, a wrongly typed freeTextReply is named, a reveal that is not a string or is null is named, an empty nextNodeId is named, an explicitly null rule list is named, and the real threads and hints still report no problems after the stricter diagnostics",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors; game/Urman.Game.csproj 0 warnings/0 errors with the session patch and wiring v8",
+    "apply": "the session patch and v8 both pass git apply --check on a pristine f703f132 worktree",
+    "existing_tests": "Urman.Studio.Tests 38/38 and Urman.Core.Tests 68/68",
+    "not_run": "no Studio window: the panel and the preview are compile- and probe-verified, the interface is NOT_RUN"
+  },
+  "own_correction": "the first version of the new helpers treated an ABSENT key as an explicit null and reported it, which the probe caught through the 'well-formed thread passes' invariant; the helpers now take the owner and the field name and only an explicit null is a finding",
+  "open": [
+    "v8 supersedes v7 of the consolidated wiring patch",
+    "runtime and visual acceptance are NOT_RUN"
+  ]
+}
