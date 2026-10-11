@@ -76690,6 +76690,12 @@
                 "result": "fix by deepseek v4.1 flash to the four reviewed defects: (1) Inspect and Notes take the active campaign and read only its manifest, refusing when none is selected instead of mixing campaigns; (2) an evidence kind the compiler does not know is reported, since it yields no candidate sources; (3) photo-acquired AND photo-back-read both resolve through the photo id, so a wrong id is UnknownPhotoWorldPhoto; (4) minimumDistinctSources is compared with the number of DISTINCT underlying source ids and the evidence must pass the compiler's own distinct-source assignment, mirrored from ContentCompiler.HasDistinctSourceAssignment (lines 831-839). Candidate sources follow ContentCompiler lines 405-435 (a fact offers its sourceIds, a photo offers the sourceId it came from). Verified: probe PASS 612/612 - the real book is unchanged at 13/5/33/2/7 with zero problems, fullgame has a book and chapter1 has none, an unselected campaign refuses, and the four synthetic cases are reported. My own leniencies in (2) and (3) are recorded. The helper still has no UI caller, so this is a partial SOURCE stage",
                 "source": "src-dotnet/Urman.Studio.Core/Editing/PhotoBook.cs; evidence evidence/STUDIO/b20-deepseek-ai-24/2026-10-11-book-compiler-rules",
                 "verification": "probe PASS 612/612; Core 0/0. SOURCE stage: no UI caller yet, so AI-24 acceptance stays open"
+              },
+              {
+                "stage": "2026-10-11 the authored documents behind the book",
+                "result": "deepening by deepseek v4.1 flash: a document is a Markdown file whose YAML front-matter carries the compiled record's fields, and the module manifest lists it among its sourceFiles. Sixty-four authored documents, fifty-eight opening effects and ZERO problems: every file exists, every document carries all fields document.schema.json requires, every document declares its OWN sourceFile, every knowledge reference resolves, and every access condition and opening effect uses an operation the engine executes. Three links could fail quietly and each is now checked. The required fields come from the schema and the executed operations from the engine sources. Own mistake recorded: my synthetic first failed to exercise the operation check because the mini workspace had no engine sources; the test now carries ContentRuleEngine.cs. Verified: probe PASS 634/634; Core 0/0",
+                "source": "new file src-dotnet/Urman.Studio.Core/Editing/AuthoredDocuments.cs; evidence evidence/STUDIO/b20-deepseek-ai-24/2026-10-11-authored-documents",
+                "verification": "probe PASS 634/634 including the sixty-four documents with zero problems and the four synthetic failures; Core 0/0. The document prose and language are NOT_RUN and external"
               }
             ],
             "stage_tasks": [
@@ -76725,7 +76731,9 @@
               "Общий индексатор рабочего пространства не несёт вложенные записи интеракций: без этого редактор книги не сможет ссылаться на них.",
               "Ранее переданный частичный этап (2026-10-11 the book graph, and the references the workspace cannot see) ждёт ревью/приёмки; полный done_when не выполнен.",
               "Проекция книги ждёт UI-caller: без него это частичный исходный этап, а не приёмка AI-24.",
-              "Ранее переданный частичный этап (2026-10-11 the book projection takes the active campaign and mirrors the compiler's evidence rules) ждёт ревью/приёмки; полный done_when не выполнен."
+              "Ранее переданный частичный этап (2026-10-11 the book projection takes the active campaign and mirrors the compiler's evidence rules) ждёт ревью/приёмки; полный done_when не выполнен.",
+              "Текст документов и их язык — внешняя приёмка, критерий открыт.",
+              "Ранее переданный частичный этап (2026-10-11 the authored documents behind the book) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
             "next_action": "Трассировать bindings активной кампании; human forms; AI exact-field edits; проверить Markdown/учебные токены; preview в игре.",
             "blocker": null,

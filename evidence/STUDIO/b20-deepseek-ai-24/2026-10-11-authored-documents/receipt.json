@@ -1,0 +1,29 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-24"
+  ],
+  "stage": "the authored documents behind the book",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-11 21:32 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "fde306a4",
+  "result": {
+    "shape": "a document is not an entity in a JSON array: it is a Markdown file whose YAML front-matter carries the same fields the compiled record has (id, title, format, sourceFile, assetRefs, knowledgeRefs, accessConditions, openEffects), and the module manifest lists that file among its sourceFiles",
+    "measured": "sixty-four authored documents across the module manifests, fifty-eight opening effects, and zero problems: every file exists, every document carries the fields document.schema.json requires, every document declares its OWN sourceFile, every knowledge reference resolves in the project, and every access condition and opening effect uses an operation the engine really executes",
+    "why_it_matters": "three links can fail quietly here - a manifest naming a missing file, front-matter naming someone else's sourceFile, and an unexecuted operation - and each of them would leave a document that cannot be opened or that marks nothing as read",
+    "basis": "the required-field list is parsed from document.schema.json and the executed operations come from the engine sources, so neither can drift from the code they describe"
+  },
+  "verified": {
+    "probe": "PASS 634/634 including the sixty-four documents with zero problems and the synthetic cases (missing file, missing schema fields, a foreign sourceFile and an unexecuted opening effect)",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors (composed tree with my branch and the v15 patch)",
+    "not_run": "no game run: the document prose and its language stay external acceptance"
+  },
+  "own_mistakes": "my synthetic first failed to exercise the operation check because the mini workspace had no engine sources to read; the test now carries ContentRuleEngine.cs, which is what the check really needs",
+  "files": {
+    "evidence/STUDIO/b20-deepseek-ai-24/2026-10-11-authored-documents/check.log": "c667eb7216cd156d409a79ff645ef2afb9a3b2aa6f27f20199ede8a312144a73"
+  },
+  "open": [
+    "the document text and language remain author and language acceptance"
+  ]
+}

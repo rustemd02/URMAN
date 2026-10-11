@@ -1,0 +1,16 @@
+== AI-24: the authored documents behind the book
+
+
+Прошло времени 00:00:00.56
+  authored documents: 64, effects: 58, problems: 0
+    note: Авторских документов, перечисленных манифестами модулей: 64; последствий открытия: 58; проблем: 0.
+    doc synthetic: urman.mini: у «documents/bad.md» нет обязательного поля «schemaVersion» (document.schema.json).
+    doc synthetic: urman.mini: у «documents/bad.md» нет обязательного поля «title» (document.schema.json).
+    doc synthetic: urman.mini: у «documents/bad.md» нет обязательного поля «format» (document.schema.json).
+    doc synthetic: urman.mini: у «documents/bad.md» нет обязательного поля «assetRefs» (document.schema.json).
+    doc synthetic: urman.mini: у «documents/bad.md» нет обязательного поля «knowledgeRefs» (document.schema.json).
+    doc synthetic: urman.mini: у «documents/bad.md» нет обязательного поля «accessConditions» (document.schema.json).
+    doc synthetic: urman.mini: «documents/bad.md» объявляет sourceFile «documents/elsewhere.md» — не свой путь; компилятор свяжет документ не с тем файлом.
+    doc synthetic: urman.mini: «documents/bad.md» в openEffects последствие «not.a.real.op» движок не исполняет — открытие ничего не изменит.
+    doc synthetic: urman.mini: манифест перечисляет «documents/gone.md», а файла нет — документ не соберётся.
+PROBE RESULT: PASS
