@@ -1,0 +1,29 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-19"
+  ],
+  "stage": "first slice: one model for manual and AI authoring, verified as a write-path inventory",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-11 15:34 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "80bede64",
+  "result": {
+    "inventory": "twelve direct file writes exist in the Studio sources, and every one is classified: three AI staging files, two editor-state writes, three self-check fixtures, a log, the catalog generator, the asset importer, and the quest-graph layout whose .urman-studio path is declared away from the write itself",
+    "session": "fifty session-mediated write calls (Set/SetField/ApplyFilesAsync) carry every authored edit, so a manual field change and an accepted AI proposal go through the same EditSession journal, the same transaction and the same Undo/Redo",
+    "boundary": "the generator and the importer write outside the session by design as explicit tool actions; the owner confirms that boundary, and the inventory says so instead of claiming it is content",
+    "limit": "the projection reads sources by pattern, so it is an inventory and not a proof of absence: a write hidden behind an indirection would not appear"
+  },
+  "verified": {
+    "probe": "PASS 395/395 with the new checks: at least twenty-five session-mediated calls, twelve classified direct writes, no write left unclassified, the layout as editor state, the staging files as staging, the generator and importer named, and the notes carrying both the shared-journal statement and the limit",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors; game/Urman.Game.csproj 0 warnings/0 errors",
+    "existing_tests": "Urman.Studio.Tests 38/38",
+    "not_run": "no Studio window: the quest editor UI itself is NOT_RUN"
+  },
+  "files": {
+    "evidence/STUDIO/b20-deepseek-ai-19/2026-10-11-write-paths/check.log": "ba1ae393977d54b61d4ce34c22c78719af5051ab9f712d46fa268d6baa4680f8"
+  },
+  "open": [
+    "the quest editor's own UI model (manual and AI on one screen) is NOT_RUN and depends on AI-10/AI-13"
+  ]
+}
