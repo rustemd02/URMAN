@@ -76,6 +76,14 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
         AddChild(body);
         body.AddChild(_status);
         body.AddChild(_prompt);
+        _prompt.TextChanged += () =>
+        {
+            if (_busy || _request is not { } request || _prompt.Text == request.Prompt) return;
+            ClearProposal();
+            InvalidatePreparedRequest();
+            _status.Text = "Описание изменилось; предыдущее предложение отозвано. Подготовьте новый запрос и получите новый ответ.";
+            SetBusy(false);
+        };
         _scope.AddItem("Только выбранное окно", SelectedWindowScope);
         _scope.AddItem("7 окон главных комнат", MainRoomWindowsScope);
         _scope.AddItem("Все 8 окон, включая окно в сенях", AllWindowsScope);
@@ -729,9 +737,7 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
         SetBusy(true);
         try
         {
-            ValidateCapturedDependencies();
-            if (_sourceFingerprint != Fingerprint(File.ReadAllText(Path.Combine(_studio.Workspace.Root, RecipePath))))
-                throw new InvalidOperationException("Исходник изменился после запроса. Получите новое предложение.");
+            EnsurePreparedRequestCurrent(_request);
             ValidateStage();
             var model = "game/assets/models/studio/hero-house-" + _request.RequestId + ".glb";
             var blend = "assets/source/blender/studio/hero-house-" + _request.RequestId + ".blend";
@@ -909,6 +915,7 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
     private void SetBusy(bool busy)
     {
         _busy = busy;
+        _prompt.Editable = !busy;
         _globalInstructions.Disabled = busy;
         var houseSelected = _openedSelection == HeroHouseRecipe.EntityId && _studio.Selection == _openedSelection;
         _scope.Disabled = busy || _proposal is not null || _openedSelection != HeroHouseRecipe.EntityId;

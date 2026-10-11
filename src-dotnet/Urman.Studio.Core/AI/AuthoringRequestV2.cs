@@ -105,7 +105,7 @@ public static class AuthoringRequestV2
             $"Цели: сущностей {entityIds.Length}; частей окон {partIds.Length}; ID сущностей: {string.Join(", ", entityIds)}; ID частей: {string.Join(", ", partIds)}.",
             $"Контекст: кампания {project.GetProperty("campaignId").GetString()} ({project.GetProperty("campaignVersion").GetString()}); мир {project.GetProperty("worldId").GetString()}; состояние {project.GetProperty("stateId").GetString()}; сцена {project.GetProperty("scenePath").GetString()}; зона {project.GetProperty("zoneId").GetString()}; точка {project.GetProperty("spawnPointId").GetString()}.",
             $"Камера/viewport: {DescribeCamera(camera)}; изображение не включено.",
-            $"Источники: {sources.Length}; отличаются от сохранённой базы или без неё: {sourcesDifferingOrWithoutBase} (без базы: {sourcesWithoutBase}). База — сохранённые байты при загрузке Studio, не Git-ревизия; хеши относятся к полным файлам, не к фрагментам data.",
+            $"Источники: {sources.Length}; отличаются от сохранённой базы или без неё: {sourcesDifferingOrWithoutBase} (без базы: {sourcesWithoutBase}). База — сохранённые байты на момент загрузки источника (world — при загрузке Workspace, recipe — при подготовке запроса), не Git-ревизия; хеши относятся к полным файлам, не к фрагментам data.",
             $"  {string.Join("\n  ", sourceDescriptions)}",
             $"Зависимости только для чтения: {dependencyCount}; переданы только пути и SHA-256, содержимое не приложено.",
             $"Входные ресурсы snapshot: {string.Join(", ", readPaths)}.",

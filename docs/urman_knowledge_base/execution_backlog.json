@@ -73059,11 +73059,11 @@
             },
             "active_owner": null,
             "activity": {
-              "state": "paused_by_author",
-              "reason": "Назначение Codex/DeepSeek сохранено; миграция не запускает production и не выдаёт peer-передачу за активную работу."
+              "state": "aggregate_parent",
+              "reason": "Source stale prompt/freshness stage is recorded in existing STUDIO/AI-10/FINISH.evidence; full parent A08/native acceptance remains open and runtime deferred."
             },
             "task_type": "aggregate",
-            "status": "todo",
+            "status": "in_progress",
             "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
@@ -73230,21 +73230,31 @@
                   "title": "Одна проверенная группа правок применяется/отменяется без порчи чужих изменений",
                   "result": "Одна проверенная группа правок применяется/отменяется без порчи чужих изменений",
                   "owner": "codex/b20-2026-10-10",
-                  "evidence": [],
+                  "evidence": [
+                    {
+                      "stage": "2026-10-11 retire proposal when visible prompt changes",
+                      "result": "SOURCE_IMPLEMENTED_GAME_COMPILE_PASS_NATIVE_NOT_RUN",
+                      "source": "game/studio/StudioAiPanel.cs; src-dotnet/Urman.Studio.Core/AI/AuthoringRequestV2.cs",
+                      "implementation": "Confirmed stale path allowed editing visible prompt after proposal and applying old staged output. Prompt now readonly while busy; nonbusy edits differing from frozen prompt clear preview/proposal/stage and invalidate prepared request/disclosure. Apply reuses complete existing EnsurePreparedRequestCurrent selection/scope/prompt/source/dependency guard before stage validation and existing file CAS transaction. Existing Save/Copy/provider already embed same canonical input; no duplicate ZIP/export flow added. Disclosure now distinguishes world Workspace-load baseline from freshly loaded recipe at request capture.",
+                      "verification": "Luna bounded request/consumer/stale lifecycle source inspections plus independent GPT6.1Sol medium final review found no concrete blockers. No tests/probes/provider/Studio/game/Blender/runtime runs. Root affected Game compile0 warnings/0 errors, diff-check and tracker schema validate PASS.",
+                      "remaining": "Full generic scope/conflict/disjoint/double-apply A08 contract remains unverified; this fixes current house-pilot stale prompt only. Durable response exists after generation failure but has no job resume reader; a later recovery slice is required. Native AI12 window request/preview/Apply/game/Undo remains deferred."
+                    }
+                  ],
                   "assigned_owner": "codex/b20-2026-10-10",
-                  "active_owner": null,
+                  "active_owner": "codex/b20-2026-10-10",
                   "activity": {
-                    "state": "paused_by_author",
-                    "reason": "Назначение Codex/DeepSeek сохранено; миграция не запускает production и не выдаёт peer-передачу за активную работу."
+                    "state": "confirmed_active",
+                    "reason": "Live B20 source implementation continues; author runtime pause does not forbid source freshness guard fixes.",
+                    "verification_question": "Does changing the prompt retire old staged proposal/request and does Apply recheck complete captured selection/scope/prompt/source freshness before transaction? Source/affected Game compile only; A08/native scenarios deferred."
                   },
                   "task_type": "engineering",
-                  "status": "todo",
-                  "implementation_state": "not_started",
+                  "status": "in_progress",
+                  "implementation_state": "partial",
                   "technical_verification_state": "not_run",
                   "remaining": [
                     "Одна проверенная группа правок применяется/отменяется без порчи чужих изменений; отсутствует подтверждение собственного конечного DoD, перечисленного ниже."
                   ],
-                  "next_action": "Одна проверенная группа правок применяется/отменяется без порчи чужих изменений",
+                  "next_action": "Continue generic request/transaction applicability and durable generation-failure recovery; native A08/AI12 only when author resumes launches.",
                   "blocker": null,
                   "external_gates": [],
                   "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -73283,7 +73293,7 @@
                       "success": "Выполнены все перечисленные собственные критерии, без расширения на родителя.",
                       "repeat_only_if": "Изменился source/candidate/input/покрываемый контракт."
                     },
-                    "actual_result": null,
+                    "actual_result": "Current house pilot retires stale prompt proposals and checks complete prepared request freshness at Apply; full generic A08 transaction/conflict requirements remain open.",
                     "evidence_refs": []
                   },
                   "dependencies": {
