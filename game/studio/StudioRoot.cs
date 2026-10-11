@@ -167,6 +167,8 @@ public partial class StudioRoot : Control
         }
 
         OfferRecoveredDrafts();
+        if (Workspace.IdentityConflicts.Count > 0)
+            ShowBanner("Повторные ID: неоднозначные объекты недоступны для выбора. " + Workspace.IdentityConflicts[0], error: true);
         if (!StudioTour.Done(Workspace.Root))
         {
             CallDeferred(nameof(StartTour));
@@ -452,6 +454,8 @@ public partial class StudioRoot : Control
 
         ShowProperties();
         RefreshStatus();
+        if (Workspace.IdentityConflicts.Count > 0)
+            ShowBanner("Повторные ID: неоднозначные объекты недоступны для выбора. " + Workspace.IdentityConflicts[0], error: true);
     }
 
     private static bool IsExactHeroHousePilotFileSet(IReadOnlyList<string> paths)
@@ -481,6 +485,13 @@ public partial class StudioRoot : Control
         if (Session.IsBusy)
         {
             if (!autosave) ShowBanner("Дождитесь изменения модели и обновления вида.", error: false);
+            return false;
+        }
+        if (!autosave && Workspace.IdentityConflicts.Count > 0)
+        {
+            _saveError = "Исходники не сохранены: исправьте повторные ID. " + Workspace.IdentityConflicts[0];
+            ShowBanner(_saveError, error: true);
+            RefreshStatus();
             return false;
         }
         if (Workspace.Files.All(file => !file.Dirty))
@@ -598,6 +609,14 @@ public partial class StudioRoot : Control
                 }
                 var recovered = AuthoredFile.CreateNew(Workspace.Root, draft.RelativePath, draft.DraftText);
                 var keys = recovered.Keys().ToArray();
+                if (recovered.RootIsArray && (keys.Distinct(StringComparer.Ordinal).Count() != keys.Length
+                    || file.Keys().Any(Workspace.IsAmbiguous)
+                    || keys.Any(key => Workspace.IsAmbiguous(key)
+                        || Workspace.Locate(key) is { } address && address.RelativePath != draft.RelativePath)))
+                {
+                    skipped++;
+                    continue;
+                }
                 using (Session.Begin("восстановленный черновик"))
                 {
                     foreach (var key in file.Keys().Except(keys, StringComparer.Ordinal).ToArray())
@@ -910,7 +929,8 @@ public partial class StudioRoot : Control
         var dialog = new AcceptDialog
         {
             Title = "Проверка",
-            DialogText = (result.IsSuccess
+            DialogText = "Ошибки идентичности в workspace: " + Workspace.IdentityConflicts.Count + "\n" +
+                string.Join("\n", Workspace.IdentityConflicts.Take(6)) + "\n" + (result.IsSuccess
                     ? "Ошибки ссылок и данных: 0.\n"
                     : $"Ошибки ссылок и данных: {result.Diagnostics.Count}\n" + string.Join("\n", result.Diagnostics.Take(8).Select(d => $"• {d.Message}")) + "\n") +
                 (unsupported.Count == 0 ? "Правила, которые игра не исполняет: 0.\n" : $"Правила, которые игра не исполняет: {unsupported.Count}\n" + string.Join("\n", unsupported.Take(6).Select(item => $"• «{Catalog.NameOf(item.EntityId)}»: {item.Op} — нужна новая механика")) + "\n") +

@@ -230,6 +230,8 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
     private HouseWindowRequest Capture()
     {
         if (_openedSelection != HeroHouseRecipe.EntityId || _studio.Selection != _openedSelection) throw new InvalidOperationException("Выбор изменился: снова выберите эталонный дом.");
+        if (_studio.Workspace.Locate(HeroHouseRecipe.EntityId) is null)
+            throw new InvalidOperationException("Источник дома не найден или его ID повторяется. Исправьте идентичность перед запросом.");
         if (string.IsNullOrWhiteSpace(_prompt.Text)) throw new InvalidOperationException("Опишите изменение окон.");
         _recipeText = File.ReadAllText(Path.Combine(_studio.Workspace.Root, RecipePath));
         _ = HeroHouseRecipe.Parse(_recipeText);

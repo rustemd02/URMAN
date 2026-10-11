@@ -203,6 +203,8 @@ public sealed class EditSession(StudioWorkspace workspace)
         var before = new JsonArray(file.Keys().Select(key => (JsonNode?)key).ToArray());
         var after = new JsonArray(keys.Select(key => (JsonNode?)key).ToArray());
         if (JsonNode.DeepEquals(before, after)) return;
+        if (file.RootIsArray && file.Keys().Any(Workspace.IsAmbiguous))
+            throw new InvalidOperationException("Порядок не изменён: в файле есть неоднозначные ID. Исправьте исходник вручную.");
         StudioFileTransaction.FenceIncompleteHistory(Workspace.Root);
         file.Reorder(keys);
         var change = new EntityChange(relativePath, OrderKey, before, after);
@@ -388,6 +390,8 @@ public sealed class EditSession(StudioWorkspace workspace)
             return;
         }
 
+        if (file.RootIsArray && Workspace.IsAmbiguous(key))
+            throw new InvalidOperationException("Объект не изменён: ID повторяется. Исправьте исходник вручную.");
         var beforeKeys = file.Keys().ToArray();
         StudioFileTransaction.FenceIncompleteHistory(Workspace.Root);
         file.Put(key, after, remove);
