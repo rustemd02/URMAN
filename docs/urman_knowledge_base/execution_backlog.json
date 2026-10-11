@@ -74196,6 +74196,15 @@
                       "implementation": "Existing exact Studio play runner passes snapshot-base-revision userarg only after verify_source succeeds on supplied provenance and lowercase40/64hex validation. Studio validates explicit claim, rejects known Git HEAD mismatch and unknown resolver result when Git metadata exists; only metadata-absent snapshot accepts valid claim. No file/environment trust fallback. Normal checkout without claim retains existing Git requirement. Capture/Fingerprint/retry/Apply share Revision(). Dirty snapshot identity remains in receipt.snapshotId, actual source/dependency hashes remain frozen independently.",
                       "verification": "Luna bounded implementation/producer-consumer review plus independent Sol6.1medium source review. Root affected Game compile0warnings/0errors; diff-check/tracker validation. No Windows runner, model/provider, Blender/Studio/game/tests.",
                       "remaining": "This is operator/verified-runner provenance claim, not authenticated by Studio itself. Authoring generator/baseline source transfer, remote Studio UI/evidence/result preservation and repaired Windows Codex/Blender readiness remain required before native first-pilot acceptance. Seven-window matched game verification and byte-exact Undo remain unproven."
+                    },
+                    {
+                      "stage": "2026-10-11 normal Studio close waits for Play child",
+                      "result": "SOURCE_IMPLEMENTED_GAME_COMPILE_PASS_NATIVE_NOT_RUN",
+                      "source": "game/studio/StudioRoot.cs",
+                      "observed": "Windows protected_run skips taskkill when guarded root has already exited; Studio previously had no normal close child cleanup. PlayFromHere can start after async compile and two simultaneous clicks could overwrite the only tracked Process. Exited log disposal could race pending stdout/stderr callbacks.",
+                      "implementation": "Studio disables autoacceptquit and handles windowCloseRequested. Running Play process tree is killed and root exit waited bounded5s before Quit; failure retains window and explains manual recovery. _closing pre/postcompile prevents delayed launch during shutdown; postawait _run recheck prevents second tracked-child replacement. Log closes under lock only after both stream EOFs, preserving late output without disposed-writer callbacks. Existing workspace/source/transaction paths unchanged.",
+                      "verification": "Luna bounded implementation and independent source reviewers, Sol6.1medium review; root affected Game compile0warnings/0errors. diff-check/tracker validation. No tests, provider, Blender/Studio/game/Windows runs.",
+                      "remaining": "Normal window-close source path only. Abrupt Studio crash/forced-exit requires Windows root-independent Job Object or equivalent guard guarantee; current global Windowsguard lacks it. Station worker still deletes session source before exporting authoring artifacts; bounded export and snapshot authoring inputs/native UI/game/Undo proof remain required. Native firstpilot still unverified."
                     }
                   ],
                   "assigned_owner": "codex/b20-2026-10-10",
@@ -74203,7 +74212,7 @@
                   "activity": {
                     "state": "runtime_deferred_by_author",
                     "reason": "11.10 пользователь остановил игровые и Studio запуски из-за сильных лагов; production/source review/узкая компиляция продолжаются.",
-                    "verification_question": "Does Studio accept only explicit verified-runner/operator snapshot revision, rejecting invalid/mismatched/unresolved Git metadata while keeping source hashes and normal checkout behavior? Source review + affected Game compile only."
+                    "verification_question": "Does normal Studio close stop/wait its one tracked Play child before Quit, reject post-await close/duplicate launch, and drain stdout/stderr without writing to a disposed log? Source review + affected Game compile; crash-level Windows guard/session export remain open."
                   },
                   "task_type": "integration_check",
                   "status": "blocked",
