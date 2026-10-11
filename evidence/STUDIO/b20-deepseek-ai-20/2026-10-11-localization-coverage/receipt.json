@@ -1,0 +1,31 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-20"
+  ],
+  "stage": "which languages an authored text carries, and how the runtime resolves them",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-11 18:57 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "1fdb4835",
+  "result": {
+    "coverage": "1016 authored text records; the Russian line is present in all 1016 and Tatar in 23",
+    "identical_pair": "the Russian line equals the default in 787 records. That is NOT a missing translation and is reported as the expected shape here: the project authors in Russian and the two fields change together (DLG04)",
+    "separated": "229 records have a default that differs from the Russian line, so they are reported separately rather than being mixed into the identical group",
+    "runtime_rule": "the resolver tries the requested locale, then its language part, and finally falls back to default (ContentResolverSupport), so a missing Tatar line shows the default text rather than an empty string",
+    "language_gate": "the Tatar gap is left open on purpose: inventing a translation is forbidden, so it stays a language and culture acceptance gate owned by people who speak the language"
+  },
+  "verified": {
+    "probe": "PASS 525/525 with the new checks: the records are found, every one carries a Russian line, the identical and differing groups are reported separately, and the notes state that an identical pair is not a missing translation, that the gap must not be invented and which resolver rule is being reported",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors; game/Urman.Game.csproj 0 warnings/0 errors",
+    "existing_tests": "Urman.Studio.Tests 38/38",
+    "not_run": "no game run: what a line reads like and whether the Tatar text is right is language and culture acceptance, NOT_RUN"
+  },
+  "files": {
+    "evidence/STUDIO/b20-deepseek-ai-20/2026-10-11-localization-coverage/check.log": "fc9e6d6e8b50ef6b08143ee3b8bd85fe8724e0cae7e1d3a9478cb3d26879c467"
+  },
+  "open": [
+    "the Tatar coverage is a language/culture gate and is not filled by this projection",
+    "whether the resolver should prefer ru over default is still the open question I raised earlier"
+  ]
+}

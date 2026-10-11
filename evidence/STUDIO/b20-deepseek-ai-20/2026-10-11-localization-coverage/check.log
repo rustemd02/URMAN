@@ -1,0 +1,14 @@
+== AI-20: which languages an authored text really carries, and how the runtime resolves them
+
+
+Прошло времени 00:00:00.50
+
+Прошло времени 00:00:13.11
+== existing tests
+=== TEST EXECUTION SUMMARY ===
+   Urman.Studio.Tests  Total: 38, Errors: 0, Failed: 0, Skipped: 0, Not Run: 0, Time: 2,290s
+== probe
+    note: Записей с локализованным текстом: 1016; русский есть у 1016; татарский — у 23.
+    note: Русский совпадает с default у 787 записей и отличается у 229. Совпадение — это НЕ пропуск перевода: проект пишет по-русски, и default с translations.ru меняются вместе (DLG04).
+    note: Татарский заполнен у 23 записей. Этот пробел — языковой и культурный гейт: придумывать перевод нельзя, его закрывают люди, владеющие языком, а не эта проекция.
+PROBE RESULT: PASS
