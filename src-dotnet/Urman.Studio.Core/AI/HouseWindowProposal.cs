@@ -80,6 +80,15 @@ public sealed record HouseWindowRequest(
                 ? throw new ArgumentException("Sources cannot contain null entries.", nameof(value))
                 : source with { Data = source.Data }).ToArray());
     }
+
+    private HouseAuthoringEnvironment? _environment;
+
+    [JsonPropertyName("environment"), JsonPropertyOrder(9), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public HouseAuthoringEnvironment? Environment
+    {
+        get => _environment;
+        init => _environment = value?.Freeze();
+    }
 }
 
 /// <summary>
@@ -113,14 +122,18 @@ public static class HouseWindowProposalValidator
     public const decimal MinimumWidthMeters = 0.65m;
     public const decimal MaximumWidthMeters = 1.35m;
     public const int MaximumSerializedRequestBytes = 256 * 1024;
-    private const string WorldSourcePath = "game/content/world/act1_village_kit.world.v1.json";
-    private const string RecipeSourcePath = "game/content/studio/hero_house.recipe.json";
+    internal const string WorldSourcePath = "game/content/world/act1_village_kit.world.v1.json";
+    internal const string RecipeSourcePath = "game/content/studio/hero_house.recipe.json";
     public static readonly IReadOnlyList<string> MainRoomWindowIds = Array.AsReadOnly(
         new[] { "Front0", "Front1", "Front2", "Rear0", "Rear1", "Left0", "Right0" });
     private static readonly IReadOnlyList<string> AllWindowIds = Array.AsReadOnly(
         new[] { "Front0", "Front1", "Front2", "Rear0", "Rear1", "Left0", "Right0", "SeniOuter0" });
 
-    public static void ValidateRequest(HouseWindowRequest request)
+    public static void ValidateRequest(HouseWindowRequest request) => ValidateRequestCore(request, validateSnapshotHash: true, validateSize: true);
+
+    internal static void ValidateRequestForSnapshotHash(HouseWindowRequest request) => ValidateRequestCore(request, validateSnapshotHash: false, validateSize: false);
+
+    private static void ValidateRequestCore(HouseWindowRequest request, bool validateSnapshotHash, bool validateSize)
     {
         ArgumentNullException.ThrowIfNull(request);
         if (!Guid.TryParseExact(request.RequestId, "N", out var requestId)
@@ -129,7 +142,8 @@ public static class HouseWindowProposalValidator
             throw new ArgumentException("RequestId must be a canonical 32-character lowercase hexadecimal GUID.", nameof(request.RequestId));
         }
 
-        ValidateSnapshotHash(request.SnapshotHash);
+        if (validateSnapshotHash)
+            ValidateSnapshotHash(request.SnapshotHash);
         ValidateIdentifier(request.EntityId, nameof(request.EntityId), maximumLength: 256);
         ValidateWidth(request.CurrentWidth, nameof(request.CurrentWidth));
         if (request.PartId is not null && request.PartIds is not null)
@@ -159,7 +173,21 @@ public static class HouseWindowProposalValidator
             throw new ArgumentException("The prompt must contain 1–8000 printable characters.", nameof(request));
         }
 
-        ValidateSerializedRequestSize(request);
+        if (request.Environment is { } environment)
+        {
+            AuthoringRequestV2.ValidateEnvironment(environment);
+            if (request.Sources is null || request.CurrentWidths is null)
+                throw new ArgumentException("V2 requests require curated sources and per-window current widths.", nameof(request));
+
+            if (validateSnapshotHash
+                && !string.Equals(request.SnapshotHash, AuthoringRequestV2.ComputeSnapshotHash(request), StringComparison.Ordinal))
+            {
+                throw new ArgumentException("SnapshotHash does not match the frozen v2 authoring context.", nameof(request));
+            }
+        }
+
+        if (validateSize)
+            ValidateSerializedRequestSize(request);
     }
 
     public static void Validate(HouseWindowRequest request, HouseWindowProposal proposal)

@@ -4,6 +4,8 @@ using System.Text.Json.Nodes;
 using Godot;
 using Urman.Godot;
 using Urman.Studio.Core.AI;
+using Urman.Studio.Core.Editing;
+using Urman.Studio.Core.Play;
 using Urman.Studio.Core.Storage;
 
 namespace Urman.Studio.App;
@@ -43,7 +45,7 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
     private HouseWindowProposal? _proposal;
     private string? _stage;
     private string? _recipeText;
-    private string? _snapshot;
+    private string? _sourceFingerprint;
     private JsonObject? _capturedWidths;
     private string? _consentIoWarning;
     private bool _busy;
@@ -248,6 +250,7 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
         }
         ClearProposal();
         _request = null;
+        _sourceFingerprint = null;
         _openedSelection = selected;
         _openedPart = ((StudioWorldSection)_studio.Section("world")).SelectionPart;
         var windowSelected = _openedPart is { PartId: var partId }
@@ -293,7 +296,7 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
         var recipeBaseHash = recipeSource.BaseSha256
             ?? throw new InvalidDataException("У рецепта отсутствует сохранённая базовая ревизия.");
         _recipeText = recipeSource.Text;
-        _ = HeroHouseRecipe.Parse(_recipeText);
+        var parsedRecipe = HeroHouseRecipe.Parse(_recipeText);
         var recipe = JsonNode.Parse(_recipeText)!.AsObject();
         if (recipe["modelPath"] is null && ((decimal)recipe["windowClearWidth"]! != 1.06m
             || recipe["windowWidths"] is JsonObject existingWidths && existingWidths.Count > 0))
@@ -303,14 +306,14 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
             _capturedWidths[id] = (decimal?)recipe["windowWidths"]?[id]
                 ?? (id == "SeniOuter0" && recipe["modelPath"] is null ? .80m : (decimal)recipe["windowClearWidth"]!);
         var (partId, partIds) = SelectedScope();
-        _snapshot = Fingerprint(_recipeText);
+        var sourceFingerprint = Fingerprint(_recipeText);
         var currentWidth = partId is null ? (decimal)recipe["windowClearWidth"]! : (decimal)_capturedWidths[partId]!;
         var scopedIds = partId is not null
             ? new[] { partId }
             : partIds?.ToArray() ?? HeroHouseRecipe.WindowIds.ToArray();
         var currentWidths = scopedIds.ToDictionary(
             id => id, id => (decimal)_capturedWidths[id]!, StringComparer.Ordinal);
-        return new HouseWindowRequest(Guid.NewGuid().ToString("N"), _snapshot, HeroHouseRecipe.EntityId,
+        var request = new HouseWindowRequest(Guid.NewGuid().ToString("N"), sourceFingerprint, HeroHouseRecipe.EntityId,
             currentWidth, _prompt.Text, partId)
         {
             PartIds = partIds,
@@ -323,6 +326,45 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
                     recipeSource.Sha256, JsonSerializer.SerializeToElement(JsonNode.Parse(_recipeText)!))
             }
         };
+        var worldSection = (StudioWorldSection)_studio.Section("world");
+        var playStart = worldSection.PlayStart()
+            ?? throw new InvalidOperationException("Не удалось определить текущую точку входа выбранного мира.");
+        var context = CampaignWorldCatalog.Discover(_studio.Workspace).Resolve(
+            PlayPreparation.Campaign,
+            "res://scenes/act1_demo.tscn",
+            playStart.Zone,
+            playStart.Spawn,
+            baseRevision: Revision());
+        var recipeModelPath = parsedRecipe.ModelPath ?? "res://assets/models/act1/urman_village_exterior_kit.glb";
+        var modelDependencyPath = "game/" + recipeModelPath["res://".Length..];
+        var dependencyHashes = new Dictionary<string, string>(StringComparer.Ordinal);
+        var dependencyPaths = new[]
+        {
+            GeneratorPath,
+            "assets/source/blender/act1/urman_village_exterior_kit.blend",
+            modelDependencyPath
+        }.Concat(context.AuthoredDependencies).Distinct(StringComparer.Ordinal);
+        foreach (var dependencyPath in dependencyPaths)
+        {
+            StudioFileTransaction.EnsureNoLinks(_studio.Workspace.Root, dependencyPath);
+            dependencyHashes.Add(dependencyPath, AtomicFile.Sha256OfFile(Path.Combine(
+                _studio.Workspace.Root, dependencyPath.Replace('/', Path.DirectorySeparatorChar))));
+        }
+        var environment = new HouseAuthoringEnvironment(
+            context.BaseRevision,
+            context.Campaign.Id,
+            context.Campaign.ExactVersion,
+            context.World.WorldId,
+            context.StateId,
+            context.World.ScenePath,
+            context.World.ZoneId,
+            context.World.SpawnPointId,
+            worldSection.CaptureAuthoringCamera(),
+            dependencyHashes);
+        request = request with { Environment = environment };
+        request = request with { SnapshotHash = AuthoringRequestV2.ComputeSnapshotHash(request) };
+        _sourceFingerprint = sourceFingerprint;
+        return request;
     }
 
     private string Fingerprint(string recipe)
@@ -342,6 +384,21 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
         var revision = Urman.Studio.Core.Handoff.DeveloperContext.ResolveRevision(_studio.Workspace.Root);
         if (revision == "неизвестна") throw new IOException("Нет полной Git-ревизии. Проверьте checkout перед запросом.");
         return revision;
+    }
+
+    private void ValidateCapturedDependencies()
+    {
+        var dependencies = _request?.Environment?.DependencyHashes
+            ?? throw new InvalidOperationException("В запросе отсутствует снимок зависимостей кампании.");
+        foreach (var (relativePath, expectedHash) in dependencies)
+        {
+            StudioFileTransaction.EnsureNoLinks(_studio.Workspace.Root, relativePath);
+            var fullPath = Path.Combine(_studio.Workspace.Root, relativePath.Replace('/', Path.DirectorySeparatorChar));
+            if (!File.Exists(fullPath))
+                throw new InvalidOperationException("Зависимость запроса больше недоступна: " + relativePath);
+            if (!string.Equals(AtomicFile.Sha256OfFile(fullPath), expectedHash, StringComparison.Ordinal))
+                throw new InvalidOperationException("Зависимость запроса изменилась после снимка: " + relativePath);
+        }
     }
 
     private HouseWindowRequest PrepareManualRequest()
@@ -422,8 +479,9 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
                     || !RequestScopeMatchesCurrent(_request))
                     throw new InvalidOperationException("Описание или охват изменились. Скопируйте новый запрос.");
                 if (_openedSelection != _studio.Selection
-                    || _snapshot != Fingerprint(File.ReadAllText(Path.Combine(_studio.Workspace.Root, RecipePath))))
+                    || _sourceFingerprint != Fingerprint(File.ReadAllText(Path.Combine(_studio.Workspace.Root, RecipePath))))
                     throw new InvalidOperationException("Выбор или исходник изменился. Скопируйте новый запрос.");
+                ValidateCapturedDependencies();
                 imported = proposalFile is null
                     ? CodexProposalProvider.ParseProposal(DisplayServer.ClipboardGet(), _request)
                     : CodexProposalProvider.ParseProposalFile(proposalFile, _request);
@@ -446,7 +504,7 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
             var request = _request ?? throw new InvalidOperationException("Запрос ещё не подготовлен.");
             Urman.Studio.Core.Handoff.DeveloperContext.WriteHouseWindowJob(_studio.Workspace.Root, request);
             _stage = Directory.CreateTempSubdirectory("urman-house-" + request.RequestId + "-").FullName;
-            File.WriteAllText(Path.Combine(_stage, "request.json"), JsonSerializer.Serialize(_request));
+            File.WriteAllText(Path.Combine(_stage, "request.json"), CodexProposalProvider.SerializeRequest(request));
             _status.Text = fromManual ? "Проверяю перенесённое предложение…" : "Codex готовит предложение…";
             _proposal = imported ?? await new CodexProposalProvider(allowGlobalInstructions: _globalInstructions.ButtonPressed)
                 .RunAsync(_request!, _stage, _cancel.Token, this);
@@ -547,7 +605,8 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
         SetBusy(true);
         try
         {
-            if (_snapshot != Fingerprint(File.ReadAllText(Path.Combine(_studio.Workspace.Root, RecipePath))))
+            ValidateCapturedDependencies();
+            if (_sourceFingerprint != Fingerprint(File.ReadAllText(Path.Combine(_studio.Workspace.Root, RecipePath))))
                 throw new InvalidOperationException("Исходник изменился после запроса. Получите новое предложение.");
             ValidateStage();
             var model = "game/assets/models/studio/hero-house-" + _request.RequestId + ".glb";
