@@ -73932,7 +73932,8 @@
                     "evidence/STUDIO/b20-codex-ui-2026-10-11/ui-receipt.json",
                     "evidence/STUDIO/b20-codex-ui-2026-10-11/windows-kit/receipt.json",
                     "evidence/STUDIO/b20-codex-ui-2026-10-11/windows-kit/build.log",
-                    "evidence/STUDIO/b20-codex-ui-2026-10-11/windows-kit/game.log"
+                    "evidence/STUDIO/b20-codex-ui-2026-10-11/windows-kit/game.log",
+                    "src-dotnet/Urman.Studio.Core/AI/CodexProposalProvider.cs"
                   ],
                   "assigned_owner": "codex/b20-2026-10-10",
                   "active_owner": null,
@@ -73948,7 +73949,7 @@
                     "Реальный native Front0→Codex→preview→Apply→game→Undo на Windows не проверен.",
                     "Windows: установить Codex CLI и выполнить личный ChatGPT login; обеспечить Blender4.5.12 и authoring source snapshot, затем доступ к native Studio UI.",
                     "Overall Windows kit smoke FAIL: shutdown resource leaks; scenario5checks и compile0/0 не заменяют чистый runtime result.",
-                    "Provider source search может выбрать codex.cmd/npm, но shell-free ProcessStartInfo требует direct executable; до Windows запроса определить установленный codex.exe и исправить discovery при необходимости."
+                    "Windows direct .exe-only discovery исправлен и source-reviewed; actual Windows installed/login readiness остаётся непроверенным."
                   ],
                   "next_action": "Подготовить недостающий Windows authoring transport по существующему станционному протоколу; автор выполняет codex login на UnterPC. Затем один guarded native Front0 walkthrough; не повторять kit smoke без изменённого входа.",
                   "blocker": {
@@ -74037,7 +74038,7 @@
                       "success": "UI/actual Codex receipt/target game views/source hashes/new-file absence + guard userdata restoration; полный multi-house A02 и restart отдельно.",
                       "repeat_only_if": "Изменился source/candidate/input/покрываемый контракт."
                     },
-                    "actual_result": "11.10: native Mac Studio world/AX observed; Front0 selection/request not reached (ScreenCaptureKit -3811). Mac released at author request, baseline source hashes and original userdata fingerprint restored. Windows job43bee79349d840c5be76403c288a6af6: affected game compile 0 warnings/0 errors, existing placement/collision scenario5checks passed, game exit0; overall FAIL due engine resource leaks at exit, userdata guard restored/recovery_pending=false. Windows Blender path branch reviewed LunaFAST+Sol6.1medium; generation not executed, installation not proven. Snapshot included pre-existing Receive diff, excluded from this commit. No real Windows AI request/preview/Apply/game/Undo proof.",
+                    "actual_result": "11.10: native Mac Studio world/AX observed; Front0 selection/request not reached (ScreenCaptureKit -3811). Mac released at author request, baseline source hashes and original userdata fingerprint restored. Windows job43bee79349d840c5be76403c288a6af6: affected game compile 0 warnings/0 errors, existing placement/collision scenario5checks passed, game exit0; overall FAIL due engine resource leaks at exit, userdata guard restored/recovery_pending=false. Windows Blender path branch reviewed LunaFAST+Sol6.1medium; generation not executed, installation not proven. Snapshot included pre-existing Receive diff, excluded from this commit. No real Windows AI request/preview/Apply/game/Undo proof. Followup11.10: CodexProposalProvider.ResolveExecutable rejects Windows cmd/bat/extensionless explicit paths and searches bare codex.exe only; same resolved executable used by both readiness and app-server. LunaFAST implementation + Sol6.1medium independent review, no actionable source defect. Narrow dotnet build src-dotnet/Urman.Studio.Core/Urman.Studio.Core.csproj --no-restore --verbosity quiet: exit0, warnings0/errors0, 3.03s. No Windows runtime/auth inference; no new tests or Mac game launch. Shutdown smoke teardown omission is a source hypothesis (existing GodotSmokeCleanup.ReleaseAsync pattern), unconfirmed and left unchanged.",
                     "evidence_refs": [
                       "evidence/STUDIO/b20-codex-ui-2026-10-11/ui-receipt.json",
                       "evidence/STUDIO/b20-codex-ui-2026-10-11/windows-kit/receipt.json",
