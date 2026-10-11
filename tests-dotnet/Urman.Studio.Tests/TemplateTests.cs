@@ -116,12 +116,12 @@ public sealed class TemplateTests : IDisposable
         Assert.Contains("Проблема: калитка не чинится", text, StringComparison.Ordinal);
         Assert.DoesNotContain(_root, text, StringComparison.Ordinal);
         var (path, entities, _) = context.WritePackage(ids.QuestId, Path.Combine(_root, "handoff"), "калитка не чинится");
-        using var zip = System.IO.Compression.ZipFile.OpenRead(path);
-        var packed = JsonNode.Parse(new StreamReader(zip.GetEntry("entities.json")!.Open()).ReadToEnd())!.AsArray();
+        var package = Urman.Studio.Core.Handoff.DeveloperContext.ReadPackage(path);
+        var packed = package.Entities;
         Assert.Contains(packed, entity => (string)entity!["id"]! == ids.QuestId);
         Assert.Contains(packed, entity => (string)entity!["id"]! == ids.CharacterId);
         Assert.True(entities >= 5);
-        Assert.DoesNotContain(_root, new StreamReader(zip.GetEntry("manifest.json")!.Open()).ReadToEnd(), StringComparison.Ordinal);
+        Assert.DoesNotContain(_root, package.Manifest.ToJsonString(), StringComparison.Ordinal);
     }
 
     private static string RepoRoot()

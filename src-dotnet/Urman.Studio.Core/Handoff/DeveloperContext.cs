@@ -2,6 +2,7 @@ using System.IO.Compression;
 using System.Diagnostics;
 using System.Text;
 using System.Text.Json.Nodes;
+using System.Text.Json;
 using Urman.Studio.Core.Editing;
 using Urman.Studio.Core.Storage;
 
@@ -218,6 +219,123 @@ public sealed class DeveloperContext(StudioWorkspace workspace, EntityCatalog ca
     {
         using var stream = zip.CreateEntry(name).Open();
         stream.Write(bytes);
+    }
+
+    public sealed record ContextPackage(JsonObject Manifest, JsonArray Entities, string Text, bool HasIntegrityReceipts);
+
+    /// <summary>Read-only data preview; never extracts entries or writes into a checkout.</summary>
+    public static ContextPackage ReadPackage(string path)
+    {
+        using var file = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
+        if (file.Length > 1024 * 1024) throw new InvalidDataException("Архив контекста превышает 1 МБ.");
+        using var zip = new ZipArchive(file, ZipArchiveMode.Read);
+        string[] names = ["manifest.json", "context.txt", "entities.json"];
+        if (zip.Entries.Count != names.Length || zip.Entries.Select(entry => entry.FullName).Distinct(StringComparer.Ordinal).Count() != names.Length
+            || zip.Entries.Any(entry => !names.Contains(entry.FullName, StringComparer.Ordinal)))
+            throw new InvalidDataException("Архив содержит неизвестные или повторные файлы.");
+        var payloads = new Dictionary<string, byte[]>(StringComparer.Ordinal);
+        long total = 0;
+        foreach (var entry in zip.Entries)
+        {
+            if (((entry.ExternalAttributes >> 16) & 0xF000) is not (0 or 0x8000) || (entry.ExternalAttributes & (int)(FileAttributes.ReparsePoint | FileAttributes.Directory)) != 0)
+                throw new InvalidDataException("Ссылки внутри пакета не поддерживаются.");
+            if (entry.Length < 0 || entry.Length > 256 * 1024 || total + entry.Length > 256 * 1024)
+                throw new InvalidDataException("Распакованный контекст превышает 256 КБ.");
+            using var input = entry.Open();
+            using var output = new MemoryStream();
+            var buffer = new byte[4096];
+            int count;
+            while ((count = input.Read(buffer)) > 0)
+            {
+                if (output.Length + count > entry.Length || total + output.Length + count > 256 * 1024)
+                    throw new InvalidDataException("Размер содержимого не совпадает с архивом.");
+                output.Write(buffer, 0, count);
+            }
+            if (output.Length != entry.Length) throw new InvalidDataException("Размер содержимого не совпадает с архивом.");
+            total += output.Length;
+            payloads.Add(entry.FullName, output.ToArray());
+        }
+        try
+        {
+            var encoding = new UTF8Encoding(false, true);
+            var manifest = ParsePackageJson(encoding.GetString(payloads["manifest.json"])) as JsonObject
+                ?? throw new InvalidDataException("Манифест должен быть объектом.");
+            var entities = ParsePackageJson(encoding.GetString(payloads["entities.json"])) as JsonArray
+                ?? throw new InvalidDataException("Сущности должны быть массивом.");
+            if (PackageString(manifest, "kind") != "urman.studio-context" || manifest["schemaVersion"]?.GetValue<int>() != 1)
+                throw new InvalidDataException("Версия пакета не поддерживается.");
+            var subject = PackageString(manifest, "subject");
+            _ = PackageString(manifest, "baseRevision");
+            if (entities.Count is < 1 or > 200 || manifest["entities"]?.GetValue<int>() != entities.Count)
+                throw new InvalidDataException("Количество сущностей не совпадает с манифестом.");
+            var ids = new HashSet<string>(StringComparer.Ordinal);
+            foreach (var entity in entities)
+            {
+                var item = entity as JsonObject ?? throw new InvalidDataException("Сущность должна быть объектом.");
+                if (!ids.Add(PackageString(item, "id")) || item["data"] is null)
+                    throw new InvalidDataException("Повторная сущность или отсутствующие данные.");
+                if (item["data"] is JsonObject data && data.ContainsKey("id") && data["id"]?.GetValue<string>() != PackageString(item, "id"))
+                    throw new InvalidDataException("ID сущности не совпадает с данными.");
+                _ = PackageString(item, "state");
+                var source = PackageString(item, "file");
+                if (Path.IsPathRooted(source) || source.Contains('\\') || source.Contains(':') || source.Any(char.IsControl)
+                    || source.Split('/').Any(segment => segment.Length == 0 || segment is "." or "..")
+                    || source.Split('/')[0].StartsWith('.'))
+                    throw new InvalidDataException("Источник должен иметь безопасный относительный адрес.");
+            }
+            if (!ids.Contains(subject)) throw new InvalidDataException("Данные выбранной сущности отсутствуют.");
+            var hasReceipts = manifest.ContainsKey("files") || manifest.ContainsKey("payloadHashAlgorithm");
+            if (hasReceipts)
+            {
+                var receipts = manifest["files"] as JsonArray ?? throw new InvalidDataException("Неверные контрольные суммы.");
+                if (PackageString(manifest, "payloadHashAlgorithm") != "sha256" || receipts.Count != 2)
+                    throw new InvalidDataException("Неверные контрольные суммы.");
+                var checkedNames = new HashSet<string>(StringComparer.Ordinal);
+                foreach (var receipt in receipts)
+                {
+                    var item = receipt as JsonObject ?? throw new InvalidDataException("Неверная контрольная сумма.");
+                    var name = PackageString(item, "path");
+                    if (name is not ("context.txt" or "entities.json") || !checkedNames.Add(name)
+                        || item["bytes"]?.GetValue<long>() != payloads[name].LongLength
+                        || PackageString(item, "sha256") != AtomicFile.Sha256(payloads[name]))
+                        throw new InvalidDataException("Контрольная сумма или размер не совпадает.");
+                }
+            }
+            if (manifest.ContainsKey("truncated")) _ = manifest["truncated"]?.GetValue<bool>() ?? throw new InvalidDataException("Неверный признак неполноты.");
+            return new ContextPackage(manifest, entities, encoding.GetString(payloads["context.txt"]), hasReceipts);
+        }
+        catch (Exception error) when (error is JsonException or InvalidOperationException or FormatException or OverflowException or DecoderFallbackException)
+        {
+            throw new InvalidDataException("Некорректные данные пакета контекста.", error);
+        }
+    }
+
+    private static string PackageString(JsonObject value, string key)
+    {
+        return value[key]?.GetValue<string>() is { Length: > 0 } text && !string.IsNullOrWhiteSpace(text)
+            ? text : throw new InvalidDataException("Отсутствует обязательное поле пакета.");
+    }
+
+    private static JsonNode? ParsePackageJson(string text)
+    {
+        using var document = JsonDocument.Parse(text, new JsonDocumentOptions { MaxDepth = 64 });
+        RefuseDuplicateFields(document.RootElement);
+        return JsonNode.Parse(text, documentOptions: new JsonDocumentOptions { MaxDepth = 64 });
+    }
+
+    private static void RefuseDuplicateFields(JsonElement element)
+    {
+        if (element.ValueKind == JsonValueKind.Object)
+        {
+            var names = new HashSet<string>(StringComparer.Ordinal);
+            foreach (var property in element.EnumerateObject())
+            {
+                if (!names.Add(property.Name)) throw new InvalidDataException("Повторное поле JSON.");
+                RefuseDuplicateFields(property.Value);
+            }
+        }
+        else if (element.ValueKind == JsonValueKind.Array)
+            foreach (var item in element.EnumerateArray()) RefuseDuplicateFields(item);
     }
 
     private static JsonNode? SavedValue(string fullPath, string key)
