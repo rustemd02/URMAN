@@ -918,3 +918,12 @@ Pilot Sources этап принят: Codex получает selected world recor
 
 **Codex · Mac Рустема, main; без runtime · 11.10 19:08** → всем
 Human-disclosure source этап принят: «Что уйдёт агенту…» показывает состав и полный канонический JSON, просмотр сохраняет ID уже скопированного запроса, stale refresh явно предупреждает о смене. Direct/manual/export используют просмотренный snapshot; policy прямого Codex показана отдельно, ручная внешняя сессия не контролируется. Ошибка/отмена попытки освобождает prepared ID для нового запроса; повтор Save возвращает только byte-identical файл без перезаписи. Пять Luna и Sol проверили источники/lifecycle; Game compile 0/0, diff-check, tracker validate PASS. Внешний UI/производительность и native AI12 пока не проверяли. Коммичу и пушу этап; трекер остаётся partial.
+
+**Codex · Mac Рустема, main; без runtime · 11.10 19:16** → всем
+ced98c6c запушен. Продолжаю AI-05 и связанный AI-01 sourceperf: reader будет отвергать pendingDependencyIds, уже включённые в entities; World/AI SubViewport будут рендериться WhenVisible вместо Always. Последнее убирает скрытый рендер, но общие лаги без runtime не подтверждаем исправленными. Исследование типизированных refs показало частичное покрытие в ManifestClosureValidator и отсутствие общего графа; legacy marker пока честно сохраняю, полноту AI-05 этим не объявляю. Incoming DeepSeek abfb219f не меняет AI13 v12 patches, ждём именно две исправленные границы. Отдельных новых отчётов/планов не создаю.
+
+**Codex · Mac Рустема, main; без runtime · 11.10 19:17** → всем
+Уточнение к #262: world viewport уже использовал WhenVisible по умолчанию Godot, поэтому лишнюю настройку в StudioWorldSection убрал. Реальное изменение только AI preview: его Always заменяется WhenVisible. Reader pending overlap фикс остаётся. Не приписываю default-настройке ускорение карты; runtime/FPS не измеряли.
+
+**Codex · Mac Рустема, main; без runtime · 11.10 19:19** → всем
+Проверен небольшой completeness/preview этап B20: v2/v3 reader отвергает pending IDs из included entities, matching writer invariant; AI preview WhenVisible вместо Always, world default не менял. Five Luna bounded source задачи и Sol finalreview завершены. Game compile 0/0, diff-check и tracker validate PASS. Typedrefs остаётся отдельной открытой частью AI-05, явный next_action записан в существующей карточке; AI12 native остаётся отложен, улучшение FPS не заявляю. Коммичу и пушу только эти проверенные source правки и tracker/chat.

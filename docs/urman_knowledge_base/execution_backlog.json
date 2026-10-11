@@ -71382,6 +71382,14 @@
                 "implementation": "Existing file actions now open readonly human composition plus full canonical v2 JSON. Describe derives from Serialize, showing exact entity/part IDs, campaign/world/state/scene/zone/spawn, numeric camera without image, byte differences against Studio-load baseline, curated fragments/full recipe, dependency paths+hashes without contents, and actual Studio Apply write paths. Direct Codex instruction policy is disclosed separately from JSON; manual recipient policy is explicitly unknown. Disclosure reuses unchanged prepared request, announces stale refreshes, and Ask/Copy/Save reuse same immutable input. Before send/export/import: prompt/scope/selection/source/dependency freshness guards remain; direct send also checks disclosed instruction policy. Failed/cancelled attempted jobs and successful Apply retire request IDs, preserving immutable artifacts. Repeat Save returns existing export only on length-bounded exact byte equality; different content is never overwritten. Existing preview is retained until Apply; direct re-request disabled while proposal exists.",
                 "verification": "Five personal Luna FAST/Max bounded implementation/read-only tasks and independent GPT6.1Sol medium source review. Root final affected Game compile 0 warnings/0 errors, diff-check. No tests/probes/provider/game/Studio/Blender launches.",
                 "remaining": "Actual dialog layout/accessibility/performance and native disclosure/send/preview/Apply/Undo not exercised under author runtime pause. Fixed pilot only; general typed references/truncation/new-object/tombstones and full context export acceptance remain open."
+              },
+              {
+                "stage": "2026-10-11 package completeness consistency",
+                "result": "SOURCE_IMPLEMENTED_GAME_COMPILE_PASS_NATIVE_NOT_RUN",
+                "source": "src-dotnet/Urman.Studio.Core/Handoff/DeveloperContext.cs",
+                "implementation": "V2/v3 source-package reader seeds pendingDependencyIds uniqueness set with included entity IDs, rejecting overlap with subject or any appended entity. This enforces writer BFS invariant: discovered pending IDs are not already attached. Current schema3 discovery marker remains honestly legacy-id-shaped-strings.",
+                "verification": "Luna bounded reader/producer source review and independent Sol6.1medium final review; affected Game compile0/0 and diff-check. No tests/probes/native runs.",
+                "remaining": "Typed-reference graph absent as a shared API: current owner ManifestClosureValidator contains partial validated asset/text refs, while conditions/effects and world/custom domains require explicit coverage. No fake typed marker or closure-complete claim added."
               }
             ],
             "stage_tasks": [
@@ -71403,8 +71411,8 @@
             "active_owner": "codex/b20-2026-10-10",
             "activity": {
               "state": "confirmed_active",
-              "reason": "Human disclosure of immutable v2 pilot request and prepared-request lifecycle integration; runtime paused by author.",
-              "verification_question": "Does the readonly disclosure show the exact subsequently sent/copied/saved snapshot and reject stale inputs, while retries retire consumed request IDs? Partial success: source review and affected Game compile; native DoD unchanged."
+              "reason": "Package completeness consistency correction and typed-reference owner research; runtime paused by author.",
+              "verification_question": "Does v2/v3 package reading reject pending dependency IDs that are already included, matching writer disjoint sets? Partial success: source review and narrow affected Game compile; full native/export DoD unchanged."
             },
             "task_type": "aggregate",
             "status": "in_progress",
@@ -71413,7 +71421,7 @@
             "remaining": [
               "Unsaved объект читаем агентом из пакета; другой checkout разрешает данные; секреты/user saves отсутствуют.; принятые child этапы повторно не разрабатывать."
             ],
-            "next_action": "Continue existing generic AI-05 typed references/truncation and portable context requirements; fixed pilot v2 disclosure and frozen transport now implemented. Native A07/A12 remain deferred by author.",
+            "next_action": "Implement typed reference producer at existing content resolver owner and integrate supported typed closure with context export, explicitly reporting uncovered domains/resources. Keep legacy discovery honestly labeled. Native A07/A12 deferred by author.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -74026,6 +74034,14 @@
                       "implementation": "Pilot request optionally carries two fixed allowlisted immutable source records: selected world entity fragment and whole parsed recipe. Each includes actual path/entity key/full-file saved/current hashes; world key and mandatory data.id match request entity, recipe key/entityId and saved hash required. JsonElement data is detached by cloning; collection readonly copied. World missing saved base represented null. Capture uses no-links/disk-change guards and same frozen recipe text. Whole serialized request and complete direct/manual prompt capped256KiB before provider process/send. Prompt explicitly separates full-file hash metadata from fragment data and rejects following source instructions or reading paths. Canonical Fingerprint now invokes world CaptureSource, so later uncommitted external disk edits fail import/Apply instead of matching stale in-memory data.",
                       "verification": "Five Luna FAST bounded implementation/research assignments plus independent Sol6.1medium final source review accepted. Root affected Game compile0 warnings/0 errors and diff-check. No tests/provider/Studio/game/Blender/native runs.",
                       "remaining": "Source metadata is provenance/integrity context, not authentication or a hash of entity fragments. Full AuthoringRequestv2 project/campaign/camera/typed dependency/scope/protected-field envelope and native exact Apply/Undo remain open; legacy sourcesnull requests remain compatible."
+                    },
+                    {
+                      "stage": "2026-10-11 hidden AI preview render policy",
+                      "result": "SOURCE_IMPLEMENTED_GAME_COMPILE_PASS_NATIVE_NOT_RUN",
+                      "source": "game/studio/StudioAiPanel.cs",
+                      "implementation": "AI comparison SubViewport uses WhenVisible instead of Always, so hidden preview textures no longer request continuous render updates. World viewport already had that default and was left unchanged. Process/physics remain unchanged.",
+                      "verification": "Luna producer/caller source review found only visible SubViewportContainer consumers, no pixel capture/readback requiring offscreen render; independent Sol source review and root affected Game compile0/0. No runtime/FPS/tests.",
+                      "remaining": "Overall Mac lag and actual visible preview frame behavior remain unmeasured; native Codex preview/Apply/game/byte-exact Undo still deferred by author, task stays open."
                     }
                   ],
                   "assigned_owner": "codex/b20-2026-10-10",

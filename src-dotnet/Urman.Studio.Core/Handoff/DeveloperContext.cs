@@ -598,10 +598,10 @@ public sealed class DeveloperContext(StudioWorkspace workspace, EntityCatalog ca
 
         var truncated = manifest["truncated"]?.GetValue<bool>() ?? throw new InvalidDataException("Неверный признак неполноты.");
         var pendingIds = manifest["pendingDependencyIds"] as JsonArray ?? throw new InvalidDataException("Неверный список незавершённых зависимостей.");
-        var seenPending = new HashSet<string>(StringComparer.Ordinal);
+        var seenPending = new HashSet<string>(ids, StringComparer.Ordinal);
         foreach (var pending in pendingIds)
             if (pending?.GetValue<string>() is not { Length: > 0 } pendingId || !seenPending.Add(pendingId))
-                throw new InvalidDataException("Неверный список незавершённых зависимостей.");
+                throw new InvalidDataException("Незавершённые зависимости должны быть уникальны и не повторять приложенные сущности.");
         if (truncated != (pendingIds.Count > 0)) throw new InvalidDataException("Признак неполноты не совпадает со списком зависимостей.");
 
         var sources = manifest["sources"] as JsonArray ?? throw new InvalidDataException("Список источников должен быть массивом.");

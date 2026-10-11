@@ -36,7 +36,7 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
     private readonly Button _importFile;
     private readonly Button _beforeView;
     private readonly Button _afterView;
-    private readonly SubViewport _preview = new() { Size = new(560, 260), OwnWorld3D = true, RenderTargetUpdateMode = SubViewport.UpdateMode.Always };
+    private readonly SubViewport _preview = new() { Size = new(560, 260), OwnWorld3D = true, RenderTargetUpdateMode = SubViewport.UpdateMode.WhenVisible };
     private readonly Node3D _previewModels = new() { Name = "HouseCompareModels" };
     private readonly Camera3D _previewCamera = new() { Position = new(11, 7, 13), Current = true };
     private Node3D? _beforeModel;
