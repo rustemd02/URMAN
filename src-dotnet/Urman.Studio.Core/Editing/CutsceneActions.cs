@@ -140,7 +140,7 @@ public static class CutsceneActions
         ArgumentNullException.ThrowIfNull(workspace);
         ArgumentNullException.ThrowIfNull(declaredActors);
         var parameters = action?["params"] as JsonObject;
-        var id = (string?)action?["id"] ?? "";
+        var id = Text(action, "id");
         if (parameters is null)
         {
             return new CutsceneActionFacts(id, "", "У действия нет блока params.", ["Нет блока params."]);
@@ -407,12 +407,19 @@ public static class CutsceneActions
             return ["Ни один case исполнителя не прочитан: сверять параметры нечем."];
         }
 
-        var gaps = new List<string>();
-        foreach (var id in workspace.EntityIds)
+        var read = SceneActions(workspace, root);
+        if (read.Count == 0)
         {
-            foreach (var action in Actions(workspace.Get(id)))
+            // A check that finds nothing to look at must SAY so: an empty result used to mean "no
+            // problems" here, while in truth the scenes were never read at all.
+            return ["Действий не найдено ни в рабочем пространстве, ни в файлах сцен: сверять нечего, и пустой ответ здесь НЕ означает, что параметры верны."];
+        }
+
+        var gaps = new List<string>();
+        foreach (var (id, action) in read)
+        {
             {
-                var kind = (string?)action["action"] ?? "";
+                var kind = Text(action, "action");
                 if (kind.Length == 0)
                 {
                     gaps.Add($"{id}: действие без action.");
@@ -442,6 +449,98 @@ public static class CutsceneActions
         }
 
         return gaps;
+    }
+
+    /// <summary>
+    /// The authored cutscenes, read from the FILES as well as from the workspace. The workspace
+    /// index only carries ids of the form namespace:kind/name, and a cutscene id such as
+    /// urman.cutscene:tamara-fence has no slash, so the index never sees it: a scan that trusted the
+    /// workspace alone found ZERO actions and passed VACUOUSLY. Reading the files is what makes the
+    /// parameter check real, and the notes print the count so a zero cannot pass unnoticed again.
+    /// </summary>
+    public static IReadOnlyList<JsonObject> AuthoredScenes(StudioWorkspace workspace, string root)
+    {
+        ArgumentNullException.ThrowIfNull(workspace);
+        ArgumentException.ThrowIfNullOrWhiteSpace(root);
+        var scenes = new Dictionary<string, JsonObject>(StringComparer.Ordinal);
+        foreach (var id in workspace.EntityIds)
+        {
+            if (workspace.Get(id) is JsonObject scene && Text(scene, "kind") == "urman.cutscene")
+            {
+                scenes[id] = scene;
+            }
+        }
+
+        var full = Path.GetFullPath(root);
+        foreach (var folder in new[] { Path.Combine("game", "content"), "content" })
+        {
+            var path = Path.Combine(full, folder);
+            if (!Directory.Exists(path))
+            {
+                continue;
+            }
+
+            foreach (var file in Directory.EnumerateFiles(path, "*.json", SearchOption.AllDirectories)
+                .Where(file => !file.Contains(".compiled.", StringComparison.Ordinal))
+                .Order(StringComparer.Ordinal))
+            {
+                JsonNode? document;
+                try
+                {
+                    document = JsonNode.Parse(File.ReadAllText(file));
+                }
+                catch (System.Text.Json.JsonException)
+                {
+                    continue;
+                }
+
+                var pending = new Stack<JsonNode?>();
+                pending.Push(document);
+                while (pending.Count > 0)
+                {
+                    switch (pending.Pop())
+                    {
+                        case JsonObject obj:
+                            if (Text(obj, "kind") == "urman.cutscene" && Text(obj, "id") is { Length: > 0 } id)
+                            {
+                                scenes[id] = obj;
+                            }
+
+                            foreach (var pair in obj)
+                            {
+                                pending.Push(pair.Value);
+                            }
+
+                            break;
+                        case JsonArray array:
+                            foreach (var item in array)
+                            {
+                                pending.Push(item);
+                            }
+
+                            break;
+                    }
+                }
+            }
+        }
+
+        return scenes.Values.ToArray();
+    }
+
+    /// <summary>Every action of every authored scene, with the scene id it belongs to.</summary>
+    public static IReadOnlyList<(string SceneId, JsonObject Action)> SceneActions(StudioWorkspace workspace, string root)
+    {
+        var actions = new List<(string, JsonObject)>();
+        foreach (var scene in AuthoredScenes(workspace, root))
+        {
+            var id = Text(scene, "id");
+            foreach (var action in Actions(scene))
+            {
+                actions.Add((id, action));
+            }
+        }
+
+        return actions;
     }
 
     /// <summary>Every action object inside an entity's action list.</summary>
@@ -504,5 +603,110 @@ public static class CutsceneActions
         var path = Path.Combine(Path.GetFullPath(root), RuntimePath.Replace('/', Path.DirectorySeparatorChar));
         return File.Exists(path) ? File.ReadAllText(path) : "";
     }
+
+    /// <summary>
+    /// The scene-level links around the actions, which the parameter contract cannot see:
+    ///
+    ///   * actors maps a ROLE to a character id, and an action names the ROLE. So two things can
+    ///     break quietly: a role whose character id does not exist, and an action whose actor is
+    ///     not a declared role at all - the executor would look up a role that is not there;
+    ///   * a say action carries its text as a module-relative suffix, and the executor builds the
+    ///     full id by prefixing urman.chapter1:text/ - so a suffix with no such text shows an
+    ///     empty line;
+    ///   * every action id should stay inside its scene's namespace, because that is what keeps
+    ///     the ids stable when the scene is edited.
+    /// </summary>
+    public static IReadOnlyList<string> SceneGaps(StudioWorkspace workspace, string root)
+    {
+        ArgumentNullException.ThrowIfNull(workspace);
+        ArgumentException.ThrowIfNullOrWhiteSpace(root);
+        var declared = AuthoredVocabulary.DeclaredIds(root);
+        var gaps = new List<string>();
+        foreach (var scene in AuthoredScenes(workspace, root))
+        {
+            var id = Text(scene, "id");
+            var actors = new HashSet<string>(StringComparer.Ordinal);
+            if (scene["actors"] is JsonObject declaredActors)
+            {
+                foreach (var pair in declaredActors)
+                {
+                    actors.Add(pair.Key);
+                    if (pair.Value is JsonValue value && value.TryGetValue<string>(out var character) && character is { Length: > 0 })
+                    {
+                        if (declared.Count > 0 && !declared.Contains(character))
+                        {
+                            gaps.Add($"{id}: роль «{pair.Key}» указывает на персонажа «{character}», которого нет в проекте — сцена не найдёт исполнителя роли.");
+                        }
+                    }
+                    else
+                    {
+                        gaps.Add($"{id}: роль «{pair.Key}» без id персонажа.");
+                    }
+                }
+            }
+            else
+            {
+                gaps.Add($"{id}: у сцены нет блока actors — роли не объявлены.");
+            }
+
+            foreach (var action in Actions(scene))
+            {
+                if (action["actor"] is JsonValue actorValue && actorValue.TryGetValue<string>(out var actor) && actor is { Length: > 0 }
+                    && !actors.Contains(actor))
+                {
+                    gaps.Add($"{id}: действие «{Text(action, "action")}» ссылается на роль «{actor}», которой нет среди объявленных ({string.Join(", ", actors)}) — исполнитель не найдёт актёра.");
+                }
+
+                if (Text(action, "action") == "say"
+                    && action["text"] is JsonValue textValue && textValue.TryGetValue<string>(out var suffix) && suffix is { Length: > 0 }
+                    && declared.Count > 0 && !declared.Contains(TextIdFor(suffix)))
+                {
+                    gaps.Add($"{id}: реплика «{suffix}» не находит текст {TextIdFor(suffix)} — исполнитель покажет пустую строку.");
+                }
+            }
+
+            foreach (var entity in (scene["entities"] as JsonArray ?? []).OfType<JsonObject>())
+            {
+                if (Text(entity, "id") is { Length: > 0 } actionId && !actionId.StartsWith(id + "/", StringComparison.Ordinal))
+                {
+                    gaps.Add($"{id}: id действия «{actionId}» не начинается с id сцены — связь действия со сценой держится на префиксе, и её легко потерять при правке.");
+                }
+            }
+        }
+
+        return gaps;
+    }
+
+    /// <summary>What the scene-level links look like today.</summary>
+    public static IReadOnlyList<string> SceneNotes(StudioWorkspace workspace, string root)
+    {
+        var gaps = SceneGaps(workspace, root);
+        var scenes = 0;
+        var actions = 0;
+        var roles = 0;
+        foreach (var scene in AuthoredScenes(workspace, root))
+        {
+            scenes++;
+            roles += (scene["actors"] as JsonObject)?.Count ?? 0;
+            actions += Actions(scene).Count();
+        }
+
+        return
+        [
+            $"Сцен: {scenes}; ролей: {roles}; действий: {actions}.",
+            gaps.Count == 0
+                ? "Каждая роль указывает на существующего персонажа, каждое действие — на объявленную роль, каждая реплика находит текст, и id действий лежат внутри своей сцены."
+                : $"Проблем связей сцены: {gaps.Count} — {string.Join(" | ", gaps.Take(2))}",
+            "Как сцена выглядит и звучит — постановочная приёмка, а не эта проверка."
+        ];
+    }
+
+    /// <summary>
+    /// Reads a string field without casting: (string?)obj["field"] THROWS when the node is an
+    /// object or an array, and this projection has taken that crash three times now, so the reads
+    /// in this file all go through one place.
+    /// </summary>
+    public static string Text(JsonNode? node, string field) =>
+        node is JsonObject obj && obj[field] is JsonValue value && value.TryGetValue<string>(out var text) ? text ?? "" : "";
 
 }

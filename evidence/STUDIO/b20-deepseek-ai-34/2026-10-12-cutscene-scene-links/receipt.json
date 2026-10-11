@@ -1,0 +1,29 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-34"
+  ],
+  "stage": "the cutscene's scene-level links, and a vacuous pass of my own making, caught",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-11 22:22 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "5a0fcb7b",
+  "result": {
+    "the_bug_i_found_in_my_own_work": "my parameter check read the actions from the WORKSPACE, and the workspace index only carries ids of the form namespace:kind/name. The cutscene id is urman.cutscene:tamara-fence - no slash - so the index never carried it, the check found ZERO actions, and it returned an empty list that looked exactly like success. My earlier AI-34 evidence therefore rested on a check that was passing VACUOUSLY. The scenes are now read from the FILES, and a check that finds nothing to look at returns a sentence saying so instead of an empty pass",
+    "the_links_now_checked": "actors maps a ROLE to a character id while an action names the ROLE, so two quiet breaks are possible: a role whose character does not exist, and an action whose actor is not a declared role. Also checked: every say action's text suffix resolves through urman.chapter1:text/, and every action id stays inside its scene's namespace",
+    "measured": "one scene, two roles, seventy-five actions, ZERO gaps - and this time the seventy-five is real, because the reader that produces it is the fixed one",
+    "cast_sweep": "the file had NINE (string?) casts that THROW when a node is an object or an array; this trap has now caught me three times in three files, so all nine reads go through one Text helper and the reason is written next to it"
+  },
+  "verified": {
+    "probe": "PASS 694/694 including the one scene/two roles/seventy-five actions, the zero gaps and the four synthetic findings (a role with no character, an undeclared role, an unresolved line, an action id outside its scene)",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors (composed tree with my branch and the v15 patch)",
+    "not_run": "no game run: how the scene looks and sounds is staging acceptance"
+  },
+  "own_mistakes": "TWO, and the first is the serious one: the vacuous pass described above, which had been hiding behind a green result since the AI-34 parameter stage. The second is the same cast trap that bit me in NpcSchedules and PhotoBook; it is now swept out of this file in one place",
+  "files": {
+    "evidence/STUDIO/b20-deepseek-ai-34/2026-10-12-cutscene-scene-links/check.log": "b32ce935ce8f9b6a0caec795dd7670e71d264704796e12ea4a49e4febf413781"
+  },
+  "open": [
+    "the scene's staging and sound remain external acceptance"
+  ]
+}

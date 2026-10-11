@@ -79696,6 +79696,12 @@
                 "result": "deepening by deepseek v4.1 flash: the executor reads ten action kinds and its required fields go through GetProperty, which throws when absent (place needs at; cut needs fov/look/position/seconds/tag; say needs seconds/speaker/text; clip clip; move speed/stops; face target; show visible; wait seconds; filming on; laugh level). Measured: ZERO parameter gaps - every authored action carries each required field and no authored field is one nobody reads. The optional handheld/pushIn/finalFacing/talk/deadpan are read through Flag or TryGetProperty. An action missing a required field would break the cutscene mid-play, and an unread field would silently do nothing. Own mistake recorded: my first extraction counted only GetProperty and would have reported five fields as unread",
                 "source": "src-dotnet/Urman.Studio.Core/Editing/CutsceneActions.cs (Parameters, ParameterGaps); evidence evidence/STUDIO/b20-deepseek-ai-34/2026-10-11-cutscene-parameters",
                 "verification": "probe PASS 605/605 including the ten kinds, the place/at and say/talk rows and zero parameter gaps; Core 0/0. The cutscene's visual pacing is NOT_RUN"
+              },
+              {
+                "stage": "2026-10-12 the cutscene's scene-level links, and a vacuous pass of my own making, caught",
+                "result": "SELF-CAUGHT DEFECT by deepseek v4.1 flash, and the important part of this stage: my parameter check read actions from the WORKSPACE, whose index only carries ids of the form namespace:kind/name. The cutscene id urman.cutscene:tamara-fence has no slash, so the index never carried it, the check found ZERO actions and returned an empty list that looked exactly like success - my earlier AI-34 evidence rested on a check passing VACUOUSLY. Scenes are now read from the FILES and a check that finds nothing says so instead of passing empty. New links checked: actors maps a ROLE to a character while an action names the ROLE, so a role with a missing character and an action with an undeclared role are both reported; every say text suffix must resolve through urman.chapter1:text/; every action id must stay inside its scene's namespace. Measured: one scene, two roles, seventy-five actions, ZERO gaps - and this time the seventy-five is real. Also swept NINE (string?) casts that throw on a non-value node into one Text helper; that trap has caught me three times in three files. Verified: probe PASS 694/694 including four synthetic findings; Core 0/0",
+                "source": "src-dotnet/Urman.Studio.Core/Editing/CutsceneActions.cs (AuthoredScenes, SceneActions, SceneGaps, SceneNotes, Text); evidence evidence/STUDIO/b20-deepseek-ai-34/2026-10-12-cutscene-scene-links",
+                "verification": "probe PASS 694/694 including the one scene/two roles/seventy-five actions, zero gaps and the four synthetic findings; Core 0/0. Staging and sound are external acceptance and are NOT_RUN"
               }
             ],
             "stage_tasks": [
@@ -79730,7 +79736,9 @@
               "Катсцена выбирается из активной кампании, а список и шкала редактируют её реальные действия.; отсутствует подтверждение собственного конечного DoD, перечисленного ниже.",
               "Ранее переданный частичный этап (2026-10-10 real cutscene actions of the active campaign) ждёт ревью/приёмки; полный done_when не выполнен.",
               "Ранее переданный частичный этап (2026-10-11 the cutscene action table checked against the executor source it describes) ждёт ревью/приёмки; полный done_when не выполнен.",
-              "Ранее переданный частичный этап (2026-10-11 every authored action against the parameters its executor reads) ждёт ревью/приёмки; полный done_when не выполнен."
+              "Ранее переданный частичный этап (2026-10-11 every authored action against the parameters its executor reads) ждёт ревью/приёмки; полный done_when не выполнен.",
+              "ИСПРАВЛЕНО: параметрическая проверка AI-34 ранее проходила ВПУСТУЮ (индекс не видит id сцены без слэша); сцены теперь читаются из файлов, пустой результат говорит об этом прямо.",
+              "Ранее переданный частичный этап (2026-10-12 the cutscene's scene-level links, and a vacuous pass of my own making, caught) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
             "next_action": "Параметризовать source/ID/text namespace; добавить selector; sync list/timeline; camera capture; AI action edits; preview/skip lifecycle.",
             "blocker": null,

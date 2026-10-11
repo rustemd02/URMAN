@@ -1,0 +1,11 @@
+== AI-34: the cutscene's scene-level links, and a vacuous pass of my own making, caught
+
+
+Прошло времени 00:00:00.51
+    note: Сцен: 1; ролей: 2; действий: 75.
+    note: Каждая роль указывает на существующего персонажа, каждое действие — на объявленную роль, каждая реплика находит текст, и id действий лежат внутри своей сцены.
+    SCENE synthetic: urman.cutscene:s: роль «tamara» указывает на персонажа «urman.chapter1:character/nope», которого нет в проекте — сцена не найдёт исполнителя роли.
+    SCENE synthetic: urman.cutscene:s: действие «say» ссылается на роль «ghost», которой нет среди объявленных (tamara) — исполнитель не найдёт актёра.
+    SCENE synthetic: urman.cutscene:s: реплика «no-such-line» не находит текст urman.chapter1:text/no-such-line — исполнитель покажет пустую строку.
+    SCENE synthetic: urman.cutscene:s: id действия «other/a1» не начинается с id сцены — связь действия со сценой держится на префиксе, и её легко потерять при правке.
+PROBE RESULT: PASS
