@@ -23340,6 +23340,14 @@
                 "implementation": "Capture first200 existing entities once per Text/package, expand outgoing references of200th before cutoff; optional v1 truncated flag and pendingDependencyIds frontier, explicitly not exhaustive omitted descendants. Package summary and manifest share capture. Missing subject refused before directory/ZIP writes; Text fixed diagnostic. Export UI retains warning as current context and catches IO/access/invalid-operation refusal. Existing v1 subject/entity payload and return tuple preserved.",
                 "verification": "Root affected Game compile0/0 and test-project compile0/0; existing ANewDraftTravelsAsDataWithItsDependencies PASS1/1; diffcheck. Sol6.1medium source review accepted; no new tests/probes.",
                 "remaining": "200+ frontier runtime branch and native UI not exercised by existing test. Legacy colon-string heuristic remains; typed references/non-entity assets, immutable full payload, atomic ZIP, v2 hashes/result reader/path-size checks and relocation remain open. Saved UI summary is current context, not archived receipt."
+              },
+              {
+                "stage": "2026-10-11 atomic context archive and exact payload receipts",
+                "result": "PARTIAL_SOURCE_ACCEPTED_GAME_COMPILE_0_0_EXISTING_PACKAGE_TEST_1_1",
+                "source": "Handoff/DeveloperContext.cs:WritePackage/Write; Storage/AtomicFile.cs:WriteAllBytes; game/studio/StudioProperties.cs:OpenContext",
+                "implementation": "Serialize exact UTF8-noBOM context/entities once, optional v1 manifest SHA256/byte lengths for both fixed entry names. Aggregate manifest/context/entities text budget256KiB refused before destination writes, no partial JSON truncation. Finalize ZipArchive in MemoryStream then publish through existing AtomicFile flushed temp+rename. New optional overwrite=true preserves old callers; export false makes File.Move refuse collisions, fullGUID case ID. UI fixed unavailable-subject/budget guidance separate from IO/access refusal.",
+                "verification": "Root final affected Game compile0 warnings/0 errors, test-project compile0/0; existing ANewDraftTravelsAsDataWithItsDependencies PASS1/1; diffcheck. Sol6.1medium source review found overwrite compatibility and hidden budget guidance, both corrected. No new tests/probes.",
+                "remaining": "Actual overbudget/failure/collision branch and native UI not exercised; existing test proves payload/export compatibility. Budget validation is not serialization memory-allocation bound. Existing AtomicFile export-path/no-links limitations unchanged. No safe reader/relocation/hash-validation-import proof; v2 Request/Proposal/Receipt and typed/non-entity dependencies still open."
               }
             ],
             "stage_tasks": [
@@ -24400,6 +24408,14 @@
                 "implementation": "Capture first200 existing entities once per Text/package, expand outgoing references of200th before cutoff; optional v1 truncated flag and pendingDependencyIds frontier, explicitly not exhaustive omitted descendants. Package summary and manifest share capture. Missing subject refused before directory/ZIP writes; Text fixed diagnostic. Export UI retains warning as current context and catches IO/access/invalid-operation refusal. Existing v1 subject/entity payload and return tuple preserved.",
                 "verification": "Root affected Game compile0/0 and test-project compile0/0; existing ANewDraftTravelsAsDataWithItsDependencies PASS1/1; diffcheck. Sol6.1medium source review accepted; no new tests/probes.",
                 "remaining": "200+ frontier runtime branch and native UI not exercised by existing test. Legacy colon-string heuristic remains; typed references/non-entity assets, immutable full payload, atomic ZIP, v2 hashes/result reader/path-size checks and relocation remain open. Saved UI summary is current context, not archived receipt."
+              },
+              {
+                "stage": "2026-10-11 atomic context archive and exact payload receipts",
+                "result": "PARTIAL_SOURCE_ACCEPTED_GAME_COMPILE_0_0_EXISTING_PACKAGE_TEST_1_1",
+                "source": "Handoff/DeveloperContext.cs:WritePackage/Write; Storage/AtomicFile.cs:WriteAllBytes; game/studio/StudioProperties.cs:OpenContext",
+                "implementation": "Serialize exact UTF8-noBOM context/entities once, optional v1 manifest SHA256/byte lengths for both fixed entry names. Aggregate manifest/context/entities text budget256KiB refused before destination writes, no partial JSON truncation. Finalize ZipArchive in MemoryStream then publish through existing AtomicFile flushed temp+rename. New optional overwrite=true preserves old callers; export false makes File.Move refuse collisions, fullGUID case ID. UI fixed unavailable-subject/budget guidance separate from IO/access refusal.",
+                "verification": "Root final affected Game compile0 warnings/0 errors, test-project compile0/0; existing ANewDraftTravelsAsDataWithItsDependencies PASS1/1; diffcheck. Sol6.1medium source review found overwrite compatibility and hidden budget guidance, both corrected. No new tests/probes.",
+                "remaining": "Actual overbudget/failure/collision branch and native UI not exercised; existing test proves payload/export compatibility. Budget validation is not serialization memory-allocation bound. Existing AtomicFile export-path/no-links limitations unchanged. No safe reader/relocation/hash-validation-import proof; v2 Request/Proposal/Receipt and typed/non-entity dependencies still open."
               }
             ],
             "stage_tasks": [
@@ -26007,6 +26023,15 @@
             "verification": "Root affected Game compile0/0 and test-project compile0/0; existing ANewDraftTravelsAsDataWithItsDependencies PASS1/1; diffcheck. Sol6.1medium source review accepted; no new tests/probes.",
             "remaining": "200+ frontier runtime branch and native UI not exercised by existing test. Legacy colon-string heuristic remains; typed references/non-entity assets, immutable full payload, atomic ZIP, v2 hashes/result reader/path-size checks and relocation remain open. Saved UI summary is current context, not archived receipt.",
             "next": "Implement typed reference context and versioned bounded request/result archive; keep native/portable runtime gates open."
+          },
+          "atomic_context_archive_source_slice": {
+            "stage": "2026-10-11 atomic context archive and exact payload receipts",
+            "result": "PARTIAL_SOURCE_ACCEPTED_GAME_COMPILE_0_0_EXISTING_PACKAGE_TEST_1_1",
+            "source": "Handoff/DeveloperContext.cs:WritePackage/Write; Storage/AtomicFile.cs:WriteAllBytes; game/studio/StudioProperties.cs:OpenContext",
+            "implementation": "Serialize exact UTF8-noBOM context/entities once, optional v1 manifest SHA256/byte lengths for both fixed entry names. Aggregate manifest/context/entities text budget256KiB refused before destination writes, no partial JSON truncation. Finalize ZipArchive in MemoryStream then publish through existing AtomicFile flushed temp+rename. New optional overwrite=true preserves old callers; export false makes File.Move refuse collisions, fullGUID case ID. UI fixed unavailable-subject/budget guidance separate from IO/access refusal.",
+            "verification": "Root final affected Game compile0 warnings/0 errors, test-project compile0/0; existing ANewDraftTravelsAsDataWithItsDependencies PASS1/1; diffcheck. Sol6.1medium source review found overwrite compatibility and hidden budget guidance, both corrected. No new tests/probes.",
+            "remaining": "Actual overbudget/failure/collision branch and native UI not exercised; existing test proves payload/export compatibility. Budget validation is not serialization memory-allocation bound. Existing AtomicFile export-path/no-links limitations unchanged. No safe reader/relocation/hash-validation-import proof; v2 Request/Proposal/Receipt and typed/non-entity dependencies still open.",
+            "next": "Implement bounded versioned reader and same-validator result import; retain native UI and relocation runtime gates."
           }
         }
       },

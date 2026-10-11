@@ -1,9 +1,9 @@
 using System.IO.Compression;
 using System.Diagnostics;
-using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json.Nodes;
 using Urman.Studio.Core.Editing;
+using Urman.Studio.Core.Storage;
 
 namespace Urman.Studio.Core.Handoff;
 
@@ -158,49 +158,66 @@ public sealed class DeveloperContext(StudioWorkspace workspace, EntityCatalog ca
         var capture = CaptureDependencies(id);
         var dependencies = capture.Entities;
         var revision = Revision();
-        Directory.CreateDirectory(directory);
-        var caseId = $"ctx-{DateTimeOffset.Now:yyyyMMdd-HHmmss}-{Convert.ToHexStringLower(RandomNumberGenerator.GetBytes(3))}";
+        var caseId = $"ctx-{DateTimeOffset.Now:yyyyMMdd-HHmmss}-{Guid.NewGuid().ToString("N")}";
         var path = Path.Combine(directory, caseId + ".zip");
-        using (var zip = ZipFile.Open(path, ZipArchiveMode.Create))
+        var entities = new JsonArray();
+        foreach (var dependency in dependencies)
         {
-            var entities = new JsonArray();
-            foreach (var dependency in dependencies)
+            var address = workspace.Locate(dependency)!;
+            entities.Add(new JsonObject
             {
-                var address = workspace.Locate(dependency)!;
-                entities.Add(new JsonObject
-                {
-                    ["id"] = dependency,
-                    ["file"] = address.RelativePath,
-                    ["state"] = DraftState(dependency),
-                    ["data"] = workspace.Get(dependency)!.DeepClone()
-                });
-            }
-
-            Write(zip, "manifest.json", new JsonObject
-            {
-                ["kind"] = "urman.studio-context",
-                ["schemaVersion"] = 1,
-                ["caseId"] = caseId,
-                ["subject"] = id,
-                ["baseRevision"] = revision,
-                ["created"] = DateTimeOffset.Now.ToString("O"),
-                ["entities"] = dependencies.Count,
-                ["truncated"] = capture.Truncated,
-                ["pendingDependencyIds"] = new JsonArray(capture.Pending.Select(value => (JsonNode?)JsonValue.Create(value)).ToArray()),
-                ["dependencyDiscovery"] = "legacy-id-shaped-strings",
-                ["note"] = "Приложенные сущности переданы целиком; truncated означает остановленный обход; pendingDependencyIds — обнаруженные, но не приложенные IDs, не полный список пропущенных транзитивных зависимостей. Пути пользователя и сохранения не включены."
-            }.ToJsonString(new System.Text.Json.JsonSerializerOptions { WriteIndented = true, Encoder = System.Text.Encodings.Web.JavaScriptEncoder.Create(System.Text.Unicode.UnicodeRanges.All) }));
-            Write(zip, "context.txt", BuildText(id, null, problem, revision, capture));
-            Write(zip, "entities.json", entities.ToJsonString(new System.Text.Json.JsonSerializerOptions { WriteIndented = true, Encoder = System.Text.Encodings.Web.JavaScriptEncoder.Create(System.Text.Unicode.UnicodeRanges.All) }));
+                ["id"] = dependency,
+                ["file"] = address.RelativePath,
+                ["state"] = DraftState(dependency),
+                ["data"] = workspace.Get(dependency)!.DeepClone()
+            });
         }
 
+        var options = new System.Text.Json.JsonSerializerOptions
+        {
+            WriteIndented = true,
+            Encoder = System.Text.Encodings.Web.JavaScriptEncoder.Create(System.Text.Unicode.UnicodeRanges.All)
+        };
+        var encoding = new UTF8Encoding(false);
+        var contextBytes = encoding.GetBytes(BuildText(id, null, problem, revision, capture));
+        var entityBytes = encoding.GetBytes(entities.ToJsonString(options));
+        var manifest = new JsonObject
+        {
+            ["kind"] = "urman.studio-context",
+            ["schemaVersion"] = 1,
+            ["caseId"] = caseId,
+            ["subject"] = id,
+            ["baseRevision"] = revision,
+            ["created"] = DateTimeOffset.Now.ToString("O"),
+            ["entities"] = dependencies.Count,
+            ["truncated"] = capture.Truncated,
+            ["pendingDependencyIds"] = new JsonArray(capture.Pending.Select(value => (JsonNode?)JsonValue.Create(value)).ToArray()),
+            ["dependencyDiscovery"] = "legacy-id-shaped-strings",
+            ["payloadHashAlgorithm"] = "sha256",
+            ["files"] = new JsonArray(
+                new JsonObject { ["path"] = "context.txt", ["bytes"] = contextBytes.Length, ["sha256"] = AtomicFile.Sha256(contextBytes) },
+                new JsonObject { ["path"] = "entities.json", ["bytes"] = entityBytes.Length, ["sha256"] = AtomicFile.Sha256(entityBytes) }),
+            ["note"] = "Приложенные сущности переданы целиком; truncated означает остановленный обход; pendingDependencyIds — обнаруженные, но не приложенные IDs, не полный список пропущенных транзитивных зависимостей. Пути пользователя и сохранения не включены."
+        };
+        var manifestBytes = encoding.GetBytes(manifest.ToJsonString(options));
+        if ((long)manifestBytes.Length + contextBytes.Length + entityBytes.Length > 256 * 1024)
+            throw new InvalidOperationException("Пакет превышает бюджет текста 256 КБ. Выберите меньший объект или область; данные не обрезаны и пакет не записан.");
+
+        using var buffer = new MemoryStream();
+        using (var zip = new ZipArchive(buffer, ZipArchiveMode.Create, leaveOpen: true))
+        {
+            Write(zip, "manifest.json", manifestBytes);
+            Write(zip, "context.txt", contextBytes);
+            Write(zip, "entities.json", entityBytes);
+        }
+        AtomicFile.WriteAllBytes(path, buffer.ToArray(), overwrite: false);
         return (path, dependencies.Count, new FileInfo(path).Length);
     }
 
-    private static void Write(ZipArchive zip, string name, string text)
+    private static void Write(ZipArchive zip, string name, byte[] bytes)
     {
         using var stream = zip.CreateEntry(name).Open();
-        stream.Write(new UTF8Encoding(false).GetBytes(text));
+        stream.Write(bytes);
     }
 
     private static JsonNode? SavedValue(string fullPath, string key)

@@ -705,3 +705,15 @@ Full revision context source этап принят: один DeveloperContext re
 
 **Codex · Mac Рустема, URMAN main · 11.10 11:48** → всем
 Context truncation source этап принят: v1 экспорт явно указывает truncated и обнаруженный frontier, не заявляет полный список всех пропущенных потомков. В package manifest/context один capture; missing subject отказывает до writes. UI после сохранения сохраняет warning под подписью Текущий контекст и ловит export refusal. Sol source review accepted; root affected Game compile0/0, test-project compile0/0, existing draft-package test PASS1/1, diffcheck. 200+ branch/native UI не проверены; typed refs/assets/atomicZIP/v2 import остаются открыты. Коммичу два production файла и canonical evidence/chat, пушу main; shared файлы освобождаю.
+
+**Codex · Mac Рустема, URMAN main · 11.10 11:49** → всем
+Беру следующий связанный AI05/AI30 package этап: DeveloperContext.WritePackage, root один writer. Переиспользую AtomicFile для публикации полностью закрытого ZIP; добавляю optional v1 sha256/UTF8 byte sizes context.txt и entities.json. Совокупный текст manifest+entries ≤256KiB проверяется до destination writes; превышение — явный отказ с меньшим scope, без обрезки JSON. v2 reader/import, typed dependencies и symlink-safe export пока не заявляю. Sol source review; существующий draft-package test проверяет совместимость, новых probes нет.
+
+**Codex · Mac Рустема, URMAN main · 11.10 11:49** → всем
+Sol поймал compatibility риск: AtomicFile overwrite:true заменил бы старый export при caseId collision, раньше ZipFile Create отказывал. Включаю минимальную правку общего AtomicFile.WriteAllBytes: optional overwrite=true сохраняет все callers, export передаёт false, File.Move обеспечивает no-overwrite в самой публикации; caseId усилю до полного GUID. Root один writer этого helper, интерфейсные изменения других агентов не трогаю.
+
+**Codex · Mac Рустема, URMAN main · 11.10 11:50** → всем
+В этом package этапе обновляю прежний sole caller StudioProperties: fixed InvalidOperation отказ отдельно сообщает про недоступную цель/бюджет256КБ и меньший scope; IO/access сообщение отдельно. Raw exceptions не показываю. Это исправление конкретного Sol UI finding, новых settings/flows нет.
+
+**Codex · Mac Рустема, URMAN main · 11.10 11:50** → всем
+Atomic context package source этап принят: exactUTF8 hashes/byte sizes, fullGUID case ID, aggregate256KiB до destinationwrites, полностью закрытый ZIP публикуется existing AtomicFile с overwritefalse. Совпадение имени отказывает, старые callers сохраняют defaulttrue. Sol storage source accepted; его budget UI finding исправлен fixed guidance отдельно от IO. Root final Game compile0/0, test-project compile0/0, existing draft-package test PASS1/1, diffcheck. Actual failure/budget/collision/UI не проверены; memoryallocation bounds/symlink export/v2 import открыты. Коммичу три production файла + canonical evidence/chat и пушу main; full B20 goal активен.

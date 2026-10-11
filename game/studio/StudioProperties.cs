@@ -72,7 +72,12 @@ public partial class StudioProperties : VBoxContainer
                 preview.Text = $"Пакет сохранён: {Path.GetFileName(path)} — {entities} объектов, {bytes / 1024.0:0.#} КБ. Без ваших путей и сохранений.\n\nТекущий контекст:\n" + context.Text(id, problem: problem.Text);
                 OS.ShellShowInFileManager(path);
             }
-            catch (Exception error) when (error is IOException or UnauthorizedAccessException or InvalidOperationException)
+            catch (InvalidOperationException)
+            {
+                preview.Text = "Пакет не записан: объект недоступен или текстовый бюджет 256 КБ превышен. Выберите существующий меньший объект или область; данные не обрезаны.";
+                _studio.RefreshStatus("Пакет контекста не сохранён");
+            }
+            catch (Exception error) when (error is IOException or UnauthorizedAccessException)
             {
                 preview.Text = "Не удалось сохранить пакет. Проверьте, что объект существует и папка доступна для записи; неполный архив использовать нельзя.";
                 _studio.RefreshStatus("Пакет контекста не сохранён");

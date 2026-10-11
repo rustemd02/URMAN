@@ -16,7 +16,7 @@ public static class AtomicFile
 
     public static void WriteAllText(string path, string text) => WriteAllBytes(path, new UTF8Encoding(false).GetBytes(text));
 
-    public static void WriteAllBytes(string path, byte[] bytes)
+    public static void WriteAllBytes(string path, byte[] bytes, bool overwrite = true)
     {
         var directory = Path.GetDirectoryName(Path.GetFullPath(path))!;
         Directory.CreateDirectory(directory);
@@ -30,7 +30,7 @@ public static class AtomicFile
                 stream.Flush(flushToDisk: true);
             }
 
-            File.Move(temporary, path, overwrite: true);
+            File.Move(temporary, path, overwrite: overwrite);
         }
         finally
         {
