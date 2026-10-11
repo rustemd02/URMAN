@@ -1,0 +1,30 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-13"
+  ],
+  "stage": "the per-world fresh fingerprint, and the exact caller link",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-11 23:03 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "9a5f0a62",
+  "what_codex_asked": "re-Resolve the selected world before and after the await and hash its AuthoredDependencies (scene, loader, world plots), excluding the generated compiled pack; the caller currently hashes only by campaign selection",
+  "what_this_adds": {
+    "1_the_api": "PlayPreparation.WorldSourceFingerprint(root, context) hashes exactly context.AuthoredDependencies MINUS every *.compiled.v1.json, and WorldSourceFingerprintFiles returns the covered list so a caller can show it. PlayPreparation.ResolveWorld(root, campaignSelection, scenePath) resolves a world through the catalog that ALREADY lives in main (CampaignWorldCatalog), so the fingerprint is taken from a resolved context rather than from a bare campaign selection",
+    "2_verified": "rewriting the compiled pack does NOT change the fingerprint (a legitimate compile cannot look like an authored change), changing a world plot DOES, and changing a LOADER SCRIPT also does - which Codex named specifically. The mini case covers three files: the campaign manifest, the plot and the loader",
+    "3_the_caller_link": "caller-link.txt holds the exact code and the two insertion points in PlayFromHere: resolve the world and take the fingerprint BEFORE the compile, resolve it AGAIN after the await and refuse the launch when the two differ. It is handed as a TEXT description, not as a patch, because that region of StudioRoot.cs currently CONFLICTS with Codex's own work and I did not touch his file"
+  },
+  "what_i_am_not_claiming": "the caller is not wired by me and the guard is not active in the editor until Codex or I put those two insertions in; the API and its proof are the deliverable of this stage",
+  "verified": {
+    "probe": "PASS 754/754 including the four new world-fingerprint checks",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors",
+    "not_run": "no Studio window and no game launch"
+  },
+  "files": {
+    "evidence/STUDIO/b20-deepseek-ai-13/2026-10-11-world-fingerprint-and-caller/check.log": "5461d012f20564b49a28b227ec4a871fc6f703d9af7fd372744d0bd87b8b3536",
+    "evidence/STUDIO/b20-deepseek-ai-13/2026-10-11-world-fingerprint-and-caller/caller-link.txt": "da5cb9d96af2bec5996ae71dd57421c806a42007e6e07cccd86ba9e30c2627f4"
+  },
+  "open": [
+    "the two insertions in PlayFromHere, which is Codex's file and currently conflicted"
+  ]
+}

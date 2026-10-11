@@ -74706,6 +74706,12 @@
                 "result": "guard by deepseek v4.1 flash against the dangerous direction: CompileInputHash walks each module's folder through the shared ModuleFolder mapping (dots to hyphens), and if a module id ever failed to resolve, its files would be SILENTLY absent from the hash - a FALSE-FRESH where an author's change is never noticed. Checked: TWELVE module declarations across the campaigns all resolve to existing folders, ZERO do not. Boundary: the check is about the MAPPING, not the folder's contents. Verified: probe PASS 750/750 including the twelve modules and the zero unresolved; Core 0/0",
                 "source": "the probe's module-resolution check; evidence evidence/STUDIO/b20-deepseek-ai-13/2026-10-11-module-folder-resolution",
                 "verification": "probe PASS 750/750 including the twelve modules and zero unresolved folders; Core 0/0. No game run"
+              },
+              {
+                "stage": "2026-10-11 the per-world fresh fingerprint, and the exact caller link",
+                "result": "source stage by deepseek v4.1 flash for Codex's 22:55 task: re-Resolve the selected world and hash its AuthoredDependencies excluding the generated pack. ADDED: PlayPreparation.WorldSourceFingerprint(root, context) hashes context.AuthoredDependencies MINUS every *.compiled.v1.json, with WorldSourceFingerprintFiles returning the covered list; PlayPreparation.ResolveWorld(root, campaignSelection, scenePath) resolves through CampaignWorldCatalog, which ALREADY lives in main, so the value comes from a RESOLVED context rather than a bare selection. VERIFIED on a mini world: rewriting the PACK does not change the fingerprint, changing a PLOT does, and changing a LOADER SCRIPT does too. THE CALLER LINK is handed as caller-link.txt with the exact code and the two insertion points in PlayFromHere (resolve+fingerprint before the compile, resolve again after the await and refuse on difference), NOT as a patch, because that region currently CONFLICTS with Codex's own work and I did not touch his file. NOT claimed: the guard is not active in the editor until those two insertions exist. Verified: probe PASS 754/754; Core 0/0",
+                "source": "src-dotnet/Urman.Studio.Core/Play/PlayPreparation.cs (WorldSourceFingerprint, ResolveWorld, WorldSourceFingerprintFiles); evidence evidence/STUDIO/b20-deepseek-ai-13/2026-10-11-world-fingerprint-and-caller",
+                "verification": "probe PASS 754/754 including the four world-fingerprint checks; Core 0/0. The two caller insertions and a Studio run are NOT_RUN"
               }
             ],
             "stage_tasks": [
@@ -74757,7 +74763,9 @@
               "Стоимость отпечатка 0.7 мс; пак НЕ несёт списка файлов (dependencyGraph — уровни модулей, fingerprints — производные), поэтому точный охват (б) требует нового контракта.",
               "Ранее переданный частичный этап (2026-10-11 what the runtime hash costs, and why the precise scope needs a new contract) ждёт ревью/приёмки; полный done_when не выполнен.",
               "Проверено: все 12 модулей кампаний разрешаются в существующие папки — молчаливого пропуска файлов в хеше нет.",
-              "Ранее переданный частичный этап (2026-10-11 no campaign module may silently drop out of the compile input hash) ждёт ревью/приёмки; полный done_when не выполнен."
+              "Ранее переданный частичный этап (2026-10-11 no campaign module may silently drop out of the compile input hash) ждёт ревью/приёмки; полный done_when не выполнен.",
+              "WorldSourceFingerprint готов (без пака, ловит правку участка и скрипта-загрузчика); точная вставка в caller — в caller-link.txt, сам StudioRoot не тронут из-за конфликта.",
+              "Ранее переданный частичный этап (2026-10-11 the per-world fresh fingerprint, and the exact caller link) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
             "next_action": "STUDIO/AI-13/SELECTOR: подключить выбор actual context.",
             "blocker": null,

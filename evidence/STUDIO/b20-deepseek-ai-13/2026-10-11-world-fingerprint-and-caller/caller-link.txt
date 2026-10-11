@@ -1,0 +1,21 @@
+diff --git a/game/studio/StudioRoot.cs b/game/studio/StudioRoot.cs
+--- a/game/studio/StudioRoot.cs
++++ b/game/studio/StudioRoot.cs
+@@ PlayFromHere, before the compile
+-        var build = await PlayPreparation.CompileAsync(Workspace.Root);
++        // The world is RE-RESOLVED here and its own authored dependencies are fingerprinted,
++        // excluding the generated compiled pack. This is the fresh value the guard below compares.
++        var beforeWorld = PlayPreparation.ResolveWorld(Workspace.Root, context.Campaign.Selection, context.World.ScenePath);
++        var beforeFingerprint = PlayPreparation.WorldSourceFingerprint(Workspace.Root, beforeWorld);
++        var build = await PlayPreparation.CompileAsync(Workspace.Root, context.Campaign.Selection);
+@@ PlayFromHere, after the await (add next to the existing campaign and input-hash guards)
++        // The author can edit a world plot or a loader script while the compiler runs, so the world
++        // is RESOLVED AGAIN and its fingerprint compared: a change means this build no longer
++        // describes what would launch.
++        var afterWorld = PlayPreparation.ResolveWorld(Workspace.Root, context.Campaign.Selection, context.World.ScenePath);
++        if (!string.Equals(beforeFingerprint, PlayPreparation.WorldSourceFingerprint(Workspace.Root, afterWorld), StringComparison.Ordinal))
++        {
++            ShowBanner("Исходники выбранного мира изменились во время сборки: запуск отменён, соберите заново.", error: true);
++            RefreshStatus();
++            return;
++        }

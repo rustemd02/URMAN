@@ -215,4 +215,62 @@ public static class PlayPreparation
         return $"RuntimeSourceHash: {count} авторских рантайм-файлов (без compiled-паков). Покрывает контент ВНЕ папок модулей; изменение чужой кампании тоже инвалидирует прогон — это выбрано сознательно, потому что пропущенное изменение опаснее лишней сборки.";
     }
 
+    /// <summary>
+    /// The fresh fingerprint of ONE resolved world, which is what Codex asked for: take the
+    /// AuthoredDependencies the resolver produced for the SELECTED world - the campaign manifest, the
+    /// scene, the world plots and the loader scripts - hash their content, and EXCLUDE the generated
+    /// compiled pack, because the compiler writes that itself and hashing it would make a legitimate
+    /// compile look like an authored change.
+    ///
+    /// The point of taking it from a RESOLVED context rather than from a bare campaign selection is
+    /// that a caller can resolve the same world again before and after the await and compare the two
+    /// fingerprints: if the author edited a plot or a loader script while the compile ran, the second
+    /// value differs and the launch must be refused.
+    /// </summary>
+    public static string WorldSourceFingerprint(string root, CampaignWorldContext context)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(root);
+        ArgumentNullException.ThrowIfNull(context);
+        return HashFiles(Path.GetFullPath(root), context.AuthoredDependencies
+            .Where(path => !path.EndsWith(".compiled.v1.json", StringComparison.Ordinal))
+            .Distinct(StringComparer.Ordinal)
+            .ToArray());
+    }
+
+    /// <summary>Resolves one world from its campaign selection and scene, for the caller to hash.</summary>
+    public static CampaignWorldContext ResolveWorld(string root, string campaignSelection, string scenePath) =>
+        CampaignWorldCatalog.Discover(root).Resolve(campaignSelection, scenePath);
+
+    /// <summary>What the world fingerprint covers, for a caller that shows it.</summary>
+    public static IReadOnlyList<string> WorldSourceFingerprintFiles(string root, CampaignWorldContext context)
+    {
+        ArgumentNullException.ThrowIfNull(context);
+        return context.AuthoredDependencies
+            .Where(path => !path.EndsWith(".compiled.v1.json", StringComparison.Ordinal))
+            .Distinct(StringComparer.Ordinal)
+            .Order(StringComparer.Ordinal)
+            .ToArray();
+    }
+
+    private static string HashFiles(string full, IReadOnlyList<string> relativePaths)
+    {
+        using var sha = System.Security.Cryptography.SHA256.Create();
+        using var writer = new MemoryStream();
+        foreach (var relative in relativePaths.Order(StringComparer.Ordinal))
+        {
+            writer.Write(System.Text.Encoding.UTF8.GetBytes(relative));
+            writer.Write([0]);
+            var path = Path.Combine(full, relative.Replace('/', Path.DirectorySeparatorChar));
+            if (File.Exists(path))
+            {
+                writer.Write(File.ReadAllBytes(path));
+            }
+
+            writer.Write([0]);
+        }
+
+        writer.Position = 0;
+        return Convert.ToHexString(sha.ComputeHash(writer)).ToLowerInvariant();
+    }
+
 }
