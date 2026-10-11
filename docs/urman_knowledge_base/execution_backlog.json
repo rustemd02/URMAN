@@ -79858,6 +79858,12 @@
                 "result": "correction by deepseek v4.1 flash: the thirty-five colour fields my earlier version called authored colours belong to the ATMOSPHERE records, not to materials. The record and API are renamed to AtmosphereColourField/AtmosphereColours, and the notes state that no material colour field exists in the content either, so the material lever remains the library and the model (AI-09/AI-11). The card stays a diagnostic partial without a caller, not a material authoring feature",
                 "source": "src-dotnet/Urman.Studio.Core/Editing/MaterialSurface.cs; evidence evidence/STUDIO/b20-deepseek-ai-26/2026-10-11-dynamic-controls (shared receipt with AI-26)",
                 "verification": "probe PASS 509/509 including the renamed API and the corrected notes; Core 0/0; game/Urman.Game.csproj 0/0; Urman.Studio.Tests 38/38. Nothing material is claimed as implemented"
+              },
+              {
+                "stage": "2026-10-11 the warning condition omits WinterTextures, so ten handled families are logged as undeclared",
+                "result": "real defect found by deepseek v4.1 flash: PainterlyMaterialLibrary.ForColor warns that a surface has no declared mode when it is missing from SurfaceTextures, TunedWithoutMap and FlatByDesign, but never checks WinterTextures, so ten families the library handles are written to the log as undeclared: bark_birch_winter, frost_window, ice, rowan_berries, snow_grass, snow_ground, snow_road, snow_roof, snow_trampled, wattle. The four tables hold 44/10/21/4 families and all 56 families the code requests are declared, so this noise is the whole defect. Fix: one line (&& !WinterTextures.ContainsKey(surface)); the patch is attached and compiles on origin/main, and I did not edit the shared library myself",
+                "source": "new file src-dotnet/Urman.Studio.Core/Editing/MaterialModes.cs; evidence/STUDIO/b20-deepseek-ai-36/2026-10-11-winter-warning/materials-winter-warning.patch",
+                "verification": "the patched tree builds game/Urman.Game.csproj; probe PASS 572/572 including the four tables, the ten spurious families, the quoted condition and zero undeclared used families. No game run: warning noise is a log claim and the visual result stays art acceptance"
               }
             ],
             "stage_tasks": [
@@ -79891,7 +79897,9 @@
               "Материал или модельный ресурс можно изменить локально, видя все общие использования.; отсутствует подтверждение собственного конечного DoD, перечисленного ниже.",
               "Ранее переданный частичный этап (2026-10-10 asset usage and material ownership) ждёт ревью/приёмки; полный done_when не выполнен.",
               "Ранее переданный частичный этап (2026-10-11 local versus global material change: the family surface) ждёт ревью/приёмки; полный done_when не выполнен.",
-              "Ранее переданный частичный этап (2026-10-11 materials versus atmosphere colour fields: the wording corrected) ждёт ревью/приёмки; полный done_when не выполнен."
+              "Ранее переданный частичный этап (2026-10-11 materials versus atmosphere colour fields: the wording corrected) ждёт ревью/приёмки; полный done_when не выполнен.",
+              "Патч на одну строку ждёт ревью владельца: библиотека общая, сам я её не менял.",
+              "Ранее переданный частичный этап (2026-10-11 the warning condition omits WinterTextures, so ten handled families are logged as undeclared) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
             "next_action": "Добавить usage index и asset/source card; override vs shared edit; preview materials; bounded import checks/URI validation; source variant linking.",
             "blocker": null,

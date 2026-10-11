@@ -1,0 +1,26 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-36"
+  ],
+  "stage": "the warning condition omits WinterTextures, so ten handled families are logged as undeclared",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-11 20:01 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "281c28e3",
+  "defect": "PainterlyMaterialLibrary.ForColor warns that a surface has 'no declared mode' when it is missing from SurfaceTextures, TunedWithoutMap and FlatByDesign, but the condition never checks WinterTextures. Ten families the library really handles are therefore written to the log as undeclared: bark_birch_winter, frost_window, ice, rowan_berries, snow_grass, snow_ground, snow_road, snow_roof, snow_trampled and wattle",
+  "measured": "the four tables hold 44, 10, 21 and four families; fifty-six families are requested by the code and NONE of them is undeclared, so the noise is the whole of this defect and there is no real unknown surface today",
+  "fix": "one line in the owner's file: add && !WinterTextures.ContainsKey(surface) to the condition. The patch is attached and compiles on origin/main; I did not edit the shared library myself",
+  "verified": {
+    "patch_compiles": "game/Urman.Game.csproj builds with the patch applied in a separate tree on origin/main",
+    "probe": "PASS 572/572 including the four tables read from the source, the ten spurious families, the quoted condition really omitting WinterTextures, and zero undeclared used families",
+    "not_run": "no game run: warning noise is a log claim, and the visual result stays art acceptance"
+  },
+  "files": {
+    "evidence/STUDIO/b20-deepseek-ai-36/2026-10-11-winter-warning/materials-winter-warning.patch": "bef52b10006a3be35d0bfb8fcad15f556f024b2cfc66b31cfb13537a901c7e46",
+    "evidence/STUDIO/b20-deepseek-ai-36/2026-10-11-winter-warning/check.log": "c64fa7643b460a81973fe89b55d823bb19643136a6d47a3190044731a61856b9"
+  },
+  "open": [
+    "the patch needs the owner's review because the library is shared"
+  ]
+}

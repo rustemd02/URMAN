@@ -1,0 +1,10 @@
+== AI-36: the warning condition omits WinterTextures, so ten handled families are logged as undeclared
+
+== the fix under test (temp tree /tmp/urman-matfix on origin/main)
+
+Прошло времени 00:00:00.60
+
+== the projection on the real library
+    note: Таблицы семейств: SurfaceTextures — 44 (семейства с текстурой); WinterTextures — 10 (зимние семейства с текстурой); TunedWithoutMap — 21 (настроены без текстуры); FlatByDesign — 4 (плоские по замыслу).
+    note: Условие предупреждения НЕ проверяет WinterTextures, поэтому 10 семейств, которые библиотека обслуживает, попадают в лог как «нет объявленного режима»: bark_birch_winter, frost_window, ice, rowan_berries, snow_grass, snow_ground, snow_road, snow_roof, snow_trampled, wattle. Починка — одна строка в файле владельца: добавить && !WinterTextures.ContainsKey(surface) в условие.
+  spurious warning families: 10; undeclared used families: 0

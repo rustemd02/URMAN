@@ -1,0 +1,12 @@
+diff --git a/game/scripts/PainterlyMaterialLibrary.cs b/game/scripts/PainterlyMaterialLibrary.cs
+index 58b112c2..87f40c58 100644
+--- a/game/scripts/PainterlyMaterialLibrary.cs
++++ b/game/scripts/PainterlyMaterialLibrary.cs
+@@ -1543,6 +1543,7 @@ public static class PainterlyMaterialLibrary
+ 
+         if (surface.Length > 0
+             && !SurfaceTextures.ContainsKey(surface)
++            && !WinterTextures.ContainsKey(surface)
+             && !TunedWithoutMap.Contains(surface)
+             && !FlatByDesign.Contains(surface)
+             && ReportedUnknownSurfaces.Add(surface))
