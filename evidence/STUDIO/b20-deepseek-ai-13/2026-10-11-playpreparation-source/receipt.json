@@ -1,0 +1,31 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-13"
+  ],
+  "stage": "the source-only PlayPreparation delta, verified on pristine main",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-11 21:50 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "b42fe09a",
+  "answer_to_review": "Codex asked for the current source-only PlayPreparation delta with its caller instead of a monolithic patch over modified shared files. Here it is, split so the shared files are NOT touched by me.",
+  "handover": {
+    "1_commit": "the PlayPreparation delta itself: campaign-aware compilation (CompileAsync per selection), PackPathFor and CompileInputHash, which hashes the campaign manifest, its module files through the shared RuleCatalogCoverage.ModuleFolder, content/schemas and the validated photoBook authoring spec sources - and deliberately NOT the compiled pack, because the compiler writes that itself",
+    "2_prerequisite": "ONE symbol on pristine main is missing: RuleCatalogCoverage.ModuleFolder. prerequisite-module-folder.patch adds exactly that method to main's file and applies cleanly",
+    "3_caller": "caller-wiring.patch carries ONLY the StudioRoot and StudioWorldSection hunks and applies cleanly to pristine main; integrating them is Codex's call after his lifecycle stage, so I did not touch either file"
+  },
+  "verified": {
+    "pristine_build": "pristine main + the prerequisite patch + the delta builds Urman.Studio.Core with 0 errors, so the closure really is one symbol and nothing else of mine is needed",
+    "patches": "both patches pass git apply --check against pristine main",
+    "branch": "the delta applied on my branch builds 0/0 and the probe still passes",
+    "not_run": "no Studio window and no game: wiring the caller is Codex's integration"
+  },
+  "files": {
+    "evidence/STUDIO/b20-deepseek-ai-13/2026-10-11-playpreparation-source/check.log": "d6c5371c94c44ea5bac17eb10435655e2e2fee232130a91d91b483477d28a414",
+    "evidence/STUDIO/b20-deepseek-ai-13/2026-10-11-playpreparation-source/prerequisite-module-folder.patch": "d3413c8e08c7a0c385236587e451dd15582a9a13e6751202fa0b3b81c191df9a",
+    "evidence/STUDIO/b20-deepseek-ai-13/2026-10-11-playpreparation-source/caller-wiring.patch": "8b112db461b2223f1e01fd46b27e5940ed01efb9b355916aca663a928394244d"
+  },
+  "open": [
+    "the caller integration and a real Studio run remain Codex's"
+  ]
+}

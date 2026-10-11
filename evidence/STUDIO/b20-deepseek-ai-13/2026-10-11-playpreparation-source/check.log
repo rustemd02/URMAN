@@ -1,0 +1,12 @@
+== AI-13: the source-only PlayPreparation delta, verified on pristine main
+
+-- pristine main + prerequisite + delta compiles:
+
+Прошло времени 00:00:01.45
+-- both patches apply to pristine main:
+  prerequisite: applies
+  caller: applies
+-- the branch with the delta applied compiles and its probe passes:
+
+Прошло времени 00:00:00.53
+PROBE RESULT: PASS

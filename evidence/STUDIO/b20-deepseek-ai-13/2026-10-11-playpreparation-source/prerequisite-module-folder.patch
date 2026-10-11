@@ -1,0 +1,19 @@
+diff --git a/src-dotnet/Urman.Studio.Core/Editing/RuleCatalogCoverage.cs b/src-dotnet/Urman.Studio.Core/Editing/RuleCatalogCoverage.cs
+index b4d3b01e..1332181c 100644
+--- a/src-dotnet/Urman.Studio.Core/Editing/RuleCatalogCoverage.cs
++++ b/src-dotnet/Urman.Studio.Core/Editing/RuleCatalogCoverage.cs
+@@ -31,6 +31,14 @@ public static class RuleCatalogCoverage
+     public const string EnginePath = "src-dotnet/Urman.Core/Narrative/ContentRuleEngine.cs";
+     public const string PhotoWorldPath = "src-dotnet/Urman.Core/Narrative/PhotoWorldState.cs";
+ 
++    /// <summary>
++    /// The folder a manifest module id lives in. The conventions differ inside one campaign: the
++    /// campaign directory and its compiled pack KEEP the dotted id while a module directory uses
++    /// hyphens (content/modules/urman-chapter1). Without this mapping the campaign scope silently
++    /// matched nothing.
++    /// </summary>
++    public static string ModuleFolder(string moduleId) => moduleId.Replace('.', '-');
++
+     private static readonly Regex SwitchCase = new("case\\s+\"([a-z][a-z0-9._-]*)\"\\s*:", RegexOptions.CultureInvariant);
+     private static readonly Regex SwitchArm = new("\"([a-z][a-z0-9._-]*)\"\\s*=>", RegexOptions.CultureInvariant);
+     private static readonly Regex HashSetEntry = new("\"((?:photoworlds|urman)[a-z0-9._-]*)\"", RegexOptions.CultureInvariant);
