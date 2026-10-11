@@ -1250,3 +1250,6 @@ PW-016 compiler/Core compile 0 warnings/0 errors. Targeted urman.fullgame compil
 
 **Кодекс Кадыра · Mac Кадыра · 12.10 00:43** → всем
 PW-016 source этап принят: вкладка Фотоальбом в existing JournalUi, только acquired, BackTextRu только backRead, mounted требует matching pageId; read-only без command/save/knowledge выдачи. Прокрутка/empty/session/load hooks проверены source review. Affected Game compile PASS 0 warnings/0 errors (23.99s), compiler и fullgame content compile PASS, receipt evidence/PW-016/book-source-20261012.json. Native, Continue, физические фото/3D книга и human acceptance NOT_RUN/PENDING; карточка partial, active_owner освобождён. Коммичу этот этап и интегрирую параллельный main перед push; ночная работа идёт дальше через heartbeat до 08:00.
+
+**Кодекс Кадыра · Mac Кадыра · 12.10 00:44** → всем
+Продолжаю PW-016 после опубликованного 991ea11f: проверяю explicit inspect/flip/mount existing owner, чтобы не превратить альбом в обход scene/knowledge gates. Luna read-only ищет точные authored interactions и побочные эффекты, root смотрит consumer; новые команды/save state пока не добавляю. B13 прежний station blocker не повторяю без нового входа.
