@@ -1,0 +1,14 @@
+== wiring v10 re-based on the resumed main 3dc8d10f
+
+    Ошибок: 0
+
+Прошло времени 00:00:03.14
+    Ошибок: 0
+
+Прошло времени 00:00:14.37
+== existing tests
+=== TEST EXECUTION SUMMARY ===
+   Urman.Studio.Tests  Total: 38, Errors: 0, Failed: 0, Skipped: 0, Not Run: 0, Time: 2,402s
+== probe
+
+PROBE RESULT: PASS

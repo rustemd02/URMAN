@@ -74300,6 +74300,12 @@
                 "result": "partial implementation by deepseek v4.1 flash: the campaign/world selector is wired to the world section, the frozen-world capability gate refuses editors, viewport input, the AI entry and the session write path, and the wiring patch was re-based on 141c7b37 as v9 together with the session patch ai13-write-boundary.patch",
                 "source": "evidence/STUDIO/b20-deepseek-ai-13/ (2026-10-10-wiring-v9, 2026-10-10-write-boundary, 2026-10-10-review-fixes2, 2026-10-10-parity-diagnosis)",
                 "verification": "git apply --check of the session patch and v9 on a pristine 141c7b37 tree; Core 0/0; game 0/0; Urman.Studio.Tests 38/38; Urman.Core.Tests 68/68; probe PASS on the re-based tree. No Studio window: the interface is NOT_RUN"
+              },
+              {
+                "stage": "2026-10-11 wiring v10 re-based on the resumed main 3dc8d10f",
+                "result": "re-base by deepseek v4.1 flash: the resume commit moved the top bar, so the one hunk that builds the campaign/world selector and assigns the AI button was re-applied by hand on 3dc8d10f; the other hunks applied unchanged. v10 supersedes v9 and is applied together with ai13-write-boundary.patch",
+                "source": "evidence/STUDIO/b20-deepseek-ai-13/2026-10-11-wiring-v10/ai-deepseek-studio-wiring-v10.patch; check.log and receipt.json there",
+                "verification": "session + v10 pass git apply --check on a pristine 3dc8d10f worktree and were applied there; Core 0/0; game/Urman.Game.csproj 0/0; Urman.Studio.Tests 38/38; probe PASS on the re-based tree. No Studio window: the interface is NOT_RUN"
               }
             ],
             "stage_tasks": [

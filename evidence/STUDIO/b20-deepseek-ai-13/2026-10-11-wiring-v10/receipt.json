@@ -1,0 +1,27 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-13"
+  ],
+  "stage": "wiring patch re-based on the resumed main 3dc8d10f after the B20 resume commit moved the top bar",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-11 15:48 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "3dc8d10f",
+  "why": "the resume commit added history and checkpoint buttons around the top bar, so the single hunk that builds the campaign/world selector and assigns the AI button no longer matched. It was re-applied by hand on the new base; every other hunk applied unchanged",
+  "verified": {
+    "apply": "the session patch and wiring v10 both pass git apply --check on a pristine 3dc8d10f worktree and were applied there",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors; game/Urman.Game.csproj 0 warnings/0 errors",
+    "existing_tests": "Urman.Studio.Tests 38/38",
+    "probe": "PASS on the re-based tree",
+    "not_run": "no Studio window: the interface is NOT_RUN"
+  },
+  "files": {
+    "evidence/STUDIO/b20-deepseek-ai-13/2026-10-11-wiring-v10/ai-deepseek-studio-wiring-v10.patch": "ef81dac5ac6b8f90b7fdc38dd01d625d5692af7f306b54f34538941471202020",
+    "evidence/STUDIO/b20-deepseek-ai-13/2026-10-11-wiring-v10/check.log": "b7cf108d7e4ab6fef35d40fe0e06a84cbf9a6f6bec835cdec0b66c9c30469778"
+  },
+  "open": [
+    "v10 supersedes v9 and is applied together with ai13-write-boundary.patch",
+    "runtime and visual acceptance are NOT_RUN"
+  ]
+}
