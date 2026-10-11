@@ -75990,6 +75990,12 @@
                 "result": "deepening by deepseek v4.1 flash: 1016 authored text records all carry a Russian line and 23 carry Tatar. The Russian line equals the default in 787 records, which is reported as the NORMAL Russian-authoring shape rather than as a missing translation, because the project authors in Russian and both fields change together (DLG04); 229 records where the default differs are reported separately. The runtime tries the requested locale, then its language part, and finally falls back to default (ContentResolverSupport), so a missing Tatar line shows the default text. The Tatar gap stays open as a language and culture gate: inventing a translation is forbidden",
                 "source": "new file src-dotnet/Urman.Studio.Core/Editing/TextLocalization.cs; evidence evidence/STUDIO/b20-deepseek-ai-20/2026-10-11-localization-coverage",
                 "verification": "probe PASS 525/525 including the coverage, the separated identical and differing groups and the notes about the resolver rule and the forbidden invention; Core 0/0; game/Urman.Game.csproj 0/0; Urman.Studio.Tests 38/38. Language and culture acceptance is NOT_RUN"
+              },
+              {
+                "stage": "2026-10-11 the languages of the texts the content actually reads",
+                "result": "REAL content finding by deepseek v4.1 flash: THREE HUNDRED AND THIRTEEN texts are referenced by the authored content through the field names the runtime reads, and NOT ONE carries a tt translation - every one falls back to Russian. The compiled pack agrees: five hundred and eighty-eight compiled texts, ZERO with tt, while the key tt appears nineteen times elsewhere in the pack, so the mechanism exists in the format and is used for other structures (vocabulary); the text layer is simply empty. Verified by hand: urman.chapter1:text/arrival-mother-reply carries value.translations with ru only. This is the localisation half of the unit: dialogue, answers, document texts and prompts a player reads have a Russian fallback and nothing else. Boundary: the projection counts PRESENCE, not quality - writing Tatar is the author's and a native speaker's gate, and inventing a translation is forbidden. Own correction recorded: an EARLIER stage of mine reported twenty-three texts with tt; that was a different structure (vocabulary) and must not be read as partial translation of the readable texts. Verified: probe PASS 675/675; Core 0/0",
+                "source": "src-dotnet/Urman.Studio.Core/Editing/TextLocalization.cs (UsedCoverage, TextFields, UsedNotes); evidence evidence/STUDIO/b20-deepseek-ai-20/2026-10-11-used-text-languages",
+                "verification": "probe PASS 675/675 including the three hundred and thirteen used texts and the notes; Core 0/0. The Tatar text layer is empty and the language gate is external and NOT_RUN"
               }
             ],
             "stage_tasks": [
@@ -76021,7 +76027,9 @@
               "Реплика, ответ и условие диалога меняются без потери локализации и связей.; отсутствует подтверждение собственного конечного DoD, перечисленного ниже.",
               "Ранее переданный частичный этап (2026-10-10 localisation-preserving dialogue fields) ждёт ревью/приёмки; полный done_when не выполнен.",
               "Татарское покрытие — языковой и культурный гейт: перевод не придумывается и остаётся открытым.",
-              "Ранее переданный частичный этап (2026-10-11 which languages an authored text carries, and how the runtime resolves them) ждёт ревью/приёмки; полный done_when не выполнен."
+              "Ранее переданный частичный этап (2026-10-11 which languages an authored text carries, and how the runtime resolves them) ждёт ревью/приёмки; полный done_when не выполнен.",
+              "Татарский слой текстов ПУСТ: 313 читаемых текстов не имеют tt, все падают на русский. Решение и перевод — автор и носитель языка.",
+              "Ранее переданный частичный этап (2026-10-11 the languages of the texts the content actually reads) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
             "next_action": "Привязать selection к node/response; запросить нужные языковые поля; показать effects/entry routes; validate references; preview dialogue.",
             "blocker": null,

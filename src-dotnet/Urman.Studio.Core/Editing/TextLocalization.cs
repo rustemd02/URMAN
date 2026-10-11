@@ -96,4 +96,89 @@ public static class TextLocalization
             $"Татарский заполнен у {withTatar} записей. Этот пробел — языковой и культурный гейт: придумывать перевод нельзя, его закрывают люди, владеющие языком, а не эта проекция."
         ];
     }
+    /// <summary>
+    /// The texts the content ACTUALLY reads, and which of them have no Tatar translation. The
+    /// inventory above counts every declared text; this counts the ones a player will see, which is
+    /// the number that matters for the localisation criterion: a used text without a tt entry shows
+    /// the Russian fallback, and the campaign carries a language layer precisely so that this does
+    /// not happen silently.
+    ///
+    /// Referenced ids are collected from the authored files through the workspace, by the field
+    /// names the runtime reads for text, so an id this scan misses is one the runtime would not
+    /// read either.
+    /// </summary>
+    public static (IReadOnlyList<string> UsedWithoutTatar, int Used, int Translated) UsedCoverage(StudioWorkspace workspace)
+    {
+        ArgumentNullException.ThrowIfNull(workspace);
+        var texts = Inspect(workspace).ToDictionary(text => text.TextId, StringComparer.Ordinal);
+        var used = new SortedSet<string>(StringComparer.Ordinal);
+        foreach (var id in workspace.EntityIds)
+        {
+            if (workspace.Get(id) is not { } entity)
+            {
+                continue;
+            }
+
+            var pending = new Stack<JsonNode?>();
+            pending.Push(entity);
+            while (pending.Count > 0)
+            {
+                switch (pending.Pop())
+                {
+                    case JsonObject obj:
+                        foreach (var pair in obj)
+                        {
+                            if (TextFields.Contains(pair.Key)
+                                && pair.Value is JsonValue value
+                                && value.TryGetValue<string>(out var reference)
+                                && reference is { Length: > 0 }
+                                && texts.ContainsKey(reference))
+                            {
+                                used.Add(reference);
+                            }
+
+                            pending.Push(pair.Value);
+                        }
+
+                        break;
+                    case JsonArray array:
+                        foreach (var item in array)
+                        {
+                            pending.Push(item);
+                        }
+
+                        break;
+                }
+            }
+        }
+
+        var missing = used.Where(id => string.IsNullOrEmpty(texts[id].Tatar)).ToArray();
+        return (missing, used.Count, used.Count - missing.Length);
+    }
+
+    /// <summary>The field names the runtime reads a text id from.</summary>
+    public static IReadOnlySet<string> TextFields { get; } = new HashSet<string>(StringComparer.Ordinal)
+    {
+        "textId",
+        "lineId",
+        "promptTextId",
+        "titleTextId",
+        "bodyTextId",
+        "answerTextId"
+    };
+
+    /// <summary>What the used-text coverage means for the language criterion.</summary>
+    public static IReadOnlyList<string> UsedNotes(StudioWorkspace workspace)
+    {
+        var (missing, used, translated) = UsedCoverage(workspace);
+        return
+        [
+            $"Текстов, которые контент действительно читает: {used}; с татарским переводом: {translated}; без него: {missing.Count}.",
+            missing.Count == 0
+                ? "Каждый читаемый текст имеет татарский перевод."
+                : $"Без татарского перевода: {string.Join(", ", missing.Take(5))}{(missing.Count > 5 ? " …" : "")}. Игрок увидит русский запасной вариант — это факт о контенте, а решение о переводе принимает автор и носитель языка.",
+            "Перевод, его точность и культурная уместность — внешняя приёмка: проекция считает наличие, а не качество."
+        ];
+    }
+
 }

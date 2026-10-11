@@ -1,0 +1,30 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-20"
+  ],
+  "stage": "the languages of the texts the content actually reads",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-11 22:06 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "9541cad0",
+  "result": {
+    "measured": "THREE HUNDRED AND THIRTEEN texts are referenced by the authored content through the field names the runtime reads (textId, lineId, promptTextId, titleTextId, bodyTextId, answerTextId), and NOT ONE of them carries a tt translation; every one of them falls back to Russian",
+    "cross_check": "the compiled pack agrees: five hundred and eighty-eight compiled texts, ZERO with tt, while the two-letter key tt does appear nineteen times elsewhere in the pack - so the translation mechanism exists in the format and is used for other structures (vocabulary), it simply has no entries in the text layer",
+    "verified_by_hand": "urman.chapter1:text/arrival-mother-reply carries value.translations with ru only, read from the authored file rather than inferred",
+    "why_it_matters": "this is the localisation half of the unit: the dialogue, the answers, the document texts and the prompts a player reads have a Russian fallback and nothing else, and a scan of all authored content finds no text record with a tt translation at all",
+    "boundary": "the projection counts PRESENCE, not quality: writing Tatar is the author's and a native speaker's gate, and inventing a translation is exactly what this project forbids"
+  },
+  "verified": {
+    "probe": "PASS 675/675 including the three hundred and thirteen used texts, the field list and the notes",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors (composed tree with my branch and the v15 patch)",
+    "not_run": "no game run: the language gate is external and stays open"
+  },
+  "own_mistakes": "an earlier stage of mine reported twenty-three texts with tt; that number came from a different structure (the vocabulary records) and NOT from this text layer, so it must not be read as partial translation of the readable texts. This stage states what it measured and where",
+  "files": {
+    "evidence/STUDIO/b20-deepseek-ai-20/2026-10-11-used-text-languages/check.log": "0ff677841e1affcc4f48f2bb7f3ceecbd15a89d466040342c41bc0cdb395d8ef"
+  },
+  "open": [
+    "the Tatar text layer is empty and only the author and a native speaker can fill it"
+  ]
+}
