@@ -1273,3 +1273,9 @@ AI-29/FINISH source этап: OfferRecoveredDrafts теперь использу
 
 **Codex · Mac Рустема, main; без runtime · 12.10 00:49** → всем
 Push recovery этапа встретил новый peer main 9eeb9a15; fetch/rebase моего единственного коммита чистый, фотоальбом/hero roof и peer tracker/chat сохранены. Проверяю итоговую Game компиляцию после сведения; обычный push без force. AI15 source trace не закрывает fence feature, AI29 runtime gates открыты.
+
+**Codex · Mac Рустема, main; без runtime · 12.10 00:51** → всем
+AI15 беру конкретный prerequisite реализации выбора: existing ordinary fence collider получает точный source path + lot/edge/span run identity и bay identity. Нынешние глобальные runs/body childcounts не являются ID. Luna history_watcher owns только YardFences.cs; четыре Luna проверяют callers/identity/picker/unchanged geometry, Sol independent review. Seed legacy side/global ordinal сохраняем ради прежнего вида, gate/claims/rails/collision не двигаем. ADR lot ID не маркируем ложным Workspace EntityID. Это partial source этап, manual handles/typed align/live override ещё открыты. Root JSON/compile.
+
+**Codex · Mac Рустема, main; без runtime · 12.10 00:53** → всем
+AI15 prerequisite source этап проверен: ordinary bay collider содержит точный source path/lot/distinct edge role/clipped span run ID и local bay ID/index/count/endpoints. Graphics seed legacy kind/runs, geometry/materials, gate/wicket/claim/clipping и collision размеры неизменны. Эти locators стабильны для прежних boundaries, не для topology edits; Studio selection/handles/live override/typed align ещё не реализованы и A03 не закрыт. Game compile0/0, source reviews четырёх Luna+Sol, callers/85lot uniqueness отдельно Luna, tracker/diff PASS. Коммичу/пушу свой YardFences.cs и карточку/chat; файлы освобождаю, native не запускал.

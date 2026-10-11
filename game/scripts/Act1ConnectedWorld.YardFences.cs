@@ -17,7 +17,7 @@ namespace Urman.Godot;
 /// </summary>
 public partial class Act1ConnectedWorld
 {
-    internal sealed record YardLot(string Id, string Kind, Vector2 Centre, float Yaw, Vector2 Size);
+    internal sealed record YardLot(string Id, string Kind, Vector2 Centre, float Yaw, Vector2 Size, string SourcePath = "");
 
     /// <summary>
     /// VIS-088: one fence family is one construction, not one colour. Every value
@@ -132,7 +132,7 @@ public partial class Act1ConnectedWorld
                 lots.Add(new YardLot(lot.GetProperty("id").GetString()!, lot.GetProperty("kind").GetString()!,
                     new Vector2(lot.GetProperty("position")[0].GetSingle(), lot.GetProperty("position")[1].GetSingle()),
                     lot.GetProperty("yawDegrees").GetSingle(),
-                    new Vector2(lot.GetProperty("size")[0].GetSingle(), lot.GetProperty("size")[1].GetSingle())));
+                    new Vector2(lot.GetProperty("size")[0].GetSingle(), lot.GetProperty("size")[1].GetSingle()), path));
         }
         return lots;
     }
@@ -271,10 +271,10 @@ public partial class Act1ConnectedWorld
             var s = new Vector2(f.Y, -f.X);
             var (hw, hd) = (lot.Size.X * .5f, lot.Size.Y * .5f);
             var edges = front
-                ? new[] { (lot.Centre + f * hd - s * hw, lot.Centre + f * hd + s * hw, "front") }
-                : new[] { (lot.Centre - f * hd - s * hw, lot.Centre - f * hd + s * hw, "back"),
-                          (lot.Centre - f * hd - s * hw, lot.Centre + f * hd - s * hw, "side"),
-                          (lot.Centre - f * hd + s * hw, lot.Centre + f * hd + s * hw, "side") };
+                ? new[] { (lot.Centre + f * hd - s * hw, lot.Centre + f * hd + s * hw, "front", "front") }
+                : new[] { (lot.Centre - f * hd - s * hw, lot.Centre - f * hd + s * hw, "back", "back"),
+                          (lot.Centre - f * hd - s * hw, lot.Centre + f * hd - s * hw, "side", "side-minus"),
+                          (lot.Centre - f * hd + s * hw, lot.Centre + f * hd + s * hw, "side", "side-plus") };
             // The wicket stands in front of the house entrance.
             float? gateAt = null;
             if (front && registry is not null && registry.Addresses.TryGetValue(lot.Id, out var address)
@@ -289,7 +289,7 @@ public partial class Act1ConnectedWorld
             // keep the paint decision per lot and independent of the design and weathered colour.
             if (!design.Woven && !design.RailWithUprights && TimberHomeStyle.StableHash(lot.Id + ":painted") % 100 < 45)
                 colour = paintedStreetColours[(int)((TimberHomeStyle.StableHash(lot.Id + ":painted-colour") >> 8) % (uint)paintedStreetColours.Length)];
-            foreach (var (a, b, kind) in edges)
+            foreach (var (a, b, kind, edgeRole) in edges)
             {
                 var length = a.DistanceTo(b);
                 var dir = (b - a) / length;
@@ -318,8 +318,12 @@ public partial class Act1ConnectedWorld
                         // Any edge that faces a street (a corner lot's side) gets the street pickets.
                         var mid = run[run.Count / 2];
                         var (rd, rh) = AgentBAct1HeightField.RoadInfo(mid.X, mid.Y);
+                        var runStart = run[0];
+                        var runEnd = run[^1];
+                        var runId = System.FormattableString.Invariant(
+                            $"{lot.SourcePath}|{lot.Id}|{edgeRole}|{runStart.X:R},{runStart.Y:R}|{runEnd.X:R},{runEnd.Y:R}");
                         BuildFenceRun(root, body, run, kind == "front" || rd - rh < 3.2, colour, pickets, design,
-                            TimberHomeStyle.StableHash($"{lot.Id}:{kind}:{runs}"));
+                            TimberHomeStyle.StableHash($"{lot.Id}:{kind}:{runs}"), lot.SourcePath, lot.Id, edgeRole, runId);
                         runs++;
                     }
                     run.Clear();
@@ -419,7 +423,8 @@ public partial class Act1ConnectedWorld
     // boundary. No solid sheet pretending to be wood; the metric UV follows each
     // individual piece.
     private static void BuildFenceRun(Node3D root, StaticBody3D body, List<Vector2> run, bool street, string colour,
-        Dictionary<string, List<Transform3D>> parts, FenceDesign authored, uint seed)
+        Dictionary<string, List<Transform3D>> parts, FenceDesign authored, uint seed, string sourcePath, string lotId,
+        string edgeRole, string runId)
     {
         // VIS-019: a yard boundary is a working fence, not a copy of the owner's
         // street palisadnik: plain weathered boards with uneven crowns and one bay
@@ -556,6 +561,10 @@ public partial class Act1ConnectedWorld
             contact.SetMeta("timberStyle", design.Style); contact.SetMeta("streetFence", street);
             contact.SetMeta("fenceFamily", design.Id); contact.SetMeta("boardThicknessM", design.BoardThickness);
             contact.SetMeta("bayLengthM", bay); contact.SetMeta("postLeanDegrees", lean[i]);
+            contact.SetMeta("sourcePath", sourcePath); contact.SetMeta("lotId", lotId); contact.SetMeta("edgeRole", edgeRole);
+            contact.SetMeta("runId", runId); contact.SetMeta("bayId", System.FormattableString.Invariant($"{runId}/bay-{i:D3}"));
+            contact.SetMeta("bayIndex", i); contact.SetMeta("bayCount", bays);
+            contact.SetMeta("runStartXZ", a); contact.SetMeta("runEndXZ", b);
             body.AddChild(contact);
         }
     }
