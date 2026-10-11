@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-18"
+  ],
+  "stage": "the ambient beds against the runtime director, the disk and the rights",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-11 19:37 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "6764bd62",
+  "result": {
+    "beds": "nine ambient beds, all with their file on disk (res:// maps to the game folder, not to the repository root), all declaring a source and a licence, and nineteen of twenty zone bindings resolving",
+    "runtime_link": "the director game/scripts/AmbientAudioDirector.cs really loads this manifest, so the check covers the real audio path rather than a side file",
+    "finding": "two beds name zone strings that appear nowhere in the content or the runtime sources: ambient.village-return binds village_day@from_forest and ambient.village-yard binds village_day@from_house, while village_day@arrival does exist. Those two beds cannot be selected by the current zone string",
+    "second_catalogue": "a second bed catalogue exists (game/assets/audio/act1/sound_mood/beds_manifest.json, two beds), so one manifest must not be mistaken for the whole sound picture",
+    "external_gate": "the manifest's own status is quoted rather than replaced: listening, mix, loop and cultural review stay with the author and the listeners"
+  },
+  "verified": {
+    "probe": "PASS 552/552 with the new checks: nine beds, every file present, every licence declared, every bed naming a zone, the director really loading the manifest, the two unknown zone strings reported and the second catalogue named",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors; game/Urman.Game.csproj 0 warnings/0 errors",
+    "existing_tests": "Urman.Studio.Tests 38/38",
+    "not_run": "no game run and no listening: how a bed sounds, loops and mixes is auditory acceptance, NOT_RUN"
+  },
+  "own_mistakes": "I first reported all five files missing because I mapped res:// to the repository root instead of the game folder, and I nearly claimed the manifest had no runtime consumer until I searched beyond the tests and found AmbientAudioDirector",
+  "files": {
+    "evidence/STUDIO/b20-deepseek-ai-18/2026-10-11-ambient-beds/check.log": "30923123601e86ead97c25fd5951e5161b4c771c378a3537c006a571714058da"
+  },
+  "open": [
+    "the two unknown zone strings need an author decision",
+    "auditory acceptance stays external"
+  ]
+}

@@ -1,0 +1,18 @@
+== AI-18: the ambient beds against the runtime director, the disk and the rights
+
+
+Прошло времени 00:00:00.46
+
+Прошло времени 00:00:13.28
+== existing tests
+=== TEST EXECUTION SUMMARY ===
+   Urman.Studio.Tests  Total: 38, Errors: 0, Failed: 0, Skipped: 0, Not Run: 0, Time: 2,348s
+== probe
+  beds: 9, missing files: 0, no rights: 0, problems: 0
+    note: Зоны, которых нет ни в контенте, ни в исходниках рантайма: village_day@from_forest, village_day@from_house. Такой бед не выберется по текущей зоне, пока строка не появится в игре.
+    note: Директор рантайма (game/scripts/AmbientAudioDirector.cs) действительно загружает этот манифест, поэтому проверка относится к реальному пути звука.
+    note: Рядом есть второй каталог (game/assets/audio/act1/sound_mood/beds_manifest.json): это отдельный список бедов, и считать один файл всей звуковой картиной нельзя.
+    note: Собственный статус манифеста: «runtime-foundation; production-candidate sound-design pass». Слушание, микс, луп и культурная приёмка остаются за автором и слушателями — это внешний гейт, а не эта проверка.
+    ambient.village-return: unknown zones village_day@from_forest
+    ambient.village-yard: unknown zones village_day@from_house
+PROBE RESULT: PASS

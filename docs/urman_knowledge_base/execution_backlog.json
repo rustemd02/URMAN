@@ -75490,6 +75490,12 @@
                 "result": "partial implementation by deepseek v4.1 flash: the atmosphere field registry validates types, explicit nulls, float range and the plume block, the audio source registry and panel validate raw authored data, refuse an audition on raw findings, follow symlinks for containment, gate every file access behind the scheme and containment checks, name the runtime zone gate truthfully, and treat stem findings as source-addressed",
                 "source": "evidence/STUDIO/b20-deepseek-ai-18/ (2026-10-10-atmosphere-registry, -audio-source-registry, -malformed-input, -containment, -registry-review-2, 2026-10-11-io-gates)",
                 "verification": "probe PASS 343/343 at the last stage, including an escaping path, a linked parent directory, a stem level as a runtime refusal and source-addressed findings; Core 0/0; game 0/0; Urman.Studio.Tests 38/38; Urman.Core.Tests 68/68. No listening and no Studio window: the auditory result and the interface are NOT_RUN"
+              },
+              {
+                "stage": "2026-10-11 the ambient beds against the runtime director, the disk and the rights",
+                "result": "deepening by deepseek v4.1 flash: nine ambient beds, every file present (res:// maps to the game folder), every bed declaring a source and a licence, every bed naming a zone, and the runtime director AmbientAudioDirector really loading this manifest. Nineteen of twenty zone bindings resolve; two beds (ambient.village-return, ambient.village-yard) bind village_day@from_forest and village_day@from_house, which appear nowhere in the content or the runtime sources, so they cannot be selected by the current zone string. A second catalogue exists under act1/sound_mood and is named so one manifest is not mistaken for the whole picture. Own mistakes recorded: I first called all five files missing by mapping res:// to the repository root, and nearly claimed there was no runtime consumer until I searched past the tests. Audit listening/mix/loop/culture stays an external gate",
+                "source": "new file src-dotnet/Urman.Studio.Core/Editing/AmbientBeds.cs; evidence evidence/STUDIO/b20-deepseek-ai-18/2026-10-11-ambient-beds",
+                "verification": "probe PASS 552/552 including the nine beds, the file and licence checks, the director link, the two unknown zone strings and the second catalogue; Core 0/0; game/Urman.Game.csproj 0/0; Urman.Studio.Tests 38/38. No listening was done: auditory acceptance is NOT_RUN"
               }
             ],
             "stage_tasks": [
@@ -75520,7 +75526,9 @@
             "technical_verification_state": "failed",
             "remaining": [
               "Принятие source corrections1097165e; manual editing/audition/world binding UI proof; слух отдельный.",
-              "Ранее переданный частичный этап (2026-10-10/11 atmosphere registry and audio sources, five review rounds) ждёт ревью/приёмки; полный done_when не выполнен."
+              "Ранее переданный частичный этап (2026-10-10/11 atmosphere registry and audio sources, five review rounds) ждёт ревью/приёмки; полный done_when не выполнен.",
+              "Две зоны бедов (village_day@from_forest, village_day@from_house) не встречаются в контенте и исходниках: нужно авторское решение.",
+              "Ранее переданный частичный этап (2026-10-11 the ambient beds against the runtime director, the disk and the rights) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
             "next_action": "Исправить пять source findings из Codex сообщения11.10 12:21 в AudioSourceRegistry/StudioAudioPanel и передать отдельный SHA, без новых probes.",
             "blocker": {
