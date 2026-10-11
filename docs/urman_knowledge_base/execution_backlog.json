@@ -81924,6 +81924,12 @@
                 "result": "partial implementation by deepseek v4.1 flash: a new projection checks the 79 addressed buildings (unique address id, complete address, known kind, three-number position, a present and readable yawDegrees, and the terrainPad object whose halfSize the runtime reads with GetProperty), and states the boundary that doors, windows, interiors and entrance points are not authored records but parts of the kit model that follow the parent through collision shape ownership",
                 "source": "new file src-dotnet/Urman.Studio.Core/Editing/HouseRecords.cs; evidence evidence/STUDIO/b20-deepseek-ai-45/2026-10-11-house-records",
                 "verification": "probe PASS with 79 buildings and no problems plus the synthetic cases (a duplicate address id, an incomplete address, a two-number position, a missing yaw, a one-number pad half size); Core 0/0; game/Urman.Game.csproj 0/0; Urman.Studio.Tests 38/38. A shape lesson is recorded: terrainPad is an object with halfSize, and treating it as an array produced 79 false problems. On-screen alignment after a move is NOT_RUN"
+              },
+              {
+                "stage": "2026-10-11 the address to building to parcel to door bindings, and what the registry really covers",
+                "result": "deepening by deepseek v4.1 flash: the settlement registry declares twenty-seven addresses with buildingId, parcelId, addressId, street, number, role and optionally primaryDoor. Two addresses declare a door and both node names really exist in the authored scene; the three aliases (ADR-SHOP, ADR-SCHOOL, ADR-COUNCIL) all point at declared addresses. Five registry (street, number) pairs land on kind=kit records of the scene while the seventy-nine bulk parcels are outside the registry - which is its own declared scope, quoted from its source line, not a defect. Own mistakes recorded: parcel ids are not workspace entities, the registry binds kit records rather than the parcel grid, and thirty addresses looked unresolved until the alias table was read",
+                "source": "new file src-dotnet/Urman.Studio.Core/Editing/AddressBindings.cs; evidence evidence/STUDIO/b20-deepseek-ai-45/2026-10-11-address-bindings",
+                "verification": "probe PASS 540/540 including the address read, the door lookup in the authored scene, the alias resolution and the scope-honest coverage count; Core 0/0; game/Urman.Game.csproj 0/0; Urman.Studio.Tests 38/38. Whether a moved house, its interior and doors land correctly is NOT_RUN"
               }
             ],
             "stage_tasks": [
@@ -81955,7 +81961,9 @@
             "technical_verification_state": "not_run",
             "remaining": [
               "Дом перемещается и редактируется вместе с интерьером, дверьми и входными точками.; отсутствует подтверждение собственного конечного DoD, перечисленного ниже.",
-              "Ранее переданный частичный этап (2026-10-11 what a coordinated house move can address) ждёт ревью/приёмки; полный done_when не выполнен."
+              "Ранее переданный частичный этап (2026-10-11 what a coordinated house move can address) ждёт ревью/приёмки; полный done_when не выполнен.",
+              "Связки «адрес → дом → участок → дверь» разрешаются; сам согласованный перенос требует рантайма и остаётся открытым.",
+              "Ранее переданный частичный этап (2026-10-11 the address to building to parcel to door bindings, and what the registry really covers) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
             "next_action": "Зарегистрировать children/portal offsets; grouped transform; local/world coordinates; hide roof/walls editor-only; validate door/route bounds; typed house move.",
             "blocker": null,

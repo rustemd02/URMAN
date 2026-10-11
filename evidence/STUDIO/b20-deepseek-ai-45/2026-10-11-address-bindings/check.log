@@ -1,0 +1,14 @@
+== AI-45: the address -> building -> parcel -> door bindings and what the registry really covers
+
+
+Прошло времени 00:00:00.51
+
+Прошло времени 00:00:13.76
+== existing tests
+=== TEST EXECUTION SUMMARY ===
+   Urman.Studio.Tests  Total: 38, Errors: 0, Failed: 0, Skipped: 0, Not Run: 0, Time: 2,373s
+== probe
+  addresses: 27, with door: 2, problems: 0, covered parcels: 5, uncovered: 79
+    note: Непокрытые адреса — это НЕ дефект: реестр сам говорит «Act1ConnectedWorld existing authored scene; these committed bindings do not move geometry», то есть связывает авторскую сцену, а не каждый адрес мира. Он ложится на записи kind=kit этой сцены, а массовая сетка участков (kind=parcel) в его предмет не входит. Так и надо читать это число.
+    ADR-BABAI [tukay 17] door=HeroHouse_StreetDoorClosed_LOD0 role=residential
+PROBE RESULT: PASS

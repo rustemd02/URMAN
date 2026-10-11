@@ -1,0 +1,30 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-45"
+  ],
+  "stage": "the address to building to parcel to door bindings, and what the registry really covers",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-11 19:20 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "ced98c6c",
+  "result": {
+    "registry": "the settlement registry declares twenty-seven addresses, each with a buildingId, a parcelId, an addressId, a street and number, a role and optionally a primaryDoor",
+    "doors": "two addresses declare a primaryDoor, and both node names (HeroHouse_StreetDoorClosed_LOD0 and MosqueEntranceDoor) really exist in the authored scene, so a relocation would carry the door it binds",
+    "aliases": "the three aliases (ADR-SHOP to ADR-H020, ADR-SCHOOL to ADR-H031, ADR-COUNCIL to ADR-H040) all point at declared addresses, so a quest naming the shop address resolves",
+    "coverage": "five of the registry's (street, number) pairs land on records of kind kit in the authored scene, and the seventy-nine bulk parcels of the grid are not covered by it. That is NOT a defect and is reported as the registry's own declared scope, quoted from its source line: these bindings do not move geometry",
+    "own_mistakes": "three of my first versions were wrong and are recorded: I compared the registry with workspace entities (parcel ids are not indexed at all, they lack the namespace:kind/name shape), I read only kind=parcel records (which made the coverage look like zero) although the registry binds kind=kit records, and I initially called thirty referenced addresses unresolved before checking the alias table"
+  },
+  "verified": {
+    "probe": "PASS 540/540 with the new checks: twenty-seven addresses read, a declared door present, every door found in the scene, every alias resolvable, and the uncovered count reported as the registry's scope rather than as a defect",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors; game/Urman.Game.csproj 0 warnings/0 errors",
+    "existing_tests": "Urman.Studio.Tests 38/38",
+    "not_run": "no game run: whether a moved house, its interior and its doors end up in the right place is a runtime and visual question, NOT_RUN"
+  },
+  "files": {
+    "evidence/STUDIO/b20-deepseek-ai-45/2026-10-11-address-bindings/check.log": "4f78eb2c54f18a5634c1677ac00476bd3a414c7abc0d549e10127c880af8316e"
+  },
+  "open": [
+    "the moving itself still needs the runtime: this stage proves the bindings resolve, not that a relocation is consistent on screen"
+  ]
+}
