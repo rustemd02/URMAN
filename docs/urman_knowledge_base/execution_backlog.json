@@ -80093,6 +80093,12 @@
                 "result": "own bug found and fixed by deepseek v4.1 flash: CampaignModulePrefixes built content/modules/{moduleId}/ from the manifest id, but the manifest uses dots (urman.chapter1) while the directory uses hyphens (urman-chapter1), so the prefix never existed and the campaign-scoped coverage silently reported zero rules - exactly the scope an earlier review asked me to make honest. One shared helper RuleCatalogCoverage.ModuleFolder now does the mapping for both the coverage and the trial-run plan",
                 "source": "src-dotnet/Urman.Studio.Core/Editing/RuleCatalogCoverage.cs; evidence evidence/STUDIO/b20-deepseek-ai-37/2026-10-11-module-folder-mapping",
                 "verification": "the check log records that the dotted path does not exist and the hyphenated one does for all three modules; probe PASS 483/483 with the campaign scope now counting its own rules and the stale zero-count invariant replaced; Core 0/0; Urman.Studio.Tests 38/38. No runtime claim"
+              },
+              {
+                "stage": "2026-10-11 the required complex-quest mechanisms against the engine vocabulary",
+                "result": "deepseek v4.1 flash measured the four mechanisms the unit's done_when names against the engine's own operation sets and the campaign's own numbers: branching is supported by all/any/not and used 208 times; parallel exists as independent objectives of a stage (twenty objectives); repeat is retryPolicy.mode (none eleven times, stage twice) with no separate repeat operation; failureEffects are implemented but no objective declares any; and a timer or delayed effect is NOT supported at all, because the engine has no time, wait, delay, timer or schedule operation. That last requirement cannot be met by content or Studio and needs an engine contract, so the unit's criterion stays open",
+                "source": "new file src-dotnet/Urman.Studio.Core/Editing/QuestSemantics.cs; evidence evidence/STUDIO/b20-deepseek-ai-37/2026-10-11-quest-semantics",
+                "verification": "probe PASS 518/518 including the five mechanism rows, the unsupported timer with its consequence and the notes naming the engine sources as the basis and an unsupported mechanism as no Studio task; Core 0/0; game/Urman.Game.csproj 0/0; Urman.Studio.Tests 38/38. Runtime state preservation over a real chain is NOT_RUN"
               }
             ],
             "stage_tasks": [
@@ -80125,9 +80131,11 @@
             "remaining": [
               "Перечень требований имеет реальный consumer; одна ветвящаяся/параллельная цепочка, один repeat/failure и один timer/delayed effect сохраняют состояние корректно.; принятые child этапы повторно не разрабатывать.",
               "Ранее переданный частичный этап (2026-10-10 rule catalogue coverage, campaign scope and PhotoWorld anchors) ждёт ревью/приёмки; полный done_when не выполнен.",
-              "Ранее переданный частичный этап (2026-10-11 the campaign module folder mapping was wrong, so the campaign scope counted nothing) ждёт ревью/приёмки; полный done_when не выполнен."
+              "Ранее переданный частичный этап (2026-10-11 the campaign module folder mapping was wrong, so the campaign scope counted nothing) ждёт ревью/приёмки; полный done_when не выполнен.",
+              "Механизм «таймер/отложенное последствие» из done_when не выражается движком: нужен контракт владельца фундамента, критерий единицы остаётся открытым.",
+              "Ранее переданный частичный этап (2026-10-11 the required complex-quest mechanisms against the engine vocabulary) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
-            "next_action": "STUDIO/AI-37/FINISH: A22 в disposable campaign fixtures/существующих примерах; узкие existing runtime checks по конкретной семантике.",
+            "next_action": "Ждать решения владельца по операции времени/отложенного последствия; остальные механизмы подтверждены по движку и контенту.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",

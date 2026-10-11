@@ -1,0 +1,17 @@
+== AI-37: the required mechanisms against the engine vocabulary and the campaign's own numbers
+
+
+Прошло времени 00:00:00.54
+
+Прошло времени 00:00:14.05
+== existing tests
+=== TEST EXECUTION SUMMARY ===
+   Urman.Studio.Tests  Total: 38, Errors: 0, Failed: 0, Skipped: 0, Not Run: 0, Time: 2,265s
+== probe
+    Ветвление: supported=True basis=условия all, any, not authored=208
+    Параллельность: supported=True basis=независимые цели этапа со своими startConditions/completionConditions authored=20
+    Повтор: supported=True basis=retryPolicy.mode authored=13
+    Провал: supported=True basis=failureEffects у цели authored=0
+    Таймер/отложенное последствие: supported=False basis=в наборе операций нет ни одной временной authored=0
+    note: Требуемых механизмов: 5; поддержано движком: 4; не поддержано: Таймер/отложенное последствие.
+PROBE RESULT: PASS

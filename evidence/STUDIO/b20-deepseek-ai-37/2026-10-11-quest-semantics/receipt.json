@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-37"
+  ],
+  "stage": "the required complex-quest mechanisms against the engine vocabulary and the campaign's own numbers",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-11 18:53 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "1fdb4835",
+  "result": {
+    "branching": "SUPPORTED by the composite conditions the engine executes (all, any, not) and used by the campaign 208 times",
+    "parallel": "SUPPORTED as independent objectives of one stage, each with its own start and completion conditions; there is no separate parallel construct, and twenty objectives exist",
+    "repeat": "SUPPORTED through retryPolicy.mode; the campaign uses none eleven times and stage twice, and the engine has no separate repeat operation",
+    "failure": "SUPPORTED through failureEffects on an objective, but NO objective in the campaign declares any: the mechanism is implemented and unused",
+    "timer_delayed": "NOT SUPPORTED. The engine's operation set contains no time, wait, delay, timer or schedule operation at all: time is neither a condition nor a trigger for an effect. The unit's fourth requirement therefore cannot be met by content or by Studio; it needs a new engine mechanic, which is the foundation owner's contract",
+    "basis": "the operation sets are read from the ContentRuleEngine sources and the counts from the campaign, so the report moves with the engine and the content rather than with a promise"
+  },
+  "verified": {
+    "probe": "PASS 518/518 with the new checks: five mechanisms reported, branching supported and used more than a hundred times, repeat supported, the timer reported as unsupported with the plain consequence, and the notes saying an unsupported mechanism is not a Studio task",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors; game/Urman.Game.csproj 0 warnings/0 errors",
+    "existing_tests": "Urman.Studio.Tests 38/38",
+    "not_run": "no game run: state preservation across a real chain is a runtime question and is NOT_RUN"
+  },
+  "files": {
+    "evidence/STUDIO/b20-deepseek-ai-37/2026-10-11-quest-semantics/check.log": "ad58eddb865af4ee7faba61635dd1a8252eade7f8245634a492ddb7ea0e02953"
+  },
+  "open": [
+    "the timer/delayed mechanism needs an engine contract before this unit's criterion can be met",
+    "runtime state preservation over a branching/parallel chain is NOT_RUN"
+  ]
+}
