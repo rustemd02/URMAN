@@ -99,20 +99,29 @@ public sealed class DeveloperContext(StudioWorkspace workspace, EntityCatalog ca
     {
         if (workspace.Locate(id) is null || workspace.Get(id) is null)
             return "Объект больше не существует. Выберите существующий объект для передачи контекста.";
-        return BuildText(id, step, problem, Revision(), CaptureDependencies(id));
+        return Text([id], step, problem);
     }
 
-    private string BuildText(string id, string? step, string? problem, string revision, DependencyCapture capture)
+    public string Text(IReadOnlyList<string> rootIds, string? step = null, string? problem = null)
+    {
+        var roots = FreezeScopeEntityIds(rootIds);
+        return BuildText(roots[0], roots, step, problem, Revision(), CaptureDependencies(roots));
+    }
+
+    private string BuildText(string id, IReadOnlyList<string> scopeEntityIds, string? step, string? problem, string revision, DependencyCapture capture)
     {
         var summary = catalog.Describe(id);
         var builder = new StringBuilder();
         builder.AppendLine($"{summary.KindLabel} «{summary.Name}», ID {id}.");
         builder.AppendLine($"Проект URMAN, ревизия {revision}; состояние: {DraftState(id)}.");
+        builder.AppendLine($"Выбрано объектов: {scopeEntityIds.Count}; основной объект: {id}.");
+        builder.AppendLine("Выбранные ID (корни, в заданном порядке): " + string.Join(", ", scopeEntityIds) + ".");
         if (step is not null) builder.AppendLine($"Выделено: {step}.");
         var parents = new ReferenceIndex(workspace).UsedBy(id).Take(6).Select(user => $"{catalog.Describe(user).KindLabel} «{catalog.NameOf(user)}» ({user})").ToArray();
         if (parents.Length > 0) builder.AppendLine("Используется в: " + string.Join("; ", parents) + ".");
-        var dependencies = capture.Entities.Where(dependency => dependency != id).Take(8).Select(dependency => $"«{catalog.NameOf(dependency)}» ({dependency})").ToArray();
-        if (dependencies.Length > 0) builder.AppendLine("Ссылается на: " + string.Join("; ", dependencies) + ".");
+        var selected = scopeEntityIds.ToHashSet(StringComparer.Ordinal);
+        var dependencies = capture.Entities.Where(dependency => !selected.Contains(dependency)).Take(8).Select(dependency => $"«{catalog.NameOf(dependency)}» ({dependency})").ToArray();
+        if (dependencies.Length > 0) builder.AppendLine("Дополнительные обнаруженные зависимости: " + string.Join("; ", dependencies) + ".");
         builder.AppendLine("Обход зависимостей частичный: известные типизированные поля сканируются у content/modules сущностей категорий assets, characters, scenes, documents, capabilities, dialogues, quests, knowledge и vocabulary; категория цели определяется каноническим ContentId в существующих реестрах. Knowledge и vocabulary обходятся только по известным массивам ContentId; допустимость цели в конкретном поле не проверяется. Texts остаются конечными целями: отсутствие переходов от них не означает полного покрытия. Сцены, диалоги и документы обходятся только по перечисленным полям; более глубокие ссылки, условия, эффекты, физические сущности и связи, другие поля и world/custom-источники не покрыты.");
         if (capture.Missing.Count > 0)
             builder.AppendLine("Не найденные типизированные зависимости (не приложены): " + string.Join(", ", capture.Missing) + ".");
@@ -131,7 +140,7 @@ public sealed class DeveloperContext(StudioWorkspace workspace, EntityCatalog ca
     }
 
     /// <summary>The first 200 existing entities reached through known typed module references, including the subject.</summary>
-    public IReadOnlyList<string> Dependencies(string id) => CaptureDependencies(id).Entities;
+    public IReadOnlyList<string> Dependencies(string id) => CaptureDependencies(FreezeScopeEntityIds([id])).Entities;
 
     private sealed record DependencyCapture(
         IReadOnlyList<string> Entities,
@@ -142,13 +151,29 @@ public sealed class DeveloperContext(StudioWorkspace workspace, EntityCatalog ca
         public bool Truncated => Pending.Count > 0;
     }
 
-    private DependencyCapture CaptureDependencies(string id)
+    private string[] FreezeScopeEntityIds(IReadOnlyList<string> rootIds)
     {
-        if (workspace.Locate(id) is null || workspace.Get(id) is null)
-            throw new InvalidOperationException("Объект больше не существует. Выберите существующий объект для передачи контекста.");
+        ArgumentNullException.ThrowIfNull(rootIds);
+        var roots = rootIds.ToArray();
+        if (roots.Length is < 1 or > 200)
+            throw new ArgumentOutOfRangeException(nameof(rootIds), "Выберите от 1 до 200 исходных объектов.");
+        var seen = new HashSet<string>(StringComparer.Ordinal);
+        foreach (var root in roots)
+        {
+            if (string.IsNullOrEmpty(root) || !seen.Add(root))
+                throw new ArgumentException("Выбранные ID должны быть непустыми и уникальными.", nameof(rootIds));
+            if (workspace.Locate(root) is null || workspace.Get(root) is null)
+                throw new InvalidOperationException($"Объект {root} больше не существует. Выберите существующие объекты для передачи контекста.");
+        }
+
+        return roots;
+    }
+
+    private DependencyCapture CaptureDependencies(IReadOnlyList<string> roots)
+    {
         var result = new List<string>();
-        var queue = new Queue<string>([id]);
-        var seen = new HashSet<string>(StringComparer.Ordinal) { id };
+        var queue = new Queue<string>(roots);
+        var seen = new HashSet<string>(roots, StringComparer.Ordinal);
         var missing = new HashSet<string>(StringComparer.Ordinal);
         var unsupported = new List<string>();
         while (queue.Count > 0 && result.Count < 200)
@@ -240,9 +265,14 @@ public sealed class DeveloperContext(StudioWorkspace workspace, EntityCatalog ca
     }
 
     /// <summary>A portable package: manifest, readable text and the entities themselves (HAND04, HAND05).</summary>
-    public (string Path, int Entities, long Bytes) WritePackage(string id, string directory, string? problem = null)
+    public (string Path, int Entities, long Bytes) WritePackage(string id, string directory, string? problem = null) =>
+        WritePackage([id], directory, problem);
+
+    public (string Path, int Entities, long Bytes) WritePackage(IReadOnlyList<string> rootIds, string directory, string? problem = null)
     {
-        var capture = CaptureDependencies(id);
+        var roots = FreezeScopeEntityIds(rootIds);
+        var id = roots[0];
+        var capture = CaptureDependencies(roots);
         var dependencies = capture.Entities;
         var revision = Revision();
         var caseId = $"ctx-{DateTimeOffset.Now:yyyyMMdd-HHmmss}-{Guid.NewGuid().ToString("N")}";
@@ -262,7 +292,7 @@ public sealed class DeveloperContext(StudioWorkspace workspace, EntityCatalog ca
 
         var options = PackageJsonOptions();
         var encoding = new UTF8Encoding(false);
-        var contextBytes = encoding.GetBytes(BuildText(id, null, problem, revision, capture));
+        var contextBytes = encoding.GetBytes(BuildText(id, roots, null, problem, revision, capture));
         var entityBytes = encoding.GetBytes(entities.ToJsonString(options));
         var initialPayloadBytes = (long)contextBytes.Length + entityBytes.Length;
         if (initialPayloadBytes > MaximumPackagePayloadBytes)
@@ -320,9 +350,10 @@ public sealed class DeveloperContext(StudioWorkspace workspace, EntityCatalog ca
         var manifest = new JsonObject
         {
             ["kind"] = "urman.studio-context",
-            ["schemaVersion"] = 4,
+            ["schemaVersion"] = 5,
             ["caseId"] = caseId,
             ["subject"] = id,
+            ["scopeEntityIds"] = new JsonArray(roots.Select(value => (JsonNode?)JsonValue.Create(value)).ToArray()),
             ["baseRevision"] = revision,
             ["created"] = DateTimeOffset.Now.ToString("O"),
             ["entities"] = dependencies.Count,
@@ -595,6 +626,7 @@ public sealed class DeveloperContext(StudioWorkspace workspace, EntityCatalog ca
                 2 => ReadPackageSources(manifest, payloads, encoding, 2),
                 3 => ReadPackageSources(manifest, payloads, encoding, 3),
                 4 => ReadPackageSources(manifest, payloads, encoding, 4),
+                5 => ReadPackageSources(manifest, payloads, encoding, 5),
                 _ => throw new InvalidDataException("Версия пакета не поддерживается.")
             };
         }
@@ -653,7 +685,11 @@ public sealed class DeveloperContext(StudioWorkspace workspace, EntityCatalog ca
 
     private static ContextPackage ReadPackageSources(JsonObject manifest, IReadOnlyDictionary<string, byte[]> payloads, UTF8Encoding encoding, int schemaVersion)
     {
-        var expectedManifestFields = schemaVersion == 4
+        var expectedManifestFields = schemaVersion == 5
+            ? new[] { "kind", "schemaVersion", "caseId", "subject", "scopeEntityIds", "baseRevision", "created", "entities", "truncated",
+                "pendingDependencyIds", "dependencyDiscovery", "referenceCoverageComplete", "unsupportedEntityIds", "missingDependencyIds",
+                "payloadHashAlgorithm", "files", "sources", "note" }
+            : schemaVersion == 4
             ? new[] { "kind", "schemaVersion", "caseId", "subject", "baseRevision", "created", "entities", "truncated",
                 "pendingDependencyIds", "dependencyDiscovery", "referenceCoverageComplete", "unsupportedEntityIds", "missingDependencyIds",
                 "payloadHashAlgorithm", "files", "sources", "note" }
@@ -661,13 +697,16 @@ public sealed class DeveloperContext(StudioWorkspace workspace, EntityCatalog ca
                 "pendingDependencyIds", "dependencyDiscovery", "payloadHashAlgorithm", "files", "sources", "note" };
         RequireExactFields(manifest, expectedManifestFields);
         var discovery = PackageString(manifest, "dependencyDiscovery");
-        var supportedDiscovery = schemaVersion == 4
-            ? discovery is "partial-typed-module-fields-v1" or "partial-typed-module-fields-v2" or "partial-typed-module-fields-v3"
-            : discovery == "legacy-id-shaped-strings";
+        var supportedDiscovery = schemaVersion switch
+        {
+            4 => discovery is "partial-typed-module-fields-v1" or "partial-typed-module-fields-v2" or "partial-typed-module-fields-v3",
+            5 => discovery == "partial-typed-module-fields-v3",
+            _ => discovery == "legacy-id-shaped-strings"
+        };
         if (manifest["schemaVersion"]?.GetValue<int>() != schemaVersion
             || !supportedDiscovery
             || PackageString(manifest, "payloadHashAlgorithm") != "sha256"
-            || schemaVersion == 4 && manifest["referenceCoverageComplete"]?.GetValue<bool>() != false)
+            || schemaVersion >= 4 && manifest["referenceCoverageComplete"]?.GetValue<bool>() != false)
             throw new InvalidDataException("Манифест содержит неверные значения версии или обнаружения зависимостей.");
         _ = PackageString(manifest, "caseId");
         var subject = PackageString(manifest, "subject");
@@ -679,6 +718,7 @@ public sealed class DeveloperContext(StudioWorkspace workspace, EntityCatalog ca
         if (entities.Count is < 1 or > 200 || manifest["entities"]?.GetValue<int>() != entities.Count)
             throw new InvalidDataException("Количество сущностей не совпадает с манифестом.");
         var ids = new HashSet<string>(StringComparer.Ordinal);
+        var orderedIds = new List<string>(entities.Count);
         var entityPaths = new HashSet<string>(StringComparer.Ordinal);
         foreach (var entity in entities)
         {
@@ -687,6 +727,7 @@ public sealed class DeveloperContext(StudioWorkspace workspace, EntityCatalog ca
             var id = PackageString(item, "id");
             if (!ids.Add(id) || item["data"] is null)
                 throw new InvalidDataException("Повторная сущность или отсутствующие данные.");
+            orderedIds.Add(id);
             if (item["data"] is JsonObject data && data.ContainsKey("id") && data["id"]?.GetValue<string>() != id)
                 throw new InvalidDataException("ID сущности не совпадает с данными.");
             _ = PackageString(item, "state");
@@ -696,6 +737,26 @@ public sealed class DeveloperContext(StudioWorkspace workspace, EntityCatalog ca
         }
         if (!ids.Contains(subject)) throw new InvalidDataException("Данные выбранной сущности отсутствуют.");
 
+        if (schemaVersion == 5)
+        {
+            var scopeIdsNode = manifest["scopeEntityIds"] as JsonArray
+                ?? throw new InvalidDataException("Выбранные сущности должны быть массивом.");
+            if (scopeIdsNode.Count is < 1 or > 200)
+                throw new InvalidDataException("Число выбранных сущностей должно быть от 1 до 200.");
+            var scopeIds = new List<string>(scopeIdsNode.Count);
+            var seenScopeIds = new HashSet<string>(StringComparer.Ordinal);
+            foreach (var scopeIdNode in scopeIdsNode)
+            {
+                if (scopeIdNode?.GetValue<string>() is not { Length: > 0 } scopeId
+                    || !seenScopeIds.Add(scopeId) || !ids.Contains(scopeId))
+                    throw new InvalidDataException("Выбранные сущности должны быть непустыми, уникальными и включёнными в пакет.");
+                scopeIds.Add(scopeId);
+            }
+            if (!string.Equals(scopeIds[0], subject, StringComparison.Ordinal)
+                || !orderedIds.Take(scopeIds.Count).SequenceEqual(scopeIds, StringComparer.Ordinal))
+                throw new InvalidDataException("Основная сущность должна быть первой, а порядок выбранных сущностей должен совпадать с началом списка объектов.");
+        }
+
         var truncated = manifest["truncated"]?.GetValue<bool>() ?? throw new InvalidDataException("Неверный признак неполноты.");
         var pendingIds = manifest["pendingDependencyIds"] as JsonArray ?? throw new InvalidDataException("Неверный список незавершённых зависимостей.");
         var seenPending = new HashSet<string>(ids, StringComparer.Ordinal);
@@ -703,7 +764,7 @@ public sealed class DeveloperContext(StudioWorkspace workspace, EntityCatalog ca
             if (pending?.GetValue<string>() is not { Length: > 0 } pendingId || !seenPending.Add(pendingId))
                 throw new InvalidDataException("Незавершённые зависимости должны быть уникальны и не повторять приложенные сущности.");
         if (truncated != (pendingIds.Count > 0)) throw new InvalidDataException("Признак неполноты не совпадает со списком зависимостей.");
-        if (schemaVersion == 4)
+        if (schemaVersion >= 4)
         {
             var unsupportedIds = manifest["unsupportedEntityIds"] as JsonArray
                 ?? throw new InvalidDataException("Список неподдержанных сущностей должен быть массивом.");

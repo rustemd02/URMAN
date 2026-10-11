@@ -71605,6 +71605,14 @@
                       "implementation": "Known knowledge sourceIds/reveals/contradicts/unlocks and vocabulary rereadTargets/applicationTargets are read as required ContentId arrays. Target category derives from existing ResolverCatalog canonical ID regex/category map, not an invented field-specific registry constraint. Unknown/malformed kinds fail with exact pointer. Shared closure validation and Studio BFS consume these refs; knowledge/vocabulary sources now traversed, vocabulary targets supported. Writer marker v3; schema4 reader preserves v1/v2 and adds v3. Readable context/viewer continue to disclose partial graph and absence of per-field semantic rules.",
                       "verification": "Root affected Game compile: 0 warnings/0 errors; diff-check and tracker validate passed. Luna source/schema/consumer reviews plus independent GPT6.1Sol medium review found no concrete blockers. No tests/probes/content compiler/provider/Studio/game/Blender/runtime runs.",
                       "remaining": "Conditions/effects, game/campaign/custom and physical file dependencies remain uncovered. Canonical known-registry references are checked, not semantic per-field target permissions. Native A07 and AI12 window/Codex/Apply/game/Undo acceptance remain deferred by author."
+                    },
+                    {
+                      "stage": "2026-10-11 exact frozen group context export",
+                      "result": "SOURCE_IMPLEMENTED_GAME_COMPILE_PASS_NATIVE_NOT_RUN",
+                      "source": "src-dotnet/Urman.Studio.Core/Handoff/DeveloperContext.cs; game/studio/StudioProperties.cs; game/studio/StudioWorldSection.cs",
+                      "implementation": "Existing context text/export now accepts frozen ordered roots; legacy single-ID callers remain. All 1-200 unique live roots seed BFS before dependencies and cannot be displaced by cap200. Package schema5 carries scopeEntityIds distinct from dependency entities; reader enforces exact fields, unique included ordered roots, primary-first prefix, receipt/UTF8/splice/budget rules and legacy schema1-4. World context action uses exact group snapshot including single-member groups; a primary selection outside the group is never appended (Shift-click can create this state). Missing/ambiguous/stale/oversize roots refuse complete export; UI preview/Copy/Save handles failures without scope fallback. Read-only package viewer shows selected roots separately. This is context export, not a generic AI Apply/write permission or a frozen house request package.",
+                      "verification": "Five Luna FAST/Max bounded investigations/implementation reviews and independent GPT6.1Sol medium final delta review. Root affected Game compile0 warnings/0 errors; no tests/probes/content compiler/provider/Studio/game/Blender/runtime runs.",
+                      "remaining": "Native group/package A07 acceptance still deferred. Fullfile baseline/current snapshots carry unrelated sibling context under existing budget; not an apply payload. Tombstone-only source paths are not represented (deleted last Markdown target is only missingDependencyId); conditions/effects/game/physical deps and generic AuthoringRequestV2 remain open."
                     }
                   ],
                   "assigned_owner": "codex/b20-2026-10-10",
@@ -71612,7 +71620,7 @@
                   "activity": {
                     "state": "confirmed_active",
                     "reason": "Existing bounded context unit resumed for source implementation under live B20 mandate; runtime remains deferred by author.",
-                    "verification_question": "Do the six schema-defined knowledge/vocabulary ContentId arrays reuse ResolverCatalog canonical categories, resolve through existing closure/BFS, and preserve v1/v2/v3 partial coverage readers? Compile/source check only; A07 deferred."
+                    "verification_question": "Does group context export preserve frozen ordered targets separately from dependency closure, include every target under cap200, and preserve package1-4 readback/budget/integrity rules? Source/affected compile only; native A07 deferred."
                   },
                   "task_type": "engineering",
                   "status": "in_progress",
@@ -71620,9 +71628,10 @@
                   "technical_verification_state": "not_run",
                   "remaining": [
                     "Extend schema-backed reference coverage to omitted narrative/game domains and physical resource dependencies.",
-                    "Run actual unsaved-object/other-checkout payload/hash A07 acceptance after runtime pause is lifted."
+                    "Run actual unsaved-object/other-checkout payload/hash A07 acceptance after runtime pause is lifted.",
+                    "Represent relevant deleted-ID tombstones and their retained source baseline/current snapshots, including deleted sole Markdown targets; missingDependencyIds alone is insufficient."
                   ],
-                  "next_action": "Continue omitted context contract requirements after source review; native A07 and AI12 only when author resumes launches.",
+                  "next_action": "Implement relevant deleted-ID/source tombstone capture using retained AuthoredFile base/current snapshots and compatible package reader; keep native A07/AI12 deferred until author resumes launches.",
                   "blocker": null,
                   "external_gates": [],
                   "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -71660,7 +71669,7 @@
                       "success": "Выполнены все перечисленные собственные критерии, без расширения на родителя.",
                       "repeat_only_if": "Изменился source/candidate/input/покрываемый контракт."
                     },
-                    "actual_result": "Partial schema-backed module references now include nested scene targets, document knowledgeRefs and known knowledge/vocabulary ContentId arrays with compatible coverage markers v1/v2/v3; full graph and native A07 remain open.",
+                    "actual_result": "Partial typed module dependencies plus exact frozen multi-root/group context export implemented with package5; legacy1-4 retained. Full snapshot/tombstones/request scope and native A07 remain incomplete.",
                     "evidence_refs": []
                   },
                   "dependencies": {

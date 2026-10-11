@@ -1323,7 +1323,13 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
 
         var summary = studio.Catalog.Describe(id);
         panel.Header(summary.Name, summary.KindLabel + " · экземпляр в мире");
-        panel.IdLine(id);
+        var groupIds = _group.ToArray();
+        var scopeEntityIds = groupIds.Length == 0
+            ? null
+            : groupIds.Contains(id, StringComparer.Ordinal)
+                ? new[] { id }.Concat(groupIds.Where(groupId => groupId != id).OrderBy(groupId => groupId, StringComparer.Ordinal)).ToArray()
+                : groupIds.OrderBy(groupId => groupId, StringComparer.Ordinal).ToArray();
+        panel.IdLine(id, scopeEntityIds);
         if (_pickedPart is { } selectedPart && selectedPart.EntityId == id && selectedPart.PartLabel is { } partLabel)
             panel.Text(partLabel, muted: true);
         var parameters = entity["params"] as JsonObject ?? [];
@@ -1331,7 +1337,15 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
         var lockBox = new CheckBox { Text = "Заблокировать от случайного выбора", ButtonPressed = (bool?)entity["locked"] ?? false };
         lockBox.Toggled += on => studio.Session.SetField(id, ["locked"], on, on ? "заблокировать" : "разблокировать");
         panel.AddChild(lockBox);
-        if (_group.Count > 1) panel.Text($"Выбрано объектов: {_group.Count}. ⌘D дублирует все, перетаскивание двигает все.", muted: true);
+        if (scopeEntityIds is { Length: > 0 })
+        {
+            var selectedCount = scopeEntityIds.Length == 1 ? "1 объект" : $"{scopeEntityIds.Length} объектов";
+            var primarySummary = scopeEntityIds[0] == id
+                ? $"Основной ID группы: {scopeEntityIds[0]}."
+                : $"Основной ID группы: {scopeEntityIds[0]}. Показанный объект вне группы.";
+            var groupActions = _group.Count > 1 ? " ⌘D дублирует все, перетаскивание двигает все." : string.Empty;
+            panel.Text($"«Контекст…» включит группу: {selectedCount}. {primarySummary}{groupActions}", muted: true);
+        }
         if (parameters["catalogId"] is JsonValue catalogId)
         {
             var entry = _catalog.OfType<JsonObject>().FirstOrDefault(item => (string)item["id"]! == (string)catalogId!);

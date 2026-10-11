@@ -33,8 +33,9 @@ public partial class StudioProperties : VBoxContainer
         AddChild(new Label { Text = kind, ThemeTypeVariation = "MutedLabel" });
     }
 
-    public void IdLine(string id)
+    public void IdLine(string id, IReadOnlyList<string>? scopeEntityIds = null)
     {
+        var frozenScopeEntityIds = (scopeEntityIds ?? new[] { id }).ToArray();
         var row = new HBoxContainer();
         row.AddChild(new Label { Text = id, ThemeTypeVariation = "MutedLabel", AutowrapMode = TextServer.AutowrapMode.Arbitrary, SizeFlagsHorizontal = SizeFlags.ExpandFill, TooltipText = "Постоянный ID: не меняется при переименовании" });
         StudioRoot.Button(row, "Копировать", () =>
@@ -42,11 +43,11 @@ public partial class StudioProperties : VBoxContainer
             DisplayServer.ClipboardSet(id);
             _studio.RefreshStatus("ID скопирован");
         }).TooltipText = "Скопировать ID для разработчика";
-        StudioRoot.Button(row, "Контекст…", () => OpenContext(id)).TooltipText = "Передать разработчику точный контекст, в том числе ещё не сохранённый черновик";
+        StudioRoot.Button(row, "Контекст…", () => OpenContext(frozenScopeEntityIds)).TooltipText = "Передать разработчику контекст выбранной области, в том числе ещё не сохранённый черновик";
         AddChild(row);
     }
 
-    private void OpenContext(string id)
+    private void OpenContext(IReadOnlyList<string> scopeEntityIds)
     {
         var context = new Urman.Studio.Core.Handoff.DeveloperContext(_studio.Workspace, _studio.Catalog);
         var dialog = new AcceptDialog { Title = "Контекст для разработчика", OkButtonText = "Закрыть", MinSize = new Vector2I(640, 0) };
@@ -55,24 +56,55 @@ public partial class StudioProperties : VBoxContainer
         box.AddChild(new Label { Text = "Что не так (необязательно):", ThemeTypeVariation = "MutedLabel" });
         var problem = new TextEdit { CustomMinimumSize = new Vector2(600, 60), PlaceholderText = "Например: после передачи досок калитка осталась закрыта, ожидалось «починена»." };
         box.AddChild(problem);
-        var preview = new Label { Text = context.Text(id), AutowrapMode = TextServer.AutowrapMode.WordSmart, CustomMinimumSize = new Vector2(600, 0) };
-        problem.TextChanged += () => preview.Text = context.Text(id, problem: problem.Text);
+        bool TryContextText(out string text)
+        {
+            try
+            {
+                text = context.Text(scopeEntityIds, problem: problem.Text);
+                return true;
+            }
+            catch (Exception error) when (error is IOException or UnauthorizedAccessException or ArgumentException or InvalidOperationException or InvalidDataException)
+            {
+                text = "Не удалось подготовить контекст выбранной области: " + error.Message + " Проект не изменён.";
+                return false;
+            }
+        }
+
+        _ = TryContextText(out var initialContextText);
+        var preview = new Label { Text = initialContextText, AutowrapMode = TextServer.AutowrapMode.WordSmart, CustomMinimumSize = new Vector2(600, 0) };
+        problem.TextChanged += () =>
+        {
+            _ = TryContextText(out var currentContextText);
+            preview.Text = currentContextText;
+        };
         box.AddChild(preview);
         var row = new HBoxContainer();
         StudioRoot.Button(row, "Скопировать текст", () =>
         {
-            DisplayServer.ClipboardSet(context.Text(id, problem: problem.Text));
+            if (!TryContextText(out var text))
+            {
+                preview.Text = text + " Текст не скопирован.";
+                _studio.RefreshStatus("Контекст выбранной области не скопирован");
+                return;
+            }
+            DisplayServer.ClipboardSet(text);
             _studio.RefreshStatus("Контекст скопирован");
         });
         StudioRoot.Button(row, "Сохранить пакет с черновиком", () =>
         {
             try
             {
-                var (path, entities, bytes) = context.WritePackage(id, Path.Combine(_studio.Workspace.Root, ".urman-studio", "handoff"), problem.Text);
-                preview.Text = $"Пакет сохранён: {Path.GetFileName(path)} — {entities} объектов, {bytes / 1024.0:0.#} КБ. Без ваших путей и сохранений.\n\nТекущий контекст:\n" + context.Text(id, problem: problem.Text);
+                var (path, entities, bytes) = context.WritePackage(scopeEntityIds, Path.Combine(_studio.Workspace.Root, ".urman-studio", "handoff"), problem.Text);
+                _ = TryContextText(out var savedContextText);
+                preview.Text = $"Пакет сохранён: {Path.GetFileName(path)} — {entities} объектов, {bytes / 1024.0:0.#} КБ. Без ваших путей и сохранений.\n\nТекущий контекст:\n" + savedContextText;
                 OS.ShellShowInFileManager(path);
             }
             catch (InvalidOperationException error)
+            {
+                preview.Text = error.Message + " Пакет не записан; проект не изменён.";
+                _studio.RefreshStatus("Пакет контекста не сохранён");
+            }
+            catch (ArgumentException error)
             {
                 preview.Text = error.Message + " Пакет не записан; проект не изменён.";
                 _studio.RefreshStatus("Пакет контекста не сохранён");
@@ -101,6 +133,7 @@ public partial class StudioProperties : VBoxContainer
             try
             {
                 var package = Urman.Studio.Core.Handoff.DeveloperContext.ReadPackage(path);
+                var schemaVersion = package.Manifest["schemaVersion"]?.GetValue<int>();
                 var integrity = package.HasIntegrityReceipts ? "Контрольные суммы вложений совпадают." : "Старый пакет без контрольных сумм: целостность не подтверждена.";
                 var completeness = package.Manifest["truncated"]?.GetValue<bool>() switch
                 {
@@ -126,14 +159,24 @@ public partial class StudioProperties : VBoxContainer
                 var viewer = new AcceptDialog { Title = "Контекст из пакета", OkButtonText = "Закрыть" };
                 var content = new VBoxContainer();
                 viewer.AddChild(content);
+                var scopeSummary = string.Empty;
+                var scopeDetails = string.Empty;
+                var entitySummary = $"{package.Entities.Count} объектов.";
+                if (schemaVersion == 5)
+                {
+                    var scopeIds = FormatManifestIds(package.Manifest["scopeEntityIds"], out var scopeCount);
+                    scopeSummary = $" Корневые ID области ({scopeCount}): {scopeIds}.";
+                    scopeDetails = $"Корни области (manifest.scopeEntityIds; не список зависимостей): {scopeIds}\nОбъектов в entities.json вместе с зависимостями: {package.Entities.Count}.";
+                    entitySummary = $"{package.Entities.Count} объектов в entities.json.";
+                }
                 content.AddChild(new Label
                 {
-                    Text = $"{package.Entities.Count} объектов. {integrity}\n{completeness}\n{coverageNote}\nТолько просмотр: проект не изменён.",
+                    Text = $"{entitySummary}{scopeSummary} {integrity}\n{completeness}\n{coverageNote}\nТолько просмотр: проект не изменён.",
                     AutowrapMode = TextServer.AutowrapMode.WordSmart
                 });
-                var previewText = new System.Text.StringBuilder(package.Text)
-                    .AppendLine().AppendLine()
-                    .AppendLine("Данные объектов:")
+                var previewText = new System.Text.StringBuilder(package.Text).AppendLine().AppendLine();
+                if (schemaVersion == 5) previewText.AppendLine(scopeDetails).AppendLine();
+                previewText.AppendLine("Данные объектов:")
                     .Append(package.Entities.ToJsonString(new System.Text.Json.JsonSerializerOptions { WriteIndented = true }));
                 if (package.Sources is null)
                 {
