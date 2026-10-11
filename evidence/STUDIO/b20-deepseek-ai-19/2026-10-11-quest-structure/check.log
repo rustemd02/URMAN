@@ -1,0 +1,12 @@
+== AI-19: quests checked as a structure the runtime can run
+
+
+Прошло времени 00:00:00.49
+
+Прошло времени 00:00:12.61
+== existing tests
+=== TEST EXECUTION SUMMARY ===
+   Urman.Studio.Tests  Total: 38, Errors: 0, Failed: 0, Skipped: 0, Not Run: 0, Time: 2,392s
+== probe
+
+PROBE RESULT: PASS

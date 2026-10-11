@@ -1,0 +1,30 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-19"
+  ],
+  "stage": "the authored quests checked as a structure the runtime can run",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-11 17:49 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "3622a660",
+  "result": {
+    "structure": "13 authored quests with 15 stages and 20 objectives, all with no problems",
+    "checked": "the quest and every objective resolve their title text, stage and objective ids do not repeat, a stage has at least one objective, every condition and effect names an operation ContentRuleEngine executes (sets read from the engine sources), and every reference to an AUTHORED entity (knowledgeId, vocabularyId, characterId, questId) exists in the workspace",
+    "retry_and_checkpoint": "retryPolicy.mode and checkpointPolicy.mode are compared with the values the engine understands; cancelPolicy.effects go through the same executed-effect set",
+    "beat boundary": "a beat id is NOT required to be authored: beat.set-state writes into the runtime beats map and beat.state reads false until it is set, so my first version reported 13 false problems for treating beats as authored entities. The engine source settled it and the notes now say so"
+  },
+  "verified": {
+    "probe": "PASS 504/504 with the new checks: 13 quests, 20 objectives, no problems, and the synthetic cases (an unresolved title text, a repeated objective id, an unexecuted condition and effect, a reference to a missing authored entity, an unsupported retry mode)",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors; game/Urman.Game.csproj 0 warnings/0 errors",
+    "existing_tests": "Urman.Studio.Tests 38/38",
+    "not_run": "no game run: the quest's design, pacing and language are author, culture and language acceptance, NOT_RUN"
+  },
+  "own_mistakes": "the first version treated beatId as an authored reference and produced 13 false problems; ContentRuleEngine shows a beat is runtime state, so the check and the note were corrected",
+  "files": {
+    "evidence/STUDIO/b20-deepseek-ai-19/2026-10-11-quest-structure/check.log": "bc962f93fda87bf3e606322b5b7c218bebf743cfcaec8b3df9b8ab55079248d7"
+  },
+  "open": [
+    "the quest editor UI itself and the author/language acceptance remain NOT_RUN"
+  ]
+}

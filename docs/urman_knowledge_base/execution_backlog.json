@@ -75667,6 +75667,12 @@
                 "result": "partial implementation by deepseek v4.1 flash: twelve direct Studio file writes are classified and none is authored content - three AI staging files, two editor-state writes, three self-check fixtures, a log, the catalog generator, the asset importer and the quest-graph layout - while fifty session-mediated calls carry every authored edit, so manual and AI changes share one EditSession journal, transaction and Undo/Redo",
                 "source": "new file src-dotnet/Urman.Studio.Core/Editing/StudioWritePaths.cs; evidence evidence/STUDIO/b20-deepseek-ai-19/2026-10-11-write-paths",
                 "verification": "probe PASS 395/395 including that no direct write is left unclassified and that the generator/importer boundary is named; Core 0/0; game/Urman.Game.csproj 0/0; Urman.Studio.Tests 38/38. The inventory states its own limit: a write hidden behind an indirection would not appear. The quest editor UI itself is NOT_RUN"
+              },
+              {
+                "stage": "2026-10-11 the authored quests checked as a structure the runtime can run",
+                "result": "deepening by deepseek v4.1 flash: 13 quests with 15 stages and 20 objectives are checked as a structure - title texts resolve, stage and objective ids do not repeat, a stage has at least one objective, every condition and effect names an operation the engine executes (sets read from the engine sources), every reference to an AUTHORED entity resolves in the workspace, and the retry/checkpoint modes are among the ones the engine understands. A beat id is deliberately not required to be authored because beat.set-state writes into the runtime beats map",
+                "source": "new file src-dotnet/Urman.Studio.Core/Editing/QuestStructure.cs; evidence evidence/STUDIO/b20-deepseek-ai-19/2026-10-11-quest-structure",
+                "verification": "probe PASS 504/504 including the structure checks and the synthetic cases (unresolved title, repeated objective id, unexecuted condition/effect, missing authored reference, unsupported retry mode); Core 0/0; game/Urman.Game.csproj 0/0; Urman.Studio.Tests 38/38. Own mistake recorded: treating beats as authored entities produced 13 false problems before the engine source settled it. The quest editor UI and the author/language acceptance are NOT_RUN"
               }
             ],
             "stage_tasks": [
@@ -75697,9 +75703,10 @@
             "technical_verification_state": "not_run",
             "remaining": [
               "ИИ меняет шаг/развилку квеста через ту же модель, что ручной список и граф.; отсутствует подтверждение собственного конечного DoD, перечисленного ниже.",
-              "Ранее переданный частичный этап (2026-10-11 one model for manual and AI authoring, verified as a write-path inventory) ждёт ревью/приёмки; полный done_when не выполнен."
+              "Ранее переданный частичный этап (2026-10-11 one model for manual and AI authoring, verified as a write-path inventory) ждёт ревью/приёмки; полный done_when не выполнен.",
+              "Ранее переданный частичный этап (2026-10-11 the authored quests checked as a structure the runtime can run) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
-            "next_action": "Довести единую модель до квестового UI: ручное и AI-изменение на одном экране, после принятого AI-10/AI-13.",
+            "next_action": "Собрать редактор квестов поверх этой структуры и провести авторскую приёмку; единая модель ручного и AI-изменения уже подтверждена по путям записи.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
