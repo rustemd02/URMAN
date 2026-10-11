@@ -1,0 +1,17 @@
+== AI-22: which routine capabilities the runtime implements and which the campaign uses
+
+
+Прошло времени 00:00:00.49
+
+Прошло времени 00:00:13.54
+== existing tests
+=== TEST EXECUTION SUMMARY ===
+   Urman.Studio.Tests  Total: 38, Errors: 0, Failed: 0, Skipped: 0, Not Run: 0, Time: 2,305s
+== probe
+    Точка стоянки [place]: blocks=33
+    Маршрут [route]: blocks=0
+    Смена блока по условию [when]: blocks=0
+    Скорость [speed]: blocks=0
+    Следование [follow]: blocks=0
+  fields this projection names but the reader never mentions: 0
+PROBE RESULT: PASS

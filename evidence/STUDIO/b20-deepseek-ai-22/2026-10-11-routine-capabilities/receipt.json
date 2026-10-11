@@ -1,0 +1,29 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-22"
+  ],
+  "stage": "which NPC routine capabilities the runtime implements and which the campaign uses",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-11 19:02 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "1cc41af2",
+  "result": {
+    "used": "of the thirty-three authored schedule blocks, every one carries place (33), yawDegrees (33) and motion (33): the campaign's NPCs stand in one place with one idle motion",
+    "unexercised": "the runtime implements and the campaign never uses: route (0), waitSeconds (0), look (0), when (0), speed (0), walkMotion (0) and follow (0). BuildRoutine walks a route, waits at a point, looks at a player or a point, switches blocks by condition and follows the player, and none of that appears in the authored content",
+    "why it matters": "the unit asks for NPC routes, and a route capability that no authored block exercises is not a working route: it is code without content. Saying so is the honest report; inventing a route would be inventing content, which is the author's decision",
+    "no_drift": "every field this projection names is really mentioned by AuthoredWorldDirector.Schedules.cs, checked by MissingFromRuntime"
+  },
+  "verified": {
+    "probe": "PASS 530/530 with the new checks: the capabilities are reported, no named field is missing from the reader, the standing point is used, and the route capability is reported as unexercised with a note that says so",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors; game/Urman.Game.csproj 0 warnings/0 errors",
+    "existing_tests": "Urman.Studio.Tests 38/38",
+    "not_run": "no game run: whether a routine walks and looks right is a runtime and visual question, NOT_RUN"
+  },
+  "files": {
+    "evidence/STUDIO/b20-deepseek-ai-22/2026-10-11-routine-capabilities/check.log": "7b3981b20e562ef7b63527aa96bd868d57e60cadc309ef0864f342f5087fa240"
+  },
+  "open": [
+    "a real route has to be authored before the route half of this unit can be judged; that is content, not a projection"
+  ]
+}

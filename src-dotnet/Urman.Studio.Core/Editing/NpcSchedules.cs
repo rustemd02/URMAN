@@ -157,6 +157,91 @@ public static class NpcSchedules
         return npcs.OrderBy(npc => npc.NpcId, StringComparer.Ordinal).ToArray();
     }
 
+    /// <summary>
+    /// A route or routine capability the runtime implements, the field it reads, and how many
+    /// authored schedule blocks actually use it.
+    /// </summary>
+    public sealed record NpcRoutineCapability(string Capability, string RuntimeField, int AuthoredBlocks, string Note);
+
+    public const string RuntimePath = "game/scripts/AuthoredWorldDirector.Schedules.cs";
+
+    /// <summary>The runtime fields this projection expects AuthoredWorldDirector.Schedules to read.</summary>
+    public static readonly IReadOnlyList<string> RuntimeFields =
+        ["place", "route", "speed", "motion", "walkMotion", "when", "yawDegrees", "waitSeconds", "look", "follow"];
+
+    /// <summary>
+    /// The routine capabilities the runtime implements against the ones the campaign really
+    /// uses. The runtime can walk a route, wait at a point, look at a target, follow the
+    /// player and switch blocks by condition; a campaign that never writes those fields leaves
+    /// the capability unexercised, which is a content fact worth stating instead of assuming
+    /// the routes work because the code exists.
+    /// </summary>
+    public static IReadOnlyList<NpcRoutineCapability> Capabilities(StudioWorkspace workspace, string root)
+    {
+        ArgumentNullException.ThrowIfNull(workspace);
+        var counts = new Dictionary<string, int>(StringComparer.Ordinal);
+        var blocks = 0;
+        foreach (var id in workspace.EntityIds)
+        {
+            if (workspace.Get(id) is not JsonObject entity || (string?)entity["kind"] != "npc")
+            {
+                continue;
+            }
+
+            foreach (var block in ((entity["params"] as JsonObject)?["schedule"] as JsonArray ?? []).OfType<JsonObject>())
+            {
+                blocks++;
+                foreach (var field in RuntimeFields)
+                {
+                    if (field == "waitSeconds" || field == "look")
+                    {
+                        // Read inside a route point, so they count when a point carries them.
+                        if ((block["route"] as JsonArray ?? []).OfType<JsonObject>().Any(point => point[field] is not null))
+                        {
+                            counts[field] = counts.GetValueOrDefault(field) + 1;
+                        }
+
+                        continue;
+                    }
+
+                    if (block[field] is not null)
+                    {
+                        counts[field] = counts.GetValueOrDefault(field) + 1;
+                    }
+                }
+            }
+        }
+
+        return
+        [
+            new("Точка стоянки", "place", counts.GetValueOrDefault("place"), $"Блоков с place: {counts.GetValueOrDefault("place")} из {blocks}."),
+            new("Маршрут", "route", counts.GetValueOrDefault("route"), counts.GetValueOrDefault("route") == 0
+                ? "Ни один блок не задаёт route: рантайм умеет обходить маршрут, но в кампании маршрутов нет — способность не упражняется контентом."
+                : $"Блоков с route: {counts.GetValueOrDefault("route")} из {blocks}."),
+            new("Ожидание в точке", "waitSeconds", counts.GetValueOrDefault("waitSeconds"), "Читается внутри точки маршрута."),
+            new("Взгляд в точке", "look", counts.GetValueOrDefault("look"), "Значение «player» или точка."),
+            new("Смена блока по условию", "when", counts.GetValueOrDefault("when"), "Первое подходящее условие побеждает."),
+            new("Разворот", "yawDegrees", counts.GetValueOrDefault("yawDegrees"), "Ставится и на блоке, и в точке."),
+            new("Скорость", "speed", counts.GetValueOrDefault("speed"), "Иначе берётся скорость по умолчанию."),
+            new("Движение стоянки", "motion", counts.GetValueOrDefault("motion"), "Иначе берётся idle по умолчанию."),
+            new("Движение ходьбы", "walkMotion", counts.GetValueOrDefault("walkMotion"), "Иначе берётся walk по умолчанию."),
+            new("Следование", "follow", counts.GetValueOrDefault("follow"), "distance и loseMetres.")
+        ];
+    }
+
+    /// <summary>Fields this projection names that the runtime reader does not mention at all.</summary>
+    public static IReadOnlyList<string> MissingFromRuntime(string root)
+    {
+        var path = Path.Combine(Path.GetFullPath(root), RuntimePath.Replace('/', Path.DirectorySeparatorChar));
+        if (!File.Exists(path))
+        {
+            return [];
+        }
+
+        var text = File.ReadAllText(path);
+        return RuntimeFields.Where(field => !text.Contains($"\"{field}\"", StringComparison.Ordinal)).ToArray();
+    }
+
     /// <summary>What an author should know before touching routes and animations.</summary>
     public static IReadOnlyList<string> Notes(StudioWorkspace workspace)
     {
