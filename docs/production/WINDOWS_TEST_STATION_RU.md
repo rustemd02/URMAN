@@ -70,7 +70,13 @@ powershell -NoProfile -ExecutionPolicy Bypass -File eng/setup-windows-station.ps
 Она использует официальный standalone installer OpenAI, сохраняет прежнюю обычную
 папку managed `bin` как резервную копию и проверяет вход. Копирования одного
 `codex.exe` недостаточно для актуального CLI. Станционный `doctor` проверяет
-Godot/.NET и desktop, но не подтверждает вход Codex или готовность Blender.
+Godot/.NET и desktop. После обновления и restart worker команда
+`doctor --studio-readiness` отдельно проверяет native Codex (`--version` и
+`login status`) и закреплённый Windows Blender (`--version`). Ответ содержит
+только версии и состояния, без auth-файлов и вывода команд. Эта проверка
+подтверждает предварительные условия; app-server, доступ к модели, реальный
+запрос и игровой результат остаются отдельной native-приёмкой. При занятой
+станции проверки не запускаются. Обычный `doctor` сохраняет прежний объём.
 
 В текущем PowerShell нужен PATH с установленным Python 3.12+, а не старым 3.10.
 Runner также принимает явный `-Python`. Сборка, обновление content packs и импорт
@@ -310,11 +316,14 @@ render resources. Сохранения, story, collision и управление
 
 ```sh
 python3 eng/remote-check.py doctor
+# После обновления/restart worker, без запроса модели или запуска редактора:
+python3 eng/remote-check.py doctor --studio-readiness
 # Только если игровая проверка нужна и разрешена текущим поручением:
 python3 eng/remote-check.py smoke --scene res://tests/player_settings_smoke_test.tscn --timeout 300
 python3 eng/remote-check.py capture --points 'station:Ground@-14,3,15>Ground@0,2,0' --timeout 300
 # Только после обновления/restart worker и готовности Codex/Blender на станции:
 python3 eng/remote-check.py studio --wait 3600
+# Studio проверяет readiness до hash/upload; старый worker требует update/restart.
 python3 eng/remote-check.py status --job-id <полученный-id>
 python3 eng/remote-check.py fetch --job-id <полученный-id>
 ```

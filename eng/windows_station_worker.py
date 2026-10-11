@@ -99,6 +99,193 @@ def _studio_children(directory, limit, label):
     return sorted(children, key=lambda item: item.name)
 
 
+def _bounded_readiness_command(command, timeout=4, output_limit=8 * 1024):
+    """Run one fixed probe inside the same kill-on-close Job Object as guarded runs."""
+    if sys.platform != 'win32':
+        return None, b'', False
+    try:
+        import protected_run as guard
+        job = guard._windows_create_kill_job()
+    except Exception:
+        return None, b'', False
+
+    process = None
+    assigned = False
+    contained = False
+    cleanup_ok = True
+    launch_failed = False
+    reader = None
+    reader_started = False
+    output = bytearray()
+    overflow = threading.Event()
+    drained = threading.Event()
+    exit_code = None
+    failed = False
+    try:
+        try:
+            process = subprocess.Popen(
+                command, stdin=subprocess.DEVNULL, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
+                cwd=tempfile.gettempdir(),
+                creationflags=subprocess.CREATE_NEW_PROCESS_GROUP | subprocess.CREATE_NO_WINDOW | 0x00000004,
+            )
+        except OSError:
+            launch_failed = True
+        if process is not None:
+            try:
+                guard._windows_assign_process(job, process.pid)
+                assigned = True
+                guard._windows_resume_primary_thread(process.pid)
+                contained = True
+            except Exception:
+                failed = True
+
+            if contained:
+                def drain():
+                    try:
+                        while True:
+                            chunk = process.stdout.read(1024)
+                            if not chunk:
+                                break
+                            if len(output) + len(chunk) > output_limit:
+                                overflow.set()
+                            elif not overflow.is_set():
+                                output.extend(chunk)
+                    except (OSError, ValueError):
+                        pass
+                    finally:
+                        try:
+                            process.stdout.close()
+                        except (OSError, ValueError):
+                            pass
+                        drained.set()
+
+                try:
+                    reader = threading.Thread(target=drain, daemon=True)
+                    reader.start()
+                    reader_started = True
+                except RuntimeError:
+                    failed = True
+                    reader = None
+                if reader_started:
+                    deadline = time.monotonic() + timeout
+                    while True:
+                        if overflow.is_set() or time.monotonic() >= deadline:
+                            failed = True
+                            break
+                        exit_code = process.poll()
+                        if exit_code is not None:
+                            break
+                        time.sleep(0.025)
+    except Exception:
+        failed = True
+    finally:
+        process_exited = False
+        process_handle_released = False
+        if process is not None:
+            if assigned:
+                if exit_code is None:
+                    try:
+                        guard._windows_terminate_job(job)
+                    except Exception:
+                        cleanup_ok = False
+                try:
+                    exit_code = process.wait(timeout=0.75)
+                    process_exited = True
+                except subprocess.TimeoutExpired:
+                    try:
+                        guard._windows_terminate_job(job)
+                        exit_code = process.wait(timeout=0.25)
+                        process_exited = True
+                    except Exception:
+                        cleanup_ok = False
+                if process_exited:
+                    try:
+                        process_handle = getattr(process, '_handle', None)
+                        close_process_handle = getattr(process_handle, 'Close', None)
+                        if not callable(close_process_handle):
+                            raise RuntimeError('probe process handle is unavailable')
+                        close_process_handle()
+                        process_handle_released = True
+                    except Exception:
+                        cleanup_ok = False
+                    else:
+                        deadline = time.monotonic() + 0.75
+                        while True:
+                            try:
+                                active = guard._windows_job_active_processes(job)
+                            except Exception:
+                                cleanup_ok = False
+                                break
+                            if active == 0:
+                                break
+                            try:
+                                guard._windows_terminate_job(job)
+                            except Exception:
+                                cleanup_ok = False
+                            if time.monotonic() >= deadline:
+                                cleanup_ok = False
+                                break
+                            time.sleep(0.05)
+                else:
+                    cleanup_ok = False
+            else:
+                # A child that failed assignment is still suspended and has not run.
+                try:
+                    if process.poll() is None:
+                        process.kill()
+                    exit_code = process.wait(timeout=0.75)
+                    process_exited = True
+                except Exception:
+                    cleanup_ok = False
+                if process_exited:
+                    try:
+                        process_handle = getattr(process, '_handle', None)
+                        close_process_handle = getattr(process_handle, 'Close', None)
+                        if not callable(close_process_handle):
+                            raise RuntimeError('probe process handle is unavailable')
+                        close_process_handle()
+                        process_handle_released = True
+                    except Exception:
+                        cleanup_ok = False
+
+        try:
+            guard._windows_close_handle(job)
+        except Exception:
+            cleanup_ok = False
+        if process is not None and not process_exited:
+            try:
+                process.wait(timeout=0.25)
+                process_exited = True
+            except Exception:
+                cleanup_ok = False
+        if process is not None and process_exited and not process_handle_released:
+            try:
+                process_handle = getattr(process, '_handle', None)
+                close_process_handle = getattr(process_handle, 'Close', None)
+                if not callable(close_process_handle):
+                    raise RuntimeError('probe process handle is unavailable')
+                close_process_handle()
+            except Exception:
+                cleanup_ok = False
+        if reader_started and reader is not None:
+            reader.join(timeout=0.5)
+            if reader.is_alive():
+                cleanup_ok = False
+        elif process is not None:
+            try:
+                process.stdout.close()
+            except (OSError, ValueError):
+                cleanup_ok = False
+            drained.set()
+
+    safe_to_continue = cleanup_ok and (contained or launch_failed)
+    if not safe_to_continue:
+        return None, b'', False
+    if failed or overflow.is_set() or not drained.is_set():
+        return None, b'', True
+    return exit_code, bytes(output), True
+
+
 def _studio_json(raw, limit, label):
     if len(raw) > limit:
         raise ValueError(label + ' exceeds its size limit')
@@ -910,6 +1097,133 @@ class Station:
                 'blob_store': self.blob_usage(), 'disk': self.disk(),
                 'gpu_acceptance': self.config.get('gpu_acceptance', 'not-run')}
 
+    def studio_readiness(self):
+        result = {
+            'ready': False, 'runtime_verified': False, 'state': 'checked', 'station_ready': False,
+            'codex': {'found': False, 'version': None, 'version_confirmed': False, 'logged_in': False},
+            'blender': {'found': False, 'version': None, 'version_match': False},
+        }
+        if not self.lock.acquire(timeout=0.1):
+            result['state'] = 'busy'
+            return result
+        try:
+            if self.busy:
+                result['state'] = 'busy'
+                return result
+
+            try:
+                pins = json.loads((self.repo / 'eng/toolchain.json').read_text(encoding='utf-8-sig'))
+                godot_version = pins['godot']['version'].split('.stable')[0]
+                godot = self.repo / f'.tools/godot/windows/Godot_v{godot_version}-stable_mono_win64/Godot_v{godot_version}-stable_mono_win64_console.exe'
+                dotnet = self.repo / '.tools/dotnet/dotnet.exe'
+                tools = (godot.is_file() and dotnet.is_file() and Path(self.config['python']).is_file()
+                         and all((self.repo / 'eng' / name).is_file() for name in
+                                 ('run-windows-check.ps1', 'protected_run.py', 'remote_common.py')))
+                d = desktop()
+                pending = self.recovery()
+                pipeline_locked = False
+                try:
+                    with (self.repo / '.tools/windows-station.lock').open('ab'):
+                        pass
+                except OSError:
+                    pipeline_locked = True
+                if not (tools and d['interactive'] and d['input_desktop'] and not pending and not pipeline_locked):
+                    result['state'] = 'station_unavailable'
+                    return result
+                system_root = os.environ.get('SystemRoot')
+                if not system_root:
+                    result['state'] = 'station_unavailable'
+                    return result
+                main_name = godot.name.replace('_console.exe', '.exe')
+                code, output, cleanup_ok = _bounded_readiness_command(
+                    [str(Path(system_root) / 'System32' / 'tasklist.exe'), '/FO', 'CSV', '/NH'],
+                    timeout=4, output_limit=128 * 1024)
+                if not cleanup_ok:
+                    result['state'] = 'cleanup_unconfirmed'
+                    return result
+                process_list = output.decode('utf-8', 'replace').lower() if code == 0 else ''
+                if code != 0 or godot.name.lower() in process_list or main_name.lower() in process_list:
+                    result['state'] = 'station_unavailable'
+                    return result
+                result['station_ready'] = True
+            except (OSError, ValueError, KeyError, TypeError):
+                result['state'] = 'station_unavailable'
+                return result
+
+            # Keep the existing native-executable precedence; never resolve shell wrappers.
+            codex = None
+            local = os.environ.get('LOCALAPPDATA')
+            if local:
+                for relative in ('Programs/OpenAI/Codex/bin/codex.exe', 'Programs/Codex/codex.exe'):
+                    candidate = Path(local) / relative
+                    if candidate.is_file():
+                        codex = candidate
+                        break
+            if codex is None:
+                for directory in os.environ.get('PATH', '').split(os.pathsep):
+                    if directory:
+                        candidate = Path(directory) / 'codex.exe'
+                        if candidate.is_file():
+                            codex = candidate
+                            break
+
+            if codex is not None:
+                result['codex']['found'] = True
+                code, output, cleanup_ok = _bounded_readiness_command([str(codex), '--version'])
+                if not cleanup_ok:
+                    result['state'] = 'cleanup_unconfirmed'
+                    return result
+                if code == 0:
+                    match = re.fullmatch(r'codex-cli (\d+\.\d+\.\d+(?:[-+][A-Za-z0-9.-]+)?)',
+                                         output.decode('utf-8', 'replace').strip())
+                    if match:
+                        result['codex']['version'] = match.group(1)
+                        result['codex']['version_confirmed'] = True
+                code, output, cleanup_ok = _bounded_readiness_command([str(codex), 'login', 'status'])
+                if not cleanup_ok:
+                    result['state'] = 'cleanup_unconfirmed'
+                    return result
+                if code == 0:
+                    lines = [line.strip() for line in output.decode('utf-8', 'replace').splitlines()]
+                    positive = [line for line in lines if re.fullmatch(r'Logged in using ChatGPT', line, re.I)]
+                    statuses = [line for line in lines if re.match(
+                        r'(?:not\s+)?(?:logged|signed)\s+(?:in|out)\b', line, re.I)]
+                    has_api_status = any(re.search(r'\bAPI\s+key\b', line, re.I) for line in lines)
+                    result['codex']['logged_in'] = (len(positive) == 1 and len(statuses) == 1
+                                                    and statuses[0] == positive[0] and not has_api_status)
+
+            try:
+                blender_pin = pins['blender']['windows']
+                expected = blender_pin['version']
+                folder = blender_pin['folder']
+                if (isinstance(expected, str) and re.fullmatch(r'\d+\.\d+\.\d+', expected)
+                        and isinstance(folder, str) and folder not in ('.', '..')
+                        and re.fullmatch(r'[A-Za-z0-9._-]{1,80}', folder)):
+                    blender = self.repo / '.tools' / 'blender' / 'windows' / folder / 'blender.exe'
+                    if blender.is_file():
+                        result['blender']['found'] = True
+                        code, output, cleanup_ok = _bounded_readiness_command([str(blender), '--version'])
+                        if not cleanup_ok:
+                            result['state'] = 'cleanup_unconfirmed'
+                            return result
+                        if code == 0:
+                            first_line = output.decode('utf-8', 'replace').splitlines()[0:1]
+                            match = (re.fullmatch(r'Blender\s+(\d+\.\d+\.\d+)(?:\s+.*)?', first_line[0].strip())
+                                     if first_line else None)
+                            if match:
+                                result['blender']['version'] = match.group(1)
+                                result['blender']['version_match'] = match.group(1) == expected
+            except (OSError, ValueError, KeyError, TypeError):
+                pass
+
+            result['ready'] = bool(
+                result['station_ready'] and result['codex']['found']
+                and result['codex']['version_confirmed'] and result['codex']['logged_in']
+                and result['blender']['found'] and result['blender']['version_match'])
+            return result
+        finally:
+            self.lock.release()
+
     def submit(self, spec):
         if set(spec) - {'job_id','snapshot_id','mode','scene','timeout','headless','points','phase','fov'}:
             raise ValueError('unknown job field')
@@ -1138,6 +1452,8 @@ class Handler(BaseHTTPRequestHandler):
         station = self.server.station
         if self.path == '/health':
             return self.respond(200,station.health())
+        if self.path == '/health/studio':
+            return self.respond(200,station.studio_readiness())
         m = re.fullmatch(r'/jobs/([a-zA-Z0-9_-]{8,64})(/result)?',self.path)
         if not m or not (station.jobs/m[1]/'status.json').is_file():
             return self.respond(404,{'error':'unknown job'})

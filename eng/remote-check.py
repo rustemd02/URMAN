@@ -218,6 +218,17 @@ class Client:
         print('Artifacts:',dest.resolve())
         return status
 
+def studio_readiness(client):
+    try:
+        result=client.request('/health/studio')
+    except urllib.error.HTTPError as error:
+        if error.code == 404:
+            raise ValueError('Windows station does not support Studio readiness yet; update and restart its worker.') from error
+        raise
+    if not isinstance(result,dict) or type(result.get('ready')) is not bool:
+        raise ValueError('Studio readiness response must contain a boolean ready field')
+    return result
+
 def main():
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('command',choices=['doctor','smoke','capture','studio','status','fetch'])
@@ -230,7 +241,11 @@ def main():
     p.add_argument('--output',type=Path);p.add_argument('--submit-only',action='store_true')
     p.add_argument('--studio-authoring',action='store_true',
                    help='include the two fixed house generator inputs in the source snapshot')
+    p.add_argument('--studio-readiness',action='store_true',
+                   help='doctor only: check redacted native Studio, Codex, and Blender readiness')
     args=p.parse_args()
+    if args.studio_readiness and args.command!='doctor':
+        p.error('--studio-readiness is only valid with doctor')
     if args.command=='studio' and (args.scene is not None or args.headless or args.points is not None
                                    or args.phase is not None or args.fov is not None):
         p.error('studio uses a fixed native scene and does not accept --scene, --headless, --points, --phase, or --fov')
@@ -243,15 +258,21 @@ def main():
     wait=args.wait if args.wait is not None else (3600 if studio else 1200)
     c=Client()
     if args.command=='doctor':
-        result=c.request('/health');print(json.dumps(result,ensure_ascii=False,indent=2));return 0 if result['ready'] else 1
+        result=studio_readiness(c) if args.studio_readiness else c.request('/health')
+        print(json.dumps(result,ensure_ascii=False,indent=2));return 0 if result['ready'] else 1
     if args.command in ('status','fetch'):
         if not args.job_id or not re.fullmatch('[a-zA-Z0-9_-]{8,64}',args.job_id):
             p.error('--job-id required')
         result=c.request('/jobs/'+args.job_id) if args.command=='status' else c.fetch(args.job_id,args.output or args.root/'.codex-captures/remote'/args.job_id)
         print(json.dumps(result,indent=2));return 1 if result['status']=='FAIL' else 0
-    health=c.request('/health')
-    if not health['ready']:
-        raise ValueError('station not ready: '+json.dumps(health))
+    if studio:
+        health=studio_readiness(c)
+        if not health['ready']:
+            raise ValueError('Studio station not ready: '+json.dumps(health,ensure_ascii=False))
+    else:
+        health=c.request('/health')
+        if not health['ready']:
+            raise ValueError('station not ready: '+json.dumps(health))
     # Hash the checkout, then let the station say which files it still lacks; only
     # those are uploaded, so a rebuild after a code change costs kilobytes, not the
     # whole tree. The identity is printed before POST: a lost reply is recovered with

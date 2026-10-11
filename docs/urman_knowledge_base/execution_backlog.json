@@ -74285,6 +74285,18 @@
                       "implementation": "Preview and retry, successful Apply and confirmed pilot Undo/Redo history moves emit bounded action receipts with raw canonical request/proposal hashes, snapshot and transaction binding. Native viewport capture waits FramePostDraw with3s timeout; request32 action quota, PNG16MiB/JSON8KiB, PNG-first atomic JSON-last. Preview requires visible Window; mutation target hashes are frozen and checked after render wait with128MiB bounded streaming. Busy gates prevent concurrent AI/Undo/Redo; disposed-node cleanup and sideband evidence errors retain successful mutation status. Worker exact matching export already integrated.",
                       "verification": "Five Luna bounded production/research/review tasks and independent Sol6.1medium source review; root affected game compile --no-restore:0 errors/0 warnings after correcting FileAccess namespace and Window visibility API. Python syntax and tracker validation/diff-check. No new tests or runtime launches.",
                       "remaining": "Receipts prove individual Studio action claims, not chronological history, matched game render, full native selection/provider path or byte-exact Undo acceptance. Windows readiness/worker deployment and native walkthrough remain unverified."
+                    },
+                    {
+                      "stage": "2026-10-11 fixed station Studio prerequisite readiness source",
+                      "result": "SOURCE_REVIEWED_PYTHON_SYNTAX_PASS_WINDOWS_NOT_RUN",
+                      "source": [
+                        "eng/windows_station_worker.py",
+                        "eng/remote-check.py",
+                        "docs/production/WINDOWS_TEST_STATION_RU.md"
+                      ],
+                      "implementation": "Authenticated /health/studio checks station baseline first and refuses busy/recovery/pipeline/orphan states; native Codex candidate precedence matches Studio, inherited profile, fixed --version/login status accepts ChatGPT only; pinned Blender --version must match toolchain. Probes use existing Win64 Job Object helpers with suspended assign/resume, bounded time/output, process-handle release and job drain; reader owns pipe close, unconfirmed containment/cleanup stops further checks. Redacted response has runtime_verified:false. doctor --studio-readiness is explicit; Studio preflight rejects missing/false endpoint before hash/upload; ordinary doctor and game routes stay unchanged.",
+                      "verification": "Five Luna bounded implementation/parity/process/source research tasks and independent Sol6.1medium final source review; root Python syntax compilation of affected client/worker, tracker validation and diff-check. No CLI probes, Windows deployment, model, Blender, Studio/game or new tests.",
+                      "remaining": "Windows must update/restart worker and execute prerequisite check; reported credentials do not prove full app-server/package/model access. Runtime pause remains; native selection/main-seven real Codex proposal, matched game frames and byte-exact Undo are not accepted."
                     }
                   ],
                   "assigned_owner": "codex/b20-2026-10-10",
@@ -74292,7 +74304,7 @@
                   "activity": {
                     "state": "runtime_deferred_by_author",
                     "reason": "11.10 пользователь остановил игровые и Studio запуски из-за сильных лагов; production/source review/узкая компиляция продолжаются.",
-                    "verification_question": "Source stage: do rendered preview/Apply/Undo/Redo receipts bind exact request/proposal bytes and confirmed transaction, export within bounds, and keep successful mutations successful when capture fails? Compile and source review only; native game/byte-exact UI acceptance remains deferred."
+                    "verification_question": "Source readiness stage: do fixed authenticated native Codex/ChatGPT and pinned Blender checks use bounded contained processes without secrets, preserve ordinary health, and stop Studio before upload if unavailable? Source review/Python compile only; deployed Windows checks and model/game acceptance remain open."
                   },
                   "task_type": "integration_check",
                   "status": "blocked",
@@ -74304,7 +74316,7 @@
                     "Overall Windows kit smoke FAIL: shutdown resource leaks; scenario5checks и compile0/0 не заменяют чистый runtime result.",
                     "Windows direct .exe-only discovery исправлен и source-reviewed; actual Windows installed/login readiness остаётся непроверенным."
                   ],
-                  "next_action": "Add read-only Windows Codex/Blender readiness to existing station health if needed; source action receipt producer/exporter is compiled and reviewed. Runtime remains deferred by author. When resumed update/restart Windows worker, verify installed Codex full package/login and pinned Blender, run fixed Studio selected window/main-seven request→preview→Apply→matched game→byte-exact Undo with real captured artifacts; individual action receipts do not close game acceptance.",
+                  "next_action": "Source fixed Studio readiness and action receipts are integrated. Update/restart Windows worker and run doctor --studio-readiness when read-only checks are authorized; actual installed CLI/pinned Blender still unverified. Continue source B20 independently during author runtime pause. After explicit runtime resume run fixed Studio window/main-seven request→preview→Apply→matched game→byte-exact Undo and inspect actual raw receipts, native frames and restored hashes/absence.",
                   "blocker": {
                     "reason": "Native UI/game verification deferred by author; Front0 could not be selected during Mac attempt.",
                     "release_when": "Автор возобновил runtime; доступен native выбор окна и защищённый Studio/game сценарий."
