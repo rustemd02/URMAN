@@ -77,7 +77,7 @@ public partial class StudioProperties : VBoxContainer
                 preview.Text = error.Message + " Пакет не записан; проект не изменён.";
                 _studio.RefreshStatus("Пакет контекста не сохранён");
             }
-            catch (Exception error) when (error is IOException or UnauthorizedAccessException)
+            catch (Exception error) when (error is IOException or UnauthorizedAccessException or InvalidDataException)
             {
                 preview.Text = "Не удалось сохранить пакет. Проверьте, что объект существует и папка доступна для записи; неполный архив использовать нельзя.";
                 _studio.RefreshStatus("Пакет контекста не сохранён");
@@ -164,7 +164,7 @@ public partial class StudioProperties : VBoxContainer
                 _studio.AddChild(viewer);
                 viewer.PopupCentered(new Vector2I(800, 600));
             }
-            catch (Exception error) when (error is IOException or UnauthorizedAccessException or ArgumentException)
+            catch (Exception error) when (error is IOException or UnauthorizedAccessException or InvalidDataException or ArgumentException)
             {
                 _studio.RefreshStatus("Пакет не открыт: недоступен, повреждён или имеет неподдерживаемый формат. Проект не изменён.");
             }

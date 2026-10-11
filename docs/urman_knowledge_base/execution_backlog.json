@@ -71334,6 +71334,14 @@
                 "implementation": "Context package schema v2 stores exact loaded baseline and current draft text with separate hashes, safe package-local refs, byte-equal deduplication and complete source-path coverage for included entities. New sources have no baseline. Existing v1 reader remains supported; existing viewer shows full saved/current text read-only. Source capture rejects external disk changes, links and directory collisions. Reader validates bounded strict UTF8/JSON, duplicate fields/entries, refs, source coverage and payload hashes; never extracts files.",
                 "verification": "Five Luna FAST bounded implementation/review assignments and independent Sol6.1medium source review. Affected Game compile 0 warnings/0 errors; diff-check. No new tests, Studio/game/provider/network runs or actual package roundtrip; author pause remains.",
                 "remaining": "This is context-package v2, not AuthoringRequest v2. Typed campaign/camera/targets/protected fields/dependencies, explicit hero recipe consumer and relevant tombstones remain open. Full base+dirty world source may exceed256KiB and is refused without truncation. Reader hashes prove payload integrity/reference association, not authenticity or semantic agreement of entity snapshots with source text. AI05/A07/full native loop not closed."
+              },
+              {
+                "stage": "2026-10-11 exact bounded source overlay",
+                "result": "SOURCE_IMPLEMENTED_GAME_COMPILE_PASS_RUNTIME_NOT_RUN",
+                "source": "src-dotnet/Urman.Studio.Core/Handoff/DeveloperContext.cs; game/studio/StudioProperties.cs",
+                "implementation": "Context-package v3 chooses a single byte splice only if complete serialized overlay is smaller than full current UTF8. Saved source plus canonical Base64 insert and byte offset/remove recover complete current text; currentHash checks reconstructed bytes, file receipts check stored payload bytes. Archive payload including manifest remains <=256KiB; aggregate reconstructed current sources independently <=256KiB. Reader checks exact fields, duplicate keys, base hash, integer bounds, canonical Base64, remaining aggregate budget before result allocation and strict final UTF8/hash. New sources retain full text; equal source reuses baseline. V1/v2 read compatibility remains. Existing UI previews full reconstructed sources and catches InvalidDataException for both export/import failures.",
+                "verification": "Affected Game compile 0 warnings/0 errors, independent Sol6.1medium review accepted bounded contract; Luna source review and diff-check. No tests, package roundtrip, Studio/game/provider/network launches.",
+                "remaining": "Single splice can include a large unchanged region between distant edits; oversized payloads still refuse without truncation. Source hash capture uses temporary UTF8 arrays before retained-payload budgeting. Context-package format is not AuthoringRequest v2; recipe/campaign/typed dependencies/selection/protected fields/tombstones and native A07 remain open."
               }
             ],
             "stage_tasks": [
@@ -71364,7 +71372,7 @@
             "remaining": [
               "Unsaved объект читаем агентом из пакета; другой checkout разрешает данные; секреты/user saves отсутствуют.; принятые child этапы повторно не разрабатывать."
             ],
-            "next_action": "Finish AuthoringRequest v2 using frozen campaign/selection/targets and explicit recipe source; choose bounded overlay representation for oversized dirty sources before native A07, which remains deferred by author.",
+            "next_action": "Implement frozen AuthoringRequest v2 producer/consumer with actual campaign/selection/targets and explicit hero recipe; package overlay source support is implemented but native A07 remains deferred by author.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
