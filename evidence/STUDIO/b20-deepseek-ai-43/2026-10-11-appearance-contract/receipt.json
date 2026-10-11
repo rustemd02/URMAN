@@ -1,0 +1,31 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-43"
+  ],
+  "stage": "the appearance fields the runtime really reads",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-11 19:49 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "590a382c",
+  "result": {
+    "contract": "the runtime reads exactly six residentAppearance fields: coatColor, headwearColor and accentColor (each derived from the kit mesh names it matches) plus width, depth and profile",
+    "measured": "all thirty-three NPCs declare exactly those six fields and nothing else, so no NPC writes a colour the runtime would silently ignore",
+    "basis": "the readable set is parsed from the runtime source (AuthoredWorldDirector.Residents.cs) rather than typed into the projection, so the two cannot drift apart",
+    "kit_base": "the dressing code serves nine human prefixes; the campaign uses six of them (Gulsina, PhoneGuy, Alsu, Resident, Rinat, Mansur) and Naila, TimurHazrat and Tamara stay unplaced",
+    "boundary": "whether a resident looks right in the world stays visual acceptance; unchanged face and bones is the runtime's own stated policy"
+  },
+  "verified": {
+    "probe": "PASS 562/562 with the new checks: six readable fields taken from the runtime, the three colour keys among them, and no NPC declaring an unread field",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors; game/Urman.Game.csproj 0 warnings/0 errors",
+    "existing_tests": "Urman.Studio.Tests 38/38",
+    "not_run": "no game run: how a resident looks is visual acceptance, NOT_RUN"
+  },
+  "files": {
+    "evidence/STUDIO/b20-deepseek-ai-43/2026-10-11-appearance-contract/check.log": "5e60705b996378e38eeac224715c7217f584740abfb4233dd79a326a7c8bba56"
+  },
+  "open": [
+    "three kit characters remain unplaced in the campaign",
+    "visual acceptance stays external"
+  ]
+}

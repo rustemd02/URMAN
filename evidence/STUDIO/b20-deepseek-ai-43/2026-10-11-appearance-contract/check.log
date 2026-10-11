@@ -1,0 +1,13 @@
+== AI-43: the appearance fields the runtime really reads
+
+
+Прошло времени 00:00:00.47
+
+Прошло времени 00:00:13.10
+== existing tests
+=== TEST EXECUTION SUMMARY ===
+   Urman.Studio.Tests  Total: 38, Errors: 0, Failed: 0, Skipped: 0, Not Run: 0, Time: 2,301s
+== probe
+  readable appearance fields: 6 [accentColor, coatColor, depth, headwearColor, profile, width]; unread declared: 0
+PASS  the readable appearance fields are taken from the runtime source
+PROBE RESULT: PASS

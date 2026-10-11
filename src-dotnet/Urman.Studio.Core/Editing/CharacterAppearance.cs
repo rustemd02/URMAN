@@ -165,4 +165,69 @@ public static class CharacterAppearance
             "Проекция не может заглянуть внутрь GLB: если у набора нет меша с нужной подстрокой, цвет молча ничего не изменит. Это ограничение честно названо, а не спрятано."
         ];
     }
+    public const string ResidentsPath = "game/scripts/AuthoredWorldDirector.Residents.cs";
+
+    /// <summary>
+    /// The appearance fields the runtime really reads, taken from its own code: the key names
+    /// it derives from the kit mesh names plus width, depth and profile. A field an author
+    /// writes outside this set is read by nobody, so a colour would silently do nothing, and
+    /// the list is read from the source rather than typed here so the two cannot drift.
+    /// </summary>
+    public static IReadOnlySet<string> ReadFields(string root)
+    {
+        var fields = new HashSet<string>(StringComparer.Ordinal);
+        var path = Path.Combine(Path.GetFullPath(root), ResidentsPath.Replace('/', Path.DirectorySeparatorChar));
+        if (!File.Exists(path))
+        {
+            return fields;
+        }
+
+        var text = File.ReadAllText(path);
+        foreach (System.Text.RegularExpressions.Match match in FieldLiteral.Matches(text))
+        {
+            fields.Add(match.Groups[1].Value);
+        }
+
+        return fields;
+    }
+
+    private static readonly System.Text.RegularExpressions.Regex FieldLiteral = new(
+        "\"((?:coatColor|headwearColor|accentColor|width|depth|profile))\"",
+        System.Text.RegularExpressions.RegexOptions.CultureInvariant);
+
+    /// <summary>Appearance fields an NPC declares that the runtime never reads.</summary>
+    public static IReadOnlyList<string> UnreadFields(StudioWorkspace workspace, string root)
+    {
+        ArgumentNullException.ThrowIfNull(workspace);
+        var read = ReadFields(root);
+        if (read.Count == 0)
+        {
+            return ["Набор читаемых полей внешности не прочитан из рантайма: сверять нечем."];
+        }
+
+        var unread = new List<string>();
+        foreach (var id in workspace.EntityIds)
+        {
+            if (workspace.Get(id) is not JsonObject entity || (string?)entity["kind"] != "npc")
+            {
+                continue;
+            }
+
+            if ((entity["params"] as JsonObject)?["residentAppearance"] is not JsonObject appearance)
+            {
+                continue;
+            }
+
+            foreach (var pair in appearance.OrderBy(pair => pair.Key, StringComparer.Ordinal))
+            {
+                if (!read.Contains(pair.Key))
+                {
+                    unread.Add($"{id}: поле «{pair.Key}» рантайм не читает: рантайм сверяет имена мешей и берёт coatColor/headwearColor/accentColor, а также width, depth и profile, поэтому это значение молча ничего не изменит.");
+                }
+            }
+        }
+
+        return unread;
+    }
+
 }

@@ -81629,6 +81629,12 @@
                 "result": "partial implementation by deepseek v4.1 flash: 33 персонажа (6 префиксов набора, 9 образов) без проблем; проверены префикс набора против списка в GeneratedCharacterKitDressing, непустой profile, цвета как 6 hex-цифр и ширина/глубина силуэта с честной пометкой, что рантайм ЗАЖИМАЕТ значение, а не отвергает. Что даёт этот этап новому персонажу со скелетом, весами и сокетами: он показывает, что набор уже имеет полный humanoid-скелет (urman_character_kit_v2.glb) и список обслуживаемых префиксов в коде, а сам новый риг/веса/сокеты делает Blender-генератор, а не Studio.",
                 "source": "new file src-dotnet/Urman.Studio.Core/Editing/CharacterAppearance.cs; evidence evidence/STUDIO/b20-deepseek-ai-28/2026-10-11-character-appearance (общий receipt для четырёх единиц дорожки)",
                 "verification": "probe PASS 454/454 включая синтетику (неизвестный префикс, пустой profile, значение вне зажима, битый цвет); Core 0/0; game/Urman.Game.csproj 0/0; Urman.Studio.Tests 38/38. Внешний вид, лицо, одежда и сокеты НЕ проверялись: NOT_RUN, нужна Blender/игровая приёмка"
+              },
+              {
+                "stage": "2026-10-11 the appearance fields the runtime really reads",
+                "result": "deepening by deepseek v4.1 flash: the runtime reads exactly six residentAppearance fields - coatColor, headwearColor and accentColor (derived from the kit mesh names it matches) plus width, depth and profile - and all thirty-three NPCs declare exactly those, so no NPC writes a colour the runtime would silently ignore. The readable set is parsed from AuthoredWorldDirector.Residents.cs rather than typed into the projection. The dressing code serves nine human prefixes and the campaign places six; Naila, TimurHazrat and Tamara stay unplaced. Visual acceptance stays external",
+                "source": "src-dotnet/Urman.Studio.Core/Editing/CharacterAppearance.cs (ReadFields, UnreadFields); evidence evidence/STUDIO/b20-deepseek-ai-43/2026-10-11-appearance-contract",
+                "verification": "probe PASS 562/562 including the six readable fields, the three colour keys and the zero unread declared fields; Core 0/0; game/Urman.Game.csproj 0/0; Urman.Studio.Tests 38/38. How a resident looks is NOT_RUN"
               }
             ],
             "stage_tasks": [
@@ -81659,7 +81665,9 @@
             "technical_verification_state": "not_run",
             "remaining": [
               "Новый персонаж из заготовки/геометрии получает совместимый скелет, веса и сокеты.; отсутствует подтверждение собственного конечного DoD, перечисленного ниже.",
-              "Ранее переданный частичный этап (2026-10-11 подготовка модельной дорожки: из чего состоит внешность размещённого персонажа) ждёт ревью/приёмки; полный done_when не выполнен."
+              "Ранее переданный частичный этап (2026-10-11 подготовка модельной дорожки: из чего состоит внешность размещённого персонажа) ждёт ревью/приёмки; полный done_when не выполнен.",
+              "Три персонажа набора (Naila, TimurHazrat, Tamara) не размещены в кампании.",
+              "Ранее переданный частичный этап (2026-10-11 the appearance fields the runtime really reads) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
             "next_action": "Назначить skeleton template; проверить bones/bind pose; дать корректировать веса; настроить sockets; validate clips/root motion; staged export.",
             "blocker": null,
