@@ -83,5 +83,6 @@
     "front_card": "existing authored descriptive text with UrmanSheet theme; no fabricated photograph",
     "source_review": "Root inspected pending Luna patch and fixed automatic-selection cancellation",
     "native_runtime": "NOT_RUN"
-  }
+  },
+  "integrated_game_build": "passed:0warnings0errors29.17s after peer main integration"
 }
