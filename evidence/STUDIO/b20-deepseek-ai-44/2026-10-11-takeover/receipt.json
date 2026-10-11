@@ -1,0 +1,31 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-44"
+  ],
+  "stage": "first slice: the takeover preconditions on the authored kit plot",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-11 16:53 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "c75a3318",
+  "result": {
+    "mechanism": "KitPlacementTakeover hands ownership of a generated kit component to the authored plot as soon as the plot lists its logicalAnchor; from then on the plot owns position, yaw, scale and visibility and the generator's numbers are only a proposal",
+    "checked": "196 authored placements pass: every logicalAnchor is unique (the runtime looks the anchor up in a dictionary, so a repeat would silently drop one component), every component is named, every position and scale is a readable three-number vector, yawDegrees is present and readable because the takeover reads it with GetProperty, the optional grounding reference is two numbers and the visibility flags are booleans",
+    "states": "the plot carries 100 retired placements (the takeover hides them, disables their collision shapes and zeroes their collision layers), one hidden placement and some placements whose height is bound to the terrain",
+    "shape lesson": "the component name is the kit PART TYPE, not an identity: 196 placements use a handful of components, so repeats are counted as facts and only the anchor has to be unique. My first version reported 110 false problems for that reason",
+    "limit": "the unmatched-anchor list (an anchor the author declared but the builder never placed) is computed by the builder during a run; this projection does not replace it or guess it"
+  },
+  "verified": {
+    "probe": "PASS 430/430 with the new checks: 196 placements with no problems, unique anchors, the retired state reported, and the synthetic cases (a duplicate anchor, a missing yaw, a two-number scale, a one-number grounding reference, a non-boolean flag)",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors; game/Urman.Game.csproj 0 warnings/0 errors",
+    "existing_tests": "Urman.Studio.Tests 38/38",
+    "not_run": "no game run: that the frame looks the same before and after the takeover can only be checked in the game, NOT_RUN"
+  },
+  "files": {
+    "evidence/STUDIO/b20-deepseek-ai-44/2026-10-11-takeover/check.log": "5101ccc215578427f21e7a03ae736d0cc9c55206fddfd5e2574b54141cb8166b"
+  },
+  "open": [
+    "the frame comparison before/after the takeover is NOT_RUN",
+    "the runtime unmatched-anchor decision stays with the builder and the author"
+  ]
+}

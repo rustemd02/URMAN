@@ -81476,7 +81476,14 @@
             "verification": "A05 дополнение: materialize три объекта, переместить один, restart и regeneration preview.",
             "risks_recovery_external_gates": "Скрытая вторая генерация — blocker; original seed/source сохранить; неправильный ownership rollback восстанавливает согласованный путь.",
             "required": true,
-            "evidence": [],
+            "evidence": [
+              {
+                "stage": "2026-10-11 the takeover preconditions on the authored kit plot",
+                "result": "partial implementation by deepseek v4.1 flash: a new projection checks the preconditions the takeover really relies on - 196 authored kit placements with unique logical anchors (the runtime dictionary key), a named component, readable three-number position and scale vectors, a present and readable yawDegrees (read with GetProperty), a two-number optional grounding reference and boolean visibility flags; the retired/hidden/terrain-bound states are reported as states",
+                "source": "new file src-dotnet/Urman.Studio.Core/Editing/KitTakeover.cs; evidence evidence/STUDIO/b20-deepseek-ai-44/2026-10-11-takeover",
+                "verification": "probe PASS with 196 placements and no problems plus the synthetic cases (a duplicate anchor, a missing yaw, a two-number scale, a one-number grounding reference, a non-boolean flag); Core 0/0; game/Urman.Game.csproj 0/0; Urman.Studio.Tests 38/38. A shape lesson is recorded: the component name is a kit part type reused across placements, and my first version reported 110 false problems for treating it as an identity. The unmatched-anchor list stays with the builder. Frame comparison before/after the takeover is NOT_RUN"
+              }
+            ],
             "stage_tasks": [
               "STUDIO.P2"
             ],
@@ -81502,12 +81509,13 @@
             },
             "task_type": "engineering",
             "status": "todo",
-            "implementation_state": "not_started",
+            "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
-              "Генерируемый участок можно сделать авторским без двух владельцев transform.; отсутствует подтверждение собственного конечного DoD, перечисленного ниже."
+              "Генерируемый участок можно сделать авторским без двух владельцев transform.; отсутствует подтверждение собственного конечного DoD, перечисленного ниже.",
+              "Ранее переданный частичный этап (2026-10-11 the takeover preconditions on the authored kit plot) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
-            "next_action": "Показать generator ownership; materialize snapshot с stable IDs/provenance; исключить участок из live generation; сохранить overrides; regenerate proposal с diff.",
+            "next_action": "Сверить кадр до и после взятия под авторское владение в игре; список несопоставленных якорей считает сборщик.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
