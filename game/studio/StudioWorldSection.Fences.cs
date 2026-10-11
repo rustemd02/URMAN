@@ -3,6 +3,10 @@ using System.Text.Json.Nodes;
 using Godot;
 using Urman.Experiments.AgentBAct1;
 using Urman.Godot;
+using Urman.Studio.Core.AI;
+using Urman.Studio.Core.Editing;
+using Urman.Studio.Core.Play;
+using Urman.Studio.Core.Storage;
 
 namespace Urman.Studio.App;
 
@@ -12,6 +16,15 @@ public sealed partial class StudioWorldSection
     private const string FarBankFenceSource = "res://content/world/act1_far_bank.world.v1.json";
     private const string OpenPartFenceFile = "game/content/world/act1_open_part.world.v1.json";
     private const string FarBankFenceFile = "game/content/world/act1_far_bank.world.v1.json";
+    private static readonly string[] FenceBuildDependencyPaths =
+    [
+        "game/scripts/Act1ConnectedWorld.YardFences.cs",
+        "game/scripts/Act1ConnectedWorld.Addresses.cs",
+        "game/scripts/TimberHomeStyle.cs",
+        "game/scripts/experiments/agent_b_act1/AgentBAct1Layout.cs",
+        "game/scripts/experiments/agent_b_act1/AgentBAct1HeightField.cs",
+        "game/content/urman.settlement.addresses.v1.json"
+    ];
 
     private sealed record FencePick(
         CollisionShape3D Shape, string SourcePath, string RelativePath, string LotId, string EdgeRole,
@@ -383,6 +396,163 @@ public sealed partial class StudioWorldSection
         error = "файл участка изменился на диске; обновите сравнение перед правкой.";
         current = null!;
         return false;
+    }
+
+    internal bool HasFenceSelection
+    {
+        get
+        {
+            if (_fencePick is not { } selected) return false;
+            try
+            {
+                return TryGetFreshFencePick(selected, out _, out _);
+            }
+            catch (Exception error) when (error is IOException or UnauthorizedAccessException or ArgumentException
+                or InvalidDataException or InvalidOperationException or KeyNotFoundException or JsonException)
+            {
+                return false;
+            }
+        }
+    }
+
+    internal FenceAlignmentRequest CaptureFenceRequest(string prompt, string revision, string? requestId = null)
+    {
+        ArgumentNullException.ThrowIfNull(prompt);
+        ArgumentNullException.ThrowIfNull(revision);
+        if (_fencePick is not { } selected)
+            throw new InvalidOperationException("Сначала выберите свежий пролёт забора.");
+        if (!TryGetFreshFencePick(selected, out var current, out var pickError))
+            throw new InvalidOperationException("Выбранный пролёт забора устарел или недоступен: "
+                + (pickError.Length == 0 ? "выберите забор заново." : pickError));
+        if (current.BayCount < 3)
+            throw new InvalidOperationException("Для запроса нужны три секции забора.");
+
+        var sourceSnapshots = new Dictionary<string, AuthoredSourceSnapshot>(StringComparer.Ordinal);
+        foreach (var sourcePath in new[] { OpenPartFenceFile, FarBankFenceFile })
+        {
+            if (!studio.Workspace.HasFile(sourcePath))
+                throw new InvalidOperationException("Исходник забора больше не доступен в Studio: " + sourcePath);
+            sourceSnapshots.Add(sourcePath, studio.Workspace.File(sourcePath).CaptureSource());
+        }
+        if (!sourceSnapshots.TryGetValue(current.RelativePath, out var targetSource))
+            throw new InvalidOperationException("Источник выбранного пролёта не входит в снимок двух разрешённых файлов.");
+        if (!TryFindUniqueLot(targetSource.Text, current.LotId, out _, out _, out var lotError))
+            throw new InvalidDataException("Нельзя создать запрос для выбранного участка: " + lotError);
+        var lotData = CaptureFenceLotData(targetSource.Text, current.LotId);
+
+        if (_demo is null || !GodotObject.IsInstanceValid(_demo) || !_demo.IsInsideTree())
+            throw new InvalidOperationException("Текущая демонстрационная сцена недоступна.");
+        if (!string.Equals(_demo.SceneFilePath, "res://scenes/act1_demo.tscn", StringComparison.Ordinal))
+            throw new InvalidOperationException("Fence authoring поддерживает только текущую сцену Act I.");
+        var bridges = _demo.FindChildren("*", nameof(RuntimeBridge), true, false).OfType<RuntimeBridge>().ToArray();
+        if (bridges.Length != 1 || !GodotObject.IsInstanceValid(bridges[0])
+            || !bridges[0].IsInsideTree() || !IsUnderNode(bridges[0], _demo))
+            throw new InvalidOperationException("В текущей демонстрационной сцене должен быть ровно один RuntimeBridge.");
+        var bridge = bridges[0];
+        if (!bridge.IsDebugSession || bridge.SessionIdentity is null
+            || !string.Equals(bridge.CurrentZoneId, "village_day", StringComparison.Ordinal)
+            || string.IsNullOrWhiteSpace(bridge.CurrentSpawnPointId))
+            throw new InvalidOperationException("Запрос забора доступен только в активной debug-сессии обычной деревни.");
+
+        var context = CampaignWorldCatalog.Discover(studio.Workspace).Resolve(
+            PlayPreparation.Campaign,
+            _demo.SceneFilePath,
+            bridge.CurrentZoneId,
+            bridge.CurrentSpawnPointId,
+            baseRevision: revision);
+        if (context.World.Capability != WorldAuthoringCapability.AuthoredWorldPlots)
+            throw new InvalidOperationException("Текущая сцена не подтверждена каталогом как потребитель авторских участков.");
+
+        var dependencyHashes = new SortedDictionary<string, string>(StringComparer.Ordinal);
+        foreach (var (path, snapshot) in sourceSnapshots)
+            dependencyHashes.Add(path, snapshot.Sha256);
+        foreach (var path in context.AuthoredDependencies.Concat(FenceBuildDependencyPaths)
+            .Distinct(StringComparer.Ordinal).Order(StringComparer.Ordinal))
+        {
+            if (dependencyHashes.ContainsKey(path)) continue;
+            dependencyHashes.Add(path, CaptureFenceDependencyHash(path));
+        }
+
+        var sourceHashes = sourceSnapshots.ToDictionary(
+            pair => pair.Key,
+            pair => new FenceSourceHashes(pair.Value.BaseSha256, pair.Value.Sha256),
+            StringComparer.Ordinal);
+        var start = Math.Clamp(current.BayIndex, 0, current.BayCount - 3);
+        var target = new FenceAlignmentTarget(
+            current.RelativePath,
+            current.LotId,
+            current.EdgeRole,
+            current.RunId,
+            start,
+            current.BayCount,
+            current.RunStart.X,
+            current.RunStart.Y,
+            current.RunEnd.X,
+            current.RunEnd.Y);
+        var environment = new HouseAuthoringEnvironment(
+            context.BaseRevision,
+            context.Campaign.Id,
+            context.Campaign.ExactVersion,
+            context.World.WorldId,
+            context.StateId,
+            context.World.ScenePath,
+            bridge.CurrentZoneId,
+            bridge.CurrentSpawnPointId,
+            CaptureAuthoringCamera(),
+            dependencyHashes);
+        var request = new FenceAlignmentRequest(
+            requestId ?? Guid.NewGuid().ToString("N"),
+            string.Empty,
+            prompt,
+            target,
+            lotData,
+            sourceHashes,
+            environment);
+        request = request with { SnapshotHash = FenceAlignmentProtocol.ComputeSnapshotHash(request) };
+        FenceAlignmentProtocol.ValidateRequest(request);
+        return request;
+    }
+
+    internal void EnsureFenceRequestCurrent(FenceAlignmentRequest request, string revision)
+    {
+        ArgumentNullException.ThrowIfNull(request);
+        FenceAlignmentProtocol.ValidateRequest(request);
+        var current = CaptureFenceRequest(request.Prompt, revision, request.RequestId);
+        if (!string.Equals(current.SnapshotHash, request.SnapshotHash, StringComparison.Ordinal))
+            throw new InvalidOperationException("Снимок забора изменился. Предложение больше нельзя применять; подготовьте новый запрос.");
+    }
+
+    private JsonElement CaptureFenceLotData(string sourceText, string lotId)
+    {
+        using var document = JsonDocument.Parse(sourceText, new JsonDocumentOptions
+        {
+            AllowTrailingCommas = false,
+            CommentHandling = JsonCommentHandling.Disallow,
+            MaxDepth = 64
+        });
+        if (document.RootElement.ValueKind != JsonValueKind.Object
+            || !document.RootElement.TryGetProperty("lots", out var lots)
+            || lots.ValueKind != JsonValueKind.Array)
+            throw new InvalidDataException("Файл участка имеет неподдерживаемый формат.");
+
+        var matches = lots.EnumerateArray()
+            .Where(item => item.ValueKind == JsonValueKind.Object
+                && item.TryGetProperty("id", out var id)
+                && id.ValueKind == JsonValueKind.String
+                && string.Equals(id.GetString(), lotId, StringComparison.Ordinal))
+            .ToArray();
+        if (matches.Length != 1)
+            throw new InvalidDataException("ID выбранного участка отсутствует или повторяется.");
+        return matches[0].Clone();
+    }
+
+    private string CaptureFenceDependencyHash(string relativePath)
+    {
+        StudioFileTransaction.EnsureNoLinks(studio.Workspace.Root, relativePath);
+        if (studio.Workspace.HasFile(relativePath))
+            return studio.Workspace.File(relativePath).CaptureSource().Sha256;
+        var fullPath = Path.Combine(studio.Workspace.Root, relativePath.Replace('/', Path.DirectorySeparatorChar));
+        return AtomicFile.Sha256OfFile(fullPath);
     }
 
     private bool FillFenceProperties(StudioProperties panel)

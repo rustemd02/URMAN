@@ -652,6 +652,27 @@ public sealed class DeveloperContext(StudioWorkspace workspace, EntityCatalog ca
         return path;
     }
 
+    /// <summary>Write the canonical frozen fence request without replacing a prior request.</summary>
+    public static string WriteFenceAlignmentRequest(string root, FenceAlignmentRequest request)
+    {
+        var text = FenceAlignmentProtocol.SerializeRequest(request);
+        var relative = HouseWindowJobRelativePath(request.RequestId, "request.json");
+        StudioFileTransaction.EnsureNoLinks(root, relative, allowStudioMetadata: true);
+        var path = Path.GetFullPath(Path.Combine(root, relative.Replace('/', Path.DirectorySeparatorChar)));
+        var bytes = StrictUtf8.GetBytes(text);
+        if (File.Exists(path))
+        {
+            var existing = new FileInfo(path);
+            if (existing.Length == bytes.LongLength && File.ReadAllBytes(path).AsSpan().SequenceEqual(bytes))
+                return path;
+
+            throw new IOException("A different request already exists at this path; it was left unchanged.");
+        }
+
+        AtomicFile.WriteAllBytes(path, bytes, overwrite: false);
+        return path;
+    }
+
     /// <summary>Preserve validated pilot job artifacts without following project metadata links or replacing a prior attempt.</summary>
     public static void WriteHouseWindowJob(string root, HouseWindowRequest request, HouseWindowProposal? proposal = null)
     {
