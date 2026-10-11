@@ -71358,6 +71358,14 @@
                 "implementation": "Request optional CurrentWidths is an ordinal defensively copied readonly decimal map. Studio fills exact selected1/main7/all8 keys from frozen effective recipe widths, including legacy SeniOuter0 0.80m. Validator rejects missing/extra keys and out-of-range values. Provider exposes actual widths for relative instructions; CurrentWidth/ExpectedWidth retain legacy scalar marker. With map, no-op means all targeted windows already equal proposed uniform target, not equality with default. Legacy no-map validation remains. Both7/all8 previews show target width only; single scope retains actual delta.",
                 "verification": "Five Luna bounded implementation/producer/caller investigations and independent Sol6.1medium source review; root affected Game compile0 warnings/0 errors and diff-check. No tests/provider/game/Studio/Blender/runtime requests.",
                 "remaining": "One proposed uniform width remains the pilot capability; independently varying each window, full AuthoringRequestv2 campaign/dependency/source contract and native exact Apply/Undo remain open. Old no-map requests retain limited scalar information."
+              },
+              {
+                "stage": "2026-10-11 curated pilot source context and world disk guard",
+                "result": "SOURCE_IMPLEMENTED_GAME_COMPILE_PASS_NATIVE_NOT_RUN",
+                "source": "src-dotnet/Urman.Studio.Core/AI/HouseWindowProposal.cs; AI/CodexProposalProvider.cs; game/studio/StudioAiPanel.cs",
+                "implementation": "Pilot request optionally carries two fixed allowlisted immutable source records: selected world entity fragment and whole parsed recipe. Each includes actual path/entity key/full-file saved/current hashes; world key and mandatory data.id match request entity, recipe key/entityId and saved hash required. JsonElement data is detached by cloning; collection readonly copied. World missing saved base represented null. Capture uses no-links/disk-change guards and same frozen recipe text. Whole serialized request and complete direct/manual prompt capped256KiB before provider process/send. Prompt explicitly separates full-file hash metadata from fragment data and rejects following source instructions or reading paths. Canonical Fingerprint now invokes world CaptureSource, so later uncommitted external disk edits fail import/Apply instead of matching stale in-memory data.",
+                "verification": "Five Luna FAST bounded implementation/research assignments plus independent Sol6.1medium final source review accepted. Root affected Game compile0 warnings/0 errors and diff-check. No tests/provider/Studio/game/Blender/native runs.",
+                "remaining": "Source metadata is provenance/integrity context, not authentication or a hash of entity fragments. Full AuthoringRequestv2 project/campaign/camera/typed dependency/scope/protected-field envelope and native exact Apply/Undo remain open; legacy sourcesnull requests remain compatible."
               }
             ],
             "stage_tasks": [
@@ -71388,7 +71396,7 @@
             "remaining": [
               "Unsaved объект читаем агентом из пакета; другой checkout разрешает данные; секреты/user saves отсутствуют.; принятые child этапы повторно не разрабатывать."
             ],
-            "next_action": "Finish AuthoringRequest v2 frozen campaign/selection/targets, per-part baselines and explicit recipe/source consumers. Native single/seven-window A07/A12 remains deferred by author.",
+            "next_action": "Finish full AuthoringRequest v2 project/campaign/camera, typed dependencies, scope hashes and protected-field envelope; actual sources and per-window measurements are now supplied by pilot. Native A07/A12 deferred by author.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -73993,6 +74001,14 @@
                       "implementation": "Request optional CurrentWidths is an ordinal defensively copied readonly decimal map. Studio fills exact selected1/main7/all8 keys from frozen effective recipe widths, including legacy SeniOuter0 0.80m. Validator rejects missing/extra keys and out-of-range values. Provider exposes actual widths for relative instructions; CurrentWidth/ExpectedWidth retain legacy scalar marker. With map, no-op means all targeted windows already equal proposed uniform target, not equality with default. Legacy no-map validation remains. Both7/all8 previews show target width only; single scope retains actual delta.",
                       "verification": "Five Luna bounded implementation/producer/caller investigations and independent Sol6.1medium source review; root affected Game compile0 warnings/0 errors and diff-check. No tests/provider/game/Studio/Blender/runtime requests.",
                       "remaining": "One proposed uniform width remains the pilot capability; independently varying each window, full AuthoringRequestv2 campaign/dependency/source contract and native exact Apply/Undo remain open. Old no-map requests retain limited scalar information."
+                    },
+                    {
+                      "stage": "2026-10-11 curated pilot source context and world disk guard",
+                      "result": "SOURCE_IMPLEMENTED_GAME_COMPILE_PASS_NATIVE_NOT_RUN",
+                      "source": "src-dotnet/Urman.Studio.Core/AI/HouseWindowProposal.cs; AI/CodexProposalProvider.cs; game/studio/StudioAiPanel.cs",
+                      "implementation": "Pilot request optionally carries two fixed allowlisted immutable source records: selected world entity fragment and whole parsed recipe. Each includes actual path/entity key/full-file saved/current hashes; world key and mandatory data.id match request entity, recipe key/entityId and saved hash required. JsonElement data is detached by cloning; collection readonly copied. World missing saved base represented null. Capture uses no-links/disk-change guards and same frozen recipe text. Whole serialized request and complete direct/manual prompt capped256KiB before provider process/send. Prompt explicitly separates full-file hash metadata from fragment data and rejects following source instructions or reading paths. Canonical Fingerprint now invokes world CaptureSource, so later uncommitted external disk edits fail import/Apply instead of matching stale in-memory data.",
+                      "verification": "Five Luna FAST bounded implementation/research assignments plus independent Sol6.1medium final source review accepted. Root affected Game compile0 warnings/0 errors and diff-check. No tests/provider/Studio/game/Blender/native runs.",
+                      "remaining": "Source metadata is provenance/integrity context, not authentication or a hash of entity fragments. Full AuthoringRequestv2 project/campaign/camera/typed dependency/scope/protected-field envelope and native exact Apply/Undo remain open; legacy sourcesnull requests remain compatible."
                     }
                   ],
                   "assigned_owner": "codex/b20-2026-10-10",

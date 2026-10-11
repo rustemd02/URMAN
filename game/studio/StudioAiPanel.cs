@@ -279,10 +279,20 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
     private HouseWindowRequest Capture()
     {
         if (_openedSelection != HeroHouseRecipe.EntityId || _studio.Selection != _openedSelection) throw new InvalidOperationException("Выбор изменился: снова выберите эталонный дом.");
-        if (_studio.Workspace.Locate(HeroHouseRecipe.EntityId) is null)
+        var worldAddress = _studio.Workspace.Locate(HeroHouseRecipe.EntityId);
+        if (worldAddress is null)
             throw new InvalidOperationException("Источник дома не найден или его ID повторяется. Исправьте идентичность перед запросом.");
         if (string.IsNullOrWhiteSpace(_prompt.Text)) throw new InvalidOperationException("Опишите изменение окон.");
-        _recipeText = File.ReadAllText(Path.Combine(_studio.Workspace.Root, RecipePath));
+        var worldSource = _studio.Workspace.File(worldAddress.RelativePath).CaptureSource();
+        var worldEntity = _studio.Workspace.Get(HeroHouseRecipe.EntityId)
+            ?? throw new InvalidOperationException("Источник выбранного дома больше не доступен.");
+        var worldBaseHash = worldSource.BaseSha256;
+        StudioFileTransaction.EnsureNoLinks(_studio.Workspace.Root, RecipePath);
+        var recipeFile = AuthoredFile.Load(_studio.Workspace.Root, RecipePath);
+        var recipeSource = recipeFile.CaptureSource();
+        var recipeBaseHash = recipeSource.BaseSha256
+            ?? throw new InvalidDataException("У рецепта отсутствует сохранённая базовая ревизия.");
+        _recipeText = recipeSource.Text;
         _ = HeroHouseRecipe.Parse(_recipeText);
         var recipe = JsonNode.Parse(_recipeText)!.AsObject();
         if (recipe["modelPath"] is null && ((decimal)recipe["windowClearWidth"]! != 1.06m
@@ -301,7 +311,18 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
         var currentWidths = scopedIds.ToDictionary(
             id => id, id => (decimal)_capturedWidths[id]!, StringComparer.Ordinal);
         return new HouseWindowRequest(Guid.NewGuid().ToString("N"), _snapshot, HeroHouseRecipe.EntityId,
-            currentWidth, _prompt.Text, partId) { PartIds = partIds, CurrentWidths = currentWidths };
+            currentWidth, _prompt.Text, partId)
+        {
+            PartIds = partIds,
+            CurrentWidths = currentWidths,
+            Sources = new[]
+            {
+                new HouseWindowSource(worldAddress.RelativePath, worldAddress.Key, worldBaseHash,
+                    worldSource.Sha256, JsonSerializer.SerializeToElement(worldEntity)),
+                new HouseWindowSource(RecipePath, "recipe", recipeBaseHash,
+                    recipeSource.Sha256, JsonSerializer.SerializeToElement(JsonNode.Parse(_recipeText)!))
+            }
+        };
     }
 
     private string Fingerprint(string recipe)
@@ -312,7 +333,7 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
         var modelHash = AtomicFile.Sha256OfFile(Path.Combine(_studio.Workspace.Root, "game", modelPath["res://".Length..]));
         var source = File.ReadAllBytes(Path.Combine(_studio.Workspace.Root, GeneratorPath));
         return AtomicFile.Sha256(System.Text.Encoding.UTF8.GetBytes(recipe + "\n" +
-            _studio.Workspace.File(world.RelativePath).Text + "\n" + AtomicFile.Sha256(source) + "\n" + modelHash + "\n" +
+            _studio.Workspace.File(world.RelativePath).CaptureSource().Text + "\n" + AtomicFile.Sha256(source) + "\n" + modelHash + "\n" +
             AtomicFile.Sha256OfFile(Path.Combine(_studio.Workspace.Root, "assets/source/blender/act1/urman_village_exterior_kit.blend")) + "\n" + Revision()));
     }
 

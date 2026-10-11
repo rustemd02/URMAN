@@ -1,7 +1,43 @@
-using System.Text.Json.Serialization;
 using System.Collections.ObjectModel;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace Urman.Studio.Core.AI;
+
+/// <summary>A bounded source fragment and the full-file hashes that identify its disk baseline.</summary>
+public sealed record HouseWindowSource
+{
+    private JsonElement _data;
+
+    [JsonConstructor]
+    public HouseWindowSource(string path, string entityKey, string? baseHash, string currentHash, JsonElement data)
+    {
+        Path = path;
+        EntityKey = entityKey;
+        BaseHash = baseHash;
+        CurrentHash = currentHash;
+        Data = data;
+    }
+
+    [JsonPropertyName("path"), JsonPropertyOrder(0)]
+    public string Path { get; init; }
+
+    [JsonPropertyName("entityKey"), JsonPropertyOrder(1)]
+    public string EntityKey { get; init; }
+
+    [JsonPropertyName("baseHash"), JsonPropertyOrder(2)]
+    public string? BaseHash { get; init; }
+
+    [JsonPropertyName("currentHash"), JsonPropertyOrder(3)]
+    public string CurrentHash { get; init; }
+
+    [JsonPropertyName("data"), JsonPropertyOrder(4)]
+    public JsonElement Data
+    {
+        get => _data;
+        init => _data = value.ValueKind == JsonValueKind.Undefined ? default : value.Clone();
+    }
+}
 
 /// <summary>The exact, immutable input the proposal model is allowed to see.</summary>
 public sealed record HouseWindowRequest(
@@ -30,6 +66,19 @@ public sealed record HouseWindowRequest(
         init => _currentWidths = value is null
             ? null
             : new ReadOnlyDictionary<string, decimal>(value.ToDictionary(pair => pair.Key, pair => pair.Value, StringComparer.Ordinal));
+    }
+
+    private IReadOnlyList<HouseWindowSource>? _sources;
+
+    [JsonPropertyName("sources"), JsonPropertyOrder(8), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public IReadOnlyList<HouseWindowSource>? Sources
+    {
+        get => _sources;
+        init => _sources = value is null
+            ? null
+            : Array.AsReadOnly(value.Select(source => source is null
+                ? throw new ArgumentException("Sources cannot contain null entries.", nameof(value))
+                : source with { Data = source.Data }).ToArray());
     }
 }
 
@@ -63,6 +112,9 @@ public static class HouseWindowProposalValidator
 {
     public const decimal MinimumWidthMeters = 0.65m;
     public const decimal MaximumWidthMeters = 1.35m;
+    public const int MaximumSerializedRequestBytes = 256 * 1024;
+    private const string WorldSourcePath = "game/content/world/act1_village_kit.world.v1.json";
+    private const string RecipeSourcePath = "game/content/studio/hero_house.recipe.json";
     public static readonly IReadOnlyList<string> MainRoomWindowIds = Array.AsReadOnly(
         new[] { "Front0", "Front1", "Front2", "Rear0", "Rear1", "Left0", "Right0" });
     private static readonly IReadOnlyList<string> AllWindowIds = Array.AsReadOnly(
@@ -99,10 +151,15 @@ public static class HouseWindowProposalValidator
                 ValidateWidth(width, nameof(request.CurrentWidths));
         }
 
+        if (request.Sources is not null)
+            ValidateSources(request);
+
         if (string.IsNullOrWhiteSpace(request.Prompt) || request.Prompt.Length > 8_000 || ContainsUnsupportedPromptControl(request.Prompt))
         {
             throw new ArgumentException("The prompt must contain 1–8000 printable characters.", nameof(request));
         }
+
+        ValidateSerializedRequestSize(request);
     }
 
     public static void Validate(HouseWindowRequest request, HouseWindowProposal proposal)
@@ -206,6 +263,89 @@ public static class HouseWindowProposalValidator
         }
 
         return true;
+    }
+
+    private static void ValidateSources(HouseWindowRequest request)
+    {
+        var sources = request.Sources!;
+        if (sources.Count != 2)
+            throw new ArgumentException("Sources must contain the two fixed pilot files.", nameof(request));
+
+        var requiredPaths = new HashSet<string>(new[] { WorldSourcePath, RecipeSourcePath }, StringComparer.Ordinal);
+        foreach (var source in sources)
+        {
+            if (source is null || source.Path is null || !requiredPaths.Remove(source.Path))
+                throw new ArgumentException("Sources must contain each fixed pilot path exactly once.", nameof(request));
+
+            if (source.BaseHash is null)
+            {
+                if (string.Equals(source.Path, RecipeSourcePath, StringComparison.Ordinal))
+                    throw new ArgumentException("The recipe source must include its saved base hash.", nameof(request));
+            }
+            else
+            {
+                ValidateLowercaseHash(source.BaseHash, nameof(source.BaseHash));
+            }
+
+            ValidateLowercaseHash(source.CurrentHash, nameof(source.CurrentHash));
+            if (source.Data.ValueKind != JsonValueKind.Object)
+                throw new ArgumentException("Each source data value must be a JSON object.", nameof(request));
+
+            if (string.Equals(source.Path, WorldSourcePath, StringComparison.Ordinal))
+            {
+                if (source.EntityKey is null)
+                    throw new ArgumentException("The world source entity key must be present.", nameof(request));
+
+                ValidateIdentifier(source.EntityKey, nameof(source.EntityKey), maximumLength: 256);
+                if (!string.Equals(source.EntityKey, request.EntityId, StringComparison.Ordinal)
+                    || !source.Data.TryGetProperty("id", out var worldEntityId)
+                    || worldEntityId.ValueKind != JsonValueKind.String
+                    || !string.Equals(worldEntityId.GetString(), request.EntityId, StringComparison.Ordinal))
+                {
+                    throw new ArgumentException("The world source must identify the requested entity by key and data ID.", nameof(request));
+                }
+            }
+            else
+            {
+                if (!string.Equals(source.EntityKey, "recipe", StringComparison.Ordinal))
+                    throw new ArgumentException("The recipe source entity key must be 'recipe'.", nameof(request));
+
+                if (!source.Data.TryGetProperty("entityId", out var recipeEntityId)
+                    || recipeEntityId.ValueKind != JsonValueKind.String
+                    || !string.Equals(recipeEntityId.GetString(), request.EntityId, StringComparison.Ordinal))
+                {
+                    throw new ArgumentException("The recipe source entity ID must match the request entity.", nameof(request));
+                }
+            }
+        }
+
+        if (requiredPaths.Count != 0)
+            throw new ArgumentException("Sources must contain each fixed pilot path exactly once.", nameof(request));
+    }
+
+    private static void ValidateSerializedRequestSize(HouseWindowRequest request)
+    {
+        byte[] serializedRequest;
+        try
+        {
+            serializedRequest = JsonSerializer.SerializeToUtf8Bytes(request);
+        }
+        catch (Exception exception) when (exception is JsonException or InvalidOperationException or NotSupportedException)
+        {
+            throw new ArgumentException("The request must serialize as strict JSON.", nameof(request), exception);
+        }
+
+        if (serializedRequest.Length > MaximumSerializedRequestBytes)
+            throw new ArgumentException("The serialized request exceeds 256 KiB.", nameof(request));
+    }
+
+    private static void ValidateLowercaseHash(string? value, string name)
+    {
+        if (value is null || value.Length != 64
+            || value.Any(character => !((character >= '0' && character <= '9') || (character >= 'a' && character <= 'f'))))
+        {
+            throw new ArgumentException("Source hashes must be lowercase 64-character SHA-256 values.", name);
+        }
     }
 
     private static bool ContainsUnsupportedPromptControl(string value) =>
