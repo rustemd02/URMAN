@@ -1,0 +1,29 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-25"
+  ],
+  "stage": "second slice: the authored shop catalogue against the runtime use handlers",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-11 12:46 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "9e7bdaff",
+  "result": {
+    "catalogue": "three products are authored (batteries, matches, tea) with title, unit, description and uses; all three satisfy the contract ShopCatalog.Load enforces",
+    "cross_check": "the use ids are not authored anywhere in the content: they are compared in code, so the projection reads the two handler sources (RuntimeBridge.Shop.cs and Act1ConnectedWorld.ShopUses.cs) and reports a product whose use id no handler matches - it could be bought and never applied",
+    "contract": "the loader rejects an empty catalogue and a duplicate sku; the remaining fields are read with GetString and GetProperty, so a missing field or a wrong type throws"
+  },
+  "verified": {
+    "probe": "PASS 363/363 with new checks: three products, three handled use ids from two source files, no problems on the real data, and the synthetic cases (duplicate sku, empty title, an unhandled use id, a uses element that is not a string) each reported",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors; game/Urman.Game.csproj 0 warnings/0 errors",
+    "existing_tests": "Urman.Studio.Tests 38/38",
+    "not_run": "no game run: buying and applying a product is NOT_RUN"
+  },
+  "files": {
+    "evidence/STUDIO/b20-deepseek-ai-25/2026-10-11-shop/check.log": "08bcad46681b20fb00401c88e63d2f8f2bcaa88d69bee0450d8a6ee992109424"
+  },
+  "open": [
+    "the puzzle half of AI-25 (the Tamara fence-run parameters) is still to do",
+    "purchase and application acceptance are NOT_RUN"
+  ]
+}

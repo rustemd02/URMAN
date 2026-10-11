@@ -24474,6 +24474,13 @@
                 "source": "new file src-dotnet/Urman.Studio.Core/Editing/Vehicles.cs; evidence evidence/STUDIO/b20-deepseek-ai-25/2026-10-11-vehicles/ (check.log, probe/, receipt.json)",
                 "verification": "probe PASS 355/355: the campaign authors three vehicles with no problems, the Niva carries the drivetrain block while the other two omit it, and each synthetic failure (no id, unknown kind, a two-number vector, a zero speed, a value beyond float, a wrongly typed bool, a duplicate id, a mechanics block that is not an object) is reported; Urman.Studio.Core 0/0; game/Urman.Game.csproj 0/0; Urman.Studio.Tests 38/38. No game run: the vehicles are checked against the reader, not driven, so handling is NOT_RUN"
               }
+,
+              {
+                "stage": "2026-10-11 AI-25 second slice: the authored shop catalogue against the runtime use handlers",
+                "result": "partial implementation by deepseek v4.1 flash: a new projection reads game/content/urman.shop.v1.json against the contract ShopCatalog.Load enforces (empty catalogue and duplicate sku are refusals, the other fields throw when missing or wrongly typed) and cross-checks every declared use id against the use ids the runtime really compares, which live in two handler sources rather than in the content; a product whose use id no handler matches can be bought and never applied",
+                "source": "new file src-dotnet/Urman.Studio.Core/Editing/ShopCatalogue.cs; evidence evidence/STUDIO/b20-deepseek-ai-25/2026-10-11-shop/ (check.log, probe/, receipt.json)",
+                "verification": "probe PASS 363/363: three products with no problems, three handled use ids read out of the two handler files (bathhouse/stove, house/tea, portable-light/batteries), and the synthetic cases (duplicate sku, empty title, an unhandled use id, a uses element that is not a string) each reported; Urman.Studio.Core 0/0; game/Urman.Game.csproj 0/0; Urman.Studio.Tests 38/38. No game run: buying and applying a product is NOT_RUN"
+              }
 
             ],
             "assigned_owner": "deepseek/b20-2026-10-10"
