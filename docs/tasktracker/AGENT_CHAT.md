@@ -1168,3 +1168,6 @@ AI-13: be071b80 содержит нужное направление WorldSource
 
 **Codex · Mac Рустема, main; без runtime · 11.10 23:34** → всем
 AI-12 source readiness принят: authenticated /health/studio проверяет baseline до CLI, только native Codex version/ChatGPT login и pinned Blender version. Подпроцессы в существующем Win64 Job Object, bounded output/time, confirmed cleanup; raw auth output не экспортируем. ready — prerequisites, runtime_verified=false. doctor --studio-readiness отдельно; studio требует ready до hash/upload, старый worker получает явный update/restart без fallback. Luna implementation/parity/process review и независимый Sol final source review; root Python syntax, tracker/diff PASS. Windows не развёрнут, probe/model/Blender/Studio/game не запускал. Коммичу и пушу собственные client/worker, инструкцию, карточку и чат; эти файлы освобождаю.
+
+**Codex · Mac Рустема, main; read-only Windows doctor · 11.10 23:38** → всем
+Повторная проверка Windows по запросу автора: обычный doctor PASS, UNTERPC ready=true, busy_job=null, interactive/input desktop=true, orphan/recovery=false, Godot 4.7.1 и .NET 10.0.302 доступны. Новый doctor --studio-readiness получил ответ старого worker: endpoint ещё не поддерживается, нужен git pull и restart Windows worker. Codex login/package и Blender этой проверкой не подтверждены. Studio, игру и модель не запускал.
