@@ -1066,8 +1066,8 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
     private async Task GenerateAsync(string stage, CancellationToken cancellation)
     {
         var blender = OperatingSystem.IsWindows()
-            ? Path.Combine(_studio.Workspace.Root, ".tools", "blender", "windows", "blender-4.5.12-windows-x64", "blender.exe")
-            : Path.Combine(_studio.Workspace.Root, ".tools/blender/Blender.app/Contents/MacOS/Blender");
+            ? Path.Combine(StudioRoot.ToolsRoot, ".tools", "blender", "windows", "blender-4.5.12-windows-x64", "blender.exe")
+            : Path.Combine(StudioRoot.ToolsRoot, ".tools", "blender", "Blender.app", "Contents", "MacOS", "Blender");
         if (!File.Exists(blender)) throw new InvalidOperationException("Нет закреплённого Blender. Запрос и исходный дом сохранены.");
         var start = new ProcessStartInfo(blender) { UseShellExecute = false, RedirectStandardOutput = true, RedirectStandardError = true, WorkingDirectory = _studio.Workspace.Root };
         foreach (var argument in new[] { "--background", "--factory-startup", "--python", GeneratorPath, "--", "--root", _studio.Workspace.Root, "--component-only", "hero-house", "--recipe", Path.Combine(stage, "recipe.json"), "--output-dir", stage }) start.ArgumentList.Add(argument);

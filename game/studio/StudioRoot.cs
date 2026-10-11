@@ -71,6 +71,10 @@ public partial class StudioRoot : Control
         OS.GetCmdlineUserArgs().LastOrDefault(argument => argument.StartsWith("--urman-studio-root=", StringComparison.Ordinal))?["--urman-studio-root=".Length..]
         ?? Path.GetFullPath(Path.Combine(ProjectSettings.GlobalizePath("res://"), ".."));
 
+    public static string ToolsRoot => Path.GetFullPath(
+        OS.GetCmdlineUserArgs().LastOrDefault(argument => argument.StartsWith("--urman-studio-tools-root=", StringComparison.Ordinal))?["--urman-studio-tools-root=".Length..]
+        ?? RepositoryRoot);
+
     public override void _Ready()
     {
         SetAnchorsAndOffsetsPreset(LayoutPreset.FullRect);
