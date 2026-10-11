@@ -1389,7 +1389,11 @@ public sealed class CodexProposalProvider
         }
 
         var local = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-        if (!string.IsNullOrWhiteSpace(local)) candidates.Add(Path.Combine(local, "Programs", "Codex", "codex.exe"));
+        if (!string.IsNullOrWhiteSpace(local))
+        {
+            candidates.Add(Path.Combine(local, "Programs", "OpenAI", "Codex", "bin", "codex.exe"));
+            candidates.Add(Path.Combine(local, "Programs", "Codex", "codex.exe"));
+        }
         candidates.Add("codex");
 
         foreach (var candidate in candidates)
