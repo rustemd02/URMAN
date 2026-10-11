@@ -21,6 +21,9 @@ public sealed class DeveloperContext(StudioWorkspace workspace, EntityCatalog ca
 {
     private const int MaximumPackagePayloadBytes = 256 * 1024;
     private const int MaximumPackageEntries = 403; // manifest/context/entities plus at most 200 source baseline/current pairs
+    private const int MaximumHouseWindowProposalBytes = 32 * 1024;
+    private const int MaximumHouseWindowPreviewFailureBytes = 4 * 1024;
+    private static readonly UTF8Encoding StrictUtf8 = new(false, true);
 
     public string Revision() => ResolveRevision(workspace.Root);
 
@@ -660,6 +663,182 @@ public sealed class DeveloperContext(StudioWorkspace workspace, EntityCatalog ca
         var relative = ".urman-studio/ai-jobs/" + request.RequestId + "/" + (proposal is null ? "request.json" : "proposal.json");
         StudioFileTransaction.EnsureNoLinks(root, relative, allowStudioMetadata: true);
         AtomicFile.WriteAllBytes(Path.Combine(root, relative), new UTF8Encoding(false).GetBytes(text), overwrite: false);
+    }
+
+    /// <summary>Record an explicit local preview failure for the exact stored request and proposal.</summary>
+    public static void MarkHouseWindowPreviewFailed(string root, HouseWindowRequest request, HouseWindowProposal proposal)
+    {
+        ArgumentNullException.ThrowIfNull(request);
+        ArgumentNullException.ThrowIfNull(proposal);
+        var requestBytes = StrictUtf8.GetBytes(AuthoringRequestV2.Serialize(request));
+        var proposalBytes = StrictUtf8.GetBytes(CodexProposalProvider.SerializeProposal(request, proposal));
+        if (proposalBytes.Length > MaximumHouseWindowProposalBytes)
+            throw new InvalidDataException("The stored house-window proposal exceeds its size limit.");
+
+        var requestRelative = HouseWindowJobRelativePath(request.RequestId, "request.json");
+        var proposalRelative = HouseWindowJobRelativePath(request.RequestId, "proposal.json");
+        var failureRelative = HouseWindowJobRelativePath(request.RequestId, "preview-failed.json");
+        var storedRequest = ReadBoundedHouseWindowJobFile(root, requestRelative, HouseWindowProposalValidator.MaximumSerializedRequestBytes);
+        var storedProposal = ReadBoundedHouseWindowJobFile(root, proposalRelative, MaximumHouseWindowProposalBytes);
+        if (!storedRequest.AsSpan().SequenceEqual(requestBytes) || !storedProposal.AsSpan().SequenceEqual(proposalBytes))
+            throw new InvalidDataException("The stored request or proposal does not match this preview failure.");
+
+        var receipt = SerializeHouseWindowPreviewFailureReceipt(request.RequestId,
+            AtomicFile.Sha256(requestBytes), AtomicFile.Sha256(proposalBytes));
+        if (receipt.Length > MaximumHouseWindowPreviewFailureBytes)
+            throw new InvalidDataException("The preview-failure receipt exceeds its size limit.");
+        StudioFileTransaction.EnsureNoLinks(root, failureRelative, allowStudioMetadata: true);
+        var path = Path.Combine(root, failureRelative.Replace('/', Path.DirectorySeparatorChar));
+        if (File.Exists(path))
+        {
+            var existing = ReadBoundedHouseWindowJobFile(root, failureRelative, MaximumHouseWindowPreviewFailureBytes);
+            if (existing.AsSpan().SequenceEqual(receipt)) return;
+            throw new IOException("A different preview-failure receipt already exists for this request.");
+        }
+
+        AtomicFile.WriteAllBytes(path, receipt, overwrite: false);
+    }
+
+    /// <summary>Remove only the local preview-failure receipt for an explicit request ID.</summary>
+    public static void ClearHouseWindowPreviewFailure(string root, string requestId)
+    {
+        var relative = HouseWindowJobRelativePath(requestId, "preview-failed.json");
+        StudioFileTransaction.EnsureNoLinks(root, relative, allowStudioMetadata: true);
+        var path = Path.Combine(root, relative.Replace('/', Path.DirectorySeparatorChar));
+        if (File.Exists(path)) File.Delete(path);
+    }
+
+    /// <summary>Read and verify the exact request/proposal pair with an explicit local preview-failure receipt.</summary>
+    public static (HouseWindowRequest Request, HouseWindowProposal Proposal) ReadHouseWindowPreviewFailure(string root, string requestId)
+    {
+        var requestRelative = HouseWindowJobRelativePath(requestId, "request.json");
+        var proposalRelative = HouseWindowJobRelativePath(requestId, "proposal.json");
+        var failureRelative = HouseWindowJobRelativePath(requestId, "preview-failed.json");
+        var failurePath = Path.Combine(root, failureRelative.Replace('/', Path.DirectorySeparatorChar));
+        StudioFileTransaction.EnsureNoLinks(root, failureRelative, allowStudioMetadata: true);
+        if (!File.Exists(failurePath))
+            throw new InvalidOperationException("This request has no explicit local preview-failure receipt.");
+
+        var receiptBytes = ReadBoundedHouseWindowJobFile(root, failureRelative, MaximumHouseWindowPreviewFailureBytes);
+        var (receiptRequestId, requestHash, proposalHash) = ParseHouseWindowPreviewFailureReceipt(receiptBytes);
+        if (!string.Equals(receiptRequestId, requestId, StringComparison.Ordinal))
+            throw new InvalidDataException("The preview-failure receipt belongs to another request.");
+
+        var requestBytes = ReadBoundedHouseWindowJobFile(root, requestRelative, HouseWindowProposalValidator.MaximumSerializedRequestBytes);
+        var proposalBytes = ReadBoundedHouseWindowJobFile(root, proposalRelative, MaximumHouseWindowProposalBytes);
+        if (!string.Equals(AtomicFile.Sha256(requestBytes), requestHash, StringComparison.Ordinal)
+            || !string.Equals(AtomicFile.Sha256(proposalBytes), proposalHash, StringComparison.Ordinal))
+            throw new InvalidDataException("The stored request or proposal no longer matches the preview-failure receipt.");
+
+        HouseWindowRequest request;
+        try
+        {
+            request = AuthoringRequestV2.Parse(StrictUtf8.GetString(requestBytes));
+            if (!string.Equals(request.RequestId, requestId, StringComparison.Ordinal)
+                || !StrictUtf8.GetBytes(AuthoringRequestV2.Serialize(request)).AsSpan().SequenceEqual(requestBytes))
+                throw new InvalidDataException("The stored request is not the canonical request named by its receipt.");
+        }
+        catch (Exception error) when (error is JsonException or ArgumentException or InvalidOperationException or FormatException or NotSupportedException)
+        {
+            throw new InvalidDataException("The stored request is invalid.", error);
+        }
+
+        HouseWindowProposal proposal;
+        try
+        {
+            proposal = CodexProposalProvider.ParseProposal(StrictUtf8.GetString(proposalBytes), request);
+            if (!StrictUtf8.GetBytes(CodexProposalProvider.SerializeProposal(request, proposal)).AsSpan().SequenceEqual(proposalBytes))
+                throw new InvalidDataException("The stored proposal is not canonical.");
+        }
+        catch (Exception error) when (error is JsonException or ArgumentException or InvalidOperationException or FormatException or NotSupportedException or CodexProposalProvider.CodexProposalException)
+        {
+            throw new InvalidDataException("The stored proposal is invalid.", error);
+        }
+
+        return (request, proposal);
+    }
+
+    private static string HouseWindowJobRelativePath(string requestId, string fileName)
+    {
+        if (!Guid.TryParseExact(requestId, "N", out var parsed)
+            || !string.Equals(parsed.ToString("N"), requestId, StringComparison.Ordinal))
+            throw new ArgumentException("RequestId must be a canonical 32-character lowercase hexadecimal GUID.", nameof(requestId));
+
+        return $".urman-studio/ai-jobs/{requestId}/{fileName}";
+    }
+
+    private static byte[] ReadBoundedHouseWindowJobFile(string root, string relativePath, int maximumBytes)
+    {
+        StudioFileTransaction.EnsureNoLinks(root, relativePath, allowStudioMetadata: true);
+        var path = Path.Combine(root, relativePath.Replace('/', Path.DirectorySeparatorChar));
+        using var input = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
+        if (input.Length < 0 || input.Length > maximumBytes)
+            throw new InvalidDataException("A stored house-window job artifact exceeds its size limit.");
+
+        using var output = new MemoryStream((int)input.Length);
+        var buffer = new byte[4096];
+        int count;
+        while ((count = input.Read(buffer, 0, buffer.Length)) > 0)
+        {
+            if (output.Length + count > maximumBytes)
+                throw new InvalidDataException("A stored house-window job artifact exceeds its size limit.");
+            output.Write(buffer, 0, count);
+        }
+
+        return output.ToArray();
+    }
+
+    private static byte[] SerializeHouseWindowPreviewFailureReceipt(string requestId, string requestHash, string proposalHash) =>
+        StrictUtf8.GetBytes(new JsonObject
+        {
+            ["requestId"] = requestId,
+            ["requestHash"] = requestHash,
+            ["proposalHash"] = proposalHash
+        }.ToJsonString());
+
+    private static (string RequestId, string RequestHash, string ProposalHash) ParseHouseWindowPreviewFailureReceipt(byte[] bytes)
+    {
+        JsonDocument document;
+        try
+        {
+            document = JsonDocument.Parse(bytes, new JsonDocumentOptions
+            {
+                MaxDepth = 4,
+                CommentHandling = JsonCommentHandling.Disallow,
+                AllowTrailingCommas = false
+            });
+        }
+        catch (JsonException error)
+        {
+            throw new InvalidDataException("The preview-failure receipt is invalid JSON.", error);
+        }
+
+        using (document)
+        {
+            var root = document.RootElement;
+            if (root.ValueKind != JsonValueKind.Object)
+                throw new InvalidDataException("The preview-failure receipt must be an object.");
+            RefuseDuplicateFields(root);
+            var fields = new Dictionary<string, string>(StringComparer.Ordinal);
+            foreach (var property in root.EnumerateObject())
+            {
+                if (property.Value.ValueKind != JsonValueKind.String || !fields.TryAdd(property.Name, property.Value.GetString()!))
+                    throw new InvalidDataException("The preview-failure receipt has duplicate or invalid fields.");
+            }
+
+            if (fields.Count != 3 || !fields.TryGetValue("requestId", out var requestId)
+                || !fields.TryGetValue("requestHash", out var requestHash)
+                || !fields.TryGetValue("proposalHash", out var proposalHash)
+                || !IsSha256(requestHash) || !IsSha256(proposalHash))
+                throw new InvalidDataException("The preview-failure receipt has missing, unsupported, or invalid fields.");
+            if (!Guid.TryParseExact(requestId, "N", out var parsedRequestId)
+                || !string.Equals(parsedRequestId.ToString("N"), requestId, StringComparison.Ordinal))
+                throw new InvalidDataException("The preview-failure receipt request ID is invalid.");
+
+            if (!bytes.AsSpan().SequenceEqual(SerializeHouseWindowPreviewFailureReceipt(requestId, requestHash, proposalHash)))
+                throw new InvalidDataException("The preview-failure receipt is not canonical JSON.");
+            return (requestId, requestHash, proposalHash);
+        }
     }
 
     public sealed record ContextPackage(JsonObject Manifest, JsonArray Entities, string Text, bool HasIntegrityReceipts)

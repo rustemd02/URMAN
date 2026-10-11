@@ -64,6 +64,14 @@ public static class AuthoringRequestV2
     {
         WriteIndented = false
     };
+    private static readonly JsonSerializerOptions StrictWireJsonOptions = new(WireJsonOptions)
+    {
+        AllowTrailingCommas = false,
+        MaxDepth = 64,
+        ReadCommentHandling = JsonCommentHandling.Disallow,
+        UnmappedMemberHandling = JsonUnmappedMemberHandling.Disallow
+    };
+    private static readonly UTF8Encoding StrictUtf8 = new(false, true);
 
     /// <summary>Serializes the v2 envelope after confirming its bound snapshot hash.</summary>
     public static string Serialize(HouseWindowRequest request)
@@ -75,6 +83,97 @@ public static class AuthoringRequestV2
         var bytes = JsonSerializer.SerializeToUtf8Bytes(Build(request, request.SnapshotHash), WireJsonOptions);
         EnsureWithinLimit(bytes, nameof(request));
         return Encoding.UTF8.GetString(bytes);
+    }
+
+    /// <summary>Reads only the exact canonical v2 envelope emitted by <see cref="Serialize"/>.</summary>
+    public static HouseWindowRequest Parse(string json)
+    {
+        ArgumentNullException.ThrowIfNull(json);
+
+        int byteCount;
+        try
+        {
+            byteCount = StrictUtf8.GetByteCount(json);
+        }
+        catch (EncoderFallbackException exception)
+        {
+            throw new ArgumentException("The v2 authoring request must be valid UTF-8 text.", nameof(json), exception);
+        }
+
+        if (byteCount > HouseWindowProposalValidator.MaximumSerializedRequestBytes)
+            throw new ArgumentException("The serialized v2 authoring request exceeds 256 KiB.", nameof(json));
+
+        RequestEnvelope envelope;
+        try
+        {
+            using var document = JsonDocument.Parse(json, new JsonDocumentOptions
+            {
+                AllowTrailingCommas = false,
+                CommentHandling = JsonCommentHandling.Disallow,
+                MaxDepth = 64
+            });
+            EnsureNoDuplicateProperties(document.RootElement);
+            envelope = JsonSerializer.Deserialize<RequestEnvelope>(json, StrictWireJsonOptions)
+                ?? throw new JsonException("The v2 authoring request must be a JSON object.");
+        }
+        catch (JsonException exception)
+        {
+            throw new ArgumentException("The v2 authoring request must be strict JSON with no duplicate or unknown fields and a maximum depth of 64.", nameof(json), exception);
+        }
+
+        if (!string.Equals(envelope.Kind, Kind, StringComparison.Ordinal) || envelope.SchemaVersion != SchemaVersion)
+            throw new ArgumentException("The request kind or schema version is unsupported.", nameof(json));
+
+        var project = envelope.Project ?? throw new ArgumentException("The v2 request is missing project metadata.", nameof(json));
+        var selection = envelope.Selection ?? throw new ArgumentException("The v2 request is missing its selection.", nameof(json));
+        var parameters = envelope.Parameters ?? throw new ArgumentException("The v2 request is missing its parameters.", nameof(json));
+        var sources = envelope.Sources ?? throw new ArgumentException("The v2 request is missing its sources.", nameof(json));
+        var dependencies = envelope.Dependencies ?? throw new ArgumentException("The v2 request is missing its dependencies.", nameof(json));
+
+        if (!string.Equals(project.Id, ProjectId, StringComparison.Ordinal)
+            || string.IsNullOrEmpty(project.SnapshotHash)
+            || selection.EntityIds is null
+            || selection.EntityIds.Count != 1
+            || selection.PartIds is null
+            || parameters.CurrentWidths is null)
+        {
+            throw new ArgumentException("The v2 request is missing required canonical fields.", nameof(json));
+        }
+
+        var entityId = selection.EntityIds[0];
+        if (string.IsNullOrWhiteSpace(entityId))
+            throw new ArgumentException("The v2 request must select exactly one non-empty entity ID.", nameof(json));
+
+        var (partId, partIds) = RestorePartScope(selection.PartIds);
+        var request = new HouseWindowRequest(
+            envelope.RequestId,
+            project.SnapshotHash,
+            entityId,
+            parameters.CurrentWidth,
+            envelope.Instruction,
+            partId)
+        {
+            PartIds = partIds,
+            CurrentWidths = parameters.CurrentWidths,
+            Sources = sources,
+            Environment = new HouseAuthoringEnvironment(
+                project.BaseRevision,
+                project.CampaignId,
+                project.CampaignVersion,
+                project.WorldId,
+                project.StateId,
+                project.ScenePath,
+                project.ZoneId,
+                project.SpawnPointId,
+                selection.Camera,
+                dependencies)
+        };
+
+        HouseWindowProposalValidator.ValidateRequest(request);
+        if (!string.Equals(Serialize(request), json, StringComparison.Ordinal))
+            throw new ArgumentException("The v2 request is valid JSON but is not the exact canonical serialized envelope.", nameof(json));
+
+        return request;
     }
 
     /// <summary>Describes exactly the frozen v2 envelope that will be sent to the provider.</summary>
@@ -227,6 +326,40 @@ public static class AuthoringRequestV2
             return Array.AsReadOnly(request.PartIds.ToArray());
 
         return Array.AsReadOnly(AllWindowIds.ToArray());
+    }
+
+    private static (string? PartId, IReadOnlyList<string>? PartIds) RestorePartScope(IReadOnlyList<string> selectedPartIds)
+    {
+        if (selectedPartIds.Count == 1 && AllWindowIds.Contains(selectedPartIds[0], StringComparer.Ordinal))
+            return (selectedPartIds[0], null);
+
+        if (selectedPartIds.SequenceEqual(HouseWindowProposalValidator.MainRoomWindowIds, StringComparer.Ordinal))
+            return (null, selectedPartIds);
+
+        if (selectedPartIds.SequenceEqual(AllWindowIds, StringComparer.Ordinal))
+            return (null, null);
+
+        throw new ArgumentException("The v2 request must select one supported window, all seven canonical main-room windows, or all eight windows.", nameof(selectedPartIds));
+    }
+
+    private static void EnsureNoDuplicateProperties(JsonElement value)
+    {
+        if (value.ValueKind == JsonValueKind.Object)
+        {
+            var names = new HashSet<string>(StringComparer.Ordinal);
+            foreach (var property in value.EnumerateObject())
+            {
+                if (!names.Add(property.Name))
+                    throw new JsonException($"The v2 request contains a duplicate JSON field '{property.Name}'.");
+
+                EnsureNoDuplicateProperties(property.Value);
+            }
+        }
+        else if (value.ValueKind == JsonValueKind.Array)
+        {
+            foreach (var item in value.EnumerateArray())
+                EnsureNoDuplicateProperties(item);
+        }
     }
 
     private static string ComputeTargetSetHash(string entityId, IReadOnlyList<string> partIds)

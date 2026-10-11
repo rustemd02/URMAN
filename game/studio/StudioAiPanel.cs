@@ -37,6 +37,7 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
     private readonly Button _beforeView;
     private readonly Button _afterView;
     private readonly Button _retryBuild;
+    private readonly Button _restorePreview;
     private readonly SubViewport _preview = new() { Size = new(560, 260), OwnWorld3D = true, RenderTargetUpdateMode = SubViewport.UpdateMode.WhenVisible };
     private readonly Node3D _previewModels = new() { Name = "HouseCompareModels" };
     private readonly Camera3D _previewCamera = new() { Position = new(11, 7, 13), Current = true };
@@ -55,6 +56,7 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
     private bool _busy;
     private bool _previewReady;
     private bool _retryBuildAvailable;
+    private bool _previewFailureClearFailed;
     private int _providerWarningSeen;
 
     void IProgress<CodexProposalProgress>.Report(CodexProposalProgress progress)
@@ -82,6 +84,12 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
         _prompt.TextChanged += () =>
         {
             if (_busy || _request is not { } request || _prompt.Text == request.Prompt) return;
+            if (!TryClearPreviewFailure(request))
+            {
+                ClearProposal();
+                SetBusy(false);
+                return;
+            }
             ClearProposal();
             InvalidatePreparedRequest();
             _status.Text = "Описание изменилось; предыдущее предложение отозвано. Подготовьте новый запрос и получите новый ответ.";
@@ -116,7 +124,7 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
             }
         };
         StudioRoot.Button(row, "Проверить Codex", () => _ = DoctorAsync());
-        StudioRoot.Button(row, "Остановить", () => _cancel?.Cancel());
+        StudioRoot.Button(row, "Остановить", StopCurrentOperation);
         _apply = StudioRoot.Button(row, "Применить", () => _ = ApplyAsync());
         _apply.Disabled = true;
         var files = new HBoxContainer();
@@ -141,6 +149,8 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
         _afterView = StudioRoot.Button(compare, "После", () => ShowPreview(after: true));
         _retryBuild = StudioRoot.Button(compare, "Повторить сборку", () => _ = RetryBuildAsync());
         _retryBuild.Disabled = true;
+        _restorePreview = StudioRoot.Button(compare, "Восстановить…", OpenPreviewFailurePicker);
+        _restorePreview.TooltipText = "Открыть только локальную запись о неудачном предпросмотре. Повторный запрос агенту и применение не выполняются.";
         _beforeView.Disabled = true;
         _afterView.Disabled = true;
         var viewport = new SubViewportContainer { Stretch = true, CustomMinimumSize = new(560, 260) };
@@ -266,6 +276,12 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
         _focusCaptured = true;
         ((StudioWorldSection)_studio.Section("world")).SuspendForAi();
         if (_busy)
+        {
+            PopupCenteredClamped(new(600, 560), 0.9f);
+            _prompt.GrabFocus();
+            return;
+        }
+        if (_previewFailureClearFailed && _request is { } retained && !TryClearPreviewFailure(retained))
         {
             PopupCenteredClamped(new(600, 560), 0.9f);
             _prompt.GrabFocus();
@@ -594,6 +610,175 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
         picker.PopupCentered(new Vector2I(900, 600));
     }
 
+    private void OpenPreviewFailurePicker()
+    {
+        if (_busy || !Visible || _openedSelection != HeroHouseRecipe.EntityId || _studio.Selection != _openedSelection
+            || _request is not null || _proposal is not null || _previewFailureClearFailed)
+            return;
+        var jobsDirectory = Path.Combine(_studio.Workspace.Root, ".urman-studio", "ai-jobs");
+        if (!Directory.Exists(jobsDirectory))
+        {
+            _status.Text = "Локальных записей о неудачном предпросмотре нет.";
+            return;
+        }
+
+        var picker = new FileDialog
+        {
+            FileMode = FileDialog.FileModeEnum.OpenFile,
+            Access = FileDialog.AccessEnum.Filesystem,
+            CurrentDir = jobsDirectory,
+            Title = "Восстановить локальный предпросмотр",
+            UseNativeDialog = true,
+            Filters = ["preview-failed.json ; Запись неудачного предпросмотра"]
+        };
+        picker.FileSelected += path =>
+        {
+            picker.QueueFree();
+            RestorePreviewFailure(path);
+        };
+        picker.Canceled += picker.QueueFree;
+        _studio.AddChild(picker);
+        picker.PopupCentered(new Vector2I(900, 600));
+    }
+
+    private void RestorePreviewFailure(string selectedPath)
+    {
+        if (_busy || !Visible || _openedSelection != HeroHouseRecipe.EntityId || _studio.Selection != _openedSelection
+            || _request is not null || _proposal is not null || _previewFailureClearFailed)
+            return;
+
+        var previousPrompt = _prompt.Text;
+        var previousScope = _scope.Selected;
+        var previousPart = _openedPart;
+        try
+        {
+            var requestId = PreviewFailureRequestId(selectedPath);
+            var (request, proposal) = Urman.Studio.Core.Handoff.DeveloperContext.ReadHouseWindowPreviewFailure(
+                _studio.Workspace.Root, requestId);
+            HouseWindowProposalValidator.ValidateRequest(request);
+            HouseWindowProposalValidator.Validate(request, proposal);
+            var savedEnvironment = request.Environment
+                ?? throw new InvalidDataException("В сохранённом запросе нет контекста кампании.");
+            if (request.RequestId != requestId || request.EntityId != HeroHouseRecipe.EntityId || request.Sources is null)
+                throw new InvalidDataException("Запись не содержит полный снимок поддерживаемого запроса дома.");
+
+            _openedPart = ((StudioWorldSection)_studio.Section("world")).SelectionPart;
+            if (request.PartId is { } partId)
+            {
+                if (_openedPart?.PartId != partId)
+                    throw new InvalidOperationException("Для этого запроса выберите то же окно, которое было выбрано при сохранении.");
+                _scope.Select(SelectedWindowScope);
+            }
+            else if (request.PartIds is not null)
+            {
+                _scope.Select(MainRoomWindowsScope);
+            }
+            else
+            {
+                _scope.Select(AllWindowsScope);
+            }
+
+            _prompt.Text = request.Prompt;
+            var candidate = Capture();
+            var candidateEnvironment = candidate.Environment
+                ?? throw new InvalidOperationException("Не удалось проверить текущий контекст Studio.");
+            candidate = candidate with
+            {
+                RequestId = request.RequestId,
+                Environment = candidateEnvironment with { Camera = savedEnvironment.Camera }
+            };
+            if (!string.Equals(AuthoringRequestV2.ComputeSnapshotHash(candidate), request.SnapshotHash, StringComparison.Ordinal))
+                throw new InvalidOperationException("Текущие исходники, ширины или контекст проекта отличаются от сохранённого снимка.");
+
+            ClearProposal();
+            _request = request;
+            _proposal = proposal;
+            _disclosedGlobalInstructions = null;
+            EnsurePreparedRequestCurrent(request);
+            _previewReady = false;
+            _retryBuildAvailable = true;
+            SetBusy(false);
+            _status.Text = "Восстановлены проверенный запрос и предложение для локальной сборки. Агент не запускался; проект не изменён. Нажмите «Повторить сборку», затем осмотрите модель перед отдельным применением.";
+        }
+        catch (Exception error)
+        {
+            _request = null;
+            _proposal = null;
+            _sourceFingerprint = null;
+            _recipeText = null;
+            _capturedWidths = null;
+            _previewReady = false;
+            _retryBuildAvailable = false;
+            ClearBuildStage();
+            _openedPart = previousPart;
+            _scope.Select(previousScope);
+            _prompt.Text = previousPrompt;
+            SetBusy(false);
+            _status.Text = "Восстановление отклонено: " + error.Message + " Сохранённая запись и файлы проекта не изменены.";
+        }
+    }
+
+    private string PreviewFailureRequestId(string selectedPath)
+    {
+        var root = Path.GetFullPath(_studio.Workspace.Root);
+        var path = Path.GetFullPath(selectedPath);
+        var relative = Path.GetRelativePath(root, path).Replace('\\', '/');
+        var segments = relative.Split('/');
+        if (segments.Length != 4 || segments[0] != ".urman-studio" || segments[1] != "ai-jobs"
+            || segments[3] != "preview-failed.json"
+            || !Guid.TryParseExact(segments[2], "N", out var parsed)
+            || !string.Equals(parsed.ToString("N"), segments[2], StringComparison.Ordinal))
+            throw new InvalidOperationException("Выберите только preview-failed.json из .urman-studio/ai-jobs/{32-символьный ID}.");
+        return segments[2];
+    }
+
+    private bool TryClearPreviewFailure(HouseWindowRequest request)
+    {
+        try
+        {
+            Urman.Studio.Core.Handoff.DeveloperContext.ClearHouseWindowPreviewFailure(_studio.Workspace.Root, request.RequestId);
+            _previewFailureClearFailed = false;
+            return true;
+        }
+        catch (Exception error)
+        {
+            _previewFailureClearFailed = true;
+            _status.Text = "Действие остановлено: не удалось отозвать запись локального предпросмотра. Исправьте доступ к файлу и повторите действие. " + error.Message;
+            SetBusy(_busy);
+            return false;
+        }
+    }
+
+    private bool TryMarkPreviewFailure(HouseWindowRequest request, HouseWindowProposal proposal, out string errorMessage)
+    {
+        try
+        {
+            Urman.Studio.Core.Handoff.DeveloperContext.MarkHouseWindowPreviewFailed(_studio.Workspace.Root, request, proposal);
+            errorMessage = string.Empty;
+            return true;
+        }
+        catch (Exception error)
+        {
+            errorMessage = error.Message;
+            return false;
+        }
+    }
+
+    private void StopCurrentOperation()
+    {
+        if (_cancel is { } cancellation)
+        {
+            cancellation.Cancel();
+            return;
+        }
+        if (_request is not { } request) return;
+        if (!TryClearPreviewFailure(request)) return;
+        ClearProposal();
+        InvalidatePreparedRequest();
+        SetBusy(false);
+        _status.Text = "Запрос и локальное предложение отозваны. Проект не изменён.";
+    }
+
     private Task AskAsync() => RunProposalAsync(fromManual: false);
 
     private async Task RunProposalAsync(bool fromManual, string? proposalFile = null)
@@ -625,6 +810,7 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
         _cancel = new();
         var jobRequestAttempted = false;
         var proposalPersisted = false;
+        var previewBuildAttempted = false;
         try
         {
             if (!fromManual) _request = PrepareRequest(checkProviderPolicy: true);
@@ -641,6 +827,7 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
             _proposal = acceptedProposal;
             Urman.Studio.Core.Handoff.DeveloperContext.WriteHouseWindowJob(_studio.Workspace.Root, request, acceptedProposal);
             proposalPersisted = true;
+            previewBuildAttempted = true;
             _status.Text = await BuildAndPreviewAsync(false, _cancel.Token);
             if (Volatile.Read(ref _providerWarningSeen) != 0)
                 _status.Text += "\nCodex сообщил предупреждение в сессии. Перед запросом проверено: MCP отключены, доступных MCP-инструментов нет.";
@@ -655,11 +842,21 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
         }
         catch (Exception error)
         {
-            if (proposalPersisted && CanRetainProposalForRetry())
+            if (previewBuildAttempted && proposalPersisted && CanRetainProposalForRetry()
+                && _request is { } failedRequest && _proposal is { } failedProposal)
             {
-                ClearBuildStage();
-                _retryBuildAvailable = true;
-                _status.Text = RetryBuildFailureMessage(error, retry: false);
+                if (TryMarkPreviewFailure(failedRequest, failedProposal, out var receiptError))
+                {
+                    ClearBuildStage();
+                    _retryBuildAvailable = true;
+                    _status.Text = RetryBuildFailureMessage(error, retry: false);
+                }
+                else
+                {
+                    ClearProposal();
+                    InvalidatePreparedRequest();
+                    _status.Text = "Не удалось сохранить запись неудачного предпросмотра; восстановление и повтор этой попытки отключены. " + receiptError;
+                }
             }
             else
             {
@@ -674,6 +871,7 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
     private async Task RetryBuildAsync()
     {
         if (_busy || !_retryBuildAvailable || _previewReady || _request is null || _proposal is null || !Visible) return;
+        if (!TryClearPreviewFailure(_request)) return;
         SetBusy(true);
         _retryBuildAvailable = false;
         _cancel = new();
@@ -692,11 +890,20 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
         }
         catch (Exception error)
         {
-            if (CanRetainProposalForRetry())
+            if (CanRetainProposalForRetry() && _request is { } failedRequest && _proposal is { } failedProposal)
             {
-                ClearBuildStage();
-                _retryBuildAvailable = true;
-                _status.Text = RetryBuildFailureMessage(error, retry: true);
+                if (TryMarkPreviewFailure(failedRequest, failedProposal, out var receiptError))
+                {
+                    ClearBuildStage();
+                    _retryBuildAvailable = true;
+                    _status.Text = RetryBuildFailureMessage(error, retry: true);
+                }
+                else
+                {
+                    ClearProposal();
+                    InvalidatePreparedRequest();
+                    _status.Text = "Не удалось сохранить запись неудачного предпросмотра; восстановление и повтор этой попытки отключены. " + receiptError;
+                }
             }
             else
             {
@@ -787,7 +994,7 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
 
     private bool CanRetainProposalForRetry()
     {
-        if (!Visible || _previewReady || _request is not { } request || _proposal is not { } proposal
+        if (!Visible || _cancel?.IsCancellationRequested == true || _previewReady || _request is not { } request || _proposal is not { } proposal
             || _recipeText is null || _capturedWidths is null)
             return false;
         try
@@ -804,7 +1011,7 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
 
     private static string RetryBuildFailureMessage(Exception error, bool retry) =>
         $"{(retry ? "Повторная сборка" : "Сборка или предпросмотр")} не удались: {error.Message}\n"
-        + "Проверенное предложение сохранено. Можно повторить локальную сборку или изменить описание, чтобы получить новое предложение. Файлы проекта не изменены.";
+        + "Проверенное предложение и запись неудачного предпросмотра сохранены. Можно повторить локальную сборку или восстановить её после перезапуска. Файлы проекта не изменены.";
 
     private void ClearBuildStage()
     {
@@ -858,6 +1065,7 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
     private async Task ApplyAsync()
     {
         if (_busy || !_previewReady || _proposal is null || _request is null || _stage is null) return;
+        if (!TryClearPreviewFailure(_request)) return;
         SetBusy(true);
         try
         {
@@ -1040,18 +1248,19 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
     {
         _busy = busy;
         _prompt.Editable = !busy;
-        _globalInstructions.Disabled = busy;
+        _globalInstructions.Disabled = busy || _previewFailureClearFailed;
         var houseSelected = _openedSelection == HeroHouseRecipe.EntityId && _studio.Selection == _openedSelection;
-        _scope.Disabled = busy || _proposal is not null || _openedSelection != HeroHouseRecipe.EntityId;
-        _ask.Disabled = busy || !houseSelected || _proposal is not null;
-        _copy.Disabled = busy || !houseSelected;
-        _saveRequest.Disabled = busy || !houseSelected;
-        _disclosure.Disabled = busy || !houseSelected;
-        _paste.Disabled = busy || !houseSelected || _request is null || _proposal is not null;
+        _scope.Disabled = busy || _previewFailureClearFailed || _proposal is not null || _openedSelection != HeroHouseRecipe.EntityId;
+        _ask.Disabled = busy || _previewFailureClearFailed || !houseSelected || _proposal is not null;
+        _copy.Disabled = busy || _previewFailureClearFailed || !houseSelected;
+        _saveRequest.Disabled = busy || _previewFailureClearFailed || !houseSelected;
+        _disclosure.Disabled = busy || _previewFailureClearFailed || !houseSelected;
+        _paste.Disabled = busy || _previewFailureClearFailed || !houseSelected || _request is null || _proposal is not null;
         _importFile.Disabled = _paste.Disabled;
-        _apply.Disabled = busy || !_previewReady || _proposal is null || _request is null || _stage is null;
-        _retryBuild.Disabled = busy || !_retryBuildAvailable || _previewReady || _proposal is null
+        _apply.Disabled = busy || _previewFailureClearFailed || !_previewReady || _proposal is null || _request is null || _stage is null;
+        _retryBuild.Disabled = busy || _previewFailureClearFailed || !_retryBuildAvailable || _previewReady || _proposal is null
             || _request is null || !houseSelected || !Visible;
+        _restorePreview.Disabled = busy || _previewFailureClearFailed || !houseSelected || _request is not null || _proposal is not null;
     }
     private void ClearProposal()
     {

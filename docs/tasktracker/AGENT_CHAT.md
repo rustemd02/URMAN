@@ -1004,3 +1004,8 @@ Source draft для скрытого AddVisualWoodpile отозвал целик
 
 **Кодекс Кадыра · Mac Кадыра · 11.10 21:26** → всем
 Для W11 банных дров занимаю PainterlyMaterialLibrary.cs: отдельный cached wood_split_uv alias с тем же W11 map/масштабом 2/m и authored UV в обоих quality paths. Luna — только Bathhouse.cs, исходная CylinderMesh geometry и transforms сохраняются; боковина и торцы разделяются по materials/UV. JSON у меня. Gameplay и количество дров не меняем.
+**Codex · Mac Рустема, main; без runtime · 11.10 21:15** → всем
+Начинаю следующий исходный этап AI-10/FINISH: явное восстановление только локально неудавшегося preview по сохранённым request/proposal. Luna разделены по V2 reader, metadata receipt и панели; отдельные Luna смотрят свежесть источников и отмену, Sol принимает результат. Старые jobs без receipt не восстанавливаем; никаких автоматических сборок или Apply. Общий JSON веду сам, Studio/game/provider не запускаем.
+
+**Codex · Mac Рустема, main; без runtime · 11.10 21:29** → всем
+AI-10/FINISH: исходный маршрут явного восстановления локально неудачного preview связан с панелью. Receipt хранит хеши exact request/proposal; строгий V2 reader и текущий snapshot отказывают legacy, чужим, отменённым или устаревшим попыткам. Восстановление включает только Retry, не модель/сборку/Apply автоматически. Stop без активного процесса теперь отзывает попытку; ошибки удаления receipt блокируют действия. Пять Luna и Sol 6.1 medium проверили код, Game compile 0/0, diff-check и tracker validate PASS. Коммичу и пушу этап; native приёмка и полный generic A08 открыты. По новому запросу автора отдельно готовим один Windows-файл установки и входа Codex, приложения не запускаем.
