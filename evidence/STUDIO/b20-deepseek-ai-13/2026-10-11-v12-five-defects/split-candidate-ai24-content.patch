@@ -1,0 +1,129 @@
+diff --git a/game/studio/StudioContentSection.cs b/game/studio/StudioContentSection.cs
+index 8d8d0334..18fa96ea 100644
+--- a/game/studio/StudioContentSection.cs
++++ b/game/studio/StudioContentSection.cs
+@@ -153,11 +153,43 @@ public sealed class StudioContentSection(StudioRoot studio) : IStudioSection
+         var kind = EntityCatalog.KindOf(id!, null);
+         switch (kind)
+         {
+-            case "document" or "chat" or "hint":
++            case "document":
+                 _pageTitle.Text = Localized.Russian(entity["title"]);
+                 _pageBody.Text = MarkWords(SourceExcerptSelection.FormatSourceText((string?)entity[MarkdownSource.BodyKey] ?? ""));
+                 _pageNote.Text = "Форматирование и бумага — те же, что в игре. Подчёркнуты татарские слова, которые игра подхватывает при чтении.";
+                 break;
++            case "chat" or "hint":
++            {
++                // The player never reads this Markdown body: a thread opens on its start
++                // node and a hint resolves a single line and offers its search target, so
++                // the preview shows exactly that instead of an author comment.
++                var chat = PcChat.Parse(id!, entity);
++                string Line(string textId) => studio.Workspace.Get(textId) is JsonObject text ? Localized.Russian(text["value"]) : "";
++                if (chat.IsHint)
++                {
++                    var line = Line(chat.TextId);
++                    _pageTitle.Text = "Подсказка";
++                    _pageBody.Text = line.Length > 0 ? MarkWords(line) : $"Строка «{chat.TextId}» не разрешилась — см. замечания ниже.";
++                    // The seen list lives in the saved desktop snapshot, so the hint is
++                    // shown once per save (and past 64 entries the oldest are forgotten),
++                    // not once per session.
++                    _pageNote.Text = chat.PointsTo.Length > 0
++                        ? $"Показывается один раз на сохранение (список виденных лежит в сохранении, 64 записи); поиск на ПК предложит: {chat.PointsTo}."
++                        : "Показывается один раз на сохранение; цель поиска не задана, и поиск ничего не предложит.";
++                    break;
++                }
++
++                var start = chat.Nodes.FirstOrDefault(node => node.Id == chat.StartNodeId);
++                var opening = start is null ? "" : Line(start.TextId);
++                _pageTitle.Text = $"{Localized.Russian(entity["title"])} · тред";
++                _pageBody.Text = opening.Length > 0 ? MarkWords(opening) : $"Стартовый узел «{chat.StartNodeId}» не разрешился — см. замечания ниже.";
++                // The conditions of the nodes and answers are NOT evaluated here: this is
++                // a static preview of the opening line, and it says so instead of looking
++                // like a playable thread.
++                _pageNote.Text = string.Join(" ", PcChat.Outline(chat))
++                    + " Превью статическое: показана только первая реплика, условия узлов и ответов здесь не проверяются.";
++                break;
++            }
+             case "knowledge":
+                 _pageTitle.Text = Localized.Russian(entity["title"]);
+                 _pageBody.Text = MarkWords(Localized.Russian(entity["summary"]));
+@@ -209,6 +241,13 @@ public sealed class StudioContentSection(StudioRoot studio) : IStudioSection
+ 
+     private static string KnowledgeKindText(string? kind) => KnowledgeKinds.FirstOrDefault(item => item.Value == kind).Text ?? kind ?? "сведение";
+ 
++    /// <summary>The last segment of a text id, short enough for a link label.</summary>
++    private static string ShortTextId(string textId)
++    {
++        var slash = textId.LastIndexOf('/');
++        return slash >= 0 && slash + 1 < textId.Length ? textId[(slash + 1)..] : textId;
++    }
++
+     // ---- properties ----------------------------------------------------------------
+ 
+     public void FillProperties(StudioProperties panel)
+@@ -262,7 +301,31 @@ public sealed class StudioContentSection(StudioRoot studio) : IStudioSection
+                 panel.Links("Где перечитывается и применяется", (entity["rereadTargets"] as JsonArray ?? []).Concat(entity["applicationTargets"] as JsonArray ?? [])
+                     .Select(target => (string?)target).OfType<string>().Select(target => ($"{studio.Catalog.Describe(target).KindLabel} «{studio.Catalog.NameOf(target)}»", target)));
+                 break;
+-            case "document" or "chat" or "hint":
++            case "hint":
++            {
++                // hint.schema.json allows only schemaVersion, id, level, requires, pointsTo,
++                // textId, bodyMarkdown, items and properties, and forbids anything else, so
++                // a title written here would fail content validation.
++                var hint = PcChat.Parse(id!, entity);
++                panel.NumberField("Уровень (порядок подсказок)", (float)hint.Level, value => SetField(["level"], Math.Round(value), "уровень подсказки"));
++                panel.TextField("Строка подсказки (id текста)", hint.TextId, text => SetField(["textId"], text, "строка подсказки"));
++                panel.TextField("Что предложит поиск на ПК", hint.PointsTo, text => SetField(["pointsTo"], text, "цель поиска"));
++                if (hint.TextId.Length > 0 && studio.Workspace.Get(hint.TextId) is JsonObject line)
++                {
++                    panel.Text("Сейчас игрок увидит: " + Localized.Russian(line["value"]), muted: true);
++                }
++
++                foreach (var field in entity.Select(pair => pair.Key).Where(field => field is not ("schemaVersion" or "id" or "level" or "requires" or "pointsTo" or "textId" or "bodyMarkdown" or "items" or "properties")))
++                {
++                    panel.Text($"⚠ Поле «{field}» схема подсказки не разрешает: запись в него не пройдёт проверку контента.", muted: true);
++                }
++
++                MultiLine(panel, "Авторский текст (Markdown, в игре показывается строка выше)", (string?)entity[MarkdownSource.BodyKey] ?? "", text =>
++                    SetField([MarkdownSource.BodyKey], text.EndsWith('\n') ? text : text + "\n", "авторский текст подсказки"), minHeight: 200);
++                foreach (var problem in PcChat.Validate(studio.Workspace, hint)) panel.Text("⚠ " + problem);
++                break;
++            }
++            case "document" or "chat":
+                 LocalizedField("Заголовок", "title", multiline: false);
+                 MultiLine(panel, "Текст (Markdown: # заголовок, **жирный**, > цитата)", (string?)entity[MarkdownSource.BodyKey] ?? "", text =>
+                     SetField([MarkdownSource.BodyKey], text.EndsWith('\n') ? text : text + "\n", "текст документа"), minHeight: 320);
+@@ -284,6 +347,32 @@ public sealed class StudioContentSection(StudioRoot studio) : IStudioSection
+                         SetField(["oldPc", "searchTerms"], new JsonArray(text.Split(',').Select(part => part.Trim()).Where(part => part.Length > 0).Select(part => (JsonNode?)part).ToArray()), "слова поиска"));
+                 }
+ 
++                // The old PC's threads and hints: the section used to edit only the
++                // body, so a broken link or a line nobody resolves stayed invisible.
++                if (id.Contains(":hint/", StringComparison.Ordinal))
++                {
++                    var hint = PcChat.Parse(id, entity);
++                    foreach (var line in PcChat.Outline(hint)) panel.Text(line, muted: true);
++                    foreach (var problem in PcChat.Validate(studio.Workspace, hint)) panel.Text("⚠ " + problem);
++                }
++                else if (entity["nodes"] is JsonArray)
++                {
++                    var chat = PcChat.Parse(id, entity);
++                    foreach (var line in PcChat.Outline(chat)) panel.Text(line, muted: true);
++                    var lines = new List<(string Text, string Id)>();
++                    foreach (var node in chat.Nodes)
++                    {
++                        if (node.TextId.Length > 0) lines.Add(($"Реплика {ShortTextId(node.TextId)}", node.TextId));
++                        foreach (var choice in node.Choices)
++                        {
++                            if (choice.TextId.Length > 0) lines.Add(($"Ответ {ShortTextId(choice.TextId)}", choice.TextId));
++                        }
++                    }
++
++                    if (lines.Count > 0) panel.Links("Строки треда — нажмите, чтобы править", lines);
++                    foreach (var problem in PcChat.Validate(studio.Workspace, chat)) panel.Text("⚠ " + problem);
++                }
++
+                 break;
+             default:
+                 LocalizedField("Текст", "value", multiline: true);

@@ -1,0 +1,140 @@
+diff --git a/game/studio/StudioDialogueSection.cs b/game/studio/StudioDialogueSection.cs
+index c3f83960..0b51eeea 100644
+--- a/game/studio/StudioDialogueSection.cs
++++ b/game/studio/StudioDialogueSection.cs
+@@ -108,6 +108,7 @@ public sealed class StudioDialogueSection(StudioRoot studio) : IStudioSection
+             card.AddChild(box);
+             box.AddChild(new Label { Text = $"{Speaker(dialogue, (string)node["speakerRole"]!)} говорит:", ThemeTypeVariation = "MutedLabel" });
+             box.AddChild(TextEdit((string)node["textId"]!, "реплика"));
++            box.AddChild(new Label { Text = TatarNote((string)node["textId"]!), ThemeTypeVariation = "MutedLabel" });
+             var choices = node["choices"]!.AsArray();
+             for (var choiceIndex = 0; choiceIndex < choices.Count; choiceIndex++)
+             {
+@@ -119,6 +120,7 @@ public sealed class StudioDialogueSection(StudioRoot studio) : IStudioSection
+                 margin.AddChild(answer);
+                 answer.AddChild(new Label { Text = "Ответ Айдара:", ThemeTypeVariation = "MutedLabel" });
+                 answer.AddChild(TextEdit((string)choice["textId"]!, "ответ"));
++                answer.AddChild(new Label { Text = TatarNote((string)choice["textId"]!), ThemeTypeVariation = "MutedLabel" });
+                 answer.AddChild(new Label { Text = "Доступен, если:", ThemeTypeVariation = "MutedLabel" });
+                 answer.AddChild(new StudioRuleEditor(studio, choice["conditions"] as JsonArray ?? [], effects: false,
+                     rules => MutateChoice(nodeIndex, at, "conditions", rules)));
+@@ -139,18 +141,47 @@ public sealed class StudioDialogueSection(StudioRoot studio) : IStudioSection
+         }
+     }
+ 
++    /// <summary>The Russian text of a text entity, falling back to the catalogue only when there is none.</summary>
++    private string RussianText(string? textId) =>
++        textId is not null && studio.Workspace.Get(textId) is JsonObject text && text["value"] is { } value
++            ? Localized.Russian(value)
++            : studio.Catalog.ResolveText(textId);
++
++    /// <summary>What the author must know about the Tatar side before saving this line.</summary>
++    private string TatarNote(string? textId) =>
++        textId is not null && studio.Workspace.Get(textId) is JsonObject text && text["value"] is { } value
++            ? (string.IsNullOrEmpty(Localized.Tatar(value))
++                ? "Татарского перевода нет: он останется пустым и требует языковой приёмки."
++                : "Татарский перевод есть.")
++            : "";
++
+     private LineEdit TextEdit(string textId, string label)
+     {
+-        var edit = new LineEdit { Text = studio.Catalog.ResolveText(textId), SizeFlagsHorizontal = Control.SizeFlags.ExpandFill };
++        // The field must show the Russian text the author edits. EntityCatalog.ResolveText
++        // returns the default, which may deliberately differ from the Russian translation,
++        // so a field built from it would show - and then write back - the wrong string.
++        var edit = new LineEdit { Text = RussianText(textId), SizeFlagsHorizontal = Control.SizeFlags.ExpandFill };
+         var original = edit.Text;
+         void Commit(string text)
+         {
+-            if (text == original || studio.Workspace.Locate(textId) is not { } address) return;
+-            var entity = studio.Workspace.Get(textId)!.AsObject();
+-            var translations = entity["value"]?["translations"] as JsonObject ?? [];
+-            translations["ru"] = text;
+-            entity["value"] = new JsonObject { ["default"] = text, ["translations"] = translations.DeepClone() };
+-            studio.Session.Set(address.RelativePath, address.Key, entity, label);
++            if (text == original || studio.Workspace.Locate(textId) is null) return;
++            LocalizedTextChange change;
++            try
++            {
++                change = LocalizedTextEditor.Apply(studio.Workspace, textId, text);
++            }
++            catch (InvalidOperationException error)
++            {
++                studio.ShowBanner(error.Message, error: true);
++                return;
++            }
++
++            if (change.Warnings.Count > 0)
++            {
++                studio.ShowBanner(string.Join(" ", change.Warnings), error: false);
++            }
++
++            studio.Session.Set(change.RelativePath, change.Key, change.Entity, label);
+             original = text;
+         }
+ 
+diff --git a/game/studio/StudioQuestSection.cs b/game/studio/StudioQuestSection.cs
+index 85faf7fe..56aa9798 100644
+--- a/game/studio/StudioQuestSection.cs
++++ b/game/studio/StudioQuestSection.cs
+@@ -305,7 +305,14 @@ public sealed class StudioQuestSection(StudioRoot studio) : IStudioSection
+         {
+             var objectiveId = (string)objective["id"]!;
+             var titleId = (string?)objective["titleTextId"];
+-            panel.TextField("Цель (как её видит игрок)", studio.Catalog.ResolveText(titleId), text => SetText(titleId, text));
++            // The same rule as in the dialogue editor: show the Russian text, never the
++            // default, which may differ from it on purpose.
++            panel.TextField("Цель (как её видит игрок)", RussianText(titleId), text => SetText(titleId, text));
++            var tatar = TatarNote(titleId);
++            if (tatar.Length > 0)
++            {
++                panel.Text(tatar, muted: true);
++            }
+             panel.Text("Выполнена, когда:", muted: true);
+             panel.AddChild(new StudioRuleEditor(studio, objective["completionConditions"] as JsonArray ?? [], effects: false,
+                 rules => MutateObjective(objectiveId, "completionConditions", rules, "условие цели")));
+@@ -415,12 +422,40 @@ public sealed class StudioQuestSection(StudioRoot studio) : IStudioSection
+ 
+     private static string Hex() => Convert.ToHexStringLower(System.Security.Cryptography.RandomNumberGenerator.GetBytes(4));
+ 
++    /// <summary>The Russian text of a text entity, falling back to the catalogue only when there is none.</summary>
++    private string RussianText(string? textId) =>
++        textId is not null && studio.Workspace.Get(textId) is JsonObject text && text["value"] is { } value
++            ? Localized.Russian(value)
++            : studio.Catalog.ResolveText(textId);
++
++    /// <summary>What the author must know about the Tatar side before saving this line.</summary>
++    private string TatarNote(string? textId) =>
++        textId is not null && studio.Workspace.Get(textId) is JsonObject text && text["value"] is { } value
++            ? (string.IsNullOrEmpty(Localized.Tatar(value))
++                ? "Татарского перевода нет: он останется пустым и требует языковой приёмки."
++                : "Татарский перевод есть.")
++            : "";
++
+     private void SetText(string? textId, string text)
+     {
+-        if (textId is null || studio.Workspace.Locate(textId) is not { } address) return;
+-        var entity = studio.Workspace.Get(textId)!.AsObject();
+-        entity["value"] = new JsonObject { ["default"] = text, ["translations"] = new JsonObject { ["ru"] = text } };
+-        studio.Session.Set(address.RelativePath, address.Key, entity, "текст цели");
++        if (textId is null) return;
++        LocalizedTextChange change;
++        try
++        {
++            change = LocalizedTextEditor.Apply(studio.Workspace, textId, text);
++        }
++        catch (InvalidOperationException error)
++        {
++            studio.ShowBanner(error.Message, error: true);
++            return;
++        }
++
++        if (change.Warnings.Count > 0)
++        {
++            studio.ShowBanner(string.Join(" ", change.Warnings), error: false);
++        }
++
++        studio.Session.Set(change.RelativePath, change.Key, change.Entity, "текст цели");
+     }
+ 
+     private void MutateObjective(string objectiveId, string field, JsonArray rules, string label) =>

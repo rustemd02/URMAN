@@ -1,0 +1,37 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-13"
+  ],
+  "stage": "answer to the 17:32 review: the five defects in v11, and the patch split by unit",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-11 18:07 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "3622a660",
+  "defects_fixed": {
+    "1 subscription before the controls exist": "Changed was subscribed immediately after constructing the selector, which is before _status exists and before the initial refresh; the handler touches those controls. The subscription now happens after the whole bar (and _status) is built, and the initial context keeps being applied explicitly once the sections are registered",
+    "2 the handler erased the world's own freeze": "OnCampaignWorldChanged called SetWriteBlock(null) right after StudioWorldSection.ApplyCampaignWorld, and that method is the owner of the freeze: for a world the game does not load it sets the reason, which my line then cleared. The clear is removed, so the world keeps its own gate",
+    "3 a rejection with no consistent default was silent": "StudioCampaignSelector.Reject returned after only setting a label when neither the previous context nor the default resolved. It now calls MarkUnresolved, so the host closes the gate and is told",
+    "4 the session gate did not cover every write path": "the session patch guarded SetField, Set and ApplyFilesAsync only. It now guards Delete, ReplaceDraft, SetOrder, Undo, Redo and the synchronous ApplyFiles too: ten RefuseWrite call sites, so undo and draft adoption cannot write around a frozen world",
+    "5 play and check": "the unresolved-world refusal now comes BEFORE SaveAll, so nothing is saved on the way to a launch that will not happen; the start comes from the captured context when the world section has no live start; the scene fallback to Act I is gone; and both Play and Check re-check the world identity after their await, so a build or a report for one campaign can never be shown for another"
+  },
+  "patch_split": {
+    "ai13_wiring_v12": "carries only StudioRoot.cs, StudioWorldSection.cs and PlayPreparation.cs lines that belong to the campaign/world choice, the freeze gate and the launch. Twenty of the thirty-five hunks of v11 are here; the other fifteen are the units named below.",
+    "honest_limitation": "the split is by hunk, and two hunks MIX units: the hunk at StudioWorldSection -297 also added the AI-18 Audio property and the AI-36 _assets field (both dropped from v12, which also removed an unused-field compile error), and the vegetation-brush method carries the AI-17 scatter refusal inside the same method as the AI-13 write gate, so those five lines stay in v12 and are named here. The candidate patches for the other units are in this directory as split-candidate-*.patch: they are raw material for the owner, not finished per-unit handoffs, because a mixed hunk cannot be applied without the hunk it shares a method with."
+  },
+  "verified": {
+    "apply": "session v2 and wiring v12 pass git apply --check on a pristine 3622a660 tree with my branch merged, and were applied there",
+    "compile_and_tests": "Urman.Studio.Core 0/0; game/Urman.Game.csproj 0/0; Urman.Studio.Tests 38/38; probe PASS",
+    "source_invariants": "the check log records: no Act I fallback left in the root, ten RefuseWrite sites in the session, no SetWriteBlock(null) inside the handler, four MarkUnresolved call sites in the selector, and the subscription line standing after the _status creation",
+    "not_run": "no Studio window: this is a SOURCE stage. Probe and compile are not a startup UI pass, and native is forbidden by the author"
+  },
+  "files": {
+    "evidence/STUDIO/b20-deepseek-ai-13/2026-10-11-v12-five-defects/ai13-wiring-v12.patch": "e03241ed6b663fde6bb5f470a49179524d22161a0f5a33f49094446226abd115",
+    "evidence/STUDIO/b20-deepseek-ai-13/2026-10-11-v12-five-defects/ai13-write-boundary-v2.patch": "654eaedc0514406ea50b2c78bb83c70fb3734de29d0ef3a35b417d2c2a0d7698",
+    "evidence/STUDIO/b20-deepseek-ai-13/2026-10-11-v12-five-defects/check.log": "dc6796ca9103a21d6a6d0db027ba90b08b324b75c352be6b28b577eeb0533c14"
+  },
+  "open": [
+    "AI-26 finding 220 and the AI-36 colour-vs-material wording are acknowledged as not fixed in this stage",
+    "runtime acceptance is NOT_RUN by the author's pause"
+  ]
+}

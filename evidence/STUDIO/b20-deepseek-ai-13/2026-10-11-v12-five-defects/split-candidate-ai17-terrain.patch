@@ -1,0 +1,48 @@
+diff --git a/game/studio/StudioWorldSection.cs b/game/studio/StudioWorldSection.cs
+index 3c65edc2..5f8ffe4a 100644
+--- a/game/studio/StudioWorldSection.cs
++++ b/game/studio/StudioWorldSection.cs
+@@ -1162,14 +1251,7 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
+                 ["id"] = id,
+                 ["kind"] = "terrain-stroke",
+                 ["name"] = $"Рельеф: {label} (радиус {radius:0.#} м)",
+-                ["params"] = new JsonObject
+-                {
+-                    ["mode"] = mode,
+-                    ["position"] = new JsonArray(Math.Round(at.X, 2), 0.0, Math.Round(at.Z, 2)),
+-                    ["radius"] = Math.Round(radius, 2),
+-                    ["strength"] = Math.Round(strength, 3),
+-                    ["target"] = Math.Round(at.Y, 3)
+-                }
++                ["params"] = strokeParams
+             }, "штрих рельефа");
+         }
+ 
+@@ -1217,16 +1325,7 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
+                 ["id"] = id,
+                 ["kind"] = "scatter",
+                 ["name"] = $"Посадки ({models.Length} пород, радиус {radius:0.#} м)",
+-                ["params"] = new JsonObject
+-                {
+-                    ["position"] = new JsonArray(Math.Round(at.X, 2), 0.0, Math.Round(at.Z, 2)),
+-                    ["radius"] = Math.Round(radius, 2),
+-                    ["density"] = Math.Round(density, 4),
+-                    ["seed"] = System.Security.Cryptography.RandomNumberGenerator.GetInt32(1, int.MaxValue),
+-                    ["catalogIds"] = new JsonArray(models.Select(model => (JsonNode?)model).ToArray()),
+-                    ["scaleMin"] = 0.8,
+-                    ["scaleMax"] = 1.2
+-                }
++                ["params"] = draft
+             }, "штрих");
+         }
+ 
+@@ -1327,6 +1426,9 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
+             panel.NumberField("Размер до", (float)(double)parameters["scaleMax"]!, value => studio.Session.SetField(id, ["params", "scaleMax"], Math.Round(value, 2), "размер посадок"));
+             panel.Text("Породы: " + string.Join(", ", parameters["catalogIds"]!.AsArray().Select(model => _catalog.OfType<JsonObject>().FirstOrDefault(entry => (string)entry["id"]! == (string)model!)?["name"]?.ToString() ?? (string)model!)), muted: true);
+             panel.Buttons(("Перемешать", () => studio.Session.SetField(id, ["params", "seed"], System.Security.Cryptography.RandomNumberGenerator.GetInt32(1, int.MaxValue), "перемешать посадки")));
++            var scatter = ScatterCommand.Parse(id, entity);
++            foreach (var scatterNote in ScatterCommand.Notes(scatter)) panel.Text(scatterNote, muted: true);
++            foreach (var problem in ScatterCommand.Validate(scatter)) panel.Text("⚠ " + problem);
+             if (PreviewNode(id) is { } planted && planted.HasMeta("scatterKept"))
+             {
+                 panel.Text($"Посажено: {(int)planted.GetMeta("scatterKept")}. На дорогах и проходах не посажено: {(int)planted.GetMeta("scatterSkippedOnPassages")}.", muted: true);

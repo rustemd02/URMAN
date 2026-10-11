@@ -1,0 +1,21 @@
+== AI-13 v12: the five defects from the 17:32 review
+== composed tree: origin/main 3622a660 + my branch + session v2 + ai13 v12
+
+== source invariants
+Act I fallback in StudioRoot: 0
+RefuseWrite sites in EditSession: 10
+SetWriteBlock(null) inside OnCampaignWorldChanged: 0
+MarkUnresolved call sites in the selector: 4
+subscription line / _status line: 929 924
+
+== builds
+
+Прошло времени 00:00:00.48
+
+Прошло времени 00:00:00.53
+== existing tests
+=== TEST EXECUTION SUMMARY ===
+   Urman.Studio.Tests  Total: 38, Errors: 0, Failed: 0, Skipped: 0, Not Run: 0, Time: 2,251s
+== probe
+
+PROBE RESULT: PASS
