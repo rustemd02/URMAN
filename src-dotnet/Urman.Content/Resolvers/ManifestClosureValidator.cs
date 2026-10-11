@@ -82,6 +82,16 @@ public static class ManifestClosureValidator
             ResolveReferences(catalog, entry.Origin, ReadReferences("quests", entry.Value, entry.Origin));
         }
 
+        foreach (var entry in catalog.Category("knowledge").Values)
+        {
+            ResolveReferences(catalog, entry.Origin, ReadReferences("knowledge", entry.Value, entry.Origin));
+        }
+
+        foreach (var entry in catalog.Category("vocabulary").Values)
+        {
+            ResolveReferences(catalog, entry.Origin, ReadReferences("vocabulary", entry.Value, entry.Origin));
+        }
+
         return new ManifestClosure(catalog.Ids("assets"), catalog.Ids("texts"), catalog.Ids("vocabulary"));
     }
 
@@ -122,6 +132,16 @@ public static class ManifestClosureValidator
                 break;
             case "quests":
                 AddQuestReferences(references, entity, origin);
+                break;
+            case "knowledge":
+                AddArrayReferences(references, entity, "sourceIds", null, origin);
+                AddArrayReferences(references, entity, "reveals", null, origin);
+                AddArrayReferences(references, entity, "contradicts", null, origin);
+                AddArrayReferences(references, entity, "unlocks", null, origin);
+                break;
+            case "vocabulary":
+                AddArrayReferences(references, entity, "rereadTargets", null, origin);
+                AddArrayReferences(references, entity, "applicationTargets", null, origin);
                 break;
             default:
                 throw new NotSupportedException($"Typed references are not defined for resolver category '{category}'.");
@@ -197,7 +217,7 @@ public static class ManifestClosureValidator
         List<ContentReference> references,
         JsonObject entity,
         string field,
-        string targetCategory,
+        string? targetCategory,
         ResolverOrigin origin,
         string? expectedAssetKind = null)
     {
@@ -216,7 +236,22 @@ public static class ManifestClosureValidator
                     reference);
             }
 
-            references.Add(new ContentReference(pointer, targetCategory, id, expectedAssetKind));
+            var resolvedTargetCategory = targetCategory;
+            if (resolvedTargetCategory is null)
+            {
+                if (!ResolverCatalog.TryGetCategoryForLogicalId(id, out var inferredTargetCategory))
+                {
+                    throw ResolverErrors.Create(
+                        ResolverErrorCode.InvalidPack,
+                        $"{origin.Id}.{field}/{index} must reference a canonical ContentId with a known resolver kind.",
+                        reference,
+                        new Dictionary<string, object?> { ["targetId"] = id });
+                }
+
+                resolvedTargetCategory = inferredTargetCategory;
+            }
+
+            references.Add(new ContentReference(pointer, resolvedTargetCategory, id, expectedAssetKind));
         }
     }
 

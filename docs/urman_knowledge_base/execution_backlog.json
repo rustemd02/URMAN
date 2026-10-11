@@ -71597,6 +71597,14 @@
                       "implementation": "Shared field extractor now reads scene interactions labelTextId and optional targetSceneId/targetDialogueId/targetDocumentId/targetJournalEntryId with exact pointers and typed registry targets; document knowledgeRefs resolves knowledge. Missing optional targets are skipped; present malformed targets fail existing RequiredString. Existing resolver and context BFS consume the same fields. Context writer uses partial-typed-module-fields-v2; reader accepts both v1/v2 markers for schema4. Knowledge remains a terminal target, explicit incomplete coverage remains false. Viewer distinguishes both coverage versions.",
                       "verification": "Root affected Game compile: 0 warnings/0 errors. Luna bounded source/schema/consumer reviews and independent GPT6.1Sol medium final review found no concrete defects. No tests/probes/provider/Studio/game/Blender/runtime runs.",
                       "remaining": "Knowledge/vocabulary source refs, conditions/effects, campaign/game/custom domains, physical dependencies and new/tombstone scope remain uncovered. Native unsaved cross-checkout A07 and AI12 window request/preview/Apply/game/Undo acceptance remain deferred by author."
+                    },
+                    {
+                      "stage": "2026-10-11 knowledge and vocabulary canonical ContentId arrays",
+                      "result": "SOURCE_IMPLEMENTED_GAME_COMPILE_PASS_NATIVE_NOT_RUN",
+                      "source": "src-dotnet/Urman.Content/Resolvers/ResolverCatalog.cs; src-dotnet/Urman.Content/Resolvers/ManifestClosureValidator.cs; src-dotnet/Urman.Studio.Core/Handoff/DeveloperContext.cs; game/studio/StudioProperties.cs",
+                      "implementation": "Known knowledge sourceIds/reveals/contradicts/unlocks and vocabulary rereadTargets/applicationTargets are read as required ContentId arrays. Target category derives from existing ResolverCatalog canonical ID regex/category map, not an invented field-specific registry constraint. Unknown/malformed kinds fail with exact pointer. Shared closure validation and Studio BFS consume these refs; knowledge/vocabulary sources now traversed, vocabulary targets supported. Writer marker v3; schema4 reader preserves v1/v2 and adds v3. Readable context/viewer continue to disclose partial graph and absence of per-field semantic rules.",
+                      "verification": "Root affected Game compile: 0 warnings/0 errors; diff-check and tracker validate passed. Luna source/schema/consumer reviews plus independent GPT6.1Sol medium review found no concrete blockers. No tests/probes/content compiler/provider/Studio/game/Blender/runtime runs.",
+                      "remaining": "Conditions/effects, game/campaign/custom and physical file dependencies remain uncovered. Canonical known-registry references are checked, not semantic per-field target permissions. Native A07 and AI12 window/Codex/Apply/game/Undo acceptance remain deferred by author."
                     }
                   ],
                   "assigned_owner": "codex/b20-2026-10-10",
@@ -71604,7 +71612,7 @@
                   "activity": {
                     "state": "confirmed_active",
                     "reason": "Existing bounded context unit resumed for source implementation under live B20 mandate; runtime remains deferred by author.",
-                    "verification_question": "Do scene interaction labels/typed targets and document knowledgeRefs compile through the shared resolver, context package and v1/v2 viewer while preserving legacy readers and explicit partial coverage? Source check only; native A07 remains deferred."
+                    "verification_question": "Do the six schema-defined knowledge/vocabulary ContentId arrays reuse ResolverCatalog canonical categories, resolve through existing closure/BFS, and preserve v1/v2/v3 partial coverage readers? Compile/source check only; A07 deferred."
                   },
                   "task_type": "engineering",
                   "status": "in_progress",
@@ -71614,7 +71622,7 @@
                     "Extend schema-backed reference coverage to omitted narrative/game domains and physical resource dependencies.",
                     "Run actual unsaved-object/other-checkout payload/hash A07 acceptance after runtime pause is lifted."
                   ],
-                  "next_action": "Inspect knowledge/vocabulary schema-backed reference fields before extending the existing typed extractor; no runtime until author resumes launches.",
+                  "next_action": "Continue omitted context contract requirements after source review; native A07 and AI12 only when author resumes launches.",
                   "blocker": null,
                   "external_gates": [],
                   "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -71652,7 +71660,7 @@
                       "success": "Выполнены все перечисленные собственные критерии, без расширения на родителя.",
                       "repeat_only_if": "Изменился source/candidate/input/покрываемый контракт."
                     },
-                    "actual_result": "Partial typed module references now include nested scene targets/labels and document knowledgeRefs with compatible v1/v2 coverage markers; full graph and native unsaved cross-checkout A07 acceptance remain open.",
+                    "actual_result": "Partial schema-backed module references now include nested scene targets, document knowledgeRefs and known knowledge/vocabulary ContentId arrays with compatible coverage markers v1/v2/v3; full graph and native A07 remain open.",
                     "evidence_refs": []
                   },
                   "dependencies": {
