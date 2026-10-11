@@ -61922,7 +61922,7 @@
           "game/scripts/Act1ConnectedWorld.CleanYards.cs",
           "game/scripts/Act1ConnectedWorld.YardComposition.cs"
         ],
-        "next": "Resolve remaining visible short posts/rails against functional owners before any further removal; compare exact same views after a confirmed source change. Whole-village and movement/author acceptance remain open.",
+        "next": "Preserve confirmed rear gate/routing and functional shelter/repair props. Identify exact owners of unexplained front short posts with node-owner capture or hierarchy evidence when runtime checks are permitted; no further removal based on image alone. Whole-village/movement/author acceptance open.",
         "implementation": "Точные visual-only prefix группы BabaiYardWestBoundary/EastBoundary/WattleRun (оба)/BabaiEbiHouseBackFence/ApproachFenceWest. CleanYards убирает только подтверждённые Branch/Moss/Sedge/Shrub kit листья независимо от generic relocation/worldPropId/container, с функциональными guards.",
         "capture_job": "15935623791544308ed00cb66591e0de",
         "evidence": "evidence/ACT1-VILLAGE-COMPOSITION/yard-cleanup-2026-10-10",
@@ -61930,7 +61930,8 @@
         "final_capture_job": "2d2a40e43e744f43b3ee631487da7e5b",
         "final_snapshot": "dddde1c2491c2e1b2cb215c976d96834546432fb3d8fb1887f61f2e92132a0b8",
         "final_result": "11.10: final job PASS, gameExitCode=0, userdataRestored=true, engine-errors empty; C2/front/C1 High personally viewed. Internal duplicate runs removed; clean-yards removed=1868 (+51 versus intermediate1817), owners=82; yard-composition hidden=50. Short visible posts/rails around working props remain; whole-village clutter/art/movement not accepted.",
-        "final_evidence": "evidence/ACT1-VILLAGE-COMPOSITION/yard-cleanup-2026-10-10/final"
+        "final_evidence": "evidence/ACT1-VILLAGE-COMPOSITION/yard-cleanup-2026-10-10/final",
+        "remaining_owner_review_2026_10_11": "Luna read-only: C2 capped posts/open rails map to RearYardGate.cs RearGatePostEast/West (Shaft/Cap), RearGateLeafHinge/Leaf and RearNeighborPicketWest rails/pickets: deliberate rear-field route, preserve. Front short posts not attributable by image/sidecar; candidates include gate posts, structural BabaiFirewoodShelter canopy Post and gameplay YardRepairCorner trestle/sawhorse. No confirmed safe suppression target."
       },
       "history_before_2026_10_11": {
         "status": "in_progress",
