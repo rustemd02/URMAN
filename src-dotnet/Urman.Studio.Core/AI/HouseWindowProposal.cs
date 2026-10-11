@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using System.Collections.ObjectModel;
 
 namespace Urman.Studio.Core.AI;
 
@@ -18,6 +19,17 @@ public sealed record HouseWindowRequest(
     {
         get => _partIds;
         init => _partIds = value is null ? null : Array.AsReadOnly(value.ToArray());
+    }
+
+    private IReadOnlyDictionary<string, decimal>? _currentWidths;
+
+    [JsonPropertyName("currentWidths"), JsonPropertyOrder(7), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public IReadOnlyDictionary<string, decimal>? CurrentWidths
+    {
+        get => _currentWidths;
+        init => _currentWidths = value is null
+            ? null
+            : new ReadOnlyDictionary<string, decimal>(value.ToDictionary(pair => pair.Key, pair => pair.Value, StringComparer.Ordinal));
     }
 }
 
@@ -53,6 +65,8 @@ public static class HouseWindowProposalValidator
     public const decimal MaximumWidthMeters = 1.35m;
     public static readonly IReadOnlyList<string> MainRoomWindowIds = Array.AsReadOnly(
         new[] { "Front0", "Front1", "Front2", "Rear0", "Rear1", "Left0", "Right0" });
+    private static readonly IReadOnlyList<string> AllWindowIds = Array.AsReadOnly(
+        new[] { "Front0", "Front1", "Front2", "Rear0", "Rear1", "Left0", "Right0", "SeniOuter0" });
 
     public static void ValidateRequest(HouseWindowRequest request)
     {
@@ -74,6 +88,16 @@ public static class HouseWindowProposalValidator
 
         if (request.PartIds is not null && !HasCanonicalMainRoomWindowIds(request.PartIds))
             throw new ArgumentException("PartIds must contain the seven canonical main-room window IDs in order.", nameof(request));
+
+        if (request.CurrentWidths is not null)
+        {
+            var targetIds = request.PartId is { } partId ? new[] { partId } : request.PartIds ?? AllWindowIds;
+            if (request.CurrentWidths.Count != targetIds.Count || targetIds.Any(id => !request.CurrentWidths.ContainsKey(id)))
+                throw new ArgumentException("CurrentWidths must contain exactly the IDs in the selected window scope.", nameof(request));
+
+            foreach (var width in request.CurrentWidths.Values)
+                ValidateWidth(width, nameof(request.CurrentWidths));
+        }
 
         if (string.IsNullOrWhiteSpace(request.Prompt) || request.Prompt.Length > 8_000 || ContainsUnsupportedPromptControl(request.Prompt))
         {
@@ -113,9 +137,12 @@ public static class HouseWindowProposalValidator
         }
 
         ValidateWidth(proposal.WindowWidth, nameof(proposal.WindowWidth));
-        if (proposal.WindowWidth == request.CurrentWidth)
+        var isNoOp = request.CurrentWidths is null
+            ? proposal.WindowWidth == request.CurrentWidth
+            : request.CurrentWidths.Values.All(width => width == proposal.WindowWidth);
+        if (isNoOp)
         {
-            throw new ArgumentException("The proposed width must change the current width.", nameof(proposal));
+            throw new ArgumentException("The proposed width must change at least one targeted window.", nameof(proposal));
         }
 
         if (string.IsNullOrWhiteSpace(proposal.Summary) || proposal.Summary.Length > 500 || ContainsControl(proposal.Summary))

@@ -295,8 +295,13 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
         var (partId, partIds) = SelectedScope();
         _snapshot = Fingerprint(_recipeText);
         var currentWidth = partId is null ? (decimal)recipe["windowClearWidth"]! : (decimal)_capturedWidths[partId]!;
+        var scopedIds = partId is not null
+            ? new[] { partId }
+            : partIds?.ToArray() ?? HeroHouseRecipe.WindowIds.ToArray();
+        var currentWidths = scopedIds.ToDictionary(
+            id => id, id => (decimal)_capturedWidths[id]!, StringComparer.Ordinal);
         return new HouseWindowRequest(Guid.NewGuid().ToString("N"), _snapshot, HeroHouseRecipe.EntityId,
-            currentWidth, _prompt.Text, partId) { PartIds = partIds };
+            currentWidth, _prompt.Text, partId) { PartIds = partIds, CurrentWidths = currentWidths };
     }
 
     private string Fingerprint(string recipe)
@@ -461,8 +466,10 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
             var scopeSummary = _request.PartId is not null ? "только окно " + _request.PartId
                 : _request.PartIds is not null ? "7 окон главных комнат; окно в сенях и ширина по умолчанию сохранены"
                 : "все 8 окон выбранного дома, включая окно в сенях";
-            var widthSummary = _request.PartIds is not null
-                ? $"Целевая ширина 7 окон главных комнат: {_proposal.WindowWidth:0.00} м."
+            var widthSummary = _request.PartId is null
+                ? _request.PartIds is not null
+                    ? $"Целевая ширина 7 окон главных комнат: {_proposal.WindowWidth:0.00} м."
+                    : $"Целевая ширина всех 8 окон: {_proposal.WindowWidth:0.00} м."
                 : $"Ширина: {_proposal.ExpectedWidth:0.00} → {_proposal.WindowWidth:0.00} м.";
             _status.Text = $"{_proposal.Summary}\n{widthSummary} {scopeSummary}. Ещё не применено.";
             if (Volatile.Read(ref _providerWarningSeen) != 0)

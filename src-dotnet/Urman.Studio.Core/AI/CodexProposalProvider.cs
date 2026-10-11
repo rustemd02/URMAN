@@ -970,7 +970,11 @@ public sealed class CodexProposalProvider
                 : "Scope: only window part " + request.PartId + ". Keep every other window unchanged. ";
         return "Propose exactly one operation of type house.windows.resize using only the immutable request JSON below. " +
                scope +
-               "Window widths are metres. Keep expectedWidth exactly equal to currentWidth. Choose a different windowWidth in the inclusive range 0.65–1.35 metres. If the prompt specifies a target width, use that exact decimal value, without approximation or extra digits. The summary must describe the actual windowWidth returned. " +
+               "Window widths are metres. Keep expectedWidth exactly equal to currentWidth, the legacy input marker; for a group it is the recipe default and may differ from individual windows' actual widths. " +
+               (request.CurrentWidths is null
+                   ? "No per-window measurements are supplied, so choose a windowWidth different from currentWidth. "
+                   : "currentWidths maps each in-scope window ID to its actual current width; use those values, not the legacy currentWidth marker, to interpret relative instructions. A windowWidth equal to currentWidth is allowed when at least one in-scope window changes; it is a no-op only when every in-scope window already has that width. The single windowWidth applies uniformly to every selected window; do not propose per-window widths. ") +
+               "Choose windowWidth in the inclusive range 0.65–1.35 metres. If the prompt specifies a target width, use that exact decimal value, without approximation or extra digits. The summary must describe the actual windowWidth returned. " +
                "Do not use tools, read files, execute commands, change files, or perform any other action. Return only the structured result required by the schema.\n\n" +
                "Immutable request JSON:\n" + input;
     }
