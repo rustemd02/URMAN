@@ -73238,6 +73238,14 @@
                       "implementation": "Confirmed stale path allowed editing visible prompt after proposal and applying old staged output. Prompt now readonly while busy; nonbusy edits differing from frozen prompt clear preview/proposal/stage and invalidate prepared request/disclosure. Apply reuses complete existing EnsurePreparedRequestCurrent selection/scope/prompt/source/dependency guard before stage validation and existing file CAS transaction. Existing Save/Copy/provider already embed same canonical input; no duplicate ZIP/export flow added. Disclosure now distinguishes world Workspace-load baseline from freshly loaded recipe at request capture.",
                       "verification": "Luna bounded request/consumer/stale lifecycle source inspections plus independent GPT6.1Sol medium final review found no concrete blockers. No tests/probes/provider/Studio/game/Blender/runtime runs. Root affected Game compile0 warnings/0 errors, diff-check and tracker schema validate PASS.",
                       "remaining": "Full generic scope/conflict/disjoint/double-apply A08 contract remains unverified; this fixes current house-pilot stale prompt only. Durable response exists after generation failure but has no job resume reader; a later recovery slice is required. Native AI12 window request/preview/Apply/game/Undo remains deferred."
+                    },
+                    {
+                      "stage": "2026-10-11 same-session local preview rebuild without new model call",
+                      "result": "SOURCE_IMPLEMENTED_GAME_COMPILE_PASS_NATIVE_NOT_RUN",
+                      "source": "game/studio/StudioAiPanel.cs",
+                      "implementation": "Initial accepted proposal is validated and durably stored before local build. A local generation/preview failure retains only a visible/current validated proposal, clears partial output and offers retry. Retry uses the same frozen request/proposal in a new empty temp stage, reconstructs recipe from captured source/widths, and never invokes provider or rewrites durable job. Shared BuildAndPreviewAsync checks snapshot/scope/source freshness and cancellation before/after Generate; Apply requires previewReady after validated stage plus both loaded previews. Provider/persist errors, cancellation, hiding, prompt changes or stale inputs retire the attempt. Initial successful preview status now consumes helper summary.",
+                      "verification": "Five Luna FAST/Max bounded source implementation/reviews plus independent GPT6.1Sol medium final review. Root affected Game compile0 warnings/0 errors; diff-check passed. No tests/probes/provider/Studio/game/Blender/runtime runs.",
+                      "remaining": "Same-session recovery only; no durable job read/resume after restart or discarded/cancelled attempts. No native successful/failing Blender retry or AI12 window/Apply/game/byte Undo acceptance. Full generic A08/group conflict contract remains incomplete."
                     }
                   ],
                   "assigned_owner": "codex/b20-2026-10-10",
@@ -73245,7 +73253,7 @@
                   "activity": {
                     "state": "confirmed_active",
                     "reason": "Live B20 source implementation continues; author runtime pause does not forbid source freshness guard fixes.",
-                    "verification_question": "Does changing the prompt retire old staged proposal/request and does Apply recheck complete captured selection/scope/prompt/source freshness before transaction? Source/affected Game compile only; A08/native scenarios deferred."
+                    "verification_question": "Does same-session retry preserve validated frozen request/proposal after local preview failure without a second model call, rebuild in a fresh stage, and keep Apply disabled until validated preview? Cancellation/stale/provider failures must retire state. Source/affected compile only; native deferred."
                   },
                   "task_type": "engineering",
                   "status": "in_progress",
@@ -73254,7 +73262,7 @@
                   "remaining": [
                     "Одна проверенная группа правок применяется/отменяется без порчи чужих изменений; отсутствует подтверждение собственного конечного DoD, перечисленного ниже."
                   ],
-                  "next_action": "Continue generic request/transaction applicability and durable generation-failure recovery; native A08/AI12 only when author resumes launches.",
+                  "next_action": "Continue durable request/proposal recovery and generic applicability using existing immutable contracts; native retry/A08/AI12 only when author resumes launches.",
                   "blocker": null,
                   "external_gates": [],
                   "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -73293,7 +73301,7 @@
                       "success": "Выполнены все перечисленные собственные критерии, без расширения на родителя.",
                       "repeat_only_if": "Изменился source/candidate/input/покрываемый контракт."
                     },
-                    "actual_result": "Current house pilot retires stale prompt proposals and checks complete prepared request freshness at Apply; full generic A08 transaction/conflict requirements remain open.",
+                    "actual_result": "House-pilot prompt freshness and same-session validated preview retry implemented; Apply gated by complete preview. Full generic A08/disjoint conflict/double-apply and native acceptance remain open.",
                     "evidence_refs": []
                   },
                   "dependencies": {
