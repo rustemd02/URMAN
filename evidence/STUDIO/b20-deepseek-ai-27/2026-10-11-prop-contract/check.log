@@ -1,0 +1,16 @@
+== AI-27: the prop contract as the runtime reads it
+
+
+Прошло времени 00:00:00.53
+
+Прошло времени 00:00:13.76
+== existing tests
+=== TEST EXECUTION SUMMARY ===
+   Urman.Studio.Tests  Total: 38, Errors: 0, Failed: 0, Skipped: 0, Not Run: 0, Time: 2,401s
+== probe
+  props: 86, contract gaps: 0
+    synthetic: urman.world:mini/p: записи «urman.catalog:nope/x» нет в каталоге — рантайм напишет ошибку, и проп не появится.
+    synthetic: urman.world:mini/p: поле «scale»: значение не число — масштаб не читается.
+    synthetic: urman.world:mini/p: поле «collision» не строка: рантайм читает его через GetString и упадёт.
+    synthetic: urman.world:mini/p: позиция не из трёх чисел — рантайм поставит проп не туда или бросит исключение.
+PROBE RESULT: PASS

@@ -77147,6 +77147,12 @@
                 "result": "partial implementation by deepseek v4.1 flash: a new projection checks the chain the runtime really uses - 177 catalogued forms (node or prefix, three-number size, collision, licence) and 282 placements (86 props with an optional scalar scale defaulting to 1, 196 kit placements with a required three-number scale vector), with every asset path present and every transform readable; the authoring states (retired, hidden, moved) are reported as states and the boundary says reshaping a form is the model track (AI-09/AI-11/AI-36)",
                 "source": "new file src-dotnet/Urman.Studio.Core/Editing/SimpleItemForms.cs; evidence evidence/STUDIO/b20-deepseek-ai-27/2026-10-11-simple-forms",
                 "verification": "probe PASS 418/418 including the synthetic cases (no scene/node, a degenerate size, a missing licence, a missing form, a two-number position, an unsupported scheme); Core 0/0; game/Urman.Game.csproj 0/0; Urman.Studio.Tests 38/38. Three wrong assumptions were caught on real data before the commit: source.node only, a scalar scale everywhere, and a required scale. The shape editor itself is NOT_RUN"
+              },
+              {
+                "stage": "2026-10-11 the prop contract as the runtime reads it",
+                "result": "deepening by deepseek v4.1 flash: eighty-six authored props checked against what the runtime really does - GetProperty(catalogId) (absent throws for the whole world), the catalogue dictionary (unknown writes an error and the prop never appears), GetSingle(scale), GetString(collision) (a non-string throws, and only 'none' skips collision) and a three-number position. Zero gaps: every catalogId exists among the one hundred and seventy-seven forms, every scale is numeric, and every collision is the string 'surfaces' (seventy-nine) or absent (seven). The placement-level collision was the one part nothing checked before. Own mistake recorded: my first synthetic wrote the catalogue into the world file instead of the fixed catalogue path, so it looked empty",
+                "source": "src-dotnet/Urman.Studio.Core/Editing/SimpleItemForms.cs (PropGaps); evidence evidence/STUDIO/b20-deepseek-ai-27/2026-10-11-prop-contract",
+                "verification": "probe PASS 579/579 including the eighty-six props with zero gaps, the correct synthetic prop not reported and the four synthetic failures; Core 0/0; game/Urman.Game.csproj 0/0; Urman.Studio.Tests 38/38. Visual acceptance of the props is NOT_RUN"
               }
             ],
             "stage_tasks": [
@@ -77178,7 +77184,8 @@
             "technical_verification_state": "not_run",
             "remaining": [
               "Форму простого предмета можно изменить внутри Studio и увидеть в игре.; отсутствует подтверждение собственного конечного DoD, перечисленного ниже.",
-              "Ранее переданный частичный этап (2026-10-11 the form-and-placement chain of a simple thing) ждёт ревью/приёмки; полный done_when не выполнен."
+              "Ранее переданный частичный этап (2026-10-11 the form-and-placement chain of a simple thing) ждёт ревью/приёмки; полный done_when не выполнен.",
+              "Ранее переданный частичный этап (2026-10-11 the prop contract as the runtime reads it) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
             "next_action": "Создать primitive; редактировать вершины/рёбра/грани; extrude/inset/cut, bevel, split/join, mirror; material/UV/paint и normals; trusted export/variant. Скульпт/одежда/rig выделены в AI-41–43.",
             "blocker": null,

@@ -379,4 +379,69 @@ public static class SimpleItemForms
         return false;
     }
 
+    /// <summary>
+    /// The prop contract as the runtime reads it: catalogId through GetProperty (absent means
+    /// the whole world throws), the catalogue entry through a dictionary (unknown means the
+    /// prop never appears), scale through GetSingle (a non-number throws), the optional
+    /// collision through GetString (a non-string throws, and only "none" skips collision) and
+    /// a three-number position. The catalogue check is shared with Catalog, so the two cannot
+    /// disagree about which forms exist.
+    /// </summary>
+    public static IReadOnlyList<string> PropGaps(StudioWorkspace workspace)
+    {
+        ArgumentNullException.ThrowIfNull(workspace);
+        var catalogue = Catalog(workspace).Select(form => form.CatalogId).ToHashSet(StringComparer.Ordinal);
+        var gaps = new List<string>();
+        foreach (var id in workspace.EntityIds)
+        {
+            if (workspace.Get(id) is not JsonObject entity || (string?)entity["kind"] != "prop")
+            {
+                continue;
+            }
+
+            var parameters = entity["params"] as JsonObject;
+            var catalogId = (string?)parameters?["catalogId"] ?? "";
+            if (catalogId.Length == 0)
+            {
+                gaps.Add($"{id}: у пропа нет catalogId — рантайм читает его через GetProperty и упадёт, не загрузив мир.");
+            }
+            else if (catalogue.Count > 0 && !catalogue.Contains(catalogId))
+            {
+                gaps.Add($"{id}: записи «{catalogId}» нет в каталоге — рантайм напишет ошибку, и проп не появится.");
+            }
+
+            if (parameters?["scale"] is { } scale && TriggerScopeFacts.NumberProblem(scale, out _) is { } scaleProblem)
+            {
+                gaps.Add($"{id}: поле «scale»: {scaleProblem} — масштаб не читается.");
+            }
+
+            var collision = parameters?["collision"];
+            if (collision is not null && collision is not JsonValue)
+            {
+                gaps.Add($"{id}: поле «collision» не значение, а {collision.GetType().Name}: рантайм читает его через GetString и упадёт.");
+            }
+            else if (collision is JsonValue json && !json.TryGetValue<string>(out _))
+            {
+                gaps.Add($"{id}: поле «collision» не строка: рантайм читает его через GetString и упадёт.");
+            }
+
+            if (parameters?["position"] is not JsonArray { Count: 3 } position)
+            {
+                gaps.Add($"{id}: позиция не из трёх чисел — рантайм поставит проп не туда или бросит исключение.");
+            }
+            else
+            {
+                for (var index = 0; index < position.Count; index++)
+                {
+                    if (TriggerScopeFacts.NumberProblem(position[index], out var positionProblem) is { } problem)
+                    {
+                        gaps.Add($"{id}: позиция[{index}]: {problem}");
+                    }
+                }
+            }
+        }
+
+        return gaps;
+    }
+
 }

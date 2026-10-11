@@ -1,0 +1,29 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-27"
+  ],
+  "stage": "the prop contract as the runtime reads it",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-11 20:06 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "0dc81856",
+  "result": {
+    "contract": "a prop is read with GetProperty(\"catalogId\") (absent throws and the whole world fails to load), looked up in the catalogue dictionary (unknown writes an error and the prop never appears), GetSingle(\"scale\") (a non-number throws), GetString(\"collision\") (a non-string throws, and only \"none\" skips collision) and a three-number position",
+    "measured": "eighty-six authored props, all eighty-six carrying a catalogId that exists in the two hunnerd and seventy-seven form catalogue, all scales numeric, all collision values the string \"surfaces\" (seventy-nine) or absent (seven), and every position three numbers. Zero gaps",
+    "why": "the placement-level collision was the one part nothing checked: a boolean there would throw while the world loads, and the check now mirrors the reader instead of trusting the data"
+  },
+  "verified": {
+    "probe": "PASS 579/579 with the new checks: eighty-six props with zero contract gaps, the correct prop in the synthetic file not reported, and the four synthetic failures named (unknown catalogue entry, non-numeric scale, non-string collision, wrong position)",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors; game/Urman.Game.csproj 0 warnings/0 errors",
+    "existing_tests": "Urman.Studio.Tests 38/38",
+    "not_run": "no game run: how a prop looks in the world is visual acceptance, NOT_RUN"
+  },
+  "own_mistakes": "my first synthetic case failed because I wrote the catalogue into the world file instead of the fixed catalogue path, which made the catalogue look empty; the test now writes it where Studio reads it",
+  "files": {
+    "evidence/STUDIO/b20-deepseek-ai-27/2026-10-11-prop-contract/check.log": "c436e75386a8dc3d630b3f0536a12057b2bd8fa9bfcb06890e20c7188154a7c6"
+  },
+  "open": [
+    "visual acceptance of the props stays external"
+  ]
+}
