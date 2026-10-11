@@ -1,0 +1,30 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-45"
+  ],
+  "stage": "first slice: what a coordinated house move can address",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-11 16:57 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "c75a3318",
+  "result": {
+    "records": "79 addressed buildings over 9 streets, every one carrying an address id, a street, a number and a cadastral number; no address repeats",
+    "checked": "a move can rely on: a unique address id, an incomplete address reported, a known record kind (prop or kit placement), a three-number position, a yawDegrees that must be present and readable because a move has to keep the rotation, and the terrain pad object whose halfSize the runtime reads with GetProperty",
+    "pad shape": "terrainPad is an OBJECT (halfSize, streetAnchor, feather) and the runtime reads terrainPad.halfSize[0..1]; my first version treated it as a two-number array and produced 79 false problems",
+    "boundary": "doors, windows, interiors and entrance points are NOT separate authored records: they belong to the kit model and are discovered at runtime through collision shape ownership, so they travel with the parent by construction. The editor moves the parent record; promising per-door editing would be false"
+  },
+  "verified": {
+    "probe": "PASS 442/442 with the new checks: 79 buildings with no problems, no repeated address, the street coverage, the cadastral numbers, the boundary notes, and the synthetic cases (a duplicate address id, an incomplete address, a two-number position, a missing yaw, a one-number pad half size)",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors; game/Urman.Game.csproj 0 warnings/0 errors",
+    "existing_tests": "Urman.Studio.Tests 38/38",
+    "not_run": "no game run: that the openings and entrances line up on screen can only be checked in the game, NOT_RUN"
+  },
+  "files": {
+    "evidence/STUDIO/b20-deepseek-ai-45/2026-10-11-house-records/check.log": "9ebf20b85d3d7bf11f60e26f9c0038a696cf64c1edf1a224823e51906952bdcf"
+  },
+  "open": [
+    "the on-screen alignment of openings and entrances after a move is NOT_RUN",
+    "moving parts individually stays out of scope because they are not authored records"
+  ]
+}

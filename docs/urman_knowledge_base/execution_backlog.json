@@ -81645,7 +81645,14 @@
             "verification": "A13 дополнение: переместить один дом, зайти/выйти, проверить источник/коллизии/Undo и режим комнат.",
             "risks_recovery_external_gates": "Слишком узкий проход/portal collision предупреждаются; не считать всю карту доказанно проходимой.",
             "required": true,
-            "evidence": [],
+            "evidence": [
+              {
+                "stage": "2026-10-11 what a coordinated house move can address",
+                "result": "partial implementation by deepseek v4.1 flash: a new projection checks the 79 addressed buildings (unique address id, complete address, known kind, three-number position, a present and readable yawDegrees, and the terrainPad object whose halfSize the runtime reads with GetProperty), and states the boundary that doors, windows, interiors and entrance points are not authored records but parts of the kit model that follow the parent through collision shape ownership",
+                "source": "new file src-dotnet/Urman.Studio.Core/Editing/HouseRecords.cs; evidence evidence/STUDIO/b20-deepseek-ai-45/2026-10-11-house-records",
+                "verification": "probe PASS with 79 buildings and no problems plus the synthetic cases (a duplicate address id, an incomplete address, a two-number position, a missing yaw, a one-number pad half size); Core 0/0; game/Urman.Game.csproj 0/0; Urman.Studio.Tests 38/38. A shape lesson is recorded: terrainPad is an object with halfSize, and treating it as an array produced 79 false problems. On-screen alignment after a move is NOT_RUN"
+              }
+            ],
             "stage_tasks": [
               "STUDIO.P2"
             ],
@@ -81671,12 +81678,13 @@
             },
             "task_type": "engineering",
             "status": "todo",
-            "implementation_state": "not_started",
+            "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
-              "Дом перемещается и редактируется вместе с интерьером, дверьми и входными точками.; отсутствует подтверждение собственного конечного DoD, перечисленного ниже."
+              "Дом перемещается и редактируется вместе с интерьером, дверьми и входными точками.; отсутствует подтверждение собственного конечного DoD, перечисленного ниже.",
+              "Ранее переданный частичный этап (2026-10-11 what a coordinated house move can address) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
-            "next_action": "Зарегистрировать children/portal offsets; grouped transform; local/world coordinates; hide roof/walls editor-only; validate door/route bounds; typed house move.",
+            "next_action": "Проверить в игре, что проёмы и входы совпадают после перемещения дома; части двигаются вместе с моделью-родителем.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
