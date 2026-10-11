@@ -1,0 +1,29 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-40"
+  ],
+  "stage": "my own evidence numbers, re-measured and pinned",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-11 22:28 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "5a0fcb7b",
+  "why": "several receipts of mine quote counts, and a count quoted once can drift while every later stage still passes. This stage re-measured them and then made them impossible to drift silently",
+  "result": {
+    "re_measured": "world entities 1726, kit placements 196, props 86, item spawns 6, npcs 33, quests 13, cutscene actions 75, puzzle steps 15, dialogue nodes 32, area links 5, catalogue forms 177, placed forms 282, texts 1016, documents 64, hints 3, vocabulary 16, ambient beds 9, material tables 4, scatters 8",
+    "the_audit": "every one of them matches what the receipts state, so no number of mine is stale today",
+    "the_pins": "nineteen assertions now fail the probe when any of those counts changes, so a content change or a broken reader cannot leave an old number looking current",
+    "the_boundary": "these pins are MY instrument's memory, not a contract the author must obey: when the content legitimately changes, the pins move in the same commit as the receipt that quotes them"
+  },
+  "verified": {
+    "probe": "PASS 732/732 including the nineteen pins",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors (composed tree with my branch and the v15 patch)",
+    "not_run": "no game run: this is a verification stage"
+  },
+  "files": {
+    "evidence/STUDIO/b20-deepseek-ai-40/2026-10-11-claims-audit-and-pins/check.log": "6d0b112242b30ef0a132f1cb72b939328bb2d000179aa7286ef6906ab1978d88"
+  },
+  "open": [
+    "a new receipt that quotes a new count must add its pin"
+  ]
+}

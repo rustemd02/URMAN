@@ -81368,6 +81368,12 @@
                 "result": "integration detail by deepseek v4.1 flash: the first consumer was handed with a closure of SEVEN Core files measured against that moment's main. Main has moved twice since AND my own later commits added dependencies, so the closure was re-measured rather than trusted: it is now TEN files (adding AuthoredVocabulary, AuthoredDocuments and AuthoredHints, which came from the vocabulary stage and the cutscene fix). The patch itself is unchanged and still applies cleanly to main. Proof: pristine main 5a0fcb7b plus those ten files plus the patch builds Urman.Game with 0 errors, and the AI-13 prerequisite patch still applies. A cherry-pick list quoted from an earlier moment is exactly what breaks an integration, so the list is now dated and measured. Verified: game build 0/0 in a fresh worktree; both patches apply",
                 "source": "evidence/STUDIO/b20-deepseek-ai-40/2026-10-11-audit-consumer-closure-refresh/check.log",
                 "verification": "Urman.Game 0 warnings/0 errors on main 5a0fcb7b with the ten-file closure and the patch; both patches pass git apply --check. No Studio window: the panel's look is NOT_RUN"
+              },
+              {
+                "stage": "2026-10-11 my own evidence numbers, re-measured and pinned",
+                "result": "claims audit by deepseek v4.1 flash: my receipts quote counts, and a count quoted once can drift while every later stage still passes, so all of them were re-measured - world entities 1726, kit placements 196, props 86, item spawns 6, npcs 33, quests 13, cutscene actions 75, puzzle steps 15, dialogue nodes 32, area links 5, catalogue forms 177, placed forms 282, texts 1016, documents 64, hints 3, vocabulary 16, ambient beds 9, material tables 4, scatters 8 - and EVERY ONE matches what the receipts state, so no number of mine is stale today. Nineteen assertions now fail the probe when any of those counts changes, so a content change or a broken reader cannot leave an old number looking current. Boundary: the pins are MY instrument's memory, not a contract the author must obey; when the content legitimately changes, the pins move in the same commit as the receipt that quotes them. Verified: probe PASS 732/732 including the nineteen pins; Core 0/0",
+                "source": "the probe's pins; evidence evidence/STUDIO/b20-deepseek-ai-40/2026-10-11-claims-audit-and-pins",
+                "verification": "probe PASS 732/732 including the nineteen pins; Core 0/0. This is a verification stage, not unit completion"
               }
             ],
             "stage_tasks": [
@@ -81407,7 +81413,9 @@
               "Consumer-панель передана патчем: 7 файлов Core + одна строка в общем StudioRoot.cs — интегрирует Codex.",
               "Ранее переданный частичный этап (2026-10-11 the first real Studio consumer of the authoring projections) ждёт ревью/приёмки; полный done_when не выполнен.",
               "Замыкание consumer'а перемерено: 10 файлов Core + патч; сборка игры на текущем main 0/0.",
-              "Ранее переданный частичный этап (2026-10-11 the consumer closure re-measured against the current main) ждёт ревью/приёмки; полный done_when не выполнен."
+              "Ранее переданный частичный этап (2026-10-11 the consumer closure re-measured against the current main) ждёт ревью/приёмки; полный done_when не выполнен.",
+              "Мои же числа в evidence перемерены и закреплены 19 утверждениями: устареть молча они больше не могут.",
+              "Ранее переданный частичный этап (2026-10-11 my own evidence numbers, re-measured and pinned) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
             "next_action": "UI стартового состояния; пометка synthetic/reachable; runtime trace с occurrence ID; pause clock; шаг события; copy transform только явной командой; handoff case.",
             "blocker": null,

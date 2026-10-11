@@ -1,0 +1,24 @@
+== AI-40: my own evidence numbers, re-measured and pinned
+
+
+Прошло времени 00:00:00.58
+PASS  the world entities count is still 1726, so the number my receipts state is the number the content has
+PASS  the kit placements count is still 196, so the number my receipts state is the number the content has
+PASS  the props count is still 86, so the number my receipts state is the number the content has
+PASS  the item spawns count is still 6, so the number my receipts state is the number the content has
+PASS  the npcs count is still 33, so the number my receipts state is the number the content has
+PASS  the quests count is still 13, so the number my receipts state is the number the content has
+PASS  the cutscene actions count is still 75, so the number my receipts state is the number the content has
+PASS  the puzzle steps count is still 15, so the number my receipts state is the number the content has
+PASS  the dialogue nodes count is still 32, so the number my receipts state is the number the content has
+PASS  the area links count is still 5, so the number my receipts state is the number the content has
+PASS  the catalogue forms count is still 177, so the number my receipts state is the number the content has
+PASS  the placed forms count is still 282, so the number my receipts state is the number the content has
+PASS  the texts count is still 1016, so the number my receipts state is the number the content has
+PASS  the documents count is still 64, so the number my receipts state is the number the content has
+PASS  the hints count is still 3, so the number my receipts state is the number the content has
+PASS  the vocabulary count is still 16, so the number my receipts state is the number the content has
+PASS  the ambient beds count is still 9, so the number my receipts state is the number the content has
+PASS  the material tables count is still 4, so the number my receipts state is the number the content has
+PASS  the scatters count is still 8, so the number my receipts state is the number the content has
+PROBE RESULT: PASS
