@@ -446,78 +446,24 @@ public sealed partial class StudioWorldSection
         var interiorPosts = new[] { start + 1, start + 2 };
         var file = studio.Workspace.File(current.RelativePath);
         var expectedText = file.Text;
-        if (!TryFindUniqueLot(expectedText, current.LotId, out var root, out var lot, out error))
-        {
-            studio.ShowBanner("Забор не изменён: " + error, error: true);
-            return;
-        }
-
-        var alignment = lot["fenceAlignment"] as JsonObject;
-        if (lot["fenceAlignment"] is not null && alignment is null)
-        {
-            studio.ShowBanner("Забор не изменён: таблица выпрямления в исходнике повреждена.", error: true);
-            return;
-        }
-
-        alignment ??= new JsonObject();
-        var indices = alignment[current.RunId] as JsonArray;
-        if (alignment[current.RunId] is not null && indices is null)
-        {
-            studio.ShowBanner("Забор не изменён: список выпрямленных стоек повреждён.", error: true);
-            return;
-        }
-
-        indices ??= new JsonArray();
-        var existing = new List<int>();
-        foreach (var item in indices)
-        {
-            if (item is not JsonValue value || !value.TryGetValue<int>(out var index)
-                || index <= 0 || index >= current.BayCount || existing.Contains(index))
-            {
-                studio.ShowBanner("Забор не изменён: список стоек содержит повторяющиеся или недопустимые внутренние индексы.", error: true);
-                return;
-            }
-            existing.Add(index);
-        }
-
-        var next = existing.ToList();
-        if (align)
-        {
-            foreach (var index in interiorPosts)
-                if (!next.Contains(index)) next.Add(index);
-        }
-        else
-        {
-            next.RemoveAll(interiorPosts.Contains);
-        }
-
-        if (next.SequenceEqual(existing))
-        {
-            studio.RefreshStatus(align ? "Эти стойки уже выпрямлены" : "Для этих стоек нет выпрямления");
-            return;
-        }
-
-        if (next.Count == 0)
-            alignment.Remove(current.RunId);
-        else
-            alignment[current.RunId] = new JsonArray(next.Select(index => (JsonNode?)JsonValue.Create(index)).ToArray());
-
-        if (alignment.Count == 0)
-            lot.Remove("fenceAlignment");
-        else if (lot["fenceAlignment"] is null)
-            lot["fenceAlignment"] = alignment;
-
-        var replacementText = root.ToJsonString(new JsonSerializerOptions { WriteIndented = true }) + "\n";
-        if (replacementText == expectedText) return;
         var label = align ? "выпрямить три секции забора" : "сбросить выпрямление забора";
+        string? replacementText = null;
         try
         {
+            replacementText = Urman.Studio.Core.AI.FenceAlignmentSource.Rewrite(
+                current.RelativePath, expectedText, current.LotId, current.RunId, current.BayCount, interiorPosts, align);
+            if (replacementText == expectedText)
+            {
+                studio.RefreshStatus(align ? "Эти стойки уже выпрямлены" : "Для этих стоек нет выпрямления");
+                return;
+            }
+
             studio.Session.ReplaceDraft(current.RelativePath, expectedText, replacementText, label);
         }
         catch (Exception failure) when (failure is IOException or UnauthorizedAccessException or ArgumentException
-            or InvalidOperationException or KeyNotFoundException or FormatException or JsonException)
+            or InvalidOperationException or KeyNotFoundException or FormatException or JsonException or InvalidDataException)
         {
-            if (file.Text == replacementText && studio.Session.History().FirstOrDefault() is { } latest
+            if (replacementText is not null && file.Text == replacementText && studio.Session.History().FirstOrDefault() is { } latest
                 && latest.Label == label && latest.Paths.Contains(current.RelativePath, StringComparer.Ordinal))
                 studio.ShowBanner("Изменение забора применено, но Studio не завершила обновление вида: " + failure.Message, error: true);
             else
