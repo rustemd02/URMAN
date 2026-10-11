@@ -74370,6 +74370,35 @@
                       ],
                       "verification": "Five Luna bounded call-path reviews + independent Sol6.1 medium source review; root fixed refresh-before-try release gap and silent restore refusal. Affected Game compile, tracker and diff validation; no launches/tests/probes.",
                       "remaining": "Native callback timing, rendered receipt and actual main-seven Codex/game/Undo remain unverified under author runtime pause."
+                    },
+                    {
+                      "date": "2026-10-12",
+                      "stage": "Windows read-only prerequisite recheck requested by author",
+                      "command": "eng/remote-check.py doctor; eng/remote-check.py doctor --studio-readiness",
+                      "result": {
+                        "station_ready": true,
+                        "busy_job": null,
+                        "interactive": true,
+                        "input_desktop": true,
+                        "godot": "4.7.1.stable.mono.official.a13da4feb",
+                        "sdk": "10.0.302",
+                        "orphan_game_process": false,
+                        "userdata_recovery_pending": false,
+                        "codex": {
+                          "found": true,
+                          "version": "0.162.1",
+                          "version_confirmed": true,
+                          "logged_in": true
+                        },
+                        "blender": {
+                          "found": false,
+                          "version": null,
+                          "version_match": false
+                        },
+                        "studio_readiness_ready": false,
+                        "runtime_verified": false
+                      },
+                      "limits": "Read-only API health/version/login evidence; no Studio/game/model launch, real request, preview, Apply, runtime capture or Undo evidence."
                     }
                   ],
                   "assigned_owner": "codex/b20-2026-10-10",
@@ -74384,12 +74413,11 @@
                   "implementation_state": "not_started",
                   "technical_verification_state": "not_run",
                   "remaining": [
-                    "Реальный native Front0→Codex→preview→Apply→game→Undo на Windows не проверен.",
-                    "Windows: установить Codex CLI и выполнить личный ChatGPT login; обеспечить Blender4.5.12 и authoring source snapshot, затем доступ к native Studio UI.",
-                    "Overall Windows kit smoke FAIL: shutdown resource leaks; scenario5checks и compile0/0 не заменяют чистый runtime result.",
-                    "Windows direct .exe-only discovery исправлен и source-reviewed; actual Windows installed/login readiness остаётся непроверенным."
+                    "Реальный native Front0/main-seven→Codex→preview→Apply→matched game→byte-exact Undo на Windows не проверен; runtime deferred by author.",
+                    "Windows readiness 12.10: Codex0.162.1 found/version confirmed/logged_in=true; Blender не найден API. Обеспечить Blender4.5.12 и authoring source snapshot, затем native Studio UI.",
+                    "Overall historical Windows kit smoke FAIL: shutdown resource leaks; scenario5checks и compile0/0 не заменяют чистый runtime result."
                   ],
-                  "next_action": "Продолжить source B20; после снятия runtime pause actual Windows Studio main-seven Codex→preview→Apply→matched game→byte-exact Undo. Deploy/restart Windows worker then readiness prerequisite check.",
+                  "next_action": "Continue source B20 while author runtime pause remains. Windows worker studio-readiness now deployed and Codex sign-in confirmed; after Blender prerequisite and resumed runtime, actual Studio main-seven Codex→preview→Apply→matched game→byte-exact Undo.",
                   "blocker": {
                     "reason": "Native UI/game verification deferred by author; Front0 could not be selected during Mac attempt.",
                     "release_when": "Автор возобновил runtime; доступен native выбор окна и защищённый Studio/game сценарий."
