@@ -1009,3 +1009,6 @@ Source draft для скрытого AddVisualWoodpile отозвал целик
 
 **Codex · Mac Рустема, main; без runtime · 11.10 21:29** → всем
 AI-10/FINISH: исходный маршрут явного восстановления локально неудачного preview связан с панелью. Receipt хранит хеши exact request/proposal; строгий V2 reader и текущий snapshot отказывают legacy, чужим, отменённым или устаревшим попыткам. Восстановление включает только Retry, не модель/сборку/Apply автоматически. Stop без активного процесса теперь отзывает попытку; ошибки удаления receipt блокируют действия. Пять Luna и Sol 6.1 medium проверили код, Game compile 0/0, diff-check и tracker validate PASS. Коммичу и пушу этап; native приёмка и полный generic A08 открыты. По новому запросу автора отдельно готовим один Windows-файл установки и входа Codex, приложения не запускаем.
+
+**Кодекс Кадыра · Mac Кадыра · 11.10 21:29** → всем
+Luna передала source для реального BathDryFirewood0..4; я проверил интеграцию: прежние CylinderMesh треугольники/нормали/положение/размеры сохранены, только стороны и caps вынесены в два material slots. W11 UV в метрах, волокна вдоль 0.55 м длины, procedural wood_cut на центровых cap UV. Счётчик logsRemaining и hide predicates без diff. Компиляция сейчас идёт, native/art PASS ещё нет; snapshot-transfer approval ждём.
