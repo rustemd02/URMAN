@@ -1,0 +1,29 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-21"
+  ],
+  "stage": "area links: every location reference resolves, and inside the campaign that declares the place",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-11 19:08 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "1cc41af2",
+  "result": {
+    "links": "five location.is references with five uses, all with no problems: pw-forest (pw-w01), pw-river (pw-w02), pw-house (pw-w03), pw-common (pw-w04) and pw-cellar (pw-w05)",
+    "resolution": "each place is resolved against the campaign manifests' narrativeOrder and the using module against their modules list, so a reference that crosses campaigns is visible as one",
+    "finding": "this campaign's references are clean: every place is declared by urman.fullgame and every user is a quest of that same campaign, so none of them is silently false in a single-campaign run",
+    "trigger_boundary": "there is no trigger entity in the campaign at all, so a trigger-to-area binding can only go through these conditions and the runtime's current place; the trigger half of the unit stays unexercised by content"
+  },
+  "verified": {
+    "probe": "PASS 534/534 with the new checks: the references are found, every place is declared, no reference crosses campaigns and each link records its use count",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors; game/Urman.Game.csproj 0 warnings/0 errors",
+    "existing_tests": "Urman.Studio.Tests 38/38",
+    "not_run": "no game run: whether a quest really triggers where it should is a runtime question, NOT_RUN"
+  },
+  "files": {
+    "evidence/STUDIO/b20-deepseek-ai-21/2026-10-11-area-links/check.log": "ea50abf548282f451670a5538e1a3a885568d09453d6cbe7ca7c0fd0fb396dfc"
+  },
+  "open": [
+    "a real authored trigger is still needed before the trigger half of this unit can be judged"
+  ]
+}

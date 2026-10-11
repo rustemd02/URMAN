@@ -1,0 +1,18 @@
+== AI-21: does every location.is reference resolve, and inside its own campaign
+
+
+Прошло времени 00:00:00.48
+
+Прошло времени 00:00:13.48
+== existing tests
+=== TEST EXECUTION SUMMARY ===
+   Urman.Studio.Tests  Total: 38, Errors: 0, Failed: 0, Skipped: 0, Not Run: 0, Time: 2,486s
+== probe
+  area links: 5, uses: 5, problems: 0
+    urman.fullgame:scene/pw-cellar: uses=1 declaredBy=urman.fullgame usedBy=urman.fullgame:quest/pw-w05 problems=0
+    urman.fullgame:scene/pw-common: uses=1 declaredBy=urman.fullgame usedBy=urman.fullgame:quest/pw-w04 problems=0
+    urman.fullgame:scene/pw-forest: uses=1 declaredBy=urman.fullgame usedBy=urman.fullgame:quest/pw-w01 problems=0
+    urman.fullgame:scene/pw-house: uses=1 declaredBy=urman.fullgame usedBy=urman.fullgame:quest/pw-w03 problems=0
+    urman.fullgame:scene/pw-river: uses=1 declaredBy=urman.fullgame usedBy=urman.fullgame:quest/pw-w02 problems=0
+    note: Ссылок на места (location.is): 5; использований: 5; проблем: 0.
+PROBE RESULT: PASS
