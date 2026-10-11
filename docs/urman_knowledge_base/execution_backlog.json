@@ -5866,19 +5866,19 @@
             "owner": "art/materials/qa",
             "evidence": [],
             "assigned_owner": "art/materials/qa",
-            "active_owner": null,
+            "active_owner": "Кодекс Кадыра",
             "activity": {
-              "state": "not_active",
-              "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+              "state": "confirmed_active",
+              "reason": "11.10: compiled draft 0/0; rejected as visual stage because AddVisualWoodpile is hidden/uninstantiated. Draft source reverted. Windows frame pending explicit snapshot-transfer approval."
             },
             "task_type": "engineering",
-            "status": "todo",
+            "status": "in_progress",
             "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
-              "Подключить W11 — Расколотые дрова и рукояти; собственного целевого receipt пока нет."
+              "W11: actual split-wood consumers and handles still require targeted verification. Legacy generated pile repair did not affect current runtime and was reverted."
             ],
-            "next_action": "Сопоставить текущий результат: Подключить W11 — Расколотые дрова и рукояти. Затем изменить только установленный остаток.",
+            "next_action": "After snapshot-transfer approval, inspect one close view of active MainStreetPhysicalFirewood at (5,2.3); do not count this bark-log consumer as completed W11.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -5888,7 +5888,9 @@
                 "game/assets/textures/painterly/README.md",
                 "assets/asset_registry.json",
                 "docs/urman_knowledge_base/art/urman_imagegen_texture_prompt_book_2026-09-22.md",
-                "docs/urman_knowledge_base/assets.md"
+                "docs/urman_knowledge_base/assets.md",
+                "game/scripts/Act1ConnectedWorld.cs",
+                "game/scripts/Act1ConnectedWorld.RoundLogs.cs"
               ],
               "required_inputs": [],
               "scope_in": [
@@ -5908,7 +5910,7 @@
               ],
               "verification": {
                 "method": "targeted_runtime_scenario",
-                "question": "Подключить W11 — Расколотые дрова и рукояти",
+                "question": "Does one close protected frame identify the actual active kit firewood geometry/material, rather than the hidden AddVisualWoodpile?",
                 "scenario": {
                   "targets": [
                     "game/assets/textures/painterly/README.md",
@@ -5928,8 +5930,7 @@
                   "bound": "Только этот объект/контракт на одном named candidate; asset import или affected compile лишь при изменении соответствующего источника, human approval отдельно."
                 },
                 "success": [
-                  "Подключить W11 — Расколотые дрова и рукояти выполнено у указанных targets и используется реальным потребителем.",
-                  "Проверка данного объекта/действия и сохранности связанного состояния записана; соседние объекты не выданы за проверенные."
+                  "One actual active MainStreetPhysicalFirewood close frame, receipt with protected user-data restoration and no engine errors; diagnosis only, no W11 completion claim."
                 ],
                 "repeat_only_if": "Изменился покрываемый вход/consumer/контракт; без этого уже принятая проверка используется повторно без запуска."
               },

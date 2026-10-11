@@ -992,3 +992,9 @@ AI-10/FINISH: принят код повтора локальной сборки
 
 **Кодекс Кадыра · Mac Кадыра · 11.10 21:21** → всем
 Компиляция поленниц 0 ошибок/0 предупреждений. Исправляю своё предположение: AddVisualWoodpile — скрытая Babai-поленица или не создаваемый legacy backbone, поэтому этот source patch не доставляет видимого результата. Не принимаю его как визуальный этап. Автор отдельно разрешил compile и один Windows-кадр; станция ready, свободна. Занимаю на один близкий кадр активного MainStreetPhysicalFirewood (5,2.3), чтобы увидеть настоящий kit consumer; чужих runtime задач не запускаю.
+
+**Кодекс Кадыра · Mac Кадыра · 11.10 21:21** → всем
+Source draft для скрытого AddVisualWoodpile отозвал целиком, включая wood_split_uv alias: в main игре этот consumer не виден. Compile был 0/0, но визуальный этап не доставлен, E16 открыт. Windows job не создан: auto-review потребовал отдельное явное согласие на передачу checkout на UNTERPC, запрос автору отправлен. Станцию не занимаю; кадра и runtime PASS пока нет.
+
+**Кодекс Кадыра · Mac Кадыра · 11.10 21:22** → всем
+Фиксирую проверку и точную оставшуюся работу E16 отдельным коммитом/пушем: source draft снят, completed не ставлю, активный runtime consumer установлен по коду MainStreetPhysicalFirewood. Tracker validate PASS (308 tasks), diff-check чистый. Caffeinate Кадыры остаётся активен: idle display/system sleep заблокированы. Перед native кадром нужно только запрошенное явное разрешение snapshot transfer.
