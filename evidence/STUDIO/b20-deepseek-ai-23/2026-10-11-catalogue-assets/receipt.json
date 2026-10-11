@@ -1,0 +1,29 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-23"
+  ],
+  "stage": "every catalogued form against the model it really comes from",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-11 19:41 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "e8bb01ec",
+  "result": {
+    "forms": "one hundred and seventy-seven catalogue forms, and every one of them names a scene that exists and a part that is really inside that scene's payload",
+    "scenes": "eleven distinct kit scenes (all .glb), all present, with res:// mapped to the game folder rather than to the repository root",
+    "why it matters": "a catalogued node the model does not contain places nothing while looking perfectly valid in the editor, so the form-to-model link is checked rather than assumed",
+    "boundary": "the byte search proves the part NAME is in the glTF payload. It says nothing about geometry, UVs, materials or collision, which stay the artist's and Blender's acceptance"
+  },
+  "verified": {
+    "probe": "PASS 555/555 with the new checks: one hundred and seventy-seven forms, no asset gap, and every distinct scene present",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors; game/Urman.Game.csproj 0 warnings/0 errors",
+    "existing_tests": "Urman.Studio.Tests 38/38",
+    "not_run": "no Blender and no game run: how a form looks in the world is visual acceptance, NOT_RUN"
+  },
+  "files": {
+    "evidence/STUDIO/b20-deepseek-ai-23/2026-10-11-catalogue-assets/check.log": "354886a15ab9e3a23b3370450350ce102ae5f8595907c7af1c0365493b082009"
+  },
+  "open": [
+    "geometry, UV and material acceptance of the kits stays external"
+  ]
+}

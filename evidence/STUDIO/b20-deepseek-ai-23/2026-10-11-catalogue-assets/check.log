@@ -1,0 +1,13 @@
+== AI-23: every catalogued form against the model it comes from
+
+
+Прошло времени 00:00:00.48
+
+Прошло времени 00:00:13.09
+== existing tests
+=== TEST EXECUTION SUMMARY ===
+   Urman.Studio.Tests  Total: 38, Errors: 0, Failed: 0, Skipped: 0, Not Run: 0, Time: 2,342s
+== probe
+  catalogue forms: 177, asset gaps: 0
+  distinct kit scenes: 11; all present: True
+PROBE RESULT: PASS

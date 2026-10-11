@@ -303,4 +303,80 @@ public static class SimpleItemForms
 
         return numbers;
     }
+    /// <summary>
+    /// The asset half of the catalogue: the scene a form comes from has to exist (res:// maps
+    /// to the game folder) and the part it names has to be inside that scene's payload, because
+    /// a catalogued node the model does not contain places nothing while looking valid in the
+    /// editor. The byte search proves the NAME is in the glTF payload; it says nothing about
+    /// geometry, UVs or materials, which stay the artist's and Blender's acceptance.
+    /// </summary>
+    public static IReadOnlyList<string> AssetGaps(StudioWorkspace workspace, string root)
+    {
+        ArgumentNullException.ThrowIfNull(workspace);
+        ArgumentException.ThrowIfNullOrWhiteSpace(root);
+        var full = Path.GetFullPath(root);
+        var gaps = new List<string>();
+        var cache = new Dictionary<string, byte[]>(StringComparer.Ordinal);
+        foreach (var form in Catalog(workspace))
+        {
+            if (form.Scene.Length == 0)
+            {
+                gaps.Add($"{form.CatalogId}: у формы не указана сцена, поэтому взять её неоткуда.");
+                continue;
+            }
+
+            var relative = form.Scene.Replace("res://", "game/", StringComparison.Ordinal);
+            var path = Path.Combine(full, relative.Replace('/', Path.DirectorySeparatorChar));
+            if (!File.Exists(path))
+            {
+                gaps.Add($"{form.CatalogId}: сцена «{form.Scene}» не найдена по пути {relative}.");
+                continue;
+            }
+
+            var part = form.Node.Length > 0 ? form.Node : form.Kit;
+            if (part.Length == 0)
+            {
+                gaps.Add($"{form.CatalogId}: форма не называет ни node, ни kit, поэтому непонятно, какую часть брать.");
+                continue;
+            }
+
+            if (!cache.TryGetValue(path, out var blob))
+            {
+                cache[path] = blob = File.ReadAllBytes(path);
+            }
+
+            if (!Contains(blob, part))
+            {
+                gaps.Add($"{form.CatalogId}: части «{part}» нет в полезной нагрузке {relative}: размещение не покажет ничего, хотя форма выглядит правильной.");
+            }
+        }
+
+        return gaps;
+    }
+
+    /// <summary>Whether the payload contains the part name, read as bytes so a binary glb works too.</summary>
+    private static bool Contains(byte[] blob, string part)
+    {
+        var needle = System.Text.Encoding.UTF8.GetBytes(part);
+        for (var start = 0; start + needle.Length <= blob.Length; start++)
+        {
+            var match = true;
+            for (var index = 0; index < needle.Length; index++)
+            {
+                if (blob[start + index] != needle[index])
+                {
+                    match = false;
+                    break;
+                }
+            }
+
+            if (match)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
 }
