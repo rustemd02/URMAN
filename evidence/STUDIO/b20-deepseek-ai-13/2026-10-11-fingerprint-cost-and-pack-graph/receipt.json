@@ -1,0 +1,28 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-13"
+  ],
+  "stage": "what the runtime hash costs, and why the precise scope needs a new contract",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-11 22:58 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "20052176",
+  "result": {
+    "the_cost": "RuntimeSourceHash takes 0.7 ms per call over the real tree (twenty-one authored files), measured over five passes, so comparing it before and after a compile is essentially free",
+    "the_decisive_evidence": "I looked for a precise mapping from a selection to its runtime FILES inside the compiled pack itself, because that would settle the scope question. THE PACK DOES NOT CARRY ONE: its dependencyGraph is MODULE level (nodes are module ids, edges are module dependencies), and both moduleFingerprints and campaignFingerprint are values the COMPILE DERIVES - so hashing any of them would change on a legitimate compile, which is exactly what Codex ruled out",
+    "so_the_options_are": "(a) the scope implemented today: every authored runtime file, correct but with a false-stale when another campaign changes, and it costs 0.7 ms; (b) a precise scope, which needs a NEW contract that maps a campaign or world selection to its runtime files - the manifest names scene IDS and the pack names MODULE IDS, so neither answers it today",
+    "the_recommendation": "keep (a) for now: it closes the real gap (a world plot edited during a compile no longer slips past), it is cheap, and the false-stale cost is a wasted compile rather than a wrong scene. Switch to (b) when the mapping exists"
+  },
+  "verified": {
+    "probe": "PASS 749/749 including the cost measurement under a bound",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors (composed tree with my branch and the v15 patch)",
+    "not_run": "no game run"
+  },
+  "files": {
+    "evidence/STUDIO/b20-deepseek-ai-13/2026-10-11-fingerprint-cost-and-pack-graph/check.log": "5e951ccdceec6d5e01c0d9bdbae0e964bfe070b542f1f47c405fcc2fbddafd79"
+  },
+  "open": [
+    "the SCOPE is still Codex's call; (b) needs a new mapping contract"
+  ]
+}

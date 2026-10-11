@@ -74694,6 +74694,12 @@
                 "result": "verification by deepseek v4.1 flash of the previous stage on REAL content rather than a synthetic tree: take a real authored world plot (act1_far_bank.world.v1.json), append ONE byte, hash, restore the original bytes, hash again. Appending one byte CHANGES the hash and restoring the file restores it EXACTLY, so the check leaves no trace. This is the change that used to slip past a guard comparing only CompileInputHash: an author edits a world plot while a compile runs and the run would previously launch with the old plot. Verified: probe PASS 748/748 including the two new real-file checks and the sha256 shape; Core 0/0",
                 "source": "the probe's real-file check; evidence evidence/STUDIO/b20-deepseek-ai-13/2026-10-11-runtime-hash-real-change",
                 "verification": "probe PASS 748/748 including the real-file check that restores the tree exactly; Core 0/0. No game run"
+              },
+              {
+                "stage": "2026-10-11 what the runtime hash costs, and why the precise scope needs a new contract",
+                "result": "evidence by deepseek v4.1 flash for Codex's scope decision. COST: RuntimeSourceHash takes 0.7 ms per call over the real tree (twenty-one authored files), so comparing it before and after a compile is essentially free. DECISIVE FINDING: I looked for a precise mapping from a selection to its runtime FILES inside the compiled pack, because that would settle the scope question - THE PACK DOES NOT CARRY ONE: its dependencyGraph is MODULE level (nodes are module ids), and moduleFingerprints and campaignFingerprint are values the COMPILE DERIVES, so hashing them would change on a legitimate compile, which Codex explicitly ruled out. So (a) the scope implemented today is available and cheap, while (b) a precise scope needs a NEW contract mapping a selection to its runtime files: the manifest names scene IDS and the pack names MODULE IDS. Recommendation: keep (a) - it closes the real gap - and switch to (b) when the mapping exists. Verified: probe PASS 749/749; Core 0/0",
+                "source": "the probe's cost measurement plus the pack's own fields; evidence evidence/STUDIO/b20-deepseek-ai-13/2026-10-11-fingerprint-cost-and-pack-graph",
+                "verification": "probe PASS 749/749 including the cost bound; Core 0/0. No game run"
               }
             ],
             "stage_tasks": [
@@ -74741,7 +74747,9 @@
               "RuntimeSourceHash готов (21 файл, без паков, ловит изменение участка мира) — но ОХВАТ (а)/(б) и wiring за Codex'ом; конфликт PlayFromHere не разрешён.",
               "Ранее переданный частичный этап (2026-10-11 the runtime source hash, the half of the fingerprint that needs no decision) ждёт ревью/приёмки; полный done_when не выполнен.",
               "RuntimeSourceHash проверен на РЕАЛЬНОМ участке мира: один байт меняет хеш, восстановление возвращает его точно.",
-              "Ранее переданный частичный этап (2026-10-11 the runtime hash against a REAL authored world plot) ждёт ревью/приёмки; полный done_when не выполнен."
+              "Ранее переданный частичный этап (2026-10-11 the runtime hash against a REAL authored world plot) ждёт ревью/приёмки; полный done_when не выполнен.",
+              "Стоимость отпечатка 0.7 мс; пак НЕ несёт списка файлов (dependencyGraph — уровни модулей, fingerprints — производные), поэтому точный охват (б) требует нового контракта.",
+              "Ранее переданный частичный этап (2026-10-11 what the runtime hash costs, and why the precise scope needs a new contract) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
             "next_action": "STUDIO/AI-13/SELECTOR: подключить выбор actual context.",
             "blocker": null,

@@ -1,0 +1,10 @@
+== AI-13: what the runtime hash costs, and why the precise scope needs a new contract
+
+-- cost over the real tree (5 passes):
+  RuntimeSourceHash cost: 0,7 ms per call over the real tree
+PROBE RESULT: PASS
+-- what the compiled pack records, read from the pack itself:
+   top keys: ['schemaVersion', 'packVersion', 'campaign', 'registries', 'dependencyGraph', 'moduleFingerprints', 'campaignFingerprint']
+   dependencyGraph is MODULE level: nodes = ['urman.chapter1', 'urman.core', 'urman.oldpc'] ; edges = 1
+   moduleFingerprints: per-module sha256, DERIVED by the compile
+   campaignFingerprint: 57789cd303e3c6d7 ... DERIVED too
