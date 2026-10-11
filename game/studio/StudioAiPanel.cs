@@ -35,6 +35,7 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
     private string? _stage;
     private string? _recipeText;
     private string? _snapshot;
+    private JsonObject? _capturedWidths;
     private string? _consentIoWarning;
     private bool _busy;
     private int _providerWarningSeen;
@@ -166,7 +167,7 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
             ? "Эталонный дом · все 8 окон, включая окно в сенях. Codex предложит ширину, вы увидите новую модель перед применением. ⌘/Ctrl+Z полностью отменяет применение."
             : "Выберите эталонный дом Бабая в мире. Другие объекты будут подключены следующими этапами B20.";
         if (windowSelected)
-            _status.Text = $"{_openedPart!.Label} · выбрано одно окно. Изменение только этого окна пока не подключено. Чтобы изменить все 8 окон дома, явно включите охват ниже.";
+            _status.Text = $"{_openedPart!.Label} · будет изменено только это окно. Остальные проёмы, высоты и двери сохранятся. Для всего дома включите охват ниже.";
         if (_consentIoWarning is not null) _status.Text += "\n" + _consentIoWarning;
         ResetSize();
         PopupCenteredClamped(new(600, 560), 0.9f);
@@ -184,21 +185,34 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
     private HouseWindowRequest Capture()
     {
         if (_openedSelection != HeroHouseRecipe.EntityId || _studio.Selection != _openedSelection) throw new InvalidOperationException("Выбор изменился: снова выберите эталонный дом.");
-        if (!_wholeHouseScope.ButtonPressed) throw new InvalidOperationException("Выбрано одно окно. Подтвердите охват всех 8 окон или закройте панель.");
         if (string.IsNullOrWhiteSpace(_prompt.Text)) throw new InvalidOperationException("Опишите изменение окон.");
         _recipeText = File.ReadAllText(Path.Combine(_studio.Workspace.Root, RecipePath));
+        _ = HeroHouseRecipe.Parse(_recipeText);
         var recipe = JsonNode.Parse(_recipeText)!.AsObject();
+        if (recipe["modelPath"] is null && ((decimal)recipe["windowClearWidth"]! != 1.06m
+            || recipe["windowWidths"] is JsonObject existingWidths && existingWidths.Count > 0))
+            throw new InvalidOperationException("Рецепт изменён без согласованной модели. Сначала восстановите принятый исходный дом.");
+        _capturedWidths = new JsonObject();
+        foreach (var id in HeroHouseRecipe.WindowIds)
+            _capturedWidths[id] = (decimal?)recipe["windowWidths"]?[id]
+                ?? (id == "SeniOuter0" && recipe["modelPath"] is null ? .80m : (decimal)recipe["windowClearWidth"]!);
+        var partId = !_wholeHouseScope.ButtonPressed ? _openedPart?.PartId : null;
+        if (partId is not null && !HeroHouseRecipe.WindowIds.Contains(partId, StringComparer.Ordinal))
+            throw new InvalidOperationException("Выбранная часть не является поддерживаемым окном.");
         _snapshot = Fingerprint(_recipeText);
         return new(Guid.NewGuid().ToString("N"), _snapshot, HeroHouseRecipe.EntityId,
-            (decimal)recipe["windowClearWidth"]!, _prompt.Text);
+            partId is null ? (decimal)recipe["windowClearWidth"]! : (decimal)_capturedWidths[partId]!, _prompt.Text, partId);
     }
 
     private string Fingerprint(string recipe)
     {
         var world = _studio.Workspace.Locate(HeroHouseRecipe.EntityId)!;
+        var current = HeroHouseRecipe.Parse(recipe);
+        var modelPath = current.ModelPath ?? "res://assets/models/act1/urman_village_exterior_kit.glb";
+        var modelHash = AtomicFile.Sha256OfFile(Path.Combine(_studio.Workspace.Root, "game", modelPath["res://".Length..]));
         var source = File.ReadAllBytes(Path.Combine(_studio.Workspace.Root, GeneratorPath));
         return AtomicFile.Sha256(System.Text.Encoding.UTF8.GetBytes(recipe + "\n" +
-            _studio.Workspace.File(world.RelativePath).Text + "\n" + AtomicFile.Sha256(source) + "\n" +
+            _studio.Workspace.File(world.RelativePath).Text + "\n" + AtomicFile.Sha256(source) + "\n" + modelHash + "\n" +
             AtomicFile.Sha256OfFile(Path.Combine(_studio.Workspace.Root, "assets/source/blender/act1/urman_village_exterior_kit.blend")) + "\n" + Revision()));
     }
 
@@ -247,7 +261,17 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
             File.WriteAllText(Path.Combine(_stage, "proposal.json"), JsonSerializer.Serialize(_proposal));
             AtomicFile.WriteAllText(Path.Combine(_studio.Workspace.Root, ".urman-studio/ai-jobs", _request.RequestId, "proposal.json"), JsonSerializer.Serialize(_proposal));
             var recipe = JsonNode.Parse(_recipeText!)!.AsObject();
-            recipe["windowClearWidth"] = _proposal.WindowWidth;
+            if (_request.PartId is { } partId)
+            {
+                var widths = (JsonObject)_capturedWidths!.DeepClone();
+                widths[partId] = _proposal.WindowWidth;
+                recipe["windowWidths"] = widths;
+            }
+            else
+            {
+                recipe["windowClearWidth"] = _proposal.WindowWidth;
+                recipe.Remove("windowWidths");
+            }
             recipe["modelPath"] = "res://assets/models/studio/hero-house-" + _request.RequestId + ".glb";
             File.WriteAllText(Path.Combine(_stage, "recipe.json"), recipe.ToJsonString(new() { WriteIndented = true }));
             _status.Text = "Создаю настоящий проём и согласованный интерьер…";
@@ -261,7 +285,7 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
             _beforeView.Disabled = false;
             _afterView.Disabled = false;
             ShowPreview(after: true);
-            _status.Text = $"{_proposal.Summary}\nШирина: {_proposal.ExpectedWidth:0.00} → {_proposal.WindowWidth:0.00} м. Только выбранный дом; 8 реальных проёмов, включая сени. Ещё не применено.";
+            _status.Text = $"{_proposal.Summary}\nШирина: {_proposal.ExpectedWidth:0.00} → {_proposal.WindowWidth:0.00} м. {(_request.PartId is null ? "Все 8 окон выбранного дома, включая сени" : "Только окно " + _request.PartId)}. Ещё не применено.";
             if (Volatile.Read(ref _providerWarningSeen) != 0)
                 _status.Text += "\nCodex сообщил предупреждение в сессии. Перед запросом проверено: MCP отключены, доступных MCP-инструментов нет.";
             if (_consentIoWarning is not null) _status.Text += "\n" + _consentIoWarning;
@@ -461,8 +485,17 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
             || (string?)manifest["component"] != HeroHouseRecipe.Component
             || (string?)manifest["modelPath"] != "res://assets/models/studio/hero-house-" + _request!.RequestId + ".glb"
             || (decimal?)manifest["windowClearHeight"] != 1.40m
-            || (decimal?)manifest["windowClearWidth"] != _proposal!.WindowWidth)
+            || (decimal?)manifest["windowClearWidth"] != (_request.PartId is null ? _proposal!.WindowWidth : (decimal)JsonNode.Parse(_recipeText!)!["windowClearWidth"]!))
             throw new InvalidDataException("Сборка не соответствует принятому предложению.");
+        if (manifest["windowWidths"] is not JsonObject widths || widths.Count != HeroHouseRecipe.WindowIds.Count)
+            throw new InvalidDataException("Сборка не содержит точный охват восьми окон.");
+        foreach (var id in HeroHouseRecipe.WindowIds)
+        {
+            var expected = _request!.PartId is null || _request.PartId == id
+                ? _proposal!.WindowWidth : (decimal)_capturedWidths![id]!;
+            if ((decimal?)widths[id] != expected)
+                throw new InvalidDataException("Сборка изменила ширину вне принятого охвата: " + id);
+        }
         foreach (var (key, name) in new[] { ("glb", "hero_house.glb"), ("blend", "hero_house.blend") })
             if ((string?)manifest["outputs"]?[key]?["sha256"] != AtomicFile.Sha256OfFile(Path.Combine(_stage!, name)))
                 throw new InvalidDataException("Артефакт изменился после сборки: " + name);
@@ -478,7 +511,7 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
         _busy = busy;
         _wholeHouseScope.Disabled = busy || _proposal is not null;
         _ask.Disabled = busy || _openedSelection != HeroHouseRecipe.EntityId
-            || _studio.Selection != _openedSelection || !_wholeHouseScope.ButtonPressed;
+            || _studio.Selection != _openedSelection;
         _apply.Disabled = busy || _proposal is null || _request is null || _stage is null;
     }
     private void ClearProposal()

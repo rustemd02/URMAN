@@ -63,19 +63,19 @@ public static partial class StyleBenchmarkInteriorFactory
 
         Wall(room, "FrontWall", 4.2f, 3.6f, false,
             [new(DoorX, DoorWidth, 0, DoorHeight),
-             new(-.85f, windowClearWidth, WindowSill, WindowHead),
-             new(1f, windowClearWidth, WindowSill, WindowHead),
-             new(2.85f, windowClearWidth, WindowSill, WindowHead)]);
+             new(-.85f, recipe.WidthFor("Front0"), WindowSill, WindowHead),
+             new(1f, recipe.WidthFor("Front1"), WindowSill, WindowHead),
+             new(2.85f, recipe.WidthFor("Front2"), WindowSill, WindowHead)]);
         Wall(room, "BackWall", 4.2f, -3.6f, false,
-            [new(-2.55f, windowClearWidth, WindowSill, WindowHead), new(2.55f, windowClearWidth, WindowSill, WindowHead)]);
-        Wall(room, "LeftWall", 3.5f, -4.1f, true, [new(.60f, windowClearWidth, WindowSill, WindowHead)]);
-        Wall(room, "RightWall", 3.5f, 4.1f, true, [new(.90f, windowClearWidth, WindowSill, WindowHead)]);
+            [new(-2.55f, recipe.WidthFor("Rear0"), WindowSill, WindowHead), new(2.55f, recipe.WidthFor("Rear1"), WindowSill, WindowHead)]);
+        Wall(room, "LeftWall", 3.5f, -4.1f, true, [new(.60f, recipe.WidthFor("Left0"), WindowSill, WindowHead)]);
+        Wall(room, "RightWall", 3.5f, 4.1f, true, [new(.90f, recipe.WidthFor("Right0"), WindowSill, WindowHead)]);
 
         // Exposed beams sit above the clear ceiling datum, never through heads.
         foreach (var x in new[] { -2.25f, 2.25f })
             Block(room, "CeilingBeam" + (x < 0 ? "Left" : "Right"), new(.20f, .18f, 7f),
                 new(x, 2.693f, 0), "493629", "wood", collision: false);
-        foreach (var window in Windows) BuildWindow(room, window, windowClearWidth);
+        foreach (var window in Windows) BuildWindow(room, window, recipe.WidthFor(window.Name));
         AddRoomTrim(room);
         InteriorReflectionProbes.Add(room, "HeroRoomReflectionProbe", new(0, CeilingHeight * .5f, 0),
             new(ClearWidth, CeilingHeight, ClearDepth));

@@ -23203,6 +23203,15 @@
                 "implementation": "Immutable selected-part context uses semantic Front0–2/Rear0–1/Left0/Right0/SeniOuter0 identities mapped to current generator, recipe relative source and existing global /windowClearWidth pointer; mesh path remains diagnostic hint. Panel captures opened entity/part; selected window blocks Ask and request copy until author explicitly opts into all eight windows. Scope toggle locked during request/prepared proposal.",
                 "verification": "Sol6.1medium independent source acceptance; root affected Game compile 0 warnings/0 errors; git diff --check PASS.",
                 "remaining": "Native UI/picking/rebuild/DPI/focus walkthrough not verified. Recipe/request/provider still house-wide; real per-window overrides/target validation/exterior+interior consumers and runtime proof required, not replaced by scope opt-in."
+              },
+              {
+                "stage": "2026-10-11 genuine selected-window recipe and panel wiring",
+                "result": "SOURCE_ACCEPTED_STAGED_FRONT0_GEOMETRY_VERIFIED_FULL_RUNTIME_GATE_OPEN",
+                "source": "game/scripts/HeroHouseRecipe.cs; game/scripts/StyleBenchmarkInteriorFactory.cs; assets/source/blender/act1/urman_village_exterior_kit.py; game/studio/StudioAiPanel.cs",
+                "implementation": "Strict optional windowWidths keyed by eight canonical IDs; exterior holes/joinery/logcuts and seven main-room interior openings/windows share per-ID lookup. Panel defaults selected window to one target, freezes eight effective widths including baseline Seni .80, updates only selected override; all-eight operation removes overrides. Manifest requires exact eight effective widths and frozen global width. Captured text is validated via shared Parse, fingerprint includes current model, inconsistent modelnull baseline refused.",
+                "verification": "Sol6.1medium backend implementation and independent panel source review; two frozen-source/staged-default findings corrected and accepted. Root affected Game compile0/0 and diff-check PASS. Real staged Blender generation exit0; generated GLB accessor dimensions: only Street_Window1 (Front0) glass .96→1.20, other seven pane dimensions unchanged; thirteen door-node vertex attribute signatures identical.",
+                "evidence": "evidence/STUDIO/b20-house-pilot-2026-10-10/single-window-staging/{recipe,manifest,geometry-measurement}.json",
+                "remaining": "No actual per-window Codex inference, native UI, wall/reveal/collision game verification or single-window Apply/Undo accepted yet. Staged receipt is geometry measurement, not game completion; original all-eight game/Undo evidence remains valid history."
               }
             ],
             "stage_tasks": [
@@ -23239,6 +23248,15 @@
                 "result": "partial implementation; full done_when remains open",
                 "source": "game/studio/StudioAiPanel.cs; game/scripts/HeroHouseRecipe.cs; src-dotnet/Urman.Studio.Core/AI; Storage/StudioFileTransaction.cs; Editing/EditSession.cs",
                 "verification": "affected game/Core compilation PASS; staged Blender 1.06/1.35 and Core roundtrip/conflict/failure/barrier/recovery assertions PASS; provider inference/game/UI NOT_RUN at this checkpoint"
+              },
+              {
+                "stage": "2026-10-11 genuine selected-window recipe and panel wiring",
+                "result": "SOURCE_ACCEPTED_STAGED_FRONT0_GEOMETRY_VERIFIED_FULL_RUNTIME_GATE_OPEN",
+                "source": "game/scripts/HeroHouseRecipe.cs; game/scripts/StyleBenchmarkInteriorFactory.cs; assets/source/blender/act1/urman_village_exterior_kit.py; game/studio/StudioAiPanel.cs",
+                "implementation": "Strict optional windowWidths keyed by eight canonical IDs; exterior holes/joinery/logcuts and seven main-room interior openings/windows share per-ID lookup. Panel defaults selected window to one target, freezes eight effective widths including baseline Seni .80, updates only selected override; all-eight operation removes overrides. Manifest requires exact eight effective widths and frozen global width. Captured text is validated via shared Parse, fingerprint includes current model, inconsistent modelnull baseline refused.",
+                "verification": "Sol6.1medium backend implementation and independent panel source review; two frozen-source/staged-default findings corrected and accepted. Root affected Game compile0/0 and diff-check PASS. Real staged Blender generation exit0; generated GLB accessor dimensions: only Street_Window1 (Front0) glass .96→1.20, other seven pane dimensions unchanged; thirteen door-node vertex attribute signatures identical.",
+                "evidence": "evidence/STUDIO/b20-house-pilot-2026-10-10/single-window-staging/{recipe,manifest,geometry-measurement}.json",
+                "remaining": "No actual per-window Codex inference, native UI, wall/reveal/collision game verification or single-window Apply/Undo accepted yet. Staged receipt is geometry measurement, not game completion; original all-eight game/Undo evidence remains valid history."
               }
             ],
             "stage_tasks": [
@@ -23283,6 +23301,15 @@
                 "implementation": "Optional canonical PartId selects one of eight known windows; absent/null retains existing all-eight wire. Request validation rejects unknown parts; proposal must match frozen part exactly. Selected-part output schema requires exact partId const and parser rejects missing/extra/duplicate fields. Prompt distinguishes one-window and whole-house scope; tools/no-write protocol unchanged.",
                 "verification": "Root affected Studio.Core compile 0 warnings/0 errors; source inspection and diff-check. No actual per-window model call or game/UI acceptance yet.",
                 "remaining": "UI/recipe consumer wiring, frozen effective per-part widths, manifest invariants, staged geometry and native Apply/Undo runtime proof open; full portable Request v2/unsaved overlay contract not supplied by this optional field."
+              },
+              {
+                "stage": "2026-10-11 genuine selected-window recipe and panel wiring",
+                "result": "SOURCE_ACCEPTED_STAGED_FRONT0_GEOMETRY_VERIFIED_FULL_RUNTIME_GATE_OPEN",
+                "source": "game/scripts/HeroHouseRecipe.cs; game/scripts/StyleBenchmarkInteriorFactory.cs; assets/source/blender/act1/urman_village_exterior_kit.py; game/studio/StudioAiPanel.cs",
+                "implementation": "Strict optional windowWidths keyed by eight canonical IDs; exterior holes/joinery/logcuts and seven main-room interior openings/windows share per-ID lookup. Panel defaults selected window to one target, freezes eight effective widths including baseline Seni .80, updates only selected override; all-eight operation removes overrides. Manifest requires exact eight effective widths and frozen global width. Captured text is validated via shared Parse, fingerprint includes current model, inconsistent modelnull baseline refused.",
+                "verification": "Sol6.1medium backend implementation and independent panel source review; two frozen-source/staged-default findings corrected and accepted. Root affected Game compile0/0 and diff-check PASS. Real staged Blender generation exit0; generated GLB accessor dimensions: only Street_Window1 (Front0) glass .96→1.20, other seven pane dimensions unchanged; thirteen door-node vertex attribute signatures identical.",
+                "evidence": "evidence/STUDIO/b20-house-pilot-2026-10-10/single-window-staging/{recipe,manifest,geometry-measurement}.json",
+                "remaining": "No actual per-window Codex inference, native UI, wall/reveal/collision game verification or single-window Apply/Undo accepted yet. Staged receipt is geometry measurement, not game completion; original all-eight game/Undo evidence remains valid history."
               }
             ],
             "stage_tasks": [
@@ -23462,6 +23489,15 @@
                 "implementation": "Immutable selected-part context uses semantic Front0–2/Rear0–1/Left0/Right0/SeniOuter0 identities mapped to current generator, recipe relative source and existing global /windowClearWidth pointer; mesh path remains diagnostic hint. Panel captures opened entity/part; selected window blocks Ask and request copy until author explicitly opts into all eight windows. Scope toggle locked during request/prepared proposal.",
                 "verification": "Sol6.1medium independent source acceptance; root affected Game compile 0 warnings/0 errors; git diff --check PASS.",
                 "remaining": "Native UI/picking/rebuild/DPI/focus walkthrough not verified. Recipe/request/provider still house-wide; real per-window overrides/target validation/exterior+interior consumers and runtime proof required, not replaced by scope opt-in."
+              },
+              {
+                "stage": "2026-10-11 genuine selected-window recipe and panel wiring",
+                "result": "SOURCE_ACCEPTED_STAGED_FRONT0_GEOMETRY_VERIFIED_FULL_RUNTIME_GATE_OPEN",
+                "source": "game/scripts/HeroHouseRecipe.cs; game/scripts/StyleBenchmarkInteriorFactory.cs; assets/source/blender/act1/urman_village_exterior_kit.py; game/studio/StudioAiPanel.cs",
+                "implementation": "Strict optional windowWidths keyed by eight canonical IDs; exterior holes/joinery/logcuts and seven main-room interior openings/windows share per-ID lookup. Panel defaults selected window to one target, freezes eight effective widths including baseline Seni .80, updates only selected override; all-eight operation removes overrides. Manifest requires exact eight effective widths and frozen global width. Captured text is validated via shared Parse, fingerprint includes current model, inconsistent modelnull baseline refused.",
+                "verification": "Sol6.1medium backend implementation and independent panel source review; two frozen-source/staged-default findings corrected and accepted. Root affected Game compile0/0 and diff-check PASS. Real staged Blender generation exit0; generated GLB accessor dimensions: only Street_Window1 (Front0) glass .96→1.20, other seven pane dimensions unchanged; thirteen door-node vertex attribute signatures identical.",
+                "evidence": "evidence/STUDIO/b20-house-pilot-2026-10-10/single-window-staging/{recipe,manifest,geometry-measurement}.json",
+                "remaining": "No actual per-window Codex inference, native UI, wall/reveal/collision game verification or single-window Apply/Undo accepted yet. Staged receipt is geometry measurement, not game completion; original all-eight game/Undo evidence remains valid history."
               }
             ],
             "stage_tasks": [
@@ -23574,6 +23610,15 @@
                 "result": "All eight clear openings width1.30; primary height1.40/Seniheight1.06 and doors preserved; Windows matched three-view before/after/Undo PASS, root inspected; accepted Apply/Undo journal committed/before, exact original files restored and three variants absent.",
                 "source": "evidence/STUDIO/b20-house-pilot-2026-10-10/eight-window-transaction-receipt.json; codex-eight-window-attempt2; eight-before; eight-after; eight-undo",
                 "remaining": "Native Studio UI path not proven by CLI harness; Claude/restart/Redo and full done_when remain open. Actual LOW/FSR.7 is functional proof, not HIGH art acceptance."
+              },
+              {
+                "stage": "2026-10-11 genuine selected-window recipe and panel wiring",
+                "result": "SOURCE_ACCEPTED_STAGED_FRONT0_GEOMETRY_VERIFIED_FULL_RUNTIME_GATE_OPEN",
+                "source": "game/scripts/HeroHouseRecipe.cs; game/scripts/StyleBenchmarkInteriorFactory.cs; assets/source/blender/act1/urman_village_exterior_kit.py; game/studio/StudioAiPanel.cs",
+                "implementation": "Strict optional windowWidths keyed by eight canonical IDs; exterior holes/joinery/logcuts and seven main-room interior openings/windows share per-ID lookup. Panel defaults selected window to one target, freezes eight effective widths including baseline Seni .80, updates only selected override; all-eight operation removes overrides. Manifest requires exact eight effective widths and frozen global width. Captured text is validated via shared Parse, fingerprint includes current model, inconsistent modelnull baseline refused.",
+                "verification": "Sol6.1medium backend implementation and independent panel source review; two frozen-source/staged-default findings corrected and accepted. Root affected Game compile0/0 and diff-check PASS. Real staged Blender generation exit0; generated GLB accessor dimensions: only Street_Window1 (Front0) glass .96→1.20, other seven pane dimensions unchanged; thirteen door-node vertex attribute signatures identical.",
+                "evidence": "evidence/STUDIO/b20-house-pilot-2026-10-10/single-window-staging/{recipe,manifest,geometry-measurement}.json",
+                "remaining": "No actual per-window Codex inference, native UI, wall/reveal/collision game verification or single-window Apply/Undo accepted yet. Staged receipt is geometry measurement, not game completion; original all-eight game/Undo evidence remains valid history."
               }
             ],
             "stage_tasks": [
@@ -23636,6 +23681,15 @@
                 "result": "All eight clear openings width1.30; primary height1.40/Seniheight1.06 and doors preserved; Windows matched three-view before/after/Undo PASS, root inspected; accepted Apply/Undo journal committed/before, exact original files restored and three variants absent.",
                 "source": "evidence/STUDIO/b20-house-pilot-2026-10-10/eight-window-transaction-receipt.json; codex-eight-window-attempt2; eight-before; eight-after; eight-undo",
                 "remaining": "Native Studio UI path not proven by CLI harness; Claude/restart/Redo and full done_when remain open. Actual LOW/FSR.7 is functional proof, not HIGH art acceptance."
+              },
+              {
+                "stage": "2026-10-11 genuine selected-window recipe and panel wiring",
+                "result": "SOURCE_ACCEPTED_STAGED_FRONT0_GEOMETRY_VERIFIED_FULL_RUNTIME_GATE_OPEN",
+                "source": "game/scripts/HeroHouseRecipe.cs; game/scripts/StyleBenchmarkInteriorFactory.cs; assets/source/blender/act1/urman_village_exterior_kit.py; game/studio/StudioAiPanel.cs",
+                "implementation": "Strict optional windowWidths keyed by eight canonical IDs; exterior holes/joinery/logcuts and seven main-room interior openings/windows share per-ID lookup. Panel defaults selected window to one target, freezes eight effective widths including baseline Seni .80, updates only selected override; all-eight operation removes overrides. Manifest requires exact eight effective widths and frozen global width. Captured text is validated via shared Parse, fingerprint includes current model, inconsistent modelnull baseline refused.",
+                "verification": "Sol6.1medium backend implementation and independent panel source review; two frozen-source/staged-default findings corrected and accepted. Root affected Game compile0/0 and diff-check PASS. Real staged Blender generation exit0; generated GLB accessor dimensions: only Street_Window1 (Front0) glass .96→1.20, other seven pane dimensions unchanged; thirteen door-node vertex attribute signatures identical.",
+                "evidence": "evidence/STUDIO/b20-house-pilot-2026-10-10/single-window-staging/{recipe,manifest,geometry-measurement}.json",
+                "remaining": "No actual per-window Codex inference, native UI, wall/reveal/collision game verification or single-window Apply/Undo accepted yet. Staged receipt is geometry measurement, not game completion; original all-eight game/Undo evidence remains valid history."
               }
             ],
             "stage_tasks": [
@@ -25654,21 +25708,21 @@
             "remaining": "Native picking/rebuild/overlap/DPI checks and full persistent part contract open; no full unit completion claimed."
           },
           "selected_window_scope": {
-            "result": "EXPLICIT_ALL_EIGHT_OPT_IN_IMPLEMENTED_PER_WINDOW_NOT_YET_SUPPORTED",
+            "result": "PER_WINDOW_RECIPE_PANEL_IMPLEMENTED_STAGING_VERIFIED_RUNTIME_OPEN",
             "verification_question": "Does selecting one window avoid silently changing all eight? Source success: semantic part capture and no request until explicit whole-house scope; UI gate remains open.",
-            "next": "Implement per-part recipe widths with identical semantic IDs in generator/interior, frozen typed target set and exact expected widths in proposal/stage validation; prove unchanged other windows and full Undo.",
+            "next": "Fresh per-window request on committed source, actual Codex proposal then guarded native/game Apply and complete Undo; verify wall/reveal/collider and unchanged seven windows. Native input routing and account/provider availability remain prerequisites, no repeat without new condition.",
             "owner": "Codex",
             "files": "game/studio/StudioWorldSection.cs; game/studio/StudioAiPanel.cs",
-            "verification": "Affected Game compile0/0; Sol6.1medium source review accepted; no native UI run.",
+            "verification": "Root Game compile0/0, diff-check; Sol source acceptance after fixes; Blender exit0 and actual GLB measurement onlyFront0 changed,13door attribute signatures identical.",
             "typed_boundary": "Optional canonical PartId added to existing request/proposal with exact frozen identity validation, output schema const and strict parser. Core compile0/0; not yet enabled by panel.",
             "active_implementation": {
-              "owner": "Codex / Sol6.1medium",
+              "owner": "Codex integration; Sol completed bounded backend source",
               "files": [
                 "game/scripts/HeroHouseRecipe.cs",
                 "game/scripts/StyleBenchmarkInteriorFactory.cs",
                 "assets/source/blender/act1/urman_village_exterior_kit.py"
               ],
-              "result": "IN_PROGRESS_NOT_VERIFIED",
+              "result": "SOURCE_STAGE_ACCEPTED",
               "boundary": "Optional strict per-ID overrides; preserve global behavior and door/height/center invariants; root owns panel/provider/callers."
             }
           },
