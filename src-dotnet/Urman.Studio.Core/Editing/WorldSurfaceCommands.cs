@@ -96,6 +96,20 @@ public static class ScatterCommand
             parameters.ContainsKey("exclude"));
     }
 
+    /// <summary>
+    /// The models of a scatter that the catalogue does not know. The runtime calls
+    /// BuildVisual for each chosen model and writes an error for an unknown catalogue
+    /// entry, so a missing model silently thins the scatter it was supposed to fill.
+    /// </summary>
+    public static IReadOnlyList<string> MissingModels(ScatterSpec spec, IReadOnlyCollection<string> catalogueIds)
+    {
+        ArgumentNullException.ThrowIfNull(spec);
+        ArgumentNullException.ThrowIfNull(catalogueIds);
+        return catalogueIds.Count == 0
+            ? []
+            : spec.CatalogIds.Where(model => !catalogueIds.Contains(model)).ToArray();
+    }
+
     /// <summary>The exact plant count the runtime will try to build.</summary>
     public static int ExpectedPointCount(ScatterSpec spec)
     {

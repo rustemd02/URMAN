@@ -1,0 +1,29 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-17"
+  ],
+  "stage": "the catalogue link of an authored scatter",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-11 18:46 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "5623dbe2",
+  "result": {
+    "gap": "the scatter rules already checked the fields, the radius, the density and the plant count, but nothing checked that the MODELS a scatter names exist in the catalogue: the runtime calls BuildVisual for each chosen model and writes an error for an unknown catalogue entry, so a missing model silently thins the scatter it was supposed to fill",
+    "fix": "ScatterCommand.MissingModels compares a parsed scatter with the catalogue a caller supplies, and the probe now runs it over the eight authored scatters",
+    "measured": "eight authored scatters, forty-five expected plants in total, zero models missing from the catalogue"
+  },
+  "verified": {
+    "probe": "PASS 511/511 with the new checks: no authored scatter names a model the catalogue does not know, and a synthetic unknown model is reported",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors; game/Urman.Game.csproj 0 warnings/0 errors",
+    "existing_tests": "Urman.Studio.Tests 38/38",
+    "not_run": "no game run: how the scatter looks and what it costs in frames is the game's own acceptance, NOT_RUN"
+  },
+  "own_mistakes": "I first wrote a whole new projection for this and then deleted it: the probe already parsed the authored scatters and ran ScatterCommand.Validate on them, so the only real gap was the catalogue link. Adding a second projection would have duplicated the rules the brief forbids duplicating",
+  "files": {
+    "evidence/STUDIO/b20-deepseek-ai-17/2026-10-11-scatter-models/check.log": "9d5488bae5af435b5c4447ed16603261d9b094c55fc3dc849bec5fc9e913b24e"
+  },
+  "open": [
+    "the visual result and the frame cost of the scatters are NOT_RUN"
+  ]
+}
