@@ -77171,7 +77171,14 @@
             "verification": "Idle/Walk/Talk и выбранное рабочее действие на одном варианте; сравнить source до/после, clipping и Undo.",
             "risks_recovery_external_gates": "Подготовка базы — реальная asset work, не обещание; авторская оценка лица/одежды обязательна; несовместимый rig блокировать.",
             "required": true,
-            "evidence": [],
+            "evidence": [
+              {
+                "stage": "2026-10-11 подготовка модельной дорожки: из чего состоит внешность размещённого персонажа",
+                "result": "partial implementation by deepseek v4.1 flash: 33 персонажа (6 префиксов набора, 9 образов) без проблем; проверены префикс набора против списка в GeneratedCharacterKitDressing, непустой profile, цвета как 6 hex-цифр и ширина/глубина силуэта с честной пометкой, что рантайм ЗАЖИМАЕТ значение, а не отвергает. Что даёт этот этап итоговому процессу изменения персонажа из подготовленной базы: он называет реальные рычаги внешности (префикс набора, три цвета по подстроке имени меша, зажимаемые ширина и глубина) и запрещает обещать скульптинг, одежду и новый скелет как поле Studio.",
+                "source": "new file src-dotnet/Urman.Studio.Core/Editing/CharacterAppearance.cs; evidence evidence/STUDIO/b20-deepseek-ai-28/2026-10-11-character-appearance (общий receipt для четырёх единиц дорожки)",
+                "verification": "probe PASS 454/454 включая синтетику (неизвестный префикс, пустой profile, значение вне зажима, битый цвет); Core 0/0; game/Urman.Game.csproj 0/0; Urman.Studio.Tests 38/38. Внешний вид, лицо, одежда и сокеты НЕ проверялись: NOT_RUN, нужна Blender/игровая приёмка"
+              }
+            ],
             "stage_tasks": [
               "STUDIO.P5"
             ],
@@ -77199,12 +77206,13 @@
             },
             "task_type": "engineering",
             "status": "todo",
-            "implementation_state": "not_started",
+            "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
-              "Персонаж из подготовленной базы получает изменяемое лицо/одежду и сохраняет рабочий rig.; отсутствует подтверждение собственного конечного DoD, перечисленного ниже."
+              "Персонаж из подготовленной базы получает изменяемое лицо/одежду и сохраняет рабочий rig.; отсутствует подтверждение собственного конечного DoD, перечисленного ниже.",
+              "Ранее переданный частичный этап (2026-10-11 подготовка модельной дорожки: из чего состоит внешность размещённого персонажа) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
-            "next_action": "Использовать результаты AI-41–43; единая карточка source/rig/clothes/animations; create new character ID; assign to world; save/rebuild и preview.",
+            "next_action": "Ждать контракта модельной дорожки (AI-09/AI-11/AI-36); скульптинг, одежда и новый риг — работа Blender-генератора и импорта.",
             "blocker": null,
             "external_gates": [
               {
@@ -80994,7 +81002,14 @@
             "verification": "A20: минимум по одному stroke каждого типа и обязательные motions, Undo/Redo.",
             "risks_recovery_external_gates": "Сильная деформация/границы шеи/веки — preview limits; не обещать ползунки для любого GLB; художественный gate.",
             "required": true,
-            "evidence": [],
+            "evidence": [
+              {
+                "stage": "2026-10-11 подготовка модельной дорожки: из чего состоит внешность размещённого персонажа",
+                "result": "partial implementation by deepseek v4.1 flash: 33 персонажа (6 префиксов набора, 9 образов) без проблем; проверены префикс набора против списка в GeneratedCharacterKitDressing, непустой profile, цвета как 6 hex-цифр и ширина/глубина силуэта с честной пометкой, что рантайм ЗАЖИМАЕТ значение, а не отвергает. Что даёт этот этап скульптурному редактированию лица: строка политики самого рантайма говорит «unchanged face and bones», то есть скульптинг лица сегодня не поддерживается и требует Blender (tools/blender/generate_character_kit_v2.py) и импорта.",
+                "source": "new file src-dotnet/Urman.Studio.Core/Editing/CharacterAppearance.cs; evidence evidence/STUDIO/b20-deepseek-ai-28/2026-10-11-character-appearance (общий receipt для четырёх единиц дорожки)",
+                "verification": "probe PASS 454/454 включая синтетику (неизвестный префикс, пустой profile, значение вне зажима, битый цвет); Core 0/0; game/Urman.Game.csproj 0/0; Urman.Studio.Tests 38/38. Внешний вид, лицо, одежда и сокеты НЕ проверялись: NOT_RUN, нужна Blender/игровая приёмка"
+              }
+            ],
             "stage_tasks": [
               "STUDIO.P5"
             ],
@@ -81019,12 +81034,13 @@
             },
             "task_type": "engineering",
             "status": "todo",
-            "implementation_state": "not_started",
+            "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
-              "Лицо редактируется скульптурными кистями в Studio, а не только выбором готового варианта.; отсутствует подтверждение собственного конечного DoD, перечисленного ниже."
+              "Лицо редактируется скульптурными кистями в Studio, а не только выбором готового варианта.; отсутствует подтверждение собственного конечного DoD, перечисленного ниже.",
+              "Ранее переданный частичный этап (2026-10-11 подготовка модельной дорожки: из чего состоит внешность размещённого персонажа) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
-            "next_action": "Выделить разрешённую head область; реализовать четыре кисти с strength/radius; symmetry plane; protect attachment boundaries; preview normals/weights.",
+            "next_action": "Ждать контракта модельной дорожки (AI-09/AI-11/AI-36); скульптинг, одежда и новый риг — работа Blender-генератора и импорта.",
             "blocker": null,
             "external_gates": [
               {
@@ -81180,7 +81196,14 @@
             "verification": "A20: создать элемент, изменить толщину/посадку, UV/материал, проиграть Idle/Walk/Talk и рабочий клип.",
             "risks_recovery_external_gates": "Самопересечение, rig weights, текстурные права; экспорт только staged, ручной source не перезатирать.",
             "required": true,
-            "evidence": [],
+            "evidence": [
+              {
+                "stage": "2026-10-11 подготовка модельной дорожки: из чего состоит внешность размещённого персонажа",
+                "result": "partial implementation by deepseek v4.1 flash: 33 персонажа (6 префиксов набора, 9 образов) без проблем; проверены префикс набора против списка в GeneratedCharacterKitDressing, непустой profile, цвета как 6 hex-цифр и ширина/глубина силуэта с честной пометкой, что рантайм ЗАЖИМАЕТ значение, а не отвергает. Что даёт этот этап созданию нового элемента одежды: цвета применяются по подстроке имени меша (_Coat_/_CoatSkirt_, _Hat_/_Scarf_, _Skirt_/_Sash_), поэтому новая одежда — это новый меш в наборе, а не смена цвета, и проекция прямо запрещает подмену.",
+                "source": "new file src-dotnet/Urman.Studio.Core/Editing/CharacterAppearance.cs; evidence evidence/STUDIO/b20-deepseek-ai-28/2026-10-11-character-appearance (общий receipt для четырёх единиц дорожки)",
+                "verification": "probe PASS 454/454 включая синтетику (неизвестный префикс, пустой profile, значение вне зажима, битый цвет); Core 0/0; game/Urman.Game.csproj 0/0; Urman.Studio.Tests 38/38. Внешний вид, лицо, одежда и сокеты НЕ проверялись: NOT_RUN, нужна Blender/игровая приёмка"
+              }
+            ],
             "stage_tasks": [
               "STUDIO.P5"
             ],
@@ -81205,12 +81228,13 @@
             },
             "task_type": "engineering",
             "status": "todo",
-            "implementation_state": "not_started",
+            "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
-              "Автор создаёт элемент одежды из основы или поверхности и проверяет посадку в движении.; отсутствует подтверждение собственного конечного DoD, перечисленного ниже."
+              "Автор создаёт элемент одежды из основы или поверхности и проверяет посадку в движении.; отсутствует подтверждение собственного конечного DoD, перечисленного ниже.",
+              "Ранее переданный частичный этап (2026-10-11 подготовка модельной дорожки: из чего состоит внешность размещённого персонажа) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
-            "next_action": "Выбрать основу/поверхность; создать отдельный garment ID; thickness/offset/fit controls; material/UV projection/paint; skeleton/clip preview.",
+            "next_action": "Ждать контракта модельной дорожки (AI-09/AI-11/AI-36); скульптинг, одежда и новый риг — работа Blender-генератора и импорта.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -81327,7 +81351,14 @@
             "verification": "A20: один новый персонаж, correction веса, предметный socket, motion set и restart.",
             "risks_recovery_external_gates": "Подготовка источника/rig — обязательная asset work; auto-rig любого импорта не обещать; авторская приёмка.",
             "required": true,
-            "evidence": [],
+            "evidence": [
+              {
+                "stage": "2026-10-11 подготовка модельной дорожки: из чего состоит внешность размещённого персонажа",
+                "result": "partial implementation by deepseek v4.1 flash: 33 персонажа (6 префиксов набора, 9 образов) без проблем; проверены префикс набора против списка в GeneratedCharacterKitDressing, непустой profile, цвета как 6 hex-цифр и ширина/глубина силуэта с честной пометкой, что рантайм ЗАЖИМАЕТ значение, а не отвергает. Что даёт этот этап новому персонажу со скелетом, весами и сокетами: он показывает, что набор уже имеет полный humanoid-скелет (urman_character_kit_v2.glb) и список обслуживаемых префиксов в коде, а сам новый риг/веса/сокеты делает Blender-генератор, а не Studio.",
+                "source": "new file src-dotnet/Urman.Studio.Core/Editing/CharacterAppearance.cs; evidence evidence/STUDIO/b20-deepseek-ai-28/2026-10-11-character-appearance (общий receipt для четырёх единиц дорожки)",
+                "verification": "probe PASS 454/454 включая синтетику (неизвестный префикс, пустой profile, значение вне зажима, битый цвет); Core 0/0; game/Urman.Game.csproj 0/0; Urman.Studio.Tests 38/38. Внешний вид, лицо, одежда и сокеты НЕ проверялись: NOT_RUN, нужна Blender/игровая приёмка"
+              }
+            ],
             "stage_tasks": [
               "STUDIO.P5"
             ],
@@ -81352,12 +81383,13 @@
             },
             "task_type": "engineering",
             "status": "todo",
-            "implementation_state": "not_started",
+            "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
-              "Новый персонаж из заготовки/геометрии получает совместимый скелет, веса и сокеты.; отсутствует подтверждение собственного конечного DoD, перечисленного ниже."
+              "Новый персонаж из заготовки/геометрии получает совместимый скелет, веса и сокеты.; отсутствует подтверждение собственного конечного DoD, перечисленного ниже.",
+              "Ранее переданный частичный этап (2026-10-11 подготовка модельной дорожки: из чего состоит внешность размещённого персонажа) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
-            "next_action": "Назначить skeleton template; проверить bones/bind pose; дать корректировать веса; настроить sockets; validate clips/root motion; staged export.",
+            "next_action": "Ждать контракта модельной дорожки (AI-09/AI-11/AI-36); скульптинг, одежда и новый риг — работа Blender-генератора и импорта.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",

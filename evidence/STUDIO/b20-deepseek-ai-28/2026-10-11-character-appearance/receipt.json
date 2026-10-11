@@ -1,0 +1,34 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-28",
+    "STUDIO/AI-41",
+    "STUDIO/AI-42",
+    "STUDIO/AI-43"
+  ],
+  "stage": "preparation shared by the character track: what a placed character's appearance is made of",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-11 17:02 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "c75a3318",
+  "result": {
+    "characters": "33 placed characters over 6 kit prefixes and 9 appearance profiles, all with no problems",
+    "what appearance IS": "a kit prefix that names the body meshes of the shared character kit, three colours the runtime looks up BY MESH NAME SUBSTRING (_Coat_/_CoatSkirt_, _Hat_/_Scarf_, _Skirt_/_Sash_), and a skin width and depth the runtime CLAMPS into a narrow range (.94-1.06 and .95-1.05) rather than refusing",
+    "the runtime's own policy": "the character carries the string 'existing winter kit; modest silhouette and garment palette; unchanged face and bones', which is exactly the honest boundary for AI-41 (face sculpting), AI-42 (a new garment) and AI-43 (a new rig with weights and sockets): these are Blender work in tools/blender/generate_character_kit_v2.py followed by an import, not a Studio field",
+    "checks": "a prefix the dressing does not serve would leave a character undressed and is reported; an empty profile is reported; a silhouette value outside the clamp is reported as EDITOR POLICY because the runtime silently clamps it; a colour that is not six hex digits is reported",
+    "limit": "the projection cannot look inside the GLB: a colour field with no matching mesh name changes nothing, and the projection says so instead of pretending to verify the look"
+  },
+  "verified": {
+    "probe": "PASS 454/454 with the new checks: 33 characters with no problems, the nine served prefixes read from the dressing source, the policy string, the boundary notes, and the synthetic cases (an unknown prefix, an empty profile, a clamped silhouette value, a malformed colour)",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors; game/Urman.Game.csproj 0 warnings/0 errors",
+    "existing_tests": "Urman.Studio.Tests 38/38",
+    "not_run": "no game run and no Blender run: the look itself, the face, the garment and the socket work are NOT_RUN"
+  },
+  "files": {
+    "evidence/STUDIO/b20-deepseek-ai-28/2026-10-11-character-appearance/check.log": "8acf5d0654cc7bf55b447a4f300465282ace47f994ed37e24715b4f464c2cfcd"
+  },
+  "open": [
+    "AI-28/41/42/43 need the model track (AI-09/AI-11/AI-36) and Blender work",
+    "the look itself is NOT_RUN"
+  ]
+}
