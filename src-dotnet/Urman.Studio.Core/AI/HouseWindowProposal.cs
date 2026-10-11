@@ -1,6 +1,43 @@
+using System.Collections.ObjectModel;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 
 namespace Urman.Studio.Core.AI;
+
+/// <summary>A bounded source fragment and the full-file hashes that identify its disk baseline.</summary>
+public sealed record HouseWindowSource
+{
+    private JsonElement _data;
+
+    [JsonConstructor]
+    public HouseWindowSource(string path, string entityKey, string? baseHash, string currentHash, JsonElement data)
+    {
+        Path = path;
+        EntityKey = entityKey;
+        BaseHash = baseHash;
+        CurrentHash = currentHash;
+        Data = data;
+    }
+
+    [JsonPropertyName("path"), JsonPropertyOrder(0)]
+    public string Path { get; init; }
+
+    [JsonPropertyName("entityKey"), JsonPropertyOrder(1)]
+    public string EntityKey { get; init; }
+
+    [JsonPropertyName("baseHash"), JsonPropertyOrder(2)]
+    public string? BaseHash { get; init; }
+
+    [JsonPropertyName("currentHash"), JsonPropertyOrder(3)]
+    public string CurrentHash { get; init; }
+
+    [JsonPropertyName("data"), JsonPropertyOrder(4)]
+    public JsonElement Data
+    {
+        get => _data;
+        init => _data = value.ValueKind == JsonValueKind.Undefined ? default : value.Clone();
+    }
+}
 
 /// <summary>The exact, immutable input the proposal model is allowed to see.</summary>
 public sealed record HouseWindowRequest(
@@ -9,7 +46,41 @@ public sealed record HouseWindowRequest(
     [property: JsonPropertyName("entityId"), JsonPropertyOrder(2)] string EntityId,
     [property: JsonPropertyName("currentWidth"), JsonPropertyOrder(3)] decimal CurrentWidth,
     [property: JsonPropertyName("prompt"), JsonPropertyOrder(4)] string Prompt,
-    [property: JsonPropertyName("partId"), JsonPropertyOrder(5), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)] string? PartId = null);
+    [property: JsonPropertyName("partId"), JsonPropertyOrder(5), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)] string? PartId = null)
+{
+    private IReadOnlyList<string>? _partIds;
+
+    [JsonPropertyName("partIds"), JsonPropertyOrder(6), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public IReadOnlyList<string>? PartIds
+    {
+        get => _partIds;
+        init => _partIds = value is null ? null : Array.AsReadOnly(value.ToArray());
+    }
+
+    private IReadOnlyDictionary<string, decimal>? _currentWidths;
+
+    [JsonPropertyName("currentWidths"), JsonPropertyOrder(7), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public IReadOnlyDictionary<string, decimal>? CurrentWidths
+    {
+        get => _currentWidths;
+        init => _currentWidths = value is null
+            ? null
+            : new ReadOnlyDictionary<string, decimal>(value.ToDictionary(pair => pair.Key, pair => pair.Value, StringComparer.Ordinal));
+    }
+
+    private IReadOnlyList<HouseWindowSource>? _sources;
+
+    [JsonPropertyName("sources"), JsonPropertyOrder(8), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public IReadOnlyList<HouseWindowSource>? Sources
+    {
+        get => _sources;
+        init => _sources = value is null
+            ? null
+            : Array.AsReadOnly(value.Select(source => source is null
+                ? throw new ArgumentException("Sources cannot contain null entries.", nameof(value))
+                : source with { Data = source.Data }).ToArray());
+    }
+}
 
 /// <summary>
 /// A validated proposal for the single supported operation. Widths are in metres.
@@ -25,6 +96,15 @@ public sealed record HouseWindowProposal(
     [property: JsonPropertyName("partId"), JsonPropertyOrder(6), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)] string? PartId = null)
 {
     public const string Operation = "house.windows.resize";
+
+    private IReadOnlyList<string>? _partIds;
+
+    [JsonPropertyName("partIds"), JsonPropertyOrder(7), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public IReadOnlyList<string>? PartIds
+    {
+        get => _partIds;
+        init => _partIds = value is null ? null : Array.AsReadOnly(value.ToArray());
+    }
 }
 
 /// <summary>Shared validation for proposals before they can reach Studio's edit/undo path.</summary>
@@ -32,6 +112,13 @@ public static class HouseWindowProposalValidator
 {
     public const decimal MinimumWidthMeters = 0.65m;
     public const decimal MaximumWidthMeters = 1.35m;
+    public const int MaximumSerializedRequestBytes = 256 * 1024;
+    private const string WorldSourcePath = "game/content/world/act1_village_kit.world.v1.json";
+    private const string RecipeSourcePath = "game/content/studio/hero_house.recipe.json";
+    public static readonly IReadOnlyList<string> MainRoomWindowIds = Array.AsReadOnly(
+        new[] { "Front0", "Front1", "Front2", "Rear0", "Rear1", "Left0", "Right0" });
+    private static readonly IReadOnlyList<string> AllWindowIds = Array.AsReadOnly(
+        new[] { "Front0", "Front1", "Front2", "Rear0", "Rear1", "Left0", "Right0", "SeniOuter0" });
 
     public static void ValidateRequest(HouseWindowRequest request)
     {
@@ -45,13 +132,34 @@ public static class HouseWindowProposalValidator
         ValidateSnapshotHash(request.SnapshotHash);
         ValidateIdentifier(request.EntityId, nameof(request.EntityId), maximumLength: 256);
         ValidateWidth(request.CurrentWidth, nameof(request.CurrentWidth));
+        if (request.PartId is not null && request.PartIds is not null)
+            throw new ArgumentException("Select either one window part or the main-room window set, not both.", nameof(request));
+
         if (request.PartId is not null && request.PartId is not ("Front0" or "Front1" or "Front2" or "Rear0" or "Rear1" or "Left0" or "Right0" or "SeniOuter0"))
             throw new ArgumentException("The selected window part ID is not supported.", nameof(request));
+
+        if (request.PartIds is not null && !HasCanonicalMainRoomWindowIds(request.PartIds))
+            throw new ArgumentException("PartIds must contain the seven canonical main-room window IDs in order.", nameof(request));
+
+        if (request.CurrentWidths is not null)
+        {
+            var targetIds = request.PartId is { } partId ? new[] { partId } : request.PartIds ?? AllWindowIds;
+            if (request.CurrentWidths.Count != targetIds.Count || targetIds.Any(id => !request.CurrentWidths.ContainsKey(id)))
+                throw new ArgumentException("CurrentWidths must contain exactly the IDs in the selected window scope.", nameof(request));
+
+            foreach (var width in request.CurrentWidths.Values)
+                ValidateWidth(width, nameof(request.CurrentWidths));
+        }
+
+        if (request.Sources is not null)
+            ValidateSources(request);
 
         if (string.IsNullOrWhiteSpace(request.Prompt) || request.Prompt.Length > 8_000 || ContainsUnsupportedPromptControl(request.Prompt))
         {
             throw new ArgumentException("The prompt must contain 1–8000 printable characters.", nameof(request));
         }
+
+        ValidateSerializedRequestSize(request);
     }
 
     public static void Validate(HouseWindowRequest request, HouseWindowProposal proposal)
@@ -77,15 +185,21 @@ public static class HouseWindowProposalValidator
         if (!string.Equals(proposal.PartId, request.PartId, StringComparison.Ordinal))
             throw new ArgumentException("The proposal window part does not match its frozen input.", nameof(proposal));
 
+        if (!SamePartIds(proposal.PartIds, request.PartIds))
+            throw new ArgumentException("The proposal window parts do not match their frozen input.", nameof(proposal));
+
         if (proposal.ExpectedWidth != request.CurrentWidth)
         {
             throw new ArgumentException("The expected width must equal the input width.", nameof(proposal));
         }
 
         ValidateWidth(proposal.WindowWidth, nameof(proposal.WindowWidth));
-        if (proposal.WindowWidth == request.CurrentWidth)
+        var isNoOp = request.CurrentWidths is null
+            ? proposal.WindowWidth == request.CurrentWidth
+            : request.CurrentWidths.Values.All(width => width == proposal.WindowWidth);
+        if (isNoOp)
         {
-            throw new ArgumentException("The proposed width must change the current width.", nameof(proposal));
+            throw new ArgumentException("The proposed width must change at least one targeted window.", nameof(proposal));
         }
 
         if (string.IsNullOrWhiteSpace(proposal.Summary) || proposal.Summary.Length > 500 || ContainsControl(proposal.Summary))
@@ -119,6 +233,120 @@ public static class HouseWindowProposalValidator
     }
 
     private static bool ContainsControl(string value) => value.Any(char.IsControl);
+
+    private static bool HasCanonicalMainRoomWindowIds(IReadOnlyList<string> partIds)
+    {
+        if (partIds.Count != MainRoomWindowIds.Count)
+            return false;
+
+        for (var index = 0; index < MainRoomWindowIds.Count; index++)
+        {
+            if (!string.Equals(partIds[index], MainRoomWindowIds[index], StringComparison.Ordinal))
+                return false;
+        }
+
+        return true;
+    }
+
+    private static bool SamePartIds(IReadOnlyList<string>? left, IReadOnlyList<string>? right)
+    {
+        if (left is null || right is null)
+            return left is null && right is null;
+
+        if (left.Count != right.Count)
+            return false;
+
+        for (var index = 0; index < left.Count; index++)
+        {
+            if (!string.Equals(left[index], right[index], StringComparison.Ordinal))
+                return false;
+        }
+
+        return true;
+    }
+
+    private static void ValidateSources(HouseWindowRequest request)
+    {
+        var sources = request.Sources!;
+        if (sources.Count != 2)
+            throw new ArgumentException("Sources must contain the two fixed pilot files.", nameof(request));
+
+        var requiredPaths = new HashSet<string>(new[] { WorldSourcePath, RecipeSourcePath }, StringComparer.Ordinal);
+        foreach (var source in sources)
+        {
+            if (source is null || source.Path is null || !requiredPaths.Remove(source.Path))
+                throw new ArgumentException("Sources must contain each fixed pilot path exactly once.", nameof(request));
+
+            if (source.BaseHash is null)
+            {
+                if (string.Equals(source.Path, RecipeSourcePath, StringComparison.Ordinal))
+                    throw new ArgumentException("The recipe source must include its saved base hash.", nameof(request));
+            }
+            else
+            {
+                ValidateLowercaseHash(source.BaseHash, nameof(source.BaseHash));
+            }
+
+            ValidateLowercaseHash(source.CurrentHash, nameof(source.CurrentHash));
+            if (source.Data.ValueKind != JsonValueKind.Object)
+                throw new ArgumentException("Each source data value must be a JSON object.", nameof(request));
+
+            if (string.Equals(source.Path, WorldSourcePath, StringComparison.Ordinal))
+            {
+                if (source.EntityKey is null)
+                    throw new ArgumentException("The world source entity key must be present.", nameof(request));
+
+                ValidateIdentifier(source.EntityKey, nameof(source.EntityKey), maximumLength: 256);
+                if (!string.Equals(source.EntityKey, request.EntityId, StringComparison.Ordinal)
+                    || !source.Data.TryGetProperty("id", out var worldEntityId)
+                    || worldEntityId.ValueKind != JsonValueKind.String
+                    || !string.Equals(worldEntityId.GetString(), request.EntityId, StringComparison.Ordinal))
+                {
+                    throw new ArgumentException("The world source must identify the requested entity by key and data ID.", nameof(request));
+                }
+            }
+            else
+            {
+                if (!string.Equals(source.EntityKey, "recipe", StringComparison.Ordinal))
+                    throw new ArgumentException("The recipe source entity key must be 'recipe'.", nameof(request));
+
+                if (!source.Data.TryGetProperty("entityId", out var recipeEntityId)
+                    || recipeEntityId.ValueKind != JsonValueKind.String
+                    || !string.Equals(recipeEntityId.GetString(), request.EntityId, StringComparison.Ordinal))
+                {
+                    throw new ArgumentException("The recipe source entity ID must match the request entity.", nameof(request));
+                }
+            }
+        }
+
+        if (requiredPaths.Count != 0)
+            throw new ArgumentException("Sources must contain each fixed pilot path exactly once.", nameof(request));
+    }
+
+    private static void ValidateSerializedRequestSize(HouseWindowRequest request)
+    {
+        byte[] serializedRequest;
+        try
+        {
+            serializedRequest = JsonSerializer.SerializeToUtf8Bytes(request);
+        }
+        catch (Exception exception) when (exception is JsonException or InvalidOperationException or NotSupportedException)
+        {
+            throw new ArgumentException("The request must serialize as strict JSON.", nameof(request), exception);
+        }
+
+        if (serializedRequest.Length > MaximumSerializedRequestBytes)
+            throw new ArgumentException("The serialized request exceeds 256 KiB.", nameof(request));
+    }
+
+    private static void ValidateLowercaseHash(string? value, string name)
+    {
+        if (value is null || value.Length != 64
+            || value.Any(character => !((character >= '0' && character <= '9') || (character >= 'a' && character <= 'f'))))
+        {
+            throw new ArgumentException("Source hashes must be lowercase 64-character SHA-256 values.", name);
+        }
+    }
 
     private static bool ContainsUnsupportedPromptControl(string value) =>
         value.Any(character => char.IsControl(character) && character is not ('\r' or '\n' or '\t'));

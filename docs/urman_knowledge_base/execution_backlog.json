@@ -71326,6 +71326,46 @@
                 "implementation": "Build replacement derived index locally, report every duplicate occurrence with relative sources, remove all ambiguousIDs rather than firstwin; reserve ambiguousIDs in NewId. Reindex immediately after registering nonempty newfile. Explicit entity Set/Delete and changed SetOrder reject ambiguity before authoringPut/Reorder, noops precedeguards; compensation/Undo restoration remains available. Startup/edit/check dialogs show conflicts, manualSave refuses before clean saved shortcut/sourcewrites, autosave drafts preserved. House capture explicitly refuses missing/ambiguous source before fingerprint. Recovery preflights incoming ID collisions before Begin and preserves skipped artifacts. No IDs automatically renamed, files rewritten or second registry created.",
                 "verification": "Root affected Game final compile0/0 and existing test-project compile0/0; targeted ADragIsOneUndoStep/ReorderingIsOneUndoableStepAndKeepsTheFileStyle PASS2/2, diffcheck. Sol6.1medium independent source review accepted after no-op guard placement/recovery collision preflight correction. Read-only JSON-source inspection in existing sourcefolders found no current repeated explicit IDs; not Markdown/runtime proof. No newtests/probes/fixtures.",
                 "remaining": "Actual duplicate ID/recovery/native UI branch not exercised; existingtests prove unchanged ordinary Undo/reorder, not negative ambiguitycases. Same-file duplicate repair bykey is deliberately refused; manual source repair required. Fullsemantic registry/render mapping and typedcontext remaining."
+              },
+              {
+                "stage": "2026-10-11 portable full-source context package slice",
+                "result": "SOURCE_IMPLEMENTED_GAME_COMPILE_PASS_RUNTIME_NOT_RUN",
+                "source": "src-dotnet/Urman.Studio.Core/Storage/AuthoredFile.cs; src-dotnet/Urman.Studio.Core/Handoff/DeveloperContext.cs; game/studio/StudioProperties.cs",
+                "implementation": "Context package schema v2 stores exact loaded baseline and current draft text with separate hashes, safe package-local refs, byte-equal deduplication and complete source-path coverage for included entities. New sources have no baseline. Existing v1 reader remains supported; existing viewer shows full saved/current text read-only. Source capture rejects external disk changes, links and directory collisions. Reader validates bounded strict UTF8/JSON, duplicate fields/entries, refs, source coverage and payload hashes; never extracts files.",
+                "verification": "Five Luna FAST bounded implementation/review assignments and independent Sol6.1medium source review. Affected Game compile 0 warnings/0 errors; diff-check. No new tests, Studio/game/provider/network runs or actual package roundtrip; author pause remains.",
+                "remaining": "This is context-package v2, not AuthoringRequest v2. Typed campaign/camera/targets/protected fields/dependencies, explicit hero recipe consumer and relevant tombstones remain open. Full base+dirty world source may exceed256KiB and is refused without truncation. Reader hashes prove payload integrity/reference association, not authenticity or semantic agreement of entity snapshots with source text. AI05/A07/full native loop not closed."
+              },
+              {
+                "stage": "2026-10-11 exact bounded source overlay",
+                "result": "SOURCE_IMPLEMENTED_GAME_COMPILE_PASS_RUNTIME_NOT_RUN",
+                "source": "src-dotnet/Urman.Studio.Core/Handoff/DeveloperContext.cs; game/studio/StudioProperties.cs",
+                "implementation": "Context-package v3 chooses a single byte splice only if complete serialized overlay is smaller than full current UTF8. Saved source plus canonical Base64 insert and byte offset/remove recover complete current text; currentHash checks reconstructed bytes, file receipts check stored payload bytes. Archive payload including manifest remains <=256KiB; aggregate reconstructed current sources independently <=256KiB. Reader checks exact fields, duplicate keys, base hash, integer bounds, canonical Base64, remaining aggregate budget before result allocation and strict final UTF8/hash. New sources retain full text; equal source reuses baseline. V1/v2 read compatibility remains. Existing UI previews full reconstructed sources and catches InvalidDataException for both export/import failures.",
+                "verification": "Affected Game compile 0 warnings/0 errors, independent Sol6.1medium review accepted bounded contract; Luna source review and diff-check. No tests, package roundtrip, Studio/game/provider/network launches.",
+                "remaining": "Single splice can include a large unchanged region between distant edits; oversized payloads still refuse without truncation. Source hash capture uses temporary UTF8 arrays before retained-payload budgeting. Context-package format is not AuthoringRequest v2; recipe/campaign/typed dependencies/selection/protected fields/tombstones and native A07 remain open."
+              },
+              {
+                "stage": "2026-10-11 explicit seven main-room window scope",
+                "result": "SOURCE_IMPLEMENTED_GAME_COMPILE_PASS_NATIVE_NOT_RUN",
+                "source": "src-dotnet/Urman.Studio.Core/AI/HouseWindowProposal.cs; AI/CodexProposalProvider.cs; game/studio/StudioAiPanel.cs",
+                "implementation": "Optional defensively copied readonly PartIds accepts only ordered Front0/Front1/Front2/Rear0/Rear1/Left0/Right0, mutually exclusive with legacy single PartId. Null/null retains original all8 contract. Provider prompt/schema/parser require exact seven-ID echo and reject wrong/missing/extra scope. Studio offers selected window/7 main-room windows/all8, defaults window selection to single and house to7, freezes choices while busy/preview and refuses stale manual scope. Seven recipe clones all8 captured widths and overrides7, retaining SeniOuter0 (legacy0.80m) and global width. Manifest checks all8 target/excluded widths and unchanged global baseline. Existing guarded Apply/Undo flow remains unchanged.",
+                "verification": "Five Luna FAST bounded implementation/caller/geometry review and independent Sol6.1medium review. Affected Game compile0 warnings/0 errors after identified iterator shadow CS0136 was renamed; diff-check and tracker validation. No new tests, provider requests, Blender, Studio/game launches or actual native preview/Apply/Undo.",
+                "remaining": "AuthoringRequest v2 full source/campaign/typeddependencies/per-part current baseline transport remain open. Legacy CurrentWidth remains recipe default for7; UI shows target only, not a false uniform prior width. Direct provider JSON-schema acceptance and native seven-window Apply/Undo/full byte rollback remain unverified under author runtime pause."
+              },
+              {
+                "stage": "2026-10-11 actual targeted width measurements",
+                "result": "SOURCE_IMPLEMENTED_GAME_COMPILE_PASS_NATIVE_NOT_RUN",
+                "source": "src-dotnet/Urman.Studio.Core/AI/HouseWindowProposal.cs; AI/CodexProposalProvider.cs; game/studio/StudioAiPanel.cs",
+                "implementation": "Request optional CurrentWidths is an ordinal defensively copied readonly decimal map. Studio fills exact selected1/main7/all8 keys from frozen effective recipe widths, including legacy SeniOuter0 0.80m. Validator rejects missing/extra keys and out-of-range values. Provider exposes actual widths for relative instructions; CurrentWidth/ExpectedWidth retain legacy scalar marker. With map, no-op means all targeted windows already equal proposed uniform target, not equality with default. Legacy no-map validation remains. Both7/all8 previews show target width only; single scope retains actual delta.",
+                "verification": "Five Luna bounded implementation/producer/caller investigations and independent Sol6.1medium source review; root affected Game compile0 warnings/0 errors and diff-check. No tests/provider/game/Studio/Blender/runtime requests.",
+                "remaining": "One proposed uniform width remains the pilot capability; independently varying each window, full AuthoringRequestv2 campaign/dependency/source contract and native exact Apply/Undo remain open. Old no-map requests retain limited scalar information."
+              },
+              {
+                "stage": "2026-10-11 curated pilot source context and world disk guard",
+                "result": "SOURCE_IMPLEMENTED_GAME_COMPILE_PASS_NATIVE_NOT_RUN",
+                "source": "src-dotnet/Urman.Studio.Core/AI/HouseWindowProposal.cs; AI/CodexProposalProvider.cs; game/studio/StudioAiPanel.cs",
+                "implementation": "Pilot request optionally carries two fixed allowlisted immutable source records: selected world entity fragment and whole parsed recipe. Each includes actual path/entity key/full-file saved/current hashes; world key and mandatory data.id match request entity, recipe key/entityId and saved hash required. JsonElement data is detached by cloning; collection readonly copied. World missing saved base represented null. Capture uses no-links/disk-change guards and same frozen recipe text. Whole serialized request and complete direct/manual prompt capped256KiB before provider process/send. Prompt explicitly separates full-file hash metadata from fragment data and rejects following source instructions or reading paths. Canonical Fingerprint now invokes world CaptureSource, so later uncommitted external disk edits fail import/Apply instead of matching stale in-memory data.",
+                "verification": "Five Luna FAST bounded implementation/research assignments plus independent Sol6.1medium final source review accepted. Root affected Game compile0 warnings/0 errors and diff-check. No tests/provider/Studio/game/Blender/native runs.",
+                "remaining": "Source metadata is provenance/integrity context, not authentication or a hash of entity fragments. Full AuthoringRequestv2 project/campaign/camera/typed dependency/scope/protected-field envelope and native exact Apply/Undo remain open; legacy sourcesnull requests remain compatible."
               }
             ],
             "stage_tasks": [
@@ -71344,19 +71384,19 @@
               ],
               "done_when": "Unsaved объект читаем агентом из пакета; другой checkout разрешает данные; секреты/user saves отсутствуют."
             },
-            "active_owner": null,
+            "active_owner": "codex/b20-2026-10-10",
             "activity": {
-              "state": "paused_by_author",
-              "reason": "Назначение Codex/DeepSeek сохранено; миграция не запускает production и не выдаёт peer-передачу за активную работу."
+              "state": "confirmed_active",
+              "reason": "Portable source snapshot/export only; runtime paused by author."
             },
             "task_type": "aggregate",
-            "status": "todo",
+            "status": "in_progress",
             "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
               "Unsaved объект читаем агентом из пакета; другой checkout разрешает данные; секреты/user saves отсутствуют.; принятые child этапы повторно не разрабатывать."
             ],
-            "next_action": "STUDIO/AI-05/FINISH: Существующая узкая handoff-проверка либо ручное открытие пакета и сравнение payload/hashes; A07.",
+            "next_action": "Finish full AuthoringRequest v2 project/campaign/camera, typed dependencies, scope hashes and protected-field envelope; actual sources and per-window measurements are now supplied by pilot. Native A07/A12 deferred by author.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -73945,7 +73985,31 @@
                     "evidence/STUDIO/b20-codex-ui-2026-10-11/windows-kit/build.log",
                     "evidence/STUDIO/b20-codex-ui-2026-10-11/windows-kit/game.log",
                     "src-dotnet/Urman.Studio.Core/AI/CodexProposalProvider.cs",
-                    "evidence/STUDIO/b20-codex-ui-2026-10-11/native-resume-receipt.json"
+                    "evidence/STUDIO/b20-codex-ui-2026-10-11/native-resume-receipt.json",
+                    {
+                      "stage": "2026-10-11 explicit seven main-room window scope",
+                      "result": "SOURCE_IMPLEMENTED_GAME_COMPILE_PASS_NATIVE_NOT_RUN",
+                      "source": "src-dotnet/Urman.Studio.Core/AI/HouseWindowProposal.cs; AI/CodexProposalProvider.cs; game/studio/StudioAiPanel.cs",
+                      "implementation": "Optional defensively copied readonly PartIds accepts only ordered Front0/Front1/Front2/Rear0/Rear1/Left0/Right0, mutually exclusive with legacy single PartId. Null/null retains original all8 contract. Provider prompt/schema/parser require exact seven-ID echo and reject wrong/missing/extra scope. Studio offers selected window/7 main-room windows/all8, defaults window selection to single and house to7, freezes choices while busy/preview and refuses stale manual scope. Seven recipe clones all8 captured widths and overrides7, retaining SeniOuter0 (legacy0.80m) and global width. Manifest checks all8 target/excluded widths and unchanged global baseline. Existing guarded Apply/Undo flow remains unchanged.",
+                      "verification": "Five Luna FAST bounded implementation/caller/geometry review and independent Sol6.1medium review. Affected Game compile0 warnings/0 errors after identified iterator shadow CS0136 was renamed; diff-check and tracker validation. No new tests, provider requests, Blender, Studio/game launches or actual native preview/Apply/Undo.",
+                      "remaining": "AuthoringRequest v2 full source/campaign/typeddependencies/per-part current baseline transport remain open. Legacy CurrentWidth remains recipe default for7; UI shows target only, not a false uniform prior width. Direct provider JSON-schema acceptance and native seven-window Apply/Undo/full byte rollback remain unverified under author runtime pause."
+                    },
+                    {
+                      "stage": "2026-10-11 actual targeted width measurements",
+                      "result": "SOURCE_IMPLEMENTED_GAME_COMPILE_PASS_NATIVE_NOT_RUN",
+                      "source": "src-dotnet/Urman.Studio.Core/AI/HouseWindowProposal.cs; AI/CodexProposalProvider.cs; game/studio/StudioAiPanel.cs",
+                      "implementation": "Request optional CurrentWidths is an ordinal defensively copied readonly decimal map. Studio fills exact selected1/main7/all8 keys from frozen effective recipe widths, including legacy SeniOuter0 0.80m. Validator rejects missing/extra keys and out-of-range values. Provider exposes actual widths for relative instructions; CurrentWidth/ExpectedWidth retain legacy scalar marker. With map, no-op means all targeted windows already equal proposed uniform target, not equality with default. Legacy no-map validation remains. Both7/all8 previews show target width only; single scope retains actual delta.",
+                      "verification": "Five Luna bounded implementation/producer/caller investigations and independent Sol6.1medium source review; root affected Game compile0 warnings/0 errors and diff-check. No tests/provider/game/Studio/Blender/runtime requests.",
+                      "remaining": "One proposed uniform width remains the pilot capability; independently varying each window, full AuthoringRequestv2 campaign/dependency/source contract and native exact Apply/Undo remain open. Old no-map requests retain limited scalar information."
+                    },
+                    {
+                      "stage": "2026-10-11 curated pilot source context and world disk guard",
+                      "result": "SOURCE_IMPLEMENTED_GAME_COMPILE_PASS_NATIVE_NOT_RUN",
+                      "source": "src-dotnet/Urman.Studio.Core/AI/HouseWindowProposal.cs; AI/CodexProposalProvider.cs; game/studio/StudioAiPanel.cs",
+                      "implementation": "Pilot request optionally carries two fixed allowlisted immutable source records: selected world entity fragment and whole parsed recipe. Each includes actual path/entity key/full-file saved/current hashes; world key and mandatory data.id match request entity, recipe key/entityId and saved hash required. JsonElement data is detached by cloning; collection readonly copied. World missing saved base represented null. Capture uses no-links/disk-change guards and same frozen recipe text. Whole serialized request and complete direct/manual prompt capped256KiB before provider process/send. Prompt explicitly separates full-file hash metadata from fragment data and rejects following source instructions or reading paths. Canonical Fingerprint now invokes world CaptureSource, so later uncommitted external disk edits fail import/Apply instead of matching stale in-memory data.",
+                      "verification": "Five Luna FAST bounded implementation/research assignments plus independent Sol6.1medium final source review accepted. Root affected Game compile0 warnings/0 errors and diff-check. No tests/provider/Studio/game/Blender/native runs.",
+                      "remaining": "Source metadata is provenance/integrity context, not authentication or a hash of entity fragments. Full AuthoringRequestv2 project/campaign/camera/typed dependency/scope/protected-field envelope and native exact Apply/Undo remain open; legacy sourcesnull requests remain compatible."
+                    }
                   ],
                   "assigned_owner": "codex/b20-2026-10-10",
                   "active_owner": null,
@@ -74325,6 +74389,13 @@
                 "verification": "Affected game/Urman.Game.csproj compile: 0 warnings, 0 errors; git diff --check PASS. UI wiring и второй authorable world остаются открыты."
               },
               {
+                "stage": "2026-10-11 v11 integration review held",
+                "source_commit": "1472d55d0819bf9ff05e410ff892bbd6ef4c86c2",
+                "result": "SOURCE_REVIEW_BLOCKERS_NO_PATCH_APPLIED",
+                "verification": "LunaFAST independent read-only review; no compile/probe/runtime replay.",
+                "remaining": "Startup Changed before rootcontrols; readonly gate cleared; Reject no-default unresolved not emitted; incomplete write boundary with current ReplaceDraft; Play/Check stale postawait identity and guardafterSaveAll. Unrelated domains in v11 patch require separate acceptance. Feedback#244 sent DeepSeek; assignments preserved."
+              },
+              {
                 "stage": "2026-10-10/11 selector, capability gate and write boundary",
                 "result": "partial implementation by deepseek v4.1 flash: the campaign/world selector is wired to the world section, the frozen-world capability gate refuses editors, viewport input, the AI entry and the session write path, and the wiring patch was re-based on 141c7b37 as v9 together with the session patch ai13-write-boundary.patch",
                 "source": "evidence/STUDIO/b20-deepseek-ai-13/ (2026-10-10-wiring-v9, 2026-10-10-write-boundary, 2026-10-10-review-fixes2, 2026-10-10-parity-diagnosis)",
@@ -74341,13 +74412,6 @@
                 "result": "correction by deepseek v4.1 flash: StudioCampaignSelector carries Unresolved and raises Changed with NULL through one MarkUnresolved helper in every unresolved path (read failure, no active campaign, no startable world); StudioRoot's handler takes a nullable context and on null closes the write gate, invalidates the open AI scope and reports the state instead of running; the Play and Check paths refuse an unresolved world with an explicit banner and the '?? PlayPreparation.Campaign' substitution is gone. History/Checkpoints and the root sizing change were not touched",
                 "source": "game/studio/StudioCampaignSelector.cs (my branch) plus evidence/STUDIO/b20-deepseek-ai-13/2026-10-11-unresolved-context/ai-deepseek-studio-wiring-v11.patch for the shared files; check.log and receipt.json there",
                 "verification": "the check log records a before/after on the source invariants (my branch without the patch still has the Act I substitution and zero invalidation sites; the composed tree has zero substitutions and three invalidation sites); session + v11 pass git apply --check on main 4674c451 with my branch merged; Core 0/0; game/Urman.Game.csproj 0/0; Urman.Studio.Tests 38/38; probe PASS on the composed tree. This is a SOURCE stage, not a UI PASS, and runtime is NOT_RUN by the author's pause"
-              },
-              {
-                "stage": "2026-10-11 v11 integration review held",
-                "source_commit": "1472d55d0819bf9ff05e410ff892bbd6ef4c86c2",
-                "result": "SOURCE_REVIEW_BLOCKERS_NO_PATCH_APPLIED",
-                "verification": "LunaFAST independent read-only review; no compile/probe/runtime replay.",
-                "remaining": "Startup Changed before rootcontrols; readonly gate cleared; Reject no-default unresolved not emitted; incomplete write boundary with current ReplaceDraft; Play/Check stale postawait identity and guardafterSaveAll. Unrelated domains in v11 patch require separate acceptance. Feedback#244 sent DeepSeek; assignments preserved."
               },
               {
                 "stage": "2026-10-11 v12: the five defects from the 17:32 review, and the patch split by unit",
@@ -74389,7 +74453,7 @@
               "AI-26 finding 220 and the AI-36 colour-versus-material wording are acknowledged but not fixed yet.",
               "Ранее переданный частичный этап (2026-10-11 v12: the five defects from the 17:32 review, and the patch split by unit) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
-            "next_action": "Ждать повторного ревью v12 и решения по split-candidate патчам; затем native проверка Front0, preview, Apply, игра и полная отмена (STUDIO/AI-12/CODEX-UI).",
+            "next_action": "STUDIO/AI-13/SELECTOR: подключить выбор actual context.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -75270,14 +75334,14 @@
             },
             "task_type": "engineering",
             "status": "todo",
-            "implementation_state": "partial",
+            "implementation_state": "not_started",
             "technical_verification_state": "not_run",
             "remaining": [
               "Область рельефа/растительности редактируется воспроизводимо и не перекрывает проходы.; отсутствует подтверждение собственного конечного DoD, перечисленного ниже.",
               "Ранее переданный частичный этап (2026-10-10 terrain, vegetation and malformed remainders) ждёт ревью/приёмки; полный done_when не выполнен.",
               "Ранее переданный частичный этап (2026-10-11 the catalogue link of an authored scatter) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
-            "next_action": "Ждёт принятого контракта Codex по террейну и Windows/runtime кадра.",
+            "next_action": "Параметризовать stroke/seed; исключить дома/дороги/защищённые точки; freeze region; preview collision/paths; сохранить stroke как один command.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -75450,7 +75514,7 @@
               "Принятие source corrections1097165e; manual editing/audition/world binding UI proof; слух отдельный.",
               "Ранее переданный частичный этап (2026-10-10/11 atmosphere registry and audio sources, five review rounds) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
-            "next_action": "Ждёт слуховой приёмки и применения панели/патча владельцем; остаток — реальное прослушивание.",
+            "next_action": "Исправить пять source findings из Codex сообщения11.10 12:21 в AudioSourceRegistry/StudioAudioPanel и передать отдельный SHA, без новых probes.",
             "blocker": {
               "reason": "Incoming1097165e remains CHANGES_REQUESTED, not in main: IO before gate, linked-parent containment, shared-stem volume classification, zone diagnostic/audition bypass, stale UI scope.",
               "release_when": "DeepSeek supplies bounded corrective commit; source review accepts these five findings, then cherry-pick and targeted manual edit/audition/runtime check."
@@ -75721,14 +75785,14 @@
             },
             "task_type": "engineering",
             "status": "todo",
-            "implementation_state": "partial",
+            "implementation_state": "not_started",
             "technical_verification_state": "not_run",
             "remaining": [
               "ИИ меняет шаг/развилку квеста через ту же модель, что ручной список и граф.; отсутствует подтверждение собственного конечного DoD, перечисленного ниже.",
               "Ранее переданный частичный этап (2026-10-11 one model for manual and AI authoring, verified as a write-path inventory) ждёт ревью/приёмки; полный done_when не выполнен.",
               "Ранее переданный частичный этап (2026-10-11 the authored quests checked as a structure the runtime can run) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
-            "next_action": "Собрать редактор квестов поверх этой структуры и провести авторскую приёмку; единая модель ручного и AI-изменения уже подтверждена по путям записи.",
+            "next_action": "Убрать tamara-biased initial selection; открыть active quest; schema DTO edits; clone validate; синхронизировать tree/graph; compile affected module.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -75874,13 +75938,13 @@
             },
             "task_type": "engineering",
             "status": "todo",
-            "implementation_state": "partial",
+            "implementation_state": "not_started",
             "technical_verification_state": "not_run",
             "remaining": [
               "Реплика, ответ и условие диалога меняются без потери локализации и связей.; отсутствует подтверждение собственного конечного DoD, перечисленного ниже.",
               "Ранее переданный частичный этап (2026-10-10 localisation-preserving dialogue fields) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
-            "next_action": "Остаток — выравнивание EntityCatalog.ResolveText владельцем и native проверка редактирования реплик.",
+            "next_action": "Привязать selection к node/response; запросить нужные языковые поля; показать effects/entry routes; validate references; preview dialogue.",
             "blocker": null,
             "external_gates": [
               {
@@ -76067,13 +76131,13 @@
             },
             "task_type": "engineering",
             "status": "todo",
-            "implementation_state": "partial",
+            "implementation_state": "not_started",
             "technical_verification_state": "not_run",
             "remaining": [
               "Квест, диалог и триггер связываются из выбранной области мира.; отсутствует подтверждение собственного конечного DoD, перечисленного ниже.",
               "Ранее переданный частичный этап (2026-10-10 trigger scope facts, runtime defaults and numeric policy) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
-            "next_action": "Остаток — связь с выбранной областью мира в native UI и приёмка автора.",
+            "next_action": "Handles формы; actor filter/frequency; link inspector; typed link/edit; preview conditions; idempotency на повторном событии.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -76236,13 +76300,13 @@
             },
             "task_type": "engineering",
             "status": "todo",
-            "implementation_state": "partial",
+            "implementation_state": "not_started",
             "technical_verification_state": "not_run",
             "remaining": [
               "Маршрут, занятие и анимация NPC редактируются и сохраняются без потери сюжетной логики.; отсутствует подтверждение собственного конечного DoD, перечисленного ниже.",
               "Ранее переданный частичный этап (2026-10-11 NPC schedules, routes and motions) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
-            "next_action": "Остаток — native редактирование маршрута/занятия/движения и наблюдение постановки.",
+            "next_action": "Привязать route points; данные when/place/motion/follow/blocked policy; подтвердить сохранение model/clip assignment; preview ownership движения.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -76388,13 +76452,13 @@
             },
             "task_type": "engineering",
             "status": "todo",
-            "implementation_state": "partial",
+            "implementation_state": "not_started",
             "technical_verification_state": "not_run",
             "remaining": [
               "Раздел предметов становится настоящим редактором, а не заглушкой.; отсутствует подтверждение собственного конечного DoD, перечисленного ниже.",
               "Ранее переданный частичный этап (2026-10-10 item spawns and the honest boundary) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
-            "next_action": "Остаток — решение владельца о runtime-потребителе предметов и зависимость от AI-19/AI-21.",
+            "next_action": "Составить schema fields; формы/каталог/preview; create from template с new ID; связать действие; validate/compile/run.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -76546,14 +76610,14 @@
             },
             "task_type": "engineering",
             "status": "todo",
-            "implementation_state": "partial",
+            "implementation_state": "not_started",
             "technical_verification_state": "not_run",
             "remaining": [
               "Книга, улики, язык и сообщения ПК редактируются в актуальном контентном контуре.; отсутствует подтверждение собственного конечного DoD, перечисленного ниже.",
               "Ранее переданный частичный этап (2026-10-10 PC threads, hints, strict parsing and a static preview) ждёт ревью/приёмки; полный done_when не выполнен.",
               "Ранее переданный частичный этап (2026-10-11 the authored dialogues checked as a graph the engine can walk) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
-            "next_action": "Собрать редактор ответов и условий поверх этого графа и провести языковую приёмку реплик (внешний гейт).",
+            "next_action": "Трассировать bindings активной кампании; human forms; AI exact-field edits; проверить Markdown/учебные токены; preview в игре.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -76700,13 +76764,13 @@
             },
             "task_type": "engineering",
             "status": "todo",
-            "implementation_state": "partial",
+            "implementation_state": "not_started",
             "technical_verification_state": "not_run",
             "remaining": [
               "Параметры существующих магазинов, транспорта и головоломок доступны без ручного JSON.; отсутствует подтверждение собственного конечного DoD, перечисленного ниже.",
               "Ранее переданный частичный этап (2026-10-11 vehicles, shop and the fence puzzle) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
-            "next_action": "Остаток — runtime-приёмка (поездка, покупка/применение, разлом забора) и магазины/головоломки, которых в кампании ещё нет.",
+            "next_action": "Для каждого типа записать source/consumer/units/range; сделать schema form; typed set; ограничения/protected fields; сохранить и проверить конкретное поведение.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -76859,14 +76923,14 @@
             },
             "task_type": "engineering",
             "status": "todo",
-            "implementation_state": "partial",
+            "implementation_state": "not_started",
             "technical_verification_state": "not_run",
             "remaining": [
               "Настройки интерфейса игры имеют ручной/AI preview и не меняют тему Studio.; отсутствует подтверждение собственного конечного DoD, перечисленного ниже.",
               "Ранее переданный частичный этап (2026-10-11 the game settings surface taken from the code that owns it) ждёт ревью/приёмки; полный done_when не выполнен.",
               "Ранее переданный частичный этап (2026-10-11 finding 220: the dynamic controls of the settings screen) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
-            "next_action": "Собрать превью интерфейса игры в Studio поверх этой поверхности, не записывая настройки игрока.",
+            "next_action": "Зарегистрировать edit-safe поля; выбрать экран/state/viewport; preview controls; typed change; preserve input/focus/localization.",
             "blocker": null,
             "external_gates": [
               {
@@ -77055,13 +77119,13 @@
             },
             "task_type": "engineering",
             "status": "todo",
-            "implementation_state": "partial",
+            "implementation_state": "not_started",
             "technical_verification_state": "not_run",
             "remaining": [
               "Форму простого предмета можно изменить внутри Studio и увидеть в игре.; отсутствует подтверждение собственного конечного DoD, перечисленного ниже.",
               "Ранее переданный частичный этап (2026-10-11 the form-and-placement chain of a simple thing) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
-            "next_action": "Ждать контракта модели (AI-09/AI-11/AI-36) для правки самой формы; связь формы и размещения уже проверена.",
+            "next_action": "Создать primitive; редактировать вершины/рёбра/грани; extrude/inset/cut, bevel, split/join, mirror; material/UV/paint и normals; trusted export/variant. Скульпт/одежда/rig выделены в AI-41–43.",
             "blocker": null,
             "external_gates": [
               {
@@ -77268,13 +77332,13 @@
             },
             "task_type": "engineering",
             "status": "todo",
-            "implementation_state": "partial",
+            "implementation_state": "not_started",
             "technical_verification_state": "not_run",
             "remaining": [
               "Персонаж из подготовленной базы получает изменяемое лицо/одежду и сохраняет рабочий rig.; отсутствует подтверждение собственного конечного DoD, перечисленного ниже.",
               "Ранее переданный частичный этап (2026-10-11 подготовка модельной дорожки: из чего состоит внешность размещённого персонажа) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
-            "next_action": "Ждать контракта модельной дорожки (AI-09/AI-11/AI-36); скульптинг, одежда и новый риг — работа Blender-генератора и импорта.",
+            "next_action": "Использовать результаты AI-41–43; единая карточка source/rig/clothes/animations; create new character ID; assign to world; save/rebuild и preview.",
             "blocker": null,
             "external_gates": [
               {
@@ -79403,14 +79467,14 @@
             },
             "task_type": "engineering",
             "status": "todo",
-            "implementation_state": "partial",
+            "implementation_state": "not_started",
             "technical_verification_state": "not_run",
             "remaining": [
               "Катсцена выбирается из активной кампании, а список и шкала редактируют её реальные действия.; отсутствует подтверждение собственного конечного DoD, перечисленного ниже.",
               "Ранее переданный частичный этап (2026-10-10 real cutscene actions of the active campaign) ждёт ревью/приёмки; полный done_when не выполнен.",
               "Ранее переданный частичный этап (2026-10-11 the cutscene action table checked against the executor source it describes) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
-            "next_action": "Проиграть катсцену в игре и сверить кадр/тайминг; выбор другой катсцены активной кампании остаётся границей единицы.",
+            "next_action": "Параметризовать source/ID/text namespace; добавить selector; sync list/timeline; camera capture; AI action edits; preview/skip lifecycle.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -79759,7 +79823,7 @@
             },
             "task_type": "engineering",
             "status": "todo",
-            "implementation_state": "partial",
+            "implementation_state": "not_started",
             "technical_verification_state": "not_run",
             "remaining": [
               "Материал или модельный ресурс можно изменить локально, видя все общие использования.; отсутствует подтверждение собственного конечного DoD, перечисленного ниже.",
@@ -79767,7 +79831,7 @@
               "Ранее переданный частичный этап (2026-10-11 local versus global material change: the family surface) ждёт ревью/приёмки; полный done_when не выполнен.",
               "Ранее переданный частичный этап (2026-10-11 materials versus atmosphere colour fields: the wording corrected) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
-            "next_action": "Ждать контракт модельной дорожки (AI-09/AI-11) для правки семейства; локальный рычаг — цвет в данных, он уже проверяется.",
+            "next_action": "Добавить usage index и asset/source card; override vs shared edit; preview materials; bounded import checks/URI validation; source variant linking.",
             "blocker": null,
             "external_gates": [
               {
@@ -80063,7 +80127,7 @@
               "Ранее переданный частичный этап (2026-10-10 rule catalogue coverage, campaign scope and PhotoWorld anchors) ждёт ревью/приёмки; полный done_when не выполнен.",
               "Ранее переданный частичный этап (2026-10-11 the campaign module folder mapping was wrong, so the campaign scope counted nothing) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
-            "next_action": "Остаток — полная семантика сложных квестов (ветвление, параллельность, повтор, таймеры) и 22 операции без формы в Studio.",
+            "next_action": "STUDIO/AI-37/FINISH: A22 в disposable campaign fixtures/существующих примерах; узкие existing runtime checks по конкретной семантике.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -80382,6 +80446,17 @@
                 ],
                 "verification": "LunaFAST authored UI+storage draft support; Sol6.1medium independent source review Core/UI. Root Game affected compile0warnings/0errors, diffcheck; tracker schema validate passed after AI12 blocker correction. No tests/runtime/network receive.",
                 "remaining": "Creation/deletion, Send, actual native Apply/Undo/Redo/restart/A23 not verified; full AI38 open."
+              },
+              {
+                "stage": "2026-10-11 external disk conflict stale snapshot fix",
+                "result": "SOURCE_GAME_COMPILE_0_0_NATIVE_NOT_RUN",
+                "source": [
+                  "src-dotnet/Urman.Studio.Core/Storage/AuthoredFile.cs",
+                  "game/studio/StudioCollabSection.cs"
+                ],
+                "verification": "LunaFAST UI caller update; Sol6.1medium independent source review; root affected Game compile0 warnings/0errors, diff check, tracker validate PASS. No tests/runtime/network.",
+                "implementation": "Conflict captures mineText; Apply verifies current draft and actualincomingdisk SHA before adopting. Stale refusal preserves pending/choices. Refresh reuses PullFromDisk, and Report resets decisions for updated input.",
+                "remaining": "Native stale-input/refusal/refresh walkthrough not run; full AI38 remains open."
               }
             ],
             "stage_tasks": [
@@ -80997,14 +81072,14 @@
             },
             "task_type": "engineering",
             "status": "todo",
-            "implementation_state": "partial",
+            "implementation_state": "not_started",
             "technical_verification_state": "not_run",
             "remaining": [
               "Пробный запуск объясняет несрабатывание и позволяет пройти следующий логический шаг.; отсутствует подтверждение собственного конечного DoD, перечисленного ниже.",
               "Ранее переданный частичный этап (2026-10-10 explaining trial run and step-by-step diagnostics) ждёт ревью/приёмки; полный done_when не выполнен.",
               "Ранее переданный частичный этап (2026-10-11 the explaining trial run: five steps with the state of each input) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
-            "next_action": "Довести объясняющий запуск до кнопки в Studio и проверить шаги в native UI после возобновления runtime.",
+            "next_action": "UI стартового состояния; пометка synthetic/reachable; runtime trace с occurrence ID; pause clock; шаг события; copy transform только явной командой; handoff case.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -81168,13 +81243,13 @@
             },
             "task_type": "engineering",
             "status": "todo",
-            "implementation_state": "partial",
+            "implementation_state": "not_started",
             "technical_verification_state": "not_run",
             "remaining": [
               "Лицо редактируется скульптурными кистями в Studio, а не только выбором готового варианта.; отсутствует подтверждение собственного конечного DoD, перечисленного ниже.",
               "Ранее переданный частичный этап (2026-10-11 подготовка модельной дорожки: из чего состоит внешность размещённого персонажа) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
-            "next_action": "Ждать контракта модельной дорожки (AI-09/AI-11/AI-36); скульптинг, одежда и новый риг — работа Blender-генератора и импорта.",
+            "next_action": "Выделить разрешённую head область; реализовать четыре кисти с strength/radius; symmetry plane; protect attachment boundaries; preview normals/weights.",
             "blocker": null,
             "external_gates": [
               {
@@ -81362,13 +81437,13 @@
             },
             "task_type": "engineering",
             "status": "todo",
-            "implementation_state": "partial",
+            "implementation_state": "not_started",
             "technical_verification_state": "not_run",
             "remaining": [
               "Автор создаёт элемент одежды из основы или поверхности и проверяет посадку в движении.; отсутствует подтверждение собственного конечного DoD, перечисленного ниже.",
               "Ранее переданный частичный этап (2026-10-11 подготовка модельной дорожки: из чего состоит внешность размещённого персонажа) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
-            "next_action": "Ждать контракта модельной дорожки (AI-09/AI-11/AI-36); скульптинг, одежда и новый риг — работа Blender-генератора и импорта.",
+            "next_action": "Выбрать основу/поверхность; создать отдельный garment ID; thickness/offset/fit controls; material/UV projection/paint; skeleton/clip preview.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -81517,13 +81592,13 @@
             },
             "task_type": "engineering",
             "status": "todo",
-            "implementation_state": "partial",
+            "implementation_state": "not_started",
             "technical_verification_state": "not_run",
             "remaining": [
               "Новый персонаж из заготовки/геометрии получает совместимый скелет, веса и сокеты.; отсутствует подтверждение собственного конечного DoD, перечисленного ниже.",
               "Ранее переданный частичный этап (2026-10-11 подготовка модельной дорожки: из чего состоит внешность размещённого персонажа) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
-            "next_action": "Ждать контракта модельной дорожки (AI-09/AI-11/AI-36); скульптинг, одежда и новый риг — работа Blender-генератора и импорта.",
+            "next_action": "Назначить skeleton template; проверить bones/bind pose; дать корректировать веса; настроить sockets; validate clips/root motion; staged export.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -81675,13 +81750,13 @@
             },
             "task_type": "engineering",
             "status": "todo",
-            "implementation_state": "partial",
+            "implementation_state": "not_started",
             "technical_verification_state": "not_run",
             "remaining": [
               "Генерируемый участок можно сделать авторским без двух владельцев transform.; отсутствует подтверждение собственного конечного DoD, перечисленного ниже.",
               "Ранее переданный частичный этап (2026-10-11 the takeover preconditions on the authored kit plot) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
-            "next_action": "Сверить кадр до и после взятия под авторское владение в игре; список несопоставленных якорей считает сборщик.",
+            "next_action": "Показать generator ownership; materialize snapshot с stable IDs/provenance; исключить участок из live generation; сохранить overrides; regenerate proposal с diff.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -81844,13 +81919,13 @@
             },
             "task_type": "engineering",
             "status": "todo",
-            "implementation_state": "partial",
+            "implementation_state": "not_started",
             "technical_verification_state": "not_run",
             "remaining": [
               "Дом перемещается и редактируется вместе с интерьером, дверьми и входными точками.; отсутствует подтверждение собственного конечного DoD, перечисленного ниже.",
               "Ранее переданный частичный этап (2026-10-11 what a coordinated house move can address) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
-            "next_action": "Проверить в игре, что проёмы и входы совпадают после перемещения дома; части двигаются вместе с моделью-родителем.",
+            "next_action": "Зарегистрировать children/portal offsets; grouped transform; local/world coordinates; hide roof/walls editor-only; validate door/route bounds; typed house move.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
