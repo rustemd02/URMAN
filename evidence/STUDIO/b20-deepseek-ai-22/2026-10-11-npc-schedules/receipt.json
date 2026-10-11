@@ -1,0 +1,30 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-22"
+  ],
+  "stage": "first slice: the placed NPCs, their schedules and their motions against the reader and the animation catalogue",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-11 13:05 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "9e7bdaff",
+  "result": {
+    "data": "33 placed NPCs with 33 schedule blocks; the animation catalogue declares 31 motions",
+    "contract": "the runtime picks the first block whose when matches (a block without when is unconditional), reads the chosen block id with GetProperty, reads motion/walkMotion with the defaults urman.anim:idle and urman.anim:walk, and plays them through AnimationCatalog, which REFUSES an id the catalogue does not declare with a reason instead of crashing",
+    "checks": "characterId, a three-number finite position, a positive scale, a non-empty schedule, a block id, a rule-array when, a three-number place, a positive speed, and every declared motion against the real catalogue - which is the trap: a mistyped motion id would leave the NPC in its current pose",
+    "shape lesson": "the workspace can hand back either the document object or its entity array depending on how the file is rooted; the first version looked only for the object shape and found zero motions, so the reader now accepts both"
+  },
+  "verified": {
+    "probe": "PASS 387/387 with new checks: at least the 33 residents with no problems, the catalogue read from its own file, the motions they use declared there, no schedule naming an undeclared motion, and the synthetic cases (no characterId, a two-number position, a zero scale, a block without id, a missing motion, a when that is not an array, a zero speed)",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors; game/Urman.Game.csproj 0 warnings/0 errors",
+    "existing_tests": "Urman.Studio.Tests 38/38",
+    "not_run": "no game run: the residents were not watched walking, so the staging is NOT_RUN"
+  },
+  "files": {
+    "evidence/STUDIO/b20-deepseek-ai-22/2026-10-11-npc-schedules/check.log": "974effdfe080b6442882b61977abe71cc2ed6f9bcc14520cb10e7d917a4d1e5c"
+  },
+  "open": [
+    "watching the schedules actually run, and the external cultural/language acceptance of greetings, are NOT_RUN",
+    "the unit also names NPC activities the campaign has not authored yet, which stay open"
+  ]
+}

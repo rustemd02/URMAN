@@ -24335,7 +24335,14 @@
               "STUDIO.P3"
             ],
             "acceptance_refs": [
-              "STUDIO-AI/A19"
+              "STUDIO-AI/A19",
+              {
+                "stage": "2026-10-11 AI-22 first slice: NPC schedules and motions against the reader and the animation catalogue",
+                "result": "partial implementation by deepseek v4.1 flash: a new projection checks every placed NPC (characterId, a three-number finite position, a positive scale, a non-empty schedule, a block id, a rule-array when, a three-number place, a positive speed) and every declared motion against the real animation catalogue, because AnimationCatalog refuses an undeclared id at play time instead of crashing; 33 residents and 33 blocks pass with no problems, and the catalogue declares 31 motions",
+                "source": "new file src-dotnet/Urman.Studio.Core/Editing/NpcSchedules.cs; evidence evidence/STUDIO/b20-deepseek-ai-22/2026-10-11-npc-schedules/ (check.log, probe/, receipt.json)",
+                "verification": "probe PASS 387/387: the 33 residents have no problems, the catalogue is read from its own file, no schedule names an undeclared motion, and every synthetic failure (no characterId, a two-number position, a zero scale, a block without id, a missing motion, a when that is not an array, a zero speed) is reported; Urman.Studio.Core 0/0; game/Urman.Game.csproj 0/0; Urman.Studio.Tests 38/38. A shape lesson is recorded: the workspace can hand back the document or its entity array, and the first reader version found zero motions before accepting both. No game run: the schedules were not watched, so the staging is NOT_RUN"
+              }
+
             ],
             "assigned_owner": "deepseek/b20-2026-10-10"
           },
