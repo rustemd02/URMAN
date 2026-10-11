@@ -62,6 +62,9 @@ public partial class StudioRoot
         });
         try { RefreshList(); }
         catch (Exception error) when (CheckpointRefusal(error)) { note.Text = "Не удалось прочитать контрольные точки."; }
+        dialog.Confirmed += dialog.QueueFree;
+        dialog.Canceled += dialog.QueueFree;
+        dialog.CloseRequested += dialog.QueueFree;
         AddChild(dialog);
         dialog.PopupCentered(new Vector2I(800, 460));
     }
@@ -91,7 +94,9 @@ public partial class StudioRoot
         paths.ItemSelected += index => ShowDiff((int)index);
         paths.Select(0);
         ShowDiff(0);
-        dialog.Confirmed += () => _ = RestoreCheckpointAsync(store, plan);
+        dialog.Confirmed += () => { _ = RestoreCheckpointAsync(store, plan); dialog.QueueFree(); };
+        dialog.Canceled += dialog.QueueFree;
+        dialog.CloseRequested += dialog.QueueFree;
         AddChild(dialog);
         dialog.PopupCentered(new Vector2I(820, 580));
     }

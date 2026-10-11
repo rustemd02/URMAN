@@ -24379,6 +24379,14 @@
                 "implementation": "New accepted file commands retain bounded label and positive explicit acceptance order. Stable exclusive allocator lock held through AtomicFile counter update and accepted journal; gaps survive failed acceptance. Counter scope/version/max validated, missing or malformed counter with ordered journals refuses. Loader checks all images/exact path sets, continuous hash chains for repeated paths, aggregate current cursor boundary and after-prefix/before-suffix side sequence, then hydrates correctly ordered Undo/Redo stacks and persisted labels. No GUID/mtime ordering or image cleanup.",
                 "verification": "Root affected Game build0/0 + diffcheck. Independent Sol6.1medium source review accepted after fixing malformed counter startup exception and actual counter-volume budget path. No new tests/probes; actual multi-command restart and native Undo/Redo not executed.",
                 "remaining": "Entity/mixed/redo-branch history remains fenced. Multiple legacy journals or mixed legacy/ordered journals require explicit migration decision. No multi-process promotion isolation claimed; existing conflict/rollback protection remains. Full ledger/epoch/pending transition and UI acceptance still open."
+              },
+              {
+                "stage": "2026-10-11 existing command history UI",
+                "result": "PARTIAL_SOURCE_GAME_COMPILE_0_0_NATIVE_UI_OPEN",
+                "source": "EditSession.cs:EditHistoryStep/History; StudioRoot.History.cs; StudioRoot.cs startup warning/topbar; StudioRoot.Checkpoints.cs dialog lifetime",
+                "implementation": "Read-only metadata from actual top-first Undo/Redo stacks: label, distinct paths, entity change count, file transaction ID. No persisted second ledger, no journal timestamp ordering, no mutable command snapshots exposed. Native dialog refreshes on Changed and disconnects on close; buttons only invoke the next existing guarded Root Undo/Redo callback. Startup loader refusal remains visible. Checkpoint dialogs freed on close/confirm.",
+                "verification": "Root source review of Sol6.1medium-owned new dialog and root API/hook; affected Game compile0warnings/0errors; diffcheck. No new tests/probes, native UI and restart not executed.",
+                "remaining": "Full mixed command restart hydration, native history/checkpoint walkthrough and A24 remain open. History view does not add journal recovery or cross-checkout Git exchange."
               }
             ],
             "stage_tasks": [
@@ -24844,6 +24852,14 @@
                 "implementation": "Names/author/UTC/full Git revision; root-bound metadata with exact authored-text images including drafts and explicit Hero recipe, guarded atomic no-overwrite publication with manifest last. Resource refs/hash receipts only, including fixed generator/Blend/GLB basis. Read-only current/target preview; membership/resource/identity/workspace/disk hash revalidation before existing file Apply, no automatic create/delete or draft discard. Restore sets existing restart history fence because startup hydrates only house pilot; same-session Undo/Redo rebase authored sources then reload world. Checkpoint images survive restoration/refusal.",
                 "verification": "Affected Game compile0warnings/0errors; existing test project compile0/0; existing drag Undo and ordering contracts PASS2/2; git diff --check. These existing tests do not exercise checkpoint creation/restore or UI. No new tests/probes.",
                 "remaining": "A24 checkpoint/two edits/restore/Undo and restart listing not executed. Resource bytes not captured, changed resources refuse; literal refs not complete typed dependency closure; snapshots root-bound. No resource lease/race isolation or native UI proof. Full AI11/AI29 dependencies and AI39 done_when remain open."
+              },
+              {
+                "stage": "2026-10-11 existing command history UI",
+                "result": "PARTIAL_SOURCE_GAME_COMPILE_0_0_NATIVE_UI_OPEN",
+                "source": "EditSession.cs:EditHistoryStep/History; StudioRoot.History.cs; StudioRoot.cs startup warning/topbar; StudioRoot.Checkpoints.cs dialog lifetime",
+                "implementation": "Read-only metadata from actual top-first Undo/Redo stacks: label, distinct paths, entity change count, file transaction ID. No persisted second ledger, no journal timestamp ordering, no mutable command snapshots exposed. Native dialog refreshes on Changed and disconnects on close; buttons only invoke the next existing guarded Root Undo/Redo callback. Startup loader refusal remains visible. Checkpoint dialogs freed on close/confirm.",
+                "verification": "Root source review of Sol6.1medium-owned new dialog and root API/hook; affected Game compile0warnings/0errors; diffcheck. No new tests/probes, native UI and restart not executed.",
+                "remaining": "Full mixed command restart hydration, native history/checkpoint walkthrough and A24 remain open. History view does not add journal recovery or cross-checkout Git exchange."
               }
             ],
             "stage_tasks": [
@@ -26123,6 +26139,14 @@
             "implementation": "Names/author/UTC/full Git revision; root-bound metadata with exact authored-text images including drafts and explicit Hero recipe, guarded atomic no-overwrite publication with manifest last. Resource refs/hash receipts only, including fixed generator/Blend/GLB basis. Read-only current/target preview; membership/resource/identity/workspace/disk hash revalidation before existing file Apply, no automatic create/delete or draft discard. Restore sets existing restart history fence because startup hydrates only house pilot; same-session Undo/Redo rebase authored sources then reload world. Checkpoint images survive restoration/refusal.",
             "verification": "Affected Game compile0warnings/0errors; existing test project compile0/0; existing drag Undo and ordering contracts PASS2/2; git diff --check. These existing tests do not exercise checkpoint creation/restore or UI. No new tests/probes.",
             "remaining": "A24 checkpoint/two edits/restore/Undo and restart listing not executed. Resource bytes not captured, changed resources refuse; literal refs not complete typed dependency closure; snapshots root-bound. No resource lease/race isolation or native UI proof. Full AI11/AI29 dependencies and AI39 done_when remain open."
+          },
+          "history_view_source_slice": {
+            "stage": "2026-10-11 existing command history UI",
+            "result": "PARTIAL_SOURCE_GAME_COMPILE_0_0_NATIVE_UI_OPEN",
+            "source": "EditSession.cs:EditHistoryStep/History; StudioRoot.History.cs; StudioRoot.cs startup warning/topbar; StudioRoot.Checkpoints.cs dialog lifetime",
+            "implementation": "Read-only metadata from actual top-first Undo/Redo stacks: label, distinct paths, entity change count, file transaction ID. No persisted second ledger, no journal timestamp ordering, no mutable command snapshots exposed. Native dialog refreshes on Changed and disconnects on close; buttons only invoke the next existing guarded Root Undo/Redo callback. Startup loader refusal remains visible. Checkpoint dialogs freed on close/confirm.",
+            "verification": "Root source review of Sol6.1medium-owned new dialog and root API/hook; affected Game compile0warnings/0errors; diffcheck. No new tests/probes, native UI and restart not executed.",
+            "remaining": "Full mixed command restart hydration, native history/checkpoint walkthrough and A24 remain open. History view does not add journal recovery or cross-checkout Git exchange."
           }
         }
       },
