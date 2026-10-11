@@ -1,0 +1,11 @@
+== AI-21: the authored trigger contract
+
+
+Прошло времени 00:00:00.91
+  authored triggers: none, contract gaps: 0
+    trigger synthetic: urman.world:mini/t1: поле «size» отсутствует или не из трёх чисел — BuildTrigger прочитает его через ReadVector и получит Vector3.Zero, то есть вырожденную область, которая НИКОГДА не сработает.
+    trigger synthetic: urman.world:mini/t1: у триггера нет interactionId — OnTriggerEntered читает его через GetProperty и упадёт, КОГДА игрок войдёт, а не при загрузке мира.
+    trigger synthetic: urman.world:mini/t2: у области все три размера нулевые или отрицательные — такая область не сработает.
+    trigger synthetic: urman.world:mini/t2: поле «actor» не строка — рантайм читает его через Text/GetString.
+    trigger synthetic: urman.world:mini/t2: поле «repeat» не строка — рантайм читает его через Text/GetString.
+PROBE RESULT: PASS

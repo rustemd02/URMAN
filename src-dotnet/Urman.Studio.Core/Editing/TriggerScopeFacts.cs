@@ -350,4 +350,79 @@ public static class TriggerScopeFacts
     }
 
     private static bool Finite(JsonNode? node) => TryNumber(node, out _);
+    /// <summary>
+    /// The authored trigger contract, mirrored from BuildTrigger and OnTriggerEntered:
+    ///
+    ///   * size is read with ReadVector, which falls back to Vector3.Zero when the field is
+    ///     absent, so a trigger without a size builds a degenerate area that NEVER fires - the
+    ///     quietest possible defect;
+    ///   * interactionId is read with GetProperty inside OnTriggerEntered, so a missing one
+    ///     throws when the player walks in rather than while the world loads;
+    ///   * actor and repeat are optional with the defaults "player" and "once-per-run".
+    ///
+    /// The campaign authors no trigger today, so this is the contract waiting for the first one,
+    /// and the notes say that out loud instead of implying triggers work.
+    /// </summary>
+    public static IReadOnlyList<string> ContractGaps(StudioWorkspace workspace)
+    {
+        ArgumentNullException.ThrowIfNull(workspace);
+        var interactions = ItemSpawns.AuthoredInteractions(workspace);
+        var gaps = new List<string>();
+        foreach (var id in workspace.EntityIds)
+        {
+            if (workspace.Get(id) is not JsonObject entity || (string?)entity["kind"] != "trigger")
+            {
+                continue;
+            }
+
+            var parameters = entity["params"] as JsonObject;
+            if (parameters?["size"] is not JsonArray { Count: 3 } size)
+            {
+                gaps.Add($"{id}: поле «size» отсутствует или не из трёх чисел — BuildTrigger прочитает его через ReadVector и получит Vector3.Zero, то есть вырожденную область, которая НИКОГДА не сработает.");
+            }
+            else
+            {
+                for (var index = 0; index < size.Count; index++)
+                {
+                    if (TriggerScopeFacts.NumberProblem(size[index], out var problem) is { } sizeProblem)
+                    {
+                        gaps.Add($"{id}: размер[{index}]: {sizeProblem}");
+                    }
+                }
+
+                if (size.All(value => TryNumber(value, out var number) && number <= 0))
+                {
+                    gaps.Add($"{id}: у области все три размера нулевые или отрицательные — такая область не сработает.");
+                }
+            }
+
+            var interaction = (string?)parameters?["interactionId"] ?? "";
+            if (interaction.Length == 0)
+            {
+                gaps.Add($"{id}: у триггера нет interactionId — OnTriggerEntered читает его через GetProperty и упадёт, КОГДА игрок войдёт, а не при загрузке мира.");
+            }
+            else if (interactions.Count > 0 && !interactions.ContainsKey(interaction))
+            {
+                gaps.Add($"{id}: взаимодействия «{interaction}» нет среди авторских — триггеру нечего запустить.");
+            }
+
+            foreach (var field in new[] { "actor", "repeat" })
+            {
+                if (parameters?[field] is { } value && (value is not JsonValue text || !text.TryGetValue<string>(out _)))
+                {
+                    gaps.Add($"{id}: поле «{field}» не строка — рантайм читает его через Text/GetString.");
+                }
+            }
+        }
+
+        return gaps;
+    }
+
+    /// <summary>Whether the campaign authors any trigger at all.</summary>
+    public static bool AnyAuthored(StudioWorkspace workspace)
+    {
+        ArgumentNullException.ThrowIfNull(workspace);
+        return workspace.EntityIds.Any(id => (string?)workspace.Get(id)?["kind"] == "trigger");
+    }
+
 }

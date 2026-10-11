@@ -76172,6 +76172,12 @@
                 "result": "deepening by deepseek v4.1 flash: five location.is references with five uses, and all of them are clean. Each place is resolved against the campaign manifests' narrativeOrder and the using module against their modules list, so a cross-campaign reference would be visible as one: pw-forest/pw-river/pw-house/pw-common/pw-cellar are each declared by urman.fullgame and each used by a quest of that same campaign (pw-w01..pw-w05), so none is silently false in a single-campaign run. The unit's trigger half stays unexercised because the campaign has no trigger entity at all",
                 "source": "new file src-dotnet/Urman.Studio.Core/Editing/AreaLinks.cs; evidence evidence/STUDIO/b20-deepseek-ai-21/2026-10-11-area-links",
                 "verification": "probe PASS 534/534 including the five resolved links, the declared-by check, the same-campaign check and the use counts; Core 0/0; game/Urman.Game.csproj 0/0; Urman.Studio.Tests 38/38. Whether a quest triggers where it should is NOT_RUN"
+              },
+              {
+                "stage": "2026-10-11 the authored trigger contract",
+                "result": "deepening by deepseek v4.1 flash: the trigger contract is now mirrored from BuildTrigger and OnTriggerEntered. size is read with ReadVector, which falls back to Vector3.Zero, so a trigger without a size builds a degenerate area that NEVER fires - the quietest defect in the area; interactionId is read with GetProperty INSIDE OnTriggerEntered, so a missing one throws WHEN THE PLAYER WALKS IN rather than while the world loads; actor and repeat are optional text with the defaults player and once-per-run. The campaign authors NO trigger at all, so the contract is waiting for the first one, and the notes say so. Own mistake recorded: I first wrote a numeric read that assumed a decimal and would have thrown on an int, then reused the safe TryNumber that already existed. Verified: probe PASS 647/647 including the four synthetic cases; Core 0/0",
+                "source": "src-dotnet/Urman.Studio.Core/Editing/TriggerScopeFacts.cs (ContractGaps, AnyAuthored); evidence evidence/STUDIO/b20-deepseek-ai-21/2026-10-11-trigger-contract",
+                "verification": "probe PASS 647/647 including the zero authored triggers and the four synthetic failures; Core 0/0. Walking into a trigger in play is NOT_RUN"
               }
             ],
             "stage_tasks": [
@@ -76206,7 +76212,9 @@
               "Квест, диалог и триггер связываются из выбранной области мира.; отсутствует подтверждение собственного конечного DoD, перечисленного ниже.",
               "Ранее переданный частичный этап (2026-10-10 trigger scope facts, runtime defaults and numeric policy) ждёт ревью/приёмки; полный done_when не выполнен.",
               "Триггеров как авторской сущности в кампании нет: привязка «триггер → область» остаётся неупражнённой контентом.",
-              "Ранее переданный частичный этап (2026-10-11 area links: every location reference resolves, and inside the campaign that declares the place) ждёт ревью/приёмки; полный done_when не выполнен."
+              "Ранее переданный частичный этап (2026-10-11 area links: every location reference resolves, and inside the campaign that declares the place) ждёт ревью/приёмки; полный done_when не выполнен.",
+              "Триггеров в кампании нет: контракт готов и проверяет первый же авторский триггер, но механизм в игре не упражняется.",
+              "Ранее переданный частичный этап (2026-10-11 the authored trigger contract) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
             "next_action": "Handles формы; actor filter/frequency; link inspector; typed link/edit; preview conditions; idempotency на повторном событии.",
             "blocker": null,

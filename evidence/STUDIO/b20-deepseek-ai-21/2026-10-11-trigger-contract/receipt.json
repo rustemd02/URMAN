@@ -1,0 +1,28 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-21"
+  ],
+  "stage": "the authored trigger contract",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-11 21:44 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "71009f28",
+  "result": {
+    "contract": "BuildTrigger and OnTriggerEntered read: size through ReadVector (absent falls back to Vector3.Zero, so the area is degenerate and the trigger NEVER fires), interactionId through GetProperty inside OnTriggerEntered (so a missing one throws WHEN THE PLAYER WALKS IN rather than while the world loads), and actor and repeat as optional text with the defaults player and once-per-run",
+    "measured": "the campaign authors NO trigger at all, so the contract is waiting for the first one; ContractGaps reports a missing or non-three-number size as a trigger that can never fire, an all-zero or negative area, a missing interactionId with its deferred failure, an interaction that is not among the authored ones, and a non-string actor or repeat",
+    "why_it_matters": "the size trap is the quietest defect in the whole area - a trigger that looks authored, loads cleanly and simply never fires - and the interactionId trap fails late, in front of the player",
+    "own_mistakes": "I first wrote a numeric read that assumed a decimal and would have thrown on an int, then found that TriggerScopeFacts already had the safe TryNumber and used it instead of adding a second one"
+  },
+  "verified": {
+    "probe": "PASS 647/647 including the zero authored triggers, the stable zero-gap result and the four synthetic cases (missing size, degenerate area, missing interactionId, non-string actor and repeat)",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors (composed tree with my branch and the v15 patch)",
+    "not_run": "no game run: walking into a trigger is runtime acceptance"
+  },
+  "files": {
+    "evidence/STUDIO/b20-deepseek-ai-21/2026-10-11-trigger-contract/check.log": "0adc6fb72a8cb6c2f79eaebcdaf35f8902cdc6db3bff6a5e96a2e1663cc58bb4"
+  },
+  "open": [
+    "a real trigger has to be authored before the mechanism can be judged in play"
+  ]
+}
