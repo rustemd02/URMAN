@@ -1,0 +1,29 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-36"
+  ],
+  "stage": "declared families whose texture is missing",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-11 21:27 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "8b401adb",
+  "result": {
+    "measured": "fifty-seven families are asked for by code, and two declared families have no texture on disk: rowan_berries and wattle, both in WinterTextures",
+    "consequence": "the library checks ResourceLoader.Exists before applying a winter texture (PainterlyMaterialLibrary lines 1960-1961), so a missing file does not crash: the surface renders with the flat fallback while the family looks declared",
+    "used_family": "rowan_berries IS requested by code - ForColor(\"784239\", \"rowan_berries\") in AgentBAct1ExteriorLayer and the AB_foliage_rowan entry of AgentBKitMaterials - so rowan foliage loses its painterly texture silently",
+    "prepared_family": "wattle is declared as ready but nobody asks for it yet, and the yard-fence code carries a comment about swapping to \"wattle\" once the surface is prepared: whoever follows that comment would get a flat fence, so the trap is named",
+    "art_track": "producing those two textures is art work (Blender and the texture pipeline), not something a projection may invent"
+  },
+  "verified": {
+    "probe": "PASS 626/626 including the fifty-seven used families, the two missing textures, the silent-loss wording for the used one and the texture count in the notes",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors (composed tree with my branch and the v15 patch)",
+    "not_run": "no game run and no Blender: the visual result stays art acceptance"
+  },
+  "files": {
+    "evidence/STUDIO/b20-deepseek-ai-36/2026-10-11-missing-textures/check.log": "f77f46d1b941006f416a7cd27540ed59f79324a5ec684d476718ccb5f18cc5b5"
+  },
+  "open": [
+    "two textures have to be produced before those families can be judged visually"
+  ]
+}

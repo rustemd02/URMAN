@@ -120,6 +120,9 @@ public static class MaterialModes
             spurious.Count == 0
                 ? "Условие предупреждения учитывает все таблицы."
                 : $"Условие предупреждения НЕ проверяет WinterTextures, поэтому {spurious.Count} семейств, которые библиотека обслуживает, попадают в лог как «нет объявленного режима»: {string.Join(", ", spurious)}. Починка — одна строка в файле владельца: добавить && !WinterTextures.ContainsKey(surface) в условие.",
+            TextureGaps(root) is { Count: > 0 } textureGaps
+                ? $"Семейств с отсутствующей текстурой: {textureGaps.Count} — библиотека проверит ResourceLoader.Exists и молча оставит плоский запасной вид."
+                : "У каждого объявленного семейства текстура есть на диске.",
             undeclared.Count == 0
                 ? "Ни одно семейство, которое просит код, не осталось без объявления."
                 : $"Код просит необъявленные семейства: {string.Join(", ", undeclared)} — это уже настоящий промах, а не шум.",
@@ -162,4 +165,71 @@ public static class MaterialModes
             : Regex.Matches(Block(source, marker), "\"([a-zA-Z0-9_]+)\"")
                 .Select(match => match.Groups[1].Value)
                 .ToHashSet(StringComparer.Ordinal);
+    /// <summary>
+    /// Families whose declared texture does not exist on disk. The library checks
+    /// ResourceLoader.Exists before applying a winter texture, so a missing file does not crash:
+    /// the surface simply renders with the flat default while the family looks declared. A family
+    /// that code already asks for is a silent visual loss, and one that only a comment prepares
+    /// is a trap for whoever follows it.
+    /// </summary>
+    public static IReadOnlyList<string> TextureGaps(string root)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(root);
+        var full = Path.GetFullPath(root);
+        var source = Source(root);
+        var gaps = new List<string>();
+        var used = UsedFamilies(full);
+        foreach (var (table, marker) in new[]
+        {
+            ("SurfaceTextures", "SurfaceTextures = new"),
+            ("WinterTextures", "WinterTextures = new")
+        })
+        {
+            foreach (System.Text.RegularExpressions.Match match in TextureEntry.Matches(Block(source, marker)))
+            {
+                var family = match.Groups[1].Value;
+                var relative = match.Groups[2].Value.Replace("res://", "game/", StringComparison.Ordinal);
+                if (File.Exists(Path.Combine(full, relative.Replace('/', Path.DirectorySeparatorChar))))
+                {
+                    continue;
+                }
+
+                gaps.Add(used.Contains(family)
+                    ? $"{family} ({table}): текстуры «{match.Groups[2].Value}» нет на диске, а код уже просит это семейство — поверхность рисуется плоским запасным видом, и это молчаливая потеря вида."
+                    : $"{family} ({table}): текстуры «{match.Groups[2].Value}» нет на диске; семейство пока никто не просит, но объявлено оно как готовое — тот, кто на него переключится, получит плоский вид.");
+            }
+        }
+
+        return gaps;
+    }
+
+    /// <summary>The material families the project's code asks for by name.</summary>
+    public static IReadOnlySet<string> UsedFamilies(string root)
+    {
+        var full = Path.GetFullPath(root);
+        var used = new HashSet<string>(StringComparer.Ordinal);
+        foreach (var folder in new[] { Path.Combine("game", "scripts"), "src-dotnet" })
+        {
+            var path = Path.Combine(full, folder);
+            if (!Directory.Exists(path))
+            {
+                continue;
+            }
+
+            foreach (var file in Directory.EnumerateFiles(path, "*.cs", SearchOption.AllDirectories))
+            {
+                foreach (System.Text.RegularExpressions.Match match in UsedFamily.Matches(File.ReadAllText(file)))
+                {
+                    used.Add(match.Groups[1].Value);
+                }
+            }
+        }
+
+        return used;
+    }
+
+    private static readonly System.Text.RegularExpressions.Regex TextureEntry = new(
+        "\\[\"([a-zA-Z0-9_]+)\"\\]\\s*=\\s*\\(\"(res://[^\"]+)\"",
+        System.Text.RegularExpressions.RegexOptions.CultureInvariant);
+
 }

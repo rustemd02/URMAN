@@ -1,0 +1,9 @@
+== AI-36: declared families whose texture is missing
+
+
+Прошло времени 00:00:00.54
+    note: Семейств с отсутствующей текстурой: 2 — библиотека проверит ResourceLoader.Exists и молча оставит плоский запасной вид.
+  families used by code: 57; families with a missing texture: 2
+    TEXTURE: rowan_berries (WinterTextures): текстуры «res://assets/textures/painterly/rowan_berries_v1_albedo.png» нет на диске, а код уже просит это семейство — поверхность рисуется плоским запасным видом, и это молчаливая потеря вида.
+    TEXTURE: wattle (WinterTextures): текстуры «res://assets/textures/painterly/wattle_weave_v1_albedo.png» нет на диске; семейство пока никто не просит, но объявлено оно как готовое — тот, кто на него переключится, получит плоский вид.
+PROBE RESULT: PASS
