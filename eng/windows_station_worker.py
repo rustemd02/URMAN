@@ -35,6 +35,9 @@ STUDIO_MAX_TRANSACTIONS = 32
 STUDIO_MAX_REQUEST = 256 * 1024
 STUDIO_MAX_PROPOSAL = 32 * 1024
 STUDIO_MAX_PREVIEW_FAILURE = 4 * 1024
+STUDIO_MAX_ACTIONS = 32
+STUDIO_MAX_ACTION_RECEIPT = 8 * 1024
+STUDIO_MAX_ACTION_FRAME = 16 * 1024**2
 STUDIO_MAX_JOURNAL = 64 * 1024
 STUDIO_MAX_BINARY = 128 * 1024**2
 STUDIO_MAX_EXPORT = 512 * 1024**2
@@ -141,21 +144,31 @@ def _studio_read(root, relative, limit, label):
     return path, raw
 
 
-def _studio_hash(path, limit):
+def _studio_hash(path, limit, expected_prefix=None):
     path = Path(path)
-    size = path.stat().st_size
+    info = path.lstat()
+    if _studio_reparse(info) or not stat.S_ISREG(info.st_mode):
+        raise ValueError('Studio evidence file is not a regular file')
+    size = info.st_size
     if size > limit:
-        raise ValueError('Studio authored target exceeds its size limit')
+        raise ValueError('Studio evidence file exceeds its size limit')
     h = hashlib.sha256()
     total = 0
+    prefix = bytearray()
     with path.open('rb') as stream:
         for chunk in iter(lambda: stream.read(1024**2), b''):
             total += len(chunk)
             if total > limit:
                 raise ValueError('Studio authored target grew beyond its size limit')
+            if expected_prefix is not None and len(prefix) < len(expected_prefix):
+                prefix.extend(chunk[:len(expected_prefix) - len(prefix)])
             h.update(chunk)
-    if total != size:
-        raise ValueError('Studio authored target changed while being read')
+    final_info = path.lstat()
+    if (_studio_reparse(final_info) or not stat.S_ISREG(final_info.st_mode)
+            or total != size or final_info.st_size != size):
+        raise ValueError('Studio evidence file changed while being read')
+    if expected_prefix is not None and bytes(prefix) != expected_prefix:
+        raise ValueError('Studio action frame is not a PNG')
     return size, h.hexdigest()
 
 
@@ -186,7 +199,10 @@ def export_studio_session(source, output):
     output = Path(output)
     payloads = []
     request_ids = {}
+    request_hashes = {}
     proposal_ids = set()
+    proposal_hashes = {}
+    action_transaction_refs = []
     requests_root = _studio_path(source, '.urman-studio/ai-jobs', kind='dir', missing=True)
     if requests_root is not None:
         request_dirs = _studio_children(requests_root, STUDIO_MAX_REQUESTS, 'Studio request directories')
@@ -195,13 +211,21 @@ def export_studio_session(source, output):
             if _studio_reparse(info) or not stat.S_ISDIR(info.st_mode) or not re.fullmatch('[a-f0-9]{32}', directory.name):
                 raise ValueError('Studio request directory is not a canonical request ID')
             request_id = directory.name
-            contents = _studio_children(directory, 3, 'Studio request directory')
+            contents = _studio_children(directory, 4, 'Studio request directory')
             names = {item.name for item in contents}
-            if names not in ({'request.json'}, {'request.json', 'proposal.json'},
-                             {'request.json', 'proposal.json', 'preview-failed.json'}):
+            base_names = names - {'actions'}
+            if base_names not in ({'request.json'}, {'request.json', 'proposal.json'},
+                                  {'request.json', 'proposal.json', 'preview-failed.json'}):
                 raise ValueError('Studio request directory has missing or unexpected files: ' + request_id)
-            if any(_studio_reparse(item.lstat()) or not stat.S_ISREG(item.lstat().st_mode) for item in contents):
-                raise ValueError('Studio request evidence contains a link or non-file: ' + request_id)
+            for item in contents:
+                item_info = item.lstat()
+                if _studio_reparse(item_info):
+                    raise ValueError('Studio request evidence contains a link or reparse point: ' + request_id)
+                if item.name == 'actions':
+                    if not stat.S_ISDIR(item_info.st_mode):
+                        raise ValueError('Studio actions entry is not a directory: ' + request_id)
+                elif not stat.S_ISREG(item_info.st_mode):
+                    raise ValueError('Studio request evidence contains a non-file: ' + request_id)
             _, request_bytes = _studio_read(source, f'.urman-studio/ai-jobs/{request_id}/request.json',
                                             STUDIO_MAX_REQUEST, 'Studio request')
             request = _studio_json(request_bytes, STUDIO_MAX_REQUEST, 'Studio request')
@@ -209,6 +233,7 @@ def export_studio_session(source, output):
                     or request.get('schemaVersion') != 2 or request.get('requestId') != request_id):
                 raise ValueError('Studio request identity is invalid: ' + request_id)
             request_ids[request_id] = request
+            request_hashes[request_id] = hashlib.sha256(request_bytes).hexdigest()
             payloads.append((f'.urman-studio/ai-jobs/{request_id}/request.json', request_bytes, None))
             proposal_bytes = None
             if 'proposal.json' in names:
@@ -220,6 +245,7 @@ def export_studio_session(source, output):
                         or proposal.get('snapshotHash') != request['project'].get('snapshotHash')):
                     raise ValueError('Studio request and proposal identity do not match: ' + request_id)
                 proposal_ids.add(request_id)
+                proposal_hashes[request_id] = hashlib.sha256(proposal_bytes).hexdigest()
                 payloads.append((f'.urman-studio/ai-jobs/{request_id}/proposal.json', proposal_bytes, None))
             if 'preview-failed.json' in names:
                 if proposal_bytes is None:
@@ -238,6 +264,91 @@ def export_studio_session(source, output):
                     raise ValueError('Studio preview-failure receipt is invalid: ' + request_id)
                 payloads.append((f'.urman-studio/ai-jobs/{request_id}/preview-failed.json', failure_bytes, None))
 
+            if 'actions' in names:
+                if proposal_bytes is None:
+                    raise ValueError('Studio action evidence has no matching proposal: ' + request_id)
+                actions_relative = f'.urman-studio/ai-jobs/{request_id}/actions'
+                actions_directory = _studio_path(source, actions_relative, kind='dir')
+                children = _studio_children(actions_directory, STUDIO_MAX_ACTIONS * 2,
+                                            'Studio action directory')
+                action_files = {}
+                for child in children:
+                    child_info = child.lstat()
+                    if _studio_reparse(child_info) or not stat.S_ISREG(child_info.st_mode):
+                        raise ValueError('Studio action evidence contains a link or non-file: ' + request_id)
+                    match = re.fullmatch(r'([a-f0-9]{32})\.(json|png)', child.name)
+                    if not match:
+                        raise ValueError('Studio action directory contains an unexpected file: ' + request_id)
+                    action_id, suffix = match.groups()
+                    pair = action_files.setdefault(action_id, {})
+                    if suffix in pair:
+                        raise ValueError('Studio action directory contains a duplicate record: ' + action_id)
+                    pair[suffix] = child
+                if len(action_files) > STUDIO_MAX_ACTIONS:
+                    raise ValueError('Studio request exceeds 32 action records: ' + request_id)
+
+                project = request.get('project')
+                snapshot_hash = project.get('snapshotHash') if isinstance(project, dict) else None
+                if not isinstance(snapshot_hash, str):
+                    raise ValueError('Studio request snapshot identity is missing: ' + request_id)
+                expected_action_fields = {
+                    'schemaVersion', 'actionId', 'action', 'requestId', 'requestHash',
+                    'proposalHash', 'snapshotHash', 'transactionId', 'frameHash', 'captureError',
+                }
+                for action_id, pair in sorted(action_files.items()):
+                    if 'json' not in pair:
+                        # The UI publishes the JSON receipt last; an orphan PNG means
+                        # capture was interrupted and the source must remain on station.
+                        raise ValueError('Studio action PNG has no final receipt: ' + action_id)
+                    action_relative = f'{actions_relative}/{action_id}.json'
+                    _, action_bytes = _studio_read(source, action_relative,
+                                                   STUDIO_MAX_ACTION_RECEIPT, 'Studio action receipt')
+                    action_receipt = _studio_json(action_bytes, STUDIO_MAX_ACTION_RECEIPT,
+                                                  'Studio action receipt')
+                    if not isinstance(action_receipt, dict) or set(action_receipt) != expected_action_fields:
+                        raise ValueError('Studio action receipt has missing or unexpected fields: ' + action_id)
+                    action_name = action_receipt['action']
+                    if (type(action_receipt['schemaVersion']) is not int or action_receipt['schemaVersion'] != 1
+                            or action_receipt['actionId'] != action_id
+                            or action_name not in ('preview', 'apply', 'undo', 'redo')
+                            or action_receipt['requestId'] != request_id
+                            or action_receipt['requestHash'] != request_hashes[request_id]
+                            or action_receipt['proposalHash'] != proposal_hashes[request_id]
+                            or action_receipt['snapshotHash'] != snapshot_hash):
+                        raise ValueError('Studio action identity or hashes do not match: ' + action_id)
+                    transaction_id = action_receipt['transactionId']
+                    if action_name == 'preview':
+                        if transaction_id is not None:
+                            raise ValueError('Studio preview action has a transaction ID: ' + action_id)
+                    elif not isinstance(transaction_id, str) or not re.fullmatch('[a-f0-9]{32}', transaction_id):
+                        raise ValueError('Studio mutation action has an invalid transaction ID: ' + action_id)
+
+                    frame_hash = action_receipt['frameHash']
+                    capture_error = action_receipt['captureError']
+                    if frame_hash is not None and (not isinstance(frame_hash, str)
+                                                   or not re.fullmatch('[a-f0-9]{64}', frame_hash)):
+                        raise ValueError('Studio action frame hash is invalid: ' + action_id)
+                    if (capture_error is not None
+                            and (not isinstance(capture_error, str) or not capture_error.strip()
+                                 or len(capture_error.encode('utf-16-le')) // 2 > 1024)):
+                        raise ValueError('Studio action capture error is invalid: ' + action_id)
+                    png_relative = f'{actions_relative}/{action_id}.png'
+                    if 'png' in pair:
+                        if frame_hash is None or capture_error is not None:
+                            raise ValueError('Studio action PNG must have a successful frame receipt: ' + action_id)
+                        png_path = _studio_path(source, png_relative)
+                        _, actual_frame_hash = _studio_hash(
+                            png_path, STUDIO_MAX_ACTION_FRAME, b'\x89PNG\r\n\x1a\n')
+                        if actual_frame_hash != frame_hash:
+                            raise ValueError('Studio action frame hash does not match PNG: ' + action_id)
+                        payloads.append((png_relative, png_path, frame_hash))
+                    elif frame_hash is not None or capture_error is None:
+                        raise ValueError('Studio action without PNG requires a capture error: ' + action_id)
+                    payloads.append((action_relative, action_bytes, None))
+                    if action_name != 'preview':
+                        action_transaction_refs.append((request_id, action_id, transaction_id))
+
+    transactions_by_request = {}
     transactions_root = _studio_path(source, '.urman-studio/transactions', kind='dir', missing=True)
     if transactions_root is not None:
         transaction_dirs = _studio_children(transactions_root, STUDIO_MAX_TRANSACTIONS,
@@ -335,6 +446,7 @@ def export_studio_session(source, output):
 
             if request_id is None or request_id not in request_ids or request_id not in proposal_ids:
                 raise ValueError('Studio transaction has no matching exported request: ' + transaction_id)
+            transactions_by_request.setdefault(request_id, set()).add(transaction_id)
             model = f'game/assets/models/studio/hero-house-{request_id}.glb'
             manifest = model + '.manifest.json'
             blend = f'assets/source/blender/studio/hero-house-{request_id}.blend'
@@ -357,6 +469,10 @@ def export_studio_session(source, output):
             if any(_studio_reparse(item.lstat()) or not stat.S_ISREG(item.lstat().st_mode) for item in contents):
                 raise ValueError('Studio transaction evidence contains a link or non-file: ' + transaction_id)
             payloads.append((journal_relative, journal_bytes, None))
+
+    for request_id, action_id, transaction_id in action_transaction_refs:
+        if transaction_id not in transactions_by_request.get(request_id, set()):
+            raise ValueError('Studio action transaction does not belong to its request: ' + action_id)
 
     current_targets = {}
     inspected_bytes = 0
@@ -401,10 +517,14 @@ def export_studio_session(source, output):
         seen_payload_paths.add(relative)
         if isinstance(source_or_bytes, bytes):
             size = len(source_or_bytes)
+            file_limit = STUDIO_MAX_BINARY
         else:
             size = _studio_path(source, relative).lstat().st_size
-        if size > STUDIO_MAX_BINARY:
-            raise ValueError('Studio binary evidence exceeds 128 MiB')
+            file_limit = (STUDIO_MAX_ACTION_FRAME if re.fullmatch(
+                r'\.urman-studio/ai-jobs/[a-f0-9]{32}/actions/[a-f0-9]{32}\.png', relative)
+                else STUDIO_MAX_BINARY)
+        if size > file_limit:
+            raise ValueError('Studio evidence file exceeds its size limit')
         total_bytes += size
         if total_bytes > STUDIO_MAX_EXPORT:
             raise ValueError('Studio evidence exceeds the 512 MiB export budget')
@@ -442,13 +562,16 @@ def export_studio_session(source, output):
                 source_path = _studio_path(source, relative)
                 source_info = source_path.lstat()
                 source_size = source_info.st_size
-                if source_size > STUDIO_MAX_BINARY:
-                    raise ValueError('Studio binary evidence exceeds 128 MiB')
+                file_limit = (STUDIO_MAX_ACTION_FRAME if re.fullmatch(
+                    r'\.urman-studio/ai-jobs/[a-f0-9]{32}/actions/[a-f0-9]{32}\.png', relative)
+                    else STUDIO_MAX_BINARY)
+                if source_size > file_limit:
+                    raise ValueError('Studio evidence file exceeds its size limit')
                 with source_path.open('rb') as incoming:
                     for chunk in iter(lambda: incoming.read(1024**2), b''):
                         next_written = written + len(chunk)
-                        if next_written > STUDIO_MAX_BINARY:
-                            raise ValueError('Studio evidence file grew beyond 128 MiB')
+                        if next_written > file_limit:
+                            raise ValueError('Studio evidence file grew beyond its size limit')
                         if copied_bytes + next_written > STUDIO_MAX_EXPORT:
                             raise ValueError('Studio evidence grew beyond the 512 MiB export budget')
                         stream.write(chunk)
@@ -457,7 +580,7 @@ def export_studio_session(source, output):
         if written != source_size:
             raise ValueError('Studio evidence changed while being exported: ' + relative)
         if expected_hash is not None and hasher.hexdigest() != expected_hash:
-            raise ValueError('Studio transaction image hash mismatch: ' + relative)
+            raise ValueError('Studio evidence hash mismatch: ' + relative)
         copied_bytes += written
         if copied_bytes > STUDIO_MAX_EXPORT:
             raise ValueError('Studio evidence grew beyond the 512 MiB export budget')

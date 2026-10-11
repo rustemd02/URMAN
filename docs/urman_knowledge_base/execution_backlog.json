@@ -74262,6 +74262,16 @@
                       "implementation": "Client studio fixes native scene, rejects custom scene/headless/capture parameters before networking, automatically includes generator inputs, defaults timeout1200s/wait3600s; ordinary commands retain300s/1200s defaults. Worker binds cache/ZIP manifest identity to requested snapshot, requires Studio scene+two generator inputs+HeroHouse recipe before queueing, allows only fixed native studio mode up to1200s, and maps to existing play runner with provenance/ToolsRoot/userdata guard and bounded exporter. No arbitrary remote shell/scene/args added. Operator instructions identify update/restart, manual UI interactions and evidence-only return; pipeline PASS is not pilot acceptance.",
                       "verification": "Luna implementations and independent producer/consumer/guard review; Sol6.1medium source review; root affected Python syntax compile plus diff-check. No CLI probes, snapshots/uploads/jobs, provider/model, Blender, Studio/game or native checks.",
                       "remaining": "Windows station must update runner/common/worker and restart before this new command can run. Installed Codex full package/login and pinned Blender readiness not confirmed. Precise UI action receipts and matched before/preview/Apply/game/Undo frames still required; exported archive does not import local source or Undo history."
+                    },
+                    {
+                      "stage": "2026-10-11 bounded Studio UI action exporter source",
+                      "result": "SOURCE_REVIEWED_PYTHON_SYNTAX_PASS_PRODUCER_PENDING_NATIVE_NOT_RUN",
+                      "source": [
+                        "eng/windows_station_worker.py"
+                      ],
+                      "implementation": "Exports optional request-scoped actions directory with at most32 records; exact bounded JSON and optional same-ID PNG bind raw request/proposal hashes, snapshot and matching pilot transaction journal. PNG cap16MiB, receipt8KiB, strict no-link/extra-file checks and copy-time hash validation; orphan frames preserve station source. Existing512MiB total export budget remains.",
+                      "verification": "Affected Python syntax compilation and focused independent Luna source review; tracker validation and diff check. No runtime, model, Blender, Studio or game launches.",
+                      "remaining": "UI producer in progress. Individual action claims are preserved; no chronology is inferred from random action IDs. PNG signature/hash are validated, not image rendering. Native matched game and byte-exact Undo acceptance remains open."
                     }
                   ],
                   "assigned_owner": "codex/b20-2026-10-10",
@@ -74269,7 +74279,7 @@
                   "activity": {
                     "state": "runtime_deferred_by_author",
                     "reason": "11.10 пользователь остановил игровые и Studio запуски из-за сильных лагов; production/source review/узкая компиляция продолжаются.",
-                    "verification_question": "Does fixed studio client automatically include authoring inputs and reject scene/headless/capture options before networking; does worker bind manifest identity and required scene/inputs/recipe, enforce1200s only for Studio, and map to existing protected play/provenance/export path without altering ordinary checks? Python syntax and source review only; actual launch deferred."
+                    "verification_question": "Source stage: do rendered preview/Apply/Undo/Redo receipts bind exact request/proposal bytes and confirmed transaction, export within bounds, and keep successful mutations successful when capture fails? Compile and source review only; native game/byte-exact UI acceptance remains deferred."
                   },
                   "task_type": "integration_check",
                   "status": "blocked",
