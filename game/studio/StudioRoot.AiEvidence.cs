@@ -30,7 +30,7 @@ public partial class StudioRoot
     internal sealed record AiActionIdentity(string RequestId, string RequestHash, string ProposalHash, string SnapshotHash);
     internal enum AiEvidenceAction { Preview, Apply, Undo, Redo }
 
-    internal bool IsAiActionBusy => _playPreparing || _historyActionBusy || _aiEvidenceCaptureBusy
+    internal bool IsAiActionBusy => IsWorkspaceActionBusy || _aiEvidenceCaptureBusy
         || _aiPanel is not null && GodotObject.IsInstanceValid(_aiPanel) && _aiPanel.IsActionBusy;
 
     internal AiActionIdentity FreezeAiActionIdentity(
@@ -154,9 +154,9 @@ public partial class StudioRoot
         string? transactionId,
         Func<bool> isStillCurrent)
     {
-        if (_aiEvidenceCaptureBusy)
+        if (_aiEvidenceCaptureBusy || Session.IsBusy || _checkpointBusy)
         {
-            ShowAiEvidenceBanner("Действие завершено; запись его Studio кадра уже занята другим действием.", error: true);
+            ShowAiEvidenceBanner("Studio занята другим действием; кадр этого действия не записан.", error: true);
             return;
         }
 
@@ -203,7 +203,7 @@ public partial class StudioRoot
                 }
                 else if (!await WaitForAiEvidenceFrameAsync())
                     captureError = "Studio viewport did not draw within 3 seconds.";
-                else if (!IsInstanceValid(this) || !isStillCurrent()
+                else if (!IsInstanceValid(this) || Session.IsBusy || _checkpointBusy || !isStillCurrent()
                     || frozenTargetHashes is not null && !PilotTargetHashesMatch(workspaceRoot, identity.RequestId, frozenTargetHashes))
                     captureError = "Studio action state or target files changed during frame capture.";
                 else

@@ -71,7 +71,7 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
     private bool _previewFailureClearFailed;
     private int _providerWarningSeen;
 
-    internal bool IsActionBusy => _busy || _evidenceBusy || _studio.IsPlayOrHistoryBusy;
+    internal bool IsActionBusy => _busy || _evidenceBusy || _studio.IsWorkspaceActionBusy;
 
     void IProgress<CodexProposalProgress>.Report(CodexProposalProgress progress)
     {
@@ -836,7 +836,7 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
 
     private void StopCurrentOperation()
     {
-        if (_studio.IsPlayOrHistoryBusy)
+        if (_studio.IsWorkspaceActionBusy)
         {
             _status.Text = "Дождитесь завершения текущего действия Studio.";
             return;
@@ -1476,7 +1476,7 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
         var busy = IsActionBusy;
         _prompt.Editable = !busy;
         _doctor.Disabled = busy;
-        _stop.Disabled = _studio.IsPlayOrHistoryBusy || _evidenceBusy;
+        _stop.Disabled = _studio.IsWorkspaceActionBusy || _evidenceBusy;
         _globalInstructions.Disabled = busy || _previewFailureClearFailed;
         var houseSelected = _openedSelection == HeroHouseRecipe.EntityId && _studio.Selection == _openedSelection;
         _scope.Disabled = busy || _previewFailureClearFailed || _proposal is not null || _openedSelection != HeroHouseRecipe.EntityId;

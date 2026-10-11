@@ -10,7 +10,7 @@ public partial class StudioRoot
 
     private void OpenCheckpoints()
     {
-        if (Session.IsBusy || _checkpointBusy) return;
+        if (IsAiActionBusy) return;
         var store = new StudioCheckpointStore(Workspace);
         var dialog = new AcceptDialog { Title = "Контрольные точки", OkButtonText = "Закрыть" };
         var box = new VBoxContainer();
@@ -36,7 +36,7 @@ public partial class StudioRoot
         box.AddChild(row);
         Button(row, "Создать снимок", () =>
         {
-            if (Session.IsBusy || _checkpointBusy) return;
+            if (IsAiActionBusy) return;
             try
             {
                 var checkpoint = store.Create(name.Text, author.Text);
@@ -50,7 +50,7 @@ public partial class StudioRoot
         });
         Button(row, "Посмотреть восстановление…", () =>
         {
-            if (Session.IsBusy || _checkpointBusy) return;
+            if (IsAiActionBusy) return;
             var selected = items.GetSelectedItems();
             if (selected.Length != 1 || selected[0] >= checkpoints.Count) { note.Text = "Выберите контрольную точку."; return; }
             if (Workspace.Files.Any(file => file.Dirty || file.IsNew)) { note.Text = "Сначала сохраните или отмените текущие черновики. Восстановление не заменяет их автоматически."; return; }
@@ -103,10 +103,15 @@ public partial class StudioRoot
 
     private async Task RestoreCheckpointAsync(StudioCheckpointStore store, StudioCheckpointRestorePlan plan)
     {
-        if (Session.IsBusy || _checkpointBusy) return;
+        if (IsAiActionBusy)
+        {
+            ShowBanner("Восстановление не начато: дождитесь завершения текущего действия Studio и откройте снимок снова.", error: true);
+            return;
+        }
         _checkpointBusy = true;
         try
         {
+            RefreshStatus();
             if (Workspace.Files.Any(file => file.Dirty || file.IsNew)) throw new InvalidOperationException("Есть черновики.");
             await store.RestoreAsync(Session, plan, () => { }, ReloadCheckpointSourcesAndWorldAsync);
             ShowBanner("Контрольная точка восстановлена. Отмена вернёт предыдущее состояние.", error: false);

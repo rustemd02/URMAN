@@ -335,7 +335,7 @@ public partial class StudioRoot : Control
 
     private StudioAiPanel? _aiPanel;
     public bool IsAiPanelVisible => _aiPanel is { Visible: true };
-    internal bool IsPlayOrHistoryBusy => _playPreparing || _historyActionBusy;
+    internal bool IsWorkspaceActionBusy => _playPreparing || _historyActionBusy || _checkpointBusy || Session.IsBusy;
     public void OpenAiPanel()
     {
         _aiPanel ??= new StudioAiPanel(this);
@@ -986,6 +986,7 @@ public partial class StudioRoot : Control
 
     public void RefreshStatus(string? transient = null)
     {
+        if (_aiPanel is not null && GodotObject.IsInstanceValid(_aiPanel)) _aiPanel.RefreshBusyState();
         _play.Disabled = IsAiActionBusy;
         _undo.Disabled = !Session.CanUndo || IsAiActionBusy;
         _redo.Disabled = !Session.CanRedo || IsAiActionBusy;

@@ -74349,6 +74349,19 @@
                       ],
                       "verification": "Five Luna source implementation/lifecycle/API/receipt/pattern checks and independent Sol6.1 medium review. Affected Game compile and tracker/diff validation; no runtime/tests/probes.",
                       "remaining": "Native Codex request, matched main-seven game captures and full byte-exact Undo unaccepted. Staged File.ReadAllBytes behavior preserved; no new total-memory cap or universal protection for external GLB URI resources."
+                    },
+                    {
+                      "date": "2026-10-12",
+                      "kind": "source-progress",
+                      "result": "Existing workspace busy gate now covers Play/history/checkpoint/session and propagates to AI panel/UI. Checkpoint entry and stale confirmation recheck aggregate AI gate; restore keeps lease across barriers and releases in finally. Preview receipt rejects session/checkpoint overlap both before and after frame wait; own completed Apply/Undo receipts remain allowed. Busy restore confirmation displays refusal instead of silently dropping request.",
+                      "source": [
+                        "game/studio/StudioRoot.cs",
+                        "game/studio/StudioRoot.AiEvidence.cs",
+                        "game/studio/StudioRoot.Checkpoints.cs",
+                        "game/studio/StudioAiPanel.cs"
+                      ],
+                      "verification": "Five Luna bounded call-path reviews + independent Sol6.1 medium source review; root fixed refresh-before-try release gap and silent restore refusal. Affected Game compile, tracker and diff validation; no launches/tests/probes.",
+                      "remaining": "Native callback timing, rendered receipt and actual main-seven Codex/game/Undo remain unverified under author runtime pause."
                     }
                   ],
                   "assigned_owner": "codex/b20-2026-10-10",
@@ -74356,7 +74369,7 @@
                   "activity": {
                     "state": "runtime_deferred_by_author",
                     "reason": "11.10 пользователь остановил игровые и Studio запуски из-за сильных лагов; production/source review/узкая компиляция продолжаются.",
-                    "verification_question": "Are recipe/GLB/blend/manifest frozen for the successful preview, exact GLB preview bytes imported, and exact Apply bytes verified against immutable preview pins? Source/Game compile only; native main-seven game/Undo still open."
+                    "verification_question": "Does common existing workspace busy gate serialize checkpoint/session/AI preview-frame actions without recursion or blocking own post-Apply/Undo receipts? Source/affected Game compile only."
                   },
                   "task_type": "integration_check",
                   "status": "blocked",
