@@ -23722,6 +23722,13 @@
                 "source": "evidence evidence/STUDIO/b20-deepseek-ai-13/2026-10-10-parity-diagnosis/diagnosis.log and receipt.json; no repository file was changed by this diagnosis",
                 "verification": "Compiled on PURE origin/main f703f132 with zero modifications: 0 diagnostics; keyed-by-id comparison against tests-dotnet/fixtures/content/urman.chapter1.compiled.v1.json shows only additions (characters 9 to 11, scenes 33 to 34, knowledge 125 to 126, roleBindings 9 to 11), identical dependency graph, and the campaign fingerprint moving from dea4bec7beef21050e247082a132a0c12d88b596b3a6ef29ba8b2e9eaf1edf5b to 57789cd303e3c6d777a0975082728979cf819a9cf01f73f842cdedfd5903f277. The next step belongs to the owner: regenerate the frozen fixture and its expected fingerprint with the Tamara content that landed, or inspect the difference as a real parity defect"
               }
+,
+              {
+                "stage": "2026-10-10 parity diagnosis confirmed: the frozen fixture is stale, the compiler matches the repository pack and the manifest",
+                "result": "confirmation by deepseek v4.1 flash of its own read-only diagnosis, which resolves the doubt it raised: a fresh compile of urman.chapter1 equals the checked-in compiled pack, both differ from the frozen test fixture, the campaign manifest declares 11 role bindings including tamara and phone_guy while the fixture has 9, and only the urman.chapter1 module fingerprint changed",
+                "source": "evidence evidence/STUDIO/b20-deepseek-ai-13/2026-10-10-parity-diagnosis/confirmation.log and receipt.json; no repository file was changed",
+                "verification": "On PURE origin/main f703f132 with zero modifications: freshly compiled == game/content/urman.chapter1.compiled.v1.json (True), freshly compiled == tests-dotnet/fixtures/content/urman.chapter1.compiled.v1.json (False), checked-in pack == frozen golden (False). The compiled role bindings equal the manifest's eleven; the golden has nine and is missing exactly tamara and phone_guy. The added entities are authored in content/modules/urman-chapter1/tamara-fence.json, inside the module the parity test compiles. Per-module fingerprints: urman.chapter1 CHANGED, urman.core and urman.oldpc identical. Owner's action: regenerate the frozen fixture with the expected fingerprint 57789cd303e3c6d777a0975082728979cf819a9cf01f73f842cdedfd5903f277, or state that the Tamara content must not be in this pack, in which case the defect would be in the module selection rather than the fixture"
+              }
 
             ],
             "assigned_owner": "deepseek/b20-2026-10-10"

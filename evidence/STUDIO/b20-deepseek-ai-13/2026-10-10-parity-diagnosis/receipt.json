@@ -3,7 +3,7 @@
   "kind": "read-only diagnosis for the owner (no repository change)",
   "stage": "why ContentCompilerParityTests.ChapterOne_MatchesFrozenJavascriptGoldenPack fails on main",
   "owner": "deepseek v4.1 flash",
-  "when_msk": "2026-10-11 04:41 +0300",
+  "when_msk": "2026-10-11 04:42 +0300",
   "branch": "deepseek/b20-editor-content",
   "tree": "pure origin/main f703f132 with zero modifications",
   "method": "compile urman.chapter1 with modules [urman.chapter1, urman.core, urman.oldpc] and compare the result with tests-dotnet/fixtures/content/urman.chapter1.compiled.v1.json; the comparison is keyed by registry id, because a plain index comparison turns one inserted entry into a cascade of false differences",
@@ -40,6 +40,20 @@
   },
   "recommended_next_step": "the owner decides: either regenerate the frozen golden fixture and the expected fingerprint together with the Tamara content that landed, or treat the difference as a real parity defect to inspect. This diagnosis does not change any file",
   "files": {
-    "evidence/STUDIO/b20-deepseek-ai-13/2026-10-10-parity-diagnosis/diagnosis.log": "805ba0ebe74e4047d3dbe9cec0c3a02e7351cd1af2ab6137fc35a036f8b3cf50"
+    "evidence/STUDIO/b20-deepseek-ai-13/2026-10-10-parity-diagnosis/diagnosis.log": "805ba0ebe74e4047d3dbe9cec0c3a02e7351cd1af2ab6137fc35a036f8b3cf50",
+    "evidence/STUDIO/b20-deepseek-ai-13/2026-10-10-parity-diagnosis/confirmation.log": "a4821afebb48254c3a61300e40d1fc6449c4585c37413ead5f3fd62bc434b721"
+  },
+  "confirmation": {
+    "check": "freshly compiled pack vs the checked-in pack, vs the frozen golden, and the manifest role bindings vs both",
+    "freshly_compiled_equals_checked_in_pack": true,
+    "freshly_compiled_equals_frozen_golden": false,
+    "checked_in_pack_equals_frozen_golden": false,
+    "manifest_role_bindings": 11,
+    "compiled_role_bindings": 11,
+    "golden_role_bindings": 9,
+    "compiled_matches_manifest": true,
+    "changed_module": "urman.chapter1 only; urman.core and urman.oldpc are identical",
+    "authored_source": "content/modules/urman-chapter1/tamara-fence.json, inside the urman.chapter1 module that the parity test compiles, and the two roles are declared in content/campaigns/urman.chapter1/campaign.json",
+    "verdict": "the doubt is resolved: the compiler is right, the repository's own compiled pack already agrees with a fresh compile, the manifest declares tamara and phone_guy, and only the frozen test fixture is stale. The owner's action is to regenerate tests-dotnet/fixtures/content/urman.chapter1.compiled.v1.json together with the expected fingerprint 57789cd303e3c6d777a0975082728979cf819a9cf01f73f842cdedfd5903f277"
   }
 }
