@@ -1,0 +1,73 @@
+{
+  "schema": "urman.studio.b20-house-transaction-receipt/v1",
+  "request": {
+    "id": "2287c5d6f61447cd8cf4b122845426a3",
+    "snapshotHash": "6ec59315484c0243d1b1868b1cc604509463b898558ade22e99a341b2482ed65",
+    "entityId": "urman.world:act1/kit/house-old-pc-babai-approach",
+    "currentWidth": 1.06,
+    "partId": "Front0"
+  },
+  "proposal": {
+    "sha256": "f9078c4cf5c09b52a2c2a98f6c99373c9cdd67f5d166347d3113fa5f0d80250d",
+    "width": 1.3,
+    "summary": "Set Front0 window width to 1.30 m."
+  },
+  "transaction": {
+    "id": "fa02dba5068747e1b6235678adf48528",
+    "owner": "urman.world:act1/kit/house-old-pc-babai-approach",
+    "status": "committed",
+    "acceptedAfterApply": true,
+    "acceptedAfterUndo": true,
+    "finalSide": "before",
+    "paths": [
+      "assets/source/blender/studio/hero-house-2287c5d6f61447cd8cf4b122845426a3.blend",
+      "game/assets/models/studio/hero-house-2287c5d6f61447cd8cf4b122845426a3.glb",
+      "game/assets/models/studio/hero-house-2287c5d6f61447cd8cf4b122845426a3.glb.manifest.json",
+      "game/content/studio/hero_house.recipe.json"
+    ]
+  },
+  "captures": {
+    "before": "evidence/STUDIO/b20-house-pilot-2026-10-10/single-before/receipt.json",
+    "applied": "evidence/STUDIO/b20-house-pilot-2026-10-10/single-after/receipt.json",
+    "undone": "evidence/STUDIO/b20-house-pilot-2026-10-10/single-undo/receipt.json"
+  },
+  "runtime": {
+    "studioCoreAssemblySha256": "32fd0a1062590b96e5539ecf4f4702868db00a09db4650e1baf81a472b49f660"
+  },
+  "files": {
+    "before": {
+      "game/content/studio/hero_house.recipe.json": "2bcbc3ad88f8ecec5473a7ed9b5d144f649c9d7cf90c0212ec34a6cafb0aa4b4",
+      "game/assets/models/act1/urman_village_exterior_kit.glb": "8ea56c65c134e2fc0d95ec2194b3c0e7541db95bba0ecc45cb58a0e346ae82bc",
+      "assets/source/blender/act1/urman_village_exterior_kit.blend": "4fa34803e56447d81dcfdf979a7260096f9551524cd001a006713fe79356f2e3"
+    },
+    "applied": {
+      "game/content/studio/hero_house.recipe.json": "7186e0ff801622a1a078fbc1bb8ea1db76a0c3474bf75777b19ef9e9a9811a37",
+      "game/assets/models/studio/hero-house-2287c5d6f61447cd8cf4b122845426a3.glb": "7972cdacb15719e7ba5d623e7beb0889ecdd311400eff4d2c04a29aca5d43a8f",
+      "assets/source/blender/studio/hero-house-2287c5d6f61447cd8cf4b122845426a3.blend": "3a14c50d3da98575ec347be070f01f96e2cd09afd367adf37c7ef3e41a368c2f",
+      "game/assets/models/studio/hero-house-2287c5d6f61447cd8cf4b122845426a3.glb.manifest.json": "f50a1bfe345c646c7ac6047e6662e39026a53d95b15ca6c91951c2dd139b35d3"
+    },
+    "afterUndo": {
+      "game/content/studio/hero_house.recipe.json": "2bcbc3ad88f8ecec5473a7ed9b5d144f649c9d7cf90c0212ec34a6cafb0aa4b4",
+      "game/assets/models/act1/urman_village_exterior_kit.glb": "8ea56c65c134e2fc0d95ec2194b3c0e7541db95bba0ecc45cb58a0e346ae82bc",
+      "assets/source/blender/act1/urman_village_exterior_kit.blend": "4fa34803e56447d81dcfdf979a7260096f9551524cd001a006713fe79356f2e3"
+    },
+    "requestScopedOutputsAbsentAfterUndo": [
+      "game/assets/models/studio/hero-house-2287c5d6f61447cd8cf4b122845426a3.glb",
+      "game/assets/models/studio/hero-house-2287c5d6f61447cd8cf4b122845426a3.glb.manifest.json",
+      "assets/source/blender/studio/hero-house-2287c5d6f61447cd8cf4b122845426a3.blend"
+    ]
+  },
+  "stage": {
+    "recipeSha256": "7186e0ff801622a1a078fbc1bb8ea1db76a0c3474bf75777b19ef9e9a9811a37",
+    "glbSha256": "7972cdacb15719e7ba5d623e7beb0889ecdd311400eff4d2c04a29aca5d43a8f",
+    "blendSha256": "3a14c50d3da98575ec347be070f01f96e2cd09afd367adf37c7ef3e41a368c2f",
+    "manifestSha256": "f50a1bfe345c646c7ac6047e6662e39026a53d95b15ca6c91951c2dd139b35d3",
+    "generatorSha256": "be5402e82b755e3f32b895afab263d067aa9ff1e79141facf8add5c2cc0f2a0a"
+  },
+  "verification": {
+    "exactRecipeCas": true,
+    "exactFourPathAllowlist": true,
+    "runtimeGameCaptureReferencesAcceptedByParent": true,
+    "nativeStudioUiOrImporterInvokedByHarness": false
+  }
+}

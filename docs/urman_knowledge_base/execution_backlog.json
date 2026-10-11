@@ -25685,7 +25685,10 @@
               "1dc9ce15": "Cached-stream mutation, stable source selection, stop-before-listen, loop flags fixed; stem volume range, malformed raw values and path containment still require correction. UI patch not applied; auditory gate open.",
               "b94d2ccf": "Empty actor/repeat and successful-dispatch semantics corrected; finite double can overflow float, direct inspector casts can throw. Distinguish editor policy from runtime defaults.",
               "19925af7": "Hint fields/title/opening preview and malformed node/choice diagnostics corrected; hint integer/range/target constraints, text entity kind, required-field diagnostics and save-persistent HintsSeen label remain.",
-              "06058d6d": "Current source mappings match runtime switches; source-only projection does not prove operation semantics/persistence. Verifier checks any arms, not every key; counts workspace rather than selected campaign. No current missing handler claimed."
+              "06058d6d": "Current source mappings match runtime switches; source-only projection does not prove operation semantics/persistence. Verifier checks any arms, not every key; counts workspace rather than selected campaign. No current missing handler claimed.",
+              "ed426748": "Hint bounds/kind and null/static/persisted label fixes closed; chat refs still need text-kind, missing schema-required fields still silent, epsilon IsIntegral rejects exact-schema intent.",
+              "ai13-write-boundary.patch": "P1 incomplete public/private write coverage and context-race; successful refusal Task produces false applied UI. Guard all authoring entry points without blocking compensation/recovery; source-only NOT_INTEGRATED.",
+              "bcdbad27": "Sol source-only review: trigger float overflow and v7 ReadText/ReadFlag casts fixed; countIfInside:null still differs from runtime GetBoolean. Audio volumeDb:null and minWait>maxWait<=0 registry holes remain; lexical containment permits symlink escape before stat. Extra size axes diagnostic overstates runtime failure. No current authored failure claimed; NOT_INTEGRATED."
             }
           },
           "native_ui_after_cua_reset": {
@@ -25729,6 +25732,36 @@
           "subagent_availability": {
             "observed": "Five LunaFAST turns returned account usage-limit error; no partial source edits left. Sol6.1medium completed scope audit and independent source review.",
             "action": "Root continues implementation; no repeated Luna invocation or claim of active work until availability changes."
+          },
+          "single_window_actual_attempt": {
+            "request_id": "2287c5d6f61447cd8cf4b122845426a3",
+            "base_commit": "14349e6a",
+            "result": "ACTUAL_CODEX_SINGLE_WINDOW_GAME_AND_BYTE_EXACT_UNDO_ACCEPTED",
+            "part_id": "Front0",
+            "native_studio_ui": false,
+            "question": "Does only Front0 widen1.06→1.30 in matched exterior/interior Windows views while seven other windows/doors remain unchanged, and does full Undo restore exact hashes and remove all three request variants?",
+            "success": "Parent-inspected matched game before/after/Undo, target and unchanged window geometry, userdata restored receipt, exact original three hashes/new variant absence.",
+            "evidence": "evidence/STUDIO/b20-house-pilot-2026-10-10/codex-single-window-attempt1/{request,proposal,runtime-binding,provider-diagnostic,generator-manifest}.json",
+            "next": "Native Studio UI end-to-end remains open. Implement AI02 focus/hotkey routing and AI03 occlusion fix before next guarded UI attempt. Full B20 remains open.",
+            "before_job": "a598c4df140b41ccba801414e8c86216",
+            "before_snapshot": "0c9e08ea236147380000234db5af0766efb20b1e00bb3985705abe6619527f61",
+            "before_review": "Root personally inspected three frames; beforePASS exit0 userdataRestoredtrue.",
+            "transaction_session": 13192,
+            "actual_glb_sha256": "7972cdacb15719e7ba5d623e7beb0889ecdd311400eff4d2c04a29aca5d43a8f",
+            "geometry_review": "Byte-identical to measured single-window-staging GLB: Front0 only pane width changed, other7 dimensions and13door attributes identical.",
+            "after_job": "a0009bcaaa3b42768c11d1f9192e5890",
+            "after_snapshot": "55230742f17ca76f0a29bad5f92b61e8c9d7269a964f175f9c62508bc7796428",
+            "after_review": "Root personally inspected three frames: Front0 wider exterior/interior, adjacent windows and Seni unchanged; exact camera/FOV/resolution/LOW FSR0.7 metadata match before, userdataRestored true.",
+            "undo_job": "165f01c2c2574bbc9a9573e475fa6460",
+            "undo_snapshot": "7d9956cbe5e8c5d35c060a914cb63939e00f69fc297acb76cf249c5e1992f0e2",
+            "transaction_receipt": "evidence/STUDIO/b20-house-pilot-2026-10-10/single-window-transaction-receipt.json",
+            "undo_review": "Root personally inspected all three restored frames; exact before camera/FOV/resolution/LOW FSR0.7 match; Undo PASS exit0 userdataRestored true; terminal owned PTY exit0 TRANSACTION_UNDONE_AND_VERIFIED. Original recipe/GLB/blend SHA restored and all three request variants absent."
+          },
+          "native_ui_single_window_attempt": {
+            "result": "BLOCKED_UI_TOOL_TIMEOUT_MODEL_NOT_SENT",
+            "source_commit": "14349e6a",
+            "observed": "Guarded native Studio launched; Godot app inventory and owned child8318 confirmed alive. Two getApp(bundle) observations timed out (-10005) before screenshot/input. No model request or Apply through UI.",
+            "guard": "Owned child8318 TERM; parent4712 terminal143; original files and permissions restored and verified."
           }
         }
       },
