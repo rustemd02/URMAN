@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-20"
+  ],
+  "stage": "correction for the stored review of 91528342: the fields show and edit the Russian text, and the Tatar state is visible",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-11 04:49 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "f703f132",
+  "addressed": {
+    "Russian setter fields still displayed the default": "root cause found: EntityCatalog.ResolveText returns value.default and ignores translations.ru, so both editors were built from the default. The dialogue editor and the quest objective field now read the Russian value through Localized.Russian, falling back to the catalogue only when the entity has no value block",
+    "missing ru and default preservation": "the shared write path already preserved both (Localized.WithRussian keeps a default that deliberately differed and re-syncs one that matched), and the probe now asserts that invariant; the display fix is what made the guarantee reachable, because an editor showing the default would write that default back over the Russian text",
+    "missing Tatar warnings": "both editors now show the Tatar state next to the field (missing: it will stay empty and needs the language gate; present: it is there), in addition to the warnings the shared write path already returns on commit"
+  },
+  "shared_finding": "EntityCatalog.ResolveText (src-dotnet/Urman.Studio.Core/Editing/EntityCatalog.cs:40-48) serves the default to every caller, so any other Studio surface that renders a text id also shows the default rather than the Russian translation. This correction keeps the fix inside my patch; aligning the shared helper is the owner's call",
+  "files": {
+    "evidence/STUDIO/b20-deepseek-ai-20/2026-10-10-russian-display/ai-deepseek-studio-wiring-v6.patch": "0091a1f718b706ef4cfc692d09a7e34d265bdcb2639a8c4f57863a819c653a73",
+    "evidence/STUDIO/b20-deepseek-ai-20/2026-10-10-russian-display/check.log": "9a0e24e80d4b015a126ce17d7fb40010e4d4fb126425987d4ccf09ac54555839"
+  },
+  "verified": {
+    "probe": "PASS 304/304: the Russian accessor prefers translations.ru over default; an edit writes the Russian translation, keeps a deliberately divergent default and re-syncs one that matched; a missing Tatar translation is warned about on the shared write path and an existing one is not",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors; game/Urman.Game.csproj 0 warnings/0 errors with the v6 patch",
+    "apply": "the v6 patch passes git apply --check on a pristine f703f132 worktree and was applied there",
+    "existing_tests": "Urman.Studio.Tests 38/38 and Urman.Core.Tests 68/68 on the patched tree",
+    "not_run": "no Studio window: the field contents and the note are compile- and probe-verified, the interface is NOT_RUN"
+  },
+  "open": [
+    "the v6 patch supersedes v5 of the consolidated wiring patch",
+    "runtime and visual acceptance are NOT_RUN"
+  ]
+}

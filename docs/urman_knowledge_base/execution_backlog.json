@@ -24034,7 +24034,14 @@
               "STUDIO.P3"
             ],
             "acceptance_refs": [
-              "STUDIO-AI/A06"
+              "STUDIO-AI/A06",
+              {
+                "stage": "2026-10-10 AI-20 correction for the stored review of 91528342: the fields show and edit the Russian text",
+                "result": "correction by deepseek v4.1 flash: the root cause of 'Russian setter fields still display default' is that EntityCatalog.ResolveText serves value.default and ignores translations.ru; both editors now read the Russian text through Localized.Russian and show the Tatar state next to the field, while the shared write path keeps a divergent default and re-syncs a matching one",
+                "source": "owner patch evidence/STUDIO/b20-deepseek-ai-20/2026-10-10-russian-display/ai-deepseek-studio-wiring-v6.patch (v6 of the consolidated wiring patch: StudioDialogueSection.cs and StudioQuestSection.cs); evidence .../check.log, probe/ and receipt.json",
+                "verification": "probe PASS 304/304 with new invariants: the Russian accessor prefers translations.ru over default, an edit writes the Russian translation, keeps a deliberately divergent default and re-syncs one that matched, a missing Tatar translation is warned about on the shared write path while an existing one is not. The v6 patch passes git apply --check on a pristine f703f132 worktree; Urman.Studio.Core 0/0; game/Urman.Game.csproj 0/0; the existing suites pass on the patched tree (Studio 38/38, Core 68/68). Shared finding reported rather than changed: EntityCatalog.ResolveText (src-dotnet/Urman.Studio.Core/Editing/EntityCatalog.cs:40-48) serves the default to every caller, so other Studio surfaces likely show the default too; aligning it is the owner's call. No Studio window: the interface is NOT_RUN"
+              }
+
             ],
             "assigned_owner": "deepseek/b20-2026-10-10"
           },

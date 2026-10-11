@@ -1,0 +1,16 @@
+== base: e3dce1f620d7cb2af3a4681f0d8beda744a85245 (origin/main f703f132 + my branch + the v6 patch)
+== git apply --check on a pristine f703f132 worktree: OK, then applied
+    Ошибок: 0
+
+Прошло времени 00:00:03.12
+    Ошибок: 0
+
+Прошло времени 00:00:13.07
+== existing suites
+=== TEST EXECUTION SUMMARY ===
+   Urman.Studio.Tests  Total: 38, Errors: 0, Failed: 0, Skipped: 0, Not Run: 0, Time: 2,303s
+=== TEST EXECUTION SUMMARY ===
+   Urman.Core.Tests  Total: 68, Errors: 0, Failed: 0, Skipped: 0, Not Run: 0, Time: 0,198s
+== probe
+
+PROBE RESULT: PASS
