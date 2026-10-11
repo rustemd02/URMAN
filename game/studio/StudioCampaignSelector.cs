@@ -222,6 +222,9 @@ public sealed class StudioCampaignSelector
         if (consistent is null)
         {
             _details.Text = reason + " Подтверждённого выбора нет и мир по умолчанию не разрешился: запуск не подтверждён.";
+            // The host has to hear this: otherwise the previous context keeps looking
+            // writable while nothing is actually resolved.
+            MarkUnresolved(reason + " Подтверждённого выбора нет и мир по умолчанию не разрешился.");
             return;
         }
 
