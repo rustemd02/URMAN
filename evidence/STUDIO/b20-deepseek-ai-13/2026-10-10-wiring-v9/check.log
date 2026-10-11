@@ -1,0 +1,18 @@
+== wiring v9 re-based on origin/main 141c7b37 (the new main moved the shared Studio files)
+== tree: origin/main 141c7b37 + my branch merged (my new files) + session patch + wiring v9
+
+== builds
+    Ошибок: 0
+
+Прошло времени 00:00:03.62
+    Ошибок: 0
+
+Прошло времени 00:00:14.82
+== existing tests
+=== TEST EXECUTION SUMMARY ===
+   Urman.Studio.Tests  Total: 38, Errors: 0, Failed: 0, Skipped: 0, Not Run: 0, Time: 2,382s
+=== TEST EXECUTION SUMMARY ===
+   Urman.Core.Tests  Total: 68, Errors: 0, Failed: 0, Skipped: 0, Not Run: 0, Time: 0,221s
+== probe
+
+PROBE RESULT: PASS

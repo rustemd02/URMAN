@@ -23914,6 +23914,13 @@
                 "source": "evidence evidence/STUDIO/b20-deepseek-ai-13/2026-10-10-write-boundary/ai13-write-boundary.patch (EditSession.cs) and ai-deepseek-studio-wiring-v7.patch; check.log and receipt.json there; src-dotnet/Urman.Studio.Core/Editing/RuleCatalogCoverage.cs",
                 "verification": "Both patches pass git apply --check on a pristine f703f132 worktree in the order session patch then v7; Urman.Studio.Core 0/0; game/Urman.Game.csproj 0/0; Urman.Studio.Tests 38/38; Urman.Core.Tests 68/68; probe PASS with all 35 anchored operations found by name. The review's other points were already closed in v6 (PlayStart before the await, broadened fallback catch, frozen state restated after reload) and in the audio panel (level range validated through the registry for both scopes). No Studio window: interface NOT_RUN"
               }
+,
+              {
+                "stage": "2026-10-10 wiring patch re-based on the new main 141c7b37 (v9)",
+                "result": "re-base by deepseek v4.1 flash: main's twenty new commits moved the shared Studio files, so five hunks of the wiring patch were re-applied by hand on the new base (AI fail-closed guard, selector construction and Changed wiring, AI button assignment, campaign/world handler, campaign-aware content check, viewport write gate); the rest applied unchanged",
+                "source": "evidence evidence/STUDIO/b20-deepseek-ai-13/2026-10-10-wiring-v9/ai-deepseek-studio-wiring-v9.patch; check.log and receipt.json there; the session patch stays ai13-write-boundary.patch",
+                "verification": "The session patch and v9 both pass git apply --check on a pristine 141c7b37 worktree and were applied there; Urman.Studio.Core 0/0; game/Urman.Game.csproj 0/0; Urman.Studio.Tests 38/38; Urman.Core.Tests 68/68; the probe passes on the re-based tree. v9 supersedes v8 and is applied together with ai13-write-boundary.patch. No Studio window: the interface is NOT_RUN"
+              }
 
             ],
             "assigned_owner": "deepseek/b20-2026-10-10"

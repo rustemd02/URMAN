@@ -1,0 +1,34 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-13",
+    "STUDIO/AI-17",
+    "STUDIO/AI-18",
+    "STUDIO/AI-20",
+    "STUDIO/AI-21",
+    "STUDIO/AI-24",
+    "STUDIO/AI-36",
+    "STUDIO/AI-37"
+  ],
+  "stage": "wiring patch re-based on the new main (141c7b37) after it moved the shared Studio files",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-11 12:25 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "141c7b37 (origin/main) with my branch 0b722709 merged; the previous wiring patch was cut on f703f132 and no longer applied",
+  "why": "main gained twenty commits that rewrote parts of game/studio/StudioRoot.cs and StudioWorldSection.cs, so five hunks of the wiring patch failed: the AI fail-closed guard, the selector construction with its Changed wiring, the AI button assignment, the campaign/world handler, the campaign-aware content check and the viewport write gate. They were re-applied by hand on the new base, and the rest of the patch applied unchanged",
+  "verified": {
+    "apply": "the session patch and wiring v9 both pass git apply --check on a pristine 141c7b37 worktree and were applied there",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors; game/Urman.Game.csproj 0 warnings/0 errors",
+    "existing_tests": "Urman.Studio.Tests 38/38 and Urman.Core.Tests 68/68",
+    "probe": "PASS on the re-based tree",
+    "not_run": "no Studio window: the interface is NOT_RUN"
+  },
+  "files": {
+    "evidence/STUDIO/b20-deepseek-ai-13/2026-10-10-wiring-v9/ai-deepseek-studio-wiring-v9.patch": "a949b88cab5fd3de7be9b817e692d33f78fbfb0ac534d955ae5b3d802748c6fc",
+    "evidence/STUDIO/b20-deepseek-ai-13/2026-10-10-wiring-v9/check.log": "c7c9dea89310308d038207cb10ef5ae75385a886f51a7463d2cd2237355eb2df"
+  },
+  "open": [
+    "v9 supersedes v8 and must be applied together with ai13-write-boundary.patch (the session patch)",
+    "runtime and visual acceptance are NOT_RUN"
+  ]
+}
