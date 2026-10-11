@@ -1,0 +1,16 @@
+== AI-34: every authored action against the parameters its executor reads
+
+
+Прошло времени 00:00:00.55
+  action kinds with a parameter contract: 10; parameter gaps: 0
+    clip: required [clip] optional []
+    cut: required [fov, look, position, seconds, tag] optional [handheld, pushIn]
+    face: required [target] optional []
+    filming: required [on] optional []
+    laugh: required [level] optional []
+    move: required [speed, stops] optional [finalFacing]
+    place: required [at] optional []
+    say: required [seconds, speaker, text] optional [deadpan, talk]
+    show: required [visible] optional []
+    wait: required [seconds] optional []
+PROBE RESULT: PASS

@@ -373,4 +373,136 @@ public static class CutsceneActions
 
     private static string Text(JsonNode? node) =>
         node is JsonValue value && value.TryGetValue<string>(out var text) ? text : "";
+    /// <summary>
+    /// The parameters each executor case reads. The required ones are read with GetProperty,
+    /// which THROWS when the field is absent, so an authored action missing one would break the
+    /// cutscene mid-play. The optional ones are read with Flag(...) or TryGetProperty(...), and a
+    /// field that appears in neither is read by nobody: that is the same silent-ignore trap the
+    /// appearance fields had.
+    /// </summary>
+    public static (IReadOnlyDictionary<string, IReadOnlyList<string>> Required,
+                   IReadOnlyDictionary<string, IReadOnlyList<string>> Optional) Parameters(string root)
+    {
+        var text = Runtime(root);
+        var required = new Dictionary<string, IReadOnlyList<string>>(StringComparer.Ordinal);
+        var optional = new Dictionary<string, IReadOnlyList<string>>(StringComparer.Ordinal);
+        foreach (System.Text.RegularExpressions.Match match in CaseBlock.Matches(text))
+        {
+            var kind = match.Groups[1].Value;
+            var body = match.Groups[2].Value;
+            required[kind] = Names(RequiredField, body);
+            optional[kind] = Names(OptionalField, body);
+        }
+
+        return (required, optional);
+    }
+
+    /// <summary>Authored actions whose parameters do not match what their executor reads.</summary>
+    public static IReadOnlyList<string> ParameterGaps(StudioWorkspace workspace, string root)
+    {
+        ArgumentNullException.ThrowIfNull(workspace);
+        var (required, optional) = Parameters(root);
+        if (required.Count == 0)
+        {
+            return ["Ни один case исполнителя не прочитан: сверять параметры нечем."];
+        }
+
+        var gaps = new List<string>();
+        foreach (var id in workspace.EntityIds)
+        {
+            foreach (var action in Actions(workspace.Get(id)))
+            {
+                var kind = (string?)action["action"] ?? "";
+                if (kind.Length == 0)
+                {
+                    gaps.Add($"{id}: действие без action.");
+                    continue;
+                }
+
+                if (!required.TryGetValue(kind, out var requiredNames))
+                {
+                    // The kind itself is reported by VerifyAgainstExecutor; parameters are moot.
+                    continue;
+                }
+
+                foreach (var name in requiredNames.Where(name => action[name] is null))
+                {
+                    gaps.Add($"{id}: действие «{kind}» без поля «{name}» — исполнитель читает его через GetProperty и упадёт.");
+                }
+
+                var known = requiredNames.Concat(optional.GetValueOrDefault(kind) ?? []).ToHashSet(StringComparer.Ordinal);
+                foreach (var pair in action.Where(pair => pair.Key is not ("action" or "actor")))
+                {
+                    if (!known.Contains(pair.Key))
+                    {
+                        gaps.Add($"{id}: поле «{pair.Key}» действия «{kind}» исполнитель не читает ни через GetProperty, ни через Flag/TryGetProperty — оно молча ничего не изменит.");
+                    }
+                }
+            }
+        }
+
+        return gaps;
+    }
+
+    /// <summary>Every action object inside an entity's action list.</summary>
+    private static IEnumerable<JsonObject> Actions(JsonNode? entity)
+    {
+        if (entity is not JsonObject root)
+        {
+            yield break;
+        }
+
+        var pending = new Stack<JsonNode?>();
+        pending.Push(root);
+        while (pending.Count > 0)
+        {
+            switch (pending.Pop())
+            {
+                case JsonObject obj:
+                    if (obj["action"] is JsonValue value && value.TryGetValue<string>(out var kind) && kind.Length > 0)
+                    {
+                        yield return obj;
+                        continue;
+                    }
+
+                    foreach (var pair in obj)
+                    {
+                        pending.Push(pair.Value);
+                    }
+
+                    break;
+                case JsonArray array:
+                    foreach (var item in array)
+                    {
+                        pending.Push(item);
+                    }
+
+                    break;
+            }
+        }
+    }
+
+    private static IReadOnlyList<string> Names(System.Text.RegularExpressions.Regex pattern, string body) =>
+        pattern.Matches(body).Select(match => match.Groups[1].Value)
+            .Where(name => name.Length > 0)
+            .Distinct(StringComparer.Ordinal)
+            .Order(StringComparer.Ordinal)
+            .ToArray();
+
+    private static readonly System.Text.RegularExpressions.Regex CaseBlock = new(
+        @"case\s+""([a-z]+)""\s*:\s*\n?\s*\{?(.*?)(?=\n\s*case\s+""|\n\s*default:)",
+        System.Text.RegularExpressions.RegexOptions.Singleline | System.Text.RegularExpressions.RegexOptions.CultureInvariant);
+
+    private static readonly System.Text.RegularExpressions.Regex RequiredField = new(
+        @"GetProperty\(""([A-Za-z]+)""\)", System.Text.RegularExpressions.RegexOptions.CultureInvariant);
+
+    private static readonly System.Text.RegularExpressions.Regex OptionalField = new(
+        @"(?:Flag\(|TryGetProperty\()""([A-Za-z]+)""", System.Text.RegularExpressions.RegexOptions.CultureInvariant);
+
+    private static string Runtime(string root)
+    {
+        var path = Path.Combine(Path.GetFullPath(root), RuntimePath.Replace('/', Path.DirectorySeparatorChar));
+        return File.Exists(path) ? File.ReadAllText(path) : "";
+    }
+
 }

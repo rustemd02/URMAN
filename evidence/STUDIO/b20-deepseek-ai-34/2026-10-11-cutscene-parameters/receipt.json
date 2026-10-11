@@ -1,0 +1,28 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-34"
+  ],
+  "stage": "every authored action against the parameters its executor reads",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-11 21:13 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "b3793d70",
+  "result": {
+    "contract": "the executor reads ten action kinds, and the required fields are read with GetProperty, which throws when a field is absent: place needs at; cut needs fov, look, position, seconds and tag; say needs seconds, speaker and text; clip needs clip; move needs speed and stops; face needs target; show needs visible; wait needs seconds; filming needs on; laugh needs level",
+    "measured": "zero parameter gaps: every authored action carries each required field, and NO authored field is one nobody reads. The optional fields (handheld, pushIn on cut; finalFacing on move; talk and deadpan on say) are read through Flag or TryGetProperty and are attributed to those accessors rather than assumed absent",
+    "why_it_matters": "an action missing a required field would break the cutscene in the middle of playing, and a field read by nobody would silently do nothing - the same class as the appearance fields in AI-43"
+  },
+  "verified": {
+    "probe": "PASS 605/605 including the ten kinds, the place/at and say/talk rows and zero gaps",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors (composed tree with my branch and the v15 patch)",
+    "not_run": "no game run: how the cutscene plays is runtime and visual acceptance"
+  },
+  "own_mistakes": "my first extraction counted only GetProperty and would have called handheld, pushIn, finalFacing, talk and deadpan unread; reading the source showed Flag and TryGetProperty read them, so the check now attributes them properly instead of reporting false findings",
+  "files": {
+    "evidence/STUDIO/b20-deepseek-ai-34/2026-10-11-cutscene-parameters/check.log": "c0ad58406e271abfd80689a8de5800f0eb4e7ee8a59d1ea54363437e47091586"
+  },
+  "open": [
+    "the visual pacing of the cutscene stays external acceptance"
+  ]
+}

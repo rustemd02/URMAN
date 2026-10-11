@@ -79548,6 +79548,12 @@
                 "result": "deepening by deepseek v4.1 flash: 75 authored actions over 10 kinds are checked against the executor, and the registered table is now verified against the executor SOURCE (handled kinds and actor keys read from TamaraFenceCutscene.cs), so a missing or extra kind is reported as table drift; a second actor gate covers a key the scene declares but the executor's own dictionary does not know",
                 "source": "src-dotnet/Urman.Studio.Core/Editing/CutsceneActions.cs (extended); evidence evidence/STUDIO/b20-deepseek-ai-34/2026-10-11-executor-contract",
                 "verification": "probe PASS 474/474 including 75 actions, ten executor kinds, no drift, the runtime actor keys and the synthetic cases (no executor, an undeclared actor, an actor the executor does not know); Core 0/0; game/Urman.Game.csproj 0/0; Urman.Studio.Tests 38/38. The frame and timing are NOT_RUN"
+              },
+              {
+                "stage": "2026-10-11 every authored action against the parameters its executor reads",
+                "result": "deepening by deepseek v4.1 flash: the executor reads ten action kinds and its required fields go through GetProperty, which throws when absent (place needs at; cut needs fov/look/position/seconds/tag; say needs seconds/speaker/text; clip clip; move speed/stops; face target; show visible; wait seconds; filming on; laugh level). Measured: ZERO parameter gaps - every authored action carries each required field and no authored field is one nobody reads. The optional handheld/pushIn/finalFacing/talk/deadpan are read through Flag or TryGetProperty. An action missing a required field would break the cutscene mid-play, and an unread field would silently do nothing. Own mistake recorded: my first extraction counted only GetProperty and would have reported five fields as unread",
+                "source": "src-dotnet/Urman.Studio.Core/Editing/CutsceneActions.cs (Parameters, ParameterGaps); evidence evidence/STUDIO/b20-deepseek-ai-34/2026-10-11-cutscene-parameters",
+                "verification": "probe PASS 605/605 including the ten kinds, the place/at and say/talk rows and zero parameter gaps; Core 0/0. The cutscene's visual pacing is NOT_RUN"
               }
             ],
             "stage_tasks": [
@@ -79581,7 +79587,8 @@
             "remaining": [
               "Катсцена выбирается из активной кампании, а список и шкала редактируют её реальные действия.; отсутствует подтверждение собственного конечного DoD, перечисленного ниже.",
               "Ранее переданный частичный этап (2026-10-10 real cutscene actions of the active campaign) ждёт ревью/приёмки; полный done_when не выполнен.",
-              "Ранее переданный частичный этап (2026-10-11 the cutscene action table checked against the executor source it describes) ждёт ревью/приёмки; полный done_when не выполнен."
+              "Ранее переданный частичный этап (2026-10-11 the cutscene action table checked against the executor source it describes) ждёт ревью/приёмки; полный done_when не выполнен.",
+              "Ранее переданный частичный этап (2026-10-11 every authored action against the parameters its executor reads) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
             "next_action": "Параметризовать source/ID/text namespace; добавить selector; sync list/timeline; camera capture; AI action edits; preview/skip lifecycle.",
             "blocker": null,
