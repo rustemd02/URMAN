@@ -61,7 +61,7 @@ public static class QuestStructure
                     continue;
                 }
 
-                var stageId = (string?)stage["id"] ?? "";
+                var stageId = AuthoredJson.Text(stage, "id");
                 if (stageId.Length == 0)
                 {
                     problems.Add($"Этап #{stageIndex + 1} без id.");
@@ -86,7 +86,7 @@ public static class QuestStructure
                     }
 
                     objectives++;
-                    var objectiveId = (string?)objective["id"] ?? "";
+                    var objectiveId = AuthoredJson.Text(objective, "id");
                     var where = objectiveId.Length > 0 ? $"цель «{objectiveId}»" : $"цель #{objectiveIndex + 1} этапа «{stageId}»";
                     if (objectiveId.Length == 0)
                     {
@@ -119,7 +119,7 @@ public static class QuestStructure
             {
                 if (quest[name] is JsonObject policy)
                 {
-                    var mode = (string?)policy["mode"] ?? "";
+                    var mode = AuthoredJson.Text(policy, "mode");
                     modes.Add($"{name}={mode}");
                     if (mode.Length > 0 && !expected.Contains(mode, StringComparer.Ordinal))
                     {
@@ -150,7 +150,7 @@ public static class QuestStructure
 
     private static void CheckText(StudioWorkspace workspace, JsonNode? node, string where, List<string> problems)
     {
-        if ((string?)node is not { Length: > 0 } textId)
+        if (AuthoredJson.TextValue(node) is not { Length: > 0 } textId)
         {
             return;
         }
@@ -176,7 +176,7 @@ public static class QuestStructure
                 continue;
             }
 
-            var op = (string?)rule["op"] ?? "";
+            var op = AuthoredJson.Text(rule, "op");
             if (op.Length == 0)
             {
                 problems.Add($"{where}: правило #{index + 1} без строкового op.");
@@ -192,7 +192,7 @@ public static class QuestStructure
 
             foreach (var field in ReferenceFields)
             {
-                if ((string?)rule[field] is not { Length: > 0 } reference)
+                if (AuthoredJson.Text(rule, field) is not { Length: > 0 } reference)
                 {
                     continue;
                 }

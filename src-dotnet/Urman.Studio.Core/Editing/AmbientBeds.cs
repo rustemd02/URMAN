@@ -52,8 +52,8 @@ public static class AmbientBeds
         var beds = new List<AmbientBedFacts>();
         foreach (var stem in stems.OfType<JsonObject>())
         {
-            var id = (string?)stem["id"] ?? "";
-            var file = (string?)stem["file"] ?? "";
+            var id = AuthoredJson.Text(stem, "id");
+            var file = AuthoredJson.Text(stem, "file");
             var relative = file.Replace("res://", "game/", StringComparison.Ordinal);
             var exists = file.Length > 0 && File.Exists(Path.Combine(full, relative.Replace('/', Path.DirectorySeparatorChar)));
             var zones = (stem["zones"] as JsonArray ?? []).OfType<JsonValue>()
@@ -61,7 +61,7 @@ public static class AmbientBeds
                 .Where(zone => zone.Length > 0)
                 .ToArray();
             var unknown = zones.Where(zone => !known.Contains(zone)).ToArray();
-            var rights = ((string?)stem["source"] is { Length: > 0 }) && ((string?)stem["license"] is { Length: > 0 });
+            var rights = (AuthoredJson.Text(stem, "source") is { Length: > 0 }) && (AuthoredJson.Text(stem, "license") is { Length: > 0 });
             var problems = new List<string>();
 
             if (file.Length == 0)
@@ -83,7 +83,7 @@ public static class AmbientBeds
                 problems.Add("Ни одной зоны: бед не выберется по текущей зоне.");
             }
 
-            beds.Add(new AmbientBedFacts(id, file, exists, zones.Length, unknown, rights, (string?)stem["status"] ?? "", problems));
+            beds.Add(new AmbientBedFacts(id, file, exists, zones.Length, unknown, rights, AuthoredJson.Text(stem, "status"), problems));
         }
 
         return beds.OrderBy(bed => bed.BedId, StringComparer.Ordinal).ToArray();
@@ -109,7 +109,7 @@ public static class AmbientBeds
             second
                 ? $"Рядом есть второй каталог ({SecondManifestPath}): это отдельный список бедов, и считать один файл всей звуковой картиной нельзя."
                 : "Второго каталога бедов нет.",
-            $"Собственный статус манифеста: «{(string?)manifest?["status"] ?? ""}». Слушание, микс, луп и культурная приёмка остаются за автором и слушателями — это внешний гейт, а не эта проверка.",
+            $"Собственный статус манифеста: «{AuthoredJson.Text(manifest, "status")}». Слушание, микс, луп и культурная приёмка остаются за автором и слушателями — это внешний гейт, а не эта проверка.",
             ContractGaps(root) is { Count: > 0 } contract
                 ? $"Нарушений типа в манифесте: {contract.Count} — десериализатор не обёрнут в try/catch, поэтому одно нарушение уносит ВСЮ эмбиентную дорожку."
                 : "Типы полей манифеста совпадают с классом рантайма, и id не повторяются.",
@@ -197,7 +197,7 @@ public static class AmbientBeds
             {
                 if (!ok)
                 {
-                    gaps.Add($"stems[{index}] («{(string?)stem["id"] ?? "?"}»): поле «{field}» должно быть {kind}, а записано иначе — десериализатор бросит JsonException, загрузка манифеста его НЕ ловит, и директор не поднимется: пропадёт ВСЯ эмбиентная дорожка, а не один бед.");
+                    gaps.Add($"stems[{index}] («{AuthoredJson.Text(stem, "id") ?? "?"}»): поле «{field}» должно быть {kind}, а записано иначе — десериализатор бросит JsonException, загрузка манифеста его НЕ ловит, и директор не поднимется: пропадёт ВСЯ эмбиентная дорожка, а не один бед.");
                 }
             }
 

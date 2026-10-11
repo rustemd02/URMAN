@@ -370,7 +370,7 @@ public static class TriggerScopeFacts
         var gaps = new List<string>();
         foreach (var id in workspace.EntityIds)
         {
-            if (workspace.Get(id) is not JsonObject entity || (string?)entity["kind"] != "trigger")
+            if (workspace.Get(id) is not JsonObject entity || AuthoredJson.Text(entity, "kind") != "trigger")
             {
                 continue;
             }
@@ -396,7 +396,7 @@ public static class TriggerScopeFacts
                 }
             }
 
-            var interaction = (string?)parameters?["interactionId"] ?? "";
+            var interaction = AuthoredJson.Text(parameters, "interactionId");
             if (interaction.Length == 0)
             {
                 gaps.Add($"{id}: у триггера нет interactionId — OnTriggerEntered читает его через GetProperty и упадёт, КОГДА игрок войдёт, а не при загрузке мира.");
@@ -422,7 +422,7 @@ public static class TriggerScopeFacts
     public static bool AnyAuthored(StudioWorkspace workspace)
     {
         ArgumentNullException.ThrowIfNull(workspace);
-        return workspace.EntityIds.Any(id => (string?)workspace.Get(id)?["kind"] == "trigger");
+        return workspace.EntityIds.Any(id => AuthoredJson.Text(workspace.Get(id), "kind") == "trigger");
     }
 
 }

@@ -42,7 +42,7 @@ public static class TextLocalization
             }
 
             var text = TextNode(entity);
-            if (text is null || (string?)text["default"] is not { Length: > 0 } fallback)
+            if (text is null || AuthoredJson.Text(text, "default") is not { Length: > 0 } fallback)
             {
                 continue;
             }

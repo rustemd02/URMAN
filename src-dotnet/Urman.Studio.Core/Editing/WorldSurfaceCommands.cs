@@ -420,8 +420,8 @@ public static class TerrainStrokeCommand
     {
         ArgumentNullException.ThrowIfNull(workspace);
         ArgumentException.ThrowIfNullOrWhiteSpace(root);
-        var scatters = workspace.EntityIds.Count(id => (string?)workspace.Get(id)?["kind"] == "scatter");
-        var strokes = workspace.EntityIds.Count(id => (string?)workspace.Get(id)?["kind"] == "terrain-stroke");
+        var scatters = workspace.EntityIds.Count(id => AuthoredJson.Text(workspace.Get(id), "kind") == "scatter");
+        var strokes = workspace.EntityIds.Count(id => AuthoredJson.Text(workspace.Get(id), "kind") == "terrain-stroke");
         var terrainPath = Path.Combine(Path.GetFullPath(root), "game", "content", "world", "terrain.v1.json");
         var terrainExists = File.Exists(terrainPath);
         return

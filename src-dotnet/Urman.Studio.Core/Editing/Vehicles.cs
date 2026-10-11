@@ -54,7 +54,7 @@ public static class Vehicles
         foreach (var row in rows.OfType<JsonObject>())
         {
             var problems = new List<string>();
-            var id = (string?)row["id"] ?? "";
+            var id = AuthoredJson.Text(row, "id");
             if (id.Length == 0)
             {
                 problems.Add("У машины нет id: рантайм бросит исключение и не загрузит весь файл машин.");
@@ -64,13 +64,13 @@ public static class Vehicles
                 problems.Add($"id «{id}» повторяется: рантайм отвергает файл с дубликатом.");
             }
 
-            var kind = (string?)row["kind"] ?? "";
+            var kind = AuthoredJson.Text(row, "kind");
             if (!Kinds.Contains(kind, StringComparer.Ordinal))
             {
                 problems.Add($"kind «{kind}» не поддерживается: игра понимает только {string.Join(", ", Kinds)} (с учётом регистра).");
             }
 
-            if (((string?)row["displayName"] ?? "").Length == 0)
+            if ((AuthoredJson.Text(row, "displayName")).Length == 0)
             {
                 problems.Add("У машины нет displayName: имя в интерфейсе будет пустым.");
             }
@@ -124,7 +124,7 @@ public static class Vehicles
                 problems.Add("Блок «mechanics» не объект: рантайм отвергает машину.");
             }
 
-            vehicles.Add(new VehicleFacts(id, kind, (string?)row["displayName"] ?? "", row["mechanics"] is JsonObject, problems));
+            vehicles.Add(new VehicleFacts(id, kind, AuthoredJson.Text(row, "displayName"), row["mechanics"] is JsonObject, problems));
         }
 
         return vehicles.OrderBy(vehicle => vehicle.Id, StringComparer.Ordinal).ToArray();

@@ -295,7 +295,7 @@ public static class PcChat
         // hidden behind a later failure.
         if (schema["required"] is JsonArray required)
         {
-            foreach (var field in required.Select(item => (string?)item).OfType<string>().Where(field => !chat.AuthoredFields.Contains(field, StringComparer.Ordinal)))
+            foreach (var field in required.Select(AuthoredJson.TextValue).Where(field => field.Length > 0 && !chat.AuthoredFields.Contains(field, StringComparer.Ordinal)))
             {
                 problems.Add($"У подсказки нет обязательного поля «{field}»: контент не пройдёт проверку схемы.");
             }

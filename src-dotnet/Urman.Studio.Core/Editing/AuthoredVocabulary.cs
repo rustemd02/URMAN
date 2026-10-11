@@ -116,14 +116,14 @@ public static class AuthoredVocabulary
         var review = record["consultantReview"] as JsonObject;
         return new VocabularyFacts(
             id,
-            (string?)record["term"] ?? "",
-            (string?)record["language"] ?? "",
+            AuthoredJson.Text(record, "term"),
+            AuthoredJson.Text(record, "language"),
             Meaning(record),
             reread,
             application,
             unresolved,
-            (string?)review?["status"] ?? "",
-            (string?)review?["reviewer"] ?? "",
+            AuthoredJson.Text(review, "status"),
+            AuthoredJson.Text(review, "reviewer"),
             problems);
     }
 
@@ -164,7 +164,7 @@ public static class AuthoredVocabulary
         return meaning switch
         {
             JsonValue value when value.TryGetValue<string>(out var text) => text,
-            JsonObject obj when (string?)obj["default"] is { Length: > 0 } fallback => fallback,
+            JsonObject obj when AuthoredJson.Text(obj, "default") is { Length: > 0 } fallback => fallback,
             _ => ""
         };
     }
@@ -230,7 +230,7 @@ public static class AuthoredVocabulary
             foreach (var file in Directory.EnumerateFiles(path, "*.md", SearchOption.AllDirectories))
             {
                 if (AuthoredDocuments.FrontMatter(File.ReadAllText(file)) is { } front
-                    && (string?)front["id"] is { Length: > 0 } id)
+                    && AuthoredJson.Text(front, "id") is { Length: > 0 } id)
                 {
                     ids.Add(id);
                 }

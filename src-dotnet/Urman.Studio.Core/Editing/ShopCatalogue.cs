@@ -85,7 +85,7 @@ public static class ShopCatalogue
         foreach (var row in rows.OfType<JsonObject>())
         {
             var problems = new List<string>();
-            var sku = (string?)row["sku"] ?? "";
+            var sku = AuthoredJson.Text(row, "sku");
             if (sku.Length == 0)
             {
                 problems.Add("У товара нет sku: рантайм прочитает пустой ключ, и покупка будет невозможна.");
@@ -97,7 +97,7 @@ public static class ShopCatalogue
 
             foreach (var name in new[] { "title", "unit", "description" })
             {
-                if (((string?)row[name] ?? "").Length == 0)
+                if ((AuthoredJson.Text(row, name)).Length == 0)
                 {
                     problems.Add($"Поле «{name}» пустое: в магазине это увидит игрок.");
                 }
@@ -126,7 +126,7 @@ public static class ShopCatalogue
                 }
             }
 
-            products.Add(new ShopProductFacts(sku, (string?)row["title"] ?? "", uses, problems));
+            products.Add(new ShopProductFacts(sku, AuthoredJson.Text(row, "title"), uses, problems));
         }
 
         return products.OrderBy(product => product.Sku, StringComparer.Ordinal).ToArray();

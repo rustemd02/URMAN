@@ -66,8 +66,8 @@ public static class LocalizedTextEditor
                 warnings.Add("Татарского перевода нет: он остаётся пустым и требует языковой приёмки.");
             }
 
-            var oldDefault = (string?)(before["default"] as JsonValue);
-            var oldRussian = (string?)(before["translations"]?["ru"] as JsonValue);
+            var oldDefault = AuthoredJson.TextValue(before["default"]);
+            var oldRussian = AuthoredJson.Text(AuthoredJson.Object(before, "translations"), "ru");
             if (oldDefault is not null && oldRussian is not null && !string.Equals(oldDefault, oldRussian, StringComparison.Ordinal))
             {
                 warnings.Add($"Старый default «{oldDefault}» не совпадал с русским текстом и сохранён как есть.");

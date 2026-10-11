@@ -48,7 +48,7 @@ public static class TrialRunPlan
         var modules = new List<string>();
         if (JsonNode.Parse(File.ReadAllText(manifestPath)) is JsonObject manifest && manifest["modules"] is JsonArray declared)
         {
-            modules.AddRange(declared.OfType<JsonObject>().Select(module => (string?)module["moduleId"]).OfType<string>());
+            modules.AddRange(declared.OfType<JsonObject>().Select(module => AuthoredJson.Text(module, "moduleId")).OfType<string>());
         }
 
         if (modules.Count == 0)

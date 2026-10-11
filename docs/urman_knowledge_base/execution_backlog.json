@@ -75347,6 +75347,12 @@
                 "result": "deepening by deepseek v4.1 flash: the vegetation half IS exercised (eight authored scatters, each already validated against the runtime formula, the point budget and the catalogue), while the terrain half is NOT: zero authored terrain strokes and game/content/world/terrain.v1.json does not exist in the repository, because the brush creates that file on its first stroke. This is a fact about the content, not drift in the code - both ScatterCommand and TerrainStrokeCommand VerifyAgainstRuntime return zero. Inventing a terrain edit would be inventing content, so that half stays open as an author decision. Own mistake recorded: the coverage method first landed in TerrainStrokeCommand while the probe called it on ScatterCommand; the call site and the doc now name the owner",
                 "source": "src-dotnet/Urman.Studio.Core/Editing/WorldSurfaceCommands.cs (CoverageNotes); evidence evidence/STUDIO/b20-deepseek-ai-17/2026-10-11-terrain-coverage",
                 "verification": "probe PASS 594/594 including the coverage notes, the measured zero strokes, the absent terrain file and the zero-drift checks against both readers; Core 0/0. Visual result is NOT_RUN"
+              },
+              {
+                "stage": "2026-10-11 WorldSurfaceCommands reads authored JSON safely",
+                "result": "robustness stage by deepseek v4.1 flash, closing the cast sweep over my files: WorldSurfaceCommands.cs now reads authored JSON through the shared AuthoredJson accessor instead of casts that throw on a non-value node. About forty sites were converted across eleven files in this stage, and the probe passes with the same 741 checks as before the sweep began. Every projection file of mine is cast-free now; what remains is two DOC COMMENTS that quote the pattern, four files that are in main and are not mine (ConditionPhrases, Localized, RuleCatalogCoverage) and TamaraFence.cs whose owner I could not establish - that one was left ALONE and asked about instead of assumed. Verified: probe PASS 741/741; Core 0/0",
+                "source": "src-dotnet/Urman.Studio.Core/Editing/WorldSurfaceCommands.cs; evidence evidence/STUDIO/b20-deepseek-ai-40/2026-10-11-safe-json-reads-final",
+                "verification": "probe PASS 741/741 with every number unchanged; Core 0/0. No Studio window: this is a robustness change and is NOT_RUN as a feature"
               }
             ],
             "stage_tasks": [
@@ -75379,7 +75385,9 @@
               "Ранее переданный частичный этап (2026-10-10 terrain, vegetation and malformed remainders) ждёт ревью/приёмки; полный done_when не выполнен.",
               "Ранее переданный частичный этап (2026-10-11 the catalogue link of an authored scatter) ждёт ревью/приёмки; полный done_when не выполнен.",
               "Половина «рельеф» контентом не упражняется (0 правок, файла нет): нужен авторский штрих.",
-              "Ранее переданный частичный этап (2026-10-11 which half of the unit the campaign really exercises) ждёт ревью/приёмки; полный done_when не выполнен."
+              "Ранее переданный частичный этап (2026-10-11 which half of the unit the campaign really exercises) ждёт ревью/приёмки; полный done_when не выполнен.",
+              "Устойчивость: WorldSurfaceCommands больше не падает на не-значении; поведение не изменилось.",
+              "Ранее переданный частичный этап (2026-10-11 WorldSurfaceCommands reads authored JSON safely) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
             "next_action": "Параметризовать stroke/seed; исключить дома/дороги/защищённые точки; freeze region; preview collision/paths; сохранить stroke как один command.",
             "blocker": null,
@@ -75546,6 +75554,12 @@
                 "result": "robustness stage by deepseek v4.1 flash, the largest batch of the cast sweep: SoundMoodBeds.cs now reads authored JSON through the shared AuthoredJson accessor. Forty sites were converted across four files in this stage (SimpleItemForms 17, SoundMoodBeds 8, AuthoringDiagnostics 8, ItemSpawns 7) and the probe's numbers did not move. Own mistake recorded: my mechanical pass mangled a NESTED read - (string?)entity[\"params\"]?[\"catalogId\"] became Text(entity, \"params\")?[\"catalogId\"], which indexes a string with a string and does not compile; the right shape is Text(Object(entity, \"params\"), \"catalogId\"). The compiler caught it twice before any commit, and the lesson is that a mechanical sweep still has to understand the SHAPE it rewrites. Sixteen projection files are cast-free now. Verified: probe PASS 741/741; Core 0/0",
                 "source": "src-dotnet/Urman.Studio.Core/Editing/SoundMoodBeds.cs; evidence evidence/STUDIO/b20-deepseek-ai-18/2026-10-11-safe-json-reads-batch3",
                 "verification": "probe PASS 741/741 with the numbers unchanged; Core 0/0. No game run: this is a robustness change and is NOT_RUN as a feature"
+              },
+              {
+                "stage": "2026-10-11 AmbientBeds reads authored JSON safely",
+                "result": "robustness stage by deepseek v4.1 flash, closing the cast sweep over my files: AmbientBeds.cs now reads authored JSON through the shared AuthoredJson accessor instead of casts that throw on a non-value node. About forty sites were converted across eleven files in this stage, and the probe passes with the same 741 checks as before the sweep began. Every projection file of mine is cast-free now; what remains is two DOC COMMENTS that quote the pattern, four files that are in main and are not mine (ConditionPhrases, Localized, RuleCatalogCoverage) and TamaraFence.cs whose owner I could not establish - that one was left ALONE and asked about instead of assumed. Verified: probe PASS 741/741; Core 0/0",
+                "source": "src-dotnet/Urman.Studio.Core/Editing/AmbientBeds.cs; evidence evidence/STUDIO/b20-deepseek-ai-40/2026-10-11-safe-json-reads-final",
+                "verification": "probe PASS 741/741 with every number unchanged; Core 0/0. No Studio window: this is a robustness change and is NOT_RUN as a feature"
               }
             ],
             "stage_tasks": [
@@ -75584,7 +75598,9 @@
               "Слушание, микс, луп и культурная приёмка — внешний гейт, критерий открыт.",
               "Ранее переданный частичный этап (2026-10-11 the ambient manifest type contract) ждёт ревью/приёмки; полный done_when не выполнен.",
               "Устойчивость: SoundMoodBeds больше не падает на не-значении; поведение не изменилось.",
-              "Ранее переданный частичный этап (2026-10-11 SoundMoodBeds reads authored JSON safely) ждёт ревью/приёмки; полный done_when не выполнен."
+              "Ранее переданный частичный этап (2026-10-11 SoundMoodBeds reads authored JSON safely) ждёт ревью/приёмки; полный done_when не выполнен.",
+              "Устойчивость: AmbientBeds больше не падает на не-значении; поведение не изменилось.",
+              "Ранее переданный частичный этап (2026-10-11 AmbientBeds reads authored JSON safely) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
             "next_action": "Исправить пять source findings из Codex сообщения11.10 12:21 в AudioSourceRegistry/StudioAudioPanel и передать отдельный SHA, без новых probes.",
             "blocker": {
@@ -75843,6 +75859,12 @@
                 "result": "robustness stage by deepseek v4.1 flash, part of the cast sweep: QuestSemantics.cs now reads authored JSON through the shared AuthoredJson accessor instead of casts that throw on a non-value node. Nineteen sites were converted across four files in this stage (QuestSemantics 3, KitTakeover 7, CharacterAppearance 5, AreaLinks 4), and the probe's numbers did not move. OWNERSHIP WAS CHECKED: ConditionPhrases.cs carries ten such casts but it is IN main and is not mine, so it was deliberately left alone - a sweep must respect ownership rather than tidy whatever it finds. Eight projection files are cast-free now. Verified: probe PASS 741/741 with the numbers unchanged; Core 0/0",
                 "source": "src-dotnet/Urman.Studio.Core/Editing/QuestSemantics.cs; evidence evidence/STUDIO/b20-deepseek-ai-19/2026-10-11-safe-json-reads-batch",
                 "verification": "probe PASS 741/741 with the numbers unchanged; Core 0/0. No game run: this is a robustness change and is NOT_RUN as a feature"
+              },
+              {
+                "stage": "2026-10-11 QuestStructure reads authored JSON safely",
+                "result": "robustness stage by deepseek v4.1 flash, closing the cast sweep over my files: QuestStructure.cs now reads authored JSON through the shared AuthoredJson accessor instead of casts that throw on a non-value node. About forty sites were converted across eleven files in this stage, and the probe passes with the same 741 checks as before the sweep began. Every projection file of mine is cast-free now; what remains is two DOC COMMENTS that quote the pattern, four files that are in main and are not mine (ConditionPhrases, Localized, RuleCatalogCoverage) and TamaraFence.cs whose owner I could not establish - that one was left ALONE and asked about instead of assumed. Verified: probe PASS 741/741; Core 0/0",
+                "source": "src-dotnet/Urman.Studio.Core/Editing/QuestStructure.cs; evidence evidence/STUDIO/b20-deepseek-ai-40/2026-10-11-safe-json-reads-final",
+                "verification": "probe PASS 741/741 with every number unchanged; Core 0/0. No Studio window: this is a robustness change and is NOT_RUN as a feature"
               }
             ],
             "stage_tasks": [
@@ -75877,7 +75899,9 @@
               "Ранее переданный частичный этап (2026-10-11 the authored quests checked as a structure the runtime can run) ждёт ревью/приёмки; полный done_when не выполнен.",
               "Ранее переданный частичный этап (2026-10-11 the one-journal boundary, verified site by site) ждёт ревью/приёмки; полный done_when не выполнен.",
               "Устойчивость: QuestSemantics больше не падает на не-значении; поведение не изменилось.",
-              "Ранее переданный частичный этап (2026-10-11 QuestSemantics reads authored JSON safely) ждёт ревью/приёмки; полный done_when не выполнен."
+              "Ранее переданный частичный этап (2026-10-11 QuestSemantics reads authored JSON safely) ждёт ревью/приёмки; полный done_when не выполнен.",
+              "Устойчивость: QuestStructure больше не падает на не-значении; поведение не изменилось.",
+              "Ранее переданный частичный этап (2026-10-11 QuestStructure reads authored JSON safely) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
             "next_action": "Убрать tamara-biased initial selection; открыть active quest; schema DTO edits; clone validate; синхронизировать tree/graph; compile affected module.",
             "blocker": null,
@@ -76024,6 +76048,24 @@
                 "result": "robustness stage by deepseek v4.1 flash: DialogueGraph.cs was converted to the shared AuthoredJson accessor. AddressBindings went from THIRTEEN casts to zero and DialogueGraph from EIGHT to zero. The helper needed one more shape, TextValue, for a BARE node rather than a field - dictionary values in the address registry and nextNodeId in a dialogue choice are read that way. Own mistake recorded: my first pass used Text where the original cast had been nullable, which changed a TUPLE's nullability (the street/number set is (string?, string?)) and broke the compiler; TextOrNull is right there - a mechanical conversion still has to respect where the old code was nullable on purpose. Behaviour unchanged: five area links with five uses and zero problems, thirty-two dialogue nodes. Verified: probe PASS 741/741; Core 0/0",
                 "source": "src-dotnet/Urman.Studio.Core/Editing/DialogueGraph.cs and AuthoredJson.cs; evidence evidence/STUDIO/b20-deepseek-ai-21/2026-10-11-safe-json-reads-address-dialogue",
                 "verification": "probe PASS 741/741 with the numbers unchanged; Core 0/0. No game run: this is a robustness change and is NOT_RUN as a feature"
+              },
+              {
+                "stage": "2026-10-11 AuthoredVocabulary reads authored JSON safely",
+                "result": "robustness stage by deepseek v4.1 flash, closing the cast sweep over my files: AuthoredVocabulary.cs now reads authored JSON through the shared AuthoredJson accessor instead of casts that throw on a non-value node. About forty sites were converted across eleven files in this stage, and the probe passes with the same 741 checks as before the sweep began. Every projection file of mine is cast-free now; what remains is two DOC COMMENTS that quote the pattern, four files that are in main and are not mine (ConditionPhrases, Localized, RuleCatalogCoverage) and TamaraFence.cs whose owner I could not establish - that one was left ALONE and asked about instead of assumed. Verified: probe PASS 741/741; Core 0/0",
+                "source": "src-dotnet/Urman.Studio.Core/Editing/AuthoredVocabulary.cs; evidence evidence/STUDIO/b20-deepseek-ai-40/2026-10-11-safe-json-reads-final",
+                "verification": "probe PASS 741/741 with every number unchanged; Core 0/0. No Studio window: this is a robustness change and is NOT_RUN as a feature"
+              },
+              {
+                "stage": "2026-10-11 TextLocalization reads authored JSON safely",
+                "result": "robustness stage by deepseek v4.1 flash, closing the cast sweep over my files: TextLocalization.cs now reads authored JSON through the shared AuthoredJson accessor instead of casts that throw on a non-value node. About forty sites were converted across eleven files in this stage, and the probe passes with the same 741 checks as before the sweep began. Every projection file of mine is cast-free now; what remains is two DOC COMMENTS that quote the pattern, four files that are in main and are not mine (ConditionPhrases, Localized, RuleCatalogCoverage) and TamaraFence.cs whose owner I could not establish - that one was left ALONE and asked about instead of assumed. Verified: probe PASS 741/741; Core 0/0",
+                "source": "src-dotnet/Urman.Studio.Core/Editing/TextLocalization.cs; evidence evidence/STUDIO/b20-deepseek-ai-40/2026-10-11-safe-json-reads-final",
+                "verification": "probe PASS 741/741 with every number unchanged; Core 0/0. No Studio window: this is a robustness change and is NOT_RUN as a feature"
+              },
+              {
+                "stage": "2026-10-11 LocalizedTextChange reads authored JSON safely",
+                "result": "robustness stage by deepseek v4.1 flash, closing the cast sweep over my files: LocalizedTextChange.cs now reads authored JSON through the shared AuthoredJson accessor instead of casts that throw on a non-value node. About forty sites were converted across eleven files in this stage, and the probe passes with the same 741 checks as before the sweep began. Every projection file of mine is cast-free now; what remains is two DOC COMMENTS that quote the pattern, four files that are in main and are not mine (ConditionPhrases, Localized, RuleCatalogCoverage) and TamaraFence.cs whose owner I could not establish - that one was left ALONE and asked about instead of assumed. Verified: probe PASS 741/741; Core 0/0",
+                "source": "src-dotnet/Urman.Studio.Core/Editing/LocalizedTextChange.cs; evidence evidence/STUDIO/b20-deepseek-ai-40/2026-10-11-safe-json-reads-final",
+                "verification": "probe PASS 741/741 with every number unchanged; Core 0/0. No Studio window: this is a robustness change and is NOT_RUN as a feature"
               }
             ],
             "stage_tasks": [
@@ -76061,7 +76103,13 @@
               "16 слов словаря ждут проверки носителя языка (consultantReview.status = pending): внешний языковой гейт, критерий открыт.",
               "Ранее переданный частичный этап (2026-10-11 the authored vocabulary, its links and its declared gate) ждёт ревью/приёмки; полный done_when не выполнен.",
               "Устойчивость: DialogueGraph больше не падает на не-значении; поведение не изменилось.",
-              "Ранее переданный частичный этап (2026-10-11 DialogueGraph reads authored JSON safely) ждёт ревью/приёмки; полный done_when не выполнен."
+              "Ранее переданный частичный этап (2026-10-11 DialogueGraph reads authored JSON safely) ждёт ревью/приёмки; полный done_when не выполнен.",
+              "Устойчивость: AuthoredVocabulary больше не падает на не-значении; поведение не изменилось.",
+              "Ранее переданный частичный этап (2026-10-11 AuthoredVocabulary reads authored JSON safely) ждёт ревью/приёмки; полный done_when не выполнен.",
+              "Устойчивость: TextLocalization больше не падает на не-значении; поведение не изменилось.",
+              "Ранее переданный частичный этап (2026-10-11 TextLocalization reads authored JSON safely) ждёт ревью/приёмки; полный done_when не выполнен.",
+              "Устойчивость: LocalizedTextChange больше не падает на не-значении; поведение не изменилось.",
+              "Ранее переданный частичный этап (2026-10-11 LocalizedTextChange reads authored JSON safely) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
             "next_action": "Привязать selection к node/response; запросить нужные языковые поля; показать effects/entry routes; validate references; preview dialogue.",
             "blocker": null,
@@ -76252,6 +76300,12 @@
                 "result": "robustness stage by deepseek v4.1 flash, part of the cast sweep: AreaLinks.cs now reads authored JSON through the shared AuthoredJson accessor instead of casts that throw on a non-value node. Nineteen sites were converted across four files in this stage (QuestSemantics 3, KitTakeover 7, CharacterAppearance 5, AreaLinks 4), and the probe's numbers did not move. OWNERSHIP WAS CHECKED: ConditionPhrases.cs carries ten such casts but it is IN main and is not mine, so it was deliberately left alone - a sweep must respect ownership rather than tidy whatever it finds. Eight projection files are cast-free now. Verified: probe PASS 741/741 with the numbers unchanged; Core 0/0",
                 "source": "src-dotnet/Urman.Studio.Core/Editing/AreaLinks.cs; evidence evidence/STUDIO/b20-deepseek-ai-19/2026-10-11-safe-json-reads-batch",
                 "verification": "probe PASS 741/741 with the numbers unchanged; Core 0/0. No game run: this is a robustness change and is NOT_RUN as a feature"
+              },
+              {
+                "stage": "2026-10-11 TriggerScopeFacts reads authored JSON safely",
+                "result": "robustness stage by deepseek v4.1 flash, closing the cast sweep over my files: TriggerScopeFacts.cs now reads authored JSON through the shared AuthoredJson accessor instead of casts that throw on a non-value node. About forty sites were converted across eleven files in this stage, and the probe passes with the same 741 checks as before the sweep began. Every projection file of mine is cast-free now; what remains is two DOC COMMENTS that quote the pattern, four files that are in main and are not mine (ConditionPhrases, Localized, RuleCatalogCoverage) and TamaraFence.cs whose owner I could not establish - that one was left ALONE and asked about instead of assumed. Verified: probe PASS 741/741; Core 0/0",
+                "source": "src-dotnet/Urman.Studio.Core/Editing/TriggerScopeFacts.cs; evidence evidence/STUDIO/b20-deepseek-ai-40/2026-10-11-safe-json-reads-final",
+                "verification": "probe PASS 741/741 with every number unchanged; Core 0/0. No Studio window: this is a robustness change and is NOT_RUN as a feature"
               }
             ],
             "stage_tasks": [
@@ -76294,7 +76348,9 @@
               "Устойчивость: AddressBindings больше не падает на не-значении; поведение не изменилось.",
               "Ранее переданный частичный этап (2026-10-11 AddressBindings reads authored JSON safely) ждёт ревью/приёмки; полный done_when не выполнен.",
               "Устойчивость: AreaLinks больше не падает на не-значении; поведение не изменилось.",
-              "Ранее переданный частичный этап (2026-10-11 AreaLinks reads authored JSON safely) ждёт ревью/приёмки; полный done_when не выполнен."
+              "Ранее переданный частичный этап (2026-10-11 AreaLinks reads authored JSON safely) ждёт ревью/приёмки; полный done_when не выполнен.",
+              "Устойчивость: TriggerScopeFacts больше не падает на не-значении; поведение не изменилось.",
+              "Ранее переданный частичный этап (2026-10-11 TriggerScopeFacts reads authored JSON safely) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
             "next_action": "Handles формы; actor filter/frequency; link inspector; typed link/edit; preview conditions; idempotency на повторном событии.",
             "blocker": null,
@@ -76862,6 +76918,12 @@
                 "result": "robustness stage by deepseek v4.1 flash, part of the cast sweep: AuthoredHints.cs now reads authored JSON through the shared AuthoredJson accessor instead of casts that throw on a non-value node. Twenty-four sites were converted across four files in this stage (InvestigationPuzzle 7, HouseRecords 7, AuthoredDocuments 4, AuthoredHints 6), and the probe's numbers did not move. This batch also exercised the helper's field argument as a VARIABLE rather than a literal, which earlier stages had not. Twelve projection files are cast-free now. Verified: probe PASS 741/741 with the numbers unchanged; Core 0/0",
                 "source": "src-dotnet/Urman.Studio.Core/Editing/AuthoredHints.cs; evidence evidence/STUDIO/b20-deepseek-ai-40/2026-10-11-safe-json-reads-batch2",
                 "verification": "probe PASS 741/741 with the numbers unchanged; Core 0/0. No game run: this is a robustness change and is NOT_RUN as a feature"
+              },
+              {
+                "stage": "2026-10-11 PcChatContent reads authored JSON safely",
+                "result": "robustness stage by deepseek v4.1 flash, closing the cast sweep over my files: PcChatContent.cs now reads authored JSON through the shared AuthoredJson accessor instead of casts that throw on a non-value node. About forty sites were converted across eleven files in this stage, and the probe passes with the same 741 checks as before the sweep began. Every projection file of mine is cast-free now; what remains is two DOC COMMENTS that quote the pattern, four files that are in main and are not mine (ConditionPhrases, Localized, RuleCatalogCoverage) and TamaraFence.cs whose owner I could not establish - that one was left ALONE and asked about instead of assumed. Verified: probe PASS 741/741; Core 0/0",
+                "source": "src-dotnet/Urman.Studio.Core/Editing/PcChatContent.cs; evidence evidence/STUDIO/b20-deepseek-ai-40/2026-10-11-safe-json-reads-final",
+                "verification": "probe PASS 741/741 with every number unchanged; Core 0/0. No Studio window: this is a robustness change and is NOT_RUN as a feature"
               }
             ],
             "stage_tasks": [
@@ -76916,7 +76978,9 @@
               "Устойчивость: AuthoredDocuments больше не падает на не-значении; поведение не изменилось.",
               "Ранее переданный частичный этап (2026-10-11 AuthoredDocuments reads authored JSON safely) ждёт ревью/приёмки; полный done_when не выполнен.",
               "Устойчивость: AuthoredHints больше не падает на не-значении; поведение не изменилось.",
-              "Ранее переданный частичный этап (2026-10-11 AuthoredHints reads authored JSON safely) ждёт ревью/приёмки; полный done_when не выполнен."
+              "Ранее переданный частичный этап (2026-10-11 AuthoredHints reads authored JSON safely) ждёт ревью/приёмки; полный done_when не выполнен.",
+              "Устойчивость: PcChatContent больше не падает на не-значении; поведение не изменилось.",
+              "Ранее переданный частичный этап (2026-10-11 PcChatContent reads authored JSON safely) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
             "next_action": "Трассировать bindings активной кампании; human forms; AI exact-field edits; проверить Markdown/учебные токены; preview в игре.",
             "blocker": null,
@@ -77050,6 +77114,18 @@
                 "result": "deepening by deepseek v4.1 flash: ContentRuleEngine's pressure.change arm reads the delta with GetValue<int> and THROWS when it is not an integer (line 152), then clamps the counter into 0..3 through checked arithmetic (155-157) - so an overflowing delta throws while an out-of-range one is SILENTLY clamped. Measured: ONE pressure.change with delta 2 inside the range and one knowledge record of kind pressure, ZERO gaps. The notes separate the two things that share the name: the counter the effects move and the knowledge entry the player reads - I nearly reported them as one. Checked: a non-integer delta is reported with the engine's own exception text, and a delta whose magnitude exceeds the whole range is reported because it can never be applied as written. Own mistake recorded for the SECOND time: I generated a tree walk with a dead '&& false' branch that did not push array children; removed before the commit - the same mistake as in the vocabulary file, so it is named as a pattern. Verified: probe PASS 690/690; Core 0/0",
                 "source": "src-dotnet/Urman.Studio.Core/Editing/InvestigationPuzzle.cs (PressureGaps, PressureNotes); evidence evidence/STUDIO/b20-deepseek-ai-25/2026-10-11-narrative-pressure",
                 "verification": "probe PASS 690/690 including zero gaps, the two notes and the two synthetic findings; Core 0/0. The feel of the pressure is external acceptance and is NOT_RUN"
+              },
+              {
+                "stage": "2026-10-11 Vehicles reads authored JSON safely",
+                "result": "robustness stage by deepseek v4.1 flash, closing the cast sweep over my files: Vehicles.cs now reads authored JSON through the shared AuthoredJson accessor instead of casts that throw on a non-value node. About forty sites were converted across eleven files in this stage, and the probe passes with the same 741 checks as before the sweep began. Every projection file of mine is cast-free now; what remains is two DOC COMMENTS that quote the pattern, four files that are in main and are not mine (ConditionPhrases, Localized, RuleCatalogCoverage) and TamaraFence.cs whose owner I could not establish - that one was left ALONE and asked about instead of assumed. Verified: probe PASS 741/741; Core 0/0",
+                "source": "src-dotnet/Urman.Studio.Core/Editing/Vehicles.cs; evidence evidence/STUDIO/b20-deepseek-ai-40/2026-10-11-safe-json-reads-final",
+                "verification": "probe PASS 741/741 with every number unchanged; Core 0/0. No Studio window: this is a robustness change and is NOT_RUN as a feature"
+              },
+              {
+                "stage": "2026-10-11 ShopCatalogue reads authored JSON safely",
+                "result": "robustness stage by deepseek v4.1 flash, closing the cast sweep over my files: ShopCatalogue.cs now reads authored JSON through the shared AuthoredJson accessor instead of casts that throw on a non-value node. About forty sites were converted across eleven files in this stage, and the probe passes with the same 741 checks as before the sweep began. Every projection file of mine is cast-free now; what remains is two DOC COMMENTS that quote the pattern, four files that are in main and are not mine (ConditionPhrases, Localized, RuleCatalogCoverage) and TamaraFence.cs whose owner I could not establish - that one was left ALONE and asked about instead of assumed. Verified: probe PASS 741/741; Core 0/0",
+                "source": "src-dotnet/Urman.Studio.Core/Editing/ShopCatalogue.cs; evidence evidence/STUDIO/b20-deepseek-ai-40/2026-10-11-safe-json-reads-final",
+                "verification": "probe PASS 741/741 with every number unchanged; Core 0/0. No Studio window: this is a robustness change and is NOT_RUN as a feature"
               }
             ],
             "stage_tasks": [
@@ -77085,7 +77161,11 @@
               "Одно противоречие не имеет contradicts: нужно авторское решение.",
               "Ранее переданный частичный этап (2026-10-11 the investigation puzzle steps and their references) ждёт ревью/приёмки; полный done_when не выполнен.",
               "Давление: 1 изменение delta=2, диапазон счётчика 0..3; запись знания вида «pressure» — отдельная сущность (не счётчик).",
-              "Ранее переданный частичный этап (2026-10-11 the narrative pressure counter against the engine) ждёт ревью/приёмки; полный done_when не выполнен."
+              "Ранее переданный частичный этап (2026-10-11 the narrative pressure counter against the engine) ждёт ревью/приёмки; полный done_when не выполнен.",
+              "Устойчивость: Vehicles больше не падает на не-значении; поведение не изменилось.",
+              "Ранее переданный частичный этап (2026-10-11 Vehicles reads authored JSON safely) ждёт ревью/приёмки; полный done_when не выполнен.",
+              "Устойчивость: ShopCatalogue больше не падает на не-значении; поведение не изменилось.",
+              "Ранее переданный частичный этап (2026-10-11 ShopCatalogue reads authored JSON safely) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
             "next_action": "Для каждого типа записать source/consumer/units/range; сделать schema form; typed set; ограничения/protected fields; сохранить и проверить конкретное поведение.",
             "blocker": null,
@@ -81506,6 +81586,12 @@
                 "result": "robustness stage by deepseek v4.1 flash, the largest batch of the cast sweep: AuthoringDiagnostics.cs now reads authored JSON through the shared AuthoredJson accessor. Forty sites were converted across four files in this stage (SimpleItemForms 17, SoundMoodBeds 8, AuthoringDiagnostics 8, ItemSpawns 7) and the probe's numbers did not move. Own mistake recorded: my mechanical pass mangled a NESTED read - (string?)entity[\"params\"]?[\"catalogId\"] became Text(entity, \"params\")?[\"catalogId\"], which indexes a string with a string and does not compile; the right shape is Text(Object(entity, \"params\"), \"catalogId\"). The compiler caught it twice before any commit, and the lesson is that a mechanical sweep still has to understand the SHAPE it rewrites. Sixteen projection files are cast-free now. Verified: probe PASS 741/741; Core 0/0",
                 "source": "src-dotnet/Urman.Studio.Core/Editing/AuthoringDiagnostics.cs; evidence evidence/STUDIO/b20-deepseek-ai-18/2026-10-11-safe-json-reads-batch3",
                 "verification": "probe PASS 741/741 with the numbers unchanged; Core 0/0. No game run: this is a robustness change and is NOT_RUN as a feature"
+              },
+              {
+                "stage": "2026-10-11 TrialRunPlan reads authored JSON safely",
+                "result": "robustness stage by deepseek v4.1 flash, closing the cast sweep over my files: TrialRunPlan.cs now reads authored JSON through the shared AuthoredJson accessor instead of casts that throw on a non-value node. About forty sites were converted across eleven files in this stage, and the probe passes with the same 741 checks as before the sweep began. Every projection file of mine is cast-free now; what remains is two DOC COMMENTS that quote the pattern, four files that are in main and are not mine (ConditionPhrases, Localized, RuleCatalogCoverage) and TamaraFence.cs whose owner I could not establish - that one was left ALONE and asked about instead of assumed. Verified: probe PASS 741/741; Core 0/0",
+                "source": "src-dotnet/Urman.Studio.Core/Editing/TrialRunPlan.cs; evidence evidence/STUDIO/b20-deepseek-ai-40/2026-10-11-safe-json-reads-final",
+                "verification": "probe PASS 741/741 with every number unchanged; Core 0/0. No Studio window: this is a robustness change and is NOT_RUN as a feature"
               }
             ],
             "stage_tasks": [
@@ -81551,7 +81637,9 @@
               "Устойчивость: InvestigationPuzzle больше не падает на не-значении; поведение не изменилось.",
               "Ранее переданный частичный этап (2026-10-11 InvestigationPuzzle reads authored JSON safely) ждёт ревью/приёмки; полный done_when не выполнен.",
               "Устойчивость: AuthoringDiagnostics больше не падает на не-значении; поведение не изменилось.",
-              "Ранее переданный частичный этап (2026-10-11 AuthoringDiagnostics reads authored JSON safely) ждёт ревью/приёмки; полный done_when не выполнен."
+              "Ранее переданный частичный этап (2026-10-11 AuthoringDiagnostics reads authored JSON safely) ждёт ревью/приёмки; полный done_when не выполнен.",
+              "Устойчивость: TrialRunPlan больше не падает на не-значении; поведение не изменилось.",
+              "Ранее переданный частичный этап (2026-10-11 TrialRunPlan reads authored JSON safely) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
             "next_action": "UI стартового состояния; пометка synthetic/reachable; runtime trace с occurrence ID; pause clock; шаг события; copy transform только явной командой; handoff case.",
             "blocker": null,
