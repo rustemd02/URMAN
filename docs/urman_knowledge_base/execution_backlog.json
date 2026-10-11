@@ -23886,7 +23886,14 @@
             "verification": "A03: три секции, калитка и неизменённые крайние опоры.",
             "risks_recovery_external_gates": "Terrain slope/разная длина секций; невозможный сегмент — объяснение/preview, не перенос всего забора.",
             "required": true,
-            "evidence": [],
+            "evidence": [
+              {
+                "stage": "2026-10-11 active fence source trace",
+                "result": "SOURCE_TRACE_ONLY_NO_IMPLEMENTATION",
+                "source": "game/scripts/Act1ConnectedWorld.YardFences.cs; Act1ConnectedWorld.YardLots; BuildFenceRun; authored TamaraFenceQuest fence-run",
+                "remaining": "Ordinary yard fences are runtime-generated; sole existing authored fence-run belongs to separate Tamara quest. Need stable lot/edge/segment recipes and runtime consumer preserving gates/endpoints before typed align/manual handles. No Tamara edit claimed as AI15 delivery; AI14 prerequisite open."
+              }
+            ],
             "stage_tasks": [
               "STUDIO.P2"
             ],
@@ -24829,7 +24836,16 @@
             "verification": "A24: checkpoint, два изменения, restore, Undo restore.",
             "risks_recovery_external_gates": "Диск/history retention; исключить player saves и секреты; conflict работает как обычный incoming result.",
             "required": true,
-            "evidence": [],
+            "evidence": [
+              {
+                "stage": "2026-10-11 local named checkpoint source integration",
+                "result": "PARTIAL_GAME_COMPILE_0_0_NATIVE_CHECKPOINT_ACCEPTANCE_OPEN",
+                "source": "src-dotnet/Urman.Studio.Core/Storage/StudioCheckpointStore.cs; game/studio/StudioRoot.Checkpoints.cs; StudioRoot.cs checkpoint topbar, WatchDisk busy guard, file Undo/Redo rebase",
+                "implementation": "Names/author/UTC/full Git revision; root-bound metadata with exact authored-text images including drafts and explicit Hero recipe, guarded atomic no-overwrite publication with manifest last. Resource refs/hash receipts only, including fixed generator/Blend/GLB basis. Read-only current/target preview; membership/resource/identity/workspace/disk hash revalidation before existing file Apply, no automatic create/delete or draft discard. Restore sets existing restart history fence because startup hydrates only house pilot; same-session Undo/Redo rebase authored sources then reload world. Checkpoint images survive restoration/refusal.",
+                "verification": "Affected Game compile0warnings/0errors; existing test project compile0/0; existing drag Undo and ordering contracts PASS2/2; git diff --check. These existing tests do not exercise checkpoint creation/restore or UI. No new tests/probes.",
+                "remaining": "A24 checkpoint/two edits/restore/Undo and restart listing not executed. Resource bytes not captured, changed resources refuse; literal refs not complete typed dependency closure; snapshots root-bound. No resource lease/race isolation or native UI proof. Full AI11/AI29 dependencies and AI39 done_when remain open."
+              }
+            ],
             "stage_tasks": [
               "STUDIO.P6"
             ],
@@ -26099,6 +26115,14 @@
             "verification": "Root affected Game final compile0/0 and existing test-project compile0/0; targeted ADragIsOneUndoStep/ReorderingIsOneUndoableStepAndKeepsTheFileStyle PASS2/2, diffcheck. Sol6.1medium independent source review accepted after no-op guard placement/recovery collision preflight correction. Read-only JSON-source inspection in existing sourcefolders found no current repeated explicit IDs; not Markdown/runtime proof. No newtests/probes/fixtures.",
             "remaining": "Actual duplicate ID/recovery/native UI branch not exercised; existingtests prove unchanged ordinary Undo/reorder, not negative ambiguitycases. Same-file duplicate repair bykey is deliberately refused; manual source repair required. Fullsemantic registry/render mapping and typedcontext remaining.",
             "next": "Continue full typed semantic target/context and versioned transport; retain native/picking/duplicate-recovery acceptance gates."
+          },
+          "named_checkpoint_source_slice": {
+            "stage": "2026-10-11 local named checkpoint source integration",
+            "result": "PARTIAL_GAME_COMPILE_0_0_NATIVE_CHECKPOINT_ACCEPTANCE_OPEN",
+            "source": "src-dotnet/Urman.Studio.Core/Storage/StudioCheckpointStore.cs; game/studio/StudioRoot.Checkpoints.cs; StudioRoot.cs checkpoint topbar, WatchDisk busy guard, file Undo/Redo rebase",
+            "implementation": "Names/author/UTC/full Git revision; root-bound metadata with exact authored-text images including drafts and explicit Hero recipe, guarded atomic no-overwrite publication with manifest last. Resource refs/hash receipts only, including fixed generator/Blend/GLB basis. Read-only current/target preview; membership/resource/identity/workspace/disk hash revalidation before existing file Apply, no automatic create/delete or draft discard. Restore sets existing restart history fence because startup hydrates only house pilot; same-session Undo/Redo rebase authored sources then reload world. Checkpoint images survive restoration/refusal.",
+            "verification": "Affected Game compile0warnings/0errors; existing test project compile0/0; existing drag Undo and ordering contracts PASS2/2; git diff --check. These existing tests do not exercise checkpoint creation/restore or UI. No new tests/probes.",
+            "remaining": "A24 checkpoint/two edits/restore/Undo and restart listing not executed. Resource bytes not captured, changed resources refuse; literal refs not complete typed dependency closure; snapshots root-bound. No resource lease/race isolation or native UI proof. Full AI11/AI29 dependencies and AI39 done_when remain open."
           }
         }
       },

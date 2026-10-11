@@ -409,7 +409,7 @@ public partial class StudioRoot : Control
     {
         try
         {
-            await Session.UndoAsync(() => ((StudioWorldSection)Section("world")).ReloadGeometryAsync());
+            await Session.UndoAsync(ReloadCheckpointSourcesAndWorldAsync);
         }
         catch (UndoConflictException error)
         {
@@ -429,7 +429,7 @@ public partial class StudioRoot : Control
     {
         try
         {
-            await Session.RedoAsync(() => ((StudioWorldSection)Section("world")).ReloadGeometryAsync());
+            await Session.RedoAsync(ReloadCheckpointSourcesAndWorldAsync);
         }
         catch (UndoConflictException error)
         {
@@ -553,6 +553,7 @@ public partial class StudioRoot : Control
 
     private void WatchDisk()
     {
+        if (Session.IsBusy) return;
         foreach (var file in Workspace.ChangedOnDisk().Where(file => !Collab.IsPendingSame(file)))
         {
             var change = file.PullFromDisk();
@@ -747,6 +748,7 @@ public partial class StudioRoot : Control
         _redo = Button(top, "↷", Redo);
         Button(top, "Изменить с ИИ", OpenAiPanel).TooltipText = "Выберите объект и опишите изменение (⌘/Ctrl+Enter в окне мира)";
         Button(top, "Сохранить", () => SaveAll(autosave: false)).TooltipText = "Сохранить все изменения (⌘S)";
+        Button(top, "Контрольные точки…", OpenCheckpoints).TooltipText = "Именованный снимок и просмотр отличий перед восстановлением";
         _search = new LineEdit { PlaceholderText = "Поиск: имя, ID, тип, текст реплики — или вставьте ID от разработчика", CustomMinimumSize = new(420, 0), SizeFlagsHorizontal = SizeFlags.ExpandFill };
         _search.TextChanged += OnSearch;
         _search.TextSubmitted += _ => PickSelectedResult();
