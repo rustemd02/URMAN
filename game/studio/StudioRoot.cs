@@ -430,6 +430,18 @@ public partial class StudioRoot : Control
 
     public async void Undo()
     {
+        if (IsAiActionBusy)
+        {
+            ShowBanner("Завершите текущее действие Studio, прежде чем отменять его.", error: false);
+            return;
+        }
+
+        AiActionIdentity? evidenceIdentity = null;
+        string? transactionId = null;
+        string? requestId = null;
+        string? evidenceReadError = null;
+        try { TryGetPilotActionIdentity(redo: false, out evidenceIdentity, out transactionId, out requestId); }
+        catch (Exception error) { evidenceReadError = error.GetType().Name; }
         try
         {
             await Session.UndoAsync(ReloadCheckpointSourcesAndWorldAsync);
@@ -437,19 +449,50 @@ public partial class StudioRoot : Control
         catch (UndoConflictException error)
         {
             ShowBanner(error.Message + " Откройте сравнение, чтобы решить вручную.", error: true);
+            return;
         }
         catch (IOException error)
         {
             ShowBanner("Отмена не завершена: " + error.Message, error: true);
+            return;
         }
         catch (InvalidOperationException error)
         {
             ShowBanner(error.Message, error: true);
+            return;
         }
+
+        if (transactionId is null) return;
+        var moved = Session.History(redo: true).FirstOrDefault();
+        if (!IsPilotStep(moved, requestId ?? string.Empty, transactionId))
+        {
+            ShowAiEvidenceBanner("Отмена завершена, но Studio не подтвердила перемещение точной транзакции; receipt не записан.", error: true);
+            return;
+        }
+        if (evidenceIdentity is null)
+        {
+            ShowAiEvidenceBanner("Отмена завершена, но frozen request/proposal receipt не прочитан (" + (evidenceReadError ?? "unknown") + ").", error: true);
+            return;
+        }
+
+        await RecordAiActionEvidenceAsync(evidenceIdentity, AiEvidenceAction.Undo, transactionId,
+            () => IsPilotStep(Session.History(redo: true).FirstOrDefault(), evidenceIdentity.RequestId, transactionId));
     }
 
     public async void Redo()
     {
+        if (IsAiActionBusy)
+        {
+            ShowBanner("Завершите текущее действие Studio, прежде чем повторять его.", error: false);
+            return;
+        }
+
+        AiActionIdentity? evidenceIdentity = null;
+        string? transactionId = null;
+        string? requestId = null;
+        string? evidenceReadError = null;
+        try { TryGetPilotActionIdentity(redo: true, out evidenceIdentity, out transactionId, out requestId); }
+        catch (Exception error) { evidenceReadError = error.GetType().Name; }
         try
         {
             await Session.RedoAsync(ReloadCheckpointSourcesAndWorldAsync);
@@ -457,15 +500,34 @@ public partial class StudioRoot : Control
         catch (UndoConflictException error)
         {
             ShowBanner(error.Message, error: true);
+            return;
         }
         catch (IOException error)
         {
             ShowBanner("Повтор не завершён: " + error.Message, error: true);
+            return;
         }
         catch (InvalidOperationException error)
         {
             ShowBanner(error.Message, error: true);
+            return;
         }
+
+        if (transactionId is null) return;
+        var moved = Session.History().FirstOrDefault();
+        if (!IsPilotStep(moved, requestId ?? string.Empty, transactionId))
+        {
+            ShowAiEvidenceBanner("Повтор завершён, но Studio не подтвердила перемещение точной транзакции; receipt не записан.", error: true);
+            return;
+        }
+        if (evidenceIdentity is null)
+        {
+            ShowAiEvidenceBanner("Повтор завершён, но frozen request/proposal receipt не прочитан (" + (evidenceReadError ?? "unknown") + ").", error: true);
+            return;
+        }
+
+        await RecordAiActionEvidenceAsync(evidenceIdentity, AiEvidenceAction.Redo, transactionId,
+            () => IsPilotStep(Session.History().FirstOrDefault(), evidenceIdentity.RequestId, transactionId));
     }
 
     private void OnEdited()
@@ -771,8 +833,8 @@ public partial class StudioRoot : Control
 
     public void RefreshStatus(string? transient = null)
     {
-        _undo.Disabled = !Session.CanUndo;
-        _redo.Disabled = !Session.CanRedo;
+        _undo.Disabled = !Session.CanUndo || IsAiActionBusy;
+        _redo.Disabled = !Session.CanRedo || IsAiActionBusy;
         _undo.TooltipText = Session.UndoLabel is { } undo ? $"Отменить: {undo} (⌘Z)" : "Нечего отменять";
         _redo.TooltipText = Session.RedoLabel is { } redo ? $"Повторить: {redo} (⇧⌘Z)" : "Нечего повторять";
         var dirty = Workspace.Files.Count(file => file.Dirty);

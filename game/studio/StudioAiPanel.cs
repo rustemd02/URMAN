@@ -28,6 +28,8 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
     private readonly OptionButton _scope = new();
     private readonly CheckButton _globalInstructions = new() { Text = "Использовать мои глобальные инструкции Codex" };
     private readonly Button _ask;
+    private readonly Button _doctor;
+    private readonly Button _stop;
     private readonly Button _apply;
     private readonly Button _copy;
     private readonly Button _paste;
@@ -54,10 +56,13 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
     private JsonObject? _capturedWidths;
     private string? _consentIoWarning;
     private bool _busy;
+    private bool _evidenceBusy;
     private bool _previewReady;
     private bool _retryBuildAvailable;
     private bool _previewFailureClearFailed;
     private int _providerWarningSeen;
+
+    internal bool IsActionBusy => _busy || _evidenceBusy;
 
     void IProgress<CodexProposalProgress>.Report(CodexProposalProgress progress)
     {
@@ -123,8 +128,8 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
                 if (!_ask.Disabled) _ = AskAsync();
             }
         };
-        StudioRoot.Button(row, "Проверить Codex", () => _ = DoctorAsync());
-        StudioRoot.Button(row, "Остановить", StopCurrentOperation);
+        _doctor = StudioRoot.Button(row, "Проверить Codex", () => _ = DoctorAsync());
+        _stop = StudioRoot.Button(row, "Остановить", StopCurrentOperation);
         _apply = StudioRoot.Button(row, "Применить", () => _ = ApplyAsync());
         _apply.Disabled = true;
         var files = new HBoxContainer();
@@ -821,6 +826,11 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
 
     private void StopCurrentOperation()
     {
+        if (_evidenceBusy)
+        {
+            _status.Text = "Снимок действия записывается. Дождитесь его завершения.";
+            return;
+        }
         if (_cancel is { } cancellation)
         {
             cancellation.Cancel();
@@ -843,7 +853,7 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
 
     private async Task RunProposalAsync(bool fromManual, string? proposalFile = null)
     {
-        if (_busy || !Visible || (!fromManual && _proposal is not null)) return;
+        if (IsActionBusy || !Visible || (!fromManual && _proposal is not null)) return;
         HouseWindowProposal? imported = null;
         if (fromManual)
         {
@@ -894,6 +904,7 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
                 _status.Text += "\nCodex сообщил предупреждение в сессии. Перед запросом проверено: MCP отключены, доступных MCP-инструментов нет.";
             if (_consentIoWarning is not null) _status.Text += "\n" + _consentIoWarning;
             if (fromManual) _status.Text += "\nОтвет перенесён вручную. Studio не управляет внешней сессией агента.";
+            await RecordPreviewEvidenceAsync(request, acceptedProposal);
         }
         catch (OperationCanceledException)
         {
@@ -931,17 +942,20 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
 
     private async Task RetryBuildAsync()
     {
-        if (_busy || !_retryBuildAvailable || _previewReady || _request is null || _proposal is null || !Visible) return;
-        if (!TryClearPreviewFailure(_request)) return;
+        if (IsActionBusy || !_retryBuildAvailable || _previewReady || _request is null || _proposal is null || !Visible) return;
+        var request = _request;
+        var proposal = _proposal;
+        if (!TryClearPreviewFailure(request)) return;
         SetBusy(true);
         _retryBuildAvailable = false;
         _cancel = new();
         try
         {
-            EnsurePreparedRequestCurrent(_request);
-            HouseWindowProposalValidator.Validate(_request, _proposal);
+            EnsurePreparedRequestCurrent(request);
+            HouseWindowProposalValidator.Validate(request, proposal);
             var summary = await BuildAndPreviewAsync(true, _cancel.Token);
             _status.Text = "Повторная сборка завершена.\n" + summary;
+            await RecordPreviewEvidenceAsync(request, proposal);
         }
         catch (OperationCanceledException)
         {
@@ -1051,6 +1065,33 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
         return $"{proposal.Summary}\n{widthSummary} {scopeSummary}. Ещё не применено.";
     }
 
+    private async Task RecordPreviewEvidenceAsync(HouseWindowRequest request, HouseWindowProposal proposal)
+    {
+        try
+        {
+            var identity = _studio.FreezeAiActionIdentity(request, proposal);
+            await _studio.RecordAiActionEvidenceAsync(identity, StudioRoot.AiEvidenceAction.Preview, null,
+                () => IsCurrentPreviewEvidence(request, proposal));
+        }
+        catch (Exception error)
+        {
+            _studio.ShowAiEvidenceBanner($"Предпросмотр завершён, но Studio receipt не подготовлен ({error.GetType().Name}).", error: true);
+        }
+    }
+
+    private bool IsCurrentPreviewEvidence(HouseWindowRequest request, HouseWindowProposal proposal)
+    {
+        if (!IsInstanceValid(this) || !Visible || !IsInsideTree()
+            || !ReferenceEquals(_request, request) || !ReferenceEquals(_proposal, proposal) || !_previewReady) return false;
+        try
+        {
+            HouseWindowProposalValidator.Validate(request, proposal);
+            EnsurePreparedRequestCurrent(request);
+            return true;
+        }
+        catch (Exception) { return false; }
+    }
+
     private bool CanRetainProposalForRetry()
     {
         if (_cancel?.IsCancellationRequested == true || _previewReady || _request is not { } request || _proposal is not { } proposal
@@ -1103,7 +1144,7 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
 
     private async Task DoctorAsync()
     {
-        if (_busy) return;
+        if (IsActionBusy) return;
         SetBusy(true);
         try
         {
@@ -1123,15 +1164,23 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
 
     private async Task ApplyAsync()
     {
-        if (_busy || !_previewReady || _proposal is null || _request is null || _stage is null) return;
+        if (IsActionBusy || !_previewReady || _proposal is null || _request is null || _stage is null) return;
         if (!TryClearPreviewFailure(_request)) return;
         SetBusy(true);
+        var mutationSucceeded = false;
         try
         {
-            EnsurePreparedRequestCurrent(_request);
+            var request = _request;
+            var proposal = _proposal;
+            EnsurePreparedRequestCurrent(request);
+            HouseWindowProposalValidator.Validate(request, proposal);
             ValidateStage();
-            var model = "game/assets/models/studio/hero-house-" + _request.RequestId + ".glb";
-            var blend = "assets/source/blender/studio/hero-house-" + _request.RequestId + ".blend";
+            StudioRoot.AiActionIdentity? evidenceIdentity = null;
+            string? evidenceIdentityError = null;
+            try { evidenceIdentity = _studio.FreezeAiActionIdentity(request, proposal); }
+            catch (Exception error) { evidenceIdentityError = error.GetType().Name; }
+            var model = "game/assets/models/studio/hero-house-" + request.RequestId + ".glb";
+            var blend = "assets/source/blender/studio/hero-house-" + request.RequestId + ".blend";
             var manifest = model + ".manifest.json";
             var writes = new StudioFileWrite[] {
                 new(RecipePath, AtomicFile.Sha256(System.Text.Encoding.UTF8.GetBytes(_recipeText!)), File.ReadAllBytes(Path.Combine(_stage, "recipe.json"))),
@@ -1139,18 +1188,67 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
                 new(blend, null, File.ReadAllBytes(Path.Combine(_stage, "hero_house.blend"))),
                 new(manifest, null, File.ReadAllBytes(Path.Combine(_stage, "manifest.json")))
             };
-            await _studio.Session.ApplyFilesAsync("изменить окна дома через Codex", HeroHouseRecipe.EntityId, writes,
-                new HashSet<string>(writes.Select(write => write.RelativePath), StringComparer.Ordinal), ImportAssets,
-                () => ((StudioWorldSection)_studio.Section("world")).ReloadGeometryAsync());
+            try
+            {
+                await _studio.Session.ApplyFilesAsync("изменить окна дома через Codex", HeroHouseRecipe.EntityId, writes,
+                    new HashSet<string>(writes.Select(write => write.RelativePath), StringComparer.Ordinal), ImportAssets,
+                    () => ((StudioWorldSection)_studio.Section("world")).ReloadGeometryAsync());
+            }
+            catch (Exception error)
+            {
+                _status.Text = "Не применено: " + error.Message;
+                return;
+            }
+
+            mutationSucceeded = true;
+            if (!GodotObject.IsInstanceValid(this))
+            {
+                if (evidenceIdentity is null)
+                    _studio.ShowAiEvidenceBanner("Изменение применено, но frozen receipt identity не прочитан; Studio кадр не сохранён.", error: true);
+                else
+                {
+                    var hiddenApplied = _studio.Session.History().FirstOrDefault();
+                    if (_studio.IsPilotStep(hiddenApplied, request.RequestId, hiddenApplied?.TransactionId))
+                        await _studio.RecordAiActionEvidenceAsync(evidenceIdentity, StudioRoot.AiEvidenceAction.Apply, hiddenApplied!.TransactionId,
+                            () => _studio.IsPilotStep(_studio.Session.History().FirstOrDefault(), request.RequestId, hiddenApplied.TransactionId));
+                    else
+                        _studio.ShowAiEvidenceBanner("Изменение применено, но Studio не подтвердила транзакцию; Studio кадр не сохранён.", error: true);
+                }
+                return;
+            }
+
             _status.Text = "Окна изменены. ⌘/Ctrl+Z вернёт исходные проёмы, рецепт и модель; повторить можно через Redo без Codex.";
+            var applied = _studio.Session.History().FirstOrDefault();
+            if (evidenceIdentity is null)
+                _studio.ShowAiEvidenceBanner($"Изменение применено; frozen receipt identity не прочитан ({evidenceIdentityError ?? "unknown"}).", error: true);
+            else if (_studio.IsPilotStep(applied, request.RequestId, applied?.TransactionId))
+                await _studio.RecordAiActionEvidenceAsync(evidenceIdentity, StudioRoot.AiEvidenceAction.Apply, applied!.TransactionId,
+                    () => _studio.IsPilotStep(_studio.Session.History().FirstOrDefault(), request.RequestId, applied.TransactionId));
+            else
+                _studio.ShowAiEvidenceBanner("Изменение применено, но Studio не подтвердила точную транзакцию; receipt не записан.", error: true);
+
             ClearProposal();
             InvalidatePreparedRequest();
         }
         catch (Exception error)
         {
-            _status.Text = "Не применено: " + error.Message;
+            if (mutationSucceeded)
+            {
+                if (GodotObject.IsInstanceValid(this))
+                    _status.Text = "Окна изменены; Studio завершила применение, но receipt или очистка панели не завершились: " + error.Message;
+                _studio.ShowAiEvidenceBanner("Файлы уже изменены. Studio не будет повторять транзакцию автоматически.", error: true);
+            }
+            else if (GodotObject.IsInstanceValid(this))
+                _status.Text = "Не применено: " + error.Message;
         }
-        finally { SetBusy(false); }
+        finally
+        {
+            if (GodotObject.IsInstanceValid(this))
+            {
+                try { SetBusy(false); }
+                catch (Exception) { }
+            }
+        }
     }
 
     private void ImportAssets()
@@ -1306,7 +1404,21 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
     private void SetBusy(bool busy)
     {
         _busy = busy;
+        UpdateBusyState();
+    }
+
+    internal void SetEvidenceBusy(bool busy)
+    {
+        _evidenceBusy = busy;
+        UpdateBusyState();
+    }
+
+    private void UpdateBusyState()
+    {
+        var busy = IsActionBusy;
         _prompt.Editable = !busy;
+        _doctor.Disabled = busy;
+        _stop.Disabled = _evidenceBusy;
         _globalInstructions.Disabled = busy || _previewFailureClearFailed;
         var houseSelected = _openedSelection == HeroHouseRecipe.EntityId && _studio.Selection == _openedSelection;
         _scope.Disabled = busy || _previewFailureClearFailed || _proposal is not null || _openedSelection != HeroHouseRecipe.EntityId;
@@ -1317,6 +1429,8 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
         _paste.Disabled = busy || _previewFailureClearFailed || !houseSelected || _request is null || _proposal is not null;
         _importFile.Disabled = _paste.Disabled;
         _apply.Disabled = busy || _previewFailureClearFailed || !_previewReady || _proposal is null || _request is null || _stage is null;
+        _beforeView.Disabled = busy || !_previewReady;
+        _afterView.Disabled = busy || !_previewReady;
         _retryBuild.Disabled = busy || _previewFailureClearFailed || !_retryBuildAvailable || _previewReady || _proposal is null
             || _request is null || !houseSelected || !Visible;
         _restorePreview.Disabled = busy || _previewFailureClearFailed || !houseSelected || _request is not null || _proposal is not null;
