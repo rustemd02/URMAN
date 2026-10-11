@@ -1,0 +1,16 @@
+== AI-18: the largest remaining batch of my files
+
+
+Прошло времени 00:00:00.52
+-- casts left:
+/Users/unterlantas/Documents/GitHub/URMAN-deepseek/src-dotnet/Urman.Studio.Core/Editing/SimpleItemForms.cs:0
+/Users/unterlantas/Documents/GitHub/URMAN-deepseek/src-dotnet/Urman.Studio.Core/Editing/SoundMoodBeds.cs:0
+/Users/unterlantas/Documents/GitHub/URMAN-deepseek/src-dotnet/Urman.Studio.Core/Editing/AuthoringDiagnostics.cs:0
+/Users/unterlantas/Documents/GitHub/URMAN-deepseek/src-dotnet/Urman.Studio.Core/Editing/ItemSpawns.cs:0
+  beds: 9, missing files: 0, no rights: 0, problems: 0
+  catalogue forms: 177, asset gaps: 0
+PASS  the catalogue forms are read
+  sound mood beds: 2, sources: 16, stale sources: 3
+PASS  the catalogue forms projection really reads something, so it cannot pass by reading nothing
+PASS  the catalogue forms count is still 177, so the number my receipts state is the number the content has
+PROBE RESULT: PASS

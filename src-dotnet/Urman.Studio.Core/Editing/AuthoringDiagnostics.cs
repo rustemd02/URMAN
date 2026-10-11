@@ -27,7 +27,7 @@ public static class AuthoringDiagnostics
             return [new DiagnosticStep("объект", entityId, $"Объект «{entityId}» не найден в проекте.", true, "Проверьте идентификатор: возможно, он пришёл из старой ссылки.")];
         }
 
-        var kind = (string?)entity["kind"] ?? "";
+        var kind = AuthoredJson.TextOrNull(entity, "kind") ?? "";
         var name = catalog.NameOf(entityId);
 
         // 1. Rules the runtime does not execute at all.
@@ -76,7 +76,7 @@ public static class AuthoringDiagnostics
 
                 break;
             case "cutscene-action":
-                var cutsceneFile = workspace.Files.FirstOrDefault(file => file.Header("kind") is JsonValue value && (string?)value == "urman.cutscene");
+                var cutsceneFile = workspace.Files.FirstOrDefault(file => file.Header("kind") is JsonValue value && AuthoredJson.TextValue(value) == "urman.cutscene");
                 if (cutsceneFile is not null)
                 {
                     var actors = (JsonNode.Parse(cutsceneFile.Text)?["actors"] as JsonObject)?.Select(pair => pair.Key).ToArray() ?? [];
@@ -93,7 +93,7 @@ public static class AuthoringDiagnostics
 
         // 3. Catalogue resources: what a change would touch and whether it is publishable.
         var catalogueIds = new List<string>();
-        if ((string?)entity["params"]?["catalogId"] is { Length: > 0 } single) catalogueIds.Add(single);
+        if (AuthoredJson.Text(AuthoredJson.Object(entity, "params"), "catalogId") is { Length: > 0 } single) catalogueIds.Add(single);
         if (entity["params"]?["catalogIds"] is { } many)
         {
             if (many is not JsonArray)
@@ -106,7 +106,7 @@ public static class AuthoringDiagnostics
             }
             else
             {
-                catalogueIds.AddRange(many.AsArray().Select(item => (string?)item).Where(item => item is { Length: > 0 })!);
+                catalogueIds.AddRange(many.AsArray().Select(AuthoredJson.TextValue).Where(item => item is { Length: > 0 }));
             }
         }
         if (catalogueIds.Count > 0)
@@ -166,7 +166,7 @@ public static class AuthoringDiagnostics
                 continue;
             }
 
-            if ((string?)entity["kind"] == "trigger")
+            if (AuthoredJson.Text(entity, "kind") == "trigger")
             {
                 foreach (var problem in TriggerScopeFacts.Describe(id, entity).Problems)
                 {
@@ -192,7 +192,7 @@ public static class AuthoringDiagnostics
 
         foreach (var block in blocks.OfType<JsonObject>())
         {
-            var name = (string?)block["name"] ?? (string?)block["id"] ?? "";
+            var name = AuthoredJson.TextOrNull(block, "name") ?? AuthoredJson.Text(block, "id");
             if (block["onBlocked"] is not JsonValue policy || !policy.TryGetValue<string>(out var value))
             {
                 continue;
@@ -265,7 +265,7 @@ public static class AuthoringDiagnostics
         var kinds = new SortedSet<string>(StringComparer.Ordinal);
         foreach (var id in workspace.EntityIds)
         {
-            if (workspace.Get(id) is { } entity && (string?)entity["kind"] is { Length: > 0 } kind)
+            if (workspace.Get(id) is { } entity && AuthoredJson.Text(entity, "kind") is { Length: > 0 } kind)
             {
                 kinds.Add(kind);
             }

@@ -43,13 +43,13 @@ public static class ItemSpawns
         var spawns = new List<ItemSpawnFacts>();
         foreach (var id in workspace.EntityIds)
         {
-            if (workspace.Get(id) is not JsonObject entity || (string?)entity["kind"] != SpawnKind)
+            if (workspace.Get(id) is not JsonObject entity || AuthoredJson.Text(entity, "kind") != SpawnKind)
             {
                 continue;
             }
 
             var problems = new List<string>();
-            var interactionId = (string?)entity["params"]?["interactionId"] ?? "";
+            var interactionId = AuthoredJson.Text(AuthoredJson.Object(entity, "params"), "interactionId");
             if (interactionId.Length == 0)
             {
                 problems.Add("У размещения нет interactionId: подобрать предмет нечем, игра ничего не предложит.");
@@ -86,7 +86,7 @@ public static class ItemSpawns
             $"Размещённых предметов с взаимодействием: {spawns.Count}; авторских взаимодействий в проекте: {interactions.Count}.",
             "Отдельного вида «item» и реестра предметов в проекте нет: игра не читает ни одного описания предмета, а подбор реализован взаимодействием сцены. Поэтому редактор предметов не может завести новый формат, пока у него нет runtime-потребителя — это контракт владельца фундамента, а не шаг Studio.",
             "Инвентаря в рантайме тоже нет: всё, что происходит при подборе, описано условиями и последствиями взаимодействия.",
-            workspace.EntityIds.Any(id => (string?)workspace.Get(id)?["kind"] == "pickup")
+            workspace.EntityIds.Any(id => AuthoredJson.Text(workspace.Get(id), "kind") == "pickup")
                 ? "Механизм «pickup» контентом упражняется, и его поля проверяются PickupGaps."
                 : "Механизм «pickup» (исполняемый рантаймом подбор с interactionId) контентом НЕ упражняется: авторских подборов ноль, а шесть размещённых предметов сделаны видом «item-spawn», который читает конкретный скрипт квеста. Первый авторский подбор уже будет проверен PickupGaps, но пока это способность без экземпляра."
         ];
@@ -102,7 +102,7 @@ public static class ItemSpawns
                 {
                     foreach (var interaction in interactions.OfType<JsonObject>())
                     {
-                        if ((string?)interaction["id"] is { Length: > 0 } id)
+                        if (AuthoredJson.Text(interaction, "id") is { Length: > 0 } id)
                         {
                             found.TryAdd(id, path);
                         }
@@ -138,13 +138,13 @@ public static class ItemSpawns
         var gaps = new List<string>();
         foreach (var id in workspace.EntityIds)
         {
-            if (workspace.Get(id) is not JsonObject entity || (string?)entity["kind"] != "pickup")
+            if (workspace.Get(id) is not JsonObject entity || AuthoredJson.Text(entity, "kind") != "pickup")
             {
                 continue;
             }
 
             var parameters = entity["params"] as JsonObject;
-            var interaction = (string?)parameters?["interactionId"] ?? "";
+            var interaction = AuthoredJson.Text(parameters, "interactionId");
             if (interaction.Length == 0)
             {
                 gaps.Add($"{id}: у подбора нет interactionId — рантайм читает его через GetProperty и упадёт, не загрузив мир.");
@@ -154,7 +154,7 @@ public static class ItemSpawns
                 gaps.Add($"{id}: взаимодействия «{interaction}» нет среди авторских — подбор не с чем связать.");
             }
 
-            if ((string?)parameters?["catalogId"] is { Length: > 0 } catalogId && catalogue.Count > 0 && !catalogue.Contains(catalogId))
+            if (AuthoredJson.Text(parameters, "catalogId") is { Length: > 0 } catalogId && catalogue.Count > 0 && !catalogue.Contains(catalogId))
             {
                 gaps.Add($"{id}: записи «{catalogId}» нет в каталоге — рантайм напишет ошибку, и подбор останется без вида.");
             }

@@ -75540,6 +75540,12 @@
                 "result": "deepening by deepseek v4.1 flash: the manifest's TYPE contract is mirrored from the runtime's own AmbientStem class (id/file strings, zones a list of strings, volumeDb a float, loop a bool). Why a type matters here: the deserializer at AmbientAudioDirector line 362 is NOT wrapped in a try/catch, so ONE wrong field type throws JsonException, the director never comes up, and the WHOLE ambient track disappears - not one bed. A missing manifest and an empty stems list are thrown too, so those are loud; a type error is equally fatal but easier to write by accident. Also checked: a duplicated id (the director indexes stems by id and by zone, so a duplicate shadows its twin while both look authored) and a stem that is not an object. Measured: ZERO contract gaps on the authored manifest, so all nine beds match the class. Own mistakes recorded: my first insertion landed inside the notes list without a comma and the helpers took a non-nullable JsonNode; the compiler caught both. Correction: the previous commit 77e7f13f message says 656 where the real count was 657; the code, evidence and tracker carry the right number. Verified: probe PASS 664/664 including five synthetic findings; Core 0/0",
                 "source": "src-dotnet/Urman.Studio.Core/Editing/AmbientBeds.cs (ContractGaps); evidence evidence/STUDIO/b20-deepseek-ai-18/2026-10-11-ambient-manifest-contract",
                 "verification": "probe PASS 664/664 including the zero-gap real manifest and the five synthetic contract failures; Core 0/0. Listening and mix remain external and are NOT_RUN"
+              },
+              {
+                "stage": "2026-10-11 SoundMoodBeds reads authored JSON safely",
+                "result": "robustness stage by deepseek v4.1 flash, the largest batch of the cast sweep: SoundMoodBeds.cs now reads authored JSON through the shared AuthoredJson accessor. Forty sites were converted across four files in this stage (SimpleItemForms 17, SoundMoodBeds 8, AuthoringDiagnostics 8, ItemSpawns 7) and the probe's numbers did not move. Own mistake recorded: my mechanical pass mangled a NESTED read - (string?)entity[\"params\"]?[\"catalogId\"] became Text(entity, \"params\")?[\"catalogId\"], which indexes a string with a string and does not compile; the right shape is Text(Object(entity, \"params\"), \"catalogId\"). The compiler caught it twice before any commit, and the lesson is that a mechanical sweep still has to understand the SHAPE it rewrites. Sixteen projection files are cast-free now. Verified: probe PASS 741/741; Core 0/0",
+                "source": "src-dotnet/Urman.Studio.Core/Editing/SoundMoodBeds.cs; evidence evidence/STUDIO/b20-deepseek-ai-18/2026-10-11-safe-json-reads-batch3",
+                "verification": "probe PASS 741/741 with the numbers unchanged; Core 0/0. No game run: this is a robustness change and is NOT_RUN as a feature"
               }
             ],
             "stage_tasks": [
@@ -75576,7 +75582,9 @@
               "Три хеша источников второго каталога устарели: tv.wav (×2) и laughter.wav — нужно решение владельца звука.",
               "Ранее переданный частичный этап (2026-10-11 the second bed catalogue and its provenance record) ждёт ревью/приёмки; полный done_when не выполнен.",
               "Слушание, микс, луп и культурная приёмка — внешний гейт, критерий открыт.",
-              "Ранее переданный частичный этап (2026-10-11 the ambient manifest type contract) ждёт ревью/приёмки; полный done_when не выполнен."
+              "Ранее переданный частичный этап (2026-10-11 the ambient manifest type contract) ждёт ревью/приёмки; полный done_when не выполнен.",
+              "Устойчивость: SoundMoodBeds больше не падает на не-значении; поведение не изменилось.",
+              "Ранее переданный частичный этап (2026-10-11 SoundMoodBeds reads authored JSON safely) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
             "next_action": "Исправить пять source findings из Codex сообщения11.10 12:21 в AudioSourceRegistry/StudioAudioPanel и передать отдельный SHA, без новых probes.",
             "blocker": {
@@ -76613,6 +76621,12 @@
                 "result": "deepening by deepseek v4.1 flash: a pickup is the runtime's item-shaped kind - AuthoredWorldDirector reads interactionId through GetProperty (absent throws and the world fails to load), an optional catalogId for the visual and prompt as text - and PickupGaps now checks all three, so the first authored pickup is validated the moment it appears. The campaign authors NO pickup at all: the six placed items use item-kind 'item-spawn', which the Tamara quest reads by name, so the executed pickup mechanism is a capability without an instance and the notes say exactly that. Own mistake recorded: my first prompt check accepted any JsonValue so a boolean passed, while the runtime reads it as text and would throw; the check now requires a string. Verified: probe PASS 617/617 with zero authored pickups, the stable zero-gap result and a synthetic pickup reporting both a missing interactionId and a non-string prompt; Core 0/0",
                 "source": "src-dotnet/Urman.Studio.Core/Editing/ItemSpawns.cs (PickupGaps); evidence evidence/STUDIO/b20-deepseek-ai-23/2026-10-11-pickup-mechanism",
                 "verification": "probe PASS 617/617 including the zero authored pickups, the stable zero-gap result and the two synthetic findings; Core 0/0. Picking an item up in play is NOT_RUN"
+              },
+              {
+                "stage": "2026-10-11 ItemSpawns reads authored JSON safely",
+                "result": "robustness stage by deepseek v4.1 flash, the largest batch of the cast sweep: ItemSpawns.cs now reads authored JSON through the shared AuthoredJson accessor. Forty sites were converted across four files in this stage (SimpleItemForms 17, SoundMoodBeds 8, AuthoringDiagnostics 8, ItemSpawns 7) and the probe's numbers did not move. Own mistake recorded: my mechanical pass mangled a NESTED read - (string?)entity[\"params\"]?[\"catalogId\"] became Text(entity, \"params\")?[\"catalogId\"], which indexes a string with a string and does not compile; the right shape is Text(Object(entity, \"params\"), \"catalogId\"). The compiler caught it twice before any commit, and the lesson is that a mechanical sweep still has to understand the SHAPE it rewrites. Sixteen projection files are cast-free now. Verified: probe PASS 741/741; Core 0/0",
+                "source": "src-dotnet/Urman.Studio.Core/Editing/ItemSpawns.cs; evidence evidence/STUDIO/b20-deepseek-ai-18/2026-10-11-safe-json-reads-batch3",
+                "verification": "probe PASS 741/741 with the numbers unchanged; Core 0/0. No game run: this is a robustness change and is NOT_RUN as a feature"
               }
             ],
             "stage_tasks": [
@@ -76646,7 +76660,9 @@
               "Ранее переданный частичный этап (2026-10-10 item spawns and the honest boundary) ждёт ревью/приёмки; полный done_when не выполнен.",
               "Ранее переданный частичный этап (2026-10-11 every catalogued form against the model it really comes from) ждёт ревью/приёмки; полный done_when не выполнен.",
               "Механизм pickup контентом не упражняется (0 авторских): нужен реальный подбор, чтобы судить его в игре.",
-              "Ранее переданный частичный этап (2026-10-11 the runtime's pickup mechanism against the content) ждёт ревью/приёмки; полный done_when не выполнен."
+              "Ранее переданный частичный этап (2026-10-11 the runtime's pickup mechanism against the content) ждёт ревью/приёмки; полный done_when не выполнен.",
+              "Устойчивость: ItemSpawns больше не падает на не-значении; поведение не изменилось.",
+              "Ранее переданный частичный этап (2026-10-11 ItemSpawns reads authored JSON safely) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
             "next_action": "Составить schema fields; формы/каталог/preview; create from template с new ID; связать действие; validate/compile/run.",
             "blocker": null,
@@ -77407,6 +77423,12 @@
                 "result": "deepening by deepseek v4.1 flash: eighty-six authored props checked against what the runtime really does - GetProperty(catalogId) (absent throws for the whole world), the catalogue dictionary (unknown writes an error and the prop never appears), GetSingle(scale), GetString(collision) (a non-string throws, and only 'none' skips collision) and a three-number position. Zero gaps: every catalogId exists among the one hundred and seventy-seven forms, every scale is numeric, and every collision is the string 'surfaces' (seventy-nine) or absent (seven). The placement-level collision was the one part nothing checked before. Own mistake recorded: my first synthetic wrote the catalogue into the world file instead of the fixed catalogue path, so it looked empty",
                 "source": "src-dotnet/Urman.Studio.Core/Editing/SimpleItemForms.cs (PropGaps); evidence evidence/STUDIO/b20-deepseek-ai-27/2026-10-11-prop-contract",
                 "verification": "probe PASS 579/579 including the eighty-six props with zero gaps, the correct synthetic prop not reported and the four synthetic failures; Core 0/0; game/Urman.Game.csproj 0/0; Urman.Studio.Tests 38/38. Visual acceptance of the props is NOT_RUN"
+              },
+              {
+                "stage": "2026-10-11 SimpleItemForms reads authored JSON safely",
+                "result": "robustness stage by deepseek v4.1 flash, the largest batch of the cast sweep: SimpleItemForms.cs now reads authored JSON through the shared AuthoredJson accessor. Forty sites were converted across four files in this stage (SimpleItemForms 17, SoundMoodBeds 8, AuthoringDiagnostics 8, ItemSpawns 7) and the probe's numbers did not move. Own mistake recorded: my mechanical pass mangled a NESTED read - (string?)entity[\"params\"]?[\"catalogId\"] became Text(entity, \"params\")?[\"catalogId\"], which indexes a string with a string and does not compile; the right shape is Text(Object(entity, \"params\"), \"catalogId\"). The compiler caught it twice before any commit, and the lesson is that a mechanical sweep still has to understand the SHAPE it rewrites. Sixteen projection files are cast-free now. Verified: probe PASS 741/741; Core 0/0",
+                "source": "src-dotnet/Urman.Studio.Core/Editing/SimpleItemForms.cs; evidence evidence/STUDIO/b20-deepseek-ai-18/2026-10-11-safe-json-reads-batch3",
+                "verification": "probe PASS 741/741 with the numbers unchanged; Core 0/0. No game run: this is a robustness change and is NOT_RUN as a feature"
               }
             ],
             "stage_tasks": [
@@ -77439,7 +77461,9 @@
             "remaining": [
               "Форму простого предмета можно изменить внутри Studio и увидеть в игре.; отсутствует подтверждение собственного конечного DoD, перечисленного ниже.",
               "Ранее переданный частичный этап (2026-10-11 the form-and-placement chain of a simple thing) ждёт ревью/приёмки; полный done_when не выполнен.",
-              "Ранее переданный частичный этап (2026-10-11 the prop contract as the runtime reads it) ждёт ревью/приёмки; полный done_when не выполнен."
+              "Ранее переданный частичный этап (2026-10-11 the prop contract as the runtime reads it) ждёт ревью/приёмки; полный done_when не выполнен.",
+              "Устойчивость: SimpleItemForms больше не падает на не-значении; поведение не изменилось.",
+              "Ранее переданный частичный этап (2026-10-11 SimpleItemForms reads authored JSON safely) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
             "next_action": "Создать primitive; редактировать вершины/рёбра/грани; extrude/inset/cut, bevel, split/join, mirror; material/UV/paint и normals; trusted export/variant. Скульпт/одежда/rig выделены в AI-41–43.",
             "blocker": null,
@@ -81476,6 +81500,12 @@
                 "result": "robustness stage by deepseek v4.1 flash, part of the cast sweep: InvestigationPuzzle.cs now reads authored JSON through the shared AuthoredJson accessor instead of casts that throw on a non-value node. Twenty-four sites were converted across four files in this stage (InvestigationPuzzle 7, HouseRecords 7, AuthoredDocuments 4, AuthoredHints 6), and the probe's numbers did not move. This batch also exercised the helper's field argument as a VARIABLE rather than a literal, which earlier stages had not. Twelve projection files are cast-free now. Verified: probe PASS 741/741 with the numbers unchanged; Core 0/0",
                 "source": "src-dotnet/Urman.Studio.Core/Editing/InvestigationPuzzle.cs; evidence evidence/STUDIO/b20-deepseek-ai-40/2026-10-11-safe-json-reads-batch2",
                 "verification": "probe PASS 741/741 with the numbers unchanged; Core 0/0. No game run: this is a robustness change and is NOT_RUN as a feature"
+              },
+              {
+                "stage": "2026-10-11 AuthoringDiagnostics reads authored JSON safely",
+                "result": "robustness stage by deepseek v4.1 flash, the largest batch of the cast sweep: AuthoringDiagnostics.cs now reads authored JSON through the shared AuthoredJson accessor. Forty sites were converted across four files in this stage (SimpleItemForms 17, SoundMoodBeds 8, AuthoringDiagnostics 8, ItemSpawns 7) and the probe's numbers did not move. Own mistake recorded: my mechanical pass mangled a NESTED read - (string?)entity[\"params\"]?[\"catalogId\"] became Text(entity, \"params\")?[\"catalogId\"], which indexes a string with a string and does not compile; the right shape is Text(Object(entity, \"params\"), \"catalogId\"). The compiler caught it twice before any commit, and the lesson is that a mechanical sweep still has to understand the SHAPE it rewrites. Sixteen projection files are cast-free now. Verified: probe PASS 741/741; Core 0/0",
+                "source": "src-dotnet/Urman.Studio.Core/Editing/AuthoringDiagnostics.cs; evidence evidence/STUDIO/b20-deepseek-ai-18/2026-10-11-safe-json-reads-batch3",
+                "verification": "probe PASS 741/741 with the numbers unchanged; Core 0/0. No game run: this is a robustness change and is NOT_RUN as a feature"
               }
             ],
             "stage_tasks": [
@@ -81519,7 +81549,9 @@
               "Мои же числа в evidence перемерены и закреплены 19 утверждениями: устареть молча они больше не могут.",
               "Ранее переданный частичный этап (2026-10-11 my own evidence numbers, re-measured and pinned) ждёт ревью/приёмки; полный done_when не выполнен.",
               "Устойчивость: InvestigationPuzzle больше не падает на не-значении; поведение не изменилось.",
-              "Ранее переданный частичный этап (2026-10-11 InvestigationPuzzle reads authored JSON safely) ждёт ревью/приёмки; полный done_when не выполнен."
+              "Ранее переданный частичный этап (2026-10-11 InvestigationPuzzle reads authored JSON safely) ждёт ревью/приёмки; полный done_when не выполнен.",
+              "Устойчивость: AuthoringDiagnostics больше не падает на не-значении; поведение не изменилось.",
+              "Ранее переданный частичный этап (2026-10-11 AuthoringDiagnostics reads authored JSON safely) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
             "next_action": "UI стартового состояния; пометка synthetic/reachable; runtime trace с occurrence ID; pause clock; шаг события; copy transform только явной командой; handoff case.",
             "blocker": null,

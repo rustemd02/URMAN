@@ -60,12 +60,12 @@ public static class SimpleItemForms
         foreach (var entity in entities.OfType<JsonObject>())
         {
             var problems = new List<string>();
-            var id = (string?)entity["id"] ?? "";
+            var id = AuthoredJson.TextOrNull(entity, "id") ?? "";
             var source = entity["source"] as JsonObject;
-            var scene = (string?)source?["scene"] ?? "";
+            var scene = AuthoredJson.Text(source, "scene");
             // A kit names the node either directly (source.node) or by prefix
             // (source.prefix, the modular kits), so both shapes select the form.
-            var node = (string?)source?["node"] ?? (string?)source?["prefix"] ?? "";
+            var node = AuthoredJson.TextOrNull(source, "node") ?? AuthoredJson.Text(source, "prefix");
             if (scene.Length == 0 || node.Length == 0)
             {
                 problems.Add("В записи каталога нет source.scene и source.node/source.prefix: размещению нечего взять из набора моделей.");
@@ -80,24 +80,24 @@ public static class SimpleItemForms
                 problems.Add("Размер формы содержит ноль или минус: габариты вырождены.");
             }
 
-            if (((string?)entity["collision"] ?? "").Length == 0)
+            if ((AuthoredJson.Text(entity, "collision")).Length == 0)
             {
                 problems.Add("У формы не указан тип столкновения: размещение не сможет включить физику.");
             }
 
-            if (((string?)entity["license"] ?? "").Length == 0)
+            if ((AuthoredJson.Text(entity, "license")).Length == 0)
             {
                 problems.Add("У формы не указана лицензия: публиковать ресурс без прав нельзя.");
             }
 
             forms.Add(new CataloguedForm(
                 id,
-                (string?)entity["name"] ?? "",
-                (string?)entity["kit"] ?? "",
+                AuthoredJson.Text(entity, "name"),
+                AuthoredJson.Text(entity, "kit"),
                 scene,
                 node,
-                (string?)entity["collision"] ?? "",
-                (string?)entity["license"] ?? "",
+                AuthoredJson.Text(entity, "collision"),
+                AuthoredJson.Text(entity, "license"),
                 problems));
         }
 
@@ -118,7 +118,7 @@ public static class SimpleItemForms
                 continue;
             }
 
-            var kind = (string?)entity["kind"] ?? "";
+            var kind = AuthoredJson.TextOrNull(entity, "kind") ?? "";
             if (kind is not ("prop" or "kit-placement"))
             {
                 continue;
@@ -130,7 +130,7 @@ public static class SimpleItemForms
             var source = "";
             if (kind == "prop")
             {
-                reference = (string?)parameters?["catalogId"] ?? "";
+                reference = AuthoredJson.Text(parameters, "catalogId");
                 if (reference.Length == 0)
                 {
                     problems.Add("У размещения нет catalogId: форма не выбрана, объект не появится.");
@@ -144,9 +144,9 @@ public static class SimpleItemForms
             }
             else
             {
-                reference = (string?)parameters?["component"] ?? "";
-                var anchor = (string?)parameters?["logicalAnchor"] ?? "";
-                var asset = (string?)parameters?["assetSource"] ?? "";
+                reference = AuthoredJson.Text(parameters, "component");
+                var anchor = AuthoredJson.Text(parameters, "logicalAnchor");
+                var asset = AuthoredJson.Text(parameters, "assetSource");
                 source = asset;
                 if (reference.Length == 0)
                 {
@@ -394,13 +394,13 @@ public static class SimpleItemForms
         var gaps = new List<string>();
         foreach (var id in workspace.EntityIds)
         {
-            if (workspace.Get(id) is not JsonObject entity || (string?)entity["kind"] != "prop")
+            if (workspace.Get(id) is not JsonObject entity || AuthoredJson.Text(entity, "kind") != "prop")
             {
                 continue;
             }
 
             var parameters = entity["params"] as JsonObject;
-            var catalogId = (string?)parameters?["catalogId"] ?? "";
+            var catalogId = AuthoredJson.Text(parameters, "catalogId");
             if (catalogId.Length == 0)
             {
                 gaps.Add($"{id}: у пропа нет catalogId — рантайм читает его через GetProperty и упадёт, не загрузив мир.");

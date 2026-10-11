@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-18",
+    "STUDIO/AI-27",
+    "STUDIO/AI-40",
+    "STUDIO/AI-23"
+  ],
+  "stage": "the largest remaining batch of my files",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-11 22:47 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "cb52f254",
+  "result": {
+    "converted": "SimpleItemForms 17 casts to zero, SoundMoodBeds 8 to zero, AuthoringDiagnostics 8 to zero and ItemSpawns 7 to zero - forty sites in one batch, all through AuthoredJson",
+    "the_nested_access_lesson": "my mechanical pass mangled a NESTED read: (string?)entity[\"params\"]?[\"catalogId\"] became AuthoredJson.Text(entity, \"params\")?[\"catalogId\"], which indexes a string with a string and does not compile. The right shape is AuthoredJson.Text(AuthoredJson.Object(entity, \"params\"), \"catalogId\"), and the compiler caught it twice before any commit. A mechanical sweep still has to understand the SHAPE it is rewriting",
+    "behaviour_unchanged": "the probe's numbers did not move: nine ambient beds with no missing files and no missing rights, the same catalogue and item-spawn counts",
+    "progress": "sixteen projection files are cast-free now"
+  },
+  "verified": {
+    "probe": "PASS 741/741 with the numbers unchanged",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors (composed tree with my branch and the v15 patch)",
+    "not_run": "no game run: this is a robustness change"
+  },
+  "own_mistakes": "the nested-access mangling above, caught by the compiler rather than by review",
+  "files": {
+    "evidence/STUDIO/b20-deepseek-ai-18/2026-10-11-safe-json-reads-batch3/check.log": "2a51d92c07982dc6f90588241fd0bfd3185826c5854dc9664b09917fc04f660e"
+  },
+  "open": [
+    "five of my files still carry casts, and the four files with casts that are in main are not mine"
+  ]
+}

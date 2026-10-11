@@ -36,8 +36,8 @@ public static class SoundMoodBeds
         var beds = new List<SoundMoodBedFacts>();
         foreach (var bed in (manifest?["beds"] as JsonArray ?? []).OfType<JsonObject>())
         {
-            var id = (string?)bed["id"] ?? "";
-            var file = (string?)bed["file"] ?? "";
+            var id = AuthoredJson.TextOrNull(bed, "id") ?? "";
+            var file = AuthoredJson.TextOrNull(bed, "file") ?? "";
             var path = Path.Combine(full, file.Replace("res://", "game/", StringComparison.Ordinal).Replace('/', Path.DirectorySeparatorChar));
             var exists = file.Length > 0 && File.Exists(path);
             var hashMatches = false;
@@ -51,10 +51,10 @@ public static class SoundMoodBeds
             {
                 var bytes = File.ReadAllBytes(path);
                 var actual = Convert.ToHexString(SHA256.HashData(bytes)).ToLowerInvariant();
-                hashMatches = string.Equals(actual, (string?)bed["sha256"], StringComparison.OrdinalIgnoreCase);
+                hashMatches = string.Equals(actual, AuthoredJson.TextOrNull(bed, "sha256"), StringComparison.OrdinalIgnoreCase);
                 if (!hashMatches)
                 {
-                    var declaredBed = (string?)bed["sha256"] ?? "";
+                    var declaredBed = AuthoredJson.Text(bed, "sha256");
                     var declaredBedPrefix = declaredBed.Length > 12 ? declaredBed[..12] : declaredBed;
                     problems.Add($"{id}: собственный sha256 не совпадает с файлом (объявлен {declaredBedPrefix}…, фактически {actual[..12]}…): запись перестала описывать то, что лежит на диске.");
                 }
@@ -74,7 +74,7 @@ public static class SoundMoodBeds
             var stale = 0;
             foreach (var source in sources)
             {
-                var sourcePath = (string?)source["path"] ?? "";
+                var sourcePath = AuthoredJson.TextOrNull(source, "path") ?? "";
                 if (sourcePath.Length == 0)
                 {
                     continue;
@@ -88,12 +88,12 @@ public static class SoundMoodBeds
                     continue;
                 }
 
-                if (((string?)source["license"] ?? "").Length == 0)
+                if ((AuthoredJson.Text(source, "license")).Length == 0)
                 {
                     problems.Add($"{id}: у источника «{sourcePath}» нет лицензии.");
                 }
 
-                if ((string?)source["sourceSha256"] is { Length: > 0 } declaredSource)
+                if (AuthoredJson.Text(source, "sourceSha256") is { Length: > 0 } declaredSource)
                 {
                     var actualSource = Convert.ToHexString(SHA256.HashData(File.ReadAllBytes(sourceFull))).ToLowerInvariant();
                     if (!string.Equals(actualSource, declaredSource, StringComparison.OrdinalIgnoreCase))
@@ -125,7 +125,7 @@ public static class SoundMoodBeds
             stale == 0
                 ? "Все хеши источников совпадают: запись воспроизводима из того, что лежит на диске."
                 : $"Хеши источников не совпадают у {stale} из {sources}: рецепт описывает другое содержимое, чем лежит на диске, и пересборка дала бы не тот звук, что записан. Это находка для владельца звука.",
-            $"Собственная приёмка каталога: «{(string?)manifest?["listening"] ?? ""}» — слушание остаётся внешним гейтом, а не этой проверкой."
+            $"Собственная приёмка каталога: «{AuthoredJson.Text(manifest, "listening")}» — слушание остаётся внешним гейтом, а не этой проверкой."
         ];
     }
 }
