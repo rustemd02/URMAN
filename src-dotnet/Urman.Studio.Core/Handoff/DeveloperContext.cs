@@ -113,7 +113,7 @@ public sealed class DeveloperContext(StudioWorkspace workspace, EntityCatalog ca
         if (parents.Length > 0) builder.AppendLine("Используется в: " + string.Join("; ", parents) + ".");
         var dependencies = capture.Entities.Where(dependency => dependency != id).Take(8).Select(dependency => $"«{catalog.NameOf(dependency)}» ({dependency})").ToArray();
         if (dependencies.Length > 0) builder.AppendLine("Ссылается на: " + string.Join("; ", dependencies) + ".");
-        builder.AppendLine("Обход зависимостей частичный: только известные типизированные ссылки из content/modules (assets, characters, scenes, documents, capabilities, dialogues, quests); тексты включаются как конечные цели, но не сканируются. Условия, эффекты, world/custom-источники и прочие поля не обходятся.");
+        builder.AppendLine("Обход зависимостей частичный: известные типизированные поля сканируются у content/modules сущностей категорий assets, characters, scenes, documents, capabilities, dialogues и quests; они могут включить цели assets, texts, scenes, dialogues, documents и knowledge. Texts и knowledge включаются как конечные цели без сканирования их собственных связей; сцены, диалоги и документы обходятся только по перечисленным полям. Более глубокие ссылки, условия, эффекты, другие поля и world/custom-источники не покрыты.");
         if (capture.Missing.Count > 0)
             builder.AppendLine("Не найденные типизированные зависимости (не приложены): " + string.Join(", ", capture.Missing) + ".");
         if (capture.Unsupported.Count > 0)
@@ -204,6 +204,7 @@ public sealed class DeveloperContext(StudioWorkspace workspace, EntityCatalog ca
                     "capabilities" => "capability",
                     "dialogues" => "dialogue",
                     "quests" => "quest",
+                    "knowledge" => "knowledge",
                     _ => throw new InvalidDataException("Типизированная ссылка использует неподдержанную категорию.")
                 };
                 if (!string.Equals(EntityCatalog.KindOf(reference.TargetId, null), expectedKind, StringComparison.Ordinal))
@@ -324,14 +325,14 @@ public sealed class DeveloperContext(StudioWorkspace workspace, EntityCatalog ca
             ["entities"] = dependencies.Count,
             ["truncated"] = capture.Truncated,
             ["pendingDependencyIds"] = new JsonArray(capture.Pending.Select(value => (JsonNode?)JsonValue.Create(value)).ToArray()),
-            ["dependencyDiscovery"] = "partial-typed-module-fields-v1",
+            ["dependencyDiscovery"] = "partial-typed-module-fields-v2",
             ["referenceCoverageComplete"] = false,
             ["unsupportedEntityIds"] = new JsonArray(capture.Unsupported.Select(value => (JsonNode?)JsonValue.Create(value)).ToArray()),
             ["missingDependencyIds"] = new JsonArray(capture.Missing.Select(value => (JsonNode?)JsonValue.Create(value)).ToArray()),
             ["payloadHashAlgorithm"] = "sha256",
             ["files"] = files,
             ["sources"] = sourceManifest,
-            ["note"] = "Зависимости частично обнаружены только по известным типизированным полям content/modules категорий assets, characters, scenes, documents, capabilities, dialogues и quests; тексты включаются как конечные цели, но не обходятся. Условия, эффекты, другие поля и world/custom-источники не покрыты; referenceCoverageComplete=false сохраняется даже без pending. unsupportedEntityIds перечисляет включённые сущности без поддержанного обхода; missingDependencyIds — типизированные цели, отсутствующие в рабочем пространстве; pendingDependencyIds — найденные существующие цели за пределом 200 сущностей. currentHash и baseHash — SHA-256 полных текущего текста и загруженной базовой версии UTF-8, не фрагмента entities[].data; currentEncoding=splice-v1 хранит currentRef JSON-наложение: offsetBytes/removeBytes измеряются в байтах UTF-8 baseRef, insertBase64 — Base64 точной вставляемой последовательности байтов. files[].sha256 и files[].bytes проверяют точные байты файлов в архиве, включая JSON-наложение, а не восстановленный исходник. Абсолютные пути пользователя и данные сохранений игроков не включены."
+            ["note"] = "Зависимости частично обнаруживаются по известным типизированным полям content/modules сущностей категорий assets, characters, scenes, documents, capabilities, dialogues и quests. Целевые сущности могут относиться к assets, texts, scenes, dialogues, documents и knowledge; texts и knowledge включаются как конечные цели без сканирования собственных связей, а сцены, диалоги и документы обходятся только по перечисленным полям. Более глубокие ссылки, условия, эффекты, другие поля и world/custom-источники не покрыты; referenceCoverageComplete=false сохраняется даже без pending. unsupportedEntityIds перечисляет включённые сущности без поддержанного обхода; missingDependencyIds — типизированные цели, отсутствующие в рабочем пространстве; pendingDependencyIds — найденные существующие цели за пределом 200 сущностей. currentHash и baseHash — SHA-256 полных текущего текста и загруженной базовой версии UTF-8, не фрагмента entities[].data; currentEncoding=splice-v1 хранит currentRef JSON-наложение: offsetBytes/removeBytes измеряются в байтах UTF-8 baseRef, insertBase64 — Base64 точной вставляемой последовательности байтов. files[].sha256 и files[].bytes проверяют точные байты файлов в архиве, включая JSON-наложение, а не восстановленный исходник. Абсолютные пути пользователя и данные сохранений игроков не включены."
         };
         var manifestBytes = encoding.GetBytes(manifest.ToJsonString(options));
         if (payloads.Values.Sum(bytes => (long)bytes.Length) + manifestBytes.Length > MaximumPackagePayloadBytes)
@@ -656,9 +657,12 @@ public sealed class DeveloperContext(StudioWorkspace workspace, EntityCatalog ca
             : new[] { "kind", "schemaVersion", "caseId", "subject", "baseRevision", "created", "entities", "truncated",
                 "pendingDependencyIds", "dependencyDiscovery", "payloadHashAlgorithm", "files", "sources", "note" };
         RequireExactFields(manifest, expectedManifestFields);
-        var expectedDiscovery = schemaVersion == 4 ? "partial-typed-module-fields-v1" : "legacy-id-shaped-strings";
+        var discovery = PackageString(manifest, "dependencyDiscovery");
+        var supportedDiscovery = schemaVersion == 4
+            ? discovery is "partial-typed-module-fields-v1" or "partial-typed-module-fields-v2"
+            : discovery == "legacy-id-shaped-strings";
         if (manifest["schemaVersion"]?.GetValue<int>() != schemaVersion
-            || PackageString(manifest, "dependencyDiscovery") != expectedDiscovery
+            || !supportedDiscovery
             || PackageString(manifest, "payloadHashAlgorithm") != "sha256"
             || schemaVersion == 4 && manifest["referenceCoverageComplete"]?.GetValue<bool>() != false)
             throw new InvalidDataException("Манифест содержит неверные значения версии или обнаружения зависимостей.");

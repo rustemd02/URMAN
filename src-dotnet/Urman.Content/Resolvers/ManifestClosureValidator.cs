@@ -63,9 +63,14 @@ public static class ManifestClosureValidator
         EnsureReferences(catalog, catalog.Category("characters").Values, "characters", "assets");
         EnsureReferences(catalog, catalog.Category("scenes").Values, "scenes", "assets");
         EnsureReferences(catalog, catalog.Category("documents").Values, "documents", "assets");
+        EnsureReferences(catalog, catalog.Category("documents").Values, "documents", "knowledge");
         EnsureReferences(catalog, catalog.Category("capabilities").Values, "capabilities", "assets");
         EnsureReferences(catalog, catalog.Category("capabilities").Values, "capabilities", "assets", "audio");
         EnsureReferences(catalog, catalog.Category("scenes").Values, "scenes", "texts");
+        EnsureReferences(catalog, catalog.Category("scenes").Values, "scenes", "scenes");
+        EnsureReferences(catalog, catalog.Category("scenes").Values, "scenes", "dialogues");
+        EnsureReferences(catalog, catalog.Category("scenes").Values, "scenes", "documents");
+        EnsureReferences(catalog, catalog.Category("scenes").Values, "scenes", "knowledge");
 
         foreach (var entry in catalog.Category("dialogues").Values)
         {
@@ -102,9 +107,11 @@ public static class ManifestClosureValidator
             case "scenes":
                 AddArrayReferences(references, entity, "assetRefs", "assets", origin);
                 AddArrayReferences(references, entity, "textRefs", "texts", origin);
+                AddSceneInteractionReferences(references, entity, origin);
                 break;
             case "documents":
                 AddArrayReferences(references, entity, "assetRefs", "assets", origin);
+                AddArrayReferences(references, entity, "knowledgeRefs", "knowledge", origin);
                 break;
             case "capabilities":
                 AddArrayReferences(references, entity, "requiredAssets", "assets", origin);
@@ -169,6 +176,23 @@ public static class ManifestClosureValidator
         }
     }
 
+    private static void AddSceneInteractionReferences(List<ContentReference> references, JsonObject entity, ResolverOrigin origin)
+    {
+        var interactions = ContentResolverSupport.RequiredArray(entity, "interactions", origin);
+        for (var interactionIndex = 0; interactionIndex < interactions.Count; interactionIndex++)
+        {
+            var interactionPointer = $"/interactions/{interactionIndex}";
+            var interactionOrigin = ResolverErrors.Reference(origin, interactionPointer);
+            var interaction = ResolverJson.RequiredObject(interactions[interactionIndex], interactionOrigin.SourcePointer);
+            var labelTextId = ResolverJson.RequiredString(interaction, "labelTextId", interactionOrigin);
+            references.Add(new ContentReference($"{interactionPointer}/labelTextId", "texts", labelTextId));
+            AddOptionalStringReference(references, interaction, "targetSceneId", "scenes", interactionPointer, interactionOrigin);
+            AddOptionalStringReference(references, interaction, "targetDialogueId", "dialogues", interactionPointer, interactionOrigin);
+            AddOptionalStringReference(references, interaction, "targetDocumentId", "documents", interactionPointer, interactionOrigin);
+            AddOptionalStringReference(references, interaction, "targetJournalEntryId", "knowledge", interactionPointer, interactionOrigin);
+        }
+    }
+
     private static void AddArrayReferences(
         List<ContentReference> references,
         JsonObject entity,
@@ -206,6 +230,23 @@ public static class ManifestClosureValidator
         {
             references.Add(new ContentReference(pointer, targetCategory, id));
         }
+    }
+
+    private static void AddOptionalStringReference(
+        List<ContentReference> references,
+        JsonObject entity,
+        string field,
+        string targetCategory,
+        string entityPointer,
+        ResolverOrigin entityOrigin)
+    {
+        if (!entity.ContainsKey(field))
+        {
+            return;
+        }
+
+        var id = ResolverJson.RequiredString(entity, field, entityOrigin);
+        references.Add(new ContentReference($"{entityPointer}/{field}", targetCategory, id));
     }
 
     private static void EnsureReferences(

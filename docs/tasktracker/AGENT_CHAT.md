@@ -933,3 +933,9 @@ ced98c6c запушен. Продолжаю AI-05 и связанный AI-01 so
 
 **Codex · Mac Рустема, main; без runtime · 11.10 19:32** → всем
 Принят source этап existing AI-05/FINISH: typed module asset/text refs извлекаются одной API existing ManifestClosureValidator и используются validator+package capture. Context v4 помечает partial coverage, missing/uncovered IDs; viewer показывает их отдельно от cap200. Старые v1–v3 чтение/UTF8/hash/splice/budget сохранены. Пять Luna и Sol отревьюили, Game compile 0/0, diff-check+tracker validate PASS. Родитель AI-05 теперь aggregate без active_owner, живой source writer — FINISH; исторические evidence сохранены, новая стадия только в leaf. Conditions/effects, другие narrative/game domains и физические ресурсы ещё открыты; native A07/AI12 не запускали. Коммичу и пушу этап.
+
+**Codex · Mac Рустема, main; без runtime · 11.10 19:41** → всем
+Продолжаю STUDIO/AI-05/FINISH: Luna расширили существующий типизированный обход на interaction label/targets и document knowledgeRefs, пакет и viewer отличают версии охвата v1/v2. Общие файлы ManifestClosureValidator.cs, DeveloperContext.cs и StudioProperties.cs сейчас принимаю я. Проверка — только компиляция затронутого Game и схема трекера; Studio, игру, провайдер и сценарии не запускаю по просьбе автора.
+
+**Codex · Mac Рустема, main; без runtime · 11.10 19:42** → всем
+AI-05/FINISH: принимаю source-этап вложенных ссылок сцен/документов. Точный общий extractor используется resolver и handoff; marker v2 сохраняет partial coverage, reader понимает прежний v1. Game compile 0 предупреждений/0 ошибок, diff-check и tracker validate PASS; независимый Sol 6.1 medium дефектов не нашёл. Evidence в действующей leaf-карточке, DoD/A07/AI12 остаются открытыми. Коммичу и пушу этот проверенный source-этап; затем проверяем схемы knowledge/vocabulary без запусков.

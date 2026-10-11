@@ -110,13 +110,16 @@ public partial class StudioProperties : VBoxContainer
                 };
                 var discovery = package.Manifest["dependencyDiscovery"]?.GetValue<string>();
                 var referenceCoverageComplete = package.Manifest["referenceCoverageComplete"]?.GetValue<bool>();
-                var partialTypedCoverage = discovery == "partial-typed-module-fields-v1";
-                var incompleteCoverage = partialTypedCoverage || referenceCoverageComplete == false;
-                var coverageNote = partialTypedCoverage
-                    ? "Обнаружены только типизированные ссылки на ресурсы и тексты в полях модулей. Другие домены ссылок не покрыты; это не полный граф зависимостей."
-                    : incompleteCoverage
-                        ? "Манифест явно сообщает, что охват ссылок неполон; другие зависимости могут отсутствовать."
-                        : "Полнота ресурсов и применимость к этому проекту не проверены.";
+                var partialTypedCoverageV1 = discovery == "partial-typed-module-fields-v1";
+                var partialTypedCoverageV2 = discovery == "partial-typed-module-fields-v2";
+                var incompleteCoverage = partialTypedCoverageV1 || partialTypedCoverageV2 || referenceCoverageComplete == false;
+                var coverageNote = partialTypedCoverageV2
+                    ? "Обход v2 читает известные типизированные поля ресурсов, персонажей, сцен, документов, возможностей, диалогов и квестов. Он включает ссылки на ресурсы и тексты; для взаимодействий сцен — labelTextId и цели targetSceneId/targetDialogueId/targetDocumentId/targetJournalEntryId (сцены, диалоги, документы и knowledge); для документов — assetRefs и ссылки на knowledge (knowledgeRefs). Более глубокие ссылки, условия, эффекты, другие поля, игровые и физические зависимости не охвачены; это не полный граф зависимостей."
+                    : partialTypedCoverageV1
+                        ? "Обнаружены только типизированные ссылки на ресурсы и тексты в полях модулей. Другие домены ссылок не покрыты; это не полный граф зависимостей."
+                        : incompleteCoverage
+                            ? "Манифест явно сообщает, что охват ссылок неполон; другие зависимости могут отсутствовать."
+                            : "Полнота ресурсов и применимость к этому проекту не проверены.";
                 var viewer = new AcceptDialog { Title = "Контекст из пакета", OkButtonText = "Закрыть" };
                 var content = new VBoxContainer();
                 viewer.AddChild(content);
