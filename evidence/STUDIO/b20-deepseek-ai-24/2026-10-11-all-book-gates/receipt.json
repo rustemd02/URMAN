@@ -1,0 +1,29 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-24"
+  ],
+  "stage": "all three book catalogs checked for gates that can never open",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-11 21:42 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "71009f28",
+  "result": {
+    "scope": "the check now covers all three accessors of PhotoWorldState, because all three read the world state with TryGetProperty: HasFact, HasEvidence and PhotoStateIs",
+    "measured": "forty-four fact references of which SEVENTEEN are unreachable, eleven photo references of which ZERO are unreachable, and two evidence references of which ZERO are unreachable",
+    "sharpening": "so the divergence is exactly one vocabulary - facts - while the photo and evidence gates are fully consistent with their catalogs. That rules out a general book problem and points the author at one place to look",
+    "engine_basis": "the silent-false behaviour is read from PhotoWorldState (HasFact lines 1000-1003, HasEvidence lines 1005-1007 and PhotoStateIs), not assumed"
+  },
+  "verified": {
+    "probe": "PASS 641/641 including the three reference counts, the seventeen unreachable fact gates and the assertion that photo and evidence gates all resolve",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors (composed tree with my branch and the v15 patch)",
+    "not_run": "no game run: whether those fact gates were meant to exist is author acceptance"
+  },
+  "own_mistakes": "my first assertion compared the gate count with the fact reference count instead of checking which catalog the gates come from; corrected to assert that every reported gate is a fact gate",
+  "files": {
+    "evidence/STUDIO/b20-deepseek-ai-24/2026-10-11-all-book-gates/check.log": "7449ef3be37852937f2406113781b777fecd540e866f0259be54c87c1bb9e6dd"
+  },
+  "open": [
+    "the fact vocabulary divergence needs an author decision"
+  ]
+}

@@ -76708,6 +76708,12 @@
                 "result": "REAL FINDING by deepseek v4.1 flash: the authored content reads forty-four distinct fact ids in photoworlds.fact.observed conditions and SEVENTEEN of them are not in the campaign's fact catalog (photoBook.facts, thirty-three ids). PhotoWorldState.HasFact uses TryGetProperty, so an unknown fact returns false: the gate never opens, with no error and no warning - verified from the engine source, not assumed. The unknown names come from the PhotoWorlds authoring spec (worlds.spec.json declares twenty effect names) while the runtime catalog is the manifest's thirty-three fact ids, and the two sets overlap in only THREE ids; which side is stale is the author's decision, so the projection names the divergence instead of picking one. Verified: probe PASS 640/640 including the forty-four referenced ids and the seventeen unreachable gates; Core 0/0",
                 "source": "src-dotnet/Urman.Studio.Core/Editing/PhotoBook.cs (ReferencedFactIds, UnreachableFactGates); evidence evidence/STUDIO/b20-deepseek-ai-24/2026-10-11-unreachable-fact-gates",
                 "verification": "probe PASS 640/640 including the unreachable gates and the notes count; Core 0/0. Whether those endings are meant to exist is author acceptance and is NOT_RUN"
+              },
+              {
+                "stage": "2026-10-11 all three book catalogs checked for gates that can never open",
+                "result": "refinement by deepseek v4.1 flash of the fact-gate finding: the check now covers all three accessors of PhotoWorldState, since all three read the world state with TryGetProperty (HasFact, HasEvidence, PhotoStateIs). Measured: forty-four fact references of which SEVENTEEN are unreachable, eleven photo references of which ZERO are unreachable, and two evidence references of which ZERO are unreachable. So the divergence is exactly ONE vocabulary - facts - while the photo and evidence gates are fully consistent with their catalogs, which points the author at one place. Own mistake recorded: my first assertion compared the gate count with the fact reference count instead of checking which catalog the gates come from. Verified: probe PASS 641/641; Core 0/0",
+                "source": "src-dotnet/Urman.Studio.Core/Editing/PhotoBook.cs (UnreachableGates, ReferencedIds); evidence evidence/STUDIO/b20-deepseek-ai-24/2026-10-11-all-book-gates",
+                "verification": "probe PASS 641/641 including the three reference counts and the seventeen unreachable fact gates; Core 0/0. Whether those gates were meant to exist is author acceptance and is NOT_RUN"
               }
             ],
             "stage_tasks": [
@@ -76749,7 +76755,8 @@
               "Текст подсказок и язык — внешняя приёмка, критерий открыт.",
               "Ранее переданный частичный этап (2026-10-11 the authored hints, and the front-matter parser fix) ждёт ревью/приёмки; полный done_when не выполнен.",
               "17 условий fact.observed ссылаются на факты вне каталога книги: спека и манифест расходятся в словаре фактов — нужно авторское решение.",
-              "Ранее переданный частичный этап (2026-10-11 the fact gates that can never open) ждёт ревью/приёмки; полный done_when не выполнен."
+              "Ранее переданный частичный этап (2026-10-11 the fact gates that can never open) ждёт ревью/приёмки; полный done_when не выполнен.",
+              "Ранее переданный частичный этап (2026-10-11 all three book catalogs checked for gates that can never open) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
             "next_action": "Трассировать bindings активной кампании; human forms; AI exact-field edits; проверить Markdown/учебные токены; preview в игре.",
             "blocker": null,

@@ -1,0 +1,7 @@
+== AI-24: all three book catalogs checked for gates that can never open
+
+
+Прошло времени 00:00:00.77
+  book gate ids: fact=44 photo=11 evidence=2; gates that can never open: 17
+    note: Условий книги, которые не могут стать истинными: 17 — они ссылаются на факты, фотографии или улики вне каталогов кампании, а HasFact/HasEvidence/PhotoStateIs молча возвращают false.
+PROBE RESULT: PASS

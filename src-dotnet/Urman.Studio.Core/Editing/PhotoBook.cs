@@ -42,9 +42,9 @@ public static class PhotoBookFacts
             IndexingGaps.Count == 0
                 ? "Нет ссылок, которые лежали бы в файлах, но не были видны рабочему пространству."
                 : $"Ссылок, которые ЕСТЬ в авторских файлах, но НЕ индексируются рабочим пространством: {IndexingGaps.Count}. Это пробел общего индексатора, а не ошибка автора: интеракций в индексе {0}. Список ведёт не автор, а владелец индексатора.",
-            UnreachableFactGates(workspace, root, campaignSelection) is { Count: > 0 } unreachable
-                ? $"Условий photoworlds.fact.observed, которые не могут стать истинными: {unreachable.Count} — они ссылаются на факты вне каталога книги, и HasFact молча вернёт false."
-                : "Каждое условие photoworlds.fact.observed ссылается на факт из каталога книги.",
+            UnreachableGates(workspace, root, campaignSelection) is { Count: > 0 } unreachable
+                ? $"Условий книги, которые не могут стать истинными: {unreachable.Count} — они ссылаются на факты, фотографии или улики вне каталогов кампании, а HasFact/HasEvidence/PhotoStateIs молча возвращают false."
+                : "Все условия книги ссылаются на факты, фотографии и улики из каталогов кампании.",
             unused.Length == 0
                 ? "Каждый обязательный якорь используется каким-нибудь миром."
                 : $"Якоря, которые не использует ни один мир: {string.Join(", ", unused)}. Это не обязательно ошибка: якорь может принадлежать миру, которого в списке книги ещё нет (эпилог назван в narrativeOrder и требуется инвариантом), — решает автор.",
@@ -395,29 +395,40 @@ public static class PhotoBookFacts
     }
 
     /// <summary>
-    /// The fact gates that can never open. PhotoWorldState.HasFact reads the world state with
-    /// TryGetProperty, so a condition naming a fact that is not in the campaign's catalog simply
-    /// returns false - no error, no warning, just a gate that never passes. The catalog is the
-    /// campaign's photoBook.facts, which is what ValidateFacts also enforces, and the notes say
-    /// where the unknown names do come from so the author can decide which side is stale.
+    /// The book gates that can never open. All three accessors of PhotoWorldState read the world
+    /// state with TryGetProperty - HasFact, HasEvidence and PhotoStateIs - so a condition naming
+    /// an id that is not in the campaign's catalog simply returns false: no error, no warning,
+    /// just a gate that never passes. The catalogs are the campaign's photoBook photos, evidence
+    /// and facts, which is also what its ValidateFacts and ValidateEvidence enforce, and the
+    /// notes say where unknown names come from so the author can decide which side is stale.
     /// </summary>
-    public static IReadOnlyList<string> UnreachableFactGates(StudioWorkspace workspace, string root, string? campaignSelection)
+    public static IReadOnlyList<string> UnreachableGates(StudioWorkspace workspace, string root, string? campaignSelection)
     {
         ArgumentNullException.ThrowIfNull(workspace);
         ArgumentException.ThrowIfNullOrWhiteSpace(root);
-        var (_, _, facts, _, _, _) = Inspect(workspace, root, campaignSelection);
-        var catalog = facts.ToHashSet(StringComparer.Ordinal);
-        if (catalog.Count == 0)
+        var (photos, _, facts, evidence, _, _) = Inspect(workspace, root, campaignSelection);
+        var photoCatalog = photos.Select(photo => photo.PhotoId).ToHashSet(StringComparer.Ordinal);
+        var factCatalog = facts.ToHashSet(StringComparer.Ordinal);
+        var evidenceCatalog = evidence.ToHashSet(StringComparer.Ordinal);
+        if (factCatalog.Count == 0 && photoCatalog.Count == 0 && evidenceCatalog.Count == 0)
         {
-            return ["Каталог фактов книги не прочитан: сверять условия нечем."];
+            return ["Каталоги книги не прочитаны: сверять условия нечем."];
         }
 
         var gates = new List<string>();
-        foreach (var factId in ReferencedFactIds(workspace))
+        foreach (var (field, catalog, accessor, op, label) in new[]
         {
-            if (!catalog.Contains(factId))
+            ("factId", factCatalog, "HasFact", "photoworlds.fact.observed", "факт"),
+            ("photoId", photoCatalog, "PhotoStateIs", "photoworlds.photo.state", "фотографию"),
+            ("evidenceId", evidenceCatalog, "HasEvidence", "photoworlds.evidence.confirmed", "улику")
+        })
+        {
+            foreach (var reference in ReferencedIds(workspace, op, field))
             {
-                gates.Add($"Условие photoworlds.fact.observed ссылается на факт «{factId}», которого нет в каталоге книги ({catalog.Count} фактов): HasFact читает состояние через TryGetProperty, поэтому условие просто НИКОГДА не станет истинным — без ошибки и без предупреждения.");
+                if (!catalog.Contains(reference))
+                {
+                    gates.Add($"Условие {op} ссылается на {label} «{reference}», которого нет в каталоге книги ({catalog.Count}): {accessor} читает состояние через TryGetProperty, поэтому условие просто НИКОГДА не станет истинным — без ошибки и без предупреждения.");
+                }
             }
         }
 
@@ -428,7 +439,7 @@ public static class PhotoBookFacts
     /// Every factId the authored content reads in a fact.observed condition, with the entity that
     /// reads it, so a gate is reported with the place it stands in.
     /// </summary>
-    public static IReadOnlyList<string> ReferencedFactIds(StudioWorkspace workspace)
+    public static IReadOnlyList<string> ReferencedIds(StudioWorkspace workspace, string op, string field)
     {
         ArgumentNullException.ThrowIfNull(workspace);
         var ids = new SortedSet<string>(StringComparer.Ordinal);
@@ -446,9 +457,9 @@ public static class PhotoBookFacts
                 switch (pending.Pop())
                 {
                     case JsonObject obj:
-                        if ((string?)obj["op"] == "photoworlds.fact.observed" && (string?)obj["factId"] is { Length: > 0 } factId)
+                        if ((string?)obj["op"] == op && (string?)obj[field] is { Length: > 0 } reference)
                         {
-                            ids.Add(factId);
+                            ids.Add(reference);
                         }
 
                         foreach (var pair in obj)
