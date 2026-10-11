@@ -1,0 +1,25 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-13"
+  ],
+  "stage": "the broad runtime hash covers the scenes too",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-11 23:07 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "9a5f0a62",
+  "the_hole": "RuntimeSourceHash hashed game/content JSON only, while the runtime LOADS scenes from res://scenes (Act1WorldLayout names them) and the repository has TWENTY-NINE .tscn files under game/scenes. An author editing a scene during a compile would therefore not have moved the hash - a FALSE-FRESH inside the very method meant to close that direction",
+  "the_fix": "the method now hashes the scenes as well, and the note reports how many: 'twenty-one content files and twenty-nine scenes'",
+  "verified": {
+    "probe": "PASS 769/769 including the four scene checks",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors",
+    "not_run": "no game launch"
+  },
+  "boundary": "this is about the BROAD option (a). The per-world fingerprint Codex asked for already covered the SELECTED world's scene, because the resolver lists it among AuthoredDependencies",
+  "files": {
+    "evidence/STUDIO/b20-deepseek-ai-13/2026-10-11-scenes-in-runtime-hash/check.log": "26b9a48a6ed4a9fcb2403eea9551f88e337ea1c0c9cc0a0c62ef87c6ac70f42f"
+  },
+  "open": [
+    "the two caller insertions remain Codex's"
+  ]
+}

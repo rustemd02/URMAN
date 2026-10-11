@@ -1,0 +1,7 @@
+== AI-13: the broad runtime hash covers the scenes too
+
+
+Прошло времени 00:00:00.45
+  runtime source hash: dfd13a4c38c68615… (len 64); RuntimeSourceHash: 21 авторских рантайм-файлов контента и 29 сцен (без compiled-паков). Покрывает контент и сцены ВНЕ папок модулей; изменение чужой кампании тоже инвалидирует прогон — это выбрано сознательно, потому что пропущенное изменение опаснее лишней сборки.
+  scenes under game/scenes: 29
+PROBE RESULT: PASS

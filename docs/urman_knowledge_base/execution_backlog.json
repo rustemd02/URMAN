@@ -74724,6 +74724,12 @@
                 "result": "CORRECTION by deepseek v4.1 flash of my own previous receipt: I wrote that the real world declares NO loader script and that its list was the manifest, six plots and the scene - that is WRONG. The list has NINE entries and one of them IS the loader script game/scripts/Act1DemoRoot.cs; I missed it because the command output I read was truncated. The committed receipt is left as it stands and this correction carries the truth, because rewriting a handed-off commit is not allowed. PINS: five assertions now fix the numbers the new receipts quote - the world list is nine files, Act1DemoRoot.cs is in it, the campaigns declare twelve modules, the authored runtime content is twenty-one files, and no compiled pack ever appears in the world list - for the same reason as before: a number quoted once drifts while every later stage still passes. Verified: probe PASS 765/765 including the five pins; Core 0/0",
                 "source": "the probe's pins; evidence evidence/STUDIO/b20-deepseek-ai-13/2026-10-11-correction-and-pins",
                 "verification": "probe PASS 765/765 including the five pins; Core 0/0. The two caller insertions and a Studio run are NOT_RUN"
+              },
+              {
+                "stage": "2026-10-11 the broad runtime hash covers the scenes too",
+                "result": "REAL HOLE FOUND AND CLOSED by deepseek v4.1 flash: RuntimeSourceHash hashed game/content JSON only, while the runtime LOADS scenes from res://scenes (Act1WorldLayout names them) and the repository has TWENTY-NINE .tscn files under game/scenes - so an author editing a scene during a compile would NOT have moved the hash, a FALSE-FRESH inside the very method meant to close that direction. The method now hashes the scenes too and the note reports the count. Verified: editing a real scene CHANGES the hash and restoring the file restores it exactly, leaving no trace. Boundary: this concerns the BROAD option (a); the per-world fingerprint Codex asked for already covered the SELECTED world's scene, because the resolver lists it among AuthoredDependencies. Verified: probe PASS 769/769 including the four scene checks; Core 0/0",
+                "source": "src-dotnet/Urman.Studio.Core/Play/PlayPreparation.cs (RuntimeSourceHash, RuntimeSourceHashNote, ScenesUnder); evidence evidence/STUDIO/b20-deepseek-ai-13/2026-10-11-scenes-in-runtime-hash",
+                "verification": "probe PASS 769/769 including the four scene checks; Core 0/0. The two caller insertions and a Studio run are NOT_RUN"
               }
             ],
             "stage_tasks": [
@@ -74781,7 +74787,9 @@
               "WorldSourceFingerprint проверен на РЕАЛЬНОЙ кампании (urman.chapter1/act1_demo): 9 файлов, пак исключён, повторное разрешение даёт тот же отпечаток.",
               "Ранее переданный частичный этап (2026-10-11 the world fingerprint on the REAL campaign, through the real resolver) ждёт ревью/приёмки; полный done_when не выполнен.",
               "ИСПРАВЛЕНИЕ моего receipt: у реального мира ЕСТЬ скрипт-загрузчик Act1DemoRoot.cs, всего 9 зависимостей; и 5 новых пинов на числа.",
-              "Ранее переданный частичный этап (2026-10-11 a correction to my own receipt, and pins for the numbers it quotes) ждёт ревью/приёмки; полный done_when не выполнен."
+              "Ранее переданный частичный этап (2026-10-11 a correction to my own receipt, and pins for the numbers it quotes) ждёт ревью/приёмки; полный done_when не выполнен.",
+              "НАЙДЕНА И ЗАКРЫТА дыра: широкий RuntimeSourceHash не покрывал СЦЕНЫ (29 .tscn вне модулей) — теперь покрывает.",
+              "Ранее переданный частичный этап (2026-10-11 the broad runtime hash covers the scenes too) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
             "next_action": "STUDIO/AI-13/SELECTOR: подключить выбор actual context.",
             "blocker": null,

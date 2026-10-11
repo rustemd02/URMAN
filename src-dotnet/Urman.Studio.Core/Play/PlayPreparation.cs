@@ -166,6 +166,9 @@ public static class PlayPreparation
         ArgumentException.ThrowIfNullOrWhiteSpace(root);
         var full = Path.GetFullPath(root);
         var files = new SortedSet<string>(StringComparer.Ordinal);
+        // game/content holds the authored JSON, and game/scenes holds the scenes the runtime LOADS
+        // (res://scenes/...). The first version of this method covered only the former, which left a
+        // real hole: an author could edit a scene during a compile and the guard would not notice.
         foreach (var folder in new[] { Path.Combine("game", "content") })
         {
             var path = Path.Combine(full, folder);
@@ -183,6 +186,11 @@ public static class PlayPreparation
 
                 files.Add(file);
             }
+        }
+
+        foreach (var file in ScenesUnder(full))
+        {
+            files.Add(file);
         }
 
         using var sha = System.Security.Cryptography.SHA256.Create();
@@ -204,15 +212,17 @@ public static class PlayPreparation
     /// <summary>What the runtime hash covers and what it costs, for a caller that shows it.</summary>
     public static string RuntimeSourceHashNote(string root)
     {
+        var full = Path.GetFullPath(root);
         var count = 0;
-        var path = Path.Combine(Path.GetFullPath(root), "game", "content");
+        var path = Path.Combine(full, "game", "content");
         if (Directory.Exists(path))
         {
             count = Directory.EnumerateFiles(path, "*.json", SearchOption.AllDirectories)
                 .Count(file => !file.Contains(".compiled.", StringComparison.Ordinal));
         }
 
-        return $"RuntimeSourceHash: {count} авторских рантайм-файлов (без compiled-паков). Покрывает контент ВНЕ папок модулей; изменение чужой кампании тоже инвалидирует прогон — это выбрано сознательно, потому что пропущенное изменение опаснее лишней сборки.";
+        var scenes = ScenesUnder(full).Count();
+        return $"RuntimeSourceHash: {count} авторских рантайм-файлов контента и {scenes} сцен (без compiled-паков). Покрывает контент и сцены ВНЕ папок модулей; изменение чужой кампании тоже инвалидирует прогон — это выбрано сознательно, потому что пропущенное изменение опаснее лишней сборки.";
     }
 
     /// <summary>
@@ -250,6 +260,15 @@ public static class PlayPreparation
             .Distinct(StringComparer.Ordinal)
             .Order(StringComparer.Ordinal)
             .ToArray();
+    }
+
+    /// <summary>The scenes the runtime loads, which live outside the module folders.</summary>
+    private static IEnumerable<string> ScenesUnder(string full)
+    {
+        var path = Path.Combine(full, "game", "scenes");
+        return Directory.Exists(path)
+            ? Directory.EnumerateFiles(path, "*.tscn", SearchOption.AllDirectories).Order(StringComparer.Ordinal)
+            : [];
     }
 
     private static string HashFiles(string full, IReadOnlyList<string> relativePaths)
