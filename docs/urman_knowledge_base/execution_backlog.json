@@ -73928,22 +73928,33 @@
                   "title": "Пройти native Studio: выбрать Front0 → Codex → preview → Apply → игра → Undo",
                   "result": "Пройти native Studio: выбрать Front0 → Codex → preview → Apply → игра → Undo",
                   "owner": "codex/b20-2026-10-10",
-                  "evidence": [],
+                  "evidence": [
+                    "evidence/STUDIO/b20-codex-ui-2026-10-11/ui-receipt.json",
+                    "evidence/STUDIO/b20-codex-ui-2026-10-11/windows-kit/receipt.json",
+                    "evidence/STUDIO/b20-codex-ui-2026-10-11/windows-kit/build.log",
+                    "evidence/STUDIO/b20-codex-ui-2026-10-11/windows-kit/game.log"
+                  ],
                   "assigned_owner": "codex/b20-2026-10-10",
-                  "active_owner": "codex/b20-2026-10-10",
+                  "active_owner": null,
                   "activity": {
-                    "state": "confirmed_active",
-                    "reason": "Живое возобновление автора11.10 после миграции; root выполняет native Front0 loop, Luna read-only UI/Undo, Sol6.1medium acceptance review."
+                    "state": "waiting_for_inputs",
+                    "reason": "Mac UI освобождён по запросу автора; Windows Codex/login отсутствует по ответу автора. Native walkthrough не начинать без готовых authoring inputs."
                   },
                   "task_type": "integration_check",
-                  "status": "in_progress",
+                  "status": "blocked",
                   "implementation_state": "not_started",
                   "technical_verification_state": "not_run",
                   "remaining": [
-                    "Нативный выбор/панель/Apply/Undo не проверены; последний CUA timeout не доказал дефект реализации."
+                    "Реальный native Front0→Codex→preview→Apply→game→Undo на Windows не проверен.",
+                    "Windows: установить Codex CLI и выполнить личный ChatGPT login; обеспечить Blender4.5.12 и authoring source snapshot, затем доступ к native Studio UI.",
+                    "Overall Windows kit smoke FAIL: shutdown resource leaks; scenario5checks и compile0/0 не заменяют чистый runtime result.",
+                    "Provider source search может выбрать codex.cmd/npm, но shell-free ProcessStartInfo требует direct executable; до Windows запроса определить установленный codex.exe и исправить discovery при необходимости."
                   ],
-                  "next_action": "Открыть guarded native Studio, выбрать Front0 и отправить реальный Codex запрос; фиксировать before/preview/Apply/game/Undo и source hashes.",
-                  "blocker": null,
+                  "next_action": "Подготовить недостающий Windows authoring transport по существующему станционному протоколу; автор выполняет codex login на UnterPC. Затем один guarded native Front0 walkthrough; не повторять kit smoke без изменённого входа.",
+                  "blocker": {
+                    "reason": "Windows Codex ещё не настроен (подтверждено автором); обычный remote smoke/capture snapshot исключает .blend/top-level assets/.tools и не предоставляет native Studio управление.",
+                    "release_when": "На UnterPC доступен direct Codex executable с ChatGPT login, закреплённый Blender и исходники authoring; native UI можно управлять на станции. Mac gameplay/UI не занимать."
+                  },
                   "external_gates": [],
                   "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
                   "work_contract": {
@@ -74026,8 +74037,13 @@
                       "success": "UI/actual Codex receipt/target game views/source hashes/new-file absence + guard userdata restoration; полный multi-house A02 и restart отдельно.",
                       "repeat_only_if": "Изменился source/candidate/input/покрываемый контракт."
                     },
-                    "actual_result": null,
-                    "evidence_refs": []
+                    "actual_result": "11.10: native Mac Studio world/AX observed; Front0 selection/request not reached (ScreenCaptureKit -3811). Mac released at author request, baseline source hashes and original userdata fingerprint restored. Windows job43bee79349d840c5be76403c288a6af6: affected game compile 0 warnings/0 errors, existing placement/collision scenario5checks passed, game exit0; overall FAIL due engine resource leaks at exit, userdata guard restored/recovery_pending=false. Windows Blender path branch reviewed LunaFAST+Sol6.1medium; generation not executed, installation not proven. Snapshot included pre-existing Receive diff, excluded from this commit. No real Windows AI request/preview/Apply/game/Undo proof.",
+                    "evidence_refs": [
+                      "evidence/STUDIO/b20-codex-ui-2026-10-11/ui-receipt.json",
+                      "evidence/STUDIO/b20-codex-ui-2026-10-11/windows-kit/receipt.json",
+                      "evidence/STUDIO/b20-codex-ui-2026-10-11/windows-kit/build.log",
+                      "evidence/STUDIO/b20-codex-ui-2026-10-11/windows-kit/game.log"
+                    ]
                   },
                   "dependencies": {
                     "implementation": [],
