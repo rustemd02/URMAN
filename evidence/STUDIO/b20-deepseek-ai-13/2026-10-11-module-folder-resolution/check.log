@@ -1,0 +1,4 @@
+== AI-13: no campaign module may silently drop out of the compile input hash
+
+  campaign modules: 12; unresolvable folders: 0
+PROBE RESULT: PASS

@@ -1,0 +1,26 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-13"
+  ],
+  "stage": "no campaign module may silently drop out of the compile input hash",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-11 22:59 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "20052176",
+  "why": "CompileInputHash walks each module's folder through the shared ModuleFolder mapping (dots to hyphens). If a module id ever failed to resolve, its files would be SILENTLY absent from the hash - the dangerous direction, a FALSE-FRESH, where an author's change is never noticed",
+  "result": "twelve module declarations across the campaigns resolve to existing folders, and ZERO do not, so nothing is silently skipped today",
+  "what_is_checked": "for every campaign manifest, every moduleId it names, the folder the shared mapping produces must exist",
+  "boundary": "the check is about the MAPPING, not about the folder's contents: what a module folder holds is the compiler's business",
+  "verified": {
+    "probe": "PASS 750/750 including the twelve modules and the zero unresolved",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors",
+    "not_run": "no game run"
+  },
+  "files": {
+    "evidence/STUDIO/b20-deepseek-ai-13/2026-10-11-module-folder-resolution/check.log": "9e4a5f35fe4d5b4c0a674a287ce33adb38c5d1863437f5218c7b90581e798a7f"
+  },
+  "open": [
+    "a new module whose folder does not follow the convention would fail this check, which is the point"
+  ]
+}

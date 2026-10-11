@@ -74700,6 +74700,12 @@
                 "result": "evidence by deepseek v4.1 flash for Codex's scope decision. COST: RuntimeSourceHash takes 0.7 ms per call over the real tree (twenty-one authored files), so comparing it before and after a compile is essentially free. DECISIVE FINDING: I looked for a precise mapping from a selection to its runtime FILES inside the compiled pack, because that would settle the scope question - THE PACK DOES NOT CARRY ONE: its dependencyGraph is MODULE level (nodes are module ids), and moduleFingerprints and campaignFingerprint are values the COMPILE DERIVES, so hashing them would change on a legitimate compile, which Codex explicitly ruled out. So (a) the scope implemented today is available and cheap, while (b) a precise scope needs a NEW contract mapping a selection to its runtime files: the manifest names scene IDS and the pack names MODULE IDS. Recommendation: keep (a) - it closes the real gap - and switch to (b) when the mapping exists. Verified: probe PASS 749/749; Core 0/0",
                 "source": "the probe's cost measurement plus the pack's own fields; evidence evidence/STUDIO/b20-deepseek-ai-13/2026-10-11-fingerprint-cost-and-pack-graph",
                 "verification": "probe PASS 749/749 including the cost bound; Core 0/0. No game run"
+              },
+              {
+                "stage": "2026-10-11 no campaign module may silently drop out of the compile input hash",
+                "result": "guard by deepseek v4.1 flash against the dangerous direction: CompileInputHash walks each module's folder through the shared ModuleFolder mapping (dots to hyphens), and if a module id ever failed to resolve, its files would be SILENTLY absent from the hash - a FALSE-FRESH where an author's change is never noticed. Checked: TWELVE module declarations across the campaigns all resolve to existing folders, ZERO do not. Boundary: the check is about the MAPPING, not the folder's contents. Verified: probe PASS 750/750 including the twelve modules and the zero unresolved; Core 0/0",
+                "source": "the probe's module-resolution check; evidence evidence/STUDIO/b20-deepseek-ai-13/2026-10-11-module-folder-resolution",
+                "verification": "probe PASS 750/750 including the twelve modules and zero unresolved folders; Core 0/0. No game run"
               }
             ],
             "stage_tasks": [
@@ -74749,7 +74755,9 @@
               "RuntimeSourceHash проверен на РЕАЛЬНОМ участке мира: один байт меняет хеш, восстановление возвращает его точно.",
               "Ранее переданный частичный этап (2026-10-11 the runtime hash against a REAL authored world plot) ждёт ревью/приёмки; полный done_when не выполнен.",
               "Стоимость отпечатка 0.7 мс; пак НЕ несёт списка файлов (dependencyGraph — уровни модулей, fingerprints — производные), поэтому точный охват (б) требует нового контракта.",
-              "Ранее переданный частичный этап (2026-10-11 what the runtime hash costs, and why the precise scope needs a new contract) ждёт ревью/приёмки; полный done_when не выполнен."
+              "Ранее переданный частичный этап (2026-10-11 what the runtime hash costs, and why the precise scope needs a new contract) ждёт ревью/приёмки; полный done_when не выполнен.",
+              "Проверено: все 12 модулей кампаний разрешаются в существующие папки — молчаливого пропуска файлов в хеше нет.",
+              "Ранее переданный частичный этап (2026-10-11 no campaign module may silently drop out of the compile input hash) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
             "next_action": "STUDIO/AI-13/SELECTOR: подключить выбор actual context.",
             "blocker": null,
