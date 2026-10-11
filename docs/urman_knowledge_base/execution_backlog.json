@@ -80148,6 +80148,17 @@
                 ],
                 "verification": "Independent LunaFAST+Sol6.1medium source review; root affected Game compile 0 warnings/0 errors and git diff --check. No tests, Git receive, Studio/game launch.",
                 "remaining": "SemanticMerge/Send/new authored sources/network/native A23 remain open. Only trusted origin; fetch bytes not bounded by preview cap."
+              },
+              {
+                "stage": "2026-10-11 semantic Git review source",
+                "result": "SOURCE_GAME_COMPILE_0_0_NATIVE_NETWORK_NOT_RUN",
+                "source": [
+                  "game/studio/StudioCollabSection.cs",
+                  "src-dotnet/Urman.Studio.Core/Storage/AuthoredFile.cs",
+                  "src-dotnet/Urman.Studio.Core/Storage/StudioFileTransaction.cs"
+                ],
+                "verification": "LunaFAST implemented UI; Sol6.1medium independent Core+UI source review accepted; root affected Game compile0warnings/0errors and diff check. No tests/game/Studio/network receive.",
+                "remaining": "Readonly preview; choices/Apply/Undo/Send/new sources/local missing outsideworkspace/native UI A23 remain open."
               }
             ],
             "stage_tasks": [
@@ -80171,19 +80182,19 @@
             "active_owner": "codex/b20-2026-10-10",
             "activity": {
               "state": "confirmed_active",
-              "reason": "Production возобновлён автором без runtime; root интегрирует bounded read-only Receive source stage."
+              "reason": "Root + Luna UI добавляют readonly semantic Git review; Sol проверяет Core cloning/format contract. Без runtime по авторскому stop."
             },
             "task_type": "engineering",
             "status": "in_progress",
             "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
-              "Readonly Receive viewer реализован; новый source вне текущего workspace allowlist пока исключается.",
-              "Existing semantic merge preview/Send/curated diff/idempotency не подключены.",
-              "Network receive/native UI/cancellation и два checkout A23 не проверены; runtime запрещён автором.",
+              "Git semantic preview реализован для текущих loaded/draft источников; локальное отсутствие файла вне Workspace пока сообщает unavailable.",
+              "Git conflict choices/Apply через EditSession + Undo, new-source registration и curated Send/idempotency не подключены.",
+              "Network/native layout/cancellation и два checkout A23 не проверены; runtime запрещён автором.",
               "Trusted origin fetch может скачивать history/assets сверх8MiB preview cap; cleanup own private ref best effort2sec."
             ],
-            "next_action": "Подключить полученные base/incoming к текущему in-memory mine через existing SemanticMerge, затем curated Send; native/network A23 остаётся до снятия авторского runtime stop.",
+            "next_action": "Подключить frozen merge decisions к EditSession с проверкой неизменности mine/base и Undo; не применять Git incoming через disk-specific ApplyResolution. Потом curated Send; native A23 после снятия авторского stop.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -80227,9 +80238,11 @@
                 "question": "Авторы получают, сравнивают, объединяют и отправляют ревизии через UI без ручного Git.",
                 "scenario": "A23 на безопасной разрешённой ветке/репозитории по действующей политике, без push в main ради проверки.",
                 "success": "Два checkout с разными корнями обмениваются одной ревизией; конфликт видим; unrelated код не отправлен; повтор передачи не дублирует commit/изменение.",
-                "repeat_only_if": "Изменён предметный contract/input или предыдущий сценарий неполон."
+                "repeat_only_if": "Изменён предметный contract/input или предыдущий сценарий неполон.",
+                "current_stage_question": "Git review использует текущий dirty in-memory mine и все JSON wrapper поля, показывает конфликты, не меняя source/history/disk?",
+                "current_stage_success": "Source review cloning/readonly paths и affected Game compile; native подтверждение отложено автором, full A23 сохраняется."
               },
-              "actual_result": "Read-only Git origin branch→unique private ref→allowlisted pinned UTF8 blobs→base/incoming viewer. No working files/index/HEAD writes. Async revision checks, bounded cancellation, best-effort own-ref cleanup. Source stage only, no semantic merge/network/native PASS.",
+              "actual_result": "Receive Git review now shows common base/current dirty in-memory mine/incoming raw source plus existing SemanticMerge counts and actual per-field conflicts. Full JSON wrapper metadata included; Markdown normalized by existing parser. Readonly, no adoption/Apply/history/disk changes. Game compile0/0 and independent Sol source acceptance; network/native A23 not run.",
               "evidence_refs": [
                 "STUDIO/AI-38.evidence"
               ]

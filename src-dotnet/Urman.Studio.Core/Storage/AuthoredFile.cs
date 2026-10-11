@@ -155,6 +155,22 @@ public sealed class AuthoredFile
 
     public JsonNode Snapshot() => _document.ToNode();
 
+    /// <summary>Compare a Git base and incoming source with the current draft, without adopting either revision.</summary>
+    public MergeResult PreviewMerge(string? baseText, string? incomingText)
+    {
+        JsonNode? Read(string? text) => text is null ? null
+            : _markdown ? Open(text).Entities.ToNode() : JsonSpanDocument.Parse(text).ToNode();
+        var mine = Snapshot();
+        if (!ReferenceEquals(_outer, _document))
+        {
+            var wrapper = (JsonObject)_outer.ToNode();
+            wrapper["entities"] = mine;
+            mine = wrapper;
+        }
+
+        return SemanticMerge.Merge(Read(baseText), mine, Read(incomingText));
+    }
+
     /// <summary>A header field of an object-root file (for example a world plot's name).</summary>
     public JsonNode? Header(string key) =>
         ReferenceEquals(_outer, _document) || _outer.IndexOfKey(key) is not (var index and >= 0) ? null : _outer.Get(index)?.DeepClone();

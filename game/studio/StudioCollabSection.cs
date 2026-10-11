@@ -138,36 +138,95 @@ public sealed class StudioCollabSection(StudioRoot studio) : IStudioSection
         dialog.AddChild(box);
         box.AddChild(new Label
         {
-            Text = $"Ветка: {incoming.Branch}\nПередача: {incoming.OperationId}\nОбщая база: {incoming.BaseRevision}\nПолученная версия: {incoming.IncomingRevision}\nЭто исходники для просмотра. Они не заменяют текущие файлы или черновики.",
+            Text = $"Ветка: {incoming.Branch}\nПередача: {incoming.OperationId}\nОбщая база: {incoming.BaseRevision}\nПолученная версия: {incoming.IncomingRevision}\nМоя версия — снимок текущего файла или черновика в момент выбора; он не обновляется автоматически. Ничего не применяется.",
             AutowrapMode = TextServer.AutowrapMode.WordSmart
         });
-        var paths = new ItemList { CustomMinimumSize = new Vector2(760, 100) };
+        var paths = new ItemList { CustomMinimumSize = new Vector2(1120, 90) };
         foreach (var file in incoming.Files) paths.AddItem(file.RelativePath);
         box.AddChild(paths);
         var row = new HBoxContainer();
         box.AddChild(row);
-        var before = new TextEdit { Editable = false, CustomMinimumSize = new Vector2(370, 260) };
-        var after = new TextEdit { Editable = false, CustomMinimumSize = new Vector2(370, 260) };
+        var before = new TextEdit { Editable = false, WrapMode = TextEdit.LineWrappingMode.Boundary, CustomMinimumSize = new Vector2(370, 220) };
+        var mine = new TextEdit { Editable = false, WrapMode = TextEdit.LineWrappingMode.Boundary, CustomMinimumSize = new Vector2(370, 220) };
+        var after = new TextEdit { Editable = false, WrapMode = TextEdit.LineWrappingMode.Boundary, CustomMinimumSize = new Vector2(370, 220) };
         row.AddChild(before);
+        row.AddChild(mine);
         row.AddChild(after);
+        before.Text = "Общая база:\nВыберите файл.";
+        mine.Text = "Моя версия:\nВыберите файл.";
+        after.Text = "Получено:\nВыберите файл.";
+        var mergeSummary = new Label { AutowrapMode = TextServer.AutowrapMode.WordSmart };
+        mergeSummary.Text = incoming.Files.Count == 0 ? "Нет доступных файлов для сравнения." : "Выберите файл для семантического сравнения.";
+        box.AddChild(mergeSummary);
+        var conflicts = new TextEdit
+        {
+            Editable = false,
+            WrapMode = TextEdit.LineWrappingMode.Boundary,
+            CustomMinimumSize = new Vector2(1120, 140)
+        };
+        box.AddChild(conflicts);
+        var phrases = new ConditionPhrases(studio.Catalog);
         void Select(int index)
         {
+            if ((uint)index >= (uint)incoming.Files.Count) return;
             var file = incoming.Files[index];
             before.Text = "Общая база:\n" + (file.BaseText ?? "Файл отсутствовал");
+            mine.Text = "Моя версия:\nСчитываю текущий локальный снимок…";
             after.Text = "Получено:\n" + (file.IncomingText ?? "Файл удалён в полученной версии");
+            mergeSummary.Text = "Семантическое сравнение рассчитывается для выбранного файла…";
+            conflicts.Text = "";
+            try
+            {
+                var local = studio.Workspace.HasFile(file.RelativePath)
+                    ? studio.Workspace.File(file.RelativePath)
+                    : LoadIncomingReviewFallback(file.RelativePath);
+                mine.Text = "Моя версия (снимок при выборе):\n" + local.Text;
+                var preview = local.PreviewMerge(file.BaseText, file.IncomingText);
+                mergeSummary.Text = $"Автоматически объединяемых значений: {preview.AutoMerged}. Конфликтов: {preview.Conflicts.Count}. Только просмотр; ничего не применено.";
+                conflicts.Text = DescribeIncomingConflicts(preview.Conflicts, phrases);
+            }
+            catch (Exception error) when (error is IOException or UnauthorizedAccessException or ArgumentException
+                or InvalidOperationException or KeyNotFoundException or FormatException or System.Text.Json.JsonException)
+            {
+                mine.Text = "Моя версия:\nЛокальный источник не удалось прочитать.";
+                mergeSummary.Text = "Семантическое сравнение недоступно: локальный источник или одна из версий отсутствует либо некорректна. Ничего не применено. " + error.Message;
+                conflicts.Text = "";
+            }
         }
         paths.ItemSelected += index => Select((int)index);
         if (incoming.Files.Count > 0) { paths.Select(0); Select(0); }
         if (incoming.ExcludedPaths.Count > 0)
         {
-            var excluded = new TextEdit { Editable = false, CustomMinimumSize = new Vector2(760, 80), Text = "Исключённые пути:\n" + string.Join("\n", incoming.ExcludedPaths) };
+            var excluded = new TextEdit { Editable = false, CustomMinimumSize = new Vector2(1120, 60), Text = "Исключённые пути:\n" + string.Join("\n", incoming.ExcludedPaths) };
             box.AddChild(excluded);
         }
         dialog.Confirmed += dialog.QueueFree;
         dialog.Canceled += dialog.QueueFree;
         dialog.CloseRequested += dialog.QueueFree;
         studio.AddChild(dialog);
-        dialog.PopupCentered(new Vector2I(820, 640));
+        dialog.PopupCentered(new Vector2I(1220, 700));
+    }
+
+    private AuthoredFile LoadIncomingReviewFallback(string relativePath)
+    {
+        StudioFileTransaction.EnsureNoLinks(studio.Workspace.Root, relativePath);
+        return AuthoredFile.Load(studio.Workspace.Root, relativePath);
+    }
+
+    private string DescribeIncomingConflicts(IReadOnlyList<MergeConflict> conflicts, ConditionPhrases phrases)
+    {
+        if (conflicts.Count == 0) return "Семантических конфликтов нет.";
+        return string.Join("\n\n", conflicts.Select((conflict, index) =>
+        {
+            var (entity, field) = Describe(conflict.Path);
+            var heading = conflict.Kind switch
+            {
+                MergeConflictKind.DeleteEdit => $"«{entity}» удалён с одной стороны и изменён с другой",
+                MergeConflictKind.Order => $"Порядок в «{entity}» изменён по-разному",
+                _ => $"«{entity}»: {field} изменено по-разному"
+            };
+            return $"{index + 1}. {heading}\nОбщая база: {Show(conflict.Base, phrases)}\nМоя версия: {Show(conflict.Mine, phrases)}\nПолучено: {Show(conflict.Theirs, phrases)}";
+        }));
     }
 
     private Control Card(string file, MergeConflict conflict, ConditionPhrases phrases)
@@ -186,16 +245,7 @@ public sealed class StudioCollabSection(StudioRoot studio) : IStudioSection
             },
             AutowrapMode = TextServer.AutowrapMode.WordSmart
         });
-        var columns = new HBoxContainer();
-        foreach (var (title, value) in new[] { ("Было", conflict.Base), ("Моё", conflict.Mine), ("Входящее", conflict.Theirs) })
-        {
-            var column = new VBoxContainer { SizeFlagsHorizontal = Control.SizeFlags.ExpandFill };
-            column.AddChild(new Label { Text = title, ThemeTypeVariation = "MutedLabel" });
-            column.AddChild(new Label { Text = Show(value, phrases), AutowrapMode = TextServer.AutowrapMode.WordSmart, CustomMinimumSize = new Vector2(180, 0) });
-            columns.AddChild(column);
-        }
-
-        box.AddChild(columns);
+        box.AddChild(ComparisonColumns(conflict.Base, conflict.Mine, conflict.Theirs, phrases));
         var choice = _choices.GetValueOrDefault((file, conflict.Path));
         var row = new HBoxContainer();
         void Choose(ConflictChoice value) { _choices[(file, conflict.Path)] = value; Refresh(); }
@@ -204,6 +254,20 @@ public sealed class StudioCollabSection(StudioRoot studio) : IStudioSection
         StudioRoot.Button(row, "Отложить", () => Choose(ConflictChoice.Undecided)).TooltipText = "Ваша работа сохранится; объединение подождёт";
         box.AddChild(row);
         return card;
+    }
+
+    private HBoxContainer ComparisonColumns(JsonNode? @base, JsonNode? mine, JsonNode? theirs, ConditionPhrases phrases)
+    {
+        var columns = new HBoxContainer();
+        foreach (var (title, value) in new[] { ("Было", @base), ("Моё", mine), ("Входящее", theirs) })
+        {
+            var column = new VBoxContainer { SizeFlagsHorizontal = Control.SizeFlags.ExpandFill };
+            column.AddChild(new Label { Text = title, ThemeTypeVariation = "MutedLabel" });
+            column.AddChild(new Label { Text = Show(value, phrases), AutowrapMode = TextServer.AutowrapMode.WordSmart, CustomMinimumSize = new Vector2(180, 0) });
+            columns.AddChild(column);
+        }
+
+        return columns;
     }
 
     private void Apply(string file, ExternalChange change)
