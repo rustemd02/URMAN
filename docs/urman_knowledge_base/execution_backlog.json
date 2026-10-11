@@ -61922,13 +61922,15 @@
           "game/scripts/Act1ConnectedWorld.CleanYards.cs",
           "game/scripts/Act1ConnectedWorld.YardComposition.cs"
         ],
-        "next": "Автор попросил срочный commit/push из-за лимитов. Получить status/fetch финального job (последний status запрос timeout), лично посмотреть C2/front/C1; проверить orphan posts и счётчик ground dressing. Не закрывать всю карточку; движение и авторская приёмка открыты.",
+        "next": "Resolve remaining visible short posts/rails against functional owners before any further removal; compare exact same views after a confirmed source change. Whole-village and movement/author acceptance remain open.",
         "implementation": "Точные visual-only prefix группы BabaiYardWestBoundary/EastBoundary/WattleRun (оба)/BabaiEbiHouseBackFence/ApproachFenceWest. CleanYards убирает только подтверждённые Branch/Moss/Sedge/Shrub kit листья независимо от generic relocation/worldPropId/container, с функциональными guards.",
         "capture_job": "15935623791544308ed00cb66591e0de",
         "evidence": "evidence/ACT1-VILLAGE-COMPOSITION/yard-cleanup-2026-10-10",
         "result": "Промежуточный Windows job 15935623791544308ed00cb66591e0de PASS, оба High кадра лично просмотрены: наложенные внутренние заборы справа исчезли. Счётчик yard composition 27→50. Engine-errors пуст, userdata restored/verified. После кадра добавлены точечная уборка orphan PostN рядом с уже скрытым visualOnly Rail и guard collisionOwner=none; финальная версия ещё не принята кадром.",
         "final_capture_job": "2d2a40e43e744f43b3ee631487da7e5b",
-        "final_snapshot": "dddde1c2491c2e1b2cb215c976d96834546432fb3d8fb1887f61f2e92132a0b8"
+        "final_snapshot": "dddde1c2491c2e1b2cb215c976d96834546432fb3d8fb1887f61f2e92132a0b8",
+        "final_result": "11.10: final job PASS, gameExitCode=0, userdataRestored=true, engine-errors empty; C2/front/C1 High personally viewed. Internal duplicate runs removed; clean-yards removed=1868 (+51 versus intermediate1817), owners=82; yard-composition hidden=50. Short visible posts/rails around working props remain; whole-village clutter/art/movement not accepted.",
+        "final_evidence": "evidence/ACT1-VILLAGE-COMPOSITION/yard-cleanup-2026-10-10/final"
       },
       "history_before_2026_10_11": {
         "status": "in_progress",
