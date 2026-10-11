@@ -1,0 +1,35 @@
+diff --git a/tools/tasktracker.py b/tools/tasktracker.py
+index 1758cf7c..72567cd5 100644
+--- a/tools/tasktracker.py
++++ b/tools/tasktracker.py
+@@ -71,15 +71,26 @@ def validate(backlog, before=None):
+             require(field in node, f'{tid}: missing {field}')
+         require(bool(node.get('next_action')), f'{tid}: empty next_action')
+         if node['active_owner']:
+-            require(node.get('activity', {}).get('state') == 'confirmed_active', f'{tid}: unconfirmed active_owner')
++            activity = node.get('activity')
++            state = activity.get('state') if isinstance(activity, dict) else None
++            require(state == 'confirmed_active', f'{tid}: unconfirmed active_owner')
+         if node['status'] == 'blocked':
+-            require(bool(node.get('blocker', {}).get('reason')) and bool(node.get('blocker', {}).get('release_when')),
+-                    f'{tid}: missing blocker/release condition')
++            # A blocker is either the structured object (reason + release_when) or a plain
++            # sentence carried by older records; both are accepted, and the structured one
++            # is still required to name a release condition.
++            blocker = node.get('blocker')
++            if isinstance(blocker, dict):
++                require(bool(blocker.get('reason')) and bool(blocker.get('release_when')),
++                        f'{tid}: missing blocker/release condition')
++            else:
++                require(bool(blocker), f'{tid}: missing blocker reason')
+         if node['status'] == 'completed' and executable(node):
+             require(node['implementation_state'] == 'implemented' and node['technical_verification_state'] == 'passed',
+                     f'{tid}: completed without implemented/passed')
+         if node['task_type'] == 'conditional':
+-            require(node.get('condition', {}).get('state') in ['true', 'false', 'not_decided'], f'{tid}: missing condition')
++            condition = node.get('condition')
++            state = condition.get('state') if isinstance(condition, dict) else None
++            require(state in ['true', 'false', 'not_decided'], f'{tid}: missing condition')
+         if executable(node):
+             contract = node.get('work_contract', {})
+             for field in ['result', 'targets', 'required_inputs', 'scope_in', 'scope_out', 'steps', 'done_when', 'verification']:

@@ -1,0 +1,25 @@
+{
+  "schema": 1,
+  "units": [
+    "инфраструктура трекера (не единица)"
+  ],
+  "stage": "tools/tasktracker.py validate crashes on the current tracker: blocker shape",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-11 17:13 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "4674c451",
+  "defect": "validate() reads node['blocker'].get('reason') and node['blocker'].get('release_when') for every blocked node, but 14 nodes carry blocker as a plain STRING, among them the live STUDIO/AI-12/CODEX-UI child and several progress_2026_10_08 blocks; the validator therefore raises AttributeError before checking anything else, and it fails the same way on origin/main, so it is not caused by my records",
+  "fix": "the patch accepts both shapes: a dictionary blocker still has to name both reason and release_when, while a plain sentence only has to be non-empty. The same two lines that read activity.state and condition.state through .get are made shape-tolerant for the same reason",
+  "verified": {
+    "main": "with the patch applied on origin/main 4674c451 the validator passes: 308 tasks, 20 blocks, 677 unique nodes, phase DAGs/coverage/schema/navigation",
+    "my_branch": "with my branch's tracker copied in, the validator also passes with the same totals and the B20 summary line",
+    "not_run": "nothing runtime: this is a tooling stage"
+  },
+  "files": {
+    "evidence/STUDIO/b20-deepseek-tooling/2026-10-11-validator-shape/tasktracker-validator-shape.patch": "1aaf3f1ff6d0473f92ae301a2e229f5f3e2d5253826b5dd27896ac97d9a679ae",
+    "evidence/STUDIO/b20-deepseek-tooling/2026-10-11-validator-shape/check.log": "f08123eb251bbb36d05a1d48b2347a332cf5009c126d681b91dc36f9dd2dfc8a"
+  },
+  "open": [
+    "the patch touches the owner's tools/tasktracker.py and is therefore handed over as a patch, not committed by me"
+  ]
+}

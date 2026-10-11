@@ -1,0 +1,9 @@
+== tools/tasktracker.py validate crashed on the current tracker: AttributeError: 'str' object has no attribute 'get'
+== line 76 calls node['blocker'].get('reason') while 14 nodes carry a blocker as a STRING
+
+== with the patch applied, on origin/main 4674c451:
+PASS: 308 tasks, 20 blocks, 677 unique nodes; phase DAGs/coverage/schema/navigation
+
+== and on my branch's tracker (copied in):
+PASS: 308 tasks, 20 blocks, 677 unique nodes; phase DAGs/coverage/schema/navigation
+B20 23 1 4 50 | 25 15 1
