@@ -152,11 +152,14 @@ public static class PhotoBookFacts
     {
         ArgumentNullException.ThrowIfNull(workspace);
         ArgumentException.ThrowIfNullOrWhiteSpace(root);
+        // Reset on EVERY call, before any early return: otherwise a missing manifest or a bookless
+        // campaign would leave the previous campaign's indexing diagnostics in place, and the next
+        // reader would take another campaign's gap list for this one's.
+        IndexingGaps = [];
         // The book belongs to ONE campaign: reading every manifest would mix each campaign's
         // facts and photos into one scope, which is exactly the defect this signature prevents.
         if (string.IsNullOrWhiteSpace(campaignSelection))
         {
-            IndexingGaps = [];
             return ([], [], [], [], [], ["Кампания не выбрана: книга не определена, и смешивать кампании нельзя."]);
         }
         var full = Path.GetFullPath(root);

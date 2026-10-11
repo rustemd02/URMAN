@@ -76722,6 +76722,12 @@
                 "result": "refinement by deepseek v4.1 flash of the fact-gate finding: the check now covers all three accessors of PhotoWorldState, since all three read the world state with TryGetProperty (HasFact, HasEvidence, PhotoStateIs). Measured: forty-four fact references of which SEVENTEEN are unreachable, eleven photo references of which ZERO are unreachable, and two evidence references of which ZERO are unreachable. So the divergence is exactly ONE vocabulary - facts - while the photo and evidence gates are fully consistent with their catalogs, which points the author at one place. Own mistake recorded: my first assertion compared the gate count with the fact reference count instead of checking which catalog the gates come from. Verified: probe PASS 641/641; Core 0/0",
                 "source": "src-dotnet/Urman.Studio.Core/Editing/PhotoBook.cs (UnreachableGates, ReferencedIds); evidence evidence/STUDIO/b20-deepseek-ai-24/2026-10-11-all-book-gates",
                 "verification": "probe PASS 641/641 including the three reference counts and the seventeen unreachable fact gates; Core 0/0. Whether those gates were meant to exist is author acceptance and is NOT_RUN"
+              },
+              {
+                "stage": "2026-10-11 IndexingGaps is reset on every call",
+                "result": "fix by deepseek v4.1 flash of the reviewed defect Codex named: the static was reset only in the null-selection branch, so the early returns (a missing manifest, a campaign without a book) left the PREVIOUS campaign's indexing diagnostics in place. It is now reset at the top of Inspect before any return, and the redundant reset in the branch is gone - one place, every path. Verified: probe PASS 651/651 - after a real book sixty-four gaps, after a missing manifest ZERO rather than the previous sixty-four, after the book again sixty-four. Own mistake recorded: my first probe read the static without making a fresh call. Codex's other point stands: the helper still has no Studio consumer and PhotoBook.cs is not in main, so this is not unit completion",
+                "source": "src-dotnet/Urman.Studio.Core/Editing/PhotoBook.cs (Inspect); evidence evidence/STUDIO/b20-deepseek-ai-24/2026-10-11-indexing-gaps-reset",
+                "verification": "probe PASS 651/651 including the three-state gap sequence; Core 0/0. A real Studio consumer is the next acceptable stage, as Codex asked"
               }
             ],
             "stage_tasks": [
@@ -76764,7 +76770,9 @@
               "Ранее переданный частичный этап (2026-10-11 the authored hints, and the front-matter parser fix) ждёт ревью/приёмки; полный done_when не выполнен.",
               "17 условий fact.observed ссылаются на факты вне каталога книги: спека и манифест расходятся в словаре фактов — нужно авторское решение.",
               "Ранее переданный частичный этап (2026-10-11 the fact gates that can never open) ждёт ревью/приёмки; полный done_when не выполнен.",
-              "Ранее переданный частичный этап (2026-10-11 all three book catalogs checked for gates that can never open) ждёт ревью/приёмки; полный done_when не выполнен."
+              "Ранее переданный частичный этап (2026-10-11 all three book catalogs checked for gates that can never open) ждёт ревью/приёмки; полный done_when не выполнен.",
+              "Проекция книги ждёт реального Studio-consumer'а: helper без caller'а не считается приёмкой AI-24 (замечание Codex).",
+              "Ранее переданный частичный этап (2026-10-11 IndexingGaps is reset on every call) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
             "next_action": "Трассировать bindings активной кампании; human forms; AI exact-field edits; проверить Markdown/учебные токены; preview в игре.",
             "blocker": null,

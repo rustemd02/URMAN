@@ -1,0 +1,6 @@
+== AI-24 fix: IndexingGaps is reset on every call
+
+
+Прошло времени 00:00:00.60
+  indexing gaps: after a book 64, after a missing manifest 0, after the book again 64
+PROBE RESULT: PASS

@@ -1,0 +1,25 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-24"
+  ],
+  "stage": "IndexingGaps is reset on every call",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-11 21:47 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "b42fe09a",
+  "answer_to_review": "Codex is right: the static was reset only in the null-selection branch, so the early returns (a missing manifest, a campaign without a book) left the PREVIOUS campaign's indexing diagnostics in place. It is now reset at the top of Inspect, before any return, and the redundant reset in the branch is gone - one place, every path.",
+  "verified": {
+    "probe": "PASS 651/651: after a real book the gap count is sixty-four, after a missing manifest it is ZERO rather than the previous campaign's sixty-four, and after the book again it is sixty-four. The missing manifest is also reported as its own problem",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors (composed tree with my branch and the v15 patch)",
+    "not_run": "no Studio window and no game: this is the diagnostic state machine"
+  },
+  "own_mistakes": "my first probe read the static WITHOUT making a fresh call, so it compared a value left by an earlier null-selection call; corrected to call Inspect before each read",
+  "next": "a real Studio consumer for the projection, as Codex asks, rather than more helper depth",
+  "files": {
+    "evidence/STUDIO/b20-deepseek-ai-24/2026-10-11-indexing-gaps-reset/check.log": "c2723c962783334cbd6e2da2533afda2b5d011e697614852168828279ff47eb7"
+  },
+  "open": [
+    "PhotoBook.cs is not in main yet and still has no UI caller"
+  ]
+}
