@@ -74185,6 +74185,17 @@
                       "implementation": "Studio tools-root userarg defaults to repository root and normalizes explicit fullpath. Only Blender executable lookup uses it; working directory/generator/root/recipe/stage and Apply/Undo paths remain workspace-bound. Existing runner Modeplay exactStudioScene preflights pinned Blender version/exit under resolved ToolsRoot, records receipt.blender, and passes tool-root after Godot userargs separator. Smoke/capture arguments unchanged; no remote studio action added.",
                       "verification": "Five Luna bounded writer/research/review tasks and independent Sol6.1medium source review. Root corrected static property access before affected Game compile: 0warnings/0errors. diff-check/tracker validation. No Windows runner, Blender/provider/Studio/game/test execution.",
                       "remaining": "Owner must verify repaired complete Codex package and station Blender setup. Authoring snapshot generator/baseline inputs and verified revision binding, remote UI/evidence/result preservation still missing; matched Windows preview/Apply/game and byte-exact Undo acceptance remains unproven."
+                    },
+                    {
+                      "stage": "2026-10-11 explicit verified snapshot base revision",
+                      "result": "SOURCE_IMPLEMENTED_GAME_COMPILE_PASS_NATIVE_NOT_RUN",
+                      "source": [
+                        "game/studio/StudioAiPanel.cs",
+                        "eng/run-windows-check.ps1"
+                      ],
+                      "implementation": "Existing exact Studio play runner passes snapshot-base-revision userarg only after verify_source succeeds on supplied provenance and lowercase40/64hex validation. Studio validates explicit claim, rejects known Git HEAD mismatch and unknown resolver result when Git metadata exists; only metadata-absent snapshot accepts valid claim. No file/environment trust fallback. Normal checkout without claim retains existing Git requirement. Capture/Fingerprint/retry/Apply share Revision(). Dirty snapshot identity remains in receipt.snapshotId, actual source/dependency hashes remain frozen independently.",
+                      "verification": "Luna bounded implementation/producer-consumer review plus independent Sol6.1medium source review. Root affected Game compile0warnings/0errors; diff-check/tracker validation. No Windows runner, model/provider, Blender/Studio/game/tests.",
+                      "remaining": "This is operator/verified-runner provenance claim, not authenticated by Studio itself. Authoring generator/baseline source transfer, remote Studio UI/evidence/result preservation and repaired Windows Codex/Blender readiness remain required before native first-pilot acceptance. Seven-window matched game verification and byte-exact Undo remain unproven."
                     }
                   ],
                   "assigned_owner": "codex/b20-2026-10-10",
@@ -74192,7 +74203,7 @@
                   "activity": {
                     "state": "runtime_deferred_by_author",
                     "reason": "11.10 пользователь остановил игровые и Studio запуски из-за сильных лагов; production/source review/узкая компиляция продолжаются.",
-                    "verification_question": "Does fixed Studio play bind only pinned Blender executable to resolved station ToolsRoot while all authoring and transaction files remain in Workspace.Root? Source review + affected Game compile; no native run."
+                    "verification_question": "Does Studio accept only explicit verified-runner/operator snapshot revision, rejecting invalid/mismatched/unresolved Git metadata while keeping source hashes and normal checkout behavior? Source review + affected Game compile only."
                   },
                   "task_type": "integration_check",
                   "status": "blocked",

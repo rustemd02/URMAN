@@ -72,6 +72,7 @@ $savedCapture = $env:URMAN_VIEW_CAPTURE
 $savedPoints = $env:URMAN_VIEW_POINTS
 $savedPhase = $env:URMAN_ATMOSPHERE_PHASE
 $savedFov = $env:URMAN_VIEW_FOV
+$studioSnapshotRevision = $null
 try {
     Remove-Item Env:URMAN_VIEW_CAPTURE, Env:URMAN_VIEW_POINTS, Env:URMAN_ATMOSPHERE_PHASE, Env:URMAN_VIEW_FOV -ErrorAction SilentlyContinue
     if ($Provenance) {
@@ -81,6 +82,12 @@ try {
         $receipt.commit = $receipt.source.base_commit
         $receipt.dirtyPaths = $receipt.source.dirty_paths
         $receipt.snapshotId = $receipt.source.snapshot_id
+        if ($studioPlay) {
+            $studioSnapshotRevision = [string]$receipt.source.base_commit
+            if ($studioSnapshotRevision -cnotmatch '\A(?:[0-9a-f]{40}|[0-9a-f]{64})\z') {
+                throw 'Verified Studio snapshot has an invalid base revision.'
+            }
+        }
     } else {
         $receipt.commit = (& git rev-parse HEAD)
         $receipt.dirtyPaths = @(& git status --porcelain)
@@ -150,6 +157,7 @@ try {
         if ($studioPlay) {
             $arguments += '--'
             $arguments += "--urman-studio-tools-root=$ToolsRoot"
+            if ($Provenance) { $arguments += "--urman-studio-snapshot-revision=$studioSnapshotRevision" }
         }
         if ($Mode -eq 'smoke') { $arguments += '--urman-smoke-background-input' }
         Invoke-Logged 'game' $Python $arguments ($TimeoutSeconds + 30)

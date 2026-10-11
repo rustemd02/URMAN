@@ -452,6 +452,27 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
 
     private string Revision()
     {
+        const string snapshotRevisionPrefix = "--urman-studio-snapshot-revision=";
+        var snapshotRevisionArgument = OS.GetCmdlineUserArgs()
+            .LastOrDefault(argument => argument.StartsWith(snapshotRevisionPrefix, StringComparison.Ordinal));
+        if (snapshotRevisionArgument is not null)
+        {
+            var snapshotRevision = snapshotRevisionArgument[snapshotRevisionPrefix.Length..];
+            if ((snapshotRevision.Length != 40 && snapshotRevision.Length != 64)
+                || !snapshotRevision.All(character => character is >= '0' and <= '9' or >= 'a' and <= 'f'))
+                throw new IOException("Переданная ревизия снимка должна содержать 40 или 64 строчные шестнадцатеричные цифры.");
+
+            // Это заявление оператора или проверившего provenance runner; Studio не аутентифицирует сам аргумент командной строки.
+            var checkoutRoot = _studio.Workspace.Root;
+            var checkoutRevision = Urman.Studio.Core.Handoff.DeveloperContext.ResolveRevision(checkoutRoot);
+            if (checkoutRevision == "неизвестна"
+                && (Directory.Exists(Path.Combine(checkoutRoot, ".git")) || File.Exists(Path.Combine(checkoutRoot, ".git"))))
+                throw new IOException("Не удалось проверить Git HEAD рабочего проекта перед сравнением ревизии снимка.");
+            if (checkoutRevision != "неизвестна" && checkoutRevision != snapshotRevision)
+                throw new IOException("Переданная ревизия снимка не совпадает с Git HEAD рабочего проекта.");
+            return snapshotRevision;
+        }
+
         var revision = Urman.Studio.Core.Handoff.DeveloperContext.ResolveRevision(_studio.Workspace.Root);
         if (revision == "неизвестна") throw new IOException("Нет полной Git-ревизии. Проверьте checkout перед запросом.");
         return revision;
