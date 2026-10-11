@@ -1,0 +1,31 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-26"
+  ],
+  "stage": "first slice: the game settings surface taken from the code that really owns it",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-11 15:43 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "80bede64",
+  "result": {
+    "settings": "thirteen player settings are declared by the snapshot records: field of view, mouse sensitivity, motion blur, head bob, graphics preset, input device and the input bindings, plus the accessibility group (reduced motion, high contrast, text scale, subtitles, audio descriptions) and the Tatar language level",
+    "controls": "the settings screen creates ten controls, including the graphics preset as an option control",
+    "boundary": "these are PLAYER settings in user://settings.json, never campaign content, so a Studio preview may render the surface but must not write it or substitute its own format for it",
+    "honesty": "the inventory prints the record fields and the screen controls as two separate lists because the mapping between them is the screen's business: _fov and FieldOfView do not match textually, and guessing that join would be a fabrication"
+  },
+  "verified": {
+    "probe": "PASS 403/403 with the new checks: thirteen settings, the Tatar level keeping its historical default, the accessibility defaults read from the record, ten controls, the graphics preset as an option control, and the notes naming the player-data boundary and the no-guessing rule",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors; game/Urman.Game.csproj 0 warnings/0 errors",
+    "existing_tests": "Urman.Studio.Tests 38/38",
+    "not_run": "no game run: the settings screen itself and its preview are NOT_RUN"
+  },
+  "own_mistakes": "the first scan ran past a record boundary and attributed fields to the wrong record (25 settings instead of 13), and it missed a field on the line that carries the closing parenthesis; both were fixed and the probe now asserts the boundary",
+  "files": {
+    "evidence/STUDIO/b20-deepseek-ai-26/2026-10-11-settings-surface/check.log": "2cfcbdffdaa109aa2ff696aba5106acee29fb88c5181311b81cda78211d84743"
+  },
+  "open": [
+    "the Studio preview of the settings screen is NOT_RUN",
+    "writing settings stays with the game, never with Studio"
+  ]
+}

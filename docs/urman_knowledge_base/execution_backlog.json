@@ -76742,7 +76742,14 @@
             "verification": "Книга/диалог или иной изменённый экран при 1280×720 и 150% UI; restart и Undo.",
             "risks_recovery_external_gates": "Не обещать конструктор произвольного UI-кода; accessibility и художественная приёмка отдельно.",
             "required": true,
-            "evidence": [],
+            "evidence": [
+              {
+                "stage": "2026-10-11 the game settings surface taken from the code that owns it",
+                "result": "partial implementation by deepseek v4.1 flash: the snapshot records declare thirteen player settings (field of view, sensibility, motion blur, head bob, graphics preset, input device, input bindings, five accessibility fields and the Tatar language level) and the settings screen creates ten controls; the projection prints the record fields and the screen controls as two lists because the mapping is the screen's business and guessing it would be a fabrication. These are player settings in user://settings.json, never campaign content",
+                "source": "new file src-dotnet/Urman.Studio.Core/Editing/GameSettingsSurface.cs; evidence evidence/STUDIO/b20-deepseek-ai-26/2026-10-11-settings-surface",
+                "verification": "probe PASS 403/403 including the record boundary, the Tatar default, the accessibility defaults, the ten controls and the player-data boundary; Core 0/0; game/Urman.Game.csproj 0/0; Urman.Studio.Tests 38/38. Own mistakes recorded: the first scan ran past a record boundary (25 settings instead of 13) and missed the field on the closing-parenthesis line. The settings screen itself is NOT_RUN"
+              }
+            ],
             "stage_tasks": [
               "STUDIO.P4"
             ],
@@ -76767,12 +76774,13 @@
             },
             "task_type": "engineering",
             "status": "todo",
-            "implementation_state": "not_started",
+            "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
-              "Настройки интерфейса игры имеют ручной/AI preview и не меняют тему Studio.; отсутствует подтверждение собственного конечного DoD, перечисленного ниже."
+              "Настройки интерфейса игры имеют ручной/AI preview и не меняют тему Studio.; отсутствует подтверждение собственного конечного DoD, перечисленного ниже.",
+              "Ранее переданный частичный этап (2026-10-11 the game settings surface taken from the code that owns it) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
-            "next_action": "Зарегистрировать edit-safe поля; выбрать экран/state/viewport; preview controls; typed change; preserve input/focus/localization.",
+            "next_action": "Собрать превью интерфейса игры в Studio поверх этой поверхности, не записывая настройки игрока.",
             "blocker": null,
             "external_gates": [
               {
