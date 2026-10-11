@@ -1,0 +1,25 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-13"
+  ],
+  "stage": "a correction to my own receipt, and pins for the numbers it quotes",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-11 23:05 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "9a5f0a62",
+  "the_correction": "my previous receipt said the real world declares NO loader script and that its list was the manifest, six plots and the scene. That is WRONG: the list has NINE entries and one of them IS the loader script game/scripts/Act1DemoRoot.cs. I missed it because the command output I read was truncated; the committed receipt is left as it stands and this correction carries the truth, because rewriting a handed-off commit is not allowed",
+  "the_pins": "five assertions now fix the numbers the new receipts quote: the world list is nine files, Act1DemoRoot.cs is in it, the campaigns declare twelve modules, the authored runtime content is twenty-one files, and no compiled pack ever appears in the world list",
+  "why_pins": "the same reason as before: a number quoted once drifts while every later stage still passes",
+  "verified": {
+    "probe": "PASS 765/765 including the five pins",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors",
+    "not_run": "no game launch"
+  },
+  "files": {
+    "evidence/STUDIO/b20-deepseek-ai-13/2026-10-11-correction-and-pins/check.log": "de0c3644f23ac308f458d5267c43ce243b3ef7c417cc1d1c0a1524692091b87b"
+  },
+  "open": [
+    "the two caller insertions remain Codex's"
+  ]
+}
