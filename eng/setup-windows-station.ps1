@@ -8,6 +8,11 @@ $Root = (Resolve-Path $Root).Path
 $sdk = (Get-Content "$Root/global.json" -Raw | ConvertFrom-Json).sdk.version
 $manifest = Get-Content "$Root/eng/toolchain.json" -Raw | ConvertFrom-Json
 $version = $manifest.godot.version -replace '\.stable.*$', ''
+$blenderPin = $manifest.blender.windows
+$blenderArchiveName = [IO.Path]::GetFileName(([uri]$blenderPin.url).AbsolutePath)
+$blenderWindows = "$Root/.tools/blender/windows"
+$blenderDirectory = Join-Path $blenderWindows $blenderPin.folder
+$blender = Join-Path $blenderDirectory 'blender.exe'
 if (-not (Get-Command python -ErrorAction SilentlyContinue)) {
     throw 'Install Python 3.13 first (winget install --exact --id Python.Python.3.13), then reopen PowerShell.'
 }
@@ -41,8 +46,20 @@ try {
         if ((Get-FileHash $archive -Algorithm SHA512).Hash -ine $expected) { throw 'Godot SHA512 mismatch.' }
         Expand-Archive -Path $archive -DestinationPath "$Root/.tools/godot/windows" -Force
     }
+    if (-not (Test-Path $blender)) {
+        $blenderArchive = Join-Path $downloads $blenderArchiveName
+        if (-not (Test-Path $blenderArchive) -or (Get-FileHash $blenderArchive -Algorithm SHA256).Hash -ine $blenderPin.sha256) {
+            Invoke-WebRequest -UseBasicParsing $blenderPin.url -OutFile $blenderArchive
+        }
+        if ((Get-FileHash $blenderArchive -Algorithm SHA256).Hash -ine $blenderPin.sha256) { throw 'Blender SHA256 mismatch.' }
+        Expand-Archive -Path $blenderArchive -DestinationPath $blenderWindows -Force
+    }
     $actual = & $godot --headless --version
     if ($LASTEXITCODE -ne 0 -or $actual -ne $manifest.godot.version) { throw "Unexpected Godot version: $actual" }
+    $actualBlender = [string](& $blender --version | Select-Object -First 1)
+    if ($LASTEXITCODE -ne 0 -or $actualBlender -notmatch ('^Blender\s+' + [regex]::Escape($blenderPin.version) + '(\s|$)')) {
+        throw "Unexpected Blender version: $actualBlender"
+    }
     if ((& $dotnet --version) -ne $sdk -or $LASTEXITCODE -ne 0) { throw 'Unexpected .NET SDK version.' }
     # Runtime models are supplied as GLB; do not require Blender just to import them.
     $override = "$Root/game/override.cfg"
@@ -60,6 +77,6 @@ try {
     if (-not (Test-Path $exclude) -or -not ((Get-Content $exclude) -contains '/game/override.cfg')) {
         Add-Content -Path $exclude -Value "`n/game/override.cfg" -Encoding ASCII
     }
-    Write-Host "Installed .NET $sdk and Godot $actual. No game was started."
+    Write-Host "Installed .NET $sdk, Godot $actual, and Blender $($blenderPin.version). No game was started."
     Write-Host 'Next: powershell -NoProfile -ExecutionPolicy Bypass -File eng/run-windows-check.ps1 -Mode smoke -Scene res://tests/act1_main_menu_smoke_test.tscn'
 } finally { Pop-Location }

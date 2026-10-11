@@ -43,12 +43,27 @@ checkout есть авторинговый `game/assets/models/props/milk_bottle
   На Windows устанавливаются Windows-бинарники, на Mac — Mac-бинарники.
 - Blender не нужен для выполнения готовых GLB. Станционный `game/override.cfg`
   отключает Blender-import; его SHA256 записывается отдельно в receipt.
+  Для генерации окон Studio установщик также ставит закреплённый Windows Blender
+  из `eng/toolchain.json`, проверяя SHA256 архива и версию. Это не включает
+  Blender-import и не добавляет удалённый запуск Studio: её авторинговые исходники
+  и привязка инструментов к изолированному снимку ещё требуют интеграции.
 
 Установка зависимостей: Python 3.12+ и Git for Windows; затем в checkout:
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File eng/setup-windows-station.ps1
 ```
+
+Для установки полного пакета Codex и входа через ChatGPT есть отдельная команда:
+
+```powershell
+& ([scriptblock]::Create((irm 'https://raw.githubusercontent.com/rustemd02/URMAN/main/eng/setup-studio-codex-windows.ps1')))
+```
+
+Она использует официальный standalone installer OpenAI, сохраняет прежнюю обычную
+папку managed `bin` как резервную копию и проверяет вход. Копирования одного
+`codex.exe` недостаточно для актуального CLI. Станционный `doctor` проверяет
+Godot/.NET и desktop, но не подтверждает вход Codex или готовность Blender.
 
 В текущем PowerShell нужен PATH с установленным Python 3.12+, а не старым 3.10.
 Runner также принимает явный `-Python`. Сборка, обновление content packs и импорт

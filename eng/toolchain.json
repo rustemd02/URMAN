@@ -21,6 +21,12 @@
     "version": "4.5.12 LTS",
     "platform": "macos-arm64",
     "url": "https://download.blender.org/release/Blender4.5/blender-4.5.12-macos-arm64.dmg",
-    "sha256": "f4afdca92c56a9e231e45226445e6750879a70a0d2322cee80d82ce021a99fb0"
+    "sha256": "f4afdca92c56a9e231e45226445e6750879a70a0d2322cee80d82ce021a99fb0",
+    "windows": {
+      "version": "4.5.12",
+      "folder": "blender-4.5.12-windows-x64",
+      "url": "https://download.blender.org/release/Blender4.5/blender-4.5.12-windows-x64.zip",
+      "sha256": "317ef64e7a2c3cc79ec810c766ae9828aff865bea78039dc695b3f1118c34b4f"
+    }
   }
 }

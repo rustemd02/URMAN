@@ -71979,14 +71979,23 @@
                       "implementation": "Confirmed arbitrary PATH codex.exe could copy an entire shared WindowsApps/.cargo/bin directory. Bootstrap now reuses only its managed per-user Codex installation and otherwise installs via npm; only native package directory found beneath global @openai is copied. User PATH and existing auth/config remain preserved.",
                       "verification": "Luna FAST/Max bounded source fix and independent GPT6.1Sol medium review; diff-check PASS. Windows script execution/install/login not run.",
                       "remaining": "Owner authentication and actual station/Codex/Blender/Studio readiness remain unverified."
+                    },
+                    {
+                      "stage": "2026-10-11 repair incomplete Windows native package",
+                      "result": "SOURCE_REVIEWED_WINDOWS_REPAIR_NOT_RUN",
+                      "source": "eng/setup-studio-codex-windows.ps1",
+                      "observed": "Owner reports Done/native codex-cli0.162.1/ChatGPT sign-in confirmed, then bare managed exe fails with no complete local package. Version/login checks proved authentication but not full interactive package readiness.",
+                      "implementation": "Replace npm native-folder copying with official OpenAI standalone installer in child PowerShell. Exact managed ordinary bin preserved in GUID sibling backup; official junction untouched. Child exit/executable checked, temporary CODEX_INSTALL_DIR restored, backup restored on install failure only if target absent and retained otherwise. Print backup path immediately. Existing ChatGPT login status skips new login; auth/config not moved.",
+                      "verification": "Official OpenAI scripts/install/install.ps1 source inspected for package layout, default managed path and Ensure-Junction limitations. Luna implementation, independent Luna and Sol6.1medium source review; diff-check/tracker validation. No installer/provider/model/Studio/game execution. Remote doctor with valid certifi CA verified UNTERPCready, interactive, no busy job; credentials not exposed.",
+                      "remaining": "Owner reruns corrected one-command bootstrap to verify full package. Actual Studio app-server request/preview/Apply/game/Undo and per-author provider status acceptance remain unverified."
                     }
                   ],
                   "assigned_owner": "codex/b20-2026-10-10",
                   "active_owner": "codex/b20-2026-10-10",
                   "activity": {
                     "state": "confirmed_active",
-                    "reason": "Live author request for all-in-one native Windows Codex installation and ChatGPT login; source-only setup stage, provider/UI acceptance not complete.",
-                    "verification_question": "Does Windows bootstrap copy only scoped npm native bundle or reuse managed install, avoiding arbitrary PATH shared-directory sweep? Source review only; no Windows execution."
+                    "reason": "Owner confirms ChatGPT login but actual bare CLI exposed incomplete package. Source repair delegates to official standalone installer; Windows repair execution pending.",
+                    "verification_question": "Does bootstrap delegate complete package provisioning to official standalone installer, check child exit code and restore environment, preserving existing ChatGPT login and config? Source review; no Windows execution."
                   },
                   "task_type": "engineering",
                   "status": "in_progress",
@@ -71995,7 +72004,7 @@
                   "remaining": [
                     "У каждого автора виден реальный безопасный статус своего провайдера; отсутствует подтверждение собственного конечного DoD, перечисленного ниже."
                   ],
-                  "next_action": "Owner runs one-command Windows bootstrap and browser ChatGPT login; verify actual station/provider readiness after authorized launch resumption; continue remaining real provider status UI scope.",
+                  "next_action": "Owner reruns corrected one-command bootstrap; verify complete native CLI package and Studio provider lifecycle on station, then continue full AI06 acceptance.",
                   "blocker": null,
                   "external_gates": [],
                   "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -74153,13 +74162,25 @@
                       "implementation": "AI comparison SubViewport uses WhenVisible instead of Always, so hidden preview textures no longer request continuous render updates. World viewport already had that default and was left unchanged. Process/physics remain unchanged.",
                       "verification": "Luna producer/caller source review found only visible SubViewportContainer consumers, no pixel capture/readback requiring offscreen render; independent Sol source review and root affected Game compile0/0. No runtime/FPS/tests.",
                       "remaining": "Overall Mac lag and actual visible preview frame behavior remain unmeasured; native Codex preview/Apply/game/byte-exact Undo still deferred by author, task stays open."
+                    },
+                    {
+                      "stage": "2026-10-11 pinned Windows Blender station prerequisite",
+                      "result": "SOURCE_REVIEWED_WINDOWS_INSTALL_NOT_RUN",
+                      "source": [
+                        "eng/toolchain.json",
+                        "eng/setup-windows-station.ps1"
+                      ],
+                      "implementation": "Station setup provisions Blender4.5.12 Windows x64 at exact Studio expected path. ZIP SHA256 pinned from official Blender checksum; cache/download verified before extraction and native version/exit checked. Godot GLB import override preserved. Nested Windows pin keeps existing macOS fields.",
+                      "verification": "Official https://download.blender.org/release/Blender4.5/blender-4.5.12.sha256 retrieved via TLS curl; Luna implementation + independent Luna/Sol6.1medium source review, diff-check/tracker validation. No Windows installer, Blender/Studio/game or model request executed. Remote doctor confirmed UNTERPC ready, interactive desktop, busy_job null; this does not verify Codex login or Blender presence.",
+                      "remaining": "Station must pull updated toolchain fingerprint and run setup before jobs. Disposable authoring inputs, verified snapshot revision/trusted Blender location and remote Studio UI/evidence route remain missing. Owner output confirms Codex0.162.1 ChatGPT login, but bare exe lacks full package; bootstrap repair underway. Native seven-window Apply/game/byte-exact Undo remains open."
                     }
                   ],
                   "assigned_owner": "codex/b20-2026-10-10",
                   "active_owner": null,
                   "activity": {
                     "state": "runtime_deferred_by_author",
-                    "reason": "11.10 пользователь остановил игровые и Studio запуски из-за сильных лагов; production/source review/узкая компиляция продолжаются."
+                    "reason": "11.10 пользователь остановил игровые и Studio запуски из-за сильных лагов; production/source review/узкая компиляция продолжаются.",
+                    "verification_question": "Does station setup provision the exact Windows Blender path required by Studio using the officially pinned SHA256 archive, preserving existing Godot import override? Source review only; installer/game not run."
                   },
                   "task_type": "integration_check",
                   "status": "blocked",
