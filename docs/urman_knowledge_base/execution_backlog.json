@@ -71971,6 +71971,14 @@
                       "implementation": "Single user-run script installs Node LTS via winget if npm.cmd missing, installs Codex CLI or reuses existing native exe, copies native bundle into LocalAppData/Programs/OpenAI/Codex/bin supported by existing adapter, adds directory once preserving user PATH and verifies native version/login ChatGPT. All native exit codes checked; Windows PowerShell 5.1-safe stderr capture for login status. No auth/token files read/copied, provider config edited, station restart or game/Studio launches.",
                       "verification": "Luna FAST/Max implementation, root source inspection/fixes and independent GPT6.1Sol medium review; diff-check PASS. No Windows installer execution, provider call or tests.",
                       "remaining": "Windows owner must run script and complete browser authentication. Station readiness, native Studio control, Blender generation and full provider readiness/AI12 acceptance still unverified."
+                    },
+                    {
+                      "stage": "2026-10-11 restrict Windows bootstrap source directory",
+                      "result": "SOURCE_REVIEWED_WINDOWS_EXECUTION_NOT_RUN",
+                      "source": "eng/setup-studio-codex-windows.ps1",
+                      "implementation": "Confirmed arbitrary PATH codex.exe could copy an entire shared WindowsApps/.cargo/bin directory. Bootstrap now reuses only its managed per-user Codex installation and otherwise installs via npm; only native package directory found beneath global @openai is copied. User PATH and existing auth/config remain preserved.",
+                      "verification": "Luna FAST/Max bounded source fix and independent GPT6.1Sol medium review; diff-check PASS. Windows script execution/install/login not run.",
+                      "remaining": "Owner authentication and actual station/Codex/Blender/Studio readiness remain unverified."
                     }
                   ],
                   "assigned_owner": "codex/b20-2026-10-10",
@@ -71978,7 +71986,7 @@
                   "activity": {
                     "state": "confirmed_active",
                     "reason": "Live author request for all-in-one native Windows Codex installation and ChatGPT login; source-only setup stage, provider/UI acceptance not complete.",
-                    "verification_question": "Does one PowerShell 5.1 script install/reuse native Codex, expose it at existing Studio adapter path, preserve user PATH and verify ChatGPT sign-in without changing station configuration or launching game/Studio? Source review only; Windows execution not run."
+                    "verification_question": "Does Windows bootstrap copy only scoped npm native bundle or reuse managed install, avoiding arbitrary PATH shared-directory sweep? Source review only; no Windows execution."
                   },
                   "task_type": "engineering",
                   "status": "in_progress",
@@ -73279,6 +73287,14 @@
                       "implementation": "Strict canonical V2 reader with UTF8/256KiB/depth/duplicate/unknown-field checks; explicit atomic preview-failed receipt binds exact persisted request/proposal hashes. Bounded no-link reader rejects legacy/unmarked jobs. Panel explicitly selects canonical job receipt; Capture reconstructs current verification candidate, normalized only to saved requestId and original camera, full snapshot hash must match before restoring original frozen request/proposal and local retry. Restore invokes no provider/build/Apply. Local preview failures mark only valid/current noncancelled proposals. Retry/idle Stop/prompt changes/Apply revoke receipt; IO revoke failure blocks actions, ordinary idle reopen preserves failed receipt.",
                       "verification": "Five Luna FAST/Max implementation and bounded independent source inspections; GPT6.1Sol medium final full-path review no P1/P2. Root affected Game compile 0 warnings/0 errors, diff-check and existing tracker validation PASS. No tests/probes/provider/Studio/game/Blender/native launches.",
                       "remaining": "Native successful/failed/restarted/cancelled retry scenarios not run. Existing pilot hide still cancels active work; full spec hide-versus-Stop lifecycle and generic A08/disjoint/same-field/double-apply acceptance remain open. AI12 selected window request/preview/Apply/game/byte Undo unverified."
+                    },
+                    {
+                      "stage": "2026-10-11 hide separate from Stop and safe Apply lifecycle",
+                      "result": "SOURCE_IMPLEMENTED_GAME_COMPILE_PASS_NATIVE_NOT_RUN",
+                      "source": "game/studio/StudioAiPanel.cs",
+                      "implementation": "Panel hide no longer cancels model/build. Completion checks cancellation and frozen-request freshness before persisted accepted proposal and preview promotion. Valid results, preview/stage and composing scope/text survive reopen; stale live selection/part/source/dependencies retire state. Hidden valid local failures remain recoverable. Explicit Stop cancels active CTS or revokes idle attempt; busy noncancellable Apply cannot clear request/proposal or falsely claim no project change. Initial visible-only user action gates and explicit manual Apply retained.",
+                      "verification": "Luna FAST/Max implementation and bounded collision inspection; independent GPT6.1Sol medium full diff and final composing Open source reviews clean. Root affected Game compile 0 warnings/0 errors after final composing-scope logic change; diff-check/tracker validate PASS. No tests/probes/provider/Studio/game/Blender/native launches.",
+                      "remaining": "Native hide/Stop/reopen/scope/Apply scenarios not run. Full generic A08/disjoint merge/same-field/double-apply and AI12 first-window request/game/byte Undo remain unverified."
                     }
                   ],
                   "assigned_owner": "codex/b20-2026-10-10",
@@ -73286,7 +73302,7 @@
                   "activity": {
                     "state": "confirmed_active",
                     "reason": "Live B20 source implementation continues; author runtime pause does not forbid source freshness guard fixes.",
-                    "verification_question": "Can explicit restore read only a hash-bound failed-preview job, reject canceled/legacy/stale source or context, preserve frozen request and offer local retry without auto provider/build/Apply? Narrow affected compile/source review only; runtime deferred."
+                    "verification_question": "Does hiding preserve active/completed house request without cancellation, while explicit Stop cancels model/build or revokes idle recovery and cannot clear an in-flight Apply transaction? Reopen stale/scope changes must fail closed; token/freshness checked before accepted-proposal storage. Source/narrow compile only."
                   },
                   "task_type": "engineering",
                   "status": "in_progress",
@@ -73334,7 +73350,7 @@
                       "success": "Выполнены все перечисленные собственные критерии, без расширения на родителя.",
                       "repeat_only_if": "Изменился source/candidate/input/покрываемый контракт."
                     },
-                    "actual_result": "House-pilot prompt freshness, same-session retry and explicit hash-bound durable failed-preview recovery implemented in source with affected compile. Full generic A08 and native acceptance remain open.",
+                    "actual_result": "House-pilot freshness, durable preview recovery and hide/Stop/reopen lifecycle implemented in source with affected compile; full generic A08 and native acceptance remain open.",
                     "evidence_refs": []
                   },
                   "dependencies": {

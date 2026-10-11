@@ -162,8 +162,11 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
         _preview.AddChild(_previewCamera);
         VisibilityChanged += () =>
         {
-            if (Visible) return;
-            _cancel?.Cancel();
+            if (Visible)
+            {
+                SetBusy(_busy);
+                return;
+            }
             if (_disclosureDialog is { } disclosureDialog && GodotObject.IsInstanceValid(disclosureDialog))
             {
                 _disclosureDialog = null;
@@ -287,21 +290,49 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
             _prompt.GrabFocus();
             return;
         }
-        ClearProposal();
-        _request = null;
-        _sourceFingerprint = null;
-        _disclosedGlobalInstructions = null;
-        _openedSelection = selected;
-        _openedPart = ((StudioWorldSection)_studio.Section("world")).SelectionPart;
+        var staleReason = (string?)null;
+        var currentPart = ((StudioWorldSection)_studio.Section("world")).SelectionPart;
+        var preservePreparedState = _request is null && selected == HeroHouseRecipe.EntityId
+            && _openedSelection == selected && _studio.Selection == selected
+            && (_scope.Selected != SelectedWindowScope || _openedPart?.PartId == currentPart?.PartId);
+        if (_request is { } existingRequest)
+        {
+            _openedPart = currentPart;
+            try
+            {
+                if (!string.Equals(selected, _openedSelection, StringComparison.Ordinal))
+                    throw new InvalidOperationException("Выбран другой объект.");
+                EnsurePreparedRequestCurrent(existingRequest);
+                preservePreparedState = true;
+            }
+            catch (Exception error)
+            {
+                staleReason = error.Message;
+            }
+        }
+
+        if (!preservePreparedState)
+        {
+            ClearProposal();
+            InvalidatePreparedRequest();
+            _disclosedGlobalInstructions = null;
+            _openedSelection = selected;
+        }
+        _openedPart = currentPart;
         var windowSelected = _openedPart is { PartId: var partId }
             && HeroHouseRecipe.WindowIds.Contains(partId, StringComparer.Ordinal);
         _scope.Visible = selected == HeroHouseRecipe.EntityId;
         _scope.SetItemDisabled(SelectedWindowScope, !windowSelected);
-        _scope.Select(windowSelected ? SelectedWindowScope : MainRoomWindowsScope);
+        if (!preservePreparedState)
+            _scope.Select(windowSelected ? SelectedWindowScope : MainRoomWindowsScope);
         SetBusy(false);
-        if (selected == HeroHouseRecipe.EntityId)
+        if (!preservePreparedState && staleReason is not null)
+        {
+            _status.Text = "Предыдущий снимок снят: " + staleReason + " Подготовьте новый запрос.";
+        }
+        else if (!preservePreparedState && selected == HeroHouseRecipe.EntityId)
             UpdateScopeStatus();
-        else
+        else if (!preservePreparedState)
         {
             _status.Text = "Выберите эталонный дом Бабая в мире. Другие объекты будут подключены следующими этапами B20.";
             if (_consentIoWarning is not null) _status.Text += "\n" + _consentIoWarning;
@@ -459,6 +490,9 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
             || _prompt.Text != request.Prompt
             || !RequestScopeMatchesCurrent(request))
             throw new InvalidOperationException("Описание, охват или выбор изменились. Откройте «Что уйдёт агенту…», чтобы обновить снимок.");
+        if (request.PartId is { } partId
+            && ((StudioWorldSection)_studio.Section("world")).SelectionPart?.PartId != partId)
+            throw new InvalidOperationException("Выбор окна изменился после снимка. Подготовьте новый запрос для текущего окна.");
         if (_sourceFingerprint is null
             || _sourceFingerprint != Fingerprint(File.ReadAllText(Path.Combine(_studio.Workspace.Root, RecipePath))))
             throw new InvalidOperationException("Исходник изменился после снимка. Откройте «Что уйдёт агенту…», чтобы получить актуальный запрос.");
@@ -771,6 +805,11 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
             cancellation.Cancel();
             return;
         }
+        if (_busy)
+        {
+            _status.Text = "Текущее действие нельзя безопасно прервать. Дождитесь результата; если применение завершится, его можно отменить через ⌘/Ctrl+Z.";
+            return;
+        }
         if (_request is not { } request) return;
         if (!TryClearPreviewFailure(request)) return;
         ClearProposal();
@@ -822,7 +861,8 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
             _status.Text = fromManual ? "Проверяю перенесённое предложение…" : "Codex готовит предложение…";
             var acceptedProposal = imported ?? await new CodexProposalProvider(allowGlobalInstructions: _globalInstructions.ButtonPressed)
                 .RunAsync(_request!, _stage, _cancel.Token, this);
-            if (!Visible) throw new OperationCanceledException();
+            _cancel.Token.ThrowIfCancellationRequested();
+            EnsurePreparedRequestCurrent(request);
             HouseWindowProposalValidator.Validate(request, acceptedProposal);
             _proposal = acceptedProposal;
             Urman.Studio.Core.Handoff.DeveloperContext.WriteHouseWindowJob(_studio.Workspace.Root, request, acceptedProposal);
@@ -961,7 +1001,6 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
         _status.Text = "Создаю настоящий проём и согласованный интерьер…";
         await GenerateAsync(stage, cancellation);
         cancellation.ThrowIfCancellationRequested();
-        if (!Visible) throw new OperationCanceledException(cancellation);
         HouseWindowProposalValidator.Validate(request, proposal);
         EnsurePreparedRequestCurrent(request);
         ValidateStage();
@@ -972,7 +1011,6 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
         _afterModel = LoadHousePreview(Path.Combine(stage, "hero_house.glb"));
         _previewModels.AddChild(_afterModel);
         cancellation.ThrowIfCancellationRequested();
-        if (!Visible) throw new OperationCanceledException(cancellation);
         HouseWindowProposalValidator.Validate(request, proposal);
         EnsurePreparedRequestCurrent(request);
         _beforeView.Disabled = false;
@@ -994,7 +1032,7 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
 
     private bool CanRetainProposalForRetry()
     {
-        if (!Visible || _cancel?.IsCancellationRequested == true || _previewReady || _request is not { } request || _proposal is not { } proposal
+        if (_cancel?.IsCancellationRequested == true || _previewReady || _request is not { } request || _proposal is not { } proposal
             || _recipeText is null || _capturedWidths is null)
             return false;
         try

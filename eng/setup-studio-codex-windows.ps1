@@ -13,10 +13,12 @@ function Refresh-ProcessPath {
 }
 
 Refresh-ProcessPath
-$native = Get-Command codex.exe -CommandType Application -ErrorAction SilentlyContinue | Select-Object -First 1
-if ($native) {
-    $nativeSourceExe = $native.Source
-} else {
+$localAppData = [Environment]::GetEnvironmentVariable('LOCALAPPDATA', 'User')
+if ([string]::IsNullOrWhiteSpace($localAppData)) { $localAppData = $env:LOCALAPPDATA }
+if ([string]::IsNullOrWhiteSpace($localAppData)) { throw 'LOCALAPPDATA is unavailable for the current Windows user.' }
+$nativeDirectory = Join-Path $localAppData 'Programs\OpenAI\Codex\bin'
+$nativeExe = Join-Path $nativeDirectory 'codex.exe'
+if (-not (Test-Path -LiteralPath $nativeExe -PathType Leaf)) {
     $npm = Get-Command npm.cmd -CommandType Application -ErrorAction SilentlyContinue | Select-Object -First 1
     if (-not $npm) {
         $winget = Get-Command winget.exe -CommandType Application -ErrorAction SilentlyContinue | Select-Object -First 1
@@ -39,21 +41,11 @@ if ($native) {
     $nativeFiles = @(Get-ChildItem -LiteralPath $openAiRoot -Filter codex.exe -File -Recurse)
     if ($nativeFiles.Count -ne 1) { throw "Expected one native codex.exe under $openAiRoot, found $($nativeFiles.Count)." }
     $nativeSourceExe = $nativeFiles[0].FullName
-}
-
-$localAppData = [Environment]::GetEnvironmentVariable('LOCALAPPDATA', 'User')
-if ([string]::IsNullOrWhiteSpace($localAppData)) { $localAppData = $env:LOCALAPPDATA }
-if ([string]::IsNullOrWhiteSpace($localAppData)) { throw 'LOCALAPPDATA is unavailable for the current Windows user.' }
-$nativeDirectory = Join-Path $localAppData 'Programs\OpenAI\Codex\bin'
-$sourceDirectory = [IO.Path]::GetDirectoryName($nativeSourceExe)
-$sourceFullPath = [IO.Path]::GetFullPath($sourceDirectory) -replace '[\\/]+$', ''
-$targetFullPath = [IO.Path]::GetFullPath($nativeDirectory) -replace '[\\/]+$', ''
-if (-not [string]::Equals($sourceFullPath, $targetFullPath, [StringComparison]::OrdinalIgnoreCase)) {
+    $sourceDirectory = [IO.Path]::GetDirectoryName($nativeSourceExe)
     New-Item -ItemType Directory -Path $nativeDirectory -Force | Out-Null
     Get-ChildItem -LiteralPath $sourceDirectory -Force | Copy-Item -Destination $nativeDirectory -Recurse -Force
+    if (-not (Test-Path -LiteralPath $nativeExe -PathType Leaf)) { throw "Native Codex binary was not copied to $nativeExe" }
 }
-$nativeExe = Join-Path $nativeDirectory 'codex.exe'
-if (-not (Test-Path -LiteralPath $nativeExe -PathType Leaf)) { throw "Native Codex binary was not copied to $nativeExe" }
 $userPath = [Environment]::GetEnvironmentVariable('Path', 'User')
 $normalizedNative = $nativeDirectory -replace '[\\/]+$', ''
 $alreadyPresent = @($userPath -split ';' | Where-Object {
