@@ -74406,28 +74406,35 @@
                       "command": "eng/remote-check.py studio --submit-only",
                       "result": "NOT_RUN: readiness rejected pinned Blender absent before upload/job; Codex0.162.1 found/logged_in/versionconfirmed=true.",
                       "next": "Author asked to run existing pinned Windows toolchain installer; no remote arbitrary shell available."
+                    },
+                    {
+                      "date": "2026-10-12",
+                      "stage": "Windows prerequisites resolved; protected native Studio job accepted",
+                      "result": "RUNNING, not acceptance",
+                      "job_id": "52c007d97c9e4c0e8597fbbe0405e9d5",
+                      "snapshot_id": "21301c5a3f9d33dae93721c11e04fe70cee480bb743deec63234f31305f4e4ca",
+                      "source_commit": "13a6b647",
+                      "prerequisites": "SSH authenticated with configured station key; existing pinned setup exit0 installed Blender4.5.12; readiness API Blender version_match/Codex version_confirmed/logged_in/station_ready/ready=true.",
+                      "limits": "Compilation/content/import observed running; no native selection/request/Apply/Undo evidence yet."
                     }
                   ],
                   "assigned_owner": "codex/b20-2026-10-10",
-                  "active_owner": null,
+                  "active_owner": "codex/b20-2026-10-10",
                   "activity": {
-                    "state": "prerequisite_wait",
-                    "reason": "Author resumed Windows Studio checks 12.10; remote Studio preflight refuses missing pinned Blender. Source B20 continues."
+                    "state": "confirmed_active",
+                    "reason": "Windows protected native Studio job52c007d97c9e4c0e8597fbbe0405e9d5 accepted; source compilation/import in progress.",
+                    "verification_question": "Can actual native Front0 selection with explicit main-seven scope pass Codex→preview→Apply→matched game and byte-exact Undo, preserving SeniOuter0/doors/defaults/userdata?"
                   },
                   "task_type": "integration_check",
-                  "status": "blocked",
+                  "status": "in_progress",
                   "implementation_state": "not_started",
                   "technical_verification_state": "not_run",
                   "remaining": [
-                    "Реальный native Front0/main-seven→Codex→preview→Apply→matched game→byte-exact Undo на Windows не проверен; Windows runtime возобновлён автором 12.10.",
-                    "Windows readiness 12.10: Codex0.162.1 found/version confirmed/logged_in=true; Blender не найден API. Обеспечить Blender4.5.12 и authoring source snapshot, затем native Studio UI.",
-                    "Overall historical Windows kit smoke FAIL: shutdown resource leaks; scenario5checks и compile0/0 не заменяют чистый runtime result."
+                    "Actual native main-seven Codex/preview/Apply/game/Undo not yet verified; job52c007d97c9e4c0e8597fbbe0405e9d5 currently running.",
+                    "Historical kit shutdown leaks remain separate; actual native current-session result must be inspected."
                   ],
-                  "next_action": "After Windows pinned Blender is installed, run protected native Studio main-seven request→Codex→preview→Apply→matched game→byte-exact Undo. Author resumed Windows launches; Mac launch remains outside this request.",
-                  "blocker": {
-                    "reason": "Windows Studio readiness: pinned Blender absent; submit-only refused before source upload/job. Codex version/login confirmed.",
-                    "release_when": "Existing Windows setup-windows-station.ps1 completes and doctor --studio-readiness confirms pinned Blender."
-                  },
+                  "next_action": "Continue same live Windows job52c007d97c9e4c0e8597fbbe0405e9d5; observe native Studio and select Front0, choose explicit main-seven scope, Codex→preview→Apply→matched game→byte-exact Undo; do not restart solely on observation timeout.",
+                  "blocker": null,
                   "external_gates": [],
                   "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
                   "work_contract": {
