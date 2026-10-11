@@ -23729,6 +23729,13 @@
                 "source": "evidence evidence/STUDIO/b20-deepseek-ai-13/2026-10-10-parity-diagnosis/confirmation.log and receipt.json; no repository file was changed",
                 "verification": "On PURE origin/main f703f132 with zero modifications: freshly compiled == game/content/urman.chapter1.compiled.v1.json (True), freshly compiled == tests-dotnet/fixtures/content/urman.chapter1.compiled.v1.json (False), checked-in pack == frozen golden (False). The compiled role bindings equal the manifest's eleven; the golden has nine and is missing exactly tamara and phone_guy. The added entities are authored in content/modules/urman-chapter1/tamara-fence.json, inside the module the parity test compiles. Per-module fingerprints: urman.chapter1 CHANGED, urman.core and urman.oldpc identical. Owner's action: regenerate the frozen fixture with the expected fingerprint 57789cd303e3c6d777a0975082728979cf819a9cf01f73f842cdedfd5903f277, or state that the Tamara content must not be in this pack, in which case the defect would be in the module selection rather than the fixture"
               }
+,
+              {
+                "stage": "2026-10-10 parity follow-up: the Tamara sources are declared by the module, and both checked-in packs match a fresh compile",
+                "result": "closing verification by deepseek v4.1 flash of its own parity diagnosis: content/modules/urman-chapter1/module.json declares 28 source files and lists tamara-fence.json explicitly, so the Tamara content is intentionally part of the module; a fresh compile equals the checked-in chapter1 pack and the checked-in fullgame pack (fingerprint aecbc853...), and only the frozen chapter1 test fixture differs",
+                "source": "evidence evidence/STUDIO/b20-deepseek-ai-13/2026-10-10-parity-diagnosis/packs.log and receipt.json; no repository file was changed",
+                "verification": "On PURE origin/main f703f132: urman.chapter1 diagnostics 0, fresh == checked-in pack True, fresh == frozen fixture False (fingerprint 57789cd3...); urman.fullgame diagnostics 0, fresh == checked-in pack True (fingerprint aecbc853...), no frozen fixture; and an intentionally incomplete module list is refused with the precise diagnostic 'Campaign module urman.chapter1 was not supplied.' and no pack, which is how my own wrong module list was caught. Both doubts raised by the first diagnosis are closed. The owner's action stays: regenerate the chapter1 fixture with the expected fingerprint, or make a canon-level decision that the Tamara content should not be in this pack"
+              }
 
             ],
             "assigned_owner": "deepseek/b20-2026-10-10"
