@@ -15,7 +15,8 @@ public static partial class VehicleVisualFactory
         // The Niva is built with Charm:null on purpose: VehicleMirrorCharm
         // (VehicleVisualFactory.MirrorCharm.cs) drives the authored charm
         // itself, so VehicleController.SwingCharm must keep skipping it.
-        Node3D? Charm=null, Node3D? ParkingBrakeLever=null);
+        Node3D? Charm=null, Node3D? ParkingBrakeLever=null,
+        Node3D? ThrottlePedal=null, Node3D? BrakePedal=null);
 
     public static Visual Build(VehicleDefinition definition)
     {
@@ -45,6 +46,8 @@ public static partial class VehicleVisualFactory
         NivaModelPart(root,"NivaInterior","NivaInterior");
         NivaModelPart(root,"NivaRadio","NivaRadio");
         var parkingBrakeLever = NivaModelPart(root,"NivaHandbrake","ParkingBrakeLever");
+        var throttlePedal = NivaModelPart(root,"NivaThrottlePedal","ThrottlePedal");
+        var brakePedal = NivaModelPart(root,"NivaBrakePedal","BrakePedal");
         root.SetMeta("roadVehicleGeometryRevision",4);
         root.SetMeta("assetOrigin","project-original Blender model urman_niva.glb");
         var speed=Gauge(root,"Speedometer",new(-.52f,1.102f,-.397f),.061f,"км/ч",160);
@@ -83,7 +86,7 @@ public static partial class VehicleVisualFactory
         root.AddChild(new VehicleImmersionDetails { Name="ImmersionDetails" });
         var lamps=Headlights(root,new[]{new Vector3(-.60f,1.01f,-2.04f),new Vector3(.60f,1.01f,-2.04f)});
         return new(root,wheels,front,Array.Empty<Node3D>(),null,steering,lamps,speed,revs,radioDisplay,
-            Charm:null,ParkingBrakeLever:parkingBrakeLever);
+            Charm:null,ParkingBrakeLever:parkingBrakeLever,ThrottlePedal:throttlePedal,BrakePedal:brakePedal);
     }
 
     /// <summary>Russian plate of a Tatarstan car: series, number and region 116.</summary>

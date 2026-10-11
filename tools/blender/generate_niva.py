@@ -14,7 +14,8 @@ only presentation meshes with no collision authority:
   NivaWheel  stamped steel wheel with hubcap and a rounded tyre, axle on X
   NivaRadio  a 1-DIN cassette car radio: LCD window, knobs, presets, tape door
   NivaInterior  dash around the live gauges, seats (sheepskin on the driver's),
-             rubber mats, levers, door cards, headliner, mirror, visors
+             clutch, rubber mats, levers, door cards, headliner, mirror, visors
+  NivaThrottlePedal / NivaBrakePedal  separate hinge-origin driver controls
   NivaSteering  two-spoke VAZ wheel in a laced leather cover (local XY rim)
   NivaCharm  shamail medallion with the name of God in square Kufic and a
              wooden tasbih, hung from the mirror (local origin = hanging point)
@@ -810,10 +811,11 @@ def build_interior(root):
     tube("NivaCab_KeyRing", [(-.34 + .012 * math.cos(a), .94 + .012 * math.sin(a), -.35) for a in
                              [math.tau * i / 16 for i in range(17)]], .0012, "b8b9b0", "chrome", root, 1)
 
-    # Pedals under the dash.
-    for x, pad in ((-.56, (.06, .075)), (-.45, (.07, .075)), (-.31, (.045, .10))):
-        beam(f"NivaCab_PedalArm{x}", (x, .80, -.60), (x, .64, -.53), .016, "2a2c2a", "metal", root)
-        box(f"NivaCab_PedalPad{x}", (pad[0], pad[1], .014), (x, .62, -.52), "1b1c1b", "rubber", root, .004, rotation=(-35, 0, 0))
+    # Keep the clutch fixed in the cabin. The service brake and throttle are
+    # separate export parts below so the runtime can animate their real hinges.
+    x, pad = -.56, (.06, .075)
+    beam(f"NivaCab_PedalArm{x}", (x, .80, -.60), (x, .64, -.53), .016, "2a2c2a", "metal", root)
+    box(f"NivaCab_PedalPad{x}", (pad[0], pad[1], .014), (x, .62, -.52), "1b1c1b", "rubber", root, .004, rotation=(-35, 0, 0))
 
     # Transmission tunnel and the three fixed gear levers.
     box("NivaCab_Tunnel", (.30, .14, 1.30), (0, .56, .02), "33312d", "carpet", root, .06, 4)
@@ -871,6 +873,25 @@ def build_handbrake(root):
     """The existing lever pair, separated so the runtime can pivot at its base."""
     beam("NivaCab_Handbrake", (0, .63, .20), (0, .74, .44), .03, "1b1c1b", "plastic", root, .045)
     cylinder_z("NivaCab_HandbrakeButton", .008, .012, (0, .745, .45), "a0a39b", "chrome", root, 10)
+
+
+def build_pedal(root, x, pad):
+    """Existing accelerator/brake rest geometry in its own hinge group."""
+    beam(f"NivaCab_PedalArm{x}", (x, .80, -.60), (x, .64, -.53), .016, "2a2c2a", "metal", root)
+    box(f"NivaCab_PedalPad{x}", (pad[0], pad[1], .014), (x, .62, -.52),
+        "1b1c1b", "rubber", root, .004, rotation=(-35, 0, 0))
+
+
+def set_pedal_hinge_origin(pedal, x):
+    """Put the neutral pedal at its upper hinge with an identity local basis."""
+    bpy.context.scene.cursor.location = G(x, .80, -.60)
+    for other in bpy.context.selected_objects:
+        other.select_set(False)
+    pedal.select_set(True)
+    bpy.context.view_layer.objects.active = pedal
+    bpy.ops.object.origin_set(type="ORIGIN_CURSOR")
+    bpy.ops.object.transform_apply(location=False, rotation=True, scale=True)
+    bpy.context.scene.cursor.location = (0, 0, 0)
 
 
 def empty(name):
@@ -976,12 +997,25 @@ def main() -> None:
     build_radio(radio)
     interior = empty("NivaInterior_Group")
     build_interior(interior)
+    throttle_group = empty("NivaThrottlePedal_Group")
+    build_pedal(throttle_group, -.31, (.045, .10))
+    brake_group = empty("NivaBrakePedal_Group")
+    build_pedal(brake_group, -.45, (.07, .075))
     handbrake_group = empty("NivaHandbrake_Group")
     build_handbrake(handbrake_group)
     steering = empty("NivaSteering_Group")
     build_steering(steering)
     charm = empty("NivaCharm_Group")
     build_charm(charm)
+    throttle = join_children(throttle_group, "NivaThrottlePedal")
+    brake = join_children(brake_group, "NivaBrakePedal")
+    for pedal in (throttle, brake):
+        if not pedal.data.uv_layers:
+            uv_layer = pedal.data.uv_layers.new(name="UVMap")
+            for loop in uv_layer.data:
+                loop.uv = (0.0, 0.0)
+    set_pedal_hinge_origin(throttle, -.31)
+    set_pedal_hinge_origin(brake, -.45)
     handbrake = join_children(handbrake_group, "NivaHandbrake")
     # Joining these primitives into NivaInterior previously gave their
     # otherwise-unmapped faces Blender's (0,0) UV; glTF flips V to (0,1).
@@ -1002,7 +1036,7 @@ def main() -> None:
     bpy.ops.object.transform_apply(location=False, rotation=True, scale=True)
     bpy.context.scene.cursor.location = (0, 0, 0)
     parts = [join_children(body, "NivaBody"), join_children(wheel, "NivaWheel"), join_children(radio, "NivaRadio"),
-             join_children(interior, "NivaInterior"), handbrake, join_children(steering, "NivaSteering"),
+             join_children(interior, "NivaInterior"), throttle, brake, handbrake, join_children(steering, "NivaSteering"),
              join_children(charm, "NivaCharm")]
     for part in parts:
         consolidate_materials(part)

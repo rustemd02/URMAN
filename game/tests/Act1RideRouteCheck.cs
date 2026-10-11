@@ -7,7 +7,7 @@ namespace Urman.Godot.Tests;
 /// Diagnostic for the prologue ride's village leg (no rendering needed): drives
 /// a Niva-sized box along the route every metre and reports what it touches -
 /// physics bodies, visible props without collision, stretches off the roads and
-/// steep ground. Exit code 1 when anything blocks the car.
+/// steep ground. Exit code 1 for physical blockers or visible prop intersections.
 /// </summary>
 public partial class Act1RideRouteCheck : Node
 {
@@ -78,8 +78,8 @@ public partial class Act1RideRouteCheck : Node
             GD.Print($"ride-route: {offRoad} off-road samples, steepest {steepest:0.0} deg");
             foreach (var (name, at) in blocked) GD.Print($"ride-route: BLOCKED by physics body {name} near ({at.X:0.0}, {at.Z:0.0})");
             foreach (var (name, at) in passedThrough) GD.Print($"ride-route: passes through visible prop without collision {name} near ({at.X:0.0}, {at.Z:0.0})");
-            if (blocked.Count > 0) exit = 1;
-            GD.Print(exit == 0 ? "ride-route: PASS (no physics blockers)" : "ride-route: FAIL");
+            if (blocked.Count > 0 || passedThrough.Count > 0) exit = 1;
+            GD.Print(exit == 0 ? "ride-route: PASS (no physics blockers or visible prop intersections)" : "ride-route: FAIL");
         }
         catch (Exception error)
         {
@@ -142,7 +142,7 @@ public partial class Act1RideRouteCheck : Node
                     {
                         if (!car.Intersects(box.Grow(-.15f))) continue;
                         // The parked car is hidden by production during this ride.
-                        if (mesh.GetParent()?.Name == "VehicleVisual") continue;
+                        if (IsInsideVehicleVisual(mesh)) continue;
                         var name = mesh.Name + " < " + mesh.GetParent()?.Name;
                         if (blocked.ContainsKey(name) || passedThrough.ContainsKey(name)) continue;
                         if (!faces.TryGetValue(mesh, out var triangles)) faces[mesh] = triangles = mesh.Mesh.GetFaces();
@@ -168,6 +168,13 @@ public partial class Act1RideRouteCheck : Node
             foreach (var (name, at) in passedThrough) GD.Print($"ride-route: passes through visible prop without collision {name} near ({at.X:0.0}, {at.Z:0.0})");
             GD.Print($"ride-route: bounds worstOff={worstOff:0.00}m@({worstOffAt.X:0.0},{worstOffAt.Z:0.0}) steep={steepest:0.0}deg@({steepAt.X:0.0},{steepAt.Z:0.0})");
         return (blocked, passedThrough, offRoad, steepest);
+    }
+
+    private static bool IsInsideVehicleVisual(Node node)
+    {
+        for (var parent = node.GetParent(); parent is not null; parent = parent.GetParent())
+            if (parent.Name == "VehicleVisual") return true;
+        return false;
     }
 
     // Separating-axis narrow phase: a rotated thin wall's world AABB is not

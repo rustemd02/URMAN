@@ -97293,9 +97293,9 @@
       "remaining_map_2026_10_04": "docs/production/act1_remaining_cards_map_2026-10-04.md",
       "title": "Пассажирская экскурсия и полезный транспорт по доступным дорогам",
       "milestone": "M5",
-      "status": "todo",
+      "status": "in_progress",
       "complexity": "medium",
-      "active_owner": null,
+      "active_owner": "Кодекс Кадыра / Luna route",
       "owner": "unassigned",
       "depends_on": [
         "ACT1-VILLAGE-BLOCKOUT"
@@ -97406,8 +97406,8 @@
       },
       "assigned_owner": "unassigned",
       "activity": {
-        "state": "not_active",
-        "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+        "state": "confirmed_active",
+        "reason": "11.10: source stage integrated by Кодекс Кадыра; Luna edits reviewed. Original Niva export and affected compile completed; Windows acceptance awaits explicit UNTERPC snapshot-transfer approval."
       },
       "task_type": "engineering",
       "implementation_state": "not_started",
@@ -97416,17 +97416,22 @@
         "Во вступлении бабай ведёт Ниву с передним пассажиром через целый мост, показывая места без длинной неподвижной экспозиции.",
         "После ночи машина не пересекает разрыв/границу; понятны доступные дороги, нет случайных препятствий или сквозного проезда через объекты."
       ],
-      "next_action": "Прочитать действующий контракт и владельца; зафиксировать исходное состояние только выбранного участка. Сохранить чужие изменения и пользовательские данные.",
+      "next_action": "Полная B13 приёмка: текущие Windows save/load/input/route проверки и POV/движение после явного разрешения передачи снимка исходников на UNTERPC; все критерии и AS-17 остаются открыты.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
-      "execution_mode": "production_paused_during_tracker_migration",
+      "execution_mode": "author_2026_10_11_complete_B13",
       "work_contract": {
         "result": "Пассажирская экскурсия и полезный транспорт по доступным дорогам",
         "targets": [
+          "game/scripts/SettlementRoadGraph.cs",
           "game/scripts/VehicleController.cs",
           "game/scripts/VehicleController.WheelCollision.cs",
-          "game/scripts/Act1ConnectedWorld.Vehicles.cs"
+          "game/scripts/VehicleFleet.cs",
+          "game/scripts/Act1ConnectedWorld.Vehicles.cs",
+          "game/scripts/Act1ConnectedWorld.Addresses.cs",
+          "game/scripts/Act1DemoRoot.PrologueNivaRide.cs",
+          "game/tests/Act1RideRouteCheck.cs"
         ],
         "required_inputs": [
           {
@@ -97437,9 +97442,14 @@
           }
         ],
         "scope_in": [
+          "game/scripts/SettlementRoadGraph.cs",
           "game/scripts/VehicleController.cs",
           "game/scripts/VehicleController.WheelCollision.cs",
-          "game/scripts/Act1ConnectedWorld.Vehicles.cs"
+          "game/scripts/VehicleFleet.cs",
+          "game/scripts/Act1ConnectedWorld.Vehicles.cs",
+          "game/scripts/Act1ConnectedWorld.Addresses.cs",
+          "game/scripts/Act1DemoRoot.PrologueNivaRide.cs",
+          "game/tests/Act1RideRouteCheck.cs"
         ],
         "scope_out": [
           "Контент соседнего блока, кроме указанного артефакта-входа.",
@@ -97457,12 +97467,12 @@
         ],
         "verification": {
           "method": "targeted_runtime_scenario",
-          "question": "Пассажирская экскурсия и полезный транспорт по доступным дорогам",
+          "question": "Проезжают ли три средства по дороге/обочине/открытому двору с возвратом и понятным запретом воды/границы без сквозного проезда?",
           "scenario": "Документы: конкретные ссылки/JSON/diff. При реализации — существующая узкая проверка изменённого пути и защищённый обычный запуск с проходом/поворотами; человеческий интерес не выводить из PASS.",
           "success": "Наблюдаемый результат этой единицы и обратное действие/восстановление там, где меняются данные. Для ассета — импорт выбранного файла и целевой вид/движение; для кода — узкая компиляция только затронутого модуля, затем указанный пользовательский сценарий. Компиляция не доказывает изображение или GUI.",
           "repeat_only_if": "Изменился покрываемый вход/consumer/контракт; без этого уже принятая проверка используется повторно без запуска."
         },
-        "actual_result": null,
+        "actual_result": "Source 11.10: road/verge/yard/boundary/water policy for Car, Motorcycle, HorseCart; existing Car envelope preserved.",
         "evidence_refs": [
           "tasks[id=ACT1-TRANSPORT.ROUTE].evidence"
         ],
@@ -97519,16 +97529,22 @@
           "evidence_ref": "ACT1-TRANSPORT.ROUTE.evidence and named history progress; source_review shows available/missing inputs"
         }
       ],
-      "assignment_state": "unassigned_explicit_not_active"
+      "assignment_state": "unassigned_explicit_not_active",
+      "progress_2026_10_11_B13_source": {
+        "result": "Source 11.10: road/verge/yard/boundary/water policy for Car, Motorcycle, HorseCart; existing Car envelope preserved. Existing route-check now fails on narrow-phase visible prop intersection; hidden VehicleVisual descendants consistently excluded.",
+        "verification": "Affected Urman.Game.csproj compile: 0 errors, 0 warnings; tracker validate PASS; current Windows gameplay/visual verification not run.",
+        "remaining": "Full current B13 transport/save-load/input/route/cabin movement and AS-17 acceptance remain open. Station doctor timed out before any new game job or snapshot submission; service connectivity must be restored.",
+        "next_action": "Полная B13 приёмка: текущие Windows save/load/input/route проверки и POV/движение после явного разрешения передачи снимка исходников на UNTERPC; все критерии и AS-17 остаются открыты."
+      }
     },
     {
       "id": "ACT1-TRANSPORT.CABIN",
       "progress_2026_10_04": "2026-10-04: салон измерен по исходной модели и позициям кода: docs/production/act1_niva_cabin_2026-10-04.md. Салон — два цельных меша (NivaBody + NivaInterior, Y 0.49…1.64), а не именованные части; сиденье babay-niva (−0.40, 0.65, 0.12), камера водителя DriverLook = сиденье+0.75 = 1.40 (24 см ниже потолка; камера пере-привязывается в VehicleController.cs:112), камера пассажира RideCameraRest 1.44 (20 см ниже), приборы 1.102, радио 1.008, руль 1.10 с наклоном −28°, подвеска 1.548. По измерению клиппинга нет, и пешая высота 1.70 в салоне не используется. Проверка вида, поворотов камеры и по-частей (спинки/окна/педали) требует прогона: это единые меши.",
       "title": "Собрать салон Нивы для переднего пассажирского ракурса",
       "milestone": "M5",
-      "status": "todo",
+      "status": "in_progress",
       "complexity": "medium",
-      "active_owner": null,
+      "active_owner": "Кодекс Кадыра / Luna cabin",
       "owner": "unassigned",
       "depends_on": [],
       "scope": [
@@ -97662,8 +97678,8 @@
       },
       "assigned_owner": "unassigned",
       "activity": {
-        "state": "not_active",
-        "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+        "state": "confirmed_active",
+        "reason": "11.10: source stage integrated by Кодекс Кадыра; Luna edits reviewed. Original Niva export and affected compile completed; Windows acceptance awaits explicit UNTERPC snapshot-transfer approval."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -97672,23 +97688,31 @@
         "С переднего места видны дорога/деревня, бабай и правдоподобная геометрия салона; спинки, окна, зеркало, педали/ручник и материалы не клиппуют.",
         "Обычные повороты камеры и катсценные кадры проверены в движке, не только статичным рендером."
       ],
-      "next_action": "Прочитать действующий контракт и владельца; зафиксировать исходное состояние только выбранного участка. Сохранить чужие изменения и пользовательские данные.",
+      "next_action": "Полная B13 приёмка: текущие Windows save/load/input/route проверки и POV/движение после явного разрешения передачи снимка исходников на UNTERPC; все критерии и AS-17 остаются открыты.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
-      "execution_mode": "production_paused_during_tracker_migration",
+      "execution_mode": "author_2026_10_11_complete_B13",
       "work_contract": {
         "result": "Собрать салон Нивы для переднего пассажирского ракурса",
         "targets": [
+          "game/scripts/VehicleVisualFactory.cs",
           "game/scripts/VehicleVisualFactory.NivaModel.cs",
           "game/scripts/VehicleController.cs",
-          "game/scripts/VehicleVisualFactory.RoadVehicles.cs"
+          "tools/blender/generate_niva.py",
+          "assets/source/blender/urman_niva.blend",
+          "game/assets/generated/urman_niva.glb",
+          "assets/asset_registry.json"
         ],
         "required_inputs": [],
         "scope_in": [
+          "game/scripts/VehicleVisualFactory.cs",
           "game/scripts/VehicleVisualFactory.NivaModel.cs",
           "game/scripts/VehicleController.cs",
-          "game/scripts/VehicleVisualFactory.RoadVehicles.cs"
+          "tools/blender/generate_niva.py",
+          "assets/source/blender/urman_niva.blend",
+          "game/assets/generated/urman_niva.glb",
+          "assets/asset_registry.json"
         ],
         "scope_out": [
           "Контент соседнего блока, кроме указанного артефакта-входа.",
@@ -97706,12 +97730,12 @@
         ],
         "verification": {
           "method": "targeted_runtime_scenario",
-          "question": "Собрать салон Нивы для переднего пассажирского ракурса",
+          "question": "Двигаются ли педали от ввода и сбрасываются ли после modal/exit/restore; видны ли переднему пассажиру дорога и бабай без клиппинга?",
           "scenario": "Документы: конкретные ссылки/JSON/diff. При реализации — существующая узкая проверка изменённого пути и защищённый обычный запуск с проходом/поворотами; человеческий интерес не выводить из PASS.",
           "success": "Наблюдаемый результат этой единицы и обратное действие/восстановление там, где меняются данные. Для ассета — импорт выбранного файла и целевой вид/движение; для кода — узкая компиляция только затронутого модуля, затем указанный пользовательский сценарий. Компиляция не доказывает изображение или GUI.",
           "repeat_only_if": "Изменился покрываемый вход/consumer/контракт; без этого уже принятая проверка используется повторно без запуска."
         },
-        "actual_result": null,
+        "actual_result": "Source 11.10: Original throttle/brake meshes isolated in GLB and connected to drivetrain input; modal/exit/restore reset visuals. GLB remains 66140 triangles, 44 materials; old triangleBudget 18000 exceeded, not raised; AS-17 remains open.",
         "evidence_refs": [
           "tasks[id=ACT1-TRANSPORT.CABIN].evidence"
         ],
@@ -97784,7 +97808,13 @@
           "evidence_ref": "ACT1-TRANSPORT.CABIN.evidence and named history progress; source_review shows available/missing inputs"
         }
       ],
-      "assignment_state": "unassigned_explicit_not_active"
+      "assignment_state": "unassigned_explicit_not_active",
+      "progress_2026_10_11_B13_source": {
+        "result": "Source 11.10: Original throttle/brake meshes isolated in GLB and connected to drivetrain input; modal/exit/restore reset visuals. GLB remains 66140 triangles, 44 materials; old triangleBudget 18000 exceeded, not raised; AS-17 remains open.",
+        "verification": "Affected Urman.Game.csproj compile: 0 errors, 0 warnings; tracker validate PASS; current Windows gameplay/visual verification not run. GLB semantic comparison: 44 identical materials, 66140 triangles; steering/radio/charm/handbrake unchanged, interior+pedals match within 0.1mm. Body triangulation equivalence is being checked; exact connectivity unconfirmed. Blender exporter changed 4.5.51 to 5.2.40: 13 Body triangles per side differ; 6 explained by planar quad diagonal flips, 7 remain unconfirmed. Candidate requires current visual check; do not claim entire body unchanged.",
+        "remaining": "Full current B13 transport/save-load/input/route/cabin movement and AS-17 acceptance remain open. Station doctor timed out before any new game job or snapshot submission; service connectivity must be restored.",
+        "next_action": "Полная B13 приёмка: текущие Windows save/load/input/route проверки и POV/движение после явного разрешения передачи снимка исходников на UNTERPC; все критерии и AS-17 остаются открыты."
+      }
     },
     {
       "id": "ACT1-PERF.PROFILE",
