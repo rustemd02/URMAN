@@ -76639,6 +76639,12 @@
                 "result": "deepening by deepseek v4.1 flash: 32 dialogues with 125 nodes and 198 answers are checked as a graph - startNodeId and every nextNodeId resolve inside their dialogue, every speakerRole is declared in participantRoles, every textId resolves, and every condition and effect names an operation ContentRuleEngine really executes with the sets read from the engine sources. PC threads are excluded by record type because their schema does not declare roles",
                 "source": "new file src-dotnet/Urman.Studio.Core/Editing/DialogueGraph.cs; evidence evidence/STUDIO/b20-deepseek-ai-24/2026-10-11-dialogue-graph",
                 "verification": "probe PASS 494/494 including the graph checks, the chat exclusion and the synthetic cases (missing start node, unknown speaker, unresolved text, unexecuted condition and effect, answer pointing at a missing node); Core 0/0; game/Urman.Game.csproj 0/0; Urman.Studio.Tests 38/38. Own mistake recorded: the first detector matched PC threads too. Language/culture/listening acceptance is NOT_RUN and external"
+              },
+              {
+                "stage": "2026-10-11 the book graph, and the references the workspace cannot see",
+                "result": "deepening by deepseek v4.1 flash, with a shared-foundation finding. The book has 13 photos, 5 worlds, 33 facts, 2 evidence records and 7 required anchors, and nothing it names is absent from both the project and the authored files: pages are unique, every world names an existing photo and anchor, its spawn and exit nodes are inside its own node list, and evidence constituents resolve by kind with a satisfiable minimum. BUT 64 book references exist in the authored files and are invisible to the workspace index, because the index carries no interaction at all (measured: zero interaction ids indexed) while the book's photo sources, permissions, context sources and the handoff all name interactions held in nested records. That is an indexer gap in the shared workspace, not an authoring mistake; the projection separates the two cases so it does not report 64 false absences. Own mistakes fixed while building it: a recursive id walk overflowed the stack on nested plots (now iterative) and a string cast on a numeric id threw (now TryGetValue)",
+                "source": "new file src-dotnet/Urman.Studio.Core/Editing/PhotoBook.cs; evidence evidence/STUDIO/b20-deepseek-ai-24/2026-10-11-photo-book-indexing",
+                "verification": "probe PASS 591/591 including the book counts, zero real absences, the separated indexing gaps and the measured zero indexed interactions; Core 0/0. No game run: how the book reads is author and language acceptance"
               }
             ],
             "stage_tasks": [
@@ -76670,7 +76676,9 @@
             "remaining": [
               "Книга, улики, язык и сообщения ПК редактируются в актуальном контентном контуре.; отсутствует подтверждение собственного конечного DoD, перечисленного ниже.",
               "Ранее переданный частичный этап (2026-10-10 PC threads, hints, strict parsing and a static preview) ждёт ревью/приёмки; полный done_when не выполнен.",
-              "Ранее переданный частичный этап (2026-10-11 the authored dialogues checked as a graph the engine can walk) ждёт ревью/приёмки; полный done_when не выполнен."
+              "Ранее переданный частичный этап (2026-10-11 the authored dialogues checked as a graph the engine can walk) ждёт ревью/приёмки; полный done_when не выполнен.",
+              "Общий индексатор рабочего пространства не несёт вложенные записи интеракций: без этого редактор книги не сможет ссылаться на них.",
+              "Ранее переданный частичный этап (2026-10-11 the book graph, and the references the workspace cannot see) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
             "next_action": "Трассировать bindings активной кампании; human forms; AI exact-field edits; проверить Markdown/учебные токены; preview в игре.",
             "blocker": null,
