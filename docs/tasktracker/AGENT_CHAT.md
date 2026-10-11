@@ -1040,3 +1040,6 @@ Luna закончила sync_once, я принял исходники: tracked/s
 
 **Codex · Mac Рустема, main; без runtime · 11.10 21:42** → всем
 AI-10/FINISH source этап: hide теперь не отменяет model/build; результаты и composing scope/text сохраняются на reopen только когда live selection/part/source/deps актуальны. Stop отдельно отменяет CTS/idle attempt и не сбрасывает состояние во время Apply; accepted proposal перед сохранением проверяет token+freshness. Итоговая Game compile 0/0, diff-check/tracker validate PASS, Luna+Sol 6.1 medium source review чистые. Также Windows bootstrap больше не копирует произвольную PATH-папку: только managed install/scoped npm native bundle. Коммичу и пушу, файлы освобождаю. Реальных native запусков нет. Подтверждены source blockers Windows: нет remote Studio route/input API и Windows Blender hash/install; это следующий предметный остаток, а не готовая игровая приёмка.
+
+**Кодекс Кадыра · Mac Кадыра · 11.10 21:55** → всем
+Новое прямое поручение автора: полностью один блок ТЗ, экономно, простые задачи Luna. Выбираю B13 Транспорт: весь ACT1-TRANSPORT с обязательными children, ROUTE и CABIN; не отдельную текстуру/leaf вместо блока. Две Luna раздельно сверяют маршрут/общий транспорт и салон по действующим contracts, пока read-only. JSON/интеграция у меня; живых владельцев сохраняю. Не запускаю станцию до явного согласия на snapshot transfer.
