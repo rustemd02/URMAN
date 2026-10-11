@@ -1,0 +1,6 @@
+== AI-13: the runtime source hash, the half of the fingerprint that needs no decision
+
+
+Прошло времени 00:00:00.49
+  runtime source hash: 7769871c796d17a7… (len 64); RuntimeSourceHash: 21 авторских рантайм-файлов (без compiled-паков). Покрывает контент ВНЕ папок модулей; изменение чужой кампании тоже инвалидирует прогон — это выбрано сознательно, потому что пропущенное изменение опаснее лишней сборки.
+PROBE RESULT: PASS

@@ -140,4 +140,79 @@ public static class PlayPreparation
         var fingerprint = (string)result.Pack!["campaignFingerprint"]!;
         return new(true, $"контент {fingerprint[..8]}", fingerprint, []);
     }
+    /// <summary>
+    /// The hash of the AUTHORED RUNTIME content a run reads, as a SEPARATE value from
+    /// CompileInputHash so a caller can compare the two for what each one covers.
+    ///
+    /// CompileInputHash covers what the COMPILER reads: the campaign manifest, its module files,
+    /// the schemas and the photoBook authoring specs. It does NOT cover the runtime content that
+    /// lives OUTSIDE the module folders - game/content/world world plots, game/content/cutscenes
+    /// timelines, the animation catalogue and the studio recipes - and THAT is what a change during
+    /// a compile can slip past a guard that only compares CompileInputHash.
+    ///
+    /// This method hashes exactly those authored runtime files and, like CompileInputHash,
+    /// deliberately EXCLUDES every *.compiled.v1.json: the compiler writes those itself, so hashing
+    /// them would make a legitimate compile look like an authored change.
+    ///
+    /// Boundary, stated because it costs something: this covers ALL authored runtime content, not
+    /// only the selected campaign's. A change to another campaign's world plot therefore invalidates
+    /// a run of this one. That direction is chosen on purpose - a false-stale wastes a compile, while
+    /// a missed change launches a scene the author did not ask for - and narrowing it to one campaign
+    /// needs a mapping from a campaign or world selection to its runtime FILES, which the manifest
+    /// does not carry today: it names scene IDS, not paths.
+    /// </summary>
+    public static string RuntimeSourceHash(string root)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(root);
+        var full = Path.GetFullPath(root);
+        var files = new SortedSet<string>(StringComparer.Ordinal);
+        foreach (var folder in new[] { Path.Combine("game", "content") })
+        {
+            var path = Path.Combine(full, folder);
+            if (!Directory.Exists(path))
+            {
+                continue;
+            }
+
+            foreach (var file in Directory.EnumerateFiles(path, "*.json", SearchOption.AllDirectories))
+            {
+                if (file.Contains(".compiled.", StringComparison.Ordinal))
+                {
+                    continue;
+                }
+
+                files.Add(file);
+            }
+        }
+
+        using var sha = System.Security.Cryptography.SHA256.Create();
+        var writer = new MemoryStream();
+        foreach (var file in files)
+        {
+            var relative = Path.GetRelativePath(full, file).Replace('\\', '/');
+            var bytes = File.ReadAllBytes(file);
+            writer.Write(System.Text.Encoding.UTF8.GetBytes(relative));
+            writer.Write([0]);
+            writer.Write(bytes);
+            writer.Write([0]);
+        }
+
+        writer.Position = 0;
+        return Convert.ToHexString(sha.ComputeHash(writer)).ToLowerInvariant();
+    }
+
+    /// <summary>What the runtime hash covers and what it costs, for a caller that shows it.</summary>
+    public static string RuntimeSourceHashNote(string root)
+    {
+        var count = 0;
+        var path = Path.Combine(Path.GetFullPath(root), "game", "content");
+        if (Directory.Exists(path))
+        {
+            count = Directory.EnumerateFiles(path, "*.json", SearchOption.AllDirectories)
+                .Count(file => !file.Contains(".compiled.", StringComparison.Ordinal));
+        }
+
+        return $"RuntimeSourceHash: {count} авторских рантайм-файлов (без compiled-паков). Покрывает контент ВНЕ папок модулей; изменение чужой кампании тоже инвалидирует прогон — это выбрано сознательно, потому что пропущенное изменение опаснее лишней сборки.";
+    }
+
 }
