@@ -13,12 +13,13 @@
   "native_runtime": "NOT_RUN",
   "author_acceptance": "PENDING",
   "physical_photo_images": "NOT_PRODUCED; frontBrief is descriptive text",
-  "game_build": "passed:0warnings0errors23.99s",
+  "game_build": "passed:0warnings0errors26.42s",
   "source_sha256": {
-    "game/scripts/JournalUi.PhotoBook.cs": "8fa73208353300d8c78c842baa0e2e7fe2ed40cc61700b13780409ae4ff258a4",
+    "game/scripts/JournalUi.PhotoBook.cs": "42c77998d62ec7ca00fbcbcee2e20cda67249f62b0381b238be96b6019da2e7d",
     "game/scripts/RuntimeBridge.PhotoBook.cs": "2b37e4642d1ba7205a1c0088a72e88a7bd36c78f24c837fbef4607468162de57",
     "game/scripts/JournalUi.cs": "19049ae4754789ef830db236ef0fff63ecd4e62688019761672fbf6c774472ad",
-    "game/scripts/JournalUi.Notebook.cs": "29692b5bdef6c536382fcba98b22e15ad05f7d4cefec61c128c3beed3a7e32eb"
+    "game/scripts/JournalUi.Notebook.cs": "29692b5bdef6c536382fcba98b22e15ad05f7d4cefec61c128c3beed3a7e32eb",
+    "game/scripts/ArrivalPersonalProps.cs": "320afa3fba7c069bf296796c8406e55120d9286727e9cdd72c99361691d7fac7"
   },
   "ui_gates": [
     "acquired-only",
@@ -27,5 +28,17 @@
     "no dispatch or save writes",
     "session/load clears provisional projection",
     "scroll + empty sections hidden"
-  ]
+  ],
+  "handoff": {
+    "result": "Existing physical family-book target AfterDispatch opens album through existing JournalUi.Open after committed authored interaction; missing UI not state failure.",
+    "game_build": "passed:0warnings0errors26.42s",
+    "native_runtime": "NOT_RUN",
+    "existing_gates_preserved": [
+      "arrival/tea beat",
+      "notbookreceived",
+      "giver/beat effects",
+      "active scene ownership",
+      "InteractionTarget session checks"
+    ]
+  }
 }

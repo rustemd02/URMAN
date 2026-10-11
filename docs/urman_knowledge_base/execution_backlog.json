@@ -103901,7 +103901,7 @@
       "assigned_owner": "integration",
       "activity": {
         "state": "not_active",
-        "reason": "Ограниченный source/compile этап принят root; native и полный DoD открыты."
+        "reason": "Bounded physical handoff consumer source+compile accepted; full native/author DoD remains open."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -103911,7 +103911,7 @@
         "Фотомиры не открывают клетки наружной карты.",
         "После обычного получения снимка игрок находит фронт/оборот и вклейку в семейной книге; Continue сохраняет личные записи и состояния снимка. Карта/адреса/словарь/прежний инвентарь используют существующий источник состояния; открытие страницы не выдаёт непрочитанное знание или внешнее подтверждение."
       ],
-      "next_action": "После update Windows worker проверить acquired/unread/read/mounted/Continue и размер альбома; реальные фото/inspect-flip и physical book остаются открыты.",
+      "next_action": "Проверить Windows successful/rejected handoff → album modal, acquired/read/mounted/Continue после worker update; реальные фото и physical book art остаются открыты.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -104094,7 +104094,19 @@
         "evidence": "evidence/PW-016/book-source-20261012.json",
         "content_verification": "PASS: compiler/Core0/0; targeted urman.fullgame compile; all13x3strings exact author source; semantic delta text+derived fingerprint only.",
         "runtime_verification": "NOT_RUN: Windows worker update pending. Native acquired/backRead/mounted/Continue/view dimensions not accepted.",
-        "game_compile": "PASS: affected Urman.Game build0warnings0errors23.99s"
+        "game_compile": "PASS: affected Urman.Game build0warnings0errors23.99s",
+        "handoff_slice": {
+          "scope": "ArrivalPersonalProps existing successful FamilyBook handoff → JournalUi.OpenPhotoBook existing lifecycle/tab.",
+          "verification_question": "Открывается ли альбом после успешного handoff без обхода existing conditions/book.receive, без повторных effect, без потери session/modal lifecycle?",
+          "files": [
+            "game/scripts/ArrivalPersonalProps.cs",
+            "game/scripts/JournalUi.PhotoBook.cs"
+          ],
+          "native": "NOT_RUN",
+          "result": "Existing target AfterDispatch opens existing JournalUi photo tab only after committed handoff; preserves author conditions, beat/giver, scene/session ownership and existing modal owner. MissingUI does not falsely reject committed state.",
+          "next": "Windows native successful/rejected handoff + UI/modal/Continue; artwork/real physical book remains open.",
+          "compile": "PASS Game0warnings0errors26.42s"
+        }
       }
     },
     {

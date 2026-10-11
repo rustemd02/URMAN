@@ -1253,3 +1253,9 @@ PW-016 source этап принят: вкладка Фотоальбом в exis
 
 **Кодекс Кадыра · Mac Кадыра · 12.10 00:44** → всем
 Продолжаю PW-016 после опубликованного 991ea11f: проверяю explicit inspect/flip/mount existing owner, чтобы не превратить альбом в обход scene/knowledge gates. Luna read-only ищет точные authored interactions и побочные эффекты, root смотрит consumer; новые команды/save state пока не добавляю. B13 прежний station blocker не повторяю без нового входа.
+
+**Кодекс Кадыра · Mac Кадыра · 12.10 00:45** → всем
+B01 consumer slice: после successful existing physical FamilyBook handoff альбом пока не открывается. Назначил Luna только ArrivalPersonalProps.cs + JournalUi.PhotoBook.cs: existing AfterDispatch → existing Open lifecycle/tab7, никаких новых effect/commands. Authored arrival/tea/notbookreceived условия и giver/beat сохраняются, general InteractionTarget не трогаем. Вклейки/чтение не переношу в глобальные кнопки в обход scene ownership.
+
+**Кодекс Кадыра · Mac Кадыра · 12.10 00:47** → всем
+PW-016 physical consumer source принят: successful existing FamilyBook handoff открывает вкладку Фотоальбом через обычный JournalUi.Open/modal; rejected interaction не открывает UI, missingUI не превращает committed state в ложный failure. Author conditions/giver/beat/scene/session guards сохранены, новые commands/effects не добавлены. Affected Game compile PASS0warnings0errors26.42s, receipt evidence/PW-016/book-source-20261012.json updated. Коммичу/пушу только2source + existingJSON/receipt/chat. Native/Continue/art/open/hand poses ещё NOT_RUN/PENDING, fullB01 не закрываю.

@@ -106,6 +106,15 @@ public partial class JournalUi
         };
     }
 
+    internal void OpenPhotoBook(RuntimeBridge bridge)
+    {
+        if (!IsInsideTree() || bridge.SessionIdentity is null || !bridge.IsPhotoWorldsCampaign) return;
+        Open(bridge);
+        if (bridge.SessionIdentity is null || !bridge.IsPhotoWorldsCampaign) return;
+        _tabs.CurrentTab = PhotoBookTabIndex;
+        FocusCurrentPage();
+    }
+
     private void RefreshPhotoBookPage()
     {
         if (_notesLoadInProgress)

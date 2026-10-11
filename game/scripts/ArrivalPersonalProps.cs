@@ -1,4 +1,5 @@
 using Godot;
+using System.Threading.Tasks;
 
 namespace Urman.Godot;
 
@@ -144,9 +145,17 @@ internal partial class ArrivalPersonalProps : Node3D
 
         if (!photoWorlds) return;
 
-        house.MakeInteractionBox("PhotoWorldFamilyBookTarget", new(.30f, .08f, .24f),
+        var target = house.MakeInteractionBox("PhotoWorldFamilyBookTarget", new(.30f, .08f, .24f),
             book.Position, "674b45", "urman.fullgame:interaction/pw-book-handoff",
             "Принять семейную книгу от Гөлсинә", rayOnly: true);
+        target.AfterDispatch = async () =>
+        {
+            var tree = house.GetTree();
+            if (tree.GetFirstNodeInGroup("runtime_bridge") is RuntimeBridge bridge
+                && tree.GetFirstNodeInGroup("journal_ui") is JournalUi journal)
+                journal.OpenPhotoBook(bridge);
+            return await Task.FromResult(true);
+        };
     }
 
     private static void AddBookPart(Node3D book, string name, Vector3 size, Vector3 at,
