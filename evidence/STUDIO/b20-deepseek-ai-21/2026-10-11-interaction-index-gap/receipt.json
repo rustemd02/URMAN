@@ -1,0 +1,28 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-21"
+  ],
+  "stage": "the interaction index gap, as a number",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-11 22:33 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "b0321d2a",
+  "result": {
+    "the_gap": "ZERO of the 229 authored interaction ids are carried by the workspace index, while the runtime reads them by id. The index lifts ids of the form namespace:kind/name, and an interaction is declared inside a scene record rather than as a top-level entity, so the editor cannot see any of them",
+    "whose_gap": "the SHARED indexer's, not the content's: nothing in an authored file is wrong, and the note says so in as many words",
+    "why_a_number": "a complaint repeated in chat ages badly; a number in the projection can be re-measured every run. It is deliberately NOT pinned, because it is supposed to RISE when the indexer learns to lift interaction records, and a pin would then fail on the fix",
+    "checked": "that the authored ids really are found by reading the files, and that the index cannot carry more interactions than the content declares"
+  },
+  "verified": {
+    "probe": "PASS 738/738 including the zero-of-229 report and the two assertions",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors (composed tree with my branch and the v15 patch)",
+    "not_run": "no Studio window: the editor's own view of the index is the consumer's concern"
+  },
+  "files": {
+    "evidence/STUDIO/b20-deepseek-ai-21/2026-10-11-interaction-index-gap/check.log": "5dc6c2884f48c75b16ba46e7bb0085b3844e22ce9bbb6700c7ece2cbf33973e4"
+  },
+  "open": [
+    "the indexer owner has to lift interaction records; the number then rises on its own"
+  ]
+}

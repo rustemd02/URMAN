@@ -76210,6 +76210,12 @@
                 "result": "deepening by deepseek v4.1 flash: the trigger contract is now mirrored from BuildTrigger and OnTriggerEntered. size is read with ReadVector, which falls back to Vector3.Zero, so a trigger without a size builds a degenerate area that NEVER fires - the quietest defect in the area; interactionId is read with GetProperty INSIDE OnTriggerEntered, so a missing one throws WHEN THE PLAYER WALKS IN rather than while the world loads; actor and repeat are optional text with the defaults player and once-per-run. The campaign authors NO trigger at all, so the contract is waiting for the first one, and the notes say so. Own mistake recorded: I first wrote a numeric read that assumed a decimal and would have thrown on an int, then reused the safe TryNumber that already existed. Verified: probe PASS 647/647 including the four synthetic cases; Core 0/0",
                 "source": "src-dotnet/Urman.Studio.Core/Editing/TriggerScopeFacts.cs (ContractGaps, AnyAuthored); evidence evidence/STUDIO/b20-deepseek-ai-21/2026-10-11-trigger-contract",
                 "verification": "probe PASS 647/647 including the zero authored triggers and the four synthetic failures; Core 0/0. Walking into a trigger in play is NOT_RUN"
+              },
+              {
+                "stage": "2026-10-11 the interaction index gap, as a number",
+                "result": "deepseek v4.1 flash turned a repeated complaint into a measured number: ZERO of the 229 authored interaction ids are carried by the workspace index, while the runtime reads them by id. The index lifts ids of the form namespace:kind/name, and an interaction is declared inside a scene record rather than as a top-level entity, so the editor sees none of them. It is the SHARED indexer's gap, not the content's - nothing in an authored file is wrong - and the note says so. The number is deliberately NOT pinned: it is supposed to RISE when the indexer learns to lift interaction records, and a pin would then fail on the fix. Verified: probe PASS 738/738 including the zero-of-229 report and the two assertions; Core 0/0",
+                "source": "src-dotnet/Urman.Studio.Core/Editing/ItemSpawns.cs (IndexingGap, IndexingGapNote); evidence evidence/STUDIO/b20-deepseek-ai-21/2026-10-11-interaction-index-gap",
+                "verification": "probe PASS 738/738 including the index-gap report; Core 0/0. The editor's own view of the index is the consumer's concern and is NOT_RUN"
               }
             ],
             "stage_tasks": [
@@ -76246,7 +76252,9 @@
               "Триггеров как авторской сущности в кампании нет: привязка «триггер → область» остаётся неупражнённой контентом.",
               "Ранее переданный частичный этап (2026-10-11 area links: every location reference resolves, and inside the campaign that declares the place) ждёт ревью/приёмки; полный done_when не выполнен.",
               "Триггеров в кампании нет: контракт готов и проверяет первый же авторский триггер, но механизм в игре не упражняется.",
-              "Ранее переданный частичный этап (2026-10-11 the authored trigger contract) ждёт ревью/приёмки; полный done_when не выполнен."
+              "Ранее переданный частичный этап (2026-10-11 the authored trigger contract) ждёт ревью/приёмки; полный done_when не выполнен.",
+              "Индекс несёт 0 из 229 авторских взаимодействий: это пробел ОБЩЕГО индексатора, число не закреплено и должно вырасти после исправления.",
+              "Ранее переданный частичный этап (2026-10-11 the interaction index gap, as a number) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
             "next_action": "Handles формы; actor filter/frequency; link inspector; typed link/edit; preview conditions; idempotency на повторном событии.",
             "blocker": null,

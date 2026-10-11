@@ -169,4 +169,33 @@ public static class ItemSpawns
         return gaps;
     }
 
+    /// <summary>
+    /// The interaction index gap, as a number rather than a complaint: how many interaction ids the
+    /// authored files declare, and how many of them the workspace index carries. The two should be
+    /// equal, and today they are not - the index only lifts ids of the form namespace:kind/name, and
+    /// an interaction is declared inside a scene record rather than as a top-level entity, so the
+    /// editor cannot see any of them even though the runtime reads 229 of them by id.
+    ///
+    /// This is a gap of the SHARED INDEXER, not of the content: nothing in an authored file is
+    /// wrong. The number is reported and deliberately NOT pinned, because it is supposed to RISE
+    /// when the indexer learns to lift interaction records.
+    /// </summary>
+    public static (int Indexed, int Authored) IndexingGap(StudioWorkspace workspace, string root)
+    {
+        ArgumentNullException.ThrowIfNull(workspace);
+        ArgumentException.ThrowIfNullOrWhiteSpace(root);
+        var indexed = workspace.EntityIds.Count(id => id.Contains(":interaction/", StringComparison.Ordinal));
+        var authored = PhotoBookFacts.AuthoredIds(root).Count(id => id.Contains(":interaction/", StringComparison.Ordinal));
+        return (indexed, authored);
+    }
+
+    /// <summary>What the gap means and who owns it.</summary>
+    public static string IndexingGapNote(StudioWorkspace workspace, string root)
+    {
+        var (indexed, authored) = IndexingGap(workspace, root);
+        return indexed == authored
+            ? $"Индекс несёт все авторские взаимодействия: {indexed} из {authored}."
+            : $"Индекс несёт {indexed} авторских взаимодействий из {authored}: остальные лежат в файлах и видны рантайму, но не редактору. Это пробел ОБЩЕГО индексатора, а не ошибка автора, и число должно вырасти, когда индексатор научится поднимать записи взаимодействий.";
+    }
+
 }
