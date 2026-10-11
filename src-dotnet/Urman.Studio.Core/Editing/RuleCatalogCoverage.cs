@@ -39,6 +39,49 @@ public static class RuleCatalogCoverage
     private static readonly Regex SwitchArm = new("\"([a-z][a-z0-9._-]*)\"\\s*=>", RegexOptions.CultureInvariant);
     private static readonly Regex HashSetEntry = new("\"((?:photoworlds|urman)[a-z0-9._-]*)\"", RegexOptions.CultureInvariant);
 
+    /// <summary>
+    /// The module source prefixes of one campaign, taken from its own manifest. An
+    /// empty list means the campaign is unknown, and the caller must say so instead of
+    /// pretending the whole workspace is that campaign.
+    /// </summary>
+    public static IReadOnlyList<string> CampaignModulePrefixes(StudioWorkspace workspace, string? campaignSelection)
+    {
+        ArgumentNullException.ThrowIfNull(workspace);
+        if (string.IsNullOrWhiteSpace(campaignSelection))
+        {
+            return [];
+        }
+
+        var path = Path.Combine(workspace.Root, "content", "campaigns", campaignSelection, "campaign.json");
+        if (!File.Exists(path)
+            || JsonNode.Parse(File.ReadAllText(path)) is not JsonObject manifest
+            || manifest["modules"] is not JsonArray modules)
+        {
+            return [];
+        }
+
+        return modules.OfType<JsonObject>()
+            .Select(module => (string?)module["moduleId"])
+            .OfType<string>()
+            .Where(id => id.Length > 0)
+            .Select(id => $"content/modules/{id}/")
+            .Distinct(StringComparer.Ordinal)
+            .Order(StringComparer.Ordinal)
+            .ToArray();
+    }
+
+    /// <summary>
+    /// The operations this projection relies on when it says what the engine executes.
+    /// Each one is checked by name, so a verifier cannot pass because some other arm
+    /// still exists.
+    /// </summary>
+    private static readonly string[] Anchors =
+    [
+        "all", "any", "not", "knowledge.status", "vocabulary.status", "quest.status", "npc.state", "beat.state", "location.is",
+        "knowledge.set-status", "vocabulary.set-status", "npc.set-state", "beat.set-state", "pressure.change", "route.unlock",
+        "audio.request", "scene.request", "document.open", "journal.record"
+    ];
+
     /// <summary>Conditions and effects the engine executes, read from its sources.</summary>
     public static (IReadOnlySet<string> Conditions, IReadOnlySet<string> Effects) Executed(string root)
     {
@@ -80,15 +123,22 @@ public static class RuleCatalogCoverage
         return (conditions, effects);
     }
 
-    /// <summary>The whole picture: engine, Studio catalogue and authored usage.</summary>
-    public static RuleCoverageReport Inspect(StudioWorkspace workspace)
+    /// <summary>The whole picture: engine, Studio catalogue and the authored usage of one campaign.</summary>
+    public static RuleCoverageReport Inspect(StudioWorkspace workspace, string? campaignSelection = null)
     {
         ArgumentNullException.ThrowIfNull(workspace);
         var (conditions, effects) = Executed(workspace.Root);
         var offeredConditions = ConditionPhrases.Conditions.Select(kind => kind.Op).ToHashSet(StringComparer.Ordinal);
         var offeredEffects = ConditionPhrases.Effects.Select(kind => kind.Op).ToHashSet(StringComparer.Ordinal);
+
+        // Counting the whole workspace mixes campaigns: the author needs the campaign
+        // whose rules they are looking at, so the modules come from its own manifest.
+        var prefixes = CampaignModulePrefixes(workspace, campaignSelection);
+        var scoped = prefixes.Count == 0
+            ? workspace.Files.ToArray()
+            : workspace.Files.Where(file => prefixes.Any(prefix => file.RelativePath.StartsWith(prefix, StringComparison.Ordinal)) || file.RelativePath.StartsWith($"content/campaigns/{campaignSelection}/", StringComparison.Ordinal)).ToArray();
         var used = new Dictionary<string, int>(StringComparer.Ordinal);
-        foreach (var file in workspace.Files)
+        foreach (var file in scoped)
         {
             Count(file.Snapshot(), used);
         }
@@ -127,6 +177,25 @@ public static class RuleCatalogCoverage
             .Where(op => !used.ContainsKey(op))
             .Order(StringComparer.Ordinal)
             .ToArray();
+        notes.Add(prefixes.Count == 0
+            ? $"Считано по всему workspace ({scoped.Length} файлов): кампания не выбрана или её манифест не найден, поэтому счётчики смешивают кампании."
+            : $"Считано по кампании «{campaignSelection}» ({scoped.Length} файлов из модулей {string.Join(", ", prefixes.Select(prefix => prefix.Split('/')[^2]))}).");
+
+        // The authored worlds, scenes and animations under game/content are shared by
+        // every campaign, so they are counted and named separately instead of being
+        // folded into one campaign's total or silently dropped.
+        if (prefixes.Count > 0)
+        {
+            var shared = workspace.Files.Where(file => file.RelativePath.StartsWith("game/content/", StringComparison.Ordinal)).ToArray();
+            var sharedUsed = new Dictionary<string, int>(StringComparer.Ordinal);
+            foreach (var file in shared)
+            {
+                Count(file.Snapshot(), sharedUsed);
+            }
+
+            notes.Add($"Общие авторские источники game/content: {shared.Length} файлов, {sharedUsed.Count} разных операций — они не принадлежат одной кампании, поэтому в счёт кампании не включены. Если правила этой кампании лежат там (а не в её модулях), счёт кампании будет нулевым: это не значит, что правил нет.");
+        }
+        notes.Add("Это проекция исходников: она показывает, что написано и что читает движок, но не доказывает исполнение, порядок или сохранение состояния — для этого нужен runtime.");
         notes.Add($"Операций исполняется: условий {conditions.Count}, последствий {effects.Count}; в кампании используется {rows.Count}.");
         notes.Add($"Studio предлагает условий {offeredConditions.Count} и последствий {offeredEffects.Count}.");
         if (unused.Length > 0)
@@ -159,19 +228,17 @@ public static class RuleCatalogCoverage
             return problems;
         }
 
-        var text = File.ReadAllText(engine);
-        // The condition side is a switch expression ("op" => ...), the effect side is a
-        // statement switch (case "op":), so each side is checked with its own shape.
-        var evaluate = Slice(text, "public static bool Evaluate(JsonElement condition", "public static ContentRulePlan PlanEffects");
-        if (!SwitchArm.IsMatch(evaluate))
+        var (conditions, effects) = Executed(root);
+        // Every operation the projection relies on is checked BY NAME: one surviving arm
+        // of a different name must not make the verifier pass.
+        foreach (var anchor in Anchors)
         {
-            problems.Add($"В {EnginePath} больше не найдено ветвей-выражений в разделе условий: проекция устарела.");
-        }
-
-        var plan = Slice(text, "private static void ApplyEffect(", "private static void SetStatus(");
-        if (!SwitchCase.IsMatch(plan))
-        {
-            problems.Add($"В {EnginePath} больше не найдено case-ветвей в разделе последствий: проекция устарела.");
+            // The side is read from the sources, not guessed from the name: the anchor
+            // only has to be handled somewhere for the projection to stay honest.
+            if (!conditions.Contains(anchor) && !effects.Contains(anchor))
+            {
+                problems.Add($"Операция «{anchor}», на которую опирается проекция, больше не найдена ни в условиях, ни в последствиях {EnginePath}: перечитайте карту покрытия.");
+            }
         }
 
         return problems;

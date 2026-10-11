@@ -1,0 +1,31 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-37"
+  ],
+  "stage": "correction for the stored review of 06058d6d: per-operation verification, campaign scoping, and no behaviour claim",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-11 04:35 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "f703f132",
+  "files": {
+    "src-dotnet/Urman.Studio.Core/Editing/RuleCatalogCoverage.cs": "0233a47744d2bfe36d92910dade572cda998baa0a6b3ab737b7c08295d7fcea5",
+    "evidence/STUDIO/b20-deepseek-ai-37/2026-10-10-campaign-scope/check.log": "c6e3b7e73251eb37603d85e7d50e849322e8e6b7778be623e6662c6f125a34fb"
+  },
+  "addressed": {
+    "the verifier accepted any arm, not every key": "VerifyAgainstSources now checks every operation the projection relies on BY NAME (19 anchors covering the composed conditions and the effects the contract names); a surviving arm of another name can no longer make it pass",
+    "counts mixed the whole workspace": "Inspect takes the campaign selection, reads its module prefixes from content/campaigns/<id>/campaign.json and counts only that campaign's files plus its campaign folder; a selection without a manifest falls back to the whole workspace and SAYS so",
+    "the shared authored sources were invisible": "the authored worlds, scenes and animations under game/content belong to no single campaign, so they are counted and named separately in a note",
+    "a source projection could be read as behaviour": "the report now states in words that it is a projection of the sources and does not prove execution, order or state persistence"
+  },
+  "real_finding": "with the campaign scope, chapter1 counts 0 operations while the whole workspace counts 34: the campaign's own modules define no rule operations at all, and the rules live in the shared game/content sources. The report now says exactly that instead of showing a zero that looks like 'there are no rules'",
+  "verified": {
+    "probe": "PASS 297/297: every anchor is verified by name, the module prefixes come from the manifest, the campaign report names its scope, an unscoped one says it mixes campaigns, an unknown campaign falls back and says so, the shared sources are named, the empty campaign count explains where the rules are, and the source-projection wording is present",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors; game/Urman.Game.csproj 0 warnings/0 errors",
+    "not_run": "no rule was executed in the game and no quest was played: the semantics themselves remain NOT_RUN, and the report now says so itself"
+  },
+  "open": [
+    "a per-campaign number can only be exact for the campaign's own files while the authored worlds stay shared; splitting those by campaign would need a campaign-to-world binding the content does not carry today",
+    "runtime and visual acceptance are NOT_RUN"
+  ]
+}
