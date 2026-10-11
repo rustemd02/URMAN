@@ -50,6 +50,80 @@ public static class CutsceneActions
 
     public static IReadOnlyList<CutsceneActionType> Types => Registered;
 
+    private static readonly System.Text.RegularExpressions.Regex CaseLabel = new(
+        "case\\s+\"([a-z]+)\"\\s*:", System.Text.RegularExpressions.RegexOptions.CultureInvariant);
+
+    private static readonly System.Text.RegularExpressions.Regex ActorKey = new(
+        "\\[\"([a-z][a-z0-9_]*)\"\\]\\s*=", System.Text.RegularExpressions.RegexOptions.CultureInvariant);
+
+    /// <summary>The kinds the executor really switches over, read from its source.</summary>
+    public static IReadOnlySet<string> HandledKinds(string root)
+    {
+        var kinds = new HashSet<string>(StringComparer.Ordinal);
+        var text = ExecutorSource(root);
+        var start = text.IndexOf("switch (p.GetProperty(\"action\")", StringComparison.Ordinal);
+        foreach (System.Text.RegularExpressions.Match match in CaseLabel.Matches(start < 0 ? text : text[start..]))
+        {
+            kinds.Add(match.Groups[1].Value);
+        }
+
+        return kinds;
+    }
+
+    /// <summary>The actor keys the executor's own dictionary is built with.</summary>
+    public static IReadOnlySet<string> RuntimeActorKeys(string root)
+    {
+        var keys = new HashSet<string>(StringComparer.Ordinal);
+        var text = ExecutorSource(root);
+        var start = text.IndexOf("var actors = new Dictionary<string, Node3D>", StringComparison.Ordinal);
+        if (start < 0)
+        {
+            return keys;
+        }
+
+        var end = text.IndexOf("};", start, StringComparison.Ordinal);
+        foreach (System.Text.RegularExpressions.Match match in ActorKey.Matches(text[start..(end < 0 ? text.Length : end)]))
+        {
+            keys.Add(match.Groups[1].Value);
+        }
+
+        return keys;
+    }
+
+    /// <summary>
+    /// Compares the registered table with the executor source. A table that promises an
+    /// executor the code no longer has, or misses a kind the code gained, would make the
+    /// editor lie about what the game can play.
+    /// </summary>
+    public static IReadOnlyList<string> VerifyAgainstExecutor(string root)
+    {
+        var handled = HandledKinds(root);
+        if (handled.Count == 0)
+        {
+            return ["Не удалось прочитать виды действий из исходника исполнителя: сверить таблицу нечем."];
+        }
+
+        var problems = new List<string>();
+        foreach (var type in Registered.Where(type => !handled.Contains(type.Action)))
+        {
+            problems.Add($"Таблица обещает исполнителя {type.Executor} для действия «{type.Action}», но в исходнике такого вида больше нет.");
+        }
+
+        foreach (var kind in handled.Where(kind => Find(kind) is null))
+        {
+            problems.Add($"Исполнитель умеет действие «{kind}», а таблица его не знает: автор не увидит его в редакторе.");
+        }
+
+        return problems;
+    }
+
+    private static string ExecutorSource(string root)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(root);
+        var path = Path.Combine(Path.GetFullPath(root), RuntimePath.Replace('/', Path.DirectorySeparatorChar));
+        return File.Exists(path) ? File.ReadAllText(path) : "";
+    }
+
     public static CutsceneActionType? Find(string action) =>
         Registered.FirstOrDefault(type => string.Equals(type.Action, action, StringComparison.Ordinal));
 
@@ -60,7 +134,8 @@ public static class CutsceneActions
     /// Checks one action against the executor and the real project: what the game
     /// will do, and what it will silently skip.
     /// </summary>
-    public static CutsceneActionFacts Describe(StudioWorkspace workspace, JsonObject? action, IReadOnlyCollection<string> declaredActors)
+    public static CutsceneActionFacts Describe(StudioWorkspace workspace, JsonObject? action, IReadOnlyCollection<string> declaredActors,
+        IReadOnlyCollection<string>? runtimeActors = null)
     {
         ArgumentNullException.ThrowIfNull(workspace);
         ArgumentNullException.ThrowIfNull(declaredActors);
@@ -92,9 +167,18 @@ public static class CutsceneActions
 
         foreach (var actorField in new[] { "actor", "talk" })
         {
-            if (Text(parameters[actorField]) is { Length: > 0 } actor && !declaredActors.Contains(actor, StringComparer.Ordinal))
+            if (Text(parameters[actorField]) is not { Length: > 0 } actor)
+            {
+                continue;
+            }
+
+            if (!declaredActors.Contains(actor, StringComparer.Ordinal))
             {
                 problems.Add($"В поле «{actorField}» указан «{actor}», которого нет среди объявленных персонажей сцены: словарь actors бросит исключение.");
+            }
+            else if (runtimeActors is { Count: > 0 } && !runtimeActors.Contains(actor, StringComparer.Ordinal))
+            {
+                problems.Add($"В поле «{actorField}» указан «{actor}»: сценарий его объявляет, но словарь самого исполнителя такого ключа не знает, и поиск упадёт.");
             }
         }
 
@@ -178,8 +262,11 @@ public static class CutsceneActions
     {
         ArgumentNullException.ThrowIfNull(workspace);
         var actors = (cutscene?["actors"] as JsonObject)?.Select(pair => pair.Key).ToArray() ?? [];
+        var runtimeActors = RuntimeActorKeys(workspace.Root);
         var actions = new List<CutsceneActionFacts>();
-        var problems = new List<string>();
+        // The registered table is compared with the executor source before any action is
+        // judged: a table that drifted would mislabel every action after it.
+        var problems = new List<string>(VerifyAgainstExecutor(workspace.Root));
         var notes = new List<string>
         {
             "Сцена и её исполнитель зашиты на один тайминговый файл и namespace urman.chapter1: выбор другой кампании или катсцены не поддержан (это граница AI-34, а не готовность)."
@@ -199,7 +286,7 @@ public static class CutsceneActions
                 continue;
             }
 
-            var facts = Describe(workspace, entity, actors);
+            var facts = Describe(workspace, entity, actors, runtimeActors);
             actions.Add(facts);
             problems.AddRange(facts.Problems.Select(problem => $"{facts.EntityId}: {problem}"));
         }

@@ -79326,6 +79326,12 @@
                 "result": "partial implementation by deepseek v4.1 flash: the 75 authored cutscene actions are projected with their kinds and checked against the cutscene reader, so an action the runtime cannot stage is reported",
                 "source": "evidence/STUDIO/b20-deepseek-ai-34/2026-10-10-cutscene-actions",
                 "verification": "Core 0/0; game 0/0; probe PASS at that stage. No Studio window: the preview is NOT_RUN"
+              },
+              {
+                "stage": "2026-10-11 the cutscene action table checked against the executor source it describes",
+                "result": "deepening by deepseek v4.1 flash: 75 authored actions over 10 kinds are checked against the executor, and the registered table is now verified against the executor SOURCE (handled kinds and actor keys read from TamaraFenceCutscene.cs), so a missing or extra kind is reported as table drift; a second actor gate covers a key the scene declares but the executor's own dictionary does not know",
+                "source": "src-dotnet/Urman.Studio.Core/Editing/CutsceneActions.cs (extended); evidence evidence/STUDIO/b20-deepseek-ai-34/2026-10-11-executor-contract",
+                "verification": "probe PASS 474/474 including 75 actions, ten executor kinds, no drift, the runtime actor keys and the synthetic cases (no executor, an undeclared actor, an actor the executor does not know); Core 0/0; game/Urman.Game.csproj 0/0; Urman.Studio.Tests 38/38. The frame and timing are NOT_RUN"
               }
             ],
             "stage_tasks": [
@@ -79358,9 +79364,10 @@
             "technical_verification_state": "not_run",
             "remaining": [
               "Катсцена выбирается из активной кампании, а список и шкала редактируют её реальные действия.; отсутствует подтверждение собственного конечного DoD, перечисленного ниже.",
-              "Ранее переданный частичный этап (2026-10-10 real cutscene actions of the active campaign) ждёт ревью/приёмки; полный done_when не выполнен."
+              "Ранее переданный частичный этап (2026-10-10 real cutscene actions of the active campaign) ждёт ревью/приёмки; полный done_when не выполнен.",
+              "Ранее переданный частичный этап (2026-10-11 the cutscene action table checked against the executor source it describes) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
-            "next_action": "Остаток — native выбор и проигрывание катсцены активной кампании.",
+            "next_action": "Проиграть катсцену в игре и сверить кадр/тайминг; выбор другой катсцены активной кампании остаётся границей единицы.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",

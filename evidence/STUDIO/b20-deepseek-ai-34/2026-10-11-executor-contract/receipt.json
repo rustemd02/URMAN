@@ -1,0 +1,30 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-34"
+  ],
+  "stage": "the cutscene action table checked against the executor source it describes",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-11 17:29 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "e0bfda88",
+  "result": {
+    "surface": "75 authored actions over 10 kinds (say 19, face 14, wait 13, cut 9, laugh 5, show 4, clip 4, move 4, place 2, filming 1); the executor switches over exactly those ten kinds",
+    "drift check": "the projection used to trust its own registered table; it now reads the handled kinds and the actor keys OUT OF THE EXECUTOR SOURCE and compares them, so a table that promises an executor the code no longer has, or misses a kind the code gained, is reported before it mislabels every action",
+    "second actor gate": "the scene declares its actors and the executor builds its own dictionary; an action that names an actor the scene declares but the executor does not know would still throw, so both gates are now checked",
+    "unchanged strengths": "the executor per kind, the required parameters, the say text id resolution, the clip catalogue lookup, the position length and the stops pairs stay as they were"
+  },
+  "verified": {
+    "probe": "PASS 474/474 with the new checks: 75 actions, the ten executor kinds, no table drift, the runtime actor keys read from the source, no problems on the real cutscene, and the synthetic cases (a kind with no executor, an actor the scene does not declare, an actor the scene declares but the executor does not know)",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors; game/Urman.Game.csproj 0 warnings/0 errors",
+    "existing_tests": "Urman.Studio.Tests 38/38",
+    "not_run": "no game run: the frame and timing of the cutscene are NOT_RUN"
+  },
+  "files": {
+    "evidence/STUDIO/b20-deepseek-ai-34/2026-10-11-executor-contract/check.log": "397c5b2c3b84ac0074a6d46b8d1539a091a610c0e3ecd0e4a865b8c72906b2b6"
+  },
+  "open": [
+    "the cutscene player is bound to one script and one namespace, which the notes state",
+    "the look and timing are NOT_RUN"
+  ]
+}
