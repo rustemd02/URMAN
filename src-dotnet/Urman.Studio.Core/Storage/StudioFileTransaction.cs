@@ -24,6 +24,7 @@ public sealed class StudioFileTransaction
 {
     private const string TransactionDirectory = ".urman-studio/transactions";
     private const string JournalName = "journal.json";
+    private const string HistoryFencePath = ".urman-studio/history-fence.json";
     private const int JournalVersion = 1;
     private readonly string _root;
     private readonly string _directory;
@@ -425,6 +426,21 @@ public sealed class StudioFileTransaction
         return pending;
     }
 
+    // shortcut: unsupported command order fences restart hydration; replace with an explicit ordered ledger and migration decision.
+    internal static void FenceIncompleteHistory(string root)
+    {
+        var rootPath = NormalizeRoot(root);
+        EnsureNoLinks(rootPath, HistoryFencePath, allowStudioMetadata: true);
+        var path = ResolveInternal(rootPath, HistoryFencePath);
+        if (File.Exists(path)) return;
+        AtomicFile.WriteAllText(path, new JsonObject
+        {
+            ["version"] = 1,
+            ["scope"] = "studio-command-history",
+            ["reason"] = "unsupported-command-order"
+        }.ToJsonString());
+    }
+
     /// <summary>
     /// Read one accepted file-only pilot command for a new session. This deliberately
     /// refuses to order multiple journals and never changes a journal or target file.
@@ -440,6 +456,11 @@ public sealed class StudioFileTransaction
         if (string.IsNullOrWhiteSpace(owner)) throw new ArgumentException("A stable transaction owner is required.", nameof(owner));
 
         var rootPath = NormalizeRoot(root);
+        EnsureNoLinks(rootPath, HistoryFencePath, allowStudioMetadata: true);
+        var historyFence = ResolveInternal(rootPath, HistoryFencePath);
+        if (File.Exists(historyFence) || Directory.Exists(historyFence))
+            return new(null, "История Undo после перезапуска недоступна: порядок файловых и других команд не сохранён полностью. "
+                + "Журналы и исходные версии сохранены; для восстановления нужен явный выбор истории.");
         var transactionRoot = ResolveInternal(rootPath, TransactionDirectory);
         if (!Directory.Exists(transactionRoot)) return new(null, null);
         EnsureNoLinks(rootPath, TransactionDirectory, allowStudioMetadata: true);

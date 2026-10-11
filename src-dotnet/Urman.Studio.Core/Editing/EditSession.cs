@@ -181,6 +181,7 @@ public sealed class EditSession(StudioWorkspace workspace)
         var before = new JsonArray(file.Keys().Select(key => (JsonNode?)key).ToArray());
         var after = new JsonArray(keys.Select(key => (JsonNode?)key).ToArray());
         if (JsonNode.DeepEquals(before, after)) return;
+        StudioFileTransaction.FenceIncompleteHistory(Workspace.Root);
         file.Reorder(keys);
         var change = new EntityChange(relativePath, OrderKey, before, after);
         if (_open is not null)
@@ -366,6 +367,7 @@ public sealed class EditSession(StudioWorkspace workspace)
         }
 
         var beforeKeys = file.Keys().ToArray();
+        StudioFileTransaction.FenceIncompleteHistory(Workspace.Root);
         file.Put(key, after, remove);
         Workspace.Reindex();
         var change = new EntityChange(relativePath, key, before, after);
@@ -397,6 +399,8 @@ public sealed class EditSession(StudioWorkspace workspace)
         var retired = new List<StudioFileTransaction>();
         try
         {
+            if (_redo.Any(redo => redo.Files is not null))
+                StudioFileTransaction.FenceIncompleteHistory(Workspace.Root);
             // shortcut: redo journals retire one by one; use shared history metadata if full-stack recovery becomes supported.
             foreach (var redo in _redo)
             {

@@ -74,6 +74,7 @@ public sealed class StudioWorkspace
         }
 
         var file = AuthoredFile.CreateNew(Root, relativePath, initialText);
+        StudioFileTransaction.FenceIncompleteHistory(Root);
         _files[relativePath] = file;
         return file;
     }

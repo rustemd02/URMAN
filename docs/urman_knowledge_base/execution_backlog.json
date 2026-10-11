@@ -24285,6 +24285,13 @@
                 "source": "DraftStore.cs; EditSession.cs; StudioFileTransaction.cs:no-links accessibility; StudioRoot.cs:OfferRecoveredDrafts/SaveAll",
                 "verification": "Root narrow Game compile0/0; existing DraftsSurvive+Reordering tests2/2; no new suite/fixtures. Sol source review identified and root fixed kind mismatch, pending-artifact autosave loss and SaveAll exception messaging.",
                 "remaining": "Actual native UI/crash edge-case acceptance, filesystem race/dual-file atomicity and ordered durable history remain open."
+              },
+              {
+                "stage": "2026-10-11 persistent history fence",
+                "result": "PARTIAL_SOURCE_REVIEW_ACCEPTED_GAME_0_0_EXISTING_TARGETED_TESTS_2_2_FULL_UNIT_OPEN",
+                "source": "StudioFileTransaction.cs:FenceIncompleteHistory/LoadSingleCommittedFileCommand; EditSession.cs:Apply/SetOrder/Push; StudioWorkspace.cs:CreateFile",
+                "verification": "Root affected Game build0/0, targeted existing ADragIsOneUndoStep + ReorderingIsOneUndoableStepAndKeepsTheFileStyle PASS2/2; independent Sol6.1medium source review accepted. No new tests/probes. Loader refusal source-reviewed; actual restart UI not verified.",
+                "remaining": "Fence prevents unsafe partial hydration after unsupported command order; it does not restore full ordered history. Legacy absence does not prove continuity, direct AuthoredFile mutation is outside session API. Keep journals/images intact; explicit ordered ledger, pending transitions and migration decision remain necessary."
               }
             ],
             "stage_tasks": [
@@ -25873,7 +25880,15 @@
               "No-link checks do not eliminate filesystem races; two draft artifacts independently atomic; tilde source paths refused to avoid legacy flattened filename collisions.",
               "Multiple v1 transaction history order remains ambiguous; full AI29/AI32 and durable mixed history open."
             ],
-            "next": "Commit/push accepted source slice; next durable history work needs explicit order/intent, never legacy timestamp inference."
+            "next": "Accepted and pushed in 1f4a07da; continue explicit durable ordered history without legacy timestamp inference."
+          },
+          "history_fence_source_slice": {
+            "stage": "2026-10-11 persistent history fence",
+            "result": "PARTIAL_SOURCE_REVIEW_ACCEPTED_GAME_0_0_EXISTING_TARGETED_TESTS_2_2_FULL_UNIT_OPEN",
+            "source": "StudioFileTransaction.cs:FenceIncompleteHistory/LoadSingleCommittedFileCommand; EditSession.cs:Apply/SetOrder/Push; StudioWorkspace.cs:CreateFile",
+            "verification": "Root affected Game build0/0, targeted existing ADragIsOneUndoStep + ReorderingIsOneUndoableStepAndKeepsTheFileStyle PASS2/2; independent Sol6.1medium source review accepted. No new tests/probes. Loader refusal source-reviewed; actual restart UI not verified.",
+            "remaining": "Fence prevents unsafe partial hydration after unsupported command order; it does not restore full ordered history. Legacy absence does not prove continuity, direct AuthoredFile mutation is outside session API. Keep journals/images intact; explicit ordered ledger, pending transitions and migration decision remain necessary.",
+            "next": "Implement explicit ordered ledger with cursor/pending transition and verified restoration; never automatically clear fence or infer old journal order."
           }
         }
       },
