@@ -1,0 +1,20 @@
+== tree: origin/main f703f132 + my branch ce559c52 + evidence/STUDIO/b20-deepseek-ai-24/2026-10-10-hint-schema/ai-deepseek-studio-wiring-v5.patch applied (6 shared files)
+== command: dotnet run --project tests-dotnet/<suite>/<suite>.csproj (xunit v3, from the repository root)
+
+== Urman.Core.Tests (composed)
+=== TEST EXECUTION SUMMARY ===
+   Urman.Core.Tests  Total: 68, Errors: 0, Failed: 0, Skipped: 0, Not Run: 0, Time: 0,192s
+
+== Urman.Studio.Tests (composed)
+=== TEST EXECUTION SUMMARY ===
+   Urman.Studio.Tests  Total: 38, Errors: 0, Failed: 0, Skipped: 0, Not Run: 0, Time: 2,278s
+
+== Urman.Content.Tests (composed)
+=== TEST EXECUTION SUMMARY ===
+   Urman.Content.Tests  Total: 17, Errors: 0, Failed: 1, Skipped: 0, Not Run: 0, Time: 6,491s
+
+== Urman.Content.Tests (PURE origin/main f703f132, no modifications)
+=== TEST EXECUTION SUMMARY ===
+   Urman.Content.Tests  Total: 17, Errors: 0, Failed: 1, Skipped: 0, Not Run: 0, Time: 6,369s
+
+== failing test in both trees: Urman.Content.Tests.ContentCompilerParityTests.ChapterOne_MatchesFrozenJavascriptGoldenPack

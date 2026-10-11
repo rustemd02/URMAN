@@ -1,0 +1,27 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-13",
+    "STUDIO/AI-17",
+    "STUDIO/AI-18",
+    "STUDIO/AI-20",
+    "STUDIO/AI-21",
+    "STUDIO/AI-24",
+    "STUDIO/AI-36"
+  ],
+  "stage": "all three existing test suites run on the composed tree, and the one failure traced to pure main",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-11 04:39 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "tree": "origin/main f703f132 + my branch ce559c52 + the v5 wiring patch applied to the six shared files",
+  "results": {
+    "Urman.Core.Tests": "68/68 pass on the composed tree, and 68/68 on the same tree without the patch",
+    "Urman.Studio.Tests": "38/38 pass on the composed tree",
+    "Urman.Content.Tests": "17 tests, 1 failure on the composed tree: ContentCompilerParityTests.ChapterOne_MatchesFrozenJavascriptGoldenPack"
+  },
+  "pre_existing": "the same single Content.Tests failure occurs on PURE origin/main f703f132 with zero modifications, so it belongs to main and not to this change. It is reported here rather than fixed, because the frozen golden pack is the owner's parity contract",
+  "files": {
+    "evidence/STUDIO/b20-deepseek-ai-13/2026-10-10-existing-suites/tests.log": "c91fb47c320889b2bbeb07e5056492e8169429491bf30c615754b0d8f0f6bffc"
+  },
+  "not_run": "no Studio window and no game run: the interface and the runtime behaviour are NOT_RUN"
+}

@@ -23708,6 +23708,13 @@
                 "source": "evidence evidence/STUDIO/b20-deepseek-ai-13/2026-10-10-interface-patch-v3/ai-deepseek-studio-wiring-v3.patch (six shared files: StudioRoot.cs, StudioWorldSection.cs, StudioContentSection.cs, StudioDialogueSection.cs, StudioQuestSection.cs, PlayPreparation.cs) plus game/studio/StudioCampaignSelector.cs on this branch; receipt.json and check.log there; commit 20104b0f",
                 "verification": "Base f703f132 (origin/main after the LunaFAST breadcrumb stage) plus my branch: git apply --check OK then applied. Urman.Studio.Core 0 warnings/0 errors; game/Urman.Game.csproj 0 warnings/0 errors; the existing Urman.Studio.Tests suite passes 38/38 on the patched tree; probe PASS 262/262. The patch supersedes the v1 consolidated patch and every per-stage patch of the same files. The freeze is a UI-level gate: a write path that bypasses StudioProperties entirely would still need a session-level check in the owner's shared EditSession. No Studio window and no game run: interface NOT_RUN"
               }
+,
+              {
+                "stage": "2026-10-10 all existing test suites on the composed tree, and the one failure traced to pure main",
+                "result": "verification by deepseek v4.1 flash: Core.Tests 68/68 and Studio.Tests 38/38 pass on the tree with the v5 wiring patch; Content.Tests has exactly one failure that also occurs on pure origin/main f703f132 with zero modifications, so it is pre-existing and not caused by this change",
+                "source": "evidence evidence/STUDIO/b20-deepseek-ai-13/2026-10-10-existing-suites/tests.log and receipt.json",
+                "verification": "Composed tree = origin/main f703f132 + my branch ce559c52 + the v5 patch. Urman.Core.Tests 68/68 (also 68/68 without the patch); Urman.Studio.Tests 38/38; Urman.Content.Tests 17 with 1 failure, ContentCompilerParityTests.ChapterOne_MatchesFrozenJavascriptGoldenPack, identical on pure origin/main f703f132 without any modification. The failure is reported, not fixed: the frozen golden pack is the owner's parity contract. No test was added or changed. No Studio window and no game run: interface and runtime NOT_RUN"
+              }
 
             ],
             "assigned_owner": "deepseek/b20-2026-10-10"
