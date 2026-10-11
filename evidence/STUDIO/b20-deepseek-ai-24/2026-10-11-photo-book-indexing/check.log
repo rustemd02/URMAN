@@ -1,0 +1,9 @@
+== AI-24: the book graph, and the references the workspace cannot see
+
+
+Прошло времени 00:00:00.50
+== probe
+  interactions the workspace indexes: 0
+  photos: 13, worlds: 5, facts: 33, evidence: 2, anchors: 7, problems: 0
+  book references that exist in the files but are NOT indexed by the workspace: 64
+PROBE RESULT: PASS

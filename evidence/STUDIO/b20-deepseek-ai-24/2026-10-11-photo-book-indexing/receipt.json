@@ -1,0 +1,29 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-24"
+  ],
+  "stage": "the book graph, and the references the workspace cannot see",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-11 20:28 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "b57c5c3c",
+  "result": {
+    "book_graph": "the book has thirteen photos, five worlds, thirty-three facts, two pieces of evidence and seven required anchors, and nothing it names is absent from both the project and the authored files: pages are unique, every world names an existing photo and anchor, its spawn and exit nodes exist in its own node list, evidence constituents resolve by kind and its minimum is satisfiable",
+    "finding": "sixty-four references of the book exist in the AUTHORED FILES but are not visible to the workspace index, because that index carries no interaction at all (measured: zero interaction ids indexed), while the book's photo sources, permissions, context sources and handoff all name interactions through nested records",
+    "why_it_matters": "an editor for the book cannot open, resolve or validate what it cannot see, so this is a shared workspace-indexer gap, not an authoring mistake and not something a projection can fix",
+    "honesty": "the projection separates the two cases explicitly instead of reporting sixty-four false absences: a reference missing from both places stays a problem (zero today), while a reference that lives in the files but not in the index is recorded as an indexing gap"
+  },
+  "own_mistakes": "two of my own defects were caught and fixed while building this: a recursive id walk overflowed the stack on nested plots (now iterative), and a string cast on a numeric id threw inside the traversal (now TryGetValue)",
+  "verified": {
+    "probe": "PASS 591/591 including the book graph counts, zero real absences, the separated indexing gaps and the measured zero indexed interactions",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors (in the composed tree with my branch and the v14 patch)",
+    "not_run": "no game run: how the book reads and feels is author and language acceptance"
+  },
+  "files": {
+    "evidence/STUDIO/b20-deepseek-ai-24/2026-10-11-photo-book-indexing/check.log": "786b4f8c368a26b7ad69bf2663de72cb45f3b21164b524f042f7490dfaaf1587"
+  },
+  "open": [
+    "the workspace index needs to carry nested interaction records before a book editor can link to them"
+  ]
+}
