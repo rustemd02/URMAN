@@ -1,0 +1,29 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-20"
+  ],
+  "stage": "the authored vocabulary, its links and its declared gate",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-11 22:08 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "9541cad0",
+  "result": {
+    "measured": "sixteen authored Tatar words with forty-two reread and application targets between them, every target resolving, and every record carrying the fields vocabulary.schema.json requires",
+    "the_trap_i_fell_into": "my first scan read only JSON ids and reported FOUR unresolved targets - pact-ledger, baranov-1967 and tukai-1913 twice - which were not unresolved at all: a document's id lives in its Markdown front-matter, so the projection now collects ids from JSON AND from front-matter. Declared ids went from two thousand five hundred and eighty-two to two thousand six hundred and fifty-three and the four findings disappeared, which is what a false positive looks like when it is caught instead of reported",
+    "the_gate_the_data_declares": "all sixteen records carry consultantReview.status = pending with reviewer = null, so the language gate is not my opinion: the content states it is still waiting for a native speaker. The projection quotes that and never judges the words",
+    "boundary": "the projection checks links, required fields and the declared review state; it does not judge whether the Tatar is right, and writing or approving it is forbidden work for this project"
+  },
+  "verified": {
+    "probe": "PASS 680/680 including the sixteen records, the id set that now includes front-matter, the zero unresolved targets and the pending review state",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors (composed tree with my branch and the v15 patch)",
+    "not_run": "no game run: the language gate is external"
+  },
+  "own_mistakes": "two recorded: the JSON-only scan that produced four false 'unresolved' document targets, and my first draft of this file, which carried a broken tree walk that never pushed children plus two dead branches; both were fixed before the commit rather than after a review",
+  "files": {
+    "evidence/STUDIO/b20-deepseek-ai-20/2026-10-11-authored-vocabulary/check.log": "c076e7ee1ac95177d338356290614250cf17dfe6041e038f544c25c24f4f15c5"
+  },
+  "open": [
+    "all sixteen words wait for a native speaker's review, which is an external gate"
+  ]
+}

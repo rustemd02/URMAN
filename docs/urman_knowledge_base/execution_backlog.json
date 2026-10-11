@@ -75996,6 +75996,12 @@
                 "result": "REAL content finding by deepseek v4.1 flash: THREE HUNDRED AND THIRTEEN texts are referenced by the authored content through the field names the runtime reads, and NOT ONE carries a tt translation - every one falls back to Russian. The compiled pack agrees: five hundred and eighty-eight compiled texts, ZERO with tt, while the key tt appears nineteen times elsewhere in the pack, so the mechanism exists in the format and is used for other structures (vocabulary); the text layer is simply empty. Verified by hand: urman.chapter1:text/arrival-mother-reply carries value.translations with ru only. This is the localisation half of the unit: dialogue, answers, document texts and prompts a player reads have a Russian fallback and nothing else. Boundary: the projection counts PRESENCE, not quality - writing Tatar is the author's and a native speaker's gate, and inventing a translation is forbidden. Own correction recorded: an EARLIER stage of mine reported twenty-three texts with tt; that was a different structure (vocabulary) and must not be read as partial translation of the readable texts. Verified: probe PASS 675/675; Core 0/0",
                 "source": "src-dotnet/Urman.Studio.Core/Editing/TextLocalization.cs (UsedCoverage, TextFields, UsedNotes); evidence evidence/STUDIO/b20-deepseek-ai-20/2026-10-11-used-text-languages",
                 "verification": "probe PASS 675/675 including the three hundred and thirteen used texts and the notes; Core 0/0. The Tatar text layer is empty and the language gate is external and NOT_RUN"
+              },
+              {
+                "stage": "2026-10-11 the authored vocabulary, its links and its declared gate",
+                "result": "deepening by deepseek v4.1 flash: sixteen authored Tatar words with forty-two reread and application targets between them, every target resolving, and every record carrying the fields vocabulary.schema.json requires. TWO of my own mistakes are recorded. (1) My first scan read only JSON ids and reported FOUR unresolved targets (pact-ledger, baranov-1967, tukai-1913 twice) that were not unresolved at all - a document's id lives in its Markdown front-matter, so ids are now collected from JSON AND front-matter; declared ids went from 2582 to 2653 and the four findings disappeared, which is what a false positive looks like when it is caught. (2) My first draft of the file had a broken tree walk that never pushed children plus two dead branches; fixed before the commit. The gate: ALL SIXTEEN records carry consultantReview.status = pending with reviewer = null, so the language gate is what the CONTENT declares, not my opinion, and the projection quotes it without judging the words. Verified: probe PASS 680/680; Core 0/0",
+                "source": "new file src-dotnet/Urman.Studio.Core/Editing/AuthoredVocabulary.cs; evidence evidence/STUDIO/b20-deepseek-ai-20/2026-10-11-authored-vocabulary",
+                "verification": "probe PASS 680/680 including the sixteen records, the front-matter id set, zero unresolved targets and the pending review state; Core 0/0. The Tatar language review is an external gate and is NOT_RUN"
               }
             ],
             "stage_tasks": [
@@ -76029,7 +76035,9 @@
               "Татарское покрытие — языковой и культурный гейт: перевод не придумывается и остаётся открытым.",
               "Ранее переданный частичный этап (2026-10-11 which languages an authored text carries, and how the runtime resolves them) ждёт ревью/приёмки; полный done_when не выполнен.",
               "Татарский слой текстов ПУСТ: 313 читаемых текстов не имеют tt, все падают на русский. Решение и перевод — автор и носитель языка.",
-              "Ранее переданный частичный этап (2026-10-11 the languages of the texts the content actually reads) ждёт ревью/приёмки; полный done_when не выполнен."
+              "Ранее переданный частичный этап (2026-10-11 the languages of the texts the content actually reads) ждёт ревью/приёмки; полный done_when не выполнен.",
+              "16 слов словаря ждут проверки носителя языка (consultantReview.status = pending): внешний языковой гейт, критерий открыт.",
+              "Ранее переданный частичный этап (2026-10-11 the authored vocabulary, its links and its declared gate) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
             "next_action": "Привязать selection к node/response; запросить нужные языковые поля; показать effects/entry routes; validate references; preview dialogue.",
             "blocker": null,
