@@ -1,0 +1,28 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-23"
+  ],
+  "stage": "the runtime's pickup mechanism against the content",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-11 21:23 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "d80f92c5",
+  "result": {
+    "mechanism": "a pickup is the runtime's item-shaped kind: AuthoredWorldDirector's case reads interactionId with GetProperty (absent throws and the whole world fails to load), an optional catalogId for the visual, and prompt as text",
+    "contract_ready": "PickupGaps checks all three, so the first authored pickup is validated the moment it appears: a missing interactionId, an interaction that is not among the authored ones, a catalogId outside the catalogue and a non-string prompt are each reported",
+    "coverage": "the campaign authors NO pickup at all: the six placed items use the item-spawn kind, which the Tamara quest reads by name. So the executed pickup mechanism is a capability without an instance, and the notes say exactly that instead of implying items work",
+    "own_mistakes": "my first prompt check accepted any JsonValue, so a boolean passed; the runtime reads it as text through GetString, so the check now requires a string"
+  },
+  "verified": {
+    "probe": "PASS 617/617 including the zero authored pickups, the stable zero-gap result and the synthetic pickup reporting both a missing interactionId and a non-string prompt",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors (composed tree with my branch and the v15 patch)",
+    "not_run": "no game run: picking an item up is runtime acceptance"
+  },
+  "files": {
+    "evidence/STUDIO/b20-deepseek-ai-23/2026-10-11-pickup-mechanism/check.log": "be98ec3f11ee067db40d16a7bb7f5c74f5c0a5d10427e7d0954870b1c59eac42"
+  },
+  "open": [
+    "a real pickup has to be authored before the mechanism can be judged in play"
+  ]
+}

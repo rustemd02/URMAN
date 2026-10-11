@@ -76511,6 +76511,12 @@
                 "result": "deepening by deepseek v4.1 flash: one hundred and seventy-seven catalogue forms, each naming a scene that exists (eleven distinct .glb kit scenes, all present with res:// mapped to the game folder) and a part that is really inside that scene's payload. Zero gaps. A catalogued node the model does not contain would place nothing while looking valid in the editor, so the form-to-model link is now checked rather than assumed. The byte search proves the part name is in the glTF payload; geometry, UVs, materials and collision stay the artist's and Blender's acceptance",
                 "source": "src-dotnet/Urman.Studio.Core/Editing/SimpleItemForms.cs (AssetGaps); evidence evidence/STUDIO/b20-deepseek-ai-23/2026-10-11-catalogue-assets",
                 "verification": "probe PASS 555/555 including the one hundred and seventy-seven forms, the zero-gap result and the scene presence check; Core 0/0; game/Urman.Game.csproj 0/0; Urman.Studio.Tests 38/38. No Blender run and no game run: visual acceptance is NOT_RUN"
+              },
+              {
+                "stage": "2026-10-11 the runtime's pickup mechanism against the content",
+                "result": "deepening by deepseek v4.1 flash: a pickup is the runtime's item-shaped kind - AuthoredWorldDirector reads interactionId through GetProperty (absent throws and the world fails to load), an optional catalogId for the visual and prompt as text - and PickupGaps now checks all three, so the first authored pickup is validated the moment it appears. The campaign authors NO pickup at all: the six placed items use item-kind 'item-spawn', which the Tamara quest reads by name, so the executed pickup mechanism is a capability without an instance and the notes say exactly that. Own mistake recorded: my first prompt check accepted any JsonValue so a boolean passed, while the runtime reads it as text and would throw; the check now requires a string. Verified: probe PASS 617/617 with zero authored pickups, the stable zero-gap result and a synthetic pickup reporting both a missing interactionId and a non-string prompt; Core 0/0",
+                "source": "src-dotnet/Urman.Studio.Core/Editing/ItemSpawns.cs (PickupGaps); evidence evidence/STUDIO/b20-deepseek-ai-23/2026-10-11-pickup-mechanism",
+                "verification": "probe PASS 617/617 including the zero authored pickups, the stable zero-gap result and the two synthetic findings; Core 0/0. Picking an item up in play is NOT_RUN"
               }
             ],
             "stage_tasks": [
@@ -76542,7 +76548,9 @@
             "remaining": [
               "Раздел предметов становится настоящим редактором, а не заглушкой.; отсутствует подтверждение собственного конечного DoD, перечисленного ниже.",
               "Ранее переданный частичный этап (2026-10-10 item spawns and the honest boundary) ждёт ревью/приёмки; полный done_when не выполнен.",
-              "Ранее переданный частичный этап (2026-10-11 every catalogued form against the model it really comes from) ждёт ревью/приёмки; полный done_when не выполнен."
+              "Ранее переданный частичный этап (2026-10-11 every catalogued form against the model it really comes from) ждёт ревью/приёмки; полный done_when не выполнен.",
+              "Механизм pickup контентом не упражняется (0 авторских): нужен реальный подбор, чтобы судить его в игре.",
+              "Ранее переданный частичный этап (2026-10-11 the runtime's pickup mechanism against the content) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
             "next_action": "Составить schema fields; формы/каталог/preview; create from template с new ID; связать действие; validate/compile/run.",
             "blocker": null,

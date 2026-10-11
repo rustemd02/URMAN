@@ -85,7 +85,10 @@ public static class ItemSpawns
         [
             $"Размещённых предметов с взаимодействием: {spawns.Count}; авторских взаимодействий в проекте: {interactions.Count}.",
             "Отдельного вида «item» и реестра предметов в проекте нет: игра не читает ни одного описания предмета, а подбор реализован взаимодействием сцены. Поэтому редактор предметов не может завести новый формат, пока у него нет runtime-потребителя — это контракт владельца фундамента, а не шаг Studio.",
-            "Инвентаря в рантайме тоже нет: всё, что происходит при подборе, описано условиями и последствиями взаимодействия."
+            "Инвентаря в рантайме тоже нет: всё, что происходит при подборе, описано условиями и последствиями взаимодействия.",
+            workspace.EntityIds.Any(id => (string?)workspace.Get(id)?["kind"] == "pickup")
+                ? "Механизм «pickup» контентом упражняется, и его поля проверяются PickupGaps."
+                : "Механизм «pickup» (исполняемый рантаймом подбор с interactionId) контентом НЕ упражняется: авторских подборов ноль, а шесть размещённых предметов сделаны видом «item-spawn», который читает конкретный скрипт квеста. Первый авторский подбор уже будет проверен PickupGaps, но пока это способность без экземпляра."
         ];
     }
 
@@ -121,4 +124,49 @@ public static class ItemSpawns
                 break;
         }
     }
+    /// <summary>
+    /// The runtime's other item-shaped kind. A pickup is executed by AuthoredWorldDirector's
+    /// "pickup" case, which reads interactionId through GetProperty (absent = it throws) and
+    /// optionally a catalogId for the visual, so the contract is checked here even though the
+    /// campaign authors none yet: the first authored pickup is then already validated.
+    /// </summary>
+    public static IReadOnlyList<string> PickupGaps(StudioWorkspace workspace)
+    {
+        ArgumentNullException.ThrowIfNull(workspace);
+        var interactions = AuthoredInteractions(workspace);
+        var catalogue = SimpleItemForms.Catalog(workspace).Select(form => form.CatalogId).ToHashSet(StringComparer.Ordinal);
+        var gaps = new List<string>();
+        foreach (var id in workspace.EntityIds)
+        {
+            if (workspace.Get(id) is not JsonObject entity || (string?)entity["kind"] != "pickup")
+            {
+                continue;
+            }
+
+            var parameters = entity["params"] as JsonObject;
+            var interaction = (string?)parameters?["interactionId"] ?? "";
+            if (interaction.Length == 0)
+            {
+                gaps.Add($"{id}: у подбора нет interactionId — рантайм читает его через GetProperty и упадёт, не загрузив мир.");
+            }
+            else if (interactions.Count > 0 && !interactions.ContainsKey(interaction))
+            {
+                gaps.Add($"{id}: взаимодействия «{interaction}» нет среди авторских — подбор не с чем связать.");
+            }
+
+            if ((string?)parameters?["catalogId"] is { Length: > 0 } catalogId && catalogue.Count > 0 && !catalogue.Contains(catalogId))
+            {
+                gaps.Add($"{id}: записи «{catalogId}» нет в каталоге — рантайм напишет ошибку, и подбор останется без вида.");
+            }
+
+            if (parameters?["prompt"] is { } prompt
+                && (prompt is not JsonValue promptValue || !promptValue.TryGetValue<string>(out _)))
+            {
+                gaps.Add($"{id}: поле «prompt» не строка — рантайм читает его текстом через GetString и упадёт на этом подборе.");
+            }
+        }
+
+        return gaps;
+    }
+
 }
