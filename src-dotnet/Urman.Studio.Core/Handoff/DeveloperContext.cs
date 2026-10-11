@@ -233,6 +233,17 @@ public sealed class DeveloperContext(StudioWorkspace workspace, EntityCatalog ca
         return path;
     }
 
+    /// <summary>Preserve validated pilot job artifacts without following project metadata links or replacing a prior attempt.</summary>
+    public static void WriteHouseWindowJob(string root, HouseWindowRequest request, HouseWindowProposal? proposal = null)
+    {
+        if (proposal is null) HouseWindowProposalValidator.ValidateRequest(request);
+        else HouseWindowProposalValidator.Validate(request, proposal);
+        var relative = ".urman-studio/ai-jobs/" + request.RequestId + "/" + (proposal is null ? "request.json" : "proposal.json");
+        StudioFileTransaction.EnsureNoLinks(root, relative, allowStudioMetadata: true);
+        var text = proposal is null ? JsonSerializer.Serialize(request) : JsonSerializer.Serialize(proposal);
+        AtomicFile.WriteAllBytes(Path.Combine(root, relative), new UTF8Encoding(false).GetBytes(text), overwrite: false);
+    }
+
     public sealed record ContextPackage(JsonObject Manifest, JsonArray Entities, string Text, bool HasIntegrityReceipts);
 
     /// <summary>Read-only data preview; never extracts entries or writes into a checkout.</summary>

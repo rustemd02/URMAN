@@ -24556,6 +24556,14 @@
                 "source": "DraftStore.cs; EditSession.cs; StudioFileTransaction.cs:no-links accessibility; StudioRoot.cs:OfferRecoveredDrafts/SaveAll",
                 "verification": "Root narrow Game compile0/0; existing DraftsSurvive+Reordering tests2/2; no new suite/fixtures. Sol source review identified and root fixed kind mismatch, pending-artifact autosave loss and SaveAll exception messaging.",
                 "remaining": "Actual native UI/crash edge-case acceptance, filesystem race/dual-file atomicity and ordered durable history remain open."
+              },
+              {
+                "stage": "2026-10-11 guarded house job artifact writes",
+                "result": "PARTIAL_SOURCE_REVIEW_ACCEPTED_GAME_COMPILE_0_0",
+                "source": "Handoff/DeveloperContext.cs:WriteHouseWindowJob; game/studio/StudioAiPanel.cs:RunProposalAsync",
+                "implementation": "Typed ValidateRequest/Validate(request,proposal) before all job metadata IO; canonical RequestId fixed request.json or proposal.json path, existing no-links guard and AtomicFile no-overwrite. Request recording happens before stage/provider; duplicate ID preserves earlier artifacts and refuses, manual retry needs fresh capture via Copy/Save. Fresh standard OS temp subdirectory replaces deterministic path reuse before provider directory checks. Proposal call records proposal only.",
+                "verification": "Independent Sol6.1medium source review accepted; root affected Game compile0warnings/0errors and diffcheck. No new tests/probes or provider/native roundtrip.",
+                "remaining": "Actual linked-directory/collision/manual-retry UI branches unverified. Existing guard/AtomicFile races remain; no resource lease or crash-proof metadata pair claimed. Full AI32 and native Codex walkthrough remain open."
               }
             ],
             "stage_tasks": [
@@ -26147,6 +26155,14 @@
             "implementation": "Read-only metadata from actual top-first Undo/Redo stacks: label, distinct paths, entity change count, file transaction ID. No persisted second ledger, no journal timestamp ordering, no mutable command snapshots exposed. Native dialog refreshes on Changed and disconnects on close; buttons only invoke the next existing guarded Root Undo/Redo callback. Startup loader refusal remains visible. Checkpoint dialogs freed on close/confirm.",
             "verification": "Root source review of Sol6.1medium-owned new dialog and root API/hook; affected Game compile0warnings/0errors; diffcheck. No new tests/probes, native UI and restart not executed.",
             "remaining": "Full mixed command restart hydration, native history/checkpoint walkthrough and A24 remain open. History view does not add journal recovery or cross-checkout Git exchange."
+          },
+          "guarded_job_artifacts_source_slice": {
+            "stage": "2026-10-11 guarded house job artifact writes",
+            "result": "PARTIAL_SOURCE_REVIEW_ACCEPTED_GAME_COMPILE_0_0",
+            "source": "Handoff/DeveloperContext.cs:WriteHouseWindowJob; game/studio/StudioAiPanel.cs:RunProposalAsync",
+            "implementation": "Typed ValidateRequest/Validate(request,proposal) before all job metadata IO; canonical RequestId fixed request.json or proposal.json path, existing no-links guard and AtomicFile no-overwrite. Request recording happens before stage/provider; duplicate ID preserves earlier artifacts and refuses, manual retry needs fresh capture via Copy/Save. Fresh standard OS temp subdirectory replaces deterministic path reuse before provider directory checks. Proposal call records proposal only.",
+            "verification": "Independent Sol6.1medium source review accepted; root affected Game compile0warnings/0errors and diffcheck. No new tests/probes or provider/native roundtrip.",
+            "remaining": "Actual linked-directory/collision/manual-retry UI branches unverified. Existing guard/AtomicFile races remain; no resource lease or crash-proof metadata pair claimed. Full AI32 and native Codex walkthrough remain open."
           }
         }
       },
