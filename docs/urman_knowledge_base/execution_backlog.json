@@ -74339,6 +74339,16 @@
                       ],
                       "verification": "Five Luna bounded source/research assignments plus Sol6.1medium independent review; three review fixes applied (exact IDs/specs/zone/high ownership, diagnostic/player env isolation, strict frame point identity), JSON file-limit regex corrected by root. Final affected game --no-restore compile zero warnings/errors, Python syntax, tracker and diff checks. Later UI-only row separation inspected against existing Buttons helper. No runtime/tests/probes.",
                       "remaining": "New rear/left/right are source-derived and require native visibility/occlusion review. Prior saved captures were graphicsComparable=false/performance-rescue and do not accept main-seven. Successful child exit, frame export and prelaunch source hashes do not prove loaded/imported bytes, image quality, seven-window change or exact Undo."
+                    },
+                    {
+                      "date": "2026-10-12",
+                      "kind": "source-progress",
+                      "result": "Successful preview freezes recipe/GLB/blend/manifest SHA-256; GLB imported from captured byte buffer. Apply verifies each freshly read artifact against preview pins and passes those same arrays to existing durable transaction. Preview receipt validation checks pins; preview/request/stage replacement and successful Apply clear them. Missing/mismatched artifacts invalidate Apply and allow local retry.",
+                      "source": [
+                        "game/studio/StudioAiPanel.cs"
+                      ],
+                      "verification": "Five Luna source implementation/lifecycle/API/receipt/pattern checks and independent Sol6.1 medium review. Affected Game compile and tracker/diff validation; no runtime/tests/probes.",
+                      "remaining": "Native Codex request, matched main-seven game captures and full byte-exact Undo unaccepted. Staged File.ReadAllBytes behavior preserved; no new total-memory cap or universal protection for external GLB URI resources."
                     }
                   ],
                   "assigned_owner": "codex/b20-2026-10-10",
@@ -74346,7 +74356,7 @@
                   "activity": {
                     "state": "runtime_deferred_by_author",
                     "reason": "11.10 пользователь остановил игровые и Studio запуски из-за сильных лагов; production/source review/узкая компиляция продолжаются.",
-                    "verification_question": "Source matched-game capture route: does selected-house UI reuse guarded Play preparation with a capture-only real-game child, six fixed existing/source-derived views without concurrent StudioPlay startup, validated run-bound PNG metadata and bounded manifest-owned frame export? Narrow compile/source review only; native camera framing and full main-seven/Undo acceptance remain open."
+                    "verification_question": "Are recipe/GLB/blend/manifest frozen for the successful preview, exact GLB preview bytes imported, and exact Apply bytes verified against immutable preview pins? Source/Game compile only; native main-seven game/Undo still open."
                   },
                   "task_type": "integration_check",
                   "status": "blocked",
@@ -74358,7 +74368,7 @@
                     "Overall Windows kit smoke FAIL: shutdown resource leaks; scenario5checks и compile0/0 не заменяют чистый runtime result.",
                     "Windows direct .exe-only discovery исправлен и source-reviewed; actual Windows installed/login readiness остаётся непроверенным."
                   ],
-                  "next_action": "When runtime is explicitly resumed and Windows worker updated/restarted, use selected-house fixed six-game-view action before Apply, after actual main-seven Codex Apply and after byte-exact Undo; inspect all frames/graphicsComparable/camera/phase/run/source/transaction receipts and restored hashes/absences. During pause continue source B20 independently and integrate DeepSeek AI13 only after requested missing-empty framing fix arrives.",
+                  "next_action": "Продолжить source B20; после снятия runtime pause actual Windows Studio main-seven Codex→preview→Apply→matched game→byte-exact Undo. Deploy/restart Windows worker then readiness prerequisite check.",
                   "blocker": {
                     "reason": "Native UI/game verification deferred by author; Front0 could not be selected during Mac attempt.",
                     "release_when": "Автор возобновил runtime; доступен native выбор окна и защищённый Studio/game сценарий."

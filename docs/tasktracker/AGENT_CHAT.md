@@ -1201,3 +1201,9 @@ B20: bounded source review полной house Undo — отсутствие но
 
 **Codex · Mac Рустема, main; без runtime · 12.10 00:11** → всем
 AI-29/FINISH source stage: десять post-barrier EnsureCurrentSide в Apply/Undo/Redo/rollback/cancel. Внешний edit во время reload теперь conflict/pending до terminal journal, history не движется; чужие bytes не перезаписываются rollback. Core compile 0/0; Sol6.1 medium independent source review без замечаний. Native A08/A11/A16 и OS check/rename race остаются открытыми в карточке, полного DoD не объявляю. Следующий найденный pilot gap — pin GLB/blend/manifest hashes от preview до Apply. Коммичу/пушу только transaction, свою JSON-карточку и чат; файлы освобождаю.
+
+**Codex · Mac Рустема, main; без runtime · 12.10 00:12** → всем
+AI-12/CODEX-UI: Luna исправляет только StudioAiPanel.cs — exact artifacts preview→Apply. Четыре Luna проверяют lifecycle/receipt/GLB buffer/existing pattern, Sol независимо проверяет design и diff. Я веду JSON/интеграцию. Текущая revalidation mutable manifest допускает замену GLB+manifest после preview; нужна проверка exact bytes до транзакции. Проверка — affected Game compile и source review; никаких запусков.
+
+**Codex · Mac Рустема, main; без runtime · 12.10 00:18** → всем
+AI-12 source этап готов: preview pins четыре SHA (recipe/GLB/blend/manifest), GLB импортируется из exact captured buffer; Apply читает раз, сверяет pins, validates и передаёт те же bytes транзакции. При изменении/исчезновении artifact Apply отключается и доступен Retry; pin очищается на lifecycle replacement/commit; receipt currentness проверяет pin. Пять Luna + Sol review; Sol нашёл missing-file recovery, исправлено. Финальный affected Game compile 0/0, tracker/diff PASS. Native rendering/model/game/Undo не запускал, full DoD открыт. Коммичу/пушу panel, свою leaf evidence и чат; файлы освобождаю.

@@ -40,6 +40,14 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
     private readonly Button _afterView;
     private readonly Button _retryBuild;
     private readonly Button _restorePreview;
+    private sealed record StageArtifacts(byte[] Recipe, byte[] Glb, byte[] Blend, byte[] Manifest);
+    private sealed record StageArtifactHashes(string Recipe, string Glb, string Blend, string Manifest)
+    {
+        public static StageArtifactHashes From(StageArtifacts files) => new(
+            AtomicFile.Sha256(files.Recipe), AtomicFile.Sha256(files.Glb),
+            AtomicFile.Sha256(files.Blend), AtomicFile.Sha256(files.Manifest));
+    }
+
     private readonly SubViewport _preview = new() { Size = new(560, 260), OwnWorld3D = true, RenderTargetUpdateMode = SubViewport.UpdateMode.WhenVisible };
     private readonly Node3D _previewModels = new() { Name = "HouseCompareModels" };
     private readonly Camera3D _previewCamera = new() { Position = new(11, 7, 13), Current = true };
@@ -50,6 +58,7 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
     private HouseWindowProposal? _proposal;
     private AcceptDialog? _disclosureDialog;
     private string? _stage;
+    private StageArtifactHashes? _previewArtifactHashes;
     private string? _recipeText;
     private string? _sourceFingerprint;
     private bool? _disclosedGlobalInstructions;
@@ -608,6 +617,7 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
     private void InvalidatePreparedRequest()
     {
         _request = null;
+        _previewArtifactHashes = null;
         _sourceFingerprint = null;
         _disclosedGlobalInstructions = null;
         if (_disclosureDialog is { } dialog && GodotObject.IsInstanceValid(dialog))
@@ -1043,12 +1053,13 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
         cancellation.ThrowIfCancellationRequested();
         HouseWindowProposalValidator.Validate(request, proposal);
         EnsurePreparedRequestCurrent(request);
-        ValidateStage();
+        var previewArtifacts = ReadStageArtifacts(stage);
+        ValidateStage(previewArtifacts);
 
         ClearPreviewModels();
         _beforeModel = LoadCurrentHousePreview();
         _previewModels.AddChild(_beforeModel);
-        _afterModel = LoadHousePreview(Path.Combine(stage, "hero_house.glb"));
+        _afterModel = LoadHousePreview(previewArtifacts.Glb, stage);
         _previewModels.AddChild(_afterModel);
         cancellation.ThrowIfCancellationRequested();
         HouseWindowProposalValidator.Validate(request, proposal);
@@ -1056,6 +1067,7 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
         _beforeView.Disabled = false;
         _afterView.Disabled = false;
         ShowPreview(after: true);
+        _previewArtifactHashes = StageArtifactHashes.From(previewArtifacts);
         _previewReady = true;
         SetBusy(_busy);
 
@@ -1092,7 +1104,8 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
         {
             HouseWindowProposalValidator.Validate(request, proposal);
             EnsurePreparedRequestCurrent(request);
-            return true;
+            return _stage is { } stage && _previewArtifactHashes is { } expected
+                && expected == HashStageArtifacts(stage);
         }
         catch (Exception) { return false; }
     }
@@ -1179,7 +1192,21 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
             var proposal = _proposal;
             EnsurePreparedRequestCurrent(request);
             HouseWindowProposalValidator.Validate(request, proposal);
-            ValidateStage();
+            StageArtifacts stageArtifacts;
+            try
+            {
+                stageArtifacts = ReadStageArtifacts(_stage);
+                if (_previewArtifactHashes is not { } previewHashes || previewHashes != StageArtifactHashes.From(stageArtifacts))
+                    throw new InvalidDataException("Артефакты сборки изменились после предпросмотра. Повторите сборку перед применением.");
+            }
+            catch
+            {
+                _previewReady = false;
+                _previewArtifactHashes = null;
+                _retryBuildAvailable = true;
+                throw;
+            }
+            ValidateStage(stageArtifacts);
             StudioRoot.AiActionIdentity? evidenceIdentity = null;
             string? evidenceIdentityError = null;
             try { evidenceIdentity = _studio.FreezeAiActionIdentity(request, proposal); }
@@ -1188,10 +1215,10 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
             var blend = "assets/source/blender/studio/hero-house-" + request.RequestId + ".blend";
             var manifest = model + ".manifest.json";
             var writes = new StudioFileWrite[] {
-                new(RecipePath, AtomicFile.Sha256(System.Text.Encoding.UTF8.GetBytes(_recipeText!)), File.ReadAllBytes(Path.Combine(_stage, "recipe.json"))),
-                new(model, null, File.ReadAllBytes(Path.Combine(_stage, "hero_house.glb"))),
-                new(blend, null, File.ReadAllBytes(Path.Combine(_stage, "hero_house.blend"))),
-                new(manifest, null, File.ReadAllBytes(Path.Combine(_stage, "manifest.json")))
+                new(RecipePath, AtomicFile.Sha256(System.Text.Encoding.UTF8.GetBytes(_recipeText!)), stageArtifacts.Recipe),
+                new(model, null, stageArtifacts.Glb),
+                new(blend, null, stageArtifacts.Blend),
+                new(manifest, null, stageArtifacts.Manifest)
             };
             try
             {
@@ -1206,6 +1233,8 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
             }
 
             mutationSucceeded = true;
+            _previewReady = false;
+            _previewArtifactHashes = null;
             if (!GodotObject.IsInstanceValid(this))
             {
                 if (evidenceIdentity is null)
@@ -1294,9 +1323,14 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
     private static Node3D LoadHousePreview(string path)
     {
         if (!File.Exists(path)) throw new IOException("Текущая или новая модель дома не найдена для предпросмотра.");
+        return LoadHousePreview(File.ReadAllBytes(path), Path.GetDirectoryName(path) ?? "");
+    }
+
+    private static Node3D LoadHousePreview(byte[] bytes, string basePath)
+    {
         var document = new GltfDocument();
         var state = new GltfState();
-        if (document.AppendFromFile(path, state) != Error.Ok)
+        if (document.AppendFromBuffer(bytes, basePath, state) != Error.Ok)
             throw new InvalidOperationException("Модель дома не прошла импорт предпросмотра.");
         if (document.GenerateScene(state) is not Node3D scene)
             throw new InvalidDataException("Модель дома не имеет 3D-корня.");
@@ -1358,6 +1392,7 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
 
     private void ClearPreviewModels()
     {
+        _previewArtifactHashes = null;
         foreach (var child in _previewModels.GetChildren())
         {
             _previewModels.RemoveChild(child);
@@ -1371,9 +1406,21 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
         _afterView.Text = "После";
     }
 
-    private void ValidateStage()
+    private static StageArtifacts ReadStageArtifacts(string stage) => new(
+        File.ReadAllBytes(Path.Combine(stage, "recipe.json")),
+        File.ReadAllBytes(Path.Combine(stage, "hero_house.glb")),
+        File.ReadAllBytes(Path.Combine(stage, "hero_house.blend")),
+        File.ReadAllBytes(Path.Combine(stage, "manifest.json")));
+
+    private static StageArtifactHashes HashStageArtifacts(string stage) => new(
+        AtomicFile.Sha256OfFile(Path.Combine(stage, "recipe.json")),
+        AtomicFile.Sha256OfFile(Path.Combine(stage, "hero_house.glb")),
+        AtomicFile.Sha256OfFile(Path.Combine(stage, "hero_house.blend")),
+        AtomicFile.Sha256OfFile(Path.Combine(stage, "manifest.json")));
+
+    private void ValidateStage(StageArtifacts files)
     {
-        var manifest = JsonNode.Parse(File.ReadAllText(Path.Combine(_stage!, "manifest.json")))!;
+        var manifest = JsonNode.Parse(System.Text.Encoding.UTF8.GetString(files.Manifest))!;
         var allWindows = _request!.PartId is null && _request.PartIds is null;
         if (_request.PartIds is { } mainRoomPartIds
             && !mainRoomPartIds.SequenceEqual(HouseWindowProposalValidator.MainRoomWindowIds, StringComparer.Ordinal))
@@ -1397,9 +1444,12 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
                 throw new InvalidDataException("Сборка изменила ширину вне принятого охвата: " + id);
         }
         foreach (var (key, name) in new[] { ("glb", "hero_house.glb"), ("blend", "hero_house.blend") })
-            if ((string?)manifest["outputs"]?[key]?["sha256"] != AtomicFile.Sha256OfFile(Path.Combine(_stage!, name)))
+        {
+            var hash = key == "glb" ? AtomicFile.Sha256(files.Glb) : AtomicFile.Sha256(files.Blend);
+            if ((string?)manifest["outputs"]?[key]?["sha256"] != hash)
                 throw new InvalidDataException("Артефакт изменился после сборки: " + name);
-        if ((string?)manifest["source"]?["recipe"]?["sha256"] != AtomicFile.Sha256OfFile(Path.Combine(_stage!, "recipe.json")))
+        }
+        if ((string?)manifest["source"]?["recipe"]?["sha256"] != AtomicFile.Sha256(files.Recipe))
             throw new InvalidDataException("Рецепт изменился после сборки.");
         foreach (var (key, path) in new[] { ("generator", GeneratorPath), ("baselineBlend", "assets/source/blender/act1/urman_village_exterior_kit.blend") })
             if ((string?)manifest["source"]?[key]?["sha256"] != AtomicFile.Sha256OfFile(Path.Combine(_studio.Workspace.Root, path)))
