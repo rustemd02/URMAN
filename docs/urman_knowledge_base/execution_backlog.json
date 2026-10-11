@@ -71374,6 +71374,14 @@
                 "implementation": "Fixed pilot now serializes schemaVersion2 envelope with actual chapter1/act1_demo/village_day/arrival context resolved from existing catalog and Play route, real live camera/viewport, frozen entity/part scope and targetSetHash, curated source payloads, ordered dependency hashes, capability and protected-field/rules constraints. SnapshotHash is SHA256 of canonical envelope with project.snapshotHash empty, separate source fingerprint retained for CAS. Actual campaign/scene/loader dependencies join generation inputs; import/Apply compare current dependency disk hashes and no-links before proceeding. Direct prompt, clipboard, durable job and staged request.json share canonical SerializeRequest; environment-null legacy callers retain flat request serialization and existing proposal schema. Resource read set includes sources/dependencies; write set names actual recipe plus request-ID-specific generated GLB/Blend/manifest, existing shared source assets remain read-only.",
                 "verification": "Five personal Luna FAST/Max bounded implementation/caller reviews plus independent GPT6.1Sol medium source review. Root affected Game compile 0 warnings/0 errors after fixing record helper Clone reserved-name CS8859; diff-check. No tests, probes, provider requests, Studio/game/Blender launches.",
                 "remaining": "This is the fixed house pilot, not all generic AuthoringRequest v2 domains. Generic typed dependency traversal/dirty overlays for campaign inputs, new-object/tombstone scopes, complete human payload summary and native A07/A12 acceptance remain open. Camera carries numeric state without viewport image. Full Studio preview/Apply/game/byte-exact Undo still not verified under author runtime pause."
+              },
+              {
+                "stage": "2026-10-11 human disclosure and frozen request reuse",
+                "result": "SOURCE_IMPLEMENTED_GAME_COMPILE_PASS_NATIVE_NOT_RUN",
+                "source": "src-dotnet/Urman.Studio.Core/AI/AuthoringRequestV2.cs; Handoff/DeveloperContext.cs; game/studio/StudioAiPanel.cs",
+                "implementation": "Existing file actions now open readonly human composition plus full canonical v2 JSON. Describe derives from Serialize, showing exact entity/part IDs, campaign/world/state/scene/zone/spawn, numeric camera without image, byte differences against Studio-load baseline, curated fragments/full recipe, dependency paths+hashes without contents, and actual Studio Apply write paths. Direct Codex instruction policy is disclosed separately from JSON; manual recipient policy is explicitly unknown. Disclosure reuses unchanged prepared request, announces stale refreshes, and Ask/Copy/Save reuse same immutable input. Before send/export/import: prompt/scope/selection/source/dependency freshness guards remain; direct send also checks disclosed instruction policy. Failed/cancelled attempted jobs and successful Apply retire request IDs, preserving immutable artifacts. Repeat Save returns existing export only on length-bounded exact byte equality; different content is never overwritten. Existing preview is retained until Apply; direct re-request disabled while proposal exists.",
+                "verification": "Five personal Luna FAST/Max bounded implementation/read-only tasks and independent GPT6.1Sol medium source review. Root final affected Game compile 0 warnings/0 errors, diff-check. No tests/probes/provider/game/Studio/Blender launches.",
+                "remaining": "Actual dialog layout/accessibility/performance and native disclosure/send/preview/Apply/Undo not exercised under author runtime pause. Fixed pilot only; general typed references/truncation/new-object/tombstones and full context export acceptance remain open."
               }
             ],
             "stage_tasks": [
@@ -71395,8 +71403,8 @@
             "active_owner": "codex/b20-2026-10-10",
             "activity": {
               "state": "confirmed_active",
-              "reason": "Fixed house pilot AuthoringRequest v2 implementation and source integration review; runtime paused by author.",
-              "verification_question": "Does fixed house v2 capture use actual campaign/world/camera and one canonical serializer while retaining source CAS and legacy requests? Success for this partial source stage: affected Game compile and source review; full native DoD remains unchanged."
+              "reason": "Human disclosure of immutable v2 pilot request and prepared-request lifecycle integration; runtime paused by author.",
+              "verification_question": "Does the readonly disclosure show the exact subsequently sent/copied/saved snapshot and reject stale inputs, while retries retire consumed request IDs? Partial success: source review and affected Game compile; native DoD unchanged."
             },
             "task_type": "aggregate",
             "status": "in_progress",
@@ -71405,7 +71413,7 @@
             "remaining": [
               "Unsaved объект читаем агентом из пакета; другой checkout разрешает данные; секреты/user saves отсутствуют.; принятые child этапы повторно не разрабатывать."
             ],
-            "next_action": "Continue generic AI-05 context/typed dependency and human payload disclosure requirements from existing spec; fixed house v2 producer and canonical transport now implemented. Native A07/A12 remain deferred by author.",
+            "next_action": "Continue existing generic AI-05 typed references/truncation and portable context requirements; fixed pilot v2 disclosure and frozen transport now implemented. Native A07/A12 remain deferred by author.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",

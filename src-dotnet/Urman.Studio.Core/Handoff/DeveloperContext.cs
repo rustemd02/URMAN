@@ -416,7 +416,17 @@ public sealed class DeveloperContext(StudioWorkspace workspace, EntityCatalog ca
         var relative = ".urman-studio/handoff/request-" + request.RequestId + ".txt";
         StudioFileTransaction.EnsureNoLinks(root, relative, allowStudioMetadata: true);
         var path = Path.Combine(root, relative);
-        AtomicFile.WriteAllBytes(path, new UTF8Encoding(false).GetBytes(text), overwrite: false);
+        var bytes = new UTF8Encoding(false).GetBytes(text);
+        if (File.Exists(path))
+        {
+            var existing = new FileInfo(path);
+            if (existing.Length == bytes.LongLength && File.ReadAllBytes(path).AsSpan().SequenceEqual(bytes))
+                return path;
+
+            throw new IOException("A different request already exists at this path; it was left unchanged.");
+        }
+
+        AtomicFile.WriteAllBytes(path, bytes, overwrite: false);
         return path;
     }
 

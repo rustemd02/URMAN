@@ -1,4 +1,5 @@
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
@@ -74,6 +75,42 @@ public static class AuthoringRequestV2
         var bytes = JsonSerializer.SerializeToUtf8Bytes(Build(request, request.SnapshotHash), WireJsonOptions);
         EnsureWithinLimit(bytes, nameof(request));
         return Encoding.UTF8.GetString(bytes);
+    }
+
+    /// <summary>Describes exactly the frozen v2 envelope that will be sent to the provider.</summary>
+    public static string Describe(HouseWindowRequest request)
+    {
+        using var document = JsonDocument.Parse(Serialize(request));
+        var root = document.RootElement;
+        var project = root.GetProperty("project");
+        var selection = root.GetProperty("selection");
+        var camera = selection.GetProperty("camera");
+        var entityIds = ReadStringArray(selection.GetProperty("entityIds"));
+        var partIds = ReadStringArray(selection.GetProperty("partIds"));
+        var sources = root.GetProperty("sources").EnumerateArray().ToArray();
+        var sourcesDifferingOrWithoutBase = sources.Count(source =>
+        {
+            var baseHash = source.GetProperty("baseHash");
+            return baseHash.ValueKind == JsonValueKind.Null
+                || !string.Equals(baseHash.GetString(), source.GetProperty("currentHash").GetString(), StringComparison.Ordinal);
+        });
+        var sourcesWithoutBase = sources.Count(source => source.GetProperty("baseHash").ValueKind == JsonValueKind.Null);
+        var dependencyCount = root.GetProperty("dependencies").EnumerateObject().Count();
+        var resourceSets = root.GetProperty("resourceSets");
+        var readPaths = ReadStringArray(resourceSets.GetProperty("read"));
+        var writePaths = ReadStringArray(resourceSets.GetProperty("write"));
+        var sourceDescriptions = sources.Select(DescribeSource).ToArray();
+
+        return string.Join('\n',
+            $"Цели: сущностей {entityIds.Length}; частей окон {partIds.Length}; ID сущностей: {string.Join(", ", entityIds)}; ID частей: {string.Join(", ", partIds)}.",
+            $"Контекст: кампания {project.GetProperty("campaignId").GetString()} ({project.GetProperty("campaignVersion").GetString()}); мир {project.GetProperty("worldId").GetString()}; состояние {project.GetProperty("stateId").GetString()}; сцена {project.GetProperty("scenePath").GetString()}; зона {project.GetProperty("zoneId").GetString()}; точка {project.GetProperty("spawnPointId").GetString()}.",
+            $"Камера/viewport: {DescribeCamera(camera)}; изображение не включено.",
+            $"Источники: {sources.Length}; отличаются от сохранённой базы или без неё: {sourcesDifferingOrWithoutBase} (без базы: {sourcesWithoutBase}). База — сохранённые байты при загрузке Studio, не Git-ревизия; хеши относятся к полным файлам, не к фрагментам data.",
+            $"  {string.Join("\n  ", sourceDescriptions)}",
+            $"Зависимости только для чтения: {dependencyCount}; переданы только пути и SHA-256, содержимое не приложено.",
+            $"Входные ресурсы snapshot: {string.Join(", ", readPaths)}.",
+            $"Файлы, которые Studio изменит после «Применить»: {string.Join(", ", writePaths)}.",
+            $"Request ID: {root.GetProperty("requestId").GetString()}; отпечаток запроса SHA-256: {project.GetProperty("snapshotHash").GetString()}.");
     }
 
     /// <summary>Hashes the v2 envelope with only project.snapshotHash blanked.</summary>
@@ -294,6 +331,42 @@ public static class AuthoringRequestV2
 
     private static bool IsFiniteNumber(JsonElement value) =>
         value.ValueKind == JsonValueKind.Number && value.TryGetDouble(out var number) && double.IsFinite(number);
+
+    private static string[] ReadStringArray(JsonElement array) => array.EnumerateArray()
+        .Select(value => value.GetString() ?? throw new InvalidOperationException("The v2 envelope contains a non-string resource path."))
+        .ToArray();
+
+    private static string DescribeSource(JsonElement source)
+    {
+        var path = source.GetProperty("path").GetString()!;
+        var entityKey = source.GetProperty("entityKey").GetString();
+        var baseHash = source.GetProperty("baseHash");
+        var currentHash = source.GetProperty("currentHash").GetString();
+        var semantic = string.Equals(entityKey, "recipe", StringComparison.Ordinal)
+            ? "полная запись recipe"
+            : "фрагмент выбранной сущности, не весь файл";
+        var status = baseHash.ValueKind == JsonValueKind.Null
+            ? "без базы при загрузке Studio"
+            : string.Equals(baseHash.GetString(), currentHash, StringComparison.Ordinal)
+                ? "байты совпадают с базой"
+                : "байты отличаются от базы";
+        return $"{path}: {semantic}; {status}";
+    }
+
+    private static string DescribeCamera(JsonElement camera)
+    {
+        var position = camera.GetProperty("position");
+        var rotation = camera.GetProperty("rotationDegrees");
+        var viewport = camera.GetProperty("viewport");
+        return $"{camera.GetProperty("projection").GetString()}, позиция {FormatVector(position)}, поворот° {FormatVector(rotation)}, " +
+               $"FOV {FormatNumber(camera.GetProperty("fov"))}, size {FormatNumber(camera.GetProperty("size"))}, " +
+               $"viewport {FormatNumber(viewport.GetProperty("width"))}×{FormatNumber(viewport.GetProperty("height"))}";
+    }
+
+    private static string FormatVector(JsonElement vector) =>
+        $"({FormatNumber(vector.GetProperty("x"))}, {FormatNumber(vector.GetProperty("y"))}, {FormatNumber(vector.GetProperty("z"))})";
+
+    private static string FormatNumber(JsonElement value) => value.GetDouble().ToString("G", CultureInfo.InvariantCulture);
 
     private static void EnsureWithinLimit(byte[] bytes, string parameterName)
     {
