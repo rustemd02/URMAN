@@ -181,7 +181,50 @@ public sealed class CodexProposalProvider
         CancellationToken cancellationToken = default,
         IProgress<CodexProposalProgress>? progress = null)
     {
-        var proposalPrompt = BuildPrompt(request);
+        return await RunStructuredAsync(
+            BuildPrompt(request),
+            BuildOutputSchema(request),
+            text => ParseProposal(text, request),
+            workingSnapshotDirectory,
+            cancellationToken,
+            progress,
+            "Generating one structured resize proposal.",
+            "Validating proposal identity and window width.",
+            "Codex did not complete a valid house-window proposal.",
+            "urman-studio-house-window-proposal").ConfigureAwait(false);
+    }
+
+    public async Task<FenceAlignmentProposal> RunAsync(
+        FenceAlignmentRequest request,
+        string workingSnapshotDirectory,
+        CancellationToken cancellationToken = default,
+        IProgress<CodexProposalProgress>? progress = null)
+    {
+        return await RunStructuredAsync(
+            FenceAlignmentProtocol.BuildPrompt(request),
+            FenceAlignmentProtocol.BuildOutputSchema(request),
+            text => FenceAlignmentProtocol.ParseProposal(text, request),
+            workingSnapshotDirectory,
+            cancellationToken,
+            progress,
+            "Generating one structured fence-alignment proposal.",
+            "Validating fence-alignment proposal.",
+            "Codex did not complete a valid fence-alignment proposal.",
+            "urman-studio-fence-alignment-proposal").ConfigureAwait(false);
+    }
+
+    private async Task<T> RunStructuredAsync<T>(
+        string proposalPrompt,
+        object outputSchema,
+        Func<string, T> parseProposal,
+        string workingSnapshotDirectory,
+        CancellationToken cancellationToken,
+        IProgress<CodexProposalProgress>? progress,
+        string generatingMessage,
+        string validatingMessage,
+        string failureMessage,
+        string clientName)
+    {
         ValidateProposalPromptSize(proposalPrompt);
         var workingDirectory = ValidateWorkingDirectory(workingSnapshotDirectory);
         if (_executablePath is null || !File.Exists(_executablePath))
@@ -221,7 +264,7 @@ public sealed class CodexProposalProvider
             {
                 ["clientInfo"] = new Dictionary<string, object?>
                 {
-                    ["name"] = "urman-studio-house-window-proposal",
+                    ["name"] = clientName,
                     ["title"] = "URMAN Studio",
                     ["version"] = "1.0"
                 },
@@ -273,7 +316,7 @@ public sealed class CodexProposalProvider
                     "Codex reported a session warning; details are hidden. MCP tools were verified disabled before generation.");
             }
 
-            Report(progress, CodexProposalStage.Generating, "Generating one structured resize proposal.");
+            Report(progress, CodexProposalStage.Generating, generatingMessage);
             var terminalTurn = (JsonElement?)null;
             var warningsReported = preflightWarnings.Count;
             var turnStart = new Dictionary<string, object?>
@@ -294,7 +337,7 @@ public sealed class CodexProposalProvider
                         ["text"] = proposalPrompt
                     }
                 },
-                ["outputSchema"] = BuildOutputSchema(request)
+                ["outputSchema"] = outputSchema
             };
 
             protocolPhase = "turn/start";
@@ -321,10 +364,9 @@ public sealed class CodexProposalProvider
                     "Codex reported a session warning; details are hidden. MCP tools were verified disabled before generation.");
             }
 
-            Report(progress, CodexProposalStage.Validating, "Validating proposal identity and window width.");
+            Report(progress, CodexProposalStage.Validating, validatingMessage);
             var proposalText = ExtractFinalAgentMessage(terminalTurn.Value);
-            var proposal = ParseProposal(proposalText, request);
-            return proposal;
+            return parseProposal(proposalText);
         }
         catch (OperationCanceledException) when (timeout.IsCancellationRequested)
         {
@@ -366,7 +408,7 @@ public sealed class CodexProposalProvider
                 await TryInterruptAsync(client, threadId, turnId).ConfigureAwait(false);
             }
 
-            throw new CodexProposalException("Codex did not complete a valid house-window proposal.");
+            throw new CodexProposalException(failureMessage);
         }
         finally
         {
