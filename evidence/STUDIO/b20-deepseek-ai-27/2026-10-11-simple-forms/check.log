@@ -1,0 +1,14 @@
+== AI-27 first slice: the form and placement chain of a simple thing
+
+    Ошибок: 0
+
+Прошло времени 00:00:00.83
+    Ошибок: 0
+
+Прошло времени 00:00:13.37
+== existing tests
+=== TEST EXECUTION SUMMARY ===
+   Urman.Studio.Tests  Total: 38, Errors: 0, Failed: 0, Skipped: 0, Not Run: 0, Time: 2,488s
+== probe
+
+PROBE RESULT: PASS

@@ -1,0 +1,31 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-27"
+  ],
+  "stage": "first slice: the form-and-placement chain of a simple thing, against the readers",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-11 16:48 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "c75a3318",
+  "result": {
+    "chain": "a simple thing is FORM plus PLACEMENT: 177 catalogued forms (11 kits, 11 model scenes) and 282 placements (86 props and 196 kit placements) all resolve, every asset path exists, and every transform reads",
+    "shapes the readers really use": "a catalogue entry names its node either through source.node or through source.prefix (the modular kits); a prop carries a SCALAR optional scale with the runtime default 1 while a kit placement carries a required THREE-number scale vector (KitPlacementTakeover reads it with ToVector3); yawDegrees is optional with the default 0",
+    "authoring states": "100 placements are retired from the game, one is hidden and some carry an original position after being moved; these are states the editor must show and preserve, not defects",
+    "boundary": "reshaping a form means changing the kit model or its generator, which is the model track (AI-09/AI-11/AI-36): this slice guarantees the link, the asset and the placement, and says so instead of implying a Studio field could reshape a mesh"
+  },
+  "verified": {
+    "probe": "PASS 418/418 with the new checks: the catalogue, 282 placements with no problems, a prop naming its form through the catalogue, a kit placement naming its asset source, the authoring states reported as states, and the synthetic cases (a catalogue entry without a scene or node, a degenerate size, a missing licence, a prop whose form is missing, a two-number position, an unsupported asset scheme)",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors; game/Urman.Game.csproj 0 warnings/0 errors",
+    "existing_tests": "Urman.Studio.Tests 38/38",
+    "not_run": "no game run: how a form looks on screen is a matter for the in-game view, NOT_RUN"
+  },
+  "own_mistakes": "three wrong assumptions were caught by the probe on real data before this commit: I first required source.node (111 modular kit entries use source.prefix), treated scale as a scalar everywhere (196 kit placements carry a vector and the runtime reads it as one), and required scale at all (a prop without it takes the runtime default 1)",
+  "files": {
+    "evidence/STUDIO/b20-deepseek-ai-27/2026-10-11-simple-forms/check.log": "8b360f9f9585d50021598f392b6f2795173c4a29e0550169ca527361cb909c71"
+  },
+  "open": [
+    "the shape editor itself depends on AI-09/AI-11/AI-36 and is NOT_RUN",
+    "external look acceptance is NOT_RUN"
+  ]
+}

@@ -76960,7 +76960,14 @@
             "verification": "Один небольшой prop, последовательность операций и rebuild; existing geometry checks либо ручная сетка/UV/игровой просмотр.",
             "risks_recovery_external_gates": "Топология/UV/нормали — blockers; unsupported source не редактировать разрушительно; лицензия/helper установка и Mac path проверяются.",
             "required": true,
-            "evidence": [],
+            "evidence": [
+              {
+                "stage": "2026-10-11 the form-and-placement chain of a simple thing",
+                "result": "partial implementation by deepseek v4.1 flash: a new projection checks the chain the runtime really uses - 177 catalogued forms (node or prefix, three-number size, collision, licence) and 282 placements (86 props with an optional scalar scale defaulting to 1, 196 kit placements with a required three-number scale vector), with every asset path present and every transform readable; the authoring states (retired, hidden, moved) are reported as states and the boundary says reshaping a form is the model track (AI-09/AI-11/AI-36)",
+                "source": "new file src-dotnet/Urman.Studio.Core/Editing/SimpleItemForms.cs; evidence evidence/STUDIO/b20-deepseek-ai-27/2026-10-11-simple-forms",
+                "verification": "probe PASS 418/418 including the synthetic cases (no scene/node, a degenerate size, a missing licence, a missing form, a two-number position, an unsupported scheme); Core 0/0; game/Urman.Game.csproj 0/0; Urman.Studio.Tests 38/38. Three wrong assumptions were caught on real data before the commit: source.node only, a scalar scale everywhere, and a required scale. The shape editor itself is NOT_RUN"
+              }
+            ],
             "stage_tasks": [
               "STUDIO.P5"
             ],
@@ -76986,12 +76993,13 @@
             },
             "task_type": "engineering",
             "status": "todo",
-            "implementation_state": "not_started",
+            "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
-              "Форму простого предмета можно изменить внутри Studio и увидеть в игре.; отсутствует подтверждение собственного конечного DoD, перечисленного ниже."
+              "Форму простого предмета можно изменить внутри Studio и увидеть в игре.; отсутствует подтверждение собственного конечного DoD, перечисленного ниже.",
+              "Ранее переданный частичный этап (2026-10-11 the form-and-placement chain of a simple thing) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
-            "next_action": "Создать primitive; редактировать вершины/рёбра/грани; extrude/inset/cut, bevel, split/join, mirror; material/UV/paint и normals; trusted export/variant. Скульпт/одежда/rig выделены в AI-41–43.",
+            "next_action": "Ждать контракта модели (AI-09/AI-11/AI-36) для правки самой формы; связь формы и размещения уже проверена.",
             "blocker": null,
             "external_gates": [
               {
