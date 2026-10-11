@@ -74213,6 +74213,17 @@
                       "implementation": "Windows creates an unnamed non-inheritable kill-on-close Job Object, launches the root suspended, assigns it before resuming its primary thread, and requires confirmed root exit plus ActiveProcesses=0 before userdata restoration. Cleanup failure retains recovery backup and lock metadata. x64 ctypes ABI layouts are checked in production; POSIX process-group cleanup remains.",
                       "verification": "Three independent source reviews including Sol6.1medium; root python3 -m py_compile eng/protected_run.py. No tests, provider, Blender, Studio, game or Windows execution.",
                       "remaining": "Native Windows guard behavior is unverified. A guard hard crash between suspended process creation and Job assignment can leave a suspended orphan that cannot execute. Existing post-restoration lock I/O failure can leave a stale marker. Bounded authoring export, source inputs, Windows Codex/Blender readiness and native UI/game/byte-exact Undo proof remain open."
+                    },
+                    {
+                      "stage": "2026-10-11 explicit Studio authoring snapshot inputs",
+                      "result": "SOURCE_REVIEWED_PYTHON_SYNTAX_PASS_TRANSFER_NOT_RUN",
+                      "source": [
+                        "eng/remote_common.py",
+                        "eng/remote-check.py"
+                      ],
+                      "implementation": "Explicit --studio-authoring option includes exactly assets/source/blender/act1/urman_village_exterior_kit.py and its .blend baseline. Both inputs are mandatory regular in-checkout files; shared lstat/reparse/containment checks run at candidate selection and immediately before authoring hash/archive/incremental upload reads. All candidate rechecks retain the opt-in; default runtime selection and wire schema remain unchanged. Recipe is already included under game.",
+                      "verification": "Luna implementation and bounded input/path/worker research, independent Sol6.1medium source review; root python3 -m py_compile for both affected scripts plus diff-check. No snapshot packaging/upload, tests, provider or native runs.",
+                      "remaining": "Input transport plumbing only; no remote Studio action exposed. Worker must export exact request/transaction images/authored files before reclaim, with explicit size bounds and preserve-on-export-failure recovery. Fetch is artifact delivery, not local transaction/Undo-history reconciliation. Blender baseline external linked-library dependencies have not been inspected at runtime; Windows installer readiness and real UI/game/Undo gates remain open."
                     }
                   ],
                   "assigned_owner": "codex/b20-2026-10-10",
@@ -74220,7 +74231,7 @@
                   "activity": {
                     "state": "runtime_deferred_by_author",
                     "reason": "11.10 пользователь остановил игровые и Studio запуски из-за сильных лагов; production/source review/узкая компиляция продолжаются.",
-                    "verification_question": "Does Windows guard suspend before Job assignment/resume, terminate inherited descendants and prove root exit plus Job ActiveProcesses=0 before restore, preserving recovery on failure and POSIX behavior? Source/ABI review and narrow Python compile only; Windows execution deferred."
+                    "verification_question": "Does explicit Studio authoring snapshot opt-in include exactly the generator .py and baseline .blend, require regular in-checkout inputs, retain the mode through all candidate rechecks, and keep default snapshots unchanged? Source review and Python syntax only; no packaging or Windows execution."
                   },
                   "task_type": "integration_check",
                   "status": "blocked",
@@ -74232,7 +74243,7 @@
                     "Overall Windows kit smoke FAIL: shutdown resource leaks; scenario5checks и compile0/0 не заменяют чистый runtime result.",
                     "Windows direct .exe-only discovery исправлен и source-reviewed; actual Windows installed/login readiness остаётся непроверенным."
                   ],
-                  "next_action": "После возобновления runtime проверить увеличенное окно и пройти Front0→Codex→preview→Apply→game→Undo; исторические CLI результаты не заменяют этот UI сценарий.",
+                  "next_action": "Implement bounded Studio session result preservation before worker reclaim, then fixed remote Studio mode; author runtime pause remains. After runtime resumes verify installed Windows Codex/Blender and native Front0→Codex→preview→Apply→game→byte-exact Undo.",
                   "blocker": {
                     "reason": "Native UI/game verification deferred by author; Front0 could not be selected during Mac attempt.",
                     "release_when": "Автор возобновил runtime; доступен native выбор окна и защищённый Studio/game сценарий."

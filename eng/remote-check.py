@@ -16,7 +16,8 @@ import urllib.request
 import uuid
 import zipfile
 from remote_common import (MAX_ARCHIVE, MAX_SOURCE, REPOSITORY, canonical, candidates,
-                           digest, git, source_state)
+                           digest, git, source_state, STUDIO_AUTHORING_FILES,
+                           studio_authoring_path)
 
 def settings():
     path=Path(os.environ.get('URMAN_STATION_CONFIG',str(Path.home()/'.config/urman-station/client.json')))
@@ -41,26 +42,27 @@ def settings():
         raise ValueError('station proxy must be a loopback HTTP URL')
     return url,token,proxy
 
-def build_manifest(root):
+def build_manifest(root, *, studio_authoring=False):
     """Hash every file the station would receive, without building the archive first."""
     root=Path(root).resolve()
     origin=git(root,'remote','get-url','origin').decode().strip()
     if origin not in (REPOSITORY,'git@github.com:rustemd02/URMAN.git','ssh://git@github.com:rustemd02/URMAN.git'):
         raise ValueError('unexpected repository origin')
     before=source_state(root)
-    names=candidates(root)
+    names=candidates(root, studio_authoring=studio_authoring)
     manifest={'schema':1,'repository':REPOSITORY,**before,'files':{}}
     total=0
     for name in names:
         h=hashlib.sha256(); size=0
-        with (root/name).open('rb') as src:
+        path=studio_authoring_path(root,name) if name in STUDIO_AUTHORING_FILES else root/name
+        with path.open('rb') as src:
             for chunk in iter(lambda: src.read(1024**2), b''):
                 h.update(chunk); size+=len(chunk)
         total+=size
         if total>MAX_SOURCE:
             raise ValueError('snapshot exceeds source limit')
         manifest['files'][name]={'sha256':h.hexdigest(),'bytes':size}
-    if names!=candidates(root) or before!=source_state(root):
+    if names!=candidates(root, studio_authoring=studio_authoring) or before!=source_state(root):
         raise ValueError('checkout changed during packaging; retry after edits stop')
     manifest['snapshot_id']=hashlib.sha256(canonical(manifest)).hexdigest()
     return manifest
@@ -71,7 +73,8 @@ def write_archive(root, manifest, archive):
     with zipfile.ZipFile(archive,'w',zipfile.ZIP_DEFLATED,compresslevel=1) as z:
         for name,meta in manifest['files'].items():
             h=hashlib.sha256(); size=0
-            with (root/name).open('rb') as src, z.open(name,'w',force_zip64=True) as dest:
+            path=studio_authoring_path(root,name) if name in STUDIO_AUTHORING_FILES else root/name
+            with path.open('rb') as src, z.open(name,'w',force_zip64=True) as dest:
                 for chunk in iter(lambda: src.read(1024**2), b''):
                     dest.write(chunk); h.update(chunk); size+=len(chunk)
             if size!=meta['bytes'] or h.hexdigest()!=meta['sha256']:
@@ -110,7 +113,8 @@ def publish_snapshot(client, root, manifest, log=print):
     for index,sha in enumerate(missing,1):
         name=names[sha]; size=manifest['files'][name]['bytes']
         log(f'  [{index}/{len(missing)}] {name} ({size/1024**2:.2f} MB)')
-        with (Path(root)/name).open('rb') as stream:
+        path=studio_authoring_path(root,name) if name in STUDIO_AUTHORING_FILES else Path(root)/name
+        with path.open('rb') as stream:
             stored=client.request('/blobs/'+sha,stream)
         if stored.get('sha256')!=sha:
             raise ValueError('blob acknowledgement mismatch')
@@ -173,6 +177,8 @@ def main():
     p.add_argument('--fov',help="capture only: 'player' (player camera FOV) or a number; default control views use 70")
     p.add_argument('--headless',action='store_true');p.add_argument('--wait',type=int,default=1200)
     p.add_argument('--output',type=Path);p.add_argument('--submit-only',action='store_true')
+    p.add_argument('--studio-authoring',action='store_true',
+                   help='include the two fixed house generator inputs in the source snapshot')
     args=p.parse_args();c=Client()
     if args.command=='doctor':
         result=c.request('/health');print(json.dumps(result,ensure_ascii=False,indent=2));return 0 if result['ready'] else 1
@@ -188,7 +194,7 @@ def main():
     # those are uploaded, so a rebuild after a code change costs kilobytes, not the
     # whole tree. The identity is printed before POST: a lost reply is recovered with
     # status/fetch on this job_id instead of a second run.
-    manifest=build_manifest(args.root)
+    manifest=build_manifest(args.root, studio_authoring=args.studio_authoring)
     publish_snapshot(c,args.root,manifest)
     jid=args.job_id or uuid.uuid4().hex
     spec={'job_id':jid,'snapshot_id':manifest['snapshot_id'],'mode':args.command,

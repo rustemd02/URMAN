@@ -14,6 +14,10 @@ EXCLUDED = {'.git', '.tools', '.godot', '.codex-captures', 'bin', 'obj', 'node_m
             'userdata', 'user_data', 'app_userdata', 'savegames'}
 MAX_ARCHIVE = 2 * 1024**3
 MAX_SOURCE = 5 * 1024**3
+STUDIO_AUTHORING_FILES = frozenset({
+    'assets/source/blender/act1/urman_village_exterior_kit.py',
+    'assets/source/blender/act1/urman_village_exterior_kit.blend',
+})
 
 def canonical(value):
     return json.dumps(value, sort_keys=True, ensure_ascii=False, separators=(',', ':')).encode('utf-8')
@@ -42,21 +46,55 @@ def allowed(name):
 def git(root, *args):
     return subprocess.check_output(['git', '-C', str(root), *args])
 
-def candidates(root):
+
+def studio_authoring_path(root, name):
+    """Return one opted-in authoring file after rejecting links and escapes."""
+    if name not in STUDIO_AUTHORING_FILES or not allowed(name):
+        raise ValueError('not an allowed Studio authoring source: ' + name)
+    root = Path(root).resolve()
+    path = root / name
+    parts = PurePosixPath(name).parts
+    reparse_point = getattr(stat, 'FILE_ATTRIBUTE_REPARSE_POINT', 0x0400)
+    for index in range(1, len(parts) + 1):
+        component = root.joinpath(*parts[:index])
+        try:
+            metadata = component.lstat()
+        except OSError as error:
+            raise ValueError('Studio authoring source is missing or unreadable: ' + name) from error
+        if stat.S_ISLNK(metadata.st_mode) or getattr(metadata, 'st_file_attributes', 0) & reparse_point:
+            raise ValueError('Studio authoring source contains a symlink or junction: ' + name)
+        if index < len(parts) and not stat.S_ISDIR(metadata.st_mode):
+            raise ValueError('Studio authoring source parent is not a directory: ' + name)
+        if index == len(parts) and not stat.S_ISREG(metadata.st_mode):
+            raise ValueError('Studio authoring source is not a regular file: ' + name)
+    resolved = path.resolve(strict=True)
+    if root not in resolved.parents:
+        raise ValueError('Studio authoring source escapes checkout: ' + name)
+    return path
+
+
+def candidates(root, *, studio_authoring=False):
+    root = Path(root).resolve()
     names = git(root, 'ls-files', '-z', '--cached', '--others', '--exclude-standard').decode('utf-8').split('\0')
     result = []
     for name in sorted(set(names)):
         if not allowed(name):
             continue
+        authoring_file = studio_authoring and name in STUDIO_AUTHORING_FILES
         parts = PurePosixPath(name).parts
         if len(parts) == 1 and parts[0] not in {'global.json','Directory.Build.props','Directory.Build.targets',
                 'Directory.Packages.props','NuGet.Config','nuget.config','Urman.slnx','AGENTS.md'}:
             continue
-        if len(parts) > 1 and parts[0] not in {'content','game','src-dotnet','tools-dotnet','eng'}:
+        if (len(parts) > 1 and parts[0] not in {'content','game','src-dotnet','tools-dotnet','eng'}
+                and not authoring_file):
             continue
         path = root / name
         # Runtime GLB is authoritative for execution; authoring sources are not imported.
-        if path.suffix.lower() in {'.blend', '.blend1', '.blend2'}:
+        if path.suffix.lower() in {'.blend', '.blend1', '.blend2'} and not authoring_file:
+            continue
+        if authoring_file:
+            studio_authoring_path(root, name)
+            result.append(name)
             continue
         if path.is_symlink() or getattr(path, 'is_junction', lambda: False)():
             raise ValueError('source links are unsupported: ' + name)
@@ -64,24 +102,29 @@ def candidates(root):
             if root not in path.resolve().parents:
                 raise ValueError('source escapes checkout')
             result.append(name)
+    if studio_authoring:
+        missing = sorted(STUDIO_AUTHORING_FILES.difference(result))
+        if missing:
+            raise ValueError('missing required Studio authoring source(s): ' + ', '.join(missing))
     return result
 
 def source_state(root):
     return {'base_commit': git(root, 'rev-parse', 'HEAD').decode().strip(),
             'dirty_paths': git(root, 'status', '--porcelain=v1', '-uall').decode('utf-8').splitlines()}
 
-def make_snapshot(root, archive):
+def make_snapshot(root, archive, *, studio_authoring=False):
     root = Path(root).resolve()
     origin = git(root, 'remote', 'get-url', 'origin').decode().strip()
     if origin not in (REPOSITORY, 'git@github.com:rustemd02/URMAN.git', 'ssh://git@github.com/rustemd02/URMAN.git'):
         raise ValueError('unexpected repository origin')
     before = source_state(root)
-    names = candidates(root)
+    names = candidates(root, studio_authoring=studio_authoring)
     manifest = {'schema': 1, 'repository': REPOSITORY, **before, 'files': {}}
     total = 0
     with zipfile.ZipFile(archive, 'w', zipfile.ZIP_DEFLATED, compresslevel=1) as z:
         for name in names:
-            path = root / name
+            path = (studio_authoring_path(root, name)
+                    if studio_authoring and name in STUDIO_AUTHORING_FILES else root / name)
             # Hash the exact bytes placed in the ZIP, then compare to disk again.
             h = hashlib.sha256(); size = 0
             with path.open('rb') as src, z.open(name, 'w', force_zip64=True) as dest:
@@ -91,12 +134,14 @@ def make_snapshot(root, archive):
             if total > MAX_SOURCE:
                 raise ValueError('snapshot exceeds source limit')
             manifest['files'][name] = {'sha256': h.hexdigest(), 'bytes': size}
-        if names != candidates(root) or before != source_state(root):
+        if names != candidates(root, studio_authoring=studio_authoring) or before != source_state(root):
             raise ValueError('checkout changed during packaging; retry after edits stop')
         for name, meta in manifest['files'].items():
-            if digest(root / name) != meta['sha256']:
+            path = (studio_authoring_path(root, name)
+                    if studio_authoring and name in STUDIO_AUTHORING_FILES else root / name)
+            if digest(path) != meta['sha256']:
                 raise ValueError('file changed during packaging: ' + name)
-        if names != candidates(root) or before != source_state(root):
+        if names != candidates(root, studio_authoring=studio_authoring) or before != source_state(root):
             raise ValueError('checkout changed during final source verification')
         manifest['snapshot_id'] = hashlib.sha256(canonical(manifest)).hexdigest()
         z.writestr('snapshot-manifest.json', canonical(manifest))
