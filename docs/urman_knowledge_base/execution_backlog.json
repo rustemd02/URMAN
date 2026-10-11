@@ -74688,6 +74688,12 @@
                 "result": "partial fix by deepseek v4.1 flash for Codex's 22:04 requirement: CompileInputHash covers what the COMPILER reads (manifest, module files, schemas, photoBook authoring specs) but NOT the runtime content outside the module folders - game/content/world world plots, cutscene timelines, the animation catalogue, the studio recipes - which is what a change DURING a compile currently slips past. PlayPreparation.RuntimeSourceHash(root) hashes exactly those TWENTY-ONE authored files, as a SEPARATE value so a caller can compare both, and like CompileInputHash it EXCLUDES every *.compiled.v1.json (writing a pack must not look like an authored change). Verified: a world-plot change CHANGES the hash, writing a pack does NOT, the value is stable and differs from CompileInputHash. Boundary and cost stated: it covers ALL authored runtime content, so a change to ANOTHER campaign also invalidates a run - chosen on purpose because a false-stale wastes a compile while a missed change launches the wrong scene - and narrowing it needs a mapping from a selection to its runtime FILES, which the manifest does not carry (it names scene IDS). The SCOPE question (a)/(b) and the caller wiring remain Codex's, and the wiring is still blocked by the PlayFromHere conflict. Verified: probe PASS 745/745; Core 0/0",
                 "source": "src-dotnet/Urman.Studio.Core/Play/PlayPreparation.cs (RuntimeSourceHash, RuntimeSourceHashNote); evidence evidence/STUDIO/b20-deepseek-ai-13/2026-10-11-runtime-source-hash",
                 "verification": "probe PASS 745/745 including the three new checks (stable, a world-plot change is caught, a pack write is not); Core 0/0. A real launch is NOT_RUN: the wiring is Codex's"
+              },
+              {
+                "stage": "2026-10-11 the runtime hash against a REAL authored world plot",
+                "result": "verification by deepseek v4.1 flash of the previous stage on REAL content rather than a synthetic tree: take a real authored world plot (act1_far_bank.world.v1.json), append ONE byte, hash, restore the original bytes, hash again. Appending one byte CHANGES the hash and restoring the file restores it EXACTLY, so the check leaves no trace. This is the change that used to slip past a guard comparing only CompileInputHash: an author edits a world plot while a compile runs and the run would previously launch with the old plot. Verified: probe PASS 748/748 including the two new real-file checks and the sha256 shape; Core 0/0",
+                "source": "the probe's real-file check; evidence evidence/STUDIO/b20-deepseek-ai-13/2026-10-11-runtime-hash-real-change",
+                "verification": "probe PASS 748/748 including the real-file check that restores the tree exactly; Core 0/0. No game run"
               }
             ],
             "stage_tasks": [
@@ -74733,7 +74739,9 @@
               "Caller-патч конфликтует в PlayFromHere с текущим main: обе стороны записаны, выбор НЕ сделан. Нужно решение владельца и охват fresh-отпечатка зависимостей мира.",
               "Ранее переданный частичный этап (2026-10-11 the caller patch no longer applies to current main - both sides recorded, resolution requested) ждёт ревью/приёмки; полный done_when не выполнен.",
               "RuntimeSourceHash готов (21 файл, без паков, ловит изменение участка мира) — но ОХВАТ (а)/(б) и wiring за Codex'ом; конфликт PlayFromHere не разрешён.",
-              "Ранее переданный частичный этап (2026-10-11 the runtime source hash, the half of the fingerprint that needs no decision) ждёт ревью/приёмки; полный done_when не выполнен."
+              "Ранее переданный частичный этап (2026-10-11 the runtime source hash, the half of the fingerprint that needs no decision) ждёт ревью/приёмки; полный done_when не выполнен.",
+              "RuntimeSourceHash проверен на РЕАЛЬНОМ участке мира: один байт меняет хеш, восстановление возвращает его точно.",
+              "Ранее переданный частичный этап (2026-10-11 the runtime hash against a REAL authored world plot) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
             "next_action": "STUDIO/AI-13/SELECTOR: подключить выбор actual context.",
             "blocker": null,

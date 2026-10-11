@@ -1,0 +1,28 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-13"
+  ],
+  "stage": "the runtime hash against a REAL authored world plot",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-11 22:57 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "20052176",
+  "why": "the previous stage proved the hash on a synthetic mini tree. Codex's requirement is about real content, so it was proven on the real one",
+  "result": {
+    "the_test": "take a REAL authored world plot (act1_far_bank.world.v1.json), append ONE byte, hash, restore the original bytes, hash again",
+    "measured": "appending one byte to the real plot CHANGES the hash, and restoring the file restores the hash EXACTLY - so the check leaves no trace in the tree",
+    "why_it_matters": "this is the change that used to slip past a guard comparing only CompileInputHash: an author edits a world plot while a compile runs, and the run would previously launch with the old plot"
+  },
+  "verified": {
+    "probe": "PASS 748/748 including the two new real-file checks and the sha256 shape check",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors (composed tree with my branch and the v15 patch)",
+    "not_run": "no game run"
+  },
+  "files": {
+    "evidence/STUDIO/b20-deepseek-ai-13/2026-10-11-runtime-hash-real-change/check.log": "4facae996724607cd40dcde1e71fdc063eb7486962f9513be50093193b005622"
+  },
+  "open": [
+    "the SCOPE and the caller wiring remain Codex's"
+  ]
+}
