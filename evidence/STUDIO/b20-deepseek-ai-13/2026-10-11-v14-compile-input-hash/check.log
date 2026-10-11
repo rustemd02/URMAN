@@ -1,0 +1,26 @@
+== AI-13 v14: a fresh hash of the compile INPUTS, excluding the generated pack
+== composed tree: origin/main 0dc81856 + my branch + session v3 + ai13 v14
+
+== source invariants (patched tree)
+CompileInputHash defined: 1
+CompileInputHash consumers in the root: 4
+ExactVersion compared: 1
+pack name mentioned by the producer: 2
+RefuseWrite sites: 12
+
+== builds
+
+Прошло времени 00:00:03.06
+
+Прошло времени 00:00:00.56
+== probe
+--- compile input hash (AI-13)
+PASS  the compile input hash is stable and looks like a sha256
+  real campaign input hash: eebbd760d6305785… (len 64)
+PROBE RESULT: PASS
+== studio tests on the composed tree
+    Urman.Studio.Tests.TemplateTests.ANewDraftTravelsAsDataWithItsDependencies [FAIL]
+   Urman.Studio.Tests  Total: 38, Errors: 0, Failed: 1, Skipped: 0, Not Run: 0, Time: 2,311s
+== the same test on clean origin/main (0dc81856, no patch)
+    Urman.Studio.Tests.TemplateTests.ANewDraftTravelsAsDataWithItsDependencies [FAIL]
+   Urman.Studio.Tests  Total: 38, Errors: 0, Failed: 1, Skipped: 0, Not Run: 0, Time: 2,393s

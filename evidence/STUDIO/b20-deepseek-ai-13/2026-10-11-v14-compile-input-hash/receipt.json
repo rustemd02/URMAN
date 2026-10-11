@@ -1,0 +1,34 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-13"
+  ],
+  "stage": "v14: a fresh hash of the compile INPUTS, excluding the generated pack",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-11 20:16 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "0dc81856",
+  "answer_to_review": {
+    "gap": "SameRunTarget ran after the await but read the cached selector context and compared identity only, so a source change during the compile was invisible, and ContentFingerprint was not the answer because the compiler itself changes the pack it covers",
+    "producer": "PlayPreparation.CompileInputHash(root, campaignSelection) hashes exactly what compilation reads: the campaign manifest, the files under each of its module folders (mapped with the shared RuleCatalogCoverage.ModuleFolder rule) and content/schemas. The generated pack lives outside those trees and the producer never names it, so the compiler's own output cannot make a run look changed",
+    "consumer": "PlayFromHere and CheckContent compute the hash AFTER SaveAll and BEFORE the await, recompute it after the await, and refuse with a banner when it differs; the identity check now also compares Campaign.ExactVersion. The existing run guards stay, and no second registry was added",
+    "measured": "the hash is stable across two calls and is a 64-character hex digest; the real campaign yields eebbd760d6305785...; writing the pack changes it by zero; changing one module source changes it"
+  },
+  "preexisting_failure": "Urman.Studio.Tests.TemplateTests.ANewDraftTravelsAsDataWithItsDependencies fails on clean origin/main 0dc81856 with no patch applied, and fails identically with the patch: 38 tests, 1 failed, same test. This is main's own failure and it is reported rather than adopted",
+  "verified": {
+    "apply": "session v3 and wiring v14 pass git apply --check on a pristine 0dc81856 tree with my branch merged and were applied there",
+    "compile": "Urman.Studio.Core 0/0; game/Urman.Game.csproj 0/0",
+    "probe": "the probe against the composed tree PASSES, including the new hash checks (stable digest, pack excluded, a real module edit detected)",
+    "tests": "38 total, 1 failed, and that one failure is identical on clean main",
+    "not_run": "no Studio window: this is a SOURCE stage and native stays paused"
+  },
+  "files": {
+    "evidence/STUDIO/b20-deepseek-ai-13/2026-10-11-v14-compile-input-hash/ai13-wiring-v14.patch": "f77835fafe687704f61efa7bcb5b9c3d180abc288775d1f943b7fc25c1ab5350",
+    "evidence/STUDIO/b20-deepseek-ai-13/2026-10-11-v14-compile-input-hash/ai13-write-boundary-v3.patch": "229e9dd8b0edfe31cac45d2d4d6914d240d14a838d8100ccf0860cf3c48c3d8a",
+    "evidence/STUDIO/b20-deepseek-ai-13/2026-10-11-v14-compile-input-hash/check.log": "521d610314c16858724aa174e555a1f2b4a207f34d5c27e7a635aeb73c4b9e8a"
+  },
+  "open": [
+    "main's own failing test needs the owner's attention",
+    "runtime acceptance stays NOT_RUN by the author's pause"
+  ]
+}
