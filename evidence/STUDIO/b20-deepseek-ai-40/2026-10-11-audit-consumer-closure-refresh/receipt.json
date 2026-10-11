@@ -1,0 +1,29 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-40"
+  ],
+  "stage": "the consumer closure re-measured against the current main",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-11 22:27 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "5a0fcb7b",
+  "why": "the first consumer was handed with a closure of SEVEN Core files, measured against the main of that moment. Main has moved twice since, and my own later commits added dependencies, so the closure was re-measured instead of being trusted from memory",
+  "result": {
+    "the_closure_grew": "TEN Core files now: AssetUsageIndex, AuthoredDocuments, AuthoredHints, AuthoredVocabulary, AuthoringDiagnostics, CutsceneActions, ItemSpawns, PcChatContent, SimpleItemForms and TriggerScopeFacts. The three new ones came from my own later stages - the vocabulary file and the cutscene fix, which now needs the vocabulary's id set",
+    "the_patch": "game/studio/StudioAuthoringAuditSection.cs plus the ONE line in game/studio/StudioRoot.cs; the patch still applies cleanly to main and needs no change",
+    "the_proof": "pristine main 5a0fcb7b plus those ten files plus the patch builds Urman.Game with 0 errors, and the AI-13 prerequisite patch still applies as well",
+    "why_it_matters": "a cherry-pick list quoted from an earlier moment is exactly the kind of detail that breaks an integration; the list is now dated and measured, and the reason for the growth is named"
+  },
+  "verified": {
+    "game_build": "Urman.Game 0 warnings/0 errors in the fresh worktree on main 5a0fcb7b",
+    "patches": "both handover patches pass git apply --check against that main",
+    "not_run": "no Studio window: the panel's look remains the author's acceptance"
+  },
+  "files": {
+    "evidence/STUDIO/b20-deepseek-ai-40/2026-10-11-audit-consumer-closure-refresh/check.log": "baea9ccfed1edea34af44eb052e910501615e40a039ebe55249d912c1c2f066d"
+  },
+  "open": [
+    "Codex integrates the ten files and the patch; the seven-file note in the earlier receipt is superseded by this one"
+  ]
+}

@@ -1,0 +1,22 @@
+== AI-40: the consumer closure re-measured against the current main
+
+-- pristine main 5a0fcb7b + these ten Core files + the handover patch:
+   src-dotnet/Urman.Studio.Core/Editing/AssetUsageIndex.cs
+   src-dotnet/Urman.Studio.Core/Editing/AuthoredDocuments.cs
+   src-dotnet/Urman.Studio.Core/Editing/AuthoredHints.cs
+   src-dotnet/Urman.Studio.Core/Editing/AuthoredVocabulary.cs
+   src-dotnet/Urman.Studio.Core/Editing/AuthoringDiagnostics.cs
+   src-dotnet/Urman.Studio.Core/Editing/CutsceneActions.cs
+   src-dotnet/Urman.Studio.Core/Editing/ItemSpawns.cs
+   src-dotnet/Urman.Studio.Core/Editing/PcChatContent.cs
+   src-dotnet/Urman.Studio.Core/Editing/SimpleItemForms.cs
+   src-dotnet/Urman.Studio.Core/Editing/TriggerScopeFacts.cs
+-- the patch's own files:
+   game/studio/StudioRoot.cs
+   game/studio/StudioAuthoringAuditSection.cs
+-- both patches apply to current main:
+   prerequisite: applies
+-- the game builds with the closure:
+    Ошибок: 0
+
+Прошло времени 00:00:00.59

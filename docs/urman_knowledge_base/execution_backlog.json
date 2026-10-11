@@ -81362,6 +81362,12 @@
                 "result": "FIRST REAL CONSUMER, as Codex asked, by deepseek v4.1 flash: game/studio/StudioAuthoringAuditSection.cs - a Studio section that writes nothing and explains, listing AuthoringDiagnostics' steps for the current selection and the kind-to-consumer map for the workspace. The registration is ONE line in Codex's shared StudioRoot.cs, so it is handed as a patch and not applied by me. The consumer needs SEVEN of my Core files that main does not have yet (TriggerScopeFacts, AuthoringDiagnostics, ItemSpawns, AssetUsageIndex, CutsceneActions, SimpleItemForms, PcChatContent) - a closure MEASURED by compiling against pristine main, not guessed. Proof: Urman.Game builds 0/0 in my branch with the panel, and 0/0 in a pristine-main worktree with the seven files, the panel and the one-line hook. Own mistakes recorded: the bare SizeFlags enum does not resolve outside a Control subclass (caught by the game build), and I briefly read an empty build output as success because 'timeout' does not exist on this machine. Verified: game build 0/0 twice; no Studio window opened",
                 "source": "new file game/studio/StudioAuthoringAuditSection.cs; patch evidence/STUDIO/b20-deepseek-ai-40/2026-10-11-authoring-audit-consumer/authoring-audit-section.patch",
                 "verification": "Urman.Game 0 warnings/0 errors in my branch and 0/0 in the pristine-main worktree with the closure and the hook. A Studio window and the panel's look are NOT_RUN and are the author's acceptance"
+              },
+              {
+                "stage": "2026-10-11 the consumer closure re-measured against the current main",
+                "result": "integration detail by deepseek v4.1 flash: the first consumer was handed with a closure of SEVEN Core files measured against that moment's main. Main has moved twice since AND my own later commits added dependencies, so the closure was re-measured rather than trusted: it is now TEN files (adding AuthoredVocabulary, AuthoredDocuments and AuthoredHints, which came from the vocabulary stage and the cutscene fix). The patch itself is unchanged and still applies cleanly to main. Proof: pristine main 5a0fcb7b plus those ten files plus the patch builds Urman.Game with 0 errors, and the AI-13 prerequisite patch still applies. A cherry-pick list quoted from an earlier moment is exactly what breaks an integration, so the list is now dated and measured. Verified: game build 0/0 in a fresh worktree; both patches apply",
+                "source": "evidence/STUDIO/b20-deepseek-ai-40/2026-10-11-audit-consumer-closure-refresh/check.log",
+                "verification": "Urman.Game 0 warnings/0 errors on main 5a0fcb7b with the ten-file closure and the patch; both patches pass git apply --check. No Studio window: the panel's look is NOT_RUN"
               }
             ],
             "stage_tasks": [
@@ -81399,7 +81405,9 @@
               "Карта потребителей говорит о поиске, а не о мире: виды, читаемые по ID через реестры, остаются вне неё — и это сказано в примечаниях.",
               "Ранее переданный частичный этап (2026-10-11 which runtime code consumes which authored kind) ждёт ревью/приёмки; полный done_when не выполнен.",
               "Consumer-панель передана патчем: 7 файлов Core + одна строка в общем StudioRoot.cs — интегрирует Codex.",
-              "Ранее переданный частичный этап (2026-10-11 the first real Studio consumer of the authoring projections) ждёт ревью/приёмки; полный done_when не выполнен."
+              "Ранее переданный частичный этап (2026-10-11 the first real Studio consumer of the authoring projections) ждёт ревью/приёмки; полный done_when не выполнен.",
+              "Замыкание consumer'а перемерено: 10 файлов Core + патч; сборка игры на текущем main 0/0.",
+              "Ранее переданный частичный этап (2026-10-11 the consumer closure re-measured against the current main) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
             "next_action": "UI стартового состояния; пометка synthetic/reachable; runtime trace с occurrence ID; pause clock; шаг события; copy transform только явной командой; handoff case.",
             "blocker": null,
