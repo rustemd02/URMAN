@@ -5864,22 +5864,28 @@
             "title": "Подключить W11 — Расколотые дрова и рукояти",
             "result": "Подключить W11 — Расколотые дрова и рукояти",
             "owner": "art/materials/qa",
-            "evidence": [],
+            "evidence": [
+              "11.10.2026 source stage: BathDryFirewood0..4 preserve CylinderMesh triangles/normals/names/transforms and logsRemaining predicate; sides use cached wood_split_uv at 2/m, caps centered wood_cut. Affected .tools/dotnet build game/Urman.Game.csproj --no-restore --disable-build-servers: 0 warnings, 0 errors (23.04s); CS0234 qualification fixed before successful retry. No native frame/game/art PASS."
+            ],
             "assigned_owner": "art/materials/qa",
-            "active_owner": "Кодекс Кадыра",
+            "active_owner": null,
             "activity": {
-              "state": "confirmed_active",
-              "reason": "11.10: compiled draft 0/0; rejected as visual stage because AddVisualWoodpile is hidden/uninstantiated. Draft source reverted. Windows frame pending explicit snapshot-transfer approval."
+              "state": "stopped",
+              "reason": "11.10: live bath W11 source stage and affected compile 0/0 finished; root released source files. Native view pending snapshot-transfer approval; child remains partial."
             },
             "task_type": "engineering",
             "status": "in_progress",
             "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
-              "W11: actual split-wood consumers and handles still require targeted verification. Legacy generated pile repair did not affect current runtime and was reverted."
+              "One protected close Windows view of BathDryFirewood0..4 after explicit snapshot-transfer approval; inspect axial W11 and centered wood_cut caps.",
+              "Other W11 handles/portable wood consumers and full child DoD remain open."
             ],
-            "next_action": "After snapshot-transfer approval, inspect one close view of active MainStreetPhysicalFirewood at (5,2.3); do not count this bark-log consumer as completed W11.",
-            "blocker": null,
+            "next_action": "After snapshot-transfer approval, capture bath_firewood:BabaiBathhouse@0,0.8,1.8>BabaiBathhouse@-1.54,0.28,1.03 --fov 50; review actual image and protected receipt, then address other W11 consumers.",
+            "blocker": {
+              "reason": "Auto-review denied remote-check snapshot transfer to UNTERPC; explicit transfer-approval question pending. Source work and local compilation completed.",
+              "release_when": "Author explicitly approves sending the URMAN checkout snapshot to UNTERPC through eng/remote-check.py."
+            },
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
             "work_contract": {
@@ -5889,10 +5895,14 @@
                 "assets/asset_registry.json",
                 "docs/urman_knowledge_base/art/urman_imagegen_texture_prompt_book_2026-09-22.md",
                 "docs/urman_knowledge_base/assets.md",
-                "game/scripts/Act1ConnectedWorld.cs",
-                "game/scripts/Act1ConnectedWorld.RoundLogs.cs"
+                "game/scripts/Act1ConnectedWorld.Bathhouse.cs",
+                "game/scripts/PainterlyMaterialLibrary.cs"
               ],
-              "required_inputs": [],
+              "required_inputs": [
+                "game/assets/textures/painterly/wood_split_firewood_v1_albedo.png",
+                "game/scripts/Act1ConnectedWorld.MosqueInterior.cs: FacilityRod (read-only)",
+                "game/scripts/Act1ConnectedWorld.Exploration.cs: DiscoveryCylinder (read-only)"
+              ],
               "scope_in": [
                 "Подключить W11 — Расколотые дрова и рукояти"
               ],
@@ -5910,18 +5920,14 @@
               ],
               "verification": {
                 "method": "targeted_runtime_scenario",
-                "question": "Does one close protected frame identify the actual active kit firewood geometry/material, rather than the hidden AddVisualWoodpile?",
+                "question": "On actual BathDryFirewood0..4, do W11 fibres follow the 0.55m log axis while growth rings stay on caps, with existing log-stock visibility unchanged?",
                 "scenario": {
                   "targets": [
-                    "game/assets/textures/painterly/README.md",
-                    "assets/asset_registry.json",
-                    "docs/urman_knowledge_base/art/urman_imagegen_texture_prompt_book_2026-09-22.md",
-                    "docs/urman_knowledge_base/assets.md"
+                    "BabaiBathhouse/BathDryFirewood0..4"
                   ],
                   "actions": [
-                    "Сопоставить текущий Подключить W11 — Расколотые дрова и рукояти с указанным источником/consumer.",
-                    "Внести только отсутствующую часть этого результата у существующего владельца.",
-                    "Выполнить указанную узкую проверку, сохранить фактический результат и остановиться."
+                    "One protected close capture: bath_firewood:BabaiBathhouse@0,0.8,1.8>BabaiBathhouse@-1.54,0.28,1.03 (FOV 50), after snapshot-transfer approval.",
+                    "Inspect W11 axial grain and wood_cut caps; compare preserved geometry/transforms and UpdateBathPresentation log-stock predicate in source."
                   ],
                   "observations": [
                     "Подключить W11 — Расколотые дрова и рукояти выполнено у указанных targets и используется реальным потребителем.",
@@ -5930,7 +5936,7 @@
                   "bound": "Только этот объект/контракт на одном named candidate; asset import или affected compile лишь при изменении соответствующего источника, human approval отдельно."
                 },
                 "success": [
-                  "One actual active MainStreetPhysicalFirewood close frame, receipt with protected user-data restoration and no engine errors; diagnosis only, no W11 completion claim."
+                  "Affected compile succeeds; actual bath close frame shows correct side grain/end caps; protected receipt confirms user-data restoration/no engine errors. Other W11 consumers are not claimed covered."
                 ],
                 "repeat_only_if": "Изменился покрываемый вход/consumer/контракт; без этого уже принятая проверка используется повторно без запуска."
               },

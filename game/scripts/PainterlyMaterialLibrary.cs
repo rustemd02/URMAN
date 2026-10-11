@@ -717,6 +717,7 @@ public static class PainterlyMaterialLibrary
         ["wood_shed_dark"] = ("res://assets/textures/painterly/wood_shed_dark_v1_albedo.png", Vector2.One),
         ["wood_bath_light"] = ("res://assets/textures/painterly/wood_bath_light_v1_albedo.png", new Vector2(1f / .75f, 1f / .75f)),
         ["wood_split"] = ("res://assets/textures/painterly/wood_split_firewood_v1_albedo.png", new Vector2(2f, 2f)),
+        ["wood_split_uv"] = ("res://assets/textures/painterly/wood_split_firewood_v1_albedo.png", new Vector2(2f, 2f)),
         ["wood_prop"] = ("res://assets/textures/painterly/weathered_wood_boards_v3_albedo.png", new Vector2(0.9f, 0.9f)),
         ["wood_bark"] = ("res://assets/textures/painterly/bark_pine_v1_albedo.png", new Vector2(1.05f, 1.05f)),
         ["bark_pine"] = ("res://assets/textures/painterly/urman_f02_v02_basecolor.png", Vector2.One),
@@ -1560,7 +1561,7 @@ public static class PainterlyMaterialLibrary
             "wood_floor_painted" => "wood_furniture_interior",
             "wood_bath_light" => "wood_furniture",
             "wood_shed_dark" => "wood",
-            "wood_split" => "wood_prop",
+            "wood_split" or "wood_split_uv" => "wood_prop",
             "wood_fence_vertical" or "wood_fence_rail" or "wood_fence_uv" => "wood_fence",
             "plaster_domestic" => "wall_institution",
             "stone_foundation" => "stone",
@@ -1586,7 +1587,7 @@ public static class PainterlyMaterialLibrary
         material.SetShaderParameter("local_wood_texture", surface == "hay_bundle");
         material.SetShaderParameter("local_floor_texture", surface is "wood_floor_painted" or "wood_fence_vertical" or "wood_fence_rail");
         material.SetShaderParameter("local_fence_rail", surface == "wood_fence_rail");
-        material.SetShaderParameter("authored_uv_texture", surface is "hay_fibers" or "cloth_table" or "cloth_curtain" or "wood_fence_uv" or "wood_log_uv");
+        material.SetShaderParameter("authored_uv_texture", surface is "hay_fibers" or "cloth_table" or "cloth_curtain" or "wood_fence_uv" or "wood_log_uv" or "wood_split_uv");
         // VIS-095 through VIS-105: metal only where the object is actually metal.
         // Body paint keeps metallic 0 and reads by highlight shape and roughness;
         // the two vehicle steels differ by age, not by a chrome trick.
