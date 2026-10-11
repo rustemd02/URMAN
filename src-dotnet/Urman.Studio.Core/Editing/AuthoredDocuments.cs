@@ -33,10 +33,16 @@ public static class AuthoredDocuments
     public const string SchemaPath = "content/schemas/document.schema.json";
     public const string ModulesFolder = "content/modules";
 
-    /// <summary>The fields document.schema.json requires, read from the schema itself.</summary>
-    public static IReadOnlyList<string> RequiredFields(string root)
+    /// <summary>The document schema's required fields.</summary>
+    public static IReadOnlyList<string> RequiredFields(string root) => RequiredFields(root, SchemaPath);
+
+    /// <summary>
+    /// The fields a schema requires, read from the schema itself. Shared with the hint
+    /// projection, so both Markdown families take their contract from the same place.
+    /// </summary>
+    public static IReadOnlyList<string> RequiredFields(string root, string schemaPath)
     {
-        var path = Path.Combine(Path.GetFullPath(root), SchemaPath.Replace('/', Path.DirectorySeparatorChar));
+        var path = Path.Combine(Path.GetFullPath(root), schemaPath.Replace('/', Path.DirectorySeparatorChar));
         if (!File.Exists(path) || JsonNode.Parse(File.ReadAllText(path)) is not JsonObject schema || schema["required"] is not JsonArray required)
         {
             return [];
@@ -163,7 +169,11 @@ public static class AuthoredDocuments
         {
             var name = match.Groups[1].Value;
             var raw = match.Groups[2].Value.Trim();
-            if (raw.StartsWith('[') || raw.StartsWith('{'))
+            // A value that is JSON - an array, an object, a quoted string, a NUMBER, a boolean or
+            // null - is parsed as JSON, so "level: 1" becomes the number 1 and not the text "1".
+            // Anything else stays the plain string it looks like.
+            if (raw.StartsWith('[') || raw.StartsWith('{') || raw.StartsWith('"')
+                || char.IsDigit(raw.FirstOrDefault()) || raw is "true" or "false" or "null")
             {
                 try
                 {

@@ -76696,6 +76696,12 @@
                 "result": "deepening by deepseek v4.1 flash: a document is a Markdown file whose YAML front-matter carries the compiled record's fields, and the module manifest lists it among its sourceFiles. Sixty-four authored documents, fifty-eight opening effects and ZERO problems: every file exists, every document carries all fields document.schema.json requires, every document declares its OWN sourceFile, every knowledge reference resolves, and every access condition and opening effect uses an operation the engine executes. Three links could fail quietly and each is now checked. The required fields come from the schema and the executed operations from the engine sources. Own mistake recorded: my synthetic first failed to exercise the operation check because the mini workspace had no engine sources; the test now carries ContentRuleEngine.cs. Verified: probe PASS 634/634; Core 0/0",
                 "source": "new file src-dotnet/Urman.Studio.Core/Editing/AuthoredDocuments.cs; evidence evidence/STUDIO/b20-deepseek-ai-24/2026-10-11-authored-documents",
                 "verification": "probe PASS 634/634 including the sixty-four documents with zero problems and the four synthetic failures; Core 0/0. The document prose and language are NOT_RUN and external"
+              },
+              {
+                "stage": "2026-10-11 the authored hints, and the front-matter parser fix",
+                "result": "deepening by deepseek v4.1 flash: hints are the same authored shape as documents - Markdown + YAML front-matter listed in the module manifest - and three authored hints at levels 1, 2 and 3 check out with ZERO problems: file present, all fields hint.schema.json requires, a resolving text id, a non-empty pointsTo and executed conditions. The runtime contract is quoted: level 1 arrives when the computer opens, level >= 3 waits until the player really read two archive documents, and the generic path serves the first unseen hint whose conditions hold. TWO of my own mistakes are recorded: my front-matter parser turned 'level: 1' into the text \"1\" so the level read as zero (it now parses JSON scalars), and I first flagged level 2 although the runtime only NAMES 1 and 3 in explicit comparisons - the schema owns the range (1..3) and the check now reads it from there. Verified: probe PASS 637/637 with the document family still at sixty-four and zero problems; Core 0/0",
+                "source": "new file src-dotnet/Urman.Studio.Core/Editing/AuthoredHints.cs plus src-dotnet/Urman.Studio.Core/Editing/AuthoredDocuments.cs (FrontMatter, RequiredFields); evidence evidence/STUDIO/b20-deepseek-ai-24/2026-10-11-authored-hints",
+                "verification": "probe PASS 637/637 including the three hints, the schema range and the parser fix; Core 0/0. The hint prose and language are NOT_RUN and external"
               }
             ],
             "stage_tasks": [
@@ -76733,7 +76739,9 @@
               "Проекция книги ждёт UI-caller: без него это частичный исходный этап, а не приёмка AI-24.",
               "Ранее переданный частичный этап (2026-10-11 the book projection takes the active campaign and mirrors the compiler's evidence rules) ждёт ревью/приёмки; полный done_when не выполнен.",
               "Текст документов и их язык — внешняя приёмка, критерий открыт.",
-              "Ранее переданный частичный этап (2026-10-11 the authored documents behind the book) ждёт ревью/приёмки; полный done_when не выполнен."
+              "Ранее переданный частичный этап (2026-10-11 the authored documents behind the book) ждёт ревью/приёмки; полный done_when не выполнен.",
+              "Текст подсказок и язык — внешняя приёмка, критерий открыт.",
+              "Ранее переданный частичный этап (2026-10-11 the authored hints, and the front-matter parser fix) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
             "next_action": "Трассировать bindings активной кампании; human forms; AI exact-field edits; проверить Markdown/учебные токены; preview в игре.",
             "blocker": null,

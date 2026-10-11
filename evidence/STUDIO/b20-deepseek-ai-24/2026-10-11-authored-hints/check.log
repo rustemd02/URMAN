@@ -1,0 +1,10 @@
+== AI-24: the authored hints, and the front-matter parser fix
+
+
+Прошло времени 00:00:03.46
+  authored documents: 64, effects: 58, problems: 0
+  authored hints: 3, problems: 0, runtime levels: [1, 3]
+    hints/ask-naila-registry.md: level=1 requires=0 pointsTo=реестр problems=0
+    hints/boundary-not-dates.md: level=3 requires=1 pointsTo=кромка problems=0
+    hints/compare-dates.md: level=2 requires=1 pointsTo=учёт problems=0
+PROBE RESULT: PASS
