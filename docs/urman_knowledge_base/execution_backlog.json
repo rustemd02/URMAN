@@ -2814,7 +2814,8 @@
         "remaining_gates": "Physical PhotoWorlds consumers and full applicable visual/human/audio/culture/language/host acceptance remain open."
       }
     },
-    "current_contract_2026_10_11": "Полная конечная декомпозиция; собственное инженерное завершение отдельно от продуктовой приёмки. Source/story/art/culture/data requirements не сокращены."
+    "current_contract_2026_10_11": "Полная конечная декомпозиция; собственное инженерное завершение отдельно от продуктовой приёмки. Source/story/art/culture/data requirements не сокращены.",
+    "current_authority": "Живое возобновление B20 после миграции; первым native AI12/CODEX-UI. Regular commit/push checked stages main authorized."
   },
   "milestones": [
     {
@@ -73929,19 +73930,19 @@
                   "owner": "codex/b20-2026-10-10",
                   "evidence": [],
                   "assigned_owner": "codex/b20-2026-10-10",
-                  "active_owner": null,
+                  "active_owner": "codex/b20-2026-10-10",
                   "activity": {
-                    "state": "paused_by_author",
-                    "reason": "Назначение Codex/DeepSeek сохранено; миграция не запускает production и не выдаёт peer-передачу за активную работу."
+                    "state": "confirmed_active",
+                    "reason": "Живое возобновление автора11.10 после миграции; root выполняет native Front0 loop, Luna read-only UI/Undo, Sol6.1medium acceptance review."
                   },
                   "task_type": "integration_check",
-                  "status": "todo",
+                  "status": "in_progress",
                   "implementation_state": "not_started",
                   "technical_verification_state": "not_run",
                   "remaining": [
                     "Нативный выбор/панель/Apply/Undo не проверены; последний CUA timeout не доказал дефект реализации."
                   ],
-                  "next_action": "После отдельного возобновления открыть native Studio и выполнить один Front0 Codex UI-loop, используя уже принятые consumers/transaction.",
+                  "next_action": "Открыть guarded native Studio, выбрать Front0 и отправить реальный Codex запрос; фиксировать before/preview/Apply/game/Undo и source hashes.",
                   "blocker": null,
                   "external_gates": [],
                   "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -74020,9 +74021,9 @@
                     ],
                     "verification": {
                       "method": "targeted_scenario",
-                      "question": "Пройти native Studio: выбрать Front0 → Codex → preview → Apply → игра → Undo",
+                      "question": "Проходит ли Front0 реальный native Studio Request→preview→Apply→game→Undo с неизменными соседями и byte-exact восстановлением?",
                       "scenario": "Один последовательный nativeStudio walkthrough A01/A02 с before/after/Undo и exact receipt; existing CLI pilot использовать как вход, не как GUI-доказательство.",
-                      "success": "Выполнены все перечисленные собственные критерии, без расширения на родителя.",
+                      "success": "UI/actual Codex receipt/target game views/source hashes/new-file absence + guard userdata restoration; полный multi-house A02 и restart отдельно.",
                       "repeat_only_if": "Изменился source/candidate/input/покрываемый контракт."
                     },
                     "actual_result": null,
@@ -83591,7 +83592,7 @@
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
-      "execution_mode": "documentation_migration_only_no_runtime",
+      "execution_mode": "B20_production_authorized_by_author_2026_10_11; active only confirmed child",
       "work_contract": {
         "result": "URMAN Studio — визуальный редактор игры по ТЗ 2026-09-27 (зонтик)",
         "targets": [
@@ -84133,7 +84134,7 @@
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
-      "execution_mode": "documentation_migration_only_no_runtime",
+      "execution_mode": "B20_production_authorized_by_author_2026_10_11; active only confirmed child",
       "work_contract": {
         "result": "Эксперимент: перенос участка мира из C# в авторские данные",
         "targets": [
@@ -84337,7 +84338,7 @@
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
-      "execution_mode": "documentation_migration_only_no_runtime",
+      "execution_mode": "B20_production_authorized_by_author_2026_10_11; active only confirmed child",
       "work_contract": {
         "result": "Эксперимент: встроенное моделирование (Godot-меш + Blender 4.5 за интерфейсом)",
         "targets": [
@@ -84535,7 +84536,7 @@
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
-      "execution_mode": "documentation_migration_only_no_runtime",
+      "execution_mode": "B20_production_authorized_by_author_2026_10_11; active only confirmed child",
       "work_contract": {
         "result": "Эксперимент: единая модель квеста для списка и графа с развилками",
         "targets": [
@@ -84749,7 +84750,7 @@
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
-      "execution_mode": "documentation_migration_only_no_runtime",
+      "execution_mode": "B20_production_authorized_by_author_2026_10_11; active only confirmed child",
       "work_contract": {
         "result": "Эксперимент: семантическое объединение ревизий по сущностям и полям",
         "targets": [
@@ -85031,7 +85032,7 @@
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
-      "execution_mode": "documentation_migration_only_no_runtime",
+      "execution_mode": "B20_production_authorized_by_author_2026_10_11; active only confirmed child",
       "work_contract": {
         "result": "P0: кликабельный прототип пяти экранов и технические границы",
         "targets": [
@@ -85568,7 +85569,7 @@
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
-      "execution_mode": "documentation_migration_only_no_runtime",
+      "execution_mode": "B20_production_authorized_by_author_2026_10_11; active only confirmed child",
       "work_contract": {
         "result": "P1: один сквозной рабочий участок — карта и квест вместе",
         "targets": [
@@ -86016,7 +86017,7 @@
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
-      "execution_mode": "documentation_migration_only_no_runtime",
+      "execution_mode": "B20_production_authorized_by_author_2026_10_11; active only confirmed child",
       "work_contract": {
         "result": "P2: вся деревня и каталог",
         "targets": [
@@ -86433,7 +86434,7 @@
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
-      "execution_mode": "documentation_migration_only_no_runtime",
+      "execution_mode": "B20_production_authorized_by_author_2026_10_11; active only confirmed child",
       "work_contract": {
         "result": "P3: полная логика квестов, диалоги, NPC, анимации, сцены",
         "targets": [
@@ -86807,7 +86808,7 @@
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
-      "execution_mode": "documentation_migration_only_no_runtime",
+      "execution_mode": "B20_production_authorized_by_author_2026_10_11; active only confirmed child",
       "work_contract": {
         "result": "P4: остальные игровые редакторы",
         "targets": [
@@ -87204,7 +87205,7 @@
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
-      "execution_mode": "documentation_migration_only_no_runtime",
+      "execution_mode": "B20_production_authorized_by_author_2026_10_11; active only confirmed child",
       "work_contract": {
         "result": "P5: встроенное моделирование, лица, одежда, персонажи",
         "targets": [
@@ -87695,7 +87696,7 @@
         }
       ],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
-      "execution_mode": "documentation_migration_only_no_runtime",
+      "execution_mode": "B20_production_authorized_by_author_2026_10_11; active only confirmed child",
       "work_contract": {
         "result": "P6: совместная работа, восстановление, передача контекста, окончательная приёмка",
         "targets": [
@@ -150011,10 +150012,11 @@
       "work_contract"
     ],
     "leaf_units": "tasks plus execution.units; STUDIO/AI-01–45 remain execution.steps record_type=execution_unit; procedure_step records are not schedulable/countable work. External gates counted separately, aggregates not executable.",
-    "historical_fields": "history_before_2026_10_11, dated progress/checkpoints, old receipts/spec OPEN/NOT_RUN and source_dependencies are provenance, never current readiness.",
+    "historical_fields": "history_before_2026_10_11, dated progress/checkpoints, old receipts/spec OPEN/NOT_RUN and source_dependencies are provenance, never current readiness.; execution_mode от миграции не блокирует явно возобновлённый B20.",
     "dependency_semantics": "implementation needs named artifact, verification needs exact candidate/source input, acceptance keeps full product. A parent ID does not require full completed unless requires=full_acceptance. Availability not_confirmed is not permission to invent an input.",
     "completion_rule": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
-    "paused_scope": "Documentation migration only; after delivering tracker stop. No game/Studio/station/build/generator/test/probe runs in this task."
+    "paused_scope": "Миграция завершена80bede64; живое возобновление B20 автором11.10. Native CODEX-UI сначала, остальные Codex B20 затем; никаких новых tests/probes по умолчанию.",
+    "current_authority": "author/2026-10-11-resume-B20"
   },
   "tracker_migration_2026_10_11": {
     "authority": "Живой запрос автора: перестроить весь tracker, не продолжать development; commit/push checked docs в main.",

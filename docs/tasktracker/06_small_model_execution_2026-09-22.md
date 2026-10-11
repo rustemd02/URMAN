@@ -1,5 +1,7 @@
 # Как выполнять трекер небольшими пакетами
 
+**Живое возобновление B20 — 11.10.2026 после миграции:** автор поручил сначала AI-12/CODEX-UI: native выбор Front0 → реальный запрос Codex → preview → Apply → игра → полная отмена; субагенты и регулярные commit/push проверенных этапов разрешены. Документальная пауза ниже — история завершённого запуска80bede64. Конечные contracts/dependencies/внешние gates сохраняются; development других блоков этим поручением не запускается.
+
 ## Действующий порядок работы — 11.10.2026
 
 Единственный источник задач и состояний — `execution_backlog.json`, схема версии 2. Текущие поля: `task_type`, `status`, `assigned_owner`, `active_owner`, `activity`, `implementation_state`, `technical_verification_state`, `remaining`, `next_action`, `blocker`, `dependencies`, `external_gates`, `work_contract`. Датированные progress, source OPEN/NOT_RUN и `history_before_2026_10_11` — история. Прежнее правило «этап всегда partial внутри большой карточки» заменено: принятые конечные children имеют собственное завершение.
