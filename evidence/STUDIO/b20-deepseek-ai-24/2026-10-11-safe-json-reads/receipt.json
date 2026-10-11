@@ -1,0 +1,28 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-24"
+  ],
+  "stage": "the book projection reads authored JSON through one safe accessor",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-11 22:37 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "6ab0e745",
+  "result": {
+    "the_pattern_named": "a cast such as (string?)node[\"field\"] THROWS when the node holds an object or an array. That crash reached my projections three times in three files before it was named as a pattern, and a projection must REPORT bad content rather than take Studio down",
+    "the_helper": "AuthoredJson, with two shapes because callers want different things: Text answers 'the field as a string, or the empty string' and TextOrNull answers 'the field as a string, or null when it is not one'. The null-preserving shape is what kept the conversion behaviour-identical where the code really depended on null",
+    "the_conversion": "PhotoBook.cs went from twenty-one such casts to ZERO, and the probe's numbers did not move: thirteen photos, five worlds, thirty-three facts, two evidence, seven anchors, zero problems, sixty-four indexing gaps and seventeen fact gates - identical to before",
+    "the_rest": "about ninety casts remain across the other projection files, and they will be converted file by file in later stages rather than in one unreviewable sweep"
+  },
+  "verified": {
+    "probe": "PASS 741/741 with the book's numbers unchanged",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors (composed tree with my branch and the v15 patch)",
+    "not_run": "no Studio window: this is a robustness change"
+  },
+  "files": {
+    "evidence/STUDIO/b20-deepseek-ai-24/2026-10-11-safe-json-reads/check.log": "4574449fd061e998254ea6adc174e10bbeb05e96bd63f65a882ff1f9d73784d8"
+  },
+  "open": [
+    "the remaining projection files still carry casts; each conversion is its own stage"
+  ]
+}

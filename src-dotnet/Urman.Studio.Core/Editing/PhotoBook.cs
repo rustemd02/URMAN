@@ -183,13 +183,13 @@ public static class PhotoBookFacts
                 return ([], [], [], [], [], [$"У кампании «{campaignSelection}» нет книги: проверять нечего."]);
             }
 
-            var campaign = (string?)manifest["id"] ?? Path.GetFileName(Path.GetDirectoryName(file)) ?? "";
+            var campaign = AuthoredJson.Text(manifest, "id") ?? Path.GetFileName(Path.GetDirectoryName(file)) ?? "";
             var pages = new HashSet<string>(StringComparer.Ordinal);
             var photoIds = new HashSet<string>(StringComparer.Ordinal);
             foreach (var photo in (book["photos"] as JsonArray ?? []).OfType<JsonObject>())
             {
-                var id = (string?)photo["id"] ?? "";
-                var page = (string?)photo["pageId"] ?? "";
+                var id = AuthoredJson.Text(photo, "id");
+                var page = AuthoredJson.Text(photo, "pageId");
                 var local = new List<string>();
                 if (id.Length == 0)
                 {
@@ -211,7 +211,7 @@ public static class PhotoBookFacts
 
                 foreach (var field in new[] { "sourceId", "permissionId" })
                 {
-                    if ((string?)photo[field] is { Length: > 0 } reference)
+                    if (AuthoredJson.Text(photo, field) is { Length: > 0 } reference)
                     {
                         Classify(workspace, authored, $"{campaign}: «{id}».{field}", reference, local, indexing);
                     }
@@ -223,18 +223,18 @@ public static class PhotoBookFacts
                     Classify(workspace, authored, $"{campaign}: «{id}» в contextSourceIds", reference, local, indexing);
                 }
 
-                photos.Add(new PhotoFacts(id, page, (string?)photo["sourceId"] ?? "", (string?)photo["permissionId"] ?? "", context.Length, local));
+                photos.Add(new PhotoFacts(id, page, AuthoredJson.Text(photo, "sourceId"), AuthoredJson.Text(photo, "permissionId"), context.Length, local));
             }
 
             foreach (var world in (book["worlds"] as JsonArray ?? []).OfType<JsonObject>())
             {
-                var id = (string?)world["id"] ?? "";
-                var photo = (string?)world["photoId"] ?? "";
-                var anchor = (string?)world["anchorId"] ?? "";
-                var spawn = (string?)world["mainSpawnNodeId"] ?? "";
-                var exit = (string?)world["exitNodeId"] ?? "";
+                var id = AuthoredJson.Text(world, "id");
+                var photo = AuthoredJson.Text(world, "photoId");
+                var anchor = AuthoredJson.Text(world, "anchorId");
+                var spawn = AuthoredJson.Text(world, "mainSpawnNodeId");
+                var exit = AuthoredJson.Text(world, "exitNodeId");
                 var nodes = (world["nodes"] as JsonArray ?? []).OfType<JsonObject>()
-                    .Select(node => (string?)node["id"])
+                    .Select(node => AuthoredJson.TextOrNull(node, "id"))
                     .OfType<string>()
                     .ToArray();
                 var local = new List<string>();
@@ -260,7 +260,7 @@ public static class PhotoBookFacts
             }
 
             anchors.AddRange((book["requiredAnchors"] as JsonArray ?? []).OfType<JsonValue>().Select(value => value.GetValue<string>()));
-            facts.AddRange((book["facts"] as JsonArray ?? []).OfType<JsonObject>().Select(fact => (string?)fact["id"] ?? ""));
+            facts.AddRange((book["facts"] as JsonArray ?? []).OfType<JsonObject>().Select(fact => AuthoredJson.Text(fact, "id")));
             var factIds = facts.ToHashSet(StringComparer.Ordinal);
             // The candidate sources the compiler itself uses (ContentCompiler lines 405-435): a
             // fact offers its sourceIds and a photo offers the sourceId it was acquired from, so
@@ -268,7 +268,7 @@ public static class PhotoBookFacts
             var factSources = new Dictionary<string, string[]>(StringComparer.Ordinal);
             foreach (var fact in (book["facts"] as JsonArray ?? []).OfType<JsonObject>())
             {
-                if ((string?)fact["id"] is not { Length: > 0 } factId)
+                if (AuthoredJson.Text(fact, "id") is not { Length: > 0 } factId)
                 {
                     continue;
                 }
@@ -282,7 +282,7 @@ public static class PhotoBookFacts
             var photoSources = new Dictionary<string, string>(StringComparer.Ordinal);
             foreach (var photo in (book["photos"] as JsonArray ?? []).OfType<JsonObject>())
             {
-                if ((string?)photo["id"] is { Length: > 0 } sourcePhotoId && (string?)photo["sourceId"] is { Length: > 0 } photoSource)
+                if (AuthoredJson.Text(photo, "id") is { Length: > 0 } sourcePhotoId && AuthoredJson.Text(photo, "sourceId") is { Length: > 0 } photoSource)
                 {
                     photoSources[sourcePhotoId] = photoSource;
                 }
@@ -294,7 +294,7 @@ public static class PhotoBookFacts
                     if (reference.Length > 0)
                     {
                         var local = new List<string>();
-                        Classify(workspace, authored, $"{campaign}: факт «{(string?)fact["id"]}»", reference, local, indexing);
+                        Classify(workspace, authored, $"{campaign}: факт «{AuthoredJson.Text(fact, "id")}»", reference, local, indexing);
                         problems.AddRange(local);
                     }
                 }
@@ -302,14 +302,14 @@ public static class PhotoBookFacts
 
             foreach (var item in (book["evidence"] as JsonArray ?? []).OfType<JsonObject>())
             {
-                var id = (string?)item["id"] ?? "";
+                var id = AuthoredJson.Text(item, "id");
                 var constituents = (item["constituents"] as JsonArray ?? []).OfType<JsonObject>().ToArray();
                 evidence.Add(id);
                 var candidates = new List<string[]>();
                 foreach (var constituent in constituents)
                 {
-                    var kind = (string?)constituent["kind"] ?? "";
-                    var reference = (string?)constituent["id"] ?? "";
+                    var kind = AuthoredJson.Text(constituent, "kind");
+                    var reference = AuthoredJson.Text(constituent, "id");
                     switch (kind)
                     {
                         case "fact":
@@ -532,7 +532,7 @@ public static class PhotoBookFacts
         }
 
         foreach (var moduleId in modules.OfType<JsonObject>()
-            .Select(item => (string?)item["moduleId"])
+            .Select(item => AuthoredJson.TextOrNull(item, "moduleId"))
             .OfType<string>()
             .Where(id => id.Length > 0))
         {

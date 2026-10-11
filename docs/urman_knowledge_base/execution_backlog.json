@@ -76788,6 +76788,12 @@
                 "result": "FIRST REAL CONSUMER, as Codex asked, by deepseek v4.1 flash: game/studio/StudioAuthoringAuditSection.cs - a Studio section that writes nothing and explains, listing AuthoringDiagnostics' steps for the current selection and the kind-to-consumer map for the workspace. The registration is ONE line in Codex's shared StudioRoot.cs, so it is handed as a patch and not applied by me. The consumer needs SEVEN of my Core files that main does not have yet (TriggerScopeFacts, AuthoringDiagnostics, ItemSpawns, AssetUsageIndex, CutsceneActions, SimpleItemForms, PcChatContent) - a closure MEASURED by compiling against pristine main, not guessed. Proof: Urman.Game builds 0/0 in my branch with the panel, and 0/0 in a pristine-main worktree with the seven files, the panel and the one-line hook. Own mistakes recorded: the bare SizeFlags enum does not resolve outside a Control subclass (caught by the game build), and I briefly read an empty build output as success because 'timeout' does not exist on this machine. Verified: game build 0/0 twice; no Studio window opened",
                 "source": "new file game/studio/StudioAuthoringAuditSection.cs; patch evidence/STUDIO/b20-deepseek-ai-40/2026-10-11-authoring-audit-consumer/authoring-audit-section.patch",
                 "verification": "Urman.Game 0 warnings/0 errors in my branch and 0/0 in the pristine-main worktree with the closure and the hook. A Studio window and the panel's look are NOT_RUN and are the author's acceptance"
+              },
+              {
+                "stage": "2026-10-11 the book projection reads authored JSON through one safe accessor",
+                "result": "robustness stage by deepseek v4.1 flash: a cast such as (string?)node[\"field\"] THROWS when the node holds an object or an array, and that crash reached my projections three times in three files before it was named as a pattern. New shared helper AuthoredJson with two shapes - Text (field as string, or empty) and TextOrNull (field as string, or null) - because the null-preserving shape is what keeps a conversion behaviour-identical where the code really depends on null. PhotoBook.cs went from TWENTY-ONE such casts to ZERO, and the probe's numbers did not move: thirteen photos, five worlds, thirty-three facts, two evidence, seven anchors, zero problems, sixty-four indexing gaps and seventeen fact gates, identical to before. About ninety casts remain across the other projections and will be converted file by file in later stages rather than in one unreviewable sweep. Verified: probe PASS 741/741 with the book's numbers unchanged; Core 0/0",
+                "source": "new file src-dotnet/Urman.Studio.Core/Editing/AuthoredJson.cs plus PhotoBook.cs; evidence evidence/STUDIO/b20-deepseek-ai-24/2026-10-11-safe-json-reads",
+                "verification": "probe PASS 741/741 with the book's numbers unchanged; Core 0/0. No Studio window: this is a robustness change and is NOT_RUN as a feature"
               }
             ],
             "stage_tasks": [
@@ -76836,7 +76842,9 @@
               "Consumer для проекции книги всё ещё отсутствует: helper не выдаётся за завершённый редактор (замечание Codex).",
               "Ранее переданный частичный этап (2026-10-11 the gate scan is scoped to the selected campaign) ждёт ревью/приёмки; полный done_when не выполнен.",
               "Consumer-панель передана патчем: 7 файлов Core + одна строка в общем StudioRoot.cs — интегрирует Codex.",
-              "Ранее переданный частичный этап (2026-10-11 the first real Studio consumer of the authoring projections) ждёт ревью/приёмки; полный done_when не выполнен."
+              "Ранее переданный частичный этап (2026-10-11 the first real Studio consumer of the authoring projections) ждёт ревью/приёмки; полный done_when не выполнен.",
+              "Устойчивость: PhotoBook больше не падает на не-значении (21 приведение → 0) через общий AuthoredJson; остальные файлы — по одному этапу.",
+              "Ранее переданный частичный этап (2026-10-11 the book projection reads authored JSON through one safe accessor) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
             "next_action": "Трассировать bindings активной кампании; human forms; AI exact-field edits; проверить Markdown/учебные токены; preview в игре.",
             "blocker": null,

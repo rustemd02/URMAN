@@ -1,0 +1,10 @@
+== AI-24: the book projection reads authored JSON through one safe accessor
+
+
+Прошло времени 00:00:03.42
+-- casts left in PhotoBook.cs:
+0
+  book gate ids: fact=44 photo=11 evidence=2; gates that can never open: 17
+  indexing gaps: after a book 64, after a missing manifest 0, after the book again 64
+  photos: 13, worlds: 5, facts: 33, evidence: 2, anchors: 7, problems: 0
+PROBE RESULT: PASS
