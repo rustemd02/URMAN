@@ -141,14 +141,14 @@ public sealed class StudioCollabSection(StudioRoot studio) : IStudioSection
             Text = $"Ветка: {incoming.Branch}\nПередача: {incoming.OperationId}\nОбщая база: {incoming.BaseRevision}\nПолученная версия: {incoming.IncomingRevision}\nМоя версия — снимок текущего файла или черновика в момент выбора; он не обновляется автоматически. Ничего не применяется.",
             AutowrapMode = TextServer.AutowrapMode.WordSmart
         });
-        var paths = new ItemList { CustomMinimumSize = new Vector2(1120, 90) };
+        var paths = new ItemList { CustomMinimumSize = new Vector2(1080, 80) };
         foreach (var file in incoming.Files) paths.AddItem(file.RelativePath);
         box.AddChild(paths);
         var row = new HBoxContainer();
         box.AddChild(row);
-        var before = new TextEdit { Editable = false, WrapMode = TextEdit.LineWrappingMode.Boundary, CustomMinimumSize = new Vector2(370, 220) };
-        var mine = new TextEdit { Editable = false, WrapMode = TextEdit.LineWrappingMode.Boundary, CustomMinimumSize = new Vector2(370, 220) };
-        var after = new TextEdit { Editable = false, WrapMode = TextEdit.LineWrappingMode.Boundary, CustomMinimumSize = new Vector2(370, 220) };
+        var before = new TextEdit { Editable = false, WrapMode = TextEdit.LineWrappingMode.Boundary, CustomMinimumSize = new Vector2(360, 200) };
+        var mine = new TextEdit { Editable = false, WrapMode = TextEdit.LineWrappingMode.Boundary, CustomMinimumSize = new Vector2(360, 200) };
+        var after = new TextEdit { Editable = false, WrapMode = TextEdit.LineWrappingMode.Boundary, CustomMinimumSize = new Vector2(360, 200) };
         row.AddChild(before);
         row.AddChild(mine);
         row.AddChild(after);
@@ -158,41 +158,181 @@ public sealed class StudioCollabSection(StudioRoot studio) : IStudioSection
         var mergeSummary = new Label { AutowrapMode = TextServer.AutowrapMode.WordSmart };
         mergeSummary.Text = incoming.Files.Count == 0 ? "Нет доступных файлов для сравнения." : "Выберите файл для семантического сравнения.";
         box.AddChild(mergeSummary);
-        var conflicts = new TextEdit
+        var conflictScroll = new ScrollContainer
         {
-            Editable = false,
-            WrapMode = TextEdit.LineWrappingMode.Boundary,
-            CustomMinimumSize = new Vector2(1120, 140)
+            HorizontalScrollMode = ScrollContainer.ScrollMode.Disabled,
+            CustomMinimumSize = new Vector2(1080, 140),
+            SizeFlagsVertical = Control.SizeFlags.ExpandFill
         };
-        box.AddChild(conflicts);
+        var conflictCards = new VBoxContainer();
+        conflictCards.AddThemeConstantOverride("separation", 8);
+        conflictCards.AddChild(new Label { Text = incoming.Files.Count == 0 ? "Нет файлов для сравнения." : "Выберите файл для просмотра конфликтов." });
+        conflictScroll.AddChild(conflictCards);
+        box.AddChild(conflictScroll);
         var phrases = new ConditionPhrases(studio.Catalog);
+        var reviewChoices = new Dictionary<(string File, string Path), ConflictChoice>();
+        GitIncomingFile? selectedFile = null;
+        string? selectedMineText = null;
+        MergeResult? selectedPreview = null;
+        var selectedRegistered = false;
+        Button apply = null!;
+        apply = StudioRoot.Button(box, "Добавить объединение в локальный черновик", ApplySelected);
+        apply.ThemeTypeVariation = "PrimaryButton";
+        apply.Disabled = true;
+
+        void ClearConflictCards()
+        {
+            foreach (var child in conflictCards.GetChildren())
+            {
+                conflictCards.RemoveChild(child);
+                child.QueueFree();
+            }
+        }
+
+        void UpdateApplyState()
+        {
+            var file = selectedFile;
+            var preview = selectedPreview;
+            var reason = "Готово: объединение попадёт в черновик одним отменяемым действием. Автосохранения и отправки нет.";
+            if (file is null || preview is null || selectedMineText is null)
+                reason = "Выберите файл для семантического сравнения.";
+            else if (!selectedRegistered)
+                reason = "Применение недоступно: источник не зарегистрирован в Studio; он доступен только для просмотра.";
+            else if (file.IncomingText is null)
+                reason = "Применение удаления целого файла пока не поддерживается; доступен только просмотр.";
+            else if (preview.Merged is null)
+                reason = "Не удалось собрать объединённый источник; доступен только просмотр.";
+            var undecided = file is not null && preview is not null
+                && preview.Conflicts.Any(conflict => reviewChoices.GetValueOrDefault((file.RelativePath, conflict.Path)) == ConflictChoice.Undecided);
+            if (undecided && selectedRegistered && file?.IncomingText is not null && preview?.Merged is not null)
+                reason = "Выберите «Оставить моё» или «Взять входящее» для каждого конфликта.";
+            apply.Disabled = file is null || preview is null || selectedMineText is null || !selectedRegistered
+                || file.IncomingText is null || preview.Merged is null || undecided;
+            mergeSummary.Text = preview is null
+                ? reason
+                : $"Автоматически объединяемых значений: {preview.AutoMerged}. Конфликтов: {preview.Conflicts.Count}. {reason}";
+        }
+
+        void RefreshConflictCards()
+        {
+            ClearConflictCards();
+            if (selectedPreview is null)
+            {
+                conflictCards.AddChild(new Label { Text = "Выберите файл для просмотра конфликтов." });
+                return;
+            }
+
+            if (selectedPreview.Conflicts.Count == 0)
+            {
+                conflictCards.AddChild(new Label { Text = "Семантических конфликтов нет." });
+                return;
+            }
+
+            foreach (var conflict in selectedPreview.Conflicts)
+            {
+                var key = (selectedFile!.RelativePath, conflict.Path);
+                var choice = reviewChoices.GetValueOrDefault(key, ConflictChoice.Undecided);
+                conflictCards.AddChild(IncomingConflictCard(conflict, choice, phrases, value =>
+                {
+                    if (value == ConflictChoice.Undecided) reviewChoices.Remove(key);
+                    else reviewChoices[key] = value;
+                    RefreshConflictCards();
+                    UpdateApplyState();
+                }));
+            }
+        }
+
         void Select(int index)
         {
             if ((uint)index >= (uint)incoming.Files.Count) return;
             var file = incoming.Files[index];
+            selectedFile = file;
+            selectedMineText = null;
+            selectedPreview = null;
+            selectedRegistered = studio.Workspace.HasFile(file.RelativePath);
+            foreach (var key in reviewChoices.Keys.Where(key => key.File == file.RelativePath).ToArray()) reviewChoices.Remove(key);
             before.Text = "Общая база:\n" + (file.BaseText ?? "Файл отсутствовал");
             mine.Text = "Моя версия:\nСчитываю текущий локальный снимок…";
             after.Text = "Получено:\n" + (file.IncomingText ?? "Файл удалён в полученной версии");
             mergeSummary.Text = "Семантическое сравнение рассчитывается для выбранного файла…";
-            conflicts.Text = "";
+            RefreshConflictCards();
+            UpdateApplyState();
             try
             {
-                var local = studio.Workspace.HasFile(file.RelativePath)
+                var local = selectedRegistered
                     ? studio.Workspace.File(file.RelativePath)
                     : LoadIncomingReviewFallback(file.RelativePath);
-                mine.Text = "Моя версия (снимок при выборе):\n" + local.Text;
-                var preview = local.PreviewMerge(file.BaseText, file.IncomingText);
-                mergeSummary.Text = $"Автоматически объединяемых значений: {preview.AutoMerged}. Конфликтов: {preview.Conflicts.Count}. Только просмотр; ничего не применено.";
-                conflicts.Text = DescribeIncomingConflicts(preview.Conflicts, phrases);
+                selectedMineText = local.Text;
+                mine.Text = "Моя версия (снимок при выборе):\n" + selectedMineText;
+                selectedPreview = local.PreviewMerge(file.BaseText, file.IncomingText);
+                RefreshConflictCards();
+                UpdateApplyState();
             }
             catch (Exception error) when (error is IOException or UnauthorizedAccessException or ArgumentException
                 or InvalidOperationException or KeyNotFoundException or FormatException or System.Text.Json.JsonException)
             {
-                mine.Text = "Моя версия:\nЛокальный источник не удалось прочитать.";
+                if (selectedMineText is null)
+                    mine.Text = "Моя версия:\nЛокальный источник не удалось прочитать.";
+                selectedPreview = null;
+                RefreshConflictCards();
                 mergeSummary.Text = "Семантическое сравнение недоступно: локальный источник или одна из версий отсутствует либо некорректна. Ничего не применено. " + error.Message;
-                conflicts.Text = "";
+                apply.Disabled = true;
             }
         }
+
+        void InvalidateReview(string message)
+        {
+            selectedFile = null;
+            selectedMineText = null;
+            selectedPreview = null;
+            selectedRegistered = false;
+            reviewChoices.Clear();
+            paths.DeselectAll();
+            before.Text = "Общая база:\nСравнение недействительно.";
+            mine.Text = "Моя версия:\nСравнение недействительно.";
+            after.Text = "Получено:\nСравнение недействительно.";
+            ClearConflictCards();
+            mergeSummary.Text = message;
+            apply.Disabled = true;
+        }
+
+        void ApplySelected()
+        {
+            if (apply.Disabled || selectedFile is null || selectedMineText is null || selectedPreview is null) return;
+            var file = selectedFile;
+            var expectedText = selectedMineText;
+            var preview = selectedPreview;
+            try
+            {
+                var decisions = preview.Conflicts.ToDictionary(conflict => conflict, conflict =>
+                    reviewChoices.GetValueOrDefault((file.RelativePath, conflict.Path), ConflictChoice.Undecided));
+                var resolved = ConflictResolution.Apply(preview, decisions);
+                if (!studio.Workspace.HasFile(file.RelativePath))
+                {
+                    InvalidateReview("Объединение не применено: источник больше не зарегистрирован в Studio. Выберите файл заново.");
+                    return;
+                }
+
+                var current = studio.Workspace.File(file.RelativePath);
+                if (current.Text != expectedText)
+                {
+                    InvalidateReview("Объединение не применено: локальный черновик изменился после снимка. Выберите файл заново.");
+                    return;
+                }
+
+                var mergedText = current.RenderMergedSource(resolved);
+                studio.Session.ReplaceDraft(file.RelativePath, expectedText, mergedText, "Объединить полученную версию в черновик");
+                reviewChoices.Clear();
+                studio.Refresh();
+                dialog.QueueFree();
+            }
+            catch (Exception error) when (error is IOException or UnauthorizedAccessException or ArgumentException
+                or InvalidOperationException or KeyNotFoundException or FormatException or System.Text.Json.JsonException)
+            {
+                InvalidateReview("Объединение не применено: снимок устарел или источник нельзя безопасно изменить. Выберите файл заново. " + error.Message);
+            }
+        }
+
         paths.ItemSelected += index => Select((int)index);
         if (incoming.Files.Count > 0) { paths.Select(0); Select(0); }
         if (incoming.ExcludedPaths.Count > 0)
@@ -204,7 +344,7 @@ public sealed class StudioCollabSection(StudioRoot studio) : IStudioSection
         dialog.Canceled += dialog.QueueFree;
         dialog.CloseRequested += dialog.QueueFree;
         studio.AddChild(dialog);
-        dialog.PopupCentered(new Vector2I(1220, 700));
+        dialog.PopupCentered(new Vector2I(1180, 720));
     }
 
     private AuthoredFile LoadIncomingReviewFallback(string relativePath)
@@ -213,20 +353,29 @@ public sealed class StudioCollabSection(StudioRoot studio) : IStudioSection
         return AuthoredFile.Load(studio.Workspace.Root, relativePath);
     }
 
-    private string DescribeIncomingConflicts(IReadOnlyList<MergeConflict> conflicts, ConditionPhrases phrases)
+    private Control IncomingConflictCard(MergeConflict conflict, ConflictChoice choice, ConditionPhrases phrases, Action<ConflictChoice> decide)
     {
-        if (conflicts.Count == 0) return "Семантических конфликтов нет.";
-        return string.Join("\n\n", conflicts.Select((conflict, index) =>
+        var card = new PanelContainer { ThemeTypeVariation = "CardPanel" };
+        var box = new VBoxContainer();
+        card.AddChild(box);
+        var (entity, field) = Describe(conflict.Path);
+        box.AddChild(new Label
         {
-            var (entity, field) = Describe(conflict.Path);
-            var heading = conflict.Kind switch
+            Text = conflict.Kind switch
             {
                 MergeConflictKind.DeleteEdit => $"«{entity}» удалён с одной стороны и изменён с другой",
                 MergeConflictKind.Order => $"Порядок в «{entity}» изменён по-разному",
                 _ => $"«{entity}»: {field} изменено по-разному"
-            };
-            return $"{index + 1}. {heading}\nОбщая база: {Show(conflict.Base, phrases)}\nМоя версия: {Show(conflict.Mine, phrases)}\nПолучено: {Show(conflict.Theirs, phrases)}";
-        }));
+            },
+            AutowrapMode = TextServer.AutowrapMode.WordSmart
+        });
+        box.AddChild(ComparisonColumns(conflict.Base, conflict.Mine, conflict.Theirs, phrases));
+        var row = new HBoxContainer();
+        StudioRoot.Button(row, (choice == ConflictChoice.KeepMine ? "✓ " : "") + "Оставить моё", () => decide(ConflictChoice.KeepMine));
+        StudioRoot.Button(row, (choice == ConflictChoice.TakeTheirs ? "✓ " : "") + "Взять входящее", () => decide(ConflictChoice.TakeTheirs));
+        StudioRoot.Button(row, "Отложить", () => decide(ConflictChoice.Undecided)).TooltipText = "Пока не принимать решение";
+        box.AddChild(row);
+        return card;
     }
 
     private Control Card(string file, MergeConflict conflict, ConditionPhrases phrases)

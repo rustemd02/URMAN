@@ -26,6 +26,9 @@ public sealed class AuthoredFile
     private JsonSpanDocument _outer;
     private JsonSpanDocument _document;
     private JsonNode _base;
+    // Serialized source state corresponding to the loaded baseline. Entity
+    // snapshots alone do not include wrapper fields (or source formatting).
+    private string _loadedText;
     // A Markdown source (document, chat, hint) is one entity; its last known
     // text keeps untouched front-matter lines byte for byte on save.
     private readonly bool _markdown;
@@ -38,7 +41,8 @@ public sealed class AuthoredFile
         _markdown = relativePath.EndsWith(".md", StringComparison.OrdinalIgnoreCase);
         _markdownText = Encoding.UTF8.GetString(bytes);
         (_outer, _document) = Open(_markdownText);
-        _base = _document.ToNode();
+        _base = SourceSnapshot();
+        _loadedText = _markdownText;
         LoadedSha256 = isNew ? "" : AtomicFile.Sha256(bytes);
         IsNew = isNew;
     }
@@ -101,7 +105,7 @@ public sealed class AuthoredFile
             if (index >= 0)
             {
                 _document.RemoveAt(index);
-                Dirty = !JsonNode.DeepEquals(_document.ToNode(), _base);
+                UpdateDirty();
             }
 
             return;
@@ -112,13 +116,13 @@ public sealed class AuthoredFile
             if (!JsonNode.DeepEquals(_document.Get(index), value))
             {
                 _document.Replace(index, value);
-                Dirty = !JsonNode.DeepEquals(_document.ToNode(), _base);
+                UpdateDirty();
             }
         }
         else
         {
             _document.Add(value, RootIsArray ? null : key);
-            Dirty = !JsonNode.DeepEquals(_document.ToNode(), _base);
+            UpdateDirty();
         }
     }
 
@@ -132,7 +136,7 @@ public sealed class AuthoredFile
         }
 
         _document.Reorder(keys.Select(key => current.IndexOf(key)).ToArray());
-        Dirty = !JsonNode.DeepEquals(_document.ToNode(), _base);
+        UpdateDirty();
     }
 
     public string Text
@@ -155,27 +159,66 @@ public sealed class AuthoredFile
 
     public JsonNode Snapshot() => _document.ToNode();
 
+    /// <summary>Replace the full authored draft without changing its on-disk baseline.</summary>
+    public void ReplaceDraftText(string text)
+    {
+        ArgumentNullException.ThrowIfNull(text);
+        // Parse first so malformed input leaves the current draft and baseline untouched.
+        var (outer, document) = Open(text);
+        _outer = outer;
+        _document = document;
+        _markdownText = text;
+        UpdateDirty();
+    }
+
     /// <summary>Compare a Git base and incoming source with the current draft, without adopting either revision.</summary>
     public MergeResult PreviewMerge(string? baseText, string? incomingText)
     {
-        JsonNode? Read(string? text) => text is null ? null
-            : _markdown ? Open(text).Entities.ToNode() : JsonSpanDocument.Parse(text).ToNode();
-        var mine = Snapshot();
-        if (!ReferenceEquals(_outer, _document))
-        {
-            var wrapper = (JsonObject)_outer.ToNode();
-            wrapper["entities"] = mine;
-            mine = wrapper;
-        }
+        return SemanticMerge.Merge(baseText is null ? null : ReadSource(baseText), SourceSnapshot(),
+            incomingText is null ? null : ReadSource(incomingText));
+    }
 
-        return SemanticMerge.Merge(Read(baseText), mine, Read(incomingText));
+    private JsonNode ReadSource(string text) => _markdown
+        ? Open(text).Entities.ToNode() : JsonSpanDocument.Parse(text).ToNode();
+
+    private JsonNode SourceSnapshot()
+    {
+        var mine = Snapshot();
+        if (ReferenceEquals(_outer, _document)) return mine;
+        var wrapper = (JsonObject)_outer.ToNode();
+        wrapper["entities"] = mine;
+        return wrapper;
+    }
+
+    public string RenderMergedSource(JsonNode merged) => RenderMergedSource(merged, Text);
+
+    private string RenderMergedSource(JsonNode merged, string sourceText)
+    {
+        if (_markdown)
+            return merged is JsonArray { Count: 1 } array && array[0] is JsonObject entity
+                ? MarkdownSource.Write(entity, sourceText)
+                : throw new InvalidOperationException("Источник Markdown должен содержать один документ.");
+        var document = JsonSpanDocument.Parse(sourceText);
+        var source = document.ToNode();
+        if ((source is JsonArray) != (merged is JsonArray))
+            throw new InvalidOperationException("Объединение не может менять тип корня источника.");
+        if (merged is JsonArray items && items.Any(item => item is not JsonObject obj || obj["id"] is not JsonValue))
+            return merged.ToJsonString(new System.Text.Json.JsonSerializerOptions { WriteIndented = true }) + "\n";
+        foreach (var (key, value) in Entries(merged))
+            if (!Entries(source).Any(entry => entry.Key == key) || !JsonNode.DeepEquals(Lookup(source, key), value))
+                PutIn(document, key, value);
+        foreach (var (key, _) in Entries(source))
+            if (!Entries(merged).Any(entry => entry.Key == key)) document.RemoveAt(IndexIn(document, key));
+        if (merged is JsonArray ordered)
+            document.Reorder(ordered.Select(item => document.IndexOfId((string)item!["id"]!)).ToArray());
+        return document.ToText();
     }
 
     /// <summary>A header field of an object-root file (for example a world plot's name).</summary>
     public JsonNode? Header(string key) =>
         ReferenceEquals(_outer, _document) || _outer.IndexOfKey(key) is not (var index and >= 0) ? null : _outer.Get(index)?.DeepClone();
 
-    public bool ChangedOnDisk() => IsNew ? File.Exists(FullPath) : File.Exists(FullPath) && AtomicFile.Sha256OfFile(FullPath) != LoadedSha256;
+    public bool ChangedOnDisk() => IsNew ? File.Exists(FullPath) : !File.Exists(FullPath) || AtomicFile.Sha256OfFile(FullPath) != LoadedSha256;
 
     public void Save()
     {
@@ -184,7 +227,7 @@ public sealed class AuthoredFile
             throw new ExternalChangeException(RelativePath);
         }
 
-        if (IsNew && _document.Count == 0)
+        if (IsNew && _document.Count == 0 && !Dirty)
         {
             Dirty = false; // an undone creation leaves nothing to write
             return;
@@ -195,7 +238,8 @@ public sealed class AuthoredFile
         AtomicFile.WriteAllBytes(FullPath, bytes);
         _markdownText = text;
         LoadedSha256 = AtomicFile.Sha256(bytes);
-        _base = _document.ToNode();
+        _base = SourceSnapshot();
+        _loadedText = text;
         Dirty = false;
         IsNew = false;
     }
@@ -215,12 +259,13 @@ public sealed class AuthoredFile
             _markdownText = Encoding.UTF8.GetString(bytes);
             _outer = incomingOuter;
             _document = incoming;
-            _base = incoming.ToNode();
+            _base = ReadSource(Encoding.UTF8.GetString(bytes));
+            _loadedText = Encoding.UTF8.GetString(bytes);
             LoadedSha256 = AtomicFile.Sha256(bytes);
             return new(RelativePath, true, 0, []);
         }
 
-        var merge = SemanticMerge.Merge(_base, _document.ToNode(), incoming.ToNode());
+        var merge = SemanticMerge.Merge(_base, SourceSnapshot(), ReadSource(Encoding.UTF8.GetString(bytes)));
         if (merge.Conflicts.Count > 0)
         {
             return new(RelativePath, false, merge.AutoMerged, merge.Conflicts, merge, bytes);
@@ -239,32 +284,28 @@ public sealed class AuthoredFile
 
     private void AdoptMerged(JsonNode merged, JsonSpanDocument incomingOuter, JsonSpanDocument incoming, byte[] bytes)
     {
-        // Start from the disk text (their formatting, their untouched entities)
-        // and re-apply only the entities whose merged value differs from it.
-        var theirs = incoming.ToNode();
-        _markdownText = Encoding.UTF8.GetString(bytes);
-        _outer = incomingOuter;
-        _document = incoming;
-        foreach (var (key, value) in Entries(merged))
-        {
-            var theirValue = Lookup(theirs, key);
-            if (!JsonNode.DeepEquals(theirValue, value))
-            {
-                PutIn(_document, key, value);
-            }
-        }
-
-        foreach (var (key, _) in Entries(theirs))
-        {
-            if (Lookup(merged, key) is null && IndexIn(_document, key) >= 0)
-            {
-                _document.RemoveAt(IndexIn(_document, key));
-            }
-        }
-
-        _base = theirs;
+        var incomingText = Encoding.UTF8.GetString(bytes);
+        ReplaceDraftText(RenderMergedSource(merged, incomingText));
+        _loadedText = incomingText;
+        _base = ReadSource(incomingText);
         LoadedSha256 = AtomicFile.Sha256(bytes);
-        Dirty = !JsonNode.DeepEquals(_document.ToNode(), theirs);
+        UpdateDirty();
+    }
+
+    private void UpdateDirty()
+    {
+        var text = Text;
+        // MarkdownSource.Write normalizes CRLF to LF; compare in its serialized
+        // form so an untouched CRLF source does not become dirty on first edit.
+        if (_markdown)
+        {
+            text = text.Replace("\r\n", "\n", StringComparison.Ordinal);
+            var loaded = _loadedText.Replace("\r\n", "\n", StringComparison.Ordinal);
+            Dirty = !string.Equals(text, loaded, StringComparison.Ordinal);
+            return;
+        }
+
+        Dirty = !string.Equals(text, _loadedText, StringComparison.Ordinal);
     }
 
     private int IndexOf(string key) => IndexIn(_document, key);
