@@ -81199,6 +81199,12 @@
                 "result": "deepening by deepseek v4.1 flash: a trial run is explained as five steps over the real launch path - resolve the campaign (an unresolved selection is refused, not defaulted), read the manifest and check its module directories, look up the compiled pack OF THAT campaign by name and report its fingerprint, require the chosen world scene, and stop where the game takes over. The plan states that pack freshness needs a compile and that the world load, spawn and frame are the game's own acceptance",
                 "source": "new file src-dotnet/Urman.Studio.Core/Editing/TrialRunPlan.cs; evidence evidence/STUDIO/b20-deepseek-ai-40/2026-10-11-trial-run-plan",
                 "verification": "probe PASS 483/483 including five steps, no blocking input for the real campaign, an unresolved campaign blocking step one without a default, a missing world scene blocking the launch, an unknown campaign reported at the manifest step and the per-campaign pack note; Core 0/0; game/Urman.Game.csproj 0/0; Urman.Studio.Tests 38/38. The launch itself is NOT_RUN"
+              },
+              {
+                "stage": "2026-10-11 which runtime code consumes which authored kind",
+                "result": "deepening by deepseek v4.1 flash for the explaining half of the unit: eight kinds have a consumer the sources name (the five AuthoredWorldDirector switch cases prop/pickup/npc/trigger/scatter, item-spawn through the quest script's EntitiesOfKind, kit-placement through KitPlacementTakeover's logicalAnchor lookup and parcel through the settlement registry), while fourteen authored kinds are not claimed by the map (animation, atmosphere-profile, audio, clue, contradiction, cutscene-action, fact, fence-run, hypothesis, image, marker, pressure, road-path, route). That is a statement about the search and not about the world: several of those are read by ID through the knowledge, document and vocabulary registries rather than by kind, and the notes say so in as many words. For an unexecuted kind the director's own default writes 'has kind with no executor; it is shown only in Studio', which the projection quotes instead of guessing. Own mistake recorded: the first notes used Length on an IReadOnlyList and did not compile",
+                "source": "src-dotnet/Urman.Studio.Core/Editing/AuthoringDiagnostics.cs (KindConsumers, UnconsumedKinds, ConsumerNotes); evidence evidence/STUDIO/b20-deepseek-ai-40/2026-10-11-kind-consumers",
+                "verification": "probe PASS 623/623 including the eight claimed kinds, the four named consumer scripts, the fourteen unclaimed kinds and the boundary note; Core 0/0. No game run: the map is read from sources"
               }
             ],
             "stage_tasks": [
@@ -81232,7 +81238,9 @@
             "remaining": [
               "Пробный запуск объясняет несрабатывание и позволяет пройти следующий логический шаг.; отсутствует подтверждение собственного конечного DoD, перечисленного ниже.",
               "Ранее переданный частичный этап (2026-10-10 explaining trial run and step-by-step diagnostics) ждёт ревью/приёмки; полный done_when не выполнен.",
-              "Ранее переданный частичный этап (2026-10-11 the explaining trial run: five steps with the state of each input) ждёт ревью/приёмки; полный done_when не выполнен."
+              "Ранее переданный частичный этап (2026-10-11 the explaining trial run: five steps with the state of each input) ждёт ревью/приёмки; полный done_when не выполнен.",
+              "Карта потребителей говорит о поиске, а не о мире: виды, читаемые по ID через реестры, остаются вне неё — и это сказано в примечаниях.",
+              "Ранее переданный частичный этап (2026-10-11 which runtime code consumes which authored kind) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
             "next_action": "UI стартового состояния; пометка synthetic/reachable; runtime trace с occurrence ID; pause clock; шаг события; copy transform только явной командой; handoff case.",
             "blocker": null,

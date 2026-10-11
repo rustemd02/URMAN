@@ -1,0 +1,49 @@
+== AI-40: which runtime code consumes which authored kind
+
+
+Прошло времени 00:00:03.69
+    shared material CivicSurfaceLibrary; unique atlas cell UV; roughness by paper/enamel/cloth/parquet -> 15 assets
+    shared material WeatheredWood -> 13 assets
+    shared material DampEarth -> 9 assets
+    urman.world:act1/tamara-plot/board-01 -> content/modules/urman-chapter1/tamara-fence.json
+    urman.world:act1/tamara-plot/board-02 -> content/modules/urman-chapter1/tamara-fence.json
+    index probe: urman.fullgame:interaction/pw-prologue-photo-source -> NOT INDEXED
+    index probe: urman.fullgame:interaction/pw-book-handoff -> NOT INDEXED
+    index probe: urman.chapter1:interaction/tamara-fence-board -> NOT INDEXED
+    outside: game/studio/StudioAiPanel.cs:220 -> editor-state (AtomicFile.WriteAllText)
+    outside: game/studio/StudioAiPanel.cs:449 -> ai-staging (File.WriteAllText)
+    outside: game/studio/StudioAiPanel.cs:454 -> ai-staging (File.WriteAllText)
+    outside: game/studio/StudioAiPanel.cs:475 -> ai-staging (File.WriteAllText)
+    outside: game/studio/StudioCatalogBuilder.cs:166 -> generator (AtomicFile.WriteAllText)
+    outside: game/studio/StudioImporter.cs:133 -> import (AtomicFile.WriteAllBytes)
+    outside: game/studio/StudioQuestSection.cs:595 -> editor-state (AtomicFile.WriteAllText)
+    outside: game/studio/StudioRoot.cs:697 -> log (new StreamWriter()
+    outside: game/studio/StudioSelfCheck.cs:50 -> self-check (File.WriteAllText)
+    outside: game/studio/StudioSelfCheck.cs:108 -> self-check (File.WriteAllText)
+    outside: game/studio/StudioSelfCheck.cs:110 -> self-check (File.WriteAllText)
+    outside: game/studio/StudioTour.cs:90 -> editor-state (AtomicFile.WriteAllText)
+  kinds with a consumer in the sources: 8; authored kinds with none found: 14
+    item-spawn -> TamaraFenceQuest (читает EntitiesOfKind)
+    kit-placement -> KitPlacementTakeover (ищет по logicalAnchor)
+    npc -> AuthoredWorldDirector (case в switch по kind)
+    parcel -> SettlementRegistry / адресные привязки
+    pickup -> AuthoredWorldDirector (case в switch по kind)
+    prop -> AuthoredWorldDirector (case в switch по kind)
+    scatter -> AuthoredWorldDirector (case в switch по kind)
+    trigger -> AuthoredWorldDirector (case в switch по kind)
+    no consumer found: animation
+    no consumer found: atmosphere-profile
+    no consumer found: audio
+    no consumer found: clue
+    no consumer found: contradiction
+    no consumer found: cutscene-action
+    no consumer found: fact
+    no consumer found: fence-run
+    no consumer found: hypothesis
+    no consumer found: image
+    no consumer found: marker
+    no consumer found: pressure
+    no consumer found: road-path
+    no consumer found: route
+    note: Виды без потребителя ПО ИМЕНИ: animation, atmosphere-profile, audio, clue, contradiction, cutscene-action, fact, fence-run, hypothesis, image, marker, pressure, road-path, route. Это утверждение о поиске, а не о мире: часть из них читается по ID через реестры знаний, документов и словаря, поэтому «не найдено по виду» нельзя читать как «никто не читает».
+PROBE RESULT: PASS

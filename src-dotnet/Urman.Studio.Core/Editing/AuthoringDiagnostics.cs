@@ -214,4 +214,94 @@ public static class AuthoringDiagnostics
             }
         }
     }
+    /// <summary>
+    /// Which runtime code consumes which authored kind, taken from the sources rather than
+    /// remembered: the director's switch cases, the quest script's EntitiesOfKind call, the
+    /// takeover's anchor lookup and the settlement registry's address lookup. A kind that
+    /// appears in none of them is reported as "no consumer found" - a fact about the code that
+    /// was read, not a proof that nothing anywhere reads it.
+    /// </summary>
+    public static IReadOnlyDictionary<string, string> KindConsumers(string root)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(root);
+        var full = Path.GetFullPath(root);
+        var consumers = new Dictionary<string, string>(StringComparer.Ordinal);
+        var director = Read(full, "game/scripts/AuthoredWorldDirector.cs");
+        foreach (System.Text.RegularExpressions.Match match in DirectorCase.Matches(director))
+        {
+            consumers[match.Groups[1].Value] = "AuthoredWorldDirector (case в switch по kind)";
+        }
+
+        var quest = Read(full, "game/scripts/TamaraFenceQuest.cs");
+        foreach (System.Text.RegularExpressions.Match match in EntitiesOfKind.Matches(quest))
+        {
+            consumers.TryAdd(match.Groups[1].Value, "TamaraFenceQuest (читает EntitiesOfKind)");
+        }
+
+        if (Read(full, "game/scripts/KitPlacementTakeover.cs").Contains("logicalAnchor", StringComparison.Ordinal))
+        {
+            consumers.TryAdd("kit-placement", "KitPlacementTakeover (ищет по logicalAnchor)");
+        }
+
+        if (Read(full, "game/scripts/SettlementRegistry.cs").Length > 0)
+        {
+            consumers.TryAdd("parcel", "SettlementRegistry / адресные привязки");
+        }
+
+        return consumers;
+    }
+
+    /// <summary>
+    /// The kinds the campaign authors that the consumer map above does not claim. This is a
+    /// statement about the SEARCH, not about the world: several of these kinds (a clue, a fact,
+    /// a contradiction, a route, an image) are read by ID through the knowledge, document and
+    /// vocabulary registries rather than by their kind, so "not found by kind" must never be
+    /// read as "nothing reads it".
+    /// </summary>
+    public static IReadOnlyList<string> UnconsumedKinds(StudioWorkspace workspace, string root)
+    {
+        ArgumentNullException.ThrowIfNull(workspace);
+        var consumers = KindConsumers(root);
+        var kinds = new SortedSet<string>(StringComparer.Ordinal);
+        foreach (var id in workspace.EntityIds)
+        {
+            if (workspace.Get(id) is { } entity && (string?)entity["kind"] is { Length: > 0 } kind)
+            {
+                kinds.Add(kind);
+            }
+        }
+
+        return kinds.Where(kind => !consumers.ContainsKey(kind)).ToArray();
+    }
+
+    private static readonly System.Text.RegularExpressions.Regex DirectorCase = new(
+        @"case\s+""([a-z-]+)""\s*:", System.Text.RegularExpressions.RegexOptions.CultureInvariant);
+
+    private static readonly System.Text.RegularExpressions.Regex EntitiesOfKind = new(
+        @"EntitiesOfKind\(\s*""([a-z-]+)""", System.Text.RegularExpressions.RegexOptions.CultureInvariant);
+
+    private static string Read(string full, string relative)
+    {
+        var path = Path.Combine(full, relative.Replace('/', Path.DirectorySeparatorChar));
+        return File.Exists(path) ? File.ReadAllText(path) : "";
+    }
+
+    /// <summary>What the consumer map does and does not say.</summary>
+    public static IReadOnlyList<string> ConsumerNotes(StudioWorkspace workspace, string root)
+    {
+        var consumers = KindConsumers(root);
+        var unconsumed = UnconsumedKinds(workspace, root);
+        return
+        [
+            $"Видов с найденным потребителем: {consumers.Count}; видов без потребителя по имени: {unconsumed.Count}.",
+            consumers.Count == 0
+                ? "Ни один потребитель не прочитан из исходников: сверять нечем."
+                : "Потребители прочитаны из исходников: case в AuthoredWorldDirector, EntitiesOfKind в скрипте квеста, поиск по logicalAnchor в KitPlacementTakeover и адресный поиск SettlementRegistry.",
+            unconsumed.Count == 0
+                ? "Каждый авторский вид кем-то назван."
+                : $"Виды без потребителя ПО ИМЕНИ: {string.Join(", ", unconsumed)}. Это утверждение о поиске, а не о мире: часть из них читается по ID через реестры знаний, документов и словаря, поэтому «не найдено по виду» нельзя читать как «никто не читает».",
+            "Директор рантайма для неизвестного вида пишет предупреждение «has kind with no executor; it is shown only in Studio» — это его собственный ответ, и он не заменяется догадкой."
+        ];
+    }
+
 }

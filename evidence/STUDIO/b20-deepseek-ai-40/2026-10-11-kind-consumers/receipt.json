@@ -1,0 +1,30 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-40"
+  ],
+  "stage": "which runtime code consumes which authored kind",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-11 21:25 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "96f4a825",
+  "result": {
+    "map": "eight kinds have a consumer the sources name: the five AuthoredWorldDirector switch cases (prop, pickup, npc, trigger, scatter), item-spawn through the quest script's EntitiesOfKind, kit-placement through KitPlacementTakeover's logicalAnchor lookup, and parcel through the settlement registry",
+    "unclaimed": "fourteen authored kinds are not claimed by the map: animation, atmosphere-profile, audio, clue, contradiction, cutscene-action, fact, fence-run, hypothesis, image, marker, pressure, road-path, route",
+    "boundary": "that is a statement about the SEARCH, not about the world: several of those kinds are read by ID through the knowledge, document and vocabulary registries rather than by their kind, so 'not found by kind' must never be read as 'nothing reads it'. The notes say this in as many words",
+    "runtime_answer": "for a kind the director does not execute, its own default writes 'has kind with no executor; it is shown only in Studio' - the projection quotes that instead of replacing it with a guess",
+    "why_it_matters": "this is the explaining half of the unit: an author asking what happens to an entity now gets a consumer that can be traced to a line of code, or an honest 'not found by name'"
+  },
+  "verified": {
+    "probe": "PASS 623/623 including the eight claimed kinds, the four named consumer scripts, the unclaimed list and the boundary note",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors (composed tree with my branch and the v15 patch)",
+    "not_run": "no game run: the map is read from sources"
+  },
+  "own_mistakes": "my first version of the notes used Length on an IReadOnlyList and did not compile; corrected to Count",
+  "files": {
+    "evidence/STUDIO/b20-deepseek-ai-40/2026-10-11-kind-consumers/check.log": "fe45441c77d5ec20b427b28af42783f251d4b9c46fb143c299a1343e8b7ed48f"
+  },
+  "open": [
+    "the by-id registries remain outside this map on purpose, and the projection says so"
+  ]
+}
