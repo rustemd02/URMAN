@@ -72,9 +72,9 @@ public partial class StudioProperties : VBoxContainer
                 preview.Text = $"Пакет сохранён: {Path.GetFileName(path)} — {entities} объектов, {bytes / 1024.0:0.#} КБ. Без ваших путей и сохранений.\n\nТекущий контекст:\n" + context.Text(id, problem: problem.Text);
                 OS.ShellShowInFileManager(path);
             }
-            catch (InvalidOperationException)
+            catch (InvalidOperationException error)
             {
-                preview.Text = "Пакет не записан: объект недоступен или текстовый бюджет 256 КБ превышен. Выберите существующий меньший объект или область; данные не обрезаны.";
+                preview.Text = error.Message + " Пакет не записан; проект не изменён.";
                 _studio.RefreshStatus("Пакет контекста не сохранён");
             }
             catch (Exception error) when (error is IOException or UnauthorizedAccessException)
@@ -112,10 +112,54 @@ public partial class StudioProperties : VBoxContainer
                     Text = $"{package.Entities.Count} объектов. {integrity}\n{completeness}\nПолнота ресурсов и применимость к этому проекту не проверены.\nТолько просмотр: проект не изменён.",
                     AutowrapMode = TextServer.AutowrapMode.WordSmart
                 });
+                var previewText = new System.Text.StringBuilder(package.Text)
+                    .AppendLine().AppendLine()
+                    .AppendLine("Данные объектов:")
+                    .Append(package.Entities.ToJsonString(new System.Text.Json.JsonSerializerOptions { WriteIndented = true }));
+                if (package.Sources is null)
+                {
+                    previewText.AppendLine().AppendLine()
+                        .AppendLine("Снимки исходников не приложены: это старый формат пакета. Показан только контекст и данные объектов.");
+                }
+                else
+                {
+                    previewText.AppendLine().AppendLine()
+                        .AppendLine("Снимки исходников (только просмотр):");
+                    if (package.Sources.Count == 0)
+                        previewText.AppendLine("В пакете нет снимков исходников.");
+
+                    foreach (var source in package.Sources)
+                    {
+                        previewText.AppendLine().AppendLine($"=== {source.RelativePath} ===")
+                            .AppendLine($"Git-ревизия проекта при экспорте: {package.Manifest["baseRevision"]?.GetValue<string>() ?? "не указана"}")
+                            .AppendLine($"SHA-256 сохранённого текста при загрузке в Studio: {source.BaseHash ?? "нет (новый файл)"}")
+                            .AppendLine($"SHA-256 текущего содержимого: {source.CurrentHash}");
+
+                        if (source.BaseText is null || source.IsNew)
+                        {
+                            previewText.AppendLine("Сохранённого текста при загрузке в Studio нет: новый исходник.")
+                                .AppendLine("--- Текущий черновик ---")
+                                .AppendLine(source.CurrentText);
+                        }
+                        else if (source.BaseText == source.CurrentText)
+                        {
+                            previewText.AppendLine("Сохранённый текст при загрузке в Studio и текущий черновик совпадают, текст показан один раз.")
+                                .AppendLine("--- Текущий черновик ---")
+                                .AppendLine(source.CurrentText);
+                        }
+                        else
+                        {
+                            previewText.AppendLine("--- Сохранённый текст при загрузке в Studio ---")
+                                .AppendLine(source.BaseText)
+                                .AppendLine("--- Текущий черновик ---")
+                                .AppendLine(source.CurrentText);
+                        }
+                    }
+                }
                 content.AddChild(new TextEdit
                 {
-                    Text = package.Text + "\n\nДанные объектов:\n" + package.Entities.ToJsonString(new System.Text.Json.JsonSerializerOptions { WriteIndented = true }),
-                    Editable = false, CustomMinimumSize = new Vector2(720, 440)
+                    Text = previewText.ToString(), Editable = false, WrapMode = TextEdit.LineWrappingMode.Boundary,
+                    CustomMinimumSize = new Vector2(720, 440)
                 });
                 _studio.AddChild(viewer);
                 viewer.PopupCentered(new Vector2I(800, 600));

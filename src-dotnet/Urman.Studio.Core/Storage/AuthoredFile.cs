@@ -11,7 +11,20 @@ public sealed class ExternalChangeException(string path) : IOException($"Фай�
 }
 
 /// <summary>What happened when a file changed on disk while it was open.</summary>
-public sealed record ExternalChange(string RelativePath, bool Reloaded, int AutoMerged, IReadOnlyList<MergeConflict> Conflicts, MergeResult? Merge = null, byte[]? TheirBytes = null);
+public sealed record ExternalChange(string RelativePath, bool Reloaded, int AutoMerged, IReadOnlyList<MergeConflict> Conflicts, MergeResult? Merge = null, byte[]? TheirBytes = null)
+{
+    public string? MineText { get; init; }
+}
+
+/// <summary>An immutable full-source snapshot captured from an authored file.</summary>
+public sealed record AuthoredSourceSnapshot(
+    string RelativePath,
+    string? BaseText,
+    string Text,
+    string? BaseSha256,
+    string Sha256,
+    bool IsNew,
+    bool Dirty);
 
 /// <summary>
 /// One authored JSON file inside the project. Entities are addressed by their
@@ -157,6 +170,36 @@ public sealed class AuthoredFile
         }
     }
 
+    /// <summary>Capture full saved and current source without exposing an absolute path.</summary>
+    public AuthoredSourceSnapshot CaptureSource()
+    {
+        StudioFileTransaction.EnsureNoLinks(Root, RelativePath);
+        if (Directory.Exists(FullPath) || ChangedOnDisk())
+        {
+            throw new ExternalChangeException(RelativePath);
+        }
+
+        var utf8 = new UTF8Encoding(false, true);
+        string? baseText = null;
+        string? baseSha256 = null;
+        if (!IsNew)
+        {
+            var baselineBytes = utf8.GetBytes(_loadedText);
+            var baselineSha256 = AtomicFile.Sha256(baselineBytes);
+            if (!string.Equals(baselineSha256, LoadedSha256, StringComparison.Ordinal))
+            {
+                throw new InvalidDataException($"Authored source baseline is not valid UTF-8: {RelativePath}");
+            }
+
+            baseText = _loadedText;
+            baseSha256 = LoadedSha256;
+        }
+
+        var text = Text;
+        var bytes = utf8.GetBytes(text);
+        return new(RelativePath, baseText, text, baseSha256, AtomicFile.Sha256(bytes), IsNew, Dirty);
+    }
+
     public JsonNode Snapshot() => _document.ToNode();
 
     /// <summary>Replace the full authored draft without changing its on-disk baseline.</summary>
@@ -268,7 +311,7 @@ public sealed class AuthoredFile
         var merge = SemanticMerge.Merge(_base, SourceSnapshot(), ReadSource(Encoding.UTF8.GetString(bytes)));
         if (merge.Conflicts.Count > 0)
         {
-            return new(RelativePath, false, merge.AutoMerged, merge.Conflicts, merge, bytes);
+            return new(RelativePath, false, merge.AutoMerged, merge.Conflicts, merge, bytes) { MineText = Text };
         }
 
         AdoptMerged(merge.Merged!, incomingOuter, incoming, bytes);
@@ -276,8 +319,15 @@ public sealed class AuthoredFile
     }
 
     /// <summary>After the author resolved every conflict: their file becomes the base, the decided result the local state.</summary>
-    public void ApplyResolution(JsonNode resolved, byte[] theirBytes)
+    public void ApplyResolution(JsonNode resolved, byte[] theirBytes, string? expectedText = null)
     {
+        if (expectedText is not null)
+        {
+            StudioFileTransaction.EnsureNoLinks(Root, RelativePath);
+            if (Text != expectedText || !File.Exists(FullPath)
+                || AtomicFile.Sha256OfFile(FullPath) != AtomicFile.Sha256(theirBytes))
+                throw new InvalidOperationException("Сравнение устарело: локальный черновик или входящий файл изменился. Обновите сравнение.");
+        }
         var (incomingOuter, incoming) = Open(Encoding.UTF8.GetString(theirBytes));
         AdoptMerged(resolved, incomingOuter, incoming, theirBytes);
     }

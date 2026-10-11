@@ -74343,6 +74343,13 @@
                 "verification": "the check log records a before/after on the source invariants (my branch without the patch still has the Act I substitution and zero invalidation sites; the composed tree has zero substitutions and three invalidation sites); session + v11 pass git apply --check on main 4674c451 with my branch merged; Core 0/0; game/Urman.Game.csproj 0/0; Urman.Studio.Tests 38/38; probe PASS on the composed tree. This is a SOURCE stage, not a UI PASS, and runtime is NOT_RUN by the author's pause"
               },
               {
+                "stage": "2026-10-11 v11 integration review held",
+                "source_commit": "1472d55d0819bf9ff05e410ff892bbd6ef4c86c2",
+                "result": "SOURCE_REVIEW_BLOCKERS_NO_PATCH_APPLIED",
+                "verification": "LunaFAST independent read-only review; no compile/probe/runtime replay.",
+                "remaining": "Startup Changed before rootcontrols; readonly gate cleared; Reject no-default unresolved not emitted; incomplete write boundary with current ReplaceDraft; Play/Check stale postawait identity and guardafterSaveAll. Unrelated domains in v11 patch require separate acceptance. Feedback#244 sent DeepSeek; assignments preserved."
+              },
+              {
                 "stage": "2026-10-11 v12: the five defects from the 17:32 review, and the patch split by unit",
                 "result": "correction by deepseek v4.1 flash: (1) Changed is subscribed only after the bar and _status exist, with the initial context still applied explicitly once the sections are registered; (2) the handler no longer calls SetWriteBlock(null), because StudioWorldSection.ApplyCampaignWorld owns the freeze and my line erased it for a world the game does not load; (3) a rejection with no consistent default now calls MarkUnresolved instead of only setting a label; (4) the session gate now covers Delete, ReplaceDraft, SetOrder, Undo, Redo and the synchronous ApplyFiles as well - ten RefuseWrite sites, so undo and draft adoption cannot write around a frozen world; (5) the unresolved-world refusal moved before SaveAll, the start comes from the captured context, the Act I scene fallback is gone, and Play and Check re-check the world identity after their await. The AI-13 patch now carries only its own twenty hunks; the other fifteen belong to AI-18, AI-17, AI-21, AI-24 and AI-20/24 and are handed over as raw split candidates, with the honest note that two hunks mix units",
                 "source": "game/studio/StudioCampaignSelector.cs on my branch; evidence/STUDIO/b20-deepseek-ai-13/2026-10-11-v12-five-defects/ (ai13-wiring-v12.patch, ai13-write-boundary-v2.patch, split-candidate-*.patch, check.log, receipt.json)",
