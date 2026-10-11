@@ -38,13 +38,13 @@ public static class InvestigationPuzzle
         var steps = new List<PuzzleStepFacts>();
         foreach (var id in workspace.EntityIds)
         {
-            if (workspace.Get(id) is not JsonObject step || (string?)step["kind"] is not ("contradiction" or "hypothesis"))
+            if (workspace.Get(id) is not JsonObject step || AuthoredJson.Text(step, "kind") is not ("contradiction" or "hypothesis"))
             {
                 continue;
             }
 
-            var kind = (string?)step["kind"] ?? "";
-            var status = (string?)step["initialStatus"] ?? "";
+            var kind = AuthoredJson.TextOrNull(step, "kind") ?? "";
+            var status = AuthoredJson.TextOrNull(step, "initialStatus") ?? "";
             var sources = References(step["sourceIds"]);
             var reveals = References(step["reveals"]);
             var contradicts = References(step["contradicts"]);
@@ -144,9 +144,9 @@ public static class InvestigationPuzzle
                 switch (pending.Pop())
                 {
                     case JsonObject obj:
-                        if ((string?)obj["op"] == "pressure.change")
+                        if (AuthoredJson.Text(obj, "op") == "pressure.change")
                         {
-                            var where = (string?)obj["$where"] ?? id;
+                            var where = AuthoredJson.Text(obj, "$where") is { Length: > 0 } scope ? scope : id;
                             if (obj["delta"] is not JsonValue delta || !delta.TryGetValue<int>(out var value))
                             {
                                 gaps.Add($"{where}: pressure.change без целого delta — движок бросает ArgumentException «pressure.change delta must be an integer».");
@@ -187,7 +187,7 @@ public static class InvestigationPuzzle
         {
             if (workspace.Get(id) is JsonObject entity)
             {
-                if ((string?)entity["kind"] == "pressure")
+                if (AuthoredJson.Text(entity, "kind") == "pressure")
                 {
                     entries++;
                 }
@@ -199,7 +199,7 @@ public static class InvestigationPuzzle
                     switch (pending.Pop())
                     {
                         case JsonObject obj:
-                            if ((string?)obj["op"] == "pressure.change")
+                            if (AuthoredJson.Text(obj, "op") == "pressure.change")
                             {
                                 changes++;
                             }

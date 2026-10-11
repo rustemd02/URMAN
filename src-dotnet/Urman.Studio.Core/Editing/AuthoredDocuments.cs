@@ -73,7 +73,7 @@ public static class AuthoredDocuments
                 continue;
             }
 
-            var moduleId = (string?)manifest["moduleId"] ?? Path.GetFileName(moduleFolder);
+            var moduleId = AuthoredJson.TextOrNull(manifest, "moduleId") ?? Path.GetFileName(moduleFolder);
             foreach (var entry in (manifest["sourceFiles"] as JsonArray ?? []).OfType<JsonValue>()
                 .Select(value => value.GetValue<string>())
                 .Where(value => value.StartsWith("documents/", StringComparison.Ordinal) && value.EndsWith(".md", StringComparison.OrdinalIgnoreCase)))
@@ -100,7 +100,7 @@ public static class AuthoredDocuments
                     problems.Add($"{moduleId}: у «{entry}» нет обязательного поля «{field}» (document.schema.json).");
                 }
 
-                if ((string?)frontMatter["sourceFile"] is { Length: > 0 } declared && !string.Equals(declared, entry, StringComparison.Ordinal))
+                if (AuthoredJson.Text(frontMatter, "sourceFile") is { Length: > 0 } declared && !string.Equals(declared, entry, StringComparison.Ordinal))
                 {
                     problems.Add($"{moduleId}: «{entry}» объявляет sourceFile «{declared}» — не свой путь; компилятор свяжет документ не с тем файлом.");
                 }
@@ -119,7 +119,7 @@ public static class AuthoredDocuments
                 documents.Add(new AuthoredDocumentFacts(
                     moduleId,
                     entry,
-                    (string?)frontMatter["id"] ?? "",
+                    AuthoredJson.Text(frontMatter, "id"),
                     knowledgeRefs.Length,
                     (frontMatter["assetRefs"] as JsonArray ?? []).Count,
                     effects.Count,
@@ -201,7 +201,7 @@ public static class AuthoredDocuments
 
         foreach (var rule in rules.OfType<JsonObject>())
         {
-            var op = (string?)rule["op"] ?? "";
+            var op = AuthoredJson.TextOrNull(rule, "op") ?? "";
             if (op.Length == 0)
             {
                 problems.Add($"{moduleId}: «{entry}» в {where} есть правило без op.");

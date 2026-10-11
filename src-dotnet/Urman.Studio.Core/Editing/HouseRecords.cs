@@ -37,7 +37,7 @@ public static class HouseRecords
             }
 
             var problems = new List<string>();
-            var addressId = (string?)address["id"] ?? "";
+            var addressId = AuthoredJson.TextOrNull(address, "id") ?? "";
             if (addressId.Length == 0)
             {
                 problems.Add("У записи нет address.id: адрес неотличим от других, и массовое перемещение не сможет её назвать.");
@@ -49,16 +49,16 @@ public static class HouseRecords
 
             foreach (var (name, label) in new[] { ("street", "улица"), ("number", "номер дома") })
             {
-                if (((string?)address[name] ?? "").Length == 0)
+                if ((AuthoredJson.Text(address, name)).Length == 0)
                 {
                     problems.Add($"У записи нет address.{name} ({label}): адрес неполный.");
                 }
             }
 
-            var known = (string?)entity["kind"] is "prop" or "kit-placement";
+            var known = AuthoredJson.TextOrNull(entity, "kind") is "prop" or "kit-placement";
             if (!known)
             {
-                problems.Add($"Вид записи «{(string?)entity["kind"] ?? "нет"}» не prop и не kit-placement: перемещение не знает, что именно двигать.");
+                problems.Add($"Вид записи «{AuthoredJson.Text(entity, "kind") ?? "нет"}» не prop и не kit-placement: перемещение не знает, что именно двигать.");
             }
 
             var parameters = entity["params"] as JsonObject;
@@ -101,7 +101,7 @@ public static class HouseRecords
                 }
             }
 
-            records.Add(new HouseRecord(id, addressId, (string?)address["street"] ?? "", (string?)address["number"] ?? "", (string?)address["cadastral"] ?? "", problems));
+            records.Add(new HouseRecord(id, addressId, AuthoredJson.Text(address, "street"), AuthoredJson.Text(address, "number"), AuthoredJson.Text(address, "cadastral"), problems));
         }
 
         return records.OrderBy(record => record.AddressId, StringComparer.Ordinal).ToArray();

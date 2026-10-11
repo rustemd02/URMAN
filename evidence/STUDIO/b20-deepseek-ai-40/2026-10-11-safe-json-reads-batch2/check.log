@@ -1,0 +1,32 @@
+== AI-40: four more projections read authored JSON safely
+
+
+Прошло времени 00:00:03.39
+-- casts left:
+/Users/unterlantas/Documents/GitHub/URMAN-deepseek/src-dotnet/Urman.Studio.Core/Editing/InvestigationPuzzle.cs:0
+/Users/unterlantas/Documents/GitHub/URMAN-deepseek/src-dotnet/Urman.Studio.Core/Editing/HouseRecords.cs:0
+/Users/unterlantas/Documents/GitHub/URMAN-deepseek/src-dotnet/Urman.Studio.Core/Editing/AuthoredDocuments.cs:0
+/Users/unterlantas/Documents/GitHub/URMAN-deepseek/src-dotnet/Urman.Studio.Core/Editing/AuthoredHints.cs:0
+  real threads and hints: 7 (threads 4, hints 3), problems: 0
+PASS  the real threads still report no problems after the stricter diagnostics
+  puzzle steps: 15, references: 34, problems: 1
+PASS  the fifteen AUTHORED puzzle steps are found (the compiled packs hold generated copies and are not sources)
+--- authored documents (AI-24b)
+  authored documents: 64, effects: 58, problems: 0
+PASS  the documents listed by the module manifests are read
+    doc synthetic: urman.mini: у «documents/bad.md» нет обязательного поля «schemaVersion» (document.schema.json).
+    doc synthetic: urman.mini: у «documents/bad.md» нет обязательного поля «title» (document.schema.json).
+    doc synthetic: urman.mini: у «documents/bad.md» нет обязательного поля «format» (document.schema.json).
+    doc synthetic: urman.mini: у «documents/bad.md» нет обязательного поля «assetRefs» (document.schema.json).
+    doc synthetic: urman.mini: у «documents/bad.md» нет обязательного поля «knowledgeRefs» (document.schema.json).
+    doc synthetic: urman.mini: у «documents/bad.md» нет обязательного поля «accessConditions» (document.schema.json).
+    doc synthetic: urman.mini: «documents/bad.md» объявляет sourceFile «documents/elsewhere.md» — не свой путь; компилятор свяжет документ не с тем файлом.
+    doc synthetic: urman.mini: «documents/bad.md» в openEffects последствие «not.a.real.op» движок не исполняет — открытие ничего не изменит.
+    doc synthetic: urman.mini: манифест перечисляет «documents/gone.md», а файла нет — документ не соберётся.
+    input puzzle steps: 15
+    input documents (files): 64
+PASS  the puzzle steps projection really reads something, so it cannot pass by reading nothing
+PASS  the documents projection really reads something, so it cannot pass by reading nothing
+PASS  the puzzle steps count is still 15, so the number my receipts state is the number the content has
+PASS  the documents count is still 64, so the number my receipts state is the number the content has
+PROBE RESULT: PASS

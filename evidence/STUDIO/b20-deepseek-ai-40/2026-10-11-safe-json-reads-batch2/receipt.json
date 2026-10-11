@@ -1,0 +1,30 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-40",
+    "STUDIO/AI-25",
+    "STUDIO/AI-24"
+  ],
+  "stage": "four more projections read authored JSON safely",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-11 22:44 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "259ccfb7",
+  "result": {
+    "converted": "InvestigationPuzzle 7 casts to zero, HouseRecords 7 to zero, AuthoredDocuments 4 to zero and AuthoredHints 6 to zero - twenty-four sites, all now through AuthoredJson",
+    "the_variable_key_case": "this batch needed the helper's field argument to be a VARIABLE rather than a literal in a few places, which the earlier stages had not exercised; it worked because the helper takes a string, not a constant",
+    "behaviour_unchanged": "the probe's numbers did not move: fifteen puzzle steps, four PC threads and three hints, sixty-four documents",
+    "progress": "twelve projection files are cast-free now"
+  },
+  "verified": {
+    "probe": "PASS 741/741 with the numbers unchanged",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors (composed tree with my branch and the v15 patch)",
+    "not_run": "no game run: this is a robustness change"
+  },
+  "files": {
+    "evidence/STUDIO/b20-deepseek-ai-40/2026-10-11-safe-json-reads-batch2/check.log": "f0f87b51875c01942c6e383f94b980b67432f33d6482f4f2a35685a6f4d5de05"
+  },
+  "open": [
+    "a handful of my files still carry casts; the rest of the files with casts are not mine"
+  ]
+}

@@ -76834,6 +76834,18 @@
                 "result": "robustness stage by deepseek v4.1 flash: a cast such as (string?)node[\"field\"] THROWS when the node holds an object or an array, and that crash reached my projections three times in three files before it was named as a pattern. New shared helper AuthoredJson with two shapes - Text (field as string, or empty) and TextOrNull (field as string, or null) - because the null-preserving shape is what keeps a conversion behaviour-identical where the code really depends on null. PhotoBook.cs went from TWENTY-ONE such casts to ZERO, and the probe's numbers did not move: thirteen photos, five worlds, thirty-three facts, two evidence, seven anchors, zero problems, sixty-four indexing gaps and seventeen fact gates, identical to before. About ninety casts remain across the other projections and will be converted file by file in later stages rather than in one unreviewable sweep. Verified: probe PASS 741/741 with the book's numbers unchanged; Core 0/0",
                 "source": "new file src-dotnet/Urman.Studio.Core/Editing/AuthoredJson.cs plus PhotoBook.cs; evidence evidence/STUDIO/b20-deepseek-ai-24/2026-10-11-safe-json-reads",
                 "verification": "probe PASS 741/741 with the book's numbers unchanged; Core 0/0. No Studio window: this is a robustness change and is NOT_RUN as a feature"
+              },
+              {
+                "stage": "2026-10-11 AuthoredDocuments reads authored JSON safely",
+                "result": "robustness stage by deepseek v4.1 flash, part of the cast sweep: AuthoredDocuments.cs now reads authored JSON through the shared AuthoredJson accessor instead of casts that throw on a non-value node. Twenty-four sites were converted across four files in this stage (InvestigationPuzzle 7, HouseRecords 7, AuthoredDocuments 4, AuthoredHints 6), and the probe's numbers did not move. This batch also exercised the helper's field argument as a VARIABLE rather than a literal, which earlier stages had not. Twelve projection files are cast-free now. Verified: probe PASS 741/741 with the numbers unchanged; Core 0/0",
+                "source": "src-dotnet/Urman.Studio.Core/Editing/AuthoredDocuments.cs; evidence evidence/STUDIO/b20-deepseek-ai-40/2026-10-11-safe-json-reads-batch2",
+                "verification": "probe PASS 741/741 with the numbers unchanged; Core 0/0. No game run: this is a robustness change and is NOT_RUN as a feature"
+              },
+              {
+                "stage": "2026-10-11 AuthoredHints reads authored JSON safely",
+                "result": "robustness stage by deepseek v4.1 flash, part of the cast sweep: AuthoredHints.cs now reads authored JSON through the shared AuthoredJson accessor instead of casts that throw on a non-value node. Twenty-four sites were converted across four files in this stage (InvestigationPuzzle 7, HouseRecords 7, AuthoredDocuments 4, AuthoredHints 6), and the probe's numbers did not move. This batch also exercised the helper's field argument as a VARIABLE rather than a literal, which earlier stages had not. Twelve projection files are cast-free now. Verified: probe PASS 741/741 with the numbers unchanged; Core 0/0",
+                "source": "src-dotnet/Urman.Studio.Core/Editing/AuthoredHints.cs; evidence evidence/STUDIO/b20-deepseek-ai-40/2026-10-11-safe-json-reads-batch2",
+                "verification": "probe PASS 741/741 with the numbers unchanged; Core 0/0. No game run: this is a robustness change and is NOT_RUN as a feature"
               }
             ],
             "stage_tasks": [
@@ -76884,7 +76896,11 @@
               "Consumer-панель передана патчем: 7 файлов Core + одна строка в общем StudioRoot.cs — интегрирует Codex.",
               "Ранее переданный частичный этап (2026-10-11 the first real Studio consumer of the authoring projections) ждёт ревью/приёмки; полный done_when не выполнен.",
               "Устойчивость: PhotoBook больше не падает на не-значении (21 приведение → 0) через общий AuthoredJson; остальные файлы — по одному этапу.",
-              "Ранее переданный частичный этап (2026-10-11 the book projection reads authored JSON through one safe accessor) ждёт ревью/приёмки; полный done_when не выполнен."
+              "Ранее переданный частичный этап (2026-10-11 the book projection reads authored JSON through one safe accessor) ждёт ревью/приёмки; полный done_when не выполнен.",
+              "Устойчивость: AuthoredDocuments больше не падает на не-значении; поведение не изменилось.",
+              "Ранее переданный частичный этап (2026-10-11 AuthoredDocuments reads authored JSON safely) ждёт ревью/приёмки; полный done_when не выполнен.",
+              "Устойчивость: AuthoredHints больше не падает на не-значении; поведение не изменилось.",
+              "Ранее переданный частичный этап (2026-10-11 AuthoredHints reads authored JSON safely) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
             "next_action": "Трассировать bindings активной кампании; human forms; AI exact-field edits; проверить Markdown/учебные токены; preview в игре.",
             "blocker": null,
@@ -81454,6 +81470,12 @@
                 "result": "claims audit by deepseek v4.1 flash: my receipts quote counts, and a count quoted once can drift while every later stage still passes, so all of them were re-measured - world entities 1726, kit placements 196, props 86, item spawns 6, npcs 33, quests 13, cutscene actions 75, puzzle steps 15, dialogue nodes 32, area links 5, catalogue forms 177, placed forms 282, texts 1016, documents 64, hints 3, vocabulary 16, ambient beds 9, material tables 4, scatters 8 - and EVERY ONE matches what the receipts state, so no number of mine is stale today. Nineteen assertions now fail the probe when any of those counts changes, so a content change or a broken reader cannot leave an old number looking current. Boundary: the pins are MY instrument's memory, not a contract the author must obey; when the content legitimately changes, the pins move in the same commit as the receipt that quotes them. Verified: probe PASS 732/732 including the nineteen pins; Core 0/0",
                 "source": "the probe's pins; evidence evidence/STUDIO/b20-deepseek-ai-40/2026-10-11-claims-audit-and-pins",
                 "verification": "probe PASS 732/732 including the nineteen pins; Core 0/0. This is a verification stage, not unit completion"
+              },
+              {
+                "stage": "2026-10-11 InvestigationPuzzle reads authored JSON safely",
+                "result": "robustness stage by deepseek v4.1 flash, part of the cast sweep: InvestigationPuzzle.cs now reads authored JSON through the shared AuthoredJson accessor instead of casts that throw on a non-value node. Twenty-four sites were converted across four files in this stage (InvestigationPuzzle 7, HouseRecords 7, AuthoredDocuments 4, AuthoredHints 6), and the probe's numbers did not move. This batch also exercised the helper's field argument as a VARIABLE rather than a literal, which earlier stages had not. Twelve projection files are cast-free now. Verified: probe PASS 741/741 with the numbers unchanged; Core 0/0",
+                "source": "src-dotnet/Urman.Studio.Core/Editing/InvestigationPuzzle.cs; evidence evidence/STUDIO/b20-deepseek-ai-40/2026-10-11-safe-json-reads-batch2",
+                "verification": "probe PASS 741/741 with the numbers unchanged; Core 0/0. No game run: this is a robustness change and is NOT_RUN as a feature"
               }
             ],
             "stage_tasks": [
@@ -81495,7 +81517,9 @@
               "Замыкание consumer'а перемерено: 10 файлов Core + патч; сборка игры на текущем main 0/0.",
               "Ранее переданный частичный этап (2026-10-11 the consumer closure re-measured against the current main) ждёт ревью/приёмки; полный done_when не выполнен.",
               "Мои же числа в evidence перемерены и закреплены 19 утверждениями: устареть молча они больше не могут.",
-              "Ранее переданный частичный этап (2026-10-11 my own evidence numbers, re-measured and pinned) ждёт ревью/приёмки; полный done_when не выполнен."
+              "Ранее переданный частичный этап (2026-10-11 my own evidence numbers, re-measured and pinned) ждёт ревью/приёмки; полный done_when не выполнен.",
+              "Устойчивость: InvestigationPuzzle больше не падает на не-значении; поведение не изменилось.",
+              "Ранее переданный частичный этап (2026-10-11 InvestigationPuzzle reads authored JSON safely) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
             "next_action": "UI стартового состояния; пометка synthetic/reachable; runtime trace с occurrence ID; pause clock; шаг события; copy transform только явной командой; handoff case.",
             "blocker": null,
@@ -82188,6 +82212,12 @@
                 "result": "robustness stage by deepseek v4.1 flash, part of the cast sweep: KitTakeover.cs now reads authored JSON through the shared AuthoredJson accessor instead of casts that throw on a non-value node. Nineteen sites were converted across four files in this stage (QuestSemantics 3, KitTakeover 7, CharacterAppearance 5, AreaLinks 4), and the probe's numbers did not move. OWNERSHIP WAS CHECKED: ConditionPhrases.cs carries ten such casts but it is IN main and is not mine, so it was deliberately left alone - a sweep must respect ownership rather than tidy whatever it finds. Eight projection files are cast-free now. Verified: probe PASS 741/741 with the numbers unchanged; Core 0/0",
                 "source": "src-dotnet/Urman.Studio.Core/Editing/KitTakeover.cs; evidence evidence/STUDIO/b20-deepseek-ai-19/2026-10-11-safe-json-reads-batch",
                 "verification": "probe PASS 741/741 with the numbers unchanged; Core 0/0. No game run: this is a robustness change and is NOT_RUN as a feature"
+              },
+              {
+                "stage": "2026-10-11 HouseRecords reads authored JSON safely",
+                "result": "robustness stage by deepseek v4.1 flash, part of the cast sweep: HouseRecords.cs now reads authored JSON through the shared AuthoredJson accessor instead of casts that throw on a non-value node. Twenty-four sites were converted across four files in this stage (InvestigationPuzzle 7, HouseRecords 7, AuthoredDocuments 4, AuthoredHints 6), and the probe's numbers did not move. This batch also exercised the helper's field argument as a VARIABLE rather than a literal, which earlier stages had not. Twelve projection files are cast-free now. Verified: probe PASS 741/741 with the numbers unchanged; Core 0/0",
+                "source": "src-dotnet/Urman.Studio.Core/Editing/HouseRecords.cs; evidence evidence/STUDIO/b20-deepseek-ai-40/2026-10-11-safe-json-reads-batch2",
+                "verification": "probe PASS 741/741 with the numbers unchanged; Core 0/0. No game run: this is a robustness change and is NOT_RUN as a feature"
               }
             ],
             "stage_tasks": [
@@ -82224,7 +82254,9 @@
               "Ранее переданный частичный этап (2026-10-11 what retired and hidden really do to a taken-over placement) ждёт ревью/приёмки; полный done_when не выполнен.",
               "Ранее переданный частичный этап (2026-10-11 the state buckets are disjoint, so the total is the placement count) ждёт ревью/приёмки; полный done_when не выполнен.",
               "Устойчивость: KitTakeover больше не падает на не-значении; поведение не изменилось.",
-              "Ранее переданный частичный этап (2026-10-11 KitTakeover reads authored JSON safely) ждёт ревью/приёмки; полный done_when не выполнен."
+              "Ранее переданный частичный этап (2026-10-11 KitTakeover reads authored JSON safely) ждёт ревью/приёмки; полный done_when не выполнен.",
+              "Устойчивость: HouseRecords больше не падает на не-значении; поведение не изменилось.",
+              "Ранее переданный частичный этап (2026-10-11 HouseRecords reads authored JSON safely) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
             "next_action": "Показать generator ownership; materialize snapshot с stable IDs/provenance; исключить участок из live generation; сохранить overrides; regenerate proposal с diff.",
             "blocker": null,

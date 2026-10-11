@@ -67,7 +67,7 @@ public static class AuthoredHints
                 continue;
             }
 
-            var moduleId = (string?)manifest["moduleId"] ?? Path.GetFileName(moduleFolder);
+            var moduleId = AuthoredJson.TextOrNull(manifest, "moduleId") ?? Path.GetFileName(moduleFolder);
             foreach (var entry in (manifest["sourceFiles"] as JsonArray ?? []).OfType<JsonValue>()
                 .Select(value => value.GetValue<string>())
                 .Where(value => value.StartsWith("hints/", StringComparison.Ordinal) && value.EndsWith(".md", StringComparison.OrdinalIgnoreCase)))
@@ -114,12 +114,12 @@ public static class AuthoredHints
                     }
                 }
 
-                if ((string?)frontMatter["textId"] is { Length: > 0 } textId && workspace.Locate(textId) is null)
+                if (AuthoredJson.Text(frontMatter, "textId") is { Length: > 0 } textId && workspace.Locate(textId) is null)
                 {
                     problems.Add($"{moduleId}: «{entry}» ссылается на текст «{textId}», которого нет в проекте — подсказка покажет пустоту.");
                 }
 
-                if (((string?)frontMatter["pointsTo"] ?? "").Length == 0)
+                if ((AuthoredJson.Text(frontMatter, "pointsTo")).Length == 0)
                 {
                     problems.Add($"{moduleId}: «{entry}» не указывает pointsTo — поиск не подскажет, куда идти.");
                 }
@@ -127,7 +127,7 @@ public static class AuthoredHints
                 var requires = frontMatter["requires"] as JsonArray ?? [];
                 foreach (var rule in requires.OfType<JsonObject>())
                 {
-                    var op = (string?)rule["op"] ?? "";
+                    var op = AuthoredJson.TextOrNull(rule, "op") ?? "";
                     if (op.Length == 0)
                     {
                         problems.Add($"{moduleId}: «{entry}» в requires есть правило без op.");
@@ -138,7 +138,7 @@ public static class AuthoredHints
                     }
                 }
 
-                hints.Add(new AuthoredHintFacts(moduleId, entry, (string?)frontMatter["id"] ?? "", level, requires.Count, (string?)frontMatter["pointsTo"] ?? "", problems));
+                hints.Add(new AuthoredHintFacts(moduleId, entry, AuthoredJson.Text(frontMatter, "id"), level, requires.Count, AuthoredJson.Text(frontMatter, "pointsTo"), problems));
             }
         }
 
