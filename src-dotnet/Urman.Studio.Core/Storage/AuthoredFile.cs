@@ -16,6 +16,16 @@ public sealed record ExternalChange(string RelativePath, bool Reloaded, int Auto
     public string? MineText { get; init; }
 }
 
+/// <summary>An immutable full-source snapshot captured from an authored file.</summary>
+public sealed record AuthoredSourceSnapshot(
+    string RelativePath,
+    string? BaseText,
+    string Text,
+    string? BaseSha256,
+    string Sha256,
+    bool IsNew,
+    bool Dirty);
+
 /// <summary>
 /// One authored JSON file inside the project. Entities are addressed by their
 /// <c>id</c> (array-root modules) or by property name (object-root files).
@@ -158,6 +168,36 @@ public sealed class AuthoredFile
 
             return _outer.ToText();
         }
+    }
+
+    /// <summary>Capture full saved and current source without exposing an absolute path.</summary>
+    public AuthoredSourceSnapshot CaptureSource()
+    {
+        StudioFileTransaction.EnsureNoLinks(Root, RelativePath);
+        if (Directory.Exists(FullPath) || ChangedOnDisk())
+        {
+            throw new ExternalChangeException(RelativePath);
+        }
+
+        var utf8 = new UTF8Encoding(false, true);
+        string? baseText = null;
+        string? baseSha256 = null;
+        if (!IsNew)
+        {
+            var baselineBytes = utf8.GetBytes(_loadedText);
+            var baselineSha256 = AtomicFile.Sha256(baselineBytes);
+            if (!string.Equals(baselineSha256, LoadedSha256, StringComparison.Ordinal))
+            {
+                throw new InvalidDataException($"Authored source baseline is not valid UTF-8: {RelativePath}");
+            }
+
+            baseText = _loadedText;
+            baseSha256 = LoadedSha256;
+        }
+
+        var text = Text;
+        var bytes = utf8.GetBytes(text);
+        return new(RelativePath, baseText, text, baseSha256, AtomicFile.Sha256(bytes), IsNew, Dirty);
     }
 
     public JsonNode Snapshot() => _document.ToNode();

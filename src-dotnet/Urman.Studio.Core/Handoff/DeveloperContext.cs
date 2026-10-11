@@ -18,6 +18,9 @@ namespace Urman.Studio.Core.Handoff;
 /// </summary>
 public sealed class DeveloperContext(StudioWorkspace workspace, EntityCatalog catalog)
 {
+    private const int MaximumPackagePayloadBytes = 256 * 1024;
+    private const int MaximumPackageEntries = 403; // manifest/context/entities plus at most 200 source baseline/current pairs
+
     public string Revision() => ResolveRevision(workspace.Root);
 
     /// <summary>Git resolves normal checkouts, packed refs and worktree gitfiles identically.</summary>
@@ -175,18 +178,66 @@ public sealed class DeveloperContext(StudioWorkspace workspace, EntityCatalog ca
             });
         }
 
-        var options = new System.Text.Json.JsonSerializerOptions
-        {
-            WriteIndented = true,
-            Encoder = System.Text.Encodings.Web.JavaScriptEncoder.Create(System.Text.Unicode.UnicodeRanges.All)
-        };
+        var options = PackageJsonOptions();
         var encoding = new UTF8Encoding(false);
         var contextBytes = encoding.GetBytes(BuildText(id, null, problem, revision, capture));
         var entityBytes = encoding.GetBytes(entities.ToJsonString(options));
+        var initialPayloadBytes = (long)contextBytes.Length + entityBytes.Length;
+        if (initialPayloadBytes > MaximumPackagePayloadBytes)
+            throw new InvalidOperationException("Пакет с полными исходниками превышает бюджет 256 КБ; файл не записан.");
+        var payloads = new Dictionary<string, byte[]>(StringComparer.Ordinal)
+        {
+            ["context.txt"] = contextBytes,
+            ["entities.json"] = entityBytes
+        };
+        var sourceManifest = new JsonArray();
+        var sourceIndex = 0;
+        foreach (var source in CapturePackageSources(dependencies, initialPayloadBytes))
+        {
+            var stem = $"sources/{sourceIndex++:D3}";
+            string? baseRef = null;
+            string currentRef;
+            if (source.BaseBytes is null)
+            {
+                currentRef = stem + ".current.txt";
+                payloads.Add(currentRef, source.CurrentBytes);
+            }
+            else if (source.BaseBytes.AsSpan().SequenceEqual(source.CurrentBytes))
+            {
+                currentRef = stem + ".txt";
+                baseRef = currentRef;
+                payloads.Add(currentRef, source.BaseBytes);
+            }
+            else
+            {
+                baseRef = stem + ".base.txt";
+                currentRef = stem + ".current.txt";
+                payloads.Add(baseRef, source.BaseBytes);
+                payloads.Add(currentRef, source.CurrentBytes);
+            }
+
+            sourceManifest.Add(new JsonObject
+            {
+                ["path"] = source.Snapshot.RelativePath,
+                ["baseHash"] = source.Snapshot.BaseSha256,
+                ["currentHash"] = source.Snapshot.Sha256,
+                ["baseRef"] = baseRef,
+                ["currentRef"] = currentRef,
+                ["isNew"] = source.Snapshot.IsNew,
+                ["dirty"] = source.Snapshot.Dirty
+            });
+        }
+
+        var files = new JsonArray(payloads.OrderBy(item => item.Key, StringComparer.Ordinal).Select(item => (JsonNode?)new JsonObject
+        {
+            ["path"] = item.Key,
+            ["bytes"] = item.Value.Length,
+            ["sha256"] = AtomicFile.Sha256(item.Value)
+        }).ToArray());
         var manifest = new JsonObject
         {
             ["kind"] = "urman.studio-context",
-            ["schemaVersion"] = 1,
+            ["schemaVersion"] = 2,
             ["caseId"] = caseId,
             ["subject"] = id,
             ["baseRevision"] = revision,
@@ -196,24 +247,106 @@ public sealed class DeveloperContext(StudioWorkspace workspace, EntityCatalog ca
             ["pendingDependencyIds"] = new JsonArray(capture.Pending.Select(value => (JsonNode?)JsonValue.Create(value)).ToArray()),
             ["dependencyDiscovery"] = "legacy-id-shaped-strings",
             ["payloadHashAlgorithm"] = "sha256",
-            ["files"] = new JsonArray(
-                new JsonObject { ["path"] = "context.txt", ["bytes"] = contextBytes.Length, ["sha256"] = AtomicFile.Sha256(contextBytes) },
-                new JsonObject { ["path"] = "entities.json", ["bytes"] = entityBytes.Length, ["sha256"] = AtomicFile.Sha256(entityBytes) }),
-            ["note"] = "Приложенные сущности переданы целиком; truncated означает остановленный обход; pendingDependencyIds — обнаруженные, но не приложенные IDs, не полный список пропущенных транзитивных зависимостей. Пути пользователя и сохранения не включены."
+            ["files"] = files,
+            ["sources"] = sourceManifest,
+            ["note"] = "Приложенные сущности и полные исходники их файлов переданы целиком; truncated означает остановленный обход; pendingDependencyIds — обнаруженные, но не приложенные IDs, не полный список пропущенных транзитивных зависимостей. Абсолютные пути пользователя и данные сохранений игроков не включены."
         };
         var manifestBytes = encoding.GetBytes(manifest.ToJsonString(options));
-        if ((long)manifestBytes.Length + contextBytes.Length + entityBytes.Length > 256 * 1024)
-            throw new InvalidOperationException("Пакет превышает бюджет текста 256 КБ. Выберите меньший объект или область; данные не обрезаны и пакет не записан.");
+        if (payloads.Values.Sum(bytes => (long)bytes.Length) + manifestBytes.Length > MaximumPackagePayloadBytes)
+            throw new InvalidOperationException("Пакет с полными исходниками превышает бюджет 256 КБ; файл не записан.");
 
         using var buffer = new MemoryStream();
         using (var zip = new ZipArchive(buffer, ZipArchiveMode.Create, leaveOpen: true))
         {
             Write(zip, "manifest.json", manifestBytes);
-            Write(zip, "context.txt", contextBytes);
-            Write(zip, "entities.json", entityBytes);
+            foreach (var (name, bytes) in payloads.OrderBy(item => item.Key, StringComparer.Ordinal))
+                Write(zip, name, bytes);
         }
         AtomicFile.WriteAllBytes(path, buffer.ToArray(), overwrite: false);
         return (path, dependencies.Count, new FileInfo(path).Length);
+    }
+
+    private sealed record PackageSource(AuthoredSourceSnapshot Snapshot, byte[]? BaseBytes, byte[] CurrentBytes);
+
+    private IReadOnlyList<PackageSource> CapturePackageSources(IReadOnlyList<string> dependencies, long initialPayloadBytes)
+    {
+        var paths = dependencies.Select(dependency => workspace.Locate(dependency)?.RelativePath
+                ?? throw new InvalidOperationException("Источник сущности больше не существует."))
+            .Distinct(StringComparer.Ordinal).ToArray();
+        var result = new List<PackageSource>(paths.Length);
+        var utf8 = new UTF8Encoding(false, true);
+        var payloadBytes = initialPayloadBytes;
+        foreach (var path in paths)
+        {
+            if (!IsSafeSourcePath(path) || !workspace.HasFile(path))
+                throw new InvalidDataException("Источник сущности не входит в список разрешённых авторских файлов.");
+            var snapshot = workspace.File(path).CaptureSource();
+            if (!string.Equals(snapshot.RelativePath, path, StringComparison.Ordinal)
+                || snapshot.IsNew != (snapshot.BaseText is null && snapshot.BaseSha256 is null)
+                || snapshot.IsNew && (snapshot.BaseText is not null || snapshot.BaseSha256 is not null)
+                || !snapshot.IsNew && (snapshot.BaseText is null || snapshot.BaseSha256 is null || !IsSha256(snapshot.BaseSha256))
+                || !IsSha256(snapshot.Sha256))
+                throw new InvalidDataException("Неполный снимок авторского источника.");
+
+            var identical = !snapshot.IsNew && string.Equals(snapshot.BaseText, snapshot.Text, StringComparison.Ordinal);
+            var baseByteCount = snapshot.IsNew ? 0 : StrictUtf8ByteCount(utf8, snapshot.BaseText!);
+            var currentByteCount = StrictUtf8ByteCount(utf8, snapshot.Text);
+            var addedBytes = snapshot.IsNew ? currentByteCount : identical ? baseByteCount : (long)baseByteCount + currentByteCount;
+            if (payloadBytes + addedBytes > MaximumPackagePayloadBytes)
+                throw new InvalidOperationException("Пакет с полными исходниками превышает бюджет 256 КБ; файл не записан.");
+            payloadBytes += addedBytes;
+
+            byte[]? baseBytes = null;
+            if (!snapshot.IsNew)
+            {
+                if (snapshot.BaseText is null || snapshot.BaseSha256 is null || !IsSha256(snapshot.BaseSha256))
+                    throw new InvalidDataException("У сохранённого источника отсутствует исходная версия.");
+                baseBytes = StrictUtf8Bytes(utf8, snapshot.BaseText);
+                if (!string.Equals(AtomicFile.Sha256(baseBytes), snapshot.BaseSha256, StringComparison.Ordinal))
+                    throw new InvalidDataException("Хеш исходной версии источника не совпадает.");
+            }
+
+            var currentBytes = identical ? baseBytes! : StrictUtf8Bytes(utf8, snapshot.Text);
+            if (!string.Equals(AtomicFile.Sha256(currentBytes), snapshot.Sha256, StringComparison.Ordinal))
+                throw new InvalidDataException("Хеш текущей версии источника не совпадает.");
+            result.Add(new(snapshot, baseBytes, currentBytes));
+        }
+
+        return result;
+    }
+
+    private static byte[] StrictUtf8Bytes(UTF8Encoding encoding, string text)
+    {
+        try { return encoding.GetBytes(text); }
+        catch (EncoderFallbackException error) { throw new InvalidDataException("Авторский источник нельзя представить строгим UTF-8.", error); }
+    }
+
+    private static int StrictUtf8ByteCount(UTF8Encoding encoding, string text)
+    {
+        try { return encoding.GetByteCount(text); }
+        catch (EncoderFallbackException error) { throw new InvalidDataException("Авторский источник нельзя представить строгим UTF-8.", error); }
+    }
+
+    private static bool IsSha256(string value) => value.Length == 64
+        && value.All(character => character is >= '0' and <= '9' or >= 'a' and <= 'f');
+
+    private static bool IsSafeSourcePath(string path)
+    {
+        if (string.IsNullOrWhiteSpace(path) || Path.IsPathRooted(path) || path.StartsWith("/", StringComparison.Ordinal)
+            || path.Contains('\\') || path.Contains(':') || path.Any(char.IsControl)) return false;
+        var segments = path.Split('/');
+        if (segments.Any(segment => segment.Length == 0 || segment is "." or ".." || segment.StartsWith(".", StringComparison.Ordinal))) return false;
+        if (segments.Any(segment => segment.EndsWith(' ') || segment.EndsWith('.') || segment.IndexOfAny("<>\"|?*".ToCharArray()) >= 0)) return false;
+        var root = segments[0];
+        var contentSource = root == "content" && segments.Length >= 3
+            && (segments[1] == "modules" || segments[1] == "campaigns" || segments[1] == "studio");
+        var gameSource = root == "game" && segments.Length >= 4 && segments[1] == "content"
+            && (segments[2] == "world" || segments[2] == "cutscenes" || segments[2] == "animations");
+        var underAllowedRoot = contentSource || gameSource;
+        if (!underAllowedRoot) return false;
+        var extension = Path.GetExtension(path);
+        return extension.Equals(".json", StringComparison.OrdinalIgnoreCase)
+            || extension.Equals(".md", StringComparison.OrdinalIgnoreCase) && segments[0] == "content" && segments[1] == "modules";
     }
 
     private static void Write(ZipArchive zip, string name, byte[] bytes)
@@ -244,7 +377,19 @@ public sealed class DeveloperContext(StudioWorkspace workspace, EntityCatalog ca
         AtomicFile.WriteAllBytes(Path.Combine(root, relative), new UTF8Encoding(false).GetBytes(text), overwrite: false);
     }
 
-    public sealed record ContextPackage(JsonObject Manifest, JsonArray Entities, string Text, bool HasIntegrityReceipts);
+    public sealed record ContextPackage(JsonObject Manifest, JsonArray Entities, string Text, bool HasIntegrityReceipts)
+    {
+        public IReadOnlyList<ContextPackageSource>? Sources { get; init; }
+    }
+
+    public sealed record ContextPackageSource(
+        string RelativePath,
+        string? BaseHash,
+        string CurrentHash,
+        string? BaseText,
+        string CurrentText,
+        bool IsNew,
+        bool Dirty);
 
     /// <summary>Read-only data preview; never extracts entries or writes into a checkout.</summary>
     public static ContextPackage ReadPackage(string path)
@@ -252,17 +397,17 @@ public sealed class DeveloperContext(StudioWorkspace workspace, EntityCatalog ca
         using var file = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
         if (file.Length > 1024 * 1024) throw new InvalidDataException("Архив контекста превышает 1 МБ.");
         using var zip = new ZipArchive(file, ZipArchiveMode.Read);
-        string[] names = ["manifest.json", "context.txt", "entities.json"];
-        if (zip.Entries.Count != names.Length || zip.Entries.Select(entry => entry.FullName).Distinct(StringComparer.Ordinal).Count() != names.Length
-            || zip.Entries.Any(entry => !names.Contains(entry.FullName, StringComparer.Ordinal)))
-            throw new InvalidDataException("Архив содержит неизвестные или повторные файлы.");
+        if (zip.Entries.Count is < 3 or > MaximumPackageEntries)
+            throw new InvalidDataException("В архиве неверное количество файлов.");
         var payloads = new Dictionary<string, byte[]>(StringComparer.Ordinal);
         long total = 0;
         foreach (var entry in zip.Entries)
         {
+            if (payloads.ContainsKey(entry.FullName))
+                throw new InvalidDataException("Архив содержит повторные файлы.");
             if (((entry.ExternalAttributes >> 16) & 0xF000) is not (0 or 0x8000) || (entry.ExternalAttributes & (int)(FileAttributes.ReparsePoint | FileAttributes.Directory)) != 0)
                 throw new InvalidDataException("Ссылки внутри пакета не поддерживаются.");
-            if (entry.Length < 0 || entry.Length > 256 * 1024 || total + entry.Length > 256 * 1024)
+            if (entry.Length < 0 || entry.Length > MaximumPackagePayloadBytes || total + entry.Length > MaximumPackagePayloadBytes)
                 throw new InvalidDataException("Распакованный контекст превышает 256 КБ.");
             using var input = entry.Open();
             using var output = new MemoryStream();
@@ -270,7 +415,7 @@ public sealed class DeveloperContext(StudioWorkspace workspace, EntityCatalog ca
             int count;
             while ((count = input.Read(buffer)) > 0)
             {
-                if (output.Length + count > entry.Length || total + output.Length + count > 256 * 1024)
+                if (output.Length + count > entry.Length || total + output.Length + count > MaximumPackagePayloadBytes)
                     throw new InvalidDataException("Размер содержимого не совпадает с архивом.");
                 output.Write(buffer, 0, count);
             }
@@ -280,58 +425,213 @@ public sealed class DeveloperContext(StudioWorkspace workspace, EntityCatalog ca
         }
         try
         {
+            if (!payloads.ContainsKey("manifest.json") || !payloads.ContainsKey("context.txt") || !payloads.ContainsKey("entities.json"))
+                throw new InvalidDataException("В архиве отсутствуют обязательные файлы.");
             var encoding = new UTF8Encoding(false, true);
             var manifest = ParsePackageJson(encoding.GetString(payloads["manifest.json"])) as JsonObject
                 ?? throw new InvalidDataException("Манифест должен быть объектом.");
-            var entities = ParsePackageJson(encoding.GetString(payloads["entities.json"])) as JsonArray
-                ?? throw new InvalidDataException("Сущности должны быть массивом.");
-            if (PackageString(manifest, "kind") != "urman.studio-context" || manifest["schemaVersion"]?.GetValue<int>() != 1)
+            if (PackageString(manifest, "kind") != "urman.studio-context")
                 throw new InvalidDataException("Версия пакета не поддерживается.");
-            var subject = PackageString(manifest, "subject");
-            _ = PackageString(manifest, "baseRevision");
-            if (entities.Count is < 1 or > 200 || manifest["entities"]?.GetValue<int>() != entities.Count)
-                throw new InvalidDataException("Количество сущностей не совпадает с манифестом.");
-            var ids = new HashSet<string>(StringComparer.Ordinal);
-            foreach (var entity in entities)
+            return manifest["schemaVersion"]?.GetValue<int>() switch
             {
-                var item = entity as JsonObject ?? throw new InvalidDataException("Сущность должна быть объектом.");
-                if (!ids.Add(PackageString(item, "id")) || item["data"] is null)
-                    throw new InvalidDataException("Повторная сущность или отсутствующие данные.");
-                if (item["data"] is JsonObject data && data.ContainsKey("id") && data["id"]?.GetValue<string>() != PackageString(item, "id"))
-                    throw new InvalidDataException("ID сущности не совпадает с данными.");
-                _ = PackageString(item, "state");
-                var source = PackageString(item, "file");
-                if (Path.IsPathRooted(source) || source.Contains('\\') || source.Contains(':') || source.Any(char.IsControl)
-                    || source.Split('/').Any(segment => segment.Length == 0 || segment is "." or "..")
-                    || source.Split('/')[0].StartsWith('.'))
-                    throw new InvalidDataException("Источник должен иметь безопасный относительный адрес.");
-            }
-            if (!ids.Contains(subject)) throw new InvalidDataException("Данные выбранной сущности отсутствуют.");
-            var hasReceipts = manifest.ContainsKey("files") || manifest.ContainsKey("payloadHashAlgorithm");
-            if (hasReceipts)
-            {
-                var receipts = manifest["files"] as JsonArray ?? throw new InvalidDataException("Неверные контрольные суммы.");
-                if (PackageString(manifest, "payloadHashAlgorithm") != "sha256" || receipts.Count != 2)
-                    throw new InvalidDataException("Неверные контрольные суммы.");
-                var checkedNames = new HashSet<string>(StringComparer.Ordinal);
-                foreach (var receipt in receipts)
-                {
-                    var item = receipt as JsonObject ?? throw new InvalidDataException("Неверная контрольная сумма.");
-                    var name = PackageString(item, "path");
-                    if (name is not ("context.txt" or "entities.json") || !checkedNames.Add(name)
-                        || item["bytes"]?.GetValue<long>() != payloads[name].LongLength
-                        || PackageString(item, "sha256") != AtomicFile.Sha256(payloads[name]))
-                        throw new InvalidDataException("Контрольная сумма или размер не совпадает.");
-                }
-            }
-            if (manifest.ContainsKey("truncated")) _ = manifest["truncated"]?.GetValue<bool>() ?? throw new InvalidDataException("Неверный признак неполноты.");
-            return new ContextPackage(manifest, entities, encoding.GetString(payloads["context.txt"]), hasReceipts);
+                1 => ReadLegacyPackage(manifest, payloads, encoding),
+                2 => ReadPackageV2(manifest, payloads, encoding),
+                _ => throw new InvalidDataException("Версия пакета не поддерживается.")
+            };
         }
         catch (Exception error) when (error is JsonException or InvalidOperationException or FormatException or OverflowException or DecoderFallbackException)
         {
             throw new InvalidDataException("Некорректные данные пакета контекста.", error);
         }
     }
+
+    private static ContextPackage ReadLegacyPackage(JsonObject manifest, IReadOnlyDictionary<string, byte[]> payloads, UTF8Encoding encoding)
+    {
+        if (payloads.Count != 3 || payloads.Keys.Any(name => name is not ("manifest.json" or "context.txt" or "entities.json")))
+            throw new InvalidDataException("Архив v1 содержит неизвестные или повторные файлы.");
+        var entities = ParsePackageJson(encoding.GetString(payloads["entities.json"])) as JsonArray
+            ?? throw new InvalidDataException("Сущности должны быть массивом.");
+        var subject = PackageString(manifest, "subject");
+        _ = PackageString(manifest, "baseRevision");
+        if (entities.Count is < 1 or > 200 || manifest["entities"]?.GetValue<int>() != entities.Count)
+            throw new InvalidDataException("Количество сущностей не совпадает с манифестом.");
+        var ids = new HashSet<string>(StringComparer.Ordinal);
+        foreach (var entity in entities)
+        {
+            var item = entity as JsonObject ?? throw new InvalidDataException("Сущность должна быть объектом.");
+            if (!ids.Add(PackageString(item, "id")) || item["data"] is null)
+                throw new InvalidDataException("Повторная сущность или отсутствующие данные.");
+            if (item["data"] is JsonObject data && data.ContainsKey("id") && data["id"]?.GetValue<string>() != PackageString(item, "id"))
+                throw new InvalidDataException("ID сущности не совпадает с данными.");
+            _ = PackageString(item, "state");
+            var source = PackageString(item, "file");
+            if (Path.IsPathRooted(source) || source.Contains('\\') || source.Contains(':') || source.Any(char.IsControl)
+                || source.Split('/').Any(segment => segment.Length == 0 || segment is "." or "..")
+                || source.Split('/')[0].StartsWith('.'))
+                throw new InvalidDataException("Источник должен иметь безопасный относительный адрес.");
+        }
+        if (!ids.Contains(subject)) throw new InvalidDataException("Данные выбранной сущности отсутствуют.");
+        var hasReceipts = manifest.ContainsKey("files") || manifest.ContainsKey("payloadHashAlgorithm");
+        if (hasReceipts)
+        {
+            var receipts = manifest["files"] as JsonArray ?? throw new InvalidDataException("Неверные контрольные суммы.");
+            if (PackageString(manifest, "payloadHashAlgorithm") != "sha256" || receipts.Count != 2)
+                throw new InvalidDataException("Неверные контрольные суммы.");
+            var checkedNames = new HashSet<string>(StringComparer.Ordinal);
+            foreach (var receipt in receipts)
+            {
+                var item = receipt as JsonObject ?? throw new InvalidDataException("Неверная контрольная сумма.");
+                var name = PackageString(item, "path");
+                if (name is not ("context.txt" or "entities.json") || !checkedNames.Add(name)
+                    || item["bytes"]?.GetValue<long>() != payloads[name].LongLength
+                    || PackageString(item, "sha256") != AtomicFile.Sha256(payloads[name]))
+                    throw new InvalidDataException("Контрольная сумма или размер не совпадает.");
+            }
+        }
+        if (manifest.ContainsKey("truncated")) _ = manifest["truncated"]?.GetValue<bool>() ?? throw new InvalidDataException("Неверный признак неполноты.");
+        return new ContextPackage(manifest, entities, encoding.GetString(payloads["context.txt"]), hasReceipts);
+    }
+
+    private static ContextPackage ReadPackageV2(JsonObject manifest, IReadOnlyDictionary<string, byte[]> payloads, UTF8Encoding encoding)
+    {
+        RequireExactFields(manifest, "kind", "schemaVersion", "caseId", "subject", "baseRevision", "created", "entities",
+            "truncated", "pendingDependencyIds", "dependencyDiscovery", "payloadHashAlgorithm", "files", "sources", "note");
+        if (manifest["schemaVersion"]?.GetValue<int>() != 2 || PackageString(manifest, "dependencyDiscovery") != "legacy-id-shaped-strings"
+            || PackageString(manifest, "payloadHashAlgorithm") != "sha256")
+            throw new InvalidDataException("Манифест v2 имеет неверные значения.");
+        _ = PackageString(manifest, "caseId");
+        var subject = PackageString(manifest, "subject");
+        _ = PackageString(manifest, "baseRevision");
+        _ = PackageString(manifest, "created");
+        _ = PackageString(manifest, "note");
+        var entities = ParsePackageJson(encoding.GetString(payloads["entities.json"])) as JsonArray
+            ?? throw new InvalidDataException("Сущности должны быть массивом.");
+        if (entities.Count is < 1 or > 200 || manifest["entities"]?.GetValue<int>() != entities.Count)
+            throw new InvalidDataException("Количество сущностей не совпадает с манифестом.");
+        var ids = new HashSet<string>(StringComparer.Ordinal);
+        var entityPaths = new HashSet<string>(StringComparer.Ordinal);
+        foreach (var entity in entities)
+        {
+            var item = entity as JsonObject ?? throw new InvalidDataException("Сущность должна быть объектом.");
+            RequireExactFields(item, "id", "file", "state", "data");
+            var id = PackageString(item, "id");
+            if (!ids.Add(id) || item["data"] is null)
+                throw new InvalidDataException("Повторная сущность или отсутствующие данные.");
+            if (item["data"] is JsonObject data && data.ContainsKey("id") && data["id"]?.GetValue<string>() != id)
+                throw new InvalidDataException("ID сущности не совпадает с данными.");
+            _ = PackageString(item, "state");
+            var source = PackageString(item, "file");
+            if (!IsSafeSourcePath(source)) throw new InvalidDataException("Источник должен иметь безопасный авторский адрес.");
+            entityPaths.Add(source);
+        }
+        if (!ids.Contains(subject)) throw new InvalidDataException("Данные выбранной сущности отсутствуют.");
+
+        var truncated = manifest["truncated"]?.GetValue<bool>() ?? throw new InvalidDataException("Неверный признак неполноты.");
+        var pendingIds = manifest["pendingDependencyIds"] as JsonArray ?? throw new InvalidDataException("Неверный список незавершённых зависимостей.");
+        var seenPending = new HashSet<string>(StringComparer.Ordinal);
+        foreach (var pending in pendingIds)
+            if (pending?.GetValue<string>() is not { Length: > 0 } pendingId || !seenPending.Add(pendingId))
+                throw new InvalidDataException("Неверный список незавершённых зависимостей.");
+        if (truncated != (pendingIds.Count > 0)) throw new InvalidDataException("Признак неполноты не совпадает со списком зависимостей.");
+
+        var sources = manifest["sources"] as JsonArray ?? throw new InvalidDataException("Список источников должен быть массивом.");
+        if (sources.Count is < 1 or > 200 || sources.Count != entityPaths.Count)
+            throw new InvalidDataException("Список источников не совпадает с файлами сущностей.");
+        var sourcePaths = new HashSet<string>(StringComparer.Ordinal);
+        var sourceRefs = new HashSet<string>(StringComparer.Ordinal);
+        var previewSources = new List<ContextPackageSource>(sources.Count);
+        var expectedPayloadNames = new HashSet<string>(new[] { "manifest.json", "context.txt", "entities.json" }, StringComparer.Ordinal);
+        foreach (var source in sources)
+        {
+            var item = source as JsonObject ?? throw new InvalidDataException("Источник должен быть объектом.");
+            RequireExactFields(item, "path", "baseHash", "currentHash", "baseRef", "currentRef", "isNew", "dirty");
+            var relativePath = PackageString(item, "path");
+            if (!IsSafeSourcePath(relativePath) || !entityPaths.Contains(relativePath) || !sourcePaths.Add(relativePath))
+                throw new InvalidDataException("Источник отсутствует у сущностей, повторяется или имеет небезопасный путь.");
+            var baseHash = PackageNullableString(item, "baseHash");
+            var currentHash = PackageString(item, "currentHash");
+            var baseRef = PackageNullableString(item, "baseRef");
+            var currentRef = PackageString(item, "currentRef");
+            var isNew = item["isNew"]?.GetValue<bool>() ?? throw new InvalidDataException("Неверный признак нового источника.");
+            var dirty = item["dirty"]?.GetValue<bool>() ?? throw new InvalidDataException("Неверный признак черновика.");
+            if (!IsSha256(currentHash) || isNew != (baseHash is null && baseRef is null)
+                || isNew && (baseHash is not null || baseRef is not null)
+                || !isNew && (baseHash is null || baseRef is null || !IsSha256(baseHash)))
+                throw new InvalidDataException("Источник содержит несовместимые данные базовой версии.");
+            if (!IsSafePackageSourceRef(currentRef) || baseRef is not null && !IsSafePackageSourceRef(baseRef))
+                throw new InvalidDataException("Ссылка на исходник должна указывать внутрь пакета.");
+            if (!sourceRefs.Add(currentRef) || baseRef is not null && baseRef != currentRef && !sourceRefs.Add(baseRef))
+                throw new InvalidDataException("Повторная ссылка на файл исходника.");
+            expectedPayloadNames.Add(currentRef);
+            if (baseRef is not null) expectedPayloadNames.Add(baseRef);
+
+            var currentBytes = payloads.TryGetValue(currentRef, out var currentPayload)
+                ? currentPayload : throw new InvalidDataException("Текущий исходник отсутствует в архиве.");
+            var currentText = encoding.GetString(currentBytes);
+            if (!string.Equals(AtomicFile.Sha256(currentBytes), currentHash, StringComparison.Ordinal))
+                throw new InvalidDataException("Хеш текущего исходника не совпадает.");
+            string? baseText = null;
+            if (baseRef is not null)
+            {
+                var baseBytes = payloads.TryGetValue(baseRef, out var basePayload)
+                    ? basePayload : throw new InvalidDataException("Исходная версия отсутствует в архиве.");
+                baseText = encoding.GetString(baseBytes);
+                if (!string.Equals(AtomicFile.Sha256(baseBytes), baseHash, StringComparison.Ordinal)
+                    || (baseRef == currentRef) != baseBytes.AsSpan().SequenceEqual(currentBytes))
+                    throw new InvalidDataException("Хеш или совместное использование исходника не совпадает.");
+            }
+            previewSources.Add(new(relativePath, baseHash, currentHash, baseText, currentText, isNew, dirty));
+        }
+        if (!sourcePaths.SetEquals(entityPaths)) throw new InvalidDataException("Не для каждой сущности передан исходный файл.");
+        if (!payloads.Keys.ToHashSet(StringComparer.Ordinal).SetEquals(expectedPayloadNames))
+            throw new InvalidDataException("Архив содержит неизвестные или неиспользуемые файлы.");
+        ValidateV2Receipts(manifest, payloads);
+        return new ContextPackage(manifest, entities, encoding.GetString(payloads["context.txt"]), true) { Sources = previewSources };
+    }
+
+    private static void ValidateV2Receipts(JsonObject manifest, IReadOnlyDictionary<string, byte[]> payloads)
+    {
+        var receipts = manifest["files"] as JsonArray ?? throw new InvalidDataException("Неверные контрольные суммы.");
+        if (receipts.Count != payloads.Count - 1) throw new InvalidDataException("Список контрольных сумм неполон.");
+        var checkedNames = new HashSet<string>(StringComparer.Ordinal);
+        foreach (var receipt in receipts)
+        {
+            var item = receipt as JsonObject ?? throw new InvalidDataException("Неверная контрольная сумма.");
+            RequireExactFields(item, "path", "bytes", "sha256");
+            var name = PackageString(item, "path");
+            if (name == "manifest.json" || !checkedNames.Add(name) || !payloads.TryGetValue(name, out var bytes)
+                || item["bytes"]?.GetValue<long>() != bytes.LongLength
+                || PackageString(item, "sha256") != AtomicFile.Sha256(bytes))
+                throw new InvalidDataException("Контрольная сумма или размер не совпадает.");
+        }
+        if (!checkedNames.SetEquals(payloads.Keys.Where(name => name != "manifest.json")))
+            throw new InvalidDataException("Список контрольных сумм не совпадает с файлами архива.");
+    }
+
+    private static bool IsSafePackageSourceRef(string path)
+    {
+        if (string.IsNullOrWhiteSpace(path) || !path.StartsWith("sources/", StringComparison.Ordinal)
+            || path.Contains('\\') || path.Contains(':') || path.Any(char.IsControl)) return false;
+        var segments = path.Split('/');
+        return segments.Length == 2 && segments[0] == "sources" && segments[1].EndsWith(".txt", StringComparison.Ordinal)
+            && segments[1].Length > 4 && !segments[1].StartsWith(".", StringComparison.Ordinal)
+            && !segments[1].EndsWith(' ') && !segments[1].EndsWith('.') && segments[1].IndexOfAny("<>\"|?*".ToCharArray()) < 0;
+    }
+
+    private static void RequireExactFields(JsonObject value, params string[] expected)
+    {
+        if (value.Count != expected.Length || value.Any(property => !expected.Contains(property.Key, StringComparer.Ordinal)))
+            throw new InvalidDataException("Структура пакета содержит неизвестные или отсутствующие поля.");
+    }
+
+    private static string? PackageNullableString(JsonObject value, string key) => value[key] is null
+        ? null : value[key]!.GetValue<string>();
+
+    private static System.Text.Json.JsonSerializerOptions PackageJsonOptions() => new()
+    {
+        WriteIndented = true,
+        Encoder = System.Text.Encodings.Web.JavaScriptEncoder.Create(System.Text.Unicode.UnicodeRanges.All)
+    };
 
     private static string PackageString(JsonObject value, string key)
     {

@@ -71326,6 +71326,14 @@
                 "implementation": "Build replacement derived index locally, report every duplicate occurrence with relative sources, remove all ambiguousIDs rather than firstwin; reserve ambiguousIDs in NewId. Reindex immediately after registering nonempty newfile. Explicit entity Set/Delete and changed SetOrder reject ambiguity before authoringPut/Reorder, noops precedeguards; compensation/Undo restoration remains available. Startup/edit/check dialogs show conflicts, manualSave refuses before clean saved shortcut/sourcewrites, autosave drafts preserved. House capture explicitly refuses missing/ambiguous source before fingerprint. Recovery preflights incoming ID collisions before Begin and preserves skipped artifacts. No IDs automatically renamed, files rewritten or second registry created.",
                 "verification": "Root affected Game final compile0/0 and existing test-project compile0/0; targeted ADragIsOneUndoStep/ReorderingIsOneUndoableStepAndKeepsTheFileStyle PASS2/2, diffcheck. Sol6.1medium independent source review accepted after no-op guard placement/recovery collision preflight correction. Read-only JSON-source inspection in existing sourcefolders found no current repeated explicit IDs; not Markdown/runtime proof. No newtests/probes/fixtures.",
                 "remaining": "Actual duplicate ID/recovery/native UI branch not exercised; existingtests prove unchanged ordinary Undo/reorder, not negative ambiguitycases. Same-file duplicate repair bykey is deliberately refused; manual source repair required. Fullsemantic registry/render mapping and typedcontext remaining."
+              },
+              {
+                "stage": "2026-10-11 portable full-source context package slice",
+                "result": "SOURCE_IMPLEMENTED_GAME_COMPILE_PASS_RUNTIME_NOT_RUN",
+                "source": "src-dotnet/Urman.Studio.Core/Storage/AuthoredFile.cs; src-dotnet/Urman.Studio.Core/Handoff/DeveloperContext.cs; game/studio/StudioProperties.cs",
+                "implementation": "Context package schema v2 stores exact loaded baseline and current draft text with separate hashes, safe package-local refs, byte-equal deduplication and complete source-path coverage for included entities. New sources have no baseline. Existing v1 reader remains supported; existing viewer shows full saved/current text read-only. Source capture rejects external disk changes, links and directory collisions. Reader validates bounded strict UTF8/JSON, duplicate fields/entries, refs, source coverage and payload hashes; never extracts files.",
+                "verification": "Five Luna FAST bounded implementation/review assignments and independent Sol6.1medium source review. Affected Game compile 0 warnings/0 errors; diff-check. No new tests, Studio/game/provider/network runs or actual package roundtrip; author pause remains.",
+                "remaining": "This is context-package v2, not AuthoringRequest v2. Typed campaign/camera/targets/protected fields/dependencies, explicit hero recipe consumer and relevant tombstones remain open. Full base+dirty world source may exceed256KiB and is refused without truncation. Reader hashes prove payload integrity/reference association, not authenticity or semantic agreement of entity snapshots with source text. AI05/A07/full native loop not closed."
               }
             ],
             "stage_tasks": [
@@ -71344,19 +71352,19 @@
               ],
               "done_when": "Unsaved объект читаем агентом из пакета; другой checkout разрешает данные; секреты/user saves отсутствуют."
             },
-            "active_owner": null,
+            "active_owner": "codex/b20-2026-10-10",
             "activity": {
-              "state": "paused_by_author",
-              "reason": "Назначение Codex/DeepSeek сохранено; миграция не запускает production и не выдаёт peer-передачу за активную работу."
+              "state": "confirmed_active",
+              "reason": "Portable source snapshot/export only; runtime paused by author."
             },
             "task_type": "aggregate",
-            "status": "todo",
+            "status": "in_progress",
             "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
               "Unsaved объект читаем агентом из пакета; другой checkout разрешает данные; секреты/user saves отсутствуют.; принятые child этапы повторно не разрабатывать."
             ],
-            "next_action": "STUDIO/AI-05/FINISH: Существующая узкая handoff-проверка либо ручное открытие пакета и сравнение payload/hashes; A07.",
+            "next_action": "Finish AuthoringRequest v2 using frozen campaign/selection/targets and explicit recipe source; choose bounded overlay representation for oversized dirty sources before native A07, which remains deferred by author.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
