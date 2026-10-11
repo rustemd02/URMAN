@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json.Nodes;
 using System.Threading.Tasks;
@@ -251,7 +252,7 @@ public partial class Act1ConnectedWorld
         for (var i = 0; i < 5; i++)
         {
             var a = new Vector3(-1.79f + (i % 3) * .17f, .12f + (i / 3) * .17f, .74f);
-            FacilityRod(bath, "BathDryFirewood" + i, a, a + new Vector3(0, 0, .55f), .075f, "987344");
+            BathFirewoodRod(bath, "BathDryFirewood" + i, a, a + new Vector3(0, 0, .55f), .075f, "987344");
         }
         FacilitySolid(bath, "BathWoodRackBottom", new(.64f, .065f, .67f), new(-1.54f, .037f, 1.03f), "3d3024", "wood");
         FacilitySolid(bath, "BathMatchShelf", new(.42f, .025f, .18f), new(-1.86f, 1.37f, .89f), "45372a", "wood");
@@ -270,6 +271,82 @@ public partial class Act1ConnectedWorld
         _facilityLights.Add(_bathFireLight);
         _bathSteam = BathMist("BathSteam", new(-1.32f, 1.08f, -1.04f), 28, 2.6f, .21f, new Color(.81f, .82f, .75f, .18f));
         _bathSmoke = BathMist("BathChimneySmoke", new(-1.58f, 3.95f, -1.31f), 12, 4f, .32f, new Color(.44f, .45f, .43f, .22f));
+    }
+
+    private static MeshInstance3D BathFirewoodRod(Node3D parent, string name, Vector3 a, Vector3 b, float radius, string color)
+    {
+        var delta = b - a;
+        var cylinder = new CylinderMesh
+        {
+            TopRadius = radius, BottomRadius = radius, Height = delta.Length(), RadialSegments = 20, Rings = 1
+        };
+        using var source = cylinder.SurfaceGetArrays(0);
+        var vertices = source[(int)Mesh.ArrayType.Vertex].AsVector3Array();
+        var normals = source[(int)Mesh.ArrayType.Normal].AsVector3Array();
+        var sourceUvs = source[(int)Mesh.ArrayType.TexUV].AsVector2Array();
+        var indices = source[(int)Mesh.ArrayType.Index].AsInt32Array();
+        if (indices.Length == 0) indices = Enumerable.Range(0, vertices.Length).ToArray();
+
+        var side = new BathFirewoodSurface();
+        var endGrain = new BathFirewoodSurface();
+        var circumference = Mathf.Tau * radius;
+        for (var triangle = 0; triangle < indices.Length; triangle += 3)
+        {
+            var i0 = indices[triangle];
+            var i1 = indices[triangle + 1];
+            var i2 = indices[triangle + 2];
+            var faceNormal = (vertices[i1] - vertices[i0]).Cross(vertices[i2] - vertices[i0]).Normalized();
+            var n0 = normals.Length == vertices.Length ? normals[i0] : faceNormal;
+            var n1 = normals.Length == vertices.Length ? normals[i1] : faceNormal;
+            var n2 = normals.Length == vertices.Length ? normals[i2] : faceNormal;
+            var isEnd = Math.Abs((n0 + n1 + n2).Normalized().Y) > .9f;
+            var surface = isEnd ? endGrain : side;
+            foreach (var index in new[] { i0, i1, i2 })
+            {
+                var point = vertices[index];
+                var normal = normals.Length == vertices.Length ? normals[index] : faceNormal;
+                var uv = isEnd
+                    ? new Vector2(.5f + point.X / (2f * radius), .5f + point.Z / (2f * radius))
+                    : new Vector2((sourceUvs.Length == vertices.Length ? sourceUvs[index].X :
+                        (Mathf.Atan2(point.Z, point.X) + Mathf.Pi) / Mathf.Tau) * circumference, point.Y);
+                surface.Add(point, normal, uv);
+            }
+        }
+
+        var mesh = new ArrayMesh();
+        side.Commit(mesh, "SplitWoodSides", PainterlyMaterialLibrary.ForColor(color, "wood_split_uv", sheltered: true));
+        endGrain.Commit(mesh, "CutWoodEnds", PainterlyMaterialLibrary.ForColor(color, "wood_cut", sheltered: true));
+        var instance = new MeshInstance3D { Name = name, Position = (a + b) * .5f, Mesh = mesh };
+        parent.AddChild(instance);
+        instance.Quaternion = new Quaternion(Vector3.Up, delta.Normalized());
+        return instance;
+    }
+
+    private sealed class BathFirewoodSurface
+    {
+        private readonly List<Vector3> _vertices = new();
+        private readonly List<Vector3> _normals = new();
+        private readonly List<Vector2> _uvs = new();
+
+        internal void Add(Vector3 vertex, Vector3 normal, Vector2 uv)
+        {
+            _vertices.Add(vertex);
+            _normals.Add(normal);
+            _uvs.Add(uv);
+        }
+
+        internal void Commit(ArrayMesh mesh, string name, Material material)
+        {
+            var arrays = new global::Godot.Collections.Array();
+            arrays.Resize((int)Mesh.ArrayType.Max);
+            arrays[(int)Mesh.ArrayType.Vertex] = _vertices.ToArray();
+            arrays[(int)Mesh.ArrayType.Normal] = _normals.ToArray();
+            arrays[(int)Mesh.ArrayType.TexUV] = _uvs.ToArray();
+            mesh.AddSurfaceFromArrays(Mesh.PrimitiveType.Triangles, arrays);
+            var surface = mesh.GetSurfaceCount() - 1;
+            mesh.SurfaceSetName(surface, name);
+            mesh.SurfaceSetMaterial(surface, material);
+        }
     }
 
     private void BuildBathCondensation()

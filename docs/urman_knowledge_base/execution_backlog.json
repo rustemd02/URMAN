@@ -5864,22 +5864,28 @@
             "title": "Подключить W11 — Расколотые дрова и рукояти",
             "result": "Подключить W11 — Расколотые дрова и рукояти",
             "owner": "art/materials/qa",
-            "evidence": [],
+            "evidence": [
+              "11.10.2026 source stage: BathDryFirewood0..4 preserve CylinderMesh triangles/normals/names/transforms and logsRemaining predicate; sides use cached wood_split_uv at 2/m, caps centered wood_cut. Affected .tools/dotnet build game/Urman.Game.csproj --no-restore --disable-build-servers: 0 warnings, 0 errors (23.04s); CS0234 qualification fixed before successful retry. No native frame/game/art PASS."
+            ],
             "assigned_owner": "art/materials/qa",
             "active_owner": null,
             "activity": {
-              "state": "not_active",
-              "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+              "state": "stopped",
+              "reason": "11.10: live bath W11 source stage and affected compile 0/0 finished; root released source files. Native view pending snapshot-transfer approval; child remains partial."
             },
             "task_type": "engineering",
-            "status": "todo",
+            "status": "in_progress",
             "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
-              "Подключить W11 — Расколотые дрова и рукояти; собственного целевого receipt пока нет."
+              "One protected close Windows view of BathDryFirewood0..4 after explicit snapshot-transfer approval; inspect axial W11 and centered wood_cut caps.",
+              "Other W11 handles/portable wood consumers and full child DoD remain open."
             ],
-            "next_action": "Сопоставить текущий результат: Подключить W11 — Расколотые дрова и рукояти. Затем изменить только установленный остаток.",
-            "blocker": null,
+            "next_action": "After snapshot-transfer approval, capture bath_firewood:BabaiBathhouse@0,0.8,1.8>BabaiBathhouse@-1.54,0.28,1.03 --fov 50; review actual image and protected receipt, then address other W11 consumers.",
+            "blocker": {
+              "reason": "Auto-review denied remote-check snapshot transfer to UNTERPC; explicit transfer-approval question pending. Source work and local compilation completed.",
+              "release_when": "Author explicitly approves sending the URMAN checkout snapshot to UNTERPC through eng/remote-check.py."
+            },
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
             "work_contract": {
@@ -5888,9 +5894,15 @@
                 "game/assets/textures/painterly/README.md",
                 "assets/asset_registry.json",
                 "docs/urman_knowledge_base/art/urman_imagegen_texture_prompt_book_2026-09-22.md",
-                "docs/urman_knowledge_base/assets.md"
+                "docs/urman_knowledge_base/assets.md",
+                "game/scripts/Act1ConnectedWorld.Bathhouse.cs",
+                "game/scripts/PainterlyMaterialLibrary.cs"
               ],
-              "required_inputs": [],
+              "required_inputs": [
+                "game/assets/textures/painterly/wood_split_firewood_v1_albedo.png",
+                "game/scripts/Act1ConnectedWorld.MosqueInterior.cs: FacilityRod (read-only)",
+                "game/scripts/Act1ConnectedWorld.Exploration.cs: DiscoveryCylinder (read-only)"
+              ],
               "scope_in": [
                 "Подключить W11 — Расколотые дрова и рукояти"
               ],
@@ -5908,18 +5920,14 @@
               ],
               "verification": {
                 "method": "targeted_runtime_scenario",
-                "question": "Подключить W11 — Расколотые дрова и рукояти",
+                "question": "On actual BathDryFirewood0..4, do W11 fibres follow the 0.55m log axis while growth rings stay on caps, with existing log-stock visibility unchanged?",
                 "scenario": {
                   "targets": [
-                    "game/assets/textures/painterly/README.md",
-                    "assets/asset_registry.json",
-                    "docs/urman_knowledge_base/art/urman_imagegen_texture_prompt_book_2026-09-22.md",
-                    "docs/urman_knowledge_base/assets.md"
+                    "BabaiBathhouse/BathDryFirewood0..4"
                   ],
                   "actions": [
-                    "Сопоставить текущий Подключить W11 — Расколотые дрова и рукояти с указанным источником/consumer.",
-                    "Внести только отсутствующую часть этого результата у существующего владельца.",
-                    "Выполнить указанную узкую проверку, сохранить фактический результат и остановиться."
+                    "One protected close capture: bath_firewood:BabaiBathhouse@0,0.8,1.8>BabaiBathhouse@-1.54,0.28,1.03 (FOV 50), after snapshot-transfer approval.",
+                    "Inspect W11 axial grain and wood_cut caps; compare preserved geometry/transforms and UpdateBathPresentation log-stock predicate in source."
                   ],
                   "observations": [
                     "Подключить W11 — Расколотые дрова и рукояти выполнено у указанных targets и используется реальным потребителем.",
@@ -5928,8 +5936,7 @@
                   "bound": "Только этот объект/контракт на одном named candidate; asset import или affected compile лишь при изменении соответствующего источника, human approval отдельно."
                 },
                 "success": [
-                  "Подключить W11 — Расколотые дрова и рукояти выполнено у указанных targets и используется реальным потребителем.",
-                  "Проверка данного объекта/действия и сохранности связанного состояния записана; соседние объекты не выданы за проверенные."
+                  "Affected compile succeeds; actual bath close frame shows correct side grain/end caps; protected receipt confirms user-data restoration/no engine errors. Other W11 consumers are not claimed covered."
                 ],
                 "repeat_only_if": "Изменился покрываемый вход/consumer/контракт; без этого уже принятая проверка используется повторно без запуска."
               },
@@ -71366,7 +71373,32 @@
                 "implementation": "Pilot request optionally carries two fixed allowlisted immutable source records: selected world entity fragment and whole parsed recipe. Each includes actual path/entity key/full-file saved/current hashes; world key and mandatory data.id match request entity, recipe key/entityId and saved hash required. JsonElement data is detached by cloning; collection readonly copied. World missing saved base represented null. Capture uses no-links/disk-change guards and same frozen recipe text. Whole serialized request and complete direct/manual prompt capped256KiB before provider process/send. Prompt explicitly separates full-file hash metadata from fragment data and rejects following source instructions or reading paths. Canonical Fingerprint now invokes world CaptureSource, so later uncommitted external disk edits fail import/Apply instead of matching stale in-memory data.",
                 "verification": "Five Luna FAST bounded implementation/research assignments plus independent Sol6.1medium final source review accepted. Root affected Game compile0 warnings/0 errors and diff-check. No tests/provider/Studio/game/Blender/native runs.",
                 "remaining": "Source metadata is provenance/integrity context, not authentication or a hash of entity fragments. Full AuthoringRequestv2 project/campaign/camera/typed dependency/scope/protected-field envelope and native exact Apply/Undo remain open; legacy sourcesnull requests remain compatible."
-              }
+              },
+              {
+                "stage": "2026-10-11 fixed house AuthoringRequest v2 envelope",
+                "result": "SOURCE_IMPLEMENTED_GAME_COMPILE_PASS_NATIVE_NOT_RUN",
+                "source": "src-dotnet/Urman.Studio.Core/AI/AuthoringRequestV2.cs; AI/HouseWindowProposal.cs; AI/CodexProposalProvider.cs; Handoff/DeveloperContext.cs; game/studio/StudioAiPanel.cs; StudioWorldSection.cs",
+                "implementation": "Fixed pilot now serializes schemaVersion2 envelope with actual chapter1/act1_demo/village_day/arrival context resolved from existing catalog and Play route, real live camera/viewport, frozen entity/part scope and targetSetHash, curated source payloads, ordered dependency hashes, capability and protected-field/rules constraints. SnapshotHash is SHA256 of canonical envelope with project.snapshotHash empty, separate source fingerprint retained for CAS. Actual campaign/scene/loader dependencies join generation inputs; import/Apply compare current dependency disk hashes and no-links before proceeding. Direct prompt, clipboard, durable job and staged request.json share canonical SerializeRequest; environment-null legacy callers retain flat request serialization and existing proposal schema. Resource read set includes sources/dependencies; write set names actual recipe plus request-ID-specific generated GLB/Blend/manifest, existing shared source assets remain read-only.",
+                "verification": "Five personal Luna FAST/Max bounded implementation/caller reviews plus independent GPT6.1Sol medium source review. Root affected Game compile 0 warnings/0 errors after fixing record helper Clone reserved-name CS8859; diff-check. No tests, probes, provider requests, Studio/game/Blender launches.",
+                "remaining": "This is the fixed house pilot, not all generic AuthoringRequest v2 domains. Generic typed dependency traversal/dirty overlays for campaign inputs, new-object/tombstone scopes, complete human payload summary and native A07/A12 acceptance remain open. Camera carries numeric state without viewport image. Full Studio preview/Apply/game/byte-exact Undo still not verified under author runtime pause."
+              },
+              {
+                "stage": "2026-10-11 human disclosure and frozen request reuse",
+                "result": "SOURCE_IMPLEMENTED_GAME_COMPILE_PASS_NATIVE_NOT_RUN",
+                "source": "src-dotnet/Urman.Studio.Core/AI/AuthoringRequestV2.cs; Handoff/DeveloperContext.cs; game/studio/StudioAiPanel.cs",
+                "implementation": "Existing file actions now open readonly human composition plus full canonical v2 JSON. Describe derives from Serialize, showing exact entity/part IDs, campaign/world/state/scene/zone/spawn, numeric camera without image, byte differences against Studio-load baseline, curated fragments/full recipe, dependency paths+hashes without contents, and actual Studio Apply write paths. Direct Codex instruction policy is disclosed separately from JSON; manual recipient policy is explicitly unknown. Disclosure reuses unchanged prepared request, announces stale refreshes, and Ask/Copy/Save reuse same immutable input. Before send/export/import: prompt/scope/selection/source/dependency freshness guards remain; direct send also checks disclosed instruction policy. Failed/cancelled attempted jobs and successful Apply retire request IDs, preserving immutable artifacts. Repeat Save returns existing export only on length-bounded exact byte equality; different content is never overwritten. Existing preview is retained until Apply; direct re-request disabled while proposal exists.",
+                "verification": "Five personal Luna FAST/Max bounded implementation/read-only tasks and independent GPT6.1Sol medium source review. Root final affected Game compile 0 warnings/0 errors, diff-check. No tests/probes/provider/game/Studio/Blender launches.",
+                "remaining": "Actual dialog layout/accessibility/performance and native disclosure/send/preview/Apply/Undo not exercised under author runtime pause. Fixed pilot only; general typed references/truncation/new-object/tombstones and full context export acceptance remain open."
+              },
+              {
+                "stage": "2026-10-11 package completeness consistency",
+                "result": "SOURCE_IMPLEMENTED_GAME_COMPILE_PASS_NATIVE_NOT_RUN",
+                "source": "src-dotnet/Urman.Studio.Core/Handoff/DeveloperContext.cs",
+                "implementation": "V2/v3 source-package reader seeds pendingDependencyIds uniqueness set with included entity IDs, rejecting overlap with subject or any appended entity. This enforces writer BFS invariant: discovered pending IDs are not already attached. Current schema3 discovery marker remains honestly legacy-id-shaped-strings.",
+                "verification": "Luna bounded reader/producer source review and independent Sol6.1medium final review; affected Game compile0/0 and diff-check. No tests/probes/native runs.",
+                "remaining": "Typed-reference graph absent as a shared API: current owner ManifestClosureValidator contains partial validated asset/text refs, while conditions/effects and world/custom domains require explicit coverage. No fake typed marker or closure-complete claim added."
+              },
+              "STUDIO/AI-05/FINISH.evidence"
             ],
             "stage_tasks": [
               "STUDIO.P6"
@@ -71384,10 +71416,10 @@
               ],
               "done_when": "Unsaved объект читаем агентом из пакета; другой checkout разрешает данные; секреты/user saves отсутствуют."
             },
-            "active_owner": "codex/b20-2026-10-10",
+            "active_owner": null,
             "activity": {
-              "state": "confirmed_active",
-              "reason": "Portable source snapshot/export only; runtime paused by author."
+              "state": "aggregate_parent",
+              "reason": "Source execution is STUDIO/AI-05/FINISH; parent aggregates historical source stages and full unmet DoD."
             },
             "task_type": "aggregate",
             "status": "in_progress",
@@ -71396,7 +71428,7 @@
             "remaining": [
               "Unsaved объект читаем агентом из пакета; другой checkout разрешает данные; секреты/user saves отсутствуют.; принятые child этапы повторно не разрабатывать."
             ],
-            "next_action": "Finish full AuthoringRequest v2 project/campaign/camera, typed dependencies, scope hashes and protected-field envelope; actual sources and per-window measurements are now supplied by pilot. Native A07/A12 deferred by author.",
+            "next_action": "Continue source implementation in existing STUDIO/AI-05/FINISH; full native/context DoD remains open.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -71556,21 +71588,65 @@
                   "title": "Поручение включает новый/грязный объект и точный scope без лишних данных",
                   "result": "Поручение включает новый/грязный объект и точный scope без лишних данных",
                   "owner": "codex/b20-2026-10-10",
-                  "evidence": [],
+                  "evidence": [
+                    {
+                      "stage": "2026-10-11 shared typed module reference capture and context package v4",
+                      "result": "SOURCE_IMPLEMENTED_GAME_COMPILE_PASS_NATIVE_NOT_RUN",
+                      "source": "src-dotnet/Urman.Content/Resolvers/ManifestClosureValidator.cs; Resolvers/ResolverModels.cs; src-dotnet/Urman.Studio.Core/Handoff/DeveloperContext.cs; game/studio/StudioProperties.cs",
+                      "implementation": "Existing ManifestClosureValidator now owns field-specific ContentReference extraction (JSON pointer, target category/ID, optional audio kind). Its Validate and Studio package traversal consume one API. Known seven module source categories include existing asset accessibility/text, character assets, scene assets/text, document assets, capability assets/audio, dialogue node/choice text and quest title/objective text. Package BFS no longer discovers dependencies from arbitrary strings. It checks canonical target-ID category before resolution, records missing/unresolvable refs, and marks unsupported source entities. Schema4 portable context retains source/hash/UTF8/splice budgets and emits partial-typed-module-fields-v1, referenceCoverageComplete=false, missingDependencyIds and unsupportedEntityIds. Reader validates exact fields and set relationships; v1-v3 legacy reading preserved. Viewer and readable context explicitly disclose partial coverage separately from cap truncation. Resolver failures include actual source path/ID provenance in handoff.",
+                      "verification": "Five Luna FAST/Max bounded owner/consumer/caller reviews plus independent GPT6.1Sol medium integration review. Root affected Game compile0 warnings/0 errors, diff-check and tracker schema validation. No tests/probes/provider/Studio/game/Blender/runtime runs.",
+                      "remaining": "Typed graph still partial: document knowledgeRefs, nested scene interactions, conditions/effects, knowledge/vocabulary and campaign/custom/game domains need schema-backed coverage; physical file/schema dependencies and new/tombstone scope remain open. V4 integrity checks establish metadata structure and byte integrity, not semantic graph completeness or authenticity. Native A07/AI12 unchanged and deferred by author."
+                    },
+                    {
+                      "stage": "2026-10-11 nested scene and document typed references",
+                      "result": "SOURCE_IMPLEMENTED_GAME_COMPILE_PASS_NATIVE_NOT_RUN",
+                      "source": "src-dotnet/Urman.Content/Resolvers/ManifestClosureValidator.cs; src-dotnet/Urman.Studio.Core/Handoff/DeveloperContext.cs; game/studio/StudioProperties.cs",
+                      "implementation": "Shared field extractor now reads scene interactions labelTextId and optional targetSceneId/targetDialogueId/targetDocumentId/targetJournalEntryId with exact pointers and typed registry targets; document knowledgeRefs resolves knowledge. Missing optional targets are skipped; present malformed targets fail existing RequiredString. Existing resolver and context BFS consume the same fields. Context writer uses partial-typed-module-fields-v2; reader accepts both v1/v2 markers for schema4. Knowledge remains a terminal target, explicit incomplete coverage remains false. Viewer distinguishes both coverage versions.",
+                      "verification": "Root affected Game compile: 0 warnings/0 errors. Luna bounded source/schema/consumer reviews and independent GPT6.1Sol medium final review found no concrete defects. No tests/probes/provider/Studio/game/Blender/runtime runs.",
+                      "remaining": "Knowledge/vocabulary source refs, conditions/effects, campaign/game/custom domains, physical dependencies and new/tombstone scope remain uncovered. Native unsaved cross-checkout A07 and AI12 window request/preview/Apply/game/Undo acceptance remain deferred by author."
+                    },
+                    {
+                      "stage": "2026-10-11 knowledge and vocabulary canonical ContentId arrays",
+                      "result": "SOURCE_IMPLEMENTED_GAME_COMPILE_PASS_NATIVE_NOT_RUN",
+                      "source": "src-dotnet/Urman.Content/Resolvers/ResolverCatalog.cs; src-dotnet/Urman.Content/Resolvers/ManifestClosureValidator.cs; src-dotnet/Urman.Studio.Core/Handoff/DeveloperContext.cs; game/studio/StudioProperties.cs",
+                      "implementation": "Known knowledge sourceIds/reveals/contradicts/unlocks and vocabulary rereadTargets/applicationTargets are read as required ContentId arrays. Target category derives from existing ResolverCatalog canonical ID regex/category map, not an invented field-specific registry constraint. Unknown/malformed kinds fail with exact pointer. Shared closure validation and Studio BFS consume these refs; knowledge/vocabulary sources now traversed, vocabulary targets supported. Writer marker v3; schema4 reader preserves v1/v2 and adds v3. Readable context/viewer continue to disclose partial graph and absence of per-field semantic rules.",
+                      "verification": "Root affected Game compile: 0 warnings/0 errors; diff-check and tracker validate passed. Luna source/schema/consumer reviews plus independent GPT6.1Sol medium review found no concrete blockers. No tests/probes/content compiler/provider/Studio/game/Blender/runtime runs.",
+                      "remaining": "Conditions/effects, game/campaign/custom and physical file dependencies remain uncovered. Canonical known-registry references are checked, not semantic per-field target permissions. Native A07 and AI12 window/Codex/Apply/game/Undo acceptance remain deferred by author."
+                    },
+                    {
+                      "stage": "2026-10-11 exact frozen group context export",
+                      "result": "SOURCE_IMPLEMENTED_GAME_COMPILE_PASS_NATIVE_NOT_RUN",
+                      "source": "src-dotnet/Urman.Studio.Core/Handoff/DeveloperContext.cs; game/studio/StudioProperties.cs; game/studio/StudioWorldSection.cs",
+                      "implementation": "Existing context text/export now accepts frozen ordered roots; legacy single-ID callers remain. All 1-200 unique live roots seed BFS before dependencies and cannot be displaced by cap200. Package schema5 carries scopeEntityIds distinct from dependency entities; reader enforces exact fields, unique included ordered roots, primary-first prefix, receipt/UTF8/splice/budget rules and legacy schema1-4. World context action uses exact group snapshot including single-member groups; a primary selection outside the group is never appended (Shift-click can create this state). Missing/ambiguous/stale/oversize roots refuse complete export; UI preview/Copy/Save handles failures without scope fallback. Read-only package viewer shows selected roots separately. This is context export, not a generic AI Apply/write permission or a frozen house request package.",
+                      "verification": "Five Luna FAST/Max bounded investigations/implementation reviews and independent GPT6.1Sol medium final delta review. Root affected Game compile0 warnings/0 errors; no tests/probes/content compiler/provider/Studio/game/Blender/runtime runs.",
+                      "remaining": "Native group/package A07 acceptance still deferred. Fullfile baseline/current snapshots carry unrelated sibling context under existing budget; not an apply payload. Tombstone-only source paths are not represented (deleted last Markdown target is only missingDependencyId); conditions/effects/game/physical deps and generic AuthoringRequestV2 remain open."
+                    },
+                    {
+                      "stage": "2026-10-11 relevant loaded-baseline tombstone sources",
+                      "result": "SOURCE_IMPLEMENTED_GAME_COMPILE_PASS_NATIVE_NOT_RUN",
+                      "source": "src-dotnet/Urman.Studio.Core/Storage/AuthoredFile.cs; src-dotnet/Urman.Studio.Core/Handoff/DeveloperContext.cs; game/studio/StudioProperties.cs",
+                      "implementation": "AuthoredFile exposes filesystem-free baseline/current entity-ID comparison using existing JSON/Markdown parsers. Schema6 context includes proven deleted missing-dependency IDs and their full baseline/current source snapshots, including an emptied sole Markdown entity. Tombstones are separate from scope/live/pending; moved/re-added/ambiguous IDs are not silently claimed as deletions. Reader requires exact fields, unique missing tomb IDs, safe exact source-path union, exactly one baseline ID at declared path, absence across current included snapshots. Existing source200/entry403/256KiB/UTF8/hash/splice rules and readers1-5 preserved. Shared ValidateTombstoneSnapshots is used by writer before any archive write and reader; duplicate current IDs among included sibling source entities reject both sides. Sources captured once. Readable text and viewer distinguish loaded-base deletion from missing payload and warn that full source includes sibling context; viewing remains read-only.",
+                      "verification": "Five Luna FAST/Max bounded source work/reviews plus independent GPT6.1Sol medium final reviews. Root final affected Game compile0 warnings/0 errors; diff-check and tracker validate PASS. No tests/probes/content compiler/provider/Studio/game/Blender/runtime runs.",
+                      "remaining": "Only relevant missing dependencies deleted relative to loaded Workspace baseline are represented; not persisted Git deletion history, generic RequestV2 tombstone/Apply/revalidation authorization, or complete graph. Portable reader checks included snapshots only, not omitted filesystem. Native A07/A08/AI12 remain deferred by author."
+                    }
+                  ],
                   "assigned_owner": "codex/b20-2026-10-10",
-                  "active_owner": null,
+                  "active_owner": "codex/b20-2026-10-10",
                   "activity": {
-                    "state": "paused_by_author",
-                    "reason": "Назначение Codex/DeepSeek сохранено; миграция не запускает production и не выдаёт peer-передачу за активную работу."
+                    "state": "confirmed_active",
+                    "reason": "Existing bounded context unit resumed for source implementation under live B20 mandate; runtime remains deferred by author.",
+                    "verification_question": "Do relevant deleted-ID tombstones carry their loaded source base/current snapshot, remain distinct from missing/live/target IDs, reject ambiguity/moves/oversize and preserve package1-5 integrity/readback? Source/affected compile only, no native A07/A08."
                   },
                   "task_type": "engineering",
-                  "status": "todo",
-                  "implementation_state": "not_started",
+                  "status": "in_progress",
+                  "implementation_state": "partial",
                   "technical_verification_state": "not_run",
                   "remaining": [
-                    "Поручение включает новый/грязный объект и точный scope без лишних данных; отсутствует подтверждение собственного конечного DoD, перечисленного ниже."
+                    "Extend schema-backed reference coverage to omitted narrative/game domains and physical resource dependencies.",
+                    "Run actual unsaved-object/other-checkout payload/hash A07 acceptance after runtime pause is lifted.",
+                    "Verify relevant deleted-ID/tombstone source transport natively; extend generic RequestV2 and A08 revalidation without resurrecting deleted targets. Loaded baseline snapshots do not establish persisted deletion history."
                   ],
-                  "next_action": "Поручение включает новый/грязный объект и точный scope без лишних данных",
+                  "next_action": "Continue generic snapshot/request applicability and omitted physical dependencies using existing contracts; keep native A07/A08/AI12 deferred until author resumes launches.",
                   "blocker": null,
                   "external_gates": [],
                   "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -71608,7 +71684,7 @@
                       "success": "Выполнены все перечисленные собственные критерии, без расширения на родителя.",
                       "repeat_only_if": "Изменился source/candidate/input/покрываемый контракт."
                     },
-                    "actual_result": null,
+                    "actual_result": "Partial typed module dependencies, frozen exact roots and loaded-baseline missing-dependency tombstone source snapshots implemented with package6/shared producer-reader validation. Native A07/A08, full graph and generic RequestV2 applicability remain open.",
                     "evidence_refs": []
                   },
                   "dependencies": {
@@ -71706,11 +71782,11 @@
             },
             "active_owner": null,
             "activity": {
-              "state": "paused_by_author",
-              "reason": "Назначение Codex/DeepSeek сохранено; миграция не запускает production и не выдаёт peer-передачу за активную работу."
+              "state": "aggregate_parent",
+              "reason": "Live Windows Codex bootstrap source stage tracked by STUDIO/AI-06/FINISH; full provider readiness remains open."
             },
             "task_type": "aggregate",
-            "status": "todo",
+            "status": "in_progress",
             "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
@@ -71887,21 +71963,48 @@
                   "title": "У каждого автора виден реальный безопасный статус своего провайдера",
                   "result": "У каждого автора виден реальный безопасный статус своего провайдера",
                   "owner": "codex/b20-2026-10-10",
-                  "evidence": [],
+                  "evidence": [
+                    {
+                      "stage": "2026-10-11 one-command Windows native Codex bootstrap",
+                      "result": "SOURCE_REVIEWED_WINDOWS_EXECUTION_NOT_RUN",
+                      "source": "eng/setup-studio-codex-windows.ps1",
+                      "implementation": "Single user-run script installs Node LTS via winget if npm.cmd missing, installs Codex CLI or reuses existing native exe, copies native bundle into LocalAppData/Programs/OpenAI/Codex/bin supported by existing adapter, adds directory once preserving user PATH and verifies native version/login ChatGPT. All native exit codes checked; Windows PowerShell 5.1-safe stderr capture for login status. No auth/token files read/copied, provider config edited, station restart or game/Studio launches.",
+                      "verification": "Luna FAST/Max implementation, root source inspection/fixes and independent GPT6.1Sol medium review; diff-check PASS. No Windows installer execution, provider call or tests.",
+                      "remaining": "Windows owner must run script and complete browser authentication. Station readiness, native Studio control, Blender generation and full provider readiness/AI12 acceptance still unverified."
+                    },
+                    {
+                      "stage": "2026-10-11 restrict Windows bootstrap source directory",
+                      "result": "SOURCE_REVIEWED_WINDOWS_EXECUTION_NOT_RUN",
+                      "source": "eng/setup-studio-codex-windows.ps1",
+                      "implementation": "Confirmed arbitrary PATH codex.exe could copy an entire shared WindowsApps/.cargo/bin directory. Bootstrap now reuses only its managed per-user Codex installation and otherwise installs via npm; only native package directory found beneath global @openai is copied. User PATH and existing auth/config remain preserved.",
+                      "verification": "Luna FAST/Max bounded source fix and independent GPT6.1Sol medium review; diff-check PASS. Windows script execution/install/login not run.",
+                      "remaining": "Owner authentication and actual station/Codex/Blender/Studio readiness remain unverified."
+                    },
+                    {
+                      "stage": "2026-10-11 repair incomplete Windows native package",
+                      "result": "SOURCE_REVIEWED_WINDOWS_REPAIR_NOT_RUN",
+                      "source": "eng/setup-studio-codex-windows.ps1",
+                      "observed": "Owner reports Done/native codex-cli0.162.1/ChatGPT sign-in confirmed, then bare managed exe fails with no complete local package. Version/login checks proved authentication but not full interactive package readiness.",
+                      "implementation": "Replace npm native-folder copying with official OpenAI standalone installer in child PowerShell. Exact managed ordinary bin preserved in GUID sibling backup; official junction untouched. Child exit/executable checked, temporary CODEX_INSTALL_DIR restored, backup restored on install failure only if target absent and retained otherwise. Print backup path immediately. Existing ChatGPT login status skips new login; auth/config not moved.",
+                      "verification": "Official OpenAI scripts/install/install.ps1 source inspected for package layout, default managed path and Ensure-Junction limitations. Luna implementation, independent Luna and Sol6.1medium source review; diff-check/tracker validation. No installer/provider/model/Studio/game execution. Remote doctor with valid certifi CA verified UNTERPCready, interactive, no busy job; credentials not exposed.",
+                      "remaining": "Owner reruns corrected one-command bootstrap to verify full package. Actual Studio app-server request/preview/Apply/game/Undo and per-author provider status acceptance remain unverified."
+                    }
+                  ],
                   "assigned_owner": "codex/b20-2026-10-10",
-                  "active_owner": null,
+                  "active_owner": "codex/b20-2026-10-10",
                   "activity": {
-                    "state": "paused_by_author",
-                    "reason": "Назначение Codex/DeepSeek сохранено; миграция не запускает production и не выдаёт peer-передачу за активную работу."
+                    "state": "confirmed_active",
+                    "reason": "Owner confirms ChatGPT login but actual bare CLI exposed incomplete package. Source repair delegates to official standalone installer; Windows repair execution pending.",
+                    "verification_question": "Does bootstrap delegate complete package provisioning to official standalone installer, check child exit code and restore environment, preserving existing ChatGPT login and config? Source review; no Windows execution."
                   },
                   "task_type": "engineering",
-                  "status": "todo",
-                  "implementation_state": "not_started",
+                  "status": "in_progress",
+                  "implementation_state": "partial",
                   "technical_verification_state": "not_run",
                   "remaining": [
                     "У каждого автора виден реальный безопасный статус своего провайдера; отсутствует подтверждение собственного конечного DoD, перечисленного ниже."
                   ],
-                  "next_action": "У каждого автора виден реальный безопасный статус своего провайдера",
+                  "next_action": "Owner reruns corrected one-command bootstrap; verify complete native CLI package and Studio provider lifecycle on station, then continue full AI06 acceptance.",
                   "blocker": null,
                   "external_gates": [],
                   "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -72990,11 +73093,11 @@
             },
             "active_owner": null,
             "activity": {
-              "state": "paused_by_author",
-              "reason": "Назначение Codex/DeepSeek сохранено; миграция не запускает production и не выдаёт peer-передачу за активную работу."
+              "state": "aggregate_parent",
+              "reason": "Source stale prompt/freshness stage is recorded in existing STUDIO/AI-10/FINISH.evidence; full parent A08/native acceptance remains open and runtime deferred."
             },
             "task_type": "aggregate",
-            "status": "todo",
+            "status": "in_progress",
             "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
@@ -73161,21 +73264,63 @@
                   "title": "Одна проверенная группа правок применяется/отменяется без порчи чужих изменений",
                   "result": "Одна проверенная группа правок применяется/отменяется без порчи чужих изменений",
                   "owner": "codex/b20-2026-10-10",
-                  "evidence": [],
+                  "evidence": [
+                    {
+                      "stage": "2026-10-11 retire proposal when visible prompt changes",
+                      "result": "SOURCE_IMPLEMENTED_GAME_COMPILE_PASS_NATIVE_NOT_RUN",
+                      "source": "game/studio/StudioAiPanel.cs; src-dotnet/Urman.Studio.Core/AI/AuthoringRequestV2.cs",
+                      "implementation": "Confirmed stale path allowed editing visible prompt after proposal and applying old staged output. Prompt now readonly while busy; nonbusy edits differing from frozen prompt clear preview/proposal/stage and invalidate prepared request/disclosure. Apply reuses complete existing EnsurePreparedRequestCurrent selection/scope/prompt/source/dependency guard before stage validation and existing file CAS transaction. Existing Save/Copy/provider already embed same canonical input; no duplicate ZIP/export flow added. Disclosure now distinguishes world Workspace-load baseline from freshly loaded recipe at request capture.",
+                      "verification": "Luna bounded request/consumer/stale lifecycle source inspections plus independent GPT6.1Sol medium final review found no concrete blockers. No tests/probes/provider/Studio/game/Blender/runtime runs. Root affected Game compile0 warnings/0 errors, diff-check and tracker schema validate PASS.",
+                      "remaining": "Full generic scope/conflict/disjoint/double-apply A08 contract remains unverified; this fixes current house-pilot stale prompt only. Durable response exists after generation failure but has no job resume reader; a later recovery slice is required. Native AI12 window request/preview/Apply/game/Undo remains deferred."
+                    },
+                    {
+                      "stage": "2026-10-11 same-session local preview rebuild without new model call",
+                      "result": "SOURCE_IMPLEMENTED_GAME_COMPILE_PASS_NATIVE_NOT_RUN",
+                      "source": "game/studio/StudioAiPanel.cs",
+                      "implementation": "Initial accepted proposal is validated and durably stored before local build. A local generation/preview failure retains only a visible/current validated proposal, clears partial output and offers retry. Retry uses the same frozen request/proposal in a new empty temp stage, reconstructs recipe from captured source/widths, and never invokes provider or rewrites durable job. Shared BuildAndPreviewAsync checks snapshot/scope/source freshness and cancellation before/after Generate; Apply requires previewReady after validated stage plus both loaded previews. Provider/persist errors, cancellation, hiding, prompt changes or stale inputs retire the attempt. Initial successful preview status now consumes helper summary.",
+                      "verification": "Five Luna FAST/Max bounded source implementation/reviews plus independent GPT6.1Sol medium final review. Root affected Game compile0 warnings/0 errors; diff-check passed. No tests/probes/provider/Studio/game/Blender/runtime runs.",
+                      "remaining": "Same-session recovery only; no durable job read/resume after restart or discarded/cancelled attempts. No native successful/failing Blender retry or AI12 window/Apply/game/byte Undo acceptance. Full generic A08/group conflict contract remains incomplete."
+                    },
+                    {
+                      "stage": "2026-10-11 strict durable and stage proposal wire format",
+                      "result": "SOURCE_IMPLEMENTED_GAME_COMPILE_PASS_NATIVE_NOT_RUN",
+                      "source": "src-dotnet/Urman.Studio.Core/AI/CodexProposalProvider.cs; src-dotnet/Urman.Studio.Core/Handoff/DeveloperContext.cs; game/studio/StudioAiPanel.cs",
+                      "implementation": "Existing DTO serializer omitted static operation, making persisted proposals incompatible with strict ParseProposal. Shared SerializeProposal validates frozen request/proposal and emits exact parser/schema fields including operation and only matching single/seven/all-eight scope. Durable job and temporary stage producers now both use it. Old artifacts remain untouched; no relaxed legacy parser introduced.",
+                      "verification": "Luna FAST/Max implementation and independent GPT6.1Sol medium source review. Affected Game compilation: 0 warnings, 0 errors; no tests/probes/provider/Studio/game/Blender launches.",
+                      "remaining": "No restart reader or recoverable-failure receipt yet; this is a producer prerequisite only. Native AI12 and full generic A08 acceptance remain open."
+                    },
+                    {
+                      "stage": "2026-10-11 explicit durable failed-preview recovery",
+                      "result": "SOURCE_IMPLEMENTED_GAME_COMPILE_PASS_NATIVE_NOT_RUN",
+                      "source": "src-dotnet/Urman.Studio.Core/AI/AuthoringRequestV2.cs; src-dotnet/Urman.Studio.Core/Handoff/DeveloperContext.cs; game/studio/StudioAiPanel.cs",
+                      "implementation": "Strict canonical V2 reader with UTF8/256KiB/depth/duplicate/unknown-field checks; explicit atomic preview-failed receipt binds exact persisted request/proposal hashes. Bounded no-link reader rejects legacy/unmarked jobs. Panel explicitly selects canonical job receipt; Capture reconstructs current verification candidate, normalized only to saved requestId and original camera, full snapshot hash must match before restoring original frozen request/proposal and local retry. Restore invokes no provider/build/Apply. Local preview failures mark only valid/current noncancelled proposals. Retry/idle Stop/prompt changes/Apply revoke receipt; IO revoke failure blocks actions, ordinary idle reopen preserves failed receipt.",
+                      "verification": "Five Luna FAST/Max implementation and bounded independent source inspections; GPT6.1Sol medium final full-path review no P1/P2. Root affected Game compile 0 warnings/0 errors, diff-check and existing tracker validation PASS. No tests/probes/provider/Studio/game/Blender/native launches.",
+                      "remaining": "Native successful/failed/restarted/cancelled retry scenarios not run. Existing pilot hide still cancels active work; full spec hide-versus-Stop lifecycle and generic A08/disjoint/same-field/double-apply acceptance remain open. AI12 selected window request/preview/Apply/game/byte Undo unverified."
+                    },
+                    {
+                      "stage": "2026-10-11 hide separate from Stop and safe Apply lifecycle",
+                      "result": "SOURCE_IMPLEMENTED_GAME_COMPILE_PASS_NATIVE_NOT_RUN",
+                      "source": "game/studio/StudioAiPanel.cs",
+                      "implementation": "Panel hide no longer cancels model/build. Completion checks cancellation and frozen-request freshness before persisted accepted proposal and preview promotion. Valid results, preview/stage and composing scope/text survive reopen; stale live selection/part/source/dependencies retire state. Hidden valid local failures remain recoverable. Explicit Stop cancels active CTS or revokes idle attempt; busy noncancellable Apply cannot clear request/proposal or falsely claim no project change. Initial visible-only user action gates and explicit manual Apply retained.",
+                      "verification": "Luna FAST/Max implementation and bounded collision inspection; independent GPT6.1Sol medium full diff and final composing Open source reviews clean. Root affected Game compile 0 warnings/0 errors after final composing-scope logic change; diff-check/tracker validate PASS. No tests/probes/provider/Studio/game/Blender/native launches.",
+                      "remaining": "Native hide/Stop/reopen/scope/Apply scenarios not run. Full generic A08/disjoint merge/same-field/double-apply and AI12 first-window request/game/byte Undo remain unverified."
+                    }
+                  ],
                   "assigned_owner": "codex/b20-2026-10-10",
-                  "active_owner": null,
+                  "active_owner": "codex/b20-2026-10-10",
                   "activity": {
-                    "state": "paused_by_author",
-                    "reason": "Назначение Codex/DeepSeek сохранено; миграция не запускает production и не выдаёт peer-передачу за активную работу."
+                    "state": "confirmed_active",
+                    "reason": "Live B20 source implementation continues; author runtime pause does not forbid source freshness guard fixes.",
+                    "verification_question": "Does hiding preserve active/completed house request without cancellation, while explicit Stop cancels model/build or revokes idle recovery and cannot clear an in-flight Apply transaction? Reopen stale/scope changes must fail closed; token/freshness checked before accepted-proposal storage. Source/narrow compile only."
                   },
                   "task_type": "engineering",
-                  "status": "todo",
-                  "implementation_state": "not_started",
+                  "status": "in_progress",
+                  "implementation_state": "partial",
                   "technical_verification_state": "not_run",
                   "remaining": [
                     "Одна проверенная группа правок применяется/отменяется без порчи чужих изменений; отсутствует подтверждение собственного конечного DoD, перечисленного ниже."
                   ],
-                  "next_action": "Одна проверенная группа правок применяется/отменяется без порчи чужих изменений",
+                  "next_action": "Continue remaining generic applicability/job lifecycle source work; native recovery/A08/AI12 only when author resumes launches. Windows Codex bootstrap requested separately.",
                   "blocker": null,
                   "external_gates": [],
                   "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -73214,7 +73359,7 @@
                       "success": "Выполнены все перечисленные собственные критерии, без расширения на родителя.",
                       "repeat_only_if": "Изменился source/candidate/input/покрываемый контракт."
                     },
-                    "actual_result": null,
+                    "actual_result": "House-pilot freshness, durable preview recovery and hide/Stop/reopen lifecycle implemented in source with affected compile; full generic A08 and native acceptance remain open.",
                     "evidence_refs": []
                   },
                   "dependencies": {
@@ -74009,13 +74154,102 @@
                       "implementation": "Pilot request optionally carries two fixed allowlisted immutable source records: selected world entity fragment and whole parsed recipe. Each includes actual path/entity key/full-file saved/current hashes; world key and mandatory data.id match request entity, recipe key/entityId and saved hash required. JsonElement data is detached by cloning; collection readonly copied. World missing saved base represented null. Capture uses no-links/disk-change guards and same frozen recipe text. Whole serialized request and complete direct/manual prompt capped256KiB before provider process/send. Prompt explicitly separates full-file hash metadata from fragment data and rejects following source instructions or reading paths. Canonical Fingerprint now invokes world CaptureSource, so later uncommitted external disk edits fail import/Apply instead of matching stale in-memory data.",
                       "verification": "Five Luna FAST bounded implementation/research assignments plus independent Sol6.1medium final source review accepted. Root affected Game compile0 warnings/0 errors and diff-check. No tests/provider/Studio/game/Blender/native runs.",
                       "remaining": "Source metadata is provenance/integrity context, not authentication or a hash of entity fragments. Full AuthoringRequestv2 project/campaign/camera/typed dependency/scope/protected-field envelope and native exact Apply/Undo remain open; legacy sourcesnull requests remain compatible."
+                    },
+                    {
+                      "stage": "2026-10-11 hidden AI preview render policy",
+                      "result": "SOURCE_IMPLEMENTED_GAME_COMPILE_PASS_NATIVE_NOT_RUN",
+                      "source": "game/studio/StudioAiPanel.cs",
+                      "implementation": "AI comparison SubViewport uses WhenVisible instead of Always, so hidden preview textures no longer request continuous render updates. World viewport already had that default and was left unchanged. Process/physics remain unchanged.",
+                      "verification": "Luna producer/caller source review found only visible SubViewportContainer consumers, no pixel capture/readback requiring offscreen render; independent Sol source review and root affected Game compile0/0. No runtime/FPS/tests.",
+                      "remaining": "Overall Mac lag and actual visible preview frame behavior remain unmeasured; native Codex preview/Apply/game/byte-exact Undo still deferred by author, task stays open."
+                    },
+                    {
+                      "stage": "2026-10-11 pinned Windows Blender station prerequisite",
+                      "result": "SOURCE_REVIEWED_WINDOWS_INSTALL_NOT_RUN",
+                      "source": [
+                        "eng/toolchain.json",
+                        "eng/setup-windows-station.ps1"
+                      ],
+                      "implementation": "Station setup provisions Blender4.5.12 Windows x64 at exact Studio expected path. ZIP SHA256 pinned from official Blender checksum; cache/download verified before extraction and native version/exit checked. Godot GLB import override preserved. Nested Windows pin keeps existing macOS fields.",
+                      "verification": "Official https://download.blender.org/release/Blender4.5/blender-4.5.12.sha256 retrieved via TLS curl; Luna implementation + independent Luna/Sol6.1medium source review, diff-check/tracker validation. No Windows installer, Blender/Studio/game or model request executed. Remote doctor confirmed UNTERPC ready, interactive desktop, busy_job null; this does not verify Codex login or Blender presence.",
+                      "remaining": "Station must pull updated toolchain fingerprint and run setup before jobs. Disposable authoring inputs, verified snapshot revision/trusted Blender location and remote Studio UI/evidence route remain missing. Owner output confirms Codex0.162.1 ChatGPT login, but bare exe lacks full package; bootstrap repair underway. Native seven-window Apply/game/byte-exact Undo remains open."
+                    },
+                    {
+                      "stage": "2026-10-11 explicit station Blender tools-root binding",
+                      "result": "SOURCE_IMPLEMENTED_GAME_COMPILE_PASS_NATIVE_NOT_RUN",
+                      "source": [
+                        "game/studio/StudioRoot.cs",
+                        "game/studio/StudioAiPanel.cs",
+                        "eng/run-windows-check.ps1"
+                      ],
+                      "implementation": "Studio tools-root userarg defaults to repository root and normalizes explicit fullpath. Only Blender executable lookup uses it; working directory/generator/root/recipe/stage and Apply/Undo paths remain workspace-bound. Existing runner Modeplay exactStudioScene preflights pinned Blender version/exit under resolved ToolsRoot, records receipt.blender, and passes tool-root after Godot userargs separator. Smoke/capture arguments unchanged; no remote studio action added.",
+                      "verification": "Five Luna bounded writer/research/review tasks and independent Sol6.1medium source review. Root corrected static property access before affected Game compile: 0warnings/0errors. diff-check/tracker validation. No Windows runner, Blender/provider/Studio/game/test execution.",
+                      "remaining": "Owner must verify repaired complete Codex package and station Blender setup. Authoring snapshot generator/baseline inputs and verified revision binding, remote UI/evidence/result preservation still missing; matched Windows preview/Apply/game and byte-exact Undo acceptance remains unproven."
+                    },
+                    {
+                      "stage": "2026-10-11 explicit verified snapshot base revision",
+                      "result": "SOURCE_IMPLEMENTED_GAME_COMPILE_PASS_NATIVE_NOT_RUN",
+                      "source": [
+                        "game/studio/StudioAiPanel.cs",
+                        "eng/run-windows-check.ps1"
+                      ],
+                      "implementation": "Existing exact Studio play runner passes snapshot-base-revision userarg only after verify_source succeeds on supplied provenance and lowercase40/64hex validation. Studio validates explicit claim, rejects known Git HEAD mismatch and unknown resolver result when Git metadata exists; only metadata-absent snapshot accepts valid claim. No file/environment trust fallback. Normal checkout without claim retains existing Git requirement. Capture/Fingerprint/retry/Apply share Revision(). Dirty snapshot identity remains in receipt.snapshotId, actual source/dependency hashes remain frozen independently.",
+                      "verification": "Luna bounded implementation/producer-consumer review plus independent Sol6.1medium source review. Root affected Game compile0warnings/0errors; diff-check/tracker validation. No Windows runner, model/provider, Blender/Studio/game/tests.",
+                      "remaining": "This is operator/verified-runner provenance claim, not authenticated by Studio itself. Authoring generator/baseline source transfer, remote Studio UI/evidence/result preservation and repaired Windows Codex/Blender readiness remain required before native first-pilot acceptance. Seven-window matched game verification and byte-exact Undo remain unproven."
+                    },
+                    {
+                      "stage": "2026-10-11 normal Studio close waits for Play child",
+                      "result": "SOURCE_IMPLEMENTED_GAME_COMPILE_PASS_NATIVE_NOT_RUN",
+                      "source": "game/studio/StudioRoot.cs",
+                      "observed": "Windows protected_run skips taskkill when guarded root has already exited; Studio previously had no normal close child cleanup. PlayFromHere can start after async compile and two simultaneous clicks could overwrite the only tracked Process. Exited log disposal could race pending stdout/stderr callbacks.",
+                      "implementation": "Studio disables autoacceptquit and handles windowCloseRequested. Running Play process tree is killed and root exit waited bounded5s before Quit; failure retains window and explains manual recovery. _closing pre/postcompile prevents delayed launch during shutdown; postawait _run recheck prevents second tracked-child replacement. Log closes under lock only after both stream EOFs, preserving late output without disposed-writer callbacks. Existing workspace/source/transaction paths unchanged.",
+                      "verification": "Luna bounded implementation and independent source reviewers, Sol6.1medium review; root affected Game compile0warnings/0errors. diff-check/tracker validation. No tests, provider, Blender/Studio/game/Windows runs.",
+                      "remaining": "Normal window-close source path only. Abrupt Studio crash/forced-exit requires Windows root-independent Job Object or equivalent guard guarantee; current global Windowsguard lacks it. Station worker still deletes session source before exporting authoring artifacts; bounded export and snapshot authoring inputs/native UI/game/Undo proof remain required. Native firstpilot still unverified."
+                    },
+                    {
+                      "stage": "2026-10-11 Windows process-tree guard source",
+                      "result": "SOURCE_REVIEWED_PYTHON_SYNTAX_PASS_WINDOWS_NOT_RUN",
+                      "source": "eng/protected_run.py",
+                      "implementation": "Windows creates an unnamed non-inheritable kill-on-close Job Object, launches the root suspended, assigns it before resuming its primary thread, and requires confirmed root exit plus ActiveProcesses=0 before userdata restoration. Cleanup failure retains recovery backup and lock metadata. x64 ctypes ABI layouts are checked in production; POSIX process-group cleanup remains.",
+                      "verification": "Three independent source reviews including Sol6.1medium; root python3 -m py_compile eng/protected_run.py. No tests, provider, Blender, Studio, game or Windows execution.",
+                      "remaining": "Native Windows guard behavior is unverified. A guard hard crash between suspended process creation and Job assignment can leave a suspended orphan that cannot execute. Existing post-restoration lock I/O failure can leave a stale marker. Bounded authoring export, source inputs, Windows Codex/Blender readiness and native UI/game/byte-exact Undo proof remain open."
+                    },
+                    {
+                      "stage": "2026-10-11 explicit Studio authoring snapshot inputs",
+                      "result": "SOURCE_REVIEWED_PYTHON_SYNTAX_PASS_TRANSFER_NOT_RUN",
+                      "source": [
+                        "eng/remote_common.py",
+                        "eng/remote-check.py"
+                      ],
+                      "implementation": "Explicit --studio-authoring option includes exactly assets/source/blender/act1/urman_village_exterior_kit.py and its .blend baseline. Both inputs are mandatory regular in-checkout files; shared lstat/reparse/containment checks run at candidate selection and immediately before authoring hash/archive/incremental upload reads. All candidate rechecks retain the opt-in; default runtime selection and wire schema remain unchanged. Recipe is already included under game.",
+                      "verification": "Luna implementation and bounded input/path/worker research, independent Sol6.1medium source review; root python3 -m py_compile for both affected scripts plus diff-check. No snapshot packaging/upload, tests, provider or native runs.",
+                      "remaining": "Input transport plumbing only; no remote Studio action exposed. Worker must export exact request/transaction images/authored files before reclaim, with explicit size bounds and preserve-on-export-failure recovery. Fetch is artifact delivery, not local transaction/Undo-history reconciliation. Blender baseline external linked-library dependencies have not been inspected at runtime; Windows installer readiness and real UI/game/Undo gates remain open."
+                    },
+                    {
+                      "stage": "2026-10-11 bounded result fetch consumer",
+                      "result": "SOURCE_REVIEWED_PYTHON_SYNTAX_PASS_NATIVE_NOT_RUN",
+                      "source": [
+                        "eng/remote-check.py",
+                        "eng/remote_common.py"
+                      ],
+                      "implementation": "Shared limits: 4096 files and 2GiB archive/expanded result. Fetch rejects absent result receipt, bounds streamed download, checks archive hash, prevalidates all entry names/counts/bytes/case/prefix conflicts and symlinks/reparse destinations before extraction, and bounds expanded streaming bytes. This transports inert artifacts only; no transaction replay or local source import.",
+                      "verification": "Independent Sol6.1medium and Luna source reviews; affected Python syntax compile, diff-check. No artifact fetch/ZIP probe/tests/native runs.",
+                      "remaining": "Worker bounded Studio exporter and durable retention/finalization are still being implemented separately; no remote Studio mode exposed."
+                    },
+                    {
+                      "stage": "2026-10-11 renewed Windows station doctor",
+                      "result": "LIVE_HEALTH_READY_CODEX_BLENDER_UNKNOWN",
+                      "source": "eng/remote-check.py doctor",
+                      "observed": "UNTERPC ready=true; busy_job=null; desktop interactive/input_desktop=true; Godot4.7.1, SDK10.0.302, tools=true, GPU acceptance verified; orphan_game_process=false; userdata_recovery_pending=false; disk free369.8GiB.",
+                      "remaining": "Health does not inspect Codex CLI package/login or Blender installation. No game/Studio/provider/Blender invocation performed."
                     }
                   ],
                   "assigned_owner": "codex/b20-2026-10-10",
                   "active_owner": null,
                   "activity": {
                     "state": "runtime_deferred_by_author",
-                    "reason": "11.10 пользователь остановил игровые и Studio запуски из-за сильных лагов; production/source review/узкая компиляция продолжаются."
+                    "reason": "11.10 пользователь остановил игровые и Studio запуски из-за сильных лагов; production/source review/узкая компиляция продолжаются.",
+                    "verification_question": "Does bounded Studio export preserve request-linked transaction images/current files before reclaim, retain source across all future jobs on export/archive failure, and return terminal status/release station busy? Does fetch prevalidate all paths and enforce archive/member/expanded-byte caps? Source review and affected Python syntax only; no runtime."
                   },
                   "task_type": "integration_check",
                   "status": "blocked",
@@ -74027,7 +74261,7 @@
                     "Overall Windows kit smoke FAIL: shutdown resource leaks; scenario5checks и compile0/0 не заменяют чистый runtime result.",
                     "Windows direct .exe-only discovery исправлен и source-reviewed; actual Windows installed/login readiness остаётся непроверенным."
                   ],
-                  "next_action": "После возобновления runtime проверить увеличенное окно и пройти Front0→Codex→preview→Apply→game→Undo; исторические CLI результаты не заменяют этот UI сценарий.",
+                  "next_action": "Implement bounded Studio session result preservation before worker reclaim, then fixed remote Studio mode; author runtime pause remains. After runtime resumes verify installed Windows Codex/Blender and native Front0→Codex→preview→Apply→game→byte-exact Undo.",
                   "blocker": {
                     "reason": "Native UI/game verification deferred by author; Front0 could not be selected during Mac attempt.",
                     "release_when": "Автор возобновил runtime; доступен native выбор окна и защищённый Studio/game сценарий."
@@ -97992,9 +98226,9 @@
       "remaining_map_2026_10_04": "docs/production/act1_remaining_cards_map_2026-10-04.md",
       "title": "Пассажирская экскурсия и полезный транспорт по доступным дорогам",
       "milestone": "M5",
-      "status": "todo",
+      "status": "in_progress",
       "complexity": "medium",
-      "active_owner": null,
+      "active_owner": "Кодекс Кадыра / Luna route",
       "owner": "unassigned",
       "depends_on": [
         "ACT1-VILLAGE-BLOCKOUT"
@@ -98105,8 +98339,8 @@
       },
       "assigned_owner": "unassigned",
       "activity": {
-        "state": "not_active",
-        "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+        "state": "confirmed_active",
+        "reason": "11.10: source stage integrated by Кодекс Кадыра; Luna edits reviewed. Original Niva export and affected compile completed; Windows acceptance awaits explicit UNTERPC snapshot-transfer approval."
       },
       "task_type": "engineering",
       "implementation_state": "not_started",
@@ -98115,17 +98349,22 @@
         "Во вступлении бабай ведёт Ниву с передним пассажиром через целый мост, показывая места без длинной неподвижной экспозиции.",
         "После ночи машина не пересекает разрыв/границу; понятны доступные дороги, нет случайных препятствий или сквозного проезда через объекты."
       ],
-      "next_action": "Прочитать действующий контракт и владельца; зафиксировать исходное состояние только выбранного участка. Сохранить чужие изменения и пользовательские данные.",
+      "next_action": "Полная B13 приёмка: текущие Windows save/load/input/route проверки и POV/движение после явного разрешения передачи снимка исходников на UNTERPC; все критерии и AS-17 остаются открыты.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
-      "execution_mode": "production_paused_during_tracker_migration",
+      "execution_mode": "author_2026_10_11_complete_B13",
       "work_contract": {
         "result": "Пассажирская экскурсия и полезный транспорт по доступным дорогам",
         "targets": [
+          "game/scripts/SettlementRoadGraph.cs",
           "game/scripts/VehicleController.cs",
           "game/scripts/VehicleController.WheelCollision.cs",
-          "game/scripts/Act1ConnectedWorld.Vehicles.cs"
+          "game/scripts/VehicleFleet.cs",
+          "game/scripts/Act1ConnectedWorld.Vehicles.cs",
+          "game/scripts/Act1ConnectedWorld.Addresses.cs",
+          "game/scripts/Act1DemoRoot.PrologueNivaRide.cs",
+          "game/tests/Act1RideRouteCheck.cs"
         ],
         "required_inputs": [
           {
@@ -98136,9 +98375,14 @@
           }
         ],
         "scope_in": [
+          "game/scripts/SettlementRoadGraph.cs",
           "game/scripts/VehicleController.cs",
           "game/scripts/VehicleController.WheelCollision.cs",
-          "game/scripts/Act1ConnectedWorld.Vehicles.cs"
+          "game/scripts/VehicleFleet.cs",
+          "game/scripts/Act1ConnectedWorld.Vehicles.cs",
+          "game/scripts/Act1ConnectedWorld.Addresses.cs",
+          "game/scripts/Act1DemoRoot.PrologueNivaRide.cs",
+          "game/tests/Act1RideRouteCheck.cs"
         ],
         "scope_out": [
           "Контент соседнего блока, кроме указанного артефакта-входа.",
@@ -98156,12 +98400,12 @@
         ],
         "verification": {
           "method": "targeted_runtime_scenario",
-          "question": "Пассажирская экскурсия и полезный транспорт по доступным дорогам",
+          "question": "Проезжают ли три средства по дороге/обочине/открытому двору с возвратом и понятным запретом воды/границы без сквозного проезда?",
           "scenario": "Документы: конкретные ссылки/JSON/diff. При реализации — существующая узкая проверка изменённого пути и защищённый обычный запуск с проходом/поворотами; человеческий интерес не выводить из PASS.",
           "success": "Наблюдаемый результат этой единицы и обратное действие/восстановление там, где меняются данные. Для ассета — импорт выбранного файла и целевой вид/движение; для кода — узкая компиляция только затронутого модуля, затем указанный пользовательский сценарий. Компиляция не доказывает изображение или GUI.",
           "repeat_only_if": "Изменился покрываемый вход/consumer/контракт; без этого уже принятая проверка используется повторно без запуска."
         },
-        "actual_result": null,
+        "actual_result": "Source 11.10: road/verge/yard/boundary/water policy for Car, Motorcycle, HorseCart; existing Car envelope preserved.",
         "evidence_refs": [
           "tasks[id=ACT1-TRANSPORT.ROUTE].evidence"
         ],
@@ -98218,16 +98462,22 @@
           "evidence_ref": "ACT1-TRANSPORT.ROUTE.evidence and named history progress; source_review shows available/missing inputs"
         }
       ],
-      "assignment_state": "unassigned_explicit_not_active"
+      "assignment_state": "unassigned_explicit_not_active",
+      "progress_2026_10_11_B13_source": {
+        "result": "Source 11.10: road/verge/yard/boundary/water policy for Car, Motorcycle, HorseCart; existing Car envelope preserved. Existing route-check now fails on narrow-phase visible prop intersection; hidden VehicleVisual descendants consistently excluded.",
+        "verification": "Affected Urman.Game.csproj compile: 0 errors, 0 warnings; tracker validate PASS; current Windows gameplay/visual verification not run.",
+        "remaining": "Full current B13 transport/save-load/input/route/cabin movement and AS-17 acceptance remain open. Station doctor timed out before any new game job or snapshot submission; service connectivity must be restored.",
+        "next_action": "Полная B13 приёмка: текущие Windows save/load/input/route проверки и POV/движение после явного разрешения передачи снимка исходников на UNTERPC; все критерии и AS-17 остаются открыты."
+      }
     },
     {
       "id": "ACT1-TRANSPORT.CABIN",
       "progress_2026_10_04": "2026-10-04: салон измерен по исходной модели и позициям кода: docs/production/act1_niva_cabin_2026-10-04.md. Салон — два цельных меша (NivaBody + NivaInterior, Y 0.49…1.64), а не именованные части; сиденье babay-niva (−0.40, 0.65, 0.12), камера водителя DriverLook = сиденье+0.75 = 1.40 (24 см ниже потолка; камера пере-привязывается в VehicleController.cs:112), камера пассажира RideCameraRest 1.44 (20 см ниже), приборы 1.102, радио 1.008, руль 1.10 с наклоном −28°, подвеска 1.548. По измерению клиппинга нет, и пешая высота 1.70 в салоне не используется. Проверка вида, поворотов камеры и по-частей (спинки/окна/педали) требует прогона: это единые меши.",
       "title": "Собрать салон Нивы для переднего пассажирского ракурса",
       "milestone": "M5",
-      "status": "todo",
+      "status": "in_progress",
       "complexity": "medium",
-      "active_owner": null,
+      "active_owner": "Кодекс Кадыра / Luna cabin",
       "owner": "unassigned",
       "depends_on": [],
       "scope": [
@@ -98361,8 +98611,8 @@
       },
       "assigned_owner": "unassigned",
       "activity": {
-        "state": "not_active",
-        "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+        "state": "confirmed_active",
+        "reason": "11.10: source stage integrated by Кодекс Кадыра; Luna edits reviewed. Original Niva export and affected compile completed; Windows acceptance awaits explicit UNTERPC snapshot-transfer approval."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -98371,23 +98621,31 @@
         "С переднего места видны дорога/деревня, бабай и правдоподобная геометрия салона; спинки, окна, зеркало, педали/ручник и материалы не клиппуют.",
         "Обычные повороты камеры и катсценные кадры проверены в движке, не только статичным рендером."
       ],
-      "next_action": "Прочитать действующий контракт и владельца; зафиксировать исходное состояние только выбранного участка. Сохранить чужие изменения и пользовательские данные.",
+      "next_action": "Полная B13 приёмка: текущие Windows save/load/input/route проверки и POV/движение после явного разрешения передачи снимка исходников на UNTERPC; все критерии и AS-17 остаются открыты.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
-      "execution_mode": "production_paused_during_tracker_migration",
+      "execution_mode": "author_2026_10_11_complete_B13",
       "work_contract": {
         "result": "Собрать салон Нивы для переднего пассажирского ракурса",
         "targets": [
+          "game/scripts/VehicleVisualFactory.cs",
           "game/scripts/VehicleVisualFactory.NivaModel.cs",
           "game/scripts/VehicleController.cs",
-          "game/scripts/VehicleVisualFactory.RoadVehicles.cs"
+          "tools/blender/generate_niva.py",
+          "assets/source/blender/urman_niva.blend",
+          "game/assets/generated/urman_niva.glb",
+          "assets/asset_registry.json"
         ],
         "required_inputs": [],
         "scope_in": [
+          "game/scripts/VehicleVisualFactory.cs",
           "game/scripts/VehicleVisualFactory.NivaModel.cs",
           "game/scripts/VehicleController.cs",
-          "game/scripts/VehicleVisualFactory.RoadVehicles.cs"
+          "tools/blender/generate_niva.py",
+          "assets/source/blender/urman_niva.blend",
+          "game/assets/generated/urman_niva.glb",
+          "assets/asset_registry.json"
         ],
         "scope_out": [
           "Контент соседнего блока, кроме указанного артефакта-входа.",
@@ -98405,12 +98663,12 @@
         ],
         "verification": {
           "method": "targeted_runtime_scenario",
-          "question": "Собрать салон Нивы для переднего пассажирского ракурса",
+          "question": "Двигаются ли педали от ввода и сбрасываются ли после modal/exit/restore; видны ли переднему пассажиру дорога и бабай без клиппинга?",
           "scenario": "Документы: конкретные ссылки/JSON/diff. При реализации — существующая узкая проверка изменённого пути и защищённый обычный запуск с проходом/поворотами; человеческий интерес не выводить из PASS.",
           "success": "Наблюдаемый результат этой единицы и обратное действие/восстановление там, где меняются данные. Для ассета — импорт выбранного файла и целевой вид/движение; для кода — узкая компиляция только затронутого модуля, затем указанный пользовательский сценарий. Компиляция не доказывает изображение или GUI.",
           "repeat_only_if": "Изменился покрываемый вход/consumer/контракт; без этого уже принятая проверка используется повторно без запуска."
         },
-        "actual_result": null,
+        "actual_result": "Source 11.10: Original throttle/brake meshes isolated in GLB and connected to drivetrain input; modal/exit/restore reset visuals. GLB remains 66140 triangles, 44 materials; old triangleBudget 18000 exceeded, not raised; AS-17 remains open.",
         "evidence_refs": [
           "tasks[id=ACT1-TRANSPORT.CABIN].evidence"
         ],
@@ -98483,7 +98741,30 @@
           "evidence_ref": "ACT1-TRANSPORT.CABIN.evidence and named history progress; source_review shows available/missing inputs"
         }
       ],
-      "assignment_state": "unassigned_explicit_not_active"
+      "assignment_state": "unassigned_explicit_not_active",
+      "progress_2026_10_11_B13_source": {
+        "result": "Source 11.10: Original throttle/brake meshes isolated in GLB and connected to drivetrain input; modal/exit/restore reset visuals. GLB remains 66140 triangles, 44 materials; old triangleBudget 18000 exceeded, not raised; AS-17 remains open.",
+        "verification": "Affected Urman.Game.csproj compile: 0 errors, 0 warnings; tracker validate PASS; current Windows gameplay/visual verification not run. GLB semantic comparison: 44 identical materials, 66140 triangles; steering/radio/charm/handbrake unchanged, interior+pedals match within 0.1mm. Body triangulation equivalence is being checked; exact connectivity unconfirmed. Blender exporter changed 4.5.51 to 5.2.40: 13 Body triangles per side differ; 6 explained by planar quad diagonal flips, 7 remain unconfirmed. Candidate requires current visual check; do not claim entire body unchanged.",
+        "remaining": "Full current B13 transport/save-load/input/route/cabin movement and AS-17 acceptance remain open. Station doctor timed out before any new game job or snapshot submission; service connectivity must be restored.",
+        "next_action": "Полная B13 приёмка: текущие Windows save/load/input/route проверки и POV/движение после явного разрешения передачи снимка исходников на UNTERPC; все критерии и AS-17 остаются открыты.",
+        "asset_budget_check": {
+          "unique_mesh_triangles": {
+            "NivaBody": 26668,
+            "NivaBrakePedal": 216,
+            "NivaCharm": 5124,
+            "NivaHandbrake": 144,
+            "NivaInterior": 22224,
+            "NivaRadio": 2064,
+            "NivaSteering": 4860,
+            "NivaThrottlePedal": 216,
+            "NivaWheel": 4624
+          },
+          "total": 66140,
+          "registered_budget": 18000,
+          "assessment": "Сокращение subdivision снега/овчины 2→1 сэкономит ориентировочно 8496, но оставит около 57644; не решает budget. Не удалять форму/детали ради числа. Нужна текущая native проверка и обоснованное LOD/geometry решение; AS-17 открыт."
+        },
+        "station_health": "11.10: новый doctor PASS, ready=true, busy_job=null, orphan_game_process=false, userdata_recovery_pending=false. Новые snapshot/jobs не отправлены; ожидается явное разрешение UNTERPC transfer."
+      }
     },
     {
       "id": "ACT1-PERF.PROFILE",

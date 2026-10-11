@@ -200,6 +200,31 @@ public sealed class AuthoredFile
         return new(RelativePath, baseText, text, baseSha256, AtomicFile.Sha256(bytes), IsNew, Dirty);
     }
 
+    /// <summary>Capture IDs present in the loaded baseline but deleted from this draft.</summary>
+    public string[] GetDeletedEntityIds()
+    {
+        if (IsNew) return [];
+
+        var current = EntityIds(_document.ToNode()).ToHashSet(StringComparer.Ordinal);
+        return EntityIds(_base).Where(id => !current.Contains(id)).ToArray();
+    }
+
+    /// <summary>Read entity IDs from source text without accessing the filesystem.</summary>
+    public static string[] EntityIdsInSource(string relativePath, string text)
+    {
+        ArgumentNullException.ThrowIfNull(relativePath);
+        ArgumentNullException.ThrowIfNull(text);
+
+        if (relativePath.EndsWith(".md", StringComparison.OrdinalIgnoreCase))
+        {
+            if (text.Length == 0) return [];
+            var markdown = new JsonArray { MarkdownSource.Parse(text) };
+            return EntityIds(markdown);
+        }
+
+        return EntityIds(JsonSpanDocument.Parse(text).ToNode());
+    }
+
     public JsonNode Snapshot() => _document.ToNode();
 
     /// <summary>Replace the full authored draft without changing its on-disk baseline.</summary>
@@ -390,4 +415,23 @@ public sealed class AuthoredFile
         node is JsonArray array
             ? array.OfType<JsonObject>().FirstOrDefault(item => (string?)item["id"] == key)
             : node.AsObject()[key];
+
+    private static string[] EntityIds(JsonNode? source)
+    {
+        var entities = source switch
+        {
+            JsonArray array => array,
+            JsonObject wrapper when wrapper["entities"] is JsonArray array => array,
+            _ => null
+        };
+        if (entities is null) return [];
+
+        return entities.OfType<JsonObject>()
+            .Select(entity => entity["id"])
+            .OfType<JsonValue>()
+            .Select(value => value.TryGetValue<string>(out var id) ? id : null)
+            .Where(id => id is not null)
+            .Select(id => id!)
+            .ToArray();
+    }
 }

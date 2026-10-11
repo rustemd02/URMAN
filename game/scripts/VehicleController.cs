@@ -236,6 +236,8 @@ public partial class VehicleController : CharacterBody3D
     {
         if (!_configured) return;
         var dt = Math.Min((float)delta, .05f);
+        if (_fleet.Suspended || !PlacementAvailable || Driver is null || Driver.ModalOpen || _controlsNeedRelease)
+            UpdatePedalVisuals(0, false);
         _noticeSeconds = Math.Max(0, _noticeSeconds - dt);
         Radio?.SetPaused(_fleet.Suspended || !PlacementAvailable);
         if (_fleet.Suspended || !PlacementAvailable)
@@ -319,6 +321,7 @@ public partial class VehicleController : CharacterBody3D
 
     private void Advance(float dt, float throttle, float steeringInput, bool footBrake)
     {
+        UpdatePedalVisuals(throttle, footBrake);
         var previous = GlobalPosition;
         var diagnosticBeforePose = _collisionStopDiagnostics ? GlobalTransform : default;
         var diagnosticBeforeSpeed = _collisionStopDiagnostics ? Speed : 0;
@@ -581,8 +584,19 @@ public partial class VehicleController : CharacterBody3D
         if(Driver is not null)exclude.Add(Driver.GetRid());return exclude;
     }
 
+    private void UpdatePedalVisuals(float throttle, bool footBrake)
+    {
+        // The authored hinge nodes have identity rest bases; input is the same
+        // command used by the drivetrain, not an independent Input poll.
+        if (_visual.ThrottlePedal is { } accelerator)
+            accelerator.RotationDegrees = new(Mathf.Clamp(Math.Abs(throttle), 0f, 1f) * 12f, 0f, 0f);
+        if (_visual.BrakePedal is { } brake)
+            brake.RotationDegrees = new(footBrake ? 8f : 0f, 0f, 0f);
+    }
+
     private void UpdateVisuals(float delta)
     {
+        if (delta == 0) UpdatePedalVisuals(0, false);
         ApplySteeringCollision();
         for (var index = 0; index < _visualWheels.Length; index++)
             _visualWheels[index].Rotation = new(_wheelPhase,_visualFrontWheel[index]?RoadWheelYaw(_steering):0,0);

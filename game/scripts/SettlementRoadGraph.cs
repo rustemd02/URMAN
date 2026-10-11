@@ -21,9 +21,12 @@ public readonly record struct CarBox(double MinX, double MinZ, double MaxX, doub
     public bool Contains(double x, double z) => x >= MinX && x <= MaxX && z >= MinZ && z <= MaxZ;
 }
 
-/// <summary>Authored car-only drive policy of the settlement (decision
+/// <summary>Authored settlement drive envelope installed with the car policy
+ /// (decision
  /// 2026-10-05: the car may use shoulders, verges and open yards, while the
- /// settlement boundary and the water cuts still refuse).
+ /// settlement boundary and the water cuts still refuse). Its permitted
+ /// corridor is shared by cars, motorcycles and horse carts; each mode keeps
+ /// its own carriageway footprint radius.
  /// <para><c>VergeWidth</c>: metres beyond the carriageway half-width the car
  /// centre may reach on every car road (shoulder + verge band).</para>
  /// <para><c>Boundary</c>: keep-inside box of the authored settlement envelope
@@ -33,8 +36,7 @@ public readonly record struct CarBox(double MinX, double MinZ, double MaxX, doub
  /// props stay the physical hard stops.</para>
  /// <para><c>BlockedAreas</c>: water polygons (gorge west/east, the bridge
  /// mouth between them, the ravine cut) that refuse the car inside them.</para>
- /// The policy applies to <see cref="SettlementTravelMode.Car"/> only; every
- /// other mode keeps the original carriageway corridor rule.</summary>
+ /// Foot travel and combined travel flags keep the carriageway corridor rule.</summary>
 public sealed record CarTravelPolicy(double VergeWidth, CarBox? Boundary, IReadOnlyList<CarDriveLot> Yards, IReadOnlyList<IReadOnlyList<SettlementPoint>> BlockedAreas);
 
 /// <summary>One imported graph for the notebook, access audit and travel policy.
@@ -46,7 +48,7 @@ public sealed class SettlementRoadGraph
     private readonly Dictionary<string, SettlementGraphEdge> _edges = new(StringComparer.Ordinal);
     private SettlementGraphEdge[]? _vehicleNearestEdges;
     private readonly HashSet<string> _blockedRoads = new(StringComparer.Ordinal);
-    // Car-only drive policy (see CarTravelPolicy). Written only by
+    // Authored vehicle drive envelope (see CarTravelPolicy). Written only by
     // SetCarTravelPolicy; the yard cell index and blocked boxes are built there
     // once, so a per-tick CanTraverse is a plain bucket lookup and a short
     // rectangle/polygon test with no allocation.
@@ -662,15 +664,18 @@ public sealed class SettlementRoadGraph
     public bool CanTraverse(SettlementPoint from, SettlementPoint to, SettlementTravelMode mode,out string reason,bool winter=true)
     {
         var radius=TraversalRadius(mode);
-        var carPolicy=mode==SettlementTravelMode.Car?_carPolicy:null;
+        var vehiclePolicy=UsesVehicleEnvelope(mode)?_carPolicy:null;
         var count=Math.Max(1,(int)Math.Ceiling(from.DistanceXZ(to)/.3));
         for(var i=0;i<=count;i++)
         {
             var point=from.Lerp(to,(double)i/count);
             var road=Nearest(point,mode:mode,winter:winter);
             var onRoad=road is { } candidate && candidate.Distance+radius<=candidate.Edge.Width*.5+.10;
-            if(!onRoad && (carPolicy is null || !CarPolicyAllows(point,road)))
-            {reason="Здесь нет подходящей дороги.";return false;}
+            if(!onRoad)
+            {
+                if(vehiclePolicy is null){reason="Здесь нет подходящей дороги.";return false;}
+                if(!VehiclePolicyAllows(point,road,vehiclePolicy,out reason))return false;
+            }
             if(road is { } level && Math.Abs(point.Y-level.Point.Y)>2.5)
             {reason="Этот проезд находится на другом уровне.";return false;}
         }
@@ -692,17 +697,25 @@ public sealed class SettlementRoadGraph
         return true;
     }
     private static double TraversalRadius(SettlementTravelMode mode)=>mode switch{SettlementTravelMode.Car=>.92,SettlementTravelMode.HorseCart=>.95,SettlementTravelMode.Motorcycle=>.50,_=>.32};
-    /// <summary>Car envelope test: inside the authored settlement boundary, not
-     /// in a blocked water polygon, and either within the carriageway + verge
-     /// band of the nearest car road or inside an authored yard. The nearest
-     /// road is the one CanTraverse already computed for the same sample.</summary>
-    private bool CarPolicyAllows(in SettlementPoint point,(SettlementGraphEdge Edge,SettlementPoint Point,double Distance)? nearest)
+    private static bool UsesVehicleEnvelope(SettlementTravelMode mode)=>
+        mode is SettlementTravelMode.Car or SettlementTravelMode.Motorcycle or SettlementTravelMode.HorseCart;
+    /// <summary>Shared vehicle envelope: inside the authored settlement
+     /// boundary, outside blocked water, and either within the carriageway +
+     /// verge band of the nearest allowed road or inside an authored yard. The
+     /// nearest road is the one CanTraverse already computed for this sample.</summary>
+    private bool VehiclePolicyAllows(in SettlementPoint point,(SettlementGraphEdge Edge,SettlementPoint Point,double Distance)? nearest,CarTravelPolicy policy,out string reason)
     {
-        var policy=_carPolicy!;
-        if(policy.Boundary is { } boundary && !boundary.Contains(point.X,point.Z))return false;
-        if(CarBlocked(point,policy))return false;
-        if(nearest is { } road && road.Distance<=road.Edge.Width*.5+policy.VergeWidth)return true;
-        return CarYardContains(point,policy);
+        if(policy.Boundary is { } boundary && !boundary.Contains(point.X,point.Z))
+        {reason="За пределами разрешённой территории.";return false;}
+        if(CarBlocked(point,policy))
+        {reason="Дальше вода или обрыв; проехать нельзя.";return false;}
+        if(nearest is { } road && road.Distance<=road.Edge.Width*.5+policy.VergeWidth)
+        {reason="";return true;}
+        if(CarYardContains(point,policy)){reason="";return true;}
+        reason=nearest is null
+            ? "Здесь нет проезда по дороге или открытому двору."
+            : "Дальше нет проезда по дороге, обочине или открытому двору.";
+        return false;
     }
     private bool CarYardContains(in SettlementPoint point,CarTravelPolicy policy)
     {

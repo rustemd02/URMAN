@@ -4,6 +4,8 @@ using System.Text.Json.Nodes;
 using Godot;
 using Urman.Godot;
 using Urman.Studio.Core.AI;
+using Urman.Studio.Core.Editing;
+using Urman.Studio.Core.Play;
 using Urman.Studio.Core.Storage;
 
 namespace Urman.Studio.App;
@@ -29,11 +31,14 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
     private readonly Button _apply;
     private readonly Button _copy;
     private readonly Button _paste;
+    private readonly Button _disclosure;
     private readonly Button _saveRequest;
     private readonly Button _importFile;
     private readonly Button _beforeView;
     private readonly Button _afterView;
-    private readonly SubViewport _preview = new() { Size = new(560, 260), OwnWorld3D = true, RenderTargetUpdateMode = SubViewport.UpdateMode.Always };
+    private readonly Button _retryBuild;
+    private readonly Button _restorePreview;
+    private readonly SubViewport _preview = new() { Size = new(560, 260), OwnWorld3D = true, RenderTargetUpdateMode = SubViewport.UpdateMode.WhenVisible };
     private readonly Node3D _previewModels = new() { Name = "HouseCompareModels" };
     private readonly Camera3D _previewCamera = new() { Position = new(11, 7, 13), Current = true };
     private Node3D? _beforeModel;
@@ -41,12 +46,17 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
     private CancellationTokenSource? _cancel;
     private HouseWindowRequest? _request;
     private HouseWindowProposal? _proposal;
+    private AcceptDialog? _disclosureDialog;
     private string? _stage;
     private string? _recipeText;
-    private string? _snapshot;
+    private string? _sourceFingerprint;
+    private bool? _disclosedGlobalInstructions;
     private JsonObject? _capturedWidths;
     private string? _consentIoWarning;
     private bool _busy;
+    private bool _previewReady;
+    private bool _retryBuildAvailable;
+    private bool _previewFailureClearFailed;
     private int _providerWarningSeen;
 
     void IProgress<CodexProposalProgress>.Report(CodexProposalProgress progress)
@@ -71,6 +81,20 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
         AddChild(body);
         body.AddChild(_status);
         body.AddChild(_prompt);
+        _prompt.TextChanged += () =>
+        {
+            if (_busy || _request is not { } request || _prompt.Text == request.Prompt) return;
+            if (!TryClearPreviewFailure(request))
+            {
+                ClearProposal();
+                SetBusy(false);
+                return;
+            }
+            ClearProposal();
+            InvalidatePreparedRequest();
+            _status.Text = "Описание изменилось; предыдущее предложение отозвано. Подготовьте новый запрос и получите новый ответ.";
+            SetBusy(false);
+        };
         _scope.AddItem("Только выбранное окно", SelectedWindowScope);
         _scope.AddItem("7 окон главных комнат", MainRoomWindowsScope);
         _scope.AddItem("Все 8 окон, включая окно в сенях", AllWindowsScope);
@@ -100,9 +124,13 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
             }
         };
         StudioRoot.Button(row, "Проверить Codex", () => _ = DoctorAsync());
-        StudioRoot.Button(row, "Остановить", () => _cancel?.Cancel());
+        StudioRoot.Button(row, "Остановить", StopCurrentOperation);
         _apply = StudioRoot.Button(row, "Применить", () => _ = ApplyAsync());
         _apply.Disabled = true;
+        var files = new HBoxContainer();
+        body.AddChild(files);
+        _disclosure = StudioRoot.Button(files, "Что уйдёт агенту…", OpenDisclosure);
+        _disclosure.TooltipText = "Посмотреть состав сохранённого снимка и полный JSON запроса. Изображение камеры не отправляется.";
         var handoff = new HBoxContainer();
         body.AddChild(handoff);
         _copy = StudioRoot.Button(handoff, "Скопировать запрос для агента", CopyRequest);
@@ -110,8 +138,6 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
         _paste = StudioRoot.Button(handoff, "Вставить JSON-ответ", () => _ = RunProposalAsync(fromManual: true));
         _paste.TooltipText = "Скопируйте чистый JSON ответа. Studio проверит его и покажет модель до применения.";
         _paste.Disabled = true;
-        var files = new HBoxContainer();
-        body.AddChild(files);
         _saveRequest = StudioRoot.Button(files, "Сохранить запрос в файл", SaveRequest);
         _saveRequest.TooltipText = "Передайте текст своему агенту. Его внешней сессией Studio не управляет.";
         _importFile = StudioRoot.Button(files, "Открыть JSON-ответ…", OpenProposalFile);
@@ -121,6 +147,10 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
         body.AddChild(compare);
         _beforeView = StudioRoot.Button(compare, "До", () => ShowPreview(after: false));
         _afterView = StudioRoot.Button(compare, "После", () => ShowPreview(after: true));
+        _retryBuild = StudioRoot.Button(compare, "Повторить сборку", () => _ = RetryBuildAsync());
+        _retryBuild.Disabled = true;
+        _restorePreview = StudioRoot.Button(compare, "Восстановить…", OpenPreviewFailurePicker);
+        _restorePreview.TooltipText = "Открыть только локальную запись о неудачном предпросмотре. Повторный запрос агенту и применение не выполняются.";
         _beforeView.Disabled = true;
         _afterView.Disabled = true;
         var viewport = new SubViewportContainer { Stretch = true, CustomMinimumSize = new(560, 260) };
@@ -132,8 +162,16 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
         _preview.AddChild(_previewCamera);
         VisibilityChanged += () =>
         {
-            if (Visible) return;
-            _cancel?.Cancel();
+            if (Visible)
+            {
+                SetBusy(_busy);
+                return;
+            }
+            if (_disclosureDialog is { } disclosureDialog && GodotObject.IsInstanceValid(disclosureDialog))
+            {
+                _disclosureDialog = null;
+                disclosureDialog.QueueFree();
+            }
             if (!_focusCaptured) return;
             var previousFocus = _previousFocus;
             _previousFocus = null;
@@ -161,7 +199,7 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
             _ => "Выберите охват изменения окон."
         };
         summary += scopeChanged
-            ? "\nОхват изменился после подготовки запроса. Скопируйте новый запрос перед вставкой JSON-ответа."
+            ? "\nОхват изменился после снимка. Откройте «Что уйдёт агенту…», чтобы обновить запрос перед передачей ответа."
             : "\nCodex предложит ширину, вы увидите новую модель перед применением. ⌘/Ctrl+Z полностью отменяет применение.";
         if (_consentIoWarning is not null) summary += "\n" + _consentIoWarning;
         _status.Text = summary;
@@ -246,19 +284,55 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
             _prompt.GrabFocus();
             return;
         }
-        ClearProposal();
-        _request = null;
-        _openedSelection = selected;
-        _openedPart = ((StudioWorldSection)_studio.Section("world")).SelectionPart;
+        if (_previewFailureClearFailed && _request is { } retained && !TryClearPreviewFailure(retained))
+        {
+            PopupCenteredClamped(new(600, 560), 0.9f);
+            _prompt.GrabFocus();
+            return;
+        }
+        var staleReason = (string?)null;
+        var currentPart = ((StudioWorldSection)_studio.Section("world")).SelectionPart;
+        var preservePreparedState = _request is null && selected == HeroHouseRecipe.EntityId
+            && _openedSelection == selected && _studio.Selection == selected
+            && (_scope.Selected != SelectedWindowScope || _openedPart?.PartId == currentPart?.PartId);
+        if (_request is { } existingRequest)
+        {
+            _openedPart = currentPart;
+            try
+            {
+                if (!string.Equals(selected, _openedSelection, StringComparison.Ordinal))
+                    throw new InvalidOperationException("Выбран другой объект.");
+                EnsurePreparedRequestCurrent(existingRequest);
+                preservePreparedState = true;
+            }
+            catch (Exception error)
+            {
+                staleReason = error.Message;
+            }
+        }
+
+        if (!preservePreparedState)
+        {
+            ClearProposal();
+            InvalidatePreparedRequest();
+            _disclosedGlobalInstructions = null;
+            _openedSelection = selected;
+        }
+        _openedPart = currentPart;
         var windowSelected = _openedPart is { PartId: var partId }
             && HeroHouseRecipe.WindowIds.Contains(partId, StringComparer.Ordinal);
         _scope.Visible = selected == HeroHouseRecipe.EntityId;
         _scope.SetItemDisabled(SelectedWindowScope, !windowSelected);
-        _scope.Select(windowSelected ? SelectedWindowScope : MainRoomWindowsScope);
+        if (!preservePreparedState)
+            _scope.Select(windowSelected ? SelectedWindowScope : MainRoomWindowsScope);
         SetBusy(false);
-        if (selected == HeroHouseRecipe.EntityId)
+        if (!preservePreparedState && staleReason is not null)
+        {
+            _status.Text = "Предыдущий снимок снят: " + staleReason + " Подготовьте новый запрос.";
+        }
+        else if (!preservePreparedState && selected == HeroHouseRecipe.EntityId)
             UpdateScopeStatus();
-        else
+        else if (!preservePreparedState)
         {
             _status.Text = "Выберите эталонный дом Бабая в мире. Другие объекты будут подключены следующими этапами B20.";
             if (_consentIoWarning is not null) _status.Text += "\n" + _consentIoWarning;
@@ -293,7 +367,7 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
         var recipeBaseHash = recipeSource.BaseSha256
             ?? throw new InvalidDataException("У рецепта отсутствует сохранённая базовая ревизия.");
         _recipeText = recipeSource.Text;
-        _ = HeroHouseRecipe.Parse(_recipeText);
+        var parsedRecipe = HeroHouseRecipe.Parse(_recipeText);
         var recipe = JsonNode.Parse(_recipeText)!.AsObject();
         if (recipe["modelPath"] is null && ((decimal)recipe["windowClearWidth"]! != 1.06m
             || recipe["windowWidths"] is JsonObject existingWidths && existingWidths.Count > 0))
@@ -303,14 +377,14 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
             _capturedWidths[id] = (decimal?)recipe["windowWidths"]?[id]
                 ?? (id == "SeniOuter0" && recipe["modelPath"] is null ? .80m : (decimal)recipe["windowClearWidth"]!);
         var (partId, partIds) = SelectedScope();
-        _snapshot = Fingerprint(_recipeText);
+        var sourceFingerprint = Fingerprint(_recipeText);
         var currentWidth = partId is null ? (decimal)recipe["windowClearWidth"]! : (decimal)_capturedWidths[partId]!;
         var scopedIds = partId is not null
             ? new[] { partId }
             : partIds?.ToArray() ?? HeroHouseRecipe.WindowIds.ToArray();
         var currentWidths = scopedIds.ToDictionary(
             id => id, id => (decimal)_capturedWidths[id]!, StringComparer.Ordinal);
-        return new HouseWindowRequest(Guid.NewGuid().ToString("N"), _snapshot, HeroHouseRecipe.EntityId,
+        var request = new HouseWindowRequest(Guid.NewGuid().ToString("N"), sourceFingerprint, HeroHouseRecipe.EntityId,
             currentWidth, _prompt.Text, partId)
         {
             PartIds = partIds,
@@ -323,6 +397,45 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
                     recipeSource.Sha256, JsonSerializer.SerializeToElement(JsonNode.Parse(_recipeText)!))
             }
         };
+        var worldSection = (StudioWorldSection)_studio.Section("world");
+        var playStart = worldSection.PlayStart()
+            ?? throw new InvalidOperationException("Не удалось определить текущую точку входа выбранного мира.");
+        var context = CampaignWorldCatalog.Discover(_studio.Workspace).Resolve(
+            PlayPreparation.Campaign,
+            "res://scenes/act1_demo.tscn",
+            playStart.Zone,
+            playStart.Spawn,
+            baseRevision: Revision());
+        var recipeModelPath = parsedRecipe.ModelPath ?? "res://assets/models/act1/urman_village_exterior_kit.glb";
+        var modelDependencyPath = "game/" + recipeModelPath["res://".Length..];
+        var dependencyHashes = new Dictionary<string, string>(StringComparer.Ordinal);
+        var dependencyPaths = new[]
+        {
+            GeneratorPath,
+            "assets/source/blender/act1/urman_village_exterior_kit.blend",
+            modelDependencyPath
+        }.Concat(context.AuthoredDependencies).Distinct(StringComparer.Ordinal);
+        foreach (var dependencyPath in dependencyPaths)
+        {
+            StudioFileTransaction.EnsureNoLinks(_studio.Workspace.Root, dependencyPath);
+            dependencyHashes.Add(dependencyPath, AtomicFile.Sha256OfFile(Path.Combine(
+                _studio.Workspace.Root, dependencyPath.Replace('/', Path.DirectorySeparatorChar))));
+        }
+        var environment = new HouseAuthoringEnvironment(
+            context.BaseRevision,
+            context.Campaign.Id,
+            context.Campaign.ExactVersion,
+            context.World.WorldId,
+            context.StateId,
+            context.World.ScenePath,
+            context.World.ZoneId,
+            context.World.SpawnPointId,
+            worldSection.CaptureAuthoringCamera(),
+            dependencyHashes);
+        request = request with { Environment = environment };
+        request = request with { SnapshotHash = AuthoringRequestV2.ComputeSnapshotHash(request) };
+        _sourceFingerprint = sourceFingerprint;
+        return request;
     }
 
     private string Fingerprint(string recipe)
@@ -339,18 +452,164 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
 
     private string Revision()
     {
+        const string snapshotRevisionPrefix = "--urman-studio-snapshot-revision=";
+        var snapshotRevisionArgument = OS.GetCmdlineUserArgs()
+            .LastOrDefault(argument => argument.StartsWith(snapshotRevisionPrefix, StringComparison.Ordinal));
+        if (snapshotRevisionArgument is not null)
+        {
+            var snapshotRevision = snapshotRevisionArgument[snapshotRevisionPrefix.Length..];
+            if ((snapshotRevision.Length != 40 && snapshotRevision.Length != 64)
+                || !snapshotRevision.All(character => character is >= '0' and <= '9' or >= 'a' and <= 'f'))
+                throw new IOException("Переданная ревизия снимка должна содержать 40 или 64 строчные шестнадцатеричные цифры.");
+
+            // Это заявление оператора или проверившего provenance runner; Studio не аутентифицирует сам аргумент командной строки.
+            var checkoutRoot = _studio.Workspace.Root;
+            var checkoutRevision = Urman.Studio.Core.Handoff.DeveloperContext.ResolveRevision(checkoutRoot);
+            if (checkoutRevision == "неизвестна"
+                && (Directory.Exists(Path.Combine(checkoutRoot, ".git")) || File.Exists(Path.Combine(checkoutRoot, ".git"))))
+                throw new IOException("Не удалось проверить Git HEAD рабочего проекта перед сравнением ревизии снимка.");
+            if (checkoutRevision != "неизвестна" && checkoutRevision != snapshotRevision)
+                throw new IOException("Переданная ревизия снимка не совпадает с Git HEAD рабочего проекта.");
+            return snapshotRevision;
+        }
+
         var revision = Urman.Studio.Core.Handoff.DeveloperContext.ResolveRevision(_studio.Workspace.Root);
         if (revision == "неизвестна") throw new IOException("Нет полной Git-ревизии. Проверьте checkout перед запросом.");
         return revision;
     }
 
-    private HouseWindowRequest PrepareManualRequest()
+    private void ValidateCapturedDependencies()
     {
-        if (_proposal is null) _request = Capture();
+        var dependencies = _request?.Environment?.DependencyHashes
+            ?? throw new InvalidOperationException("В запросе отсутствует снимок зависимостей кампании.");
+        foreach (var (relativePath, expectedHash) in dependencies)
+        {
+            StudioFileTransaction.EnsureNoLinks(_studio.Workspace.Root, relativePath);
+            var fullPath = Path.Combine(_studio.Workspace.Root, relativePath.Replace('/', Path.DirectorySeparatorChar));
+            if (!File.Exists(fullPath))
+                throw new InvalidOperationException("Зависимость запроса больше недоступна: " + relativePath);
+            if (!string.Equals(AtomicFile.Sha256OfFile(fullPath), expectedHash, StringComparison.Ordinal))
+                throw new InvalidOperationException("Зависимость запроса изменилась после снимка: " + relativePath);
+        }
+    }
+
+    private HouseWindowRequest PrepareRequest(bool checkProviderPolicy = false)
+    {
+        if (_request is null)
+            _request = Capture();
+        else
+            EnsurePreparedRequestCurrent(_request, checkProviderPolicy);
         var request = _request ?? throw new InvalidOperationException("Запрос ещё не подготовлен.");
         HouseWindowProposalValidator.ValidateRequest(request);
-        SetBusy(false);
+        SetBusy(_busy);
         return request;
+    }
+
+    private void EnsurePreparedRequestCurrent(HouseWindowRequest request, bool checkProviderPolicy = false)
+    {
+        if (_openedSelection != _studio.Selection
+            || _prompt.Text != request.Prompt
+            || !RequestScopeMatchesCurrent(request))
+            throw new InvalidOperationException("Описание, охват или выбор изменились. Откройте «Что уйдёт агенту…», чтобы обновить снимок.");
+        if (request.PartId is { } partId
+            && ((StudioWorldSection)_studio.Section("world")).SelectionPart?.PartId != partId)
+            throw new InvalidOperationException("Выбор окна изменился после снимка. Подготовьте новый запрос для текущего окна.");
+        if (_sourceFingerprint is null
+            || _sourceFingerprint != Fingerprint(File.ReadAllText(Path.Combine(_studio.Workspace.Root, RecipePath))))
+            throw new InvalidOperationException("Исходник изменился после снимка. Откройте «Что уйдёт агенту…», чтобы получить актуальный запрос.");
+        ValidateCapturedDependencies();
+        if (checkProviderPolicy && _proposal is null && _disclosedGlobalInstructions is bool disclosed
+            && disclosed != _globalInstructions.ButtonPressed)
+            throw new InvalidOperationException("Политика глобальных инструкций Codex изменилась. Откройте «Что уйдёт агенту…» ещё раз.");
+    }
+
+    private void OpenDisclosure()
+    {
+        if (_busy || _openedSelection != HeroHouseRecipe.EntityId || _studio.Selection != _openedSelection)
+            return;
+        try
+        {
+            var refreshed = false;
+            if (_proposal is null)
+            {
+                if (_request is null)
+                {
+                    _request = Capture();
+                }
+                else
+                {
+                    try { EnsurePreparedRequestCurrent(_request); }
+                    catch (InvalidOperationException)
+                    {
+                        InvalidatePreparedRequest();
+                        _request = Capture();
+                        refreshed = true;
+                    }
+                }
+                SetBusy(_busy);
+            }
+            var request = _request ?? throw new InvalidOperationException("Сначала подготовьте запрос для выбранного дома.");
+            HouseWindowProposalValidator.ValidateRequest(request);
+            var globalInstructions = _globalInstructions.ButtonPressed ? "включены" : "выключены";
+            var disclosureText = (refreshed ? "Снимок обновлён; прежний ответ больше не подходит.\n\n" : string.Empty)
+                + "Модель получает данные ниже и предлагает JSON; файлы проекта меняет Studio только после нажатия «Применить».\n"
+                + "Камера передаётся только числовыми параметрами (проекция, положение, поворот, поле зрения, размер и viewport); снимок или изображение не отправляется.\n"
+                + $"Глобальные инструкции для прямого запуска из Studio сейчас {globalInstructions}. Их текст не входит в JSON или snapshot hash. При ручной передаче Studio не знает и не меняет политику инструкций внешнего агента.\n\n"
+                + AuthoringRequestV2.Describe(request)
+                + "\n\nПолный канонический JSON запроса:\n"
+                + CodexProposalProvider.SerializeRequest(request);
+
+            var dialog = new AcceptDialog
+            {
+                Title = "Что уйдёт агенту",
+                OkButtonText = "Закрыть",
+                MinSize = new Vector2I(700, 480)
+            };
+            var body = new VBoxContainer();
+            dialog.AddChild(body);
+            var contents = new TextEdit
+            {
+                Editable = false,
+                WrapMode = TextEdit.LineWrappingMode.Boundary,
+                SizeFlagsVertical = Control.SizeFlags.ExpandFill,
+                SizeFlagsHorizontal = Control.SizeFlags.ExpandFill,
+                CustomMinimumSize = new Vector2(0, 420),
+                Text = disclosureText
+            };
+            body.AddChild(contents);
+            _disclosureDialog = dialog;
+            if (_proposal is null) _disclosedGlobalInstructions = _globalInstructions.ButtonPressed;
+            dialog.Confirmed += () =>
+            {
+                if (_disclosureDialog == dialog) _disclosureDialog = null;
+                dialog.QueueFree();
+            };
+            _studio.AddChild(dialog);
+            dialog.VisibilityChanged += () =>
+            {
+                if (dialog.Visible) return;
+                if (_disclosureDialog == dialog) _disclosureDialog = null;
+                dialog.QueueFree();
+            };
+            dialog.PopupCenteredClamped(new Vector2I(1040, 720), 0.9f);
+            if (refreshed) _status.Text = "Снимок обновлён; прежний ответ больше не подходит.";
+        }
+        catch (Exception error)
+        {
+            _status.Text = "Не удалось подготовить раскрытие запроса: " + error.Message;
+        }
+    }
+
+    private void InvalidatePreparedRequest()
+    {
+        _request = null;
+        _sourceFingerprint = null;
+        _disclosedGlobalInstructions = null;
+        if (_disclosureDialog is { } dialog && GodotObject.IsInstanceValid(dialog))
+        {
+            _disclosureDialog = null;
+            dialog.QueueFree();
+        }
     }
 
     private void CopyRequest()
@@ -358,7 +617,7 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
         if (_busy) return;
         try
         {
-            DisplayServer.ClipboardSet(CodexProposalProvider.CreateClipboardPrompt(PrepareManualRequest()));
+            DisplayServer.ClipboardSet(CodexProposalProvider.CreateClipboardPrompt(PrepareRequest()));
             if (_proposal is null) _status.Text = "Вставьте запрос в свой агент, затем скопируйте JSON ответа и нажмите «Вставить JSON-ответ». Studio покажет модель до применения. Внешняя сессия работает отдельно.";
         }
         catch (Exception error) { _status.Text = error.Message; }
@@ -369,7 +628,7 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
         if (_busy) return;
         try
         {
-            var request = PrepareManualRequest();
+            var request = PrepareRequest();
             var path = Urman.Studio.Core.Handoff.DeveloperContext.WriteHouseWindowRequest(_studio.Workspace.Root, request);
             var message = "Запрос сохранён. Передайте файл своему агенту, затем откройте его чистый JSON-ответ. Проект ещё не изменён.";
             _status.Text = _proposal is null ? message : _status.Text + "\n" + message;
@@ -377,7 +636,7 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
         }
         catch (Exception error) when (error is IOException or UnauthorizedAccessException or ArgumentException or InvalidOperationException)
         {
-            var message = "Запрос не сохранён: проверьте выбранный дом, описание и доступ к папке. Существующий файл не перезаписывается.";
+            var message = "Запрос не сохранён: " + error.Message + " Существующий файл не перезаписывается; если снимок устарел, обновите его через «Что уйдёт агенту…».";
             _status.Text = _proposal is null ? message : _status.Text + "\n" + message;
         }
     }
@@ -406,11 +665,185 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
         picker.PopupCentered(new Vector2I(900, 600));
     }
 
+    private void OpenPreviewFailurePicker()
+    {
+        if (_busy || !Visible || _openedSelection != HeroHouseRecipe.EntityId || _studio.Selection != _openedSelection
+            || _request is not null || _proposal is not null || _previewFailureClearFailed)
+            return;
+        var jobsDirectory = Path.Combine(_studio.Workspace.Root, ".urman-studio", "ai-jobs");
+        if (!Directory.Exists(jobsDirectory))
+        {
+            _status.Text = "Локальных записей о неудачном предпросмотре нет.";
+            return;
+        }
+
+        var picker = new FileDialog
+        {
+            FileMode = FileDialog.FileModeEnum.OpenFile,
+            Access = FileDialog.AccessEnum.Filesystem,
+            CurrentDir = jobsDirectory,
+            Title = "Восстановить локальный предпросмотр",
+            UseNativeDialog = true,
+            Filters = ["preview-failed.json ; Запись неудачного предпросмотра"]
+        };
+        picker.FileSelected += path =>
+        {
+            picker.QueueFree();
+            RestorePreviewFailure(path);
+        };
+        picker.Canceled += picker.QueueFree;
+        _studio.AddChild(picker);
+        picker.PopupCentered(new Vector2I(900, 600));
+    }
+
+    private void RestorePreviewFailure(string selectedPath)
+    {
+        if (_busy || !Visible || _openedSelection != HeroHouseRecipe.EntityId || _studio.Selection != _openedSelection
+            || _request is not null || _proposal is not null || _previewFailureClearFailed)
+            return;
+
+        var previousPrompt = _prompt.Text;
+        var previousScope = _scope.Selected;
+        var previousPart = _openedPart;
+        try
+        {
+            var requestId = PreviewFailureRequestId(selectedPath);
+            var (request, proposal) = Urman.Studio.Core.Handoff.DeveloperContext.ReadHouseWindowPreviewFailure(
+                _studio.Workspace.Root, requestId);
+            HouseWindowProposalValidator.ValidateRequest(request);
+            HouseWindowProposalValidator.Validate(request, proposal);
+            var savedEnvironment = request.Environment
+                ?? throw new InvalidDataException("В сохранённом запросе нет контекста кампании.");
+            if (request.RequestId != requestId || request.EntityId != HeroHouseRecipe.EntityId || request.Sources is null)
+                throw new InvalidDataException("Запись не содержит полный снимок поддерживаемого запроса дома.");
+
+            _openedPart = ((StudioWorldSection)_studio.Section("world")).SelectionPart;
+            if (request.PartId is { } partId)
+            {
+                if (_openedPart?.PartId != partId)
+                    throw new InvalidOperationException("Для этого запроса выберите то же окно, которое было выбрано при сохранении.");
+                _scope.Select(SelectedWindowScope);
+            }
+            else if (request.PartIds is not null)
+            {
+                _scope.Select(MainRoomWindowsScope);
+            }
+            else
+            {
+                _scope.Select(AllWindowsScope);
+            }
+
+            _prompt.Text = request.Prompt;
+            var candidate = Capture();
+            var candidateEnvironment = candidate.Environment
+                ?? throw new InvalidOperationException("Не удалось проверить текущий контекст Studio.");
+            candidate = candidate with
+            {
+                RequestId = request.RequestId,
+                Environment = candidateEnvironment with { Camera = savedEnvironment.Camera }
+            };
+            if (!string.Equals(AuthoringRequestV2.ComputeSnapshotHash(candidate), request.SnapshotHash, StringComparison.Ordinal))
+                throw new InvalidOperationException("Текущие исходники, ширины или контекст проекта отличаются от сохранённого снимка.");
+
+            ClearProposal();
+            _request = request;
+            _proposal = proposal;
+            _disclosedGlobalInstructions = null;
+            EnsurePreparedRequestCurrent(request);
+            _previewReady = false;
+            _retryBuildAvailable = true;
+            SetBusy(false);
+            _status.Text = "Восстановлены проверенный запрос и предложение для локальной сборки. Агент не запускался; проект не изменён. Нажмите «Повторить сборку», затем осмотрите модель перед отдельным применением.";
+        }
+        catch (Exception error)
+        {
+            _request = null;
+            _proposal = null;
+            _sourceFingerprint = null;
+            _recipeText = null;
+            _capturedWidths = null;
+            _previewReady = false;
+            _retryBuildAvailable = false;
+            ClearBuildStage();
+            _openedPart = previousPart;
+            _scope.Select(previousScope);
+            _prompt.Text = previousPrompt;
+            SetBusy(false);
+            _status.Text = "Восстановление отклонено: " + error.Message + " Сохранённая запись и файлы проекта не изменены.";
+        }
+    }
+
+    private string PreviewFailureRequestId(string selectedPath)
+    {
+        var root = Path.GetFullPath(_studio.Workspace.Root);
+        var path = Path.GetFullPath(selectedPath);
+        var relative = Path.GetRelativePath(root, path).Replace('\\', '/');
+        var segments = relative.Split('/');
+        if (segments.Length != 4 || segments[0] != ".urman-studio" || segments[1] != "ai-jobs"
+            || segments[3] != "preview-failed.json"
+            || !Guid.TryParseExact(segments[2], "N", out var parsed)
+            || !string.Equals(parsed.ToString("N"), segments[2], StringComparison.Ordinal))
+            throw new InvalidOperationException("Выберите только preview-failed.json из .urman-studio/ai-jobs/{32-символьный ID}.");
+        return segments[2];
+    }
+
+    private bool TryClearPreviewFailure(HouseWindowRequest request)
+    {
+        try
+        {
+            Urman.Studio.Core.Handoff.DeveloperContext.ClearHouseWindowPreviewFailure(_studio.Workspace.Root, request.RequestId);
+            _previewFailureClearFailed = false;
+            return true;
+        }
+        catch (Exception error)
+        {
+            _previewFailureClearFailed = true;
+            _status.Text = "Действие остановлено: не удалось отозвать запись локального предпросмотра. Исправьте доступ к файлу и повторите действие. " + error.Message;
+            SetBusy(_busy);
+            return false;
+        }
+    }
+
+    private bool TryMarkPreviewFailure(HouseWindowRequest request, HouseWindowProposal proposal, out string errorMessage)
+    {
+        try
+        {
+            Urman.Studio.Core.Handoff.DeveloperContext.MarkHouseWindowPreviewFailed(_studio.Workspace.Root, request, proposal);
+            errorMessage = string.Empty;
+            return true;
+        }
+        catch (Exception error)
+        {
+            errorMessage = error.Message;
+            return false;
+        }
+    }
+
+    private void StopCurrentOperation()
+    {
+        if (_cancel is { } cancellation)
+        {
+            cancellation.Cancel();
+            return;
+        }
+        if (_busy)
+        {
+            _status.Text = "Текущее действие нельзя безопасно прервать. Дождитесь результата; если применение завершится, его можно отменить через ⌘/Ctrl+Z.";
+            return;
+        }
+        if (_request is not { } request) return;
+        if (!TryClearPreviewFailure(request)) return;
+        ClearProposal();
+        InvalidatePreparedRequest();
+        SetBusy(false);
+        _status.Text = "Запрос и локальное предложение отозваны. Проект не изменён.";
+    }
+
     private Task AskAsync() => RunProposalAsync(fromManual: false);
 
     private async Task RunProposalAsync(bool fromManual, string? proposalFile = null)
     {
-        if (_busy || !Visible) return;
+        if (_busy || !Visible || (!fromManual && _proposal is not null)) return;
         HouseWindowProposal? imported = null;
         if (fromManual)
         {
@@ -418,12 +851,7 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
             {
                 if (_request is null || _proposal is not null)
                     throw new InvalidOperationException("Сначала скопируйте новый запрос для агента.");
-                if (_prompt.Text != _request.Prompt
-                    || !RequestScopeMatchesCurrent(_request))
-                    throw new InvalidOperationException("Описание или охват изменились. Скопируйте новый запрос.");
-                if (_openedSelection != _studio.Selection
-                    || _snapshot != Fingerprint(File.ReadAllText(Path.Combine(_studio.Workspace.Root, RecipePath))))
-                    throw new InvalidOperationException("Выбор или исходник изменился. Скопируйте новый запрос.");
+                EnsurePreparedRequestCurrent(_request);
                 imported = proposalFile is null
                     ? CodexProposalProvider.ParseProposal(DisplayServer.ClipboardGet(), _request)
                     : CodexProposalProvider.ParseProposalFile(proposalFile, _request);
@@ -440,75 +868,227 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
         ClearProposal();
         Interlocked.Exchange(ref _providerWarningSeen, 0);
         _cancel = new();
+        var jobRequestAttempted = false;
+        var proposalPersisted = false;
+        var previewBuildAttempted = false;
         try
         {
-            if (!fromManual) _request = Capture();
+            if (!fromManual) _request = PrepareRequest(checkProviderPolicy: true);
             var request = _request ?? throw new InvalidOperationException("Запрос ещё не подготовлен.");
+            jobRequestAttempted = true;
             Urman.Studio.Core.Handoff.DeveloperContext.WriteHouseWindowJob(_studio.Workspace.Root, request);
             _stage = Directory.CreateTempSubdirectory("urman-house-" + request.RequestId + "-").FullName;
-            File.WriteAllText(Path.Combine(_stage, "request.json"), JsonSerializer.Serialize(_request));
+            File.WriteAllText(Path.Combine(_stage, "request.json"), CodexProposalProvider.SerializeRequest(request));
             _status.Text = fromManual ? "Проверяю перенесённое предложение…" : "Codex готовит предложение…";
-            _proposal = imported ?? await new CodexProposalProvider(allowGlobalInstructions: _globalInstructions.ButtonPressed)
+            var acceptedProposal = imported ?? await new CodexProposalProvider(allowGlobalInstructions: _globalInstructions.ButtonPressed)
                 .RunAsync(_request!, _stage, _cancel.Token, this);
-            if (!Visible) throw new OperationCanceledException();
-            File.WriteAllText(Path.Combine(_stage, "proposal.json"), JsonSerializer.Serialize(_proposal));
-            Urman.Studio.Core.Handoff.DeveloperContext.WriteHouseWindowJob(_studio.Workspace.Root, request, _proposal);
-            var recipe = JsonNode.Parse(_recipeText!)!.AsObject();
-            if (_request.PartId is { } partId)
-            {
-                var widths = (JsonObject)_capturedWidths!.DeepClone();
-                widths[partId] = _proposal.WindowWidth;
-                recipe["windowWidths"] = widths;
-            }
-            else if (_request.PartIds is { } partIds)
-            {
-                var widths = (JsonObject)_capturedWidths!.DeepClone();
-                foreach (var windowId in partIds) widths[windowId] = _proposal.WindowWidth;
-                recipe["windowWidths"] = widths;
-            }
-            else
-            {
-                recipe["windowClearWidth"] = _proposal.WindowWidth;
-                recipe.Remove("windowWidths");
-            }
-            recipe["modelPath"] = "res://assets/models/studio/hero-house-" + _request.RequestId + ".glb";
-            File.WriteAllText(Path.Combine(_stage, "recipe.json"), recipe.ToJsonString(new() { WriteIndented = true }));
-            _status.Text = "Создаю настоящий проём и согласованный интерьер…";
-            await GenerateAsync(_stage, _cancel.Token);
-            ValidateStage();
-            ClearPreviewModels();
-            _beforeModel = LoadCurrentHousePreview();
-            _previewModels.AddChild(_beforeModel);
-            _afterModel = LoadHousePreview(Path.Combine(_stage, "hero_house.glb"));
-            _previewModels.AddChild(_afterModel);
-            _beforeView.Disabled = false;
-            _afterView.Disabled = false;
-            ShowPreview(after: true);
-            var scopeSummary = _request.PartId is not null ? "только окно " + _request.PartId
-                : _request.PartIds is not null ? "7 окон главных комнат; окно в сенях и ширина по умолчанию сохранены"
-                : "все 8 окон выбранного дома, включая окно в сенях";
-            var widthSummary = _request.PartId is null
-                ? _request.PartIds is not null
-                    ? $"Целевая ширина 7 окон главных комнат: {_proposal.WindowWidth:0.00} м."
-                    : $"Целевая ширина всех 8 окон: {_proposal.WindowWidth:0.00} м."
-                : $"Ширина: {_proposal.ExpectedWidth:0.00} → {_proposal.WindowWidth:0.00} м.";
-            _status.Text = $"{_proposal.Summary}\n{widthSummary} {scopeSummary}. Ещё не применено.";
+            _cancel.Token.ThrowIfCancellationRequested();
+            EnsurePreparedRequestCurrent(request);
+            HouseWindowProposalValidator.Validate(request, acceptedProposal);
+            _proposal = acceptedProposal;
+            Urman.Studio.Core.Handoff.DeveloperContext.WriteHouseWindowJob(_studio.Workspace.Root, request, acceptedProposal);
+            proposalPersisted = true;
+            previewBuildAttempted = true;
+            _status.Text = await BuildAndPreviewAsync(false, _cancel.Token);
             if (Volatile.Read(ref _providerWarningSeen) != 0)
                 _status.Text += "\nCodex сообщил предупреждение в сессии. Перед запросом проверено: MCP отключены, доступных MCP-инструментов нет.";
             if (_consentIoWarning is not null) _status.Text += "\n" + _consentIoWarning;
             if (fromManual) _status.Text += "\nОтвет перенесён вручную. Studio не управляет внешней сессией агента.";
-            _apply.Disabled = false;
         }
-        catch (OperationCanceledException) { ClearProposal(); _status.Text = "Остановлено. Проект не изменён."; }
-        catch (Exception error) { ClearProposal(); _status.Text = "Не применено: " + error.Message; }
+        catch (OperationCanceledException)
+        {
+            ClearProposal();
+            if (jobRequestAttempted) InvalidatePreparedRequest();
+            _status.Text = "Остановлено. Проект не изменён.";
+        }
+        catch (Exception error)
+        {
+            if (previewBuildAttempted && proposalPersisted && CanRetainProposalForRetry()
+                && _request is { } failedRequest && _proposal is { } failedProposal)
+            {
+                if (TryMarkPreviewFailure(failedRequest, failedProposal, out var receiptError))
+                {
+                    ClearBuildStage();
+                    _retryBuildAvailable = true;
+                    _status.Text = RetryBuildFailureMessage(error, retry: false);
+                }
+                else
+                {
+                    ClearProposal();
+                    InvalidatePreparedRequest();
+                    _status.Text = "Не удалось сохранить запись неудачного предпросмотра; восстановление и повтор этой попытки отключены. " + receiptError;
+                }
+            }
+            else
+            {
+                ClearProposal();
+                if (jobRequestAttempted) InvalidatePreparedRequest();
+                _status.Text = "Не применено: " + error.Message;
+            }
+        }
         finally { _cancel.Dispose(); _cancel = null; SetBusy(false); }
+    }
+
+    private async Task RetryBuildAsync()
+    {
+        if (_busy || !_retryBuildAvailable || _previewReady || _request is null || _proposal is null || !Visible) return;
+        if (!TryClearPreviewFailure(_request)) return;
+        SetBusy(true);
+        _retryBuildAvailable = false;
+        _cancel = new();
+        try
+        {
+            EnsurePreparedRequestCurrent(_request);
+            HouseWindowProposalValidator.Validate(_request, _proposal);
+            var summary = await BuildAndPreviewAsync(true, _cancel.Token);
+            _status.Text = "Повторная сборка завершена.\n" + summary;
+        }
+        catch (OperationCanceledException)
+        {
+            ClearProposal();
+            InvalidatePreparedRequest();
+            _status.Text = "Остановлено. Запрос и предложение сняты; проект не изменён.";
+        }
+        catch (Exception error)
+        {
+            if (CanRetainProposalForRetry() && _request is { } failedRequest && _proposal is { } failedProposal)
+            {
+                if (TryMarkPreviewFailure(failedRequest, failedProposal, out var receiptError))
+                {
+                    ClearBuildStage();
+                    _retryBuildAvailable = true;
+                    _status.Text = RetryBuildFailureMessage(error, retry: true);
+                }
+                else
+                {
+                    ClearProposal();
+                    InvalidatePreparedRequest();
+                    _status.Text = "Не удалось сохранить запись неудачного предпросмотра; восстановление и повтор этой попытки отключены. " + receiptError;
+                }
+            }
+            else
+            {
+                ClearProposal();
+                InvalidatePreparedRequest();
+                _status.Text = "Снимок запроса устарел или предложение больше не проходит проверку. Получите новый запрос и ответ.";
+            }
+        }
+        finally { _cancel.Dispose(); _cancel = null; SetBusy(false); }
+    }
+
+    private async Task<string> BuildAndPreviewAsync(bool freshStage, CancellationToken cancellation)
+    {
+        var request = _request ?? throw new InvalidOperationException("Запрос больше не подготовлен.");
+        var proposal = _proposal ?? throw new InvalidOperationException("Предложение больше не доступно.");
+        HouseWindowProposalValidator.Validate(request, proposal);
+        EnsurePreparedRequestCurrent(request);
+        cancellation.ThrowIfCancellationRequested();
+
+        _previewReady = false;
+        _retryBuildAvailable = false;
+        if (freshStage)
+        {
+            ClearBuildStage();
+            _stage = Directory.CreateTempSubdirectory("urman-house-" + request.RequestId + "-").FullName;
+        }
+        else
+            ClearPreviewModels();
+        var stage = _stage ?? throw new InvalidOperationException("Папка сборки отсутствует.");
+        File.WriteAllText(Path.Combine(stage, "request.json"), CodexProposalProvider.SerializeRequest(request));
+        File.WriteAllText(Path.Combine(stage, "proposal.json"), CodexProposalProvider.SerializeProposal(request, proposal));
+
+        var recipe = JsonNode.Parse(_recipeText ?? throw new InvalidOperationException("Снимок рецепта больше не доступен."))!.AsObject();
+        var capturedWidths = _capturedWidths ?? throw new InvalidOperationException("Снимок ширины окон больше не доступен.");
+        if (request.PartId is { } partId)
+        {
+            var widths = (JsonObject)capturedWidths.DeepClone();
+            widths[partId] = proposal.WindowWidth;
+            recipe["windowWidths"] = widths;
+        }
+        else if (request.PartIds is { } partIds)
+        {
+            var widths = (JsonObject)capturedWidths.DeepClone();
+            foreach (var windowId in partIds) widths[windowId] = proposal.WindowWidth;
+            recipe["windowWidths"] = widths;
+        }
+        else
+        {
+            recipe["windowClearWidth"] = proposal.WindowWidth;
+            recipe.Remove("windowWidths");
+        }
+        recipe["modelPath"] = "res://assets/models/studio/hero-house-" + request.RequestId + ".glb";
+        File.WriteAllText(Path.Combine(stage, "recipe.json"), recipe.ToJsonString(new() { WriteIndented = true }));
+
+        _status.Text = "Создаю настоящий проём и согласованный интерьер…";
+        await GenerateAsync(stage, cancellation);
+        cancellation.ThrowIfCancellationRequested();
+        HouseWindowProposalValidator.Validate(request, proposal);
+        EnsurePreparedRequestCurrent(request);
+        ValidateStage();
+
+        ClearPreviewModels();
+        _beforeModel = LoadCurrentHousePreview();
+        _previewModels.AddChild(_beforeModel);
+        _afterModel = LoadHousePreview(Path.Combine(stage, "hero_house.glb"));
+        _previewModels.AddChild(_afterModel);
+        cancellation.ThrowIfCancellationRequested();
+        HouseWindowProposalValidator.Validate(request, proposal);
+        EnsurePreparedRequestCurrent(request);
+        _beforeView.Disabled = false;
+        _afterView.Disabled = false;
+        ShowPreview(after: true);
+        _previewReady = true;
+        SetBusy(_busy);
+
+        var scopeSummary = request.PartId is not null ? "только окно " + request.PartId
+            : request.PartIds is not null ? "7 окон главных комнат; окно в сенях и ширина по умолчанию сохранены"
+            : "все 8 окон выбранного дома, включая окно в сенях";
+        var widthSummary = request.PartId is null
+            ? request.PartIds is not null
+                ? $"Целевая ширина 7 окон главных комнат: {proposal.WindowWidth:0.00} м."
+                : $"Целевая ширина всех 8 окон: {proposal.WindowWidth:0.00} м."
+            : $"Ширина: {proposal.ExpectedWidth:0.00} → {proposal.WindowWidth:0.00} м.";
+        return $"{proposal.Summary}\n{widthSummary} {scopeSummary}. Ещё не применено.";
+    }
+
+    private bool CanRetainProposalForRetry()
+    {
+        if (_cancel?.IsCancellationRequested == true || _previewReady || _request is not { } request || _proposal is not { } proposal
+            || _recipeText is null || _capturedWidths is null)
+            return false;
+        try
+        {
+            HouseWindowProposalValidator.Validate(request, proposal);
+            EnsurePreparedRequestCurrent(request);
+            return true;
+        }
+        catch (Exception)
+        {
+            return false;
+        }
+    }
+
+    private static string RetryBuildFailureMessage(Exception error, bool retry) =>
+        $"{(retry ? "Повторная сборка" : "Сборка или предпросмотр")} не удались: {error.Message}\n"
+        + "Проверенное предложение и запись неудачного предпросмотра сохранены. Можно повторить локальную сборку или восстановить её после перезапуска. Файлы проекта не изменены.";
+
+    private void ClearBuildStage()
+    {
+        _previewReady = false;
+        ClearPreviewModels();
+        var stage = _stage;
+        _stage = null;
+        if (stage is null) return;
+        try { Directory.Delete(stage, recursive: true); }
+        catch (IOException) { }
+        catch (UnauthorizedAccessException) { }
     }
 
     private async Task GenerateAsync(string stage, CancellationToken cancellation)
     {
         var blender = OperatingSystem.IsWindows()
-            ? Path.Combine(_studio.Workspace.Root, ".tools", "blender", "windows", "blender-4.5.12-windows-x64", "blender.exe")
-            : Path.Combine(_studio.Workspace.Root, ".tools/blender/Blender.app/Contents/MacOS/Blender");
+            ? Path.Combine(StudioRoot.ToolsRoot, ".tools", "blender", "windows", "blender-4.5.12-windows-x64", "blender.exe")
+            : Path.Combine(StudioRoot.ToolsRoot, ".tools", "blender", "Blender.app", "Contents", "MacOS", "Blender");
         if (!File.Exists(blender)) throw new InvalidOperationException("Нет закреплённого Blender. Запрос и исходный дом сохранены.");
         var start = new ProcessStartInfo(blender) { UseShellExecute = false, RedirectStandardOutput = true, RedirectStandardError = true, WorkingDirectory = _studio.Workspace.Root };
         foreach (var argument in new[] { "--background", "--factory-startup", "--python", GeneratorPath, "--", "--root", _studio.Workspace.Root, "--component-only", "hero-house", "--recipe", Path.Combine(stage, "recipe.json"), "--output-dir", stage }) start.ArgumentList.Add(argument);
@@ -543,12 +1123,12 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
 
     private async Task ApplyAsync()
     {
-        if (_busy || _proposal is null || _request is null || _stage is null) return;
+        if (_busy || !_previewReady || _proposal is null || _request is null || _stage is null) return;
+        if (!TryClearPreviewFailure(_request)) return;
         SetBusy(true);
         try
         {
-            if (_snapshot != Fingerprint(File.ReadAllText(Path.Combine(_studio.Workspace.Root, RecipePath))))
-                throw new InvalidOperationException("Исходник изменился после запроса. Получите новое предложение.");
+            EnsurePreparedRequestCurrent(_request);
             ValidateStage();
             var model = "game/assets/models/studio/hero-house-" + _request.RequestId + ".glb";
             var blend = "assets/source/blender/studio/hero-house-" + _request.RequestId + ".blend";
@@ -564,6 +1144,7 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
                 () => ((StudioWorldSection)_studio.Section("world")).ReloadGeometryAsync());
             _status.Text = "Окна изменены. ⌘/Ctrl+Z вернёт исходные проёмы, рецепт и модель; повторить можно через Redo без Codex.";
             ClearProposal();
+            InvalidatePreparedRequest();
         }
         catch (Exception error)
         {
@@ -725,24 +1306,27 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
     private void SetBusy(bool busy)
     {
         _busy = busy;
-        _scope.Disabled = busy || _proposal is not null || _openedSelection != HeroHouseRecipe.EntityId;
-        _ask.Disabled = busy || _openedSelection != HeroHouseRecipe.EntityId
-            || _studio.Selection != _openedSelection;
-        _copy.Disabled = _ask.Disabled;
-        _saveRequest.Disabled = _ask.Disabled;
-        _paste.Disabled = _ask.Disabled || _request is null || _proposal is not null;
+        _prompt.Editable = !busy;
+        _globalInstructions.Disabled = busy || _previewFailureClearFailed;
+        var houseSelected = _openedSelection == HeroHouseRecipe.EntityId && _studio.Selection == _openedSelection;
+        _scope.Disabled = busy || _previewFailureClearFailed || _proposal is not null || _openedSelection != HeroHouseRecipe.EntityId;
+        _ask.Disabled = busy || _previewFailureClearFailed || !houseSelected || _proposal is not null;
+        _copy.Disabled = busy || _previewFailureClearFailed || !houseSelected;
+        _saveRequest.Disabled = busy || _previewFailureClearFailed || !houseSelected;
+        _disclosure.Disabled = busy || _previewFailureClearFailed || !houseSelected;
+        _paste.Disabled = busy || _previewFailureClearFailed || !houseSelected || _request is null || _proposal is not null;
         _importFile.Disabled = _paste.Disabled;
-        _apply.Disabled = busy || _proposal is null || _request is null || _stage is null;
+        _apply.Disabled = busy || _previewFailureClearFailed || !_previewReady || _proposal is null || _request is null || _stage is null;
+        _retryBuild.Disabled = busy || _previewFailureClearFailed || !_retryBuildAvailable || _previewReady || _proposal is null
+            || _request is null || !houseSelected || !Visible;
+        _restorePreview.Disabled = busy || _previewFailureClearFailed || !houseSelected || _request is not null || _proposal is not null;
     }
     private void ClearProposal()
     {
         _proposal = null;
+        _retryBuildAvailable = false;
+        ClearBuildStage();
         _apply.Disabled = true;
-        ClearPreviewModels();
-        if (_stage is not null)
-        {
-            try { Directory.Delete(_stage, recursive: true); } catch (IOException) { }
-            _stage = null;
-        }
+        _retryBuild.Disabled = true;
     }
 }

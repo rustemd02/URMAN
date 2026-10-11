@@ -4,9 +4,10 @@ import argparse
 import hashlib
 import json
 import os
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 import re
 import shutil
+import stat
 import sys
 import tempfile
 import time
@@ -16,7 +17,16 @@ import urllib.request
 import uuid
 import zipfile
 from remote_common import (MAX_ARCHIVE, MAX_SOURCE, REPOSITORY, canonical, candidates,
-                           digest, git, source_state)
+                           digest, git, source_state, STUDIO_AUTHORING_FILES,
+                           studio_authoring_path, MAX_RESULT_BYTES, MAX_RESULT_FILES)
+
+def check_result_destination(path):
+    try:
+        metadata=path.lstat()
+    except FileNotFoundError:
+        return
+    if stat.S_ISLNK(metadata.st_mode) or getattr(metadata,'st_file_attributes',0) & 0x0400:
+        raise ValueError('result destination contains a link')
 
 def settings():
     path=Path(os.environ.get('URMAN_STATION_CONFIG',str(Path.home()/'.config/urman-station/client.json')))
@@ -41,26 +51,27 @@ def settings():
         raise ValueError('station proxy must be a loopback HTTP URL')
     return url,token,proxy
 
-def build_manifest(root):
+def build_manifest(root, *, studio_authoring=False):
     """Hash every file the station would receive, without building the archive first."""
     root=Path(root).resolve()
     origin=git(root,'remote','get-url','origin').decode().strip()
     if origin not in (REPOSITORY,'git@github.com:rustemd02/URMAN.git','ssh://git@github.com:rustemd02/URMAN.git'):
         raise ValueError('unexpected repository origin')
     before=source_state(root)
-    names=candidates(root)
+    names=candidates(root, studio_authoring=studio_authoring)
     manifest={'schema':1,'repository':REPOSITORY,**before,'files':{}}
     total=0
     for name in names:
         h=hashlib.sha256(); size=0
-        with (root/name).open('rb') as src:
+        path=studio_authoring_path(root,name) if name in STUDIO_AUTHORING_FILES else root/name
+        with path.open('rb') as src:
             for chunk in iter(lambda: src.read(1024**2), b''):
                 h.update(chunk); size+=len(chunk)
         total+=size
         if total>MAX_SOURCE:
             raise ValueError('snapshot exceeds source limit')
         manifest['files'][name]={'sha256':h.hexdigest(),'bytes':size}
-    if names!=candidates(root) or before!=source_state(root):
+    if names!=candidates(root, studio_authoring=studio_authoring) or before!=source_state(root):
         raise ValueError('checkout changed during packaging; retry after edits stop')
     manifest['snapshot_id']=hashlib.sha256(canonical(manifest)).hexdigest()
     return manifest
@@ -71,7 +82,8 @@ def write_archive(root, manifest, archive):
     with zipfile.ZipFile(archive,'w',zipfile.ZIP_DEFLATED,compresslevel=1) as z:
         for name,meta in manifest['files'].items():
             h=hashlib.sha256(); size=0
-            with (root/name).open('rb') as src, z.open(name,'w',force_zip64=True) as dest:
+            path=studio_authoring_path(root,name) if name in STUDIO_AUTHORING_FILES else root/name
+            with path.open('rb') as src, z.open(name,'w',force_zip64=True) as dest:
                 for chunk in iter(lambda: src.read(1024**2), b''):
                     dest.write(chunk); h.update(chunk); size+=len(chunk)
             if size!=meta['bytes'] or h.hexdigest()!=meta['sha256']:
@@ -110,7 +122,8 @@ def publish_snapshot(client, root, manifest, log=print):
     for index,sha in enumerate(missing,1):
         name=names[sha]; size=manifest['files'][name]['bytes']
         log(f'  [{index}/{len(missing)}] {name} ({size/1024**2:.2f} MB)')
-        with (Path(root)/name).open('rb') as stream:
+        path=studio_authoring_path(root,name) if name in STUDIO_AUTHORING_FILES else Path(root)/name
+        with path.open('rb') as stream:
             stored=client.request('/blobs/'+sha,stream)
         if stored.get('sha256')!=sha:
             raise ValueError('blob acknowledgement mismatch')
@@ -146,20 +159,60 @@ class Client:
         status=self.request('/jobs/'+jid)
         if status['status']=='RUNNING':
             raise ValueError('job is still running')
+        if not re.fullmatch('[a-f0-9]{64}',status.get('result_sha256','')):
+            raise ValueError('job has no preserved result archive; inspect station error and retained source')
+        dest=Path(os.path.abspath(dest))
+        for current in [*reversed(dest.parents),dest]:
+            check_result_destination(current)
         dest.mkdir(parents=True,exist_ok=True)
+        dest=dest.resolve()
         archive=dest/'result.zip'
+        check_result_destination(archive)
         with self.request('/jobs/'+jid+'/result',raw=True) as src, archive.open('wb') as out:
-            shutil.copyfileobj(src,out)
+            written=0
+            for chunk in iter(lambda:src.read(1024**2),b''):
+                written+=len(chunk)
+                if written>MAX_ARCHIVE:
+                    raise ValueError('result archive exceeds download limit')
+                out.write(chunk)
         if digest(archive)!=status['result_sha256']:
             raise ValueError('result archive checksum mismatch')
         with zipfile.ZipFile(archive) as z:
-            for info in z.infolist():
-                path=dest/info.filename
-                if info.is_dir() or path.resolve().is_relative_to(dest.resolve()) is False or '\\' in info.filename or ':' in info.filename:
+            entries=z.infolist()
+            if len(entries)>MAX_RESULT_FILES or sum(i.file_size for i in entries)>MAX_RESULT_BYTES:
+                raise ValueError('result entries exceed extraction limits')
+            names=set()
+            for info in entries:
+                parts=info.filename.split('/')
+                name=info.filename.casefold()
+                if (info.is_dir() or not info.filename or PurePosixPath(info.filename).is_absolute()
+                        or '\\' in info.filename or ':' in info.filename
+                        or any(c in info.filename for c in '<>"|?*')
+                        or any(ord(c)<32 for c in info.filename)
+                        or name in names or name=='result.zip'
+                        or stat.S_ISLNK(info.external_attr >> 16) or info.external_attr & 0x0400
+                        or any(part in ('','.','..') or part.rstrip(' .')!=part
+                               or re.fullmatch(r'(?i)(con|prn|aux|nul|com[0-9]|lpt[0-9])(\..*)?',part)
+                               for part in parts)):
                     raise ValueError('unsafe result path')
+                names.add(name)
+                current=dest
+                for part in parts:
+                    current=current/part
+                    check_result_destination(current)
+            if any('/'.join(name.split('/')[:index]) in names
+                   for name in names for index in range(1,len(name.split('/')))):
+                raise ValueError('result file paths conflict')
+            expanded=0
+            for info in entries:
+                path=dest/info.filename
                 path.parent.mkdir(parents=True,exist_ok=True)
                 with z.open(info) as src,path.open('wb') as out:
-                    shutil.copyfileobj(src,out)
+                    for chunk in iter(lambda:src.read(1024**2),b''):
+                        expanded+=len(chunk)
+                        if expanded>MAX_RESULT_BYTES:
+                            raise ValueError('result exceeds extraction byte limit')
+                        out.write(chunk)
         print('Artifacts:',dest.resolve())
         return status
 
@@ -173,6 +226,8 @@ def main():
     p.add_argument('--fov',help="capture only: 'player' (player camera FOV) or a number; default control views use 70")
     p.add_argument('--headless',action='store_true');p.add_argument('--wait',type=int,default=1200)
     p.add_argument('--output',type=Path);p.add_argument('--submit-only',action='store_true')
+    p.add_argument('--studio-authoring',action='store_true',
+                   help='include the two fixed house generator inputs in the source snapshot')
     args=p.parse_args();c=Client()
     if args.command=='doctor':
         result=c.request('/health');print(json.dumps(result,ensure_ascii=False,indent=2));return 0 if result['ready'] else 1
@@ -188,7 +243,7 @@ def main():
     # those are uploaded, so a rebuild after a code change costs kilobytes, not the
     # whole tree. The identity is printed before POST: a lost reply is recovered with
     # status/fetch on this job_id instead of a second run.
-    manifest=build_manifest(args.root)
+    manifest=build_manifest(args.root, studio_authoring=args.studio_authoring)
     publish_snapshot(c,args.root,manifest)
     jid=args.job_id or uuid.uuid4().hex
     spec={'job_id':jid,'snapshot_id':manifest['snapshot_id'],'mode':args.command,

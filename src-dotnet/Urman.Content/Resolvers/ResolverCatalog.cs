@@ -168,6 +168,33 @@ public sealed class ResolverCatalog
             ? entries
             : throw ResolverErrors.Create(ResolverErrorCode.InvalidPack, $"Unknown resolver category {category}.");
 
+    internal static bool TryGetCategoryForLogicalId(string logicalId, out string category)
+    {
+        category = string.Empty;
+        if (string.IsNullOrEmpty(logicalId))
+        {
+            return false;
+        }
+
+        var match = LogicalIdPattern.Match(logicalId);
+        if (!match.Success)
+        {
+            return false;
+        }
+
+        var kind = match.Groups[2].Value;
+        foreach (var (candidateCategory, candidateKind) in CategoryKinds)
+        {
+            if (string.Equals(candidateKind, kind, StringComparison.Ordinal))
+            {
+                category = candidateCategory;
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public IReadOnlyList<string> Ids(string category) => Category(category).Keys.ToArray();
 
     public ResolverCatalogEntry Require(string category, string id, ResolverOrigin? from = null)

@@ -1,3 +1,4 @@
+using System.Text.Json;
 using System.Text.Json.Nodes;
 using Godot;
 using Urman.Experiments.AgentBAct1;
@@ -573,6 +574,42 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
     /// <summary>The current editor view as a shot: position, what it looks at, field of view.</summary>
     public (Vector3 Position, Vector3 Look, float Fov)? CameraShot() =>
         _camera is null || !_camera.IsInsideTree() ? null : (_camera.GlobalPosition, _pivot, _camera.Fov);
+
+    /// <summary>Capture the live editor camera and render viewport for an authoring request.</summary>
+    public JsonElement CaptureAuthoringCamera()
+    {
+        if (_camera is null || !_camera.IsInsideTree()
+            || _viewport is null || !_viewport.IsInsideTree()
+            || _camera.GetViewport() != _viewport || !_camera.Current)
+            throw new InvalidOperationException("The active Studio world camera or viewport is unavailable.");
+
+        var position = _camera.GlobalPosition;
+        var rotation = _camera.RotationDegrees;
+        var size = _viewport.Size;
+        if (!float.IsFinite(position.X) || !float.IsFinite(position.Y) || !float.IsFinite(position.Z)
+            || !float.IsFinite(rotation.X) || !float.IsFinite(rotation.Y) || !float.IsFinite(rotation.Z)
+            || !float.IsFinite(_camera.Fov) || !float.IsFinite(_camera.Size)
+            || size.X <= 0 || size.Y <= 0)
+            throw new InvalidOperationException("The active Studio world camera or viewport has invalid dimensions.");
+
+        var projection = _camera.Projection switch
+        {
+            Camera3D.ProjectionType.Perspective => "perspective",
+            Camera3D.ProjectionType.Orthogonal => "orthogonal",
+            Camera3D.ProjectionType.Frustum => "frustum",
+            _ => throw new InvalidOperationException("The active Studio world camera projection is unsupported.")
+        };
+
+        return JsonSerializer.SerializeToElement(new
+        {
+            projection,
+            position = new { x = position.X, y = position.Y, z = position.Z },
+            rotationDegrees = new { x = rotation.X, y = rotation.Y, z = rotation.Z },
+            fov = _camera.Fov,
+            size = _camera.Size,
+            viewport = new { width = size.X, height = size.Y }
+        });
+    }
 
     public void LookAt(Vector3 point, float distance)
     {
@@ -1286,7 +1323,13 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
 
         var summary = studio.Catalog.Describe(id);
         panel.Header(summary.Name, summary.KindLabel + " · экземпляр в мире");
-        panel.IdLine(id);
+        var groupIds = _group.ToArray();
+        var scopeEntityIds = groupIds.Length == 0
+            ? null
+            : groupIds.Contains(id, StringComparer.Ordinal)
+                ? new[] { id }.Concat(groupIds.Where(groupId => groupId != id).OrderBy(groupId => groupId, StringComparer.Ordinal)).ToArray()
+                : groupIds.OrderBy(groupId => groupId, StringComparer.Ordinal).ToArray();
+        panel.IdLine(id, scopeEntityIds);
         if (_pickedPart is { } selectedPart && selectedPart.EntityId == id && selectedPart.PartLabel is { } partLabel)
             panel.Text(partLabel, muted: true);
         var parameters = entity["params"] as JsonObject ?? [];
@@ -1294,7 +1337,15 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
         var lockBox = new CheckBox { Text = "Заблокировать от случайного выбора", ButtonPressed = (bool?)entity["locked"] ?? false };
         lockBox.Toggled += on => studio.Session.SetField(id, ["locked"], on, on ? "заблокировать" : "разблокировать");
         panel.AddChild(lockBox);
-        if (_group.Count > 1) panel.Text($"Выбрано объектов: {_group.Count}. ⌘D дублирует все, перетаскивание двигает все.", muted: true);
+        if (scopeEntityIds is { Length: > 0 })
+        {
+            var selectedCount = scopeEntityIds.Length == 1 ? "1 объект" : $"{scopeEntityIds.Length} объектов";
+            var primarySummary = scopeEntityIds[0] == id
+                ? $"Основной ID группы: {scopeEntityIds[0]}."
+                : $"Основной ID группы: {scopeEntityIds[0]}. Показанный объект вне группы.";
+            var groupActions = _group.Count > 1 ? " ⌘D дублирует все, перетаскивание двигает все." : string.Empty;
+            panel.Text($"«Контекст…» включит группу: {selectedCount}. {primarySummary}{groupActions}", muted: true);
+        }
         if (parameters["catalogId"] is JsonValue catalogId)
         {
             var entry = _catalog.OfType<JsonObject>().FirstOrDefault(item => (string)item["id"]! == (string)catalogId!);

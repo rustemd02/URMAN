@@ -55,6 +55,7 @@ public partial class StudioRoot : Control
     private double _sinceAutosave;
     private double _sinceWatch;
     private Process? _run;
+    private bool _closing;
 
     public StudioWorkspace Workspace { get; private set; } = null!;
     public EditSession Session { get; private set; } = null!;
@@ -71,10 +72,16 @@ public partial class StudioRoot : Control
         OS.GetCmdlineUserArgs().LastOrDefault(argument => argument.StartsWith("--urman-studio-root=", StringComparison.Ordinal))?["--urman-studio-root=".Length..]
         ?? Path.GetFullPath(Path.Combine(ProjectSettings.GlobalizePath("res://"), ".."));
 
+    public static string ToolsRoot => Path.GetFullPath(
+        OS.GetCmdlineUserArgs().LastOrDefault(argument => argument.StartsWith("--urman-studio-tools-root=", StringComparison.Ordinal))?["--urman-studio-tools-root=".Length..]
+        ?? RepositoryRoot);
+
     public override void _Ready()
     {
         SetAnchorsAndOffsetsPreset(LayoutPreset.FullRect);
+        GetTree().AutoAcceptQuit = false;
         var window = GetWindow();
+        window.CloseRequested += OnWindowCloseRequested;
         var usableScreen = DisplayServer.ScreenGetUsableRect((int)DisplayServer.ScreenOfMainWindow);
         if (usableScreen.Size.X > 0 && usableScreen.Size.Y > 0)
         {
@@ -654,6 +661,7 @@ public partial class StudioRoot : Control
 
     public async void PlayFromHere()
     {
+        if (_closing) return;
         if (_run is not null)
         {
             ShowBanner("Пробный запуск уже идёт. Закройте окно игры, чтобы запустить новую версию.", error: false);
@@ -667,6 +675,12 @@ public partial class StudioRoot : Control
 
         RefreshStatus("Подготовка запуска…");
         var build = await PlayPreparation.CompileAsync(Workspace.Root);
+        if (_closing) return;
+        if (_run is not null)
+        {
+            ShowBanner("Пробный запуск уже идёт. Закройте окно игры, чтобы запустить новую версию.", error: false);
+            return;
+        }
         if (!build.Ready)
         {
             ShowBanner("Черновик не готов к запуску: " + string.Join("; ", build.Problems.Take(3)) + (build.Problems.Count > 3 ? $" и ещё {build.Problems.Count - 3}" : ""), error: true);
@@ -695,19 +709,62 @@ public partial class StudioRoot : Control
         _run = Process.Start(info)!;
         LastRun = folder;
         var log = new StreamWriter(folder.LogPath) { AutoFlush = true };
+        var closedStreams = 0;
+        var logClosed = false;
         void Write(string? line)
         {
-            if (line is null) return;
-            lock (log) log.WriteLine(line);
+            lock (log)
+            {
+                if (line is null)
+                {
+                    if (!logClosed && ++closedStreams == 2)
+                    {
+                        logClosed = true;
+                        log.Dispose();
+                    }
+                    return;
+                }
+                if (!logClosed) log.WriteLine(line);
+            }
         }
 
         _run.OutputDataReceived += (_, data) => Write(data.Data);
         _run.ErrorDataReceived += (_, data) => Write(data.Data);
-        _run.Exited += (_, _) => { lock (log) log.Dispose(); };
         _run.EnableRaisingEvents = true;
         _run.BeginOutputReadLine();
         _run.BeginErrorReadLine();
         RefreshStatus($"▶ Запущена проверка · {build.RevisionLabel}");
+    }
+
+    private void OnWindowCloseRequested()
+    {
+        if (_closing) return;
+        _closing = true;
+        var run = _run;
+        if (run is null)
+        {
+            GetTree().Quit();
+            return;
+        }
+
+        try
+        {
+            if (!run.HasExited)
+            {
+                run.Kill(entireProcessTree: true);
+                if (!run.WaitForExit(5000)) throw new TimeoutException();
+            }
+            if (!run.HasExited) throw new TimeoutException();
+            if (ReferenceEquals(_run, run)) _run = null;
+            run.Dispose();
+            GetTree().Quit();
+        }
+        catch (Exception error)
+        {
+            _closing = false;
+            ShowBanner("Не удалось подтвердить завершение пробного запуска. Окно Studio осталось открытым; закройте игру вручную и попробуйте ещё раз.", error: true);
+            GD.PushError($"Studio refused to close because child-process exit could not be confirmed ({error.GetType().Name}).");
+        }
     }
 
     // ---- status and banners ---------------------------------------------------------------

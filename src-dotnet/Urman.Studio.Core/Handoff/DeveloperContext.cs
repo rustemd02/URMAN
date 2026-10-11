@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Text;
 using System.Text.Json.Nodes;
 using System.Text.Json;
+using Urman.Content.Resolvers;
 using Urman.Studio.Core.Editing;
 using Urman.Studio.Core.AI;
 using Urman.Studio.Core.Storage;
@@ -20,6 +21,9 @@ public sealed class DeveloperContext(StudioWorkspace workspace, EntityCatalog ca
 {
     private const int MaximumPackagePayloadBytes = 256 * 1024;
     private const int MaximumPackageEntries = 403; // manifest/context/entities plus at most 200 source baseline/current pairs
+    private const int MaximumHouseWindowProposalBytes = 32 * 1024;
+    private const int MaximumHouseWindowPreviewFailureBytes = 4 * 1024;
+    private static readonly UTF8Encoding StrictUtf8 = new(false, true);
 
     public string Revision() => ResolveRevision(workspace.Root);
 
@@ -98,22 +102,54 @@ public sealed class DeveloperContext(StudioWorkspace workspace, EntityCatalog ca
     {
         if (workspace.Locate(id) is null || workspace.Get(id) is null)
             return "Объект больше не существует. Выберите существующий объект для передачи контекста.";
-        return BuildText(id, step, problem, Revision(), CaptureDependencies(id));
+        return Text([id], step, problem);
     }
 
-    private string BuildText(string id, string? step, string? problem, string revision, DependencyCapture capture)
+    public string Text(IReadOnlyList<string> rootIds, string? step = null, string? problem = null)
+    {
+        var roots = FreezeScopeEntityIds(rootIds);
+        var capture = CaptureDependencies(roots);
+        var tombstones = CaptureTombstones(capture.Missing);
+        return BuildText(roots[0], roots, step, problem, Revision(), capture, tombstones, sourceSnapshotsIncluded: false);
+    }
+
+    private string BuildText(
+        string id,
+        IReadOnlyList<string> scopeEntityIds,
+        string? step,
+        string? problem,
+        string revision,
+        DependencyCapture capture,
+        IReadOnlyList<PackageTombstone> tombstones,
+        bool sourceSnapshotsIncluded)
     {
         var summary = catalog.Describe(id);
         var builder = new StringBuilder();
         builder.AppendLine($"{summary.KindLabel} «{summary.Name}», ID {id}.");
         builder.AppendLine($"Проект URMAN, ревизия {revision}; состояние: {DraftState(id)}.");
+        builder.AppendLine($"Выбрано объектов: {scopeEntityIds.Count}; основной объект: {id}.");
+        builder.AppendLine("Выбранные ID (корни, в заданном порядке): " + string.Join(", ", scopeEntityIds) + ".");
         if (step is not null) builder.AppendLine($"Выделено: {step}.");
         var parents = new ReferenceIndex(workspace).UsedBy(id).Take(6).Select(user => $"{catalog.Describe(user).KindLabel} «{catalog.NameOf(user)}» ({user})").ToArray();
         if (parents.Length > 0) builder.AppendLine("Используется в: " + string.Join("; ", parents) + ".");
-        var dependencies = capture.Entities.Where(dependency => dependency != id).Take(8).Select(dependency => $"«{catalog.NameOf(dependency)}» ({dependency})").ToArray();
-        if (dependencies.Length > 0) builder.AppendLine("Ссылается на: " + string.Join("; ", dependencies) + ".");
+        var selected = scopeEntityIds.ToHashSet(StringComparer.Ordinal);
+        var dependencies = capture.Entities.Where(dependency => !selected.Contains(dependency)).Take(8).Select(dependency => $"«{catalog.NameOf(dependency)}» ({dependency})").ToArray();
+        if (dependencies.Length > 0) builder.AppendLine("Дополнительные обнаруженные зависимости: " + string.Join("; ", dependencies) + ".");
+        builder.AppendLine("Обход зависимостей частичный: известные типизированные поля сканируются у content/modules сущностей категорий assets, characters, scenes, documents, capabilities, dialogues, quests, knowledge и vocabulary; категория цели определяется каноническим ContentId в существующих реестрах. Knowledge и vocabulary обходятся только по известным массивам ContentId; допустимость цели в конкретном поле не проверяется. Texts остаются конечными целями: отсутствие переходов от них не означает полного покрытия. Сцены, диалоги и документы обходятся только по перечисленным полям; более глубокие ссылки, условия, эффекты, физические сущности и связи, другие поля и world/custom-источники не покрыты.");
+        if (capture.Missing.Count > 0)
+            builder.AppendLine("Нет живого payload объектов для отсутствующих типизированных зависимостей: " + string.Join(", ", capture.Missing) + ".");
+        if (tombstones.Count > 0)
+        {
+            builder.AppendLine("Удаление подтверждено только сравнением загруженного базового снимка Studio с текущим черновиком (это не доказывает Git-историю или намерение удаления): "
+                + string.Join(", ", tombstones.Select(tombstone => $"{tombstone.Id} в {tombstone.File}")) + ".");
+            builder.AppendLine(sourceSnapshotsIncluded
+                ? "Полные снимки указанных исходных файлов включены в пакет для просмотра; там могут быть соседние сущности и их черновики. Просмотр не применяет их к проекту."
+                : "Полные исходные файлы в этом текстовом контексте не приложены.");
+        }
+        if (capture.Unsupported.Count > 0)
+            builder.AppendLine("Источники без поддержанного обхода типизированных ссылок: " + string.Join(", ", capture.Unsupported) + ".");
         if (capture.Truncated)
-            builder.AppendLine($"Контекст неполный: включены первые {capture.Entities.Count} объектов; ещё {capture.Pending.Count} обнаруженных зависимостей не приложены. Их собственные зависимости ещё не просмотрены.");
+            builder.AppendLine($"Достигнут предел 200 приложенных объектов: ещё {capture.Pending.Count} найденных целей не приложены, их связи не просмотрены.");
         builder.AppendLine($"Файл: {summary.RelativePath}.");
         if (!string.IsNullOrWhiteSpace(problem)) builder.AppendLine($"Проблема: {problem.Trim()}");
         if (DraftState(id) != "сохранён локально")
@@ -124,44 +160,142 @@ public sealed class DeveloperContext(StudioWorkspace workspace, EntityCatalog ca
         return builder.ToString().TrimEnd();
     }
 
-    /// <summary>The first 200 existing entities reached through ID-shaped strings, including the subject.</summary>
-    public IReadOnlyList<string> Dependencies(string id) => CaptureDependencies(id).Entities;
+    /// <summary>The first 200 existing entities reached through known typed module references, including the subject.</summary>
+    public IReadOnlyList<string> Dependencies(string id) => CaptureDependencies(FreezeScopeEntityIds([id])).Entities;
 
-    private sealed record DependencyCapture(IReadOnlyList<string> Entities, IReadOnlyList<string> Pending)
+    private sealed record DependencyCapture(
+        IReadOnlyList<string> Entities,
+        IReadOnlyList<string> Pending,
+        IReadOnlyList<string> Missing,
+        IReadOnlyList<string> Unsupported)
     {
         public bool Truncated => Pending.Count > 0;
     }
 
-    private DependencyCapture CaptureDependencies(string id)
+    private string[] FreezeScopeEntityIds(IReadOnlyList<string> rootIds)
     {
-        if (workspace.Locate(id) is null || workspace.Get(id) is null)
-            throw new InvalidOperationException("Объект больше не существует. Выберите существующий объект для передачи контекста.");
-        // shortcut: legacy v1 discovers ID-shaped strings; v2 must use typed references and include non-entity assets.
+        ArgumentNullException.ThrowIfNull(rootIds);
+        var roots = rootIds.ToArray();
+        if (roots.Length is < 1 or > 200)
+            throw new ArgumentOutOfRangeException(nameof(rootIds), "Выберите от 1 до 200 исходных объектов.");
+        var seen = new HashSet<string>(StringComparer.Ordinal);
+        foreach (var root in roots)
+        {
+            if (string.IsNullOrEmpty(root) || !seen.Add(root))
+                throw new ArgumentException("Выбранные ID должны быть непустыми и уникальными.", nameof(rootIds));
+            if (workspace.Locate(root) is null || workspace.Get(root) is null)
+                throw new InvalidOperationException($"Объект {root} больше не существует. Выберите существующие объекты для передачи контекста.");
+        }
+
+        return roots;
+    }
+
+    private DependencyCapture CaptureDependencies(IReadOnlyList<string> roots)
+    {
         var result = new List<string>();
-        var queue = new Queue<string>([id]);
-        var seen = new HashSet<string>(StringComparer.Ordinal) { id };
+        var queue = new Queue<string>(roots);
+        var seen = new HashSet<string>(roots, StringComparer.Ordinal);
+        var missing = new HashSet<string>(StringComparer.Ordinal);
+        var unsupported = new List<string>();
         while (queue.Count > 0 && result.Count < 200)
         {
             var current = queue.Dequeue();
             result.Add(current);
-            if (workspace.Get(current) is not { } entity) continue;
-            foreach (var value in Strings(entity))
+            var address = workspace.Locate(current);
+            if (address is null || workspace.Get(current) is not JsonObject entity
+                || !IsModuleEntityPath(address.RelativePath))
             {
-                if (value.Contains(':') && workspace.Locate(value) is not null && seen.Add(value))
+                unsupported.Add(current);
+                continue;
+            }
+
+            var sourceCategory = EntityCatalog.KindOf(current, null) switch
+            {
+                "asset" => "assets",
+                "character" => "characters",
+                "scene" => "scenes",
+                "document" => "documents",
+                "capability" => "capabilities",
+                "dialogue" => "dialogues",
+                "quest" => "quests",
+                "knowledge" => "knowledge",
+                "vocabulary" => "vocabulary",
+                _ => null
+            };
+            if (sourceCategory is null)
+            {
+                unsupported.Add(current);
+                continue;
+            }
+
+            IReadOnlyList<ContentReference> references;
+            try
+            {
+                references = ManifestClosureValidator.ReadReferences(sourceCategory, entity);
+            }
+            catch (ResolverException error)
+            {
+                throw new InvalidDataException(
+                    $"Некорректные типизированные ссылки в сущности {current} ({address.RelativePath}): {error.Message}",
+                    error);
+            }
+
+            foreach (var reference in references)
+            {
+                var expectedKind = reference.TargetCategory switch
                 {
-                    queue.Enqueue(value);
+                    "assets" => "asset",
+                    "texts" => "text",
+                    "characters" => "character",
+                    "scenes" => "scene",
+                    "documents" => "document",
+                    "capabilities" => "capability",
+                    "dialogues" => "dialogue",
+                    "quests" => "quest",
+                    "knowledge" => "knowledge",
+                    "vocabulary" => "vocabulary",
+                    _ => throw new InvalidDataException("Типизированная ссылка использует неподдержанную категорию.")
+                };
+                if (!string.Equals(EntityCatalog.KindOf(reference.TargetId, null), expectedKind, StringComparison.Ordinal))
+                    throw new InvalidDataException(
+                        $"Ссылка {current} ({address.RelativePath}){reference.Pointer} ведёт к цели {reference.TargetId}, тип которой не совпадает с категорией {reference.TargetCategory}.");
+
+                var target = workspace.Get(reference.TargetId);
+                if (workspace.Locate(reference.TargetId) is null || target is null)
+                {
+                    missing.Add(reference.TargetId);
+                    continue;
                 }
+
+                if (reference.ExpectedAssetKind is { } expectedAssetKind)
+                {
+                    if (reference.TargetCategory != "assets"
+                        || target is not JsonObject asset
+                        || asset["kind"] is not JsonValue assetKindValue
+                        || !assetKindValue.TryGetValue<string>(out var actualAssetKind)
+                        || !string.Equals(actualAssetKind, expectedAssetKind, StringComparison.Ordinal))
+                        throw new InvalidDataException(
+                            $"Ссылка {current} ({address.RelativePath}){reference.Pointer} ведёт к {reference.TargetId}, который должен быть ресурсом типа {expectedAssetKind}.");
+                }
+
+                if (seen.Add(reference.TargetId)) queue.Enqueue(reference.TargetId);
             }
         }
 
-        return new DependencyCapture(result, queue.ToArray());
+        return new DependencyCapture(result, queue.ToArray(), missing.Order(StringComparer.Ordinal).ToArray(), unsupported);
     }
 
     /// <summary>A portable package: manifest, readable text and the entities themselves (HAND04, HAND05).</summary>
-    public (string Path, int Entities, long Bytes) WritePackage(string id, string directory, string? problem = null)
+    public (string Path, int Entities, long Bytes) WritePackage(string id, string directory, string? problem = null) =>
+        WritePackage([id], directory, problem);
+
+    public (string Path, int Entities, long Bytes) WritePackage(IReadOnlyList<string> rootIds, string directory, string? problem = null)
     {
-        var capture = CaptureDependencies(id);
+        var roots = FreezeScopeEntityIds(rootIds);
+        var id = roots[0];
+        var capture = CaptureDependencies(roots);
         var dependencies = capture.Entities;
+        var tombstones = CaptureTombstones(capture.Missing);
         var revision = Revision();
         var caseId = $"ctx-{DateTimeOffset.Now:yyyyMMdd-HHmmss}-{Guid.NewGuid().ToString("N")}";
         var path = Path.Combine(directory, caseId + ".zip");
@@ -180,7 +314,7 @@ public sealed class DeveloperContext(StudioWorkspace workspace, EntityCatalog ca
 
         var options = PackageJsonOptions();
         var encoding = new UTF8Encoding(false);
-        var contextBytes = encoding.GetBytes(BuildText(id, null, problem, revision, capture));
+        var contextBytes = encoding.GetBytes(BuildText(id, roots, null, problem, revision, capture, tombstones, sourceSnapshotsIncluded: true));
         var entityBytes = encoding.GetBytes(entities.ToJsonString(options));
         var initialPayloadBytes = (long)contextBytes.Length + entityBytes.Length;
         if (initialPayloadBytes > MaximumPackagePayloadBytes)
@@ -192,7 +326,16 @@ public sealed class DeveloperContext(StudioWorkspace workspace, EntityCatalog ca
         };
         var sourceManifest = new JsonArray();
         var sourceIndex = 0;
-        foreach (var source in CapturePackageSources(dependencies, initialPayloadBytes))
+        var packageSources = CapturePackageSources(dependencies, initialPayloadBytes, tombstones.Select(tombstone => tombstone.File).ToArray());
+        ValidateTombstoneSnapshots(packageSources.Select(source => new ContextPackageSource(
+            source.Snapshot.RelativePath,
+            source.Snapshot.BaseSha256,
+            source.Snapshot.Sha256,
+            source.Snapshot.BaseText,
+            source.Snapshot.Text,
+            source.Snapshot.IsNew,
+            source.Snapshot.Dirty)), tombstones);
+        foreach (var source in packageSources)
         {
             var stem = $"sources/{sourceIndex++:D3}";
             string? baseRef = null;
@@ -238,19 +381,28 @@ public sealed class DeveloperContext(StudioWorkspace workspace, EntityCatalog ca
         var manifest = new JsonObject
         {
             ["kind"] = "urman.studio-context",
-            ["schemaVersion"] = 3,
+            ["schemaVersion"] = 6,
             ["caseId"] = caseId,
             ["subject"] = id,
+            ["scopeEntityIds"] = new JsonArray(roots.Select(value => (JsonNode?)JsonValue.Create(value)).ToArray()),
+            ["tombstones"] = new JsonArray(tombstones.Select(tombstone => (JsonNode?)new JsonObject
+            {
+                ["id"] = tombstone.Id,
+                ["file"] = tombstone.File
+            }).ToArray()),
             ["baseRevision"] = revision,
             ["created"] = DateTimeOffset.Now.ToString("O"),
             ["entities"] = dependencies.Count,
             ["truncated"] = capture.Truncated,
             ["pendingDependencyIds"] = new JsonArray(capture.Pending.Select(value => (JsonNode?)JsonValue.Create(value)).ToArray()),
-            ["dependencyDiscovery"] = "legacy-id-shaped-strings",
+            ["dependencyDiscovery"] = "partial-typed-module-fields-v3",
+            ["referenceCoverageComplete"] = false,
+            ["unsupportedEntityIds"] = new JsonArray(capture.Unsupported.Select(value => (JsonNode?)JsonValue.Create(value)).ToArray()),
+            ["missingDependencyIds"] = new JsonArray(capture.Missing.Select(value => (JsonNode?)JsonValue.Create(value)).ToArray()),
             ["payloadHashAlgorithm"] = "sha256",
             ["files"] = files,
             ["sources"] = sourceManifest,
-            ["note"] = "Исходник currentHash — SHA-256 полных текущих байтов UTF-8 после восстановления и строгой UTF-8-проверки. currentEncoding=splice-v1 хранит в currentRef JSON-наложение: offsetBytes/removeBytes измеряются в байтах UTF-8 baseRef, insertBase64 — Base64 точной вставляемой последовательности байтов. files[].sha256 и files[].bytes проверяют точные байты файлов в архиве, включая JSON-наложение, а не восстановленный исходник. truncated означает остановленный обход; pendingDependencyIds — обнаруженные, но не приложенные IDs, не полный список пропущенных транзитивных зависимостей. Абсолютные пути пользователя и данные сохранений игроков не включены."
+            ["note"] = "Зависимости частично обнаруживаются по известным типизированным полям content/modules сущностей категорий assets, characters, scenes, documents, capabilities, dialogues, quests, knowledge и vocabulary. Категория целевой сущности определяется каноническим ContentId в существующих реестрах. Knowledge и vocabulary обходятся только по известным массивам ContentId; допустимость цели в конкретном поле не проверяется; texts остаются конечными целями, а отсутствие переходов от них не означает полного покрытия. Сцены, диалоги и документы обходятся только по перечисленным полям. Более глубокие ссылки, условия, эффекты, физические сущности и связи, другие поля и world/custom-источники не покрыты; referenceCoverageComplete=false сохраняется даже без pending. unsupportedEntityIds перечисляет включённые сущности без поддержанного обхода; missingDependencyIds — типизированные цели, отсутствующие в рабочем пространстве; tombstones — лишь те missingDependencyIds, которые встретились ровно один раз среди загруженных базовых снимков и отсутствуют во всех текущих ID проекта. Это подтверждает только различие сохранённой при загрузке базы и текущего черновика, не Git-историю и не причину удаления. Файлы исходников прилагаются целиком и могут содержать соседние сущности и их черновики; просмотр пакета не применяет их к проекту. pendingDependencyIds — найденные существующие цели за пределом 200 сущностей. currentHash и baseHash — SHA-256 полных текущего текста и загруженной базовой версии UTF-8, не фрагмента entities[].data; currentEncoding=splice-v1 хранит currentRef JSON-наложение: offsetBytes/removeBytes измеряются в байтах UTF-8 baseRef, insertBase64 — Base64 точной вставляемой последовательности байтов. files[].sha256 и files[].bytes проверяют точные байты файлов в архиве, включая JSON-наложение, а не восстановленный исходник. Абсолютные пути пользователя и данные сохранений игроков не включены."
         };
         var manifestBytes = encoding.GetBytes(manifest.ToJsonString(options));
         if (payloads.Values.Sum(bytes => (long)bytes.Length) + manifestBytes.Length > MaximumPackagePayloadBytes)
@@ -274,11 +426,78 @@ public sealed class DeveloperContext(StudioWorkspace workspace, EntityCatalog ca
         string CurrentEncoding,
         bool ReusesBase);
 
-    private IReadOnlyList<PackageSource> CapturePackageSources(IReadOnlyList<string> dependencies, long initialPayloadBytes)
+    private sealed record PackageTombstone(string Id, string File);
+
+    private static void ValidateTombstoneSnapshots(
+        IEnumerable<ContextPackageSource> sources,
+        IReadOnlyList<PackageTombstone> tombstones)
+    {
+        var currentEntityIds = new HashSet<string>(StringComparer.Ordinal);
+        var baselineEntityIdPaths = new Dictionary<string, List<string>>(StringComparer.Ordinal);
+        foreach (var source in sources)
+        {
+            foreach (var entityId in AuthoredFile.EntityIdsInSource(source.RelativePath, source.CurrentText))
+                if (!currentEntityIds.Add(entityId))
+                    throw new InvalidDataException($"Текущие исходники содержат повторный ID сущности {entityId}.");
+
+            if (source.BaseText is null) continue;
+            foreach (var entityId in AuthoredFile.EntityIdsInSource(source.RelativePath, source.BaseText))
+            {
+                if (!baselineEntityIdPaths.TryGetValue(entityId, out var paths))
+                    baselineEntityIdPaths.Add(entityId, paths = []);
+                paths.Add(source.RelativePath);
+            }
+        }
+
+        foreach (var tombstone in tombstones)
+        {
+            if (!baselineEntityIdPaths.TryGetValue(tombstone.Id, out var baselinePaths)
+                || baselinePaths.Count != 1
+                || !string.Equals(baselinePaths[0], tombstone.File, StringComparison.Ordinal)
+                || currentEntityIds.Contains(tombstone.Id))
+                throw new InvalidDataException($"Удалённый объект {tombstone.Id} не подтверждён единственным базовым источником или всё ещё присутствует в текущем проекте.");
+        }
+    }
+
+    private IReadOnlyList<PackageTombstone> CaptureTombstones(IReadOnlyList<string> missingIds)
+    {
+        if (missingIds.Count == 0) return [];
+
+        var missing = missingIds.ToHashSet(StringComparer.Ordinal);
+        var removedById = new Dictionary<string, List<string>>(StringComparer.Ordinal);
+        foreach (var file in workspace.Files)
+        {
+            foreach (var id in file.GetDeletedEntityIds())
+            {
+                if (!missing.Contains(id)) continue;
+                if (!removedById.TryGetValue(id, out var paths)) removedById.Add(id, paths = []);
+                paths.Add(file.RelativePath);
+            }
+        }
+
+        var result = new List<PackageTombstone>();
+        foreach (var id in missingIds)
+        {
+            if (workspace.Locate(id) is not null || workspace.IsAmbiguous(id)
+                || !removedById.TryGetValue(id, out var paths) || paths.Count != 1)
+                continue;
+            result.Add(new(id, paths[0]));
+        }
+
+        return result;
+    }
+
+    private IReadOnlyList<PackageSource> CapturePackageSources(
+        IReadOnlyList<string> dependencies,
+        long initialPayloadBytes,
+        IReadOnlyList<string>? additionalPaths = null)
     {
         var paths = dependencies.Select(dependency => workspace.Locate(dependency)?.RelativePath
                 ?? throw new InvalidOperationException("Источник сущности больше не существует."))
+            .Concat(additionalPaths ?? Array.Empty<string>())
             .Distinct(StringComparer.Ordinal).ToArray();
+        if (paths.Length > 200)
+            throw new InvalidOperationException("Пакет включает больше 200 различных исходных файлов; файл не записан.");
         var result = new List<PackageSource>(paths.Length);
         var utf8 = new UTF8Encoding(false, true);
         var payloadBytes = initialPayloadBytes;
@@ -403,6 +622,9 @@ public sealed class DeveloperContext(StudioWorkspace workspace, EntityCatalog ca
             || extension.Equals(".md", StringComparison.OrdinalIgnoreCase) && segments[0] == "content" && segments[1] == "modules";
     }
 
+    private static bool IsModuleEntityPath(string path) =>
+        path.StartsWith("content/modules/", StringComparison.Ordinal) && IsSafeSourcePath(path);
+
     private static void Write(ZipArchive zip, string name, byte[] bytes)
     {
         using var stream = zip.CreateEntry(name).Open();
@@ -416,19 +638,207 @@ public sealed class DeveloperContext(StudioWorkspace workspace, EntityCatalog ca
         var relative = ".urman-studio/handoff/request-" + request.RequestId + ".txt";
         StudioFileTransaction.EnsureNoLinks(root, relative, allowStudioMetadata: true);
         var path = Path.Combine(root, relative);
-        AtomicFile.WriteAllBytes(path, new UTF8Encoding(false).GetBytes(text), overwrite: false);
+        var bytes = new UTF8Encoding(false).GetBytes(text);
+        if (File.Exists(path))
+        {
+            var existing = new FileInfo(path);
+            if (existing.Length == bytes.LongLength && File.ReadAllBytes(path).AsSpan().SequenceEqual(bytes))
+                return path;
+
+            throw new IOException("A different request already exists at this path; it was left unchanged.");
+        }
+
+        AtomicFile.WriteAllBytes(path, bytes, overwrite: false);
         return path;
     }
 
     /// <summary>Preserve validated pilot job artifacts without following project metadata links or replacing a prior attempt.</summary>
     public static void WriteHouseWindowJob(string root, HouseWindowRequest request, HouseWindowProposal? proposal = null)
     {
-        if (proposal is null) HouseWindowProposalValidator.ValidateRequest(request);
-        else HouseWindowProposalValidator.Validate(request, proposal);
+        string text;
+        if (proposal is null)
+            text = CodexProposalProvider.SerializeRequest(request);
+        else
+            text = CodexProposalProvider.SerializeProposal(request, proposal);
         var relative = ".urman-studio/ai-jobs/" + request.RequestId + "/" + (proposal is null ? "request.json" : "proposal.json");
         StudioFileTransaction.EnsureNoLinks(root, relative, allowStudioMetadata: true);
-        var text = proposal is null ? JsonSerializer.Serialize(request) : JsonSerializer.Serialize(proposal);
         AtomicFile.WriteAllBytes(Path.Combine(root, relative), new UTF8Encoding(false).GetBytes(text), overwrite: false);
+    }
+
+    /// <summary>Record an explicit local preview failure for the exact stored request and proposal.</summary>
+    public static void MarkHouseWindowPreviewFailed(string root, HouseWindowRequest request, HouseWindowProposal proposal)
+    {
+        ArgumentNullException.ThrowIfNull(request);
+        ArgumentNullException.ThrowIfNull(proposal);
+        var requestBytes = StrictUtf8.GetBytes(AuthoringRequestV2.Serialize(request));
+        var proposalBytes = StrictUtf8.GetBytes(CodexProposalProvider.SerializeProposal(request, proposal));
+        if (proposalBytes.Length > MaximumHouseWindowProposalBytes)
+            throw new InvalidDataException("The stored house-window proposal exceeds its size limit.");
+
+        var requestRelative = HouseWindowJobRelativePath(request.RequestId, "request.json");
+        var proposalRelative = HouseWindowJobRelativePath(request.RequestId, "proposal.json");
+        var failureRelative = HouseWindowJobRelativePath(request.RequestId, "preview-failed.json");
+        var storedRequest = ReadBoundedHouseWindowJobFile(root, requestRelative, HouseWindowProposalValidator.MaximumSerializedRequestBytes);
+        var storedProposal = ReadBoundedHouseWindowJobFile(root, proposalRelative, MaximumHouseWindowProposalBytes);
+        if (!storedRequest.AsSpan().SequenceEqual(requestBytes) || !storedProposal.AsSpan().SequenceEqual(proposalBytes))
+            throw new InvalidDataException("The stored request or proposal does not match this preview failure.");
+
+        var receipt = SerializeHouseWindowPreviewFailureReceipt(request.RequestId,
+            AtomicFile.Sha256(requestBytes), AtomicFile.Sha256(proposalBytes));
+        if (receipt.Length > MaximumHouseWindowPreviewFailureBytes)
+            throw new InvalidDataException("The preview-failure receipt exceeds its size limit.");
+        StudioFileTransaction.EnsureNoLinks(root, failureRelative, allowStudioMetadata: true);
+        var path = Path.Combine(root, failureRelative.Replace('/', Path.DirectorySeparatorChar));
+        if (File.Exists(path))
+        {
+            var existing = ReadBoundedHouseWindowJobFile(root, failureRelative, MaximumHouseWindowPreviewFailureBytes);
+            if (existing.AsSpan().SequenceEqual(receipt)) return;
+            throw new IOException("A different preview-failure receipt already exists for this request.");
+        }
+
+        AtomicFile.WriteAllBytes(path, receipt, overwrite: false);
+    }
+
+    /// <summary>Remove only the local preview-failure receipt for an explicit request ID.</summary>
+    public static void ClearHouseWindowPreviewFailure(string root, string requestId)
+    {
+        var relative = HouseWindowJobRelativePath(requestId, "preview-failed.json");
+        StudioFileTransaction.EnsureNoLinks(root, relative, allowStudioMetadata: true);
+        var path = Path.Combine(root, relative.Replace('/', Path.DirectorySeparatorChar));
+        if (File.Exists(path)) File.Delete(path);
+    }
+
+    /// <summary>Read and verify the exact request/proposal pair with an explicit local preview-failure receipt.</summary>
+    public static (HouseWindowRequest Request, HouseWindowProposal Proposal) ReadHouseWindowPreviewFailure(string root, string requestId)
+    {
+        var requestRelative = HouseWindowJobRelativePath(requestId, "request.json");
+        var proposalRelative = HouseWindowJobRelativePath(requestId, "proposal.json");
+        var failureRelative = HouseWindowJobRelativePath(requestId, "preview-failed.json");
+        var failurePath = Path.Combine(root, failureRelative.Replace('/', Path.DirectorySeparatorChar));
+        StudioFileTransaction.EnsureNoLinks(root, failureRelative, allowStudioMetadata: true);
+        if (!File.Exists(failurePath))
+            throw new InvalidOperationException("This request has no explicit local preview-failure receipt.");
+
+        var receiptBytes = ReadBoundedHouseWindowJobFile(root, failureRelative, MaximumHouseWindowPreviewFailureBytes);
+        var (receiptRequestId, requestHash, proposalHash) = ParseHouseWindowPreviewFailureReceipt(receiptBytes);
+        if (!string.Equals(receiptRequestId, requestId, StringComparison.Ordinal))
+            throw new InvalidDataException("The preview-failure receipt belongs to another request.");
+
+        var requestBytes = ReadBoundedHouseWindowJobFile(root, requestRelative, HouseWindowProposalValidator.MaximumSerializedRequestBytes);
+        var proposalBytes = ReadBoundedHouseWindowJobFile(root, proposalRelative, MaximumHouseWindowProposalBytes);
+        if (!string.Equals(AtomicFile.Sha256(requestBytes), requestHash, StringComparison.Ordinal)
+            || !string.Equals(AtomicFile.Sha256(proposalBytes), proposalHash, StringComparison.Ordinal))
+            throw new InvalidDataException("The stored request or proposal no longer matches the preview-failure receipt.");
+
+        HouseWindowRequest request;
+        try
+        {
+            request = AuthoringRequestV2.Parse(StrictUtf8.GetString(requestBytes));
+            if (!string.Equals(request.RequestId, requestId, StringComparison.Ordinal)
+                || !StrictUtf8.GetBytes(AuthoringRequestV2.Serialize(request)).AsSpan().SequenceEqual(requestBytes))
+                throw new InvalidDataException("The stored request is not the canonical request named by its receipt.");
+        }
+        catch (Exception error) when (error is JsonException or ArgumentException or InvalidOperationException or FormatException or NotSupportedException)
+        {
+            throw new InvalidDataException("The stored request is invalid.", error);
+        }
+
+        HouseWindowProposal proposal;
+        try
+        {
+            proposal = CodexProposalProvider.ParseProposal(StrictUtf8.GetString(proposalBytes), request);
+            if (!StrictUtf8.GetBytes(CodexProposalProvider.SerializeProposal(request, proposal)).AsSpan().SequenceEqual(proposalBytes))
+                throw new InvalidDataException("The stored proposal is not canonical.");
+        }
+        catch (Exception error) when (error is JsonException or ArgumentException or InvalidOperationException or FormatException or NotSupportedException or CodexProposalProvider.CodexProposalException)
+        {
+            throw new InvalidDataException("The stored proposal is invalid.", error);
+        }
+
+        return (request, proposal);
+    }
+
+    private static string HouseWindowJobRelativePath(string requestId, string fileName)
+    {
+        if (!Guid.TryParseExact(requestId, "N", out var parsed)
+            || !string.Equals(parsed.ToString("N"), requestId, StringComparison.Ordinal))
+            throw new ArgumentException("RequestId must be a canonical 32-character lowercase hexadecimal GUID.", nameof(requestId));
+
+        return $".urman-studio/ai-jobs/{requestId}/{fileName}";
+    }
+
+    private static byte[] ReadBoundedHouseWindowJobFile(string root, string relativePath, int maximumBytes)
+    {
+        StudioFileTransaction.EnsureNoLinks(root, relativePath, allowStudioMetadata: true);
+        var path = Path.Combine(root, relativePath.Replace('/', Path.DirectorySeparatorChar));
+        using var input = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
+        if (input.Length < 0 || input.Length > maximumBytes)
+            throw new InvalidDataException("A stored house-window job artifact exceeds its size limit.");
+
+        using var output = new MemoryStream((int)input.Length);
+        var buffer = new byte[4096];
+        int count;
+        while ((count = input.Read(buffer, 0, buffer.Length)) > 0)
+        {
+            if (output.Length + count > maximumBytes)
+                throw new InvalidDataException("A stored house-window job artifact exceeds its size limit.");
+            output.Write(buffer, 0, count);
+        }
+
+        return output.ToArray();
+    }
+
+    private static byte[] SerializeHouseWindowPreviewFailureReceipt(string requestId, string requestHash, string proposalHash) =>
+        StrictUtf8.GetBytes(new JsonObject
+        {
+            ["requestId"] = requestId,
+            ["requestHash"] = requestHash,
+            ["proposalHash"] = proposalHash
+        }.ToJsonString());
+
+    private static (string RequestId, string RequestHash, string ProposalHash) ParseHouseWindowPreviewFailureReceipt(byte[] bytes)
+    {
+        JsonDocument document;
+        try
+        {
+            document = JsonDocument.Parse(bytes, new JsonDocumentOptions
+            {
+                MaxDepth = 4,
+                CommentHandling = JsonCommentHandling.Disallow,
+                AllowTrailingCommas = false
+            });
+        }
+        catch (JsonException error)
+        {
+            throw new InvalidDataException("The preview-failure receipt is invalid JSON.", error);
+        }
+
+        using (document)
+        {
+            var root = document.RootElement;
+            if (root.ValueKind != JsonValueKind.Object)
+                throw new InvalidDataException("The preview-failure receipt must be an object.");
+            RefuseDuplicateFields(root);
+            var fields = new Dictionary<string, string>(StringComparer.Ordinal);
+            foreach (var property in root.EnumerateObject())
+            {
+                if (property.Value.ValueKind != JsonValueKind.String || !fields.TryAdd(property.Name, property.Value.GetString()!))
+                    throw new InvalidDataException("The preview-failure receipt has duplicate or invalid fields.");
+            }
+
+            if (fields.Count != 3 || !fields.TryGetValue("requestId", out var requestId)
+                || !fields.TryGetValue("requestHash", out var requestHash)
+                || !fields.TryGetValue("proposalHash", out var proposalHash)
+                || !IsSha256(requestHash) || !IsSha256(proposalHash))
+                throw new InvalidDataException("The preview-failure receipt has missing, unsupported, or invalid fields.");
+            if (!Guid.TryParseExact(requestId, "N", out var parsedRequestId)
+                || !string.Equals(parsedRequestId.ToString("N"), requestId, StringComparison.Ordinal))
+                throw new InvalidDataException("The preview-failure receipt request ID is invalid.");
+
+            if (!bytes.AsSpan().SequenceEqual(SerializeHouseWindowPreviewFailureReceipt(requestId, requestHash, proposalHash)))
+                throw new InvalidDataException("The preview-failure receipt is not canonical JSON.");
+            return (requestId, requestHash, proposalHash);
+        }
     }
 
     public sealed record ContextPackage(JsonObject Manifest, JsonArray Entities, string Text, bool HasIntegrityReceipts)
@@ -491,6 +901,9 @@ public sealed class DeveloperContext(StudioWorkspace workspace, EntityCatalog ca
                 1 => ReadLegacyPackage(manifest, payloads, encoding),
                 2 => ReadPackageSources(manifest, payloads, encoding, 2),
                 3 => ReadPackageSources(manifest, payloads, encoding, 3),
+                4 => ReadPackageSources(manifest, payloads, encoding, 4),
+                5 => ReadPackageSources(manifest, payloads, encoding, 5),
+                6 => ReadPackageSources(manifest, payloads, encoding, 6),
                 _ => throw new InvalidDataException("Версия пакета не поддерживается.")
             };
         }
@@ -549,11 +962,33 @@ public sealed class DeveloperContext(StudioWorkspace workspace, EntityCatalog ca
 
     private static ContextPackage ReadPackageSources(JsonObject manifest, IReadOnlyDictionary<string, byte[]> payloads, UTF8Encoding encoding, int schemaVersion)
     {
-        RequireExactFields(manifest, "kind", "schemaVersion", "caseId", "subject", "baseRevision", "created", "entities",
-            "truncated", "pendingDependencyIds", "dependencyDiscovery", "payloadHashAlgorithm", "files", "sources", "note");
-        if (manifest["schemaVersion"]?.GetValue<int>() != schemaVersion || PackageString(manifest, "dependencyDiscovery") != "legacy-id-shaped-strings"
-            || PackageString(manifest, "payloadHashAlgorithm") != "sha256")
-            throw new InvalidDataException("Манифест v2 имеет неверные значения.");
+        var expectedManifestFields = schemaVersion == 6
+            ? new[] { "kind", "schemaVersion", "caseId", "subject", "scopeEntityIds", "tombstones", "baseRevision", "created", "entities", "truncated",
+                "pendingDependencyIds", "dependencyDiscovery", "referenceCoverageComplete", "unsupportedEntityIds", "missingDependencyIds",
+                "payloadHashAlgorithm", "files", "sources", "note" }
+            : schemaVersion == 5
+            ? new[] { "kind", "schemaVersion", "caseId", "subject", "scopeEntityIds", "baseRevision", "created", "entities", "truncated",
+                "pendingDependencyIds", "dependencyDiscovery", "referenceCoverageComplete", "unsupportedEntityIds", "missingDependencyIds",
+                "payloadHashAlgorithm", "files", "sources", "note" }
+            : schemaVersion == 4
+            ? new[] { "kind", "schemaVersion", "caseId", "subject", "baseRevision", "created", "entities", "truncated",
+                "pendingDependencyIds", "dependencyDiscovery", "referenceCoverageComplete", "unsupportedEntityIds", "missingDependencyIds",
+                "payloadHashAlgorithm", "files", "sources", "note" }
+            : new[] { "kind", "schemaVersion", "caseId", "subject", "baseRevision", "created", "entities", "truncated",
+                "pendingDependencyIds", "dependencyDiscovery", "payloadHashAlgorithm", "files", "sources", "note" };
+        RequireExactFields(manifest, expectedManifestFields);
+        var discovery = PackageString(manifest, "dependencyDiscovery");
+        var supportedDiscovery = schemaVersion switch
+        {
+            4 => discovery is "partial-typed-module-fields-v1" or "partial-typed-module-fields-v2" or "partial-typed-module-fields-v3",
+            5 or 6 => discovery == "partial-typed-module-fields-v3",
+            _ => discovery == "legacy-id-shaped-strings"
+        };
+        if (manifest["schemaVersion"]?.GetValue<int>() != schemaVersion
+            || !supportedDiscovery
+            || PackageString(manifest, "payloadHashAlgorithm") != "sha256"
+            || schemaVersion >= 4 && manifest["referenceCoverageComplete"]?.GetValue<bool>() != false)
+            throw new InvalidDataException("Манифест содержит неверные значения версии или обнаружения зависимостей.");
         _ = PackageString(manifest, "caseId");
         var subject = PackageString(manifest, "subject");
         _ = PackageString(manifest, "baseRevision");
@@ -564,6 +999,7 @@ public sealed class DeveloperContext(StudioWorkspace workspace, EntityCatalog ca
         if (entities.Count is < 1 or > 200 || manifest["entities"]?.GetValue<int>() != entities.Count)
             throw new InvalidDataException("Количество сущностей не совпадает с манифестом.");
         var ids = new HashSet<string>(StringComparer.Ordinal);
+        var orderedIds = new List<string>(entities.Count);
         var entityPaths = new HashSet<string>(StringComparer.Ordinal);
         foreach (var entity in entities)
         {
@@ -572,6 +1008,7 @@ public sealed class DeveloperContext(StudioWorkspace workspace, EntityCatalog ca
             var id = PackageString(item, "id");
             if (!ids.Add(id) || item["data"] is null)
                 throw new InvalidDataException("Повторная сущность или отсутствующие данные.");
+            orderedIds.Add(id);
             if (item["data"] is JsonObject data && data.ContainsKey("id") && data["id"]?.GetValue<string>() != id)
                 throw new InvalidDataException("ID сущности не совпадает с данными.");
             _ = PackageString(item, "state");
@@ -581,17 +1018,78 @@ public sealed class DeveloperContext(StudioWorkspace workspace, EntityCatalog ca
         }
         if (!ids.Contains(subject)) throw new InvalidDataException("Данные выбранной сущности отсутствуют.");
 
+        var scopeIds = new HashSet<string>(StringComparer.Ordinal);
+        if (schemaVersion >= 5)
+        {
+            var scopeIdsNode = manifest["scopeEntityIds"] as JsonArray
+                ?? throw new InvalidDataException("Выбранные сущности должны быть массивом.");
+            if (scopeIdsNode.Count is < 1 or > 200)
+                throw new InvalidDataException("Число выбранных сущностей должно быть от 1 до 200.");
+            var orderedScopeIds = new List<string>(scopeIdsNode.Count);
+            foreach (var scopeIdNode in scopeIdsNode)
+            {
+                if (scopeIdNode?.GetValue<string>() is not { Length: > 0 } scopeId
+                    || !scopeIds.Add(scopeId) || !ids.Contains(scopeId))
+                    throw new InvalidDataException("Выбранные сущности должны быть непустыми, уникальными и включёнными в пакет.");
+                orderedScopeIds.Add(scopeId);
+            }
+            if (!string.Equals(orderedScopeIds[0], subject, StringComparison.Ordinal)
+                || !orderedIds.Take(orderedScopeIds.Count).SequenceEqual(orderedScopeIds, StringComparer.Ordinal))
+                throw new InvalidDataException("Основная сущность должна быть первой, а порядок выбранных сущностей должен совпадать с началом списка объектов.");
+        }
+
         var truncated = manifest["truncated"]?.GetValue<bool>() ?? throw new InvalidDataException("Неверный признак неполноты.");
         var pendingIds = manifest["pendingDependencyIds"] as JsonArray ?? throw new InvalidDataException("Неверный список незавершённых зависимостей.");
-        var seenPending = new HashSet<string>(StringComparer.Ordinal);
+        var seenPending = new HashSet<string>(ids, StringComparer.Ordinal);
         foreach (var pending in pendingIds)
             if (pending?.GetValue<string>() is not { Length: > 0 } pendingId || !seenPending.Add(pendingId))
-                throw new InvalidDataException("Неверный список незавершённых зависимостей.");
+                throw new InvalidDataException("Незавершённые зависимости должны быть уникальны и не повторять приложенные сущности.");
         if (truncated != (pendingIds.Count > 0)) throw new InvalidDataException("Признак неполноты не совпадает со списком зависимостей.");
+        var missingIds = new HashSet<string>(StringComparer.Ordinal);
+        if (schemaVersion >= 4)
+        {
+            var unsupportedIds = manifest["unsupportedEntityIds"] as JsonArray
+                ?? throw new InvalidDataException("Список неподдержанных сущностей должен быть массивом.");
+            var seenUnsupported = new HashSet<string>(StringComparer.Ordinal);
+            foreach (var unsupported in unsupportedIds)
+                if (unsupported?.GetValue<string>() is not { Length: > 0 } unsupportedId
+                    || !ids.Contains(unsupportedId) || !seenUnsupported.Add(unsupportedId))
+                    throw new InvalidDataException("Неподдержанные сущности должны быть уникальны и входить в пакет.");
+
+            var missingIdsNode = manifest["missingDependencyIds"] as JsonArray
+                ?? throw new InvalidDataException("Список отсутствующих зависимостей должен быть массивом.");
+            foreach (var missing in missingIdsNode)
+                if (missing?.GetValue<string>() is not { Length: > 0 } missingId
+                    || !missingIds.Add(missingId) || seenPending.Contains(missingId))
+                    throw new InvalidDataException("Отсутствующие зависимости должны быть уникальны и не повторять приложенные или ожидающие сущности.");
+        }
+
+        var tombstones = new List<PackageTombstone>();
+        var tombstoneIds = new HashSet<string>(StringComparer.Ordinal);
+        var expectedSourcePaths = new HashSet<string>(entityPaths, StringComparer.Ordinal);
+        if (schemaVersion == 6)
+        {
+            var tombstonesNode = manifest["tombstones"] as JsonArray
+                ?? throw new InvalidDataException("Список удалённых объектов должен быть массивом.");
+            foreach (var tombstoneNode in tombstonesNode)
+            {
+                var tombstone = tombstoneNode as JsonObject
+                    ?? throw new InvalidDataException("Удалённый объект должен быть объектом.");
+                RequireExactFields(tombstone, "id", "file");
+                var tombstoneId = PackageString(tombstone, "id");
+                var tombstoneFile = PackageString(tombstone, "file");
+                if (!tombstoneIds.Add(tombstoneId) || !missingIds.Contains(tombstoneId)
+                    || ids.Contains(tombstoneId) || seenPending.Contains(tombstoneId) || scopeIds.Contains(tombstoneId)
+                    || !IsSafeSourcePath(tombstoneFile))
+                    throw new InvalidDataException("Удалённые объекты должны быть уникальными отсутствующими зависимостями с безопасным исходным файлом.");
+                tombstones.Add(new(tombstoneId, tombstoneFile));
+                expectedSourcePaths.Add(tombstoneFile);
+            }
+        }
 
         var sources = manifest["sources"] as JsonArray ?? throw new InvalidDataException("Список источников должен быть массивом.");
-        if (sources.Count is < 1 or > 200 || sources.Count != entityPaths.Count)
-            throw new InvalidDataException("Список источников не совпадает с файлами сущностей.");
+        if (sources.Count is < 1 or > 200 || sources.Count != expectedSourcePaths.Count)
+            throw new InvalidDataException("Список источников не совпадает с файлами сущностей и удалённых объектов.");
         var sourcePaths = new HashSet<string>(StringComparer.Ordinal);
         var sourceRefs = new HashSet<string>(StringComparer.Ordinal);
         var previewSources = new List<ContextPackageSource>(sources.Count);
@@ -605,7 +1103,7 @@ public sealed class DeveloperContext(StudioWorkspace workspace, EntityCatalog ca
             else
                 RequireExactFields(item, "path", "baseHash", "currentHash", "baseRef", "currentRef", "currentEncoding", "isNew", "dirty");
             var relativePath = PackageString(item, "path");
-            if (!IsSafeSourcePath(relativePath) || !entityPaths.Contains(relativePath) || !sourcePaths.Add(relativePath))
+            if (!IsSafeSourcePath(relativePath) || !expectedSourcePaths.Contains(relativePath) || !sourcePaths.Add(relativePath))
                 throw new InvalidDataException("Источник отсутствует у сущностей, повторяется или имеет небезопасный путь.");
             var baseHash = PackageNullableString(item, "baseHash");
             var currentHash = PackageString(item, "currentHash");
@@ -618,7 +1116,7 @@ public sealed class DeveloperContext(StudioWorkspace workspace, EntityCatalog ca
                 || isNew && (baseHash is not null || baseRef is not null)
                 || !isNew && (baseHash is null || baseRef is null || !IsSha256(baseHash))
                 || currentEncoding is not ("utf8" or "splice-v1")
-                || currentEncoding == "splice-v1" && (schemaVersion != 3 || isNew || baseRef is null || baseRef == currentRef))
+                || currentEncoding == "splice-v1" && (schemaVersion < 3 || isNew || baseRef is null || baseRef == currentRef))
                 throw new InvalidDataException("Источник содержит несовместимые данные базовой версии.");
             var currentRefSafe = currentEncoding == "splice-v1"
                 ? IsSafePackageOverlayRef(currentRef) : IsSafePackageSourceRef(currentRef);
@@ -668,7 +1166,8 @@ public sealed class DeveloperContext(StudioWorkspace workspace, EntityCatalog ca
             reconstructedCurrentTotal += currentBytes.LongLength;
             previewSources.Add(new(relativePath, baseHash, currentHash, baseText, currentText, isNew, dirty));
         }
-        if (!sourcePaths.SetEquals(entityPaths)) throw new InvalidDataException("Не для каждой сущности передан исходный файл.");
+        if (!sourcePaths.SetEquals(expectedSourcePaths)) throw new InvalidDataException("Не для каждой сущности или удаления передан исходный файл.");
+        if (schemaVersion == 6) ValidateTombstoneSnapshots(previewSources, tombstones);
         if (!payloads.Keys.ToHashSet(StringComparer.Ordinal).SetEquals(expectedPayloadNames))
             throw new InvalidDataException("Архив содержит неизвестные или неиспользуемые файлы.");
         ValidateV2Receipts(manifest, payloads);

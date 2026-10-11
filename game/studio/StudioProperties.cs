@@ -33,8 +33,9 @@ public partial class StudioProperties : VBoxContainer
         AddChild(new Label { Text = kind, ThemeTypeVariation = "MutedLabel" });
     }
 
-    public void IdLine(string id)
+    public void IdLine(string id, IReadOnlyList<string>? scopeEntityIds = null)
     {
+        var frozenScopeEntityIds = (scopeEntityIds ?? new[] { id }).ToArray();
         var row = new HBoxContainer();
         row.AddChild(new Label { Text = id, ThemeTypeVariation = "MutedLabel", AutowrapMode = TextServer.AutowrapMode.Arbitrary, SizeFlagsHorizontal = SizeFlags.ExpandFill, TooltipText = "Постоянный ID: не меняется при переименовании" });
         StudioRoot.Button(row, "Копировать", () =>
@@ -42,11 +43,11 @@ public partial class StudioProperties : VBoxContainer
             DisplayServer.ClipboardSet(id);
             _studio.RefreshStatus("ID скопирован");
         }).TooltipText = "Скопировать ID для разработчика";
-        StudioRoot.Button(row, "Контекст…", () => OpenContext(id)).TooltipText = "Передать разработчику точный контекст, в том числе ещё не сохранённый черновик";
+        StudioRoot.Button(row, "Контекст…", () => OpenContext(frozenScopeEntityIds)).TooltipText = "Передать разработчику контекст выбранной области, в том числе ещё не сохранённый черновик";
         AddChild(row);
     }
 
-    private void OpenContext(string id)
+    private void OpenContext(IReadOnlyList<string> scopeEntityIds)
     {
         var context = new Urman.Studio.Core.Handoff.DeveloperContext(_studio.Workspace, _studio.Catalog);
         var dialog = new AcceptDialog { Title = "Контекст для разработчика", OkButtonText = "Закрыть", MinSize = new Vector2I(640, 0) };
@@ -55,24 +56,55 @@ public partial class StudioProperties : VBoxContainer
         box.AddChild(new Label { Text = "Что не так (необязательно):", ThemeTypeVariation = "MutedLabel" });
         var problem = new TextEdit { CustomMinimumSize = new Vector2(600, 60), PlaceholderText = "Например: после передачи досок калитка осталась закрыта, ожидалось «починена»." };
         box.AddChild(problem);
-        var preview = new Label { Text = context.Text(id), AutowrapMode = TextServer.AutowrapMode.WordSmart, CustomMinimumSize = new Vector2(600, 0) };
-        problem.TextChanged += () => preview.Text = context.Text(id, problem: problem.Text);
+        bool TryContextText(out string text)
+        {
+            try
+            {
+                text = context.Text(scopeEntityIds, problem: problem.Text);
+                return true;
+            }
+            catch (Exception error) when (error is IOException or UnauthorizedAccessException or ArgumentException or InvalidOperationException or InvalidDataException)
+            {
+                text = "Не удалось подготовить контекст выбранной области: " + error.Message + " Проект не изменён.";
+                return false;
+            }
+        }
+
+        _ = TryContextText(out var initialContextText);
+        var preview = new Label { Text = initialContextText, AutowrapMode = TextServer.AutowrapMode.WordSmart, CustomMinimumSize = new Vector2(600, 0) };
+        problem.TextChanged += () =>
+        {
+            _ = TryContextText(out var currentContextText);
+            preview.Text = currentContextText;
+        };
         box.AddChild(preview);
         var row = new HBoxContainer();
         StudioRoot.Button(row, "Скопировать текст", () =>
         {
-            DisplayServer.ClipboardSet(context.Text(id, problem: problem.Text));
+            if (!TryContextText(out var text))
+            {
+                preview.Text = text + " Текст не скопирован.";
+                _studio.RefreshStatus("Контекст выбранной области не скопирован");
+                return;
+            }
+            DisplayServer.ClipboardSet(text);
             _studio.RefreshStatus("Контекст скопирован");
         });
         StudioRoot.Button(row, "Сохранить пакет с черновиком", () =>
         {
             try
             {
-                var (path, entities, bytes) = context.WritePackage(id, Path.Combine(_studio.Workspace.Root, ".urman-studio", "handoff"), problem.Text);
-                preview.Text = $"Пакет сохранён: {Path.GetFileName(path)} — {entities} объектов, {bytes / 1024.0:0.#} КБ. Без ваших путей и сохранений.\n\nТекущий контекст:\n" + context.Text(id, problem: problem.Text);
+                var (path, entities, bytes) = context.WritePackage(scopeEntityIds, Path.Combine(_studio.Workspace.Root, ".urman-studio", "handoff"), problem.Text);
+                _ = TryContextText(out var savedContextText);
+                preview.Text = $"Пакет сохранён: {Path.GetFileName(path)} — {entities} объектов, {bytes / 1024.0:0.#} КБ. Без ваших путей и сохранений.\n\nТекущий контекст:\n" + savedContextText;
                 OS.ShellShowInFileManager(path);
             }
             catch (InvalidOperationException error)
+            {
+                preview.Text = error.Message + " Пакет не записан; проект не изменён.";
+                _studio.RefreshStatus("Пакет контекста не сохранён");
+            }
+            catch (ArgumentException error)
             {
                 preview.Text = error.Message + " Пакет не записан; проект не изменён.";
                 _studio.RefreshStatus("Пакет контекста не сохранён");
@@ -101,20 +133,67 @@ public partial class StudioProperties : VBoxContainer
             try
             {
                 var package = Urman.Studio.Core.Handoff.DeveloperContext.ReadPackage(path);
+                var schemaVersion = package.Manifest["schemaVersion"]?.GetValue<int>();
                 var integrity = package.HasIntegrityReceipts ? "Контрольные суммы вложений совпадают." : "Старый пакет без контрольных сумм: целостность не подтверждена.";
-                var completeness = package.Manifest["truncated"] is null ? "Полнота зависимостей в старом пакете не указана."
-                    : package.Manifest["truncated"]!.GetValue<bool>() ? "По манифесту пакета приложена часть зависимостей." : "По манифесту пакета обход зависимостей не был сокращён.";
+                var completeness = package.Manifest["truncated"]?.GetValue<bool>() switch
+                {
+                    null => "У старого формата нет отдельного признака усечения списка зависимостей.",
+                    true => "Манифест сообщает, что часть обнаруженных зависимостей не вошла в пакет.",
+                    false => "Явное усечение обнаруженного списка не отмечено; это не подтверждает полный охват ссылок."
+                };
+                var discovery = package.Manifest["dependencyDiscovery"]?.GetValue<string>();
+                var referenceCoverageComplete = package.Manifest["referenceCoverageComplete"]?.GetValue<bool>();
+                var partialTypedCoverageV1 = discovery == "partial-typed-module-fields-v1";
+                var partialTypedCoverageV2 = discovery == "partial-typed-module-fields-v2";
+                var partialTypedCoverageV3 = discovery == "partial-typed-module-fields-v3";
+                var incompleteCoverage = partialTypedCoverageV1 || partialTypedCoverageV2 || partialTypedCoverageV3 || referenceCoverageComplete == false;
+                var coverageNote = partialTypedCoverageV3
+                    ? "Обход v3 включает ссылки v2 (ресурсы, тексты, подписи и цели взаимодействий сцен, knowledge в документах) и схемные массивы ContentId: knowledge.sourceIds/reveals/contradicts/unlocks, vocabulary.rereadTargets/applicationTargets. Категория цели определяется каноническим ID; допустимость цели в конкретном поле не проверяется. Условия, эффекты, игровые и физические ссылки не охвачены; граф остаётся частичным."
+                    : partialTypedCoverageV2
+                        ? "Обход v2 читает известные типизированные поля ресурсов, персонажей, сцен, документов, возможностей, диалогов и квестов. Он включает ссылки на ресурсы и тексты; для взаимодействий сцен — labelTextId и цели targetSceneId/targetDialogueId/targetDocumentId/targetJournalEntryId (сцены, диалоги, документы и knowledge); для документов — assetRefs и ссылки на knowledge (knowledgeRefs). Более глубокие ссылки, условия, эффекты, другие поля, игровые и физические зависимости не охвачены; это не полный граф зависимостей."
+                        : partialTypedCoverageV1
+                            ? "Обнаружены только типизированные ссылки на ресурсы и тексты в полях модулей. Другие домены ссылок не покрыты; это не полный граф зависимостей."
+                            : incompleteCoverage
+                                ? "Манифест явно сообщает, что охват ссылок неполон; другие зависимости могут отсутствовать."
+                                : "Полнота ресурсов и применимость к этому проекту не проверены.";
                 var viewer = new AcceptDialog { Title = "Контекст из пакета", OkButtonText = "Закрыть" };
                 var content = new VBoxContainer();
                 viewer.AddChild(content);
+                var scopeSummary = string.Empty;
+                var scopeDetails = string.Empty;
+                var entitySummary = $"{package.Entities.Count} объектов.";
+                var hasExplicitScope = schemaVersion is 5 or 6;
+                if (hasExplicitScope)
+                {
+                    var scopeIds = FormatManifestIds(package.Manifest["scopeEntityIds"], out var scopeCount);
+                    scopeSummary = $" Корневые ID области ({scopeCount}): {scopeIds}.";
+                    scopeDetails = $"Корни области (manifest.scopeEntityIds; не список зависимостей): {scopeIds}\nОбъектов в entities.json вместе с зависимостями: {package.Entities.Count}.";
+                    entitySummary = $"{package.Entities.Count} объектов в entities.json.";
+                }
+                var tombstoneSummary = string.Empty;
+                var tombstoneDetails = string.Empty;
+                if (schemaVersion == 6)
+                {
+                    var tombstones = package.Manifest["tombstones"] as System.Text.Json.Nodes.JsonArray ?? [];
+                    var tombstoneLines = tombstones.Select(item =>
+                    {
+                        var tombstone = item as System.Text.Json.Nodes.JsonObject;
+                        return $"{tombstone?["id"]?.GetValue<string>() ?? "(ID не указан)"} — {tombstone?["file"]?.GetValue<string>() ?? "(файл не указан)"}";
+                    }).ToArray();
+                    tombstoneSummary = $" Зафиксировано удалённых объектов в снимке: {tombstoneLines.Length}.";
+                    tombstoneDetails = "Удалённые объекты, подтверждённые сравнением загруженной базы Studio с текущим снимком workspace (manifest.tombstones; отдельно от корней области и зависимостей):\n"
+                        + (tombstoneLines.Length == 0 ? "Нет." : string.Join("\n", tombstoneLines))
+                        + "\nЭто только описание снимка, не команда и не разрешение удалять или восстанавливать данные. Недостающие зависимости ниже — отдельный список и сами по себе не означают удаление. Полные тексты исходных файлов могут включать соседний контекст помимо перечисленных объектов.";
+                }
                 content.AddChild(new Label
                 {
-                    Text = $"{package.Entities.Count} объектов. {integrity}\n{completeness}\nПолнота ресурсов и применимость к этому проекту не проверены.\nТолько просмотр: проект не изменён.",
+                    Text = $"{entitySummary}{scopeSummary}{tombstoneSummary} {integrity}\n{completeness}\n{coverageNote}\nТолько просмотр: проект не изменён.",
                     AutowrapMode = TextServer.AutowrapMode.WordSmart
                 });
-                var previewText = new System.Text.StringBuilder(package.Text)
-                    .AppendLine().AppendLine()
-                    .AppendLine("Данные объектов:")
+                var previewText = new System.Text.StringBuilder(package.Text).AppendLine().AppendLine();
+                if (hasExplicitScope) previewText.AppendLine(scopeDetails).AppendLine();
+                if (schemaVersion == 6) previewText.AppendLine(tombstoneDetails).AppendLine();
+                previewText.AppendLine("Данные объектов:")
                     .Append(package.Entities.ToJsonString(new System.Text.Json.JsonSerializerOptions { WriteIndented = true }));
                 if (package.Sources is null)
                 {
@@ -156,6 +235,15 @@ public partial class StudioProperties : VBoxContainer
                         }
                     }
                 }
+                if (incompleteCoverage)
+                {
+                    var unsupportedEntityIds = FormatManifestIds(package.Manifest["unsupportedEntityIds"], out var unsupportedCount);
+                    var missingDependencyIds = FormatManifestIds(package.Manifest["missingDependencyIds"], out var missingCount);
+                    previewText.AppendLine().AppendLine()
+                        .AppendLine("Ограничения обнаружения зависимостей:")
+                        .AppendLine($"Неподдерживаемые сущности ({unsupportedCount}): {unsupportedEntityIds}")
+                        .AppendLine($"Недостающие зависимости ({missingCount}): {missingDependencyIds}");
+                }
                 content.AddChild(new TextEdit
                 {
                     Text = previewText.ToString(), Editable = false, WrapMode = TextEdit.LineWrappingMode.Boundary,
@@ -173,6 +261,19 @@ public partial class StudioProperties : VBoxContainer
         picker.Canceled += picker.QueueFree;
         _studio.AddChild(picker);
         picker.PopupCentered(new Vector2I(900, 600));
+    }
+
+    private static string FormatManifestIds(System.Text.Json.Nodes.JsonNode? value, out int count)
+    {
+        if (value is not System.Text.Json.Nodes.JsonArray ids)
+        {
+            count = 0;
+            return "список не указан";
+        }
+
+        var values = ids.Select(item => item?.GetValue<string>() ?? "(ID не указан)").ToArray();
+        count = values.Length;
+        return count == 0 ? "нет" : string.Join(", ", values);
     }
 
     public void Text(string text, bool muted = false) =>

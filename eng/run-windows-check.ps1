@@ -25,6 +25,7 @@ if ($Mode -eq 'smoke' -and (-not $Scene -or $Scene -notlike 'res://tests/*.tscn'
 if (-not $Scene) { $Scene = 'res://scenes/act1_demo.tscn' }
 if ($Scene -notmatch '^res://[\w/.-]+\.tscn$' -or $Scene.Contains('..') -or
     -not (Test-Path (Join-Path "$Root/game" $Scene.Substring(6)))) { throw 'Invalid or missing scene.' }
+$studioPlay = $Mode -eq 'play' -and $Scene -eq 'res://studio/studio_main.tscn'
 if ($Mode -eq 'capture' -and (-not $ViewPoints -or $Headless)) { throw 'Capture requires -ViewPoints and a native window.' }
 if ($AtmospherePhase -and $Mode -ne 'capture') { throw 'An atmosphere phase only applies to a capture.' }
 if ($ViewFov -and $Mode -ne 'capture') { throw 'A view FOV only applies to a capture.' }
@@ -71,6 +72,7 @@ $savedCapture = $env:URMAN_VIEW_CAPTURE
 $savedPoints = $env:URMAN_VIEW_POINTS
 $savedPhase = $env:URMAN_ATMOSPHERE_PHASE
 $savedFov = $env:URMAN_VIEW_FOV
+$studioSnapshotRevision = $null
 try {
     Remove-Item Env:URMAN_VIEW_CAPTURE, Env:URMAN_VIEW_POINTS, Env:URMAN_ATMOSPHERE_PHASE, Env:URMAN_VIEW_FOV -ErrorAction SilentlyContinue
     if ($Provenance) {
@@ -80,6 +82,12 @@ try {
         $receipt.commit = $receipt.source.base_commit
         $receipt.dirtyPaths = $receipt.source.dirty_paths
         $receipt.snapshotId = $receipt.source.snapshot_id
+        if ($studioPlay) {
+            $studioSnapshotRevision = [string]$receipt.source.base_commit
+            if ($studioSnapshotRevision -cnotmatch '\A(?:[0-9a-f]{40}|[0-9a-f]{64})\z') {
+                throw 'Verified Studio snapshot has an invalid base revision.'
+            }
+        }
     } else {
         $receipt.commit = (& git rev-parse HEAD)
         $receipt.dirtyPaths = @(& git status --porcelain)
@@ -89,6 +97,18 @@ try {
     if ($LASTEXITCODE -ne 0 -or $receipt.sdk -ne (Get-Content global.json -Raw | ConvertFrom-Json).sdk.version) { throw 'Pinned SDK is missing.' }
     $receipt.godot = (& $godot --headless --version)
     if ($LASTEXITCODE -ne 0 -or $receipt.godot -ne $manifest.godot.version) { throw 'Pinned Godot .NET is missing.' }
+    if ($studioPlay) {
+        $blenderPin = $manifest.blender.windows
+        $blender = Join-Path $ToolsRoot ('.tools/blender/windows/' + $blenderPin.folder + '/blender.exe')
+        if (-not (Test-Path -LiteralPath $blender -PathType Leaf)) { throw "Pinned Blender for Studio is missing: $blender" }
+        $blenderOutput = @(& $blender --version)
+        $blenderExitCode = $LASTEXITCODE
+        $actualBlender = if ($blenderOutput.Count -gt 0) { [string]$blenderOutput[0] } else { '' }
+        if ($blenderExitCode -ne 0 -or $actualBlender -notmatch ('^Blender\s+' + [regex]::Escape([string]$blenderPin.version) + '(\s|$)')) {
+            throw "Unexpected pinned Blender version: $actualBlender"
+        }
+        $receipt.blender = $actualBlender.Trim()
+    }
     if (Test-Path 'game/override.cfg') { $receipt.stationOverrideSha256 = (Get-FileHash 'game/override.cfg' -Algorithm SHA256).Hash }
     # Same content owner and commands as eng/compile-game-content.sh on Mac.
     Invoke-Logged 'content-build' $dotnet @('build', 'tools-dotnet/Urman.ContentCli/Urman.ContentCli.csproj', '-v', 'q', '--nologo', '--disable-build-servers')
@@ -134,6 +154,11 @@ try {
             if ($ViewFov) { $env:URMAN_VIEW_FOV = $ViewFov; $receipt.viewFov = $ViewFov }
         }
         $arguments += $Scene
+        if ($studioPlay) {
+            $arguments += '--'
+            $arguments += "--urman-studio-tools-root=$ToolsRoot"
+            if ($Provenance) { $arguments += "--urman-studio-snapshot-revision=$studioSnapshotRevision" }
+        }
         if ($Mode -eq 'smoke') { $arguments += '--urman-smoke-background-input' }
         Invoke-Logged 'game' $Python $arguments ($TimeoutSeconds + 30)
         if (-not $Headless) {

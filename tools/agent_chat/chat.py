@@ -217,26 +217,92 @@ def git(*args: str) -> subprocess.CompletedProcess:
     return subprocess.run(["git", "-C", str(ROOT), *args], capture_output=True, text=True, timeout=180)
 
 
+def sync_blocker(rel: str) -> str | None:
+    """Return a reason to defer sync before it can mutate the shared checkout."""
+    git_dir_result = git("rev-parse", "--git-dir")
+    if git_dir_result.returncode != 0:
+        return f"ошибка git rev-parse: {(git_dir_result.stderr or git_dir_result.stdout).strip()[:160]}"
+    git_dir = Path(git_dir_result.stdout.strip())
+    if not git_dir.is_absolute():
+        git_dir = ROOT / git_dir
+    operation_paths = (
+        ("index.lock", "заблокированный Git index"),
+        ("MERGE_HEAD", "незавершённое слияние"),
+        ("rebase-merge", "незавершённый rebase"),
+        ("rebase-apply", "незавершённый rebase"),
+        ("REBASE_HEAD", "незавершённый rebase"),
+        ("CHERRY_PICK_HEAD", "незавершённый cherry-pick"),
+        ("sequencer", "незавершённая последовательная Git-операция"),
+    )
+    for marker, description in operation_paths:
+        if (git_dir / marker).exists():
+            return f"пропуск: {description}"
+
+    chat_exclusion = f":(exclude){rel}"
+    for args in (
+        ("diff", "--quiet", "--", ".", chat_exclusion),
+        ("diff", "--cached", "--quiet", "--", ".", chat_exclusion),
+    ):
+        result = git(*args)
+        if result.returncode == 1:
+            return "пропуск: есть tracked-правки вне AGENT_CHAT.md"
+        if result.returncode != 0:
+            return f"ошибка git diff: {(result.stderr or result.stdout).strip()[:160]}"
+    return None
+
+
 def sync_once(push: bool = True) -> str:
-    """Коммитит только файл чата, подтягивает чужое и отправляет своё. Остальное дерево не трогает."""
+    """Синхронизирует чат только когда shared checkout свободен от чужих tracked-правок."""
     rel = str(CHAT.relative_to(ROOT))
-    if (ROOT / ".git" / "MERGE_HEAD").exists():
-        return "пропуск: в репозитории незавершённое слияние"
+    blocker = sync_blocker(rel)
+    if blocker:
+        return blocker
+
+    status = git("status", "--porcelain", "--untracked-files=no", "--", rel)
+    if status.returncode != 0:
+        return f"ошибка git status: {(status.stderr or status.stdout).strip()[:160]}"
     done = []
-    if git("status", "--porcelain", "--", rel).stdout.strip():
+    if status.stdout.strip():
         before = load()["messages"]
-        git("add", "--", rel)
+        blocker = sync_blocker(rel)
+        if blocker:
+            return blocker
+        added = git("add", "--", rel)
+        if added.returncode != 0:
+            return f"ошибка git add: {(added.stderr or added.stdout).strip()[:160]}"
+        blocker = sync_blocker(rel)
+        if blocker:
+            return blocker
         names = ", ".join(participants(before[-5:])) or "агенты"
         commit = git("commit", "-m", f"chat: новые сообщения в AGENT_CHAT.md ({names})", "--", rel)
-        done.append("commit" if commit.returncode == 0 else f"commit: {commit.stderr.strip()[:120]}")
-    pull = git("pull", "--no-rebase", "--no-edit")
-    done.append("pull ok" if pull.returncode == 0 else f"pull: {(pull.stderr or pull.stdout).strip()[:160]}")
+        if commit.returncode != 0:
+            return f"ошибка git commit: {(commit.stderr or commit.stdout).strip()[:160]}"
+        done.append("commit")
+
+    blocker = sync_blocker(rel)
+    if blocker:
+        return "; ".join(done + [blocker])
+    pull = git("-c", "pull.autostash=false", "-c", "merge.autostash=false", "-c", "rebase.autostash=false",
+               "pull", "--no-rebase", "--no-edit")
+    if pull.returncode != 0:
+        return "; ".join(done + [f"ошибка git pull: {(pull.stderr or pull.stdout).strip()[:160]}"])
+    done.append("pull ok")
     _cache["key"] = None
-    if push and pull.returncode == 0:
-        ahead = git("rev-list", "--count", "@{upstream}..HEAD").stdout.strip()
-        if ahead not in ("", "0"):
+    if push:
+        blocker = sync_blocker(rel)
+        if blocker:
+            return "; ".join(done + [blocker])
+        ahead_result = git("rev-list", "--count", "@{upstream}..HEAD")
+        if ahead_result.returncode != 0:
+            return "; ".join(done + [f"ошибка git rev-list: {(ahead_result.stderr or ahead_result.stdout).strip()[:160]}"])
+        ahead = ahead_result.stdout.strip()
+        if not re.fullmatch(r"\d+", ahead):
+            return "; ".join(done + ["ошибка git rev-list: некорректное число исходящих коммитов"])
+        if ahead != "0":
             sent = git("push")
-            done.append("push ok" if sent.returncode == 0 else f"push: {sent.stderr.strip()[:160]}")
+            if sent.returncode != 0:
+                return "; ".join(done + [f"ошибка git push: {(sent.stderr or sent.stdout).strip()[:160]}"])
+            done.append("push ok")
     return "; ".join(done)
 
 
