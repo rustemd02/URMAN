@@ -51,7 +51,7 @@ public static class NpcSchedules
 
         foreach (var entity in entities.OfType<JsonObject>())
         {
-            if ((string?)entity["kind"] == "animation" && (string?)entity["id"] is { Length: > 0 } id)
+            if (AuthoredJson.Text(entity, "kind") == "animation" && AuthoredJson.Text(entity, "id") is { Length: > 0 } id)
             {
                 motions.Add(id);
             }
@@ -67,14 +67,14 @@ public static class NpcSchedules
         var npcs = new List<NpcScheduleFacts>();
         foreach (var id in workspace.EntityIds)
         {
-            if (workspace.Get(id) is not JsonObject entity || (string?)entity["kind"] != "npc")
+            if (workspace.Get(id) is not JsonObject entity || AuthoredJson.Text(entity, "kind") != "npc")
             {
                 continue;
             }
 
             var problems = new List<string>();
             var parameters = entity["params"] as JsonObject;
-            var characterId = (string?)parameters?["characterId"] ?? "";
+            var characterId = AuthoredJson.Text(parameters, "characterId");
             if (characterId.Length == 0)
             {
                 problems.Add("У NPC нет characterId: рантайм ищет расписание именно по нему, и персонаж не получит маршрута.");
@@ -113,35 +113,40 @@ public static class NpcSchedules
                         continue;
                     }
 
+                    // Read once through the safe accessor: a cast throws on a non-value node, and
+                    // the messages below need the id four times.
+                    var blockId = AuthoredJson.Text(block, "id");
+                    var label = blockId.Length > 0 ? blockId : index.ToString(CultureInfo.InvariantCulture);
+
                     // The reader calls GetProperty("id") on the chosen block, so a missing
                     // id is not a warning: it throws while the schedule is staged.
-                    if (((string?)block["id"] ?? "").Length == 0)
+                    if (blockId.Length == 0)
                     {
                         problems.Add($"У блока расписания #{index + 1} нет id: читатель берёт его через GetProperty и упадёт при выборе этого блока.");
                     }
 
                     if (block["when"] is { } when && when is not JsonArray)
                     {
-                        problems.Add($"У блока «{(string?)block["id"] ?? index.ToString(CultureInfo.InvariantCulture)}» условие when не массив правил.");
+                        problems.Add($"У блока «{label}» условие when не массив правил.");
                     }
 
                     if (block["place"] is { } place && (place is not JsonArray { Count: 3 } || !AllFinite((JsonArray)place)))
                     {
-                        problems.Add($"У блока «{(string?)block["id"] ?? index.ToString(CultureInfo.InvariantCulture)}» точка place не из трёх конечных чисел.");
+                        problems.Add($"У блока «{label}» точка place не из трёх конечных чисел.");
                     }
 
                     if (block["speed"] is { } speed && TryNumber(speed, out var speedValue) && speedValue <= 0)
                     {
-                        problems.Add($"У блока «{(string?)block["id"] ?? index.ToString(CultureInfo.InvariantCulture)}» скорость {speedValue.ToString(CultureInfo.InvariantCulture)}: персонаж не сдвинется.");
+                        problems.Add($"У блока «{label}» скорость {speedValue.ToString(CultureInfo.InvariantCulture)}: персонаж не сдвинется.");
                     }
 
                     foreach (var (name, fallback) in new[] { ("motion", DefaultIdleMotion), ("walkMotion", DefaultWalkMotion) })
                     {
-                        var motion = (string?)block[name] ?? fallback;
+                        var motion = AuthoredJson.Text(block, name) is { Length: > 0 } motionText ? motionText : fallback;
                         motions.Add(motion);
                         if (motion.Length == 0)
                         {
-                            problems.Add($"У блока «{(string?)block["id"] ?? index.ToString(CultureInfo.InvariantCulture)}» поле «{name}» пустое: движение не выбрано.");
+                            problems.Add($"У блока «{label}» поле «{name}» пустое: движение не выбрано.");
                         }
                         else if (catalogue.Count > 0 && !catalogue.Contains(motion))
                         {
@@ -151,7 +156,7 @@ public static class NpcSchedules
                 }
             }
 
-            npcs.Add(new NpcScheduleFacts(id, characterId, (string?)parameters?["kitPrefix"] ?? "", blocks?.Count ?? 0, motions.Distinct(StringComparer.Ordinal).Order(StringComparer.Ordinal).ToArray(), problems));
+            npcs.Add(new NpcScheduleFacts(id, characterId, AuthoredJson.Text(parameters, "kitPrefix"), blocks?.Count ?? 0, motions.Distinct(StringComparer.Ordinal).Order(StringComparer.Ordinal).ToArray(), problems));
         }
 
         return npcs.OrderBy(npc => npc.NpcId, StringComparer.Ordinal).ToArray();
@@ -183,7 +188,7 @@ public static class NpcSchedules
         var blocks = 0;
         foreach (var id in workspace.EntityIds)
         {
-            if (workspace.Get(id) is not JsonObject entity || (string?)entity["kind"] != "npc")
+            if (workspace.Get(id) is not JsonObject entity || AuthoredJson.Text(entity, "kind") != "npc")
             {
                 continue;
             }

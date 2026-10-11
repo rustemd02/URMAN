@@ -76404,6 +76404,12 @@
                 "result": "deepening by deepseek v4.1 flash: a schedule's motion and walkMotion are motion IDS (defaults urman.anim:idle and urman.anim:walk) played through AnimationCatalog.Play. The campaign's thirty-three schedules ask for three motions - idle-plain, sit, talk-plain - and all three resolve among the thirty-one authored animation definitions, so zero gaps today. Why it matters: AnimationCatalog.Play returns a FAILURE RESULT for an unknown id and every schedule caller DISCARDS it (lines 231, 253, 258), so a wrong id leaves the character silently in its default pose - no error, no warning. Own mistake recorded: my first version cast obj[\"kind\"]/obj[field] to string, which throws on a non-value node - the same trap as before; both reads now use TryGetValue and the probe caught the crash before a Studio caller could. Verified: probe PASS 657/657 including a synthetic unknown motion; Core 0/0. The pose itself is visual acceptance and NOT_RUN",
                 "source": "src-dotnet/Urman.Studio.Core/Editing/NpcSchedules.cs (MotionGaps, AuthoredMotionIds, AnimationIds); evidence evidence/STUDIO/b20-deepseek-ai-22/2026-10-11-motion-ids",
                 "verification": "probe PASS 657/657 including the three authored motions, thirty-one definitions and the synthetic unknown motion; Core 0/0. The NPC animation in play is NOT_RUN"
+              },
+              {
+                "stage": "2026-10-11 the NPC schedule projection reads authored JSON safely too",
+                "result": "robustness stage by deepseek v4.1 flash: NpcSchedules.cs had NINE casts of the shape (string?)node[\"field\"], which THROW on a non-value node; all now go through AuthoredJson, and the block id is read ONCE per block because the messages needed it four times. The one tricky site is motion/walkMotion, which fall back to a default when the field is missing while an EMPTY string is a real finding: the conversion keeps that distinction, using the value when non-empty and the fallback only when the field is absent or not a string - exactly what the previous ?? fallback did. Behaviour unchanged: the same three authored motions, thirty-one animation definitions, zero motion gaps and thirty-three npcs. Two projection files are now cast-free; the rest follow one file per stage. Verified: probe PASS 741/741 with the NPC numbers unchanged; Core 0/0",
+                "source": "src-dotnet/Urman.Studio.Core/Editing/NpcSchedules.cs; evidence evidence/STUDIO/b20-deepseek-ai-22/2026-10-11-safe-json-reads-npc",
+                "verification": "probe PASS 741/741 with the NPC numbers unchanged; Core 0/0. No game run: this is a robustness change and is NOT_RUN as a feature"
               }
             ],
             "stage_tasks": [
@@ -76439,7 +76445,9 @@
               "Маршруты, ожидание, взгляд, условия, скорость, ходьба и следование не упражняются контентом: нужен реальный авторский маршрут, чтобы судить эту половину единицы.",
               "Ранее переданный частичный этап (2026-10-11 which NPC routine capabilities the runtime implements and which the campaign uses) ждёт ревью/приёмки; полный done_when не выполнен.",
               "Маршруты/ожидания/взгляды/follow по-прежнему никем не авторизованы; вид анимации — визуальная приёмка.",
-              "Ранее переданный частичный этап (2026-10-11 the motion ids the schedules ask for against the animation catalog) ждёт ревью/приёмки; полный done_when не выполнен."
+              "Ранее переданный частичный этап (2026-10-11 the motion ids the schedules ask for against the animation catalog) ждёт ревью/приёмки; полный done_when не выполнен.",
+              "Устойчивость: NpcSchedules больше не падает на не-значении (9 приведений → 0); различие «пусто» vs «нет поля» сохранено.",
+              "Ранее переданный частичный этап (2026-10-11 the NPC schedule projection reads authored JSON safely too) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
             "next_action": "Привязать route points; данные when/place/motion/follow/blocked policy; подтвердить сохранение model/clip assignment; preview ownership движения.",
             "blocker": null,

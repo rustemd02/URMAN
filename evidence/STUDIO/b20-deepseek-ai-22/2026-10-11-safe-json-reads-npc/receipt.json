@@ -1,0 +1,28 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-22"
+  ],
+  "stage": "the NPC schedule projection reads authored JSON safely too",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-11 22:39 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "6ab0e745",
+  "result": {
+    "what_changed": "NpcSchedules.cs had nine casts of the shape (string?)node[\"field\"], which THROW on a non-value node. All of them now go through AuthoredJson, and the block id is read ONCE per block into a local, because the messages below needed it four times",
+    "the_one_tricky_site": "motion and walkMotion fall back to a default when the field is missing, but an EMPTY string is a real finding ('движение не выбрано'). The conversion keeps that distinction: the value is used when it is non-empty and the fallback only when the field is absent or not a string, which is what the previous ?? fallback did",
+    "behaviour_unchanged": "the probe's numbers did not move: the same three authored motions, thirty-one animation definitions, zero motion gaps and thirty-three npcs",
+    "progress": "two of the projection files are now cast-free; the rest follow one file per stage"
+  },
+  "verified": {
+    "probe": "PASS 741/741 with the NPC numbers unchanged",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors (composed tree with my branch and the v15 patch)",
+    "not_run": "no game run: this is a robustness change"
+  },
+  "files": {
+    "evidence/STUDIO/b20-deepseek-ai-22/2026-10-11-safe-json-reads-npc/check.log": "8fb0ac33ec8b2114c008ca46520fcb649ad4a2e0bc8bf401a06cb83c51684887"
+  },
+  "open": [
+    "the remaining projection files still carry casts; each conversion is its own stage"
+  ]
+}

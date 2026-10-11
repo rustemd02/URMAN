@@ -1,0 +1,9 @@
+== AI-22: the NPC schedule projection reads authored JSON safely too
+
+
+Прошло времени 00:00:00.55
+-- casts left in NpcSchedules.cs:
+0
+  authored motions: [urman.anim:idle-plain, urman.anim:sit, urman.anim:talk-plain]; animation definitions: 31; gaps: 0
+    input npcs: 33
+PROBE RESULT: PASS
