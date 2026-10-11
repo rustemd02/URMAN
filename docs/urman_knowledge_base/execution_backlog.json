@@ -74293,6 +74293,12 @@
                 "stage": "2026-10-10 AI-13 consumer compile correction",
                 "result": "9fe0cbc4 перенесён как 6d3c16f7: AuthoredWorldPlotFile вместо конфликтующего с runtime AuthoredWorldPlot.",
                 "verification": "Affected game/Urman.Game.csproj compile: 0 warnings, 0 errors; git diff --check PASS. UI wiring и второй authorable world остаются открыты."
+              },
+              {
+                "stage": "2026-10-10/11 selector, capability gate and write boundary",
+                "result": "partial implementation by deepseek v4.1 flash: the campaign/world selector is wired to the world section, the frozen-world capability gate refuses editors, viewport input, the AI entry and the session write path, and the wiring patch was re-based on 141c7b37 as v9 together with the session patch ai13-write-boundary.patch",
+                "source": "evidence/STUDIO/b20-deepseek-ai-13/ (2026-10-10-wiring-v9, 2026-10-10-write-boundary, 2026-10-10-review-fixes2, 2026-10-10-parity-diagnosis)",
+                "verification": "git apply --check of the session patch and v9 on a pristine 141c7b37 tree; Core 0/0; game 0/0; Urman.Studio.Tests 38/38; Urman.Core.Tests 68/68; probe PASS on the re-based tree. No Studio window: the interface is NOT_RUN"
               }
             ],
             "stage_tasks": [
@@ -74322,9 +74328,10 @@
             "technical_verification_state": "not_run",
             "remaining": [
               "Selector/write boundary и native UI не проверены.",
-              "Двухмировая проверка ждёт actual PW-045 runtime input, не full AI12."
+              "Двухмировая проверка ждёт actual PW-045 runtime input, не full AI12.",
+              "Ранее переданный частичный этап (2026-10-10/11 selector, capability gate and write boundary) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
-            "next_action": "STUDIO/AI-13/SELECTOR: подключить выбор actual context.",
+            "next_action": "Ждать применения v9 и session-патча владельцем; затем native проверка выбора Front0, preview, Apply, игра и полная отмена (STUDIO/AI-12/CODEX-UI).",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -75168,7 +75175,14 @@
             "verification": "A05 с пустой землёй, домом, дорожкой и несколькими props; визуально сверить fixed seed.",
             "risks_recovery_external_gates": "Не сохранять только runtime random output; чрезмерная плотность/память блокируется до Apply.",
             "required": true,
-            "evidence": [],
+            "evidence": [
+              {
+                "stage": "2026-10-10 terrain, vegetation and malformed remainders",
+                "result": "partial implementation by deepseek v4.1 flash: scatter and terrain patches are projected from the authored sources, a stroke whose remainder is malformed is refused instead of silently applied, and the scatter guard no longer collides with the paint-stroke local",
+                "source": "evidence/STUDIO/b20-deepseek-ai-17/2026-10-10-scatter-guard, evidence/STUDIO/b20-deepseek-ai-17/2026-10-10-malformed-remainders",
+                "verification": "Core 0/0 and game 0/0 with the affected compile; probe PASS; existing suites 38/38 and 68/68 at that stage. No runtime/UI check: NOT_RUN"
+              }
+            ],
             "stage_tasks": [
               "STUDIO.P2"
             ],
@@ -75192,12 +75206,13 @@
             },
             "task_type": "engineering",
             "status": "todo",
-            "implementation_state": "not_started",
+            "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
-              "Область рельефа/растительности редактируется воспроизводимо и не перекрывает проходы.; отсутствует подтверждение собственного конечного DoD, перечисленного ниже."
+              "Область рельефа/растительности редактируется воспроизводимо и не перекрывает проходы.; отсутствует подтверждение собственного конечного DoD, перечисленного ниже.",
+              "Ранее переданный частичный этап (2026-10-10 terrain, vegetation and malformed remainders) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
-            "next_action": "Параметризовать stroke/seed; исключить дома/дороги/защищённые точки; freeze region; preview collision/paths; сохранить stroke как один command.",
+            "next_action": "Ждёт принятого контракта Codex по террейну и Windows/runtime кадра.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -75332,6 +75347,12 @@
                 "verification": "Sol6.1medium independent registry source review + root panel/caller review; no builds/tests/listening; peer328 and broad suites not root acceptance.",
                 "fixed_findings": "Explicit null/float type bounds, wait cross-field relation and household zone routing corrected in peer source.",
                 "remaining": "Emitter stat before scheme/containment guard; final-file-only symlink check misses linked ancestors; shared ambient volume metadata contradicts runtime range rejection; empty/duplicate stem zone diagnostics do not match RawFindings audition gate; ResourceLoader.Exists before raw/path validation; old 1–2 houses UI copy. Await separate correction SHA, preserve DeepSeek owner and partial AI18."
+              },
+              {
+                "stage": "2026-10-10/11 atmosphere registry and audio sources, five review rounds",
+                "result": "partial implementation by deepseek v4.1 flash: the atmosphere field registry validates types, explicit nulls, float range and the plume block, the audio source registry and panel validate raw authored data, refuse an audition on raw findings, follow symlinks for containment, gate every file access behind the scheme and containment checks, name the runtime zone gate truthfully, and treat stem findings as source-addressed",
+                "source": "evidence/STUDIO/b20-deepseek-ai-18/ (2026-10-10-atmosphere-registry, -audio-source-registry, -malformed-input, -containment, -registry-review-2, 2026-10-11-io-gates)",
+                "verification": "probe PASS 343/343 at the last stage, including an escaping path, a linked parent directory, a stem level as a runtime refusal and source-addressed findings; Core 0/0; game 0/0; Urman.Studio.Tests 38/38; Urman.Core.Tests 68/68. No listening and no Studio window: the auditory result and the interface are NOT_RUN"
               }
             ],
             "stage_tasks": [
@@ -75361,9 +75382,10 @@
             "implementation_state": "partial",
             "technical_verification_state": "failed",
             "remaining": [
-              "Принятие source corrections1097165e; manual editing/audition/world binding UI proof; слух отдельный."
+              "Принятие source corrections1097165e; manual editing/audition/world binding UI proof; слух отдельный.",
+              "Ранее переданный частичный этап (2026-10-10/11 atmosphere registry and audio sources, five review rounds) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
-            "next_action": "Исправить пять source findings из Codex сообщения11.10 12:21 в AudioSourceRegistry/StudioAudioPanel и передать отдельный SHA, без новых probes.",
+            "next_action": "Ждёт слуховой приёмки и применения панели/патча владельцем; остаток — реальное прослушивание.",
             "blocker": {
               "reason": "Incoming1097165e remains CHANGES_REQUESTED, not in main: IO before gate, linked-parent containment, shared-stem volume classification, zone diagnostic/audition bypass, stale UI scope.",
               "release_when": "DeepSeek supplies bounded corrective commit; source review accepts these five findings, then cherry-pick and targeted manual edit/audition/runtime check."
@@ -75741,7 +75763,14 @@
             "verification": "A06 с условным ответом и отсутствующим переводом; пройти обе доступности.",
             "risks_recovery_external_gates": "Культурные/языковые правки требуют авторской проверки; agent не переписывает всю кампанию ради одной реплики.",
             "required": true,
-            "evidence": [],
+            "evidence": [
+              {
+                "stage": "2026-10-10 localisation-preserving dialogue fields",
+                "result": "partial implementation by deepseek v4.1 flash: the dialogue fields show and edit the Russian text instead of the resolved default, so committing a field no longer overwrites the Russian with the default; the Tatar state is shown next to the field. The root cause (EntityCatalog.ResolveText ignoring translations.ru) was reported to the owner instead of changed in his file",
+                "source": "evidence/STUDIO/b20-deepseek-ai-20/2026-10-10-russian-display, evidence/STUDIO/b20-deepseek-ai-20/2026-10-10-localized-text-edit",
+                "verification": "probe PASS with seven new invariants, including that a field reads the Russian and that saving keeps the Tatar text; Core 0/0; game 0/0; existing suites at that stage. UI is NOT_RUN"
+              }
+            ],
             "stage_tasks": [
               "STUDIO.P3"
             ],
@@ -75765,12 +75794,13 @@
             },
             "task_type": "engineering",
             "status": "todo",
-            "implementation_state": "not_started",
+            "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
-              "Реплика, ответ и условие диалога меняются без потери локализации и связей.; отсутствует подтверждение собственного конечного DoD, перечисленного ниже."
+              "Реплика, ответ и условие диалога меняются без потери локализации и связей.; отсутствует подтверждение собственного конечного DoD, перечисленного ниже.",
+              "Ранее переданный частичный этап (2026-10-10 localisation-preserving dialogue fields) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
-            "next_action": "Привязать selection к node/response; запросить нужные языковые поля; показать effects/entry routes; validate references; preview dialogue.",
+            "next_action": "Остаток — выравнивание EntityCatalog.ResolveText владельцем и native проверка редактирования реплик.",
             "blocker": null,
             "external_gates": [
               {
@@ -75923,7 +75953,14 @@
             "verification": "A06/A17: вход игрока, повторный вход, состояние уже выполненного условия.",
             "risks_recovery_external_gates": "Новый event type — отдельная ограниченная разработка по P3; не insert arbitrary C#; сохранения защищены.",
             "required": true,
-            "evidence": [],
+            "evidence": [
+              {
+                "stage": "2026-10-10 trigger scope facts, runtime defaults and numeric policy",
+                "result": "partial implementation by deepseek v4.1 flash: trigger scope facts separate what the game really does from what the editor requires (a size shorter than three values throws, extra values are ignored, an explicit null takes the runtime default), the numeric policy refuses values the float reader cannot carry, and every fact is anchored by name against the engine sources",
+                "source": "evidence/STUDIO/b20-deepseek-ai-21/ (2026-10-10-trigger-scope-facts, -trigger-review-fixes, -numeric-policy, -runtime-defaults)",
+                "verification": "probe PASS 309/309 at the runtime-defaults stage with new checks for the size count, explicit nulls and the float range; Core 0/0; game 0/0; Urman.Studio.Tests 38/38. UI is NOT_RUN"
+              }
+            ],
             "stage_tasks": [
               "STUDIO.P3"
             ],
@@ -75950,12 +75987,13 @@
             },
             "task_type": "engineering",
             "status": "todo",
-            "implementation_state": "not_started",
+            "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
-              "Квест, диалог и триггер связываются из выбранной области мира.; отсутствует подтверждение собственного конечного DoD, перечисленного ниже."
+              "Квест, диалог и триггер связываются из выбранной области мира.; отсутствует подтверждение собственного конечного DoD, перечисленного ниже.",
+              "Ранее переданный частичный этап (2026-10-10 trigger scope facts, runtime defaults and numeric policy) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
-            "next_action": "Handles формы; actor filter/frequency; link inspector; typed link/edit; preview conditions; idempotency на повторном событии.",
+            "next_action": "Остаток — связь с выбранной областью мира в native UI и приёмка автора.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -76085,7 +76123,14 @@
             "verification": "A19 на одном NPC: normal path, blocked path, сопровождение и возврат после сцены.",
             "risks_recovery_external_gates": "Root motion двойное перемещение, skeleton mismatch, отсутствие clip; не показывать пустые категории как поставленную анимацию.",
             "required": true,
-            "evidence": [],
+            "evidence": [
+              {
+                "stage": "2026-10-11 NPC schedules, routes and motions",
+                "result": "partial implementation by deepseek v4.1 flash: every placed NPC is checked against the schedule reader (first matching when wins, a block without when is unconditional, the block id is read with GetProperty, defaults urman.anim:idle/walk) and every declared motion is checked against the animation catalogue, which refuses an id it does not declare instead of crashing; 33 residents and 33 blocks pass with no problems",
+                "source": "evidence/STUDIO/b20-deepseek-ai-22/2026-10-11-npc-schedules",
+                "verification": "probe PASS 387/387 including the synthetic cases (no characterId, a two-number position, a zero scale, a block without id, a missing motion, a when that is not an array, a zero speed); Core 0/0; game 0/0; Urman.Studio.Tests 38/38. The schedules were not watched: staging is NOT_RUN"
+              }
+            ],
             "stage_tasks": [
               "STUDIO.P3"
             ],
@@ -76111,12 +76156,13 @@
             },
             "task_type": "engineering",
             "status": "todo",
-            "implementation_state": "not_started",
+            "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
-              "Маршрут, занятие и анимация NPC редактируются и сохраняются без потери сюжетной логики.; отсутствует подтверждение собственного конечного DoD, перечисленного ниже."
+              "Маршрут, занятие и анимация NPC редактируются и сохраняются без потери сюжетной логики.; отсутствует подтверждение собственного конечного DoD, перечисленного ниже.",
+              "Ранее переданный частичный этап (2026-10-11 NPC schedules, routes and motions) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
-            "next_action": "Привязать route points; данные when/place/motion/follow/blocked policy; подтвердить сохранение model/clip assignment; preview ownership движения.",
+            "next_action": "Остаток — native редактирование маршрута/занятия/движения и наблюдение постановки.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -76230,7 +76276,14 @@
             "verification": "Один предмет с одной квестовой передачей, повтор события и Undo authoring изменений.",
             "risks_recovery_external_gates": "Не обещать бартер со всеми NPC и новые физические механики; сохранение игрока отдельное от авторских данных.",
             "required": true,
-            "evidence": [],
+            "evidence": [
+              {
+                "stage": "2026-10-10 item spawns and the honest boundary",
+                "result": "partial implementation by deepseek v4.1 flash: the six placed pickups are verified against the authored interactions they invoke (229 indexed), and the boundary is stated instead of inventing a format: there is no item kind, no items registry in the compiled pack and no runtime inventory, so picking something up is a scene interaction until a runtime consumer exists",
+                "source": "evidence/STUDIO/b20-deepseek-ai-23/2026-10-10-item-spawns",
+                "verification": "probe PASS 337/337 with the item-spawn checks; Core 0/0; game 0/0; Urman.Studio.Tests 38/38. No Studio window: the interface is NOT_RUN"
+              }
+            ],
             "stage_tasks": [
               "STUDIO.P4"
             ],
@@ -76255,12 +76308,13 @@
             },
             "task_type": "engineering",
             "status": "todo",
-            "implementation_state": "not_started",
+            "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
-              "Раздел предметов становится настоящим редактором, а не заглушкой.; отсутствует подтверждение собственного конечного DoD, перечисленного ниже."
+              "Раздел предметов становится настоящим редактором, а не заглушкой.; отсутствует подтверждение собственного конечного DoD, перечисленного ниже.",
+              "Ранее переданный частичный этап (2026-10-10 item spawns and the honest boundary) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
-            "next_action": "Составить schema fields; формы/каталог/preview; create from template с new ID; связать действие; validate/compile/run.",
+            "next_action": "Остаток — решение владельца о runtime-потребителе предметов и зависимость от AI-19/AI-21.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -76374,7 +76428,14 @@
             "verification": "По одному существующему объекту каждого затронутого renderer типа; без полного прохождения кампании.",
             "risks_recovery_external_gates": "Новый текст — авторская приёмка; старые поля исторической кампании не считать обязательным runtime новой.",
             "required": true,
-            "evidence": [],
+            "evidence": [
+              {
+                "stage": "2026-10-10 PC threads, hints, strict parsing and a static preview",
+                "result": "partial implementation by deepseek v4.1 flash: chat nodes, choices, hints and threads are parsed with explicit null/missing/wrong-type told apart, an empty nextNodeId is named as the branch end, level and pointsTo bounds come from the schema, and the panel states that the chat preview is static and does not evaluate conditions",
+                "source": "evidence/STUDIO/b20-deepseek-ai-24/ (2026-10-10-pc-threads, -strict-parsing, -hint-schema, -null-and-preview)",
+                "verification": "probe PASS 317/317 at the null-and-preview stage, including that the real threads and hints still report no problems after the stricter parsing; Core 0/0; game 0/0; Urman.Studio.Tests 38/38; Urman.Core.Tests 68/68; the wiring patch v8 applies. UI is NOT_RUN"
+              }
+            ],
             "stage_tasks": [
               "STUDIO.P4"
             ],
@@ -76399,12 +76460,13 @@
             },
             "task_type": "engineering",
             "status": "todo",
-            "implementation_state": "not_started",
+            "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
-              "Книга, улики, язык и сообщения ПК редактируются в актуальном контентном контуре.; отсутствует подтверждение собственного конечного DoD, перечисленного ниже."
+              "Книга, улики, язык и сообщения ПК редактируются в актуальном контентном контуре.; отсутствует подтверждение собственного конечного DoD, перечисленного ниже.",
+              "Ранее переданный частичный этап (2026-10-10 PC threads, hints, strict parsing and a static preview) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
-            "next_action": "Трассировать bindings активной кампании; human forms; AI exact-field edits; проверить Markdown/учебные токены; preview в игре.",
+            "next_action": "Остаток — native проверка редактора книги/улик и языковая приёмка.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -76518,7 +76580,14 @@
             "verification": "Три независимых коротких сценария по типу, выполняемые отдельно; не полная кампания.",
             "risks_recovery_external_gates": "Неизвестный runtime consumer — незавершённая capability, не фиктивный slider; новая механика требует ограниченной разработки, а не кода из обычного AI-поля.",
             "required": true,
-            "evidence": [],
+            "evidence": [
+              {
+                "stage": "2026-10-11 vehicles, shop and the fence puzzle",
+                "result": "partial implementation by deepseek v4.1 flash: all three halves the unit names are covered against their real readers - three vehicles against VehicleDefinition.Load, the authored shop catalogue against the use handlers that live in code (a product whose use id no handler matches can be bought and never applied), and the fence-run against the static reader that would fail type initialisation",
+                "source": "evidence/STUDIO/b20-deepseek-ai-25/ (2026-10-11-vehicles, 2026-10-11-shop, 2026-10-11-fence)",
+                "verification": "probe PASS 374/374 at the fence stage; Core 0/0; game 0/0; Urman.Studio.Tests 38/38. Driving, buying and crashing are NOT_RUN"
+              }
+            ],
             "stage_tasks": [
               "STUDIO.P4"
             ],
@@ -76544,12 +76613,13 @@
             },
             "task_type": "engineering",
             "status": "todo",
-            "implementation_state": "not_started",
+            "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
-              "Параметры существующих магазинов, транспорта и головоломок доступны без ручного JSON.; отсутствует подтверждение собственного конечного DoD, перечисленного ниже."
+              "Параметры существующих магазинов, транспорта и головоломок доступны без ручного JSON.; отсутствует подтверждение собственного конечного DoD, перечисленного ниже.",
+              "Ранее переданный частичный этап (2026-10-11 vehicles, shop and the fence puzzle) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
-            "next_action": "Для каждого типа записать source/consumer/units/range; сделать schema form; typed set; ограничения/protected fields; сохранить и проверить конкретное поведение.",
+            "next_action": "Остаток — runtime-приёмка (поездка, покупка/применение, разлом забора) и магазины/головоломки, которых в кампании ещё нет.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -79175,7 +79245,14 @@
             "verification": "A17: обычное завершение/skip/прерывание на одной сцене и выбор второй.",
             "risks_recovery_external_gates": "Не восстановить старый канон ради готового примера; сценические lock NPC/camera снимаются корректно.",
             "required": true,
-            "evidence": [],
+            "evidence": [
+              {
+                "stage": "2026-10-10 real cutscene actions of the active campaign",
+                "result": "partial implementation by deepseek v4.1 flash: the 75 authored cutscene actions are projected with their kinds and checked against the cutscene reader, so an action the runtime cannot stage is reported",
+                "source": "evidence/STUDIO/b20-deepseek-ai-34/2026-10-10-cutscene-actions",
+                "verification": "Core 0/0; game 0/0; probe PASS at that stage. No Studio window: the preview is NOT_RUN"
+              }
+            ],
             "stage_tasks": [
               "STUDIO.P3"
             ],
@@ -79202,12 +79279,13 @@
             },
             "task_type": "engineering",
             "status": "todo",
-            "implementation_state": "not_started",
+            "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
-              "Катсцена выбирается из активной кампании, а список и шкала редактируют её реальные действия.; отсутствует подтверждение собственного конечного DoD, перечисленного ниже."
+              "Катсцена выбирается из активной кампании, а список и шкала редактируют её реальные действия.; отсутствует подтверждение собственного конечного DoD, перечисленного ниже.",
+              "Ранее переданный частичный этап (2026-10-10 real cutscene actions of the active campaign) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
-            "next_action": "Параметризовать source/ID/text namespace; добавить selector; sync list/timeline; camera capture; AI action edits; preview/skip lifecycle.",
+            "next_action": "Остаток — native выбор и проигрывание катсцены активной кампании.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -79511,7 +79589,14 @@
             "verification": "A10/A16 плюс два экземпляра одного ресурса и локальный override.",
             "risks_recovery_external_gates": "Не менять фактурный стиль случайным albedo; культурные/художественные criteria остаются; источник/лицензия неизвестны — не публиковать.",
             "required": true,
-            "evidence": [],
+            "evidence": [
+              {
+                "stage": "2026-10-10 asset usage and material ownership",
+                "result": "partial implementation by deepseek v4.1 flash: the asset usage index maps catalogued models and shared materials to their consumers, so a material without an owner and a record without a model are both visible before an edit",
+                "source": "evidence/STUDIO/b20-deepseek-ai-36/2026-10-10-asset-usage",
+                "verification": "Core 0/0; probe PASS at that stage. No Blender import and no visual check: NOT_RUN"
+              }
+            ],
             "stage_tasks": [
               "STUDIO.P2",
               "STUDIO.P5"
@@ -79537,12 +79622,13 @@
             },
             "task_type": "engineering",
             "status": "todo",
-            "implementation_state": "not_started",
+            "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
-              "Материал или модельный ресурс можно изменить локально, видя все общие использования.; отсутствует подтверждение собственного конечного DoD, перечисленного ниже."
+              "Материал или модельный ресурс можно изменить локально, видя все общие использования.; отсутствует подтверждение собственного конечного DoD, перечисленного ниже.",
+              "Ранее переданный частичный этап (2026-10-10 asset usage and material ownership) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
-            "next_action": "Добавить usage index и asset/source card; override vs shared edit; preview materials; bounded import checks/URI validation; source variant linking.",
+            "next_action": "Остаток — зависимость от AI-09/AI-11 и проверка в Blender/Windows.",
             "blocker": null,
             "external_gates": [
               {
@@ -79792,6 +79878,12 @@
                 "source": "src-dotnet/Urman.Studio.Core/Editing/RuleCatalogCoverage.cs; game/studio/StudioRoot.cs:CheckContent",
                 "verification": "Sol source review incl IO/missing-source fixes; Root narrow Game0/0 + diff check. Actual dialog UI and rule semantics NOT_VERIFIED.",
                 "scope": "Whole workspace including dirty snapshots; source declarations vs catalogue, no second runtime registry. Peer new probe suites/evidence not imported."
+              },
+              {
+                "stage": "2026-10-10 rule catalogue coverage, campaign scope and PhotoWorld anchors",
+                "result": "partial implementation by deepseek v4.1 flash: every operation the projection relies on is anchored by name against the engine sources, the authored usage is counted inside the selected campaign and named shared areas, the sixteen PhotoWorld routing operations are anchored too, and the notes state that source presence does not prove execution",
+                "source": "evidence/STUDIO/b20-deepseek-ai-37/ (2026-10-10-rule-coverage, 2026-10-10-campaign-scope)",
+                "verification": "probe PASS with all 35 anchored operations found by name; Core 0/0; game 0/0; existing suites at that stage. Branch/parallel/repeat/timer persistence stays open and NOT_RUN"
               }
             ],
             "stage_tasks": [
@@ -79822,9 +79914,10 @@
             "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
-              "Перечень требований имеет реальный consumer; одна ветвящаяся/параллельная цепочка, один repeat/failure и один timer/delayed effect сохраняют состояние корректно.; принятые child этапы повторно не разрабатывать."
+              "Перечень требований имеет реальный consumer; одна ветвящаяся/параллельная цепочка, один repeat/failure и один timer/delayed effect сохраняют состояние корректно.; принятые child этапы повторно не разрабатывать.",
+              "Ранее переданный частичный этап (2026-10-10 rule catalogue coverage, campaign scope and PhotoWorld anchors) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
-            "next_action": "STUDIO/AI-37/FINISH: A22 в disposable campaign fixtures/существующих примерах; узкие existing runtime checks по конкретной семантике.",
+            "next_action": "Остаток — полная семантика сложных квестов (ветвление, параллельность, повтор, таймеры) и 22 операции без формы в Studio.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -80681,7 +80774,14 @@
             "verification": "A25 в protected session: причина триггера, pause/step, restart checkpoint, case export.",
             "risks_recovery_external_gates": "Не включать реальные saves; synthetic final не выдавать за прохождение; новые runtime hooks согласовать с владельцем.",
             "required": true,
-            "evidence": [],
+            "evidence": [
+              {
+                "stage": "2026-10-10 explaining trial run and step-by-step diagnostics",
+                "result": "partial implementation by deepseek v4.1 flash: the authoring diagnostics explain what an operation will do, name both cases instead of flagging every unreferenced object, and keep the information/severity split honest",
+                "source": "evidence/STUDIO/b20-deepseek-ai-40/2026-10-10-diagnostics",
+                "verification": "Core 0/0; probe PASS at that stage. No game run: the trial launch itself is NOT_RUN"
+              }
+            ],
             "stage_tasks": [
               "STUDIO.P4",
               "STUDIO.P6"
@@ -80708,12 +80808,13 @@
             },
             "task_type": "engineering",
             "status": "todo",
-            "implementation_state": "not_started",
+            "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
-              "Пробный запуск объясняет несрабатывание и позволяет пройти следующий логический шаг.; отсутствует подтверждение собственного конечного DoD, перечисленного ниже."
+              "Пробный запуск объясняет несрабатывание и позволяет пройти следующий логический шаг.; отсутствует подтверждение собственного конечного DoD, перечисленного ниже.",
+              "Ранее переданный частичный этап (2026-10-10 explaining trial run and step-by-step diagnostics) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
-            "next_action": "UI стартового состояния; пометка synthetic/reachable; runtime trace с occurrence ID; pause clock; шаг события; copy transform только явной командой; handoff case.",
+            "next_action": "Остаток — настоящий объясняющий пробный запуск в игре.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
