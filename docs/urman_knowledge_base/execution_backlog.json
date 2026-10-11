@@ -23987,7 +23987,17 @@
             "verification": "A18: один свет/профиль и один источник, до/после на той же позиции; stop audio и Undo.",
             "risks_recovery_external_gates": "Художественная световая/слуховая приёмка отдельно; лицензии/генерация нового аудио не подразумеваются.",
             "required": true,
-            "evidence": [],
+            "evidence": [
+              {
+                "stage": "2026-10-11 review DeepSeek 1097165e",
+                "result": "CHANGES_REQUESTED_NOT_INTEGRATED",
+                "source_commit": "1097165e",
+                "source": "peer AudioSourceRegistry.cs + StudioAudioPanel.cs; current AmbientAudioDirector.cs:378–379 and Act1ConnectedWorld.Households.cs:48–55",
+                "verification": "Sol6.1medium independent registry source review + root panel/caller review; no builds/tests/listening; peer328 and broad suites not root acceptance.",
+                "fixed_findings": "Explicit null/float type bounds, wait cross-field relation and household zone routing corrected in peer source.",
+                "remaining": "Emitter stat before scheme/containment guard; final-file-only symlink check misses linked ancestors; shared ambient volume metadata contradicts runtime range rejection; empty/duplicate stem zone diagnostics do not match RawFindings audition gate; ResourceLoader.Exists before raw/path validation; old 1–2 houses UI copy. Await separate correction SHA, preserve DeepSeek owner and partial AI18."
+              }
+            ],
             "stage_tasks": [
               "STUDIO.P4"
             ],
@@ -26163,6 +26173,15 @@
             "implementation": "Typed ValidateRequest/Validate(request,proposal) before all job metadata IO; canonical RequestId fixed request.json or proposal.json path, existing no-links guard and AtomicFile no-overwrite. Request recording happens before stage/provider; duplicate ID preserves earlier artifacts and refuses, manual retry needs fresh capture via Copy/Save. Fresh standard OS temp subdirectory replaces deterministic path reuse before provider directory checks. Proposal call records proposal only.",
             "verification": "Independent Sol6.1medium source review accepted; root affected Game compile0warnings/0errors and diffcheck. No new tests/probes or provider/native roundtrip.",
             "remaining": "Actual linked-directory/collision/manual-retry UI branches unverified. Existing guard/AtomicFile races remain; no resource lease or crash-proof metadata pair claimed. Full AI32 and native Codex walkthrough remain open."
+          },
+          "deepseek_audio_review_1097165e": {
+            "stage": "2026-10-11 review DeepSeek 1097165e",
+            "result": "CHANGES_REQUESTED_NOT_INTEGRATED",
+            "source_commit": "1097165e",
+            "source": "peer AudioSourceRegistry.cs + StudioAudioPanel.cs; current AmbientAudioDirector.cs:378–379 and Act1ConnectedWorld.Households.cs:48–55",
+            "verification": "Sol6.1medium independent registry source review + root panel/caller review; no builds/tests/listening; peer328 and broad suites not root acceptance.",
+            "fixed_findings": "Explicit null/float type bounds, wait cross-field relation and household zone routing corrected in peer source.",
+            "remaining": "Emitter stat before scheme/containment guard; final-file-only symlink check misses linked ancestors; shared ambient volume metadata contradicts runtime range rejection; empty/duplicate stem zone diagnostics do not match RawFindings audition gate; ResourceLoader.Exists before raw/path validation; old 1–2 houses UI copy. Await separate correction SHA, preserve DeepSeek owner and partial AI18."
           }
         }
       },
