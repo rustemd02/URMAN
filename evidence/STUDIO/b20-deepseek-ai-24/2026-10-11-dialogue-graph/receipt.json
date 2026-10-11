@@ -1,0 +1,30 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-24"
+  ],
+  "stage": "the authored dialogues checked as a graph the engine can walk",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-11 17:44 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "56611418",
+  "result": {
+    "graph": "32 authored dialogues with 125 nodes and 198 answers, all with no problems",
+    "checked": "startNodeId and every choice's nextNodeId name a node of that dialogue (an answer pointing elsewhere exists in the data and cannot be taken); every speakerRole is declared in participantRoles; every textId resolves in the project; and every condition and effect names an operation ContentRuleEngine really executes, with the executed sets read from the engine sources",
+    "type discrimination": "the four records that first looked wrong were PC threads (urman.oldpc:chat/*): they have nodes and a start node too, but their own schema does not declare participantRoles, so treating them as dialogues would report a field their schema never required. The projection now counts only :dialogue/ records and says so",
+    "why the rule check matters": "a condition the engine does not execute never becomes true and an effect it does not apply never changes the world, and neither shows up as a crash"
+  },
+  "verified": {
+    "probe": "PASS 494/494 with the new checks: 32 dialogues, chats excluded, no problems on the real data, and the synthetic cases (a missing start node, a speaker outside the roles, an unresolved text, an unexecuted condition, an unexecuted effect, an answer pointing at a missing node)",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors; game/Urman.Game.csproj 0 warnings/0 errors",
+    "existing_tests": "Urman.Studio.Tests 38/38",
+    "not_run": "no game run: how a conversation reads and sounds is a language, culture and listening question, NOT_RUN"
+  },
+  "own_mistakes": "my first version detected a dialogue by 'has a start node and nodes', which also matched the four PC threads and reported roles their schema does not require; the id convention now separates the two record types",
+  "files": {
+    "evidence/STUDIO/b20-deepseek-ai-24/2026-10-11-dialogue-graph/check.log": "cb7023abc11b2079d9dc791c9de7ce33b9e29b894992d67b284cdf39cc385a02"
+  },
+  "open": [
+    "the language, culture and listening acceptance of the dialogues is NOT_RUN and external"
+  ]
+}

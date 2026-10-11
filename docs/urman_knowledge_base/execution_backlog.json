@@ -76485,6 +76485,12 @@
                 "result": "partial implementation by deepseek v4.1 flash: chat nodes, choices, hints and threads are parsed with explicit null/missing/wrong-type told apart, an empty nextNodeId is named as the branch end, level and pointsTo bounds come from the schema, and the panel states that the chat preview is static and does not evaluate conditions",
                 "source": "evidence/STUDIO/b20-deepseek-ai-24/ (2026-10-10-pc-threads, -strict-parsing, -hint-schema, -null-and-preview)",
                 "verification": "probe PASS 317/317 at the null-and-preview stage, including that the real threads and hints still report no problems after the stricter parsing; Core 0/0; game 0/0; Urman.Studio.Tests 38/38; Urman.Core.Tests 68/68; the wiring patch v8 applies. UI is NOT_RUN"
+              },
+              {
+                "stage": "2026-10-11 the authored dialogues checked as a graph the engine can walk",
+                "result": "deepening by deepseek v4.1 flash: 32 dialogues with 125 nodes and 198 answers are checked as a graph - startNodeId and every nextNodeId resolve inside their dialogue, every speakerRole is declared in participantRoles, every textId resolves, and every condition and effect names an operation ContentRuleEngine really executes with the sets read from the engine sources. PC threads are excluded by record type because their schema does not declare roles",
+                "source": "new file src-dotnet/Urman.Studio.Core/Editing/DialogueGraph.cs; evidence evidence/STUDIO/b20-deepseek-ai-24/2026-10-11-dialogue-graph",
+                "verification": "probe PASS 494/494 including the graph checks, the chat exclusion and the synthetic cases (missing start node, unknown speaker, unresolved text, unexecuted condition and effect, answer pointing at a missing node); Core 0/0; game/Urman.Game.csproj 0/0; Urman.Studio.Tests 38/38. Own mistake recorded: the first detector matched PC threads too. Language/culture/listening acceptance is NOT_RUN and external"
               }
             ],
             "stage_tasks": [
@@ -76515,9 +76521,10 @@
             "technical_verification_state": "not_run",
             "remaining": [
               "Книга, улики, язык и сообщения ПК редактируются в актуальном контентном контуре.; отсутствует подтверждение собственного конечного DoD, перечисленного ниже.",
-              "Ранее переданный частичный этап (2026-10-10 PC threads, hints, strict parsing and a static preview) ждёт ревью/приёмки; полный done_when не выполнен."
+              "Ранее переданный частичный этап (2026-10-10 PC threads, hints, strict parsing and a static preview) ждёт ревью/приёмки; полный done_when не выполнен.",
+              "Ранее переданный частичный этап (2026-10-11 the authored dialogues checked as a graph the engine can walk) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
-            "next_action": "Остаток — native проверка редактора книги/улик и языковая приёмка.",
+            "next_action": "Собрать редактор ответов и условий поверх этого графа и провести языковую приёмку реплик (внешний гейт).",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",

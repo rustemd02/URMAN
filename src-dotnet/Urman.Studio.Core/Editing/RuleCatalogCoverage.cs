@@ -71,10 +71,11 @@ public static class RuleCatalogCoverage
     }
 
     /// <summary>
-    /// The folder a manifest module id lives in: the id uses dots (urman.chapter1) while
-    /// the directory uses hyphens (urman-chapter1), which is the convention the project
-    /// already uses for every generated slug. Without this mapping the campaign scope
-    /// silently matched nothing.
+    /// The folder a manifest module id lives in. The conventions differ inside one
+    /// campaign: the campaign directory and its compiled pack KEEP the dotted id
+    /// (content/campaigns/urman.chapter1, game/content/urman.chapter1.compiled.v1.json)
+    /// while a module directory uses hyphens (content/modules/urman-chapter1). Without
+    /// this mapping the campaign scope silently matched nothing.
     /// </summary>
     public static string ModuleFolder(string moduleId) => moduleId.Replace('.', '-');
 
