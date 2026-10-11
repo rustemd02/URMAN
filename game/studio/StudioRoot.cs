@@ -104,7 +104,7 @@ public partial class StudioRoot : Control
         string? pilotHistoryWarning;
         try
         {
-            pilotHistoryWarning = Session.RestoreSingleCommittedFileCommand(
+            pilotHistoryWarning = Session.RestoreCommittedFileHistory(
                 "изменить окна дома через Codex",
                 "urman.world:act1/kit/house-old-pc-babai-approach",
                 StudioAiPanel.OwnsFile,

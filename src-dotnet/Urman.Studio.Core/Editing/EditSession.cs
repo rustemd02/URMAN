@@ -95,6 +95,28 @@ public sealed class EditSession(StudioWorkspace workspace)
         return result.Warning;
     }
 
+    /// <summary>Restore the explicitly ordered file-only stack; unsupported mixed history remains fenced.</summary>
+    public string? RestoreCommittedFileHistory(
+        string legacyLabel, string owner, Func<string, bool> allowedPath, Func<IReadOnlyList<string>, bool> allowedFileSet)
+    {
+        EnsureAvailable();
+        if (_open is not null || _undo.Count != 0 || _redo.Count != 0)
+            throw new InvalidOperationException("Persistent history requires an empty edit session.");
+        var result = StudioFileTransaction.LoadCommittedFileHistory(Workspace.Root, owner, allowedPath, allowedFileSet);
+        for (var index = 0; index < result.Cursor; index++)
+        {
+            var transaction = result.Transactions[index];
+            _undo.Push(new(transaction.CommandLabel ?? legacyLabel, [], transaction));
+        }
+        for (var index = result.Transactions.Count - 1; index >= result.Cursor; index--)
+        {
+            var transaction = result.Transactions[index];
+            _redo.Push(new(transaction.CommandLabel ?? legacyLabel, [], transaction));
+        }
+        if (result.Transactions.Count > 0) Changed?.Invoke();
+        return result.Warning;
+    }
+
     /// <summary>Attach source/model file writes to this command. Call inside the same Begin scope as the entity edits.</summary>
     public void ApplyFiles(string label, string owner, IReadOnlyList<StudioFileWrite> writes, IReadOnlySet<string> allowedPaths, Action? afterPromotion = null)
     {
@@ -409,7 +431,7 @@ public sealed class EditSession(StudioWorkspace workspace)
                 retired.Add(files);
             }
 
-            command.Files?.Accept();
+            command.Files?.Accept(command.Label);
         }
         catch (Exception error)
         {

@@ -23633,6 +23633,14 @@
                 "verification": "Sol6.1medium backend implementation and independent panel source review; two frozen-source/staged-default findings corrected and accepted. Root affected Game compile0/0 and diff-check PASS. Real staged Blender generation exit0; generated GLB accessor dimensions: only Street_Window1 (Front0) glass .96→1.20, other seven pane dimensions unchanged; thirteen door-node vertex attribute signatures identical.",
                 "evidence": "evidence/STUDIO/b20-house-pilot-2026-10-10/single-window-staging/{recipe,manifest,geometry-measurement}.json",
                 "remaining": "No actual per-window Codex inference, native UI, wall/reveal/collision game verification or single-window Apply/Undo accepted yet. Staged receipt is geometry measurement, not game completion; original all-eight game/Undo evidence remains valid history."
+              },
+              {
+                "stage": "2026-10-11 explicitly ordered file history",
+                "result": "PARTIAL_SOURCE_REVIEW_ACCEPTED_GAME_COMPILE_0_0_NATIVE_RESTART_OPEN",
+                "source": "StudioFileTransaction.cs:Accept/AllocateAcceptedOrder/ReadHistorySequence/LoadCommittedFileHistory/ReadManifest/FromManifest; EditSession.cs:Push/RestoreCommittedFileHistory; StudioRoot.cs:startup restoration caller",
+                "implementation": "New accepted file commands retain bounded label and positive explicit acceptance order. Stable exclusive allocator lock held through AtomicFile counter update and accepted journal; gaps survive failed acceptance. Counter scope/version/max validated, missing or malformed counter with ordered journals refuses. Loader checks all images/exact path sets, continuous hash chains for repeated paths, aggregate current cursor boundary and after-prefix/before-suffix side sequence, then hydrates correctly ordered Undo/Redo stacks and persisted labels. No GUID/mtime ordering or image cleanup.",
+                "verification": "Root affected Game build0/0 + diffcheck. Independent Sol6.1medium source review accepted after fixing malformed counter startup exception and actual counter-volume budget path. No new tests/probes; actual multi-command restart and native Undo/Redo not executed.",
+                "remaining": "Entity/mixed/redo-branch history remains fenced. Multiple legacy journals or mixed legacy/ordered journals require explicit migration decision. No multi-process promotion isolation claimed; existing conflict/rollback protection remains. Full ledger/epoch/pending transition and UI acceptance still open."
               }
             ],
             "stage_tasks": [
@@ -24300,6 +24308,14 @@
                 "verification": "Root affected Game build0 warnings/0 errors and diffcheck. Sol6.1medium independent source review found no confirmed sizing/safety blocker; phase-neutral wording correction applied. No new tests/probes or broad suite.",
                 "implementation": "Checked conservative retained image+promotion/rollback capacity before staging; exact UTF8 journal reserve; preflight before sync/async Undo/Redo applying journal and promotion/restore target writes. Longest containing ready DriveInfo mount with separator boundary; bounded pilot refuses different identified metadata/target volumes. No history cleanup or bypass of AtomicFile/conflict/rollback paths.",
                 "remaining": "Actual ENOSPC, volume aliases/UNC inventory and user-facing refusal not exercised; available-space query cannot reserve capacity against other writers. Cross-volume transactions require future per-volume budgeting. Complete AI29 ordered history/checkpoint acceptance still open."
+              },
+              {
+                "stage": "2026-10-11 explicitly ordered file history",
+                "result": "PARTIAL_SOURCE_REVIEW_ACCEPTED_GAME_COMPILE_0_0_NATIVE_RESTART_OPEN",
+                "source": "StudioFileTransaction.cs:Accept/AllocateAcceptedOrder/ReadHistorySequence/LoadCommittedFileHistory/ReadManifest/FromManifest; EditSession.cs:Push/RestoreCommittedFileHistory; StudioRoot.cs:startup restoration caller",
+                "implementation": "New accepted file commands retain bounded label and positive explicit acceptance order. Stable exclusive allocator lock held through AtomicFile counter update and accepted journal; gaps survive failed acceptance. Counter scope/version/max validated, missing or malformed counter with ordered journals refuses. Loader checks all images/exact path sets, continuous hash chains for repeated paths, aggregate current cursor boundary and after-prefix/before-suffix side sequence, then hydrates correctly ordered Undo/Redo stacks and persisted labels. No GUID/mtime ordering or image cleanup.",
+                "verification": "Root affected Game build0/0 + diffcheck. Independent Sol6.1medium source review accepted after fixing malformed counter startup exception and actual counter-volume budget path. No new tests/probes; actual multi-command restart and native Undo/Redo not executed.",
+                "remaining": "Entity/mixed/redo-branch history remains fenced. Multiple legacy journals or mixed legacy/ordered journals require explicit migration decision. No multi-process promotion isolation claimed; existing conflict/rollback protection remains. Full ledger/epoch/pending transition and UI acceptance still open."
               }
             ],
             "stage_tasks": [
@@ -25906,6 +25922,15 @@
             "implementation": "Checked conservative retained image+promotion/rollback capacity before staging; exact UTF8 journal reserve; preflight before sync/async Undo/Redo applying journal and promotion/restore target writes. Longest containing ready DriveInfo mount with separator boundary; bounded pilot refuses different identified metadata/target volumes. No history cleanup or bypass of AtomicFile/conflict/rollback paths.",
             "remaining": "Actual ENOSPC, volume aliases/UNC inventory and user-facing refusal not exercised; available-space query cannot reserve capacity against other writers. Cross-volume transactions require future per-volume budgeting. Complete AI29 ordered history/checkpoint acceptance still open.",
             "next": "Continue explicit ordered history/cursor/pending transition and native UI end-to-end; exercise low-space failure using existing permitted means when available."
+          },
+          "ordered_file_history_source_slice": {
+            "stage": "2026-10-11 explicitly ordered file history",
+            "result": "PARTIAL_SOURCE_REVIEW_ACCEPTED_GAME_COMPILE_0_0_NATIVE_RESTART_OPEN",
+            "source": "StudioFileTransaction.cs:Accept/AllocateAcceptedOrder/ReadHistorySequence/LoadCommittedFileHistory/ReadManifest/FromManifest; EditSession.cs:Push/RestoreCommittedFileHistory; StudioRoot.cs:startup restoration caller",
+            "implementation": "New accepted file commands retain bounded label and positive explicit acceptance order. Stable exclusive allocator lock held through AtomicFile counter update and accepted journal; gaps survive failed acceptance. Counter scope/version/max validated, missing or malformed counter with ordered journals refuses. Loader checks all images/exact path sets, continuous hash chains for repeated paths, aggregate current cursor boundary and after-prefix/before-suffix side sequence, then hydrates correctly ordered Undo/Redo stacks and persisted labels. No GUID/mtime ordering or image cleanup.",
+            "verification": "Root affected Game build0/0 + diffcheck. Independent Sol6.1medium source review accepted after fixing malformed counter startup exception and actual counter-volume budget path. No new tests/probes; actual multi-command restart and native Undo/Redo not executed.",
+            "remaining": "Entity/mixed/redo-branch history remains fenced. Multiple legacy journals or mixed legacy/ordered journals require explicit migration decision. No multi-process promotion isolation claimed; existing conflict/rollback protection remains. Full ledger/epoch/pending transition and UI acceptance still open.",
+            "next": "Verify real multiple-file-command restart/Undo/Redo via existing tools, then complete mixed/entity order, branch intent and explicit legacy migration. Preserve native full panel gate and entire B20 scope."
           }
         }
       },
