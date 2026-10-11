@@ -1,0 +1,8 @@
+== AI-34: the type side of the cutscene contract, found by auditing my own table
+
+
+Прошло времени 00:00:00.50
+  cutscene type gaps: 0
+    TYPE synthetic: urman.cutscene:s: действие «say» говорит за роль «ghost», которой нет среди объявленных (tamara) — actors[ghost] бросит исключение.
+    TYPE synthetic: urman.cutscene:s: у действия «cut» поле «handheld» не булево — Flag() вызовет GetBoolean на этом значении и бросит исключение, потому что отсутствие безопасно, а неверный тип нет.
+PROBE RESULT: PASS

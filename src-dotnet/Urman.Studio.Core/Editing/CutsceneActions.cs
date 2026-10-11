@@ -681,6 +681,7 @@ public static class CutsceneActions
     public static IReadOnlyList<string> SceneNotes(StudioWorkspace workspace, string root)
     {
         var gaps = SceneGaps(workspace, root);
+        var types = TypeGaps(workspace, root);
         var scenes = 0;
         var actions = 0;
         var roles = 0;
@@ -697,7 +698,10 @@ public static class CutsceneActions
             gaps.Count == 0
                 ? "Каждая роль указывает на существующего персонажа, каждое действие — на объявленную роль, каждая реплика находит текст, и id действий лежат внутри своей сцены."
                 : $"Проблем связей сцены: {gaps.Count} — {string.Join(" | ", gaps.Take(2))}",
-            "Как сцена выглядит и звучит — постановочная приёмка, а не эта проверка."
+            "Как сцена выглядит и звучит — постановочная приёмка, а не эта проверка.",
+            types.Count == 0
+                ? "Типы необязательных полей сверены с исполнителем: отсутствие безопасно (Flag/TryGetProperty), а неверный тип сообщается отдельно."
+                : $"Проблем типов в сцене: {types.Count} — {string.Join(" | ", types.Take(2))}"
         ];
     }
 
@@ -708,5 +712,65 @@ public static class CutsceneActions
     /// </summary>
     public static string Text(JsonNode? node, string field) =>
         node is JsonObject obj && obj[field] is JsonValue value && value.TryGetValue<string>(out var text) ? text ?? "" : "";
+
+    /// <summary>
+    /// The TYPE side of the cutscene contract, which the presence check cannot see. The executor
+    /// reads the optional flags through a local helper:
+    ///
+    ///     bool Flag(string name) =&gt; p.TryGetProperty(name, out var value) &amp;&amp; value.GetBoolean();
+    ///
+    /// so ABSENCE is safe - that is why they are optional - but a flag that is present with a
+    /// non-boolean value calls GetBoolean on a string and THROWS. The same shape applies to talk: it
+    /// is read with TryGetProperty and then used as actors[talker.GetString()], so it must be a
+    /// string naming a DECLARED role, or the lookup throws.
+    ///
+    /// This was found by auditing my own parameter table rather than by a guess: every optional flag
+    /// in that table was checked against the executor and each one really is read through a
+    /// non-throwing helper for absence.
+    /// </summary>
+    public static IReadOnlyList<string> TypeGaps(StudioWorkspace workspace, string root)
+    {
+        ArgumentNullException.ThrowIfNull(workspace);
+        ArgumentException.ThrowIfNullOrWhiteSpace(root);
+        var gaps = new List<string>();
+        foreach (var scene in AuthoredScenes(workspace, root))
+        {
+            var id = Text(scene, "id");
+            var roles = new HashSet<string>(StringComparer.Ordinal);
+            if (scene["actors"] is JsonObject actors)
+            {
+                foreach (var pair in actors)
+                {
+                    roles.Add(pair.Key);
+                }
+            }
+
+            foreach (var action in Actions(scene))
+            {
+                var kind = Text(action, "action");
+                foreach (var flag in new[] { "handheld", "pushIn", "deadpan", "visible", "on" })
+                {
+                    if (action[flag] is { } node && (node is not JsonValue value || !value.TryGetValue<bool>(out _)))
+                    {
+                        gaps.Add($"{id}: у действия «{kind}» поле «{flag}» не булево — Flag() вызовет GetBoolean на этом значении и бросит исключение, потому что отсутствие безопасно, а неверный тип нет.");
+                    }
+                }
+
+                if (action["talk"] is { } talker)
+                {
+                    if (talker is not JsonValue talkValue || !talkValue.TryGetValue<string>(out var role) || role is not { Length: > 0 })
+                    {
+                        gaps.Add($"{id}: у действия «{kind}» поле «talk» не строка — исполнитель читает его как роль и обратится к карте ролей.");
+                    }
+                    else if (!roles.Contains(role))
+                    {
+                        gaps.Add($"{id}: действие «{kind}» говорит за роль «{role}», которой нет среди объявленных ({string.Join(", ", roles)}) — actors[{role}] бросит исключение.");
+                    }
+                }
+            }
+        }
+
+        return gaps;
+    }
 
 }

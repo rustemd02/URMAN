@@ -79716,6 +79716,12 @@
                 "result": "verification stage by deepseek v4.1 flash, born from the cutscene vacuity: every projection's input was counted and printed (1726 world entities, 196 kit placements, 6 item spawns, 33 npcs, 13 quests, 75 cutscene actions, 15 puzzle steps, 32 dialogue nodes, 5 area links, 177 catalogue forms, 282 placed forms, 1016 texts, 64 documents, 3 hints, 16 vocabulary records, 9 ambient beds, 4 material tables). The finding: NO other projection was passing vacuously - all seventeen read a non-zero input, so the cutscene was the only affected reader and its cause was the id form the workspace index does not carry. SEVENTEEN permanent assertions now fail the probe when any projection reads nothing, which is the check that would have caught the cutscene vacuity on the day it appeared. Verified: probe PASS 713/713 including the seventeen new assertions; Core 0/0",
                 "source": "the probe's vacuity wall; evidence evidence/STUDIO/b20-deepseek-ai-34/2026-10-11-vacuity-wall",
                 "verification": "probe PASS 713/713 including the seventeen assertions; Core 0/0. This is a verification stage, not unit completion"
+              },
+              {
+                "stage": "2026-10-11 the type side of the cutscene contract, found by auditing my own table",
+                "result": "deepening by deepseek v4.1 flash, found by AUDITING MY OWN PARAMETER TABLE rather than trusting it: every optional flag I list was checked against the executor and each really is read through a non-throwing helper for absence (handheld/pushIn/deadpan through the local Flag(), finalFacing and talk through TryGetProperty). That audit exposed the other half: Flag(name) is TryGetProperty AND value.GetBoolean(), so absence is safe but a NON-BOOLEAN value THROWS; and talk is used as actors[talker.GetString()], so it must name a DECLARED role. Now checked: handheld, pushIn, deadpan, visible and on must be booleans, and talk must name a declared role. Measured: ZERO type gaps in the authored scene. Own mistake recorded: the first version tested emptiness by joining the problem list into a string; it now counts the list once. Verified: probe PASS 741/741 including two synthetic findings; Core 0/0",
+                "source": "src-dotnet/Urman.Studio.Core/Editing/CutsceneActions.cs (TypeGaps, SceneNotes); evidence evidence/STUDIO/b20-deepseek-ai-34/2026-10-11-cutscene-types",
+                "verification": "probe PASS 741/741 including the zero type gaps and the two synthetic findings; Core 0/0. Staging and sound remain external acceptance and are NOT_RUN"
               }
             ],
             "stage_tasks": [
@@ -79754,7 +79760,9 @@
               "ИСПРАВЛЕНО: параметрическая проверка AI-34 ранее проходила ВПУСТУЮ (индекс не видит id сцены без слэша); сцены теперь читаются из файлов, пустой результат говорит об этом прямо.",
               "Ранее переданный частичный этап (2026-10-12 the cutscene's scene-level links, and a vacuous pass of my own making, caught) ждёт ревью/приёмки; полный done_when не выполнен.",
               "Проверки защищены от «пустого успеха»: 17 утверждений требуют, чтобы каждая проекция действительно что-то читала.",
-              "Ранее переданный частичный этап (2026-10-11 the vacuity wall - every projection must really read something) ждёт ревью/приёмки; полный done_when не выполнен."
+              "Ранее переданный частичный этап (2026-10-11 the vacuity wall - every projection must really read something) ждёт ревью/приёмки; полный done_when не выполнен.",
+              "Типы необязательных полей катсцены проверены: булевы флаги и talk→объявленная роль; сегодня 0 разрывов.",
+              "Ранее переданный частичный этап (2026-10-11 the type side of the cutscene contract, found by auditing my own table) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
             "next_action": "Параметризовать source/ID/text namespace; добавить selector; sync list/timeline; camera capture; AI action edits; preview/skip lifecycle.",
             "blocker": null,

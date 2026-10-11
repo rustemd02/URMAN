@@ -1,0 +1,29 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-34"
+  ],
+  "stage": "the type side of the cutscene contract, found by auditing my own table",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-11 22:35 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "6ab0e745",
+  "result": {
+    "how_it_was_found": "by auditing my own parameter table instead of trusting it: every optional flag I list was checked against the executor, and each one really is read through a non-throwing helper for ABSENCE - handheld, pushIn and deadpan through the local Flag(), finalFacing and talk through TryGetProperty",
+    "the_type_side": "that audit exposed the other half: Flag(name) is TryGetProperty(name, out value) AND value.GetBoolean(), so absence is safe but a flag present with a NON-BOOLEAN value throws. Talk is read with TryGetProperty and then used as actors[talker.GetString()], so it must be a string naming a DECLARED role",
+    "checked_now": "the boolean flags handheld, pushIn, deadpan, visible and on must be booleans, and talk must name a declared role",
+    "measured": "ZERO type gaps in the authored scene today, so the flags are all the types their reader expects"
+  },
+  "verified": {
+    "probe": "PASS 741/741 including the real scene's zero gaps and the two synthetic findings (a boolean flag holding a string, a talk role that is not declared)",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors (composed tree with my branch and the v15 patch)",
+    "not_run": "no game run: staging remains the author's acceptance"
+  },
+  "own_mistakes": "the first version of the notes tested emptiness by joining the problem list into a string, which works and reads badly; it now counts the list once and reuses it",
+  "files": {
+    "evidence/STUDIO/b20-deepseek-ai-34/2026-10-11-cutscene-types/check.log": "51a52561c782ca18618b9e19e4619330ae510999f598b89ca35fc5bdfc302d6a"
+  },
+  "open": [
+    "the scene's staging and sound remain external acceptance"
+  ]
+}
