@@ -203,6 +203,7 @@ public partial class StudioRoot : Control
 
     public override void _UnhandledKeyInput(InputEvent @event)
     {
+        if (IsAiPanelVisible) return;
         if (@event is not InputEventKey { Pressed: true } key || Workspace is null)
         {
             return;
@@ -220,12 +221,13 @@ public partial class StudioRoot : Control
             if (key.ShiftPressed) Redo(); else Undo();
             GetViewport().SetInputAsHandled();
         }
-        else if (command && key.Keycode == Key.F)
+        else if (command && (key.Keycode is Key.F or Key.K))
         {
             _search.GrabFocus();
             GetViewport().SetInputAsHandled();
         }
-        else if (command && key.Keycode == Key.K)
+        else if (command && !key.Echo && (key.Keycode is Key.Enter or Key.KpEnter)
+            && ((StudioWorldSection)Section("world")).HasViewportFocus)
         {
             OpenAiPanel();
             GetViewport().SetInputAsHandled();
@@ -234,6 +236,7 @@ public partial class StudioRoot : Control
 
     public override void _Input(InputEvent @event)
     {
+        if (IsAiPanelVisible) return;
         if (_results is not null && _results.Visible)
         {
             if (@event is InputEventMouseButton { Pressed: true } click
@@ -299,6 +302,7 @@ public partial class StudioRoot : Control
     public void Refresh() => OnEdited();
 
     private StudioAiPanel? _aiPanel;
+    public bool IsAiPanelVisible => _aiPanel is { Visible: true };
     public void OpenAiPanel()
     {
         _aiPanel ??= new StudioAiPanel(this);
@@ -694,7 +698,7 @@ public partial class StudioRoot : Control
         _undo = Button(top, "↶ Отменить", Undo);
         _undo.Name = "UndoButton";
         _redo = Button(top, "↷", Redo);
-        Button(top, "Изменить с ИИ", OpenAiPanel).TooltipText = "Выберите объект и опишите изменение (⌘/Ctrl+K)";
+        Button(top, "Изменить с ИИ", OpenAiPanel).TooltipText = "Выберите объект и опишите изменение (⌘/Ctrl+Enter в окне мира)";
         Button(top, "Сохранить", () => SaveAll(autosave: false)).TooltipText = "Сохранить все изменения (⌘S)";
         _search = new LineEdit { PlaceholderText = "Поиск: имя, ID, тип, текст реплики — или вставьте ID от разработчика", CustomMinimumSize = new(420, 0), SizeFlagsHorizontal = SizeFlags.ExpandFill };
         _search.TextChanged += OnSearch;

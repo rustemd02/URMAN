@@ -18,6 +18,8 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
     private readonly Label _status = new() { AutowrapMode = TextServer.AutowrapMode.WordSmart };
     private string? _openedSelection;
     private StudioWorldSection.SelectedPart? _openedPart;
+    private Control? _previousFocus;
+    private bool _focusCaptured;
     private readonly CheckButton _wholeHouseScope = new() { Text = "Изменить все 8 окон этого дома" };
     private readonly CheckButton _globalInstructions = new() { Text = "Использовать мои глобальные инструкции Codex" };
     private readonly Button _ask;
@@ -100,7 +102,24 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
         _preview.AddChild(new DirectionalLight3D { RotationDegrees = new(-40, -25, 0), LightEnergy = 1.5f });
         _previewCamera.Ready += () => _previewCamera.LookAt(new(0, 1.5f, 0));
         _preview.AddChild(_previewCamera);
-        VisibilityChanged += () => { if (!Visible) _cancel?.Cancel(); };
+        VisibilityChanged += () =>
+        {
+            if (Visible) return;
+            _cancel?.Cancel();
+            if (!_focusCaptured) return;
+            var previousFocus = _previousFocus;
+            _previousFocus = null;
+            _focusCaptured = false;
+            Callable.From(() =>
+            {
+                if (Visible) return;
+                if (GodotObject.IsInstanceValid(previousFocus) && previousFocus!.IsInsideTree()
+                    && previousFocus.IsVisibleInTree() && previousFocus.FocusMode != Control.FocusModeEnum.None)
+                    previousFocus.GrabFocus();
+                else
+                    ((StudioWorldSection)_studio.Section("world")).RestoreViewportFocus();
+            }).CallDeferred();
+        };
     }
 
     private void LoadGlobalInstructionConsent(string path)
@@ -154,7 +173,16 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
 
     public void Open(string? selected)
     {
-        if (_busy) { PopupCenteredClamped(new(600, 560), 0.9f); return; }
+        if (Visible) { _prompt.GrabFocus(); return; }
+        _previousFocus = _studio.GetViewport().GuiGetFocusOwner();
+        _focusCaptured = true;
+        ((StudioWorldSection)_studio.Section("world")).SuspendForAi();
+        if (_busy)
+        {
+            PopupCenteredClamped(new(600, 560), 0.9f);
+            _prompt.GrabFocus();
+            return;
+        }
         ClearProposal();
         _request = null;
         _openedSelection = selected;

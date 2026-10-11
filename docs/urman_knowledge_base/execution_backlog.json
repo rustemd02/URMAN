@@ -23151,6 +23151,13 @@
                 "implementation": "Immutable selected-part context uses semantic Front0–2/Rear0–1/Left0/Right0/SeniOuter0 identities mapped to current generator, recipe relative source and existing global /windowClearWidth pointer; mesh path remains diagnostic hint. Panel captures opened entity/part; selected window blocks Ask and request copy until author explicitly opts into all eight windows. Scope toggle locked during request/prepared proposal.",
                 "verification": "Sol6.1medium independent source acceptance; root affected Game compile 0 warnings/0 errors; git diff --check PASS.",
                 "remaining": "Native UI/picking/rebuild/DPI/focus walkthrough not verified. Recipe/request/provider still house-wide; real per-window overrides/target validation/exterior+interior consumers and runtime proof required, not replaced by scope opt-in."
+              },
+              {
+                "stage": "2026-10-11 modal focus and shortcut routing",
+                "result": "SOURCE_ACCEPTED_NARROW_GAME_COMPILE_0_0_FULL_UNIT_OPEN",
+                "source": "game/studio/StudioRoot.cs; StudioAiPanel.cs; StudioWorldSection.cs",
+                "implementation": "Viewport Cmd/Ctrl+Enter opens frozen context before point-pick Enter; Cmd/Ctrl+K existing search. Modal guards viewport/workspace input, ends gestures, preserves visible reentry request/proposal/draft, deferred restores valid prior focus without mouse recapture.",
+                "verification": "Root source review + narrow game build0 warnings/0 errors + diff check. NativeUI keyboard/focus/text Undo NOT_VERIFIED."
               }
             ],
             "stage_tasks": [
@@ -23212,6 +23219,13 @@
                 "verification": "Sol6.1medium backend implementation and independent panel source review; two frozen-source/staged-default findings corrected and accepted. Root affected Game compile0/0 and diff-check PASS. Real staged Blender generation exit0; generated GLB accessor dimensions: only Street_Window1 (Front0) glass .96→1.20, other seven pane dimensions unchanged; thirteen door-node vertex attribute signatures identical.",
                 "evidence": "evidence/STUDIO/b20-house-pilot-2026-10-10/single-window-staging/{recipe,manifest,geometry-measurement}.json",
                 "remaining": "No actual per-window Codex inference, native UI, wall/reveal/collision game verification or single-window Apply/Undo accepted yet. Staged receipt is geometry measurement, not game completion; original all-eight game/Undo evidence remains valid history."
+              },
+              {
+                "stage": "2026-10-11 marker occlusion depth guard",
+                "result": "SOURCE_ACCEPTED_NARROW_GAME_COMPILE_0_0_FULL_UNIT_OPEN",
+                "source": "game/studio/StudioWorldSection.cs:Pick",
+                "verification": "Sol independent source review; Root narrow game build0/0 and diff check. Overlap/DPI/rebuild nativeUI acceptance remains open.",
+                "limitation": "Conservative center-depth check may refuse off-axis/steep-ground markers; not render visibility proof."
               }
             ],
             "stage_tasks": [
@@ -25762,6 +25776,35 @@
             "source_commit": "14349e6a",
             "observed": "Guarded native Studio launched; Godot app inventory and owned child8318 confirmed alive. Two getApp(bundle) observations timed out (-10005) before screenshot/input. No model request or Apply through UI.",
             "guard": "Owned child8318 TERM; parent4712 terminal143; original files and permissions restored and verified."
+          },
+          "ai02_modal_focus_slice": {
+            "owner": "Sol6.1medium via root",
+            "files": [
+              "game/studio/StudioRoot.cs",
+              "game/studio/StudioAiPanel.cs",
+              "game/studio/StudioWorldSection.cs"
+            ],
+            "question": "Does AI opening suspend viewport gesture/input, preserve frozen request on reentry, use viewport Cmd/Ctrl+Enter and restore prior focus without stealing text history or recapturing mouse?",
+            "success": "Narrow Game compile and source review; native UI focus/keyboard acceptance remains separate until actually exercised.",
+            "result": "SOURCE_REVIEW_AND_NARROW_GAME_COMPILE_0_0_ACCEPTED_UI_OPEN",
+            "next": "Guarded native Studio attempt from new source; actual prompt/focus/text-history/viewport behavior still must be exercised."
+          },
+          "claude_cli_readiness_local_help": {
+            "result": "NOT_READY_FOR_TOOLLESS_PERSONAL_SUBSCRIPTION_REQUEST",
+            "source": "installed claude --help (read-only, no model request)",
+            "facts": [
+              "--tools empty disables built-in tools; --strict-mcp-config restricts configured MCP.",
+              "--bare skips hooks/settings/plugins but requires API key/API helper and never reads OAuth/keychain; not applicable to subscription-only pilot.",
+              "--safe-mode still applies administrator managed-policy settings; no proven managed-hook bypass."
+            ],
+            "next": "Design honest fail-closed readiness without API billing or config/credential copying; AI08 remains open."
+          },
+          "ai03_marker_depth_slice": {
+            "result": "SOURCE_REVIEW_AND_NARROW_GAME_COMPILE_0_0_ACCEPTED_UI_OPEN",
+            "source": "game/studio/StudioWorldSection.cs:Pick",
+            "implementation": "Normalized cursor ray records first-hit depth; fallback refuses marker centers behind nearest collider (including unknown/locked hit) with0.05m tolerance; no-hit retains fallback.",
+            "review": "Sol6.1medium independent source review accepted; off-axis/steep-ground visible markers can be conservatively refused. Physics depth is not per-marker render visibility proof.",
+            "next": "Actual overlapping objects and DPI/viewport offset acceptance remains open."
           }
         }
       },

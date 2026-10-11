@@ -83,6 +83,20 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
     public Control View => _view ??= Build();
     public Vector3 Pivot => _pivot;
     public bool WorldReady => _demo is not null && _hint is { Visible: false };
+    public bool HasViewportFocus => _container is not null && _container.IsVisibleInTree() && _container.HasFocus();
+
+    public void SuspendForAi()
+    {
+        _orbiting = false;
+        _panning = false;
+        if (Input.MouseMode == Input.MouseModeEnum.Captured) Input.MouseMode = Input.MouseModeEnum.Visible;
+        EndDrag();
+    }
+
+    public void RestoreViewportFocus()
+    {
+        if (_container is not null && _container.IsVisibleInTree()) _container.GrabFocus();
+    }
 
     // ---- view -------------------------------------------------------------------
 
@@ -591,6 +605,14 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
 
     private void OnViewportInput(InputEvent @event)
     {
+        if (studio.IsAiPanelVisible) return;
+        if (@event is InputEventKey { Pressed: true, Echo: false, Keycode: global::Godot.Key.Enter or global::Godot.Key.KpEnter } key
+            && (key.MetaPressed || key.CtrlPressed) && HasViewportFocus)
+        {
+            _container.AcceptEvent();
+            studio.OpenAiPanel();
+            return;
+        }
         switch (@event)
         {
             case InputEventMouseButton { ButtonIndex: MouseButton.WheelUp, Pressed: true }:
@@ -731,8 +753,11 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
     {
         // The collision mesh belongs to the same authored placement as its visible facade.
         var origin = _camera.ProjectRayOrigin(screen);
-        var ray = PhysicsRayQueryParameters3D.Create(origin, origin + _camera.ProjectRayNormal(screen) * 600f);
+        var direction = _camera.ProjectRayNormal(screen).Normalized();
+        var ray = PhysicsRayQueryParameters3D.Create(origin, origin + direction * 600f);
         var hit = _camera.GetWorld3D().DirectSpaceState.IntersectRay(ray);
+        var hitDepth = hit.TryGetValue("position", out var hitPosition)
+            ? (hitPosition.AsVector3() - origin).Dot(direction) : float.PositiveInfinity;
         if (hit.TryGetValue("collider", out var collider))
         {
             var colliderNode = collider.AsGodotObject() as Node;
@@ -762,6 +787,9 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
         {
             var world = marker.GlobalPosition + new Vector3(0, .6f, 0);
             if (_camera.IsPositionBehind(world) || Locked(id)) continue;
+            // Marker rendering ignores depth; selection must respect the first collider.
+            var depth = (world - origin).Dot(direction);
+            if (depth < 0f || depth > hitDepth + .05f) continue;
             var distance = _camera.UnprojectPosition(world).DistanceTo(screen);
             if (distance < bestDistance) { bestDistance = distance; best = id; }
         }
@@ -943,9 +971,10 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
 
     private void EndDrag()
     {
-        _drag?.Dispose();
+        var drag = _drag;
         _drag = null;
         _dragId = null;
+        drag?.Dispose();
     }
 
     private bool Movable(string id) => studio.Workspace.Get(id)?["params"]?["position"] is JsonArray;
