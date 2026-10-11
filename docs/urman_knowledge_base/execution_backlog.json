@@ -24360,7 +24360,14 @@
               "STUDIO.P4"
             ],
             "acceptance_refs": [
-              "STUDIO-AI/A21"
+              "STUDIO-AI/A21",
+              {
+                "stage": "2026-10-10 AI-23 first dependency-independent slice: what the campaign has where an item would be",
+                "result": "partial implementation by deepseek v4.1 flash: the six placed pickups are verified against the authored interactions they invoke, with the honest boundary that no item kind, no items registry and no runtime inventory exist, so an item editor cannot introduce a new format until a runtime consumer exists",
+                "source": "new file src-dotnet/Urman.Studio.Core/Editing/ItemSpawns.cs; evidence evidence/STUDIO/b20-deepseek-ai-23/2026-10-10-item-spawns/ (check.log, probe/, receipt.json)",
+                "verification": "probe PASS 337/337: the campaign places six pickup entities and every one resolves to a real authored interaction; the authored interaction index finds 229 interactions, including those inside array-rooted scene files; a placement without interactionId or position and a placement whose interaction is missing are reported; Urman.Studio.Core 0/0; game/Urman.Game.csproj 0/0; Urman.Studio.Tests 38/38. The compiled pack has no items registry and the runtime has no inventory, which the projection states as the boundary instead of inventing a format. No Studio window and no game run: the interface is NOT_RUN"
+              }
+
             ],
             "assigned_owner": "deepseek/b20-2026-10-10"
           },

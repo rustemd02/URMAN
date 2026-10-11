@@ -1,0 +1,30 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-23"
+  ],
+  "stage": "first dependency-independent slice: what the campaign has where an item would be",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-11 12:28 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "9e7bdaff",
+  "result": {
+    "spawns": "the campaign places six pickup entities, and every one resolves to a real authored interaction (the six fence boards of the Tamara plot)",
+    "interaction_index": "229 authored interactions in the workspace sources, including the ones inside array-rooted scene files",
+    "boundary": "there is no item kind and no items registry in the compiled pack (registries: assets, capabilities, characters, chats, dialogues, documents, hints, knowledge, quests, scenes, texts, vocabulary), and the runtime has no inventory; picking something up is authored as a scene interaction, so an item editor cannot introduce a new format until a runtime consumer exists - that is the owner's contract decision, not a Studio step"
+  },
+  "checks": "a placement without interactionId or without a position is reported, and a placement whose interaction is missing is reported; a placement whose interaction lives in an array-rooted scene file passes",
+  "verified": {
+    "probe": "PASS 337/337 with the new item-spawn checks",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors; game/Urman.Game.csproj 0 warnings/0 errors",
+    "existing_tests": "Urman.Studio.Tests 38/38",
+    "not_run": "no Studio window and no game run: the interface is NOT_RUN"
+  },
+  "files": {
+    "evidence/STUDIO/b20-deepseek-ai-23/2026-10-10-item-spawns/check.log": "5e01e6fb5bf9d01b6ac76520c47c6440e2a7895d875b38a8bbc62ff1a6f1b00a"
+  },
+  "open": [
+    "the unit's real editor waits for a runtime consumer for items (owner contract) and for AI-19/AI-21",
+    "runtime and visual acceptance are NOT_RUN"
+  ]
+}
