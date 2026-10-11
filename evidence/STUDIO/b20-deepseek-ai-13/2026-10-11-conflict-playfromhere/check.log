@@ -1,0 +1,11 @@
+== AI-13: the caller patch no longer applies to current main - both sides recorded
+
+-- base: cb52f254 Record current Niva mesh budget and pending native 
+-- the patch applies to StudioWorldSection.cs cleanly, and conflicts in StudioRoot.cs PlayFromHere
+-- CONFLICT (one region, 828-855):
+-- and the analysis:
+   ours (current main): PlayPreparation.CompileAsync(Workspace.Root) - no campaign selection, then the run-in-progress check
+   theirs (my patch):   CompileAsync(Workspace.Root, context.Campaign.Selection) plus two post-await re-checks (SameRunTarget and CompileInputHash)
+-- what CompileInputHash already hashes:
+4
+-- what it does NOT hash, by reading the code: game/content runtime files outside module folders (world plots, cutscenes, animation catalogue, studio recipes)
