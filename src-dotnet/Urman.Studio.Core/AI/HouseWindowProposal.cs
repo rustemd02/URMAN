@@ -9,7 +9,17 @@ public sealed record HouseWindowRequest(
     [property: JsonPropertyName("entityId"), JsonPropertyOrder(2)] string EntityId,
     [property: JsonPropertyName("currentWidth"), JsonPropertyOrder(3)] decimal CurrentWidth,
     [property: JsonPropertyName("prompt"), JsonPropertyOrder(4)] string Prompt,
-    [property: JsonPropertyName("partId"), JsonPropertyOrder(5), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)] string? PartId = null);
+    [property: JsonPropertyName("partId"), JsonPropertyOrder(5), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)] string? PartId = null)
+{
+    private IReadOnlyList<string>? _partIds;
+
+    [JsonPropertyName("partIds"), JsonPropertyOrder(6), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public IReadOnlyList<string>? PartIds
+    {
+        get => _partIds;
+        init => _partIds = value is null ? null : Array.AsReadOnly(value.ToArray());
+    }
+}
 
 /// <summary>
 /// A validated proposal for the single supported operation. Widths are in metres.
@@ -25,6 +35,15 @@ public sealed record HouseWindowProposal(
     [property: JsonPropertyName("partId"), JsonPropertyOrder(6), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)] string? PartId = null)
 {
     public const string Operation = "house.windows.resize";
+
+    private IReadOnlyList<string>? _partIds;
+
+    [JsonPropertyName("partIds"), JsonPropertyOrder(7), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public IReadOnlyList<string>? PartIds
+    {
+        get => _partIds;
+        init => _partIds = value is null ? null : Array.AsReadOnly(value.ToArray());
+    }
 }
 
 /// <summary>Shared validation for proposals before they can reach Studio's edit/undo path.</summary>
@@ -32,6 +51,8 @@ public static class HouseWindowProposalValidator
 {
     public const decimal MinimumWidthMeters = 0.65m;
     public const decimal MaximumWidthMeters = 1.35m;
+    public static readonly IReadOnlyList<string> MainRoomWindowIds = Array.AsReadOnly(
+        new[] { "Front0", "Front1", "Front2", "Rear0", "Rear1", "Left0", "Right0" });
 
     public static void ValidateRequest(HouseWindowRequest request)
     {
@@ -45,8 +66,14 @@ public static class HouseWindowProposalValidator
         ValidateSnapshotHash(request.SnapshotHash);
         ValidateIdentifier(request.EntityId, nameof(request.EntityId), maximumLength: 256);
         ValidateWidth(request.CurrentWidth, nameof(request.CurrentWidth));
+        if (request.PartId is not null && request.PartIds is not null)
+            throw new ArgumentException("Select either one window part or the main-room window set, not both.", nameof(request));
+
         if (request.PartId is not null && request.PartId is not ("Front0" or "Front1" or "Front2" or "Rear0" or "Rear1" or "Left0" or "Right0" or "SeniOuter0"))
             throw new ArgumentException("The selected window part ID is not supported.", nameof(request));
+
+        if (request.PartIds is not null && !HasCanonicalMainRoomWindowIds(request.PartIds))
+            throw new ArgumentException("PartIds must contain the seven canonical main-room window IDs in order.", nameof(request));
 
         if (string.IsNullOrWhiteSpace(request.Prompt) || request.Prompt.Length > 8_000 || ContainsUnsupportedPromptControl(request.Prompt))
         {
@@ -76,6 +103,9 @@ public static class HouseWindowProposalValidator
 
         if (!string.Equals(proposal.PartId, request.PartId, StringComparison.Ordinal))
             throw new ArgumentException("The proposal window part does not match its frozen input.", nameof(proposal));
+
+        if (!SamePartIds(proposal.PartIds, request.PartIds))
+            throw new ArgumentException("The proposal window parts do not match their frozen input.", nameof(proposal));
 
         if (proposal.ExpectedWidth != request.CurrentWidth)
         {
@@ -119,6 +149,37 @@ public static class HouseWindowProposalValidator
     }
 
     private static bool ContainsControl(string value) => value.Any(char.IsControl);
+
+    private static bool HasCanonicalMainRoomWindowIds(IReadOnlyList<string> partIds)
+    {
+        if (partIds.Count != MainRoomWindowIds.Count)
+            return false;
+
+        for (var index = 0; index < MainRoomWindowIds.Count; index++)
+        {
+            if (!string.Equals(partIds[index], MainRoomWindowIds[index], StringComparison.Ordinal))
+                return false;
+        }
+
+        return true;
+    }
+
+    private static bool SamePartIds(IReadOnlyList<string>? left, IReadOnlyList<string>? right)
+    {
+        if (left is null || right is null)
+            return left is null && right is null;
+
+        if (left.Count != right.Count)
+            return false;
+
+        for (var index = 0; index < left.Count; index++)
+        {
+            if (!string.Equals(left[index], right[index], StringComparison.Ordinal))
+                return false;
+        }
+
+        return true;
+    }
 
     private static bool ContainsUnsupportedPromptControl(string value) =>
         value.Any(character => char.IsControl(character) && character is not ('\r' or '\n' or '\t'));

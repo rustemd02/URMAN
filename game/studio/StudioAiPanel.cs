@@ -13,6 +13,9 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
 {
     private const string RecipePath = "game/content/studio/hero_house.recipe.json";
     private const string GeneratorPath = "assets/source/blender/act1/urman_village_exterior_kit.py";
+    private const int SelectedWindowScope = 0;
+    private const int MainRoomWindowsScope = 1;
+    private const int AllWindowsScope = 2;
     private readonly StudioRoot _studio;
     private readonly TextEdit _prompt = new() { CustomMinimumSize = new(560, 100), WrapMode = TextEdit.LineWrappingMode.Boundary, TabInputMode = false, PlaceholderText = "Например: сделай окна этого дома шире" };
     private readonly Label _status = new() { AutowrapMode = TextServer.AutowrapMode.WordSmart };
@@ -20,7 +23,7 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
     private StudioWorldSection.SelectedPart? _openedPart;
     private Control? _previousFocus;
     private bool _focusCaptured;
-    private readonly CheckButton _wholeHouseScope = new() { Text = "Изменить все 8 окон этого дома" };
+    private readonly OptionButton _scope = new();
     private readonly CheckButton _globalInstructions = new() { Text = "Использовать мои глобальные инструкции Codex" };
     private readonly Button _ask;
     private readonly Button _apply;
@@ -68,8 +71,16 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
         AddChild(body);
         body.AddChild(_status);
         body.AddChild(_prompt);
-        body.AddChild(_wholeHouseScope);
-        _wholeHouseScope.Toggled += _ => SetBusy(_busy);
+        _scope.AddItem("Только выбранное окно", SelectedWindowScope);
+        _scope.AddItem("7 окон главных комнат", MainRoomWindowsScope);
+        _scope.AddItem("Все 8 окон, включая окно в сенях", AllWindowsScope);
+        _scope.TooltipText = "Охват изменения окон. Для выбранного окна выберите его в мире; при применении остальные проёмы сохранятся.";
+        body.AddChild(_scope);
+        _scope.ItemSelected += _ =>
+        {
+            SetBusy(_busy);
+            UpdateScopeStatus(scopeChanged: _request is not null && _proposal is null);
+        };
         body.AddChild(_globalInstructions);
         var permissionFile = Path.Combine(studio.Workspace.Root, ".urman-studio/codex-pilot.json");
         LoadGlobalInstructionConsent(permissionFile);
@@ -139,6 +150,41 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
         };
     }
 
+    private void UpdateScopeStatus(bool scopeChanged = false)
+    {
+        if (_openedSelection != HeroHouseRecipe.EntityId) return;
+        var summary = _scope.Selected switch
+        {
+            SelectedWindowScope => $"{_openedPart?.Label ?? "Выбранное окно"} · будет изменено только это окно. Остальные проёмы, высоты и двери сохранятся.",
+            MainRoomWindowsScope => "Эталонный дом · изменятся ровно 7 окон главных комнат. Окно в сенях и ширина по умолчанию сохранятся.",
+            AllWindowsScope => "Эталонный дом · изменятся все 8 окон, включая окно в сенях.",
+            _ => "Выберите охват изменения окон."
+        };
+        summary += scopeChanged
+            ? "\nОхват изменился после подготовки запроса. Скопируйте новый запрос перед вставкой JSON-ответа."
+            : "\nCodex предложит ширину, вы увидите новую модель перед применением. ⌘/Ctrl+Z полностью отменяет применение.";
+        if (_consentIoWarning is not null) summary += "\n" + _consentIoWarning;
+        _status.Text = summary;
+    }
+
+    private (string? PartId, IReadOnlyList<string>? PartIds) SelectedScope() => _scope.Selected switch
+    {
+        SelectedWindowScope when _openedPart is { PartId: var partId }
+            && HeroHouseRecipe.WindowIds.Contains(partId, StringComparer.Ordinal) => (partId, null),
+        MainRoomWindowsScope => (null, HouseWindowProposalValidator.MainRoomWindowIds),
+        AllWindowsScope => (null, null),
+        _ => throw new InvalidOperationException("Выберите поддерживаемый охват окон.")
+    };
+
+    private bool RequestScopeMatchesCurrent(HouseWindowRequest request)
+    {
+        var current = SelectedScope();
+        return request.PartId == current.PartId
+            && (request.PartIds is null
+                ? current.PartIds is null
+                : current.PartIds is not null && request.PartIds.SequenceEqual(current.PartIds, StringComparer.Ordinal));
+    }
+
     private void LoadGlobalInstructionConsent(string path)
     {
         try
@@ -204,16 +250,19 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
         _request = null;
         _openedSelection = selected;
         _openedPart = ((StudioWorldSection)_studio.Section("world")).SelectionPart;
-        var windowSelected = _openedPart is { PartId: var partId } && !partId.StartsWith("wall/", StringComparison.Ordinal);
-        _wholeHouseScope.Visible = windowSelected;
-        _wholeHouseScope.SetPressedNoSignal(!windowSelected);
+        var windowSelected = _openedPart is { PartId: var partId }
+            && HeroHouseRecipe.WindowIds.Contains(partId, StringComparer.Ordinal);
+        _scope.Visible = selected == HeroHouseRecipe.EntityId;
+        _scope.SetItemDisabled(SelectedWindowScope, !windowSelected);
+        _scope.Select(windowSelected ? SelectedWindowScope : MainRoomWindowsScope);
         SetBusy(false);
-        _status.Text = selected == HeroHouseRecipe.EntityId
-            ? "Эталонный дом · все 8 окон, включая окно в сенях. Codex предложит ширину, вы увидите новую модель перед применением. ⌘/Ctrl+Z полностью отменяет применение."
-            : "Выберите эталонный дом Бабая в мире. Другие объекты будут подключены следующими этапами B20.";
-        if (windowSelected)
-            _status.Text = $"{_openedPart!.Label} · будет изменено только это окно. Остальные проёмы, высоты и двери сохранятся. Для всего дома включите охват ниже.";
-        if (_consentIoWarning is not null) _status.Text += "\n" + _consentIoWarning;
+        if (selected == HeroHouseRecipe.EntityId)
+            UpdateScopeStatus();
+        else
+        {
+            _status.Text = "Выберите эталонный дом Бабая в мире. Другие объекты будут подключены следующими этапами B20.";
+            if (_consentIoWarning is not null) _status.Text += "\n" + _consentIoWarning;
+        }
         ResetSize();
         PopupCenteredClamped(new(600, 560), 0.9f);
         _prompt.GrabFocus();
@@ -243,12 +292,11 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
         foreach (var id in HeroHouseRecipe.WindowIds)
             _capturedWidths[id] = (decimal?)recipe["windowWidths"]?[id]
                 ?? (id == "SeniOuter0" && recipe["modelPath"] is null ? .80m : (decimal)recipe["windowClearWidth"]!);
-        var partId = !_wholeHouseScope.ButtonPressed ? _openedPart?.PartId : null;
-        if (partId is not null && !HeroHouseRecipe.WindowIds.Contains(partId, StringComparer.Ordinal))
-            throw new InvalidOperationException("Выбранная часть не является поддерживаемым окном.");
+        var (partId, partIds) = SelectedScope();
         _snapshot = Fingerprint(_recipeText);
-        return new(Guid.NewGuid().ToString("N"), _snapshot, HeroHouseRecipe.EntityId,
-            partId is null ? (decimal)recipe["windowClearWidth"]! : (decimal)_capturedWidths[partId]!, _prompt.Text, partId);
+        var currentWidth = partId is null ? (decimal)recipe["windowClearWidth"]! : (decimal)_capturedWidths[partId]!;
+        return new HouseWindowRequest(Guid.NewGuid().ToString("N"), _snapshot, HeroHouseRecipe.EntityId,
+            currentWidth, _prompt.Text, partId) { PartIds = partIds };
     }
 
     private string Fingerprint(string recipe)
@@ -345,7 +393,7 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
                 if (_request is null || _proposal is not null)
                     throw new InvalidOperationException("Сначала скопируйте новый запрос для агента.");
                 if (_prompt.Text != _request.Prompt
-                    || (_wholeHouseScope.ButtonPressed ? null : _openedPart?.PartId) != _request.PartId)
+                    || !RequestScopeMatchesCurrent(_request))
                     throw new InvalidOperationException("Описание или охват изменились. Скопируйте новый запрос.");
                 if (_openedSelection != _studio.Selection
                     || _snapshot != Fingerprint(File.ReadAllText(Path.Combine(_studio.Workspace.Root, RecipePath))))
@@ -386,6 +434,12 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
                 widths[partId] = _proposal.WindowWidth;
                 recipe["windowWidths"] = widths;
             }
+            else if (_request.PartIds is { } partIds)
+            {
+                var widths = (JsonObject)_capturedWidths!.DeepClone();
+                foreach (var windowId in partIds) widths[windowId] = _proposal.WindowWidth;
+                recipe["windowWidths"] = widths;
+            }
             else
             {
                 recipe["windowClearWidth"] = _proposal.WindowWidth;
@@ -404,7 +458,13 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
             _beforeView.Disabled = false;
             _afterView.Disabled = false;
             ShowPreview(after: true);
-            _status.Text = $"{_proposal.Summary}\nШирина: {_proposal.ExpectedWidth:0.00} → {_proposal.WindowWidth:0.00} м. {(_request.PartId is null ? "Все 8 окон выбранного дома, включая сени" : "Только окно " + _request.PartId)}. Ещё не применено.";
+            var scopeSummary = _request.PartId is not null ? "только окно " + _request.PartId
+                : _request.PartIds is not null ? "7 окон главных комнат; окно в сенях и ширина по умолчанию сохранены"
+                : "все 8 окон выбранного дома, включая окно в сенях";
+            var widthSummary = _request.PartIds is not null
+                ? $"Целевая ширина 7 окон главных комнат: {_proposal.WindowWidth:0.00} м."
+                : $"Ширина: {_proposal.ExpectedWidth:0.00} → {_proposal.WindowWidth:0.00} м.";
+            _status.Text = $"{_proposal.Summary}\n{widthSummary} {scopeSummary}. Ещё не применено.";
             if (Volatile.Read(ref _providerWarningSeen) != 0)
                 _status.Text += "\nCodex сообщил предупреждение в сессии. Перед запросом проверено: MCP отключены, доступных MCP-инструментов нет.";
             if (_consentIoWarning is not null) _status.Text += "\n" + _consentIoWarning;
@@ -602,18 +662,24 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
     private void ValidateStage()
     {
         var manifest = JsonNode.Parse(File.ReadAllText(Path.Combine(_stage!, "manifest.json")))!;
+        var allWindows = _request!.PartId is null && _request.PartIds is null;
+        if (_request.PartIds is { } mainRoomPartIds
+            && !mainRoomPartIds.SequenceEqual(HouseWindowProposalValidator.MainRoomWindowIds, StringComparer.Ordinal))
+            throw new InvalidDataException("Запрос изменил канонический набор семи окон главных комнат.");
         if ((string?)manifest["schema"] != "hero-house-build-manifest/v1"
             || (string?)manifest["entityId"] != HeroHouseRecipe.EntityId
             || (string?)manifest["component"] != HeroHouseRecipe.Component
             || (string?)manifest["modelPath"] != "res://assets/models/studio/hero-house-" + _request!.RequestId + ".glb"
             || (decimal?)manifest["windowClearHeight"] != 1.40m
-            || (decimal?)manifest["windowClearWidth"] != (_request.PartId is null ? _proposal!.WindowWidth : (decimal)JsonNode.Parse(_recipeText!)!["windowClearWidth"]!))
+            || (decimal?)manifest["windowClearWidth"] != (allWindows ? _proposal!.WindowWidth : (decimal)JsonNode.Parse(_recipeText!)!["windowClearWidth"]!))
             throw new InvalidDataException("Сборка не соответствует принятому предложению.");
         if (manifest["windowWidths"] is not JsonObject widths || widths.Count != HeroHouseRecipe.WindowIds.Count)
             throw new InvalidDataException("Сборка не содержит точный охват восьми окон.");
         foreach (var id in HeroHouseRecipe.WindowIds)
         {
-            var expected = _request!.PartId is null || _request.PartId == id
+            var targeted = allWindows || _request.PartId == id
+                || _request.PartIds?.Contains(id, StringComparer.Ordinal) == true;
+            var expected = targeted
                 ? _proposal!.WindowWidth : (decimal)_capturedWidths![id]!;
             if ((decimal?)widths[id] != expected)
                 throw new InvalidDataException("Сборка изменила ширину вне принятого охвата: " + id);
@@ -631,7 +697,7 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
     private void SetBusy(bool busy)
     {
         _busy = busy;
-        _wholeHouseScope.Disabled = busy || _proposal is not null;
+        _scope.Disabled = busy || _proposal is not null || _openedSelection != HeroHouseRecipe.EntityId;
         _ask.Disabled = busy || _openedSelection != HeroHouseRecipe.EntityId
             || _studio.Selection != _openedSelection;
         _copy.Disabled = _ask.Disabled;

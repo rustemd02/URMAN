@@ -71342,6 +71342,14 @@
                 "implementation": "Context-package v3 chooses a single byte splice only if complete serialized overlay is smaller than full current UTF8. Saved source plus canonical Base64 insert and byte offset/remove recover complete current text; currentHash checks reconstructed bytes, file receipts check stored payload bytes. Archive payload including manifest remains <=256KiB; aggregate reconstructed current sources independently <=256KiB. Reader checks exact fields, duplicate keys, base hash, integer bounds, canonical Base64, remaining aggregate budget before result allocation and strict final UTF8/hash. New sources retain full text; equal source reuses baseline. V1/v2 read compatibility remains. Existing UI previews full reconstructed sources and catches InvalidDataException for both export/import failures.",
                 "verification": "Affected Game compile 0 warnings/0 errors, independent Sol6.1medium review accepted bounded contract; Luna source review and diff-check. No tests, package roundtrip, Studio/game/provider/network launches.",
                 "remaining": "Single splice can include a large unchanged region between distant edits; oversized payloads still refuse without truncation. Source hash capture uses temporary UTF8 arrays before retained-payload budgeting. Context-package format is not AuthoringRequest v2; recipe/campaign/typed dependencies/selection/protected fields/tombstones and native A07 remain open."
+              },
+              {
+                "stage": "2026-10-11 explicit seven main-room window scope",
+                "result": "SOURCE_IMPLEMENTED_GAME_COMPILE_PASS_NATIVE_NOT_RUN",
+                "source": "src-dotnet/Urman.Studio.Core/AI/HouseWindowProposal.cs; AI/CodexProposalProvider.cs; game/studio/StudioAiPanel.cs",
+                "implementation": "Optional defensively copied readonly PartIds accepts only ordered Front0/Front1/Front2/Rear0/Rear1/Left0/Right0, mutually exclusive with legacy single PartId. Null/null retains original all8 contract. Provider prompt/schema/parser require exact seven-ID echo and reject wrong/missing/extra scope. Studio offers selected window/7 main-room windows/all8, defaults window selection to single and house to7, freezes choices while busy/preview and refuses stale manual scope. Seven recipe clones all8 captured widths and overrides7, retaining SeniOuter0 (legacy0.80m) and global width. Manifest checks all8 target/excluded widths and unchanged global baseline. Existing guarded Apply/Undo flow remains unchanged.",
+                "verification": "Five Luna FAST bounded implementation/caller/geometry review and independent Sol6.1medium review. Affected Game compile0 warnings/0 errors after identified iterator shadow CS0136 was renamed; diff-check and tracker validation. No new tests, provider requests, Blender, Studio/game launches or actual native preview/Apply/Undo.",
+                "remaining": "AuthoringRequest v2 full source/campaign/typeddependencies/per-part current baseline transport remain open. Legacy CurrentWidth remains recipe default for7; UI shows target only, not a false uniform prior width. Direct provider JSON-schema acceptance and native seven-window Apply/Undo/full byte rollback remain unverified under author runtime pause."
               }
             ],
             "stage_tasks": [
@@ -71372,7 +71380,7 @@
             "remaining": [
               "Unsaved объект читаем агентом из пакета; другой checkout разрешает данные; секреты/user saves отсутствуют.; принятые child этапы повторно не разрабатывать."
             ],
-            "next_action": "Implement frozen AuthoringRequest v2 producer/consumer with actual campaign/selection/targets and explicit hero recipe; package overlay source support is implemented but native A07 remains deferred by author.",
+            "next_action": "Finish AuthoringRequest v2 frozen campaign/selection/targets, per-part baselines and explicit recipe/source consumers. Native single/seven-window A07/A12 remains deferred by author.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -73961,7 +73969,15 @@
                     "evidence/STUDIO/b20-codex-ui-2026-10-11/windows-kit/build.log",
                     "evidence/STUDIO/b20-codex-ui-2026-10-11/windows-kit/game.log",
                     "src-dotnet/Urman.Studio.Core/AI/CodexProposalProvider.cs",
-                    "evidence/STUDIO/b20-codex-ui-2026-10-11/native-resume-receipt.json"
+                    "evidence/STUDIO/b20-codex-ui-2026-10-11/native-resume-receipt.json",
+                    {
+                      "stage": "2026-10-11 explicit seven main-room window scope",
+                      "result": "SOURCE_IMPLEMENTED_GAME_COMPILE_PASS_NATIVE_NOT_RUN",
+                      "source": "src-dotnet/Urman.Studio.Core/AI/HouseWindowProposal.cs; AI/CodexProposalProvider.cs; game/studio/StudioAiPanel.cs",
+                      "implementation": "Optional defensively copied readonly PartIds accepts only ordered Front0/Front1/Front2/Rear0/Rear1/Left0/Right0, mutually exclusive with legacy single PartId. Null/null retains original all8 contract. Provider prompt/schema/parser require exact seven-ID echo and reject wrong/missing/extra scope. Studio offers selected window/7 main-room windows/all8, defaults window selection to single and house to7, freezes choices while busy/preview and refuses stale manual scope. Seven recipe clones all8 captured widths and overrides7, retaining SeniOuter0 (legacy0.80m) and global width. Manifest checks all8 target/excluded widths and unchanged global baseline. Existing guarded Apply/Undo flow remains unchanged.",
+                      "verification": "Five Luna FAST bounded implementation/caller/geometry review and independent Sol6.1medium review. Affected Game compile0 warnings/0 errors after identified iterator shadow CS0136 was renamed; diff-check and tracker validation. No new tests, provider requests, Blender, Studio/game launches or actual native preview/Apply/Undo.",
+                      "remaining": "AuthoringRequest v2 full source/campaign/typeddependencies/per-part current baseline transport remain open. Legacy CurrentWidth remains recipe default for7; UI shows target only, not a false uniform prior width. Direct provider JSON-schema acceptance and native seven-window Apply/Undo/full byte rollback remain unverified under author runtime pause."
+                    }
                   ],
                   "assigned_owner": "codex/b20-2026-10-10",
                   "active_owner": null,

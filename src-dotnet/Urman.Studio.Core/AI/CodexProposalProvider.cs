@@ -963,8 +963,13 @@ public sealed class CodexProposalProvider
     private static string BuildPrompt(HouseWindowRequest request)
     {
         var input = JsonSerializer.Serialize(request, WireJsonOptions);
+        var scope = request.PartIds is not null
+            ? "Scope: resize only the seven main-room windows named by partIds (" + string.Join(", ", request.PartIds) + "). Leave SeniOuter0 unchanged and keep every other window unchanged. "
+            : request.PartId is null
+                ? "Scope: all eight windows of this one house. "
+                : "Scope: only window part " + request.PartId + ". Keep every other window unchanged. ";
         return "Propose exactly one operation of type house.windows.resize using only the immutable request JSON below. " +
-               (request.PartId is null ? "Scope: all eight windows of this one house. " : "Scope: only window part " + request.PartId + ". Keep every other window unchanged. ") +
+               scope +
                "Window widths are metres. Keep expectedWidth exactly equal to currentWidth. Choose a different windowWidth in the inclusive range 0.65–1.35 metres. If the prompt specifies a target width, use that exact decimal value, without approximation or extra digits. The summary must describe the actual windowWidth returned. " +
                "Do not use tools, read files, execute commands, change files, or perform any other action. Return only the structured result required by the schema.\n\n" +
                "Immutable request JSON:\n" + input;
@@ -991,7 +996,24 @@ public sealed class CodexProposalProvider
                 ["summary"] = new Dictionary<string, object?> { ["type"] = "string", ["minLength"] = 1, ["maxLength"] = 500 }
             }
         };
-        if (request.PartId is not null)
+        if (request.PartIds is not null)
+        {
+            var properties = (Dictionary<string, object?>)schema["properties"]!;
+            properties["partIds"] = new Dictionary<string, object?>
+            {
+                ["type"] = "array",
+                ["items"] = new Dictionary<string, object?>
+                {
+                    ["type"] = "string",
+                    ["enum"] = HouseWindowProposalValidator.MainRoomWindowIds.ToArray()
+                },
+                ["minItems"] = HouseWindowProposalValidator.MainRoomWindowIds.Count,
+                ["maxItems"] = HouseWindowProposalValidator.MainRoomWindowIds.Count,
+                ["const"] = request.PartIds.ToArray()
+            };
+            schema["required"] = ((string[])schema["required"]!).Append("partIds").ToArray();
+        }
+        else if (request.PartId is not null)
         {
             var properties = (Dictionary<string, object?>)schema["properties"]!;
             properties["partId"] = new Dictionary<string, object?> { ["type"] = "string", ["const"] = request.PartId };
@@ -1041,11 +1063,16 @@ public sealed class CodexProposalProvider
         }
 
         string[] expectedProperties = ["operation", "requestId", "snapshotHash", "entityId", "expectedWidth", "windowWidth", "summary"];
-        if (request.PartId is not null) expectedProperties = [.. expectedProperties, "partId"];
+        if (request.PartIds is not null) expectedProperties = [.. expectedProperties, "partIds"];
+        else if (request.PartId is not null) expectedProperties = [.. expectedProperties, "partId"];
         if (values.Count != expectedProperties.Length || expectedProperties.Any(property => !values.ContainsKey(property)))
         {
             throw new CodexProposalException("Codex returned an invalid structured proposal.");
         }
+
+        var partIds = request.PartIds is null ? null : ReadStringArray(values["partIds"]);
+        if (partIds is not null && !partIds.SequenceEqual(request.PartIds!, StringComparer.Ordinal))
+            throw new CodexProposalException("Codex returned an invalid structured proposal.");
 
         if (ReadString(values["operation"]) != HouseWindowProposal.Operation)
         {
@@ -1059,7 +1086,10 @@ public sealed class CodexProposalProvider
             ReadDecimal(values["expectedWidth"]),
             ReadDecimal(values["windowWidth"]),
             ReadString(values["summary"]),
-            request.PartId is null ? null : ReadString(values["partId"]));
+            request.PartId is null ? null : ReadString(values["partId"]))
+        {
+            PartIds = partIds
+        };
         try
         {
             HouseWindowProposalValidator.Validate(request, proposal);
@@ -1111,6 +1141,12 @@ public sealed class CodexProposalProvider
     {
         if (value.ValueKind != JsonValueKind.String || value.GetString() is not { } text) throw new CodexProposalException("Codex returned an invalid structured proposal.");
         return text;
+    }
+
+    private static string[] ReadStringArray(JsonElement value)
+    {
+        if (value.ValueKind != JsonValueKind.Array) throw new CodexProposalException("Codex returned an invalid structured proposal.");
+        return value.EnumerateArray().Select(ReadString).ToArray();
     }
 
     private static decimal ReadDecimal(JsonElement value)
