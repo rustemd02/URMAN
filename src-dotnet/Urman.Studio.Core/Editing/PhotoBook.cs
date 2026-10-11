@@ -42,6 +42,9 @@ public static class PhotoBookFacts
             IndexingGaps.Count == 0
                 ? "Нет ссылок, которые лежали бы в файлах, но не были видны рабочему пространству."
                 : $"Ссылок, которые ЕСТЬ в авторских файлах, но НЕ индексируются рабочим пространством: {IndexingGaps.Count}. Это пробел общего индексатора, а не ошибка автора: интеракций в индексе {0}. Список ведёт не автор, а владелец индексатора.",
+            UnreachableFactGates(workspace, root, campaignSelection) is { Count: > 0 } unreachable
+                ? $"Условий photoworlds.fact.observed, которые не могут стать истинными: {unreachable.Count} — они ссылаются на факты вне каталога книги, и HasFact молча вернёт false."
+                : "Каждое условие photoworlds.fact.observed ссылается на факт из каталога книги.",
             unused.Length == 0
                 ? "Каждый обязательный якорь используется каким-нибудь миром."
                 : $"Якоря, которые не использует ни один мир: {string.Join(", ", unused)}. Это не обязательно ошибка: якорь может принадлежать миру, которого в списке книги ещё нет (эпилог назван в narrativeOrder и требуется инвариантом), — решает автор.",
@@ -389,6 +392,83 @@ public static class PhotoBookFacts
         }
 
         return false;
+    }
+
+    /// <summary>
+    /// The fact gates that can never open. PhotoWorldState.HasFact reads the world state with
+    /// TryGetProperty, so a condition naming a fact that is not in the campaign's catalog simply
+    /// returns false - no error, no warning, just a gate that never passes. The catalog is the
+    /// campaign's photoBook.facts, which is what ValidateFacts also enforces, and the notes say
+    /// where the unknown names do come from so the author can decide which side is stale.
+    /// </summary>
+    public static IReadOnlyList<string> UnreachableFactGates(StudioWorkspace workspace, string root, string? campaignSelection)
+    {
+        ArgumentNullException.ThrowIfNull(workspace);
+        ArgumentException.ThrowIfNullOrWhiteSpace(root);
+        var (_, _, facts, _, _, _) = Inspect(workspace, root, campaignSelection);
+        var catalog = facts.ToHashSet(StringComparer.Ordinal);
+        if (catalog.Count == 0)
+        {
+            return ["Каталог фактов книги не прочитан: сверять условия нечем."];
+        }
+
+        var gates = new List<string>();
+        foreach (var factId in ReferencedFactIds(workspace))
+        {
+            if (!catalog.Contains(factId))
+            {
+                gates.Add($"Условие photoworlds.fact.observed ссылается на факт «{factId}», которого нет в каталоге книги ({catalog.Count} фактов): HasFact читает состояние через TryGetProperty, поэтому условие просто НИКОГДА не станет истинным — без ошибки и без предупреждения.");
+            }
+        }
+
+        return gates;
+    }
+
+    /// <summary>
+    /// Every factId the authored content reads in a fact.observed condition, with the entity that
+    /// reads it, so a gate is reported with the place it stands in.
+    /// </summary>
+    public static IReadOnlyList<string> ReferencedFactIds(StudioWorkspace workspace)
+    {
+        ArgumentNullException.ThrowIfNull(workspace);
+        var ids = new SortedSet<string>(StringComparer.Ordinal);
+        foreach (var id in workspace.EntityIds)
+        {
+            if (workspace.Get(id) is not { } entity)
+            {
+                continue;
+            }
+
+            var pending = new Stack<JsonNode?>();
+            pending.Push(entity);
+            while (pending.Count > 0)
+            {
+                switch (pending.Pop())
+                {
+                    case JsonObject obj:
+                        if ((string?)obj["op"] == "photoworlds.fact.observed" && (string?)obj["factId"] is { Length: > 0 } factId)
+                        {
+                            ids.Add(factId);
+                        }
+
+                        foreach (var pair in obj)
+                        {
+                            pending.Push(pair.Value);
+                        }
+
+                        break;
+                    case JsonArray array:
+                        foreach (var item in array)
+                        {
+                            pending.Push(item);
+                        }
+
+                        break;
+                }
+            }
+        }
+
+        return ids.ToArray();
     }
 
 }

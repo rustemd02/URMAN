@@ -76702,6 +76702,12 @@
                 "result": "deepening by deepseek v4.1 flash: hints are the same authored shape as documents - Markdown + YAML front-matter listed in the module manifest - and three authored hints at levels 1, 2 and 3 check out with ZERO problems: file present, all fields hint.schema.json requires, a resolving text id, a non-empty pointsTo and executed conditions. The runtime contract is quoted: level 1 arrives when the computer opens, level >= 3 waits until the player really read two archive documents, and the generic path serves the first unseen hint whose conditions hold. TWO of my own mistakes are recorded: my front-matter parser turned 'level: 1' into the text \"1\" so the level read as zero (it now parses JSON scalars), and I first flagged level 2 although the runtime only NAMES 1 and 3 in explicit comparisons - the schema owns the range (1..3) and the check now reads it from there. Verified: probe PASS 637/637 with the document family still at sixty-four and zero problems; Core 0/0",
                 "source": "new file src-dotnet/Urman.Studio.Core/Editing/AuthoredHints.cs plus src-dotnet/Urman.Studio.Core/Editing/AuthoredDocuments.cs (FrontMatter, RequiredFields); evidence evidence/STUDIO/b20-deepseek-ai-24/2026-10-11-authored-hints",
                 "verification": "probe PASS 637/637 including the three hints, the schema range and the parser fix; Core 0/0. The hint prose and language are NOT_RUN and external"
+              },
+              {
+                "stage": "2026-10-11 the fact gates that can never open",
+                "result": "REAL FINDING by deepseek v4.1 flash: the authored content reads forty-four distinct fact ids in photoworlds.fact.observed conditions and SEVENTEEN of them are not in the campaign's fact catalog (photoBook.facts, thirty-three ids). PhotoWorldState.HasFact uses TryGetProperty, so an unknown fact returns false: the gate never opens, with no error and no warning - verified from the engine source, not assumed. The unknown names come from the PhotoWorlds authoring spec (worlds.spec.json declares twenty effect names) while the runtime catalog is the manifest's thirty-three fact ids, and the two sets overlap in only THREE ids; which side is stale is the author's decision, so the projection names the divergence instead of picking one. Verified: probe PASS 640/640 including the forty-four referenced ids and the seventeen unreachable gates; Core 0/0",
+                "source": "src-dotnet/Urman.Studio.Core/Editing/PhotoBook.cs (ReferencedFactIds, UnreachableFactGates); evidence evidence/STUDIO/b20-deepseek-ai-24/2026-10-11-unreachable-fact-gates",
+                "verification": "probe PASS 640/640 including the unreachable gates and the notes count; Core 0/0. Whether those endings are meant to exist is author acceptance and is NOT_RUN"
               }
             ],
             "stage_tasks": [
@@ -76741,7 +76747,9 @@
               "Текст документов и их язык — внешняя приёмка, критерий открыт.",
               "Ранее переданный частичный этап (2026-10-11 the authored documents behind the book) ждёт ревью/приёмки; полный done_when не выполнен.",
               "Текст подсказок и язык — внешняя приёмка, критерий открыт.",
-              "Ранее переданный частичный этап (2026-10-11 the authored hints, and the front-matter parser fix) ждёт ревью/приёмки; полный done_when не выполнен."
+              "Ранее переданный частичный этап (2026-10-11 the authored hints, and the front-matter parser fix) ждёт ревью/приёмки; полный done_when не выполнен.",
+              "17 условий fact.observed ссылаются на факты вне каталога книги: спека и манифест расходятся в словаре фактов — нужно авторское решение.",
+              "Ранее переданный частичный этап (2026-10-11 the fact gates that can never open) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
             "next_action": "Трассировать bindings активной кампании; human forms; AI exact-field edits; проверить Markdown/учебные токены; preview в игре.",
             "blocker": null,

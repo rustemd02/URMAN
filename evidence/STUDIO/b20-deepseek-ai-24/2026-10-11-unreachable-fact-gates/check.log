@@ -1,0 +1,11 @@
+== AI-24: the fact gates that can never open
+
+
+Прошло времени 00:00:01.78
+  fact.observed ids referenced: 44; gates that can never open: 17
+    GATE: Условие photoworlds.fact.observed ссылается на факт «cellar_box_returned», которого нет в каталоге книги (33 фактов): HasFact читает состояние через TryGetProperty, поэтому условие просто НИКОГДА не станет истинным — без ошибки и без предупреждения.
+    GATE: Условие photoworlds.fact.observed ссылается на факт «cellar_household_pattern_seen», которого нет в каталоге книги (33 фактов): HasFact читает состояние через TryGetProperty, поэтому условие просто НИКОГДА не станет истинным — без ошибки и без предупреждения.
+    GATE: Условие photoworlds.fact.observed ссылается на факт «cellar_niche_seen», которого нет в каталоге книги (33 фактов): HasFact читает состояние через TryGetProperty, поэтому условие просто НИКОГДА не станет истинным — без ошибки и без предупреждения.
+PASS  the fact.observed ids the content reads are collected
+    note: Условий photoworlds.fact.observed, которые не могут стать истинными: 17 — они ссылаются на факты вне каталога книги, и HasFact молча вернёт false.
+PROBE RESULT: PASS

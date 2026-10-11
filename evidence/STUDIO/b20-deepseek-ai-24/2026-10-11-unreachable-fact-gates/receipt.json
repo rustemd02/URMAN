@@ -1,0 +1,28 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-24"
+  ],
+  "stage": "the fact gates that can never open",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-11 21:39 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "99e5598e",
+  "result": {
+    "measured": "the authored content reads forty-four distinct fact ids in photoworlds.fact.observed conditions, and SEVENTEEN of them are not in the campaign's fact catalog (photoBook.facts, thirty-three ids)",
+    "consequence": "PhotoWorldState.HasFact reads the world state with TryGetProperty, so an unknown fact simply returns false: the gate never opens, with no error and no warning. That is verified from the engine source rather than assumed",
+    "vocabulary_gap": "the unknown names come from the PhotoWorlds authoring spec (worlds.spec.json declares twenty effect names) while the runtime catalog is the campaign manifest's thirty-three fact ids, and the two sets overlap in only THREE ids. Which side is stale is the author's decision, so the projection names the divergence instead of picking one",
+    "why_it_matters": "a gate that can never pass is the kind of defect that hides behind green compilation, and this one is the whole difference between a reachable and an unreachable photoworld ending"
+  },
+  "verified": {
+    "probe": "PASS 640/640 including the forty-four referenced ids, the seventeen unreachable gates and the count in the notes",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors (composed tree with my branch and the v15 patch)",
+    "not_run": "no game run: whether those endings are meant to exist is author acceptance"
+  },
+  "files": {
+    "evidence/STUDIO/b20-deepseek-ai-24/2026-10-11-unreachable-fact-gates/check.log": "8d7562389c2b10e9afb80809df9725c001439b038f786a47aa5f4ac8e97887fa"
+  },
+  "open": [
+    "the spec and the campaign manifest disagree about the fact vocabulary and that needs an author decision"
+  ]
+}
