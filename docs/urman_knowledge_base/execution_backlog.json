@@ -74250,6 +74250,18 @@
                       "implementation": "Fixed Studio scene collector preserves request-only and request/proposal/preview-failure records, linked HeroHouse transaction journals and hash-verified before/after images, and current authored files with present/absent hash receipt under artifacts/studio-session. Stable Undo-before, retired and recovered states are evidence; unresolved/unknown-owner material retains source. Limits:32 requests,32 transactions,128MiB/file,512MiB Studio payload; shared result4096files/2GiB. Reads, copies and ZIP entries are streamed with limits before writes; directory enumeration is bounded. Source-retention marker is set before execution, consulted across all future reclaim calls/restarts, and cleared only after finalized archive plus durable terminal status. Export/archive/status failure retains source, reports unavailable result where necessary, and outer finally releases busy. Interrupted startup jobs become terminal unavailable. Submit mode validation unchanged: no new Studio action exposed.",
                       "verification": "Luna producer/lifecycle/path/budget reviews and independent Sol6.1medium source review; root python3 -m py_compile eng/windows_station_worker.py, diff-check. No new tests, ZIP probes, export/fetch execution, model/provider, Blender, Studio, game or Windows jobs.",
                       "remaining": "Native execution remains unverified. Export is inert pilot evidence/data, not local Undo-history hydration or source reconciliation. Unknown transaction owners (including checkpoint restoration) fail closed and retain source; wider editor-domain export is not implemented. Fixed remote Studio launch, action/frame receipts, real selected-window Codex preview/Apply/game/byte-exact Undo and Windows Codex/Blender readiness remain open."
+                    },
+                    {
+                      "stage": "2026-10-11 fixed protected remote Studio launch source",
+                      "result": "SOURCE_REVIEWED_PYTHON_SYNTAX_PASS_NATIVE_NOT_RUN",
+                      "source": [
+                        "eng/remote-check.py",
+                        "eng/windows_station_worker.py",
+                        "docs/production/WINDOWS_TEST_STATION_RU.md"
+                      ],
+                      "implementation": "Client studio fixes native scene, rejects custom scene/headless/capture parameters before networking, automatically includes generator inputs, defaults timeout1200s/wait3600s; ordinary commands retain300s/1200s defaults. Worker binds cache/ZIP manifest identity to requested snapshot, requires Studio scene+two generator inputs+HeroHouse recipe before queueing, allows only fixed native studio mode up to1200s, and maps to existing play runner with provenance/ToolsRoot/userdata guard and bounded exporter. No arbitrary remote shell/scene/args added. Operator instructions identify update/restart, manual UI interactions and evidence-only return; pipeline PASS is not pilot acceptance.",
+                      "verification": "Luna implementations and independent producer/consumer/guard review; Sol6.1medium source review; root affected Python syntax compile plus diff-check. No CLI probes, snapshots/uploads/jobs, provider/model, Blender, Studio/game or native checks.",
+                      "remaining": "Windows station must update runner/common/worker and restart before this new command can run. Installed Codex full package/login and pinned Blender readiness not confirmed. Precise UI action receipts and matched before/preview/Apply/game/Undo frames still required; exported archive does not import local source or Undo history."
                     }
                   ],
                   "assigned_owner": "codex/b20-2026-10-10",
@@ -74257,7 +74269,7 @@
                   "activity": {
                     "state": "runtime_deferred_by_author",
                     "reason": "11.10 пользователь остановил игровые и Studio запуски из-за сильных лагов; production/source review/узкая компиляция продолжаются.",
-                    "verification_question": "Does bounded Studio export preserve request-linked transaction images/current files before reclaim, retain source across all future jobs on export/archive failure, and return terminal status/release station busy? Does fetch prevalidate all paths and enforce archive/member/expanded-byte caps? Source review and affected Python syntax only; no runtime."
+                    "verification_question": "Does fixed studio client automatically include authoring inputs and reject scene/headless/capture options before networking; does worker bind manifest identity and required scene/inputs/recipe, enforce1200s only for Studio, and map to existing protected play/provenance/export path without altering ordinary checks? Python syntax and source review only; actual launch deferred."
                   },
                   "task_type": "integration_check",
                   "status": "blocked",
@@ -74269,7 +74281,7 @@
                     "Overall Windows kit smoke FAIL: shutdown resource leaks; scenario5checks и compile0/0 не заменяют чистый runtime result.",
                     "Windows direct .exe-only discovery исправлен и source-reviewed; actual Windows installed/login readiness остаётся непроверенным."
                   ],
-                  "next_action": "Wire fixed protected remote Studio launch and explicit action/frame receipts using preserved pilot bundle; no arbitrary command/scene arguments. Actual launches remain deferred until author resumes runtime. Windows Codex package/login and pinned Blender readiness still require verification.",
+                  "next_action": "Add durable request→transaction UI action receipts and actual rendered frames after preview/Apply/Undo, extend bounded exporter for those exact artifacts; retain successful-edit state if capture fails. Native runtime remains deferred; when resumed verify Windows Codex/Blender, update/restart worker, then run fixed studio and actual selected-window/game/byte-exact Undo acceptance.",
                   "blocker": {
                     "reason": "Native UI/game verification deferred by author; Front0 could not be selected during Mac attempt.",
                     "release_when": "Автор возобновил runtime; доступен native выбор окна и защищённый Studio/game сценарий."

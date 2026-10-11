@@ -44,16 +44,16 @@ checkout есть авторинговый `game/assets/models/props/milk_bottle
 - Blender не нужен для выполнения готовых GLB. Станционный `game/override.cfg`
   отключает Blender-import; его SHA256 записывается отдельно в receipt.
   Для генерации окон Studio установщик также ставит закреплённый Windows Blender
-  из `eng/toolchain.json`, проверяя SHA256 архива и версию. Это не включает
-  Blender-import и не добавляет удалённый запуск Studio: её авторинговые исходники
-  и удалённый маршрут ещё требуют интеграции.
+  из `eng/toolchain.json`, проверяя SHA256 архива и версию. Blender-import остаётся
+  отключённым. Команда `studio` включает два фиксированных authoring inputs
+  генератора дома; остальные игровые снимки передают готовые GLB.
   Для фиксированной Studio scene существующий runner в режиме `play` проверяет
   Blender и передаёт Studio свой `ToolsRoot`; источники и результаты остаются
   в `Root`. После проверки `Provenance` runner также передаёт `base_commit` как
   явную ревизию снимка без `.git`; Studio проверяет формат и отвергает конфликт
   с Git HEAD. Идентичность dirty-снимка остаётся в `snapshotId` receipt, а
-  актуальные зависимости проверяются собственными хэшами. Станционный клиент
-  режим `play` пока не предоставляет.
+  актуальные зависимости проверяются собственными хэшами. Клиент предоставляет
+  только фиксированный `studio`, который worker переводит в этот `play` маршрут.
 
 Установка зависимостей: Python 3.12+ и Git for Windows; затем в checkout:
 
@@ -221,14 +221,14 @@ python eng\windows_station_disk.py --remove-old-copy --apply # после зел
 Receipt содержит byte SHA256 обеих сторон и SHA256 кода запущенного worker.
 
 Все HTTP-операции требуют Bearer token. Принимаются только структурированные
-smoke/capture задания; произвольного shell нет. Код допускается только от доверенных
+smoke/capture задания и фиксированный Studio-сеанс; произвольного shell нет. Код допускается только от доверенных
 авторизованных разработчиков, не из посторонних PR/fork. Один pipeline одновременно.
 Повтор того же `job_id` с теми же параметрами возвращает существующее задание;
 конкурентный запрос получает HTTP 409 и ID активного задания. Изменённый запрос
 с прежним ID отклоняется. Не создавать новый ID для повтора потерянного ответа.
 
 API: GET `/health`, POST `/snapshots` (ZIP с manifest), POST `/jobs` (JSON),
-GET `/jobs/<id>`, GET `/jobs/<id>/result`. Timeout игры 1–300 секунд; build/content
+GET `/jobs/<id>`, GET `/jobs/<id>/result`. Timeout игры 1–300 секунд, Studio 1–1200; build/content
 имеют отдельные deadlines. Потеря клиентского подключения не отменяет задание.
 Дедлайн ожидания клиента ограничен; позже доступны status/fetch.
 
@@ -238,6 +238,16 @@ GET `/jobs/<id>`, GET `/jobs/<id>/result`. Timeout игры 1–300 секунд
 ошибки и подтверждение guard. Для стандартного smoke проверяется completion marker player-settings-smoke;
 exit 0 с engine errors не принимается.
 Это техническая проверка, не художественная приёмка и не человеческий плейтест.
+
+Studio открывается на интерактивном рабочем столе UNTERPC. Выбор окна, запрос,
+preview, Apply, Play и Undo выполняются в этом окне; команда запуска сама их
+не исполняет. Закройте Studio до timeout, чтобы сеанс завершился штатно.
+`studio-session` в результате хранит ограниченный пакет данных пилота дома,
+включая запросы, образы транзакций и текущие файлы. Это архив для проверки,
+а не автоматический импорт изменений или истории Undo в локальный checkout.
+При неудачном экспорте или транзакции другого домена каталог source сохраняется
+на станции с `.preserve-source`; следующая очистка его не удаляет. Код маршрута
+проверен по исходникам; фактический Studio-сеанс требует отдельной native-проверки.
 
 Штатный DevViewCapture проверяет запись PNG, освобождает Image и завершает
 сцену через существующий GodotSmokeCleanup. C# backtrace выявил ошибку в
@@ -303,6 +313,8 @@ python3 eng/remote-check.py doctor
 # Только если игровая проверка нужна и разрешена текущим поручением:
 python3 eng/remote-check.py smoke --scene res://tests/player_settings_smoke_test.tscn --timeout 300
 python3 eng/remote-check.py capture --points 'station:Ground@-14,3,15>Ground@0,2,0' --timeout 300
+# Только после обновления/restart worker и готовности Codex/Blender на станции:
+python3 eng/remote-check.py studio --wait 3600
 python3 eng/remote-check.py status --job-id <полученный-id>
 python3 eng/remote-check.py fetch --job-id <полученный-id>
 ```

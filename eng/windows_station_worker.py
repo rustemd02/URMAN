@@ -18,8 +18,8 @@ import time
 import zipfile
 
 from remote_common import (MAX_ARCHIVE, MAX_RESULT_BYTES, MAX_RESULT_FILES,
-                           canonical, digest, unpack_snapshot, validate_manifest,
-                           verify_source)
+                           STUDIO_AUTHORING_FILES, canonical, digest, unpack_snapshot,
+                           validate_manifest, verify_source)
 
 # Incremental snapshots: the station keeps one blob per distinct file content, so a
 # new build sends only the files that actually changed instead of the whole tree.
@@ -659,6 +659,27 @@ class Station:
         path = self.manifests / (sid + '.json')
         return json.loads(path.read_text(encoding='utf-8-sig')) if path.is_file() else None
 
+    def verified_snapshot_manifest(self, sid):
+        manifest = self.manifest_for(sid)
+        if manifest is not None:
+            if validate_manifest(manifest) != sid:
+                raise ValueError('snapshot manifest identity does not match requested snapshot')
+            return manifest
+        archive_path = self.snapshots / (sid + '.zip')
+        if not archive_path.is_file():
+            return None
+        with zipfile.ZipFile(archive_path) as archive:
+            try:
+                entry = archive.getinfo('snapshot-manifest.json')
+            except KeyError as error:
+                raise ValueError('snapshot manifest is missing') from error
+            if entry.file_size > 8 * 1024**2:
+                raise ValueError('snapshot manifest exceeds the size limit')
+            manifest = json.loads(archive.read(entry))
+        if validate_manifest(manifest) != sid:
+            raise ValueError('snapshot manifest identity does not match requested snapshot')
+        return manifest
+
     def blob_usage(self):
         files = 0; total = 0
         for path in self.blobs.glob('*/*'):
@@ -784,18 +805,35 @@ class Station:
                        if not blob_path(self.blobs, meta['sha256']).is_file()]
             if missing:
                 raise ValueError(f'snapshot blobs incomplete ({len(missing)} missing); re-run the client')
-        if spec.get('mode') not in ('smoke', 'capture'):
+        mode = spec.get('mode')
+        if mode not in ('smoke', 'capture', 'studio'):
             raise ValueError('unsupported mode')
-        if type(spec.get('timeout')) is not int or not 1 <= spec['timeout'] <= 300:
-            raise ValueError('timeout must be 1..300 seconds')
+        timeout_max = 1200 if mode == 'studio' else 300
+        if type(spec.get('timeout')) is not int or not 1 <= spec['timeout'] <= timeout_max:
+            raise ValueError(f'timeout must be 1..{timeout_max} seconds')
         if type(spec.get('headless')) is not bool:
             raise ValueError('headless must be boolean')
         scene = spec.get('scene', '')
         if not re.fullmatch(r'res://[\w/.-]+\.tscn', scene) or '..' in scene:
             raise ValueError('invalid scene')
-        if spec['mode'] == 'smoke' and not scene.startswith('res://tests/'):
+        if scene == STUDIO_SCENE and mode != 'studio':
+            raise ValueError('Studio scene is only available in fixed Studio mode')
+        if mode == 'studio':
+            if scene != STUDIO_SCENE or spec['headless']:
+                raise ValueError('Studio mode requires the fixed native Studio scene')
+            if spec.get('points', ''):
+                raise ValueError('Studio mode does not accept capture points')
+            manifest = self.verified_snapshot_manifest(sid)
+            if manifest is None:
+                raise ValueError('Studio mode requires a verified snapshot manifest')
+            manifest_files = set(manifest['files'])
+            if (manifest_files & STUDIO_AUTHORING_FILES != STUDIO_AUTHORING_FILES
+                    or 'game/content/studio/hero_house.recipe.json' not in manifest_files
+                    or 'game/studio/studio_main.tscn' not in manifest_files):
+                raise ValueError('Studio snapshot requires the fixed scene, two authoring inputs, and HeroHouse recipe')
+        if mode == 'smoke' and not scene.startswith('res://tests/'):
             raise ValueError('smoke requires an existing test scene')
-        if spec['mode'] == 'capture' and (scene != 'res://scenes/act1_demo.tscn' or spec['headless']):
+        if mode == 'capture' and (scene != 'res://scenes/act1_demo.tscn' or spec['headless']):
             raise ValueError('capture requires native act1_demo')
         points = spec.get('points', '')
         number = r'-?\d+(?:\.\d+)?'
@@ -803,13 +841,13 @@ class Station:
         entry = rf'[A-Za-z0-9_-]{{1,48}}:{vector}>{vector}'
         if not isinstance(points, str) or len(points) > 1000 or (points and not re.fullmatch(rf'{entry}(?:;{entry}){{0,7}}', points)):
             raise ValueError('invalid capture points')
-        if spec['mode'] == 'capture' and not points:
+        if mode == 'capture' and not points:
             raise ValueError('capture points required')
         phase = spec.get('phase', '')
-        if not isinstance(phase, str) or (phase and (spec['mode'] != 'capture' or not re.fullmatch('[a-z0-9-]{1,48}', phase))):
+        if not isinstance(phase, str) or (phase and (mode != 'capture' or not re.fullmatch('[a-z0-9-]{1,48}', phase))):
             raise ValueError('invalid atmosphere phase')
         fov = spec.get('fov', '')
-        if not isinstance(fov, str) or (fov and (spec['mode'] != 'capture' or not re.fullmatch(r'player|\d{2,3}(?:\.\d+)?', fov))):
+        if not isinstance(fov, str) or (fov and (mode != 'capture' or not re.fullmatch(r'player|\d{2,3}(?:\.\d+)?', fov))):
             raise ValueError('invalid view fov')
         with self.lock:
             path = self.jobs / jid
@@ -869,7 +907,7 @@ class Station:
                 command = ['powershell.exe','-NoProfile','-ExecutionPolicy','Bypass','-File',
                            str(self.repo/'eng/run-windows-check.ps1'), '-Root',str(source),
                            '-ToolsRoot',str(self.repo), '-Provenance',str(source/'snapshot-manifest.json'),
-                           '-Output',str(output), '-Mode',spec['mode'], '-Scene',spec['scene'],
+                           '-Output',str(output), '-Mode',('play' if spec['mode'] == 'studio' else spec['mode']), '-Scene',spec['scene'],
                            '-TimeoutSeconds',str(spec['timeout']), '-Python',self.config['python']]
                 if spec['headless']:
                     command += ['-Headless']

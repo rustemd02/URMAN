@@ -20,6 +20,8 @@ from remote_common import (MAX_ARCHIVE, MAX_SOURCE, REPOSITORY, canonical, candi
                            digest, git, source_state, STUDIO_AUTHORING_FILES,
                            studio_authoring_path, MAX_RESULT_BYTES, MAX_RESULT_FILES)
 
+STUDIO_SCENE = 'res://studio/studio_main.tscn'
+
 def check_result_destination(path):
     try:
         metadata=path.lstat()
@@ -218,17 +220,28 @@ class Client:
 
 def main():
     p=argparse.ArgumentParser(description=__doc__)
-    p.add_argument('command',choices=['doctor','smoke','capture','status','fetch'])
+    p.add_argument('command',choices=['doctor','smoke','capture','studio','status','fetch'])
     p.add_argument('--root',type=Path,default=Path(__file__).resolve().parent.parent)
-    p.add_argument('--job-id');p.add_argument('--scene',default='res://tests/player_settings_smoke_test.tscn')
-    p.add_argument('--points');p.add_argument('--timeout',type=int,default=300)
+    p.add_argument('--job-id');p.add_argument('--scene')
+    p.add_argument('--points');p.add_argument('--timeout',type=int)
     p.add_argument('--phase',help='capture only: authored atmosphere profile id (URMAN_ATMOSPHERE_PHASE)')
     p.add_argument('--fov',help="capture only: 'player' (player camera FOV) or a number; default control views use 70")
-    p.add_argument('--headless',action='store_true');p.add_argument('--wait',type=int,default=1200)
+    p.add_argument('--headless',action='store_true');p.add_argument('--wait',type=int)
     p.add_argument('--output',type=Path);p.add_argument('--submit-only',action='store_true')
     p.add_argument('--studio-authoring',action='store_true',
                    help='include the two fixed house generator inputs in the source snapshot')
-    args=p.parse_args();c=Client()
+    args=p.parse_args()
+    if args.command=='studio' and (args.scene is not None or args.headless or args.points is not None
+                                   or args.phase is not None or args.fov is not None):
+        p.error('studio uses a fixed native scene and does not accept --scene, --headless, --points, --phase, or --fov')
+    studio=args.command=='studio'
+    if studio and args.timeout is not None and not 1<=args.timeout<=1200:
+        p.error('studio timeout must be 1..1200 seconds')
+    scene=STUDIO_SCENE if studio else (args.scene if args.scene is not None
+                                       else 'res://tests/player_settings_smoke_test.tscn')
+    timeout=args.timeout if args.timeout is not None else (1200 if studio else 300)
+    wait=args.wait if args.wait is not None else (3600 if studio else 1200)
+    c=Client()
     if args.command=='doctor':
         result=c.request('/health');print(json.dumps(result,ensure_ascii=False,indent=2));return 0 if result['ready'] else 1
     if args.command in ('status','fetch'):
@@ -243,12 +256,12 @@ def main():
     # those are uploaded, so a rebuild after a code change costs kilobytes, not the
     # whole tree. The identity is printed before POST: a lost reply is recovered with
     # status/fetch on this job_id instead of a second run.
-    manifest=build_manifest(args.root, studio_authoring=args.studio_authoring)
+    manifest=build_manifest(args.root, studio_authoring=studio or args.studio_authoring)
     publish_snapshot(c,args.root,manifest)
     jid=args.job_id or uuid.uuid4().hex
     spec={'job_id':jid,'snapshot_id':manifest['snapshot_id'],'mode':args.command,
-          'scene':'res://scenes/act1_demo.tscn' if args.command=='capture' else args.scene,
-          'timeout':args.timeout,'headless':args.headless,'points':args.points or ''}
+          'scene':'res://scenes/act1_demo.tscn' if args.command=='capture' else scene,
+          'timeout':timeout,'headless':args.headless,'points':args.points or ''}
     if args.phase:
         # Optional field: a station worker that predates it rejects the job loudly.
         spec['phase']=args.phase
@@ -264,7 +277,7 @@ def main():
         raise
     if args.submit_only:
         return 0
-    deadline=time.monotonic()+args.wait
+    deadline=time.monotonic()+wait
     while result['status']=='RUNNING' and time.monotonic()<deadline:
         time.sleep(2);result=c.request('/jobs/'+jid)
     if result['status']=='RUNNING':
