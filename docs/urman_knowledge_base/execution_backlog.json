@@ -73966,7 +73966,7 @@
                   "next_action": "После возобновления runtime проверить увеличенное окно и пройти Front0→Codex→preview→Apply→game→Undo; исторические CLI результаты не заменяют этот UI сценарий.",
                   "blocker": {
                     "reason": "Native UI/game verification deferred by author; Front0 could not be selected during Mac attempt.",
-                    "release_when": "После возобновления runtime проверить увеличенное окно и пройти Front0→Codex→preview→Apply→game→Undo; исторические CLI результаты не заменяют этот UI сценарий."
+                    "release_when": "Автор возобновил runtime; доступен native выбор окна и защищённый Studio/game сценарий."
                   },
                   "external_gates": [],
                   "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -80314,6 +80314,17 @@
                 ],
                 "verification": "LunaFAST implemented UI; Sol6.1medium independent Core+UI source review accepted; root affected Game compile0warnings/0errors and diff check. No tests/game/Studio/network receive.",
                 "remaining": "Readonly preview; choices/Apply/Undo/Send/new sources/local missing outsideworkspace/native UI A23 remain open."
+              },
+              {
+                "stage": "2026-10-11 Git decisions and draft Apply/Undo source",
+                "result": "SOURCE_GAME_COMPILE_0_0_NATIVE_NETWORK_NOT_RUN",
+                "source": [
+                  "game/studio/StudioCollabSection.cs",
+                  "src-dotnet/Urman.Studio.Core/Storage/AuthoredFile.cs",
+                  "src-dotnet/Urman.Studio.Core/Editing/EditSession.cs"
+                ],
+                "verification": "LunaFAST authored UI+storage draft support; Sol6.1medium independent source review Core/UI. Root Game affected compile0warnings/0errors, diffcheck; tracker schema validate passed after AI12 blocker correction. No tests/runtime/network receive.",
+                "remaining": "Creation/deletion, Send, actual native Apply/Undo/Redo/restart/A23 not verified; full AI38 open."
               }
             ],
             "stage_tasks": [
@@ -80344,12 +80355,12 @@
             "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
-              "Git semantic preview реализован для текущих loaded/draft источников; локальное отсутствие файла вне Workspace пока сообщает unavailable.",
-              "Git conflict choices/Apply через EditSession + Undo, new-source registration и curated Send/idempotency не подключены.",
-              "Network/native layout/cancellation и два checkout A23 не проверены; runtime запрещён автором.",
-              "Trusted origin fetch может скачивать history/assets сверх8MiB preview cap; cleanup own private ref best effort2sec."
+              "Whole-file creation/deletion and unregistered source Apply remain disabled; expose safe file lifecycle with existing transaction history.",
+              "Curated Send/idempotent receipt/offline queue not implemented.",
+              "Native/network A23, Apply/Undo/Redo and restart proof deferred by author; no runtime claims.",
+              "Source-text dirty tracking can keep formatting-only changes dirty after typed Undo. Trusted origin fetch preview cap still not network byte cap."
             ],
-            "next_action": "Подключить frozen merge decisions к EditSession с проверкой неизменности mine/base и Undo; не применять Git incoming через disk-specific ApplyResolution. Потом curated Send; native A23 после снятия авторского stop.",
+            "next_action": "Довести authoring file lifecycle creation/deletion через durable transaction/session history, затем curated Send; принять исправленные DeepSeek stages отдельно. Native/runtime проверки только после возобновления автором.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -80394,10 +80405,10 @@
                 "scenario": "A23 на безопасной разрешённой ветке/репозитории по действующей политике, без push в main ради проверки.",
                 "success": "Два checkout с разными корнями обмениваются одной ревизией; конфликт видим; unrelated код не отправлен; повтор передачи не дублирует commit/изменение.",
                 "repeat_only_if": "Изменён предметный contract/input или предыдущий сценарий неполон.",
-                "current_stage_question": "Git review использует текущий dirty in-memory mine и все JSON wrapper поля, показывает конфликты, не меняя source/history/disk?",
-                "current_stage_success": "Source review cloning/readonly paths и affected Game compile; native подтверждение отложено автором, full A23 сохраняется."
+                "current_stage_question": "Frozen Git decisions применяются к dirty draft ровно одним undo command; stale source/disk/deletion отказаны, JSON wrapper и unknownfields не теряются?",
+                "current_stage_success": "Независимый source review CAS/parsing/rollback/history и узкая Game compilation; runtime/native A23 по-прежнему отложены."
               },
-              "actual_result": "Receive Git review now shows common base/current dirty in-memory mine/incoming raw source plus existing SemanticMerge counts and actual per-field conflicts. Full JSON wrapper metadata included; Markdown normalized by existing parser. Readonly, no adoption/Apply/history/disk changes. Game compile0/0 and independent Sol source acceptance; network/native A23 not run.",
+              "actual_result": "Registered authored sources: frozen base/mine/incoming review with explicit conflict choices → guarded draft replacement as one EditSession Undo/Redo command. Real disk baseline retained; stale text/disk/deletion and new duplicate IDs refused. External disk merge now includes full JSON wrapper. Narrow compile0/0 and independent source review only; actual runtime/network not verified.",
               "evidence_refs": [
                 "STUDIO/AI-38.evidence"
               ]

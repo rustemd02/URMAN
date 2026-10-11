@@ -4,7 +4,10 @@ using Urman.Studio.Core.Storage;
 namespace Urman.Studio.Core.Editing;
 
 /// <summary>One entity before and after an edit. A null value means "absent" (created or deleted).</summary>
-public sealed record EntityChange(string RelativePath, string Key, JsonNode? Before, JsonNode? After);
+public sealed record EntityChange(string RelativePath, string Key, JsonNode? Before, JsonNode? After)
+{
+    public bool SourceText { get; init; }
+}
 
 /// <summary>A user-visible undo step: a drag, a brush stroke or a composite action is one command (SAVE01).</summary>
 public sealed record EditCommand(string Label, IReadOnlyList<EntityChange> Changes, StudioFileTransaction? Files = null);
@@ -204,6 +207,39 @@ public sealed class EditSession(StudioWorkspace workspace)
     public void Delete(string relativePath, string key, string label) => Apply(relativePath, key, null, remove: true, label);
 
     public const string OrderKey = "#order";
+
+    /// <summary>Adopt reviewed source into a draft as one undo step, retaining its actual disk baseline.</summary>
+    public void ReplaceDraft(string relativePath, string expectedText, string text, string label)
+    {
+        EnsureAvailable();
+        if (_open is not null) throw new InvalidOperationException("Завершите текущее составное действие перед объединением.");
+        var file = Workspace.File(relativePath);
+        StudioFileTransaction.EnsureNoLinks(Workspace.Root, relativePath);
+        if (file.Text != expectedText || file.ChangedOnDisk())
+            throw new InvalidOperationException("Локальная версия изменилась. Откройте сравнение заново.");
+        if (text == expectedText) return;
+        var previousConflicts = Workspace.IdentityConflicts.ToHashSet(StringComparer.Ordinal);
+        var command = new EditCommand(label, [new EntityChange(relativePath, "",
+            JsonValue.Create(expectedText), JsonValue.Create(text)) { SourceText = true }]);
+        StudioFileTransaction.FenceIncompleteHistory(Workspace.Root);
+        file.ReplaceDraftText(text);
+        try
+        {
+            Workspace.Reindex();
+            if (Workspace.IdentityConflicts.Any(conflict => !previousConflicts.Contains(conflict)))
+                throw new InvalidOperationException("Объединение создаёт повторяющиеся ID. Исправьте входящую версию.");
+            Push(command);
+        }
+        catch
+        {
+            if (!IsInUndoStack(command))
+            {
+                file.ReplaceDraftText(expectedText);
+                Workspace.Reindex();
+            }
+            throw;
+        }
+    }
 
     /// <summary>Change the order of a file's entities (a list order is behaviour: cutscene actions, stages). One undo step.</summary>
     public void SetOrder(string relativePath, IReadOnlyList<string> keys, string label)
@@ -532,7 +568,9 @@ public sealed class EditSession(StudioWorkspace workspace)
 
     private EntityChange[] EntityConflicts(EditCommand command, bool forward)
     {
-        JsonNode? Current(EntityChange change) => change.Key == OrderKey
+        JsonNode? Current(EntityChange change) => change.SourceText
+            ? Workspace.File(change.RelativePath).ChangedOnDisk() ? null : JsonValue.Create(Workspace.File(change.RelativePath).Text)
+            : change.Key == OrderKey
             ? new JsonArray(Workspace.File(change.RelativePath).Keys().Select(key => (JsonNode?)key).ToArray())
             : Workspace.File(change.RelativePath).Get(change.Key);
         return command.Changes
@@ -545,7 +583,11 @@ public sealed class EditSession(StudioWorkspace workspace)
         foreach (var change in changes.Where(change => change.Key != OrderKey).Reverse()
             .Concat(changes.Where(change => change.Key == OrderKey).Reverse()))
         {
-            if (change.Key == OrderKey)
+            if (change.SourceText)
+            {
+                Workspace.File(change.RelativePath).ReplaceDraftText(change.Before!.GetValue<string>());
+            }
+            else if (change.Key == OrderKey)
             {
                 Workspace.File(change.RelativePath).Reorder(change.Before!.AsArray().Select(key => (string)key!).ToArray());
             }
@@ -572,6 +614,11 @@ public sealed class EditSession(StudioWorkspace workspace)
             .Concat(orderedChanges.Where(change => change.Key == OrderKey)))
         {
             var target = forward ? change.After : change.Before;
+            if (change.SourceText)
+            {
+                Workspace.File(change.RelativePath).ReplaceDraftText(target!.GetValue<string>());
+                continue;
+            }
             if (change.Key == OrderKey)
             {
                 Workspace.File(change.RelativePath).Reorder(target!.AsArray().Select(key => (string)key!).ToArray());
@@ -588,8 +635,8 @@ public sealed class EditSession(StudioWorkspace workspace)
     // first "before" and last "after" (a whole drag is one change).
     private static List<EntityChange> Coalesce(List<EntityChange> changes) =>
         changes
-            .GroupBy(change => (change.RelativePath, change.Key))
-            .Select(group => new EntityChange(group.Key.RelativePath, group.Key.Key, group.First().Before, group.Last().After))
+            .GroupBy(change => (change.RelativePath, change.Key, change.SourceText))
+            .Select(group => new EntityChange(group.Key.RelativePath, group.Key.Key, group.First().Before, group.Last().After) { SourceText = group.Key.SourceText })
             .Where(change => !JsonNode.DeepEquals(change.Before, change.After))
             .ToList();
 
