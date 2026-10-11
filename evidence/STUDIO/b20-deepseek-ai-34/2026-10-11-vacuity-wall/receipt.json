@@ -1,0 +1,28 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-34"
+  ],
+  "stage": "the vacuity wall - every projection must really read something",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-11 22:24 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "5a0fcb7b",
+  "why": "the cutscene stage found that my parameter check had been passing while reading NOTHING, so the whole set of projections was audited for the same failure and the audit was made permanent",
+  "result": {
+    "the_audit": "every projection's input was counted and printed: 1726 world entities, 196 kit placements, 6 item spawns, 33 npcs, 13 quests, 75 cutscene actions, 15 puzzle steps, 32 dialogue nodes, 5 area links, 177 catalogue forms, 282 placed forms, 1016 texts, 64 documents, 3 hints, 16 vocabulary records, 9 ambient beds and 4 material tables",
+    "the_finding": "NO other projection was passing vacuously: every one of the seventeen reads a non-zero input, so the cutscene was the only affected reader and its cause was the id form the workspace index does not carry",
+    "the_wall": "seventeen permanent assertions now fail the probe when any projection reads nothing, which is the check that would have caught the cutscene vacuity on the day it appeared. A future empty read can no longer look like success"
+  },
+  "verified": {
+    "probe": "PASS 713/713 including the seventeen new assertions",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors (composed tree with my branch and the v15 patch)",
+    "not_run": "no game run: this is a verification stage"
+  },
+  "files": {
+    "evidence/STUDIO/b20-deepseek-ai-34/2026-10-11-vacuity-wall/check.log": "24a08d220cb5ee048d7f4cb56f8e962576fc4aff403e163d316b597f63ed1cbb"
+  },
+  "open": [
+    "the wall covers the projections I call; a new projection must be added to it when it appears"
+  ]
+}

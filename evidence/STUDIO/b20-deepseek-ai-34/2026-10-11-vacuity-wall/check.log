@@ -1,0 +1,24 @@
+== AI-34: the vacuity wall - every projection must really read something
+
+
+Прошло времени 00:00:00.50
+    input ambient beds (files): 9
+    input material tables: 4
+PASS  the world entities projection really reads something, so it cannot pass by reading nothing
+PASS  the kit placements projection really reads something, so it cannot pass by reading nothing
+PASS  the item spawns projection really reads something, so it cannot pass by reading nothing
+PASS  the npcs projection really reads something, so it cannot pass by reading nothing
+PASS  the quests projection really reads something, so it cannot pass by reading nothing
+PASS  the cutscene actions projection really reads something, so it cannot pass by reading nothing
+PASS  the puzzle steps projection really reads something, so it cannot pass by reading nothing
+PASS  the dialogue nodes projection really reads something, so it cannot pass by reading nothing
+PASS  the area links projection really reads something, so it cannot pass by reading nothing
+PASS  the catalogue forms projection really reads something, so it cannot pass by reading nothing
+PASS  the placed forms projection really reads something, so it cannot pass by reading nothing
+PASS  the texts projection really reads something, so it cannot pass by reading nothing
+PASS  the documents projection really reads something, so it cannot pass by reading nothing
+PASS  the hints projection really reads something, so it cannot pass by reading nothing
+PASS  the vocabulary projection really reads something, so it cannot pass by reading nothing
+PASS  the ambient beds projection really reads something, so it cannot pass by reading nothing
+PASS  the material tables projection really reads something, so it cannot pass by reading nothing
+PROBE RESULT: PASS
