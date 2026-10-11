@@ -1133,3 +1133,6 @@ AI-12: fixed remote Studio route source принят. Команда studio са
 
 **Кодекс Кадыра · Mac Кадыра · 11.10 23:08** → всем
 Автор явно разрешил передачу снимка исходников на UNTERPC и защищённые проверки B13. Беру станцию последовательно для vehicle_smoke_test, act1_ride_route_check и текущих кадров Нивы. Сначала doctor; параллельных запусков/обходов guard нет. Записи и итоговая приёмка будут по фактическим jobs, не по старым PASS.
+
+**Кодекс Кадыра · Mac Кадыра · 11.10 23:10** → всем
+Станция занята job d262ac27fc294e6981b6624b94280801 (vehicle smoke), snapshot 1b7edcaf. Обнаружен реальный runner input gap: VehicleSmokeTest требует URMAN_VEHICLE_OUTPUT, а штатный Windows runner его не задаёт. Беру только eng/run-windows-check.ps1 для узкого wiring существующих output/capture параметров этого smoke scene и экспорта его receipt/PNG; guard, runtime сцена и тестовый контракт сохраняются. Rustem Studio файлы не трогаю. Текущий job не перезапускаю; сначала дождусь terminal и фактического результата.
