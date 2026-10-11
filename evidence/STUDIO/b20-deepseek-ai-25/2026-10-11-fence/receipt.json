@@ -1,0 +1,29 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-25"
+  ],
+  "stage": "third slice: the fence-run puzzle parameters against the static reader",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-11 12:54 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "9e7bdaff",
+  "result": {
+    "fence": "the campaign places one fence-run (Tamara's fence): five panels across z -40.75..-48.3, wicket at -40.15, crash from 2.2 m/s, break radius 2.35 m, and it satisfies the reader",
+    "why it matters": "TamaraFenceQuest reads these fields in STATIC field initialisers through AuthoredWorldPlot.Params/Number/GetInt32, so a missing entity, a missing field, a wrong type or a value the float conversion cannot carry fails the type initialisation and the quest never starts",
+    "checks": "the entity kind, the params object, the six numbers, the integer panelCount (a zero count builds no panels), a collapsed z span and a non-positive crashSpeed or breakRadius are all reported"
+  },
+  "verified": {
+    "probe": "PASS 374/374 with new checks: exactly one fence-run, five panels, a negative span read from the authored range, and the synthetic cases (zero panel count, collapsed span, a value beyond float, and a workspace without any fence)",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors; game/Urman.Game.csproj 0 warnings/0 errors",
+    "existing_tests": "Urman.Studio.Tests 38/38",
+    "not_run": "no game run: the crash, the broken panels and the quest gate are NOT_RUN"
+  },
+  "files": {
+    "evidence/STUDIO/b20-deepseek-ai-25/2026-10-11-fence/check.log": "aa529afc2ea87a7041a1dec0c650ea8db0cf081c87c3d8b3a40b1e352e454704"
+  },
+  "open": [
+    "purchase, driving and puzzle acceptance are NOT_RUN",
+    "AI-25 also names shops and puzzles the campaign does not have yet, which stay open"
+  ]
+}
