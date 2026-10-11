@@ -1,0 +1,17 @@
+== question: why does ContentCompilerParityTests.ChapterOne_MatchesFrozenJavascriptGoldenPack fail on main?
+== method: compile urman.chapter1 with modules [urman.chapter1, urman.core, urman.oldpc] and compare with tests-dotnet/fixtures/content/urman.chapter1.compiled.v1.json, keyed by registry id (a naive index comparison turns one insertion into a cascade)
+== tree: pure origin/main f703f132 (no modifications)
+
+diagnostics: 0
+fingerprint: golden dea4bec7beef21050e247082a132a0c12d88b596b3a6ef29ba8b2e9eaf1edf5b vs compiled 57789cd303e3c6d777a0975082728979cf819a9cf01f73f842cdedfd5903f277
+registry characters: golden 9 vs compiled 11 | added: urman.chapter1:character/phone_guy, urman.chapter1:character/tamara
+registry chats: golden 4 vs compiled 4
+registry scenes: golden 33 vs compiled 34 | added: urman.chapter1:scene/tamara-fence-side
+registry documents: golden 60 vs compiled 60
+registry knowledge: golden 125 vs compiled 126 | added: urman.chapter1:knowledge/tamara_fence_settled
+registry vocabulary: golden 12 vs compiled 12
+campaign: identical = False
+  campaign/roleBindings differs
+  roleBindings: golden 9 vs compiled 11 | added: phone_guy, tamara
+dependencyGraph: identical = True
+moduleFingerprints: identical = False

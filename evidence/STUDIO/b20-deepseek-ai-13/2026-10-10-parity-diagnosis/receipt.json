@@ -1,0 +1,45 @@
+{
+  "schema": 1,
+  "kind": "read-only diagnosis for the owner (no repository change)",
+  "stage": "why ContentCompilerParityTests.ChapterOne_MatchesFrozenJavascriptGoldenPack fails on main",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-11 04:41 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "tree": "pure origin/main f703f132 with zero modifications",
+  "method": "compile urman.chapter1 with modules [urman.chapter1, urman.core, urman.oldpc] and compare the result with tests-dotnet/fixtures/content/urman.chapter1.compiled.v1.json; the comparison is keyed by registry id, because a plain index comparison turns one inserted entry into a cascade of false differences",
+  "result": {
+    "diagnostics": 0,
+    "verdict": "the frozen golden pack is stale, not the compiler: the compiled pack is a strict superset of it with no removals",
+    "added": {
+      "characters": [
+        "urman.chapter1:character/phone_guy",
+        "urman.chapter1:character/tamara"
+      ],
+      "scenes": [
+        "urman.chapter1:scene/tamara-fence-side"
+      ],
+      "knowledge": [
+        "urman.chapter1:knowledge/tamara_fence_settled"
+      ],
+      "roleBindings": [
+        "phone_guy",
+        "tamara"
+      ]
+    },
+    "unchanged": {
+      "chats": 4,
+      "documents": 60,
+      "vocabulary": 12,
+      "dependencyGraph": "identical"
+    },
+    "fingerprints": {
+      "golden": "dea4bec7beef21050e247082a132a0c12d88b596b3a6ef29ba8b2e9eaf1edf5b",
+      "compiled": "57789cd303e3c6d777a0975082728979cf819a9cf01f73f842cdedfd5903f277",
+      "moduleFingerprints": "differ, as expected when sources change"
+    }
+  },
+  "recommended_next_step": "the owner decides: either regenerate the frozen golden fixture and the expected fingerprint together with the Tamara content that landed, or treat the difference as a real parity defect to inspect. This diagnosis does not change any file",
+  "files": {
+    "evidence/STUDIO/b20-deepseek-ai-13/2026-10-10-parity-diagnosis/diagnosis.log": "805ba0ebe74e4047d3dbe9cec0c3a02e7351cd1af2ab6137fc35a036f8b3cf50"
+  }
+}

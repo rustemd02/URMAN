@@ -23715,6 +23715,13 @@
                 "source": "evidence evidence/STUDIO/b20-deepseek-ai-13/2026-10-10-existing-suites/tests.log and receipt.json",
                 "verification": "Composed tree = origin/main f703f132 + my branch ce559c52 + the v5 patch. Urman.Core.Tests 68/68 (also 68/68 without the patch); Urman.Studio.Tests 38/38; Urman.Content.Tests 17 with 1 failure, ContentCompilerParityTests.ChapterOne_MatchesFrozenJavascriptGoldenPack, identical on pure origin/main f703f132 without any modification. The failure is reported, not fixed: the frozen golden pack is the owner's parity contract. No test was added or changed. No Studio window and no game run: interface and runtime NOT_RUN"
               }
+,
+              {
+                "stage": "2026-10-10 read-only diagnosis: why the chapter1 content parity test fails on main",
+                "result": "diagnosis by deepseek v4.1 flash for the owner: the frozen golden pack is stale, not the compiler. The compiled pack is a strict superset with no removals, adding two characters (phone_guy, tamara), the scene tamara-fence-side, the knowledge entry tamara_fence_settled and two role bindings; chats, documents, vocabulary and the dependency graph are unchanged, while the module and campaign fingerprints differ because the sources changed",
+                "source": "evidence evidence/STUDIO/b20-deepseek-ai-13/2026-10-10-parity-diagnosis/diagnosis.log and receipt.json; no repository file was changed by this diagnosis",
+                "verification": "Compiled on PURE origin/main f703f132 with zero modifications: 0 diagnostics; keyed-by-id comparison against tests-dotnet/fixtures/content/urman.chapter1.compiled.v1.json shows only additions (characters 9 to 11, scenes 33 to 34, knowledge 125 to 126, roleBindings 9 to 11), identical dependency graph, and the campaign fingerprint moving from dea4bec7beef21050e247082a132a0c12d88b596b3a6ef29ba8b2e9eaf1edf5b to 57789cd303e3c6d777a0975082728979cf819a9cf01f73f842cdedfd5903f277. The next step belongs to the owner: regenerate the frozen fixture and its expected fingerprint with the Tamara content that landed, or inspect the difference as a real parity defect"
+              }
 
             ],
             "assigned_owner": "deepseek/b20-2026-10-10"
