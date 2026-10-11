@@ -1,0 +1,12 @@
+== AI-40: the explaining trial run walks the real launch path and names each input state
+
+
+Прошло времени 00:00:02.81
+
+Прошло времени 00:00:12.64
+== existing tests
+=== TEST EXECUTION SUMMARY ===
+   Urman.Studio.Tests  Total: 38, Errors: 0, Failed: 0, Skipped: 0, Not Run: 0, Time: 2,308s
+== probe
+
+PROBE RESULT: PASS

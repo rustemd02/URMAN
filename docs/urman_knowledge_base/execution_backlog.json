@@ -80913,6 +80913,12 @@
                 "result": "partial implementation by deepseek v4.1 flash: the authoring diagnostics explain what an operation will do, name both cases instead of flagging every unreferenced object, and keep the information/severity split honest",
                 "source": "evidence/STUDIO/b20-deepseek-ai-40/2026-10-10-diagnostics",
                 "verification": "Core 0/0; probe PASS at that stage. No game run: the trial launch itself is NOT_RUN"
+              },
+              {
+                "stage": "2026-10-11 the explaining trial run: five steps with the state of each input",
+                "result": "deepening by deepseek v4.1 flash: a trial run is explained as five steps over the real launch path - resolve the campaign (an unresolved selection is refused, not defaulted), read the manifest and check its module directories, look up the compiled pack OF THAT campaign by name and report its fingerprint, require the chosen world scene, and stop where the game takes over. The plan states that pack freshness needs a compile and that the world load, spawn and frame are the game's own acceptance",
+                "source": "new file src-dotnet/Urman.Studio.Core/Editing/TrialRunPlan.cs; evidence evidence/STUDIO/b20-deepseek-ai-40/2026-10-11-trial-run-plan",
+                "verification": "probe PASS 483/483 including five steps, no blocking input for the real campaign, an unresolved campaign blocking step one without a default, a missing world scene blocking the launch, an unknown campaign reported at the manifest step and the per-campaign pack note; Core 0/0; game/Urman.Game.csproj 0/0; Urman.Studio.Tests 38/38. The launch itself is NOT_RUN"
               }
             ],
             "stage_tasks": [
@@ -80945,9 +80951,10 @@
             "technical_verification_state": "not_run",
             "remaining": [
               "Пробный запуск объясняет несрабатывание и позволяет пройти следующий логический шаг.; отсутствует подтверждение собственного конечного DoD, перечисленного ниже.",
-              "Ранее переданный частичный этап (2026-10-10 explaining trial run and step-by-step diagnostics) ждёт ревью/приёмки; полный done_when не выполнен."
+              "Ранее переданный частичный этап (2026-10-10 explaining trial run and step-by-step diagnostics) ждёт ревью/приёмки; полный done_when не выполнен.",
+              "Ранее переданный частичный этап (2026-10-11 the explaining trial run: five steps with the state of each input) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
-            "next_action": "Остаток — настоящий объясняющий пробный запуск в игре.",
+            "next_action": "Довести объясняющий запуск до кнопки в Studio и проверить шаги в native UI после возобновления runtime.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",

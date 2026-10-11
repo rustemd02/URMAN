@@ -1,0 +1,28 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-40"
+  ],
+  "stage": "the explaining trial run: five steps, each with the state its input really has",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-11 17:37 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "56611418",
+  "result": {
+    "steps": "1) the campaign is resolved and an unresolved selection is refused rather than defaulted; 2) the campaign manifest is read and its module directories are checked (three modules, all present); 3) the compiled pack of THAT campaign is looked up by campaign name and its fingerprint is reported; 4) the chosen world scene must exist; 5) the plan stops and says the game takes over",
+    "why it matters": "an author sees which input is missing instead of a launch that fails for an unexplained reason, and the pack is looked up per campaign so a second world cannot be handed the first world's pack",
+    "limits": "whether the pack is STALE can only be decided by compiling it, and whether the world loads and plays can only be decided by the game; the plan says both instead of implying them"
+  },
+  "verified": {
+    "probe": "PASS 483/483 with the new checks: five steps, no blocking input for the real campaign, the pack step present, the honest stop, an unresolved campaign blocking step one without a default, a missing world scene blocking the launch, an unknown campaign reported at the manifest step, and the per-campaign pack note",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors; game/Urman.Game.csproj 0 warnings/0 errors",
+    "existing_tests": "Urman.Studio.Tests 38/38",
+    "not_run": "no game run: the launch itself is what the plan deliberately does not claim"
+  },
+  "files": {
+    "evidence/STUDIO/b20-deepseek-ai-40/2026-10-11-trial-run-plan/check.log": "c38d59a02467ad737e599e6178c692df4b5fd714cfc638d20d222f3bb8b46e47"
+  },
+  "open": [
+    "the world load, the spawn and the frame remain the game's own acceptance"
+  ]
+}
