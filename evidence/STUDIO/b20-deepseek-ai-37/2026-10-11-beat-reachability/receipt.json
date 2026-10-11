@@ -1,0 +1,28 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-37"
+  ],
+  "stage": "beat reachability, and the assumption behind it, verified from the engine",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-11 22:30 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "5a0fcb7b",
+  "result": {
+    "the_assumption_now_verified": "an earlier stage of mine dismissed thirteen findings by treating a beat id as a runtime state key rather than an authored record. That was an assumption; it is now read from the engine - beat.set-state writes into the beats map by beatId (ContentRuleEngine lines 75-76) and beat.state reads it back (line 262) - so the dismissal was right and is no longer a guess",
+    "the_mirror_check": "the same reasoning that found seventeen unreachable fact gates applies here: a condition on a beat nobody writes can never become true. Measured: twenty-six beats written, seven read, and ZERO unreachable reads, so every beat condition has a writer today",
+    "the_reverse_case_reported_not_judged": "six or more beats are written and never read. That is NOT reported as a defect: a beat may exist for the journal or for an act that is not authored yet, and the notes say so",
+    "why_the_direction_matters": "the two cases look alike and are opposites: no writer means a dead condition, no reader means a state nobody asks about. Only the first is a defect, and the notes say which is which"
+  },
+  "verified": {
+    "probe": "PASS 736/736 including the twenty-six writers, the seven readers, the zero unreachable reads and the synthetic case",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors (composed tree with my branch and the v15 patch)",
+    "not_run": "no game run: whether a moment is used well is a narrative review"
+  },
+  "files": {
+    "evidence/STUDIO/b20-deepseek-ai-37/2026-10-11-beat-reachability/check.log": "0ac7ae6c9aa3aa75dc3cd2c7836829e42992d72c3712809cb9606a7c7bc82de1"
+  },
+  "open": [
+    "a future act may legitimately add writers and readers; the check follows the content"
+  ]
+}

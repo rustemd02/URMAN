@@ -1,0 +1,8 @@
+== AI-37: beat reachability, and the assumption behind it, verified from the engine
+
+
+Прошло времени 00:00:00.52
+  beats written: 26, read: 7, unreachable reads: 0
+    note: Сюжетных моментов: записывается 26, читается 7; записаны, но не прочитаны: 19.
+    BEAT synthetic: Условие beat.state читает момент «urman.x:beat/never», который НИКТО не записывает через beat.set-state: условие не станет истинным никогда, и это не ошибка автора в опечатке, а отсутствующий шаг сюжета.
+PROBE RESULT: PASS

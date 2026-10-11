@@ -233,4 +233,99 @@ public static class InvestigationPuzzle
         ];
     }
 
+    /// <summary>
+    /// The beat checks, the mirror of the fact-gate check: a beat id is a RUNTIME state key that an
+    /// effect creates, so a condition on a beat nobody ever writes can never become true. Verified
+    /// from the engine: beat.set-state writes into the beats map by beatId (ContentRuleEngine lines
+    /// 75-76) and beat.state reads it back (line 262). The reverse case - a beat written and never
+    /// read - is REPORTED and not judged, because a beat may exist for the journal or for a later
+    /// act that is not authored yet.
+    /// </summary>
+    public static IReadOnlyList<string> BeatGaps(StudioWorkspace workspace)
+    {
+        ArgumentNullException.ThrowIfNull(workspace);
+        var (writes, reads) = Beats(workspace);
+        if (reads.Count == 0 && writes.Count == 0)
+        {
+            return ["Сюжетных моментов не найдено: сверять нечего, и пустой ответ здесь НЕ означает, что условия верны."];
+        }
+
+        return reads.Where(beat => !writes.Contains(beat))
+            .Select(beat => $"Условие beat.state читает момент «{beat}», который НИКТО не записывает через beat.set-state: условие не станет истинным никогда, и это не ошибка автора в опечатке, а отсутствующий шаг сюжета.")
+            .ToArray();
+    }
+
+    /// <summary>What the beat graph looks like today.</summary>
+    public static IReadOnlyList<string> BeatNotes(StudioWorkspace workspace)
+    {
+        var (writes, reads) = Beats(workspace);
+        var writeOnly = writes.Where(beat => !reads.Contains(beat)).Order(StringComparer.Ordinal).ToArray();
+        var gaps = BeatGaps(workspace);
+        return
+        [
+            $"Сюжетных моментов: записывается {writes.Count}, читается {reads.Count}; записаны, но не прочитаны: {writeOnly.Length}.",
+            gaps.Count == 0 || gaps[0].StartsWith("Сюжетных моментов не найдено", StringComparison.Ordinal)
+                ? "Каждое условие по моменту имеет запись: недостижимых условий нет."
+                : $"Недостижимых условий по моментам: {gaps.Count} — {string.Join(" | ", gaps.Take(2))}",
+            writeOnly.Length == 0
+                ? "Каждый записанный момент кем-то читается."
+                : $"Записаны и не прочитаны: {string.Join(", ", writeOnly.Take(6))}{(writeOnly.Length > 6 ? " …" : "")}. Это НЕ дефект: момент может существовать для журнала или для будущего акта — решает автор.",
+            "Момент — это ключ состояния, который создаёт эффект, а не авторская запись с id: поэтому «нет объявления» здесь нормально, а «нет записи» — нет."
+        ];
+    }
+
+    /// <summary>The beat ids the content writes and reads.</summary>
+    public static (IReadOnlySet<string> Writes, IReadOnlySet<string> Reads) Beats(StudioWorkspace workspace)
+    {
+        ArgumentNullException.ThrowIfNull(workspace);
+        var writes = new HashSet<string>(StringComparer.Ordinal);
+        var reads = new HashSet<string>(StringComparer.Ordinal);
+        foreach (var id in workspace.EntityIds)
+        {
+            if (workspace.Get(id) is not { } entity)
+            {
+                continue;
+            }
+
+            var pending = new Stack<JsonNode?>();
+            pending.Push(entity);
+            while (pending.Count > 0)
+            {
+                switch (pending.Pop())
+                {
+                    case JsonObject obj:
+                        if (obj["op"] is JsonValue op && op.TryGetValue<string>(out var operation)
+                            && obj["beatId"] is JsonValue beat && beat.TryGetValue<string>(out var beatId)
+                            && beatId is { Length: > 0 })
+                        {
+                            if (operation == "beat.set-state")
+                            {
+                                writes.Add(beatId);
+                            }
+                            else if (operation == "beat.state")
+                            {
+                                reads.Add(beatId);
+                            }
+                        }
+
+                        foreach (var pair in obj)
+                        {
+                            pending.Push(pair.Value);
+                        }
+
+                        break;
+                    case JsonArray array:
+                        foreach (var item in array)
+                        {
+                            pending.Push(item);
+                        }
+
+                        break;
+                }
+            }
+        }
+
+        return (writes, reads);
+    }
+
 }
