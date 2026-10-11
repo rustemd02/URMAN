@@ -35,6 +35,7 @@ public sealed record PcChatContent(
     IReadOnlyList<string> Requires,
     IReadOnlyList<PcChatNode> Nodes,
     int Level,
+    bool LevelIsInteger,
     bool IsHint,
     string PointsTo,
     string TextId,
@@ -58,6 +59,21 @@ public static class PcChat
     public const string RuntimePath = "game/scripts/OldPcUi.Chat.cs";
     public const string HintRuntimePath = "game/scripts/OldPcUi.Search.cs";
     public const string HintSchemaPath = "content/schemas/hint.schema.json";
+
+    /// <summary>The hint rules the schema states, read from the schema itself.</summary>
+    public static (int? MinimumLevel, int? MaximumLevel, int? MaximumPointsTo) HintSchemaBounds(string root)
+    {
+        var path = Path.Combine(Path.GetFullPath(root), HintSchemaPath.Replace('/', Path.DirectorySeparatorChar));
+        if (!File.Exists(path) || JsonNode.Parse(File.ReadAllText(path)) is not JsonObject schema || schema["properties"] is not JsonObject properties)
+        {
+            return (null, null, null);
+        }
+
+        return (Bound(properties["level"], "minimum"), Bound(properties["level"], "maximum"), Bound(properties["pointsTo"], "maxLength"));
+    }
+
+    private static int? Bound(JsonNode? property, string name) =>
+        property?[name] is JsonValue value && value.TryGetValue<int>(out var number) ? number : null;
 
     public static PcChatContent Parse(string entityId, JsonObject? entity)
     {
@@ -152,6 +168,7 @@ public static class PcChat
             Ops(entity?["requires"], "requires", malformed),
             nodes,
             (int)Number(entity?["level"]),
+            entity?["level"] is JsonValue levelValue && IsIntegral(levelValue),
             isHint,
             isHint ? Required(entity, "pointsTo", "подсказка", malformed) : "",
             isHint ? Required(entity, "textId", "подсказка", malformed) : "",
@@ -267,14 +284,64 @@ public static class PcChat
     /// </summary>
     private static IReadOnlyList<string> Hint(StudioWorkspace workspace, PcChatContent chat, List<string> problems)
     {
-        if (chat.TextId.Length == 0 || workspace.Locate(chat.TextId) is null)
+        var schemaPath = Path.Combine(workspace.Root, HintSchemaPath.Replace('/', Path.DirectorySeparatorChar));
+        if (!File.Exists(schemaPath) || JsonNode.Parse(File.ReadAllText(schemaPath)) is not JsonObject schema)
+        {
+            problems.Add($"Нет {HintSchemaPath}: требования к подсказке не проверены.");
+            return problems;
+        }
+
+        // Every field the schema requires is named separately, so a missing one is not
+        // hidden behind a later failure.
+        if (schema["required"] is JsonArray required)
+        {
+            foreach (var field in required.Select(item => (string?)item).OfType<string>().Where(field => !chat.AuthoredFields.Contains(field, StringComparer.Ordinal)))
+            {
+                problems.Add($"У подсказки нет обязательного поля «{field}»: контент не пройдёт проверку схемы.");
+            }
+        }
+
+        var (minimumLevel, maximumLevel, maximumPointsTo) = HintSchemaBounds(workspace.Root);
+        if (chat.AuthoredFields.Contains("level"))
+        {
+            if (!chat.LevelIsInteger)
+            {
+                problems.Add("Уровень подсказки должен быть целым числом: схема объявляет его целым.");
+            }
+            else if (minimumLevel is { } min && chat.Level < min)
+            {
+                problems.Add($"Уровень подсказки {chat.Level} меньше допустимого {min}: такая подсказка не появится в порядке показа.");
+            }
+            else if (maximumLevel is { } max && chat.Level > max)
+            {
+                problems.Add($"Уровень подсказки {chat.Level} больше допустимого {max}: схема такую подсказку не примет.");
+            }
+        }
+
+        if (chat.TextId.Length == 0)
+        {
+            problems.Add("У подсказки не задан textId.");
+        }
+        else if (workspace.Get(chat.TextId) is not JsonObject textEntity)
         {
             problems.Add($"Текст подсказки «{chat.TextId}» не найден в проекте: игрок увидит пустоту.");
+        }
+        else if (!string.Equals(EntityCatalog.KindOf(chat.TextId, textEntity), "text", StringComparison.Ordinal))
+        {
+            problems.Add($"«{chat.TextId}» — не текст, а сущность вида «{EntityCatalog.KindOf(chat.TextId, textEntity)}»: рантайм возьмёт из неё поле value и покажет пустоту.");
         }
 
         if (chat.PointsTo.Length == 0)
         {
             problems.Add("У подсказки не задана цель поиска: строка «Попробуйте поиск» останется пустой, и поиск не предложит слово.");
+        }
+        else if (chat.PointsTo.Contains(':', StringComparison.Ordinal))
+        {
+            problems.Add($"Цель поиска «{chat.PointsTo}» содержит двоеточие: схема требует подпись без двоеточия.");
+        }
+        else if (maximumPointsTo is { } longest && chat.PointsTo.Length > longest)
+        {
+            problems.Add($"Цель поиска длиннее {longest} символов: схема такую подпись не примет.");
         }
 
         foreach (var field in FieldsOutsideHintSchema(workspace, chat))
@@ -360,7 +427,11 @@ public static class PcChat
                 ? "появляется по мере чтения архива, отдельных условий нет"
                 : $"появляется при условиях: {string.Join(", ", chat.Requires)}";
             var search = chat.PointsTo.Length == 0 ? "цель поиска не задана" : $"поиск подскажет: {chat.PointsTo}";
-            return [$"Подсказка уровня {chat.Level}: {when}; {search}. Текст берётся из «{chat.TextId}»."];
+            return
+            [
+                $"Подсказка уровня {chat.Level}: {when}; {search}. Текст берётся из «{chat.TextId}».",
+                "Показывается один раз на сохранение: список виденных лежит в сохранении, вмещает 64 подсказки и вытесняет самые старые — после этого старая подсказка может появиться снова."
+            ];
         }
 
         var ends = chat.Nodes.Count(node => (node.NextNodeId is null or { Length: 0 }) && node.Choices.All(choice => choice.NextNodeId is null or { Length: 0 }));
@@ -540,6 +611,27 @@ public static class PcChat
         }
 
         return ops;
+    }
+
+    /// <summary>Whether the JSON number is integral: the hint level is an integer in the schema.</summary>
+    private static bool IsIntegral(JsonValue value)
+    {
+        if (value.TryGetValue<int>(out _) || value.TryGetValue<long>(out _))
+        {
+            return true;
+        }
+
+        if (value.TryGetValue<decimal>(out var precise))
+        {
+            return decimal.Truncate(precise) == precise;
+        }
+
+        if (value.TryGetValue<double>(out var number))
+        {
+            return double.IsFinite(number) && Math.Abs(number - Math.Round(number)) < 1e-9;
+        }
+
+        return value.TryGetValue<float>(out var single) && float.IsFinite(single) && Math.Abs(single - MathF.Round(single)) < 1e-6f;
     }
 
     private static double Number(JsonNode? node)

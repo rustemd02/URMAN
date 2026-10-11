@@ -1,0 +1,35 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-24"
+  ],
+  "stage": "correction for the stored review of 19925af7: the hint schema constraints, the text kind, the required fields and the save-persistent one-shot rule",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-11 04:33 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "f703f132 via my branch",
+  "files": {
+    "src-dotnet/Urman.Studio.Core/Editing/PcChatContent.cs": "de1f677833273eb244579550a69aae294149fa289c3b4db5757cebb66ae8c36c",
+    "evidence/STUDIO/b20-deepseek-ai-24/2026-10-10-hint-schema/ai-deepseek-studio-wiring-v5.patch": "a3e6e7867cf3454ea85936ff5b0065bc64020ce49024ce8c7876c80f643e5a26",
+    "evidence/STUDIO/b20-deepseek-ai-24/2026-10-10-hint-schema/check.log": "6baee6a7976c781e0b5888c80dc6ee727a965fb84147cf824c7c0649701f96b5"
+  },
+  "addressed": {
+    "hint integer and range constraints": "level must be an integral number inside the schema bounds, which are read from hint.schema.json (1..3); a fractional, too small or too large level is named separately",
+    "search target constraints": "pointsTo must be non-empty, without a colon and no longer than the schema maximum (64)",
+    "text entity kind": "textId must resolve to an entity the catalogue classifies as a text, not merely to an existing entity: a textId that points at a chat or a document is reported with the kind it really has",
+    "required-field diagnostics": "every field the schema requires is checked from the schema's own required list, so a missing one is named instead of being hidden behind a later failure",
+    "save-persistent one-shot label": "the runtime keeps HintsSeen in the saved desktop snapshot (OldPcDesktopSnapshot.HintsSeen, cap MaximumSeenHints = 64), so the hint is shown once per SAVE, not once per session, and past 64 entries the oldest are forgotten. The hint outline and the panel note now say exactly that"
+  },
+  "verified": {
+    "probe": "PASS 288/288: the bounds are read from the schema, a fractional/too small/too large level is refused, a missing schema-required field is named, a colon and an over-long search target are refused, a textId of the wrong kind is refused, a conformant hint passes, the outline says once per save, and the three real hints still pass every rule",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors; game/Urman.Game.csproj 0 warnings/0 errors with the v5 patch",
+    "apply": "the v5 patch passes git apply --check on a pristine f703f132 worktree and was applied there",
+    "existing_tests": "Urman.Studio.Tests 38/38 on the patched tree",
+    "not_run": "no Studio window and no hint read in the game: the panel and the runtime UI are NOT_RUN"
+  },
+  "own_problem_found": "my edit script truncated PcChatContent.cs with a stray trailing write; the file is tracked, so it was restored from git and every edit was re-applied and re-verified. The lesson is recorded instead of hidden",
+  "open": [
+    "the v5 patch supersedes v4 of the consolidated wiring patch",
+    "runtime and visual acceptance are NOT_RUN"
+  ]
+}
