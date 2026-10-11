@@ -1,0 +1,118 @@
+using Godot;
+using Urman.Studio.Core.Editing;
+
+namespace Urman.Studio.App;
+
+/// <summary>
+/// The first real Studio consumer of the authoring projections (spec AI-40): instead of a helper
+/// nobody calls, this section shows, for the current selection, what the runtime will do with it
+/// and which link is missing - and, for the workspace, which kinds a consumer was found for and
+/// which kinds nothing claims by name.
+///
+/// It writes nothing. Every line it shows is read from the authored files through the same
+/// projections the tests use, so the panel cannot disagree with them.
+/// </summary>
+public partial class StudioAuthoringAuditSection : IStudioSection
+{
+    private readonly StudioRoot _studio;
+    private readonly VBoxContainer _view;
+    private readonly VBoxContainer _selection;
+    private readonly VBoxContainer _workspace;
+
+    public StudioAuthoringAuditSection(StudioRoot studio)
+    {
+        _studio = studio;
+        _view = new VBoxContainer { Name = "AuthoringAudit" };
+        _view.AddThemeConstantOverride("separation", 8);
+        var scroll = new ScrollContainer { SizeFlagsVertical = Control.SizeFlags.ExpandFill, SizeFlagsHorizontal = Control.SizeFlags.ExpandFill };
+        var column = new VBoxContainer { SizeFlagsHorizontal = Control.SizeFlags.ExpandFill };
+        column.AddThemeConstantOverride("separation", 10);
+        _selection = new VBoxContainer();
+        _selection.AddThemeConstantOverride("separation", 4);
+        _workspace = new VBoxContainer();
+        _workspace.AddThemeConstantOverride("separation", 4);
+        column.AddChild(_selection);
+        column.AddChild(new HSeparator());
+        column.AddChild(_workspace);
+        scroll.AddChild(column);
+        _view.AddChild(scroll);
+    }
+
+    public string Key => "audit";
+
+    public string Title => "Разбор";
+
+    public Control View => _view;
+
+    public void FillProperties(StudioProperties panel)
+    {
+        panel.Header("Разбор авторского", "объяснение, а не редактирование");
+        panel.AddChild(new Label
+        {
+            Text = "Панель показывает, что рантайм сделает с выбранным объектом, и каких связей не хватает. Она ничего не пишет: правки идут обычным путём.",
+            ThemeTypeVariation = "MutedLabel",
+            AutowrapMode = TextServer.AutowrapMode.WordSmart
+        });
+    }
+
+    public bool Reveal(string id) => false;
+
+    public void Refresh()
+    {
+        foreach (var child in _selection.GetChildren())
+        {
+            _selection.RemoveChild(child);
+            child.QueueFree();
+        }
+
+        foreach (var child in _workspace.GetChildren())
+        {
+            _workspace.RemoveChild(child);
+            child.QueueFree();
+        }
+
+        var root = _studio.Workspace.Root;
+        var selection = _studio.Selection;
+        _selection.AddChild(new Label { Text = selection is null ? "Выберите объект" : $"Выбрано: {selection}", ThemeTypeVariation = "HeaderLabel" });
+        if (selection is not null)
+        {
+            var steps = AuthoringDiagnostics.ForEntity(_studio.Workspace, _studio.Catalog, selection);
+            if (steps.Count == 0)
+            {
+                _selection.AddChild(new Label { Text = "Проекция ничего не знает об этом объекте.", ThemeTypeVariation = "MutedLabel" });
+            }
+
+            foreach (var step in steps)
+            {
+                _selection.AddChild(new Label
+                {
+                    Text = $"{step.Area} · {step.Subject}: {step.Text}",
+                    ThemeTypeVariation = step.Problem ? "ProblemLabel" : "MutedLabel",
+                    AutowrapMode = TextServer.AutowrapMode.WordSmart
+                });
+                if (step.NextStep.Length > 0)
+                {
+                    _selection.AddChild(new Label { Text = $"  → {step.NextStep}", ThemeTypeVariation = "MutedLabel", AutowrapMode = TextServer.AutowrapMode.WordSmart });
+                }
+            }
+        }
+
+        _workspace.AddChild(new Label { Text = "Виды: у кого найден потребитель", ThemeTypeVariation = "HeaderLabel" });
+        foreach (var pair in AuthoringDiagnostics.KindConsumers(root).OrderBy(pair => pair.Key, StringComparer.Ordinal))
+        {
+            _workspace.AddChild(new Label { Text = $"{pair.Key} → {pair.Value}", ThemeTypeVariation = "MutedLabel", AutowrapMode = TextServer.AutowrapMode.WordSmart });
+        }
+
+        var unconsumed = AuthoringDiagnostics.UnconsumedKinds(_studio.Workspace, root);
+        if (unconsumed.Count > 0)
+        {
+            _workspace.AddChild(new Label { Text = "Виды без потребителя по имени", ThemeTypeVariation = "HeaderLabel" });
+            _workspace.AddChild(new Label { Text = string.Join(", ", unconsumed), ThemeTypeVariation = "MutedLabel", AutowrapMode = TextServer.AutowrapMode.WordSmart });
+        }
+
+        foreach (var note in AuthoringDiagnostics.ConsumerNotes(_studio.Workspace, root))
+        {
+            _workspace.AddChild(new Label { Text = note, ThemeTypeVariation = "MutedLabel", AutowrapMode = TextServer.AutowrapMode.WordSmart });
+        }
+    }
+}

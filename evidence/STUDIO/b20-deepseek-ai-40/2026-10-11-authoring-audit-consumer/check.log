@@ -1,0 +1,19 @@
+== AI-40: the first real Studio consumer of the authoring projections
+
+-- the panel compiles in my branch (game project):
+    Ошибок: 0
+
+Прошло времени 00:00:00.90
+-- and with the one-line hook, against pristine main + the seven projection files:
+    Ошибок: 0
+
+Прошло времени 00:00:20.59
+-- the hook patch contains exactly:
+diff --git a/game/studio/StudioAuthoringAuditSection.cs b/game/studio/StudioAuthoringAuditSection.cs
+diff --git a/game/studio/StudioRoot.cs b/game/studio/StudioRoot.cs
+-- the one hook line:
+         Register(new StudioContentSection(this));
++        Register(new StudioAuthoringAuditSection(this));
+         foreach (var (key, title) in new[] { ("items", "Предметы"), ("ui", "Интерфейс игры") })
+-- the closure: pristine main + these seven Core files + this patch builds:
+   TriggerScopeFacts, AuthoringDiagnostics, ItemSpawns, AssetUsageIndex, CutsceneActions, SimpleItemForms, PcChatContent

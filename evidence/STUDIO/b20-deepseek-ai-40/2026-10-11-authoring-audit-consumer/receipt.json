@@ -1,0 +1,33 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-40",
+    "STUDIO/AI-24"
+  ],
+  "stage": "the first real Studio consumer of the authoring projections",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-11 22:15 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "aef5c481",
+  "answer_to_review": "Codex asked that the next acceptable stage be tied to a real Studio consumer instead of more helper depth. This is that consumer.",
+  "result": {
+    "what_it_is": "game/studio/StudioAuthoringAuditSection.cs, a Studio section that writes nothing and explains: for the current selection it lists AuthoringDiagnostics' steps (what the runtime will do and which link is missing), and for the workspace it lists the kind-to-consumer map plus the kinds nothing claims by name",
+    "shared_file": "the section is registered by ONE line in StudioRoot.cs, which is Codex's shared file, so that line is handed as a patch and NOT applied by me: authoring-audit-section.patch contains the new file and the one-line hook",
+    "closure_for_cherry_pick": "the consumer needs seven of my Core projection files that main does not have yet: TriggerScopeFacts, AuthoringDiagnostics, ItemSpawns, AssetUsageIndex, CutsceneActions, SimpleItemForms and PcChatContent. That closure was measured, not guessed: pristine main plus exactly those files builds Urman.Studio.Core with 0 errors, and the missing pieces were found by compiling and reading the errors",
+    "honesty": "without those seven files the section cannot be integrated, and the panel is a consumer, not a finished editor: it reads and explains, and every write still goes through the shared EditSession"
+  },
+  "verified": {
+    "game_build_branch": "Urman.Game builds 0 warnings/0 errors in my branch with the panel present",
+    "game_build_worktree": "pristine main plus the seven files plus the panel and the one-line hook builds Urman.Game 0/0 as well, which is the same proof in the tree Codex would integrate",
+    "patch": "authoring-audit-section.patch carries exactly two files and applies to pristine main",
+    "not_run": "no Studio window was opened: the panel's look and the interaction are the author's acceptance"
+  },
+  "own_mistakes": "my first panel used the bare SizeFlags enum, which resolves inside a Control subclass but not in this class; the game build caught it and it is now Control.SizeFlags. I also ran a build wrapped in 'timeout', which does not exist on this machine, and read the empty output as success for a moment before checking the tail - it is recorded here because a silent non-run is exactly the kind of thing this log exists to catch",
+  "files": {
+    "evidence/STUDIO/b20-deepseek-ai-40/2026-10-11-authoring-audit-consumer/check.log": "f4cd79e09e8ce623ccf18834d3bc676188ebac16de8f7d4e098fd394bc3a2e10",
+    "evidence/STUDIO/b20-deepseek-ai-40/2026-10-11-authoring-audit-consumer/authoring-audit-section.patch": "a50bc64223223d6684fefb2185615670f502d9482ff4b03f6e7e067e9c73108a"
+  },
+  "open": [
+    "the seven-file closure and the one-line hook are Codex's to integrate, and the panel's look is the author's"
+  ]
+}

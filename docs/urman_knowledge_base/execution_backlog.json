@@ -76774,6 +76774,12 @@
                 "result": "fix by deepseek v4.1 flash of the defect Codex reviewed: the catalogs were the selected campaign's but ReferencedIds scanned the WHOLE workspace, so another campaign's conditions could be blamed on this one. The scan now reads only that campaign's manifest and the files of the modules that manifest names, resolved through the shared module-folder mapping, exactly as the compiler's input hash does. Second point accepted too: the no-book message is NOT a gate, so the method returns no findings and the notes carry the state. Verified: the fullgame scan still finds its own seventeen gates; a synthetic TWO-CAMPAIGN workspace proves the fix - each campaign reports zero gates where a would previously have been blamed for b's id, and after b's book is given a different fact ONLY b reports one while a stays clean; a campaign with no book reports no gates. Own mistake recorded: the same cast trap, (string?)obj[\"op\"] throws on a non-value node - now TryGetValue, and the probe caught it before a Studio caller could. Verified: probe PASS 672/672; Core 0/0",
                 "source": "src-dotnet/Urman.Studio.Core/Editing/PhotoBook.cs (UnreachableGates, ReferencedIds, CampaignDocuments); evidence evidence/STUDIO/b20-deepseek-ai-24/2026-10-11-gate-scoping",
                 "verification": "probe PASS 672/672 including the two-campaign scoping test and the unchanged seventeen gates for fullgame; Core 0/0. The Studio consumer remains Codex's and is NOT_RUN"
+              },
+              {
+                "stage": "2026-10-11 the first real Studio consumer of the authoring projections",
+                "result": "FIRST REAL CONSUMER, as Codex asked, by deepseek v4.1 flash: game/studio/StudioAuthoringAuditSection.cs - a Studio section that writes nothing and explains, listing AuthoringDiagnostics' steps for the current selection and the kind-to-consumer map for the workspace. The registration is ONE line in Codex's shared StudioRoot.cs, so it is handed as a patch and not applied by me. The consumer needs SEVEN of my Core files that main does not have yet (TriggerScopeFacts, AuthoringDiagnostics, ItemSpawns, AssetUsageIndex, CutsceneActions, SimpleItemForms, PcChatContent) - a closure MEASURED by compiling against pristine main, not guessed. Proof: Urman.Game builds 0/0 in my branch with the panel, and 0/0 in a pristine-main worktree with the seven files, the panel and the one-line hook. Own mistakes recorded: the bare SizeFlags enum does not resolve outside a Control subclass (caught by the game build), and I briefly read an empty build output as success because 'timeout' does not exist on this machine. Verified: game build 0/0 twice; no Studio window opened",
+                "source": "new file game/studio/StudioAuthoringAuditSection.cs; patch evidence/STUDIO/b20-deepseek-ai-40/2026-10-11-authoring-audit-consumer/authoring-audit-section.patch",
+                "verification": "Urman.Game 0 warnings/0 errors in my branch and 0/0 in the pristine-main worktree with the closure and the hook. A Studio window and the panel's look are NOT_RUN and are the author's acceptance"
               }
             ],
             "stage_tasks": [
@@ -76820,7 +76826,9 @@
               "Проекция книги ждёт реального Studio-consumer'а: helper без caller'а не считается приёмкой AI-24 (замечание Codex).",
               "Ранее переданный частичный этап (2026-10-11 IndexingGaps is reset on every call) ждёт ревью/приёмки; полный done_when не выполнен.",
               "Consumer для проекции книги всё ещё отсутствует: helper не выдаётся за завершённый редактор (замечание Codex).",
-              "Ранее переданный частичный этап (2026-10-11 the gate scan is scoped to the selected campaign) ждёт ревью/приёмки; полный done_when не выполнен."
+              "Ранее переданный частичный этап (2026-10-11 the gate scan is scoped to the selected campaign) ждёт ревью/приёмки; полный done_when не выполнен.",
+              "Consumer-панель передана патчем: 7 файлов Core + одна строка в общем StudioRoot.cs — интегрирует Codex.",
+              "Ранее переданный частичный этап (2026-10-11 the first real Studio consumer of the authoring projections) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
             "next_action": "Трассировать bindings активной кампании; human forms; AI exact-field edits; проверить Markdown/учебные токены; preview в игре.",
             "blocker": null,
@@ -81324,6 +81332,12 @@
                 "result": "deepening by deepseek v4.1 flash for the explaining half of the unit: eight kinds have a consumer the sources name (the five AuthoredWorldDirector switch cases prop/pickup/npc/trigger/scatter, item-spawn through the quest script's EntitiesOfKind, kit-placement through KitPlacementTakeover's logicalAnchor lookup and parcel through the settlement registry), while fourteen authored kinds are not claimed by the map (animation, atmosphere-profile, audio, clue, contradiction, cutscene-action, fact, fence-run, hypothesis, image, marker, pressure, road-path, route). That is a statement about the search and not about the world: several of those are read by ID through the knowledge, document and vocabulary registries rather than by kind, and the notes say so in as many words. For an unexecuted kind the director's own default writes 'has kind with no executor; it is shown only in Studio', which the projection quotes instead of guessing. Own mistake recorded: the first notes used Length on an IReadOnlyList and did not compile",
                 "source": "src-dotnet/Urman.Studio.Core/Editing/AuthoringDiagnostics.cs (KindConsumers, UnconsumedKinds, ConsumerNotes); evidence evidence/STUDIO/b20-deepseek-ai-40/2026-10-11-kind-consumers",
                 "verification": "probe PASS 623/623 including the eight claimed kinds, the four named consumer scripts, the fourteen unclaimed kinds and the boundary note; Core 0/0. No game run: the map is read from sources"
+              },
+              {
+                "stage": "2026-10-11 the first real Studio consumer of the authoring projections",
+                "result": "FIRST REAL CONSUMER, as Codex asked, by deepseek v4.1 flash: game/studio/StudioAuthoringAuditSection.cs - a Studio section that writes nothing and explains, listing AuthoringDiagnostics' steps for the current selection and the kind-to-consumer map for the workspace. The registration is ONE line in Codex's shared StudioRoot.cs, so it is handed as a patch and not applied by me. The consumer needs SEVEN of my Core files that main does not have yet (TriggerScopeFacts, AuthoringDiagnostics, ItemSpawns, AssetUsageIndex, CutsceneActions, SimpleItemForms, PcChatContent) - a closure MEASURED by compiling against pristine main, not guessed. Proof: Urman.Game builds 0/0 in my branch with the panel, and 0/0 in a pristine-main worktree with the seven files, the panel and the one-line hook. Own mistakes recorded: the bare SizeFlags enum does not resolve outside a Control subclass (caught by the game build), and I briefly read an empty build output as success because 'timeout' does not exist on this machine. Verified: game build 0/0 twice; no Studio window opened",
+                "source": "new file game/studio/StudioAuthoringAuditSection.cs; patch evidence/STUDIO/b20-deepseek-ai-40/2026-10-11-authoring-audit-consumer/authoring-audit-section.patch",
+                "verification": "Urman.Game 0 warnings/0 errors in my branch and 0/0 in the pristine-main worktree with the closure and the hook. A Studio window and the panel's look are NOT_RUN and are the author's acceptance"
               }
             ],
             "stage_tasks": [
@@ -81359,7 +81373,9 @@
               "Ранее переданный частичный этап (2026-10-10 explaining trial run and step-by-step diagnostics) ждёт ревью/приёмки; полный done_when не выполнен.",
               "Ранее переданный частичный этап (2026-10-11 the explaining trial run: five steps with the state of each input) ждёт ревью/приёмки; полный done_when не выполнен.",
               "Карта потребителей говорит о поиске, а не о мире: виды, читаемые по ID через реестры, остаются вне неё — и это сказано в примечаниях.",
-              "Ранее переданный частичный этап (2026-10-11 which runtime code consumes which authored kind) ждёт ревью/приёмки; полный done_when не выполнен."
+              "Ранее переданный частичный этап (2026-10-11 which runtime code consumes which authored kind) ждёт ревью/приёмки; полный done_when не выполнен.",
+              "Consumer-панель передана патчем: 7 файлов Core + одна строка в общем StudioRoot.cs — интегрирует Codex.",
+              "Ранее переданный частичный этап (2026-10-11 the first real Studio consumer of the authoring projections) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
             "next_action": "UI стартового состояния; пометка synthetic/reachable; runtime trace с occurrence ID; pause clock; шаг события; copy transform только явной командой; handoff case.",
             "blocker": null,
