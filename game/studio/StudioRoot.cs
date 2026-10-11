@@ -862,6 +862,23 @@ public partial class StudioRoot : Control
         var result = await new Urman.Content.Compilation.ContentCompiler().CompileAsync(Workspace.Root, PlayPreparation.Campaign, []);
         var dirty = Workspace.Files.Count(file => file.Dirty);
         var unsupported = Urman.Studio.Core.Editing.ConditionPhrases.FindNotExecuted(Workspace);
+        string coverageText;
+        try
+        {
+            var sourceProblems = RuleCatalogCoverage.VerifyAgainstSources(Workspace.Root);
+            if (sourceProblems.Count > 0)
+                coverageText = "Проекция неполна; сравнение каталога не выполнено.\n" + string.Join("\n", sourceProblems.Take(6));
+            else
+            {
+                var coverage = RuleCatalogCoverage.Inspect(Workspace);
+                coverageText = coverage.Notes[0] + "\n" + coverage.Notes[1] + "\n" +
+                    string.Join("\n", coverage.Problems.Take(6).Select(problem => "• " + problem));
+            }
+        }
+        catch (Exception error) when (error is IOException or UnauthorizedAccessException)
+        {
+            coverageText = "Анализ каталога недоступен: не удалось прочитать исходники игры. Результат проверки контента сохранён.";
+        }
         var dialog = new AcceptDialog
         {
             Title = "Проверка",
@@ -869,6 +886,8 @@ public partial class StudioRoot : Control
                     ? "Ошибки ссылок и данных: 0.\n"
                     : $"Ошибки ссылок и данных: {result.Diagnostics.Count}\n" + string.Join("\n", result.Diagnostics.Take(8).Select(d => $"• {d.Message}")) + "\n") +
                 (unsupported.Count == 0 ? "Правила, которые игра не исполняет: 0.\n" : $"Правила, которые игра не исполняет: {unsupported.Count}\n" + string.Join("\n", unsupported.Take(6).Select(item => $"• «{Catalog.NameOf(item.EntityId)}»: {item.Op} — нужна новая механика")) + "\n") +
+                "\nКаталог правил · весь workspace, включая несохранённые данные; только анализ исходников:\n" +
+                coverageText + "\n" +
                 (dirty > 0 ? $"\nПроверены сохранённые файлы; несохранённых изменений: {dirty} файл(ов).\n" : "") +
                 "\nЛогические и художественные замечания здесь не проверяются. Проверка не доказывает, что проходимы все ветки игры."
         };
