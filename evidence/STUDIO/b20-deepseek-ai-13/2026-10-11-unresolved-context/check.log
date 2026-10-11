@@ -1,0 +1,22 @@
+== AI-13 fix: an unresolved world must not fall back to Act I, and must invalidate the AI scope
+== composed tree: origin/main 4674c451 + my branch (selector) + session patch + wiring v11
+
+== source invariants:
+StudioRoot.cs '?? PlayPreparation.Campaign' occurrences: 1
+StudioCampaignSelector.cs 'Changed?.Invoke(null)' occurrences: 1
+StudioRoot.cs 'InvalidateAiContext' occurrences: 0
+StudioRoot.cs refusals with 'по умолчанию не подставляется': 0
+selector MarkUnresolved call sites: 4
+
+== builds
+bash: line 8: dotnet: command not found
+bash: line 8: dotnet: command not found
+== existing tests
+bash: line 9: dotnet: command not found
+== probe
+bash: line 10: dotnet: command not found
+
+== same invariants inside the composed worktree (the tree that was built)
+StudioRoot.cs 'PlayPreparation.Campaign': 0
+selector 'Changed?.Invoke(null)': 1
+StudioRoot.cs 'InvalidateAiContext': 3

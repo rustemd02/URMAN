@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-13"
+  ],
+  "stage": "answer to the 16:21 review: an unresolved world propagates instead of falling back to Act I",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-11 17:08 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "4674c451",
+  "defect": "the selector set Context = null on a read failure, on a checkout without an active campaign and on a campaign without a startable world, and said nothing to the host; the root then substituted PlayPreparation.Campaign, so Play and Check ran Act I while an AI scope opened for another world could still be active",
+  "fix": {
+    "selector": "StudioCampaignSelector now carries Unresolved (the reason) and raises Changed with NULL in every unresolved path through one MarkUnresolved helper, and clears the reason whenever a context resolves. This file is an ordinary commit on my branch, not part of the patch.",
+    "root": "OnCampaignWorldChanged takes a nullable context: on null it sets the write gate with the reason, invalidates the open AI scope and reports the state without running anything; on a resolved context it applies the world, clears the gate and invalidates the AI scope that belonged to the previous world.",
+    "no default": "both the Play and the Check paths now refuse an unresolved world with an explicit banner and no longer contain any '?? PlayPreparation.Campaign' substitution; the compile call uses the captured context.",
+    "kept": "History and Checkpoints and the root sizing change were not touched"
+  },
+  "verified": {
+    "source_invariants": "the check log records a before/after: in my branch without the patch StudioRoot.cs still contains the Act I substitution and no invalidation (1 and 0), while the composed tree that was built has 0 substitutions and 3 InvalidateAiContext sites; the selector has one Changed?.Invoke(null) and four MarkUnresolved call sites",
+    "apply": "the session patch and wiring v11 pass git apply --check on main 4674c451 with my branch merged, and were applied there",
+    "compile_and_tests": "Urman.Studio.Core 0/0; game/Urman.Game.csproj 0/0; Urman.Studio.Tests 38/38; probe PASS on the composed tree",
+    "not_run": "no Studio window: this is a source stage, NOT a UI PASS, and the author has paused runtime"
+  },
+  "files": {
+    "evidence/STUDIO/b20-deepseek-ai-13/2026-10-11-unresolved-context/ai-deepseek-studio-wiring-v11.patch": "274daf4bfd5b672a14c791f1d1619f5b17edde02d02a054ac9dbb28fe5f8e2e8",
+    "evidence/STUDIO/b20-deepseek-ai-13/2026-10-11-unresolved-context/check.log": "139dfabaaa6ca31825584add09899fb36fce99de3b42318d82f596f5323abedb"
+  },
+  "open": [
+    "v11 supersedes v10 and needs the session patch and my branch's selector together",
+    "runtime acceptance is NOT_RUN by the author's pause"
+  ]
+}

@@ -55,8 +55,26 @@ public sealed class StudioCampaignSelector
     /// <summary>The campaign and world the author has selected, or null when none could be resolved.</summary>
     public CampaignWorldContext? Context { get; private set; }
 
-    /// <summary>Raised after the author picked another campaign or world.</summary>
-    public event Action<CampaignWorldContext>? Changed;
+    /// <summary>
+    /// Why no world could be resolved, or null when one was. An unresolved selection is a
+    /// state the host must see: it is not a reason to fall back to a default world, and it
+    /// must not leave an older authoring scope in place.
+    /// </summary>
+    public string? Unresolved { get; private set; }
+
+    /// <summary>
+    /// Raised with the resolved context, or with null when resolution failed; the reason is
+    /// then available through <see cref="Unresolved"/>.
+    /// </summary>
+    public event Action<CampaignWorldContext?>? Changed;
+
+    /// <summary>Records that no world is selected and tells the host, instead of failing silently.</summary>
+    private void MarkUnresolved(string reason)
+    {
+        Context = null;
+        Unresolved = reason;
+        Changed?.Invoke(null);
+    }
 
     private Control Build()
     {
@@ -105,7 +123,7 @@ public sealed class StudioCampaignSelector
         {
             _details.Text = "Не удалось прочитать кампании и миры этого checkout: " + error.Message;
             _blockers.Text = "";
-            Context = null;
+            MarkUnresolved("не удалось прочитать кампании и миры: " + error.Message);
             return;
         }
 
@@ -131,7 +149,7 @@ public sealed class StudioCampaignSelector
             _filling = false;
             _details.Text = "В этом checkout нет ни одной действующей кампании.";
             _blockers.Text = Blockers();
-            Context = null;
+            MarkUnresolved("в этом checkout нет ни одной действующей кампании");
             return;
         }
 
@@ -176,6 +194,7 @@ public sealed class StudioCampaignSelector
             var context = _catalog.Resolve(selection, scene);
             var details = Describe(context);
             Context = context;
+            Unresolved = null;
             _details.Text = details;
             _blockers.Text = Blockers();
             Changed?.Invoke(context);
@@ -215,6 +234,7 @@ public sealed class StudioCampaignSelector
             // The default is now what both the lists and the run path use, so it is
             // published like a normal choice instead of staying unconfirmed.
             Context = consistent;
+            Unresolved = null;
             Changed?.Invoke(consistent);
         }
     }
@@ -268,9 +288,9 @@ public sealed class StudioCampaignSelector
         if (_world.ItemCount == 0)
         {
             _filling = false;
-            Context = null;
             _details.Text = "Для этой кампании нет ни одной стартовой сцены мира.";
             _blockers.Text = Blockers();
+            MarkUnresolved("для выбранной кампании нет ни одной стартовой сцены мира");
             return;
         }
 

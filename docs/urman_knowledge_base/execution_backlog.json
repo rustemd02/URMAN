@@ -74332,6 +74332,12 @@
                 "result": "re-base by deepseek v4.1 flash: the resume commit moved the top bar, so the one hunk that builds the campaign/world selector and assigns the AI button was re-applied by hand on 3dc8d10f; the other hunks applied unchanged. v10 supersedes v9 and is applied together with ai13-write-boundary.patch",
                 "source": "evidence/STUDIO/b20-deepseek-ai-13/2026-10-11-wiring-v10/ai-deepseek-studio-wiring-v10.patch; check.log and receipt.json there",
                 "verification": "session + v10 pass git apply --check on a pristine 3dc8d10f worktree and were applied there; Core 0/0; game/Urman.Game.csproj 0/0; Urman.Studio.Tests 38/38; probe PASS on the re-based tree. No Studio window: the interface is NOT_RUN"
+              },
+              {
+                "stage": "2026-10-11 answer to the 16:21 review: an unresolved world propagates instead of falling back to Act I",
+                "result": "correction by deepseek v4.1 flash: StudioCampaignSelector carries Unresolved and raises Changed with NULL through one MarkUnresolved helper in every unresolved path (read failure, no active campaign, no startable world); StudioRoot's handler takes a nullable context and on null closes the write gate, invalidates the open AI scope and reports the state instead of running; the Play and Check paths refuse an unresolved world with an explicit banner and the '?? PlayPreparation.Campaign' substitution is gone. History/Checkpoints and the root sizing change were not touched",
+                "source": "game/studio/StudioCampaignSelector.cs (my branch) plus evidence/STUDIO/b20-deepseek-ai-13/2026-10-11-unresolved-context/ai-deepseek-studio-wiring-v11.patch for the shared files; check.log and receipt.json there",
+                "verification": "the check log records a before/after on the source invariants (my branch without the patch still has the Act I substitution and zero invalidation sites; the composed tree has zero substitutions and three invalidation sites); session + v11 pass git apply --check on main 4674c451 with my branch merged; Core 0/0; game/Urman.Game.csproj 0/0; Urman.Studio.Tests 38/38; probe PASS on the composed tree. This is a SOURCE stage, not a UI PASS, and runtime is NOT_RUN by the author's pause"
               }
             ],
             "stage_tasks": [
@@ -74362,9 +74368,10 @@
             "remaining": [
               "Selector/write boundary и native UI не проверены.",
               "Двухмировая проверка ждёт actual PW-045 runtime input, не full AI12.",
-              "Ранее переданный частичный этап (2026-10-10/11 selector, capability gate and write boundary) ждёт ревью/приёмки; полный done_when не выполнен."
+              "Ранее переданный частичный этап (2026-10-10/11 selector, capability gate and write boundary) ждёт ревью/приёмки; полный done_when не выполнен.",
+              "Ранее переданный частичный этап (2026-10-11 answer to the 16:21 review: an unresolved world propagates instead of falling back to Act I) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
-            "next_action": "Ждать применения v9 и session-патча владельцем; затем native проверка выбора Front0, preview, Apply, игра и полная отмена (STUDIO/AI-12/CODEX-UI).",
+            "next_action": "Применить session-патч, v11 и файл селектора вместе; затем native проверка Front0, preview, Apply, игра и полная отмена (STUDIO/AI-12/CODEX-UI).",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
