@@ -37,14 +37,14 @@ public static class KitTakeover
         var components = new HashSet<string>(StringComparer.Ordinal);
         foreach (var id in workspace.EntityIds)
         {
-            if (workspace.Get(id) is not JsonObject entity || (string?)entity["kind"] != "kit-placement")
+            if (workspace.Get(id) is not JsonObject entity || AuthoredJson.Text(entity, "kind") != "kit-placement")
             {
                 continue;
             }
 
             var parameters = entity["params"] as JsonObject;
             var problems = new List<string>();
-            var anchor = (string?)parameters?["logicalAnchor"] ?? "";
+            var anchor = AuthoredJson.Text(parameters, "logicalAnchor");
             if (anchor.Length == 0)
             {
                 problems.Add("У размещения нет logicalAnchor: взятие под авторское владение ищет компонент именно по нему, и запись останется неуправляемой.");
@@ -54,7 +54,7 @@ public static class KitTakeover
                 problems.Add($"logicalAnchor «{anchor}» повторяется: словарь рантайма оставит только одну запись, и второй компонент молча потеряет авторские значения.");
             }
 
-            var component = (string?)parameters?["component"] ?? "";
+            var component = AuthoredJson.Text(parameters, "component");
             if (component.Length == 0)
             {
                 problems.Add("У размещения нет component: сборщик не сопоставит его с частью набора.");
@@ -67,7 +67,7 @@ public static class KitTakeover
                 components.Add(component);
             }
 
-            if (((string?)parameters?["assetSource"] ?? "").Length == 0)
+            if ((AuthoredJson.Text(parameters, "assetSource")).Length == 0)
             {
                 problems.Add("У размещения нет assetSource: источник модели не указан.");
             }
@@ -190,7 +190,7 @@ public static class KitTakeover
         var both = 0;
         foreach (var id in workspace.EntityIds)
         {
-            if (workspace.Get(id) is not JsonObject entity || (string?)entity["kind"] != "kit-placement")
+            if (workspace.Get(id) is not JsonObject entity || AuthoredJson.Text(entity, "kind") != "kit-placement")
             {
                 continue;
             }
@@ -214,7 +214,7 @@ public static class KitTakeover
             else if (isHidden)
             {
                 hiddenOnly++;
-                hiddenNotRetired.Add(((string?)parameters?["logicalAnchor"] ?? id).ToString());
+                hiddenNotRetired.Add(AuthoredJson.Text(parameters, "logicalAnchor") is { Length: > 0 } anchor ? anchor : id);
             }
             else
             {
@@ -240,7 +240,7 @@ public static class KitTakeover
         var gaps = new List<string>();
         foreach (var id in workspace.EntityIds)
         {
-            if (workspace.Get(id) is not JsonObject entity || (string?)entity["kind"] != "kit-placement")
+            if (workspace.Get(id) is not JsonObject entity || AuthoredJson.Text(entity, "kind") != "kit-placement")
             {
                 continue;
             }

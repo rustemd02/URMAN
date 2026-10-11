@@ -1,0 +1,18 @@
+== AI-19: four more projections read authored JSON safely
+
+
+Прошло времени 00:00:03.38
+-- casts left in the four files:
+/Users/unterlantas/Documents/GitHub/URMAN-deepseek/src-dotnet/Urman.Studio.Core/Editing/QuestSemantics.cs:0
+/Users/unterlantas/Documents/GitHub/URMAN-deepseek/src-dotnet/Urman.Studio.Core/Editing/KitTakeover.cs:0
+/Users/unterlantas/Documents/GitHub/URMAN-deepseek/src-dotnet/Urman.Studio.Core/Editing/CharacterAppearance.cs:0
+/Users/unterlantas/Documents/GitHub/URMAN-deepseek/src-dotnet/Urman.Studio.Core/Editing/AreaLinks.cs:0
+  quests: 13, stages: 15, objectives: 20, problems: 0
+PASS  the authored quests are found
+PASS  the quests carry objectives
+  area links: 5, uses: 5, problems: 0
+    input quests (workspace): 13
+    input area links: 5
+PASS  the quests projection really reads something, so it cannot pass by reading nothing
+PASS  the quests count is still 13, so the number my receipts state is the number the content has
+PROBE RESULT: PASS

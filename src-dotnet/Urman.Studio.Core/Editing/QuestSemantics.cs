@@ -41,7 +41,7 @@ public static class QuestSemantics
                 continue;
             }
 
-            if (quest["retryPolicy"] is JsonObject policy && (string?)policy["mode"] is { Length: > 0 } mode)
+            if (quest["retryPolicy"] is JsonObject policy && AuthoredJson.Text(policy, "mode") is { Length: > 0 } mode)
             {
                 retryModes.Add(mode);
             }
@@ -144,7 +144,7 @@ public static class QuestSemantics
         switch (node)
         {
             case JsonObject obj:
-                if ((string?)obj["op"] is { Length: > 0 } op)
+                if (AuthoredJson.Text(obj, "op") is { Length: > 0 } op)
                 {
                     counts[op] = counts.GetValueOrDefault(op) + 1;
                 }
@@ -186,7 +186,7 @@ public static class QuestSemantics
         var problems = new List<string>();
         foreach (var quest in AuthoredQuests(workspace))
         {
-            var id = (string?)quest["id"] ?? "";
+            var id = AuthoredJson.TextOrNull(quest, "id") ?? "";
             foreach (var field in new[] { "retryPolicy", "checkpointPolicy", "cancelPolicy" })
             {
                 if (quest[field] is not JsonObject policy)

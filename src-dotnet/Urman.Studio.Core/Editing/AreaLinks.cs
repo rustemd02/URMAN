@@ -107,7 +107,7 @@ public static class AreaLinks
         switch (node)
         {
             case JsonObject obj:
-                if ((string?)obj["op"] == "location.is" && (string?)obj["locationId"] is { Length: > 0 } locationId)
+                if (AuthoredJson.Text(obj, "op") == "location.is" && AuthoredJson.Text(obj, "locationId") is { Length: > 0 } locationId)
                 {
                     if (!uses.TryGetValue(locationId, out var list))
                     {
@@ -165,9 +165,9 @@ public static class AreaLinks
                 continue;
             }
 
-            var id = (string?)manifest["id"] ?? Path.GetFileName(Path.GetDirectoryName(file)) ?? "";
+            var id = AuthoredJson.TextOrNull(manifest, "id") ?? Path.GetFileName(Path.GetDirectoryName(file)) ?? "";
             var modules = (manifest["modules"] as JsonArray ?? []).OfType<JsonObject>()
-                .Select(module => ((string?)module["moduleId"] ?? "").Replace('.', '-'))
+                .Select(module => (AuthoredJson.Text(module, "moduleId")).Replace('.', '-'))
                 .Where(module => module.Length > 0)
                 .ToArray();
             var locations = new HashSet<string>(StringComparer.Ordinal);

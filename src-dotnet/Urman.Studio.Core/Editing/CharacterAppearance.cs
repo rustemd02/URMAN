@@ -77,14 +77,14 @@ public static class CharacterAppearance
         var placements = new List<CharacterAppearanceFacts>();
         foreach (var id in workspace.EntityIds)
         {
-            if (workspace.Get(id) is not JsonObject entity || (string?)entity["kind"] != "npc")
+            if (workspace.Get(id) is not JsonObject entity || AuthoredJson.Text(entity, "kind") != "npc")
             {
                 continue;
             }
 
             var parameters = entity["params"] as JsonObject;
             var problems = new List<string>();
-            var prefix = (string?)parameters?["kitPrefix"] ?? "";
+            var prefix = AuthoredJson.Text(parameters, "kitPrefix");
             if (known.Count == 0 && placements.Count == 0)
             {
                 // No prefix set could be read at all: say so instead of passing silently.
@@ -104,7 +104,7 @@ public static class CharacterAppearance
             var profile = "";
             if (appearance is not null)
             {
-                profile = (string?)appearance["profile"] ?? "";
+                profile = AuthoredJson.Text(appearance, "profile");
                 if (profile.Length == 0)
                 {
                     problems.Add("Поле «residentAppearance.profile» пустое: в метаданные уйдёт запасное описание, и автор не увидит, чей это образ.");
@@ -138,7 +138,7 @@ public static class CharacterAppearance
                         continue;
                     }
 
-                    if ((string?)node is not { } hex || !HexColor.IsMatch(hex))
+                    if (AuthoredJson.TextValue(node) is not { Length: > 0 } hex || !HexColor.IsMatch(hex))
                     {
                         problems.Add($"Поле «{color}» не цвет из 6 hex-цифр: материал получит неверную строку.");
                     }
@@ -208,7 +208,7 @@ public static class CharacterAppearance
         var unread = new List<string>();
         foreach (var id in workspace.EntityIds)
         {
-            if (workspace.Get(id) is not JsonObject entity || (string?)entity["kind"] != "npc")
+            if (workspace.Get(id) is not JsonObject entity || AuthoredJson.Text(entity, "kind") != "npc")
             {
                 continue;
             }

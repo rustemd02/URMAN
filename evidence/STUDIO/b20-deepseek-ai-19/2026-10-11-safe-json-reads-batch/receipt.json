@@ -1,0 +1,31 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-19",
+    "STUDIO/AI-44",
+    "STUDIO/AI-28",
+    "STUDIO/AI-21"
+  ],
+  "stage": "four more projections read authored JSON safely",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-11 22:43 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "259ccfb7",
+  "result": {
+    "converted": "QuestSemantics 3 casts to zero, KitTakeover 7 to zero, CharacterAppearance 5 to zero and AreaLinks 4 to zero - nineteen sites, all of the same shape and all now through AuthoredJson",
+    "ownership_checked": "ConditionPhrases.cs has TEN such casts, but it is IN main and is not mine, so it was deliberately left alone: a sweep must respect ownership rather than tidy whatever it finds",
+    "behaviour_unchanged": "the probe's numbers did not move: five area links with five uses and zero problems, the same quest policy verdicts",
+    "progress": "eight projection files are cast-free now"
+  },
+  "verified": {
+    "probe": "PASS 741/741 with the quest, kit, character and area numbers unchanged",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors (composed tree with my branch and the v15 patch)",
+    "not_run": "no game run: this is a robustness change"
+  },
+  "files": {
+    "evidence/STUDIO/b20-deepseek-ai-19/2026-10-11-safe-json-reads-batch/check.log": "c3f7bd73ae46a1d369ed71749c5df9fd524405b27c2589ef19f8bc452cb0a4a1"
+  },
+  "open": [
+    "ConditionPhrases and the remaining files are not mine to convert"
+  ]
+}

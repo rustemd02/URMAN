@@ -75829,6 +75829,12 @@
                 "result": "re-verification by deepseek v4.1 flash of the requirement that manual and AI editing share one model: twelve direct writes exist in the Studio sources, fifty writes go through the session and twelve stay outside it, and I inspected all twelve by hand - the AI panel's own preference, three AI staging files, the catalogue rebuild behind its explicit --urman-studio-build-catalog flag, the imported asset copy (whose catalogue entry does go through the session, as its own comment says), .urman-studio/layout.json which is the graph layout and not content, the run log, three self-check fixtures and the tour state. The probe now ASSERTS that no outside write is unclassified, so an interactive authored edit can no longer slip past the journal unnoticed. This remains a source inventory, not a proof of absence",
                 "source": "src-dotnet/Urman.Studio.Core/Editing/StudioWritePaths.cs; evidence evidence/STUDIO/b20-deepseek-ai-19/2026-10-11-write-path-invariant",
                 "verification": "probe PASS 607/607 including the two new assertions (no unclassified write outside the session; more writes through the session than around it); Core 0/0. No Studio window: the audit reads sources"
+              },
+              {
+                "stage": "2026-10-11 QuestSemantics reads authored JSON safely",
+                "result": "robustness stage by deepseek v4.1 flash, part of the cast sweep: QuestSemantics.cs now reads authored JSON through the shared AuthoredJson accessor instead of casts that throw on a non-value node. Nineteen sites were converted across four files in this stage (QuestSemantics 3, KitTakeover 7, CharacterAppearance 5, AreaLinks 4), and the probe's numbers did not move. OWNERSHIP WAS CHECKED: ConditionPhrases.cs carries ten such casts but it is IN main and is not mine, so it was deliberately left alone - a sweep must respect ownership rather than tidy whatever it finds. Eight projection files are cast-free now. Verified: probe PASS 741/741 with the numbers unchanged; Core 0/0",
+                "source": "src-dotnet/Urman.Studio.Core/Editing/QuestSemantics.cs; evidence evidence/STUDIO/b20-deepseek-ai-19/2026-10-11-safe-json-reads-batch",
+                "verification": "probe PASS 741/741 with the numbers unchanged; Core 0/0. No game run: this is a robustness change and is NOT_RUN as a feature"
               }
             ],
             "stage_tasks": [
@@ -75861,7 +75867,9 @@
               "ИИ меняет шаг/развилку квеста через ту же модель, что ручной список и граф.; отсутствует подтверждение собственного конечного DoD, перечисленного ниже.",
               "Ранее переданный частичный этап (2026-10-11 one model for manual and AI authoring, verified as a write-path inventory) ждёт ревью/приёмки; полный done_when не выполнен.",
               "Ранее переданный частичный этап (2026-10-11 the authored quests checked as a structure the runtime can run) ждёт ревью/приёмки; полный done_when не выполнен.",
-              "Ранее переданный частичный этап (2026-10-11 the one-journal boundary, verified site by site) ждёт ревью/приёмки; полный done_when не выполнен."
+              "Ранее переданный частичный этап (2026-10-11 the one-journal boundary, verified site by site) ждёт ревью/приёмки; полный done_when не выполнен.",
+              "Устойчивость: QuestSemantics больше не падает на не-значении; поведение не изменилось.",
+              "Ранее переданный частичный этап (2026-10-11 QuestSemantics reads authored JSON safely) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
             "next_action": "Убрать tamara-biased initial selection; открыть active quest; schema DTO edits; clone validate; синхронизировать tree/graph; compile affected module.",
             "blocker": null,
@@ -76230,6 +76238,12 @@
                 "result": "robustness stage by deepseek v4.1 flash: AddressBindings.cs was converted to the shared AuthoredJson accessor. AddressBindings went from THIRTEEN casts to zero and DialogueGraph from EIGHT to zero. The helper needed one more shape, TextValue, for a BARE node rather than a field - dictionary values in the address registry and nextNodeId in a dialogue choice are read that way. Own mistake recorded: my first pass used Text where the original cast had been nullable, which changed a TUPLE's nullability (the street/number set is (string?, string?)) and broke the compiler; TextOrNull is right there - a mechanical conversion still has to respect where the old code was nullable on purpose. Behaviour unchanged: five area links with five uses and zero problems, thirty-two dialogue nodes. Verified: probe PASS 741/741; Core 0/0",
                 "source": "src-dotnet/Urman.Studio.Core/Editing/AddressBindings.cs and AuthoredJson.cs; evidence evidence/STUDIO/b20-deepseek-ai-21/2026-10-11-safe-json-reads-address-dialogue",
                 "verification": "probe PASS 741/741 with the numbers unchanged; Core 0/0. No game run: this is a robustness change and is NOT_RUN as a feature"
+              },
+              {
+                "stage": "2026-10-11 AreaLinks reads authored JSON safely",
+                "result": "robustness stage by deepseek v4.1 flash, part of the cast sweep: AreaLinks.cs now reads authored JSON through the shared AuthoredJson accessor instead of casts that throw on a non-value node. Nineteen sites were converted across four files in this stage (QuestSemantics 3, KitTakeover 7, CharacterAppearance 5, AreaLinks 4), and the probe's numbers did not move. OWNERSHIP WAS CHECKED: ConditionPhrases.cs carries ten such casts but it is IN main and is not mine, so it was deliberately left alone - a sweep must respect ownership rather than tidy whatever it finds. Eight projection files are cast-free now. Verified: probe PASS 741/741 with the numbers unchanged; Core 0/0",
+                "source": "src-dotnet/Urman.Studio.Core/Editing/AreaLinks.cs; evidence evidence/STUDIO/b20-deepseek-ai-19/2026-10-11-safe-json-reads-batch",
+                "verification": "probe PASS 741/741 with the numbers unchanged; Core 0/0. No game run: this is a robustness change and is NOT_RUN as a feature"
               }
             ],
             "stage_tasks": [
@@ -76270,7 +76284,9 @@
               "Индекс несёт 0 из 229 авторских взаимодействий: это пробел ОБЩЕГО индексатора, число не закреплено и должно вырасти после исправления.",
               "Ранее переданный частичный этап (2026-10-11 the interaction index gap, as a number) ждёт ревью/приёмки; полный done_when не выполнен.",
               "Устойчивость: AddressBindings больше не падает на не-значении; поведение не изменилось.",
-              "Ранее переданный частичный этап (2026-10-11 AddressBindings reads authored JSON safely) ждёт ревью/приёмки; полный done_when не выполнен."
+              "Ранее переданный частичный этап (2026-10-11 AddressBindings reads authored JSON safely) ждёт ревью/приёмки; полный done_when не выполнен.",
+              "Устойчивость: AreaLinks больше не падает на не-значении; поведение не изменилось.",
+              "Ранее переданный частичный этап (2026-10-11 AreaLinks reads authored JSON safely) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
             "next_action": "Handles формы; actor filter/frequency; link inspector; typed link/edit; preview conditions; idempotency на повторном событии.",
             "blocker": null,
@@ -77593,6 +77609,12 @@
                 "result": "deepseek v4.1 flash measured the shared honesty surface: four capabilities really change from data (the three colour fields, the silhouette width/depth with their clamps, profile, scale); a new garment MESH and a new skeleton with weights and sockets need the kit model, because GeneratedCharacterKitDump creates no mesh - searched SetMesh( and new MeshInstance3D, zero matches - so a garment only appears by authoring it into urman_character_kit.glb or _v2.glb; and a sculpted face has no path at all, since the runtime's own policy is 'unchanged face and bones'. The brief forbids passing a colour change off as a new garment or a ready-made face off as sculpting, so this measured split is the honest deliverable. Negative rows name what was searched and where",
                 "source": "new file src-dotnet/Urman.Studio.Core/Editing/CharacterChangeSurface.cs; evidence evidence/STUDIO/b20-deepseek-ai-41/2026-10-11-character-change-surface",
                 "verification": "probe PASS 567/567 with zero mesh creation in the dressing code, the face policy row, the data rows and the kit model on disk; Core 0/0; game/Urman.Game.csproj 0/0; Urman.Studio.Tests 38/38. Visual and sculptural acceptance is NOT_RUN"
+              },
+              {
+                "stage": "2026-10-11 CharacterAppearance reads authored JSON safely",
+                "result": "robustness stage by deepseek v4.1 flash, part of the cast sweep: CharacterAppearance.cs now reads authored JSON through the shared AuthoredJson accessor instead of casts that throw on a non-value node. Nineteen sites were converted across four files in this stage (QuestSemantics 3, KitTakeover 7, CharacterAppearance 5, AreaLinks 4), and the probe's numbers did not move. OWNERSHIP WAS CHECKED: ConditionPhrases.cs carries ten such casts but it is IN main and is not mine, so it was deliberately left alone - a sweep must respect ownership rather than tidy whatever it finds. Eight projection files are cast-free now. Verified: probe PASS 741/741 with the numbers unchanged; Core 0/0",
+                "source": "src-dotnet/Urman.Studio.Core/Editing/CharacterAppearance.cs; evidence evidence/STUDIO/b20-deepseek-ai-19/2026-10-11-safe-json-reads-batch",
+                "verification": "probe PASS 741/741 with the numbers unchanged; Core 0/0. No game run: this is a robustness change and is NOT_RUN as a feature"
               }
             ],
             "stage_tasks": [
@@ -77627,7 +77649,9 @@
             "remaining": [
               "Персонаж из подготовленной базы получает изменяемое лицо/одежду и сохраняет рабочий rig.; отсутствует подтверждение собственного конечного DoD, перечисленного ниже.",
               "Ранее переданный частичный этап (2026-10-11 подготовка модельной дорожки: из чего состоит внешность размещённого персонажа) ждёт ревью/приёмки; полный done_when не выполнен.",
-              "Ранее переданный частичный этап (2026-10-11 what a character change can and cannot be today) ждёт ревью/приёмки; полный done_when не выполнен."
+              "Ранее переданный частичный этап (2026-10-11 what a character change can and cannot be today) ждёт ревью/приёмки; полный done_when не выполнен.",
+              "Устойчивость: CharacterAppearance больше не падает на не-значении; поведение не изменилось.",
+              "Ранее переданный частичный этап (2026-10-11 CharacterAppearance reads authored JSON safely) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
             "next_action": "Использовать результаты AI-41–43; единая карточка source/rig/clothes/animations; create new character ID; assign to world; save/rebuild и preview.",
             "blocker": null,
@@ -82158,6 +82182,12 @@
                 "result": "fix by deepseek v4.1 flash to the reviewed defect: StateNotes counted total as retired + hidden + visible, so a placement that is both retired and hidden was counted twice. The buckets are disjoint now (retired with the count of those also hidden, hidden without retired, visible without retired) and the total is the number of placements. Measured: 196 placements = 100 retired (none also hidden) + 1 hidden without retired + 95 visible, summing exactly. The runtime semantics are untouched",
                 "source": "src-dotnet/Urman.Studio.Core/Editing/KitTakeover.cs (StateNotes); evidence evidence/STUDIO/b20-deepseek-ai-44/2026-10-11-disjoint-buckets",
                 "verification": "probe PASS 580/580 including the new disjoint-sum assertion; Core 0/0. No game run: the fix is in the projection. Codex notes main still lacks the prerequisite KitTakeover, so the AI-44 commit is not accepted as a whole yet"
+              },
+              {
+                "stage": "2026-10-11 KitTakeover reads authored JSON safely",
+                "result": "robustness stage by deepseek v4.1 flash, part of the cast sweep: KitTakeover.cs now reads authored JSON through the shared AuthoredJson accessor instead of casts that throw on a non-value node. Nineteen sites were converted across four files in this stage (QuestSemantics 3, KitTakeover 7, CharacterAppearance 5, AreaLinks 4), and the probe's numbers did not move. OWNERSHIP WAS CHECKED: ConditionPhrases.cs carries ten such casts but it is IN main and is not mine, so it was deliberately left alone - a sweep must respect ownership rather than tidy whatever it finds. Eight projection files are cast-free now. Verified: probe PASS 741/741 with the numbers unchanged; Core 0/0",
+                "source": "src-dotnet/Urman.Studio.Core/Editing/KitTakeover.cs; evidence evidence/STUDIO/b20-deepseek-ai-19/2026-10-11-safe-json-reads-batch",
+                "verification": "probe PASS 741/741 with the numbers unchanged; Core 0/0. No game run: this is a robustness change and is NOT_RUN as a feature"
               }
             ],
             "stage_tasks": [
@@ -82192,7 +82222,9 @@
               "Ранее переданный частичный этап (2026-10-11 the takeover preconditions on the authored kit plot) ждёт ревью/приёмки; полный done_when не выполнен.",
               "Одно размещение скрыто, но не retired (village_day@babai-cleared-approach): нужно авторское подтверждение, что это задумано.",
               "Ранее переданный частичный этап (2026-10-11 what retired and hidden really do to a taken-over placement) ждёт ревью/приёмки; полный done_when не выполнен.",
-              "Ранее переданный частичный этап (2026-10-11 the state buckets are disjoint, so the total is the placement count) ждёт ревью/приёмки; полный done_when не выполнен."
+              "Ранее переданный частичный этап (2026-10-11 the state buckets are disjoint, so the total is the placement count) ждёт ревью/приёмки; полный done_when не выполнен.",
+              "Устойчивость: KitTakeover больше не падает на не-значении; поведение не изменилось.",
+              "Ранее переданный частичный этап (2026-10-11 KitTakeover reads authored JSON safely) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
             "next_action": "Показать generator ownership; materialize snapshot с stable IDs/provenance; исключить участок из live generation; сохранить overrides; regenerate proposal с diff.",
             "blocker": null,
