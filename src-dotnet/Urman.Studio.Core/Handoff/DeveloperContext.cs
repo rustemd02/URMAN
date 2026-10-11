@@ -22,6 +22,7 @@ public sealed class DeveloperContext(StudioWorkspace workspace, EntityCatalog ca
     private const int MaximumPackagePayloadBytes = 256 * 1024;
     private const int MaximumPackageEntries = 403; // manifest/context/entities plus at most 200 source baseline/current pairs
     private const int MaximumHouseWindowProposalBytes = 32 * 1024;
+    private const int MaximumFenceAlignmentProposalBytes = 8 * 1024;
     private const int MaximumHouseWindowPreviewFailureBytes = 4 * 1024;
     private static readonly UTF8Encoding StrictUtf8 = new(false, true);
 
@@ -649,6 +650,57 @@ public sealed class DeveloperContext(StudioWorkspace workspace, EntityCatalog ca
         }
 
         AtomicFile.WriteAllBytes(path, bytes, overwrite: false);
+        return path;
+    }
+
+    /// <summary>Write the canonical frozen fence request without replacing a prior request.</summary>
+    public static string WriteFenceAlignmentRequest(string root, FenceAlignmentRequest request)
+    {
+        var text = FenceAlignmentProtocol.SerializeRequest(request);
+        var relative = HouseWindowJobRelativePath(request.RequestId, "request.json");
+        StudioFileTransaction.EnsureNoLinks(root, relative, allowStudioMetadata: true);
+        var path = Path.GetFullPath(Path.Combine(root, relative.Replace('/', Path.DirectorySeparatorChar)));
+        var bytes = StrictUtf8.GetBytes(text);
+        if (File.Exists(path))
+        {
+            var existing = new FileInfo(path);
+            if (existing.Length == bytes.LongLength && File.ReadAllBytes(path).AsSpan().SequenceEqual(bytes))
+                return path;
+
+            throw new IOException("A different request already exists at this path; it was left unchanged.");
+        }
+
+        AtomicFile.WriteAllBytes(path, bytes, overwrite: false);
+        return path;
+    }
+
+    /// <summary>Persist a validated request-bound fence proposal, returning its absolute proposal path.</summary>
+    public static string WriteFenceAlignmentJob(
+        string root,
+        FenceAlignmentRequest request,
+        FenceAlignmentProposal proposal)
+    {
+        FenceAlignmentProtocol.ValidateProposal(request, proposal);
+        var proposalText = FenceAlignmentProtocol.SerializeProposal(proposal);
+        var proposalBytes = StrictUtf8.GetBytes(proposalText);
+        if (proposalBytes.Length > MaximumFenceAlignmentProposalBytes)
+            throw new InvalidDataException("The stored fence-alignment proposal exceeds its size limit.");
+
+        // Bind the durable proposal path to the same request ID and persist the request first.
+        WriteFenceAlignmentRequest(root, request);
+        var relative = HouseWindowJobRelativePath(request.RequestId, "proposal.json");
+        StudioFileTransaction.EnsureNoLinks(root, relative, allowStudioMetadata: true);
+        var path = Path.GetFullPath(Path.Combine(root, relative.Replace('/', Path.DirectorySeparatorChar)));
+        if (File.Exists(path))
+        {
+            var existing = new FileInfo(path);
+            if (existing.Length == proposalBytes.LongLength && File.ReadAllBytes(path).AsSpan().SequenceEqual(proposalBytes))
+                return path;
+
+            throw new IOException("A different proposal already exists at this path; it was left unchanged.");
+        }
+
+        AtomicFile.WriteAllBytes(path, proposalBytes, overwrite: false);
         return path;
     }
 

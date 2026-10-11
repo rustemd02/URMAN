@@ -1,3 +1,4 @@
+using System.IO;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using Godot;
@@ -17,7 +18,13 @@ namespace Urman.Godot;
 /// </summary>
 public partial class Act1ConnectedWorld
 {
-    internal sealed record YardLot(string Id, string Kind, Vector2 Centre, float Yaw, Vector2 Size, string SourcePath = "");
+    internal sealed record YardLot(string Id, string Kind, Vector2 Centre, float Yaw, Vector2 Size, string SourcePath = "")
+    {
+        public IReadOnlyDictionary<string, int[]> FenceAlignment { get; init; }
+            = new Dictionary<string, int[]>(StringComparer.Ordinal);
+    }
+
+    private YardLot[]? _builtYardLots;
 
     /// <summary>
     /// VIS-088: one fence family is one construction, not one colour. Every value
@@ -120,27 +127,76 @@ public partial class Act1ConnectedWorld
         "VillageVehicles", "Act1People", "SettlementAddressPresentation", "WetVillageRoadKitPresentation",
     ];
 
-    internal static IReadOnlyList<YardLot> YardLots()
+    internal static IReadOnlyList<YardLot> YardLots(IReadOnlyDictionary<string, string>? sourceTexts = null)
     {
         var lots = new List<YardLot>();
         foreach (var path in new[] { AgentBAct1Layout.OpenPartPlotPath, AgentBAct1HeightField.FarBankPlotPath })
         {
-            if (!global::Godot.FileAccess.FileExists(path)) continue;
-            using var doc = JsonDocument.Parse(global::Godot.FileAccess.GetFileAsString(path));
+            string? sourceText = null;
+            var hasSourceText = false;
+            if (sourceTexts is not null)
+                foreach (var source in sourceTexts)
+                    if (string.Equals(source.Key, path, StringComparison.Ordinal))
+                    {
+                        sourceText = source.Value;
+                        hasSourceText = true;
+                        break;
+                    }
+            if (hasSourceText && sourceText is null)
+                throw new InvalidDataException($"Source text for '{path}' is null.");
+            if (!hasSourceText)
+            {
+                if (!global::Godot.FileAccess.FileExists(path)) continue;
+                sourceText = global::Godot.FileAccess.GetFileAsString(path);
+            }
+            using var doc = JsonDocument.Parse(sourceText ?? throw new InvalidDataException($"Source text for '{path}' is unavailable."));
             if (!doc.RootElement.TryGetProperty("lots", out var items)) continue;
             foreach (var lot in items.EnumerateArray())
                 lots.Add(new YardLot(lot.GetProperty("id").GetString()!, lot.GetProperty("kind").GetString()!,
                     new Vector2(lot.GetProperty("position")[0].GetSingle(), lot.GetProperty("position")[1].GetSingle()),
                     lot.GetProperty("yawDegrees").GetSingle(),
-                    new Vector2(lot.GetProperty("size")[0].GetSingle(), lot.GetProperty("size")[1].GetSingle()), path));
+                    new Vector2(lot.GetProperty("size")[0].GetSingle(), lot.GetProperty("size")[1].GetSingle()), path)
+                {
+                    FenceAlignment = ParseFenceAlignment(lot)
+                });
         }
         return lots;
     }
 
+    private static IReadOnlyDictionary<string, int[]> ParseFenceAlignment(JsonElement lot)
+    {
+        var result = new Dictionary<string, int[]>(StringComparer.Ordinal);
+        if (!lot.TryGetProperty("fenceAlignment", out var alignment)) return result;
+        if (alignment.ValueKind != JsonValueKind.Object)
+            throw new InvalidDataException("fenceAlignment must be an object mapping run IDs to post-index arrays.");
+        foreach (var run in alignment.EnumerateObject())
+        {
+            if (string.IsNullOrWhiteSpace(run.Name) || result.ContainsKey(run.Name)
+                || run.Value.ValueKind != JsonValueKind.Array)
+                throw new InvalidDataException("fenceAlignment contains a duplicate/empty run ID or a non-array value.");
+            var indices = new List<int>();
+            var seen = new HashSet<int>();
+            foreach (var item in run.Value.EnumerateArray())
+            {
+                if (item.ValueKind != JsonValueKind.Number || !item.TryGetInt32(out var index) || !seen.Add(index))
+                    throw new InvalidDataException($"fenceAlignment run '{run.Name}' contains a non-integer or duplicate post index.");
+                indices.Add(index);
+            }
+            result.Add(run.Name, indices.ToArray());
+        }
+        return result;
+    }
+
     private void RebuildYardFences()
     {
-        var core = GetNode<Node3D>("Act1CoreWorldGreybox");
         var lots = YardLots();
+        RebuildYardFences(lots, new Node3D { Name = "YardFences" }, studioPreview: false);
+        _builtYardLots = lots.ToArray();
+    }
+
+    private void RebuildYardFences(IReadOnlyList<YardLot> lots, Node3D root, bool studioPreview)
+    {
+        var core = GetNode<Node3D>("Act1CoreWorldGreybox");
         var keep = lots.Where(lot => lot.Kind == "keep").ToArray();
         bool InLot(YardLot lot, Vector2 p, float grow)
         {
@@ -153,34 +209,37 @@ public partial class Act1ConnectedWorld
         // 1. Retire every older yard fence: the street frontage runs, the old layout's rails and
         //    any fence-like piece standing on a lot line.
         var retired = 0;
-        if (GetNodeOrNull("StreetFrontages") is { } frontages) { HidePresentationNode(frontages); retired++; }
-        if (core.GetNodeOrNull("StreetFrontages") is { } coreFrontages) { HidePresentationNode(coreFrontages); retired++; }
-        void Retire(Node node)
+        if (!studioPreview)
         {
-            var name = node.Name.ToString();
-            if (YardFenceProtectedRoots.Contains(name) || node.HasMeta("babaiRelocated") || node is InteractionTarget) return;
-            if (node is Node3D spatial && spatial.Visible && LegacyFenceName.IsMatch(name) && !NotAFence.IsMatch(name))
+            if (GetNodeOrNull("StreetFrontages") is { } frontages) { HidePresentationNode(frontages); retired++; }
+            if (core.GetNodeOrNull("StreetFrontages") is { } coreFrontages) { HidePresentationNode(coreFrontages); retired++; }
+            void Retire(Node node)
             {
-                var at = spatial.GlobalPosition;
-                var box = spatial is VisualInstance3D visual ? visual.GlobalTransform * visual.GetAabb() : new Aabb(at, Vector3.Zero);
-                var centre = box.Size == Vector3.Zero ? new Vector2(at.X, at.Z) : new Vector2(box.GetCenter().X, box.GetCenter().Z);
-                var open = centre.X > -64 && centre.X < 46 && centre.Y > -95 && centre.Y < 160;
-                if (open || lots.Any(lot => InLot(lot, centre, .8f)))
+                var name = node.Name.ToString();
+                if (YardFenceProtectedRoots.Contains(name) || node.HasMeta("babaiRelocated") || node is InteractionTarget) return;
+                if (node is Node3D spatial && spatial.Visible && LegacyFenceName.IsMatch(name) && !NotAFence.IsMatch(name))
                 {
-                    HidePresentationNode(node);
-                    node.SetMeta("suppressionReason", "yard fences rebuilt along lot lines (2026-10-02)");
-                    retired++;
-                    return;
+                    var at = spatial.GlobalPosition;
+                    var box = spatial is VisualInstance3D visual ? visual.GlobalTransform * visual.GetAabb() : new Aabb(at, Vector3.Zero);
+                    var centre = box.Size == Vector3.Zero ? new Vector2(at.X, at.Z) : new Vector2(box.GetCenter().X, box.GetCenter().Z);
+                    var open = centre.X > -64 && centre.X < 46 && centre.Y > -95 && centre.Y < 160;
+                    if (open || lots.Any(lot => InLot(lot, centre, .8f)))
+                    {
+                        HidePresentationNode(node);
+                        node.SetMeta("suppressionReason", "yard fences rebuilt along lot lines (2026-10-02)");
+                        retired++;
+                        return;
+                    }
                 }
+                foreach (var child in node.GetChildren().ToArray()) Retire(child);
             }
-            foreach (var child in node.GetChildren().ToArray()) Retire(child);
+            foreach (var child in core.GetChildren().ToArray()) Retire(child);
+            if (_zoneInstances.TryGetValue("village_day", out var street))
+                foreach (var child in street.GetChildren().ToArray()) Retire(child);
         }
-        foreach (var child in core.GetChildren().ToArray()) Retire(child);
-        if (_zoneInstances.TryGetValue("village_day", out var street))
-            foreach (var child in street.GetChildren().ToArray()) Retire(child);
 
         // 2. Edges, front edges first so a shared corner keeps its street face.
-        var root = new Node3D { Name = "YardFences" };
+        root.Visible = !studioPreview;
         root.SetMeta("presentationRole", "village yard fences along the real lot lines; five timber designs, open street gates and permeable yard boundaries");
         core.AddChild(root);
         var body = new StaticBody3D { Name = "YardFenceBody", CollisionLayer = 2, CollisionMask = 0 };
@@ -262,6 +321,8 @@ public partial class Act1ConnectedWorld
         }
         CheckFenceDesignContract();
         var pickets = new Dictionary<string, List<Transform3D>>();
+        var builtRunIds = new HashSet<string>(StringComparer.Ordinal);
+        var builtRunIdsByLot = new Dictionary<(string SourcePath, string LotId), HashSet<string>>();
         int runs = 0, gates = 0, wickets = 0, openings = 0;
         foreach (var front in new[] { true, false })
         foreach (var lot in lots.Where(lot => lot.Kind != "keep"))
@@ -322,8 +383,16 @@ public partial class Act1ConnectedWorld
                         var runEnd = run[^1];
                         var runId = System.FormattableString.Invariant(
                             $"{lot.SourcePath}|{lot.Id}|{edgeRole}|{runStart.X:R},{runStart.Y:R}|{runEnd.X:R},{runEnd.Y:R}");
+                        if (!builtRunIds.Add(runId))
+                            throw new InvalidDataException($"Duplicate generated fence run ID '{runId}'.");
+                        var lotRunIds = builtRunIdsByLot.GetValueOrDefault((lot.SourcePath, lot.Id));
+                        if (lotRunIds is null)
+                            builtRunIdsByLot[(lot.SourcePath, lot.Id)] = lotRunIds = new HashSet<string>(StringComparer.Ordinal);
+                        lotRunIds.Add(runId);
+                        var alignedPosts = lot.FenceAlignment.TryGetValue(runId, out var posts) ? posts : Array.Empty<int>();
                         BuildFenceRun(root, body, run, kind == "front" || rd - rh < 3.2, colour, pickets, design,
-                            TimberHomeStyle.StableHash($"{lot.Id}:{kind}:{runs}"), lot.SourcePath, lot.Id, edgeRole, runId);
+                            TimberHomeStyle.StableHash($"{lot.Id}:{kind}:{runs}"), lot.SourcePath, lot.Id, edgeRole, runId,
+                            alignedPosts);
                         runs++;
                     }
                     run.Clear();
@@ -340,6 +409,12 @@ public partial class Act1ConnectedWorld
                 pending.Clear();
             }
         }
+        foreach (var lot in lots)
+            foreach (var runId in lot.FenceAlignment.Keys)
+                if (!builtRunIds.Contains(runId)
+                    || !builtRunIdsByLot.TryGetValue((lot.SourcePath, lot.Id), out var lotRunIds)
+                    || !lotRunIds.Contains(runId))
+                    throw new InvalidDataException($"fenceAlignment refers to unknown run '{runId}' in {lot.SourcePath} lot {lot.Id}.");
         // One mesh per material: picket instances and boxes alike are baked into a single surface.
         foreach (var (key, transforms) in pickets)
         {
@@ -351,12 +426,15 @@ public partial class Act1ConnectedWorld
             root.AddChild(new MeshInstance3D { Name = "FenceParts_" + parts[0] + "_" + parts[1], Mesh = tool.Commit(),
                 MaterialOverride = PainterlyMaterialLibrary.ForColor(parts[0], parts[1]) });
         }
-        MountTimberGateAddressPlates(root);
-        // The deck seating and the yard biography run here because this is the first
-        // structural pass after the tool barn was built (and before the kit blockers
-        // are baked), so both see their final world poses.
-        SeatYardPropsOnSupportDecks(core);
-        ComposeEastHoldingWorkYard(core);
+        if (!studioPreview)
+        {
+            MountTimberGateAddressPlates(root);
+            // The deck seating and the yard biography run here because this is the first
+            // structural pass after the tool barn was built (and before the kit blockers
+            // are baked), so both see their final world poses.
+            SeatYardPropsOnSupportDecks(core);
+            ComposeEastHoldingWorkYard(core);
+        }
         root.SetMeta("entranceOpenings", openings);
         root.SetMeta("entranceBuilt", gates + wickets);
         root.SetMeta("entranceUnbuiltHoles", Mathf.Max(0, openings - gates - wickets));
@@ -364,6 +442,218 @@ public partial class Act1ConnectedWorld
             + $"openings={openings} holes={Mathf.Max(0, openings - gates - wickets)} retired={retired} "
             + $"designs={StreetDesigns.Length}");
     }
+
+    public void RefreshYardFencesForStudio(IReadOnlyDictionary<string, string> sourceTexts)
+    {
+        ArgumentNullException.ThrowIfNull(sourceTexts);
+        var requiredSources = new[] { AgentBAct1Layout.OpenPartPlotPath, AgentBAct1HeightField.FarBankPlotPath };
+        if (sourceTexts.Count != requiredSources.Length)
+            throw new InvalidDataException("Studio fence preview requires exactly the two built plot sources.");
+        foreach (var path in requiredSources)
+            if (!sourceTexts.Keys.Any(key => string.Equals(key, path, StringComparison.Ordinal)))
+                throw new InvalidDataException($"Studio fence preview requires the exact source key '{path}'.");
+
+        var baseline = _builtYardLots
+            ?? throw new InvalidOperationException("The live yard fences have no captured source baseline.");
+        var lots = YardLots(sourceTexts);
+        if (lots.Count != baseline.Length)
+            throw new InvalidDataException("Studio fence preview cannot change the number or order of built lots.");
+        for (var i = 0; i < baseline.Length; i++)
+            if (!SameFenceLotStructure(baseline[i], lots[i]))
+                throw new InvalidDataException($"Studio fence preview cannot change lot geometry or identity at index {i}.");
+
+        var core = GetNode<Node3D>("Act1CoreWorldGreybox");
+        var oldRoot = core.GetNodeOrNull<Node3D>("YardFences")
+            ?? throw new InvalidOperationException("The live YardFences root is missing; preview was not applied.");
+        var oldRootIndex = oldRoot.GetIndex();
+        if (SameFenceAlignments(baseline, lots)) return;
+
+        var previousRuns = FenceRunBayCounts(oldRoot);
+        var previousBays = FenceBayShapes(oldRoot);
+        var previousAnchors = FenceGateAnchors(oldRoot);
+        var acceptedLots = lots.ToArray();
+        Node3D[] replacementsToFree = [];
+        var candidate = new Node3D
+        {
+            Name = "YardFences_StudioCandidate", Transform = oldRoot.Transform, Visible = false
+        };
+        try
+        {
+            RebuildYardFences(lots, candidate, studioPreview: true);
+            var candidateRuns = FenceRunBayCounts(candidate);
+            if (previousRuns.Count != candidateRuns.Count
+                || previousRuns.Any(pair => !candidateRuns.TryGetValue(pair.Key, out var count) || count != pair.Value))
+                throw new InvalidDataException("Studio fence preview changed generated run boundaries or bay counts.");
+            var candidateBays = FenceBayShapes(candidate);
+            if (previousBays.Count != candidateBays.Count
+                || previousBays.Any(pair => !candidateBays.TryGetValue(pair.Key, out var next)
+                    || !SameFenceBaySupport(pair.Value, next)))
+                throw new InvalidDataException("Studio fence preview changed a generated bay's collision or terrain support; reload the world first.");
+
+            var candidateAnchors = FenceGateAnchors(candidate);
+            if (previousAnchors.Count != candidateAnchors.Count
+                || previousAnchors.Any(pair => !candidateAnchors.TryGetValue(pair.Key, out var replacement)
+                    || pair.Value.Name != replacement.Name || pair.Value.Transform != replacement.Transform))
+                throw new InvalidDataException("Studio fence preview changed a gate or wicket address, variant, name, or transform.");
+
+            var anchorPairs = oldRoot.GetChildren().OfType<Node3D>()
+                .Where(IsFenceGateAnchor)
+                .Select(anchor => (Old: anchor, Replacement: candidateAnchors[FenceGateAnchorKey(anchor)]))
+                .ToArray();
+            var backings = new List<Node>();
+            foreach (var sign in _addressSigns.Where(sign => GodotObject.IsInstanceValid(sign) && sign.HasMeta("addressSignSupport")))
+            {
+                var backingPath = sign.GetMeta("addressSignSupport").AsString();
+                var backing = sign.GetNodeOrNull<Node3D>(backingPath);
+                if (backing is null || backing.GetParent() != oldRoot)
+                    throw new InvalidDataException($"Address plate {sign.AddressId} has no live fence support to preserve.");
+                if (!backings.Contains(backing)) backings.Add(backing);
+            }
+            if (candidate.GetChildCount() + backings.Count != oldRoot.GetChildCount())
+                throw new InvalidDataException("Studio fence preview found unrecognized live YardFences children and refused to discard them.");
+            var originalIndices = anchorPairs.Select(pair => (Node: (Node)pair.Old, Index: pair.Old.GetIndex()))
+                .Concat(backings.Select(backing => (Node: backing, Index: backing.GetIndex())))
+                .ToArray();
+            if (backings.Any(backing => candidate.GetChildren().Any(child => child.Name == backing.Name)))
+                throw new InvalidDataException("Studio fence preview cannot preserve the existing address-plate supports safely.");
+            replacementsToFree = anchorPairs.Select(pair => pair.Replacement).ToArray();
+
+            try
+            {
+                core.RemoveChild(oldRoot);
+                candidate.Name = "YardFences";
+                foreach (var (oldAnchor, replacement) in anchorPairs)
+                {
+                    candidate.RemoveChild(replacement);
+                    oldRoot.RemoveChild(oldAnchor);
+                    candidate.AddChild(oldAnchor);
+                }
+                foreach (var backing in backings)
+                {
+                    oldRoot.RemoveChild(backing);
+                    candidate.AddChild(backing);
+                }
+                foreach (var (node, index) in originalIndices.OrderBy(pair => pair.Index))
+                    candidate.MoveChild(node, Math.Clamp(index, 0, candidate.GetChildCount() - 1));
+
+                candidate.Visible = oldRoot.Visible;
+                core.MoveChild(candidate, Math.Clamp(oldRootIndex, 0, core.GetChildCount() - 1));
+            }
+            catch
+            {
+                foreach (var (oldAnchor, replacement) in anchorPairs)
+                {
+                    if (oldAnchor.GetParent() == candidate) candidate.RemoveChild(oldAnchor);
+                    if (oldAnchor.GetParent() is null) oldRoot.AddChild(oldAnchor);
+                    if (replacement.GetParent() is null) candidate.AddChild(replacement);
+                }
+                foreach (var backing in backings)
+                {
+                    if (backing.GetParent() == candidate) candidate.RemoveChild(backing);
+                    if (backing.GetParent() is null) oldRoot.AddChild(backing);
+                }
+                foreach (var (node, index) in originalIndices.OrderBy(pair => pair.Index))
+                    if (node.GetParent() == oldRoot)
+                        oldRoot.MoveChild(node, Math.Clamp(index, 0, oldRoot.GetChildCount() - 1));
+                if (candidate.GetParent() == core) core.RemoveChild(candidate);
+                candidate.Name = "YardFences_StudioCandidate";
+                if (oldRoot.GetParent() is null) core.AddChild(oldRoot);
+                if (oldRoot.GetParent() == core)
+                    core.MoveChild(oldRoot, Math.Clamp(oldRootIndex, 0, core.GetChildCount() - 1));
+                throw;
+            }
+            _builtYardLots = acceptedLots;
+        }
+        catch
+        {
+            if (GodotObject.IsInstanceValid(candidate))
+            {
+                candidate.GetParent()?.RemoveChild(candidate);
+                candidate.Free();
+            }
+            throw;
+        }
+
+        oldRoot.Free();
+        foreach (var replacement in replacementsToFree) replacement.Free();
+    }
+
+    private static bool SameFenceLotStructure(YardLot first, YardLot second)
+        => first.Id == second.Id && first.Kind == second.Kind && first.Centre == second.Centre
+           && first.Yaw == second.Yaw && first.Size == second.Size && first.SourcePath == second.SourcePath;
+
+    private static bool SameFenceAlignments(IReadOnlyList<YardLot> first, IReadOnlyList<YardLot> second)
+    {
+        for (var i = 0; i < first.Count; i++)
+        {
+            var left = first[i].FenceAlignment;
+            var right = second[i].FenceAlignment;
+            if (left.Count != right.Count) return false;
+            foreach (var pair in left)
+                if (!right.TryGetValue(pair.Key, out var indices) || !pair.Value.SequenceEqual(indices)) return false;
+        }
+        return true;
+    }
+
+    private static Dictionary<string, int> FenceRunBayCounts(Node3D root)
+    {
+        var body = root.GetNodeOrNull<StaticBody3D>("YardFenceBody")
+            ?? throw new InvalidDataException("Generated yard fence body is missing.");
+        var result = new Dictionary<string, int>(StringComparer.Ordinal);
+        foreach (var shape in body.GetChildren().OfType<CollisionShape3D>().Where(child => child.HasMeta("runId")))
+        {
+            var runId = shape.GetMeta("runId").AsString();
+            var bayCount = shape.GetMeta("bayCount").AsInt32();
+            if (result.TryGetValue(runId, out var existing) && existing != bayCount)
+                throw new InvalidDataException($"Generated fence run '{runId}' has inconsistent bay counts.");
+            result[runId] = bayCount;
+        }
+        return result;
+    }
+
+    private static Dictionary<string, CollisionShape3D> FenceBayShapes(Node3D root)
+    {
+        var body = root.GetNodeOrNull<StaticBody3D>("YardFenceBody")
+            ?? throw new InvalidDataException("Generated yard fence body is missing.");
+        var result = new Dictionary<string, CollisionShape3D>(StringComparer.Ordinal);
+        foreach (var shape in body.GetChildren().OfType<CollisionShape3D>().Where(child => child.HasMeta("runId")))
+        {
+            var bayId = shape.GetMeta("bayId").AsString();
+            if (!result.TryAdd(bayId, shape))
+                throw new InvalidDataException($"Generated fence bay ID '{bayId}' is duplicated.");
+        }
+        return result;
+    }
+
+    private static bool SameFenceBaySupport(CollisionShape3D first, CollisionShape3D second)
+        => first.Transform == second.Transform
+           && first.Shape is BoxShape3D firstBox && second.Shape is BoxShape3D secondBox && firstBox.Size == secondBox.Size
+           && first.GetMeta("footStart").AsVector3() == second.GetMeta("footStart").AsVector3()
+           && first.GetMeta("footEnd").AsVector3() == second.GetMeta("footEnd").AsVector3()
+           && first.GetMeta("groundStartY").AsSingle() == second.GetMeta("groundStartY").AsSingle()
+           && first.GetMeta("groundEndY").AsSingle() == second.GetMeta("groundEndY").AsSingle();
+
+    private static bool IsFenceGateAnchor(Node node)
+        => node.HasMeta("addressId") || node.HasMeta("gateVariant") || node.HasMeta("wicketVariant");
+
+    private static Dictionary<(string Address, string Type, string Variant), Node3D> FenceGateAnchors(Node3D root)
+    {
+        var result = new Dictionary<(string Address, string Type, string Variant), Node3D>();
+        foreach (var node in root.GetChildren().Where(IsFenceGateAnchor))
+        {
+            if (node is not Node3D anchor || !anchor.HasMeta("addressId")
+                || anchor.HasMeta("gateVariant") == anchor.HasMeta("wicketVariant"))
+                throw new InvalidDataException("Generated fence entrance is missing a unique address and gate/wicket type.");
+            if (!result.TryAdd(FenceGateAnchorKey(anchor), anchor))
+                throw new InvalidDataException("Generated fence entrances contain a duplicate address/type/variant.");
+        }
+        return result;
+    }
+
+    private static (string Address, string Type, string Variant) FenceGateAnchorKey(Node3D anchor)
+        => anchor.HasMeta("gateVariant")
+            ? (anchor.GetMeta("addressId").AsString(), "gate", anchor.GetMeta("gateVariant").AsString())
+            : (anchor.GetMeta("addressId").AsString(), "wicket", anchor.GetMeta("wicketVariant").AsString());
 
     /// <summary>VIS-088: the card's numbers are a contract, not a suggestion. A drift
     /// outside it fails loudly in the run log instead of quietly becoming slop.</summary>
@@ -424,7 +714,7 @@ public partial class Act1ConnectedWorld
     // individual piece.
     private static void BuildFenceRun(Node3D root, StaticBody3D body, List<Vector2> run, bool street, string colour,
         Dictionary<string, List<Transform3D>> parts, FenceDesign authored, uint seed, string sourcePath, string lotId,
-        string edgeRole, string runId)
+        string edgeRole, string runId, int[] alignedPosts)
     {
         // VIS-019: a yard boundary is a working fence, not a copy of the owner's
         // street palisadnik: plain weathered boards with uneven crowns and one bay
@@ -438,6 +728,9 @@ public partial class Act1ConnectedWorld
         var basis = new Basis(Vector3.Up, Mathf.Atan2(dir.X, dir.Y));
         var bays = Mathf.Max(1, Mathf.CeilToInt(length / design.BayLength));
         var bay = length / bays;
+        var aligned = alignedPosts.ToHashSet();
+        if (aligned.Any(index => index <= 0 || index >= bays))
+            throw new InvalidDataException($"fenceAlignment run '{runId}' contains a post outside the interior range 1..{bays - 1}.");
         var repairBay = design.RepairBay && bays >= 2 ? (int)(seed % (uint)bays) : -1;
         // One settled post per run, and only where the biography says the fence was
         // repaired and had time to settle. Never a random tilt on every board.
@@ -459,7 +752,7 @@ public partial class Act1ConnectedWorld
             // (sunk 1.5 cm) instead of a fixed 5 cm below its centre sample, so a
             // post on a cross-slope neither floats at one corner nor sinks deep.
             foot[i] = new Vector3(p.X, SupportBase(p, basis, design.PostSection * .5f, design.PostSection * .5f) - .015f, p.Y);
-            lean[i] = Mathf.DegToRad(i == settled ? design.SettledLeanDegrees : design.LeanDegrees);
+            lean[i] = aligned.Contains(i) ? 0f : Mathf.DegToRad(i == settled ? design.SettledLeanDegrees : design.LeanDegrees);
             // The post: real section, real height, leaning from its own foot. Its
             // length along the tilted axis is the vertical rise over cos(lean), so
             // the crown lands exactly where the rails are hung.
@@ -564,6 +857,9 @@ public partial class Act1ConnectedWorld
             contact.SetMeta("sourcePath", sourcePath); contact.SetMeta("lotId", lotId); contact.SetMeta("edgeRole", edgeRole);
             contact.SetMeta("runId", runId); contact.SetMeta("bayId", System.FormattableString.Invariant($"{runId}/bay-{i:D3}"));
             contact.SetMeta("bayIndex", i); contact.SetMeta("bayCount", bays);
+            contact.SetMeta("alignedStartPost", aligned.Contains(i)); contact.SetMeta("alignedEndPost", aligned.Contains(i + 1));
+            contact.SetMeta("footStart", foot[i]); contact.SetMeta("footEnd", foot[i + 1]);
+            contact.SetMeta("groundStartY", groundY[i]); contact.SetMeta("groundEndY", groundY[i + 1]);
             contact.SetMeta("runStartXZ", a); contact.SetMeta("runEndXZ", b);
             body.AddChild(contact);
         }

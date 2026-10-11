@@ -31,7 +31,10 @@ public partial class StudioRoot
     internal enum AiEvidenceAction { Preview, Apply, Undo, Redo }
 
     internal bool IsAiActionBusy => IsWorkspaceActionBusy || _aiEvidenceCaptureBusy
-        || _aiPanel is not null && GodotObject.IsInstanceValid(_aiPanel) && _aiPanel.IsActionBusy;
+        || _sections.TryGetValue("world", out var section) && section is StudioWorldSection world
+            && world.HasTransientFencePreview
+        || _aiPanel is not null && GodotObject.IsInstanceValid(_aiPanel)
+            && (_aiPanel.IsActionBusy || _aiPanel.HasTransientFencePreview);
 
     internal AiActionIdentity FreezeAiActionIdentity(
         HouseWindowRequest request,
