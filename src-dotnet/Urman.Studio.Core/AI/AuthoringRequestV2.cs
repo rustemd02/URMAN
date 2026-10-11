@@ -184,8 +184,16 @@ public static class AuthoringRequestV2
         var project = root.GetProperty("project");
         var selection = root.GetProperty("selection");
         var camera = selection.GetProperty("camera");
+        var scope = root.GetProperty("scope");
         var entityIds = ReadStringArray(selection.GetProperty("entityIds"));
         var partIds = ReadStringArray(selection.GetProperty("partIds"));
+        var resolvedIds = ReadStringArray(scope.GetProperty("resolvedIds"));
+        var excludedIds = ReadStringArray(scope.GetProperty("excludedIds"));
+        var excludedPartIds = ReadStringArray(scope.GetProperty("excludedPartIds"));
+        var sharedAssetPolicy = scope.GetProperty("sharedAssetPolicy").GetString();
+        var sharedAssetPolicyDescription = string.Equals(sharedAssetPolicy, SharedAssetPolicy, StringComparison.Ordinal)
+            ? "индивидуальный вариант; общий ассет не меняется"
+            : "неизвестная политика общего ассета: " + sharedAssetPolicy;
         var sources = root.GetProperty("sources").EnumerateArray().ToArray();
         var sourcesDifferingOrWithoutBase = sources.Count(source =>
         {
@@ -202,6 +210,8 @@ public static class AuthoringRequestV2
 
         return string.Join('\n',
             $"Цели: сущностей {entityIds.Length}; частей окон {partIds.Length}; ID сущностей: {string.Join(", ", entityIds)}; ID частей: {string.Join(", ", partIds)}.",
+            $"Зафиксированная область изменения ({scope.GetProperty("mode").GetString()}): разрешённые ID сущностей ({resolvedIds.Length}): {DescribeIds(resolvedIds)}; явно исключённые ID сущностей ({excludedIds.Length}): {DescribeIds(excludedIds)}; исключённые части окон ({excludedPartIds.Length}): {DescribeIds(excludedPartIds)}.",
+            $"Общие ассеты: {sharedAssetPolicyDescription}. targetSetHash: {scope.GetProperty("targetSetHash").GetString()}; новые сущности автоматически в область запроса не добавляются.",
             $"Контекст: кампания {project.GetProperty("campaignId").GetString()} ({project.GetProperty("campaignVersion").GetString()}); мир {project.GetProperty("worldId").GetString()}; состояние {project.GetProperty("stateId").GetString()}; сцена {project.GetProperty("scenePath").GetString()}; зона {project.GetProperty("zoneId").GetString()}; точка {project.GetProperty("spawnPointId").GetString()}.",
             $"Камера/viewport: {DescribeCamera(camera)}; изображение не включено.",
             $"Источники: {sources.Length}; отличаются от сохранённой базы или без неё: {sourcesDifferingOrWithoutBase} (без базы: {sourcesWithoutBase}). База — сохранённые байты на момент загрузки источника (world — при загрузке Workspace, recipe — при подготовке запроса), не Git-ревизия; хеши относятся к полным файлам, не к фрагментам data.",
@@ -468,6 +478,8 @@ public static class AuthoringRequestV2
     private static string[] ReadStringArray(JsonElement array) => array.EnumerateArray()
         .Select(value => value.GetString() ?? throw new InvalidOperationException("The v2 envelope contains a non-string resource path."))
         .ToArray();
+
+    private static string DescribeIds(IReadOnlyList<string> ids) => ids.Count == 0 ? "нет" : string.Join(", ", ids);
 
     private static string DescribeSource(JsonElement source)
     {

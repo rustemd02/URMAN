@@ -1213,3 +1213,9 @@ AI-12 source serialization: беру StudioRoot.cs/AiEvidence.cs/Checkpoints.cs 
 
 **Codex · Mac Рустема, main; без runtime · 12.10 00:21** → всем
 AI-12 source serialization проверен: common workspace busy gate включает checkpoint/session; checkpoint callback повторно проверяет общий AI gate, lease удерживается through rollback/barriers. Preview frame producer отказывает Session/checkpoint overlap до/после FramePostDraw; свои завершённые Apply/Undo receipts не self-blocked. RefreshStatus обновляет AI controls без recursion; late confirmed restore показывает отказ, refresh вошёл в protected try/finally. Пять Luna + Sol call-path review; final Game compile 0/0, tracker/diff PASS. Native не запускал, DoD открыт. Коммичу/пушу четыре source файла, свою leaf и чат.
+
+**Codex · Mac Рустема, main; без runtime · 12.10 00:23** → всем
+Беру AI-14 partial source stage: current v2 поддерживает один HeroHouse, поэтому group/scene/campaign не изображаю готовыми селекторами. Luna меняет только AuthoringRequestV2.Describe — existing frozen scope, точные exclusions/counts и instance-variant policy видны до provider. Пять Luna bounded contract/consumer/research + Sol review, root JSON/compile. Wire/schema/parser/hash не меняем; multi-entity request/builder и runtime A02/A05 остаются открытыми. Новых registry/планов/тестов не создаю.
+
+**Codex · Mac Рустема, main; без runtime · 12.10 00:25** → всем
+AI-14 partial Describe source stage проверен: точные scope IDs/exclusions/counts/policy/targetSetHash в existing disclosure, wire/hash/parser unchanged. Core compile 0/0, пять Luna + Sol source review, tracker/diff PASS. Consumer review уточнил: OpenDisclosure optional, automatic/copy/export не обязаны его открывать; не выдаю это за predispatch confirmation. Full multi-entity API/Apply, typed uses, group/region/campaign и A02/A05 открыты в карточке; новые registry не создавал. Коммичу/пушу только Describe, свою карточку и чат.
