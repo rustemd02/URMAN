@@ -1,0 +1,31 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-36"
+  ],
+  "stage": "local versus global material change: the family surface and what each lever reaches",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-11 17:19 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "e0bfda88",
+  "result": {
+    "surface": "the library declares 79 surface families across SurfaceTextures, TunedWithoutMap, FlatByDesign and WinterTextures; the runtime asks for 57 of them; the content carries 35 authored colours",
+    "local versus global": "a material is built from (family, colour, sheltered) and CACHED, so two objects asking for the same triple share one material: the LOCAL lever is the colour an object asks for, which lives in the data, while the GLOBAL lever is the family's library entry (its map, response and finish) that every object of that family and colour shares",
+    "no invented field": "there is no authored per-object material field anywhere in the content, so the slice states what exists instead of inventing a field the game would not read; reshaping a family is the art track (AI-09/AI-11)",
+    "finding": "ForColor warns about a family with 'no declared mode' using only SurfaceTextures, TunedWithoutMap and FlatByDesign, while the winter families are declared in WinterTextures and handled by the builder: the eight winter families (snow_ground, snow_roof, snow_road, snow_grass, snow_trampled, ice, frost_window, rowan_berries) are therefore handled and still warned about once. That is a spurious warning, not a visual defect, and the projection now reports it separately from a family that has no mode at all"
+  },
+  "verified": {
+    "probe": "PASS 465/465 with the new checks: 79 declared families, 57 used, no family requested that the library does not declare, every authored colour six hex digits, the caching note, the no-authored-field note, the winter warning finding, and the synthetic cases (a malformed colour passes and a valid one does)",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors; game/Urman.Game.csproj 0 warnings/0 errors",
+    "existing_tests": "Urman.Studio.Tests 38/38",
+    "not_run": "no game run and no Blender run: how a material reads on screen is NOT_RUN"
+  },
+  "own_mistakes": "my first version read only three of the four declaring sets, so the eight winter families looked undeclared; the probe and a source check of WinterTextures corrected it before the commit",
+  "files": {
+    "evidence/STUDIO/b20-deepseek-ai-36/2026-10-11-material-surface/check.log": "ea41d60409abb350ebb0cb87fa8b6ef480446f4c06bee88c9ad07f9d1253d405"
+  },
+  "open": [
+    "the on-screen result of a local or global material change is NOT_RUN",
+    "the warning condition is the owner's file, so the finding is reported rather than changed"
+  ]
+}
