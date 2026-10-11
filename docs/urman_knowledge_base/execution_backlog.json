@@ -23408,6 +23408,14 @@
                 "result": "partial implementation; full done_when remains open",
                 "source": "game/studio/StudioAiPanel.cs; game/scripts/HeroHouseRecipe.cs; src-dotnet/Urman.Studio.Core/AI; Storage/StudioFileTransaction.cs; Editing/EditSession.cs",
                 "verification": "affected game/Core compilation PASS; staged Blender 1.06/1.35 and Core roundtrip/conflict/failure/barrier/recovery assertions PASS; provider inference/game/UI NOT_RUN at this checkpoint"
+              },
+              {
+                "stage": "2026-10-11 manual clipboard proposal handoff",
+                "result": "PARTIAL_SOURCE_REVIEW_ACCEPTED_GAME_COMPILE_0_0_NATIVE_HANDOFF_OPEN",
+                "source": "game/studio/StudioAiPanel.cs:CopyRequest/RunProposalAsync/SetBusy; src-dotnet/Urman.Studio.Core/AI/CodexProposalProvider.cs:CreateClipboardPrompt/ParseProposal",
+                "implementation": "Copy exports existing trusted prompt and exact schema with frozen request. Paste bounded strict JSON reuses adapter parser, validates original request ID/hash/entity/part/width and checks unchanged prompt/scope/selection/source fingerprint before stage mutation. Accepted imported proposal shares existing generation/manifest/preview/Apply/Undo path. Separate handoff row and explicit external-session statement; no direct Claude adapter or control of external tools claimed.",
+                "verification": "Root affected Game compile0 warnings/0 errors after correcting nested exception type; diffcheck. Sol6.1medium independent source review accepted. No new tests/probes or external inference.",
+                "remaining": "Native clipboard/buttons/render and external-agent round trip not exercised. This is narrow HouseWindowRequest manual handoff, not completed AuthoringRequest v2/ZIP/relocation/legacy package compatibility or direct Claude readiness. Multi-command actual restart gate remains open; existing manual harness only supports single transaction."
               }
             ],
             "stage_tasks": [
@@ -24352,7 +24360,16 @@
             "verification": "Две disposable копии с разными путями; corrupt/path-escape archive отклонён до записи.",
             "risks_recovery_external_gates": "Ручной путь не называть автоматическим; asset licenses/large data boundaries; несовпадение базы вызывает conflict.",
             "required": true,
-            "evidence": [],
+            "evidence": [
+              {
+                "stage": "2026-10-11 manual clipboard proposal handoff",
+                "result": "PARTIAL_SOURCE_REVIEW_ACCEPTED_GAME_COMPILE_0_0_NATIVE_HANDOFF_OPEN",
+                "source": "game/studio/StudioAiPanel.cs:CopyRequest/RunProposalAsync/SetBusy; src-dotnet/Urman.Studio.Core/AI/CodexProposalProvider.cs:CreateClipboardPrompt/ParseProposal",
+                "implementation": "Copy exports existing trusted prompt and exact schema with frozen request. Paste bounded strict JSON reuses adapter parser, validates original request ID/hash/entity/part/width and checks unchanged prompt/scope/selection/source fingerprint before stage mutation. Accepted imported proposal shares existing generation/manifest/preview/Apply/Undo path. Separate handoff row and explicit external-session statement; no direct Claude adapter or control of external tools claimed.",
+                "verification": "Root affected Game compile0 warnings/0 errors after correcting nested exception type; diffcheck. Sol6.1medium independent source review accepted. No new tests/probes or external inference.",
+                "remaining": "Native clipboard/buttons/render and external-agent round trip not exercised. This is narrow HouseWindowRequest manual handoff, not completed AuthoringRequest v2/ZIP/relocation/legacy package compatibility or direct Claude readiness. Multi-command actual restart gate remains open; existing manual harness only supports single transaction."
+              }
+            ],
             "stage_tasks": [
               "STUDIO.P6"
             ],
@@ -25931,6 +25948,15 @@
             "verification": "Root affected Game build0/0 + diffcheck. Independent Sol6.1medium source review accepted after fixing malformed counter startup exception and actual counter-volume budget path. No new tests/probes; actual multi-command restart and native Undo/Redo not executed.",
             "remaining": "Entity/mixed/redo-branch history remains fenced. Multiple legacy journals or mixed legacy/ordered journals require explicit migration decision. No multi-process promotion isolation claimed; existing conflict/rollback protection remains. Full ledger/epoch/pending transition and UI acceptance still open.",
             "next": "Verify real multiple-file-command restart/Undo/Redo via existing tools, then complete mixed/entity order, branch intent and explicit legacy migration. Preserve native full panel gate and entire B20 scope."
+          },
+          "clipboard_handoff_source_slice": {
+            "stage": "2026-10-11 manual clipboard proposal handoff",
+            "result": "PARTIAL_SOURCE_REVIEW_ACCEPTED_GAME_COMPILE_0_0_NATIVE_HANDOFF_OPEN",
+            "source": "game/studio/StudioAiPanel.cs:CopyRequest/RunProposalAsync/SetBusy; src-dotnet/Urman.Studio.Core/AI/CodexProposalProvider.cs:CreateClipboardPrompt/ParseProposal",
+            "implementation": "Copy exports existing trusted prompt and exact schema with frozen request. Paste bounded strict JSON reuses adapter parser, validates original request ID/hash/entity/part/width and checks unchanged prompt/scope/selection/source fingerprint before stage mutation. Accepted imported proposal shares existing generation/manifest/preview/Apply/Undo path. Separate handoff row and explicit external-session statement; no direct Claude adapter or control of external tools claimed.",
+            "verification": "Root affected Game compile0 warnings/0 errors after correcting nested exception type; diffcheck. Sol6.1medium independent source review accepted. No new tests/probes or external inference.",
+            "remaining": "Native clipboard/buttons/render and external-agent round trip not exercised. This is narrow HouseWindowRequest manual handoff, not completed AuthoringRequest v2/ZIP/relocation/legacy package compatibility or direct Claude readiness. Multi-command actual restart gate remains open; existing manual harness only supports single transaction.",
+            "next": "Verify native handoff and actual multi-command restart when UI control available; continue full mixed ledger and versioned portable result package, preserving both provider gates."
           }
         }
       },

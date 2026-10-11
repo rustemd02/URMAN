@@ -1000,8 +1000,19 @@ public sealed class CodexProposalProvider
         return schema;
     }
 
-    private static HouseWindowProposal ParseProposal(string json, HouseWindowRequest request)
+    /// <summary>Manual handoff uses the same exact schema and immutable-request policy as the adapter.</summary>
+    public static string CreateClipboardPrompt(HouseWindowRequest request)
     {
+        HouseWindowProposalValidator.ValidateRequest(request);
+        return BuildPrompt(request) + "\n\nReturn only a JSON object, without Markdown fences or commentary.\nOutput JSON schema:\n"
+            + JsonSerializer.Serialize(BuildOutputSchema(request));
+    }
+
+    public static HouseWindowProposal ParseProposal(string json, HouseWindowRequest request)
+    {
+        HouseWindowProposalValidator.ValidateRequest(request);
+        if (string.IsNullOrWhiteSpace(json) || json.Length > 8_192)
+            throw new CodexProposalException("The proposal must contain one JSON object of at most 8192 characters.");
         using var document = JsonDocument.Parse(json, new JsonDocumentOptions { MaxDepth = 12, CommentHandling = JsonCommentHandling.Disallow, AllowTrailingCommas = false });
         var root = document.RootElement;
         if (root.ValueKind != JsonValueKind.Object) throw new CodexProposalException("Codex returned an invalid structured proposal.");
