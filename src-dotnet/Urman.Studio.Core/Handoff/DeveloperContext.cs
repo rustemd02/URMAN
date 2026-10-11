@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Text;
 using System.Text.Json.Nodes;
 using System.Text.Json;
+using Urman.Content.Resolvers;
 using Urman.Studio.Core.Editing;
 using Urman.Studio.Core.AI;
 using Urman.Studio.Core.Storage;
@@ -112,8 +113,13 @@ public sealed class DeveloperContext(StudioWorkspace workspace, EntityCatalog ca
         if (parents.Length > 0) builder.AppendLine("Используется в: " + string.Join("; ", parents) + ".");
         var dependencies = capture.Entities.Where(dependency => dependency != id).Take(8).Select(dependency => $"«{catalog.NameOf(dependency)}» ({dependency})").ToArray();
         if (dependencies.Length > 0) builder.AppendLine("Ссылается на: " + string.Join("; ", dependencies) + ".");
+        builder.AppendLine("Обход зависимостей частичный: только известные типизированные ссылки из content/modules (assets, characters, scenes, documents, capabilities, dialogues, quests); тексты включаются как конечные цели, но не сканируются. Условия, эффекты, world/custom-источники и прочие поля не обходятся.");
+        if (capture.Missing.Count > 0)
+            builder.AppendLine("Не найденные типизированные зависимости (не приложены): " + string.Join(", ", capture.Missing) + ".");
+        if (capture.Unsupported.Count > 0)
+            builder.AppendLine("Источники без поддержанного обхода типизированных ссылок: " + string.Join(", ", capture.Unsupported) + ".");
         if (capture.Truncated)
-            builder.AppendLine($"Контекст неполный: включены первые {capture.Entities.Count} объектов; ещё {capture.Pending.Count} обнаруженных зависимостей не приложены. Их собственные зависимости ещё не просмотрены.");
+            builder.AppendLine($"Достигнут предел 200 приложенных объектов: ещё {capture.Pending.Count} найденных целей не приложены, их связи не просмотрены.");
         builder.AppendLine($"Файл: {summary.RelativePath}.");
         if (!string.IsNullOrWhiteSpace(problem)) builder.AppendLine($"Проблема: {problem.Trim()}");
         if (DraftState(id) != "сохранён локально")
@@ -124,10 +130,14 @@ public sealed class DeveloperContext(StudioWorkspace workspace, EntityCatalog ca
         return builder.ToString().TrimEnd();
     }
 
-    /// <summary>The first 200 existing entities reached through ID-shaped strings, including the subject.</summary>
+    /// <summary>The first 200 existing entities reached through known typed module references, including the subject.</summary>
     public IReadOnlyList<string> Dependencies(string id) => CaptureDependencies(id).Entities;
 
-    private sealed record DependencyCapture(IReadOnlyList<string> Entities, IReadOnlyList<string> Pending)
+    private sealed record DependencyCapture(
+        IReadOnlyList<string> Entities,
+        IReadOnlyList<string> Pending,
+        IReadOnlyList<string> Missing,
+        IReadOnlyList<string> Unsupported)
     {
         public bool Truncated => Pending.Count > 0;
     }
@@ -136,25 +146,93 @@ public sealed class DeveloperContext(StudioWorkspace workspace, EntityCatalog ca
     {
         if (workspace.Locate(id) is null || workspace.Get(id) is null)
             throw new InvalidOperationException("Объект больше не существует. Выберите существующий объект для передачи контекста.");
-        // shortcut: legacy v1 discovers ID-shaped strings; v2 must use typed references and include non-entity assets.
         var result = new List<string>();
         var queue = new Queue<string>([id]);
         var seen = new HashSet<string>(StringComparer.Ordinal) { id };
+        var missing = new HashSet<string>(StringComparer.Ordinal);
+        var unsupported = new List<string>();
         while (queue.Count > 0 && result.Count < 200)
         {
             var current = queue.Dequeue();
             result.Add(current);
-            if (workspace.Get(current) is not { } entity) continue;
-            foreach (var value in Strings(entity))
+            var address = workspace.Locate(current);
+            if (address is null || workspace.Get(current) is not JsonObject entity
+                || !IsModuleEntityPath(address.RelativePath))
             {
-                if (value.Contains(':') && workspace.Locate(value) is not null && seen.Add(value))
+                unsupported.Add(current);
+                continue;
+            }
+
+            var sourceCategory = EntityCatalog.KindOf(current, null) switch
+            {
+                "asset" => "assets",
+                "character" => "characters",
+                "scene" => "scenes",
+                "document" => "documents",
+                "capability" => "capabilities",
+                "dialogue" => "dialogues",
+                "quest" => "quests",
+                _ => null
+            };
+            if (sourceCategory is null)
+            {
+                unsupported.Add(current);
+                continue;
+            }
+
+            IReadOnlyList<ContentReference> references;
+            try
+            {
+                references = ManifestClosureValidator.ReadReferences(sourceCategory, entity);
+            }
+            catch (ResolverException error)
+            {
+                throw new InvalidDataException(
+                    $"Некорректные типизированные ссылки в сущности {current} ({address.RelativePath}): {error.Message}",
+                    error);
+            }
+
+            foreach (var reference in references)
+            {
+                var expectedKind = reference.TargetCategory switch
                 {
-                    queue.Enqueue(value);
+                    "assets" => "asset",
+                    "texts" => "text",
+                    "characters" => "character",
+                    "scenes" => "scene",
+                    "documents" => "document",
+                    "capabilities" => "capability",
+                    "dialogues" => "dialogue",
+                    "quests" => "quest",
+                    _ => throw new InvalidDataException("Типизированная ссылка использует неподдержанную категорию.")
+                };
+                if (!string.Equals(EntityCatalog.KindOf(reference.TargetId, null), expectedKind, StringComparison.Ordinal))
+                    throw new InvalidDataException(
+                        $"Ссылка {current} ({address.RelativePath}){reference.Pointer} ведёт к цели {reference.TargetId}, тип которой не совпадает с категорией {reference.TargetCategory}.");
+
+                var target = workspace.Get(reference.TargetId);
+                if (workspace.Locate(reference.TargetId) is null || target is null)
+                {
+                    missing.Add(reference.TargetId);
+                    continue;
                 }
+
+                if (reference.ExpectedAssetKind is { } expectedAssetKind)
+                {
+                    if (reference.TargetCategory != "assets"
+                        || target is not JsonObject asset
+                        || asset["kind"] is not JsonValue assetKindValue
+                        || !assetKindValue.TryGetValue<string>(out var actualAssetKind)
+                        || !string.Equals(actualAssetKind, expectedAssetKind, StringComparison.Ordinal))
+                        throw new InvalidDataException(
+                            $"Ссылка {current} ({address.RelativePath}){reference.Pointer} ведёт к {reference.TargetId}, который должен быть ресурсом типа {expectedAssetKind}.");
+                }
+
+                if (seen.Add(reference.TargetId)) queue.Enqueue(reference.TargetId);
             }
         }
 
-        return new DependencyCapture(result, queue.ToArray());
+        return new DependencyCapture(result, queue.ToArray(), missing.Order(StringComparer.Ordinal).ToArray(), unsupported);
     }
 
     /// <summary>A portable package: manifest, readable text and the entities themselves (HAND04, HAND05).</summary>
@@ -238,7 +316,7 @@ public sealed class DeveloperContext(StudioWorkspace workspace, EntityCatalog ca
         var manifest = new JsonObject
         {
             ["kind"] = "urman.studio-context",
-            ["schemaVersion"] = 3,
+            ["schemaVersion"] = 4,
             ["caseId"] = caseId,
             ["subject"] = id,
             ["baseRevision"] = revision,
@@ -246,11 +324,14 @@ public sealed class DeveloperContext(StudioWorkspace workspace, EntityCatalog ca
             ["entities"] = dependencies.Count,
             ["truncated"] = capture.Truncated,
             ["pendingDependencyIds"] = new JsonArray(capture.Pending.Select(value => (JsonNode?)JsonValue.Create(value)).ToArray()),
-            ["dependencyDiscovery"] = "legacy-id-shaped-strings",
+            ["dependencyDiscovery"] = "partial-typed-module-fields-v1",
+            ["referenceCoverageComplete"] = false,
+            ["unsupportedEntityIds"] = new JsonArray(capture.Unsupported.Select(value => (JsonNode?)JsonValue.Create(value)).ToArray()),
+            ["missingDependencyIds"] = new JsonArray(capture.Missing.Select(value => (JsonNode?)JsonValue.Create(value)).ToArray()),
             ["payloadHashAlgorithm"] = "sha256",
             ["files"] = files,
             ["sources"] = sourceManifest,
-            ["note"] = "Исходник currentHash — SHA-256 полных текущих байтов UTF-8 после восстановления и строгой UTF-8-проверки. currentEncoding=splice-v1 хранит в currentRef JSON-наложение: offsetBytes/removeBytes измеряются в байтах UTF-8 baseRef, insertBase64 — Base64 точной вставляемой последовательности байтов. files[].sha256 и files[].bytes проверяют точные байты файлов в архиве, включая JSON-наложение, а не восстановленный исходник. truncated означает остановленный обход; pendingDependencyIds — обнаруженные, но не приложенные IDs, не полный список пропущенных транзитивных зависимостей. Абсолютные пути пользователя и данные сохранений игроков не включены."
+            ["note"] = "Зависимости частично обнаружены только по известным типизированным полям content/modules категорий assets, characters, scenes, documents, capabilities, dialogues и quests; тексты включаются как конечные цели, но не обходятся. Условия, эффекты, другие поля и world/custom-источники не покрыты; referenceCoverageComplete=false сохраняется даже без pending. unsupportedEntityIds перечисляет включённые сущности без поддержанного обхода; missingDependencyIds — типизированные цели, отсутствующие в рабочем пространстве; pendingDependencyIds — найденные существующие цели за пределом 200 сущностей. currentHash и baseHash — SHA-256 полных текущего текста и загруженной базовой версии UTF-8, не фрагмента entities[].data; currentEncoding=splice-v1 хранит currentRef JSON-наложение: offsetBytes/removeBytes измеряются в байтах UTF-8 baseRef, insertBase64 — Base64 точной вставляемой последовательности байтов. files[].sha256 и files[].bytes проверяют точные байты файлов в архиве, включая JSON-наложение, а не восстановленный исходник. Абсолютные пути пользователя и данные сохранений игроков не включены."
         };
         var manifestBytes = encoding.GetBytes(manifest.ToJsonString(options));
         if (payloads.Values.Sum(bytes => (long)bytes.Length) + manifestBytes.Length > MaximumPackagePayloadBytes)
@@ -403,6 +484,9 @@ public sealed class DeveloperContext(StudioWorkspace workspace, EntityCatalog ca
             || extension.Equals(".md", StringComparison.OrdinalIgnoreCase) && segments[0] == "content" && segments[1] == "modules";
     }
 
+    private static bool IsModuleEntityPath(string path) =>
+        path.StartsWith("content/modules/", StringComparison.Ordinal) && IsSafeSourcePath(path);
+
     private static void Write(ZipArchive zip, string name, byte[] bytes)
     {
         using var stream = zip.CreateEntry(name).Open();
@@ -506,6 +590,7 @@ public sealed class DeveloperContext(StudioWorkspace workspace, EntityCatalog ca
                 1 => ReadLegacyPackage(manifest, payloads, encoding),
                 2 => ReadPackageSources(manifest, payloads, encoding, 2),
                 3 => ReadPackageSources(manifest, payloads, encoding, 3),
+                4 => ReadPackageSources(manifest, payloads, encoding, 4),
                 _ => throw new InvalidDataException("Версия пакета не поддерживается.")
             };
         }
@@ -564,11 +649,19 @@ public sealed class DeveloperContext(StudioWorkspace workspace, EntityCatalog ca
 
     private static ContextPackage ReadPackageSources(JsonObject manifest, IReadOnlyDictionary<string, byte[]> payloads, UTF8Encoding encoding, int schemaVersion)
     {
-        RequireExactFields(manifest, "kind", "schemaVersion", "caseId", "subject", "baseRevision", "created", "entities",
-            "truncated", "pendingDependencyIds", "dependencyDiscovery", "payloadHashAlgorithm", "files", "sources", "note");
-        if (manifest["schemaVersion"]?.GetValue<int>() != schemaVersion || PackageString(manifest, "dependencyDiscovery") != "legacy-id-shaped-strings"
-            || PackageString(manifest, "payloadHashAlgorithm") != "sha256")
-            throw new InvalidDataException("Манифест v2 имеет неверные значения.");
+        var expectedManifestFields = schemaVersion == 4
+            ? new[] { "kind", "schemaVersion", "caseId", "subject", "baseRevision", "created", "entities", "truncated",
+                "pendingDependencyIds", "dependencyDiscovery", "referenceCoverageComplete", "unsupportedEntityIds", "missingDependencyIds",
+                "payloadHashAlgorithm", "files", "sources", "note" }
+            : new[] { "kind", "schemaVersion", "caseId", "subject", "baseRevision", "created", "entities", "truncated",
+                "pendingDependencyIds", "dependencyDiscovery", "payloadHashAlgorithm", "files", "sources", "note" };
+        RequireExactFields(manifest, expectedManifestFields);
+        var expectedDiscovery = schemaVersion == 4 ? "partial-typed-module-fields-v1" : "legacy-id-shaped-strings";
+        if (manifest["schemaVersion"]?.GetValue<int>() != schemaVersion
+            || PackageString(manifest, "dependencyDiscovery") != expectedDiscovery
+            || PackageString(manifest, "payloadHashAlgorithm") != "sha256"
+            || schemaVersion == 4 && manifest["referenceCoverageComplete"]?.GetValue<bool>() != false)
+            throw new InvalidDataException("Манифест содержит неверные значения версии или обнаружения зависимостей.");
         _ = PackageString(manifest, "caseId");
         var subject = PackageString(manifest, "subject");
         _ = PackageString(manifest, "baseRevision");
@@ -603,6 +696,24 @@ public sealed class DeveloperContext(StudioWorkspace workspace, EntityCatalog ca
             if (pending?.GetValue<string>() is not { Length: > 0 } pendingId || !seenPending.Add(pendingId))
                 throw new InvalidDataException("Незавершённые зависимости должны быть уникальны и не повторять приложенные сущности.");
         if (truncated != (pendingIds.Count > 0)) throw new InvalidDataException("Признак неполноты не совпадает со списком зависимостей.");
+        if (schemaVersion == 4)
+        {
+            var unsupportedIds = manifest["unsupportedEntityIds"] as JsonArray
+                ?? throw new InvalidDataException("Список неподдержанных сущностей должен быть массивом.");
+            var seenUnsupported = new HashSet<string>(StringComparer.Ordinal);
+            foreach (var unsupported in unsupportedIds)
+                if (unsupported?.GetValue<string>() is not { Length: > 0 } unsupportedId
+                    || !ids.Contains(unsupportedId) || !seenUnsupported.Add(unsupportedId))
+                    throw new InvalidDataException("Неподдержанные сущности должны быть уникальны и входить в пакет.");
+
+            var missingIds = manifest["missingDependencyIds"] as JsonArray
+                ?? throw new InvalidDataException("Список отсутствующих зависимостей должен быть массивом.");
+            var seenMissing = new HashSet<string>(StringComparer.Ordinal);
+            foreach (var missing in missingIds)
+                if (missing?.GetValue<string>() is not { Length: > 0 } missingId
+                    || !seenMissing.Add(missingId) || seenPending.Contains(missingId))
+                    throw new InvalidDataException("Отсутствующие зависимости должны быть уникальны и не повторять приложенные или ожидающие сущности.");
+        }
 
         var sources = manifest["sources"] as JsonArray ?? throw new InvalidDataException("Список источников должен быть массивом.");
         if (sources.Count is < 1 or > 200 || sources.Count != entityPaths.Count)
@@ -633,7 +744,7 @@ public sealed class DeveloperContext(StudioWorkspace workspace, EntityCatalog ca
                 || isNew && (baseHash is not null || baseRef is not null)
                 || !isNew && (baseHash is null || baseRef is null || !IsSha256(baseHash))
                 || currentEncoding is not ("utf8" or "splice-v1")
-                || currentEncoding == "splice-v1" && (schemaVersion != 3 || isNew || baseRef is null || baseRef == currentRef))
+                || currentEncoding == "splice-v1" && (schemaVersion < 3 || isNew || baseRef is null || baseRef == currentRef))
                 throw new InvalidDataException("Источник содержит несовместимые данные базовой версии.");
             var currentRefSafe = currentEncoding == "splice-v1"
                 ? IsSafePackageOverlayRef(currentRef) : IsSafePackageSourceRef(currentRef);

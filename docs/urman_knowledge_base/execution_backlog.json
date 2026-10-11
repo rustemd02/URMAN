@@ -71390,7 +71390,8 @@
                 "implementation": "V2/v3 source-package reader seeds pendingDependencyIds uniqueness set with included entity IDs, rejecting overlap with subject or any appended entity. This enforces writer BFS invariant: discovered pending IDs are not already attached. Current schema3 discovery marker remains honestly legacy-id-shaped-strings.",
                 "verification": "Luna bounded reader/producer source review and independent Sol6.1medium final review; affected Game compile0/0 and diff-check. No tests/probes/native runs.",
                 "remaining": "Typed-reference graph absent as a shared API: current owner ManifestClosureValidator contains partial validated asset/text refs, while conditions/effects and world/custom domains require explicit coverage. No fake typed marker or closure-complete claim added."
-              }
+              },
+              "STUDIO/AI-05/FINISH.evidence"
             ],
             "stage_tasks": [
               "STUDIO.P6"
@@ -71408,11 +71409,10 @@
               ],
               "done_when": "Unsaved объект читаем агентом из пакета; другой checkout разрешает данные; секреты/user saves отсутствуют."
             },
-            "active_owner": "codex/b20-2026-10-10",
+            "active_owner": null,
             "activity": {
-              "state": "confirmed_active",
-              "reason": "Package completeness consistency correction and typed-reference owner research; runtime paused by author.",
-              "verification_question": "Does v2/v3 package reading reject pending dependency IDs that are already included, matching writer disjoint sets? Partial success: source review and narrow affected Game compile; full native/export DoD unchanged."
+              "state": "aggregate_parent",
+              "reason": "Source execution is STUDIO/AI-05/FINISH; parent aggregates historical source stages and full unmet DoD."
             },
             "task_type": "aggregate",
             "status": "in_progress",
@@ -71421,7 +71421,7 @@
             "remaining": [
               "Unsaved объект читаем агентом из пакета; другой checkout разрешает данные; секреты/user saves отсутствуют.; принятые child этапы повторно не разрабатывать."
             ],
-            "next_action": "Implement typed reference producer at existing content resolver owner and integrate supported typed closure with context export, explicitly reporting uncovered domains/resources. Keep legacy discovery honestly labeled. Native A07/A12 deferred by author.",
+            "next_action": "Continue source implementation in existing STUDIO/AI-05/FINISH; full native/context DoD remains open.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -71581,21 +71581,32 @@
                   "title": "Поручение включает новый/грязный объект и точный scope без лишних данных",
                   "result": "Поручение включает новый/грязный объект и точный scope без лишних данных",
                   "owner": "codex/b20-2026-10-10",
-                  "evidence": [],
+                  "evidence": [
+                    {
+                      "stage": "2026-10-11 shared typed module reference capture and context package v4",
+                      "result": "SOURCE_IMPLEMENTED_GAME_COMPILE_PASS_NATIVE_NOT_RUN",
+                      "source": "src-dotnet/Urman.Content/Resolvers/ManifestClosureValidator.cs; Resolvers/ResolverModels.cs; src-dotnet/Urman.Studio.Core/Handoff/DeveloperContext.cs; game/studio/StudioProperties.cs",
+                      "implementation": "Existing ManifestClosureValidator now owns field-specific ContentReference extraction (JSON pointer, target category/ID, optional audio kind). Its Validate and Studio package traversal consume one API. Known seven module source categories include existing asset accessibility/text, character assets, scene assets/text, document assets, capability assets/audio, dialogue node/choice text and quest title/objective text. Package BFS no longer discovers dependencies from arbitrary strings. It checks canonical target-ID category before resolution, records missing/unresolvable refs, and marks unsupported source entities. Schema4 portable context retains source/hash/UTF8/splice budgets and emits partial-typed-module-fields-v1, referenceCoverageComplete=false, missingDependencyIds and unsupportedEntityIds. Reader validates exact fields and set relationships; v1-v3 legacy reading preserved. Viewer and readable context explicitly disclose partial coverage separately from cap truncation. Resolver failures include actual source path/ID provenance in handoff.",
+                      "verification": "Five Luna FAST/Max bounded owner/consumer/caller reviews plus independent GPT6.1Sol medium integration review. Root affected Game compile0 warnings/0 errors, diff-check and tracker schema validation. No tests/probes/provider/Studio/game/Blender/runtime runs.",
+                      "remaining": "Typed graph still partial: document knowledgeRefs, nested scene interactions, conditions/effects, knowledge/vocabulary and campaign/custom/game domains need schema-backed coverage; physical file/schema dependencies and new/tombstone scope remain open. V4 integrity checks establish metadata structure and byte integrity, not semantic graph completeness or authenticity. Native A07/AI12 unchanged and deferred by author."
+                    }
+                  ],
                   "assigned_owner": "codex/b20-2026-10-10",
-                  "active_owner": null,
+                  "active_owner": "codex/b20-2026-10-10",
                   "activity": {
-                    "state": "paused_by_author",
-                    "reason": "Назначение Codex/DeepSeek сохранено; миграция не запускает production и не выдаёт peer-передачу за активную работу."
+                    "state": "confirmed_active",
+                    "reason": "Existing bounded context unit resumed for source implementation under live B20 mandate; runtime remains deferred by author.",
+                    "verification_question": "Do shared typed field extraction, v4 capture/readback metadata and viewer preserve legacy formats/budgets? Partial source success: affected Game compile and source reviews; full A07 scenario remains not run."
                   },
                   "task_type": "engineering",
-                  "status": "todo",
-                  "implementation_state": "not_started",
+                  "status": "in_progress",
+                  "implementation_state": "partial",
                   "technical_verification_state": "not_run",
                   "remaining": [
-                    "Поручение включает новый/грязный объект и точный scope без лишних данных; отсутствует подтверждение собственного конечного DoD, перечисленного ниже."
+                    "Extend schema-backed reference coverage to omitted narrative/game domains and physical resource dependencies.",
+                    "Run actual unsaved-object/other-checkout payload/hash A07 acceptance after runtime pause is lifted."
                   ],
-                  "next_action": "Поручение включает новый/грязный объект и точный scope без лишних данных",
+                  "next_action": "Extend existing field-specific extraction and context consumer to omitted schema-backed narrative references, preserving explicit coverage metadata; then native A07 when authorized.",
                   "blocker": null,
                   "external_gates": [],
                   "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -71633,7 +71644,7 @@
                       "success": "Выполнены все перечисленные собственные критерии, без расширения на родителя.",
                       "repeat_only_if": "Изменился source/candidate/input/покрываемый контракт."
                     },
-                    "actual_result": null,
+                    "actual_result": "Partial shared typed module asset/text capture and v4 context implemented; full graph and native unsaved cross-checkout A07 acceptance not achieved.",
                     "evidence_refs": []
                   },
                   "dependencies": {

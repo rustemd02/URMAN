@@ -102,14 +102,27 @@ public partial class StudioProperties : VBoxContainer
             {
                 var package = Urman.Studio.Core.Handoff.DeveloperContext.ReadPackage(path);
                 var integrity = package.HasIntegrityReceipts ? "Контрольные суммы вложений совпадают." : "Старый пакет без контрольных сумм: целостность не подтверждена.";
-                var completeness = package.Manifest["truncated"] is null ? "Полнота зависимостей в старом пакете не указана."
-                    : package.Manifest["truncated"]!.GetValue<bool>() ? "По манифесту пакета приложена часть зависимостей." : "По манифесту пакета обход зависимостей не был сокращён.";
+                var completeness = package.Manifest["truncated"]?.GetValue<bool>() switch
+                {
+                    null => "У старого формата нет отдельного признака усечения списка зависимостей.",
+                    true => "Манифест сообщает, что часть обнаруженных зависимостей не вошла в пакет.",
+                    false => "Явное усечение обнаруженного списка не отмечено; это не подтверждает полный охват ссылок."
+                };
+                var discovery = package.Manifest["dependencyDiscovery"]?.GetValue<string>();
+                var referenceCoverageComplete = package.Manifest["referenceCoverageComplete"]?.GetValue<bool>();
+                var partialTypedCoverage = discovery == "partial-typed-module-fields-v1";
+                var incompleteCoverage = partialTypedCoverage || referenceCoverageComplete == false;
+                var coverageNote = partialTypedCoverage
+                    ? "Обнаружены только типизированные ссылки на ресурсы и тексты в полях модулей. Другие домены ссылок не покрыты; это не полный граф зависимостей."
+                    : incompleteCoverage
+                        ? "Манифест явно сообщает, что охват ссылок неполон; другие зависимости могут отсутствовать."
+                        : "Полнота ресурсов и применимость к этому проекту не проверены.";
                 var viewer = new AcceptDialog { Title = "Контекст из пакета", OkButtonText = "Закрыть" };
                 var content = new VBoxContainer();
                 viewer.AddChild(content);
                 content.AddChild(new Label
                 {
-                    Text = $"{package.Entities.Count} объектов. {integrity}\n{completeness}\nПолнота ресурсов и применимость к этому проекту не проверены.\nТолько просмотр: проект не изменён.",
+                    Text = $"{package.Entities.Count} объектов. {integrity}\n{completeness}\n{coverageNote}\nТолько просмотр: проект не изменён.",
                     AutowrapMode = TextServer.AutowrapMode.WordSmart
                 });
                 var previewText = new System.Text.StringBuilder(package.Text)
@@ -156,6 +169,15 @@ public partial class StudioProperties : VBoxContainer
                         }
                     }
                 }
+                if (incompleteCoverage)
+                {
+                    var unsupportedEntityIds = FormatManifestIds(package.Manifest["unsupportedEntityIds"], out var unsupportedCount);
+                    var missingDependencyIds = FormatManifestIds(package.Manifest["missingDependencyIds"], out var missingCount);
+                    previewText.AppendLine().AppendLine()
+                        .AppendLine("Ограничения обнаружения зависимостей:")
+                        .AppendLine($"Неподдерживаемые сущности ({unsupportedCount}): {unsupportedEntityIds}")
+                        .AppendLine($"Недостающие зависимости ({missingCount}): {missingDependencyIds}");
+                }
                 content.AddChild(new TextEdit
                 {
                     Text = previewText.ToString(), Editable = false, WrapMode = TextEdit.LineWrappingMode.Boundary,
@@ -173,6 +195,19 @@ public partial class StudioProperties : VBoxContainer
         picker.Canceled += picker.QueueFree;
         _studio.AddChild(picker);
         picker.PopupCentered(new Vector2I(900, 600));
+    }
+
+    private static string FormatManifestIds(System.Text.Json.Nodes.JsonNode? value, out int count)
+    {
+        if (value is not System.Text.Json.Nodes.JsonArray ids)
+        {
+            count = 0;
+            return "список не указан";
+        }
+
+        var values = ids.Select(item => item?.GetValue<string>() ?? "(ID не указан)").ToArray();
+        count = values.Length;
+        return count == 0 ? "нет" : string.Join(", ", values);
     }
 
     public void Text(string text, bool muted = false) =>

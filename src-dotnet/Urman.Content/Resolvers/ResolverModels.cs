@@ -2,6 +2,12 @@ using System.Text.Json.Nodes;
 
 namespace Urman.Content.Resolvers;
 
+public sealed record ContentReference(
+    string Pointer,
+    string TargetCategory,
+    string TargetId,
+    string? ExpectedAssetKind = null);
+
 public sealed record AssetVariantSelector(string? Id = null, JsonNode? Seed = null, JsonNode? State = null);
 
 public sealed record AssetResolutionMetadata(string AssetId, string? VariantId, string ModuleId);

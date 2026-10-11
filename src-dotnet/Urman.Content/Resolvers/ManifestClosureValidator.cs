@@ -4,6 +4,19 @@ namespace Urman.Content.Resolvers;
 
 public static class ManifestClosureValidator
 {
+    public static IReadOnlyList<ContentReference> ReadReferences(string category, JsonObject entity)
+    {
+        ArgumentNullException.ThrowIfNull(category);
+        ArgumentNullException.ThrowIfNull(entity);
+
+        var id = entity["id"] is JsonValue idValue
+            && idValue.TryGetValue<string>(out var value)
+            && !string.IsNullOrEmpty(value)
+                ? value
+                : "entity";
+        return ReadReferences(category, entity, new ResolverOrigin(id, "unknown-module", string.Empty));
+    }
+
     public static ManifestClosure Validate(JsonObject pack)
     {
         var catalog = ResolverCatalog.Create(pack);
@@ -14,18 +27,7 @@ public static class ManifestClosureValidator
             _ = ResolverJson.RequiredString(asset, "file", entry.Origin);
             _ = ResolverJson.RequiredString(asset, "mediaType", entry.Origin);
             var accessibility = ContentResolverSupport.AccessibilityFor(asset, entry.Origin);
-            foreach (var (key, textId) in new[]
-                     {
-                         ("altTextId", accessibility.AltTextId),
-                         ("captionTextId", accessibility.CaptionTextId),
-                         ("audioDescriptionTextId", accessibility.AudioDescriptionTextId)
-                     })
-            {
-                if (textId is not null)
-                {
-                    _ = catalog.Require("texts", textId, ResolverErrors.Reference(entry.Origin, $"/accessibility/{key}"));
-                }
-            }
+            ResolveReferences(catalog, entry.Origin, ReadReferences("assets", asset, entry.Origin));
 
             var kind = asset["kind"]!.GetValue<string>();
             if (!accessibility.Decorative && string.Equals(kind, "image", StringComparison.Ordinal))
@@ -58,93 +60,194 @@ public static class ManifestClosureValidator
             }
         }
 
-        EnsureReferences(catalog, catalog.Category("characters").Values, "assetIds", "assets");
-        EnsureReferences(catalog, catalog.Category("scenes").Values, "assetRefs", "assets");
-        EnsureReferences(catalog, catalog.Category("documents").Values, "assetRefs", "assets");
-        EnsureReferences(catalog, catalog.Category("capabilities").Values, "requiredAssets", "assets");
-        EnsureReferences(catalog, catalog.Category("capabilities").Values, "requiredAudio", "assets", "audio");
-        EnsureReferences(catalog, catalog.Category("scenes").Values, "textRefs", "texts");
+        EnsureReferences(catalog, catalog.Category("characters").Values, "characters", "assets");
+        EnsureReferences(catalog, catalog.Category("scenes").Values, "scenes", "assets");
+        EnsureReferences(catalog, catalog.Category("documents").Values, "documents", "assets");
+        EnsureReferences(catalog, catalog.Category("capabilities").Values, "capabilities", "assets");
+        EnsureReferences(catalog, catalog.Category("capabilities").Values, "capabilities", "assets", "audio");
+        EnsureReferences(catalog, catalog.Category("scenes").Values, "scenes", "texts");
 
         foreach (var entry in catalog.Category("dialogues").Values)
         {
-            var nodes = ContentResolverSupport.RequiredArray(entry.Value, "nodes", entry.Origin);
-            for (var nodeIndex = 0; nodeIndex < nodes.Count; nodeIndex++)
-            {
-                var nodeOrigin = ResolverErrors.Reference(entry.Origin, $"/nodes/{nodeIndex}");
-                var node = ResolverJson.RequiredObject(nodes[nodeIndex], nodeOrigin.SourcePointer);
-                var textId = ResolverJson.RequiredString(node, "textId", nodeOrigin);
-                _ = catalog.Require("texts", textId, ResolverErrors.Reference(nodeOrigin, "/textId"));
-                var choices = ContentResolverSupport.RequiredArray(node, "choices", nodeOrigin);
-                for (var choiceIndex = 0; choiceIndex < choices.Count; choiceIndex++)
-                {
-                    var choiceOrigin = ResolverErrors.Reference(nodeOrigin, $"/choices/{choiceIndex}");
-                    var choice = ResolverJson.RequiredObject(choices[choiceIndex], choiceOrigin.SourcePointer);
-                    var choiceTextId = ResolverJson.RequiredString(choice, "textId", choiceOrigin);
-                    _ = catalog.Require("texts", choiceTextId, ResolverErrors.Reference(choiceOrigin, "/textId"));
-                }
-            }
+            ResolveReferences(catalog, entry.Origin, ReadReferences("dialogues", entry.Value, entry.Origin));
         }
 
         foreach (var entry in catalog.Category("quests").Values)
         {
-            var titleTextId = ResolverJson.RequiredString(entry.Value, "titleTextId", entry.Origin);
-            _ = catalog.Require("texts", titleTextId, ResolverErrors.Reference(entry.Origin, "/titleTextId"));
-            var stages = ContentResolverSupport.RequiredArray(entry.Value, "stages", entry.Origin);
-            for (var stageIndex = 0; stageIndex < stages.Count; stageIndex++)
-            {
-                var stageOrigin = ResolverErrors.Reference(entry.Origin, $"/stages/{stageIndex}");
-                var stage = ResolverJson.RequiredObject(stages[stageIndex], stageOrigin.SourcePointer);
-                var objectives = ContentResolverSupport.RequiredArray(stage, "objectives", stageOrigin);
-                for (var objectiveIndex = 0; objectiveIndex < objectives.Count; objectiveIndex++)
-                {
-                    var objectiveOrigin = ResolverErrors.Reference(stageOrigin, $"/objectives/{objectiveIndex}");
-                    var objective = ResolverJson.RequiredObject(objectives[objectiveIndex], objectiveOrigin.SourcePointer);
-                    var objectiveTextId = ResolverJson.RequiredString(objective, "titleTextId", objectiveOrigin);
-                    _ = catalog.Require("texts", objectiveTextId, ResolverErrors.Reference(objectiveOrigin, "/titleTextId"));
-                }
-            }
+            ResolveReferences(catalog, entry.Origin, ReadReferences("quests", entry.Value, entry.Origin));
         }
 
         return new ManifestClosure(catalog.Ids("assets"), catalog.Ids("texts"), catalog.Ids("vocabulary"));
     }
 
+    private static IReadOnlyList<ContentReference> ReadReferences(
+        string category,
+        JsonObject entity,
+        ResolverOrigin origin)
+    {
+        var references = new List<ContentReference>();
+        switch (category)
+        {
+            case "assets":
+            {
+                var accessibility = ContentResolverSupport.AccessibilityFor(entity, origin);
+                AddOptionalReference(references, accessibility.AltTextId, "/accessibility/altTextId", "texts");
+                AddOptionalReference(references, accessibility.CaptionTextId, "/accessibility/captionTextId", "texts");
+                AddOptionalReference(references, accessibility.AudioDescriptionTextId, "/accessibility/audioDescriptionTextId", "texts");
+                break;
+            }
+            case "characters":
+                AddArrayReferences(references, entity, "assetIds", "assets", origin);
+                break;
+            case "scenes":
+                AddArrayReferences(references, entity, "assetRefs", "assets", origin);
+                AddArrayReferences(references, entity, "textRefs", "texts", origin);
+                break;
+            case "documents":
+                AddArrayReferences(references, entity, "assetRefs", "assets", origin);
+                break;
+            case "capabilities":
+                AddArrayReferences(references, entity, "requiredAssets", "assets", origin);
+                AddArrayReferences(references, entity, "requiredAudio", "assets", origin, "audio");
+                break;
+            case "dialogues":
+                AddDialogueReferences(references, entity, origin);
+                break;
+            case "quests":
+                AddQuestReferences(references, entity, origin);
+                break;
+            default:
+                throw new NotSupportedException($"Typed references are not defined for resolver category '{category}'.");
+        }
+
+        return references.AsReadOnly();
+    }
+
+    private static void AddDialogueReferences(List<ContentReference> references, JsonObject entity, ResolverOrigin origin)
+    {
+        var nodes = ContentResolverSupport.RequiredArray(entity, "nodes", origin);
+        for (var nodeIndex = 0; nodeIndex < nodes.Count; nodeIndex++)
+        {
+            var nodePointer = $"/nodes/{nodeIndex}";
+            var nodeOrigin = ResolverErrors.Reference(origin, nodePointer);
+            var node = ResolverJson.RequiredObject(nodes[nodeIndex], nodeOrigin.SourcePointer);
+            var textId = ResolverJson.RequiredString(node, "textId", nodeOrigin);
+            references.Add(new ContentReference($"{nodePointer}/textId", "texts", textId));
+
+            var choices = ContentResolverSupport.RequiredArray(node, "choices", nodeOrigin);
+            for (var choiceIndex = 0; choiceIndex < choices.Count; choiceIndex++)
+            {
+                var choicePointer = $"{nodePointer}/choices/{choiceIndex}";
+                var choiceOrigin = ResolverErrors.Reference(origin, choicePointer);
+                var choice = ResolverJson.RequiredObject(choices[choiceIndex], choiceOrigin.SourcePointer);
+                var choiceTextId = ResolverJson.RequiredString(choice, "textId", choiceOrigin);
+                references.Add(new ContentReference($"{choicePointer}/textId", "texts", choiceTextId));
+            }
+        }
+    }
+
+    private static void AddQuestReferences(List<ContentReference> references, JsonObject entity, ResolverOrigin origin)
+    {
+        var titleTextId = ResolverJson.RequiredString(entity, "titleTextId", origin);
+        references.Add(new ContentReference("/titleTextId", "texts", titleTextId));
+
+        var stages = ContentResolverSupport.RequiredArray(entity, "stages", origin);
+        for (var stageIndex = 0; stageIndex < stages.Count; stageIndex++)
+        {
+            var stagePointer = $"/stages/{stageIndex}";
+            var stageOrigin = ResolverErrors.Reference(origin, stagePointer);
+            var stage = ResolverJson.RequiredObject(stages[stageIndex], stageOrigin.SourcePointer);
+            var objectives = ContentResolverSupport.RequiredArray(stage, "objectives", stageOrigin);
+            for (var objectiveIndex = 0; objectiveIndex < objectives.Count; objectiveIndex++)
+            {
+                var objectivePointer = $"{stagePointer}/objectives/{objectiveIndex}";
+                var objectiveOrigin = ResolverErrors.Reference(origin, objectivePointer);
+                var objective = ResolverJson.RequiredObject(objectives[objectiveIndex], objectiveOrigin.SourcePointer);
+                var objectiveTextId = ResolverJson.RequiredString(objective, "titleTextId", objectiveOrigin);
+                references.Add(new ContentReference($"{objectivePointer}/titleTextId", "texts", objectiveTextId));
+            }
+        }
+    }
+
+    private static void AddArrayReferences(
+        List<ContentReference> references,
+        JsonObject entity,
+        string field,
+        string targetCategory,
+        ResolverOrigin origin,
+        string? expectedAssetKind = null)
+    {
+        var values = ContentResolverSupport.RequiredArray(entity, field, origin);
+        for (var index = 0; index < values.Count; index++)
+        {
+            var pointer = $"/{field}/{index}";
+            var reference = ResolverErrors.Reference(origin, pointer);
+            if (values[index] is not JsonValue value
+                || !value.TryGetValue<string>(out var id)
+                || string.IsNullOrEmpty(id))
+            {
+                throw ResolverErrors.Create(
+                    ResolverErrorCode.InvalidPack,
+                    $"{origin.Id}.{field}/{index} must be a non-empty string.",
+                    reference);
+            }
+
+            references.Add(new ContentReference(pointer, targetCategory, id, expectedAssetKind));
+        }
+    }
+
+    private static void AddOptionalReference(
+        List<ContentReference> references,
+        string? id,
+        string pointer,
+        string targetCategory)
+    {
+        if (id is not null)
+        {
+            references.Add(new ContentReference(pointer, targetCategory, id));
+        }
+    }
+
     private static void EnsureReferences(
         ResolverCatalog catalog,
         IEnumerable<ResolverCatalogEntry> entries,
-        string field,
-        string category,
+        string sourceCategory,
+        string targetCategory,
         string? expectedAssetKind = null)
     {
         foreach (var entry in entries)
         {
-            var values = ContentResolverSupport.RequiredArray(entry.Value, field, entry.Origin);
-            for (var index = 0; index < values.Count; index++)
-            {
-                var reference = ResolverErrors.Reference(entry.Origin, $"/{field}/{index}");
-                if (values[index] is not JsonValue value
-                    || !value.TryGetValue<string>(out var id)
-                    || string.IsNullOrEmpty(id))
-                {
-                    throw ResolverErrors.Create(
-                        ResolverErrorCode.InvalidPack,
-                        $"{entry.Origin.Id}.{field}/{index} must be a non-empty string.",
-                        reference);
-                }
+            var references = ReadReferences(sourceCategory, entry.Value, entry.Origin);
+            ResolveReferences(
+                catalog,
+                entry.Origin,
+                references.Where(reference =>
+                    string.Equals(reference.TargetCategory, targetCategory, StringComparison.Ordinal)
+                    && string.Equals(reference.ExpectedAssetKind, expectedAssetKind, StringComparison.Ordinal)));
+        }
+    }
 
-                var target = catalog.Require(category, id, reference);
-                if (expectedAssetKind is not null
-                    && !string.Equals(target.Value["kind"]?.GetValue<string>(), expectedAssetKind, StringComparison.Ordinal))
-                {
-                    throw ResolverErrors.Create(
-                        ResolverErrorCode.WrongAssetKind,
-                        $"{id} must be an {expectedAssetKind} asset.",
-                        reference,
-                        new Dictionary<string, object?>
-                        {
-                            ["expectedKind"] = expectedAssetKind,
-                            ["actualKind"] = target.Value["kind"]?.GetValue<string>()
-                        });
-                }
+    private static void ResolveReferences(
+        ResolverCatalog catalog,
+        ResolverOrigin origin,
+        IEnumerable<ContentReference> references)
+    {
+        foreach (var reference in references)
+        {
+            var pointer = ResolverErrors.Reference(origin, reference.Pointer);
+            var target = catalog.Require(reference.TargetCategory, reference.TargetId, pointer);
+            if (reference.ExpectedAssetKind is not null
+                && !string.Equals(target.Value["kind"]?.GetValue<string>(), reference.ExpectedAssetKind, StringComparison.Ordinal))
+            {
+                throw ResolverErrors.Create(
+                    ResolverErrorCode.WrongAssetKind,
+                    $"{reference.TargetId} must be an {reference.ExpectedAssetKind} asset.",
+                    pointer,
+                    new Dictionary<string, object?>
+                    {
+                        ["expectedKind"] = reference.ExpectedAssetKind,
+                        ["actualKind"] = target.Value["kind"]?.GetValue<string>()
+                    });
             }
         }
     }
