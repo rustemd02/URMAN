@@ -14,6 +14,8 @@ EXCLUDED = {'.git', '.tools', '.godot', '.codex-captures', 'bin', 'obj', 'node_m
             'userdata', 'user_data', 'app_userdata', 'savegames'}
 MAX_ARCHIVE = 2 * 1024**3
 MAX_SOURCE = 5 * 1024**3
+MAX_RESULT_BYTES = MAX_ARCHIVE
+MAX_RESULT_FILES = 4096
 STUDIO_AUTHORING_FILES = frozenset({
     'assets/source/blender/act1/urman_village_exterior_kit.py',
     'assets/source/blender/act1/urman_village_exterior_kit.blend',

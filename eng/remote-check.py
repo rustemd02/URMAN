@@ -4,9 +4,10 @@ import argparse
 import hashlib
 import json
 import os
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 import re
 import shutil
+import stat
 import sys
 import tempfile
 import time
@@ -17,7 +18,15 @@ import uuid
 import zipfile
 from remote_common import (MAX_ARCHIVE, MAX_SOURCE, REPOSITORY, canonical, candidates,
                            digest, git, source_state, STUDIO_AUTHORING_FILES,
-                           studio_authoring_path)
+                           studio_authoring_path, MAX_RESULT_BYTES, MAX_RESULT_FILES)
+
+def check_result_destination(path):
+    try:
+        metadata=path.lstat()
+    except FileNotFoundError:
+        return
+    if stat.S_ISLNK(metadata.st_mode) or getattr(metadata,'st_file_attributes',0) & 0x0400:
+        raise ValueError('result destination contains a link')
 
 def settings():
     path=Path(os.environ.get('URMAN_STATION_CONFIG',str(Path.home()/'.config/urman-station/client.json')))
@@ -150,20 +159,60 @@ class Client:
         status=self.request('/jobs/'+jid)
         if status['status']=='RUNNING':
             raise ValueError('job is still running')
+        if not re.fullmatch('[a-f0-9]{64}',status.get('result_sha256','')):
+            raise ValueError('job has no preserved result archive; inspect station error and retained source')
+        dest=Path(os.path.abspath(dest))
+        for current in [*reversed(dest.parents),dest]:
+            check_result_destination(current)
         dest.mkdir(parents=True,exist_ok=True)
+        dest=dest.resolve()
         archive=dest/'result.zip'
+        check_result_destination(archive)
         with self.request('/jobs/'+jid+'/result',raw=True) as src, archive.open('wb') as out:
-            shutil.copyfileobj(src,out)
+            written=0
+            for chunk in iter(lambda:src.read(1024**2),b''):
+                written+=len(chunk)
+                if written>MAX_ARCHIVE:
+                    raise ValueError('result archive exceeds download limit')
+                out.write(chunk)
         if digest(archive)!=status['result_sha256']:
             raise ValueError('result archive checksum mismatch')
         with zipfile.ZipFile(archive) as z:
-            for info in z.infolist():
-                path=dest/info.filename
-                if info.is_dir() or path.resolve().is_relative_to(dest.resolve()) is False or '\\' in info.filename or ':' in info.filename:
+            entries=z.infolist()
+            if len(entries)>MAX_RESULT_FILES or sum(i.file_size for i in entries)>MAX_RESULT_BYTES:
+                raise ValueError('result entries exceed extraction limits')
+            names=set()
+            for info in entries:
+                parts=info.filename.split('/')
+                name=info.filename.casefold()
+                if (info.is_dir() or not info.filename or PurePosixPath(info.filename).is_absolute()
+                        or '\\' in info.filename or ':' in info.filename
+                        or any(c in info.filename for c in '<>"|?*')
+                        or any(ord(c)<32 for c in info.filename)
+                        or name in names or name=='result.zip'
+                        or stat.S_ISLNK(info.external_attr >> 16) or info.external_attr & 0x0400
+                        or any(part in ('','.','..') or part.rstrip(' .')!=part
+                               or re.fullmatch(r'(?i)(con|prn|aux|nul|com[0-9]|lpt[0-9])(\..*)?',part)
+                               for part in parts)):
                     raise ValueError('unsafe result path')
+                names.add(name)
+                current=dest
+                for part in parts:
+                    current=current/part
+                    check_result_destination(current)
+            if any('/'.join(name.split('/')[:index]) in names
+                   for name in names for index in range(1,len(name.split('/')))):
+                raise ValueError('result file paths conflict')
+            expanded=0
+            for info in entries:
+                path=dest/info.filename
                 path.parent.mkdir(parents=True,exist_ok=True)
                 with z.open(info) as src,path.open('wb') as out:
-                    shutil.copyfileobj(src,out)
+                    for chunk in iter(lambda:src.read(1024**2),b''):
+                        expanded+=len(chunk)
+                        if expanded>MAX_RESULT_BYTES:
+                            raise ValueError('result exceeds extraction byte limit')
+                        out.write(chunk)
         print('Artifacts:',dest.resolve())
         return status
 

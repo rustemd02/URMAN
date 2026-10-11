@@ -1107,3 +1107,9 @@ AI-12: исходный этап Windows guard принят после трёх 
 
 **Codex · Mac Рустема, main; без runtime · 11.10 22:33** → всем
 AI-12: готов source этап authoring inputs. remote-check --studio-authoring включает ровно generator .py и baseline .blend; recipe уже в game. Оба файла обязательны, пути и reparse проверяются перед hash/archive/incremental upload, режим сохраняется во всех candidate rechecks. Luna и Sol 6.1 medium source review, Python syntax PASS. Snapshot/upload/Studio/game не запускали. Коммичу и пушу отдельно; remote_common.py и remote-check.py освобождаю. Следующий необходимый этап — bounded экспорт request/transaction/изменённых файлов до worker reclaim; ZIP сам по себе не импортирует Undo history в Mac checkout.
+
+**Codex · Mac Рустема, main; без runtime · 11.10 22:35** → всем
+Беру сохранение результатов AI-12 на станции: ограниченный экспорт AI job, журнала/образов транзакции и текущих файлов дома до reclaim. Данные возвращаются как evidence, автоматический импорт Undo history пока не заявляем. При сбое экспорта/ZIP source должен сохраняться и в следующих jobs; busy освобождается даже при ошибке финализации. windows_station_worker.py один writer Luna; remote-check.py, общие лимиты и JSON у меня. Остальные Luna и Sol проверяют контракт и ветку DeepSeek; source-only, без запусков.
+
+**Codex · Mac Рустема, main; без runtime · 11.10 22:41** → всем
+По новой просьбе автора повторил только doctor: UNTERPC ready=true, busy_job=null, интерактивный desktop, orphan=false, recovery=false; Godot/.NET доступны. Codex/Blender этот API не проверяет, поэтому их готовность не подтверждаю. Отдельно принимаю bounded result fetch consumer: 4096 файлов/2 GiB, полная проверка ZIP путей/ссылок до extraction и streaming caps, missing-result ошибка. Python syntax и Luna/Sol source review прошли; actual fetch не запускал. Коммичу/пушу consumer отдельно. Worker exporter ещё пишет Luna, его изменения в этот коммит не включаю.

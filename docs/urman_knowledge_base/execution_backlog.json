@@ -74224,6 +74224,24 @@
                       "implementation": "Explicit --studio-authoring option includes exactly assets/source/blender/act1/urman_village_exterior_kit.py and its .blend baseline. Both inputs are mandatory regular in-checkout files; shared lstat/reparse/containment checks run at candidate selection and immediately before authoring hash/archive/incremental upload reads. All candidate rechecks retain the opt-in; default runtime selection and wire schema remain unchanged. Recipe is already included under game.",
                       "verification": "Luna implementation and bounded input/path/worker research, independent Sol6.1medium source review; root python3 -m py_compile for both affected scripts plus diff-check. No snapshot packaging/upload, tests, provider or native runs.",
                       "remaining": "Input transport plumbing only; no remote Studio action exposed. Worker must export exact request/transaction images/authored files before reclaim, with explicit size bounds and preserve-on-export-failure recovery. Fetch is artifact delivery, not local transaction/Undo-history reconciliation. Blender baseline external linked-library dependencies have not been inspected at runtime; Windows installer readiness and real UI/game/Undo gates remain open."
+                    },
+                    {
+                      "stage": "2026-10-11 bounded result fetch consumer",
+                      "result": "SOURCE_REVIEWED_PYTHON_SYNTAX_PASS_NATIVE_NOT_RUN",
+                      "source": [
+                        "eng/remote-check.py",
+                        "eng/remote_common.py"
+                      ],
+                      "implementation": "Shared limits: 4096 files and 2GiB archive/expanded result. Fetch rejects absent result receipt, bounds streamed download, checks archive hash, prevalidates all entry names/counts/bytes/case/prefix conflicts and symlinks/reparse destinations before extraction, and bounds expanded streaming bytes. This transports inert artifacts only; no transaction replay or local source import.",
+                      "verification": "Independent Sol6.1medium and Luna source reviews; affected Python syntax compile, diff-check. No artifact fetch/ZIP probe/tests/native runs.",
+                      "remaining": "Worker bounded Studio exporter and durable retention/finalization are still being implemented separately; no remote Studio mode exposed."
+                    },
+                    {
+                      "stage": "2026-10-11 renewed Windows station doctor",
+                      "result": "LIVE_HEALTH_READY_CODEX_BLENDER_UNKNOWN",
+                      "source": "eng/remote-check.py doctor",
+                      "observed": "UNTERPC ready=true; busy_job=null; desktop interactive/input_desktop=true; Godot4.7.1, SDK10.0.302, tools=true, GPU acceptance verified; orphan_game_process=false; userdata_recovery_pending=false; disk free369.8GiB.",
+                      "remaining": "Health does not inspect Codex CLI package/login or Blender installation. No game/Studio/provider/Blender invocation performed."
                     }
                   ],
                   "assigned_owner": "codex/b20-2026-10-10",
@@ -74231,7 +74249,7 @@
                   "activity": {
                     "state": "runtime_deferred_by_author",
                     "reason": "11.10 пользователь остановил игровые и Studio запуски из-за сильных лагов; production/source review/узкая компиляция продолжаются.",
-                    "verification_question": "Does explicit Studio authoring snapshot opt-in include exactly the generator .py and baseline .blend, require regular in-checkout inputs, retain the mode through all candidate rechecks, and keep default snapshots unchanged? Source review and Python syntax only; no packaging or Windows execution."
+                    "verification_question": "Does bounded Studio export preserve request-linked transaction images/current files before reclaim, retain source across all future jobs on export/archive failure, and return terminal status/release station busy? Does fetch prevalidate all paths and enforce archive/member/expanded-byte caps? Source review and affected Python syntax only; no runtime."
                   },
                   "task_type": "integration_check",
                   "status": "blocked",
