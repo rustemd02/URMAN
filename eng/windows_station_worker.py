@@ -1019,7 +1019,7 @@ def _archive_result(path, output):
             raise ValueError('result archive verification failed')
         if archive.testzip() is not None:
             raise ValueError('result archive CRC verification failed')
-    with temp_path.open('rb') as stream:
+    with temp_path.open('r+b') as stream:
         os.fsync(stream.fileno())
     result_hash = digest(temp_path)
     temp_path.replace(result_path)

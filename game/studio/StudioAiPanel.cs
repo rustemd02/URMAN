@@ -640,7 +640,7 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
             if (_disclosureDialog == dialog) _disclosureDialog = null;
             dialog.QueueFree();
         };
-        _studio.AddChild(dialog);
+        AddChild(dialog);
         dialog.VisibilityChanged += () =>
         {
             if (dialog.Visible) return;
@@ -738,7 +738,7 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
         try
         {
             SetBusy(_busy);
-            _studio.AddChild(dialog);
+            AddChild(dialog);
             dialog.PopupCentered(new Vector2I(620, 400));
         }
         catch
@@ -924,7 +924,7 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
             _ = RunProposalAsync(fromManual: true, proposalFile: path);
         };
         picker.Canceled += picker.QueueFree;
-        _studio.AddChild(picker);
+        AddChild(picker);
         picker.PopupCentered(new Vector2I(900, 600));
     }
 
@@ -955,7 +955,7 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
             RestorePreviewFailure(path);
         };
         picker.Canceled += picker.QueueFree;
-        _studio.AddChild(picker);
+        AddChild(picker);
         picker.PopupCentered(new Vector2I(900, 600));
     }
 

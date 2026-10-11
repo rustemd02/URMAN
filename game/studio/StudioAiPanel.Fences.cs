@@ -322,7 +322,7 @@ public partial class StudioAiPanel
                         preparedRequest: confirmedRequest));
             };
             picker.Canceled += picker.QueueFree;
-            _studio.AddChild(picker);
+            AddChild(picker);
             picker.PopupCentered(new Vector2I(900, 600));
         }
         catch (Exception error) { _status.Text = FenceManualReadyStatus("Файл ответа не открыт: " + error.Message); }

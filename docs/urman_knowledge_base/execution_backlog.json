@@ -70665,6 +70665,12 @@
                 "implementation": "Build replacement derived index locally, report every duplicate occurrence with relative sources, remove all ambiguousIDs rather than firstwin; reserve ambiguousIDs in NewId. Reindex immediately after registering nonempty newfile. Explicit entity Set/Delete and changed SetOrder reject ambiguity before authoringPut/Reorder, noops precedeguards; compensation/Undo restoration remains available. Startup/edit/check dialogs show conflicts, manualSave refuses before clean saved shortcut/sourcewrites, autosave drafts preserved. House capture explicitly refuses missing/ambiguous source before fingerprint. Recovery preflights incoming ID collisions before Begin and preserves skipped artifacts. No IDs automatically renamed, files rewritten or second registry created.",
                 "verification": "Root affected Game final compile0/0 and existing test-project compile0/0; targeted ADragIsOneUndoStep/ReorderingIsOneUndoableStepAndKeepsTheFileStyle PASS2/2, diffcheck. Sol6.1medium independent source review accepted after no-op guard placement/recovery collision preflight correction. Read-only JSON-source inspection in existing sourcefolders found no current repeated explicit IDs; not Markdown/runtime proof. No newtests/probes/fixtures.",
                 "remaining": "Actual duplicate ID/recovery/native UI branch not exercised; existingtests prove unchanged ordinary Undo/reorder, not negative ambiguitycases. Same-file duplicate repair bykey is deliberately refused; manual source repair required. Fullsemantic registry/render mapping and typedcontext remaining."
+              },
+              {
+                "date": "2026-10-12",
+                "source": "game/studio/StudioWorldSection.cs",
+                "result": "First Windows native pilot exposed source-vs-relocated facade frame mismatch. Source fix frames unique live authored root; existing Babai kit pose mapping forward onApply/inverse for world drag/group, raw numeric source fields separate, no new registry/schema.",
+                "verification": "Affected Game compile0/0 and independent Luna/Sol reviews only; native Front0 access verification pending new snapshot."
               }
             ],
             "stage_tasks": [
@@ -74416,24 +74422,35 @@
                       "source_commit": "13a6b647",
                       "prerequisites": "SSH authenticated with configured station key; existing pinned setup exit0 installed Blender4.5.12; readiness API Blender version_match/Codex version_confirmed/logged_in/station_ready/ready=true.",
                       "limits": "Compilation/content/import observed running; no native selection/request/Apply/Undo evidence yet."
+                    },
+                    {
+                      "date": "2026-10-12",
+                      "stage": "First actual Windows native Studio walk-through and discovered blockers",
+                      "job_id": "52c007d97c9e4c0e8597fbbe0405e9d5",
+                      "snapshot_id": "21301c5a3f9d33dae93721c11e04fe70cee480bb743deec63234f31305f4e4ca",
+                      "source": "evidence/STUDIO/b20-codex-ui-2026-10-12/windows-native-first",
+                      "result": "FAIL timeout124; native search/select correct house and main-seven disclosure observed. Continue UI action found no window after timeout: provider was NOT dispatched, no preview/Apply/Undo proof.",
+                      "defects": "Source anchor(-28,-3.4) vs runtime Babai relocated facade(~-10.59,-3.05); nested confirmation exclusive sibling error; ZIP rb fsync WindowsErrno9.",
+                      "fixes": "Unique live framing/world drag-source inverse and source-field/Apply forward mapping for existing relocated kit metadata; nested AI dialogs/pickers parented to panel; ZIP r+b fsync. Final affected Game compile0/0 and independent fiveLuna/Sol source reviews.",
+                      "actual_windows_archive_check": "Same retained artifacts packed through fixed existing helper; old failedZIP/new resultZIP byte-identical SHA2563b38073bcfc70c3df48b3b2f5ee6c193b68bbb378a33d71a3909a16eb39845ef,244049bytes. Runtime FAIL preserved; API fetch verified archive.",
+                      "userdata": "game.log: original files restored by rename and verified; Windows ACLs not compared. receipt recovery_pending=false."
                     }
                   ],
                   "assigned_owner": "codex/b20-2026-10-10",
                   "active_owner": "codex/b20-2026-10-10",
                   "activity": {
                     "state": "confirmed_active",
-                    "reason": "Windows protected native Studio job52c007d97c9e4c0e8597fbbe0405e9d5 accepted; source compilation/import in progress.",
-                    "verification_question": "Can actual native Front0 selection with explicit main-seven scope pass Codex→preview→Apply→matched game and byte-exact Undo, preserving SeniOuter0/doors/defaults/userdata?"
+                    "reason": "First Windows native run reached selected house/main-seven scope confirmation; timed out before provider dispatch. Native-found frame/modal/archive defects fixed and compiled; preparing new input verification."
                   },
                   "task_type": "integration_check",
                   "status": "in_progress",
                   "implementation_state": "not_started",
                   "technical_verification_state": "not_run",
                   "remaining": [
-                    "Actual native main-seven Codex/preview/Apply/game/Undo not yet verified; job52c007d97c9e4c0e8597fbbe0405e9d5 currently running.",
-                    "Historical kit shutdown leaks remain separate; actual native current-session result must be inspected."
+                    "Repeat native Front0/main-seven CodeX→preview→Apply→matched game→byte-exact Undo on the newly fixed frame/modal source; none of these are proven by first timeout run.",
+                    "Source pose/framing changes and nested-modal fix need actual native verification; existing archive helper fix verified on unchanged Windows artifacts."
                   ],
-                  "next_action": "Continue same live Windows job52c007d97c9e4c0e8597fbbe0405e9d5; observe native Studio and select Front0, choose explicit main-seven scope, Codex→preview→Apply→matched game→byte-exact Undo; do not restart solely on observation timeout.",
+                  "next_action": "Deploy/restart idle Windows worker with r+b flush fix, then run new protected Studio snapshot containing live-frame and nested-modal fixes; first native Front0 selection then explicit main-seven Codex/preview/Apply/game/byte-exact Undo. Keep first run FAIL/history.",
                   "blocker": null,
                   "external_gates": [],
                   "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -74517,7 +74534,7 @@
                       "success": "UI/actual Codex receipt/target game views/source hashes/new-file absence + guard userdata restoration; полный multi-house A02 и restart отдельно.",
                       "repeat_only_if": "Изменился source/candidate/input/покрываемый контракт."
                     },
-                    "actual_result": "Guarded Mac Studio loaded and exact house search worked; picking unavailable, no request/Apply. Userdata and source restored. Runtime paused by author, development continues.",
+                    "actual_result": "Guarded Mac Studio loaded and exact house search worked; picking unavailable, no request/Apply. Userdata and source restored. Runtime paused by author, development continues. 12.10 Windows Studio source13a6b647 loaded and real native search/select/main-seven scope confirmation worked; no provider dispatch before timeout124. Frame mismatch and exclusive sibling popup surfaced. These plus Windows archive flush fixed in source; Gamecompile0/0, existing same-input archive retry verified identical bytes. Full native workflow remains open.",
                     "evidence_refs": [
                       "evidence/STUDIO/b20-codex-ui-2026-10-11/ui-receipt.json",
                       "evidence/STUDIO/b20-codex-ui-2026-10-11/windows-kit/receipt.json",

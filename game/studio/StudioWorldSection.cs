@@ -40,6 +40,9 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
     private ItemList _catalogList = null!;
     private LineEdit _catalogSearch = null!;
     private Act1DemoRoot? _demo;
+    private Act1DemoRoot? _indexedDisplayDemo;
+    private readonly Dictionary<string, Node3D> _liveDisplayNodes = new(StringComparer.Ordinal);
+    private readonly HashSet<string> _ambiguousLiveDisplayIds = new(StringComparer.Ordinal);
     private Vector3 _pivot = new(4f, 0f, -40f);
     private float _yaw = -35f;
     private float _pitch = -38f;
@@ -444,8 +447,13 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
             if (!node.HasMeta(AuthoredWorldPlot.AuthoredIdMeta) || (string)node.GetMeta(AuthoredWorldPlot.AuthoredIdMeta) != id) continue;
             if ((string?)entity["kind"] == "kit-placement")
             {
-                node.GlobalPosition = new Vector3(x, node.GlobalPosition.Y, z);
-                node.RotationDegrees = new Vector3(0, (float)(double)parameters["yawDegrees"]!, 0);
+                var relocatedKitPlacement = node.HasMeta("babaiRelocated") && node.GetMeta("babaiRelocated").AsBool();
+                var livePosition = relocatedKitPlacement
+                    ? BabaiRelocation.Apply(new Vector2(x, z))
+                    : new Vector2(x, z);
+                node.GlobalPosition = new Vector3(livePosition.X, node.GlobalPosition.Y, livePosition.Y);
+                var sourceYaw = (float)(double)parameters["yawDegrees"]!;
+                node.RotationDegrees = new Vector3(0, sourceYaw + (relocatedKitPlacement ? BabaiRelocation.YawDegrees : 0f), 0);
                 var scale = parameters["scale"]!.AsArray();
                 node.Scale = new Vector3((float)(double)scale[0]!, (float)(double)scale[1]!, (float)(double)scale[2]!);
                 node.Visible = !((bool?)parameters["hidden"] ?? false);
@@ -477,9 +485,10 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
         }
 
         _markers.Clear();
+        RebuildLiveDisplayNodes();
         foreach (var (id, entity) in WorldEntities())
         {
-            if (Anchor(entity) is not { } at)
+            if (DisplayAnchor(id, entity) is not { } at)
             {
                 continue;
             }
@@ -540,6 +549,7 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
         DrawRoutine();
     }
 
+    // Raw source-space anchor; current-world framing and manipulation use DisplayAnchor.
     private static Vector3? Anchor(JsonObject entity)
     {
         var parameters = entity["params"] as JsonObject;
@@ -557,6 +567,39 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
         var x = (float)(double)point[0]!;
         var z = (float)(double)point[2]!;
         return new Vector3(x, AgentBAct1HeightField.CollisionGround(x, z), z);
+    }
+
+    // Authored coordinates remain the source for edits; display follows the live node when its ID resolves uniquely.
+    private Vector3? DisplayAnchor(string id, JsonObject entity) =>
+        LiveDisplayNode(id) is { } node ? node.GlobalPosition : Anchor(entity);
+
+    private Node3D? LiveDisplayNode(string id)
+    {
+        if (_demo is null || !GodotObject.IsInstanceValid(_demo)) return null;
+        if (PreviewNode(id) is { } preview && GodotObject.IsInstanceValid(preview) && !preview.IsQueuedForDeletion())
+            return preview;
+        if (!ReferenceEquals(_indexedDisplayDemo, _demo)) RebuildLiveDisplayNodes();
+        if (_ambiguousLiveDisplayIds.Contains(id) || !_liveDisplayNodes.TryGetValue(id, out var node)
+            || !GodotObject.IsInstanceValid(node) || node.IsQueuedForDeletion()) return null;
+        return node;
+    }
+
+    private void RebuildLiveDisplayNodes()
+    {
+        _indexedDisplayDemo = _demo;
+        _liveDisplayNodes.Clear();
+        _ambiguousLiveDisplayIds.Clear();
+        if (_demo is null || !GodotObject.IsInstanceValid(_demo)) return;
+
+        foreach (var node in _demo.FindChildren("*", nameof(Node3D), true, false).OfType<Node3D>())
+        {
+            if (!GodotObject.IsInstanceValid(node) || node.IsQueuedForDeletion()
+                || !node.HasMeta(AuthoredWorldPlot.AuthoredIdMeta)) continue;
+            var id = node.GetMeta(AuthoredWorldPlot.AuthoredIdMeta).AsString();
+            if (_ambiguousLiveDisplayIds.Contains(id)) continue;
+            if (_liveDisplayNodes.Remove(id)) _ambiguousLiveDisplayIds.Add(id);
+            else _liveDisplayNodes.Add(id, node);
+        }
     }
 
     // ---- camera and input ----------------------------------------------------------------
@@ -720,9 +763,9 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
                 if (studio.Selection is { } id && _markers.ContainsKey(id) && Movable(id) && !Locked(id))
                 {
                     _dragId = id;
-                    var anchor = Anchor((JsonObject)studio.Workspace.Get(id)!) ?? Vector3.Zero;
+                    var anchor = DisplayAnchor(id, (JsonObject)studio.Workspace.Get(id)!) ?? Vector3.Zero;
                     _dragOffsets = _group.Append(id).Distinct().Where(member => Movable(member) && !Locked(member))
-                        .ToDictionary(member => member, member => (Anchor((JsonObject)studio.Workspace.Get(member)!) ?? anchor) - anchor);
+                        .ToDictionary(member => member, member => (DisplayAnchor(member, (JsonObject)studio.Workspace.Get(member)!) ?? anchor) - anchor);
                     _drag = studio.Session.Begin(_dragOffsets.Count > 1 ? $"переместить {_dragOffsets.Count} объекта" : $"переместить «{studio.Catalog.NameOf(id)}»");
                 }
 
@@ -955,7 +998,7 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
         using var _ = studio.Session.Begin($"переместить {_group.Count} объекта");
         foreach (var id in _group.Where(member => Movable(member) && !Locked(member)).ToArray())
         {
-            var at = Anchor((JsonObject)studio.Workspace.Get(id)!)!.Value + delta;
+            var at = DisplayAnchor(id, (JsonObject)studio.Workspace.Get(id)!)!.Value + delta;
             MoveEntity(id, at.X, at.Z, "перемещение группы");
         }
     }
@@ -990,7 +1033,7 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
 
     private void EyeLevel()
     {
-        if (studio.Selection is not { } id || studio.Workspace.Get(id) is not JsonObject entity || Anchor(entity) is not { } at) return;
+        if (studio.Selection is not { } id || studio.Workspace.Get(id) is not JsonObject entity || DisplayAnchor(id, entity) is not { } at) return;
         _topView = false;
         _pitch = -4f;
         _pivot = at + new Vector3(0, 1.7f, 0);
@@ -1029,7 +1072,28 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
 
     private bool Movable(string id) => studio.Workspace.Get(id)?["params"]?["position"] is JsonArray;
 
+    /// <summary>Move to a current-world X/Z; relocated kit placements are converted back to authored coordinates.</summary>
     public void MoveEntity(string id, float x, float z, string label)
+    {
+        var entity = (JsonObject)studio.Workspace.Get(id)!;
+        if (IsRelocatedKitPlacement(id, entity))
+        {
+            var source = BabaiRelocation.Inverse(new Vector2(x, z));
+            MoveEntitySource(id, source.X, source.Y, label);
+            return;
+        }
+
+        MoveEntitySource(id, x, z, label);
+    }
+
+    private bool IsRelocatedKitPlacement(string id, JsonObject entity) =>
+        (string?)entity["kind"] == "kit-placement"
+        && LiveDisplayNode(id) is { } node
+        && node.HasMeta("babaiRelocated")
+        && node.GetMeta("babaiRelocated").AsBool();
+
+    // The inspector exposes the persisted authored coordinates directly.
+    private void MoveEntitySource(string id, float x, float z, string label)
     {
         if (_pickedPart?.EntityId == id) SetPickedPart(null);
         var entity = (JsonObject)studio.Workspace.Get(id)!;
@@ -1049,9 +1113,10 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
 
     private void FocusSelection()
     {
-        if (studio.Selection is { } id && _markers.TryGetValue(id, out var marker))
+        if (studio.Selection is { } id && studio.Workspace.Get(id) is JsonObject entity
+            && DisplayAnchor(id, entity) is { } at)
         {
-            _pivot = marker.GlobalPosition;
+            _pivot = at;
             _distance = Mathf.Min(_distance, 18f);
             UpdateCamera();
         }
@@ -1309,7 +1374,7 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
 
     public StudioPlayStart? PlayStart()
     {
-        if (studio.Selection is not { } id || studio.Workspace.Get(id) is not JsonObject entity || Anchor(entity) is not { } at)
+        if (studio.Selection is not { } id || studio.Workspace.Get(id) is not JsonObject entity || DisplayAnchor(id, entity) is not { } at)
         {
             return null;
         }
@@ -1370,8 +1435,8 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
         {
             var x = (float)(double)position[0]!;
             var z = (float)(double)position[2]!;
-            panel.NumberField("Положение X, м", x, value => MoveEntity(id, value, z, "положение X"));
-            panel.NumberField("Положение Z, м", z, value => MoveEntity(id, x, value, "положение Z"));
+            panel.NumberField("Положение X, м", x, value => MoveEntitySource(id, value, z, "положение X"));
+            panel.NumberField("Положение Z, м", z, value => MoveEntitySource(id, x, value, "положение Z"));
         }
 
         if (parameters["yawDegrees"] is JsonValue yaw)
