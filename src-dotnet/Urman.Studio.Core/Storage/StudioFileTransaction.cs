@@ -97,6 +97,7 @@ public sealed class StudioFileTransaction
             promotionStarted = true;
             transaction.PromoteSide("after");
             afterPromotion?.Invoke();
+            transaction.EnsureCurrentSide("after");
             transaction._currentSide = "after";
             return transaction;
         }
@@ -112,6 +113,7 @@ public sealed class StudioFileTransaction
             {
                 transaction.RestoreTo("before", acceptEitherSide: true);
                 afterPromotion?.Invoke();
+                transaction.EnsureCurrentSide("before");
                 transaction._currentSide = "before";
                 transaction.WriteJournal("recovered", rollbackSide: "before", targetSide: "after", side: "before");
             }
@@ -151,6 +153,7 @@ public sealed class StudioFileTransaction
             promotionStarted = true;
             transaction.PromoteSide("after");
             await transaction.RunBarriersAsync(afterPromotionAsync);
+            transaction.EnsureCurrentSide("after");
             transaction._currentSide = "after";
             return transaction;
         }
@@ -166,6 +169,7 @@ public sealed class StudioFileTransaction
             {
                 transaction.RestoreTo("before", acceptEitherSide: true);
                 await transaction.RunBarriersAsync(afterPromotionAsync);
+                transaction.EnsureCurrentSide("before");
                 transaction._currentSide = "before";
                 transaction.WriteJournal("recovered", rollbackSide: "before", targetSide: "after", side: "before");
             }
@@ -337,6 +341,7 @@ public sealed class StudioFileTransaction
         if (_afterPromotionAsync is not null) throw new InvalidOperationException("This file transaction requires asynchronous cancellation.");
         RestoreTo("before", acceptEitherSide: true);
         _afterPromotion?.Invoke();
+        EnsureCurrentSide("before");
         _currentSide = "before";
         WriteJournal("recovered", rollbackSide: "before", targetSide: "after", side: "before");
     }
@@ -346,6 +351,7 @@ public sealed class StudioFileTransaction
         if (_accepted) throw new InvalidOperationException("An accepted file transaction cannot be cancelled.");
         RestoreTo("before", acceptEitherSide: true);
         await RunBarriersAsync(viewBarrier);
+        EnsureCurrentSide("before");
         _currentSide = "before";
         WriteJournal("recovered", rollbackSide: "before", targetSide: "after", side: "before");
     }
@@ -373,6 +379,7 @@ public sealed class StudioFileTransaction
         {
             PromoteSide(targetSide);
             _afterPromotion?.Invoke();
+            EnsureCurrentSide(targetSide);
             WriteJournal("committed", rollbackSide: targetSide, targetSide: targetSide, side: targetSide);
             _currentSide = targetSide;
         }
@@ -382,6 +389,7 @@ public sealed class StudioFileTransaction
             {
                 RestoreTo(sourceSide, acceptEitherSide: true);
                 _afterPromotion?.Invoke();
+                EnsureCurrentSide(sourceSide);
                 WriteJournal("committed", rollbackSide: sourceSide, targetSide: sourceSide, side: sourceSide);
                 _currentSide = sourceSide;
             }
@@ -410,6 +418,7 @@ public sealed class StudioFileTransaction
         {
             PromoteSide(targetSide);
             await RunBarriersAsync(viewBarrier);
+            EnsureCurrentSide(targetSide);
             WriteJournal("committed", rollbackSide: targetSide, targetSide: targetSide, side: targetSide);
             _currentSide = targetSide;
         }
@@ -419,6 +428,7 @@ public sealed class StudioFileTransaction
             {
                 RestoreTo(sourceSide, acceptEitherSide: true);
                 await RunBarriersAsync(viewBarrier);
+                EnsureCurrentSide(sourceSide);
                 WriteJournal("committed", rollbackSide: sourceSide, targetSide: sourceSide, side: sourceSide);
                 _currentSide = sourceSide;
             }

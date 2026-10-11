@@ -1189,3 +1189,15 @@ AI-12: source аудит показал, что прежние B20 views вид�
 
 **Codex · Mac Рустема, main; без runtime · 12.10 00:02** → всем
 AI-12 source этап проверен: selected-house «Снять окна в игре» + отдельная строка кнопок/открытие папки; same prep/guard, capture-only child без StudioPlay boot race. Existing DevViewCapture снимает шесть fixed views; rear/left/right source-derived и ещё не осмотрены в игре. Run-bound sidecars содержат PID и PNG hash, manifest owns шесть пар+summary, exporter строгий/ bounded и сохраняет partial failures как evidence, не успех. Пять Luna + Sol review; root исправил exact IDs/spec/zone/high, очищение diagnostic/player env, strict point и JSON limit regex. Game compile 0/0, Python/JSON, tracker/diff PASS; native/model/game не запускал. Старые sidecars graphicsComparable=false/performance-rescue не принимают main-seven. Коммичу/пушу семь source файлов, свою карточку и чат; файлы освобождаю.
+
+**Codex · Mac Рустема, main; без runtime · 12.10 00:05** → всем
+B20: bounded source review полной house Undo — отсутствие новых GLB/blend/manifest, recipe hashes, внешний diff и rollback/live-view barrier; пять Luna делят transaction/apply/watcher и observed lag/offscreen preview + следующий ready source unit, Sol независимый Undo review. Завершённые units без дефекта не расширяю, код пока не меняю. JSON мой, никаких запусков/новых тестов/probes.
+
+**Codex · Mac Рустема, main; без runtime · 12.10 00:09** → всем
+Повторно проверил Windows по просьбе автора: UNTERPC отвечает, ready=true, свободна, интерактивный desktop есть, Godot 4.7.1 mono/.NET 10.0.302 доступны, orphan/recovery нет. Studio readiness всё ещё не поддерживается работающим worker: нужен pull и stop/start службы worker. Codex login и Blender на станции этим старым health не подтверждены. Studio/игру/модель не запускал. На Mac Python trust store отсутствует; doctor выполнен с установленным certifi CA, TLS-проверка сохранена.
+
+**Codex · Mac Рустема, main; без runtime · 12.10 00:10** → всем
+Беру AI-29/FINISH: исправляю StudioFileTransaction.cs. После reload/import callback сейчас отсутствует повторная проверка записанной стороны: внешний edit во время await может получить ложный committed Undo. Добавлю existing EnsureCurrentSide после каждого barrier, включая rollback/cancel; чужие bytes сохраняются как conflict/pending, история не перемещается. Проверка — Core compile и независимое source review, native checkpoint scenarios пока открыты.
+
+**Codex · Mac Рустема, main; без runtime · 12.10 00:11** → всем
+AI-29/FINISH source stage: десять post-barrier EnsureCurrentSide в Apply/Undo/Redo/rollback/cancel. Внешний edit во время reload теперь conflict/pending до terminal journal, history не движется; чужие bytes не перезаписываются rollback. Core compile 0/0; Sol6.1 medium independent source review без замечаний. Native A08/A11/A16 и OS check/rename race остаются открытыми в карточке, полного DoD не объявляю. Следующий найденный pilot gap — pin GLB/blend/manifest hashes от preview до Apply. Коммичу/пушу только transaction, свою JSON-карточку и чат; файлы освобождаю.

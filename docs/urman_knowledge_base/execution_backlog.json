@@ -77947,21 +77947,29 @@
                   "title": "Чужие правки и сбой посреди записи не уничтожают ни одну сторону",
                   "result": "Чужие правки и сбой посреди записи не уничтожают ни одну сторону",
                   "owner": "codex/b20-2026-10-10",
-                  "evidence": [],
+                  "evidence": [
+                    {
+                      "source": "src-dotnet/Urman.Studio.Core/Storage/StudioFileTransaction.cs",
+                      "result": "Core affected-module compile 0 warnings/0 errors; independent Sol6.1 medium source review: no actionable issue. No native runs/tests.",
+                      "verification_scope": "Source barrier/hash guard only; no claim of complete OS concurrent-write atomicity."
+                    }
+                  ],
                   "assigned_owner": "codex/b20-2026-10-10",
                   "active_owner": null,
                   "activity": {
-                    "state": "paused_by_author",
-                    "reason": "Назначение Codex/DeepSeek сохранено; миграция не запускает production и не выдаёт peer-передачу за активную работу."
+                    "state": "runtime_deferred_by_author",
+                    "verification_question": "После import/reload barrier проверяется ожидаемая сторона до terminal journal/history; внешний diff остаётся conflict/pending. Core compile + независимый source review, без native запуска.",
+                    "reason": "Source stage complete; native A08/A11/A16 scenarios remain deferred by author."
                   },
                   "task_type": "engineering",
-                  "status": "todo",
-                  "implementation_state": "not_started",
+                  "status": "in_progress",
+                  "implementation_state": "partial",
                   "technical_verification_state": "not_run",
                   "remaining": [
-                    "Чужие правки и сбой посреди записи не уничтожают ни одну сторону; отсутствует подтверждение собственного конечного DoD, перечисленного ниже."
+                    "Native A08/A11/A16 interruption/external-edit scenarios and full done_when remain unverified.",
+                    "Hash check immediately before OS rename/delete is not universal CAS against arbitrary uncooperative concurrent writers; post-barrier fix does not eliminate that separate race."
                   ],
-                  "next_action": "Чужие правки и сбой посреди записи не уничтожают ни одну сторону",
+                  "next_action": "После снятия runtime pause проверить внешний edit во время view barrier и interrupted recovery в disposable data; продолжить preview artifact hash pinning в AI-12.",
                   "blocker": null,
                   "external_gates": [],
                   "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -77969,7 +77977,8 @@
                     "result": "Чужие правки и сбой посреди записи не уничтожают ни одну сторону",
                     "targets": [
                       "game/studio/StudioRoot.cs",
-                      "src-dotnet/Urman.Studio.Core/Editing/EditSession.cs"
+                      "src-dotnet/Urman.Studio.Core/Editing/EditSession.cs",
+                      "src-dotnet/Urman.Studio.Core/Storage/StudioFileTransaction.cs"
                     ],
                     "required_inputs": [
                       {
@@ -78000,7 +78009,7 @@
                       "success": "Выполнены все перечисленные собственные критерии, без расширения на родителя.",
                       "repeat_only_if": "Изменился source/candidate/input/покрываемый контракт."
                     },
-                    "actual_result": null,
+                    "actual_result": "Добавлены десять EnsureCurrentSide после import/view barriers перед success/recovered journal в Apply, Undo/Redo, rollback и Cancel. Внешние bytes сохраняются как pending conflict; cursor не перемещается при ошибке.",
                     "evidence_refs": []
                   },
                   "dependencies": {
