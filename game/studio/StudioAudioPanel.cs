@@ -125,7 +125,7 @@ public partial class StudioAudioPanel : AcceptDialog
         var lines = new List<string>
         {
             target.Scope == AudioSourceScope.LocalEmitter
-                ? "Локальный эмиттер: библиотечное событие дома, а не размещённая точка. Дом выбирается порядком массива, поэтому событие слышно в одном-двух реальных домах."
+                ? "Локальный эмиттер: библиотечное событие дома, а не размещённая точка. Дом выбирается порядком массива, поэтому перестановка записей меняет привязку к домам."
                 : "Общая шина: непрерывная подложка, выбранная по зоне; её читает AmbientAudioDirector.",
             $"Файл: {target.File}",
             $"Роль в игре: {(target.Scope == AudioSourceScope.LocalEmitter ? "VillageHouseholdDirector (одноразовый клип, LoopMode.Disabled, радиус и паузы из данных)" : "AmbientAudioDirector (зацикленная подложка на шине Ambience)")}",
@@ -266,16 +266,17 @@ public partial class StudioAudioPanel : AcceptDialog
             return "уровень источника не конечное число.";
         }
 
-        if (!ResourceLoader.Exists(target.File))
-        {
-            return $"файл {target.File} не найден.";
-        }
-
         // The registry read the raw authored fields, including the ones the view below
-        // had to normalize; a finding there is a refusal, not a warning.
+        // had to normalize; a finding there is a refusal, not a warning. This runs BEFORE
+        // any file access, so an invalid path or scheme is never touched by Exists.
         if (RawFindings(target) is { Count: > 0 } raw)
         {
             return string.Join(" ", raw);
+        }
+
+        if (!ResourceLoader.Exists(target.File))
+        {
+            return $"файл {target.File} не найден.";
         }
 
         // The registry's own rules decide the level and the path for BOTH scopes, so the
@@ -286,6 +287,13 @@ public partial class StudioAudioPanel : AcceptDialog
         problems.AddRange(AudioSourceRegistry.Validate(target.Scope, "volumeDb", JsonValue.Create(target.VolumeDb)));
         if (_report?.Emitters.FirstOrDefault(emitter => $"emitter:{emitter.Id}" == target.SourceId) is not { } emitter)
         {
+            // The shared bus side has its own runtime refusals: AmbientAudioDirector will not
+            // load a stem without zones (or with a duplicate one), so the audition waits too.
+            if (_report?.Stems.FirstOrDefault(stem => target.SourceId.EndsWith(":" + stem.Id, StringComparison.Ordinal)) is { Zones.Count: 0 })
+            {
+                problems.Add("У подложки нет ни одной зоны: рантайм отвергает такую запись, поэтому и прослушивание не начинается.");
+            }
+
             return problems.Count == 0 ? null : string.Join(" ", problems);
         }
 

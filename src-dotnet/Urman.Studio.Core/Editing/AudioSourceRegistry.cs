@@ -171,10 +171,7 @@ public static class AudioSourceRegistry
         new(AudioSourceScope.SharedBusStem, "zones", "string[]", "зоны маршрутизации", "нет — обязательное, минимум одна", AudioFieldReadStatus.ReadByGame, "AmbientAudioDirector.SetZone: ключ выбора подложки", true,
             Note: "Две подложки на одну зону — рантайм бросает исключение."),
         new(AudioSourceScope.SharedBusStem, "volumeDb", "number", "дБ", "−12 (если поля нет)", AudioFieldReadStatus.ReadByGame, "AmbientAudioDirector: целевая громкость подложки", false, -60d, 0d,
-            Note: "Рантайм НЕ проверяет это поле; диапазон задаёт редактор.")
-        {
-            RuntimeRefuses = false
-        },
+            Note: "AmbientAudioDirector явно отвергает значение вне −60..0, поэтому это отказ рантайма, а не политика редактора."),
         new(AudioSourceScope.SharedBusStem, "loop", "bool", "зацикливание", "false", AudioFieldReadStatus.ReadByGame, "AmbientAudioDirector.ConfigureNativeLoop", false)
     ];
 
@@ -389,22 +386,26 @@ public static class AudioSourceRegistry
             }
 
             var file64 = Text(item["file"]);
-            if (!SupportedScheme(file64))
+            var supported = SupportedScheme(file64);
+            if (!supported)
             {
                 outOfRange.Add($"{id}: схема пути «{file64}» не поддерживается — читается только res:// или путь внутри проекта, поэтому файл не проверяется.");
             }
 
-            var clipRelative = file64.StartsWith("res://", StringComparison.Ordinal) ? "game/" + file64["res://".Length..] : file64;
-            var clipPath = Resolve(root, clipRelative);
+            // No file access before BOTH gates pass: the scheme and the containment are
+            // decided first, and an unsupported scheme stops the resolve instead of merely
+            // reporting it and then touching the filesystem anyway.
+            var clipRelative = supported && file64.StartsWith("res://", StringComparison.Ordinal) ? "game/" + file64["res://".Length..] : supported ? file64 : "";
+            var clipPath = clipRelative.Length > 0 ? Resolve(root, clipRelative) : "";
+            if (clipPath.Length > 0 && !Contained(root, clipPath))
+            {
+                outOfRange.Add($"{id}: путь «{file64}» выходит за пределы проекта — такой клип не читается ни игрой, ни превью.");
+                clipPath = "";
+            }
+
             var clipsExists = clipPath.Length > 0 && File.Exists(clipPath);
             var bytes = clipsExists ? new FileInfo(clipPath).Length : 0L;
-            if (clipRelative.Length > 0 && !Contained(root, clipPath))
-            {
-                // A res:// path with .. would be read outside the checkout; the runtime
-                // never does that, and neither does the preview.
-                outOfRange.Add($"{id}: путь «{file64}» выходит за пределы проекта — такой клип не читается ни игрой, ни превью.");
-            }
-            else if (!clipsExists)
+            if (clipPath.Length > 0 && !clipsExists)
             {
                 outOfRange.Add($"{id}: клип {file64} не найден — деревня не поднимется.");
             }
@@ -537,7 +538,9 @@ public static class AudioSourceRegistry
             {
                 if (!zoneOwners.TryAdd(zone, id))
                 {
-                    outOfRange.Add($"{ManifestPath}: зона «{zone}» назначена двум подложкам ({zoneOwners[zone]} и {id}) — рантайм бросает исключение.");
+                    // Both stems are named in the same source-addressed form, so the
+                    // audition gate of either of them finds this finding with one filter.
+                    outOfRange.Add($"{id}: зона «{zone}» уже занята подложкой «{zoneOwners[zone]}» — рантайм бросает исключение при загрузке.");
                 }
             }
 
@@ -545,17 +548,17 @@ public static class AudioSourceRegistry
             // before it plays anything, so the editor reports the same three cases.
             if (id.Length == 0)
             {
-                outOfRange.Add($"{ManifestPath}: у подложки пустой id — рантайм отвергает такую запись.");
+                outOfRange.Add($"{ManifestPath}: подложка без id — рантайм отвергает такую запись.");
             }
 
             if (Text(item["file"]).Length == 0)
             {
-                outOfRange.Add($"{ManifestPath}: у подложки «{id}» пустой file — рантайм отвергает такую запись.");
+                outOfRange.Add($"{id}: пустой file — рантайм отвергает такую запись, подложку нечего играть.");
             }
 
             if (item["zones"] is JsonArray declaredZonesForCount && declaredZonesForCount.Count == 0)
             {
-                outOfRange.Add($"{ManifestPath}: у подложки «{id}» пустой zones — рантайм отвергает такую запись: подложку нельзя выбрать ни в одной зоне.");
+                outOfRange.Add($"{id}: пустой zones — рантайм отвергает такую запись: подложку нельзя выбрать ни в одной зоне.");
             }
 
             var stemFile = Text(item["file"]);
@@ -647,15 +650,43 @@ public static class AudioSourceRegistry
                 return false;
             }
 
-            // A link inside the project can still point outside it, so the final target is
-            // checked too before any byte is read.
-            var target = File.Exists(full) ? File.ResolveLinkTarget(full, returnFinalTarget: true) : null;
-            return target is null || Inside(target.FullName, project);
+            // A link anywhere on the way can point outside the project: a linked directory
+            // (game/assets/audio -> an external folder) makes an ordinary file name escape,
+            // so every ancestor up to the project root is checked before any byte is read.
+            return NoLinkedAncestor(full, project);
         }
         catch (Exception failure) when (failure is ArgumentException or NotSupportedException or PathTooLongException or IOException or UnauthorizedAccessException)
         {
             return false;
         }
+    }
+
+    /// <summary>True when neither the path nor any ancestor up to the project root is a link.</summary>
+    private static bool NoLinkedAncestor(string path, string project)
+    {
+        var current = path;
+        while (current.Length > project.Length && Inside(current, project))
+        {
+            if (new FileInfo(current) is { Exists: true, LinkTarget.Length: > 0 })
+            {
+                return false;
+            }
+
+            if (new DirectoryInfo(current) is { Exists: true, LinkTarget.Length: > 0 })
+            {
+                return false;
+            }
+
+            var parent = Path.GetDirectoryName(current);
+            if (parent is null || parent == current)
+            {
+                break;
+            }
+
+            current = parent;
+        }
+
+        return true;
     }
 
     private static bool Inside(string path, string project) =>

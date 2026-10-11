@@ -1,0 +1,34 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-18"
+  ],
+  "stage": "answer to the 11.10 12:21 review of 1097165e: no file access before both gates, ancestor links, stem policy and source-addressed findings",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-11 12:38 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "9e7bdaff",
+  "addressed": {
+    "io before the gates": "the emitter path now decides the scheme and the containment FIRST, and an unsupported scheme stops the resolve instead of reporting and continuing: no Exists and no FileInfo.Length happens on an invalid or escaping path",
+    "ancestor links": "Contained now walks every ancestor up to the project root and refuses a linked directory, so game/assets/audio pointing outside cannot let an ordinary file name through; the file-level check stayed",
+    "stem level policy": "the shared-bus stem volumeDb is once again a RUNTIME refusal (AmbientAudioDirector rejects outside -60..0); only the household emitter level stays editor policy",
+    "source-addressed findings": "every stem finding (blank id, blank file, empty zones, duplicate zone) now starts with the stem id, so the panel's single RawFindings filter reaches all of them without a second rule list",
+    "panel gate order": "the raw/path refusal runs before ResourceLoader.Exists, so an invalid path is never touched by the loader",
+    "stem zones in the panel": "a shared-bus stem with no zones is refused by the audition gate, matching the runtime",
+    "house count text": "the panel no longer claims one or two real houses, matching the registry scope note"
+  },
+  "own_mistake": "the first version of the reordered emitter gate had the containment condition inverted (it cleared a CONTAINED path and reported a good one); it was found and fixed before this commit, and the probe now asserts both the escape refusal and the linked-parent refusal",
+  "verified": {
+    "probe": "PASS 343/343 with new checks: a path that escapes the project is reported, a file reached through a linked parent directory is refused, the stem level is a runtime refusal while the household level is editor policy, and every stem finding starts with the stem id",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors; game/Urman.Game.csproj 0 warnings/0 errors",
+    "existing_tests": "Urman.Studio.Tests 38/38",
+    "not_run": "no Studio window and no listening: the interface and the auditory result are NOT_RUN"
+  },
+  "files": {
+    "evidence/STUDIO/b20-deepseek-ai-18/2026-10-11-io-gates/check.log": "976503a9de63fa046b48d59e1c3cea866968f079438bf28ffa05ef7cf339b181"
+  },
+  "open": [
+    "listening and UI acceptance remain NOT_RUN",
+    "the interface patch stays with the owner"
+  ]
+}

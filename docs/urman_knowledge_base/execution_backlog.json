@@ -24155,6 +24155,13 @@
                 "source": "src-dotnet/Urman.Studio.Core/Editing/AudioSourceRegistry.cs and game/studio/StudioAudioPanel.cs; evidence evidence/STUDIO/b20-deepseek-ai-18/2026-10-10-registry-review-2/ (check.log, probe/, receipt.json)",
                 "verification": "probe PASS 328/328 including the nine new checks; Urman.Studio.Core 0/0; game/Urman.Game.csproj 0/0; Urman.Studio.Tests 38/38; Urman.Core.Tests 68/68. The zone semantics were read from Act1ConnectedWorld.Households (dayAudible = zone == village_day, night = zone == kara_urman_night) and the stem rejections from AmbientAudioDirector. No Studio window and no listening: the interface and the auditory result are NOT_RUN and auditioning is still not claimed ready"
               }
+,
+              {
+                "stage": "2026-10-11 AI-18 answer to the review of 1097165e: IO gates, ancestor links, stem policy, source-addressed findings",
+                "result": "correction by deepseek v4.1 flash: the scheme and containment gates decide before any file access and an unsupported scheme stops the resolve; containment refuses a linked ancestor directory as well as a linked file; the shared-bus stem volumeDb is a runtime refusal again while the household level stays editor policy; every stem finding starts with the stem id so the panel's single filter reaches empty zones and duplicate zones; the panel refuses before ResourceLoader.Exists, refuses a stem without zones, and no longer claims one or two real houses",
+                "source": "src-dotnet/Urman.Studio.Core/Editing/AudioSourceRegistry.cs and game/studio/StudioAudioPanel.cs; evidence evidence/STUDIO/b20-deepseek-ai-18/2026-10-11-io-gates/ (check.log, probe/, receipt.json)",
+                "verification": "probe PASS 343/343 with new checks: an escaping path is reported, a file reached through a linked parent directory is refused, the stem level is a runtime refusal while the household level is editor policy, and every stem finding carries the stem id; Urman.Studio.Core 0/0; game/Urman.Game.csproj 0/0; Urman.Studio.Tests 38/38. An own mistake is recorded: the first reordered gate had the containment condition inverted and was fixed before the commit. No Studio window and no listening: the interface and the auditory result are NOT_RUN"
+              }
 
             ],
             "assigned_owner": "deepseek/b20-2026-10-10"
