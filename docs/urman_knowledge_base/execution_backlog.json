@@ -74712,6 +74712,12 @@
                 "result": "source stage by deepseek v4.1 flash for Codex's 22:55 task: re-Resolve the selected world and hash its AuthoredDependencies excluding the generated pack. ADDED: PlayPreparation.WorldSourceFingerprint(root, context) hashes context.AuthoredDependencies MINUS every *.compiled.v1.json, with WorldSourceFingerprintFiles returning the covered list; PlayPreparation.ResolveWorld(root, campaignSelection, scenePath) resolves through CampaignWorldCatalog, which ALREADY lives in main, so the value comes from a RESOLVED context rather than a bare selection. VERIFIED on a mini world: rewriting the PACK does not change the fingerprint, changing a PLOT does, and changing a LOADER SCRIPT does too. THE CALLER LINK is handed as caller-link.txt with the exact code and the two insertion points in PlayFromHere (resolve+fingerprint before the compile, resolve again after the await and refuse on difference), NOT as a patch, because that region currently CONFLICTS with Codex's own work and I did not touch his file. NOT claimed: the guard is not active in the editor until those two insertions exist. Verified: probe PASS 754/754; Core 0/0",
                 "source": "src-dotnet/Urman.Studio.Core/Play/PlayPreparation.cs (WorldSourceFingerprint, ResolveWorld, WorldSourceFingerprintFiles); evidence evidence/STUDIO/b20-deepseek-ai-13/2026-10-11-world-fingerprint-and-caller",
                 "verification": "probe PASS 754/754 including the four world-fingerprint checks; Core 0/0. The two caller insertions and a Studio run are NOT_RUN"
+              },
+              {
+                "stage": "2026-10-11 the world fingerprint on the REAL campaign, through the real resolver",
+                "result": "verification by deepseek v4.1 flash of the previous stage on REAL content and through the REAL resolver: CampaignWorldCatalog.Discover(root).Default() resolves to urman.chapter1 / act1_demo, whose fingerprint covers NINE authored files - the campaign manifest, SIX world plots and the scene game/scenes/act1_demo.tscn - and EXCLUDES the generated pack, as required. The comparison property the caller relies on is checked too: re-resolving the world from scratch (Discover again, Default again) gives the SAME fingerprint, because an unstable resolver would refuse every launch. This world declares no loader script, so none appears; the mini case already proved that a loader-script change moves the fingerprint when one is declared. Verified: probe PASS 760/760 including the five real-world checks; Core 0/0",
+                "source": "the probe's real-campaign check; evidence evidence/STUDIO/b20-deepseek-ai-13/2026-10-11-world-fingerprint-real-campaign",
+                "verification": "probe PASS 760/760 including the five real-world checks; Core 0/0. The two caller insertions and a Studio run are NOT_RUN"
               }
             ],
             "stage_tasks": [
@@ -74765,7 +74771,9 @@
               "Проверено: все 12 модулей кампаний разрешаются в существующие папки — молчаливого пропуска файлов в хеше нет.",
               "Ранее переданный частичный этап (2026-10-11 no campaign module may silently drop out of the compile input hash) ждёт ревью/приёмки; полный done_when не выполнен.",
               "WorldSourceFingerprint готов (без пака, ловит правку участка и скрипта-загрузчика); точная вставка в caller — в caller-link.txt, сам StudioRoot не тронут из-за конфликта.",
-              "Ранее переданный частичный этап (2026-10-11 the per-world fresh fingerprint, and the exact caller link) ждёт ревью/приёмки; полный done_when не выполнен."
+              "Ранее переданный частичный этап (2026-10-11 the per-world fresh fingerprint, and the exact caller link) ждёт ревью/приёмки; полный done_when не выполнен.",
+              "WorldSourceFingerprint проверен на РЕАЛЬНОЙ кампании (urman.chapter1/act1_demo): 9 файлов, пак исключён, повторное разрешение даёт тот же отпечаток.",
+              "Ранее переданный частичный этап (2026-10-11 the world fingerprint on the REAL campaign, through the real resolver) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
             "next_action": "STUDIO/AI-13/SELECTOR: подключить выбор actual context.",
             "blocker": null,

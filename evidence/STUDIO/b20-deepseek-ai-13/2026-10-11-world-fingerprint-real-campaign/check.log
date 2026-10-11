@@ -1,0 +1,14 @@
+== AI-13: the world fingerprint on the REAL campaign, through the real resolver
+
+  addresses: 27, with door: 2, problems: 0, covered parcels: 5, uncovered: 79
+  real world: act1_demo (urman.chapter1); covered files: 9
+    covered: content/campaigns/urman.chapter1/campaign.json
+    covered: game/content/world/act1_far_bank.world.v1.json
+    covered: game/content/world/act1_north_street.world.v1.json
+    covered: game/content/world/act1_north_street_residents.world.v1.json
+    covered: game/content/world/act1_open_part.world.v1.json
+    covered: game/content/world/act1_tamara_plot.world.v1.json
+    covered: game/content/world/act1_village_kit.world.v1.json
+    covered: game/scenes/act1_demo.tscn
+    covered: game/scripts/Act1DemoRoot.cs
+PROBE RESULT: PASS

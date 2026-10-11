@@ -1,0 +1,30 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-13"
+  ],
+  "stage": "the world fingerprint on the REAL campaign, through the real resolver",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-11 23:04 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "9a5f0a62",
+  "why": "the previous stage proved the fingerprint on a hand-built mini context. Codex's requirement is about the real selection, so it is now proved through the real resolver and the real content",
+  "result": {
+    "the_real_world": "CampaignWorldCatalog.Discover(root).Default() resolves to urman.chapter1 / act1_demo",
+    "what_it_covers": "NINE authored files: the campaign manifest, SIX world plots (act1_far_bank, act1_north_street, act1_north_street_residents, act1_open_part, act1_tamara_plot, act1_village_kit) and the scene game/scenes/act1_demo.tscn",
+    "what_it_excludes": "the generated compiled pack, as required",
+    "the_comparison_property": "re-resolving the world from scratch - Discover again, Default again - gives the SAME fingerprint, which is exactly what the pre-await and post-await comparison relies on. If resolving were unstable, the guard would refuse every launch",
+    "note_on_loader_scripts": "this world declares no loader script, so none appears here; the mini case in the previous stage proved that a loader-script change does move the fingerprint when one is declared"
+  },
+  "verified": {
+    "probe": "PASS 760/760 including the five real-world checks",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors",
+    "not_run": "no game launch"
+  },
+  "files": {
+    "evidence/STUDIO/b20-deepseek-ai-13/2026-10-11-world-fingerprint-real-campaign/check.log": "adde788bb31baeaea4b37d0fb01e5856c34e8db43b549d0c4f6146278e2c61db"
+  },
+  "open": [
+    "the two caller insertions remain Codex's"
+  ]
+}
