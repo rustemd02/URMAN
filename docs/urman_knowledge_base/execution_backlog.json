@@ -97859,7 +97859,24 @@
         "result": "Source 11.10: Original throttle/brake meshes isolated in GLB and connected to drivetrain input; modal/exit/restore reset visuals. GLB remains 66140 triangles, 44 materials; old triangleBudget 18000 exceeded, not raised; AS-17 remains open.",
         "verification": "Affected Urman.Game.csproj compile: 0 errors, 0 warnings; tracker validate PASS; current Windows gameplay/visual verification not run. GLB semantic comparison: 44 identical materials, 66140 triangles; steering/radio/charm/handbrake unchanged, interior+pedals match within 0.1mm. Body triangulation equivalence is being checked; exact connectivity unconfirmed. Blender exporter changed 4.5.51 to 5.2.40: 13 Body triangles per side differ; 6 explained by planar quad diagonal flips, 7 remain unconfirmed. Candidate requires current visual check; do not claim entire body unchanged.",
         "remaining": "Full current B13 transport/save-load/input/route/cabin movement and AS-17 acceptance remain open. Station doctor timed out before any new game job or snapshot submission; service connectivity must be restored.",
-        "next_action": "Полная B13 приёмка: текущие Windows save/load/input/route проверки и POV/движение после явного разрешения передачи снимка исходников на UNTERPC; все критерии и AS-17 остаются открыты."
+        "next_action": "Полная B13 приёмка: текущие Windows save/load/input/route проверки и POV/движение после явного разрешения передачи снимка исходников на UNTERPC; все критерии и AS-17 остаются открыты.",
+        "asset_budget_check": {
+          "unique_mesh_triangles": {
+            "NivaBody": 26668,
+            "NivaBrakePedal": 216,
+            "NivaCharm": 5124,
+            "NivaHandbrake": 144,
+            "NivaInterior": 22224,
+            "NivaRadio": 2064,
+            "NivaSteering": 4860,
+            "NivaThrottlePedal": 216,
+            "NivaWheel": 4624
+          },
+          "total": 66140,
+          "registered_budget": 18000,
+          "assessment": "Сокращение subdivision снега/овчины 2→1 сэкономит ориентировочно 8496, но оставит около 57644; не решает budget. Не удалять форму/детали ради числа. Нужна текущая native проверка и обоснованное LOD/geometry решение; AS-17 открыт."
+        },
+        "station_health": "11.10: новый doctor PASS, ready=true, busy_job=null, orphan_game_process=false, userdata_recovery_pending=false. Новые snapshot/jobs не отправлены; ожидается явное разрешение UNTERPC transfer."
       }
     },
     {
