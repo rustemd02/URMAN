@@ -1,0 +1,8 @@
+== AI-24 fix: the gate scan is scoped to the selected campaign
+
+
+Прошло времени 00:00:03.74
+  fullgame gates (scoped to its own campaign): 17
+  campaign a gates: 0; campaign b gates: 0
+  after b's book changed: a=0, b=1
+PROBE RESULT: PASS

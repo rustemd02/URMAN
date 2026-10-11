@@ -1,0 +1,27 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-24"
+  ],
+  "stage": "the gate scan is scoped to the selected campaign",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-11 22:04 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "6be73878",
+  "answer_to_review": "Codex is right twice. (1) The catalogs were the selected campaign's, but ReferencedIds scanned the WHOLE workspace, so another campaign's conditions could be blamed on this one. The scan now reads only that campaign's manifest and the files of the modules that manifest names, resolved through the shared module-folder mapping, exactly as the compiler's input hash does. (2) The no-book message is NOT a gate: the method returns no findings and the notes carry the state.",
+  "verified": {
+    "own_campaign": "the fullgame scan still finds its own seventeen unreachable gates, so the scoping did not hide the real finding",
+    "two_campaign_test": "a synthetic workspace with two campaigns proves the fix: campaign a's module reads its own fact while campaign b's module reads a different one, and each campaign reports ZERO gates - previously a would have been blamed for b's id. After b's book is given a different fact, ONLY b reports one gate and a still reports none",
+    "no_book": "a campaign with no book returns NO gates rather than a 'catalogs not read' finding",
+    "probe": "PASS 672/672",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors (composed tree with my branch and the v15 patch)"
+  },
+  "own_mistakes": "the same cast trap as before bit me here: (string?)obj[\"op\"] throws on a non-value node. It now uses TryGetValue, and the probe caught it before any Studio caller could",
+  "not_run": "no Studio window; the consumer is still Codex's to wire, so this remains a source stage",
+  "files": {
+    "evidence/STUDIO/b20-deepseek-ai-24/2026-10-11-gate-scoping/check.log": "01e9246ce54c9030080e8cb34a84749a65f16b2a981a51aea96fbef5e1fd81f7"
+  },
+  "open": [
+    "the projection still needs its Studio consumer"
+  ]
+}

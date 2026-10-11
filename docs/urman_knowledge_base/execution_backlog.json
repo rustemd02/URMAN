@@ -76752,6 +76752,12 @@
                 "result": "fix by deepseek v4.1 flash of the reviewed defect Codex named: the static was reset only in the null-selection branch, so the early returns (a missing manifest, a campaign without a book) left the PREVIOUS campaign's indexing diagnostics in place. It is now reset at the top of Inspect before any return, and the redundant reset in the branch is gone - one place, every path. Verified: probe PASS 651/651 - after a real book sixty-four gaps, after a missing manifest ZERO rather than the previous sixty-four, after the book again sixty-four. Own mistake recorded: my first probe read the static without making a fresh call. Codex's other point stands: the helper still has no Studio consumer and PhotoBook.cs is not in main, so this is not unit completion",
                 "source": "src-dotnet/Urman.Studio.Core/Editing/PhotoBook.cs (Inspect); evidence evidence/STUDIO/b20-deepseek-ai-24/2026-10-11-indexing-gaps-reset",
                 "verification": "probe PASS 651/651 including the three-state gap sequence; Core 0/0. A real Studio consumer is the next acceptable stage, as Codex asked"
+              },
+              {
+                "stage": "2026-10-11 the gate scan is scoped to the selected campaign",
+                "result": "fix by deepseek v4.1 flash of the defect Codex reviewed: the catalogs were the selected campaign's but ReferencedIds scanned the WHOLE workspace, so another campaign's conditions could be blamed on this one. The scan now reads only that campaign's manifest and the files of the modules that manifest names, resolved through the shared module-folder mapping, exactly as the compiler's input hash does. Second point accepted too: the no-book message is NOT a gate, so the method returns no findings and the notes carry the state. Verified: the fullgame scan still finds its own seventeen gates; a synthetic TWO-CAMPAIGN workspace proves the fix - each campaign reports zero gates where a would previously have been blamed for b's id, and after b's book is given a different fact ONLY b reports one while a stays clean; a campaign with no book reports no gates. Own mistake recorded: the same cast trap, (string?)obj[\"op\"] throws on a non-value node - now TryGetValue, and the probe caught it before a Studio caller could. Verified: probe PASS 672/672; Core 0/0",
+                "source": "src-dotnet/Urman.Studio.Core/Editing/PhotoBook.cs (UnreachableGates, ReferencedIds, CampaignDocuments); evidence evidence/STUDIO/b20-deepseek-ai-24/2026-10-11-gate-scoping",
+                "verification": "probe PASS 672/672 including the two-campaign scoping test and the unchanged seventeen gates for fullgame; Core 0/0. The Studio consumer remains Codex's and is NOT_RUN"
               }
             ],
             "stage_tasks": [
@@ -76796,7 +76802,9 @@
               "Ранее переданный частичный этап (2026-10-11 the fact gates that can never open) ждёт ревью/приёмки; полный done_when не выполнен.",
               "Ранее переданный частичный этап (2026-10-11 all three book catalogs checked for gates that can never open) ждёт ревью/приёмки; полный done_when не выполнен.",
               "Проекция книги ждёт реального Studio-consumer'а: helper без caller'а не считается приёмкой AI-24 (замечание Codex).",
-              "Ранее переданный частичный этап (2026-10-11 IndexingGaps is reset on every call) ждёт ревью/приёмки; полный done_when не выполнен."
+              "Ранее переданный частичный этап (2026-10-11 IndexingGaps is reset on every call) ждёт ревью/приёмки; полный done_when не выполнен.",
+              "Consumer для проекции книги всё ещё отсутствует: helper не выдаётся за завершённый редактор (замечание Codex).",
+              "Ранее переданный частичный этап (2026-10-11 the gate scan is scoped to the selected campaign) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
             "next_action": "Трассировать bindings активной кампании; human forms; AI exact-field edits; проверить Markdown/учебные токены; preview в игре.",
             "blocker": null,

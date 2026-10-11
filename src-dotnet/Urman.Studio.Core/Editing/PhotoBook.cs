@@ -415,7 +415,9 @@ public static class PhotoBookFacts
         var evidenceCatalog = evidence.ToHashSet(StringComparer.Ordinal);
         if (factCatalog.Count == 0 && photoCatalog.Count == 0 && evidenceCatalog.Count == 0)
         {
-            return ["Каталоги книги не прочитаны: сверять условия нечем."];
+            // Not a gate: "nothing to compare with" is a reason to say nothing, not a finding. The
+            // notes carry that state; returning it here made it look like an unreachable gate.
+            return [];
         }
 
         var gates = new List<string>();
@@ -426,7 +428,10 @@ public static class PhotoBookFacts
             ("evidenceId", evidenceCatalog, "HasEvidence", "photoworlds.evidence.confirmed", "улику")
         })
         {
-            foreach (var reference in ReferencedIds(workspace, op, field))
+            // ONLY the selected campaign's own files: the catalogs above are that campaign's, so a
+            // whole-workspace scan would read another campaign's conditions and call its fact ids
+            // unreachable, which is exactly the false positive this scoping removes.
+            foreach (var reference in ReferencedIds(root, campaignSelection, op, field))
             {
                 if (!catalog.Contains(reference))
                 {
@@ -443,24 +448,31 @@ public static class PhotoBookFacts
     /// reads it, so a gate is reported with the place it stands in.
     /// </summary>
     public static IReadOnlyList<string> ReferencedIds(StudioWorkspace workspace, string op, string field)
-    {
-        ArgumentNullException.ThrowIfNull(workspace);
-        var ids = new SortedSet<string>(StringComparer.Ordinal);
-        foreach (var id in workspace.EntityIds)
-        {
-            if (workspace.Get(id) is not { } entity)
-            {
-                continue;
-            }
+        => ReferencedIds(workspace?.Root ?? "", null, op, field);
 
+    /// <summary>
+    /// The values one operation reads from one field, scoped to ONE campaign: its manifest and the
+    /// files of the modules that manifest names, resolved through the shared module-folder mapping.
+    /// A null or empty selection keeps the whole workspace, which is what the older callers wanted.
+    /// </summary>
+    public static IReadOnlyList<string> ReferencedIds(string root, string? campaignSelection, string op, string field)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(root);
+        var ids = new SortedSet<string>(StringComparer.Ordinal);
+        foreach (var document in CampaignDocuments(root, campaignSelection))
+        {
             var pending = new Stack<JsonNode?>();
-            pending.Push(entity);
+            pending.Push(document);
             while (pending.Count > 0)
             {
                 switch (pending.Pop())
                 {
                     case JsonObject obj:
-                        if ((string?)obj["op"] == op && (string?)obj[field] is { Length: > 0 } reference)
+                        // TryGetValue, not a cast: a field holding an object or an array throws on
+                        // the cast, and a projection must report rather than take the Studio down.
+                        if (obj["op"] is JsonValue opValue && opValue.TryGetValue<string>(out var operation) && operation == op
+                            && obj[field] is JsonValue referenceValue && referenceValue.TryGetValue<string>(out var reference)
+                            && reference is { Length: > 0 })
                         {
                             ids.Add(reference);
                         }
@@ -483,6 +495,82 @@ public static class PhotoBookFacts
         }
 
         return ids.ToArray();
+    }
+
+    /// <summary>
+    /// The JSON documents that belong to one campaign: its own manifest plus every file of every
+    /// module it names. The module folder mapping is the shared one, so this resolves the same way
+    /// the compiler's input hash does. An empty selection means the whole authored content, which
+    /// keeps the unscoped callers working.
+    /// </summary>
+    public static IReadOnlyList<JsonNode?> CampaignDocuments(string root, string? campaignSelection)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(root);
+        var full = Path.GetFullPath(root);
+        var documents = new List<JsonNode?>();
+        if (string.IsNullOrWhiteSpace(campaignSelection))
+        {
+            foreach (var file in EnumerateJson(full))
+            {
+                documents.Add(Parse(file));
+            }
+
+            return documents;
+        }
+
+        var manifestPath = Path.Combine(full, "content", "campaigns", campaignSelection, "campaign.json");
+        if (!File.Exists(manifestPath))
+        {
+            return documents;
+        }
+
+        var manifest = Parse(manifestPath);
+        documents.Add(manifest);
+        if (manifest?["modules"] is not JsonArray modules)
+        {
+            return documents;
+        }
+
+        foreach (var moduleId in modules.OfType<JsonObject>()
+            .Select(item => (string?)item["moduleId"])
+            .OfType<string>()
+            .Where(id => id.Length > 0))
+        {
+            var folder = Path.Combine(full, "content", "modules", RuleCatalogCoverage.ModuleFolder(moduleId));
+            if (!Directory.Exists(folder))
+            {
+                continue;
+            }
+
+            foreach (var file in Directory.EnumerateFiles(folder, "*.json", SearchOption.AllDirectories)
+                .Where(file => !file.Contains(".compiled.", StringComparison.Ordinal))
+                .Order(StringComparer.Ordinal))
+            {
+                documents.Add(Parse(file));
+            }
+        }
+
+        return documents;
+    }
+
+    private static IEnumerable<string> EnumerateJson(string full) =>
+        new[] { "content", Path.Combine("game", "content") }
+            .Select(folder => Path.Combine(full, folder))
+            .Where(Directory.Exists)
+            .SelectMany(folder => Directory.EnumerateFiles(folder, "*.json", SearchOption.AllDirectories))
+            .Where(file => !file.Contains(".compiled.", StringComparison.Ordinal))
+            .Order(StringComparer.Ordinal);
+
+    private static JsonNode? Parse(string file)
+    {
+        try
+        {
+            return JsonNode.Parse(File.ReadAllText(file));
+        }
+        catch (System.Text.Json.JsonException)
+        {
+            return null;
+        }
     }
 
 }
