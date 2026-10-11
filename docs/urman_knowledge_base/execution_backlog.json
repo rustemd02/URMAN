@@ -73964,7 +73964,10 @@
                     "Windows direct .exe-only discovery исправлен и source-reviewed; actual Windows installed/login readiness остаётся непроверенным."
                   ],
                   "next_action": "После возобновления runtime проверить увеличенное окно и пройти Front0→Codex→preview→Apply→game→Undo; исторические CLI результаты не заменяют этот UI сценарий.",
-                  "blocker": "Native UI/game verification deferred by author; Front0 could not be selected during Mac attempt.",
+                  "blocker": {
+                    "reason": "Native UI/game verification deferred by author; Front0 could not be selected during Mac attempt.",
+                    "release_when": "После возобновления runtime проверить увеличенное окно и пройти Front0→Codex→preview→Apply→game→Undo; исторические CLI результаты не заменяют этот UI сценарий."
+                  },
                   "external_gates": [],
                   "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
                   "work_contract": {
