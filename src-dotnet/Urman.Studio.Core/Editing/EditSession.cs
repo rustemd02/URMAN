@@ -9,6 +9,9 @@ public sealed record EntityChange(string RelativePath, string Key, JsonNode? Bef
 /// <summary>A user-visible undo step: a drag, a brush stroke or a composite action is one command (SAVE01).</summary>
 public sealed record EditCommand(string Label, IReadOnlyList<EntityChange> Changes, StudioFileTransaction? Files = null);
 
+/// <summary>Read-only display metadata; command snapshots and journal images remain private.</summary>
+public sealed record EditHistoryStep(string Label, IReadOnlyList<string> Paths, int EntityChangeCount, string? TransactionId);
+
 /// <summary>
 /// Undo/redo would overwrite something that changed since this command — most
 /// often another author's merged work (SAVE05). Nothing was applied.
@@ -49,6 +52,13 @@ public sealed class EditSession(StudioWorkspace workspace)
     public string? UndoLabel => _undo.TryPeek(out var command) ? command.Label : null;
     public string? RedoLabel => _redo.TryPeek(out var command) ? command.Label : null;
     public event Action? Changed;
+
+    /// <summary>Next action first, using the actual stack order rather than journal names or timestamps.</summary>
+    public IReadOnlyList<EditHistoryStep> History(bool redo = false) => (redo ? _redo : _undo)
+        .Select(command => new EditHistoryStep(command.Label,
+            command.Changes.Select(change => change.RelativePath).Concat(command.Files?.RelativePaths ?? [])
+                .Distinct(StringComparer.Ordinal).Order(StringComparer.Ordinal).ToArray(),
+            command.Changes.Count, command.Files?.Id)).ToArray();
 
     /// <summary>Group several edits (a drag, a template) into one undo step.</summary>
     public IDisposable Begin(string label)

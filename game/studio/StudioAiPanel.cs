@@ -370,16 +370,15 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
         {
             if (!fromManual) _request = Capture();
             var request = _request ?? throw new InvalidOperationException("Запрос ещё не подготовлен.");
-            _stage = Path.Combine(Path.GetTempPath(), "urman-house-" + request.RequestId);
-            Directory.CreateDirectory(_stage);
+            Urman.Studio.Core.Handoff.DeveloperContext.WriteHouseWindowJob(_studio.Workspace.Root, request);
+            _stage = Directory.CreateTempSubdirectory("urman-house-" + request.RequestId + "-").FullName;
             File.WriteAllText(Path.Combine(_stage, "request.json"), JsonSerializer.Serialize(_request));
-            AtomicFile.WriteAllText(Path.Combine(_studio.Workspace.Root, ".urman-studio/ai-jobs", _request.RequestId, "request.json"), JsonSerializer.Serialize(_request));
             _status.Text = fromManual ? "Проверяю перенесённое предложение…" : "Codex готовит предложение…";
             _proposal = imported ?? await new CodexProposalProvider(allowGlobalInstructions: _globalInstructions.ButtonPressed)
                 .RunAsync(_request!, _stage, _cancel.Token, this);
             if (!Visible) throw new OperationCanceledException();
             File.WriteAllText(Path.Combine(_stage, "proposal.json"), JsonSerializer.Serialize(_proposal));
-            AtomicFile.WriteAllText(Path.Combine(_studio.Workspace.Root, ".urman-studio/ai-jobs", _request.RequestId, "proposal.json"), JsonSerializer.Serialize(_proposal));
+            Urman.Studio.Core.Handoff.DeveloperContext.WriteHouseWindowJob(_studio.Workspace.Root, request, _proposal);
             var recipe = JsonNode.Parse(_recipeText!)!.AsObject();
             if (_request.PartId is { } partId)
             {
