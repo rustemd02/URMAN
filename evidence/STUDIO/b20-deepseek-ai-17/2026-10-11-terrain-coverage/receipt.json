@@ -1,0 +1,29 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-17"
+  ],
+  "stage": "which half of the unit the campaign really exercises",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-11 20:34 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "847c2e12",
+  "result": {
+    "vegetation": "exercised: eight authored scatters, each already validated against the runtime formula, the point budget and the catalogue",
+    "terrain": "NOT exercised: there are zero authored terrain strokes and game/content/world/terrain.v1.json does not exist in the repository, because the brush creates that file on its first stroke",
+    "why_it_matters": "the terrain half is a brush plus a height-field contract, not authored content. Saying so is the honest report; inventing a terrain edit would be inventing content, which is the author's decision",
+    "code_is_verified": "both command contracts still match their runtime readers, so the gap is content, not drift: ScatterCommand and TerrainStrokeCommand VerifyAgainstRuntime both return zero"
+  },
+  "verified": {
+    "probe": "PASS 594/594 including the coverage notes for both halves, the measured zero strokes and absent file, and the zero-drift checks against both readers",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors (composed tree with my branch and the v14 patch)",
+    "not_run": "no game run: how the terrain and the plants look is the runtime's and the eyes' business"
+  },
+  "own_mistakes": "the coverage method first landed in TerrainStrokeCommand while the probe called it on ScatterCommand, which the probe caught immediately; the call site and the doc now name the owner",
+  "files": {
+    "evidence/STUDIO/b20-deepseek-ai-17/2026-10-11-terrain-coverage/check.log": "a5ce283f04f5e465399488ebe94dfb7a03abef4b929f34ed3d8e05bd89469259"
+  },
+  "open": [
+    "a real terrain edit has to be authored before that half can be judged"
+  ]
+}

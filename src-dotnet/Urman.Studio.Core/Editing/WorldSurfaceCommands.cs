@@ -409,4 +409,32 @@ public static class TerrainStrokeCommand
 
         return 0d;
     }
+    /// <summary>
+    /// What the campaign really exercises of the two halves this file owns. It is declared here,
+    /// beside TerrainStrokeCommand, because the two families share this one report. The scatter half is
+    /// authored content; the terrain half is a brush whose strokes live in a plot file that is
+    /// created on the first stroke. So "no strokes in the repository" is a fact about the
+    /// content, not about the code, and saying which half is exercised is the honest report.
+    /// </summary>
+    public static IReadOnlyList<string> CoverageNotes(StudioWorkspace workspace, string root)
+    {
+        ArgumentNullException.ThrowIfNull(workspace);
+        ArgumentException.ThrowIfNullOrWhiteSpace(root);
+        var scatters = workspace.EntityIds.Count(id => (string?)workspace.Get(id)?["kind"] == "scatter");
+        var strokes = workspace.EntityIds.Count(id => (string?)workspace.Get(id)?["kind"] == "terrain-stroke");
+        var terrainPath = Path.Combine(Path.GetFullPath(root), "game", "content", "world", "terrain.v1.json");
+        var terrainExists = File.Exists(terrainPath);
+        return
+        [
+            $"Рассыпаний в кампании: {scatters}; правок рельефа: {strokes}; файл прав рельефа существует: {(terrainExists ? "да" : "нет")}.",
+            strokes == 0 && !terrainExists
+                ? "Половина «рельеф» контентом НЕ упражняется: файл game/content/world/terrain.v1.json создаётся при первом штрихе кисти, и его в репозитории нет. Это факт о контенте, а не о коде: контракт кисти сверен с читателем высот (TerrainStrokeCommand.VerifyAgainstRuntime)."
+                : $"Половина «рельеф» упражняется: правок {strokes}.",
+            scatters == 0
+                ? "Половина «растительность» контентом не упражняется."
+                : $"Половина «растительность» упражняется: рассыпаний {scatters}, и модели каждого сверены с каталогом.",
+            "Вид рельефа и растений — работа рантайма и глаз: здесь проверяются только поля, режимы и ссылки."
+        ];
+    }
+
 }

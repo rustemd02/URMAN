@@ -75325,6 +75325,12 @@
                 "result": "deepening by deepseek v4.1 flash: the scatter rules already covered the fields, the radius, the density and the plant count, but nothing checked that the models a scatter names exist in the catalogue - the runtime calls BuildVisual per model and writes an error for an unknown entry, so a missing model silently thins the scatter. ScatterCommand.MissingModels adds that link and the probe runs it over the eight authored scatters: forty-five expected plants in total and zero missing models",
                 "source": "src-dotnet/Urman.Studio.Core/Editing/WorldSurfaceCommands.cs; evidence evidence/STUDIO/b20-deepseek-ai-17/2026-10-11-scatter-models",
                 "verification": "probe PASS 511/511 including the catalogue link on the real scatters and a synthetic unknown model; Core 0/0; game/Urman.Game.csproj 0/0; Urman.Studio.Tests 38/38. Own mistake recorded: I first wrote a separate projection and deleted it, because the existing checks already ran ScatterCommand.Validate and a second projection would duplicate the rules. The visual result and frame cost are NOT_RUN"
+              },
+              {
+                "stage": "2026-10-11 which half of the unit the campaign really exercises",
+                "result": "deepening by deepseek v4.1 flash: the vegetation half IS exercised (eight authored scatters, each already validated against the runtime formula, the point budget and the catalogue), while the terrain half is NOT: zero authored terrain strokes and game/content/world/terrain.v1.json does not exist in the repository, because the brush creates that file on its first stroke. This is a fact about the content, not drift in the code - both ScatterCommand and TerrainStrokeCommand VerifyAgainstRuntime return zero. Inventing a terrain edit would be inventing content, so that half stays open as an author decision. Own mistake recorded: the coverage method first landed in TerrainStrokeCommand while the probe called it on ScatterCommand; the call site and the doc now name the owner",
+                "source": "src-dotnet/Urman.Studio.Core/Editing/WorldSurfaceCommands.cs (CoverageNotes); evidence evidence/STUDIO/b20-deepseek-ai-17/2026-10-11-terrain-coverage",
+                "verification": "probe PASS 594/594 including the coverage notes, the measured zero strokes, the absent terrain file and the zero-drift checks against both readers; Core 0/0. Visual result is NOT_RUN"
               }
             ],
             "stage_tasks": [
@@ -75355,7 +75361,9 @@
             "remaining": [
               "Область рельефа/растительности редактируется воспроизводимо и не перекрывает проходы.; отсутствует подтверждение собственного конечного DoD, перечисленного ниже.",
               "Ранее переданный частичный этап (2026-10-10 terrain, vegetation and malformed remainders) ждёт ревью/приёмки; полный done_when не выполнен.",
-              "Ранее переданный частичный этап (2026-10-11 the catalogue link of an authored scatter) ждёт ревью/приёмки; полный done_when не выполнен."
+              "Ранее переданный частичный этап (2026-10-11 the catalogue link of an authored scatter) ждёт ревью/приёмки; полный done_when не выполнен.",
+              "Половина «рельеф» контентом не упражняется (0 правок, файла нет): нужен авторский штрих.",
+              "Ранее переданный частичный этап (2026-10-11 which half of the unit the campaign really exercises) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
             "next_action": "Параметризовать stroke/seed; исключить дома/дороги/защищённые точки; freeze region; preview collision/paths; сохранить stroke как один command.",
             "blocker": null,
