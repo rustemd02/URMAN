@@ -97473,7 +97473,7 @@
       "assigned_owner": "unassigned",
       "activity": {
         "state": "confirmed_active",
-        "reason": "11.10: source stage integrated by Кодекс Кадыра; Luna edits reviewed. Original Niva export and affected compile completed; Windows acceptance awaits explicit UNTERPC snapshot-transfer approval."
+        "reason": "B13 author-authorized verification: first native job terminal before game on station toolchain mismatch. Root fixes existing vehicle proof output wiring; station update requested in chat."
       },
       "task_type": "engineering",
       "implementation_state": "not_started",
@@ -97482,7 +97482,7 @@
         "Во вступлении бабай ведёт Ниву с передним пассажиром через целый мост, показывая места без длинной неподвижной экспозиции.",
         "После ночи машина не пересекает разрыв/границу; понятны доступные дороги, нет случайных препятствий или сквозного проезда через объекты."
       ],
-      "next_action": "Полная B13 приёмка: текущие Windows save/load/input/route проверки и POV/движение после явного разрешения передачи снимка исходников на UNTERPC; все критерии и AS-17 остаются открыты.",
+      "next_action": "Обновить Windows checkout/pins до опубликованного main без ослабления provenance, затем штатные B13 vehicle/route checks и актуальные POV/движение. Разрешение snapshot transfer уже получено.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -97600,7 +97600,14 @@
         "result": "Source 11.10: road/verge/yard/boundary/water policy for Car, Motorcycle, HorseCart; existing Car envelope preserved. Existing route-check now fails on narrow-phase visible prop intersection; hidden VehicleVisual descendants consistently excluded.",
         "verification": "Affected Urman.Game.csproj compile: 0 errors, 0 warnings; tracker validate PASS; current Windows gameplay/visual verification not run.",
         "remaining": "Full current B13 transport/save-load/input/route/cabin movement and AS-17 acceptance remain open. Station doctor timed out before any new game job or snapshot submission; service connectivity must be restored.",
-        "next_action": "Полная B13 приёмка: текущие Windows save/load/input/route проверки и POV/движение после явного разрешения передачи снимка исходников на UNTERPC; все критерии и AS-17 остаются открыты."
+        "next_action": "Полная B13 приёмка: текущие Windows save/load/input/route проверки и POV/движение после явного разрешения передачи снимка исходников на UNTERPC; все критерии и AS-17 остаются открыты.",
+        "transfer_authorization": "Автор прямо ответил да на запрос UNTERPC snapshot transfer и защищённых B13 checks.",
+        "native_attempt": {
+          "job_id": "d262ac27fc294e6981b6624b94280801",
+          "snapshot_id": "1b7edcaf95bd36b2f9ce88298eaffb33d7aa12fc0b76b1c45053b96691c80edb",
+          "result": "FAIL before game: station eng/toolchain.json differs from snapshot; userdata_recovery_pending=false",
+          "receipt": "evidence/ACT1-TRANSPORT/native_d262ac27fc294e6981b6624b94280801/receipt.json"
+        }
       }
     },
     {
@@ -97745,7 +97752,7 @@
       "assigned_owner": "unassigned",
       "activity": {
         "state": "confirmed_active",
-        "reason": "11.10: source stage integrated by Кодекс Кадыра; Luna edits reviewed. Original Niva export and affected compile completed; Windows acceptance awaits explicit UNTERPC snapshot-transfer approval."
+        "reason": "B13 author-authorized verification: first native job terminal before game on station toolchain mismatch. Root fixes existing vehicle proof output wiring; station update requested in chat."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -97754,7 +97761,7 @@
         "С переднего места видны дорога/деревня, бабай и правдоподобная геометрия салона; спинки, окна, зеркало, педали/ручник и материалы не клиппуют.",
         "Обычные повороты камеры и катсценные кадры проверены в движке, не только статичным рендером."
       ],
-      "next_action": "Полная B13 приёмка: текущие Windows save/load/input/route проверки и POV/движение после явного разрешения передачи снимка исходников на UNTERPC; все критерии и AS-17 остаются открыты.",
+      "next_action": "Обновить Windows checkout/pins до опубликованного main без ослабления provenance, затем штатные B13 vehicle/route checks и актуальные POV/движение. Разрешение snapshot transfer уже получено.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -97896,7 +97903,14 @@
           "registered_budget": 18000,
           "assessment": "Сокращение subdivision снега/овчины 2→1 сэкономит ориентировочно 8496, но оставит около 57644; не решает budget. Не удалять форму/детали ради числа. Нужна текущая native проверка и обоснованное LOD/geometry решение; AS-17 открыт."
         },
-        "station_health": "11.10: новый doctor PASS, ready=true, busy_job=null, orphan_game_process=false, userdata_recovery_pending=false. Новые snapshot/jobs не отправлены; ожидается явное разрешение UNTERPC transfer."
+        "station_health": "11.10: новый doctor PASS, ready=true, busy_job=null, orphan_game_process=false, userdata_recovery_pending=false. Новые snapshot/jobs не отправлены; ожидается явное разрешение UNTERPC transfer.",
+        "transfer_authorization": "Автор прямо ответил да на запрос UNTERPC snapshot transfer и защищённых B13 checks.",
+        "native_attempt": {
+          "job_id": "d262ac27fc294e6981b6624b94280801",
+          "snapshot_id": "1b7edcaf95bd36b2f9ce88298eaffb33d7aa12fc0b76b1c45053b96691c80edb",
+          "result": "FAIL before game: station eng/toolchain.json differs from snapshot; userdata_recovery_pending=false",
+          "receipt": "evidence/ACT1-TRANSPORT/native_d262ac27fc294e6981b6624b94280801/receipt.json"
+        }
       }
     },
     {

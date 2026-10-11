@@ -72,6 +72,11 @@ $savedCapture = $env:URMAN_VIEW_CAPTURE
 $savedPoints = $env:URMAN_VIEW_POINTS
 $savedPhase = $env:URMAN_ATMOSPHERE_PHASE
 $savedFov = $env:URMAN_VIEW_FOV
+$vehicleSmoke = $Mode -eq 'smoke' -and $Scene -eq 'res://tests/vehicle_smoke_test.tscn'
+$vehicleEnvironment = @{}
+foreach ($name in @('URMAN_VEHICLE_OUTPUT', 'URMAN_VEHICLE_CAPTURE', 'URMAN_VEHICLE_WHEELS_ONLY', 'URMAN_VEHICLE_MOUSE_ONLY', 'URMAN_VEHICLE_COMPOUND_ONLY', 'URMAN_VEHICLE_CONTACT_ONLY', 'URMAN_VEHICLE_ADDRESS_ONLY', 'URMAN_VEHICLE_CART_ONLY')) {
+    $vehicleEnvironment[$name] = [Environment]::GetEnvironmentVariable($name, 'Process')
+}
 $studioSnapshotRevision = $null
 try {
     Remove-Item Env:URMAN_VIEW_CAPTURE, Env:URMAN_VIEW_POINTS, Env:URMAN_ATMOSPHERE_PHASE, Env:URMAN_VIEW_FOV -ErrorAction SilentlyContinue
@@ -159,6 +164,15 @@ try {
             $arguments += "--urman-studio-tools-root=$ToolsRoot"
             if ($Provenance) { $arguments += "--urman-studio-snapshot-revision=$studioSnapshotRevision" }
         }
+        if ($vehicleSmoke) {
+            foreach ($name in $vehicleEnvironment.Keys) {
+                [Environment]::SetEnvironmentVariable($name, $null, 'Process')
+            }
+            # The existing test writes its receipt outside guarded player data.
+            $env:URMAN_VEHICLE_OUTPUT = Join-Path ([IO.Path]::GetFullPath($output)) 'vehicle'
+            if (-not $Headless) { $env:URMAN_VEHICLE_CAPTURE = '1' }
+            $receipt.vehicleEvidence = 'vehicle/receipt.json'
+        }
         if ($Mode -eq 'smoke') { $arguments += '--urman-smoke-background-input' }
         Invoke-Logged 'game' $Python $arguments ($TimeoutSeconds + 30)
         if (-not $Headless) {
@@ -193,6 +207,11 @@ try {
     $receipt.exitCode = if ($receipt.status -eq 'PASS') { 0 } else { 1 }
     $receipt.finished = (Get-Date).ToUniversalTime().ToString('o')
     $receipt | ConvertTo-Json -Depth 5 | Set-Content "$output/receipt.json" -Encoding UTF8
+    if ($vehicleSmoke) {
+        foreach ($name in $vehicleEnvironment.Keys) {
+            [Environment]::SetEnvironmentVariable($name, $vehicleEnvironment[$name], 'Process')
+        }
+    }
     $env:URMAN_VIEW_CAPTURE = $savedCapture
     $env:URMAN_VIEW_POINTS = $savedPoints
     $env:URMAN_ATMOSPHERE_PHASE = $savedPhase
