@@ -1,0 +1,612 @@
+diff --git a/game/studio/StudioRoot.cs b/game/studio/StudioRoot.cs
+index 2ff6bec6..1c711b16 100644
+--- a/game/studio/StudioRoot.cs
++++ b/game/studio/StudioRoot.cs
+@@ -44,6 +44,40 @@ public partial class StudioRoot : Control
+     private Button _undo = null!;
+     private Button _redo = null!;
+     private Button _play = null!;
++    private Button _ai = null!;
++    private StudioCampaignSelector? _selector;
++
++    /// <summary>The campaign and world the author picked in the top bar; null means the Act I default.</summary>
++    public CampaignWorldContext? CampaignContext => _selector?.Context;
++
++    /// <summary>
++    /// Why authoring is frozen right now, or null when writing is allowed. It is
++    /// editor state, not a label: it survives preview reloads, Apply and Undo.
++    /// </summary>
++    public string? WriteBlockReason { get; private set; }
++
++    /// <summary>
++    /// Freezes authoring for a world whose data the game does not load: the selection
++    /// is cleared, the AI entry is disabled and every write entry point refuses.
++    /// </summary>
++    public void SetWriteBlock(string? reason)
++    {
++        WriteBlockReason = reason;
++
++        // The session is the shared write boundary: the panel freeze above is defence in
++        // depth, and this is what actually stops a stray callback from saving.
++        Session.WriteBlockReason = reason;
++        if (_ai is not null)
++        {
++            _ai.Disabled = reason is not null;
++        }
++
++        if (reason is not null)
++        {
++            Select(null);
++            ShowBanner(reason, error: false);
++        }
++    }
+     private LineEdit _search = null!;
+     private PopupPanel _results = null!;
+     private ItemList _resultList = null!;
+@@ -146,6 +180,13 @@ public partial class StudioRoot : Control
+             Register(new StudioPendingSection(key, title));
+         }
+ 
++        // The selector resolved its default before the sections existed, so the first
++        // context is applied here instead of being lost before the world section exists.
++        if (_selector?.Context is { } initial)
++        {
++            ((StudioWorldSection)Section("world")).ApplyCampaignWorld(initial);
++        }
++
+         if (OS.GetCmdlineUserArgs().Contains(StudioCatalogBuilder.Flag))
+         {
+             StudioCatalogBuilder.Run(this);
+@@ -323,6 +364,13 @@ public partial class StudioRoot : Control
+     public bool IsAiPanelVisible => _aiPanel is { Visible: true };
+     public void OpenAiPanel()
+     {
++        if (WriteBlockReason is { } blocked)
++        {
++            // Fail closed even if a caller re-enables or bypasses the disabled button.
++            ShowBanner("ИИ выключен: " + blocked, error: true);
++            return;
++        }
++
+         _aiPanel ??= new StudioAiPanel(this);
+         if (_aiPanel.GetParent() is null) AddChild(_aiPanel);
+         _aiPanel.Open(Selection);
+@@ -404,9 +452,36 @@ public partial class StudioRoot : Control
+             return;
+         }
+ 
++        // A world whose data the game does not load is frozen for authoring: no editor
++        // is built at all here, so the search -> Reveal -> SetField path of any section
++        // cannot write around the gate. The object stays inspectable and says why.
++        if (WriteBlockReason is { } frozen)
++        {
++            _properties.Header(Selection is null ? "Только просмотр" : Catalog.NameOf(Selection), "запись выключена");
++            if (Selection is { } frozenId)
++            {
++                _properties.IdLine(frozenId);
++            }
++
++            _properties.Text(frozen, muted: false);
++            return;
++        }
++
+         _sections[_current].FillProperties(_properties);
+     }
+ 
++    /// <summary>
++    /// Re-states the frozen authoring state. It is editor state, so a preview reload,
++    /// Apply or Undo must not be able to clear the reason the author sees.
++    /// </summary>
++    public void RestateWriteBlock()
++    {
++        if (WriteBlockReason is { } reason)
++        {
++            ShowBanner(reason, error: false);
++        }
++    }
++
+     private void GoBack()
+     {
+         if (!_back.TryPop(out var previous))
+@@ -591,6 +666,60 @@ public partial class StudioRoot : Control
+         }
+     }
+ 
++    private void OnCampaignWorldChanged(CampaignWorldContext? context)
++    {
++        // An unresolved world is a real state, not a reason to fall back to Act I: the
++        // write gate closes, the open AI scope is invalidated, and nothing runs or saves
++        // under a stale label.
++        if (context is null)
++        {
++            SetWriteBlock(_selector?.Unresolved ?? "мир не выбран");
++            InvalidateAiContext();
++            RefreshStatus("Мир не выбран: " + (_selector?.Unresolved ?? "причина неизвестна"));
++            return;
++        }
++
++        if (_sections.TryGetValue("world", out var section) && section is StudioWorldSection world)
++        {
++            world.ApplyCampaignWorld(context);
++        }
++
++        // The block reason is NOT cleared here: StudioWorldSection.ApplyCampaignWorld sets
++        // it from the world's capability (a world the game does not load stays frozen), so
++        // clearing it afterwards would silently reopen a read-only world.
++        InvalidateAiContext();
++        RefreshStatus($"Кампания {context.Campaign.Id} · {context.World.Title}");
++    }
++
++    /// <summary>
++    /// Whether two contexts would run the same thing. The scene path alone is not enough:
++    /// one unbound scene can serve different campaigns, zones and spawn points, so every
++    /// field that decides what runs is compared.
++    /// </summary>
++    private static bool SameRunTarget(CampaignWorldContext first, CampaignWorldContext second) =>
++        first.Campaign.Selection == second.Campaign.Selection
++        && first.Campaign.Id == second.Campaign.Id
++        && first.World.WorldId == second.World.WorldId
++        && first.World.ScenePath == second.World.ScenePath
++        && first.World.ZoneId == second.World.ZoneId
++        && first.World.SpawnPointId == second.World.SpawnPointId
++        && first.PackPath == second.PackPath
++        && first.CampaignBinding == second.CampaignBinding
++        && first.Campaign.ExactVersion == second.Campaign.ExactVersion;
++
++    /// <summary>The start the chosen context declares, used when the world section has no live start.</summary>
++    private static StudioPlayStart ContextStart(CampaignWorldContext context) =>
++        new(context.World.ZoneId, context.World.SpawnPointId.Length > 0 ? context.World.SpawnPointId : "arrival", null, 0f);
++
++    /// <summary>Closes an AI scope opened for another world, so no request acts on a stale scope.</summary>
++    private void InvalidateAiContext()
++    {
++        if (_aiPanel is { Visible: true } panel)
++        {
++            panel.Hide();
++        }
++    }
++
+     private void OfferRecoveredDrafts()
+     {
+         var drafts = Drafts.Recover(Workspace, out var warnings);
+@@ -660,13 +789,51 @@ public partial class StudioRoot : Control
+             return;
+         }
+ 
++        // The refusal comes FIRST: an unresolved world must not be saved on the way to a
++        // launch that will not happen.
++        var context = CampaignContext;
++        if (context is null)
++        {
++            ShowBanner("Мир не выбран: запуск отменён, Act I по умолчанию не подставляется.", error: true);
++            return;
++        }
++
+         if (!SaveAll(autosave: false))
+         {
+             return;
+         }
+ 
++        // The spawn point belongs to the world that was chosen, so it is captured with
++        // the context: reading it after the await could pair another world's spawn with
++        // this world's scene.
++        // The start belongs to the world that was chosen, so it comes from the captured
++        // context when the world section has no live start of its own.
++        var start = _sections.TryGetValue("world", out var worldSection) && worldSection is StudioWorldSection selectedWorld
++            ? selectedWorld.PlayStart() ?? ContextStart(context)
++            : ContextStart(context);
++        // The compile INPUTS are hashed after SaveAll and re-hashed after the await: the pack
++        // the compiler writes is excluded, so a save that really changed a module source is
++        // caught while the compiler's own output is not mistaken for a change.
++        var inputHash = PlayPreparation.CompileInputHash(Workspace.Root, context.Campaign.Selection);
+         RefreshStatus("Подготовка запуска…");
+-        var build = await PlayPreparation.CompileAsync(Workspace.Root);
++        // No default substitution here: the guard above already refused an unresolved world.
++        var build = await PlayPreparation.CompileAsync(Workspace.Root, context.Campaign.Selection);
++        // The author can switch worlds while the compiler runs, so the identity is checked
++        // again: a build for one campaign must not launch another campaign's scene.
++        if (CampaignContext is not { } afterCompile || !SameRunTarget(afterCompile, context))
++        {
++            ShowBanner("Выбор сменился во время сборки: запуск отменён, соберите заново для выбранной пары кампания/мир.", error: true);
++            RefreshStatus();
++            return;
++        }
++
++        if (!string.Equals(inputHash, PlayPreparation.CompileInputHash(Workspace.Root, context.Campaign.Selection), StringComparison.Ordinal))
++        {
++            ShowBanner("Исходники изменились во время сборки: запуск отменён, повторите для актуального состояния.", error: true);
++            RefreshStatus();
++            return;
++        }
++
+         if (!build.Ready)
+         {
+             ShowBanner("Черновик не готов к запуску: " + string.Join("; ", build.Problems.Take(3)) + (build.Problems.Count > 3 ? $" и ещё {build.Problems.Count - 3}" : ""), error: true);
+@@ -674,13 +841,22 @@ public partial class StudioRoot : Control
+             return;
+         }
+ 
+-        var start = _current is not null && _sections[_current] is StudioWorldSection world ? world.PlayStart() : null;
+         var godot = OS.GetExecutablePath();
+-        var arguments = new List<string> { "--path", ProjectSettings.GlobalizePath("res://"), "res://scenes/act1_demo.tscn", "--" };
+-        arguments.Add($"--urman-studio-play={start?.Zone ?? "village_day"}@{start?.Spawn ?? "arrival"}");
+-        if (start?.Position is { } at)
+-        {
+-            arguments.Add(FormattableString.Invariant($"--urman-studio-at={at.X:0.###},{at.Y:0.###},{at.Z:0.###},{start.Yaw:0.#}"));
++        // No fallback scene: the context was resolved above, and substituting another
++        // world's scene is exactly what the selection must prevent.
++        var scenePath = context.World.ScenePath;
++        var arguments = new List<string> { "--path", ProjectSettings.GlobalizePath("res://"), scenePath, "--" };
++
++        // The zone, spawn and point arguments are read by the Act I demo root only, so
++        // they are passed for that scene alone instead of pretending they move the
++        // player in a scene that never reads them.
++        if (string.Equals(scenePath, "res://scenes/act1_demo.tscn", StringComparison.Ordinal))
++        {
++            arguments.Add($"--urman-studio-play={start?.Zone ?? "village_day"}@{start?.Spawn ?? "arrival"}");
++            if (start?.Position is { } at)
++            {
++                arguments.Add(FormattableString.Invariant($"--urman-studio-at={at.X:0.###},{at.Y:0.###},{at.Z:0.###},{start.Yaw:0.#}"));
++            }
+         }
+ 
+         arguments.Add($"--urman-studio-label={build.RevisionLabel}");
+@@ -758,11 +934,13 @@ public partial class StudioRoot : Control
+ 
+         var top = Bar(root);
+         top.AddChild(new Label { Text = "URMAN Studio", ThemeTypeVariation = "HeaderLabel" });
+-        top.AddChild(new Label { Text = "· проект «Урман», глава 1", ThemeTypeVariation = "MutedLabel" });
++        _selector = new StudioCampaignSelector(this);
++        top.AddChild(_selector.View);
+         _undo = Button(top, "↶ Отменить", Undo);
+         _undo.Name = "UndoButton";
+         _redo = Button(top, "↷", Redo);
+-        Button(top, "Изменить с ИИ", OpenAiPanel).TooltipText = "Выберите объект и опишите изменение (⌘/Ctrl+Enter в окне мира)";
++        _ai = Button(top, "Изменить с ИИ", OpenAiPanel);
++        _ai.TooltipText = "Выберите объект и опишите изменение (⌘/Ctrl+Enter в окне мира)";
+         Button(top, "Сохранить", () => SaveAll(autosave: false)).TooltipText = "Сохранить все изменения (⌘S)";
+         Button(top, "История…", OpenHistory).TooltipText = "Доступные команды отмены и повтора";
+         Button(top, "Контрольные точки…", OpenCheckpoints).TooltipText = "Именованный снимок и просмотр отличий перед восстановлением";
+@@ -772,6 +950,10 @@ public partial class StudioRoot : Control
+         top.AddChild(_search);
+         _status = new Label { CustomMinimumSize = new(220, 0), HorizontalAlignment = HorizontalAlignment.Right };
+         top.AddChild(_status);
++        // Subscribed only now: the selector resolves its default while it builds, and the
++        // handler touches controls that must already exist when it runs. The initial
++        // context is applied explicitly after the sections are registered.
++        _selector.Changed += OnCampaignWorldChanged;
+         Button(top, "Проверить", CheckContent);
+         _play = Button(top, "▶ Играть отсюда", PlayFromHere);
+         _play.ThemeTypeVariation = "PrimaryButton";
+@@ -925,7 +1107,28 @@ public partial class StudioRoot : Control
+     private async void CheckContent()
+     {
+         RefreshStatus("Проверка…");
+-        var result = await new Urman.Content.Compilation.ContentCompiler().CompileAsync(Workspace.Root, PlayPreparation.Campaign, []);
++        if (CampaignContext is not { } checkedContext)
++        {
++            ShowBanner("Мир не выбран: проверка отменена, Act I по умолчанию не подставляется.", error: true);
++            return;
++        }
++
++        var checkHash = PlayPreparation.CompileInputHash(Workspace.Root, checkedContext.Campaign.Selection);
++        var result = await new Urman.Content.Compilation.ContentCompiler().CompileAsync(Workspace.Root, checkedContext.Campaign.Selection, []);
++        if (CampaignContext is not { } afterCheck || !SameRunTarget(afterCheck, checkedContext))
++        {
++            ShowBanner("Выбор сменился во время проверки: результат относится к другому выбору и не показан.", error: true);
++            RefreshStatus();
++            return;
++        }
++
++        if (!string.Equals(checkHash, PlayPreparation.CompileInputHash(Workspace.Root, checkedContext.Campaign.Selection), StringComparison.Ordinal))
++        {
++            ShowBanner("Исходники изменились во время проверки: отчёт относится к другому состоянию и не показан.", error: true);
++            RefreshStatus();
++            return;
++        }
++
+         var dirty = Workspace.Files.Count(file => file.Dirty);
+         var unsupported = Urman.Studio.Core.Editing.ConditionPhrases.FindNotExecuted(Workspace);
+         string coverageText;
+diff --git a/game/studio/StudioWorldSection.cs b/game/studio/StudioWorldSection.cs
+index 3c65edc2..63e7e485 100644
+--- a/game/studio/StudioWorldSection.cs
++++ b/game/studio/StudioWorldSection.cs
+@@ -78,6 +78,34 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
+         "urman.catalog:agentb_foliage_kit/winterbirch-1", "urman.catalog:agentb_foliage_kit/winterbirch-2", "urman.catalog:agentb_foliage_kit/winterrowan-1"
+     ];
+ 
++    private CampaignWorldContext? _context;
++    private string _contextZone = "village_day";
++    private string _contextSpawn = "arrival";
++
++    /// <summary>The campaign and world chosen in the top bar; the preview and "Play from here" follow it.</summary>
++    public CampaignWorldContext? Context => _context;
++
++    /// <summary>
++    /// Applies the author's campaign/world choice. The embedded preview can only hold
++    /// the Act I scene, whose authored world the game really loads, so a
++    /// presentation-only world freezes authoring through the root gate instead of
++    /// being shown as editable; the run path still follows the chosen scene.
++    /// </summary>
++    public void ApplyCampaignWorld(CampaignWorldContext context)
++    {
++        _context = context;
++        _contextZone = context.World.ZoneDeclaredByScene ? context.World.ZoneId : "village_day";
++        _contextSpawn = context.World.SpawnPointId.Length > 0 ? context.World.SpawnPointId : "arrival";
++        var readOnly = context.World.Capability != WorldAuthoringCapability.AuthoredWorldPlots;
++        studio.SetWriteBlock(readOnly
++            ? $"«{context.World.Title}» открыт только для просмотра: игра не загружает авторских данных этого мира, поэтому правки, инструменты и ИИ для него выключены. Запуск этой сцены доступен."
++            : null);
++        if (!readOnly && _view is not null)
++        {
++            _hint.Visible = false;
++        }
++    }
++
+     public string Key => "world";
+     public string Title => "Мир · деревня";
+     public Control View => _view ??= Build();
+@@ -263,7 +291,7 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
+             await studio.ToSignal(studio.GetTree(), SceneTree.SignalName.ProcessFrame);
+         }
+ 
+-        if (!await _demo.StartDebugZoneAsync("village_day", "arrival"))
++        if (!await _demo.StartDebugZoneAsync(_contextZone, _contextSpawn))
+         {
+             _hint.Text = "Не удалось поднять мир игры. Подробности — в журнале Studio.";
+             return;
+@@ -297,6 +325,9 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
+             _previewed[id] = entity.ToJsonString();
+         }
+ 
++        // The frozen authoring state lives in the root and must survive this reload:
++        // the reason is stated again instead of disappearing with the old banner.
++        studio.RestateWriteBlock();
+         Refresh();
+     }
+ 
+@@ -606,6 +637,13 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
+     private void OnViewportInput(InputEvent @event)
+     {
+         if (studio.IsAiPanelVisible) return;
++        // A world whose data the game does not load is read-only: no placement, brush,
++        // ruler point or sculpt may start from the viewport.
++        if (studio.WriteBlockReason is not null)
++        {
++            return;
++        }
++
+         if (@event is InputEventKey { Pressed: true, Echo: false, Keycode: global::Godot.Key.Enter or global::Godot.Key.KpEnter } key
+             && (key.MetaPressed || key.CtrlPressed) && HasViewportFocus)
+         {
+@@ -1040,6 +1078,12 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
+ 
+     public string Place(string catalogId, Vector3 at)
+     {
++        if (studio.WriteBlockReason is { } blocked)
++        {
++            studio.RefreshStatus("Размещение выключено: " + blocked);
++            return "";
++        }
++
+         var entry = _catalog.OfType<JsonObject>().First(item => (string)item["id"]! == catalogId);
+         var id = $"urman.world:studio/street/prop-{Convert.ToHexStringLower(System.Security.Cryptography.RandomNumberGenerator.GetBytes(4))}";
+         using (studio.Session.Begin($"поставить «{entry["name"]}»"))
+@@ -1089,6 +1133,12 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
+ 
+     public void ShowImport(string file)
+     {
++        if (studio.WriteBlockReason is { } blocked)
++        {
++            studio.ShowBanner("Импорт выключен: " + blocked, error: true);
++            return;
++        }
++
+         var report = StudioImporter.Check(studio, file);
+         var dialog = new ConfirmationDialog { Title = "Импорт: " + Path.GetFileName(file), OkButtonText = report.CanImport ? "Добавить" : "Закрыть", CancelButtonText = "Отмена", MinSize = new Vector2I(560, 0) };
+         var box = new VBoxContainer();
+@@ -1148,8 +1198,28 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
+     /// <summary>One terrain stroke as one entity (one undo step): raise, lower, smooth, or flatten to the clicked height.</summary>
+     public string SculptStroke(Vector3 at, string mode, float radius, float strength)
+     {
++        if (studio.WriteBlockReason is { } blocked)
++        {
++            studio.RefreshStatus("Рельеф выключен: " + blocked);
++            return "";
++        }
++
+         var id = $"urman.world:terrain/stroke-{Convert.ToHexStringLower(System.Security.Cryptography.RandomNumberGenerator.GetBytes(4))}";
+         var label = mode switch { "raise" => "поднять", "lower" => "опустить", "smooth" => "сгладить", _ => "выровнять" };
++        var strokeParams = new JsonObject
++        {
++            ["mode"] = mode,
++            ["position"] = new JsonArray(Math.Round(at.X, 2), 0.0, Math.Round(at.Z, 2)),
++            ["radius"] = Math.Round(radius, 2),
++            ["strength"] = Math.Round(strength, 3),
++            ["target"] = Math.Round(at.Y, 3)
++        };
++        if (TerrainStrokeCommand.Validate(TerrainStrokeCommand.Parse(id, new JsonObject { ["params"] = strokeParams })) is { Count: > 0 } strokeProblems)
++        {
++            studio.RefreshStatus("Штрих рельефа не применён: " + string.Join(" ", strokeProblems));
++            return "";
++        }
++
+         using (studio.Session.Begin($"рельеф: {label}"))
+         {
+             if (!studio.Workspace.HasFile(TerrainPath))
+@@ -1208,7 +1278,33 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
+     /// <summary>One brush stroke as one entity: centre, radius, density, models and a seed (one undo step, reproducible).</summary>
+     public string PaintStroke(Vector3 at, string[] models, float radius, float density)
+     {
++        if (studio.WriteBlockReason is { } blocked)
++        {
++            studio.RefreshStatus("Кисть выключена: " + blocked);
++            return "";
++        }
++
+         var id = $"urman.world:studio/street/plants-{Convert.ToHexStringLower(System.Security.Cryptography.RandomNumberGenerator.GetBytes(4))}";
++        var draft = new JsonObject
++        {
++            ["position"] = new JsonArray(Math.Round(at.X, 2), 0.0, Math.Round(at.Z, 2)),
++            ["radius"] = Math.Round(radius, 2),
++            ["density"] = Math.Round(density, 4),
++            ["seed"] = System.Security.Cryptography.RandomNumberGenerator.GetInt32(1, int.MaxValue),
++            ["catalogIds"] = new JsonArray(models.Select(model => (JsonNode?)model).ToArray()),
++            ["scaleMin"] = 0.8,
++            ["scaleMax"] = 1.2
++        };
++        // The runtime builds round(pi r^2 density) plants from this command, so an
++        // impossible or oversized scatter is refused before anything is written.
++        // The write gate above also uses a local named for its reason, so this one
++        // keeps its own name: both checks must coexist in the same method.
++        if (ScatterCommand.BlockReason(ScatterCommand.Parse(id, new JsonObject { ["params"] = draft })) is { } scatterProblem)
++        {
++            studio.RefreshStatus("Кисть не применена: " + scatterProblem);
++            return "";
++        }
++
+         using (studio.Session.Begin("штрих кисти растительности"))
+         {
+             EnsureStreetPlot();
+@@ -1271,7 +1367,7 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
+         var spawn = at + toward * 2.2f;
+         spawn.Y = AgentBAct1HeightField.CollisionGround(spawn.X, spawn.Z) + .1f;
+         var yaw = Mathf.RadToDeg(Mathf.Atan2(-toward.X, -toward.Z));
+-        return new("village_day", "arrival", spawn, yaw);
++        return new(_contextZone, _contextSpawn, spawn, yaw);
+     }
+ 
+     public void FillProperties(StudioProperties panel)
+diff --git a/src-dotnet/Urman.Studio.Core/Play/PlayPreparation.cs b/src-dotnet/Urman.Studio.Core/Play/PlayPreparation.cs
+index 8fd4e58b..7e5d1f6c 100644
+--- a/src-dotnet/Urman.Studio.Core/Play/PlayPreparation.cs
++++ b/src-dotnet/Urman.Studio.Core/Play/PlayPreparation.cs
+@@ -1,4 +1,6 @@
+ using System.Text;
++using System.Text.Json.Nodes;
++using Urman.Studio.Core.Editing;
+ using Urman.Content.Compilation;
+ using Urman.Studio.Core.Storage;
+ 
+@@ -18,9 +20,109 @@ public static class PlayPreparation
+     public const string Campaign = "urman.chapter1";
+     public const string PackPath = "game/content/urman.chapter1.compiled.v1.json";
+ 
+-    public static async Task<PlayBuild> CompileAsync(string root, CancellationToken cancellationToken = default)
++    /// <summary>The compiled pack of one campaign selection, so a run follows the chosen campaign.</summary>
++    public static string PackPathFor(string campaignSelection) => $"game/content/{campaignSelection}.compiled.v1.json";
++
++    public static Task<PlayBuild> CompileAsync(string root, CancellationToken cancellationToken = default) =>
++        CompileAsync(root, Campaign, cancellationToken);
++
++    /// <summary>
++    /// The hash of everything compilation reads for one campaign: its manifest, the files of
++    /// its modules and the schemas. The compiled pack is deliberately NOT part of it, because
++    /// the compiler writes that pack itself, so hashing it would make every run look changed
++    /// while the author changed nothing. The module folder mapping is the shared one, so a
++    /// module id with dots resolves the same way here as in the coverage report.
++    /// </summary>
++    public static string CompileInputHash(string root, string campaignSelection)
++    {
++        ArgumentException.ThrowIfNullOrWhiteSpace(root);
++        var full = Path.GetFullPath(root);
++        var selection = string.IsNullOrWhiteSpace(campaignSelection) ? Campaign : campaignSelection;
++        var files = new SortedSet<string>(StringComparer.Ordinal);
++        var manifest = Path.Combine(full, "content", "campaigns", selection, "campaign.json");
++        JsonObject? campaign = null;
++        if (File.Exists(manifest))
++        {
++            files.Add(manifest);
++            campaign = JsonNode.Parse(File.ReadAllText(manifest)) as JsonObject;
++        }
++
++        if (campaign?["modules"] is JsonArray modules)
++        {
++            foreach (var module in modules.OfType<JsonObject>()
++                .Select(item => (string?)item["moduleId"])
++                .OfType<string>()
++                .Where(id => id.Length > 0))
++            {
++                var folder = Path.Combine(full, "content", "modules", RuleCatalogCoverage.ModuleFolder(module));
++                if (!Directory.Exists(folder))
++                {
++                    continue;
++                }
++
++                foreach (var file in Directory.EnumerateFiles(folder, "*", SearchOption.AllDirectories))
++                {
++                    files.Add(file);
++                }
++            }
++        }
++
++        // The PhotoWorlds authoring specs are compiler inputs too, and they live OUTSIDE the
++        // module folders, so the manifest names them. The rule is the compiler's own: a spec
++        // must be a workspace-relative path that stays inside the workspace, and a rooted or
++        // escaping path is skipped here exactly as the compiler refuses it. No second registry:
++        // the same declaration is read, one name per spec.
++        if (campaign?["photoBook"]?["authoringSpecSources"] is JsonObject specSources)
++        {
++            foreach (var pair in specSources)
++            {
++                if (pair.Value is not JsonValue value || !value.TryGetValue<string>(out var reference) || string.IsNullOrWhiteSpace(reference) || Path.IsPathRooted(reference))
++                {
++                    continue;
++                }
++
++                var specPath = Path.GetFullPath(Path.Combine(full, reference.Replace('\\', '/').Replace('/', Path.DirectorySeparatorChar)));
++                var relativeSpec = Path.GetRelativePath(full, specPath);
++                if (relativeSpec == ".." || relativeSpec.StartsWith($"..{Path.DirectorySeparatorChar}", StringComparison.Ordinal) || Path.IsPathRooted(relativeSpec))
++                {
++                    continue;
++                }
++
++                if (File.Exists(specPath))
++                {
++                    files.Add(specPath);
++                }
++            }
++        }
++
++        var schemas = Path.Combine(full, "content", "schemas");
++        if (Directory.Exists(schemas))
++        {
++            foreach (var file in Directory.EnumerateFiles(schemas, "*", SearchOption.AllDirectories))
++            {
++                files.Add(file);
++            }
++        }
++
++        using var hash = System.Security.Cryptography.SHA256.Create();
++        var buffer = new MemoryStream();
++        foreach (var file in files)
++        {
++            var relative = Path.GetRelativePath(full, file).Replace('\\', '/');
++            var name = System.Text.Encoding.UTF8.GetBytes(relative);
++            buffer.Write(name, 0, name.Length);
++            var bytes = File.ReadAllBytes(file);
++            buffer.Write(bytes, 0, bytes.Length);
++        }
++
++        buffer.Position = 0;
++        return Convert.ToHexString(hash.ComputeHash(buffer)).ToLowerInvariant();
++    }
++
++    public static async Task<PlayBuild> CompileAsync(string root, string campaignSelection, CancellationToken cancellationToken = default)
+     {
+-        var result = await new ContentCompiler().CompileAsync(root, Campaign, [], cancellationToken);
++        var selection = string.IsNullOrWhiteSpace(campaignSelection) ? Campaign : campaignSelection;
++        var result = await new ContentCompiler().CompileAsync(root, selection, [], cancellationToken);
+         if (!result.IsSuccess)
+         {
+             return new(false, "", "", result.Diagnostics
+@@ -29,7 +131,7 @@ public static class PlayPreparation
+         }
+ 
+         var text = CompiledPackText.Serialize(result.Pack!);
+-        var path = Path.Combine(root, PackPath);
++        var path = Path.Combine(root, PackPathFor(selection));
+         if (!File.Exists(path) || File.ReadAllText(path) != text)
+         {
+             AtomicFile.WriteAllBytes(path, new UTF8Encoding(false).GetBytes(text));

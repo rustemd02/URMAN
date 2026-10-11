@@ -1,0 +1,20 @@
+== AI-13 v15: the PhotoWorlds authoring specs are compiler inputs too
+== composed tree: origin/main 57504c79 + my branch + session v3 + ai13 v15
+
+== builds
+
+Прошло времени 00:00:03.13
+
+Прошло времени 00:00:13.33
+== probe
+--- compile input hash (AI-13)
+PASS  the compile input hash is stable and looks like a sha256
+PASS  the generated pack is excluded, so the compiler's own output is not mistaken for a source change
+PASS  changing a PhotoWorlds authoring spec changes the hash
+PASS  a rooted or escaping spec path is refused rather than read, as the compiler refuses it
+  real campaign input hash: eebbd760d6305785… (len 64)
+PROBE RESULT: PASS
+== real-file proof on the clone the probe reads
+before: 33f2b3ff686e89b9…
+after touching photos.spec.json: 944d2139f1c5ac6b…
+restored:        0 changes

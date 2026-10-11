@@ -74430,6 +74430,12 @@
                 "result": "answer by deepseek v4.1 flash to the reviewed gap: SameRunTarget ran after the await but read the cached selector context and compared identity only, so a source change during the compile was invisible, and ContentFingerprint was not the answer because the compiler itself changes the pack it covers. Producer: PlayPreparation.CompileInputHash hashes exactly what compilation reads - the campaign manifest, the files of its module folders (shared ModuleFolder mapping) and content/schemas - and never names the generated pack, which lives outside those trees. Consumer: PlayFromHere and CheckContent hash after SaveAll before the await, re-hash after the await and refuse on a difference, and the identity check now also compares Campaign.ExactVersion. Existing guards stay; no second registry. Measured: stable 64-character digest, real campaign eebbd760..., writing the pack changes nothing, one module edit changes it",
                 "source": "evidence/STUDIO/b20-deepseek-ai-13/2026-10-11-v14-compile-input-hash/ai13-wiring-v14.patch and ai13-write-boundary-v3.patch",
                 "verification": "session v3 and v14 pass git apply --check on a pristine 0dc81856 tree with my branch merged and were applied there; Core 0/0; game/Urman.Game.csproj 0/0; the probe against the composed tree PASSES including the new hash checks. IMPORTANT: Urman.Studio.Tests.TemplateTests.ANewDraftTravelsAsDataWithItsDependencies fails on clean origin/main 0dc81856 with no patch and fails identically with it (38 tests, 1 failed, same test), so the failure is main's own and is reported, not adopted"
+              },
+              {
+                "stage": "2026-10-11 v15: the PhotoWorlds authoring specs are compiler inputs too",
+                "result": "answer by deepseek v4.1 flash to the 20:24 review: v14 covered the manifest, the module folders and content/schemas, but ContentCompiler also reads photoBook.authoringSpecSources, and urman.fullgame keeps photos/worlds/assets.spec.json under content/campaigns/urman.fullgame/photoworlds-sources, outside all of them. The producer now reads the SAME declaration and applies the compiler's own rule - a spec must be a workspace-relative path that stays inside the workspace, while rooted or escaping paths are skipped as the compiler refuses them. No second registry list. The consumer is unchanged from v14. Verified: session v3 and v15 apply on a pristine 57504c79 tree with my branch; Core 0/0; game/Urman.Game.csproj 0/0; probe PASS 596/596 including a spec change being detected and a hostile path refused; editing the real fullgame photos.spec.json moved the hash from 33f2b3ff686e89b9 to 944d2139f1c5ac6b and the file was restored with zero diff. Own mistake recorded: my first real-file test edited the composed tree while the probe reads a fixed clone root",
+                "source": "evidence/STUDIO/b20-deepseek-ai-13/2026-10-11-v15-spec-sources/ai13-wiring-v15.patch and ai13-write-boundary-v3.patch",
+                "verification": "apply-check on pristine 57504c79; Core 0/0; game 0/0; probe PASS 596/596; the real-file proof is in check.log with the file restored (zero diff). SOURCE stage: native stays paused"
               }
             ],
             "stage_tasks": [
@@ -74467,7 +74473,9 @@
               "Патчи v13/session v3 ждут ревью; runtime-приёмка NOT_RUN, пока автор держит паузу.",
               "Ранее переданный частичный этап (2026-10-11 v13: the asynchronous undo paths go through the write gate, and the post-await check compares the whole run target) ждёт ревью/приёмки; полный done_when не выполнен.",
               "Патчи v14/session v3 ждут ревью; на чистом main есть своя падающая проверка TemplateTests.ANewDraftTravelsAsDataWithItsDependencies.",
-              "Ранее переданный частичный этап (2026-10-11 v14: a fresh hash of the compile INPUTS, excluding the generated pack) ждёт ревью/приёмки; полный done_when не выполнен."
+              "Ранее переданный частичный этап (2026-10-11 v14: a fresh hash of the compile INPUTS, excluding the generated pack) ждёт ревью/приёмки; полный done_when не выполнен.",
+              "Патч v15 ждёт ревью; на main остаётся своя падающая проверка TemplateTests.ANewDraftTravelsAsDataWithItsDependencies.",
+              "Ранее переданный частичный этап (2026-10-11 v15: the PhotoWorlds authoring specs are compiler inputs too) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
             "next_action": "STUDIO/AI-13/SELECTOR: подключить выбор actual context.",
             "blocker": null,

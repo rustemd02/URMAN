@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-13"
+  ],
+  "stage": "v15: the PhotoWorlds authoring specs are compiler inputs too",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-11 21:07 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "57504c79",
+  "answer_to_review": {
+    "gap": "the v14 hash covered the campaign manifest, its module folders and content/schemas, but ContentCompiler also reads photoBook.authoringSpecSources, and urman.fullgame keeps photos.spec.json, worlds.spec.json and assets.spec.json under content/campaigns/urman.fullgame/photoworlds-sources - outside all of those - so editing them was invisible",
+    "fix": "the producer now reads the SAME declaration the compiler reads (photoBook.authoringSpecSources, one name per spec) and applies the compiler's own rule: a spec must be a workspace-relative path that stays inside the workspace, while a rooted or escaping path is skipped exactly as the compiler refuses it. No second registry list was added",
+    "consumer": "unchanged from v14: PlayFromHere and CheckContent hash after SaveAll before the await, re-hash after the await and refuse on a difference, with Campaign.ExactVersion in the identity check"
+  },
+  "verified": {
+    "apply": "session v3 and wiring v15 pass git apply --check on a pristine 57504c79 tree with my branch merged and were applied there",
+    "compile": "Urman.Studio.Core 0/0; game/Urman.Game.csproj 0/0",
+    "probe": "PASS 596/596 including the new checks: changing a PhotoWorlds authoring spec changes the hash, and a rooted or escaping spec path is refused rather than read",
+    "real_file_proof": "editing the real content/campaigns/urman.fullgame/photoworlds-sources/photos.spec.json moved the fullgame hash from 33f2b3ff686e89b9 to 944d2139f1c5ac6b, and the file was restored afterwards with zero diff",
+    "not_run": "no Studio window: SOURCE stage, native stays paused"
+  },
+  "own_mistakes": "my first attempt to prove the real-file case edited the composed tree while the probe reads the clone's root (its root is fixed), so the hash looked unchanged; the log now records the test against the file the probe really reads",
+  "files": {
+    "evidence/STUDIO/b20-deepseek-ai-13/2026-10-11-v15-spec-sources/ai13-wiring-v15.patch": "b705333ac4c009c7851f3a1788636d2abce731540372edac53881ceeb1b7d864",
+    "evidence/STUDIO/b20-deepseek-ai-13/2026-10-11-v15-spec-sources/ai13-write-boundary-v3.patch": "229e9dd8b0edfe31cac45d2d4d6914d240d14a838d8100ccf0860cf3c48c3d8a",
+    "evidence/STUDIO/b20-deepseek-ai-13/2026-10-11-v15-spec-sources/check.log": "eebb3ad4a99eaaf8bef200e5cb83968c55266d4773ca6620141e5ec19d880a7d"
+  },
+  "open": [
+    "the patch still needs the owner's review, and main's own failing TemplateTests test remains main's issue"
+  ]
+}
