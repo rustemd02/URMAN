@@ -1,0 +1,15 @@
+== AI-25: the investigation puzzle steps and their references
+
+
+Прошло времени 00:00:00.58
+
+Прошло времени 00:00:13.26
+== existing tests
+=== TEST EXECUTION SUMMARY ===
+   Urman.Studio.Tests  Total: 38, Errors: 0, Failed: 0, Skipped: 0, Not Run: 0, Time: 2,226s
+== probe
+  puzzle steps: 15, references: 34, problems: 1
+    note: Шагов расследования: 15 (противоречий 3, гипотез 12); ссылок в них: 34.
+    note: Статусы, которые движок ранжирует: hidden, guessed, confirmed; все авторские шаги используют hidden.
+    PROBLEM: Противоречие ничего не опровергает: это не шаг расследования.
+PROBE RESULT: PASS

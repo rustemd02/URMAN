@@ -76769,6 +76769,12 @@
                 "result": "partial implementation by deepseek v4.1 flash: all three halves the unit names are covered against their real readers - three vehicles against VehicleDefinition.Load, the authored shop catalogue against the use handlers that live in code (a product whose use id no handler matches can be bought and never applied), and the fence-run against the static reader that would fail type initialisation",
                 "source": "evidence/STUDIO/b20-deepseek-ai-25/ (2026-10-11-vehicles, 2026-10-11-shop, 2026-10-11-fence)",
                 "verification": "probe PASS 374/374 at the fence stage; Core 0/0; game 0/0; Urman.Studio.Tests 38/38. Driving, buying and crashing are NOT_RUN"
+              },
+              {
+                "stage": "2026-10-11 the investigation puzzle steps and their references",
+                "result": "deepening by deepseek v4.1 flash: fifteen authored puzzle steps (three contradictions, twelve hypotheses) with thirty-four references, all resolving in the workspace, so no step is unreachable. The statuses the engine ranks are hidden/guessed/confirmed and every step uses hidden; an unranked status would silently be the lowest rank. One real finding: a contradiction with no contradicts entry, reported for an author decision. Own mistakes recorded: requiring every step to reveal something flagged twelve correct hypotheses, and counting forty-three records before noticing twenty-eight were compiled pack copies rather than sources",
+                "source": "new file src-dotnet/Urman.Studio.Core/Editing/InvestigationPuzzle.cs; evidence evidence/STUDIO/b20-deepseek-ai-25/2026-10-11-investigation-puzzle",
+                "verification": "probe PASS 544/544 including the fifteen steps, the thirty-four resolved references, the status ranking note and the single contradiction finding; Core 0/0; game/Urman.Game.csproj 0/0; Urman.Studio.Tests 38/38. Whether the investigation is interesting or well worded is NOT_RUN and external"
               }
             ],
             "stage_tasks": [
@@ -76800,7 +76806,9 @@
             "technical_verification_state": "not_run",
             "remaining": [
               "Параметры существующих магазинов, транспорта и головоломок доступны без ручного JSON.; отсутствует подтверждение собственного конечного DoD, перечисленного ниже.",
-              "Ранее переданный частичный этап (2026-10-11 vehicles, shop and the fence puzzle) ждёт ревью/приёмки; полный done_when не выполнен."
+              "Ранее переданный частичный этап (2026-10-11 vehicles, shop and the fence puzzle) ждёт ревью/приёмки; полный done_when не выполнен.",
+              "Одно противоречие не имеет contradicts: нужно авторское решение.",
+              "Ранее переданный частичный этап (2026-10-11 the investigation puzzle steps and their references) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
             "next_action": "Для каждого типа записать source/consumer/units/range; сделать schema form; typed set; ограничения/protected fields; сохранить и проверить конкретное поведение.",
             "blocker": null,

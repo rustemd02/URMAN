@@ -1,0 +1,31 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-25"
+  ],
+  "stage": "the investigation puzzle steps and their references",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-11 19:31 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "6764bd62",
+  "result": {
+    "steps": "fifteen AUTHORED puzzle steps (three contradictions and twelve hypotheses) with thirty-four references in total",
+    "references": "every id a step names - its sources, what it reveals, what it contradicts and what it unlocks - resolves in the workspace, so no step is unreachable",
+    "status": "the statuses the engine really ranks are hidden, guessed and confirmed (VocabularyRank: confirmed 2, guessed 1, everything else 0), and every authored step uses hidden. The note records that an unranked status would silently be the lowest rank rather than an error",
+    "one_finding": "a conjunction of authored facts: one contradiction carries no contradicts entry at all, so as a puzzle step it contradicts nothing. It is reported for review instead of being silently accepted or silently invented around",
+    "own_mistakes": "two more of my own errors are recorded: I first required every step to reveal or unlock something, which flagged twelve hypotheses that are correct as they are (a hypothesis states a possibility; most carry only sources), and I counted forty-three records until I noticed that twenty-eight of them were compiled pack copies rather than authored sources - the workspace's fifteen is the authored truth"
+  },
+  "verified": {
+    "probe": "PASS 544/544 with the new checks: fifteen authored steps, thirty-four references, no unresolved reference and the single contradiction finding",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors; game/Urman.Game.csproj 0 warnings/0 errors",
+    "existing_tests": "Urman.Studio.Tests 38/38",
+    "not_run": "no game run: whether the investigation is interesting or correctly worded is author and language acceptance, NOT_RUN"
+  },
+  "files": {
+    "evidence/STUDIO/b20-deepseek-ai-25/2026-10-11-investigation-puzzle/check.log": "58ffdfeace2fe7c8a4e745f7e374efbeb420816b640e70528b1489f03f14dbc2"
+  },
+  "open": [
+    "the contradiction without a contradicts entry needs an author decision",
+    "language and culture acceptance stays external"
+  ]
+}
