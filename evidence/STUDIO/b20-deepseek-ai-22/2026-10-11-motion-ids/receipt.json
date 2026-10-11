@@ -1,0 +1,29 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-22"
+  ],
+  "stage": "the motion ids the schedules ask for against the animation catalog",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-11 21:54 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "b42fe09a",
+  "result": {
+    "mechanism": "a schedule's motion and walkMotion are motion IDS (the defaults are urman.anim:idle and urman.anim:walk) played through AnimationCatalog.Play",
+    "measured": "the campaign's thirty-three schedules ask for three motions - idle-plain, sit and talk-plain - and all three resolve among the thirty-one authored animation definitions, so ZERO gaps today",
+    "why_it_matters": "AnimationCatalog.Play returns a FAILURE RESULT for an unknown id ('В каталоге нет движения ...') and every schedule caller DISCARDS that result (lines 231, 253 and 258), so a wrong id leaves the character silently standing in its default pose: no error, no warning, just an NPC that does not move as authored. The check is ready for the next motion and the notes carry that consequence",
+    "not_checked": "the pose itself: whether an animation looks right is visual acceptance"
+  },
+  "verified": {
+    "probe": "PASS 657/657 including the three authored motions, the thirty-one definitions, the zero-gap result and a synthetic unknown motion reporting the refusal and the discarded result",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors (composed tree with my branch and the v15 patch)",
+    "not_run": "no game run: the NPC's animation is visual acceptance"
+  },
+  "own_mistakes": "my first version cast obj[\"kind\"] and obj[field] to string, which THROWS on a non-value node - the same trap I hit before. Both reads now use TryGetValue, and the probe caught the crash before it could reach a Studio caller",
+  "files": {
+    "evidence/STUDIO/b20-deepseek-ai-22/2026-10-11-motion-ids/check.log": "42eeceadae50c557d0f817a2423b854d659b8c214bde39778133b2947c26fcb3"
+  },
+  "open": [
+    "routes, waits, looks and follow remain authored nowhere, as the earlier stage recorded"
+  ]
+}

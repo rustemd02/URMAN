@@ -1,0 +1,7 @@
+== AI-22: the motion ids the schedules ask for against the animation catalog
+
+
+Прошло времени 00:00:03.34
+  authored motions: [urman.anim:idle-plain, urman.anim:sit, urman.anim:talk-plain]; animation definitions: 31; gaps: 0
+    motion synthetic: Расписание просит движение «urman.anim:does-not-exist», которого нет среди 1 авторских анимаций: AnimationCatalog.Play вернёт отказ «В каталоге нет движения», а расписание этот отказ НЕ читает — персонаж молча останется в позе по умолчанию.
+PROBE RESULT: PASS

@@ -264,4 +264,155 @@ public static class NpcSchedules
         number = 0;
         return node is JsonValue value && value.TryGetValue<double>(out number) && double.IsFinite(number);
     }
+    /// <summary>
+    /// The motion ids the authored schedules ask for, checked against the animation definitions the
+    /// runtime's catalog is built from. AnimationCatalog.Play returns a FAILURE RESULT for an
+    /// unknown id ("В каталоге нет движения ..."), and every schedule caller discards that result
+    /// (lines 231, 253 and 258), so a wrong id leaves the character silently standing in its
+    /// default pose: no error, no warning, just an NPC that does not move as authored.
+    ///
+    /// The campaign's thirty-three schedules use idle-plain, talk-plain and sit, and all three
+    /// resolve today. The check is here for the next one.
+    /// </summary>
+    public static IReadOnlyList<string> MotionGaps(StudioWorkspace workspace, string root)
+    {
+        ArgumentNullException.ThrowIfNull(workspace);
+        ArgumentException.ThrowIfNullOrWhiteSpace(root);
+        var animations = AnimationIds(root);
+        if (animations.Count == 0)
+        {
+            return ["Каталог движений не прочитан: сверять нечем."];
+        }
+
+        var gaps = new List<string>();
+        foreach (var reference in AuthoredMotionIds(workspace))
+        {
+            if (!animations.Contains(reference))
+            {
+                gaps.Add($"Расписание просит движение «{reference}», которого нет среди {animations.Count} авторских анимаций: AnimationCatalog.Play вернёт отказ «В каталоге нет движения», а расписание этот отказ НЕ читает — персонаж молча останется в позе по умолчанию.");
+            }
+        }
+
+        return gaps;
+    }
+
+    /// <summary>Every motion id the authored schedules name, in their own runtime field names.</summary>
+    public static IReadOnlyList<string> AuthoredMotionIds(StudioWorkspace workspace)
+    {
+        ArgumentNullException.ThrowIfNull(workspace);
+        var ids = new SortedSet<string>(StringComparer.Ordinal);
+        foreach (var id in workspace.EntityIds)
+        {
+            if (workspace.Get(id) is not { } entity)
+            {
+                continue;
+            }
+
+            var pending = new Stack<JsonNode?>();
+            pending.Push(entity);
+            while (pending.Count > 0)
+            {
+                switch (pending.Pop())
+                {
+                    case JsonObject obj:
+                        foreach (var field in new[] { "motion", "walkMotion" })
+                        {
+                            // TryGetValue, not a cast: a field that holds an object or an array
+                            // throws on the cast, and the projection must report rather than crash.
+                            if (obj[field] is JsonValue motionValue
+                                && motionValue.TryGetValue<string>(out var motion)
+                                && motion is { Length: > 0 })
+                            {
+                                ids.Add(motion);
+                            }
+                        }
+
+                        foreach (var pair in obj)
+                        {
+                            pending.Push(pair.Value);
+                        }
+
+                        break;
+                    case JsonArray array:
+                        foreach (var item in array)
+                        {
+                            pending.Push(item);
+                        }
+
+                        break;
+                }
+            }
+        }
+
+        return ids.ToArray();
+    }
+
+    /// <summary>The ids of the authored animation definitions, which are what the catalog loads.</summary>
+    public static IReadOnlySet<string> AnimationIds(string root)
+    {
+        var ids = new HashSet<string>(StringComparer.Ordinal);
+        var full = Path.GetFullPath(root ?? "");
+        foreach (var folder in new[] { "content", Path.Combine("game", "content") })
+        {
+            var path = Path.Combine(full, folder);
+            if (!Directory.Exists(path))
+            {
+                continue;
+            }
+
+            foreach (var file in Directory.EnumerateFiles(path, "*.json", SearchOption.AllDirectories))
+            {
+                if (file.Contains(".compiled.", StringComparison.Ordinal))
+                {
+                    continue;
+                }
+
+                JsonNode? document;
+                try
+                {
+                    document = JsonNode.Parse(File.ReadAllText(file));
+                }
+                catch (System.Text.Json.JsonException)
+                {
+                    continue;
+                }
+
+                var pending = new Stack<JsonNode?>();
+                pending.Push(document);
+                while (pending.Count > 0)
+                {
+                    switch (pending.Pop())
+                    {
+                        case JsonObject obj:
+                            if (obj["kind"] is JsonValue kindValue
+                                && kindValue.TryGetValue<string>(out var kind)
+                                && kind == "animation"
+                                && obj["id"] is JsonValue idValue
+                                && idValue.TryGetValue<string>(out var id)
+                                && id is { Length: > 0 })
+                            {
+                                ids.Add(id);
+                            }
+
+                            foreach (var pair in obj)
+                            {
+                                pending.Push(pair.Value);
+                            }
+
+                            break;
+                        case JsonArray array:
+                            foreach (var item in array)
+                            {
+                                pending.Push(item);
+                            }
+
+                            break;
+                    }
+                }
+            }
+        }
+
+        return ids;
+    }
+
 }
