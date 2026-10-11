@@ -25702,7 +25702,9 @@
               "06058d6d": "Current source mappings match runtime switches; source-only projection does not prove operation semantics/persistence. Verifier checks any arms, not every key; counts workspace rather than selected campaign. No current missing handler claimed.",
               "ed426748": "Hint bounds/kind and null/static/persisted label fixes closed; chat refs still need text-kind, missing schema-required fields still silent, epsilon IsIntegral rejects exact-schema intent.",
               "ai13-write-boundary.patch": "P1 incomplete public/private write coverage and context-race; successful refusal Task produces false applied UI. Guard all authoring entry points without blocking compensation/recovery; source-only NOT_INTEGRATED.",
-              "bcdbad27": "Sol source-only review: trigger float overflow and v7 ReadText/ReadFlag casts fixed; countIfInside:null still differs from runtime GetBoolean. Audio volumeDb:null and minWait>maxWait<=0 registry holes remain; lexical containment permits symlink escape before stat. Extra size axes diagnostic overstates runtime failure. No current authored failure claimed; NOT_INTEGRATED."
+              "bcdbad27": "Sol source-only review: trigger float overflow and v7 ReadText/ReadFlag casts fixed; countIfInside:null still differs from runtime GetBoolean. Audio volumeDb:null and minWait>maxWait<=0 registry holes remain; lexical containment permits symlink escape before stat. Extra size axes diagnostic overstates runtime failure. No current authored failure claimed; NOT_INTEGRATED.",
+              "46ad8306": "Sol AI17 scatter source review: present malformed seed/catalogIds/exclude/scales still coerced; min/max UI writes before full proposed validation; mixed array diagnostics direct cast crashes. NOT_INTEGRATED. Not actor-schedule scope.",
+              "2d6091d4": "Sol AI20 v6 artifact-only: valid nonempty Russian display/write fixed; empty edit can empty matching default rejected by runtime, empty ru display differs from fallback. No production source change; narrow hunks only after blank guard, no wholesale v6."
             }
           },
           "native_ui_after_cua_reset": {
@@ -25805,6 +25807,16 @@
             "implementation": "Normalized cursor ray records first-hit depth; fallback refuses marker centers behind nearest collider (including unknown/locked hit) with0.05m tolerance; no-hit retains fallback.",
             "review": "Sol6.1medium independent source review accepted; off-axis/steep-ground visible markers can be conservatively refused. Physics depth is not per-marker render visibility proof.",
             "next": "Actual overlapping objects and DPI/viewport offset acceptance remains open."
+          },
+          "native_ui_focus_attempt": {
+            "base_commit": "71c9851c",
+            "result": "CUA_APP_SELECTION_TIMEOUT_UI_NOT_VERIFIED",
+            "guard_session": 96501,
+            "guard_exit": 143,
+            "owned_child_pid": 13114,
+            "observations": "Two getApp timeouts; between them CUA inventory confirms Godot running. No screenshot/input/model/Apply. Same process observed, no restart due to timeout.",
+            "cleanup": "Owned child TERM; parent terminal exit143, userdata guard original files and permissions restored verified.",
+            "next": "UI gate remains open; proceed safe accepted source integration without repeating unchanged CUA failure."
           }
         }
       },
