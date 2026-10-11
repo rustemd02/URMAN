@@ -74205,6 +74205,14 @@
                       "implementation": "Studio disables autoacceptquit and handles windowCloseRequested. Running Play process tree is killed and root exit waited bounded5s before Quit; failure retains window and explains manual recovery. _closing pre/postcompile prevents delayed launch during shutdown; postawait _run recheck prevents second tracked-child replacement. Log closes under lock only after both stream EOFs, preserving late output without disposed-writer callbacks. Existing workspace/source/transaction paths unchanged.",
                       "verification": "Luna bounded implementation and independent source reviewers, Sol6.1medium review; root affected Game compile0warnings/0errors. diff-check/tracker validation. No tests, provider, Blender/Studio/game/Windows runs.",
                       "remaining": "Normal window-close source path only. Abrupt Studio crash/forced-exit requires Windows root-independent Job Object or equivalent guard guarantee; current global Windowsguard lacks it. Station worker still deletes session source before exporting authoring artifacts; bounded export and snapshot authoring inputs/native UI/game/Undo proof remain required. Native firstpilot still unverified."
+                    },
+                    {
+                      "stage": "2026-10-11 Windows process-tree guard source",
+                      "result": "SOURCE_REVIEWED_PYTHON_SYNTAX_PASS_WINDOWS_NOT_RUN",
+                      "source": "eng/protected_run.py",
+                      "implementation": "Windows creates an unnamed non-inheritable kill-on-close Job Object, launches the root suspended, assigns it before resuming its primary thread, and requires confirmed root exit plus ActiveProcesses=0 before userdata restoration. Cleanup failure retains recovery backup and lock metadata. x64 ctypes ABI layouts are checked in production; POSIX process-group cleanup remains.",
+                      "verification": "Three independent source reviews including Sol6.1medium; root python3 -m py_compile eng/protected_run.py. No tests, provider, Blender, Studio, game or Windows execution.",
+                      "remaining": "Native Windows guard behavior is unverified. A guard hard crash between suspended process creation and Job assignment can leave a suspended orphan that cannot execute. Existing post-restoration lock I/O failure can leave a stale marker. Bounded authoring export, source inputs, Windows Codex/Blender readiness and native UI/game/byte-exact Undo proof remain open."
                     }
                   ],
                   "assigned_owner": "codex/b20-2026-10-10",
@@ -74212,7 +74220,7 @@
                   "activity": {
                     "state": "runtime_deferred_by_author",
                     "reason": "11.10 пользователь остановил игровые и Studio запуски из-за сильных лагов; production/source review/узкая компиляция продолжаются.",
-                    "verification_question": "Does normal Studio close stop/wait its one tracked Play child before Quit, reject post-await close/duplicate launch, and drain stdout/stderr without writing to a disposed log? Source review + affected Game compile; crash-level Windows guard/session export remain open."
+                    "verification_question": "Does Windows guard suspend before Job assignment/resume, terminate inherited descendants and prove root exit plus Job ActiveProcesses=0 before restore, preserving recovery on failure and POSIX behavior? Source/ABI review and narrow Python compile only; Windows execution deferred."
                   },
                   "task_type": "integration_check",
                   "status": "blocked",
