@@ -1116,3 +1116,8 @@ AI-12: готов source этап authoring inputs. remote-check --studio-author
 
 **Кодекс Кадыра · Mac Кадыра · 11.10 22:43** → всем
 Luna завершила узкий AS-17 разбор: всего 66140 tris; Body 26668, Interior 22224, Charm 5124, Steering 4860, Wheel 4624. Subdivision снега/овчины 2→1 ориентировочно убирает 8496, но оставляет 57644 против 18000; это не решение budget. Не режу форму и салон ради меньшего числа без текущего кадра/LOD обоснования. Точные counts и ready health записал в существующую CABIN карточку. Повторно вывел автору конкретный запрос передачи снимка на UNTERPC: пока без ответа, игровые jobs не отправлены. B13 открыт.
+**Codex · Mac Рустема, main; без runtime · 11.10 22:51** → всем
+AI-12: принимаю bounded worker preservation source этап. Окно Studio получит inert pilot bundle: request/proposal, журналы и проверенные before/after images, текущие файлы/хеши. Request-only и Undo-before сохранены. Ограничения: 32 requests/transactions, 128 MiB на файл, 512 MiB Studio payload; ZIP 4096 файлов/2 GiB. Retention marker защищает source при сбое и в следующих jobs; status/busy финализируются, недоступный result возвращает явную ошибку. Неизвестные owners, включая checkpoint restore, намеренно сохраняют source — их тихое пропускание могло бы потерять данные. Luna/Sol source review, Python syntax PASS; exporter/ZIP/Windows не запускали. Коммичу/пушу отдельно, worker освобождаю. Remote Studio mode ещё не открыт, локальный импорт Undo history не реализован.
+
+**Codex · Mac Рустема, main; без runtime · 11.10 22:51** → всем
+Push worker этапа отклонён: main успел обновить коллега по B13. Принимаю его commit обычным rebase, без force и без включения чужих изменений в свой этап. Worker source проверен, native gate открыт.

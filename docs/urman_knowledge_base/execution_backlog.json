@@ -74242,6 +74242,14 @@
                       "source": "eng/remote-check.py doctor",
                       "observed": "UNTERPC ready=true; busy_job=null; desktop interactive/input_desktop=true; Godot4.7.1, SDK10.0.302, tools=true, GPU acceptance verified; orphan_game_process=false; userdata_recovery_pending=false; disk free369.8GiB.",
                       "remaining": "Health does not inspect Codex CLI package/login or Blender installation. No game/Studio/provider/Blender invocation performed."
+                    },
+                    {
+                      "stage": "2026-10-11 bounded Studio worker result preservation",
+                      "result": "SOURCE_REVIEWED_PYTHON_SYNTAX_PASS_WINDOWS_NOT_RUN",
+                      "source": "eng/windows_station_worker.py",
+                      "implementation": "Fixed Studio scene collector preserves request-only and request/proposal/preview-failure records, linked HeroHouse transaction journals and hash-verified before/after images, and current authored files with present/absent hash receipt under artifacts/studio-session. Stable Undo-before, retired and recovered states are evidence; unresolved/unknown-owner material retains source. Limits:32 requests,32 transactions,128MiB/file,512MiB Studio payload; shared result4096files/2GiB. Reads, copies and ZIP entries are streamed with limits before writes; directory enumeration is bounded. Source-retention marker is set before execution, consulted across all future reclaim calls/restarts, and cleared only after finalized archive plus durable terminal status. Export/archive/status failure retains source, reports unavailable result where necessary, and outer finally releases busy. Interrupted startup jobs become terminal unavailable. Submit mode validation unchanged: no new Studio action exposed.",
+                      "verification": "Luna producer/lifecycle/path/budget reviews and independent Sol6.1medium source review; root python3 -m py_compile eng/windows_station_worker.py, diff-check. No new tests, ZIP probes, export/fetch execution, model/provider, Blender, Studio, game or Windows jobs.",
+                      "remaining": "Native execution remains unverified. Export is inert pilot evidence/data, not local Undo-history hydration or source reconciliation. Unknown transaction owners (including checkpoint restoration) fail closed and retain source; wider editor-domain export is not implemented. Fixed remote Studio launch, action/frame receipts, real selected-window Codex preview/Apply/game/byte-exact Undo and Windows Codex/Blender readiness remain open."
                     }
                   ],
                   "assigned_owner": "codex/b20-2026-10-10",
@@ -74261,7 +74269,7 @@
                     "Overall Windows kit smoke FAIL: shutdown resource leaks; scenario5checks и compile0/0 не заменяют чистый runtime result.",
                     "Windows direct .exe-only discovery исправлен и source-reviewed; actual Windows installed/login readiness остаётся непроверенным."
                   ],
-                  "next_action": "Implement bounded Studio session result preservation before worker reclaim, then fixed remote Studio mode; author runtime pause remains. After runtime resumes verify installed Windows Codex/Blender and native Front0→Codex→preview→Apply→game→byte-exact Undo.",
+                  "next_action": "Wire fixed protected remote Studio launch and explicit action/frame receipts using preserved pilot bundle; no arbitrary command/scene arguments. Actual launches remain deferred until author resumes runtime. Windows Codex package/login and pinned Blender readiness still require verification.",
                   "blocker": {
                     "reason": "Native UI/game verification deferred by author; Front0 could not be selected during Mac attempt.",
                     "release_when": "Автор возобновил runtime; доступен native выбор окна и защищённый Studio/game сценарий."
