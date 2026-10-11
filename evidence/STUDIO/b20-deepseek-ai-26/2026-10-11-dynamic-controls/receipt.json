@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-26",
+    "STUDIO/AI-36"
+  ],
+  "stage": "finding 220: the dynamic controls of the settings screen, and the atmosphere-versus-material wording",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-11 18:16 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "df4b087a",
+  "ai26": {
+    "defect": "the inventory read only the controls declared as private fields, so everything the screen builds in a loop was invisible: four volume sliders, one per bus, and a label plus a button per remappable action",
+    "fix": "DynamicControls reads the volume loop's bus list from the screen and the remappable actions from InputBindingService, and reports each group with its source, its count and where it comes from. On the real project that is 40 controls in two groups (4 volume sliders and 36 binding controls from 18 actions) against the 10 declared ones, and the notes now say the surface is larger than the declared list and name finding 220"
+  },
+  "ai36": {
+    "wording": "the thirty-five colour fields my earlier version called 'authored colours' belong to the ATMOSPHERE records, not to materials. The record and the API are renamed to AtmosphereColourField/AtmosphereColours and the notes state plainly that no material colour field exists in the content either, so the material lever stays the library and the model (the art track)"
+  },
+  "verified": {
+    "probe": "PASS 509/509 with the new checks: four buses read from the screen, the remappable actions read from the binding service, at least thirty dynamic controls counted, the notes naming finding 220, and the atmosphere-versus-material wording",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors; game/Urman.Game.csproj 0 warnings/0 errors",
+    "existing_tests": "Urman.Studio.Tests 38/38",
+    "not_run": "no game run: neither the settings preview nor any material change is checked on screen, NOT_RUN"
+  },
+  "files": {
+    "evidence/STUDIO/b20-deepseek-ai-26/2026-10-11-dynamic-controls/check.log": "f3b26c39dd0398a2d75f8c309ae7ea5d5b3cea66d0fa2c862d969de5fb9e5986"
+  },
+  "open": [
+    "the settings preview itself is still not wired into the window",
+    "material authoring remains the art track and is not claimed"
+  ]
+}

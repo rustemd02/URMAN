@@ -8,6 +8,9 @@ public sealed record GameSetting(string Name, string Kind, string Default, strin
 /// <summary>One control the game settings screen really exposes.</summary>
 public sealed record GameSettingControl(string Field, string ControlType, int Line);
 
+/// <summary>A group of controls the screen builds in a loop rather than declaring a field for.</summary>
+public sealed record DynamicControlSite(string Origin, string Source, int Count, string Note);
+
 /// <summary>
 /// The first slice of the spec AI-26 slice: the settings surface of the game, taken from
 /// the code that really owns it. The snapshot record declares the shape of what is
@@ -36,6 +39,13 @@ public static class GameSettingsSurface
     private static readonly Regex InitProperty = new(
         "^\\s*(?:public\\s+)?(bool|double|string|float|int)\\s+(\\w+)\\s*\\{\\s*get;\\s*init;\\s*\\}\\s*(?:=\\s*([^;]+))?;",
         RegexOptions.CultureInvariant);
+
+    public const string InputBindingServicePath = "game/scripts/InputBindingService.cs";
+
+    private static readonly Regex BusConstant = new(
+        "AudioSettingsService\\.([A-Za-z]+Bus)", RegexOptions.CultureInvariant);
+
+    private static readonly Regex ActionName = new("\"([a-z_]+)\"", RegexOptions.CultureInvariant);
 
     private static readonly Regex Control = new(
         "^\\s*private\\s+(HSlider|CheckBox|OptionButton|LineEdit|SpinBox)\\s+_(\\w+)\\s*[;=]",
@@ -157,14 +167,93 @@ public static class GameSettingsSurface
         return controls;
     }
 
+    /// <summary>
+    /// The controls the screen builds in a loop. A declared-field inventory cannot see
+    /// them, which is exactly the gap that was reported: one volume slider per bus and a
+    /// label plus a button per remappable action.
+    /// </summary>
+    public static IReadOnlyList<DynamicControlSite> DynamicControls(string root)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(root);
+        var sites = new List<DynamicControlSite>();
+        var screen = Read(root, ScreenPath);
+        var buses = BusNames(screen);
+        if (buses.Count > 0)
+        {
+            sites.Add(new DynamicControlSite(
+                "Громкости шин",
+                ScreenPath,
+                buses.Count,
+                $"По одному слайдеру на шину ({string.Join(", ", buses)}): поля для них не объявлены, они создаются в цикле."));
+        }
+
+        var actions = RemappableActions(root);
+        if (actions.Count > 0)
+        {
+            sites.Add(new DynamicControlSite(
+                "Переназначение клавиш",
+                InputBindingServicePath,
+                actions.Count * 2,
+                $"По подписи и кнопке на переназначаемое действие ({actions.Count} действий): {string.Join(", ", actions.Take(6))}…"));
+        }
+
+        return sites;
+    }
+
+    /// <summary>Bus names the volume loop iterates over.</summary>
+    public static IReadOnlyList<string> BusNames(string screenSource)
+    {
+        var names = new List<string>();
+        var start = screenSource.IndexOf("foreach (var (busName, label) in new[]", StringComparison.Ordinal);
+        if (start < 0)
+        {
+            return names;
+        }
+
+        var end = screenSource.IndexOf("})", start, StringComparison.Ordinal);
+        foreach (Match match in BusConstant.Matches(screenSource[start..(end < 0 ? screenSource.Length : end)]))
+        {
+            names.Add(match.Groups[1].Value.Replace("Bus", "", StringComparison.Ordinal).ToLowerInvariant());
+        }
+
+        return names;
+    }
+
+    /// <summary>The actions the binding loop offers, read from the binding service.</summary>
+    public static IReadOnlyList<string> RemappableActions(string root)
+    {
+        var text = Read(root, InputBindingServicePath);
+        var start = text.IndexOf("RemappableActions =", StringComparison.Ordinal);
+        if (start < 0)
+        {
+            return [];
+        }
+
+        var end = text.IndexOf("];", start, StringComparison.Ordinal);
+        return ActionName.Matches(text[start..(end < 0 ? text.Length : end)])
+            .Select(match => match.Groups[1].Value)
+            .ToArray();
+    }
+
+    private static string Read(string root, string relative)
+    {
+        var path = Path.Combine(Path.GetFullPath(root), relative.Replace('/', Path.DirectorySeparatorChar));
+        return File.Exists(path) ? File.ReadAllText(path) : "";
+    }
+
     public static IReadOnlyList<string> Notes(string root)
     {
         var settings = Settings(root);
         var controls = Controls(root);
+        var dynamic = DynamicControls(root);
         var accessibility = settings.Count(setting => setting.DeclaredIn == "AccessibilitySettingsSnapshot");
+        var dynamicTotal = dynamic.Sum(site => site.Count);
         return
         [
-            $"Настроек в записи: {settings.Count} (из них доступность: {accessibility}); элементов управления на экране настроек: {controls.Count}.",
+            $"Настроек в записи: {settings.Count} (из них доступность: {accessibility}); объявленных элементов управления: {controls.Count}; собранных в цикле: {dynamicTotal}.",
+            dynamic.Count == 0
+                ? "Циклов, создающих элементы управления, не найдено."
+                : "Динамические группы: " + string.Join(" ", dynamic.Select(site => $"{site.Origin} — {site.Count} ({site.Source}). {site.Note}")) + " Инвентарь по объявленным полям их не видел, поэтому поверхность экрана БОЛЬШЕ, чем список выше: это была находка #220.",
             "Это НАСТРОЙКИ ИГРОКА: они живут в user://settings.json и никогда в авторской кампании, поэтому превью в Studio может показывать этот набор, но не имеет права его записывать и не должно подменять его своим форматом.",
             "Соответствие между полем записи и элементом управления задаёт сам экран: инвентарь намеренно не угадывает связь по имени (например _fov и FieldOfView текстуально не совпадают), а показывает оба списка как есть.",
             "TatarLanguageLevel сохраняет историческое поведение: отсутствие поля в старых файлах означает «none»."

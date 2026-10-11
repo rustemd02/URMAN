@@ -2,8 +2,12 @@ using System.Text.RegularExpressions;
 
 namespace Urman.Studio.Core.Editing;
 
-/// <summary>An authored colour in the content, with the family it would be applied to.</summary>
-public sealed record AuthoredColour(string Path, string Value, IReadOnlyList<string> Problems);
+/// <summary>
+/// An authored colour field in the content. These belong to the ATMOSPHERE records, not to
+/// materials: there is no material colour in the content at all, and this projection must
+/// not imply otherwise.
+/// </summary>
+public sealed record AtmosphereColourField(string Path, string Value, IReadOnlyList<string> Problems);
 
 /// <summary>
 /// The first real slice of the local-versus-global material half of the spec AI-36 slice.
@@ -124,11 +128,16 @@ public static class MaterialSurface
         return families;
     }
 
-    /// <summary>Every authored colour in the content, checked for the format the library parses.</summary>
-    public static IReadOnlyList<AuthoredColour> AuthoredColours(StudioWorkspace workspace)
+    /// <summary>
+    /// The atmosphere colour fields of the content. They are NOT material parameters: they
+    /// feed the atmosphere records, and the material of an object is decided by the runtime
+    /// from a (family, colour, sheltered) triple whose colour comes from code or from these
+    /// atmosphere values, never from a material field in the content.
+    /// </summary>
+    public static IReadOnlyList<AtmosphereColourField> AtmosphereColours(StudioWorkspace workspace)
     {
         ArgumentNullException.ThrowIfNull(workspace);
-        var colours = new List<AuthoredColour>();
+        var colours = new List<AtmosphereColourField>();
         foreach (var file in workspace.Files)
         {
             var node = file.Snapshot();
@@ -145,10 +154,10 @@ public static class MaterialSurface
         var warned = WarnedFamilies(root);
         var undeclared = used.Where(family => !declared.Contains(family)).Order(StringComparer.Ordinal).ToArray();
         var spurious = used.Where(family => !warned.Contains(family) && declared.Contains(family)).Order(StringComparer.Ordinal).ToArray();
-        var colours = AuthoredColours(workspace);
+        var colours = AtmosphereColours(workspace);
         return
         [
-            $"Семейств поверхностей объявлено: {declared.Count}; запрошено в коде: {used.Count}; авторских цветов в контенте: {colours.Count}.",
+            $"Семейств поверхностей объявлено: {declared.Count}; запрошено в коде: {used.Count}; цветовых полей в контенте: {colours.Count} — и все они принадлежат ЗАПИСЯМ АТМОСФЕРЫ, а не материалам.",
             undeclared.Length == 0
                 ? "Все запрошенные семейства объявлены в библиотеке: каждый запрос получит свой режим, а не плоскую заглушку."
                 : $"Запрошены, но не объявлены: {string.Join(", ", undeclared)} — такие запросы получают плоский мировой материал и однократное предупреждение, то есть молчаливую смену вида.",
@@ -156,11 +165,11 @@ public static class MaterialSurface
                 ? "Предупреждение о «необъявленном режиме» ни для одного семейства не срабатывает зря."
                 : $"Зимние семейства {string.Join(", ", spurious)} объявлены в WinterTextures и обрабатываются сборщиком, но условие предупреждения в ForColor смотрит только SurfaceTextures/TunedWithoutMap/FlatByDesign — то есть по этим семействам предупреждение выдаётся зря.",
             "Материал строится из тройки (семейство, цвет, укрытие) и КЭШИРУЕТСЯ: два объекта с одной тройкой делят один материал. Поэтому локальное изменение — это цвет, который просит объект (он в данных), а общее — запись семейства в библиотеке (её текстура, отклик, отделка), которую делят все объекты этого семейства и цвета.",
-            "Отдельного авторского поля материала в контенте НЕТ: сегодня вид меняется цветом в данных или правкой библиотеки/модели, а это дорожка художника (AI-09/AI-11/AI-36). Проекция не выдумывает поле, которого игра не читает."
+            "Отдельного авторского поля материала в контенте НЕТ, и цветовых полей МАТЕРИАЛА тоже нет: тридцать пять цветов выше — это поля атмосферы. Материал объекта рантайм собирает из тройки (семейство, цвет, укрытие), где цвет приходит из кода или из атмосферных значений, поэтому правка вида — это библиотека/модель, то есть дорожка художника (AI-09/AI-11/AI-36). Проекция не выдумывает поле, которого игра не читает, и не называет атмосферные цвета материалом."
         ];
     }
 
-    private static void Collect(System.Text.Json.Nodes.JsonNode? node, string path, string prefix, List<AuthoredColour> colours)
+    private static void Collect(System.Text.Json.Nodes.JsonNode? node, string path, string prefix, List<AtmosphereColourField> colours)
     {
         switch (node)
         {
@@ -175,7 +184,7 @@ public static class MaterialSurface
                             problems.Add($"Цвет «{text}» не из 6 hex-цифр: библиотека разберёт его как непрозрачный чёрный.");
                         }
 
-                        colours.Add(new AuthoredColour($"{path}:{prefix}{pair.Key}", text, problems));
+                        colours.Add(new AtmosphereColourField($"{path}:{prefix}{pair.Key}", text, problems));
                         continue;
                     }
 

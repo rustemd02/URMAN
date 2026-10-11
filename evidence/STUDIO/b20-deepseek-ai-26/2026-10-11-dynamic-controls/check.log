@@ -1,0 +1,16 @@
+== AI-26 finding 220: the settings screen builds controls in loops and the declared-field inventory missed them
+== AI-36: the colour fields belong to the atmosphere records, not to materials
+
+
+Прошло времени 00:00:00.44
+
+Прошло времени 00:00:14.31
+== existing tests
+=== TEST EXECUTION SUMMARY ===
+   Urman.Studio.Tests  Total: 38, Errors: 0, Failed: 0, Skipped: 0, Not Run: 0, Time: 2,311s
+== probe
+    note: Динамические группы: Громкости шин — 4 (game/scripts/SettingsUi.cs). По одному слайдеру на шину (master, ambience, voice, sfx): поля для них не объявлены, они создаются в цикле. Переназначение клавиш — 36 (game/scripts/InputBindingService.cs). По подписи и кнопке на переназначаемое действие (18 действий): move_forward, move_backward, move_left, move_right, interact, crouch… Инвентарь по объявленным полям их не видел, поэтому поверхность экрана БОЛЬШЕ, чем список выше: это была находка #220.
+  dynamic controls: 40 in 2 groups | buses: 4 | remappable actions: 18
+    Громкости шин: 4 (game/scripts/SettingsUi.cs)
+    Переназначение клавиш: 36 (game/scripts/InputBindingService.cs)
+PROBE RESULT: PASS
