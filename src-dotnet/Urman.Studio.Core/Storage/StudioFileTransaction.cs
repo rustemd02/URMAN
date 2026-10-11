@@ -183,6 +183,18 @@ public sealed class StudioFileTransaction
         var id = Guid.NewGuid().ToString("N");
         var transactionRoot = ResolveInternal(root, TransactionDirectory);
         EnsureNoLinks(root, TransactionDirectory, allowStudioMetadata: true);
+        long requiredBytes = 1 << 20;
+        checked
+        {
+            requiredBytes += 6L * (owner.Length + prepared.Sum(item => (long)item.RelativePath.Length) + 512L * prepared.Count);
+            foreach (var item in prepared)
+            {
+                var before = item.BeforeBytes?.LongLength ?? 0;
+                var after = item.AfterBytes?.LongLength ?? 0;
+                requiredBytes += before + after + Math.Max(before, after);
+            }
+        }
+        EnsureDiskCapacity(transactionRoot, requiredBytes, prepared.Select(item => ResolveTarget(root, item.RelativePath)));
         Directory.CreateDirectory(transactionRoot);
         EnsureNoLinks(root, TransactionDirectory, allowStudioMetadata: true);
         var directory = Path.Combine(transactionRoot, id);
@@ -295,6 +307,7 @@ public sealed class StudioFileTransaction
         var conflicts = ConflictsForSide(sourceSide, acceptEitherSide: false);
         if (conflicts.Count > 0) throw new StudioFileTransactionConflictException(Id, conflicts);
 
+        EnsureRestoreCapacity();
         WriteJournal("applying", rollbackSide: sourceSide, targetSide: targetSide, side: sourceSide);
         try
         {
@@ -331,6 +344,7 @@ public sealed class StudioFileTransaction
         var conflicts = ConflictsForSide(sourceSide, acceptEitherSide: false);
         if (conflicts.Count > 0) throw new StudioFileTransactionConflictException(Id, conflicts);
 
+        EnsureRestoreCapacity();
         WriteJournal("applying", rollbackSide: sourceSide, targetSide: targetSide, side: sourceSide);
         try
         {
@@ -647,6 +661,7 @@ public sealed class StudioFileTransaction
     private void PromoteSide(string side)
     {
         ValidateImages(side);
+        EnsureRestoreCapacity();
         var sourceSide = side == "after" ? "before" : "after";
         EnsureCurrentSide(sourceSide);
         for (var index = 0; index < _changes.Count; index++)
@@ -671,6 +686,7 @@ public sealed class StudioFileTransaction
         ValidateImages(side);
         var conflicts = ConflictsForSide(side, acceptEitherSide);
         if (conflicts.Count > 0) throw new StudioFileTransactionConflictException(Id, conflicts);
+        EnsureRestoreCapacity();
         for (var index = 0; index < _changes.Count; index++)
         {
             var change = _changes[index];
@@ -705,6 +721,57 @@ public sealed class StudioFileTransaction
             : !string.Equals(actual, side == "before" ? change.BeforeSha256 : change.AfterSha256, StringComparison.Ordinal))
         {
             throw new StudioFileTransactionConflictException(Id, [change.RelativePath]);
+        }
+    }
+
+    private void EnsureRestoreCapacity()
+    {
+        long requiredBytes = 1 << 20;
+        checked
+        {
+            requiredBytes += 6L * (Owner.Length + _changes.Sum(change => (long)change.RelativePath.Length) + 512L * _changes.Count);
+            foreach (var change in _changes)
+                requiredBytes += Math.Max(ImageLength(change.BeforeImage), ImageLength(change.AfterImage));
+        }
+        EnsureDiskCapacity(_directory, requiredBytes, _changes.Select(change => ResolveTarget(change.RelativePath)));
+
+        long ImageLength(string? name)
+        {
+            if (name is null) return 0;
+            var path = Path.Combine(_directory, name);
+            EnsureNoLinks(_root, Path.GetRelativePath(_root, path).Replace('\\', '/'), allowStudioMetadata: true);
+            return new FileInfo(path).Length;
+        }
+    }
+
+    private static void EnsureDiskCapacity(string metadataPath, long requiredBytes, IEnumerable<string> targets)
+    {
+        var comparison = OperatingSystem.IsWindows() ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal;
+        var drives = DriveInfo.GetDrives();
+        var metadataDrive = DriveFor(metadataPath);
+        foreach (var target in targets)
+        {
+            // shortcut: pilot writes require one volume; bucket capacities before supporting cross-volume transactions.
+            if (!string.Equals(DriveFor(target).Name, metadataDrive.Name, comparison))
+                throw new IOException("Запись приостановлена: файлы и журнал находятся на разных дисках. Проверьте состояние восстановления.");
+        }
+        if (metadataDrive.AvailableFreeSpace < requiredBytes)
+            throw new IOException("Недостаточно свободного места для изменения и сохранения исходных версий. Файлы истории не удалялись.");
+
+        DriveInfo DriveFor(string path)
+        {
+            path = Path.GetFullPath(path);
+            while (!Directory.Exists(path))
+                path = Path.GetDirectoryName(path) ?? throw new IOException("Не удалось определить диск для записи.");
+            var drive = drives.Where(candidate =>
+            {
+                var name = Path.TrimEndingDirectorySeparator(Path.GetFullPath(candidate.Name));
+                var prefix = Path.EndsInDirectorySeparator(name) ? name : name + Path.DirectorySeparatorChar;
+                return string.Equals(path, name, comparison) || path.StartsWith(prefix, comparison);
+            }).OrderByDescending(candidate => candidate.Name.Length).FirstOrDefault();
+            if (drive is null || !drive.IsReady)
+                throw new IOException("Не удалось проверить свободное место на диске. Запись приостановлена; проверьте состояние восстановления.");
+            return drive;
         }
     }
 
@@ -849,7 +916,9 @@ public sealed class StudioFileTransaction
         };
         var journalPath = Path.Combine(_directory, JournalName);
         EnsureNoLinks(_root, Path.GetRelativePath(_root, journalPath).Replace('\\', '/'), allowStudioMetadata: true);
-        AtomicFile.WriteAllText(journalPath, manifest.ToJsonString());
+        var text = manifest.ToJsonString();
+        EnsureDiskCapacity(_directory, checked((1L << 20) + System.Text.Encoding.UTF8.GetByteCount(text)), []);
+        AtomicFile.WriteAllText(journalPath, text);
     }
 
     private static IReadOnlyList<PreparedChange> Prepare(string root, IReadOnlyList<StudioFileWrite> writes, HashSet<string> allowlist)

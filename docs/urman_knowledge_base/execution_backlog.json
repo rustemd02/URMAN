@@ -24292,6 +24292,14 @@
                 "source": "StudioFileTransaction.cs:FenceIncompleteHistory/LoadSingleCommittedFileCommand; EditSession.cs:Apply/SetOrder/Push; StudioWorkspace.cs:CreateFile",
                 "verification": "Root affected Game build0/0, targeted existing ADragIsOneUndoStep + ReorderingIsOneUndoableStepAndKeepsTheFileStyle PASS2/2; independent Sol6.1medium source review accepted. No new tests/probes. Loader refusal source-reviewed; actual restart UI not verified.",
                 "remaining": "Fence prevents unsafe partial hydration after unsupported command order; it does not restore full ordered history. Legacy absence does not prove continuity, direct AuthoredFile mutation is outside session API. Keep journals/images intact; explicit ordered ledger, pending transitions and migration decision remain necessary."
+              },
+              {
+                "stage": "2026-10-11 disk capacity preflight",
+                "result": "PARTIAL_SOURCE_REVIEW_ACCEPTED_GAME_COMPILE_0_0_ACTUAL_ENOSPC_OPEN",
+                "source": "src-dotnet/Urman.Studio.Core/Storage/StudioFileTransaction.cs:CreateStaging/EnsureRestoreCapacity/EnsureDiskCapacity/WriteJournal",
+                "verification": "Root affected Game build0 warnings/0 errors and diffcheck. Sol6.1medium independent source review found no confirmed sizing/safety blocker; phase-neutral wording correction applied. No new tests/probes or broad suite.",
+                "implementation": "Checked conservative retained image+promotion/rollback capacity before staging; exact UTF8 journal reserve; preflight before sync/async Undo/Redo applying journal and promotion/restore target writes. Longest containing ready DriveInfo mount with separator boundary; bounded pilot refuses different identified metadata/target volumes. No history cleanup or bypass of AtomicFile/conflict/rollback paths.",
+                "remaining": "Actual ENOSPC, volume aliases/UNC inventory and user-facing refusal not exercised; available-space query cannot reserve capacity against other writers. Cross-volume transactions require future per-volume budgeting. Complete AI29 ordered history/checkpoint acceptance still open."
               }
             ],
             "stage_tasks": [
@@ -25889,6 +25897,15 @@
             "verification": "Root affected Game build0/0, targeted existing ADragIsOneUndoStep + ReorderingIsOneUndoableStepAndKeepsTheFileStyle PASS2/2; independent Sol6.1medium source review accepted. No new tests/probes. Loader refusal source-reviewed; actual restart UI not verified.",
             "remaining": "Fence prevents unsafe partial hydration after unsupported command order; it does not restore full ordered history. Legacy absence does not prove continuity, direct AuthoredFile mutation is outside session API. Keep journals/images intact; explicit ordered ledger, pending transitions and migration decision remain necessary.",
             "next": "Implement explicit ordered ledger with cursor/pending transition and verified restoration; never automatically clear fence or infer old journal order."
+          },
+          "disk_capacity_source_slice": {
+            "stage": "2026-10-11 disk capacity preflight",
+            "result": "PARTIAL_SOURCE_REVIEW_ACCEPTED_GAME_COMPILE_0_0_ACTUAL_ENOSPC_OPEN",
+            "source": "src-dotnet/Urman.Studio.Core/Storage/StudioFileTransaction.cs:CreateStaging/EnsureRestoreCapacity/EnsureDiskCapacity/WriteJournal",
+            "verification": "Root affected Game build0 warnings/0 errors and diffcheck. Sol6.1medium independent source review found no confirmed sizing/safety blocker; phase-neutral wording correction applied. No new tests/probes or broad suite.",
+            "implementation": "Checked conservative retained image+promotion/rollback capacity before staging; exact UTF8 journal reserve; preflight before sync/async Undo/Redo applying journal and promotion/restore target writes. Longest containing ready DriveInfo mount with separator boundary; bounded pilot refuses different identified metadata/target volumes. No history cleanup or bypass of AtomicFile/conflict/rollback paths.",
+            "remaining": "Actual ENOSPC, volume aliases/UNC inventory and user-facing refusal not exercised; available-space query cannot reserve capacity against other writers. Cross-volume transactions require future per-volume budgeting. Complete AI29 ordered history/checkpoint acceptance still open.",
+            "next": "Continue explicit ordered history/cursor/pending transition and native UI end-to-end; exercise low-space failure using existing permitted means when available."
           }
         }
       },
