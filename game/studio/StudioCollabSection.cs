@@ -20,6 +20,10 @@ public sealed class StudioCollabSection(StudioRoot studio) : IStudioSection
     private readonly List<string> _log = [];
     private Control? _view;
     private VBoxContainer _list = null!;
+    private string _receiveBranch = "main";
+    private string? _receiveMessage;
+    private GitIncomingRevision? _incoming;
+    private CancellationTokenSource? _receiveCancellation;
 
     public string Key => "collab";
     public string Title => "Совместная работа";
@@ -53,20 +57,34 @@ public sealed class StudioCollabSection(StudioRoot studio) : IStudioSection
         _list = new VBoxContainer { SizeFlagsHorizontal = Control.SizeFlags.ExpandFill };
         _list.AddThemeConstantOverride("separation", 10);
         scroll.AddChild(_list);
+        studio.TreeExiting += () => _receiveCancellation?.Cancel();
         Refresh();
         return scroll;
     }
 
     public void Refresh()
     {
-        if (_list is null) return;
+        if (_list is null || !GodotObject.IsInstanceValid(_list)) return;
         foreach (var child in _list.GetChildren()) child.QueueFree();
         _list.AddChild(new Label { Text = "Совместная работа", ThemeTypeVariation = "HeaderLabel" });
         _list.AddChild(new Label
         {
-            Text = "Изменения, пришедшие извне (от разработчика или другого автора), объединяются по объектам и полям. Здесь — только то, где нужно ваше решение. Получение и отправка ревизий через общий репозиторий подключаются после решения автора о способе обмена.",
+            Text = "Изменения файлов объединяются по объектам и полям. Общую версию можно получить для просмотра: текущая работа останется на месте. Объединение и отправка общей версии ещё не подключены.",
             AutowrapMode = TextServer.AutowrapMode.WordSmart, ThemeTypeVariation = "MutedLabel"
         });
+        var receive = new HBoxContainer();
+        _list.AddChild(receive);
+        var branch = new LineEdit { Text = _receiveBranch, PlaceholderText = "Ветка общей версии", Editable = _receiveCancellation is null };
+        branch.TextChanged += text => _receiveBranch = text;
+        receive.AddChild(branch);
+        var fetch = StudioRoot.Button(receive, "Получить для просмотра", () => _ = ReceiveAsync());
+        fetch.Disabled = _receiveCancellation is not null;
+        var cancel = StudioRoot.Button(receive, "Остановить получение", () => _receiveCancellation?.Cancel());
+        cancel.Disabled = _receiveCancellation is null;
+        if (_receiveMessage is not null)
+            _list.AddChild(new Label { Text = _receiveMessage, AutowrapMode = TextServer.AutowrapMode.WordSmart });
+        if (_incoming is not null)
+            StudioRoot.Button(_list, "Посмотреть полученную версию…", ShowIncomingRevision);
         if (_pending.Count == 0)
         {
             _list.AddChild(new Label { Text = "✓ Конфликтов нет.", ThemeTypeVariation = "MutedLabel" });
@@ -94,6 +112,123 @@ public sealed class StudioCollabSection(StudioRoot studio) : IStudioSection
         }
     }
 
+    private async Task ReceiveAsync()
+    {
+        if (_receiveCancellation is not null) return;
+        using var cancellation = new CancellationTokenSource();
+        _receiveCancellation = cancellation;
+        _receiveMessage = "Получаю общую версию. Можно продолжать локальное редактирование.";
+        Refresh();
+        try
+        {
+            _incoming = await new GitRevisionInbox(studio.Workspace).ReceiveAsync(_receiveBranch, cancellation.Token);
+            _receiveMessage = $"Получена версия: {_incoming.Files.Count} исходников для просмотра, {_incoming.ExcludedPaths.Count} прочих путей исключено. Ничего не применено.";
+        }
+        catch (OperationCanceledException) { _receiveMessage = "Получение остановлено. Локальная работа остаётся на месте; ранее полученная версия остаётся доступной."; }
+        catch (Exception error) when (error is IOException or UnauthorizedAccessException or ArgumentException or InvalidOperationException)
+        { _receiveMessage = "Не удалось получить версию: проверьте сеть, доступ к общему репозиторию и название ветки. Локальная работа и ранее полученная версия остаются на месте."; }
+        finally { _receiveCancellation = null; Refresh(); }
+    }
+
+    private void ShowIncomingRevision()
+    {
+        if (_incoming is not { } incoming) return;
+        var dialog = new AcceptDialog { Title = "Полученная версия — просмотр", OkButtonText = "Закрыть" };
+        var box = new VBoxContainer();
+        dialog.AddChild(box);
+        box.AddChild(new Label
+        {
+            Text = $"Ветка: {incoming.Branch}\nПередача: {incoming.OperationId}\nОбщая база: {incoming.BaseRevision}\nПолученная версия: {incoming.IncomingRevision}\nМоя версия — снимок текущего файла или черновика в момент выбора; он не обновляется автоматически. Ничего не применяется.",
+            AutowrapMode = TextServer.AutowrapMode.WordSmart
+        });
+        var paths = new ItemList { CustomMinimumSize = new Vector2(1120, 90) };
+        foreach (var file in incoming.Files) paths.AddItem(file.RelativePath);
+        box.AddChild(paths);
+        var row = new HBoxContainer();
+        box.AddChild(row);
+        var before = new TextEdit { Editable = false, WrapMode = TextEdit.LineWrappingMode.Boundary, CustomMinimumSize = new Vector2(370, 220) };
+        var mine = new TextEdit { Editable = false, WrapMode = TextEdit.LineWrappingMode.Boundary, CustomMinimumSize = new Vector2(370, 220) };
+        var after = new TextEdit { Editable = false, WrapMode = TextEdit.LineWrappingMode.Boundary, CustomMinimumSize = new Vector2(370, 220) };
+        row.AddChild(before);
+        row.AddChild(mine);
+        row.AddChild(after);
+        before.Text = "Общая база:\nВыберите файл.";
+        mine.Text = "Моя версия:\nВыберите файл.";
+        after.Text = "Получено:\nВыберите файл.";
+        var mergeSummary = new Label { AutowrapMode = TextServer.AutowrapMode.WordSmart };
+        mergeSummary.Text = incoming.Files.Count == 0 ? "Нет доступных файлов для сравнения." : "Выберите файл для семантического сравнения.";
+        box.AddChild(mergeSummary);
+        var conflicts = new TextEdit
+        {
+            Editable = false,
+            WrapMode = TextEdit.LineWrappingMode.Boundary,
+            CustomMinimumSize = new Vector2(1120, 140)
+        };
+        box.AddChild(conflicts);
+        var phrases = new ConditionPhrases(studio.Catalog);
+        void Select(int index)
+        {
+            if ((uint)index >= (uint)incoming.Files.Count) return;
+            var file = incoming.Files[index];
+            before.Text = "Общая база:\n" + (file.BaseText ?? "Файл отсутствовал");
+            mine.Text = "Моя версия:\nСчитываю текущий локальный снимок…";
+            after.Text = "Получено:\n" + (file.IncomingText ?? "Файл удалён в полученной версии");
+            mergeSummary.Text = "Семантическое сравнение рассчитывается для выбранного файла…";
+            conflicts.Text = "";
+            try
+            {
+                var local = studio.Workspace.HasFile(file.RelativePath)
+                    ? studio.Workspace.File(file.RelativePath)
+                    : LoadIncomingReviewFallback(file.RelativePath);
+                mine.Text = "Моя версия (снимок при выборе):\n" + local.Text;
+                var preview = local.PreviewMerge(file.BaseText, file.IncomingText);
+                mergeSummary.Text = $"Автоматически объединяемых значений: {preview.AutoMerged}. Конфликтов: {preview.Conflicts.Count}. Только просмотр; ничего не применено.";
+                conflicts.Text = DescribeIncomingConflicts(preview.Conflicts, phrases);
+            }
+            catch (Exception error) when (error is IOException or UnauthorizedAccessException or ArgumentException
+                or InvalidOperationException or KeyNotFoundException or FormatException or System.Text.Json.JsonException)
+            {
+                mine.Text = "Моя версия:\nЛокальный источник не удалось прочитать.";
+                mergeSummary.Text = "Семантическое сравнение недоступно: локальный источник или одна из версий отсутствует либо некорректна. Ничего не применено. " + error.Message;
+                conflicts.Text = "";
+            }
+        }
+        paths.ItemSelected += index => Select((int)index);
+        if (incoming.Files.Count > 0) { paths.Select(0); Select(0); }
+        if (incoming.ExcludedPaths.Count > 0)
+        {
+            var excluded = new TextEdit { Editable = false, CustomMinimumSize = new Vector2(1120, 60), Text = "Исключённые пути:\n" + string.Join("\n", incoming.ExcludedPaths) };
+            box.AddChild(excluded);
+        }
+        dialog.Confirmed += dialog.QueueFree;
+        dialog.Canceled += dialog.QueueFree;
+        dialog.CloseRequested += dialog.QueueFree;
+        studio.AddChild(dialog);
+        dialog.PopupCentered(new Vector2I(1220, 700));
+    }
+
+    private AuthoredFile LoadIncomingReviewFallback(string relativePath)
+    {
+        StudioFileTransaction.EnsureNoLinks(studio.Workspace.Root, relativePath);
+        return AuthoredFile.Load(studio.Workspace.Root, relativePath);
+    }
+
+    private string DescribeIncomingConflicts(IReadOnlyList<MergeConflict> conflicts, ConditionPhrases phrases)
+    {
+        if (conflicts.Count == 0) return "Семантических конфликтов нет.";
+        return string.Join("\n\n", conflicts.Select((conflict, index) =>
+        {
+            var (entity, field) = Describe(conflict.Path);
+            var heading = conflict.Kind switch
+            {
+                MergeConflictKind.DeleteEdit => $"«{entity}» удалён с одной стороны и изменён с другой",
+                MergeConflictKind.Order => $"Порядок в «{entity}» изменён по-разному",
+                _ => $"«{entity}»: {field} изменено по-разному"
+            };
+            return $"{index + 1}. {heading}\nОбщая база: {Show(conflict.Base, phrases)}\nМоя версия: {Show(conflict.Mine, phrases)}\nПолучено: {Show(conflict.Theirs, phrases)}";
+        }));
+    }
+
     private Control Card(string file, MergeConflict conflict, ConditionPhrases phrases)
     {
         var card = new PanelContainer { ThemeTypeVariation = "CardPanel" };
@@ -110,16 +245,7 @@ public sealed class StudioCollabSection(StudioRoot studio) : IStudioSection
             },
             AutowrapMode = TextServer.AutowrapMode.WordSmart
         });
-        var columns = new HBoxContainer();
-        foreach (var (title, value) in new[] { ("Было", conflict.Base), ("Моё", conflict.Mine), ("Входящее", conflict.Theirs) })
-        {
-            var column = new VBoxContainer { SizeFlagsHorizontal = Control.SizeFlags.ExpandFill };
-            column.AddChild(new Label { Text = title, ThemeTypeVariation = "MutedLabel" });
-            column.AddChild(new Label { Text = Show(value, phrases), AutowrapMode = TextServer.AutowrapMode.WordSmart, CustomMinimumSize = new Vector2(180, 0) });
-            columns.AddChild(column);
-        }
-
-        box.AddChild(columns);
+        box.AddChild(ComparisonColumns(conflict.Base, conflict.Mine, conflict.Theirs, phrases));
         var choice = _choices.GetValueOrDefault((file, conflict.Path));
         var row = new HBoxContainer();
         void Choose(ConflictChoice value) { _choices[(file, conflict.Path)] = value; Refresh(); }
@@ -128,6 +254,20 @@ public sealed class StudioCollabSection(StudioRoot studio) : IStudioSection
         StudioRoot.Button(row, "Отложить", () => Choose(ConflictChoice.Undecided)).TooltipText = "Ваша работа сохранится; объединение подождёт";
         box.AddChild(row);
         return card;
+    }
+
+    private HBoxContainer ComparisonColumns(JsonNode? @base, JsonNode? mine, JsonNode? theirs, ConditionPhrases phrases)
+    {
+        var columns = new HBoxContainer();
+        foreach (var (title, value) in new[] { ("Было", @base), ("Моё", mine), ("Входящее", theirs) })
+        {
+            var column = new VBoxContainer { SizeFlagsHorizontal = Control.SizeFlags.ExpandFill };
+            column.AddChild(new Label { Text = title, ThemeTypeVariation = "MutedLabel" });
+            column.AddChild(new Label { Text = Show(value, phrases), AutowrapMode = TextServer.AutowrapMode.WordSmart, CustomMinimumSize = new Vector2(180, 0) });
+            columns.AddChild(column);
+        }
+
+        return columns;
     }
 
     private void Apply(string file, ExternalChange change)

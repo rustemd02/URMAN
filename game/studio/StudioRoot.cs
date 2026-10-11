@@ -74,7 +74,21 @@ public partial class StudioRoot : Control
     public override void _Ready()
     {
         SetAnchorsAndOffsetsPreset(LayoutPreset.FullRect);
-        GetWindow().Title = "URMAN Studio";
+        var window = GetWindow();
+        var usableScreen = DisplayServer.ScreenGetUsableRect((int)DisplayServer.ScreenOfMainWindow);
+        if (usableScreen.Size.X > 0 && usableScreen.Size.Y > 0)
+        {
+            var minimumSize = new Vector2I(Math.Min(1280, usableScreen.Size.X), Math.Min(720, usableScreen.Size.Y));
+            var size = new Vector2I(
+                Math.Clamp(usableScreen.Size.X * 9 / 10, minimumSize.X, usableScreen.Size.X),
+                Math.Clamp(usableScreen.Size.Y * 9 / 10, minimumSize.Y, usableScreen.Size.Y));
+            window.MinSize = minimumSize;
+            window.InitialPosition = Window.WindowInitialPosition.Absolute;
+            window.Size = size;
+            window.Position = usableScreen.Position + (usableScreen.Size - size) / 2;
+        }
+
+        window.Title = "URMAN Studio";
         GetViewport().GuiEmbedSubwindows = true;
         Theme = StudioTheme.Build(UiScale);
         AddChild(new ColorRect { Color = StudioTheme.Background, AnchorRight = 1, AnchorBottom = 1, MouseFilter = MouseFilterEnum.Ignore });

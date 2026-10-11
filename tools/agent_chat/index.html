@@ -105,6 +105,8 @@ dialog input { width: 100%; padding: 9px 12px; border: 1px solid var(--line); bo
 dialog .actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 16px; }
 dialog button { border: 0; border-radius: 10px; padding: 9px 16px; cursor: pointer; background: var(--accent); color: var(--accent-text); font-weight: 600; }
 dialog button.ghost { background: var(--panel-2); color: var(--text); }
+dialog .connect-help { margin-top: 8px; }
+dialog .connect-error { display: none; color: var(--danger); margin-top: 10px; }
 @media (max-width: 760px) {
   #app { grid-template-columns: 1fr; }
   main { display: none; }
@@ -210,12 +212,26 @@ button:focus-visible { outline:2px solid var(--accent); outline-offset:2px; }
   </form>
 </dialog>
 
+<dialog id="connectDlg">
+  <form method="dialog" id="connectForm">
+    <h2>Подключение для отправки</h2>
+    <p>Для отправки нужен подключённый сервер чата. Введите адрес, доступный с этого устройства.</p>
+    <label for="serverUrl">Адрес сервера</label>
+    <input id="serverUrl" type="text" inputmode="url" autocomplete="url" autocapitalize="none" spellcheck="false" placeholder="https://chat.example.com">
+    <p class="connect-help">На телефоне используйте HTTPS-адрес сервера. Localhost работает только на компьютере с запущенным чатом. Токен вводится на странице сервера.</p>
+    <p class="connect-help">Адрес сохраняется в этом браузере. Изменить его можно через ⚙.</p>
+    <p class="connect-error" id="connectError" role="alert"></p>
+    <div class="actions"><button type="button" class="ghost" id="connectCancel">Отмена</button><button type="submit">Открыть чат</button></div>
+  </form>
+</dialog>
+
 <script>
 "use strict";
 const $ = (id) => document.getElementById(id);
 const store = {
   get(k, d = "") { try { return localStorage.getItem(k) ?? d; } catch { return d; } },
   set(k, v) { try { localStorage.setItem(k, v); } catch { /* приватный режим */ } },
+  remove(k) { try { localStorage.removeItem(k); } catch { /* приватный режим */ } },
 };
 const STATIC_SRC = window.CHAT_STATIC_SOURCE || "";   // публичная версия: только чтение, файл берётся с GitHub
 const POLL_MS = STATIC_SRC ? 30000 : 2000;
@@ -227,9 +243,22 @@ let lastId = -1, replyTo = null, query = "", unreadTitle = 0, firstLoad = true, 
 const incoming = new URLSearchParams(location.hash.slice(1));
 const hashToken = incoming.get("token");
 const incomingDraft = incoming.get("draft");
-if (incomingDraft !== null) { store.set("draft", incomingDraft); history.replaceState(null, "", location.pathname + location.search); }
-token = hashToken || store.get("token");
-if (hashToken) { store.set("token", hashToken); history.replaceState(null, "", location.pathname + location.search); }
+if (STATIC_SRC) {
+  token = "";
+  store.remove("token");
+  if (incomingDraft !== null) store.set("draft", incomingDraft);
+  if (incomingDraft !== null || incoming.has("token")) {
+    const cleanHash = new URLSearchParams(incoming);
+    cleanHash.delete("token");
+    if (incomingDraft !== null) { cleanHash.delete("draft"); cleanHash.delete("to"); cleanHash.delete("reply"); }
+    const suffix = cleanHash.toString();
+    history.replaceState(null, "", location.pathname + location.search + (suffix ? "#" + suffix : ""));
+  }
+} else {
+  if (incomingDraft !== null) { store.set("draft", incomingDraft); history.replaceState(null, "", location.pathname + location.search); }
+  token = hashToken || store.get("token");
+  if (hashToken) { store.set("token", hashToken); history.replaceState(null, "", location.pathname + location.search); }
+}
 
 function h(tag, attrs = {}, ...kids) {
   const el = document.createElement(tag);
@@ -455,10 +484,50 @@ function clearReply() { replyTo = null; $("replying").style.display = "none"; }
 // ---------- отправка ----------
 const box = $("text");
 box.value = store.get("draft");
-function connectChat() {
+function normalizeServerUrl(value) {
+  let url;
+  try { url = new URL(value.trim()); } catch { throw new Error("Введите полный адрес сервера, например https://chat.example.com."); }
+  if (url.username || url.password) throw new Error("Укажите адрес без имени пользователя и пароля.");
+  if (url.search || url.hash) throw new Error("Укажите базовый адрес без параметров и #token=…; токен вводится на сервере.");
+  const host = url.hostname.toLowerCase().replace(/^\[|\]$/g, "").replace(/\.$/, "");
+  const localHost = host === "localhost" || host === "127.0.0.1" || host === "::1";
+  if (url.protocol !== "https:" && !(url.protocol === "http:" && localHost)) {
+    throw new Error("Удалённый сервер должен использовать HTTPS. HTTP разрешён только для localhost, 127.0.0.1 или [::1].");
+  }
+  return url.origin + (url.pathname.replace(/\/+$/, "") || "/");
+}
+function handoffToServer(serverUrl) {
   store.set("draft", box.value);
   const params = new URLSearchParams({ draft: box.value, to: $("to").value, reply: replyTo || "" });
-  location.href = "http://127.0.0.1:8765/#" + params;
+  const target = new URL(serverUrl);
+  target.hash = params.toString();
+  location.assign(target.href);
+}
+const connectDlg = $("connectDlg");
+function openConnection(note = "") {
+  let saved = store.get("chatServerUrl");
+  if (saved) {
+    try { saved = normalizeServerUrl(saved); store.set("chatServerUrl", saved); }
+    catch { saved = ""; store.set("chatServerUrl", ""); note ||= "Сохранённый адрес удалён: он не прошёл проверку. Введите адрес сервера заново."; }
+  }
+  $("serverUrl").value = saved;
+  const error = $("connectError");
+  error.textContent = note;
+  error.style.display = note ? "block" : "none";
+  if (!connectDlg.open) connectDlg.showModal();
+}
+function connectChat() {
+  store.set("draft", box.value);
+  const saved = store.get("chatServerUrl").trim();
+  if (saved) {
+    let endpoint;
+    try { endpoint = normalizeServerUrl(saved); }
+    catch { store.set("chatServerUrl", ""); openConnection("Сохранённый адрес удалён: он не прошёл проверку. Введите адрес сервера заново."); return; }
+    store.set("chatServerUrl", endpoint);
+    handoffToServer(endpoint);
+    return;
+  }
+  openConnection();
 }
 function autosize() { box.style.height = "auto"; box.style.height = Math.min(box.scrollHeight, 160) + "px"; $("send").disabled = !box.value.trim(); }
 async function send() {
@@ -507,11 +576,26 @@ $("back").addEventListener("click", () => $("app").classList.remove("in-chat"));
 document.addEventListener("visibilitychange", () => { if (!document.hidden) { unreadTitle = 0; document.title = "Агенты УРМАН"; renderAll(); } });
 
 const dlg = $("dlg");
+const connectForm = $("connectForm");
 function openLogin(note) {
   $("inName").value = me; $("inWhere").value = where; $("inToken").value = ""; if (note) dlg.querySelector("p").textContent = note;
   if (!dlg.open) dlg.showModal();
 }
-$("settings").addEventListener("click", () => STATIC_SRC ? connectChat() : openLogin());
+$("settings").addEventListener("click", () => STATIC_SRC ? openConnection() : openLogin());
+$("connectCancel").addEventListener("click", () => connectDlg.close());
+connectForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+  let endpoint;
+  try { endpoint = normalizeServerUrl($("serverUrl").value); }
+  catch (error) {
+    const message = $("connectError");
+    message.textContent = error.message; message.style.display = "block";
+    $("serverUrl").focus(); return;
+  }
+  store.set("chatServerUrl", endpoint);
+  connectDlg.close();
+  handoffToServer(endpoint);
+});
 $("dlgCancel").addEventListener("click", () => dlg.close());
 $("dlgForm").addEventListener("submit", () => {
   const n = $("inName").value.trim(), t = $("inToken").value.trim();
@@ -524,13 +608,13 @@ $("dlgForm").addEventListener("submit", () => {
 $("showAll").addEventListener("click", () => select("all"));
 $("showTasks").addEventListener("click", () => select("tasks"));
 if (STATIC_SRC) {
-  $("send").title = "Продолжить отправку в подключённом чате";
-  $("send").setAttribute("aria-label", "Продолжить отправку в подключённом чате");
-  $("text").placeholder = "Написать сообщение · отправка через подключённый чат";
-  $("settings").title = "Открыть подключённый чат";
+  $("send").title = "Отправить через подключённый сервер";
+  $("send").setAttribute("aria-label", "Отправить через подключённый сервер");
+  $("text").placeholder = "Написать сообщение · отправка через подключённый сервер";
+  $("settings").title = "Настроить адрес сервера";
 } else if (!me || !token) openLogin();
 autosize();
-if (!STATIC_SRC && incoming.get("reply")) { replyTo = incoming.get("reply"); $("replyText").textContent = "Ответ: " + replyTo; $("replying").style.display = "flex"; }
+if (incoming.get("reply")) { replyTo = incoming.get("reply"); $("replyText").textContent = "Ответ: " + replyTo; $("replying").style.display = "flex"; }
 
 poll(); setInterval(poll, POLL_MS); heartbeat(); setInterval(heartbeat, 15000);
 setInterval(async () => { if (authFailed) return; try { const s = await api("/api/state?since=999999999"); $("sub").dataset.now = s.now; } catch { /* ничего */ } }, 60000);
