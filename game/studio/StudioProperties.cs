@@ -162,20 +162,37 @@ public partial class StudioProperties : VBoxContainer
                 var scopeSummary = string.Empty;
                 var scopeDetails = string.Empty;
                 var entitySummary = $"{package.Entities.Count} объектов.";
-                if (schemaVersion == 5)
+                var hasExplicitScope = schemaVersion is 5 or 6;
+                if (hasExplicitScope)
                 {
                     var scopeIds = FormatManifestIds(package.Manifest["scopeEntityIds"], out var scopeCount);
                     scopeSummary = $" Корневые ID области ({scopeCount}): {scopeIds}.";
                     scopeDetails = $"Корни области (manifest.scopeEntityIds; не список зависимостей): {scopeIds}\nОбъектов в entities.json вместе с зависимостями: {package.Entities.Count}.";
                     entitySummary = $"{package.Entities.Count} объектов в entities.json.";
                 }
+                var tombstoneSummary = string.Empty;
+                var tombstoneDetails = string.Empty;
+                if (schemaVersion == 6)
+                {
+                    var tombstones = package.Manifest["tombstones"] as System.Text.Json.Nodes.JsonArray ?? [];
+                    var tombstoneLines = tombstones.Select(item =>
+                    {
+                        var tombstone = item as System.Text.Json.Nodes.JsonObject;
+                        return $"{tombstone?["id"]?.GetValue<string>() ?? "(ID не указан)"} — {tombstone?["file"]?.GetValue<string>() ?? "(файл не указан)"}";
+                    }).ToArray();
+                    tombstoneSummary = $" Зафиксировано удалённых объектов в снимке: {tombstoneLines.Length}.";
+                    tombstoneDetails = "Удалённые объекты, подтверждённые сравнением загруженной базы Studio с текущим снимком workspace (manifest.tombstones; отдельно от корней области и зависимостей):\n"
+                        + (tombstoneLines.Length == 0 ? "Нет." : string.Join("\n", tombstoneLines))
+                        + "\nЭто только описание снимка, не команда и не разрешение удалять или восстанавливать данные. Недостающие зависимости ниже — отдельный список и сами по себе не означают удаление. Полные тексты исходных файлов могут включать соседний контекст помимо перечисленных объектов.";
+                }
                 content.AddChild(new Label
                 {
-                    Text = $"{entitySummary}{scopeSummary} {integrity}\n{completeness}\n{coverageNote}\nТолько просмотр: проект не изменён.",
+                    Text = $"{entitySummary}{scopeSummary}{tombstoneSummary} {integrity}\n{completeness}\n{coverageNote}\nТолько просмотр: проект не изменён.",
                     AutowrapMode = TextServer.AutowrapMode.WordSmart
                 });
                 var previewText = new System.Text.StringBuilder(package.Text).AppendLine().AppendLine();
-                if (schemaVersion == 5) previewText.AppendLine(scopeDetails).AppendLine();
+                if (hasExplicitScope) previewText.AppendLine(scopeDetails).AppendLine();
+                if (schemaVersion == 6) previewText.AppendLine(tombstoneDetails).AppendLine();
                 previewText.AppendLine("Данные объектов:")
                     .Append(package.Entities.ToJsonString(new System.Text.Json.JsonSerializerOptions { WriteIndented = true }));
                 if (package.Sources is null)

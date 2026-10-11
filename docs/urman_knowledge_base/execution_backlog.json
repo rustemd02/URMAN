@@ -71613,6 +71613,14 @@
                       "implementation": "Existing context text/export now accepts frozen ordered roots; legacy single-ID callers remain. All 1-200 unique live roots seed BFS before dependencies and cannot be displaced by cap200. Package schema5 carries scopeEntityIds distinct from dependency entities; reader enforces exact fields, unique included ordered roots, primary-first prefix, receipt/UTF8/splice/budget rules and legacy schema1-4. World context action uses exact group snapshot including single-member groups; a primary selection outside the group is never appended (Shift-click can create this state). Missing/ambiguous/stale/oversize roots refuse complete export; UI preview/Copy/Save handles failures without scope fallback. Read-only package viewer shows selected roots separately. This is context export, not a generic AI Apply/write permission or a frozen house request package.",
                       "verification": "Five Luna FAST/Max bounded investigations/implementation reviews and independent GPT6.1Sol medium final delta review. Root affected Game compile0 warnings/0 errors; no tests/probes/content compiler/provider/Studio/game/Blender/runtime runs.",
                       "remaining": "Native group/package A07 acceptance still deferred. Fullfile baseline/current snapshots carry unrelated sibling context under existing budget; not an apply payload. Tombstone-only source paths are not represented (deleted last Markdown target is only missingDependencyId); conditions/effects/game/physical deps and generic AuthoringRequestV2 remain open."
+                    },
+                    {
+                      "stage": "2026-10-11 relevant loaded-baseline tombstone sources",
+                      "result": "SOURCE_IMPLEMENTED_GAME_COMPILE_PASS_NATIVE_NOT_RUN",
+                      "source": "src-dotnet/Urman.Studio.Core/Storage/AuthoredFile.cs; src-dotnet/Urman.Studio.Core/Handoff/DeveloperContext.cs; game/studio/StudioProperties.cs",
+                      "implementation": "AuthoredFile exposes filesystem-free baseline/current entity-ID comparison using existing JSON/Markdown parsers. Schema6 context includes proven deleted missing-dependency IDs and their full baseline/current source snapshots, including an emptied sole Markdown entity. Tombstones are separate from scope/live/pending; moved/re-added/ambiguous IDs are not silently claimed as deletions. Reader requires exact fields, unique missing tomb IDs, safe exact source-path union, exactly one baseline ID at declared path, absence across current included snapshots. Existing source200/entry403/256KiB/UTF8/hash/splice rules and readers1-5 preserved. Shared ValidateTombstoneSnapshots is used by writer before any archive write and reader; duplicate current IDs among included sibling source entities reject both sides. Sources captured once. Readable text and viewer distinguish loaded-base deletion from missing payload and warn that full source includes sibling context; viewing remains read-only.",
+                      "verification": "Five Luna FAST/Max bounded source work/reviews plus independent GPT6.1Sol medium final reviews. Root final affected Game compile0 warnings/0 errors; diff-check and tracker validate PASS. No tests/probes/content compiler/provider/Studio/game/Blender/runtime runs.",
+                      "remaining": "Only relevant missing dependencies deleted relative to loaded Workspace baseline are represented; not persisted Git deletion history, generic RequestV2 tombstone/Apply/revalidation authorization, or complete graph. Portable reader checks included snapshots only, not omitted filesystem. Native A07/A08/AI12 remain deferred by author."
                     }
                   ],
                   "assigned_owner": "codex/b20-2026-10-10",
@@ -71620,7 +71628,7 @@
                   "activity": {
                     "state": "confirmed_active",
                     "reason": "Existing bounded context unit resumed for source implementation under live B20 mandate; runtime remains deferred by author.",
-                    "verification_question": "Does group context export preserve frozen ordered targets separately from dependency closure, include every target under cap200, and preserve package1-4 readback/budget/integrity rules? Source/affected compile only; native A07 deferred."
+                    "verification_question": "Do relevant deleted-ID tombstones carry their loaded source base/current snapshot, remain distinct from missing/live/target IDs, reject ambiguity/moves/oversize and preserve package1-5 integrity/readback? Source/affected compile only, no native A07/A08."
                   },
                   "task_type": "engineering",
                   "status": "in_progress",
@@ -71629,9 +71637,9 @@
                   "remaining": [
                     "Extend schema-backed reference coverage to omitted narrative/game domains and physical resource dependencies.",
                     "Run actual unsaved-object/other-checkout payload/hash A07 acceptance after runtime pause is lifted.",
-                    "Represent relevant deleted-ID tombstones and their retained source baseline/current snapshots, including deleted sole Markdown targets; missingDependencyIds alone is insufficient."
+                    "Verify relevant deleted-ID/tombstone source transport natively; extend generic RequestV2 and A08 revalidation without resurrecting deleted targets. Loaded baseline snapshots do not establish persisted deletion history."
                   ],
-                  "next_action": "Implement relevant deleted-ID/source tombstone capture using retained AuthoredFile base/current snapshots and compatible package reader; keep native A07/AI12 deferred until author resumes launches.",
+                  "next_action": "Continue generic snapshot/request applicability and omitted physical dependencies using existing contracts; keep native A07/A08/AI12 deferred until author resumes launches.",
                   "blocker": null,
                   "external_gates": [],
                   "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -71669,7 +71677,7 @@
                       "success": "Выполнены все перечисленные собственные критерии, без расширения на родителя.",
                       "repeat_only_if": "Изменился source/candidate/input/покрываемый контракт."
                     },
-                    "actual_result": "Partial typed module dependencies plus exact frozen multi-root/group context export implemented with package5; legacy1-4 retained. Full snapshot/tombstones/request scope and native A07 remain incomplete.",
+                    "actual_result": "Partial typed module dependencies, frozen exact roots and loaded-baseline missing-dependency tombstone source snapshots implemented with package6/shared producer-reader validation. Native A07/A08, full graph and generic RequestV2 applicability remain open.",
                     "evidence_refs": []
                   },
                   "dependencies": {
