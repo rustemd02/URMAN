@@ -1,0 +1,29 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-37"
+  ],
+  "stage": "the quest lifecycle policies against the reducer",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-11 22:10 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "aef5c481",
+  "result": {
+    "policies_are_NOT_decorative": "this is the useful answer of the stage: the reducer really reads all three. retryPolicy.mode and maximumAttempts are compared at lines 375-380 (mode none refuses a retry, mode quest restores the ORIGIN checkpoint and any other value restores the current one, and past maximumAttempts it rejects with QuestRetryExhausted); checkpointPolicy.mode drives the snapshots at lines 230, 289 and 341 (none saves nothing, objective saves on objective completion, any other value saves on stage entry); and the reducer's own validation requires all three at lines 691-693, so a missing one throws instead of being ignored",
+    "authored_distribution": "thirteen quests in TWO configurations - eleven with retry none/maximumAttempts 1 and checkpoint objective, two with retry stage/maximumAttempts 2 and checkpoint stage - so the policy surface is used with more than one value rather than left at a single default",
+    "what_is_checked": "every quest declares all three policies, retryPolicy and checkpointPolicy carry a mode, and a declared maximumAttempts below one is reported because the mode and the number then contradict each other: the policy promises a retry while the first attempt exhausts it",
+    "boundary": "whether a retry really happens is a runtime question; announcing the policy is not the same as exercising it"
+  },
+  "verified": {
+    "probe": "PASS 686/686 including the zero problems on the real campaign, the two configurations, the quoted engine lines and the three synthetic findings (attempt count contradicting the mode, a missing mode, a missing cancelPolicy)",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors (composed tree with my branch and the v15 patch)",
+    "not_run": "no game run: a real retry is runtime acceptance"
+  },
+  "own_mistakes": "my first version called a helper Quests(root) that this file does not have and reached for TriggerScopeFacts' TryNumber; it now uses the file's own workspace idiom and a local numeric read. The compiler caught all three errors",
+  "files": {
+    "evidence/STUDIO/b20-deepseek-ai-37/2026-10-11-quest-policies/check.log": "6aafd184b581cb22b19635ed0446c1cadf6c5fa8d60593158a16b196ecb46c0a"
+  },
+  "open": [
+    "a real retry and a real checkpoint save remain runtime checks"
+  ]
+}

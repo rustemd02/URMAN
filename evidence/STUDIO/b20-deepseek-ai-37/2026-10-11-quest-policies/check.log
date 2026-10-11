@@ -1,0 +1,10 @@
+== AI-37: the quest lifecycle policies against the reducer
+
+
+Прошло времени 00:00:00.55
+    note: Наборы политик retry/checkpoint в кампании: "none"/1 + "objective": 11; "stage"/2 + "stage": 2.
+    note: Движок не игнорирует политики: retryPolicy.mode и maximumAttempts сравниваются в QuestLifecycleReducer (375-380), checkpointPolicy.mode управляет снимками (230, 289, 341), а все три обязательны при загрузке (691-693).
+    POLICY synthetic: urman.x:quest/q: retryPolicy.maximumAttempts = 0, а режим «stage» обещает повтор: первая же попытка его исчерпает.
+    POLICY synthetic: urman.x:quest/q: у «checkpointPolicy» нет mode — RequiredString бросит исключение при загрузке.
+    POLICY synthetic: urman.x:quest/q: нет политики «cancelPolicy» — рантайм требует её через RequiredObject и упадёт при загрузке.
+PROBE RESULT: PASS

@@ -164,4 +164,125 @@ public static class QuestSemantics
                 break;
         }
     }
+    /// <summary>
+    /// The three lifecycle policies every quest must declare, checked against what the reducer
+    /// really does with them rather than against a guess:
+    ///
+    ///   * retryPolicy.mode "none" refuses a retry outright, "quest" restores the ORIGIN checkpoint
+    ///     and any other value restores the current checkpoint; the attempt count is compared with
+    ///     maximumAttempts and past it the reducer rejects with QuestRetryExhausted (lines 375-380);
+    ///   * checkpointPolicy.mode "none" saves no checkpoint, "objective" saves one when an
+    ///     objective completes, and any other value saves one when a stage is entered (lines 230,
+    ///     289 and 341);
+    ///   * all three policies are required by the reducer's own validation (lines 691-693), so a
+    ///     missing one throws rather than being ignored.
+    ///
+    /// A declared maximumAttempts below one is reported because the mode and the number then
+    /// contradict each other: the policy says a retry exists while the first attempt exhausts it.
+    /// </summary>
+    public static IReadOnlyList<string> PolicyProblems(StudioWorkspace workspace)
+    {
+        ArgumentNullException.ThrowIfNull(workspace);
+        var problems = new List<string>();
+        foreach (var quest in AuthoredQuests(workspace))
+        {
+            var id = (string?)quest["id"] ?? "";
+            foreach (var field in new[] { "retryPolicy", "checkpointPolicy", "cancelPolicy" })
+            {
+                if (quest[field] is not JsonObject policy)
+                {
+                    problems.Add($"{id}: нет политики «{field}» — рантайм требует её через RequiredObject и упадёт при загрузке.");
+                    continue;
+                }
+
+                if (field == "cancelPolicy")
+                {
+                    continue;
+                }
+
+                var mode = "";
+                if (policy["mode"] is JsonValue modeValue && modeValue.TryGetValue<string>(out var text) && text is { Length: > 0 })
+                {
+                    mode = text;
+                }
+                else
+                {
+                    problems.Add($"{id}: у «{field}» нет mode — RequiredString бросит исключение при загрузке.");
+                }
+
+                if (field == "retryPolicy" && policy["maximumAttempts"] is { } attempts
+                    && (!Number(attempts, out var value) || value < 1))
+                {
+                    problems.Add($"{id}: retryPolicy.maximumAttempts = {(attempts.ToJsonString())}, а режим «{mode}» обещает повтор: первая же попытка его исчерпает.");
+                }
+            }
+        }
+
+        return problems;
+    }
+
+    /// <summary>The policy configurations the campaign authors, so the distribution is visible.</summary>
+    public static IReadOnlyList<string> PolicyNotes(StudioWorkspace workspace)
+    {
+        ArgumentNullException.ThrowIfNull(workspace);
+        var configurations = AuthoredQuests(workspace)
+            .GroupBy(quest => $"{(quest["retryPolicy"] as JsonObject)?["mode"]?.ToJsonString() ?? "?"}/{(quest["retryPolicy"] as JsonObject)?["maximumAttempts"]?.ToJsonString() ?? "?"} + {(quest["checkpointPolicy"] as JsonObject)?["mode"]?.ToJsonString() ?? "?"}", StringComparer.Ordinal)
+            .OrderBy(group => group.Key, StringComparer.Ordinal)
+            .Select(group => $"{group.Key}: {group.Count()}");
+        var problems = PolicyProblems(workspace);
+        return
+        [
+            $"Наборы политик retry/checkpoint в кампании: {string.Join("; ", configurations)}.",
+            problems.Count == 0
+                ? "Каждая квеста объявляет все три политики, и числа не противоречат режимам."
+                : $"Расхождений в политиках: {problems.Count} — {string.Join(" | ", problems.Take(2))}",
+            "Движок не игнорирует политики: retryPolicy.mode и maximumAttempts сравниваются в QuestLifecycleReducer (375-380), checkpointPolicy.mode управляет снимками (230, 289, 341), а все три обязательны при загрузке (691-693).",
+            "Идёт ли повтор на самом деле — это runtime-проверка, а не вывод из объявления."
+        ];
+    }
+
+    /// <summary>The quest shapes in the workspace, by the same test the rest of this file uses.</summary>
+    private static IReadOnlyList<JsonObject> AuthoredQuests(StudioWorkspace workspace)
+    {
+        var quests = new List<JsonObject>();
+        foreach (var id in workspace.EntityIds)
+        {
+            if (workspace.Get(id) is JsonObject quest && quest["stages"] is JsonArray)
+            {
+                quests.Add(quest);
+            }
+        }
+
+        return quests;
+    }
+
+    /// <summary>Reads a number without assuming its JSON type, so a wrong type is reported.</summary>
+    private static bool Number(JsonNode? node, out double value)
+    {
+        value = 0;
+        if (node is not JsonValue json)
+        {
+            return false;
+        }
+
+        if (json.TryGetValue<double>(out value))
+        {
+            return true;
+        }
+
+        if (json.TryGetValue<int>(out var small))
+        {
+            value = small;
+            return true;
+        }
+
+        if (json.TryGetValue<long>(out var integer))
+        {
+            value = integer;
+            return true;
+        }
+
+        return json.TryGetValue<decimal>(out var precise) && (value = (double)precise) == value;
+    }
+
 }

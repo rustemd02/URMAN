@@ -80357,6 +80357,12 @@
                 "result": "deepseek v4.1 flash measured the four mechanisms the unit's done_when names against the engine's own operation sets and the campaign's own numbers: branching is supported by all/any/not and used 208 times; parallel exists as independent objectives of a stage (twenty objectives); repeat is retryPolicy.mode (none eleven times, stage twice) with no separate repeat operation; failureEffects are implemented but no objective declares any; and a timer or delayed effect is NOT supported at all, because the engine has no time, wait, delay, timer or schedule operation. That last requirement cannot be met by content or Studio and needs an engine contract, so the unit's criterion stays open",
                 "source": "new file src-dotnet/Urman.Studio.Core/Editing/QuestSemantics.cs; evidence evidence/STUDIO/b20-deepseek-ai-37/2026-10-11-quest-semantics",
                 "verification": "probe PASS 518/518 including the five mechanism rows, the unsupported timer with its consequence and the notes naming the engine sources as the basis and an unsupported mechanism as no Studio task; Core 0/0; game/Urman.Game.csproj 0/0; Urman.Studio.Tests 38/38. Runtime state preservation over a real chain is NOT_RUN"
+              },
+              {
+                "stage": "2026-10-11 the quest lifecycle policies against the reducer",
+                "result": "deepening by deepseek v4.1 flash: the three lifecycle policies are NOT decorative. The reducer compares retryPolicy.mode and maximumAttempts at lines 375-380 (none refuses a retry, quest restores the ORIGIN checkpoint, any other value restores the current one, and past maximumAttempts it rejects with QuestRetryExhausted); checkpointPolicy.mode drives snapshots at 230, 289 and 341 (none saves nothing, objective on objective completion, other on stage entry); and the reducer's validation requires all three at 691-693, so a missing one throws. The campaign authors thirteen quests in TWO configurations - eleven retry none/attempts 1 + checkpoint objective, two retry stage/attempts 2 + checkpoint stage - so the surface is used with more than one value. What is checked: all three policies present, retry/checkpoint carry a mode, and a declared maximumAttempts below one is reported because the mode and the number contradict each other (the policy promises a retry while the first attempt exhausts it). Own mistakes recorded: my first version called a helper this file does not have and borrowed another file's numeric reader; the compiler caught all three errors. Verified: probe PASS 686/686 including three synthetic findings; Core 0/0",
+                "source": "src-dotnet/Urman.Studio.Core/Editing/QuestSemantics.cs (PolicyProblems, PolicyNotes, AuthoredQuests, Number); evidence evidence/STUDIO/b20-deepseek-ai-37/2026-10-11-quest-policies",
+                "verification": "probe PASS 686/686 including the zero problems on the real campaign, the two policy configurations and the three synthetic failures; Core 0/0. A real retry and checkpoint save are runtime checks and are NOT_RUN"
               }
             ],
             "stage_tasks": [
@@ -80391,7 +80397,9 @@
               "Ранее переданный частичный этап (2026-10-10 rule catalogue coverage, campaign scope and PhotoWorld anchors) ждёт ревью/приёмки; полный done_when не выполнен.",
               "Ранее переданный частичный этап (2026-10-11 the campaign module folder mapping was wrong, so the campaign scope counted nothing) ждёт ревью/приёмки; полный done_when не выполнен.",
               "Механизм «таймер/отложенное последствие» из done_when не выражается движком: нужен контракт владельца фундамента, критерий единицы остаётся открытым.",
-              "Ранее переданный частичный этап (2026-10-11 the required complex-quest mechanisms against the engine vocabulary) ждёт ревью/приёмки; полный done_when не выполнен."
+              "Ранее переданный частичный этап (2026-10-11 the required complex-quest mechanisms against the engine vocabulary) ждёт ревью/приёмки; полный done_when не выполнен.",
+              "Политики retry/checkpoint/cancel читаются движком (375-380, 230/289/341, 691-693) и контентом используются в двух наборах; реальный повтор и снимок — runtime-проверка.",
+              "Ранее переданный частичный этап (2026-10-11 the quest lifecycle policies against the reducer) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
             "next_action": "Ждать решения владельца по операции времени/отложенного последствия; остальные механизмы подтверждены по движку и контенту.",
             "blocker": null,
