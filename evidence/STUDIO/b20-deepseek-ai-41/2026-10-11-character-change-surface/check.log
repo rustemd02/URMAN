@@ -1,0 +1,17 @@
+== AI-41/AI-42: what a character change can and cannot be today
+
+
+Прошло времени 00:00:00.51
+
+Прошло времени 00:00:12.82
+== existing tests
+=== TEST EXECUTION SUMMARY ===
+   Urman.Studio.Tests  Total: 38, Errors: 0, Failed: 0, Skipped: 0, Not Run: 0, Time: 2,312s
+== probe
+    Цвет одежды (пальто, головное, акцент): kind=data data=True | рантайм читает accentColor, coatColor, headwearColor
+    Силуэт (ширина и глубина): kind=data data=True | width и depth, рантайм зажимает их в .94–1.06 и .95–1.05
+    Новая деталь одежды как меш: kind=model-or-art data=False | game/scripts/GeneratedCharacterKitDressing.cs не создаёт мешей: искал SetMesh( и new MeshInstance3D — 0 совпадений, значит готовая деталь может появиться только из набора urman_character_kit.glb и urman_character_kit_v2.glb
+    Скульптированная форма лица: kind=none data=False | политика самого рантайма: «unchanged face and bones» — лицо и кости остаются как в наборе
+    Новый скелет, веса и сокеты: kind=model-or-art data=False | тела и кости берутся из набора (urman_character_kit.glb и urman_character_kit_v2.glb); в этом срезе путей замены скелета в рантайме не искали
+    note: Изменяемых из данных возможностей: 4; требующих модели/арта: 2; отсутствующих путей: 1.
+PROBE RESULT: PASS

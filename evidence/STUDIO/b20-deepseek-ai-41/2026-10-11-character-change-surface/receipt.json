@@ -1,0 +1,33 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-41",
+    "STUDIO/AI-42",
+    "STUDIO/AI-43",
+    "STUDIO/AI-28"
+  ],
+  "stage": "what a character change can and cannot be today",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-11 19:54 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "281c28e3",
+  "result": {
+    "data": "four capabilities really change from data: the three colour fields the runtime reads (coatColor, headwearColor, accentColor), the silhouette width and depth it clamps to .94-1.06 and .95-1.05, the profile that goes to the resident metadata, and the scale",
+    "art_track": "a new garment as a mesh and a new skeleton with weights and sockets need the kit model: GeneratedCharacterKitDressing.cs creates no mesh at all (searched SetMesh( and new MeshInstance3D, zero matches), so a garment only appears by authoring it into urman_character_kit.glb or urman_character_kit_v2.glb",
+    "absent": "a sculpted face has no path: the runtime's own policy string is 'existing winter kit; modest silhouette and garment palette; unchanged face and bones'",
+    "why": "the brief forbids passing a colour change off as a new garment or a ready-made face off as sculpting, so the honest deliverable is this measured split rather than a decorative button"
+  },
+  "verified": {
+    "probe": "PASS 567/567 with the new checks: zero mesh creation in the dressing code, the face row naming the runtime policy, the data rows present, every row carrying evidence and the kit model present on disk",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors; game/Urman.Game.csproj 0 warnings/0 errors",
+    "existing_tests": "Urman.Studio.Tests 38/38",
+    "not_run": "no Blender and no game run: the visual and sculptural result is external acceptance, NOT_RUN"
+  },
+  "boundary": "the negative rows say what was searched and where: a file scan is a fact about the code that was read, not a proof of absence across the whole engine",
+  "files": {
+    "evidence/STUDIO/b20-deepseek-ai-41/2026-10-11-character-change-surface/check.log": "a4554f4119cb007be565fddce210c50044cf81cc9ca444f10ac9d8895e4f2818"
+  },
+  "open": [
+    "a garment mesh, a sculpted face and a new rig all stay art-track work"
+  ]
+}
