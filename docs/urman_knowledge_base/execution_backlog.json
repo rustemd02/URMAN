@@ -23970,6 +23970,13 @@
                 "source": "src-dotnet/Urman.Studio.Core/Editing/AudioSourceRegistry.cs and game/studio/StudioAudioPanel.cs; evidence evidence/STUDIO/b20-deepseek-ai-18/2026-10-10-containment/ (check.log, probe/, receipt.json); commit ea4b74c6",
                 "verification": "probe PASS 266/266: a synthetic root whose emitter clip and stem file both escape the project reports both, the escaping stem is not treated as existing, and no real audio path is falsely reported. Urman.Studio.Core 0 warnings/0 errors; game/Urman.Game.csproj 0 warnings/0 errors. Own bug found and fixed in the same commit: the first audition gate validated the level only after the emitter lookup, so a shared-bus stem returned early unvalidated. No Studio window and no listening: the panel text and the auditory result are NOT_RUN, and the listening gate stays open"
               }
+,
+              {
+                "stage": "2026-10-10 answer to the 22:34 review: runtime defaults vs editor policy, and raw-based audition refusal",
+                "result": "correction by deepseek v4.1 flash: AI-21 separates what the game really does (a size shorter than three values throws, more values are ignored, an explicit null takes the default) from what the editor requires; AI-18 refuses an audition on the registry's raw findings for the source instead of the normalized view that hid them",
+                "source": "src-dotnet/Urman.Studio.Core/Editing/TriggerScopeFacts.cs and game/studio/StudioAudioPanel.cs; evidence evidence/STUDIO/b20-deepseek-ai-21/2026-10-10-runtime-defaults/ (check.log, probe/, receipt.json)",
+                "verification": "probe PASS 309/309 with new checks: a size shorter than three numbers is a runtime failure while a longer one is not, the extra values are named as ignored and the exactly-three rule as editor policy, and an explicit null actor or bool is the default rather than a crash. Urman.Studio.Core 0/0; game/Urman.Game.csproj 0/0; Urman.Studio.Tests 38/38. The v7 wiring patch is unchanged by this stage. No Studio window and no listening: interface and auditory result NOT_RUN"
+              }
 
             ],
             "assigned_owner": "deepseek/b20-2026-10-10"
@@ -24102,6 +24109,13 @@
                 "result": "correction by deepseek v4.1 flash: a value beyond the float range is refused with the precise reason, the inspector reads the trigger fields through type-safe readers instead of casting a JsonValue, and the editor minimum is named as editor policy rather than a game rule",
                 "source": "src-dotnet/Urman.Studio.Core/Editing/TriggerScopeFacts.cs and the owner patch evidence/STUDIO/b20-deepseek-ai-21/2026-10-10-numeric-policy/ai-deepseek-studio-wiring-v4.patch (v4 of the consolidated wiring patch); evidence .../check.log, probe/ and receipt.json; commit follows",
                 "verification": "probe PASS 277/277: a double beyond the float range is refused while a normal number and an integer are still read, a string explains why it is not a number, an area below the editor minimum is a note and not a runtime failure, and the panel readers fall back on a wrongly typed string and bool. The v4 patch passes git apply --check on a pristine f703f132 worktree; Urman.Studio.Core 0 warnings/0 errors; game/Urman.Game.csproj 0 warnings/0 errors; the existing Urman.Studio.Tests suite passes 38/38 on the patched tree. No Studio window: the inspector behaviour is compile- and probe-verified, interface NOT_RUN"
+              }
+,
+              {
+                "stage": "2026-10-10 answer to the 22:34 review: runtime defaults vs editor policy, and raw-based audition refusal",
+                "result": "correction by deepseek v4.1 flash: AI-21 separates what the game really does (a size shorter than three values throws, more values are ignored, an explicit null takes the default) from what the editor requires; AI-18 refuses an audition on the registry's raw findings for the source instead of the normalized view that hid them",
+                "source": "src-dotnet/Urman.Studio.Core/Editing/TriggerScopeFacts.cs and game/studio/StudioAudioPanel.cs; evidence evidence/STUDIO/b20-deepseek-ai-21/2026-10-10-runtime-defaults/ (check.log, probe/, receipt.json)",
+                "verification": "probe PASS 309/309 with new checks: a size shorter than three numbers is a runtime failure while a longer one is not, the extra values are named as ignored and the exactly-three rule as editor policy, and an explicit null actor or bool is the default rather than a crash. Urman.Studio.Core 0/0; game/Urman.Game.csproj 0/0; Urman.Studio.Tests 38/38. The v7 wiring patch is unchanged by this stage. No Studio window and no listening: interface and auditory result NOT_RUN"
               }
 
             ],

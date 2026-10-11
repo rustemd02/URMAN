@@ -154,14 +154,7 @@ public partial class StudioAudioPanel : AcceptDialog
         // The totals in the header say how many findings exist; the author needs the
         // ones that belong to the source in front of them, including a raw value of the
         // wrong type that the projection had to read as a default.
-        var id = target.SourceId[(target.SourceId.IndexOf(':') + 1)..];
-        var own = _report.OutOfRangeValues
-            .Concat(_report.MissingRequiredFields)
-            .Concat(_report.UnknownFields)
-            .Where(line => line.StartsWith(id + ":", StringComparison.Ordinal) || line.Contains(": " + id + ": ", StringComparison.Ordinal))
-            .Distinct(StringComparer.Ordinal)
-            .ToArray();
-        foreach (var problem in own)
+        foreach (var problem in RawFindings(target))
         {
             lines.Add("⚠ " + problem);
         }
@@ -231,6 +224,27 @@ public partial class StudioAudioPanel : AcceptDialog
         _action.Text = $"Прослушивание: {target.File} на шине {plan.Bus}, {plan.VolumeDb:0.#} дБ, без петли, своя копия потока. Настройки игрока и игровой микс не меняются.";
     }
 
+    /// <summary>
+    /// The findings the registry produced from the RAW authored data for this source.
+    /// The audition gate must use these rather than the normalized view: a malformed raw
+    /// value has already become a default there and would pass every view-based check.
+    /// </summary>
+    private IReadOnlyList<string> RawFindings(PreviewTarget target)
+    {
+        if (_report is null)
+        {
+            return [];
+        }
+
+        var id = target.SourceId[(target.SourceId.IndexOf(':') + 1)..];
+        return _report.OutOfRangeValues
+            .Concat(_report.MissingRequiredFields)
+            .Concat(_report.UnknownFields)
+            .Where(line => line.StartsWith(id + ":", StringComparison.Ordinal) || line.Contains(": " + id + ": ", StringComparison.Ordinal))
+            .Distinct(StringComparer.Ordinal)
+            .ToArray();
+    }
+
     /// <summary>The reason a source must not be auditioned, or null when it may be.</summary>
     private string? AuditionBlocked(PreviewTarget target)
     {
@@ -247,6 +261,13 @@ public partial class StudioAudioPanel : AcceptDialog
         if (!ResourceLoader.Exists(target.File))
         {
             return $"файл {target.File} не найден.";
+        }
+
+        // The registry read the raw authored fields, including the ones the view below
+        // had to normalize; a finding there is a refusal, not a warning.
+        if (RawFindings(target) is { Count: > 0 } raw)
+        {
+            return string.Join(" ", raw);
         }
 
         // The registry's own rules decide the level and the path for BOTH scopes, so the

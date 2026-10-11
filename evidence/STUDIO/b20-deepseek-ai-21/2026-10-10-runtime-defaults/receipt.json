@@ -1,0 +1,34 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-21",
+    "STUDIO/AI-18"
+  ],
+  "stage": "answer to the 22:34 review: runtime defaults separated from editor policy, and the audition gate moved onto the raw registry findings",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-11 04:57 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "f703f132",
+  "ai21": {
+    "size_count": "ToVector3 reads [0], [1] and [2], so fewer than three values is a runtime failure and is reported as one; more than three is accepted by the game because the extra values are ignored, and is now named as editor policy rather than an engine failure. The registry note says the same",
+    "explicit_null": "an explicit null actor or bool behaves like an absent key in the runtime helper, so it is described as the default instead of being called a type error; a value of the wrong type still throws at the first qualifying entry and stays a problem"
+  },
+  "ai18": {
+    "raw_gate": "AuditionBlocked consults the registry's findings for the source id BEFORE the normalized view: a malformed raw value, a missing required field or an unknown field refuses the audition instead of being masked by the default the view had to substitute. The details panel uses the same single filter, so gate and text cannot drift"
+  },
+  "files": {
+    "src-dotnet/Urman.Studio.Core/Editing/TriggerScopeFacts.cs": "f334fed8bf6f78e0c7261a4f452c7dc445f5372d0f5340f9ab93a49748de1a74",
+    "game/studio/StudioAudioPanel.cs": "7401ed620618934b2e5626c3e3b0f2bb4b1c5cf3d29f25ffa93db69fb1481408",
+    "evidence/STUDIO/b20-deepseek-ai-21/2026-10-10-runtime-defaults/check.log": "c6b98172fab7b784e063ef341dd6f5a92cecd96600d10b63da64063170bc6fb6"
+  },
+  "verified": {
+    "probe": "PASS 309/309 with the new checks: a short size is a runtime failure, a longer size is not, the extra values are named as ignored and the exactly-three rule as editor policy, an explicit null actor and bool are the default rather than a crash",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors; game/Urman.Game.csproj 0 warnings/0 errors",
+    "existing_tests": "Urman.Studio.Tests 38/38",
+    "not_run": "no Studio window and no listening: the interface and the auditory result are NOT_RUN"
+  },
+  "open": [
+    "the v7 wiring patch is unchanged by this stage and still applies",
+    "runtime and visual acceptance are NOT_RUN"
+  ]
+}

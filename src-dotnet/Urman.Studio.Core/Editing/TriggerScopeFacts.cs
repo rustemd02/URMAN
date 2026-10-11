@@ -45,7 +45,7 @@ public static class TriggerScopeFacts
     [
         new("size", "number[3]", "нет — рантайм возьмёт нулевой размер", true,
             "AuthoredWorldDirector.BuildTrigger: BoxShape3D, смещение по половине высоты",
-            "Без поля ReadVector вернёт ноль и область получится нулевой: срабатывание практически невозможно. Не число, не три элемента или значение вне float — исключение или переполнение при чтении. Минимум 0,2 м, который держит редактор, игрой не проверяется.")
+            "Без поля ReadVector вернёт ноль и область получится нулевой: срабатывание практически невозможно. Меньше трёх чисел или значение вне float — исключение при чтении; лишние числа рантайм игнорирует. Минимум 0,2 м и требование ровно трёх чисел — политика редактора, игра их не проверяет.")
         {
             Policy = "runtime+editor"
         },
@@ -144,12 +144,20 @@ public static class TriggerScopeFacts
         {
             problems.Add("Нет size: ReadVector вернёт ноль, область получится нулевого размера и срабатывание станет практически невозможным.");
         }
-        else if (parameters["size"] is not JsonArray size || size.Count != 3)
+        else if (parameters["size"] is not JsonArray size || size.Count < 3)
         {
-            problems.Add("size не из трёх чисел: чтение области упадёт или даст вырожденный размер.");
+            // ToVector3 reads [0], [1] and [2]: fewer than three values really does throw.
+            problems.Add("size: рантайм читает [0], [1] и [2] — при нехватке чисел чтение области упадёт.");
         }
         else
         {
+            if (size.Count > 3)
+            {
+                // The runtime ignores anything past the third value, so "exactly three" is
+                // an editor rule, not an engine rule, and is reported as such.
+                lines.Add("size: рантайм читает только первые три числа и игнорирует остальные; требование ровно трёх — политика редактора.");
+            }
+
             // The precise reason matters: "not three numbers", "not a number" and "does
             // not fit a float" send the author to three different fixes.
             string? unreadable = null;
@@ -238,8 +246,10 @@ public static class TriggerScopeFacts
     private static string? ReadString(JsonObject parameters, string name, out bool isText)
     {
         isText = true;
-        if (!parameters.TryGetPropertyValue(name, out var node))
+        if (!parameters.TryGetPropertyValue(name, out var node) || node is null)
         {
+            // An explicit null behaves like an absent key in the runtime helper
+            // (GetString() returns null and the fallback wins), so it is not a type error.
             return null;
         }
 
@@ -255,7 +265,7 @@ public static class TriggerScopeFacts
     private static bool? ReadBool(JsonObject parameters, string name, out bool isBool)
     {
         isBool = true;
-        if (!parameters.TryGetPropertyValue(name, out var node))
+        if (!parameters.TryGetPropertyValue(name, out var node) || node is null)
         {
             return null;
         }
