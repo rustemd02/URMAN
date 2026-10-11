@@ -718,6 +718,11 @@ public partial class StudioRoot : Control
         };
         dialog.Confirmed += () =>
         {
+            if (IsAiActionBusy)
+            {
+                ShowBanner("Восстановление отложено: дождитесь завершения текущего действия. Черновики сохранены.", error: true);
+                return;
+            }
             var currentDrafts = Drafts.Recover(Workspace, out var currentWarnings);
             var skipped = currentWarnings.Count;
             foreach (var draft in drafts.Where(draft => !draft.DiskChangedSince))
@@ -741,13 +746,16 @@ public partial class StudioRoot : Control
                     skipped++;
                     continue;
                 }
-                using (Session.Begin("восстановленный черновик"))
+                var expectedText = file.Text;
+                try
                 {
-                    foreach (var key in file.Keys().Except(keys, StringComparer.Ordinal).ToArray())
-                        Session.Delete(draft.RelativePath, key, "восстановленный черновик");
-                    foreach (var key in keys)
-                        Session.Set(draft.RelativePath, key, recovered.Get(key), "восстановленный черновик");
-                    Session.SetOrder(draft.RelativePath, keys, "восстановленный черновик");
+                    Session.ReplaceDraft(draft.RelativePath, expectedText, draft.DraftText, "восстановленный черновик");
+                }
+                catch (Exception error) when (error is IOException or UnauthorizedAccessException or ArgumentException
+                    or InvalidOperationException or KeyNotFoundException or FormatException or System.Text.Json.JsonException)
+                {
+                    skipped++;
+                    continue;
                 }
                 Drafts.AcceptRecoveredDraft(draft.RelativePath);
             }
