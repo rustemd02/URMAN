@@ -36,7 +36,7 @@ public static class AddressBindings
     public static string Scope(string root)
     {
         var registry = Registry(root);
-        return (string?)registry?["source"] ?? "";
+        return AuthoredJson.Text(registry, "source");
     }
 
     public static IReadOnlyList<AddressBindingFacts> Inspect(StudioWorkspace workspace, string root)
@@ -52,17 +52,17 @@ public static class AddressBindings
 
         var scene = SceneText(full);
         var declared = buildings.OfType<JsonObject>()
-            .Select(building => (string?)building["addressId"])
+            .Select(building => AuthoredJson.TextOrNull(building, "addressId"))
             .OfType<string>()
             .ToHashSet(StringComparer.Ordinal);
         var aliases = (registry["addressAliases"] as JsonObject ?? [])
-            .ToDictionary(pair => pair.Key, pair => (string?)pair.Value ?? "", StringComparer.Ordinal);
+            .ToDictionary(pair => pair.Key, pair => AuthoredJson.TextValue(pair.Value), StringComparer.Ordinal);
 
         var bindings = new List<AddressBindingFacts>();
         foreach (var building in buildings.OfType<JsonObject>())
         {
-            var addressId = (string?)building["addressId"] ?? "";
-            var door = (string?)building["primaryDoor"];
+            var addressId = AuthoredJson.TextOrNull(building, "addressId") ?? "";
+            var door = AuthoredJson.TextOrNull(building, "primaryDoor");
             var problems = new List<string>();
 
             if (door is { Length: > 0 } && scene.Length > 0 && !scene.Contains(door, StringComparison.Ordinal))
@@ -81,9 +81,9 @@ public static class AddressBindings
 
             bindings.Add(new AddressBindingFacts(
                 addressId,
-                (string?)building["streetId"] ?? "",
-                (string?)building["number"] ?? "",
-                (string?)building["role"] ?? "",
+                AuthoredJson.Text(building, "streetId"),
+                AuthoredJson.Text(building, "number"),
+                AuthoredJson.Text(building, "role"),
                 door,
                 problems));
         }
@@ -108,7 +108,7 @@ public static class AddressBindings
         ArgumentNullException.ThrowIfNull(workspace);
         var registry = Registry(root);
         var bound = (registry?["buildings"] as JsonArray ?? []).OfType<JsonObject>()
-            .Select(building => ((string?)building["streetId"], (string?)building["number"]))
+            .Select(building => (AuthoredJson.TextOrNull(building, "streetId"), AuthoredJson.TextOrNull(building, "number")))
             .ToHashSet();
         // A parcel id such as ADR-H033 does not have the namespace:kind/name shape the
         // workspace indexes, so parcels are read from the world files themselves instead of
@@ -149,9 +149,9 @@ public static class AddressBindings
             case JsonObject obj:
                 // Both kinds carry an address: the bulk parcels of the grid and the kit
                 // records the registry actually binds. Collecting one of them hid the match.
-                if ((string?)obj["kind"] is "parcel" or "kit" && obj["street"] is not null && obj["number"] is not null)
+                if (AuthoredJson.Text(obj, "kind") is "parcel" or "kit" && obj["street"] is not null && obj["number"] is not null)
                 {
-                    world.Add(((string?)obj["street"], (string?)obj["number"]));
+                    world.Add((AuthoredJson.Text(obj, "street"), AuthoredJson.TextOrNull(obj, "number")));
                 }
 
                 foreach (var pair in obj)

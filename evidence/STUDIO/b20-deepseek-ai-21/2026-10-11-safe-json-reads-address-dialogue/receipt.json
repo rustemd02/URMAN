@@ -1,0 +1,30 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-21",
+    "STUDIO/AI-20"
+  ],
+  "stage": "two more projections read authored JSON safely",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-11 22:41 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "6ab0e745",
+  "result": {
+    "converted": "AddressBindings.cs went from THIRTEEN casts to zero and DialogueGraph.cs from EIGHT to zero",
+    "the_helper_grew": "one more shape was needed: TextValue, for a BARE node rather than a field of an object - the dictionary values in the address registry and the nextNodeId in a dialogue choice are read that way",
+    "the_nullability_lesson": "my first pass used Text where the original cast had been nullable, which changed a TUPLE's nullability and broke the compiler: the set of street/number pairs is declared as (string?, string?) and my version produced (string, string?). The compiler caught it, and the fix is TextOrNull there. A mechanical conversion still has to respect where the old code was nullable on purpose",
+    "behaviour_unchanged": "the probe's numbers did not move: five area links with five uses and zero problems, thirty-two dialogue nodes"
+  },
+  "verified": {
+    "probe": "PASS 741/741 with the address and dialogue numbers unchanged",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors (composed tree with my branch and the v15 patch)",
+    "not_run": "no game run: this is a robustness change"
+  },
+  "own_mistakes": "the nullability change described above, caught by the compiler rather than by review",
+  "files": {
+    "evidence/STUDIO/b20-deepseek-ai-21/2026-10-11-safe-json-reads-address-dialogue/check.log": "a5758917eadb36334dae1a5f0fd9a8ac450135acb3ad9034a9777f99cea8512b"
+  },
+  "open": [
+    "four projection files are cast-free now; the rest follow one or two per stage"
+  ]
+}

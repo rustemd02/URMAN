@@ -76002,6 +76002,12 @@
                 "result": "deepening by deepseek v4.1 flash: sixteen authored Tatar words with forty-two reread and application targets between them, every target resolving, and every record carrying the fields vocabulary.schema.json requires. TWO of my own mistakes are recorded. (1) My first scan read only JSON ids and reported FOUR unresolved targets (pact-ledger, baranov-1967, tukai-1913 twice) that were not unresolved at all - a document's id lives in its Markdown front-matter, so ids are now collected from JSON AND front-matter; declared ids went from 2582 to 2653 and the four findings disappeared, which is what a false positive looks like when it is caught. (2) My first draft of the file had a broken tree walk that never pushed children plus two dead branches; fixed before the commit. The gate: ALL SIXTEEN records carry consultantReview.status = pending with reviewer = null, so the language gate is what the CONTENT declares, not my opinion, and the projection quotes it without judging the words. Verified: probe PASS 680/680; Core 0/0",
                 "source": "new file src-dotnet/Urman.Studio.Core/Editing/AuthoredVocabulary.cs; evidence evidence/STUDIO/b20-deepseek-ai-20/2026-10-11-authored-vocabulary",
                 "verification": "probe PASS 680/680 including the sixteen records, the front-matter id set, zero unresolved targets and the pending review state; Core 0/0. The Tatar language review is an external gate and is NOT_RUN"
+              },
+              {
+                "stage": "2026-10-11 DialogueGraph reads authored JSON safely",
+                "result": "robustness stage by deepseek v4.1 flash: DialogueGraph.cs was converted to the shared AuthoredJson accessor. AddressBindings went from THIRTEEN casts to zero and DialogueGraph from EIGHT to zero. The helper needed one more shape, TextValue, for a BARE node rather than a field - dictionary values in the address registry and nextNodeId in a dialogue choice are read that way. Own mistake recorded: my first pass used Text where the original cast had been nullable, which changed a TUPLE's nullability (the street/number set is (string?, string?)) and broke the compiler; TextOrNull is right there - a mechanical conversion still has to respect where the old code was nullable on purpose. Behaviour unchanged: five area links with five uses and zero problems, thirty-two dialogue nodes. Verified: probe PASS 741/741; Core 0/0",
+                "source": "src-dotnet/Urman.Studio.Core/Editing/DialogueGraph.cs and AuthoredJson.cs; evidence evidence/STUDIO/b20-deepseek-ai-21/2026-10-11-safe-json-reads-address-dialogue",
+                "verification": "probe PASS 741/741 with the numbers unchanged; Core 0/0. No game run: this is a robustness change and is NOT_RUN as a feature"
               }
             ],
             "stage_tasks": [
@@ -76037,7 +76043,9 @@
               "Татарский слой текстов ПУСТ: 313 читаемых текстов не имеют tt, все падают на русский. Решение и перевод — автор и носитель языка.",
               "Ранее переданный частичный этап (2026-10-11 the languages of the texts the content actually reads) ждёт ревью/приёмки; полный done_when не выполнен.",
               "16 слов словаря ждут проверки носителя языка (consultantReview.status = pending): внешний языковой гейт, критерий открыт.",
-              "Ранее переданный частичный этап (2026-10-11 the authored vocabulary, its links and its declared gate) ждёт ревью/приёмки; полный done_when не выполнен."
+              "Ранее переданный частичный этап (2026-10-11 the authored vocabulary, its links and its declared gate) ждёт ревью/приёмки; полный done_when не выполнен.",
+              "Устойчивость: DialogueGraph больше не падает на не-значении; поведение не изменилось.",
+              "Ранее переданный частичный этап (2026-10-11 DialogueGraph reads authored JSON safely) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
             "next_action": "Привязать selection к node/response; запросить нужные языковые поля; показать effects/entry routes; validate references; preview dialogue.",
             "blocker": null,
@@ -76216,6 +76224,12 @@
                 "result": "deepseek v4.1 flash turned a repeated complaint into a measured number: ZERO of the 229 authored interaction ids are carried by the workspace index, while the runtime reads them by id. The index lifts ids of the form namespace:kind/name, and an interaction is declared inside a scene record rather than as a top-level entity, so the editor sees none of them. It is the SHARED indexer's gap, not the content's - nothing in an authored file is wrong - and the note says so. The number is deliberately NOT pinned: it is supposed to RISE when the indexer learns to lift interaction records, and a pin would then fail on the fix. Verified: probe PASS 738/738 including the zero-of-229 report and the two assertions; Core 0/0",
                 "source": "src-dotnet/Urman.Studio.Core/Editing/ItemSpawns.cs (IndexingGap, IndexingGapNote); evidence evidence/STUDIO/b20-deepseek-ai-21/2026-10-11-interaction-index-gap",
                 "verification": "probe PASS 738/738 including the index-gap report; Core 0/0. The editor's own view of the index is the consumer's concern and is NOT_RUN"
+              },
+              {
+                "stage": "2026-10-11 AddressBindings reads authored JSON safely",
+                "result": "robustness stage by deepseek v4.1 flash: AddressBindings.cs was converted to the shared AuthoredJson accessor. AddressBindings went from THIRTEEN casts to zero and DialogueGraph from EIGHT to zero. The helper needed one more shape, TextValue, for a BARE node rather than a field - dictionary values in the address registry and nextNodeId in a dialogue choice are read that way. Own mistake recorded: my first pass used Text where the original cast had been nullable, which changed a TUPLE's nullability (the street/number set is (string?, string?)) and broke the compiler; TextOrNull is right there - a mechanical conversion still has to respect where the old code was nullable on purpose. Behaviour unchanged: five area links with five uses and zero problems, thirty-two dialogue nodes. Verified: probe PASS 741/741; Core 0/0",
+                "source": "src-dotnet/Urman.Studio.Core/Editing/AddressBindings.cs and AuthoredJson.cs; evidence evidence/STUDIO/b20-deepseek-ai-21/2026-10-11-safe-json-reads-address-dialogue",
+                "verification": "probe PASS 741/741 with the numbers unchanged; Core 0/0. No game run: this is a robustness change and is NOT_RUN as a feature"
               }
             ],
             "stage_tasks": [
@@ -76254,7 +76268,9 @@
               "Триггеров в кампании нет: контракт готов и проверяет первый же авторский триггер, но механизм в игре не упражняется.",
               "Ранее переданный частичный этап (2026-10-11 the authored trigger contract) ждёт ревью/приёмки; полный done_when не выполнен.",
               "Индекс несёт 0 из 229 авторских взаимодействий: это пробел ОБЩЕГО индексатора, число не закреплено и должно вырасти после исправления.",
-              "Ранее переданный частичный этап (2026-10-11 the interaction index gap, as a number) ждёт ревью/приёмки; полный done_when не выполнен."
+              "Ранее переданный частичный этап (2026-10-11 the interaction index gap, as a number) ждёт ревью/приёмки; полный done_when не выполнен.",
+              "Устойчивость: AddressBindings больше не падает на не-значении; поведение не изменилось.",
+              "Ранее переданный частичный этап (2026-10-11 AddressBindings reads authored JSON safely) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
             "next_action": "Handles формы; actor filter/frequency; link inspector; typed link/edit; preview conditions; idempotency на повторном событии.",
             "blocker": null,

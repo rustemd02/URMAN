@@ -20,6 +20,10 @@ public static class AuthoredJson
     public static string? TextOrNull(JsonNode? node, string field) =>
         node is JsonObject obj && obj[field] is JsonValue value && value.TryGetValue<string>(out var text) ? text : null;
 
+    /// <summary>A bare node as a string, or the empty string when it is not one.</summary>
+    public static string TextValue(JsonNode? node) =>
+        node is JsonValue value && value.TryGetValue<string>(out var text) ? text ?? "" : "";
+
     /// <summary>The field as an array, or null when it is missing or not an array.</summary>
     public static JsonArray? Array(JsonNode? node, string field) =>
         node is JsonObject obj && obj[field] is JsonArray array ? array : null;

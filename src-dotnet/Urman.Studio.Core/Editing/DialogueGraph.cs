@@ -59,13 +59,13 @@ public static class DialogueGraph
             var nodeIds = new HashSet<string>(StringComparer.Ordinal);
             foreach (var node in nodes.OfType<JsonObject>())
             {
-                if ((string?)node["id"] is { Length: > 0 } nodeId)
+                if (AuthoredJson.Text(node, "id") is { Length: > 0 } nodeId)
                 {
                     nodeIds.Add(nodeId);
                 }
             }
 
-            var start = (string?)dialogue["startNodeId"] ?? "";
+            var start = AuthoredJson.TextOrNull(dialogue, "startNodeId") ?? "";
             if (start.Length == 0)
             {
                 problems.Add("У диалога нет startNodeId: разговор не с чего начать.");
@@ -78,7 +78,7 @@ public static class DialogueGraph
             var choices = 0;
             foreach (var node in nodes.OfType<JsonObject>())
             {
-                var where = (string?)node["id"] ?? "?";
+                var where = AuthoredJson.TextOrNull(node, "id") ?? "?";
                 CheckRole(node, roles, where, problems);
                 CheckRules(node["conditions"] as JsonArray, executedConditions, $"узел «{where}», conditions", problems, isCondition: true);
                 CheckRules(node["effects"] as JsonArray, executedEffects, $"узел «{where}», effects", problems, isCondition: false);
@@ -87,14 +87,14 @@ public static class DialogueGraph
                 foreach (var choice in (node["choices"] as JsonArray ?? []).OfType<JsonObject>())
                 {
                     choices++;
-                    var choiceId = (string?)choice["id"] ?? "?";
+                    var choiceId = AuthoredJson.TextOrNull(choice, "id") ?? "?";
                     var choiceWhere = $"ответ «{choiceId}» в узле «{where}»";
                     CheckRole(choice, roles, choiceWhere, problems);
                     CheckText(workspace, choice, choiceWhere, problems);
                     CheckRules(choice["conditions"] as JsonArray, executedConditions, $"{choiceWhere}, conditions", problems, isCondition: true);
                     CheckRules(choice["effects"] as JsonArray, executedEffects, $"{choiceWhere}, effects", problems, isCondition: false);
 
-                    if (choice["nextNodeId"] is { } next && (string?)next is { Length: > 0 } target && !nodeIds.Contains(target))
+                    if (choice["nextNodeId"] is { } next && AuthoredJson.TextValue(next) is { Length: > 0 } target && !nodeIds.Contains(target))
                     {
                         problems.Add($"{choiceWhere}: nextNodeId «{target}» нет среди узлов диалога — ответ существует, но его нельзя выбрать.");
                     }
@@ -125,7 +125,7 @@ public static class DialogueGraph
 
     private static void CheckRole(JsonObject node, IReadOnlySet<string> roles, string where, List<string> problems)
     {
-        if ((string?)node["speakerRole"] is not { Length: > 0 } role)
+        if (AuthoredJson.Text(node, "speakerRole") is not { Length: > 0 } role)
         {
             return;
         }
@@ -138,7 +138,7 @@ public static class DialogueGraph
 
     private static void CheckText(StudioWorkspace workspace, JsonObject node, string where, List<string> problems)
     {
-        if ((string?)node["textId"] is not { Length: > 0 } textId)
+        if (AuthoredJson.Text(node, "textId") is not { Length: > 0 } textId)
         {
             return;
         }
@@ -164,7 +164,7 @@ public static class DialogueGraph
                 continue;
             }
 
-            var op = (string?)rule["op"] ?? "";
+            var op = AuthoredJson.TextOrNull(rule, "op") ?? "";
             if (op.Length == 0)
             {
                 problems.Add($"{where}: правило #{index + 1} без строкового op.");

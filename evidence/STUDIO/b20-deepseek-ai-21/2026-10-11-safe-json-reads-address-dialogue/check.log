@@ -1,0 +1,11 @@
+== AI-21: two more projections read authored JSON safely
+
+
+Прошло времени 00:00:03.50
+-- casts left:
+/Users/unterlantas/Documents/GitHub/URMAN-deepseek/src-dotnet/Urman.Studio.Core/Editing/AddressBindings.cs:0
+/Users/unterlantas/Documents/GitHub/URMAN-deepseek/src-dotnet/Urman.Studio.Core/Editing/DialogueGraph.cs:0
+  area links: 5, uses: 5, problems: 0
+    input dialogue nodes: 32
+    input area links: 5
+PROBE RESULT: PASS
