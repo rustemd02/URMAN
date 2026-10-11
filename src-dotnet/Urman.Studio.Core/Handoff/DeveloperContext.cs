@@ -656,10 +656,7 @@ public sealed class DeveloperContext(StudioWorkspace workspace, EntityCatalog ca
         if (proposal is null)
             text = CodexProposalProvider.SerializeRequest(request);
         else
-        {
-            HouseWindowProposalValidator.Validate(request, proposal);
-            text = JsonSerializer.Serialize(proposal);
-        }
+            text = CodexProposalProvider.SerializeProposal(request, proposal);
         var relative = ".urman-studio/ai-jobs/" + request.RequestId + "/" + (proposal is null ? "request.json" : "proposal.json");
         StudioFileTransaction.EnsureNoLinks(root, relative, allowStudioMetadata: true);
         AtomicFile.WriteAllBytes(Path.Combine(root, relative), new UTF8Encoding(false).GetBytes(text), overwrite: false);

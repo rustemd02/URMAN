@@ -727,7 +727,7 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
             ClearPreviewModels();
         var stage = _stage ?? throw new InvalidOperationException("Папка сборки отсутствует.");
         File.WriteAllText(Path.Combine(stage, "request.json"), CodexProposalProvider.SerializeRequest(request));
-        File.WriteAllText(Path.Combine(stage, "proposal.json"), JsonSerializer.Serialize(proposal));
+        File.WriteAllText(Path.Combine(stage, "proposal.json"), CodexProposalProvider.SerializeProposal(request, proposal));
 
         var recipe = JsonNode.Parse(_recipeText ?? throw new InvalidOperationException("Снимок рецепта больше не доступен."))!.AsObject();
         var capturedWidths = _capturedWidths ?? throw new InvalidOperationException("Снимок ширины окон больше не доступен.");

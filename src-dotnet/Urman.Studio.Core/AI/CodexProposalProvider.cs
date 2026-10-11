@@ -1060,6 +1060,28 @@ public sealed class CodexProposalProvider
             : AuthoringRequestV2.Serialize(request);
     }
 
+    /// <summary>Serialize a validated proposal in the exact wire shape accepted by ParseProposal.</summary>
+    public static string SerializeProposal(HouseWindowRequest request, HouseWindowProposal proposal)
+    {
+        HouseWindowProposalValidator.Validate(request, proposal);
+        var wire = new Dictionary<string, object?>(StringComparer.Ordinal)
+        {
+            ["operation"] = HouseWindowProposal.Operation,
+            ["requestId"] = proposal.RequestId,
+            ["snapshotHash"] = proposal.SnapshotHash,
+            ["entityId"] = proposal.EntityId,
+            ["expectedWidth"] = proposal.ExpectedWidth,
+            ["windowWidth"] = proposal.WindowWidth,
+            ["summary"] = proposal.Summary
+        };
+        if (request.PartIds is { } partIds)
+            wire["partIds"] = partIds.ToArray();
+        else if (request.PartId is not null)
+            wire["partId"] = proposal.PartId;
+
+        return JsonSerializer.Serialize(wire, WireJsonOptions);
+    }
+
     /// <summary>A bounded, read-only file transport into the same structured proposal validator.</summary>
     public static HouseWindowProposal ParseProposalFile(string path, HouseWindowRequest request)
     {

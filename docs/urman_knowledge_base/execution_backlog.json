@@ -73246,6 +73246,14 @@
                       "implementation": "Initial accepted proposal is validated and durably stored before local build. A local generation/preview failure retains only a visible/current validated proposal, clears partial output and offers retry. Retry uses the same frozen request/proposal in a new empty temp stage, reconstructs recipe from captured source/widths, and never invokes provider or rewrites durable job. Shared BuildAndPreviewAsync checks snapshot/scope/source freshness and cancellation before/after Generate; Apply requires previewReady after validated stage plus both loaded previews. Provider/persist errors, cancellation, hiding, prompt changes or stale inputs retire the attempt. Initial successful preview status now consumes helper summary.",
                       "verification": "Five Luna FAST/Max bounded source implementation/reviews plus independent GPT6.1Sol medium final review. Root affected Game compile0 warnings/0 errors; diff-check passed. No tests/probes/provider/Studio/game/Blender/runtime runs.",
                       "remaining": "Same-session recovery only; no durable job read/resume after restart or discarded/cancelled attempts. No native successful/failing Blender retry or AI12 window/Apply/game/byte Undo acceptance. Full generic A08/group conflict contract remains incomplete."
+                    },
+                    {
+                      "stage": "2026-10-11 strict durable and stage proposal wire format",
+                      "result": "SOURCE_IMPLEMENTED_GAME_COMPILE_PASS_NATIVE_NOT_RUN",
+                      "source": "src-dotnet/Urman.Studio.Core/AI/CodexProposalProvider.cs; src-dotnet/Urman.Studio.Core/Handoff/DeveloperContext.cs; game/studio/StudioAiPanel.cs",
+                      "implementation": "Existing DTO serializer omitted static operation, making persisted proposals incompatible with strict ParseProposal. Shared SerializeProposal validates frozen request/proposal and emits exact parser/schema fields including operation and only matching single/seven/all-eight scope. Durable job and temporary stage producers now both use it. Old artifacts remain untouched; no relaxed legacy parser introduced.",
+                      "verification": "Luna FAST/Max implementation and independent GPT6.1Sol medium source review. Affected Game compilation: 0 warnings, 0 errors; no tests/probes/provider/Studio/game/Blender launches.",
+                      "remaining": "No restart reader or recoverable-failure receipt yet; this is a producer prerequisite only. Native AI12 and full generic A08 acceptance remain open."
                     }
                   ],
                   "assigned_owner": "codex/b20-2026-10-10",
@@ -73253,7 +73261,7 @@
                   "activity": {
                     "state": "confirmed_active",
                     "reason": "Live B20 source implementation continues; author runtime pause does not forbid source freshness guard fixes.",
-                    "verification_question": "Does same-session retry preserve validated frozen request/proposal after local preview failure without a second model call, rebuild in a fresh stage, and keep Apply disabled until validated preview? Cancellation/stale/provider failures must retire state. Source/affected compile only; native deferred."
+                    "verification_question": "Do durable and stage proposal writers emit the exact strict ParseProposal wire contract including operation and only frozen scope fields? Affected Game compile and source review only; no launches."
                   },
                   "task_type": "engineering",
                   "status": "in_progress",
