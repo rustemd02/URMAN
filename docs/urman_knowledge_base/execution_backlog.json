@@ -75365,17 +75365,17 @@
             },
             "active_owner": null,
             "activity": {
-              "state": "paused_by_author",
-              "reason": "Назначение Codex/DeepSeek сохранено; миграция не запускает production и не выдаёт peer-передачу за активную работу."
+              "state": "source_review_complete",
+              "reason": "Active lot/fence source traced; implementation remains open, no native launch."
             },
             "task_type": "engineering",
-            "status": "todo",
+            "status": "in_progress",
             "implementation_state": "not_started",
             "technical_verification_state": "not_run",
             "remaining": [
               "Выбранный участок ограды выравнивается без сдвига калитки и соседних секций.; отсутствует подтверждение собственного конечного DoD, перечисленного ниже."
             ],
-            "next_action": "Разрешить segment/source; задать fixed endpoints/gates; ручной edit и typed fence.align; пересчитать секции/collision; preview/Undo.",
+            "next_action": "Use ordinary YardFences lot/edge/span identity; connect indexed editable override and live builder refresh, then fixed endpoints/gates manual alignment + typed action. First fix whole-source crash recovery so sibling lots/meta are preserved.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -75425,7 +75425,7 @@
                 "success": "Изменены только выбранные секции; нет разрывов/пересечений; калитка открывается как раньше.",
                 "repeat_only_if": "Изменён предметный contract/input или предыдущий сценарий неполон."
               },
-              "actual_result": null,
+              "actual_result": "Source trace only: generated YardFences uses sibling lots[] omitted from Workspace entity indexing; no selectable stable run metadata or draft refresh consumer. Tamara fence is excluded. Current BuildFenceRun already uses straight endpoints; post-only edit would tear rails/collision. No fence feature delivered.",
               "evidence_refs": [
                 "STUDIO/AI-15.evidence"
               ]
@@ -78010,14 +78010,15 @@
                       "source": "src-dotnet/Urman.Studio.Core/Storage/StudioFileTransaction.cs",
                       "result": "Core affected-module compile 0 warnings/0 errors; independent Sol6.1 medium source review: no actionable issue. No native runs/tests.",
                       "verification_scope": "Source barrier/hash guard only; no claim of complete OS concurrent-write atomicity."
-                    }
+                    },
+                    "12.10 source stage: game/studio/StudioRoot.cs OfferRecoveredDrafts complete-source recovery via Session.ReplaceDraft; five Luna FAST/Max bounded reviews and Sol6.1 medium independent review; no runtime/tests. Narrow Game compile 0 warnings/0 errors; native gates remain open."
                   ],
                   "assigned_owner": "codex/b20-2026-10-10",
                   "active_owner": null,
                   "activity": {
                     "state": "runtime_deferred_by_author",
-                    "verification_question": "После import/reload barrier проверяется ожидаемая сторона до terminal journal/history; внешний diff остаётся conflict/pending. Core compile + независимый source review, без native запуска.",
-                    "reason": "Source stage complete; native A08/A11/A16 scenarios remain deferred by author."
+                    "reason": "Full-source recovery source stage complete; native recovery/Undo and A08/A11/A16 remain deferred by author.",
+                    "verification_question": "Full wrapper recovery uses SourceText Undo, preserves refreshed shape/identity/disk guards and pending artifacts; narrow Game compile + independent review."
                   },
                   "task_type": "engineering",
                   "status": "in_progress",
@@ -78067,7 +78068,7 @@
                       "success": "Выполнены все перечисленные собственные критерии, без расширения на родителя.",
                       "repeat_only_if": "Изменился source/candidate/input/покрываемый контракт."
                     },
-                    "actual_result": "Добавлены десять EnsureCurrentSide после import/view barriers перед success/recovered journal в Apply, Undo/Redo, rollback и Cancel. Внешние bytes сохраняются как pending conflict; cursor не перемещается при ошибке.",
+                    "actual_result": "Добавлены десять EnsureCurrentSide после import/view barriers перед success/recovered journal в Apply, Undo/Redo, rollback и Cancel. Внешние bytes сохраняются как pending conflict; cursor не перемещается при ошибке. OfferRecoveredDrafts now adopts exact complete recovered source through existing Session.ReplaceDraft as one Undo step, retaining lots/meta siblings previously omitted by entity replay; freshness/ambiguity guards retained, expected failures preserve recovery artifacts, busy callback refuses competing actions. Source only: no native recovery/Undo execution.",
                     "evidence_refs": []
                   },
                   "dependencies": {
