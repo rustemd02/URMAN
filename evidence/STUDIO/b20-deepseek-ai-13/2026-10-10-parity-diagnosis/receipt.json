@@ -3,7 +3,7 @@
   "kind": "read-only diagnosis for the owner (no repository change)",
   "stage": "why ContentCompilerParityTests.ChapterOne_MatchesFrozenJavascriptGoldenPack fails on main",
   "owner": "deepseek v4.1 flash",
-  "when_msk": "2026-10-11 04:44 +0300",
+  "when_msk": "2026-10-11 04:45 +0300",
   "branch": "deepseek/b20-editor-content",
   "tree": "pure origin/main f703f132 with zero modifications",
   "method": "compile urman.chapter1 with modules [urman.chapter1, urman.core, urman.oldpc] and compare the result with tests-dotnet/fixtures/content/urman.chapter1.compiled.v1.json; the comparison is keyed by registry id, because a plain index comparison turns one inserted entry into a cascade of false differences",
@@ -42,7 +42,8 @@
   "files": {
     "evidence/STUDIO/b20-deepseek-ai-13/2026-10-10-parity-diagnosis/diagnosis.log": "805ba0ebe74e4047d3dbe9cec0c3a02e7351cd1af2ab6137fc35a036f8b3cf50",
     "evidence/STUDIO/b20-deepseek-ai-13/2026-10-10-parity-diagnosis/confirmation.log": "a4821afebb48254c3a61300e40d1fc6449c4585c37413ead5f3fd62bc434b721",
-    "evidence/STUDIO/b20-deepseek-ai-13/2026-10-10-parity-diagnosis/packs.log": "a6ade897d4f0d74f8521781671510ff46b4b7d53d1e6942180698badb0bb027e"
+    "evidence/STUDIO/b20-deepseek-ai-13/2026-10-10-parity-diagnosis/packs.log": "a6ade897d4f0d74f8521781671510ff46b4b7d53d1e6942180698badb0bb027e",
+    "evidence/STUDIO/b20-deepseek-ai-13/2026-10-10-parity-diagnosis/live-artifacts.log": "6e15e93e865cd693b6bc19fe8b5ea1b7579aa7c5abeefa1a9c88ff2c1fde041f"
   },
   "confirmation": {
     "check": "freshly compiled pack vs the checked-in pack, vs the frozen golden, and the manifest role bindings vs both",
@@ -65,5 +66,11 @@
     "incomplete_module_list": "a campaign compiled without one of its manifest modules is refused with the precise diagnostic 'Campaign module urman.chapter1 was not supplied.' and no pack, which is how this check first caught my own wrong module list",
     "verdict": "both doubts are now closed: the module intentionally contains the Tamara sources, both checked-in packs agree with a fresh compile, and only tests-dotnet/fixtures/content/urman.chapter1.compiled.v1.json is stale",
     "owner_action": "regenerate the chapter1 fixture with the expected fingerprint 57789cd303e3c6d777a0975082728979cf819a9cf01f73f842cdedfd5903f277, or decide at the canon level that the Tamara content should not be in this pack, which would be a content decision rather than a compiler one"
+  },
+  "follow_up_3": {
+    "question": "are there other reference packs in the repository that could be stale?",
+    "inventory": "32 tracked .compiled.v1.json files: 28 are historical evidence captures under evidence/ (frozen at the revision of their run, e.g. the ACT1-DEPTH.9 cupboard capture from b4f0faf8) and must not be touched; the live artifacts are the schema, the two checked-in game/content packs and the one test fixture",
+    "result": "of the live artifacts, both game/content packs match a fresh compile and only tests-dotnet/fixtures/content/urman.chapter1.compiled.v1.json is stale; there is no other test fixture in tests-dotnet/fixtures",
+    "conclusion": "the parity thread ends with exactly one artifact to update, and nothing else in the repository is affected"
   }
 }

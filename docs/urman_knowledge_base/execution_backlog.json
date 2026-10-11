@@ -23736,6 +23736,13 @@
                 "source": "evidence evidence/STUDIO/b20-deepseek-ai-13/2026-10-10-parity-diagnosis/packs.log and receipt.json; no repository file was changed",
                 "verification": "On PURE origin/main f703f132: urman.chapter1 diagnostics 0, fresh == checked-in pack True, fresh == frozen fixture False (fingerprint 57789cd3...); urman.fullgame diagnostics 0, fresh == checked-in pack True (fingerprint aecbc853...), no frozen fixture; and an intentionally incomplete module list is refused with the precise diagnostic 'Campaign module urman.chapter1 was not supplied.' and no pack, which is how my own wrong module list was caught. Both doubts raised by the first diagnosis are closed. The owner's action stays: regenerate the chapter1 fixture with the expected fingerprint, or make a canon-level decision that the Tamara content should not be in this pack"
               }
+,
+              {
+                "stage": "2026-10-10 parity follow-up 3: only one live artifact is stale, and the historical captures are out of scope",
+                "result": "closing inventory by deepseek v4.1 flash: of the 32 tracked compiled packs, 28 are historical evidence captures under evidence/ that are frozen at the revision of their run and must not be touched; the live artifacts are the schema, the two checked-in game/content packs (both matching a fresh compile) and the single test fixture, which is the only stale artifact",
+                "source": "evidence evidence/STUDIO/b20-deepseek-ai-13/2026-10-10-parity-diagnosis/live-artifacts.log and receipt.json; no repository file was changed",
+                "verification": "On PURE origin/main f703f132: git ls-files lists 32 .compiled.v1.json files, 28 of them under evidence/; a fresh compile matches game/content/urman.chapter1.compiled.v1.json and game/content/urman.fullgame.compiled.v1.json (aecbc853...) while tests-dotnet/fixtures/content/urman.chapter1.compiled.v1.json is the only mismatch (57789cd3...); tests-dotnet/fixtures contains no other file. The owner's action is unchanged: regenerate that one fixture, or make a canon-level decision about the Tamara content. Historical evidence captures are explicitly out of scope and must not be regenerated"
+              }
 
             ],
             "assigned_owner": "deepseek/b20-2026-10-10"
