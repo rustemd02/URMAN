@@ -218,6 +218,14 @@ public partial class StudioAudioPanel : AcceptDialog
         var stream = loaded.Duplicate() as AudioStream ?? loaded;
         DisableLoop(stream);
         var plan = AudioSourceRegistry.PlanAudition(target.Scope, target.File, target.VolumeDb, "audition");
+        if (plan.RequiresStop)
+        {
+            // The plan's contract has a caller here: the previous audition is already
+            // stopped above, and the flag keeps the guarantee explicit instead of being a
+            // declaration nobody reads.
+            StopPlayback();
+        }
+
         _audition.Stream = stream;
         _audition.VolumeDb = (float)plan.VolumeDb;
         _audition.Play();

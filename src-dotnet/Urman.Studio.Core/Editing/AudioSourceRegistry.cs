@@ -40,7 +40,14 @@ public sealed record AudioSourceField(
     bool Always,
     double? HardMin = null,
     double? HardMax = null,
-    string? Note = null);
+    string? Note = null)
+{
+    /// <summary>
+    /// Whether the game itself refuses a value outside the range. A range the game does
+    /// not check is editor policy, and saying "the game will refuse" there would be false.
+    /// </summary>
+    public bool RuntimeRefuses { get; init; } = true;
+}
 
 /// <summary>One authored household emitter as the editor sees it, with the scope facts an author needs.</summary>
 public sealed record AudioEmitterView(
@@ -149,7 +156,10 @@ public static class AudioSourceRegistry
         new(AudioSourceScope.LocalEmitter, "radius", "number", "метры", "нет — обязательное", AudioFieldReadStatus.ReadByGame, "VillageHouseholdDirector: MaxDistance и отбор по расстоянию", true, 6d, 25d,
             Note: "Рантайм бросает исключение вне 6..25."),
         new(AudioSourceScope.LocalEmitter, "volumeDb", "number", "дБ", "0 (если поля нет)", AudioFieldReadStatus.ReadByGame, "VillageHouseholdDirector.StartEvent: базовый уровень события", false, -60d, 0d,
-            Note: "Рантайм НЕ проверяет это поле; диапазон задаёт реестр."),
+            Note: "Рантайм НЕ проверяет это поле; диапазон задаёт редактор.")
+        {
+            RuntimeRefuses = false
+        },
         new(AudioSourceScope.LocalEmitter, "minWait", "number", "секунды", "нет — обязательное", AudioFieldReadStatus.ReadByGame, "VillageHouseholdDirector: пауза до следующего события", true, 20d,
             Note: "Рантайм бросает исключение при значении меньше 20."),
         new(AudioSourceScope.LocalEmitter, "maxWait", "number", "секунды", "нет — обязательное", AudioFieldReadStatus.ReadByGame, "VillageHouseholdDirector: верхняя граница паузы", true,
@@ -161,7 +171,10 @@ public static class AudioSourceRegistry
         new(AudioSourceScope.SharedBusStem, "zones", "string[]", "зоны маршрутизации", "нет — обязательное, минимум одна", AudioFieldReadStatus.ReadByGame, "AmbientAudioDirector.SetZone: ключ выбора подложки", true,
             Note: "Две подложки на одну зону — рантайм бросает исключение."),
         new(AudioSourceScope.SharedBusStem, "volumeDb", "number", "дБ", "−12 (если поля нет)", AudioFieldReadStatus.ReadByGame, "AmbientAudioDirector: целевая громкость подложки", false, -60d, 0d,
-            Note: "Рантайм проверяет конечность и диапазон −60..0."),
+            Note: "Рантайм НЕ проверяет это поле; диапазон задаёт редактор.")
+        {
+            RuntimeRefuses = false
+        },
         new(AudioSourceScope.SharedBusStem, "loop", "bool", "зацикливание", "false", AudioFieldReadStatus.ReadByGame, "AmbientAudioDirector.ConfigureNativeLoop", false)
     ];
 
@@ -198,11 +211,11 @@ public static class AudioSourceRegistry
 
         if (value is null)
         {
-            if (field.Always)
-            {
-                problems.Add($"Поле «{path}» обязательно, а значение пустое.");
-            }
-
+            // Only present keys reach this method, so a null here is an EXPLICIT null, and
+            // the runtime's typed deserialisation rejects that for float and bool fields.
+            problems.Add(field.Always
+                ? $"Поле «{path}» обязательно, а значение пустое (null)."
+                : $"Поле «{path}» записано как null: пропуск поля допустим и берёт значение по умолчанию, а явный null рантайм отвергает при разборе.");
             return problems;
         }
 
@@ -247,12 +260,16 @@ public static class AudioSourceRegistry
 
                 if (field.HardMin is { } min && number < min)
                 {
-                    problems.Add($"Поле «{path}» = {number.ToString(CultureInfo.InvariantCulture)} меньше допустимого {min.ToString(CultureInfo.InvariantCulture)}: игра откажется работать.");
+                    problems.Add(field.RuntimeRefuses
+                        ? $"Поле «{path}» = {number.ToString(CultureInfo.InvariantCulture)} меньше допустимого {min.ToString(CultureInfo.InvariantCulture)}: игра откажется работать."
+                        : $"Поле «{path}» = {number.ToString(CultureInfo.InvariantCulture)} меньше {min.ToString(CultureInfo.InvariantCulture)}. Это политика редактора: рантайм такое значение примет, а игра просто сыграет тише/дольше.");
                 }
 
                 if (field.HardMax is { } max && number > max)
                 {
-                    problems.Add($"Поле «{path}» = {number.ToString(CultureInfo.InvariantCulture)} больше допустимого {max.ToString(CultureInfo.InvariantCulture)}: игра откажется работать.");
+                    problems.Add(field.RuntimeRefuses
+                        ? $"Поле «{path}» = {number.ToString(CultureInfo.InvariantCulture)} больше допустимого {max.ToString(CultureInfo.InvariantCulture)}: игра откажется работать."
+                        : $"Поле «{path}» = {number.ToString(CultureInfo.InvariantCulture)} больше {max.ToString(CultureInfo.InvariantCulture)}. Это политика редактора: рантайм такое значение примет.");
                 }
 
                 break;
@@ -269,6 +286,11 @@ public static class AudioSourceRegistry
     public static AudioAuditionPlan PlanAudition(AudioSourceScope scope, string file, double authoredVolumeDb, string note)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(file);
+        if (!double.IsFinite(authoredVolumeDb))
+        {
+            throw new ArgumentException("Уровень прослушивания должен быть конечным числом.", nameof(authoredVolumeDb));
+        }
+
         var level = Math.Min(authoredVolumeDb, PreviewCeilingDb);
         return new AudioAuditionPlan(scope, file, AuditionBus, level, false, true, note);
     }
@@ -367,6 +389,11 @@ public static class AudioSourceRegistry
             }
 
             var file64 = Text(item["file"]);
+            if (!SupportedScheme(file64))
+            {
+                outOfRange.Add($"{id}: схема пути «{file64}» не поддерживается — читается только res:// или путь внутри проекта, поэтому файл не проверяется.");
+            }
+
             var clipRelative = file64.StartsWith("res://", StringComparison.Ordinal) ? "game/" + file64["res://".Length..] : file64;
             var clipPath = Resolve(root, clipRelative);
             var clipsExists = clipPath.Length > 0 && File.Exists(clipPath);
@@ -388,7 +415,9 @@ public static class AudioSourceRegistry
 
             var minWait = Number(item["minWait"]);
             var maxWait = Number(item["maxWait"]);
-            if (minWait > 0 && maxWait > 0 && maxWait < minWait)
+            // Both values were read as numbers; the runtime rejects max < min whatever the
+            // sign is, so a zero or negative maxWait next to a real minWait is a failure.
+            if (maxWait < minWait)
             {
                 outOfRange.Add($"{id}: maxWait {maxWait} меньше minWait {minWait} — рантайм бросает исключение.");
             }
@@ -400,11 +429,16 @@ public static class AudioSourceRegistry
                 outOfRange.Add($"{id}: dayOnly и nightOnly одновременно — событие не сработает никогда.");
             }
 
+            // Act1ConnectedWorld.Households derives audibility from the ACTIVE ZONE:
+            // dayAudible = zone == "village_day", night = zone == "kara_urman_night", and
+            // the context gate (dialogue, pause, flyover, interior) cuts both. So those
+            // two zones are the only ones a household emitter can be heard in, and
+            // outdoor only chooses the POSITION (house.Outside vs house.Inside).
             var outdoor = Bool(item["outdoor"]);
-            var zones = new List<string> { "village_day" };
-            if (!outdoor)
+            var zones = new List<string>();
+            if (!nightOnly)
             {
-                zones.Add("house_old_pc");
+                zones.Add("village_day");
             }
 
             if (!dayOnly)
@@ -426,7 +460,7 @@ public static class AudioSourceRegistry
                 clipsExists,
                 bytes,
                 zones,
-                $"Библиотечное событие, а не размещённая точка: дом выбирается по порядку массива (i % {events.Count}) после сортировки владельцев, поэтому запись слышна в 1–2 реальных домах, а перестановка массива меняет всю привязку."));
+                $"Библиотечное событие, а не размещённая точка: дом выбирается по порядку массива (i % {events.Count}) после сортировки владельцев, поэтому перестановка записей меняет привязку к домам. Слышно только в зонах village_day и kara_urman_night, и контекст (диалог, пауза, облёт, интерьер) глушит обе; поле outdoor выбирает точку — снаружи дома или внутри, — а не набор зон."));
         }
 
         foreach (var field in FieldsWithoutFrameEffect.Where(candidate => candidate.Scope == AudioSourceScope.LocalEmitter))
@@ -507,7 +541,29 @@ public static class AudioSourceRegistry
                 }
             }
 
+            // AmbientAudioDirector rejects a blank id, a blank file and an empty zone list
+            // before it plays anything, so the editor reports the same three cases.
+            if (id.Length == 0)
+            {
+                outOfRange.Add($"{ManifestPath}: у подложки пустой id — рантайм отвергает такую запись.");
+            }
+
+            if (Text(item["file"]).Length == 0)
+            {
+                outOfRange.Add($"{ManifestPath}: у подложки «{id}» пустой file — рантайм отвергает такую запись.");
+            }
+
+            if (item["zones"] is JsonArray declaredZonesForCount && declaredZonesForCount.Count == 0)
+            {
+                outOfRange.Add($"{ManifestPath}: у подложки «{id}» пустой zones — рантайм отвергает такую запись: подложку нельзя выбрать ни в одной зоне.");
+            }
+
             var stemFile = Text(item["file"]);
+            if (!SupportedScheme(stemFile))
+            {
+                outOfRange.Add($"{ManifestPath}: у подложки «{id}» схема пути «{stemFile}» не поддерживается — читается только res://.");
+            }
+
             var resolved = stemFile.StartsWith("res://", StringComparison.Ordinal) ? Resolve(root, "game/" + stemFile["res://".Length..]) : "";
             if (resolved.Length > 0 && !Contained(root, resolved))
             {
@@ -586,14 +642,31 @@ public static class AudioSourceRegistry
         {
             var full = Path.GetFullPath(path);
             var project = Path.GetFullPath(root).TrimEnd(Path.DirectorySeparatorChar);
-            return full.Equals(project, StringComparison.Ordinal)
-                || full.StartsWith(project + Path.DirectorySeparatorChar, StringComparison.Ordinal);
+            if (!Inside(full, project))
+            {
+                return false;
+            }
+
+            // A link inside the project can still point outside it, so the final target is
+            // checked too before any byte is read.
+            var target = File.Exists(full) ? File.ResolveLinkTarget(full, returnFinalTarget: true) : null;
+            return target is null || Inside(target.FullName, project);
         }
-        catch (Exception failure) when (failure is ArgumentException or NotSupportedException or PathTooLongException)
+        catch (Exception failure) when (failure is ArgumentException or NotSupportedException or PathTooLongException or IOException or UnauthorizedAccessException)
         {
             return false;
         }
     }
+
+    private static bool Inside(string path, string project) =>
+        path.Equals(project, StringComparison.Ordinal) || path.StartsWith(project + Path.DirectorySeparatorChar, StringComparison.Ordinal);
+
+    /// <summary>
+    /// Only res:// (or a project-relative path) is read by this project: a user://,
+    /// http:// or any other scheme is refused before Exists or stat touches it.
+    /// </summary>
+    private static bool SupportedScheme(string value) =>
+        value.Length == 0 || value.StartsWith("res://", StringComparison.Ordinal) || !value.Contains("://", StringComparison.Ordinal);
 
     private static string Text(JsonNode? node) =>
         node is JsonValue value && value.TryGetValue<string>(out var text) ? text : "";

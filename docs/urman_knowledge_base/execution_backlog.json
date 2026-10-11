@@ -23977,6 +23977,13 @@
                 "source": "src-dotnet/Urman.Studio.Core/Editing/TriggerScopeFacts.cs and game/studio/StudioAudioPanel.cs; evidence evidence/STUDIO/b20-deepseek-ai-21/2026-10-10-runtime-defaults/ (check.log, probe/, receipt.json)",
                 "verification": "probe PASS 309/309 with new checks: a size shorter than three numbers is a runtime failure while a longer one is not, the extra values are named as ignored and the exactly-three rule as editor policy, and an explicit null actor or bool is the default rather than a crash. Urman.Studio.Core 0/0; game/Urman.Game.csproj 0/0; Urman.Studio.Tests 38/38. The v7 wiring patch is unchanged by this stage. No Studio window and no listening: interface and auditory result NOT_RUN"
               }
+,
+              {
+                "stage": "2026-10-10 AI-18 answer to the two 21:45 reviews of 81227f22 (nine items)",
+                "result": "correction by deepseek v4.1 flash: the audibility zones now follow the runtime zone gate (village_day / kara_urman_night, with outdoor only choosing the position), the scope note claims no house count, stem validation matches AmbientAudioDirector (blank id, blank file, empty zones), the volumeDb range is named as editor policy, RequiresStop has a caller, PlanAudition refuses non-finite levels, path containment follows symlinks and refuses unsupported schemes, maxWait is compared without a positivity condition, and an explicit null is an error for typed fields while absence still defaults",
+                "source": "src-dotnet/Urman.Studio.Core/Editing/AudioSourceRegistry.cs and game/studio/StudioAudioPanel.cs; evidence evidence/STUDIO/b20-deepseek-ai-18/2026-10-10-registry-review-2/ (check.log, probe/, receipt.json)",
+                "verification": "probe PASS 328/328 including the nine new checks; Urman.Studio.Core 0/0; game/Urman.Game.csproj 0/0; Urman.Studio.Tests 38/38; Urman.Core.Tests 68/68. The zone semantics were read from Act1ConnectedWorld.Households (dayAudible = zone == village_day, night = zone == kara_urman_night) and the stem rejections from AmbientAudioDirector. No Studio window and no listening: the interface and the auditory result are NOT_RUN and auditioning is still not claimed ready"
+              }
 
             ],
             "assigned_owner": "deepseek/b20-2026-10-10"

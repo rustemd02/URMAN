@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-18"
+  ],
+  "stage": "answer to the two 21:45 reviews of 81227f22: nine items, from the runtime zone gate to path schemes",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-11 12:17 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "141c7b37",
+  "addressed": {
+    "AudibleZones contradicted the runtime": "Act1ConnectedWorld.Households derives audibility from the ACTIVE ZONE (dayAudible = zone == village_day, night = zone == kara_urman_night) and the context gate cuts both, so an emitter now lists only village_day (unless nightOnly) and kara_urman_night (unless dayOnly); house_old_pc was wrong, because outdoor only chooses the POSITION (house.Outside vs house.Inside)",
+    "ScopeNote claimed a house count": "the note no longer says 1-2 houses: it states the array-order binding, the two zones and the context gate, and that outdoor is a position",
+    "stem validation was weaker than the runtime": "a blank id, a blank file and an empty zone list are reported, which is exactly what AmbientAudioDirector rejects before playing",
+    "volumeDb bounds were described as a runtime refusal": "the field carries RuntimeRefuses and the message says editor policy for volumeDb in both scopes, because the runtime never refuses that value",
+    "RequiresStop had no caller": "the panel now consults plan.RequiresStop and stops the previous audition, so the contract is read instead of declared",
+    "PlanAudition allowed NaN and infinities": "a non-finite authored level is refused before the clamp",
+    "Resolve allowed absolute, ../ and symlink escapes": "the containment check follows the final link target and an unsupported scheme (anything but res:// or a project-relative path) is refused before Exists or stat touches the file",
+    "maxWait was only compared when both values were positive": "the comparison runs on the typed reads, so min 30 with max 0 is reported",
+    "an explicit null passed for optional typed fields": "only present keys reach Validate, so a null there is explicit and is an error for float and bool fields; an absent field still takes its default"
+  },
+  "verified": {
+    "probe": "PASS 328/328 with new checks: no emitter claims a zone the runtime never carries, the scope note names the two zones and outdoor as a position, a maxWait of zero below minWait is reported, the volumeDb range is editor policy, a blank stem id and empty zones are reported, an unsupported scheme is refused before file access, an explicit null is an error while a missing field is not, and the audition plan refuses a non-finite level",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors; game/Urman.Game.csproj 0 warnings/0 errors",
+    "existing_tests": "Urman.Studio.Tests 38/38 and Urman.Core.Tests 68/68",
+    "not_run": "no Studio window and no listening: the interface and the auditory result are NOT_RUN, and auditioning is still not accepted as ready"
+  },
+  "open": [
+    "the live house binding and the real audibility can only be confirmed by running the game, which is NOT_RUN",
+    "runtime and visual acceptance are NOT_RUN"
+  ]
+}
