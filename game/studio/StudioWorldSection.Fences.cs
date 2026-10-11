@@ -31,6 +31,9 @@ public sealed partial class StudioWorldSection
         string RunId, int BayIndex, int BayCount, Vector2 RunStart, Vector2 RunEnd);
 
     private readonly record struct FencePreviewSources(string OpenPart, string FarBank);
+    private sealed record FenceAiPreview(
+        Act1ConnectedWorld World, FencePreviewSources WorkspaceSources, FencePreviewSources CandidateSources,
+        FenceAlignmentRequest Request, FenceAlignmentProposal Proposal, bool Applied);
 
     private FencePick? _fencePick;
     private MeshInstance3D? _fenceRangeMarker;
@@ -38,6 +41,12 @@ public sealed partial class StudioWorldSection
     private FencePreviewSources? _fencePreviewedSources;
     private Act1ConnectedWorld? _fencePreviewFailedWorld;
     private FencePreviewSources? _fencePreviewFailedSources;
+    private FenceAiPreview? _fenceAiPreview;
+    private Act1ConnectedWorld? _fenceAiPreviewRestoreFailedWorld;
+    private FencePreviewSources? _fenceAiPreviewRestoreFailedSources;
+
+    internal bool HasFenceAiPreview => _fenceAiPreview is not null;
+    internal bool HasTransientFencePreview => HasFenceAiPreview;
 
     private void ClearFencePick()
     {
@@ -48,6 +57,12 @@ public sealed partial class StudioWorldSection
 
     private bool TryPickFence(Vector2 screen)
     {
+        if (_fenceAiPreview is not null)
+        {
+            studio.ShowBanner("Сначала снимите временный предпросмотр AI забора.", error: false);
+            return true;
+        }
+
         var origin = _camera.ProjectRayOrigin(screen);
         var direction = _camera.ProjectRayNormal(screen).Normalized();
         var ray = PhysicsRayQueryParameters3D.Create(origin, origin + direction * 600f);
@@ -107,6 +122,36 @@ public sealed partial class StudioWorldSection
     private void SyncFencePreview()
     {
         var world = CurrentFenceWorld();
+        if (_fenceAiPreview is { } aiPreview)
+        {
+            var currentSources = TryGetPreviewSources(out var workspaceSources, out _, out _)
+                && ReferenceEquals(world, aiPreview.World)
+                && workspaceSources == aiPreview.WorkspaceSources
+                && FenceSourcesUnchangedOnDisk();
+            if (currentSources && aiPreview.Applied)
+            {
+                RefreshFenceSelection(aiPreview.World);
+                return;
+            }
+
+            try
+            {
+                ClearFenceAiPreview(refreshWorkspaceDrift: false);
+            }
+            catch (Exception error)
+            {
+                var shouldReport = !ReferenceEquals(aiPreview.World, _fenceAiPreviewRestoreFailedWorld)
+                    || aiPreview.WorkspaceSources != _fenceAiPreviewRestoreFailedSources;
+                _fenceAiPreviewRestoreFailedWorld = aiPreview.World;
+                _fenceAiPreviewRestoreFailedSources = aiPreview.WorkspaceSources;
+                if (shouldReport)
+                    studio.ShowBanner("Предпросмотр забора не снят: " + error.Message, error: true);
+                return;
+            }
+
+            world = CurrentFenceWorld();
+        }
+
         if (world is null)
         {
             _fencePreviewWorld = null;
@@ -163,6 +208,142 @@ public sealed partial class StudioWorldSection
         }
     }
 
+    internal void PreviewFenceProposal(
+        FenceAlignmentRequest request, FenceAlignmentProposal proposal, string revision)
+    {
+        ArgumentNullException.ThrowIfNull(request);
+        ArgumentNullException.ThrowIfNull(proposal);
+        ArgumentNullException.ThrowIfNull(revision);
+        FenceAlignmentProtocol.ValidateRequest(request);
+        FenceAlignmentProtocol.ValidateProposal(request, proposal);
+        if (_fenceAiPreview is not null) ClearFenceAiPreview();
+        EnsureFenceRequestCurrent(request, revision);
+        if (proposal.PostIndices.Count == 0) return;
+        if (_fencePick is not { } selected)
+            throw new InvalidOperationException("Сначала выберите свежий пролёт забора.");
+        if (!TryGetFreshFencePick(selected, out var current, out var pickError))
+            throw new InvalidOperationException("Предпросмотр забора устарел: "
+                + (pickError.Length == 0 ? "выберите пролёт заново." : pickError));
+        if (current.RelativePath != request.Target.SourcePath || current.LotId != request.Target.LotId
+            || current.RunId != request.Target.RunId || current.BayCount != request.Target.BayCount)
+            throw new InvalidOperationException("Выбранный пролёт больше не совпадает с запросом.");
+        if (!TryGetPreviewSources(out var workspaceSources, out var runtimeSources, out var sourceError))
+            throw new InvalidOperationException("Предпросмотр забора недоступен: " + sourceError);
+
+        var before = current.RelativePath switch
+        {
+            OpenPartFenceFile => workspaceSources.OpenPart,
+            FarBankFenceFile => workspaceSources.FarBank,
+            _ => throw new InvalidOperationException("Источник пролёта не входит в разрешённые файлы участков.")
+        };
+        var candidate = FenceAlignmentSource.Rewrite(current.RelativePath, before, current.LotId, current.RunId,
+            current.BayCount, proposal.PostIndices, align: true);
+        if (candidate == before) return;
+
+        var candidateSources = current.RelativePath == OpenPartFenceFile
+            ? workspaceSources with { OpenPart = candidate }
+            : workspaceSources with { FarBank = candidate };
+        if (current.RelativePath == OpenPartFenceFile) runtimeSources[OpenPartFenceSource] = candidate;
+        else runtimeSources[FarBankFenceSource] = candidate;
+
+        var frozenRequest = FenceAlignmentProtocol.ParseRequest(FenceAlignmentProtocol.SerializeRequest(request));
+        var frozenProposal = FenceAlignmentProtocol.ParseProposal(
+            FenceAlignmentProtocol.SerializeProposal(proposal), frozenRequest);
+        var world = CurrentFenceWorld()
+            ?? throw new InvalidOperationException("Текущая сцена больше не содержит предпросмотр заборов.");
+        _fenceAiPreview = new FenceAiPreview(world, workspaceSources, candidateSources,
+            frozenRequest, frozenProposal, Applied: false);
+        try
+        {
+            world.RefreshYardFencesForStudio(runtimeSources);
+            _fenceAiPreview = _fenceAiPreview with { Applied = true };
+            RefreshFenceSelection(world);
+        }
+        catch (Exception previewFailure)
+        {
+            try
+            {
+                ClearFenceAiPreview();
+            }
+            catch (Exception restoreFailure)
+            {
+                throw new AggregateException("Предпросмотр забора не удался, а исходный вид не удалось восстановить.",
+                    previewFailure, restoreFailure);
+            }
+            throw;
+        }
+    }
+
+    internal void ClearFenceAiPreview()
+        => ClearFenceAiPreview(refreshWorkspaceDrift: true);
+
+    private void ClearFenceAiPreview(bool refreshWorkspaceDrift)
+    {
+        if (_fenceAiPreview is not { } preview) return;
+        if (!GodotObject.IsInstanceValid(preview.World))
+        {
+            _fenceAiPreview = null;
+            _fenceAiPreviewRestoreFailedWorld = null;
+            _fenceAiPreviewRestoreFailedSources = null;
+            _fencePreviewWorld = null;
+            _fencePreviewedSources = null;
+            _fencePreviewFailedWorld = null;
+            _fencePreviewFailedSources = null;
+            ClearFenceSelectionAndRefresh();
+            if (refreshWorkspaceDrift) SyncFencePreview();
+            return;
+        }
+
+        var workspaceDrift = !TryGetPreviewSources(out var currentWorkspaceSources, out _, out _)
+            || currentWorkspaceSources != preview.WorkspaceSources;
+        preview.World.RefreshYardFencesForStudio(new Dictionary<string, string>(StringComparer.Ordinal)
+        {
+            [OpenPartFenceSource] = preview.WorkspaceSources.OpenPart,
+            [FarBankFenceSource] = preview.WorkspaceSources.FarBank
+        });
+        _fenceAiPreview = null;
+        _fenceAiPreviewRestoreFailedWorld = null;
+        _fenceAiPreviewRestoreFailedSources = null;
+        _fencePreviewFailedWorld = null;
+        _fencePreviewFailedSources = null;
+        var currentWorld = CurrentFenceWorld();
+        if (ReferenceEquals(currentWorld, preview.World))
+        {
+            _fencePreviewWorld = preview.World;
+            _fencePreviewedSources = preview.WorkspaceSources;
+            try
+            {
+                RefreshFenceSelection(preview.World);
+            }
+            catch (Exception error)
+            {
+                ClearFenceSelectionAndRefresh();
+                studio.ShowBanner("Предпросмотр снят, но выбор пролёта пришлось сбросить: " + error.Message, error: false);
+            }
+        }
+        else
+        {
+            _fencePreviewWorld = null;
+            _fencePreviewedSources = null;
+            ClearFenceSelectionAndRefresh();
+        }
+        if (refreshWorkspaceDrift && workspaceDrift) SyncFencePreview();
+    }
+
+    private bool FenceSourcesUnchangedOnDisk()
+    {
+        try
+        {
+            return studio.Workspace.HasFile(OpenPartFenceFile) && studio.Workspace.HasFile(FarBankFenceFile)
+                && !studio.Workspace.File(OpenPartFenceFile).ChangedOnDisk()
+                && !studio.Workspace.File(FarBankFenceFile).ChangedOnDisk();
+        }
+        catch (Exception error) when (error is IOException or UnauthorizedAccessException or ArgumentException)
+        {
+            return false;
+        }
+    }
+
     private void RefreshFenceSelection(Act1ConnectedWorld world)
     {
         if (_fencePick is not { } previous) return;
@@ -211,6 +392,7 @@ public sealed partial class StudioWorldSection
 
     private bool IsCurrentPreview(Act1ConnectedWorld world, FencePreviewSources sources)
     {
+        if (_fenceAiPreview is not null) return false;
         if (!ReferenceEquals(world, _fencePreviewWorld) || _fencePreviewedSources != sources) return false;
         try
         {
@@ -221,6 +403,14 @@ public sealed partial class StudioWorldSection
         {
             return false;
         }
+    }
+
+    private bool IsCurrentAiFencePreview(Act1ConnectedWorld world, FencePreviewSources sources)
+    {
+        return _fenceAiPreview is { Applied: true } preview
+            && ReferenceEquals(world, preview.World)
+            && preview.WorkspaceSources == sources
+            && FenceSourcesUnchangedOnDisk();
     }
 
     private bool TryReadFencePick(
@@ -375,7 +565,7 @@ public sealed partial class StudioWorldSection
             current = null!;
             return false;
         }
-        if (!IsCurrentPreview(world, sources))
+        if (!IsCurrentPreview(world, sources) && !IsCurrentAiFencePreview(world, sources))
         {
             current = null!;
             error = "предпросмотр не соответствует текущим исходникам.";
@@ -557,6 +747,18 @@ public sealed partial class StudioWorldSection
 
     private bool FillFenceProperties(StudioProperties panel)
     {
+        if (_fenceAiPreview is { } aiPreview)
+        {
+            if (_fencePick is { } previewPick)
+                panel.Header($"Забор · {previewPick.LotId}",
+                    $"{FenceEdgeLabel(previewPick.EdgeRole)} · AI предпросмотр");
+            else
+                panel.Header("AI предпросмотр забора", "Изменение временное и ещё не применено к исходнику.");
+            panel.Text("Предложение сейчас показано в мире; снимите его перед ручной правкой.", muted: true);
+            if (!aiPreview.Applied)
+                panel.Text("Studio восстанавливает исходный вид.", muted: true);
+            return true;
+        }
         if (_fencePick is not null && studio.Selection is not null)
         {
             ClearFencePick();
@@ -599,6 +801,12 @@ public sealed partial class StudioWorldSection
 
     private void EditFenceAlignment(FencePick selected, int start, bool align)
     {
+        if (_fenceAiPreview is not null)
+        {
+            studio.ShowBanner("Сначала снимите временный предпросмотр AI забора.", error: false);
+            return;
+        }
+
         if (studio.IsAiActionBusy)
         {
             studio.ShowBanner("Дождитесь завершения текущего действия Studio, прежде чем менять забор.", error: false);

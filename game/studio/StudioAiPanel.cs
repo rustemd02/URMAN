@@ -75,7 +75,8 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
     private bool _previewFailureClearFailed;
     private int _providerWarningSeen;
 
-    internal bool IsActionBusy => _busy || _evidenceBusy || _scopeConfirmationBusy || _studio.IsWorkspaceActionBusy;
+    internal bool IsActionBusy => _busy || _evidenceBusy || _scopeConfirmationBusy
+        || _fenceProposal is not null || HasTransientFencePreview || _studio.IsWorkspaceActionBusy;
 
     void IProgress<CodexProposalProgress>.Report(CodexProposalProgress progress)
     {
@@ -104,7 +105,7 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
             if (IsActionBusy) return;
             if (_fenceRequest is { } fenceRequest && _prompt.Text != fenceRequest.Prompt)
             {
-                InvalidatePreparedRequest();
+                if (!InvalidatePreparedRequest()) return;
                 _status.Text = FenceManualReadyStatus("Описание изменилось; прежний запрос отозван.");
                 SetBusy(false);
                 return;
@@ -201,8 +202,8 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
             }
             if (_fenceMode)
             {
-                InvalidatePreparedRequest();
-                _fenceMode = false;
+                _cancel?.Cancel();
+                if (InvalidatePreparedRequest()) _fenceMode = false;
             }
             if (!_focusCaptured) return;
             var previousFocus = _previousFocus;
@@ -218,7 +219,7 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
                     ((StudioWorldSection)_studio.Section("world")).RestoreViewportFocus();
             }).CallDeferred();
         };
-        TreeExiting += DismissPendingScopeConfirmation;
+        TreeExiting += HandlePanelTreeExiting;
     }
 
     private void UpdateScopeStatus(bool scopeChanged = false)
@@ -354,6 +355,7 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
             _openedSelection = selected;
         }
         _fenceMode = fenceSelected;
+        Title = _fenceMode ? "Предложить выпрямление забора" : "Изменить окна выбранного дома";
         _openedPart = currentPart;
         var windowSelected = _openedPart is { PartId: var partId }
             && HeroHouseRecipe.WindowIds.Contains(partId, StringComparer.Ordinal);
@@ -648,8 +650,11 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
         dialog.PopupCenteredClamped(new Vector2I(1040, 720), 0.9f);
     }
 
-    private void InvalidatePreparedRequest()
+    private bool InvalidatePreparedRequest()
     {
+        if ((_fenceRequest is not null || _fenceProposal is not null || HasTransientFencePreview)
+            && !TryClearFencePreviewBeforeForget())
+            return false;
         _request = null;
         _fenceRequest = null;
         _previewArtifactHashes = null;
@@ -663,6 +668,7 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
             _disclosureDialog = null;
             dialog.QueueFree();
         }
+        return true;
     }
 
     private void RequireScopeConfirmation(HouseWindowRequest request, string actionText, bool directProvider,
@@ -811,6 +817,29 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
         if (_scopeConfirmationDialog is { } dialog) DismissScopeConfirmation(dialog);
     }
 
+    private void HandlePanelTreeExiting()
+    {
+        try { DismissPendingScopeConfirmation(); }
+        catch (Exception) { }
+
+        if (!_fenceMode && _fenceRequest is null && _fenceProposal is null && !HasTransientFencePreview) return;
+        _cancel?.Cancel();
+        try
+        {
+            if (InvalidatePreparedRequest()) return;
+            if (GodotObject.IsInstanceValid(_studio)) _studio.ShowBanner(_status.Text, error: true);
+        }
+        catch (Exception error)
+        {
+            try
+            {
+                if (GodotObject.IsInstanceValid(_studio))
+                    _studio.ShowBanner("Не удалось безопасно снять предпросмотр забора при закрытии панели: " + error.Message, error: true);
+            }
+            catch (Exception) { }
+        }
+    }
+
     private void DismissScopeConfirmation(ConfirmationDialog dialog)
     {
         if (_scopeConfirmationDialog != dialog) return;
@@ -872,6 +901,11 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
 
     private void OpenProposalFile()
     {
+        if (_fenceMode)
+        {
+            OpenFenceProposalFile();
+            return;
+        }
         if (IsActionBusy || _request is null || _proposal is not null || !Visible) return;
         var requestId = _request.RequestId;
         var picker = new FileDialog
@@ -1070,11 +1104,11 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
             _status.Text = "Текущее действие нельзя безопасно прервать. Дождитесь результата; если применение завершится, его можно отменить через ⌘/Ctrl+Z.";
             return;
         }
-        if (_fenceMode)
+        if (_fenceMode || _fenceProposal is not null || HasTransientFencePreview)
         {
-            InvalidatePreparedRequest();
+            if (!InvalidatePreparedRequest()) return;
             SetBusy(false);
-            _status.Text = FenceManualReadyStatus("Запрос забора отозван; проект не изменён.");
+            _status.Text = FenceManualReadyStatus("Запрос забора отозван; временный предпросмотр снят, исходник участков не изменён.");
             return;
         }
         if (_request is not { } request) return;
@@ -1087,6 +1121,7 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
 
     private Task AskAsync()
     {
+        if (_fenceMode) return AskFenceAsync();
         if (IsActionBusy || !Visible || _proposal is not null) return Task.CompletedTask;
         try
         {
@@ -1102,6 +1137,14 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
 
     private async Task RunProposalAsync(bool fromManual, string? proposalFile = null, HouseWindowRequest? preparedRequest = null)
     {
+        if (_fenceMode)
+        {
+            if (fromManual && proposalFile is null)
+                await RunFenceManualClipboardAsync();
+            else
+                await RunFenceProposalAsync(fromManual, proposalFile);
+            return;
+        }
         if (IsActionBusy || !Visible || (!fromManual && _proposal is not null)) return;
         if (!fromManual && (preparedRequest is null || !ReferenceEquals(_request, preparedRequest))) return;
         HouseWindowProposal? imported = null;
@@ -1421,7 +1464,7 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
 
     private async Task ApplyAsync()
     {
-        if (IsActionBusy || !_previewReady || _proposal is null || _request is null || _stage is null) return;
+        if (_fenceMode || _fenceProposal is not null || IsActionBusy || !_previewReady || _proposal is null || _request is null || _stage is null) return;
         if (!TryClearPreviewFailure(_request)) return;
         SetBusy(true);
         var mutationSucceeded = false;
@@ -1717,18 +1760,34 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
     private void UpdateBusyState()
     {
         var busy = IsActionBusy;
+        _ask.Text = _fenceMode ? "Предложить выпрямление" : "Предложить изменение";
+        _ask.TooltipText = _fenceMode
+            ? "Отправить точный запрос по выбранному пролёту и показать только временный предпросмотр."
+            : "Отправить запрос: ⌘/Ctrl+Enter";
+        _paste.TooltipText = _fenceMode
+            ? "Вставьте чистый JSON v3 для текущего запроса. Studio проверит его и покажет временный предпросмотр; применение отключено."
+            : "Скопируйте чистый JSON ответа. Studio проверит его и покажет модель до применения.";
+        _importFile.TooltipText = _fenceMode
+            ? "Проверить ответ v3 по сохранённому запросу и показать временный предпросмотр в мире; применение отключено."
+            : "Проверить ответ по сохранённому запросу и показать модель до применения.";
+        _apply.TooltipText = _fenceMode
+            ? "Применение предложений для заборов пока не подключено."
+            : string.Empty;
         _prompt.Editable = !busy;
         var fenceSelected = IsCurrentFenceMode();
         _doctor.Disabled = busy || _fenceMode;
         _stop.Disabled = _studio.IsWorkspaceActionBusy || _evidenceBusy || _scopeConfirmationBusy;
-        _globalInstructions.Disabled = busy || _previewFailureClearFailed || _fenceMode;
+        _globalInstructions.Disabled = busy || _previewFailureClearFailed;
         var houseSelected = _openedSelection == HeroHouseRecipe.EntityId && _studio.Selection == _openedSelection;
         _scope.Disabled = busy || _previewFailureClearFailed || _proposal is not null || _openedSelection != HeroHouseRecipe.EntityId;
-        _ask.Disabled = busy || _previewFailureClearFailed || !houseSelected || _proposal is not null || _fenceMode;
+        _ask.Disabled = busy || _previewFailureClearFailed || !(houseSelected || fenceSelected)
+            || (_fenceMode ? _fenceProposal is not null : _proposal is not null);
         _copy.Disabled = busy || _previewFailureClearFailed || !(houseSelected || fenceSelected);
         _saveRequest.Disabled = busy || _previewFailureClearFailed || !(houseSelected || fenceSelected);
         _disclosure.Disabled = busy || _previewFailureClearFailed || !(houseSelected || fenceSelected);
-        _paste.Disabled = busy || _previewFailureClearFailed || !houseSelected || _fenceMode || _request is null || _proposal is not null;
+        var housePasteReady = houseSelected && !_fenceMode && _request is not null && _proposal is null;
+        var fencePasteReady = fenceSelected && _fenceMode && _fenceRequest is not null && _fenceProposal is null;
+        _paste.Disabled = busy || _previewFailureClearFailed || !(housePasteReady || fencePasteReady);
         _importFile.Disabled = _paste.Disabled;
         _apply.Disabled = busy || _previewFailureClearFailed || _fenceMode || !houseSelected || !_previewReady
             || _proposal is null || _request is null || _stage is null;
