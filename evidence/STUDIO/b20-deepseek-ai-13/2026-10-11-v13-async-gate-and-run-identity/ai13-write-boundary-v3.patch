@@ -1,0 +1,166 @@
+diff --git a/src-dotnet/Urman.Studio.Core/Editing/EditSession.cs b/src-dotnet/Urman.Studio.Core/Editing/EditSession.cs
+index 03e15f7a..04488352 100644
+--- a/src-dotnet/Urman.Studio.Core/Editing/EditSession.cs
++++ b/src-dotnet/Urman.Studio.Core/Editing/EditSession.cs
+@@ -133,6 +133,11 @@ public sealed class EditSession(StudioWorkspace workspace)
+     /// <summary>Attach source/model file writes to this command. Call inside the same Begin scope as the entity edits.</summary>
+     public void ApplyFiles(string label, string owner, IReadOnlyList<StudioFileWrite> writes, IReadOnlySet<string> allowedPaths, Action? afterPromotion = null)
+     {
++        if (RefuseWrite())
++        {
++            return;
++        }
++
+         EnsureAvailable();
+         if (writes.Count == 0 && afterPromotion is null) return;
+         var pending = new PendingFiles(label, owner, writes.Select(write => write with { Bytes = write.Bytes?.ToArray() }).ToArray(),
+@@ -168,6 +173,11 @@ public sealed class EditSession(StudioWorkspace workspace)
+     public async Task ApplyFilesAsync(string label, string owner, IReadOnlyList<StudioFileWrite> writes,
+         IReadOnlySet<string> allowedPaths, Action nativeBarrier, Func<Task> afterPromotionAsync)
+     {
++        if (RefuseWrite())
++        {
++            return;
++        }
++
+         EnsureAvailable();
+         if (_open is not null) throw new InvalidOperationException("Async file transactions must be a standalone file-only command.");
+         if (writes.Count == 0) return;
+@@ -202,15 +212,36 @@ public sealed class EditSession(StudioWorkspace workspace)
+     }
+ 
+     /// <summary>Replace (or create) an entity by ID in its file.</summary>
+-    public void Set(string relativePath, string key, JsonNode? value, string label) => Apply(relativePath, key, value, remove: false, label);
++    public void Set(string relativePath, string key, JsonNode? value, string label)
++    {
++        if (RefuseWrite())
++        {
++            return;
++        }
++
++        Apply(relativePath, key, value, remove: false, label);
++    }
++
++    public void Delete(string relativePath, string key, string label)
++    {
++        if (RefuseWrite())
++        {
++            return;
++        }
+ 
+-    public void Delete(string relativePath, string key, string label) => Apply(relativePath, key, null, remove: true, label);
++        Apply(relativePath, key, null, remove: true, label);
++    }
+ 
+     public const string OrderKey = "#order";
+ 
+     /// <summary>Adopt reviewed source into a draft as one undo step, retaining its actual disk baseline.</summary>
+     public void ReplaceDraft(string relativePath, string expectedText, string text, string label)
+     {
++        if (RefuseWrite())
++        {
++            return;
++        }
++
+         EnsureAvailable();
+         if (_open is not null) throw new InvalidOperationException("Завершите текущее составное действие перед объединением.");
+         var file = Workspace.File(relativePath);
+@@ -244,6 +275,11 @@ public sealed class EditSession(StudioWorkspace workspace)
+     /// <summary>Change the order of a file's entities (a list order is behaviour: cutscene actions, stages). One undo step.</summary>
+     public void SetOrder(string relativePath, IReadOnlyList<string> keys, string label)
+     {
++        if (RefuseWrite())
++        {
++            return;
++        }
++
+         EnsureAvailable();
+         var file = Workspace.File(relativePath);
+         var before = new JsonArray(file.Keys().Select(key => (JsonNode?)key).ToArray());
+@@ -271,9 +307,38 @@ public sealed class EditSession(StudioWorkspace workspace)
+         }
+     }
+ 
++    /// <summary>
++    /// Why authoring is frozen for the active world, or null when writing is allowed.
++    /// The Studio root sets it from the campaign/world capability gate. Every write path
++    /// below consults it, so a panel cannot save around a frozen world through its own
++    /// callback: the interface stop is a second line of defence, not the only one.
++    /// </summary>
++    public string? WriteBlockReason { get; set; }
++
++    /// <summary>The reason the last write was refused, so the caller can show it to the author.</summary>
++    public string? LastWriteRefusal { get; private set; }
++
++    private bool RefuseWrite()
++    {
++        if (WriteBlockReason is not { } frozen)
++        {
++            LastWriteRefusal = null;
++            return false;
++        }
++
++        LastWriteRefusal = frozen;
++        Changed?.Invoke();
++        return true;
++    }
++
+     /// <summary>Change one field of an entity addressed by its ID; the path is a list of property names.</summary>
+     public void SetField(string id, IReadOnlyList<string> path, JsonNode? value, string label)
+     {
++        if (RefuseWrite())
++        {
++            return;
++        }
++
+         EnsureAvailable();
+         var address = Workspace.Locate(id) ?? throw new KeyNotFoundException($"Нет объекта с ID {id}.");
+         var entity = Workspace.File(address.RelativePath).Get(address.Key)!.AsObject();
+@@ -289,6 +354,11 @@ public sealed class EditSession(StudioWorkspace workspace)
+ 
+     public void Undo()
+     {
++        if (RefuseWrite())
++        {
++            return;
++        }
++
+         EnsureAvailable();
+         if (!_undo.TryPop(out var command))
+         {
+@@ -321,6 +391,11 @@ public sealed class EditSession(StudioWorkspace workspace)
+ 
+     public void Redo()
+     {
++        if (RefuseWrite())
++        {
++            return;
++        }
++
+         EnsureAvailable();
+         if (!_redo.TryPop(out var command))
+         {
+@@ -354,6 +429,11 @@ public sealed class EditSession(StudioWorkspace workspace)
+     /// <summary>Undo a file command only after its source and live view are restored.</summary>
+     public async Task UndoAsync(Func<Task> fileViewBarrier)
+     {
++        if (RefuseWrite())
++        {
++            return;
++        }
++
+         EnsureAvailable();
+         ArgumentNullException.ThrowIfNull(fileViewBarrier);
+         if (!_undo.TryPeek(out var top) || top.Files is null)
+@@ -391,6 +471,11 @@ public sealed class EditSession(StudioWorkspace workspace)
+     /// <summary>Redo saved file images only after the live view can load them.</summary>
+     public async Task RedoAsync(Func<Task> fileViewBarrier)
+     {
++        if (RefuseWrite())
++        {
++            return;
++        }
++
+         EnsureAvailable();
+         ArgumentNullException.ThrowIfNull(fileViewBarrier);
+         if (!_redo.TryPeek(out var top) || top.Files is null)

@@ -1,0 +1,29 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-13"
+  ],
+  "stage": "v13: the asynchronous undo paths go through the write gate, and the post-await check compares the whole run target",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-11 19:26 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "6764bd62",
+  "gaps_fixed": {
+    "1 async undo paths": "the v12 session gate covered Undo and Redo but not UndoAsync and RedoAsync, and those restore files too. Both now call RefuseWrite, so the gate has twelve call sites and no file-restoring path can write around a frozen world",
+    "2 run identity": "Play and Check compared only World.ScenePath after their await, and one scene without a campaign declaration can serve different campaigns, zones and spawn points. A single SameRunTarget now compares campaign selection, campaign id, world id, scene path, zone, spawn point, pack path and campaign binding, and both paths use it"
+  },
+  "verified": {
+    "apply": "session v3 and wiring v13 pass git apply --check on a pristine 6764bd62 tree with my branch merged, and were applied there",
+    "compile_and_tests": "Urman.Studio.Core 0/0; game/Urman.Game.csproj 0/0; Urman.Studio.Tests 38/38; probe PASS",
+    "source_invariants": "the check log records twelve RefuseWrite sites, both async undo paths guarded, three SameRunTarget uses, and the eight context fields the identity check compares",
+    "not_run": "no Studio window: this is a SOURCE stage, and compile or probe is not a startup UI pass; native stays paused by the author"
+  },
+  "files": {
+    "evidence/STUDIO/b20-deepseek-ai-13/2026-10-11-v13-async-gate-and-run-identity/ai13-wiring-v13.patch": "5272d8c4334ec775869895444fefb59a89f36ce84de6d09db91807de19fa778b",
+    "evidence/STUDIO/b20-deepseek-ai-13/2026-10-11-v13-async-gate-and-run-identity/ai13-write-boundary-v3.patch": "229e9dd8b0edfe31cac45d2d4d6914d240d14a838d8100ccf0860cf3c48c3d8a",
+    "evidence/STUDIO/b20-deepseek-ai-13/2026-10-11-v13-async-gate-and-run-identity/check.log": "42dbbf40c5f0041a6c906c9322857022399b3e243bbc4244f587369437ab31c7"
+  },
+  "open": [
+    "runtime acceptance is NOT_RUN while the author keeps the pause"
+  ]
+}

@@ -1,0 +1,21 @@
+== AI-13 v13: the two gaps from the 19:06 review
+== composed tree: origin/main 6764bd62 + my branch + session v3 + ai13 v13
+
+== source invariants
+RefuseWrite sites in EditSession: 12
+UndoAsync guarded: 1
+RedoAsync guarded: 1
+SameRunTarget uses: 3
+fields compared:
+first.Campaign.Selection first.Campaign.Id first.World.WorldId first.World.ScenePath first.World.ZoneId first.World.SpawnPointId first.PackPath first.CampaignBinding 
+== builds
+
+Прошло времени 00:00:03.13
+
+Прошло времени 00:00:13.01
+== existing tests
+=== TEST EXECUTION SUMMARY ===
+   Urman.Studio.Tests  Total: 38, Errors: 0, Failed: 0, Skipped: 0, Not Run: 0, Time: 2,210s
+== probe
+
+PROBE RESULT: PASS

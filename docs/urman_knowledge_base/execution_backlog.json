@@ -74418,6 +74418,12 @@
                 "result": "correction by deepseek v4.1 flash: (1) Changed is subscribed only after the bar and _status exist, with the initial context still applied explicitly once the sections are registered; (2) the handler no longer calls SetWriteBlock(null), because StudioWorldSection.ApplyCampaignWorld owns the freeze and my line erased it for a world the game does not load; (3) a rejection with no consistent default now calls MarkUnresolved instead of only setting a label; (4) the session gate now covers Delete, ReplaceDraft, SetOrder, Undo, Redo and the synchronous ApplyFiles as well - ten RefuseWrite sites, so undo and draft adoption cannot write around a frozen world; (5) the unresolved-world refusal moved before SaveAll, the start comes from the captured context, the Act I scene fallback is gone, and Play and Check re-check the world identity after their await. The AI-13 patch now carries only its own twenty hunks; the other fifteen belong to AI-18, AI-17, AI-21, AI-24 and AI-20/24 and are handed over as raw split candidates, with the honest note that two hunks mix units",
                 "source": "game/studio/StudioCampaignSelector.cs on my branch; evidence/STUDIO/b20-deepseek-ai-13/2026-10-11-v12-five-defects/ (ai13-wiring-v12.patch, ai13-write-boundary-v2.patch, split-candidate-*.patch, check.log, receipt.json)",
                 "verification": "session v2 and wiring v12 pass git apply --check on a pristine 3622a660 tree with my branch merged and were applied there; Core 0/0; game/Urman.Game.csproj 0/0; Urman.Studio.Tests 38/38; probe PASS; the check log records the invariants (no Act I fallback, ten session gates, no SetWriteBlock(null) in the handler, four MarkUnresolved sites, subscription after _status). This is a SOURCE stage: probe and compile are not a startup UI pass and native is forbidden by the author"
+              },
+              {
+                "stage": "2026-10-11 v13: the asynchronous undo paths go through the write gate, and the post-await check compares the whole run target",
+                "result": "correction by deepseek v4.1 flash to the two gaps from the 19:06 review: (1) UndoAsync and RedoAsync restore files and were not gated - both now call RefuseWrite, so the session gate has twelve call sites; (2) Play and Check compared only World.ScenePath after their await although one undeclared scene can serve different campaigns, zones and spawn points - one SameRunTarget now compares campaign selection, campaign id, world id, scene path, zone, spawn point, pack path and campaign binding, and both paths use it",
+                "source": "evidence/STUDIO/b20-deepseek-ai-13/2026-10-11-v13-async-gate-and-run-identity/ai13-wiring-v13.patch and ai13-write-boundary-v3.patch",
+                "verification": "session v3 and wiring v13 pass git apply --check on a pristine 6764bd62 tree with my branch merged and were applied there; Core 0/0; game/Urman.Game.csproj 0/0; Urman.Studio.Tests 38/38; probe PASS; the check log records twelve gates with both async paths guarded, three SameRunTarget uses and the eight compared fields. SOURCE stage: not a startup UI pass, native stays paused"
               }
             ],
             "stage_tasks": [
@@ -74451,7 +74457,9 @@
               "Ранее переданный частичный этап (2026-10-10/11 selector, capability gate and write boundary) ждёт ревью/приёмки; полный done_when не выполнен.",
               "Ранее переданный частичный этап (2026-10-11 answer to the 16:21 review: an unresolved world propagates instead of falling back to Act I) ждёт ревью/приёмки; полный done_when не выполнен.",
               "AI-26 finding 220 and the AI-36 colour-versus-material wording are acknowledged but not fixed yet.",
-              "Ранее переданный частичный этап (2026-10-11 v12: the five defects from the 17:32 review, and the patch split by unit) ждёт ревью/приёмки; полный done_when не выполнен."
+              "Ранее переданный частичный этап (2026-10-11 v12: the five defects from the 17:32 review, and the patch split by unit) ждёт ревью/приёмки; полный done_when не выполнен.",
+              "Патчи v13/session v3 ждут ревью; runtime-приёмка NOT_RUN, пока автор держит паузу.",
+              "Ранее переданный частичный этап (2026-10-11 v13: the asynchronous undo paths go through the write gate, and the post-await check compares the whole run target) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
             "next_action": "STUDIO/AI-13/SELECTOR: подключить выбор actual context.",
             "blocker": null,
