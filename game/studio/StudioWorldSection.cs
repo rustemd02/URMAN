@@ -312,6 +312,7 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
     {
         if (_view is null) return;
         _reloading = true;
+        ClearFencePick();
         _pickedPart = null;
         studio.ShowProperties();
         var previous = _demo;
@@ -392,6 +393,7 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
         if (catalogState != _catalogState) { _catalogState = catalogState; ReloadCatalog(); }
         SyncTerrain();
         SyncPreview();
+        SyncFencePreview();
         BuildMarkers();
     }
 
@@ -705,6 +707,11 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
                 break;
             case InputEventMouseButton { ButtonIndex: MouseButton.Left, Pressed: true } press:
                 _container.GrabFocus();
+                if (TryPickFence(press.Position))
+                {
+                    BuildMarkers();
+                    break;
+                }
                 var pick = Pick(press.Position);
                 var keepGroup = studio.Selection is { } before && pick is { } selectedHit
                     && (_group.Contains(selectedHit.EntityId) || before == selectedHit.EntityId) && _group.Count > 0;
@@ -915,6 +922,7 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
 
     private void AddToGroup(Vector2 screen)
     {
+        ClearFencePick();
         if (Pick(screen) is not { } picked)
         {
             SetPickedPart(null);
@@ -934,6 +942,7 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
 
     public void SelectGroup(IEnumerable<string> ids)
     {
+        ClearFencePick();
         _group.Clear();
         foreach (var id in ids) _group.Add(id);
         _pickedPart = null;
@@ -991,6 +1000,7 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
 
     private void PickAt(WorldPick? pick)
     {
+        ClearFencePick();
         _pickedPart = pick is { PartLabel: not null } ? pick : null;
         studio.Select(pick?.EntityId);
         BuildMarkers();
@@ -1316,6 +1326,7 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
 
     public void FillProperties(StudioProperties panel)
     {
+        if (FillFenceProperties(panel)) return;
         if (_pickedPart is { } stalePart && stalePart.EntityId != studio.Selection) _pickedPart = null;
         if (studio.Selection is not { } id || studio.Workspace.Get(id) is not JsonObject entity)
         {

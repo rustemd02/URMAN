@@ -75351,6 +75351,17 @@
                 "source": "game/scripts/Act1ConnectedWorld.YardFences.cs",
                 "result": "Ordinary fence source/run/bay locator metadata on existing colliders; no geometry/material/seed/gate/claims change. Active 85 lots unique within/between files. Five Luna FAST/Max bounded source review plus Sol6.1 medium independent review.",
                 "verification_scope": "Narrow Game compile + source review only. Manual selection/handles/typed fence.segment.align/live override and A03 remain open; IDs track unchanged clipped spans, not arbitrary future topology."
+              },
+              {
+                "date": "2026-10-12",
+                "source": [
+                  "game/studio/StudioWorldSection.Fences.cs",
+                  "game/studio/StudioWorldSection.cs",
+                  "game/scripts/Act1ConnectedWorld.YardFences.cs"
+                ],
+                "result": "Manual ordinary-fence three-bay pick/highlight/align/reset → full-source draft command → live draft builder consumer; gate/wicket/address-support identity and frozen support preflight. Existing crash recovery now retains sibling lots fields.",
+                "verification": "Affected Game build --no-restore: 0 errors/0 warnings after nullable parse fix; five Luna FAST/Max bounded implementation/contracts/reviews, Sol6.1 medium independent review; tracker validation and staged diff check.",
+                "verification_scope": "Source/compile only. No native runs/tests/probes. Collision remains existing upright bay proxy; handles, typed fence.segment.align provider/preview/Apply and A03/native full Undo acceptance remain open."
               }
             ],
             "stage_tasks": [
@@ -75371,18 +75382,19 @@
             },
             "active_owner": null,
             "activity": {
-              "state": "runtime_deferred_by_author",
-              "reason": "Source-span identity prerequisite written; manual edit/typed align/live refresh and native acceptance remain open.",
-              "verification_question": "Exact source/lot/edge/span collider metadata; no change to seed/geometry/gates/shared ownership. Narrow Game compile and independent review, no native launches."
+              "state": "source_stage_complete",
+              "reason": "Manual three-bay alignment draft consumer implemented; typed AI action, handles and native acceptance remain open.",
+              "verification_question": "Three selected bays change only two interior post leans; exact source/geometry/support/gate/foreign-disk guards and whole-source Undo remain. Affected Game compile 0/0 + five Luna bounded source stages/reviews and Sol6.1 independent review; no native/test launch."
             },
             "task_type": "engineering",
             "status": "in_progress",
             "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
-              "Выбранный участок ограды выравнивается без сдвига калитки и соседних секций.; отсутствует подтверждение собственного конечного DoD, перечисленного ниже."
+              "Manual alignment source consumer added; draggable handles and typed fence.segment.align request/proposal/preview/Apply remain.",
+              "Native A03: three bays, wicket operation, unchanged outer supports/neighbors, source/play provenance and complete Undo not verified."
             ],
-            "next_action": "Consume collision shape-owner fence source locator in Studio, provide explicit editable source override using existing Session and live builder refresh; preserve gate/endpoints and resolve stable identities for topology edits before typed align. A03/game/Undo remain unverified.",
+            "next_action": "Implement constrained manual handles and typed fence.segment.align request/proposal/preview/Apply using same real lot/run source consumer; preserve exact range endpoints/gates/shared ownership. Native A03/game/recovery/Undo still pending author runtime pause; prior seven-window Codex pilot remains first native priority.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -75432,7 +75444,7 @@
                 "success": "Изменены только выбранные секции; нет разрывов/пересечений; калитка открывается как раньше.",
                 "repeat_only_if": "Изменён предметный contract/input или предыдущий сценарий неполон."
               },
-              "actual_result": "Source trace only: generated YardFences uses sibling lots[] omitted from Workspace entity indexing; no selectable stable run metadata or draft refresh consumer. Tamara fence is excluded. Current BuildFenceRun already uses straight endpoints; post-only edit would tear rails/collision. No fence feature delivered. Added ordinary bay collider metadata sourcePath/lotId/edgeRole/runId/bayId/index/count and run endpoints. IDs use invariant round-trip source-span identity, independent of global run/body child counters; both side roles distinguished while legacy graphics seed remains unchanged. This is an unchanged-boundary locator, not a durable ID across topology edits, and not yet selectable/editable in Studio.",
+              "actual_result": "Source trace only: generated YardFences uses sibling lots[] omitted from Workspace entity indexing; no selectable stable run metadata or draft refresh consumer. Tamara fence is excluded. Current BuildFenceRun already uses straight endpoints; post-only edit would tear rails/collision. No fence feature delivered. Added ordinary bay collider metadata sourcePath/lotId/edgeRole/runId/bayId/index/count and run endpoints. IDs use invariant round-trip source-span identity, independent of global run/body child counters; both side roles distinguished while legacy graphics seed remains unchanged. This is an unchanged-boundary locator, not a durable ID across topology edits, and not yet selectable/editable in Studio. 12.10 manual source slice: ordinary collider click selects a three-bay range, highlights it and offers align/reset through existing Session.ReplaceDraft. Per-lot fenceAlignment maps generated run ID to interior post indices consumed by actual BuildFenceRun, setting only those post leans to zero. Draft Refresh and Undo use staged runtime rebuild with same lot geometry/order/run/bay/support checks, preserve existing gate/wicket/address-support node identities/state/paths/order, rollback before irreversible cleanup; initial world side effects skipped only for Studio preview. Native behavior not verified.",
               "evidence_refs": [
                 "STUDIO/AI-15.evidence"
               ]
