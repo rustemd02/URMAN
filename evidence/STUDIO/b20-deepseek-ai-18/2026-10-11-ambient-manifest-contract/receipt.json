@@ -1,0 +1,30 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-18"
+  ],
+  "stage": "the ambient manifest type contract",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-11 21:57 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "b42fe09a",
+  "result": {
+    "contract": "the runtime's own AmbientStem class: id and file are strings, zones is a list of strings, volumeDb is a float defaulting to TargetVolumeDb and loop is a bool",
+    "why_a_type_matters": "the deserializer at AmbientAudioDirector line 362 is NOT wrapped in a try/catch, so ONE wrong field type throws JsonException, the director never comes up, and the WHOLE ambient track disappears - not one bed. A missing manifest and an empty stems list are thrown too, so those two are loud; a type error is equally fatal but easier to write by accident",
+    "also_checked": "a duplicated id, because the director indexes stems by id and by zone, so a duplicate shadows its twin while both look authored; and a stem that is not an object at all",
+    "measured": "the authored manifest has ZERO contract gaps today, so all nine beds match the class"
+  },
+  "verified": {
+    "probe": "PASS 664/664 including the zero-gap result on the real manifest and the five synthetic findings (non-numeric volumeDb, non-boolean loop, zones that are not a string array, a duplicated id, a non-object stem)",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors (composed tree with my branch and the v15 patch)",
+    "not_run": "no game run: how the mix sounds is the listener's gate"
+  },
+  "own_mistakes": "my first insertion landed inside the notes string list without a comma, and the helpers took a non-nullable JsonNode while the fields are nullable; the compiler caught both before the probe ran",
+  "correction": "the PREVIOUS commit 77e7f13f message says the probe passed 656; the real count there was 657. The code, the evidence and the tracker entry carry the correct number; only the hand-written commit text was stale",
+  "files": {
+    "evidence/STUDIO/b20-deepseek-ai-18/2026-10-11-ambient-manifest-contract/check.log": "16c102e411b3acf5675e09f3843916ea2eeb129f436014895ee6285b9ac562b1"
+  },
+  "open": [
+    "listening, mix, loop and cultural acceptance remain external"
+  ]
+}

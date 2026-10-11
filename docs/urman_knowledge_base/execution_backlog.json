@@ -75534,6 +75534,12 @@
                 "result": "deepening by deepseek v4.1 flash, closing the loose end I had named myself: the second catalogue holds two prepared beds and both declare their own sha256, PCM bytes, rms, peak, loop policy and full recipe. Verified true: every bed file exists, its own sha256 matches the bytes and its pcmBytes matches the WAV data chunk, and all sixteen source references point at existing files with a licence. FINDING: three of the sixteen source hashes are stale - sound_mood/tv.wav is declared 1446c223d4d5 but is b92071531bb5 on disk (two references) and laughter.wav is declared 60b71aa8b575 but is 7297a2d9025e - so the recipe describes different audio than the files it names and a rebuild would not reproduce what is documented. The catalogue's own listening field says external/not-run and is quoted as the auditory gate",
                 "source": "new file src-dotnet/Urman.Studio.Core/Editing/SoundMoodBeds.cs; evidence evidence/STUDIO/b20-deepseek-ai-18/2026-10-11-sound-mood-provenance",
                 "verification": "probe PASS 601/601 including the bed hashes, the PCM chunk check, the three stale source hashes and the quoted acceptance state; Core 0/0. No listening: auditory acceptance is NOT_RUN"
+              },
+              {
+                "stage": "2026-10-11 the ambient manifest type contract",
+                "result": "deepening by deepseek v4.1 flash: the manifest's TYPE contract is mirrored from the runtime's own AmbientStem class (id/file strings, zones a list of strings, volumeDb a float, loop a bool). Why a type matters here: the deserializer at AmbientAudioDirector line 362 is NOT wrapped in a try/catch, so ONE wrong field type throws JsonException, the director never comes up, and the WHOLE ambient track disappears - not one bed. A missing manifest and an empty stems list are thrown too, so those are loud; a type error is equally fatal but easier to write by accident. Also checked: a duplicated id (the director indexes stems by id and by zone, so a duplicate shadows its twin while both look authored) and a stem that is not an object. Measured: ZERO contract gaps on the authored manifest, so all nine beds match the class. Own mistakes recorded: my first insertion landed inside the notes list without a comma and the helpers took a non-nullable JsonNode; the compiler caught both. Correction: the previous commit 77e7f13f message says 656 where the real count was 657; the code, evidence and tracker carry the right number. Verified: probe PASS 664/664 including five synthetic findings; Core 0/0",
+                "source": "src-dotnet/Urman.Studio.Core/Editing/AmbientBeds.cs (ContractGaps); evidence evidence/STUDIO/b20-deepseek-ai-18/2026-10-11-ambient-manifest-contract",
+                "verification": "probe PASS 664/664 including the zero-gap real manifest and the five synthetic contract failures; Core 0/0. Listening and mix remain external and are NOT_RUN"
               }
             ],
             "stage_tasks": [
@@ -75568,7 +75574,9 @@
               "Две зоны бедов (village_day@from_forest, village_day@from_house) не встречаются в контенте и исходниках: нужно авторское решение.",
               "Ранее переданный частичный этап (2026-10-11 the ambient beds against the runtime director, the disk and the rights) ждёт ревью/приёмки; полный done_when не выполнен.",
               "Три хеша источников второго каталога устарели: tv.wav (×2) и laughter.wav — нужно решение владельца звука.",
-              "Ранее переданный частичный этап (2026-10-11 the second bed catalogue and its provenance record) ждёт ревью/приёмки; полный done_when не выполнен."
+              "Ранее переданный частичный этап (2026-10-11 the second bed catalogue and its provenance record) ждёт ревью/приёмки; полный done_when не выполнен.",
+              "Слушание, микс, луп и культурная приёмка — внешний гейт, критерий открыт.",
+              "Ранее переданный частичный этап (2026-10-11 the ambient manifest type contract) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
             "next_action": "Исправить пять source findings из Codex сообщения11.10 12:21 в AudioSourceRegistry/StudioAudioPanel и передать отдельный SHA, без новых probes.",
             "blocker": {

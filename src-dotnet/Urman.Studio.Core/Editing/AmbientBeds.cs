@@ -109,7 +109,10 @@ public static class AmbientBeds
             second
                 ? $"Рядом есть второй каталог ({SecondManifestPath}): это отдельный список бедов, и считать один файл всей звуковой картиной нельзя."
                 : "Второго каталога бедов нет.",
-            $"Собственный статус манифеста: «{(string?)manifest?["status"] ?? ""}». Слушание, микс, луп и культурная приёмка остаются за автором и слушателями — это внешний гейт, а не эта проверка."
+            $"Собственный статус манифеста: «{(string?)manifest?["status"] ?? ""}». Слушание, микс, луп и культурная приёмка остаются за автором и слушателями — это внешний гейт, а не эта проверка.",
+            ContractGaps(root) is { Count: > 0 } contract
+                ? $"Нарушений типа в манифесте: {contract.Count} — десериализатор не обёрнут в try/catch, поэтому одно нарушение уносит ВСЮ эмбиентную дорожку."
+                : "Типы полей манифеста совпадают с классом рантайма, и id не повторяются.",
         ];
     }
 
@@ -156,4 +159,64 @@ public static class AmbientBeds
         var path = Path.Combine(Path.GetFullPath(root), ManifestPath.Replace('/', Path.DirectorySeparatorChar));
         return File.Exists(path) ? JsonNode.Parse(File.ReadAllText(path)) as JsonObject : null;
     }
+    /// <summary>
+    /// The manifest's TYPE contract, mirrored from the runtime's own AmbientStem class. This is a
+    /// different failure from the ones Inspect reports: the deserializer at line 362 is NOT wrapped
+    /// in a try/catch, so one wrong field type throws JsonException, the director never comes up,
+    /// and the WHOLE ambient track disappears - not one bed. A duplicated id is reported for the
+    /// same kind of reason: the director indexes stems by id and by zone, so a duplicate shadows
+    /// its twin while both look authored.
+    /// </summary>
+    public static IReadOnlyList<string> ContractGaps(string root)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(root);
+        var manifest = Manifest(root);
+        if (manifest?["stems"] is not JsonArray stems)
+        {
+            return ["Манифест не прочитан или без stems: сверять нечего."];
+        }
+
+        var gaps = new List<string>();
+        var seen = new HashSet<string>(StringComparer.Ordinal);
+        for (var index = 0; index < stems.Count; index++)
+        {
+            if (stems[index] is not JsonObject stem)
+            {
+                gaps.Add($"stems[{index}]: элемент не объект — AmbientStem так не разберётся, и загрузка бросит JsonException, а её НИКТО не ловит: пропадёт вся эмбиентная дорожка.");
+                continue;
+            }
+
+            foreach (var (field, kind, ok) in new (string Field, string Kind, bool Ok)[]
+            {
+                ("id", "строкой", stem["id"] is null || IsString(stem["id"])),
+                ("file", "строкой", stem["file"] is null || IsString(stem["file"])),
+                ("zones", "массивом строк", stem["zones"] is null || IsStringArray(stem["zones"])),
+                ("volumeDb", "числом", stem["volumeDb"] is null || IsNumber(stem["volumeDb"])),
+                ("loop", "булевым", stem["loop"] is null || IsBoolean(stem["loop"]))
+            })
+            {
+                if (!ok)
+                {
+                    gaps.Add($"stems[{index}] («{(string?)stem["id"] ?? "?"}»): поле «{field}» должно быть {kind}, а записано иначе — десериализатор бросит JsonException, загрузка манифеста его НЕ ловит, и директор не поднимется: пропадёт ВСЯ эмбиентная дорожка, а не один бед.");
+                }
+            }
+
+            if (IsString(stem["id"]) && stem["id"]!.GetValue<string>() is { Length: > 0 } id && !seen.Add(id))
+            {
+                gaps.Add($"stems[{index}]: id «{id}» повторяется — директор индексирует беды по id и по зоне, поэтому один из двух затмит другого, хотя оба выглядят авторскими.");
+            }
+        }
+
+        return gaps;
+    }
+
+    private static bool IsString(JsonNode? node) => node is JsonValue value && value.TryGetValue<string>(out _);
+
+    private static bool IsNumber(JsonNode? node) => node is JsonValue value && value.TryGetValue<double>(out _);
+
+    private static bool IsBoolean(JsonNode? node) => node is JsonValue value && value.TryGetValue<bool>(out _);
+
+    private static bool IsStringArray(JsonNode? node) =>
+        node is JsonArray array && array.All(item => item is JsonValue value && value.TryGetValue<string>(out _));
+
 }
