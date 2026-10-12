@@ -78853,6 +78853,11 @@
                   "eng/windows_station_worker.py"
                 ],
                 "actual_result": "Export original bounded history-sequence.json whenever exported journal has positive acceptedOrder; exact schema/signed64 counter >= maximum acceptedOrder, no synthetic data. Luna fix, independent Sol review, Python syntax check. Worker deployment and native archive/restart still open."
+              },
+              {
+                "stage": "2026-10-12 deployed history exporter",
+                "result": "DEPLOYED_VERIFIED_SHA_NATIVE_COUNTER_OPEN",
+                "actual_result": "Stopped idle station through existing manager; verified deployed e97fb25f normalized SHA564a1da0779bf59ffac0f89c4591fa5d132366cd81d78dd7218d5837dd1c9726, backed up original, installed worker SHA36981fe8fdef7646ff08b26cbe9001bb18b69567ea7afbf2fc1fd1e6f79199e5, restarted. New dcf64c3f job PASS exported normal campaign run artifacts; no catalogue transaction was created in that job, so history counter transfer/restart remains open."
               }
             ],
             "stage_tasks": [
@@ -79289,6 +79294,15 @@
                   "src-dotnet/Urman.Studio.Core/Play/PlayPreparation.cs"
                 ],
                 "actual_result": "Separate campaign launch button reuses CampaignWorldCatalog urman.fullgame/full_game.tscn; compile frozen bound campaign; no legacy teleport arguments; existing guarded child userdata/logging. Canonical pack path and existing NoLinks checks protect context overload. Luna implementation, Sol independent review, root write-boundary correction; affected Game compile0/0. Native launch pending station availability."
+              },
+              {
+                "stage": "2026-10-12 native full campaign button launch",
+                "result": "PASS_WINDOWS_BUTTON_FULLGAME_ENTRY_NORMAL_CLOSE",
+                "job_id": "dcf64c3f8aed461d9e7a502b895b13aa",
+                "snapshot_id": "516cd3f5e8ed6eb665253ceae1735b59093d002f3ab1d20772fc3d49f7e50da4",
+                "source_revision": "ab5a8d42",
+                "evidence_path": "evidence/STUDIO/practical-editor-2026-10-12/windows-full-campaign",
+                "actual_result": "Root clicked native campaign button; exact child command starts full_game.tscn without demo teleport arguments. FullGameMain log confirms village_day@arrival. Root viewed running game screenshot. F3 quick save in guarded disposable userdata selected photoworlds-v1; before restoration root read only scene identifiers/SHA: exactly urman.fullgame:scene/pw-prologue, quick save SHA14720756f65b85e52d16f0bcc0a0d63804f26e832440fcbd928fd90f7fd68166. Child window manually closed, parent normal close fallback; station PASS exit0 and userdataRestored=true. This verifies launch, not campaign playthrough or novice external acceptance."
               }
             ],
             "stage_tasks": [
