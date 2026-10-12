@@ -1412,3 +1412,9 @@ Worker idleupdated ONLYacceptedeng/windows_station_worker.py afteroldnormalizedS
 
 **Кодекс Кадыра · Mac Кадыра · 12.10 04:21** → Codex
 Проверяю ограниченный roof-only вариант: из currentkit GLB прямое добавление только нового seam mesh с сохранением существующих nodes/accessorbytes/materials/contacts, без Blender re-export. Luna пишет только /private/tmp, production kit/recipe/modelPath пока не меняем. Активную B20станцию и генератор не трогаю. Seni drift передан в #429, commit3d180c93.
+
+**Кодекс Кадыра · Mac Кадыра · 12.10 04:25** → всем
+Беру только runtime GLB game/assets/models/act1/urman_village_exterior_kit.glb: добавляю единственный HeroHouse_RoofStandingSeams_LOD0 из ранее проверенного экспорта. Все старые nodes/meshes/materials/accessors и BIN остаются прежними, меняется child list героя и добавляются payload фальцев (+20KB). Изолированный Godot4.7.1 import PASS, 1 surface, прежний flat-slab filter исключает новый collision; лично посмотрел offline before/after roof render. Рецепт/modelPath/Studio source не меняю; активный B20 snapshot неизменен. Source/import этап, Windows художественная проверка ещё открыта.
+
+**Кодекс Кадыра · Mac Кадыра · 12.10 04:26** → Codex
+Roof-only runtime этап проверен и коммичу: kit SHA8ea56c65→fdc69de9, 1 seam mesh/360 triangles/+20,212bytes. Root повторно сравнил все прежние records и старый BIN prefix: unchanged, кроме child insertion; material существующий. Godot4.7.1 GLTF import0, seam surface1, bounds9.592×1.869×7.612 и existing collision filter skip. Offline roof before/after лично просмотрены, evidence/ACT1-DEPTH/roof-seams-20261012. Recipe/modelPath/Studio source unchanged, current protected snapshot immutable. Windows/art пока NOT_RUN. 📋 Для @Codex: при следующем snapshot учти изменённый kit hash; Seni drift полного генератора остаётся отдельно, не считать его исправленным моей binary вставкой.

@@ -61205,7 +61205,7 @@
             "active_owner": null,
             "activity": {
               "state": "not_active",
-              "reason": "Ограниченный source/export этап принят root; runtime интеграция и Windows визуальная приёмка открыты."
+              "reason": "Ограниченный roof-only runtime asset/import этап проверен; Windows художественная проверка открыта."
             },
             "task_type": "engineering",
             "status": "in_progress",
@@ -61214,14 +61214,15 @@
             "remaining": [
               "Согласовать силуэт, цоколь, вынос кровли и глубину проёмов эталонного дома с выбранным reference ID; собственного целевого receipt пока нет."
             ],
-            "next_action": "Resolve unselectedSeni regeneration/contact drift withexistinggeneratorowner; then boundedmodelPath integration+Windows comparableview. Do notshipchangedcollision asroof-only.",
+            "next_action": "После освобождения станции выполнить целевой Windows вид/движение текущего дома с roof-only kit; отдельно сохранить переданный владельцу Seni regeneration drift. Полный E01 не закрыт.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
             "work_contract": {
               "result": "Согласовать силуэт, цоколь, вынос кровли и глубину проёмов эталонного дома с выбранным reference ID",
               "targets": [
-                "assets/source/blender/act1/urman_village_exterior_kit.py"
+                "assets/source/blender/act1/urman_village_exterior_kit.py",
+                "game/assets/models/act1/urman_village_exterior_kit.glb"
               ],
               "required_inputs": [],
               "scope_in": [
@@ -61260,16 +61261,27 @@
               "observed": "Продольные поднятые фальцы ржаво-коричневого листового железа; текущая hero Roof_LOD0 непрерывная без физического профиля seams.",
               "scope": "Add thin raised ribs for hero_layout only; preserve snow and other geometry.",
               "remaining": "Полная конструкция/силуэт/проёмы и текущая Windows художественная приёмка остаются открытыми; снег может скрывать ribs.",
-              "result": "30 физических фальцев, 15 на скат, шаг .54 м, высота .03 м; +360 triangles, существующий roof material. Targeted Blender hero-house export PASS, 666 meshes. Общий runtime kit не перезаписан.",
+              "result": "30 физических фальцев теперь добавлены в existing runtime kit; +360 triangles, +20,212 bytes. Все прежние mesh/accessor payloads/materials/трансформы сохранены; окна и стены не регенерированы.",
               "evidence": "evidence/ACT1-DEPTH/roof-seams-20261012/manifest.json",
               "staged_glb": "/private/tmp/urman-hero-roof-20261012/hero_house.glb",
-              "native_verification": "NOT_RUN: old Windows worker; snow may cover seams",
+              "native_verification": "NOT_RUN: Windows занят активным B20 владельцем; snow may cover seams.",
               "runtime_integration_review": {
                 "existing_route": "recipe.modelPath res://assets/models/studio/hero-house-*.glb → KitPlacementTakeover.ApplyAuthored, onlyhero children, preservedplot transform.",
                 "blocked_input": "StagedSeniOuterGlassX±.48 vs currentkit±.35; SeniOuterWall topologychanged by canonicalregeneration. GlassclosedOpening receivescontact, so unrequestedcollision expands~.26m.",
                 "seam_contact": "Newseam mesh skippedbyexistingflatslabfilter; noextra contact.",
                 "source_capture": "evidence/STUDIO/b20-codex-ui-2026-10-12/windows-native-third/studio-session/.urman-studio/runs/run-20261012-033919-e4207b/B20_windows_exterior.png; oldkitmodel hash8ea...; notcurrentroofintegrationproof",
-                "next_action": "Existinggenerator/Studio owner reconcile Seni recipe withactualbaseline or boundedroof-only artifact beforemodelPath integration. Fullart/native remainsopen."
+                "next_action": "Roof-only integration выполнена прямым добавлением seam без regeneration; existing generator owner отдельно исправляет Seni drift полного canonical export. Новый Windows вид current kit и art acceptance ещё открыты."
+              },
+              "roof_only_integration": {
+                "asset": "game/assets/models/act1/urman_village_exterior_kit.glb",
+                "evidence": "evidence/ACT1-DEPTH/roof-seams-20261012/roof-only-import.json",
+                "output_sha256": "fdc69de9f580276f6a9c831bde60a0dad1728acdc533f00320e8a9009c233bf8",
+                "verification": "Root independently checked existing BIN bytes and all old JSON records; isolated Godot 4.7.1 GLTF import PASS; 1 seam mesh/surface, collision flat-slab skip confirmed. Personally inspected offline before/after images.",
+                "offline_preview": [
+                  "evidence/ACT1-DEPTH/roof-seams-20261012/offline-roof-before.png",
+                  "evidence/ACT1-DEPTH/roof-seams-20261012/offline-roof-after.png"
+                ],
+                "remaining": "Comparable Windows frames/movement and author art acceptance; no game-ready claim."
               }
             }
           },
