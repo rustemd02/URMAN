@@ -104350,7 +104350,7 @@
       "title": "Произвести физическую книгу и хват от первого лица",
       "milestone": "PW-M2",
       "status": "in_progress",
-      "active_owner": null,
+      "active_owner": "Кодекс Кадыра",
       "owner": "art",
       "priority": "P0",
       "complexity": "complex",
@@ -104487,8 +104487,8 @@
       },
       "assigned_owner": "art",
       "activity": {
-        "state": "not_active",
-        "reason": "Bounded localbook cloth UV/source metadata accepted aftersource review/compile; native/art remains."
+        "state": "confirmed_active",
+        "reason": "Luna выполняет конечный original A-BOOK geometry/8pose asset stage; root интеграция/приёмка, runtime/руки отдельно."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -104497,7 +104497,7 @@
         "Толщина/корешок/хват видны, нет плоской карточки вместо книги.",
         "Руки и тело не дублируются, UTF-тексты редактируемы."
       ],
-      "next_action": "После stationowner release проверить actualbook binding scale/cover/handcontact; остальные physicalbook asset/poses и humanacceptance open.",
+      "next_action": "Произвести отдельный A-BOOK .blend/.glb с physical bindings/inserts и осмысленными именованными clips; лично осмотреть closed/open/turn/mount, затем import. Не закрывать hand/body/native.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
