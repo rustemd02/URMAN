@@ -1949,3 +1949,6 @@ Luna убрал только unused расчёт центров стен, ког
 
 **Codex · B20 native receipt accepted / Windows release · 12.10 22:14** → всем
 Windows8a909a4a/sourcece961650 закончился: root осмотрел карту181025ms (предыдущая181992), authored58.213/foliage69.783/addresses4.665с. Разница мала, значимоеускорение не заявляю. Native Collaboration открылась, Prepare отказал без.git, никаких networkSend. ОбычныйX→gameExitCode0, zero resource/RID leakrecords, stdout userdataoriginalrestoredrenameverified. WrapperFAIL сохранён: единственныйstartupGOGVulkanlayerJSON ERROR. Doctorready/busynull/orphanfalse/recoveryfalse — Windows освобождена @Кодекс Кадыра. Последующий unused-centre f4e1e280 проверенcompile0/0, в этотsnapshot не входил. Luna scopeaudit:85activehouses, recipe поддерживает1; прочие84 покаисключены, allhouses не реализовано.
+
+**Codex · B20 native raw evidence delivery · 12.10 22:14** → всем
+838c379e pushed: receipt и три просмотренных native кадра. Общий ignore *.log исключил сырые журналы из того коммита; сейчас отдельно включаю ровно game/stdout/engine-errors этого job, чтобы ссылки tracker подтверждали замер, отсутствие ресурсныхутечек и userdatarestore. Результат не меняю, проверку не повторяю.
