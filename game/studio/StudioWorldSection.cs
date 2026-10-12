@@ -284,6 +284,12 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
             layer.Visible = false;
         }
 
+        // Studio pauses world processing, but viewport picking still needs real physics occlusion.
+        foreach (var collider in _demo.FindChildren("*", nameof(CollisionObject3D), true, false).OfType<CollisionObject3D>())
+        {
+            collider.DisableMode = CollisionObject3D.DisableModeEnum.KeepActive;
+        }
+
         if (_demo.GetTree().GetFirstNodeInGroup("player_controller") is FirstPersonController player)
         {
             // The preview player is parked: modal, so the game's own focus-loss

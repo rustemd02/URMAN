@@ -62,7 +62,10 @@ public sealed class CodexProposalProvider
         "realtime_conversation",
         "collaboration_modes",
         "sqlite",
-        "steer"
+        "steer",
+        // CLI 0.162.1 adds interrupt/auth-storage behavior that proposal mode has not reviewed.
+        "instant_interrupt",
+        "secret_auth_storage"
     ];
 
     // Keep these explicit and fail closed if a newer app-server stops honoring them.

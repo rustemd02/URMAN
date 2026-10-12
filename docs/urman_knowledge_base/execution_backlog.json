@@ -74440,8 +74440,7 @@
                   "active_owner": "codex/b20-2026-10-10",
                   "activity": {
                     "state": "confirmed_active",
-                    "reason": "First Windows native run reached selected house/main-seven scope confirmation; timed out before provider dispatch. Native-found frame/modal/archive defects fixed and compiled; preparing new input verification.",
-                    "description": "Windows native job 0c6f6da1539240759bbcc37711c495ea RUNNING; snapshot7688abcbadfb16553790007d5b970dee28280648ddc0880fec0436dbd65408d2, source37bdeba1. Window observed; village loading, no provider dispatch yet."
+                    "reason": "Second Windows native job0c6f6da finished; actual focus fixed, physical part picking absent and nested disclosure obscured. Readiness refused before model turn due new CLI features. Three narrow source fixes compiled; preparing new-input verification."
                   },
                   "task_type": "integration_check",
                   "status": "in_progress",
@@ -74451,7 +74450,7 @@
                     "Repeat native Front0/main-seven CodeX→preview→Apply→matched game→byte-exact Undo on the newly fixed frame/modal source; none of these are proven by first timeout run.",
                     "Source pose/framing changes and nested-modal fix need actual native verification; existing archive helper fix verified on unchanged Windows artifacts."
                   ],
-                  "next_action": "Wait for same protected native job village load, then actual Front0 selection and Codex→preview→Apply→game→byte-exact Undo; no unchanged rerun.",
+                  "next_action": "New-input protected Windows Studio: verify physical Front0 pick and visible scope confirmation; exact app-server features/account readiness, then real Codex preview/Apply/game/byte-exact Undo. No model turn until strict readiness passes.",
                   "blocker": null,
                   "external_gates": [],
                   "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -74535,12 +74534,16 @@
                       "success": "UI/actual Codex receipt/target game views/source hashes/new-file absence + guard userdata restoration; полный multi-house A02 и restart отдельно.",
                       "repeat_only_if": "Изменился source/candidate/input/покрываемый контракт."
                     },
-                    "actual_result": "Guarded Mac Studio loaded and exact house search worked; picking unavailable, no request/Apply. Userdata and source restored. Runtime paused by author, development continues. 12.10 Windows Studio source13a6b647 loaded and real native search/select/main-seven scope confirmation worked; no provider dispatch before timeout124. Frame mismatch and exclusive sibling popup surfaced. These plus Windows archive flush fixed in source; Gamecompile0/0, existing same-input archive retry verified identical bytes. Full native workflow remains open.",
+                    "actual_result": "Guarded Mac Studio loaded and exact house search worked; picking unavailable, no request/Apply. Userdata and source restored. Runtime paused by author, development continues. 12.10 Windows Studio source13a6b647 loaded and real native search/select/main-seven scope confirmation worked; no provider dispatch before timeout124. Frame mismatch and exclusive sibling popup surfaced. These plus Windows archive flush fixed in source; Gamecompile0/0, existing same-input archive retry verified identical bytes. Full native workflow remains open. Secondjob0c6f6da on37bdeba1: livehouse EyeLevel focus verified; physicalpane clicks clearedselection, source cause disabledworld removingcolliders; KeepActive inStudioonly fixed. Scopeconfirmation hiddenbehindAIpanel; ownGuiEmbedSubwindows fixed. Enter dispatched readiness only; adapter rejected active instant_interrupt/secret_auth_storage beforemodelturn. Both explicitmandatorydisables added; Windows per-process featuresfalse/loginChatGPT confirmed, Gamecompile0/0. Nativeclosednormally, runnerFAIL dueexitresourceleakerrors; fetchedarchive34867123… userdatarestoredverified, ACLnotcompared. FullnativeDoDopen.",
                     "evidence_refs": [
                       "evidence/STUDIO/b20-codex-ui-2026-10-11/ui-receipt.json",
                       "evidence/STUDIO/b20-codex-ui-2026-10-11/windows-kit/receipt.json",
                       "evidence/STUDIO/b20-codex-ui-2026-10-11/windows-kit/build.log",
-                      "evidence/STUDIO/b20-codex-ui-2026-10-11/windows-kit/game.log"
+                      "evidence/STUDIO/b20-codex-ui-2026-10-11/windows-kit/game.log",
+                      "evidence/STUDIO/b20-codex-ui-2026-10-12/windows-native-second/receipt.json",
+                      "evidence/STUDIO/b20-codex-ui-2026-10-12/windows-native-second/game.log",
+                      "evidence/STUDIO/b20-codex-ui-2026-10-12/windows-native-second/house-focused.png",
+                      "evidence/STUDIO/b20-codex-ui-2026-10-12/windows-native-second/provider-boundary.png"
                     ]
                   },
                   "dependencies": {
