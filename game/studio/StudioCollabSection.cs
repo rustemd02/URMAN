@@ -24,6 +24,11 @@ public sealed class StudioCollabSection(StudioRoot studio) : IStudioSection
     private string? _receiveMessage;
     private GitIncomingRevision? _incoming;
     private CancellationTokenSource? _receiveCancellation;
+    private CancellationTokenSource? _sendCancellation;
+    private string? _sendMessage;
+    private IReadOnlyList<GitOutgoingRevision> _outgoingQueue = [];
+    private bool _outgoingQueueLoaded;
+    private string? _queueError;
 
     public string Key => "collab";
     public string Title => "Совместная работа";
@@ -58,7 +63,7 @@ public sealed class StudioCollabSection(StudioRoot studio) : IStudioSection
         _list = new VBoxContainer { SizeFlagsHorizontal = Control.SizeFlags.ExpandFill };
         _list.AddThemeConstantOverride("separation", 10);
         scroll.AddChild(_list);
-        studio.TreeExiting += () => _receiveCancellation?.Cancel();
+        studio.TreeExiting += () => { _receiveCancellation?.Cancel(); _sendCancellation?.Cancel(); };
         Refresh();
         return scroll;
     }
@@ -70,7 +75,7 @@ public sealed class StudioCollabSection(StudioRoot studio) : IStudioSection
         _list.AddChild(new Label { Text = "Совместная работа", ThemeTypeVariation = "HeaderLabel" });
         _list.AddChild(new Label
         {
-            Text = "Изменения файлов сравниваются по объектам и полям. Зарегистрированные исходники можно объединить в черновик; чистый исходник, удалённый во входящей версии, применяется одним отменяемым действием. Создание новых файлов и отправка общей версии пока не поддержаны.",
+            Text = "Полученную версию можно сравнить и объединить с вашей. Для отправки сначала сохраните работу и подготовьте отдельную версию: перед отправкой Studio покажет её изменения. Обычное сохранение ничего не отправляет.",
             AutowrapMode = TextServer.AutowrapMode.WordSmart, ThemeTypeVariation = "MutedLabel"
         });
         var receive = new HBoxContainer();
@@ -86,6 +91,7 @@ public sealed class StudioCollabSection(StudioRoot studio) : IStudioSection
             _list.AddChild(new Label { Text = _receiveMessage, AutowrapMode = TextServer.AutowrapMode.WordSmart });
         if (_incoming is not null)
             StudioRoot.Button(_list, "Посмотреть полученную версию…", ShowIncomingRevision);
+        BuildOutgoingControls();
         if (_pending.Count == 0)
         {
             _list.AddChild(new Label { Text = "✓ Конфликтов нет.", ThemeTypeVariation = "MutedLabel" });
@@ -112,6 +118,146 @@ public sealed class StudioCollabSection(StudioRoot studio) : IStudioSection
             _list.AddChild(new Label { Text = "Журнал полученных изменений", ThemeTypeVariation = "HeaderLabel" });
             foreach (var line in _log.TakeLast(20).Reverse()) _list.AddChild(new Label { Text = line, ThemeTypeVariation = "MutedLabel" });
         }
+    }
+
+    private void BuildOutgoingControls()
+    {
+        _list.AddChild(new Label { Text = "Отправить свою работу", ThemeTypeVariation = "HeaderLabel" });
+        _list.AddChild(new Label
+        {
+            Text = "В эту отправку входят текстовые исходники; модели, изображения и звук не входят. Подготовленная версия хранится отдельно: последующие правки проекта её не изменят. Получатель сможет открыть её через «Получить для просмотра» по указанной ветке.",
+            AutowrapMode = TextServer.AutowrapMode.WordSmart, ThemeTypeVariation = "MutedLabel"
+        });
+        var row = new HBoxContainer();
+        _list.AddChild(row);
+        var prepare = StudioRoot.Button(row, "Подготовить версию", () => _ = PrepareOutgoingAsync());
+        prepare.Disabled = _sendCancellation is not null || studio.IsWorkspaceActionBusy;
+        var cancel = StudioRoot.Button(row, "Остановить", () => _sendCancellation?.Cancel());
+        cancel.Disabled = _sendCancellation is null;
+        var reload = StudioRoot.Button(row, "Обновить очередь", () => { _outgoingQueueLoaded = false; Refresh(); });
+        reload.Disabled = _sendCancellation is not null;
+        if (_sendMessage is not null)
+            _list.AddChild(new Label { Text = _sendMessage, AutowrapMode = TextServer.AutowrapMode.WordSmart });
+        if (!_outgoingQueueLoaded)
+        {
+            try { _outgoingQueue = new GitRevisionOutbox(studio.Workspace).List(); _queueError = null; }
+            catch (Exception error) when (error is IOException or UnauthorizedAccessException or ArgumentException or InvalidOperationException)
+            {
+                _queueError = "Не удалось прочитать очередь отправки. Подготовленные версии сохранены; проверьте доступ к проекту.";
+            }
+            _outgoingQueueLoaded = true;
+        }
+        if (_queueError is not null)
+            _list.AddChild(new Label { Text = _queueError, AutowrapMode = TextServer.AutowrapMode.WordSmart });
+        foreach (var revision in _outgoingQueue)
+        {
+            var queued = new HBoxContainer();
+            _list.AddChild(queued);
+            queued.AddChild(new Label
+            {
+                Text = $"{(revision.State == GitOutgoingState.Sent ? "Отправлено" : "Ожидает отправки")} · {revision.Files.Count} файлов · {revision.RemoteBranch}",
+                AutowrapMode = TextServer.AutowrapMode.WordSmart,
+                SizeFlagsHorizontal = Control.SizeFlags.ExpandFill
+            });
+            var view = StudioRoot.Button(queued, "Посмотреть…", () => ShowOutgoingRevision(revision));
+            view.Disabled = _sendCancellation is not null;
+            StudioRoot.Button(queued, "Скопировать для получателя", () => DisplayServer.ClipboardSet(revision.RemoteBranch));
+        }
+    }
+
+    private async Task PrepareOutgoingAsync()
+    {
+        if (_sendCancellation is not null) return;
+        if (studio.IsWorkspaceActionBusy || studio.HasPendingAuthoringDrafts || studio.Workspace.IdentityConflicts.Count > 0)
+        {
+            _sendMessage = "Сначала завершите текущее действие, сохраните изменения и исправьте повторные ID. Подготовка ничего не сохраняет автоматически.";
+            Refresh();
+            return;
+        }
+        using var cancellation = new CancellationTokenSource();
+        _sendCancellation = cancellation;
+        _sendMessage = "Готовлю отдельную версию для просмотра…";
+        Refresh();
+        try
+        {
+            _ = await new GitRevisionOutbox(studio.Workspace).PrepareAsync(_receiveBranch, cancellation.Token);
+            cancellation.Token.ThrowIfCancellationRequested();
+            _sendMessage = "Версия подготовлена и сохранена в очереди ниже. Нажмите «Посмотреть», чтобы проверить изменения и отправить её.";
+        }
+        catch (OperationCanceledException) { _sendMessage = "Подготовка остановлена. Уже подготовленные версии остаются в очереди."; }
+        catch (Exception error) when (error is IOException or UnauthorizedAccessException or ArgumentException or InvalidOperationException)
+        { _sendMessage = "Версия не подготовлена. Проверьте Git, сохранённые исходники и общую ветку; при первом обмене получите её для просмотра."; }
+        finally { _sendCancellation = null; _outgoingQueueLoaded = false; Refresh(); }
+    }
+
+    private void ShowOutgoingRevision(GitOutgoingRevision revision)
+    {
+        var dialog = new ConfirmationDialog { Title = "Ваша версия — перед отправкой", OkButtonText = "Отправить эту версию", CancelButtonText = "Закрыть" };
+        dialog.GetOkButton().Disabled = true;
+        var box = new VBoxContainer();
+        dialog.AddChild(box);
+        box.AddChild(new Label
+        {
+            Text = $"Передача: {revision.OperationId}\nВетка для получателя: {revision.RemoteBranch}\n{revision.Files.Count} файлов. Отправится сохранённый снимок ниже; новые правки проекта в него не попадут. Проверка после отправки защищает от повторной передачи.",
+            AutowrapMode = TextServer.AutowrapMode.WordSmart
+        });
+        if (revision.ExcludedPaths.Count > 0)
+        {
+            box.AddChild(new Label { Text = $"Не входят в эту отправку: {revision.ExcludedPaths.Count} файлов. Их изменения остаются локальными.", AutowrapMode = TextServer.AutowrapMode.WordSmart });
+            box.AddChild(new TextEdit { Editable = false, Text = string.Join("\n", revision.ExcludedPaths), CustomMinimumSize = new Vector2(650, 70), WrapMode = TextEdit.LineWrappingMode.Boundary });
+        }
+        var paths = new ItemList { CustomMinimumSize = new Vector2(650, 80) };
+        foreach (var file in revision.Files) paths.AddItem(file.RelativePath);
+        box.AddChild(paths);
+        var columns = new HBoxContainer();
+        box.AddChild(columns);
+        var before = new TextEdit { Editable = false, WrapMode = TextEdit.LineWrappingMode.Boundary, CustomMinimumSize = new Vector2(320, 200), SizeFlagsHorizontal = Control.SizeFlags.ExpandFill, Text = "Общая версия: выберите файл." };
+        var after = new TextEdit { Editable = false, WrapMode = TextEdit.LineWrappingMode.Boundary, CustomMinimumSize = new Vector2(320, 200), SizeFlagsHorizontal = Control.SizeFlags.ExpandFill, Text = "Будет отправлено: выберите файл." };
+        columns.AddChild(before);
+        columns.AddChild(after);
+        var previewRequest = 0;
+        async void ReadSelectedFile(long index)
+        {
+            var request = ++previewRequest;
+            dialog.GetOkButton().Disabled = true;
+            try
+            {
+                var file = await new GitRevisionOutbox(studio.Workspace).ReadFileAsync(revision.OperationId, revision.Files[(int)index].RelativePath);
+                if (request != previewRequest || !GodotObject.IsInstanceValid(dialog) || !dialog.Visible) return;
+                before.Text = file.BaseText ?? "Файла не было.";
+                after.Text = file.IncomingText ?? "Файл будет удалён.";
+                dialog.GetOkButton().Disabled = revision.State == GitOutgoingState.Sent || _sendCancellation is not null;
+            }
+            catch (Exception error) when (error is IOException or UnauthorizedAccessException or ArgumentException or InvalidOperationException)
+            {
+                if (request == previewRequest && GodotObject.IsInstanceValid(after)) after.Text = "Не удалось проверить сохранённый снимок. Отправка недоступна; версия остаётся в очереди.";
+            }
+        }
+        paths.ItemSelected += ReadSelectedFile;
+        dialog.Confirmed += () => _ = SendOutgoingAsync(revision.OperationId);
+        dialog.VisibilityChanged += () => { if (!dialog.Visible) dialog.QueueFree(); };
+        studio.AddChild(dialog);
+        dialog.PopupCenteredClamped(new Vector2I(950, 510), .9f);
+        if (revision.Files.Count > 0) { paths.Select(0); ReadSelectedFile(0); }
+    }
+
+    private async Task SendOutgoingAsync(string operationId)
+    {
+        if (_sendCancellation is not null) return;
+        using var cancellation = new CancellationTokenSource();
+        _sendCancellation = cancellation;
+        _sendMessage = "Проверяю результат предыдущей передачи и отправляю сохранённую версию…";
+        Refresh();
+        try
+        {
+            var revision = await new GitRevisionOutbox(studio.Workspace).SendAsync(operationId, cancellation.Token);
+            if (revision.State != GitOutgoingState.Sent) throw new IOException("Отправка не подтверждена.");
+            _sendMessage = $"Отправка подтверждена. Получатель: ветка {revision.RemoteBranch}. Передача {revision.OperationId}.";
+        }
+        catch (OperationCanceledException) { _sendMessage = "Отправка остановлена. Версия остаётся в очереди; повторная отправка сначала проверит, была ли она получена."; }
+        catch (Exception error) when (error is IOException or UnauthorizedAccessException or ArgumentException or InvalidOperationException)
+        { _sendMessage = "Отправка не подтверждена. Версия остаётся в очереди. Проверьте сеть и доступ, затем повторите: сначала будет проверен прежний результат."; }
+        finally { _sendCancellation = null; _outgoingQueueLoaded = false; Refresh(); }
     }
 
     private async Task ReceiveAsync()

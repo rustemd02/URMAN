@@ -81558,6 +81558,19 @@
                 "verification": "Five Luna FAST/Max implementers; Sol6.1medium focused source review; combined affected Game compile0warnings/0errors and diffcheck. No MacGodot or broad smoke.",
                 "actual_result": "Source deletion restart membership hydration implemented and independently reviewed; one existing ordered history stack; history-fence refusal retained.",
                 "remaining": "Fresh Windows UI/functional verification pending; broader original feature scope remains open, useful source delivered without formal acceptance ceremony."
+              },
+              {
+                "stage": "2026-10-12 explicit frozen text revision Send source",
+                "result": "SOURCE_GAME_COMPILE_REVIEW_PASS_A23_OPEN",
+                "source": [
+                  "src-dotnet/Urman.Studio.Core/Collaboration/GitRevisionOutbox.cs",
+                  "src-dotnet/Urman.Studio.Core/Collaboration/GitRevisionInbox.cs",
+                  "game/studio/StudioCollabSection.cs",
+                  "game/studio/StudioRoot.cs"
+                ],
+                "verification": "Luna backend/root UI, Sol UI+backend+final JSONref reviews accepted after fixing receipt overwrites/hero allowlist/typed malformed errors/pushurl verification/absolutehooks. Gamecompile0warnings0errors16.69s; scoped diffcheckPASS. No tests/probes/fixtures/Studio/network Send runs.",
+                "actual_result": "Offline Prepare freezes saved registered text against cached origin branch, no outgoingcommit until explicitSend. Frozen before/after preview andExcludedPaths visible; private durable64-operationqueue andsame-IDretry, exclusiveSendlease, originpushendpointfingerprint, exactremoteSHAverification. Isolatedindex/baseparent commit excludes unrelatedHEAD/index/worktree code; hookdisabled sharedrunner andno filters. Pendingbuffers/duplicateIDs refusepreparation, Save neverSend. NewJSONresource refs absentbase/frozentext andchangedhero referencedassets refused ratherthanbrokenpacket. Queuecached inUI, requestsequenceguard, copyrecipientbranch, no backgroundmodalpopup. Source-only evidence, no network success claimed.",
+                "remaining": "Actual A23 two-checkout/nativeSend/idempotence/netloss; binaryassetclosure/allcataloguepaths/deletion/newunregisteredfiles integration; explicitretainedqueuearchiving policy beyond64. ParentDoD open, code notfullcollaborativeeditor."
               }
             ],
             "stage_tasks": [
@@ -81581,7 +81594,7 @@
             "active_owner": "codex/b20-2026-10-10",
             "activity": {
               "state": "confirmed_active",
-              "reason": "Luna bounded accepted registered-source deletion restart Undo/Redo hydration in existing ordered file history; same owner/path/shape/SHA/budget policy and history-fence refusal. Root owns JSON/chat."
+              "reason": "Принят конкретный registered-text Send sourceэтап; actualA23 ещёнепроверен, сохраненыfullparentDoD иunsupportedscope."
             },
             "task_type": "engineering",
             "status": "in_progress",
@@ -81593,7 +81606,7 @@
               "Native/network A23, actual deletion Apply/Undo/Redo and restart recovery not verified.",
               "Source-text dirty tracking can keep formatting-only changes dirty after typed Undo. Trusted origin fetch preview cap still not network byte cap."
             ],
-            "next_action": "Verify registered-source delete/Undo/Redo and interrupted recovery in a safe native checkout; implement creation policy and curated Send/idempotence/offline queue as separate remaining slices.",
+            "next_action": "Проверить реальныйA23 на разрешённой ветке/двухcheckout сразнымикорнями безpushвmain радипроверки; затемдовестиbinaryassetclosure/всеauthoringowners иdelete/newsource/retainedqueuepolicy. Не выдавать sourcecompile заnetworkSend.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -81638,10 +81651,10 @@
                 "scenario": "A23 на безопасной разрешённой ветке/репозитории по действующей политике, без push в main ради проверки.",
                 "success": "Два checkout с разными корнями обмениваются одной ревизией; конфликт видим; unrelated код не отправлен; повтор передачи не дублирует commit/изменение.",
                 "repeat_only_if": "Изменён предметный contract/input или предыдущий сценарий неполон.",
-                "current_stage_question": "Does accepted source-delete history join the existing ordered file history and restore workspace membership before Undo/Redo view reload after restart, without broadening the exact owner/path/image trust?",
-                "current_stage_success": "Independent source review and affected Game compile; actual native delete/restart/Undo/Redo remains open."
+                "current_stage_question": "Готовится ли сохранённая scoped authoring version offline, показывается ли frozen diff, создаётся ли commit только после explicitSend, изолированы ли HEAD/index/unrelatedcode и сохраняется ли pending operation с idempotent remote verification?",
+                "current_stage_success": "Source/API review + affected compile; native двухcheckout/network Send remains open untilactual evidence, unsupportedasset/deletion scope visiblyretained."
               },
-              "actual_result": "Registered updates retain existing semantic draft merge. Clean registered entity-list JSON deletion uses one durable file-only transaction, exact baseline/source CAS, workspace membership/reindex and async world barrier. Startup owner-scoped single-deletion recovery checks source/image shape, SHA, links and 8MiB bound, staging source vs applying preimage. Source compile/review only; native/network/restart open.",
+              "actual_result": "Source finite registered-text Send/queue/frozen-preview path implemented and compile/review accepted. Actual two-checkout network exchange, full assets/catalogue/deletion coverage and archive policy remain open.",
               "evidence_refs": [
                 "STUDIO/AI-38.evidence"
               ]

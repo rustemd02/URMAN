@@ -117,14 +117,62 @@ public sealed class GitRevisionInbox(StudioWorkspace workspace)
         return revision;
     }
 
-    private async Task<byte[]> RunAsync(string[] arguments, int outputLimit, CancellationToken token)
+    private Task<byte[]> RunAsync(string[] arguments, int outputLimit, CancellationToken token) =>
+        GitRepositoryProcess.RunAsync(workspace.Root, arguments, outputLimit, token);
+
+    private static string[] NulFields(byte[] bytes)
+    {
+        if (bytes.Length == 0) return [];
+        var text = Utf8.GetString(bytes);
+        if (!text.EndsWith('\0')) throw Refusal();
+        return text[..^1].Split('\0');
+    }
+
+    internal static bool IsHash(string value) => value.Length is 40 or 64
+        && value.All(character => character is >= '0' and <= '9' or >= 'a' and <= 'f');
+
+    internal static void ValidateBranch(string branch)
+    {
+        if (string.IsNullOrEmpty(branch) || branch.Length > 256 || branch[0] == '-'
+            || branch.Contains("..", StringComparison.Ordinal)
+            || branch.Any(character => !(char.IsAsciiLetterOrDigit(character) || character is '-' or '_' or '.' or '/'))
+            || branch.Split('/').Any(part => part.Length == 0 || part.StartsWith('.') || part.EndsWith('.')
+                || part.EndsWith(".lock", StringComparison.Ordinal))) throw new ArgumentException("Недопустимое имя ветки.", nameof(branch));
+    }
+
+    private static void ValidatePath(string path)
+    {
+        if (string.IsNullOrEmpty(path) || Path.IsPathRooted(path) || path.Contains('\\') || path.Contains(':')
+            || path.Any(char.IsControl) || path.Split('/').Any(part => part.Length == 0 || part is "." or "..")) throw Refusal();
+    }
+
+    private static IOException Refusal() => new("Получение ревизии не завершено: проверьте Git, ветку, доступ и допустимый объём исходников. Рабочие файлы не изменены.");
+}
+
+internal static class GitRepositoryProcess
+{
+    internal static async Task<byte[]> RunAsync(string root, IReadOnlyList<string> arguments, int outputLimit,
+        CancellationToken token, byte[]? standardInput = null, IReadOnlyDictionary<string, string?>? environmentOverrides = null)
     {
         token.ThrowIfCancellationRequested();
         var start = new ProcessStartInfo("git")
         {
-            WorkingDirectory = workspace.Root, UseShellExecute = false,
-            RedirectStandardOutput = true, RedirectStandardError = true
+            WorkingDirectory = root, UseShellExecute = false,
+            RedirectStandardOutput = true, RedirectStandardError = true,
+            RedirectStandardInput = standardInput is not null
         };
+        var hooksPath = Path.Combine(Path.GetTempPath(), "urman-studio-empty-hooks-" + Guid.NewGuid().ToString("N"));
+        Directory.CreateDirectory(hooksPath);
+        if (Directory.EnumerateFileSystemEntries(hooksPath).Any())
+        {
+            Directory.Delete(hooksPath);
+            throw Refusal();
+        }
+        // Give every Git child an owned empty hooks directory. This covers receive fetch/ref cleanup as well as outbox plumbing.
+        start.ArgumentList.Add("-c");
+        start.ArgumentList.Add("core.hooksPath=" + Path.GetFullPath(hooksPath).Replace('\\', '/'));
+        start.ArgumentList.Add("-c");
+        start.ArgumentList.Add("commit.gpgsign=false");
         start.ArgumentList.Add("--literal-pathspecs");
         foreach (var argument in arguments) start.ArgumentList.Add(argument);
         foreach (var name in new[] { "GIT_DIR", "GIT_WORK_TREE", "GIT_COMMON_DIR", "GIT_OBJECT_DIRECTORY",
@@ -136,32 +184,52 @@ public sealed class GitRevisionInbox(StudioWorkspace workspace)
         start.Environment["GIT_NO_REPLACE_OBJECTS"] = "1";
         start.Environment["GIT_TERMINAL_PROMPT"] = "0";
         start.Environment["GCM_INTERACTIVE"] = "Never";
+        if (environmentOverrides is not null)
+            foreach (var (name, value) in environmentOverrides)
+                if (value is null) start.Environment.Remove(name); else start.Environment[name] = value;
+
         using var timeout = CancellationTokenSource.CreateLinkedTokenSource(token);
         timeout.CancelAfter(TimeSpan.FromSeconds(45));
-        using var process = Process.Start(start) ?? throw Refusal();
         try
         {
-            var output = ReadBoundedAsync(process.StandardOutput.BaseStream, outputLimit, timeout);
-            var errors = DiscardAsync(process.StandardError.BaseStream, timeout.Token);
-            await Task.WhenAll(process.WaitForExitAsync(timeout.Token), output, errors).ConfigureAwait(false);
-            if (process.ExitCode != 0) throw Refusal();
-            return await output.ConfigureAwait(false);
-        }
-        catch (OperationCanceledException) when (!token.IsCancellationRequested) { throw Refusal(); }
-        finally
-        {
-            if (!process.HasExited)
+            using var process = Process.Start(start) ?? throw Refusal();
+            try
             {
-                try
+                var output = ReadBoundedAsync(process.StandardOutput.BaseStream, outputLimit, timeout);
+                var errors = DiscardAsync(process.StandardError.BaseStream, timeout.Token);
+                var input = standardInput is null ? Task.CompletedTask : WriteInputAsync(process.StandardInput.BaseStream, standardInput, timeout.Token);
+                await Task.WhenAll(process.WaitForExitAsync(timeout.Token), output, errors, input).ConfigureAwait(false);
+                if (process.ExitCode != 0) throw Refusal();
+                return await output.ConfigureAwait(false);
+            }
+            catch (OperationCanceledException) when (!token.IsCancellationRequested) { throw Refusal(); }
+            finally
+            {
+                if (!process.HasExited)
                 {
-                    process.Kill(entireProcessTree: true);
-                    using var stop = new CancellationTokenSource(TimeSpan.FromSeconds(1));
-                    await process.WaitForExitAsync(stop.Token).ConfigureAwait(false);
+                    try
+                    {
+                        process.Kill(entireProcessTree: true);
+                        using var stop = new CancellationTokenSource(TimeSpan.FromSeconds(1));
+                        await process.WaitForExitAsync(stop.Token).ConfigureAwait(false);
+                    }
+                    catch (Exception error) when (error is InvalidOperationException or System.ComponentModel.Win32Exception
+                        or OperationCanceledException) { }
                 }
-                catch (Exception error) when (error is InvalidOperationException or System.ComponentModel.Win32Exception
-                    or OperationCanceledException) { }
             }
         }
+        finally
+        {
+            try { Directory.Delete(hooksPath); }
+            catch (Exception error) when (error is IOException or UnauthorizedAccessException) { }
+        }
+    }
+
+    private static async Task WriteInputAsync(Stream stream, byte[] bytes, CancellationToken token)
+    {
+        await stream.WriteAsync(bytes, token).ConfigureAwait(false);
+        await stream.FlushAsync(token).ConfigureAwait(false);
+        stream.Close();
     }
 
     private static async Task<byte[]> ReadBoundedAsync(Stream stream, int limit, CancellationTokenSource timeout)
@@ -187,31 +255,5 @@ public sealed class GitRevisionInbox(StudioWorkspace workspace)
         while (await stream.ReadAsync(buffer, token).ConfigureAwait(false) != 0) { }
     }
 
-    private static string[] NulFields(byte[] bytes)
-    {
-        if (bytes.Length == 0) return [];
-        var text = Utf8.GetString(bytes);
-        if (!text.EndsWith('\0')) throw Refusal();
-        return text[..^1].Split('\0');
-    }
-
-    private static bool IsHash(string value) => value.Length is 40 or 64
-        && value.All(character => character is >= '0' and <= '9' or >= 'a' and <= 'f');
-
-    private static void ValidateBranch(string branch)
-    {
-        if (string.IsNullOrEmpty(branch) || branch.Length > 256 || branch[0] == '-'
-            || branch.Contains("..", StringComparison.Ordinal)
-            || branch.Any(character => !(char.IsAsciiLetterOrDigit(character) || character is '-' or '_' or '.' or '/'))
-            || branch.Split('/').Any(part => part.Length == 0 || part.StartsWith('.') || part.EndsWith('.')
-                || part.EndsWith(".lock", StringComparison.Ordinal))) throw new ArgumentException("Недопустимое имя ветки.", nameof(branch));
-    }
-
-    private static void ValidatePath(string path)
-    {
-        if (string.IsNullOrEmpty(path) || Path.IsPathRooted(path) || path.Contains('\\') || path.Contains(':')
-            || path.Any(char.IsControl) || path.Split('/').Any(part => part.Length == 0 || part is "." or "..")) throw Refusal();
-    }
-
-    private static IOException Refusal() => new("Получение ревизии не завершено: проверьте Git, ветку, доступ и допустимый объём исходников. Рабочие файлы не изменены.");
+    private static IOException Refusal() => new("Операция Git не завершена. Проверьте доступ и повторите действие; рабочие файлы не изменены.");
 }

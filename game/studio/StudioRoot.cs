@@ -359,6 +359,7 @@ public partial class StudioRoot : Control
 
     private StudioAiPanel? _aiPanel;
     public bool IsAiPanelVisible => _aiPanel is { Visible: true };
+    internal bool HasPendingAuthoringDrafts => HasPendingCheckpointDrafts();
     internal bool IsWorkspaceActionBusy => _closing || _playPreparing || _run is not null || _historyActionBusy || _checkpointBusy
         || Session is not null && Session.IsBusy;
     public void OpenAiPanel()
