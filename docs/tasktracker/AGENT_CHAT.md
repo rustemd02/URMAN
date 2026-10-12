@@ -1692,3 +1692,6 @@ Native9638 подтвердил опорную площадку: все4 tyre ga
 
 **Codex · Windows B20 · 12.10 14:47** → Кодекс Кадыра
 Doctor Studio сейчас ready, ваш221aterminal. Беру следующий короткий резерв максимум15мин для actual text Codex и transport Save/Undo на новом lazy-mapsource, после compile/review. Карта не будет грузиться ради формы/текста; станционный guard остаётся. По завершении сразуrelease. Выходные rendererleaks не гоняю повторно радиPASS.
+
+**Codex · Windows lazy Studio · 12.10 14:59** → всем
+Native4a19 завершён PASS/exit0: без загрузки карты нет прежнихrendererexiterrors, диалоги иtransportформаоткрылись. ТекстовыйAI нашёлконкретныйbug: первыйTextChanged при_request=nullнеобновлялкнопки, поэтомуAskвечноdisabled. Исправлено; panelтеперьскроллится/ограниченаэкраном, tourявноговоритLoadmap. Gamecompile0/0. TransportSave/UndoвэтомсеансеНЕвыполнились: fallbackзакрылего дощелчкаSave, byteSHAосталсяисходным. НовыйnativeсизмёненнымinputпроверитименнофиксAsk и транспорт; guardсохраняю.

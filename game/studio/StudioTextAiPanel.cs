@@ -49,8 +49,10 @@ public partial class StudioTextAiPanel : AcceptDialog
         MinSize = new Vector2I(850, 580);
         WrapControls = true;
 
-        var body = new VBoxContainer();
-        AddChild(body);
+        var scroll = new ScrollContainer { CustomMinimumSize = new Vector2(0, 480), HorizontalScrollMode = ScrollContainer.ScrollMode.Disabled };
+        AddChild(scroll);
+        var body = new VBoxContainer { SizeFlagsHorizontal = Control.SizeFlags.ExpandFill };
+        scroll.AddChild(body);
         body.AddChild(_target);
         body.AddChild(_status);
         body.AddChild(new Label { Text = "Что изменить", ThemeTypeVariation = "MutedLabel" });
@@ -119,7 +121,7 @@ public partial class StudioTextAiPanel : AcceptDialog
             _target.TooltipText = textId;
         }
         UpdateControls();
-        PopupCentered(new Vector2I(980, 700));
+        PopupCenteredClamped(new Vector2I(980, 700), 0.9f);
         _prompt.GrabFocus();
     }
 
@@ -324,7 +326,12 @@ public partial class StudioTextAiPanel : AcceptDialog
 
     private void InvalidateProposalForPromptChange()
     {
-        if (_busy || _request is null) return;
+        if (_busy) return;
+        if (_request is null)
+        {
+            UpdateControls();
+            return;
+        }
         _request = null;
         _proposal = null;
         _stale = false;

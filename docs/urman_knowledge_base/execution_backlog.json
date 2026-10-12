@@ -70425,6 +70425,16 @@
                 "actual_result": "Normal startup builds editing forms without full3D map. Explicit Load map button reuses real game builder, serializes initial/reload tasks, keeps retry, selfcheck autoload, catalogue refresh while unloaded, and wraps toolbar. No geometry/collision quality reduced.",
                 "verification": "Luna FAST implementation, Sol6.1medium identified/fixed reload race and stale unloaded catalogue; re-review no further blocker. Affected Game compile0 warnings/0errors; diffcheck.",
                 "remaining": "Native quick-start/text Codex/vehicle save walk-through pending; actual map build remains~195s when requested."
+              },
+              {
+                "stage": "2026-10-12 lazy editor native PASS and first-text-request fix",
+                "result": "NATIVE_EDITOR_PASS; TEXT_ASK_SOURCE_FIX_COMPILE_0_0",
+                "evidence_path": "evidence/STUDIO/practical-editor-2026-10-12/windows-lazy-ui/receipt.json",
+                "job_id": "4a19e72198a8474db4310917d2e17af1",
+                "snapshot_id": "a84b4302868fdbadd9dafb69a67ab51c3d3be513e4b2945a4b009839f1cc93b8",
+                "actual_result": "Windows editor forms available without map construction; native dialog/transport opened; normal closePASS/exit0 without renderer errors. First text prompt exposed disabled Ask because TextChanged returned before UpdateControls on null request: fixed; panel scroll/clamp and tour load-map instruction updated.",
+                "verification": "Native UI personally viewed. Affected Game compile0warnings/0errors and diffcheck after prompt fix. Source vehicle SHA remainedbaseline0d5112ad64ef4aa1183078b2aea19f81201ed85ba62ad26bc838f50c6f13b48f; no vehicle save claim.",
+                "remaining": "Actual text request→preview→Apply→Undo and vehicle Save/Undo are next walkthrough; loaded-map exit leaks still separate."
               }
             ],
             "stage_tasks": [
@@ -74207,6 +74217,16 @@
                 "snapshot_id": "d259b880f6e49790aa2c7ee8240595878872cb35773892fc9bf230ba8e7cf06a",
                 "verification": "Preview ready195184ms. Stage timings core88.275s/authored57.263s/addresses12.138s. Missing-authored-placement errors disappeared. Normal fallback WM_CLOSE before timeout; userdata originals renamed back and byte-verified, ACL not compared. Exporter no longer refused. OverallFAIL from renderer/resource exit errors only; functional text request not performed during interrupted operator walkthrough.",
                 "remaining": "Actual Codex text Apply/Undo and transport save walkthrough pending; startup core/authored investigation has measured inputs. No broad B20 completion claim."
+              },
+              {
+                "stage": "2026-10-12 lazy editor native PASS and first-text-request fix",
+                "result": "NATIVE_EDITOR_PASS; TEXT_ASK_SOURCE_FIX_COMPILE_0_0",
+                "evidence_path": "evidence/STUDIO/practical-editor-2026-10-12/windows-lazy-ui/receipt.json",
+                "job_id": "4a19e72198a8474db4310917d2e17af1",
+                "snapshot_id": "a84b4302868fdbadd9dafb69a67ab51c3d3be513e4b2945a4b009839f1cc93b8",
+                "actual_result": "Windows editor forms available without map construction; native dialog/transport opened; normal closePASS/exit0 without renderer errors. First text prompt exposed disabled Ask because TextChanged returned before UpdateControls on null request: fixed; panel scroll/clamp and tour load-map instruction updated.",
+                "verification": "Native UI personally viewed. Affected Game compile0warnings/0errors and diffcheck after prompt fix. Source vehicle SHA remainedbaseline0d5112ad64ef4aa1183078b2aea19f81201ed85ba62ad26bc838f50c6f13b48f; no vehicle save claim.",
+                "remaining": "Actual text request→preview→Apply→Undo and vehicle Save/Undo are next walkthrough; loaded-map exit leaks still separate."
               }
             ],
             "stage_tasks": [
@@ -76678,6 +76698,16 @@
                 "actual_result": "Normal startup builds editing forms without full3D map. Explicit Load map button reuses real game builder, serializes initial/reload tasks, keeps retry, selfcheck autoload, catalogue refresh while unloaded, and wraps toolbar. No geometry/collision quality reduced.",
                 "verification": "Luna FAST implementation, Sol6.1medium identified/fixed reload race and stale unloaded catalogue; re-review no further blocker. Affected Game compile0 warnings/0errors; diffcheck.",
                 "remaining": "Native quick-start/text Codex/vehicle save walk-through pending; actual map build remains~195s when requested."
+              },
+              {
+                "stage": "2026-10-12 lazy editor native PASS and first-text-request fix",
+                "result": "NATIVE_EDITOR_PASS; TEXT_ASK_SOURCE_FIX_COMPILE_0_0",
+                "evidence_path": "evidence/STUDIO/practical-editor-2026-10-12/windows-lazy-ui/receipt.json",
+                "job_id": "4a19e72198a8474db4310917d2e17af1",
+                "snapshot_id": "a84b4302868fdbadd9dafb69a67ab51c3d3be513e4b2945a4b009839f1cc93b8",
+                "actual_result": "Windows editor forms available without map construction; native dialog/transport opened; normal closePASS/exit0 without renderer errors. First text prompt exposed disabled Ask because TextChanged returned before UpdateControls on null request: fixed; panel scroll/clamp and tour load-map instruction updated.",
+                "verification": "Native UI personally viewed. Affected Game compile0warnings/0errors and diffcheck after prompt fix. Source vehicle SHA remainedbaseline0d5112ad64ef4aa1183078b2aea19f81201ed85ba62ad26bc838f50c6f13b48f; no vehicle save claim.",
+                "remaining": "Actual text request→preview→Apply→Undo and vehicle Save/Undo are next walkthrough; loaded-map exit leaks still separate."
               }
             ],
             "stage_tasks": [
