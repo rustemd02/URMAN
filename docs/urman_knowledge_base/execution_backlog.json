@@ -74066,7 +74066,20 @@
               "2026-10-12 source stage: orderly Studio final shutdown guards input/actions while closing, confirms child exit, restores transient fence, frees AI/world preview owners, releases round-log/material caches and four static shaders only at final quit. Existing headless cache reuse preserved. Sol two P2 findings fixed/reviewed; affected Game build0/0 and diff-check passed. Native RID leak elimination unverified; not in sixth frozen snapshot. Sixth actual request0febf1edbd494ac4b292b508169aee87 valid seven1.30 preview; baseline run-20261012-071146-eab4cc six frames Low requested/effective no override/comparable=true; child89736 exited, child log no ERROR. Apply world reload still underway, acceptance/Undo open.",
               "Sixth native actual request0febf1edbd494ac4b292b508169aee87 → valid seven1.30 preview → Apply accepted tx1c4e6e55b70f47419a6d2f89194eeca1 committed/side=after. Baseline run-20261012-071146-eab4cc six exact Low comparable frames/no override and child89736 exited without ERROR; root viewed exterior/interior originals. After game run-20261012-072637-8a0ec5 child91552 currently running; Undo not yet performed. Live original request/proposal/after-apply journal/UI frames saved under evidence/STUDIO/b20-codex-ui-2026-10-12/windows-native-sixth. Current snapshot excludes newly committed plan/final-shutdown fixes; remaining acceptance unchanged.",
               "Sixth actual seven-window workflow complete as geometry stage: request0febf1edbd494ac4b292b508169aee87 → native preview/Apply accepted tx1c4e6e55b70f47419a6d2f89194eeca1 → game → native Undo → game. Runs071146-eab4cc/072637-8a0ec5/074215-83c1b9 contain18 fixed Low comparable PNGs. Root viewed exterior/interior before/after/Undo; windows visibly widen then revert. Journal committed accepted sidebefore; recipe exact2bcbc3ad88f8ecec5473a7ed9b5d144f649c9d7cf90c0212ec34a6cafb0aa4b4 and generated GLB/blend/manifest/import absent. Action PNG/request/proposal/snapshot bindings independently audited. Final guard restored original userdata by rename/verified, ACLs not compared; doctor ready/noorphan/recoveryfalse. Receipt FAIL solely old-snapshot shutdown RID/resource leaks, gameexit0; source close fix absent in snapshot and needs fresh native check. Archive SHA e0d838d6a35e3f2f98f6fe5a0eb87d41a66f85f530729a21cb071fa1513daeaa retained. SingleFront0/restart/multihouse/full AI12 remain open.",
-              "Pending source preview-fit stage: same before/after union AABB now fits eight corners against actual SubViewport aspect/Camera KeepAspect, fixed8px inset; toggles visibility only. Nonfinite/undersize fit fails through existing error flow. Ephemeral259-case perspective math check and affected Game compile0/0 passed; Sol independent source review no blocker. Native larger-preview/layout-resize still unverified; no change to sixth frozen frames."
+              "Pending source preview-fit stage: same before/after union AABB now fits eight corners against actual SubViewport aspect/Camera KeepAspect, fixed8px inset; toggles visibility only. Nonfinite/undersize fit fails through existing error flow. Ephemeral259-case perspective math check and affected Game compile0/0 passed; Sol independent source review no blocker. Native larger-preview/layout-resize still unverified; no change to sixth frozen frames.",
+              {
+                "stage": "2026-10-12 seventh native Front0-only Codex Apply/game/full Undo",
+                "result": "NATIVE_SELECTED_FRONT0_GEOMETRY_AND_BYTE_EXACT_UNDO_VERIFIED_OVERALL_SHUTDOWN_FAIL",
+                "source_commit": "4776f8ce",
+                "job_id": "dc822645df394bb7a2e82500b9358112",
+                "snapshot_id": "89996bf371d428d08c042fee7c4efbba9d14660dca67ed683fd0d83706866628",
+                "request_id": "53007a58a19643deb6e63514457924f8",
+                "transaction_id": "943f8d4928e54faa9eb65b445798ac54",
+                "archive_sha256": "3fd0da073d571b590bcc84fe0497c029df08da4d047fb9ce149beb05db8b8e22",
+                "evidence": "evidence/STUDIO/b20-codex-ui-2026-10-12/windows-native-seventh",
+                "verification": "Actual native street-window1 selection → Codex request/tools forbidden/globals allowed → Front0 1.06→1.30 preview → native Apply → six matched game frames → native Undo → six fresh game frames. 18/18 PNG SHA/metadata bound; identical camera specs/Low/comparable settings. Root viewed exterior before/after/Undo: selected window widens then restores. GLB independent audit: Front0 glass1.20 vsother main0.96; heights unchanged; other7 window recipe values unchanged. Final committed accepted journal sidebefore/order1; recipe byte-exact baseline2bcbc3ad88f8ecec5473a7ed9b5d144f649c9d7cf90c0212ec34a6cafb0aa4b4; generatedGLB/blend/manifest/import absent. Child processes and parent normal close exit0. Userdata rename restore verified, recovery_pendingfalse; Windows ACLs not compared. Overall stationFAIL still eight unique renderer/resource exit errors,48resources; cleanup sourcefix insufficient. Doctorreadytrue.",
+                "remaining": "Parent shutdown resource errors, multihouse/global scope, restart/history persistence and independent Claude native workflow remain open; no performance/human/art acceptance."
+              }
             ],
             "stage_tasks": [
               "STUDIO.P1"
@@ -74101,7 +74114,7 @@
               "reason": "Назначение Codex/DeepSeek сохранено; миграция не запускает production и не выдаёт peer-передачу за активную работу."
             },
             "task_type": "aggregate",
-            "status": "todo",
+            "status": "in_progress",
             "implementation_state": "not_started",
             "technical_verification_state": "not_run",
             "remaining": [
@@ -74109,7 +74122,7 @@
               "Claude независимый GUI-loop",
               "Оба обязательны для полного Studio; чужой вход не блокирует первый результат."
             ],
-            "next_action": "Fresh frozen native singleFront0 scope→Codex→larger preview→Apply→matched Low game→byte-exact Undo, including new orderly shutdown/no engine ERROR. Keep seven-window evidence as accepted partial geometry stage, not substitute for remaining single/multihouse/restart/Claude gates.",
+            "next_action": "Fix confirmed parent shutdown resource ownership/close path from seventh receipt without another full request loop; verify shortest native close scenario. Then continue multi-house/global scope and restart/history gates; preserve accepted singleFront0 and seven-window geometry/Undo evidence.",
             "blocker": null,
             "external_gates": [
               {
@@ -74534,7 +74547,20 @@
                     "Sixth native actual request0febf1edbd494ac4b292b508169aee87 → valid seven1.30 preview → Apply accepted tx1c4e6e55b70f47419a6d2f89194eeca1 committed/side=after. Baseline run-20261012-071146-eab4cc six exact Low comparable frames/no override and child89736 exited without ERROR; root viewed exterior/interior originals. After game run-20261012-072637-8a0ec5 child91552 currently running; Undo not yet performed. Live original request/proposal/after-apply journal/UI frames saved under evidence/STUDIO/b20-codex-ui-2026-10-12/windows-native-sixth. Current snapshot excludes newly committed plan/final-shutdown fixes; remaining acceptance unchanged.",
                     "Sixth actual seven-window workflow complete as geometry stage: request0febf1edbd494ac4b292b508169aee87 → native preview/Apply accepted tx1c4e6e55b70f47419a6d2f89194eeca1 → game → native Undo → game. Runs071146-eab4cc/072637-8a0ec5/074215-83c1b9 contain18 fixed Low comparable PNGs. Root viewed exterior/interior before/after/Undo; windows visibly widen then revert. Journal committed accepted sidebefore; recipe exact2bcbc3ad88f8ecec5473a7ed9b5d144f649c9d7cf90c0212ec34a6cafb0aa4b4 and generated GLB/blend/manifest/import absent. Action PNG/request/proposal/snapshot bindings independently audited. Final guard restored original userdata by rename/verified, ACLs not compared; doctor ready/noorphan/recoveryfalse. Receipt FAIL solely old-snapshot shutdown RID/resource leaks, gameexit0; source close fix absent in snapshot and needs fresh native check. Archive SHA e0d838d6a35e3f2f98f6fe5a0eb87d41a66f85f530729a21cb071fa1513daeaa retained. SingleFront0/restart/multihouse/full AI12 remain open.",
                     "Pending source preview-fit stage: same before/after union AABB now fits eight corners against actual SubViewport aspect/Camera KeepAspect, fixed8px inset; toggles visibility only. Nonfinite/undersize fit fails through existing error flow. Ephemeral259-case perspective math check and affected Game compile0/0 passed; Sol independent source review no blocker. Native larger-preview/layout-resize still unverified; no change to sixth frozen frames.",
-                    "Seventh normal protected native accepted: jobdc822645df394bb7a2e82500b9358112, source4776f8ce, snapshot89996bf371d428d08c042fee7c4efbba9d14660dca67ed683fd0d83706866628. Specific question: does actual Front0 pick bind scope1 and resize only Front0, with matched Low game/fullUndo and clean orderly close? Still running; no result claimed."
+                    "Seventh normal protected native accepted: jobdc822645df394bb7a2e82500b9358112, source4776f8ce, snapshot89996bf371d428d08c042fee7c4efbba9d14660dca67ed683fd0d83706866628. Specific question: does actual Front0 pick bind scope1 and resize only Front0, with matched Low game/fullUndo and clean orderly close? Still running; no result claimed.",
+                    {
+                      "stage": "2026-10-12 seventh native Front0-only Codex Apply/game/full Undo",
+                      "result": "NATIVE_SELECTED_FRONT0_GEOMETRY_AND_BYTE_EXACT_UNDO_VERIFIED_OVERALL_SHUTDOWN_FAIL",
+                      "source_commit": "4776f8ce",
+                      "job_id": "dc822645df394bb7a2e82500b9358112",
+                      "snapshot_id": "89996bf371d428d08c042fee7c4efbba9d14660dca67ed683fd0d83706866628",
+                      "request_id": "53007a58a19643deb6e63514457924f8",
+                      "transaction_id": "943f8d4928e54faa9eb65b445798ac54",
+                      "archive_sha256": "3fd0da073d571b590bcc84fe0497c029df08da4d047fb9ce149beb05db8b8e22",
+                      "evidence": "evidence/STUDIO/b20-codex-ui-2026-10-12/windows-native-seventh",
+                      "verification": "Actual native street-window1 selection → Codex request/tools forbidden/globals allowed → Front0 1.06→1.30 preview → native Apply → six matched game frames → native Undo → six fresh game frames. 18/18 PNG SHA/metadata bound; identical camera specs/Low/comparable settings. Root viewed exterior before/after/Undo: selected window widens then restores. GLB independent audit: Front0 glass1.20 vsother main0.96; heights unchanged; other7 window recipe values unchanged. Final committed accepted journal sidebefore/order1; recipe byte-exact baseline2bcbc3ad88f8ecec5473a7ed9b5d144f649c9d7cf90c0212ec34a6cafb0aa4b4; generatedGLB/blend/manifest/import absent. Child processes and parent normal close exit0. Userdata rename restore verified, recovery_pendingfalse; Windows ACLs not compared. Overall stationFAIL still eight unique renderer/resource exit errors,48resources; cleanup sourcefix insufficient. Doctorreadytrue.",
+                      "remaining": "Parent shutdown resource errors, multihouse/global scope, restart/history persistence and independent Claude native workflow remain open; no performance/human/art acceptance."
+                    }
                   ],
                   "assigned_owner": "codex/b20-2026-10-10",
                   "active_owner": "codex/b20-2026-10-10",
@@ -74547,10 +74573,10 @@
                   "implementation_state": "not_started",
                   "technical_verification_state": "not_run",
                   "remaining": [
-                    "Fourth-run after-game execution terminated with game exit124, and the exported archive has no after-Apply capture PNGs. Although the real preview and Apply were recorded, the Front0 selection was cleared and the whole house reselected before the seven-window request, so a target-specific Front0 edit is not established.",
-                    "The transaction journal and current-target snapshot agree on all four accepted after-hashes (acceptedOrder=1; no later fence action); original station workspace is retained and userdata_recovery_pending=false. Studio Undo has not run because resuming the original session needs the minimal remote client/worker option currently being implemented; after it is available, resume that workspace and verify byte-exact restoration, the original game view and canaries without issuing another Codex request. The local GuiEmbedSubwindows=true repair is absent from this snapshot, so native dropdown remains unverified. First single-world Forward on GTX970 showed shader overflow; the project buffer4194304 fix needs native verification, with no performance PASS."
+                    "SingleFront0 and seven-window request/preview/Apply/matched game/full source Undo accepted as geometry stages. Overall native receipt still FAIL on eight parent renderer/resource exit errors; fix and verify narrow close path.",
+                    "Multi-house/global scope and restart/history persistence acceptance remain open. No performance or complete UX/art acceptance; historical fourth-run partial failure retained as evidence."
                   ],
-                  "next_action": "Fresh frozen native singleFront0 scope→Codex→larger preview→Apply→matched Low game→byte-exact Undo, including new orderly shutdown/no engine ERROR. Keep seven-window evidence as accepted partial geometry stage, not substitute for remaining single/multihouse/restart/Claude gates.",
+                  "next_action": "Fix confirmed parent shutdown resource ownership/close path from seventh receipt without another full request loop; verify shortest native close scenario. Then continue multi-house/global scope and restart/history gates; preserve accepted singleFront0 and seven-window geometry/Undo evidence.",
                   "blocker": null,
                   "external_gates": [],
                   "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
