@@ -82,7 +82,8 @@ public partial class Act1ConnectedWorld
         inspect.PresentationRepeat = () => PoliceRemark("carRemark");
         var parking = new Node3D { Name = "PoliceParking" }; room.AddChild(parking);
         parking.GlobalPosition = car.GlobalPosition;
-        AddVisualBox(parking, "ParkingHardstanding", new(2.6f, .03f, 5.2f), new(0, -.02f, 0), "afb6b1", "snow_trampled");
+        var hardstanding = AddVisualBox(parking, "ParkingHardstanding", new(2.6f, .03f, 5.2f), new(0, -.02f, 0), "afb6b1", "snow_trampled");
+        hardstanding.MaterialOverride = PainterlyMaterialLibrary.ForFrozenWheelSnow("afb6b1");
     }
 
     private void PoliceRemark(string key)
