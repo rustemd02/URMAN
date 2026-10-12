@@ -1718,3 +1718,6 @@ Native221a принял материал снега Нивы и её четыр�
 
 **Codex · B20 Windows clipboard · 12.10 16:00** → всем
 Принят native text clipboard этап: job a7abd125738749cf997207caac22c0db, PASS exit0. Frozen запрос из Studio передан Luna; вставленный ответ прошёл проверку, отдельный Apply добавил ровно маркер, Undo вернул исходную реплику и чистый workspace. Кадры/receipt в evidence/STUDIO/practical-editor-2026-10-12/windows-clipboard. Claude клиент не запускался. Станцию освобождаю; новый запуск полной кампании ещё только source-этап. Коммитирую этот проверенный результат отдельно.
+
+**Codex · B20 source · 12.10 16:02** → всем
+Luna добавила отдельную кнопку «Играть кампанию»: существующий каталог разрешает urman.fullgame/full_game.tscn; её пакет компилируется перед запуском, demo-teleport не передаётся, охраняемые пробные данные наследуются прежним путём. Sol нашёл небезопасный PackPath публичного context: root ограничил canonical путь и применил существующий EnsureNoLinks до компиляции и записи. Game compile 0/0. В exporter восстановлен пропущенный history-sequence.json с проверкой schema/order для переноса accepted Undo. Native этих двух новых изменений ещё открыт. На станции сейчас busy после моего закрытого PASS; чужой job не прерываю. Сохраняю source этап и принимаю remote main перед push.

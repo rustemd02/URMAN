@@ -78831,6 +78831,14 @@
                 "implementation": "Copy and save share validated captured HouseWindowRequest. Trusted prompt/schema saved as UTF8 withoutBOM under guarded canonical requestId metadata path via existing no-links+AtomicFile no-overwrite; only Studio-owned export writes. JSON picker remembers requestId and checks visibility/busy/request continuity. Shared manual pipeline verifies unchanged prompt/scope/selection/fingerprint before file parser and staging; read-only actual32768byte bound+strictUTF8 feeds same8192char duplicate/schema/request/part/width parser. Import uses existing generation/preview/Apply/CAS/Undo, never invokes external session tools. Parse failures return before ClearProposal and retain preview/Apply; save success/refusal retains prepared proposal summary with fixed file note.",
                 "verification": "Root affected Game compile0/0 after correcting internalCore guard accessibility by moving guarded export into existing DeveloperContext; final Game compile after Sol status fix also0/0. Diffcheck. Sol6.1medium source review accepted storage/trust path and requested preserving prepared summary; corrected and confirmed. No added tests/probes or model/native inference.",
                 "remaining": "Native file picker/buttons/layout, actual external-agent file roundtrip, malformed/oversize/decoder/no-overwrite branches not exercised. This is narrow HouseWindowRequest text+JSON manual transport, not completed general AuthoringRequestv2/ZIP/Receipt relocation or direct Claude adapter. Existing no-links preflight is not filesystem-race isolation."
+              },
+              {
+                "stage": "2026-10-12 exported accepted history counter",
+                "result": "SOURCE_SYNTAX_REVIEW_NATIVE_OPEN",
+                "source": [
+                  "eng/windows_station_worker.py"
+                ],
+                "actual_result": "Export original bounded history-sequence.json whenever exported journal has positive acceptedOrder; exact schema/signed64 counter >= maximum acceptedOrder, no synthetic data. Luna fix, independent Sol review, Python syntax check. Worker deployment and native archive/restart still open."
               }
             ],
             "stage_tasks": [
@@ -79258,7 +79266,17 @@
             "verification": "A15 и маленькое окно/150% scale; записать успешность, время, конкретные ошибки, не выдуманные оценки удобства.",
             "risks_recovery_external_gates": "Без реального участника usability gate остаётся открытым; статический screenshot или агентский self-test его не закрывает.",
             "required": true,
-            "evidence": [],
+            "evidence": [
+              {
+                "stage": "2026-10-12 practical full campaign launch source",
+                "result": "GAME_COMPILE_0_0_NATIVE_OPEN",
+                "source": [
+                  "game/studio/StudioRoot.cs",
+                  "src-dotnet/Urman.Studio.Core/Play/PlayPreparation.cs"
+                ],
+                "actual_result": "Separate campaign launch button reuses CampaignWorldCatalog urman.fullgame/full_game.tscn; compile frozen bound campaign; no legacy teleport arguments; existing guarded child userdata/logging. Canonical pack path and existing NoLinks checks protect context overload. Luna implementation, Sol independent review, root write-boundary correction; affected Game compile0/0. Native launch pending station availability."
+              }
+            ],
             "stage_tasks": [
               "STUDIO.P0",
               "STUDIO.P6"

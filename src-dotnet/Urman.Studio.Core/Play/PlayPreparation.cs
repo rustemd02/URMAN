@@ -1,5 +1,6 @@
 using System.Text;
 using Urman.Content.Compilation;
+using Urman.Studio.Core.Editing;
 using Urman.Studio.Core.Storage;
 
 namespace Urman.Studio.Core.Play;
@@ -18,9 +19,30 @@ public static class PlayPreparation
     public const string Campaign = "urman.chapter1";
     public const string PackPath = "game/content/urman.chapter1.compiled.v1.json";
 
-    public static async Task<PlayBuild> CompileAsync(string root, CancellationToken cancellationToken = default)
+    public static Task<PlayBuild> CompileAsync(string root, CancellationToken cancellationToken = default) =>
+        CompileAsync(root, Campaign, PackPath, cancellationToken);
+
+    public static Task<PlayBuild> CompileAsync(
+        string root,
+        CampaignWorldContext campaignContext,
+        CancellationToken cancellationToken = default)
     {
-        var result = await new ContentCompiler().CompileAsync(root, Campaign, [], cancellationToken);
+        ArgumentNullException.ThrowIfNull(campaignContext);
+        return CompileAsync(root, campaignContext.Campaign.Selection, campaignContext.PackPath, cancellationToken);
+    }
+
+    private static async Task<PlayBuild> CompileAsync(
+        string root,
+        string campaign,
+        string packPath,
+        CancellationToken cancellationToken)
+    {
+        if (string.IsNullOrWhiteSpace(campaign) || campaign is "." or ".."
+            || campaign.Any(character => !char.IsAsciiLetterOrDigit(character) && character is not '.' and not '-' and not '_')
+            || packPath != $"game/content/{campaign}.compiled.v1.json")
+            throw new ArgumentException("Некорректный путь пакета кампании.", nameof(packPath));
+        StudioFileTransaction.EnsureNoLinks(root, packPath);
+        var result = await new ContentCompiler().CompileAsync(root, campaign, [], cancellationToken);
         if (!result.IsSuccess)
         {
             return new(false, "", "", result.Diagnostics
@@ -29,7 +51,8 @@ public static class PlayPreparation
         }
 
         var text = CompiledPackText.Serialize(result.Pack!);
-        var path = Path.Combine(root, PackPath);
+        StudioFileTransaction.EnsureNoLinks(root, packPath);
+        var path = Path.Combine(root, packPath);
         if (!File.Exists(path) || File.ReadAllText(path) != text)
         {
             AtomicFile.WriteAllBytes(path, new UTF8Encoding(false).GetBytes(text));

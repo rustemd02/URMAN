@@ -44,6 +44,7 @@ public partial class StudioRoot : Control
     private Button _navigationToggle = null!;
     private Button _inspectorToggle = null!;
     private Button _backButton = null!;
+    private Button _campaignPlay = null!;
     private readonly Dictionary<string, Button> _sectionButtons = new(StringComparer.Ordinal);
     private Control _centre = null!;
     private StudioProperties _properties = null!;
@@ -809,6 +810,8 @@ public partial class StudioRoot : Control
 
     public void PlayFromHere() => _ = StartPlayAsync(captureHouseWindows: false);
 
+    public void PlayCampaign() => _ = StartPlayAsync(captureHouseWindows: false, fullCampaign: true);
+
     public void CaptureHouseWindows()
     {
         if (Selection != Urman.Godot.HeroHouseRecipe.EntityId)
@@ -836,7 +839,7 @@ public partial class StudioRoot : Control
         catch (Exception error) { ShowBanner(error.Message, error: true); }
     }
 
-    private async Task StartPlayAsync(bool captureHouseWindows)
+    private async Task StartPlayAsync(bool captureHouseWindows, bool fullCampaign = false)
     {
         if (_closing) return;
         if (_playPreparing)
@@ -862,10 +865,15 @@ public partial class StudioRoot : Control
             RefreshStatus("Подготовка запуска…");
             if (!SaveAll(autosave: false)) return;
 
-            var start = _current is not null && _sections[_current] is StudioWorldSection world ? world.PlayStart() : null;
+            var campaignContext = fullCampaign
+                ? CampaignWorldCatalog.Discover(Workspace).Resolve("urman.fullgame", "res://scenes/full_game.tscn")
+                : null;
+            var start = campaignContext is null && _current is not null && _sections[_current] is StudioWorldSection world ? world.PlayStart() : null;
             var capturePoints = captureHouseWindows ? HouseWindowCapturePoints() : null;
             var houseSources = CapturePlayHouseSources(Workspace.Root);
-            var build = await PlayPreparation.CompileAsync(Workspace.Root);
+            var build = campaignContext is null
+                ? await PlayPreparation.CompileAsync(Workspace.Root)
+                : await PlayPreparation.CompileAsync(Workspace.Root, campaignContext);
             if (_closing) return;
             if (!build.Ready)
             {
@@ -880,8 +888,12 @@ public partial class StudioRoot : Control
             }
 
             var godot = OS.GetExecutablePath();
-            var arguments = new List<string> { "--path", ProjectSettings.GlobalizePath("res://"), "res://scenes/act1_demo.tscn", "--" };
-            if (!captureHouseWindows)
+            var arguments = new List<string>
+            {
+                "--path", ProjectSettings.GlobalizePath("res://"),
+                campaignContext?.World.ScenePath ?? "res://scenes/act1_demo.tscn", "--"
+            };
+            if (!captureHouseWindows && campaignContext is null)
             {
                 arguments.Add($"--urman-studio-play={start?.Zone ?? "village_day"}@{start?.Spawn ?? "arrival"}");
                 if (start?.Position is { } at)
@@ -954,7 +966,7 @@ public partial class StudioRoot : Control
             run.EnableRaisingEvents = true;
             run.BeginOutputReadLine();
             run.BeginErrorReadLine();
-            RefreshStatus($"▶ {(captureHouseWindows ? "Снимаем окна в игре · запрошен Low" : "Запущена проверка")} · {build.RevisionLabel}");
+            RefreshStatus($"▶ {(captureHouseWindows ? "Снимаем окна в игре · запрошен Low" : fullCampaign ? "Запущена полная кампания" : "Запущена проверка")} · {build.RevisionLabel}");
         }
         catch (Exception error)
         {
@@ -1138,6 +1150,7 @@ public partial class StudioRoot : Control
     {
         if (_aiPanel is not null && GodotObject.IsInstanceValid(_aiPanel)) _aiPanel.RefreshBusyState();
         _play.Disabled = IsAiActionBusy;
+        _campaignPlay.Disabled = IsAiActionBusy;
         _undo.Disabled = !Session.CanUndo || IsAiActionBusy;
         _redo.Disabled = !Session.CanRedo || IsAiActionBusy;
         _undo.TooltipText = Session.UndoLabel is { } undo ? $"Отменить: {undo} (⌘/Ctrl+Z)" : "Нечего отменять";
@@ -1249,6 +1262,9 @@ public partial class StudioRoot : Control
         _play = Button(actions, "▶ Играть отсюда", PlayFromHere);
         _play.ThemeTypeVariation = "PrimaryButton";
         _play.Name = "PlayButton";
+        _campaignPlay = Button(actions, "▶ Играть кампанию", PlayCampaign);
+        _campaignPlay.Name = "CampaignPlayButton";
+        _campaignPlay.TooltipText = "Сохранить правки и начать полную кампанию с её начальной сцены.";
 
         _tabBar = Bar(root);
         _backButton = Button(_tabBar, "← Назад", GoBack);

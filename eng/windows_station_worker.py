@@ -572,6 +572,7 @@ def export_studio_session(source, output):
 
     transactions_by_request = {}
     direct_transaction_targets = set()
+    maximum_accepted_order = 0
     transactions_root = _studio_path(source, '.urman-studio/transactions', kind='dir', missing=True)
     if transactions_root is not None:
         transaction_dirs = _studio_children(transactions_root, STUDIO_MAX_TRANSACTIONS,
@@ -607,6 +608,8 @@ def export_studio_session(source, output):
             if (accepted_order is not None
                     and (type(accepted_order) is not int or not 0 < accepted_order <= (1 << 63) - 1)):
                 raise ValueError('Studio transaction accepted order is invalid: ' + transaction_id)
+            if accepted_order is not None:
+                maximum_accepted_order = max(maximum_accepted_order, accepted_order)
             if (command_label is not None
                     and (not isinstance(command_label, str) or not command_label.strip()
                          or len(command_label.encode('utf-16-le')) // 2 > 1024)):
@@ -707,6 +710,20 @@ def export_studio_session(source, output):
             if any(_studio_reparse(item.lstat()) or not stat.S_ISREG(item.lstat().st_mode) for item in contents):
                 raise ValueError('Studio transaction evidence contains a link or non-file: ' + transaction_id)
             payloads.append((journal_relative, journal_bytes, None))
+
+    if maximum_accepted_order > 0:
+        sequence_relative = '.urman-studio/history-sequence.json'
+        _, sequence_bytes = _studio_read(source, sequence_relative, STUDIO_MAX_JOURNAL,
+                                         'Studio history sequence')
+        sequence = _studio_json(sequence_bytes, STUDIO_MAX_JOURNAL, 'Studio history sequence')
+        if (not isinstance(sequence, dict)
+                or set(sequence) != {'version', 'scope', 'lastOrder'}
+                or type(sequence['version']) is not int or sequence['version'] != 1
+                or sequence['scope'] != 'studio-file-history'
+                or type(sequence['lastOrder']) is not int
+                or not maximum_accepted_order <= sequence['lastOrder'] <= (1 << 63) - 1):
+            raise ValueError('Studio history sequence is invalid or older than an exported transaction')
+        payloads.append((sequence_relative, sequence_bytes, None))
 
     for relative in sorted(direct_transaction_targets):
         _, target_bytes = _studio_read(source, relative, STUDIO_MAX_AUTHORED_JSON,
