@@ -1072,6 +1072,7 @@ public partial class StudioRoot : Control
             }
 
             if (world is not null) await world.ReleasePreviewForShutdownAsync();
+            Urman.Godot.AnimationCatalog.ReleaseForFinalShutdown();
             Urman.Godot.Act1ConnectedWorld.ReleaseRoundLogCacheAfterSceneDisposal();
             Urman.Godot.VillageWindowMaterials.ReleaseForFinalShutdown();
             Urman.Godot.WinterParticleSurfaces.ReleaseForFinalShutdown();

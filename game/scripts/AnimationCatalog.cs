@@ -226,8 +226,11 @@ public static class AnimationCatalog
     }
 
     // The detached library scene owns native mesh/animation resources. Release
-    // it only after a test scene has finished, alongside the other test caches.
-    internal static void ClearCacheForTests()
+    // it only after the consuming scene has been disposed.
+    internal static void ClearCacheForTests() => ReleaseLibraryCache();
+    internal static void ReleaseForFinalShutdown() => ReleaseLibraryCache();
+
+    private static void ReleaseLibraryCache()
     {
         _kitPlayers.Clear();
         _library?.Clear();

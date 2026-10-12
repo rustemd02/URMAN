@@ -79474,6 +79474,12 @@
                 "result": "SOURCE_COMPILE_REVIEW_PASS_NATIVE_PENDING",
                 "source": "game/scripts/Act1ConnectedWorld.Addresses.cs; game/scripts/experiments/agent_b_act1/AgentBAct1ExteriorLayer.cs",
                 "verification": "Two Luna implementations, independent Sol source review accepted; Game affectedcompile0/0,16.49s; scoped diffcheckPASS. Address registry one ordered snapshot/live visibility/duplicate-name order; foliage exact-coordinate sample dedup preserves Min/Any/All while geometry/pivots/LOD/collision/RNG untouched. Actual speedup not yet measured."
+              },
+              {
+                "stage": "2026-10-12 named detached animation owner repair",
+                "result": "SOURCE_COMPILE_REVIEW_PASS_NATIVE_PENDING",
+                "source": "game/scripts/AnimationCatalog.cs; game/studio/StudioRoot.cs",
+                "verification": "Actual5b988 verbose maps48resources/orphan subtree to static off-tree AnimationCatalog._libraryScene; onlytestcleanup previously freed it. Production finalshutdown reuses samecache reset/free after preview barriers, no mapreload release. Characterpreview owns duplicatedclips, safeper independentSol review. Luna implementation, Gamecompile0/0,17.81s. Changed-source loadedmapclose not yetchecked; priorFAIL retained."
               }
             ],
             "stage_tasks": [
@@ -79510,7 +79516,7 @@
             "remaining": [
               "Новичок выполняет основные действия через интерфейс и подсказки без знания файлов.; отсутствует подтверждение собственного конечного DoD, перечисленного ниже."
             ],
-            "next_action": "Закончить конкретные правки повторных обходов адресов и повторных LowVertices, исправить доказанный detached animation template; review/compile и один changed-source native map-load/close.",
+            "next_action": "Один changed-source native MapLoad→normalclose: сравнить196222ms/foliage77.377s/addresses12.421s, проверить48resources ual1_standard.glb послеAnimationCatalog finalrelease; станцию брать только после peer terminal/recovery.",
             "blocker": null,
             "external_gates": [
               {
