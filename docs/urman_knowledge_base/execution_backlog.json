@@ -61214,7 +61214,7 @@
             "remaining": [
               "Согласовать силуэт, цоколь, вынос кровли и глубину проёмов эталонного дома с выбранным reference ID; собственного целевого receipt пока нет."
             ],
-            "next_action": "Интегрировать staged hero через существующий controlled pipeline и проверить подходящий Windows кадр после update worker; full E01/дом не закрыт.",
+            "next_action": "Resolve unselectedSeni regeneration/contact drift withexistinggeneratorowner; then boundedmodelPath integration+Windows comparableview. Do notshipchangedcollision asroof-only.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -61263,7 +61263,14 @@
               "result": "30 физических фальцев, 15 на скат, шаг .54 м, высота .03 м; +360 triangles, существующий roof material. Targeted Blender hero-house export PASS, 666 meshes. Общий runtime kit не перезаписан.",
               "evidence": "evidence/ACT1-DEPTH/roof-seams-20261012/manifest.json",
               "staged_glb": "/private/tmp/urman-hero-roof-20261012/hero_house.glb",
-              "native_verification": "NOT_RUN: old Windows worker; snow may cover seams"
+              "native_verification": "NOT_RUN: old Windows worker; snow may cover seams",
+              "runtime_integration_review": {
+                "existing_route": "recipe.modelPath res://assets/models/studio/hero-house-*.glb → KitPlacementTakeover.ApplyAuthored, onlyhero children, preservedplot transform.",
+                "blocked_input": "StagedSeniOuterGlassX±.48 vs currentkit±.35; SeniOuterWall topologychanged by canonicalregeneration. GlassclosedOpening receivescontact, so unrequestedcollision expands~.26m.",
+                "seam_contact": "Newseam mesh skippedbyexistingflatslabfilter; noextra contact.",
+                "source_capture": "evidence/STUDIO/b20-codex-ui-2026-10-12/windows-native-third/studio-session/.urman-studio/runs/run-20261012-033919-e4207b/B20_windows_exterior.png; oldkitmodel hash8ea...; notcurrentroofintegrationproof",
+                "next_action": "Existinggenerator/Studio owner reconcile Seni recipe withactualbaseline or boundedroof-only artifact beforemodelPath integration. Fullart/native remainsopen."
+              }
             }
           },
           {
