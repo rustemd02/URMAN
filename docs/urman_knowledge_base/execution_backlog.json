@@ -113861,19 +113861,19 @@
             "owner": "art",
             "evidence": [],
             "assigned_owner": "art",
-            "active_owner": null,
+            "active_owner": "/root/niva_support_patch",
             "activity": {
-              "state": "not_active",
-              "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+              "state": "confirmed_active",
+              "reason": "Luna implements finite selected-photo origin labels from existing authored provenance kinds; root integrates. No station or new save owner."
             },
             "task_type": "engineering",
-            "status": "todo",
+            "status": "in_progress",
             "implementation_state": "not_started",
             "technical_verification_state": "not_run",
             "remaining": [
               "Разделить игровой вымышленный документ, разрешённую копию и проходной снимок.; собственного целевого receipt пока нет."
             ],
-            "next_action": "Сопоставить текущий результат: Разделить игровой вымышленный документ, разрешённую копию и проходной снимок.. Затем изменить только установленный остаток.",
+            "next_action": "Передать существующий optional provenanceKind через typed catalog/acquired projection и показать две точные исходные категории в выбранной карточке альбома; затем review/affected compile, native отдельно.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -113882,7 +113882,9 @@
               "targets": [
                 "game/scripts/JournalUi.cs",
                 "game/scripts/JournalUi.Notebook.cs",
-                "src-dotnet/Urman.Core/Narrative/PhotoWorldCatalog.cs"
+                "src-dotnet/Urman.Core/Narrative/PhotoWorldCatalog.cs",
+                "game/scripts/RuntimeBridge.PhotoBook.cs",
+                "game/scripts/JournalUi.PhotoBook.cs"
               ],
               "required_inputs": [],
               "scope_in": [
@@ -113934,7 +113936,13 @@
               "verification": [],
               "acceptance": []
             },
-            "depends_on": []
+            "depends_on": [],
+            "progress_2026_10_13_origin_labels": {
+              "verification_question": "Does selected acquired S-PRINT/S-SCHOOL show its authored document/copy origin without raw IDs, rights claims, story/world spoilers or leaking unread back captions?",
+              "success": "Optional provenance metadata survives typed projection, exact friendly labels only for authored family-pc-contact-sheet/school-album-copy; unknown kinds omitted; existing acquired/backRead/session/placement paths unchanged.",
+              "source_state": "Luna source implementation started; not compiled/native verified.",
+              "scope": "Finite family document vs school copy origin slice only; full passage categorization/E03 author/runtime criteria remain open."
+            }
           }
         ]
       },
