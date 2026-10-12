@@ -50,7 +50,7 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
 
     private readonly SubViewport _preview = new() { Size = new(560, 260), OwnWorld3D = true, RenderTargetUpdateMode = SubViewport.UpdateMode.WhenVisible };
     private readonly Node3D _previewModels = new() { Name = "HouseCompareModels" };
-    private readonly Camera3D _previewCamera = new() { Position = new(11, 7, 13), Current = true };
+    private readonly Camera3D _previewCamera = new() { Position = new(11, 7, 13), Current = true, Fov = 45f };
     private Node3D? _beforeModel;
     private Node3D? _afterModel;
     private CancellationTokenSource? _cancel;
@@ -190,7 +190,6 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
         body.AddChild(viewport);
         _preview.AddChild(_previewModels);
         _preview.AddChild(new DirectionalLight3D { RotationDegrees = new(-40, -25, 0), LightEnergy = 1.5f });
-        _previewCamera.Ready += () => _previewCamera.LookAt(new(0, 1.5f, 0));
         _preview.AddChild(_previewCamera);
         VisibilityChanged += () =>
         {
@@ -1418,10 +1417,19 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
         ValidateStage(previewArtifacts);
 
         ClearPreviewModels();
-        _beforeModel = LoadCurrentHousePreview();
-        _previewModels.AddChild(_beforeModel);
-        _afterModel = LoadHousePreview(previewArtifacts.Glb, stage);
-        _previewModels.AddChild(_afterModel);
+        var beforeModel = LoadCurrentHousePreview();
+        _beforeModel = beforeModel;
+        _previewModels.AddChild(beforeModel);
+        var afterModel = LoadHousePreview(previewArtifacts.Glb, stage);
+        _afterModel = afterModel;
+        _previewModels.AddChild(afterModel);
+        var beforeBounds = beforeModel.Transform * StudioCatalogBuilder.Bounds([beforeModel], beforeModel);
+        var afterBounds = afterModel.Transform * StudioCatalogBuilder.Bounds([afterModel], afterModel);
+        var unionBounds = beforeBounds.Merge(afterBounds);
+        var center = unionBounds.GetCenter();
+        var radius = Mathf.Max(unionBounds.Size.Length() * .5f, .2f);
+        _previewCamera.Position = center + new Vector3(1f, .75f, 1.25f).Normalized() * radius * 2.9f;
+        _previewCamera.LookAt(center, Vector3.Up);
         cancellation.ThrowIfCancellationRequested();
         HouseWindowProposalValidator.Validate(request, proposal);
         EnsurePreparedRequestCurrent(request);

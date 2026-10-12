@@ -231,7 +231,7 @@ public static class StudioCatalogBuilder
 
     // Bounds in the kit's root space, so a rotated or scaled export root
     // (Blender's +Z-up conversion) is part of the measured size.
-    private static Aabb Bounds(IEnumerable<Node3D> nodes, Node3D root)
+    internal static Aabb Bounds(IEnumerable<Node3D> nodes, Node3D root)
     {
         Aabb? total = null;
         foreach (var node in nodes)
