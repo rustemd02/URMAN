@@ -7,6 +7,8 @@ namespace Urman.Godot;
 public partial class JournalUi
 {
     private const int PhotoBookTabIndex = 7;
+    private const string SGardenPhotoId = "S-GARDEN";
+    private const string SGardenFrontImagePath = "res://assets/textures/photobook/s-garden-front-v1.png";
     private VBoxContainer _photoBookPage = null!;
     private ItemList _photoBookList = null!;
     private ScrollContainer _photoBookScroll = null!;
@@ -20,6 +22,7 @@ public partial class JournalUi
     private Label _photoBookPlacement = null!;
     private PanelContainer _photoBookFrontCard = null!;
     private Label _photoBookFrontHeading = null!;
+    private TextureRect _photoBookFrontImage = null!;
     private Label _photoBookFrontBrief = null!;
     private Label _photoBookFoldMarker = null!;
     private HSeparator _photoBookSeparator = null!;
@@ -158,6 +161,18 @@ public partial class JournalUi
             FocusMode = Control.FocusModeEnum.None
         };
         frontCardHeading.AddChild(_photoBookFoldMarker);
+        _photoBookFrontImage = new TextureRect
+        {
+            Name = "GardenFrontIllustration",
+            CustomMinimumSize = new Vector2(0f, 230f),
+            SizeFlagsHorizontal = Control.SizeFlags.ExpandFill,
+            SizeFlagsVertical = Control.SizeFlags.ShrinkBegin,
+            ExpandMode = TextureRect.ExpandModeEnum.IgnoreSize,
+            StretchMode = TextureRect.StretchModeEnum.KeepAspectCentered,
+            MouseFilter = Control.MouseFilterEnum.Ignore,
+            Visible = false
+        };
+        frontCardContent.AddChild(_photoBookFrontImage);
         _photoBookFrontBrief = new Label { Name = "FrontDescription",
             AutowrapMode = TextServer.AutowrapMode.WordSmart,
             SizeFlagsHorizontal = Control.SizeFlags.ExpandFill };
@@ -241,6 +256,7 @@ public partial class JournalUi
         if (!ReferenceEquals(_photoBookSession, session))
         {
             CancelPhotoBookPlacementAnimation();
+            ClearPhotoBookFrontImage();
             _photoBookSession = session;
             _photoBookSelectedId = null;
             _photoBookActionStatus.Text = string.Empty;
@@ -284,6 +300,7 @@ public partial class JournalUi
         else
         {
             _photoBookSelectedId = null;
+            ClearPhotoBookFrontImage();
             _photoBookTitle.Text = string.Empty;
             _photoBookPlacement.Text = string.Empty;
             _photoBookFrontBrief.Text = string.Empty;
@@ -297,6 +314,7 @@ public partial class JournalUi
     private void ClearPhotoBookPage(bool resetSession)
     {
         CancelPhotoBookPlacementAnimation();
+        ClearPhotoBookFrontImage();
         if (resetSession)
         {
             _photoBookSession = null;
@@ -340,6 +358,13 @@ public partial class JournalUi
 
     private void ShowPhotoBookPhoto(RuntimeBridge.PhotoBookPhoto photo)
     {
+        ClearPhotoBookFrontImage();
+        if (photo.PhotoId == SGardenPhotoId && ResourceLoader.Exists(SGardenFrontImagePath)
+            && ResourceLoader.Load<Texture2D>(SGardenFrontImagePath) is { } frontImage)
+        {
+            _photoBookFrontImage.Texture = frontImage;
+            _photoBookFrontImage.Visible = true;
+        }
         _photoBookTitle.Text = photo.Title;
         _photoBookPlacement.Text = photo.Mounted
             ? "Место в альбоме: снимок вклеен на свою страницу."
@@ -352,6 +377,13 @@ public partial class JournalUi
             : string.IsNullOrWhiteSpace(photo.BackTextRu)
                 ? "На обороте пока нет записи."
                 : photo.BackTextRu;
+    }
+
+    private void ClearPhotoBookFrontImage()
+    {
+        if (!GodotObject.IsInstanceValid(_photoBookFrontImage)) return;
+        _photoBookFrontImage.Texture = null;
+        _photoBookFrontImage.Visible = false;
     }
 
     private void SetPhotoBookReadingZoom(float zoom)

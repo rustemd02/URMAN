@@ -112322,16 +112322,17 @@
             "active_owner": null,
             "activity": {
               "state": "not_active",
-              "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+              "reason": "Конечный S-GARDEN front candidate + acquired-only source integration проверены import/compile; native/art и остальной набор открыты."
             },
             "task_type": "engineering",
-            "status": "todo",
-            "implementation_state": "not_started",
+            "status": "in_progress",
+            "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
-              "Произвести 13 фронтов, 13 оборотов, миниатюры и транскрипции.; собственного целевого receipt пока нет."
+              "S-GARDEN: 1800×1200 final/thumbnail/back print, protected native view and author art acceptance; candidate front 1536×1024 imported and UI wired.",
+              "Остальные 12 fronts/backs/thumbnails/transcriptions и обязательные scene/identity alignment inputs; full E02 не выполнен."
             ],
-            "next_action": "Сопоставить текущий результат: Произвести 13 фронтов, 13 оборотов, миниатюры и транскрипции.. Затем изменить только установленный остаток.",
+            "next_action": "После освобождения станции проверить S-GARDEN acquired album view, смену карточки и Continue; отдельно принять art и завершить требуемые dimensions/representations. Прочие фото требуют своих scene/identity inputs.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -112340,9 +112341,15 @@
               "targets": [
                 "game/scripts/JournalUi.cs",
                 "game/scripts/JournalUi.Notebook.cs",
-                "src-dotnet/Urman.Core/Narrative/PhotoWorldCatalog.cs"
+                "src-dotnet/Urman.Core/Narrative/PhotoWorldCatalog.cs",
+                "game/assets/textures/photobook/s-garden-front-v1.png",
+                "game/assets/textures/photobook/s-garden-front-v1.provenance.json",
+                "game/scripts/JournalUi.PhotoBook.cs"
               ],
-              "required_inputs": [],
+              "required_inputs": [
+                "content/campaigns/urman.fullgame/photoworlds-sources/photos.spec.json: S-GARDEN front_brief; non-portal fictional support image",
+                "game/scripts/JournalUi.PhotoBook.cs: acquired-only projection and existing front-description fallback"
+              ],
               "scope_in": [
                 "Произвести 13 фронтов, 13 оборотов, миниатюры и транскрипции."
               ],
@@ -112360,7 +112367,7 @@
               ],
               "verification": {
                 "method": "targeted_runtime_scenario",
-                "question": "Произвести 13 фронтов, 13 оборотов, миниатюры и транскрипции.",
+                "question": "Изображён ли обычный ухоженный сад без портала, текстов и людей; отображается ли S-GARDEN image только при его acquired selection, с сохранённым текстовым описанием и state guards?",
                 "scenario": {
                   "targets": [
                     "game/scripts/JournalUi.cs",
@@ -112384,7 +112391,10 @@
                 ],
                 "repeat_only_if": "Изменился покрываемый вход/consumer/контракт; без этого уже принятая проверка используется повторно без запуска."
               },
-              "evidence_refs": [],
+              "evidence_refs": [
+                "evidence/PW-040/s-garden-20261012/receipt.json",
+                "game/assets/textures/photobook/s-garden-front-v1.provenance.json"
+              ],
               "source_criteria_parent": "PW-040"
             },
             "dependencies": {
@@ -112392,7 +112402,34 @@
               "verification": [],
               "acceptance": []
             },
-            "depends_on": []
+            "depends_on": [],
+            "progress_2026_10_12_s_garden": {
+              "photo_id": "S-GARDEN",
+              "asset": "game/assets/textures/photobook/s-garden-front-v1.png",
+              "sha256": "4a5a8d6320218c912b5f404b62a17e36d9831ee1f5ed3a33a223408b3e04362f",
+              "dimensions_px": [
+                1536,
+                1024
+              ],
+              "provenance": "game/assets/textures/photobook/s-garden-front-v1.provenance.json",
+              "personal_image_review": "PASS: ordinary tended garden; no people/text/portal; fictional art, not real archive",
+              "source_review": "Only selected acquired projection S-GARDEN loads texture; previous texture cleared on selection/session/empty/load; missing image keeps description; no reducers/save state modifications",
+              "import": {
+                "engine": "Godot 4.7.1 mono",
+                "result": "PASS",
+                "type": "CompressedTexture2D",
+                "log": "evidence/PW-040/s-garden-20261012/godot-import.log"
+              },
+              "compile": {
+                "result": "PASS",
+                "warnings": 0,
+                "errors": 0,
+                "elapsed_seconds": 26.79,
+                "log": "evidence/PW-040/s-garden-20261012/game-build.log"
+              },
+              "native_game": "NOT_RUN: active B20 station owner",
+              "remaining": "Windows album layout/selection/Continue; author art acceptance; exact 1800x1200 and separate thumbnail/backs/full 13-photo set."
+            }
           },
           {
             "id": "PW-040/E03",
