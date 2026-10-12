@@ -162,7 +162,27 @@ public sealed class StudioCollabSection(StudioRoot studio) : IStudioSection
             var view = StudioRoot.Button(queued, "Посмотреть…", () => ShowOutgoingRevision(revision));
             view.Disabled = _sendCancellation is not null;
             StudioRoot.Button(queued, "Скопировать для получателя", () => DisplayServer.ClipboardSet(revision.RemoteBranch));
+            if (revision.State == GitOutgoingState.Sent)
+            {
+                var archive = StudioRoot.Button(queued, "Убрать из очереди", () => ArchiveOutgoing(revision.OperationId));
+                archive.Disabled = _sendCancellation is not null;
+                archive.TooltipText = "Сохранить завершённую передачу в архиве. Снимок и подтверждение не удаляются.";
+            }
         }
+    }
+
+    private void ArchiveOutgoing(string operationId)
+    {
+        if (_sendCancellation is not null) return;
+        try
+        {
+            new GitRevisionOutbox(studio.Workspace).ArchiveSent(operationId);
+            _sendMessage = "Завершённая передача убрана из очереди. Снимок и подтверждение сохранены в архиве.";
+        }
+        catch (Exception error) when (error is IOException or UnauthorizedAccessException or ArgumentException or InvalidOperationException)
+        { _sendMessage = "Не удалось убрать передачу из очереди. Данные сохранены; обновите очередь и повторите."; }
+        _outgoingQueueLoaded = false;
+        Refresh();
     }
 
     private async Task PrepareOutgoingAsync()

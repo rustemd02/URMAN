@@ -19,6 +19,8 @@ public sealed record GitOutgoingRevision(string OperationId, string BaseRevision
 public sealed class GitRevisionOutbox(StudioWorkspace workspace)
 {
     private const string OutboxPath = ".urman-studio/outbox";
+    private const string ArchivePath = ".urman-studio/outbox-archive";
+    private const string OperationLocksPath = ".urman-studio/outbox-locks";
     private const string HeroRecipePath = "game/content/studio/hero_house.recipe.json";
     private const int MaxFiles = 2000;
     // shortcut: keep the retained queue bounded until an explicit archive policy exists.
@@ -242,9 +244,7 @@ public sealed class GitRevisionOutbox(StudioWorkspace workspace)
     {
         ValidateOperationId(operationId);
         var relativeDirectory = OperationRelativeDirectory(operationId);
-        EnsureMetadataPath(relativeDirectory + "/send.lock");
-        using var lease = new FileStream(Absolute(relativeDirectory + "/send.lock"), FileMode.OpenOrCreate,
-            FileAccess.ReadWrite, FileShare.None);
+        using var lease = AcquireOperationLease(operationId);
         token.ThrowIfCancellationRequested();
 
         var receipt = LoadReceipt(operationId);
@@ -326,6 +326,36 @@ public sealed class GitRevisionOutbox(StudioWorkspace workspace)
         receipt = receipt with { State = "Sent" };
         WriteReceipt(relativeDirectory, receipt);
         return Public(receipt);
+    }
+
+    /// <summary>Move a verified sent capsule out of the active queue without deleting its files or Git ref.</summary>
+    public void ArchiveSent(string operationId)
+    {
+        try
+        {
+            ValidateOperationId(operationId);
+            using var lease = AcquireOperationLease(operationId);
+            var active = OperationRelativeDirectory(operationId);
+            var archived = ArchivedOperationRelativeDirectory(operationId);
+            EnsureMetadataPath(active);
+            if (!Directory.Exists(Absolute(active))) throw Refusal("Запрос уже отсутствует в активной очереди.");
+            var receipt = LoadReceipt(operationId);
+            if (receipt.State != "Sent" || receipt.CommitRevision is null)
+                throw Refusal("В активную очередь можно убрать только подтверждённо отправленный запрос.");
+            _ = LoadAndValidateAllFiles(receipt);
+
+            EnsureMetadataPath(ArchivePath);
+            Directory.CreateDirectory(Absolute(ArchivePath));
+            EnsureMetadataPath(ArchivePath);
+            EnsureMetadataPath(archived);
+            if (Directory.Exists(Absolute(archived)) || File.Exists(Absolute(archived)))
+                throw Refusal("Архив уже содержит этот запрос; существующие данные не изменены.");
+            Directory.Move(Absolute(active), Absolute(archived));
+        }
+        catch (Exception error) when (NeedsSanitizedRefusal(error))
+        {
+            throw Refusal("Архивирование не завершено. Запрос и его снимок сохранены.");
+        }
     }
 
     /// <summary>Load bounded local queue metadata only; this performs no Git command or network request.</summary>
@@ -717,8 +747,28 @@ public sealed class GitRevisionOutbox(StudioWorkspace workspace)
     private void EnsureMetadataPath(string relative) =>
         StudioFileTransaction.EnsureNoLinks(workspace.Root, relative, allowStudioMetadata: true);
 
+    private FileStream AcquireOperationLease(string id)
+    {
+        ValidateOperationId(id);
+        EnsureMetadataPath(OperationLocksPath);
+        Directory.CreateDirectory(Absolute(OperationLocksPath));
+        EnsureMetadataPath(OperationLocksPath);
+        var relative = OperationLocksPath + "/" + id + ".lock";
+        EnsureMetadataPath(relative);
+        try
+        {
+            return new FileStream(Absolute(relative), FileMode.OpenOrCreate,
+                FileAccess.ReadWrite, FileShare.None);
+        }
+        catch (IOException)
+        {
+            throw Refusal("Этот запрос сейчас обрабатывает другое окно Studio.");
+        }
+    }
+
     private string OperationDirectory(string id) => Absolute(OperationRelativeDirectory(id));
     private static string OperationRelativeDirectory(string id) => OutboxPath + "/" + id;
+    private static string ArchivedOperationRelativeDirectory(string id) => ArchivePath + "/" + id;
     private string Absolute(string relative) => Path.Combine(workspace.Root, relative.Replace('/', Path.DirectorySeparatorChar));
     private bool RepositoryExists() => Directory.Exists(Absolute(".git")) || File.Exists(Absolute(".git"));
 

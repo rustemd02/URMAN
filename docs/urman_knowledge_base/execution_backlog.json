@@ -81571,6 +81571,12 @@
                 "verification": "Luna backend/root UI, Sol UI+backend+final JSONref reviews accepted after fixing receipt overwrites/hero allowlist/typed malformed errors/pushurl verification/absolutehooks. Gamecompile0warnings0errors16.69s; scoped diffcheckPASS. No tests/probes/fixtures/Studio/network Send runs.",
                 "actual_result": "Offline Prepare freezes saved registered text against cached origin branch, no outgoingcommit until explicitSend. Frozen before/after preview andExcludedPaths visible; private durable64-operationqueue andsame-IDretry, exclusiveSendlease, originpushendpointfingerprint, exactremoteSHAverification. Isolatedindex/baseparent commit excludes unrelatedHEAD/index/worktree code; hookdisabled sharedrunner andno filters. Pendingbuffers/duplicateIDs refusepreparation, Save neverSend. NewJSONresource refs absentbase/frozentext andchangedhero referencedassets refused ratherthanbrokenpacket. Queuecached inUI, requestsequenceguard, copyrecipientbranch, no backgroundmodalpopup. Source-only evidence, no network success claimed.",
                 "remaining": "Actual A23 two-checkout/nativeSend/idempotence/netloss; binaryassetclosure/allcataloguepaths/deletion/newunregisteredfiles integration; explicitretainedqueuearchiving policy beyond64. ParentDoD open, code notfullcollaborativeeditor."
+              },
+              {
+                "stage": "2026-10-12 explicit retained Send queue archive",
+                "result": "SOURCE_GAME_COMPILE_REVIEW_PASS_NATIVE_OPEN",
+                "source": "src-dotnet/Urman.Studio.Core/Collaboration/GitRevisionOutbox.cs; game/studio/StudioCollabSection.cs",
+                "verification": "LunaCore/rootUI/Solreview accepted, Gamecompile0/0,17.57s/scopeddiffcheckPASS. Explicit Sent-only Archive validatesreceipt/commit/snapshothashes, shares stable siblingexclusivelease withSend, same-volumeDirectory.Move refusesexistingtarget. Wholecapsule/pinnedGitref preserved, no network/no deletion. Active64limit excludesarchive; Pending/unknown cannotarchive. Actual network/two-window/nativearchive unverified."
               }
             ],
             "stage_tasks": [
@@ -81606,7 +81612,7 @@
               "Native/network A23, actual deletion Apply/Undo/Redo and restart recovery not verified.",
               "Source-text dirty tracking can keep formatting-only changes dirty after typed Undo. Trusted origin fetch preview cap still not network byte cap."
             ],
-            "next_action": "Проверить реальныйA23 на разрешённой ветке/двухcheckout сразнымикорнями безpushвmain радипроверки; затемдовестиbinaryassetclosure/всеauthoringowners иdelete/newsource/retainedqueuepolicy. Не выдавать sourcecompile заnetworkSend.",
+            "next_action": "Проверить реальныйA23 exchange/archive вразрешённых checkout; binaryassetclosure/allcatalogueowners/delete/newsource остаются. АрхивныйGUIbrowse при необходимости отдельно; данные сохранены, не считатьarchivemove удалением.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
