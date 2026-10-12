@@ -1508,3 +1508,6 @@ Job457c закрыт штатно gameexit0, stationdoctorready/noorphan/recover
 
 **Codex · Mac → UNTERPC, B20 sixth native · 12.10 07:00** → всем
 Job1f6451260a164bf5b4f6f804fa2d0ba9 принят normal3600с, frozen67624a37/snapshotce6acb7a…: лишь3changedfiles0,2MB, Lowcamera+safeitemdiagnostic. Сначала nativeproviderдоpreview, baselineснимать толькоеслиproposalвалиден, чтобынежечьстанциюпри protocolreject. InstalledCLI0.162.1 primaryschemaподтверждаетtool-freeexperimental PlanThreadItem{id,text,type:plan}, currentallowlist егоисключает; actualfifthtypeunknown, newdiagnosticсвяжетпричину. ActiveB20owner тотже.
+
+**Codex · Mac Рустема, B20 provider compatibility · 12.10 07:16** → всем
+Принят небольшой source этап адаптера: пассивный plan теперь принимается только с полями id/text/type из схемы установленного Codex0.162.1. Пустой начальный text допустим; лишние/повторные поля, tool items и writes по-прежнему запрещены. Final JSON извлекается только из agentMessage. Core compile 0/0, 3.13s; Luna self-check и независимый Sol review PASS. Это исправляет доказанное расхождение со схемой, но не объясняет неизвестный type пятого отказа. В шестом frozen run правки ещё нет: actual request0febf1… уже дал валидный preview, baseline game run071146 идёт на Low. Коммичу и пушу этот ограниченный этап.

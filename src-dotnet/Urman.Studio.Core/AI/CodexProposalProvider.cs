@@ -916,11 +916,18 @@ public sealed class CodexProposalProvider
     private static void EnsureNonToolItem(JsonElement item)
     {
         var type = GetRequiredString(item, "type");
-        if (type is not ("userMessage" or "agentMessage" or "reasoning"))
+        if (type == "plan")
         {
-            var typeToken = IsSafeItemTypeDiagnostic(type) ? type : "other";
-            throw new ProtocolBoundaryException($"itemType/{typeToken}");
+            EnsureOnlyProperties(item, "id", "text", "type", true, "planSchema");
+            _ = GetRequiredString(item, "id");
+            _ = GetRequiredString(item, "text");
+            return;
         }
+
+        if (type is "userMessage" or "agentMessage" or "reasoning") return;
+
+        var typeToken = IsSafeItemTypeDiagnostic(type) ? type : "other";
+        throw new ProtocolBoundaryException($"itemType/{typeToken}");
     }
 
     private static bool IsSafeItemTypeDiagnostic(string value)
