@@ -79,6 +79,8 @@ public static class AgentBAct1HeightField
         (AgentBAct1Layout.MosqueWalkAxis.Select(p => (p.X, p.Y)).ToArray(), .8)
     }.Concat(PlotRoads(FarBankPlotPath)).Concat(PlotRoads(AgentBAct1Layout.OpenPartPlotPath)).ToArray();
 
+    internal static double MaxRoadHalfWidth { get; } = RoadAxes.Max(road => road.HalfWidth);
+
     /// <summary>Streets of the far bank and of the open part live in their plot data with the households they serve.</summary>
     internal const string FarBankPlotPath = "res://content/world/act1_far_bank.world.v1.json";
     internal static ((float X, float Z)[] Points, double HalfWidth)[] FarBankRoads() => PlotRoads(FarBankPlotPath);

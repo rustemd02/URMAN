@@ -1312,18 +1312,33 @@ public partial class AgentBAct1ExteriorLayer : Node3D
             .Where(node => VariantKey(node.Name.ToString()) is not null && HasMeshInSubtree(node))
             .GroupBy(node => VariantKey(node.Name.ToString())!)
             .ToDictionary(group => group.Key, group => group.ToList(), StringComparer.Ordinal);
-        var geometry = new Dictionary<string, (ArrayMesh Mesh, string[] Kinds, Vector3[] LowVertices)>(StringComparer.Ordinal);
+        var geometry = new Dictionary<string, (ArrayMesh Mesh, string[] Kinds, Vector3[] LowVertices, double LowVertexRadius)>(StringComparer.Ordinal);
         var rootedStems = new Dictionary<string, Vector3[]>(StringComparer.Ordinal);
         var graded = _foliageMeshes;
-        (ArrayMesh Mesh, string[] Kinds, Vector3[] LowVertices) Geometry(string variant)
+        double LowVertexRadius(Vector3[] vertices)
+        {
+            var maximumSquared = 0d;
+            foreach (var vertex in vertices)
+            {
+                var x = (double)vertex.X;
+                var y = (double)vertex.Y;
+                var z = (double)vertex.Z;
+                maximumSquared = Math.Max(maximumSquared, x * x + y * y + z * z);
+            }
+
+            return Math.Sqrt(maximumSquared);
+        }
+
+        (ArrayMesh Mesh, string[] Kinds, Vector3[] LowVertices, double LowVertexRadius) Geometry(string variant)
         {
             if (geometry.TryGetValue(variant, out var cached)) return cached;
             if (variant is "WinterPine" or "WinterLightPine" or "WinterFarPine")
             {
                 var mesh = FoliageMesh(variant, "kara");
+                var lowVertices = Enumerable.Range(0, mesh.GetSurfaceCount()).SelectMany(surface =>
+                    SurfaceVertices(mesh, surface)).Distinct().ToArray();
                 cached = (mesh, Enumerable.Range(0, mesh.GetSurfaceCount()).Select(mesh.SurfaceGetName).ToArray(),
-                    Enumerable.Range(0, mesh.GetSurfaceCount()).SelectMany(surface =>
-                        SurfaceVertices(mesh, surface)).Distinct().ToArray());
+                    lowVertices, LowVertexRadius(lowVertices));
                 geometry[variant] = cached;
                 return cached;
             }
@@ -1376,8 +1391,9 @@ public partial class AgentBAct1ExteriorLayer : Node3D
             }
             if (variant.StartsWith("Winter", StringComparison.Ordinal) && !result.GetAabb().Grow(.02f).HasPoint(Vector3.Zero))
                 throw new InvalidOperationException($"Native winter root is outside its rebased geometry: {variant}");
-            cached = (result, groups.Keys.ToArray(), sourceVertices.Select(vertex => vertex - pivot)
-                .Where(vertex => vertex.Y < 3.2f).Distinct().ToArray());
+            var localLowVertices = sourceVertices.Select(vertex => vertex - pivot)
+                .Where(vertex => vertex.Y < 3.2f).Distinct().ToArray();
+            cached = (result, groups.Keys.ToArray(), localLowVertices, LowVertexRadius(localLowVertices));
             geometry[variant] = cached;
             return cached;
         }
@@ -1408,6 +1424,7 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         var roofs = BuildingRoofBounds(GetParent());
         var plan = new List<(Vector2 Position, string Variant)>();
         Act1ConnectedWorld.ProfileWorldBuildStep("agent-b-densified-plan", () => plan = BuildDensifiedPlan());
+        var maxRoadHalfWidth = AgentBAct1HeightField.MaxRoadHalfWidth;
         var architecture = GetNode<StaticBody3D>("AgentB_ArchitectureCollision");
         var stemCount = 0;
         var suppressed = 0;
@@ -1524,15 +1541,24 @@ public partial class AgentBAct1ExteriorLayer : Node3D
             var worldRoot = ToGlobal(target);
             hidden |= UnderBuildingRoof(worldRoot, roofs);
             if (!hidden)
-            foreach (var sample in template.LowVertices)
             {
-                var point = target + basis * sample;
-                if (variant == "FallenBranch_2" && UnderBuildingRoof(ToGlobal(point), roofs))
-                { hidden = true; break; }
-                if (point.Y - target.Y > 2.6f) continue;
-                var edge = AgentBAct1HeightField.RoadInfo(point.X, point.Z);
-                if (edge.Distance - edge.HalfWidth >= .1) continue;
-                hidden = true; break;
+                var roadSamplesDefinitelyClear = road.Distance
+                    - HorizontalOffsetBound(basis, template.LowVertexRadius)
+                    - maxRoadHalfWidth >= .1d + FoliageRoadClearanceSafetyMargin;
+                // Fallen branches still check every roof sample; other plants can skip
+                // the scan only when the conservative bound proves road clearance.
+                if (variant == "FallenBranch_2" || !roadSamplesDefinitelyClear)
+                foreach (var sample in template.LowVertices)
+                {
+                    var point = target + basis * sample;
+                    if (variant == "FallenBranch_2" && UnderBuildingRoof(ToGlobal(point), roofs))
+                    { hidden = true; break; }
+                    if (point.Y - target.Y > 2.6f) continue;
+                    if (roadSamplesDefinitelyClear) continue;
+                    var edge = AgentBAct1HeightField.RoadInfo(point.X, point.Z);
+                    if (edge.Distance - edge.HalfWidth >= .1) continue;
+                    hidden = true; break;
+                }
             }
             if (hidden) { suppressed++; continue; }
             if (variant == "WinterPine" && position.X >= -64f && position.X <= -44f && Mathf.Abs(position.Y) <= 24f)
@@ -1543,14 +1569,17 @@ public partial class AgentBAct1ExteriorLayer : Node3D
                 var lean = new Basis(new Vector3(Mathf.Cos(direction), 0, Mathf.Sin(direction)),
                     Mathf.DegToRad(Mathf.Lerp(2f, 7f, DeterministicPhase(position, 73.7f)))) * basis;
                 var canopy = GlobalTransform * (new Transform3D(lean, target) * template.Mesh.GetAabb());
+                var leanRoadSamplesDefinitelyClear = road.Distance
+                    - HorizontalOffsetBound(lean, template.LowVertexRadius)
+                    - maxRoadHalfWidth >= .1d + FoliageRoadClearanceSafetyMargin;
                 var clear = !roofs.Any(roof => roof.Grow(.35f).Intersects(canopy))
-                    && template.LowVertices.All(sample =>
+                    && (leanRoadSamplesDefinitelyClear || template.LowVertices.All(sample =>
                     {
                         var point = target + lean * sample;
                         if (point.Y - target.Y > 2.6f) return true;
                         var edge = AgentBAct1HeightField.RoadInfo(point.X, point.Z);
                         return edge.Distance - edge.HalfWidth >= .1f;
-                    });
+                    }));
                 // Preserve every accepted planting and its ID at a tight path
                 // or roof: keep the original upright basis if lean cannot fit.
                 if (clear) basis = lean;
@@ -1711,6 +1740,19 @@ public partial class AgentBAct1ExteriorLayer : Node3D
     {
         using var arrays = mesh.SurfaceGetArrays(surface);
         return arrays[(int)Mesh.ArrayType.Vertex].AsVector3Array();
+    }
+
+    private const double FoliageRoadClearanceSafetyMargin = .01d;
+
+    private static double HorizontalOffsetBound(Basis transform, double localRadius)
+    {
+        var xRow = (double)transform.X.X * transform.X.X
+            + (double)transform.Y.X * transform.Y.X
+            + (double)transform.Z.X * transform.Z.X;
+        var zRow = (double)transform.X.Z * transform.X.Z
+            + (double)transform.Y.Z * transform.Y.Z
+            + (double)transform.Z.Z * transform.Z.Z;
+        return localRadius * Math.Sqrt(xRow + zRow);
     }
 
     private static Vector3[] RootedStemFaces(ArrayMesh mesh, int barkSurface)

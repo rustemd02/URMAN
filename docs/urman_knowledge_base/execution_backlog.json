@@ -79553,6 +79553,18 @@
                 ],
                 "actual_result": "Root viewed loaded native village. Ready181025ms vs prior181992; authored58.213s vs59.061, foliage69.783 vs70.225, addresses4.665vs4.702. Difference too small to claim meaningful speedup. Actual X close gameExitCode0; no resource/RID leak records; stdout confirms original userdata restored by rename and verified; doctor ready/busy null/recovery false.",
                 "limits": "Wrapper FAIL retained: one startup GOG Galaxy Vulkan layer JSON deprecated format ERROR. This run covers guarded cache f784c185, NOT subsequent unused-centre patch f4e1e280. 3D load still slow."
+              },
+              {
+                "stage": "2026-10-12 extracted visual scenes and conservative foliage road bound",
+                "result": "SOURCE_GAME_COMPILE_0_0_INDEPENDENT_REVIEW_NATIVE_UNMEASURED",
+                "source": [
+                  "game/scripts/AuthoredWorldDirector.cs",
+                  "game/scripts/experiments/agent_b_act1/AgentBAct1ExteriorLayer.cs",
+                  "game/scripts/experiments/agent_b_act1/AgentBAct1HeightField.cs"
+                ],
+                "verification": "Two Luna FAST/Max independent implementations, Sol6.1medium source reviews accepted; root affected Game compile0warnings/0errors14.78s and scoped diffcheck. No new tests/probes/native run.",
+                "actual_result": "Imported nonwhole GLB selected components cached per director as owned PackedScene templates; each placement has its own nodes/local-to-scene resources and existing origin/scale/correction/collision/dressing. Scripted/nested/whole/directimport paths retain original extraction. Owned templates disposed on exit, loader scenes only dereferenced. Foliage caches radius of all existing low vertices; horizontal Frobenius bound+maximum road halfwidth+1cm safety margin proves distant samples clear, near-road exact checks retained; fallen-branch roof checks unchanged.",
+                "remaining": "Speed, visual equivalence/object/foliage diagnostics and clean shutdown/resource isolation must be checked on changed native source; no improvement claimed yet."
               }
             ],
             "stage_tasks": [
@@ -79589,7 +79601,7 @@
             "remaining": [
               "Новичок выполняет основные действия через интерфейс и подсказки без знания файлов.; отсутствует подтверждение собственного конечного DoD, перечисленного ниже."
             ],
-            "next_action": "Продолжить практические открытые B20 действия и AI38 полныйобмен; принятый Russianview/save/Undo не повторять безchangedinput. Полнаяскоростькарты/noviceacceptance ещёоткрыты.",
+            "next_action": "Один changed-source Windows MapLoad→осмотр→обычное закрытие: сравнить ready/foliage/authored время и диагностические counts с ce961650, проверить resources и сохранение userdata. Не повторять прежний snapshot.",
             "blocker": null,
             "external_gates": [
               {
@@ -79670,7 +79682,8 @@
                 "question": "Новичок выполняет основные действия через интерфейс и подсказки без знания файлов.",
                 "scenario": "A15 и маленькое окно/150% scale; записать успешность, время, конкретные ошибки, не выдуманные оценки удобства.",
                 "success": "Новичок выбирает дом, меняет вручную, запускает AI, отменяет, открывает связь и сохраняет без подсказки разработчика о классах/путях.",
-                "repeat_only_if": "Изменён предметный contract/input или предыдущий сценарий неполон."
+                "repeat_only_if": "Изменён предметный contract/input или предыдущий сценарий неполон.",
+                "current_stage_question": "Сокращает ли extracted PackedScene cache и консервативный foliage road bound время полной карты без изменения геометрии/объектов/лесных diagnostics и без новых утечек при закрытии?"
               },
               "actual_result": null,
               "evidence_refs": [

@@ -31,6 +31,10 @@ public partial class AuthoredWorldDirector : Node3D
     private readonly Dictionary<string, AuthoredObject> _objects = new(StringComparer.Ordinal);
     private readonly Dictionary<string, JsonElement> _catalog = new(StringComparer.Ordinal);
     private readonly Dictionary<string, PackedScene> _scenes = new(StringComparer.Ordinal);
+    // Imported GLB entries are authored as whole kits, although each placed
+    // object selects only one named component. Cache those extracted component
+    // scenes per director so later placements do not clone and discard the kit.
+    private readonly Dictionary<(string ScenePath, string CatalogId), PackedScene> _visualTemplates = [];
     private RuntimeBridge? _bridge;
     private Node _interactionHost = null!;
     // Number of objects whose PendingState is currently non-null. Rebuilt from
@@ -116,6 +120,12 @@ public partial class AuthoredWorldDirector : Node3D
     public override void _ExitTree()
     {
         if (_bridge is not null) _bridge.RuntimeStateChanged -= ApplyStates;
+
+        foreach (var template in _visualTemplates.Values) template.Dispose();
+        _visualTemplates.Clear();
+        // These are ResourceLoader-owned scenes; release our references without
+        // disposing the globally cached resources.
+        _scenes.Clear();
     }
 
     public override void _PhysicsProcess(double delta)
@@ -220,7 +230,31 @@ public partial class AuthoredWorldDirector : Node3D
 
         var source = entry.GetProperty("source");
         var scenePath = source.GetProperty("scene").GetString()!;
+        var wholeSource = source.TryGetProperty("whole", out var whole) && whole.GetBoolean();
+        var templateKey = (scenePath, catalogId);
+        if (!wholeSource && scenePath.EndsWith(".glb", StringComparison.OrdinalIgnoreCase)
+            && _visualTemplates.TryGetValue(templateKey, out var cachedTemplate))
+        {
+            var cachedHolder = cachedTemplate.Instantiate<Node3D>();
+            if (cachedHolder is not null)
+            {
+                ClearDescendantOwners(cachedHolder);
+                cachedHolder.Name = "Visual";
+                cachedHolder.Scale = Vector3.One * scale;
+                cachedHolder.Position = -ReadVector(entry, "origin") * scale;
+                item.Root.AddChild(cachedHolder);
+                item.Root.SetMeta("catalogId", catalogId);
+                return;
+            }
+
+            // A corrupt/obsolete template must not prevent the original source
+            // path from producing the same visual as before this cache existed.
+            _visualTemplates.Remove(templateKey);
+            cachedTemplate.Dispose();
+        }
+
         Node3D instance;
+        var importedPackedScene = false;
         if (ResourceLoader.Exists(scenePath))
         {
             if (!_scenes.TryGetValue(scenePath, out var packed))
@@ -229,6 +263,7 @@ public partial class AuthoredWorldDirector : Node3D
             }
 
             instance = packed.Instantiate<Node3D>();
+            importedPackedScene = true;
         }
         else
         {
@@ -246,7 +281,7 @@ public partial class AuthoredWorldDirector : Node3D
             instance = generated;
         }
 
-        if (source.TryGetProperty("whole", out var whole) && whole.GetBoolean())
+        if (wholeSource)
         {
             var wholeHolder = new Node3D { Name = "Visual", Scale = Vector3.One * scale };
             wholeHolder.AddChild(instance);
@@ -256,11 +291,10 @@ public partial class AuthoredWorldDirector : Node3D
         }
 
         var top = instance.GetChildCount() == 1 && instance.GetChild(0) is Node3D only && only.GetChildCount() > 1 ? only : instance;
-        var holder = new Node3D { Name = "Visual", Scale = Vector3.One * scale };
+        var holder = new Node3D { Name = "Visual" };
         var corrected = source.TryGetProperty("axisCorrection", out var axis) && axis.GetString() == "x+90";
         var correction = corrected ? Basis.FromEuler(new Vector3(Mathf.Pi * .5f, 0, 0)) : Basis.Identity;
         var origin = ReadVector(entry, "origin");
-        holder.Position = -origin * scale;
         foreach (var child in top.GetChildren().OfType<Node3D>())
         {
             var name = child.Name.ToString();
@@ -280,10 +314,62 @@ public partial class AuthoredWorldDirector : Node3D
             child.Transform = transform;
         }
 
+        if (importedPackedScene && scenePath.EndsWith(".glb", StringComparison.OrdinalIgnoreCase)
+            && holder.GetChildCount() > 0 && IsCacheableGlbSubtree(holder))
+        {
+            // PackedScene preserves imported resource-local-to-scene behavior,
+            // unlike Node.Duplicate's UseInstantiation semantics. Owners are
+            // assigned only for packing; placed copies are cleared below to
+            // retain the runtime ownership of the previous extraction path.
+            SetDescendantOwners(holder, holder);
+            var template = new PackedScene();
+            if (template.Pack(holder) == Error.Ok)
+            {
+                _visualTemplates[templateKey] = template;
+            }
+            else
+            {
+                template.Dispose();
+            }
+            ClearDescendantOwners(holder);
+        }
+
         instance.QueueFree();
+        holder.Scale = Vector3.One * scale;
+        holder.Position = -origin * scale;
         item.Root.AddChild(holder);
         item.Root.SetMeta("catalogId", catalogId);
     }
+
+    private static bool IsCacheableGlbSubtree(Node root)
+    {
+        foreach (var node in DescendantsAndSelf(root))
+        {
+            if (node.Get("script").VariantType != Variant.Type.Nil || !string.IsNullOrEmpty(node.SceneFilePath))
+                return false;
+        }
+
+        return true;
+    }
+
+    private static IEnumerable<Node> DescendantsAndSelf(Node root)
+    {
+        yield return root;
+        foreach (var child in root.GetChildren())
+            foreach (var descendant in DescendantsAndSelf(child))
+                yield return descendant;
+    }
+
+    private static void SetDescendantOwners(Node root, Node? owner)
+    {
+        foreach (var child in root.GetChildren())
+        {
+            child.Owner = owner;
+            SetDescendantOwners(child, owner);
+        }
+    }
+
+    private static void ClearDescendantOwners(Node root) => SetDescendantOwners(root, null);
 
     /// <summary>
     /// A vegetation brush stroke (spec WORLD11): instances are derived from the
