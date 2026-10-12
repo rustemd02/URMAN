@@ -916,7 +916,22 @@ public sealed class CodexProposalProvider
     private static void EnsureNonToolItem(JsonElement item)
     {
         var type = GetRequiredString(item, "type");
-        if (type is not ("userMessage" or "agentMessage" or "reasoning")) throw new ProtocolBoundaryException("type");
+        if (type is not ("userMessage" or "agentMessage" or "reasoning"))
+        {
+            var typeToken = IsSafeItemTypeDiagnostic(type) ? type : "other";
+            throw new ProtocolBoundaryException($"itemType/{typeToken}");
+        }
+    }
+
+    private static bool IsSafeItemTypeDiagnostic(string value)
+    {
+        if (value.Length is 0 or > 40 || !char.IsAsciiLetter(value[0])) return false;
+        foreach (var character in value)
+        {
+            if (!char.IsAsciiLetterOrDigit(character)) return false;
+        }
+
+        return true;
     }
 
     private static void VerifyThreadId(JsonElement parameters, string expectedThreadId)

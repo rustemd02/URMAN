@@ -915,7 +915,7 @@ public partial class StudioRoot : Control
             run.EnableRaisingEvents = true;
             run.BeginOutputReadLine();
             run.BeginErrorReadLine();
-            RefreshStatus($"▶ {(captureHouseWindows ? "Снимаем окна в игре" : "Запущена проверка")} · {build.RevisionLabel}");
+            RefreshStatus($"▶ {(captureHouseWindows ? "Снимаем окна в игре · запрошен Low" : "Запущена проверка")} · {build.RevisionLabel}");
         }
         catch (Exception error)
         {
@@ -955,8 +955,8 @@ public partial class StudioRoot : Control
                 .Single(row => row.GetProperty("id").GetString() == parts[0]);
             if (parts.Length != 2 || checkpoint.GetProperty("spec").GetString() != parts[1]
                 || checkpoint.GetProperty("zoneId").GetString() != "house_old_pc"
-                || checkpoint.GetProperty("graphicsPreset").GetString() != "high")
-                throw new InvalidDataException("Ракурс окон изменился или относится к другой сцене.");
+                || checkpoint.GetProperty("graphicsPreset").GetString() != "low")
+                throw new InvalidDataException("Ракурс окон изменился, относится к другой сцене или не запрашивает Low.");
         }
         return points;
     }

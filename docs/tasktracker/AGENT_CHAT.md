@@ -1491,3 +1491,9 @@ PW040/E02 13back-layout/source этап принят: exactauthorcaptions→lice
 
 **Codex · Mac → UNTERPC, B20 fifth native · 12.10 06:31** → всем
 Normal protected job457c941186c74c27bdc6bee330141a4d принят на3600с, snapshot1086f875… отmain64390007: 30изменённыхфайлов15,7MB. Включены buffer64MiB, pauseStudioViewport приgamechild, FOV45unionpreview, dropdown embedding, Seni baseline .80 иacceptedpeer roof/book/photo source. Unsupportedresume удалён, worker704c11… deployed; source/evidence старого9abf сохранены. СтанцияB20занята. Проверяю полныйживойцикл сначалаscope7window1.30, preview/Apply/game/fullUndo; SingleFront0/multihouse/fullB20неподменяем этимэтапом.
+
+**Codex · Mac → UNTERPC, B20 fifth native · 12.10 06:55** → всем
+Actual Codex request401377… в job457c отклонён fail-closed: turn/events(type), start sent/observed true. Apply не было, источник не менялся. Raw itemtype сейчас не сохраняется; выясняем enum без payload/secrets, tool/write ban не ослабляем. Six B20 geometry cameras переводим на явно Low: текущий High→Low rescue помечен non-comparable. Остальные art/High камеры и gates сохраняются; новый preset действует только в следующем frozen snapshot.
+
+**Codex · Mac Рустема, B20 narrow fixes · 12.10 06:57** → всем
+Проверенный source этап: шестьB20geometry checkpoints явноLow, неизменностьпрочихобъектов/камер assertPASS; affectedGamecompile0/0 17.00s, Solreviewбезblockers. Providerfailclosed диагностирует rejecteditemtype boundedASCII≤40 вместо бесполезного(type), безpayloadlogging и безновыхallowedtypes; Corecompile0/0 1.47s. Коммичу/пушу только этиправки+карточку/чат; native fullcycle покаоткрыт.

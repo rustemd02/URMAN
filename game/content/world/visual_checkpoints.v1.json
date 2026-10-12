@@ -454,42 +454,42 @@
     {
       "id": "B20_windows_exterior",
       "zoneId": "house_old_pc",
-      "graphicsPreset": "high",
+      "graphicsPreset": "low",
       "spec": "BabaiApproachDwellingFacade@0,1.7,14>BabaiApproachDwellingFacade@0,3,-0.5",
       "subject": "B20 Codex pilot: compare real exterior openings before resize, accepted variant and full Undo."
     },
     {
       "id": "B20_windows_interior",
       "zoneId": "house_old_pc",
-      "graphicsPreset": "high",
+      "graphicsPreset": "low",
       "spec": "BabaiApproachDwellingFacade@1.658,1.946,-2.634>BabaiApproachDwellingFacade@2.658,1.686,0.966",
       "subject": "B20 Codex pilot: actual room front-window aperture/glazing; same recipe as facade; compare before/after/Undo."
     },
     {
       "id": "B20_windows_seni",
       "zoneId": "house_old_pc",
-      "graphicsPreset": "high",
+      "graphicsPreset": "low",
       "spec": "BabaiApproachDwellingFacade@11.5,1.7,-5.01>BabaiApproachDwellingFacade@7.358,1.57,-5.01",
       "subject": "B20 Codex pilot: eighth opening in the seni; compare clear width, fixed height and surrounding wall before/after/Undo."
     },
     {
       "id": "B20_windows_rear",
       "zoneId": "house_old_pc",
-      "graphicsPreset": "high",
+      "graphicsPreset": "low",
       "spec": "BabaiApproachDwellingFacade@1.658,1.946,-2.634>BabaiApproachDwellingFacade@1.658,1.686,-6.234",
       "subject": "B20 Codex pilot: source-derived view of Rear0/Rear1 primary openings; requires native occlusion/framing review."
     },
     {
       "id": "B20_windows_left",
       "zoneId": "house_old_pc",
-      "graphicsPreset": "high",
+      "graphicsPreset": "low",
       "spec": "BabaiApproachDwellingFacade@1.658,1.946,-2.634>BabaiApproachDwellingFacade@-2.442,1.686,-2.034",
       "subject": "B20 Codex pilot: source-derived view of the Left0 primary opening; requires native occlusion/framing review."
     },
     {
       "id": "B20_windows_right",
       "zoneId": "house_old_pc",
-      "graphicsPreset": "high",
+      "graphicsPreset": "low",
       "spec": "BabaiApproachDwellingFacade@1.658,1.946,-2.634>BabaiApproachDwellingFacade@5.758,1.686,-1.734",
       "subject": "B20 Codex pilot: source-derived view of the Right0 primary opening; requires native occlusion/framing review."
     }
