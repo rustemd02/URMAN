@@ -20975,26 +20975,26 @@
             "title": "Согласовать вход/выход и управление Нивой с SaveGameV3",
             "result": "Согласовать вход/выход и управление Нивой с SaveGameV3",
             "owner": "finished-act1",
-            "evidence": [],
+            "evidence": [
+              "evidence/ACT1-TRANSPORT/native_50105484b83e49fcbc4afbd5eb41c01d/"
+            ],
             "assigned_owner": "finished-act1",
-            "active_owner": null,
+            "active_owner": "/root",
             "activity": {
-              "state": "released",
-              "reason": "Submit остановлен до snapshot/job: station busy e0841529… и userdata_recovery_pending=true. Нативный запуск не создан; сохраняю lease другого владельца."
+              "state": "confirmed_active",
+              "reason": "Новый явный release/recovery Codex10:09 прочитан после merge116e317a; root занимает станцию для fullvehicle."
             },
             "task_type": "engineering",
             "status": "in_progress",
             "implementation_state": "partial",
-            "technical_verification_state": "not_run",
+            "technical_verification_state": "failed",
             "remaining": [
-              "Согласовать вход/выход и управление Нивой с SaveGameV3; собственного целевого receipt пока нет."
+              "Нативный fullvehicle остановился на первом Niva static contact: 4 tyre gaps144.678/147.877/79.939/89.814mm при30mm пределe. Управление/педали/routes/save-load/exit не достигнуты; критерии открыты.",
+              "Нужно исправить authored parking/surface support безсмещения wheelmesh и безрасширения допуска. На wheelterrain heightspan67.9mm один verticaldrop не обеспечит35mmcontactband.",
+              "Horse cart уже доNiva assertion логирует initial pose IK reach recovery; E03 owner сохранён, не приниматьвход какисправленный."
             ],
-            "next_action": "Дождаться нового release текущего native job и подтверждения userdata recovery, затем existing fullvehicle scenario; до этого независимая игровая работа.",
-            "blocker": {
-              "reason": "Station busy_job=e0841529f7b74f679288bcc111ce7324; userdata_recovery_pending=true; protected submit refused before job creation.",
-              "release_condition": "Current owner releases station and guard confirms userdata recovery finished/ready=true.",
-              "next_action": "Один existing fullvehicle submit после нового явного release; одинаковые проверки не повторять."
-            },
+            "next_action": "Выбрать обоснованный близкий flat authored parking дляНивы сданнымиfield/road и проверить существующим fullscenario на изменённом входе; еслинеттакогоinput—пересмотретьконечнуюsupport topology, нерандомизироватьnativeposes.",
+            "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
             "work_contract": {
@@ -21028,7 +21028,9 @@
                 "success": "Наблюдаемый результат этой единицы и обратное действие/восстановление там, где меняются данные. Для ассета — импорт выбранного файла и целевой вид/движение; для кода — узкая компиляция только затронутого модуля, затем указанный пользовательский сценарий. Компиляция не доказывает изображение или GUI.",
                 "repeat_only_if": "Изменился покрываемый вход/consumer/контракт; без этого уже принятая проверка используется повторно без запуска."
               },
-              "evidence_refs": [],
+              "evidence_refs": [
+                "evidence/ACT1-TRANSPORT/native_50105484b83e49fcbc4afbd5eb41c01d/"
+              ],
               "source_criteria_parent": "ACT1-TRANSPORT"
             },
             "dependencies": {
@@ -21040,11 +21042,16 @@
             "progress_2026_10_12_native_vehicle": {
               "question": "Работают ли normal controls/нейтраль педалей/три surface routes/диск roundtrip и безопасный выход на current native snapshot после source68f4f13a?",
               "success": "Existing full scenario receipt без game ERROR и guard restoration; root лично осматривает доступные кадры, source не подменяет native. Niva budget/art/human1h отдельно.",
-              "station_owner": "Кодекс Кадыра; Codex явно release в AGENT_CHAT12.10 09:13",
+              "station_owner": "Releasing after terminal/guard health; rootstillowns finite Niva cause/fix",
               "scene": "res://tests/vehicle_smoke_test.tscn",
-              "run_state": "NOT_RUN: pre-submit station guard refusal",
-              "job_id": null,
-              "evidence": "No job/receipt created; local submit log in /private/tmp/urman-fullvehicle-20261012-submit.log"
+              "run_state": "FAIL;13 checks; controls/save route NOT_REACHED",
+              "job_id": "50105484b83e49fcbc4afbd5eb41c01d",
+              "evidence": "evidence/ACT1-TRANSPORT/native_50105484b83e49fcbc4afbd5eb41c01d/",
+              "snapshot_id": "1dfa9cf49d14f7fd4a72f8581cc1a947c0955dcc888909adb370f5f22fbf26b8",
+              "transfer": "9 files6.6MB; incremental1917files",
+              "result_sha256": "dd69cda0f7e44c9dbb69159f06a1ba4808e5e64578906368d4a83a1259d7b8ce",
+              "result": "Wheel importaligned visiblebottom=root+.0025m. Source/receipttrace: flatchassisbox liftedoverterrainoverhang, settleonly22.2mm; actualwheelgroundspan67.9mm. Do not change30mmthreshold orshrinktyres.",
+              "userdata": "receiptrecovery_pending=false; game log saysoriginal restored byrename+verified, ACLnotcompared"
             }
           },
           {
