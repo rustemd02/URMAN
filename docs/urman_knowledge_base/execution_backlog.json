@@ -21163,7 +21163,8 @@
             "result": "Согласовать коня/телегу с опорами, вводом и сохранённой позой",
             "owner": "finished-act1",
             "evidence": [
-              "evidence/ACT1-TRANSPORT/native_221a06f1d0474003ae4a1ddd8fd3e1f3/"
+              "evidence/ACT1-TRANSPORT/native_221a06f1d0474003ae4a1ddd8fd3e1f3/",
+              "evidence/ACT1-TRANSPORT/native_57560044c3ce4531b92203e996967067/"
             ],
             "assigned_owner": "finished-act1",
             "active_owner": "/root",
@@ -21176,10 +21177,10 @@
             "implementation_state": "partial",
             "technical_verification_state": "failed",
             "remaining": [
-              "Исходная опора телеги поднимает корпус выше допустимой длины левой задней ноги; требуется локально согласованный видимый грунт под колёсами и целыми подошвами.",
-              "Ввод, движение, сохранённая поза и безопасный выход ещё не проверены."
+              "Native5756 принимает authored start без recovery, chassis/support и4 wheel gaps12.52мм/4hoof gaps0мм. Дальше existing harness reader падает: JsonValue<System.Single>.GetValue<double>, ContactMaterial.cs131.",
+              "Ввод, движение, сохранение/загрузка и безопасный выход ещё не достигнуты; художественная приёмка отдельно."
             ],
-            "next_action": "Рассчитать вершины текущих треугольников под опорами и подошвами; добавить ограниченную видимую площадку без изменения модели, IK или допусков.",
+            "next_action": "Исправить несовпадение реального float поля harness proof с существующим reader без изменения измерений или допусков; затем продолжить existing VEHICLE на новом входе.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -21216,7 +21217,8 @@
                 "repeat_only_if": "Изменился покрываемый вход/consumer/контракт; без этого уже принятая проверка используется повторно без запуска."
               },
               "evidence_refs": [
-                "evidence/ACT1-TRANSPORT/native_221a06f1d0474003ae4a1ddd8fd3e1f3/"
+                "evidence/ACT1-TRANSPORT/native_221a06f1d0474003ae4a1ddd8fd3e1f3/",
+                "evidence/ACT1-TRANSPORT/native_57560044c3ce4531b92203e996967067/"
               ],
               "source_criteria_parent": "ACT1-TRANSPORT"
             },
@@ -21230,7 +21232,19 @@
               "cause": "CartWheelCollision8 (1.65,-32.11), ground=-0.28452, определяет origin=-0.25899. Левая задняя нога требует 1.13234 м при IK clamp 1.108 м: ошибка 24.34 мм >12 мм.",
               "preservation": "Сохраняем spawn, модель, длины звеньев, 16 whole-sole probes, допуски и сохранения. Площадка должна покрывать целые подошвы и колёсные опоры.",
               "verification_question": "Проходит ли исходная поза коня/телеги без parking recovery на изменённом видимом terrain и достигнуты ли следующие проверки?",
-              "success": "Существующий полный VEHICLE receipt принимает ordinary authored start и целые опоры; данные восстановлены. Отдельно остаются движение, сохранения и авторская приёмка."
+              "success": "Существующий полный VEHICLE receipt принимает ordinary authored start и целые опоры; данные восстановлены. Отдельно остаются движение, сохранения и авторская приёмка.",
+              "source_candidate": "Bounded generated flat support X[-1.68,2.34], Z[-37.72,-29.75], feather1.2m; target FieldSurface(.9,-34,false), before author strokes.",
+              "coverage": "136 points: 8 authored supports, 64 current inclined sole-edge probes and64 flat sole-edge probes;6 current triangles/9vertices. Exact vertices X[-1.6741902,2.3330450],Z[-37.7131233,-29.7544079].",
+              "scope": "No active author strokes in core+feather. Same BuildTerrainFaces supplies visible terrain and collision; Niva pad unchanged. Native candidate NOT_RUN.",
+              "affected_compile": "0 errors,0 warnings;28.82s",
+              "native_job_id": "57560044c3ce4531b92203e996967067",
+              "snapshot_id": "4f3ad0c98a45706486bc6986eee016cdb5b49f0541e263e8ad1cbf2bd0fc6bc0",
+              "native_state": "Terrain support stage accepted; full scenario FAIL after48 checks on harness reader numeric type.",
+              "transfer": "3 files0.1MB: own HeightField and two already committed Studio inputs.",
+              "station_owner": "Released: doctor ready, busy null, orphan false, recovery pending false.",
+              "evidence": "evidence/ACT1-TRANSPORT/native_57560044c3ce4531b92203e996967067/",
+              "actual_result": "Ordinary authored start no recovery, grounded position and chassis/support valid. Four wheel gaps12.5188mm vs20mm; four hoof gaps0mm. No screenshot before reader exception.",
+              "failure": "ContactMaterial.cs131: System.Single cannot convert to System.Double in JsonValue.GetValue<double>. No geometry threshold failure."
             }
           }
         ]
