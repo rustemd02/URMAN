@@ -403,6 +403,8 @@ public static partial class VehicleVisualFactory
     internal static NivaCabinParts BuildNivaCabin(Node3D cabin)
     {
         var material = new ShaderMaterial { Shader = SnowShader };
+        material.SetMeta("surface", "vehicle_snow");
+        material.SetShaderParameter("roughness_value", .93f);
         var snow = BuildWindscreenSnow(cabin, material);
         var left = BuildWiper(cabin, "WiperLeft", VehicleNivaCabin.WiperPivotLeft, VehicleNivaCabin.WiperOuterLeft);
         var right = BuildWiper(cabin, "WiperRight", VehicleNivaCabin.WiperPivotRight, VehicleNivaCabin.WiperOuterRight);
@@ -597,6 +599,7 @@ uniform float wipe_progress : hint_range(0.0, 1.0) = 0.0;
 // library's neutral snow, so a profile that declares no snow block multiplies by
 // vec3(1.0) and the layer keeps the exact colour it had before this existed.
 uniform vec3 snow_mood = vec3(1.0);
+uniform float roughness_value : hint_range(0.0, 1.0) = 0.93;
 
 const float SWEEP = __SWEEP__;
 const float X_SPAN = __X_SPAN__;
@@ -662,7 +665,7 @@ void fragment() {
     float density = snow_amount * (0.55 + 0.65 * grain) * mix(0.62, 1.0, drift) * borders;
     density = clamp(density, 0.0, __MAX_ALPHA__) * (1.0 - cleared);
     ALBEDO = vec3(0.90, 0.93, 0.97) * snow_mood;
-    ROUGHNESS = 0.93;
+    ROUGHNESS = roughness_value;
     SPECULAR = 0.08;
     ALPHA = density;
 }
