@@ -1,0 +1,4 @@
+== AI-20: the two kernels validate different things, pinned from the sources
+
+  compiler dialogue diagnostics: MissingDialogueEntryNode present: True; choice-target check present: False
+PROBE RESULT: PASS

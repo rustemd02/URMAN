@@ -1,0 +1,28 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-20",
+    "STUDIO/AI-24"
+  ],
+  "stage": "the two kernels validate different things, pinned from the sources",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-12 (MSK)",
+  "branch": "deepseek/b20-editor-content",
+  "base": "3ca32269",
+  "why": "after I mis-stated one consequence by reading a single consumer, I checked the claim across BOTH kernels instead of trusting my own message",
+  "what_is_now_pinned": {
+    "compiler": "ContentCompiler reports MissingDialogueEntryNode for a missing dialogue ENTRY node, and has NO diagnostic for a missing dialogue CHOICE target - the probe asserts both the presence and the ABSENCE",
+    "runtime_chat": "CompiledCampaignRepository fails a chat's dangling target AT LOAD with 'leads to unknown node'",
+    "runtime_dialogue": "RuntimeBridge indexes dialogue.Nodes[choice.NextNodeId] when the answer is chosen, which throws KeyNotFoundException"
+  },
+  "why_it_matters": "a dangling dialogue choice target survives compilation, survives loading, and only fails in front of the player when the answer is picked - while the same mistake in a chat stops the whole campaign from loading. The two must be described separately, and now both descriptions are pinned by assertions rather than by my memory of reading the code",
+  "also_recorded": "an evidence audit found ELEVEN of my twenty-eight evidence blocks carry only a build.log and no receipt.json, all of them from 2026-10-10, before I started writing receipts. They are historical and left as they are; from 2026-10-11 on, every block has a receipt",
+  "verified": {
+    "probe": "PASS 779/779 including the three cross-kernel assertions",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors",
+    "not_run": "no game launch: picking the answer is runtime acceptance"
+  },
+  "files": {
+    "evidence/STUDIO/b20-deepseek-ai-20/2026-10-12-cross-kernel-validation/check.log": "819629c4a86d5a6ffe8666a463d289c57ba1e94d6e353d6f8ed8836f2997ce1f"
+  }
+}
