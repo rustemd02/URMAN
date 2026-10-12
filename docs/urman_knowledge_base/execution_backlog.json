@@ -82034,6 +82034,12 @@
                 "result": "DEFECT REPORTED, NOT FIXED, by deepseek v4.1 flash: ConditionPhrases.cs is IN main and is NOT mine. Its Describe(JsonObject rule) guards the op cast on line 74 with 'as JsonValue' and then casts THE SAME FIELD DIRECTLY on line 79 (var op = (string?)rule[\"op\"] ?? \"\"). For a rule whose op holds an object or an array that cast throws InvalidOperationException instead of reporting a problem. IT REACHES ME: my projections call this file on authored content - PcChatContent line 187 calls ConditionPhrases.Kind(op) while validating chat conditions, and AuthoringDiagnostics lines 34/149/152 call FindNotExecuted and Kind - so a malformed op in authored content would crash through my code path, in exactly the place my own projections were swept to avoid. PROVEN: a minimal standalone program shows the cast throwing InvalidOperationException 'The node must be of type JsonValue'; two probe assertions pin the source shape (the guarded line present AND one unguarded line of the same cast present). I did NOT edit the file: it is another owner's, and the rule is to hand a defect with evidence. ASK: the owner can make line 79 read the same guard as line 74, or I can send it as a one-line patch. Verified: probe PASS 793/793; Core 0/0",
                 "source": "src-dotnet/Urman.Studio.Core/Editing/ConditionPhrases.cs lines 74 and 79 (NOT mine); evidence evidence/STUDIO/b20-deepseek-ai-40/2026-10-12-conditionphrases-crash-risk",
                 "verification": "probe PASS 793/793 including the two source-shape assertions; the crash was reproduced in a standalone program. No game launch: the crash belongs to the editor and is NOT_RUN"
+              },
+              {
+                "stage": "2026-10-12 the ConditionPhrases crash risk is on a LIVE path, not dead code",
+                "result": "self-check by deepseek v4.1 flash of my own previous finding: if Describe had no caller the report would be cosmetic, and I have already made one severity mistake tonight by reasoning from a single consumer. FINDING: Describe IS called with real authored rule objects on live paths - StudioCollabSection line 499 calls phrases.Describe(rule) on a JsonObject rule read from content, and StudioRuleEditor line 89 renders a rule the editor is editing - both passing into the method whose line 74 guards the op cast and line 79 does not. SO THE SEVERITY HOLDS: a malformed op in authored content reaches the unguarded cast through the Studio UI and throws InvalidOperationException inside a Godot callback instead of reporting to the author. What is new here is the EVIDENCE: the probe now asserts the two live call sites by name, so the claim cannot be read as being about dead code. Verified: probe PASS 795/795; Core 0/0",
+                "source": "game/studio/StudioCollabSection.cs line 499 and game/studio/StudioRuleEditor.cs line 89, plus ConditionPhrases.cs line 79 (not mine); evidence evidence/STUDIO/b20-deepseek-ai-40/2026-10-12-conditionphrases-live-callers",
+                "verification": "probe PASS 795/795 including the two live-caller assertions; Core 0/0. The throw would happen in the editor and is NOT_RUN"
               }
             ],
             "stage_tasks": [
@@ -82089,7 +82095,9 @@
               "Замыкание ассетов модулей: 33 объявлено, 33 определено, 5 бинарников на месте, 0 проблем; скан по kind давал 8 ложных «не определено» (компилятор берёт вид из ID).",
               "Ранее переданный частичный этап (2026-10-12 module asset closure, derived the way the compiler derives it) ждёт ревью/приёмки; полный done_when не выполнен.",
               "ПЕРЕДАНО владельцу: в ConditionPhrases.cs (файл в main, не мой) строка 74 защищает приведение op, а строка 79 делает то же приведение напрямую → InvalidOperationException; сюда попадают МОИ проекции.",
-              "Ранее переданный частичный этап (2026-10-12 a crash risk in a file I do NOT own, reached through MY calls) ждёт ревью/приёмки; полный done_when не выполнен."
+              "Ранее переданный частичный этап (2026-10-12 a crash risk in a file I do NOT own, reached through MY calls) ждёт ревью/приёмки; полный done_when не выполнен.",
+              "Риск падения в ConditionPhrases подтверждён как ЖИВОЙ: Describe зовут StudioCollabSection:499 и StudioRuleEditor:89 с реальными авторскими правилами.",
+              "Ранее переданный частичный этап (2026-10-12 the ConditionPhrases crash risk is on a LIVE path, not dead code) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
             "next_action": "UI стартового состояния; пометка synthetic/reachable; runtime trace с occurrence ID; pause clock; шаг события; copy transform только явной командой; handoff case.",
             "blocker": null,

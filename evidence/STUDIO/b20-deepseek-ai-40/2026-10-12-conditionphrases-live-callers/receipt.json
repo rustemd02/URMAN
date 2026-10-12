@@ -1,0 +1,23 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-40"
+  ],
+  "stage": "the ConditionPhrases crash risk is on a LIVE path, not dead code",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-12 (MSK)",
+  "branch": "deepseek/b20-editor-content",
+  "base": "e10abf4a",
+  "why": "after reporting the unguarded cast I checked myself again: if Describe had NO caller the finding would be cosmetic, and I have already made one severity mistake tonight by reasoning from a single consumer",
+  "what_I_found": "Describe IS called with real authored rule objects on live paths. StudioCollabSection line 499 calls phrases.Describe(rule) where the rule is a JsonObject read from content, and StudioRuleEditor line 89 renders a rule the editor is editing. Both pass the object into the same method whose line 74 guards the op cast and line 79 does not",
+  "so_the_severity_holds": "a malformed op in authored content reaches the unguarded cast through the Studio UI, which throws InvalidOperationException inside a Godot callback instead of reporting the problem to the author",
+  "what_is_new_here": "only the evidence: the probe now asserts the two live call sites by name, so the claim cannot be read as being about dead code",
+  "verified": {
+    "probe": "PASS 795/795 including the two live-caller assertions",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors",
+    "not_run": "no Studio window: the throw would happen in the editor"
+  },
+  "files": {
+    "evidence/STUDIO/b20-deepseek-ai-40/2026-10-12-conditionphrases-live-callers/check.log": "1641d094de400c613aa162ec9cd84e6b49ead84cb4e99eaf84ffb5a52fbf4835"
+  }
+}

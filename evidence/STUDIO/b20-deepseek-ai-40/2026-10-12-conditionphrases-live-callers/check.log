@@ -1,0 +1,10 @@
+== AI-40: the ConditionPhrases crash risk is on a LIVE path, not dead code
+
+-- the unguarded cast (line 79) and the guarded one (line 74):
+74:        if ((string?)(rule["op"] as JsonValue) is { } unsupported && NotExecuted.Contains(unsupported))
+79:        var op = (string?)rule["op"] ?? "";
+-- the live callers that pass it real authored rules:
+game/studio/StudioCollabSection.cs:499:        JsonObject rule when rule["op"] is not null => phrases.Describe(rule),
+game/studio/StudioRuleEditor.cs:89:            Text = (negated ? "НЕ: " : "") + Phrases.Describe(shown),
+  live Describe callers: StudioCollabSection=True, StudioRuleEditor=True
+PROBE RESULT: PASS
