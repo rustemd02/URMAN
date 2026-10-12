@@ -112506,12 +112506,15 @@
             "title": "Произвести 13 фронтов, 13 оборотов, миниатюры и транскрипции.",
             "result": "Произвести 13 фронтов, 13 оборотов, миниатюры и транскрипции.",
             "owner": "art",
-            "evidence": [],
+            "evidence": [
+              "evidence/PW-040/s-garden-20261012/thumbnail-receipt.json",
+              "evidence/PW-040/s-garden-20261012/thumbnail-build.log"
+            ],
             "assigned_owner": "art",
             "active_owner": null,
             "activity": {
-              "state": "not_active",
-              "reason": "13authored back layouts + read-gated source consumer проверены, runtime/art и остальные fronts/thumbnails открыты."
+              "state": "released",
+              "reason": "Acquired-only S-GARDEN thumbnail consumer source этап принят; native album остаётся открытым."
             },
             "task_type": "engineering",
             "status": "in_progress",
@@ -112521,7 +112524,7 @@
               "13backSVG produced1800×1200 and Godot rendered; protected album view/authorart+language acceptance open.",
               "12other fronts, S-GARDEN1800×1200final, all thumbnails и scene/identity alignment; full E02 остаётся открытым."
             ],
-            "next_action": "После release станции проверить actual acquired/backRead/caption-match album views и Continue; fronts требуют своих scene/identity inputs, полныйE02 не закрыт.",
+            "next_action": "После release станции проверить actual acquired/backRead/caption-match album, S-GARDEN list thumbnail60×40, keyboardscroll/sessionclear и Continue; native/art и полный E02 открыты.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -112588,7 +112591,9 @@
                 "game/assets/textures/photobook/s-garden-front-v1.provenance.json",
                 "evidence/PW-040/photo-backs-20261012/receipt.json",
                 "game/assets/textures/photobook/backs-v1/manifest.json",
-                "evidence/PW-040/photo-backs-20261012/godot-render.json"
+                "evidence/PW-040/photo-backs-20261012/godot-render.json",
+                "evidence/PW-040/s-garden-20261012/thumbnail-receipt.json",
+                "evidence/PW-040/s-garden-20261012/thumbnail-build.log"
               ],
               "source_criteria_parent": "PW-040"
             },
@@ -112655,6 +112660,23 @@
               "source_review": "Acquired-only selected projection; BackRead=true and ordinal-caption match beforetextureload. Missingasset/mismatch fallback authoritative editable Label. Both front/back textures clear on selection/session/load/empty. State/save/actionreducers unchanged.",
               "native_game": "NOT_RUN: active B20 station owner",
               "remaining": "Protected album layout/read/Continue and art/language acceptance;12otherfronts+S-GARDEN1800final+thumbnails; fullE02 open"
+            },
+            "progress_2026_10_12_thumbnail": {
+              "stage": "S-GARDEN acquired list thumbnail consumer",
+              "source": "game/scripts/JournalUi.PhotoBook.cs",
+              "source_sha256": "1644fc0acdf7347dc4d08d2ed17e53af495bc79d5b4f729202410df103c4161f",
+              "representation": "same immutable original front texture, displayed60×40 in single-column ItemList; no resized master/thumbnail file produced",
+              "guards": "current session acquired projection only; no back/caption icons; other photos null-icon text; existing load/session/empty list clearing preserved",
+              "source_review": "Root + independent Luna: actual projection and Godot4.7.1 API metadata verified; no save/actions changes",
+              "compile": {
+                "result": "PASS",
+                "warnings": 0,
+                "errors": 0,
+                "seconds": 26.76,
+                "log": "thumbnail-build.log"
+              },
+              "native_album_view": "NOT_RUN",
+              "remaining": "Actual list readability/keyboard scroll/session/Continue on Windows; 12 fronts and complete thumbnail asset set open"
             }
           },
           {
