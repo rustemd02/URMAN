@@ -187,14 +187,16 @@ public static class WinterParticleSurfaces
         return _fade;
     }
 
+    /// <summary>Clear retained resources after a smoke scene has been freed.</summary>
+    public static void ClearCacheForHeadlessTests() => ReleaseRetainedResources();
+
     /// <summary>
-    /// Test-only, like PainterlyMaterialLibrary.ClearCacheForHeadlessTests: the
-    /// retained mask, shader, gradient and per-parameter meshes would otherwise
-    /// outlive the smoke scene and be reported as resources still in use at
-    /// exit. Called after the scene is freed, so no live node still holds them;
-    /// the next Snow/Fade call rebuilds every piece lazily.
+    /// Release the same retained resources during final Studio shutdown. Call
+    /// only after the world has been freed, so no live node still holds them.
     /// </summary>
-    public static void ClearCacheForHeadlessTests()
+    internal static void ReleaseForFinalShutdown() => ReleaseRetainedResources();
+
+    private static void ReleaseRetainedResources()
     {
         // Release the holders of the shared resources before the shared
         // resources themselves: each cached mesh owns its material, and those
@@ -205,9 +207,13 @@ public static class WinterParticleSurfaces
             mesh.Dispose();
         }
         _openSnowMeshes.Clear();
-        // The tracked room-exclusion materials belong to the emitter that was just
-        // freed; drop the list and return the tint to the neutral constant so the
-        // next scene starts from the same state as the first one.
+        // These wrappers belong to the emitters that were just freed. Dispose
+        // them before their shared shader and mask, then return the tint to its
+        // neutral value so a later scene starts from the same state as the first.
+        foreach (var material in _airborneMaterials)
+        {
+            if (GodotObject.IsInstanceValid(material)) material.Dispose();
+        }
         _airborneMaterials.Clear();
         AirborneSnowTint = new Color(.93f, .95f, .98f);
         _roomExclusionShader?.Dispose();

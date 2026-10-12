@@ -74658,7 +74658,9 @@
                       "question": "Проходит ли Front0 реальный native Studio Request→preview→Apply→game→Undo с неизменными соседями и byte-exact восстановлением?",
                       "scenario": "Один последовательный nativeStudio walkthrough A01/A02 с before/after/Undo и exact receipt; existing CLI pilot использовать как вход, не как GUI-доказательство.",
                       "success": "UI/actual Codex receipt/target game views/source hashes/new-file absence + guard userdata restoration; полный multi-house A02 и restart отдельно.",
-                      "repeat_only_if": "Изменился source/candidate/input/покрываемый контракт."
+                      "repeat_only_if": "Изменился source/candidate/input/покрываемый контракт.",
+                      "current_stage_question": "Does final Studio close after freeing its world and clearing the retained WinterParticleSurfaces cache remove the exact parent mesh/material/shader/resource errors from the seventh native receipt?",
+                      "current_stage_success": "Shortest fresh native Studio load→normal X close, no new Codex request or Apply; parent gameExit0 and no engine ERROR with userdata guard restored. Full workflow seventh geometry remains separately accepted; source candidate not runtime claim."
                     },
                     "actual_result": "Accepted seven-window geometry stage from actual sixth native Codex workflow, matched18 Low frames and byte-exact Undo. Overall native receipt FAIL on old-source exit resource leaks; no singleFront0 edit/restart/Claude/multihouse acceptance is claimed.",
                     "evidence_refs": [
