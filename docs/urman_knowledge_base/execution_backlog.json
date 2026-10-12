@@ -77268,6 +77268,12 @@
                 "result": "deepening by deepseek v4.1 flash: the check that a PC-chat node does not point at a missing node ALREADY existed and was already probed - what was missing was the CONSEQUENCE. I read the runtime: OldPcUi.Chat.PendingChoiceNode uses chat.Nodes.TryGetValue and treats a miss as 'nothing pending', so the thread neither errors nor advances - it stops silently and the player gets no next line. The message now says exactly that and names TryGetValue, and both facts are asserted in the probe. Why it matters: the message is what Studio shows an author, and 'the branch will break' is vague next to 'the runtime treats the miss as no continuation, so the thread stops silently'. The validation logic itself is untouched: only text and assertions changed. Verified: probe PASS 774/774 including the two new assertions; Core 0/0 OWN MISTAKE: the receipt was missing from the commit that shipped the change because the writing script had a syntax error (a bracket instead of an assignment); it is added in a separate follow-up rather than by rewriting the pushed commit.",
                 "source": "src-dotnet/Urman.Studio.Core/Editing/PcChatContent.cs (the dangling-target message); evidence evidence/STUDIO/b20-deepseek-ai-24/2026-10-12-pcchat-dangling-target",
                 "verification": "probe PASS 774/774 including the two new assertions naming the runtime lookup and the silent stop; Core 0/0. The message reaching an author in the editor is NOT_RUN"
+              },
+              {
+                "stage": "2026-10-12 I corrected my own claim about the consequence of a dangling chat target",
+                "result": "CORRECTION by deepseek v4.1 flash of my OWN previous stage: I read only the UI path (OldPcUi.Chat.PendingChoiceNode uses TryGetValue and stalls) and wrote that a dangling chat target makes the thread stop SILENTLY. That is WRONG for a chat: CompiledCampaignRepository validates it while building the repository at load - it walks every chat node and choice and throws InvalidDataException 'leads to unknown node' (lines 223-228) - so the WHOLE compiled campaign fails to load, not one branch. The message now says that and the assertions name InvalidDataException and the whole-campaign failure. THE LESSON: I read one consumer and generalised; the UI path does stall quietly, but it cannot be reached because the repository never loads. A claim about a consequence needs the EARLIEST place the failure happens, not the first one I happened to read. The check that the target must exist was right all along - only my description of the consequence was wrong. Verified: probe PASS 774/774 with the corrected assertions; Core 0/0",
+                "source": "src-dotnet/Urman.Studio.Core/Editing/PcChatContent.cs plus game/scripts/CompiledCampaignRepository.cs (lines 223-228); evidence evidence/STUDIO/b20-deepseek-ai-24/2026-10-12-pcchat-consequence-corrected",
+                "verification": "probe PASS 774/774 with the two corrected assertions; Core 0/0. Seeing the load fail in the game is NOT_RUN"
               }
             ],
             "stage_tasks": [
@@ -77326,7 +77332,9 @@
               "Устойчивость: PcChatContent больше не падает на не-значении; поведение не изменилось.",
               "Ранее переданный частичный этап (2026-10-11 PcChatContent reads authored JSON safely) ждёт ревью/приёмки; полный done_when не выполнен.",
               "Сообщение о висячей цели в тредах ПК теперь называет реальное следствие рантайма (TryGetValue → тред молча останавливается).",
-              "Ранее переданный частичный этап (2026-10-12 the PC-chat dangling-target message now states the runtime's real consequence) ждёт ревью/приёмки; полный done_when не выполнен."
+              "Ранее переданный частичный этап (2026-10-12 the PC-chat dangling-target message now states the runtime's real consequence) ждёт ревью/приёмки; полный done_when не выполнен.",
+              "ИСПРАВЛЕНИЕ: висячая цель в ЧАТЕ роняет загрузку ВСЕЙ кампании (InvalidDataException), а не «молча останавливает тред» — я прочитал только UI-путь и обобщил.",
+              "Ранее переданный частичный этап (2026-10-12 I corrected my own claim about the consequence of a dangling chat target) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
             "next_action": "Трассировать bindings активной кампании; human forms; AI exact-field edits; проверить Markdown/учебные токены; preview в игре.",
             "blocker": null,

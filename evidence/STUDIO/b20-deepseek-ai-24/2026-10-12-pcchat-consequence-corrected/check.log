@@ -1,0 +1,9 @@
+== AI-24: I corrected my own claim about the consequence of a dangling chat target
+
+-- the runtime validation that makes it fatal (CompiledCampaignRepository):
+224:                throw new InvalidDataException($"Chat {chat.Id} node {node.Id} leads to unknown node {followUp}.");
+228:                    throw new InvalidDataException($"Chat {chat.Id} choice {choice.Id} leads to unknown node {next}.");
+-- the corrected message:
+246:                    // THROWS InvalidDataException when a target is unknown, so the whole compiled
+248:                    problems.Add($"Узел «{node.Id}» ведёт в «{target}», которого нет: рантайм проверяет цели на загрузке (CompiledCampaignRepository) и бросает InvalidDataException, то есть не откроется ВСЯ кампания, а не одна ветка.");
+PROBE RESULT: PASS

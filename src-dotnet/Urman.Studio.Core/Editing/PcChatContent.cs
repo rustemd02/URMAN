@@ -241,10 +241,11 @@ public static class PcChat
             {
                 if (!ids.Contains(target!))
                 {
-                    // The runtime looks the target up with TryGetValue and treats a miss as "nothing
-                    // pending" (OldPcUi.Chat.PendingChoiceNode), so the thread does not error: it
-                    // simply stops advancing and the player is left without a next line.
-                    problems.Add($"Узел «{node.Id}» ведёт в «{target}», которого нет: рантайм ищет узел через TryGetValue, при промахе считает, что продолжения нет, и тред молча останавливается — без ошибки и без следующей реплики.");
+                    // The runtime validation at load is what makes this fatal rather than cosmetic:
+                    // CompiledCampaignRepository's constructor walks every chat node and choice and
+                    // THROWS InvalidDataException when a target is unknown, so the whole compiled
+                    // campaign fails to load rather than one thread stalling.
+                    problems.Add($"Узел «{node.Id}» ведёт в «{target}», которого нет: рантайм проверяет цели на загрузке (CompiledCampaignRepository) и бросает InvalidDataException, то есть не откроется ВСЯ кампания, а не одна ветка.");
                 }
             }
 
