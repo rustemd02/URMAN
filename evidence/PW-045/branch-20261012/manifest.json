@@ -1,0 +1,214 @@
+{
+  "schema": 1,
+  "asset": "A-BRANCH / W01 F01",
+  "stage_status": "offline asset export; runtime NOT_RUN; author review pending",
+  "source": "/Users/kadyrahunov/Projects/URMAN/assets/source/blender/photoworlds/W01/urman_prologue_branch.py",
+  "source_sha256": "9b7739a8cb143ae92307fc5d115649e8b0b8fdff50fc255113ec2f147460d1a6",
+  "textures": [
+    {
+      "path": "game/assets/textures/painterly/bark_spruce_v1_albedo.png",
+      "sha256": "3a526b203d11df79eb7c99bb2317f84fd60f58978cf0ce54e6f94be7efc66acf",
+      "receipt": "game/assets/textures/painterly/procedural_bake_receipt_v1.json#textures.F03",
+      "licence": "project-original procedural (no third-party source)",
+      "metres_per_repeat": 1.0
+    }
+  ],
+  "coordinate_contract": {
+    "authoring": "Blender metres, X is branch length, Z is up; glTF exported Y-up",
+    "branch_centerline_length_m": 1.1,
+    "route_clear_width_m": 1.5,
+    "blocking_root_blender_xyz_m": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "moved_root_blender_xyz_m": [
+      1.4,
+      0.0,
+      0.14
+    ],
+    "moved_path_clearance_m": 0.1,
+    "side_support_contact_top_z_m": 0.14,
+    "grip_anchor": {
+      "node": "Branch_GripCenter",
+      "root_local_xyz_m": [
+        0.0,
+        0.003452,
+        0.034206
+      ]
+    }
+  },
+  "moving_geometry": {
+    "root_node": "PrologueBranch_MovingRoot",
+    "mesh_node": "PrologueBranch_Body",
+    "mesh_count": 1,
+    "evaluated_blocking_bounds": {
+      "min_blender_xyz_m": [
+        -0.550612,
+        -0.047353,
+        0.0
+      ],
+      "max_blender_xyz_m": [
+        0.550525,
+        0.133391,
+        0.148721
+      ],
+      "size_blender_xyz_m": [
+        1.101137,
+        0.180744,
+        0.148721
+      ]
+    },
+    "shape": "one irregular tapered branch with one small natural fork; no heavy log or duplicate branch"
+  },
+  "static_supports": {
+    "SIDE_RootSupport_Left": {
+      "min_blender_xyz_m": [
+        0.859345,
+        -0.074527,
+        0.0
+      ],
+      "max_blender_xyz_m": [
+        1.25599,
+        0.040303,
+        0.14
+      ],
+      "size_blender_xyz_m": [
+        0.396645,
+        0.11483,
+        0.14
+      ]
+    },
+    "SIDE_RootSupport_Right": {
+      "min_blender_xyz_m": [
+        1.54433,
+        -0.049236,
+        0.0
+      ],
+      "max_blender_xyz_m": [
+        1.945782,
+        0.068675,
+        0.14
+      ],
+      "size_blender_xyz_m": [
+        0.401452,
+        0.117911,
+        0.14
+      ]
+    }
+  },
+  "clips": [
+    {
+      "name": "rest_blocking",
+      "node": "PrologueBranch_MovingRoot",
+      "start_frame": 1,
+      "end_frame": 12,
+      "duration_seconds": 0.4583,
+      "contract": {
+        "precondition": "branch begins across the 1.5 m route",
+        "result": "branch rests on the route surface; grip anchor is on the branch centerline",
+        "root_xyz_m": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      }
+    },
+    {
+      "name": "rest_moved",
+      "node": "PrologueBranch_MovingRoot",
+      "start_frame": 1,
+      "end_frame": 12,
+      "duration_seconds": 0.4583,
+      "contract": {
+        "precondition": "branch has been lifted clear of the route",
+        "result": "branch rests on two static side-root supports beyond the route edge",
+        "root_xyz_m": [
+          1.4,
+          0.0,
+          0.14
+        ],
+        "path_clearance_m": 0.1
+      }
+    },
+    {
+      "name": "lift_and_place",
+      "node": "PrologueBranch_MovingRoot",
+      "start_frame": 1,
+      "end_frame": 26,
+      "duration_seconds": 1.0417,
+      "contract": {
+        "precondition": "branch is in the blocking rest pose; center grip anchor is used by a later runtime owner",
+        "result": "lift, clear the route edge, then lower onto the side-root supports",
+        "root_xyz_m": [
+          [
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.06,
+            0.0,
+            0.31
+          ],
+          [
+            1.4,
+            0.0,
+            0.31
+          ],
+          [
+            1.4,
+            0.0,
+            0.14
+          ]
+        ],
+        "support_contact_top_z_m": 0.14,
+        "gameplay_effect": "none; no quest flag or skip behavior is implemented in this asset"
+      }
+    }
+  ],
+  "render_previews": [
+    {
+      "path": "branch_blocking.png",
+      "sha256": "b4a066ed3c05f8ccfe0fedf40efa948653ab61cdaafd63973e86cdfa4742c372"
+    },
+    {
+      "path": "branch_moved.png",
+      "sha256": "ac8cdfb7e914b08531491d4e325042737c20814d1ce3f4f2facf1c88d7dc95e2"
+    }
+  ],
+  "artifacts": {
+    "blend": {
+      "path": "urman_prologue_branch.blend",
+      "sha256": "869d39812c7a31a7db0b4b627dbc80c342400bb101313a311abae1816177ca3c",
+      "bytes": 1817357
+    },
+    "glb": {
+      "path": "urman_prologue_branch.glb",
+      "sha256": "c9b682934a785aca3cbd42e733d30da86c5b030bf7e1e4d8569ff9f33d20fd5c",
+      "bytes": 1755956
+    },
+    "glb_node_names": [
+      "Branch_GripCenter",
+      "PrologueBranch_Body",
+      "PrologueBranch_MovingRoot",
+      "SIDE_RootSupport_Left",
+      "SIDE_RootSupport_Right"
+    ],
+    "glb_animation_names": [
+      "lift_and_place",
+      "rest_blocking",
+      "rest_moved"
+    ],
+    "glb_default_moving_root_translation_yup_m": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  "scope_limits": [
+    "Render-only ground, route swatch, camera, and lights are absent from the GLB.",
+    "No gameplay flag, prologue interaction, save/load behavior, or early-skip behavior is implemented.",
+    "No runtime import, station run, or author visual acceptance is claimed."
+  ]
+}
