@@ -1,0 +1,24 @@
+{
+  "stage": "W01 F01/F03 authored graph correction",
+  "source_checks": {
+    "branch_only_observes_fact": true,
+    "end_requires_branch_fact": true,
+    "skip_unchanged": true,
+    "main_forest_move_only_observes_fact": true
+  },
+  "content_compile_exit": 0,
+  "affected_build": {
+    "errors": 0,
+    "warnings": 0,
+    "seconds": 28.06
+  },
+  "existing_semantic_route": "updated to intended graph contract; NOT_RUN (station reserved B20)",
+  "physical_F01_F03": "ABSENT; W01 consumer still required",
+  "source_hashes": {
+    "content/modules/urman-fullgame/definitions.json": "1f3e25935991e915c70aae603dcf2a2ce4ca146c8772b9f44714e38ac44bb62f",
+    "content/modules/urman-fullgame/module.json": "add2c1576047638dcbafc41cc652927528502c42ae30ba3f96405b4c430acb47",
+    "content/campaigns/urman.fullgame/campaign.json": "bd5deb3cbbffa6609e7231fd9438f04ff0d7d87b4903839c6a4f30956d3b6ba9",
+    "game/content/urman.fullgame.compiled.v1.json": "9e4c79c19b17f9fb3e3f29a59d498dfbf082a91f63f37ec37123043fa4e817bf",
+    "game/tests/FullGameFlowSmokeTest.cs": "45541f69db639e2714a08b1c61c75e5d6b686fa8e20ac7735b183c15c04e57cd"
+  }
+}

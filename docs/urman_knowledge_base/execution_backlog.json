@@ -99567,21 +99567,24 @@
             "title": "Сопоставить полный authored сюжетный граф с physical fact producers без выдачи debug route за игрока",
             "result": "Сопоставить полный authored сюжетный граф с physical fact producers без выдачи debug route за игрока",
             "owner": "narrative",
-            "evidence": [],
+            "evidence": [
+              "evidence/PW-003/prologue-graph-20261012/"
+            ],
             "assigned_owner": "narrative",
             "active_owner": null,
             "activity": {
-              "state": "not_active",
-              "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+              "state": "released",
+              "reason": "Конечный authored W01 graph fix принят по source/ContentCli/affected compile; physical route и полный GRAPH-CHECK ещё открыты."
             },
             "task_type": "integration_check",
-            "status": "todo",
-            "implementation_state": "not_started",
+            "status": "in_progress",
+            "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
-              "Сопоставить полный authored сюжетный граф с physical fact producers без выдачи debug route за игрока; отсутствует подтверждение собственного конечного DoD, перечисленного ниже."
+              "Сопоставить полный authored сюжетный граф с physical fact producers без выдачи debug route за игрока; отсутствует подтверждение собственного конечного DoD, перечисленного ниже.",
+              "Source gap F01/F03 исправлен и скомпилирован; existing semantic route обновлён, ещё NOT_RUN. Физические F01/F03 producers отсутствуют; полный graph map/W04/two first orders открыты."
             ],
-            "next_action": "Сопоставить полный authored сюжетный граф с physical fact producers без выдачи debug route за игрока",
+            "next_action": "После реализации W01 consumer принять protected existing FullGameFlowSmokeTest semantic route на освобождённой станции; сопоставить остальные required facts с реальными producer, не debug route.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -99590,7 +99593,11 @@
               "targets": [
                 "content/campaigns/urman.fullgame/",
                 "src-dotnet/Urman.Core/Narrative/PhotoWorldCommandHandler.cs",
-                "game/scripts/RuntimeBridge.cs"
+                "game/scripts/RuntimeBridge.cs",
+                "content/modules/urman-fullgame/definitions.json",
+                "content/modules/urman-fullgame/module.json",
+                "game/content/urman.fullgame.compiled.v1.json",
+                "game/tests/FullGameFlowSmokeTest.cs"
               ],
               "required_inputs": [],
               "scope_in": [
@@ -99616,14 +99623,25 @@
                 "repeat_only_if": "Изменился source/candidate/input/покрываемый контракт."
               },
               "actual_result": null,
-              "evidence_refs": []
+              "evidence_refs": [
+                "evidence/PW-003/prologue-graph-20261012/"
+              ]
             },
             "dependencies": {
               "implementation": [],
               "verification": [],
               "acceptance": []
             },
-            "depends_on": []
+            "depends_on": [],
+            "progress_2026_10_12_prologue_gap": {
+              "question": "Перенос ветки сохраняет факт без выхода, F03 завершает только после факта, skip остаётся прежним, later forest move не завершает пролог повторно?",
+              "source": "W01 level F00-F03 + фактический compiled/source pw-prologue-branch-move; dispatch consumer RuntimeBridge.DispatchCompiledInteractionAsync",
+              "scope": "Только подтверждённый graph defect. Полный source→physical map, W04 и two first orders остаются в собственном DoD.",
+              "result": "F01 только сохраняет ветку; отдельный F03 endpoint после branch fact завершает пролог; skip побитно эквивалентен прежнему JSON объекту. После skip main forest move сохраняет тот же факт без повторного complete/перехода.",
+              "verification": "ContentCli fullgame compile exit0; affected Game build0 errors0 warnings28.06s. Root сверил условия/эффекты/skip, existing semantic scenario минимально обновлён под намеренный контракт, НЕ запускался.",
+              "evidence": "evidence/PW-003/prologue-graph-20261012/",
+              "physical_acceptance": "OPEN: F01/F03 native consumer отсутствует; full GRAPH-CHECK не completed."
+            }
           }
         ]
       },
@@ -114992,10 +115010,10 @@
               "evidence/PW-045/branch-20261012/"
             ],
             "assigned_owner": "world_art",
-            "active_owner": null,
+            "active_owner": "/root",
             "activity": {
-              "state": "released",
-              "reason": "Конечный этап A-BRANCH принят по экспорту, фактическому Godot-импорту и двум offline-кадрам; полная W01 ещё не готова."
+              "state": "confirmed_active",
+              "reason": "Root принимает следующий конечный A-FOREST-GROUND stage; Luna owns только новый генератор/tmp, общий JSON принадлежит root."
             },
             "task_type": "engineering",
             "status": "in_progress",
@@ -115005,7 +115023,7 @@
               "W01 ground, остальные геометрические семейства, физическая сцена/consumer и целевая игровая проверка ещё не произведены. A-BRANCH source/export/import этап принят; контакты в игре и авторское качество открыты.",
               "До подключения F01 действия разрешить подтверждённый graph gap: compiled pw-prologue-branch-move уже выполняет photoworlds.prologue.complete и target pw-niva-arrival, а level задаёт F02/F03 послеF01. Не выдавать раннийвыход за полныйпролог."
             ],
-            "next_action": "Произвести A-FOREST-GROUND для W01 по уровню: walkable ground, маршрут и опоры; не подменять F10 фото-вход прологом F00. Затем подключить A-BRANCH к реальному F01 consumer после согласования graph gap.",
+            "next_action": "Произвести и принять A-FOREST-GROUND: реальный рельеф и путь F00→F01 по авторским узлам, исходник/экспорт/маски/материалы; при доступности остальных узлов расширить до полного terrain, не заявляя scene/native.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -115016,7 +115034,8 @@
                 "game/content/photoworlds/W01/W01.world.json",
                 "game/scripts/photoworlds/W01Controller.cs",
                 "assets/source/blender/photoworlds/W01/",
-                "assets/source/blender/photoworlds/W01/urman_prologue_branch.py"
+                "assets/source/blender/photoworlds/W01/urman_prologue_branch.py",
+                "assets/source/blender/photoworlds/W01/urman_forest_ground.py"
               ],
               "required_inputs": [
                 {
@@ -115098,6 +115117,10 @@
               "evidence": "evidence/PW-045/branch-20261012/",
               "glb_sha256": "c9b682934a785aca3cbd42e733d30da86c5b030bf7e1e4d8569ff9f33d20fd5c",
               "scope_limit": "Это принятый asset input, не playable W01. Контакты не доказаны AABB; native gameplay/save/skip/author review NOT_RUN. Полный E02 не completed."
+            },
+            "progress_2026_10_12_ground_stage": {
+              "verification_question": "Совпадают ли экспортированные размеры и высоты авторских узлов с ground mesh, читаются ли близкий уклон и маршрут; все UV/vertex masks/1K материалы импортируются? Native physics и художественная приёмка отдельно.",
+              "scope": "Terrain asset input без scene/quest flags; F12↔F13 остаётся virtual spatial edge, не обычный коридор."
             }
           },
           {
