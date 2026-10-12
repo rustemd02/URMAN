@@ -81934,6 +81934,13 @@
                       "source": "evidence/STUDIO/practical-editor-2026-10-12/windows-checkpoint-first",
                       "verification": "Job81a40b0fbc8b4c3fa357665a864ad937 on756004bb: two actual Studio processes96172/101816, exit0/0, userdataRestoredtrue. Create draft8 and clean7 refused before directory. Native Check identity/source/linkerrors0;124sources2,008,960bytes and3basisfiles present; full provenance CLI revision. Actual catalogue7→9→10→Undo9→Undo7→new11 Save→Undo7: threejournals, original byteSHA0d5112… restored; typing afterUndo proves fields unlocked. Redo branch creates existing history fence, restart reconstruction correctly refused; journal/images kept and exported.",
                       "remaining": "No checkpoint created/exported/restored. Root diagnostics and on-screen sizing f9bfad1c Gamecompile0/0,15.81s+Sol review; next native onchangedsource required. Overall PASS is process/guard/export only, not A24 acceptance."
+                    },
+                    {
+                      "stage": "2026-10-12 confirmed directory prefix cause and shared fix",
+                      "result": "SOURCE_FIXED_COMPILE_REVIEW_PASS_NATIVE_FIX_PENDING",
+                      "source": "src-dotnet/Urman.Studio.Core/Storage/StudioCheckpointStore.cs; eng/windows_station_worker.py; content/campaigns/urman.fullgame/photoworlds-sources/assets.spec.json",
+                      "cause": "49 literalres:// folderprefixes ending slash were classified as files; ResourcePath prefixed game/ then strict path validator rejected emptylastsegment beforemkdir. Independent ofcatalogue draft.",
+                      "verification": "Luna input/caller inspection; shared Core Create/Read and worker mapper validate exactlyone normalizedtrailingslash before excluding validdirectoryreference fromfilehashreceipts. Original sourcebytes remain. Sol review accepted, affectedGamecompile0warnings0errors17.24s; PythonAST/diffcheck passed. Native fix notyetrun."
                     }
                   ],
                   "assigned_owner": "codex/b20-2026-10-10",
@@ -81949,7 +81956,7 @@
                   "remaining": [
                     "Native Create отказал до записи checkpoint и на draft8, и на чистом7. Причина скрыта старым UI; snapshot/restart/Restore/Undo restore пока не доказаны."
                   ],
-                  "next_action": "Changed-source native запуск с f9bfad1c должен показать bounded причину Create; устранить только подтверждённую причину, затем A24. Не повторять неизменённый вход.",
+                  "next_action": "Причина подтверждена:49 planned_runtime_root folder prefixes в assets.spec.json. Source fix Core Create/Read+worker пропускает только валидные directory prefix receipts; compiled0/0+review. После current diagnosticfb7e terminal безопасно deployworker и один real A24 на новом source.",
                   "blocker": null,
                   "external_gates": [],
                   "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",

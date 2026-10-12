@@ -481,6 +481,11 @@ def _studio_checkpoint_resource_path(resource):
     if not resource.startswith('res://'):
         return None
     relative = 'game/' + resource[len('res://'):]
+    if relative.endswith('/'):
+        relative = relative[:-1]
+        if not _studio_checkpoint_relative_path(relative):
+            raise ValueError('Studio checkpoint contains an invalid res:// reference')
+        return None
     if not _studio_checkpoint_relative_path(relative):
         raise ValueError('Studio checkpoint contains an invalid res:// reference')
     return relative

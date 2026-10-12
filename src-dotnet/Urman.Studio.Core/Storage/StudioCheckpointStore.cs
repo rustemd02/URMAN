@@ -59,7 +59,8 @@ public sealed class StudioCheckpointStore(StudioWorkspace workspace,
             if (total > MaxBytes) throw BudgetFailure();
             var parsed = AuthoredFile.CreateNew(_root, path, text);
             foreach (var value in Strings(parsed.Snapshot()))
-                if (value.StartsWith("res://", StringComparison.Ordinal)) resourcePaths.Add(ResourcePath(value));
+                if (value.StartsWith("res://", StringComparison.Ordinal)
+                    && ResourcePath(value) is { } resourcePath) resourcePaths.Add(resourcePath);
             var image = $"source-{sources.Count:D4}.txt";
             sources.Add(new(path, image, bytes.Length, AtomicFile.Sha256(bytes)));
             images.Add(bytes);
@@ -250,7 +251,8 @@ public sealed class StudioCheckpointStore(StudioWorkspace workspace,
             var image = ReadImage(manifest, source);
             if (ownedByPath.TryGetValue(source.Path, out var ownedSource)) ownedSource.Validate(image);
             foreach (var value in Strings(AuthoredFile.CreateNew(_root, source.Path, Utf8.GetString(image)).Snapshot()))
-                if (value.StartsWith("res://", StringComparison.Ordinal)) discoveredResources.Add(ResourcePath(value));
+                if (value.StartsWith("res://", StringComparison.Ordinal)
+                    && ResourcePath(value) is { } resourcePath) discoveredResources.Add(resourcePath);
         }
         seen.Clear();
         foreach (var resource in manifest.Resources)
@@ -402,9 +404,14 @@ public sealed class StudioCheckpointStore(StudioWorkspace workspace,
             || path.Any(char.IsControl) || path.Split('/').Any(part => part.Length == 0 || part is "." or "..")
             || path.Split('/')[0].StartsWith('.')) throw new InvalidDataException("Некорректный относительный путь checkpoint.");
     }
-    private static string ResourcePath(string resource)
+    private static string? ResourcePath(string resource)
     {
         var path = "game/" + resource["res://".Length..];
+        if (path.EndsWith("/", StringComparison.Ordinal))
+        {
+            ValidateSourcePath(path[..^1]);
+            return null;
+        }
         ValidateSourcePath(path);
         return path;
     }
