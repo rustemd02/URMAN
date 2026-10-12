@@ -74560,6 +74560,17 @@
                       "evidence": "evidence/STUDIO/b20-codex-ui-2026-10-12/windows-native-seventh",
                       "verification": "Actual native street-window1 selection → Codex request/tools forbidden/globals allowed → Front0 1.06→1.30 preview → native Apply → six matched game frames → native Undo → six fresh game frames. 18/18 PNG SHA/metadata bound; identical camera specs/Low/comparable settings. Root viewed exterior before/after/Undo: selected window widens then restores. GLB independent audit: Front0 glass1.20 vsother main0.96; heights unchanged; other7 window recipe values unchanged. Final committed accepted journal sidebefore/order1; recipe byte-exact baseline2bcbc3ad88f8ecec5473a7ed9b5d144f649c9d7cf90c0212ec34a6cafb0aa4b4; generatedGLB/blend/manifest/import absent. Child processes and parent normal close exit0. Userdata rename restore verified, recovery_pendingfalse; Windows ACLs not compared. Overall stationFAIL still eight unique renderer/resource exit errors,48resources; cleanup sourcefix insufficient. Doctorreadytrue.",
                       "remaining": "Parent shutdown resource errors, multihouse/global scope, restart/history persistence and independent Claude native workflow remain open; no performance/human/art acceptance."
+                    },
+                    {
+                      "stage": "2026-10-12 eighth close-only attempt",
+                      "result": "INCOMPLETE_NORMAL_CLOSE_NOT_POSTED_TIMEOUT124",
+                      "job_id": "e0841529f7b74f679288bcc111ce7324",
+                      "source_commit": "d97d28bc",
+                      "snapshot_id": "dd9802dc07b1ec0fc6b5b6f04e9601eabd439d901b47b1905b697f8ff9dfdd2f",
+                      "evidence": "evidence/STUDIO/b20-codex-ui-2026-10-12/windows-close-eighth",
+                      "archive_sha256": "9cf35cb3f0a3aee04cb1abe0fff21927c038c0a4c266ffa89c55e4c18ce35fa6",
+                      "verification": "World loaded; normal WM_CLOSE was not executed before guard1200s deadline. ReceiptFAIL gameExit124. Userdata guard restored original files by rename and verification, ACLs not compared; doctorreadytrue. No Codex/Apply/gamecapture in this attempt.",
+                      "remaining": "Winter shutdown fix still unverified; repeat incomplete close-only check with exact-job automatic interactive WM_CLOSE, preserving guard timeout and one station job."
                     }
                   ],
                   "assigned_owner": "codex/b20-2026-10-10",
@@ -80958,10 +80969,10 @@
               ],
               "done_when": "Два checkout с разными корнями обмениваются одной ревизией; конфликт видим; unrelated код не отправлен; повтор передачи не дублирует commit/изменение."
             },
-            "active_owner": null,
+            "active_owner": "codex/b20-2026-10-10",
             "activity": {
-              "state": "source_stage_complete",
-              "reason": "Registered-source delete, workspace reconciliation, bounded owner-scoped startup recovery source slice compiled and independently reviewed; no native/network acceptance."
+              "state": "confirmed_active",
+              "reason": "Luna bounded accepted registered-source deletion restart Undo/Redo hydration in existing ordered file history; same owner/path/shape/SHA/budget policy and history-fence refusal. Root owns JSON/chat."
             },
             "task_type": "engineering",
             "status": "in_progress",
@@ -81018,8 +81029,8 @@
                 "scenario": "A23 на безопасной разрешённой ветке/репозитории по действующей политике, без push в main ради проверки.",
                 "success": "Два checkout с разными корнями обмениваются одной ревизией; конфликт видим; unrelated код не отправлен; повтор передачи не дублирует commit/изменение.",
                 "repeat_only_if": "Изменён предметный contract/input или предыдущий сценарий неполон.",
-                "current_stage_question": "Can a clean registered entity-list JSON deleted by incoming revision be removed as one durable action, retain sibling indexes, fully Undo/Redo, and recover an interrupted promotion on startup?",
-                "current_stage_success": "Bounded independent source review and affected Game compile; startup recovery policy accepts only validated registered-source deletion journals. Native/network/restart acceptance stays open."
+                "current_stage_question": "Does accepted source-delete history join the existing ordered file history and restore workspace membership before Undo/Redo view reload after restart, without broadening the exact owner/path/image trust?",
+                "current_stage_success": "Independent source review and affected Game compile; actual native delete/restart/Undo/Redo remains open."
               },
               "actual_result": "Registered updates retain existing semantic draft merge. Clean registered entity-list JSON deletion uses one durable file-only transaction, exact baseline/source CAS, workspace membership/reindex and async world barrier. Startup owner-scoped single-deletion recovery checks source/image shape, SHA, links and 8MiB bound, staging source vs applying preimage. Source compile/review only; native/network/restart open.",
               "evidence_refs": [
