@@ -20978,22 +20978,24 @@
             "evidence": [
               "evidence/ACT1-TRANSPORT/native_50105484b83e49fcbc4afbd5eb41c01d/",
               "evidence/ACT1-TRANSPORT/native_9638f683b0074eb3af6fcfd650132ade/",
-              "evidence/ACT1-TRANSPORT/native_221a06f1d0474003ae4a1ddd8fd3e1f3/"
+              "evidence/ACT1-TRANSPORT/native_221a06f1d0474003ae4a1ddd8fd3e1f3/",
+              "evidence/ACT1-TRANSPORT/native_373baa07d2f54247978440ca8b7ac475/"
             ],
             "assigned_owner": "finished-act1",
-            "active_owner": null,
+            "active_owner": "/root",
             "activity": {
-              "state": "not_active",
-              "reason": "Принят ограниченный этап контакта и материала Нивы; root переходит к установленному дефекту опор E03, назначение finished-act1 сохранено."
+              "state": "confirmed_active",
+              "reason": "Root возобновляет finite E01 после нового causal native input; Luna read-only исследует actual entry path."
             },
             "task_type": "engineering",
             "status": "in_progress",
             "implementation_state": "partial",
             "technical_verification_state": "failed",
             "remaining": [
-              "Контакт всех четырёх колёс Нивы — 26.5 мм; материал снега принят в native221a. Управление, маршруты, сохранение/загрузка и выход ещё не достигнуты: сценарий остановлен исходной позой коня/телеги E03."
+              "Native373b проходит initial full fleet/materials, но mapped interact не сажает в Ниву у actual driver door: VehicleSmokeTest.cs114.",
+              "Маршруты, ввод, сохранения и безопасный выход ещё не достигнуты. Четыре PNG лично просмотрены; side вид перекрыт gatepost, художественная готовность/бюджет отдельно."
             ],
-            "next_action": "После исправления конкретной исходной опоры E03 продолжить существующий VEHICLE сценарий до управления, сохранений и выхода.",
+            "next_action": "Сопоставить ordinary entry InteractionTarget/ray и controller guards с фактическим outside PNG и существующим Approach; исправить только подтверждённую причину.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -21033,7 +21035,8 @@
               "evidence_refs": [
                 "evidence/ACT1-TRANSPORT/native_50105484b83e49fcbc4afbd5eb41c01d/",
                 "evidence/ACT1-TRANSPORT/native_9638f683b0074eb3af6fcfd650132ade/",
-                "evidence/ACT1-TRANSPORT/native_221a06f1d0474003ae4a1ddd8fd3e1f3/"
+                "evidence/ACT1-TRANSPORT/native_221a06f1d0474003ae4a1ddd8fd3e1f3/",
+                "evidence/ACT1-TRANSPORT/native_373baa07d2f54247978440ca8b7ac475/"
               ],
               "source_criteria_parent": "ACT1-TRANSPORT"
             },
@@ -21089,6 +21092,16 @@
               "transfer": "one changed Cabin source0.03MB",
               "evidence": "evidence/ACT1-TRANSPORT/native_221a06f1d0474003ae4a1ddd8fd3e1f3/",
               "userdata": "Doctor ready=true; busy_job=null; orphan=false; userdata_recovery_pending=false."
+            },
+            "progress_2026_10_12_entry": {
+              "native_job_id": "373baa07d2f54247978440ca8b7ac475",
+              "snapshot_id": "6e7523eabb807577d38fce26d5a22280fda33e8cb8a533a0a007aa5a4ba9d959",
+              "checks": 203,
+              "failure": "babay-niva enters through actual ray and mapped action; VehicleSmokeTest.cs114",
+              "evidence": "evidence/ACT1-TRANSPORT/native_373baa07d2f54247978440ca8b7ac475/",
+              "visual_review": "Root personally viewed front-three-quarter, rear-three-quarter,full-side,outside4PNGs. Front/rear vehicle visible; side occluded by large foreground gatepost despite camera-clear assertion; outside crosshair on closed driverdoor, no entry prompt. No motion/save/art acceptance.",
+              "verification_question": "Does ordinary mapped interact via actual ray at Niva driverdoor enter and preserve session/exit state?",
+              "success": "Existing runtime reaches normal entry; no direct TryEnter/testskip. Routes/save/exit remain required."
             }
           },
           {
@@ -21165,23 +21178,23 @@
             "evidence": [
               "evidence/ACT1-TRANSPORT/native_221a06f1d0474003ae4a1ddd8fd3e1f3/",
               "evidence/ACT1-TRANSPORT/native_57560044c3ce4531b92203e996967067/",
-              "evidence/ACT1-TRANSPORT/native_a99a9adbd83844ad823dfde633f2ee69/"
+              "evidence/ACT1-TRANSPORT/native_a99a9adbd83844ad823dfde633f2ee69/",
+              "evidence/ACT1-TRANSPORT/native_373baa07d2f54247978440ca8b7ac475/"
             ],
             "assigned_owner": "finished-act1",
-            "active_owner": "/root",
+            "active_owner": null,
             "activity": {
-              "state": "confirmed_active",
-              "reason": "Root принимает причинный результат native221a; Luna worker меняет только HeightField, root единственный writer JSON."
+              "state": "not_active",
+              "reason": "Root принимает конечные опоры/упряжь/material этапы и переходит к фактическому входу Нивы E01; assigned_owner сохранён."
             },
             "task_type": "engineering",
             "status": "in_progress",
             "implementation_state": "partial",
             "technical_verification_state": "failed",
             "remaining": [
-              "Исходная поза, колёсные/копытные опоры и крепления упряжи приняты. Nativea99a: horse_coat shader hardcodes .87 but does not declare roughness_value; material stage failed.",
-              "Ввод, движение, сохранение/загрузка и безопасный выход ещё не достигнуты; художественная приёмка отдельно."
+              "Исходная поза, wheel/hoof supports, harness и material language приняты. Ввод/движение и сохранённая поза телеги ещё не достигнуты: full scenario остановлен ordinary Niva entry E01."
             ],
-            "next_action": "Объявить прежнее roughness .87 в существующем horse coat shader, сохранить визуальный response; затем existing VEHICLE на новом input.",
+            "next_action": "Продолжить ввод и saved pose телеги после исправления конкретного входа Нивы E01; уже принятые опоры/материалы не переписывать.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -21221,7 +21234,8 @@
               "evidence_refs": [
                 "evidence/ACT1-TRANSPORT/native_221a06f1d0474003ae4a1ddd8fd3e1f3/",
                 "evidence/ACT1-TRANSPORT/native_57560044c3ce4531b92203e996967067/",
-                "evidence/ACT1-TRANSPORT/native_a99a9adbd83844ad823dfde633f2ee69/"
+                "evidence/ACT1-TRANSPORT/native_a99a9adbd83844ad823dfde633f2ee69/",
+                "evidence/ACT1-TRANSPORT/native_373baa07d2f54247978440ca8b7ac475/"
               ],
               "source_criteria_parent": "ACT1-TRANSPORT"
             },
@@ -21262,6 +21276,19 @@
               "station_owner": "Released; doctor ready,busy null,orphan false,recovery pending false.",
               "evidence": "evidence/ACT1-TRANSPORT/native_a99a9adbd83844ad823dfde633f2ee69/",
               "actual_result": "Left/Right reins both endpoint errors0mm; Left/Right shafts end in tug rings0mm. Four sole gaps~0.018mm. No PNG captured before material assertion."
+            },
+            "progress_2026_10_12_horse_coat": {
+              "cause": "Nativea99a rejected14 horse coat surfaces: shader had fixed ROUGHNESS=.87 but no declared roughness_value.",
+              "source_fix": "Declare and configure roughness_value=.87; name surface=horse_coat while retaining vehicleSurface. Hair,albedo,specular,geometry unchanged.",
+              "verification_question": "Do14 formerly rejected surfaces report their actual roughness and does existing full VEHICLE reach its next criteria?",
+              "success": "Actual material-language record contains horse_coat and no roughness defects; full controls/save/exit and art remain separate.",
+              "native_state": "Horse coat/material stage accepted; all fleet material defects=[]; full scenario FAIL203checks on ordinary Niva entry.",
+              "affected_compile": "0 errors,0 warnings;34.36s",
+              "native_job_id": "373baa07d2f54247978440ca8b7ac475",
+              "snapshot_id": "6e7523eabb807577d38fce26d5a22280fda33e8cb8a533a0a007aa5a4ba9d959",
+              "transfer": "one changed VehicleVisualFactory.cs0.03MB",
+              "station_owner": "Released; doctor ready,busy null,orphan false,recovery pending false.",
+              "evidence": "evidence/ACT1-TRANSPORT/native_373baa07d2f54247978440ca8b7ac475/"
             }
           }
         ]

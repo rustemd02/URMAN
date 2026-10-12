@@ -208,16 +208,19 @@ public static partial class VehicleVisualFactory
                 shader_type spatial;
                 render_mode diffuse_burley;
                 uniform vec4 coat_color : source_color;
+                uniform float roughness_value : hint_range(0.0,1.0) = 0.87;
                 float grain(vec2 p) { return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453); }
                 void fragment() {
                     vec2 cells=UV*vec2(640.0,170.0);
                     float fade=1.0-smoothstep(0.25,1.2,max(fwidth(cells.x),fwidth(cells.y)));
                     float hair=(grain(floor(cells))-0.5)*0.035*fade;
                     ALBEDO=coat_color.rgb*(1.0+hair);
-                    ROUGHNESS=0.87;SPECULAR=0.16;
+                    ROUGHNESS=roughness_value;SPECULAR=0.16;
                 }
                 """};
             var material=new ShaderMaterial{Shader=shader};material.SetShaderParameter("coat_color",new Color(color));
+            material.SetShaderParameter("roughness_value", .87f);
+            material.SetMeta("surface", "horse_coat");
             material.SetMeta("vehicleSurface","horse_coat");return material;
         }
         return new StandardMaterial3D{AlbedoColor=new Color(color),Roughness=surface=="vinyl" ? .82f : .92f,
