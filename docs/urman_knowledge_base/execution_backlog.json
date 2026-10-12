@@ -75599,10 +75599,10 @@
               ],
               "done_when": "Изменены только выбранные секции; нет разрывов/пересечений; калитка открывается как раньше."
             },
-            "active_owner": null,
+            "active_owner": "codex/b20-2026-10-10/luna-b20-ready-source-next",
             "activity": {
-              "state": "source_stage_complete",
-              "reason": "Typed fence provider/manual reply → transient preview and safe restore source path compiled/reviewed; durable Apply/Undo/native remain open."
+              "state": "implementing",
+              "reason": "Dependency-ready bounded durable fence Apply source slice; three existing panel/fence files. Root serializes common JSON updates while driving AI12 Windows; preserve previous transient preview/source evidence."
             },
             "task_type": "engineering",
             "status": "in_progress",
@@ -75612,7 +75612,7 @@
               "Typed fence direct/manual reply and transient preview are wired in source; ONE durable Apply/source baseline sync, restart/history/provenance receipts and draggable handles remain.",
               "Native A03: three bays, wicket operation, unchanged outer supports/neighbors, source/play provenance and complete Undo not verified."
             ],
-            "next_action": "After first Windows seven-window native pilot, connect fence ONE durable source-file transaction with clean saved baseline and exact view sync, restart history/recovery and request/proposal/provenance receipts; transient preview must be cleared before source mutation. No ReplaceDraft+ApplyFiles stack.",
+            "next_action": "Luna implements one request/source-validated Session.ApplyFilesAsync world-plot transaction and refreshed view; narrow Game compile/review. Native A03, handles and restart remain separate/open.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
