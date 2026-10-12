@@ -81633,6 +81633,14 @@
                   "game/studio/StudioAiPanel.cs"
                 ],
                 "actual_result": "Checkpoints capture current raw clean shop/vehicle bytes and fresh validated private draft candidates without saving project. Existing IsOwnedCatalogPath exact owner/path and typed validators reused; same aggregate8MiB, NoLinks, sourcehash/conflict guards. Preview/apply refuses any pending section draft; source/candidate validation repeated before transaction; form refresh preserved; catalogue-only callback skips geometry. Existing validated operator/runner revision resolver reused lazily on Create, not fabricated. Root refreshes active forms after history/Play busy clear and navigation to prevent confirmed disabled-fields defect. Affected Game compile0warnings/0errors; independent Sol review no blocker. Legacy snapshots missing new membership refuse safely. Native new create/restore/Undo still open; station exporter needs bounded checkpoint+restore-owner support to avoid dropping snapshots on source cleanup."
+              },
+              {
+                "stage": "2026-10-12 bounded native checkpoint export",
+                "result": "SOURCE_REVIEWED_PYTHON_AST_PASS_NATIVE_PENDING",
+                "source": "eng/windows_station_worker.py",
+                "implementation": "Exports strict checkpoint manifests/source images, record-only resources, exact history-fence and existing sequence counter; checkpoint owner bound to validated ID/source allowlist, nonempty unique replacements may include all sources. Malformed/partial/oversized artifacts fail closed preserve source. AI shared targets copied once only after current receipt presence/bytes/SHA equality.",
+                "verification": "Luna implementation and Sol independent review: all-source rejection, duplicate payload and read-before-map initialization corrected; final review accepted. Python AST and targeted diff-check passed. No native checkpoint scenario yet.",
+                "remaining": "Safely deploy exporter after peer station release; real Windows RootHash schema/export and Create→two changes→Restore→Undo→actual restart still unverified."
               }
             ],
             "stage_tasks": [

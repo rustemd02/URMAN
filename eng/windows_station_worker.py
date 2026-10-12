@@ -1,6 +1,7 @@
 """Private, single-job URMAN worker. Start in an interactive user session."""
 import argparse
 import ctypes
+import datetime
 import hashlib
 import hmac
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
@@ -33,6 +34,17 @@ STUDIO_DIRECT_FILE_OWNERS = {
     'urman.studio:shop-catalog': 'game/content/urman.shop.v1.json',
     'urman.studio:vehicle-catalog': 'game/content/vehicles/act1_vehicles.v1.json',
 }
+STUDIO_CHECKPOINT_OWNER_PREFIX = 'urman.studio:checkpoint/'
+STUDIO_CHECKPOINT_BASE_PATHS = (
+    'assets/source/blender/act1/urman_village_exterior_kit.py',
+    'assets/source/blender/act1/urman_village_exterior_kit.blend',
+    'game/assets/models/act1/urman_village_exterior_kit.glb',
+)
+STUDIO_CHECKPOINT_SOURCE_ROOTS = (
+    'content/modules', 'content/campaigns', 'content/studio', 'game/content/world',
+    'game/content/cutscenes', 'game/content/animations',
+)
+STUDIO_CHECKPOINT_HERO_RECIPE = 'game/content/studio/hero_house.recipe.json'
 STUDIO_PRESERVE_MARKER = '.preserve-source'
 STUDIO_MAX_REQUESTS = 32
 STUDIO_MAX_TRANSACTIONS = 32
@@ -44,6 +56,10 @@ STUDIO_MAX_ACTIONS = 32
 STUDIO_MAX_ACTION_RECEIPT = 8 * 1024
 STUDIO_MAX_ACTION_FRAME = 16 * 1024**2
 STUDIO_MAX_JOURNAL = 64 * 1024
+STUDIO_MAX_CHECKPOINT_JOURNAL = 8 * 1024**2
+STUDIO_MAX_CHECKPOINTS = 32
+STUDIO_MAX_CHECKPOINT_FILES = 2000
+STUDIO_MAX_CHECKPOINT_BYTES = 8 * 1024**2
 STUDIO_MAX_AUTHORED_JSON = 8 * 1024**2
 STUDIO_MAX_RUN_MANIFEST = 16 * 1024
 STUDIO_MAX_RUN_LOG = 8 * 1024**2
@@ -380,6 +396,210 @@ def _studio_hash(path, limit, expected_prefix=None):
     return size, h.hexdigest()
 
 
+def _studio_checkpoint_relative_path(relative):
+    return (isinstance(relative, str) and bool(relative) and '\\' not in relative and ':' not in relative
+            and not any(ord(character) < 32 or 127 <= ord(character) <= 159 for character in relative)
+            and all(part and part not in ('.', '..') for part in relative.split('/'))
+            and not relative.split('/')[0].startswith('.'))
+
+
+def _studio_ordinal_key(value):
+    # C# StringComparer.Ordinal sorts UTF-16 code units.
+    return value.encode('utf-16-be', errors='strict')
+
+
+def _studio_checkpoint_source_path(relative):
+    if not _studio_checkpoint_relative_path(relative):
+        return False
+    if relative == STUDIO_CHECKPOINT_HERO_RECIPE or relative in STUDIO_DIRECT_FILE_OWNERS.values():
+        return True
+    if relative.endswith('.json'):
+        return any(relative.startswith(root + '/') for root in STUDIO_CHECKPOINT_SOURCE_ROOTS)
+    return relative.endswith('.md') and relative.startswith('content/modules/')
+
+
+def _studio_checkpoint_strings(value):
+    if isinstance(value, str):
+        yield value
+    elif isinstance(value, dict):
+        for child in value.values():
+            yield from _studio_checkpoint_strings(child)
+    elif isinstance(value, list):
+        for child in value:
+            yield from _studio_checkpoint_strings(child)
+
+
+def _studio_checkpoint_source_values(raw, relative):
+    """Validate a saved authored source and expose string values Core snapshots."""
+    try:
+        text = raw.decode('utf-8')
+    except UnicodeDecodeError as error:
+        raise ValueError('Studio checkpoint source is not strict UTF-8: ' + relative) from error
+    if relative.endswith('.json'):
+        value = _studio_json(raw, STUDIO_MAX_CHECKPOINT_BYTES, 'Studio checkpoint source')
+        if not isinstance(value, (dict, list)):
+            raise ValueError('Studio checkpoint JSON source has an unsupported root: ' + relative)
+        if isinstance(value, dict) and isinstance(value.get('entities'), list):
+            value = value['entities']
+        return list(_studio_checkpoint_strings(value))
+
+    normalized = text.replace('\r\n', '\n')
+    if not normalized.startswith('---\n'):
+        raise ValueError('Studio checkpoint Markdown source has no front matter: ' + relative)
+    closing = normalized.find('\n---\n', 4)
+    if closing < 0:
+        raise ValueError('Studio checkpoint Markdown source has incomplete front matter: ' + relative)
+    entity = {}
+    body = normalized[closing + 5:]
+    for line in normalized[4:closing].split('\n'):
+        if not line.strip() or line.lstrip().startswith('#'):
+            continue
+        match = re.fullmatch(r'([A-Za-z][A-Za-z0-9_-]*):\s*(.*)', line)
+        if not match:
+            raise ValueError('Studio checkpoint Markdown source has invalid front matter: ' + relative)
+        scalar = match.group(2).strip()
+        if not scalar:
+            entity[match.group(1)] = ''
+        elif (scalar in ('null', 'true', 'false')
+              or (scalar.startswith('"') and scalar.endswith('"'))
+              or (scalar.startswith('[') and scalar.endswith(']'))
+              or (scalar.startswith('{') and scalar.endswith('}'))):
+            try:
+                parsed = json.loads(scalar, parse_constant=lambda _: (_ for _ in ()).throw(ValueError()))
+            except (ValueError, json.JSONDecodeError) as error:
+                raise ValueError('Studio checkpoint Markdown source has invalid JSON front matter: ' + relative) from error
+            entity[match.group(1)] = parsed
+        elif re.fullmatch(r'-?(?:0|[1-9]\d*)(?:\.\d+)?', scalar):
+            entity[match.group(1)] = json.loads(scalar)
+        else:
+            entity[match.group(1)] = scalar
+    entity['bodyMarkdown'] = body
+    return list(_studio_checkpoint_strings(entity))
+
+
+def _studio_checkpoint_resource_path(resource):
+    if not resource.startswith('res://'):
+        return None
+    relative = 'game/' + resource[len('res://'):]
+    if not _studio_checkpoint_relative_path(relative):
+        raise ValueError('Studio checkpoint contains an invalid res:// reference')
+    return relative
+
+
+def _studio_checkpoint_capsules(source, payloads):
+    root_relative = '.urman-studio/checkpoints'
+    checkpoints_root = _studio_path(source, root_relative, kind='dir', missing=True)
+    if checkpoints_root is None:
+        return {}
+    directories = _studio_children(checkpoints_root, STUDIO_MAX_CHECKPOINTS, 'Studio checkpoint directory')
+    root_hash = hashlib.sha256(os.path.abspath(os.fspath(source)).encode('utf-8')).hexdigest()
+    by_id = {}
+    for directory in directories:
+        info = directory.lstat()
+        checkpoint_id = directory.name
+        if (_studio_reparse(info) or not stat.S_ISDIR(info.st_mode)
+                or not re.fullmatch(r'[a-f0-9]{32}', checkpoint_id)):
+            raise ValueError('Studio checkpoint directory is not a canonical checkpoint ID')
+        checkpoint_relative = f'{root_relative}/{checkpoint_id}'
+        _, manifest_bytes = _studio_read(source, checkpoint_relative + '/manifest.json',
+                                         STUDIO_MAX_CHECKPOINT_BYTES, 'Studio checkpoint manifest')
+        manifest = _studio_json(manifest_bytes, STUDIO_MAX_CHECKPOINT_BYTES, 'Studio checkpoint manifest')
+        if (not isinstance(manifest, dict) or set(manifest) != {'Version', 'RootHash', 'Metadata', 'Sources', 'Resources'}
+                or type(manifest['Version']) is not int or manifest['Version'] != 1
+                or manifest['RootHash'] != root_hash or not isinstance(manifest['Metadata'], dict)
+                or not isinstance(manifest['Sources'], list) or not isinstance(manifest['Resources'], list)):
+            raise ValueError('Studio checkpoint manifest schema or source-root hash is invalid: ' + checkpoint_id)
+        metadata = manifest['Metadata']
+        if (set(metadata) != {'Id', 'Name', 'Author', 'CreatedAt', 'Revision', 'FileCount', 'ResourceCount', 'ResourceCapture'}
+                or metadata['Id'] != checkpoint_id or not isinstance(metadata['Name'], str)
+                or not metadata['Name'].strip() or len(metadata['Name'].encode('utf-16-le')) // 2 > 128
+                or any(ord(character) < 32 or 127 <= ord(character) <= 159 for character in metadata['Name'])
+                or not isinstance(metadata['Author'], str) or not metadata['Author'].strip()
+                or len(metadata['Author'].encode('utf-16-le')) // 2 > 128
+                or any(ord(character) < 32 or 127 <= ord(character) <= 159 for character in metadata['Author'])
+                or not isinstance(metadata['CreatedAt'], str)
+                or not isinstance(metadata['Revision'], str)
+                or not re.fullmatch(r'(?:[a-f0-9]{40}|[a-f0-9]{64})', metadata['Revision'])
+                or type(metadata['FileCount']) is not int or metadata['FileCount'] != len(manifest['Sources'])
+                or type(metadata['ResourceCount']) is not int or metadata['ResourceCount'] != len(manifest['Resources'])
+                or metadata['ResourceCapture'] != 'literal-res-paths-record-only'):
+            raise ValueError('Studio checkpoint metadata is invalid: ' + checkpoint_id)
+        try:
+            timestamp = datetime.datetime.fromisoformat(metadata['CreatedAt'].replace('Z', '+00:00'))
+        except (ValueError, TypeError) as error:
+            raise ValueError('Studio checkpoint timestamp is invalid: ' + checkpoint_id) from error
+        if (timestamp.tzinfo is None or timestamp.utcoffset() != datetime.timedelta(0)
+                or timestamp == datetime.datetime.min.replace(tzinfo=datetime.timezone.utc)):
+            raise ValueError('Studio checkpoint timestamp is not UTC: ' + checkpoint_id)
+
+        sources = manifest['Sources']
+        resources = manifest['Resources']
+        if (not 1 <= len(sources) <= STUDIO_MAX_CHECKPOINT_FILES
+                or len(resources) > STUDIO_MAX_CHECKPOINT_FILES):
+            raise ValueError('Studio checkpoint source or resource count exceeds its limit: ' + checkpoint_id)
+        expected_images = {'manifest.json'}
+        source_paths = []
+        discovered_resources = set(STUDIO_CHECKPOINT_BASE_PATHS)
+        total_source_bytes = len(manifest_bytes)
+        for index, item in enumerate(sources):
+            if (not isinstance(item, dict) or set(item) != {'Path', 'Image', 'Bytes', 'Sha256'}
+                    or not _studio_checkpoint_source_path(item['Path'])
+                    or item['Image'] != f'source-{index:04d}.txt'
+                    or type(item['Bytes']) is not int or not 0 <= item['Bytes'] <= STUDIO_MAX_CHECKPOINT_BYTES
+                    or not isinstance(item['Sha256'], str) or not re.fullmatch(r'[a-f0-9]{64}', item['Sha256'])):
+                raise ValueError('Studio checkpoint source receipt is invalid: ' + checkpoint_id)
+            relative = item['Path']
+            if source_paths and _studio_ordinal_key(source_paths[-1]) >= _studio_ordinal_key(relative):
+                raise ValueError('Studio checkpoint sources are not unique ordinal paths: ' + checkpoint_id)
+            source_paths.append(relative)
+            _studio_path(source, relative)
+            image_relative = checkpoint_relative + '/' + item['Image']
+            _, image_bytes = _studio_read(source, image_relative, STUDIO_MAX_CHECKPOINT_BYTES,
+                                          'Studio checkpoint source image')
+            total_source_bytes += len(image_bytes)
+            if (len(image_bytes) != item['Bytes']
+                    or hashlib.sha256(image_bytes).hexdigest() != item['Sha256']
+                    or total_source_bytes > STUDIO_MAX_CHECKPOINT_BYTES):
+                raise ValueError('Studio checkpoint source image hash, size, or aggregate budget is invalid: ' + checkpoint_id)
+            for value in _studio_checkpoint_source_values(image_bytes, relative):
+                resource = _studio_checkpoint_resource_path(value)
+                if resource is not None:
+                    discovered_resources.add(resource)
+            expected_images.add(item['Image'])
+            payloads.append((image_relative, image_bytes, item['Sha256']))
+
+        resource_paths = []
+        resource_hashes = {}
+        for item in resources:
+            if (not isinstance(item, dict) or set(item) != {'Path', 'Sha256'}
+                    or not isinstance(item['Path'], str)
+                    or (not item['Path'].startswith('game/') and item['Path'] not in STUDIO_CHECKPOINT_BASE_PATHS)
+                    or not _studio_checkpoint_relative_path(item['Path'])
+                    or (item['Sha256'] is not None and (not isinstance(item['Sha256'], str)
+                                                        or not re.fullmatch(r'[a-f0-9]{64}', item['Sha256'])))):
+                raise ValueError('Studio checkpoint resource receipt is invalid: ' + checkpoint_id)
+            _studio_path(source, item['Path'], missing=True)
+            resource_paths.append(item['Path'])
+            resource_hashes[item['Path']] = item['Sha256']
+        if (any(_studio_ordinal_key(left) >= _studio_ordinal_key(right)
+               for left, right in zip(resource_paths, resource_paths[1:]))
+                or len(resource_paths) != len(set(resource_paths))
+                or set(resource_paths) != discovered_resources
+                or any(resource_hashes.get(path) is None for path in STUDIO_CHECKPOINT_BASE_PATHS)):
+            raise ValueError('Studio checkpoint resource receipts are incomplete or do not match snapshots: ' + checkpoint_id)
+
+        expected_images.update(item['Image'] for item in sources)
+        contents = _studio_children(directory, STUDIO_MAX_CHECKPOINT_FILES + 1,
+                                    'Studio checkpoint directory contents')
+        if {item.name for item in contents} != expected_images:
+            raise ValueError('Studio checkpoint has missing or unexpected artifacts: ' + checkpoint_id)
+        if any(_studio_reparse(item.lstat()) or not stat.S_ISREG(item.lstat().st_mode) for item in contents):
+            raise ValueError('Studio checkpoint contains a link or non-file: ' + checkpoint_id)
+        payloads.append((checkpoint_relative + '/manifest.json', manifest_bytes, None))
+        by_id[checkpoint_id] = set(source_paths)
+    return by_id
+
+
 def _studio_export_file_limit(relative):
     run_prefix = r'\.urman-studio/runs/run-[0-9]{8}-[0-9]{6}-[a-f0-9]{6}/'
     window_ids = '|'.join(re.escape(checkpoint) for checkpoint in STUDIO_HOUSE_WINDOW_IDS)
@@ -391,6 +611,12 @@ def _studio_export_file_limit(relative):
         return STUDIO_MAX_RUN_FRAME_JSON
     if re.fullmatch(r'\.urman-studio/ai-jobs/[a-f0-9]{32}/actions/[a-f0-9]{32}\.png', relative):
         return STUDIO_MAX_ACTION_FRAME
+    if re.fullmatch(r'\.urman-studio/checkpoints/[a-f0-9]{32}/(?:manifest\.json|source-[0-9]{4}\.txt)', relative):
+        return STUDIO_MAX_CHECKPOINT_BYTES
+    if re.fullmatch(r'\.urman-studio/transactions/[a-f0-9]{32}/journal\.json', relative):
+        return STUDIO_MAX_CHECKPOINT_JOURNAL
+    if _studio_checkpoint_source_path(relative):
+        return STUDIO_MAX_AUTHORED_JSON
     return STUDIO_MAX_BINARY
 
 
@@ -570,8 +796,23 @@ def export_studio_session(source, output):
                     if action_name != 'preview':
                         action_transaction_refs.append((request_id, action_id, transaction_id))
 
+    checkpoint_sources = _studio_checkpoint_capsules(source, payloads)
+    fence_relative = '.urman-studio/history-fence.json'
+    fence_path = _studio_path(source, fence_relative, missing=True)
+    if fence_path is not None:
+        _, fence_bytes = _studio_read(source, fence_relative, STUDIO_MAX_JOURNAL,
+                                      'Studio history fence')
+        fence = _studio_json(fence_bytes, STUDIO_MAX_JOURNAL, 'Studio history fence')
+        if (not isinstance(fence, dict) or set(fence) != {'version', 'scope', 'reason'}
+                or type(fence['version']) is not int or fence['version'] != 1
+                or fence['scope'] != 'studio-command-history'
+                or fence['reason'] != 'unsupported-command-order'):
+            raise ValueError('Studio history fence is invalid; preserve source')
+        payloads.append((fence_relative, fence_bytes, None))
+
     transactions_by_request = {}
     direct_transaction_targets = set()
+    checkpoint_transaction_targets = set()
     maximum_accepted_order = 0
     transactions_root = _studio_path(source, '.urman-studio/transactions', kind='dir', missing=True)
     if transactions_root is not None:
@@ -583,8 +824,10 @@ def export_studio_session(source, output):
                 raise ValueError('Studio transaction directory is not a canonical transaction ID')
             transaction_id = directory.name
             journal_relative = f'.urman-studio/transactions/{transaction_id}/journal.json'
-            _, journal_bytes = _studio_read(source, journal_relative, STUDIO_MAX_JOURNAL, 'Studio transaction journal')
-            journal = _studio_json(journal_bytes, STUDIO_MAX_JOURNAL, 'Studio transaction journal')
+            _, journal_bytes = _studio_read(source, journal_relative, STUDIO_MAX_CHECKPOINT_JOURNAL,
+                                            'Studio transaction journal')
+            journal = _studio_json(journal_bytes, STUDIO_MAX_CHECKPOINT_JOURNAL,
+                                   'Studio transaction journal')
             required_journal_keys = {'version', 'id', 'owner', 'status', 'rollbackSide', 'targetSide', 'side', 'files'}
             optional_journal_keys = {'accepted', 'acceptedOrder', 'commandLabel'}
             if (not isinstance(journal, dict)
@@ -594,9 +837,16 @@ def export_studio_session(source, output):
             if type(journal['version']) is not int or journal['version'] != 1 or journal['id'] != transaction_id:
                 raise ValueError('Studio transaction journal version or ID is invalid: ' + transaction_id)
             owner = journal['owner']
+            checkpoint_owner = (re.fullmatch(re.escape(STUDIO_CHECKPOINT_OWNER_PREFIX) + r'([a-f0-9]{32})', owner)
+                                if isinstance(owner, str) else None)
+            checkpoint_id = checkpoint_owner.group(1) if checkpoint_owner else None
+            is_checkpoint_transaction = checkpoint_id is not None
             if (not isinstance(owner, str)
-                    or (owner != STUDIO_OWNER and owner not in STUDIO_DIRECT_FILE_OWNERS)):
+                    or (owner != STUDIO_OWNER and owner not in STUDIO_DIRECT_FILE_OWNERS
+                        and (not is_checkpoint_transaction or checkpoint_id not in checkpoint_sources))):
                 raise ValueError('Unexpected Studio transaction owner; source must be preserved: ' + transaction_id)
+            if not is_checkpoint_transaction and len(journal_bytes) > STUDIO_MAX_JOURNAL:
+                raise ValueError('Studio transaction journal exceeds its ordinary size limit: ' + transaction_id)
             is_direct_file_transaction = owner in STUDIO_DIRECT_FILE_OWNERS
             status_value = journal['status']
             sides = (journal['rollbackSide'], journal['targetSide'], journal['side'])
@@ -628,8 +878,12 @@ def export_studio_session(source, output):
                 raise ValueError('Unresolved Studio transaction must remain on station: ' + transaction_id)
             else:
                 raise ValueError('Studio transaction status is invalid: ' + transaction_id)
-            allowed_file_counts = (1,) if is_direct_file_transaction else (3, 4)
-            if not isinstance(journal['files'], list) or len(journal['files']) not in allowed_file_counts:
+            if is_checkpoint_transaction:
+                valid_file_count = isinstance(journal['files'], list) and 1 <= len(journal['files']) <= STUDIO_MAX_CHECKPOINT_FILES
+            else:
+                allowed_file_counts = (1,) if is_direct_file_transaction else (3, 4)
+                valid_file_count = isinstance(journal['files'], list) and len(journal['files']) in allowed_file_counts
+            if not valid_file_count:
                 raise ValueError('Studio transaction file set is invalid: ' + transaction_id)
 
             indexed_paths = []
@@ -660,7 +914,7 @@ def export_studio_session(source, output):
                         image_relative = f'.urman-studio/transactions/{transaction_id}/{image}'
                         image_path = _studio_path(source, image_relative)
                         image_size = image_path.stat().st_size
-                        if image_size > STUDIO_MAX_BINARY:
+                        if image_size > (STUDIO_MAX_CHECKPOINT_BYTES if is_checkpoint_transaction else STUDIO_MAX_BINARY):
                             raise ValueError('Studio transaction image exceeds 128 MiB: ' + transaction_id)
                         payloads.append((image_relative, image_path, file_hash))
 
@@ -669,6 +923,11 @@ def export_studio_session(source, output):
                         raise ValueError('Studio direct-file transaction targets an unapproved owner/path pair: ' + transaction_id)
                     if item['beforeSha256'] is None or item['afterSha256'] is None:
                         raise ValueError('Studio direct-file transaction must replace an existing source file: ' + transaction_id)
+                elif is_checkpoint_transaction:
+                    if (relative not in checkpoint_sources[checkpoint_id]
+                            or not _studio_checkpoint_source_path(relative)
+                            or item['beforeSha256'] is None or item['afterSha256'] is None):
+                        raise ValueError('Studio checkpoint transaction targets a non-source or non-replacement path: ' + transaction_id)
                 else:
                     match = re.fullmatch(r'game/assets/models/studio/hero-house-([a-f0-9]{32})\.glb', relative)
                     if match:
@@ -684,6 +943,12 @@ def export_studio_session(source, output):
                 if indexed_paths != [STUDIO_DIRECT_FILE_OWNERS[owner]] or request_id is not None:
                     raise ValueError('Studio direct-file transaction does not contain exactly its owner-approved target: ' + transaction_id)
                 direct_transaction_targets.add(indexed_paths[0])
+            elif is_checkpoint_transaction:
+                target_paths = set(indexed_paths)
+                if (len(target_paths) != len(indexed_paths)
+                        or not target_paths.issubset(checkpoint_sources[checkpoint_id])):
+                    raise ValueError('Studio checkpoint transaction targets are outside their checkpoint source set: ' + transaction_id)
+                checkpoint_transaction_targets.update(target_paths)
             else:
                 if request_id is None or request_id not in request_ids or request_id not in proposal_ids:
                     raise ValueError('Studio transaction has no matching exported request: ' + transaction_id)
@@ -704,7 +969,8 @@ def export_studio_session(source, output):
                     raise ValueError('Studio transaction target count is invalid: ' + transaction_id)
 
             expected_contents = {'journal.json', *images}
-            contents = _studio_children(directory, 9, 'Studio transaction directory')
+            contents = _studio_children(directory, 2 * STUDIO_MAX_CHECKPOINT_FILES + 1 if is_checkpoint_transaction else 9,
+                                        'Studio transaction directory')
             if {item.name for item in contents} != expected_contents:
                 raise ValueError('Studio transaction directory has missing or unexpected files: ' + transaction_id)
             if any(_studio_reparse(item.lstat()) or not stat.S_ISREG(item.lstat().st_mode) for item in contents):
@@ -724,11 +990,6 @@ def export_studio_session(source, output):
                 or not maximum_accepted_order <= sequence['lastOrder'] <= (1 << 63) - 1):
             raise ValueError('Studio history sequence is invalid or older than an exported transaction')
         payloads.append((sequence_relative, sequence_bytes, None))
-
-    for relative in sorted(direct_transaction_targets):
-        _, target_bytes = _studio_read(source, relative, STUDIO_MAX_AUTHORED_JSON,
-                                       'Studio authored JSON source')
-        payloads.append((relative, target_bytes, hashlib.sha256(target_bytes).hexdigest()))
 
     runs_root = _studio_path(source, '.urman-studio/runs', kind='dir', missing=True)
     if runs_root is not None:
@@ -909,6 +1170,20 @@ def export_studio_session(source, output):
     }
     receipt_bytes = canonical(receipt)
     payloads.append(('current-targets.json', receipt_bytes, None))
+
+    for relative in sorted(direct_transaction_targets | checkpoint_transaction_targets):
+        _, target_bytes = _studio_read(source, relative, STUDIO_MAX_AUTHORED_JSON,
+                                       'Studio authored source')
+        _studio_checkpoint_source_values(target_bytes, relative)
+        target_hash = hashlib.sha256(target_bytes).hexdigest()
+        if relative in current_targets:
+            recorded_target = current_targets[relative]
+            if (not recorded_target['present'] or recorded_target['bytes'] != len(target_bytes)
+                    or recorded_target['sha256'] != target_hash):
+                raise ValueError('Studio current-target receipt changed before evidence export: ' + relative)
+        else:
+            payloads.append((relative, target_bytes, target_hash))
+
     total_bytes = 0
     seen_payload_paths = set()
     for relative, source_or_bytes, expected_hash in payloads:
