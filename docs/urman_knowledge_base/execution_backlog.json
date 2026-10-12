@@ -20998,8 +20998,8 @@
               "Actual c25f6 native: ordinary entry/control and 358 checks reached; later moving-exit precondition speed=0, so TryExit not called. Exit guard remains unchanged; stop cause needs finite source/evidence review.",
               "Surface routes, сохранение/загрузка и безопасный выход ещё не завершены; book native/art and global finished-game criteria separate."
             ],
-            "next_action": "По actual speed=0 найти причину остановки в существующем сценарии/контактах; менять только подтверждённый дефект, без ослабления exit guard или новых probes.",
-            "blocker": "Moving-exit step reached with actual speed=0, possession unchanged; no confirmed exit-guard defect. Determine stop cause before any changed run.",
+            "next_action": "При свободной станции и существующем GUI helper с exact job/PID guard осмотреть обычное движение/остановку; подтвердить причину, затем исправить только найденный дефект. Этот VEHICLE input без нового причинного факта не повторять.",
+            "blocker": "Exact cause of post-turn speed=0 is absent from existing receipt/log; TryExit never called, no exit-guard defect demonstrated. Station released; owner-bound ordinary GUI review required before confirmed defect edit.",
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
             "work_contract": {
@@ -21156,7 +21156,8 @@
               "evidence": "evidence/ACT1-TRANSPORT/native_c25f6cdf5822439295861af1a939cfc4/",
               "archive_sha256": "f497aa96f1e4c154bda23596703507a5f5d2b7ad6030deb467203ac967fbcd6c",
               "userdata": "Raw game/stdout guard original files restored by rename and verified; receipt userdataRestored=false retained honestly, recovery_pending=false; fresh doctor ready/busy null/orphan false/recovery false.",
-              "visual_review": "Root personally viewed actual moving-wheel PNG: HUD2km/h and wheel contact with existing orange fixture earlier in scenario. This earlier motion does not prove later moving-exit speed; whole art not accepted."
+              "visual_review": "Root personally viewed actual moving-wheel PNG: HUD2km/h and wheel contact with existing orange fixture earlier in scenario. This earlier motion does not prove later moving-exit speed; whole art not accepted.",
+              "cause_review": "Luna read-only confirms MovingTyrePost cleanup before subsequent throttle; native game.log has ZERO existing act1-vehicle-collision-stop/actual-collision-stop diagnostics. Multiple production travel/wall/braking zero paths remain possible; exact stop cause unknown. No production/test edit or unchanged rerun justified."
             }
           },
           {
