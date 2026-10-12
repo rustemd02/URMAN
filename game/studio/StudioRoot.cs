@@ -21,6 +21,7 @@ public interface IStudioSection
     bool HasPendingChanges => false;
     bool SavePendingChanges() => true;
     void DiscardPendingChanges() { }
+    StudioCheckpointCatalogSource? CheckpointCatalogSource => null;
 }
 
 /// <summary>
@@ -409,6 +410,7 @@ public partial class StudioRoot : Control
         }
 
         section.View.Visible = true;
+        section.Refresh();
         if (select is not null)
         {
             section.Reveal(select);
@@ -527,6 +529,7 @@ public partial class StudioRoot : Control
             _historyActionBusy = false;
             if (GodotObject.IsInstanceValid(this))
             {
+                if (!_closing && _current is not null && _sections.TryGetValue(_current, out var section)) section.Refresh();
                 if (_aiPanel is not null && GodotObject.IsInstanceValid(_aiPanel)) _aiPanel.RefreshBusyState();
                 RefreshStatus();
             }
@@ -593,6 +596,7 @@ public partial class StudioRoot : Control
             _historyActionBusy = false;
             if (GodotObject.IsInstanceValid(this))
             {
+                if (!_closing && _current is not null && _sections.TryGetValue(_current, out var section)) section.Refresh();
                 if (_aiPanel is not null && GodotObject.IsInstanceValid(_aiPanel)) _aiPanel.RefreshBusyState();
                 RefreshStatus();
             }
@@ -978,6 +982,7 @@ public partial class StudioRoot : Control
             _playPreparing = false;
             if (!_closing && GodotObject.IsInstanceValid(this))
             {
+                if (_current is not null && _sections.TryGetValue(_current, out var section)) section.Refresh();
                 if (_aiPanel is not null && GodotObject.IsInstanceValid(_aiPanel)) _aiPanel.RefreshBusyState();
                 RefreshStatus();
             }

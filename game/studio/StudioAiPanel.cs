@@ -572,7 +572,9 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
             AtomicFile.Sha256OfFile(Path.Combine(_studio.Workspace.Root, "assets/source/blender/act1/urman_village_exterior_kit.blend")) + "\n" + Revision()));
     }
 
-    private string Revision()
+    private string Revision() => ResolveRevision(_studio);
+
+    internal static string ResolveRevision(StudioRoot studio)
     {
         const string snapshotRevisionPrefix = "--urman-studio-snapshot-revision=";
         var snapshotRevisionArgument = OS.GetCmdlineUserArgs()
@@ -585,7 +587,7 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
                 throw new IOException("Переданная ревизия снимка должна содержать 40 или 64 строчные шестнадцатеричные цифры.");
 
             // Это заявление оператора или проверившего provenance runner; Studio не аутентифицирует сам аргумент командной строки.
-            var checkoutRoot = _studio.Workspace.Root;
+            var checkoutRoot = studio.Workspace.Root;
             var checkoutRevision = Urman.Studio.Core.Handoff.DeveloperContext.ResolveRevision(checkoutRoot);
             if (checkoutRevision == "неизвестна"
                 && (Directory.Exists(Path.Combine(checkoutRoot, ".git")) || File.Exists(Path.Combine(checkoutRoot, ".git"))))
@@ -595,7 +597,7 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
             return snapshotRevision;
         }
 
-        var revision = Urman.Studio.Core.Handoff.DeveloperContext.ResolveRevision(_studio.Workspace.Root);
+        var revision = Urman.Studio.Core.Handoff.DeveloperContext.ResolveRevision(studio.Workspace.Root);
         if (revision == "неизвестна") throw new IOException("Нет полной Git-ревизии. Проверьте checkout перед запросом.");
         return revision;
     }

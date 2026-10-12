@@ -11,7 +11,10 @@ public partial class StudioRoot
     private void OpenCheckpoints()
     {
         if (IsAiActionBusy) return;
-        var store = new StudioCheckpointStore(Workspace);
+        var store = new StudioCheckpointStore(Workspace, () => _sections.Values
+            .Select(section => section.CheckpointCatalogSource)
+            .OfType<StudioCheckpointCatalogSource>()
+            .ToArray(), () => StudioAiPanel.ResolveRevision(this));
         var dialog = new AcceptDialog { Title = "Контрольные точки", OkButtonText = "Закрыть" };
         var box = new VBoxContainer();
         dialog.AddChild(box);
@@ -53,7 +56,7 @@ public partial class StudioRoot
             if (IsAiActionBusy) return;
             var selected = items.GetSelectedItems();
             if (selected.Length != 1 || selected[0] >= checkpoints.Count) { note.Text = "Выберите контрольную точку."; return; }
-            if (Workspace.Files.Any(file => file.Dirty || file.IsNew)) { note.Text = "Сначала сохраните или отмените текущие черновики. Восстановление не заменяет их автоматически."; return; }
+            if (HasPendingCheckpointDrafts()) { note.Text = "Сначала сохраните или отмените текущие черновики. Восстановление не заменяет их автоматически."; return; }
             try { PreviewCheckpoint(store, store.PrepareRestore(checkpoints[selected[0]].Id)); }
             catch (Exception error) when (CheckpointRefusal(error))
             {
@@ -71,6 +74,7 @@ public partial class StudioRoot
 
     private void PreviewCheckpoint(StudioCheckpointStore store, StudioCheckpointRestorePlan plan)
     {
+        if (HasPendingCheckpointDrafts()) { ShowBanner("Сначала сохраните или отмените текущие черновики. Восстановление не заменяет их автоматически.", error: true); return; }
         if (plan.Writes.Count == 0) { ShowBanner("Исходники уже совпадают с контрольной точкой.", error: false); return; }
         var dialog = new ConfirmationDialog { Title = "Восстановить «" + plan.Metadata.Name + "»?", OkButtonText = "Восстановить", CancelButtonText = "Отмена" };
         var box = new VBoxContainer();
@@ -108,22 +112,32 @@ public partial class StudioRoot
             ShowBanner("Восстановление не начато: дождитесь завершения текущего действия Studio и откройте снимок снова.", error: true);
             return;
         }
+        if (HasPendingCheckpointDrafts())
+        {
+            ShowBanner("Восстановление не начато: сначала сохраните или отмените текущие черновики.", error: true);
+            return;
+        }
         _checkpointBusy = true;
         try
         {
             RefreshStatus();
-            if (Workspace.Files.Any(file => file.Dirty || file.IsNew)) throw new InvalidOperationException("Есть черновики.");
-            await store.RestoreAsync(Session, plan, () => { }, ReloadCheckpointSourcesAndWorldAsync);
+            if (HasPendingCheckpointDrafts()) throw new InvalidOperationException("Есть черновики.");
+            await store.RestoreAsync(Session, plan, () => { }, () => ReloadCheckpointSourcesAndWorldAsync(plan.ChangedPaths));
             ShowBanner("Контрольная точка восстановлена. Отмена вернёт предыдущее состояние.", error: false);
         }
         catch (Exception error) when (CheckpointRefusal(error))
         {
             ShowBanner("Восстановление не подтверждено: проверьте конфликт источников, ресурсы и восстановление транзакции. Снимок сохранён.", error: true);
         }
-        finally { _checkpointBusy = false; RefreshStatus(); }
+        finally
+        {
+            _checkpointBusy = false;
+            if (!_closing && _current is not null && _sections.TryGetValue(_current, out var section)) section.Refresh();
+            RefreshStatus();
+        }
     }
 
-    private async Task ReloadCheckpointSourcesAndWorldAsync()
+    private async Task ReloadCheckpointSourcesAndWorldAsync(IReadOnlyCollection<string>? changedPaths = null)
     {
         foreach (var file in Workspace.Files.Where(file => file.ChangedOnDisk()))
         {
@@ -133,19 +147,35 @@ public partial class StudioRoot
         }
         Workspace.Reindex();
         if (Workspace.IdentityConflicts.Count > 0) throw new InvalidOperationException("Восстановленные ID неоднозначны.");
-        await ((StudioWorldSection)Section("world")).ReloadGeometryAsync();
+        await RefreshCheckpointCatalogSectionsAsync();
+        if (changedPaths is null || changedPaths.Any(path => !IsCheckpointCatalogPath(path)))
+            await ((StudioWorldSection)Section("world")).ReloadGeometryAsync();
+    }
+
+    private bool HasPendingCheckpointDrafts() => Workspace.Files.Any(file => file.Dirty || file.IsNew)
+        || _sections.Values.Any(section => section.HasPendingChanges);
+
+    private bool IsCheckpointCatalogPath(string path) => _sections.Values
+        .Select(section => section.CheckpointCatalogSource)
+        .Any(source => source is not null && source.Path == path
+            && StudioFileTransaction.IsOwnedCatalogPath(source.Owner, source.Path));
+
+    private Task RefreshCheckpointCatalogSectionsAsync()
+    {
+        foreach (var section in _sections.Values.Where(section => section.CheckpointCatalogSource is not null))
+            section.Refresh();
+        return Task.CompletedTask;
     }
 
     private Func<Task> HistoryViewBarrier(bool redo)
     {
         var paths = Session.History(redo).FirstOrDefault()?.Paths;
-        // Catalogue transactions refresh their own forms; rebuilding the map cannot change their preview.
-        return paths is { Count: > 0 } && paths.All(path => path == StudioItemsSection.SourcePath
-                || path == StudioVehiclesSection.SourcePath)
-            ? static () => Task.CompletedTask
-            : ReloadCheckpointSourcesAndWorldAsync;
+        // Catalogue-only history refreshes forms without rebuilding the map.
+        return paths is { Count: > 0 } && paths.All(IsCheckpointCatalogPath)
+            ? RefreshCheckpointCatalogSectionsAsync
+            : () => ReloadCheckpointSourcesAndWorldAsync(paths);
     }
 
-    private static bool CheckpointRefusal(Exception error) => error is IOException or UnauthorizedAccessException
+    private static bool CheckpointRefusal(Exception error) => error is IOException or UnauthorizedAccessException or InvalidDataException
         or ArgumentException or InvalidOperationException or System.Text.Json.JsonException;
 }

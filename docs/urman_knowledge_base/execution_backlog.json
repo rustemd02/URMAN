@@ -79389,6 +79389,11 @@
                 "source_revision": "ab5a8d42",
                 "evidence_path": "evidence/STUDIO/practical-editor-2026-10-12/windows-full-campaign",
                 "actual_result": "Root clicked native campaign button; exact child command starts full_game.tscn without demo teleport arguments. FullGameMain log confirms village_day@arrival. Root viewed running game screenshot. F3 quick save in guarded disposable userdata selected photoworlds-v1; before restoration root read only scene identifiers/SHA: exactly urman.fullgame:scene/pw-prologue, quick save SHA14720756f65b85e52d16f0bcc0a0d63804f26e832440fcbd928fd90f7fd68166. Child window manually closed, parent normal close fallback; station PASS exit0 and userdataRestored=true. This verifies launch, not campaign playthrough or novice external acceptance."
+              },
+              {
+                "stage": "2026-10-12 busy form cleanup",
+                "result": "SOURCE_GAME_COMPILE_0_0_NATIVE_OPEN",
+                "actual_result": "Native catalogue restart exposed disabled controls after Undo/Redo. Root now refreshes visible section after busy-clear for history/Play and upon navigation; checkpoint flow does same. No per-keystroke RefreshStatus rebuild. Source review and affectedcompile passed; new native editing recheck pending."
               }
             ],
             "stage_tasks": [
@@ -81615,6 +81620,19 @@
                 "implementation": "Read-only metadata from actual top-first Undo/Redo stacks: label, distinct paths, entity change count, file transaction ID. No persisted second ledger, no journal timestamp ordering, no mutable command snapshots exposed. Native dialog refreshes on Changed and disconnects on close; buttons only invoke the next existing guarded Root Undo/Redo callback. Startup loader refusal remains visible. Checkpoint dialogs freed on close/confirm.",
                 "verification": "Root source review of Sol6.1medium-owned new dialog and root API/hook; affected Game compile0warnings/0errors; diffcheck. No new tests/probes, native UI and restart not executed.",
                 "remaining": "Full mixed command restart hydration, native history/checkpoint walkthrough and A24 remain open. History view does not add journal recovery or cross-checkout Git exchange."
+              },
+              {
+                "stage": "2026-10-12 catalogue checkpoint drafts and source revision integration",
+                "result": "GAME_COMPILE_0_0_REVIEW_NATIVE_EXPORT_GAP_OPEN",
+                "source": [
+                  "src-dotnet/Urman.Studio.Core/Storage/StudioCheckpointStore.cs",
+                  "game/studio/StudioRoot.Checkpoints.cs",
+                  "game/studio/StudioItemsSection.cs",
+                  "game/studio/StudioVehiclesSection.cs",
+                  "game/studio/StudioRoot.cs",
+                  "game/studio/StudioAiPanel.cs"
+                ],
+                "actual_result": "Checkpoints capture current raw clean shop/vehicle bytes and fresh validated private draft candidates without saving project. Existing IsOwnedCatalogPath exact owner/path and typed validators reused; same aggregate8MiB, NoLinks, sourcehash/conflict guards. Preview/apply refuses any pending section draft; source/candidate validation repeated before transaction; form refresh preserved; catalogue-only callback skips geometry. Existing validated operator/runner revision resolver reused lazily on Create, not fabricated. Root refreshes active forms after history/Play busy clear and navigation to prevent confirmed disabled-fields defect. Affected Game compile0warnings/0errors; independent Sol review no blocker. Legacy snapshots missing new membership refuse safely. Native new create/restore/Undo still open; station exporter needs bounded checkpoint+restore-owner support to avoid dropping snapshots on source cleanup."
               }
             ],
             "stage_tasks": [
@@ -81646,7 +81664,7 @@
             "remaining": [
               "Checkpoint виден после restart; восстановление показывает diff и создаёт новую ревизию; старый и чужой варианты не уничтожены.; принятые child этапы повторно не разрабатывать."
             ],
-            "next_action": "Включить owned catalogue source/drafts в checkpoint без Save, guard all private drafts beforeRestore; narrowcompile/review then native create/restore/Undo.",
+            "next_action": "Закончить bounded checkpoint/restore-owner export и безопасное сохранение source при malformed; native Create draft snapshot→two saves→previewRestore→Undo→baseline, including form editability.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",

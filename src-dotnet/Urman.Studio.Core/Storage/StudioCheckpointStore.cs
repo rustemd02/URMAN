@@ -15,8 +15,14 @@ public sealed record StudioCheckpointRestorePlan(StudioCheckpointMetadata Metada
     IReadOnlyDictionary<string, string> WorkspaceHashes, IReadOnlyDictionary<string, string?> ExpectedDiskHashes,
     IReadOnlyDictionary<string, string> CurrentTexts);
 
+public sealed record StudioCheckpointCatalogImage(string DiskSha256, byte[]? DraftBytes);
+public sealed record StudioCheckpointCatalogSource(string Owner, string Path, Func<StudioCheckpointCatalogImage> Capture,
+    Action<byte[]> Validate);
+
 /// <summary>Named authored-text checkpoints. Resources are receipts, not copied assets or a typed closure.</summary>
-public sealed class StudioCheckpointStore(StudioWorkspace workspace)
+public sealed class StudioCheckpointStore(StudioWorkspace workspace,
+    Func<IReadOnlyList<StudioCheckpointCatalogSource>>? catalogSources = null,
+    Func<string>? revision = null)
 {
     private const string DirectoryPath = ".urman-studio/checkpoints";
     private const string ResourceCapture = "literal-res-paths-record-only";
@@ -33,7 +39,10 @@ public sealed class StudioCheckpointStore(StudioWorkspace workspace)
         ValidateLabel(name);
         ValidateLabel(author);
         if (workspace.IdentityConflicts.Count != 0) throw new InvalidOperationException("Исправьте повторные ID перед созданием checkpoint.");
-        var paths = CurrentSourcePaths();
+        var ownedSources = CurrentCatalogSources();
+        var ownedByPath = ownedSources.ToDictionary(source => source.Path, StringComparer.Ordinal);
+        var catalogImages = CaptureCatalogImages(ownedSources);
+        var paths = CurrentSourcePaths(ownedSources);
         if (paths.Length is < 1 or > MaxFiles) throw new InvalidOperationException("Checkpoint допускает от 1 до 2000 исходных файлов.");
         var images = new List<byte[]>();
         var sources = new List<SourceReceipt>();
@@ -43,8 +52,9 @@ public sealed class StudioCheckpointStore(StudioWorkspace workspace)
         {
             ValidateSourcePath(path);
             Guard(path);
-            var text = CurrentText(path);
-            var bytes = Utf8.GetBytes(text);
+            var bytes = CurrentSourceBytes(path, catalogImages, includeDrafts: true);
+            var text = Utf8.GetString(bytes);
+            if (ownedByPath.TryGetValue(path, out var ownedSource)) ownedSource.Validate(bytes);
             total += bytes.LongLength;
             if (total > MaxBytes) throw BudgetFailure();
             var parsed = AuthoredFile.CreateNew(_root, path, text);
@@ -63,10 +73,10 @@ public sealed class StudioCheckpointStore(StudioWorkspace workspace)
                 throw new InvalidOperationException("Основа генерации дома отсутствует; checkpoint не создан.");
             return new ResourceReceipt(path, File.Exists(full) ? DiskHash(path) : null);
         }).ToArray();
-        var revision = DeveloperContext.ResolveRevision(_root);
-        if (!IsRevision(revision)) throw new InvalidOperationException("Нет полной Git-ревизии для checkpoint.");
+        var snapshotRevision = revision?.Invoke() ?? DeveloperContext.ResolveRevision(_root);
+        if (!IsRevision(snapshotRevision)) throw new InvalidOperationException("Нет полной Git-ревизии для checkpoint.");
         var metadata = new StudioCheckpointMetadata(Guid.NewGuid().ToString("N"), name, author,
-            DateTimeOffset.UtcNow, revision, paths.Length, resources.Length, ResourceCapture);
+            DateTimeOffset.UtcNow, snapshotRevision, paths.Length, resources.Length, ResourceCapture);
         var manifest = new Manifest(1, RootHash(), metadata, sources.ToArray(), resources);
         var manifestBytes = Utf8.GetBytes(JsonSerializer.Serialize(manifest));
         if (total + manifestBytes.LongLength > MaxBytes) throw BudgetFailure();
@@ -108,8 +118,11 @@ public sealed class StudioCheckpointStore(StudioWorkspace workspace)
 
     public StudioCheckpointRestorePlan PrepareRestore(string id)
     {
+        var ownedSources = CurrentCatalogSources();
+        var catalogImages = CaptureCatalogImages(ownedSources);
+        RefuseCatalogDrafts(catalogImages);
         var checkpoint = Read(id);
-        ValidateMembership(checkpoint);
+        ValidateMembership(checkpoint, ownedSources);
         ValidateResources(checkpoint);
         if (workspace.IdentityConflicts.Count != 0) throw new InvalidOperationException("Исправьте повторные ID перед восстановлением.");
         var writes = new List<StudioFileWrite>();
@@ -123,7 +136,8 @@ public sealed class StudioCheckpointStore(StudioWorkspace workspace)
             if (!File.Exists(full)) throw new InvalidOperationException("Исходник checkpoint отсутствует. Создание и удаление файлов при восстановлении не поддерживается.");
             var diskBytes = ReadBounded(full, MaxBytes);
             var diskHash = AtomicFile.Sha256(diskBytes);
-            var currentText = CurrentText(source.Path);
+            ValidateCatalogDiskHash(source.Path, diskBytes, catalogImages);
+            var currentText = catalogImages.ContainsKey(source.Path) ? Utf8.GetString(diskBytes) : CurrentText(source.Path);
             var bytes = ReadImage(checkpoint, source);
             var parsed = AuthoredFile.CreateNew(_root, source.Path, Utf8.GetString(bytes));
             if (parsed.RootIsArray != AuthoredFile.CreateNew(_root, source.Path, currentText).RootIsArray)
@@ -141,8 +155,11 @@ public sealed class StudioCheckpointStore(StudioWorkspace workspace)
     /// <summary>Repeat immediately before ApplyFilesAsync; this method never writes project files.</summary>
     public void ValidateRestore(StudioCheckpointRestorePlan plan)
     {
+        var ownedSources = CurrentCatalogSources();
+        var catalogImages = CaptureCatalogImages(ownedSources);
+        RefuseCatalogDrafts(catalogImages);
         var checkpoint = Read(plan.Metadata.Id);
-        ValidateMembership(checkpoint);
+        ValidateMembership(checkpoint, ownedSources);
         ValidateResources(checkpoint);
         if (plan.Metadata != checkpoint.Metadata || workspace.IdentityConflicts.Count != 0
             || !plan.AllowedPaths.SetEquals(checkpoint.Sources.Select(source => source.Path))
@@ -154,12 +171,16 @@ public sealed class StudioCheckpointStore(StudioWorkspace workspace)
         {
             Guard(source.Path);
             var full = Path.Combine(_root, source.Path);
+            if (!File.Exists(full)) throw new InvalidOperationException("Исходники изменились после preview. Откройте новый preview.");
+            var diskBytes = ReadBounded(full, MaxBytes);
+            ValidateCatalogDiskHash(source.Path, diskBytes, catalogImages);
+            var currentText = catalogImages.ContainsKey(source.Path) ? Utf8.GetString(diskBytes) : CurrentText(source.Path);
             if (!plan.WorkspaceHashes.TryGetValue(source.Path, out var workspaceHash)
-                || AtomicFile.Sha256(Utf8.GetBytes(CurrentText(source.Path))) != workspaceHash
+                || AtomicFile.Sha256(Utf8.GetBytes(currentText)) != workspaceHash
                 || !plan.ExpectedDiskHashes.TryGetValue(source.Path, out var expectedHash)
-                || !plan.CurrentTexts.TryGetValue(source.Path, out var currentText)
-                || AtomicFile.Sha256(Utf8.GetBytes(currentText)) != expectedHash
-                || !File.Exists(full) || DiskHash(source.Path) != expectedHash)
+                || !plan.CurrentTexts.TryGetValue(source.Path, out var planCurrentText)
+                || AtomicFile.Sha256(Utf8.GetBytes(planCurrentText)) != expectedHash
+                || AtomicFile.Sha256(diskBytes) != expectedHash)
                 throw new InvalidOperationException("Исходники изменились после preview. Откройте новый preview.");
             if (expectedHash == source.Sha256) continue;
             expectedWrites.Add(source.Path);
@@ -211,6 +232,9 @@ public sealed class StudioCheckpointStore(StudioWorkspace workspace)
         ValidateLabel(meta.Name);
         ValidateLabel(meta.Author);
         var seen = new HashSet<string>(StringComparer.Ordinal);
+        var ownedSources = CurrentCatalogSources();
+        var ownedByPath = ownedSources.ToDictionary(source => source.Path, StringComparer.Ordinal);
+        var currentPaths = CurrentSourcePaths(ownedSources).ToHashSet(StringComparer.Ordinal);
         var discoveredResources = BasisPaths.ToHashSet(StringComparer.Ordinal);
         long total = bytes.LongLength;
         for (var index = 0; index < manifest.Sources.Length; index++)
@@ -218,12 +242,13 @@ public sealed class StudioCheckpointStore(StudioWorkspace workspace)
             var source = manifest.Sources[index];
             if (source is null) throw new InvalidDataException();
             ValidateSourcePath(source.Path);
-            if ((!workspace.HasFile(source.Path) && source.Path != HeroRecipePath)
+            if (!currentPaths.Contains(source.Path)
                 || !seen.Add(source.Path) || source.Image != $"source-{index:D4}.txt" || source.Bytes < 0 || source.Bytes > MaxBytes || !IsSha(source.Sha256))
                 throw new InvalidDataException("Список исходников checkpoint некорректен.");
             total += source.Bytes;
             if (total > MaxBytes) throw new InvalidDataException("Checkpoint превышает бюджет.");
             var image = ReadImage(manifest, source);
+            if (ownedByPath.TryGetValue(source.Path, out var ownedSource)) ownedSource.Validate(image);
             foreach (var value in Strings(AuthoredFile.CreateNew(_root, source.Path, Utf8.GetString(image)).Snapshot()))
                 if (value.StartsWith("res://", StringComparison.Ordinal)) discoveredResources.Add(ResourcePath(value));
         }
@@ -251,9 +276,9 @@ public sealed class StudioCheckpointStore(StudioWorkspace workspace)
         return bytes;
     }
 
-    private void ValidateMembership(Manifest checkpoint)
+    private void ValidateMembership(Manifest checkpoint, IReadOnlyList<StudioCheckpointCatalogSource>? ownedSources = null)
     {
-        if (!CurrentSourcePaths().ToHashSet(StringComparer.Ordinal)
+        if (!CurrentSourcePaths(ownedSources).ToHashSet(StringComparer.Ordinal)
             .SetEquals(checkpoint.Sources.Select(source => source.Path)))
             throw new InvalidOperationException("Состав исходников изменился. Неизвестные, новые или отсутствующие файлы не восстанавливаются автоматически.");
     }
@@ -284,12 +309,71 @@ public sealed class StudioCheckpointStore(StudioWorkspace workspace)
     }
 
     private void Guard(string relative, bool metadata = false) => StudioFileTransaction.EnsureNoLinks(_root, relative, allowStudioMetadata: metadata);
-    private string[] CurrentSourcePaths()
+    private string[] CurrentSourcePaths(IReadOnlyList<StudioCheckpointCatalogSource>? ownedSources = null)
     {
+        ownedSources ??= CurrentCatalogSources();
         Guard(HeroRecipePath);
         return workspace.Files.Select(file => file.RelativePath)
             .Concat(File.Exists(Path.Combine(_root, HeroRecipePath)) ? [HeroRecipePath] : Array.Empty<string>())
+            .Concat(ownedSources.Select(source => source.Path))
             .Distinct(StringComparer.Ordinal).Order(StringComparer.Ordinal).ToArray();
+    }
+
+    private StudioCheckpointCatalogSource[] CurrentCatalogSources()
+    {
+        var sources = catalogSources?.Invoke() ?? [];
+        if (catalogSources is not null && sources.Count != 2)
+            throw new InvalidDataException("Checkpoint должен получить оба каталога с точным владельцем источника.");
+        var seen = new HashSet<string>(StringComparer.Ordinal);
+        foreach (var source in sources)
+        {
+            if (source is null || source.Capture is null || source.Validate is null
+                || workspace.HasFile(source.Path) || !StudioFileTransaction.IsOwnedCatalogPath(source.Owner, source.Path)
+                || !seen.Add(source.Path))
+                throw new InvalidDataException("Checkpoint получил неизвестный или повторный каталог.");
+            ValidateSourcePath(source.Path);
+            Guard(source.Path);
+        }
+        return sources.OrderBy(source => source.Path, StringComparer.Ordinal).ToArray();
+    }
+
+    private Dictionary<string, StudioCheckpointCatalogImage> CaptureCatalogImages(
+        IReadOnlyList<StudioCheckpointCatalogSource> ownedSources)
+    {
+        var images = new Dictionary<string, StudioCheckpointCatalogImage>(StringComparer.Ordinal);
+        foreach (var source in ownedSources)
+        {
+            Guard(source.Path);
+            var image = source.Capture();
+            if (image is null || !IsSha(image.DiskSha256) || image.DraftBytes is { Length: > MaxBytes })
+                throw new InvalidDataException("Снимок каталога некорректен или превышает бюджет.");
+            if (image.DraftBytes is { } draftBytes) _ = Utf8.GetString(draftBytes);
+            images.Add(source.Path, image);
+        }
+        return images;
+    }
+
+    private static void RefuseCatalogDrafts(IReadOnlyDictionary<string, StudioCheckpointCatalogImage> images)
+    {
+        if (images.Values.Any(image => image.DraftBytes is not null))
+            throw new InvalidOperationException("Сначала сохраните или отмените черновики каталогов перед восстановлением.");
+    }
+
+    private byte[] CurrentSourceBytes(string path, IReadOnlyDictionary<string, StudioCheckpointCatalogImage> catalogImages,
+        bool includeDrafts)
+    {
+        Guard(path);
+        if (!catalogImages.TryGetValue(path, out var catalogImage)) return Utf8.GetBytes(CurrentText(path));
+        var diskBytes = ReadBounded(Path.Combine(_root, path), MaxBytes);
+        ValidateCatalogDiskHash(path, diskBytes, catalogImages);
+        return includeDrafts ? catalogImage.DraftBytes ?? diskBytes : diskBytes;
+    }
+
+    private static void ValidateCatalogDiskHash(string path, byte[] diskBytes,
+        IReadOnlyDictionary<string, StudioCheckpointCatalogImage> catalogImages)
+    {
+        if (catalogImages.TryGetValue(path, out var image) && AtomicFile.Sha256(diskBytes) != image.DiskSha256)
+            throw new InvalidOperationException("Каталог изменился во время снимка. Перечитайте его перед продолжением.");
     }
     private string CurrentText(string path)
     {
@@ -327,7 +411,8 @@ public sealed class StudioCheckpointStore(StudioWorkspace workspace)
     private static bool IsSha(string value) => value is { Length: 64 } && value.All(character => character is >= '0' and <= '9' or >= 'a' and <= 'f');
     private static bool IsRevision(string value) => value is { Length: 40 or 64 } && value.All(character => character is >= '0' and <= '9' or >= 'a' and <= 'f');
     private static InvalidOperationException BudgetFailure() => new("Checkpoint превышает бюджет исходных текстов 8 МиБ. Данные не обрезаны; checkpoint не записан.");
-    private static bool IsReadFailure(Exception error) => error is IOException or UnauthorizedAccessException or ArgumentException or InvalidOperationException or FormatException or JsonException;
+    private static bool IsReadFailure(Exception error) => error is IOException or UnauthorizedAccessException or InvalidDataException
+        or ArgumentException or InvalidOperationException or FormatException or JsonException;
     private static byte[] ReadBounded(string path, long limit)
     {
         using var input = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);

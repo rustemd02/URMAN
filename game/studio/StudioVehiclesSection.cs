@@ -59,6 +59,8 @@ public sealed class StudioVehiclesSection : IStudioSection
     public string Key => "vehicles";
     public string Title => "Транспорт";
     public Control View => _view ??= Build();
+    public StudioCheckpointCatalogSource CheckpointCatalogSource =>
+        new(TransactionOwner, SourcePath, CaptureCheckpointImage, ValidateCandidate);
 
     public bool HasPendingChanges
     {
@@ -628,6 +630,27 @@ public sealed class StudioVehiclesSection : IStudioSection
         }
 
         return candidate;
+    }
+
+    private StudioCheckpointCatalogImage CaptureCheckpointImage()
+    {
+        StoreDraftFromFields();
+        if (_externalConflict || _loadError is not null)
+            throw new InvalidOperationException("Сначала перечитайте каталог транспорта и разрешите конфликт.");
+
+        var disk = ReadSnapshot();
+        if (!HasDirtyDrafts()) return new(disk.Hash, null);
+        if (_snapshot is null || disk.Hash != _snapshot.Hash)
+        {
+            _externalConflict = true;
+            if (_status is not null) _status.Text = "Каталог транспорта изменился. Черновики сохранены, но не включены в снимок; перечитайте файл перед продолжением.";
+            UpdateState();
+            throw new InvalidOperationException("Каталог транспорта изменился после загрузки. Сначала разрешите конфликт.");
+        }
+
+        var bytes = Encoding.UTF8.GetBytes(BuildCandidate().ToJsonString(JsonOptions) + "\n");
+        ValidateCandidate(bytes);
+        return new(disk.Hash, bytes);
     }
 
     private static float ParsePositive(string text, string label) => TryPositive(text, out var value)

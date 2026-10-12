@@ -54,6 +54,8 @@ public sealed class StudioItemsSection : IStudioSection
     public string Key => "items";
     public string Title => "Предметы";
     public Control View => _view ??= Build();
+    public StudioCheckpointCatalogSource CheckpointCatalogSource =>
+        new(TransactionOwner, SourcePath, CaptureCheckpointImage, ValidateCandidate);
 
     public bool HasPendingChanges
     {
@@ -571,6 +573,27 @@ public sealed class StudioItemsSection : IStudioSection
         }
 
         return candidate;
+    }
+
+    private StudioCheckpointCatalogImage CaptureCheckpointImage()
+    {
+        StoreDraftFromFields();
+        if (_externalConflict || _loadError is not null)
+            throw new InvalidOperationException("Сначала перечитайте каталог магазина и разрешите конфликт.");
+
+        var disk = ReadSnapshot();
+        if (!HasDirtyDrafts()) return new(disk.Hash, null);
+        if (_snapshot is null || disk.Hash != _snapshot.Hash)
+        {
+            _externalConflict = true;
+            if (_status is not null) _status.Text = "Каталог изменился. Черновики сохранены, но не включены в снимок; перечитайте файл перед продолжением.";
+            UpdateState();
+            throw new InvalidOperationException("Каталог магазина изменился после загрузки. Сначала разрешите конфликт.");
+        }
+
+        var bytes = Encoding.UTF8.GetBytes(BuildCandidate().ToJsonString(JsonOptions) + "\n");
+        ValidateCandidate(bytes);
+        return new(disk.Hash, bytes);
     }
 
     private static void ValidateCandidate(byte[] bytes)
