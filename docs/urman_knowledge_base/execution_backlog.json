@@ -79518,6 +79518,14 @@
                 "saved_sha256": "39f9bab7eaa732d802d31df1c10354339046d5a47980ba21dc1bc85369a3cd90",
                 "undo_sha256": "d82cc9018621a786a9c01bca0d8d066fa41918c7b5ced5d43d163c46b494638a",
                 "actual_result": "Root actual native PID103888: skip tour→Dialogues→click Russian visible conversation (no ID entry)→Russian line visible→append [STUDIO]→Enter→Save, retained in field. Read selected source confirms ru marker and unchanged Englishdefault. ToolbarUndo→Save restored entiredefinitions exactoriginalSHA and Russianfield. NormalXclose process0/noresourceleak, guardoriginaluserdata restoredverified, doctorready/busynull/recoveryfalse. WrapperFAIL remains single GOG VulkanLoader deprecatedoverlayJSON ERROR, no wholewrapperPASS/novicegate/Gameplay/networkSend claim. Native text result verifies Russianresolver9c84a4af; map notloaded, guardedwallf784 speed stillunmeasured."
+              },
+              {
+                "stage": "2026-10-12 skip unused wall centre calculation when footing exists",
+                "result": "SOURCE_GAME_COMPILE_0_0_NATIVE_UNMEASURED",
+                "source": "game/scripts/Act1ConnectedWorld.DwellingLogWalls.cs",
+                "verification": "Luna FAST/Max source implementation and diffcheck; root inspected exact same footing expression and live no-footing fallback; affected Game compile 0 warnings/0 errors in17.01s.",
+                "actual_result": "Per-wall unused wall AABB centre enumeration removed only when the existing footing centre is selected; no cache in no-footing branch and no geometry/collision/RNG changes.",
+                "remaining": "Incremental runtime saving not measured. Active Windows8a909a4a measures earlier guarded cache on ce961650, not this new source."
               }
             ],
             "stage_tasks": [

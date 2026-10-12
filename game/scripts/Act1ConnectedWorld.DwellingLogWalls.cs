@@ -105,17 +105,26 @@ public partial class Act1ConnectedWorld
                 else
                     ownersRequiringLiveMeshes.Add(owner);
             }
-            var dwelling = houseParts
-                .Where(m => m.Name.ToString().Contains("_Wall_LOD0", StringComparison.Ordinal))
-                .Select(m => m.GlobalTransform * m.GetAabb().GetCenter()).ToArray();
             // The house's own foundation sits exactly under it; averaging every wall
             // of an owner that also holds entry halls or a neighbour drifted outside
             // some houses and put their courses on the inner face (round 11 frames).
             var footing = houseParts.Where(m => m.Name.ToString().Contains("_Foundation_LOD0", StringComparison.Ordinal)
                     || m.Name.ToString().Contains("_FootingCap_LOD0", StringComparison.Ordinal))
                 .OrderByDescending(m => m.GetAabb().Size.X * m.GetAabb().Size.Z).FirstOrDefault();
-            var houseCentre = footing is not null ? footing.GlobalTransform * footing.GetAabb().GetCenter()
-                : dwelling.Length > 0 ? dwelling.Aggregate(Vector3.Zero, (a, b) => a + b) / dwelling.Length : parent.GlobalPosition;
+            Vector3 houseCentre;
+            if (footing is not null)
+            {
+                houseCentre = footing.GlobalTransform * footing.GetAabb().GetCenter();
+            }
+            else
+            {
+                var dwelling = houseParts
+                    .Where(m => m.Name.ToString().Contains("_Wall_LOD0", StringComparison.Ordinal))
+                    .Select(m => m.GlobalTransform * m.GetAabb().GetCenter()).ToArray();
+                houseCentre = dwelling.Length > 0
+                    ? dwelling.Aggregate(Vector3.Zero, (a, b) => a + b) / dwelling.Length
+                    : parent.GlobalPosition;
+            }
             if (footing is not null) footed++;
             var toWall = wall.GlobalTransform.AffineInverse();
             var centreLocal = toWall * houseCentre;
