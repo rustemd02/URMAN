@@ -165,7 +165,7 @@ public static partial class VehicleVisualFactory
     /// surface override and never edits the licensed source asset.
     /// </summary>
     internal static IReadOnlyList<string> RebindThirdPartyVehicleMaterials(Node3D model, string paintColor,
-        List<string> unmapped)
+        List<string> unmapped, string? paintedBodySlot = null)
     {
         var rebound = 0;
         foreach (var node in model.FindChildren("*", "MeshInstance3D", true, false).OfType<MeshInstance3D>())
@@ -177,7 +177,12 @@ public static partial class VehicleVisualFactory
             for (var surface = 0; surface < mesh.GetSurfaceCount(); surface++)
             {
                 var name = mesh.SurfaceGetMaterial(surface)?.ResourceName ?? string.Empty;
-                var replacement = ThirdPartyFinish(name, paintColor);
+                // This import calls its painted shell "Steel"; other steel slots
+                // retain the ordinary bare-metal recipe unless explicitly named.
+                var replacement = paintedBodySlot is not null
+                    && StringComparer.Ordinal.Equals(name, paintedBodySlot)
+                    ? PainterlyFinish(paintColor, "vehicle_paint")
+                    : ThirdPartyFinish(name, paintColor);
                 if (replacement is null)
                 {
                     if (name.Length > 0 && !unmapped.Contains(name, StringComparer.OrdinalIgnoreCase))

@@ -115405,7 +115405,7 @@
       "id": "PW-044",
       "title": "Удержать красоту наружной деревни после разделения",
       "milestone": "PW-M3",
-      "status": "todo",
+      "status": "in_progress",
       "active_owner": null,
       "owner": "art",
       "priority": "P1",
@@ -115697,8 +115697,8 @@
       },
       "assigned_owner": "art",
       "activity": {
-        "state": "not_active",
-        "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+        "state": "released",
+        "reason": "Finite exact DistrictZhiguli painted-shell source accepted by root review/affected compile0/0; native same parking views and whole PW044 open."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -115707,7 +115707,7 @@
         "Деревня материальна и обжита, а не выглядит меню порталов.",
         "Новые миры не маскируют технические регрессии."
       ],
-      "next_action": "Не оставить серый прототип деревни рядом с законченными фотомирами.",
+      "next_action": "После peer station release принять same existing S05 parking wide/contact на изменённом exact Steel paint; сохранить снимки для личного root просмотра. Полная деревня/внешний art gate открыты.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -115717,7 +115717,9 @@
         "targets": [
           "game/content/world/act1_village_kit.world.v1.json",
           "game/scripts/GeneratedModularKitDressing.cs",
-          "tools/blender/generate_modular_environment.py"
+          "tools/blender/generate_modular_environment.py",
+          "game/scripts/VehicleVisualFactory.Materials.cs",
+          "game/scripts/VehicleVisualFactory.DistrictZhiguli.cs"
         ],
         "required_inputs": [
           {
@@ -116018,7 +116020,19 @@
           "evidence_ref": "PW-044.evidence and named history progress; source_review shows available/missing inputs"
         }
       ],
-      "assignment_state": "preserved_person_or_existing_role; activity separate"
+      "assignment_state": "preserved_person_or_existing_role; activity separate",
+      "progress_2026_10_13_zhiguli_shell": {
+        "source_input": "B02 actual crisp-outward parking frames identify striped bare-metal body; root parsed unchanged licensed GLB: Steel8497tris, separate Wheel_steel3164/Metal6864. Existing paint recipe and supplied paintColor4c5d4c available.",
+        "verification_question": "Does same parking wide/contact show painted green-grey body without brushed-metal stripes, while wheels/trim/snow/geometry and third-party attribution remain intact?",
+        "success": "Only this model exact Steel slot uses existing vehicle_paint; Wheel_steel/Metal/default generic path unchanged; native matching views actually reviewed.",
+        "source_state": "Accepted: optional exact ordinal paintedBodySlot defaultnull; only BuildDistrictZhiguli opts into Steel→vehicle_paint4c5d4c. Wheel_steel/Metal/generic mappings, mesh/UV/source asset/CCBY attribution unchanged.",
+        "native_state": "NOT_RUN on changed shell material; B02 original frames not available in this checkout. Same parking wide/contact requested after peer reservations; no full vehicle smoke.",
+        "affected_compile": "Game build succeeded:0 errors,0 warnings;27.59s",
+        "source_files": [
+          "game/scripts/VehicleVisualFactory.DistrictZhiguli.cs",
+          "game/scripts/VehicleVisualFactory.Materials.cs"
+        ]
+      }
     },
     {
       "id": "PW-045",

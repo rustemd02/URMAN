@@ -20,7 +20,7 @@ public static partial class VehicleVisualFactory
         // are untouched; the source mesh resource is never edited, only the
         // instance's surface overrides.
         var unmapped=new System.Collections.Generic.List<string>();
-        RebindThirdPartyVehicleMaterials(model,"4c5d4c",unmapped);
+        RebindThirdPartyVehicleMaterials(model,"4c5d4c",unmapped,paintedBodySlot:"Steel");
         if(unmapped.Count>0)
             GD.PushWarning("District Zhiguli keeps unnormalised source materials: "+string.Join(", ",unmapped));
         root.SetMeta("materialNormalization","imported slots rebinded to URMAN vehicle families (VIS-105)");
