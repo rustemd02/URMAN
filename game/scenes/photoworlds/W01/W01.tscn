@@ -1,0 +1,26 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource path="res://scripts/photoworlds/W01Controller.cs" type="Script" id="1_w01"]
+
+[sub_resource type="Environment" id="Environment_W01Daylight"]
+background_mode = 1
+background_color = Color(0.64, 0.73, 0.77, 1)
+
+[node name="W01" type="Node3D"]
+script = ExtResource("1_w01")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_W01Daylight")
+
+[node name="Daylight" type="DirectionalLight3D" parent="."]
+rotation_degrees = Vector3(-48, 28, 0)
+light_color = Color(1, 0.93, 0.81, 1)
+light_energy = 1.15
+shadow_enabled = true
+
+[node name="Anchors" type="Node3D" parent="."]
+
+[node name="F00" type="Marker3D" parent="Anchors"]
+
+[node name="F01" type="Marker3D" parent="Anchors"]
+position = Vector3(12, 1, 50)
