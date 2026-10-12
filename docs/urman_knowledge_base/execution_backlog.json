@@ -74011,6 +74011,14 @@
                 "verification": "Four purehelper AST assertions and independent geometry/source audits; actual preview/Apply PNG/request/proposal hashes match journal. Game affectedcompile0warnings0errors for childviewportpause; diff-check/trackerPASS. GLB Seni35 nodes/doors13 unchanged within2e-6; all significantlychanged commonmeshes belong tofour windowfacades. Oldsourcebefore lacked roofseam butafteradded it: firstnative notstrictlywindowonly. Currentmainkit roofseam matchesgeneratedstage bit-exact positions/normals/indices/TRS/material.",
                 "evidence": "evidence/STUDIO/b20-codex-ui-2026-10-12/windows-native-fourth/receipt.json; studio-session/.urman-studio/ai-jobs/1e980e79f0e548d0a1e7a597cc130f42/actions; studio-session/.urman-studio/transactions/7c1cc8ca61104b509e804bf84bbced75/journal.json",
                 "remaining": "Originalnative hourtimeout124: noafter-game frames/Undo. Sixbaseline gameframes personally inspected but graphicsComparable=false duehigh→low performance-rescue; do not use asmatchedacceptance. Native buffer/pause/dropdown fixes pending. Studio resume must use originalacceptedhistory throughstationprotocol; fullsinglewindow/multihouse/fullB20criteria remainopen."
+              },
+              {
+                "stage": "2026-10-12 legible comparison preview",
+                "result": "SOURCE_COMPILE_0_0_NATIVE_PENDING",
+                "source": "game/studio/StudioAiPanel.cs; game/studio/StudioCatalogBuilder.cs",
+                "implementation": "Existingcatalog root-local Bounds reused; component transforms applied into sharedpreview coordinates, Before/After union frames one fixed45deg camera atunioncenter. BeforeattachedbeforeAfterload toretaincleanup ownership. Toggle changesvisibilityonly; no camera scale jump.",
+                "verification": "Root code review, affectedGamecompile0warnings0errors14.95s, diffcheckPASS. Currentkit RoofStandingSeams geometry vsactualacceptedstage identical localTRS/720POSITION/720NORMAL/1080indices/material (maxdelta0).",
+                "remaining": "Nativepreviewframing/dropdown/sourcecapacity/viewportpause acceptance pending; originalUndo/game complete stillopen."
               }
             ],
             "stage_tasks": [
