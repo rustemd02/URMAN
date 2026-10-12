@@ -75188,22 +75188,29 @@
                       "actual_result": "After current native job completed, doctor --studio-readiness returnsstatechecked/readytrue/station_readytrue, pinnedBlender4.5.12 versionmatchtrue, Codex0.162.1 found/loggedintrue/versionconfirmedtrue. runtime_verifiedfalse preserved; no new inference/Apply/restart claim. Successful currentStudio submission disproves historical HTTP404 station note.",
                       "verification": "Fresh endpoint response after job67698c1a; busy response earlier was not an installation/auth verdict. Luna read ordered AIhistory/retained2processworkspace/exportsource path; no sourceblocker found.",
                       "remaining": "Fresh realCodex Apply→normalclose→sameworkspace secondStudio→Undo byteexact→Redo still pending; oldFront0tx was undone."
+                    },
+                    {
+                      "stage": "2026-10-12 native restart selection blockers",
+                      "result": "NOT_ACCEPTED_SOURCE_FIX_COMPILED",
+                      "actual_result": "Fresh job45217200 source11fd99ba: house selected; EyeLevel orbit put camera inside house, clicks hit Left_LogCrown rather than window. No new request/proposal/Apply; first normal close exit0, original userdata rename-restored verified. Runner aborted before secondStudio on preserved GOG Vulkan startup ERROR. Fixed EyeLevel using live visual bounds+2m clearance with6m minimum; affected Game compile0warnings/0errors15.97s. Native retest pending.",
+                      "verification": "evidence/STUDIO/practical-editor-2026-10-12/windows-ai-restart-selection/receipt.json; game.log; engine-errors.log; inspected native camera PNG. No restart/Undo completion claim. Runner PS5 parser PASS; independent Luna review caught stale userdataRestored across launches; reset before each launch. Final runner PS5 parser PASS and bytechecked deployment SHA cce1369393d78ec877c336f82df9d6aa3130f2b7a6b3f3dacf9836f57f93b464.",
+                      "remaining": "Deploy restart log-verdict sequencing fix; fresh window selection and real Apply→reopen→Undo/Redo/finalUndo."
                     }
                   ],
                   "assigned_owner": "codex/b20-2026-10-10",
-                  "active_owner": null,
+                  "active_owner": "Codex",
                   "activity": {
-                    "state": "paused_by_author",
-                    "reason": "Назначение Codex/DeepSeek сохранено; миграция не запускает production и не выдаёт peer-передачу за активную работу."
+                    "state": "confirmed_active",
+                    "reason": "Codex продолжает fresh native two-process Windows job 45217200aaa4463db9c6c9568880bcac; assigned owner сохранён."
                   },
                   "task_type": "integration_check",
-                  "status": "todo",
+                  "status": "in_progress",
                   "implementation_state": "not_started",
                   "technical_verification_state": "not_run",
                   "remaining": [
-                    "Перезапустить Studio после Codex Apply и восстановить durable Undo/Redo; отсутствует подтверждение собственного конечного DoD, перечисленного ниже."
+                    "Fresh Front0 request/preview/Apply and two-process byte-exact Undo/Redo/finalUndo remain unverified. EyeLevel repair compiled, native check pending; runner restart sequencing repair pending."
                   ],
-                  "next_action": "Запустить один protected studio --studio-restarts1: fresh selectedFront0 Codex proposal/preview/Apply, закрыть, второйStudio verifyapplied/Undo byteexact/Redo/finalUndo, закрыть. Использовать текущую checkedready станцию без копирования credentials.",
+                  "next_action": "После проверенной правки runner выполнить один новый native job с изменённым camera/runner input; безопасно выбрать Front0 и довести fresh Apply→reopen→Undo/Redo/finalUndo.",
                   "blocker": null,
                   "external_gates": [],
                   "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -75244,7 +75251,9 @@
                       "question": "Перезапустить Studio после Codex Apply и восстановить durable Undo/Redo",
                       "scenario": "Один Codex restart/reopen/Undo/Redo с именованным request/transaction/candidate и user-data canaries.",
                       "success": "Выполнены все перечисленные собственные критерии, без расширения на родителя.",
-                      "repeat_only_if": "Изменился source/candidate/input/покрываемый контракт."
+                      "repeat_only_if": "Изменился source/candidate/input/покрываемый контракт.",
+                      "current_stage_question": "Переживает ли fresh realCodex Front0 Apply полное закрытие/новый процесс и возвращает ли Undo исходные bytes/absence с Redo и окончательнойUndo?",
+                      "current_stage_success": "Два nativeStudio процесса в одном protectedworkspace, fresh request/transaction IDs, exactfourfile hash/absence comparison и normalclose/userdatarestored; остальные AI12/Claude/общийgoal не закрывать."
                     },
                     "actual_result": null,
                     "evidence_refs": []

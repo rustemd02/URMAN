@@ -1208,7 +1208,25 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
         _topView = false;
         _pitch = -4f;
         _pivot = at + new Vector3(0, 1.7f, 0);
-        _distance = 6f;
+        var radius = 0f;
+        if (LiveDisplayNode(id) is { } display)
+        {
+            Aabb? bounds = null;
+            foreach (var visual in display.FindChildren("*", nameof(VisualInstance3D), true, false)
+                         .OfType<VisualInstance3D>().Prepend(display as VisualInstance3D).OfType<VisualInstance3D>())
+            {
+                var box = visual.GlobalTransform * visual.GetAabb();
+                bounds = bounds is { } current ? current.Merge(box) : box;
+            }
+
+            if (bounds is { } visualBounds)
+            {
+                for (var corner = 0; corner < 8; corner++)
+                    radius = Mathf.Max(radius, visualBounds.GetEndpoint(corner).DistanceTo(at));
+            }
+        }
+
+        _distance = Mathf.Max(6f, radius + 2f);
         UpdateCamera();
     }
 

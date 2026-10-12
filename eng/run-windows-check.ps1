@@ -56,7 +56,7 @@ New-Item -ItemType Directory -Force $output | Out-Null
 $receipt = [ordered]@{ host = $env:COMPUTERNAME; mode = $Mode; scene = $Scene; headless = [bool]$Headless;
     started = (Get-Date).ToUniversalTime().ToString('o'); status = 'RUNNING'; logs = $output; humanPlaytest = 'not-run'; steps = @{} }
 if ($studioPlay) { $receipt.studioRuns = @() }
-function Invoke-Logged([string]$Name, [string]$Exe, [string[]]$Arguments, [int]$Deadline = 180) {
+function Invoke-Logged([string]$Name, [string]$Exe, [string[]]$Arguments, [int]$Deadline = 180, [switch]$DeferEngineErrors) {
     # PS5 treats native stderr as ErrorRecord. Preserve it and decide from exit + log.
     $savedPreference = $ErrorActionPreference
     $ErrorActionPreference = 'Continue'
@@ -67,7 +67,11 @@ function Invoke-Logged([string]$Name, [string]$Exe, [string[]]$Arguments, [int]$
     $receipt.steps[$Name] = @{ exitCode = $code }
     if ($code -ne 0) { throw "$Name exited $code; see $output/$Name.log" }
     $log = Get-Content "$output/$Name.log" -Raw
-    if ($log -match '(?im)(^|\s)(ERROR:|SCRIPT ERROR:)|\bFAIL\b|Unhandled exception') { throw "$Name reported engine errors; inspect the log before accepting it." }
+    $engineErrors = @($log -split '\r?\n' | Where-Object { $_ -match '(?im)(^|\s)(ERROR:|SCRIPT ERROR:)|\bFAIL\b|Unhandled exception' })
+    if ($engineErrors.Count -gt 0) {
+        if (-not $DeferEngineErrors) { throw "$Name reported engine errors; inspect the log before accepting it." }
+        $receipt.steps[$Name].engineErrors = $engineErrors
+    }
     if ($Arguments -contains $guard -and $log -notmatch 'userdata guard: original files.*restored.*verified') {
         throw "$Name did not confirm userdata restoration."
     }
@@ -191,12 +195,16 @@ try {
             $stepName = if ($runIndex -eq 0) { 'game' } else { "game-restart-$runIndex" }
             $runStarted = (Get-Date).ToUniversalTime().ToString('o')
             $runRecord = [ordered]@{ run = $runIndex + 1; step = $stepName; log = "$stepName.log";
-                startedUtc = $runStarted; finishedUtc = $null; exitCode = $null; status = 'RUNNING' }
+                startedUtc = $runStarted; finishedUtc = $null; exitCode = $null; status = 'RUNNING'; engineErrors = @() }
             $runArguments = @($baseArguments)
             $runArguments[3] = "$runTimeout"
+            $receipt.userdataRestored = $false
             try {
-                Invoke-Logged $stepName $Python $runArguments ($runTimeout + 30)
+                Invoke-Logged $stepName $Python $runArguments ($runTimeout + 30) -DeferEngineErrors:($studioPlay -and $StudioRestarts -gt 0)
                 $runRecord.exitCode = $receipt.steps[$stepName].exitCode
+                if ($receipt.steps[$stepName].ContainsKey('engineErrors')) {
+                    $runRecord.engineErrors = @($receipt.steps[$stepName].engineErrors)
+                }
                 if (-not $Headless) {
                     $rendererLines = @([IO.File]::ReadAllLines("$output/$stepName.log") | Where-Object { $_ -match 'Vulkan|Direct3D|D3D12|OpenGL API' })
                     if (-not $rendererLines -or ($rendererLines -join ' ') -match '(?i)llvmpipe|SwiftShader|software rasterizer|Microsoft Basic Render') { throw 'Native hardware renderer was not confirmed by the engine log.' }
@@ -208,7 +216,7 @@ try {
                 $receipt.userdataRestored = $true
                 $receipt.gameExitCode = $runRecord.exitCode
                 if ($Mode -eq 'capture' -and -not (Test-Path "$output/frames/*.png")) { throw 'No capture frames were produced.' }
-                $runRecord.status = 'PASS'
+                $runRecord.status = if ($runRecord.engineErrors.Count -gt 0) { 'FAIL' } else { 'PASS' }
             } catch {
                 if ($receipt.steps.ContainsKey($stepName)) { $runRecord.exitCode = $receipt.steps[$stepName].exitCode }
                 $runRecord.status = 'FAIL'
@@ -216,6 +224,18 @@ try {
             } finally {
                 $runRecord.finishedUtc = (Get-Date).ToUniversalTime().ToString('o')
                 if ($studioPlay) { $receipt.studioRuns += $runRecord }
+            }
+        }
+        if ($studioPlay) {
+            $studioLogErrors = @($receipt.steps.GetEnumerator() |
+                Where-Object { $_.Key -eq 'game' -or $_.Key -like 'game-restart-*' } |
+                Where-Object { $_.Value.ContainsKey('engineErrors') })
+            if ($studioLogErrors.Count -gt 0) {
+                $details = @($studioLogErrors | ForEach-Object {
+                    $lines = $_.Value.engineErrors -join [Environment]::NewLine
+                    "$($_.Key): $lines"
+                })
+                throw "All requested Studio launches completed, but game logs reported engine errors:`n$($details -join [Environment]::NewLine)"
             }
         }
     }
