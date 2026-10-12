@@ -20987,7 +20987,7 @@
             "active_owner": "/root",
             "activity": {
               "state": "confirmed_active",
-              "reason": "Root возобновляет finite E01 после нового causal native input; Luna read-only исследует actual entry path."
+              "reason": "Peer release23:35 confirmed by fresh doctor ready/busy null/recovery false. Root takes one existing VEHICLE on changed moving-exit message."
             },
             "task_type": "engineering",
             "status": "in_progress",
@@ -20997,8 +20997,8 @@
               "Ordinary NewGame/input уже принят actual480a9: сесть/камера/зажигание/фары/радио/газ/руль. Moving exit assertion не доказывает текущую скорость> .25; уточнение сообщения ещё не проверено native.",
               "Surface routes, сохранение/загрузка и безопасный выход ещё не завершены; book native/art and global finished-game criteria separate."
             ],
-            "next_action": "После peer map-close terminal/recovery выполнить один existing VEHICLE на уточнённом moving-exit message; не менять production guard без причины.",
-            "blocker": "Новый native input ждёт peer map-close lease19:33; прежний480a9 не повторять без changed input.",
+            "next_action": "Один existing VEHICLE на изменённом moving-exit message: зафиксировать текущую скорость/possession, сохранить guard и данные; после terminal/recovery освободить станцию.",
+            "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
             "work_contract": {
@@ -21148,7 +21148,7 @@
               "cause_state": "No confirmed production exit fault. Earlier displacement/speedometer do not prove speed at later post-turn moment; receipt lacks that moment speed/possession.",
               "message_refinement": "Same condition/short-circuit/input sequence/threshold; failure text captures actual speed and current driver/occupied/controlled. No new checks/fixtures or direct entry.",
               "verification_question": "Is later failed moving-exit step below its actual speed precondition or has possession changed?",
-              "native_state": "NOT_RUN on message refinement; peer station lease preserved.",
+              "native_state": "Reserved after explicit peer release23:35 and fresh doctor; same scenario/condition/threshold, changed failure message only.",
               "affected_compile": "0 errors,0 warnings;26.37s"
             }
           },
