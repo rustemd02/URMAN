@@ -76203,6 +76203,12 @@
                 "result": "robustness stage by deepseek v4.1 flash, closing the cast sweep over my files: QuestStructure.cs now reads authored JSON through the shared AuthoredJson accessor instead of casts that throw on a non-value node. About forty sites were converted across eleven files in this stage, and the probe passes with the same 741 checks as before the sweep began. Every projection file of mine is cast-free now; what remains is two DOC COMMENTS that quote the pattern, four files that are in main and are not mine (ConditionPhrases, Localized, RuleCatalogCoverage) and TamaraFence.cs whose owner I could not establish - that one was left ALONE and asked about instead of assumed. Verified: probe PASS 741/741; Core 0/0",
                 "source": "src-dotnet/Urman.Studio.Core/Editing/QuestStructure.cs; evidence evidence/STUDIO/b20-deepseek-ai-40/2026-10-11-safe-json-reads-final",
                 "verification": "probe PASS 741/741 with every number unchanged; Core 0/0. No Studio window: this is a robustness change and is NOT_RUN as a feature"
+              },
+              {
+                "stage": "2026-10-12 Studio now reuses the runtime's quest transition validator",
+                "result": "GAP CLOSED by deepseek v4.1 flash in my own projection: QuestStructure checked stages, objectives, texts, rules and policies but NEVER TRANSITIONS, while the COMPILER checks them (ContentCompiler calls QuestLifecycleReducer.TransitionProblems) - so a quest could pass Studio and fail compilation. QuestStructure now calls the same QuestLifecycleReducer.TransitionProblems the compiler calls, so the two cannot drift and no second rule table was written. It catches a transition targeting an unknown stage, one naming an unknown objective, and a stage or transition id defined twice; all three are exercised synthetically in the probe. The authored quests declare FIFTEEN stages and ZERO transitions, so no current verdict changes - the hole is closed before the first transition is written, which is when a directional quest would need one. Verified: probe PASS 782/782; Core 0/0",
+                "source": "src-dotnet/Urman.Studio.Core/Editing/QuestStructure.cs (reusing Urman.Core.Quests.QuestLifecycleReducer.TransitionProblems); evidence evidence/STUDIO/b20-deepseek-ai-19/2026-10-12-quest-transitions-reused",
+                "verification": "probe PASS 782/782 including the three synthetic transition defects; Core 0/0. Following a transition in play is NOT_RUN"
               }
             ],
             "stage_tasks": [
@@ -76239,7 +76245,9 @@
               "Устойчивость: QuestSemantics больше не падает на не-значении; поведение не изменилось.",
               "Ранее переданный частичный этап (2026-10-11 QuestSemantics reads authored JSON safely) ждёт ревью/приёмки; полный done_when не выполнен.",
               "Устойчивость: QuestStructure больше не падает на не-значении; поведение не изменилось.",
-              "Ранее переданный частичный этап (2026-10-11 QuestStructure reads authored JSON safely) ждёт ревью/приёмки; полный done_when не выполнен."
+              "Ранее переданный частичный этап (2026-10-11 QuestStructure reads authored JSON safely) ждёт ревью/приёмки; полный done_when не выполнен.",
+              "Закрыт пробел: проекция квестов не проверяла ПЕРЕХОДЫ, а компилятор проверяет; теперь оба зовут один QuestLifecycleReducer.TransitionProblems.",
+              "Ранее переданный частичный этап (2026-10-12 Studio now reuses the runtime's quest transition validator) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
             "next_action": "Убрать tamara-biased initial selection; открыть active quest; schema DTO edits; clone validate; синхронизировать tree/graph; compile affected module.",
             "blocker": null,
@@ -80971,6 +80979,12 @@
                 "result": "deepening by deepseek v4.1 flash: an EARLIER stage of mine dismissed thirteen findings by treating a beat id as a runtime state key. That was an assumption and it is now read from the engine - beat.set-state writes into the beats map by beatId (ContentRuleEngine 75-76) and beat.state reads it back (262) - so the dismissal was right and is no longer a guess. The mirror check: a condition on a beat nobody writes can never become true. Measured: twenty-six beats written, seven read, ZERO unreachable reads. The reverse case is REPORTED and not judged: six or more beats are written and never read, which is not a defect because a beat may exist for the journal or for an act that is not authored yet. The two cases look alike and are opposites - no writer is a dead condition, no reader is a state nobody asks about - and the notes say which is which. Verified: probe PASS 736/736 including the synthetic case; Core 0/0",
                 "source": "src-dotnet/Urman.Studio.Core/Editing/InvestigationPuzzle.cs (Beats, BeatGaps, BeatNotes); evidence evidence/STUDIO/b20-deepseek-ai-37/2026-10-11-beat-reachability",
                 "verification": "probe PASS 736/736 including the twenty-six writers, seven readers and the synthetic unreachable read; Core 0/0. Whether a moment is used well is a narrative review and is NOT_RUN"
+              },
+              {
+                "stage": "2026-10-12 Studio now reuses the runtime's quest transition validator",
+                "result": "GAP CLOSED by deepseek v4.1 flash in my own projection: QuestStructure checked stages, objectives, texts, rules and policies but NEVER TRANSITIONS, while the COMPILER checks them (ContentCompiler calls QuestLifecycleReducer.TransitionProblems) - so a quest could pass Studio and fail compilation. QuestStructure now calls the same QuestLifecycleReducer.TransitionProblems the compiler calls, so the two cannot drift and no second rule table was written. It catches a transition targeting an unknown stage, one naming an unknown objective, and a stage or transition id defined twice; all three are exercised synthetically in the probe. The authored quests declare FIFTEEN stages and ZERO transitions, so no current verdict changes - the hole is closed before the first transition is written, which is when a directional quest would need one. Verified: probe PASS 782/782; Core 0/0",
+                "source": "src-dotnet/Urman.Studio.Core/Editing/QuestStructure.cs (reusing Urman.Core.Quests.QuestLifecycleReducer.TransitionProblems); evidence evidence/STUDIO/b20-deepseek-ai-19/2026-10-12-quest-transitions-reused",
+                "verification": "probe PASS 782/782 including the three synthetic transition defects; Core 0/0. Following a transition in play is NOT_RUN"
               }
             ],
             "stage_tasks": [
@@ -81009,7 +81023,9 @@
               "Политики retry/checkpoint/cancel читаются движком (375-380, 230/289/341, 691-693) и контентом используются в двух наборах; реальный повтор и снимок — runtime-проверка.",
               "Ранее переданный частичный этап (2026-10-11 the quest lifecycle policies against the reducer) ждёт ревью/приёмки; полный done_when не выполнен.",
               "Моменты: 26 записей, 7 чтений, недостижимых условий 0; «записано и не прочитано» — НЕ дефект.",
-              "Ранее переданный частичный этап (2026-10-11 beat reachability, and the assumption behind it, verified from the engine) ждёт ревью/приёмки; полный done_when не выполнен."
+              "Ранее переданный частичный этап (2026-10-11 beat reachability, and the assumption behind it, verified from the engine) ждёт ревью/приёмки; полный done_when не выполнен.",
+              "Закрыт пробел: проекция квестов не проверяла ПЕРЕХОДЫ, а компилятор проверяет; теперь оба зовут один QuestLifecycleReducer.TransitionProblems.",
+              "Ранее переданный частичный этап (2026-10-12 Studio now reuses the runtime's quest transition validator) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
             "next_action": "Ждать решения владельца по операции времени/отложенного последствия; остальные механизмы подтверждены по движку и контенту.",
             "blocker": null,

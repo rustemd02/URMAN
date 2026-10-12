@@ -1,3 +1,4 @@
+using Urman.Core.Quests;
 using System.Text.Json.Nodes;
 
 namespace Urman.Studio.Core.Editing;
@@ -126,6 +127,16 @@ public static class QuestStructure
                         problems.Add($"{name}.mode «{mode}» не поддерживается: движок понимает {string.Join(", ", expected)}.");
                     }
                 }
+            }
+
+            // Stage transitions are the one part of a quest the runtime validates itself, and the
+            // COMPILER calls exactly this method (ContentCompiler -> QuestLifecycleReducer.
+            // TransitionProblems), so Studio reuses it instead of writing a second set of rules that
+            // could drift. It covers a stage or transition id defined twice, a transition naming an
+            // unknown objective, and a transition targeting an unknown stage.
+            foreach (var problem in QuestLifecycleReducer.TransitionProblems(stages))
+            {
+                problems.Add($"{id}: {problem}");
             }
 
             quests.Add(new QuestFacts(id, stages.Count, objectives, problems));

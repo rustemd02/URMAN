@@ -1,0 +1,28 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-19",
+    "STUDIO/AI-37"
+  ],
+  "stage": "Studio now reuses the runtime's quest transition validator",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-12 (MSK)",
+  "branch": "deepseek/b20-editor-content",
+  "base": "7e04f0e0",
+  "the_gap": "my quest projection checked stages, objectives, texts, rules and policies, but never TRANSITIONS - the compiler checks them (ContentCompiler calls QuestLifecycleReducer.TransitionProblems) and Studio did not, so a quest could pass Studio and fail compilation",
+  "the_fix": "QuestStructure now calls the same QuestLifecycleReducer.TransitionProblems the compiler calls, so the two cannot drift: one set of rules, one implementation. No second rule table was written",
+  "what_it_catches": [
+    "a transition targeting an unknown stage",
+    "a transition naming an unknown objective",
+    "a stage or transition id defined twice"
+  ],
+  "the_campaign_today": "the authored quests declare FIFTEEN stages and ZERO transitions, so the reuse changes no current verdict - it closes the hole before the first transition is written, which is exactly when a directional quest would need one",
+  "verified": {
+    "probe": "PASS 782/782 including the three synthetic transition defects",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors",
+    "not_run": "no game launch: following a transition is runtime acceptance"
+  },
+  "files": {
+    "evidence/STUDIO/b20-deepseek-ai-19/2026-10-12-quest-transitions-reused/check.log": "1ec50df4ce5c6eda464874e7f0e4b946a53d14dcb3274f3ebee902f5ff297246"
+  }
+}

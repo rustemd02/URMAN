@@ -1,0 +1,12 @@
+== AI-19: Studio now reuses the runtime's quest transition validator
+
+-- the compiler calls the same method (ContentCompiler):
+238:            foreach (var problem in Urman.Core.Quests.QuestLifecycleReducer.TransitionProblems(stages))
+-- Studio now calls it too:
+134:            // TransitionProblems), so Studio reuses it instead of writing a second set of rules that
+137:            foreach (var problem in QuestLifecycleReducer.TransitionProblems(stages))
+-- what it catches, from the probe run:
+   Quest transition s1/t1 targets unknown stage missing-stage.
+   Quest stage s1 defines transition t1 twice.
+   Quest transition s1/t1 names unknown objective ghost-obj.
+PROBE RESULT: PASS
