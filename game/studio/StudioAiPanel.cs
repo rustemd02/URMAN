@@ -49,9 +49,10 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
             AtomicFile.Sha256(files.Blend), AtomicFile.Sha256(files.Manifest));
     }
 
-    private readonly SubViewport _preview = new() { Size = new(560, 260), OwnWorld3D = true, RenderTargetUpdateMode = SubViewport.UpdateMode.WhenVisible };
+    private readonly SubViewport _preview = new() { Size = new(560, 260), OwnWorld3D = true, RenderTargetUpdateMode = SubViewport.UpdateMode.Disabled };
     private readonly Node3D _previewModels = new() { Name = "HouseCompareModels" };
     private readonly Camera3D _previewCamera = new() { Position = new(11, 7, 13), Current = true, Fov = 45f };
+    private SubViewportContainer _previewContainer = null!;
     private Node3D? _beforeModel;
     private Node3D? _afterModel;
     private CancellationTokenSource? _cancel;
@@ -213,14 +214,15 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
         _restorePreview.TooltipText = "Открыть только локальную запись о неудачном предпросмотре. Повторный запрос агенту и применение не выполняются.";
         _beforeView.Disabled = true;
         _afterView.Disabled = true;
-        var viewport = new SubViewportContainer { Stretch = true, CustomMinimumSize = new(560, 260) };
-        viewport.AddChild(_preview);
-        body.AddChild(viewport);
+        _previewContainer = new SubViewportContainer { Stretch = true, CustomMinimumSize = new(560, 260), Visible = false };
+        _previewContainer.AddChild(_preview);
+        body.AddChild(_previewContainer);
         _preview.AddChild(_previewModels);
         _preview.AddChild(new DirectionalLight3D { RotationDegrees = new(-40, -25, 0), LightEnergy = 1.5f });
         _preview.AddChild(_previewCamera);
         VisibilityChanged += () =>
         {
+            RefreshPreviewRendering();
             if (Visible)
             {
                 if (_familyMode) UpdateBusyState();
@@ -1922,6 +1924,17 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
         _beforeView.Text = after ? "До" : "● До";
         _afterView.Text = after ? "● После" : "После";
         _previewCamera.Current = true;
+        RefreshPreviewRendering();
+    }
+
+    private void RefreshPreviewRendering()
+    {
+        var hasPair = _beforeModel is { } before && GodotObject.IsInstanceValid(before)
+            && _afterModel is { } after && GodotObject.IsInstanceValid(after);
+        _previewContainer.Visible = hasPair;
+        _preview.RenderTargetUpdateMode = Visible && hasPair
+            ? SubViewport.UpdateMode.WhenVisible
+            : SubViewport.UpdateMode.Disabled;
     }
 
     private void ClearPreviewModels()
@@ -1938,6 +1951,7 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
         _afterView.Disabled = true;
         _beforeView.Text = "До";
         _afterView.Text = "После";
+        RefreshPreviewRendering();
     }
 
     private static StageArtifacts ReadStageArtifacts(string stage) => new(

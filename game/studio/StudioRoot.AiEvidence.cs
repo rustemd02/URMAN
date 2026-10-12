@@ -15,6 +15,7 @@ namespace Urman.Studio.App;
 public partial class StudioRoot
 {
     private const string AiPilotCommandLabel = "изменить окна дома через Codex";
+    private const string AiFamilyCommandLabel = "изменить окна семейства домов через Codex";
     private const int AiActionLimit = 32;
     private const int AiActionJsonLimit = 8 * 1024;
     private const int AiActionPngLimit = 16 * 1024 * 1024;
@@ -27,7 +28,13 @@ public partial class StudioRoot
 
     private bool _aiEvidenceCaptureBusy;
 
-    internal sealed record AiActionIdentity(string RequestId, string RequestHash, string ProposalHash, string SnapshotHash);
+    internal sealed record AiActionIdentity(
+        string RequestId,
+        string RequestHash,
+        string ProposalHash,
+        string SnapshotHash,
+        IReadOnlyList<string> TargetPaths,
+        bool IsFamily);
     internal enum AiEvidenceAction { Preview, Apply, Undo, Redo }
 
     internal bool IsAiActionBusy => IsWorkspaceActionBusy || IsTextAiBusy || _aiEvidenceCaptureBusy
@@ -74,8 +81,148 @@ public partial class StudioRoot
                 StrictUtf8.GetBytes(CodexProposalProvider.SerializeProposal(expectedRequest ?? request, expectedProposal))))
             throw new InvalidDataException("The stored proposal differs from the active Studio proposal.");
 
-        return new(requestId, AtomicFile.Sha256(requestBytes), AtomicFile.Sha256(proposalBytes), request.SnapshotHash);
+        return new(requestId, AtomicFile.Sha256(requestBytes), AtomicFile.Sha256(proposalBytes), request.SnapshotHash,
+            Array.AsReadOnly(PilotPaths(requestId)), IsFamily: false);
     }
+
+    internal AiActionIdentity FreezeFamilyActionIdentity(
+        HouseFamilyWindowRequest request,
+        HouseFamilyWindowProposal proposal,
+        IReadOnlyList<string>? transactionPaths = null)
+    {
+        ArgumentNullException.ThrowIfNull(request);
+        ArgumentNullException.ThrowIfNull(proposal);
+        return ReadFamilyActionIdentity(request.RequestId, request, proposal, transactionPaths);
+    }
+
+    private AiActionIdentity ReadFamilyActionIdentity(
+        string requestId,
+        HouseFamilyWindowRequest? expectedRequest = null,
+        HouseFamilyWindowProposal? expectedProposal = null,
+        IReadOnlyList<string>? transactionPaths = null)
+    {
+        if (!Regex.IsMatch(requestId, @"\A[a-f0-9]{32}\z", RegexOptions.CultureInvariant))
+            throw new InvalidDataException("The family request ID is not canonical.");
+
+        var requestRelative = $".urman-studio/ai-jobs/{requestId}/request.json";
+        var proposalRelative = $".urman-studio/ai-jobs/{requestId}/proposal.json";
+        var requestBytes = ReadBoundedAiArtifact(requestRelative, HouseFamilyWindowProtocol.MaximumSerializedRequestBytes);
+        var proposalBytes = ReadBoundedAiArtifact(proposalRelative, HouseFamilyWindowProtocol.MaximumProposalBytes);
+        var request = HouseFamilyWindowProtocol.ParseRequest(StrictUtf8.GetString(requestBytes));
+        var proposal = HouseFamilyWindowProtocol.ParseProposal(StrictUtf8.GetString(proposalBytes), request);
+        HouseFamilyWindowProtocol.ValidateProposal(request, proposal);
+
+        if (!string.Equals(request.RequestId, requestId, StringComparison.Ordinal)
+            || !requestBytes.AsSpan().SequenceEqual(StrictUtf8.GetBytes(HouseFamilyWindowProtocol.SerializeRequest(request)))
+            || !proposalBytes.AsSpan().SequenceEqual(StrictUtf8.GetBytes(HouseFamilyWindowProtocol.SerializeProposal(request, proposal))))
+            throw new InvalidDataException("The stored family request or proposal is not the canonical frozen artifact.");
+
+        if (expectedRequest is not null && !requestBytes.AsSpan().SequenceEqual(
+                StrictUtf8.GetBytes(HouseFamilyWindowProtocol.SerializeRequest(expectedRequest))))
+            throw new InvalidDataException("The stored family request differs from the active Studio request.");
+        if (expectedProposal is not null && !proposalBytes.AsSpan().SequenceEqual(
+                StrictUtf8.GetBytes(HouseFamilyWindowProtocol.SerializeProposal(expectedRequest ?? request, expectedProposal))))
+            throw new InvalidDataException("The stored family proposal differs from the active Studio proposal.");
+
+        var paths = transactionPaths?.ToArray() ?? [];
+        if (paths.Length > 0 && !IsValidFamilyTransactionPaths(requestId, request, paths))
+            throw new InvalidDataException("The family action target paths do not match its validated request transaction.");
+        return new(requestId, AtomicFile.Sha256(requestBytes), AtomicFile.Sha256(proposalBytes), request.SnapshotHash,
+            Array.AsReadOnly(paths), IsFamily: true);
+    }
+
+    internal bool IsFamilyStep(EditHistoryStep? step, string requestId, string? transactionId,
+        IReadOnlyList<string>? expectedPaths = null)
+    {
+        var owner = HouseFamilyWindowProtocol.TransactionOwnerPrefix + requestId;
+        if (step is null || !string.Equals(step.Label, AiFamilyCommandLabel, StringComparison.Ordinal)
+            || step.EntityChangeCount != 0
+            || !string.Equals(step.TransactionOwner, owner, StringComparison.Ordinal)
+            || !string.Equals(step.TransactionId, transactionId, StringComparison.Ordinal)
+            || transactionId is null || !Regex.IsMatch(transactionId, @"\A[a-f0-9]{32}\z", RegexOptions.CultureInvariant)
+            || !HouseFamilyWindowProtocol.IsTransactionOwner(step.TransactionOwner)
+            || !HouseFamilyWindowProtocol.IsTransactionFileSet(step.Paths)
+            || step.Paths.Any(path => !HouseFamilyWindowProtocol.IsTransactionPath(owner, path)))
+            return false;
+
+        try
+        {
+            var requestBytes = ReadBoundedAiArtifact($".urman-studio/ai-jobs/{requestId}/request.json",
+                HouseFamilyWindowProtocol.MaximumSerializedRequestBytes);
+            var request = HouseFamilyWindowProtocol.ParseRequest(StrictUtf8.GetString(requestBytes));
+            if (!string.Equals(request.RequestId, requestId, StringComparison.Ordinal)
+                || !requestBytes.AsSpan().SequenceEqual(StrictUtf8.GetBytes(HouseFamilyWindowProtocol.SerializeRequest(request))))
+                return false;
+
+            var expectedWorldPaths = request.Targets.Select(target => target.Source.Path)
+                .Distinct(StringComparer.Ordinal).Order(StringComparer.Ordinal).ToArray();
+            var actualWorldPaths = step.Paths.Where(HouseFamilyWindowProtocol.IsTransactionWorldPath)
+                .Order(StringComparer.Ordinal).ToArray();
+            if (!expectedWorldPaths.SequenceEqual(actualWorldPaths, StringComparer.Ordinal)) return false;
+
+            return expectedPaths is null || SamePathSet(step.Paths, expectedPaths);
+        }
+        catch (Exception)
+        {
+            return false;
+        }
+    }
+
+    internal static bool TryGetFamilyRequestId(EditHistoryStep? step, out string requestId)
+    {
+        requestId = string.Empty;
+        var owner = step?.TransactionOwner;
+        if (owner is null || !HouseFamilyWindowProtocol.IsTransactionOwner(owner)) return false;
+        requestId = owner[HouseFamilyWindowProtocol.TransactionOwnerPrefix.Length..];
+        return true;
+    }
+
+    internal bool IsFamilyIdentityCurrent(AiActionIdentity identity)
+    {
+        if (!identity.IsFamily) return false;
+        try
+        {
+            var current = ReadFamilyActionIdentity(identity.RequestId, transactionPaths: identity.TargetPaths);
+            return string.Equals(current.RequestHash, identity.RequestHash, StringComparison.Ordinal)
+                && string.Equals(current.ProposalHash, identity.ProposalHash, StringComparison.Ordinal)
+                && string.Equals(current.SnapshotHash, identity.SnapshotHash, StringComparison.Ordinal)
+                && current.TargetPaths.SequenceEqual(identity.TargetPaths, StringComparer.Ordinal);
+        }
+        catch (Exception)
+        {
+            return false;
+        }
+    }
+
+    internal bool IsFamilyEvidenceStep(EditHistoryStep? step, AiActionIdentity identity, string? transactionId) =>
+        identity.IsFamily && IsFamilyStep(step, identity.RequestId, transactionId, identity.TargetPaths)
+        && IsFamilyIdentityCurrent(identity);
+
+    private static bool IsValidFamilyTransactionPaths(string requestId, HouseFamilyWindowRequest request,
+        IReadOnlyList<string> paths)
+    {
+        var owner = HouseFamilyWindowProtocol.TransactionOwnerPrefix + requestId;
+        if (!HouseFamilyWindowProtocol.IsTransactionOwner(owner)
+            || !HouseFamilyWindowProtocol.IsTransactionFileSet(paths)
+            || paths.Any(path => !HouseFamilyWindowProtocol.IsTransactionPath(owner, path)))
+            return false;
+        var expectedWorldPaths = request.Targets.Select(target => target.Source.Path)
+            .Distinct(StringComparer.Ordinal).Order(StringComparer.Ordinal).ToArray();
+        var actualWorldPaths = paths.Where(HouseFamilyWindowProtocol.IsTransactionWorldPath)
+            .Order(StringComparer.Ordinal).ToArray();
+        return expectedWorldPaths.SequenceEqual(actualWorldPaths, StringComparer.Ordinal);
+    }
+
+    internal static bool SameHistoryStep(EditHistoryStep? left, EditHistoryStep? right) =>
+        left is not null && right is not null
+        && string.Equals(left.Label, right.Label, StringComparison.Ordinal)
+        && string.Equals(left.TransactionId, right.TransactionId, StringComparison.Ordinal)
+        && string.Equals(left.TransactionOwner, right.TransactionOwner, StringComparison.Ordinal)
+        && left.EntityChangeCount == right.EntityChangeCount
+        && left.Paths.SequenceEqual(right.Paths, StringComparer.Ordinal);
+
+    private static bool SamePathSet(IReadOnlyList<string> left, IReadOnlyList<string> right) =>
+        left.Count == right.Count && left.ToHashSet(StringComparer.Ordinal).SetEquals(right);
 
     private byte[] ReadBoundedAiArtifact(string relativePath, int maximumBytes) =>
         ReadBoundedAuthoringFile(Workspace.Root, relativePath, maximumBytes, allowStudioMetadata: true);
@@ -183,6 +330,8 @@ public partial class StudioRoot
             if (action == AiEvidenceAction.Preview ? transactionId is not null :
                 transactionId is null || !Regex.IsMatch(transactionId, @"\A[a-f0-9]{32}\z", RegexOptions.CultureInvariant))
                 throw new InvalidDataException("The action receipt has an invalid transaction binding.");
+            if (action != AiEvidenceAction.Preview && identity.TargetPaths.Count == 0)
+                throw new InvalidDataException("A committed AI action has no frozen target paths.");
 
             StudioFileTransaction.EnsureNoLinks(workspaceRoot, folderRelative, allowStudioMetadata: true);
             var folder = Path.Combine(workspaceRoot, folderRelative.Replace('/', Path.DirectorySeparatorChar));
@@ -195,8 +344,8 @@ public partial class StudioRoot
             string? captureError = null;
             if (action != AiEvidenceAction.Preview)
             {
-                try { frozenTargetHashes = CapturePilotTargetHashes(workspaceRoot, identity.RequestId); }
-                catch (Exception) { captureError = "Pilot target files could not be fingerprinted before capture."; }
+                try { frozenTargetHashes = CaptureAiTargetHashes(workspaceRoot, identity.TargetPaths); }
+                catch (Exception) { captureError = "AI action target files could not be fingerprinted before capture."; }
             }
             try
             {
@@ -207,7 +356,7 @@ public partial class StudioRoot
                 else if (!await WaitForAiEvidenceFrameAsync())
                     captureError = "Studio viewport did not draw within 3 seconds.";
                 else if (!IsInstanceValid(this) || Session.IsBusy || _checkpointBusy || !isStillCurrent()
-                    || frozenTargetHashes is not null && !PilotTargetHashesMatch(workspaceRoot, identity.RequestId, frozenTargetHashes))
+                    || frozenTargetHashes is not null && !AiTargetHashesMatch(workspaceRoot, identity.TargetPaths, frozenTargetHashes))
                     captureError = "Studio action state or target files changed during frame capture.";
                 else
                     png = CaptureAiViewportPng(out captureError);
@@ -338,8 +487,8 @@ public partial class StudioRoot
                 .SequenceEqual(expected.OrderBy(source => source.Key, StringComparer.Ordinal));
     }
 
-    private static IReadOnlyList<string?> CapturePilotTargetHashes(string root, string requestId) =>
-        PilotPaths(requestId).Select(relativePath => CaptureAuthoringFileHash(root, relativePath)).ToArray();
+    private static IReadOnlyList<string?> CaptureAiTargetHashes(string root, IReadOnlyList<string> paths) =>
+        paths.Select(relativePath => CaptureAuthoringFileHash(root, relativePath)).ToArray();
 
     private static string? CaptureAuthoringFileHash(string root, string relativePath)
     {
@@ -366,8 +515,8 @@ public partial class StudioRoot
         return Convert.ToHexStringLower(hash.GetHashAndReset());
     }
 
-    private static bool PilotTargetHashesMatch(string root, string requestId, IReadOnlyList<string?> expected) =>
-        CapturePilotTargetHashes(root, requestId).SequenceEqual(expected, StringComparer.Ordinal);
+    private static bool AiTargetHashesMatch(string root, IReadOnlyList<string> paths, IReadOnlyList<string?> expected) =>
+        CaptureAiTargetHashes(root, paths).SequenceEqual(expected, StringComparer.Ordinal);
 
     private byte[]? CaptureAiViewportPng(out string? error)
     {

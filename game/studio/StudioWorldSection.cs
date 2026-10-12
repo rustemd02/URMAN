@@ -21,6 +21,7 @@ public sealed record StudioPlayStart(string Zone, string Spawn, Vector3? Positio
 public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSection
 {
     private const float PickRadiusPixels = 22f;
+    private const float DragThresholdPixels = 6f;
     public sealed record SelectedPart(string EntityId, string PartId, string Label, string SourcePath, string SourcePointer, string MeshPath);
     private readonly record struct WorldPick(string EntityId, string? PartLabel, string? SourceMeshPath, string? PartId = null);
     public SelectedPart? SelectionPart => _pickedPart is { PartId: { } partId, PartLabel: { } label, SourceMeshPath: { } meshPath } picked
@@ -54,9 +55,11 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
     private float _distance = 34f;
     private bool _topView;
     private bool _orbiting;
+    private bool _orbitingWithAltLeft;
     private bool _panning;
     private IDisposable? _drag;
     private string? _dragId;
+    private Vector2 _dragPressPosition;
     private string? _placing;
     private JsonArray _catalog = [];
     private string? _catalogState;
@@ -118,6 +121,7 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
     public void SuspendForAi()
     {
         _orbiting = false;
+        _orbitingWithAltLeft = false;
         _panning = false;
         if (Input.MouseMode == Input.MouseModeEnum.Captured) Input.MouseMode = Input.MouseModeEnum.Visible;
         EndDrag();
@@ -877,10 +881,12 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
                 break;
             case InputEventMouseButton { ButtonIndex: MouseButton.Right } right:
                 _orbiting = right.Pressed && !right.ShiftPressed;
+                _orbitingWithAltLeft = false;
                 _panning = right.Pressed && right.ShiftPressed;
                 break;
-            case InputEventMouseButton { ButtonIndex: MouseButton.Left } left when left.AltPressed:
-                _orbiting = left.Pressed;
+            case InputEventMouseButton { ButtonIndex: MouseButton.Left, Pressed: true } left when left.AltPressed:
+                _orbiting = true;
+                _orbitingWithAltLeft = true;
                 break;
             case InputEventMouseButton { ButtonIndex: MouseButton.Left, Pressed: true } press when _measuring:
                 if (GroundHit(press.Position) is { } point)
@@ -929,10 +935,10 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
                 if (studio.Selection is { } id && _markers.ContainsKey(id) && Movable(id) && !Locked(id))
                 {
                     _dragId = id;
+                    _dragPressPosition = press.Position;
                     var anchor = DisplayAnchor(id, (JsonObject)studio.Workspace.Get(id)!) ?? Vector3.Zero;
                     _dragOffsets = _group.Append(id).Distinct().Where(member => Movable(member) && !Locked(member))
                         .ToDictionary(member => member, member => (DisplayAnchor(member, (JsonObject)studio.Workspace.Get(member)!) ?? anchor) - anchor);
-                    _drag = studio.Session.Begin(_dragOffsets.Count > 1 ? $"переместить {_dragOffsets.Count} объекта" : $"переместить «{studio.Catalog.NameOf(id)}»");
                 }
 
                 break;
@@ -940,20 +946,26 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
                 DuplicateSelection();
                 break;
             case InputEventMouseButton { ButtonIndex: MouseButton.Left, Pressed: false }:
+                if (_orbitingWithAltLeft)
+                {
+                    _orbiting = false;
+                    _orbitingWithAltLeft = false;
+                }
                 EndDrag();
                 break;
-            case InputEventMouseMotion motion when _orbiting:
+            case InputEventMouseMotion motion when _orbiting
+                && motion.ButtonMask.HasFlag(_orbitingWithAltLeft ? MouseButtonMask.Left : MouseButtonMask.Right):
                 _yaw -= motion.Relative.X * .3f;
                 _pitch = Mathf.Clamp(_pitch - motion.Relative.Y * .3f, -88f, -5f);
                 UpdateCamera();
                 break;
-            case InputEventMouseMotion motion when _panning:
+            case InputEventMouseMotion motion when _panning && motion.ButtonMask.HasFlag(MouseButtonMask.Right):
                 Pan(motion.Relative);
                 break;
             case InputEventMouseMotion motion when _placing is not null:
                 MoveGhost(motion.Position);
                 break;
-            case InputEventMouseMotion motion when _dragId is not null:
+            case InputEventMouseMotion motion when _dragId is not null && motion.ButtonMask.HasFlag(MouseButtonMask.Left):
                 DragTo(motion.Position);
                 break;
             case InputEventKey { Pressed: true, Keycode: global::Godot.Key.F }:
@@ -963,8 +975,11 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
                 CancelPlacing();
                 break;
             case InputEventKey { Pressed: true, Keycode: global::Godot.Key.Escape } when _dragId is not null:
+                var hadDrag = _drag is not null;
+                var undoHistoryBeforeDragClose = studio.Session.History();
                 EndDrag();
-                studio.Undo();
+                if (hadDrag && IsSingleNewUndoStep(undoHistoryBeforeDragClose, studio.Session.History()))
+                    studio.Undo();
                 break;
         }
     }
@@ -1350,12 +1365,18 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
 
     private void DragTo(Vector2 screen)
     {
-        if (_dragId is null || GroundHit(screen) is not { } hit)
+        if (_dragId is not { } id
+            || (_drag is null && _dragPressPosition.DistanceSquaredTo(screen) < DragThresholdPixels * DragThresholdPixels)
+            || GroundHit(screen) is not { } hit)
         {
             return;
         }
 
-        foreach (var (member, offset) in _dragOffsets.Count > 0 ? _dragOffsets : new() { [_dragId] = Vector3.Zero })
+        _drag ??= studio.Session.Begin(_dragOffsets.Count > 1
+            ? $"переместить {_dragOffsets.Count} объекта"
+            : $"переместить «{studio.Catalog.NameOf(id)}»");
+
+        foreach (var (member, offset) in _dragOffsets.Count > 0 ? _dragOffsets : new() { [id] = Vector3.Zero })
         {
             MoveEntity(member, Mathf.Snapped(hit.X + offset.X, .05f), Mathf.Snapped(hit.Z + offset.Z, .05f), "перемещение");
         }
@@ -1366,7 +1387,25 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
         var drag = _drag;
         _drag = null;
         _dragId = null;
+        _dragPressPosition = Vector2.Zero;
         drag?.Dispose();
+    }
+
+    private static bool IsSingleNewUndoStep(IReadOnlyList<EditHistoryStep> before, IReadOnlyList<EditHistoryStep> after)
+    {
+        if (after.Count != before.Count + 1) return false;
+        for (var index = 0; index < before.Count; index++)
+        {
+            var previous = before[index];
+            var current = after[index + 1];
+            if (previous.Label != current.Label
+                || previous.EntityChangeCount != current.EntityChangeCount
+                || previous.TransactionId != current.TransactionId
+                || previous.TransactionOwner != current.TransactionOwner
+                || !previous.Paths.SequenceEqual(current.Paths, StringComparer.Ordinal)) return false;
+        }
+
+        return true;
     }
 
     private bool Movable(string id) => studio.Workspace.Get(id)?["params"]?["position"] is JsonArray;

@@ -209,6 +209,11 @@ public static class HouseFamilyWindowProtocol
         WriteIndented = false,
         MaxDepth = 64
     };
+    private static readonly JsonSerializerOptions StrictWireOptions = new(WireOptions)
+    {
+        ReadCommentHandling = JsonCommentHandling.Disallow,
+        UnmappedMemberHandling = JsonUnmappedMemberHandling.Disallow
+    };
     private static readonly JsonDocumentOptions StrictJsonOptions = new()
     {
         AllowTrailingCommas = false,
@@ -316,6 +321,67 @@ public static class HouseFamilyWindowProtocol
         var bytes = JsonSerializer.SerializeToUtf8Bytes(BuildEnvelope(request, request.SnapshotHash), WireOptions);
         EnsureRequestSize(bytes.Length, nameof(request));
         return Encoding.UTF8.GetString(bytes);
+    }
+
+    public static HouseFamilyWindowRequest ParseRequest(string json)
+    {
+        ArgumentNullException.ThrowIfNull(json);
+        EnsureStrictUtf8AndRequestSize(json);
+
+        RequestEnvelope envelope;
+        try
+        {
+            using var document = JsonDocument.Parse(json, StrictJsonOptions);
+            if (document.RootElement.ValueKind != JsonValueKind.Object)
+                throw new JsonException("The request must be one JSON object.");
+            EnsureNoDuplicateProperties(document.RootElement);
+            envelope = JsonSerializer.Deserialize<RequestEnvelope>(json, StrictWireOptions)
+                ?? throw new JsonException("The request must be one JSON object.");
+        }
+        catch (JsonException exception)
+        {
+            throw new ArgumentException("The v3 family-window request must be strict JSON with no duplicate or unknown fields and a maximum depth of 64.", nameof(json), exception);
+        }
+
+        if (envelope.Kind != Kind || envelope.SchemaVersion != SchemaVersion)
+            throw new ArgumentException("The request kind or schema version is unsupported.", nameof(json));
+        if (envelope.Project is null || envelope.Selection is null || envelope.Scope is null
+            || envelope.Targets is null || envelope.Dependencies is null || envelope.Capabilities is null
+            || envelope.Scope.ExcludedEntityIds is null)
+            throw new ArgumentException("The v3 family-window request is missing required fields.", nameof(json));
+        if (envelope.Project.Id != AuthoringRequestV2.ProjectId
+            || envelope.Selection.Kind != "house-family"
+            || envelope.Scope.SharedAssetPolicy != "create-instance-variant"
+            || envelope.Capabilities.Count != 1
+            || envelope.Capabilities[0] is null
+            || envelope.Capabilities[0].Name != HouseFamilyWindowProposal.Operation
+            || envelope.Capabilities[0].Version != 1)
+            throw new ArgumentException("The v3 family-window request project, selection, scope, or capability is unsupported.", nameof(json));
+
+        var project = envelope.Project;
+        var request = new HouseFamilyWindowRequest(
+            envelope.RequestId,
+            project.SnapshotHash,
+            envelope.Instruction,
+            envelope.Scope.Description,
+            envelope.Scope.ExcludedEntityIds,
+            envelope.Targets,
+            new HouseAuthoringEnvironment(
+                project.BaseRevision,
+                project.CampaignId,
+                project.CampaignVersion,
+                project.WorldId,
+                project.StateId,
+                project.ScenePath,
+                project.ZoneId,
+                project.SpawnPointId,
+                envelope.Selection.Camera,
+                envelope.Dependencies));
+
+        ValidateRequest(request);
+        if (!string.Equals(SerializeRequest(request), json, StringComparison.Ordinal))
+            throw new ArgumentException("The v3 family-window request is valid JSON but is not the exact canonical serialized envelope.", nameof(json));
+        return request;
     }
 
     public static string BuildPrompt(HouseFamilyWindowRequest request)
@@ -665,6 +731,18 @@ public static class HouseFamilyWindowProtocol
     {
         if (byteCount > MaximumSerializedRequestBytes)
             throw new ArgumentException("The serialized family-window request exceeds 256 KiB.", name);
+    }
+
+    private static void EnsureStrictUtf8AndRequestSize(string json)
+    {
+        try
+        {
+            EnsureRequestSize(StrictUtf8.GetByteCount(json), nameof(json));
+        }
+        catch (EncoderFallbackException exception)
+        {
+            throw new ArgumentException("The v3 family-window request must be valid UTF-8 text.", nameof(json), exception);
+        }
     }
 
     private static void EnsurePromptSize(string prompt)

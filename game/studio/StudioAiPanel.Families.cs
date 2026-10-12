@@ -437,12 +437,17 @@ public partial class StudioAiPanel
             }
             writes.AddRange(changedFiles.Select(file => file.Write));
             var allowed = writes.Select(write => write.RelativePath).ToHashSet(StringComparer.Ordinal);
+            var expectedTargetPaths = writes.Select(write => write.RelativePath).Order(StringComparer.Ordinal).ToArray();
             var sourcePaths = changedFiles.Select(file => file.Path).ToArray();
             var studio = _studio;
             var world = (StudioWorldSection)studio.Section("world");
             var artifactSnapshot = new Dictionary<string, FamilyStageArtifact>(_familyBuilds, StringComparer.Ordinal);
             const string label = "изменить окна семейства домов через Codex";
             var owner = "house-family.windows.resize/" + request.RequestId;
+            StudioRoot.AiActionIdentity? evidenceIdentity = null;
+            string? evidenceIdentityError = null;
+            try { evidenceIdentity = studio.FreezeFamilyActionIdentity(request, proposal, expectedTargetPaths); }
+            catch (Exception error) { evidenceIdentityError = error.GetType().Name; }
             await studio.Session.ApplyFilesAsync(label, owner, writes, allowed,
                 () =>
                 {
@@ -460,15 +465,23 @@ public partial class StudioAiPanel
             committed = true;
 
             var history = _studio.Session.History().FirstOrDefault();
-            var expectedPaths = writes.Select(write => write.RelativePath).ToHashSet(StringComparer.Ordinal);
             if (history is null || history.Label != label || history.EntityChangeCount != 0
-                || history.TransactionId is null || !new HashSet<string>(history.Paths, StringComparer.Ordinal).SetEquals(expectedPaths))
+                || history.TransactionId is null || history.TransactionOwner != owner
+                || !new HashSet<string>(history.Paths, StringComparer.Ordinal).SetEquals(expectedTargetPaths)
+                || !studio.IsFamilyStep(history, request.RequestId, history.TransactionId, expectedTargetPaths))
                 throw new InvalidOperationException("Studio не подтвердила единственную транзакцию всех вариантов и исходников семейства.");
 
             var transactionId = history.TransactionId;
+            var appliedStep = history with { Paths = Array.AsReadOnly(history.Paths.ToArray()) };
             ResetFamilyPreparedState();
             _status.Text = "Окна выбранных домов изменены одной транзакцией " + transactionId
                 + ". ⌘/Ctrl+Z полностью отменит варианты и исходники; Redo повторит их без нового запроса.";
+            if (evidenceIdentity is null)
+                studio.ShowAiEvidenceBanner("Семейство применено; frozen receipt identity не прочитан (" + (evidenceIdentityError ?? "unknown") + ").", error: true);
+            else
+                await studio.RecordAiActionEvidenceAsync(evidenceIdentity, StudioRoot.AiEvidenceAction.Apply, transactionId,
+                    () => StudioRoot.SameHistoryStep(appliedStep, studio.Session.History().FirstOrDefault())
+                        && studio.IsFamilyEvidenceStep(studio.Session.History().FirstOrDefault(), evidenceIdentity, transactionId));
         }
         catch (Exception error)
         {
@@ -1078,6 +1091,27 @@ public partial class StudioAiPanel
             throw new InvalidOperationException("Первую пару моделей не удалось загрузить для просмотра.");
         _status.Text = $"Одна ширина {proposal.WindowWidth:0.00} м для девяти окон · {request.Targets.Count} точных целей · {request.ExcludedEntityIds.Count} исключений. Проверьте пары «до / после» в списке; проект ещё не изменён.";
         SetBusy(false);
+        await RecordFamilyPreviewEvidenceAsync(request, proposal);
+    }
+
+    private async Task RecordFamilyPreviewEvidenceAsync(HouseFamilyWindowRequest request, HouseFamilyWindowProposal proposal)
+    {
+        var studio = _studio;
+        var previewTargetId = request.Targets[0].EntityId;
+        try
+        {
+            var identity = studio.FreezeFamilyActionIdentity(request, proposal);
+            await studio.RecordAiActionEvidenceAsync(identity, StudioRoot.AiEvidenceAction.Preview, null,
+                () => GodotObject.IsInstanceValid(this) && IsInsideTree() && Visible && _familyMode
+                    && ReferenceEquals(_familyRequest, request) && ReferenceEquals(_familyProposal, proposal)
+                    && _familyPreviewReady && string.Equals(_familyPreviewTargetId, previewTargetId, StringComparison.Ordinal)
+                    && !studio.Session.IsBusy
+                    && studio.IsFamilyIdentityCurrent(identity));
+        }
+        catch (Exception error)
+        {
+            studio.ShowAiEvidenceBanner($"Предпросмотр семейства завершён, но Studio receipt не подготовлен ({error.GetType().Name}).", error: true);
+        }
     }
 
     private async Task<FamilyStageArtifact> BuildFamilyComponentAsync(HouseFamilyWindowRequest request,

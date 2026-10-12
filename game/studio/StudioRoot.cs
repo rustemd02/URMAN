@@ -490,7 +490,19 @@ public partial class StudioRoot : Control
             string? transactionId = null;
             string? requestId = null;
             string? evidenceReadError = null;
-            try { TryGetPilotActionIdentity(redo: false, out evidenceIdentity, out transactionId, out requestId); }
+            var selectedHistoryStep = Session.History().FirstOrDefault();
+            var familyAction = TryGetFamilyRequestId(selectedHistoryStep, out var familyRequestId)
+                && IsFamilyStep(selectedHistoryStep, familyRequestId, selectedHistoryStep?.TransactionId);
+            try
+            {
+                if (!TryGetPilotActionIdentity(redo: false, out evidenceIdentity, out transactionId, out requestId)
+                    && familyAction && selectedHistoryStep is not null)
+                {
+                    requestId = familyRequestId;
+                    transactionId = selectedHistoryStep.TransactionId;
+                    evidenceIdentity = ReadFamilyActionIdentity(requestId, transactionPaths: selectedHistoryStep.Paths);
+                }
+            }
             catch (Exception error) { evidenceReadError = error.GetType().Name; }
             try
             {
@@ -512,9 +524,13 @@ public partial class StudioRoot : Control
                 return;
             }
 
+            SaveAll(autosave: true);
             if (transactionId is null) return;
             var moved = Session.History(redo: true).FirstOrDefault();
-            if (!IsPilotStep(moved, requestId ?? string.Empty, transactionId))
+            var movedMatches = familyAction
+                ? SameHistoryStep(selectedHistoryStep, moved) && IsFamilyStep(moved, requestId ?? string.Empty, transactionId)
+                : IsPilotStep(moved, requestId ?? string.Empty, transactionId);
+            if (!movedMatches)
             {
                 ShowAiEvidenceBanner("Отмена завершена, но Studio не подтвердила перемещение точной транзакции; receipt не записан.", error: true);
                 return;
@@ -525,8 +541,13 @@ public partial class StudioRoot : Control
                 return;
             }
 
+            var selectedSnapshot = selectedHistoryStep is null ? null
+                : selectedHistoryStep with { Paths = Array.AsReadOnly(selectedHistoryStep.Paths.ToArray()) };
             await RecordAiActionEvidenceAsync(evidenceIdentity, AiEvidenceAction.Undo, transactionId,
-                () => IsPilotStep(Session.History(redo: true).FirstOrDefault(), evidenceIdentity.RequestId, transactionId));
+                () => familyAction
+                    ? SameHistoryStep(selectedSnapshot, Session.History(redo: true).FirstOrDefault())
+                        && IsFamilyEvidenceStep(Session.History(redo: true).FirstOrDefault(), evidenceIdentity, transactionId)
+                    : IsPilotStep(Session.History(redo: true).FirstOrDefault(), evidenceIdentity.RequestId, transactionId));
         }
         finally
         {
@@ -557,7 +578,19 @@ public partial class StudioRoot : Control
             string? transactionId = null;
             string? requestId = null;
             string? evidenceReadError = null;
-            try { TryGetPilotActionIdentity(redo: true, out evidenceIdentity, out transactionId, out requestId); }
+            var selectedHistoryStep = Session.History(redo: true).FirstOrDefault();
+            var familyAction = TryGetFamilyRequestId(selectedHistoryStep, out var familyRequestId)
+                && IsFamilyStep(selectedHistoryStep, familyRequestId, selectedHistoryStep?.TransactionId);
+            try
+            {
+                if (!TryGetPilotActionIdentity(redo: true, out evidenceIdentity, out transactionId, out requestId)
+                    && familyAction && selectedHistoryStep is not null)
+                {
+                    requestId = familyRequestId;
+                    transactionId = selectedHistoryStep.TransactionId;
+                    evidenceIdentity = ReadFamilyActionIdentity(requestId, transactionPaths: selectedHistoryStep.Paths);
+                }
+            }
             catch (Exception error) { evidenceReadError = error.GetType().Name; }
             try
             {
@@ -579,9 +612,13 @@ public partial class StudioRoot : Control
                 return;
             }
 
+            SaveAll(autosave: true);
             if (transactionId is null) return;
             var moved = Session.History().FirstOrDefault();
-            if (!IsPilotStep(moved, requestId ?? string.Empty, transactionId))
+            var movedMatches = familyAction
+                ? SameHistoryStep(selectedHistoryStep, moved) && IsFamilyStep(moved, requestId ?? string.Empty, transactionId)
+                : IsPilotStep(moved, requestId ?? string.Empty, transactionId);
+            if (!movedMatches)
             {
                 ShowAiEvidenceBanner("Повтор завершён, но Studio не подтвердила перемещение точной транзакции; receipt не записан.", error: true);
                 return;
@@ -592,8 +629,13 @@ public partial class StudioRoot : Control
                 return;
             }
 
+            var selectedSnapshot = selectedHistoryStep is null ? null
+                : selectedHistoryStep with { Paths = Array.AsReadOnly(selectedHistoryStep.Paths.ToArray()) };
             await RecordAiActionEvidenceAsync(evidenceIdentity, AiEvidenceAction.Redo, transactionId,
-                () => IsPilotStep(Session.History().FirstOrDefault(), evidenceIdentity.RequestId, transactionId));
+                () => familyAction
+                    ? SameHistoryStep(selectedSnapshot, Session.History().FirstOrDefault())
+                        && IsFamilyEvidenceStep(Session.History().FirstOrDefault(), evidenceIdentity, transactionId)
+                    : IsPilotStep(Session.History().FirstOrDefault(), evidenceIdentity.RequestId, transactionId));
         }
         finally
         {
@@ -666,7 +708,7 @@ public partial class StudioRoot : Control
             RefreshStatus();
             return false;
         }
-        if (Workspace.Files.All(file => !file.Dirty))
+        if (!autosave && Workspace.Files.All(file => !file.Dirty))
         {
             if (!autosave) RefreshStatus("Сохранено");
             return true;

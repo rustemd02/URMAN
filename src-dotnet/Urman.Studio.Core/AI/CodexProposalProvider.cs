@@ -936,7 +936,9 @@ public sealed partial class CodexProposalProvider
 
     private static void EnsureNonToolItem(JsonElement item)
     {
-        var type = GetRequiredString(item, "type");
+        if (!item.TryGetProperty("type", out var typeValue) || typeValue.ValueKind != JsonValueKind.String)
+            throw new ProtocolBoundaryException("itemType/typeMissing");
+        var type = typeValue.GetString() ?? throw new ProtocolBoundaryException("itemType/typeMissing");
         if (type == "plan")
         {
             EnsureOnlyProperties(item, "id", "text", "type", true, "planSchema");
@@ -985,12 +987,19 @@ public sealed partial class CodexProposalProvider
 
     private static void VerifyPassiveThreadStatus(JsonElement status)
     {
-        var type = GetRequiredString(status, "type");
+        if (!status.TryGetProperty("type", out var typeValue) || typeValue.ValueKind != JsonValueKind.String)
+            throw new ProtocolBoundaryException("threadStatus/typeMissing");
+        var type = typeValue.GetString() ?? throw new ProtocolBoundaryException("threadStatus/typeMissing");
         if (type == "idle") return;
-        if (type != "active" || !status.TryGetProperty("activeFlags", out var flags) || flags.ValueKind != JsonValueKind.Array || flags.GetArrayLength() != 0)
+        if (type == "active")
         {
-            throw new ProtocolBoundaryException(type == "active" ? "activeFlags" : "type");
+            if (!status.TryGetProperty("activeFlags", out var flags) || flags.ValueKind != JsonValueKind.Array || flags.GetArrayLength() != 0)
+                throw new ProtocolBoundaryException("activeFlags");
+            return;
         }
+
+        var statusType = type is "notLoaded" or "systemError" ? type : "other";
+        throw new ProtocolBoundaryException($"threadStatus/{statusType}");
     }
 
     private static void VerifyTokenUsage(JsonElement tokenUsage)

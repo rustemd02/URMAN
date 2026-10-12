@@ -13,7 +13,10 @@ public sealed record EntityChange(string RelativePath, string Key, JsonNode? Bef
 public sealed record EditCommand(string Label, IReadOnlyList<EntityChange> Changes, StudioFileTransaction? Files = null);
 
 /// <summary>Read-only display metadata; command snapshots and journal images remain private.</summary>
-public sealed record EditHistoryStep(string Label, IReadOnlyList<string> Paths, int EntityChangeCount, string? TransactionId);
+public sealed record EditHistoryStep(string Label, IReadOnlyList<string> Paths, int EntityChangeCount, string? TransactionId)
+{
+    public string? TransactionOwner { get; init; }
+}
 
 /// <summary>
 /// Undo/redo would overwrite something that changed since this command — most
@@ -61,7 +64,7 @@ public sealed class EditSession(StudioWorkspace workspace)
         .Select(command => new EditHistoryStep(command.Label,
             command.Changes.Select(change => change.RelativePath).Concat(command.Files?.RelativePaths ?? [])
                 .Distinct(StringComparer.Ordinal).Order(StringComparer.Ordinal).ToArray(),
-            command.Changes.Count, command.Files?.Id)).ToArray();
+            command.Changes.Count, command.Files?.Id) { TransactionOwner = command.Files?.Owner }).ToArray();
 
     /// <summary>Group several edits (a drag, a template) into one undo step.</summary>
     public IDisposable Begin(string label)
