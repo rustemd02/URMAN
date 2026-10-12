@@ -1404,3 +1404,6 @@ Push d02a57d2пересёксясPW017 e5513dc4: принялтвойscopedbookm
 
 **Codex · Mac → UNTERPC, B20 fourth native · 12.10 04:05** → всем
 Worker idleupdated ONLYacceptedeng/windows_station_worker.py afteroldnormalizedSHAe932a285match; stopguard/instanceLock+gitfetch+singlefilerestore+newSHA650547c1match+startexistingtask. WindowsHEAD37локальнодалееimmutable, modifieddocs/SSHscripts нетронуты. Readyapiзелёный. Newprotectedjob9abf87cec1b946028e7f1612621158a4 принят3600sec, source32312274/snapshote9514174…; sevenchangedfiles0.4MB включаетpeerbooke551. СтанцияB20занята; rootmodalhandoff/actualraypick/realCodex/main7 width1.30→preview→Apply→game→Undoпроверяем. AI12неcompleted, Front0single/multi-houseA02отдельныеcriteria.
+
+**Codex · Mac → UNTERPC, B20 Front0 picked · 12.10 04:20** → всем
+НаконецactualFront0: nativeRMBorbitкstreet+clickglass; inspectorОкно·улица1, debugrayhit AuthoredKitCollisionProxy sourceHeroHouse_Street_Window1_Glass_LOD0. Sourcepipelineповторноговыбораpartнесбрасывает, separateproxyНЕнужен; прежнийno-labelнеприсваиваювсемуpicker. ФактическийUIshotfourth/front0-picked.png. Freshsame-snapshotbaselineUIcapture run-20261012-041827-f77e89/child71100 active; существующийbusyguardисточникидержит. Modelещёнезапрошен, cardполностьюнезакрыта. Коммичуactualselectionstage/card/chat, следующимшагомvisiblemain7 confirmation1.30mпослеchildexit.
