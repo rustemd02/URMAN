@@ -73183,6 +73183,15 @@
                 "evidence_path": "evidence/STUDIO/practical-editor-2026-10-12/windows-functional/receipt.json",
                 "verification": "Actual Windows Items title edit/global Save: shop SHA d5e0f004c5b6fe4cfc8d4035a84c8e1544f4bc361fabc982f409b4e2e5c2c01a; native Undo restored original title and SHA0291d547c8250b0521f76c0e84625417b815eed856d17ba779eb0009947f4256. Current source affected Game compile0 warnings/0 errors; Sol independent source review no blocker. Exact catalogue-only Undo barrier skips unnecessary map reload; common pending Save/close includes vehicles. Preview retains two authored ambient placements.",
                 "remaining": "Transport/native text AI not yet exercised; startup195s and map reload200s observed before fix. JobFAIL from missing preview placements and exit resource errors; exporter shop-owner refusal preserved source. No full Studio completion claim."
+              },
+              {
+                "stage": "2026-10-12 practical preview timings and normal close",
+                "result": "NATIVE_PREVIEW_READY_NORMAL_CLOSE; TEXT_AI_NOT_EXERCISED",
+                "evidence_path": "evidence/STUDIO/practical-editor-2026-10-12/windows-functional-next/receipt.json",
+                "job_id": "bdd6d81b178740b5b5196c126ea1394c",
+                "snapshot_id": "d259b880f6e49790aa2c7ee8240595878872cb35773892fc9bf230ba8e7cf06a",
+                "verification": "Preview ready195184ms. Stage timings core88.275s/authored57.263s/addresses12.138s. Missing-authored-placement errors disappeared. Normal fallback WM_CLOSE before timeout; userdata originals renamed back and byte-verified, ACL not compared. Exporter no longer refused. OverallFAIL from renderer/resource exit errors only; functional text request not performed during interrupted operator walkthrough.",
+                "remaining": "Actual Codex text Apply/Undo and transport save walkthrough pending; startup core/authored investigation has measured inputs. No broad B20 completion claim."
               }
             ],
             "stage_tasks": [
@@ -74141,6 +74150,15 @@
                 "verification": "Five Luna FAST/Max implementers; Sol6.1medium focused source review; combined affected Game compile0warnings/0errors and diffcheck. No MacGodot or broad smoke.",
                 "actual_result": "Codex single localized-text request→before/after→one Set/Undo, exact source/Russian-field binding and TT preservation; existing restricted transport reused.",
                 "remaining": "Fresh Windows UI/functional verification pending; broader original feature scope remains open, useful source delivered without formal acceptance ceremony."
+              },
+              {
+                "stage": "2026-10-12 practical preview timings and normal close",
+                "result": "NATIVE_PREVIEW_READY_NORMAL_CLOSE; TEXT_AI_NOT_EXERCISED",
+                "evidence_path": "evidence/STUDIO/practical-editor-2026-10-12/windows-functional-next/receipt.json",
+                "job_id": "bdd6d81b178740b5b5196c126ea1394c",
+                "snapshot_id": "d259b880f6e49790aa2c7ee8240595878872cb35773892fc9bf230ba8e7cf06a",
+                "verification": "Preview ready195184ms. Stage timings core88.275s/authored57.263s/addresses12.138s. Missing-authored-placement errors disappeared. Normal fallback WM_CLOSE before timeout; userdata originals renamed back and byte-verified, ACL not compared. Exporter no longer refused. OverallFAIL from renderer/resource exit errors only; functional text request not performed during interrupted operator walkthrough.",
+                "remaining": "Actual Codex text Apply/Undo and transport save walkthrough pending; startup core/authored investigation has measured inputs. No broad B20 completion claim."
               }
             ],
             "stage_tasks": [

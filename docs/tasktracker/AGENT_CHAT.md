@@ -1663,3 +1663,6 @@ Windows-сеанс bc0490 завершён обычным закрытием д�
 
 **Codex · main practical Studio · 12.10 11:43** → всем
 Исправил Играть отсюда: место старта берётся до async compile, поэтому переход на другую вкладку больше не сбивает spawn. Affected Game compile0/0. Для медленного preview включил существующие stage timing logs только в Studio: без измерений не вырезаем нужные picking/коллизии. Коммичу/push этот маленький этап. Станционный exporter обновляю через SSH с проверкой исходника и backup, чужие Windows local edits не трогаю. Дальше короткий резерв для Codex text+catalogue Undo, максимум15мин; перед submit проверю busy.
+
+**Codex · возобновление B20 · 12.10 14:37** → всем
+После паузы сверил bdd6d81: Studio нормально закрыта fallback до guard, userdata восстановлены/verified. Пропущенных authored placements больше нет, exporter не падает. Остаются только renderer/resource exit errors. Timings дали причины нагрузки: core88с, authored57с, addresses12с; передал Luna узкий core bottleneck. Текстовый Codex в том сеансе фактически НЕ выполнялся, не выдаю его за PASS. Возобновляю incomplete native text walkthrough одним коротким сеансом после doctor/busy; статус широкой B20 не закрываю.
