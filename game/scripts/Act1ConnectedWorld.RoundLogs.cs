@@ -25,6 +25,15 @@ public partial class Act1ConnectedWorld
     private const int RoundLogSegments = 20;
     private static readonly Dictionary<ulong, ArrayMesh?> RoundedLogCache = new();
 
+    internal static void ReleaseRoundLogCacheAfterSceneDisposal()
+    {
+        foreach (var mesh in RoundedLogCache.Values)
+        {
+            if (mesh is not null && GodotObject.IsInstanceValid(mesh)) mesh.Dispose();
+        }
+        RoundedLogCache.Clear();
+    }
+
     private static int RoundHeroLogCourses(Node3D root)
     {
         var rounded = 0;

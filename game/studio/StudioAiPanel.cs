@@ -81,6 +81,11 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
 
     internal bool IsActionBusy => _busy || _evidenceBusy || _scopeConfirmationBusy
         || _fenceProposal is not null || HasTransientFencePreview || _studio.IsWorkspaceActionBusy;
+    internal bool HasActiveOperation => _busy || _evidenceBusy || _scopeConfirmationBusy || _cancel is not null;
+
+    internal bool PrepareForShutdown() => !HasActiveOperation
+        && TryClearFencePreviewBeforeForget()
+        && !HasTransientFencePreview;
 
     void IProgress<CodexProposalProgress>.Report(CodexProposalProgress progress)
     {

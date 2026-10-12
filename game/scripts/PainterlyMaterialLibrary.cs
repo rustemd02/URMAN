@@ -1169,11 +1169,8 @@ public static class PainterlyMaterialLibrary
         }
     }
 
-    /// <summary>
-    /// Releases the presentation material cache after headless scene tests have
-    /// freed their nodes. Runtime gameplay keeps the cache alive for reuse.
-    /// </summary>
-    public static void ClearCacheForHeadlessTests()
+    /// <summary>Release retained presentation wrappers after their scene owners have been freed.</summary>
+    internal static void ReleaseAfterSceneDisposal()
     {
         Materials.Clear();
         _diagnosticNeutral = false;
@@ -1192,13 +1189,24 @@ public static class PainterlyMaterialLibrary
         // SetWindMotion re-broadcasts into the recreated cache while new
         // materials already inherit _windMotion from ForColor.
         _windMotionBroadcast = null;
-        // ShaderMaterial/ImageTexture wrappers are managed Godot objects. A
-        // headless smoke process can otherwise reach native shutdown before
-        // the wrappers' finalizers release their renderer RIDs. This method is
-        // test-only; production gameplay never forces a collection.
+        // ShaderMaterial/ImageTexture wrappers are managed Godot objects. At
+        // orderly scene shutdown, collect the released wrappers before the
+        // renderer itself exits; ordinary gameplay keeps this cache alive.
         GC.Collect();
         GC.WaitForPendingFinalizers();
         GC.Collect();
+    }
+
+    /// <summary>Release cached presentation wrappers between headless scene tests.</summary>
+    public static void ClearCacheForHeadlessTests() => ReleaseAfterSceneDisposal();
+
+    internal static void ReleaseForFinalShutdown()
+    {
+        ReleaseAfterSceneDisposal();
+        if (GodotObject.IsInstanceValid(PainterlyShader)) PainterlyShader.Dispose();
+        if (GodotObject.IsInstanceValid(RigidPainterlyShader)) RigidPainterlyShader.Dispose();
+        if (GodotObject.IsInstanceValid(TwoSidedPainterlyShader)) TwoSidedPainterlyShader.Dispose();
+        if (GodotObject.IsInstanceValid(CutoutShader)) CutoutShader.Dispose();
     }
 
     public static Material ForCutout(string htmlColor, Texture2D alphaTexture, string surface)

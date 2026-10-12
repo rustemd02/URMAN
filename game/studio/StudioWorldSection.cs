@@ -32,6 +32,7 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
     private Control? _view;
     private SubViewport _viewport = null!;
     private SubViewport.UpdateMode? _childRunPreviousUpdateMode;
+    private Task? _loadWorldTask;
     private SubViewportContainer _container = null!;
     private Camera3D _camera = null!;
     private Node3D _markerRoot = null!;
@@ -41,6 +42,7 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
     private ItemList _catalogList = null!;
     private LineEdit _catalogSearch = null!;
     private Act1DemoRoot? _demo;
+    private bool _shuttingDown;
     private Act1DemoRoot? _indexedDisplayDemo;
     private readonly Dictionary<string, Node3D> _liveDisplayNodes = new(StringComparer.Ordinal);
     private readonly HashSet<string> _ambiguousLiveDisplayIds = new(StringComparer.Ordinal);
@@ -89,6 +91,7 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
     public Vector3 Pivot => _pivot;
     public bool WorldReady => _demo is not null && _hint is { Visible: false };
     public bool HasViewportFocus => _container is not null && _container.IsVisibleInTree() && _container.HasFocus();
+    internal bool PreviewReleasedForShutdown => _shuttingDown && _view is null;
 
     public void SetChildRunRenderingPaused(bool paused)
     {
@@ -197,6 +200,32 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
         return root;
     }
 
+    internal async Task ReleasePreviewForShutdownAsync()
+    {
+        _shuttingDown = true;
+        SetChildRunRenderingPaused(true);
+        if (_loadWorldTask is { IsCompleted: false } loadTask) await loadTask;
+        if (_reloadTask is { IsCompleted: false } reloadTask) await reloadTask;
+
+        var tree = studio.GetTree();
+        ClearFencePick();
+        if (_view is { } view && GodotObject.IsInstanceValid(view)) view.QueueFree();
+        _view = null;
+        _demo = null;
+        _indexedDisplayDemo = null;
+        _liveDisplayNodes.Clear();
+        _ambiguousLiveDisplayIds.Clear();
+        _previewed.Clear();
+        _markers.Clear();
+        _group.Clear();
+
+        await tree.ToSignal(tree, SceneTree.SignalName.PhysicsFrame);
+        await tree.ToSignal(tree, SceneTree.SignalName.ProcessFrame);
+        await tree.ToSignal(tree, SceneTree.SignalName.ProcessFrame);
+        await tree.ToSignal(RenderingServer.Singleton, RenderingServer.SignalName.FramePostDraw);
+        await tree.ToSignal(tree.CreateTimer(.15, processAlways: true, ignoreTimeScale: true), SceneTreeTimer.SignalName.Timeout);
+    }
+
     private Control BuildCatalogDrawer()
     {
         var panel = new PanelContainer { CustomMinimumSize = new Vector2(0, 230) };
@@ -275,39 +304,45 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
         return File.Exists(file) && Image.LoadFromFile(file) is { } image ? ImageTexture.CreateFromImage(image) : null;
     }
 
-    private async Task LoadWorldAsync()
+    private Task LoadWorldAsync() => _loadWorldTask = LoadWorldCoreAsync();
+
+    private async Task LoadWorldCoreAsync()
     {
-        _demo = ResourceLoader.Load<PackedScene>("res://scenes/act1_demo.tscn").Instantiate<Act1DemoRoot>();
-        _viewport.AddChild(_demo);
-        for (var frame = 0; frame < 900 && !_demo.MainMenuVisible; frame++)
+        var demo = ResourceLoader.Load<PackedScene>("res://scenes/act1_demo.tscn").Instantiate<Act1DemoRoot>();
+        _demo = demo;
+        _viewport.AddChild(demo);
+        for (var frame = 0; frame < 900 && !_shuttingDown && !demo.MainMenuVisible; frame++)
         {
             await studio.ToSignal(studio.GetTree(), SceneTree.SignalName.ProcessFrame);
         }
+        if (_shuttingDown) return;
 
-        if (!await _demo.StartDebugZoneAsync("village_day", "arrival"))
+        if (!await demo.StartDebugZoneAsync("village_day", "arrival"))
         {
             _hint.Text = "Не удалось поднять мир игры. Подробности — в журнале Studio.";
             return;
         }
+        if (_shuttingDown) return;
 
         for (var frame = 0; frame < 20; frame++)
         {
             await studio.ToSignal(studio.GetTree(), SceneTree.SignalName.ProcessFrame);
+            if (_shuttingDown) return;
         }
 
         // An editor view: the world stands still, the game's HUD and player are off.
-        foreach (var layer in _demo.FindChildren("*", nameof(CanvasLayer), true, false).OfType<CanvasLayer>())
+        foreach (var layer in demo.FindChildren("*", nameof(CanvasLayer), true, false).OfType<CanvasLayer>())
         {
             layer.Visible = false;
         }
 
         // Studio pauses world processing, but viewport picking still needs real physics occlusion.
-        foreach (var collider in _demo.FindChildren("*", nameof(CollisionObject3D), true, false).OfType<CollisionObject3D>())
+        foreach (var collider in demo.FindChildren("*", nameof(CollisionObject3D), true, false).OfType<CollisionObject3D>())
         {
             collider.DisableMode = CollisionObject3D.DisableModeEnum.KeepActive;
         }
 
-        if (_demo.GetTree().GetFirstNodeInGroup("player_controller") is FirstPersonController player)
+        if (demo.GetTree().GetFirstNodeInGroup("player_controller") is FirstPersonController player)
         {
             // The preview player is parked: modal, so the game's own focus-loss
             // pause never covers the editor view when Studio's window loses focus.
@@ -315,7 +350,7 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
             player.ProcessMode = Node.ProcessModeEnum.Disabled;
         }
 
-        _demo.ProcessMode = Node.ProcessModeEnum.Disabled;
+        demo.ProcessMode = Node.ProcessModeEnum.Disabled;
         Input.MouseMode = Input.MouseModeEnum.Visible;
         _camera.MakeCurrent();
         _hint.Visible = false;
@@ -351,6 +386,17 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
             _previewed.Clear();
             KitPlacementTakeover.Reset();
             await LoadWorldAsync();
+            if (_shuttingDown)
+            {
+                if (_demo is { } current && GodotObject.IsInstanceValid(current))
+                {
+                    _viewport.RemoveChild(current);
+                    current.Free();
+                }
+                _demo = null;
+                if (previous is not null && GodotObject.IsInstanceValid(previous)) previous.Free();
+                return;
+            }
             if (_hint.Visible) throw new InvalidOperationException("Новая сцена дома не загрузилась.");
             previous?.Free();
             UpdateCamera();
@@ -390,7 +436,7 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
 
     public void Refresh()
     {
-        if (_view is null || _demo is null)
+        if (_shuttingDown || _view is null || _demo is null)
         {
             return;
         }
@@ -710,7 +756,7 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
 
     private void OnViewportInput(InputEvent @event)
     {
-        if (studio.IsAiPanelVisible) return;
+        if (_shuttingDown || studio.IsWorkspaceActionBusy || studio.IsAiPanelVisible) return;
         if (@event is InputEventKey { Pressed: true, Echo: false, Keycode: global::Godot.Key.Enter or global::Godot.Key.KpEnter } key
             && (key.MetaPressed || key.CtrlPressed) && HasViewportFocus)
         {

@@ -203,7 +203,7 @@ public partial class StudioRoot : Control
 
     public override void _Process(double delta)
     {
-        if (Workspace is null)
+        if (_closing || Workspace is null)
         {
             return;
         }
@@ -236,7 +236,7 @@ public partial class StudioRoot : Control
 
     public override void _UnhandledKeyInput(InputEvent @event)
     {
-        if (IsAiPanelVisible) return;
+        if (_closing || IsAiPanelVisible) return;
         if (@event is not InputEventKey { Pressed: true } key || Workspace is null)
         {
             return;
@@ -269,7 +269,7 @@ public partial class StudioRoot : Control
 
     public override void _Input(InputEvent @event)
     {
-        if (IsAiPanelVisible) return;
+        if (_closing || IsAiPanelVisible) return;
         if (_results is not null && _results.Visible)
         {
             if (@event is InputEventMouseButton { Pressed: true } click
@@ -336,9 +336,11 @@ public partial class StudioRoot : Control
 
     private StudioAiPanel? _aiPanel;
     public bool IsAiPanelVisible => _aiPanel is { Visible: true };
-    internal bool IsWorkspaceActionBusy => _playPreparing || _run is not null || _historyActionBusy || _checkpointBusy || Session.IsBusy;
+    internal bool IsWorkspaceActionBusy => _closing || _playPreparing || _run is not null || _historyActionBusy || _checkpointBusy
+        || Session is not null && Session.IsBusy;
     public void OpenAiPanel()
     {
+        if (_closing) return;
         _aiPanel ??= new StudioAiPanel(this);
         if (_aiPanel.GetParent() is null) AddChild(_aiPanel);
         _aiPanel.Open(Selection);
@@ -356,6 +358,7 @@ public partial class StudioRoot : Control
 
     public void OpenSection(string key, string? select = null, bool recordBack = true)
     {
+        if (_closing) return;
         if (_current is not null && recordBack && (_current != key || select is not null))
         {
             _back.Push((_current, Selection));
@@ -394,6 +397,7 @@ public partial class StudioRoot : Control
 
     public void Navigate(string id)
     {
+        if (_closing) return;
         foreach (var section in _sections.Values)
         {
             if (section.Reveal(id))
@@ -408,12 +412,14 @@ public partial class StudioRoot : Control
 
     public void Select(string? id)
     {
+        if (_closing) return;
         Selection = id;
         ShowProperties();
     }
 
     public void ShowProperties()
     {
+        if (_closing) return;
         _properties.Clear();
         if (_current is null)
         {
@@ -425,6 +431,7 @@ public partial class StudioRoot : Control
 
     private void GoBack()
     {
+        if (_closing) return;
         if (!_back.TryPop(out var previous))
         {
             return;
@@ -571,6 +578,7 @@ public partial class StudioRoot : Control
 
     private void OnEdited()
     {
+        if (_closing) return;
         foreach (var section in _sections.Values)
         {
             section.Refresh();
@@ -961,37 +969,82 @@ public partial class StudioRoot : Control
         return points;
     }
 
-    private void OnWindowCloseRequested()
+    private async void OnWindowCloseRequested()
     {
         if (_closing) return;
         _closing = true;
         var run = _run;
-        if (run is null)
+        var childExitConfirmed = run is null;
+        var world = _sections.TryGetValue("world", out var worldSection) ? worldSection as StudioWorldSection : null;
+        if (HasActiveShutdownAction())
         {
-            GetTree().Quit();
+            _closing = false;
+            if (_banner is not null && GodotObject.IsInstanceValid(_banner))
+                ShowBanner("Дождитесь завершения текущего действия Studio, прежде чем закрывать окно.", error: true);
             return;
         }
+        GetViewport().GuiDisableInput = true;
 
         try
         {
-            if (!run.HasExited)
+            if (run is not null)
             {
-                run.Kill(entireProcessTree: true);
-                if (!run.WaitForExit(5000)) throw new TimeoutException();
+                if (!run.HasExited)
+                {
+                    run.Kill(entireProcessTree: true);
+                    if (!run.WaitForExit(5000)) throw new TimeoutException();
+                }
+                if (!run.HasExited) throw new TimeoutException();
+                childExitConfirmed = true;
+                ((StudioWorldSection)Section("world")).SetChildRunRenderingPaused(false);
+                if (ReferenceEquals(_run, run)) _run = null;
+                run.Dispose();
             }
-            if (!run.HasExited) throw new TimeoutException();
-            ((StudioWorldSection)Section("world")).SetChildRunRenderingPaused(false);
-            if (ReferenceEquals(_run, run)) _run = null;
-            run.Dispose();
+
+            if (_aiPanel is { } panel && GodotObject.IsInstanceValid(panel))
+            {
+                if (!panel.PrepareForShutdown())
+                {
+                    panel.Show();
+                    throw new InvalidOperationException("Временный предпросмотр AI не удалось безопасно снять.");
+                }
+
+                panel.QueueFree();
+                _aiPanel = null;
+                await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+                if (world?.HasTransientFencePreview == true)
+                    throw new InvalidOperationException("Панель закрыта, но временный предпросмотр забора всё ещё активен.");
+            }
+
+            if (world is not null) await world.ReleasePreviewForShutdownAsync();
+            Urman.Godot.Act1ConnectedWorld.ReleaseRoundLogCacheAfterSceneDisposal();
+            Urman.Godot.PainterlyMaterialLibrary.ReleaseForFinalShutdown();
+            await ToSignal(RenderingServer.Singleton, RenderingServer.SignalName.FramePostDraw);
             GetTree().Quit();
         }
         catch (Exception error)
         {
+            if (world?.PreviewReleasedForShutdown == true)
+            {
+                GD.PushError($"Studio closed after its preview was released, but orderly resource cleanup failed ({error.GetType().Name}).");
+                GetTree().Quit();
+                return;
+            }
+
             _closing = false;
-            ShowBanner("Не удалось подтвердить завершение пробного запуска. Окно Studio осталось открытым; закройте игру вручную и попробуйте ещё раз.", error: true);
-            GD.PushError($"Studio refused to close because child-process exit could not be confirmed ({error.GetType().Name}).");
+            GetViewport().GuiDisableInput = false;
+            if (_banner is not null && GodotObject.IsInstanceValid(_banner))
+                ShowBanner(!childExitConfirmed
+                    ? "Не удалось подтвердить завершение пробного запуска. Окно Studio осталось открытым; закройте игру вручную и попробуйте ещё раз."
+                    : "Не удалось подготовить предпросмотр Studio к закрытию: " + error.Message, error: true);
+            GD.PushError($"Studio refused to close because orderly shutdown failed ({error.GetType().Name}).");
         }
     }
+
+    private bool HasActiveShutdownAction() =>
+        _playPreparing || _historyActionBusy || _checkpointBusy || _aiEvidenceCaptureBusy
+        || Session is not null && Session.IsBusy
+        || _aiPanel is { } panel && GodotObject.IsInstanceValid(panel) && panel.HasActiveOperation;
 
     // ---- status and banners ---------------------------------------------------------------
 
