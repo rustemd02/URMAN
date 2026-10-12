@@ -1,0 +1,38 @@
+{
+  "stage": "A-BOOK-HANDS asset + optional PhotoBook construction inspection source",
+  "source_sha256": {
+    "assets/source/blender/photoworlds/urman_book_hands.py": "5dbc30b668ed01d5f4b02d8a227528454a14276c8d5b13b76a32a1dfd7de6922",
+    "assets/source/blender/photoworlds/book-hands-v1.blend": "bdb1400ce9fb59cce81bb3b6186ab0461a4e39fe36f8b0f9acc7101fcb8b4966",
+    "game/assets/models/photoworlds/book-hands-v1.glb": "5c610d1526c0fd59d75868d30e3086133e1280b4795ee552c639427f91282fb3",
+    "game/scripts/JournalUi.PhotoBookInspection.cs": "c4e4bc224e3c50907077362f2a5a5f0bbbc4cc1a127f12ca2e9e9adcb4266ab8",
+    "game/scripts/JournalUi.PhotoBook.cs": "1a49cb522b323b37bde015b14aa87c80fa20ab0537115a6eaec7961a213de509",
+    "game/scripts/JournalUi.cs": "e989409dc22e48ad538acb4aab8db17c957036d4c30ea5d9da7b04a61a53b317",
+    "game/scripts/RuntimeBridge.PhotoBook.cs": "3ee706e0e0d06459f8e8aa37d5d10bceccbe7159e33bf91e269a95e2d5f47654"
+  },
+  "personally_viewed": [
+    "offline-closed.png",
+    "offline-open.png"
+  ],
+  "actual_godot_import": "godot-import.json",
+  "compile": {
+    "result": "PASS",
+    "warnings": 0,
+    "errors": 0,
+    "seconds": 20.91,
+    "log": "game-build.log"
+  },
+  "scope": "Two gloved wrists, winter sleeves,16 meshes11 bones,3 clips; no body/head/book in handsGLB. Separate optional UIWorld3D contains independent existingbook+hands after current book.received; table/player/carry/save not borrowed or changed. Explicit still poses/rotation, no automatic animation, one redraw per action, ownworld freed on close/tab/session/load/exit.",
+  "corrected_defects": [
+    "rectangular wood-looking fingers replaced with curved gloved hooks/thumbs",
+    "openleft cover is35mm lower; support adjusted",
+    "bone-local LayoutZ moveddepth notheight; source uses restbasis inverse, actualGodot worlddelta[-.224,-.035,0], right0",
+    "Open refresh-before-show hid inspector toggle; visible hook nowrefreshes"
+  ],
+  "limitations": [
+    "Offline box screens exclude visible vertex penetration but do not prove full triangle contact",
+    "Actual Windows inspection controls/contacts/framing/close-reopen not run; station reserved B20",
+    "This finite construction inspector does not implement walking book grip, typedPageId pose/mount/flip sync or3D editableglyph text",
+    "Native art/human/FOV720p1080p16:10/large text acceptance and pinnedBlender4.5 regeneration remain open"
+  ],
+  "independent_source_review": "Luna accepted exact session/book/carry/vehicle gates, owned viewport lifecycle, reopened visible hook fix, Once redraw after explicitposes/rotation, HFlow wrapping. No source blocker; native inspection remains open."
+}

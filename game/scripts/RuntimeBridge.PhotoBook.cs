@@ -8,6 +8,10 @@ namespace Urman.Godot;
 
 public partial class RuntimeBridge
 {
+    internal bool CanInspectReceivedPhotoBook => !_loadingSlot && !_loadPreparing
+        && _content.HasPhotoWorlds && SessionIdentity is { } session
+        && BookReceived(session.SelectState());
+
     internal sealed record PhotoBookPhoto(
         string PhotoId,
         string Title,

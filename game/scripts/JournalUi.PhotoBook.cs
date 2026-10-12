@@ -240,12 +240,15 @@ public partial class JournalUi
             AutowrapMode = TextServer.AutowrapMode.WordSmart };
         _photoBookSpread.AddChild(_photoBookActionStatus);
 
+        BuildBookInspection();
+
         _tabs.TabChanged += index =>
         {
             _photoBookPage.Visible = index == PhotoBookTabIndex;
             if (index != PhotoBookTabIndex)
             {
                 CancelPhotoBookPlacementAnimation();
+                CloseBookInspection();
                 return;
             }
             RefreshPhotoBookPage();
@@ -253,7 +256,9 @@ public partial class JournalUi
         };
         _screen.VisibilityChanged += () =>
         {
-            if (!_screen.Visible) CancelPhotoBookPlacementAnimation();
+            if (!_screen.Visible)
+            { CancelPhotoBookPlacementAnimation(); CloseBookInspection(); }
+            else RefreshBookInspection();
         };
         _screen.TreeExiting += CancelPhotoBookPlacementAnimation;
     }
@@ -345,10 +350,13 @@ public partial class JournalUi
 
         _photoBookRefreshing = false;
         RefreshPhotoBookActionButtons();
+        RefreshBookInspection();
     }
 
     private void ClearPhotoBookPage(bool resetSession)
     {
+        CloseBookInspection();
+        _bookInspectionToggle.Visible = false;
         CancelPhotoBookPlacementAnimation();
         ClearPhotoBookImages();
         if (resetSession)

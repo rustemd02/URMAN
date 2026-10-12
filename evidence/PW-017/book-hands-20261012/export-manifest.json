@@ -1,0 +1,963 @@
+{
+  "schema": "urman-book-hands-stage/v1",
+  "status": "offline viewmodel asset stage; no runtime hand attachment or human acceptance claimed",
+  "authored_form": "original winter sleeves and wool gloves; no actor body, head, or duplicated book in hand GLB",
+  "seasonal_contract": "default is gloved; no automatic bare-hand switch; no glove-removal event is assumed",
+  "axis_contract": "Blender X=book width, Y=book depth, Z=thickness; GLB Y-up",
+  "book_fixture": {
+    "path": "/private/tmp/urman-family-book-20261012-final2/urman_family_book.glb",
+    "sha256": "66e47b1ec343cf5b6f6535d72c7b1e8f48e03755af50b4547fb4537adfa43915",
+    "closed_envelope_min_xyz": [
+      -0.11,
+      -0.1425,
+      -0.019
+    ],
+    "closed_envelope_max_xyz": [
+      0.11,
+      0.1425,
+      0.019
+    ],
+    "open_envelope_min_xyz": [
+      -0.335,
+      -0.1425,
+      -0.019
+    ],
+    "open_envelope_max_xyz": [
+      0.11,
+      0.1425,
+      0.019
+    ],
+    "included_in_hand_glb": false
+  },
+  "maps": {
+    "cloth": {
+      "source_map": "game/assets/textures/painterly/urman_t01_v02_basecolor.png",
+      "sha256": "f3fa91c57468ea4034a126f55d1971303361cf0aceb5c70f644a561093127627",
+      "tile_metres": 0.08,
+      "used_by": [
+        "WinterSleeveCloth",
+        "WinterGloveCloth",
+        "WinterCuffCloth"
+      ]
+    },
+    "skin": {
+      "used": false,
+      "reason": "winter gloves fully cover the hands; adding exposed skin would contradict this pose"
+    }
+  },
+  "bounds_m": {
+    "closed_default_hands_actual": {
+      "min_xyz": [
+        -0.4572177231311798,
+        -0.2523079514503479,
+        -0.08351697772741318
+      ],
+      "max_xyz": [
+        0.4572177231311798,
+        -0.006999998819082975,
+        0.04896330088376999
+      ],
+      "size_xyz": [
+        0.9144354462623596,
+        0.24530795263126493,
+        0.13248027861118317
+      ],
+      "meshes": [
+        {
+          "name": "Sleeve.L",
+          "min_xyz": [
+            -0.4572177231311798,
+            -0.2523079514503479,
+            -0.08351697772741318
+          ],
+          "max_xyz": [
+            -0.16480876505374908,
+            -0.018243765458464622,
+            0.04794459417462349
+          ]
+        },
+        {
+          "name": "CuffBand.L",
+          "min_xyz": [
+            -0.23808419704437256,
+            -0.11482501029968262,
+            -0.037963300943374634
+          ],
+          "max_xyz": [
+            -0.12491578608751297,
+            -0.015174999833106995,
+            0.04896330088376999
+          ]
+        },
+        {
+          "name": "GlovePalm.L",
+          "min_xyz": [
+            -0.19200000166893005,
+            -0.11699999868869781,
+            -0.017999999225139618
+          ],
+          "max_xyz": [
+            -0.11400000005960464,
+            -0.006999998819082975,
+            0.024000000208616257
+          ]
+        },
+        {
+          "name": "GloveFinger1.L",
+          "min_xyz": [
+            -0.1940000057220459,
+            -0.14147184789180756,
+            -0.03130808100104332
+          ],
+          "max_xyz": [
+            -0.11431770026683807,
+            -0.11725414544343948,
+            0.03637267276644707
+          ]
+        },
+        {
+          "name": "GloveFinger2.L",
+          "min_xyz": [
+            -0.1940000057220459,
+            -0.11547183245420456,
+            -0.03130808100104332
+          ],
+          "max_xyz": [
+            -0.11431770026683807,
+            -0.09125414490699768,
+            0.03637267276644707
+          ]
+        },
+        {
+          "name": "GloveFinger3.L",
+          "min_xyz": [
+            -0.1940000057220459,
+            -0.08947183191776276,
+            -0.03130808100104332
+          ],
+          "max_xyz": [
+            -0.11431770026683807,
+            -0.06525414437055588,
+            0.03637267276644707
+          ]
+        },
+        {
+          "name": "GloveFinger4.L",
+          "min_xyz": [
+            -0.1940000057220459,
+            -0.06347183883190155,
+            -0.03130808100104332
+          ],
+          "max_xyz": [
+            -0.11431770026683807,
+            -0.03925414755940437,
+            0.03637267276644707
+          ]
+        },
+        {
+          "name": "GloveThumb.L",
+          "min_xyz": [
+            -0.18500001728534698,
+            -0.07014024257659912,
+            0.021544117480516434
+          ],
+          "max_xyz": [
+            -0.09764828532934189,
+            -0.014474879950284958,
+            0.039077628403902054
+          ]
+        },
+        {
+          "name": "Sleeve.R",
+          "min_xyz": [
+            0.16480876505374908,
+            -0.2523079514503479,
+            -0.08351697772741318
+          ],
+          "max_xyz": [
+            0.4572177231311798,
+            -0.018243765458464622,
+            0.04794459417462349
+          ]
+        },
+        {
+          "name": "CuffBand.R",
+          "min_xyz": [
+            0.12491578608751297,
+            -0.11482501029968262,
+            -0.037963300943374634
+          ],
+          "max_xyz": [
+            0.23808419704437256,
+            -0.015174999833106995,
+            0.04896330088376999
+          ]
+        },
+        {
+          "name": "GlovePalm.R",
+          "min_xyz": [
+            0.11400000005960464,
+            -0.11699999868869781,
+            -0.017999999225139618
+          ],
+          "max_xyz": [
+            0.19200000166893005,
+            -0.006999998819082975,
+            0.024000000208616257
+          ]
+        },
+        {
+          "name": "GloveFinger1.R",
+          "min_xyz": [
+            0.11431770026683807,
+            -0.14147184789180756,
+            -0.03130808100104332
+          ],
+          "max_xyz": [
+            0.1940000057220459,
+            -0.11725414544343948,
+            0.03637267276644707
+          ]
+        },
+        {
+          "name": "GloveFinger2.R",
+          "min_xyz": [
+            0.11431770026683807,
+            -0.11547183245420456,
+            -0.03130808100104332
+          ],
+          "max_xyz": [
+            0.1940000057220459,
+            -0.09125414490699768,
+            0.03637267276644707
+          ]
+        },
+        {
+          "name": "GloveFinger3.R",
+          "min_xyz": [
+            0.11431770026683807,
+            -0.08947183191776276,
+            -0.03130808100104332
+          ],
+          "max_xyz": [
+            0.1940000057220459,
+            -0.06525414437055588,
+            0.03637267276644707
+          ]
+        },
+        {
+          "name": "GloveFinger4.R",
+          "min_xyz": [
+            0.11431770026683807,
+            -0.06347183883190155,
+            -0.03130808100104332
+          ],
+          "max_xyz": [
+            0.1940000057220459,
+            -0.03925414755940437,
+            0.03637267276644707
+          ]
+        },
+        {
+          "name": "GloveThumb.R",
+          "min_xyz": [
+            0.09764828532934189,
+            -0.07014024257659912,
+            0.021544117480516434
+          ],
+          "max_xyz": [
+            0.18500001728534698,
+            -0.014474879950284958,
+            0.039077628403902054
+          ]
+        }
+      ]
+    }
+  },
+  "bones": [
+    {
+      "name": "Root",
+      "parent": null,
+      "head_local_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "tail_local_m": [
+        0.0,
+        0.0,
+        0.10000000149011612
+      ],
+      "matrix_local": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          -1.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "name": "Layout.L",
+      "parent": "Root",
+      "head_local_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "tail_local_m": [
+        0.0,
+        0.0,
+        0.07999999821186066
+      ],
+      "matrix_local": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          -1.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "name": "Forearm.L",
+      "parent": "Layout.L",
+      "head_local_m": [
+        -0.4300000071525574,
+        -0.20800000429153442,
+        -0.03799999877810478
+      ],
+      "tail_local_m": [
+        -0.17900000512599945,
+        -0.06199999898672104,
+        0.006000000052154064
+      ],
+      "matrix_local": [
+        [
+          0.5121176242828369,
+          0.8546466827392578,
+          -0.08552518486976624,
+          -0.4300000071525574
+        ],
+        [
+          -0.8546468019485474,
+          0.49712517857551575,
+          -0.1498185694217682,
+          -0.20800000429153442
+        ],
+        [
+          -0.08552516996860504,
+          0.1498185694217682,
+          0.9850075244903564,
+          -0.03800000250339508
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "name": "Wrist.L",
+      "parent": "Forearm.L",
+      "head_local_m": [
+        -0.17900000512599945,
+        -0.06199999898672104,
+        0.006000000052154064
+      ],
+      "tail_local_m": [
+        -0.125,
+        -0.05999999865889549,
+        0.006000000052154064
+      ],
+      "matrix_local": [
+        [
+          0.03701173886656761,
+          0.9993147850036621,
+          5.960464477539063e-08,
+          -0.17900002002716064
+        ],
+        [
+          -0.9993149042129517,
+          0.03701167553663254,
+          0.0,
+          -0.062000006437301636
+        ],
+        [
+          1.4901161193847656e-08,
+          0.0,
+          1.0,
+          0.006000000983476639
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "name": "FingerGroup.L",
+      "parent": "Wrist.L",
+      "head_local_m": [
+        -0.14499999582767487,
+        -0.061000000685453415,
+        0.024000000208616257
+      ],
+      "tail_local_m": [
+        -0.10499999672174454,
+        -0.061000000685453415,
+        0.024000000208616257
+      ],
+      "matrix_local": [
+        [
+          7.078051567077637e-08,
+          1.0,
+          5.960464477539063e-08,
+          -0.14500001072883606
+        ],
+        [
+          -1.0000001192092896,
+          3.725290298461914e-09,
+          0.0,
+          -0.06100000813603401
+        ],
+        [
+          1.4890951582913203e-08,
+          5.515168877145982e-10,
+          1.0,
+          0.024000000208616257
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "name": "Thumb.L",
+      "parent": "Wrist.L",
+      "head_local_m": [
+        -0.1509999930858612,
+        -0.03099999949336052,
+        0.02800000086426735
+      ],
+      "tail_local_m": [
+        -0.09000000357627869,
+        -0.052000001072883606,
+        0.02800000086426735
+      ],
+      "matrix_local": [
+        [
+          -0.3255128562450409,
+          0.9455375075340271,
+          5.3289014090296405e-08,
+          -0.1510000228881836
+        ],
+        [
+          -0.9455376863479614,
+          -0.32551297545433044,
+          -1.834540519496386e-08,
+          -0.031000005081295967
+        ],
+        [
+          -5.501658684181621e-09,
+          5.368677502559649e-09,
+          1.0,
+          0.02800000086426735
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "name": "Layout.R",
+      "parent": "Root",
+      "head_local_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "tail_local_m": [
+        0.0,
+        0.0,
+        0.07999999821186066
+      ],
+      "matrix_local": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          -1.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "name": "Forearm.R",
+      "parent": "Layout.R",
+      "head_local_m": [
+        0.4300000071525574,
+        -0.20800000429153442,
+        -0.03799999877810478
+      ],
+      "tail_local_m": [
+        0.17900000512599945,
+        -0.06199999898672104,
+        0.006000000052154064
+      ],
+      "matrix_local": [
+        [
+          0.5121176242828369,
+          -0.8546466827392578,
+          0.08552518486976624,
+          0.4300000071525574
+        ],
+        [
+          0.8546468019485474,
+          0.49712517857551575,
+          -0.1498185694217682,
+          -0.20800000429153442
+        ],
+        [
+          0.08552516996860504,
+          0.1498185694217682,
+          0.9850075244903564,
+          -0.03800000250339508
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "name": "Wrist.R",
+      "parent": "Forearm.R",
+      "head_local_m": [
+        0.17900000512599945,
+        -0.06199999898672104,
+        0.006000000052154064
+      ],
+      "tail_local_m": [
+        0.125,
+        -0.05999999865889549,
+        0.006000000052154064
+      ],
+      "matrix_local": [
+        [
+          0.03701173886656761,
+          -0.9993147850036621,
+          -5.960464477539063e-08,
+          0.17900002002716064
+        ],
+        [
+          0.9993149042129517,
+          0.03701167553663254,
+          0.0,
+          -0.062000006437301636
+        ],
+        [
+          -1.4901161193847656e-08,
+          0.0,
+          1.0,
+          0.006000000983476639
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "name": "FingerGroup.R",
+      "parent": "Wrist.R",
+      "head_local_m": [
+        0.14499999582767487,
+        -0.061000000685453415,
+        0.024000000208616257
+      ],
+      "tail_local_m": [
+        0.10499999672174454,
+        -0.061000000685453415,
+        0.024000000208616257
+      ],
+      "matrix_local": [
+        [
+          7.078051567077637e-08,
+          -1.0,
+          -5.960464477539063e-08,
+          0.14500001072883606
+        ],
+        [
+          1.0000001192092896,
+          3.725290298461914e-09,
+          0.0,
+          -0.06100000813603401
+        ],
+        [
+          -1.4890951582913203e-08,
+          5.515168877145982e-10,
+          1.0,
+          0.024000000208616257
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "name": "Thumb.R",
+      "parent": "Wrist.R",
+      "head_local_m": [
+        0.1509999930858612,
+        -0.03099999949336052,
+        0.02800000086426735
+      ],
+      "tail_local_m": [
+        0.09000000357627869,
+        -0.052000001072883606,
+        0.02800000086426735
+      ],
+      "matrix_local": [
+        [
+          -0.3255128562450409,
+          -0.9455375075340271,
+          -5.3289014090296405e-08,
+          0.1510000228881836
+        ],
+        [
+          0.9455376863479614,
+          -0.32551297545433044,
+          -1.834540519496386e-08,
+          -0.031000005081295967
+        ],
+        [
+          5.501658684181621e-09,
+          5.368677502559649e-09,
+          1.0,
+          0.02800000086426735
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ]
+    }
+  ],
+  "clips": [
+    {
+      "name": "hold_closed",
+      "action": "hold_closed",
+      "start_frame": 1,
+      "end_frame": 24,
+      "duration_seconds": 0.9583,
+      "contract": {
+        "precondition": "closed book; neutral winter-glove grip at both side edges",
+        "start": "default bind pose",
+        "end": "same closed grip",
+        "motion": "static reduced-motion hold"
+      }
+    },
+    {
+      "name": "hold_open",
+      "action": "hold_open",
+      "start_frame": 1,
+      "end_frame": 24,
+      "duration_seconds": 0.9583,
+      "contract": {
+        "precondition": "closed book; left hand moves to outer edge of the opened cover",
+        "end_layout_translation_m": {
+          "left_x": -0.224,
+          "left_z": -0.035,
+          "right_x": 0.0,
+          "right_z": 0.0
+        },
+        "support": "left glove drops to press the inverted outer cover; right glove remains at the right page edge",
+        "reduced_motion": "one finite, eased lateral adjustment; no loop"
+      }
+    },
+    {
+      "name": "return",
+      "action": "return",
+      "start_frame": 1,
+      "end_frame": 24,
+      "duration_seconds": 0.9583,
+      "contract": {
+        "precondition": "open book supported by the two gloves",
+        "end": "neutral closed-book hold",
+        "end_layout_translation_m": {
+          "left_x": 0.0,
+          "left_z": 0.0,
+          "right_x": 0.0,
+          "right_z": 0.0
+        },
+        "reduced_motion": "single finite return; no loop"
+      }
+    }
+  ],
+  "evaluated_animation_world_offsets": [
+    {
+      "clip": "hold_closed",
+      "frame": 24,
+      "side": "L",
+      "expected_blender_world_delta_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "layout_blender_world_delta_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "wrist_blender_world_delta_m": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "clip": "hold_closed",
+      "frame": 24,
+      "side": "R",
+      "expected_blender_world_delta_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "layout_blender_world_delta_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "wrist_blender_world_delta_m": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "clip": "hold_open",
+      "frame": 24,
+      "side": "L",
+      "expected_blender_world_delta_m": [
+        -0.2240000069141388,
+        0.0,
+        -0.03500000014901161
+      ],
+      "layout_blender_world_delta_m": [
+        -0.2240000069141388,
+        0.0,
+        -0.03500000014901161
+      ],
+      "wrist_blender_world_delta_m": [
+        -0.22400003671646118,
+        0.0,
+        -0.034999996423721313
+      ]
+    },
+    {
+      "clip": "hold_open",
+      "frame": 24,
+      "side": "R",
+      "expected_blender_world_delta_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "layout_blender_world_delta_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "wrist_blender_world_delta_m": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "clip": "return",
+      "frame": 1,
+      "side": "L",
+      "expected_blender_world_delta_m": [
+        -0.2240000069141388,
+        0.0,
+        -0.03500000014901161
+      ],
+      "layout_blender_world_delta_m": [
+        -0.2240000069141388,
+        0.0,
+        -0.03500000014901161
+      ],
+      "wrist_blender_world_delta_m": [
+        -0.22400003671646118,
+        0.0,
+        -0.034999996423721313
+      ]
+    },
+    {
+      "clip": "return",
+      "frame": 1,
+      "side": "R",
+      "expected_blender_world_delta_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "layout_blender_world_delta_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "wrist_blender_world_delta_m": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    }
+  ],
+  "glb_animation_names": [
+    "hold_closed",
+    "hold_open",
+    "return"
+  ],
+  "skin": {
+    "count": 1,
+    "vertex_weights": "rigid 1.0 per viewmodel part; explicit wrist/finger/thumb groups"
+  },
+  "contact_checks": {
+    "closed": {
+      "path": "hands_with_book_closed.png",
+      "book_envelope_test": {
+        "method": "evaluated hand-vertex checks against occupied book component boxes; open cover and fixed block checked separately",
+        "limitation": "box-envelope screening only; does not prove triangle contact or exclude all surface intersections",
+        "book_envelope_min_xyz": [
+          -0.11,
+          -0.1425,
+          -0.019
+        ],
+        "book_envelope_max_xyz": [
+          0.11,
+          0.1425,
+          0.019
+        ],
+        "penetrating_hand_vertices": 0
+      }
+    },
+    "open": {
+      "path": "hands_with_book_open.png",
+      "book_envelope_test": {
+        "method": "evaluated hand-vertex checks against occupied book component boxes; open cover and fixed block checked separately",
+        "limitation": "box-envelope screening only; does not prove triangle contact or exclude all surface intersections",
+        "book_envelope_min_xyz": [
+          -0.335,
+          -0.1425,
+          -0.019
+        ],
+        "book_envelope_max_xyz": [
+          0.11,
+          0.1425,
+          0.019
+        ],
+        "penetrating_hand_vertices": 0
+      }
+    }
+  },
+  "render_review": {
+    "closed": "hands_with_book_closed.png",
+    "open": "hands_with_book_open.png",
+    "camera": "orthographic; same imported book origin as offline fixture"
+  },
+  "source": {
+    "script": "assets/source/blender/photoworlds/urman_book_hands.py",
+    "script_sha256": "5dbc30b668ed01d5f4b02d8a227528454a14276c8d5b13b76a32a1dfd7de6922",
+    "used_maps": [
+      "game/assets/textures/painterly/urman_t01_v02_basecolor.png"
+    ]
+  },
+  "outputs": {
+    "blend": {
+      "path": "urman_book_hands.blend",
+      "sha256": "bdb1400ce9fb59cce81bb3b6186ab0461a4e39fe36f8b0f9acc7101fcb8b4966",
+      "bytes": 2958383
+    },
+    "glb": {
+      "path": "urman_book_hands.glb",
+      "sha256": "5c610d1526c0fd59d75868d30e3086133e1280b4795ee552c639427f91282fb3",
+      "bytes": 3650204
+    }
+  }
+}
