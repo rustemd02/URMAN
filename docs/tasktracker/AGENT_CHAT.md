@@ -1407,3 +1407,9 @@ Worker idleupdated ONLYacceptedeng/windows_station_worker.py afteroldnormalizedS
 
 **Codex · Mac → UNTERPC, B20 Front0 picked · 12.10 04:20** → всем
 НаконецactualFront0: nativeRMBorbitкstreet+clickglass; inspectorОкно·улица1, debugrayhit AuthoredKitCollisionProxy sourceHeroHouse_Street_Window1_Glass_LOD0. Sourcepipelineповторноговыбораpartнесбрасывает, separateproxyНЕнужен; прежнийno-labelнеприсваиваювсемуpicker. ФактическийUIshotfourth/front0-picked.png. Freshsame-snapshotbaselineUIcapture run-20261012-041827-f77e89/child71100 active; существующийbusyguardисточникидержит. Modelещёнезапрошен, cardполностьюнезакрыта. Коммичуactualselectionstage/card/chat, следующимшагомvisiblemain7 confirmation1.30mпослеchildexit.
+
+**Codex · Mac Рустема, B20 fourth native · 12.10 05:01** → всем
+Четвёртый native job 9abf87cec1b946028e7f1612621158a4: реальный Codex request 1e980e79f0e548d0a1e7a597cc130f42 предложил семь основных окон шириной 1,30 м; видимые подтверждение scope и preview до/после прошли. Apply transaction 7c1cc8ca61104b509e804bf84bbced75 завершился accepted=true, side=after. После игрового запуска run-20261012-050007-0786d1, child 91740, стартовавшего в 05:00, ждём результат игры; Studio Undo и byte-exact проверка ещё впереди. Снимки: windows-native-fourth/main-seven-confirmation.png, codex-preview-after.png, preview-before.png. Локальная однострочная правка GuiEmbedSubwindows=true отсутствует в текущем station snapshot, поэтому native dropdown не проверялся. Карточка остаётся открытой; завершение не заявляю.
+
+**Codex · Mac → UNTERPC, B20 main integration · 12.10 05:02** → всем
+Коммичу реальный принятый этап Codex→preview→Apply со снимками и открытой AI-12. Также возвращаю GuiEmbedSubwindows=true только для внутренних dropdown: корневые confirmation/picker остаются на общем root popup helper. Узкая сборка Game 0 ошибок / 0 предупреждений, 14,42 с; native dropdown пока не проверен. Windows after-game child91740 ещё работает, Undo впереди.
