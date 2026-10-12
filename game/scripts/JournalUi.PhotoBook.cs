@@ -82,7 +82,9 @@ public partial class JournalUi
             CustomMinimumSize = new Vector2(240, 0),
             SizeFlagsVertical = Control.SizeFlags.ExpandFill,
             FocusMode = Control.FocusModeEnum.All,
-            AllowReselect = true
+            AllowReselect = true,
+            MaxColumns = 1,
+            FixedIconSize = new Vector2I(60, 40)
         };
         spread.AddChild(_photoBookList);
         _photoBookList.ItemSelected += SelectPhotoBookPhoto;
@@ -309,7 +311,11 @@ public partial class JournalUi
         _photoBookRefreshing = true;
         _photoBookList.Clear();
         for (var index = 0; index < _photoBookProjection.Count; index++)
-            _photoBookList.AddItem($"{index + 1:D2} · {_photoBookProjection[index].Title}");
+        {
+            var photo = _photoBookProjection[index];
+            _photoBookList.AddItem($"{index + 1:D2} · {photo.Title}", PhotoBookFrontTexture(photo.PhotoId));
+            _photoBookList.SetItemTooltip(index, photo.Title);
+        }
 
         var hasPhotos = selectedIndex >= 0;
         _photoBookZoomControls.Visible = hasPhotos;
@@ -386,11 +392,16 @@ public partial class JournalUi
         RefreshPhotoBookActionButtons();
     }
 
+    // Front-only resource lookup: callers use the acquired projection. Never use
+    // back images as list icons, since their captions require the ReadBack action.
+    private static Texture2D? PhotoBookFrontTexture(string photoId) =>
+        photoId == SGardenPhotoId && ResourceLoader.Exists(SGardenFrontImagePath)
+            ? ResourceLoader.Load<Texture2D>(SGardenFrontImagePath) : null;
+
     private void ShowPhotoBookPhoto(RuntimeBridge.PhotoBookPhoto photo)
     {
         ClearPhotoBookImages();
-        if (photo.PhotoId == SGardenPhotoId && ResourceLoader.Exists(SGardenFrontImagePath)
-            && ResourceLoader.Load<Texture2D>(SGardenFrontImagePath) is { } frontImage)
+        if (PhotoBookFrontTexture(photo.PhotoId) is { } frontImage)
         {
             _photoBookFrontImage.Texture = frontImage;
             _photoBookFrontImage.Visible = true;
