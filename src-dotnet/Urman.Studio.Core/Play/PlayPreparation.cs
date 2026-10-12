@@ -236,7 +236,7 @@ public static class PlayPreparation
         var scenes = files.Count(path => path.EndsWith(".tscn", StringComparison.Ordinal));
         var scripts = files.Count(path => path.EndsWith(".cs", StringComparison.Ordinal));
         var plots = files.Count(path => path.Contains("/world/", StringComparison.Ordinal));
-        return $"RuntimeSourceHash: {files.Count} авторских рантайм-файлов от резолвера (сцен {scenes}, скриптов-загрузчиков {scripts}, участков мира {plots}) без compiled-паков. Список — ОБЪЕДИНЕНИЕ AuthoredDependencies всех миров, поэтому ловит и сцены, и скрипты, которые скан папок пропускал.";
+        return $"RuntimeSourceHash: {files.Count} авторских рантайм-файлов (сцен {scenes}, скриптов-загрузчиков {scripts}, участков мира {plots}) без compiled-паков. Список — ОБЪЕДИНЕНИЕ двух баз: зависимостей РЕЗОЛВЕРА по всем мирам (сцены, участки, скрипты) и авторского контента game/content + game/scenes (каталоги, катсцена, машины, атмосфера, адреса, магазин), поэтому ни одна база в одиночку его не заменяет.";
     }
 
     /// <summary>

@@ -1,0 +1,25 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-13"
+  ],
+  "stage": "the note now names both bases",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-12 16:42 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "9a5f0a62",
+  "the_small_correction": "after the union fix, RuntimeSourceHashNote still said the list came from the resolver, which was no longer true. It now names BOTH bases - the resolver's per-world dependencies (scenes, plots, loader scripts) and the authored content under game/content plus game/scenes (catalogues, cutscene, vehicles, atmosphere, addresses, shop) - and says neither base alone replaces the other",
+  "why_it_matters": "the note is what a caller shows an author when a launch is refused; a note naming the wrong source would send the author looking in the wrong place",
+  "measured": "fifty-eight files: twenty-nine scenes, four loader scripts, twelve plots",
+  "verified": {
+    "probe": "PASS 773/773 with the hash value unchanged at the same content",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors",
+    "not_run": "no game launch"
+  },
+  "files": {
+    "evidence/STUDIO/b20-deepseek-ai-13/2026-10-11-note-union-wording/check.log": "64cf0c214843c20e15180a500869690563b6ef2118b116f17515bd4928513ebe"
+  },
+  "open": [
+    "the two caller insertions remain Codex's"
+  ]
+}
