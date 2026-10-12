@@ -128,7 +128,24 @@ public static class VillageWindowMaterials
 
     // Called only after the scene is freed. Production shares this fixed cache
     // across new games instead of repeatedly constructing window resources.
-    public static void ClearCacheForHeadlessTests()
+    public static void ClearCacheForHeadlessTests() => ResetCache();
+
+    /// <summary>
+    /// Release cached pane materials and their shared shader during final Studio
+    /// shutdown. Call only after the world is freed, so no live node still holds
+    /// these resources.
+    /// </summary>
+    internal static void ReleaseForFinalShutdown()
+    {
+        foreach (var material in Materials)
+        {
+            if (GodotObject.IsInstanceValid(material)) material.Dispose();
+        }
+        if (GodotObject.IsInstanceValid(_shader)) _shader.Dispose();
+        ResetCache();
+    }
+
+    private static void ResetCache()
     {
         Array.Clear(Materials);_shader=null;_night=false;
     }

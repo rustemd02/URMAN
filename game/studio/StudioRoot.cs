@@ -1073,6 +1073,7 @@ public partial class StudioRoot : Control
 
             if (world is not null) await world.ReleasePreviewForShutdownAsync();
             Urman.Godot.Act1ConnectedWorld.ReleaseRoundLogCacheAfterSceneDisposal();
+            Urman.Godot.VillageWindowMaterials.ReleaseForFinalShutdown();
             Urman.Godot.WinterParticleSurfaces.ReleaseForFinalShutdown();
             Urman.Godot.PainterlyMaterialLibrary.ReleaseForFinalShutdown();
             await ToSignal(RenderingServer.Singleton, RenderingServer.SignalName.FramePostDraw);
