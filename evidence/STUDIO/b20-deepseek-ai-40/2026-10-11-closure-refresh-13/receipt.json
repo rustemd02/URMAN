@@ -1,0 +1,29 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-40"
+  ],
+  "stage": "the consumer closure re-measured after my later stages",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-12 16:48 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "9a5f0a62",
+  "why": "the closure was measured twice before (seven, then ten files). My later stages added dependencies - AuthoredJson from the cast sweep and PhotoBook from the safe-reads work - so it was measured AGAIN against the current main rather than quoted from memory",
+  "result": {
+    "the_core_set": "TWELVE new Core files: AssetUsageIndex, AuthoredDocuments, AuthoredHints, AuthoredJson, AuthoredVocabulary, AuthoringDiagnostics, CutsceneActions, ItemSpawns, PcChatContent, PhotoBook, SimpleItemForms, TriggerScopeFacts",
+    "the_prerequisite": "RuleCatalogCoverage.cs is NOT a whole-file cherry-pick: main already has it, and it needs only the ONE added symbol from prerequisite-module-folder.patch",
+    "the_patch": "game/studio/StudioAuthoringAuditSection.cs plus the ONE line in game/studio/StudioRoot.cs",
+    "the_proof": "pristine main 9a5f0a62 plus the twelve files plus the prerequisite patch plus the audit patch builds Urman.Game with 0 errors"
+  },
+  "verified": {
+    "game_build": "Urman.Game 0 warnings/0 errors on main 9a5f0a62",
+    "patches": "the prerequisite patch applies and the audit patch applies",
+    "not_run": "no Studio window: the panel's look remains the author's acceptance"
+  },
+  "files": {
+    "evidence/STUDIO/b20-deepseek-ai-40/2026-10-11-closure-refresh-13/check.log": "87ee1c555ce0fed6778774bba5e90f2c2637b3820eff71cdd3d30d6ff1e3de28"
+  },
+  "open": [
+    "Codex integrates the twelve files, the prerequisite symbol and the one-line hook"
+  ]
+}

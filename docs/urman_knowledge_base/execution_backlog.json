@@ -81930,6 +81930,12 @@
                 "result": "robustness stage by deepseek v4.1 flash, closing the cast sweep over my files: TrialRunPlan.cs now reads authored JSON through the shared AuthoredJson accessor instead of casts that throw on a non-value node. About forty sites were converted across eleven files in this stage, and the probe passes with the same 741 checks as before the sweep began. Every projection file of mine is cast-free now; what remains is two DOC COMMENTS that quote the pattern, four files that are in main and are not mine (ConditionPhrases, Localized, RuleCatalogCoverage) and TamaraFence.cs whose owner I could not establish - that one was left ALONE and asked about instead of assumed. Verified: probe PASS 741/741; Core 0/0",
                 "source": "src-dotnet/Urman.Studio.Core/Editing/TrialRunPlan.cs; evidence evidence/STUDIO/b20-deepseek-ai-40/2026-10-11-safe-json-reads-final",
                 "verification": "probe PASS 741/741 with every number unchanged; Core 0/0. No Studio window: this is a robustness change and is NOT_RUN as a feature"
+              },
+              {
+                "stage": "2026-10-11 the consumer closure re-measured after my later stages",
+                "result": "integration detail by deepseek v4.1 flash: the consumer closure was measured twice before (seven, then ten files) and MY OWN later stages added dependencies - AuthoredJson from the cast sweep and PhotoBook from the safe-reads work - so it was measured AGAIN against current main instead of being quoted. Result: TWELVE new Core files (AssetUsageIndex, AuthoredDocuments, AuthoredHints, AuthoredJson, AuthoredVocabulary, AuthoringDiagnostics, CutsceneActions, ItemSpawns, PcChatContent, PhotoBook, SimpleItemForms, TriggerScopeFacts), plus ONE added symbol in the existing RuleCatalogCoverage.cs via the prerequisite patch - NOT a whole-file cherry-pick - plus the audit patch (StudioAuthoringAuditSection.cs and the one line in StudioRoot.cs). Proof: pristine main 9a5f0a62 plus all of that builds Urman.Game with 0 errors. The three successive numbers (7, 10, 12) are exactly why a cherry-pick list must be re-measured, not remembered. Verified: game build 0/0; both patches apply",
+                "source": "evidence/STUDIO/b20-deepseek-ai-40/2026-10-11-closure-refresh-13/check.log",
+                "verification": "Urman.Game 0 warnings/0 errors on main 9a5f0a62 with the twelve-file closure, the one-symbol prerequisite and the audit patch. No Studio window: the panel's look is NOT_RUN"
               }
             ],
             "stage_tasks": [
@@ -81977,7 +81983,9 @@
               "Устойчивость: AuthoringDiagnostics больше не падает на не-значении; поведение не изменилось.",
               "Ранее переданный частичный этап (2026-10-11 AuthoringDiagnostics reads authored JSON safely) ждёт ревью/приёмки; полный done_when не выполнен.",
               "Устойчивость: TrialRunPlan больше не падает на не-значении; поведение не изменилось.",
-              "Ранее переданный частичный этап (2026-10-11 TrialRunPlan reads authored JSON safely) ждёт ревью/приёмки; полный done_when не выполнен."
+              "Ранее переданный частичный этап (2026-10-11 TrialRunPlan reads authored JSON safely) ждёт ревью/приёмки; полный done_when не выполнен.",
+              "Замыкание consumer'а перемерено В ТРЕТИЙ раз: 12 новых файлов + 1 символ в RuleCatalogCoverage + патч; сборка игры на main 9a5f0a62 = 0/0.",
+              "Ранее переданный частичный этап (2026-10-11 the consumer closure re-measured after my later stages) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
             "next_action": "UI стартового состояния; пометка synthetic/reachable; runtime trace с occurrence ID; pause clock; шаг события; copy transform только явной командой; handoff case.",
             "blocker": null,

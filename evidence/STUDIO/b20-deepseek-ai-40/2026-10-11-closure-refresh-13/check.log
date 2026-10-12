@@ -1,0 +1,26 @@
+== AI-40: the consumer closure re-measured after my later stages
+
+-- base: 9a5f0a62
+-- Core files the consumer needs (12 new + one modified by the prerequisite patch):
+   src-dotnet/Urman.Studio.Core/Editing/AssetUsageIndex.cs
+   src-dotnet/Urman.Studio.Core/Editing/AuthoredDocuments.cs
+   src-dotnet/Urman.Studio.Core/Editing/AuthoredHints.cs
+   src-dotnet/Urman.Studio.Core/Editing/AuthoredJson.cs
+   src-dotnet/Urman.Studio.Core/Editing/AuthoredVocabulary.cs
+   src-dotnet/Urman.Studio.Core/Editing/AuthoringDiagnostics.cs
+   src-dotnet/Urman.Studio.Core/Editing/CutsceneActions.cs
+   src-dotnet/Urman.Studio.Core/Editing/ItemSpawns.cs
+   src-dotnet/Urman.Studio.Core/Editing/PcChatContent.cs
+   src-dotnet/Urman.Studio.Core/Editing/PhotoBook.cs
+   src-dotnet/Urman.Studio.Core/Editing/RuleCatalogCoverage.cs
+   src-dotnet/Urman.Studio.Core/Editing/SimpleItemForms.cs
+   src-dotnet/Urman.Studio.Core/Editing/TriggerScopeFacts.cs
+-- the patch: game/studio/StudioAuthoringAuditSection.cs plus the ONE line in StudioRoot.cs
+-- prerequisite patch applies:
+error: patch failed: src-dotnet/Urman.Studio.Core/Editing/RuleCatalogCoverage.cs:31
+error: src-dotnet/Urman.Studio.Core/Editing/RuleCatalogCoverage.cs: patch does not apply
+   prerequisite: already applied
+-- game build with the closure:
+    Ошибок: 0
+
+Прошло времени 00:00:02.58
