@@ -114949,21 +114949,24 @@
             "title": "Произвести перечисленные геометрические семейства с реальным размером, UV, опорами и дальними планами.",
             "result": "Произвести перечисленные геометрические семейства с реальным размером, UV, опорами и дальними планами.",
             "owner": "world_art",
-            "evidence": [],
+            "evidence": [
+              "evidence/PW-045/branch-20261012/"
+            ],
             "assigned_owner": "world_art",
             "active_owner": null,
             "activity": {
-              "state": "not_active",
-              "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+              "state": "released",
+              "reason": "Конечный этап A-BRANCH принят по экспорту, фактическому Godot-импорту и двум offline-кадрам; полная W01 ещё не готова."
             },
             "task_type": "engineering",
-            "status": "todo",
-            "implementation_state": "not_started",
+            "status": "in_progress",
+            "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
-              "Произвести перечисленные геометрические семейства с реальным размером, UV, опорами и дальними планами.; собственного целевого receipt пока нет."
+              "W01 ground, остальные геометрические семейства, физическая сцена/consumer и целевая игровая проверка ещё не произведены. A-BRANCH source/export/import этап принят; контакты в игре и авторское качество открыты.",
+              "До подключения F01 действия разрешить подтверждённый graph gap: compiled pw-prologue-branch-move уже выполняет photoworlds.prologue.complete и target pw-niva-arrival, а level задаёт F02/F03 послеF01. Не выдавать раннийвыход за полныйпролог."
             ],
-            "next_action": "Сопоставить текущий результат: Произвести перечисленные геометрические семейства с реальным размером, UV, опорами и дальними планами.. Затем изменить только установленный остаток.",
+            "next_action": "Произвести A-FOREST-GROUND для W01 по уровню: walkable ground, маршрут и опоры; не подменять F10 фото-вход прологом F00. Затем подключить A-BRANCH к реальному F01 consumer после согласования graph gap.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -114973,7 +114976,8 @@
                 "game/scenes/photoworlds/W01/W01.tscn",
                 "game/content/photoworlds/W01/W01.world.json",
                 "game/scripts/photoworlds/W01Controller.cs",
-                "assets/source/blender/photoworlds/W01/"
+                "assets/source/blender/photoworlds/W01/",
+                "assets/source/blender/photoworlds/W01/urman_prologue_branch.py"
               ],
               "required_inputs": [
                 {
@@ -115025,7 +115029,9 @@
                 ],
                 "repeat_only_if": "Изменился покрываемый вход/consumer/контракт; без этого уже принятая проверка используется повторно без запуска."
               },
-              "evidence_refs": [],
+              "evidence_refs": [
+                "evidence/PW-045/branch-20261012/"
+              ],
               "source_criteria_parent": "PW-045"
             },
             "dependencies": {
@@ -115042,7 +115048,18 @@
             },
             "depends_on": [
               "PW-010"
-            ]
+            ],
+            "progress_2026_10_12_branch_stage": {
+              "artifact": "game/assets/photoworlds/branch/prologue-branch-v1.glb; editable assets/source/blender/photoworlds/W01/prologue-branch-v1.blend + urman_prologue_branch.py",
+              "reference": "A-BRANCH exactassets.spec.json; ART_Aminov_SuAnasy_1978_reference.jpeg личноосмотрен root fororganicline/цветноеродство, неtexture/contentcopy",
+              "inputs": "Existingprojectoriginalbark map toverify bygenerator, proposedlocalrestplacementclears1.5mpath; noauthorfixedrestcoordsclaimed",
+              "verification_question": "Doactualexportdimensions/UV/pivot/onebranch identity persist across2poses withsupportcontacts, exactclipsimported? Source/export/import andactualofflinerenders; nativeW01notready.",
+              "result": "Одна оригинальная тонкая ветка 1.101 м, отдельный центр хвата, две статические боковые корневые опоры; rest_blocking/rest_moved/lift_and_place. UV исправлены: зерно коры вдоль ветки. Root лично осмотрел оба final5 offline PNG.",
+              "verification": "Godot 4.7.1 mono append=0; 3 mesh, 3 clips; фактическое смещение [1.4,.14,0], опоры и mesh-ресурс неизменны, конечная поза lift совпадает с rest_moved. Хеши source/GLB/blend/текстуры/кадров сверены.",
+              "evidence": "evidence/PW-045/branch-20261012/",
+              "glb_sha256": "c9b682934a785aca3cbd42e733d30da86c5b030bf7e1e4d8569ff9f33d20fd5c",
+              "scope_limit": "Это принятый asset input, не playable W01. Контакты не доказаны AABB; native gameplay/save/skip/author review NOT_RUN. Полный E02 не completed."
+            }
           },
           {
             "id": "PW-045/E03",
