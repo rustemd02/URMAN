@@ -116064,11 +116064,17 @@
         "verification_question": "Does same parking wide/contact show painted green-grey body without brushed-metal stripes, while wheels/trim/snow/geometry and third-party attribution remain intact?",
         "success": "Only this model exact Steel slot uses existing vehicle_paint; Wheel_steel/Metal/default generic path unchanged; native matching views actually reviewed.",
         "source_state": "Accepted: optional exact ordinal paintedBodySlot defaultnull; only BuildDistrictZhiguli opts into Steel→vehicle_paint4c5d4c. Wheel_steel/Metal/generic mappings, mesh/UV/source asset/CCBY attribution unchanged.",
-        "native_state": "NOT_RUN on changed shell material; B02 original frames not available in this checkout. Same parking wide/contact requested after peer reservations; no full vehicle smoke.",
+        "native_state": "Changed car paint NOT_RUN. Newly delivered baseline/snow receipts verified PASS/gameExit0/userdataRestoredtrue; car source fix300408ad not in those captures. Current B20 Windows561a reservation preserved.",
         "affected_compile": "Game build succeeded:0 errors,0 warnings;27.59s",
         "source_files": [
           "game/scripts/VehicleVisualFactory.DistrictZhiguli.cs",
           "game/scripts/VehicleVisualFactory.Materials.cs"
+        ],
+        "baseline_visual_review": "Root personally viewed delivered crisp-outward wide and crisp-alpha contact: unmistakable grey brushed stripes across body; these snapshots precede300408ad. Also viewed all four crisp-alpha/frost-alpha S05 parking frames: old rectangular grey carpet removed, natural soft patch edge in these Medium views. This accepts existing S05 result without rerun, not changed car paint or whole village art.",
+        "baseline_evidence": [
+          "evidence/ACT1-TEXTURE/s05-parking-20261013/crisp-outward/frames/s05_parking_wide.png",
+          "evidence/ACT1-TEXTURE/s05-parking-20261013/crisp-alpha/",
+          "evidence/ACT1-TEXTURE/s05-parking-20261013/frost-alpha/"
         ]
       }
     },
