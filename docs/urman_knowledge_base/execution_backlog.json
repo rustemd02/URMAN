@@ -20979,7 +20979,8 @@
               "evidence/ACT1-TRANSPORT/native_50105484b83e49fcbc4afbd5eb41c01d/",
               "evidence/ACT1-TRANSPORT/native_9638f683b0074eb3af6fcfd650132ade/",
               "evidence/ACT1-TRANSPORT/native_221a06f1d0474003ae4a1ddd8fd3e1f3/",
-              "evidence/ACT1-TRANSPORT/native_373baa07d2f54247978440ca8b7ac475/"
+              "evidence/ACT1-TRANSPORT/native_373baa07d2f54247978440ca8b7ac475/",
+              "evidence/ACT1-TRANSPORT/native_278191d9218e4060b3ce8e905b4dd2be/"
             ],
             "assigned_owner": "finished-act1",
             "active_owner": "/root",
@@ -20990,12 +20991,12 @@
             "task_type": "engineering",
             "status": "in_progress",
             "implementation_state": "partial",
-            "technical_verification_state": "not_run",
+            "technical_verification_state": "failed",
             "remaining": [
-              "Native373b проходит initial full fleet/materials, но mapped interact не сажает в Ниву у actual driver door: VehicleSmokeTest.cs114.",
-              "Маршруты, ввод, сохранения и безопасный выход ещё не достигнуты. Четыре PNG лично просмотрены; side вид перекрыт gatepost, художественная готовность/бюджет отдельно."
+              "Нужная controller цель, entry availability и готовность игрока подтверждены native278191. Fleet Suspended=true при deferred=false блокирует TryEnter; точный contributor loading/saving/projection/menu/demo/pause/settings ещё не установлен.",
+              "Маршруты, управление, сохранение/загрузка и безопасный выход ещё не достигнуты; внешняя/визуальная приёмка сохраняется."
             ],
-            "next_action": "После doctor/preflight один существующий VEHICLE с refined failure message; production не менять по неподтверждённой гипотезе.",
+            "next_action": "Установить конкретный contributor fleet Suspended после ordinary New Game/skip; исправить только подтверждённую причину. Новый station job только после peer release и изменённого input.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -21037,7 +21038,8 @@
                 "evidence/ACT1-TRANSPORT/native_50105484b83e49fcbc4afbd5eb41c01d/",
                 "evidence/ACT1-TRANSPORT/native_9638f683b0074eb3af6fcfd650132ade/",
                 "evidence/ACT1-TRANSPORT/native_221a06f1d0474003ae4a1ddd8fd3e1f3/",
-                "evidence/ACT1-TRANSPORT/native_373baa07d2f54247978440ca8b7ac475/"
+                "evidence/ACT1-TRANSPORT/native_373baa07d2f54247978440ca8b7ac475/",
+                "evidence/ACT1-TRANSPORT/native_278191d9218e4060b3ce8e905b4dd2be/"
               ],
               "source_criteria_parent": "ACT1-TRANSPORT"
             },
@@ -21095,19 +21097,30 @@
               "userdata": "Doctor ready=true; busy_job=null; orphan=false; userdata_recovery_pending=false."
             },
             "progress_2026_10_12_entry": {
-              "native_job_id": "373baa07d2f54247978440ca8b7ac475",
-              "snapshot_id": "6e7523eabb807577d38fce26d5a22280fda33e8cb8a533a0a007aa5a4ba9d959",
+              "native_job_id": "278191d9218e4060b3ce8e905b4dd2be",
+              "snapshot_id": "900b1bd5b6d52d1258a6dfca4a7d1bcacaa1ebfe447b3ecd6fc38198dc898aa0",
               "checks": 203,
               "failure": "babay-niva enters through actual ray and mapped action; VehicleSmokeTest.cs114",
-              "evidence": "evidence/ACT1-TRANSPORT/native_373baa07d2f54247978440ca8b7ac475/",
+              "evidence": "evidence/ACT1-TRANSPORT/native_278191d9218e4060b3ce8e905b4dd2be/",
               "visual_review": "Root personally viewed front-three-quarter, rear-three-quarter,full-side,outside4PNGs. Front/rear vehicle visible; side occluded by large foreground gatepost despite camera-clear assertion; outside crosshair on closed driverdoor, no entry prompt. No motion/save/art acceptance.",
               "verification_question": "Which selected target/entry availability or existing player/fleet gate rejects the ordinary mapped entry in the same scenario?",
               "success": "Existing failed assertion reports causal current states; then fix only confirmed path. Entry/movement/save criteria unchanged.",
-              "cause_state": "Unconfirmed: raw Approach ray does not prove selected controller target or CanEnter floor/space guard; two hypotheses are not fixes.",
+              "cause_state": "Confirmed fleet Suspended at post-action failure; that gate prevents TryEnter. Specific suspension contributor and input dispatch still need source/cause confirmation, no speculative patch.",
               "message_refinement": "Same existing Require condition/action/sequence; failure label only now includes actual controller target, entry availability, IsOnFloor/CanEnter reason, fleet Suspended/deferred. No new test/assertion/fixture or direct TryEnter.",
-              "native_state": "NOT_RUN; waiting explicit peer station release",
+              "native_state": "FAIL203checks; same mapped entry assertion; refined failure accepted as causal evidence.",
               "affected_compile": "0 errors,0 warnings;43.32s",
-              "station_owner": "Explicit Codex17:07 release found in incoming AGENT_CHAT diff a6d84782; next doctor/preflight before submit."
+              "station_owner": "Own receipt recovery_pending=false. Latest doctor busy81a40b0fbc8b4c3fa357665a864ad937,readyfalse/recoverypendingtrue belongs to subsequent peer job; do not touch.",
+              "transfer": "10 changed files0.3MB: existing entry message, accepted book source and peer Studio source main64c29c51.",
+              "actual_failure_states": {
+                "target": "vehicle/enter/babay-niva",
+                "available": true,
+                "onFloor": true,
+                "canEnter": true,
+                "reason": "",
+                "suspended": true,
+                "deferred": false
+              },
+              "transfer_verification": "First result transfer checksum mismatch; one archive-only retry verified expected SHA3e60c11d...; no new game run."
             }
           },
           {
