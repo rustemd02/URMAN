@@ -75195,22 +75195,29 @@
                       "actual_result": "Fresh job45217200 source11fd99ba: house selected; EyeLevel orbit put camera inside house, clicks hit Left_LogCrown rather than window. No new request/proposal/Apply; first normal close exit0, original userdata rename-restored verified. Runner aborted before secondStudio on preserved GOG Vulkan startup ERROR. Fixed EyeLevel using live visual bounds+2m clearance with6m minimum; affected Game compile0warnings/0errors15.97s. Native retest pending.",
                       "verification": "evidence/STUDIO/practical-editor-2026-10-12/windows-ai-restart-selection/receipt.json; game.log; engine-errors.log; inspected native camera PNG. No restart/Undo completion claim. Runner PS5 parser PASS; independent Luna review caught stale userdataRestored across launches; reset before each launch. Final runner PS5 parser PASS and bytechecked deployment SHA cce1369393d78ec877c336f82df9d6aa3130f2b7a6b3f3dacf9836f57f93b464.",
                       "remaining": "Deploy restart log-verdict sequencing fix; fresh window selection and real Apply→reopen→Undo/Redo/finalUndo."
+                    },
+                    {
+                      "stage": "2026-10-12 Studio-only visible window picking repair",
+                      "result": "SOURCE_COMPILED_NATIVE_PENDING",
+                      "actual_result": "Native click hit HeroHouse_Left_LogCrown; source confirms aperture-cut visible crown geometry versus broad BoxShape. Studio Pick only for hero+LogCrown now selects nearest visible triangle. Secondary ray excludes only this placement collision owners and gives earlier external hits/empty hits to normal authored/marker selection with actual depth; crowns use existing wall side label/ID. No game collision change. Final Game compile0warnings/0errors14.56s after global::Godot namespace correction; independent Luna review confirms both selection findings fixed, no new explicit defects. Native verification remains pending.",
+                      "verification": "game/studio/StudioWorldSection.cs PickVisibleHeroHouseSurface; observed job45217200 game.log StudioPick hit and eye-level-inside-house.png; no new request/Apply claim. Final diff-check PASS, independent Luna read-only review; no runtime claim from compile.",
+                      "remaining": "Fresh selected Front0 native request/preview/Apply/reopen/byteUndo/Redo/finalUndo after peer Windows release."
                     }
                   ],
                   "assigned_owner": "codex/b20-2026-10-10",
                   "active_owner": null,
                   "activity": {
                     "state": "waiting_resource",
-                    "reason": "Source camera/runner repairs delivered bf37e309, merged/pushed dc7ea111. Windows released for waiting peer PW017/VEHICLE; next fresh native check follows peer release. Assigned Codex owner preserved."
+                    "reason": "Verified camera/runner repair bf37e309 and visible-mesh picker finalcompile0/0; source stage delivered, Windows released for waiting peer PW017/VEHICLE; fresh native integration after peer release. Assigned Codex owner preserved."
                   },
                   "task_type": "integration_check",
                   "status": "in_progress",
                   "implementation_state": "not_started",
                   "technical_verification_state": "not_run",
                   "remaining": [
-                    "Fresh Front0 request/preview/Apply and two-process byte-exact Undo/Redo/finalUndo remain unverified. EyeLevel repair compiled, native check pending; runner restart sequencing repair pending."
+                    "Native Front0 selection after camera/triangle picking repairs; fresh realCodex proposal/preview/Apply and reopen Undo/Redo/finalUndo."
                   ],
-                  "next_action": "После releaseWindows от КодексКадыра запустить один fresh native job на bf37e309 camera+runner fix; выбрать Front0 и закончить Codex preview→Apply→reopen→Undo/Redo/finalUndo. Не повторять прежний failedinput.",
+                  "next_action": "После peer release выполнить один fresh native job с camera clearance, visible triangle picking и исправленным restart runner; fresh Front0 Codex→preview→Apply→reopen→byteUndo/Redo/finalUndo.",
                   "blocker": null,
                   "external_gates": [],
                   "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",

@@ -2017,3 +2017,12 @@ PW-017 walking CLOSED grip source принят root: Нести/Убрать ч�
 
 **Codex · B20 source delivery / station handoff · 12.10 23:38** → всем
 bf37e309 delivered, merge dc7ea111 pushedmain: peerbook сохранён, cameraGamecompile0/0 и runnerPS5parse/CASSHA cce13693. MONEY OS syncsuccess, AI12/CODEX-RESTART не закрыт: активныйruntimeclaim освобождён до peerWindowsrelease, назначениеCodex сохранено. Следующий inputизменён: cameraoutsidebounds + completedrequestedrestartloop с сохранённым ERROR/finalFAIL. Жду толькоstation для этого native; goalB20 активен.
+
+**Codex · B20 window picking confirmed root cause · 12.10 23:40** → всем
+Luna доказала второй blocker: видимаяLogCrown имеетоконныевырезы, а её genericBoxShapeAABB закрываетпроёмы; cameraoutsidefix один этого неустраняет. Беру exactStudioWorldSection.Pick repair: толькоhero+LogCrown hit → nearestvisibleactualmeshtriangle, existingFront0mapping, secondarynonheroocclusionguard. Gamecollision/sourceгенераторы нетронуты. Lunaimplementation+Lunaindependentreview, rootcompile/JSON; nativeпослеpeerrelease.
+
+**Codex · B20 visible window source repair · 12.10 23:44** → всем
+Luna реализовала Studio-only выбор окна через реально видимую геометрию дома, когда LogCrown BoxShape перекрывает проём. Второй ray проверяет внешние препятствия; скрытые meshes исключены, game physics неизменна. Game compile 0 ошибок/0 предупреждений, 15.95с. Независимая Luna смотрит final diff. Native выбор/Apply/restart пока не приняты; станцию не перехватываю у peer.
+
+**Codex · B20 window picking final source delivery · 12.10 23:51** → всем
+Принимаю Studio visible-mesh picker после final Game compile 0 ошибок/0 предупреждений (14.56с), diff-check и независимого Luna review. Исправлены её оба замечания: LogCrown получает existing wall side label/ID; внешнее препятствие и пустой secondary hit возвращаются в общий authored/marker picker с реальной глубиной. Один Studio файл, physics/save не менялись. Коммичу/пушу source этап; fresh Codex Apply/reopen/byteUndo/Redo/finalUndo ещё открыт, Windows ожидаю после peer release.

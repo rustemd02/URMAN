@@ -1011,16 +1011,28 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
         var hit = _camera.GetWorld3D().DirectSpaceState.IntersectRay(ray);
         var hitDepth = hit.TryGetValue("position", out var hitPosition)
             ? (hitPosition.AsVector3() - origin).Dot(direction) : float.PositiveInfinity;
+
+        if (hit.TryGetValue("collider", out var initialCollider))
+        {
+            var initialNode = initialCollider.AsGodotObject() as Node;
+            var initialSource = AuthoredSourceMeshPath(hit, initialNode);
+            if (SelectableAuthoredId(initialNode) == HeroHouseRecipe.EntityId
+                && initialSource?.EndsWith("_LogCrown", StringComparison.Ordinal) == true)
+            {
+                var visibleHeroPick = PickVisibleHeroHouseSurface(origin, direction,
+                    out var externalHit, out var externalHitDepth);
+                if (visibleHeroPick is not null) return visibleHeroPick;
+                if (externalHit is null) return null;
+
+                hit = externalHit;
+                hitDepth = externalHitDepth;
+            }
+        }
+
         if (hit.TryGetValue("collider", out var collider))
         {
             var colliderNode = collider.AsGodotObject() as Node;
-            string? sourceMeshPath = null;
-            if (colliderNode is CollisionObject3D collision && hit.TryGetValue("shape", out var shapeIndex)
-                && collision.ShapeOwnerGetOwner(collision.ShapeFindOwner(shapeIndex.AsInt32())) is Node shapeOwner
-                && shapeOwner.HasMeta("authoredSourceMesh"))
-            {
-                sourceMeshPath = shapeOwner.GetMeta("authoredSourceMesh").AsString();
-            }
+            var sourceMeshPath = AuthoredSourceMeshPath(hit, colliderNode);
 
             if (OS.IsDebugBuild())
                 GD.Print($"StudioPick hit screen={screen} viewport={_viewport.Size} collider={colliderNode?.GetPath()} authoredSourceMesh={sourceMeshPath ?? "<missing>"}");
@@ -1055,13 +1067,107 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
         return best is null ? null : new WorldPick(best, null, null);
     }
 
+    private string? SelectableAuthoredId(Node? colliderNode)
+    {
+        for (var node = colliderNode; node is not null; node = node.GetParent())
+        {
+            if (!node.HasMeta(AuthoredWorldPlot.AuthoredIdMeta)) continue;
+            var hitId = node.GetMeta(AuthoredWorldPlot.AuthoredIdMeta).AsString();
+            if (studio.Workspace.Locate(hitId) is not null && !Locked(hitId)) return hitId;
+        }
+
+        return null;
+    }
+
+    private static string? AuthoredSourceMeshPath(global::Godot.Collections.Dictionary hit, Node? colliderNode)
+    {
+        if (colliderNode is CollisionObject3D collision && hit.TryGetValue("shape", out var shapeIndex)
+            && collision.ShapeOwnerGetOwner(collision.ShapeFindOwner(shapeIndex.AsInt32())) is Node shapeOwner
+            && shapeOwner.HasMeta("authoredSourceMesh"))
+            return shapeOwner.GetMeta("authoredSourceMesh").AsString();
+
+        return null;
+    }
+
+    private WorldPick? PickVisibleHeroHouseSurface(Vector3 origin, Vector3 direction,
+        out global::Godot.Collections.Dictionary? externalHit, out float externalHitDepth)
+    {
+        externalHit = null;
+        externalHitDepth = float.PositiveInfinity;
+        var heroRoot = LiveDisplayNode(HeroHouseRecipe.EntityId);
+        if (heroRoot is null) return null;
+
+        MeshInstance3D? nearestMesh = null;
+        var nearestDepth = float.PositiveInfinity;
+        var meshes = heroRoot.FindChildren("*", nameof(MeshInstance3D), true, false).OfType<MeshInstance3D>();
+        if (heroRoot is MeshInstance3D rootMesh) meshes = new[] { rootMesh }.Concat(meshes);
+        foreach (var mesh in meshes)
+        {
+            if (!GodotObject.IsInstanceValid(mesh) || mesh.IsQueuedForDeletion() || !mesh.IsVisibleInTree()
+                || mesh.Mesh is not { } sourceMesh) continue;
+
+            var faces = sourceMesh.GetFaces();
+            var transform = mesh.GlobalTransform;
+            for (var index = 0; index + 2 < faces.Length; index += 3)
+            {
+                var intersection = Geometry3D.RayIntersectsTriangle(origin, direction,
+                    transform * faces[index], transform * faces[index + 1], transform * faces[index + 2]);
+                if (intersection.VariantType == Variant.Type.Nil) continue;
+
+                var point = intersection.AsVector3();
+                var depth = (point - origin).Dot(direction);
+                if (depth < 0f || depth > 600f || depth >= nearestDepth) continue;
+                nearestMesh = mesh;
+                nearestDepth = depth;
+            }
+        }
+
+        // The proxy is a broad phase. Exclude only this placement's colliders
+        // to retain the true non-hero hit and its depth for normal Pick handling.
+        var excluded = new global::Godot.Collections.Array<Rid>();
+        if (heroRoot is CollisionObject3D rootCollision) excluded.Add(rootCollision.GetRid());
+        foreach (var collision in heroRoot.FindChildren("*", nameof(CollisionObject3D), true, false)
+                     .OfType<CollisionObject3D>())
+        {
+            if (GodotObject.IsInstanceValid(collision) && !collision.IsQueuedForDeletion())
+                excluded.Add(collision.GetRid());
+        }
+
+        using var visibilityRay = PhysicsRayQueryParameters3D.Create(
+            origin, origin + direction * 600f, uint.MaxValue, excluded);
+        var secondaryHit = _camera.GetWorld3D().DirectSpaceState.IntersectRay(visibilityRay);
+        externalHit = secondaryHit;
+        if (secondaryHit.TryGetValue("collider", out _))
+        {
+            externalHitDepth = secondaryHit.TryGetValue("position", out var externalPosition)
+                ? (externalPosition.AsVector3() - origin).Dot(direction) : 0f;
+        }
+
+        // A real outside hit before the nearest triangle owns this click. With
+        // no actual house triangle, it also prevents the false box proxy from
+        // taking over; otherwise the external hit falls through to markers.
+        if (nearestMesh is null || externalHitDepth < nearestDepth) return null;
+
+        var sourceMeshPath = nearestMesh.GetPath().ToString();
+        var partLabel = HeroHousePartLabel(sourceMeshPath);
+        return new WorldPick(HeroHouseRecipe.EntityId, partLabel,
+            partLabel is null ? null : sourceMeshPath,
+            partLabel is null ? null : HeroHousePartId(sourceMeshPath));
+    }
+
     private static string? HeroHousePartId(string sourceMeshPath)
     {
         var meshName = sourceMeshPath[(sourceMeshPath.LastIndexOf('/') + 1)..];
         const string prefix = "HeroHouse_";
         const string wallSuffix = "_Wall_LOD0";
-        if (meshName.EndsWith(wallSuffix, StringComparison.Ordinal))
-            return "wall/" + meshName[prefix.Length..^wallSuffix.Length];
+        const string logCrownSuffix = "_LogCrown";
+        if (meshName.EndsWith(wallSuffix, StringComparison.Ordinal)
+            || meshName.EndsWith(logCrownSuffix, StringComparison.Ordinal))
+        {
+            var suffixLength = meshName.EndsWith(wallSuffix, StringComparison.Ordinal)
+                ? wallSuffix.Length : logCrownSuffix.Length;
+            return "wall/" + meshName[prefix.Length..^suffixLength];
+        }
         var start = meshName.IndexOf("_Window", prefix.Length, StringComparison.Ordinal);
         var end = meshName.IndexOf('_', start + 1);
         var section = meshName[prefix.Length..start];
@@ -1085,9 +1191,13 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
         if (!meshName.StartsWith(prefix, StringComparison.Ordinal)) return null;
 
         const string wallSuffix = "_Wall_LOD0";
-        if (meshName.EndsWith(wallSuffix, StringComparison.Ordinal))
+        const string logCrownSuffix = "_LogCrown";
+        if (meshName.EndsWith(wallSuffix, StringComparison.Ordinal)
+            || meshName.EndsWith(logCrownSuffix, StringComparison.Ordinal))
         {
-            var section = meshName[prefix.Length..^wallSuffix.Length];
+            var suffixLength = meshName.EndsWith(wallSuffix, StringComparison.Ordinal)
+                ? wallSuffix.Length : logCrownSuffix.Length;
+            var section = meshName[prefix.Length..^suffixLength];
             return section switch
             {
                 "Street" => "Уличная стена",
