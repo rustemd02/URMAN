@@ -1,0 +1,12 @@
+Godot Engine v4.7.1.stable.mono.official.a13da4feb - https://godotengine.org
+Vulkan 1.3.280 - Forward+ - Using Device #0: NVIDIA - NVIDIA GeForce GTX 970
+
+urman-studio-editor-ready
+WARNING: studio-checkpoint-create: InvalidDataException: Некорректный относительный путь checkpoint.
+   at: void Urman.Studio.App.StudioRoot+<>c__DisplayClass33_0.<OpenCheckpoints>b__3() (res://studio/StudioRoot.Checkpoints.cs:56)
+   C# backtrace (most recent call first):
+       [0] void Godot.GD.PushWarning(string) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/GD.cs:396)
+       [1] void Urman.Studio.App.StudioRoot+<>c__DisplayClass33_0.<OpenCheckpoints>b__3() (D:\URMAN-STATION\data\runs\fb7e0423c5724b7c9909604630bedda6\source\game\studio\StudioRoot.Checkpoints.cs:56)
+       [2] void Godot.Callable.<From>g__Trampoline|1_0(object, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Callable.generics.cs:39)
+       [3] void Godot.DelegateUtils.InvokeWithVariantArgs(nint, System.Void*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/DelegateUtils.cs:86)
+userdata guard: original files restored by rename and verified (Windows ACLs not compared)
