@@ -30,10 +30,16 @@ public sealed partial class StudioWorldSection
         CollisionShape3D Shape, string SourcePath, string RelativePath, string LotId, string EdgeRole,
         string RunId, int BayIndex, int BayCount, Vector2 RunStart, Vector2 RunEnd);
 
-    private readonly record struct FencePreviewSources(string OpenPart, string FarBank);
+    internal readonly record struct FencePreviewSources(string OpenPart, string FarBank);
     private sealed record FenceAiPreview(
         Act1ConnectedWorld World, FencePreviewSources WorkspaceSources, FencePreviewSources CandidateSources,
         FenceAlignmentRequest Request, FenceAlignmentProposal Proposal, bool Applied);
+    internal sealed record FenceApplyPlan(
+        string RelativePath, string BeforeText, string CandidateText, string BeforeHash, string CandidateHash,
+        FencePreviewSources BeforeSources, FencePreviewSources CandidateSources, IReadOnlySet<string> ExistingIdentityConflicts)
+    {
+        public StudioFileWrite Write => new(RelativePath, BeforeHash, new System.Text.UTF8Encoding(false, true).GetBytes(CandidateText));
+    }
 
     private FencePick? _fencePick;
     private MeshInstance3D? _fenceRangeMarker;
@@ -42,11 +48,12 @@ public sealed partial class StudioWorldSection
     private Act1ConnectedWorld? _fencePreviewFailedWorld;
     private FencePreviewSources? _fencePreviewFailedSources;
     private FenceAiPreview? _fenceAiPreview;
+    private bool _fenceApplyInProgress;
     private Act1ConnectedWorld? _fenceAiPreviewRestoreFailedWorld;
     private FencePreviewSources? _fenceAiPreviewRestoreFailedSources;
 
     internal bool HasFenceAiPreview => _fenceAiPreview is not null;
-    internal bool HasTransientFencePreview => HasFenceAiPreview;
+    internal bool HasTransientFencePreview => HasFenceAiPreview || _fenceApplyInProgress;
 
     private void ClearFencePick()
     {
@@ -121,6 +128,7 @@ public sealed partial class StudioWorldSection
 
     private void SyncFencePreview()
     {
+        if (_fenceApplyInProgress || studio.IsWorkspaceActionBusy) return;
         var world = CurrentFenceWorld();
         if (_fenceAiPreview is { } aiPreview)
         {
@@ -276,6 +284,165 @@ public sealed partial class StudioWorldSection
 
     internal void ClearFenceAiPreview()
         => ClearFenceAiPreview(refreshWorkspaceDrift: true);
+
+    internal FenceApplyPlan BeginFenceApply(
+        FenceAlignmentRequest request, FenceAlignmentProposal proposal, string revision)
+    {
+        ArgumentNullException.ThrowIfNull(request);
+        ArgumentNullException.ThrowIfNull(proposal);
+        ArgumentNullException.ThrowIfNull(revision);
+        if (_fenceApplyInProgress || studio.IsWorkspaceActionBusy)
+            throw new InvalidOperationException("Дождитесь завершения другого действия Studio.");
+        if (_fenceAiPreview is not { Applied: true } preview)
+            throw new InvalidOperationException("Сначала покажите предложение в свежем предпросмотре.");
+
+        FenceAlignmentProtocol.ValidateRequest(request);
+        FenceAlignmentProtocol.ValidateProposal(request, proposal);
+        if (proposal.PostIndices.Count == 0
+            || !string.Equals(FenceAlignmentProtocol.SerializeRequest(request), FenceAlignmentProtocol.SerializeRequest(preview.Request), StringComparison.Ordinal)
+            || !string.Equals(FenceAlignmentProtocol.SerializeProposal(proposal), FenceAlignmentProtocol.SerializeProposal(preview.Proposal), StringComparison.Ordinal))
+            throw new InvalidOperationException("Предложение больше не совпадает с подтверждённым предпросмотром.");
+        EnsureFenceRequestCurrent(request, revision);
+
+        if (_fencePick is not { } selected)
+            throw new InvalidOperationException("Сначала выберите свежий пролёт забора.");
+        if (!TryGetFreshFencePick(selected, out var current, out var pickError))
+            throw new InvalidOperationException("Выбранный пролёт устарел: " + (pickError.Length == 0 ? "выберите его заново." : pickError));
+        var target = request.Target;
+        if (current.RelativePath != target.SourcePath || current.LotId != target.LotId
+            || current.EdgeRole != target.EdgeRole || current.RunId != target.RunId
+            || current.BayCount != target.BayCount
+            || target.BayStart != Math.Clamp(current.BayIndex, 0, current.BayCount - 3)
+            || target.StartX != current.RunStart.X || target.StartZ != current.RunStart.Y
+            || target.EndX != current.RunEnd.X || target.EndZ != current.RunEnd.Y)
+            throw new InvalidOperationException("Выбранный участок, пролёт, геометрия или диапазон секций изменились.");
+        if (!TryGetPreviewSources(out var beforeSources, out _, out var sourceError)
+            || beforeSources != preview.WorkspaceSources)
+            throw new InvalidOperationException("Исходники участков больше не совпадают с предпросмотром: " + sourceError);
+
+        if (!request.Sources.TryGetValue(current.RelativePath, out var frozenHashes))
+            throw new InvalidOperationException("Источник выбранного пролёта отсутствует в снимке запроса.");
+        var source = studio.Workspace.File(current.RelativePath).CaptureSource();
+        if (source.Dirty || source.BaseSha256 is null
+            || !string.Equals(source.BaseSha256, source.Sha256, StringComparison.Ordinal)
+            || !string.Equals(source.BaseSha256, frozenHashes.BaseHash, StringComparison.Ordinal)
+            || !string.Equals(source.Sha256, frozenHashes.CurrentHash, StringComparison.Ordinal))
+            throw new InvalidOperationException("Сохранённый источник изменился после снимка. Сохраните его и подготовьте новый запрос.");
+
+        var candidateText = FenceAlignmentSource.Rewrite(current.RelativePath, source.Text, current.LotId,
+            current.RunId, current.BayCount, proposal.PostIndices, align: true);
+        if (candidateText == source.Text)
+            throw new InvalidOperationException("Предложение не меняет выбранный пролёт.");
+        var candidateSources = current.RelativePath == OpenPartFenceFile
+            ? beforeSources with { OpenPart = candidateText }
+            : beforeSources with { FarBank = candidateText };
+        if (candidateSources != preview.CandidateSources)
+            throw new InvalidOperationException("Кандидат больше не совпадает с показанным предпросмотром.");
+
+        var plan = new FenceApplyPlan(current.RelativePath, source.Text, candidateText,
+            source.Sha256, AtomicFile.Sha256(new System.Text.UTF8Encoding(false, true).GetBytes(candidateText)),
+            beforeSources, candidateSources, studio.Workspace.IdentityConflicts.ToHashSet(StringComparer.Ordinal));
+        _fenceApplyInProgress = true;
+        try
+        {
+            ClearFenceAiPreview(refreshWorkspaceDrift: false);
+        }
+        catch
+        {
+            _fenceApplyInProgress = false;
+            throw;
+        }
+        return plan;
+    }
+
+    internal Task RefreshFenceApplyAfterPromotionAsync(FenceApplyPlan plan)
+    {
+        ArgumentNullException.ThrowIfNull(plan);
+        if (!_fenceApplyInProgress || FenceWorkspacePath(plan.RelativePath) is null)
+            throw new InvalidOperationException("Транзакция забора потеряла своё разрешённое состояние.");
+
+        StudioFileTransaction.EnsureNoLinks(studio.Workspace.Root, plan.RelativePath);
+        var diskHash = AtomicFile.Sha256OfFile(Path.Combine(studio.Workspace.Root,
+            plan.RelativePath.Replace('/', Path.DirectorySeparatorChar)));
+        var candidateSide = string.Equals(diskHash, plan.CandidateHash, StringComparison.Ordinal);
+        if (!candidateSide && !string.Equals(diskHash, plan.BeforeHash, StringComparison.Ordinal))
+            throw new InvalidOperationException("Файл забора изменился вне этой транзакции.");
+        var expectedText = candidateSide ? plan.CandidateText : plan.BeforeText;
+        var expectedSources = candidateSide ? plan.CandidateSources : plan.BeforeSources;
+
+        var file = studio.Workspace.File(plan.RelativePath);
+        if (file.Dirty) throw new InvalidOperationException("Черновик источника появился во время транзакции.");
+        if (file.ChangedOnDisk())
+        {
+            var pulled = file.PullFromDisk();
+            if (!pulled.Reloaded || pulled.Conflicts.Count != 0)
+                throw new InvalidOperationException("Не удалось синхронизировать сохранённый источник забора.");
+        }
+        if (file.Dirty || !string.Equals(file.Text, expectedText, StringComparison.Ordinal))
+            throw new InvalidOperationException("Черновик Studio не совпадает с сохранённой стороной транзакции.");
+
+        studio.Workspace.Reindex();
+        if (studio.Workspace.IdentityConflicts.Any(conflict => !plan.ExistingIdentityConflicts.Contains(conflict)))
+            throw new InvalidOperationException("Сохранение создало повторяющиеся ID объектов Studio.");
+        if (!FenceSourcesUnchangedOnDisk())
+            throw new InvalidOperationException("Один из исходников участков изменился вне этой транзакции.");
+        if (!TryGetPreviewSources(out var workspaceSources, out var runtimeSources, out var sourceError)
+            || workspaceSources != expectedSources)
+            throw new InvalidOperationException("Источники мира не совпадают со стороной транзакции: " + sourceError);
+        var world = CurrentFenceWorld()
+            ?? throw new InvalidOperationException("Текущий игровой мир недоступен для обновления забора.");
+        _fencePreviewWorld = null;
+        _fencePreviewedSources = null;
+        _fencePreviewFailedWorld = world;
+        _fencePreviewFailedSources = workspaceSources;
+        world.RefreshYardFencesForStudio(runtimeSources);
+        _fencePreviewWorld = world;
+        _fencePreviewedSources = workspaceSources;
+        _fencePreviewFailedWorld = null;
+        _fencePreviewFailedSources = null;
+        _fenceAiPreviewRestoreFailedWorld = null;
+        _fenceAiPreviewRestoreFailedSources = null;
+        RefreshFenceSelection(world);
+        return Task.CompletedTask;
+    }
+
+    internal bool FinishFenceApply(FenceApplyPlan plan, bool applied)
+    {
+        ArgumentNullException.ThrowIfNull(plan);
+        if (!_fenceApplyInProgress) return false;
+        var expectedText = applied ? plan.CandidateText : plan.BeforeText;
+        var expectedHash = applied ? plan.CandidateHash : plan.BeforeHash;
+        var expectedSources = applied ? plan.CandidateSources : plan.BeforeSources;
+        try
+        {
+            StudioFileTransaction.EnsureNoLinks(studio.Workspace.Root, plan.RelativePath);
+            var fullPath = Path.Combine(studio.Workspace.Root, plan.RelativePath.Replace('/', Path.DirectorySeparatorChar));
+            if (!string.Equals(AtomicFile.Sha256OfFile(fullPath), expectedHash, StringComparison.Ordinal)) return false;
+            var file = studio.Workspace.File(plan.RelativePath);
+            if (file.ChangedOnDisk())
+            {
+                if (file.Dirty) return false;
+                var pulled = file.PullFromDisk();
+                if (!pulled.Reloaded || pulled.Conflicts.Count != 0) return false;
+                studio.Workspace.Reindex();
+            }
+            if (file.Dirty || !string.Equals(file.Text, expectedText, StringComparison.Ordinal)) return false;
+            if (!FenceSourcesUnchangedOnDisk()) return false;
+            if (studio.Workspace.IdentityConflicts.Any(conflict => !plan.ExistingIdentityConflicts.Contains(conflict))) return false;
+            if (!TryGetPreviewSources(out var sources, out _, out _) || sources != expectedSources) return false;
+            var world = CurrentFenceWorld();
+            if (world is null || !ReferenceEquals(world, _fencePreviewWorld)
+                || _fencePreviewedSources != expectedSources || _fenceAiPreview is not null)
+                return false;
+            _fenceApplyInProgress = false;
+            return true;
+        }
+        catch (Exception error) when (error is IOException or UnauthorizedAccessException or ArgumentException
+            or InvalidOperationException or InvalidDataException or KeyNotFoundException)
+        {
+            return false;
+        }
+    }
 
     private void ClearFenceAiPreview(bool refreshWorkspaceDrift)
     {

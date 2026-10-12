@@ -1,6 +1,7 @@
 using Godot;
 using System.Text;
 using Urman.Studio.Core.AI;
+using Urman.Studio.Core.Storage;
 
 namespace Urman.Studio.App;
 
@@ -24,7 +25,7 @@ public partial class StudioAiPanel
 
     private static string FenceManualReadyStatus(string? detail = null) =>
         (detail is null ? string.Empty : detail + "\n")
-        + "Можно подготовить запрос забора. Ответ показывается только во временном предпросмотре; «Применить» отключено.";
+        + "Можно подготовить запрос забора. Проверенное изменение сначала показывается во временном предпросмотре, затем его можно применить одной обратимой транзакцией.";
 
     private bool IsCurrentFenceMode()
     {
@@ -85,6 +86,7 @@ public partial class StudioAiPanel
 
     private void RefreshFenceRequestFreshness()
     {
+        if (_busy || _studio.IsWorkspaceActionBusy) return;
         if (_fenceRequest is not { } request) return;
         if (_fencePreviewRestoreFailed) return;
         if (_fencePreviewActive)
@@ -159,7 +161,7 @@ public partial class StudioAiPanel
             var request = PrepareFenceRequest();
             var instructions = _globalInstructions.ButtonPressed ? "включены" : "выключены";
             var disclosureText = "Снимок привязан к выбранному участку и пролёту. При прямом запуске Studio передаёт его в Codex; при ручной передаче внешней сессией управляет пользователь.\n"
-                + "Ответ проверяется по снимку и показывается только как временный предпросмотр в мире. «Применить» для заборов отключено.\n"
+                + "Ответ проверяется по снимку и показывается как временный предпросмотр в мире. Для непустого проверенного изменения доступно отдельное обратимое применение.\n"
                 + $"Политика глобальных инструкций для прямого запуска сейчас: {instructions}; подтверждение повторно покажет это значение.\n\n"
                 + FenceAlignmentProtocol.Describe(request)
                 + "\n\nПолный канонический JSON запроса:\n"
@@ -181,8 +183,8 @@ public partial class StudioAiPanel
         var dialogText = actionText + "\n\n" + description
             + $"\nГлобальные инструкции Codex {(directProvider ? "для прямого запроса" : "сейчас")} {(globalInstructions ? "включены" : "выключены")}."
             + (directProvider
-                ? "\nStudio примет только ответ по этому запросу и покажет временный предпросмотр в мире; применение останется отключено."
-                : "\nОтвет проверяется по этому запросу и показывается только как временный предпросмотр; внешней сессией Studio не управляет.");
+                ? "\nStudio примет только ответ по этому запросу и покажет временный предпросмотр в мире; Apply потребуется нажать отдельно."
+                : "\nОтвет проверяется по этому запросу и показывается как временный предпросмотр; внешней сессией Studio не управляет.");
         RequireScopeConfirmationCore(FenceApprovalKey(request), dialogText, directProvider,
             globalInstructions,
             confirmedGlobalInstructions => DispatchFenceScopeApproval(request, directProvider, confirmedGlobalInstructions, dispatch),
@@ -423,8 +425,8 @@ public partial class StudioAiPanel
             _fencePreviewActive = ((StudioWorldSection)_studio.Section("world")).HasTransientFencePreview;
             _fencePreviewRestoreFailed = false;
             _status.Text = _fencePreviewActive
-                ? "Предложение показано во временном предпросмотре в мире. Исходник участков не изменён; «Применить» отключено."
-                : "Предложение принято, но оно не меняет выбранный пролёт; временный предпросмотр не создан. «Применить» отключено.";
+                ? "Предложение показано во временном предпросмотре в мире. Исходник участков ещё не изменён; проверьте пролёт и нажмите «Применить» отдельно."
+                : "Предложение принято, но оно не меняет выбранный пролёт; временный предпросмотр не создан и применять нечего.";
             if (fromManual) _status.Text += "\nОтвет перенесён вручную; Studio не управляет внешней сессией.";
             if (Volatile.Read(ref _providerWarningSeen) != 0)
                 _status.Text += "\nCodex сообщил предупреждение. MCP и доступные инструменты отключены.";
@@ -453,6 +455,75 @@ public partial class StudioAiPanel
                 catch (IOException) { }
                 catch (UnauthorizedAccessException) { }
             }
+            SetBusy(false);
+        }
+    }
+
+    private async Task ApplyFenceAsync()
+    {
+        if (!_fenceMode || !Visible || _busy || _evidenceBusy || _scopeConfirmationBusy
+            || _studio.IsWorkspaceActionBusy || _fencePreviewRestoreFailed
+            || _fenceRequest is not { } request || _fenceProposal is not { PostIndices.Count: > 0 } proposal
+            || !_fencePreviewActive || !HasTransientFencePreview || !IsCurrentFenceMode())
+            return;
+
+        var world = (StudioWorldSection)_studio.Section("world");
+        StudioWorldSection.FenceApplyPlan? plan = null;
+        var committed = false;
+        SetBusy(true);
+        try
+        {
+            plan = world.BeginFenceApply(request, proposal, Revision());
+            const string label = "выпрямить выбранный пролёт забора";
+            var write = plan.Write;
+            await _studio.Session.ApplyFilesAsync(label,
+                "urman.studio:" + FenceAlignmentProposal.Operation + "/" + request.RequestId,
+                [write], new HashSet<string>([write.RelativePath], StringComparer.Ordinal),
+                static () => { }, () => world.RefreshFenceApplyAfterPromotionAsync(plan));
+
+            var history = _studio.Session.History().FirstOrDefault();
+            if (history is null || history.Label != label || history.EntityChangeCount != 0
+                || history.TransactionId is null || history.Paths.Count != 1
+                || history.Paths[0] != write.RelativePath)
+                throw new InvalidOperationException("Studio не подтвердила единственную файловую транзакцию забора.");
+            if (!world.FinishFenceApply(plan, applied: true))
+                throw new InvalidOperationException("Сохранённый файл и игровой вид не удалось подтвердить как одну версию.");
+            committed = true;
+            _fencePreviewActive = false;
+            _fencePreviewRestoreFailed = false;
+            if (!InvalidatePreparedRequest())
+            {
+                _status.Text = "Забор применён одной транзакцией " + history.TransactionId
+                    + "; безопасно очистить снимок панели не удалось. Не запускайте повторное применение.";
+                return;
+            }
+            _status.Text = "Выбранный пролёт выпрямлен. ⌘/Ctrl+Z отменит единственную транзакцию "
+                + history.TransactionId + "; повторить можно через Redo без нового запроса.";
+        }
+        catch (Exception error)
+        {
+            if (plan is not null && !committed)
+            {
+                if (!world.FinishFenceApply(plan, applied: false))
+                {
+                    _fencePreviewActive = true;
+                    _fencePreviewRestoreFailed = true;
+                    _status.Text = "Транзакция не подтверждена; исходник или игровой вид остаётся заблокирован до восстановления безопасного состояния. "
+                        + error.Message;
+                    return;
+                }
+                _fencePreviewActive = false;
+                _fencePreviewRestoreFailed = false;
+                if (!InvalidatePreparedRequest()) return;
+                _status.Text = "Изменение не применено; исходник и игровой вид подтверждённо восстановлены. " + error.Message;
+                return;
+            }
+            _status.Text = committed
+                ? "Изменение уже применено; Studio не будет повторять транзакцию автоматически. " + error.Message
+                : "Предложение не применено: " + error.Message;
+        }
+        finally
+        {
             SetBusy(false);
         }
     }

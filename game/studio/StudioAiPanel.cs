@@ -93,7 +93,8 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
             Interlocked.Exchange(ref _providerWarningSeen, 1);
     }
 
-    public static bool OwnsFile(string path) => path == RecipePath ||
+    public static bool OwnsFile(string path) => path == RecipePath
+        || path is "game/content/world/act1_open_part.world.v1.json" or "game/content/world/act1_far_bank.world.v1.json" ||
         System.Text.RegularExpressions.Regex.IsMatch(path,
             @"\A(?:game/assets/models/studio/hero-house-[a-f0-9]{32}\.glb(?:\.manifest\.json)?|assets/source/blender/studio/hero-house-[a-f0-9]{32}\.blend)\z",
             System.Text.RegularExpressions.RegexOptions.CultureInvariant);
@@ -1431,9 +1432,51 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
         var beforeBounds = beforeModel.Transform * StudioCatalogBuilder.Bounds([beforeModel], beforeModel);
         var afterBounds = afterModel.Transform * StudioCatalogBuilder.Bounds([afterModel], afterModel);
         var unionBounds = beforeBounds.Merge(afterBounds);
-        var center = unionBounds.GetCenter();
-        var radius = Mathf.Max(unionBounds.Size.Length() * .5f, .2f);
-        _previewCamera.Position = center + new Vector3(1f, .75f, 1.25f).Normalized() * radius * 2.9f;
+        var center = _previewModels.ToGlobal(unionBounds.GetCenter());
+        if (!float.IsFinite(center.X) || !float.IsFinite(center.Y) || !float.IsFinite(center.Z))
+            throw new InvalidDataException("Preview bounds contain non-finite coordinates.");
+        const float marginPixels = 8f;
+        var viewportSize = _previewCamera.GetViewport().GetVisibleRect().Size;
+        if (!float.IsFinite(viewportSize.X) || !float.IsFinite(viewportSize.Y)
+            || viewportSize.X <= marginPixels * 2f || viewportSize.Y <= marginPixels * 2f)
+            throw new InvalidDataException("Preview viewport is too small for safe framing.");
+        var aspect = viewportSize.X / viewportSize.Y;
+        var tangent = Mathf.Tan(Mathf.DegToRad(_previewCamera.Fov) * .5f);
+        var halfWidth = _previewCamera.KeepAspect == Camera3D.KeepAspectEnum.Width
+            ? tangent
+            : tangent * aspect;
+        var halfHeight = _previewCamera.KeepAspect == Camera3D.KeepAspectEnum.Width
+            ? tangent / aspect
+            : tangent;
+        var safeHalfWidth = halfWidth * (1f - 2f * marginPixels / viewportSize.X);
+        var safeHalfHeight = halfHeight * (1f - 2f * marginPixels / viewportSize.Y);
+        if (!float.IsFinite(aspect) || aspect <= 0f || !float.IsFinite(tangent) || tangent <= 0f
+            || !float.IsFinite(safeHalfWidth) || safeHalfWidth <= 0f
+            || !float.IsFinite(safeHalfHeight) || safeHalfHeight <= 0f)
+            throw new InvalidDataException("Preview camera cannot frame the current viewport.");
+
+        var direction = new Vector3(1f, .75f, 1.25f).Normalized();
+        _previewCamera.GlobalPosition = center + direction;
+        _previewCamera.LookAt(center, Vector3.Up);
+        var fitDistance = _previewCamera.Near + .01f;
+        // ToLocal uses the provisional unit-distance pose; moving the camera back changes depth one-for-one.
+        for (var cornerIndex = 0; cornerIndex < 8; cornerIndex++)
+        {
+            var corner = _previewModels.ToGlobal(unionBounds.GetEndpoint(cornerIndex));
+            if (!float.IsFinite(corner.X) || !float.IsFinite(corner.Y) || !float.IsFinite(corner.Z))
+                throw new InvalidDataException("Preview bounds contain non-finite coordinates.");
+            var local = _previewCamera.ToLocal(corner);
+            if (!float.IsFinite(local.X) || !float.IsFinite(local.Y) || !float.IsFinite(local.Z))
+                throw new InvalidDataException("Preview camera produced non-finite bounds.");
+            var neededDepth = Mathf.Max(_previewCamera.Near + .01f,
+                Mathf.Max(Mathf.Abs(local.X) / safeHalfWidth, Mathf.Abs(local.Y) / safeHalfHeight));
+            fitDistance = Mathf.Max(fitDistance, 1f + local.Z + neededDepth);
+        }
+        var cameraPosition = center + direction * fitDistance;
+        if (!float.IsFinite(fitDistance) || fitDistance <= 0f
+            || !float.IsFinite(cameraPosition.X) || !float.IsFinite(cameraPosition.Y) || !float.IsFinite(cameraPosition.Z))
+            throw new InvalidDataException("Preview camera fit is non-finite.");
+        _previewCamera.GlobalPosition = cameraPosition;
         _previewCamera.LookAt(center, Vector3.Up);
         cancellation.ThrowIfCancellationRequested();
         HouseWindowProposalValidator.Validate(request, proposal);
@@ -1556,7 +1599,12 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
 
     private async Task ApplyAsync()
     {
-        if (_fenceMode || _fenceProposal is not null || IsActionBusy || !_previewReady || _proposal is null || _request is null || _stage is null) return;
+        if (_fenceMode)
+        {
+            await ApplyFenceAsync();
+            return;
+        }
+        if (_fenceProposal is not null || IsActionBusy || !_previewReady || _proposal is null || _request is null || _stage is null) return;
         if (!TryClearPreviewFailure(_request)) return;
         SetBusy(true);
         var mutationSucceeded = false;
@@ -1857,13 +1905,13 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
             ? "Отправить точный запрос по выбранному пролёту и показать только временный предпросмотр."
             : "Отправить запрос: ⌘/Ctrl+Enter";
         _paste.TooltipText = _fenceMode
-            ? "Вставьте чистый JSON v3 для текущего запроса. Studio проверит его и покажет временный предпросмотр; применение отключено."
+            ? "Вставьте чистый JSON v3 для текущего запроса. Studio проверит ответ и покажет временный предпросмотр перед применением."
             : "Скопируйте чистый JSON ответа. Studio проверит его и покажет модель до применения.";
         _importFile.TooltipText = _fenceMode
-            ? "Проверить ответ v3 по сохранённому запросу и показать временный предпросмотр в мире; применение отключено."
+            ? "Проверить ответ v3 по сохранённому запросу и показать временный предпросмотр в мире перед применением."
             : "Проверить ответ по сохранённому запросу и показать модель до применения.";
         _apply.TooltipText = _fenceMode
-            ? "Применение предложений для заборов пока не подключено."
+            ? "Сохранить проверенное выпрямление одного пролёта отдельной обратимой транзакцией."
             : string.Empty;
         _prompt.Editable = !busy;
         var fenceSelected = IsCurrentFenceMode();
@@ -1881,8 +1929,13 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
         var fencePasteReady = fenceSelected && _fenceMode && _fenceRequest is not null && _fenceProposal is null;
         _paste.Disabled = busy || _previewFailureClearFailed || !(housePasteReady || fencePasteReady);
         _importFile.Disabled = _paste.Disabled;
-        _apply.Disabled = busy || _previewFailureClearFailed || _fenceMode || !houseSelected || !_previewReady
-            || _proposal is null || _request is null || _stage is null;
+        var fenceApplyBusy = _busy || _evidenceBusy || _scopeConfirmationBusy || _studio.IsWorkspaceActionBusy;
+        var fenceApplyReady = fenceSelected && _fenceMode && _fenceRequest is not null
+            && _fenceProposal is { PostIndices.Count: > 0 } && _fencePreviewActive && !_fencePreviewRestoreFailed;
+        _apply.Disabled = _fenceMode
+            ? fenceApplyBusy || _previewFailureClearFailed || !Visible || !fenceApplyReady
+            : busy || _previewFailureClearFailed || !houseSelected || !_previewReady
+                || _proposal is null || _request is null || _stage is null;
         _beforeView.Disabled = busy || _fenceMode || !houseSelected || !_previewReady;
         _afterView.Disabled = busy || _fenceMode || !houseSelected || !_previewReady;
         _retryBuild.Disabled = busy || _fenceMode || _previewFailureClearFailed || !_retryBuildAvailable || _previewReady || _proposal is null
