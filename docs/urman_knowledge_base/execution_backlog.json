@@ -79398,6 +79398,12 @@
                 "stage": "2026-10-12 busy form cleanup",
                 "result": "SOURCE_GAME_COMPILE_0_0_NATIVE_OPEN",
                 "actual_result": "Native catalogue restart exposed disabled controls after Undo/Redo. Root now refreshes visible section after busy-clear for history/Play and upon navigation; checkpoint flow does same. No per-keystroke RefreshStatus rebuild. Source review and affectedcompile passed; new native editing recheck pending."
+              },
+              {
+                "stage": "2026-10-12 native editable forms after Undo",
+                "result": "NATIVE_TARGET_VERIFIED",
+                "source": "evidence/STUDIO/practical-editor-2026-10-12/windows-checkpoint-first",
+                "verification": "Actual UI saved9/10, Undo twice→7, then typed11 and Save accepted newtxac5789c7… order3, Undo restored originalSHA0d5112…; normalclose/restart0/0 anduserdataRestoredtrue. Does not verify loaded3D renderer shutdown."
               }
             ],
             "stage_tasks": [
@@ -81905,7 +81911,15 @@
                   "title": "Автор создаёт именованную контрольную версию и восстанавливает её без поиска файлов",
                   "result": "Автор создаёт именованную контрольную версию и восстанавливает её без поиска файлов",
                   "owner": "codex/b20-2026-10-10",
-                  "evidence": [],
+                  "evidence": [
+                    {
+                      "stage": "2026-10-12 native checkpoint first refusal and busy-form fix",
+                      "result": "FORM_UNFREEZE_PROVEN_CHECKPOINT_CREATE_FAILED_WRAPPER_PASS",
+                      "source": "evidence/STUDIO/practical-editor-2026-10-12/windows-checkpoint-first",
+                      "verification": "Job81a40b0fbc8b4c3fa357665a864ad937 on756004bb: two actual Studio processes96172/101816, exit0/0, userdataRestoredtrue. Create draft8 and clean7 refused before directory. Native Check identity/source/linkerrors0;124sources2,008,960bytes and3basisfiles present; full provenance CLI revision. Actual catalogue7→9→10→Undo9→Undo7→new11 Save→Undo7: threejournals, original byteSHA0d5112… restored; typing afterUndo proves fields unlocked. Redo branch creates existing history fence, restart reconstruction correctly refused; journal/images kept and exported.",
+                      "remaining": "No checkpoint created/exported/restored. Root diagnostics and on-screen sizing f9bfad1c Gamecompile0/0,15.81s+Sol review; next native onchangedsource required. Overall PASS is process/guard/export only, not A24 acceptance."
+                    }
+                  ],
                   "assigned_owner": "codex/b20-2026-10-10",
                   "active_owner": "codex/b20-2026-10-10",
                   "activity": {
@@ -81915,11 +81929,11 @@
                   "task_type": "integration_check",
                   "status": "in_progress",
                   "implementation_state": "implemented",
-                  "technical_verification_state": "not_run",
+                  "technical_verification_state": "failed",
                   "remaining": [
-                    "Автор создаёт именованную контрольную версию и восстанавливает её без поиска файлов; отсутствует подтверждение собственного конечного DoD, перечисленного ниже."
+                    "Native Create отказал до записи checkpoint и на draft8, и на чистом7. Причина скрыта старым UI; snapshot/restart/Restore/Undo restore пока не доказаны."
                   ],
-                  "next_action": "На Windows: Create checkpoint с draft8 без Save, два изменения9/10, restore preview10→8, Restore, Undo→10, затем Undo обоих изменений до byte baseline7; настоящий restart показывает сохранённый checkpoint.",
+                  "next_action": "Changed-source native запуск с f9bfad1c должен показать bounded причину Create; устранить только подтверждённую причину, затем A24. Не повторять неизменённый вход.",
                   "blocker": null,
                   "external_gates": [],
                   "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
