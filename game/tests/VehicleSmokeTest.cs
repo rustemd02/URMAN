@@ -160,7 +160,10 @@ public partial class VehicleSmokeTest : Node
                 Input.ActionRelease(turn);Input.ActionRelease("move_forward");await Frames(2);
                 Require(Math.Abs(Mathf.AngleDifference(yawBefore,vehicle.Rotation.Y))>.002f,
                     "the actual full chassis can steer on the village road");
-                Require(Math.Abs(vehicle.Speed)>.25f&&!vehicle.TryExit(),"moving exit is refused without changing possession");
+                var movingExitSpeed=Math.Abs(vehicle.Speed);
+                var movingExitRefused=movingExitSpeed>.25f&&!vehicle.TryExit();
+                Require(movingExitRefused,"moving exit is refused without changing possession"
+                    +(movingExitRefused ? string.Empty : $" (speed={movingExitSpeed}, driverMatches={vehicle.Driver==_player}, occupiedMatches={_fleet.Occupied==vehicle}, controlled={_player.VehicleControlled})"));
                 await Press("crouch");await Frames(35);
                 Require(Math.Abs(vehicle.Speed)<.01f&&vehicle.ParkingBrake,"parking brake stops "+vehicle.Definition.Id);
                 if(vehicle.Definition.Kind==VehicleKind.HorseCart)await CheckHorseRest(vehicle);

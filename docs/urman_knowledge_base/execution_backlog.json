@@ -20980,7 +20980,8 @@
               "evidence/ACT1-TRANSPORT/native_9638f683b0074eb3af6fcfd650132ade/",
               "evidence/ACT1-TRANSPORT/native_221a06f1d0474003ae4a1ddd8fd3e1f3/",
               "evidence/ACT1-TRANSPORT/native_373baa07d2f54247978440ca8b7ac475/",
-              "evidence/ACT1-TRANSPORT/native_278191d9218e4060b3ce8e905b4dd2be/"
+              "evidence/ACT1-TRANSPORT/native_278191d9218e4060b3ce8e905b4dd2be/",
+              "evidence/ACT1-TRANSPORT/native_480a9f9aa4d942f68b2604ade15034e9/"
             ],
             "assigned_owner": "finished-act1",
             "active_owner": "/root",
@@ -20993,11 +20994,11 @@
             "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
-              "Нужная controller цель, entry availability и готовность игрока подтверждены native278191. Fleet Suspended=true при deferred=false блокирует TryEnter; точный contributor loading/saving/projection/menu/demo/pause/settings ещё не установлен.",
-              "Маршруты, управление, сохранение/загрузка и безопасный выход ещё не достигнуты; внешняя/визуальная приёмка сохраняется."
+              "Ordinary NewGame/input уже принят actual480a9: сесть/камера/зажигание/фары/радио/газ/руль. Moving exit assertion не доказывает текущую скорость> .25; уточнение сообщения ещё не проверено native.",
+              "Surface routes, сохранение/загрузка и безопасный выход ещё не завершены; book native/art and global finished-game criteria separate."
             ],
-            "next_action": "После affected compile и явного peer81a40 release проверить existing full VEHICLE на новом NewGame terminal boundary; entry/routes/save/exit должны быть фактически достигнуты.",
-            "blocker": "Для нового native input ожидается окончание/явный release peer job81a40b0fbc8b4c3fa357665a864ad937; source fix основан на подтверждённой причине.",
+            "next_action": "После peer map-close terminal/recovery выполнить один existing VEHICLE на уточнённом moving-exit message; не менять production guard без причины.",
+            "blocker": "Новый native input ждёт peer map-close lease19:33; прежний480a9 не повторять без changed input.",
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
             "work_contract": {
@@ -21040,7 +21041,8 @@
                 "evidence/ACT1-TRANSPORT/native_9638f683b0074eb3af6fcfd650132ade/",
                 "evidence/ACT1-TRANSPORT/native_221a06f1d0474003ae4a1ddd8fd3e1f3/",
                 "evidence/ACT1-TRANSPORT/native_373baa07d2f54247978440ca8b7ac475/",
-                "evidence/ACT1-TRANSPORT/native_278191d9218e4060b3ce8e905b4dd2be/"
+                "evidence/ACT1-TRANSPORT/native_278191d9218e4060b3ce8e905b4dd2be/",
+                "evidence/ACT1-TRANSPORT/native_480a9f9aa4d942f68b2604ade15034e9/"
               ],
               "source_criteria_parent": "ACT1-TRANSPORT"
             },
@@ -21124,6 +21126,30 @@
               "transfer_verification": "First result transfer checksum mismatch; one archive-only retry verified expected SHA3e60c11d...; no new game run.",
               "source_fix": "StartSessionAsync tracks actual CreateFreshSessionAsync success and publishes load-restored/load-failed in existing finally after loading/preparation/player transition cleanup. Guards, data, save/recovery branches and input assertion unchanged.",
               "boundary_compile": "0 errors,0 warnings;34.33s"
+            },
+            "progress_2026_10_12_newgame_boundary": {
+              "source": "game/scripts/RuntimeBridge.cs:StartSessionAsync",
+              "result": "Matched terminal boundary tracks actual sessionStarted bool; same cleanup and save/entry/recovery guards.",
+              "affected_compile": "0 errors,0 warnings;34.33s",
+              "native_job_id": "480a9f9aa4d942f68b2604ade15034e9",
+              "snapshot_id": "53f4d12f7b7a02db11cdd115534370df61d74f49d4c3fec16b3342eed2b6efba",
+              "native_state": "NewGame boundary/ordinary entry/control stage accepted; full scenario FAIL358checks at moving-exit precondition/assertion.",
+              "transfer": "one changed RuntimeBridge source0.09MB",
+              "verification_question": "Does ordinary NewGame finish loading, unsuspend fleet and allow actual mapped entry without direct TryEnter/testskip? Then existing full controls/save/exit.",
+              "success": "Actual native entry and sufficient subsequent criteria/guard restoration, no source-only readiness claim.",
+              "station_owner": "Root until terminal/recovery; peer81a40 PASS and doctor ready satisfied its explicit until-terminal/recovery lease.",
+              "evidence": "evidence/ACT1-TRANSPORT/native_480a9f9aa4d942f68b2604ade15034e9/",
+              "actual_result": "Mapped entry, vehicle camera, ignition/headlights/radio, throttle displacement, speedometer, steering and compound/wheel movement checks accepted; no route/save/exit completion claim.",
+              "visual_review": "Root personally viewed stationary/moving wheel PNG: wheel angle changes and HUD0→2km/h; orange pole is existing fixture. No whole-art acceptance.",
+              "userdata": "Own receipt recovery_pending=false; own reservation terminal. Peer19:33 map-close reservation preserved."
+            },
+            "progress_2026_10_12_moving_exit": {
+              "failure": "abs(Speed)>.25 && !TryExit; left precondition can fail and skip exit call. Source TryExit already refuses above identical .25.",
+              "cause_state": "No confirmed production exit fault. Earlier displacement/speedometer do not prove speed at later post-turn moment; receipt lacks that moment speed/possession.",
+              "message_refinement": "Same condition/short-circuit/input sequence/threshold; failure text captures actual speed and current driver/occupied/controlled. No new checks/fixtures or direct entry.",
+              "verification_question": "Is later failed moving-exit step below its actual speed precondition or has possession changed?",
+              "native_state": "NOT_RUN on message refinement; peer station lease preserved.",
+              "affected_compile": "0 errors,0 warnings;26.37s"
             }
           },
           {
