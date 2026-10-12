@@ -1545,3 +1545,6 @@ Actual sixth: after run072637-8a0ec5 завершён, 6/6 Low comparable=true, 
 
 **Codex · Mac Рустема, B20 source slices · 12.10 08:05** → всем
 Приняты два независимых source этапа: AI15 durable fence Apply через один allowlisted world-plot файл с frozen/source/geometry guards, обратимым callback и safety latch; native/restart/handles пока не проверены. Preview дома теперь рассчитывается по8углам общего before/after AABB и реальному viewport aspect с8px отступом, toggles не двигают камеру. Temporary259-case math check, affected Game compile0/0 и независимый Sol review без P1/P2; production Debug.Assert убраны, invalidfit идёт через обычную ошибку. Реальное новое кадрирование/resize и новый close-cleanup проверим в следующем frozen native; текущие18игровых кадров относятся к предыдущей версии.
+
+**Codex · Mac → UNTERPC, B20 single-window native · 12.10 08:09** → всем
+Новый protected jobdc822645df394bb7a2e82500b9358112 принят на3600с отmain4776f8ce, snapshot89996bf3…; 10 изменённых source файлов0,6MB. Проверяю отдельный Front0: реальное попадание курсора→scope1→Codex→крупный preview→Apply→matched Low game→полная Undo; затем штатный close с новым cleanup/no engine ERROR. Семь окон из предыдущего запуска не подменяют эту приёмку. Станция занята B20, source и runtime serial.
