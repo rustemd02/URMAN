@@ -593,11 +593,17 @@ public sealed class StudioQuestSection(StudioRoot studio) : IStudioSection
             var world = (StudioWorldSection)studio.Section("world");
             var at = world.Pivot;
             double[] P(float dx, float dz) => [Math.Round(at.X + dx, 2), 0.0, Math.Round(at.Z + dz, 2)];
-            var ids = Urman.Studio.Core.Templates.TwoOutcomeQuestTemplate.Create(studio.Session, new Urman.Studio.Core.Templates.TwoOutcomeQuestRequest(
-                namespaceId, moduleDirectory, campaignPath,
-                title.Text.Trim(), npc.Text.Trim(), "Resident", P(0, 0), 180, request.Text.Trim(), accept.Text.Trim(), refuse.Text.Trim(),
-                item.Text.Trim(), P(4, 3), "urman.catalog:urman_village_exterior_kit/woodpile-stackedlogs",
-                "urman.catalog:urman_village_exterior_kit/gate-crookedtimber", P(-3, 2), 90, P(0, 0), [4.0, 2.5, 4.0]));
+            Urman.Studio.Core.Templates.TwoOutcomeQuestIds ids;
+            using (studio.Session.Begin($"новый квест «{title.Text.Trim()}»"))
+            {
+                ids = Urman.Studio.Core.Templates.TwoOutcomeQuestTemplate.Create(studio.Session, new Urman.Studio.Core.Templates.TwoOutcomeQuestRequest(
+                    namespaceId, moduleDirectory, campaignPath,
+                    title.Text.Trim(), npc.Text.Trim(), "Resident", P(0, 0), 180, request.Text.Trim(), accept.Text.Trim(), refuse.Text.Trim(),
+                    item.Text.Trim(), P(4, 3), "urman.catalog:urman_village_exterior_kit/woodpile-stackedlogs",
+                    "urman.catalog:urman_village_exterior_kit/gate-crookedtimber", P(-3, 2), 90, P(0, 0), [4.0, 2.5, 4.0]));
+                AddToExplicitActiveQuestList(campaignPath, ids.QuestId);
+            }
+
             OpenQuest(ids.QuestId);
             Refresh();
             dialog.QueueFree();
@@ -625,9 +631,39 @@ public sealed class StudioQuestSection(StudioRoot studio) : IStudioSection
             return false;
         }
 
+        if (campaign.Snapshot() is JsonObject campaignSource && campaignSource.ContainsKey("activeQuestIds")
+            && !IsValidActiveQuestList(campaignSource["activeQuestIds"]))
+        {
+            moduleDirectory = "";
+            campaignPath = "";
+            studio.ShowBanner($"Шаблон не создан: activeQuestIds в {campaign.RelativePath} должен быть массивом уникальных ID. Исправьте manifest кампании.", error: true);
+            return false;
+        }
+
         moduleDirectory = module.RelativePath[..^"/module.json".Length];
         campaignPath = campaign.RelativePath;
         return true;
+    }
+
+    private static bool IsValidActiveQuestList(JsonNode? value)
+    {
+        if (value is not JsonArray activeQuestIds) return false;
+        var ids = new HashSet<string>(StringComparer.Ordinal);
+        foreach (var item in activeQuestIds)
+        {
+            if (item is not JsonValue valueItem || !valueItem.TryGetValue<string>(out var id)
+                || string.IsNullOrWhiteSpace(id) || !ids.Add(id)) return false;
+        }
+
+        return true;
+    }
+
+    private void AddToExplicitActiveQuestList(string campaignPath, string questId)
+    {
+        if (studio.Workspace.File(campaignPath).Get("activeQuestIds") is not JsonArray activeQuestIds) return;
+        if (activeQuestIds.OfType<JsonValue>().Any(value => value.TryGetValue<string>(out var id) && id == questId)) return;
+        activeQuestIds.Add(questId);
+        studio.Session.Set(campaignPath, "activeQuestIds", activeQuestIds, "подключить квест к кампании");
     }
 
     // ---- wording ------------------------------------------------------------------------------

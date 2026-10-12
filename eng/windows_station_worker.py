@@ -29,6 +29,10 @@ KEEP_ARCHIVES = 1        # the newest archive is what an empty blob store is see
 BLOB_GRACE = 24 * 3600   # content a client may still be uploading is not collected
 STUDIO_SCENE = 'res://studio/studio_main.tscn'
 STUDIO_OWNER = 'urman.world:act1/kit/house-old-pc-babai-approach'
+STUDIO_DIRECT_FILE_OWNERS = {
+    'urman.studio:shop-catalog': 'game/content/urman.shop.v1.json',
+    'urman.studio:vehicle-catalog': 'game/content/vehicles/act1_vehicles.v1.json',
+}
 STUDIO_PRESERVE_MARKER = '.preserve-source'
 STUDIO_MAX_REQUESTS = 32
 STUDIO_MAX_TRANSACTIONS = 32
@@ -40,6 +44,7 @@ STUDIO_MAX_ACTIONS = 32
 STUDIO_MAX_ACTION_RECEIPT = 8 * 1024
 STUDIO_MAX_ACTION_FRAME = 16 * 1024**2
 STUDIO_MAX_JOURNAL = 64 * 1024
+STUDIO_MAX_AUTHORED_JSON = 8 * 1024**2
 STUDIO_MAX_RUN_MANIFEST = 16 * 1024
 STUDIO_MAX_RUN_LOG = 8 * 1024**2
 STUDIO_MAX_RUN_FRAME = STUDIO_MAX_ACTION_FRAME
@@ -566,6 +571,7 @@ def export_studio_session(source, output):
                         action_transaction_refs.append((request_id, action_id, transaction_id))
 
     transactions_by_request = {}
+    direct_transaction_targets = set()
     transactions_root = _studio_path(source, '.urman-studio/transactions', kind='dir', missing=True)
     if transactions_root is not None:
         transaction_dirs = _studio_children(transactions_root, STUDIO_MAX_TRANSACTIONS,
@@ -586,8 +592,11 @@ def export_studio_session(source, output):
                 raise ValueError('Studio transaction journal has missing or unexpected fields: ' + transaction_id)
             if type(journal['version']) is not int or journal['version'] != 1 or journal['id'] != transaction_id:
                 raise ValueError('Studio transaction journal version or ID is invalid: ' + transaction_id)
-            if journal['owner'] != STUDIO_OWNER:
+            owner = journal['owner']
+            if (not isinstance(owner, str)
+                    or (owner != STUDIO_OWNER and owner not in STUDIO_DIRECT_FILE_OWNERS)):
                 raise ValueError('Unexpected Studio transaction owner; source must be preserved: ' + transaction_id)
+            is_direct_file_transaction = owner in STUDIO_DIRECT_FILE_OWNERS
             status_value = journal['status']
             sides = (journal['rollbackSide'], journal['targetSide'], journal['side'])
             accepted = journal.get('accepted', status_value == 'committed')
@@ -616,7 +625,8 @@ def export_studio_session(source, output):
                 raise ValueError('Unresolved Studio transaction must remain on station: ' + transaction_id)
             else:
                 raise ValueError('Studio transaction status is invalid: ' + transaction_id)
-            if not isinstance(journal['files'], list) or len(journal['files']) not in (3, 4):
+            allowed_file_counts = (1,) if is_direct_file_transaction else (3, 4)
+            if not isinstance(journal['files'], list) or len(journal['files']) not in allowed_file_counts:
                 raise ValueError('Studio transaction file set is invalid: ' + transaction_id)
 
             indexed_paths = []
@@ -651,33 +661,44 @@ def export_studio_session(source, output):
                             raise ValueError('Studio transaction image exceeds 128 MiB: ' + transaction_id)
                         payloads.append((image_relative, image_path, file_hash))
 
-                match = re.fullmatch(r'game/assets/models/studio/hero-house-([a-f0-9]{32})\.glb', relative)
-                if match:
-                    if request_id is not None:
-                        raise ValueError('Studio transaction has multiple request-scoped models: ' + transaction_id)
-                    request_id = match.group(1)
-                elif relative != 'game/content/studio/hero_house.recipe.json' and not re.fullmatch(
-                        r'game/assets/models/studio/hero-house-[a-f0-9]{32}\.glb\.manifest\.json', relative) and not re.fullmatch(
-                        r'assets/source/blender/studio/hero-house-[a-f0-9]{32}\.blend', relative):
-                    raise ValueError('Studio transaction contains a target outside the pilot allowlist: ' + transaction_id)
+                if is_direct_file_transaction:
+                    if relative != STUDIO_DIRECT_FILE_OWNERS[owner]:
+                        raise ValueError('Studio direct-file transaction targets an unapproved owner/path pair: ' + transaction_id)
+                    if item['beforeSha256'] is None or item['afterSha256'] is None:
+                        raise ValueError('Studio direct-file transaction must replace an existing source file: ' + transaction_id)
+                else:
+                    match = re.fullmatch(r'game/assets/models/studio/hero-house-([a-f0-9]{32})\.glb', relative)
+                    if match:
+                        if request_id is not None:
+                            raise ValueError('Studio transaction has multiple request-scoped models: ' + transaction_id)
+                        request_id = match.group(1)
+                    elif relative != 'game/content/studio/hero_house.recipe.json' and not re.fullmatch(
+                            r'game/assets/models/studio/hero-house-[a-f0-9]{32}\.glb\.manifest\.json', relative) and not re.fullmatch(
+                            r'assets/source/blender/studio/hero-house-[a-f0-9]{32}\.blend', relative):
+                        raise ValueError('Studio transaction contains a target outside the pilot allowlist: ' + transaction_id)
 
-            if request_id is None or request_id not in request_ids or request_id not in proposal_ids:
-                raise ValueError('Studio transaction has no matching exported request: ' + transaction_id)
-            transactions_by_request.setdefault(request_id, set()).add(transaction_id)
-            model = f'game/assets/models/studio/hero-house-{request_id}.glb'
-            manifest = model + '.manifest.json'
-            blend = f'assets/source/blender/studio/hero-house-{request_id}.blend'
-            if not {model, manifest, blend}.issubset(indexed_paths) or len(set(indexed_paths)) != len(indexed_paths):
-                raise ValueError('Studio transaction does not contain the exact request-scoped target set: ' + transaction_id)
-            if any(re.fullmatch(r'game/assets/models/studio/hero-house-[a-f0-9]{32}\.glb\.manifest\.json', p)
-                   and p != manifest for p in indexed_paths) or any(
-                       re.fullmatch(r'assets/source/blender/studio/hero-house-[a-f0-9]{32}\.blend', p)
-                       and p != blend for p in indexed_paths):
-                raise ValueError('Studio transaction mixes request IDs: ' + transaction_id)
-            if 'game/content/studio/hero_house.recipe.json' in indexed_paths and len(indexed_paths) != 4:
-                raise ValueError('Studio transaction recipe target set is invalid: ' + transaction_id)
-            if 'game/content/studio/hero_house.recipe.json' not in indexed_paths and len(indexed_paths) != 3:
-                raise ValueError('Studio transaction target count is invalid: ' + transaction_id)
+            if is_direct_file_transaction:
+                if indexed_paths != [STUDIO_DIRECT_FILE_OWNERS[owner]] or request_id is not None:
+                    raise ValueError('Studio direct-file transaction does not contain exactly its owner-approved target: ' + transaction_id)
+                direct_transaction_targets.add(indexed_paths[0])
+            else:
+                if request_id is None or request_id not in request_ids or request_id not in proposal_ids:
+                    raise ValueError('Studio transaction has no matching exported request: ' + transaction_id)
+                transactions_by_request.setdefault(request_id, set()).add(transaction_id)
+                model = f'game/assets/models/studio/hero-house-{request_id}.glb'
+                manifest = model + '.manifest.json'
+                blend = f'assets/source/blender/studio/hero-house-{request_id}.blend'
+                if not {model, manifest, blend}.issubset(indexed_paths) or len(set(indexed_paths)) != len(indexed_paths):
+                    raise ValueError('Studio transaction does not contain the exact request-scoped target set: ' + transaction_id)
+                if any(re.fullmatch(r'game/assets/models/studio/hero-house-[a-f0-9]{32}\.glb\.manifest\.json', p)
+                       and p != manifest for p in indexed_paths) or any(
+                           re.fullmatch(r'assets/source/blender/studio/hero-house-[a-f0-9]{32}\.blend', p)
+                           and p != blend for p in indexed_paths):
+                    raise ValueError('Studio transaction mixes request IDs: ' + transaction_id)
+                if 'game/content/studio/hero_house.recipe.json' in indexed_paths and len(indexed_paths) != 4:
+                    raise ValueError('Studio transaction recipe target set is invalid: ' + transaction_id)
+                if 'game/content/studio/hero_house.recipe.json' not in indexed_paths and len(indexed_paths) != 3:
+                    raise ValueError('Studio transaction target count is invalid: ' + transaction_id)
 
             expected_contents = {'journal.json', *images}
             contents = _studio_children(directory, 9, 'Studio transaction directory')
@@ -686,6 +707,11 @@ def export_studio_session(source, output):
             if any(_studio_reparse(item.lstat()) or not stat.S_ISREG(item.lstat().st_mode) for item in contents):
                 raise ValueError('Studio transaction evidence contains a link or non-file: ' + transaction_id)
             payloads.append((journal_relative, journal_bytes, None))
+
+    for relative in sorted(direct_transaction_targets):
+        _, target_bytes = _studio_read(source, relative, STUDIO_MAX_AUTHORED_JSON,
+                                       'Studio authored JSON source')
+        payloads.append((relative, target_bytes, hashlib.sha256(target_bytes).hexdigest()))
 
     runs_root = _studio_path(source, '.urman-studio/runs', kind='dir', missing=True)
     if runs_root is not None:
