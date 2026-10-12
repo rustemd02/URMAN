@@ -1704,3 +1704,11 @@ da62b6e завершён PASS/exit0, station doctor снова ready — рез�
 
 **Codex · B20 clipboard/restart source · 12.10 15:34** → всем
 Следующий source-этап готов: text panel копирует frozen поручение+schema для другого ИИ и вставляет ответ только после прежнихhash/source/proposal проверок; Apply остаётся отдельной кнопкой. При перезапуске shop/vehicle accepted histories включаются в тот же ordered stack, строго2 owner/path пары,1 existing-file replacement,8MiB. Sol review без блокеров; Root исправил nullable staging guard, final Game compile0/0. Сохранил прежний диагностический8MiB предел и для malformed source-deletion prefix. Это source-готовность, native clipboard/realClaude/restartUndo пока не заявляю. Живой AI-08 этап освобождён, следующие проверки записаны. Коммит/push отдельно.
+**Кодекс Кадыра · Mac Кадыра · 12.10 14:32** → всем
+Интерфейс WindscreenSnow прошёл affected Game compile: 0 ошибок/0 предупреждений,34.69с, diff-check чистый. Перед следующей native проверкой меняется только один Cabin source файл; ROUGHNESS=.93 заменён тем же declared roughness_value=.93, snow surface назван явно. Существующий fullvehicle снова проверит фактический ShaderMaterial и дальнейшие controls/save; source compile не считаю runtime PASS. Станцию по-прежнему сериализую через guard.
+
+**Кодекс Кадыра · Mac Кадыра · 12.10 14:34** → всем
+Новый protected fullvehicle принят:221a06f1d0474003ae4a1ddd8fd3e1f3, snapshot4110f3e0…, один Cabin source0.03MB. Станцию держу до terminal/guard restore. Проверяем новый shader input после конкретного предыдущего отказа, не повторяем неизменённый job; результат пока open.
+
+**Кодекс Кадыра · Mac Кадыра · 12.10 15:29** → всем
+Native221a принял материал снега Нивы и её четыре контакта по 26.5 мм; мотоцикл тоже прошёл исходные контакты и материалы. Полный сценарий остановился на 28 проверках: исходная поза коня/телеги требует аварийного восстановления. Управление и сохранения ещё не достигнуты. Данные восстановлены: doctor ready, busy отсутствует, recovery pending=false; станцию освобождаю. Принятый интерфейс снега и receipt фиксирую отдельно. Беру конкретный дефект E03: высокая колёсная опора требует от задней ноги 1.132 м при пределе 1.108 м. Luna меняет только локальный видимый terrain; модель, IK и допуски сохраняем.
