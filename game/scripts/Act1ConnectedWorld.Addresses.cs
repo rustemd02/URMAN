@@ -61,7 +61,14 @@ public partial class Act1ConnectedWorld
     public void BuildAddressRegistry()
     {
         if(AddressRegistry is not null)return;
-        RegisterAuthoredAddressAuxiliaries();
+        var worldNodes=FindDescendants<Node3D>(this).ToArray();
+        var nodesByName=worldNodes.GroupBy(node=>node.Name.ToString(),StringComparer.Ordinal)
+            .ToDictionary(group=>group.Key,group=>group.ToArray(),StringComparer.Ordinal);
+        IEnumerable<Node3D> VisibleNodesNamed(string name)
+            =>nodesByName.TryGetValue(name,out var matches)?matches.Where(node=>node.IsVisibleInTree()):Array.Empty<Node3D>();
+        var worldMeshes=worldNodes.OfType<MeshInstance3D>().ToArray();
+        var interactionTargets=worldNodes.OfType<InteractionTarget>().ToArray();
+        RegisterAuthoredAddressAuxiliaries(VisibleNodesNamed);
         var registry=new SettlementRegistry();
         using var manifest=JsonDocument.Parse(global::Godot.FileAccess.GetFileAsString("res://content/urman.settlement.addresses.v1.json"));
         foreach(var row in manifest.RootElement.GetProperty("streets").EnumerateArray())
@@ -79,7 +86,7 @@ public partial class Act1ConnectedWorld
         _addressRoot.SetMeta("dataSource","res://content/urman.settlement.addresses.v1.json");
         _addressRoot.SetMeta("stateOwner","RuntimeBridge");
         AddChild(_addressRoot);
-        ImportAddressRoads(registry);
+        ImportAddressRoads(registry,worldMeshes,worldNodes);
         var imported=new HashSet<Node3D>();
         foreach(var row in manifest.RootElement.GetProperty("buildings").EnumerateArray())
         {
@@ -90,10 +97,10 @@ public partial class Act1ConnectedWorld
                 // A rebuilt room keeps its authored manifest position as well
                 // as its registered IDs. Do not put it behind every background
                 // house merely because its geometry has an explicit owner.
-                if(imported.Add(replacement.Building))ImportAddressBuilding(replacement);
+                if(imported.Add(replacement.Building))ImportAddressBuilding(replacement,interactionTargets);
                 continue;
             }
-            var node=FindDescendants<Node3D>(this).FirstOrDefault(n=>n.Name==name && n.IsVisibleInTree());
+            var node=VisibleNodesNamed(name).FirstOrDefault();
             if(node is null)continue; // Retired/hidden source bindings stay reserved in data.
             // HidePresentationNode hides the meshes, not necessarily their root.
             // The old greybox root must not become a second inhabited house.
@@ -123,12 +130,12 @@ public partial class Act1ConnectedWorld
             var addressId=row.GetProperty("addressId").GetString()!;
             if(addressId=="ADR-BABAI")
             {
-                var target=FindDescendants<InteractionTarget>(this).FirstOrDefault(t=>t.Name=="HouseDoor");
+                var target=interactionTargets.FirstOrDefault(t=>t.Name=="HouseDoor");
                 if(target is not null)access=AddressGround(target.GlobalPosition+outward*.85f);
             }
             else if(addressId=="ADR-FAP")
             {
-                var target=FindDescendants<InteractionTarget>(this).FirstOrDefault(t=>t.TargetZoneId=="fap_clinic");
+                var target=interactionTargets.FirstOrDefault(t=>t.TargetZoneId=="fap_clinic");
                 if(target is not null)access=AddressGround(target.GlobalPosition+outward*.85f);
             }
             string? signSurface=row.TryGetProperty("signSurface",out var surfaceRow)?surfaceRow.GetString():null;
@@ -151,12 +158,12 @@ public partial class Act1ConnectedWorld
             var registration=new AddressBuildingRegistration(node,row.GetProperty("sourceKey").GetString()!,row.GetProperty("buildingId").GetString()!,
                 row.GetProperty("parcelId").GetString()!,addressId,row.GetProperty("streetId").GetString()!,row.GetProperty("number").GetString()!,
                 row.GetProperty("cadastral").GetString()!,access,sign,outward,row.GetProperty("role").GetString()!,SignOutward:signOutward,SignSurfaceName:signSurface);
-            ImportAddressBuilding(registration);
+            ImportAddressBuilding(registration,interactionTargets);
             imported.Add(node);
         }
         // Only genuinely new source bindings remain after the manifest pass.
         foreach(var registration in _addressExtraBuildings)
-            if(imported.Add(registration.Building))ImportAddressBuilding(registration);
+            if(imported.Add(registration.Building))ImportAddressBuilding(registration,interactionTargets);
         if(manifest.RootElement.TryGetProperty("addressAliases",out var aliases))
             foreach(var alias in aliases.EnumerateObject())
             {
@@ -172,14 +179,14 @@ public partial class Act1ConnectedWorld
         }
         ImportStandaloneAddressParcels(imported);
         // Every visible dwelling source must have an explicit persistent binding.
-        foreach(var node in FindDescendants<Node3D>(this).Where(n=>n.IsVisibleInTree() && n.HasMeta("logicalAnchor") && !n.HasMeta("presentationOnlyInstance")))
+        foreach(var node in worldNodes.Where(n=>n.IsVisibleInTree() && n.HasMeta("logicalAnchor") && !n.HasMeta("presentationOnlyInstance")))
         {
             if(imported.Contains(node))continue;
             var dwelling=node.GetChildren().OfType<Node3D>().Any(child=>child.Name.ToString().Contains("_Dwelling",StringComparison.Ordinal)
                 || child.Name=="DwellingFacade_TimberPlaster");
             if(dwelling)_addressImportIssues.Add(new("UNBOUND_DWELLING",node.Name.ToString(),node.GetMeta("logicalAnchor").AsString()));
         }
-        ImportAddressAuxiliaries(imported);
+        ImportAddressAuxiliaries(imported,worldNodes);
         ImportAddressConstraints(registry);
         // ImportAddressRoads already built the final road graph. Registrations
         // above add addresses and constraints, not road vertices or streets.
@@ -196,7 +203,7 @@ public partial class Act1ConnectedWorld
         SetMeta("addressInactiveBindings",_addressInactiveBindings.Count);
     }
 
-    private void RegisterAuthoredAddressAuxiliaries()
+    private void RegisterAuthoredAddressAuxiliaries(Func<string,IEnumerable<Node3D>> visibleNodesNamed)
     {
         // These are committed import bindings, transcribed from the actual
         // AddAct1AuthoredExteriorParcel calls and named holding declarations in
@@ -218,7 +225,7 @@ public partial class Act1ConnectedWorld
         };
         foreach(var binding in bindings)
         {
-            var source=FindDescendants<Node3D>(this).SingleOrDefault(n=>n.Name==binding.Source&&n.IsVisibleInTree());
+            var source=visibleNodesNamed(binding.Source).SingleOrDefault();
             if(source is null||_addressInheritedBuildings.Any(r=>r.Building==source))continue;
             source.SetMeta("addressParcelOwnershipEvidence",binding.Evidence);
             RegisterAddressInheritedBuilding(source,"act1/outbuilding/"+binding.Source,binding.Primary,"shed");
@@ -266,7 +273,7 @@ public partial class Act1ConnectedWorld
         SetMeta("addressImportIssues",_addressImportIssues.Count);
     }
 
-    private void ImportAddressBuilding(AddressBuildingRegistration r)
+    private void ImportAddressBuilding(AddressBuildingRegistration r,IReadOnlyList<InteractionTarget> interactionTargets)
     {
         var registry=AddressRegistry!;
         var accessId="ACC-"+r.AddressId;
@@ -308,7 +315,9 @@ public partial class Act1ConnectedWorld
             };
         }
         // Existing hero/public interactions continue to own their real doors.
-        var hasDoorAction=FindDescendants<InteractionTarget>(this).Any(t=>t.GlobalPosition.DistanceTo(r.AccessPoint+Vector3.Up)<2.6f
+        // Later imports add Read_/Knock_ targets with empty zone/dialogue IDs, so
+        // the pre-address action snapshot preserves the old action predicate.
+        var hasDoorAction=interactionTargets.Any(t=>t.GlobalPosition.DistanceTo(r.AccessPoint+Vector3.Up)<2.6f
             && (t.TargetZoneId.Length>0 || t.DialogueId.Length>0));
         if(r.Role=="residential" && r.AddressId!="ADR-BABAI" && !hasDoorAction)
         {
@@ -330,10 +339,10 @@ public partial class Act1ConnectedWorld
             };
         }
     }
-    private void ImportAddressAuxiliaries(HashSet<Node3D> primary)
+    private void ImportAddressAuxiliaries(HashSet<Node3D> primary,IReadOnlyList<Node3D> worldNodes)
     {
         var registry=AddressRegistry!;
-        foreach(var node in FindDescendants<Node3D>(this).Where(n=>n.IsVisibleInTree() && n.HasMeta("logicalAnchor") && !n.HasMeta("presentationOnlyInstance")))
+        foreach(var node in worldNodes.Where(n=>n.IsVisibleInTree() && n.HasMeta("logicalAnchor") && !n.HasMeta("presentationOnlyInstance")))
         {
             if(primary.Contains(node))continue;
             var name=node.Name.ToString();
@@ -356,7 +365,7 @@ public partial class Act1ConnectedWorld
         node.SetMeta("building_id",id);node.SetMeta("parcel_id",main.ParcelId);node.SetMeta("address_id",main.AddressId!);
         node.SetMeta("addressInherited",true);node.SetMeta("settlement_source_key",source);
     }
-    private void ImportAddressRoads(SettlementRegistry registry)
+    private void ImportAddressRoads(SettlementRegistry registry,IReadOnlyList<MeshInstance3D> worldMeshes,IReadOnlyList<Node3D> worldNodes)
     {
         void Road(string id,string street,IReadOnlyList<Vector2> points,double width,SettlementTravelMode modes)
         {
@@ -404,7 +413,7 @@ public partial class Act1ConnectedWorld
         registry.Graph.Rebuild(registry.Streets);
         foreach(var (name,street) in new[]{("ZiratWestHoldingAccess","usal"),("EastStreetPlotAccessPath","urman"),("ConnectiveWestHouseDrive","tukay"),("ReturnEastFarmDrive","tukay"),("FapClinicEntryPath","urman")})
         {
-            var mesh=FindDescendants<MeshInstance3D>(this).FirstOrDefault(m=>m.Name==name && m.Mesh is ArrayMesh && m.IsVisibleInTree());
+            var mesh=worldMeshes.FirstOrDefault(m=>m.Name==name && m.Mesh is ArrayMesh && m.IsVisibleInTree());
             if(mesh?.Mesh is not ArrayMesh array)continue;
             using var plateArrays=array.SurfaceGetArrays(0);
             var vertices=plateArrays[(int)Mesh.ArrayType.Vertex].AsVector3Array();
@@ -420,7 +429,7 @@ public partial class Act1ConnectedWorld
                 registry.Graph.AddRoad(new("surface-link/"+name,street,[link.Point,points[0]],1.1,"snow_trampled",SettlementTravelMode.Foot));
             registry.Graph.AddRoad(new("surface/"+name,street,points,1.1,"snow_trampled",SettlementTravelMode.Foot));
         }
-        foreach(var node in FindDescendants<Node3D>(this).Where(n=>n.HasMeta("routePolyline")))
+        foreach(var node in worldNodes.Where(n=>n.HasMeta("routePolyline")))
         {
             var points=node.GetMeta("routePolyline").AsString().Split('|').Select(x=>x.Split(','))
                 .Where(x=>x.Length==2).Select(x=>AddressPoint(AddressGround(new(float.Parse(x[0],CultureInfo.InvariantCulture),0,float.Parse(x[1],CultureInfo.InvariantCulture))))).ToArray();

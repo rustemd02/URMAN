@@ -1323,7 +1323,7 @@ public partial class AgentBAct1ExteriorLayer : Node3D
                 var mesh = FoliageMesh(variant, "kara");
                 cached = (mesh, Enumerable.Range(0, mesh.GetSurfaceCount()).Select(mesh.SurfaceGetName).ToArray(),
                     Enumerable.Range(0, mesh.GetSurfaceCount()).SelectMany(surface =>
-                        SurfaceVertices(mesh, surface)).ToArray());
+                        SurfaceVertices(mesh, surface)).Distinct().ToArray());
                 geometry[variant] = cached;
                 return cached;
             }
@@ -1376,7 +1376,8 @@ public partial class AgentBAct1ExteriorLayer : Node3D
             }
             if (variant.StartsWith("Winter", StringComparison.Ordinal) && !result.GetAabb().Grow(.02f).HasPoint(Vector3.Zero))
                 throw new InvalidOperationException($"Native winter root is outside its rebased geometry: {variant}");
-            cached = (result, groups.Keys.ToArray(), sourceVertices.Select(vertex => vertex - pivot).Where(vertex => vertex.Y < 3.2f).ToArray());
+            cached = (result, groups.Keys.ToArray(), sourceVertices.Select(vertex => vertex - pivot)
+                .Where(vertex => vertex.Y < 3.2f).Distinct().ToArray());
             geometry[variant] = cached;
             return cached;
         }

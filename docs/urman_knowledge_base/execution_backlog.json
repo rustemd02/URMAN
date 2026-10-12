@@ -79433,6 +79433,21 @@
                 "result": "SOURCE_COMPILE_REVIEW_PASS_NATIVE_PENDING",
                 "source": "game/scripts/VillageWindowMaterials.cs; game/studio/StudioRoot.cs",
                 "verification": "Luna implementation, Sol independent source review accepted. Affected Game compile0 warnings/0 errors17.17s. Final-shutdown-only disposal after preview barriers, materials before shader; headless reset unchanged. One actual loaded-map close pending; other surviving resources not claimed resolved."
+              },
+              {
+                "stage": "2026-10-12 actual loaded map profile and named shutdown remainder",
+                "result": "NATIVE_LOAD_PROFILE_VERIFIED_CLOSE_ENGINE_ERROR",
+                "job_id": "5b988ee48cf049f78f9008d946c8012f",
+                "snapshot_id": "5b3ae181e657e69da1f52293e4271408cec3c860296f2b049698ae5beffecda8",
+                "source_revision": "253bcf7d",
+                "source": "evidence/STUDIO/practical-editor-2026-10-12/windows-map-loaded-close; evidence/STUDIO/practical-editor-2026-10-12/windows-map-profile-live/map-actually-ready.png",
+                "actual_result": "Root native Skip→LoadMap, viewed actual village, normal X close. Ready196222ms; foliage77.377s/exterior79.577/core87.990/authored57.850/addresses12.421; densified-plan0.126s disproves spacing bottleneck. Process0, guard originalfiles restored verified, wrapperFAIL engineerrors. Verbose names detached ual1_standard.glb Node3D/Skeleton/MeshInstance/AnimationPlayer +48resources; VillageWindowcache release alone did not fix remaining leak. Initial a853900s run editor-ready only timedout before click, incomplete no acceptance; preserved raw receipt. Next source repair uses known owners/redundant work, no repeated unchanged scenario."
+              },
+              {
+                "stage": "2026-10-12 minimal redundant work reduction",
+                "result": "SOURCE_COMPILE_REVIEW_PASS_NATIVE_PENDING",
+                "source": "game/scripts/Act1ConnectedWorld.Addresses.cs; game/scripts/experiments/agent_b_act1/AgentBAct1ExteriorLayer.cs",
+                "verification": "Two Luna implementations, independent Sol source review accepted; Game affectedcompile0/0,16.49s; scoped diffcheckPASS. Address registry one ordered snapshot/live visibility/duplicate-name order; foliage exact-coordinate sample dedup preserves Min/Any/All while geometry/pivots/LOD/collision/RNG untouched. Actual speedup not yet measured."
               }
             ],
             "stage_tasks": [
@@ -79469,7 +79484,7 @@
             "remaining": [
               "Новичок выполняет основные действия через интерфейс и подсказки без знания файлов.; отсутствует подтверждение собственного конечного DoD, перечисленного ниже."
             ],
-            "next_action": "Один existing native MapLoad→normalclose с nestedexterior/foliage/densified timings + verbose ownernames; использоватьcause для минимального исправлениябезурезаниявида/contacts/picking.",
+            "next_action": "Закончить конкретные правки повторных обходов адресов и повторных LowVertices, исправить доказанный detached animation template; review/compile и один changed-source native map-load/close.",
             "blocker": null,
             "external_gates": [
               {
