@@ -105521,7 +105521,7 @@
       "assigned_owner": "art",
       "activity": {
         "state": "released",
-        "reason": "Принят ограниченный source consumer+compile; actual book native verification ещё не начата, root сериализует станцию для E01."
+        "reason": "Finite closed-book walking source/compile accepted; actual Windows verification not yet started. Assigned owner preserved."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -105530,7 +105530,7 @@
         "Actual Windows book inspection/reopen/tab/load/session/carry/vehicle guards, contacts and framing; native/human art acceptance not performed.",
         "Walking first-person grip and typed PageId→3D page/photo/flip/mount motion, editable typography/glyph text and FOV/accessibility acceptance remain open."
       ],
-      "next_action": "После E01 native release принять actual book inspection S-GARDEN selected mounted front/flip/back/other selection/close/reopen/session; затем оставшиеся PageId и walking grip. Source compile не заменяет приёмку.",
+      "next_action": "After station release, actual ordinary received book→Нести→walk/look at current FOV→Убрать and load/vehicle/carry/ladder guards; capture book/wrists/body. Full PageId/flip/mount/walking-art still open.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -105545,7 +105545,10 @@
           "game/scripts/ArrivalPersonalProps.cs",
           "game/scripts/RuntimeBridge.PhotoBook.cs",
           "game/scripts/JournalUi.PhotoBook.cs",
-          "game/scripts/JournalUi.PhotoBookInspection.cs"
+          "game/scripts/JournalUi.PhotoBookInspection.cs",
+          "game/scripts/FirstPersonController.PhotoBookGrip.cs",
+          "game/scripts/FirstPersonController.cs",
+          "game/scripts/JournalUi.cs"
         ],
         "required_inputs": [
           {
@@ -105833,6 +105836,18 @@
         "asset_mapping": "Imported AlbumInsert front localY+.000325/normal+Y; metric UV U[-.0747075006,.0747075006],V[.9502924681,1.0497075319], full3:2 front mapped. No extra geometry or backside front leak.",
         "affected_compile": "0 errors,0 warnings;29.62s",
         "root_review": "Root inspected diff and preserved original base/back/edges/session guards; moved textureLoad after cached-material check to avoid per-frame load."
+      },
+      "progress_2026_10_12_walking_grip": {
+        "inputs": "Existing accepted family-book/book-hands GLB close/hold_closed clips; actual FPC lowerbody selector and same received/current-session gate. Duplication invariant under read-only confirmation.",
+        "result": "Ordinary album carry/put-away buttons control local unsaved CLOSED book+single handpair under existing camera while walking. No new inventory/story/save/carry ownership.",
+        "scope": "Three narrow files; preserve lowerbody/FOV; suppress modal/load/vehicle/ladder/carry; reset request on session transition/identity; own visual nodes only. Existing S-GARDEN inspector binding untouched.",
+        "verification_question": "Can received book be taken from album, carried while walking and put away without doublehands, clipping/FOV forcing or state leakage on load/vehicle/carry?",
+        "success": "Source/compile stage with accurate body/asset invariants; actual Windows walking/FOV/guard captures remain required and separate from full PageId/flip/mount/fullgrip art.",
+        "native_state": "NOT_RUN; actual walking/FOV/hand contacts and session/load/vehicle/carry/close acceptance remain open. No visual/game readiness inferred from compile.",
+        "source_result": "Album Нести/Убрать invokes local player request; same regular CloseAsync saves notebook before taking. Rechecks current player/bridge/session and guards, instances accepted closed book+single hands under camera; suppresses modal/vehicle/ladder/carry, clears on transition/identity. No save/story/carry/input/FOV additions.",
+        "body_invariant": "Confirmed generation source tools/blender/generate_character_kit.py:184-247 faceted_torso; Body_LOD0:816-824 uses torso only. Sleeves separate825-844, CoatHem separate faceted_prism880-890; structure receipt lists distinct meshes. Lowerbody source does not duplicate arms/hands.",
+        "root_review": "Root fixed stale-session idempotence, hides old anchor before queued free, validates journal tree after awaited Close, refreshes invalid carry cache, allows local put-away when other carry/vehicle guards hide take. Existing received/mount inspector binding intact.",
+        "affected_compile": "Final0 errors,0 warnings32.35s; earlier35.68s superseded after review fixes."
       }
     },
     {

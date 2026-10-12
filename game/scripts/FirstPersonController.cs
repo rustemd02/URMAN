@@ -372,6 +372,7 @@ public partial class FirstPersonController : CharacterBody3D, IAccessibilitySett
 
     public override void _PhysicsProcess(double delta)
     {
+        RefreshPhotoBookGrip();
         // RuntimeBridge may need multiple physics frames to project saved world
         // contacts. Hold the exact supplied pose until that transaction finishes.
         if (_sessionTransition)
@@ -508,6 +509,7 @@ public partial class FirstPersonController : CharacterBody3D, IAccessibilitySett
 
     internal void SetSessionTransition(bool active)
     {
+        if (active) ClearPhotoBookGrip();
         _sessionTransition = active;
         _worldInteractionNeedsRelease = true;
         Velocity = Vector3.Zero;

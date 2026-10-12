@@ -7,6 +7,7 @@ public partial class JournalUi
     private const string InspectionBookPath = "res://assets/models/photoworlds/family-book-v1.glb";
     private const string InspectionHandsPath = "res://assets/models/photoworlds/book-hands-v1.glb";
     private Button _bookInspectionToggle = null!;
+    private Button _bookInspectionGripToggle = null!;
     private VBoxContainer _bookInspectionPanel = null!;
     private SubViewportContainer? _bookInspectionView;
     private SubViewport? _bookInspectionViewport;
@@ -48,6 +49,8 @@ public partial class JournalUi
     {
         _bookInspectionToggle = new Button { Text = "Осмотреть книгу в руках", Visible = false };
         _photoBookSpread.AddChild(_bookInspectionToggle);
+        _bookInspectionGripToggle = new Button { Text = "Нести книгу", Visible = false };
+        _photoBookSpread.AddChild(_bookInspectionGripToggle);
         _bookInspectionPanel = new VBoxContainer { Name = "PhysicalBookInspection", Visible = false };
         _photoBookSpread.AddChild(_bookInspectionPanel);
         _bookInspectionToggle.Pressed += () =>
@@ -55,6 +58,7 @@ public partial class JournalUi
             if (_bookInspectionView is not null) CloseBookInspection();
             else OpenBookInspection();
         };
+        _bookInspectionGripToggle.Pressed += TogglePhotoBookGrip;
     }
 
     private bool CanInspectBook() => _screen.Visible && _photoBookPage.Visible
@@ -70,6 +74,12 @@ public partial class JournalUi
     {
         var available = CanInspectBook();
         _bookInspectionToggle.Visible = available;
+        var player = GetTree().GetFirstNodeInGroup("player_controller") as FirstPersonController;
+        var canPutAway = _screen.Visible && _photoBookPage.Visible
+            && _tabs.CurrentTab == PhotoBookTabIndex && player?.HasPhotoBookGrip == true;
+        _bookInspectionGripToggle.Visible = available || canPutAway;
+        if (player is not null)
+            _bookInspectionGripToggle.Text = player.HasPhotoBookGrip ? "Убрать книгу" : "Нести книгу";
         if (!available || _bookInspectionView is not null
             && !ReferenceEquals(_bookInspectionSession, _bridge?.SessionIdentity))
         {
@@ -77,6 +87,40 @@ public partial class JournalUi
             return;
         }
         RefreshBookInspectionPhoto();
+    }
+
+    private async void TogglePhotoBookGrip()
+    {
+        if (!_screen.Visible || !_photoBookPage.Visible || _tabs.CurrentTab != PhotoBookTabIndex
+            || GetTree().GetFirstNodeInGroup("player_controller") is not FirstPersonController player) return;
+
+        if (player.HasPhotoBookGrip)
+        {
+            player.TrySetPhotoBookGrip(false);
+            RefreshBookInspection();
+            return;
+        }
+
+        if (!CanInspectBook() || _bridge is not { } bridge
+            || bridge.SessionIdentity is not { } session) return;
+        if (!player.CanPreparePhotoBookGrip()) return;
+        if (!await CloseAsync())
+        {
+            if (GodotObject.IsInstanceValid(this) && IsInsideTree()) RefreshBookInspection();
+            return;
+        }
+
+        if (!GodotObject.IsInstanceValid(this) || !IsInsideTree()) return;
+        CloseBookInspection();
+        var carry = GetTree().GetFirstNodeInGroup("carry_coordinator") as CarryCoordinator;
+        if (!IsInsideTree() || !GodotObject.IsInstanceValid(player) || !player.IsInsideTree()
+            || !ReferenceEquals(GetTree().GetFirstNodeInGroup("player_controller"), player)
+            || !GodotObject.IsInstanceValid(bridge)
+            || !ReferenceEquals(GetTree().GetFirstNodeInGroup("runtime_bridge"), bridge)
+            || !ReferenceEquals(session, bridge.SessionIdentity) || !bridge.CanInspectReceivedPhotoBook
+            || player.ModalOpen || player.VehicleControlled || player.IsClimbingLadder
+            || carry is { HeldItem: not null } or { ActionInProgress: true }) return;
+        player.TrySetPhotoBookGrip(true, session);
     }
 
     private void OpenBookInspection()
