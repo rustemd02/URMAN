@@ -79420,6 +79420,13 @@
                 "result": "NATIVE_TARGET_VERIFIED",
                 "source": "evidence/STUDIO/practical-editor-2026-10-12/windows-checkpoint-first",
                 "verification": "Actual UI saved9/10, Undo twice→7, then typed11 and Save accepted newtxac5789c7… order3, Undo restored originalSHA0d5112…; normalclose/restart0/0 anduserdataRestoredtrue. Does not verify loaded3D renderer shutdown."
+              },
+              {
+                "stage": "2026-10-12 causal map usability seams",
+                "result": "SOURCE_DIAGNOSTIC_COMPILE_REVIEW_PASS_NATIVE_PENDING",
+                "source": "game/scripts/Act1ConnectedWorld.cs; game/scripts/experiments/agent_b_act1/AgentBAct1ExteriorLayer.cs; eng/run-windows-check.ps1",
+                "verification": "Existinggated ProfileWorldBuildStep reused atagent-b-exterior,agent-b-foliage,agent-b-densified-plan. No placements/RNG/collision/render changes. Studio-only Godotverbose beforeengineScene/userargs, guardtimeoutindex/provenanceunchanged. Luna implementation/Solreview, affectedGamecompile0warnings0errors16.94s, actualPS5ASTparserPASS anduploadedSHAe60cb702…; diffcheck. Native timings/resource ownernames notyetcaptured.",
+                "remaining": "Visible3Dready timing and loadedworldrendererclose stillunproven. Native peerstation release needed; ordinaryVEHICLEflags notchanged. Profile logarithm isdiagnosticevidence, not delivered speedup."
               }
             ],
             "stage_tasks": [
@@ -79444,19 +79451,19 @@
               ],
               "done_when": "Новичок выбирает дом, меняет вручную, запускает AI, отменяет, открывает связь и сохраняет без подсказки разработчика о классах/путях."
             },
-            "active_owner": null,
+            "active_owner": "codex/b20-2026-10-10",
             "activity": {
-              "state": "paused_by_author",
-              "reason": "Назначение Codex/DeepSeek сохранено; миграция не запускает production и не выдаёт peer-передачу за активную работу."
+              "state": "confirmed_active",
+              "reason": "После принятых fastforms/checkpoints следующий конечный UI-остаток: трехминутнаяготовность 3D map. Existingprofile stage refinement и verbose closeowner diagnostic готовятся; неclaim скорость/новичка."
             },
             "task_type": "engineering",
-            "status": "todo",
-            "implementation_state": "not_started",
+            "status": "in_progress",
+            "implementation_state": "implemented",
             "technical_verification_state": "not_run",
             "remaining": [
               "Новичок выполняет основные действия через интерфейс и подсказки без знания файлов.; отсутствует подтверждение собственного конечного DoD, перечисленного ниже."
             ],
-            "next_action": "Свести контекстные controls; сохранить вкладки/формы; discovery via buttons/search; встроенное знакомство; провести сценарии и устранить наблюдённые затруднения.",
+            "next_action": "Один existing native MapLoad→normalclose с nestedexterior/foliage/densified timings + verbose ownernames; использоватьcause для минимального исправлениябезурезаниявида/contacts/picking.",
             "blocker": null,
             "external_gates": [
               {

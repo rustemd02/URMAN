@@ -239,7 +239,7 @@ public partial class AgentBAct1ExteriorLayer : Node3D
             mesh.MaterialOverride = PainterlyMaterialLibrary.ForColor("60685d", "stone");
         }
         BuildArchitectureCollision();
-        PlantFoliage();
+        Act1ConnectedWorld.ProfileWorldBuildStep("agent-b-foliage", PlantFoliage);
         BuildForestBoundaryCollision();
         BuildEnvironment();
         BuildKaraAccentLights();
@@ -1405,7 +1405,8 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         kit.SetMeta("templateSourcePolicy", "hidden source library; shared geometry is rebased once per variant");
         var batches = new Dictionary<(Vector2I Cell, string Variant, string Region, int Lod), List<Transform3D>>();
         var roofs = BuildingRoofBounds(GetParent());
-        var plan = BuildDensifiedPlan();
+        var plan = new List<(Vector2 Position, string Variant)>();
+        Act1ConnectedWorld.ProfileWorldBuildStep("agent-b-densified-plan", () => plan = BuildDensifiedPlan());
         var architecture = GetNode<StaticBody3D>("AgentB_ArchitectureCollision");
         var stemCount = 0;
         var suppressed = 0;

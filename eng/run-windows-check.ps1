@@ -155,6 +155,7 @@ try {
     if ($Mode -in @('play', 'smoke', 'capture')) {
         $baseArguments = @($guard, '--clean', '--timeout', "$TimeoutSeconds", $godot, '--path', "$Root/game", '--resolution', '1920x1080')
         if ($Headless) { $baseArguments += '--headless' } else { $baseArguments += '--always-on-top' }
+        if ($studioPlay) { $baseArguments += '--verbose' }
         if ($Mode -eq 'capture') {
             $env:URMAN_VIEW_CAPTURE = "$output/frames"
             $env:URMAN_VIEW_POINTS = $ViewPoints

@@ -1227,7 +1227,7 @@ public partial class Act1ConnectedWorld : Node3D
         BuildAct1KaraForestEdgeKit(core);
         BuildAct1AuthoredExteriorKit(core);
         BuildAct1SightlineClosurePass(core);
-        BuildAgentBExteriorWorld(core);
+        ProfileWorldBuildStep("agent-b-exterior", () => BuildAgentBExteriorWorld(core));
         AddDistantForestBand(core, "BackdropMidWoodlandWest",
             new Vector3(-150f, (float)AgentBAct1HeightField.Ground(-150f, -30f), -30f), 34, 8.0f, 87f, 1.15f, false);
         AddDistantForestBand(core, "BackdropMidWoodlandEast",
@@ -6425,7 +6425,7 @@ public partial class Act1ConnectedWorld : Node3D
         AddCoreFacetedMass(parent, "BabaiEbiHouseStreetMemoryMass", new(-30.0f, 2.1f, 8.2f), new(7.0f, 2.0f, 2.0f), "55615a");
     }
 
-    private static void ProfileWorldBuildStep(string stage,Action build)
+    internal static void ProfileWorldBuildStep(string stage,Action build)
     {
         if(!StudioPreviewMode && OS.GetEnvironment("URMAN_WORLD_BUILD_PROFILE")!="1") {build();return;}
         var elapsed=System.Diagnostics.Stopwatch.StartNew();
