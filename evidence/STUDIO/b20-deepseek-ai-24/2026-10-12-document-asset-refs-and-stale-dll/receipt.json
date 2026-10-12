@@ -1,0 +1,23 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-24"
+  ],
+  "stage": "document assetRefs are resolved, and the probe was reading a stale DLL",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-12 (MSK)",
+  "branch": "deepseek/b20-editor-content",
+  "base": "c1e63927",
+  "the_gap": "AuthoredDocuments RESOLVED knowledgeRefs but only COUNTED assetRefs, so a document could point at an asset that does not exist while Studio said nothing. It now resolves them against the authored ids and reports a missing one, naming the consequence (the compiler fails the pack, the player sees no image). Verified synthetically: a document with assetRefs [urman.mini:asset/missing] is reported",
+  "the_harness_flaw_this_exposed": "while debugging the synthetic case I found the CHECK WAS RIGHT and my probe was running against a STALE ASSEMBLY: /tmp/dsprobe/bin held Urman.Studio.Core.dll from 19:15 while the tree's copy was 20:44, because a HintPath reference does not reliably re-copy a rebuilt DLL. Any stage verified through that probe since the staleness began could have been judged against old code",
+  "the_fix": "/tmp/runprobe.sh (also stored beside this receipt) rebuilds the three projects and COPIES their DLLs into the probe's output before running, so the probe cannot silently use an old build",
+  "why_this_matters": "this is the same class of error as a vacuous check, one level up: a verification instrument that looks like it passes while measuring the wrong thing",
+  "verified": {
+    "probe": "PASS 790/790 after the fix, including the new missing-asset assertion",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors",
+    "not_run": "no game launch: seeing the image is visual acceptance"
+  },
+  "files": {
+    "evidence/STUDIO/b20-deepseek-ai-24/2026-10-12-document-asset-refs-and-stale-dll/check.log": "98d16e106e335dcce56376e3cfaf4a7d998558f8e3e62fcd0d8e4db3e3ee34a8"
+  }
+}

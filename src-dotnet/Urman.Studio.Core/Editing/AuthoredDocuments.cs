@@ -111,6 +111,16 @@ public static class AuthoredDocuments
                     problems.Add($"{moduleId}: «{entry}» ссылается на «{reference}», которого нет в проекте.");
                 }
 
+                // The knowledge references were resolved and the asset references were only COUNTED,
+                // which left a document able to point at an asset that does not exist while Studio
+                // said nothing. The compiler fails the pack for an unresolved reference, so this
+                // checks the same thing against the authored ids the workspace can see.
+                var assetRefs = (frontMatter["assetRefs"] as JsonArray ?? []).OfType<JsonValue>().Select(value => value.GetValue<string>()).ToArray();
+                foreach (var reference in assetRefs.Where(reference => reference.Length > 0 && workspace.Locate(reference) is null))
+                {
+                    problems.Add($"{moduleId}: «{entry}» ссылается на ассет «{reference}», которого нет в проекте — компилятор отвергнет пак, а игрок не увидит изображения.");
+                }
+
                 var conditions = frontMatter["accessConditions"] as JsonArray ?? [];
                 var effects = frontMatter["openEffects"] as JsonArray ?? [];
                 CheckOperations(conditions, executedConditions, moduleId, entry, "accessConditions", true, problems);
@@ -121,7 +131,7 @@ public static class AuthoredDocuments
                     entry,
                     AuthoredJson.Text(frontMatter, "id"),
                     knowledgeRefs.Length,
-                    (frontMatter["assetRefs"] as JsonArray ?? []).Count,
+                    assetRefs.Length,
                     effects.Count,
                     problems));
             }

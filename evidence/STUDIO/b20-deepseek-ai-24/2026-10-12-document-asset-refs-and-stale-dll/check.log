@@ -1,0 +1,9 @@
+== AI-24: document assetRefs are now resolved, and the probe was reading a STALE DLL
+
+-- the runtime/compiler side: a document may not reference an asset that does not exist
+-- the projection now resolves assetRefs instead of only counting them:
+121:                    problems.Add($"{moduleId}: «{entry}» ссылается на ассет «{reference}», которого нет в проекте — компилятор отвергнет пак, а игрок не увидит изображения.");
+-- THE HARNESS FLAW: the probe's bin held a copy of Urman.Studio.Core.dll from 19:15 while the tree had 20:44,
+   so the stage appeared to fail against old code. runprobe.sh now rebuilds and copies the DLLs itself.
+PASS  a document pointing at a missing asset is reported
+PROBE RESULT: PASS
