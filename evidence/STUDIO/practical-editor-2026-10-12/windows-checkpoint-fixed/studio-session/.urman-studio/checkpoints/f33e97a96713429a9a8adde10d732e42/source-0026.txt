@@ -1,0 +1,139 @@
+[
+ {"schemaVersion":1,"id":"urman.chapter1:knowledge/alsu_walk_invitation","kind":"fact","title":{"default":"Пройти с Алсу до поворота","translations":{"ru":"Пройти с Алсу до поворота"}},"summary":{"default":"Алсу предложила пройти рядом по улице Тукая до первого поворота. Она подождёт, если я отойду; продолжить можно в разговоре с ней. Это ещё не её рассказ о Марате.","translations":{"ru":"Алсу предложила пройти рядом по улице Тукая до первого поворота. Она подождёт, если я отойду; продолжить можно в разговоре с ней. Это ещё не её рассказ о Марате."}},"initialStatus":"hidden","sourceIds":["urman.chapter1:dialogue/alsu_route_context"],"reveals":[],"contradicts":[],"unlocks":[]},
+ {"schemaVersion":1,"id":"urman.chapter1:text/dialogue-alsu-walk-invitation","value":{"default":"«Пройдём немного по Тукаю, до поворота? Я всё собиралась спросить, как ты доехал. Здесь можно рядом идти, дорогу почистили. Если отойдёшь, я подожду — вернёшься, договорим. А дальше сам разберёшься — таблички на домах остались».","translations":{"ru":"«Пройдём немного по Тукаю, до поворота? Я всё собиралась спросить, как ты доехал. Здесь можно рядом идти, дорогу почистили. Если отойдёшь, я подожду — вернёшься, договорим. А дальше сам разберёшься — таблички на домах остались»."}},"purpose":"dialogue"},
+ {"schemaVersion":1,"id":"urman.chapter1:text/choice-alsu-walk-together","value":{"default":"Давай. Доехал нормально, только никак не привыкну, что я опять здесь.","translations":{"ru":"Давай. Доехал нормально, только никак не привыкну, что я опять здесь."}},"purpose":"dialogue"},
+ {"schemaVersion":1,"id":"urman.chapter1:text/choice-alsu-walk-later","value":{"default":"Я пока отойду. Потом договорим.","translations":{"ru":"Я пока отойду. Потом договорим."}},"purpose":"dialogue"},
+ {"schemaVersion":1,"id":"urman.chapter1:text/dialogue-alsu-walk-start","value":{"default":"«Иди рядом. У поворота остановимся. Если тебе ещё куда-то надо, я подожду».","translations":{"ru":"«Иди рядом. У поворота остановимся. Если тебе ещё куда-то надо, я подожду»."}},"purpose":"dialogue"},
+ {"schemaVersion":1,"id":"urman.chapter1:text/dialogue-alsu-walk-later","value":{"default":"«Хорошо. Я здесь побуду. Вернёшься — продолжим».","translations":{"ru":"«Хорошо. Я здесь побуду. Вернёшься — продолжим»."}},"purpose":"dialogue"},
+ {"schemaVersion":1,"id":"urman.chapter1:knowledge/family_home_invitation","kind":"fact","title":{"default":"Әби зовёт за стол","translations":{"ru":"Әби зовёт за стол"}},"summary":{"default":"Гөлсинә освободила для меня место у стола и пригласила согреться. Этот разговор можно продолжить дома у бабая: {address:ADR-BABAI}.","translations":{"ru":"Гөлсинә освободила для меня место у стола и пригласила согреться. Этот разговор можно продолжить дома у бабая: {address:ADR-BABAI}."}},"initialStatus":"hidden","sourceIds":["urman.chapter1:dialogue/gulsina_yaramyy"],"reveals":[],"contradicts":[],"unlocks":[]},
+ {"schemaVersion":1,"id":"urman.chapter1:text/objective-family-home-inside","value":{"default":"Гөлсинә позвала за стол. Договорить с ней о приезде и поесть вместе.","translations":{"ru":"Гөлсинә позвала за стол. Договорить с ней о приезде и поесть вместе."}},"purpose":"ui"},
+ {"schemaVersion":1,"id":"urman.chapter1:text/objective-family-home-outside","value":{"default":"Гөлсинә ждёт дома — {address:ADR-BABAI}. Вернуться к разговору за столом.","translations":{"ru":"Гөлсинә ждёт дома — {address:ADR-BABAI}. Вернуться к разговору за столом."}},"purpose":"ui"},
+ {"schemaVersion":1,"id":"urman.chapter1:knowledge/family_home_pause","kind":"fact","title":{"default":"За домашним столом","translations":{"ru":"За домашним столом"}},"summary":{"default":"Я принял еду и остался за столом с Гөлсинә. Она ждала моего приезда, а не только помощи с домашними делами. Разговор о возвращении не объяснил, что случилось с Маратом.","translations":{"ru":"Я принял еду и остался за столом с Гөлсинә. Она ждала моего приезда, а не только помощи с домашними делами. Разговор о возвращении не объяснил, что случилось с Маратом."}},"initialStatus":"hidden","sourceIds":["urman.chapter1:dialogue/gulsina_yaramyy"],"reveals":[],"contradicts":[],"unlocks":[]},
+ {"schemaVersion":1,"id":"urman.chapter1:knowledge/memory_gulsina_childhood_table","kind":"fact","title":{"default":"Как әби помнит тот день","translations":{"ru":"Как әби помнит тот день"}},"summary":{"default":"Я показал Гөлсинә старый снимок с Маратом. Она вспомнила, как он звал меня со двора, пока мы ещё не доели. Подпись напоминает мне его поддразнивание, а ей — наш обычный день. Этот разговор не объяснил, что произошло с Маратом.","translations":{"ru":"Я показал Гөлсинә старый снимок с Маратом. Она вспомнила, как он звал меня со двора, пока мы ещё не доели. Подпись напоминает мне его поддразнивание, а ей — наш обычный день. Этот разговор не объяснил, что произошло с Маратом."}},"initialStatus":"hidden","sourceIds":["urman.chapter1:document/arrival-photo-evidence","urman.chapter1:dialogue/gulsina_yaramyy"],"reveals":[],"contradicts":[],"unlocks":[]},
+ {"schemaVersion":1,"id":"urman.chapter1:text/choice-gulsina-tea-help","value":{"default":"Я написал маме, что помогу бабаю. А у остановки опять рассматривал наше с Маратом фото.","translations":{"ru":"Я написал маме, что помогу бабаю. А у остановки опять рассматривал наше с Маратом фото."}},"purpose":"dialogue"},
+ {"schemaVersion":1,"id":"urman.chapter1:text/choice-gulsina-tea-silent","value":{"default":"Мама спросила, доехал ли я. Я прочитал и так ничего не ответил.","translations":{"ru":"Мама спросила, доехал ли я. Я прочитал и так ничего не ответил."}},"purpose":"dialogue"},
+ {"schemaVersion":1,"id":"urman.chapter1:text/choice-gulsina-tea-photo","value":{"default":"Показать снимок с Маратом: «Ты помнишь, как мы тут носились?»","translations":{"ru":"Показать снимок с Маратом: «Ты помнишь, как мы тут носились?»"}},"purpose":"dialogue"},
+ {"schemaVersion":1,"id":"urman.chapter1:text/choice-gulsina-tea-later","value":{"default":"Я вернусь к столу чуть позже.","translations":{"ru":"Я вернусь к столу чуть позже."}},"purpose":"dialogue"},
+ {"schemaVersion":1,"id":"urman.chapter1:text/choice-gulsina-accept-meal","value":{"default":"Спасибо, әби. Давай поедим вместе.","translations":{"ru":"Спасибо, әби. Давай поедим вместе."}},"purpose":"dialogue"},
+ {"schemaVersion":1,"id":"urman.chapter1:text/choice-gulsina-tea-again","value":{"default":"Можно ещё немного с тобой посидеть?","translations":{"ru":"Можно ещё немного с тобой посидеть?"}},"purpose":"dialogue"},
+ {"schemaVersion":1,"id":"urman.chapter1:text/dialogue-gulsina-tea-help","value":{"default":"«Поможешь. У бабая всегда найдётся, что вместе посмотреть. А ко мне можно и без дела приехать. Ты ведь не только за компьютером соскучился?» Она не ждёт оправдания за все годы сразу. «Расскажешь, как живёшь. Только сначала поешь со мной».","translations":{"ru":"«Поможешь. У бабая всегда найдётся, что вместе посмотреть. А ко мне можно и без дела приехать. Ты ведь не только за компьютером соскучился?» Она не ждёт оправдания за все годы сразу. «Расскажешь, как живёшь. Только сначала поешь со мной»."}},"purpose":"dialogue"},
+ {"schemaVersion":1,"id":"urman.chapter1:text/dialogue-gulsina-tea-silent","value":{"default":"«Напишешь. Ей важно, что ты добрался. А мне вот не надо читать: ты здесь. Не знаешь, с чего начать — начни с еды. И с того, как у тебя дела». От этого простого вопроса почему-то труднее отмахнуться, чем от запрета идти в лес.","translations":{"ru":"«Напишешь. Ей важно, что ты добрался. А мне вот не надо читать: ты здесь. Не знаешь, с чего начать — начни с еды. И с того, как у тебя дела». От этого простого вопроса почему-то труднее отмахнуться, чем от запрета идти в лес."}},"purpose":"dialogue"},
+ {"schemaVersion":1,"id":"urman.chapter1:text/dialogue-gulsina-tea-photo","value":{"default":"«Вы ещё не доели, а он уже тебя со двора зовёт. Всё боялся, что без него убежишь». Подпись «Казанский, не отставай» напоминает мне его поддразнивание, а ей — наш обычный день. «Пусть полежит рядом. И ты пока не убегай». Имя Марата остаётся между нами без ответа о том, что с ним случилось.","translations":{"ru":"«Вы ещё не доели, а он уже тебя со двора зовёт. Всё боялся, что без него убежишь». Подпись «Казанский, не отставай» напоминает мне его поддразнивание, а ей — наш обычный день. «Пусть полежит рядом. И ты пока не убегай». Имя Марата остаётся между нами без ответа о том, что с ним случилось."}},"purpose":"dialogue"},
+ {"schemaVersion":1,"id":"urman.chapter1:text/dialogue-gulsina-tea-finished","value":{"default":"«Вот так. Не гостем же тебе в своём доме сидеть. Ну, рассказывай — как ты там в Казани, спишь хоть нормально?»","translations":{"ru":"«Вот так. Не гостем же тебе в своём доме сидеть. Ну, рассказывай — как ты там в Казани, спишь хоть нормально?»"}},"purpose":"dialogue"},
+ {"schemaVersion":1,"id":"urman.chapter1:text/dialogue-gulsina-tea-return","value":{"default":"«Садись, конечно. Ничего нового для этого придумывать не надо». Тот разговор уже состоялся; теперь можно просто побыть рядом.","translations":{"ru":"«Садись, конечно. Ничего нового для этого придумывать не надо». Тот разговор уже состоялся; теперь можно просто побыть рядом."}},"purpose":"dialogue"},
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:knowledge/clue_mansur_household_request",
+  "kind": "clue",
+  "title": {"default": "Список для бабая", "translations": {"ru": "Список для бабая"}},
+  "summary": {"default": "Мансур попросил найти старую квитанцию со списком для Нивы: что собирались менять, а что решили пока не трогать. Можно искать по «Нива» или «квитанция». Когда найду нужную запись, стоит вернуться к нему и сверить, что именно он имел в виду.", "translations": {"ru": "Мансур попросил найти старую квитанцию со списком для Нивы: что собирались менять, а что решили пока не трогать. Можно искать по «Нива» или «квитанция». Когда найду нужную запись, стоит вернуться к нему и сверить, что именно он имел в виду."}},
+  "initialStatus": "hidden",
+  "sourceIds": ["urman.chapter1:dialogue/mansur_pc_request"],
+  "reveals": [], "contradicts": [], "unlocks": []
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:knowledge/clue_household_niva_list",
+  "kind": "clue",
+  "title": {"default": "Нива: список и приписка", "translations": {"ru": "Нива: список и приписка"}},
+  "summary": {"default": "В квитанции перечислены ремонт Нивы, покупки и отдельная приписка о проводке. Это разные части одной записи. Пока я только прочитал лист; Мансур ещё не подтвердил, что найдена именно его просьба.", "translations": {"ru": "В квитанции перечислены ремонт Нивы, покупки и отдельная приписка о проводке. Это разные части одной записи. Пока я только прочитал лист; Мансур ещё не подтвердил, что найдена именно его просьба."}},
+  "initialStatus": "hidden",
+  "sourceIds": ["urman.oldpc:document/doc_household_misc_niva_receipt"],
+  "reveals": [], "contradicts": [], "unlocks": []
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:knowledge/clue_household_electric_receipts",
+  "kind": "clue",
+  "title": {"default": "Квитанции за свет", "translations": {"ru": "Квитанции за свет"}},
+  "summary": {"default": "В папке старые платежи за электричество и приписки о напряжении. Слово «квитанция» совпало с просьбой бабая; сам предмет записи надо ещё проверить.", "translations": {"ru": "В папке старые платежи за электричество и приписки о напряжении. Слово «квитанция» совпало с просьбой бабая; сам предмет записи надо ещё проверить."}},
+  "initialStatus": "hidden",
+  "sourceIds": ["urman.oldpc:document/doc_household_electric_receipts"],
+  "reveals": [], "contradicts": [], "unlocks": []
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:knowledge/clue_household_request_checked",
+  "kind": "clue",
+  "title": {"default": "Нашли нужный список", "translations": {"ru": "Нашли нужный список"}},
+  "summary": {"default": "Я вернулся к Мансуру и сверил список: ремень заменить, масло проверить; жгут проводов пока не трогать. Он узнал запись. Просьба выполнена.", "translations": {"ru": "Я вернулся к Мансуру и сверил список: ремень заменить, масло проверить; жгут проводов пока не трогать. Он узнал запись. Просьба выполнена."}},
+  "initialStatus": "hidden",
+  "sourceIds": ["urman.oldpc:document/doc_household_misc_niva_receipt", "urman.chapter1:knowledge/clue_mansur_household_request"],
+  "reveals": [], "contradicts": [], "unlocks": []
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:knowledge/clue_family_notice_by_phone",
+  "kind": "clue",
+  "title": {"default": "Мансур узнаёт формулировку", "translations": {"ru": "Мансур узнаёт формулировку"}},
+  "summary": {"default": "Когда я показал справку, Мансур сказал, что бабушке по телефону сообщили ту же формулировку. Он не сказал, что семья подавала повторный запрос. В справке есть отдельная строка о таких запросах; её можно сопоставить с его точными словами.", "translations": {"ru": "Когда я показал справку, Мансур сказал, что бабушке по телефону сообщили ту же формулировку. Он не сказал, что семья подавала повторный запрос. В справке есть отдельная строка о таких запросах; её можно сопоставить с его точными словами."}},
+  "initialStatus": "hidden",
+  "sourceIds": ["urman.chapter1:dialogue/mansur_pc_request", "urman.oldpc:document/doc_marat_official_death_notice"],
+  "reveals": [], "contradicts": [], "unlocks": []
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:knowledge/clue_notice_call_not_request",
+  "kind": "clue",
+  "title": {"default": "Сообщить семье — не то же, что принять запрос", "translations": {"ru": "Сообщить семье — не то же, что принять запрос"}},
+  "summary": {"default": "Рассказ Мансура о телефонном сообщении и строка «повторных запросов не поступало» не опровергают друг друга. По ним нельзя решить, что семье было всё равно, или что её обращения стёрли. У Наили можно уточнить, что эта строка вообще позволяет установить.", "translations": {"ru": "Рассказ Мансура о телефонном сообщении и строка «повторных запросов не поступало» не опровергают друг друга. По ним нельзя решить, что семье было всё равно, или что её обращения стёрли. У Наили можно уточнить, что эта строка вообще позволяет установить."}},
+  "initialStatus": "hidden",
+  "sourceIds": ["urman.chapter1:knowledge/clue_family_notice_by_phone", "urman.oldpc:document/doc_marat_official_death_notice"],
+  "reveals": [], "contradicts": [], "unlocks": []
+ },
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:knowledge/clue_naila_request_entry_scope",
+  "kind": "clue",
+  "title": {"default": "Что Наиля может показать", "translations": {"ru": "Что Наиля может показать"}},
+  "summary": {"default": "Наиля не стала судить о семье по строке справки. Она предложила проверить медицинскую формулировку и запись о передаче участковому. Вопрос о Марате остаётся открытым, но отсутствие повторных запросов больше не выглядит доказательством семейного равнодушия.", "translations": {"ru": "Наиля не стала судить о семье по строке справки. Она предложила проверить медицинскую формулировку и запись о передаче участковому. Вопрос о Марате остаётся открытым, но отсутствие повторных запросов больше не выглядит доказательством семейного равнодушия."}},
+  "initialStatus": "hidden",
+  "sourceIds": ["urman.chapter1:dialogue/naila_medical_record", "urman.chapter1:knowledge/clue_notice_call_not_request"],
+  "reveals": [], "contradicts": [], "unlocks": []
+ },
+ {"schemaVersion": 1, "id": "urman.chapter1:text/choice-mansur-check-household-list", "value": {"default": "Давай сверим твой список к Ниве.", "translations": {"ru": "Давай сверим твой список к Ниве."}}, "purpose": "dialogue"},
+ {"schemaVersion": 1, "id": "urman.chapter1:text/dialogue-mansur-household-list-question", "value": {"default": "«Там ещё продукты вписаны, не перепутай. Что про саму машину нашли?»", "translations": {"ru": "«Там ещё продукты вписаны, не перепутай. Что про саму машину нашли?»"}}, "purpose": "dialogue"},
+ {"schemaVersion": 1, "id": "urman.chapter1:text/choice-mansur-niva-repairs", "value": {"default": "Ремень заменить, масло проверить. Проводку пока оставить.", "translations": {"ru": "Ремень заменить, масло проверить. Проводку пока оставить."}}, "purpose": "dialogue"},
+ {"schemaVersion": 1, "id": "urman.chapter1:text/choice-mansur-niva-wiring", "value": {"default": "Передать Фанису, чтобы начал с жгута проводов?", "translations": {"ru": "Передать Фанису, чтобы начал с жгута проводов?"}}, "purpose": "dialogue"},
+ {"schemaVersion": 1, "id": "urman.chapter1:text/choice-mansur-electric-receipts", "value": {"default": "Нашёл квитанции за свет. Долг уже закрыт.", "translations": {"ru": "Нашёл квитанции за свет. Долг уже закрыт."}}, "purpose": "dialogue"},
+ {"schemaVersion": 1, "id": "urman.chapter1:text/choice-mansur-keep-looking", "value": {"default": "Ещё посмотрю в компьютере.", "translations": {"ru": "Ещё посмотрю в компьютере."}}, "purpose": "dialogue"},
+ {"schemaVersion": 1, "id": "urman.chapter1:text/dialogue-mansur-household-list-checked", "value": {"default": "«Вот этот лист. А я уже опять про проводку собрался спрашивать. Спасибо, Айдар. Хорошо, что вместе посмотрели — как раньше во дворе».", "translations": {"ru": "«Вот этот лист. А я уже опять про проводку собрался спрашивать. Спасибо, Айдар. Хорошо, что вместе посмотрели — как раньше во дворе»."}}, "purpose": "dialogue"},
+ {"schemaVersion": 1, "id": "urman.chapter1:text/dialogue-mansur-household-wiring-correction", "value": {"default": "«Подожди. Там про проводку приписка внизу. Мы её собирались трогать или как раз оставить?» Слово я нашёл, но действие прочитал наоборот. Можно проверить лист ещё раз.", "translations": {"ru": "«Подожди. Там про проводку приписка внизу. Мы её собирались трогать или как раз оставить?» Слово я нашёл, но действие прочитал наоборот. Можно проверить лист ещё раз."}}, "purpose": "dialogue"},
+ {"schemaVersion": 1, "id": "urman.chapter1:text/dialogue-mansur-household-wrong-receipt", "value": {"default": "«Это за свет. Я про Ниву просил — ремень там, масло, покупки. Попробуй по машине поискать, а не по квитанции». Название файла совпало, содержание — нет.", "translations": {"ru": "«Это за свет. Я про Ниву просил — ремень там, масло, покупки. Попробуй по машине поискать, а не по квитанции». Название файла совпало, содержание — нет."}}, "purpose": "dialogue"},
+ {"schemaVersion": 1, "id": "urman.chapter1:text/compare-family-call-scope", "value": {"default": "Проверить, противоречит ли звонок строке о повторных запросах.", "translations": {"ru": "Проверить, противоречит ли звонок строке о повторных запросах."}}, "purpose": "ui"},
+ {"schemaVersion": 1, "id": "urman.chapter1:text/compare-family-call-scope-result", "value": {"default": "Мансур говорит, что бабушке сообщили формулировку. В справке сказано, что повторных запросов от родственников не поступало. Направление обращения разное. Пока эти сведения совместимы; я не выяснил ни кто звонил, ни чего семья пыталась добиться. У Наили стоит спросить, что именно учитывает эта строка.", "translations": {"ru": "Мансур говорит, что бабушке сообщили формулировку. В справке сказано, что повторных запросов от родственников не поступало. Направление обращения разное. Пока эти сведения совместимы; я не выяснил ни кто звонил, ни чего семья пыталась добиться. У Наили стоит спросить, что именно учитывает эта строка."}}, "purpose": "ui"},
+ {"schemaVersion": 1, "id": "urman.chapter1:text/compare-family-call-erased", "value": {"default": "Проверить версию: обращения семьи убрали из справки.", "translations": {"ru": "Проверить версию: обращения семьи убрали из справки."}}, "purpose": "ui"},
+ {"schemaVersion": 1, "id": "urman.chapter1:text/compare-family-call-erased-result", "value": {"default": "Чтобы утверждать, что запись убрали, нужна сама запись или свидетельство о поданном запросе. Мансур рассказал о полученном телефонном сообщении. Этого недостаточно. Вернусь к двум конкретным формулировкам, прежде чем обвинять людей.", "translations": {"ru": "Чтобы утверждать, что запись убрали, нужна сама запись или свидетельство о поданном запросе. Мансур рассказал о полученном телефонном сообщении. Этого недостаточно. Вернусь к двум конкретным формулировкам, прежде чем обвинять людей."}}, "purpose": "ui"},
+ {"schemaVersion": 1, "id": "urman.chapter1:text/choice-naila-family-request-entry", "value": {"default": "Бабушке сообщили по телефону. Это не то же, что «повторный запрос»?", "translations": {"ru": "Бабушке сообщили по телефону. Это не то же, что «повторный запрос»?"}}, "purpose": "dialogue"},
+ {"schemaVersion": 1, "id": "urman.chapter1:text/dialogue-naila-family-request-entry", "value": {"default": "«Из этой строки ты не узнаешь, что чувствовали дома. И весь телефонный разговор здесь не записан. Ты хотел понять, что случилось с Маратом? Тогда посмотри, как сформулирована причина и куда передали справку. Эти строки я покажу». Я принёс вопрос о бабушке, а обвинение в её молчании оказалось моим собственным выводом.", "translations": {"ru": "«Из этой строки ты не узнаешь, что чувствовали дома. И весь телефонный разговор здесь не записан. Ты хотел понять, что случилось с Маратом? Тогда посмотри, как сформулирована причина и куда передали справку. Эти строки я покажу». Я принёс вопрос о бабушке, а обвинение в её молчании оказалось моим собственным выводом."}}, "purpose": "dialogue"},
+ {"schemaVersion": 1, "id": "urman.chapter1:text/choice-gulsina-naila-word", "value": {"default": "Наиля тоже сказала «ярамый», когда я спросил о записи. А ты о чём?", "translations": {"ru": "Наиля тоже сказала «ярамый», когда я спросил о записи. А ты о чём?"}}, "purpose": "dialogue"},
+ {"schemaVersion": 1, "id": "urman.chapter1:text/dialogue-gulsina-naila-word", "value": {"default": "«Я за Наилю отвечать не стану. У неё сам спросишь. Я тебя прошу к лесу вечером не ходить. Хочу знать, что домой придёшь». То же слово, а вопрос другой: Наиля остановила разговор о категории, бабушка говорит о том, куда я собрался.", "translations": {"ru": "«Я за Наилю отвечать не стану. У неё сам спросишь. Я тебя прошу к лесу вечером не ходить. Хочу знать, что домой придёшь». То же слово, а вопрос другой: Наиля остановила разговор о категории, бабушка говорит о том, куда я собрался."}}, "purpose": "dialogue"},
+ {
+  "schemaVersion": 1,
+  "id": "urman.chapter1:scene/investigation-family",
+  "sceneType": "presentation",
+  "title": {"default": "Семейный рассказ и справка", "translations": {"ru": "Семейный рассказ и справка"}},
+  "assetRefs": [],
+  "textRefs": ["urman.chapter1:text/compare-family-call-scope", "urman.chapter1:text/compare-family-call-scope-result", "urman.chapter1:text/compare-family-call-erased", "urman.chapter1:text/compare-family-call-erased-result"],
+  "entryConditions": [], "onEnter": [], "onExit": [],
+  "interactions": [
+   {
+    "id": "urman.chapter1:interaction/compare-family-call-scope",
+    "labelTextId": "urman.chapter1:text/compare-family-call-scope",
+    "conditions": [{"op": "not", "condition": {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_notice_call_not_request", "status": "confirmed"}}],
+    "effects": [
+     {"op": "knowledge.set-status", "knowledgeId": "urman.chapter1:knowledge/clue_notice_call_not_request", "status": "confirmed"},
+     {"op": "journal.record", "entryId": "urman.chapter1:knowledge/clue_notice_call_not_request", "sourceId": "urman.chapter1:knowledge/clue_notice_call_not_request"}
+    ],
+    "journalAction": {"sourceIds": ["urman.oldpc:document/doc_marat_official_death_notice", "urman.chapter1:knowledge/clue_family_notice_by_phone"], "resultTextId": "urman.chapter1:text/compare-family-call-scope-result"}
+   },
+   {
+    "id": "urman.chapter1:interaction/compare-family-call-erased",
+    "labelTextId": "urman.chapter1:text/compare-family-call-erased",
+    "conditions": [{"op": "not", "condition": {"op": "knowledge.status", "knowledgeId": "urman.chapter1:knowledge/clue_notice_call_not_request", "status": "confirmed"}}],
+    "effects": [],
+    "journalAction": {"sourceIds": ["urman.oldpc:document/doc_marat_official_death_notice", "urman.chapter1:knowledge/clue_family_notice_by_phone"], "resultTextId": "urman.chapter1:text/compare-family-call-erased-result"}
+   }
+  ]
+ }
+]

@@ -1,0 +1,1509 @@
+{
+  "schemaVersion": 1,
+  "kind": "urman.world-plot",
+  "id": "urman.world:act1/residents",
+  "executor": "generic",
+  "name": "Жители северного квартала (фоновые)",
+  "note": "Ambient: 33 стабильных жителя и прежние greeting IDs. Срез 2026-10-02: шесть существующих зимних v2 семейств, умеренные силуэты и палитры одежды вместо одной мужской модели; ребёнок у доски отодвинут от взрослой. Точки дворов связаны с актуальными ns-* домами open-part/far-bank; физическая и художественная приёмка новой сборки открыты. Паспорт docs/production/village_relayout_2026-10-02/residents_audit.md; tools/world/generate_residents.py сохраняет проверенные presentation-поля по стабильным ID, позиции берёт из свежей физической съёмки.",
+  "entities": [
+    {
+      "id": "urman.world:act1/residents/e-n1-a",
+      "kind": "npc",
+      "name": "Житель двора e-n1",
+      "note": "Стоит во дворе, смотрит на улицу.",
+      "params": {
+        "characterId": "resident-e-n1-a",
+        "kitPrefix": "Gulsina",
+        "position": [
+          7.16,
+          0.0,
+          143.9
+        ],
+        "yawDegrees": -60.0,
+        "scale": 0.99,
+        "schedule": [
+          {
+            "id": "day",
+            "place": [
+              7.16,
+              0.0,
+              143.9
+            ],
+            "yawDegrees": -60.0,
+            "motion": "urman.anim:idle-plain"
+          }
+        ],
+        "greeting": "neighbor-f",
+        "speaker": "СОСЕДКА",
+        "residentAppearance": {
+          "profile": "woman in headscarf and wool layers",
+          "width": 0.98,
+          "depth": 1.0,
+          "coatColor": "48584c",
+          "headwearColor": "4d443b",
+          "accentColor": "685154"
+        },
+        "ambientResidence": {
+          "household": "e-n1",
+          "outsideSeconds": 70,
+          "insideSeconds": 210,
+          "night": "indoors"
+        }
+      }
+    },
+    {
+      "id": "urman.world:act1/residents/e-s1-a",
+      "kind": "npc",
+      "name": "Житель двора e-s1",
+      "note": "Стоит во дворе, смотрит на улицу.",
+      "params": {
+        "characterId": "resident-e-s1-a",
+        "kitPrefix": "Resident",
+        "position": [
+          24.55,
+          0.0,
+          134.37
+        ],
+        "yawDegrees": 190.0,
+        "scale": 1.01,
+        "schedule": [
+          {
+            "id": "day",
+            "place": [
+              24.55,
+              0.0,
+              134.37
+            ],
+            "yawDegrees": 190.0,
+            "motion": "urman.anim:idle-plain"
+          }
+        ],
+        "greeting": "neighbor-m",
+        "speaker": "СОСЕД",
+        "residentAppearance": {
+          "profile": "man in quilted jacket and valenki",
+          "width": 0.97,
+          "depth": 0.97,
+          "coatColor": "5b4d42",
+          "headwearColor": "686158",
+          "accentColor": "655c47"
+        },
+        "ambientResidence": {
+          "household": "e-s1",
+          "outsideSeconds": 70,
+          "insideSeconds": 210,
+          "night": "indoors"
+        }
+      }
+    },
+    {
+      "id": "urman.world:act1/residents/m-e1-a",
+      "kind": "npc",
+      "name": "Житель двора m-e1 (у ворот)",
+      "note": "Краткая дневная встреча у ворот; без бесконечного ремонта несуществующего предмета.",
+      "params": {
+        "characterId": "resident-m-e1-a",
+        "kitPrefix": "PhoneGuy",
+        "position": [
+          -44.85,
+          0.0,
+          -69.5
+        ],
+        "yawDegrees": -25.0,
+        "scale": 0.98,
+        "schedule": [
+          {
+            "id": "day",
+            "place": [
+              -44.85,
+              0.0,
+              -69.5
+            ],
+            "yawDegrees": -25.0,
+            "motion": "urman.anim:idle-plain"
+          }
+        ],
+        "greeting": "neighbor-m",
+        "speaker": "СОСЕД",
+        "residentAppearance": {
+          "profile": "man in knit cap and short coat",
+          "width": 1.0,
+          "depth": 1.0,
+          "coatColor": "3f4f60",
+          "headwearColor": "49494c",
+          "accentColor": "435655"
+        },
+        "ambientResidence": {
+          "household": "m-e1",
+          "outsideSeconds": 70,
+          "insideSeconds": 210,
+          "night": "indoors"
+        }
+      }
+    },
+    {
+      "id": "urman.world:act1/residents/m-e3-a",
+      "kind": "npc",
+      "name": "Житель двора m-e3",
+      "note": "Стоит во дворе, смотрит на улицу.",
+      "params": {
+        "characterId": "resident-m-e3-a",
+        "kitPrefix": "Rinat",
+        "position": [
+          118.76,
+          0.0,
+          89.04
+        ],
+        "yawDegrees": -64.8,
+        "scale": 1.02,
+        "schedule": [
+          {
+            "id": "day",
+            "place": [
+              118.76,
+              0.0,
+              89.04
+            ],
+            "yawDegrees": -64.8,
+            "motion": "urman.anim:idle-plain"
+          }
+        ],
+        "greeting": "neighbor-m",
+        "speaker": "СОСЕД",
+        "residentAppearance": {
+          "profile": "man in dark winter coat and ushanka",
+          "width": 1.04,
+          "depth": 1.02,
+          "coatColor": "685154",
+          "headwearColor": "736356",
+          "accentColor": "72574c"
+        },
+        "ambientResidence": {
+          "household": "m-e3",
+          "outsideSeconds": 70,
+          "insideSeconds": 210,
+          "night": "indoors"
+        }
+      }
+    },
+    {
+      "id": "urman.world:act1/residents/m-e3b-a",
+      "kind": "npc",
+      "name": "Житель двора m-e3b (беседа)",
+      "note": "Разговаривает через двор с соседом.",
+      "params": {
+        "characterId": "resident-m-e3b-a",
+        "kitPrefix": "Resident",
+        "position": [
+          118.14,
+          0.0,
+          55.28
+        ],
+        "yawDegrees": -86.8,
+        "scale": 1.0,
+        "schedule": [
+          {
+            "id": "day",
+            "place": [
+              118.14,
+              0.0,
+              55.28
+            ],
+            "yawDegrees": -86.8,
+            "motion": "urman.anim:talk-plain"
+          }
+        ],
+        "greeting": "chat",
+        "speaker": "СОСЕД",
+        "turn": false,
+        "residentAppearance": {
+          "profile": "man in quilted jacket and valenki",
+          "width": 1.03,
+          "depth": 0.97,
+          "coatColor": "655c47",
+          "headwearColor": "61484a",
+          "accentColor": "565568"
+        },
+        "ambientResidence": {
+          "household": "m-e3b",
+          "outsideSeconds": 70,
+          "insideSeconds": 210,
+          "night": "indoors"
+        }
+      }
+    },
+    {
+      "id": "urman.world:act1/residents/m-e3b-b",
+      "kind": "npc",
+      "name": "Сосед двора m-e3b (беседа)",
+      "note": "Собеседник.",
+      "params": {
+        "characterId": "resident-m-e3b-b",
+        "kitPrefix": "Alsu",
+        "position": [
+          116.14,
+          0.0,
+          55.39
+        ],
+        "yawDegrees": 93.2,
+        "scale": 1.01,
+        "schedule": [
+          {
+            "id": "day",
+            "place": [
+              116.14,
+              0.0,
+              55.39
+            ],
+            "yawDegrees": 93.2,
+            "motion": "urman.anim:talk-plain"
+          }
+        ],
+        "greeting": "chat",
+        "speaker": "СОСЕДКА",
+        "turn": false,
+        "residentAppearance": {
+          "profile": "woman in winter coat and knit cap",
+          "width": 1.03,
+          "depth": 0.98,
+          "coatColor": "435655",
+          "headwearColor": "535f5b",
+          "accentColor": "48584c"
+        },
+        "ambientResidence": {
+          "household": "m-e3b",
+          "outsideSeconds": 70,
+          "insideSeconds": 210,
+          "night": "indoors"
+        }
+      }
+    },
+    {
+      "id": "urman.world:act1/residents/m-e4-a",
+      "kind": "npc",
+      "name": "Житель двора m-e4",
+      "note": "Стоит во дворе, смотрит на улицу.",
+      "params": {
+        "characterId": "resident-m-e4-a",
+        "kitPrefix": "PhoneGuy",
+        "position": [
+          119.19,
+          0.0,
+          2.0
+        ],
+        "yawDegrees": -75.2,
+        "scale": 0.97,
+        "schedule": [
+          {
+            "id": "day",
+            "place": [
+              119.19,
+              0.0,
+              2.0
+            ],
+            "yawDegrees": -75.2,
+            "motion": "urman.anim:idle-plain"
+          }
+        ],
+        "greeting": "neighbor-m",
+        "speaker": "СОСЕД",
+        "residentAppearance": {
+          "profile": "man in knit cap and short coat",
+          "width": 1.0,
+          "depth": 1.02,
+          "coatColor": "72574c",
+          "headwearColor": "4d443b",
+          "accentColor": "5b4d42"
+        },
+        "ambientResidence": {
+          "household": "m-e4",
+          "outsideSeconds": 70,
+          "insideSeconds": 210,
+          "night": "indoors"
+        }
+      }
+    },
+    {
+      "id": "urman.world:act1/residents/m-e4b-a",
+      "kind": "npc",
+      "name": "Житель двора m-e4b (у ворот)",
+      "note": "Краткая дневная встреча у ворот; без бесконечного ремонта несуществующего предмета.",
+      "params": {
+        "characterId": "resident-m-e4b-a",
+        "kitPrefix": "Rinat",
+        "position": [
+          116.78,
+          0.0,
+          -34.91
+        ],
+        "yawDegrees": -118.2,
+        "scale": 1.0,
+        "schedule": [
+          {
+            "id": "day",
+            "place": [
+              116.78,
+              0.0,
+              -34.91
+            ],
+            "yawDegrees": -118.2,
+            "motion": "urman.anim:idle-plain"
+          }
+        ],
+        "greeting": "neighbor-m",
+        "speaker": "СОСЕД",
+        "residentAppearance": {
+          "profile": "man in dark winter coat and ushanka",
+          "width": 1.04,
+          "depth": 0.97,
+          "coatColor": "565568",
+          "headwearColor": "686158",
+          "accentColor": "3f4f60"
+        },
+        "ambientResidence": {
+          "household": "m-e4b",
+          "outsideSeconds": 70,
+          "insideSeconds": 210,
+          "night": "indoors"
+        }
+      }
+    },
+    {
+      "id": "urman.world:act1/residents/m-e5-a",
+      "kind": "npc",
+      "name": "Житель двора m-e5 (беседа)",
+      "note": "Разговаривает через двор с соседом.",
+      "params": {
+        "characterId": "resident-m-e5-a",
+        "kitPrefix": "Resident",
+        "position": [
+          70.54,
+          0.0,
+          -81.08
+        ],
+        "yawDegrees": 87.1,
+        "scale": 0.99,
+        "schedule": [
+          {
+            "id": "day",
+            "place": [
+              70.54,
+              0.0,
+              -81.08
+            ],
+            "yawDegrees": 87.1,
+            "motion": "urman.anim:talk-plain"
+          }
+        ],
+        "greeting": "chat",
+        "speaker": "СОСЕД",
+        "turn": false,
+        "residentAppearance": {
+          "profile": "man in quilted jacket and valenki",
+          "width": 1.03,
+          "depth": 1.0,
+          "coatColor": "48584c",
+          "headwearColor": "49494c",
+          "accentColor": "685154"
+        },
+        "ambientResidence": {
+          "household": "m-e5",
+          "outsideSeconds": 70,
+          "insideSeconds": 210,
+          "night": "indoors"
+        }
+      }
+    },
+    {
+      "id": "urman.world:act1/residents/m-e5-b",
+      "kind": "npc",
+      "name": "Сосед двора m-e5 (беседа)",
+      "note": "Собеседник.",
+      "params": {
+        "characterId": "resident-m-e5-b",
+        "kitPrefix": "Gulsina",
+        "position": [
+          72.53,
+          0.0,
+          -80.98
+        ],
+        "yawDegrees": 267.1,
+        "scale": 1.01,
+        "schedule": [
+          {
+            "id": "day",
+            "place": [
+              72.53,
+              0.0,
+              -80.98
+            ],
+            "yawDegrees": 267.1,
+            "motion": "urman.anim:talk-plain"
+          }
+        ],
+        "greeting": "chat",
+        "speaker": "СОСЕДКА",
+        "turn": false,
+        "residentAppearance": {
+          "profile": "woman in headscarf and wool layers",
+          "width": 1.03,
+          "depth": 1.0,
+          "coatColor": "5b4d42",
+          "headwearColor": "736356",
+          "accentColor": "655c47"
+        },
+        "ambientResidence": {
+          "household": "m-e5",
+          "outsideSeconds": 70,
+          "insideSeconds": 210,
+          "night": "indoors"
+        }
+      }
+    },
+    {
+      "id": "urman.world:act1/residents/m-w1-a",
+      "kind": "npc",
+      "name": "Житель двора m-w1",
+      "note": "Стоит во дворе, смотрит на улицу.",
+      "params": {
+        "characterId": "resident-m-w1-a",
+        "kitPrefix": "Alsu",
+        "position": [
+          -7.74,
+          0.0,
+          139.1
+        ],
+        "yawDegrees": 80.0,
+        "scale": 0.98,
+        "schedule": [
+          {
+            "id": "day",
+            "place": [
+              -7.74,
+              0.0,
+              139.1
+            ],
+            "yawDegrees": 80.0,
+            "motion": "urman.anim:idle-plain"
+          }
+        ],
+        "greeting": "neighbor-f",
+        "speaker": "СОСЕДКА",
+        "residentAppearance": {
+          "profile": "woman in winter coat and knit cap",
+          "width": 1.0,
+          "depth": 1.03,
+          "coatColor": "3f4f60",
+          "headwearColor": "61484a",
+          "accentColor": "435655"
+        },
+        "ambientResidence": {
+          "household": "m-w1",
+          "outsideSeconds": 70,
+          "insideSeconds": 210,
+          "night": "indoors"
+        }
+      }
+    },
+    {
+      "id": "urman.world:act1/residents/m-w3-a",
+      "kind": "npc",
+      "name": "Житель двора m-w3",
+      "note": "Стоит во дворе, смотрит на улицу.",
+      "params": {
+        "characterId": "resident-m-w3-a",
+        "kitPrefix": "PhoneGuy",
+        "position": [
+          104.72,
+          0.0,
+          97.5
+        ],
+        "yawDegrees": -10.0,
+        "scale": 1.02,
+        "schedule": [
+          {
+            "id": "day",
+            "place": [
+              104.72,
+              0.0,
+              97.5
+            ],
+            "yawDegrees": -10.0,
+            "motion": "urman.anim:idle-plain"
+          }
+        ],
+        "greeting": "neighbor-m",
+        "speaker": "СОСЕД",
+        "residentAppearance": {
+          "profile": "man in knit cap and short coat",
+          "width": 1.04,
+          "depth": 1.0,
+          "coatColor": "685154",
+          "headwearColor": "535f5b",
+          "accentColor": "72574c"
+        },
+        "ambientResidence": {
+          "household": "m-w3",
+          "outsideSeconds": 70,
+          "insideSeconds": 210,
+          "night": "indoors"
+        }
+      }
+    },
+    {
+      "id": "urman.world:act1/residents/m-w4-a",
+      "kind": "npc",
+      "name": "Житель двора m-w4",
+      "note": "Стоит во дворе, смотрит на улицу.",
+      "params": {
+        "characterId": "resident-m-w4-a",
+        "kitPrefix": "Gulsina",
+        "position": [
+          119.02,
+          0.0,
+          15.23
+        ],
+        "yawDegrees": -63.0,
+        "scale": 1.0,
+        "schedule": [
+          {
+            "id": "day",
+            "place": [
+              119.02,
+              0.0,
+              15.23
+            ],
+            "yawDegrees": -63.0,
+            "motion": "urman.anim:idle-plain"
+          }
+        ],
+        "greeting": "neighbor-f",
+        "speaker": "СОСЕДКА",
+        "residentAppearance": {
+          "profile": "woman in headscarf and wool layers",
+          "width": 0.98,
+          "depth": 1.0,
+          "coatColor": "655c47",
+          "headwearColor": "4d443b",
+          "accentColor": "565568"
+        },
+        "ambientResidence": {
+          "household": "m-w4",
+          "outsideSeconds": 70,
+          "insideSeconds": 210,
+          "night": "indoors"
+        }
+      }
+    },
+    {
+      "id": "urman.world:act1/residents/m-w4b-a",
+      "kind": "npc",
+      "name": "Житель двора m-w4b (беседа)",
+      "note": "Разговаривает через двор с соседом.",
+      "params": {
+        "characterId": "resident-m-w4b-a",
+        "kitPrefix": "Rinat",
+        "position": [
+          117.37,
+          0.0,
+          -19.92
+        ],
+        "yawDegrees": -265.2,
+        "scale": 1.01,
+        "schedule": [
+          {
+            "id": "day",
+            "place": [
+              117.37,
+              0.0,
+              -19.92
+            ],
+            "yawDegrees": -265.2,
+            "motion": "urman.anim:talk-plain"
+          }
+        ],
+        "greeting": "chat",
+        "speaker": "СОСЕД",
+        "turn": false,
+        "residentAppearance": {
+          "profile": "man in dark winter coat and ushanka",
+          "width": 0.97,
+          "depth": 0.97,
+          "coatColor": "435655",
+          "headwearColor": "686158",
+          "accentColor": "48584c"
+        },
+        "ambientResidence": {
+          "household": "m-w4b",
+          "outsideSeconds": 70,
+          "insideSeconds": 210,
+          "night": "indoors"
+        }
+      }
+    },
+    {
+      "id": "urman.world:act1/residents/m-w4b-b",
+      "kind": "npc",
+      "name": "Сосед двора m-w4b (беседа)",
+      "note": "Собеседник.",
+      "params": {
+        "characterId": "resident-m-w4b-b",
+        "kitPrefix": "Alsu",
+        "position": [
+          118.36,
+          0.0,
+          -20.01
+        ],
+        "yawDegrees": -85.2,
+        "scale": 0.97,
+        "schedule": [
+          {
+            "id": "day",
+            "place": [
+              118.36,
+              0.0,
+              -20.01
+            ],
+            "yawDegrees": -85.2,
+            "motion": "urman.anim:talk-plain"
+          }
+        ],
+        "greeting": "chat",
+        "speaker": "СОСЕДКА",
+        "turn": false,
+        "residentAppearance": {
+          "profile": "woman in winter coat and knit cap",
+          "width": 1.0,
+          "depth": 0.98,
+          "coatColor": "72574c",
+          "headwearColor": "49494c",
+          "accentColor": "5b4d42"
+        },
+        "ambientResidence": {
+          "household": "m-w4b",
+          "outsideSeconds": 70,
+          "insideSeconds": 210,
+          "night": "indoors"
+        }
+      }
+    },
+    {
+      "id": "urman.world:act1/residents/m-w5-a",
+      "kind": "npc",
+      "name": "Житель двора m-w5 (у ворот)",
+      "note": "Краткая дневная встреча у ворот; без бесконечного ремонта несуществующего предмета.",
+      "params": {
+        "characterId": "resident-m-w5-a",
+        "kitPrefix": "Resident",
+        "position": [
+          117.6,
+          0.0,
+          -49.64
+        ],
+        "yawDegrees": -93.2,
+        "scale": 1.0,
+        "schedule": [
+          {
+            "id": "day",
+            "place": [
+              117.6,
+              0.0,
+              -49.64
+            ],
+            "yawDegrees": -93.2,
+            "motion": "urman.anim:idle-plain"
+          }
+        ],
+        "greeting": "neighbor-m",
+        "speaker": "СОСЕД",
+        "residentAppearance": {
+          "profile": "man in quilted jacket and valenki",
+          "width": 1.04,
+          "depth": 1.02,
+          "coatColor": "565568",
+          "headwearColor": "736356",
+          "accentColor": "3f4f60"
+        },
+        "ambientResidence": {
+          "household": "m-w5",
+          "outsideSeconds": 70,
+          "insideSeconds": 210,
+          "night": "indoors"
+        }
+      }
+    },
+    {
+      "id": "urman.world:act1/residents/n-e1-a",
+      "kind": "npc",
+      "name": "Житель двора n-e1",
+      "note": "Стоит во дворе, смотрит на улицу.",
+      "params": {
+        "characterId": "resident-n-e1-a",
+        "kitPrefix": "PhoneGuy",
+        "position": [
+          105.59,
+          0.0,
+          76.88
+        ],
+        "yawDegrees": 63.2,
+        "scale": 0.99,
+        "schedule": [
+          {
+            "id": "day",
+            "place": [
+              105.59,
+              0.0,
+              76.88
+            ],
+            "yawDegrees": 63.2,
+            "motion": "urman.anim:idle-plain"
+          }
+        ],
+        "greeting": "neighbor-m",
+        "speaker": "СОСЕД",
+        "residentAppearance": {
+          "profile": "man in knit cap and short coat",
+          "width": 1.03,
+          "depth": 0.97,
+          "coatColor": "48584c",
+          "headwearColor": "61484a",
+          "accentColor": "685154"
+        },
+        "ambientResidence": {
+          "household": "n-e1",
+          "outsideSeconds": 70,
+          "insideSeconds": 210,
+          "night": "indoors"
+        }
+      }
+    },
+    {
+      "id": "urman.world:act1/residents/n-e1b-a",
+      "kind": "npc",
+      "name": "Житель двора n-e1b (беседа)",
+      "note": "Разговаривает через двор с соседом.",
+      "params": {
+        "characterId": "resident-n-e1b-a",
+        "kitPrefix": "Rinat",
+        "position": [
+          119.18,
+          0.0,
+          76.75
+        ],
+        "yawDegrees": 93.2,
+        "scale": 1.01,
+        "schedule": [
+          {
+            "id": "day",
+            "place": [
+              119.18,
+              0.0,
+              76.75
+            ],
+            "yawDegrees": 93.2,
+            "motion": "urman.anim:talk-plain"
+          }
+        ],
+        "greeting": "chat",
+        "speaker": "СОСЕД",
+        "turn": false,
+        "residentAppearance": {
+          "profile": "man in dark winter coat and ushanka",
+          "width": 0.97,
+          "depth": 1.0,
+          "coatColor": "5b4d42",
+          "headwearColor": "535f5b",
+          "accentColor": "655c47"
+        },
+        "ambientResidence": {
+          "household": "n-e1b",
+          "outsideSeconds": 70,
+          "insideSeconds": 210,
+          "night": "indoors"
+        }
+      }
+    },
+    {
+      "id": "urman.world:act1/residents/n-e1b-b",
+      "kind": "npc",
+      "name": "Сосед двора n-e1b (беседа)",
+      "note": "Собеседник.",
+      "params": {
+        "characterId": "resident-n-e1b-b",
+        "kitPrefix": "Gulsina",
+        "position": [
+          120.18,
+          0.0,
+          76.69
+        ],
+        "yawDegrees": -86.8,
+        "scale": 0.98,
+        "schedule": [
+          {
+            "id": "day",
+            "place": [
+              120.18,
+              0.0,
+              76.69
+            ],
+            "yawDegrees": -86.8,
+            "motion": "urman.anim:talk-plain"
+          }
+        ],
+        "greeting": "chat",
+        "speaker": "СОСЕДКА",
+        "turn": false,
+        "residentAppearance": {
+          "profile": "woman in headscarf and wool layers",
+          "width": 1.0,
+          "depth": 1.0,
+          "coatColor": "3f4f60",
+          "headwearColor": "4d443b",
+          "accentColor": "435655"
+        },
+        "ambientResidence": {
+          "household": "n-e1b",
+          "outsideSeconds": 70,
+          "insideSeconds": 210,
+          "night": "indoors"
+        }
+      }
+    },
+    {
+      "id": "urman.world:act1/residents/n-e2-a",
+      "kind": "npc",
+      "name": "Житель двора n-e2",
+      "note": "Стоит во дворе, смотрит на улицу.",
+      "params": {
+        "characterId": "resident-n-e2-a",
+        "kitPrefix": "Resident",
+        "position": [
+          118.37,
+          0.0,
+          27.71
+        ],
+        "yawDegrees": -63.0,
+        "scale": 1.02,
+        "schedule": [
+          {
+            "id": "day",
+            "place": [
+              118.37,
+              0.0,
+              27.71
+            ],
+            "yawDegrees": -63.0,
+            "motion": "urman.anim:idle-plain"
+          }
+        ],
+        "greeting": "neighbor-m",
+        "speaker": "СОСЕД",
+        "residentAppearance": {
+          "profile": "man in quilted jacket and valenki",
+          "width": 1.04,
+          "depth": 0.97,
+          "coatColor": "685154",
+          "headwearColor": "686158",
+          "accentColor": "72574c"
+        },
+        "ambientResidence": {
+          "household": "n-e2",
+          "outsideSeconds": 70,
+          "insideSeconds": 210,
+          "night": "indoors"
+        }
+      }
+    },
+    {
+      "id": "urman.world:act1/residents/n-e2b-a",
+      "kind": "npc",
+      "name": "Житель двора n-e2b (у ворот)",
+      "note": "Краткая дневная встреча у ворот; без бесконечного ремонта несуществующего предмета.",
+      "params": {
+        "characterId": "resident-n-e2b-a",
+        "kitPrefix": "PhoneGuy",
+        "position": [
+          118.48,
+          0.0,
+          -13.8
+        ],
+        "yawDegrees": -110.2,
+        "scale": 1.0,
+        "schedule": [
+          {
+            "id": "day",
+            "place": [
+              118.48,
+              0.0,
+              -13.8
+            ],
+            "yawDegrees": -110.2,
+            "motion": "urman.anim:idle-plain"
+          }
+        ],
+        "greeting": "neighbor-m",
+        "speaker": "СОСЕД",
+        "residentAppearance": {
+          "profile": "man in knit cap and short coat",
+          "width": 1.03,
+          "depth": 1.0,
+          "coatColor": "655c47",
+          "headwearColor": "49494c",
+          "accentColor": "565568"
+        },
+        "ambientResidence": {
+          "household": "n-e2b",
+          "outsideSeconds": 70,
+          "insideSeconds": 210,
+          "night": "indoors"
+        }
+      }
+    },
+    {
+      "id": "urman.world:act1/residents/n-e3-a",
+      "kind": "npc",
+      "name": "Житель двора n-e3 (беседа)",
+      "note": "Разговаривает через двор с соседом.",
+      "params": {
+        "characterId": "resident-n-e3-a",
+        "kitPrefix": "Rinat",
+        "position": [
+          105.0,
+          0.0,
+          -57.03
+        ],
+        "yawDegrees": 266.8,
+        "scale": 1.01,
+        "schedule": [
+          {
+            "id": "day",
+            "place": [
+              105.0,
+              0.0,
+              -57.03
+            ],
+            "yawDegrees": 266.8,
+            "motion": "urman.anim:talk-plain"
+          }
+        ],
+        "greeting": "chat",
+        "speaker": "СОСЕД",
+        "turn": false,
+        "residentAppearance": {
+          "profile": "man in dark winter coat and ushanka",
+          "width": 0.97,
+          "depth": 1.02,
+          "coatColor": "435655",
+          "headwearColor": "736356",
+          "accentColor": "48584c"
+        },
+        "ambientResidence": {
+          "household": "n-e3",
+          "outsideSeconds": 70,
+          "insideSeconds": 210,
+          "night": "indoors"
+        }
+      }
+    },
+    {
+      "id": "urman.world:act1/residents/n-e3-b",
+      "kind": "npc",
+      "name": "Сосед двора n-e3 (беседа)",
+      "note": "Собеседник.",
+      "params": {
+        "characterId": "resident-n-e3-b",
+        "kitPrefix": "Alsu",
+        "position": [
+          104.0,
+          0.0,
+          -57.08
+        ],
+        "yawDegrees": 86.8,
+        "scale": 0.97,
+        "schedule": [
+          {
+            "id": "day",
+            "place": [
+              104.0,
+              0.0,
+              -57.08
+            ],
+            "yawDegrees": 86.8,
+            "motion": "urman.anim:talk-plain"
+          }
+        ],
+        "greeting": "chat",
+        "speaker": "СОСЕДКА",
+        "turn": false,
+        "residentAppearance": {
+          "profile": "woman in winter coat and knit cap",
+          "width": 1.0,
+          "depth": 1.03,
+          "coatColor": "72574c",
+          "headwearColor": "61484a",
+          "accentColor": "5b4d42"
+        },
+        "ambientResidence": {
+          "household": "n-e3",
+          "outsideSeconds": 70,
+          "insideSeconds": 210,
+          "night": "indoors"
+        }
+      }
+    },
+    {
+      "id": "urman.world:act1/residents/w-n1-a",
+      "kind": "npc",
+      "name": "Житель двора w-n1",
+      "note": "Стоит во дворе, смотрит на улицу.",
+      "params": {
+        "characterId": "resident-w-n1-a",
+        "kitPrefix": "Gulsina",
+        "position": [
+          83.3,
+          0.0,
+          87.84
+        ],
+        "yawDegrees": -57.1,
+        "scale": 1.0,
+        "schedule": [
+          {
+            "id": "day",
+            "place": [
+              83.3,
+              0.0,
+              87.84
+            ],
+            "yawDegrees": -57.1,
+            "motion": "urman.anim:idle-plain"
+          }
+        ],
+        "greeting": "neighbor-f",
+        "speaker": "СОСЕДКА",
+        "residentAppearance": {
+          "profile": "woman in headscarf and wool layers",
+          "width": 0.96,
+          "depth": 0.98,
+          "coatColor": "565568",
+          "headwearColor": "535f5b",
+          "accentColor": "3f4f60"
+        },
+        "ambientResidence": {
+          "household": "w-n1",
+          "outsideSeconds": 70,
+          "insideSeconds": 210,
+          "night": "indoors"
+        }
+      }
+    },
+    {
+      "id": "urman.world:act1/residents/w-n2-a",
+      "kind": "npc",
+      "name": "Житель двора w-n2",
+      "note": "Стоит во дворе, смотрит на улицу.",
+      "params": {
+        "characterId": "resident-w-n2-a",
+        "kitPrefix": "Resident",
+        "position": [
+          71.96,
+          0.0,
+          81.38
+        ],
+        "yawDegrees": 102.9,
+        "scale": 0.99,
+        "schedule": [
+          {
+            "id": "day",
+            "place": [
+              71.96,
+              0.0,
+              81.38
+            ],
+            "yawDegrees": 102.9,
+            "motion": "urman.anim:idle-plain"
+          }
+        ],
+        "greeting": "neighbor-m",
+        "speaker": "СОСЕД",
+        "residentAppearance": {
+          "profile": "man in quilted jacket and valenki",
+          "width": 1.03,
+          "depth": 1.02,
+          "coatColor": "48584c",
+          "headwearColor": "4d443b",
+          "accentColor": "685154"
+        },
+        "ambientResidence": {
+          "household": "w-n2",
+          "outsideSeconds": 70,
+          "insideSeconds": 210,
+          "night": "indoors"
+        }
+      }
+    },
+    {
+      "id": "urman.world:act1/residents/kid-1",
+      "kind": "npc",
+      "name": "Ребёнок 1",
+      "note": "Ребёнок у колодца/доски: в школе одиннадцать детей, остальные дома.",
+      "params": {
+        "characterId": "resident-kid-1",
+        "kitPrefix": "PhoneGuy",
+        "position": [
+          -25.5,
+          0.0,
+          62.9
+        ],
+        "yawDegrees": 302.7,
+        "scale": 0.8,
+        "schedule": [
+          {
+            "id": "day",
+            "place": [
+              -25.5,
+              0.0,
+              62.9
+            ],
+            "yawDegrees": 302.7,
+            "motion": "urman.anim:idle-plain"
+          }
+        ],
+        "greeting": "kid",
+        "speaker": "РЕБЁНОК",
+        "residentAppearance": {
+          "profile": "school-age boy in knit cap",
+          "width": 0.98,
+          "depth": 0.98,
+          "coatColor": "5b4d42",
+          "headwearColor": "686158",
+          "accentColor": "655c47"
+        },
+        "ambientResidence": {
+          "household": "kid-1",
+          "outsideSeconds": 70,
+          "insideSeconds": 210,
+          "night": "indoors"
+        }
+      }
+    },
+    {
+      "id": "urman.world:act1/residents/kid-2",
+      "kind": "npc",
+      "name": "Ребёнок 2",
+      "note": "Ребёнок у колодца/доски: в школе одиннадцать детей, остальные дома.",
+      "params": {
+        "characterId": "resident-kid-2",
+        "kitPrefix": "Alsu",
+        "position": [
+          -23.9,
+          0.0,
+          61.3
+        ],
+        "yawDegrees": 187.7,
+        "scale": 0.82,
+        "schedule": [
+          {
+            "id": "day",
+            "place": [
+              -23.9,
+              0.0,
+              61.3
+            ],
+            "yawDegrees": 187.7,
+            "motion": "urman.anim:idle-plain"
+          }
+        ],
+        "greeting": "kid",
+        "speaker": "РЕБЁНОК",
+        "residentAppearance": {
+          "profile": "school-age girl in knit cap",
+          "width": 0.98,
+          "depth": 0.98,
+          "coatColor": "3f4f60",
+          "headwearColor": "49494c",
+          "accentColor": "435655"
+        },
+        "ambientResidence": {
+          "household": "kid-2",
+          "outsideSeconds": 70,
+          "insideSeconds": 210,
+          "night": "indoors"
+        }
+      }
+    },
+    {
+      "id": "urman.world:act1/residents/kid-3",
+      "kind": "npc",
+      "name": "Ребёнок 3",
+      "note": "Ребёнок у колодца/доски: в школе одиннадцать детей, остальные дома.",
+      "params": {
+        "characterId": "resident-kid-3",
+        "kitPrefix": "PhoneGuy",
+        "position": [
+          -3.0,
+          0.0,
+          42.8
+        ],
+        "yawDegrees": 184.0,
+        "scale": 0.84,
+        "schedule": [
+          {
+            "id": "day",
+            "place": [
+              -3.0,
+              0.0,
+              42.8
+            ],
+            "yawDegrees": 184.0,
+            "motion": "urman.anim:idle-plain"
+          }
+        ],
+        "greeting": "kid",
+        "speaker": "РЕБЁНОК",
+        "residentAppearance": {
+          "profile": "older school-age boy",
+          "width": 0.98,
+          "depth": 0.98,
+          "coatColor": "685154",
+          "headwearColor": "736356",
+          "accentColor": "72574c"
+        },
+        "ambientResidence": {
+          "household": "kid-3",
+          "outsideSeconds": 70,
+          "insideSeconds": 210,
+          "night": "indoors"
+        }
+      }
+    },
+    {
+      "id": "urman.world:act1/residents/square-sq-board",
+      "kind": "npc",
+      "name": "Читает объявления",
+      "note": "Читает доску объявлений.",
+      "params": {
+        "characterId": "resident-square-sq-board",
+        "kitPrefix": "Alsu",
+        "position": [
+          -3.21,
+          0.0,
+          39.7
+        ],
+        "yawDegrees": -60.1,
+        "scale": 1.0,
+        "schedule": [
+          {
+            "id": "day",
+            "place": [
+              -3.21,
+              0.0,
+              39.7
+            ],
+            "yawDegrees": -60.1,
+            "motion": "urman.anim:idle-plain"
+          }
+        ],
+        "greeting": "neighbor-f",
+        "speaker": "СОСЕДКА",
+        "residentAppearance": {
+          "profile": "woman in winter coat and knit cap",
+          "width": 0.98,
+          "depth": 1.03,
+          "coatColor": "655c47",
+          "headwearColor": "61484a",
+          "accentColor": "565568"
+        },
+        "ambientResidence": {
+          "household": "square-sq-board",
+          "outsideSeconds": 70,
+          "insideSeconds": 210,
+          "night": "indoors"
+        }
+      }
+    },
+    {
+      "id": "urman.world:act1/residents/square-well-a",
+      "kind": "npc",
+      "name": "Женщина у колодца",
+      "note": "Разговаривает у колодца площади.",
+      "params": {
+        "characterId": "resident-square-well-a",
+        "kitPrefix": "Gulsina",
+        "position": [
+          -25.5,
+          0.0,
+          59.7
+        ],
+        "yawDegrees": -45.0,
+        "scale": 1.01,
+        "schedule": [
+          {
+            "id": "day",
+            "place": [
+              -25.5,
+              0.0,
+              59.7
+            ],
+            "yawDegrees": -45.0,
+            "motion": "urman.anim:talk-plain"
+          }
+        ],
+        "greeting": "chat",
+        "speaker": "СОСЕДКА",
+        "turn": false,
+        "residentAppearance": {
+          "profile": "woman in headscarf and wool layers",
+          "width": 1.03,
+          "depth": 0.98,
+          "coatColor": "435655",
+          "headwearColor": "535f5b",
+          "accentColor": "48584c"
+        },
+        "ambientResidence": {
+          "household": "square-well",
+          "outsideSeconds": 70,
+          "insideSeconds": 210,
+          "night": "indoors"
+        }
+      }
+    },
+    {
+      "id": "urman.world:act1/residents/square-well-b",
+      "kind": "npc",
+      "name": "Соседка у колодца",
+      "note": "Собеседница.",
+      "params": {
+        "characterId": "resident-square-well-b",
+        "kitPrefix": "Alsu",
+        "position": [
+          -27.1,
+          0.0,
+          61.3
+        ],
+        "yawDegrees": 135.0,
+        "scale": 0.97,
+        "schedule": [
+          {
+            "id": "day",
+            "place": [
+              -27.1,
+              0.0,
+              61.3
+            ],
+            "yawDegrees": 135.0,
+            "motion": "urman.anim:talk-plain"
+          }
+        ],
+        "greeting": "chat",
+        "speaker": "СОСЕДКА",
+        "turn": false,
+        "residentAppearance": {
+          "profile": "woman in winter coat and knit cap",
+          "width": 1.0,
+          "depth": 1.0,
+          "coatColor": "72574c",
+          "headwearColor": "4d443b",
+          "accentColor": "5b4d42"
+        },
+        "ambientResidence": {
+          "household": "square-well",
+          "outsideSeconds": 70,
+          "insideSeconds": 210,
+          "night": "indoors"
+        }
+      }
+    },
+    {
+      "id": "urman.world:act1/residents/lookout-sitter",
+      "kind": "npc",
+      "name": "Старик на лавочке",
+      "note": "Сидит над оврагом и смотрит на дальний берег.",
+      "params": {
+        "characterId": "resident-lookout-sitter",
+        "kitPrefix": "Mansur",
+        "position": [
+          44.45,
+          0.32,
+          15.5
+        ],
+        "yawDegrees": 90.0,
+        "scale": 0.99,
+        "schedule": [
+          {
+            "id": "day",
+            "place": [
+              44.45,
+              0.32,
+              15.5
+            ],
+            "yawDegrees": 90.0,
+            "motion": "urman.anim:sit"
+          }
+        ],
+        "greeting": "elder",
+        "speaker": "СТАРИК",
+        "turn": false,
+        "residentAppearance": {
+          "profile": "older man in sheepskin and ushanka",
+          "width": 0.98,
+          "depth": 1.02,
+          "coatColor": "565568",
+          "headwearColor": "686158",
+          "accentColor": "3f4f60"
+        },
+        "ambientResidence": {
+          "household": "lookout-sitter",
+          "outsideSeconds": 70,
+          "insideSeconds": 210,
+          "night": "indoors"
+        }
+      }
+    },
+    {
+      "id": "urman.world:act1/residents/sq1-sitter",
+      "kind": "npc",
+      "name": "Женщина на лавочке",
+      "note": "Сидит на площади.",
+      "params": {
+        "characterId": "resident-sq1-sitter",
+        "kitPrefix": "Gulsina",
+        "position": [
+          -12.5,
+          0.35,
+          34.25
+        ],
+        "yawDegrees": 0.0,
+        "scale": 0.99,
+        "schedule": [
+          {
+            "id": "day",
+            "place": [
+              -12.5,
+              0.35,
+              34.25
+            ],
+            "yawDegrees": 0.0,
+            "motion": "urman.anim:sit"
+          }
+        ],
+        "greeting": "square-woman",
+        "speaker": "СОСЕДКА",
+        "turn": false,
+        "residentAppearance": {
+          "profile": "woman in headscarf and wool layers",
+          "width": 0.98,
+          "depth": 0.98,
+          "coatColor": "48584c",
+          "headwearColor": "49494c",
+          "accentColor": "685154"
+        },
+        "ambientResidence": {
+          "household": "sq1-sitter",
+          "outsideSeconds": 70,
+          "insideSeconds": 210,
+          "night": "indoors"
+        }
+      }
+    }
+  ]
+}

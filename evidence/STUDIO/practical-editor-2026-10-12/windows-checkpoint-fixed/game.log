@@ -1,0 +1,14 @@
+Godot Engine v4.7.1.stable.mono.official.a13da4feb - https://godotengine.org
+Vulkan 1.3.280 - Forward+ - Using Device #0: NVIDIA - NVIDIA GeForce GTX 970
+
+urman-studio-editor-ready
+ERROR: Attempting to make child window exclusive, but the parent window already has another exclusive child. This window: /root/StudioRoot/@ConfirmationDialog@276, parent window: /root, current exclusive child window: /root/StudioRoot/@AcceptDialog@243
+   at: _set_transient_exclusive_child (scene/main/window.cpp:1160)
+   C# backtrace (most recent call first):
+       [0] void Godot.NativeCalls.godot_icall_2_43(nint, nint, Godot.Vector2I*, float) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/NativeCalls.cs:381)
+       [1] void Godot.Window.PopupCenteredClamped(System.Nullable`1[Godot.Vector2I], float) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Generated/GodotObjects/Window.cs:2297)
+       [2] void Urman.Studio.App.StudioRoot.PreviewCheckpoint(Urman.Studio.Core.Storage.StudioCheckpointStore, Urman.Studio.Core.Storage.StudioCheckpointRestorePlan) (D:\URMAN-STATION\data\runs\915218499b0f47e4b373efdd6127d9f3\source\game\studio\StudioRoot.Checkpoints.cs:130)
+       [3] void Urman.Studio.App.StudioRoot+<>c__DisplayClass33_0.<OpenCheckpoints>b__4() (D:\URMAN-STATION\data\runs\915218499b0f47e4b373efdd6127d9f3\source\game\studio\StudioRoot.Checkpoints.cs:73)
+       [4] void Godot.Callable.<From>g__Trampoline|1_0(object, Godot.NativeInterop.NativeVariantPtrArgs, Godot.NativeInterop.godot_variant&) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/Callable.generics.cs:39)
+       [5] void Godot.DelegateUtils.InvokeWithVariantArgs(nint, System.Void*, Godot.NativeInterop.godot_variant**, int, Godot.NativeInterop.godot_variant*) (/root/godot/modules/mono/glue/GodotSharp/GodotSharp/Core/DelegateUtils.cs:86)
+userdata guard: original files restored by rename and verified (Windows ACLs not compared)

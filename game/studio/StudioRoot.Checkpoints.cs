@@ -70,7 +70,7 @@ public partial class StudioRoot
             var selected = items.GetSelectedItems();
             if (selected.Length != 1 || selected[0] >= checkpoints.Count) { note.Text = "Выберите контрольную точку."; return; }
             if (HasPendingCheckpointDrafts()) { note.Text = "Сначала сохраните или отмените текущие черновики. Восстановление не заменяет их автоматически."; return; }
-            try { PreviewCheckpoint(store, store.PrepareRestore(checkpoints[selected[0]].Id)); }
+            try { PreviewCheckpoint(dialog, store, store.PrepareRestore(checkpoints[selected[0]].Id)); }
             catch (Exception error) when (CheckpointRefusal(error))
             {
                 note.Text = "Восстановление недоступно: изменились источники, ресурсы или состав проекта. Текущие данные и снимок сохранены.";
@@ -85,7 +85,7 @@ public partial class StudioRoot
         dialog.PopupCenteredClamped(new Vector2I(800, 460), 0.9f);
     }
 
-    private void PreviewCheckpoint(StudioCheckpointStore store, StudioCheckpointRestorePlan plan)
+    private void PreviewCheckpoint(AcceptDialog checkpointDialog, StudioCheckpointStore store, StudioCheckpointRestorePlan plan)
     {
         if (HasPendingCheckpointDrafts()) { ShowBanner("Сначала сохраните или отмените текущие черновики. Восстановление не заменяет их автоматически.", error: true); return; }
         if (plan.Writes.Count == 0) { ShowBanner("Исходники уже совпадают с контрольной точкой.", error: false); return; }
@@ -126,7 +126,7 @@ public partial class StudioRoot
         dialog.Confirmed += () => { _ = RestoreCheckpointAsync(store, plan); dialog.QueueFree(); };
         dialog.Canceled += dialog.QueueFree;
         dialog.CloseRequested += dialog.QueueFree;
-        AddChild(dialog);
+        checkpointDialog.AddChild(dialog);
         dialog.PopupCenteredClamped(new Vector2I(820, 540), 0.9f);
     }
 

@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "id": "urman.legacy.mainmap",
+  "exactVersion": "1.0.0",
+  "entrypoint": "urman.chapter1:scene/arrival_vehicle_dusk",
+  "modules": [
+    { "moduleId": "urman.core", "exactVersion": "1.0.0" },
+    { "moduleId": "urman.chapter1", "exactVersion": "1.0.0" }
+  ],
+  "roleBindings": {
+    "aidar": "urman.chapter1:character/aidar",
+    "alsu": "urman.chapter1:character/alsu",
+    "gulsina": "urman.chapter1:character/gulsina",
+    "mansur": "urman.chapter1:character/mansur",
+    "marat": "urman.chapter1:character/marat",
+    "naila": "urman.chapter1:character/naila",
+    "rinat": "urman.chapter1:character/rinat",
+    "timur-hazrat": "urman.chapter1:character/timur_hazrat"
+  },
+  "capabilityRequirements": [],
+  "narrativeOrder": ["urman.chapter1:scene/arrival_vehicle_dusk"],
+  "invariants": []
+}

@@ -1,0 +1,2 @@
+ERROR: Attempting to make child window exclusive, but the parent window already has another exclusive child. This window: /root/StudioRoot/@ConfirmationDialog@276, parent window: /root, current exclusive child window: /root/StudioRoot/@AcceptDialog@243
+ERROR: Attempting to make child window exclusive, but the parent window already has another exclusive child. This window: /root/StudioRoot/@ConfirmationDialog@276, parent window: /root, current exclusive child window: /root/StudioRoot/@AcceptDialog@243
