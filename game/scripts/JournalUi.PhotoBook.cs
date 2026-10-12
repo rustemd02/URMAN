@@ -1,4 +1,5 @@
 using Godot;
+using Urman.Core.Persistence;
 using System.Threading.Tasks;
 
 namespace Urman.Godot;
@@ -11,6 +12,10 @@ public partial class JournalUi
     private ScrollContainer _photoBookScroll = null!;
     private VBoxContainer _photoBookSpread = null!;
     private Label _photoBookEmpty = null!;
+    private HBoxContainer _photoBookZoomControls = null!;
+    private Button _photoBookZoomOut = null!;
+    private Label _photoBookZoomValue = null!;
+    private Button _photoBookZoomIn = null!;
     private Label _photoBookTitle = null!;
     private Label _photoBookPlacement = null!;
     private PanelContainer _photoBookFrontCard = null!;
@@ -28,6 +33,7 @@ public partial class JournalUi
     private object? _photoBookSession;
     private bool _photoBookRefreshing;
     private bool _photoBookActionBusy;
+    private float _photoBookReadingZoom = 1f;
     private Tween? _photoBookPlacementTween;
     private long _photoBookPlacementGeneration;
 
@@ -76,6 +82,37 @@ public partial class JournalUi
         };
         _photoBookSpread.AddThemeConstantOverride("separation", 12);
         _photoBookScroll.AddChild(_photoBookSpread);
+        _photoBookZoomControls = new HBoxContainer { Name = "ReadingZoom" };
+        _photoBookZoomControls.AddThemeConstantOverride("separation", 6);
+        _photoBookSpread.AddChild(_photoBookZoomControls);
+        _photoBookZoomOut = new Button
+        {
+            Name = "ZoomOut",
+            Text = "−",
+            TooltipText = "Уменьшить размер текста",
+            FocusMode = Control.FocusModeEnum.All
+        };
+        _photoBookZoomControls.AddChild(_photoBookZoomOut);
+        _photoBookZoomOut.Pressed += () => SetPhotoBookReadingZoom(_photoBookReadingZoom - .1f);
+        _photoBookZoomValue = new Label
+        {
+            Name = "ZoomValue",
+            Text = "100%",
+            HorizontalAlignment = HorizontalAlignment.Center,
+            VerticalAlignment = VerticalAlignment.Center,
+            CustomMinimumSize = new Vector2(64, 0),
+            TooltipText = "Масштаб текста в фотоальбоме"
+        };
+        _photoBookZoomControls.AddChild(_photoBookZoomValue);
+        _photoBookZoomIn = new Button
+        {
+            Name = "ZoomIn",
+            Text = "+",
+            TooltipText = "Увеличить размер текста",
+            FocusMode = Control.FocusModeEnum.All
+        };
+        _photoBookZoomControls.AddChild(_photoBookZoomIn);
+        _photoBookZoomIn.Pressed += () => SetPhotoBookReadingZoom(_photoBookReadingZoom + .1f);
         _photoBookEmpty = new Label
         {
             Name = "Empty",
@@ -207,6 +244,8 @@ public partial class JournalUi
             _photoBookSession = session;
             _photoBookSelectedId = null;
             _photoBookActionStatus.Text = string.Empty;
+            _photoBookReadingZoom = 1f;
+            ApplyPhotoBookZoomPresentation(_accessibility);
         }
 
         _photoBookProjection = bridge.PhotoBookPhotos();
@@ -227,6 +266,7 @@ public partial class JournalUi
             _photoBookList.AddItem($"{index + 1:D2} · {_photoBookProjection[index].Title}");
 
         var hasPhotos = selectedIndex >= 0;
+        _photoBookZoomControls.Visible = hasPhotos;
         _photoBookEmpty.Visible = !hasPhotos;
         _photoBookTitle.Visible = hasPhotos;
         _photoBookPlacement.Visible = hasPhotos;
@@ -261,10 +301,13 @@ public partial class JournalUi
         {
             _photoBookSession = null;
             _photoBookSelectedId = null;
+            _photoBookReadingZoom = 1f;
+            ApplyPhotoBookZoomPresentation(_accessibility);
         }
         _photoBookProjection = [];
         _photoBookRefreshing = true;
         _photoBookList.Clear();
+        _photoBookZoomControls.Visible = false;
         _photoBookEmpty.Visible = true;
         _photoBookTitle.Visible = false;
         _photoBookPlacement.Visible = false;
@@ -309,6 +352,47 @@ public partial class JournalUi
             : string.IsNullOrWhiteSpace(photo.BackTextRu)
                 ? "На обороте пока нет записи."
                 : photo.BackTextRu;
+    }
+
+    private void SetPhotoBookReadingZoom(float zoom)
+    {
+        var next = Mathf.Clamp(Mathf.Round(zoom * 10f) / 10f, .9f, 1.6f);
+        if (Mathf.IsEqualApprox(next, _photoBookReadingZoom)) return;
+        _photoBookReadingZoom = next;
+        ApplyPhotoBookZoomPresentation(_accessibility);
+    }
+
+    private void ApplyPhotoBookZoomPresentation(AccessibilitySettingsSnapshot settings)
+    {
+        if (_photoBookZoomValue is null || !GodotObject.IsInstanceValid(_photoBookZoomValue)) return;
+        _photoBookZoomValue.Text = $"{Mathf.RoundToInt(_photoBookReadingZoom * 100f)}%";
+        _photoBookZoomOut.Disabled = _photoBookReadingZoom <= .9f;
+        _photoBookZoomIn.Disabled = _photoBookReadingZoom >= 1.6f;
+
+        var accessibilityScale = Mathf.Clamp((float)settings.TextScale, .8f, 1.6f);
+        var presentationScale = accessibilityScale * _photoBookReadingZoom;
+        foreach (var label in new[]
+        {
+            _photoBookTitle,
+            _photoBookPlacement,
+            _photoBookFrontHeading,
+            _photoBookFrontBrief,
+            _photoBookBackHeading,
+            _photoBookBackText,
+            _photoBookActionStatus
+        })
+        {
+            if (!GodotObject.IsInstanceValid(label)) continue;
+            const string baseFontMeta = "accessibilityBase_font_size";
+            if (!label.HasMeta(baseFontMeta))
+            {
+                var baseSize = label.GetThemeFontSize("font_size");
+                label.SetMeta(baseFontMeta, baseSize > 0 ? baseSize : UrmanUiTheme.Size.Body);
+            }
+            var logicalBaseSize = label.GetMeta(baseFontMeta).AsInt32();
+            label.AddThemeFontSizeOverride("font_size",
+                Mathf.RoundToInt(logicalBaseSize * presentationScale));
+        }
     }
 
     private void FocusPhotoBookPage()
