@@ -96,6 +96,7 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
     public StudioAiPanel(StudioRoot studio)
     {
         _studio = studio;
+        GuiEmbedSubwindows = true;
         Title = "Изменить окна выбранного дома";
         OkButtonText = "Закрыть";
         MinSize = new(600, 560);
