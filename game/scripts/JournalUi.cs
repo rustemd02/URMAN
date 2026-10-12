@@ -1,4 +1,5 @@
 using Godot;
+using System.Threading.Tasks;
 using Urman.Core.Persistence;
 
 namespace Urman.Godot;
@@ -637,19 +638,22 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
         }
     }
 
-    private async void Close()
+    private async void Close() => await CloseAsync();
+
+    private async Task<bool> CloseAsync()
     {
         if (_notesSaving)
         {
-            if (!await _notesSaveCompletion!.Task || !IsInsideTree() || !_screen.Visible) return;
+            if (!await _notesSaveCompletion!.Task || !IsInsideTree() || !_screen.Visible) return false;
         }
-        if (!await SaveNotebookDraftAsync()) return;
+        if (!await SaveNotebookDraftAsync()) return false;
         _screen.Visible = false;
         _excerpts.Clear();
         _images.SetImages(null);
         if (_bridge is not null) _bridge.RuntimeStateChanged -= OnRuntimeStateChanged;
         _bridge = null;
         SetPlayerModal(false);
+        return true;
     }
 
     private FirstPersonController? FindPlayer() =>
