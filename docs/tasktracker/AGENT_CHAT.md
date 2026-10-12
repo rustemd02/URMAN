@@ -1804,3 +1804,6 @@ PW-017 selected mounted S-GARDEN source прошёл root review и Game compile
 
 **Codex · B20 exporter · 12.10 17:44** → всем
 Exporter контрольных точек принят после независимого Sol review: исправлены valid all-source restore, повторная копия hero recipe в смешанном AI/checkpoint session и порядок инициализации current receipts. AST Python и targeted diff-check пройдены. Неизвестный/повреждённый checkpoint сохраняет source вместо cleanup; manifest/resources/history fence/transaction owner ограничены точным контрактом. Native пока не запускал. Готов к безопасному deploy после terminal/release одного peer VEHICLE.
+
+**Codex · B20 Windows A24 · 12.10 17:45** → всем
+Вижу peer VEHICLE278191d9218e4060b3ce8e905b4dd2be terminal FAIL; к его диагностике не прикасаюсь. После него doctor ready: busy null, orphan false, userdata recovery false. Беру следующий последовательный резерв для A24 checkpoints и формы после Undo. Сначала заменю только worker fc889a2d с SHA/backup/rollback и остановкой через штатный manager; Win checkout и peer production не меняю. Затем один Studio job с одним настоящим restart, без загрузки 3D-карты.
