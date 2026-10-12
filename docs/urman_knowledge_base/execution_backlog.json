@@ -77262,6 +77262,12 @@
                 "result": "robustness stage by deepseek v4.1 flash, closing the cast sweep over my files: PcChatContent.cs now reads authored JSON through the shared AuthoredJson accessor instead of casts that throw on a non-value node. About forty sites were converted across eleven files in this stage, and the probe passes with the same 741 checks as before the sweep began. Every projection file of mine is cast-free now; what remains is two DOC COMMENTS that quote the pattern, four files that are in main and are not mine (ConditionPhrases, Localized, RuleCatalogCoverage) and TamaraFence.cs whose owner I could not establish - that one was left ALONE and asked about instead of assumed. Verified: probe PASS 741/741; Core 0/0",
                 "source": "src-dotnet/Urman.Studio.Core/Editing/PcChatContent.cs; evidence evidence/STUDIO/b20-deepseek-ai-40/2026-10-11-safe-json-reads-final",
                 "verification": "probe PASS 741/741 with every number unchanged; Core 0/0. No Studio window: this is a robustness change and is NOT_RUN as a feature"
+              },
+              {
+                "stage": "2026-10-12 the PC-chat dangling-target message now states the runtime's real consequence",
+                "result": "deepening by deepseek v4.1 flash: the check that a PC-chat node does not point at a missing node ALREADY existed and was already probed - what was missing was the CONSEQUENCE. I read the runtime: OldPcUi.Chat.PendingChoiceNode uses chat.Nodes.TryGetValue and treats a miss as 'nothing pending', so the thread neither errors nor advances - it stops silently and the player gets no next line. The message now says exactly that and names TryGetValue, and both facts are asserted in the probe. Why it matters: the message is what Studio shows an author, and 'the branch will break' is vague next to 'the runtime treats the miss as no continuation, so the thread stops silently'. The validation logic itself is untouched: only text and assertions changed. Verified: probe PASS 774/774 including the two new assertions; Core 0/0",
+                "source": "src-dotnet/Urman.Studio.Core/Editing/PcChatContent.cs (the dangling-target message); evidence evidence/STUDIO/b20-deepseek-ai-24/2026-10-12-pcchat-dangling-target",
+                "verification": "probe PASS 774/774 including the two new assertions naming the runtime lookup and the silent stop; Core 0/0. The message reaching an author in the editor is NOT_RUN"
               }
             ],
             "stage_tasks": [
@@ -77318,7 +77324,9 @@
               "Устойчивость: AuthoredHints больше не падает на не-значении; поведение не изменилось.",
               "Ранее переданный частичный этап (2026-10-11 AuthoredHints reads authored JSON safely) ждёт ревью/приёмки; полный done_when не выполнен.",
               "Устойчивость: PcChatContent больше не падает на не-значении; поведение не изменилось.",
-              "Ранее переданный частичный этап (2026-10-11 PcChatContent reads authored JSON safely) ждёт ревью/приёмки; полный done_when не выполнен."
+              "Ранее переданный частичный этап (2026-10-11 PcChatContent reads authored JSON safely) ждёт ревью/приёмки; полный done_when не выполнен.",
+              "Сообщение о висячей цели в тредах ПК теперь называет реальное следствие рантайма (TryGetValue → тред молча останавливается).",
+              "Ранее переданный частичный этап (2026-10-12 the PC-chat dangling-target message now states the runtime's real consequence) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
             "next_action": "Трассировать bindings активной кампании; human forms; AI exact-field edits; проверить Markdown/учебные токены; preview в игре.",
             "blocker": null,

@@ -241,7 +241,10 @@ public static class PcChat
             {
                 if (!ids.Contains(target!))
                 {
-                    problems.Add($"Узел «{node.Id}» ведёт в «{target}», которого нет: ветка оборвётся.");
+                    // The runtime looks the target up with TryGetValue and treats a miss as "nothing
+                    // pending" (OldPcUi.Chat.PendingChoiceNode), so the thread does not error: it
+                    // simply stops advancing and the player is left without a next line.
+                    problems.Add($"Узел «{node.Id}» ведёт в «{target}», которого нет: рантайм ищет узел через TryGetValue, при промахе считает, что продолжения нет, и тред молча останавливается — без ошибки и без следующей реплики.");
                 }
             }
 

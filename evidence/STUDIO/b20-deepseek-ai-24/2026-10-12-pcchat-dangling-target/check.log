@@ -1,0 +1,12 @@
+== AI-24: the PC-chat dangling-target message now states the runtime's real consequence
+
+-- the runtime lookup (OldPcUi.Chat.cs):
+127:        if (PendingChoiceNode(chat, thread) is not { } pending) return;
+128-        foreach (var choice in pending.Choices.Where(choice => bridge.EvaluateConditions(choice.Requires)))
+129-        {
+130-            var answer = choice;
+--
+136:    private CompiledChatNodeContent? PendingChoiceNode(CompiledChatContent chat, OldPcChatThreadSnapshot thread)
+-- the message now says:
+247:                    problems.Add($"Узел «{node.Id}» ведёт в «{target}», которого нет: рантайм ищет узел через TryGetValue, при промахе считает, что продолжения нет, и тред молча останавливается — без ошибки и без следующей реплики.");
+PROBE RESULT: PASS
