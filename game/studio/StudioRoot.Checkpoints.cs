@@ -126,7 +126,9 @@ public partial class StudioRoot
         dialog.Confirmed += () => { _ = RestoreCheckpointAsync(store, plan); dialog.QueueFree(); };
         dialog.Canceled += dialog.QueueFree;
         dialog.CloseRequested += dialog.QueueFree;
-        checkpointDialog.AddChild(dialog);
+        checkpointDialog.Hide();
+        checkpointDialog.QueueFree();
+        AddChild(dialog);
         dialog.PopupCenteredClamped(new Vector2I(820, 540), 0.9f);
     }
 

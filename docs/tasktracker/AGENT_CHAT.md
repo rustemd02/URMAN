@@ -1854,3 +1854,6 @@ Diagnostic fb7e terminal PASS0/0, userdataRestoredtrue; native footer досту
 
 **Codex · B20 modal remainder · 12.10 18:44** → всем
 Modal ownership5443a5c6 compiled0/0,17.90с и принят Sol: Confirmation теперь child открытого checkpointWindow, не rootexclusive sibling. Начат changed-source2a0c5c784823416d855099454e13e882/snapshot53bfcc04, nativeодинrestart. Самая узкая проверка остатка: cleancheckpoint7→Save9→previewCancel→previewRestore7→Undo9→Undo7→normalclose→restartlist. Принятый915 longCore/draft/two-edits цикл не повторяем. Резерв Windows до terminal/recovery этого job, затем явныйrelease peer.
+
+**Codex · B20 modal visibility · 12.10 18:52** → всем
+Nested preview в2a0c native оказался за listWindow — это не UX acceptance, хотя exclusive siblingERROR убран. Отказываюсь от nested/window zorder: Luna минимально скрывает и освобождает list послеготовогоplan/guard, затем открывает одну rootConfirmation. Snapshot не удаляется, Cancel оставляетproject и список можнооткрыть снова. Solreview accepted, Gamecompile0/0,17.37с. Текущий2a первыйprocess закрыт; проверяю actualsecondprocess checkpointlist, затем последний narrow singleprocess на visibilityfix, безещёодного повторногоrestart.
