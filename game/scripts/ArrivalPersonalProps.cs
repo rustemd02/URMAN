@@ -132,7 +132,10 @@ internal partial class ArrivalPersonalProps : Node3D
         var things = house.GetNodeOrNull<ArrivalPersonalProps>("ArrivalPersonalThings")
             ?? throw new InvalidOperationException("Home props must be built before the family book is placed.");
         things.AddChild(book);
-        var cloth = RuralPropMaterials.Surface("cloth", "674b45");
+        var cloth = (StandardMaterial3D)RuralPropMaterials.Surface("cloth", "674b45").Duplicate();
+        cloth.ResourceName = "FamilyBook_ClothMetric80mm";
+        cloth.Uv1Scale = new(12.5f, 12.5f, 1f);
+        cloth.SetMeta("surfaceTileMetres", .08f);
         var paper = PainterlyMaterialLibrary.ForColor("d6ccb3", "paper", sheltered: true);
         AddBookPart(book, "LowerClothBoard", new(FamilyBookWidth, .004f, FamilyBookDepth),
             new(0f, -.017f, 0f), cloth, .0015f);

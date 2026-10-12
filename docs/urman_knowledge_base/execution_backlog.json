@@ -104448,7 +104448,7 @@
       "assigned_owner": "art",
       "activity": {
         "state": "not_active",
-        "reason": "Bounded uppercover source and analytic bounds review accepted root; native/full poses/art remain."
+        "reason": "Bounded localbook cloth UV/source metadata accepted aftersource review/compile; native/art remains."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -104457,7 +104457,7 @@
         "Толщина/корешок/хват видны, нет плоской карточки вместо книги.",
         "Руки и тело не дублируются, UTF-тексты редактируемы."
       ],
-      "next_action": "После освобождения Windows station проверить cover geometry и физический contact; full open/turn/hand poses and art remain.",
+      "next_action": "После stationowner release проверить actualbook binding scale/cover/handcontact; остальные physicalbook asset/poses и humanacceptance open.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -104619,6 +104619,20 @@
         "native": "NOT_RUN: awaiting station release",
         "next_action": "Native cover/paper/table/hand/contact frames; fullbook poses/assets remain.",
         "integrated_compile": "PASS Game0/0 29.17s after peer main integration"
+      },
+      "progress_2026_10_12_cloth_metric": {
+        "reference": "AuthorBook03§1 plain mutedcloth binding; exactexistingT01 image inspected",
+        "files": [
+          "game/scripts/ArrivalPersonalProps.cs"
+        ],
+        "scope": "Duplicate localbook material only; existingT01 .5m→.08m physicalrepeat, preservingcolor/physicalresponse/globalcache/othercloth/metricUV/geometry/support/handoff.",
+        "verification_question": "Получает ли только bookcloth UVrepeat12.5/m без изменения sharedmaterial и geometry/functionalguards?",
+        "native": "NOT_RUN; peer B20 station owner",
+        "source_review": "Root verified independent StandardMaterial3D copy shares same immutable texture and response, no globalcachemutation. Existing material copied surfaceTileMetres=.5, corrected localcopy to .08 to match Uv1Scale12.5/m.",
+        "result": "Localbook StandardMaterial3D copy, existingT01texture and response/tint unchanged, Uv1Scale12.5/m and surfaceTileMetres.08 coherent. Sharedcache/otherprops/geometry/support/handoff unchanged.",
+        "compile": "PASS affectedGame0warnings0errors22.52s after metadata correction",
+        "source_sha256": "b6f16cd3e155930b8f504abf14983a90a0f4413a6367aadaa4cfe7c13a59e1f5",
+        "remaining": "CurrentWindows closeinspection/motion/art approval; fullbook hands/poses/images stillopen."
       }
     },
     {
