@@ -686,6 +686,21 @@ public static class PainterlyMaterialLibrary
             .Replace("float snow_up = clamp(normalize(world_normal).y,", "float snow_up = clamp(normalize(world_normal).y * (FRONT_FACING ? 1.0 : -1.0),")
             .Replace("void fragment() {", "uniform sampler2D cutout_texture : filter_linear_mipmap_anisotropic, repeat_disable;\nvoid fragment() {\nALPHA = texture(cutout_texture, UV).a;\nALPHA_SCISSOR_THRESHOLD = 0.2;")
     };
+    private static readonly Shader WheelSnowPatchShader = new()
+    {
+        Code = ShaderSource.Replace(
+            "void fragment() {",
+            @"void fragment() {
+            float s05_across = abs(UV.x - 0.5) * 2.0;
+            float s05_ragged = painter_value_noise(world_position.xz * 1.3)
+                + 0.5 * painter_value_noise(world_position.xz * 4.7) - 0.75;
+            float s05_side_fade = 1.0 - smoothstep(0.38, 0.92, s05_across + s05_ragged * 0.32);
+            s05_side_fade = min(s05_side_fade, 1.0 - smoothstep(0.92, 1.0, s05_across));
+            float s05_end_fade = 1.0 - smoothstep(0.19, 0.46, abs(UV.y - 0.5));
+            ALPHA = clamp(min(s05_side_fade, s05_end_fade), 0.0, 1.0);
+",
+            StringComparison.Ordinal)
+    };
 
     private static readonly Dictionary<string, (string Path, Vector2 Scale)> SurfaceTextures = new(StringComparer.Ordinal)
     {
@@ -780,7 +795,7 @@ public static class PainterlyMaterialLibrary
         ["snow_grass"] = ("res://assets/textures/painterly/snow_grass_v2_albedo.png", new Vector2(.5f, .5f)),
         ["snow_road"] = ("res://assets/textures/painterly/urman_s02_v02_basecolor.png", new Vector2(.5f, .5f)),
         ["snow_trampled"] = ("res://assets/textures/painterly/snow_trampled_v2_albedo.png", new Vector2(1.0f, 1.0f)),
-        ["snow_roof"] = ("res://assets/textures/painterly/snow_roof_v1_albedo.png", new Vector2(1.0f, 1.0f)),
+        ["snow_roof"] = ("res://assets/textures/painterly/snow_roof_v1_albedo.png", new Vector2(.5f, .5f)),
         ["ice"] = ("res://assets/textures/painterly/ice_small_v1_albedo.png", new Vector2(1.0f, 1.0f)),
         ["bark_birch_winter"] = ("res://assets/textures/painterly/urman_f01_v03_basecolor.png", new Vector2(1f / .75f, 1f / 1.5f)),
         ["rowan_berries"] = ("res://assets/textures/painterly/rowan_berries_v1_albedo.png", new Vector2(1.0f, 1.0f)),
@@ -1207,6 +1222,7 @@ public static class PainterlyMaterialLibrary
         if (GodotObject.IsInstanceValid(RigidPainterlyShader)) RigidPainterlyShader.Dispose();
         if (GodotObject.IsInstanceValid(TwoSidedPainterlyShader)) TwoSidedPainterlyShader.Dispose();
         if (GodotObject.IsInstanceValid(CutoutShader)) CutoutShader.Dispose();
+        if (GodotObject.IsInstanceValid(WheelSnowPatchShader)) WheelSnowPatchShader.Dispose();
     }
 
     /// <summary>S05: a local wheel-side snow variant. Shared trodden snow stays
@@ -1220,6 +1236,7 @@ public static class PainterlyMaterialLibrary
         if (Materials.TryGetValue(key, out var existing)) return existing;
         if (ResourceLoader.Load<Texture2D>(path) is not { } texture) return trodden;
         var material = (ShaderMaterial)trodden.Duplicate();
+        material.Shader = WheelSnowPatchShader;
         material.SetShaderParameter("albedo_texture", texture);
         material.SetShaderParameter("has_albedo_texture", true);
         material.SetShaderParameter("authored_uv_texture", false);
@@ -1323,20 +1340,30 @@ public static class PainterlyMaterialLibrary
     public static void SetGroundContact(GeometryInstance3D instance, float supportWorldY) =>
         instance.SetInstanceShaderParameter("ground_base_y", supportWorldY);
 
-    public static ShaderMaterial ForLocalWoodPiece(string htmlColor, Vector3 pieceOffset)
+    public static ShaderMaterial ForLocalWoodPiece(string htmlColor, Vector3 pieceOffset, string surface = "wood_prop")
     {
         // Each board piece shares the same object-space grain but has its own
         // offset. Keep the variants in the normal cache so live graphics and
         // motion settings reach them as well as the base wood material.
         var cacheKey = FormattableString.Invariant(
-            $"local-wood:{htmlColor}:{pieceOffset.X:R}:{pieceOffset.Y:R}:{pieceOffset.Z:R}");
+            $"local-wood:{surface}:{htmlColor}:{pieceOffset.X:R}:{pieceOffset.Y:R}:{pieceOffset.Z:R}");
         if (Materials.TryGetValue(cacheKey, out var existing)) return existing;
 
-        var material = (ShaderMaterial)ForColor(htmlColor, "wood_prop", sheltered: true).Duplicate();
+        var source = (ShaderMaterial)ForColor(htmlColor, surface, sheltered: surface == "wood_prop");
+        var material = (ShaderMaterial)source.Duplicate();
         material.SetShaderParameter("local_wood_texture", true);
         material.SetShaderParameter("local_wood_offset", pieceOffset);
-        material.SetShaderParameter("texture_scale", new Vector2(.55f, .30f));
-        material.SetShaderParameter("snow_coverage", .14f);
+        if (surface == "wood_prop")
+        {
+            material.SetShaderParameter("texture_scale", new Vector2(.55f, .30f));
+            material.SetShaderParameter("snow_coverage", .14f);
+        }
+        else if (_snowBase.TryGetValue(source, out var snowBase))
+        {
+            // A late local clone must reuse the source baseline, not a profile-scaled
+            // snow value, or the next atmosphere change would scale it twice.
+            _snowBase[material] = snowBase;
+        }
         // VIS-007 §5.4: a carried board must not change tint when it crosses a
         // 6 m world cell (mode E: movable rigid-local piece).
         material.SetShaderParameter("cell_jitter", 0f);

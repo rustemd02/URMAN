@@ -3997,7 +3997,7 @@
       "progress_2026_09_22": "Полный реестр 132/132 на cd4e703: 31 reuse, 37 new, 5 edit, 59 conditional. Все карточки книги и групп очереди совпадают без дублей; для каждой указан реальный потребитель либо конкретно недостающие UV/маска/носитель/решение. 18 ранее подключённых результатов включены как reuse. Рекомендации reuse не закрывают source/visual/art; условные карточки остаются работой соответствующих групп. Проверены локальные ссылки и названные PNG: три отсутствующих файла явно отмечены как отсутствующие, не выданы за готовые.",
       "milestone": "M4",
       "status": "in_progress",
-      "active_owner": "codex/b02-2026-10-13",
+      "active_owner": null,
       "owner": "art/materials/qa",
       "depends_on": [],
       "scope": [
@@ -4180,8 +4180,8 @@
       },
       "assigned_owner": "art/materials/qa",
       "activity": {
-        "state": "confirmed_active",
-        "reason": "Exact S03/S05 metadata reconciled, verified S04 procedural lineage now being added by Luna to existing inventory/registry."
+        "state": "released",
+        "reason": "Finite S03/S04/S05 metadata reconciliation accepted; full132 inventory stillopen, no all-textures complete claim."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -4374,7 +4374,8 @@
           "seed": 20260910,
           "verification": "Native Luna in-memory existing function comparison, no main/output/assets rewritten: exact current1024RGB pixels reproduced; currentPNG byte-identical birthblob. Separate originalcommand receipt not found.",
           "pixel_sha256": "27ffef1fbc168a5c4aef04acd947ed02f576c5c044c9c19091c18c5fedc87555",
-          "result": "Procedural lineage proved; root accepted metadata update, no ImageGen/externalimage claimed."
+          "result": "Procedural lineage proved; root accepted metadata update, no ImageGen/externalimage claimed.",
+          "metadata_result": "Exact S04 record added to existing registry/README/inventory with reproducible procedural lineage, no ImageGen/externalimage claim. Root accepts source reconciliation, 176 uniqueIDs+hash+JSON checked Luna. Current C2 static references and full/motion/art gates retained."
         }
       }
     },
@@ -4905,23 +4906,26 @@
             "evidence": [
               "evidence/ACT1-TEXTURE/s05-parking-20261012/receipt.json",
               "evidence/ACT1-TEXTURE/s05-parking-20261012/game-build.log",
-              "evidence/ACT1-TEXTURE/s05-parking-20261012/asset-import.log"
+              "evidence/ACT1-TEXTURE/s05-parking-20261012/asset-import.log",
+              "evidence/ACT1-TEXTURE/s05-parking-20261013/crisp-alpha/receipt.json",
+              "evidence/ACT1-TEXTURE/s05-parking-20261013/crisp-alpha/frames/s05_parking_wide.png",
+              "evidence/ACT1-TEXTURE/s05-parking-20261013/crisp-alpha/frames/s05_parking_contact.png",
+              "evidence/ACT1-TEXTURE/s05-parking-20261013/frost-alpha/receipt.json",
+              "evidence/ACT1-TEXTURE/s05-parking-20261013/frost-alpha/frames/s05_parking_wide.png",
+              "evidence/ACT1-TEXTURE/s05-parking-20261013/frost-alpha/frames/s05_parking_contact.png"
             ],
             "assigned_owner": "art/materials/qa",
-            "active_owner": "codex/b02-2026-10-13",
+            "active_owner": null,
             "activity": {
-              "state": "confirmed_active",
-              "reason": "Actual frost job0db2c0fbd4f34a7c97e4e052bf4cd62d RUNNING after accepted crisp/restored. B02 releases Windows to B20 after terminal."
+              "state": "released",
+              "reason": "Finite S05 ownDoD and targeted native crisp/frost verified; engineering accepted, external parent artgate preserved. Windows now owned by live B20job561a... with orphan/recoveryclear."
             },
             "task_type": "engineering",
-            "status": "in_progress",
-            "implementation_state": "partial",
-            "technical_verification_state": "not_run",
-            "remaining": [
-              "Осмотреть actual PoliceParking/ParkingHardstanding на Windows: локальность S05 у колёс, контраст/повторы и сохранность снегового response при смене атмосферы; художественная приёмка открыта.",
-              "Остальные S05 потребители не объявлены подключёнными; динамические wheel/foot marks этого visual box не заявлены."
-            ],
-            "next_action": "Принять same-camera frost receipt/изображения, сверить preset/FOV/source и snow response; закрыть только конечный S05 ownDoD если доказан, внешний artgate родителя остаётся. После terminal/restoration отдать Windows B20.",
+            "status": "completed",
+            "implementation_state": "implemented",
+            "technical_verification_state": "passed",
+            "remaining": [],
+            "next_action": "Передать подтверждённые S05 артефакты родительской художественной/пакетной приёмке; повтор этой инженерной единицы только при изменении входа или найденном дефекте.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -4992,10 +4996,17 @@
               "evidence_refs": [
                 "evidence/ACT1-TEXTURE/s05-parking-20261012/receipt.json",
                 "evidence/ACT1-TEXTURE/s05-parking-20261012/game-build.log",
-                "evidence/ACT1-TEXTURE/s05-parking-20261012/asset-import.log"
+                "evidence/ACT1-TEXTURE/s05-parking-20261012/asset-import.log",
+                "evidence/ACT1-TEXTURE/s05-parking-20261013/crisp-alpha/receipt.json",
+                "evidence/ACT1-TEXTURE/s05-parking-20261013/crisp-alpha/frames/s05_parking_wide.png",
+                "evidence/ACT1-TEXTURE/s05-parking-20261013/crisp-alpha/frames/s05_parking_contact.png",
+                "evidence/ACT1-TEXTURE/s05-parking-20261013/frost-alpha/receipt.json",
+                "evidence/ACT1-TEXTURE/s05-parking-20261013/frost-alpha/frames/s05_parking_wide.png",
+                "evidence/ACT1-TEXTURE/s05-parking-20261013/frost-alpha/frames/s05_parking_contact.png"
               ],
               "source_criteria_parent": "ACT1-TEXTURE.02",
-              "actual_result": "S05 подключена только к existing ParkingHardstanding через кешируемый ForFrozenWheelSnow. Existing snow_trampled state/response, shared cache base, geometry/position/collision/interaction сохранены. _snowBase copy защищает от повторного mood multiplication. Asset лично просмотрен; isolated import и Gamecompile0/0 прошли, independent Luna source review без дефекта. Native/art не выполнены."
+              "actual_result": "Own finite S05 integration complete: exact existing map/1m repeat/PoliceParking receiver, isolated opacity shader removes rectangular carpet; currentWindows shader/import/game and endpoint snow response accepted in crisp/frost. Original shared road/other opaque material shader and vehicle collision preserved. Parent batch movement/quality and external artistic gates remain separate.",
+              "engineering_completion_excludes_external_gates": true
             },
             "dependencies": {
               "implementation": [],
@@ -5061,10 +5072,16 @@
               "frost_candidate": {
                 "job": "0db2c0fbd4f34a7c97e4e052bf4cd62d",
                 "snapshot": "6c38698ad02f516f240888394584979224a73bcbefac5ad44decd98c9394a842",
-                "status": "RUNNING",
+                "status": "PASS",
                 "phase": "village-winter-frost",
-                "points": "s05_parking_wide:PoliceParking@3.3,2.4,3.2>PoliceParking@0,0.25,0;s05_parking_contact:PoliceParking@2.4,1.0,1.4>PoliceParking@0.78,0.18,1.2"
-              }
+                "points": "s05_parking_wide:PoliceParking@3.3,2.4,3.2>PoliceParking@0,0.25,0;s05_parking_contact:PoliceParking@2.4,1.0,1.4>PoliceParking@0.78,0.18,1.2",
+                "receipt": "evidence/ACT1-TEXTURE/s05-parking-20261013/frost-alpha/receipt.json",
+                "userdataRestored": true,
+                "gameExitCode": 0,
+                "visual_result": "Root viewed matching wide/contact: localized dirty snow preserves soft realground edge and colder frost response, no visible rectangle/sorting/gap. Actual medium/FOV70,4000flakes,noBlizzard; no High/Low or whole-scene art claim."
+              },
+              "accepted_result": "Own finite S05 integration complete: exact existing map/1m repeat/PoliceParking receiver, isolated opacity shader removes rectangular carpet; currentWindows shader/import/game and endpoint snow response accepted in crisp/frost. Original shared road/other opaque material shader and vehicle collision preserved. Parent batch movement/quality and external artistic gates remain separate.",
+              "source_comparison": "crisp-alpha/frost-alpha runtime changed files only StudioRoot/StudioAiPanel/StudioAiPanel.Families, HouseFamilyWindowProposal/StudioFileTransaction. S05 material/shader/map, PolicePost geometry, exterior content and atmosphere source identical."
             }
           },
           {

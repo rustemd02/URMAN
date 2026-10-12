@@ -4147,6 +4147,108 @@
       "derivedSha256": "21387a1471ea98103ba65b4a8c593d829afae2157bd956e0a708880067425d0a",
       "integrated": false,
       "receiverCapture": "PENDING"
+    },
+    {
+      "id": "texture.painterly.s03.v02",
+      "source": "Project-original procedural bake; tools/blender/bake_procedural_textures.py; game/assets/textures/painterly/procedural_bake_receipt_v1.json card S03",
+      "derived": "game/assets/textures/painterly/snow_trampled_v2_albedo.png",
+      "derivedSha256": "2a53d2b727ab0264138a75fedbafa77cee1ec24994b3e70734a28052ece540c4",
+      "generator": "tools/blender/bake_procedural_textures.py; seed 20261010",
+      "license": "project-original procedural (no third-party source)",
+      "dimensions": "1024x1024",
+      "format": "PNG RGB8",
+      "colorSpace": "sRGB",
+      "uv": "Seamless TILE, world-XZ/triplanar; 1 m per repeat",
+      "mask": "None; opaque RGB material map",
+      "purpose": "Walk-compacted snow with quiet compressed patches; do not bake footprints or make a painted path.",
+      "reference": "docs/urman_knowledge_base/art/urman_imagegen_texture_prompt_book_2026-09-22.md#s03; docs/urman_knowledge_base/art/asset_requests/MAT.md#MAT-S01 cites W2 as a positive road-readability reference and W3 as a flat-snow counterexample; exact external image paths are not recorded.",
+      "scale": 1,
+      "triangleBudget": 0,
+      "textureBudget": 1024,
+      "materials": [
+        "snow_trampled"
+      ],
+      "materialOwner": "PainterlyMaterialLibrary.WinterTextures[\"snow_trampled\"]; world-XZ/triplanar surface used by existing FAP approach and road-crest consumers among other snow_trampled receivers.",
+      "consumerPaths": [
+        "game/scripts/PainterlyMaterialLibrary.cs",
+        "game/scripts/Act1ConnectedWorld.cs"
+      ],
+      "collision": "unchanged",
+      "lod": "Source is 1024x1024; target runtime mipmap/import behavior is not evidenced by this reconciliation.",
+      "qa": "Procedural receipt records card/seed/hash/format/scale/license. PML references the map; current target native views P03 close, P06 along road, and P07 distance sweep remain pending per MAT-S01.",
+      "status": "runtime-referenced candidate; source receipt present; target visual and art review pending",
+      "releaseDisposition": "Existing snow_trampled slot only; do not claim every receiver or visual acceptance from the material reference alone."
+    },
+    {
+      "id": "texture.painterly.s05.v01",
+      "source": "Project-original procedural bake; tools/blender/bake_procedural_textures.py; game/assets/textures/painterly/procedural_bake_receipt_v1.json card S05",
+      "derived": "game/assets/textures/painterly/snow_frozen_dirty_v1_albedo.png",
+      "derivedSha256": "425025efdb0be78e0fc97c6ad59a36cb029f1a613b869b93515d6fa606884ea3",
+      "generator": "tools/blender/bake_procedural_textures.py; seed 20261015",
+      "license": "project-original procedural (no third-party source)",
+      "dimensions": "1024x1024",
+      "format": "PNG RGB8",
+      "colorSpace": "sRGB",
+      "uv": "Seamless TILE, world-XZ; 1 m per repeat",
+      "mask": "No bitmap alpha mask; opaque RGB colour map. ParkingHardstanding localizes it; the candidate material analytically feathers opacity to the real underlying snow.",
+      "purpose": "Localized dirty frozen snow at the parked vehicle; not a global snow replacement or a baked tire/footprint map.",
+      "reference": "docs/urman_knowledge_base/art/urman_imagegen_texture_prompt_book_2026-09-22.md#s05; no separate reference image/path is recorded.",
+      "scale": 1,
+      "triangleBudget": 0,
+      "textureBudget": 1024,
+      "materials": [
+        "ForFrozenWheelSnow (local cached variant of snow_trampled response)"
+      ],
+      "materialOwner": "PainterlyMaterialLibrary.ForFrozenWheelSnow; current receiver PoliceParking/ParkingHardstanding only.",
+      "consumerPaths": [
+        "game/scripts/PainterlyMaterialLibrary.cs",
+        "game/scripts/Act1ConnectedWorld.PolicePost.cs"
+      ],
+      "collision": "unchanged",
+      "lod": "Source is 1024x1024; target runtime mipmap/import behavior is not evidenced by this reconciliation.",
+      "qa": "evidence/ACT1-TEXTURE/s05-parking-20261013/crisp-outward and crisp-soft receipts: native success, rectangular surface visually rejected. crisp-alpha/receipt.json and wide/contact images: native success and root scoped local-edge acceptance. Current remaining verification and external acceptance are owned by ACT1-TEXTURE.02/E03 in execution_backlog.json.",
+      "status": "localized runtime candidate; source receipt present; corrected native render and art review pending",
+      "releaseDisposition": "PoliceParking/ParkingHardstanding only; no claim of dynamic wheel/foot marks or other S05 receivers."
+    },
+    {
+      "id": "texture.painterly.s04.v01",
+      "source": "Project-authored procedural asset, introduced with tools/textures/generate_winter_snow.py in commit 08cf7a6fcdde59af560da72f598f569e67120de3; no external bitmap input detected.",
+      "derived": "game/assets/textures/painterly/snow_roof_v1_albedo.png",
+      "derivedSha256": "a0817899fa6c1401c5b9a49130467cf8956e86927afd5ef434f346df9a401f14",
+      "generator": "tools/textures/generate_winter_snow.py:snow_roof; SEED=20260910; in-memory output reproduces decoded RGB pixels exactly; no historical generation receipt.",
+      "license": "Project-original procedural; no external bitmap input detected.",
+      "dimensions": "1024x1024",
+      "format": "PNG RGB8",
+      "colorSpace": "No embedded ICC profile detected; PainterlyMaterialLibrary albedo_texture uses source_color (sRGB sampling).",
+      "uv": "TILE; PainterlyMaterialLibrary snow_roof scale (0.5, 0.5), 2 m per repeat; world-space triplanar albedo path.",
+      "mask": "None; opaque RGB base-color map.",
+      "purpose": "Settled rooftop/upper-surface snow pigment; cap thickness, eaves and overhang remain 3D geometry.",
+      "reference": "docs/production/URMAN_WINTER_TEXTURE_BRIEF_RU.md §6; docs/urman_knowledge_base/design_style.md Winter; docs/urman_knowledge_base/art/urman_imagegen_texture_prompt_book_2026-09-22.md#s04 (written brief only; no P2/T image is claimed as viewed or used).",
+      "scale": 2,
+      "triangleBudget": 0,
+      "textureBudget": 1024,
+      "materials": [
+        "snow_roof"
+      ],
+      "materialOwner": "PainterlyMaterialLibrary.WinterTextures[\"snow_roof\"]; current callers use the shared roof-snow family.",
+      "consumerPaths": [
+        "game/scripts/PainterlyMaterialLibrary.cs",
+        "game/scripts/Act1ConnectedWorld.cs",
+        "game/scripts/Act1ConnectedWorld.CozyBabaiYard.cs",
+        "game/scripts/Act1ConnectedWorld.FarBank.cs",
+        "game/scripts/Act1ConnectedWorld.MosqueMinaret.cs",
+        "game/scripts/Act1ConnectedWorld.PolicePost.Roof.cs",
+        "game/scripts/Act1ConnectedWorld.SovkhozSquare.cs",
+        "game/scripts/Act1ConnectedWorld.SquareInteriors.cs",
+        "game/scripts/PrologueApproachRoad.cs",
+        "game/scripts/PrologueDeepForest.cs",
+        "game/scripts/experiments/agent_b_act1/AgentBAct1ExteriorLayer.cs"
+      ],
+      "collision": "unchanged",
+      "lod": "PML sampler requests linear mipmapped anisotropic filtering; target import/runtime mip behavior not verified here.",
+      "qa": "PNG SHA-256 matches its only introduction blob; snow_roof() with seed 20260910 reproduces decoded RGB pixels (SHA-256 27ffef1fbc168a5c4aef04acd947ed02f576c5c044c9c19091c18c5fedc87555). C2 target static/motion and art review remain open.",
+      "status": "existing-map reuse; source and pixel reproduction verified; target visual/art review pending",
+      "releaseDisposition": "Existing snow_roof slot and mapped receivers only; no new map, geometry change, or visual acceptance claimed."
     }
   ]
 }

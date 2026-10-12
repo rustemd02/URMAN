@@ -83,6 +83,9 @@ public partial class Act1ConnectedWorld
         var parking = new Node3D { Name = "PoliceParking" }; room.AddChild(parking);
         parking.GlobalPosition = car.GlobalPosition;
         var hardstanding = AddVisualBox(parking, "ParkingHardstanding", new(2.6f, .03f, 5.2f), new(0, -.02f, 0), "afb6b1", "snow_trampled");
+        hardstanding.Mesh = new PlaneMesh { Size = new Vector2(2.6f, 5.2f) };
+        hardstanding.Position = new Vector3(0f, -.005f, 0f); // Preserve the old box's top surface.
+        hardstanding.CastShadow = GeometryInstance3D.ShadowCastingSetting.Off;
         hardstanding.MaterialOverride = PainterlyMaterialLibrary.ForFrozenWheelSnow("afb6b1");
     }
 

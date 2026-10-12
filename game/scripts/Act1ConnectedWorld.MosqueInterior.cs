@@ -581,9 +581,13 @@ public partial class Act1ConnectedWorld
         parent.AddChild(hinge);
         // The rendered leaf and contact share a real 12 mm floor clearance.
         var body = FacilitySolid(hinge, name + "Leaf", new(.065f, height - .012f, width), new(0, (height + .012f) * .5f, width * .5f), "806044", "wood_furniture");
+        body.MaterialOverride = PainterlyMaterialLibrary.ForLocalWoodPiece("806044", body.Position, "wood_furniture");
         body.SetMeta("worldPropId", key);
         for (var i = 1; i < 5; i++)
-            AddVisualBox(hinge, name + "PlankJoint" + i, new(.069f, height - .04f, .008f), new(0, height * .5f, width * i / 5f), "62472f", "wood");
+        {
+            var joint = AddVisualBox(hinge, name + "PlankJoint" + i, new(.069f, height - .04f, .008f), new(0, height * .5f, width * i / 5f), "62472f", "wood");
+            joint.MaterialOverride = PainterlyMaterialLibrary.ForLocalWoodPiece("62472f", joint.Position, "wood");
+        }
         foreach (var y in new[] { .25f, height - .25f })
         {
             FacilityRod(hinge, name + "HingePin" + y, new(0, y - .09f, .015f), new(0, y + .09f, .015f), .025f, "454a45");
