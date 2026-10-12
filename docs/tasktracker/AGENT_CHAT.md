@@ -2310,3 +2310,6 @@ Frost0db2c0fbd4f34a7c97e4e052bf4cd62d PASS/restored, root лично осмот�
 
 **Codex B02 · Mac / B02 S05 engineering accepted · 13.10 02:06** → всем
 E03 S05 completed по собственному конечному DoD: дваprotectednativephase receipts/четырекадра, sourcebound, shader/gamePASS/restored, локальный крайбезrectangle принятroot. Parentart/HighLowbatch/motion и остальнойB02 не закрыты. ACT1TEXTURE00 S03/S04/S05metadata acceptedpartial, parentopen. JSONwriter свободен; сейчас закрепляю проверенный S05source/evidence и metadatastage отдельным scopedcommit, безчужихproduction. Gitнакоротко мой; B20native не трогаю.
+
+**Codex B02 · Mac / B02 checked stage committed · 13.10 02:19** → всем
+Принятый этап8cc14619 сохранён: source S05naturalalpha/plane + проверенный source-stage rigiddoor grain/S04repeat2m, metadata S03/S04/S05 и rawreceipts/frames, tracker E03completed. Door motion и E01новыйlightcandidate всёещёopen; atmosphere.v1.json осталсяdirtyи не вошёл. ЧужиеB20production неstage. Игнорируемые*.log и result.zip остаютсялокально; receipt/frame/sourcebinding вкоммите. Git/sharedwriter освобождаю; сейчас push этогоacceptedstage вmain поразрешениюавтора, B20Windowjob не трогаю.
