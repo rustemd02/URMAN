@@ -81594,6 +81594,18 @@
                 "result": "SOURCE_GAME_COMPILE_REVIEW_PASS_NATIVE_OPEN",
                 "source": "src-dotnet/Urman.Studio.Core/Collaboration/GitRevisionOutbox.cs; game/studio/StudioCollabSection.cs",
                 "verification": "LunaCore/rootUI/Solreview accepted, Gamecompile0/0,17.57s/scopeddiffcheckPASS. Explicit Sent-only Archive validatesreceipt/commit/snapshothashes, shares stable siblingexclusivelease withSend, same-volumeDirectory.Move refusesexistingtarget. Wholecapsule/pinnedGitref preserved, no network/no deletion. Active64limit excludesarchive; Pending/unknown cannotarchive. Actual network/two-window/nativearchive unverified."
+              },
+              {
+                "stage": "2026-10-12 saved shop and vehicle outgoing coverage",
+                "result": "SOURCE_GAME_COMPILE_0_0_REVIEW_ACCEPTED_NETWORK_OPEN",
+                "source": [
+                  "src-dotnet/Urman.Studio.Core/Collaboration/GitRevisionOutbox.cs",
+                  "game/studio/StudioCollabSection.cs",
+                  "game/studio/StudioRoot.Checkpoints.cs"
+                ],
+                "verification": "Luna FAST/Max implementation; Sol6.1medium independent source review accepted. Affected Game compile 0 warnings/0 errors in 15.73s; diff check. No native or network exchange run.",
+                "actual_result": "Existing checkpoint catalogue providers reused by outgoing queue. Exact saved shop/vehicle disk bytes frozen; drafts refused, typed validation and disk SHA checked; initial form capture before await, subsequent checks avoid Godot form reads. Old capsule schema preserved.",
+                "remaining": "Incoming catalogue review/Apply/Undo and actual two-checkout A23 remain open, together with binary closure/new sources/deletions."
               }
             ],
             "stage_tasks": [
@@ -81623,13 +81635,8 @@
             "status": "in_progress",
             "implementation_state": "partial",
             "technical_verification_state": "not_run",
-            "remaining": [
-              "Whole-file deletion of clean registered entity-list JSON now has one durable action and workspace membership Undo/Redo; native/restart proof open. Creation and unregistered source Apply remain disabled pending schema policy.",
-              "Curated Send/idempotent receipt/offline queue not implemented.",
-              "Native/network A23, actual deletion Apply/Undo/Redo and restart recovery not verified.",
-              "Source-text dirty tracking can keep formatting-only changes dirty after typed Undo. Trusted origin fetch preview cap still not network byte cap."
-            ],
-            "next_action": "Проверить реальныйA23 exchange/archive вразрешённых checkout; binaryassetclosure/allcatalogueowners/delete/newsource остаются. АрхивныйGUIbrowse при необходимости отдельно; данные сохранены, не считатьarchivemove удалением.",
+            "remaining": "Отправка сохранённых магазина/транспорта реализована и проверена source/compile; их входящий review/Apply/Undo ещё не реализован. Реальный network A23, asset closure/new source/deletion coverage остаются открыты.",
+            "next_action": "Подключить typed Receive/review/Apply/Undo каталогов, затем проверить реальный A23 между разрешёнными checkout; binary assets/new sources/deletions остаются.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",

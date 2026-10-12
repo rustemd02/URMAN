@@ -140,7 +140,7 @@ public sealed class StudioCollabSection(StudioRoot studio) : IStudioSection
             _list.AddChild(new Label { Text = _sendMessage, AutowrapMode = TextServer.AutowrapMode.WordSmart });
         if (!_outgoingQueueLoaded)
         {
-            try { _outgoingQueue = new GitRevisionOutbox(studio.Workspace).List(); _queueError = null; }
+            try { _outgoingQueue = new GitRevisionOutbox(studio.Workspace, studio.GetAuthoringCatalogSources).List(); _queueError = null; }
             catch (Exception error) when (error is IOException or UnauthorizedAccessException or ArgumentException or InvalidOperationException)
             {
                 _queueError = "Не удалось прочитать очередь отправки. Подготовленные версии сохранены; проверьте доступ к проекту.";
@@ -176,7 +176,7 @@ public sealed class StudioCollabSection(StudioRoot studio) : IStudioSection
         if (_sendCancellation is not null) return;
         try
         {
-            new GitRevisionOutbox(studio.Workspace).ArchiveSent(operationId);
+            new GitRevisionOutbox(studio.Workspace, studio.GetAuthoringCatalogSources).ArchiveSent(operationId);
             _sendMessage = "Завершённая передача убрана из очереди. Снимок и подтверждение сохранены в архиве.";
         }
         catch (Exception error) when (error is IOException or UnauthorizedAccessException or ArgumentException or InvalidOperationException)
@@ -200,7 +200,7 @@ public sealed class StudioCollabSection(StudioRoot studio) : IStudioSection
         Refresh();
         try
         {
-            _ = await new GitRevisionOutbox(studio.Workspace).PrepareAsync(_receiveBranch, cancellation.Token);
+            _ = await new GitRevisionOutbox(studio.Workspace, studio.GetAuthoringCatalogSources).PrepareAsync(_receiveBranch, cancellation.Token);
             cancellation.Token.ThrowIfCancellationRequested();
             _sendMessage = "Версия подготовлена и сохранена в очереди ниже. Нажмите «Посмотреть», чтобы проверить изменения и отправить её.";
         }
@@ -242,7 +242,7 @@ public sealed class StudioCollabSection(StudioRoot studio) : IStudioSection
             dialog.GetOkButton().Disabled = true;
             try
             {
-                var file = await new GitRevisionOutbox(studio.Workspace).ReadFileAsync(revision.OperationId, revision.Files[(int)index].RelativePath);
+                var file = await new GitRevisionOutbox(studio.Workspace, studio.GetAuthoringCatalogSources).ReadFileAsync(revision.OperationId, revision.Files[(int)index].RelativePath);
                 if (request != previewRequest || !GodotObject.IsInstanceValid(dialog) || !dialog.Visible) return;
                 before.Text = file.BaseText ?? "Файла не было.";
                 after.Text = file.IncomingText ?? "Файл будет удалён.";
@@ -270,7 +270,7 @@ public sealed class StudioCollabSection(StudioRoot studio) : IStudioSection
         Refresh();
         try
         {
-            var revision = await new GitRevisionOutbox(studio.Workspace).SendAsync(operationId, cancellation.Token);
+            var revision = await new GitRevisionOutbox(studio.Workspace, studio.GetAuthoringCatalogSources).SendAsync(operationId, cancellation.Token);
             if (revision.State != GitOutgoingState.Sent) throw new IOException("Отправка не подтверждена.");
             _sendMessage = $"Отправка подтверждена. Получатель: ветка {revision.RemoteBranch}. Передача {revision.OperationId}.";
         }

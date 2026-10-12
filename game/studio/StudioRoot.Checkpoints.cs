@@ -8,13 +8,16 @@ public partial class StudioRoot
 {
     private bool _checkpointBusy;
 
+    internal IReadOnlyList<StudioCheckpointCatalogSource> GetAuthoringCatalogSources() => _sections.Values
+        .Select(section => section.CheckpointCatalogSource)
+        .OfType<StudioCheckpointCatalogSource>()
+        .ToArray();
+
     private void OpenCheckpoints()
     {
         if (IsAiActionBusy) return;
-        var store = new StudioCheckpointStore(Workspace, () => _sections.Values
-            .Select(section => section.CheckpointCatalogSource)
-            .OfType<StudioCheckpointCatalogSource>()
-            .ToArray(), () => StudioAiPanel.ResolveRevision(this));
+        var store = new StudioCheckpointStore(Workspace, GetAuthoringCatalogSources,
+            () => StudioAiPanel.ResolveRevision(this));
         var dialog = new AcceptDialog
         {
             Title = "Контрольные точки",

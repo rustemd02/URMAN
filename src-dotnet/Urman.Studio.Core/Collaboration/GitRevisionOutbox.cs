@@ -16,12 +16,15 @@ public sealed record GitOutgoingRevision(string OperationId, string BaseRevision
     IReadOnlyList<string> ExcludedPaths);
 
 /// <summary>Freezes registered authored text against a cached origin branch and sends it only after explicit confirmation.</summary>
-public sealed class GitRevisionOutbox(StudioWorkspace workspace)
+public sealed class GitRevisionOutbox(StudioWorkspace workspace,
+    Func<IReadOnlyList<StudioCheckpointCatalogSource>>? catalogSources = null)
 {
     private const string OutboxPath = ".urman-studio/outbox";
     private const string ArchivePath = ".urman-studio/outbox-archive";
     private const string OperationLocksPath = ".urman-studio/outbox-locks";
     private const string HeroRecipePath = "game/content/studio/hero_house.recipe.json";
+    private const string ShopCatalogOwner = "urman.studio:shop-catalog";
+    private const string VehicleCatalogOwner = "urman.studio:vehicle-catalog";
     private const int MaxFiles = 2000;
     // shortcut: keep the retained queue bounded until an explicit archive policy exists.
     private const int MaxOperations = 64;
@@ -53,7 +56,9 @@ public sealed class GitRevisionOutbox(StudioWorkspace workspace)
         if (!RepositoryExists()) throw Refusal("Рабочая папка не является Git-репозиторием.");
 
         var sources = workspace.Files.OrderBy(file => file.RelativePath, StringComparer.Ordinal).ToArray();
-        if (sources.Length > MaxFiles) throw Refusal("В подготовку можно включить не более 2000 исходных файлов.");
+        var ownedCatalogSources = CurrentCatalogSources();
+        if (sources.Length + ownedCatalogSources.Length > MaxFiles)
+            throw Refusal("В подготовку можно включить не более 2000 исходных файлов.");
         var captured = new Dictionary<string, SourceCapture>(StringComparer.Ordinal);
         foreach (var file in sources)
         {
@@ -66,11 +71,14 @@ public sealed class GitRevisionOutbox(StudioWorkspace workspace)
             captured.Add(source.RelativePath, new(file, source));
         }
 
+        // Capture callbacks touch section form state, so this happens synchronously on the caller thread before the first Git await.
+        var capturedCatalogs = CaptureCatalogSources(ownedCatalogSources);
+
         var baseRevision = await RevisionAsync(
             ["rev-parse", "--verify", "refs/remotes/origin/" + branch + "^{commit}"], token).ConfigureAwait(false);
         var objectFormat = await TextAsync(["rev-parse", "--show-object-format"], 32, token).ConfigureAwait(false);
         if (objectFormat is not ("sha1" or "sha256")) throw Refusal("Формат объектов этого Git-репозитория не поддерживается.");
-        var tree = await ReadBaseTreeAsync(baseRevision, token).ConfigureAwait(false);
+        var tree = await ReadBaseTreeAsync(baseRevision, ownedCatalogSources, token).ConfigureAwait(false);
         var candidates = new Dictionary<string, PendingFile>(StringComparer.Ordinal);
         var excluded = new SortedSet<string>(StringComparer.Ordinal);
         var totalBytes = 0L;
@@ -105,6 +113,25 @@ public sealed class GitRevisionOutbox(StudioWorkspace workspace)
             var beforeText = Utf8.GetString(before);
             _ = AuthoredFile.CreateNew(workspace.Root, path, beforeText).Snapshot();
             AddPending(path, before, baseEntry.ObjectId, after, objectFormat, candidates, ref totalBytes);
+        }
+
+        foreach (var (path, capture) in capturedCatalogs.OrderBy(entry => entry.Key, StringComparer.Ordinal))
+        {
+            token.ThrowIfCancellationRequested();
+            if (!tree.TryGetValue(path, out var baseEntry))
+            {
+                AddPending(path, null, null, capture.Bytes, objectFormat, candidates, ref totalBytes);
+                continue;
+            }
+            if (baseEntry.Mode != "100644" || baseEntry.Type != "blob")
+            {
+                excluded.Add(path + " (в Git это не обычный текстовый файл)");
+                continue;
+            }
+            if (GitBlobHash(objectFormat, capture.Bytes) == baseEntry.ObjectId) continue;
+            var before = await ReadBlobAsync(baseEntry.ObjectId, token).ConfigureAwait(false);
+            capture.Source.Validate(before);
+            AddPending(path, before, baseEntry.ObjectId, capture.Bytes, objectFormat, candidates, ref totalBytes);
         }
 
         var heroBytes = ReadOptionalHeroRecipe();
@@ -159,6 +186,7 @@ public sealed class GitRevisionOutbox(StudioWorkspace workspace)
         EnsureOutboxCapacity();
 
         RevalidateSources(captured);
+        RevalidateCatalogFiles(ownedCatalogSources, capturedCatalogs);
         if (!SameBytes(heroBytes, ReadOptionalHeroRecipe()))
             throw Refusal("Рецепт дома изменился во время подготовки. Обновите сравнение.");
 
@@ -198,6 +226,7 @@ public sealed class GitRevisionOutbox(StudioWorkspace workspace)
         await UpdatePrivateRefAsync(hooksRelative, "refs/urman-studio/outbox/" + id, baseRevision,
             new string('0', baseRevision.Length), token).ConfigureAwait(false);
         RevalidateSources(captured);
+        RevalidateCatalogFiles(ownedCatalogSources, capturedCatalogs);
         if (!SameBytes(heroBytes, ReadOptionalHeroRecipe()))
             throw Refusal("Рецепт дома изменился во время подготовки. Обновите сравнение.");
         WriteReceipt(relativeDirectory, receipt, createOnly: true);
@@ -224,8 +253,9 @@ public sealed class GitRevisionOutbox(StudioWorkspace workspace)
         var after = ReadSnapshot(receipt.Id, file.AfterImage, file.AfterBytes, file.AfterSha256);
         var beforeText = before is null ? null : Utf8.GetString(before);
         var afterText = Utf8.GetString(after);
-        ValidateSourceText(file.Path, afterText);
-        if (beforeText is not null) ValidateSourceText(file.Path, beforeText);
+        var validators = CurrentCatalogSources().ToDictionary(source => source.Path, StringComparer.Ordinal);
+        ValidateSourceBytes(file.Path, after, validators);
+        if (before is not null) ValidateSourceBytes(file.Path, before, validators);
         await Task.CompletedTask.ConfigureAwait(false);
         return new(file.Path, beforeText, afterText);
     }
@@ -531,10 +561,14 @@ public sealed class GitRevisionOutbox(StudioWorkspace workspace)
         byte[]? standardInput = null, IReadOnlyDictionary<string, string?>? environment = null) =>
         GitRepositoryProcess.RunAsync(workspace.Root, arguments, outputLimit, token, standardInput, environment);
 
-    private async Task<Dictionary<string, TreeEntry>> ReadBaseTreeAsync(string revision, CancellationToken token) =>
-        await ReadTreeEntriesAsync(revision,
-            ["content/modules", "content/campaigns", "content/studio", "game/content/world", "game/content/cutscenes",
-                "game/content/animations", "game/content/studio/hero_house.recipe.json"], null, token).ConfigureAwait(false);
+    private async Task<Dictionary<string, TreeEntry>> ReadBaseTreeAsync(string revision,
+        IReadOnlyList<StudioCheckpointCatalogSource> catalogs, CancellationToken token)
+    {
+        var paths = new[] { "content/modules", "content/campaigns", "content/studio", "game/content/world",
+            "game/content/cutscenes", "game/content/animations", "game/content/studio/hero_house.recipe.json" }
+            .Concat(catalogs.Select(source => source.Path)).ToArray();
+        return await ReadTreeEntriesAsync(revision, paths, null, token).ConfigureAwait(false);
+    }
 
     private async Task<Dictionary<string, TreeEntry>> ReadTreeEntriesAsync(string revision, IReadOnlyList<string>? paths,
         string? hooksRelative, CancellationToken token)
@@ -581,14 +615,13 @@ public sealed class GitRevisionOutbox(StudioWorkspace workspace)
     private List<PendingFile> LoadAndValidateAllFiles(Receipt receipt)
     {
         var files = new List<PendingFile>(receipt.Files.Length);
+        var validators = CurrentCatalogSources().ToDictionary(source => source.Path, StringComparer.Ordinal);
         foreach (var item in receipt.Files)
         {
             var before = item.BeforeImage is null ? null : ReadSnapshot(receipt.Id, item.BeforeImage, item.BeforeBytes, item.BeforeSha256);
             var after = ReadSnapshot(receipt.Id, item.AfterImage, item.AfterBytes, item.AfterSha256);
-            var beforeText = before is null ? null : Utf8.GetString(before);
-            var afterText = Utf8.GetString(after);
-            ValidateSourceText(item.Path, afterText);
-            if (beforeText is not null) ValidateSourceText(item.Path, beforeText);
+            ValidateSourceBytes(item.Path, after, validators);
+            if (before is not null) ValidateSourceBytes(item.Path, before, validators);
             files.Add(new(item.Path, before, item.BaseObjectId, after));
         }
         return files;
@@ -711,6 +744,63 @@ public sealed class GitRevisionOutbox(StudioWorkspace workspace)
             if (latest.Dirty || latest.IsNew != original.Source.IsNew || latest.Sha256 != original.Source.Sha256
                 || latest.BaseSha256 != original.Source.BaseSha256 || latest.Text != original.Source.Text)
                 throw Refusal("Текстовый исходник изменился во время подготовки. Обновите сравнение.");
+        }
+    }
+
+    private StudioCheckpointCatalogSource[] CurrentCatalogSources()
+    {
+        var sources = catalogSources?.Invoke() ?? [];
+        if (catalogSources is not null && sources.Count != 2)
+            throw Refusal("Для передачи нужны оба зарегистрированных каталога Studio.");
+        var seen = new HashSet<string>(StringComparer.Ordinal);
+        foreach (var source in sources)
+        {
+            if (source is null || source.Path is null || source.Capture is null || source.Validate is null || workspace.HasFile(source.Path)
+                || !StudioFileTransaction.IsOwnedCatalogPath(source.Owner, source.Path) || !seen.Add(source.Path))
+                throw Refusal("Каталог Studio имеет неизвестного владельца или повторный путь.");
+            StudioFileTransaction.EnsureNoLinks(workspace.Root, source.Path);
+        }
+        return sources.OrderBy(source => source.Path, StringComparer.Ordinal).ToArray();
+    }
+
+    private Dictionary<string, CatalogCapture> CaptureCatalogSources(
+        IReadOnlyList<StudioCheckpointCatalogSource> sources)
+    {
+        var captures = new Dictionary<string, CatalogCapture>(StringComparer.Ordinal);
+        foreach (var source in sources)
+        {
+            var image = source.Capture();
+            if (image is null || !IsSha256(image.DiskSha256)) throw Refusal("Снимок каталога Studio некорректен.");
+            if (image.DraftBytes is not null) throw Refusal("Сначала сохраните или отмените черновики каталогов.");
+            StudioFileTransaction.EnsureNoLinks(workspace.Root, source.Path);
+            var bytes = StudioFileTransaction.ReadBoundedFile(Absolute(source.Path),
+                StudioFileTransaction.MaximumAuthoredSourceBytes);
+            if (!string.Equals(AtomicFile.Sha256(bytes), image.DiskSha256, StringComparison.Ordinal))
+                throw Refusal("Сохранённый каталог изменился во время подготовки.");
+            source.Validate(bytes);
+            captures.Add(source.Path, new(source, image, bytes));
+        }
+        return captures;
+    }
+
+    private void RevalidateCatalogFiles(IReadOnlyList<StudioCheckpointCatalogSource> expectedSources,
+        IReadOnlyDictionary<string, CatalogCapture> captures)
+    {
+        // Do not call Capture here: it stores/reads live Godot form fields. Only reread disk and thread-neutral validators run after awaits.
+        var current = CurrentCatalogSources().ToDictionary(source => source.Path, StringComparer.Ordinal);
+        if (current.Count != expectedSources.Count || captures.Count != expectedSources.Count
+            || expectedSources.Any(source => !current.TryGetValue(source.Path, out var latest)
+                || latest.Owner != source.Owner || !captures.ContainsKey(source.Path)))
+            throw Refusal("Состав каталогов Studio изменился во время подготовки.");
+        foreach (var source in expectedSources)
+        {
+            StudioFileTransaction.EnsureNoLinks(workspace.Root, source.Path);
+            var bytes = StudioFileTransaction.ReadBoundedFile(Absolute(source.Path),
+                StudioFileTransaction.MaximumAuthoredSourceBytes);
+            var capture = captures[source.Path];
+            if (!string.Equals(AtomicFile.Sha256(bytes), capture.Image.DiskSha256, StringComparison.Ordinal))
+                throw Refusal("Сохранённый каталог изменился во время подготовки.");
+            source.Validate(bytes);
         }
     }
 
@@ -859,19 +949,32 @@ public sealed class GitRevisionOutbox(StudioWorkspace workspace)
         return path;
     }
 
-    private static void ValidateSourceText(string path, string text)
+    private void ValidateSourceBytes(string path, byte[] bytes,
+        IReadOnlyDictionary<string, StudioCheckpointCatalogSource> catalogValidators)
     {
         ValidateSourcePath(path);
-        _ = AuthoredFile.CreateNew(".", path, text).Snapshot();
+        if (IsCatalogSourcePath(path))
+        {
+            if (!catalogValidators.TryGetValue(path, out var source))
+                throw Refusal("Для проверки каталога сохранённого запроса нужен его зарегистрированный владелец.");
+            source.Validate(bytes);
+            return;
+        }
+        _ = AuthoredFile.CreateNew(".", path, Utf8.GetString(bytes)).Snapshot();
     }
 
     private static void ValidateSourcePath(string path)
     {
         if (path != HeroRecipePath && !StudioWorkspace.IsCanonicalAuthoredJsonSourcePath(path)
+            && !IsCatalogSourcePath(path)
             && !(path.StartsWith("content/modules/", StringComparison.Ordinal)
                 && path.EndsWith(".md", StringComparison.Ordinal) && SafeSourceRelativePath(path)))
             throw Refusal("К очереди допускаются только зарегистрированные текстовые исходники.");
     }
+
+    private static bool IsCatalogSourcePath(string path) =>
+        StudioFileTransaction.IsOwnedCatalogPath(ShopCatalogOwner, path)
+        || StudioFileTransaction.IsOwnedCatalogPath(VehicleCatalogOwner, path);
 
     private static bool SafeSourceRelativePath(string path) => !Path.IsPathRooted(path)
         && !path.Contains('\\') && !path.Contains(':') && !path.Any(char.IsControl)
@@ -937,6 +1040,7 @@ public sealed class GitRevisionOutbox(StudioWorkspace workspace)
 
     private sealed class OutboxRefusalException(string message) : IOException(message);
     private sealed record SourceCapture(AuthoredFile File, AuthoredSourceSnapshot Source);
+    private sealed record CatalogCapture(StudioCheckpointCatalogSource Source, StudioCheckpointCatalogImage Image, byte[] Bytes);
     private sealed record TreeEntry(string Mode, string Type, string ObjectId);
     private sealed record PendingFile(string Path, byte[]? Before, string? BaseObjectId, byte[] After);
     private sealed record CapsuleFile(string Path, string? BeforeImage, string AfterImage, int BeforeBytes, int AfterBytes,
