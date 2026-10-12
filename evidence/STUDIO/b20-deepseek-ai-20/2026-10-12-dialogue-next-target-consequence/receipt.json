@@ -1,0 +1,30 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-20"
+  ],
+  "stage": "the dialogue next-target consequence, read from its consumers",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-12 (MSK)",
+  "branch": "deepseek/b20-editor-content",
+  "base": "64722361",
+  "why": "the check that a dialogue choice points at a real node already existed, but its message said only that the answer 'cannot be chosen'. After correcting the CHAT message I checked whether the two really behave the same way - they do NOT, so I read both consumers",
+  "what_the_runtime_does": {
+    "load": "CompiledCampaignRepository validates dialogue ENTRY ROUTES only (it throws 'has an unknown entry node', line 727) and does NOT check choice targets - unlike a chat, where every node and choice is checked and the whole campaign fails to load",
+    "choose": "RuntimeBridge's choice path indexes the node map directly: dialogue.Nodes[choice.NextNodeId], which throws KeyNotFoundException, and DialogueUi would pass the same unknown id into ShowNodeAsync"
+  },
+  "the_corrected_message": "now says that choosing that answer makes RuntimeBridge index dialogue.Nodes[<target>] and throw KeyNotFoundException, and that load-time validation covers entry routes only rather than the choices",
+  "the_lesson_sharpened": "for a chat the failure is at LOAD and takes the whole campaign; for a dialogue it is at CHOICE TIME and takes the scene. Two kernels that look alike fail at different moments, so each message has to be read from its own consumer",
+  "own_mistake_again": "this is the THIRD time a receipt was missing from its commit for the same script typo, because I kept reusing the same broken line. The receipt-writing script is now a separate, syntax-checked file (/tmp/mkreceipt.py) and the receipts go in with their commits from here on",
+  "verified": {
+    "probe": "PASS 776/776 including the two new dialogue assertions",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors",
+    "not_run": "no game launch: choosing the answer is runtime acceptance"
+  },
+  "open": [
+    "the wording is not yet seen by an author in the editor"
+  ],
+  "files": {
+    "evidence/STUDIO/b20-deepseek-ai-20/2026-10-12-dialogue-next-target-consequence/check.log": "216a19dea3a53ee426cfbc5a0eab6ba6743f6b4dbab68b291a22cfcef2b9a54b"
+  }
+}
