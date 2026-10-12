@@ -9,6 +9,23 @@ public partial class JournalUi
     private const int PhotoBookTabIndex = 7;
     private const string SGardenPhotoId = "S-GARDEN";
     private const string SGardenFrontImagePath = "res://assets/textures/photobook/s-garden-front-v1.png";
+    private static readonly IReadOnlyDictionary<string, (string Path, string Caption)> PhotoBookBackImages =
+        new Dictionary<string, (string Path, string Caption)>(StringComparer.Ordinal)
+        {
+            ["P-FOREST"] = ("res://assets/textures/photobook/backs-v1/p-forest-back.svg", "У леса. Перед отъездом."),
+            ["P-WATER"] = ("res://assets/textures/photobook/backs-v1/p-water-back.svg", "У старых мостков."),
+            ["P-HOUSE"] = ("res://assets/textures/photobook/backs-v1/p-house-back.svg", "Во дворе. Ставня опять заедала."),
+            ["P-COMMON"] = ("res://assets/textures/photobook/backs-v1/p-common-back.svg", "Черновик. Подпись не закончена."),
+            ["P-CELLAR"] = ("res://assets/textures/photobook/backs-v1/p-cellar-back.svg", "Перед уборкой."),
+            ["S-SCHOOL"] = ("res://assets/textures/photobook/backs-v1/s-school-back.svg", "Копия из школьного альбома."),
+            ["S-BANK"] = ("res://assets/textures/photobook/backs-v1/s-bank-back.svg", "Старый подход к мосткам."),
+            ["S-PHOTOGRAPHER"] = ("res://assets/textures/photobook/backs-v1/s-photographer-back.svg", "Снимала Гөлсинә."),
+            ["S-GARDEN"] = ("res://assets/textures/photobook/backs-v1/s-garden-back.svg", "Сад после работы."),
+            ["S-PRINT"] = ("res://assets/textures/photobook/backs-v1/s-print-back.svg", "Семейная папка. Копия."),
+            ["S-MARAT"] = ("res://assets/textures/photobook/backs-v1/s-marat-back.svg", "Обычный день."),
+            ["S-HAND"] = ("res://assets/textures/photobook/backs-v1/s-hand-back.svg", "На столе всё должно помещаться."),
+            ["S-NOW"] = ("res://assets/textures/photobook/backs-v1/s-now-back.svg", "Сегодня. Снимал Айдар.")
+        };
     private VBoxContainer _photoBookPage = null!;
     private ItemList _photoBookList = null!;
     private ScrollContainer _photoBookScroll = null!;
@@ -27,6 +44,7 @@ public partial class JournalUi
     private Label _photoBookFoldMarker = null!;
     private HSeparator _photoBookSeparator = null!;
     private Label _photoBookBackHeading = null!;
+    private TextureRect _photoBookBackImage = null!;
     private Label _photoBookBackText = null!;
     private Button _photoBookReadBackButton = null!;
     private Button _photoBookMountButton = null!;
@@ -182,6 +200,18 @@ public partial class JournalUi
         _photoBookBackHeading = new Label { Text = "Оборот",
             AutowrapMode = TextServer.AutowrapMode.WordSmart };
         _photoBookSpread.AddChild(_photoBookBackHeading);
+        _photoBookBackImage = new TextureRect
+        {
+            Name = "AuthoredPhotoBack",
+            CustomMinimumSize = new Vector2(0f, 200f),
+            SizeFlagsHorizontal = Control.SizeFlags.ExpandFill,
+            SizeFlagsVertical = Control.SizeFlags.ShrinkBegin,
+            ExpandMode = TextureRect.ExpandModeEnum.IgnoreSize,
+            StretchMode = TextureRect.StretchModeEnum.KeepAspectCentered,
+            MouseFilter = Control.MouseFilterEnum.Ignore,
+            Visible = false
+        };
+        _photoBookSpread.AddChild(_photoBookBackImage);
         _photoBookBackText = new Label { Name = "BackText",
             AutowrapMode = TextServer.AutowrapMode.WordSmart,
             SizeFlagsHorizontal = Control.SizeFlags.ExpandFill };
@@ -256,7 +286,7 @@ public partial class JournalUi
         if (!ReferenceEquals(_photoBookSession, session))
         {
             CancelPhotoBookPlacementAnimation();
-            ClearPhotoBookFrontImage();
+            ClearPhotoBookImages();
             _photoBookSession = session;
             _photoBookSelectedId = null;
             _photoBookActionStatus.Text = string.Empty;
@@ -300,7 +330,7 @@ public partial class JournalUi
         else
         {
             _photoBookSelectedId = null;
-            ClearPhotoBookFrontImage();
+            ClearPhotoBookImages();
             _photoBookTitle.Text = string.Empty;
             _photoBookPlacement.Text = string.Empty;
             _photoBookFrontBrief.Text = string.Empty;
@@ -314,7 +344,7 @@ public partial class JournalUi
     private void ClearPhotoBookPage(bool resetSession)
     {
         CancelPhotoBookPlacementAnimation();
-        ClearPhotoBookFrontImage();
+        ClearPhotoBookImages();
         if (resetSession)
         {
             _photoBookSession = null;
@@ -358,7 +388,7 @@ public partial class JournalUi
 
     private void ShowPhotoBookPhoto(RuntimeBridge.PhotoBookPhoto photo)
     {
-        ClearPhotoBookFrontImage();
+        ClearPhotoBookImages();
         if (photo.PhotoId == SGardenPhotoId && ResourceLoader.Exists(SGardenFrontImagePath)
             && ResourceLoader.Load<Texture2D>(SGardenFrontImagePath) is { } frontImage)
         {
@@ -377,13 +407,29 @@ public partial class JournalUi
             : string.IsNullOrWhiteSpace(photo.BackTextRu)
                 ? "На обороте пока нет записи."
                 : photo.BackTextRu;
+        if (photo.BackRead
+            && PhotoBookBackImages.TryGetValue(photo.PhotoId, out var authoredBack)
+            && string.Equals(photo.BackTextRu, authoredBack.Caption, StringComparison.Ordinal)
+            && ResourceLoader.Exists(authoredBack.Path)
+            && ResourceLoader.Load<Texture2D>(authoredBack.Path) is { } backImage)
+        {
+            _photoBookBackImage.Texture = backImage;
+            _photoBookBackImage.Visible = true;
+        }
     }
 
-    private void ClearPhotoBookFrontImage()
+    private void ClearPhotoBookImages()
     {
-        if (!GodotObject.IsInstanceValid(_photoBookFrontImage)) return;
-        _photoBookFrontImage.Texture = null;
-        _photoBookFrontImage.Visible = false;
+        if (GodotObject.IsInstanceValid(_photoBookFrontImage))
+        {
+            _photoBookFrontImage.Texture = null;
+            _photoBookFrontImage.Visible = false;
+        }
+        if (GodotObject.IsInstanceValid(_photoBookBackImage))
+        {
+            _photoBookBackImage.Texture = null;
+            _photoBookBackImage.Visible = false;
+        }
     }
 
     private void SetPhotoBookReadingZoom(float zoom)

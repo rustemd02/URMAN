@@ -104734,6 +104734,16 @@
         },
         "native_game": "NOT_RUN: active B20 transaction/Undo owner",
         "remaining": "Protected actual table view, first-person hand/body grip, pose↔UI/action sync, editable typography/glyphs, author art/human acceptance. Eight asset clips alone do not finish PW-017."
+      },
+      "progress_2026_10_12_grip_input": {
+        "finding": "Player scene has nohands/itemanchor; dynamic AidarLowerBody filters sleeves/hands. CouncilWitness rig has ArmL/ArmR/HandR but no HandL. Existing CarryGrip gives chest/coat-front worldpoints forCarryableProp, book isplainNode3D.",
+        "sources": [
+          "game/scripts/FirstPersonController.Body.cs",
+          "game/scenes/player/first_person_player.tscn",
+          "tools/blender/generate_character_kit.py",
+          "game/scripts/CarryCoordinator.Physics.cs"
+        ],
+        "next_action": "Provide first-person retainedhands+leftwrist+ownedtwohandbookpose beforeclaiminggrip; chest-onlyfloatingbook isnotgripproof."
       }
     },
     {
@@ -112437,17 +112447,17 @@
             "active_owner": null,
             "activity": {
               "state": "not_active",
-              "reason": "Конечный S-GARDEN front candidate + acquired-only source integration проверены import/compile; native/art и остальной набор открыты."
+              "reason": "13authored back layouts + read-gated source consumer проверены, runtime/art и остальные fronts/thumbnails открыты."
             },
             "task_type": "engineering",
             "status": "in_progress",
             "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
-              "S-GARDEN: 1800×1200 final/thumbnail/back print, protected native view and author art acceptance; candidate front 1536×1024 imported and UI wired.",
-              "Остальные 12 fronts/backs/thumbnails/transcriptions и обязательные scene/identity alignment inputs; full E02 не выполнен."
+              "13backSVG produced1800×1200 and Godot rendered; protected album view/authorart+language acceptance open.",
+              "12other fronts, S-GARDEN1800×1200final, all thumbnails и scene/identity alignment; full E02 остаётся открытым."
             ],
-            "next_action": "После освобождения станции проверить S-GARDEN acquired album view, смену карточки и Continue; отдельно принять art и завершить требуемые dimensions/representations. Прочие фото требуют своих scene/identity inputs.",
+            "next_action": "После release станции проверить actual acquired/backRead/caption-match album views и Continue; fronts требуют своих scene/identity inputs, полныйE02 не закрыт.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -112459,7 +112469,10 @@
                 "src-dotnet/Urman.Core/Narrative/PhotoWorldCatalog.cs",
                 "game/assets/textures/photobook/s-garden-front-v1.png",
                 "game/assets/textures/photobook/s-garden-front-v1.provenance.json",
-                "game/scripts/JournalUi.PhotoBook.cs"
+                "game/scripts/JournalUi.PhotoBook.cs",
+                "assets/source/photobook/generate_photo_backs.py",
+                "game/assets/textures/photobook/backs-v1/manifest.json",
+                "game/assets/textures/photobook/backs-v1/*.svg"
               ],
               "required_inputs": [
                 "content/campaigns/urman.fullgame/photoworlds-sources/photos.spec.json: S-GARDEN front_brief; non-portal fictional support image",
@@ -112508,7 +112521,10 @@
               },
               "evidence_refs": [
                 "evidence/PW-040/s-garden-20261012/receipt.json",
-                "game/assets/textures/photobook/s-garden-front-v1.provenance.json"
+                "game/assets/textures/photobook/s-garden-front-v1.provenance.json",
+                "evidence/PW-040/photo-backs-20261012/receipt.json",
+                "game/assets/textures/photobook/backs-v1/manifest.json",
+                "evidence/PW-040/photo-backs-20261012/godot-render.json"
               ],
               "source_criteria_parent": "PW-040"
             },
@@ -112544,6 +112560,37 @@
               },
               "native_game": "NOT_RUN: active B20 station owner",
               "remaining": "Windows album layout/selection/Continue; author art acceptance; exact 1800x1200 and separate thumbnail/backs/full 13-photo set."
+            },
+            "progress_2026_10_12_photo_backs": {
+              "manifest": "game/assets/textures/photobook/backs-v1/manifest.json",
+              "count": 13,
+              "dimensions_px": [
+                1800,
+                1200
+              ],
+              "caption_match": "13/13 exact source/UI mapping/SVG metadata verified",
+              "glyphs": "All codepoints present in unchanged licensed PT Sans, including ө/ә; sourceglyph outlines, no translation/text generation",
+              "personal_review": "Godot-rendered S-PHOTOGRAPHER (Гөлсинә) and P-HOUSE caption/canvas personally inspected; language/art human acceptance remains open",
+              "render": {
+                "result": "PASS",
+                "engine": "Godot4.7.1",
+                "images": 13,
+                "dimensions_px": [
+                  1800,
+                  1200
+                ],
+                "receipt": "evidence/PW-040/photo-backs-20261012/godot-render.json"
+              },
+              "compile": {
+                "result": "PASS",
+                "warnings": 0,
+                "errors": 0,
+                "seconds": 25.72,
+                "log": "evidence/PW-040/photo-backs-20261012/game-build.log"
+              },
+              "source_review": "Acquired-only selected projection; BackRead=true and ordinal-caption match beforetextureload. Missingasset/mismatch fallback authoritative editable Label. Both front/back textures clear on selection/session/load/empty. State/save/actionreducers unchanged.",
+              "native_game": "NOT_RUN: active B20 station owner",
+              "remaining": "Protected album layout/read/Continue and art/language acceptance;12otherfronts+S-GARDEN1800final+thumbnails; fullE02 open"
             }
           },
           {

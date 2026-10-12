@@ -1,0 +1,211 @@
+{
+  "schema": "urman-photo-back-layouts/v1",
+  "records": [
+    {
+      "photo_id": "P-FOREST",
+      "caption": "У леса. Перед отъездом.",
+      "file": "p-forest-back.svg",
+      "sha256": "5ed7a2e88d41c29f6d08765cfa3e10e405ef6735e1a7cfc938f1fbd826115b7a",
+      "dimensions_px": [
+        1800,
+        1200
+      ],
+      "physical_size_mm": [
+        150,
+        100
+      ],
+      "caption_width_px": 688.9350000000001
+    },
+    {
+      "photo_id": "P-WATER",
+      "caption": "У старых мостков.",
+      "file": "p-water-back.svg",
+      "sha256": "5726276fd5a708dcce05d8f7ba5465c0956052b8da31ae164197210e2db51197",
+      "dimensions_px": [
+        1800,
+        1200
+      ],
+      "physical_size_mm": [
+        150,
+        100
+      ],
+      "caption_width_px": 513.825
+    },
+    {
+      "photo_id": "P-HOUSE",
+      "caption": "Во дворе. Ставня опять заедала.",
+      "file": "p-house-back.svg",
+      "sha256": "d07c264689f17f5603ccc170a3d222f05d2fef8306a0d43b627225a335d52330",
+      "dimensions_px": [
+        1800,
+        1200
+      ],
+      "physical_size_mm": [
+        150,
+        100
+      ],
+      "caption_width_px": 917.085
+    },
+    {
+      "photo_id": "P-COMMON",
+      "caption": "Черновик. Подпись не закончена.",
+      "file": "p-common-back.svg",
+      "sha256": "848a40ffb84aad83d5fa414b8d6062e6a8e8a8728c7f81f27d44766e21fd4898",
+      "dimensions_px": [
+        1800,
+        1200
+      ],
+      "physical_size_mm": [
+        150,
+        100
+      ],
+      "caption_width_px": 961.1550000000001
+    },
+    {
+      "photo_id": "P-CELLAR",
+      "caption": "Перед уборкой.",
+      "file": "p-cellar-back.svg",
+      "sha256": "8f7a0df0828608de9961ea65d272fea72eb2f7ad58d0997dbee16e7685ac04f3",
+      "dimensions_px": [
+        1800,
+        1200
+      ],
+      "physical_size_mm": [
+        150,
+        100
+      ],
+      "caption_width_px": 447.005
+    },
+    {
+      "photo_id": "S-SCHOOL",
+      "caption": "Копия из школьного альбома.",
+      "file": "s-school-back.svg",
+      "sha256": "3281fbe6a1675dee2347fbdc2c185ac33f871dad588799f4b0c741411ee65e34",
+      "dimensions_px": [
+        1800,
+        1200
+      ],
+      "physical_size_mm": [
+        150,
+        100
+      ],
+      "caption_width_px": 850.07
+    },
+    {
+      "photo_id": "S-BANK",
+      "caption": "Старый подход к мосткам.",
+      "file": "s-bank-back.svg",
+      "sha256": "7c289a6183d3e7bae25388813b334b8e16d08c838f0534340b2504c6e2388d79",
+      "dimensions_px": [
+        1800,
+        1200
+      ],
+      "physical_size_mm": [
+        150,
+        100
+      ],
+      "caption_width_px": 751.27
+    },
+    {
+      "photo_id": "S-PHOTOGRAPHER",
+      "caption": "Снимала Гөлсинә.",
+      "file": "s-photographer-back.svg",
+      "sha256": "b7a67656f520b6d07e430212eb90695684e7513d523cf58646367a80c517b275",
+      "dimensions_px": [
+        1800,
+        1200
+      ],
+      "physical_size_mm": [
+        150,
+        100
+      ],
+      "caption_width_px": 507.195
+    },
+    {
+      "photo_id": "S-GARDEN",
+      "caption": "Сад после работы.",
+      "file": "s-garden-back.svg",
+      "sha256": "d4203f2f121a7f117b492625fe6f485405c86abce2acabf150444b0c04c58e34",
+      "dimensions_px": [
+        1800,
+        1200
+      ],
+      "physical_size_mm": [
+        150,
+        100
+      ],
+      "caption_width_px": 523.64
+    },
+    {
+      "photo_id": "S-PRINT",
+      "caption": "Семейная папка. Копия.",
+      "file": "s-print-back.svg",
+      "sha256": "e0ca35dda6d26a9fa1689a06bccafe8b0f2e51022379d04a456d3d74d190e630",
+      "dimensions_px": [
+        1800,
+        1200
+      ],
+      "physical_size_mm": [
+        150,
+        100
+      ],
+      "caption_width_px": 682.0450000000001
+    },
+    {
+      "photo_id": "S-MARAT",
+      "caption": "Обычный день.",
+      "file": "s-marat-back.svg",
+      "sha256": "297503b9d72ac0be9588ee73d1223f6b5cab557ac6ec49e4856e5f76d0baeed7",
+      "dimensions_px": [
+        1800,
+        1200
+      ],
+      "physical_size_mm": [
+        150,
+        100
+      ],
+      "caption_width_px": 432.25
+    },
+    {
+      "photo_id": "S-HAND",
+      "caption": "На столе всё должно помещаться.",
+      "file": "s-hand-back.svg",
+      "sha256": "2bd666e5f675c0e47e5e9d428a0faedbf3eca762c9df67bdc48829dcb5a32076",
+      "dimensions_px": [
+        1800,
+        1200
+      ],
+      "physical_size_mm": [
+        150,
+        100
+      ],
+      "caption_width_px": 967.2
+    },
+    {
+      "photo_id": "S-NOW",
+      "caption": "Сегодня. Снимал Айдар.",
+      "file": "s-now-back.svg",
+      "sha256": "e4db8fbe3f0e168f63c34b2f21437fb4fe1a7c7d7f95024aabaaf47068b3d3ad",
+      "dimensions_px": [
+        1800,
+        1200
+      ],
+      "physical_size_mm": [
+        150,
+        100
+      ],
+      "caption_width_px": 683.28
+    }
+  ],
+  "source": "content/campaigns/urman.fullgame/photoworlds-sources/photos.spec.json",
+  "source_sha256": "6127fe5180785ac303d4372b4537c38d253c255e88dc04a5d8c821e4a01bc2cc",
+  "generator": "assets/source/photobook/generate_photo_backs.py",
+  "generator_sha256": "6901caa7f12eef43d026a706354d20da8e73196cb82195b74c67daf1377e819c",
+  "font": "game/assets/fonts/PT_Sans-Web-Regular.ttf",
+  "font_sha256": "9cc831490532009bae2b3ce0d39c62adfc889060beb421593bfd9d2396d0f10a",
+  "font_license": "game/assets/fonts/OFL.txt",
+  "missing_glyphs": [],
+  "method": "PT Sans outlines from exact authored caption; no text generation or translation",
+  "rights": "Original fictional print layout, licensed unchanged font; no archive authenticity claim",
+  "remaining": "Protected album view and author art/language acceptance; other photo representations"
+}
