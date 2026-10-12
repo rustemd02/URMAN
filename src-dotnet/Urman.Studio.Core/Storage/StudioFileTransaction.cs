@@ -1,3 +1,4 @@
+using System.Text.Json;
 using System.Text.Json.Nodes;
 
 namespace Urman.Studio.Core.Storage;
@@ -30,6 +31,8 @@ public sealed class StudioFileTransaction
     private const string HistorySequencePath = ".urman-studio/history-sequence.json";
     private const string HistorySequenceLock = ".urman-studio/history-sequence.lock";
     private const int JournalVersion = 1;
+    internal const int MaximumAuthoredSourceBytes = 8 * 1024 * 1024;
+    public const string AuthoredSourceDeletionOwnerPrefix = "urman.studio:authored-source-delete/";
     private readonly string _root;
     private readonly string _directory;
     private readonly HashSet<string> _allowedPaths;
@@ -71,6 +74,11 @@ public sealed class StudioFileTransaction
     public IReadOnlyList<string> RelativePaths => _changes.Select(change => change.RelativePath).ToArray();
     internal bool IsAtAfterSide => _currentSide == "after";
 
+    public static bool IsAuthoredSourceDeletionOwner(string owner) =>
+        owner.StartsWith(AuthoredSourceDeletionOwnerPrefix, StringComparison.Ordinal)
+        && Guid.TryParseExact(owner[AuthoredSourceDeletionOwnerPrefix.Length..], "N", out var operationId)
+        && string.Equals(owner[AuthoredSourceDeletionOwnerPrefix.Length..], operationId.ToString("N"), StringComparison.Ordinal);
+
     /// <summary>
     /// Save pre/post images, write an applying journal, then promote every file.
     /// The caller accepts the transaction only after its edit command is ready to push.
@@ -85,7 +93,8 @@ public sealed class StudioFileTransaction
         if (string.IsNullOrWhiteSpace(owner)) throw new ArgumentException("A stable transaction owner is required.", nameof(owner));
         var rootPath = NormalizeRoot(root);
         var allowlist = NormalizeAllowlist(rootPath, allowedPaths);
-        var prepared = Prepare(rootPath, writes, allowlist);
+        var prepared = Prepare(rootPath, writes, allowlist,
+            IsAuthoredSourceDeletionOwner(owner) ? MaximumAuthoredSourceBytes : null);
         if (prepared.Count == 0 && afterPromotion is null) return null;
 
         var transaction = CreateStaging(rootPath, owner, allowlist, prepared, afterPromotion, afterPromotionAsync: null);
@@ -141,7 +150,8 @@ public sealed class StudioFileTransaction
         if (string.IsNullOrWhiteSpace(owner)) throw new ArgumentException("A stable transaction owner is required.", nameof(owner));
         var rootPath = NormalizeRoot(root);
         var allowlist = NormalizeAllowlist(rootPath, allowedPaths);
-        var prepared = Prepare(rootPath, writes, allowlist);
+        var prepared = Prepare(rootPath, writes, allowlist,
+            IsAuthoredSourceDeletionOwner(owner) ? MaximumAuthoredSourceBytes : null);
         if (prepared.Count == 0) return null;
 
         var transaction = CreateStaging(rootPath, owner, allowlist, prepared, nativeBarrier, afterPromotionAsync);
@@ -242,6 +252,29 @@ public sealed class StudioFileTransaction
         _afterPromotion?.Invoke();
         if (viewBarrier is not null) await viewBarrier();
         else if (_afterPromotionAsync is not null) await _afterPromotionAsync();
+    }
+
+    internal static byte[] ReadBoundedFile(string path, int maximumBytes)
+    {
+        if (maximumBytes <= 0) throw new ArgumentOutOfRangeException(nameof(maximumBytes));
+        using var input = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
+        var declaredLength = input.Length;
+        if (declaredLength < 0 || declaredLength > maximumBytes)
+            throw new InvalidDataException("Authored source exceeds the 8 MiB transaction image budget.");
+
+        using var output = new MemoryStream(checked((int)declaredLength));
+        var buffer = new byte[4096];
+        var remaining = declaredLength;
+        while (remaining > 0)
+        {
+            var count = input.Read(buffer, 0, (int)Math.Min(buffer.Length, remaining));
+            if (count == 0) throw new EndOfStreamException("Authored source changed while it was being read.");
+            output.Write(buffer, 0, count);
+            remaining -= count;
+        }
+
+        if (input.ReadByte() != -1) throw new InvalidDataException("Authored source grew while it was being read.");
+        return output.ToArray();
     }
 
     /// <summary>Commit the applying journal once its command is accepted into the edit stack.</summary>
@@ -452,7 +485,12 @@ public sealed class StudioFileTransaction
 
     /// <summary>Inspect interrupted promotions with a caller-owned exact-path policy.</summary>
     public static IReadOnlyList<PendingStudioFileTransaction> InspectPending(string root, Func<string, bool> allowedPath)
+        => InspectPendingCore(root, allowedPath, null);
+
+    private static IReadOnlyList<PendingStudioFileTransaction> InspectPendingCore(
+        string root, Func<string, bool> allowedPath, Func<string, string, bool>? allowedOwnedPath)
     {
+        ArgumentNullException.ThrowIfNull(allowedPath);
         var rootPath = NormalizeRoot(root);
         var transactionRoot = ResolveInternal(rootPath, TransactionDirectory);
         if (!Directory.Exists(transactionRoot)) return [];
@@ -476,12 +514,15 @@ public sealed class StudioFileTransaction
                 }
 
                 var manifest = ReadManifest(rootPath, directory);
+                var manifestAllowedPath = RecoveryPathPolicy(rootPath, directory, manifest, allowedPath, allowedOwnedPath);
+                var recoveryByteLimit = RecoveryByteLimit(manifest);
                 if (manifest.Status == "staging")
                 {
                     var stagedConflicts = manifest.Changes
-                        .Where(change => !TryNormalizeForRecovery(rootPath, change.RelativePath, allowedPath, out _))
+                        .Where(change => !TryNormalizeForRecovery(rootPath, change.RelativePath, manifestAllowedPath, out _))
                         .Select(path => $"{path.RelativePath} (outside allowlist)")
-                        .Concat(ConflictsForManifest(rootPath, directory, manifest, allowedPath, "before", acceptEitherSide: false))
+                        .Concat(ConflictsForManifest(rootPath, directory, manifest, manifestAllowedPath, "before", acceptEitherSide: false,
+                            maximumTargetBytes: recoveryByteLimit))
                         .Distinct(StringComparer.Ordinal)
                         .ToArray();
                     if (stagedConflicts.Length > 0)
@@ -490,12 +531,13 @@ public sealed class StudioFileTransaction
                 }
                 if (manifest.Status != "applying") continue;
                 var invalidPaths = manifest.Changes
-                    .Where(change => !TryNormalizeForRecovery(rootPath, change.RelativePath, allowedPath, out _))
+                    .Where(change => !TryNormalizeForRecovery(rootPath, change.RelativePath, manifestAllowedPath, out _))
                     .Select(change => change.RelativePath)
                     .ToArray();
                 var conflicts = invalidPaths.Select(path => $"{path} (outside allowlist)")
-                    .Concat(ValidateManifestImages(rootPath, directory, manifest))
-                    .Concat(ConflictsForManifest(rootPath, directory, manifest, allowedPath, manifest.RollbackSide, acceptEitherSide: true))
+                    .Concat(ValidateManifestImages(rootPath, directory, manifest, recoveryByteLimit))
+                    .Concat(ConflictsForManifest(rootPath, directory, manifest, manifestAllowedPath, manifest.RollbackSide,
+                        acceptEitherSide: true, maximumTargetBytes: recoveryByteLimit))
                     .Distinct(StringComparer.Ordinal)
                     .ToArray();
                 if (conflicts.Length == 0) conflicts = ["applying transaction was not fully recovered; inspect journal and retry startup recovery"];
@@ -663,7 +705,23 @@ public sealed class StudioFileTransaction
         string root,
         Func<string, bool> allowedPath,
         Action? afterRecovery = null)
+        => RecoverCore(root, allowedPath, null, afterRecovery);
+
+    /// <summary>Recover with an extra owner-scoped path policy for single-file transactions.</summary>
+    public static IReadOnlyList<PendingStudioFileTransaction> RecoverWithOwnedPathPolicy(
+        string root,
+        Func<string, bool> allowedPath,
+        Func<string, string, bool> allowedOwnedPath,
+        Action? afterRecovery = null)
+        => RecoverCore(root, allowedPath, allowedOwnedPath, afterRecovery);
+
+    private static IReadOnlyList<PendingStudioFileTransaction> RecoverCore(
+        string root,
+        Func<string, bool> allowedPath,
+        Func<string, string, bool>? allowedOwnedPath,
+        Action? afterRecovery)
     {
+        ArgumentNullException.ThrowIfNull(allowedPath);
         var rootPath = NormalizeRoot(root);
         var transactionRoot = ResolveInternal(rootPath, TransactionDirectory);
         if (!Directory.Exists(transactionRoot)) return [];
@@ -678,12 +736,15 @@ public sealed class StudioFileTransaction
                 if (!File.Exists(journalPath)) continue;
 
                 var manifest = ReadManifest(rootPath, directory);
+                var manifestAllowedPath = RecoveryPathPolicy(rootPath, directory, manifest, allowedPath, allowedOwnedPath);
+                var recoveryByteLimit = RecoveryByteLimit(manifest);
                 if (manifest.Status == "staging")
                 {
                     // Staging is written before images and before any project target. Confirm
                     // every target still has its recorded preimage before retiring metadata.
-                    if (manifest.Changes.Any(change => !TryNormalizeForRecovery(rootPath, change.RelativePath, allowedPath, out _))) continue;
-                    if (ConflictsForManifest(rootPath, directory, manifest, allowedPath, "before", acceptEitherSide: false).Count > 0) continue;
+                    if (manifest.Changes.Any(change => !TryNormalizeForRecovery(rootPath, change.RelativePath, manifestAllowedPath, out _))) continue;
+                    if (ConflictsForManifest(rootPath, directory, manifest, manifestAllowedPath, "before", acceptEitherSide: false,
+                        maximumTargetBytes: recoveryByteLimit).Count > 0) continue;
                     var stagingAllowlist = manifest.Changes.Select(change => NormalizeRelativePath(change.RelativePath)).ToHashSet(StringComparer.Ordinal);
                     var staging = FromManifest(rootPath, directory, manifest, stagingAllowlist, afterRecovery);
                     staging.WriteJournal("recovered", "before", "after", "before");
@@ -691,9 +752,10 @@ public sealed class StudioFileTransaction
                 }
 
                 if (manifest.Status != "applying") continue;
-                if (manifest.Changes.Any(change => !TryNormalizeForRecovery(rootPath, change.RelativePath, allowedPath, out _))) continue;
-                if (ValidateManifestImages(rootPath, directory, manifest).Count > 0) continue;
-                var conflicts = ConflictsForManifest(rootPath, directory, manifest, allowedPath, manifest.RollbackSide, acceptEitherSide: true);
+                if (manifest.Changes.Any(change => !TryNormalizeForRecovery(rootPath, change.RelativePath, manifestAllowedPath, out _))) continue;
+                if (ValidateManifestImages(rootPath, directory, manifest, recoveryByteLimit).Count > 0) continue;
+                var conflicts = ConflictsForManifest(rootPath, directory, manifest, manifestAllowedPath, manifest.RollbackSide,
+                    acceptEitherSide: true, maximumTargetBytes: recoveryByteLimit);
                 if (conflicts.Count > 0) continue;
 
                 var allowlist = manifest.Changes.Select(change => NormalizeRelativePath(change.RelativePath)).ToHashSet(StringComparer.Ordinal);
@@ -713,7 +775,108 @@ public sealed class StudioFileTransaction
             }
         }
 
-        return InspectPending(rootPath, allowedPath);
+        return InspectPendingCore(rootPath, allowedPath, allowedOwnedPath);
+    }
+
+    private static Func<string, bool> RecoveryPathPolicy(
+        string root,
+        string directory,
+        Manifest manifest,
+        Func<string, bool> allowedPath,
+        Func<string, string, bool>? allowedOwnedPath)
+    {
+        if (allowedOwnedPath is null || manifest.Changes.Count != 1) return allowedPath;
+        var change = manifest.Changes[0];
+        if (!TryNormalizeRecoveryPath(root, change.RelativePath, out var sourcePath)
+            || !allowedOwnedPath(manifest.Owner, sourcePath)
+            || change.BeforeSha256 is null || change.AfterSha256 is not null)
+            return allowedPath;
+
+        var verified = manifest.Status switch
+        {
+            "staging" => IsValidCurrentAuthoredEntityList(root, sourcePath, change.BeforeSha256),
+            "applying" => IsValidAuthoredEntityListBeforeImage(root, directory, change),
+            _ => false
+        };
+        return verified ? path => allowedPath(path) || string.Equals(path, sourcePath, StringComparison.Ordinal) : allowedPath;
+    }
+
+    // This only bounds diagnostic reads. Path access still depends on the normal allowlist or
+    // the stricter verified owner policy above.
+    private static int? RecoveryByteLimit(Manifest manifest) =>
+        manifest.Owner.StartsWith(AuthoredSourceDeletionOwnerPrefix, StringComparison.Ordinal)
+            ? MaximumAuthoredSourceBytes
+            : null;
+
+    private static bool IsValidAuthoredEntityListBeforeImage(string root, string directory, FileChange change)
+    {
+        if (change.BeforeSha256 is null || change.AfterSha256 is not null || change.BeforeImage is null) return false;
+
+        try
+        {
+            var imagePath = Path.Combine(directory, change.BeforeImage);
+            var relativeImagePath = Path.GetRelativePath(root, imagePath).Replace('\\', '/');
+            EnsureNoLinks(root, relativeImagePath, allowStudioMetadata: true);
+            var bytes = ReadBoundedFile(imagePath, MaximumAuthoredSourceBytes);
+            if (!string.Equals(AtomicFile.Sha256(bytes), change.BeforeSha256, StringComparison.Ordinal)) return false;
+            return IsAuthoredEntityListJson(bytes);
+        }
+        catch (Exception error) when (error is IOException or UnauthorizedAccessException or ArgumentException
+            or InvalidOperationException or JsonException or System.Security.SecurityException or NotSupportedException)
+        {
+            return false;
+        }
+    }
+
+    private static bool IsValidCurrentAuthoredEntityList(string root, string sourcePath, string expectedSha256)
+    {
+        try
+        {
+            EnsureNoLinks(root, sourcePath);
+            var bytes = ReadBoundedFile(ResolveTarget(root, sourcePath), MaximumAuthoredSourceBytes);
+            return string.Equals(AtomicFile.Sha256(bytes), expectedSha256, StringComparison.Ordinal)
+                && IsAuthoredEntityListJson(bytes);
+        }
+        catch (Exception error) when (error is IOException or UnauthorizedAccessException or ArgumentException
+            or InvalidOperationException or JsonException or System.Security.SecurityException or NotSupportedException)
+        {
+            return false;
+        }
+    }
+
+    private static bool IsAuthoredEntityListJson(byte[] bytes)
+    {
+        using var document = JsonDocument.Parse(bytes);
+        var element = document.RootElement;
+        if (element.ValueKind == JsonValueKind.Array) return true;
+        if (element.ValueKind != JsonValueKind.Object) return false;
+
+        JsonElement entities = default;
+        var foundEntities = false;
+        foreach (var property in element.EnumerateObject())
+        {
+            if (!string.Equals(property.Name, "entities", StringComparison.Ordinal)) continue;
+            if (foundEntities) return false;
+            entities = property.Value;
+            foundEntities = true;
+        }
+
+        return foundEntities && entities.ValueKind == JsonValueKind.Array;
+    }
+
+    private static bool TryNormalizeRecoveryPath(string root, string path, out string normalized)
+    {
+        try
+        {
+            normalized = NormalizeRelativePath(path);
+            _ = ResolveInternal(root, normalized);
+            return true;
+        }
+        catch (Exception error) when (error is ArgumentException or IOException or UnauthorizedAccessException)
+        {
+            normalized = path;
+            return false;
+        }
     }
 
     private IReadOnlyList<string> ConflictsForSide(string side, bool acceptEitherSide)
@@ -871,7 +1034,8 @@ public sealed class StudioFileTransaction
         Manifest manifest,
         Func<string, bool> allowedPath,
         string side,
-        bool acceptEitherSide)
+        bool acceptEitherSide,
+        int? maximumTargetBytes = null)
     {
         var conflicts = new List<string>();
         foreach (var change in manifest.Changes)
@@ -885,7 +1049,13 @@ public sealed class StudioFileTransaction
             try
             {
                 EnsureNoLinks(root, normalized);
-                var actual = CurrentSha256(root, normalized);
+                var targetPath = ResolveTarget(root, normalized);
+                if (Directory.Exists(targetPath)) throw new IOException($"Transaction target is a directory: {normalized}");
+                var actual = !File.Exists(targetPath)
+                    ? null
+                    : maximumTargetBytes is { } limit
+                        ? AtomicFile.Sha256(ReadBoundedFile(targetPath, limit))
+                        : AtomicFile.Sha256OfFile(targetPath);
                 var beforeMatches = string.Equals(actual, change.BeforeSha256, StringComparison.Ordinal);
                 var afterMatches = string.Equals(actual, change.AfterSha256, StringComparison.Ordinal);
                 if (acceptEitherSide ? !beforeMatches && !afterMatches : !string.Equals(actual, side == "before" ? change.BeforeSha256 : change.AfterSha256, StringComparison.Ordinal))
@@ -902,7 +1072,11 @@ public sealed class StudioFileTransaction
         return conflicts;
     }
 
-    private static IReadOnlyList<string> ValidateManifestImages(string root, string directory, Manifest manifest)
+    private static IReadOnlyList<string> ValidateManifestImages(
+        string root,
+        string directory,
+        Manifest manifest,
+        int? maximumImageBytes = null)
     {
         var conflicts = new List<string>();
         for (var index = 0; index < manifest.Changes.Count; index++)
@@ -921,7 +1095,10 @@ public sealed class StudioFileTransaction
                     var imagePath = Path.Combine(directory, imageName);
                     EnsureNoLinks(root, Path.GetRelativePath(root, imagePath).Replace('\\', '/'), allowStudioMetadata: true);
                     if (!File.Exists(imagePath)) throw new FileNotFoundException("image file is missing");
-                    if (!string.Equals(AtomicFile.Sha256OfFile(imagePath), expectedHash, StringComparison.Ordinal))
+                    var actualHash = maximumImageBytes is { } limit
+                        ? AtomicFile.Sha256(ReadBoundedFile(imagePath, limit))
+                        : AtomicFile.Sha256OfFile(imagePath);
+                    if (!string.Equals(actualHash, expectedHash, StringComparison.Ordinal))
                         throw new InvalidDataException("image SHA-256 does not match the journal");
                 }
                 catch (Exception error)
@@ -1013,7 +1190,8 @@ public sealed class StudioFileTransaction
         AtomicFile.WriteAllText(journalPath, text);
     }
 
-    private static IReadOnlyList<PreparedChange> Prepare(string root, IReadOnlyList<StudioFileWrite> writes, HashSet<string> allowlist)
+    private static IReadOnlyList<PreparedChange> Prepare(
+        string root, IReadOnlyList<StudioFileWrite> writes, HashSet<string> allowlist, int? maximumBeforeFileBytes)
     {
         var normalizedWrites = new List<(string RelativePath, string? ExpectedSha256, byte[]? Bytes)>();
         var seen = new HashSet<string>(StringComparer.Ordinal);
@@ -1039,7 +1217,9 @@ public sealed class StudioFileTransaction
             EnsureNoLinks(root, write.RelativePath);
             var path = ResolveInternal(root, write.RelativePath);
             if (Directory.Exists(path)) throw new IOException($"Transaction target is a directory: {write.RelativePath}");
-            var before = File.Exists(path) ? File.ReadAllBytes(path) : null;
+            var before = File.Exists(path)
+                ? maximumBeforeFileBytes is { } maximum ? ReadBoundedFile(path, maximum) : File.ReadAllBytes(path)
+                : null;
             var beforeSha = before is null ? null : AtomicFile.Sha256(before);
             if (!string.Equals(beforeSha, write.ExpectedSha256, StringComparison.Ordinal))
             {

@@ -70,7 +70,7 @@ public sealed class StudioCollabSection(StudioRoot studio) : IStudioSection
         _list.AddChild(new Label { Text = "Совместная работа", ThemeTypeVariation = "HeaderLabel" });
         _list.AddChild(new Label
         {
-            Text = "Изменения файлов объединяются по объектам и полям. Общую версию можно получить для просмотра: текущая работа останется на месте. Объединение и отправка общей версии ещё не подключены.",
+            Text = "Изменения файлов сравниваются по объектам и полям. Зарегистрированные исходники можно объединить в черновик; чистый исходник, удалённый во входящей версии, применяется одним отменяемым действием. Создание новых файлов и отправка общей версии пока не поддержаны.",
             AutowrapMode = TextServer.AutowrapMode.WordSmart, ThemeTypeVariation = "MutedLabel"
         });
         var receive = new HBoxContainer();
@@ -178,7 +178,7 @@ public sealed class StudioCollabSection(StudioRoot studio) : IStudioSection
         MergeResult? selectedPreview = null;
         var selectedRegistered = false;
         Button apply = null!;
-        apply = StudioRoot.Button(box, "Добавить объединение в локальный черновик", ApplySelected);
+        apply = StudioRoot.Button(box, "Применить решение", () => _ = ApplySelectedAsync());
         apply.ThemeTypeVariation = "PrimaryButton";
         apply.Disabled = true;
 
@@ -195,21 +195,38 @@ public sealed class StudioCollabSection(StudioRoot studio) : IStudioSection
         {
             var file = selectedFile;
             var preview = selectedPreview;
+            var incomingDeletesSource = file is not null && file.IncomingText is null;
+            var registeredSource = file is not null && studio.Workspace.HasFile(file.RelativePath);
+            var registeredFile = registeredSource ? studio.Workspace.File(file!.RelativePath) : null;
+            var deletionUnsupported = incomingDeletesSource && registeredFile is not null
+                && (!file!.RelativePath.EndsWith(".json", StringComparison.Ordinal) || !registeredFile.RootIsArray);
+            var deletionBlockedByDraft = incomingDeletesSource && registeredFile is not null
+                && (registeredFile.Dirty || registeredFile.IsNew);
+            apply.Text = file is null ? "Применить решение"
+                : incomingDeletesSource ? "Удалить исходник (один отменяемый шаг)"
+                : "Добавить объединение в локальный черновик";
             var reason = "Готово: объединение попадёт в черновик одним отменяемым действием. Автосохранения и отправки нет.";
             if (file is null || preview is null || selectedMineText is null)
                 reason = "Выберите файл для семантического сравнения.";
             else if (!selectedRegistered)
                 reason = "Применение недоступно: источник не зарегистрирован в Studio; он доступен только для просмотра.";
-            else if (file.IncomingText is null)
-                reason = "Применение удаления целого файла пока не поддерживается; доступен только просмотр.";
+            else if (deletionUnsupported)
+                reason = "Удаление доступно только для зарегистрированного JSON-исходника со списком объектов; служебные файлы и документы защищены.";
+            else if (deletionBlockedByDraft)
+                reason = "Удаление недоступно: сначала сохраните или восстановите локальный черновик, чтобы не потерять его.";
             else if (preview.Merged is null)
-                reason = "Не удалось собрать объединённый источник; доступен только просмотр.";
+                reason = file.IncomingText is null
+                    ? "Входящая версия удаляет чистый зарегистрированный исходник; применение создаст один отменяемый файл-шаг."
+                    : "Не удалось собрать объединённый источник; доступен только просмотр.";
             var undecided = file is not null && preview is not null
                 && preview.Conflicts.Any(conflict => reviewChoices.GetValueOrDefault((file.RelativePath, conflict.Path)) == ConflictChoice.Undecided);
-            if (undecided && selectedRegistered && file?.IncomingText is not null && preview?.Merged is not null)
+            if (undecided && selectedRegistered)
                 reason = "Выберите «Оставить моё» или «Взять входящее» для каждого конфликта.";
             apply.Disabled = file is null || preview is null || selectedMineText is null || !selectedRegistered
-                || file.IncomingText is null || preview.Merged is null || undecided;
+                || (preview.Merged is null && !incomingDeletesSource)
+                || deletionUnsupported
+                || deletionBlockedByDraft
+                || undecided;
             mergeSummary.Text = preview is null
                 ? reason
                 : $"Автоматически объединяемых значений: {preview.AutoMerged}. Конфликтов: {preview.Conflicts.Count}. {reason}";
@@ -298,12 +315,19 @@ public sealed class StudioCollabSection(StudioRoot studio) : IStudioSection
             apply.Disabled = true;
         }
 
-        void ApplySelected()
+        async Task RefreshAfterSourceDeletionAsync()
+        {
+            await ((StudioWorldSection)studio.Section("world")).ReloadGeometryAsync();
+            studio.Refresh();
+        }
+
+        async Task ApplySelectedAsync()
         {
             if (apply.Disabled || selectedFile is null || selectedMineText is null || selectedPreview is null) return;
             var file = selectedFile;
             var expectedText = selectedMineText;
             var preview = selectedPreview;
+            apply.Disabled = true;
             try
             {
                 var decisions = preview.Conflicts.ToDictionary(conflict => conflict, conflict =>
@@ -322,8 +346,23 @@ public sealed class StudioCollabSection(StudioRoot studio) : IStudioSection
                     return;
                 }
 
-                var mergedText = current.RenderMergedSource(resolved);
-                studio.Session.ReplaceDraft(file.RelativePath, expectedText, mergedText, "Объединить полученную версию в черновик");
+                if (file.IncomingText is null && resolved is null)
+                {
+                    if (current.Dirty || current.IsNew)
+                    {
+                        InvalidateReview("Удаление не применено: исходник содержит локальный черновик. Выберите «Оставить моё» или сохраните исходник, затем сравните снова.");
+                        return;
+                    }
+
+                    await studio.Session.DeleteAuthoredJsonSourceAsync(file.RelativePath, expectedText,
+                        "Удалить полученный исходник", incoming.OperationId,
+                        RefreshAfterSourceDeletionAsync);
+                }
+                else
+                {
+                    var mergedText = current.RenderMergedSource(resolved!);
+                    studio.Session.ReplaceDraft(file.RelativePath, expectedText, mergedText, "Объединить полученную версию в черновик");
+                }
                 reviewChoices.Clear();
                 studio.Refresh();
                 dialog.QueueFree();
@@ -331,7 +370,7 @@ public sealed class StudioCollabSection(StudioRoot studio) : IStudioSection
             catch (Exception error) when (error is IOException or UnauthorizedAccessException or ArgumentException
                 or InvalidOperationException or KeyNotFoundException or FormatException or System.Text.Json.JsonException)
             {
-                InvalidateReview("Объединение не применено: снимок устарел или источник нельзя безопасно изменить. Выберите файл заново. " + error.Message);
+                InvalidateReview("Изменение не применено: снимок устарел или исходник нельзя безопасно изменить. Выберите файл заново. " + error.Message);
             }
         }
 

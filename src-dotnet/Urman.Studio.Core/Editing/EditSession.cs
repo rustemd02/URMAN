@@ -201,6 +201,41 @@ public sealed class EditSession(StudioWorkspace workspace)
         }
     }
 
+    /// <summary>Delete one clean, registered authored JSON source as a durable Undo/Redo command.</summary>
+    public async Task DeleteAuthoredJsonSourceAsync(string relativePath, string expectedText, string label,
+        string operationId, Func<Task> afterPromotionAsync)
+    {
+        EnsureAvailable();
+        if (_open is not null) throw new InvalidOperationException("Завершите текущее составное действие перед удалением исходника.");
+        if (!Guid.TryParseExact(operationId, "N", out var parsedOperationId))
+            throw new ArgumentException("Для удаления исходника требуется идентификатор входящей версии GUID N.", nameof(operationId));
+        var owner = StudioFileTransaction.AuthoredSourceDeletionOwnerPrefix + parsedOperationId.ToString("N");
+        if (!StudioWorkspace.IsCanonicalAuthoredJsonSourcePath(relativePath) || !Workspace.HasFile(relativePath))
+            throw new InvalidOperationException("Удаление разрешено только для зарегистрированного JSON-исходника Studio.");
+
+        var file = Workspace.File(relativePath);
+        if (!file.RootIsArray)
+            throw new InvalidOperationException("Удаляются только зарегистрированные JSON-исходники со списком объектов; манифесты и служебные файлы защищены.");
+        if (!string.Equals(file.Text, expectedText, StringComparison.Ordinal))
+            throw new InvalidOperationException("Снимок исходника устарел. Обновите сравнение перед удалением.");
+        if (file.Dirty || file.IsNew)
+            throw new InvalidOperationException("Сначала сохраните или восстановите локальный черновик; удаление не должно его терять.");
+
+        StudioFileTransaction.EnsureNoLinks(Workspace.Root, relativePath);
+        var expectedSha256 = file.LoadedSha256;
+        if (expectedSha256.Length != 64 || !expectedSha256.All(character => character is >= '0' and <= '9' or >= 'a' and <= 'f'))
+            throw new InvalidDataException("У зарегистрированного исходника нет проверенной базовой SHA-256.");
+        var diskBytes = StudioFileTransaction.ReadBoundedFile(file.FullPath, StudioFileTransaction.MaximumAuthoredSourceBytes);
+        if (!string.Equals(AtomicFile.Sha256(diskBytes), expectedSha256, StringComparison.Ordinal))
+            throw new ExternalChangeException(relativePath);
+
+        var writes = new[] { new StudioFileWrite(relativePath, expectedSha256, null) };
+        var allowedPaths = new HashSet<string>(StringComparer.Ordinal) { relativePath };
+        await ApplyFilesAsync(label, owner, writes, allowedPaths,
+            () => Workspace.ReconcileDeletedAuthoredJsonSource(relativePath, file, expectedText, expectedSha256),
+            afterPromotionAsync);
+    }
+
     /// <summary>Replace (or create) an entity by ID in its file.</summary>
     public void Set(string relativePath, string key, JsonNode? value, string label) => Apply(relativePath, key, value, remove: false, label);
 

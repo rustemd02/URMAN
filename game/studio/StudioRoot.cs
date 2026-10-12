@@ -111,7 +111,10 @@ public partial class StudioRoot : Control
 
         try
         {
-            var pending = StudioFileTransaction.Recover(RepositoryRoot, StudioAiPanel.OwnsFile);
+            var pending = StudioFileTransaction.RecoverWithOwnedPathPolicy(RepositoryRoot,
+                StudioAiPanel.OwnsFile,
+                (owner, path) => StudioFileTransaction.IsAuthoredSourceDeletionOwner(owner)
+                    && StudioWorkspace.IsCanonicalAuthoredJsonSourcePath(path));
             if (pending.Count > 0)
             {
                 ShowBlocked("Нужно восстановить незавершённое изменение модели.",

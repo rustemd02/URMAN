@@ -62,6 +62,16 @@ public sealed class StudioWorkspace
 
     public bool HasFile(string relativePath) => _files.ContainsKey(relativePath);
 
+    public static bool IsCanonicalAuthoredJsonSourcePath(string relativePath) =>
+        !string.IsNullOrWhiteSpace(relativePath)
+        && !Path.IsPathRooted(relativePath)
+        && !relativePath.Contains('\\')
+        && !relativePath.Contains(':')
+        && !relativePath.Any(char.IsControl)
+        && relativePath.Split('/').All(part => part.Length > 0 && part is not "." and not "..")
+        && relativePath.EndsWith(".json", StringComparison.Ordinal)
+        && SourceGlobs.Any(folder => relativePath.StartsWith(folder + "/", StringComparison.Ordinal));
+
     public const string FactLabelsPath = "content/studio/facts.v1.json";
 
     /// <summary>The editor-only file of human names for story facts; created on first use.</summary>
@@ -80,6 +90,40 @@ public sealed class StudioWorkspace
         _files[relativePath] = file;
         Reindex();
         return file;
+    }
+
+    internal void ReconcileDeletedAuthoredJsonSource(
+        string relativePath, AuthoredFile expectedFile, string expectedText, string expectedSha256)
+    {
+        if (!IsCanonicalAuthoredJsonSourcePath(relativePath)
+            || !string.Equals(expectedFile.RelativePath, relativePath, StringComparison.Ordinal)
+            || !expectedFile.RootIsArray
+            || !string.Equals(expectedFile.LoadedSha256, expectedSha256, StringComparison.Ordinal))
+            throw new InvalidOperationException("Удаление разрешено только для зарегистрированного JSON-исходника Studio.");
+
+        StudioFileTransaction.EnsureNoLinks(Root, relativePath);
+        if (expectedFile.Dirty || expectedFile.IsNew || expectedFile.Text != expectedText)
+            throw new InvalidOperationException("Черновик исходника изменился. Удаление отменено; обновите сравнение.");
+
+        if (_files.TryGetValue(relativePath, out var registered) && !ReferenceEquals(registered, expectedFile))
+            throw new InvalidOperationException("Регистрация исходника изменилась. Удаление отменено; обновите сравнение.");
+
+        var fullPath = Path.Combine(Root, relativePath.Replace('/', Path.DirectorySeparatorChar));
+        if (Directory.Exists(fullPath))
+            throw new IOException($"Исходник {relativePath} заменён каталогом.");
+
+        if (System.IO.File.Exists(fullPath))
+        {
+            if (!string.Equals(AtomicFile.Sha256OfFile(fullPath), expectedSha256, StringComparison.Ordinal))
+                throw new ExternalChangeException(relativePath);
+            _files[relativePath] = expectedFile;
+        }
+        else
+        {
+            _files.Remove(relativePath);
+        }
+
+        Reindex();
     }
 
     public bool IsAmbiguous(string id) => _ambiguousIds.Contains(id);

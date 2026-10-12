@@ -80897,6 +80897,19 @@
                 "verification": "LunaFAST UI caller update; Sol6.1medium independent source review; root affected Game compile0 warnings/0errors, diff check, tracker validate PASS. No tests/runtime/network.",
                 "implementation": "Conflict captures mineText; Apply verifies current draft and actualincomingdisk SHA before adopting. Stale refusal preserves pending/choices. Refresh reuses PullFromDisk, and Report resets decisions for updated input.",
                 "remaining": "Native stale-input/refusal/refresh walkthrough not run; full AI38 remains open."
+              },
+              {
+                "stage": "2026-10-12 registered-source deletion and interrupted recovery",
+                "result": "SOURCE_GAME_COMPILE_0_0_INDEPENDENT_REVIEW_NATIVE_OPEN",
+                "source": [
+                  "game/studio/StudioCollabSection.cs",
+                  "game/studio/StudioRoot.cs",
+                  "src-dotnet/Urman.Studio.Core/Editing/EditSession.cs",
+                  "src-dotnet/Urman.Studio.Core/Editing/StudioWorkspace.cs",
+                  "src-dotnet/Urman.Studio.Core/Storage/StudioFileTransaction.cs"
+                ],
+                "verification": "Luna FAST/Max implementation; Sol6.1medium independent source review found/fixed recovery allowlist, deletion shape, bounded-read and staging-preimage issues; final no confirmed P1/P2. Affected Game compile 0 warnings/0 errors and diff check. No native/network/restart check.",
+                "remaining": "Creation/schema policy, curated Send/idempotence/offline queue, actual A23/deletion Undo/Redo and restart acceptance remain open."
               }
             ],
             "stage_tasks": [
@@ -80917,22 +80930,22 @@
               ],
               "done_when": "Два checkout с разными корнями обмениваются одной ревизией; конфликт видим; unrelated код не отправлен; повтор передачи не дублирует commit/изменение."
             },
-            "active_owner": "codex/b20-2026-10-10",
+            "active_owner": null,
             "activity": {
-              "state": "confirmed_active",
-              "reason": "Root delegates Luna bounded registered-source update/delete membership transaction slice in StudioWorkspace/EditSession/StudioCollabSection; no automatic registration of arbitrary ApplyFilesAsync assets, dirty drafts retained/refused. New-file creation stays disabled pending actual schema/kind admissibility policy."
+              "state": "source_stage_complete",
+              "reason": "Registered-source delete, workspace reconciliation, bounded owner-scoped startup recovery source slice compiled and independently reviewed; no native/network acceptance."
             },
             "task_type": "engineering",
             "status": "in_progress",
             "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
-              "Whole-file creation/deletion and unregistered source Apply remain disabled; expose safe file lifecycle with existing transaction history.",
+              "Whole-file deletion of clean registered entity-list JSON now has one durable action and workspace membership Undo/Redo; native/restart proof open. Creation and unregistered source Apply remain disabled pending schema policy.",
               "Curated Send/idempotent receipt/offline queue not implemented.",
-              "Native/network A23, Apply/Undo/Redo and restart proof deferred by author; no runtime claims.",
+              "Native/network A23, actual deletion Apply/Undo/Redo and restart recovery not verified.",
               "Source-text dirty tracking can keep formatting-only changes dirty after typed Undo. Trusted origin fetch preview cap still not network byte cap."
             ],
-            "next_action": "Implement/review registered source deletion/update→single durable transaction→Workspace membership/Undo/Redo; narrow Core/Game compile. New-source schema policy/creation, Send/idempotent/offline queue and native/network A23/restart remain open.",
+            "next_action": "Verify registered-source delete/Undo/Redo and interrupted recovery in a safe native checkout; implement creation policy and curated Send/idempotence/offline queue as separate remaining slices.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -80977,10 +80990,10 @@
                 "scenario": "A23 на безопасной разрешённой ветке/репозитории по действующей политике, без push в main ради проверки.",
                 "success": "Два checkout с разными корнями обмениваются одной ревизией; конфликт видим; unrelated код не отправлен; повтор передачи не дублирует commit/изменение.",
                 "repeat_only_if": "Изменён предметный contract/input или предыдущий сценарий неполон.",
-                "current_stage_question": "Frozen Git decisions применяются к dirty draft ровно одним undo command; stale source/disk/deletion отказаны, JSON wrapper и unknownfields не теряются?",
-                "current_stage_success": "Независимый source review CAS/parsing/rollback/history и узкая Game compilation; runtime/native A23 по-прежнему отложены."
+                "current_stage_question": "Can a clean registered entity-list JSON deleted by incoming revision be removed as one durable action, retain sibling indexes, fully Undo/Redo, and recover an interrupted promotion on startup?",
+                "current_stage_success": "Bounded independent source review and affected Game compile; startup recovery policy accepts only validated registered-source deletion journals. Native/network/restart acceptance stays open."
               },
-              "actual_result": "Registered authored sources: frozen base/mine/incoming review with explicit conflict choices → guarded draft replacement as one EditSession Undo/Redo command. Real disk baseline retained; stale text/disk/deletion and new duplicate IDs refused. External disk merge now includes full JSON wrapper. Narrow compile0/0 and independent source review only; actual runtime/network not verified.",
+              "actual_result": "Registered updates retain existing semantic draft merge. Clean registered entity-list JSON deletion uses one durable file-only transaction, exact baseline/source CAS, workspace membership/reindex and async world barrier. Startup owner-scoped single-deletion recovery checks source/image shape, SHA, links and 8MiB bound, staging source vs applying preimage. Source compile/review only; native/network/restart open.",
               "evidence_refs": [
                 "STUDIO/AI-38.evidence"
               ]
