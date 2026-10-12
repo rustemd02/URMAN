@@ -81606,6 +81606,18 @@
                 "verification": "Luna FAST/Max implementation; Sol6.1medium independent source review accepted. Affected Game compile 0 warnings/0 errors in 15.73s; diff check. No native or network exchange run.",
                 "actual_result": "Existing checkpoint catalogue providers reused by outgoing queue. Exact saved shop/vehicle disk bytes frozen; drafts refused, typed validation and disk SHA checked; initial form capture before await, subsequent checks avoid Godot form reads. Old capsule schema preserved.",
                 "remaining": "Incoming catalogue review/Apply/Undo and actual two-checkout A23 remain open, together with binary closure/new sources/deletions."
+              },
+              {
+                "stage": "2026-10-12 incoming catalogue review and undoable Apply",
+                "result": "SOURCE_GAME_COMPILE_0_0_REVIEW_ACCEPTED_NATIVE_NETWORK_OPEN",
+                "source": [
+                  "src-dotnet/Urman.Studio.Core/Collaboration/GitRevisionInbox.cs",
+                  "game/studio/StudioCollabSection.cs",
+                  "game/studio/StudioRoot.Checkpoints.cs"
+                ],
+                "verification": "Luna FAST/Max Inbox implementation; root UI integration; Sol6.1medium source review accepted generic catalogue merge, typed validation, hash-checked owned transaction and history refresh. Affected Game compile 0 warnings/0 errors in 15.11s; diff check. No native/network run.",
+                "actual_result": "Exact owned catalogues enter incoming preview through typed raw-byte validators. Existing SemanticMerge shows shop-array conflicts and vehicle ID/order conflicts. Explicit catalogue Apply saves one owned file transaction after draft/hash/text stale checks; catalogue deletion disabled; existing Undo/Redo refresh avoids rebuilding map.",
+                "remaining": "Actual two-checkout A23/native catalogue receive conflict Apply Undo not yet run; binary closure, new sources and outgoing deletions remain open."
               }
             ],
             "stage_tasks": [
@@ -81635,8 +81647,8 @@
             "status": "in_progress",
             "implementation_state": "partial",
             "technical_verification_state": "not_run",
-            "remaining": "Отправка сохранённых магазина/транспорта реализована и проверена source/compile; их входящий review/Apply/Undo ещё не реализован. Реальный network A23, asset closure/new source/deletion coverage остаются открыты.",
-            "next_action": "Подключить typed Receive/review/Apply/Undo каталогов, затем проверить реальный A23 между разрешёнными checkout; binary assets/new sources/deletions остаются.",
+            "remaining": "Оба направления передачи сохранённых магазина/транспорта реализованы и проверены source/compile; реальный network A23 и native catalogue receive/conflict/Apply/Undo не проверены. Asset closure/new source/outgoing deletion coverage остаются открыты.",
+            "next_action": "Проверить реальный A23 Receive/review/Apply/Undo/Send/retry между разрешёнными checkout; отдельно остаются binary assets/new sources/outgoing deletions.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -81684,7 +81696,7 @@
                 "current_stage_question": "Готовится ли сохранённая scoped authoring version offline, показывается ли frozen diff, создаётся ли commit только после explicitSend, изолированы ли HEAD/index/unrelatedcode и сохраняется ли pending operation с idempotent remote verification?",
                 "current_stage_success": "Source/API review + affected compile; native двухcheckout/network Send remains open untilactual evidence, unsupportedasset/deletion scope visiblyretained."
               },
-              "actual_result": "Source finite registered-text Send/queue/frozen-preview path implemented and compile/review accepted. Actual two-checkout network exchange, full assets/catalogue/deletion coverage and archive policy remain open.",
+              "actual_result": "Registered text and saved shop/vehicle Send queue implemented; typed incoming catalogue preview/merge/one-file Apply/Undo path implemented and source/compile reviewed. Actual two-checkout network A23, binary/new-source/outgoing-deletion coverage remain open.",
               "evidence_refs": [
                 "STUDIO/AI-38.evidence"
               ]

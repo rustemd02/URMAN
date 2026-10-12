@@ -11,7 +11,8 @@ public sealed record GitIncomingRevision(string OperationId, string BaseRevision
     string LocalRevision, string Branch, IReadOnlyList<GitIncomingFile> Files, IReadOnlyList<string> ExcludedPaths);
 
 /// <summary>Receive into a private Git ref for data-only preview, without changing HEAD, index or authored files.</summary>
-public sealed class GitRevisionInbox(StudioWorkspace workspace)
+public sealed class GitRevisionInbox(StudioWorkspace workspace,
+    Func<IReadOnlyList<StudioCheckpointCatalogSource>>? catalogSources = null)
 {
     private const string HeroRecipePath = "game/content/studio/hero_house.recipe.json";
     private const int ContentBudget = 8 * 1024 * 1024;
@@ -29,9 +30,14 @@ public sealed class GitRevisionInbox(StudioWorkspace workspace)
         {
             if (!Directory.Exists(Path.Combine(workspace.Root, ".git")) && !File.Exists(Path.Combine(workspace.Root, ".git")))
                 throw Refusal();
+            // Snapshot provider descriptors on the caller thread before the first Git await.
+            // Catalogue Capture callbacks read live form state and are not needed by inbox.
+            var ownedCatalogSources = SnapshotCatalogSources();
+            var catalogValidators = ownedCatalogSources.ToDictionary(source => source.Path, StringComparer.Ordinal);
             var allowed = workspace.Files.Select(file => file.RelativePath).ToHashSet(StringComparer.Ordinal);
             StudioFileTransaction.EnsureNoLinks(workspace.Root, HeroRecipePath);
             if (File.Exists(Path.Combine(workspace.Root, HeroRecipePath))) allowed.Add(HeroRecipePath);
+            foreach (var source in ownedCatalogSources) allowed.Add(source.Path);
             foreach (var path in allowed)
             {
                 ValidatePath(path);
@@ -63,9 +69,9 @@ public sealed class GitRevisionInbox(StudioWorkspace workspace)
                     excluded.Add(path);
                     continue;
                 }
-                var before = await ReadSourceAsync(ancestor, path, remaining, token).ConfigureAwait(false);
+                var before = await ReadSourceAsync(ancestor, path, remaining, catalogValidators, token).ConfigureAwait(false);
                 remaining -= before.Bytes;
-                var after = await ReadSourceAsync(incoming, path, remaining, token).ConfigureAwait(false);
+                var after = await ReadSourceAsync(incoming, path, remaining, catalogValidators, token).ConfigureAwait(false);
                 remaining -= after.Bytes;
                 files.Add(new GitIncomingFile(path, before.Text, after.Text));
             }
@@ -93,7 +99,8 @@ public sealed class GitRevisionInbox(StudioWorkspace workspace)
         }
     }
 
-    private async Task<(string? Text, int Bytes)> ReadSourceAsync(string revision, string path, int remaining, CancellationToken token)
+    private async Task<(string? Text, int Bytes)> ReadSourceAsync(string revision, string path, int remaining,
+        IReadOnlyDictionary<string, StudioCheckpointCatalogSource> catalogValidators, CancellationToken token)
     {
         var records = NulFields(await RunAsync(["ls-tree", "-z", revision, "--", path], PathBudget, token).ConfigureAwait(false));
         if (records.Length == 0) return (null, 0);
@@ -105,9 +112,30 @@ public sealed class GitRevisionInbox(StudioWorkspace workspace)
         if (fields.Length != 3 || fields[0] != "100644" || fields[1] != "blob" || !IsHash(fields[2])) throw Refusal();
         // Read the exact object pinned by ls-tree, never a working-tree file or a filtered checkout.
         var bytes = await RunAsync(["cat-file", "blob", fields[2]], remaining, token).ConfigureAwait(false);
+        if (catalogValidators.TryGetValue(path, out var catalog)) catalog.Validate(bytes);
         var text = Utf8.GetString(bytes);
-        _ = AuthoredFile.CreateNew(workspace.Root, path, text).Snapshot();
+        if (catalog is null) _ = AuthoredFile.CreateNew(workspace.Root, path, text).Snapshot();
         return (text, bytes.Length);
+    }
+
+    private StudioCheckpointCatalogSource[] SnapshotCatalogSources()
+    {
+        if (catalogSources is null) return [];
+        var sources = catalogSources()?.ToArray() ?? throw Refusal();
+        if (sources.Length != 2) throw Refusal();
+        var seenOwnersAndPaths = new HashSet<(string Owner, string Path)>();
+        var seenPaths = new HashSet<string>(StringComparer.Ordinal);
+        foreach (var source in sources)
+        {
+            if (source is null || source.Owner is null || source.Path is null || source.Capture is null
+                || source.Validate is null || workspace.HasFile(source.Path)
+                || !StudioFileTransaction.IsOwnedCatalogPath(source.Owner, source.Path)
+                || !seenOwnersAndPaths.Add((source.Owner, source.Path)) || !seenPaths.Add(source.Path))
+                throw Refusal();
+            ValidatePath(source.Path);
+            StudioFileTransaction.EnsureNoLinks(workspace.Root, source.Path);
+        }
+        return sources.OrderBy(source => source.Path, StringComparer.Ordinal).ToArray();
     }
 
     private async Task<string> RevisionAsync(string[] arguments, CancellationToken token)

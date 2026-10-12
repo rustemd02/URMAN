@@ -289,7 +289,7 @@ public sealed class StudioCollabSection(StudioRoot studio) : IStudioSection
         Refresh();
         try
         {
-            _incoming = await new GitRevisionInbox(studio.Workspace).ReceiveAsync(_receiveBranch, cancellation.Token);
+            _incoming = await new GitRevisionInbox(studio.Workspace, studio.GetAuthoringCatalogSources).ReceiveAsync(_receiveBranch, cancellation.Token);
             _receiveMessage = $"Получена версия: {_incoming.Files.Count} исходников для просмотра, {_incoming.ExcludedPaths.Count} прочих путей исключено. Ничего не применено.";
         }
         catch (OperationCanceledException) { _receiveMessage = "Получение остановлено. Локальная работа остаётся на месте; ранее полученная версия остаётся доступной."; }
@@ -343,6 +343,8 @@ public sealed class StudioCollabSection(StudioRoot studio) : IStudioSection
         string? selectedMineText = null;
         MergeResult? selectedPreview = null;
         var selectedRegistered = false;
+        StudioCheckpointCatalogSource? selectedCatalog = null;
+        string? selectedCatalogHash = null;
         Button apply = null!;
         apply = StudioRoot.Button(box, "Применить решение", () => _ = ApplySelectedAsync());
         apply.ThemeTypeVariation = "PrimaryButton";
@@ -364,14 +366,17 @@ public sealed class StudioCollabSection(StudioRoot studio) : IStudioSection
             var incomingDeletesSource = file is not null && file.IncomingText is null;
             var registeredSource = file is not null && studio.Workspace.HasFile(file.RelativePath);
             var registeredFile = registeredSource ? studio.Workspace.File(file!.RelativePath) : null;
-            var deletionUnsupported = incomingDeletesSource && registeredFile is not null
-                && (!file!.RelativePath.EndsWith(".json", StringComparison.Ordinal) || !registeredFile.RootIsArray);
+            var deletionUnsupported = incomingDeletesSource && (selectedCatalog is not null || (registeredFile is not null
+                && (!file!.RelativePath.EndsWith(".json", StringComparison.Ordinal) || !registeredFile.RootIsArray)));
             var deletionBlockedByDraft = incomingDeletesSource && registeredFile is not null
                 && (registeredFile.Dirty || registeredFile.IsNew);
             apply.Text = file is null ? "Применить решение"
                 : incomingDeletesSource ? "Удалить исходник (один отменяемый шаг)"
+                : selectedCatalog is not null ? "Применить каталог (один отменяемый шаг)"
                 : "Добавить объединение в локальный черновик";
-            var reason = "Готово: объединение попадёт в черновик одним отменяемым действием. Автосохранения и отправки нет.";
+            var reason = selectedCatalog is not null
+                ? "Каталог будет сохранён одним отменяемым действием. Отправки нет; игра прочитает его при следующем запуске."
+                : "Готово: объединение попадёт в черновик одним отменяемым действием. Автосохранения и отправки нет.";
             if (file is null || preview is null || selectedMineText is null)
                 reason = "Выберите файл для семантического сравнения.";
             else if (!selectedRegistered)
@@ -434,7 +439,9 @@ public sealed class StudioCollabSection(StudioRoot studio) : IStudioSection
             selectedFile = file;
             selectedMineText = null;
             selectedPreview = null;
-            selectedRegistered = studio.Workspace.HasFile(file.RelativePath);
+            selectedCatalog = studio.GetAuthoringCatalogSources().SingleOrDefault(source => source.Path == file.RelativePath);
+            selectedCatalogHash = null;
+            selectedRegistered = studio.Workspace.HasFile(file.RelativePath) || selectedCatalog is not null;
             foreach (var key in reviewChoices.Keys.Where(key => key.File == file.RelativePath).ToArray()) reviewChoices.Remove(key);
             before.Text = "Общая база:\n" + (file.BaseText ?? "Файл отсутствовал");
             mine.Text = "Моя версия:\nСчитываю текущий локальный снимок…";
@@ -444,10 +451,18 @@ public sealed class StudioCollabSection(StudioRoot studio) : IStudioSection
             UpdateApplyState();
             try
             {
-                var local = selectedRegistered
+                var catalogImage = selectedCatalog?.Capture();
+                if (catalogImage?.DraftBytes is not null)
+                    throw new InvalidOperationException("Сначала сохраните или отмените черновик каталога.");
+                var local = studio.Workspace.HasFile(file.RelativePath)
                     ? studio.Workspace.File(file.RelativePath)
                     : LoadIncomingReviewFallback(file.RelativePath);
+                if (catalogImage is not null && local.LoadedSha256 != catalogImage.DiskSha256)
+                    throw new InvalidOperationException("Каталог изменился во время сравнения.");
+                selectedCatalogHash = catalogImage?.DiskSha256;
                 selectedMineText = local.Text;
+                if (selectedCatalog is not null)
+                    selectedCatalog.Validate(System.Text.Encoding.UTF8.GetBytes(selectedMineText));
                 mine.Text = "Моя версия (снимок при выборе):\n" + selectedMineText;
                 selectedPreview = local.PreviewMerge(file.BaseText, file.IncomingText);
                 RefreshConflictCards();
@@ -471,6 +486,8 @@ public sealed class StudioCollabSection(StudioRoot studio) : IStudioSection
             selectedMineText = null;
             selectedPreview = null;
             selectedRegistered = false;
+            selectedCatalog = null;
+            selectedCatalogHash = null;
             reviewChoices.Clear();
             paths.DeselectAll();
             before.Text = "Общая база:\nСравнение недействительно.";
@@ -499,6 +516,28 @@ public sealed class StudioCollabSection(StudioRoot studio) : IStudioSection
                 var decisions = preview.Conflicts.ToDictionary(conflict => conflict, conflict =>
                     reviewChoices.GetValueOrDefault((file.RelativePath, conflict.Path), ConflictChoice.Undecided));
                 var resolved = ConflictResolution.Apply(preview, decisions);
+                if (selectedCatalog is { } catalog)
+                {
+                    if (studio.IsWorkspaceActionBusy || studio.HasPendingAuthoringDrafts || resolved is null)
+                        throw new InvalidOperationException("Сначала завершите действие и сохраните или отмените черновики. Удаление каталога недоступно.");
+                    var currentCatalog = studio.GetAuthoringCatalogSources().Single(source => source.Path == file.RelativePath);
+                    var image = currentCatalog.Capture();
+                    var local = LoadIncomingReviewFallback(file.RelativePath);
+                    if (currentCatalog.Owner != catalog.Owner || image.DraftBytes is not null
+                        || image.DiskSha256 != selectedCatalogHash || local.LoadedSha256 != selectedCatalogHash
+                        || local.Text != expectedText)
+                        throw new InvalidOperationException("Каталог изменился после снимка. Выберите файл заново.");
+                    var bytes = System.Text.Encoding.UTF8.GetBytes(local.RenderMergedSource(resolved));
+                    currentCatalog.Validate(bytes);
+                    await studio.Session.ApplyFilesAsync("Объединить полученный каталог", currentCatalog.Owner,
+                        [new StudioFileWrite(file.RelativePath, selectedCatalogHash, bytes)],
+                        new HashSet<string>(StringComparer.Ordinal) { file.RelativePath }, () => { },
+                        studio.RefreshCheckpointCatalogSectionsAsync);
+                    reviewChoices.Clear();
+                    studio.Refresh();
+                    dialog.QueueFree();
+                    return;
+                }
                 if (!studio.Workspace.HasFile(file.RelativePath))
                 {
                     InvalidateReview("Объединение не применено: источник больше не зарегистрирован в Studio. Выберите файл заново.");

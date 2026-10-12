@@ -190,7 +190,7 @@ public partial class StudioRoot
         .Any(source => source is not null && source.Path == path
             && StudioFileTransaction.IsOwnedCatalogPath(source.Owner, source.Path));
 
-    private Task RefreshCheckpointCatalogSectionsAsync()
+    internal Task RefreshCheckpointCatalogSectionsAsync()
     {
         foreach (var section in _sections.Values.Where(section => section.CheckpointCatalogSource is not null))
             section.Refresh();
