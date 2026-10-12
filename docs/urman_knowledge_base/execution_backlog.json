@@ -97746,10 +97746,10 @@
         "Во вступлении бабай ведёт Ниву с передним пассажиром через целый мост, показывая места без длинной неподвижной экспозиции.",
         "После ночи машина не пересекает разрыв/границу; понятны доступные дороги, нет случайных препятствий или сквозного проезда через объекты."
       ],
-      "next_action": "Peer station owner deploys writable archive fsync correction/recovery; after release, run protected B13 vehicle/route/cabin checks on integrated source. Existing transfer permission persists.",
+      "next_action": "Await explicitstationrelease fromMacRustem; no paralleljob. Then currentdoctor+protectedB13 vehiclescene, not oldblockedjob rerun.",
       "blocker": {
-        "reason": "Old worker readiness blocker superseded by deployed API/Blender and ready idle doctor. Current result publication failed (peer52c007 BadFD); writable-fsync source correction prepared, host deployment/recovery pending. Native B13 still unverified.",
-        "release_when": "Deploy corrected worker while idle preserving local state, recover archived result via guarded existing path and confirm native publication; coordinate station with peer, then protected B13 candidate tests. No guard bypass.",
+        "reason": "Archive publication prerequisite recovered by station owner; original peer native failed timeout124, not a game acceptance. Owner keeps station for nextauthor-priority B20 native; protectedB13 not run.",
+        "release_when": "Peer B20 native job finishes and station owner releases; doctor ready/idle/recoveryfalse, currentworker fulltext matchescommitted. Then protectedB13 candidate checks with existing transferauthorization.",
         "historical_reason_before_archive_2026_10_12": "Windows checkout/toolchain/worker not updated. Job d262ac27 stopped before game on eng/toolchain.json mismatch; 12.10 current worker readiness endpoint HTTP404. Native B13 acceptance cannot run until station sync. Transfer permission already granted."
       },
       "external_gates": [],
@@ -97886,7 +97886,8 @@
           "https://docs.python.org/3.11/library/os.html#os.fsync",
           "https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-flushfilebuffers"
         ],
-        "native_fix_verification": "NOT_RUN: worker deployment + existing result recovery needed; no new game job submitted."
+        "native_fix_verification": "NOT_RUN: worker deployment + existing result recovery needed; no new game job submitted.",
+        "peer_recovery_message": "03:00 MacRustem: fixed archive helper deployed/recovered52c ZIP CRC/size/hash; originalFAIL timeout124 retained, originaluserdata restored/verified exceptACL, recoveryfalse. Station reserved for nextauthor-priority B20 native, not released to B13."
       }
     },
     {
@@ -98040,10 +98041,10 @@
         "С переднего места видны дорога/деревня, бабай и правдоподобная геометрия салона; спинки, окна, зеркало, педали/ручник и материалы не клиппуют.",
         "Обычные повороты камеры и катсценные кадры проверены в движке, не только статичным рендером."
       ],
-      "next_action": "Peer station owner deploys writable archive fsync correction/recovery; after release, run protected B13 vehicle/route/cabin checks on integrated source. Existing transfer permission persists.",
+      "next_action": "Await explicitstationrelease fromMacRustem; no paralleljob. Then currentdoctor+protectedB13 vehiclescene, not oldblockedjob rerun.",
       "blocker": {
-        "reason": "Old worker readiness blocker superseded by deployed API/Blender and ready idle doctor. Current result publication failed (peer52c007 BadFD); writable-fsync source correction prepared, host deployment/recovery pending. Native B13 still unverified.",
-        "release_when": "Deploy corrected worker while idle preserving local state, recover archived result via guarded existing path and confirm native publication; coordinate station with peer, then protected B13 candidate tests. No guard bypass.",
+        "reason": "Archive publication prerequisite recovered by station owner; original peer native failed timeout124, not a game acceptance. Owner keeps station for nextauthor-priority B20 native; protectedB13 not run.",
+        "release_when": "Peer B20 native job finishes and station owner releases; doctor ready/idle/recoveryfalse, currentworker fulltext matchescommitted. Then protectedB13 candidate checks with existing transferauthorization.",
         "historical_reason_before_archive_2026_10_12": "Windows checkout/toolchain/worker not updated. Job d262ac27 stopped before game on eng/toolchain.json mismatch; 12.10 current worker readiness endpoint HTTP404. Native B13 acceptance cannot run until station sync. Transfer permission already granted."
       },
       "external_gates": [],
@@ -98204,7 +98205,8 @@
           "https://docs.python.org/3.11/library/os.html#os.fsync",
           "https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-flushfilebuffers"
         ],
-        "native_fix_verification": "NOT_RUN: worker deployment + existing result recovery needed; no new game job submitted."
+        "native_fix_verification": "NOT_RUN: worker deployment + existing result recovery needed; no new game job submitted.",
+        "peer_recovery_message": "03:00 MacRustem: fixed archive helper deployed/recovered52c ZIP CRC/size/hash; originalFAIL timeout124 retained, originaluserdata restored/verified exceptACL, recoveryfalse. Station reserved for nextauthor-priority B20 native, not released to B13."
       }
     },
     {
@@ -104043,7 +104045,7 @@
       "assigned_owner": "integration",
       "activity": {
         "state": "not_active",
-        "reason": "Pending Luna motion recovered and source/compile accepted root; native/art remains open."
+        "reason": "Bounded readingzoom source/compile accepted; fullbook/native/human acceptance remains."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -104053,7 +104055,7 @@
         "Фотомиры не открывают клетки наружной карты.",
         "После обычного получения снимка игрок находит фронт/оборот и вклейку в семейной книге; Continue сохраняет личные записи и состояния снимка. Карта/адреса/словарь/прежний инвентарь используют существующий источник состояния; открытие страницы не выдаёт непрочитанное знание или внешнее подтверждение."
       ],
-      "next_action": "После peer Windows pilot проверить actions/motion/Continue; fullimages/physicalbook/human gates remain.",
+      "next_action": "После ownerstationrelease проверить реальное чтение/zoom/motion/actions/Continue и размерыview; image assets/physicalbook fullposes/human acceptance open.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -104274,6 +104276,18 @@
           "compile": "PASS Game0warnings0errors26.47s",
           "evidence": "evidence/PW-016/book-source-20261012.json",
           "integrated_compile": "PASS Game0/0 29.17s after peer main integration"
+        },
+        "reading_zoom": {
+          "files": [
+            "game/scripts/JournalUi.PhotoBook.cs",
+            "game/scripts/JournalUi.cs"
+          ],
+          "scope": "Local reading zoom90..160%, accessible controls, multiply existing accessibility text scale without new save/progress/images.",
+          "verification_question": "Масштабируются ли авторские описания/оборот вместе с доступностью, сохраняя wrap/scroll/выбор и не сбрасывая settings/состояние?",
+          "native": "NOT_RUN; peerB20 nextnative priority holdsstation",
+          "result": "Focusable± and percent display,90..160%; original fontbase × existingclampedTextScale ×localzoom, sessionreset100%, wrap/selectedphoto/scrollsource/settings/statepreserved.",
+          "compile": "PASS Game0warnings0errors26.26s",
+          "evidence": "evidence/PW-016/book-source-20261012.json"
         }
       }
     },

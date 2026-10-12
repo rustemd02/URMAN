@@ -92,6 +92,7 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
         _accessibility = settings;
         RefitToViewport();
         AccessibilityPresentation.ApplyToControl(_book, settings);
+        ApplyPhotoBookZoomPresentation(settings);
         // ACT1-UI.4: colours and tab plates come from the shared theme; the
         // accessibility pass above already scaled tabs, pickers and the editor.
         _excerpts?.ApplyPresentation();

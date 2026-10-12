@@ -13,11 +13,11 @@
   "native_runtime": "NOT_RUN",
   "author_acceptance": "PENDING",
   "physical_photo_images": "NOT_PRODUCED; frontBrief is descriptive text",
-  "game_build": "passed:0warnings0errors26.47s",
+  "game_build": "passed:0warnings0errors26.26s",
   "source_sha256": {
-    "game/scripts/JournalUi.PhotoBook.cs": "3173200511a44ba3443d15ae9da5d9c084b30c9434468338d071987169e6e967",
+    "game/scripts/JournalUi.PhotoBook.cs": "66825d2cc3af7b1f9c5da1ba28f1928b46765bc81795ac42efb2292666192dcb",
     "game/scripts/RuntimeBridge.PhotoBook.cs": "34993d1283c435ae8eb3a301fd17d611c1d0773ad70bfbe2601c518aa1343b59",
-    "game/scripts/JournalUi.cs": "19049ae4754789ef830db236ef0fff63ecd4e62688019761672fbf6c774472ad",
+    "game/scripts/JournalUi.cs": "59dac2eb843726443b8a544617588d5192ec10223f65007203db29a5b7eced1b",
     "game/scripts/JournalUi.Notebook.cs": "29692b5bdef6c536382fcba98b22e15ad05f7d4cefec61c128c3beed3a7e32eb",
     "game/scripts/ArrivalPersonalProps.cs": "320afa3fba7c069bf296796c8406e55120d9286727e9cdd72c99361691d7fac7",
     "game/scripts/CompiledCampaignRepository.cs": "38020f8663ca6b0842b14e36672bf1cc672496fab4c75c61264c7d027ec96926"
@@ -84,5 +84,16 @@
     "source_review": "Root inspected pending Luna patch and fixed automatic-selection cancellation",
     "native_runtime": "NOT_RUN"
   },
-  "integrated_game_build": "passed:0warnings0errors29.17s after peer main integration"
+  "integrated_game_build": "passed:0warnings0errors29.17s after peer main integration",
+  "reading_zoom": {
+    "range": [
+      0.9,
+      1.6
+    ],
+    "step": 0.1,
+    "basis": "Existing accessibilityBase_font_size × same .8..1.6 TextScale clamp × local zoom, no compounding.",
+    "reset": "New SessionIdentity resets local100%; existing accessibility preference unchanged.",
+    "side_effects": "No state/save/inputwheel/photo mutations, no list/source/selection refresh on zoom.",
+    "native_runtime": "NOT_RUN"
+  }
 }
