@@ -403,7 +403,7 @@ public partial class AuthoredWorldDirector : Node3D
         return true;
     }
 
-    private static bool TryReadHouseVariantModelPath(JsonElement parameters, string entityId, out string? modelPath)
+    internal static bool TryReadHouseVariantModelPath(JsonElement parameters, string entityId, out string? modelPath)
     {
         modelPath = null;
         if (!parameters.TryGetProperty("modelPath", out var value)) return true;

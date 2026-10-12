@@ -58,7 +58,7 @@ public static class KitPlacementTakeover
             return;
         }
 
-        ApplyAuthored(placement, logicalAnchor);
+        ApplyAuthored(placement, componentName, logicalAnchor);
         if (System.Environment.GetEnvironmentVariable("URMAN_KIT_RESULT") is { Length: > 0 } resultPath)
         {
             Record(placement, componentName, assetSource, logicalAnchor, resultPath);
@@ -82,7 +82,7 @@ public static class KitPlacementTakeover
             System.IO.File.WriteAllText(path, new JsonArray(Harvest.Select(item => (JsonNode?)item.DeepClone()).ToArray()).ToJsonString());
     }
 
-    private static void ApplyAuthored(Node3D placement, string logicalAnchor)
+    private static void ApplyAuthored(Node3D placement, string componentName, string logicalAnchor)
     {
         if (!ByAnchor().TryGetValue(logicalAnchor, out var entity))
         {
@@ -90,6 +90,19 @@ public static class KitPlacementTakeover
         }
 
         var parameters = entity.GetProperty("params");
+        var position = AuthoredWorldPlot.ToVector3(parameters.GetProperty("position"));
+        var height = placement.GlobalPosition.Y;
+        if (parameters.TryGetProperty("groundingReferenceXZ", out var reference))
+        {
+            var point = reference.EnumerateArray().Select(value => value.GetSingle()).ToArray();
+            height += (float)(Urman.Experiments.AgentBAct1.AgentBAct1HeightField.Ground(position.X, position.Z)
+                - Urman.Experiments.AgentBAct1.AgentBAct1HeightField.Ground(point[0], point[1]));
+        }
+        var yawDegrees = parameters.GetProperty("yawDegrees").GetSingle();
+        var scale = AuthoredWorldPlot.ToVector3(parameters.GetProperty("scale"));
+        var hidden = parameters.TryGetProperty("hidden", out var hiddenValue) && hiddenValue.GetBoolean();
+        var retired = parameters.TryGetProperty("retired", out var retiredValue) && retiredValue.GetBoolean();
+
         if (entity.GetProperty("id").GetString() == HeroHouseRecipe.EntityId
             && HeroHouseRecipe.Load().ModelPath is { } modelPath)
         {
@@ -108,18 +121,15 @@ public static class KitPlacementTakeover
             placement.AddChild(component);
             placement.SetMeta("assetSource", modelPath);
         }
-        var position = AuthoredWorldPlot.ToVector3(parameters.GetProperty("position"));
-        var height = placement.GlobalPosition.Y;
-        if (parameters.TryGetProperty("groundingReferenceXZ", out var reference))
+        else if (parameters.TryGetProperty("modelPath", out _))
         {
-            var point = reference.EnumerateArray().Select(value => value.GetSingle()).ToArray();
-            height += (float)(Urman.Experiments.AgentBAct1.AgentBAct1HeightField.Ground(position.X, position.Z)
-                - Urman.Experiments.AgentBAct1.AgentBAct1HeightField.Ground(point[0], point[1]));
+            ApplyNonHeroDwellingVariant(placement, componentName, logicalAnchor, entity, parameters);
         }
+
         placement.GlobalPosition = new Vector3(position.X, height, position.Z);
-        placement.RotationDegrees = new Vector3(0f, parameters.GetProperty("yawDegrees").GetSingle(), 0f);
-        placement.Scale = AuthoredWorldPlot.ToVector3(parameters.GetProperty("scale"));
-        if (parameters.TryGetProperty("hidden", out var hidden) && hidden.GetBoolean())
+        placement.RotationDegrees = new Vector3(0f, yawDegrees, 0f);
+        placement.Scale = scale;
+        if (hidden)
         {
             placement.Visible = false;
         }
@@ -127,13 +137,102 @@ public static class KitPlacementTakeover
         // Relayout v3: a household that became a generic parcel elsewhere leaves its old
         // kit house, shed and fence behind. Retired pieces neither draw nor collide; the
         // node stays so builders that look it up by name keep working.
-        if (parameters.TryGetProperty("retired", out var retired) && retired.GetBoolean())
+        if (retired)
         {
             Retire(placement);
         }
 
         placement.SetMeta(AuthoredWorldPlot.AuthoredIdMeta, entity.GetProperty("id").GetString()!);
         placement.SetMeta("placementOwner", "authored plot " + (PlotOverrideForTest ?? PlotPath));
+    }
+
+    private static void ApplyNonHeroDwellingVariant(
+        Node3D placement, string componentName, string logicalAnchor, JsonElement entity, JsonElement parameters)
+    {
+        var entityId = entity.GetProperty("id").GetString()!;
+        if (entity.GetProperty("kind").GetString() != "kit-placement"
+            || !entityId.StartsWith("urman.world:act1/kit/", StringComparison.Ordinal)
+            || !parameters.TryGetProperty("logicalAnchor", out var anchor)
+            || anchor.ValueKind != JsonValueKind.String || anchor.GetString() != logicalAnchor)
+            throw new InvalidDataException($"House-variant override is not attached to a known Act I kit placement: {entityId}.");
+
+        if (!parameters.TryGetProperty("component", out var target)
+            || target.ValueKind != JsonValueKind.String || target.GetString() != componentName
+            || componentName is not ("VillageParcel_VariantA_TimberGable_Dwelling"
+                or "VillageParcel_VariantB_PlasterAnnex_Dwelling"
+                or "VillageParcel_VariantC_BanyaYard_Dwelling"))
+            throw new InvalidDataException($"House-variant override component does not match placement {entityId}.");
+
+        if (!AuthoredWorldDirector.TryReadHouseVariantModelPath(parameters, entityId, out var modelPath)
+            || modelPath is null)
+            throw new InvalidDataException($"House-variant model path is invalid for {entityId}.");
+
+        using var document = new GltfDocument();
+        using var state = new GltfState();
+        if (document.AppendFromFile(ProjectSettings.GlobalizePath(modelPath), state) != Error.Ok)
+            throw new InvalidOperationException($"Не импортирован вариант дома: {modelPath}");
+
+        Node3D? importedRoot = null;
+        Node3D? replacement = null;
+        try
+        {
+            var generated = document.GenerateScene(state);
+            if (generated is not Node3D root)
+            {
+                generated?.Free();
+                throw new InvalidDataException("Вариант дома не имеет 3D-корня.");
+            }
+
+            importedRoot = root;
+            var matches = root.Name.ToString() == componentName
+                ? new[] { root }
+                : root.FindChildren(componentName, nameof(Node3D), true, false).OfType<Node3D>().ToArray();
+            if (matches.Length != 1)
+                throw new InvalidDataException($"В модели найдено {matches.Length} компонентов {componentName}; ожидался ровно один.");
+
+            replacement = matches[0];
+            var parcelName = componentName[..^"_Dwelling".Length];
+            if (replacement != root && replacement.GetParent()?.Name.ToString() != parcelName)
+                throw new InvalidDataException($"Компонент {componentName} расположен не в ожидаемом семействе {parcelName}.");
+
+            var basis = Act1ConnectedWorld.ComposeImportedAncestorBasis(replacement);
+            Act1ConnectedWorld.ClearExtractedSceneOwnership(replacement);
+            replacement.Transform = new Transform3D(basis, Vector3.Zero);
+            if (replacement != root)
+            {
+                replacement.GetParent()!.RemoveChild(replacement);
+                root.Free();
+                importedRoot = null;
+            }
+
+            var previous = placement.GetChildren().ToArray();
+            foreach (var child in previous) placement.RemoveChild(child);
+            try
+            {
+                placement.AddChild(replacement);
+                placement.SetMeta("assetSource", modelPath);
+            }
+            catch
+            {
+                if (replacement.GetParent() == placement) placement.RemoveChild(replacement);
+                foreach (var child in previous) placement.AddChild(child);
+                throw;
+            }
+
+            foreach (var child in previous) child.Free();
+            replacement = null;
+            importedRoot = null;
+        }
+        catch
+        {
+            if (replacement is not null && GodotObject.IsInstanceValid(replacement))
+            {
+                if (replacement.GetParent() == placement) placement.RemoveChild(replacement);
+                if (replacement.GetParent() is null) replacement.Free();
+            }
+            if (importedRoot is not null && GodotObject.IsInstanceValid(importedRoot)) importedRoot.Free();
+            throw;
+        }
     }
 
     public const string RetiredMeta = "retiredByPlot";

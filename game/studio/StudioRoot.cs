@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using System.Text.RegularExpressions;
 using Godot;
+using Urman.Studio.Core.AI;
 using Urman.Studio.Core.Editing;
 using Urman.Studio.Core.Play;
 using Urman.Studio.Core.Storage;
@@ -127,7 +128,8 @@ public partial class StudioRoot : Control
                 StudioAiPanel.OwnsFile,
                 (owner, path) => StudioFileTransaction.IsAuthoredSourceDeletionOwner(owner)
                     && StudioWorkspace.IsCanonicalAuthoredJsonSourcePath(path)
-                    || StudioFileTransaction.IsOwnedCatalogPath(owner, path));
+                    || StudioFileTransaction.IsOwnedCatalogPath(owner, path)
+                    || HouseFamilyWindowProtocol.IsTransactionPath(owner, path));
             if (pending.Count > 0)
             {
                 ShowBlocked("Нужно восстановить незавершённое изменение модели.",
@@ -152,7 +154,8 @@ public partial class StudioRoot : Control
                 IsExactHeroHousePilotFileSet,
                 StudioFileTransaction.IsAuthoredSourceDeletionOwner,
                 StudioWorkspace.IsCanonicalAuthoredJsonSourcePath,
-                includeOwnedCatalogs: true);
+                includeOwnedCatalogs: true,
+                includeHouseFamilies: true);
         }
         catch (Exception error) when (error is IOException or UnauthorizedAccessException or InvalidDataException or InvalidOperationException or ArgumentException)
         {

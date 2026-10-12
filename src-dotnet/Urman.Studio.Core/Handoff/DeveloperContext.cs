@@ -717,6 +717,54 @@ public sealed class DeveloperContext(StudioWorkspace workspace, EntityCatalog ca
         AtomicFile.WriteAllBytes(Path.Combine(root, relative), new UTF8Encoding(false).GetBytes(text), overwrite: false);
     }
 
+    /// <summary>Export the canonical family-window prompt without replacing a prior request.</summary>
+    public static string WriteHouseFamilyWindowRequest(string root, HouseFamilyWindowRequest request)
+    {
+        ArgumentNullException.ThrowIfNull(request);
+        var text = CodexProposalProvider.CreateClipboardPrompt(request);
+        var relative = ".urman-studio/handoff/request-" + request.RequestId + ".txt";
+        return WriteIdempotentHouseFamilyArtifact(root, relative, StrictUtf8.GetBytes(text));
+    }
+
+    /// <summary>Persist the canonical family request and, when supplied, its matching proposal.</summary>
+    public static string WriteHouseFamilyWindowJob(
+        string root,
+        HouseFamilyWindowRequest request,
+        HouseFamilyWindowProposal? proposal = null)
+    {
+        ArgumentNullException.ThrowIfNull(request);
+        var requestBytes = StrictUtf8.GetBytes(HouseFamilyWindowProtocol.SerializeRequest(request));
+        var requestRelative = HouseWindowJobRelativePath(request.RequestId, "request.json");
+        var proposalBytes = proposal is null
+            ? null
+            : StrictUtf8.GetBytes(HouseFamilyWindowProtocol.SerializeProposal(request, proposal));
+        if (proposalBytes is { Length: > HouseFamilyWindowProtocol.MaximumProposalBytes })
+            throw new InvalidDataException("The stored family-window proposal exceeds its size limit.");
+
+        var requestPath = WriteIdempotentHouseFamilyArtifact(root, requestRelative, requestBytes);
+        if (proposalBytes is null) return requestPath;
+
+        var proposalRelative = HouseWindowJobRelativePath(request.RequestId, "proposal.json");
+        return WriteIdempotentHouseFamilyArtifact(root, proposalRelative, proposalBytes);
+    }
+
+    private static string WriteIdempotentHouseFamilyArtifact(string root, string relative, byte[] bytes)
+    {
+        StudioFileTransaction.EnsureNoLinks(root, relative, allowStudioMetadata: true);
+        var path = Path.GetFullPath(Path.Combine(root, relative.Replace('/', Path.DirectorySeparatorChar)));
+        if (File.Exists(path))
+        {
+            var existing = new FileInfo(path);
+            if (existing.Length == bytes.LongLength && File.ReadAllBytes(path).AsSpan().SequenceEqual(bytes))
+                return path;
+
+            throw new IOException("A different family-window artifact already exists at this path; it was left unchanged.");
+        }
+
+        AtomicFile.WriteAllBytes(path, bytes, overwrite: false);
+        return path;
+    }
+
     /// <summary>Record an explicit local preview failure for the exact stored request and proposal.</summary>
     public static void MarkHouseWindowPreviewFailed(string root, HouseWindowRequest request, HouseWindowProposal proposal)
     {

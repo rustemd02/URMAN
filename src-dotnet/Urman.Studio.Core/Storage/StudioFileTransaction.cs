@@ -612,13 +612,14 @@ public sealed class StudioFileTransaction
         Func<string, bool> sourceDeletionOwner,
         Func<string, bool> sourceDeletionPath,
         Func<string, byte[], string, Action> sourceDeletionAfterPromotion,
-        bool includeOwnedCatalogs = false)
+        bool includeOwnedCatalogs = false,
+        bool includeHouseFamilies = false)
     {
         ArgumentNullException.ThrowIfNull(sourceDeletionOwner);
         ArgumentNullException.ThrowIfNull(sourceDeletionPath);
         ArgumentNullException.ThrowIfNull(sourceDeletionAfterPromotion);
         return LoadCommittedFileHistoryCore(root, owner, allowedPath, allowedFileSet,
-            sourceDeletionOwner, sourceDeletionPath, sourceDeletionAfterPromotion, includeOwnedCatalogs);
+            sourceDeletionOwner, sourceDeletionPath, sourceDeletionAfterPromotion, includeOwnedCatalogs, includeHouseFamilies);
     }
 
     private static StudioFileHistoryStackLoadResult LoadCommittedFileHistoryCore(
@@ -629,7 +630,8 @@ public sealed class StudioFileTransaction
         Func<string, bool>? sourceDeletionOwner,
         Func<string, bool>? sourceDeletionPath,
         Func<string, byte[], string, Action>? sourceDeletionAfterPromotion,
-        bool includeOwnedCatalogs = false)
+        bool includeOwnedCatalogs = false,
+        bool includeHouseFamilies = false)
     {
         ArgumentNullException.ThrowIfNull(allowedPath);
         ArgumentNullException.ThrowIfNull(allowedFileSet);
@@ -645,7 +647,7 @@ public sealed class StudioFileTransaction
         if (!Directory.Exists(transactionRoot)) return new([], 0, null);
         EnsureNoLinks(rootPath, TransactionDirectory, allowStudioMetadata: true);
 
-        var matching = new List<(string Directory, Manifest Manifest, bool IsSourceDeletion, bool IsCatalog, string? SourcePath, byte[]? SourceBeforeBytes)>();
+        var matching = new List<(string Directory, Manifest Manifest, bool IsSourceDeletion, bool IsCatalog, bool IsHouseFamily, string? SourcePath, byte[]? SourceBeforeBytes)>();
         var unreadable = new List<string>();
         foreach (var directory in Directory.EnumerateDirectories(transactionRoot))
         {
@@ -664,9 +666,17 @@ public sealed class StudioFileTransaction
                 var manifest = ReadManifest(rootPath, directory);
                 var isSourceDeletion = sourceDeletionOwner?.Invoke(manifest.Owner) == true;
                 var isCatalog = includeOwnedCatalogs && IsOwnedCatalogOwner(manifest.Owner);
-                if (manifest.Status != "committed" || !manifest.Accepted
-                    || !isSourceDeletion && !isCatalog && !string.Equals(manifest.Owner, owner, StringComparison.Ordinal))
+                var isHouseFamily = includeHouseFamilies
+                    && Urman.Studio.Core.AI.HouseFamilyWindowProtocol.IsTransactionOwner(manifest.Owner);
+                if (manifest.Status != "committed" || !manifest.Accepted)
                     continue;
+                if (!isSourceDeletion && !isCatalog && !isHouseFamily
+                    && !string.Equals(manifest.Owner, owner, StringComparison.Ordinal))
+                {
+                    if (manifest.AcceptedOrder is not null)
+                        unreadable.Add($"{id}: accepted ordered command is outside the requested history");
+                    continue;
+                }
 
                 string? sourcePath = null;
                 byte[]? sourceBeforeBytes = null;
@@ -699,7 +709,7 @@ public sealed class StudioFileTransaction
                     continue;
                 }
 
-                matching.Add((directory, manifest, isSourceDeletion, isCatalog, sourcePath, sourceBeforeBytes));
+                matching.Add((directory, manifest, isSourceDeletion, isCatalog, isHouseFamily, sourcePath, sourceBeforeBytes));
             }
             catch (Exception error)
             {
@@ -728,7 +738,7 @@ public sealed class StudioFileTransaction
         var boundary = new Dictionary<string, string?>(StringComparer.Ordinal);
         var boundedAuthoredSourcePaths = new HashSet<string>(StringComparer.Ordinal);
         var transactions = new List<StudioFileTransaction>();
-        foreach (var (manifestDirectory, candidate, isSourceDeletion, isCatalog, sourcePath, sourceBeforeBytes) in matching)
+        foreach (var (manifestDirectory, candidate, isSourceDeletion, isCatalog, isHouseFamily, sourcePath, sourceBeforeBytes) in matching)
         {
             if (candidate.Side != candidate.RollbackSide || candidate.Side != candidate.TargetSide)
                 return new([], 0, "История Undo не восстановлена: стороны журнала противоречат друг другу.");
@@ -741,6 +751,9 @@ public sealed class StudioFileTransaction
             Func<string, bool> transactionPathAllowed = allowedPath;
             if (isSourceDeletion) transactionPathAllowed = sourceDeletionPath!;
             else if (isCatalog) transactionPathAllowed = path => IsOwnedCatalogPath(candidate.Owner, path);
+            else if (isHouseFamily) transactionPathAllowed = path =>
+                Urman.Studio.Core.AI.HouseFamilyWindowProtocol.IsTransactionPath(candidate.Owner, path)
+                && allowedPath(path);
             foreach (var change in candidate.Changes)
             {
                 if (!TryNormalizeForRecovery(rootPath, change.RelativePath, transactionPathAllowed, out var normalized))
@@ -752,11 +765,16 @@ public sealed class StudioFileTransaction
                     ? normalizedPaths.Count != 1 || !string.Equals(normalizedPaths[0], sourcePath, StringComparison.Ordinal)
                     : isCatalog
                         ? normalizedPaths.Count != 1 || !IsOwnedCatalogPath(candidate.Owner, normalizedPaths[0])
+                        : isHouseFamily
+                            ? !Urman.Studio.Core.AI.HouseFamilyWindowProtocol.IsTransactionFileSet(normalizedPaths)
+                                || !HasValidHouseFamilyImageStates(candidate.Changes)
                         : !allowedFileSet(normalizedPaths)))
                 return new([], 0, isSourceDeletion
                     ? "История Undo не восстановлена: путь исходника удаления изменился."
                     : isCatalog
                         ? "История Undo не восстановлена: путь каталога не соответствует его владельцу."
+                        : isHouseFamily
+                            ? "История Undo не восстановлена: набор файлов семейного дома не соответствует контракту операции."
                         : "История Undo не восстановлена: набор файлов не соответствует контракту изменения дома.");
             if (ValidateManifestImages(rootPath, manifestDirectory, candidate,
                     isSourceDeletion || isCatalog ? MaximumAuthoredSourceBytes : null).Count > 0)
@@ -814,7 +832,7 @@ public sealed class StudioFileTransaction
         Action? afterRecovery = null)
         => RecoverCore(root, allowedPath, null, afterRecovery);
 
-    /// <summary>Recover with an extra owner-scoped path policy for single-file transactions.</summary>
+    /// <summary>Recover with an extra owner-scoped path policy for deletion, catalogue and family transactions.</summary>
     public static IReadOnlyList<PendingStudioFileTransaction> RecoverWithOwnedPathPolicy(
         string root,
         Func<string, bool> allowedPath,
@@ -892,7 +910,27 @@ public sealed class StudioFileTransaction
         Func<string, bool> allowedPath,
         Func<string, string, bool>? allowedOwnedPath)
     {
-        if (allowedOwnedPath is null || manifest.Changes.Count != 1) return allowedPath;
+        if (allowedOwnedPath is null) return allowedPath;
+        if (Urman.Studio.Core.AI.HouseFamilyWindowProtocol.IsTransactionOwner(manifest.Owner))
+        {
+            var familyPaths = new List<string>(manifest.Changes.Count);
+            foreach (var familyChange in manifest.Changes)
+            {
+                if (!TryNormalizeRecoveryPath(root, familyChange.RelativePath, out var normalized)
+                    || !Urman.Studio.Core.AI.HouseFamilyWindowProtocol.IsTransactionPath(manifest.Owner, normalized)
+                    || !allowedOwnedPath(manifest.Owner, normalized))
+                    return _ => false;
+                familyPaths.Add(normalized);
+            }
+
+            if (!Urman.Studio.Core.AI.HouseFamilyWindowProtocol.IsTransactionFileSet(familyPaths)
+                || !HasValidHouseFamilyImageStates(manifest.Changes))
+                return _ => false;
+
+            return path => TryNormalizeRecoveryPath(root, path, out var normalized)
+                && (allowedPath(normalized) || allowedOwnedPath(manifest.Owner, normalized));
+        }
+        if (manifest.Changes.Count != 1) return allowedPath;
         var change = manifest.Changes[0];
         if (!TryNormalizeRecoveryPath(root, change.RelativePath, out var sourcePath)
             || !allowedOwnedPath(manifest.Owner, sourcePath))
@@ -920,6 +958,23 @@ public sealed class StudioFileTransaction
                     _ => false
                 });
         return verified ? path => allowedPath(path) || string.Equals(path, sourcePath, StringComparison.Ordinal) : allowedPath;
+    }
+
+    private static bool HasValidHouseFamilyImageStates(IReadOnlyList<FileChange> changes)
+    {
+        if (changes.Count == 0) return false;
+        foreach (var change in changes)
+        {
+            if (Urman.Studio.Core.AI.HouseFamilyWindowProtocol.IsTransactionWorldPath(change.RelativePath))
+            {
+                if (change.BeforeSha256 is null || change.AfterSha256 is null) return false;
+            }
+            else if (change.BeforeSha256 is not null || change.AfterSha256 is null)
+            {
+                return false;
+            }
+        }
+        return true;
     }
 
     // Bound source reads; path access still depends on the allowlist or verified owner policy above.

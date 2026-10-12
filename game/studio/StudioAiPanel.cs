@@ -94,6 +94,8 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
     }
 
     public static bool OwnsFile(string path) => path == RecipePath
+        || HouseFamilyWindowProtocol.IsTransactionPath(
+            HouseFamilyWindowProtocol.TransactionOwnerPrefix + new string('0', 32), path)
         || path is "game/content/world/act1_open_part.world.v1.json" or "game/content/world/act1_far_bank.world.v1.json" ||
         System.Text.RegularExpressions.Regex.IsMatch(path,
             @"\A(?:game/assets/models/studio/hero-house-[a-f0-9]{32}\.glb(?:\.manifest\.json)?|assets/source/blender/studio/hero-house-[a-f0-9]{32}\.blend)\z",
@@ -1431,6 +1433,30 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
         var afterModel = LoadHousePreview(previewArtifacts.Glb, stage);
         _afterModel = afterModel;
         _previewModels.AddChild(afterModel);
+        FramePreviewModels(beforeModel, afterModel);
+        cancellation.ThrowIfCancellationRequested();
+        HouseWindowProposalValidator.Validate(request, proposal);
+        EnsurePreparedRequestCurrent(request);
+        _beforeView.Disabled = false;
+        _afterView.Disabled = false;
+        ShowPreview(after: true);
+        _previewArtifactHashes = StageArtifactHashes.From(previewArtifacts);
+        _previewReady = true;
+        SetBusy(_busy);
+
+        var scopeSummary = request.PartId is not null ? "только окно " + request.PartId
+            : request.PartIds is not null ? "7 окон главных комнат; окно в сенях и ширина по умолчанию сохранены"
+            : "все 8 окон выбранного дома, включая окно в сенях";
+        var widthSummary = request.PartId is null
+            ? request.PartIds is not null
+                ? $"Целевая ширина 7 окон главных комнат: {proposal.WindowWidth:0.00} м."
+                : $"Целевая ширина всех 8 окон: {proposal.WindowWidth:0.00} м."
+            : $"Ширина: {proposal.ExpectedWidth:0.00} → {proposal.WindowWidth:0.00} м.";
+        return $"{proposal.Summary}\n{widthSummary} {scopeSummary}. Ещё не применено.";
+    }
+
+    private void FramePreviewModels(Node3D beforeModel, Node3D afterModel)
+    {
         var beforeBounds = beforeModel.Transform * StudioCatalogBuilder.Bounds([beforeModel], beforeModel);
         var afterBounds = afterModel.Transform * StudioCatalogBuilder.Bounds([afterModel], afterModel);
         var unionBounds = beforeBounds.Merge(afterBounds);
@@ -1480,25 +1506,6 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
             throw new InvalidDataException("Preview camera fit is non-finite.");
         _previewCamera.GlobalPosition = cameraPosition;
         _previewCamera.LookAt(center, Vector3.Up);
-        cancellation.ThrowIfCancellationRequested();
-        HouseWindowProposalValidator.Validate(request, proposal);
-        EnsurePreparedRequestCurrent(request);
-        _beforeView.Disabled = false;
-        _afterView.Disabled = false;
-        ShowPreview(after: true);
-        _previewArtifactHashes = StageArtifactHashes.From(previewArtifacts);
-        _previewReady = true;
-        SetBusy(_busy);
-
-        var scopeSummary = request.PartId is not null ? "только окно " + request.PartId
-            : request.PartIds is not null ? "7 окон главных комнат; окно в сенях и ширина по умолчанию сохранены"
-            : "все 8 окон выбранного дома, включая окно в сенях";
-        var widthSummary = request.PartId is null
-            ? request.PartIds is not null
-                ? $"Целевая ширина 7 окон главных комнат: {proposal.WindowWidth:0.00} м."
-                : $"Целевая ширина всех 8 окон: {proposal.WindowWidth:0.00} м."
-            : $"Ширина: {proposal.ExpectedWidth:0.00} → {proposal.WindowWidth:0.00} м.";
-        return $"{proposal.Summary}\n{widthSummary} {scopeSummary}. Ещё не применено.";
     }
 
     private async Task RecordPreviewEvidenceAsync(HouseWindowRequest request, HouseWindowProposal proposal)

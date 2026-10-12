@@ -75837,6 +75837,20 @@
                 "implementation": "New explicit house-variant staging mode requires exact four-key house-variant-recipe/v1 (entityId, A/B/C, finite known per-window widths0.65..1.35). Rejects duplicate recipe/catalog properties, invalid catalog integer schema, wrong selected catalogID/node/scene/origin, existing output/link/canonical folders. Reads canonical selector/origin/hash instead of accepting user origin. Reauthors only existing selected Dwelling under verified existing parcel; untouched shed/yard/other variants. Shared old dimensions/default normal/Hero flow retained. Full-scene private blend; GLB exports selected parcel+descendants only, temporarily detaches root preserving matrix_world and restores parent/worldmatrix in finally. Manifest records effective widths and catalog/source/output hashes/previewtransform. Runtime exact source.node root match supports standalone or wrapper root; child/prefix scan remains unchanged, correction/origin/scale/cache preserved and reparented instance not freed.",
                 "verification": "Two Luna implementations and independent Luna caller/generator reviews; root fixed schemaVersion bool/float acceptance and rejected all-variant reauthoring, author removed unused forwarding option. Final generator AST/diff-check PASS; affected Game compile0warnings/0errors17.06s. No new tests/fixtures/probes, Blender/game/station run for this source slice.",
                 "remaining": "Generated artifact/transform fidelity and unchanged sibling bytes not runtime proven. Generic frozen multi-entity request/proposal/transaction/UI and kit-placement nonhero consumer remain open. No mass-house/no canonical overwrite/native A02/A05 completion claim."
+              },
+              {
+                "date": "2026-10-13",
+                "kind": "source-progress",
+                "result": "Frozen A/B/C family request v3 with strict IDs/hash/provenance uses existing readonly Codex transport; canonical request/proposal saved create-only. Kit placement reads private params.modelPath while preserving canonical assetSource. Family transactions restore 1–3 matched GLB/manifest/Blend triplets and world files through existing history/recovery at startup.",
+                "source": [
+                  "src-dotnet/Urman.Studio.Core/AI/HouseFamilyWindowProposal.cs",
+                  "src-dotnet/Urman.Studio.Core/AI/CodexProposalProvider.Family.cs",
+                  "src-dotnet/Urman.Studio.Core/Handoff/DeveloperContext.cs",
+                  "game/scripts/KitPlacementTakeover.cs",
+                  "game/studio/StudioRoot.cs"
+                ],
+                "verification": "Affected Game compilation 0 warnings/0 errors; Core compilation 0/0; independent Sol typed protocol review; Luna runtime review corrected transform parsing before swap. Native family UI/Blender/Apply/restart Undo not verified.",
+                "decision": "Family v3 has multiple frozen targets and uniform nine-window operation; Hero v2 retained unchanged. New private variants only; canonical models are not overwritten."
               }
             ],
             "stage_tasks": [
@@ -75859,10 +75873,10 @@
               ],
               "done_when": "Правка затронула только согласованное множество; добавленный после submit дом остался прежним; один экземпляр не изменил общий ассет."
             },
-            "active_owner": null,
+            "active_owner": "Codex",
             "activity": {
-              "state": "source_slice_delivered",
-              "reason": "Luna private A/B/C family stage + exact root-node caller support implemented; independent Luna review defects fixed, affected Game compile0/0 and generator AST/diff-check passed. Actual Blender artifacts/multi-house provider/UI/native still unverified."
+              "state": "confirmed_active",
+              "reason": "Family typed request/provider persistence, nonhero runtime and durable transaction/history source compiled; Luna implementing existing panel integration. Native acceptance pending."
             },
             "task_type": "engineering",
             "status": "in_progress",
@@ -75874,7 +75888,7 @@
               "Native A02/A05 with multiple houses, exclusion and new object after submit remains unverified.",
               "Native single-house mandatory confirmation walkthrough including cancel/hide/exit/changed sources and direct/manual policy; source compile is not rendered UX proof."
             ],
-            "next_action": "Проверить bounded private A/B/C stage/export в Windows после release B02, затем подключить generic frozen multi-entity protocol/caller/UI с per-kind capability/exclusions; сохранить Hero v2. Kit-placement houses требуют своего component loader, не считать generic prop override поддержкой всех85 домов.",
+            "next_action": "Закончить маршруты существующей AI-панели к frozen family capture/preview/Apply, затем Windows проверка выбранных домов и полной отмены; станция сейчас B02.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",

@@ -5927,7 +5927,7 @@ public partial class Act1ConnectedWorld : Node3D
         SetMeta("hiddenAuthoredBlockerCount", disabled);
     }
 
-    private static Basis ComposeImportedAncestorBasis(Node3D component)
+    internal static Basis ComposeImportedAncestorBasis(Node3D component)
     {
         // PackedScene instances are not inside the runtime tree yet, so use
         // local transforms only. Godot composes parent-to-child bases as
@@ -5948,7 +5948,7 @@ public partial class Act1ConnectedWorld : Node3D
         return basis;
     }
 
-    private static void ClearExtractedSceneOwnership(Node node)
+    internal static void ClearExtractedSceneOwnership(Node node)
     {
         node.Owner = null;
         var children = node.GetChildCount();

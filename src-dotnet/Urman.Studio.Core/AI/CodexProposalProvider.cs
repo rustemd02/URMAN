@@ -28,7 +28,7 @@ public sealed record CodexProposalProgress(CodexProposalStage Stage, string Mess
 /// Runs one structured, proposal-only Codex turn. It never receives a StudioWorkspace,
 /// reads snapshot files, or applies edits to a game document.
 /// </summary>
-public sealed class CodexProposalProvider
+public sealed partial class CodexProposalProvider
 {
     private const string Model = "gpt-6-luna";
     private const string ReasoningEffort = "max";
