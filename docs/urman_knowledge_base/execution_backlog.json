@@ -77304,6 +77304,12 @@
                 "result": "cross-kernel check by deepseek v4.1 flash after I mis-stated one consequence by reading a single consumer. PINNED FROM THE SOURCES: the compiler (ContentCompiler) reports MissingDialogueEntryNode for a missing dialogue ENTRY node and has NO diagnostic for a missing dialogue CHOICE target - the probe asserts both the presence and the ABSENCE; the runtime fails a chat's dangling target AT LOAD ('leads to unknown node' in CompiledCampaignRepository); and RuntimeBridge indexes dialogue.Nodes[choice.NextNodeId] when the answer is chosen, which throws KeyNotFoundException. WHY IT MATTERS: a dangling dialogue choice target survives compilation AND loading and fails only in front of the player when the answer is picked, while the same mistake in a chat stops the whole campaign loading - so the two must be described separately, and now both descriptions are pinned rather than remembered. ALSO RECORDED: an evidence audit found ELEVEN of my twenty-eight blocks carry only build.log and no receipt.json, all from 2026-10-10 before I began writing receipts; they are historical and left as they are. Verified: probe PASS 779/779; Core 0/0",
                 "source": "src-dotnet/Urman.Content/Compilation/ContentCompiler.cs, game/scripts/CompiledCampaignRepository.cs, game/scripts/RuntimeBridge.cs; evidence evidence/STUDIO/b20-deepseek-ai-20/2026-10-12-cross-kernel-validation",
                 "verification": "probe PASS 779/779 including the three cross-kernel assertions; Core 0/0. Picking the answer in play is NOT_RUN"
+              },
+              {
+                "stage": "2026-10-12 module asset closure, derived the way the compiler derives it",
+                "result": "check by deepseek v4.1 flash of the module asset closure: every asset id a module manifest declares must have a definition in that module's sourceFiles, and every non-logical asset file must exist on disk. THE FALSE POSITIVE I AVOIDED: my first scan collected records by a kind field equal to 'asset' and reported EIGHT declared assets as UNDEFINED - that was MY bug, because the compiler takes the kind from the ID (KindFromId) rather than from a kind field, so records shaped with kind 'image' but an id containing :asset/ were skipped by my filter. Collected by ID, ALL THIRTY-THREE are defined. Measured now: thirty-three declared, thirty-three defined, FIVE pointing at real binaries that all exist, ZERO problems. The check is not vacuous: it asserts the declared count is still thirty-three and that at least one asset points at a real binary. Verified: probe PASS 789/789; Core 0/0",
+                "source": "the probe's module asset closure check, mirroring ContentCompiler.KindFromId; evidence evidence/STUDIO/b20-deepseek-ai-24/2026-10-12-module-asset-closure",
+                "verification": "probe PASS 789/789 including the declared-count and real-binary assertions; Core 0/0. Seeing an image render in the game is visual acceptance and is NOT_RUN"
               }
             ],
             "stage_tasks": [
@@ -77366,7 +77372,9 @@
               "ИСПРАВЛЕНИЕ: висячая цель в ЧАТЕ роняет загрузку ВСЕЙ кампании (InvalidDataException), а не «молча останавливает тред» — я прочитал только UI-путь и обобщил.",
               "Ранее переданный частичный этап (2026-10-12 I corrected my own claim about the consequence of a dangling chat target) ждёт ревью/приёмки; полный done_when не выполнен.",
               "Закреплено из исходников: компилятор знает только MissingDialogueEntryNode (цели выбора — нет), чат падает на загрузке, диалог — при выборе (KeyNotFoundException).",
-              "Ранее переданный частичный этап (2026-10-12 the two kernels validate different things, pinned from the sources) ждёт ревью/приёмки; полный done_when не выполнен."
+              "Ранее переданный частичный этап (2026-10-12 the two kernels validate different things, pinned from the sources) ждёт ревью/приёмки; полный done_when не выполнен.",
+              "Замыкание ассетов модулей: 33 объявлено, 33 определено, 5 бинарников на месте, 0 проблем; скан по kind давал 8 ложных «не определено» (компилятор берёт вид из ID).",
+              "Ранее переданный частичный этап (2026-10-12 module asset closure, derived the way the compiler derives it) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
             "next_action": "Трассировать bindings активной кампании; human forms; AI exact-field edits; проверить Markdown/учебные токены; preview в игре.",
             "blocker": null,
@@ -81998,6 +82006,12 @@
                 "result": "check by deepseek v4.1 flash: a duplicate content id is a hard compiler error (diagnostic DuplicateId) that stops the whole pack. THE FALSE POSITIVE I AVOIDED: a scan of every JSON in the tree reported TWO duplicates (S-BANK, S-PHOTOGRAPHER) and both are FALSE - they live in content/campaigns/urman.fullgame/photoworlds-sources/photos.spec.json, an authoring SPEC source rather than compiled content; the compiler reads only the module manifests' sourceFiles, and the compiled pack declares 893 ids with ZERO duplicates. WHAT IS CHECKED NOW: for every module manifest the compiler reads, the ids in its sourceFiles must be unique - measured NINETEEN files, ONE HUNDRED AND SEVENTY-THREE ids, ZERO duplicated. THE VACUITY GUARD: my first version walked objects only and never pushed array children, so it counted zero ids and passed; two assertions now pin the count at 173 and require that no id came from an empty file list. Verified: probe PASS 786/786; Core 0/0",
                 "source": "the probe's compiler-scope duplicate-id check; evidence evidence/STUDIO/b20-deepseek-ai-40/2026-10-12-duplicate-ids-compiler-scope",
                 "verification": "probe PASS 786/786 including the anti-vacuity pins; Core 0/0. The compiler's own verdict is the runtime-side proof and is NOT_RUN"
+              },
+              {
+                "stage": "2026-10-12 module asset closure, derived the way the compiler derives it",
+                "result": "check by deepseek v4.1 flash of the module asset closure: every asset id a module manifest declares must have a definition in that module's sourceFiles, and every non-logical asset file must exist on disk. THE FALSE POSITIVE I AVOIDED: my first scan collected records by a kind field equal to 'asset' and reported EIGHT declared assets as UNDEFINED - that was MY bug, because the compiler takes the kind from the ID (KindFromId) rather than from a kind field, so records shaped with kind 'image' but an id containing :asset/ were skipped by my filter. Collected by ID, ALL THIRTY-THREE are defined. Measured now: thirty-three declared, thirty-three defined, FIVE pointing at real binaries that all exist, ZERO problems. The check is not vacuous: it asserts the declared count is still thirty-three and that at least one asset points at a real binary. Verified: probe PASS 789/789; Core 0/0",
+                "source": "the probe's module asset closure check, mirroring ContentCompiler.KindFromId; evidence evidence/STUDIO/b20-deepseek-ai-24/2026-10-12-module-asset-closure",
+                "verification": "probe PASS 789/789 including the declared-count and real-binary assertions; Core 0/0. Seeing an image render in the game is visual acceptance and is NOT_RUN"
               }
             ],
             "stage_tasks": [
@@ -82049,7 +82063,9 @@
               "Замыкание consumer'а перемерено В ТРЕТИЙ раз: 12 новых файлов + 1 символ в RuleCatalogCoverage + патч; сборка игры на main 9a5f0a62 = 0/0.",
               "Ранее переданный частичный этап (2026-10-11 the consumer closure re-measured after my later stages) ждёт ревью/приёмки; полный done_when не выполнен.",
               "Дубликаты id проверены в РЕАЛЬНОЙ области компилятора (19 файлов, 173 id, 0 дублей); скан всего дерева давал 2 ложных срабатывания (spec-источники фото).",
-              "Ранее переданный частичный этап (2026-10-12 duplicate content ids inside the COMPILER's real scope) ждёт ревью/приёмки; полный done_when не выполнен."
+              "Ранее переданный частичный этап (2026-10-12 duplicate content ids inside the COMPILER's real scope) ждёт ревью/приёмки; полный done_when не выполнен.",
+              "Замыкание ассетов модулей: 33 объявлено, 33 определено, 5 бинарников на месте, 0 проблем; скан по kind давал 8 ложных «не определено» (компилятор берёт вид из ID).",
+              "Ранее переданный частичный этап (2026-10-12 module asset closure, derived the way the compiler derives it) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
             "next_action": "UI стартового состояния; пометка synthetic/reachable; runtime trace с occurrence ID; pause clock; шаг события; copy transform только явной командой; handoff case.",
             "blocker": null,

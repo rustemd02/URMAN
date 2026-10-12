@@ -1,0 +1,25 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-24",
+    "STUDIO/AI-40"
+  ],
+  "stage": "module asset closure, derived the way the compiler derives it",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-12 (MSK)",
+  "branch": "deepseek/b20-editor-content",
+  "base": "46d51628",
+  "why": "a module manifest declares its asset ids and its sourceFiles; if a declared asset had no definition, or a definition pointed at a binary that is not on disk, the compiler would fail the pack (or the game would show a missing image) - so the closure was checked",
+  "the_false_positive_I_avoided": "my first scan collected records by a kind field equal to 'asset' and reported EIGHT declared assets as UNDEFINED. That was MY bug: the compiler takes the kind from the ID (KindFromId) rather than from a kind field, so records shaped with kind 'image' but an id containing :asset/ were skipped by my filter. Collected by ID instead, all thirty-three are defined",
+  "measured": "thirty-three asset ids declared across the module manifests, THIRTY-THREE defined in their own sourceFiles, FIVE of them pointing at real binaries that all exist, and ZERO problems",
+  "why_not_vacuous": "the check also asserts that at least one asset points at a real binary, so it cannot pass on an empty set, and that the declared count is still thirty-three",
+  "boundary": "this covers assets under the module folders; the campaign-level photoBook facts and photos are checked by the book projection instead",
+  "verified": {
+    "probe": "PASS 789/789",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors",
+    "not_run": "no game launch: seeing an image render is visual acceptance"
+  },
+  "files": {
+    "evidence/STUDIO/b20-deepseek-ai-24/2026-10-12-module-asset-closure/check.log": "b4f324589ea50a8fff184e922d7633b5605c102be463c1e3e060ae42a58248fe"
+  }
+}

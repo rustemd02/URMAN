@@ -1,0 +1,4 @@
+== module asset closure, derived the way the compiler derives it
+
+  assets declared by manifests: 33; defined in their sourceFiles: 33; binary paths checked: 5; problems: 0
+PROBE RESULT: PASS
