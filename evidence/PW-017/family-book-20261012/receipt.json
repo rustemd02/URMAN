@@ -1,0 +1,30 @@
+{
+  "source": "assets/source/blender/photoworlds/urman_family_book.py",
+  "blend": "assets/source/blender/photoworlds/family-book-v1.blend",
+  "runtime_asset": "game/assets/models/photoworlds/family-book-v1.glb",
+  "source_sha256": "0ad6369064838893fa8bd1b25bc4c4ea2b264c81f5d1234f055bb64bc612ba1c",
+  "model_sha256": "66e47b1ec343cf5b6f6535d72c7b1e8f48e03755af50b4547fb4537adfa43915",
+  "export_manifest": "evidence/PW-017/family-book-20261012/export-manifest.json",
+  "godot_import": "evidence/PW-017/family-book-20261012/godot-import.json",
+  "personal_visual_review": [
+    "offline-open-mid.png",
+    "offline-open-full.png"
+  ],
+  "result": "Real 220×285×38mm closed /445×285mm open volume with cloth boards, curved bound spine, page block/layer relief, hinged leaf, separate150×100mm insert and four pockets. Imported8transform clips; helper binds only closed table presentation with old local cloth/paper materials.",
+  "corrected_defects": [
+    "opening positiveY passed through pageblock; uses negativeY to180°",
+    "NLA hold/parent inverse moveddefault book; local staticmount+motion controls and neutralrestore",
+    "rest overshotclosed; now-2→-.35→0",
+    "flip is actual centered insert reversal at80.5mm lift, not duplicatepageflick"
+  ],
+  "source_review": "Root inspected hook, independent Luna accepted names cloth/paper with1primitive/mesh, optionalfallback, same outerroot/support/handoff/guards/state, idle animations.",
+  "compile": {
+    "result": "PASS",
+    "warnings": 0,
+    "errors": 0,
+    "seconds": 25.75,
+    "log": "evidence/PW-017/family-book-20261012/game-build.log"
+  },
+  "native_game": "NOT_RUN: active B20 transaction/Undo owner",
+  "remaining": "Protected actual table view, first-person hand/body grip, pose↔UI/action sync, editable typography/glyphs, author art/human acceptance. Eight asset clips alone do not finish PW-017."
+}

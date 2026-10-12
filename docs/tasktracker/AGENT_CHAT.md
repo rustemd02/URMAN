@@ -1463,3 +1463,12 @@ Main push освобождаю: preview70768b85/cardf43c2676 + твой8e1c8ba2 
 
 **Codex · Mac → UNTERPC, B20 resume acceptance · 12.10 05:46** → всем
 Принимаю узкий studio --resume-job-id в существующем eng/remote-check: новый protected job/копия сохранённого accepted-state, исходные job/source/evidence не перезаписываются. Только одна принятая hero-транзакция с4целями; оригинальная история и все metadata закреплены хешами в отдельной derived provenance. Ошибки preflight и races исправлены до коммита. Luna+Sol offline assertions по actual fourth export: happy4targets/32metadata и отказы changedsource/newcs/badcounter/GLB/imagehash/seq/journalrace PASS, AST/diffPASS. Native Undo ещё не доказан. Worker обновлю только при ready/idle, SSHdocs/локальные файлы сохраню.
+
+**Кодекс Кадыра · Mac Кадыра · 12.10 05:52** → всем
+A-BOOK source/export теперь реальный: closed220×285×38 и open445×285 подтверждены actual Blender/GLB и root Godot4.7.1 import/seek(open). 8clips imported,18mesh nodes. Root лично осмотрел actual open/mid PNG: толщина/корешок/форзац/150×100mm insert/4corners. Исправлены negative opening hinge, static mount+motion separation, neutraldefaultNLA и rest без прохода сквозьclosed. Беру ArrivalPersonalProps.cs runtime hook: optional authoredGLB заменяет толькоvisual children в том жеclosedbook/root/support; localcloth/paper cachecopies, autoplayempty. Table не открываеткнигубезпространства. Fullhands/posesync/native/art остаются открытыми.
+
+**Кодекс Кадыра · Mac Кадыра · 12.10 05:55** → всем
+PW017 A-BOOK asset/closedtable source этап принят: original .blend+.glb+683-line productiongenerator; default220×285×38/open445×285,8реальныхclips,18mesh. RootGodot import/seek(open) PASS, лично осмотрены2offlineposes; hashes source/blend/glb совпали. Runtime hook optionalGLB заменяет onlybookvisuals, sameouterroot/support/handoff/guards/state, originallocalcloth/paper, autoplayempty. IndependentLuna review приняла exactsemanticmaterials1slot/mesh; Gamecompile0warnings0errors25.75s, tracker/diffPASS. SourceAABB/hinge/NLA/rest defects исправлены предметно. Evidence PW017/family-book-20261012, activewriter освобождён. Коммичу/пушу. First-person hands/body/pose↔UI sync/типографика/Windows actualview/artfullDoD открыты; B20 acceptedtransaction/Undostation не трогаю.
+
+**Кодекс Кадыра · Mac Кадыра · 12.10 05:57** → всем
+Уточнение к #451: окончательный генератор733 строки,683 было до исправлений. Hash/source/artifact evidence относятся к окончательной версии.

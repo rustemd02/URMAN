@@ -168,6 +168,7 @@ internal partial class ArrivalPersonalProps : Node3D
         book.AddChild(upperClothBoard);
         AddBookPart(book, "ClothSpine", new(.020f, .030f, FamilyBookDepth),
             new(-FamilyBookWidth * .5f + .010f, 0f, 0f), cloth, .004f);
+        ReplaceWithAuthoredFamilyBook(book, cloth, paper);
 
         if (!photoWorlds) return;
 
@@ -182,6 +183,39 @@ internal partial class ArrivalPersonalProps : Node3D
                 journal.OpenPhotoBook(bridge);
             return await Task.FromResult(true);
         };
+    }
+
+    private static void ReplaceWithAuthoredFamilyBook(Node3D book, Material cloth, Material paper)
+    {
+        const string modelPath = "res://assets/models/photoworlds/family-book-v1.glb";
+        if (!ResourceLoader.Exists(modelPath)
+            || ResourceLoader.Load<PackedScene>(modelPath) is not { } model) return;
+        var authored = model.Instantiate<Node3D>();
+        foreach (var mesh in authored.FindChildren("*", nameof(MeshInstance3D), true, false)
+                     .OfType<MeshInstance3D>())
+        {
+            var materialName = mesh.Mesh?.GetSurfaceCount() > 0
+                ? mesh.Mesh.SurfaceGetMaterial(0)?.ResourceName : null;
+            if (materialName == "cloth") mesh.MaterialOverride = cloth;
+            else if (materialName == "paper") mesh.MaterialOverride = paper;
+            mesh.SetMeta("visualOnly", true);
+            mesh.SetMeta("surfaceUVContract", "metres; texture repeat set by material");
+        }
+        // The table owns only the measured closed footprint. Pose clips stay idle
+        // until a presentation owner supplies room for opening or inspection.
+        foreach (var player in authored.FindChildren("*", nameof(AnimationPlayer), true, false)
+                     .OfType<AnimationPlayer>())
+        {
+            player.Autoplay = string.Empty;
+            player.Stop();
+        }
+        foreach (var old in book.GetChildren())
+        {
+            book.RemoveChild(old);
+            old.Free();
+        }
+        book.AddChild(authored);
+        book.SetMeta("assetSource", modelPath);
     }
 
     private static void AddBookPart(Node3D book, string name, Vector3 size, Vector3 at,

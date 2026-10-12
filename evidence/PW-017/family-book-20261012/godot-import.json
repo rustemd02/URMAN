@@ -1,0 +1,26 @@
+{
+  "append_result": 0,
+  "clips": [
+    "open",
+    "close",
+    "turn",
+    "mount",
+    "inspect",
+    "flip",
+    "rest",
+    "return"
+  ],
+  "default_size": [
+    0.219999998807907,
+    0.0380000025033951,
+    0.284999996423721
+  ],
+  "engine": "4.7.1-stable (official)",
+  "mesh_nodes": 18,
+  "native_game": "NOT_RUN",
+  "open_size": [
+    0.444999992847443,
+    0.0380000323057175,
+    0.284999996423721
+  ]
+}
