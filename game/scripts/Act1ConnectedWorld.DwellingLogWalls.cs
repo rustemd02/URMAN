@@ -36,6 +36,8 @@ public partial class Act1ConnectedWorld
         var pieces = 0;
         var ownerless = 0;
         var footed = 0;
+        var meshesByOwner = new Dictionary<Node3D, MeshInstance3D[]>();
+        var ownersRequiringLiveMeshes = new HashSet<Node3D>();
         foreach (var wall in FindDescendants<MeshInstance3D>(root).ToArray())
         {
             var name = wall.Name.ToString();
@@ -66,7 +68,43 @@ public partial class Act1ConnectedWorld
             // in their own node, so the direct parent alone does not know where "inside" is.
             var owner = DwellingOwner(wall);
             if (owner is null) { ownerless++; owner = parent; }
-            var houseParts = owner.FindChildren("*", nameof(MeshInstance3D), true, false).OfType<MeshInstance3D>().ToArray();
+            MeshInstance3D[] houseParts;
+            if (ownersRequiringLiveMeshes.Contains(owner))
+            {
+                houseParts = owner.FindChildren("*", nameof(MeshInstance3D), true, false).OfType<MeshInstance3D>().ToArray();
+            }
+            else if (meshesByOwner.TryGetValue(owner, out var cachedParts))
+            {
+                houseParts = cachedParts;
+            }
+            else
+            {
+                houseParts = owner.FindChildren("*", nameof(MeshInstance3D), true, false).OfType<MeshInstance3D>().ToArray();
+                // Custom asset names can make newly added crowns match later selectors.
+                var snapshotSafe = true;
+                foreach (var part in houseParts)
+                {
+                    var sourceName = part.Name.ToString();
+                    if (!sourceName.Contains("_Wall_LOD0", StringComparison.Ordinal)) continue;
+                    var crownName = sourceName.Replace("_Wall_LOD0", "_LogCrown");
+                    if (crownName.Contains("_Wall_LOD0", StringComparison.Ordinal)
+                        || crownName.Contains("_Foundation_LOD0", StringComparison.Ordinal)
+                        || crownName.Contains("_FootingCap_LOD0", StringComparison.Ordinal)
+                        || crownName.Contains("Recess", StringComparison.Ordinal)
+                        || crownName.Contains("_Glass", StringComparison.Ordinal)
+                        || crownName.Contains("_Leaf", StringComparison.Ordinal)
+                        || crownName.Contains("Log_", StringComparison.Ordinal)
+                        || crownName.Contains("_Corner_", StringComparison.Ordinal))
+                    {
+                        snapshotSafe = false;
+                        break;
+                    }
+                }
+                if (snapshotSafe)
+                    meshesByOwner.Add(owner, houseParts);
+                else
+                    ownersRequiringLiveMeshes.Add(owner);
+            }
             var dwelling = houseParts
                 .Where(m => m.Name.ToString().Contains("_Wall_LOD0", StringComparison.Ordinal))
                 .Select(m => m.GlobalTransform * m.GetAabb().GetCenter()).ToArray();

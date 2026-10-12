@@ -79495,6 +79495,12 @@
                 "source_revision": "93f68154",
                 "source": "evidence/STUDIO/practical-editor-2026-10-12/windows-map-optimized-close; evidence/STUDIO/practical-editor-2026-10-12/windows-map-optimized-live/map-ready.png",
                 "actual_result": "Root actual Skip/Load, viewed village, normal X close. Map181992ms vs196222ms (-14.230s); foliage70.225 vs77.377, addresses4.702 vs12.421; authored59.061. Same6037trees/18238LODmeshinstances and exactfoliageLODdiagnosticcounts bothlogs, no visual thinning. Process0, guardoriginalfilesrestoredverified, doctorready/busynull/orphanfalse/recoveryfalse. Zero Leakedinstance/ResourceStillInUse/RID/PagedAllocator/unfreedshader errors: actual detachedAnimationCatalog ownerfixed. WrapperFAIL preserved: single startupVulkanLoader GOGGalaxydeprecatedlayerJSON ERROR. No fullwrapperPASS/noviceacceptance claimed. Russianresolver9c84a4af postdates snapshot, sourceverifiedonly."
+              },
+              {
+                "stage": "2026-10-12 guarded dwelling subtree reuse",
+                "result": "SOURCE_GAME_COMPILE_REVIEW_PASS_NATIVE_UNMEASURED",
+                "source": "game/scripts/Act1ConnectedWorld.DwellingLogWalls.cs",
+                "verification": "Luna local-per-call owner mesh cache; independentSol rejected unguarded version for custom names. Final guard derives generated crown names for all nested potential walls and retains original rescans if any consumed selector might match. Safe owners reuse live node refs (mesh/visibility/meta unchanged). Sol finalreviewaccepted, Gamecompile0/0,14.17s andscopeddiffcheckPASS. No tests/probes/stationrun; no incremental speedup claimed. Prior181992ms/cleanresourceclose receipt remains acceptedbaseline."
               }
             ],
             "stage_tasks": [
@@ -79522,7 +79528,7 @@
             "active_owner": "codex/b20-2026-10-10",
             "activity": {
               "state": "confirmed_active",
-              "reason": "После принятых fastforms/checkpoints следующий конечный UI-остаток: трехминутнаяготовность 3D map. Existingprofile stage refinement и verbose closeowner diagnostic готовятся; неclaim скорость/новичка."
+              "reason": "Принятый runtime181992ms иcleanresourceclose сохранён. Следующий guardedowner scan sourceэтап принятcompile/review; native ещёнемерили. Практическая готовность/новичокостаютсяоткрыты, Send отдельноAI38."
             },
             "task_type": "engineering",
             "status": "in_progress",
@@ -79531,7 +79537,7 @@
             "remaining": [
               "Новичок выполняет основные действия через интерфейс и подсказки без знания файлов.; отсутствует подтверждение собственного конечного DoD, перечисленного ниже."
             ],
-            "next_action": "Продолжить сокращение подтверждённого authored59s/foliage70s без урезания мира; новый источник текста9c84a4af проверить при следующем предметном native UI этапе. Принятый loadedclose на93f повторно не запускать без изменённых входов.",
+            "next_action": "При следующем предметном nativeэтапе проверить Russian refresh9c84a4af и guardedDwellingLogWalls; не повторять принятый loadedclose безchangedinput. Следующая разработкаCodex — отсутствующий explicit curatedSend AI38, без автопубликациинаSave.",
             "blocker": null,
             "external_gates": [
               {
