@@ -2206,6 +2206,17 @@ def author_rural_dwelling(parent, width=6.2, depth=6.0, eave=2.9, ridge=4.65,
     Openings belong to the wall topology,
     so dark reveals are real depth rather than panels pasted onto a solid box.
     """
+    nonhero_window_widths = {}
+    if not hero_layout and parent.name != DWELLING_ROOT and window_widths is not None:
+        parcel_window_ids = {*(f"Front{i}" for i in range(3)), *(f"Rear{i}" for i in range(2)),
+                             *(f"Left{i}" for i in range(2)), "Right0", "SeniOuter0"}
+        if not isinstance(window_widths, dict) or any(window_id not in parcel_window_ids
+                                                       for window_id in window_widths):
+            raise ValueError("Nonhero windowWidths must use known parcel window IDs")
+        if any(isinstance(value, bool) or not isinstance(value, (int, float)) or not math.isfinite(value)
+               or not 0.65 <= value <= 1.35 for value in window_widths.values()):
+            raise ValueError("Nonhero windowWidths values must be finite numbers within 0.65..1.35 metres")
+        nonhero_window_widths = window_widths
     for child in reversed(list(parent.children_recursive)):
         mesh = child.data if child.type == "MESH" else None
         bpy.data.objects.remove(child, do_unlink=True)
@@ -2404,7 +2415,9 @@ def author_rural_dwelling(parent, width=6.2, depth=6.0, eave=2.9, ridge=4.65,
             elif kind == "Door":
                 local_box(tag+"_Handle", x+w*.30, .08, z, .045, .07, .16, "URMAN_Metal_Dulled")
 
-    street_windows = [(x-.48, x+.48, .93, 2.38, "Window") for x in (-width*.29, 0, width*.29)]
+    street_windows = [(x-clear_width/2, x+clear_width/2, .93, 2.38, "Window")
+                      for index, x in enumerate((-width*.29, 0, width*.29))
+                      for clear_width in [nonhero_window_widths.get(f"Front{index}", .96)]]
     if parent.name == DWELLING_ROOT:
         # Preserve the independently owned Babai doorway's original opening.
         street_windows = [(-2.07,-.77,.30,2.55,"Portal"),
@@ -2519,11 +2532,20 @@ def author_rural_dwelling(parent, width=6.2, depth=6.0, eave=2.9, ridge=4.65,
                     hewn_log(f"CornerEnd{sx}_{sy}_Log{course:02d}", center, HERO_LOG_END_LENGTH,
                              log_thickness, z1 - z0, HERO_LOG_MATERIAL, axis=axis)
     else:
-        wall("Rear", (0,back), (-1,0), width, [(-1.45,-.49,.95,2.38,"Window"),(.49,1.45,.95,2.38,"Window")])
+        rear_holes = [(center-clear_width/2, center+clear_width/2, .95, 2.38, "Window")
+                      for index, center in enumerate((-.97, .97))
+                      for clear_width in [nonhero_window_widths.get(f"Rear{index}", .96)]]
+        left_holes = [(center-clear_width/2, center+clear_width/2, .94, 2.38, "Window")
+                      for index, center in enumerate((-1.15, 1.15))
+                      for clear_width in [nonhero_window_widths.get(f"Left{index}", 1.0)]]
+        right_width = nonhero_window_widths.get("Right0", 1.0)
+        right_holes = [(-depth/2+1.3-right_width/2, -depth/2+1.3+right_width/2,
+                        .94, 2.38, "Window")]
+        wall("Rear", (0,back), (-1,0), width, rear_holes)
         wall("Left", (-half,(front+back)/2), (0,-1), depth,
-             [(-1.65,-.65,.94,2.38,"Window"),(.65,1.65,.94,2.38,"Window")])
+             left_holes)
         wall("Right", (half,(front+back)/2), (0,1), depth,
-             [(-depth/2+.80,-depth/2+1.80,.94,2.38,"Window")])
+             right_holes)
     if hero_layout:
         # The occupied room has its own timber floor. A full stone cap at
         # floor+55mm covered it with an exterior snow material. Keep both

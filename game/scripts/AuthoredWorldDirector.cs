@@ -22,6 +22,7 @@ public partial class AuthoredWorldDirector : Node3D
 
     public const string WorldDirectory = "res://content/world";
     public const string CatalogPath = "res://content/world/catalog.v1.json";
+    private const string HouseVariantModelPathPrefix = "res://assets/models/studio/house-variant-";
 
     /// <summary>Test-only: world plots from a disposable Studio workspace instead of res://content/world.</summary>
     internal static string? WorldDirectoryOverrideForTest { get; set; }
@@ -150,9 +151,11 @@ public partial class AuthoredWorldDirector : Node3D
     {
         using var document = JsonDocument.Parse(entityJson);
         var entity = document.RootElement.Clone();
-        PreviewRemove(entity.GetProperty("id").GetString()!);
+        var id = entity.GetProperty("id").GetString()!;
+        PreviewRemove(id);
         BuildObject(entity);
-        _objects[entity.GetProperty("id").GetString()!].AppliedState = null;
+        if (!_objects.TryGetValue(id, out var item)) return;
+        item.AppliedState = null;
         ApplyStates();
     }
 
@@ -172,6 +175,8 @@ public partial class AuthoredWorldDirector : Node3D
         var id = entity.GetProperty("id").GetString()!;
         var kind = entity.GetProperty("kind").GetString()!;
         var parameters = entity.GetProperty("params");
+        string? modelPathOverride = null;
+        if (kind == "prop" && !TryReadHouseVariantModelPath(parameters, id, out modelPathOverride)) return;
         var position = ReadVector(parameters, "position");
         var yaw = parameters.TryGetProperty("yawDegrees", out var yawValue) ? yawValue.GetSingle() : 0f;
         var root = new Node3D { Name = SafeName(id), Position = Ground(position), RotationDegrees = new Vector3(0, yaw, 0) };
@@ -181,7 +186,13 @@ public partial class AuthoredWorldDirector : Node3D
         switch (kind)
         {
             case "prop":
-                BuildVisual(item, parameters.GetProperty("catalogId").GetString()!, parameters.TryGetProperty("scale", out var scale) ? scale.GetSingle() : 1f);
+                if (!BuildVisual(item, parameters.GetProperty("catalogId").GetString()!, parameters.TryGetProperty("scale", out var scale) ? scale.GetSingle() : 1f, modelPathOverride)
+                    && modelPathOverride is not null)
+                {
+                    root.QueueFree();
+                    return;
+                }
+
                 if (!parameters.TryGetProperty("collision", out var collision) || collision.GetString() != "none")
                 {
                     BuildCollision(item);
@@ -220,17 +231,30 @@ public partial class AuthoredWorldDirector : Node3D
         _objects[id] = item;
     }
 
-    private void BuildVisual(AuthoredObject item, string catalogId, float scale)
+    private bool BuildVisual(AuthoredObject item, string catalogId, float scale, string? modelPathOverride = null)
     {
         if (!_catalog.TryGetValue(catalogId, out var entry))
         {
             GD.PushError($"authored-world: {item.Id} uses unknown catalogue entry {catalogId}.");
-            return;
+            return false;
         }
 
         var source = entry.GetProperty("source");
-        var scenePath = source.GetProperty("scene").GetString()!;
         var wholeSource = source.TryGetProperty("whole", out var whole) && whole.GetBoolean();
+        if (modelPathOverride is not null)
+        {
+            var hasNode = source.TryGetProperty("node", out var node);
+            var hasPrefix = source.TryGetProperty("prefix", out var prefix);
+            if (wholeSource || (hasNode
+                    ? node.ValueKind != JsonValueKind.String || string.IsNullOrWhiteSpace(node.GetString())
+                    : !hasPrefix || prefix.ValueKind != JsonValueKind.String || string.IsNullOrWhiteSpace(prefix.GetString())))
+            {
+                GD.PushError($"authored-world: {item.Id} cannot use a house model override because catalogue entry {catalogId} has no compatible component selector.");
+                return false;
+            }
+        }
+
+        var scenePath = modelPathOverride ?? source.GetProperty("scene").GetString()!;
         var templateKey = (scenePath, catalogId);
         if (!wholeSource && scenePath.EndsWith(".glb", StringComparison.OrdinalIgnoreCase)
             && _visualTemplates.TryGetValue(templateKey, out var cachedTemplate))
@@ -244,7 +268,7 @@ public partial class AuthoredWorldDirector : Node3D
                 cachedHolder.Position = -ReadVector(entry, "origin") * scale;
                 item.Root.AddChild(cachedHolder);
                 item.Root.SetMeta("catalogId", catalogId);
-                return;
+                return true;
             }
 
             // A corrupt/obsolete template must not prevent the original source
@@ -259,10 +283,19 @@ public partial class AuthoredWorldDirector : Node3D
         {
             if (!_scenes.TryGetValue(scenePath, out var packed))
             {
-                _scenes[scenePath] = packed = ResourceLoader.Load<PackedScene>(scenePath);
+                packed = ResourceLoader.Load<PackedScene>(scenePath);
+                if (packed is not null) _scenes[scenePath] = packed;
             }
 
-            instance = packed.Instantiate<Node3D>();
+            var sceneInstance = packed?.Instantiate();
+            if (sceneInstance is not Node3D visualInstance)
+            {
+                sceneInstance?.Free();
+                GD.PushError($"authored-world: {item.Id} model {scenePath} could not be loaded as a 3D scene.");
+                return false;
+            }
+
+            instance = visualInstance;
             importedPackedScene = true;
         }
         else
@@ -275,7 +308,7 @@ public partial class AuthoredWorldDirector : Node3D
             if (error != Error.Ok || document.GenerateScene(state) is not Node3D generated)
             {
                 GD.PushError($"authored-world: {item.Id} model {scenePath} could not be read ({error}).");
-                return;
+                return false;
             }
 
             instance = generated;
@@ -287,7 +320,7 @@ public partial class AuthoredWorldDirector : Node3D
             wholeHolder.AddChild(instance);
             item.Root.AddChild(wholeHolder);
             item.Root.SetMeta("catalogId", catalogId);
-            return;
+            return true;
         }
 
         var top = instance.GetChildCount() == 1 && instance.GetChild(0) is Node3D only && only.GetChildCount() > 1 ? only : instance;
@@ -312,6 +345,14 @@ public partial class AuthoredWorldDirector : Node3D
             top.RemoveChild(child);
             holder.AddChild(child);
             child.Transform = transform;
+        }
+
+        if (modelPathOverride is not null && holder.GetChildCount() == 0)
+        {
+            GD.PushError($"authored-world: {item.Id} model override {scenePath} does not contain the catalogue-selected component.");
+            holder.Free();
+            instance.Free();
+            return false;
         }
 
         if (importedPackedScene && scenePath.EndsWith(".glb", StringComparison.OrdinalIgnoreCase)
@@ -339,6 +380,50 @@ public partial class AuthoredWorldDirector : Node3D
         holder.Position = -origin * scale;
         item.Root.AddChild(holder);
         item.Root.SetMeta("catalogId", catalogId);
+        return true;
+    }
+
+    private static bool TryReadHouseVariantModelPath(JsonElement parameters, string entityId, out string? modelPath)
+    {
+        modelPath = null;
+        if (!parameters.TryGetProperty("modelPath", out var value)) return true;
+        if (value.ValueKind != JsonValueKind.String)
+        {
+            GD.PushError($"authored-world: {entityId} modelPath must be a private generated house-variant GLB path.");
+            return false;
+        }
+
+        var path = value.GetString()!;
+        if (!IsHouseVariantModelPath(path))
+        {
+            GD.PushError($"authored-world: {entityId} modelPath must match {HouseVariantModelPathPrefix}<32 lowercase hex characters>.glb.");
+            return false;
+        }
+
+        if (!ResourceLoader.Exists(path) && !global::Godot.FileAccess.FileExists(path))
+        {
+            GD.PushError($"authored-world: {entityId} modelPath refers to a missing generated house model.");
+            return false;
+        }
+
+        modelPath = path;
+        return true;
+    }
+
+    private static bool IsHouseVariantModelPath(string path)
+    {
+        const string suffix = ".glb";
+        if (path.Length != HouseVariantModelPathPrefix.Length + 32 + suffix.Length
+            || !path.StartsWith(HouseVariantModelPathPrefix, StringComparison.Ordinal)
+            || !path.EndsWith(suffix, StringComparison.Ordinal)) return false;
+
+        for (var index = HouseVariantModelPathPrefix.Length; index < HouseVariantModelPathPrefix.Length + 32; index++)
+        {
+            var character = path[index];
+            if (!((character >= '0' && character <= '9') || (character >= 'a' && character <= 'f'))) return false;
+        }
+
+        return true;
     }
 
     private static bool IsCacheableGlbSubtree(Node root)

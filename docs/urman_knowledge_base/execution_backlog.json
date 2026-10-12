@@ -4840,7 +4840,7 @@
             "active_owner": null,
             "activity": {
               "state": "released",
-              "reason": "Проверенный source/import этап принят; target native view ждёт освобождения B20, повторный compile не нужен."
+              "reason": "Source/import принят ранее; exact camera/phase recipe подготовлена. Native в очереди peer VEHICLE → B20 restart → S05. Активный runtime claim освобождён до явного release; назначение сохранено."
             },
             "task_type": "engineering",
             "status": "in_progress",
@@ -4850,7 +4850,7 @@
               "Осмотреть actual PoliceParking/ParkingHardstanding на Windows: локальность S05 у колёс, контраст/повторы и сохранность снегового response при смене атмосферы; художественная приёмка открыта.",
               "Остальные S05 потребители не объявлены подключёнными; динамические wheel/foot marks этого visual box не заявлены."
             ],
-            "next_action": "После явного release станции принять один целевой Windows-вид existing PoliceParking под DistrictZhiguli; затем решать только наблюдаемый дефект.",
+            "next_action": "После release peer VEHICLE и B20 restart снять целевой native PoliceParking/ParkingHardstanding; лично оценить локальность S05, повторы и снеговой отклик в двух существующих погодных фазах.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -4893,7 +4893,7 @@
               ],
               "verification": {
                 "method": "targeted_runtime_scenario",
-                "question": "Подключить S05 — Смерзшийся грязный снег",
+                "question": "S05 на actual PoliceParking/ParkingHardstanding под DistrictZhiguli локален у колёс, читается как смерзшийся снег без крупного тайлинга/грязевого ковра и сохраняет снеговой отклик при смене существующей атмосферы?",
                 "scenario": {
                   "targets": [
                     "game/assets/textures/painterly/README.md",
@@ -4931,7 +4931,17 @@
               "verification": [],
               "acceptance": []
             },
-            "depends_on": []
+            "depends_on": [],
+            "progress_2026_10_12_b02": {
+              "authority": "Прямое поручение автора текущему чату: выполнять B02 с Luna 6 Max; create_goal active.",
+              "result": "Source/import evidence и текущий work_contract прочитаны. Свежий doctor python3.12 ready=true, busy=null, orphan=false, recovery=false; чужая reservation сохранена. Native S05 ещё не выполнен.",
+              "scope": [
+                "ACT1-TEXTURE.02/E03",
+                "existing PoliceParking/ParkingHardstanding only"
+              ],
+              "verification": "Existing targeted station capture; repeat compile/import только при изменённом consumer/input.",
+              "next_action": "После release peer VEHICLE и B20 restart снять целевой native PoliceParking/ParkingHardstanding; лично оценить локальность S05, повторы и снеговой отклик в двух существующих погодных фазах."
+            }
           },
           {
             "id": "ACT1-TEXTURE.02/E04",
@@ -75752,6 +75762,17 @@
                 ],
                 "actual_result": "Luna read actual world sources: 85 active houses across three source files; only one HeroHouse_TimberPlaster entity supported by current recipe/staging/validator. Other84 active houses use A/B/C/facade families;39 retired kit entries excluded. Existing dispatch maps catalogId to node from shared exterior kit, while staged recipe takeover is exact one entity.",
                 "remaining": "Literal all-house editing not implemented. Extend typed frozen scope, generators for actual families, placement hookup, preview validation and one reversible write set; cannot implement by relabeling eight-window single-house scope."
+              },
+              {
+                "date": "2026-10-13",
+                "kind": "source-progress",
+                "source": [
+                  "assets/source/blender/act1/urman_village_exterior_kit.py",
+                  "game/scripts/AuthoredWorldDirector.cs"
+                ],
+                "result": "Nonhero author_rural_dwelling consumes Front0–2/Rear0–1/Left0–1/Right0 width overrides (existing SeniOuter0), rejects unknown IDs/nonfinite/bool/out-of-envelope widths before mutation; default centers/heights/widths and special hero/DWELLING_ROOT behavior retained. Ordinary generic props accept private params.modelPath res://assets/models/studio/house-variant-<32 lowercasehex>.glb, retaining catalog/component/origin/axis/stable placement and effectivepath cache. Reject missing assets/incompatible selectors; no empty/collision-only override registration. PreviewUpsert guards rejected construction; wrongtype imports freed.",
+                "verification": "Final affected Game compile 0 errors/0 warnings14.96s; generator AST and scoped diff-check PASS. Two Luna implementations and independent Sol6.1medium review (missing-object reject bug fixed; final source accepted).",
+                "limits": "No family component-only staging/export, generic frozen multiscope/proposal consumer, or UI wiring/native A02/A05 yet. Not all-house editing completion; current HeroHouse wire/artifacts unchanged."
               }
             ],
             "stage_tasks": [
@@ -75776,9 +75797,8 @@
             },
             "active_owner": null,
             "activity": {
-              "state": "runtime_deferred_by_author",
-              "reason": "Mandatory current single-house scope confirmation implemented in source; native interaction and mass scope remain open.",
-              "verification_question": "Do Ask/Copy/Save all require compact exact-snapshot scope approval with fresh sources beforeaction and no recapture, while cancel/hide/exit releases pending and sends/writes nothing? Game compile/source review only."
+              "state": "source_slice_delivered",
+              "reason": "AI14 generator/runtime seams verified; next finite family stage/protocol/UI required, assignment preserved. Source engineering evidence not native multi-house acceptance."
             },
             "task_type": "engineering",
             "status": "in_progress",
@@ -75790,7 +75810,7 @@
               "Native A02/A05 with multiple houses, exclusion and new object after submit remains unverified.",
               "Native single-house mandatory confirmation walkthrough including cancel/hide/exit/changed sources and direct/manual policy; source compile is not rendered UX proof."
             ],
-            "next_action": "Implement versioned multi-entity request/proposal and concrete operation consumer, reuse WorldSection.Group/Workspace identity; preserve exact v2 artifacts. Native scope confirmation and full A02/A05 once runtime pause lifted.",
+            "next_action": "Добавить bounded family component-only stage/export с catalog selector/origin preserved, затем generic frozen multi-entity protocol/consumer/UI; существующий HeroHouse v2 сохранить. Native A02/A05 после UI.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -96553,20 +96573,21 @@
             "result": "Согласовать зимний внешний свет/видимость/частицы с действующим профилем деревни",
             "owner": "unassigned",
             "evidence": [],
-            "assigned_owner": "unassigned",
-            "active_owner": null,
+            "assigned_owner": "codex/b02-2026-10-13",
+            "active_owner": "luna6max/b02_reference_review",
             "activity": {
-              "state": "not_active",
-              "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+              "state": "confirmed_active",
+              "reason": "Реальный native субагент luna_fast (GPT-6 Luna / Max) реализует шесть параметров existing village-winter-crisp по прямому B02 поручению автора. Root лично прочитал и осмотрел exact P1/текущий normal-day кадр. Общий JSON пишет только root."
             },
             "task_type": "engineering",
-            "status": "todo",
+            "status": "in_progress",
             "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
-              "Согласовать зимний внешний свет/видимость/частицы с действующим профилем деревни; собственного целевого receipt пока нет."
+              "Actual Windows сравнение нового crisp профиля с сохранённым C1_street_high baseline: warm-key/cool-fill, ясный воздух и минимум три плана, читаемый белый снег/лицо/тёмный фасад; без пересвета и одинакового цветного фильтра.",
+              "Сохранность существующих snowfall/blizzard/ночных состояний и nearby walk-in indoor grade; художественная приёмка остаётся у внешнего гейта родителя."
             ],
-            "next_action": "Сопоставить текущий результат: Согласовать зимний внешний свет/видимость/частицы с действующим профилем деревни. Затем изменить только установленный остаток.",
+            "next_action": "Принять source-кандидат одного crisp профиля, затем после station release сравнить matched C1 High/FOV70, S05 снег и соседний walk-in интерьер; оценить движение существующим допустимым маршрутом.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -96575,9 +96596,21 @@
               "targets": [
                 "game/scripts/Act1ConnectedWorld.cs",
                 "game/scripts/AmbientAudioDirector.cs",
-                "game/scenes/act1_demo.tscn"
+                "game/scenes/act1_demo.tscn",
+                "game/content/world/atmosphere.v1.json"
               ],
-              "required_inputs": [],
+              "required_inputs": [
+                {
+                  "artifact": "Exact author-selected P1 painterly surface/color-value organization; no copying setting/palette",
+                  "path": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/references/P1_user_selected_painterly.png",
+                  "availability": "available"
+                },
+                {
+                  "artifact": "Protected native normal-day crisp C1 baseline High/FOV70; no blizzard",
+                  "path": "evidence/ACT1-VILLAGE-COMPOSITION/yard-cleanup-2026-10-10/final/frames/C1_street_high.png",
+                  "availability": "available"
+                }
+              ],
               "scope_in": [
                 "Согласовать зимний внешний свет/видимость/частицы с действующим профилем деревни"
               ],
@@ -96595,7 +96628,7 @@
               ],
               "verification": {
                 "method": "targeted_runtime_scenario",
-                "question": "Согласовать зимний внешний свет/видимость/частицы с действующим профилем деревни",
+                "question": "На том же ordinary village-winter-crisp High/FOV70 читаются выразительные тёплый прямой свет/холодные тени и три пространственных плана без серого sky-fog veil, пересвета снега и утечки состояния в соседний интерьер?",
                 "scenario": "Документы: конкретные ссылки/JSON/diff. При реализации — существующая узкая проверка изменённого пути и защищённый обычный запуск с проходом/поворотами; человеческий интерес не выводить из PASS.",
                 "success": "Наблюдаемый результат этой единицы и обратное действие/восстановление там, где меняются данные. Для ассета — импорт выбранного файла и целевой вид/движение; для кода — узкая компиляция только затронутого модуля, затем указанный пользовательский сценарий. Компиляция не доказывает изображение или GUI.",
                 "repeat_only_if": "Изменился покрываемый вход/consumer/контракт; без этого уже принятая проверка используется повторно без запуска."
@@ -96608,7 +96641,15 @@
               "verification": [],
               "acceptance": []
             },
-            "depends_on": []
+            "depends_on": [],
+            "progress_2026_10_13_b02": {
+              "authority": "Прямое поручение автора текущему чату выполнять B02 с Luna 6 Max; create_goal active.",
+              "baseline": "Root лично просмотрел exact P1 (manifest SHA совпал) и actual C1_street_high; metadata winter-crisp/no blizzard, fog .0055, High/FOV70. Наблюдаемый остаток: слабые warm/cool массы, серый воздух/небо.",
+              "source_scope": "Только шесть параметров existing village-winter-crisp: ambient.color/sun.color/fog.color/density/aerialPerspective/skyAffect. Ни нового профиля/owner, ни C#/shader/geometry/weather-budget/selector/ночных состояний.",
+              "result": "Luna source-кандидат выполняется; runtime/авторская приёмка ещё не выполнены.",
+              "verification": "Existing station matched C1+S05/adjacent walk-in view после peer reservations; source JSON parse/semantic diff и scoped diff-check. Новых тестов/probes нет.",
+              "next_action": "Принять source-кандидат одного crisp профиля, затем после station release сравнить matched C1 High/FOV70, S05 снег и соседний walk-in интерьер; оценить движение существующим допустимым маршрутом."
+            }
           },
           {
             "id": "ACT1-ATMOSPHERE/E02",
