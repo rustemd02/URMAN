@@ -106,12 +106,12 @@ public static class AgentBAct1HeightField
     }
 
     /// <summary>
-    /// Local packed parking support for the default Niva. Its core contains every
-    /// vertex of the current jittered terrain triangles that intersect the unchanged
-    /// vehicle footprint; the short feather settles back into the authored field.
-    /// Recalculate these bounds if the terrain grid or its deterministic jitter changes.
+    /// A bounded level support in the generated terrain. Its core contains every
+    /// vertex of the current jittered terrain triangles that intersect the authored
+    /// support footprint; the short feather settles back into the authored field.
+    /// Recalculate bounds if the terrain grid or its deterministic jitter changes.
     /// </summary>
-    private sealed class NivaParkingSupport(float minX, float maxX, float minZ, float maxZ, float feather)
+    private sealed class FlatTerrainSupport(float minX, float maxX, float minZ, float maxZ, float feather)
     {
         public readonly float MinX = minX, MaxX = maxX, MinZ = minZ, MaxZ = maxZ, Feather = feather;
         public double Target = double.NaN;
@@ -134,9 +134,19 @@ public static class AgentBAct1HeightField
     // current 2 m terrain grid and deterministic vertex jitter, 14 intersecting
     // triangles have vertices within this outward-rounded flat core. The bounds
     // explicitly describe today's jittered terrain, not every possible future grid.
-    private static readonly NivaParkingSupport NivaParking = new(-4.07f, 2.31f, 13.84f, 19.96f, 1.2f);
+    private static readonly FlatTerrainSupport NivaParking = new(-4.07f, 2.31f, 13.84f, 19.96f, 1.2f);
     private const float NivaParkingAnchorX = -1.3f;
     private const float NivaParkingAnchorZ = 17f;
+
+    // Current authored horse-cart start at (0.9, -34), yaw 0; target is
+    // FieldSurface(.9, -34, withLaneRelief:false) ~= -0.2521178 m. The bounds
+    // cover all 136 current-slope and flat-basis samples: four wheel contacts,
+    // four sole centres, and 16 outline probes on each of the four complete soles.
+    // Those samples touch six triangles and nine deterministic jittered vertices;
+    // bounds are rounded outward for the current mesh.
+    private static readonly FlatTerrainSupport HorseCartParking = new(-1.68f, 2.34f, -37.72f, -29.75f, 1.2f);
+    private const float HorseCartParkingAnchorX = .9f;
+    private const float HorseCartParkingAnchorZ = -34f;
 
     private static readonly HouseholdPad[] HouseholdPads = LoadHouseholdPads();
     private static HouseholdPad[] LoadHouseholdPads()
@@ -653,6 +663,14 @@ public static class AgentBAct1HeightField
                 NivaParking.Target = FieldSurface(NivaParkingAnchorX, NivaParkingAnchorZ, withLaneRelief: false);
             var blend = 1f - Mathf.SmoothStep(0f, NivaParking.Feather, parkingOutside);
             height += (NivaParking.Target - height) * blend;
+        }
+        var cartOutside = HorseCartParking.Outside(x, z);
+        if (cartOutside < HorseCartParking.Feather)
+        {
+            if (double.IsNaN(HorseCartParking.Target))
+                HorseCartParking.Target = FieldSurface(HorseCartParkingAnchorX, HorseCartParkingAnchorZ, withLaneRelief: false);
+            var blend = 1f - Mathf.SmoothStep(0f, HorseCartParking.Feather, cartOutside);
+            height += (HorseCartParking.Target - height) * blend;
         }
         return height;
     }
