@@ -70435,6 +70435,16 @@
                 "actual_result": "Windows editor forms available without map construction; native dialog/transport opened; normal closePASS/exit0 without renderer errors. First text prompt exposed disabled Ask because TextChanged returned before UpdateControls on null request: fixed; panel scroll/clamp and tour load-map instruction updated.",
                 "verification": "Native UI personally viewed. Affected Game compile0warnings/0errors and diffcheck after prompt fix. Source vehicle SHA remainedbaseline0d5112ad64ef4aa1183078b2aea19f81201ed85ba62ad26bc838f50c6f13b48f; no vehicle save claim.",
                 "remaining": "Actual text request→preview→Apply→Undo and vehicle Save/Undo are next walkthrough; loaded-map exit leaks still separate."
+              },
+              {
+                "stage": "2026-10-12 real Codex text and transport Save/Undo",
+                "result": "NATIVE_FUNCTIONAL_PASS_EXIT0",
+                "evidence_path": "evidence/STUDIO/practical-editor-2026-10-12/windows-text-vehicle/receipt.json",
+                "job_id": "da62b6e9506a463da50ae0409fffc50f",
+                "snapshot_id": "ef303fad663ad1229f49cc70c519be45236e071589dfd53f24622bcf860927c4",
+                "actual_result": "Actual Codex returned localized text proposal; Apply visibly changed dialogue, one native Undo restored original wording and clean workspace. Transport forward speed7→8 saved actualJSON, then native Undo byte-restored baseline7 without3D load. Vehicle tx19a1efc871784d96b8b9383357363c2a committed/accepted sidebefore order1; restoredSHA0d5112ad64ef4aa1183078b2aea19f81201ed85ba62ad26bc838f50c6f13b48f, savedSHA41018b984846a879df3850de3a9145ef054a4267f8dea8ccc0b18bf7f3091cf5. Normal manual closePASS/exit0, doctorreadytrue.",
+                "verification": "Root personally viewed proposal/Apply/Undo. Hash checked via SSH and exported currentJSON; existing engine error detectionfoundnone. Current Core prompt wording update compile0/0; world empty-state contrast sourceinspection/diffcheck only.",
+                "remaining": "Model ignored exact debug-marker instruction and reworded text: protocol now explicitly tells follow request.prompt/preserve other wording; this prompt change inference not rerun. Vehicle runtime driving/fullgame launch not partofthis form walkthrough; loaded3D still~195s and has prior exitresourceerrors."
               }
             ],
             "stage_tasks": [
@@ -74227,6 +74237,16 @@
                 "actual_result": "Windows editor forms available without map construction; native dialog/transport opened; normal closePASS/exit0 without renderer errors. First text prompt exposed disabled Ask because TextChanged returned before UpdateControls on null request: fixed; panel scroll/clamp and tour load-map instruction updated.",
                 "verification": "Native UI personally viewed. Affected Game compile0warnings/0errors and diffcheck after prompt fix. Source vehicle SHA remainedbaseline0d5112ad64ef4aa1183078b2aea19f81201ed85ba62ad26bc838f50c6f13b48f; no vehicle save claim.",
                 "remaining": "Actual text request→preview→Apply→Undo and vehicle Save/Undo are next walkthrough; loaded-map exit leaks still separate."
+              },
+              {
+                "stage": "2026-10-12 real Codex text and transport Save/Undo",
+                "result": "NATIVE_FUNCTIONAL_PASS_EXIT0",
+                "evidence_path": "evidence/STUDIO/practical-editor-2026-10-12/windows-text-vehicle/receipt.json",
+                "job_id": "da62b6e9506a463da50ae0409fffc50f",
+                "snapshot_id": "ef303fad663ad1229f49cc70c519be45236e071589dfd53f24622bcf860927c4",
+                "actual_result": "Actual Codex returned localized text proposal; Apply visibly changed dialogue, one native Undo restored original wording and clean workspace. Transport forward speed7→8 saved actualJSON, then native Undo byte-restored baseline7 without3D load. Vehicle tx19a1efc871784d96b8b9383357363c2a committed/accepted sidebefore order1; restoredSHA0d5112ad64ef4aa1183078b2aea19f81201ed85ba62ad26bc838f50c6f13b48f, savedSHA41018b984846a879df3850de3a9145ef054a4267f8dea8ccc0b18bf7f3091cf5. Normal manual closePASS/exit0, doctorreadytrue.",
+                "verification": "Root personally viewed proposal/Apply/Undo. Hash checked via SSH and exported currentJSON; existing engine error detectionfoundnone. Current Core prompt wording update compile0/0; world empty-state contrast sourceinspection/diffcheck only.",
+                "remaining": "Model ignored exact debug-marker instruction and reworded text: protocol now explicitly tells follow request.prompt/preserve other wording; this prompt change inference not rerun. Vehicle runtime driving/fullgame launch not partofthis form walkthrough; loaded3D still~195s and has prior exitresourceerrors."
               }
             ],
             "stage_tasks": [
@@ -77552,6 +77572,16 @@
                 "actual_result": "New quest added to existing explicit campaign activeQuestIds in same Undo group; no-list campaigns preserved. Station exporter allows exact single-file shop/vehicle replacements and exports current bounded JSON; foreign owners/paths/multifile rejected.",
                 "verification": "Luna inspected RuntimeQuests/campaign initialization and EditSession grouping; exporter self-check accepted valid owners and refused malformed/cross-owner journals; Python compile and diffcheck passed. Affected Game compile 0 warnings/0 errors.",
                 "remaining": "Native new-quest gameplay and updated exporter run not performed."
+              },
+              {
+                "stage": "2026-10-12 real Codex text and transport Save/Undo",
+                "result": "NATIVE_FUNCTIONAL_PASS_EXIT0",
+                "evidence_path": "evidence/STUDIO/practical-editor-2026-10-12/windows-text-vehicle/receipt.json",
+                "job_id": "da62b6e9506a463da50ae0409fffc50f",
+                "snapshot_id": "ef303fad663ad1229f49cc70c519be45236e071589dfd53f24622bcf860927c4",
+                "actual_result": "Actual Codex returned localized text proposal; Apply visibly changed dialogue, one native Undo restored original wording and clean workspace. Transport forward speed7→8 saved actualJSON, then native Undo byte-restored baseline7 without3D load. Vehicle tx19a1efc871784d96b8b9383357363c2a committed/accepted sidebefore order1; restoredSHA0d5112ad64ef4aa1183078b2aea19f81201ed85ba62ad26bc838f50c6f13b48f, savedSHA41018b984846a879df3850de3a9145ef054a4267f8dea8ccc0b18bf7f3091cf5. Normal manual closePASS/exit0, doctorreadytrue.",
+                "verification": "Root personally viewed proposal/Apply/Undo. Hash checked via SSH and exported currentJSON; existing engine error detectionfoundnone. Current Core prompt wording update compile0/0; world empty-state contrast sourceinspection/diffcheck only.",
+                "remaining": "Model ignored exact debug-marker instruction and reworded text: protocol now explicitly tells follow request.prompt/preserve other wording; this prompt change inference not rerun. Vehicle runtime driving/fullgame launch not partofthis form walkthrough; loaded3D still~195s and has prior exitresourceerrors."
               }
             ],
             "stage_tasks": [

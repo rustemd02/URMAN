@@ -188,7 +188,7 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
         toolbar.AddChild(new Label { Text = "Правая кнопка или Alt+левая — вращать · два пальца или Shift — сдвигать · колесо или щипок — приблизить", ThemeTypeVariation = "MutedLabel" });
 
         _container = new SubViewportContainer { Stretch = true, SizeFlagsVertical = Control.SizeFlags.ExpandFill, MouseFilter = Control.MouseFilterEnum.Stop, FocusMode = Control.FocusModeEnum.All };
-        _viewport = new SubViewport { OwnWorld3D = true, HandleInputLocally = false, GuiDisableInput = true, Msaa3D = Viewport.Msaa.Msaa2X };
+        _viewport = new SubViewport { OwnWorld3D = true, TransparentBg = true, HandleInputLocally = false, GuiDisableInput = true, Msaa3D = Viewport.Msaa.Msaa2X };
         _container.AddChild(_viewport);
         _container.GuiInput += OnViewportInput;
         root.AddChild(_container);
@@ -360,6 +360,7 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
                 _container.Resized += RequestViewportRender;
                 _resizeRenderSubscribed = true;
             }
+            _viewport.TransparentBg = false;
             _viewport.RenderTargetUpdateMode = SubViewport.UpdateMode.Disabled;
             Act1ConnectedWorld.StudioPreviewMode = true;
             _viewport.AddChild(demo);
@@ -418,6 +419,7 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
             _ambiguousLiveDisplayIds.Clear();
             _previewed.Clear();
             _markers.Clear();
+            _viewport.TransparentBg = true;
             _hint.Text = "Не удалось загрузить 3D-карту. Повторите попытку кнопкой «Загрузить карту»; остальные разделы Studio доступны.";
             _hint.Visible = true;
             throw;
