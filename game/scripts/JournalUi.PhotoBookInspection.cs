@@ -14,6 +14,35 @@ public partial class JournalUi
     private Node3D? _bookInspectionModel;
     private Node3D? _bookInspectionHands;
     private object? _bookInspectionSession;
+    private MeshInstance3D? _bookInspectionPhotoInsert;
+    private int _bookInspectionPhotoSurface = -1;
+    private Material? _bookInspectionPhotoOriginalSurfaceMaterial;
+    private Material? _bookInspectionPhotoAppliedMaterial;
+
+    // The GLB's only AlbumInsert top face is local Y=+0.000325 with normal +Y.
+    // Its exported UV rectangle is U[-.0747075006,.0747075006], V[.9502924681,1.0497075319].
+    private const string InspectionGardenOverlayShader = """
+        shader_type spatial;
+        render_mode cull_back, unshaded, depth_draw_opaque;
+
+        uniform sampler2D photo_front : source_color, filter_linear, repeat_disable;
+        varying float insert_height;
+        varying float insert_normal_y;
+
+        void vertex() {
+            insert_height = VERTEX.y;
+            insert_normal_y = NORMAL.y;
+        }
+
+        void fragment() {
+            if (!FRONT_FACING || insert_height < 0.0003245 || insert_normal_y < 0.999) discard;
+
+            vec2 photo_uv = (UV - vec2(-0.0747075006365776, 0.9502924680709839))
+                / vec2(0.1494150012731552, 0.0994150638580322);
+            if (any(lessThan(photo_uv, vec2(0.0))) || any(greaterThan(photo_uv, vec2(1.0)))) discard;
+            ALBEDO = texture(photo_front, photo_uv).rgb;
+        }
+        """;
 
     private void BuildBookInspection()
     {
@@ -42,7 +71,12 @@ public partial class JournalUi
         var available = CanInspectBook();
         _bookInspectionToggle.Visible = available;
         if (!available || _bookInspectionView is not null
-            && !ReferenceEquals(_bookInspectionSession, _bridge?.SessionIdentity)) CloseBookInspection();
+            && !ReferenceEquals(_bookInspectionSession, _bridge?.SessionIdentity))
+        {
+            CloseBookInspection();
+            return;
+        }
+        RefreshBookInspectionPhoto();
     }
 
     private void OpenBookInspection()
@@ -111,6 +145,79 @@ public partial class JournalUi
         { animation.Autoplay = ""; animation.Stop(); }
         _bookInspectionPanel.Visible = true;
         _bookInspectionToggle.Text = "Скрыть осмотр книги";
+        RefreshBookInspectionPhoto();
+    }
+
+    private void RefreshBookInspectionPhoto()
+    {
+        var selected = _photoBookProjection.FirstOrDefault(photo =>
+            StringComparer.Ordinal.Equals(photo.PhotoId, _photoBookSelectedId));
+        if (_bookInspectionView is null || _bookInspectionModel is null || !CanInspectBook()
+            || !ReferenceEquals(_bookInspectionSession, _bridge?.SessionIdentity)
+            || selected is null
+            || !StringComparer.Ordinal.Equals(selected.PhotoId, SGardenPhotoId)
+            || !StringComparer.Ordinal.Equals(selected.PageId, SGardenPageId)
+            || !selected.Mounted
+            || !ResourceLoader.Exists(SGardenFrontImagePath))
+        {
+            ClearBookInspectionPhotoOverride();
+            return;
+        }
+
+        if (_bookInspectionPhotoInsert is { } currentInsert
+            && GodotObject.IsInstanceValid(currentInsert)
+            && _bookInspectionPhotoAppliedMaterial is { } currentMaterial
+            && _bookInspectionPhotoSurface >= 0
+            && ReferenceEquals(currentInsert.GetSurfaceOverrideMaterial(_bookInspectionPhotoSurface), currentMaterial))
+            return;
+
+        if (PhotoBookFrontTexture(selected.PhotoId) is not { } frontTexture)
+        {
+            ClearBookInspectionPhotoOverride();
+            return;
+        }
+        ClearBookInspectionPhotoOverride();
+        var insert = _bookInspectionModel.FindChildren("AlbumInsert", nameof(MeshInstance3D), true, false)
+            .OfType<MeshInstance3D>().FirstOrDefault();
+        if (insert?.Mesh is not { } mesh || mesh.GetSurfaceCount() != 1) return;
+
+        const int surface = 0;
+        var previousOverride = insert.GetSurfaceOverrideMaterial(surface);
+        var sourceMaterial = previousOverride ?? mesh.SurfaceGetMaterial(surface);
+        if (sourceMaterial is null || sourceMaterial.NextPass is not null
+            || sourceMaterial.Duplicate() is not Material isolatedMaterial) return;
+
+        var overlay = new ShaderMaterial
+        {
+            Shader = new Shader { Code = InspectionGardenOverlayShader }
+        };
+        overlay.SetShaderParameter("photo_front", frontTexture);
+        isolatedMaterial.NextPass = overlay;
+        insert.SetSurfaceOverrideMaterial(surface, isolatedMaterial);
+        _bookInspectionPhotoInsert = insert;
+        _bookInspectionPhotoSurface = surface;
+        _bookInspectionPhotoOriginalSurfaceMaterial = previousOverride;
+        _bookInspectionPhotoAppliedMaterial = isolatedMaterial;
+        if (_bookInspectionViewport is not null)
+            _bookInspectionViewport.RenderTargetUpdateMode = SubViewport.UpdateMode.Once;
+    }
+
+    private void ClearBookInspectionPhotoOverride()
+    {
+        if (_bookInspectionPhotoInsert is { } insert
+            && GodotObject.IsInstanceValid(insert)
+            && _bookInspectionPhotoSurface >= 0
+            && insert.Mesh is { } mesh
+            && _bookInspectionPhotoSurface < mesh.GetSurfaceCount())
+        {
+            insert.SetSurfaceOverrideMaterial(_bookInspectionPhotoSurface, _bookInspectionPhotoOriginalSurfaceMaterial);
+            if (_bookInspectionViewport is not null)
+                _bookInspectionViewport.RenderTargetUpdateMode = SubViewport.UpdateMode.Once;
+        }
+        _bookInspectionPhotoInsert = null;
+        _bookInspectionPhotoSurface = -1;
+        _bookInspectionPhotoOriginalSurfaceMaterial = null;
+        _bookInspectionPhotoAppliedMaterial = null;
     }
 
     private void SetBookInspectionPose(bool open)
@@ -141,6 +248,7 @@ public partial class JournalUi
 
     private void CloseBookInspection()
     {
+        ClearBookInspectionPhotoOverride();
         if (GodotObject.IsInstanceValid(_bookInspectionPanel))
         {
             foreach (var child in _bookInspectionPanel.GetChildren())

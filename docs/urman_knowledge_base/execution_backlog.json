@@ -20995,8 +20995,8 @@
               "Native373b проходит initial full fleet/materials, но mapped interact не сажает в Ниву у actual driver door: VehicleSmokeTest.cs114.",
               "Маршруты, ввод, сохранения и безопасный выход ещё не достигнуты. Четыре PNG лично просмотрены; side вид перекрыт gatepost, художественная готовность/бюджет отдельно."
             ],
-            "next_action": "После peer release и doctor ready один существующий VEHICLE на уточнённом сообщении; не обходить lease/guards.",
-            "blocker": "Для native уточнения ожидается явный release живого Codex lease16:40; source compile принят, production cause ещё неизвестна.",
+            "next_action": "После doctor/preflight один существующий VEHICLE с refined failure message; production не менять по неподтверждённой гипотезе.",
+            "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
             "work_contract": {
@@ -21107,7 +21107,7 @@
               "message_refinement": "Same existing Require condition/action/sequence; failure label only now includes actual controller target, entry availability, IsOnFloor/CanEnter reason, fleet Suspended/deferred. No new test/assertion/fixture or direct TryEnter.",
               "native_state": "NOT_RUN; waiting explicit peer station release",
               "affected_compile": "0 errors,0 warnings;43.32s",
-              "station_owner": "Codex lease16:40 preserved despite doctor ready/busy null."
+              "station_owner": "Explicit Codex17:07 release found in incoming AGENT_CHAT diff a6d84782; next doctor/preflight before submit."
             }
           },
           {
@@ -105176,7 +105176,7 @@
       "assigned_owner": "art",
       "activity": {
         "state": "released",
-        "reason": "Tablepresence source fix accepted; actualnativehandoff/Continue остаютсяopen."
+        "reason": "Принят ограниченный source consumer+compile; actual book native verification ещё не начата, root сериализует станцию для E01."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -105185,7 +105185,7 @@
         "Actual Windows book inspection/reopen/tab/load/session/carry/vehicle guards, contacts and framing; native/human art acceptance not performed.",
         "Walking first-person grip and typed PageId→3D page/photo/flip/mount motion, editable typography/glyph text and FOV/accessibility acceptance remain open."
       ],
-      "next_action": "После явного release B20 проверить received book inspection и отсутствие tablecopy послеhandoff/Continue; olderunreceivedslot показываетbook, legacyunchanged. Затем PageId/движение/fullgrip отдельным конечным этапом.",
+      "next_action": "После E01 native release принять actual book inspection S-GARDEN selected mounted front/flip/back/other selection/close/reopen/session; затем оставшиеся PageId и walking grip. Source compile не заменяет приёмку.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -105197,7 +105197,10 @@
           "assets/source/blender/photoworlds/urman_family_book.py",
           "assets/source/blender/photoworlds/family-book-v1.blend",
           "game/assets/models/photoworlds/family-book-v1.glb",
-          "game/scripts/ArrivalPersonalProps.cs"
+          "game/scripts/ArrivalPersonalProps.cs",
+          "game/scripts/RuntimeBridge.PhotoBook.cs",
+          "game/scripts/JournalUi.PhotoBook.cs",
+          "game/scripts/JournalUi.PhotoBookInspection.cs"
         ],
         "required_inputs": [
           {
@@ -105473,6 +105476,18 @@
         },
         "state_effects": "None; readonlyexistingphotoworlds.book.received controls presentation-onlyparentNode3D.Visible. Latebridgeattachment stops polling oncebound, removes subscription onexit.",
         "remaining": "Actual book-before-handoff/after-commit/Continue/older-unreceived-slot and legacy-preserved view on Windows; no fullPW017 acceptance"
+      },
+      "progress_2026_10_12_selection": {
+        "inputs": "Acquired-only PhotoBookPhoto projection, Mounted checked against saved catalog PageId; compiled S-GARDEN→PAGE-GARDEN; original SGardenFront resource already used by2DUI. Exact existing AlbumInsert150×100mm and metric UV confirmed in GLB/source.",
+        "result": "Bind selected mounted S-GARDEN original front to existing insert front in isolated inspection using catalog PageId; retain paper backside/edges and editable2D text.",
+        "scope": "Only three existing book partials; no save/carry/progress/geometry additions, no shared paper mutation, no new tests/fixtures/probes.",
+        "verification_question": "Does selected acquired+mounted S-GARDEN/PAGE-GARDEN appear only on existing insert front and clear for other/unmounted/session/close states?",
+        "success": "Exact UV/front mapping fromexistingasset; source/compile stage separate from actual native selection/flip/close/reopen and art acceptance.",
+        "native_state": "NOT_RUN; source stage only. Actual selected/mount/flip/clear/native shader parsing and art acceptance open.",
+        "source_result": "Read-only catalog PageId; selected acquired Mounted S-GARDEN/PAGE-GARDEN uses original front on existing insert via per-instance duplicate+front-only NextPass. Other/unmounted selections restore paper; session/close guards clear override.",
+        "asset_mapping": "Imported AlbumInsert front localY+.000325/normal+Y; metric UV U[-.0747075006,.0747075006],V[.9502924681,1.0497075319], full3:2 front mapped. No extra geometry or backside front leak.",
+        "affected_compile": "0 errors,0 warnings;29.62s",
+        "root_review": "Root inspected diff and preserved original base/back/edges/session guards; moved textureLoad after cached-material check to avoid per-frame load."
       }
     },
     {

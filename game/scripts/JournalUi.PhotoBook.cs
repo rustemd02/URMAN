@@ -8,6 +8,7 @@ public partial class JournalUi
 {
     private const int PhotoBookTabIndex = 7;
     private const string SGardenPhotoId = "S-GARDEN";
+    private const string SGardenPageId = "PAGE-GARDEN";
     private const string SGardenFrontImagePath = "res://assets/textures/photobook/s-garden-front-v1.png";
     private static readonly IReadOnlyDictionary<string, (string Path, string Caption)> PhotoBookBackImages =
         new Dictionary<string, (string Path, string Caption)>(StringComparer.Ordinal)
@@ -398,6 +399,7 @@ public partial class JournalUi
         _photoBookSelectedId = selected.PhotoId;
         ShowPhotoBookPhoto(selected);
         RefreshPhotoBookActionButtons();
+        RefreshBookInspection();
     }
 
     // Front-only resource lookup: callers use the acquired projection. Never use
