@@ -1,0 +1,30 @@
+{
+  "F00_vertex_matches": true,
+  "F01_vertex_matches": true,
+  "append_result": 0,
+  "bounds": "[P: (-9.0, -0.300549, -11.0), S: (30.0, 1.497355, 72.0)]",
+  "color_count": 8845,
+  "engine": "4.7.1-stable (official)",
+  "full_W01": "OPEN",
+  "mesh_count": 1,
+  "minimum_normal_y": 0.999575257301331,
+  "native_physics": "NOT_RUN",
+  "runtime_material_binding": "Native W01 consumer/shader binding OPEN; actual GLTFDocument material vertex_color_use_as_albedo=false, so this import does not multiply masks into albedo.",
+  "triangle_count": 17280,
+  "uv1_count": 8845,
+  "uv2_count": 8845,
+  "vertex_color_nonconstant": true,
+  "vertex_color_use_as_albedo": false,
+  "vertex_count": 8845,
+  "anchor_tolerance_m": 0.001,
+  "actual_nearest_F00_m": [
+    -0.000229,
+    -4e-06,
+    -0.00032
+  ],
+  "actual_nearest_F01_m": [
+    11.99977,
+    0.999992,
+    49.99922
+  ]
+}

@@ -115020,23 +115020,24 @@
             "result": "Произвести перечисленные геометрические семейства с реальным размером, UV, опорами и дальними планами.",
             "owner": "world_art",
             "evidence": [
-              "evidence/PW-045/branch-20261012/"
+              "evidence/PW-045/branch-20261012/",
+              "evidence/PW-045/ground-f00-f01-20261012/"
             ],
             "assigned_owner": "world_art",
-            "active_owner": "/root",
+            "active_owner": null,
             "activity": {
-              "state": "confirmed_active",
-              "reason": "Root принимает следующий конечный A-FOREST-GROUND stage; Luna owns только новый генератор/tmp, общий JSON принадлежит root."
+              "state": "released",
+              "reason": "Принят конечный F00→F01 terrain input после исправления разрыва, осей, фактуры и реальной потери vertex masks. Остальная W01 открыта."
             },
             "task_type": "engineering",
             "status": "in_progress",
             "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
-              "W01 ground, остальные геометрические семейства, физическая сцена/consumer и целевая игровая проверка ещё не произведены. A-BRANCH source/export/import этап принят; контакты в игре и авторское качество открыты.",
-              "До подключения F01 действия разрешить подтверждённый graph gap: compiled pw-prologue-branch-move уже выполняет photoworlds.prologue.complete и target pw-niva-arrival, а level задаёт F02/F03 послеF01. Не выдавать раннийвыход за полныйпролог."
+              "Произведены A-BRANCH и ground F00→F01 (30×72 м). Остальные ground узлы F02/F03/F10–F16, лесные семейства и hero composition, physical scene/consumer, игровые коллизии/ходьба, native/art приёмка открыты.",
+              "F01/F03 authored graph gap исправлен в 5f1d9e98; существующий semantic route обновлён, ещё NOT_RUN. Нужен physical binding обоих endpoints и основного forest move, не ранний выход вместо полного пролога."
             ],
-            "next_action": "Произвести и принять A-FOREST-GROUND: реальный рельеф и путь F00→F01 по авторским узлам, исходник/экспорт/маски/материалы; при доступности остальных узлов расширить до полного terrain, не заявляя scene/native.",
+            "next_action": "Подключить принятые F00→F01 ground и A-BRANCH в физический W01 consumer с совпадающей mesh collision; произвести ближайшие лесные силуэты по референсу. Не переключать кампанию на незавершённый W01 и не принимать F00 за фото F10.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -115101,7 +115102,8 @@
                 "repeat_only_if": "Изменился покрываемый вход/consumer/контракт; без этого уже принятая проверка используется повторно без запуска."
               },
               "evidence_refs": [
-                "evidence/PW-045/branch-20261012/"
+                "evidence/PW-045/branch-20261012/",
+                "evidence/PW-045/ground-f00-f01-20261012/"
               ],
               "source_criteria_parent": "PW-045"
             },
@@ -115133,7 +115135,13 @@
             },
             "progress_2026_10_12_ground_stage": {
               "verification_question": "Совпадают ли экспортированные размеры и высоты авторских узлов с ground mesh, читаются ли близкий уклон и маршрут; все UV/vertex masks/1K материалы импортируются? Native physics и художественная приёмка отдельно.",
-              "scope": "Terrain asset input без scene/quest flags; F12↔F13 остаётся virtual spatial edge, не обычный коридор."
+              "scope": "Terrain asset input без scene/quest flags; F12↔F13 остаётся virtual spatial edge, не обычный коридор.",
+              "result": "Принят только F00→F01 участок 30×72 м; 8845 vertices/17280 triangles, реальный мягкий рельеф и маршрут2.1м. Первый full terrain candidate root отклонил из-за гребней/разрыва/полос; scope сужен, переходы nearest height устранены.",
+              "artifact": "game/assets/photoworlds/forest_ground/prologue-ground-f00-f01-v1.glb + 3 original shared1K textures/mask1K/baked2K; editable packed blend/source assets/source/blender/photoworlds/W01/",
+              "verification": "Root лично осмотрел stage2/3 offline виды. Final frozen GLB ff820101 Godot4.7.1 append0: positiveZ bounds, F00/F01 vertices within1mm, upward normals minY.999575, обеUV и8845 nonconstantCOLOR0 masks. Выявленную потерю COLOR1 в importer исправили named COLOR0 export. Actual material vertex_color_use_as_albedo=false; native shader/consumer binding ещё open. Хеши сверены.",
+              "evidence": "evidence/PW-045/ground-f00-f01-20261012/",
+              "glb_sha256": "ff820101aca60b68258f1bb703206223d3e316d555efe450c7660adcf88997d6",
+              "scope_limit": "Не полная220×240м W01; не playable scene. Safe-pad указан как mask, level1.2m pad/nativecapsule ещё требует physicalconsumer. Nativephysics/contacts/materialturn/authorart NOT_RUN; technical_state полногоE02 not_run."
             }
           },
           {
