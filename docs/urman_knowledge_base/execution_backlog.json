@@ -75944,6 +75944,17 @@
                 ],
                 "verification": "Affected Game compilation 0 warnings/0 errors; Core compilation 0/0; independent Sol typed protocol review; Luna runtime review corrected transform parsing before swap. Native family UI/Blender/Apply/restart Undo not verified.",
                 "decision": "Family v3 has multiple frozen targets and uniform nine-window operation; Hero v2 retained unchanged. New private variants only; canonical models are not overwritten."
+              },
+              {
+                "date": "2026-10-13",
+                "kind": "source-progress",
+                "result": "Existing AI panel now routes selected house/group/all compatible A/B/C targets through frozen request/disclosure, readonly Codex or manual proposal, ≤3 private family bakes, per-target before/after selector and one reversible Apply. Untargeted disk additions preserved through fresh AuthoredFile source writes and CAS; dirty or changed target fragments rejected.",
+                "source": [
+                  "game/studio/StudioAiPanel.cs",
+                  "game/studio/StudioAiPanel.Families.cs"
+                ],
+                "verification": "Luna host implementation, independent Sol review. Fixed retained Undo callback mutable stage state, disposed cancellation token, hidden busy cleanup, closing guard and idle Stop mode. Affected Game compilation 0 errors/0 warnings; diff check passed.",
+                "limits": "Native family Blender/provider/preview/Apply/restart Undo unverified; Hero/special house families excluded explicitly. Uniform nine-window A/B/C operation, not selected individual nonhero window. Existing action receipts remain Hero-only; family evidence integration remains open."
               }
             ],
             "stage_tasks": [
@@ -75981,7 +75992,7 @@
               "Native A02/A05 with multiple houses, exclusion and new object after submit remains unverified.",
               "Native single-house mandatory confirmation walkthrough including cancel/hide/exit/changed sources and direct/manual policy; source compile is not rendered UX proof."
             ],
-            "next_action": "Закончить маршруты существующей AI-панели к frozen family capture/preview/Apply, затем Windows проверка выбранных домов и полной отмены; станция сейчас B02.",
+            "next_action": "Windows: свежий Hero Codex запрос через исправленный поиск, Apply и restart Undo; затем family выбранные A/B/C дома, исключение и добавленный после submit объект. Windows зарезервирован после frost B02.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
