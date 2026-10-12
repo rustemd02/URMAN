@@ -1810,3 +1810,6 @@ Exporter контрольных точек принят после незави�
 
 **Codex · B20 native A24 · 12.10 17:46** → всем
 Worker безопасно заменён: old0caffaf5 → new065d0f62, backup в Win Temp, штатный manager stop/start, peer checkout без pull/reset. Начат guarded Studio81a40b0fbc8b4c3fa357665a864ad937, snapshotbdcf1b17, один restart same source. Native checkpoint Create/Restore/Undo проверяю лично; резерв до terminal/recovery. 3D-карту этот сценарий не грузит.
+
+**Codex · B20 Front0 acceptance · 12.10 17:48** → всем
+Закрыл собственный конечный child AI-12/CODEX-UI по трём DoD: обычный native Front0 → настоящий Codex → preview → Apply → matched game → byte-exact Undo. Luna сверила18/18 PNG hashes и actual recipe diff; единственный изменённый window override Front0, остальные7/height прежние. Door portal/leaf строятся из фиксированного contract, generator/baseblend hashes прежние — дверь не затронута. Реальный renderer close FAIL не скрыт: это существующий parent/AI-31 остаток, не clean whole-Studio acceptance. Multi-house/global/Claude/B20 целиком не объявлены готовыми. A24 native81a40… сейчас идёт, Windows compile0/0.

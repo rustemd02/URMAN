@@ -74867,23 +74867,27 @@
                       "archive_sha256": "9cf35cb3f0a3aee04cb1abe0fff21927c038c0a4c266ffa89c55e4c18ce35fa6",
                       "verification": "World loaded; normal WM_CLOSE was not executed before guard1200s deadline. ReceiptFAIL gameExit124. Userdata guard restored original files by rename and verification, ACLs not compared; doctorreadytrue. No Codex/Apply/gamecapture in this attempt.",
                       "remaining": "Winter shutdown fix still unverified; repeat incomplete close-only check with exact-job automatic interactive WM_CLOSE, preserving guard timeout and one station job."
+                    },
+                    {
+                      "stage": "2026-10-12 exact child DoD readback by Luna",
+                      "result": "OWN_FRONT0_CRITERIA_MET_OVERALL_STATION_RECEIPT_FAIL_RETAINED",
+                      "source": "evidence/STUDIO/b20-codex-ui-2026-10-12/windows-native-seventh; source4776f8ce",
+                      "verification": "Actual request/proposal Front0-only53007a58…;18/18 PNG sidecar hashes, identical6-frame Low/camera sets. Recipe before2bcbc3…→applied948a73…→Undo2bcbc3…, accepted tx943f… sidebefore, generated GLB/blend/manifest absent after Undo, userdata recovery false. Parsed recipe changes only modelPath and windowWidths; only Front0 width1.06→1.30, other7 widths/heights unchanged. Frozen generator caller changes only selected ID; door portal/leaf use fixed HERO_HOUSE_CONTRACT.room_door_x, unchanged generator/baseblend hashes. Direct artifact/source evidence proves doors unchanged, no invented door mesh hash audit.",
+                      "remaining_outside_child": "Real parent renderer close resource leaks and wrapper exit1 remain open; this completion does not claim clean shutdown, full UX/art, multi-house/global, Claude or full B20."
                     }
                   ],
                   "assigned_owner": "codex/b20-2026-10-10",
                   "active_owner": null,
                   "activity": {
                     "state": "stage_delivered",
-                    "reason": "Native seventh job завершён: Front0 request/preview/Apply/game/Undo принят как geometry stage; overall FAIL renderer close. RUNNING claim устарел. Luna 12.10 readback verified18/18 PNG hashes and recipe before/apply/undo SHA; shutdown defect отдельно исследуется."
+                    "reason": "Три собственных done_when доказаны реальным native Front0 cycle и узким source/artifact readback; overall station FAIL renderer shutdown сохранён отдельным остатком родителя/AI-31, не выдан за clean end-to-end."
                   },
                   "task_type": "integration_check",
-                  "status": "in_progress",
+                  "status": "completed",
                   "implementation_state": "implemented",
-                  "technical_verification_state": "failed",
-                  "remaining": [
-                    "Узкая native проверка нормального закрытия загруженной 3D-карты: устранить подтверждённые renderer/resource leaks.",
-                    "Явно подтвердить неизменность дверей в уже имеющихся source/geometry artifacts; остальные семь окон и высоты подтверждены."
-                  ],
-                  "next_action": "Исправить подтверждённое владение ресурсами при close, затем один короткий existing native close сценарий. Multi-house/global и restart относятся к родительским/соседним контрактам, не расширять собственный child DoD.",
+                  "technical_verification_state": "passed",
+                  "remaining": [],
+                  "next_action": "Использовать принятый native Front0 результат. Renderer shutdown закрывать в существующем родительском/AI-31 пути, global/multi-house в своём контракте; не повторять запрос ради чужих критериев.",
                   "blocker": null,
                   "external_gates": [],
                   "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -74969,7 +74973,7 @@
                       "current_stage_question": "Does final Studio close after freeing its world and clearing the retained WinterParticleSurfaces cache remove the exact parent mesh/material/shader/resource errors from the seventh native receipt?",
                       "current_stage_success": "Shortest fresh native Studio load→normal X close, no new Codex request or Apply; parent gameExit0 and no engine ERROR with userdata guard restored. Full workflow seventh geometry remains separately accepted; source candidate not runtime claim."
                     },
-                    "actual_result": "Accepted seven-window geometry stage from actual sixth native Codex workflow, matched18 Low frames and byte-exact Undo. Overall native receipt FAIL on old-source exit resource leaks; no singleFront0 edit/restart/Claude/multihouse acceptance is claimed.",
+                    "actual_result": "Обычный native выбор Front0 → реальный Codex → preview → Apply → matched game → побайтный Undo; остальные окна и дверь не меняются. Общий renderer shutdown FAIL сохранён вне собственных трёх DoD.",
                     "evidence_refs": [
                       "evidence/STUDIO/b20-codex-ui-2026-10-11/ui-receipt.json",
                       "evidence/STUDIO/b20-codex-ui-2026-10-11/windows-kit/receipt.json",
