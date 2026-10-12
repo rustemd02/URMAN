@@ -15,22 +15,27 @@ public partial class Act1ConnectedWorld
     private void BuildAuthoredWorld()
     {
         if (AuthoredWorld is not null) return;
-        AuthoredWorld = AuthoredWorldDirector.Build(GetNode<Node3D>("Act1CoreWorldGreybox"), _zoneInstances["village_day"]);
+        ProfileWorldBuildStep("authored-content", () =>
+            AuthoredWorld = AuthoredWorldDirector.Build(GetNode<Node3D>("Act1CoreWorldGreybox"), _zoneInstances["village_day"]));
         // Generic plots are attached after the core kit's material pass. Bind
         // their existing named source surfaces too, so the new quarter does
         // not silently retain plain preview materials.
-        var rebound = RegradeAct1DaylightKitMaterials(AuthoredWorld);
-        AuthoredWorld.SetMeta("revisedSurfaceBindings", rebound);
+        var rebound = 0;
+        ProfileWorldBuildStep("authored-materials", () => rebound = RegradeAct1DaylightKitMaterials(AuthoredWorld!));
+        AuthoredWorld!.SetMeta("revisedSurfaceBindings", rebound);
         // Use the same plot discovery contract as the director. A household
         // keeps its address when it moves between quarters; no second list of
         // addressed plots should silently omit the far bank.
-        foreach (var file in DirAccess.GetFilesAt(AuthoredWorldDirector.WorldDirectory)
-            .Where(file => file.EndsWith(".world.v1.json", StringComparison.Ordinal)).Order(StringComparer.Ordinal))
+        ProfileWorldBuildStep("authored-addresses", () =>
         {
-            using var layout = JsonDocument.Parse(global::Godot.FileAccess.GetFileAsString($"{AuthoredWorldDirector.WorldDirectory}/{file}"));
-            if (!layout.RootElement.TryGetProperty("executor", out var executor) || executor.GetString() != "generic") continue;
-            RegisterAuthoredPlotAddresses(layout.RootElement);
-        }
+            foreach (var file in DirAccess.GetFilesAt(AuthoredWorldDirector.WorldDirectory)
+                .Where(file => file.EndsWith(".world.v1.json", StringComparison.Ordinal)).Order(StringComparer.Ordinal))
+            {
+                using var layout = JsonDocument.Parse(global::Godot.FileAccess.GetFileAsString($"{AuthoredWorldDirector.WorldDirectory}/{file}"));
+                if (!layout.RootElement.TryGetProperty("executor", out var executor) || executor.GetString() != "generic") continue;
+                RegisterAuthoredPlotAddresses(layout.RootElement);
+            }
+        });
         foreach (var anchor in KitPlacementTakeover.Unmatched())
         {
             GD.PushError($"authored-world: the plot owns placement {anchor}, but the village builder no longer places it; decide in URMAN Studio.");

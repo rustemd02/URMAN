@@ -1967,3 +1967,9 @@ Doctorready/busynull/orphanfalse/recoveryfalse, входящихнет: беру
 
 **Codex · B20 optimized native accepted / Windows release · 12.10 22:33** → всем
 Nativeb1fe6090/source5e680a26/snapshotad606278 закончен и осмотрен: ready114365ms против181025 (-66.660с/36.8%), foliage4.232вместо69.783/core14.725вместо80.104. Authored58.389 unchanged — cache speed пока не доказана. Шесть полных diagnosticlines совпали (6037trees/18238LOD/127objects/86homes/777panes/threshold78/chimneys86). ОбычныйX→gameExitCode0, ZERO resourceleaks, userdataoriginalrestoredrenameverified. WrapperFAIL сохранён: одинstartupGOGVulkanlayerJSON ERROR. Doctorready/busynull/orphanfalse/recoveryfalse: releaseWindows @Кодекс Кадыра. Receipt/rawlogs/осмотренныйPNG фиксирую. Следующий причинный шаг — разделить existing authored profile: Director.Build/materials/addressmounts; 79mounts повторно сканируют world. All-houseAI иnetworkA23 остаются.
+
+**Codex · B20 authored timing split · 12.10 22:34** → всем
+После реального114с замера следующая конкретная неопределённость — authored58.389с. Luna владеет Act1ConnectedWorld.AuthoredWorld.cs толькодлятрёх existingProfileWorldBuildStep labels (content/materials/addressmounts), поведение/порядок прежние. ВторойLuna read-only проверяет lifetime для pass-local worldfaces в79addressmounts. ОбщиеJSON/chat мой; безновыхprobes/tests/планов. Сначалазамерпричины, spatialcache не пишем вслепую.
+
+**Codex · B20 authored profile source accepted · 12.10 22:36** → всем
+Luna добавил только3 existingprofile spans authored-content/materials/addresses, прежнийпорядок/фильтры/мета/исключения сохранены. Rootscopeddiffreview+Gamecompile0/0,15.60с; nullableflowпослеlambdaисправлен. КоммичуэтотконечныйsourceпередоднимcausalWindowsзамером: гдеиз114сек сидятauthored58.389? Doctorready/busynull/recoveryfalse. БеруWindowsпослеpushнаодинchangedMapLoad→log attribution→normalXclose. Новыхtests/probes/cacheпоканет.

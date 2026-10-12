@@ -79580,6 +79580,14 @@
                 ],
                 "actual_result": "Root viewed native loaded village. Ready114365ms vs ce961650181025ms (-66660ms,36.8%). Foliage4.232s vs69.783, exterior6.480vs71.949, core14.725vs80.104; authored58.389vs58.213 unchanged. Full lines for act1-foliage-lod/authored-world/dwelling-threshold/households/window-silhouettes/chimney-smoke byte-equivalent after newline decoding:6037trees/18238sharedLOD/127objects/78thresholdplacements/86homes/777panes/86chimneys. Actual normalX close gameExitCode0, zero resource leak records, stdout confirms originaluserdata rename-restoredverified; doctorready/busynull/orphanfalse/recoveryfalse.",
                 "limits": "WrapperFAIL retained: one startup GOG deprecated layer JSON VulkanloaderERROR. No exact per-instance triangle/material resource comparison, movement/playthrough or AI/network rerun. Extracted-subscene cache speed not established by unchanged authored timing; total3D loading114s still slow."
+              },
+              {
+                "stage": "2026-10-12 causal authored profile split",
+                "result": "SOURCE_GAME_COMPILE_0_0_MEASUREMENT_PENDING",
+                "source": "game/scripts/Act1ConnectedWorld.AuthoredWorld.cs",
+                "actual_result": "Existing ProfileWorldBuildStep used for authored-content/materials/addresses; same synchronous ordering, sorted file loop, filters, metadata and exceptions, outer authored retained.",
+                "verification": "Luna FAST/Max implementation, root source comparison/scoped diffcheck and affected Game compile0warnings/0errors15.60s; nullable compiler flow annotations corrected after introducing synchronous lambdas. No new tests/probes.",
+                "remaining": "One changed-source Windows map run must attribute measured authored58.389s before next optimization."
               }
             ],
             "stage_tasks": [
