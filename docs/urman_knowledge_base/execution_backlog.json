@@ -75716,6 +75716,18 @@
                 ],
                 "verification": "Five Luna consumer/lifecycle/pattern/freshness implementation/review tasks plus independent Sol6.1 medium revised diff review. Affected Game compile zero warnings/errors, tracker/diff checks. No native launches/tests/probes.",
                 "remaining": "Native confirm/cancel/hide/exit signal ordering and layout unverified; current outward operation only single-house 1/7/8 windows. Generic mass scope/capability/Apply and A02/A05 remain open."
+              },
+              {
+                "stage": "2026-10-12 actual house family coverage research",
+                "result": "READONLY_SCOPE_REMAINDER_IDENTIFIED",
+                "source": [
+                  "game/studio/StudioAiPanel.cs",
+                  "game/scripts/HeroHouseRecipe.cs",
+                  "game/scripts/KitPlacementTakeover.cs",
+                  "game/scripts/AuthoredWorldDirector.cs"
+                ],
+                "actual_result": "Luna read actual world sources: 85 active houses across three source files; only one HeroHouse_TimberPlaster entity supported by current recipe/staging/validator. Other84 active houses use A/B/C/facade families;39 retired kit entries excluded. Existing dispatch maps catalogId to node from shared exterior kit, while staged recipe takeover is exact one entity.",
+                "remaining": "Literal all-house editing not implemented. Extend typed frozen scope, generators for actual families, placement hookup, preview validation and one reversible write set; cannot implement by relabeling eight-window single-house scope."
               }
             ],
             "stage_tasks": [
@@ -79526,6 +79538,21 @@
                 "verification": "Luna FAST/Max source implementation and diffcheck; root inspected exact same footing expression and live no-footing fallback; affected Game compile 0 warnings/0 errors in17.01s.",
                 "actual_result": "Per-wall unused wall AABB centre enumeration removed only when the existing footing centre is selected; no cache in no-footing branch and no geometry/collision/RNG changes.",
                 "remaining": "Incremental runtime saving not measured. Active Windows8a909a4a measures earlier guarded cache on ce961650, not this new source."
+              },
+              {
+                "stage": "2026-10-12 guarded wall cache native map and close",
+                "result": "NATIVE_MAP_VIEWED_181025MS_NORMAL_CLOSE_0_WRAPPER_GOG_FAIL",
+                "source_commit": "ce96165045aacd1eaf51d7e6c9c6e9c67a67f388",
+                "job": "8a909a4a8f8e4fc5bd73b7a5f796e05c",
+                "snapshot": "3db15cdd21b7359d152a20a71f9c8945bf1088ee6887b2567c6ee43c2055f54d",
+                "evidence": [
+                  "evidence/STUDIO/practical-editor-2026-10-12/windows-wall-cache/receipt.json",
+                  "evidence/STUDIO/practical-editor-2026-10-12/windows-wall-cache/game.log",
+                  "evidence/STUDIO/practical-editor-2026-10-12/windows-wall-cache/stdout.log",
+                  "evidence/STUDIO/practical-editor-2026-10-12/windows-wall-cache-live/map-ready.png"
+                ],
+                "actual_result": "Root viewed loaded native village. Ready181025ms vs prior181992; authored58.213s vs59.061, foliage69.783 vs70.225, addresses4.665vs4.702. Difference too small to claim meaningful speedup. Actual X close gameExitCode0; no resource/RID leak records; stdout confirms original userdata restored by rename and verified; doctor ready/busy null/recovery false.",
+                "limits": "Wrapper FAIL retained: one startup GOG Galaxy Vulkan layer JSON deprecated format ERROR. This run covers guarded cache f784c185, NOT subsequent unused-centre patch f4e1e280. 3D load still slow."
               }
             ],
             "stage_tasks": [
@@ -81626,6 +81653,19 @@
                 "verification": "Luna FAST/Max Inbox implementation; root UI integration; Sol6.1medium source review accepted generic catalogue merge, typed validation, hash-checked owned transaction and history refresh. Affected Game compile 0 warnings/0 errors in 15.11s; diff check. No native/network run.",
                 "actual_result": "Exact owned catalogues enter incoming preview through typed raw-byte validators. Existing SemanticMerge shows shop-array conflicts and vehicle ID/order conflicts. Explicit catalogue Apply saves one owned file transaction after draft/hash/text stale checks; catalogue deletion disabled; existing Undo/Redo refresh avoids rebuilding map.",
                 "remaining": "Actual two-checkout A23/native catalogue receive conflict Apply Undo not yet run; binary closure, new sources and outgoing deletions remain open."
+              },
+              {
+                "stage": "2026-10-12 native collaboration screen and Git-less refusal",
+                "result": "NATIVE_UI_REFUSAL_ONLY_NETWORK_OPEN",
+                "source_commit": "ce96165045aacd1eaf51d7e6c9c6e9c67a67f388",
+                "job": "8a909a4a8f8e4fc5bd73b7a5f796e05c",
+                "evidence": [
+                  "evidence/STUDIO/practical-editor-2026-10-12/windows-wall-cache-live/collaboration.png",
+                  "evidence/STUDIO/practical-editor-2026-10-12/windows-wall-cache-live/send-refusal.png",
+                  "evidence/STUDIO/practical-editor-2026-10-12/windows-wall-cache/receipt.json"
+                ],
+                "actual_result": "Root opened Collaboration through More menu; Prepare version visibly refused in protected snapshot without .git, controls remain available; no network Send.",
+                "remaining": "Does not prove successful Prepare/Send/receive/merge/archive/two-checkout A23."
               }
             ],
             "stage_tasks": [
