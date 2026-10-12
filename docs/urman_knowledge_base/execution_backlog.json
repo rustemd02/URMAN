@@ -91383,22 +91383,25 @@
             "title": "Установить причину срезанной крыши H019/BLD-H019/ADR-H019",
             "result": "Установить причину срезанной крыши H019/BLD-H019/ADR-H019",
             "owner": "/root",
-            "evidence": [],
+            "evidence": [
+              "evidence/ACT1-HOUSE.SCALE/2026-10-09-h014-timber-metric-bake.json",
+              "evidence/ACT1-HOUSE.SCALE/2026-10-09-native-geometry-babai-h019-7f64b86109eb4a1ab848469fc105e9d2/frames/h019_geometry_approach.json",
+              "evidence/ACT1-HOUSE.SCALE/2026-10-09-native-h019-exterior-6fc0fe2b4aac4c4f847bad25eea78bd3/frames/h019_geometry_approach.json",
+              "evidence/ACT1-HOUSE.SCALE/2026-10-09-native-h019-exterior-6fc0fe2b4aac4c4f847bad25eea78bd3/root_visual_review.json",
+              "game/scripts/TimberHomeStyle.cs"
+            ],
             "assigned_owner": "/root",
             "active_owner": null,
             "activity": {
-              "state": "not_confirmed",
-              "last_recorded_owner": "/root",
-              "reason": "Историческое поле не доказывает работу сейчас; назначение сохранено. Подтверждение берётся из нового ответа/живого сеанса, не из возраста записи."
+              "state": "released",
+              "reason": "Конечный причинный результат принят root; source/native evidence переиспользованы без повторного запуска."
             },
             "task_type": "research",
-            "status": "todo",
-            "implementation_state": "partial",
-            "technical_verification_state": "not_run",
-            "remaining": [
-              "Установить причину срезанной крыши H019/BLD-H019/ADR-H019; отсутствует подтверждение собственного конечного DoD, перечисленного ниже."
-            ],
-            "next_action": "Ответить на конкретный вопрос: Установить причину срезанной крыши H019/BLD-H019/ADR-H019",
+            "status": "completed",
+            "implementation_state": "implemented",
+            "technical_verification_state": "passed",
+            "remaining": [],
+            "next_action": "Исследование завершено; H019-FIX получает подтверждённый producer и existing visibility receipt. Недостающий проход/collision проверяется только в его границах после освобождения станции.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -91412,7 +91415,8 @@
               "targets": [
                 "game/scripts/Act1ConnectedWorld.cs",
                 "game/scripts/GeneratedModularKitDressing.cs",
-                "game/assets/models/act1/urman_village_exterior_kit.glb"
+                "game/assets/models/act1/urman_village_exterior_kit.glb",
+                "game/scripts/TimberHomeStyle.cs"
               ],
               "required_inputs": [],
               "scope_in": [
@@ -91438,15 +91442,27 @@
                 "success": "Выполнены все перечисленные собственные критерии, без расширения на родителя.",
                 "repeat_only_if": "Изменился source/candidate/input/покрываемый контракт."
               },
-              "actual_result": null,
-              "evidence_refs": []
+              "actual_result": "Причина подтверждена существующим matched native before7f64/after6fc0: не исчезновение imported roof, а огромная runtime-геометрия соседнего H014/TatarCarpentry/CarvedTimber_dfdcc5_wood_painted_trim из повторного применения размеров. Before луч первым пересекает H014 в3.547227/4.502083м; after H014 исчезает из пути, H019 Front_BoardedGable_LOD0 на10.914761м и Roof_LOD0 на13.970741м остаются на прежних местах. Root12.10 лично осмотрел before approach и оба after PNG: крыша/фронтон восстановлены. Текущий TimberHomeStyle.DressParcel.Box применяет size один раз; Surround.Part передаёт ориентацию, AppendChamferedBox использует длины осей как размеры и нормализованные оси как ориентацию. Исторические culling/material гипотезы не повторены. Это приёмка конечного причинного исследования по сохранённому candidate, не новая визуальная приёмка всего main/семейства/движения/collision.",
+              "evidence_refs": [
+                "evidence/ACT1-HOUSE.SCALE/2026-10-09-h014-timber-metric-bake.json",
+                "evidence/ACT1-HOUSE.SCALE/2026-10-09-native-geometry-babai-h019-7f64b86109eb4a1ab848469fc105e9d2/frames/h019_geometry_approach.json",
+                "evidence/ACT1-HOUSE.SCALE/2026-10-09-native-h019-exterior-6fc0fe2b4aac4c4f847bad25eea78bd3/frames/h019_geometry_approach.json",
+                "evidence/ACT1-HOUSE.SCALE/2026-10-09-native-h019-exterior-6fc0fe2b4aac4c4f847bad25eea78bd3/root_visual_review.json",
+                "game/scripts/TimberHomeStyle.cs"
+              ]
             },
             "dependencies": {
               "implementation": [],
               "verification": [],
               "acceptance": []
             },
-            "depends_on": []
+            "depends_on": [],
+            "progress_2026_10_12": {
+              "result": "Причина подтверждена существующим matched native before7f64/after6fc0: не исчезновение imported roof, а огромная runtime-геометрия соседнего H014/TatarCarpentry/CarvedTimber_dfdcc5_wood_painted_trim из повторного применения размеров. Before луч первым пересекает H014 в3.547227/4.502083м; after H014 исчезает из пути, H019 Front_BoardedGable_LOD0 на10.914761м и Roof_LOD0 на13.970741м остаются на прежних местах. Root12.10 лично осмотрел before approach и оба after PNG: крыша/фронтон восстановлены. Текущий TimberHomeStyle.DressParcel.Box применяет size один раз; Surround.Part передаёт ориентацию, AppendChamferedBox использует длины осей как размеры и нормализованные оси как ориентацию. Исторические culling/material гипотезы не повторены. Это приёмка конечного причинного исследования по сохранённому candidate, не новая визуальная приёмка всего main/семейства/движения/collision.",
+              "reviewed_at": "2026-10-12T06:56:00+03:00",
+              "native_rerun": false,
+              "independent_review": "Luna house_probe read-only подтвердил current producer, imported roof ArrayMesh_14yt6, AABB6.919998×1.96×6.720001м, WetSlate/WetShadow source CullDisabled и generatedLOD[]. Обычный capsulewalk не проверен."
+            }
           },
           {
             "id": "ACT1-HOUSE-SCALE/H019-FIX",
@@ -91463,13 +91479,13 @@
               "reason": "Историческое поле не доказывает работу сейчас; назначение сохранено. Подтверждение берётся из нового ответа/живого сеанса, не из возраста записи."
             },
             "task_type": "engineering",
-            "status": "todo",
-            "implementation_state": "not_started",
+            "status": "in_progress",
+            "implementation_state": "implemented",
             "technical_verification_state": "not_run",
             "remaining": [
-              "Восстановить крышу и фронтон H019 у установленного shared producer; отсутствует подтверждение собственного конечного DoD, перечисленного ниже."
+              "Существующий6fc0 доказывает восстановление видимости в approach/shoulder. Движение рядом, сохранение collision/оконных IDs и актуальная runtime регрессия после изменений источника ещё не приняты."
             ],
-            "next_action": "Восстановить крышу и фронтон H019 у установленного shared producer",
+            "next_action": "После release B20 принять один защищённый проход/обход H019 с collision/оконными IDs по существующему сценарию; не повторять уже доказанный поиск причины.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -91484,7 +91500,8 @@
                 {
                   "task_id": "ACT1-HOUSE-SCALE/H019-CAUSE",
                   "artifact": "Confirmed exact H019 mesh/LOD/material cause and bounded producer change",
-                  "availability": "not_confirmed"
+                  "availability": "available",
+                  "evidence_ref": "ACT1-HOUSE-SCALE/H019-CAUSE.work_contract.evidence_refs"
                 }
               ],
               "scope_in": [
@@ -91509,15 +91526,22 @@
                 "success": "Выполнены все перечисленные собственные критерии, без расширения на родителя.",
                 "repeat_only_if": "Изменился source/candidate/input/покрываемый контракт."
               },
-              "actual_result": null,
-              "evidence_refs": []
+              "actual_result": "Bounded source fix и native roof/gable visibility ранее приняты6fc0; source path single-owner сохраняется. Полный собственный DoD movement/collision ещё открыт.",
+              "evidence_refs": [
+                "evidence/ACT1-HOUSE.SCALE/2026-10-09-h014-timber-metric-bake.json",
+                "evidence/ACT1-HOUSE.SCALE/2026-10-09-native-geometry-babai-h019-7f64b86109eb4a1ab848469fc105e9d2/frames/h019_geometry_approach.json",
+                "evidence/ACT1-HOUSE.SCALE/2026-10-09-native-h019-exterior-6fc0fe2b4aac4c4f847bad25eea78bd3/frames/h019_geometry_approach.json",
+                "evidence/ACT1-HOUSE.SCALE/2026-10-09-native-h019-exterior-6fc0fe2b4aac4c4f847bad25eea78bd3/root_visual_review.json",
+                "game/scripts/TimberHomeStyle.cs"
+              ]
             },
             "dependencies": {
               "implementation": [
                 {
                   "task_id": "ACT1-HOUSE-SCALE/H019-CAUSE",
                   "artifact": "Confirmed exact H019 mesh/LOD/material cause and bounded producer change",
-                  "availability": "not_confirmed"
+                  "availability": "available",
+                  "evidence_ref": "ACT1-HOUSE-SCALE/H019-CAUSE.work_contract.evidence_refs"
                 }
               ],
               "verification": [],
@@ -91623,7 +91647,7 @@
       ],
       "progress_2026_10_08": "2026-10-08: verified active consumer is MainStreetEastNeighborFacade bound to BLD-H019/ADR-H019; it owns the address/knock and side-window discovery, so the earlier far-view-only hypothesis is withdrawn. The actual GLB facade opening is 1.30×2.25 m; prior instance scale [0.70,0.74,0.70] reduced it to 1.665 m, below the 1.80 m standing capsule. Only this placement was restored to [1,1,1]. Transformed source AABB: H019 X 23.365…32.130, Z 70.460…77.550; nearest H015 parcel starts at X 32.948 (0.818 m gap), and its runtime-grown outbuilding after the existing 0.3 m parcel inset clamp starts at X 33.165 (1.035 m gap). H014 parcel ends X 17.324; H009 parcel starts Z 90.000; neither overlaps. Source, UV/material/LOD/rights and exact Windows capture points are documented in docs/production/act1_house_scale_2026-10-04.md. This is static geometry evidence only; Windows close/approach/door capture and root visual acceptance remain pending. No K15-to-instance mapping was found, so this does not close all of R030; status remains in_progress. 2026-10-08 R030/K15 source lookup: the complaint at docs/урман претензии.md:19 contains text only; the 221-frame index (177 main + 44 route moments) has no K15 complaint frame, and SOURCES_AND_LIMITATIONS says only the P1 user frame is locally available. General layout images and B32 numeric H-ID proposal images do not prove a K15-to-instance mapping; do not infer H019 or H015 from the number. Identity remains unknown, so H019 is a separate metric slice and does not close R030. Keep status in_progress and active_owner /root/address_mount (working role: house_scale); awaiting real Windows capture/root visual review for H019, with K15 source/crosswalk unresolved. 2026-10-08 ground-contact source audit: imported GLB subtree `DwellingFacade_TimberPlaster` transformed POSITION AABB has minY=0.0 m (foundation and `DwellingFacade_StreetStep_LOD0`; step spans 0.0..0.20 m). For H019 at (27.75,0,74), final `AddAct1AuthoredExteriorParcel` ground placement sets the dwelling root to `AgentBAct1HeightField.Ground(27.75,74)+0.03`; therefore source lower world AABB is exactly +0.03 m above that analytic ground. The earlier groundingReferenceXZ offset in `KitPlacementTakeover.ApplyAuthored` is superseded by that final placement for this village-kit dwelling. Numeric ground/collision-triangle difference, visible threshold contact, and root visual acceptance remain pending; status stays in_progress and `К15 → instance` identity remains unknown. 2026-10-08 yielded active ownership while sealed PW-001 capture `bb8e` and root visual review are pending. H019 remains a separate metric slice only; K15-to-instance identity is unknown, and no card closure or fresh visual acceptance is claimed.\n2026-10-08 bounded H019 diagnostic instrumentation: existing `Act1DemoRoot.DevViewCapture` now records a census only for existing `h019_` points and the exact `DwellingFacade_Roof_LOD0`/`DwellingFacade_RoofSnow_LOD0` nodes under `MainStreetEastNeighborFacade`: visibility/tree visibility, source/global AABB, render layers/camera cull mask, shadow and visibility range, active/surface/override material paths, node/parent/scene-owner transforms. The two mesh names were verified in the source GLB, but this local capture code is not yet compiled or run. No roof-visibility cause or visual acceptance is claimed; await coordinated compile/native H019 capture. K15 identity, collision/contact, full-family passport and root visual acceptance remain open.",
       "progress_2026_10_09": "Native6fc0 root originals accepted restored H019 roof/gable visibility after metric-size single-owner fix in TimberHomeStyle. Pre-fix H014 obstruction rays preserved. H019 display scale1 verified in same native census; whole-card visual/family/collision/route gates remain open.",
-      "next_step": "Identify actual runtime geometry/occluder or transform cause of H019 missing roof; do not repeat disproved global culling/material trials. Historical culling-preservation change was removed after negative native evidence. Capture unobstructed Babai porch separately; HOUSE-SCALE remains open.",
+      "next_step": "Причина H019 установлена и дочерний CAUSE принят по existing matched native evidence. Следующий остаток H019-FIX: проход/обход, collision/оконные IDs; SCALE-CHECK и K15 identity остаются открытыми.",
       "history_before_2026_10_11": {
         "status": "in_progress",
         "active_owner": "/root",
