@@ -1,0 +1,8 @@
+== AI-13: coverage audit - the resolver union alone was a regression
+
+
+Прошло времени 00:00:00.64
+  runtime source hash: 8087551da82d4f38… (len 64); RuntimeSourceHash: 58 авторских рантайм-файлов от резолвера (сцен 29, скриптов-загрузчиков 4, участков мира 12) без compiled-паков. Список — ОБЪЕДИНЕНИЕ AuthoredDependencies всех миров, поэтому ловит и сцены, и скрипты, которые скан папок пропускал.
+  resolver-derived runtime files: 58 (scenes 29, scripts 4, plots 12)
+  authoured content files: 21; missing from the broad list: 0
+PROBE RESULT: PASS

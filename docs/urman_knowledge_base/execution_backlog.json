@@ -74742,6 +74742,12 @@
                 "result": "measurement by deepseek v4.1 flash after the redesign: RuntimeSourceHash costs 4.6 ms per call (five passes) because it now runs CampaignWorldCatalog.Discover and asks the resolver for every world's dependencies - which is exactly what makes it cover loader scripts and skip addon scenes - while WorldSourceFingerprint costs 0.4 ms because it takes an ALREADY RESOLVED context. The guard runs twice per launch, so 4.6 ms twice is nothing next to a compile, and a caller that holds the context pays 0.4 ms per check. The numbers are from this machine; the ORDER is the useful part. Verified: probe PASS 769/769 including both cost bounds; Core 0/0",
                 "source": "the probe's two cost measurements; evidence evidence/STUDIO/b20-deepseek-ai-13/2026-10-11-cost-after-resolver",
                 "verification": "probe PASS 769/769 including the RuntimeSourceHash and WorldSourceFingerprint cost bounds and their comparison; Core 0/0. A Studio run is NOT_RUN"
+              },
+              {
+                "stage": "2026-10-11 coverage audit - the resolver union alone was a regression",
+                "result": "COVERAGE AUDIT by deepseek v4.1 flash that caught MY OWN REGRESSION: I listed every authored file under game/content and compared it with the new resolver-derived list. The resolver knows each world's SCENE, PLOTS and LOADER SCRIPTS but NOT the files the director and other readers load BY PATH - and NINETEEN of the twenty-one authored content files were missing: the object catalogue, the animation catalogue, the cutscene timeline, three vehicle files, the atmosphere profile, the address registry, the shop and the location titles. My previous folder scan had covered them, so replacing it with the resolver alone was a regression. FIX: RuntimeSourceFiles is the UNION of the resolver's dependencies AND the authored content under game/content plus the scenes under game/scenes; each base closes a hole the other leaves. Measured: FIFTY-EIGHT files - twenty-nine scenes, four loader scripts, twelve plots - with ZERO of the twenty-one content files missing and no pack or addon. Verified: probe PASS 773/773 including the zero-missing audit and the catalogue/cutscene/vehicle checks; Core 0/0",
+                "source": "src-dotnet/Urman.Studio.Core/Play/PlayPreparation.cs (RuntimeSourceFiles); evidence evidence/STUDIO/b20-deepseek-ai-13/2026-10-11-coverage-audit-union",
+                "verification": "probe PASS 773/773 including the zero-missing audit; Core 0/0. A Studio run is NOT_RUN"
               }
             ],
             "stage_tasks": [
@@ -74805,7 +74811,9 @@
               "Широкий хеш переведён на ОБЪЕДИНЕНИЕ AuthoredDependencies резолвера (16 файлов: 2 сцены, 4 скрипта-загрузчика, 6 участков), без паков и аддонов; probe поймал мою ошибку парного сопоставления.",
               "Ранее переданный частичный этап (2026-10-11 the broad runtime hash is taken from the resolver, not from folders) ждёт ревью/приёмки; полный done_when не выполнен.",
               "Стоимость после переделки: широкий хеш 4.6 мс (перезапускает каталог), по-мирный отпечаток 0.4 мс (берёт готовый контекст).",
-              "Ранее переданный частичный этап (2026-10-11 what the two hashes cost now that the broad one runs the catalog) ждёт ревью/приёмки; полный done_when не выполнен."
+              "Ранее переданный частичный этап (2026-10-11 what the two hashes cost now that the broad one runs the catalog) ждёт ревью/приёмки; полный done_when не выполнен.",
+              "Аудит покрытия поймал МОЮ РЕГРЕССИЮ: список из одного резолвера терял 19 из 21 файла контента; теперь объединение двух баз — 58 файлов.",
+              "Ранее переданный частичный этап (2026-10-11 coverage audit - the resolver union alone was a regression) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
             "next_action": "STUDIO/AI-13/SELECTOR: подключить выбор actual context.",
             "blocker": null,

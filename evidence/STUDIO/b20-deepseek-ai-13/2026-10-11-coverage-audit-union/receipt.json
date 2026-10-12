@@ -1,0 +1,27 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-13"
+  ],
+  "stage": "coverage audit - the resolver union alone was a regression",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-12 16:38 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "9a5f0a62",
+  "the_audit": "I listed every authored file under game/content and compared it with what my new resolver-derived list covered. The resolver knows the per-world SCENE, PLOTS and LOADER SCRIPTS, but it does NOT know the files the director and the other readers load BY PATH",
+  "the_regression_i_had_introduced": "nineteen of the twenty-one authored content files were missing from the new list - the object CATALOGUE, the animation catalogue, the cutscene timeline, three vehicle files, the atmosphere profile, the address registry, the shop and the location titles. My previous folder scan had covered them, so replacing the scan with the resolver alone was a REGRESSION, and the audit caught it before it shipped",
+  "the_fix": "RuntimeSourceFiles is the UNION of two bases: the resolver's AuthoredDependencies for every world, AND the authored content under game/content plus the scenes under game/scenes. Each base closes a hole the other leaves",
+  "measured": "FIFTY-EIGHT files: twenty-nine scenes, four loader scripts and twelve plots; ZERO of the twenty-one authored content files are missing, and no compiled pack and no addon scene is included",
+  "boundary": "game/addons and game/tests stay out because they are editor and test content, not the game's authored runtime data",
+  "verified": {
+    "probe": "PASS 773/773 including the zero-missing audit and the catalogue, cutscene and vehicle checks",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors",
+    "not_run": "no game launch"
+  },
+  "files": {
+    "evidence/STUDIO/b20-deepseek-ai-13/2026-10-11-coverage-audit-union/check.log": "3eb839793beedf67277c5dbcc6f2c660fc7794128a14dd536e32c43c4a5b003c"
+  },
+  "open": [
+    "the two caller insertions remain Codex's"
+  ]
+}

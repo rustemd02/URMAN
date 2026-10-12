@@ -168,23 +168,33 @@ public static class PlayPreparation
         return HashFiles(full, RuntimeSourceFiles(root).ToArray());
     }
 
-    /// <summary>Every authored runtime file the catalog's worlds depend on, packs excluded.</summary>
+    /// <summary>
+    /// Every authored runtime file the broad hash covers: the UNION of two bases, because each one
+    /// alone leaves a real hole.
+    ///
+    ///   * the resolver's own AuthoredDependencies for every world, which bring each world's SCENE,
+    ///     its world PLOTS and its LOADER SCRIPTS - none of which a folder scan of game/content
+    ///     finds, since scripts live in game/scripts;
+    ///   * the authored content under game/content and the scenes under game/scenes, which bring the
+    ///     files the director and the other runtime readers load by path: the object CATALOGUE, the
+    ///     animation catalogue, the cutscene timeline, the vehicles, the atmosphere profile, the
+    ///     address registry, the shop and the location titles. The resolver does NOT list those, so
+    ///     a resolver-only list silently dropped them - a regression the coverage audit caught.
+    ///
+    /// Compiled packs are excluded everywhere, and game/addons and game/tests are excluded because
+    /// they are editor and test content rather than the game's authored runtime data.
+    /// </summary>
     public static IReadOnlyList<string> RuntimeSourceFiles(string root)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(root);
-        var catalog = CampaignWorldCatalog.Discover(root);
+        var full = Path.GetFullPath(root);
         var files = new SortedSet<string>(StringComparer.Ordinal);
+
+        // Base one: what the resolver says each world depends on.
+        var catalog = CampaignWorldCatalog.Discover(root);
         foreach (var campaign in catalog.Campaigns)
         {
             files.Add(campaign.RelativePath);
-        }
-
-        // Pair each campaign with the worlds the CATALOG itself reports for it. Matching on
-        // world.CampaignSelection alone is not enough: the default world act1_demo carries an EMPTY
-        // selection, so pairing that way silently dropped its six world plots - which is exactly the
-        // FALSE-FRESH this method exists to prevent, and the probe caught it.
-        foreach (var campaign in catalog.Campaigns)
-        {
             foreach (var world in catalog.WorldsFor(campaign.Selection))
             {
                 foreach (var dependency in catalog.AuthoredDependencies(campaign, world))
@@ -192,6 +202,26 @@ public static class PlayPreparation
                     files.Add(dependency);
                 }
             }
+        }
+
+        // Base two: the authored runtime data itself.
+        foreach (var folder in new[] { Path.Combine("game", "content") })
+        {
+            var path = Path.Combine(full, folder);
+            if (!Directory.Exists(path))
+            {
+                continue;
+            }
+
+            foreach (var file in Directory.EnumerateFiles(path, "*.json", SearchOption.AllDirectories))
+            {
+                files.Add(Path.GetRelativePath(full, file).Replace('\\', '/'));
+            }
+        }
+
+        foreach (var scene in ScenesUnder(full))
+        {
+            files.Add(Path.GetRelativePath(full, scene).Replace('\\', '/'));
         }
 
         return files
