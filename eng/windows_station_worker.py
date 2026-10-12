@@ -1019,6 +1019,8 @@ def _archive_result(path, output):
             raise ValueError('result archive verification failed')
         if archive.testzip() is not None:
             raise ValueError('result archive CRC verification failed')
+    # Windows fsync uses CRT _commit, which needs a writable handle.
+    # Open the verified completed archive without truncating its contents.
     with temp_path.open('r+b') as stream:
         os.fsync(stream.fileno())
     result_hash = digest(temp_path)

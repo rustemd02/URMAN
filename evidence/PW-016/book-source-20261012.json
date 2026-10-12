@@ -13,9 +13,9 @@
   "native_runtime": "NOT_RUN",
   "author_acceptance": "PENDING",
   "physical_photo_images": "NOT_PRODUCED; frontBrief is descriptive text",
-  "game_build": "passed:0warnings0errors24.73s",
+  "game_build": "passed:0warnings0errors26.47s",
   "source_sha256": {
-    "game/scripts/JournalUi.PhotoBook.cs": "596291296803650946d701673925fa2e853517e651d0d97810cfcce8914478fb",
+    "game/scripts/JournalUi.PhotoBook.cs": "3173200511a44ba3443d15ae9da5d9c084b30c9434468338d071987169e6e967",
     "game/scripts/RuntimeBridge.PhotoBook.cs": "34993d1283c435ae8eb3a301fd17d611c1d0773ad70bfbe2601c518aa1343b59",
     "game/scripts/JournalUi.cs": "19049ae4754789ef830db236ef0fff63ecd4e62688019761672fbf6c774472ad",
     "game/scripts/JournalUi.Notebook.cs": "29692b5bdef6c536382fcba98b22e15ad05f7d4cefec61c128c3beed3a7e32eb",
@@ -74,5 +74,15 @@
     "game_build": "passed:0warnings0errors24.73s",
     "native_runtime": "NOT_RUN",
     "remaining": "Actual read/mount outcomes, rollback/duplicate/Continue scenarios and visual/native/human acceptance; real photo images and physical book art."
-  }
+  },
+  "placement_motion": {
+    "normal_seconds": 0.95,
+    "reduced_motion_seconds": 0.15,
+    "trigger": "successful explicit mount after committed owner-state and UI busy released",
+    "cancel": "close/tab/selection/automatic selection/session/load/tree-exit resets decorative transform; no state mutation",
+    "front_card": "existing authored descriptive text with UrmanSheet theme; no fabricated photograph",
+    "source_review": "Root inspected pending Luna patch and fixed automatic-selection cancellation",
+    "native_runtime": "NOT_RUN"
+  },
+  "integrated_game_build": "passed:0warnings0errors29.17s after peer main integration"
 }
