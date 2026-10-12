@@ -75198,10 +75198,10 @@
                     }
                   ],
                   "assigned_owner": "codex/b20-2026-10-10",
-                  "active_owner": "Codex",
+                  "active_owner": null,
                   "activity": {
-                    "state": "confirmed_active",
-                    "reason": "Codex продолжает fresh native two-process Windows job 45217200aaa4463db9c6c9568880bcac; assigned owner сохранён."
+                    "state": "waiting_resource",
+                    "reason": "Source camera/runner repairs delivered bf37e309, merged/pushed dc7ea111. Windows released for waiting peer PW017/VEHICLE; next fresh native check follows peer release. Assigned Codex owner preserved."
                   },
                   "task_type": "integration_check",
                   "status": "in_progress",
@@ -75210,7 +75210,7 @@
                   "remaining": [
                     "Fresh Front0 request/preview/Apply and two-process byte-exact Undo/Redo/finalUndo remain unverified. EyeLevel repair compiled, native check pending; runner restart sequencing repair pending."
                   ],
-                  "next_action": "После проверенной правки runner выполнить один новый native job с изменённым camera/runner input; безопасно выбрать Front0 и довести fresh Apply→reopen→Undo/Redo/finalUndo.",
+                  "next_action": "После releaseWindows от КодексКадыра запустить один fresh native job на bf37e309 camera+runner fix; выбрать Front0 и закончить Codex preview→Apply→reopen→Undo/Redo/finalUndo. Не повторять прежний failedinput.",
                   "blocker": null,
                   "external_gates": [],
                   "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
