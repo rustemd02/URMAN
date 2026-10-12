@@ -201,6 +201,7 @@ public partial class StudioRoot : Control
         };
 
         OpenSection("world");
+        GD.Print("urman-studio-editor-ready");
         RefreshStatus();
         if (pilotHistoryWarning is not null)
             ShowBanner(pilotHistoryWarning + " Редактор доступен; неоднозначную историю нужно проверить вручную.", error: true);

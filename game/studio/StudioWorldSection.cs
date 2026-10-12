@@ -39,6 +39,7 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
     private Node3D _markerRoot = null!;
     private MeshInstance3D _ghost = null!;
     private Label _hint = null!;
+    private Button _loadWorldButton = null!;
     private ItemList _categories = null!;
     private ItemList _catalogList = null!;
     private LineEdit _catalogSearch = null!;
@@ -134,9 +135,12 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
         var root = new VBoxContainer();
         root.AddThemeConstantOverride("separation", 0);
         var toolbarPanel = new PanelContainer();
-        var toolbar = new HBoxContainer();
+        var toolbar = new HFlowContainer { SizeFlagsHorizontal = Control.SizeFlags.ExpandFill };
         toolbarPanel.AddChild(toolbar);
         root.AddChild(toolbarPanel);
+        _loadWorldButton = StudioRoot.Button(toolbar, "Загрузить карту", () => _ = LoadWorldObservedAsync());
+        _loadWorldButton.ThemeTypeVariation = "PrimaryButton";
+        _loadWorldButton.TooltipText = "Открыть 3D-карту деревни для просмотра и редактирования объектов";
         StudioRoot.Button(toolbar, "3D", () => { _topView = false; UpdateCamera(); });
         StudioRoot.Button(toolbar, "План сверху", () => { _topView = true; UpdateCamera(); });
         StudioRoot.Button(toolbar, "◎ К выделенному", FocusSelection).TooltipText = "Навести камеру на выделенный объект (F)";
@@ -188,7 +192,11 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
         _container.AddChild(_viewport);
         _container.GuiInput += OnViewportInput;
         root.AddChild(_container);
-        _hint = new Label { Text = "Загружается деревня… Это та же сборка мира, что и в игре.", Position = new Vector2(16, 60), ThemeTypeVariation = "MutedLabel" };
+        _hint = new Label
+        {
+            Text = "Квесты, диалоги и параметры доступны сразу. Чтобы открыть деревню в 3D, нажмите «Загрузить карту».",
+            Position = new Vector2(16, 60), ThemeTypeVariation = "MutedLabel"
+        };
         _container.AddChild(_hint);
         _measureLabel = new Label { Position = new Vector2(16, 16), Visible = false };
         _container.AddChild(_measureLabel);
@@ -201,8 +209,18 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
         _ghost = new MeshInstance3D { Visible = false, Mesh = new BoxMesh(), MaterialOverride = new StandardMaterial3D { AlbedoColor = new Color(.55f, .85f, .6f, .45f), Transparency = BaseMaterial3D.TransparencyEnum.Alpha, ShadingMode = BaseMaterial3D.ShadingModeEnum.Unshaded } };
         _viewport.AddChild(_ghost);
         root.AddChild(BuildCatalogDrawer());
-        _ = LoadWorldAsync();
+        if (StudioSelfCheck.OutputDirectory is not null)
+            Callable.From(() => { _ = LoadWorldObservedAsync(); }).CallDeferred();
         return root;
+    }
+
+    private async Task LoadWorldObservedAsync()
+    {
+        try { await LoadWorldAsync(); }
+        catch (Exception error)
+        {
+            if (!_shuttingDown) studio.ShowBanner("Не удалось загрузить карту: " + error.Message, error: true);
+        }
     }
 
     internal async Task ReleasePreviewForShutdownAsync()
@@ -309,71 +327,112 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
         return File.Exists(file) && Image.LoadFromFile(file) is { } image ? ImageTexture.CreateFromImage(image) : null;
     }
 
-    private Task LoadWorldAsync() => _loadWorldTask = LoadWorldCoreAsync();
+    private Task LoadWorldAsync()
+    {
+        if (_shuttingDown || _view is null || WorldReady) return Task.CompletedTask;
+        if (_loadWorldTask is { IsCompleted: false } loading) return loading;
+        return _loadWorldTask = LoadWorldCoreAsync();
+    }
 
     private async Task LoadWorldCoreAsync()
     {
         var loadStarted = Time.GetTicksMsec();
-        var demo = ResourceLoader.Load<PackedScene>("res://scenes/act1_demo.tscn").Instantiate<Act1DemoRoot>();
-        demo.StudioPreviewMode = true;
-        _demo = demo;
-        if (!_resizeRenderSubscribed)
-        {
-            _container.Resized += RequestViewportRender;
-            _resizeRenderSubscribed = true;
-        }
-        _viewport.RenderTargetUpdateMode = SubViewport.UpdateMode.Disabled;
-        Act1ConnectedWorld.StudioPreviewMode = true;
+        _hint.Text = "Загружается деревня… Это та же сборка мира, что и в игре.";
+        _hint.Visible = true;
+        _loadWorldButton.Visible = true;
+        _loadWorldButton.Disabled = true;
+        _loadWorldButton.Text = "Загружаю карту…";
+        Act1DemoRoot? demo = null;
         try
         {
+            // Let the progress state reach the screen before the game's full
+            // world builder performs its synchronous node construction.
+            await studio.ToSignal(studio.GetTree(), SceneTree.SignalName.ProcessFrame);
+            if (_shuttingDown) return;
+
+            var packed = ResourceLoader.Load<PackedScene>("res://scenes/act1_demo.tscn")
+                ?? throw new InvalidOperationException("Сцена деревни недоступна.");
+            demo = packed.Instantiate<Act1DemoRoot>();
+            demo.StudioPreviewMode = true;
+            _demo = demo;
+            if (!_resizeRenderSubscribed)
+            {
+                _container.Resized += RequestViewportRender;
+                _resizeRenderSubscribed = true;
+            }
+            _viewport.RenderTargetUpdateMode = SubViewport.UpdateMode.Disabled;
+            Act1ConnectedWorld.StudioPreviewMode = true;
             _viewport.AddChild(demo);
             for (var frame = 0; frame < 900 && !_shuttingDown && !demo.StudioPreviewReady; frame++)
             {
                 await studio.ToSignal(studio.GetTree(), SceneTree.SignalName.ProcessFrame);
             }
+            Act1ConnectedWorld.StudioPreviewMode = false;
             if (_shuttingDown) return;
             if (!demo.StudioPreviewReady)
+                throw new TimeoutException("Мир игры не успел подготовиться для Studio.");
+
+            // An editor view: the world stands still, the game's HUD and player are off.
+            foreach (var layer in demo.FindChildren("*", nameof(CanvasLayer), true, false).OfType<CanvasLayer>())
             {
-                _hint.Text = "Не удалось поднять мир игры. Подробности — в журнале Studio.";
-                return;
+                layer.Visible = false;
             }
+
+            // Studio pauses world processing, but viewport picking still needs real physics occlusion.
+            foreach (var collider in demo.FindChildren("*", nameof(CollisionObject3D), true, false).OfType<CollisionObject3D>())
+            {
+                collider.DisableMode = CollisionObject3D.DisableModeEnum.KeepActive;
+            }
+
+            if (demo.GetTree().GetFirstNodeInGroup("player_controller") is FirstPersonController player)
+            {
+                // The preview player is parked: modal, so the game's own focus-loss
+                // pause never covers the editor view when Studio's window loses focus.
+                player.SetModalOpen(true);
+                player.ProcessMode = Node.ProcessModeEnum.Disabled;
+            }
+
+            demo.ProcessMode = Node.ProcessModeEnum.Disabled;
+            Input.MouseMode = Input.MouseModeEnum.Visible;
+            _camera.MakeCurrent();
+            _hint.Visible = false;
+            foreach (var (id, entity) in WorldEntities().Where(item => IsGeneric(item.Id)))
+            {
+                _previewed[id] = entity.ToJsonString();
+            }
+
+            Refresh();
+            GD.Print($"urman-studio-preview-ready elapsed_ms={Time.GetTicksMsec() - loadStarted}");
+        }
+        catch
+        {
+            Act1ConnectedWorld.StudioPreviewMode = false;
+            if (demo is not null && GodotObject.IsInstanceValid(demo))
+            {
+                if (demo.GetParent() is { } parent) parent.RemoveChild(demo);
+                demo.Free();
+            }
+            if (ReferenceEquals(_demo, demo)) _demo = null;
+            _indexedDisplayDemo = null;
+            _liveDisplayNodes.Clear();
+            _ambiguousLiveDisplayIds.Clear();
+            _previewed.Clear();
+            _markers.Clear();
+            _hint.Text = "Не удалось загрузить 3D-карту. Повторите попытку кнопкой «Загрузить карту»; остальные разделы Studio доступны.";
+            _hint.Visible = true;
+            throw;
         }
         finally
         {
             Act1ConnectedWorld.StudioPreviewMode = false;
+            if (!_shuttingDown && GodotObject.IsInstanceValid(_loadWorldButton))
+            {
+                var ready = WorldReady;
+                _loadWorldButton.Visible = !ready;
+                _loadWorldButton.Disabled = ready;
+                _loadWorldButton.Text = "Загрузить карту";
+            }
         }
-
-        // An editor view: the world stands still, the game's HUD and player are off.
-        foreach (var layer in demo.FindChildren("*", nameof(CanvasLayer), true, false).OfType<CanvasLayer>())
-        {
-            layer.Visible = false;
-        }
-
-        // Studio pauses world processing, but viewport picking still needs real physics occlusion.
-        foreach (var collider in demo.FindChildren("*", nameof(CollisionObject3D), true, false).OfType<CollisionObject3D>())
-        {
-            collider.DisableMode = CollisionObject3D.DisableModeEnum.KeepActive;
-        }
-
-        if (demo.GetTree().GetFirstNodeInGroup("player_controller") is FirstPersonController player)
-        {
-            // The preview player is parked: modal, so the game's own focus-loss
-            // pause never covers the editor view when Studio's window loses focus.
-            player.SetModalOpen(true);
-            player.ProcessMode = Node.ProcessModeEnum.Disabled;
-        }
-
-        demo.ProcessMode = Node.ProcessModeEnum.Disabled;
-        Input.MouseMode = Input.MouseModeEnum.Visible;
-        _camera.MakeCurrent();
-        _hint.Visible = false;
-        foreach (var (id, entity) in WorldEntities().Where(item => IsGeneric(item.Id)))
-        {
-            _previewed[id] = entity.ToJsonString();
-        }
-
-        Refresh();
-        GD.Print($"urman-studio-preview-ready elapsed_ms={Time.GetTicksMsec() - loadStarted}");
     }
 
     private void RequestViewportRender()
@@ -393,6 +452,8 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
     private async Task ReloadGeometryCoreAsync()
     {
         if (_view is null) return;
+        if (_loadWorldTask is { IsCompleted: false } loading) await loading;
+        if (_shuttingDown || _view is null || _demo is null) return;
         _reloading = true;
         ClearFencePick();
         _pickedPart = null;
@@ -431,7 +492,17 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
             _camera.MakeCurrent();
             throw;
         }
-        finally { _reloading = false; }
+        finally
+        {
+            _reloading = false;
+            if (!_shuttingDown && GodotObject.IsInstanceValid(_loadWorldButton))
+            {
+                var ready = WorldReady;
+                _loadWorldButton.Visible = !ready;
+                _loadWorldButton.Disabled = ready;
+                _loadWorldButton.Text = "Загрузить карту";
+            }
+        }
     }
 
     private async void RefreshGeometryObserved()
@@ -457,10 +528,11 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
 
     public void Refresh()
     {
-        if (_shuttingDown || _view is null || _demo is null)
-        {
-            return;
-        }
+        if (_shuttingDown || _view is null) return;
+        var catalogState = string.Join("|", studio.Workspace.EntityIds.Where(id => id.StartsWith("urman.catalog:", StringComparison.Ordinal)).Select(id => studio.Workspace.Get(id)?.ToJsonString().GetHashCode()));
+        if (catalogState != _catalogState) { _catalogState = catalogState; ReloadCatalog(); }
+        if (_demo is null) return;
+
         var recipeFile = Path.Combine(studio.Workspace.Root, "game/content/studio/hero_house.recipe.json");
         if (File.Exists(recipeFile))
         {
@@ -482,8 +554,6 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
             _atmosphereShown = atmosphere;
         }
 
-        var catalogState = string.Join("|", studio.Workspace.EntityIds.Where(id => id.StartsWith("urman.catalog:", StringComparison.Ordinal)).Select(id => studio.Workspace.Get(id)?.ToJsonString().GetHashCode()));
-        if (catalogState != _catalogState) { _catalogState = catalogState; ReloadCatalog(); }
         SyncTerrain();
         SyncPreview();
         SyncFencePreview();
@@ -1475,6 +1545,7 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
 
     public StudioPlayStart? PlayStart()
     {
+        if (!WorldReady) return null;
         if (studio.Selection is not { } id || studio.Workspace.Get(id) is not JsonObject entity || DisplayAnchor(id, entity) is not { } at)
         {
             return null;
