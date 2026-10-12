@@ -104,6 +104,40 @@ public static class AgentBAct1HeightField
             return Mathf.Max(0, Mathf.Max(Mathf.Abs(lx) - HalfX, Mathf.Abs(lz) - HalfZ));
         }
     }
+
+    /// <summary>
+    /// Local packed parking support for the default Niva. Its core contains every
+    /// vertex of the current jittered terrain triangles that intersect the unchanged
+    /// vehicle footprint; the short feather settles back into the authored field.
+    /// Recalculate these bounds if the terrain grid or its deterministic jitter changes.
+    /// </summary>
+    private sealed class NivaParkingSupport(float minX, float maxX, float minZ, float maxZ, float feather)
+    {
+        public readonly float MinX = minX, MaxX = maxX, MinZ = minZ, MaxZ = maxZ, Feather = feather;
+        public double Target = double.NaN;
+
+        public float Outside(float x, float z)
+        {
+            var dx = Mathf.Max(Mathf.Max(MinX - x, x - MaxX), 0f);
+            var dz = Mathf.Max(Mathf.Max(MinZ - z, z - MaxZ), 0f);
+            return Mathf.Max(dx, dz);
+        }
+
+        public float Blend(float x, float z)
+        {
+            var outside = Outside(x, z);
+            return outside >= Feather ? 0f : 1f - Mathf.SmoothStep(0f, Feather, outside);
+        }
+    }
+
+    // Niva hull footprint: X [-2.21, -0.39], Z [14.875, 19.075]. With the
+    // current 2 m terrain grid and deterministic vertex jitter, 14 intersecting
+    // triangles have vertices within this outward-rounded flat core. The bounds
+    // explicitly describe today's jittered terrain, not every possible future grid.
+    private static readonly NivaParkingSupport NivaParking = new(-4.07f, 2.31f, 13.84f, 19.96f, 1.2f);
+    private const float NivaParkingAnchorX = -1.3f;
+    private const float NivaParkingAnchorZ = 17f;
+
     private static readonly HouseholdPad[] HouseholdPads = LoadHouseholdPads();
     private static HouseholdPad[] LoadHouseholdPads()
     {
@@ -576,6 +610,9 @@ public static class AgentBAct1HeightField
         for (var i = 0; i < MainAxis.Length - 1; i++)
             toMain = System.Math.Min(toMain, DistanceToSegment(x, z, MainAxis[i].X, MainAxis[i].Z, MainAxis[i + 1].X, MainAxis[i + 1].Z));
         blend *= Mathf.SmoothStep(HalfWidths[0] + .4f, HalfWidths[0] + 1.6f, (float)toMain);
+        // The generated parking support owns this small level patch. Fade the
+        // relocated yard's contribution out across the same support feather.
+        blend *= 1f - NivaParking.Blend(x, z);
         if (blend <= 0) return ground;
         var old = BabaiRelocation.Inverse(new Vector2(x, z));
         return ground + (AuthoredGround(old.X, old.Y) + BabaiRelocation.Lift - ground) * blend;
@@ -608,6 +645,14 @@ public static class AgentBAct1HeightField
                 blend *= Mathf.SmoothStep((float)road.HalfWidth + .7f, (float)road.HalfWidth + pad.Feather, (float)road.Distance);
             }
             height += (pad.Target - height) * blend;
+        }
+        var parkingOutside = NivaParking.Outside(x, z);
+        if (parkingOutside < NivaParking.Feather)
+        {
+            if (double.IsNaN(NivaParking.Target))
+                NivaParking.Target = FieldSurface(NivaParkingAnchorX, NivaParkingAnchorZ, withLaneRelief: false);
+            var blend = 1f - Mathf.SmoothStep(0f, NivaParking.Feather, parkingOutside);
+            height += (NivaParking.Target - height) * blend;
         }
         return height;
     }
