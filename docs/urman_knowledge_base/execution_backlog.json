@@ -75181,7 +75181,15 @@
                   "title": "Перезапустить Studio после Codex Apply и восстановить durable Undo/Redo",
                   "result": "Перезапустить Studio после Codex Apply и восстановить durable Undo/Redo",
                   "owner": "codex/b20-2026-10-10",
-                  "evidence": [],
+                  "evidence": [
+                    {
+                      "stage": "2026-10-12 fresh free-station readiness",
+                      "result": "PREREQUISITES_READY_RESTART_SCENARIO_NOT_RUN",
+                      "actual_result": "After current native job completed, doctor --studio-readiness returnsstatechecked/readytrue/station_readytrue, pinnedBlender4.5.12 versionmatchtrue, Codex0.162.1 found/loggedintrue/versionconfirmedtrue. runtime_verifiedfalse preserved; no new inference/Apply/restart claim. Successful currentStudio submission disproves historical HTTP404 station note.",
+                      "verification": "Fresh endpoint response after job67698c1a; busy response earlier was not an installation/auth verdict. Luna read ordered AIhistory/retained2processworkspace/exportsource path; no sourceblocker found.",
+                      "remaining": "Fresh realCodex Apply→normalclose→sameworkspace secondStudio→Undo byteexact→Redo still pending; oldFront0tx was undone."
+                    }
+                  ],
                   "assigned_owner": "codex/b20-2026-10-10",
                   "active_owner": null,
                   "activity": {
@@ -75195,7 +75203,7 @@
                   "remaining": [
                     "Перезапустить Studio после Codex Apply и восстановить durable Undo/Redo; отсутствует подтверждение собственного конечного DoD, перечисленного ниже."
                   ],
-                  "next_action": "Перезапустить Studio после Codex Apply и восстановить durable Undo/Redo",
+                  "next_action": "Запустить один protected studio --studio-restarts1: fresh selectedFront0 Codex proposal/preview/Apply, закрыть, второйStudio verifyapplied/Undo byteexact/Redo/finalUndo, закрыть. Использовать текущую checkedready станцию без копирования credentials.",
                   "blocker": null,
                   "external_gates": [],
                   "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -79614,6 +79622,20 @@
                 "verification": "Luna FAST/Max implementation; Sol6.1medium independent final source review including early AABB rejection accepted. Root affected Game compile0warnings/0errors13.13s and scoped diffcheck.",
                 "actual_result": "Pass-local ordered mesh/transforms/8-corner world bounds/path snapshot created after full geometry/material regrade. Lazy transformed triangles reused only during synchronous authored address registration. Cached AABB rejection precedes live visibility/sign/foliage/interior checks for intersecting meshes; exact mesh/triangle/candidate ordering, coverage/occluder thresholds/gate rules remain. Later Inspect/Reconcile retain uncached geometry queries; no static cache.",
                 "remaining": "One changed-source native map run must prove speed, mount/diagnostic equivalence and no leaks. Current measured50.626s address bottleneck was before this patch."
+              },
+              {
+                "stage": "2026-10-12 native prepared-face cache accepted",
+                "result": "NATIVE_MAP_74176MS_ADDRESS_11_160S_NORMAL_CLOSE_0_GOG_WRAPPER_FAIL",
+                "source_commit": "a3a5866597dc98b5491ac540d79ace7867b8128c",
+                "job": "67698c1a337b485dae7972fbe857a9ad",
+                "snapshot": "433bf4f34db5a917990bc3bfaeb4c22bb1a189caf18bf309366b508b21583752",
+                "evidence": [
+                  "evidence/STUDIO/practical-editor-2026-10-12/windows-address-cache/receipt.json",
+                  "evidence/STUDIO/practical-editor-2026-10-12/windows-address-cache/game.log",
+                  "evidence/STUDIO/practical-editor-2026-10-12/windows-address-cache/stdout.log"
+                ],
+                "actual_result": "Root viewed native loaded village. Ready74176ms vs113121(-38945ms,34.4%); original181025→74176(-59.0%). Authored-addresses11.160s vs50.626(-78.0%); totalauthored19.363vs58.643. Nine full lines match previous run: foliage/objects/thresholds/households/window-silhouettes/chimneys/yardfences/mosqueaddressmount/legacysign. NormalX gameExitCode0, zero resource leak records; originaluserdata renamed-restoredverified. Free-station Studio readiness checked: Blender4.5.12 versionmatch, Codex0.162.1 found/loggedin/versionconfirmed, readytrue/runtime_verifiedfalse.",
+                "limits": "WrapperFAIL retained one startupGOGVulkan deprecatedlayerJSON ERROR. Screenshot excluded from publication due OS notification; root observed map but no new publicvisualartifact. Counts are coarse, not all79per-instance mount coordinates/materials. Full3Dload74s still slow; no AI/network rerun in this job."
               }
             ],
             "stage_tasks": [
@@ -79647,8 +79669,8 @@
             "status": "in_progress",
             "implementation_state": "implemented",
             "technical_verification_state": "not_run",
-            "remaining": "Полная3Dкарта измерена114.365с вместо181.025с с прежними диагностическимиcounts и cleanresourceclose. Она всё ещё медленная; authored58с требует причинного разбиения. Novice/usability and remaining editor scope stay open.",
-            "next_action": "Один changed-source Windows MapLoad/normalclose: сравнить authored-addresses50.626с/ready113121ms, полныйdiagnostic/mount output и ресурсы. Prepared-face cache нельзя использовать после неподвижного синхронного прохода; поздние geometry edits остаются live.",
+            "remaining": "Native fullmap74.176с против181.025с и originalcounts/resourceclose подтверждены. Она всё ещё медленная; полная usability/novice и остальные B20сценарии остаются. Следующий приоритет — применённое Codex окно после restart/Undo/Redo.",
+            "next_action": "Не повторять accepted a3a58665 mapbenchmark. Продолжить готовый STUDIO/AI-12/CODEX-RESTART с двумя процессами Studio; дальнейшая perf только по новому причинному факту/изменённому input.",
             "blocker": null,
             "external_gates": [
               {
