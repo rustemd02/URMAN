@@ -1,0 +1,41 @@
+[
+  {
+    "schemaVersion": 1,
+    "id": "urman.oldpc:capability/archive-hub-provider",
+    "protocolId": "urman.oldpc:capability/archive-hub",
+    "exactVersion": "1.0.0",
+    "stateSchemaVersion": 1,
+    "configSchemaRef": "schemas/oldpc-config.schema.json",
+    "stateSchemaRef": "schemas/oldpc-state.schema.json",
+    "commandSchemaRef": "schemas/oldpc-command.schema.json",
+    "eventSchemaRef": "schemas/oldpc-event.schema.json",
+    "outcomeSchemaRef": "schemas/oldpc-outcome.schema.json",
+    "requiredAssets": [
+      "urman.oldpc:asset/ui_old_pc_desktop_base",
+      "urman.oldpc:asset/ui-old-pc-crt-boot",
+      "urman.oldpc:asset/ui-old-pc-crt-off",
+      "urman.oldpc:asset/ui-old-pc-crt-power-off",
+      "urman.oldpc:asset/ui-old-pc-crt-close-crop",
+      "urman.oldpc:asset/ui-old-pc-folder-view-base",
+      "urman.oldpc:asset/ui-old-pc-active-window-base",
+      "urman.oldpc:asset/ui-old-pc-error-corrupt-file-base",
+      "urman.oldpc:asset/ui-archive-search-empty",
+      "urman.oldpc:asset/ui-archive-search-results"
+    ],
+    "requiredAudio": [],
+    "resourceClaims": [],
+    "accessibility": {
+      "alternativeInput": true,
+      "reducedMotion": true,
+      "captions": false,
+      "equivalentOutcomeId": "urman.oldpc:capability/archive-hub"
+    },
+    "lifecycle": {
+      "supportsRestore": true,
+      "supportsSnapshot": true,
+      "supportsReset": true,
+      "idempotentStop": true,
+      "idempotentDispose": true
+    }
+  }
+]

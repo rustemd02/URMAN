@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.urman.game/capabilities/urman.oldpc/v1/event.schema.json",
+  "type": "object",
+  "required": ["type", "payload"],
+  "properties": {
+    "type": { "enum": ["oldpc.search", "oldpc.open", "oldpc.save"] },
+    "payload": { "type": "object" }
+  },
+  "additionalProperties": false
+}

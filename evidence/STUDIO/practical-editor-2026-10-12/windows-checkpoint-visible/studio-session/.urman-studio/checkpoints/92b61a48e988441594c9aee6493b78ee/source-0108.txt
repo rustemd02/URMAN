@@ -1,0 +1,1009 @@
+{
+  "schemaVersion": 1,
+  "kind": "urman.cutscene",
+  "id": "urman.cutscene:tamara-fence",
+  "name": "Забор Тамары: авария",
+  "executor": "cutscene",
+  "note": "Постановка сцены списком действий (URMAN Studio, CINE01). Действия выполняются по порядку; реплики — ID текстов модуля главы 1 без префикса urman.chapter1:text/. Актёры: guy, tamara; опоры: car (машина), impact (место удара).",
+  "actors": {
+    "guy": "urman.chapter1:character/phone_guy",
+    "tamara": "urman.chapter1:character/tamara"
+  },
+  "entities": [
+    {
+      "id": "urman.cutscene:tamara-fence/a001",
+      "kind": "cutscene-action",
+      "name": "Тамара скрыта до выхода",
+      "params": {
+        "action": "show",
+        "actor": "tamara",
+        "visible": false
+      }
+    },
+    {
+      "id": "urman.cutscene:tamara-fence/a002",
+      "kind": "cutscene-action",
+      "name": "Парень скрыт до выхода",
+      "params": {
+        "action": "show",
+        "actor": "guy",
+        "visible": false
+      }
+    },
+    {
+      "id": "urman.cutscene:tamara-fence/a003",
+      "kind": "cutscene-action",
+      "name": "План «удар»: у борта машины, со стороны улицы",
+      "params": {
+        "action": "cut",
+        "tag": "hit",
+        "position": {
+          "car": {
+            "awayFromImpact": 3.7,
+            "quarter": 2.7,
+            "height": 1.95
+          }
+        },
+        "look": {
+          "car": {
+            "towardImpact": 0.45,
+            "height": 0.8
+          }
+        },
+        "fov": 54,
+        "seconds": 2.6,
+        "handheld": true,
+        "pushIn": false
+      }
+    },
+    {
+      "id": "urman.cutscene:tamara-fence/a004",
+      "kind": "cutscene-action",
+      "name": "Пауза после удара",
+      "params": {
+        "action": "wait",
+        "seconds": 0.8
+      }
+    },
+    {
+      "id": "urman.cutscene:tamara-fence/a005",
+      "kind": "cutscene-action",
+      "name": "Айдар: «Блин…»",
+      "params": {
+        "action": "say",
+        "speaker": "АЙДАР",
+        "text": "tamara-cutscene-aidar-ouch",
+        "seconds": 1.0
+      }
+    },
+    {
+      "id": "urman.cutscene:tamara-fence/a006",
+      "kind": "cutscene-action",
+      "name": "Парень появляется",
+      "params": {
+        "action": "show",
+        "actor": "guy",
+        "visible": true
+      }
+    },
+    {
+      "id": "urman.cutscene:tamara-fence/a007",
+      "kind": "cutscene-action",
+      "name": "Парень выходит к дороге",
+      "params": {
+        "action": "place",
+        "actor": "guy",
+        "at": [
+          -0.8,
+          -36.3
+        ]
+      }
+    },
+    {
+      "id": "urman.cutscene:tamara-fence/a008",
+      "kind": "cutscene-action",
+      "name": "Парень идёт",
+      "params": {
+        "action": "clip",
+        "actor": "guy",
+        "clip": "Walk"
+      }
+    },
+    {
+      "id": "urman.cutscene:tamara-fence/a009",
+      "kind": "cutscene-action",
+      "name": "План «парень подходит»",
+      "params": {
+        "action": "cut",
+        "tag": "guy-arrives",
+        "position": {
+          "point": [
+            -0.9,
+            1.7,
+            -42.9
+          ],
+          "guyArrival": true
+        },
+        "look": {
+          "point": [
+            -0.3,
+            0.8,
+            -39.0
+          ],
+          "guyArrival": true
+        },
+        "fov": 70,
+        "seconds": 3.0,
+        "handheld": false,
+        "pushIn": false
+      }
+    },
+    {
+      "id": "urman.cutscene:tamara-fence/a010",
+      "kind": "cutscene-action",
+      "name": "Парень подходит к пролому",
+      "params": {
+        "action": "move",
+        "actor": "guy",
+        "stops": [
+          [
+            0.15,
+            -41.9
+          ]
+        ],
+        "speed": 1.15
+      }
+    },
+    {
+      "id": "urman.cutscene:tamara-fence/a011",
+      "kind": "cutscene-action",
+      "name": "Парень стоит",
+      "params": {
+        "action": "clip",
+        "actor": "guy",
+        "clip": "Idle"
+      }
+    },
+    {
+      "id": "urman.cutscene:tamara-fence/a012",
+      "kind": "cutscene-action",
+      "name": "Парень смотрит на двор",
+      "params": {
+        "action": "face",
+        "actor": "guy",
+        "target": {
+          "point": [
+            2.3,
+            -44.6
+          ]
+        }
+      }
+    },
+    {
+      "id": "urman.cutscene:tamara-fence/a013",
+      "kind": "cutscene-action",
+      "name": "Пауза",
+      "params": {
+        "action": "wait",
+        "seconds": 0.3
+      }
+    },
+    {
+      "id": "urman.cutscene:tamara-fence/a014",
+      "kind": "cutscene-action",
+      "name": "Парень: «Подожди…»",
+      "params": {
+        "action": "say",
+        "speaker": "ПАРЕНЬ С ТЕЛЕФОНОМ",
+        "text": "tamara-cutscene-guy-wait",
+        "seconds": 1.0
+      }
+    },
+    {
+      "id": "urman.cutscene:tamara-fence/a015",
+      "kind": "cutscene-action",
+      "name": "Парень достаёт телефон",
+      "params": {
+        "action": "filming",
+        "on": true
+      }
+    },
+    {
+      "id": "urman.cutscene:tamara-fence/a016",
+      "kind": "cutscene-action",
+      "name": "Парень снимает место удара",
+      "params": {
+        "action": "face",
+        "actor": "guy",
+        "target": {
+          "impact": true
+        }
+      }
+    },
+    {
+      "id": "urman.cutscene:tamara-fence/a017",
+      "kind": "cutscene-action",
+      "name": "План «съёмка»",
+      "params": {
+        "action": "cut",
+        "tag": "filming",
+        "position": {
+          "point": [
+            1.75,
+            1.58,
+            -42.3
+          ],
+          "guyOffset": true
+        },
+        "look": {
+          "point": [
+            0.2,
+            1.42,
+            -41.95
+          ],
+          "guyOffset": true
+        },
+        "fov": 52,
+        "seconds": 2.4,
+        "handheld": true,
+        "pushIn": false
+      }
+    },
+    {
+      "id": "urman.cutscene:tamara-fence/a018",
+      "kind": "cutscene-action",
+      "name": "Пауза",
+      "params": {
+        "action": "wait",
+        "seconds": 0.9
+      }
+    },
+    {
+      "id": "urman.cutscene:tamara-fence/a019",
+      "kind": "cutscene-action",
+      "name": "Парень делает шаг ближе",
+      "params": {
+        "action": "move",
+        "actor": "guy",
+        "stops": [
+          [
+            -0.15,
+            -42.35
+          ]
+        ],
+        "speed": 0.8
+      }
+    },
+    {
+      "id": "urman.cutscene:tamara-fence/a020",
+      "kind": "cutscene-action",
+      "name": "Пауза",
+      "params": {
+        "action": "wait",
+        "seconds": 0.4
+      }
+    },
+    {
+      "id": "urman.cutscene:tamara-fence/a021",
+      "kind": "cutscene-action",
+      "name": "Тамара появляется",
+      "params": {
+        "action": "show",
+        "actor": "tamara",
+        "visible": true
+      }
+    },
+    {
+      "id": "urman.cutscene:tamara-fence/a022",
+      "kind": "cutscene-action",
+      "name": "Тамара выходит со двора",
+      "params": {
+        "action": "place",
+        "actor": "tamara",
+        "at": [
+          8.6,
+          -41.3
+        ]
+      }
+    },
+    {
+      "id": "urman.cutscene:tamara-fence/a023",
+      "kind": "cutscene-action",
+      "name": "Тамара идёт",
+      "params": {
+        "action": "clip",
+        "actor": "tamara",
+        "clip": "Walk"
+      }
+    },
+    {
+      "id": "urman.cutscene:tamara-fence/a024",
+      "kind": "cutscene-action",
+      "name": "План «Тамара выходит»",
+      "params": {
+        "action": "cut",
+        "tag": "tamara-comes-out",
+        "position": {
+          "point": [
+            2.7,
+            1.7,
+            -38.9
+          ]
+        },
+        "look": {
+          "point": [
+            6.7,
+            1.25,
+            -42.1
+          ]
+        },
+        "fov": 52,
+        "seconds": 3.2,
+        "handheld": false,
+        "pushIn": false
+      }
+    },
+    {
+      "id": "urman.cutscene:tamara-fence/a025",
+      "kind": "cutscene-action",
+      "name": "Тамара подходит к пролому",
+      "params": {
+        "action": "move",
+        "actor": "tamara",
+        "stops": [
+          [
+            6.4,
+            -42.9
+          ],
+          [
+            4.7,
+            -44.4
+          ]
+        ],
+        "speed": 1.2,
+        "finalFacing": [
+          -0.2,
+          -42.8
+        ]
+      }
+    },
+    {
+      "id": "urman.cutscene:tamara-fence/a026",
+      "kind": "cutscene-action",
+      "name": "Тамара стоит",
+      "params": {
+        "action": "clip",
+        "actor": "tamara",
+        "clip": "Idle"
+      }
+    },
+    {
+      "id": "urman.cutscene:tamara-fence/a027",
+      "kind": "cutscene-action",
+      "name": "Тамара смотрит на пролом",
+      "params": {
+        "action": "face",
+        "actor": "tamara",
+        "target": {
+          "impact": true
+        }
+      }
+    },
+    {
+      "id": "urman.cutscene:tamara-fence/a028",
+      "kind": "cutscene-action",
+      "name": "Парень смотрит на Тамару",
+      "params": {
+        "action": "face",
+        "actor": "guy",
+        "target": {
+          "actor": "tamara"
+        }
+      }
+    },
+    {
+      "id": "urman.cutscene:tamara-fence/a029",
+      "kind": "cutscene-action",
+      "name": "Пауза",
+      "params": {
+        "action": "wait",
+        "seconds": 0.3
+      }
+    },
+    {
+      "id": "urman.cutscene:tamara-fence/a030",
+      "kind": "cutscene-action",
+      "name": "Тамара оглядывается",
+      "params": {
+        "action": "face",
+        "actor": "tamara",
+        "target": {
+          "point": [
+            -0.2,
+            -42.8
+          ]
+        }
+      }
+    },
+    {
+      "id": "urman.cutscene:tamara-fence/a031",
+      "kind": "cutscene-action",
+      "name": "Пауза",
+      "params": {
+        "action": "wait",
+        "seconds": 0.5
+      }
+    },
+    {
+      "id": "urman.cutscene:tamara-fence/a032",
+      "kind": "cutscene-action",
+      "name": "Тамара смотрит на парня",
+      "params": {
+        "action": "face",
+        "actor": "tamara",
+        "target": {
+          "actor": "guy"
+        }
+      }
+    },
+    {
+      "id": "urman.cutscene:tamara-fence/a033",
+      "kind": "cutscene-action",
+      "name": "Айдар: «Здравствуйте…»",
+      "params": {
+        "action": "say",
+        "speaker": "АЙДАР",
+        "text": "tamara-cutscene-aidar-hello",
+        "seconds": 1.1
+      }
+    },
+    {
+      "id": "urman.cutscene:tamara-fence/a034",
+      "kind": "cutscene-action",
+      "name": "Айдар: «Я… это…»",
+      "params": {
+        "action": "say",
+        "speaker": "АЙДАР",
+        "text": "tamara-cutscene-aidar-erm",
+        "seconds": 1.0
+      }
+    },
+    {
+      "id": "urman.cutscene:tamara-fence/a035",
+      "kind": "cutscene-action",
+      "name": "План «объясняет»",
+      "params": {
+        "action": "cut",
+        "tag": "explains",
+        "position": {
+          "point": [
+            6.3,
+            1.72,
+            -41.0
+          ]
+        },
+        "look": {
+          "point": [
+            4.75,
+            1.32,
+            -44.4
+          ]
+        },
+        "fov": 50,
+        "seconds": 8.2,
+        "handheld": false,
+        "pushIn": false
+      }
+    },
+    {
+      "id": "urman.cutscene:tamara-fence/a036",
+      "kind": "cutscene-action",
+      "name": "Айдар: «Меня Айдар зовут…»",
+      "params": {
+        "action": "say",
+        "speaker": "АЙДАР",
+        "text": "tamara-cutscene-aidar-name",
+        "seconds": 2.2
+      }
+    },
+    {
+      "id": "urman.cutscene:tamara-fence/a037",
+      "kind": "cutscene-action",
+      "name": "Парень смотрит на машину",
+      "params": {
+        "action": "face",
+        "actor": "guy",
+        "target": {
+          "point": [
+            0.0,
+            -43.2
+          ]
+        }
+      }
+    },
+    {
+      "id": "urman.cutscene:tamara-fence/a038",
+      "kind": "cutscene-action",
+      "name": "Айдар: «…немного занесло»",
+      "params": {
+        "action": "say",
+        "speaker": "АЙДАР",
+        "text": "tamara-cutscene-aidar-skid",
+        "seconds": 2.2
+      }
+    },
+    {
+      "id": "urman.cutscene:tamara-fence/a039",
+      "kind": "cutscene-action",
+      "name": "План «главная реплика»",
+      "params": {
+        "action": "cut",
+        "tag": "punchline",
+        "position": {
+          "point": [
+            1.75,
+            1.58,
+            -42.3
+          ],
+          "guyOffset": true
+        },
+        "look": {
+          "point": [
+            0.2,
+            1.42,
+            -41.95
+          ],
+          "guyOffset": true
+        },
+        "fov": 44,
+        "seconds": 7.4,
+        "handheld": false,
+        "pushIn": false
+      }
+    },
+    {
+      "id": "urman.cutscene:tamara-fence/a040",
+      "kind": "cutscene-action",
+      "name": "Парень: «Айдар Ришатович?..»",
+      "params": {
+        "action": "say",
+        "speaker": "ПАРЕНЬ С ТЕЛЕФОНОМ",
+        "text": "tamara-cutscene-guy-check",
+        "seconds": 1.0
+      }
+    },
+    {
+      "id": "urman.cutscene:tamara-fence/a041",
+      "kind": "cutscene-action",
+      "name": "Айдар: «Да.»",
+      "params": {
+        "action": "say",
+        "speaker": "АЙДАР",
+        "text": "tamara-cutscene-aidar-yes",
+        "seconds": 0.9
+      }
+    },
+    {
+      "id": "urman.cutscene:tamara-fence/a042",
+      "kind": "cutscene-action",
+      "name": "Парень смотрит на пролом",
+      "params": {
+        "action": "face",
+        "actor": "guy",
+        "target": {
+          "impact": true
+        }
+      }
+    },
+    {
+      "id": "urman.cutscene:tamara-fence/a043",
+      "kind": "cutscene-action",
+      "name": "Пауза",
+      "params": {
+        "action": "wait",
+        "seconds": 0.3
+      }
+    },
+    {
+      "id": "urman.cutscene:tamara-fence/a044",
+      "kind": "cutscene-action",
+      "name": "Парень смотрит на Тамару",
+      "params": {
+        "action": "face",
+        "actor": "guy",
+        "target": {
+          "actor": "tamara"
+        }
+      }
+    },
+    {
+      "id": "urman.cutscene:tamara-fence/a045",
+      "kind": "cutscene-action",
+      "name": "Пауза",
+      "params": {
+        "action": "wait",
+        "seconds": 0.25
+      }
+    },
+    {
+      "id": "urman.cutscene:tamara-fence/a046",
+      "kind": "cutscene-action",
+      "name": "Парень: «Айдар Ришатович…»",
+      "params": {
+        "action": "say",
+        "speaker": "ПАРЕНЬ С ТЕЛЕФОНОМ",
+        "text": "tamara-cutscene-guy-line-1",
+        "seconds": 1.3
+      }
+    },
+    {
+      "id": "urman.cutscene:tamara-fence/a047",
+      "kind": "cutscene-action",
+      "name": "Парень начинает смеяться",
+      "params": {
+        "action": "laugh",
+        "level": 0.45
+      }
+    },
+    {
+      "id": "urman.cutscene:tamara-fence/a048",
+      "kind": "cutscene-action",
+      "name": "Парень: «…забор Тамаре Геннадьевне»",
+      "params": {
+        "action": "say",
+        "speaker": "ПАРЕНЬ С ТЕЛЕФОНОМ",
+        "text": "tamara-cutscene-guy-line-2",
+        "seconds": 2.0
+      }
+    },
+    {
+      "id": "urman.cutscene:tamara-fence/a049",
+      "kind": "cutscene-action",
+      "name": "Парень смеётся",
+      "params": {
+        "action": "laugh",
+        "level": 1.0
+      }
+    },
+    {
+      "id": "urman.cutscene:tamara-fence/a050",
+      "kind": "cutscene-action",
+      "name": "План «реакция Тамары», наезд",
+      "params": {
+        "action": "cut",
+        "tag": "tamara-reaction",
+        "position": {
+          "point": [
+            3.5,
+            1.62,
+            -42.0
+          ]
+        },
+        "look": {
+          "point": [
+            4.7,
+            1.38,
+            -44.4
+          ]
+        },
+        "fov": 46,
+        "seconds": 4.6,
+        "handheld": false,
+        "pushIn": true
+      }
+    },
+    {
+      "id": "urman.cutscene:tamara-fence/a051",
+      "kind": "cutscene-action",
+      "name": "Тишина",
+      "params": {
+        "action": "wait",
+        "seconds": 2.6
+      }
+    },
+    {
+      "id": "urman.cutscene:tamara-fence/a052",
+      "kind": "cutscene-action",
+      "name": "Смех стихает",
+      "params": {
+        "action": "laugh",
+        "level": 0.5
+      }
+    },
+    {
+      "id": "urman.cutscene:tamara-fence/a053",
+      "kind": "cutscene-action",
+      "name": "Тамара смотрит на парня",
+      "params": {
+        "action": "face",
+        "actor": "tamara",
+        "target": {
+          "actor": "guy"
+        }
+      }
+    },
+    {
+      "id": "urman.cutscene:tamara-fence/a054",
+      "kind": "cutscene-action",
+      "name": "Тамара: «Ты снимаешь?»",
+      "params": {
+        "action": "say",
+        "speaker": "ТАМАРА ГЕННАДЬЕВНА",
+        "text": "tamara-cutscene-tamara-filming",
+        "seconds": 1.1,
+        "talk": "tamara"
+      }
+    },
+    {
+      "id": "urman.cutscene:tamara-fence/a055",
+      "kind": "cutscene-action",
+      "name": "Парень: «Ага…»",
+      "params": {
+        "action": "say",
+        "speaker": "ПАРЕНЬ С ТЕЛЕФОНОМ",
+        "text": "tamara-cutscene-guy-yes",
+        "seconds": 1.0
+      }
+    },
+    {
+      "id": "urman.cutscene:tamara-fence/a056",
+      "kind": "cutscene-action",
+      "name": "Тамара смотрит на машину",
+      "params": {
+        "action": "face",
+        "actor": "tamara",
+        "target": {
+          "point": [
+            -0.4,
+            -42.6
+          ]
+        }
+      }
+    },
+    {
+      "id": "urman.cutscene:tamara-fence/a057",
+      "kind": "cutscene-action",
+      "name": "Тамара: «Номер тогда сними.»",
+      "params": {
+        "action": "say",
+        "speaker": "ТАМАРА ГЕННАДЬЕВНА",
+        "text": "tamara-cutscene-tamara-plate",
+        "seconds": 1.3,
+        "talk": "tamara"
+      }
+    },
+    {
+      "id": "urman.cutscene:tamara-fence/a058",
+      "kind": "cutscene-action",
+      "name": "Парень смотрит на номер",
+      "params": {
+        "action": "face",
+        "actor": "guy",
+        "target": {
+          "point": [
+            -0.6,
+            -42.4
+          ]
+        }
+      }
+    },
+    {
+      "id": "urman.cutscene:tamara-fence/a059",
+      "kind": "cutscene-action",
+      "name": "План «про доски»",
+      "params": {
+        "action": "cut",
+        "tag": "boards-talk",
+        "position": {
+          "point": [
+            3.3,
+            1.68,
+            -41.4
+          ]
+        },
+        "look": {
+          "point": [
+            4.7,
+            1.25,
+            -44.4
+          ]
+        },
+        "fov": 46,
+        "seconds": 2.8,
+        "handheld": false,
+        "pushIn": false
+      }
+    },
+    {
+      "id": "urman.cutscene:tamara-fence/a060",
+      "kind": "cutscene-action",
+      "name": "Пауза",
+      "params": {
+        "action": "wait",
+        "seconds": 1.2
+      }
+    },
+    {
+      "id": "urman.cutscene:tamara-fence/a061",
+      "kind": "cutscene-action",
+      "name": "Парень почти успокоился",
+      "params": {
+        "action": "laugh",
+        "level": 0.2
+      }
+    },
+    {
+      "id": "urman.cutscene:tamara-fence/a062",
+      "kind": "cutscene-action",
+      "name": "Айдар: «Я никуда не уеду.»",
+      "params": {
+        "action": "say",
+        "speaker": "АЙДАР",
+        "text": "tamara-cutscene-aidar-stay",
+        "seconds": 1.2
+      }
+    },
+    {
+      "id": "urman.cutscene:tamara-fence/a063",
+      "kind": "cutscene-action",
+      "name": "Тамара смотрит на пролом",
+      "params": {
+        "action": "face",
+        "actor": "tamara",
+        "target": {
+          "impact": true
+        }
+      }
+    },
+    {
+      "id": "urman.cutscene:tamara-fence/a064",
+      "kind": "cutscene-action",
+      "name": "Тамара: «Вот и хорошо.»",
+      "params": {
+        "action": "say",
+        "speaker": "ТАМАРА ГЕННАДЬЕВНА",
+        "text": "tamara-cutscene-tamara-good",
+        "seconds": 1.0,
+        "talk": "tamara"
+      }
+    },
+    {
+      "id": "urman.cutscene:tamara-fence/a065",
+      "kind": "cutscene-action",
+      "name": "Тамара: «Шесть досок принесёшь.»",
+      "params": {
+        "action": "say",
+        "speaker": "ТАМАРА ГЕННАДЬЕВНА",
+        "text": "tamara-cutscene-tamara-boards",
+        "seconds": 1.5,
+        "talk": "tamara"
+      }
+    },
+    {
+      "id": "urman.cutscene:tamara-fence/a066",
+      "kind": "cutscene-action",
+      "name": "Пауза",
+      "params": {
+        "action": "wait",
+        "seconds": 0.35
+      }
+    },
+    {
+      "id": "urman.cutscene:tamara-fence/a067",
+      "kind": "cutscene-action",
+      "name": "Тамара: «Нормальных.»",
+      "params": {
+        "action": "say",
+        "speaker": "ТАМАРА ГЕННАДЬЕВНА",
+        "text": "tamara-cutscene-tamara-normal",
+        "seconds": 1.1,
+        "talk": "tamara"
+      }
+    },
+    {
+      "id": "urman.cutscene:tamara-fence/a068",
+      "kind": "cutscene-action",
+      "name": "Айдар: «Хорошо.»",
+      "params": {
+        "action": "say",
+        "speaker": "АЙДАР",
+        "text": "tamara-cutscene-aidar-ok",
+        "seconds": 1.0
+      }
+    },
+    {
+      "id": "urman.cutscene:tamara-fence/a069",
+      "kind": "cutscene-action",
+      "name": "Тамара смотрит на доски",
+      "params": {
+        "action": "face",
+        "actor": "tamara",
+        "target": {
+          "point": [
+            2.6,
+            -44.2
+          ]
+        }
+      }
+    },
+    {
+      "id": "urman.cutscene:tamara-fence/a070",
+      "kind": "cutscene-action",
+      "name": "Тамара: «Эти уже не нормальные.»",
+      "params": {
+        "action": "say",
+        "speaker": "ТАМАРА ГЕННАДЬЕВНА",
+        "text": "tamara-cutscene-tamara-not-these",
+        "seconds": 1.5,
+        "talk": "tamara",
+        "deadpan": true
+      }
+    },
+    {
+      "id": "urman.cutscene:tamara-fence/a071",
+      "kind": "cutscene-action",
+      "name": "План «вся улица»",
+      "params": {
+        "action": "cut",
+        "tag": "final-wide",
+        "position": {
+          "point": [
+            6.7,
+            2.1,
+            -40.2
+          ]
+        },
+        "look": {
+          "betweenActors": true
+        },
+        "fov": 70,
+        "seconds": 2.8,
+        "handheld": false,
+        "pushIn": false
+      }
+    },
+    {
+      "id": "urman.cutscene:tamara-fence/a072",
+      "kind": "cutscene-action",
+      "name": "Пауза",
+      "params": {
+        "action": "wait",
+        "seconds": 0.4
+      }
+    },
+    {
+      "id": "urman.cutscene:tamara-fence/a073",
+      "kind": "cutscene-action",
+      "name": "Парень отходит",
+      "params": {
+        "action": "move",
+        "actor": "guy",
+        "stops": [
+          [
+            -0.45,
+            -42.6
+          ]
+        ],
+        "speed": 0.35
+      }
+    },
+    {
+      "id": "urman.cutscene:tamara-fence/a074",
+      "kind": "cutscene-action",
+      "name": "Пауза",
+      "params": {
+        "action": "wait",
+        "seconds": 1.0
+      }
+    },
+    {
+      "id": "urman.cutscene:tamara-fence/a075",
+      "kind": "cutscene-action",
+      "name": "Смех кончился",
+      "params": {
+        "action": "laugh",
+        "level": 0.0
+      }
+    }
+  ]
+}

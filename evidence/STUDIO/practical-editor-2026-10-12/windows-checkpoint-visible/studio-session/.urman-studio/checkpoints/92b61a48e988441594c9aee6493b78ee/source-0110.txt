@@ -1,0 +1,9 @@
+{
+  "version": 1,
+  "account": "mansur",
+  "items": [
+    {"sku":"batteries","title":"Батарейки для фонаря","unit":"упаковка, 2 шт.","description":"Запасные батарейки; можно положить в карман.","uses":["portable-light/batteries"]},
+    {"sku":"matches","title":"Спички","unit":"коробок","description":"Сухие спички для растопки.","uses":["bathhouse/stove"]},
+    {"sku":"tea","title":"Чёрный чай","unit":"пачка, 50 г","description":"Домой, к общему столу.","uses":["house/tea"]}
+  ]
+}

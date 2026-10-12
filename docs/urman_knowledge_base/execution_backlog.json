@@ -81667,6 +81667,13 @@
                 "implementation": "Exports strict checkpoint manifests/source images, record-only resources, exact history-fence and existing sequence counter; checkpoint owner bound to validated ID/source allowlist, nonempty unique replacements may include all sources. Malformed/partial/oversized artifacts fail closed preserve source. AI shared targets copied once only after current receipt presence/bytes/SHA equality.",
                 "verification": "Luna implementation and Sol independent review: all-source rejection, duplicate payload and read-before-map initialization corrected; final review accepted. Python AST and targeted diff-check passed. No native checkpoint scenario yet.",
                 "remaining": "Safely deploy exporter after peer station release; real Windows RootHash schema/export and Create→two changes→Restore→Undo→actual restart still unverified."
+              },
+              {
+                "stage": "2026-10-12 named checkpoint authoring delivered",
+                "result": "OWN_CHECKPOINT_DOD_MET_WITH_NATIVE_CORE_RESTART_AND_VISIBLE_MODAL_EVIDENCE",
+                "source": "evidence/STUDIO/practical-editor-2026-10-12/windows-checkpoint-fixed; windows-checkpoint-restart; windows-checkpoint-visible",
+                "verification": "915 accepteddurable Createprivate8/noSave, twoedits9/10, explicitdiff/Restore8/Undo10/Undo9/7exactbytes; oldwindowexclusiveERROR preservedasfailedhistory. 2a0c actualsameSource two nativeprocesses101132/103568 showcheckpoint afterrestart; both0/noengineERROR/userdataRestoredtrue. Final c604 source2e230e90 visibleone-rootpreview, Cancelkeeps9 SHA94855…, Restore7 SHA0d5112…, UndoRestore9, Undo7 bytebaseline; gameExit0/wrapperPASS/noengineERROR/userdataRestoredtrue. All originalcapsule images/manifests/journals/counter/fence exported and preserved. CandidateCAS/pendingdraft guards retained. No synthetic/replayed/imported journal.",
+                "remaining_outside_unit": "Ordinarycatalogue restart separatelyaccepted. Mixed checkpoint/file/in-memory restart Undo stack intentionallyfenced, notclaimedrestored. Loaded3D rendererclose andcompleteB20/UX/performance/providerdomains remainopen."
               }
             ],
             "stage_tasks": [
@@ -81686,19 +81693,17 @@
               ],
               "done_when": "Checkpoint виден после restart; восстановление показывает diff и создаёт новую ревизию; старый и чужой варианты не уничтожены."
             },
-            "active_owner": "codex/b20-2026-10-10",
+            "active_owner": null,
             "activity": {
-              "state": "confirmed_active",
-              "reason": "Luna fixes checkpoint capture omitted saved/private shop and vehicle source; root integrates and reviews only this practical defect."
+              "state": "stage_delivered",
+              "reason": "Собственный finite checkpoint DoD выполнен: native Core cycle915, actualrestart2a0c, corrected visiblemodal c604 cleanPASS; исходные ошибки/артефакты сохранены."
             },
             "task_type": "aggregate",
-            "status": "todo",
-            "implementation_state": "partial",
-            "technical_verification_state": "not_run",
-            "remaining": [
-              "Checkpoint виден после restart; восстановление показывает diff и создаёт новую ревизию; старый и чужой варианты не уничтожены.; принятые child этапы повторно не разрабатывать."
-            ],
-            "next_action": "Закончить bounded checkpoint/restore-owner export и безопасное сохранение source при malformed; native Create draft snapshot→two saves→previewRestore→Undo→baseline, including form editability.",
+            "status": "completed",
+            "implementation_state": "implemented",
+            "technical_verification_state": "passed",
+            "remaining": [],
+            "next_action": "Использовать принятые контрольные точки; не повторять A24 без нового дефекта/изменённого входа. Продолжать другой dependency-ready B20 unit.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -81742,9 +81747,11 @@
                 "success": "Checkpoint виден после restart; восстановление показывает diff и создаёт новую ревизию; старый и чужой варианты не уничтожены.",
                 "repeat_only_if": "Изменён предметный contract/input или предыдущий сценарий неполон."
               },
-              "actual_result": null,
+              "actual_result": "Именованные snapshots включают saved/draft источники; visible diff/Restore, Undo с exactbytebaseline, checkpoint сохраняется после actualrestart. Native correctedmodal PASS0/userdataRestored.",
               "evidence_refs": [
-                "STUDIO/AI-39.evidence"
+                "evidence/STUDIO/practical-editor-2026-10-12/windows-checkpoint-fixed",
+                "evidence/STUDIO/practical-editor-2026-10-12/windows-checkpoint-restart",
+                "evidence/STUDIO/practical-editor-2026-10-12/windows-checkpoint-visible"
               ]
             },
             "dependencies": {
@@ -81954,22 +81961,27 @@
                       "result": "NATIVE_RESTART_AND_EXPORT_PASS_VISIBLE_PREVIEW_FIX_PENDING",
                       "source": "evidence/STUDIO/practical-editor-2026-10-12/windows-checkpoint-restart",
                       "verification": "Protected2a0c5c784823416d855099454e13e882 on5443a5c6 two actualprocesses101132/103568 same source; native list displays savedcheckpoint afterrestart; both exit0/noengineERROR,userdataRestoredtrue. Source7→9 cancelledpreview→Undo7 retained checkpoint. Exportoriginalmanifest/images/cataloguejournal/currentsource, counter. Nestedmodalbodywasoccluded bylist, soUXnotaccepted. Minimalone-root-popup replacement2e230e90 compiled0/0+Solreview; c604single-targetverificationpending."
+                    },
+                    {
+                      "stage": "2026-10-12 named checkpoint authoring delivered",
+                      "result": "OWN_CHECKPOINT_DOD_MET_WITH_NATIVE_CORE_RESTART_AND_VISIBLE_MODAL_EVIDENCE",
+                      "source": "evidence/STUDIO/practical-editor-2026-10-12/windows-checkpoint-fixed; windows-checkpoint-restart; windows-checkpoint-visible",
+                      "verification": "915 accepteddurable Createprivate8/noSave, twoedits9/10, explicitdiff/Restore8/Undo10/Undo9/7exactbytes; oldwindowexclusiveERROR preservedasfailedhistory. 2a0c actualsameSource two nativeprocesses101132/103568 showcheckpoint afterrestart; both0/noengineERROR/userdataRestoredtrue. Final c604 source2e230e90 visibleone-rootpreview, Cancelkeeps9 SHA94855…, Restore7 SHA0d5112…, UndoRestore9, Undo7 bytebaseline; gameExit0/wrapperPASS/noengineERROR/userdataRestoredtrue. All originalcapsule images/manifests/journals/counter/fence exported and preserved. CandidateCAS/pendingdraft guards retained. No synthetic/replayed/imported journal.",
+                      "remaining_outside_unit": "Ordinarycatalogue restart separatelyaccepted. Mixed checkpoint/file/in-memory restart Undo stack intentionallyfenced, notclaimedrestored. Loaded3D rendererclose andcompleteB20/UX/performance/providerdomains remainopen."
                     }
                   ],
                   "assigned_owner": "codex/b20-2026-10-10",
-                  "active_owner": "codex/b20-2026-10-10",
+                  "active_owner": null,
                   "activity": {
-                    "state": "confirmed_active",
-                    "reason": "Реализация контрольных точек48d0392b compiled0/0/source review. Luna исправляет bounded station export; следующий native A24 после release peer станции."
+                    "state": "stage_delivered",
+                    "reason": "Собственный finite checkpoint DoD выполнен: native Core cycle915, actualrestart2a0c, corrected visiblemodal c604 cleanPASS; исходные ошибки/артефакты сохранены."
                   },
                   "task_type": "integration_check",
-                  "status": "in_progress",
+                  "status": "completed",
                   "implementation_state": "implemented",
-                  "technical_verification_state": "failed",
-                  "remaining": [
-                    "Только новая visibility modal правка: single preview должен полностьювиден и Cancel/Restore/Undo должны пройти normal close без engineERROR. Checkpoint restart ужепринят2a0c."
-                  ],
-                  "next_action": "Один changed-source c6049ffc74984af7b6afe4a291bae21b: cleancheckpoint7→Save9→visible preview Cancel→reopen Restore7→Undo9→Undo7→normalclose. Не повторять ни Core two-edits cycle915, ни actualrestart2a0c.",
+                  "technical_verification_state": "passed",
+                  "remaining": [],
+                  "next_action": "Использовать принятые контрольные точки; не повторять A24 без нового дефекта/изменённого входа. Продолжать другой dependency-ready B20 unit.",
                   "blocker": null,
                   "external_gates": [],
                   "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -82018,8 +82030,12 @@
                       "success": "Выполнены все перечисленные собственные критерии, без расширения на родителя.",
                       "repeat_only_if": "Изменился source/candidate/input/покрываемый контракт."
                     },
-                    "actual_result": null,
-                    "evidence_refs": []
+                    "actual_result": "Именованные snapshots включают saved/draft источники; visible diff/Restore, Undo с exactbytebaseline, checkpoint сохраняется после actualrestart. Native correctedmodal PASS0/userdataRestored.",
+                    "evidence_refs": [
+                      "evidence/STUDIO/practical-editor-2026-10-12/windows-checkpoint-fixed",
+                      "evidence/STUDIO/practical-editor-2026-10-12/windows-checkpoint-restart",
+                      "evidence/STUDIO/practical-editor-2026-10-12/windows-checkpoint-visible"
+                    ]
                   },
                   "dependencies": {
                     "implementation": [
