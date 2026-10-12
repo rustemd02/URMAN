@@ -1,0 +1,110 @@
+{
+  "engine": "4.7.1-stable (official)",
+  "images": [
+    {
+      "dimensions_px": [
+        1800,
+        1200
+      ],
+      "photo_id": "P-FOREST",
+      "rendered_path": "/private/tmp/urman-photo-backs-render-20261012/p-forest.png"
+    },
+    {
+      "dimensions_px": [
+        1800,
+        1200
+      ],
+      "photo_id": "P-WATER",
+      "rendered_path": "/private/tmp/urman-photo-backs-render-20261012/p-water.png"
+    },
+    {
+      "dimensions_px": [
+        1800,
+        1200
+      ],
+      "photo_id": "P-HOUSE",
+      "rendered_path": "/private/tmp/urman-photo-backs-render-20261012/p-house.png"
+    },
+    {
+      "dimensions_px": [
+        1800,
+        1200
+      ],
+      "photo_id": "P-COMMON",
+      "rendered_path": "/private/tmp/urman-photo-backs-render-20261012/p-common.png"
+    },
+    {
+      "dimensions_px": [
+        1800,
+        1200
+      ],
+      "photo_id": "P-CELLAR",
+      "rendered_path": "/private/tmp/urman-photo-backs-render-20261012/p-cellar.png"
+    },
+    {
+      "dimensions_px": [
+        1800,
+        1200
+      ],
+      "photo_id": "S-SCHOOL",
+      "rendered_path": "/private/tmp/urman-photo-backs-render-20261012/s-school.png"
+    },
+    {
+      "dimensions_px": [
+        1800,
+        1200
+      ],
+      "photo_id": "S-BANK",
+      "rendered_path": "/private/tmp/urman-photo-backs-render-20261012/s-bank.png"
+    },
+    {
+      "dimensions_px": [
+        1800,
+        1200
+      ],
+      "photo_id": "S-PHOTOGRAPHER",
+      "rendered_path": "/private/tmp/urman-photo-backs-render-20261012/s-photographer.png"
+    },
+    {
+      "dimensions_px": [
+        1800,
+        1200
+      ],
+      "photo_id": "S-GARDEN",
+      "rendered_path": "/private/tmp/urman-photo-backs-render-20261012/s-garden.png"
+    },
+    {
+      "dimensions_px": [
+        1800,
+        1200
+      ],
+      "photo_id": "S-PRINT",
+      "rendered_path": "/private/tmp/urman-photo-backs-render-20261012/s-print.png"
+    },
+    {
+      "dimensions_px": [
+        1800,
+        1200
+      ],
+      "photo_id": "S-MARAT",
+      "rendered_path": "/private/tmp/urman-photo-backs-render-20261012/s-marat.png"
+    },
+    {
+      "dimensions_px": [
+        1800,
+        1200
+      ],
+      "photo_id": "S-HAND",
+      "rendered_path": "/private/tmp/urman-photo-backs-render-20261012/s-hand.png"
+    },
+    {
+      "dimensions_px": [
+        1800,
+        1200
+      ],
+      "photo_id": "S-NOW",
+      "rendered_path": "/private/tmp/urman-photo-backs-render-20261012/s-now.png"
+    }
+  ],
+  "native_game": "NOT_RUN"
+}
