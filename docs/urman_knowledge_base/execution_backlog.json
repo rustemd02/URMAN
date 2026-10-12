@@ -74036,7 +74036,8 @@
                 "verification": "ActualWindows LF/CRLF issue and323pairedimports/5UIDs diagnosed; temp prep neverlaunchedgame then rejectedchanged urman.chapter1.compiled.v1.json. ExistingContentCli owner deliberatelyregenerateschapter1/fullgame artifacts. Sol6.1medium independent source review chosefreshnormal protectedcycle ratherthanmore station mechanisms. No immutableguard weakened/no acceptancehistorydeleted.",
                 "remaining": "Run latest verifiedsource fullnativecycle withfresh comparablebefore/after/Undo; historicalsingle/7scope/multihouse/fullB20 acceptance unchanged."
               },
-              "2026-10-12: six B20 geometry checkpoint presets explicitly Low; camera specs/IDs/batch unchanged, independent Sol review and affected Game build 0/0 (17.00s). All other checkpoints/art High gates unchanged. Fifth frozen64390007 native request401377ccc0234e62a364a1ffec931040 rejected before Apply by turn/events(type), no source transaction. Provider now reports bounded ASCII itemType identifier, no payload logging/accepted-type expansion; native cause and full Undo still open."
+              "2026-10-12: six B20 geometry checkpoint presets explicitly Low; camera specs/IDs/batch unchanged, independent Sol review and affected Game build 0/0 (17.00s). All other checkpoints/art High gates unchanged. Fifth frozen64390007 native request401377ccc0234e62a364a1ffec931040 rejected before Apply by turn/events(type), no source transaction. Provider now reports bounded ASCII itemType identifier, no payload logging/accepted-type expansion; native cause and full Undo still open.",
+              "Fifth native457c final FAIL due exit resource leaks, gameexit0; no shader-uniform overflow in actual logs. Archive SHA be16448e791c4d20966a871427e7a60c608ab6fc69f3d71cd78d6e0c55beae82 preserved. current-targets recipe2bcbc3ad88f8ecec5473a7ed9b5d144f649c9d7cf90c0212ec34a6cafb0aa4b4 unchanged and three new outputs absent; no Apply/transaction. Six baseline frames explicitly graphicsComparable=false High→Low rescue; not matched acceptance. Final doctor ready=true orphan=false recovery_pending=false; no ACL comparison. Evidence evidence/STUDIO/b20-codex-ui-2026-10-12/windows-native-fifth."
             ],
             "stage_tasks": [
               "STUDIO.P1"
@@ -74155,7 +74156,10 @@
               },
               "actual_result": null,
               "evidence_refs": [
-                "STUDIO/AI-12.evidence"
+                "STUDIO/AI-12.evidence",
+                "evidence/STUDIO/b20-codex-ui-2026-10-12/windows-native-fifth/receipt.json",
+                "evidence/STUDIO/b20-codex-ui-2026-10-12/windows-native-fifth/result.zip",
+                "evidence/STUDIO/b20-codex-ui-2026-10-12/windows-native-fifth/codex-protocol-rejected.png"
               ]
             },
             "dependencies": {
@@ -74494,7 +74498,8 @@
                       "actual_windows_archive_check": "Same retained artifacts packed through fixed existing helper; old failedZIP/new resultZIP byte-identical SHA2563b38073bcfc70c3df48b3b2f5ee6c193b68bbb378a33d71a3909a16eb39845ef,244049bytes. Runtime FAIL preserved; API fetch verified archive.",
                       "userdata": "game.log: original files restored by rename and verified; Windows ACLs not compared. receipt recovery_pending=false."
                     },
-                    "2026-10-12: six B20 geometry checkpoint presets explicitly Low; camera specs/IDs/batch unchanged, independent Sol review and affected Game build 0/0 (17.00s). All other checkpoints/art High gates unchanged. Fifth frozen64390007 native request401377ccc0234e62a364a1ffec931040 rejected before Apply by turn/events(type), no source transaction. Provider now reports bounded ASCII itemType identifier, no payload logging/accepted-type expansion; native cause and full Undo still open."
+                    "2026-10-12: six B20 geometry checkpoint presets explicitly Low; camera specs/IDs/batch unchanged, independent Sol review and affected Game build 0/0 (17.00s). All other checkpoints/art High gates unchanged. Fifth frozen64390007 native request401377ccc0234e62a364a1ffec931040 rejected before Apply by turn/events(type), no source transaction. Provider now reports bounded ASCII itemType identifier, no payload logging/accepted-type expansion; native cause and full Undo still open.",
+                    "Fifth native457c final FAIL due exit resource leaks, gameexit0; no shader-uniform overflow in actual logs. Archive SHA be16448e791c4d20966a871427e7a60c608ab6fc69f3d71cd78d6e0c55beae82 preserved. current-targets recipe2bcbc3ad88f8ecec5473a7ed9b5d144f649c9d7cf90c0212ec34a6cafb0aa4b4 unchanged and three new outputs absent; no Apply/transaction. Six baseline frames explicitly graphicsComparable=false High→Low rescue; not matched acceptance. Final doctor ready=true orphan=false recovery_pending=false; no ACL comparison. Evidence evidence/STUDIO/b20-codex-ui-2026-10-12/windows-native-fifth."
                   ],
                   "assigned_owner": "codex/b20-2026-10-10",
                   "active_owner": "codex/b20-2026-10-10",
@@ -74619,7 +74624,10 @@
                       "evidence/STUDIO/b20-codex-ui-2026-10-12/windows-native-fourth/studio-session/.urman-studio/ai-jobs/1e980e79f0e548d0a1e7a597cc130f42/actions/d391ff1e67764701a2b37f791f6e52d1.json",
                       "evidence/STUDIO/b20-codex-ui-2026-10-12/windows-native-fourth/studio-session/.urman-studio/ai-jobs/1e980e79f0e548d0a1e7a597cc130f42/actions/1cfef2ce4fca4eb0a063468141c0a4ae.json",
                       "evidence/STUDIO/b20-codex-ui-2026-10-12/windows-native-fourth/studio-session/.urman-studio/transactions/7c1cc8ca61104b509e804bf84bbced75/journal.json",
-                      "evidence/STUDIO/b20-codex-ui-2026-10-12/windows-native-fourth/studio-session/.urman-studio/runs/run-20261012-050007-0786d1/manifest.json"
+                      "evidence/STUDIO/b20-codex-ui-2026-10-12/windows-native-fourth/studio-session/.urman-studio/runs/run-20261012-050007-0786d1/manifest.json",
+                      "evidence/STUDIO/b20-codex-ui-2026-10-12/windows-native-fifth/receipt.json",
+                      "evidence/STUDIO/b20-codex-ui-2026-10-12/windows-native-fifth/result.zip",
+                      "evidence/STUDIO/b20-codex-ui-2026-10-12/windows-native-fifth/codex-protocol-rejected.png"
                     ]
                   },
                   "dependencies": {
