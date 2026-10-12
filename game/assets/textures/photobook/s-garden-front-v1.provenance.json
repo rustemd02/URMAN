@@ -1,0 +1,20 @@
+{
+  "photo_id": "S-GARDEN",
+  "source_kind": "original_fictional_game_art",
+  "tool": "built-in image_gen.imagegen",
+  "model": "not returned by tool",
+  "generated_at_utc": "2026-10-12T01:35:43.260519+00:00",
+  "prompt": "Use case: illustration-story. Asset type: URMAN fictional family-album photograph S-GARDEN, landscape 3:2 composition, ideally 1800x1200 pixels. Primary brief, verbatim: «Обычный сад с предметными следами заботы, без портального свечения.» Depict an ordinary modest cared-for garden in a fictional Tatar village in late summer: planted vegetable beds with clear bare-earth paths, fruit trees, a resting watering can and a simple worn hand tool placed tidily after work. Domestic calm, inhabited through care rather than clutter. Painterly chromatic material realism: believable rural wooden construction, tangible quiet wood/soil/leaf surfaces, restrained brushwork and natural daylight; the image should read as a family snapshot reproduced inside a painterly game, not a dramatic fantasy landscape. Camera at ordinary standing height, comfortable garden view, no heroic angle. The garden itself is the subject. No people, no faces, no supernatural glow or portal, no ominous silhouettes, no weapons, no religious objects, no logos, no text, no date stamps. Full-bleed image, no photograph border or decorative frame; captions and paper corners will be separate editable UI. This is original fictional game art, not a real historic photograph. Produce one image.",
+  "authored_brief_source": "content/campaigns/urman.fullgame/photoworlds-sources/photos.spec.json#S-GARDEN",
+  "author_front_brief": "Обычный сад с предметными следами заботы, без портального свечения.",
+  "author_back_text_ru": "Сад после работы.",
+  "review": "Personally inspected: cultivated beds, fruit trees, watering can and resting tool, clear soil path, ordinary Tatar-style domestic woodwork. No people, text, portal or supernatural content.",
+  "rights_note": "Generated fictional game image; no claim of authentic archive or real household.",
+  "processing": "Original generated PNG copied unchanged; no crop, resize or retouch.",
+  "remaining": "Author art acceptance and protected runtime view; requested 1800x1200 production output and separate thumbnail remain open.",
+  "dimensions_px": [
+    1536,
+    1024
+  ],
+  "sha256": "4a5a8d6320218c912b5f404b62a17e36d9831ee1f5ed3a33a223408b3e04362f"
+}

@@ -61205,7 +61205,7 @@
             "active_owner": null,
             "activity": {
               "state": "not_active",
-              "reason": "Ограниченный source/export этап принят root; runtime интеграция и Windows визуальная приёмка открыты."
+              "reason": "Ограниченный roof-only runtime asset/import этап проверен; Windows художественная проверка открыта."
             },
             "task_type": "engineering",
             "status": "in_progress",
@@ -61214,14 +61214,15 @@
             "remaining": [
               "Согласовать силуэт, цоколь, вынос кровли и глубину проёмов эталонного дома с выбранным reference ID; собственного целевого receipt пока нет."
             ],
-            "next_action": "Интегрировать staged hero через существующий controlled pipeline и проверить подходящий Windows кадр после update worker; full E01/дом не закрыт.",
+            "next_action": "После освобождения станции выполнить целевой Windows вид/движение текущего дома с roof-only kit; отдельно сохранить переданный владельцу Seni regeneration drift. Полный E01 не закрыт.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
             "work_contract": {
               "result": "Согласовать силуэт, цоколь, вынос кровли и глубину проёмов эталонного дома с выбранным reference ID",
               "targets": [
-                "assets/source/blender/act1/urman_village_exterior_kit.py"
+                "assets/source/blender/act1/urman_village_exterior_kit.py",
+                "game/assets/models/act1/urman_village_exterior_kit.glb"
               ],
               "required_inputs": [],
               "scope_in": [
@@ -61260,10 +61261,28 @@
               "observed": "Продольные поднятые фальцы ржаво-коричневого листового железа; текущая hero Roof_LOD0 непрерывная без физического профиля seams.",
               "scope": "Add thin raised ribs for hero_layout only; preserve snow and other geometry.",
               "remaining": "Полная конструкция/силуэт/проёмы и текущая Windows художественная приёмка остаются открытыми; снег может скрывать ribs.",
-              "result": "30 физических фальцев, 15 на скат, шаг .54 м, высота .03 м; +360 triangles, существующий roof material. Targeted Blender hero-house export PASS, 666 meshes. Общий runtime kit не перезаписан.",
+              "result": "30 физических фальцев теперь добавлены в existing runtime kit; +360 triangles, +20,212 bytes. Все прежние mesh/accessor payloads/materials/трансформы сохранены; окна и стены не регенерированы.",
               "evidence": "evidence/ACT1-DEPTH/roof-seams-20261012/manifest.json",
               "staged_glb": "/private/tmp/urman-hero-roof-20261012/hero_house.glb",
-              "native_verification": "NOT_RUN: old Windows worker; snow may cover seams"
+              "native_verification": "NOT_RUN: Windows занят активным B20 владельцем; snow may cover seams.",
+              "runtime_integration_review": {
+                "existing_route": "recipe.modelPath res://assets/models/studio/hero-house-*.glb → KitPlacementTakeover.ApplyAuthored, onlyhero children, preservedplot transform.",
+                "blocked_input": "StagedSeniOuterGlassX±.48 vs currentkit±.35; SeniOuterWall topologychanged by canonicalregeneration. GlassclosedOpening receivescontact, so unrequestedcollision expands~.26m.",
+                "seam_contact": "Newseam mesh skippedbyexistingflatslabfilter; noextra contact.",
+                "source_capture": "evidence/STUDIO/b20-codex-ui-2026-10-12/windows-native-third/studio-session/.urman-studio/runs/run-20261012-033919-e4207b/B20_windows_exterior.png; oldkitmodel hash8ea...; notcurrentroofintegrationproof",
+                "next_action": "Roof-only integration выполнена прямым добавлением seam без regeneration; existing generator owner отдельно исправляет Seni drift полного canonical export. Новый Windows вид current kit и art acceptance ещё открыты."
+              },
+              "roof_only_integration": {
+                "asset": "game/assets/models/act1/urman_village_exterior_kit.glb",
+                "evidence": "evidence/ACT1-DEPTH/roof-seams-20261012/roof-only-import.json",
+                "output_sha256": "fdc69de9f580276f6a9c831bde60a0dad1728acdc533f00320e8a9009c233bf8",
+                "verification": "Root independently checked existing BIN bytes and all old JSON records; isolated Godot 4.7.1 GLTF import PASS; 1 seam mesh/surface, collision flat-slab skip confirmed. Personally inspected offline before/after images.",
+                "offline_preview": [
+                  "evidence/ACT1-DEPTH/roof-seams-20261012/offline-roof-before.png",
+                  "evidence/ACT1-DEPTH/roof-seams-20261012/offline-roof-after.png"
+                ],
+                "remaining": "Comparable Windows frames/movement and author art acceptance; no game-ready claim."
+              }
             }
           },
           {
@@ -112306,16 +112325,17 @@
             "active_owner": null,
             "activity": {
               "state": "not_active",
-              "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+              "reason": "Конечный S-GARDEN front candidate + acquired-only source integration проверены import/compile; native/art и остальной набор открыты."
             },
             "task_type": "engineering",
-            "status": "todo",
-            "implementation_state": "not_started",
+            "status": "in_progress",
+            "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
-              "Произвести 13 фронтов, 13 оборотов, миниатюры и транскрипции.; собственного целевого receipt пока нет."
+              "S-GARDEN: 1800×1200 final/thumbnail/back print, protected native view and author art acceptance; candidate front 1536×1024 imported and UI wired.",
+              "Остальные 12 fronts/backs/thumbnails/transcriptions и обязательные scene/identity alignment inputs; full E02 не выполнен."
             ],
-            "next_action": "Сопоставить текущий результат: Произвести 13 фронтов, 13 оборотов, миниатюры и транскрипции.. Затем изменить только установленный остаток.",
+            "next_action": "После освобождения станции проверить S-GARDEN acquired album view, смену карточки и Continue; отдельно принять art и завершить требуемые dimensions/representations. Прочие фото требуют своих scene/identity inputs.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -112324,9 +112344,15 @@
               "targets": [
                 "game/scripts/JournalUi.cs",
                 "game/scripts/JournalUi.Notebook.cs",
-                "src-dotnet/Urman.Core/Narrative/PhotoWorldCatalog.cs"
+                "src-dotnet/Urman.Core/Narrative/PhotoWorldCatalog.cs",
+                "game/assets/textures/photobook/s-garden-front-v1.png",
+                "game/assets/textures/photobook/s-garden-front-v1.provenance.json",
+                "game/scripts/JournalUi.PhotoBook.cs"
               ],
-              "required_inputs": [],
+              "required_inputs": [
+                "content/campaigns/urman.fullgame/photoworlds-sources/photos.spec.json: S-GARDEN front_brief; non-portal fictional support image",
+                "game/scripts/JournalUi.PhotoBook.cs: acquired-only projection and existing front-description fallback"
+              ],
               "scope_in": [
                 "Произвести 13 фронтов, 13 оборотов, миниатюры и транскрипции."
               ],
@@ -112344,7 +112370,7 @@
               ],
               "verification": {
                 "method": "targeted_runtime_scenario",
-                "question": "Произвести 13 фронтов, 13 оборотов, миниатюры и транскрипции.",
+                "question": "Изображён ли обычный ухоженный сад без портала, текстов и людей; отображается ли S-GARDEN image только при его acquired selection, с сохранённым текстовым описанием и state guards?",
                 "scenario": {
                   "targets": [
                     "game/scripts/JournalUi.cs",
@@ -112368,7 +112394,10 @@
                 ],
                 "repeat_only_if": "Изменился покрываемый вход/consumer/контракт; без этого уже принятая проверка используется повторно без запуска."
               },
-              "evidence_refs": [],
+              "evidence_refs": [
+                "evidence/PW-040/s-garden-20261012/receipt.json",
+                "game/assets/textures/photobook/s-garden-front-v1.provenance.json"
+              ],
               "source_criteria_parent": "PW-040"
             },
             "dependencies": {
@@ -112376,7 +112405,34 @@
               "verification": [],
               "acceptance": []
             },
-            "depends_on": []
+            "depends_on": [],
+            "progress_2026_10_12_s_garden": {
+              "photo_id": "S-GARDEN",
+              "asset": "game/assets/textures/photobook/s-garden-front-v1.png",
+              "sha256": "4a5a8d6320218c912b5f404b62a17e36d9831ee1f5ed3a33a223408b3e04362f",
+              "dimensions_px": [
+                1536,
+                1024
+              ],
+              "provenance": "game/assets/textures/photobook/s-garden-front-v1.provenance.json",
+              "personal_image_review": "PASS: ordinary tended garden; no people/text/portal; fictional art, not real archive",
+              "source_review": "Only selected acquired projection S-GARDEN loads texture; previous texture cleared on selection/session/empty/load; missing image keeps description; no reducers/save state modifications",
+              "import": {
+                "engine": "Godot 4.7.1 mono",
+                "result": "PASS",
+                "type": "CompressedTexture2D",
+                "log": "evidence/PW-040/s-garden-20261012/godot-import.log"
+              },
+              "compile": {
+                "result": "PASS",
+                "warnings": 0,
+                "errors": 0,
+                "elapsed_seconds": 26.79,
+                "log": "evidence/PW-040/s-garden-20261012/game-build.log"
+              },
+              "native_game": "NOT_RUN: active B20 station owner",
+              "remaining": "Windows album layout/selection/Continue; author art acceptance; exact 1800x1200 and separate thumbnail/backs/full 13-photo set."
+            }
           },
           {
             "id": "PW-040/E03",
