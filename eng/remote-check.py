@@ -234,6 +234,7 @@ def main():
     p.add_argument('command',choices=['doctor','smoke','capture','studio','status','fetch'])
     p.add_argument('--root',type=Path,default=Path(__file__).resolve().parent.parent)
     p.add_argument('--job-id');p.add_argument('--scene')
+    p.add_argument('--resume-job-id',help='studio only: resume from this retained terminal Studio job without uploading a new snapshot')
     p.add_argument('--points');p.add_argument('--timeout',type=int)
     p.add_argument('--phase',help='capture only: authored atmosphere profile id (URMAN_ATMOSPHERE_PHASE)')
     p.add_argument('--fov',help="capture only: 'player' (player camera FOV) or a number; default control views use 70")
@@ -244,6 +245,11 @@ def main():
     p.add_argument('--studio-readiness',action='store_true',
                    help='doctor only: check redacted native Studio, Codex, and Blender readiness')
     args=p.parse_args()
+    if args.resume_job_id is not None:
+        if args.command!='studio' or not re.fullmatch('[a-f0-9]{32}',args.resume_job_id):
+            p.error('--resume-job-id requires studio and a 32-character lowercase hex job ID')
+        if args.studio_authoring:
+            p.error('--studio-authoring cannot be combined with --resume-job-id')
     if args.studio_readiness and args.command!='doctor':
         p.error('--studio-readiness is only valid with doctor')
     if args.command=='studio' and (args.scene is not None or args.headless or args.points is not None
@@ -273,22 +279,41 @@ def main():
         health=c.request('/health')
         if not health['ready']:
             raise ValueError('station not ready: '+json.dumps(health))
-    # Hash the checkout, then let the station say which files it still lacks; only
-    # those are uploaded, so a rebuild after a code change costs kilobytes, not the
-    # whole tree. The identity is printed before POST: a lost reply is recovered with
-    # status/fetch on this job_id instead of a second run.
-    manifest=build_manifest(args.root, studio_authoring=studio or args.studio_authoring)
-    publish_snapshot(c,args.root,manifest)
-    jid=args.job_id or uuid.uuid4().hex
-    spec={'job_id':jid,'snapshot_id':manifest['snapshot_id'],'mode':args.command,
+    # A resume binds to the original terminal job's station-retained source. It does
+    # not inspect or publish the local checkout, and always creates a distinct job.
+    if args.resume_job_id is not None:
+        original=c.request('/jobs/'+args.resume_job_id)
+        if original.get('job_id')!=args.resume_job_id or original.get('status') not in ('PASS','FAIL'):
+            raise ValueError('resume source must be a terminal Studio job on the station')
+        snapshot_id=original.get('snapshot_id')
+        if not isinstance(snapshot_id,str) or not re.fullmatch('[a-f0-9]{64}',snapshot_id):
+            raise ValueError('terminal Studio job has no valid original snapshot identity')
+        jid=args.job_id or uuid.uuid4().hex
+        if not re.fullmatch('[a-zA-Z0-9_-]{8,64}',jid) or jid==args.resume_job_id:
+            p.error('--job-id for a resume must be a new valid job ID, different from --resume-job-id')
+        snapshot={'snapshot_id':snapshot_id}
+    else:
+        # Hash the checkout, then let the station say which files it still lacks; only
+        # those are uploaded, so a rebuild after a code change costs kilobytes, not the
+        # whole tree. The identity is printed before POST: a lost reply is recovered with
+        # status/fetch on this job_id instead of a second run.
+        manifest=build_manifest(args.root, studio_authoring=studio or args.studio_authoring)
+        publish_snapshot(c,args.root,manifest)
+        snapshot=manifest
+        jid=args.job_id or uuid.uuid4().hex
+    spec={'job_id':jid,'snapshot_id':snapshot['snapshot_id'],'mode':args.command,
           'scene':'res://scenes/act1_demo.tscn' if args.command=='capture' else scene,
           'timeout':timeout,'headless':args.headless,'points':args.points or ''}
+    if args.resume_job_id is not None:
+        spec['resume_job_id']=args.resume_job_id
     if args.phase:
         # Optional field: a station worker that predates it rejects the job loudly.
         spec['phase']=args.phase
     if args.fov:
         spec['fov']=args.fov
-    print('Job:',jid,'Snapshot:',manifest['snapshot_id'],flush=True)
+    print('Job:',jid,'Snapshot:',snapshot['snapshot_id'],flush=True)
+    if args.resume_job_id is not None:
+        print('Resuming retained Studio job:',args.resume_job_id,flush=True)
     try:
         result=c.request('/jobs',spec)
     except urllib.error.HTTPError:

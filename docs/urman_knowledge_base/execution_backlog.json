@@ -74019,6 +74019,14 @@
                 "implementation": "Existingcatalog root-local Bounds reused; component transforms applied into sharedpreview coordinates, Before/After union frames one fixed45deg camera atunioncenter. BeforeattachedbeforeAfterload toretaincleanup ownership. Toggle changesvisibilityonly; no camera scale jump.",
                 "verification": "Root code review, affectedGamecompile0warnings0errors14.95s, diffcheckPASS. Currentkit RoofStandingSeams geometry vsactualacceptedstage identical localTRS/720POSITION/720NORMAL/1080indices/material (maxdelta0).",
                 "remaining": "Nativepreviewframing/dropdown/sourcecapacity/viewportpause acceptance pending; originalUndo/game complete stillopen."
+              },
+              {
+                "stage": "2026-10-12 protected Studio accepted-state resume",
+                "result": "OFFLINE_CONTRACT_VERIFIED_NATIVE_PENDING",
+                "source": "eng/remote-check.py; eng/windows_station_worker.py",
+                "implementation": "Studio-only --resume-job-id creates a separate protected job/source from original terminal retained workspace; requires one accepted committed after-side HeroHouse transaction with four targets and authentic history. Hashes current bytes/images/request/proposal/actions/metadata, rejects source additions/changes and fences, pins copied metadata in separately hashed derived accepted-state provenance. Original job/archive/source remain intact; existing worker lock/runner/protected userdata/timeout/native admission unchanged. No pristine-original-snapshot claim.",
+                "verification": "Luna AST/diff and actual-export temporary happy-path4targets/32metadata verify_source; Sol6.1medium independent temporary assertions using actualfourthreceipt/export: rejects changed StudioRoot.cs, addedgame/build/extra.cs, badcounter, target/afterimagehash mismatch, sequence-copy andpostexportjournal races. No permanentfixtures/tests. Rootauthentic Windows counterlastOrder1/currentfourafterhashes verified separately beforedeployment; nativehistoryhydration andUndo stillpending.",
+                "remaining": "Deploy acceptedworker onlyidle preserving Windows localdocs/SSHsetup; native resume/frame/game/Undo actionreceipts required. Oldsnapshot hasoldbuffer/preview source; newer fixes remain separatefreshnative acceptance."
               }
             ],
             "stage_tasks": [
