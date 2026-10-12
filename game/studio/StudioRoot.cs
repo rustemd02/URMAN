@@ -122,10 +122,10 @@ public partial class StudioRoot : Control
         try
         {
             var pending = StudioFileTransaction.RecoverWithOwnedPathPolicy(RepositoryRoot,
-                path => StudioAiPanel.OwnsFile(path) || path == StudioItemsSection.SourcePath
-                    || path == StudioVehiclesSection.SourcePath,
+                StudioAiPanel.OwnsFile,
                 (owner, path) => StudioFileTransaction.IsAuthoredSourceDeletionOwner(owner)
-                    && StudioWorkspace.IsCanonicalAuthoredJsonSourcePath(path));
+                    && StudioWorkspace.IsCanonicalAuthoredJsonSourcePath(path)
+                    || StudioFileTransaction.IsOwnedCatalogPath(owner, path));
             if (pending.Count > 0)
             {
                 ShowBlocked("Нужно восстановить незавершённое изменение модели.",
@@ -149,7 +149,8 @@ public partial class StudioRoot : Control
                 StudioAiPanel.OwnsFile,
                 IsExactHeroHousePilotFileSet,
                 StudioFileTransaction.IsAuthoredSourceDeletionOwner,
-                StudioWorkspace.IsCanonicalAuthoredJsonSourcePath);
+                StudioWorkspace.IsCanonicalAuthoredJsonSourcePath,
+                includeOwnedCatalogs: true);
         }
         catch (Exception error) when (error is IOException or UnauthorizedAccessException or InvalidDataException or InvalidOperationException or ArgumentException)
         {

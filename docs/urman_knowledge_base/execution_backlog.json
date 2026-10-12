@@ -72654,6 +72654,19 @@
                   "https://code.claude.com/docs/en/env-vars"
                 ],
                 "next": "Reuse HouseWindow DTO/validator; check installed CLI, personal subscription auth and effective managed policy without exposing secrets before any model call. --bare requires API auth and is unsuitable; tool/MCP deny flags do not prove managed hooks inactive."
+              },
+              {
+                "stage": "2026-10-12 text clipboard and catalogue restart history",
+                "result": "SOURCE_GAME_COMPILE_0_0_REVIEW_NATIVE_OPEN",
+                "source": [
+                  "game/studio/StudioTextAiPanel.cs",
+                  "game/studio/StudioRoot.cs",
+                  "src-dotnet/Urman.Studio.Core/Editing/EditSession.cs",
+                  "src-dotnet/Urman.Studio.Core/Storage/StudioFileTransaction.cs"
+                ],
+                "actual_result": "Copy frozen text request+same output schema, paste through existing source/hash/proposal validator and manual preview/Apply. Closing revokes snapshot. Exact shop/vehicle one-file existing replacements join existing accepted ordered restart stack with8MiB source/image bounds; owner/path policy reused for interrupted recovery. No second history/provider registry.",
+                "verification": "Two Luna FAST implementers; independent Sol6.1medium review no blocker; diffcheck. Root compile caught and fixed nullable staging prehash check; final affected Game compile0warnings/0errors.",
+                "remaining": "Clipboard UI walkthrough, actual Claude client and catalogue restart Undo/Redo not run."
               }
             ],
             "stage_tasks": [
@@ -72681,13 +72694,11 @@
               "reason": "Назначение Codex/DeepSeek сохранено; миграция не запускает production и не выдаёт peer-передачу за активную работу."
             },
             "task_type": "engineering",
-            "status": "blocked",
+            "status": "in_progress",
             "implementation_state": "not_started",
             "technical_verification_state": "not_run",
-            "remaining": [
-              "Безопасный subscription transport; реальный Claude Request→Proposal→preview→Apply→Undo."
-            ],
-            "next_action": "Установить один подписочный invocation Claude с запретом tools/hooks без API fallback; дать точный argv и проверяемый предел.",
+            "remaining": "Clipboard source implemented/reviewed; native clipboard and real Claude/house workflow remain open.",
+            "next_action": "Verify clipboard text copy/paste in Windows and actual Claude account as available; preserve same frozen-source protocol.",
             "blocker": {
               "reason": "Установленный Claude2.1.285/personalOAuth: нет доказанного запрета hooks с сохранением подписочного режима. --bare требует API; help/status не являются inference.",
               "release_when": "Подтверждён подписочный CLI invocation без tools/hooks/записи либо автор выбрал другой безопасный разрешённый транспорт; затем отдельный реальный цикл."
@@ -73493,6 +73504,19 @@
                       "implementation": "Panel hide no longer cancels model/build. Completion checks cancellation and frozen-request freshness before persisted accepted proposal and preview promotion. Valid results, preview/stage and composing scope/text survive reopen; stale live selection/part/source/dependencies retire state. Hidden valid local failures remain recoverable. Explicit Stop cancels active CTS or revokes idle attempt; busy noncancellable Apply cannot clear request/proposal or falsely claim no project change. Initial visible-only user action gates and explicit manual Apply retained.",
                       "verification": "Luna FAST/Max implementation and bounded collision inspection; independent GPT6.1Sol medium full diff and final composing Open source reviews clean. Root affected Game compile 0 warnings/0 errors after final composing-scope logic change; diff-check/tracker validate PASS. No tests/probes/provider/Studio/game/Blender/native launches.",
                       "remaining": "Native hide/Stop/reopen/scope/Apply scenarios not run. Full generic A08/disjoint merge/same-field/double-apply and AI12 first-window request/game/byte Undo remain unverified."
+                    },
+                    {
+                      "stage": "2026-10-12 text clipboard and catalogue restart history",
+                      "result": "SOURCE_GAME_COMPILE_0_0_REVIEW_NATIVE_OPEN",
+                      "source": [
+                        "game/studio/StudioTextAiPanel.cs",
+                        "game/studio/StudioRoot.cs",
+                        "src-dotnet/Urman.Studio.Core/Editing/EditSession.cs",
+                        "src-dotnet/Urman.Studio.Core/Storage/StudioFileTransaction.cs"
+                      ],
+                      "actual_result": "Copy frozen text request+same output schema, paste through existing source/hash/proposal validator and manual preview/Apply. Closing revokes snapshot. Exact shop/vehicle one-file existing replacements join existing accepted ordered restart stack with8MiB source/image bounds; owner/path policy reused for interrupted recovery. No second history/provider registry.",
+                      "verification": "Two Luna FAST implementers; independent Sol6.1medium review no blocker; diffcheck. Root compile caught and fixed nullable staging prehash check; final affected Game compile0warnings/0errors.",
+                      "remaining": "Clipboard UI walkthrough, actual Claude client and catalogue restart Undo/Redo not run."
                     }
                   ],
                   "assigned_owner": "codex/b20-2026-10-10",
@@ -78586,7 +78610,20 @@
                       "result": "Core affected-module compile 0 warnings/0 errors; independent Sol6.1 medium source review: no actionable issue. No native runs/tests.",
                       "verification_scope": "Source barrier/hash guard only; no claim of complete OS concurrent-write atomicity."
                     },
-                    "12.10 source stage: game/studio/StudioRoot.cs OfferRecoveredDrafts complete-source recovery via Session.ReplaceDraft; five Luna FAST/Max bounded reviews and Sol6.1 medium independent review; no runtime/tests. Narrow Game compile 0 warnings/0 errors; native gates remain open."
+                    "12.10 source stage: game/studio/StudioRoot.cs OfferRecoveredDrafts complete-source recovery via Session.ReplaceDraft; five Luna FAST/Max bounded reviews and Sol6.1 medium independent review; no runtime/tests. Narrow Game compile 0 warnings/0 errors; native gates remain open.",
+                    {
+                      "stage": "2026-10-12 text clipboard and catalogue restart history",
+                      "result": "SOURCE_GAME_COMPILE_0_0_REVIEW_NATIVE_OPEN",
+                      "source": [
+                        "game/studio/StudioTextAiPanel.cs",
+                        "game/studio/StudioRoot.cs",
+                        "src-dotnet/Urman.Studio.Core/Editing/EditSession.cs",
+                        "src-dotnet/Urman.Studio.Core/Storage/StudioFileTransaction.cs"
+                      ],
+                      "actual_result": "Copy frozen text request+same output schema, paste through existing source/hash/proposal validator and manual preview/Apply. Closing revokes snapshot. Exact shop/vehicle one-file existing replacements join existing accepted ordered restart stack with8MiB source/image bounds; owner/path policy reused for interrupted recovery. No second history/provider registry.",
+                      "verification": "Two Luna FAST implementers; independent Sol6.1medium review no blocker; diffcheck. Root compile caught and fixed nullable staging prehash check; final affected Game compile0warnings/0errors.",
+                      "remaining": "Clipboard UI walkthrough, actual Claude client and catalogue restart Undo/Redo not run."
+                    }
                   ],
                   "assigned_owner": "codex/b20-2026-10-10",
                   "active_owner": null,

@@ -33,6 +33,10 @@ public sealed class StudioFileTransaction
     private const int JournalVersion = 1;
     internal const int MaximumAuthoredSourceBytes = 8 * 1024 * 1024;
     public const string AuthoredSourceDeletionOwnerPrefix = "urman.studio:authored-source-delete/";
+    private const string ShopCatalogOwner = "urman.studio:shop-catalog";
+    private const string ShopCatalogPath = "game/content/urman.shop.v1.json";
+    private const string VehicleCatalogOwner = "urman.studio:vehicle-catalog";
+    private const string VehicleCatalogPath = "game/content/vehicles/act1_vehicles.v1.json";
     private readonly string _root;
     private readonly string _directory;
     private readonly HashSet<string> _allowedPaths;
@@ -79,6 +83,15 @@ public sealed class StudioFileTransaction
         && Guid.TryParseExact(owner[AuthoredSourceDeletionOwnerPrefix.Length..], "N", out var operationId)
         && string.Equals(owner[AuthoredSourceDeletionOwnerPrefix.Length..], operationId.ToString("N"), StringComparison.Ordinal);
 
+    public static bool IsOwnedCatalogPath(string owner, string path) =>
+        owner == ShopCatalogOwner && path == ShopCatalogPath
+        || owner == VehicleCatalogOwner && path == VehicleCatalogPath;
+
+    private static bool IsOwnedCatalogOwner(string owner) => owner is ShopCatalogOwner or VehicleCatalogOwner;
+
+    private static bool IsBoundedSourceOwner(string owner) =>
+        IsAuthoredSourceDeletionOwner(owner) || owner is ShopCatalogOwner or VehicleCatalogOwner;
+
     /// <summary>
     /// Save pre/post images, write an applying journal, then promote every file.
     /// The caller accepts the transaction only after its edit command is ready to push.
@@ -94,7 +107,7 @@ public sealed class StudioFileTransaction
         var rootPath = NormalizeRoot(root);
         var allowlist = NormalizeAllowlist(rootPath, allowedPaths);
         var prepared = Prepare(rootPath, writes, allowlist,
-            IsAuthoredSourceDeletionOwner(owner) ? MaximumAuthoredSourceBytes : null);
+            IsBoundedSourceOwner(owner) ? MaximumAuthoredSourceBytes : null);
         if (prepared.Count == 0 && afterPromotion is null) return null;
 
         var transaction = CreateStaging(rootPath, owner, allowlist, prepared, afterPromotion, afterPromotionAsync: null);
@@ -151,7 +164,7 @@ public sealed class StudioFileTransaction
         var rootPath = NormalizeRoot(root);
         var allowlist = NormalizeAllowlist(rootPath, allowedPaths);
         var prepared = Prepare(rootPath, writes, allowlist,
-            IsAuthoredSourceDeletionOwner(owner) ? MaximumAuthoredSourceBytes : null);
+            IsBoundedSourceOwner(owner) ? MaximumAuthoredSourceBytes : null);
         if (prepared.Count == 0) return null;
 
         var transaction = CreateStaging(rootPath, owner, allowlist, prepared, nativeBarrier, afterPromotionAsync);
@@ -598,13 +611,14 @@ public sealed class StudioFileTransaction
         Func<IReadOnlyList<string>, bool> allowedFileSet,
         Func<string, bool> sourceDeletionOwner,
         Func<string, bool> sourceDeletionPath,
-        Func<string, byte[], string, Action> sourceDeletionAfterPromotion)
+        Func<string, byte[], string, Action> sourceDeletionAfterPromotion,
+        bool includeOwnedCatalogs = false)
     {
         ArgumentNullException.ThrowIfNull(sourceDeletionOwner);
         ArgumentNullException.ThrowIfNull(sourceDeletionPath);
         ArgumentNullException.ThrowIfNull(sourceDeletionAfterPromotion);
         return LoadCommittedFileHistoryCore(root, owner, allowedPath, allowedFileSet,
-            sourceDeletionOwner, sourceDeletionPath, sourceDeletionAfterPromotion);
+            sourceDeletionOwner, sourceDeletionPath, sourceDeletionAfterPromotion, includeOwnedCatalogs);
     }
 
     private static StudioFileHistoryStackLoadResult LoadCommittedFileHistoryCore(
@@ -614,7 +628,8 @@ public sealed class StudioFileTransaction
         Func<IReadOnlyList<string>, bool> allowedFileSet,
         Func<string, bool>? sourceDeletionOwner,
         Func<string, bool>? sourceDeletionPath,
-        Func<string, byte[], string, Action>? sourceDeletionAfterPromotion)
+        Func<string, byte[], string, Action>? sourceDeletionAfterPromotion,
+        bool includeOwnedCatalogs = false)
     {
         ArgumentNullException.ThrowIfNull(allowedPath);
         ArgumentNullException.ThrowIfNull(allowedFileSet);
@@ -630,7 +645,7 @@ public sealed class StudioFileTransaction
         if (!Directory.Exists(transactionRoot)) return new([], 0, null);
         EnsureNoLinks(rootPath, TransactionDirectory, allowStudioMetadata: true);
 
-        var matching = new List<(string Directory, Manifest Manifest, bool IsSourceDeletion, string? SourcePath, byte[]? SourceBeforeBytes)>();
+        var matching = new List<(string Directory, Manifest Manifest, bool IsSourceDeletion, bool IsCatalog, string? SourcePath, byte[]? SourceBeforeBytes)>();
         var unreadable = new List<string>();
         foreach (var directory in Directory.EnumerateDirectories(transactionRoot))
         {
@@ -648,8 +663,9 @@ public sealed class StudioFileTransaction
 
                 var manifest = ReadManifest(rootPath, directory);
                 var isSourceDeletion = sourceDeletionOwner?.Invoke(manifest.Owner) == true;
+                var isCatalog = includeOwnedCatalogs && IsOwnedCatalogOwner(manifest.Owner);
                 if (manifest.Status != "committed" || !manifest.Accepted
-                    || !isSourceDeletion && !string.Equals(manifest.Owner, owner, StringComparison.Ordinal))
+                    || !isSourceDeletion && !isCatalog && !string.Equals(manifest.Owner, owner, StringComparison.Ordinal))
                     continue;
 
                 string? sourcePath = null;
@@ -674,7 +690,16 @@ public sealed class StudioFileTransaction
                     sourcePath = normalizedSourcePath;
                 }
 
-                matching.Add((directory, manifest, isSourceDeletion, sourcePath, sourceBeforeBytes));
+                if (isCatalog && (manifest.Changes.Count != 1
+                    || !IsOwnedCatalogPath(manifest.Owner, manifest.Changes[0].RelativePath)
+                    || manifest.Changes[0].BeforeSha256 is null
+                    || manifest.Changes[0].AfterSha256 is null))
+                {
+                    unreadable.Add($"{id}: catalogue transaction is not an exact one-file replacement");
+                    continue;
+                }
+
+                matching.Add((directory, manifest, isSourceDeletion, isCatalog, sourcePath, sourceBeforeBytes));
             }
             catch (Exception error)
             {
@@ -703,7 +728,7 @@ public sealed class StudioFileTransaction
         var boundary = new Dictionary<string, string?>(StringComparer.Ordinal);
         var boundedAuthoredSourcePaths = new HashSet<string>(StringComparer.Ordinal);
         var transactions = new List<StudioFileTransaction>();
-        foreach (var (manifestDirectory, candidate, isSourceDeletion, sourcePath, sourceBeforeBytes) in matching)
+        foreach (var (manifestDirectory, candidate, isSourceDeletion, isCatalog, sourcePath, sourceBeforeBytes) in matching)
         {
             if (candidate.Side != candidate.RollbackSide || candidate.Side != candidate.TargetSide)
                 return new([], 0, "История Undo не восстановлена: стороны журнала противоречат друг другу.");
@@ -713,7 +738,9 @@ public sealed class StudioFileTransaction
             else cursor++;
 
             var normalizedPaths = new List<string>(candidate.Changes.Count);
-            var transactionPathAllowed = isSourceDeletion ? sourceDeletionPath! : allowedPath;
+            Func<string, bool> transactionPathAllowed = allowedPath;
+            if (isSourceDeletion) transactionPathAllowed = sourceDeletionPath!;
+            else if (isCatalog) transactionPathAllowed = path => IsOwnedCatalogPath(candidate.Owner, path);
             foreach (var change in candidate.Changes)
             {
                 if (!TryNormalizeForRecovery(rootPath, change.RelativePath, transactionPathAllowed, out var normalized))
@@ -723,18 +750,22 @@ public sealed class StudioFileTransaction
             if (normalizedPaths.Distinct(StringComparer.Ordinal).Count() != normalizedPaths.Count
                 || (isSourceDeletion
                     ? normalizedPaths.Count != 1 || !string.Equals(normalizedPaths[0], sourcePath, StringComparison.Ordinal)
-                    : !allowedFileSet(normalizedPaths)))
+                    : isCatalog
+                        ? normalizedPaths.Count != 1 || !IsOwnedCatalogPath(candidate.Owner, normalizedPaths[0])
+                        : !allowedFileSet(normalizedPaths)))
                 return new([], 0, isSourceDeletion
                     ? "История Undo не восстановлена: путь исходника удаления изменился."
-                    : "История Undo не восстановлена: набор файлов не соответствует контракту изменения дома.");
+                    : isCatalog
+                        ? "История Undo не восстановлена: путь каталога не соответствует его владельцу."
+                        : "История Undo не восстановлена: набор файлов не соответствует контракту изменения дома.");
             if (ValidateManifestImages(rootPath, manifestDirectory, candidate,
-                    isSourceDeletion ? MaximumAuthoredSourceBytes : null).Count > 0)
+                    isSourceDeletion || isCatalog ? MaximumAuthoredSourceBytes : null).Count > 0)
                 return new([], 0, "История Undo не восстановлена: сохранённые версии файлов повреждены или недоступны.");
 
             foreach (var change in candidate.Changes)
             {
                 var path = NormalizeRelativePath(change.RelativePath);
-                if (isSourceDeletion) boundedAuthoredSourcePaths.Add(path);
+                if (isSourceDeletion || isCatalog) boundedAuthoredSourcePaths.Add(path);
                 if (chain.TryGetValue(path, out var previous) && previous != change.BeforeSha256)
                     return new([], 0, "История Undo не восстановлена: исходные версии команд не образуют непрерывную цепочку.");
                 chain[path] = change.AfterSha256;
@@ -864,23 +895,37 @@ public sealed class StudioFileTransaction
         if (allowedOwnedPath is null || manifest.Changes.Count != 1) return allowedPath;
         var change = manifest.Changes[0];
         if (!TryNormalizeRecoveryPath(root, change.RelativePath, out var sourcePath)
-            || !allowedOwnedPath(manifest.Owner, sourcePath)
-            || change.BeforeSha256 is null || change.AfterSha256 is not null)
+            || !allowedOwnedPath(manifest.Owner, sourcePath))
             return allowedPath;
 
-        var verified = manifest.Status switch
-        {
-            "staging" => IsValidCurrentAuthoredEntityList(root, sourcePath, change.BeforeSha256),
-            "applying" => IsValidAuthoredEntityListBeforeImage(root, directory, change),
-            _ => false
-        };
+        var isSourceDeletion = IsAuthoredSourceDeletionOwner(manifest.Owner)
+            && change.BeforeSha256 is not null && change.AfterSha256 is null;
+        var isCatalogReplacement = IsOwnedCatalogPath(manifest.Owner, sourcePath)
+            && change.BeforeSha256 is not null && change.AfterSha256 is not null;
+        if (!isSourceDeletion && !isCatalogReplacement) return allowedPath;
+
+        var verified = isSourceDeletion
+            ? manifest.Status switch
+            {
+                "staging" => change.BeforeSha256 is { } beforeSha256
+                    && IsValidCurrentAuthoredEntityList(root, sourcePath, beforeSha256),
+                "applying" => IsValidAuthoredEntityListBeforeImage(root, directory, change),
+                _ => false
+            }
+            : isCatalogReplacement && (manifest.Status switch
+                {
+                    "staging" => change.BeforeSha256 is not null
+                        && CurrentSha256(root, sourcePath, MaximumAuthoredSourceBytes) == change.BeforeSha256,
+                    "applying" => ValidateManifestImages(root, directory, manifest, MaximumAuthoredSourceBytes).Count == 0,
+                    _ => false
+                });
         return verified ? path => allowedPath(path) || string.Equals(path, sourcePath, StringComparison.Ordinal) : allowedPath;
     }
 
-    // This only bounds diagnostic reads. Path access still depends on the normal allowlist or
-    // the stricter verified owner policy above.
+    // Bound source reads; path access still depends on the allowlist or verified owner policy above.
     private static int? RecoveryByteLimit(Manifest manifest) =>
         manifest.Owner.StartsWith(AuthoredSourceDeletionOwnerPrefix, StringComparison.Ordinal)
+            || IsOwnedCatalogOwner(manifest.Owner)
             ? MaximumAuthoredSourceBytes
             : null;
 
@@ -1204,7 +1249,7 @@ public sealed class StudioFileTransaction
         var name = side == "before" ? change.BeforeImage : change.AfterImage;
         var path = Path.Combine(_directory, name ?? throw new InvalidDataException("Missing transaction image name."));
         EnsureNoLinks(_root, Path.GetRelativePath(_root, path).Replace('\\', '/'), allowStudioMetadata: true);
-        var bytes = IsAuthoredSourceDeletionOwner(Owner)
+        var bytes = IsBoundedSourceOwner(Owner)
             ? ReadBoundedFile(path, MaximumAuthoredSourceBytes)
             : File.ReadAllBytes(path);
         if (!string.Equals(AtomicFile.Sha256(bytes), hash, StringComparison.Ordinal))
@@ -1216,7 +1261,7 @@ public sealed class StudioFileTransaction
     }
 
     private string? CurrentSha256(string relativePath) => CurrentSha256(_root, relativePath,
-        IsAuthoredSourceDeletionOwner(Owner) ? MaximumAuthoredSourceBytes : null);
+        IsBoundedSourceOwner(Owner) ? MaximumAuthoredSourceBytes : null);
 
     private static string? CurrentSha256(string root, string relativePath) => CurrentSha256(root, relativePath, null);
 
@@ -1285,7 +1330,7 @@ public sealed class StudioFileTransaction
     }
 
     private static IReadOnlyList<PreparedChange> Prepare(
-        string root, IReadOnlyList<StudioFileWrite> writes, HashSet<string> allowlist, int? maximumBeforeFileBytes)
+        string root, IReadOnlyList<StudioFileWrite> writes, HashSet<string> allowlist, int? maximumSourceBytes)
     {
         var normalizedWrites = new List<(string RelativePath, string? ExpectedSha256, byte[]? Bytes)>();
         var seen = new HashSet<string>(StringComparer.Ordinal);
@@ -1312,7 +1357,7 @@ public sealed class StudioFileTransaction
             var path = ResolveInternal(root, write.RelativePath);
             if (Directory.Exists(path)) throw new IOException($"Transaction target is a directory: {write.RelativePath}");
             var before = File.Exists(path)
-                ? maximumBeforeFileBytes is { } maximum ? ReadBoundedFile(path, maximum) : File.ReadAllBytes(path)
+                ? maximumSourceBytes is { } maximum ? ReadBoundedFile(path, maximum) : File.ReadAllBytes(path)
                 : null;
             var beforeSha = before is null ? null : AtomicFile.Sha256(before);
             if (!string.Equals(beforeSha, write.ExpectedSha256, StringComparison.Ordinal))
@@ -1321,6 +1366,8 @@ public sealed class StudioFileTransaction
             }
 
             var after = write.Bytes;
+            if (maximumSourceBytes is { } maximumAfter && after is { } afterBytes && afterBytes.LongLength > maximumAfter)
+                throw new InvalidDataException("Transaction source exceeds the 8 MiB image budget.");
             var afterSha = after is null ? null : AtomicFile.Sha256(after);
             if (string.Equals(beforeSha, afterSha, StringComparison.Ordinal)) continue;
             prepared.Add(new(write.RelativePath, write.ExpectedSha256, before, after, beforeSha, afterSha));

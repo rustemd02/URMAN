@@ -28,6 +28,8 @@ public partial class StudioTextAiPanel : AcceptDialog
     private readonly Button _ask;
     private readonly Button _stop;
     private readonly Button _apply;
+    private readonly Button _copyRequest;
+    private readonly Button _pasteResponse;
     private string? _entityId;
     private EntityTextRequest? _request;
     private EntityTextProposal? _proposal;
@@ -64,11 +66,14 @@ public partial class StudioTextAiPanel : AcceptDialog
         _globalInstructions.Toggled += allowed => SaveGlobalInstructionConsent(_consentPath, allowed);
         body.AddChild(_globalInstructions);
 
-        var actions = new HBoxContainer();
+        var actions = new HFlowContainer { SizeFlagsHorizontal = Control.SizeFlags.ExpandFill };
         body.AddChild(actions);
         _ask = StudioRoot.Button(actions, "Предложить вариант", () => _ = AskAsync());
         _stop = StudioRoot.Button(actions, "Остановить", StopCurrentOperation);
         _apply = StudioRoot.Button(actions, "Применить в черновик", ApplyProposal);
+        _copyRequest = StudioRoot.Button(actions, "Скопировать запрос", CopyRequest);
+        _copyRequest.TooltipText = "Снимок действует, пока открыта эта панель; при закрытии он будет отозван.";
+        _pasteResponse = StudioRoot.Button(actions, "Вставить ответ ИИ", PasteResponse);
 
         var compare = new HBoxContainer { SizeFlagsVertical = Control.SizeFlags.ExpandFill };
         body.AddChild(compare);
@@ -132,6 +137,62 @@ public partial class StudioTextAiPanel : AcceptDialog
         if (_freshnessTimer < 1.5) return;
         _freshnessTimer = 0;
         RefreshRequestFreshness();
+    }
+
+    private void CopyRequest()
+    {
+        if (IsActionBusy || HasActiveOperation || !Visible || _entityId is null) return;
+        try
+        {
+            var request = CaptureRequest();
+            EnsureRequestCurrent(request);
+            var prompt = EntityTextProposalProtocol.BuildPrompt(request)
+                + "\n\nReturn only a JSON object, without Markdown fences or commentary.\nOutput JSON schema:\n"
+                + EntityTextProposalProtocol.BuildOutputSchema(request).GetRawText();
+            DisplayServer.ClipboardSet(prompt);
+            _request = request;
+            _proposal = null;
+            _stale = false;
+            _before.Text = request.Source.CurrentText;
+            _after.Text = string.Empty;
+            _status.Text = ConsentStatus("Снимок запроса и JSON-схема скопированы. Оставьте панель открытой, вставьте ответ для проверки предпросмотра. Проект не изменён.");
+        }
+        catch (Exception error) when (IsRecoverable(error))
+        {
+            _status.Text = ConsentStatus("Запрос не скопирован: " + error.Message);
+        }
+        UpdateControls();
+    }
+
+    private void PasteResponse()
+    {
+        if (IsActionBusy || !Visible || _request is not { } request || _proposal is not null || _stale) return;
+        try
+        {
+            EnsureRequestCurrent(request);
+        }
+        catch (Exception error) when (IsRecoverable(error))
+        {
+            _stale = true;
+            _status.Text = ConsentStatus("Ответ не принят: исходный текст изменился. Скопируйте новый запрос. " + error.Message);
+            UpdateControls();
+            return;
+        }
+
+        try
+        {
+            var proposal = EntityTextProposalProtocol.ParseProposal(DisplayServer.ClipboardGet(), request);
+            EntityTextProposalProtocol.ValidateProposal(request, proposal);
+            _proposal = proposal;
+            _stale = false;
+            _after.Text = proposal.ProposedText;
+            _status.Text = ConsentStatus("Ответ проверен: " + proposal.Summary + " Проверьте текст до применения.");
+        }
+        catch (Exception error) when (IsRecoverable(error))
+        {
+            _status.Text = ConsentStatus("Ответ не принят: " + error.Message + " Нужен JSON именно для скопированного запроса.");
+        }
+        UpdateControls();
     }
 
     private async Task AskAsync()
@@ -337,7 +398,7 @@ public partial class StudioTextAiPanel : AcceptDialog
         _stale = false;
         _before.Text = string.Empty;
         _after.Text = string.Empty;
-        _status.Text = "Описание изменилось. Предыдущее предложение отозвано.";
+        _status.Text = "Описание изменилось. Предыдущий запрос и предложение отозваны.";
         UpdateControls();
     }
 
@@ -377,6 +438,9 @@ public partial class StudioTextAiPanel : AcceptDialog
             || _prompt.Text.Length > EntityTextProposalProtocol.MaximumPromptCharacters;
         _stop.Disabled = !_busy;
         _apply.Disabled = busy || _stale || _proposal is null || _request is null;
+        _copyRequest.Disabled = busy || HasActiveOperation || _entityId is null || string.IsNullOrWhiteSpace(_prompt.Text)
+            || _prompt.Text.Length > EntityTextProposalProtocol.MaximumPromptCharacters;
+        _pasteResponse.Disabled = busy || _stale || _request is null || _proposal is not null;
     }
 
     private void LoadGlobalInstructionConsent(string path)
