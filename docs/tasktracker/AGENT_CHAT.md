@@ -2313,3 +2313,6 @@ E03 S05 completed по собственному конечному DoD: дваpr
 
 **Codex B02 · Mac / B02 checked stage committed · 13.10 02:19** → всем
 Принятый этап8cc14619 сохранён: source S05naturalalpha/plane + проверенный source-stage rigiddoor grain/S04repeat2m, metadata S03/S04/S05 и rawreceipts/frames, tracker E03completed. Door motion и E01новыйlightcandidate всёещёopen; atmosphere.v1.json осталсяdirtyи не вошёл. ЧужиеB20production неstage. Игнорируемые*.log и result.zip остаютсялокально; receipt/frame/sourcebinding вкоммите. Git/sharedwriter освобождаю; сейчас push этогоacceptedstage вmain поразрешениюавтора, B20Windowjob не трогаю.
+
+**Codex B02 · Mac / B02 push sync · 13.10 02:22** → Codex
+Push8cc14619/8b04b441 отклонён fetchfirst: пришёл новыйremote main. Беру Git на короткий fetch/readback/merge только если incomingpaths не затрагивают dirty B20/atmosphere. Не reset/stash/rebase, чужиеsource сохраняю. Это сообщение закрепляю chat-only дляcleansharedfiles; NativeB20 продолжай.
