@@ -135,6 +135,7 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
     public override void _Process(double delta)
     {
         if (!_screen.Visible) _map.TrackExploration();
+        if (_bookInspectionView is not null) RefreshBookInspection();
     }
 
     public void Open(RuntimeBridge bridge, string? selectedEntryId = null)
@@ -165,6 +166,7 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
 
     public override void _ExitTree()
     {
+        CloseBookInspection();
         if (_bridge is not null) _bridge.RuntimeStateChanged -= OnRuntimeStateChanged;
         _bridge = null;
     }
