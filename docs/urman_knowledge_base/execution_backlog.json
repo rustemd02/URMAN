@@ -20990,13 +20990,13 @@
             "task_type": "engineering",
             "status": "in_progress",
             "implementation_state": "partial",
-            "technical_verification_state": "failed",
+            "technical_verification_state": "not_run",
             "remaining": [
               "Native373b проходит initial full fleet/materials, но mapped interact не сажает в Ниву у actual driver door: VehicleSmokeTest.cs114.",
               "Маршруты, ввод, сохранения и безопасный выход ещё не достигнуты. Четыре PNG лично просмотрены; side вид перекрыт gatepost, художественная готовность/бюджет отдельно."
             ],
-            "next_action": "Сопоставить ordinary entry InteractionTarget/ray и controller guards с фактическим outside PNG и существующим Approach; исправить только подтверждённую причину.",
-            "blocker": null,
+            "next_action": "После peer release и doctor ready один существующий VEHICLE на уточнённом сообщении; не обходить lease/guards.",
+            "blocker": "Для native уточнения ожидается явный release живого Codex lease16:40; source compile принят, production cause ещё неизвестна.",
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
             "work_contract": {
@@ -21007,7 +21007,8 @@
                 "game/scripts/VehicleVisualFactory.cs",
                 "game/scripts/Act1ConnectedWorld.Vehicles.cs",
                 "game/scripts/experiments/agent_b_act1/AgentBAct1HeightField.cs",
-                "game/scripts/VehicleVisualFactory.Cabin.cs"
+                "game/scripts/VehicleVisualFactory.Cabin.cs",
+                "game/tests/VehicleSmokeTest.cs"
               ],
               "required_inputs": [],
               "scope_in": [
@@ -21100,8 +21101,13 @@
               "failure": "babay-niva enters through actual ray and mapped action; VehicleSmokeTest.cs114",
               "evidence": "evidence/ACT1-TRANSPORT/native_373baa07d2f54247978440ca8b7ac475/",
               "visual_review": "Root personally viewed front-three-quarter, rear-three-quarter,full-side,outside4PNGs. Front/rear vehicle visible; side occluded by large foreground gatepost despite camera-clear assertion; outside crosshair on closed driverdoor, no entry prompt. No motion/save/art acceptance.",
-              "verification_question": "Does ordinary mapped interact via actual ray at Niva driverdoor enter and preserve session/exit state?",
-              "success": "Existing runtime reaches normal entry; no direct TryEnter/testskip. Routes/save/exit remain required."
+              "verification_question": "Which selected target/entry availability or existing player/fleet gate rejects the ordinary mapped entry in the same scenario?",
+              "success": "Existing failed assertion reports causal current states; then fix only confirmed path. Entry/movement/save criteria unchanged.",
+              "cause_state": "Unconfirmed: raw Approach ray does not prove selected controller target or CanEnter floor/space guard; two hypotheses are not fixes.",
+              "message_refinement": "Same existing Require condition/action/sequence; failure label only now includes actual controller target, entry availability, IsOnFloor/CanEnter reason, fleet Suspended/deferred. No new test/assertion/fixture or direct TryEnter.",
+              "native_state": "NOT_RUN; waiting explicit peer station release",
+              "affected_compile": "0 errors,0 warnings;43.32s",
+              "station_owner": "Codex lease16:40 preserved despite doctor ready/busy null."
             }
           },
           {
