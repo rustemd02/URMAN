@@ -504,7 +504,10 @@ def _studio_resume_workspace_inventory(source, expected_source_files, expected_s
     actual_studio_files = set()
     pending = [source_root]
     entries_seen = 0
-    override_bytes = b'[filesystem]\nimport/blender/enabled=false\n'
+    override_bytes = {
+        b'[filesystem]\nimport/blender/enabled=false\n',
+        b'[filesystem]\r\nimport/blender/enabled=false\r\n',
+    }
     while pending:
         directory = pending.pop()
         directory_info = directory.lstat()
@@ -529,7 +532,7 @@ def _studio_resume_workspace_inventory(source, expected_source_files, expected_s
                     continue
                 if relative == 'game/override.cfg':
                     _, raw = _studio_read(source, relative, 128, 'station-local Studio override')
-                    if raw != override_bytes:
+                    if raw not in override_bytes:
                         raise ValueError('retained Studio source has an unexpected local override')
                     continue
                 if relative.startswith('.urman-studio/'):
@@ -2025,16 +2028,27 @@ class Station:
                 write_json(receipt_path,receipt)
 
             if is_studio:
+                primary_error = (status.get('error') if status.get('status') == 'FAIL'
+                                 and isinstance(status.get('error'), str) else None)
                 try:
                     export_studio_session(source, output)
                     preserve_source = False
                 except Exception as error:
                     preserve_source = True
-                    status.update(status='FAIL', error='Studio evidence export failed: ' + str(error)[:1800], exit_code=1)
+                    export_error = str(error)[:1800]
+                    status.update(status='FAIL', exit_code=1)
+                    if primary_error:
+                        status['evidence_export_error'] = export_error
+                    else:
+                        status['error'] = 'Studio evidence export failed: ' + export_error
                     receipt_path = output/'receipt.json'
                     receipt = json.loads(receipt_path.read_text(encoding='utf-8-sig')) if receipt_path.exists() else {}
-                    receipt.update(status='FAIL', error=status['error'], job_id=spec['job_id'],
+                    receipt.update(status='FAIL', job_id=spec['job_id'],
                                    snapshot_id=spec['snapshot_id'], studio_evidence_preserved_on_station=True)
+                    if primary_error:
+                        receipt.update(error=primary_error, evidence_export_error=export_error)
+                    else:
+                        receipt['error'] = status['error']
                     write_json(receipt_path, receipt)
 
             write_json(output/'request.json',spec)
