@@ -74440,7 +74440,7 @@
                   "active_owner": "codex/b20-2026-10-10",
                   "activity": {
                     "state": "confirmed_active",
-                    "reason": "Second Windows native job0c6f6da finished; actual focus fixed, physical part picking absent and nested disclosure obscured. Readiness refused before model turn due new CLI features. Three narrow source fixes compiled; preparing new-input verification."
+                    "reason": "Third protected Windows native job e3533d2cea2f47ed9f053c3e7c0d2557 accepted; snapshot9644c41ee0a1523330d5c3945e8b486befa3a1b121a78eecbaa127ee29ed0cf4, source8258e067. New input fixes Studio collider lifetime/embedded childdialogs and mandatorynewCLIfeaturedisables; fullworkflowopen."
                   },
                   "task_type": "integration_check",
                   "status": "in_progress",
