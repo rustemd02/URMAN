@@ -113861,19 +113861,20 @@
             "owner": "art",
             "evidence": [],
             "assigned_owner": "art",
-            "active_owner": "/root/niva_support_patch",
+            "active_owner": null,
             "activity": {
-              "state": "confirmed_active",
-              "reason": "Luna implements finite selected-photo origin labels from existing authored provenance kinds; root integrates. No station or new save owner."
+              "state": "released",
+              "reason": "Finite origin-label source accepted by root diff review and affected Game compile0/0; actual UI/native and complete E03 remain open."
             },
             "task_type": "engineering",
             "status": "in_progress",
-            "implementation_state": "not_started",
+            "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
-              "Разделить игровой вымышленный документ, разрешённую копию и проходной снимок.; собственного целевого receipt пока нет."
+              "Actual selected S-PRINT/S-SCHOOL origin-label UI has not been viewed; verify placement/readback/acquired/session lifecycle and unknown kinds after peer station release.",
+              "Full E03 passage/document/copy differentiation and applicable artwork/source-rights criteria remain open; no portal role or real rights claim added."
             ],
-            "next_action": "Передать существующий optional provenanceKind через typed catalog/acquired projection и показать две точные исходные категории в выбранной карточке альбома; затем review/affected compile, native отдельно.",
+            "next_action": "После peer release и доставки действующего guarded UI client осмотреть выбранные полученные S-PRINT/S-SCHOOL; проверить две подписи и отсутствие выдачи непрочитанного оборота, затем принять только фактический этап.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -113940,8 +113941,15 @@
             "progress_2026_10_13_origin_labels": {
               "verification_question": "Does selected acquired S-PRINT/S-SCHOOL show its authored document/copy origin without raw IDs, rights claims, story/world spoilers or leaking unread back captions?",
               "success": "Optional provenance metadata survives typed projection, exact friendly labels only for authored family-pc-contact-sheet/school-album-copy; unknown kinds omitted; existing acquired/backRead/session/placement paths unchanged.",
-              "source_state": "Luna source implementation started; not compiled/native verified.",
-              "scope": "Finite family document vs school copy origin slice only; full passage categorization/E03 author/runtime criteria remain open."
+              "source_state": "Root accepted three-file diff: optional init-only ProvenanceKind, two exact authored acquired-only OriginLabels, selected card existing wrapped Placement label adds origin line; positional constructors/schema/save/session/backRead/mount unchanged.",
+              "scope": "Finite family document vs school copy origin slice only; full passage categorization/E03 author/runtime criteria remain open.",
+              "affected_compile": "Game build succeeded:0 errors,0 warnings;27.07s",
+              "native_state": "NOT_RUN; actual acquired S-PRINT/S-SCHOOL selected-card layout, unknown-kind omission and lifecycle need station after existing peer queue.",
+              "evidence": [
+                "src-dotnet/Urman.Core/Narrative/PhotoWorldCatalog.cs",
+                "game/scripts/RuntimeBridge.PhotoBook.cs",
+                "game/scripts/JournalUi.PhotoBook.cs"
+              ]
             }
           }
         ]

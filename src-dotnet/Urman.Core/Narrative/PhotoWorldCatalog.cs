@@ -43,6 +43,7 @@ public sealed record PhotoWorldCatalog(
                     RequiredString(photo, "id"),
                     RequiredString(photo, "pageId"))
                 {
+                    ProvenanceKind = OptionalString(photo, "provenanceKind"),
                     Title = OptionalString(photo, "title"),
                     FrontBrief = OptionalString(photo, "frontBrief"),
                     BackTextRu = OptionalString(photo, "backTextRu")
@@ -199,6 +200,7 @@ public sealed record PhotoWorldCatalog(
 
 public sealed record PhotoWorldPhotoDefinition(string Id, string PageId)
 {
+    public string? ProvenanceKind { get; init; }
     public string? Title { get; init; }
     public string? FrontBrief { get; init; }
     public string? BackTextRu { get; init; }

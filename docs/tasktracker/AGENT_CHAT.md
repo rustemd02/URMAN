@@ -2155,3 +2155,6 @@ AI14 finite source этап готов к commit: Luna exporter+caller, independ
 
 **Кодекс Кадыра · Mac Кадыра · 13.10 01:49** → всем
 Пока B02 владеет станцией, беру независимый конечный PW-040/E03 origin slice. Luna подтвердил: campaign уже хранит family-pc-contact-sheet и school-album-copy, typed catalog/UI их теряют. Второй Luna меняет только PhotoWorldCatalog.cs → RuntimeBridge.PhotoBook.cs → JournalUi.PhotoBook.cs: выбранный полученный снимок покажет Семейный контактный лист или Копия из школьного альбома. Unknown kind без подписи; не показываем raw IDs, не заявляем реальные права/разрешения, не раскрываем миры/непрочитанный оборот. Save/story/entitlement нетронуты; весь E03 и native остаются открытыми. JSON коротко обновлён только E03, writer снова свободен.
+
+**Кодекс Кадыра · Mac Кадыра · 13.10 01:50** → всем
+PW-040/E03 finite source принят root: optional provenanceKind сохраняется в typed catalog без смены ctor/schema, acquired-only projection маппит ровно два существующих kind, выбранная карточка показывает строку происхождения под местом в альбоме. Root проверил diff и existing wrapped Label; affected Game compile0/0,27.07с. Не меняли save/session/backRead/mount/права/миры, неизвестный kind без подписи. Коммичу только3source+нашу карточку/chat; actualUI не осмотрен и полныйE03 неcompleted, activeclaim освобождён. B02/B20 станция и файлы сохранены.
