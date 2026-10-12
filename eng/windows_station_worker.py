@@ -17,7 +17,7 @@ import threading
 import time
 import zipfile
 
-from remote_common import (MAX_ARCHIVE, MAX_RESULT_BYTES, MAX_RESULT_FILES, MAX_SOURCE,
+from remote_common import (MAX_ARCHIVE, MAX_RESULT_BYTES, MAX_RESULT_FILES,
                            STUDIO_AUTHORING_FILES, canonical, digest, unpack_snapshot,
                            validate_manifest, verify_source)
 
@@ -44,8 +44,6 @@ STUDIO_MAX_RUN_MANIFEST = 16 * 1024
 STUDIO_MAX_RUN_LOG = 8 * 1024**2
 STUDIO_MAX_RUN_FRAME = STUDIO_MAX_ACTION_FRAME
 STUDIO_MAX_RUN_FRAME_JSON = 256 * 1024
-STUDIO_MAX_WORKSPACE_ENTRIES = 100_000
-STUDIO_MAX_GODOT_SIDECAR = 64 * 1024
 STUDIO_HOUSE_WINDOW_IDS = (
     'B20_windows_exterior', 'B20_windows_interior', 'B20_windows_seni',
     'B20_windows_rear', 'B20_windows_left', 'B20_windows_right',
@@ -400,508 +398,6 @@ def _studio_write_marker(job):
             os.fsync(stream.fileno())
     except FileExistsError:
         return
-
-
-def _studio_resume_origin(jobs, resume_job_id, snapshot_id):
-    if not re.fullmatch('[a-f0-9]{32}', resume_job_id):
-        raise ValueError('resume source job ID is invalid')
-    job = _studio_path(jobs, resume_job_id, kind='dir')
-    _, status_bytes = _studio_read(job, 'status.json', 16 * 1024, 'original Studio job status')
-    status = _studio_json(status_bytes, 16 * 1024, 'original Studio job status')
-    _, request_bytes = _studio_read(job, 'request.json', 16 * 1024, 'original Studio job request')
-    request = _studio_json(request_bytes, 16 * 1024, 'original Studio job request')
-    required_request = {'job_id', 'snapshot_id', 'mode', 'scene', 'timeout', 'headless', 'points'}
-    if (not isinstance(status, dict) or status.get('job_id') != resume_job_id
-            or status.get('status') not in ('PASS', 'FAIL')
-            or type(status.get('finished')) not in (int, float)
-            or not 0 < status.get('finished') < 1_000_000_000_000
-            or status.get('snapshot_id') != snapshot_id):
-        raise ValueError('resume source must be a terminal Studio job for the original snapshot')
-    if (not isinstance(request, dict) or set(request) != required_request
-            or request.get('job_id') != resume_job_id or request.get('snapshot_id') != snapshot_id
-            or request.get('mode') != 'studio' or request.get('scene') != STUDIO_SCENE
-            or type(request.get('timeout')) is not int or not 1 <= request['timeout'] <= 3600
-            or request.get('headless') is not False or request.get('points') != ''):
-        raise ValueError('resume source is not an original fixed-scene Studio job')
-
-    source = _studio_path(job, 'source', kind='dir')
-    _, manifest_bytes = _studio_read(source, 'snapshot-manifest.json', 8 * 1024**2,
-                                     'original Studio snapshot manifest')
-    manifest = _studio_json(manifest_bytes, 8 * 1024**2, 'original Studio snapshot manifest')
-    try:
-        manifest_is_valid = (isinstance(manifest, dict)
-                             and set(manifest) == {'schema', 'repository', 'base_commit', 'dirty_paths', 'files', 'snapshot_id'}
-                             and manifest_bytes == canonical(manifest)
-                             and validate_manifest(manifest) == snapshot_id)
-    except (AttributeError, KeyError, TypeError, ValueError) as error:
-        raise ValueError('retained source does not contain the original immutable snapshot manifest') from error
-    if not manifest_is_valid:
-        raise ValueError('retained source does not contain the original immutable snapshot manifest')
-    manifest_files = set(manifest['files'])
-    if (manifest_files & STUDIO_AUTHORING_FILES != STUDIO_AUTHORING_FILES
-            or 'game/content/studio/hero_house.recipe.json' not in manifest_files
-            or 'game/studio/studio_main.tscn' not in manifest_files):
-        raise ValueError('resume source manifest lacks the fixed Studio pilot inputs')
-    return job, source, manifest
-
-
-def _studio_retain_resume_origin(job):
-    marker = Path(job) / STUDIO_PRESERVE_MARKER
-    try:
-        marker.lstat()
-    except FileNotFoundError:
-        _studio_write_marker(job)
-    _, marker_bytes = _studio_read(job, STUDIO_PRESERVE_MARKER, 128, 'Studio source preservation marker')
-    if marker_bytes != b'preserve source until Studio evidence is archived\n':
-        raise ValueError('original Studio source marker is invalid')
-
-
-def _studio_resume_source_candidate(relative, expected_source_files):
-    if relative in expected_source_files:
-        return True
-    parts = relative.split('/')
-    if len(parts) == 1:
-        if parts[0] not in {'global.json', 'Directory.Build.props', 'Directory.Build.targets',
-                            'Directory.Packages.props', 'NuGet.Config', 'nuget.config',
-                            'Urman.slnx', 'AGENTS.md'}:
-            return False
-    elif parts[0] not in {'content', 'game', 'src-dotnet', 'tools-dotnet', 'eng'} and relative not in STUDIO_AUTHORING_FILES:
-        return False
-    # These are the known generated caches excluded by the project snapshot path.
-    # Other ignored directories such as game/build or game/incoming may contain
-    # MSBuild inputs; count their files so an unexpected source file rejects resume.
-    if any(part.lower() in {'bin', 'obj', '.godot'} for part in parts):
-        return False
-    if relative.lower().endswith(('.blend', '.blend1', '.blend2')):
-        return False
-    # An ignored or otherwise excluded path in an active source root is still
-    # suspicious unless it is one of the safe generated caches above.
-    return True
-
-
-def _studio_resume_sidecar_limit(relative, expected_source_files):
-    if not relative.startswith('game/'):
-        return None
-    if relative.endswith('.import'):
-        counterpart = relative[:-len('.import')]
-        if Path(counterpart).suffix.lower() not in {'.png', '.svg', '.jpg', '.wav', '.ogg', '.glb'}:
-            return None
-    elif relative.endswith('.uid'):
-        counterpart = relative[:-len('.uid')]
-        if Path(counterpart).suffix.lower() not in {'.cs', '.gd', '.gdshader'}:
-            return None
-    else:
-        return None
-    if counterpart not in expected_source_files:
-        return None
-    return STUDIO_MAX_GODOT_SIDECAR
-
-
-def _studio_validate_resume_sidecar(relative, raw):
-    if relative.endswith('.import'):
-        counterpart = relative[:-len('.import')]
-        try:
-            content = raw.decode('utf-8')
-        except UnicodeDecodeError as error:
-            raise ValueError('paired Godot import metadata is not UTF-8: ' + relative) from error
-        expected_source = counterpart[len('game/'):]
-        current_section = None
-        deps_sections = 0
-        assignments = []
-        for line in content.splitlines():
-            stripped = line.strip()
-            if stripped.startswith('[') and stripped.endswith(']'):
-                current_section = stripped
-                if current_section == '[deps]':
-                    deps_sections += 1
-            elif re.match(r'^\s*source_file\s*=', line):
-                assignments.append((current_section, line))
-        expected_line = f'source_file="res://{expected_source}"'
-        if (deps_sections != 1 or len(assignments) != 1
-                or assignments[0] != ('[deps]', expected_line)):
-            raise ValueError('paired Godot import metadata has an unexpected source path: ' + relative)
-        return
-    try:
-        content = raw.decode('ascii')
-    except UnicodeDecodeError as error:
-        raise ValueError('paired Godot UID metadata is not ASCII: ' + relative) from error
-    if not re.fullmatch(r'uid://[a-z0-9]{1,64}\r?\n?', content):
-        raise ValueError('paired Godot UID metadata has an unexpected value: ' + relative)
-
-
-def _studio_resume_local_settings(source):
-    settings = {}
-    for relative in ('.urman-studio/codex-pilot.json', '.urman-studio/preferences.json'):
-        path = _studio_path(source, relative, missing=True)
-        if path is None:
-            continue
-        path, raw = _studio_read(source, relative, 16 * 1024, 'Studio local settings')
-        value = _studio_json(raw, 16 * 1024, 'Studio local settings')
-        if not isinstance(value, dict):
-            raise ValueError('Studio local settings must be a JSON object')
-        if relative.endswith('codex-pilot.json'):
-            if set(value) != {'allowGlobalInstructions'} or type(value['allowGlobalInstructions']) is not bool:
-                raise ValueError('Studio Codex consent settings have an unsupported shape')
-        elif (set(value) - {'tourDone'} or
-              ('tourDone' in value and type(value['tourDone']) is not bool)):
-            raise ValueError('Studio tour preferences have an unsupported shape')
-        settings[relative] = (path, len(raw), hashlib.sha256(raw).hexdigest(), 16 * 1024)
-    return settings
-
-
-def _studio_resume_workspace_inventory(source, expected_source_files, expected_studio_files):
-    source_root = Path(source)
-    actual_source_files = set()
-    actual_studio_files = set()
-    paired_sidecars = {}
-    pending = [source_root]
-    entries_seen = 0
-    override_bytes = {
-        b'[filesystem]\nimport/blender/enabled=false\n',
-        b'[filesystem]\r\nimport/blender/enabled=false\r\n',
-    }
-    while pending:
-        directory = pending.pop()
-        directory_info = directory.lstat()
-        if _studio_reparse(directory_info) or not stat.S_ISDIR(directory_info.st_mode):
-            raise ValueError('retained Studio source contains a non-regular directory')
-        with os.scandir(directory) as entries:
-            for entry in entries:
-                entries_seen += 1
-                if entries_seen > STUDIO_MAX_WORKSPACE_ENTRIES:
-                    raise ValueError('retained Studio source exceeds its bounded entry count')
-                path = Path(entry.path)
-                info = entry.stat(follow_symlinks=False)
-                if _studio_reparse(info):
-                    raise ValueError('retained Studio source contains a link or reparse point')
-                relative = path.relative_to(source_root).as_posix()
-                if stat.S_ISDIR(info.st_mode):
-                    pending.append(path)
-                    continue
-                if not stat.S_ISREG(info.st_mode):
-                    raise ValueError('retained Studio source contains a non-regular file')
-                if relative == 'snapshot-manifest.json':
-                    continue
-                if relative == 'game/override.cfg':
-                    _, raw = _studio_read(source, relative, 128, 'station-local Studio override')
-                    if raw not in override_bytes:
-                        raise ValueError('retained Studio source has an unexpected local override')
-                    continue
-                if relative.startswith('.urman-studio/'):
-                    actual_studio_files.add(relative)
-                    if relative in expected_source_files:
-                        actual_source_files.add(relative)
-                elif relative in expected_source_files:
-                    actual_source_files.add(relative)
-                else:
-                    sidecar_limit = _studio_resume_sidecar_limit(relative, expected_source_files)
-                    if sidecar_limit is not None:
-                        _, raw = _studio_read(source, relative, sidecar_limit,
-                                              'paired Godot import/UID metadata')
-                        _studio_validate_resume_sidecar(relative, raw)
-                        paired_sidecars[relative] = (
-                            path, len(raw), hashlib.sha256(raw).hexdigest(), sidecar_limit)
-                        actual_source_files.add(relative)
-                    elif _studio_resume_source_candidate(relative, expected_source_files):
-                        actual_source_files.add(relative)
-
-    expected_source_with_sidecars = expected_source_files | set(paired_sidecars)
-    if actual_source_files != expected_source_with_sidecars:
-        extra = sorted(actual_source_files - expected_source_with_sidecars)
-        missing = sorted(expected_source_with_sidecars - actual_source_files)
-        raise ValueError('retained source file set differs from the accepted transaction state: '
-                         + (extra[0] if extra else missing[0]))
-    if actual_studio_files != expected_studio_files:
-        raise ValueError('retained Studio metadata contains unexpected or missing files')
-    return actual_source_files, paired_sidecars
-
-
-def _studio_copy_verified(source, destination, expected_size, expected_hash, limit):
-    source = Path(source)
-    destination = Path(destination)
-    size, source_hash = _studio_hash(source, limit)
-    if size != expected_size or source_hash != expected_hash:
-        raise ValueError('Studio resume input changed before copying: ' + str(source.name))
-    destination.parent.mkdir(parents=True, exist_ok=True)
-    copied = 0
-    hasher = hashlib.sha256()
-    with source.open('rb') as incoming, destination.open('xb') as outgoing:
-        for chunk in iter(lambda: incoming.read(1024**2), b''):
-            copied += len(chunk)
-            if copied > limit:
-                raise ValueError('Studio resume input grew beyond its size limit')
-            outgoing.write(chunk)
-            hasher.update(chunk)
-        outgoing.flush()
-        os.fsync(outgoing.fileno())
-    if copied != expected_size or hasher.hexdigest() != expected_hash:
-        raise ValueError('Studio resume input changed while being copied: ' + str(source.name))
-
-
-def _studio_require_exported_resume_bytes(metadata_to_copy, relative, raw):
-    expected = metadata_to_copy.get(relative)
-    if (expected is None or expected[1] != len(raw)
-            or expected[2] != hashlib.sha256(raw).hexdigest()):
-        raise ValueError('Studio resume metadata changed after its export snapshot: ' + relative)
-
-
-def _studio_prepare_resume_workspace(jobs, resume_job_id, snapshot_id, destination):
-    original_job, original_source, base_manifest = _studio_resume_origin(jobs, resume_job_id, snapshot_id)
-    _studio_retain_resume_origin(original_job)
-
-    with tempfile.TemporaryDirectory(prefix='urman-studio-resume-audit-',
-                                     dir=Path(destination).parent) as temporary:
-        audit_output = Path(temporary) / 'export'
-        audit_output.mkdir()
-        export_studio_session(original_source, audit_output)
-        exported_root = audit_output / 'studio-session'
-        expected_studio_files = set()
-        metadata_to_copy = {}
-        for item in exported_root.rglob('*'):
-            if not item.is_file():
-                continue
-            relative = item.relative_to(exported_root).as_posix()
-            if relative.startswith('.urman-studio/'):
-                expected_studio_files.add(relative)
-                export_path = _studio_path(exported_root, relative)
-                limit = _studio_export_file_limit(relative)
-                size, sha = _studio_hash(export_path, limit)
-                metadata_to_copy[relative] = (export_path, size, sha, limit)
-
-        local_settings = _studio_resume_local_settings(original_source)
-        expected_studio_files.update(local_settings)
-        metadata_to_copy.update(local_settings)
-
-        transaction_root = _studio_path(original_source, '.urman-studio/transactions', kind='dir')
-        transaction_dirs = _studio_children(transaction_root, STUDIO_MAX_TRANSACTIONS,
-                                            'Studio transaction directories')
-        journals = []
-        largest_order = 0
-        for directory in transaction_dirs:
-            if not re.fullmatch('[a-f0-9]{32}', directory.name):
-                raise ValueError('retained Studio transaction ID is invalid')
-            _, raw = _studio_read(original_source,
-                                  f'.urman-studio/transactions/{directory.name}/journal.json',
-                                  STUDIO_MAX_JOURNAL, 'Studio transaction journal')
-            _studio_require_exported_resume_bytes(
-                metadata_to_copy, f'.urman-studio/transactions/{directory.name}/journal.json', raw)
-            journal = _studio_json(raw, STUDIO_MAX_JOURNAL, 'Studio transaction journal')
-            order = journal.get('acceptedOrder') if isinstance(journal, dict) else None
-            if order is not None:
-                if type(order) is not int or not 0 < order <= (1 << 63) - 1:
-                    raise ValueError('retained Studio accepted order is invalid')
-                largest_order = max(largest_order, order)
-            journals.append((directory.name, journal, hashlib.sha256(raw).hexdigest()))
-
-        sequence_relative = '.urman-studio/history-sequence.json'
-        sequence_path, sequence_bytes = _studio_read(original_source, sequence_relative, 4 * 1024,
-                                                     'Studio history sequence')
-        sequence = _studio_json(sequence_bytes, 4 * 1024, 'Studio history sequence')
-        if (not isinstance(sequence, dict) or set(sequence) != {'version', 'scope', 'lastOrder'}
-                or type(sequence.get('version')) is not int or sequence['version'] != 1
-                or sequence.get('scope') != 'studio-file-history'
-                or type(sequence.get('lastOrder')) is not int
-                or not 0 <= sequence['lastOrder'] <= (1 << 63) - 1
-                or sequence['lastOrder'] < largest_order):
-            raise ValueError('Studio history sequence does not authenticate the retained accepted order')
-        expected_studio_files.add(sequence_relative)
-        sequence_hash = hashlib.sha256(sequence_bytes).hexdigest()
-        exported_sequence = metadata_to_copy.get(sequence_relative)
-        if exported_sequence is not None and (exported_sequence[1] != len(sequence_bytes)
-                                               or exported_sequence[2] != sequence_hash):
-            raise ValueError('Studio history sequence changed after its export snapshot')
-        metadata_to_copy[sequence_relative] = (sequence_path, len(sequence_bytes), sequence_hash, 4 * 1024)
-        lock_relative = '.urman-studio/history-sequence.lock'
-        lock_path = _studio_path(original_source, lock_relative, missing=True)
-        lock_hash = None
-        lock_size = None
-        if lock_path is not None:
-            lock_size, lock_hash = _studio_hash(lock_path, 128)
-            if lock_size != 0:
-                raise ValueError('Studio history sequence lock file is not empty')
-            expected_studio_files.add(lock_relative)
-            metadata_to_copy[lock_relative] = (lock_path, lock_size, lock_hash, 128)
-
-        committed_accepted_transactions = []
-        for transaction_id, journal, journal_hash in journals:
-            if (not isinstance(journal, dict) or journal.get('owner') != STUDIO_OWNER
-                    or journal.get('accepted', journal.get('status') == 'committed') is not True
-                    or journal.get('status') != 'committed'):
-                continue
-            committed_accepted_transactions.append((transaction_id, journal, journal_hash))
-        if (len(committed_accepted_transactions) != 1
-                or committed_accepted_transactions[0][1].get('side') != 'after'):
-            raise ValueError('resume requires exactly one committed accepted Studio transaction in its after state')
-
-        transaction_id, journal, transaction_journal_hash = committed_accepted_transactions[0]
-        accepted_order = journal.get('acceptedOrder')
-        if (type(accepted_order) is not int or accepted_order <= 0
-                or sequence['lastOrder'] < accepted_order):
-            raise ValueError('Studio history sequence does not cover the accepted transaction order')
-        files = journal.get('files')
-        if not isinstance(files, list) or len(files) != 4:
-            raise ValueError('accepted Studio transaction has an unsupported target set')
-        target_paths = [item.get('relativePath') for item in files if isinstance(item, dict)]
-        model_matches = [match for path in target_paths if isinstance(path, str)
-                         if (match := re.fullmatch(r'game/assets/models/studio/hero-house-([a-f0-9]{32})\.glb', path))]
-        if len(model_matches) != 1:
-            raise ValueError('accepted Studio transaction is not the single HeroHouse pilot target')
-        request_id = model_matches[0].group(1)
-        model = f'game/assets/models/studio/hero-house-{request_id}.glb'
-        expected_targets = {model, model + '.manifest.json',
-                            f'assets/source/blender/studio/hero-house-{request_id}.blend',
-                            'game/content/studio/hero_house.recipe.json'}
-        if set(target_paths) != expected_targets or len(target_paths) != len(expected_targets):
-            raise ValueError('accepted Studio transaction contains a non-pilot or fence target')
-
-        request_relative = f'.urman-studio/ai-jobs/{request_id}/request.json'
-        proposal_relative = f'.urman-studio/ai-jobs/{request_id}/proposal.json'
-        _, request_bytes = _studio_read(original_source, request_relative, STUDIO_MAX_REQUEST,
-                                        'accepted Studio request')
-        _, proposal_bytes = _studio_read(original_source, proposal_relative, STUDIO_MAX_PROPOSAL,
-                                         'accepted Studio proposal')
-        _studio_require_exported_resume_bytes(metadata_to_copy, request_relative, request_bytes)
-        _studio_require_exported_resume_bytes(metadata_to_copy, proposal_relative, proposal_bytes)
-        request = _studio_json(request_bytes, STUDIO_MAX_REQUEST, 'accepted Studio request')
-        proposal = _studio_json(proposal_bytes, STUDIO_MAX_PROPOSAL, 'accepted Studio proposal')
-        project = request.get('project') if isinstance(request, dict) else None
-        project_hash = project.get('snapshotHash') if isinstance(project, dict) else None
-        request_hash = hashlib.sha256(request_bytes).hexdigest()
-        proposal_hash = hashlib.sha256(proposal_bytes).hexdigest()
-        if (not isinstance(request, dict) or request.get('requestId') != request_id
-                or not isinstance(proposal, dict) or proposal.get('requestId') != request_id
-                or not isinstance(project_hash, str) or not re.fullmatch('[a-f0-9]{64}', project_hash)
-                or proposal.get('snapshotHash') != project_hash):
-            raise ValueError('accepted Studio request and proposal identity do not match')
-        actions_relative = f'.urman-studio/ai-jobs/{request_id}/actions'
-        actions_directory = _studio_path(original_source, actions_relative, kind='dir')
-        bound_actions = []
-        for child in _studio_children(actions_directory, STUDIO_MAX_ACTIONS * 2,
-                                      'Studio action directory'):
-            match = re.fullmatch(r'([a-f0-9]{32})\.json', child.name)
-            if not match:
-                continue
-            action_id = match.group(1)
-            _, action_bytes = _studio_read(original_source, f'{actions_relative}/{child.name}',
-                                           STUDIO_MAX_ACTION_RECEIPT, 'Studio action receipt')
-            _studio_require_exported_resume_bytes(
-                metadata_to_copy, f'{actions_relative}/{child.name}', action_bytes)
-            action = _studio_json(action_bytes, STUDIO_MAX_ACTION_RECEIPT, 'Studio action receipt')
-            if (isinstance(action, dict) and action.get('transactionId') == transaction_id
-                    and action.get('action') in ('apply', 'redo')):
-                if (action.get('actionId') != action_id or action.get('requestId') != request_id
-                        or action.get('requestHash') != request_hash
-                        or action.get('proposalHash') != proposal_hash
-                        or action.get('snapshotHash') != project_hash):
-                    raise ValueError('accepted Studio action is not bound to its request and proposal')
-                bound_actions.append({'actionId': action_id, 'action': action['action'],
-                                      'receiptSha256': hashlib.sha256(action_bytes).hexdigest()})
-        if not bound_actions:
-            raise ValueError('accepted Studio transaction has no bound Apply or Redo receipt')
-
-        before_paths = set(base_manifest['files'])
-        target_after = {}
-        for item in files:
-            relative = item['relativePath']
-            old_meta = base_manifest['files'].get(relative)
-            before_hash = old_meta['sha256'] if old_meta is not None else None
-            if item.get('beforeSha256') != before_hash:
-                raise ValueError('accepted Studio transaction before hash differs from original snapshot')
-            after_hash = item.get('afterSha256')
-            path = _studio_path(original_source, relative, missing=True)
-            if after_hash is None:
-                if path is not None:
-                    raise ValueError('deleted accepted Studio target is still present')
-                target_after[relative] = None
-            else:
-                if path is None:
-                    raise ValueError('accepted Studio target is missing from retained source')
-                size, actual_hash = _studio_hash(path, STUDIO_MAX_BINARY)
-                if actual_hash != after_hash:
-                    raise ValueError('accepted Studio target differs from its transaction after image')
-                target_after[relative] = {'sha256': actual_hash, 'bytes': size}
-
-        current_paths = before_paths - {path for path, value in target_after.items() if value is None}
-        current_paths |= {path for path, value in target_after.items() if value is not None}
-        current_paths |= set(metadata_to_copy)
-        _, paired_sidecars = _studio_resume_workspace_inventory(
-            original_source, current_paths, expected_studio_files)
-        current_paths |= set(paired_sidecars)
-
-        derived = dict(base_manifest)
-        derived['files'] = {path: dict(meta) for path, meta in base_manifest['files'].items()}
-        for relative, value in target_after.items():
-            if value is None:
-                derived['files'].pop(relative, None)
-            else:
-                derived['files'][relative] = dict(value)
-        copied_metadata = []
-        for relative, (_, size, sha, _) in sorted(metadata_to_copy.items()):
-            metadata_file = {'sha256': sha, 'bytes': size}
-            existing = derived['files'].get(relative)
-            if existing is not None and existing != metadata_file:
-                raise ValueError('Studio resume metadata conflicts with the original snapshot: ' + relative)
-            derived['files'][relative] = metadata_file
-            copied_metadata.append({'path': relative, 'bytes': size, 'sha256': sha})
-        for relative, (_, size, sha, _) in sorted(paired_sidecars.items()):
-            metadata_file = {'sha256': sha, 'bytes': size}
-            existing = derived['files'].get(relative)
-            if existing is not None and existing != metadata_file:
-                raise ValueError('Godot sidecar conflicts with the original snapshot: ' + relative)
-            derived['files'][relative] = metadata_file
-            copied_metadata.append({'path': relative, 'bytes': size, 'sha256': sha})
-        derived['resume'] = {
-            'evidenceKind': 'accepted-studio-state',
-            'originalJobId': resume_job_id,
-            'originalSnapshotId': snapshot_id,
-            'transactionId': transaction_id,
-            'acceptedOrder': accepted_order,
-            'historyLastOrder': sequence['lastOrder'],
-            'historySequenceSha256': hashlib.sha256(sequence_bytes).hexdigest(),
-            'transactionJournalSha256': transaction_journal_hash,
-            'requestId': request_id,
-            'requestHash': request_hash,
-            'proposalHash': proposal_hash,
-            'actions': bound_actions,
-            'copiedMetadata': copied_metadata,
-            'targets': [{'path': item['relativePath'], 'beforeSha256': item['beforeSha256'],
-                         'afterSha256': item['afterSha256']} for item in files],
-        }
-        derived['snapshot_id'] = hashlib.sha256(canonical({key: value for key, value in derived.items()
-                                                            if key != 'snapshot_id'})).hexdigest()
-        validate_manifest(derived)
-
-        destination.mkdir()
-        for relative, meta in sorted(derived['files'].items()):
-            metadata_entry = metadata_to_copy.get(relative)
-            sidecar_entry = paired_sidecars.get(relative)
-            if metadata_entry is not None:
-                source_path, limit = metadata_entry[0], metadata_entry[3]
-            elif sidecar_entry is not None:
-                source_path, limit = sidecar_entry[0], sidecar_entry[3]
-            else:
-                source_path = _studio_path(original_source, relative)
-                limit = STUDIO_MAX_BINARY if relative in target_after else MAX_SOURCE
-            _studio_copy_verified(source_path, destination / relative, meta['bytes'], meta['sha256'],
-                                  limit)
-        manifest_path = destination / 'snapshot-manifest.json'
-        with manifest_path.open('xb') as stream:
-            stream.write(canonical(derived))
-            stream.flush()
-            os.fsync(stream.fileno())
-        verify_source(destination, derived)
-        return derived, {
-            'original_job_id': resume_job_id,
-            'original_snapshot_id': snapshot_id,
-            'derived_resume_input_snapshot_id': derived['snapshot_id'],
-            'evidence_kind': 'accepted-studio-state',
-            'transaction_id': transaction_id,
-            'accepted_order': accepted_order,
-            'history_sequence_sha256': hashlib.sha256(sequence_bytes).hexdigest(),
-            'transaction_journal_sha256': transaction_journal_hash,
-            'request_id': request_id,
-            'proposal_hash': proposal_hash,
-        }
 
 
 def _studio_write_durable_json(path, value):
@@ -1898,7 +1394,7 @@ class Station:
             self.lock.release()
 
     def submit(self, spec):
-        if set(spec) - {'job_id','snapshot_id','mode','scene','timeout','headless','points','phase','fov','resume_job_id'}:
+        if set(spec) - {'job_id','snapshot_id','mode','scene','timeout','headless','points','phase','fov'}:
             raise ValueError('unknown job field')
         jid = spec.get('job_id', '')
         if not re.fullmatch('[a-zA-Z0-9_-]{8,64}', jid):
@@ -1906,16 +1402,7 @@ class Station:
         sid = spec.get('snapshot_id', '')
         if not re.fullmatch('[a-f0-9]{64}', sid):
             raise ValueError('unknown snapshot')
-        mode = spec.get('mode')
-        if mode not in ('smoke', 'capture', 'studio'):
-            raise ValueError('unsupported mode')
-        resume_job_id = spec.get('resume_job_id')
-        if resume_job_id is not None:
-            if (mode != 'studio' or not isinstance(resume_job_id, str)
-                    or not re.fullmatch('[a-f0-9]{32}', resume_job_id)
-                    or resume_job_id == jid):
-                raise ValueError('invalid Studio resume source')
-        if resume_job_id is None and not (self.snapshots / (sid + '.zip')).is_file():
+        if not (self.snapshots / (sid + '.zip')).is_file():
             # Incremental snapshot: the manifest plus every referenced blob must be here.
             manifest = self.manifest_for(sid)
             if manifest is None:
@@ -1924,6 +1411,9 @@ class Station:
                        if not blob_path(self.blobs, meta['sha256']).is_file()]
             if missing:
                 raise ValueError(f'snapshot blobs incomplete ({len(missing)} missing); re-run the client')
+        mode = spec.get('mode')
+        if mode not in ('smoke', 'capture', 'studio'):
+            raise ValueError('unsupported mode')
         timeout_max = 3600 if mode == 'studio' else 300
         if type(spec.get('timeout')) is not int or not 1 <= spec['timeout'] <= timeout_max:
             raise ValueError(f'timeout must be 1..{timeout_max} seconds')
@@ -1939,15 +1429,14 @@ class Station:
                 raise ValueError('Studio mode requires the fixed native Studio scene')
             if spec.get('points', ''):
                 raise ValueError('Studio mode does not accept capture points')
-            if resume_job_id is None:
-                manifest = self.verified_snapshot_manifest(sid)
-                if manifest is None:
-                    raise ValueError('Studio mode requires a verified snapshot manifest')
-                manifest_files = set(manifest['files'])
-                if (manifest_files & STUDIO_AUTHORING_FILES != STUDIO_AUTHORING_FILES
-                        or 'game/content/studio/hero_house.recipe.json' not in manifest_files
-                        or 'game/studio/studio_main.tscn' not in manifest_files):
-                    raise ValueError('Studio snapshot requires the fixed scene, two authoring inputs, and HeroHouse recipe')
+            manifest = self.verified_snapshot_manifest(sid)
+            if manifest is None:
+                raise ValueError('Studio mode requires a verified snapshot manifest')
+            manifest_files = set(manifest['files'])
+            if (manifest_files & STUDIO_AUTHORING_FILES != STUDIO_AUTHORING_FILES
+                    or 'game/content/studio/hero_house.recipe.json' not in manifest_files
+                    or 'game/studio/studio_main.tscn' not in manifest_files):
+                raise ValueError('Studio snapshot requires the fixed scene, two authoring inputs, and HeroHouse recipe')
         if mode == 'smoke' and not scene.startswith('res://tests/'):
             raise ValueError('smoke requires an existing test scene')
         if mode == 'capture' and (scene != 'res://scenes/act1_demo.tscn' or spec['headless']):
@@ -1976,9 +1465,6 @@ class Station:
                 return 200, json.loads((path/'status.json').read_text(encoding='utf-8-sig'))
             if self.busy:
                 return 409, {'error':'station busy', 'job_id':self.busy}
-            if resume_job_id is not None:
-                original_job, _, _ = _studio_resume_origin(self.jobs, resume_job_id, sid)
-                _studio_retain_resume_origin(original_job)
             health = self.health()
             if not health['ready']:
                 return 503, {'error':'station not ready', 'health':health}
@@ -1987,8 +1473,6 @@ class Station:
                 _studio_write_marker(path)
             write_json(path/'request.json', spec)
             status = {'job_id':jid, 'snapshot_id':sid, 'status':'RUNNING', 'started':time.time()}
-            if resume_job_id is not None:
-                status.update(original_snapshot_id=sid, resume_job_id=resume_job_id)
             write_json(path/'status.json', status); self.busy = jid
             threading.Thread(target=self.execute, args=(path,spec,status), daemon=False).start()
             return 202, status
@@ -1997,9 +1481,6 @@ class Station:
         output = path/'artifacts'
         source = path/'source'
         is_studio = spec.get('scene') == STUDIO_SCENE
-        resume_job_id = spec.get('resume_job_id')
-        resume_origin_job = None
-        resume_metadata = None
         preserve_source = False
         started = time.monotonic()
         try:
@@ -2008,22 +1489,12 @@ class Station:
                 preserve_source = True
             output.mkdir()
             try:
-                if resume_job_id is not None:
-                    resume_origin_job, _, _ = _studio_resume_origin(
-                        self.jobs, resume_job_id, spec['snapshot_id'])
-                    _studio_retain_resume_origin(resume_origin_job)
-                    manifest, resume_metadata = _studio_prepare_resume_workspace(
-                        self.jobs, resume_job_id, spec['snapshot_id'], source)
-                    status.update(original_snapshot_id=resume_metadata['original_snapshot_id'],
-                                  derived_resume_input_snapshot_id=resume_metadata['derived_resume_input_snapshot_id'],
-                                  evidence_kind=resume_metadata['evidence_kind'])
+                source.mkdir()
+                archive = self.snapshots / (spec['snapshot_id'] + '.zip')
+                if archive.is_file():
+                    manifest = unpack_snapshot(archive, source)
                 else:
-                    source.mkdir()
-                    archive = self.snapshots / (spec['snapshot_id'] + '.zip')
-                    if archive.is_file():
-                        manifest = unpack_snapshot(archive, source)
-                    else:
-                        manifest = materialize_from_blobs(source, self.manifest_for(spec['snapshot_id']), self.blobs)
+                    manifest = materialize_from_blobs(source, self.manifest_for(spec['snapshot_id']), self.blobs)
                 verify_source(source, manifest)
                 if not (source/'game'/spec['scene'][6:]).is_file():
                     raise ValueError('scene does not exist in snapshot')
@@ -2066,18 +1537,6 @@ class Station:
                                snapshot=manifest, snapshot_hashes_verified=True,
                                execution_files=execution_files, worker_code_sha256=self.worker_code_sha256,
                                desktop=desktop(), runner_exit_code=code, worker_elapsed_seconds=round(time.monotonic()-started,3))
-                if resume_metadata is not None:
-                    receipt.update(original_snapshot_id=resume_metadata['original_snapshot_id'],
-                                   derived_resume_input_snapshot_id=resume_metadata['derived_resume_input_snapshot_id'],
-                                   evidence_kind=resume_metadata['evidence_kind'],
-                                   resume_job_id=resume_metadata['original_job_id'],
-                                   accepted_transaction_id=resume_metadata['transaction_id'],
-                                   accepted_order=resume_metadata['accepted_order'],
-                                   accepted_history_sequence_sha256=resume_metadata['history_sequence_sha256'],
-                                   accepted_transaction_journal_sha256=resume_metadata['transaction_journal_sha256'],
-                                   accepted_request_id=resume_metadata['request_id'],
-                                   accepted_proposal_hash=resume_metadata['proposal_hash'],
-                                   snapshot_hashes_verified_for='derived_resume_input_snapshot_id')
                 write_json(output/'receipt.json', receipt)
                 if code != 0 or receipt.get('status') != 'PASS' or self.recovery():
                     raise RuntimeError(receipt.get('error', f'runner failed with exit {code}'))
@@ -2089,19 +1548,6 @@ class Station:
                 receipt = json.loads(receipt_path.read_text(encoding='utf-8-sig')) if receipt_path.exists() else {}
                 receipt.update(status='FAIL',error=str(error)[:2048],job_id=spec['job_id'],
                                snapshot_id=spec['snapshot_id'],userdata_recovery_pending=self.recovery())
-                if resume_job_id is not None:
-                    receipt.update(original_snapshot_id=spec['snapshot_id'],
-                                   resume_job_id=resume_job_id,
-                                   evidence_kind='accepted-studio-state')
-                    if resume_metadata is not None:
-                        receipt.update(derived_resume_input_snapshot_id=resume_metadata['derived_resume_input_snapshot_id'],
-                                       accepted_transaction_id=resume_metadata['transaction_id'],
-                                       accepted_order=resume_metadata['accepted_order'],
-                                       accepted_history_sequence_sha256=resume_metadata['history_sequence_sha256'],
-                                       accepted_transaction_journal_sha256=resume_metadata['transaction_journal_sha256'],
-                                       accepted_request_id=resume_metadata['request_id'],
-                                       accepted_proposal_hash=resume_metadata['proposal_hash'],
-                                       snapshot_hashes_verified_for='derived_resume_input_snapshot_id')
                 write_json(receipt_path,receipt)
 
             if is_studio:
@@ -2153,14 +1599,6 @@ class Station:
                             pass
                         except OSError as error:
                             print('Studio source marker retained:', error, file=sys.stderr)
-                    if (resume_origin_job is not None and not preserve_source
-                            and status.get('status') == 'PASS'):
-                        try:
-                            (resume_origin_job / STUDIO_PRESERVE_MARKER).unlink()
-                        except FileNotFoundError:
-                            pass
-                        except OSError as error:
-                            print('Original Studio source marker retained:', error, file=sys.stderr)
                 finally:
                     self.busy = None
         except Exception as error:
