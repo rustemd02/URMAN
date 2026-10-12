@@ -79565,6 +79565,21 @@
                 "verification": "Two Luna FAST/Max independent implementations, Sol6.1medium source reviews accepted; root affected Game compile0warnings/0errors14.78s and scoped diffcheck. No new tests/probes/native run.",
                 "actual_result": "Imported nonwhole GLB selected components cached per director as owned PackedScene templates; each placement has its own nodes/local-to-scene resources and existing origin/scale/correction/collision/dressing. Scripted/nested/whole/directimport paths retain original extraction. Owned templates disposed on exit, loader scenes only dereferenced. Foliage caches radius of all existing low vertices; horizontal Frobenius bound+maximum road halfwidth+1cm safety margin proves distant samples clear, near-road exact checks retained; fallen-branch roof checks unchanged.",
                 "remaining": "Speed, visual equivalence/object/foliage diagnostics and clean shutdown/resource isolation must be checked on changed native source; no improvement claimed yet."
+              },
+              {
+                "stage": "2026-10-12 native optimized map accepted",
+                "result": "NATIVE_MAP_114365MS_DIAGNOSTICS_IDENTICAL_NORMAL_CLOSE_0_GOG_WRAPPER_FAIL",
+                "source_commit": "5e680a26c5a021843f11db10973d829ea162fc35",
+                "job": "b1fe6090bf284a3baf1b9e6de684cccd",
+                "snapshot": "ad6062781dfc4bb24ee5c58b4b25e5055e4f9b5e086848feb387e5f7bde2784a",
+                "evidence": [
+                  "evidence/STUDIO/practical-editor-2026-10-12/windows-road-bound/receipt.json",
+                  "evidence/STUDIO/practical-editor-2026-10-12/windows-road-bound/game.log",
+                  "evidence/STUDIO/practical-editor-2026-10-12/windows-road-bound/stdout.log",
+                  "evidence/STUDIO/practical-editor-2026-10-12/windows-road-bound-live/map-ready.png"
+                ],
+                "actual_result": "Root viewed native loaded village. Ready114365ms vs ce961650181025ms (-66660ms,36.8%). Foliage4.232s vs69.783, exterior6.480vs71.949, core14.725vs80.104; authored58.389vs58.213 unchanged. Full lines for act1-foliage-lod/authored-world/dwelling-threshold/households/window-silhouettes/chimney-smoke byte-equivalent after newline decoding:6037trees/18238sharedLOD/127objects/78thresholdplacements/86homes/777panes/86chimneys. Actual normalX close gameExitCode0, zero resource leak records, stdout confirms originaluserdata rename-restoredverified; doctorready/busynull/orphanfalse/recoveryfalse.",
+                "limits": "WrapperFAIL retained: one startup GOG deprecated layer JSON VulkanloaderERROR. No exact per-instance triangle/material resource comparison, movement/playthrough or AI/network rerun. Extracted-subscene cache speed not established by unchanged authored timing; total3D loading114s still slow."
               }
             ],
             "stage_tasks": [
@@ -79598,10 +79613,8 @@
             "status": "in_progress",
             "implementation_state": "implemented",
             "technical_verification_state": "not_run",
-            "remaining": [
-              "Новичок выполняет основные действия через интерфейс и подсказки без знания файлов.; отсутствует подтверждение собственного конечного DoD, перечисленного ниже."
-            ],
-            "next_action": "Один changed-source Windows MapLoad→осмотр→обычное закрытие: сравнить ready/foliage/authored время и диагностические counts с ce961650, проверить resources и сохранение userdata. Не повторять прежний snapshot.",
+            "remaining": "Полная3Dкарта измерена114.365с вместо181.025с с прежними диагностическимиcounts и cleanresourceclose. Она всё ещё медленная; authored58с требует причинного разбиения. Novice/usability and remaining editor scope stay open.",
+            "next_action": "Разделить существующий authored profile на Director.Build / material regrade / authored address mounts и измерить реальную задержку58с; не повторять тот же snapshot. Кандидат — повторные полные world mesh scans при79 address mounts, не менять геометрию без причинного замера.",
             "blocker": null,
             "external_gates": [
               {
