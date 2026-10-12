@@ -186,10 +186,10 @@ WOODPILE_SUPPORT_NAMES = ("Woodpile_SupportLeft_LOD0", "Woodpile_SupportRight_LO
 def arguments() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     parser.add_argument("--root", required=True)
-    parser.add_argument("--component-only", choices=("hero-yard-shed", "hero-house"),
-                        help="Update only one hero component; preserve every existing kit component")
-    parser.add_argument("--recipe", help="Hero-house recipe JSON (defaults to the canonical Studio recipe)")
-    parser.add_argument("--output-dir", help="Write a hero-only staged blend, GLB, and manifest here")
+    parser.add_argument("--component-only", choices=("hero-yard-shed", "hero-house", "house-variant"),
+                        help="Update only one component while preserving the canonical kit")
+    parser.add_argument("--recipe", help="Typed component recipe JSON")
+    parser.add_argument("--output-dir", help="Write staged blend, GLB, and manifest here")
     tokens: list[str] = []
     if "--" in sys.argv:
         tokens = sys.argv[sys.argv.index("--") + 1 :]
@@ -258,6 +258,88 @@ def load_hero_house_recipe(path: Path) -> dict:
                                    or ".." in model_path or "\\" in model_path):
         raise ValueError("modelPath must be null or a staged hero-house GLB under res://assets/models/studio")
     return recipe
+
+
+def load_house_variant_recipe(path: Path) -> dict:
+    def unique_object(pairs):
+        result = {}
+        for key, value in pairs:
+            if key in result:
+                raise ValueError("House-variant recipe contains duplicate JSON properties")
+            result[key] = value
+        return result
+
+    def invalid_constant(value):
+        raise ValueError("House-variant recipe contains a non-finite JSON number")
+
+    recipe = json.loads(path.read_text(encoding="utf-8"), object_pairs_hook=unique_object,
+                        parse_constant=invalid_constant)
+    if not isinstance(recipe, dict) or set(recipe) != {"schema", "entityId", "component", "windowWidths"}:
+        raise ValueError("House-variant recipe must contain only schema, entityId, component, and windowWidths")
+    if recipe["schema"] != "house-variant-recipe/v1":
+        raise ValueError("House-variant recipe schema must be house-variant-recipe/v1")
+    entity_id = recipe["entityId"]
+    if (not isinstance(entity_id, str) or not entity_id.startswith("urman.world:")
+            or len(entity_id) > 256 or not entity_id[len("urman.world:"):].strip()
+            or entity_id != entity_id.strip() or any(not character.isprintable() for character in entity_id)):
+        raise ValueError("House-variant entityId must be a nonempty URMAN world ID")
+    if not isinstance(recipe["component"], str) or recipe["component"] not in PARCEL_VARIANTS:
+        raise ValueError("House-variant component must be A, B, or C")
+    overrides = recipe["windowWidths"]
+    if not isinstance(overrides, dict) or any(window_id not in PARCEL_WINDOW_IDS for window_id in overrides):
+        raise ValueError("House-variant windowWidths must use known parcel window IDs")
+    if any(isinstance(value, bool) or not isinstance(value, (int, float)) or not math.isfinite(value)
+           or not 0.65 <= value <= 1.35 for value in overrides.values()):
+        raise ValueError("House-variant windowWidths values must be finite numbers within 0.65..1.35 metres")
+    return recipe
+
+
+def load_house_variant_catalog_entry(path: Path, component: str) -> tuple[dict, str]:
+    def unique_object(pairs):
+        result = {}
+        for key, value in pairs:
+            if key in result:
+                raise ValueError("Canonical catalog contains duplicate JSON properties")
+            result[key] = value
+        return result
+
+    catalog = json.loads(path.read_text(encoding="utf-8"), object_pairs_hook=unique_object)
+    if (not isinstance(catalog, dict) or type(catalog.get("schemaVersion")) is not int
+            or catalog["schemaVersion"] != 1 or catalog.get("kind") != "urman.catalog"):
+        raise ValueError("Canonical catalog schema is invalid")
+    catalog_id, node_name = PARCEL_VARIANTS[component]
+    entities = catalog.get("entities")
+    if not isinstance(entities, list):
+        raise ValueError("Canonical catalog entities must be an array")
+    matches = [entry for entry in entities if isinstance(entry, dict) and entry.get("id") == catalog_id]
+    if len(matches) != 1:
+        raise ValueError("Canonical catalog must contain exactly one matching house variant")
+    entry = matches[0]
+    source = entry.get("source")
+    origin = entry.get("origin")
+    if (not isinstance(source, dict) or source.get("scene") != PARCEL_SOURCE_SCENE
+            or source.get("node") != node_name or not isinstance(origin, list) or len(origin) != 3
+            or any(isinstance(value, bool) or not isinstance(value, (int, float)) or not math.isfinite(value)
+                   for value in origin)):
+        raise ValueError("Canonical catalog selector or origin does not match the selected house variant")
+    return entry, sha256_file(path)
+
+
+def validate_house_variant_stage_output(output_dir: Path, source_blend: Path,
+                                        project_root: Path) -> Path:
+    if output_dir.is_symlink():
+        raise ValueError("House-variant stage output directory cannot be a symlink")
+    output_dir = output_dir.resolve()
+    protected_dirs = (source_blend.parent.resolve(), (project_root / "game/assets/models").resolve())
+    if any(output_dir == protected or protected in output_dir.parents for protected in protected_dirs):
+        raise ValueError("House-variant stage output must be separate from canonical source/output folders")
+    if output_dir.exists() and not output_dir.is_dir():
+        raise ValueError("House-variant stage output path must be a directory")
+    output_paths = (output_dir / "house_variant.blend", output_dir / "house_variant.glb",
+                    output_dir / "manifest.json")
+    if any(path.exists() or path.is_symlink() for path in output_paths):
+        raise FileExistsError("Refusing to overwrite an existing house-variant stage")
+    return output_dir
 
 
 def material(name: str) -> bpy.types.Material:
@@ -856,6 +938,29 @@ VARIANT_LAYOUT = {
     "VillageParcel_VariantA_TimberGable": (28.0, 0.0, 0.0),
     "VillageParcel_VariantB_PlasterAnnex": (41.0, 0.0, 0.0),
     "VillageParcel_VariantC_BanyaYard": (54.0, 0.0, 0.0),
+}
+PARCEL_VARIANTS = {
+    "A": ("urman.catalog:urman_village_exterior_kit/villageparcel-varianta-timbergable",
+          "VillageParcel_VariantA_TimberGable"),
+    "B": ("urman.catalog:urman_village_exterior_kit/villageparcel-variantb-plasterannex",
+          "VillageParcel_VariantB_PlasterAnnex"),
+    "C": ("urman.catalog:urman_village_exterior_kit/villageparcel-variantc-banyayard",
+          "VillageParcel_VariantC_BanyaYard"),
+}
+PARCEL_SOURCE_SCENE = "res://assets/models/act1/urman_village_exterior_kit.glb"
+PARCEL_WINDOW_IDS = frozenset((*(f"Front{i}" for i in range(3)), *(f"Rear{i}" for i in range(2)),
+                               *(f"Left{i}" for i in range(2)), "Right0", "SeniOuter0"))
+PARCEL_DEFAULT_WINDOW_WIDTHS = {
+    **{f"Front{i}": 0.96 for i in range(3)},
+    **{f"Rear{i}": 0.96 for i in range(2)},
+    **{f"Left{i}": 1.0 for i in range(2)},
+    "Right0": 1.0,
+    "SeniOuter0": 0.80,
+}
+PARCEL_DWELLING_DIMENSIONS = {
+    "VillageParcel_VariantA_TimberGable": (6.0, 5.8, 2.85, 4.55, "URMAN_Wood_Weathered"),
+    "VillageParcel_VariantB_PlasterAnnex": (5.5, 6.4, 2.80, 4.25, "URMAN_Plaster_Ochre"),
+    "VillageParcel_VariantC_BanyaYard": (5.8, 5.5, 2.95, 4.65, "URMAN_Wood_WetShadow"),
 }
 
 PARCEL_COMPOSITION = {
@@ -2186,12 +2291,7 @@ def author_variant_parcels(root: bpy.types.Object) -> None:
         house = variant_empty(f"{parcel_name}_Dwelling", parcel, role="full-volume variant dwelling", family=description)
         shed = variant_empty(f"{parcel_name}_Outbuilding", parcel, (-6.0, 2.3, 0.0), role="full-volume variant outbuilding", family=description)
         yard = variant_empty(f"{parcel_name}_Yard", parcel, (0.0, -4.5, 0.0), role="full-volume variant yard boundary", family=description)
-        dimensions = {
-            "VillageParcel_VariantA_TimberGable": (6.0, 5.8, 2.85, 4.55, "URMAN_Wood_Weathered"),
-            "VillageParcel_VariantB_PlasterAnnex": (5.5, 6.4, 2.80, 4.25, "URMAN_Plaster_Ochre"),
-            "VillageParcel_VariantC_BanyaYard": (5.8, 5.5, 2.95, 4.65, "URMAN_Wood_WetShadow"),
-        }
-        author_rural_dwelling(house, *dimensions[parcel_name])
+        author_rural_dwelling(house, *PARCEL_DWELLING_DIMENSIONS[parcel_name])
         globals()[shed_author](shed)
         globals()[yard_author](yard)
         author_variant_composition(yard, parcel_name)
@@ -3910,15 +4010,92 @@ def save_hero_house_stage(hero: bpy.types.Object,
     print(f"hero-house-stage: blend={blend_path} glb={glb_path} manifest={manifest_path}")
 
 
+def save_house_variant_stage(parcel: bpy.types.Object, component: str,
+                            source_blend: Path, generator_path: Path,
+                            recipe_path: Path, recipe: dict, catalog_path: Path,
+                            catalog_entry: dict, catalog_hash: str,
+                            output_dir: Path, project_root: Path) -> None:
+    output_dir.mkdir(parents=True, exist_ok=True)
+    blend_path = output_dir / "house_variant.blend"
+    glb_path = output_dir / "house_variant.glb"
+    manifest_path = output_dir / "manifest.json"
+    if any(path.exists() or path.is_symlink() for path in (blend_path, glb_path, manifest_path)):
+        raise FileExistsError("Refusing to overwrite an existing house-variant stage")
+
+    save_versions = bpy.context.preferences.filepaths.save_version
+    bpy.context.preferences.filepaths.save_version = 0
+    try:
+        bpy.ops.wm.save_as_mainfile(filepath=str(blend_path))
+    finally:
+        bpy.context.preferences.filepaths.save_version = save_versions
+
+    parcel_objects = [parcel, *parcel.children_recursive]
+    bpy.ops.object.select_all(action="DESELECT")
+    for obj in parcel_objects:
+        obj.select_set(True)
+    bpy.context.view_layer.objects.active = parcel
+    parent = parcel.parent
+    world_transform = parcel.matrix_world.copy()
+    try:
+        parcel.parent = None
+        parcel.matrix_world = world_transform
+        bpy.context.view_layer.update()
+        bpy.ops.export_scene.gltf(filepath=str(glb_path), export_format="GLB",
+                                  use_selection=True, export_apply=True)
+    finally:
+        parcel.parent = parent
+        parcel.matrix_world = world_transform
+        bpy.context.view_layer.update()
+
+    catalog_id, catalog_node = PARCEL_VARIANTS[component]
+    effective_widths = {**PARCEL_DEFAULT_WINDOW_WIDTHS, **recipe["windowWidths"]}
+    manifest = {
+        "schema": "house-variant-build-manifest/v1",
+        "entityId": recipe["entityId"],
+        "component": component,
+        "catalogId": catalog_id,
+        "sourceNode": catalog_node,
+        "catalogOrigin": catalog_entry["origin"],
+        "previewTransformPreserved": True,
+        "previewTransform": [[float(value) for value in row] for row in parcel.matrix_world],
+        "windowWidths": effective_widths,
+        "source": {
+            "generator": {"path": path_label(generator_path, project_root), "sha256": sha256_file(generator_path)},
+            "baselineBlend": {"path": path_label(source_blend, project_root), "sha256": sha256_file(source_blend)},
+            "recipe": {"path": path_label(recipe_path, project_root), "sha256": sha256_file(recipe_path)},
+            "catalog": {"path": path_label(catalog_path, project_root), "sha256": catalog_hash},
+        },
+        "outputs": {
+            "blend": {"path": blend_path.name, "sha256": sha256_file(blend_path)},
+            "glb": {"path": glb_path.name, "sha256": sha256_file(glb_path)},
+        },
+    }
+    manifest_path.write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    print(f"house-variant-stage: blend={blend_path} glb={glb_path} manifest={manifest_path}")
+
+
 def main() -> None:
     args = arguments()
     root_path = Path(args.root).resolve()
     blend_path = root_path / "assets/source/blender/act1/urman_village_exterior_kit.blend"
     glb_path = root_path / "game/assets/models/act1" / GLB_NAME
-    if args.output_dir and args.component_only != "hero-house":
-        raise ValueError("--output-dir is supported only with --component-only hero-house")
-    if args.recipe and args.component_only != "hero-house":
-        raise ValueError("--recipe is supported only with --component-only hero-house")
+    if args.output_dir and args.component_only not in {"hero-house", "house-variant"}:
+        raise ValueError("--output-dir requires a staged house component mode")
+    if args.recipe and args.component_only not in {"hero-house", "house-variant"}:
+        raise ValueError("--recipe requires a staged house component mode")
+    house_variant_inputs = None
+    if args.component_only == "house-variant":
+        if not args.recipe or not args.output_dir:
+            raise ValueError("House-variant generation requires --recipe and --output-dir")
+        recipe_arg = Path(args.recipe)
+        recipe_path = (recipe_arg if recipe_arg.is_absolute() else root_path / recipe_arg).resolve()
+        recipe = load_house_variant_recipe(recipe_path)
+        catalog_path = root_path / "game/content/world/catalog.v1.json"
+        catalog_entry, catalog_hash = load_house_variant_catalog_entry(catalog_path, recipe["component"])
+        output_arg = Path(args.output_dir)
+        output_dir = (output_arg if output_arg.is_absolute() else root_path / output_arg)
+        output_dir = validate_house_variant_stage_output(output_dir, blend_path, root_path)
+        house_variant_inputs = (recipe_path, recipe, catalog_path, catalog_entry, catalog_hash, output_dir)
     bpy.ops.wm.open_mainfile(filepath=str(blend_path))
     root = bpy.data.objects.get(KIT_ROOT)
     dwelling = bpy.data.objects.get(DWELLING_ROOT)
@@ -3934,6 +4111,23 @@ def main() -> None:
         bpy.context.view_layer.update()
         validate_hero_yard_shed(root)
         save_kit(blend_path, glb_path)
+        return
+
+    if args.component_only == "house-variant":
+        recipe_path, recipe, catalog_path, catalog_entry, catalog_hash, output_dir = house_variant_inputs
+        component_node = PARCEL_VARIANTS[recipe["component"]][1]
+        parcel = bpy.data.objects.get(component_node)
+        house = bpy.data.objects.get(f"{component_node}_Dwelling")
+        if (parcel is None or parcel.type != "EMPTY" or parcel.parent is not root
+                or house is None or house.type != "EMPTY" or house.parent is not parcel):
+            raise RuntimeError("Selected parcel and its existing dwelling hierarchy must be intact")
+        author_rural_dwelling(house, *PARCEL_DWELLING_DIMENSIONS[component_node],
+                              window_widths=recipe["windowWidths"])
+        bpy.context.view_layer.update()
+        validate(root, dwelling, well, woodpile)
+        save_house_variant_stage(parcel, recipe["component"], blend_path,
+                                 Path(__file__).resolve(), recipe_path, recipe, catalog_path,
+                                 catalog_entry, catalog_hash, output_dir, root_path)
         return
 
     if args.component_only == "hero-house":

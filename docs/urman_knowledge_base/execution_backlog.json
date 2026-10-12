@@ -4748,10 +4748,10 @@
             "owner": "art/materials/qa",
             "evidence": [],
             "assigned_owner": "art/materials/qa",
-            "active_owner": null,
+            "active_owner": "codex/b02-2026-10-13",
             "activity": {
-              "state": "released",
-              "reason": "Native Luna6Max выполнила one-line numeric Scale correction у existing semantic snow_roof owner; root diff/consumer inspection+scoped diff-check приняли source. Native queued после B20 restart, stage не completed."
+              "state": "confirmed_active",
+              "reason": "Actual protected before capture 1316005f22c747d18f793453bd8f1d17 RUNNING; primary принимает парное изображение после restored source candidate. Windows owner B02 after B20 release."
             },
             "task_type": "engineering",
             "status": "in_progress",
@@ -4760,7 +4760,7 @@
             "remaining": [
               "Подключить S04 — Снег на крышах и верхних гранях; собственного целевого receipt пока нет."
             ],
-            "next_action": "После B20 terminal/recovery/release снять близкий actual roof snow cap и matched C2 High/FOV70; принять спокойный2м repeat и сохранный snow response, record source/snapshot/receipt.",
+            "next_action": "Принять receipt/два кадра текущего before job; затем matched candidate snapshot с сохранённой геометрией, проверить защиту данных и сравнить actual изображение.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -4841,9 +4841,19 @@
               "source_readback": "Existing S04 reuse map personally viewed; inventory132 mandates reuse. Current PML world-triplanar scale1 conflicts with current S04 2×2м brief; S01 same path already scale.5 for2м.",
               "scope": "Only WinterTextures[snow_roof].Scale 1→.5; existing map/owner/shader strength/response/geometry unchanged.",
               "result": "Одна строка existing WinterTextures snow_roof: Scale Vector2(1,1)→(.5,.5), exact2м repeat. Root personally viewed PNG/C2 baseline; callers и world-triplanar sampling проверены Luna, root scoped diff и diff-check passed. Native/art NOT_RUN.",
-              "next_action": "После B20 terminal/recovery/release снять близкий actual roof snow cap и matched C2 High/FOV70; принять спокойный2м repeat и сохранный snow response, record source/snapshot/receipt.",
+              "next_action": "Принять receipt/два кадра текущего before job; затем matched candidate snapshot с сохранённой геометрией, проверить защиту данных и сравнить actual изображение.",
               "source_sha256": "63d8eb80105662e3d95214fcfb3dcc60ce88cd52a070072d10ab3b5bfc2efe1c",
-              "affected_consumers": "Existing shared roof/cap/sill/canopy snow_roof, включая Prologue и experimental route; geometry/weather/microrelief/strength unchanged. Не выдавать один будущий кадр за art приёмку всех сцен."
+              "affected_consumers": "Existing shared roof/cap/sill/canopy snow_roof, включая Prologue и experimental route; geometry/weather/microrelief/strength unchanged. Не выдавать один будущий кадр за art приёмку всех сцен.",
+              "before_job": {
+                "id": "1316005f22c747d18f793453bd8f1d17",
+                "snapshot": "1c5546f64b207e9e3b043d6ee58b5232c9b5010f1644d87abd0e39891b016ac3",
+                "result": "NOT_ACCEPTED_YET",
+                "points": "C1_street_high:Ground@0,1.7,12>Ground@0,1.6,-30;C2_house_high:Ground@-14,1.7,4>Ground@-30,1.8,-6",
+                "phase": "village-winter-crisp",
+                "fov": 70,
+                "preset": "high",
+                "source_candidate_restored_exact_bytes": true
+              }
             }
           },
           {
@@ -75816,6 +75826,17 @@
                 "result": "Nonhero author_rural_dwelling consumes Front0–2/Rear0–1/Left0–1/Right0 width overrides (existing SeniOuter0), rejects unknown IDs/nonfinite/bool/out-of-envelope widths before mutation; default centers/heights/widths and special hero/DWELLING_ROOT behavior retained. Ordinary generic props accept private params.modelPath res://assets/models/studio/house-variant-<32 lowercasehex>.glb, retaining catalog/component/origin/axis/stable placement and effectivepath cache. Reject missing assets/incompatible selectors; no empty/collision-only override registration. PreviewUpsert guards rejected construction; wrongtype imports freed.",
                 "verification": "Final affected Game compile 0 errors/0 warnings14.96s; generator AST and scoped diff-check PASS. Two Luna implementations and independent Sol6.1medium review (missing-object reject bug fixed; final source accepted).",
                 "limits": "No family component-only staging/export, generic frozen multiscope/proposal consumer, or UI wiring/native A02/A05 yet. Not all-house editing completion; current HeroHouse wire/artifacts unchanged."
+              },
+              {
+                "stage": "2026-10-13 private family stage and exact-root consumer",
+                "result": "SOURCE_IMPLEMENTED_COMPILE_AST_PASS_NATIVE_NOT_RUN",
+                "source": [
+                  "assets/source/blender/act1/urman_village_exterior_kit.py",
+                  "game/scripts/AuthoredWorldDirector.cs"
+                ],
+                "implementation": "New explicit house-variant staging mode requires exact four-key house-variant-recipe/v1 (entityId, A/B/C, finite known per-window widths0.65..1.35). Rejects duplicate recipe/catalog properties, invalid catalog integer schema, wrong selected catalogID/node/scene/origin, existing output/link/canonical folders. Reads canonical selector/origin/hash instead of accepting user origin. Reauthors only existing selected Dwelling under verified existing parcel; untouched shed/yard/other variants. Shared old dimensions/default normal/Hero flow retained. Full-scene private blend; GLB exports selected parcel+descendants only, temporarily detaches root preserving matrix_world and restores parent/worldmatrix in finally. Manifest records effective widths and catalog/source/output hashes/previewtransform. Runtime exact source.node root match supports standalone or wrapper root; child/prefix scan remains unchanged, correction/origin/scale/cache preserved and reparented instance not freed.",
+                "verification": "Two Luna implementations and independent Luna caller/generator reviews; root fixed schemaVersion bool/float acceptance and rejected all-variant reauthoring, author removed unused forwarding option. Final generator AST/diff-check PASS; affected Game compile0warnings/0errors17.06s. No new tests/fixtures/probes, Blender/game/station run for this source slice.",
+                "remaining": "Generated artifact/transform fidelity and unchanged sibling bytes not runtime proven. Generic frozen multi-entity request/proposal/transaction/UI and kit-placement nonhero consumer remain open. No mass-house/no canonical overwrite/native A02/A05 completion claim."
               }
             ],
             "stage_tasks": [
@@ -75841,7 +75862,7 @@
             "active_owner": null,
             "activity": {
               "state": "source_slice_delivered",
-              "reason": "AI14 generator/runtime seams verified; next finite family stage/protocol/UI required, assignment preserved. Source engineering evidence not native multi-house acceptance."
+              "reason": "Luna private A/B/C family stage + exact root-node caller support implemented; independent Luna review defects fixed, affected Game compile0/0 and generator AST/diff-check passed. Actual Blender artifacts/multi-house provider/UI/native still unverified."
             },
             "task_type": "engineering",
             "status": "in_progress",
@@ -75853,7 +75874,7 @@
               "Native A02/A05 with multiple houses, exclusion and new object after submit remains unverified.",
               "Native single-house mandatory confirmation walkthrough including cancel/hide/exit/changed sources and direct/manual policy; source compile is not rendered UX proof."
             ],
-            "next_action": "Добавить bounded family component-only stage/export с catalog selector/origin preserved, затем generic frozen multi-entity protocol/consumer/UI; существующий HeroHouse v2 сохранить. Native A02/A05 после UI.",
+            "next_action": "Проверить bounded private A/B/C stage/export в Windows после release B02, затем подключить generic frozen multi-entity protocol/caller/UI с per-kind capability/exclusions; сохранить Hero v2. Kit-placement houses требуют своего component loader, не считать generic prop override поддержкой всех85 домов.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -75865,7 +75886,9 @@
                 "src-dotnet/Urman.Studio.Core/Editing/EditSession.cs",
                 "src-dotnet/Urman.Studio.Core/AI/AuthoringRequestV2.cs",
                 "game/studio/StudioAiPanel.cs",
-                "game/studio/StudioWorldSection.cs"
+                "game/studio/StudioWorldSection.cs",
+                "assets/source/blender/act1/urman_village_exterior_kit.py",
+                "game/scripts/AuthoredWorldDirector.cs"
               ],
               "required_inputs": [
                 {
@@ -96617,10 +96640,10 @@
             "owner": "unassigned",
             "evidence": [],
             "assigned_owner": "codex/b02-2026-10-13",
-            "active_owner": null,
+            "active_owner": "codex/b02-2026-10-13",
             "activity": {
-              "state": "released",
-              "reason": "Luna source candidate завершён, root diff/JSON и independent Luna review приняты. Native/движение/physicalInterior ещё не проверены; Windows reservations сохранены."
+              "state": "confirmed_active",
+              "reason": "Actual protected before capture 1316005f22c747d18f793453bd8f1d17 RUNNING; primary принимает парное изображение после restored source candidate. Windows owner B02 after B20 release."
             },
             "task_type": "engineering",
             "status": "in_progress",
@@ -96630,7 +96653,7 @@
               "Actual Windows сравнение нового crisp профиля с сохранённым C1_street_high baseline: warm-key/cool-fill, ясный воздух и минимум три плана, читаемый белый снег/лицо/тёмный фасад; без пересвета и одинакового цветного фильтра.",
               "Сохранность существующих snowfall/blizzard/ночных состояний и nearby walk-in indoor grade; художественная приёмка остаётся у внешнего гейта родителя."
             ],
-            "next_action": "Принять source-кандидат одного crisp профиля, затем после station release сравнить matched C1 High/FOV70, S05 снег и соседний walk-in интерьер; оценить движение существующим допустимым маршрутом.",
+            "next_action": "Принять receipt/два кадра текущего before job; затем matched candidate snapshot с сохранённой геометрией, проверить защиту данных и сравнить actual изображение.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -96691,8 +96714,18 @@
               "source_scope": "Только шесть параметров existing village-winter-crisp: ambient.color/sun.color/fog.color/density/aerialPerspective/skyAffect. Ни нового профиля/owner, ни C#/shader/geometry/weather-budget/selector/ночных состояний.",
               "result": "Source кандидат шести fields подготовлен; root просмотрел полный scoped diff, JSON/semantic check/diff-check passed. Independent Luna review подтвердил границы и identified real indoor-grade dependency; free camera её не включает. Runtime/art NOT_RUN.",
               "verification": "Existing station matched C1+S05/adjacent walk-in view после peer reservations; source JSON parse/semantic diff и scoped diff-check. Новых тестов/probes нет.",
-              "next_action": "Принять source-кандидат одного crisp профиля, затем после station release сравнить matched C1 High/FOV70, S05 снег и соседний walk-in интерьер; оценить движение существующим допустимым маршрутом.",
-              "candidate_sha256": "4c100c13bb49e0201a816a33bf60bbf49c9b3041d63825f59516a13bbb6beb7f"
+              "next_action": "Принять receipt/два кадра текущего before job; затем matched candidate snapshot с сохранённой геометрией, проверить защиту данных и сравнить actual изображение.",
+              "candidate_sha256": "4c100c13bb49e0201a816a33bf60bbf49c9b3041d63825f59516a13bbb6beb7f",
+              "before_job": {
+                "id": "1316005f22c747d18f793453bd8f1d17",
+                "snapshot": "1c5546f64b207e9e3b043d6ee58b5232c9b5010f1644d87abd0e39891b016ac3",
+                "result": "NOT_ACCEPTED_YET",
+                "points": "C1_street_high:Ground@0,1.7,12>Ground@0,1.6,-30;C2_house_high:Ground@-14,1.7,4>Ground@-30,1.8,-6",
+                "phase": "village-winter-crisp",
+                "fov": 70,
+                "preset": "high",
+                "source_candidate_restored_exact_bytes": true
+              }
             }
           },
           {

@@ -328,23 +328,43 @@ public partial class AuthoredWorldDirector : Node3D
         var corrected = source.TryGetProperty("axisCorrection", out var axis) && axis.GetString() == "x+90";
         var correction = corrected ? Basis.FromEuler(new Vector3(Mathf.Pi * .5f, 0, 0)) : Basis.Identity;
         var origin = ReadVector(entry, "origin");
-        foreach (var child in top.GetChildren().OfType<Node3D>())
+        void ClearSourceOwner(Node node)
         {
-            var name = child.Name.ToString();
-            var matches = source.TryGetProperty("node", out var node) ? name == node.GetString()
-                : source.TryGetProperty("prefix", out var prefix) && GroupKey(name) == prefix.GetString()
-                  && !name.Contains("LOD1", StringComparison.Ordinal) && !name.Contains("LOD2", StringComparison.Ordinal) && !name.EndsWith("-col", StringComparison.Ordinal);
-            if (!matches) continue;
-            var transform = new Transform3D(correction, Vector3.Zero) * (top == instance ? child.Transform : top.Transform * child.Transform);
-            void ClearSourceOwner(Node node)
+            node.Owner = null;
+            foreach (var member in node.GetChildren()) ClearSourceOwner(member);
+        }
+
+        Node3D? selectedRoot = null;
+        if (source.TryGetProperty("node", out var sourceNode))
+        {
+            var sourceNodeName = sourceNode.GetString();
+            if (instance.Name.ToString() == sourceNodeName) selectedRoot = instance;
+            else if (top.Name.ToString() == sourceNodeName) selectedRoot = top;
+        }
+        var reparentedInstance = ReferenceEquals(selectedRoot, instance);
+        if (selectedRoot is not null)
+        {
+            var transform = new Transform3D(correction, Vector3.Zero) * selectedRoot.Transform;
+            ClearSourceOwner(selectedRoot);
+            if (!reparentedInstance) instance.RemoveChild(selectedRoot);
+            holder.AddChild(selectedRoot);
+            selectedRoot.Transform = transform;
+        }
+        else
+        {
+            foreach (var child in top.GetChildren().OfType<Node3D>())
             {
-                node.Owner = null;
-                foreach (var member in node.GetChildren()) ClearSourceOwner(member);
+                var name = child.Name.ToString();
+                var matches = source.TryGetProperty("node", out var node) ? name == node.GetString()
+                    : source.TryGetProperty("prefix", out var prefix) && GroupKey(name) == prefix.GetString()
+                      && !name.Contains("LOD1", StringComparison.Ordinal) && !name.Contains("LOD2", StringComparison.Ordinal) && !name.EndsWith("-col", StringComparison.Ordinal);
+                if (!matches) continue;
+                var transform = new Transform3D(correction, Vector3.Zero) * (top == instance ? child.Transform : top.Transform * child.Transform);
+                ClearSourceOwner(child);
+                top.RemoveChild(child);
+                holder.AddChild(child);
+                child.Transform = transform;
             }
-            ClearSourceOwner(child);
-            top.RemoveChild(child);
-            holder.AddChild(child);
-            child.Transform = transform;
         }
 
         if (modelPathOverride is not null && holder.GetChildCount() == 0)
@@ -375,7 +395,7 @@ public partial class AuthoredWorldDirector : Node3D
             ClearDescendantOwners(holder);
         }
 
-        instance.QueueFree();
+        if (!reparentedInstance) instance.QueueFree();
         holder.Scale = Vector3.One * scale;
         holder.Position = -origin * scale;
         item.Root.AddChild(holder);
