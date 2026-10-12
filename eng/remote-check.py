@@ -243,7 +243,11 @@ def main():
                    help='include the two fixed house generator inputs in the source snapshot')
     p.add_argument('--studio-readiness',action='store_true',
                    help='doctor only: check redacted native Studio, Codex, and Blender readiness')
+    p.add_argument('--studio-restarts',type=int,default=0,
+                   help='studio only: reopen the same authored workspace 0..2 times after clean exits')
     args=p.parse_args()
+    if not 0<=args.studio_restarts<=2 or (args.studio_restarts and args.command!='studio'):
+        p.error('--studio-restarts requires studio and a count of 0..2')
     if args.studio_readiness and args.command!='doctor':
         p.error('--studio-readiness is only valid with doctor')
     if args.command=='studio' and (args.scene is not None or args.headless or args.points is not None
@@ -283,6 +287,8 @@ def main():
     spec={'job_id':jid,'snapshot_id':manifest['snapshot_id'],'mode':args.command,
           'scene':'res://scenes/act1_demo.tscn' if args.command=='capture' else scene,
           'timeout':timeout,'headless':args.headless,'points':args.points or ''}
+    if args.studio_restarts:
+        spec['studio_restarts']=args.studio_restarts
     if args.phase:
         # Optional field: a station worker that predates it rejects the job loudly.
         spec['phase']=args.phase

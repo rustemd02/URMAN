@@ -1437,7 +1437,7 @@ class Station:
             self.lock.release()
 
     def submit(self, spec):
-        if set(spec) - {'job_id','snapshot_id','mode','scene','timeout','headless','points','phase','fov'}:
+        if set(spec) - {'job_id','snapshot_id','mode','scene','timeout','headless','points','phase','fov','studio_restarts'}:
             raise ValueError('unknown job field')
         jid = spec.get('job_id', '')
         if not re.fullmatch('[a-zA-Z0-9_-]{8,64}', jid):
@@ -1457,6 +1457,10 @@ class Station:
         mode = spec.get('mode')
         if mode not in ('smoke', 'capture', 'studio'):
             raise ValueError('unsupported mode')
+        restarts = spec.get('studio_restarts', 0)
+        if (type(restarts) is not int or not 0 <= restarts <= 2
+                or ('studio_restarts' in spec and mode != 'studio')):
+            raise ValueError('studio_restarts requires Studio mode and an integer of 0..2')
         timeout_max = 3600 if mode == 'studio' else 300
         if type(spec.get('timeout')) is not int or not 1 <= spec['timeout'] <= timeout_max:
             raise ValueError(f'timeout must be 1..{timeout_max} seconds')
@@ -1566,6 +1570,8 @@ class Station:
                     command += ['-AtmospherePhase', spec['phase']]
                 if spec.get('fov'):
                     command += ['-ViewFov', spec['fov']]
+                if spec.get('studio_restarts'):
+                    command += ['-StudioRestarts', str(spec['studio_restarts'])]
                 with (output/'stdout.log').open('wb') as out, (output/'stderr.log').open('wb') as err:
                     p = subprocess.Popen(command,stdout=out,stderr=err,creationflags=subprocess.CREATE_NO_WINDOW)
                     # Runner bounds build/content/import/game separately. This outer emergency

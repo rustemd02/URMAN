@@ -2,6 +2,7 @@ param(
     [ValidateSet('build', 'prepare', 'play', 'smoke', 'capture')][string]$Mode = 'smoke',
     [string]$Scene,
     [ValidateRange(1, 86400)][int]$TimeoutSeconds = 300,
+    [ValidateRange(0, 2)][int]$StudioRestarts = 0,
     [switch]$Headless,
     [string]$ViewPoints,
     [ValidatePattern('^$|^[a-z0-9-]{1,48}$')][string]$AtmospherePhase,
@@ -26,6 +27,9 @@ if (-not $Scene) { $Scene = 'res://scenes/act1_demo.tscn' }
 if ($Scene -notmatch '^res://[\w/.-]+\.tscn$' -or $Scene.Contains('..') -or
     -not (Test-Path (Join-Path "$Root/game" $Scene.Substring(6)))) { throw 'Invalid or missing scene.' }
 $studioPlay = $Mode -eq 'play' -and $Scene -eq 'res://studio/studio_main.tscn'
+if ($PSBoundParameters.ContainsKey('StudioRestarts') -and -not $studioPlay) {
+    throw 'StudioRestarts is only valid for a native Studio play run.'
+}
 if ($Mode -eq 'capture' -and (-not $ViewPoints -or $Headless)) { throw 'Capture requires -ViewPoints and a native window.' }
 if ($AtmospherePhase -and $Mode -ne 'capture') { throw 'An atmosphere phase only applies to a capture.' }
 if ($ViewFov -and $Mode -ne 'capture') { throw 'A view FOV only applies to a capture.' }
@@ -51,6 +55,7 @@ if (-not $Output) { $Output = "$Root/.codex-captures/windows/$((Get-Date).ToStri
 New-Item -ItemType Directory -Force $output | Out-Null
 $receipt = [ordered]@{ host = $env:COMPUTERNAME; mode = $Mode; scene = $Scene; headless = [bool]$Headless;
     started = (Get-Date).ToUniversalTime().ToString('o'); status = 'RUNNING'; logs = $output; humanPlaytest = 'not-run'; steps = @{} }
+if ($studioPlay) { $receipt.studioRuns = @() }
 function Invoke-Logged([string]$Name, [string]$Exe, [string[]]$Arguments, [int]$Deadline = 180) {
     # PS5 treats native stderr as ErrorRecord. Preserve it and decide from exit + log.
     $savedPreference = $ErrorActionPreference
@@ -148,8 +153,8 @@ try {
         }
     }
     if ($Mode -in @('play', 'smoke', 'capture')) {
-        $arguments = @($guard, '--clean', '--timeout', "$TimeoutSeconds", $godot, '--path', "$Root/game", '--resolution', '1920x1080')
-        if ($Headless) { $arguments += '--headless' } else { $arguments += '--always-on-top' }
+        $baseArguments = @($guard, '--clean', '--timeout', "$TimeoutSeconds", $godot, '--path', "$Root/game", '--resolution', '1920x1080')
+        if ($Headless) { $baseArguments += '--headless' } else { $baseArguments += '--always-on-top' }
         if ($Mode -eq 'capture') {
             $env:URMAN_VIEW_CAPTURE = "$output/frames"
             $env:URMAN_VIEW_POINTS = $ViewPoints
@@ -158,11 +163,11 @@ try {
             # VIS-111: 'player' = the player's camera FOV; default control views stay at 70.
             if ($ViewFov) { $env:URMAN_VIEW_FOV = $ViewFov; $receipt.viewFov = $ViewFov }
         }
-        $arguments += $Scene
+        $baseArguments += $Scene
         if ($studioPlay) {
-            $arguments += '--'
-            $arguments += "--urman-studio-tools-root=$ToolsRoot"
-            if ($Provenance) { $arguments += "--urman-studio-snapshot-revision=$studioSnapshotRevision" }
+            $baseArguments += '--'
+            $baseArguments += "--urman-studio-tools-root=$ToolsRoot"
+            if ($Provenance) { $baseArguments += "--urman-studio-snapshot-revision=$studioSnapshotRevision" }
         }
         if ($vehicleSmoke) {
             foreach ($name in $vehicleEnvironment.Keys) {
@@ -173,18 +178,45 @@ try {
             if (-not $Headless) { $env:URMAN_VEHICLE_CAPTURE = '1' }
             $receipt.vehicleEvidence = 'vehicle/receipt.json'
         }
-        if ($Mode -eq 'smoke') { $arguments += '--urman-smoke-background-input' }
-        Invoke-Logged 'game' $Python $arguments ($TimeoutSeconds + 30)
-        if (-not $Headless) {
-            $rendererLines = @([IO.File]::ReadAllLines("$output/game.log") | Where-Object { $_ -match 'Vulkan|Direct3D|D3D12|OpenGL API' })
-            if (-not $rendererLines -or ($rendererLines -join ' ') -match '(?i)llvmpipe|SwiftShader|software rasterizer|Microsoft Basic Render') { throw 'Native hardware renderer was not confirmed by the engine log.' }
-            $receipt.renderer = $rendererLines
+        if ($Mode -eq 'smoke') { $baseArguments += '--urman-smoke-background-input' }
+        $runCount = if ($studioPlay) { 1 + $StudioRestarts } else { 1 }
+        $gamePhaseClock = [Diagnostics.Stopwatch]::StartNew()
+        for ($runIndex = 0; $runIndex -lt $runCount; $runIndex++) {
+            $runTimeout = $TimeoutSeconds
+            if ($studioPlay -and $runIndex -gt 0) {
+                $runTimeout = $TimeoutSeconds - [int][Math]::Ceiling($gamePhaseClock.Elapsed.TotalSeconds)
+                if ($runTimeout -le 0) { throw 'Studio restart skipped because the shared game timeout is exhausted.' }
+            }
+            $stepName = if ($runIndex -eq 0) { 'game' } else { "game-restart-$runIndex" }
+            $runStarted = (Get-Date).ToUniversalTime().ToString('o')
+            $runRecord = [ordered]@{ run = $runIndex + 1; step = $stepName; log = "$stepName.log";
+                startedUtc = $runStarted; finishedUtc = $null; exitCode = $null; status = 'RUNNING' }
+            $runArguments = @($baseArguments)
+            $runArguments[3] = "$runTimeout"
+            try {
+                Invoke-Logged $stepName $Python $runArguments ($runTimeout + 30)
+                $runRecord.exitCode = $receipt.steps[$stepName].exitCode
+                if (-not $Headless) {
+                    $rendererLines = @([IO.File]::ReadAllLines("$output/$stepName.log") | Where-Object { $_ -match 'Vulkan|Direct3D|D3D12|OpenGL API' })
+                    if (-not $rendererLines -or ($rendererLines -join ' ') -match '(?i)llvmpipe|SwiftShader|software rasterizer|Microsoft Basic Render') { throw 'Native hardware renderer was not confirmed by the engine log.' }
+                    $runRecord.renderer = $rendererLines
+                    if ($runIndex -eq 0) { $receipt.renderer = $rendererLines }
+                }
+                if ($Mode -eq 'smoke' -and $Scene -eq 'res://tests/act1_main_menu_smoke_test.tscn' -and (Get-Content "$output/$stepName.log" -Raw) -notmatch '\bPASS\b') { throw 'Main menu smoke did not emit its expected PASS marker.' }
+                if ($Mode -eq 'smoke' -and $Scene -eq 'res://tests/player_settings_smoke_test.tscn' -and (Get-Content "$output/$stepName.log" -Raw) -notmatch 'player-settings-smoke: SaveGameV3 settings') { throw 'Player settings smoke did not emit its expected completion marker.' }
+                $receipt.userdataRestored = $true
+                $receipt.gameExitCode = $runRecord.exitCode
+                if ($Mode -eq 'capture' -and -not (Test-Path "$output/frames/*.png")) { throw 'No capture frames were produced.' }
+                $runRecord.status = 'PASS'
+            } catch {
+                if ($receipt.steps.ContainsKey($stepName)) { $runRecord.exitCode = $receipt.steps[$stepName].exitCode }
+                $runRecord.status = 'FAIL'
+                throw
+            } finally {
+                $runRecord.finishedUtc = (Get-Date).ToUniversalTime().ToString('o')
+                if ($studioPlay) { $receipt.studioRuns += $runRecord }
+            }
         }
-        if ($Mode -eq 'smoke' -and $Scene -eq 'res://tests/act1_main_menu_smoke_test.tscn' -and (Get-Content "$output/game.log" -Raw) -notmatch '\bPASS\b') { throw 'Main menu smoke did not emit its expected PASS marker.' }
-        if ($Mode -eq 'smoke' -and $Scene -eq 'res://tests/player_settings_smoke_test.tscn' -and (Get-Content "$output/game.log" -Raw) -notmatch 'player-settings-smoke: SaveGameV3 settings') { throw 'Player settings smoke did not emit its expected completion marker.' }
-        $receipt.userdataRestored = $true
-        $receipt.gameExitCode = 0
-        if ($Mode -eq 'capture' -and -not (Test-Path "$output/frames/*.png")) { throw 'No capture frames were produced.' }
     }
     $dll = "$Root/game/.godot/mono/temp/bin/Debug/Urman.Game.dll"
     if (-not (Test-Path $dll)) { throw 'Fresh game DLL was not found.' }
@@ -203,7 +235,8 @@ try {
     $engineErrors = @(Get-ChildItem $output -Filter '*.log' | ForEach-Object { Get-Content $_.FullName | Where-Object { $_ -match '(?i)ERROR:|SCRIPT ERROR:|Unhandled exception|\bFAIL\b' } })
     [IO.File]::WriteAllLines("$output/engine-errors.log", [string[]]@($engineErrors), [Text.UTF8Encoding]::new($false))
     $receipt.elapsedSeconds = ((Get-Date).ToUniversalTime() - [datetimeoffset]::Parse($receipt.started).UtcDateTime).TotalSeconds
-    if ($receipt.steps.ContainsKey('game')) { $receipt.gameExitCode = $receipt.steps.game.exitCode }
+    if ($studioPlay -and $receipt.studioRuns.Count -gt 0) { $receipt.gameExitCode = $receipt.studioRuns[-1].exitCode }
+    elseif ($receipt.steps.ContainsKey('game')) { $receipt.gameExitCode = $receipt.steps.game.exitCode }
     $receipt.exitCode = if ($receipt.status -eq 'PASS') { 0 } else { 1 }
     $receipt.finished = (Get-Date).ToUniversalTime().ToString('o')
     $receipt | ConvertTo-Json -Depth 5 | Set-Content "$output/receipt.json" -Encoding UTF8

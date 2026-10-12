@@ -72726,6 +72726,18 @@
                 "source_revision": "c23d655d",
                 "evidence_path": "evidence/STUDIO/practical-editor-2026-10-12/windows-clipboard",
                 "actual_result": "Copied immutable request/schema from Studio; Luna returned matching proposal with exactly requested marker. Pasted response validated; preview did not auto-apply; explicit Apply changed only selected text. Native Undo restored original text and clean workspace. Root inspected proposal/applied/undone screenshots; normal close PASS exit0. No Claude client/account invocation claimed."
+              },
+              {
+                "stage": "2026-10-12 Luna Claude CLI restricted research",
+                "result": "RESEARCH_CANDIDATE_AUTH_HOOK_BOUNDARY_UNPROVEN",
+                "sources": [
+                  "https://code.claude.com/docs/en/cli-reference",
+                  "https://code.claude.com/docs/en/headless",
+                  "https://code.claude.com/docs/en/settings",
+                  "https://code.claude.com/docs/en/hooks",
+                  "https://support.claude.com/en/articles/11145838-use-claude-code-with-your-pro-or-max-plan"
+                ],
+                "actual_result": "Official --bare requires API auth, unsuitable personal subscription. --restricted v2.1.248+ is candidate, but personal OAuth/keychain behavior and overriding managed hooks not proven. No CLI/account/credentials/model execution; no unsafe adapter written. Existing verified clipboard route remains usable for external agents."
               }
             ],
             "stage_tasks": [
@@ -78682,14 +78694,24 @@
                       "actual_result": "Copy frozen text request+same output schema, paste through existing source/hash/proposal validator and manual preview/Apply. Closing revokes snapshot. Exact shop/vehicle one-file existing replacements join existing accepted ordered restart stack with8MiB source/image bounds; owner/path policy reused for interrupted recovery. No second history/provider registry.",
                       "verification": "Two Luna FAST implementers; independent Sol6.1medium review no blocker; diffcheck. Root compile caught and fixed nullable staging prehash check; final affected Game compile0warnings/0errors.",
                       "remaining": "Clipboard UI walkthrough, actual Claude client and catalogue restart Undo/Redo not run."
+                    },
+                    {
+                      "stage": "2026-10-12 sequential Studio restart source",
+                      "result": "SOURCE_SYNTAX_PS5_PARSE_REVIEW_NATIVE_OPEN",
+                      "source": [
+                        "eng/remote-check.py",
+                        "eng/windows_station_worker.py",
+                        "eng/run-windows-check.ps1"
+                      ],
+                      "actual_result": "Studio-only bounded0..2 clean reopenings reuse same source directory and existing protected_run per process; one shared game timeout; failure prevents relaunch; actual per-process timestamps/exit/renderer/guard logs in receipt.studioRuns. No prior-result import or synthetic journal. Python syntax, invalidCLI count/mode refusal before client creation, real PS5 parser, independentSol review passed."
                     }
                   ],
                   "assigned_owner": "codex/b20-2026-10-10",
-                  "active_owner": null,
+                  "active_owner": "codex/b20-2026-10-10",
                   "activity": {
-                    "state": "runtime_deferred_by_author",
-                    "reason": "Full-source recovery source stage complete; native recovery/Undo and A08/A11/A16 remain deferred by author.",
-                    "verification_question": "Full wrapper recovery uses SourceText Undo, preserves refreshed shape/identity/disk guards and pending artifacts; narrow Game compile + independent review."
+                    "state": "confirmed_active",
+                    "reason": "Root executes finite catalogue Save→normal close→same-source Studio restart→Undo/Redo→byte baseline restoration. No synthetic history/import or unguarded launch.",
+                    "verification_question": "Does one real accepted vehicle transaction persist into the second Studio process and retain exact Undo/Redo without loading the map?"
                   },
                   "task_type": "engineering",
                   "status": "in_progress",
@@ -78699,7 +78721,7 @@
                     "Native A08/A11/A16 interruption/external-edit scenarios and full done_when remain unverified.",
                     "Hash check immediately before OS rename/delete is not universal CAS against arbitrary uncooperative concurrent writers; post-barrier fix does not eliminate that separate race."
                   ],
-                  "next_action": "После снятия runtime pause проверить внешний edit во время view barrier и interrupted recovery в disposable data; продолжить preview artifact hash pinning в AI-12.",
+                  "next_action": "Native Windows two sequential guarded Studio processes on same source: Save vehicle7→8, restart, Undo/Redo/Undo with file hash checks.",
                   "blocker": null,
                   "external_gates": [],
                   "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
