@@ -104471,7 +104471,9 @@
         "evidence/PW-017/book-hands-20261012/godot-import.json",
         "evidence/PW-017/book-hands-20261012/offline-closed.png",
         "evidence/PW-017/book-hands-20261012/offline-open.png",
-        "evidence/PW-017/book-hands-20261012/game-build.log"
+        "evidence/PW-017/book-hands-20261012/game-build.log",
+        "evidence/PW-017/table-presence-20261012/receipt.json",
+        "evidence/PW-017/table-presence-20261012/game-build.log"
       ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-017",
       "source_requirements": [
@@ -104589,7 +104591,7 @@
       "assigned_owner": "art",
       "activity": {
         "state": "released",
-        "reason": "Конечный hands asset/optional construction inspector source этап принят; fullPW017/native/human остаются открытыми."
+        "reason": "Tablepresence source fix accepted; actualnativehandoff/Continue остаютсяopen."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -104598,7 +104600,7 @@
         "Actual Windows book inspection/reopen/tab/load/session/carry/vehicle guards, contacts and framing; native/human art acceptance not performed.",
         "Walking first-person grip and typed PageId→3D page/photo/flip/mount motion, editable typography/glyph text and FOV/accessibility acceptance remain open."
       ],
-      "next_action": "После явного release B20 проверить полученную книгу: PhotoBook→Осмотреть книгу в руках→закрытая/разворот/поворот→закрыть/повторно открыть/сменить вкладку/Continue. Затем отдельно реализовать PageId/движение/fullgrip; source и offline кадры не заменяют native.",
+      "next_action": "После явного release B20 проверить received book inspection и отсутствие tablecopy послеhandoff/Continue; olderunreceivedslot показываетbook, legacyunchanged. Затем PageId/движение/fullgrip отдельным конечным этапом.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -104685,7 +104687,9 @@
           "evidence/PW-017/book-hands-20261012/godot-import.json",
           "evidence/PW-017/book-hands-20261012/offline-closed.png",
           "evidence/PW-017/book-hands-20261012/offline-open.png",
-          "evidence/PW-017/book-hands-20261012/game-build.log"
+          "evidence/PW-017/book-hands-20261012/game-build.log",
+          "evidence/PW-017/table-presence-20261012/receipt.json",
+          "evidence/PW-017/table-presence-20261012/game-build.log"
         ],
         "engineering_completion_excludes_external_gates": true
       },
@@ -104869,6 +104873,21 @@
           "This finite construction inspector does not implement walking book grip, typedPageId pose/mount/flip sync or3D editableglyph text",
           "Native art/human/FOV720p1080p16:10/large text acceptance and pinnedBlender4.5 regeneration remain open"
         ]
+      },
+      "progress_2026_10_12_table_presence": {
+        "stage": "PhotoWorlds table book follows committed received state",
+        "sha256": {
+          "game/scripts/FamilyBookTablePresence.cs": "28eae3050d5a4c4a4816fcc2551c89921cddf3e37455ae7bbe85ebad5a3928c9",
+          "game/scripts/ArrivalPersonalProps.cs": "363c793cc2dfa787b2b320756e2a6fd07062fb9557474f73117e878ac9487842",
+          "game/scripts/RuntimeBridge.PhotoBook.cs": "7156721aed0124bc0cd7eee957454166ffdf2088519595ccb351a0236888e866"
+        },
+        "source_review": "Root reviewed same source query and subscription lifecycle. Only PhotoWorlds attachment after legacyreturn; existing model/material/support/target/AfterDispatch unchanged. Bridge queues RuntimeStateChanged after loadingSlot/loadPreparing cleared in successful/failing load/recovery finally, so projection resumes only after validation; NeedsPhysicalRecovery keepsSessionIdentitynull.",
+        "verification": {
+          "game_compile": "PASS 0 warnings/errors23.99s",
+          "native_handoff_continue": "NOT_RUN stationB20reservation"
+        },
+        "state_effects": "None; readonlyexistingphotoworlds.book.received controls presentation-onlyparentNode3D.Visible. Latebridgeattachment stops polling oncebound, removes subscription onexit.",
+        "remaining": "Actual book-before-handoff/after-commit/Continue/older-unreceived-slot and legacy-preserved view on Windows; no fullPW017 acceptance"
       }
     },
     {

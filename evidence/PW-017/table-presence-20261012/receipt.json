@@ -1,0 +1,15 @@
+{
+  "stage": "PhotoWorlds table book follows committed received state",
+  "sha256": {
+    "game/scripts/FamilyBookTablePresence.cs": "28eae3050d5a4c4a4816fcc2551c89921cddf3e37455ae7bbe85ebad5a3928c9",
+    "game/scripts/ArrivalPersonalProps.cs": "363c793cc2dfa787b2b320756e2a6fd07062fb9557474f73117e878ac9487842",
+    "game/scripts/RuntimeBridge.PhotoBook.cs": "7156721aed0124bc0cd7eee957454166ffdf2088519595ccb351a0236888e866"
+  },
+  "source_review": "Root reviewed same source query and subscription lifecycle. Only PhotoWorlds attachment after legacyreturn; existing model/material/support/target/AfterDispatch unchanged. Bridge queues RuntimeStateChanged after loadingSlot/loadPreparing cleared in successful/failing load/recovery finally, so projection resumes only after validation; NeedsPhysicalRecovery keepsSessionIdentitynull.",
+  "verification": {
+    "game_compile": "PASS 0 warnings/errors23.99s",
+    "native_handoff_continue": "NOT_RUN stationB20reservation"
+  },
+  "state_effects": "None; readonlyexistingphotoworlds.book.received controls presentation-onlyparentNode3D.Visible. Latebridgeattachment stops polling oncebound, removes subscription onexit.",
+  "remaining": "Actual book-before-handoff/after-commit/Continue/older-unreceived-slot and legacy-preserved view on Windows; no fullPW017 acceptance"
+}

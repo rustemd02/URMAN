@@ -172,6 +172,8 @@ internal partial class ArrivalPersonalProps : Node3D
 
         if (!photoWorlds) return;
 
+        book.AddChild(new FamilyBookTablePresence { Name = "PhotoWorldFamilyBookTablePresence" });
+
         var target = house.MakeInteractionBox("PhotoWorldFamilyBookTarget", new(.30f, .08f, .24f),
             book.Position, "674b45", "urman.fullgame:interaction/pw-book-handoff",
             "Принять семейную книгу от Гөлсинә", rayOnly: true);
