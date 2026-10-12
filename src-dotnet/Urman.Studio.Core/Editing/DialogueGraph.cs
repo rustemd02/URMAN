@@ -96,7 +96,13 @@ public static class DialogueGraph
 
                     if (choice["nextNodeId"] is { } next && AuthoredJson.TextValue(next) is { Length: > 0 } target && !nodeIds.Contains(target))
                     {
-                        problems.Add($"{choiceWhere}: nextNodeId «{target}» нет среди узлов диалога — ответ существует, но его нельзя выбрать.");
+                        // Read from the two consumers rather than guessed: RuntimeBridge indexes the
+                        // node map directly (dialogue.Nodes[choice.NextNodeId]), which throws
+                        // KeyNotFoundException, and DialogueUi would pass the same unknown id into
+                        // ShowNodeAsync. Note that the runtime does NOT check dialogue choices at
+                        // load - it validates only the entry routes - so this reaches the player
+                        // instead of failing early, unlike a chat.
+                        problems.Add($"{choiceWhere}: nextNodeId «{target}» нет среди узлов диалога — при выборе этого ответа RuntimeBridge обратится к dialogue.Nodes[«{target}»] и бросит KeyNotFoundException, потому что на загрузке проверяются только входные маршруты, а не выбор.");
                     }
                 }
             }

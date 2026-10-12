@@ -1,0 +1,10 @@
+== AI-20: the dialogue next-target consequence, read from its consumers
+
+-- the runtime does NOT check dialogue choices at load, only entry routes:
+727:            throw new InvalidDataException($"Dialogue {dialogue.GetProperty("id").GetString()} has an unknown entry node.");
+-- but the choice path indexes the node map directly:
+1112:            var target = dialogue.Nodes[choice.NextNodeId];
+-- the message now says:
+101:                        // KeyNotFoundException, and DialogueUi would pass the same unknown id into
+105:                        problems.Add($"{choiceWhere}: nextNodeId «{target}» нет среди узлов диалога — при выборе этого ответа RuntimeBridge обратится к dialogue.Nodes[«{target}»] и бросит KeyNotFoundException, потому что на загрузке проверяются только входные маршруты, а не выбор.");
+PROBE RESULT: PASS
