@@ -1,0 +1,10 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.urman.game/capabilities/urman.oldpc/v1/config.schema.json",
+  "type": "object",
+  "required": ["moduleId"],
+  "properties": {
+    "moduleId": { "const": "urman.oldpc" }
+  },
+  "additionalProperties": false
+}

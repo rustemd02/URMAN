@@ -81948,6 +81948,12 @@
                       "source": "evidence/STUDIO/practical-editor-2026-10-12/windows-checkpoint-fixed",
                       "verification": "Native915 actualprocess102932 capturesprivate8 whileoriginaldisk7 SHA0d5112…; validcpf33e97…124sources/60resources/revision7ca2e15f. Two Save9/10. Explicitpreview1vehicle target, Restore8 txbbb39334…ownercheckpoint/f33e…order3, after41018b…; UndoRestore10 SHA1439c7…, thenUndo9/7 exactbaseline. Dirty11 preview refused preservingbuffer and disk10; resettingbuffer10 enabledUndo. Exportedmanifest/source images+all3journals/currentcatalog+counter/fence, WindowsRootHash/schema accepted. FirstgameExit0; wrapperFAIL on exactrootexclusive siblingConfirmation+Accept ERROR; secondrunnotstarted, userdatarecoveryfalse doctorready.",
                       "remaining": "Independent nestedparentUI3linefix reviewed; compile/currentnative pending; no 3D loaded/oldrendererfix claim."
+                    },
+                    {
+                      "stage": "2026-10-12 actual checkpoint persistence across restart",
+                      "result": "NATIVE_RESTART_AND_EXPORT_PASS_VISIBLE_PREVIEW_FIX_PENDING",
+                      "source": "evidence/STUDIO/practical-editor-2026-10-12/windows-checkpoint-restart",
+                      "verification": "Protected2a0c5c784823416d855099454e13e882 on5443a5c6 two actualprocesses101132/103568 same source; native list displays savedcheckpoint afterrestart; both exit0/noengineERROR,userdataRestoredtrue. Source7→9 cancelledpreview→Undo7 retained checkpoint. Exportoriginalmanifest/images/cataloguejournal/currentsource, counter. Nestedmodalbodywasoccluded bylist, soUXnotaccepted. Minimalone-root-popup replacement2e230e90 compiled0/0+Solreview; c604single-targetverificationpending."
                     }
                   ],
                   "assigned_owner": "codex/b20-2026-10-10",
@@ -81961,10 +81967,9 @@
                   "implementation_state": "implemented",
                   "technical_verification_state": "failed",
                   "remaining": [
-                    "Нужен actual restart со списком checkpoint. First fixed-source915 stopped beforesecondrun on exclusive siblingmodal engineERROR; durable Create/two edits/Restore/Undo/fullbytes и originalcapsule export уже приняты.",
-                    "Проверить targeted preview/Restore/Undo/normalclose на corrected nestedmodalowner; не повторять исходный неизменённый цикл."
+                    "Только новая visibility modal правка: single preview должен полностьювиден и Cancel/Restore/Undo должны пройти normal close без engineERROR. Checkpoint restart ужепринят2a0c."
                   ],
-                  "next_action": "На changed nestedmodalowner: Create новый clean checkpoint7, Save9, preview→Restore7→Undo9→Undo7, normalclose→actualrestart показывает checkpoint; принять последний finite A24 остаток.",
+                  "next_action": "Один changed-source c6049ffc74984af7b6afe4a291bae21b: cleancheckpoint7→Save9→visible preview Cancel→reopen Restore7→Undo9→Undo7→normalclose. Не повторять ни Core two-edits cycle915, ни actualrestart2a0c.",
                   "blocker": null,
                   "external_gates": [],
                   "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",

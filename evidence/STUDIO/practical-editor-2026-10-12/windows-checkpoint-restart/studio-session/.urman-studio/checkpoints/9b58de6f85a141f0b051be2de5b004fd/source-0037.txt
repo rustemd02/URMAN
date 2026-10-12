@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 1,
+  "moduleId": "urman.core",
+  "exactVersion": "1.0.0",
+  "sourceFiles": [],
+  "assets": [],
+  "dependencies": [],
+  "provides": [],
+  "requires": []
+}

@@ -1,0 +1,3916 @@
+{
+  "schemaVersion": 1,
+  "kind": "urman.catalog",
+  "note": "Каталог объектов URMAN Studio. Собран из наборов моделей; названия и категории можно менять — пересборка их сохраняет.",
+  "entities": [
+    {
+      "id": "urman.catalog:urman_village_exterior_kit/ambientcat",
+      "name": "Кошка",
+      "category": "Звук и эффекты",
+      "source": {
+        "scene": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "node": "AmbientCat"
+      },
+      "size": [
+        0.23,
+        0.39,
+        0.83
+      ],
+      "origin": [
+        0,
+        0,
+        27.89
+      ],
+      "collision": "box",
+      "kit": "деревня",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:urman_village_exterior_kit/ambientcrow",
+      "name": "Ворона",
+      "category": "Звук и эффекты",
+      "source": {
+        "scene": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "node": "AmbientCrow"
+      },
+      "size": [
+        0.65,
+        0.22,
+        0.51
+      ],
+      "origin": [
+        3,
+        0.93,
+        27.98
+      ],
+      "collision": "box",
+      "kit": "деревня",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:urman_village_exterior_kit/dwellingfacade-timberplaster",
+      "name": "Жилой фасад бревенчатый оштукатуренный",
+      "category": "Бытовой реквизит",
+      "source": {
+        "scene": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "node": "DwellingFacade_TimberPlaster"
+      },
+      "size": [
+        8.76,
+        5.33,
+        7.09
+      ],
+      "origin": [
+        -8.41,
+        0,
+        -2.37
+      ],
+      "collision": "box",
+      "kit": "деревня",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:urman_village_exterior_kit/fencesegment-roughpicket",
+      "name": "Забор секция грубый штакетник",
+      "category": "Заборы и ворота",
+      "source": {
+        "scene": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "node": "FenceSegment_RoughPicket"
+      },
+      "size": [
+        5.4,
+        1.99,
+        0.37
+      ],
+      "origin": [
+        4.99,
+        0.04,
+        0.55
+      ],
+      "collision": "box",
+      "kit": "деревня",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:urman_village_exterior_kit/gate-crookedtimber",
+      "name": "Калитка кривой бревенчатый",
+      "category": "Заборы и ворота",
+      "source": {
+        "scene": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "node": "Gate_CrookedTimber"
+      },
+      "size": [
+        3.04,
+        1.98,
+        0.84
+      ],
+      "origin": [
+        10.52,
+        0.02,
+        0.48
+      ],
+      "collision": "box",
+      "kit": "деревня",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:urman_village_exterior_kit/herohouse-timberplaster",
+      "name": "Главный дом бревенчатый оштукатуренный",
+      "category": "Дома и постройки",
+      "source": {
+        "scene": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "node": "HeroHouse_TimberPlaster"
+      },
+      "size": [
+        11.23,
+        5.25,
+        9.24
+      ],
+      "origin": [
+        36.32,
+        0,
+        -3.2
+      ],
+      "collision": "box",
+      "kit": "деревня",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:urman_village_exterior_kit/heroyardshed-loft",
+      "name": "Главный двор сарай с сеновалом",
+      "category": "Дома и постройки",
+      "source": {
+        "scene": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "node": "HeroYardShed_Loft"
+      },
+      "size": [
+        4.8,
+        4.4,
+        6.52
+      ],
+      "origin": [
+        44,
+        -0.04,
+        0.04
+      ],
+      "collision": "box",
+      "kit": "деревня",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:urman_village_exterior_kit/outbuildingshed-low",
+      "name": "Хозпостройка сарай низкий",
+      "category": "Дома и постройки",
+      "source": {
+        "scene": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "node": "OutbuildingShed_Low"
+      },
+      "size": [
+        4.14,
+        3.1,
+        2.88
+      ],
+      "origin": [
+        -1,
+        0.02,
+        -0.24
+      ],
+      "collision": "box",
+      "kit": "деревня",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:urman_village_exterior_kit/villageparcel-varianta-timbergable",
+      "name": "Деревня участок вариант A бревенчатый фронтон",
+      "category": "Дома и постройки",
+      "source": {
+        "scene": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "node": "VillageParcel_VariantA_TimberGable"
+      },
+      "size": [
+        13.14,
+        5.23,
+        13.33
+      ],
+      "origin": [
+        26.5,
+        0,
+        1.76
+      ],
+      "collision": "box",
+      "kit": "деревня",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:urman_village_exterior_kit/villageparcel-variantb-plasterannex",
+      "name": "Деревня участок вариант B оштукатуренный пристройка",
+      "category": "Дома и постройки",
+      "source": {
+        "scene": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "node": "VillageParcel_VariantB_PlasterAnnex"
+      },
+      "size": [
+        12.67,
+        4.93,
+        13.86
+      ],
+      "origin": [
+        39.49,
+        0,
+        1.42
+      ],
+      "collision": "box",
+      "kit": "деревня",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:urman_village_exterior_kit/villageparcel-variantc-banyayard",
+      "name": "Деревня участок вариант C баня двор",
+      "category": "Дома и постройки",
+      "source": {
+        "scene": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "node": "VillageParcel_VariantC_BanyaYard"
+      },
+      "size": [
+        13.31,
+        5.33,
+        12.59
+      ],
+      "origin": [
+        52.32,
+        0,
+        1.68
+      ],
+      "collision": "box",
+      "kit": "деревня",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:urman_village_exterior_kit/well-yardlandmark",
+      "name": "Колодец двор ориентир",
+      "category": "Бытовой реквизит",
+      "source": {
+        "scene": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "node": "Well_YardLandmark"
+      },
+      "size": [
+        2.04,
+        2.63,
+        1.75
+      ],
+      "origin": [
+        18.21,
+        0.06,
+        0.34
+      ],
+      "collision": "box",
+      "kit": "деревня",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:urman_village_exterior_kit/woodpile-stackedlogs",
+      "name": "Дровница сложенные брёвна",
+      "category": "Бытовой реквизит",
+      "source": {
+        "scene": "res://assets/models/act1/urman_village_exterior_kit.glb",
+        "node": "Woodpile_StackedLogs"
+      },
+      "size": [
+        1.78,
+        0.99,
+        0.96
+      ],
+      "origin": [
+        14.7,
+        0,
+        -0.7
+      ],
+      "collision": "box",
+      "kit": "деревня",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:urman_zirat_roadside_kit/culvertstonecluster",
+      "name": "Труба под дорогой камни группа",
+      "category": "Камни и снег",
+      "source": {
+        "scene": "res://assets/models/act1/urman_zirat_roadside_kit.glb",
+        "node": "CulvertStoneCluster"
+      },
+      "size": [
+        3.53,
+        0.42,
+        1.94
+      ],
+      "origin": [
+        4.74,
+        0,
+        0.16
+      ],
+      "collision": "box",
+      "kit": "обочина",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:urman_zirat_roadside_kit/roadsideditch",
+      "name": "Придорожная канава",
+      "category": "Дороги и покрытия",
+      "source": {
+        "scene": "res://assets/models/act1/urman_zirat_roadside_kit.glb",
+        "node": "RoadsideDitch"
+      },
+      "size": [
+        2.51,
+        0.55,
+        16.04
+      ],
+      "origin": [
+        4.51,
+        0,
+        -0.02
+      ],
+      "collision": "box",
+      "kit": "обочина",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:urman_zirat_roadside_kit/wetroadshoulder-left",
+      "name": "Мокрая дорога обочина слева",
+      "category": "Дороги и покрытия",
+      "source": {
+        "scene": "res://assets/models/act1/urman_zirat_roadside_kit.glb",
+        "node": "WetRoadShoulder_Left"
+      },
+      "size": [
+        2.96,
+        0.34,
+        16.48
+      ],
+      "origin": [
+        -5.5,
+        0,
+        -0.14
+      ],
+      "collision": "box",
+      "kit": "обочина",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:urman_zirat_roadside_kit/wetroadshoulder-right",
+      "name": "Мокрая дорога обочина справа",
+      "category": "Дороги и покрытия",
+      "source": {
+        "scene": "res://assets/models/act1/urman_zirat_roadside_kit.glb",
+        "node": "WetRoadShoulder_Right"
+      },
+      "size": [
+        2.99,
+        0.34,
+        16.48
+      ],
+      "origin": [
+        5.52,
+        0,
+        -0.14
+      ],
+      "collision": "box",
+      "kit": "обочина",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:urman_zirat_roadside_kit/ziratbirchshrubmass",
+      "name": "Зират берёза кусты массив",
+      "category": "Деревья и кусты",
+      "source": {
+        "scene": "res://assets/models/act1/urman_zirat_roadside_kit.glb",
+        "node": "ZiratBirchShrubMass"
+      },
+      "size": [
+        8.16,
+        4.68,
+        8.88
+      ],
+      "origin": [
+        6.21,
+        0,
+        -12.65
+      ],
+      "collision": "box",
+      "kit": "обочина",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:urman_zirat_roadside_kit/ziratboundaryfence",
+      "name": "Зират граница забор",
+      "category": "Заборы и ворота",
+      "source": {
+        "scene": "res://assets/models/act1/urman_zirat_roadside_kit.glb",
+        "node": "ZiratBoundaryFence"
+      },
+      "size": [
+        15.59,
+        1.2,
+        0.84
+      ],
+      "origin": [
+        0.01,
+        0,
+        -8.35
+      ],
+      "collision": "box",
+      "kit": "обочина",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:urman_zirat_roadside_kit/ziratdistantvillagemass",
+      "name": "Зират дальняя деревня массив",
+      "category": "Бытовой реквизит",
+      "source": {
+        "scene": "res://assets/models/act1/urman_zirat_roadside_kit.glb",
+        "node": "ZiratDistantVillageMass"
+      },
+      "size": [
+        18.75,
+        2.4,
+        9
+      ],
+      "origin": [
+        -0.18,
+        0,
+        -21.79
+      ],
+      "collision": "box",
+      "kit": "обочина",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:urman_zirat_roadside_kit/ziratmarkergroup-far",
+      "name": "Зират знак группа дальняя",
+      "category": "Бытовой реквизит",
+      "source": {
+        "scene": "res://assets/models/act1/urman_zirat_roadside_kit.glb",
+        "node": "ZiratMarkerGroup_Far"
+      },
+      "size": [
+        7.7,
+        0.42,
+        2.63
+      ],
+      "origin": [
+        0.15,
+        0.03,
+        -15.71
+      ],
+      "collision": "box",
+      "kit": "обочина",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:urman_zirat_roadside_kit/ziratmarkergroup-low",
+      "name": "Зират знак группа низкий",
+      "category": "Бытовой реквизит",
+      "source": {
+        "scene": "res://assets/models/act1/urman_zirat_roadside_kit.glb",
+        "node": "ZiratMarkerGroup_Low"
+      },
+      "size": [
+        7.7,
+        0.9,
+        4.37
+      ],
+      "origin": [
+        0.13,
+        0.04,
+        -11.6
+      ],
+      "collision": "box",
+      "kit": "обочина",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:urman_zirat_roadside_kit/ziratopengate",
+      "name": "Зират открытая калитка",
+      "category": "Заборы и ворота",
+      "source": {
+        "scene": "res://assets/models/act1/urman_zirat_roadside_kit.glb",
+        "node": "ZiratOpenGate"
+      },
+      "size": [
+        5.49,
+        1.58,
+        1.28
+      ],
+      "origin": [
+        0,
+        0,
+        -8.46
+      ],
+      "collision": "box",
+      "kit": "обочина",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:urman_zirat_roadside_kit/ziratpathedge",
+      "name": "Зират тропа край",
+      "category": "Дороги и покрытия",
+      "source": {
+        "scene": "res://assets/models/act1/urman_zirat_roadside_kit.glb",
+        "node": "ZiratPathEdge"
+      },
+      "size": [
+        4.2,
+        0.42,
+        7.95
+      ],
+      "origin": [
+        0,
+        0,
+        -12.17
+      ],
+      "collision": "box",
+      "kit": "обочина",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:urman_fap_clinic_kit/fapbench",
+      "name": "ФАП скамья",
+      "category": "Дома и постройки",
+      "source": {
+        "scene": "res://assets/models/act1/urman_fap_clinic_kit.glb",
+        "node": "FapBench"
+      },
+      "size": [
+        2.1,
+        1.56,
+        0.58
+      ],
+      "origin": [
+        -3.25,
+        0.01,
+        3.1
+      ],
+      "collision": "box",
+      "kit": "ФАП",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:urman_fap_clinic_kit/fapbirchshrubmass",
+      "name": "ФАП берёза кусты массив",
+      "category": "Дома и постройки",
+      "source": {
+        "scene": "res://assets/models/act1/urman_fap_clinic_kit.glb",
+        "node": "FapBirchShrubMass"
+      },
+      "size": [
+        7.59,
+        5.34,
+        2.53
+      ],
+      "origin": [
+        9.24,
+        0,
+        -3.45
+      ],
+      "collision": "box",
+      "kit": "ФАП",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:urman_fap_clinic_kit/fapentryporch",
+      "name": "ФАП вход крыльцо",
+      "category": "Дома и постройки",
+      "source": {
+        "scene": "res://assets/models/act1/urman_fap_clinic_kit.glb",
+        "node": "FapEntryPorch"
+      },
+      "size": [
+        4.04,
+        3.59,
+        2.65
+      ],
+      "origin": [
+        0,
+        0,
+        4.31
+      ],
+      "collision": "box",
+      "kit": "ФАП",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:urman_fap_clinic_kit/fapfacade-main",
+      "name": "ФАП фасад основной",
+      "category": "Дома и постройки",
+      "source": {
+        "scene": "res://assets/models/act1/urman_fap_clinic_kit.glb",
+        "node": "FapFacade_Main"
+      },
+      "size": [
+        12.69,
+        5.96,
+        12.76
+      ],
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "collision": "box",
+      "kit": "ФАП",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:urman_fap_clinic_kit/fapfencerun",
+      "name": "ФАП забор линия",
+      "category": "Заборы и ворота",
+      "source": {
+        "scene": "res://assets/models/act1/urman_fap_clinic_kit.glb",
+        "node": "FapFenceRun"
+      },
+      "size": [
+        13.18,
+        1.18,
+        1.62
+      ],
+      "origin": [
+        7.1,
+        0,
+        0.5
+      ],
+      "collision": "box",
+      "kit": "ФАП",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:urman_fap_clinic_kit/fapgate",
+      "name": "ФАП калитка",
+      "category": "Заборы и ворота",
+      "source": {
+        "scene": "res://assets/models/act1/urman_fap_clinic_kit.glb",
+        "node": "FapGate"
+      },
+      "size": [
+        2.72,
+        1.73,
+        0.39
+      ],
+      "origin": [
+        7.1,
+        0,
+        1.22
+      ],
+      "collision": "box",
+      "kit": "ФАП",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:urman_fap_clinic_kit/fapinteriorset",
+      "name": "ФАП интерьер набор",
+      "category": "Дома и постройки",
+      "source": {
+        "scene": "res://assets/models/act1/urman_fap_clinic_kit.glb",
+        "node": "FapInteriorSet"
+      },
+      "size": [
+        11.62,
+        3.53,
+        11.77
+      ],
+      "origin": [
+        0,
+        -0.12,
+        0.08
+      ],
+      "collision": "box",
+      "kit": "ФАП",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:urman_fap_clinic_kit/fapnoticeboard",
+      "name": "ФАП объявления доска",
+      "category": "Бытовой реквизит",
+      "source": {
+        "scene": "res://assets/models/act1/urman_fap_clinic_kit.glb",
+        "node": "FapNoticeBoard"
+      },
+      "size": [
+        2.34,
+        2.39,
+        0.63
+      ],
+      "origin": [
+        -4.65,
+        0,
+        2.95
+      ],
+      "collision": "box",
+      "kit": "ФАП",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:urman_fap_clinic_kit/fappathpuddlecluster",
+      "name": "ФАП тропа лужа группа",
+      "category": "Дома и постройки",
+      "source": {
+        "scene": "res://assets/models/act1/urman_fap_clinic_kit.glb",
+        "node": "FapPathPuddleCluster"
+      },
+      "size": [
+        3.47,
+        0.32,
+        7.9
+      ],
+      "origin": [
+        -0.06,
+        0,
+        7.95
+      ],
+      "collision": "box",
+      "kit": "ФАП",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:urman_fap_clinic_kit/faprainawning",
+      "name": "ФАП дождевой навес",
+      "category": "Дома и постройки",
+      "source": {
+        "scene": "res://assets/models/act1/urman_fap_clinic_kit.glb",
+        "node": "FapRainAwning"
+      },
+      "size": [
+        3.42,
+        2.86,
+        1.78
+      ],
+      "origin": [
+        4.92,
+        0.03,
+        -0.59
+      ],
+      "collision": "box",
+      "kit": "ФАП",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:urman_fap_clinic_kit/fapserviceshed",
+      "name": "ФАП служебный сарай",
+      "category": "Дома и постройки",
+      "source": {
+        "scene": "res://assets/models/act1/urman_fap_clinic_kit.glb",
+        "node": "FapServiceShed"
+      },
+      "size": [
+        3.77,
+        3.24,
+        3.07
+      ],
+      "origin": [
+        7.08,
+        0,
+        -1.43
+      ],
+      "collision": "box",
+      "kit": "ФАП",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:urman_fap_clinic_kit/fapwayfindingboard",
+      "name": "ФАП указатель доска",
+      "category": "Дома и постройки",
+      "source": {
+        "scene": "res://assets/models/act1/urman_fap_clinic_kit.glb",
+        "node": "FapWayfindingBoard"
+      },
+      "size": [
+        2.22,
+        2.3,
+        0.56
+      ],
+      "origin": [
+        -7,
+        0,
+        1.6
+      ],
+      "collision": "box",
+      "kit": "ФАП",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:urman_kara_forest_edge_kit/birchedgemass",
+      "name": "Берёза край массив",
+      "category": "Деревья и кусты",
+      "source": {
+        "scene": "res://assets/models/act1/urman_kara_forest_edge_kit.glb",
+        "node": "BirchEdgeMass"
+      },
+      "size": [
+        4.23,
+        5.99,
+        5.29
+      ],
+      "origin": [
+        5.59,
+        0.03,
+        -9.47
+      ],
+      "collision": "box",
+      "kit": "лес",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:urman_kara_forest_edge_kit/crookedpinemass",
+      "name": "Кривой сосна массив",
+      "category": "Деревья и кусты",
+      "source": {
+        "scene": "res://assets/models/act1/urman_kara_forest_edge_kit.glb",
+        "node": "CrookedPineMass"
+      },
+      "size": [
+        4.79,
+        6.1,
+        2.77
+      ],
+      "origin": [
+        -5.31,
+        -0.02,
+        -8.23
+      ],
+      "collision": "box",
+      "kit": "лес",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:urman_kara_forest_edge_kit/crookedstump",
+      "name": "Кривой пень",
+      "category": "Деревья и кусты",
+      "source": {
+        "scene": "res://assets/models/act1/urman_kara_forest_edge_kit.glb",
+        "node": "CrookedStump"
+      },
+      "size": [
+        2.18,
+        1.5,
+        1.83
+      ],
+      "origin": [
+        -5.04,
+        -0.04,
+        -1.72
+      ],
+      "collision": "box",
+      "kit": "лес",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:urman_kara_forest_edge_kit/distantforestmass-low",
+      "name": "Дальняя лес массив низкий",
+      "category": "Деревья и кусты",
+      "source": {
+        "scene": "res://assets/models/act1/urman_kara_forest_edge_kit.glb",
+        "node": "DistantForestMass_Low"
+      },
+      "size": [
+        26.02,
+        2.83,
+        4.41
+      ],
+      "origin": [
+        -1.11,
+        0.02,
+        -15.11
+      ],
+      "collision": "box",
+      "kit": "лес",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:urman_kara_forest_edge_kit/distantforestmass-tall",
+      "name": "Дальняя лес массив высокий",
+      "category": "Деревья и кусты",
+      "source": {
+        "scene": "res://assets/models/act1/urman_kara_forest_edge_kit.glb",
+        "node": "DistantForestMass_Tall"
+      },
+      "size": [
+        27.5,
+        10.95,
+        4.23
+      ],
+      "origin": [
+        -0.03,
+        -0.05,
+        -18.84
+      ],
+      "collision": "box",
+      "kit": "лес",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:urman_kara_forest_edge_kit/fallenlogcluster",
+      "name": "Поваленные бревно группа",
+      "category": "Деревья и кусты",
+      "source": {
+        "scene": "res://assets/models/act1/urman_kara_forest_edge_kit.glb",
+        "node": "FallenLogCluster"
+      },
+      "size": [
+        3.55,
+        0.67,
+        4.18
+      ],
+      "origin": [
+        -2.15,
+        -0.1,
+        1.28
+      ],
+      "collision": "box",
+      "kit": "лес",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:urman_kara_forest_edge_kit/forestbank-left",
+      "name": "Лес берег слева",
+      "category": "Деревья и кусты",
+      "source": {
+        "scene": "res://assets/models/act1/urman_kara_forest_edge_kit.glb",
+        "node": "ForestBank_Left"
+      },
+      "size": [
+        4.92,
+        1.18,
+        9.5
+      ],
+      "origin": [
+        -4.72,
+        -0.14,
+        -0.53
+      ],
+      "collision": "box",
+      "kit": "лес",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:urman_kara_forest_edge_kit/forestbank-right",
+      "name": "Лес берег справа",
+      "category": "Деревья и кусты",
+      "source": {
+        "scene": "res://assets/models/act1/urman_kara_forest_edge_kit.glb",
+        "node": "ForestBank_Right"
+      },
+      "size": [
+        5.14,
+        1.11,
+        8.64
+      ],
+      "origin": [
+        4.61,
+        -0.14,
+        -1.96
+      ],
+      "collision": "box",
+      "kit": "лес",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:urman_kara_forest_edge_kit/mixedtreecluster-left",
+      "name": "Смешанные деревья группа слева",
+      "category": "Деревья и кусты",
+      "source": {
+        "scene": "res://assets/models/act1/urman_kara_forest_edge_kit.glb",
+        "node": "MixedTreeCluster_Left"
+      },
+      "size": [
+        4.12,
+        5.62,
+        4.84
+      ],
+      "origin": [
+        -6.9,
+        -0.02,
+        -3.95
+      ],
+      "collision": "box",
+      "kit": "лес",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:urman_kara_forest_edge_kit/mixedtreecluster-right",
+      "name": "Смешанные деревья группа справа",
+      "category": "Деревья и кусты",
+      "source": {
+        "scene": "res://assets/models/act1/urman_kara_forest_edge_kit.glb",
+        "node": "MixedTreeCluster_Right"
+      },
+      "size": [
+        4.5,
+        5.78,
+        5.55
+      ],
+      "origin": [
+        7.09,
+        -0.02,
+        -5.39
+      ],
+      "collision": "box",
+      "kit": "лес",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:urman_kara_forest_edge_kit/mossybouldercluster",
+      "name": "Мшистые валуны группа",
+      "category": "Камни и снег",
+      "source": {
+        "scene": "res://assets/models/act1/urman_kara_forest_edge_kit.glb",
+        "node": "MossyBoulderCluster"
+      },
+      "size": [
+        5.88,
+        1.6,
+        3.56
+      ],
+      "origin": [
+        3.04,
+        -0.18,
+        0.48
+      ],
+      "collision": "box",
+      "kit": "лес",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:urman_kara_forest_edge_kit/rootwall-left",
+      "name": "Корни стена слева",
+      "category": "Камни и снег",
+      "source": {
+        "scene": "res://assets/models/act1/urman_kara_forest_edge_kit.glb",
+        "node": "RootWall_Left"
+      },
+      "size": [
+        3.41,
+        0.72,
+        8.72
+      ],
+      "origin": [
+        -6.89,
+        0.02,
+        -2.03
+      ],
+      "collision": "box",
+      "kit": "лес",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:urman_kara_forest_edge_kit/rootwall-right",
+      "name": "Корни стена справа",
+      "category": "Камни и снег",
+      "source": {
+        "scene": "res://assets/models/act1/urman_kara_forest_edge_kit.glb",
+        "node": "RootWall_Right"
+      },
+      "size": [
+        3.51,
+        0.66,
+        8.72
+      ],
+      "origin": [
+        6.88,
+        0.02,
+        -3.23
+      ],
+      "collision": "box",
+      "kit": "лес",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:urman_wet_village_road_kit/culvertstonecrossing",
+      "name": "Труба под дорогой камни переезд",
+      "category": "Камни и снег",
+      "source": {
+        "scene": "res://assets/models/act1/urman_wet_village_road_kit.glb",
+        "node": "CulvertStoneCrossing",
+        "axisCorrection": "x+90"
+      },
+      "size": [
+        11.65,
+        0.7,
+        1.78
+      ],
+      "origin": [
+        0.02,
+        2.89,
+        0.01
+      ],
+      "collision": "box",
+      "kit": "дорога",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:urman_wet_village_road_kit/fernshrubbreak-left",
+      "name": "Папоротник кусты разрыв слева",
+      "category": "Деревья и кусты",
+      "source": {
+        "scene": "res://assets/models/act1/urman_wet_village_road_kit.glb",
+        "node": "FernShrubBreak_Left",
+        "axisCorrection": "x+90"
+      },
+      "size": [
+        2.5,
+        1.04,
+        4.16
+      ],
+      "origin": [
+        -6.49,
+        -9.6,
+        0.3
+      ],
+      "collision": "box",
+      "kit": "дорога",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:urman_wet_village_road_kit/fernshrubbreak-right",
+      "name": "Папоротник кусты разрыв справа",
+      "category": "Деревья и кусты",
+      "source": {
+        "scene": "res://assets/models/act1/urman_wet_village_road_kit.glb",
+        "node": "FernShrubBreak_Right",
+        "axisCorrection": "x+90"
+      },
+      "size": [
+        2.59,
+        1.23,
+        4.13
+      ],
+      "origin": [
+        6.38,
+        9.7,
+        0.29
+      ],
+      "collision": "box",
+      "kit": "дорога",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:urman_wet_village_road_kit/grasssedgemass-left",
+      "name": "Трава осока массив слева",
+      "category": "Деревья и кусты",
+      "source": {
+        "scene": "res://assets/models/act1/urman_wet_village_road_kit.glb",
+        "node": "GrassSedgeMass_Left",
+        "axisCorrection": "x+90"
+      },
+      "size": [
+        2.39,
+        0.74,
+        4.16
+      ],
+      "origin": [
+        -6.16,
+        -2.11,
+        0.25
+      ],
+      "collision": "box",
+      "kit": "дорога",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:urman_wet_village_road_kit/grasssedgemass-right",
+      "name": "Трава осока массив справа",
+      "category": "Деревья и кусты",
+      "source": {
+        "scene": "res://assets/models/act1/urman_wet_village_road_kit.glb",
+        "node": "GrassSedgeMass_Right",
+        "axisCorrection": "x+90"
+      },
+      "size": [
+        2.11,
+        0.74,
+        4.3
+      ],
+      "origin": [
+        6.16,
+        2.29,
+        0.19
+      ],
+      "collision": "box",
+      "kit": "дорога",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:urman_wet_village_road_kit/muddyshoulder-left",
+      "name": "Грязная обочина слева",
+      "category": "Дороги и покрытия",
+      "source": {
+        "scene": "res://assets/models/act1/urman_wet_village_road_kit.glb",
+        "node": "MuddyShoulder_Left",
+        "axisCorrection": "x+90"
+      },
+      "size": [
+        3.43,
+        0.23,
+        27.2
+      ],
+      "origin": [
+        -3.71,
+        -0.32,
+        0.1
+      ],
+      "collision": "box",
+      "kit": "дорога",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:urman_wet_village_road_kit/muddyshoulder-right",
+      "name": "Грязная обочина справа",
+      "category": "Дороги и покрытия",
+      "source": {
+        "scene": "res://assets/models/act1/urman_wet_village_road_kit.glb",
+        "node": "MuddyShoulder_Right",
+        "axisCorrection": "x+90"
+      },
+      "size": [
+        2.71,
+        0.18,
+        27.2
+      ],
+      "origin": [
+        3.23,
+        -0.28,
+        0.1
+      ],
+      "collision": "box",
+      "kit": "дорога",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:urman_wet_village_road_kit/roadcrown-approachworn",
+      "name": "Дорога полотно подъезд разбитое",
+      "category": "Дороги и покрытия",
+      "source": {
+        "scene": "res://assets/models/act1/urman_wet_village_road_kit.glb",
+        "node": "RoadCrown_ApproachWorn",
+        "axisCorrection": "x+90"
+      },
+      "size": [
+        5.89,
+        0.14,
+        14
+      ],
+      "origin": [
+        0.2,
+        21.28,
+        0
+      ],
+      "collision": "box",
+      "kit": "дорога",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:urman_wet_village_road_kit/roadcrown-branchwet",
+      "name": "Дорога полотно ветка мокрая",
+      "category": "Деревья и кусты",
+      "source": {
+        "scene": "res://assets/models/act1/urman_wet_village_road_kit.glb",
+        "node": "RoadCrown_BranchWet",
+        "axisCorrection": "x+90"
+      },
+      "size": [
+        4.79,
+        0.12,
+        14
+      ],
+      "origin": [
+        0.08,
+        -21.7,
+        0
+      ],
+      "collision": "box",
+      "kit": "дорога",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:urman_wet_village_road_kit/roadcrown-sunkenwet",
+      "name": "Дорога полотно просевшее мокрая",
+      "category": "Дороги и покрытия",
+      "source": {
+        "scene": "res://assets/models/act1/urman_wet_village_road_kit.glb",
+        "node": "RoadCrown_SunkenWet",
+        "axisCorrection": "x+90"
+      },
+      "size": [
+        6.66,
+        0.18,
+        28
+      ],
+      "origin": [
+        -0.01,
+        -0.21,
+        0
+      ],
+      "collision": "box",
+      "kit": "дорога",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:urman_wet_village_road_kit/roadfencebreak-low",
+      "name": "Дорога забор разрыв низкий",
+      "category": "Заборы и ворота",
+      "source": {
+        "scene": "res://assets/models/act1/urman_wet_village_road_kit.glb",
+        "node": "RoadFenceBreak_Low",
+        "axisCorrection": "x+90"
+      },
+      "size": [
+        0.46,
+        1.25,
+        4.62
+      ],
+      "origin": [
+        -5.72,
+        6.96,
+        0.02
+      ],
+      "collision": "box",
+      "kit": "дорога",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:urman_wet_village_road_kit/roadruts-puddlefar",
+      "name": "Дорога колея лужа дальняя",
+      "category": "Дороги и покрытия",
+      "source": {
+        "scene": "res://assets/models/act1/urman_wet_village_road_kit.glb",
+        "node": "RoadRuts_PuddleFar",
+        "axisCorrection": "x+90"
+      },
+      "size": [
+        3.25,
+        0.1,
+        5.79
+      ],
+      "origin": [
+        -0.08,
+        6.33,
+        -1.87
+      ],
+      "collision": "box",
+      "kit": "дорога",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:urman_wet_village_road_kit/roadruts-puddlenear",
+      "name": "Дорога колея лужа ближняя",
+      "category": "Дороги и покрытия",
+      "source": {
+        "scene": "res://assets/models/act1/urman_wet_village_road_kit.glb",
+        "node": "RoadRuts_PuddleNear",
+        "axisCorrection": "x+90"
+      },
+      "size": [
+        3.37,
+        0.1,
+        5.11
+      ],
+      "origin": [
+        0.05,
+        -6.37,
+        -2.18
+      ],
+      "collision": "box",
+      "kit": "дорога",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:urman_wet_village_road_kit/roadsideditch-left",
+      "name": "Придорожная канава слева",
+      "category": "Дороги и покрытия",
+      "source": {
+        "scene": "res://assets/models/act1/urman_wet_village_road_kit.glb",
+        "node": "RoadsideDitch_Left",
+        "axisCorrection": "x+90"
+      },
+      "size": [
+        3.63,
+        0.21,
+        26.9
+      ],
+      "origin": [
+        -4.94,
+        -0.32,
+        -0.05
+      ],
+      "collision": "box",
+      "kit": "дорога",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:urman_wet_village_road_kit/roadsideditch-right",
+      "name": "Придорожная канава справа",
+      "category": "Дороги и покрытия",
+      "source": {
+        "scene": "res://assets/models/act1/urman_wet_village_road_kit.glb",
+        "node": "RoadsideDitch_Right",
+        "axisCorrection": "x+90"
+      },
+      "size": [
+        3.86,
+        0.22,
+        26.9
+      ],
+      "origin": [
+        4.99,
+        -0.34,
+        -0.05
+      ],
+      "collision": "box",
+      "kit": "дорога",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:urman_winter_pine/winterpine-lod0",
+      "name": "Зимняя сосна",
+      "category": "Деревья и кусты",
+      "source": {
+        "scene": "res://assets/models/act1/urman_winter_pine.glb",
+        "node": "WinterPine_LOD0"
+      },
+      "size": [
+        0.49,
+        1,
+        0.54
+      ],
+      "origin": [
+        -0.04,
+        0,
+        -0.04
+      ],
+      "collision": "box",
+      "kit": "ель",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:urman_winter_dead_tree/winterdeadtree-lod0",
+      "name": "Зимняя сухое деревья",
+      "category": "Деревья и кусты",
+      "source": {
+        "scene": "res://assets/models/act1/urman_winter_dead_tree.glb",
+        "node": "WinterDeadTree_LOD0"
+      },
+      "size": [
+        0.48,
+        1,
+        0.48
+      ],
+      "origin": [
+        -0.05,
+        0,
+        -0.01
+      ],
+      "collision": "box",
+      "kit": "сухое дерево",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:urman_modular_kit/fencea",
+      "name": "Забор A",
+      "category": "Заборы и ворота",
+      "source": {
+        "scene": "res://assets/generated/urman_modular_kit.glb",
+        "prefix": "FenceA"
+      },
+      "size": [
+        3.2,
+        1.25,
+        0.16
+      ],
+      "origin": [
+        10.5,
+        0,
+        0
+      ],
+      "collision": "box",
+      "kit": "модульный набор",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:urman_modular_kit/gatea",
+      "name": "Калитка A",
+      "category": "Заборы и ворота",
+      "source": {
+        "scene": "res://assets/generated/urman_modular_kit.glb",
+        "prefix": "GateA"
+      },
+      "size": [
+        2.2,
+        1.8,
+        0.23
+      ],
+      "origin": [
+        15.4,
+        0,
+        -9.38
+      ],
+      "collision": "box",
+      "kit": "модульный набор",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:urman_modular_kit/housea",
+      "name": "Дом A",
+      "category": "Дома и постройки",
+      "source": {
+        "scene": "res://assets/generated/urman_modular_kit.glb",
+        "prefix": "HouseA"
+      },
+      "size": [
+        7.1,
+        4.56,
+        6.82
+      ],
+      "origin": [
+        0,
+        -0.03,
+        0.31
+      ],
+      "collision": "box",
+      "kit": "модульный набор",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:urman_modular_kit/houseinterior",
+      "name": "Дом интерьер",
+      "category": "Дома и постройки",
+      "source": {
+        "scene": "res://assets/generated/urman_modular_kit.glb",
+        "prefix": "HouseInterior"
+      },
+      "size": [
+        12.02,
+        3.43,
+        10.03
+      ],
+      "origin": [
+        0,
+        -0.03,
+        0.01
+      ],
+      "collision": "box",
+      "kit": "модульный набор",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:urman_modular_kit/oldpc",
+      "name": "Old Pc",
+      "category": "Бытовой реквизит",
+      "source": {
+        "scene": "res://assets/generated/urman_modular_kit.glb",
+        "prefix": "OldPc"
+      },
+      "size": [
+        2.01,
+        1.17,
+        1.3
+      ],
+      "origin": [
+        -8.69,
+        0.87,
+        -7.71
+      ],
+      "collision": "box",
+      "kit": "модульный набор",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:urman_modular_kit/pinea",
+      "name": "Сосна A",
+      "category": "Деревья и кусты",
+      "source": {
+        "scene": "res://assets/generated/urman_modular_kit.glb",
+        "prefix": "PineA"
+      },
+      "size": [
+        2.77,
+        5.95,
+        2.7
+      ],
+      "origin": [
+        10,
+        0,
+        -8.07
+      ],
+      "collision": "box",
+      "kit": "модульный набор",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:urman_modular_kit/roaddirt",
+      "name": "Дорога Dirt",
+      "category": "Дороги и покрытия",
+      "source": {
+        "scene": "res://assets/generated/urman_modular_kit.glb",
+        "prefix": "RoadDirt"
+      },
+      "size": [
+        5.2,
+        0.08,
+        10
+      ],
+      "origin": [
+        0,
+        0,
+        -9
+      ],
+      "collision": "box",
+      "kit": "модульный набор",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:urman_modular_kit/tablea",
+      "name": "Table A",
+      "category": "Мебель",
+      "source": {
+        "scene": "res://assets/generated/urman_modular_kit.glb",
+        "prefix": "TableA"
+      },
+      "size": [
+        3.2,
+        0.89,
+        1.35
+      ],
+      "origin": [
+        -9,
+        0,
+        -8
+      ],
+      "collision": "box",
+      "kit": "модульный набор",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:urman_modular_kit/wella",
+      "name": "Колодец A",
+      "category": "Бытовой реквизит",
+      "source": {
+        "scene": "res://assets/generated/urman_modular_kit.glb",
+        "prefix": "WellA"
+      },
+      "size": [
+        2.06,
+        2.62,
+        1.53
+      ],
+      "origin": [
+        5.66,
+        0,
+        0.8
+      ],
+      "collision": "box",
+      "kit": "модульный набор",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:urman_modular_kit/woodpilea",
+      "name": "Дровница A",
+      "category": "Бытовой реквизит",
+      "source": {
+        "scene": "res://assets/generated/urman_modular_kit.glb",
+        "prefix": "WoodpileA"
+      },
+      "size": [
+        1.85,
+        0.72,
+        0.72
+      ],
+      "origin": [
+        3.8,
+        0.05,
+        -2.39
+      ],
+      "collision": "box",
+      "kit": "модульный набор",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:agentb_village_buildings_kit/banya",
+      "name": "Баня",
+      "category": "Дома и постройки",
+      "source": {
+        "scene": "res://assets/models/agent_b_act1/agentb_village_buildings_kit.glb",
+        "prefix": "Banya"
+      },
+      "size": [
+        5.56,
+        3.76,
+        5.76
+      ],
+      "origin": [
+        -14.5,
+        -0.02,
+        -47
+      ],
+      "collision": "box",
+      "kit": "постройки",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:agentb_village_buildings_kit/fap",
+      "name": "ФАП",
+      "category": "Дома и постройки",
+      "source": {
+        "scene": "res://assets/models/agent_b_act1/agentb_village_buildings_kit.glb",
+        "prefix": "Fap"
+      },
+      "size": [
+        12.35,
+        4.44,
+        10.38
+      ],
+      "origin": [
+        31.03,
+        -0.05,
+        -31
+      ],
+      "collision": "box",
+      "kit": "постройки",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:agentb_village_buildings_kit/farhouse1",
+      "name": "Дальняя дом 1",
+      "category": "Дома и постройки",
+      "source": {
+        "scene": "res://assets/models/agent_b_act1/agentb_village_buildings_kit.glb",
+        "prefix": "FarHouse1"
+      },
+      "size": [
+        6.46,
+        4.49,
+        7.51
+      ],
+      "origin": [
+        -18,
+        0,
+        -51.63
+      ],
+      "collision": "box",
+      "kit": "постройки",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:agentb_village_buildings_kit/farhouse2",
+      "name": "Дальняя дом 2",
+      "category": "Дома и постройки",
+      "source": {
+        "scene": "res://assets/models/agent_b_act1/agentb_village_buildings_kit.glb",
+        "prefix": "FarHouse2"
+      },
+      "size": [
+        5.96,
+        4.5,
+        6.47
+      ],
+      "origin": [
+        16.5,
+        -0.02,
+        -50
+      ],
+      "collision": "box",
+      "kit": "постройки",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:agentb_village_buildings_kit/farhouse3",
+      "name": "Дальняя дом 3",
+      "category": "Дома и постройки",
+      "source": {
+        "scene": "res://assets/models/agent_b_act1/agentb_village_buildings_kit.glb",
+        "prefix": "FarHouse3"
+      },
+      "size": [
+        6.88,
+        4.5,
+        7.84
+      ],
+      "origin": [
+        -20,
+        -0.01,
+        8.54
+      ],
+      "collision": "box",
+      "kit": "постройки",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:agentb_village_buildings_kit/fence",
+      "name": "Забор",
+      "category": "Заборы и ворота",
+      "source": {
+        "scene": "res://assets/models/agent_b_act1/agentb_village_buildings_kit.glb",
+        "prefix": "Fence"
+      },
+      "size": [
+        23.62,
+        1.26,
+        51.58
+      ],
+      "origin": [
+        -0.3,
+        -0.05,
+        -20.45
+      ],
+      "collision": "box",
+      "kit": "постройки",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:agentb_village_buildings_kit/fencebabain",
+      "name": "Забор Babai N",
+      "category": "Заборы и ворота",
+      "source": {
+        "scene": "res://assets/models/agent_b_act1/agentb_village_buildings_kit.glb",
+        "prefix": "FenceBabaiN"
+      },
+      "size": [
+        11.24,
+        1.25,
+        0.22
+      ],
+      "origin": [
+        -30.68,
+        -0.05,
+        5.2
+      ],
+      "collision": "box",
+      "kit": "постройки",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:agentb_village_buildings_kit/fencebabais",
+      "name": "Забор Babai S",
+      "category": "Заборы и ворота",
+      "source": {
+        "scene": "res://assets/models/agent_b_act1/agentb_village_buildings_kit.glb",
+        "prefix": "FenceBabaiS"
+      },
+      "size": [
+        11.24,
+        1.23,
+        0.22
+      ],
+      "origin": [
+        -30.67,
+        -0.05,
+        -6.4
+      ],
+      "collision": "box",
+      "kit": "постройки",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:agentb_village_buildings_kit/fencebabaiw",
+      "name": "Забор Babai W",
+      "category": "Заборы и ворота",
+      "source": {
+        "scene": "res://assets/models/agent_b_act1/agentb_village_buildings_kit.glb",
+        "prefix": "FenceBabaiW"
+      },
+      "size": [
+        0.22,
+        1.26,
+        11.85
+      ],
+      "origin": [
+        -25.2,
+        -0.05,
+        -0.62
+      ],
+      "collision": "box",
+      "kit": "постройки",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:agentb_village_buildings_kit/gate",
+      "name": "Калитка",
+      "category": "Заборы и ворота",
+      "source": {
+        "scene": "res://assets/models/agent_b_act1/agentb_village_buildings_kit.glb",
+        "prefix": "Gate"
+      },
+      "size": [
+        25.21,
+        1.38,
+        45.61
+      ],
+      "origin": [
+        -0.3,
+        -0.05,
+        -16.6
+      ],
+      "collision": "box",
+      "kit": "постройки",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:agentb_village_buildings_kit/gatebabai",
+      "name": "Калитка Babai",
+      "category": "Заборы и ворота",
+      "source": {
+        "scene": "res://assets/models/agent_b_act1/agentb_village_buildings_kit.glb",
+        "prefix": "GateBabai"
+      },
+      "size": [
+        1.57,
+        1.47,
+        1.91
+      ],
+      "origin": [
+        -25.88,
+        -0.05,
+        2.6
+      ],
+      "collision": "box",
+      "kit": "постройки",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:agentb_village_buildings_kit/housea1",
+      "name": "Дом A 1",
+      "category": "Дома и постройки",
+      "source": {
+        "scene": "res://assets/models/agent_b_act1/agentb_village_buildings_kit.glb",
+        "prefix": "HouseA1"
+      },
+      "size": [
+        8.96,
+        6.1,
+        6.63
+      ],
+      "origin": [
+        -8.57,
+        -0.01,
+        2.5
+      ],
+      "collision": "box",
+      "kit": "постройки",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:agentb_village_buildings_kit/housea2",
+      "name": "Дом A 2",
+      "category": "Дома и постройки",
+      "source": {
+        "scene": "res://assets/models/agent_b_act1/agentb_village_buildings_kit.glb",
+        "prefix": "HouseA2"
+      },
+      "size": [
+        5.45,
+        6.16,
+        6.21
+      ],
+      "origin": [
+        8.2,
+        -0.01,
+        0.5
+      ],
+      "collision": "box",
+      "kit": "постройки",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:agentb_village_buildings_kit/housea3",
+      "name": "Дом A 3",
+      "category": "Дома и постройки",
+      "source": {
+        "scene": "res://assets/models/agent_b_act1/agentb_village_buildings_kit.glb",
+        "prefix": "HouseA3"
+      },
+      "size": [
+        9.05,
+        6.3,
+        6.85
+      ],
+      "origin": [
+        -8.73,
+        -0.02,
+        -9.5
+      ],
+      "collision": "box",
+      "kit": "постройки",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:agentb_village_buildings_kit/housea4",
+      "name": "Дом A 4",
+      "category": "Дома и постройки",
+      "source": {
+        "scene": "res://assets/models/agent_b_act1/agentb_village_buildings_kit.glb",
+        "prefix": "HouseA4"
+      },
+      "size": [
+        5.33,
+        5.94,
+        5.87
+      ],
+      "origin": [
+        8.4,
+        -0.02,
+        -11
+      ],
+      "collision": "box",
+      "kit": "постройки",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:agentb_village_buildings_kit/housea5",
+      "name": "Дом A 5",
+      "category": "Дома и постройки",
+      "source": {
+        "scene": "res://assets/models/agent_b_act1/agentb_village_buildings_kit.glb",
+        "prefix": "HouseA5"
+      },
+      "size": [
+        8.33,
+        6.38,
+        7.18
+      ],
+      "origin": [
+        -8.89,
+        -0.02,
+        -32.06
+      ],
+      "collision": "box",
+      "kit": "постройки",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:agentb_village_buildings_kit/housea6",
+      "name": "Дом A 6",
+      "category": "Дома и постройки",
+      "source": {
+        "scene": "res://assets/models/agent_b_act1/agentb_village_buildings_kit.glb",
+        "prefix": "HouseA6"
+      },
+      "size": [
+        5.04,
+        5.75,
+        5.83
+      ],
+      "origin": [
+        8.6,
+        -0.01,
+        -30.5
+      ],
+      "collision": "box",
+      "kit": "постройки",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:agentb_village_buildings_kit/housea7",
+      "name": "Дом A 7",
+      "category": "Дома и постройки",
+      "source": {
+        "scene": "res://assets/models/agent_b_act1/agentb_village_buildings_kit.glb",
+        "prefix": "HouseA7"
+      },
+      "size": [
+        8.62,
+        6.21,
+        6.95
+      ],
+      "origin": [
+        -9.13,
+        -0.02,
+        -42.54
+      ],
+      "collision": "box",
+      "kit": "постройки",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:agentb_village_buildings_kit/housea8",
+      "name": "Дом A 8",
+      "category": "Дома и постройки",
+      "source": {
+        "scene": "res://assets/models/agent_b_act1/agentb_village_buildings_kit.glb",
+        "prefix": "HouseA8"
+      },
+      "size": [
+        9.28,
+        5.78,
+        6.04
+      ],
+      "origin": [
+        8.03,
+        0,
+        -40.89
+      ],
+      "collision": "box",
+      "kit": "постройки",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:agentb_village_buildings_kit/housebabai",
+      "name": "Дом Babai",
+      "category": "Дома и постройки",
+      "source": {
+        "scene": "res://assets/models/agent_b_act1/agentb_village_buildings_kit.glb",
+        "prefix": "HouseBabai"
+      },
+      "size": [
+        9.8,
+        6.83,
+        7.48
+      ],
+      "origin": [
+        -29.84,
+        -0.02,
+        -1
+      ],
+      "collision": "box",
+      "kit": "постройки",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:agentb_village_buildings_kit/leantoa5",
+      "name": "Lean To A 5",
+      "category": "Бытовой реквизит",
+      "source": {
+        "scene": "res://assets/models/agent_b_act1/agentb_village_buildings_kit.glb",
+        "prefix": "LeanToA5"
+      },
+      "size": [
+        2.99,
+        2.22,
+        3.43
+      ],
+      "origin": [
+        -12.66,
+        -0.08,
+        -35.03
+      ],
+      "collision": "box",
+      "kit": "постройки",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:agentb_village_buildings_kit/leantobabai",
+      "name": "Lean To Babai",
+      "category": "Бытовой реквизит",
+      "source": {
+        "scene": "res://assets/models/agent_b_act1/agentb_village_buildings_kit.glb",
+        "prefix": "LeanToBabai"
+      },
+      "size": [
+        2.54,
+        2.2,
+        3.03
+      ],
+      "origin": [
+        -27.56,
+        -0.08,
+        -5.38
+      ],
+      "collision": "box",
+      "kit": "постройки",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:agentb_village_buildings_kit/shedbabai",
+      "name": "Сарай Babai",
+      "category": "Дома и постройки",
+      "source": {
+        "scene": "res://assets/models/agent_b_act1/agentb_village_buildings_kit.glb",
+        "prefix": "ShedBabai"
+      },
+      "size": [
+        5.39,
+        3.91,
+        6.47
+      ],
+      "origin": [
+        -35.5,
+        -0.01,
+        -3.36
+      ],
+      "collision": "box",
+      "kit": "постройки",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:agentb_village_buildings_kit/well",
+      "name": "Колодец",
+      "category": "Бытовой реквизит",
+      "source": {
+        "scene": "res://assets/models/agent_b_act1/agentb_village_buildings_kit.glb",
+        "prefix": "Well"
+      },
+      "size": [
+        2.34,
+        1.87,
+        2.37
+      ],
+      "origin": [
+        -20.81,
+        -0.03,
+        -2.19
+      ],
+      "collision": "box",
+      "kit": "постройки",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:agentb_village_buildings_kit/woodpile",
+      "name": "Дровница",
+      "category": "Бытовой реквизит",
+      "source": {
+        "scene": "res://assets/models/agent_b_act1/agentb_village_buildings_kit.glb",
+        "prefix": "Woodpile"
+      },
+      "size": [
+        26.41,
+        0.71,
+        45.48
+      ],
+      "origin": [
+        -0.3,
+        -0.01,
+        -22.26
+      ],
+      "collision": "box",
+      "kit": "постройки",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:agentb_village_buildings_kit/woodpilebabai",
+      "name": "Дровница Babai",
+      "category": "Бытовой реквизит",
+      "source": {
+        "scene": "res://assets/models/agent_b_act1/agentb_village_buildings_kit.glb",
+        "prefix": "WoodpileBabai"
+      },
+      "size": [
+        4.14,
+        0.91,
+        1.18
+      ],
+      "origin": [
+        -33.82,
+        -0.01,
+        -6.73
+      ],
+      "collision": "box",
+      "kit": "постройки",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:agentb_village_buildings_kit/woodpilebanya",
+      "name": "Дровница баня",
+      "category": "Бытовой реквизит",
+      "source": {
+        "scene": "res://assets/models/agent_b_act1/agentb_village_buildings_kit.glb",
+        "prefix": "WoodpileBanya"
+      },
+      "size": [
+        2,
+        0.71,
+        2.35
+      ],
+      "origin": [
+        -11.94,
+        -0.01,
+        -49.07
+      ],
+      "collision": "box",
+      "kit": "постройки",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:agentb_foliage_kit/birch-1",
+      "name": "Берёза 1",
+      "category": "Деревья и кусты",
+      "source": {
+        "scene": "res://assets/models/agent_b_act1/agentb_foliage_kit.glb",
+        "prefix": "Birch_1"
+      },
+      "size": [
+        2.67,
+        6.4,
+        2.65
+      ],
+      "origin": [
+        -0.13,
+        -0.01,
+        0.07
+      ],
+      "collision": "box",
+      "kit": "растительность",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:agentb_foliage_kit/birch-2",
+      "name": "Берёза 2",
+      "category": "Деревья и кусты",
+      "source": {
+        "scene": "res://assets/models/agent_b_act1/agentb_foliage_kit.glb",
+        "prefix": "Birch_2"
+      },
+      "size": [
+        3.14,
+        7.63,
+        3.2
+      ],
+      "origin": [
+        11.77,
+        0,
+        0.04
+      ],
+      "collision": "box",
+      "kit": "растительность",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:agentb_foliage_kit/birch-3",
+      "name": "Берёза 3",
+      "category": "Деревья и кусты",
+      "source": {
+        "scene": "res://assets/models/agent_b_act1/agentb_foliage_kit.glb",
+        "prefix": "Birch_3"
+      },
+      "size": [
+        2.35,
+        5.62,
+        2.2
+      ],
+      "origin": [
+        23.96,
+        -0.01,
+        0.09
+      ],
+      "collision": "box",
+      "kit": "растительность",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:agentb_foliage_kit/fallenbranch-0",
+      "name": "Поваленные ветка 0",
+      "category": "Деревья и кусты",
+      "source": {
+        "scene": "res://assets/models/agent_b_act1/agentb_foliage_kit.glb",
+        "prefix": "FallenBranch_0"
+      },
+      "size": [
+        1.4,
+        0.48,
+        0.23
+      ],
+      "origin": [
+        60,
+        0.03,
+        -23.97
+      ],
+      "collision": "box",
+      "kit": "растительность",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:agentb_foliage_kit/fallenbranch-1",
+      "name": "Поваленные ветка 1",
+      "category": "Деревья и кусты",
+      "source": {
+        "scene": "res://assets/models/agent_b_act1/agentb_foliage_kit.glb",
+        "prefix": "FallenBranch_1"
+      },
+      "size": [
+        1.9,
+        0.46,
+        0.26
+      ],
+      "origin": [
+        72,
+        0.03,
+        -23.95
+      ],
+      "collision": "box",
+      "kit": "растительность",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:agentb_foliage_kit/fern-0",
+      "name": "Папоротник 0",
+      "category": "Деревья и кусты",
+      "source": {
+        "scene": "res://assets/models/agent_b_act1/agentb_foliage_kit.glb",
+        "prefix": "Fern_0"
+      },
+      "size": [
+        1.18,
+        0.43,
+        1.04
+      ],
+      "origin": [
+        48,
+        0.01,
+        -12
+      ],
+      "collision": "box",
+      "kit": "растительность",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:agentb_foliage_kit/fern-1",
+      "name": "Папоротник 1",
+      "category": "Деревья и кусты",
+      "source": {
+        "scene": "res://assets/models/agent_b_act1/agentb_foliage_kit.glb",
+        "prefix": "Fern_1"
+      },
+      "size": [
+        1.16,
+        0.43,
+        1.16
+      ],
+      "origin": [
+        59.94,
+        0.01,
+        -11.98
+      ],
+      "collision": "box",
+      "kit": "растительность",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:agentb_foliage_kit/fern-2",
+      "name": "Папоротник 2",
+      "category": "Деревья и кусты",
+      "source": {
+        "scene": "res://assets/models/agent_b_act1/agentb_foliage_kit.glb",
+        "prefix": "Fern_2"
+      },
+      "size": [
+        1.02,
+        0.43,
+        1.13
+      ],
+      "origin": [
+        72,
+        0.01,
+        -12
+      ],
+      "collision": "box",
+      "kit": "растительность",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:agentb_foliage_kit/grasstuft-0",
+      "name": "Трава пучок 0",
+      "category": "Деревья и кусты",
+      "source": {
+        "scene": "res://assets/models/agent_b_act1/agentb_foliage_kit.glb",
+        "prefix": "GrassTuft_0"
+      },
+      "size": [
+        0.61,
+        0.22,
+        0.47
+      ],
+      "origin": [
+        24.01,
+        0.12,
+        -24.01
+      ],
+      "collision": "box",
+      "kit": "растительность",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:agentb_foliage_kit/grasstuft-1",
+      "name": "Трава пучок 1",
+      "category": "Деревья и кусты",
+      "source": {
+        "scene": "res://assets/models/agent_b_act1/agentb_foliage_kit.glb",
+        "prefix": "GrassTuft_1"
+      },
+      "size": [
+        0.59,
+        0.24,
+        0.56
+      ],
+      "origin": [
+        36,
+        0.12,
+        -24.02
+      ],
+      "collision": "box",
+      "kit": "растительность",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:agentb_foliage_kit/grasstuft-2",
+      "name": "Трава пучок 2",
+      "category": "Деревья и кусты",
+      "source": {
+        "scene": "res://assets/models/agent_b_act1/agentb_foliage_kit.glb",
+        "prefix": "GrassTuft_2"
+      },
+      "size": [
+        0.64,
+        0.24,
+        0.49
+      ],
+      "origin": [
+        47.97,
+        0.12,
+        -24.03
+      ],
+      "collision": "box",
+      "kit": "растительность",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:agentb_foliage_kit/mossstone-0",
+      "name": "Мох камни 0",
+      "category": "Камни и снег",
+      "source": {
+        "scene": "res://assets/models/agent_b_act1/agentb_foliage_kit.glb",
+        "prefix": "MossStone_0"
+      },
+      "size": [
+        0.91,
+        0.61,
+        0.91
+      ],
+      "origin": [
+        84,
+        -0.12,
+        -23.98
+      ],
+      "collision": "box",
+      "kit": "растительность",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:agentb_foliage_kit/pine-1",
+      "name": "Сосна 1",
+      "category": "Деревья и кусты",
+      "source": {
+        "scene": "res://assets/models/agent_b_act1/agentb_foliage_kit.glb",
+        "prefix": "Pine_1"
+      },
+      "size": [
+        5.16,
+        7.98,
+        4.37
+      ],
+      "origin": [
+        36.81,
+        -0.03,
+        -0.55
+      ],
+      "collision": "box",
+      "kit": "растительность",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:agentb_foliage_kit/pine-2",
+      "name": "Сосна 2",
+      "category": "Деревья и кусты",
+      "source": {
+        "scene": "res://assets/models/agent_b_act1/agentb_foliage_kit.glb",
+        "prefix": "Pine_2"
+      },
+      "size": [
+        5.7,
+        9.12,
+        4.98
+      ],
+      "origin": [
+        46.94,
+        -0.05,
+        -0.67
+      ],
+      "collision": "box",
+      "kit": "растительность",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:agentb_foliage_kit/pine-3",
+      "name": "Сосна 3",
+      "category": "Деревья и кусты",
+      "source": {
+        "scene": "res://assets/models/agent_b_act1/agentb_foliage_kit.glb",
+        "prefix": "Pine_3"
+      },
+      "size": [
+        4.07,
+        6.7,
+        4.21
+      ],
+      "origin": [
+        61.38,
+        -0.05,
+        -0.29
+      ],
+      "collision": "box",
+      "kit": "растительность",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:agentb_foliage_kit/sedge-0",
+      "name": "Осока 0",
+      "category": "Деревья и кусты",
+      "source": {
+        "scene": "res://assets/models/agent_b_act1/agentb_foliage_kit.glb",
+        "prefix": "Sedge_0"
+      },
+      "size": [
+        1.03,
+        0.55,
+        0.97
+      ],
+      "origin": [
+        84.05,
+        0.25,
+        -12.04
+      ],
+      "collision": "box",
+      "kit": "растительность",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:agentb_foliage_kit/sedge-1",
+      "name": "Осока 1",
+      "category": "Деревья и кусты",
+      "source": {
+        "scene": "res://assets/models/agent_b_act1/agentb_foliage_kit.glb",
+        "prefix": "Sedge_1"
+      },
+      "size": [
+        0.86,
+        0.46,
+        1.01
+      ],
+      "origin": [
+        -0.01,
+        0.25,
+        -23.98
+      ],
+      "collision": "box",
+      "kit": "растительность",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:agentb_foliage_kit/sedge-2",
+      "name": "Осока 2",
+      "category": "Деревья и кусты",
+      "source": {
+        "scene": "res://assets/models/agent_b_act1/agentb_foliage_kit.glb",
+        "prefix": "Sedge_2"
+      },
+      "size": [
+        1.07,
+        0.48,
+        0.78
+      ],
+      "origin": [
+        11.99,
+        0.25,
+        -23.98
+      ],
+      "collision": "box",
+      "kit": "растительность",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:agentb_foliage_kit/shrub-1",
+      "name": "Кусты 1",
+      "category": "Деревья и кусты",
+      "source": {
+        "scene": "res://assets/models/agent_b_act1/agentb_foliage_kit.glb",
+        "prefix": "Shrub_1"
+      },
+      "size": [
+        1.79,
+        1.06,
+        1.54
+      ],
+      "origin": [
+        12.04,
+        -0.08,
+        -11.96
+      ],
+      "collision": "box",
+      "kit": "растительность",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:agentb_foliage_kit/shrub-2",
+      "name": "Кусты 2",
+      "category": "Деревья и кусты",
+      "source": {
+        "scene": "res://assets/models/agent_b_act1/agentb_foliage_kit.glb",
+        "prefix": "Shrub_2"
+      },
+      "size": [
+        1.4,
+        0.8,
+        1.26
+      ],
+      "origin": [
+        24.03,
+        -0.06,
+        -11.98
+      ],
+      "collision": "box",
+      "kit": "растительность",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:agentb_foliage_kit/shrub-3",
+      "name": "Кусты 3",
+      "category": "Деревья и кусты",
+      "source": {
+        "scene": "res://assets/models/agent_b_act1/agentb_foliage_kit.glb",
+        "prefix": "Shrub_3"
+      },
+      "size": [
+        2.25,
+        1.37,
+        1.95
+      ],
+      "origin": [
+        36.01,
+        -0.15,
+        -12
+      ],
+      "collision": "box",
+      "kit": "растительность",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:agentb_foliage_kit/spruce-1",
+      "name": "Ель 1",
+      "category": "Бытовой реквизит",
+      "source": {
+        "scene": "res://assets/models/agent_b_act1/agentb_foliage_kit.glb",
+        "prefix": "Spruce_1"
+      },
+      "size": [
+        1.23,
+        2.6,
+        0.6
+      ],
+      "origin": [
+        72.06,
+        0,
+        0.08
+      ],
+      "collision": "box",
+      "kit": "растительность",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:agentb_foliage_kit/spruce-2",
+      "name": "Ель 2",
+      "category": "Бытовой реквизит",
+      "source": {
+        "scene": "res://assets/models/agent_b_act1/agentb_foliage_kit.glb",
+        "prefix": "Spruce_2"
+      },
+      "size": [
+        1.24,
+        3.2,
+        1
+      ],
+      "origin": [
+        84.07,
+        0,
+        0.14
+      ],
+      "collision": "box",
+      "kit": "растительность",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:agentb_foliage_kit/spruce-3",
+      "name": "Ель 3",
+      "category": "Бытовой реквизит",
+      "source": {
+        "scene": "res://assets/models/agent_b_act1/agentb_foliage_kit.glb",
+        "prefix": "Spruce_3"
+      },
+      "size": [
+        0.91,
+        2.1,
+        0.59
+      ],
+      "origin": [
+        0.06,
+        0,
+        -11.92
+      ],
+      "collision": "box",
+      "kit": "растительность",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:agentb_foliage_kit/stump-0",
+      "name": "Пень 0",
+      "category": "Деревья и кусты",
+      "source": {
+        "scene": "res://assets/models/agent_b_act1/agentb_foliage_kit.glb",
+        "prefix": "Stump_0"
+      },
+      "size": [
+        0.82,
+        0.59,
+        0.52
+      ],
+      "origin": [
+        -0.02,
+        -0.02,
+        -36.02
+      ],
+      "collision": "box",
+      "kit": "растительность",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:agentb_foliage_kit/winterbirch-1",
+      "name": "Зимняя берёза 1",
+      "category": "Деревья и кусты",
+      "source": {
+        "scene": "res://assets/models/agent_b_act1/agentb_foliage_kit.glb",
+        "prefix": "WinterBirch_1"
+      },
+      "size": [
+        4.15,
+        6.2,
+        3.66
+      ],
+      "origin": [
+        11.97,
+        0,
+        -36.42
+      ],
+      "collision": "box",
+      "kit": "растительность",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:agentb_foliage_kit/winterbirch-2",
+      "name": "Зимняя берёза 2",
+      "category": "Деревья и кусты",
+      "source": {
+        "scene": "res://assets/models/agent_b_act1/agentb_foliage_kit.glb",
+        "prefix": "WinterBirch_2"
+      },
+      "size": [
+        4.82,
+        7.4,
+        5.11
+      ],
+      "origin": [
+        24.14,
+        0,
+        -35.84
+      ],
+      "collision": "box",
+      "kit": "растительность",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:agentb_foliage_kit/winterbirdcherry-1",
+      "name": "Зимняя черёмуха 1",
+      "category": "Бытовой реквизит",
+      "source": {
+        "scene": "res://assets/models/agent_b_act1/agentb_foliage_kit.glb",
+        "prefix": "WinterBirdCherry_1"
+      },
+      "size": [
+        2.3,
+        2.6,
+        2.13
+      ],
+      "origin": [
+        -0.08,
+        0,
+        -48.28
+      ],
+      "collision": "box",
+      "kit": "растительность",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:agentb_foliage_kit/winterfarbirch-1",
+      "name": "Зимняя дальняя берёза 1",
+      "category": "Деревья и кусты",
+      "source": {
+        "scene": "res://assets/models/agent_b_act1/agentb_foliage_kit.glb",
+        "prefix": "WinterFarBirch_1"
+      },
+      "size": [
+        3.91,
+        6.2,
+        3.49
+      ],
+      "origin": [
+        59.85,
+        0,
+        -60.33
+      ],
+      "collision": "box",
+      "kit": "растительность",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:agentb_foliage_kit/winterfarbirch-2",
+      "name": "Зимняя дальняя берёза 2",
+      "category": "Деревья и кусты",
+      "source": {
+        "scene": "res://assets/models/agent_b_act1/agentb_foliage_kit.glb",
+        "prefix": "WinterFarBirch_2"
+      },
+      "size": [
+        4.18,
+        7.4,
+        4.81
+      ],
+      "origin": [
+        72.13,
+        0,
+        -59.81
+      ],
+      "collision": "box",
+      "kit": "растительность",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:agentb_foliage_kit/winterfarbirdcherry-1",
+      "name": "Зимняя дальняя черёмуха 1",
+      "category": "Бытовой реквизит",
+      "source": {
+        "scene": "res://assets/models/agent_b_act1/agentb_foliage_kit.glb",
+        "prefix": "WinterFarBirdCherry_1"
+      },
+      "size": [
+        2.3,
+        2.6,
+        2.13
+      ],
+      "origin": [
+        47.91,
+        0,
+        -72.28
+      ],
+      "collision": "box",
+      "kit": "растительность",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:agentb_foliage_kit/winterfarlinden-1",
+      "name": "Зимняя дальняя липа 1",
+      "category": "Бытовой реквизит",
+      "source": {
+        "scene": "res://assets/models/agent_b_act1/agentb_foliage_kit.glb",
+        "prefix": "WinterFarLinden_1"
+      },
+      "size": [
+        5.42,
+        6.8,
+        6.64
+      ],
+      "origin": [
+        84.82,
+        0,
+        -60.01
+      ],
+      "collision": "box",
+      "kit": "растительность",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:agentb_foliage_kit/winterfarlinden-2",
+      "name": "Зимняя дальняя липа 2",
+      "category": "Бытовой реквизит",
+      "source": {
+        "scene": "res://assets/models/agent_b_act1/agentb_foliage_kit.glb",
+        "prefix": "WinterFarLinden_2"
+      },
+      "size": [
+        7.27,
+        6.89,
+        8
+      ],
+      "origin": [
+        -0.15,
+        0,
+        -72.14
+      ],
+      "collision": "box",
+      "kit": "растительность",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:agentb_foliage_kit/winterfarmaple-1",
+      "name": "Зимняя дальняя клён 1",
+      "category": "Бытовой реквизит",
+      "source": {
+        "scene": "res://assets/models/agent_b_act1/agentb_foliage_kit.glb",
+        "prefix": "WinterFarMaple_1"
+      },
+      "size": [
+        7.5,
+        6.57,
+        6.59
+      ],
+      "origin": [
+        12.16,
+        0,
+        -71.95
+      ],
+      "collision": "box",
+      "kit": "растительность",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:agentb_foliage_kit/winterfarrowan-1",
+      "name": "Зимняя дальняя рябина 1",
+      "category": "Бытовой реквизит",
+      "source": {
+        "scene": "res://assets/models/agent_b_act1/agentb_foliage_kit.glb",
+        "prefix": "WinterFarRowan_1"
+      },
+      "size": [
+        3.39,
+        4.6,
+        2.98
+      ],
+      "origin": [
+        23.9,
+        0,
+        -72.14
+      ],
+      "collision": "box",
+      "kit": "растительность",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:agentb_foliage_kit/winterfarrowan-2",
+      "name": "Зимняя дальняя рябина 2",
+      "category": "Бытовой реквизит",
+      "source": {
+        "scene": "res://assets/models/agent_b_act1/agentb_foliage_kit.glb",
+        "prefix": "WinterFarRowan_2"
+      },
+      "size": [
+        3.51,
+        5.4,
+        3.16
+      ],
+      "origin": [
+        35.83,
+        0,
+        -71.7
+      ],
+      "collision": "box",
+      "kit": "растительность",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:agentb_foliage_kit/winterfarspruce-1",
+      "name": "Зимняя дальняя ель 1",
+      "category": "Бытовой реквизит",
+      "source": {
+        "scene": "res://assets/models/agent_b_act1/agentb_foliage_kit.glb",
+        "prefix": "WinterFarSpruce_1"
+      },
+      "size": [
+        1.05,
+        2.8,
+        1.16
+      ],
+      "origin": [
+        36.07,
+        0,
+        -95.96
+      ],
+      "collision": "box",
+      "kit": "растительность",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:agentb_foliage_kit/winterfarspruce-2",
+      "name": "Зимняя дальняя ель 2",
+      "category": "Бытовой реквизит",
+      "source": {
+        "scene": "res://assets/models/agent_b_act1/agentb_foliage_kit.glb",
+        "prefix": "WinterFarSpruce_2"
+      },
+      "size": [
+        1.26,
+        3.4,
+        1.41
+      ],
+      "origin": [
+        48.08,
+        0,
+        -95.91
+      ],
+      "collision": "box",
+      "kit": "растительность",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:agentb_foliage_kit/winterfarspruce-3",
+      "name": "Зимняя дальняя ель 3",
+      "category": "Бытовой реквизит",
+      "source": {
+        "scene": "res://assets/models/agent_b_act1/agentb_foliage_kit.glb",
+        "prefix": "WinterFarSpruce_3"
+      },
+      "size": [
+        6.9,
+        13.71,
+        6.31
+      ],
+      "origin": [
+        59.66,
+        0,
+        -95.73
+      ],
+      "collision": "box",
+      "kit": "растительность",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:agentb_foliage_kit/winterfarspruce-4",
+      "name": "Зимняя дальняя ель 4",
+      "category": "Бытовой реквизит",
+      "source": {
+        "scene": "res://assets/models/agent_b_act1/agentb_foliage_kit.glb",
+        "prefix": "WinterFarSpruce_4"
+      },
+      "size": [
+        8.3,
+        18.5,
+        8.3
+      ],
+      "origin": [
+        71.77,
+        0,
+        -95.46
+      ],
+      "collision": "box",
+      "kit": "растительность",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:agentb_foliage_kit/winterfarspruce-5",
+      "name": "Зимняя дальняя ель 5",
+      "category": "Бытовой реквизит",
+      "source": {
+        "scene": "res://assets/models/agent_b_act1/agentb_foliage_kit.glb",
+        "prefix": "WinterFarSpruce_5"
+      },
+      "size": [
+        11.05,
+        24.5,
+        11.08
+      ],
+      "origin": [
+        83.49,
+        0,
+        -95.62
+      ],
+      "collision": "box",
+      "kit": "растительность",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:agentb_foliage_kit/winterfarspruce-6",
+      "name": "Зимняя дальняя ель 6",
+      "category": "Бытовой реквизит",
+      "source": {
+        "scene": "res://assets/models/agent_b_act1/agentb_foliage_kit.glb",
+        "prefix": "WinterFarSpruce_6"
+      },
+      "size": [
+        13.99,
+        30.55,
+        11.11
+      ],
+      "origin": [
+        0.27,
+        0,
+        -108.23
+      ],
+      "collision": "box",
+      "kit": "растительность",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:agentb_foliage_kit/winterfarwillow-1",
+      "name": "Зимняя дальняя ива 1",
+      "category": "Бытовой реквизит",
+      "source": {
+        "scene": "res://assets/models/agent_b_act1/agentb_foliage_kit.glb",
+        "prefix": "WinterFarWillow_1"
+      },
+      "size": [
+        3.75,
+        4.2,
+        4.24
+      ],
+      "origin": [
+        59.95,
+        0,
+        -72
+      ],
+      "collision": "box",
+      "kit": "растительность",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:agentb_foliage_kit/winterfarwillow-2",
+      "name": "Зимняя дальняя ива 2",
+      "category": "Бытовой реквизит",
+      "source": {
+        "scene": "res://assets/models/agent_b_act1/agentb_foliage_kit.glb",
+        "prefix": "WinterFarWillow_2"
+      },
+      "size": [
+        4.15,
+        5,
+        4.77
+      ],
+      "origin": [
+        72.59,
+        0,
+        -71.51
+      ],
+      "collision": "box",
+      "kit": "растительность",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:agentb_foliage_kit/winterlightbirch-1",
+      "name": "Зимняя светлая берёза 1",
+      "category": "Деревья и кусты",
+      "source": {
+        "scene": "res://assets/models/agent_b_act1/agentb_foliage_kit.glb",
+        "prefix": "WinterLightBirch_1"
+      },
+      "size": [
+        3.91,
+        6.2,
+        3.49
+      ],
+      "origin": [
+        35.85,
+        0,
+        -48.33
+      ],
+      "collision": "box",
+      "kit": "растительность",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:agentb_foliage_kit/winterlightbirch-2",
+      "name": "Зимняя светлая берёза 2",
+      "category": "Деревья и кусты",
+      "source": {
+        "scene": "res://assets/models/agent_b_act1/agentb_foliage_kit.glb",
+        "prefix": "WinterLightBirch_2"
+      },
+      "size": [
+        4.18,
+        7.4,
+        4.81
+      ],
+      "origin": [
+        48.13,
+        0,
+        -47.8
+      ],
+      "collision": "box",
+      "kit": "растительность",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:agentb_foliage_kit/winterlightbirdcherry-1",
+      "name": "Зимняя светлая черёмуха 1",
+      "category": "Источники света",
+      "source": {
+        "scene": "res://assets/models/agent_b_act1/agentb_foliage_kit.glb",
+        "prefix": "WinterLightBirdCherry_1"
+      },
+      "size": [
+        2.3,
+        2.6,
+        2.13
+      ],
+      "origin": [
+        23.92,
+        0,
+        -60.28
+      ],
+      "collision": "box",
+      "kit": "растительность",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:agentb_foliage_kit/winterlightlinden-1",
+      "name": "Зимняя светлая липа 1",
+      "category": "Источники света",
+      "source": {
+        "scene": "res://assets/models/agent_b_act1/agentb_foliage_kit.glb",
+        "prefix": "WinterLightLinden_1"
+      },
+      "size": [
+        5.42,
+        6.8,
+        6.64
+      ],
+      "origin": [
+        60.82,
+        0,
+        -48.01
+      ],
+      "collision": "box",
+      "kit": "растительность",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:agentb_foliage_kit/winterlightlinden-2",
+      "name": "Зимняя светлая липа 2",
+      "category": "Источники света",
+      "source": {
+        "scene": "res://assets/models/agent_b_act1/agentb_foliage_kit.glb",
+        "prefix": "WinterLightLinden_2"
+      },
+      "size": [
+        7.27,
+        6.89,
+        8
+      ],
+      "origin": [
+        71.85,
+        0,
+        -48.14
+      ],
+      "collision": "box",
+      "kit": "растительность",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:agentb_foliage_kit/winterlightmaple-1",
+      "name": "Зимняя светлая клён 1",
+      "category": "Источники света",
+      "source": {
+        "scene": "res://assets/models/agent_b_act1/agentb_foliage_kit.glb",
+        "prefix": "WinterLightMaple_1"
+      },
+      "size": [
+        7.51,
+        6.57,
+        6.59
+      ],
+      "origin": [
+        84.16,
+        0,
+        -47.95
+      ],
+      "collision": "box",
+      "kit": "растительность",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:agentb_foliage_kit/winterlightrowan-1",
+      "name": "Зимняя светлая рябина 1",
+      "category": "Источники света",
+      "source": {
+        "scene": "res://assets/models/agent_b_act1/agentb_foliage_kit.glb",
+        "prefix": "WinterLightRowan_1"
+      },
+      "size": [
+        3.39,
+        4.6,
+        3.02
+      ],
+      "origin": [
+        -0.1,
+        0,
+        -60.12
+      ],
+      "collision": "box",
+      "kit": "растительность",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:agentb_foliage_kit/winterlightrowan-2",
+      "name": "Зимняя светлая рябина 2",
+      "category": "Источники света",
+      "source": {
+        "scene": "res://assets/models/agent_b_act1/agentb_foliage_kit.glb",
+        "prefix": "WinterLightRowan_2"
+      },
+      "size": [
+        3.51,
+        5.4,
+        3.16
+      ],
+      "origin": [
+        11.83,
+        0,
+        -59.7
+      ],
+      "collision": "box",
+      "kit": "растительность",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:agentb_foliage_kit/winterlightspruce-1",
+      "name": "Зимняя светлая ель 1",
+      "category": "Источники света",
+      "source": {
+        "scene": "res://assets/models/agent_b_act1/agentb_foliage_kit.glb",
+        "prefix": "WinterLightSpruce_1"
+      },
+      "size": [
+        1.1,
+        2.8,
+        1.25
+      ],
+      "origin": [
+        60.04,
+        0,
+        -83.99
+      ],
+      "collision": "box",
+      "kit": "растительность",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:agentb_foliage_kit/winterlightspruce-2",
+      "name": "Зимняя светлая ель 2",
+      "category": "Источники света",
+      "source": {
+        "scene": "res://assets/models/agent_b_act1/agentb_foliage_kit.glb",
+        "prefix": "WinterLightSpruce_2"
+      },
+      "size": [
+        1.37,
+        3.4,
+        1.46
+      ],
+      "origin": [
+        72.03,
+        0,
+        -83.94
+      ],
+      "collision": "box",
+      "kit": "растительность",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:agentb_foliage_kit/winterlightspruce-3",
+      "name": "Зимняя светлая ель 3",
+      "category": "Источники света",
+      "source": {
+        "scene": "res://assets/models/agent_b_act1/agentb_foliage_kit.glb",
+        "prefix": "WinterLightSpruce_3"
+      },
+      "size": [
+        6.98,
+        13.76,
+        6.54
+      ],
+      "origin": [
+        83.63,
+        0,
+        -83.84
+      ],
+      "collision": "box",
+      "kit": "растительность",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:agentb_foliage_kit/winterlightspruce-4",
+      "name": "Зимняя светлая ель 4",
+      "category": "Источники света",
+      "source": {
+        "scene": "res://assets/models/agent_b_act1/agentb_foliage_kit.glb",
+        "prefix": "WinterLightSpruce_4"
+      },
+      "size": [
+        8.4,
+        18.97,
+        8.47
+      ],
+      "origin": [
+        -0.27,
+        0,
+        -95.54
+      ],
+      "collision": "box",
+      "kit": "растительность",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:agentb_foliage_kit/winterlightspruce-5",
+      "name": "Зимняя светлая ель 5",
+      "category": "Источники света",
+      "source": {
+        "scene": "res://assets/models/agent_b_act1/agentb_foliage_kit.glb",
+        "prefix": "WinterLightSpruce_5"
+      },
+      "size": [
+        11.42,
+        24.94,
+        11.2
+      ],
+      "origin": [
+        11.54,
+        0,
+        -95.67
+      ],
+      "collision": "box",
+      "kit": "растительность",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:agentb_foliage_kit/winterlightspruce-6",
+      "name": "Зимняя светлая ель 6",
+      "category": "Источники света",
+      "source": {
+        "scene": "res://assets/models/agent_b_act1/agentb_foliage_kit.glb",
+        "prefix": "WinterLightSpruce_6"
+      },
+      "size": [
+        14.25,
+        30.63,
+        11.23
+      ],
+      "origin": [
+        24.31,
+        0,
+        -96.16
+      ],
+      "collision": "box",
+      "kit": "растительность",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:agentb_foliage_kit/winterlightwillow-1",
+      "name": "Зимняя светлая ива 1",
+      "category": "Источники света",
+      "source": {
+        "scene": "res://assets/models/agent_b_act1/agentb_foliage_kit.glb",
+        "prefix": "WinterLightWillow_1"
+      },
+      "size": [
+        3.75,
+        4.2,
+        4.24
+      ],
+      "origin": [
+        35.95,
+        0,
+        -60
+      ],
+      "collision": "box",
+      "kit": "растительность",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:agentb_foliage_kit/winterlightwillow-2",
+      "name": "Зимняя светлая ива 2",
+      "category": "Источники света",
+      "source": {
+        "scene": "res://assets/models/agent_b_act1/agentb_foliage_kit.glb",
+        "prefix": "WinterLightWillow_2"
+      },
+      "size": [
+        4.15,
+        5,
+        4.77
+      ],
+      "origin": [
+        48.59,
+        0,
+        -59.52
+      ],
+      "collision": "box",
+      "kit": "растительность",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:agentb_foliage_kit/winterlinden-1",
+      "name": "Зимняя липа 1",
+      "category": "Бытовой реквизит",
+      "source": {
+        "scene": "res://assets/models/agent_b_act1/agentb_foliage_kit.glb",
+        "prefix": "WinterLinden_1"
+      },
+      "size": [
+        5.54,
+        6.8,
+        6.64
+      ],
+      "origin": [
+        36.87,
+        0,
+        -36.01
+      ],
+      "collision": "box",
+      "kit": "растительность",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:agentb_foliage_kit/winterlinden-2",
+      "name": "Зимняя липа 2",
+      "category": "Бытовой реквизит",
+      "source": {
+        "scene": "res://assets/models/agent_b_act1/agentb_foliage_kit.glb",
+        "prefix": "WinterLinden_2"
+      },
+      "size": [
+        7.4,
+        6.89,
+        8.33
+      ],
+      "origin": [
+        47.79,
+        0,
+        -35.98
+      ],
+      "collision": "box",
+      "kit": "растительность",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:agentb_foliage_kit/wintermaple-1",
+      "name": "Зимняя клён 1",
+      "category": "Бытовой реквизит",
+      "source": {
+        "scene": "res://assets/models/agent_b_act1/agentb_foliage_kit.glb",
+        "prefix": "WinterMaple_1"
+      },
+      "size": [
+        7.51,
+        6.57,
+        6.82
+      ],
+      "origin": [
+        60.16,
+        0,
+        -35.84
+      ],
+      "collision": "box",
+      "kit": "растительность",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:agentb_foliage_kit/winterrowan-1",
+      "name": "Зимняя рябина 1",
+      "category": "Бытовой реквизит",
+      "source": {
+        "scene": "res://assets/models/agent_b_act1/agentb_foliage_kit.glb",
+        "prefix": "WinterRowan_1"
+      },
+      "size": [
+        3.39,
+        4.6,
+        3.08
+      ],
+      "origin": [
+        71.9,
+        0,
+        -36.09
+      ],
+      "collision": "box",
+      "kit": "растительность",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:agentb_foliage_kit/winterrowan-2",
+      "name": "Зимняя рябина 2",
+      "category": "Бытовой реквизит",
+      "source": {
+        "scene": "res://assets/models/agent_b_act1/agentb_foliage_kit.glb",
+        "prefix": "WinterRowan_2"
+      },
+      "size": [
+        3.67,
+        5.4,
+        3.16
+      ],
+      "origin": [
+        83.91,
+        0,
+        -35.7
+      ],
+      "collision": "box",
+      "kit": "растительность",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:agentb_foliage_kit/winterspruce-1",
+      "name": "Зимняя ель 1",
+      "category": "Бытовой реквизит",
+      "source": {
+        "scene": "res://assets/models/agent_b_act1/agentb_foliage_kit.glb",
+        "prefix": "WinterSpruce_1"
+      },
+      "size": [
+        1.14,
+        2.8,
+        1.25
+      ],
+      "origin": [
+        84.02,
+        0,
+        -71.99
+      ],
+      "collision": "box",
+      "kit": "растительность",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:agentb_foliage_kit/winterspruce-2",
+      "name": "Зимняя ель 2",
+      "category": "Бытовой реквизит",
+      "source": {
+        "scene": "res://assets/models/agent_b_act1/agentb_foliage_kit.glb",
+        "prefix": "WinterSpruce_2"
+      },
+      "size": [
+        1.37,
+        3.4,
+        1.6
+      ],
+      "origin": [
+        0.03,
+        0,
+        -83.88
+      ],
+      "collision": "box",
+      "kit": "растительность",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:agentb_foliage_kit/winterspruce-3",
+      "name": "Зимняя ель 3",
+      "category": "Бытовой реквизит",
+      "source": {
+        "scene": "res://assets/models/agent_b_act1/agentb_foliage_kit.glb",
+        "prefix": "WinterSpruce_3"
+      },
+      "size": [
+        6.99,
+        13.77,
+        6.56
+      ],
+      "origin": [
+        11.63,
+        0,
+        -83.83
+      ],
+      "collision": "box",
+      "kit": "растительность",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:agentb_foliage_kit/winterspruce-4",
+      "name": "Зимняя ель 4",
+      "category": "Бытовой реквизит",
+      "source": {
+        "scene": "res://assets/models/agent_b_act1/agentb_foliage_kit.glb",
+        "prefix": "WinterSpruce_4"
+      },
+      "size": [
+        8.47,
+        18.63,
+        8.9
+      ],
+      "origin": [
+        23.7,
+        0,
+        -83.52
+      ],
+      "collision": "box",
+      "kit": "растительность",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:agentb_foliage_kit/winterspruce-5",
+      "name": "Зимняя ель 5",
+      "category": "Бытовой реквизит",
+      "source": {
+        "scene": "res://assets/models/agent_b_act1/agentb_foliage_kit.glb",
+        "prefix": "WinterSpruce_5"
+      },
+      "size": [
+        11.7,
+        25.08,
+        11.92
+      ],
+      "origin": [
+        35.58,
+        0,
+        -83.96
+      ],
+      "collision": "box",
+      "kit": "растительность",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:agentb_foliage_kit/winterspruce-6",
+      "name": "Зимняя ель 6",
+      "category": "Бытовой реквизит",
+      "source": {
+        "scene": "res://assets/models/agent_b_act1/agentb_foliage_kit.glb",
+        "prefix": "WinterSpruce_6"
+      },
+      "size": [
+        14.62,
+        30.5,
+        12.49
+      ],
+      "origin": [
+        48.38,
+        0,
+        -83.93
+      ],
+      "collision": "box",
+      "kit": "растительность",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:agentb_foliage_kit/winterwillow-1",
+      "name": "Зимняя ива 1",
+      "category": "Бытовой реквизит",
+      "source": {
+        "scene": "res://assets/models/agent_b_act1/agentb_foliage_kit.glb",
+        "prefix": "WinterWillow_1"
+      },
+      "size": [
+        3.75,
+        4.2,
+        4.24
+      ],
+      "origin": [
+        11.95,
+        0,
+        -48
+      ],
+      "collision": "box",
+      "kit": "растительность",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:agentb_foliage_kit/winterwillow-2",
+      "name": "Зимняя ива 2",
+      "category": "Бытовой реквизит",
+      "source": {
+        "scene": "res://assets/models/agent_b_act1/agentb_foliage_kit.glb",
+        "prefix": "WinterWillow_2"
+      },
+      "size": [
+        4.15,
+        5,
+        4.77
+      ],
+      "origin": [
+        24.59,
+        0,
+        -47.52
+      ],
+      "collision": "box",
+      "kit": "растительность",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    },
+    {
+      "id": "urman.catalog:agentb_zirat_kit/zirat",
+      "name": "Зират",
+      "category": "Бытовой реквизит",
+      "source": {
+        "scene": "res://assets/models/agent_b_act1/agentb_zirat_kit.glb",
+        "prefix": "Zirat"
+      },
+      "size": [
+        16.11,
+        1.81,
+        12.09
+      ],
+      "origin": [
+        6.49,
+        -0.36,
+        -70
+      ],
+      "collision": "box",
+      "kit": "зират",
+      "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+    }
+  ]
+}
