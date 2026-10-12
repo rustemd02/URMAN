@@ -72686,6 +72686,15 @@
                 "actual_result": "Copy frozen text request+same output schema, paste through existing source/hash/proposal validator and manual preview/Apply. Closing revokes snapshot. Exact shop/vehicle one-file existing replacements join existing accepted ordered restart stack with8MiB source/image bounds; owner/path policy reused for interrupted recovery. No second history/provider registry.",
                 "verification": "Two Luna FAST implementers; independent Sol6.1medium review no blocker; diffcheck. Root compile caught and fixed nullable staging prehash check; final affected Game compile0warnings/0errors.",
                 "remaining": "Clipboard UI walkthrough, actual Claude client and catalogue restart Undo/Redo not run."
+              },
+              {
+                "stage": "2026-10-12 native Windows clipboard external Luna response",
+                "result": "PASS_NATIVE_PREVIEW_APPLY_UNDO_NORMAL_CLOSE",
+                "job_id": "a7abd125738749cf997207caac22c0db",
+                "snapshot_id": "171ec417aab4d2c931b19fe42ad3efec23fdc0ff9d34a11f3f37ef466753880b",
+                "source_revision": "c23d655d",
+                "evidence_path": "evidence/STUDIO/practical-editor-2026-10-12/windows-clipboard",
+                "actual_result": "Copied immutable request/schema from Studio; Luna returned matching proposal with exactly requested marker. Pasted response validated; preview did not auto-apply; explicit Apply changed only selected text. Native Undo restored original text and clean workspace. Root inspected proposal/applied/undone screenshots; normal close PASS exit0. No Claude client/account invocation claimed."
               }
             ],
             "stage_tasks": [
@@ -72716,8 +72725,8 @@
             "status": "in_progress",
             "implementation_state": "not_started",
             "technical_verification_state": "not_run",
-            "remaining": "Clipboard source implemented/reviewed; native clipboard and real Claude/house workflow remain open.",
-            "next_action": "Verify clipboard text copy/paste in Windows and actual Claude account as available; preserve same frozen-source protocol.",
+            "remaining": "Actual Claude client/account transport and catalogue restart Undo/Redo remain open; native text clipboard preview/Apply/Undo accepted.",
+            "next_action": "Проверить установленный Claude transport или передать точный blocker личного входа; не повторять принятый clipboard этап.",
             "blocker": {
               "reason": "Установленный Claude2.1.285/personalOAuth: нет доказанного запрета hooks с сохранением подписочного режима. --bare требует API; help/status не являются inference.",
               "release_when": "Подтверждён подписочный CLI invocation без tools/hooks/записи либо автор выбрал другой безопасный разрешённый транспорт; затем отдельный реальный цикл."
