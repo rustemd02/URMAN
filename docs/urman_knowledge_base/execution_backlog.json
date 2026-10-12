@@ -79480,6 +79480,12 @@
                 "result": "SOURCE_COMPILE_REVIEW_PASS_NATIVE_PENDING",
                 "source": "game/scripts/AnimationCatalog.cs; game/studio/StudioRoot.cs",
                 "verification": "Actual5b988 verbose maps48resources/orphan subtree to static off-tree AnimationCatalog._libraryScene; onlytestcleanup previously freed it. Production finalshutdown reuses samecache reset/free after preview barriers, no mapreload release. Characterpreview owns duplicatedclips, safeper independentSol review. Luna implementation, Gamecompile0/0,17.81s. Changed-source loadedmapclose not yetchecked; priorFAIL retained."
+              },
+              {
+                "stage": "2026-10-12 Russian authoring text refresh repair",
+                "result": "SOURCE_CORE_COMPILE_REVIEW_PASS",
+                "source": "src-dotnet/Urman.Studio.Core/Editing/EntityCatalog.cs",
+                "verification": "Actual source dialogue-gulsina-warning has Englishdefault+translations.ru. AI/manual writesLocalized.WithRussian thenRefresh originallydisplayeddefault, appearinglost. Shared StudioonlyResolveText now reads existingLocalized.Russian ru→default; null/missingfallback unchanged, translations readonly. Lunaimplementation/Solreview, affectedCorecompile0/0,3.52s/scopeddiffcheckPASS. Native changedtextsource notrun; currentmapjob93f predatesit."
               }
             ],
             "stage_tasks": [

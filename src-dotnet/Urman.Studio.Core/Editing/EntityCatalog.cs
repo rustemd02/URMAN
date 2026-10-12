@@ -44,7 +44,11 @@ public sealed class EntityCatalog(StudioWorkspace workspace)
             return "";
         }
 
-        return Workspace.Get(textId) is JsonObject text && text["value"]?["default"] is JsonValue value ? (string)value! : textId;
+        if (Workspace.Get(textId) is not JsonObject text || text["value"] is not JsonObject value
+            || value["translations"]?["ru"] is not JsonValue && value["default"] is not JsonValue)
+            return textId;
+
+        return Localized.Russian(value);
     }
 
     public IReadOnlyList<EntitySummary> Search(string query, int limit = 30)
