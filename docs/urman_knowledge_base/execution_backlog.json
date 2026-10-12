@@ -104366,7 +104366,7 @@
       "title": "Произвести физическую книгу и хват от первого лица",
       "milestone": "PW-M2",
       "status": "in_progress",
-      "active_owner": "Кодекс Кадыра",
+      "active_owner": null,
       "owner": "art",
       "priority": "P0",
       "complexity": "complex",
@@ -104503,8 +104503,8 @@
       },
       "assigned_owner": "art",
       "activity": {
-        "state": "confirmed_active",
-        "reason": "Luna выполняет конечный original A-BOOK geometry/8pose asset stage; root интеграция/приёмка, runtime/руки отдельно."
+        "state": "not_active",
+        "reason": "Оригинальный A-BOOK geometry/8clip asset + closedtable source integration проверены import/compile/offline poses; hand/body/native/art открыты."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -104513,7 +104513,7 @@
         "Толщина/корешок/хват видны, нет плоской карточки вместо книги.",
         "Руки и тело не дублируются, UTF-тексты редактируемы."
       ],
-      "next_action": "Произвести отдельный A-BOOK .blend/.glb с physical bindings/inserts и осмысленными именованными clips; лично осмотреть closed/open/turn/mount, затем import. Не закрывать hand/body/native.",
+      "next_action": "После release станции осмотреть imported closed book на реальном столе; затем выполнить первый person grip и синхронизацию8poses с UI/actions без расширения tabletop footprint. Полный PW017 не закрыт.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -104521,7 +104521,11 @@
       "work_contract": {
         "result": "Произвести физическую книгу и хват от первого лица",
         "targets": [
-          "assets/source/blender/photoworlds"
+          "assets/source/blender/photoworlds",
+          "assets/source/blender/photoworlds/urman_family_book.py",
+          "assets/source/blender/photoworlds/family-book-v1.blend",
+          "game/assets/models/photoworlds/family-book-v1.glb",
+          "game/scripts/ArrivalPersonalProps.cs"
         ],
         "required_inputs": [
           {
@@ -104582,7 +104586,10 @@
         },
         "actual_result": "NOT_RUN",
         "evidence_refs": [
-          "tasks[id=PW-017].evidence"
+          "tasks[id=PW-017].evidence",
+          "evidence/PW-017/family-book-20261012/receipt.json",
+          "evidence/PW-017/family-book-20261012/export-manifest.json",
+          "evidence/PW-017/family-book-20261012/godot-import.json"
         ],
         "engineering_completion_excludes_external_gates": true
       },
@@ -104689,6 +104696,36 @@
         "compile": "PASS affectedGame0warnings0errors22.52s after metadata correction",
         "source_sha256": "b6f16cd3e155930b8f504abf14983a90a0f4413a6367aadaa4cfe7c13a59e1f5",
         "remaining": "CurrentWindows closeinspection/motion/art approval; fullbook hands/poses/images stillopen."
+      },
+      "progress_2026_10_12_authored_book": {
+        "source": "assets/source/blender/photoworlds/urman_family_book.py",
+        "blend": "assets/source/blender/photoworlds/family-book-v1.blend",
+        "runtime_asset": "game/assets/models/photoworlds/family-book-v1.glb",
+        "source_sha256": "0ad6369064838893fa8bd1b25bc4c4ea2b264c81f5d1234f055bb64bc612ba1c",
+        "model_sha256": "66e47b1ec343cf5b6f6535d72c7b1e8f48e03755af50b4547fb4537adfa43915",
+        "export_manifest": "evidence/PW-017/family-book-20261012/export-manifest.json",
+        "godot_import": "evidence/PW-017/family-book-20261012/godot-import.json",
+        "personal_visual_review": [
+          "offline-open-mid.png",
+          "offline-open-full.png"
+        ],
+        "result": "Real 220×285×38mm closed /445×285mm open volume with cloth boards, curved bound spine, page block/layer relief, hinged leaf, separate150×100mm insert and four pockets. Imported8transform clips; helper binds only closed table presentation with old local cloth/paper materials.",
+        "corrected_defects": [
+          "opening positiveY passed through pageblock; uses negativeY to180°",
+          "NLA hold/parent inverse moveddefault book; local staticmount+motion controls and neutralrestore",
+          "rest overshotclosed; now-2→-.35→0",
+          "flip is actual centered insert reversal at80.5mm lift, not duplicatepageflick"
+        ],
+        "source_review": "Root inspected hook, independent Luna accepted names cloth/paper with1primitive/mesh, optionalfallback, same outerroot/support/handoff/guards/state, idle animations.",
+        "compile": {
+          "result": "PASS",
+          "warnings": 0,
+          "errors": 0,
+          "seconds": 25.75,
+          "log": "evidence/PW-017/family-book-20261012/game-build.log"
+        },
+        "native_game": "NOT_RUN: active B20 transaction/Undo owner",
+        "remaining": "Protected actual table view, first-person hand/body grip, pose↔UI/action sync, editable typography/glyphs, author art/human acceptance. Eight asset clips alone do not finish PW-017."
       }
     },
     {
