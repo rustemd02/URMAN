@@ -60,6 +60,7 @@ public sealed partial class StudioWorldSection
         _fencePick = null;
         if (_fenceRangeMarker is not null && GodotObject.IsInstanceValid(_fenceRangeMarker))
             _fenceRangeMarker.Visible = false;
+        RequestViewportRender();
     }
 
     private bool TryPickFence(Vector2 screen)
@@ -203,6 +204,7 @@ public sealed partial class StudioWorldSection
             _fencePreviewFailedWorld = null;
             _fencePreviewFailedSources = null;
             RefreshFenceSelection(world);
+            RequestViewportRender();
         }
         catch (Exception error)
         {
@@ -212,6 +214,7 @@ public sealed partial class StudioWorldSection
             _fencePreviewFailedWorld = world;
             _fencePreviewFailedSources = sources;
             ClearFenceSelectionAndRefresh();
+            RequestViewportRender();
             studio.ShowBanner("Заборы не обновлены: " + error.Message, error: true);
         }
     }
@@ -266,6 +269,7 @@ public sealed partial class StudioWorldSection
             world.RefreshYardFencesForStudio(runtimeSources);
             _fenceAiPreview = _fenceAiPreview with { Applied = true };
             RefreshFenceSelection(world);
+            RequestViewportRender();
         }
         catch (Exception previewFailure)
         {
@@ -275,6 +279,7 @@ public sealed partial class StudioWorldSection
             }
             catch (Exception restoreFailure)
             {
+                RequestViewportRender();
                 throw new AggregateException("Предпросмотр забора не удался, а исходный вид не удалось восстановить.",
                     previewFailure, restoreFailure);
             }
@@ -403,6 +408,7 @@ public sealed partial class StudioWorldSection
         _fenceAiPreviewRestoreFailedWorld = null;
         _fenceAiPreviewRestoreFailedSources = null;
         RefreshFenceSelection(world);
+        RequestViewportRender();
         return Task.CompletedTask;
     }
 
@@ -468,6 +474,7 @@ public sealed partial class StudioWorldSection
             [OpenPartFenceSource] = preview.WorkspaceSources.OpenPart,
             [FarBankFenceSource] = preview.WorkspaceSources.FarBank
         });
+        RequestViewportRender();
         _fenceAiPreview = null;
         _fenceAiPreviewRestoreFailedWorld = null;
         _fenceAiPreviewRestoreFailedSources = null;
@@ -801,21 +808,42 @@ public sealed partial class StudioWorldSection
             throw new InvalidOperationException("Текущая демонстрационная сцена недоступна.");
         if (!string.Equals(_demo.SceneFilePath, "res://scenes/act1_demo.tscn", StringComparison.Ordinal))
             throw new InvalidOperationException("Fence authoring поддерживает только текущую сцену Act I.");
-        var bridges = _demo.FindChildren("*", nameof(RuntimeBridge), true, false).OfType<RuntimeBridge>().ToArray();
-        if (bridges.Length != 1 || !GodotObject.IsInstanceValid(bridges[0])
-            || !bridges[0].IsInsideTree() || !IsUnderNode(bridges[0], _demo))
-            throw new InvalidOperationException("В текущей демонстрационной сцене должен быть ровно один RuntimeBridge.");
-        var bridge = bridges[0];
-        if (!bridge.IsDebugSession || bridge.SessionIdentity is null
-            || !string.Equals(bridge.CurrentZoneId, "village_day", StringComparison.Ordinal)
-            || string.IsNullOrWhiteSpace(bridge.CurrentSpawnPointId))
-            throw new InvalidOperationException("Запрос забора доступен только в активной debug-сессии обычной деревни.");
+        string zoneId;
+        string spawnPointId;
+        string? previewStateId = null;
+        if (_demo.StudioPreviewMode)
+        {
+            var world = CurrentFenceWorld();
+            var main = _demo.DemoMain;
+            if (!_demo.StudioPreviewReady || world is null || !world.IsBuilt
+                || !ReferenceEquals(main.ConnectedWorld, world) || !IsUnderNode(world, _demo)
+                || !string.Equals(world.ActiveZoneId, "village_day", StringComparison.Ordinal)
+                || string.IsNullOrWhiteSpace(main.InitialSpawnPointId))
+                throw new InvalidOperationException("Запрос забора доступен только в готовом предпросмотре деревни Studio.");
+            zoneId = world.ActiveZoneId;
+            spawnPointId = main.InitialSpawnPointId;
+            previewStateId = $"studio-preview:{_demo.GetInstanceId():x}:{world.PersistentInstanceIdentity}";
+        }
+        else
+        {
+            var bridges = _demo.FindChildren("*", nameof(RuntimeBridge), true, false).OfType<RuntimeBridge>().ToArray();
+            if (bridges.Length != 1 || !GodotObject.IsInstanceValid(bridges[0])
+                || !bridges[0].IsInsideTree() || !IsUnderNode(bridges[0], _demo))
+                throw new InvalidOperationException("В текущей демонстрационной сцене должен быть ровно один RuntimeBridge.");
+            var bridge = bridges[0];
+            if (!bridge.IsDebugSession || bridge.SessionIdentity is null
+                || !string.Equals(bridge.CurrentZoneId, "village_day", StringComparison.Ordinal)
+                || string.IsNullOrWhiteSpace(bridge.CurrentSpawnPointId))
+                throw new InvalidOperationException("Запрос забора доступен только в активной debug-сессии обычной деревни.");
+            zoneId = bridge.CurrentZoneId;
+            spawnPointId = bridge.CurrentSpawnPointId;
+        }
 
         var context = CampaignWorldCatalog.Discover(studio.Workspace).Resolve(
             PlayPreparation.Campaign,
             _demo.SceneFilePath,
-            bridge.CurrentZoneId,
-            bridge.CurrentSpawnPointId,
+            zoneId,
+            spawnPointId,
             baseRevision: revision);
         if (context.World.Capability != WorldAuthoringCapability.AuthoredWorldPlots)
             throw new InvalidOperationException("Текущая сцена не подтверждена каталогом как потребитель авторских участков.");
@@ -851,10 +879,10 @@ public sealed partial class StudioWorldSection
             context.Campaign.Id,
             context.Campaign.ExactVersion,
             context.World.WorldId,
-            context.StateId,
+            previewStateId is null ? context.StateId : $"{context.StateId}/{previewStateId}",
             context.World.ScenePath,
-            bridge.CurrentZoneId,
-            bridge.CurrentSpawnPointId,
+            zoneId,
+            spawnPointId,
             CaptureAuthoringCamera(),
             dependencyHashes);
         var request = new FenceAlignmentRequest(
@@ -1022,6 +1050,7 @@ public sealed partial class StudioWorldSection
         {
             if (_fenceRangeMarker is not null && GodotObject.IsInstanceValid(_fenceRangeMarker))
                 _fenceRangeMarker.Visible = false;
+            RequestViewportRender();
             return;
         }
         if (_viewport is null || !GodotObject.IsInstanceValid(_viewport)) return;
@@ -1051,5 +1080,6 @@ public sealed partial class StudioWorldSection
             new Basis(Vector3.Up, Mathf.Atan2(direction.X, direction.Y)),
             new Vector3(centre.X, ground + .75f, centre.Y));
         _fenceRangeMarker.Visible = true;
+        RequestViewportRender();
     }
 }

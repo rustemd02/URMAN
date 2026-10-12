@@ -126,6 +126,49 @@ public sealed class StudioWorkspace
         Reindex();
     }
 
+    internal void ReconcileRecoveredAuthoredJsonSource(string relativePath, byte[] verifiedBeforeBytes, string expectedSha256)
+    {
+        if (!IsCanonicalAuthoredJsonSourcePath(relativePath)
+            || verifiedBeforeBytes.Length > StudioFileTransaction.MaximumAuthoredSourceBytes
+            || !string.Equals(AtomicFile.Sha256(verifiedBeforeBytes), expectedSha256, StringComparison.Ordinal))
+            throw new InvalidDataException("Восстановление исходника не соответствует проверенному образу транзакции.");
+
+        StudioFileTransaction.EnsureNoLinks(Root, relativePath);
+        var fullPath = Path.Combine(Root, relativePath.Replace('/', Path.DirectorySeparatorChar));
+        if (Directory.Exists(fullPath))
+            throw new IOException($"Исходник {relativePath} заменён каталогом.");
+
+        _files.TryGetValue(relativePath, out var registered);
+        if (System.IO.File.Exists(fullPath))
+        {
+            var currentBytes = StudioFileTransaction.ReadBoundedFile(fullPath, StudioFileTransaction.MaximumAuthoredSourceBytes);
+            if (!currentBytes.AsSpan().SequenceEqual(verifiedBeforeBytes)
+                || !string.Equals(AtomicFile.Sha256(currentBytes), expectedSha256, StringComparison.Ordinal))
+                throw new ExternalChangeException(relativePath);
+
+            if (registered is not null && (registered.Dirty || registered.IsNew))
+            {
+                if (registered.IsNew || !string.Equals(registered.LoadedSha256, expectedSha256, StringComparison.Ordinal))
+                    throw new InvalidOperationException("Восстановление остановлено: локальный черновик исходника нельзя заменить.");
+            }
+            else if (registered is null || !string.Equals(registered.LoadedSha256, expectedSha256, StringComparison.Ordinal))
+            {
+                var restored = AuthoredFile.Load(Root, relativePath);
+                if (!restored.RootIsArray || !string.Equals(restored.LoadedSha256, expectedSha256, StringComparison.Ordinal))
+                    throw new InvalidDataException("Проверенный образ больше не соответствует зарегистрируемому JSON-исходнику.");
+                _files[relativePath] = restored;
+            }
+        }
+        else
+        {
+            if (registered is not null && (registered.Dirty || registered.IsNew))
+                throw new InvalidOperationException("Удаление остановлено: локальный черновик исходника нельзя потерять.");
+            _files.Remove(relativePath);
+        }
+
+        Reindex();
+    }
+
     public bool IsAmbiguous(string id) => _ambiguousIds.Contains(id);
 
     public EntityAddress? Locate(string id) => _index.GetValueOrDefault(id);

@@ -33,10 +33,15 @@ public partial class StudioRoot : Control
     private const double WatchSeconds = 2;
 
     private readonly Dictionary<string, IStudioSection> _sections = new(StringComparer.Ordinal);
-    private readonly List<string> _openTabs = [];
     private readonly HashSet<string> _shownViews = new(StringComparer.Ordinal);
     private readonly Stack<(string Section, string? Selection)> _back = new();
-    private HBoxContainer _tabBar = null!;
+    private HFlowContainer _tabBar = null!;
+    private PanelContainer _inspectorPanel = null!;
+    private MenuButton _sectionsMenu = null!;
+    private Button _navigationToggle = null!;
+    private Button _inspectorToggle = null!;
+    private Button _backButton = null!;
+    private readonly Dictionary<string, Button> _sectionButtons = new(StringComparer.Ordinal);
     private Control _centre = null!;
     private StudioProperties _properties = null!;
     private Label _status = null!;
@@ -57,6 +62,8 @@ public partial class StudioRoot : Control
     private Process? _run;
     private bool _lastRunWasHouseCapture;
     private bool _closing;
+    private ConfirmationDialog? _unsavedCloseDialog;
+    private bool _discardUnsavedOnClose;
     private bool _playPreparing;
     private bool _historyActionBusy;
 
@@ -88,10 +95,10 @@ public partial class StudioRoot : Control
         var usableScreen = DisplayServer.ScreenGetUsableRect((int)DisplayServer.ScreenOfMainWindow);
         if (usableScreen.Size.X > 0 && usableScreen.Size.Y > 0)
         {
-            var minimumSize = new Vector2I(Math.Min(1280, usableScreen.Size.X), Math.Min(720, usableScreen.Size.Y));
+            var minimumSize = new Vector2I(Math.Min(1100, usableScreen.Size.X), Math.Min(650, usableScreen.Size.Y));
             var size = new Vector2I(
-                Math.Clamp(usableScreen.Size.X * 9 / 10, minimumSize.X, usableScreen.Size.X),
-                Math.Clamp(usableScreen.Size.Y * 9 / 10, minimumSize.Y, usableScreen.Size.Y));
+                Math.Clamp(usableScreen.Size.X * 96 / 100, minimumSize.X, usableScreen.Size.X),
+                Math.Clamp(usableScreen.Size.Y * 96 / 100, minimumSize.Y, usableScreen.Size.Y));
             window.MinSize = minimumSize;
             window.InitialPosition = Window.WindowInitialPosition.Absolute;
             window.Size = size;
@@ -112,7 +119,7 @@ public partial class StudioRoot : Control
         try
         {
             var pending = StudioFileTransaction.RecoverWithOwnedPathPolicy(RepositoryRoot,
-                StudioAiPanel.OwnsFile,
+                path => StudioAiPanel.OwnsFile(path) || path == StudioItemsSection.SourcePath,
                 (owner, path) => StudioFileTransaction.IsAuthoredSourceDeletionOwner(owner)
                     && StudioWorkspace.IsCanonicalAuthoredJsonSourcePath(path));
             if (pending.Count > 0)
@@ -136,11 +143,13 @@ public partial class StudioRoot : Control
                 "изменить окна дома через Codex",
                 "urman.world:act1/kit/house-old-pc-babai-approach",
                 StudioAiPanel.OwnsFile,
-                IsExactHeroHousePilotFileSet);
+                IsExactHeroHousePilotFileSet,
+                StudioFileTransaction.IsAuthoredSourceDeletionOwner,
+                StudioWorkspace.IsCanonicalAuthoredJsonSourcePath);
         }
         catch (Exception error) when (error is IOException or UnauthorizedAccessException or InvalidDataException or InvalidOperationException or ArgumentException)
         {
-            pilotHistoryWarning = "История изменения эталонного дома не восстановлена: " + error.Message;
+            pilotHistoryWarning = "История отмены после перезапуска не восстановлена: " + error.Message;
         }
 
         _historyStartupWarning = pilotHistoryWarning;
@@ -154,7 +163,8 @@ public partial class StudioRoot : Control
         Register(Collab = new StudioCollabSection(this));
         Register(new StudioCharacterSection(this));
         Register(new StudioContentSection(this));
-        foreach (var (key, title) in new[] { ("items", "Предметы"), ("ui", "Интерфейс игры") })
+        Register(new StudioItemsSection(this));
+        foreach (var (key, title) in new[] { ("ui", "Интерфейс игры") })
         {
             Register(new StudioPendingSection(key, title));
         }
@@ -206,7 +216,8 @@ public partial class StudioRoot : Control
 
     public override void _Process(double delta)
     {
-        if (_closing || Workspace is null)
+        if (_closing || Workspace is null
+            || _unsavedCloseDialog is { } closeDialog && GodotObject.IsInstanceValid(closeDialog) && closeDialog.Visible)
         {
             return;
         }
@@ -344,6 +355,12 @@ public partial class StudioRoot : Control
     public void OpenAiPanel()
     {
         if (_closing) return;
+        if (CanOpenTextAi(Selection))
+        {
+            OpenTextAi(Selection!);
+            return;
+        }
+        if (IsTextAiBusy) return;
         _aiPanel ??= new StudioAiPanel(this);
         if (_aiPanel.GetParent() is null) AddChild(_aiPanel);
         _aiPanel.Open(Selection);
@@ -376,11 +393,6 @@ public partial class StudioRoot : Control
         }
 
         _current = key;
-        if (!_openTabs.Contains(key))
-        {
-            _openTabs.Add(key);
-        }
-
         var section = _sections[key];
         if (_shownViews.Add(key))
         {
@@ -394,7 +406,7 @@ public partial class StudioRoot : Control
             section.Reveal(select);
         }
 
-        RebuildTabs();
+        RefreshNavigation();
         ShowProperties();
     }
 
@@ -621,6 +633,16 @@ public partial class StudioRoot : Control
         {
             if (!autosave) ShowBanner("Дождитесь изменения модели и обновления вида.", error: false);
             return false;
+        }
+        if (!autosave && _sections.TryGetValue("items", out var itemSection)
+            && itemSection is StudioItemsSection items && items.HasPendingChanges)
+        {
+            if (!items.SavePendingChanges())
+            {
+                OpenSection("items");
+                ShowBanner("Товары не сохранены. Проверьте сообщение в карточке товара; правки оставлены в редакторе.", error: true);
+                return false;
+            }
         }
         if (!autosave && Workspace.IdentityConflicts.Count > 0)
         {
@@ -975,6 +997,14 @@ public partial class StudioRoot : Control
     private async void OnWindowCloseRequested()
     {
         if (_closing) return;
+        if (!_discardUnsavedOnClose && !HasActiveShutdownAction()
+            && (Workspace is not null && Workspace.Files.Any(file => file.Dirty)
+                || _sections.TryGetValue("items", out var itemSection)
+                    && itemSection is StudioItemsSection items && items.HasPendingChanges))
+        {
+            OfferSaveBeforeClose();
+            return;
+        }
         _closing = true;
         var run = _run;
         var childExitConfirmed = run is null;
@@ -1036,6 +1066,7 @@ public partial class StudioRoot : Control
             }
 
             _closing = false;
+            _discardUnsavedOnClose = false;
             GetViewport().GuiDisableInput = false;
             if (_banner is not null && GodotObject.IsInstanceValid(_banner))
                 ShowBanner(!childExitConfirmed
@@ -1048,7 +1079,53 @@ public partial class StudioRoot : Control
     private bool HasActiveShutdownAction() =>
         _playPreparing || _historyActionBusy || _checkpointBusy || _aiEvidenceCaptureBusy
         || Session is not null && Session.IsBusy
-        || _aiPanel is { } panel && GodotObject.IsInstanceValid(panel) && panel.HasActiveOperation;
+        || _aiPanel is { } panel && GodotObject.IsInstanceValid(panel) && panel.HasActiveOperation
+        || _textAiPanel is { } textPanel && GodotObject.IsInstanceValid(textPanel) && textPanel.HasActiveOperation;
+
+    private void OfferSaveBeforeClose()
+    {
+        if (_unsavedCloseDialog is { } existing && GodotObject.IsInstanceValid(existing))
+        {
+            existing.PopupCentered();
+            return;
+        }
+        var dialog = new ConfirmationDialog
+        {
+            Title = "Сохранить изменения?",
+            DialogText = "В редакторе есть несохранённые изменения.",
+            OkButtonText = "Сохранить и закрыть",
+            CancelButtonText = "Остаться"
+        };
+        _unsavedCloseDialog = dialog;
+        dialog.AddButton("Закрыть без сохранения", true, "discard");
+        dialog.Confirmed += () =>
+        {
+            dialog.QueueFree();
+            _unsavedCloseDialog = null;
+            if (SaveAll(autosave: false)) OnWindowCloseRequested();
+        };
+        dialog.CustomAction += action =>
+        {
+            if (action != "discard") return;
+            try
+            {
+                foreach (var file in Workspace.Files.Where(file => file.Dirty)) Drafts.Discard(file.RelativePath);
+                if (_sections.TryGetValue("items", out var section) && section is StudioItemsSection items)
+                    items.DiscardPendingChanges();
+                _discardUnsavedOnClose = true;
+                dialog.QueueFree();
+                _unsavedCloseDialog = null;
+                OnWindowCloseRequested();
+            }
+            catch (Exception error) when (error is IOException or UnauthorizedAccessException or InvalidOperationException)
+            {
+                ShowBanner("Закрытие отменено: " + error.Message, error: true);
+            }
+        };
+        dialog.Canceled += () => { dialog.QueueFree(); _unsavedCloseDialog = null; };
+        AddChild(dialog);
+        dialog.PopupCentered();
+    }
 
     // ---- status and banners ---------------------------------------------------------------
 
@@ -1058,9 +1135,11 @@ public partial class StudioRoot : Control
         _play.Disabled = IsAiActionBusy;
         _undo.Disabled = !Session.CanUndo || IsAiActionBusy;
         _redo.Disabled = !Session.CanRedo || IsAiActionBusy;
-        _undo.TooltipText = Session.UndoLabel is { } undo ? $"Отменить: {undo} (⌘Z)" : "Нечего отменять";
-        _redo.TooltipText = Session.RedoLabel is { } redo ? $"Повторить: {redo} (⇧⌘Z)" : "Нечего повторять";
+        _undo.TooltipText = Session.UndoLabel is { } undo ? $"Отменить: {undo} (⌘/Ctrl+Z)" : "Нечего отменять";
+        _redo.TooltipText = Session.RedoLabel is { } redo ? $"Повторить: {redo} (⇧⌘/Ctrl+Z)" : "Нечего повторять";
         var dirty = Workspace.Files.Count(file => file.Dirty);
+        if (_sections.TryGetValue("items", out var itemSection)
+            && itemSection is StudioItemsSection items && items.HasPendingChanges) dirty++;
         (string text, Color color) = (_saveError, _conflictNote, _run, dirty) switch
         {
             ({ } error, _, _, _) => ($"! Не сохранено: {error}", StudioTheme.Bad),
@@ -1098,28 +1177,87 @@ public partial class StudioRoot : Control
         root.AddThemeConstantOverride("separation", 0);
         AddChild(root);
 
-        var top = Bar(root);
-        top.AddChild(new Label { Text = "URMAN Studio", ThemeTypeVariation = "HeaderLabel" });
-        top.AddChild(new Label { Text = "· проект «Урман», глава 1", ThemeTypeVariation = "MutedLabel" });
-        _undo = Button(top, "↶ Отменить", Undo);
+        var header = Bar(root);
+        header.AddChild(new Label { Text = "URMAN Studio", ThemeTypeVariation = "HeaderLabel" });
+        header.AddChild(new Label { Text = "· проект «Урман»", ThemeTypeVariation = "MutedLabel" });
+
+        _sectionsMenu = new MenuButton { Text = "Разделы ▾", Visible = false, TooltipText = "Открыть основной раздел Studio" };
+        var sectionsPopup = _sectionsMenu.GetPopup();
+        var mainSections = new (string Key, string Title)[]
+        {
+            ("world", "Мир"), ("quests", "Квесты"), ("scenes", "Диалоги"),
+            ("characters", "Персонажи"), ("items", "Предметы"), ("content", "Контент")
+        };
+        for (var index = 0; index < mainSections.Length; index++)
+            sectionsPopup.AddItem(mainSections[index].Title, index);
+        sectionsPopup.IdPressed += id => OpenSection(mainSections[(int)id].Key);
+        header.AddChild(_sectionsMenu);
+
+        _navigationToggle = Button(header, "Скрыть навигацию", ToggleNavigation);
+        _navigationToggle.TooltipText = "Свернуть или показать основную навигацию";
+        _inspectorToggle = Button(header, "Скрыть свойства", ToggleInspector);
+        _inspectorToggle.TooltipText = "Свернуть или показать инспектор выбранного объекта";
+
+        var moreMenu = new MenuButton { Text = "Ещё ▾", TooltipText = "Совместная работа, история, контрольные точки и знакомство" };
+        var morePopup = moreMenu.GetPopup();
+        morePopup.AddItem("Совместная работа…", 0);
+        morePopup.AddSeparator();
+        morePopup.AddItem("История…", 1);
+        morePopup.AddItem("Контрольные точки…", 2);
+        morePopup.AddItem("Знакомство заново", 3);
+        morePopup.IdPressed += id =>
+        {
+            switch ((int)id)
+            {
+                case 0: OpenSection("collab"); break;
+                case 1: OpenHistory(); break;
+                case 2: OpenCheckpoints(); break;
+                case 3: Tour.Start(); break;
+            }
+        };
+        header.AddChild(moreMenu);
+
+        var actions = Bar(root);
+        _undo = Button(actions, "↶ Отменить", Undo);
         _undo.Name = "UndoButton";
-        _redo = Button(top, "↷", Redo);
-        Button(top, "Изменить с ИИ", OpenAiPanel).TooltipText = "Выберите объект и опишите изменение (⌘/Ctrl+Enter в окне мира)";
-        Button(top, "Сохранить", () => SaveAll(autosave: false)).TooltipText = "Сохранить все изменения (⌘S)";
-        Button(top, "История…", OpenHistory).TooltipText = "Доступные команды отмены и повтора";
-        Button(top, "Контрольные точки…", OpenCheckpoints).TooltipText = "Именованный снимок и просмотр отличий перед восстановлением";
-        _search = new LineEdit { PlaceholderText = "Поиск: имя, ID, тип, текст реплики — или вставьте ID от разработчика", CustomMinimumSize = new(420, 0), SizeFlagsHorizontal = SizeFlags.ExpandFill };
+        _redo = Button(actions, "↷ Повторить", Redo);
+        _redo.TooltipText = "Повторить отменённое изменение (⇧⌘/Ctrl+Z)";
+        Button(actions, "Изменить с ИИ", OpenAiPanel).TooltipText = "Выберите объект и опишите изменение (⌘/Ctrl+Enter в окне мира)";
+        Button(actions, "Сохранить", () => SaveAll(autosave: false)).TooltipText = "Сохранить все изменения (⌘/Ctrl+S)";
+        _search = new LineEdit
+        {
+            PlaceholderText = "Поиск по имени, ID, типу или тексту",
+            CustomMinimumSize = new(240, 0),
+            SizeFlagsHorizontal = SizeFlags.ExpandFill,
+            TooltipText = "Поиск по объектам и тексту. Фокус: ⌘/Ctrl+F или K; ↑/↓ и Enter — выбрать результат"
+        };
         _search.TextChanged += OnSearch;
         _search.TextSubmitted += _ => PickSelectedResult();
-        top.AddChild(_search);
-        _status = new Label { CustomMinimumSize = new(220, 0), HorizontalAlignment = HorizontalAlignment.Right };
-        top.AddChild(_status);
-        Button(top, "Проверить", CheckContent);
-        _play = Button(top, "▶ Играть отсюда", PlayFromHere);
+        actions.AddChild(_search);
+        _status = new Label
+        {
+            CustomMinimumSize = new(160, 0),
+            HorizontalAlignment = HorizontalAlignment.Right,
+            TextOverrunBehavior = TextServer.OverrunBehavior.TrimEllipsis
+        };
+        actions.AddChild(_status);
+        Button(actions, "Проверить", CheckContent).TooltipText = "Проверить ссылки и данные во всём проекте";
+        _play = Button(actions, "▶ Играть отсюда", PlayFromHere);
         _play.ThemeTypeVariation = "PrimaryButton";
         _play.Name = "PlayButton";
 
         _tabBar = Bar(root);
+        _backButton = Button(_tabBar, "← Назад", GoBack);
+        _backButton.TooltipText = "Вернуться к предыдущему разделу и выделению";
+        foreach (var (key, title) in mainSections)
+        {
+            var button = Button(_tabBar, title, () => OpenSection(key));
+            button.ToggleMode = true;
+            button.Name = $"Nav_{key}";
+            _sectionButtons[key] = button;
+        }
+        _tabBar.TooltipText = "Основные разделы URMAN Studio";
+
         _banner = new PanelContainer { Visible = false, ThemeTypeVariation = "BannerPanel" };
         var bannerRow = new HBoxContainer();
         _bannerText = new Label { AutowrapMode = TextServer.AutowrapMode.WordSmart, SizeFlagsHorizontal = SizeFlags.ExpandFill };
@@ -1132,31 +1270,15 @@ public partial class StudioRoot : Control
         body.AddThemeConstantOverride("separation", 0);
         root.AddChild(body);
 
-        var navPanel = new PanelContainer { CustomMinimumSize = new(210, 0) };
-        var nav = new VBoxContainer();
-        navPanel.AddChild(nav);
-        body.AddChild(navPanel);
-        foreach (var (key, title) in new[] { ("world", "🏠  Мир"), ("quests", "❖  Квесты"), ("scenes", "🎬  Диалоги и сцены"), ("characters", "👤  Персонажи"), ("items", "🪵  Предметы"), ("content", "📄  Контент"), ("ui", "▭  Интерфейс игры"), ("collab", "⇅  Совместная работа") })
-        {
-            var button = Button(nav, title, () => OpenSection(key));
-            button.ThemeTypeVariation = "NavButton";
-            button.Alignment = HorizontalAlignment.Left;
-            button.Name = $"Nav_{key}";
-        }
-
-        var again = Button(nav, "?  Знакомство заново", () => Tour.Start());
-        again.ThemeTypeVariation = "NavButton";
-        again.Alignment = HorizontalAlignment.Left;
-
         _centre = new Control { SizeFlagsHorizontal = SizeFlags.ExpandFill, ClipContents = true };
         body.AddChild(_centre);
 
-        var sidePanel = new PanelContainer { CustomMinimumSize = new(330, 0) };
+        _inspectorPanel = new PanelContainer { CustomMinimumSize = new(300, 0) };
         var sideScroll = new ScrollContainer { HorizontalScrollMode = ScrollContainer.ScrollMode.Disabled };
-        sidePanel.AddChild(sideScroll);
+        _inspectorPanel.AddChild(sideScroll);
         _properties = new StudioProperties(this);
         sideScroll.AddChild(_properties);
-        body.AddChild(sidePanel);
+        body.AddChild(_inspectorPanel);
 
         Tour = new StudioTour(this) { Visible = false };
         AddChild(Tour);
@@ -1169,20 +1291,28 @@ public partial class StudioRoot : Control
         AddChild(_results);
     }
 
-    private void RebuildTabs()
+    private void RefreshNavigation()
     {
-        foreach (var child in _tabBar.GetChildren())
+        _backButton.Disabled = _back.Count == 0;
+        foreach (var (key, button) in _sectionButtons)
         {
-            child.QueueFree();
+            var active = key == _current;
+            button.ButtonPressed = active;
+            button.ThemeTypeVariation = active ? "PrimaryButton" : "NavButton";
         }
+    }
 
-        var back = Button(_tabBar, "← Назад", GoBack);
-        back.Disabled = _back.Count == 0;
-        foreach (var key in _openTabs)
-        {
-            var tab = Button(_tabBar, _sections[key].Title, () => OpenSection(key));
-            tab.ThemeTypeVariation = key == _current ? "PrimaryButton" : "NavButton";
-        }
+    private void ToggleNavigation()
+    {
+        _tabBar.Visible = !_tabBar.Visible;
+        _sectionsMenu.Visible = !_tabBar.Visible;
+        _navigationToggle.Text = _tabBar.Visible ? "Скрыть навигацию" : "Показать навигацию";
+    }
+
+    private void ToggleInspector()
+    {
+        _inspectorPanel.Visible = !_inspectorPanel.Visible;
+        _inspectorToggle.Text = _inspectorPanel.Visible ? "Скрыть свойства" : "Показать свойства";
     }
 
     private void OnSearch(string text)
@@ -1305,11 +1435,12 @@ public partial class StudioRoot : Control
         RefreshStatus();
     }
 
-    private static HBoxContainer Bar(Container parent)
+    private static HFlowContainer Bar(Container parent)
     {
         var panel = new PanelContainer();
-        var bar = new HBoxContainer();
-        bar.AddThemeConstantOverride("separation", 8);
+        var bar = new HFlowContainer { SizeFlagsHorizontal = SizeFlags.ExpandFill };
+        bar.AddThemeConstantOverride("h_separation", 8);
+        bar.AddThemeConstantOverride("v_separation", 6);
         panel.AddChild(bar);
         parent.AddChild(panel);
         return bar;

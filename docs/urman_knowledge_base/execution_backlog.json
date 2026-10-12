@@ -70343,6 +70343,13 @@
                 "implementation": "Studio-only initial window uses 90% usable screen, centered, minimum up to 1280×720 clamped to available screen. Global game settings unchanged.",
                 "verification": "Affected Game compile 0 warnings/0 errors; independent Sol source review; diff check. No runtime after user stop.",
                 "remaining": "Native layout/DPI and lag not verified; fixed toolbar may overflow narrow screens."
+              },
+              {
+                "stage": "2026-10-12 practical Studio integration",
+                "result": "SOURCE_GAME_COMPILE_0_0_NATIVE_PENDING",
+                "verification": "Five Luna FAST/Max implementers; Sol6.1medium focused source review; combined affected Game compile0warnings/0errors and diffcheck. No MacGodot or broad smoke.",
+                "actual_result": "Responsive shell: wrapping actions/navigation, overflow, collapsible Inspector, larger window; text AI contextual entry points.",
+                "remaining": "Fresh Windows UI/functional verification pending; broader original feature scope remains open, useful source delivered without formal acceptance ceremony."
               }
             ],
             "stage_tasks": [
@@ -73128,6 +73135,13 @@
                 "source": "Storage/StudioFileTransaction.cs; Editing/EditSession.cs; game/studio/StudioRoot.cs",
                 "verification": "Core/game compilation0/0; existing temporary assertion probe PASS for restart/accepted recovery/failure/CAS/retirement; independent Sol6.1medium review; no new repo tests",
                 "limits": "Only one accepted exact four-file HeroHouse command restored; multiple committed commands refuse ambiguous order. Retire/compensation preserves authored files and ordinary failure handling; crash between independent retirement journals can lose pilot history, full mixed persistent stack remains AI-11 open."
+              },
+              {
+                "stage": "2026-10-12 practical Studio integration",
+                "result": "SOURCE_GAME_COMPILE_0_0_NATIVE_PENDING",
+                "verification": "Five Luna FAST/Max implementers; Sol6.1medium focused source review; combined affected Game compile0warnings/0errors and diffcheck. No MacGodot or broad smoke.",
+                "actual_result": "Accepted source-delete restart Undo/Redo joins existing ordered history; bounded owner/path/source validation and workspace reconciliation.",
+                "remaining": "Fresh Windows UI/functional verification pending; broader original feature scope remains open, useful source delivered without formal acceptance ceremony."
               }
             ],
             "stage_tasks": [
@@ -74079,6 +74093,13 @@
                 "evidence": "evidence/STUDIO/b20-codex-ui-2026-10-12/windows-native-seventh",
                 "verification": "Actual native street-window1 selection → Codex request/tools forbidden/globals allowed → Front0 1.06→1.30 preview → native Apply → six matched game frames → native Undo → six fresh game frames. 18/18 PNG SHA/metadata bound; identical camera specs/Low/comparable settings. Root viewed exterior before/after/Undo: selected window widens then restores. GLB independent audit: Front0 glass1.20 vsother main0.96; heights unchanged; other7 window recipe values unchanged. Final committed accepted journal sidebefore/order1; recipe byte-exact baseline2bcbc3ad88f8ecec5473a7ed9b5d144f649c9d7cf90c0212ec34a6cafb0aa4b4; generatedGLB/blend/manifest/import absent. Child processes and parent normal close exit0. Userdata rename restore verified, recovery_pendingfalse; Windows ACLs not compared. Overall stationFAIL still eight unique renderer/resource exit errors,48resources; cleanup sourcefix insufficient. Doctorreadytrue.",
                 "remaining": "Parent shutdown resource errors, multihouse/global scope, restart/history persistence and independent Claude native workflow remain open; no performance/human/art acceptance."
+              },
+              {
+                "stage": "2026-10-12 practical Studio integration",
+                "result": "SOURCE_GAME_COMPILE_0_0_NATIVE_PENDING",
+                "verification": "Five Luna FAST/Max implementers; Sol6.1medium focused source review; combined affected Game compile0warnings/0errors and diffcheck. No MacGodot or broad smoke.",
+                "actual_result": "Codex single localized-text request→before/after→one Set/Undo, exact source/Russian-field binding and TT preservation; existing restricted transport reused.",
+                "remaining": "Fresh Windows UI/functional verification pending; broader original feature scope remains open, useful source delivered without formal acceptance ceremony."
               }
             ],
             "stage_tasks": [
@@ -76368,7 +76389,15 @@
             "verification": "A06 плюс квест с двумя ветвями; ближайшая существующая QuestFlow проверка.",
             "risks_recovery_external_gates": "Недостающие старые QUEST-требования не закрыть этой единицей; вне каталога тип — явная незавершённая зависимость P3, не произвольный код.",
             "required": true,
-            "evidence": [],
+            "evidence": [
+              {
+                "stage": "2026-10-12 practical Studio integration",
+                "result": "SOURCE_GAME_COMPILE_0_0_NATIVE_PENDING",
+                "verification": "Five Luna FAST/Max implementers; Sol6.1medium focused source review; combined affected Game compile0warnings/0errors and diffcheck. No MacGodot or broad smoke.",
+                "actual_result": "Full-game active quest landing, quest name/ID search, stable selection and campaign-derived templates.",
+                "remaining": "Fresh Windows UI/functional verification pending; broader original feature scope remains open, useful source delivered without formal acceptance ceremony."
+              }
+            ],
             "stage_tasks": [
               "STUDIO.P3"
             ],
@@ -76513,7 +76542,15 @@
             "verification": "A06 с условным ответом и отсутствующим переводом; пройти обе доступности.",
             "risks_recovery_external_gates": "Культурные/языковые правки требуют авторской проверки; agent не переписывает всю кампанию ради одной реплики.",
             "required": true,
-            "evidence": [],
+            "evidence": [
+              {
+                "stage": "2026-10-12 practical Studio integration",
+                "result": "SOURCE_GAME_COMPILE_0_0_NATIVE_PENDING",
+                "verification": "Five Luna FAST/Max implementers; Sol6.1medium focused source review; combined affected Game compile0warnings/0errors and diffcheck. No MacGodot or broad smoke.",
+                "actual_result": "Dialogue search, edit/caret retention, campaign role speakers, localization-preserving edits and per-line/choice Codex button; cutscene stable-action selection/search/errors.",
+                "remaining": "Fresh Windows UI/functional verification pending; broader original feature scope remains open, useful source delivered without formal acceptance ceremony."
+              }
+            ],
             "stage_tasks": [
               "STUDIO.P3"
             ],
@@ -76857,7 +76894,15 @@
             "verification": "A19 на одном NPC: normal path, blocked path, сопровождение и возврат после сцены.",
             "risks_recovery_external_gates": "Root motion двойное перемещение, skeleton mismatch, отсутствие clip; не показывать пустые категории как поставленную анимацию.",
             "required": true,
-            "evidence": [],
+            "evidence": [
+              {
+                "stage": "2026-10-12 practical Studio integration",
+                "result": "SOURCE_GAME_COMPILE_0_0_NATIVE_PENDING",
+                "verification": "Five Luna FAST/Max implementers; Sol6.1medium focused source review; combined affected Game compile0warnings/0errors and diffcheck. No MacGodot or broad smoke.",
+                "actual_result": "Character search/stable selection, correct preview rig reset, supported preview models, immediate animation speed/loop replay.",
+                "remaining": "Fresh Windows UI/functional verification pending; broader original feature scope remains open, useful source delivered without formal acceptance ceremony."
+              }
+            ],
             "stage_tasks": [
               "STUDIO.P3"
             ],
@@ -77002,7 +77047,15 @@
             "verification": "Один предмет с одной квестовой передачей, повтор события и Undo authoring изменений.",
             "risks_recovery_external_gates": "Не обещать бартер со всеми NPC и новые физические механики; сохранение игрока отдельное от авторских данных.",
             "required": true,
-            "evidence": [],
+            "evidence": [
+              {
+                "stage": "2026-10-12 practical Studio integration",
+                "result": "SOURCE_GAME_COMPILE_0_0_NATIVE_PENDING",
+                "verification": "Five Luna FAST/Max implementers; Sol6.1medium focused source review; combined affected Game compile0warnings/0errors and diffcheck. No MacGodot or broad smoke.",
+                "actual_result": "Real shop catalogue editor replaces Items stub: title/unit/description/uses, fixedSKU, one CAS transaction and Undo/Redo. Root Save/close handles pending drafts.",
+                "remaining": "Fresh Windows UI/functional verification pending; broader original feature scope remains open, useful source delivered without formal acceptance ceremony."
+              }
+            ],
             "stage_tasks": [
               "STUDIO.P4"
             ],
@@ -80949,6 +81002,13 @@
                 ],
                 "verification": "Luna FAST/Max implementation; Sol6.1medium independent source review found/fixed recovery allowlist, deletion shape, bounded-read and staging-preimage issues; final no confirmed P1/P2. Affected Game compile 0 warnings/0 errors and diff check. No native/network/restart check.",
                 "remaining": "Creation/schema policy, curated Send/idempotence/offline queue, actual A23/deletion Undo/Redo and restart acceptance remain open."
+              },
+              {
+                "stage": "2026-10-12 practical Studio integration",
+                "result": "SOURCE_GAME_COMPILE_0_0_NATIVE_PENDING",
+                "verification": "Five Luna FAST/Max implementers; Sol6.1medium focused source review; combined affected Game compile0warnings/0errors and diffcheck. No MacGodot or broad smoke.",
+                "actual_result": "Source deletion restart membership hydration implemented and independently reviewed; one existing ordered history stack; history-fence refusal retained.",
+                "remaining": "Fresh Windows UI/functional verification pending; broader original feature scope remains open, useful source delivered without formal acceptance ceremony."
               }
             ],
             "stage_tasks": [
@@ -151398,5 +151458,10 @@
       "independent_review": "Sol6.1medium read-only: conditional/final coverage and evidence limits accepted; CODEX-RESTART whole-AI11 dependency corrected to existing ordered-file-history source methods."
     },
     "ready_policy": "ready means named inputs available and owner assigned, not authorization to execute during current pause; unassigned requires explicit assignment, active remains unknown until ACK."
+  },
+  "studio_practical_delivery_override": {
+    "author_request": "2026-10-12: забей на четкие критерии приемки, доделай URMAN Studio чтобы работал",
+    "priority": "Deliver working editor actions and usable UI; formal acceptance gates do not block source delivery. Keep file/save protection and report runtime limits.",
+    "verification": "Affected Game compile, focused source review, short Windows functional checks; no broad repeated smoke or new process documents."
   }
 }

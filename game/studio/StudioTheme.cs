@@ -49,13 +49,18 @@ public static class StudioTheme
         theme.SetColor("font_disabled_color", "Button", new Color(Muted, .6f));
         theme.SetTypeVariation("PrimaryButton", "Button");
         theme.SetStylebox("normal", "PrimaryButton", Box(new Color("2d4a60"), new Color("4d7896"), 7));
+        theme.SetStylebox("hover", "PrimaryButton", Box(new Color("355870"), new Color("8bb8d6"), 7));
+        theme.SetStylebox("pressed", "PrimaryButton", Box(new Color("254256"), new Color("8bb8d6"), 7));
         theme.SetTypeVariation("NavButton", "Button");
         theme.SetStylebox("normal", "NavButton", Box(new Color(0, 0, 0, 0), new Color(0, 0, 0, 0), 7));
         theme.SetStylebox("hover", "NavButton", Box(Raised, new Color(0, 0, 0, 0), 7));
-        theme.SetStylebox("pressed", "NavButton", Box(Raised, Line, 7));
+        theme.SetStylebox("pressed", "NavButton", Box(new Color("2d4a60"), new Color("4d7896"), 7));
+        theme.SetStylebox("focus", "NavButton", Box(new Color(0, 0, 0, 0), new Color("a4c9e2"), 7, 2));
         theme.SetColor("font_color", "NavButton", Muted);
         theme.SetColor("font_pressed_color", "NavButton", Text);
         theme.SetConstant("h_separation", "NavButton", 10);
+        theme.SetConstant("h_separation", "HFlowContainer", 8);
+        theme.SetConstant("v_separation", "HFlowContainer", 6);
 
         theme.SetStylebox("normal", "LineEdit", Box(new Color("121418"), new Color("414958"), 6));
         theme.SetStylebox("focus", "LineEdit", Box(new Color("121418"), Accent, 6, 2));

@@ -116,6 +116,30 @@ public sealed class EditSession(StudioWorkspace workspace)
         if (_open is not null || _undo.Count != 0 || _redo.Count != 0)
             throw new InvalidOperationException("Persistent history requires an empty edit session.");
         var result = StudioFileTransaction.LoadCommittedFileHistory(Workspace.Root, owner, allowedPath, allowedFileSet);
+        return RestoreCommittedFileHistoryResult(legacyLabel, result);
+    }
+
+    public string? RestoreCommittedFileHistory(
+        string legacyLabel,
+        string owner,
+        Func<string, bool> allowedPath,
+        Func<IReadOnlyList<string>, bool> allowedFileSet,
+        Func<string, bool> sourceDeletionOwner,
+        Func<string, bool> sourceDeletionPath)
+    {
+        EnsureAvailable();
+        if (_open is not null || _undo.Count != 0 || _redo.Count != 0)
+            throw new InvalidOperationException("Persistent history requires an empty edit session.");
+
+        var result = StudioFileTransaction.LoadCommittedFileHistoryWithAuthoredSourceDeletions(
+            Workspace.Root, owner, allowedPath, allowedFileSet, sourceDeletionOwner, sourceDeletionPath,
+            (path, beforeBytes, beforeSha256) => () =>
+                Workspace.ReconcileRecoveredAuthoredJsonSource(path, beforeBytes, beforeSha256));
+        return RestoreCommittedFileHistoryResult(legacyLabel, result);
+    }
+
+    private string? RestoreCommittedFileHistoryResult(string legacyLabel, StudioFileHistoryStackLoadResult result)
+    {
         for (var index = 0; index < result.Cursor; index++)
         {
             var transaction = result.Transactions[index];

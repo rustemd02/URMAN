@@ -16,9 +16,11 @@ namespace Urman.Studio.App;
 public sealed class StudioCharacterSection(StudioRoot studio) : IStudioSection
 {
     public const string CatalogPath = "game/content/animations/catalog.v1.json";
-    public static readonly string[] KitPrefixes = ["Resident", "Alsu", "Gulsina", "Mansur", "Naila", "Rinat", "TimurHazrat"];
+    public static readonly string[] KitPrefixes = ["Resident", "Alsu", "Gulsina", "Mansur", "Naila", "Rinat", "TimurHazrat", "Tamara", "PhoneGuy"];
     private Control? _view;
     private ItemList _characters = null!;
+    private LineEdit _characterSearch = null!;
+    private Label _characterCount = null!;
     private OptionButton _model = null!;
     private ItemList _motions = null!;
     private SubViewport _viewport = null!;
@@ -39,6 +41,11 @@ public sealed class StudioCharacterSection(StudioRoot studio) : IStudioSection
         var split = new HSplitContainer { SplitOffsets = [300] };
         var left = new VBoxContainer();
         left.AddChild(new Label { Text = "Персонажи", ThemeTypeVariation = "HeaderLabel" });
+        _characterSearch = new LineEdit { PlaceholderText = "Найти по имени или ID…", ClearButtonEnabled = true };
+        _characterSearch.TextChanged += _ => RefreshCharacters();
+        left.AddChild(_characterSearch);
+        _characterCount = new Label { ThemeTypeVariation = "MutedLabel" };
+        left.AddChild(_characterCount);
         _characters = new ItemList { SizeFlagsVertical = Control.SizeFlags.ExpandFill };
         _characters.ItemSelected += index => SelectCharacter((string)_characters.GetItemMetadata((int)index));
         left.AddChild(_characters);
@@ -73,6 +80,7 @@ public sealed class StudioCharacterSection(StudioRoot studio) : IStudioSection
 
         BuildStage();
         Refresh();
+        if (_characterId is { } selectedCharacter) LoadCharacterModel(selectedCharacter);
         SpawnFigure();
         return split;
     }
@@ -126,13 +134,7 @@ public sealed class StudioCharacterSection(StudioRoot studio) : IStudioSection
     public void Refresh()
     {
         if (_characters is null) return;
-        _characters.Clear();
-        foreach (var id in studio.Workspace.EntityIds.Where(id => EntityCatalog.KindOf(id, null) == "character").OrderBy(id => studio.Catalog.NameOf(id), StringComparer.CurrentCulture))
-        {
-            _characters.AddItem(studio.Catalog.NameOf(id));
-            _characters.SetItemMetadata(_characters.ItemCount - 1, id);
-            if (id == _characterId) _characters.Select(_characters.ItemCount - 1);
-        }
+        RefreshCharacters();
 
         _motions.Clear();
         var motions = studio.Workspace.EntityIds.Where(id => id.StartsWith("urman.anim:", StringComparison.Ordinal))
@@ -157,20 +159,50 @@ public sealed class StudioCharacterSection(StudioRoot studio) : IStudioSection
         }
     }
 
+    private void RefreshCharacters()
+    {
+        if (_characters is null) return;
+        var needle = _characterSearch?.Text.Trim().ToLowerInvariant() ?? "";
+        var all = studio.Workspace.EntityIds
+            .Where(id => EntityCatalog.KindOf(id, null) == "character")
+            .Select(id => (Id: id, Name: studio.Catalog.NameOf(id)))
+            .OrderBy(item => item.Name, StringComparer.CurrentCulture)
+            .ToArray();
+        var visible = all.Where(item => needle.Length == 0
+            || $"{item.Name}\n{item.Id}".ToLowerInvariant().Contains(needle, StringComparison.Ordinal)).ToArray();
+        _characters.Clear();
+        foreach (var (id, name) in visible)
+        {
+            _characters.AddItem(name);
+            _characters.SetItemMetadata(_characters.ItemCount - 1, id);
+            if (id == _characterId) _characters.Select(_characters.ItemCount - 1);
+        }
+        _characterCount.Text = needle.Length == 0
+            ? $"Персонажей: {all.Length}"
+            : $"Найдено: {visible.Length} из {all.Length}";
+    }
+
     private void SelectCharacter(string id)
     {
         _characterId = id;
         // A character placed in the world names its kit model; use it for the preview.
+        LoadCharacterModel(id);
+
+        SpawnFigure();
+        studio.Select(id);
+    }
+
+    private void LoadCharacterModel(string id)
+    {
+        _prefix = "Resident";
         var placed = studio.Workspace.EntityIds.Select(entity => studio.Workspace.Get(entity)?["params"])
             .FirstOrDefault(p => (string?)p?["characterId"] == id);
         if ((string?)placed?["kitPrefix"] is { } prefix && KitPrefixes.Contains(prefix))
         {
             _prefix = prefix;
-            _model.Selected = Array.IndexOf(KitPrefixes, prefix);
         }
 
-        SpawnFigure();
-        studio.Select(id);
+        _model.Selected = Array.IndexOf(KitPrefixes, _prefix);
     }
 
     public bool Reveal(string id)
@@ -178,7 +210,12 @@ public sealed class StudioCharacterSection(StudioRoot studio) : IStudioSection
         if (EntityCatalog.KindOf(id, null) != "character" && !id.StartsWith("urman.anim:", StringComparison.Ordinal)) return false;
         if (_view is not null)
         {
-            if (id.StartsWith("urman.anim:", StringComparison.Ordinal)) PlayMotion(id); else SelectCharacter(id);
+            if (id.StartsWith("urman.anim:", StringComparison.Ordinal)) PlayMotion(id);
+            else
+            {
+                _characterSearch.Text = "";
+                SelectCharacter(id);
+            }
         }
         else if (id.StartsWith("urman.anim:", StringComparison.Ordinal)) _motionId = id;
         else _characterId = id;
@@ -194,9 +231,17 @@ public sealed class StudioCharacterSection(StudioRoot studio) : IStudioSection
             panel.Header((string?)entity["name"] ?? motion, $"Движение · {p["category"]}");
             panel.IdLine(motion);
             panel.TextField("Название", (string?)entity["name"] ?? "", text => studio.Session.SetField(motion, ["name"], text, "название движения"));
-            panel.NumberField("Скорость", (float)(double)p["speed"]!, value => studio.Session.SetField(motion, ["params", "speed"], Math.Round(Math.Clamp(value, .2, 3), 2), "скорость движения"));
+            panel.NumberField("Скорость", (float)(double)p["speed"]!, value =>
+            {
+                studio.Session.SetField(motion, ["params", "speed"], Math.Round(Math.Clamp(value, .2, 3), 2), "скорость движения");
+                if (_motionId == motion) PlayMotion(motion);
+            });
             var loop = new CheckBox { Text = "Повторять по кругу", ButtonPressed = (bool?)p["loop"] ?? false };
-            loop.Toggled += on => studio.Session.SetField(motion, ["params", "loop"], on, "петля движения");
+            loop.Toggled += on =>
+            {
+                studio.Session.SetField(motion, ["params", "loop"], on, "петля движения");
+                if (_motionId == motion) PlayMotion(motion);
+            };
             panel.AddChild(loop);
             var source = p["source"]!;
             panel.Text(source["kit"] is not null ? $"Клип кита персонажа «{source["kit"]}»." : source["clip"] is not null ? $"Клип библиотеки Quaternius UAL (CC0): {source["clip"]}." : "Процедурное движение без клипа.", muted: true);

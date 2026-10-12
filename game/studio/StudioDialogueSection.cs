@@ -15,8 +15,11 @@ public sealed class StudioDialogueSection(StudioRoot studio) : IStudioSection
 {
     private Control? _view;
     private ItemList _list = null!;
+    private LineEdit _search = null!;
+    private Label _count = null!;
     private VBoxContainer _script = null!;
     private string? _dialogueId;
+    private bool _committingText;
 
     public string Key => "scenes";
     public string Title => "Диалоги и сцены";
@@ -33,6 +36,11 @@ public sealed class StudioDialogueSection(StudioRoot studio) : IStudioSection
         tabs.AddChild(Cutscenes);
         var left = new VBoxContainer();
         left.AddChild(new Label { Text = "Диалоги", ThemeTypeVariation = "HeaderLabel" });
+        _search = new LineEdit { PlaceholderText = "Найти по названию или ID…", ClearButtonEnabled = true };
+        _search.TextChanged += _ => FillDialogueList();
+        left.AddChild(_search);
+        _count = new Label { ThemeTypeVariation = "MutedLabel" };
+        left.AddChild(_count);
         _list = new ItemList { SizeFlagsVertical = Control.SizeFlags.ExpandFill };
         _list.ItemSelected += index => Open((string)_list.GetItemMetadata((int)index));
         left.AddChild(_list);
@@ -56,15 +64,27 @@ public sealed class StudioDialogueSection(StudioRoot studio) : IStudioSection
     {
         Cutscenes?.Refresh();
         if (_list is null) return;
+        FillDialogueList();
+        if (!_committingText) ShowScript();
+    }
+
+    private void FillDialogueList()
+    {
+        if (_list is null) return;
+        var needle = _search.Text.Trim();
+        var ids = studio.Workspace.EntityIds.Where(id => EntityCatalog.KindOf(id, null) == "dialogue")
+            .OrderBy(id => studio.Catalog.NameOf(id), StringComparer.CurrentCulture)
+            .Where(id => needle.Length == 0
+                || studio.Catalog.NameOf(id).Contains(needle, StringComparison.OrdinalIgnoreCase)
+                || id.Contains(needle, StringComparison.OrdinalIgnoreCase)).ToArray();
         _list.Clear();
-        foreach (var id in studio.Workspace.EntityIds.Where(id => EntityCatalog.KindOf(id, null) == "dialogue").OrderBy(id => studio.Catalog.NameOf(id), StringComparer.CurrentCulture))
+        foreach (var id in ids)
         {
             _list.AddItem(studio.Catalog.NameOf(id));
             _list.SetItemMetadata(_list.ItemCount - 1, id);
             if (id == _dialogueId) _list.Select(_list.ItemCount - 1);
         }
-
-        ShowScript();
+        _count.Text = $"Найдено: {ids.Length}";
     }
 
     private void Open(string id)
@@ -85,6 +105,29 @@ public sealed class StudioDialogueSection(StudioRoot studio) : IStudioSection
             return;
         }
 
+        try
+        {
+            RenderScript(dialogue);
+        }
+        catch (Exception error) when (error is InvalidDataException or InvalidOperationException or NullReferenceException or KeyNotFoundException or InvalidCastException or FormatException or ArgumentException or IndexOutOfRangeException)
+        {
+            foreach (var child in _script.GetChildren())
+            {
+                _script.RemoveChild(child);
+                child.QueueFree();
+            }
+
+            var path = studio.Workspace.Locate(_dialogueId!)?.RelativePath ?? _dialogueId!;
+            _script.AddChild(new Label
+            {
+                Text = $"Не удалось прочитать диалог {path}: {error.Message}. Исправьте этот JSON-исходник и обновите Studio.",
+                AutowrapMode = TextServer.AutowrapMode.WordSmart
+            });
+        }
+    }
+
+    private void RenderScript(JsonObject dialogue)
+    {
         var phrases = new ConditionPhrases(studio.Catalog);
         _script.AddChild(new Label { Text = studio.Catalog.NameOf(_dialogueId!), ThemeTypeVariation = "HeaderLabel" });
         if (dialogue["entryRoutes"] is JsonArray routes && routes.Count > 0)
@@ -107,7 +150,7 @@ public sealed class StudioDialogueSection(StudioRoot studio) : IStudioSection
             var box = new VBoxContainer();
             card.AddChild(box);
             box.AddChild(new Label { Text = $"{Speaker(dialogue, (string)node["speakerRole"]!)} говорит:", ThemeTypeVariation = "MutedLabel" });
-            box.AddChild(TextEdit((string)node["textId"]!, "реплика"));
+            box.AddChild(TextRow((string)node["textId"]!, "реплика"));
             var choices = node["choices"]!.AsArray();
             for (var choiceIndex = 0; choiceIndex < choices.Count; choiceIndex++)
             {
@@ -118,7 +161,7 @@ public sealed class StudioDialogueSection(StudioRoot studio) : IStudioSection
                 margin.AddThemeConstantOverride("margin_left", 24);
                 margin.AddChild(answer);
                 answer.AddChild(new Label { Text = "Ответ Айдара:", ThemeTypeVariation = "MutedLabel" });
-                answer.AddChild(TextEdit((string)choice["textId"]!, "ответ"));
+                answer.AddChild(TextRow((string)choice["textId"]!, "ответ"));
                 answer.AddChild(new Label { Text = "Доступен, если:", ThemeTypeVariation = "MutedLabel" });
                 answer.AddChild(new StudioRuleEditor(studio, choice["conditions"] as JsonArray ?? [], effects: false,
                     rules => MutateChoice(nodeIndex, at, "conditions", rules)));
@@ -141,22 +184,49 @@ public sealed class StudioDialogueSection(StudioRoot studio) : IStudioSection
 
     private LineEdit TextEdit(string textId, string label)
     {
-        var edit = new LineEdit { Text = studio.Catalog.ResolveText(textId), SizeFlagsHorizontal = Control.SizeFlags.ExpandFill };
+        var exists = studio.Workspace.Locate(textId) is not null;
+        var edit = new LineEdit
+        {
+            Text = exists ? studio.Catalog.ResolveText(textId) : $"Текст не найден: {textId}",
+            SizeFlagsHorizontal = Control.SizeFlags.ExpandFill,
+            Editable = exists,
+            TooltipText = exists ? "" : $"В источниках нет текста {textId}."
+        };
+        if (!exists) return edit;
         var original = edit.Text;
         void Commit(string text)
         {
             if (text == original || studio.Workspace.Locate(textId) is not { } address) return;
             var entity = studio.Workspace.Get(textId)!.AsObject();
-            var translations = entity["value"]?["translations"] as JsonObject ?? [];
-            translations["ru"] = text;
-            entity["value"] = new JsonObject { ["default"] = text, ["translations"] = translations.DeepClone() };
-            studio.Session.Set(address.RelativePath, address.Key, entity, label);
-            original = text;
+            entity["value"] = Localized.WithRussian(entity["value"], text);
+            _committingText = true;
+            try
+            {
+                studio.Session.Set(address.RelativePath, address.Key, entity, label);
+                original = text;
+            }
+            finally
+            {
+                _committingText = false;
+            }
         }
 
         edit.TextSubmitted += Commit;
         edit.FocusExited += () => Commit(edit.Text);
         return edit;
+    }
+
+    private Control TextRow(string textId, string label)
+    {
+        var row = new HBoxContainer();
+        row.AddChild(TextEdit(textId, label));
+        if (studio.CanOpenTextAi(textId))
+        {
+            var button = StudioRoot.Button(row, "ИИ", () => studio.OpenTextAi(textId));
+            button.TooltipText = "Предложить вариант текста с ИИ";
+        }
+
+        return row;
     }
 
     private void MutateChoice(int node, int choice, string field, JsonArray rules)
@@ -176,13 +246,25 @@ public sealed class StudioDialogueSection(StudioRoot studio) : IStudioSection
 
     private string Speaker(JsonObject dialogue, string role)
     {
-        var bindings = studio.Workspace.Files.FirstOrDefault(file => file.RelativePath.EndsWith("urman.chapter1/campaign.json", StringComparison.Ordinal))?.Get("roleBindings");
+        var id = _dialogueId;
+        if (id is null) return role;
+        var separator = id.IndexOf(':');
+        if (separator <= 0) return role;
+        var namespaceId = id[..separator];
+        var campaignPath = $"content/campaigns/{namespaceId}/campaign.json";
+        var bindings = studio.Workspace.HasFile(campaignPath) ? studio.Workspace.File(campaignPath).Get("roleBindings") : null;
         return bindings?[role] is JsonValue character ? studio.Catalog.NameOf((string)character!) : role;
     }
 
     private void CutsceneActionProperties(StudioProperties panel, string id, JsonObject action)
     {
-        var p = action["params"]!.AsObject();
+        if (action["params"] is not JsonObject p)
+        {
+            panel.Header("Ошибка исходника сцены", "Действие сцены");
+            panel.IdLine(id);
+            panel.Text($"У действия нет объекта params в {StudioCutscenePanel.ScenePath}. Исправьте исходник и обновите Studio.");
+            return;
+        }
         var kind = (string?)p["action"] ?? "";
         panel.Header((string?)action["name"] ?? id, "Действие сцены");
         panel.IdLine(id);
@@ -195,16 +277,28 @@ public sealed class StudioDialogueSection(StudioRoot studio) : IStudioSection
                 Number("Длительность, с", "seconds", 0, 30);
                 break;
             case "say":
-                var textId = "urman.chapter1:text/" + (string)p["text"]!;
+                var textKey = (string?)p["text"];
+                if (string.IsNullOrWhiteSpace(textKey))
+                {
+                    panel.Text($"У реплики нет params.text в {StudioCutscenePanel.ScenePath}. Исправьте исходник.");
+                    break;
+                }
+
+                var textId = "urman.chapter1:text/" + textKey;
+                if (studio.Workspace.Locate(textId) is null)
+                {
+                    panel.Text($"Текст {textId} не найден в источниках. Исправьте params.text в {StudioCutscenePanel.ScenePath}.");
+                    break;
+                }
+
                 panel.TextField("Реплика", studio.Catalog.ResolveText(textId), text =>
                 {
                     if (studio.Workspace.Locate(textId) is not { } address) return;
                     var entity = studio.Workspace.Get(textId)!.AsObject();
-                    var translations = entity["value"]?["translations"] as JsonObject ?? [];
-                    translations["ru"] = text;
-                    entity["value"] = new JsonObject { ["default"] = text, ["translations"] = translations.DeepClone() };
+                    entity["value"] = Localized.WithRussian(entity["value"], text);
                     studio.Session.Set(address.RelativePath, address.Key, entity, "реплика сцены");
                 });
+                if (studio.CanOpenTextAi(textId)) panel.Buttons(("ИИ: предложить вариант", () => studio.OpenTextAi(textId)));
                 panel.TextField("Кто говорит (подпись)", (string?)p["speaker"] ?? "", text => studio.Session.SetField(id, ["params", "speaker"], text, "говорящий"));
                 Number("Минимум на экране, с", "seconds", .3, 15);
                 panel.Text("Субтитр держится не меньше, чем нужно, чтобы его прочитать.", muted: true);
@@ -236,7 +330,17 @@ public sealed class StudioDialogueSection(StudioRoot studio) : IStudioSection
     {
         if (studio.Selection is { } selected && selected.StartsWith("urman.cutscene:", StringComparison.Ordinal) && studio.Workspace.Get(selected) is JsonObject action)
         {
-            CutsceneActionProperties(panel, selected, action);
+            try
+            {
+                CutsceneActionProperties(panel, selected, action);
+            }
+            catch (Exception error) when (error is InvalidDataException or InvalidOperationException or NullReferenceException or KeyNotFoundException or InvalidCastException or FormatException or ArgumentException or IndexOutOfRangeException)
+            {
+                panel.Clear();
+                panel.Header("Ошибка исходника сцены", "Действие сцены");
+                panel.IdLine(selected);
+                panel.Text($"Не удалось прочитать {StudioCutscenePanel.ScenePath}: {error.Message}. Исправьте исходник и обновите Studio.");
+            }
             return;
         }
 

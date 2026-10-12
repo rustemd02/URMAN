@@ -18,11 +18,23 @@ public partial class StudioCutscenePanel : VBoxContainer
     private const float PixelsPerSecond = 46f;
     private readonly StudioRoot _studio;
     private readonly ItemList _list = new() { SizeFlagsVertical = SizeFlags.ExpandFill, CustomMinimumSize = new Vector2(360, 0) };
+    private readonly LineEdit _search = new() { PlaceholderText = "Найти действие по тексту или ID…", ClearButtonEnabled = true };
+    private readonly Label _count = new() { ThemeTypeVariation = "MutedLabel" };
+    private readonly Label _sourceStatus = new() { Visible = false, AutowrapMode = TextServer.AutowrapMode.WordSmart };
     private readonly Control _tracks = new() { CustomMinimumSize = new Vector2(0, 250), MouseFilter = MouseFilterEnum.Stop };
     private readonly HSlider _scrub = new() { SizeFlagsHorizontal = SizeFlags.ExpandFill, Step = .05 };
     private readonly Label _frame = new() { AutowrapMode = TextServer.AutowrapMode.WordSmart };
+    private readonly Button _moveEarlier;
+    private readonly Button _moveLater;
+    private readonly Button _insertPause;
+    private readonly Button _addShot;
+    private readonly Button _deleteAction;
+    private readonly Button _showInWorld;
     private IReadOnlyList<TimelineClip> _clips = [];
+    private IReadOnlyList<TimelineClip> _visibleClips = [];
     private int _selected = -1;
+    private string? _selectedId;
+    private bool _sourceReady;
     private ScrollContainer _scroll = null!;
 
     public StudioCutscenePanel(StudioRoot studio)
@@ -31,15 +43,22 @@ public partial class StudioCutscenePanel : VBoxContainer
         SizeFlagsVertical = SizeFlags.ExpandFill;
         var bar = new HBoxContainer();
         bar.AddChild(new Label { Text = "Сцена «Забор Тамары: авария»", ThemeTypeVariation = "HeaderLabel", SizeFlagsHorizontal = SizeFlags.ExpandFill });
-        StudioRoot.Button(bar, "▲", () => MoveSelected(-1)).TooltipText = "Раньше в сцене (меняет порядок игры)";
-        StudioRoot.Button(bar, "▼", () => MoveSelected(1)).TooltipText = "Позже в сцене";
-        StudioRoot.Button(bar, "+ Пауза", () => Insert("wait", new JsonObject { ["seconds"] = 1.0 }, "Пауза"));
-        StudioRoot.Button(bar, "+ Кадр из текущего вида", AddShotFromView);
-        StudioRoot.Button(bar, "Удалить действие", DeleteSelected);
+        _moveEarlier = StudioRoot.Button(bar, "▲", () => MoveSelected(-1));
+        _moveEarlier.TooltipText = "Раньше в сцене (меняет порядок игры)";
+        _moveLater = StudioRoot.Button(bar, "▼", () => MoveSelected(1));
+        _moveLater.TooltipText = "Позже в сцене";
+        _insertPause = StudioRoot.Button(bar, "+ Пауза", () => Insert("wait", new JsonObject { ["seconds"] = 1.0 }, "Пауза"));
+        _addShot = StudioRoot.Button(bar, "+ Кадр из текущего вида", AddShotFromView);
+        _deleteAction = StudioRoot.Button(bar, "Удалить действие", DeleteSelected);
         AddChild(bar);
+        AddChild(_sourceStatus);
         AddChild(new Label { Text = "Постоянный итог аварии (забор сломан, квест начат, контрольная точка) фиксируется до начала сцены одной транзакцией, поэтому пропуск ничего не повторяет и не теряет. Перемотка здесь — только просмотр.", AutowrapMode = TextServer.AutowrapMode.WordSmart, ThemeTypeVariation = "MutedLabel" });
         var row = new HBoxContainer { SizeFlagsVertical = SizeFlags.ExpandFill };
-        row.AddChild(_list);
+        var left = new VBoxContainer { SizeFlagsVertical = SizeFlags.ExpandFill };
+        left.AddChild(_search);
+        left.AddChild(_count);
+        left.AddChild(_list);
+        row.AddChild(left);
         var right = new VBoxContainer { SizeFlagsHorizontal = SizeFlags.ExpandFill };
         var scroll = _scroll = new ScrollContainer { SizeFlagsVertical = SizeFlags.ExpandFill, VerticalScrollMode = ScrollContainer.ScrollMode.Disabled };
         scroll.AddChild(_tracks);
@@ -49,17 +68,34 @@ public partial class StudioCutscenePanel : VBoxContainer
         scrubRow.AddChild(_scrub);
         right.AddChild(scrubRow);
         right.AddChild(_frame);
-        StudioRoot.Button(right, "Показать этот кадр в мире", ShowInWorld);
+        _showInWorld = StudioRoot.Button(right, "Показать этот кадр в мире", ShowInWorld);
         row.AddChild(right);
         AddChild(row);
-        _list.ItemSelected += index => Select((int)index);
+        _list.ItemSelected += index => SelectVisible((int)index);
+        _search.TextChanged += _ => FillList();
         _tracks.Draw += DrawTracks;
         _tracks.GuiInput += OnTracksInput;
         _scrub.ValueChanged += _ => UpdateFrame();
         Refresh();
     }
 
-    private JsonArray Actions() => new(Ids().Select(id => _studio.Workspace.File(ScenePath).Get(id)!.DeepClone()).ToArray());
+    private JsonArray Actions()
+    {
+        var file = _studio.Workspace.File(ScenePath);
+        var actions = new JsonArray();
+        foreach (var id in file.Keys())
+        {
+            if (file.Get(id) is not JsonObject entity)
+                throw new InvalidDataException($"Запись «{id}» должна быть объектом действия.");
+            if (!string.Equals((string?)entity["id"], id, StringComparison.Ordinal))
+                throw new InvalidDataException($"ID записи «{id}» не совпадает с ключом исходника.");
+            if (entity["params"] is not JsonObject parameters || string.IsNullOrWhiteSpace((string?)parameters["action"]))
+                throw new InvalidDataException($"У действия «{id}» отсутствует объект params или его поле action.");
+            actions.Add(entity);
+        }
+
+        return actions;
+    }
 
     private IEnumerable<string> Ids() => _studio.Workspace.File(ScenePath).Keys();
 
@@ -67,34 +103,106 @@ public partial class StudioCutscenePanel : VBoxContainer
 
     public void Refresh()
     {
-        if (!_studio.Workspace.HasFile(ScenePath)) return;
-        var actions = Actions();
-        _clips = CutsceneTimeline.Build(actions, Text);
-        _list.Clear();
-        foreach (var clip in _clips)
+        if (!_studio.Workspace.HasFile(ScenePath))
         {
-            _list.AddItem(FormattableString.Invariant($"{clip.Start,5:0.0} с  {(clip.Estimated ? "⧗ " : "")}{clip.Label}"));
-            _list.SetItemTooltip(_list.ItemCount - 1, clip.Id);
+            ShowSourceError($"Исходник сцены не найден: {ScenePath}.");
+            return;
         }
 
-        if (_selected >= 0 && _selected < _list.ItemCount) _list.Select(_selected);
-        _scrub.MaxValue = Math.Max(1, CutsceneTimeline.Length(_clips));
-        _tracks.CustomMinimumSize = new Vector2((float)_scrub.MaxValue * PixelsPerSecond + 170, 250);
-        _tracks.QueueRedraw();
-        UpdateFrame();
+        try
+        {
+            var actions = Actions();
+            _clips = CutsceneTimeline.Build(actions, Text);
+            _sourceReady = true;
+            _sourceStatus.Visible = false;
+            FillList();
+            _scrub.MaxValue = Math.Max(1, CutsceneTimeline.Length(_clips));
+            _tracks.CustomMinimumSize = new Vector2((float)_scrub.MaxValue * PixelsPerSecond + 170, 250);
+            _tracks.QueueRedraw();
+            UpdateFrame();
+        }
+        catch (Exception error) when (error is InvalidDataException or InvalidOperationException or NullReferenceException or KeyNotFoundException or FormatException or ArgumentException or IndexOutOfRangeException)
+        {
+            ShowSourceError($"Не удалось прочитать {ScenePath}: {error.Message}. Исправьте этот JSON-исходник и обновите Studio.");
+        }
     }
 
-    private void Select(int index)
+    private void FillList()
     {
-        _selected = index;
-        if (index >= 0 && index < _clips.Count)
+        var needle = _search.Text.Trim();
+        _visibleClips = _clips.Where(clip => needle.Length == 0
+            || $"{clip.Label}\n{clip.Id}\n{clip.Track}\n{clip.Action}".Contains(needle, StringComparison.OrdinalIgnoreCase)).ToArray();
+        _list.Clear();
+        for (var index = 0; index < _visibleClips.Count; index++)
         {
-            _scrub.SetValueNoSignal(_clips[index].Start + .01);
-            _studio.Select(_clips[index].Id);
+            var clip = _visibleClips[index];
+            _list.AddItem(FormattableString.Invariant($"{clip.Start,5:0.0} с  {(clip.Estimated ? "⧗ " : "")}{clip.Label}"));
+            _list.SetItemTooltip(index, clip.Id);
+            if (clip.Id == _selectedId) _list.Select(index);
+        }
+
+        _count.Text = needle.Length == 0 ? $"Действий: {_clips.Count}" : $"Показано: {_visibleClips.Count} из {_clips.Count}";
+        _selected = _selectedId is null ? -1 : FindClip(_selectedId);
+        UpdateButtons();
+    }
+
+    private void SelectVisible(int index)
+    {
+        if (index < 0 || index >= _visibleClips.Count) return;
+        SelectClip(_visibleClips[index].Id);
+    }
+
+    private void SelectClip(string id)
+    {
+        _selectedId = id;
+        _selected = FindClip(id);
+        if (_selected >= 0)
+        {
+            _scrub.SetValueNoSignal(_clips[_selected].Start + .01);
+            _studio.Select(id);
         }
 
         _tracks.QueueRedraw();
         UpdateFrame();
+        UpdateButtons();
+    }
+
+    private int FindClip(string id)
+    {
+        for (var index = 0; index < _clips.Count; index++)
+        {
+            if (_clips[index].Id == id) return index;
+        }
+
+        return -1;
+    }
+
+    private void UpdateButtons()
+    {
+        var selected = _sourceReady && _selected >= 0 && _selected < _clips.Count;
+        _moveEarlier.Disabled = !selected || _selected == 0;
+        _moveLater.Disabled = !selected || _selected >= _clips.Count - 1;
+        _insertPause.Disabled = !_sourceReady;
+        _addShot.Disabled = !_sourceReady;
+        _deleteAction.Disabled = !selected;
+        _showInWorld.Disabled = !_sourceReady;
+        _search.Editable = _sourceReady;
+    }
+
+    private void ShowSourceError(string message)
+    {
+        _sourceReady = false;
+        _clips = [];
+        _visibleClips = [];
+        _selected = -1;
+        _list.Clear();
+        _count.Text = "Список действий недоступен";
+        _sourceStatus.Text = message;
+        _sourceStatus.Visible = true;
+        _frame.Text = message;
+        _scrub.MaxValue = 1;
+        _tracks.QueueRedraw();
+        UpdateButtons();
     }
 
     public int Selected => _selected;
@@ -102,8 +210,11 @@ public partial class StudioCutscenePanel : VBoxContainer
 
     public void SelectForTest(int index)
     {
-        _list.Select(index);
-        Select(index);
+        if (index < 0 || index >= _clips.Count) return;
+        var id = _clips[index].Id;
+        var visibleIndex = _visibleClips.ToList().FindIndex(clip => clip.Id == id);
+        if (visibleIndex >= 0) _list.Select(visibleIndex);
+        SelectClip(id);
     }
 
     public void ScrubForTest(double seconds) => _scrub.Value = seconds;
@@ -112,17 +223,36 @@ public partial class StudioCutscenePanel : VBoxContainer
 
     private void UpdateFrame()
     {
-        if (_clips.Count == 0) return;
-        var frame = CutsceneTimeline.At(Actions(), _clips, _scrub.Value, Text);
-        var shot = frame.Shot is null ? "—" : (string?)Actions()[frame.Shot.Index]!["params"]!["tag"] ?? "";
-        _frame.Text = $"{_scrub.Value:0.0} с · план «{shot}»" + (frame.LineText is null ? "" : $"\nСубтитр: {frame.LineText}");
-        var playhead = 170 + (float)_scrub.Value * PixelsPerSecond;
-        if (_scroll.Size.X > 0 && (playhead < _scroll.ScrollHorizontal + 170 || playhead > _scroll.ScrollHorizontal + _scroll.Size.X - 40))
+        if (_clips.Count == 0)
         {
-            _scroll.ScrollHorizontal = (int)Math.Max(0, playhead - _scroll.Size.X / 2);
+            _frame.Text = _sourceReady ? "В сцене пока нет действий." : _sourceStatus.Text;
+            _tracks.QueueRedraw();
+            return;
         }
-        _tracks.QueueRedraw();
+
+        try
+        {
+            var actions = Actions();
+            var frame = CutsceneTimeline.At(actions, _clips, _scrub.Value, Text);
+            var shot = frame.Shot is null ? "—" : (string?)actions[frame.Shot.Index]!["params"]!["tag"] ?? "";
+            _frame.Text = $"{_scrub.Value:0.0} с · план «{shot}»" + (frame.LineText is null ? "" : $"\nСубтитр: {frame.LineText}");
+            var playhead = 170 + (float)_scrub.Value * PixelsPerSecond;
+            if (_scroll.Size.X > 0 && (playhead < _scroll.ScrollHorizontal + 170 || playhead > _scroll.ScrollHorizontal + _scroll.Size.X - 40))
+            {
+                _scroll.ScrollHorizontal = (int)Math.Max(0, playhead - _scroll.Size.X / 2);
+            }
+
+            _tracks.QueueRedraw();
+        }
+        catch (Exception error) when (IsSourceShapeError(error))
+        {
+            ShowSourceError($"Не удалось прочитать {ScenePath}: {error.Message}. Исправьте этот JSON-исходник и обновите Studio.");
+        }
     }
+
+    private static bool IsSourceShapeError(Exception error) =>
+        error is InvalidDataException or InvalidOperationException or NullReferenceException or KeyNotFoundException
+            or InvalidCastException or FormatException or ArgumentException or IndexOutOfRangeException;
 
     private void DrawTracks()
     {
@@ -166,6 +296,7 @@ public partial class StudioCutscenePanel : VBoxContainer
 
     private void OnTracksInput(InputEvent @event)
     {
+        if (!_sourceReady) return;
         if (@event is not InputEventMouseButton { Pressed: true, ButtonIndex: MouseButton.Left } click) return;
         var time = (click.Position.X - 170) / PixelsPerSecond;
         var names = CutsceneTimeline.Tracks.Values.Distinct().Append("События мира").Distinct().ToArray();
@@ -173,8 +304,9 @@ public partial class StudioCutscenePanel : VBoxContainer
         var hit = _clips.LastOrDefault(clip => row >= 0 && row < names.Length && clip.Track == names[row] && clip.Start <= time + .1);
         if (hit is not null)
         {
-            _list.Select(hit.Index);
-            Select(hit.Index);
+            var visibleIndex = _visibleClips.ToList().FindIndex(clip => clip.Id == hit.Id);
+            if (visibleIndex >= 0) _list.Select(visibleIndex);
+            SelectClip(hit.Id);
         }
         else
         {
@@ -184,23 +316,40 @@ public partial class StudioCutscenePanel : VBoxContainer
 
     private void ShowInWorld()
     {
-        var frame = CutsceneTimeline.At(Actions(), _clips, _scrub.Value, Text);
-        if (frame.Shot is null) return;
-        var p = Actions()[frame.Shot.Index]!["params"]!;
-        if (p["position"]?["point"] is not JsonArray at || p["look"]?["point"] is not JsonArray look)
+        if (!_sourceReady) return;
+        try
         {
-            _studio.RefreshStatus("Этот план привязан к машине: его точное место определяется в игре после аварии.");
-            return;
-        }
+            var actions = Actions();
+            var frame = CutsceneTimeline.At(actions, _clips, _scrub.Value, Text);
+            if (frame.Shot is null) return;
+            var p = actions[frame.Shot.Index]!["params"]!;
+            var position = p["position"];
+            if (position is JsonObject positionObject && positionObject["car"] is not null && positionObject["point"] is null)
+            {
+                _studio.RefreshStatus("Этот план привязан к машине: его точное место определяется в игре после аварии.");
+                return;
+            }
 
-        var world = (StudioWorldSection)_studio.Section("world");
-        _studio.OpenSection("world");
-        world.ShowShot(new Vector3((float)(double)at[0]!, (float)(double)at[1]!, (float)(double)at[2]!),
-            new Vector3((float)(double)look[0]!, (float)(double)look[1]!, (float)(double)look[2]!), (float)(double)p["fov"]!);
+            if (position?["point"] is not JsonArray at || p["look"]?["point"] is not JsonArray look)
+            {
+                ShowSourceError($"У плана действия {frame.Shot.Id} должны быть числовые точки position.point и look.point в {ScenePath}. Исправьте исходник и обновите Studio.");
+                return;
+            }
+
+            var world = (StudioWorldSection)_studio.Section("world");
+            _studio.OpenSection("world");
+            world.ShowShot(new Vector3((float)(double)at[0]!, (float)(double)at[1]!, (float)(double)at[2]!),
+                new Vector3((float)(double)look[0]!, (float)(double)look[1]!, (float)(double)look[2]!), (float)(double)p["fov"]!);
+        }
+        catch (Exception error) when (IsSourceShapeError(error))
+        {
+            ShowSourceError($"Не удалось показать план из {ScenePath}: {error.Message}. Исправьте этот JSON-исходник и обновите Studio.");
+        }
     }
 
     private void AddShotFromView()
     {
+        if (!_sourceReady) return;
         var world = (StudioWorldSection)_studio.Section("world");
         if (world.CameraShot() is not { } shot)
         {
@@ -220,31 +369,33 @@ public partial class StudioCutscenePanel : VBoxContainer
     /// <summary>Insert an action after the selection; its ID is new, the rest keep theirs (one undo step).</summary>
     public string Insert(string action, JsonObject parameters, string label)
     {
+        if (!_sourceReady) throw new InvalidOperationException($"Исходник сцены недоступен: {ScenePath}.");
         var ids = Ids().ToList();
         var at = _selected >= 0 ? _selected + 1 : ids.Count;
         var id = "urman.cutscene:tamara-fence/a-" + Convert.ToHexStringLower(System.Security.Cryptography.RandomNumberGenerator.GetBytes(4));
         parameters["action"] = action;
         var entity = new JsonObject { ["id"] = id, ["kind"] = "cutscene-action", ["name"] = label, ["params"] = parameters };
+        _selectedId = id;
         Reorder(ids.Take(at).Append(id).Concat(ids.Skip(at)).ToList(), new Dictionary<string, JsonNode> { [id] = entity }, $"добавить в сцену: {label}");
-        _selected = at;
         return id;
     }
 
     private void DeleteSelected()
     {
-        if (_selected < 0 || _selected >= _clips.Count) return;
+        if (!_sourceReady || _selected < 0 || _selected >= _clips.Count) return;
         var id = _clips[_selected].Id;
+        _selectedId = _selected + 1 < _clips.Count ? _clips[_selected + 1].Id : _selected > 0 ? _clips[_selected - 1].Id : null;
         _studio.Session.Delete(ScenePath, id, "удалить действие сцены");
-        _selected = Math.Min(_selected, _clips.Count - 2);
     }
 
     public void MoveSelected(int delta)
     {
+        if (!_sourceReady) return;
         var ids = Ids().ToList();
         if (_selected < 0 || _selected + delta < 0 || _selected + delta >= ids.Count) return;
         (ids[_selected], ids[_selected + delta]) = (ids[_selected + delta], ids[_selected]);
+        _selectedId = _clips[_selected].Id;
         Reorder(ids, [], "порядок действий сцены");
-        _selected += delta;
     }
 
     /// <summary>Change the play order (and add new actions) as one command; entities keep their IDs so merges match them.</summary>

@@ -30,7 +30,7 @@ public partial class StudioRoot
     internal sealed record AiActionIdentity(string RequestId, string RequestHash, string ProposalHash, string SnapshotHash);
     internal enum AiEvidenceAction { Preview, Apply, Undo, Redo }
 
-    internal bool IsAiActionBusy => IsWorkspaceActionBusy || _aiEvidenceCaptureBusy
+    internal bool IsAiActionBusy => IsWorkspaceActionBusy || IsTextAiBusy || _aiEvidenceCaptureBusy
         || _sections.TryGetValue("world", out var section) && section is StudioWorldSection world
             && world.HasTransientFencePreview
         || _aiPanel is not null && GodotObject.IsInstanceValid(_aiPanel)

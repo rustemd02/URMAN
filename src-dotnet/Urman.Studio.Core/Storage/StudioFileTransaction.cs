@@ -587,6 +587,35 @@ public sealed class StudioFileTransaction
         Func<string, bool> allowedPath,
         Func<IReadOnlyList<string>, bool> allowedFileSet)
     {
+        return LoadCommittedFileHistoryCore(root, owner, allowedPath, allowedFileSet,
+            sourceDeletionOwner: null, sourceDeletionPath: null, sourceDeletionAfterPromotion: null);
+    }
+
+    internal static StudioFileHistoryStackLoadResult LoadCommittedFileHistoryWithAuthoredSourceDeletions(
+        string root,
+        string owner,
+        Func<string, bool> allowedPath,
+        Func<IReadOnlyList<string>, bool> allowedFileSet,
+        Func<string, bool> sourceDeletionOwner,
+        Func<string, bool> sourceDeletionPath,
+        Func<string, byte[], string, Action> sourceDeletionAfterPromotion)
+    {
+        ArgumentNullException.ThrowIfNull(sourceDeletionOwner);
+        ArgumentNullException.ThrowIfNull(sourceDeletionPath);
+        ArgumentNullException.ThrowIfNull(sourceDeletionAfterPromotion);
+        return LoadCommittedFileHistoryCore(root, owner, allowedPath, allowedFileSet,
+            sourceDeletionOwner, sourceDeletionPath, sourceDeletionAfterPromotion);
+    }
+
+    private static StudioFileHistoryStackLoadResult LoadCommittedFileHistoryCore(
+        string root,
+        string owner,
+        Func<string, bool> allowedPath,
+        Func<IReadOnlyList<string>, bool> allowedFileSet,
+        Func<string, bool>? sourceDeletionOwner,
+        Func<string, bool>? sourceDeletionPath,
+        Func<string, byte[], string, Action>? sourceDeletionAfterPromotion)
+    {
         ArgumentNullException.ThrowIfNull(allowedPath);
         ArgumentNullException.ThrowIfNull(allowedFileSet);
         if (string.IsNullOrWhiteSpace(owner)) throw new ArgumentException("A stable transaction owner is required.", nameof(owner));
@@ -601,7 +630,7 @@ public sealed class StudioFileTransaction
         if (!Directory.Exists(transactionRoot)) return new([], 0, null);
         EnsureNoLinks(rootPath, TransactionDirectory, allowStudioMetadata: true);
 
-        var matching = new List<(string Directory, Manifest Manifest)>();
+        var matching = new List<(string Directory, Manifest Manifest, bool IsSourceDeletion, string? SourcePath, byte[]? SourceBeforeBytes)>();
         var unreadable = new List<string>();
         foreach (var directory in Directory.EnumerateDirectories(transactionRoot))
         {
@@ -618,8 +647,34 @@ public sealed class StudioFileTransaction
                 }
 
                 var manifest = ReadManifest(rootPath, directory);
-                if (manifest.Status == "committed" && manifest.Accepted && string.Equals(manifest.Owner, owner, StringComparison.Ordinal))
-                    matching.Add((directory, manifest));
+                var isSourceDeletion = sourceDeletionOwner?.Invoke(manifest.Owner) == true;
+                if (manifest.Status != "committed" || !manifest.Accepted
+                    || !isSourceDeletion && !string.Equals(manifest.Owner, owner, StringComparison.Ordinal))
+                    continue;
+
+                string? sourcePath = null;
+                byte[]? sourceBeforeBytes = null;
+                if (isSourceDeletion)
+                {
+                    if (manifest.Changes.Count != 1)
+                    {
+                        unreadable.Add($"{id}: authored source deletion does not contain exactly one file");
+                        continue;
+                    }
+
+                    var change = manifest.Changes[0];
+                    if (!TryNormalizeRecoveryPath(rootPath, change.RelativePath, out var normalizedSourcePath)
+                        || sourceDeletionPath is null || !sourceDeletionPath(normalizedSourcePath)
+                        || change.BeforeSha256 is null || change.AfterSha256 is not null
+                        || !TryReadVerifiedAuthoredEntityListBeforeImage(rootPath, directory, change, out sourceBeforeBytes))
+                    {
+                        unreadable.Add($"{id}: authored source deletion path or saved before image is not valid");
+                        continue;
+                    }
+                    sourcePath = normalizedSourcePath;
+                }
+
+                matching.Add((directory, manifest, isSourceDeletion, sourcePath, sourceBeforeBytes));
             }
             catch (Exception error)
             {
@@ -630,7 +685,7 @@ public sealed class StudioFileTransaction
 
         if (unreadable.Count > 0)
         {
-            return new([], 0, "Persistent HeroHouse Undo was not restored because transaction metadata needs inspection: "
+            return new([], 0, "История Undo после перезапуска не восстановлена: метаданные транзакции требуют проверки: "
                 + string.Join("; ", unreadable.Take(4)));
         }
 
@@ -646,8 +701,9 @@ public sealed class StudioFileTransaction
         var redoStarted = false;
         var chain = new Dictionary<string, string?>(StringComparer.Ordinal);
         var boundary = new Dictionary<string, string?>(StringComparer.Ordinal);
+        var boundedAuthoredSourcePaths = new HashSet<string>(StringComparer.Ordinal);
         var transactions = new List<StudioFileTransaction>();
-        foreach (var (manifestDirectory, candidate) in matching)
+        foreach (var (manifestDirectory, candidate, isSourceDeletion, sourcePath, sourceBeforeBytes) in matching)
         {
             if (candidate.Side != candidate.RollbackSide || candidate.Side != candidate.TargetSide)
                 return new([], 0, "История Undo не восстановлена: стороны журнала противоречат друг другу.");
@@ -657,33 +713,53 @@ public sealed class StudioFileTransaction
             else cursor++;
 
             var normalizedPaths = new List<string>(candidate.Changes.Count);
+            var transactionPathAllowed = isSourceDeletion ? sourceDeletionPath! : allowedPath;
             foreach (var change in candidate.Changes)
             {
-                if (!TryNormalizeForRecovery(rootPath, change.RelativePath, allowedPath, out var normalized))
+                if (!TryNormalizeForRecovery(rootPath, change.RelativePath, transactionPathAllowed, out var normalized))
                     return new([], 0, "История Undo не восстановлена: файл вне разрешённых границ.");
                 normalizedPaths.Add(normalized);
             }
-            if (normalizedPaths.Distinct(StringComparer.Ordinal).Count() != normalizedPaths.Count || !allowedFileSet(normalizedPaths))
-                return new([], 0, "История Undo не восстановлена: набор файлов не соответствует контракту изменения дома.");
-            if (ValidateManifestImages(rootPath, manifestDirectory, candidate).Count > 0)
+            if (normalizedPaths.Distinct(StringComparer.Ordinal).Count() != normalizedPaths.Count
+                || (isSourceDeletion
+                    ? normalizedPaths.Count != 1 || !string.Equals(normalizedPaths[0], sourcePath, StringComparison.Ordinal)
+                    : !allowedFileSet(normalizedPaths)))
+                return new([], 0, isSourceDeletion
+                    ? "История Undo не восстановлена: путь исходника удаления изменился."
+                    : "История Undo не восстановлена: набор файлов не соответствует контракту изменения дома.");
+            if (ValidateManifestImages(rootPath, manifestDirectory, candidate,
+                    isSourceDeletion ? MaximumAuthoredSourceBytes : null).Count > 0)
                 return new([], 0, "История Undo не восстановлена: сохранённые версии файлов повреждены или недоступны.");
 
             foreach (var change in candidate.Changes)
             {
                 var path = NormalizeRelativePath(change.RelativePath);
+                if (isSourceDeletion) boundedAuthoredSourcePaths.Add(path);
                 if (chain.TryGetValue(path, out var previous) && previous != change.BeforeSha256)
                     return new([], 0, "История Undo не восстановлена: исходные версии команд не образуют непрерывную цепочку.");
                 chain[path] = change.AfterSha256;
                 boundary.TryAdd(path, change.BeforeSha256);
                 if (candidate.Side == "after") boundary[path] = change.AfterSha256;
             }
+            Action? afterPromotion = null;
+            if (isSourceDeletion)
+            {
+                if (sourceBeforeBytes is null || candidate.Changes[0].BeforeSha256 is not { } beforeSha256
+                    || sourceDeletionAfterPromotion is null || sourcePath is null)
+                    return new([], 0, "История Undo не восстановлена: не удалось подготовить восстановление удалённого исходника.");
+                afterPromotion = sourceDeletionAfterPromotion(sourcePath, sourceBeforeBytes.ToArray(), beforeSha256);
+            }
+
             transactions.Add(FromManifest(rootPath, manifestDirectory, candidate,
-                normalizedPaths.ToHashSet(StringComparer.Ordinal), afterPromotion: null));
+                normalizedPaths.ToHashSet(StringComparer.Ordinal), afterPromotion));
         }
         foreach (var (path, expectedHash) in boundary)
         {
             EnsureNoLinks(rootPath, path);
-            if (CurrentSha256(rootPath, path) != expectedHash)
+            var currentHash = boundedAuthoredSourcePaths.Contains(path)
+                ? CurrentSha256(rootPath, path, MaximumAuthoredSourceBytes)
+                : CurrentSha256(rootPath, path);
+            if (currentHash != expectedHash)
                 return new([], 0, "История Undo не восстановлена: файлы изменились после сохранённых команд. Текущие файлы оставлены без изменений.");
         }
         return new(transactions, cursor, null);
@@ -809,7 +885,15 @@ public sealed class StudioFileTransaction
             : null;
 
     private static bool IsValidAuthoredEntityListBeforeImage(string root, string directory, FileChange change)
+        => TryReadVerifiedAuthoredEntityListBeforeImage(root, directory, change, out _);
+
+    private static bool TryReadVerifiedAuthoredEntityListBeforeImage(
+        string root,
+        string directory,
+        FileChange change,
+        out byte[] beforeBytes)
     {
+        beforeBytes = [];
         if (change.BeforeSha256 is null || change.AfterSha256 is not null || change.BeforeImage is null) return false;
 
         try
@@ -819,7 +903,9 @@ public sealed class StudioFileTransaction
             EnsureNoLinks(root, relativeImagePath, allowStudioMetadata: true);
             var bytes = ReadBoundedFile(imagePath, MaximumAuthoredSourceBytes);
             if (!string.Equals(AtomicFile.Sha256(bytes), change.BeforeSha256, StringComparison.Ordinal)) return false;
-            return IsAuthoredEntityListJson(bytes);
+            if (!IsAuthoredEntityListJson(bytes)) return false;
+            beforeBytes = bytes;
+            return true;
         }
         catch (Exception error) when (error is IOException or UnauthorizedAccessException or ArgumentException
             or InvalidOperationException or JsonException or System.Security.SecurityException or NotSupportedException)
@@ -1118,7 +1204,9 @@ public sealed class StudioFileTransaction
         var name = side == "before" ? change.BeforeImage : change.AfterImage;
         var path = Path.Combine(_directory, name ?? throw new InvalidDataException("Missing transaction image name."));
         EnsureNoLinks(_root, Path.GetRelativePath(_root, path).Replace('\\', '/'), allowStudioMetadata: true);
-        var bytes = File.ReadAllBytes(path);
+        var bytes = IsAuthoredSourceDeletionOwner(Owner)
+            ? ReadBoundedFile(path, MaximumAuthoredSourceBytes)
+            : File.ReadAllBytes(path);
         if (!string.Equals(AtomicFile.Sha256(bytes), hash, StringComparison.Ordinal))
         {
             throw new InvalidDataException($"Transaction image {Id}/{name} failed its SHA-256 receipt.");
@@ -1127,13 +1215,19 @@ public sealed class StudioFileTransaction
         return bytes;
     }
 
-    private string? CurrentSha256(string relativePath) => CurrentSha256(_root, relativePath);
+    private string? CurrentSha256(string relativePath) => CurrentSha256(_root, relativePath,
+        IsAuthoredSourceDeletionOwner(Owner) ? MaximumAuthoredSourceBytes : null);
 
-    private static string? CurrentSha256(string root, string relativePath)
+    private static string? CurrentSha256(string root, string relativePath) => CurrentSha256(root, relativePath, null);
+
+    private static string? CurrentSha256(string root, string relativePath, int? maximumBytes)
     {
         var path = ResolveTarget(root, relativePath);
         if (Directory.Exists(path)) throw new IOException($"Transaction target is a directory: {relativePath}");
-        return File.Exists(path) ? AtomicFile.Sha256OfFile(path) : null;
+        if (!File.Exists(path)) return null;
+        return maximumBytes is { } limit
+            ? AtomicFile.Sha256(ReadBoundedFile(path, limit))
+            : AtomicFile.Sha256OfFile(path);
     }
 
     private string ResolveTarget(string relativePath) => ResolveTarget(_root, relativePath);

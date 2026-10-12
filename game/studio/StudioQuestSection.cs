@@ -15,13 +15,17 @@ namespace Urman.Studio.App;
 /// </summary>
 public sealed class StudioQuestSection(StudioRoot studio) : IStudioSection
 {
+    private const string FullGameCampaignPath = "content/campaigns/urman.fullgame/campaign.json";
     private Control? _view;
     private ItemList _quests = null!;
+    private LineEdit _search = null!;
+    private Label _count = null!;
     private Tree _tree = null!;
     private GraphEdit _graph = null!;
     private Button _listButton = null!;
     private Button _graphButton = null!;
     private Label _title = null!;
+    private Label _sourceError = null!;
     private string? _questId;
     private string? _stageId;
     private bool _showGraph;
@@ -38,6 +42,11 @@ public sealed class StudioQuestSection(StudioRoot studio) : IStudioSection
         left.AddChild(new Label { Text = "Квесты кампании", ThemeTypeVariation = "HeaderLabel" });
         left.AddChild(new Label { Text = "Порядок в этом списке не влияет на игру.", ThemeTypeVariation = "MutedLabel" });
         StudioRoot.Button(left, "+ Новый квест из шаблона…", OpenTemplateForm).ThemeTypeVariation = "PrimaryButton";
+        _search = new LineEdit { PlaceholderText = "Найти по названию или ID…", ClearButtonEnabled = true };
+        _search.TextChanged += _ => FillQuestList();
+        left.AddChild(_search);
+        _count = new Label { ThemeTypeVariation = "MutedLabel" };
+        left.AddChild(_count);
         _quests = new ItemList { SizeFlagsVertical = Control.SizeFlags.ExpandFill };
         _quests.ItemSelected += index => OpenQuest((string)_quests.GetItemMetadata((int)index));
         left.AddChild(_quests);
@@ -51,6 +60,8 @@ public sealed class StudioQuestSection(StudioRoot studio) : IStudioSection
         _graphButton = StudioRoot.Button(bar, "◇ Граф", () => { _showGraph = true; ShowView(); });
         right.AddChild(bar);
         right.AddChild(new Label { Text = "Список и граф показывают одну и ту же логику. Переключение не меняет ветки, группы и объединения.", ThemeTypeVariation = "MutedLabel" });
+        _sourceError = new Label { Visible = false, AutowrapMode = TextServer.AutowrapMode.WordSmart };
+        right.AddChild(_sourceError);
 
         _tree = new Tree { SizeFlagsVertical = Control.SizeFlags.ExpandFill, HideRoot = true };
         _tree.ItemSelected += () => SelectStage(_tree.GetSelected()?.GetMetadata(0).AsString());
@@ -71,27 +82,56 @@ public sealed class StudioQuestSection(StudioRoot studio) : IStudioSection
             return;
         }
 
-        var selectedQuest = _questId;
+        FillQuestList();
+        ShowView();
+    }
+
+    private void FillQuestList()
+    {
+        if (_quests is null) return;
+        var ids = QuestIds().ToArray();
+        var needle = _search.Text.Trim();
+        var visibleIds = ids.Where(id => needle.Length == 0
+            || studio.Catalog.NameOf(id).Contains(needle, StringComparison.OrdinalIgnoreCase)
+            || id.Contains(needle, StringComparison.OrdinalIgnoreCase)).ToArray();
         _quests.Clear();
-        foreach (var id in QuestIds())
+        foreach (var id in visibleIds)
         {
             _quests.AddItem(studio.Catalog.NameOf(id));
             _quests.SetItemMetadata(_quests.ItemCount - 1, id);
             _quests.SetItemTooltip(_quests.ItemCount - 1, id);
-            if (id == selectedQuest)
+            if (id == _questId)
             {
                 _quests.Select(_quests.ItemCount - 1);
             }
         }
 
-        if (selectedQuest is null && _quests.ItemCount > 0)
+        _count.Text = $"Найдено: {visibleIds.Length}";
+        if (_questId is null)
         {
-            var tamara = QuestIds().FirstOrDefault(id => id.Contains("tamara", StringComparison.Ordinal)) ?? QuestIds().First();
-            OpenQuest(tamara);
-            return;
+            var selected = needle.Length == 0 ? FirstActiveFullGameQuest(ids) : null;
+            selected ??= visibleIds.FirstOrDefault();
+            if (selected is not null)
+            {
+                _questId = selected;
+                _stageId = null;
+                studio.Select(selected);
+                var index = visibleIds.ToList().IndexOf(selected);
+                if (index >= 0) _quests.Select(index);
+            }
         }
+    }
 
-        ShowView();
+    private string? FirstActiveFullGameQuest(IReadOnlyList<string> questIds)
+    {
+        if (!studio.Workspace.HasFile(FullGameCampaignPath)
+            || studio.Workspace.File(FullGameCampaignPath).Get("activeQuestIds") is not JsonArray activeQuestIds)
+            return null;
+
+        var available = questIds.ToHashSet(StringComparer.Ordinal);
+        return activeQuestIds.OfType<JsonValue>()
+            .Select(value => value.TryGetValue<string>(out var id) ? id : null)
+            .FirstOrDefault(id => id is not null && available.Contains(id));
     }
 
     private IEnumerable<string> QuestIds() =>
@@ -121,14 +161,34 @@ public sealed class StudioQuestSection(StudioRoot studio) : IStudioSection
         _graphButton.ThemeTypeVariation = _showGraph ? "PrimaryButton" : "";
         if (Quest() is not { } quest)
         {
+            _tree.Clear();
+            ClearGraph();
+            _stageId = null;
+            _sourceError.Visible = false;
             _title.Text = "Выберите квест";
             return;
         }
 
         _title.Text = studio.Catalog.NameOf(_questId!);
-        var flow = new QuestFlow(quest);
-        if (_showGraph) BuildGraph(flow); else BuildTree(flow);
+        try
+        {
+            var flow = new QuestFlow(quest);
+            if (flow.StageOrder.Count == 0) throw new InvalidDataException("В квесте нет этапов.");
+            if (_showGraph) BuildGraph(flow); else BuildTree(flow);
+            _sourceError.Visible = false;
+        }
+        catch (Exception error) when (IsSourceShapeError(error))
+        {
+            _tree.Clear();
+            ClearGraph();
+            _sourceError.Text = $"Не удалось прочитать квест {studio.Workspace.Locate(_questId!)?.RelativePath ?? _questId}: {error.Message}. Исправьте исходник и обновите Studio.";
+            _sourceError.Visible = true;
+        }
     }
+
+    private static bool IsSourceShapeError(Exception error) =>
+        error is InvalidDataException or InvalidOperationException or NullReferenceException or KeyNotFoundException
+            or InvalidCastException or FormatException or ArgumentException or IndexOutOfRangeException;
 
     // ---- list view --------------------------------------------------------------------
 
@@ -188,15 +248,7 @@ public sealed class StudioQuestSection(StudioRoot studio) : IStudioSection
 
     private void BuildGraph(QuestFlow flow)
     {
-        _graph.ClearConnections();
-        foreach (var child in _graph.GetChildren())
-        {
-            if (child is GraphNode node)
-            {
-                _graph.RemoveChild(node);
-                node.QueueFree();
-            }
-        }
+        ClearGraph();
 
         var depth = new Dictionary<string, int>(StringComparer.Ordinal);
         foreach (var (stage, distance) in flow.Reachable(flow.StartStageId)) depth[stage] = distance;
@@ -236,6 +288,16 @@ public sealed class StudioQuestSection(StudioRoot studio) : IStudioSection
             {
                 _graph.ConnectNode(NodeName(edge.FromStageId), 0, NodeName(target), 0);
             }
+        }
+    }
+
+    private void ClearGraph()
+    {
+        _graph.ClearConnections();
+        foreach (var node in _graph.GetChildren().OfType<GraphNode>())
+        {
+            _graph.RemoveChild(node);
+            node.QueueFree();
         }
     }
 
@@ -279,6 +341,21 @@ public sealed class StudioQuestSection(StudioRoot studio) : IStudioSection
     }
 
     public void FillProperties(StudioProperties panel)
+    {
+        try
+        {
+            FillQuestProperties(panel);
+        }
+        catch (Exception error) when (IsSourceShapeError(error))
+        {
+            panel.Clear();
+            var path = _questId is null ? "квест" : studio.Workspace.Locate(_questId)?.RelativePath ?? _questId;
+            panel.Header("Ошибка исходника квеста", "Квесты");
+            panel.Text($"Не удалось прочитать {path}: {error.Message}. Исправьте исходник и обновите Studio.");
+        }
+    }
+
+    private void FillQuestProperties(StudioProperties panel)
     {
         if (Quest() is not { } quest)
         {
@@ -419,7 +496,7 @@ public sealed class StudioQuestSection(StudioRoot studio) : IStudioSection
     {
         if (textId is null || studio.Workspace.Locate(textId) is not { } address) return;
         var entity = studio.Workspace.Get(textId)!.AsObject();
-        entity["value"] = new JsonObject { ["default"] = text, ["translations"] = new JsonObject { ["ru"] = text } };
+        entity["value"] = Localized.WithRussian(entity["value"], text);
         studio.Session.Set(address.RelativePath, address.Key, entity, "текст цели");
     }
 
@@ -511,12 +588,13 @@ public sealed class StudioQuestSection(StudioRoot studio) : IStudioSection
         });
         dialog.Confirmed += () =>
         {
+            var namespaceId = _questId is { } current ? current[..current.IndexOf(':')] : "urman.fullgame";
+            if (!TryTemplatePaths(namespaceId, out var moduleDirectory, out var campaignPath)) return;
             var world = (StudioWorldSection)studio.Section("world");
             var at = world.Pivot;
             double[] P(float dx, float dz) => [Math.Round(at.X + dx, 2), 0.0, Math.Round(at.Z + dz, 2)];
             var ids = Urman.Studio.Core.Templates.TwoOutcomeQuestTemplate.Create(studio.Session, new Urman.Studio.Core.Templates.TwoOutcomeQuestRequest(
-                _questId is { } current ? current[..current.IndexOf(':')] : "urman.chapter1",
-                "content/modules/urman-chapter1", "content/campaigns/urman.chapter1/campaign.json",
+                namespaceId, moduleDirectory, campaignPath,
                 title.Text.Trim(), npc.Text.Trim(), "Resident", P(0, 0), 180, request.Text.Trim(), accept.Text.Trim(), refuse.Text.Trim(),
                 item.Text.Trim(), P(4, 3), "urman.catalog:urman_village_exterior_kit/woodpile-stackedlogs",
                 "urman.catalog:urman_village_exterior_kit/gate-crookedtimber", P(-3, 2), 90, P(0, 0), [4.0, 2.5, 4.0]));
@@ -527,6 +605,29 @@ public sealed class StudioQuestSection(StudioRoot studio) : IStudioSection
         dialog.Canceled += dialog.QueueFree;
         studio.AddChild(dialog);
         dialog.PopupCentered();
+    }
+
+    private bool TryTemplatePaths(string namespaceId, out string moduleDirectory, out string campaignPath)
+    {
+        var module = studio.Workspace.Files.FirstOrDefault(file =>
+            file.RelativePath.StartsWith("content/modules/", StringComparison.Ordinal)
+            && file.RelativePath.EndsWith("/module.json", StringComparison.Ordinal)
+            && (string?)file.Get("moduleId") == namespaceId);
+        var campaign = studio.Workspace.Files.FirstOrDefault(file =>
+            file.RelativePath.StartsWith("content/campaigns/", StringComparison.Ordinal)
+            && file.RelativePath.EndsWith("/campaign.json", StringComparison.Ordinal)
+            && (string?)file.Get("id") == namespaceId);
+        if (module is null || campaign is null)
+        {
+            moduleDirectory = "";
+            campaignPath = "";
+            studio.ShowBanner($"Шаблон не создан: для модуля «{namespaceId}» не найден его manifest или кампания. Проверьте исходники проекта.", error: true);
+            return false;
+        }
+
+        moduleDirectory = module.RelativePath[..^"/module.json".Length];
+        campaignPath = campaign.RelativePath;
+        return true;
     }
 
     // ---- wording ------------------------------------------------------------------------------

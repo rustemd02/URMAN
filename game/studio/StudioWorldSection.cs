@@ -32,6 +32,7 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
     private Control? _view;
     private SubViewport _viewport = null!;
     private SubViewport.UpdateMode? _childRunPreviousUpdateMode;
+    private bool _resizeRenderSubscribed;
     private Task? _loadWorldTask;
     private SubViewportContainer _container = null!;
     private Camera3D _camera = null!;
@@ -106,7 +107,11 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
 
         if (_childRunPreviousUpdateMode is not { } previous) return;
         _childRunPreviousUpdateMode = null;
-        if (GodotObject.IsInstanceValid(_viewport)) _viewport.RenderTargetUpdateMode = previous;
+        if (GodotObject.IsInstanceValid(_viewport))
+        {
+            _viewport.RenderTargetUpdateMode = previous;
+            if (previous == SubViewport.UpdateMode.Disabled) RequestViewportRender();
+        }
     }
 
     public void SuspendForAi()
@@ -308,26 +313,34 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
 
     private async Task LoadWorldCoreAsync()
     {
+        var loadStarted = Time.GetTicksMsec();
         var demo = ResourceLoader.Load<PackedScene>("res://scenes/act1_demo.tscn").Instantiate<Act1DemoRoot>();
+        demo.StudioPreviewMode = true;
         _demo = demo;
-        _viewport.AddChild(demo);
-        for (var frame = 0; frame < 900 && !_shuttingDown && !demo.MainMenuVisible; frame++)
+        if (!_resizeRenderSubscribed)
         {
-            await studio.ToSignal(studio.GetTree(), SceneTree.SignalName.ProcessFrame);
+            _container.Resized += RequestViewportRender;
+            _resizeRenderSubscribed = true;
         }
-        if (_shuttingDown) return;
-
-        if (!await demo.StartDebugZoneAsync("village_day", "arrival"))
+        _viewport.RenderTargetUpdateMode = SubViewport.UpdateMode.Disabled;
+        Act1ConnectedWorld.StudioPreviewMode = true;
+        try
         {
-            _hint.Text = "Не удалось поднять мир игры. Подробности — в журнале Studio.";
-            return;
-        }
-        if (_shuttingDown) return;
-
-        for (var frame = 0; frame < 20; frame++)
-        {
-            await studio.ToSignal(studio.GetTree(), SceneTree.SignalName.ProcessFrame);
+            _viewport.AddChild(demo);
+            for (var frame = 0; frame < 900 && !_shuttingDown && !demo.StudioPreviewReady; frame++)
+            {
+                await studio.ToSignal(studio.GetTree(), SceneTree.SignalName.ProcessFrame);
+            }
             if (_shuttingDown) return;
+            if (!demo.StudioPreviewReady)
+            {
+                _hint.Text = "Не удалось поднять мир игры. Подробности — в журнале Studio.";
+                return;
+            }
+        }
+        finally
+        {
+            Act1ConnectedWorld.StudioPreviewMode = false;
         }
 
         // An editor view: the world stands still, the game's HUD and player are off.
@@ -360,6 +373,14 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
         }
 
         Refresh();
+        GD.Print($"urman-studio-preview-ready elapsed_ms={Time.GetTicksMsec() - loadStarted}");
+    }
+
+    private void RequestViewportRender()
+    {
+        if (_shuttingDown || _childRunPreviousUpdateMode.HasValue
+            || _viewport is null || !GodotObject.IsInstanceValid(_viewport) || !_viewport.IsInsideTree()) return;
+        _viewport.RenderTargetUpdateMode = SubViewport.UpdateMode.Once;
     }
 
     public StudioAtmospherePanel? Atmosphere { get; private set; }
@@ -616,6 +637,7 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
         }
 
         DrawRoutine();
+        RequestViewportRender();
     }
 
     // Raw source-space anchor; current-world framing and manipulation use DisplayAnchor.
@@ -683,6 +705,7 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
         _camera.Fov = fov;
         _pivot = look;
         _distance = position.DistanceTo(look);
+        RequestViewportRender();
     }
 
     /// <summary>The current editor view as a shot: position, what it looks at, field of view.</summary>
@@ -745,6 +768,7 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
             _camera.Size = _distance * 1.4f;
             _camera.GlobalPosition = _pivot + new Vector3(0, 120f, 0);
             _camera.RotationDegrees = new Vector3(-90f, 0f, 0f);
+            RequestViewportRender();
             return;
         }
 
@@ -752,6 +776,7 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
         var rotation = Basis.FromEuler(new Vector3(Mathf.DegToRad(_pitch), Mathf.DegToRad(_yaw), 0f));
         _camera.GlobalPosition = _pivot + rotation * new Vector3(0, 0, _distance);
         _camera.LookAt(_pivot, Vector3.Up);
+        RequestViewportRender();
     }
 
     private void OnViewportInput(InputEvent @event)
@@ -1211,10 +1236,11 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
 
     public void MoveGhost(Vector2 screen)
     {
-        if (GroundHit(screen) is not { } spot) { _ghost.Visible = false; return; }
+        if (GroundHit(screen) is not { } spot) { _ghost.Visible = false; RequestViewportRender(); return; }
         var height = ((BoxMesh)_ghost.Mesh).Size.Y;
         _ghost.GlobalPosition = spot + new Vector3(0, height / 2, 0);
         _ghost.Visible = true;
+        RequestViewportRender();
     }
 
     public Vector2 ScreenOf(Vector3 world) => _camera.UnprojectPosition(world);
@@ -1223,6 +1249,7 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
     {
         _placing = null;
         _ghost.Visible = false;
+        RequestViewportRender();
         _catalogList.DeselectAll();
         studio.RefreshStatus("Размещение отменено");
     }

@@ -216,6 +216,26 @@ public sealed class CodexProposalProvider
             "urman-studio-fence-alignment-proposal").ConfigureAwait(false);
     }
 
+    public async Task<EntityTextProposal> RunAsync(
+        EntityTextRequest request,
+        string workingSnapshotDirectory,
+        CancellationToken cancellationToken = default,
+        IProgress<CodexProposalProgress>? progress = null)
+    {
+        return await RunStructuredAsync(
+            EntityTextProposalProtocol.BuildPrompt(request),
+            EntityTextProposalProtocol.BuildOutputSchema(request),
+            text => EntityTextProposalProtocol.ParseProposal(text, request),
+            workingSnapshotDirectory,
+            cancellationToken,
+            progress,
+            "Generating one structured text proposal.",
+            "Validating text proposal identity and current text.",
+            "Codex did not complete a valid entity-text proposal.",
+            "urman-studio-entity-text-proposal",
+            EntityTextProposalProtocol.MaximumFinalMessageCharacters).ConfigureAwait(false);
+    }
+
     private async Task<T> RunStructuredAsync<T>(
         string proposalPrompt,
         object outputSchema,
@@ -226,7 +246,8 @@ public sealed class CodexProposalProvider
         string generatingMessage,
         string validatingMessage,
         string failureMessage,
-        string clientName)
+        string clientName,
+        int maximumFinalMessageCharacters = 8_192)
     {
         ValidateProposalPromptSize(proposalPrompt);
         var workingDirectory = ValidateWorkingDirectory(workingSnapshotDirectory);
@@ -368,7 +389,7 @@ public sealed class CodexProposalProvider
             }
 
             Report(progress, CodexProposalStage.Validating, validatingMessage);
-            var proposalText = ExtractFinalAgentMessage(terminalTurn.Value);
+            var proposalText = ExtractFinalAgentMessage(terminalTurn.Value, maximumFinalMessageCharacters);
             return parseProposal(proposalText);
         }
         catch (OperationCanceledException) when (timeout.IsCancellationRequested)
@@ -1221,7 +1242,7 @@ public sealed class CodexProposalProvider
         return proposal;
     }
 
-    private static string ExtractFinalAgentMessage(JsonElement terminalNotification)
+    private static string ExtractFinalAgentMessage(JsonElement terminalNotification, int maximumCharacters)
     {
         var turn = GetRequiredObject(terminalNotification, "turn");
         if (!string.Equals(GetRequiredString(turn, "status"), "completed", StringComparison.Ordinal))
@@ -1236,7 +1257,7 @@ public sealed class CodexProposalProvider
             if (GetRequiredString(item, "type") == "agentMessage") finalMessage = GetRequiredString(item, "text");
         }
 
-        if (string.IsNullOrWhiteSpace(finalMessage) || finalMessage.Length > 8_192)
+        if (maximumCharacters <= 0 || string.IsNullOrWhiteSpace(finalMessage) || finalMessage.Length > maximumCharacters)
         {
             throw new CodexProposalException("Codex returned no bounded proposal message.");
         }

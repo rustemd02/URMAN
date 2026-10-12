@@ -133,6 +133,11 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
 
     public Main DemoMain => _main;
 
+    /// <summary>Set only by Studio before this isolated preview root enters the tree.</summary>
+    public bool StudioPreviewMode { get; set; }
+
+    public bool StudioPreviewReady => StudioPreviewMode && _main?.ConnectedWorld?.IsBuilt == true;
+
     public bool DemoEnded => _endingShown;
 
     public bool EndingPending => _endingPending;
@@ -186,10 +191,13 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
 
     public override void _Ready()
     {
-        DevRideCaptureBoot();
-        DevViewCaptureBoot();
-        DevWalkProbeBoot();
-        DevQuickStartBoot();
+        if (!StudioPreviewMode)
+        {
+            DevRideCaptureBoot();
+            DevViewCaptureBoot();
+            DevWalkProbeBoot();
+            DevQuickStartBoot();
+        }
         _ = InitializeDemoWithLoadingScreenAsync();
     }
 
@@ -237,13 +245,13 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
     {
         AddToGroup(AccessibilityPresentation.TargetGroup);
         AddToGroup("act1_demo_root");
-        DebugVillageMinimap.AttachIfEnabled(this);
+        if (!StudioPreviewMode) DebugVillageMinimap.AttachIfEnabled(this);
         var commandLine = OS.GetCmdlineArgs();
-        _performanceProbe = commandLine.Contains("--urman-perf-probe", StringComparer.Ordinal)
+        _performanceProbe = !StudioPreviewMode && (commandLine.Contains("--urman-perf-probe", StringComparer.Ordinal)
             || commandLine.Any(argument => argument.StartsWith(
                 "--urman-perf-probe-mode=",
-                StringComparison.Ordinal));
-        ConfigureM10Timing(commandLine);
+                StringComparison.Ordinal)));
+        if (!StudioPreviewMode) ConfigureM10Timing(commandLine);
         if (_performanceProbe)
         {
             // Select the already-authored connected-world placement before
@@ -271,6 +279,14 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
             || _main.GetNodeOrNull<RuntimeBridge>("RuntimeBridge")?.SessionIdentity is null)
         {
             throw new InvalidOperationException("Act I world or campaign did not finish loading.");
+        }
+
+        if (StudioPreviewMode)
+        {
+            // The editor needs the real connected world and its collisions,
+            // not the gameplay menus, story controllers, or a debug session.
+            _player.SetModalOpen(true);
+            return;
         }
 
         // The protected view-capture comparison applies its requested player preset once,
@@ -315,6 +331,8 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
 
     public override void _Process(double delta)
     {
+        if (StudioPreviewMode) return;
+
         RecordM10Timing();
         if (_performanceProbe)
         {

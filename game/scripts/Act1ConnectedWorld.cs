@@ -76,6 +76,8 @@ public partial class Act1ConnectedWorld : Node3D
         StyleBenchmarkInteriorFactory.ExteriorComponent
     ];
 
+    private bool _studioPreview;
+
     private sealed record Act1ExteriorParcelComponentPlacement(
         string ComponentName,
         string PlacementName,
@@ -306,6 +308,15 @@ public partial class Act1ConnectedWorld : Node3D
     public override void _Ready()
     {
         AddToGroup("act1_connected_world");
+        _studioPreview = StudioPreviewMode;
+        if (_studioPreview)
+        {
+            // Studio uses the real world and collision, but starts its isolated
+            // preview at the existing Low rendering budget before the costly
+            // world is mounted. Gameplay does not set this scoped flag.
+            PainterlyMaterialLibrary.SetGraphicsPreset("low");
+            GraphicsQuality.Apply(GetViewport(), "low");
+        }
         Build();
     }
 
@@ -1228,7 +1239,7 @@ public partial class Act1ConnectedWorld : Node3D
         BindAuthoredWinterTrees(core);
         ApplyAct1DaylightPresentationPass(core);
         ReplaceKitWinterShrubs(core);
-        BuildVillageLife(core);
+        if (!_studioPreview) BuildVillageLife(core);
     }
 
     /// <summary>
@@ -1538,6 +1549,8 @@ public partial class Act1ConnectedWorld : Node3D
 
     public override void _Process(double delta)
     {
+        if (_studioPreview) return;
+
         // First frame: every owner has placed its solids; trim relief that shows through them.
         if (!_snowReliefClipped) ClipSnowReliefUnderStructures();
         UpdatePhysicalInteriorPresentation();
@@ -1739,20 +1752,24 @@ public partial class Act1ConnectedWorld : Node3D
             "continuous Road_Main/Road_FapBranch/Road_HousePath/Road_KaraPath own road surfaces; wet-road kit retains vegetation only");
     }
 
-    /// <summary>
-    /// Tunes the existing Agent B environment after its normal zone toggle.
-    /// No environment, weather or light owner is added here.
-    /// </summary>
+    /// <summary>Scoped by Studio while its isolated world preview is initialized.</summary>
+    public static bool StudioPreviewMode { get; set; }
+
     /// <summary>URMAN Studio preview only: show another profile without changing story time or zone.</summary>
     public static string? StudioPreviewProfile { get; set; }
 
-    /// <summary>URMAN Studio preview: re-apply the outdoor atmosphere after its data changed.</summary>
+    /// <summary>
+    /// Reapplies the existing Agent B environment after a zone or Studio
+    /// atmosphere change; no environment, weather, or light owner is added.
+    /// </summary>
     public void RefreshAtmosphereForStudio()
     {
         var core = GetNodeOrNull<Node3D>("Act1CoreWorldGreybox");
         if (core is null) return;
         var zone = string.IsNullOrEmpty(ActiveZoneId) ? "village_day" : ActiveZoneId;
         TuneConnectedAct1Atmosphere(core, true, zone, zone == "kara_urman_night", _physicalInterior.Length > 0);
+        if (_studioPreview && GetViewport() is SubViewport viewport)
+            viewport.RenderTargetUpdateMode = SubViewport.UpdateMode.Once;
     }
 
     /// <summary>P2 / VIS-097: re-grade the single outdoor environment when the player walks into or out of a building.</summary>
