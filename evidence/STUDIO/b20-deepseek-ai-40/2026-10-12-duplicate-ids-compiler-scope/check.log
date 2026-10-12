@@ -1,0 +1,4 @@
+== duplicate content ids inside the COMPILER's real scope
+
+  compiler-scanned files: 19; ids: 173; duplicated ids: 0
+PROBE RESULT: PASS

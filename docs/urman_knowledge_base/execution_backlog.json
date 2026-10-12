@@ -81992,6 +81992,12 @@
                 "result": "integration detail by deepseek v4.1 flash: the consumer closure was measured twice before (seven, then ten files) and MY OWN later stages added dependencies - AuthoredJson from the cast sweep and PhotoBook from the safe-reads work - so it was measured AGAIN against current main instead of being quoted. Result: TWELVE new Core files (AssetUsageIndex, AuthoredDocuments, AuthoredHints, AuthoredJson, AuthoredVocabulary, AuthoringDiagnostics, CutsceneActions, ItemSpawns, PcChatContent, PhotoBook, SimpleItemForms, TriggerScopeFacts), plus ONE added symbol in the existing RuleCatalogCoverage.cs via the prerequisite patch - NOT a whole-file cherry-pick - plus the audit patch (StudioAuthoringAuditSection.cs and the one line in StudioRoot.cs). Proof: pristine main 9a5f0a62 plus all of that builds Urman.Game with 0 errors. The three successive numbers (7, 10, 12) are exactly why a cherry-pick list must be re-measured, not remembered. Verified: game build 0/0; both patches apply",
                 "source": "evidence/STUDIO/b20-deepseek-ai-40/2026-10-11-closure-refresh-13/check.log",
                 "verification": "Urman.Game 0 warnings/0 errors on main 9a5f0a62 with the twelve-file closure, the one-symbol prerequisite and the audit patch. No Studio window: the panel's look is NOT_RUN"
+              },
+              {
+                "stage": "2026-10-12 duplicate content ids inside the COMPILER's real scope",
+                "result": "check by deepseek v4.1 flash: a duplicate content id is a hard compiler error (diagnostic DuplicateId) that stops the whole pack. THE FALSE POSITIVE I AVOIDED: a scan of every JSON in the tree reported TWO duplicates (S-BANK, S-PHOTOGRAPHER) and both are FALSE - they live in content/campaigns/urman.fullgame/photoworlds-sources/photos.spec.json, an authoring SPEC source rather than compiled content; the compiler reads only the module manifests' sourceFiles, and the compiled pack declares 893 ids with ZERO duplicates. WHAT IS CHECKED NOW: for every module manifest the compiler reads, the ids in its sourceFiles must be unique - measured NINETEEN files, ONE HUNDRED AND SEVENTY-THREE ids, ZERO duplicated. THE VACUITY GUARD: my first version walked objects only and never pushed array children, so it counted zero ids and passed; two assertions now pin the count at 173 and require that no id came from an empty file list. Verified: probe PASS 786/786; Core 0/0",
+                "source": "the probe's compiler-scope duplicate-id check; evidence evidence/STUDIO/b20-deepseek-ai-40/2026-10-12-duplicate-ids-compiler-scope",
+                "verification": "probe PASS 786/786 including the anti-vacuity pins; Core 0/0. The compiler's own verdict is the runtime-side proof and is NOT_RUN"
               }
             ],
             "stage_tasks": [
@@ -82041,7 +82047,9 @@
               "Устойчивость: TrialRunPlan больше не падает на не-значении; поведение не изменилось.",
               "Ранее переданный частичный этап (2026-10-11 TrialRunPlan reads authored JSON safely) ждёт ревью/приёмки; полный done_when не выполнен.",
               "Замыкание consumer'а перемерено В ТРЕТИЙ раз: 12 новых файлов + 1 символ в RuleCatalogCoverage + патч; сборка игры на main 9a5f0a62 = 0/0.",
-              "Ранее переданный частичный этап (2026-10-11 the consumer closure re-measured after my later stages) ждёт ревью/приёмки; полный done_when не выполнен."
+              "Ранее переданный частичный этап (2026-10-11 the consumer closure re-measured after my later stages) ждёт ревью/приёмки; полный done_when не выполнен.",
+              "Дубликаты id проверены в РЕАЛЬНОЙ области компилятора (19 файлов, 173 id, 0 дублей); скан всего дерева давал 2 ложных срабатывания (spec-источники фото).",
+              "Ранее переданный частичный этап (2026-10-12 duplicate content ids inside the COMPILER's real scope) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
             "next_action": "UI стартового состояния; пометка synthetic/reachable; runtime trace с occurrence ID; pause clock; шаг события; copy transform только явной командой; handoff case.",
             "blocker": null,

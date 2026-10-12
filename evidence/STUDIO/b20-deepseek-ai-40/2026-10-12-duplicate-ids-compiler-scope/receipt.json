@@ -1,0 +1,23 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-40"
+  ],
+  "stage": "duplicate content ids inside the COMPILER's real scope",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-12 (MSK)",
+  "branch": "deepseek/b20-editor-content",
+  "base": "4ff3492f",
+  "why": "a duplicate content id is a hard compiler error (diagnostic DuplicateId) that stops the whole pack, so the corpus was checked for it",
+  "the_false_positive_I_avoided": "a scan over every JSON in the tree reported TWO duplicated ids (S-BANK and S-PHOTOGRAPHER), and both are FALSE: they live in content/campaigns/urman.fullgame/photoworlds-sources/photos.spec.json, which is an authoring SPEC source rather than compiled content. The compiler reads only the module manifests' sourceFiles, and the compiled pack itself declares 893 ids with ZERO duplicates",
+  "what_is_now_checked": "for every module manifest the compiler reads, the ids declared in its sourceFiles must be unique. Measured: NINETEEN files, ONE HUNDRED AND SEVENTY-THREE ids, ZERO duplicated",
+  "the_vacuity_guard": "the first version of my scan walked objects only and never pushed array children, so it counted ZERO ids and passed. Two assertions now pin the count at 173 and require that no id came from an empty file list, so the check cannot pass on an empty set again",
+  "verified": {
+    "probe": "PASS 786/786 including the anti-vacuity pins",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors",
+    "not_run": "no game launch: the compiler's own verdict is the runtime-side proof"
+  },
+  "files": {
+    "evidence/STUDIO/b20-deepseek-ai-40/2026-10-12-duplicate-ids-compiler-scope/check.log": "154a6009ab802732d9d023e0ae8404c707baeb4ddb3ca28102d469eb018d9f00"
+  }
+}
