@@ -4831,21 +4831,26 @@
             "title": "Подключить S05 — Смерзшийся грязный снег",
             "result": "Подключить S05 — Смерзшийся грязный снег",
             "owner": "art/materials/qa",
-            "evidence": [],
+            "evidence": [
+              "evidence/ACT1-TEXTURE/s05-parking-20261012/receipt.json",
+              "evidence/ACT1-TEXTURE/s05-parking-20261012/game-build.log",
+              "evidence/ACT1-TEXTURE/s05-parking-20261012/asset-import.log"
+            ],
             "assigned_owner": "art/materials/qa",
             "active_owner": null,
             "activity": {
-              "state": "not_active",
-              "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+              "state": "released",
+              "reason": "Проверенный source/import этап принят; target native view ждёт освобождения B20, повторный compile не нужен."
             },
             "task_type": "engineering",
-            "status": "todo",
+            "status": "in_progress",
             "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
-              "Подключить S05 — Смерзшийся грязный снег; собственного целевого receipt пока нет."
+              "Осмотреть actual PoliceParking/ParkingHardstanding на Windows: локальность S05 у колёс, контраст/повторы и сохранность снегового response при смене атмосферы; художественная приёмка открыта.",
+              "Остальные S05 потребители не объявлены подключёнными; динамические wheel/foot marks этого visual box не заявлены."
             ],
-            "next_action": "Сопоставить текущий результат: Подключить S05 — Смерзшийся грязный снег. Затем изменить только установленный остаток.",
+            "next_action": "После явного release станции принять один целевой Windows-вид existing PoliceParking под DistrictZhiguli; затем решать только наблюдаемый дефект.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -4855,9 +4860,22 @@
                 "game/assets/textures/painterly/README.md",
                 "assets/asset_registry.json",
                 "docs/urman_knowledge_base/art/urman_imagegen_texture_prompt_book_2026-09-22.md",
-                "docs/urman_knowledge_base/assets.md"
+                "docs/urman_knowledge_base/assets.md",
+                "game/scripts/Act1ConnectedWorld.PolicePost.cs",
+                "game/scripts/PainterlyMaterialLibrary.cs"
               ],
-              "required_inputs": [],
+              "required_inputs": [
+                {
+                  "artifact": "Existing original procedural S05 albedo, 1m repeat",
+                  "path": "game/assets/textures/painterly/snow_frozen_dirty_v1_albedo.png",
+                  "availability": "available"
+                },
+                {
+                  "artifact": "Existing PoliceParking/ParkingHardstanding snow_trampled mesh under DistrictZhiguli",
+                  "path": "game/scripts/Act1ConnectedWorld.PolicePost.cs",
+                  "availability": "available"
+                }
+              ],
               "scope_in": [
                 "Подключить S05 — Смерзшийся грязный снег"
               ],
@@ -4900,8 +4918,13 @@
                 ],
                 "repeat_only_if": "Изменился покрываемый вход/consumer/контракт; без этого уже принятая проверка используется повторно без запуска."
               },
-              "evidence_refs": [],
-              "source_criteria_parent": "ACT1-TEXTURE.02"
+              "evidence_refs": [
+                "evidence/ACT1-TEXTURE/s05-parking-20261012/receipt.json",
+                "evidence/ACT1-TEXTURE/s05-parking-20261012/game-build.log",
+                "evidence/ACT1-TEXTURE/s05-parking-20261012/asset-import.log"
+              ],
+              "source_criteria_parent": "ACT1-TEXTURE.02",
+              "actual_result": "S05 подключена только к existing ParkingHardstanding через кешируемый ForFrozenWheelSnow. Existing snow_trampled state/response, shared cache base, geometry/position/collision/interaction сохранены. _snowBase copy защищает от повторного mood multiplication. Asset лично просмотрен; isolated import и Gamecompile0/0 прошли, independent Luna source review без дефекта. Native/art не выполнены."
             },
             "dependencies": {
               "implementation": [],

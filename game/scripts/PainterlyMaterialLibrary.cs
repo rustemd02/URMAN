@@ -1201,6 +1201,30 @@ public static class PainterlyMaterialLibrary
         GC.Collect();
     }
 
+    /// <summary>S05: a local wheel-side snow variant. Shared trodden snow stays
+    /// unchanged; the variant remains in the cache for atmosphere/quality updates.</summary>
+    public static Material ForFrozenWheelSnow(string htmlColor)
+    {
+        var trodden = (ShaderMaterial)ForColor(htmlColor, "snow_trampled");
+        const string path = "res://assets/textures/painterly/snow_frozen_dirty_v1_albedo.png";
+        if (SuppressTextureLoadsForHeadlessTests || !ResourceLoader.Exists(path)) return trodden;
+        var key = $"frozen-wheel-snow:{htmlColor}";
+        if (Materials.TryGetValue(key, out var existing)) return existing;
+        if (ResourceLoader.Load<Texture2D>(path) is not { } texture) return trodden;
+        var material = (ShaderMaterial)trodden.Duplicate();
+        material.SetShaderParameter("albedo_texture", texture);
+        material.SetShaderParameter("has_albedo_texture", true);
+        material.SetShaderParameter("authored_uv_texture", false);
+        material.SetShaderParameter("texture_scale", Vector2.One); // World XZ: one metre per repeat.
+        material.SetMeta("winterTextureId", "S05");
+        material.SetMeta("winterTextureRepeatMetres", 1f);
+        // A variant created after a mood broadcast needs the original authored
+        // baseline, so the next zone does not multiply coverage/sparkle twice.
+        if (_snowBase.TryGetValue(trodden, out var baseline)) _snowBase[material] = baseline;
+        Materials.Add(key, material);
+        return material;
+    }
+
     public static Material ForCutout(string htmlColor, Texture2D alphaTexture, string surface)
     {
         var cacheKey = $"cutout:{surface}:{htmlColor}:{alphaTexture.GetInstanceId()}";
