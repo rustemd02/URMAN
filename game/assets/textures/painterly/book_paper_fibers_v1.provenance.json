@@ -1,0 +1,23 @@
+{
+  "asset": "book_paper_fibers_v1_albedo.png",
+  "source_kind": "original_generated_material",
+  "tool": "built-in image_gen.imagegen",
+  "model": "not returned by tool",
+  "prompt": "Use case: stylized-concept. Asset type: seamless tileable base-color/albedo texture for uncoated book paper, square 1024x1024 preferred. Full image is a flat top-down close-up material swatch, representing an 8 cm square of calm warm ivory cellulose paper. Very fine irregular short cellulose fibers embedded in the surface, tiny subtle matte paper tooth, soft restrained painterly texture at microscopic scale. Nearly uniform value, low contrast and gentle natural warm cream tone; convincing ordinary literary book paper rather than parchment. Neutral diffuse illumination only, no cast shadows, no baked directional light, no highlights or gloss. Seamlessly tileable on every edge, homogeneous density, no vignette or gradient, no folds, no stains, no tears, no scratches, no mold, no printed text, no handwriting, no borders, no objects, no textile weave/grid/threads, no recognizable symbols. This is the paper substrate albedo only, not a normal map or a rendered book. Produce one square texture filling the entire image.",
+  "physical_tile_metres": 0.08,
+  "processing": "Original PNG copied unchanged; no retouch/crop/resample.",
+  "review": "Personally viewed: warm ivory fine short fibers, uniform quiet value, no letters/folds/stains/textile grid. Repetition in rendered book remains unverified.",
+  "consumer": "Local duplicate of sheltered paper ShaderMaterial on FamilyTukayBookPresentation/RecessedPageBlock; metre UV scale12.5, texture strength .10, existing tint/finish/geometry preserved.",
+  "remaining": "Protected Windows close-up, repetition/brightness and author art acceptance; not a full book or material-family completion.",
+  "dimensions_px": [
+    1254,
+    1254
+  ],
+  "sha256": "bc41becac609071dd69eae64d061c174e4bc97993628b198941ce414baba84b4",
+  "generated_at_utc": "2026-10-12T02:09:07.534202+00:00",
+  "engine_processing": {
+    "mipmaps": true,
+    "size_limit": 1024,
+    "import_settings_source": "Existing urman_t01_v02_basecolor.png.import template, fresh UID and exact new resource path"
+  }
+}
