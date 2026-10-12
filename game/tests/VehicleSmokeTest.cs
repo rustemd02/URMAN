@@ -111,8 +111,9 @@ public partial class VehicleSmokeTest : Node
                 await Approach(vehicle);
                 await Capture(vehicle.Definition.Id+"-outside");
                 await Press("interact");
-                Require(_fleet.Occupied==vehicle&&vehicle.Driver==_player&&_player.VehicleControlled,
-                    vehicle.Definition.Id+" enters through the actual ray and mapped action");
+                var entered=_fleet.Occupied==vehicle&&vehicle.Driver==_player&&_player.VehicleControlled;
+                Require(entered, vehicle.Definition.Id+" enters through the actual ray and mapped action"
+                    +(entered ? string.Empty : $" (target={_player.PeekRayTarget()?.InteractionId ?? "none"}, available={vehicle.EntryTarget.IsAvailable()}, onFloor={_player.IsOnFloor()}, canEnter={_player.CanEnterVehicle(out var entryReason)}, reason={entryReason}, suspended={_fleet.Suspended}, deferred={_fleet.PlacementValidationDeferred})"));
                 Require(vehicle.VehicleCamera.Current&&!_camera.Current,"vehicle camera owns the view");
                 await Frames(4);
                 Require(!vehicle.EngineRunning&&vehicle.ParkingBrake,"parked start keeps ignition off");
