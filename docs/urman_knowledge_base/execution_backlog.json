@@ -79501,6 +79501,23 @@
                 "result": "SOURCE_GAME_COMPILE_REVIEW_PASS_NATIVE_UNMEASURED",
                 "source": "game/scripts/Act1ConnectedWorld.DwellingLogWalls.cs",
                 "verification": "Luna local-per-call owner mesh cache; independentSol rejected unguarded version for custom names. Final guard derives generated crown names for all nested potential walls and retains original rescans if any consumed selector might match. Safe owners reuse live node refs (mesh/visibility/meta unchanged). Sol finalreviewaccepted, Gamecompile0/0,14.17s andscopeddiffcheckPASS. No tests/probes/stationrun; no incremental speedup claimed. Prior181992ms/cleanresourceclose receipt remains acceptedbaseline."
+              },
+              {
+                "stage": "2026-10-12 native Russian dialogue edit save byte Undo",
+                "result": "NATIVE_TARGET_VERIFIED_EXTERNAL_GOG_LOADER_ERROR_RETAINED",
+                "job_id": "b2b390e7c47d4c1ca4e1be40c377f4ba",
+                "snapshot_id": "5a3872c7ddd568f212d785e0302d3c917af5930f274a3380c98c9b0db660bcd0",
+                "source_revision": "2c93b0e3",
+                "source": [
+                  "evidence/STUDIO/practical-editor-2026-10-12/windows-russian-dialogue/receipt.json",
+                  "evidence/STUDIO/practical-editor-2026-10-12/windows-russian-dialogue-live/before.png",
+                  "evidence/STUDIO/practical-editor-2026-10-12/windows-russian-dialogue-live/saved.png",
+                  "evidence/STUDIO/practical-editor-2026-10-12/windows-russian-dialogue-live/undone.png"
+                ],
+                "before_sha256": "d82cc9018621a786a9c01bca0d8d066fa41918c7b5ced5d43d163c46b494638a",
+                "saved_sha256": "39f9bab7eaa732d802d31df1c10354339046d5a47980ba21dc1bc85369a3cd90",
+                "undo_sha256": "d82cc9018621a786a9c01bca0d8d066fa41918c7b5ced5d43d163c46b494638a",
+                "actual_result": "Root actual native PID103888: skip tour→Dialogues→click Russian visible conversation (no ID entry)→Russian line visible→append [STUDIO]→Enter→Save, retained in field. Read selected source confirms ru marker and unchanged Englishdefault. ToolbarUndo→Save restored entiredefinitions exactoriginalSHA and Russianfield. NormalXclose process0/noresourceleak, guardoriginaluserdata restoredverified, doctorready/busynull/recoveryfalse. WrapperFAIL remains single GOG VulkanLoader deprecatedoverlayJSON ERROR, no wholewrapperPASS/novicegate/Gameplay/networkSend claim. Native text result verifies Russianresolver9c84a4af; map notloaded, guardedwallf784 speed stillunmeasured."
               }
             ],
             "stage_tasks": [
@@ -79537,7 +79554,7 @@
             "remaining": [
               "Новичок выполняет основные действия через интерфейс и подсказки без знания файлов.; отсутствует подтверждение собственного конечного DoD, перечисленного ниже."
             ],
-            "next_action": "При следующем предметном nativeэтапе проверить Russian refresh9c84a4af и guardedDwellingLogWalls; не повторять принятый loadedclose безchangedinput. Следующая разработкаCodex — отсутствующий explicit curatedSend AI38, без автопубликациинаSave.",
+            "next_action": "Продолжить практические открытые B20 действия и AI38 полныйобмен; принятый Russianview/save/Undo не повторять безchangedinput. Полнаяскоростькарты/noviceacceptance ещёоткрыты.",
             "blocker": null,
             "external_gates": [
               {
