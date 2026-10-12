@@ -78704,14 +78704,22 @@
                         "eng/run-windows-check.ps1"
                       ],
                       "actual_result": "Studio-only bounded0..2 clean reopenings reuse same source directory and existing protected_run per process; one shared game timeout; failure prevents relaunch; actual per-process timestamps/exit/renderer/guard logs in receipt.studioRuns. No prior-result import or synthetic journal. Python syntax, invalidCLI count/mode refusal before client creation, real PS5 parser, independentSol review passed."
+                    },
+                    {
+                      "stage": "2026-10-12 actual two-process catalogue restart",
+                      "result": "PASS_NATIVE_STORAGE_RESTART_UNDO_REDO_BYTE_ROLLBACK_UI_BUSY_DEFECT_FOUND",
+                      "job_id": "468bf1ff76614d07a30dec18d2f77950",
+                      "snapshot_id": "abf21b5815b129451fe1097e50fd79a0d77d8378d947e8384027cb9bbceb9947",
+                      "source_revision": "810e7171",
+                      "evidence_path": "evidence/STUDIO/practical-editor-2026-10-12/windows-catalogue-restart",
+                      "actual_result": "First actual Studio UI saved Niva maximum forward speed7→8 as transactionb217d32cec054095b0340941ae6b0acc acceptedOrder1. Clean close then new process on SAME authored source restored Undo. Native Undo returned exact baseline0d5112ad64ef4aa1183078b2aea19f81201ed85ba62ad26bc838f50c6f13b48f; Redo matched41018b984846a879df3850de3a9145ef054a4267f8dea8ccc0b18bf7f3091cf5; finalUndo baseline again. Originalhistory-sequence lastOrder1 and accepted sidebefore journal/images exported; both receipt.studioRuns PASSexit0 hardwareGPU, userdataRestoredtrue. No synthetic/imported history, no map load. Root viewedall before/after screenshots. UI fields stayed disabled after busy-clear; new sourcefix not included in this snapshot, native recheck pending."
                     }
                   ],
                   "assigned_owner": "codex/b20-2026-10-10",
-                  "active_owner": "codex/b20-2026-10-10",
+                  "active_owner": null,
                   "activity": {
-                    "state": "confirmed_active",
-                    "reason": "Root executes finite catalogue Save→normal close→same-source Studio restart→Undo/Redo→byte baseline restoration. No synthetic history/import or unguarded launch.",
-                    "verification_question": "Does one real accepted vehicle transaction persist into the second Studio process and retain exact Undo/Redo without loading the map?"
+                    "state": "stage_delivered",
+                    "reason": "Native normal catalogue restart/Undo/Redo accepted. Unit A08/A11/A16 external edits/interruption recovery remains open; active claim released."
                   },
                   "task_type": "engineering",
                   "status": "in_progress",
@@ -78721,7 +78729,7 @@
                     "Native A08/A11/A16 interruption/external-edit scenarios and full done_when remain unverified.",
                     "Hash check immediately before OS rename/delete is not universal CAS against arbitrary uncooperative concurrent writers; post-barrier fix does not eliminate that separate race."
                   ],
-                  "next_action": "Native Windows two sequential guarded Studio processes on same source: Save vehicle7→8, restart, Undo/Redo/Undo with file hash checks.",
+                  "next_action": "Проверить конкретный внешний edit/interruption recovery по оставшемуся A08/A11/A16, не повторять принятый catalogue normal restart.",
                   "blocker": null,
                   "external_gates": [],
                   "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -78897,6 +78905,12 @@
                 "stage": "2026-10-12 deployed history exporter",
                 "result": "DEPLOYED_VERIFIED_SHA_NATIVE_COUNTER_OPEN",
                 "actual_result": "Stopped idle station through existing manager; verified deployed e97fb25f normalized SHA564a1da0779bf59ffac0f89c4591fa5d132366cd81d78dd7218d5837dd1c9726, backed up original, installed worker SHA36981fe8fdef7646ff08b26cbe9001bb18b69567ea7afbf2fc1fd1e6f79199e5, restarted. New dcf64c3f job PASS exported normal campaign run artifacts; no catalogue transaction was created in that job, so history counter transfer/restart remains open."
+              },
+              {
+                "stage": "2026-10-12 actual history counter export",
+                "result": "PASS_COUNTER_AND_ACCEPTED_JOURNAL_EXPORTED",
+                "evidence_path": "evidence/STUDIO/practical-editor-2026-10-12/windows-catalogue-restart/studio-session/.urman-studio/history-sequence.json",
+                "actual_result": "Native468bf1ff created real transactionacceptedOrder1; exporter included original exact v1 history-sequence lastOrder1, both before/afterimages and finalcurrentvehicle baseline. Does not prove cross-machine UI import."
               }
             ],
             "stage_tasks": [
@@ -81587,10 +81601,10 @@
               ],
               "done_when": "Checkpoint виден после restart; восстановление показывает diff и создаёт новую ревизию; старый и чужой варианты не уничтожены."
             },
-            "active_owner": null,
+            "active_owner": "codex/b20-2026-10-10",
             "activity": {
-              "state": "paused_by_author",
-              "reason": "Назначение Codex/DeepSeek сохранено; миграция не запускает production и не выдаёт peer-передачу за активную работу."
+              "state": "confirmed_active",
+              "reason": "Luna fixes checkpoint capture omitted saved/private shop and vehicle source; root integrates and reviews only this practical defect."
             },
             "task_type": "aggregate",
             "status": "todo",
@@ -81599,7 +81613,7 @@
             "remaining": [
               "Checkpoint виден после restart; восстановление показывает diff и создаёт новую ревизию; старый и чужой варианты не уничтожены.; принятые child этапы повторно не разрабатывать."
             ],
-            "next_action": "STUDIO/AI-39/FINISH: A24: checkpoint, два изменения, restore, Undo restore.",
+            "next_action": "Включить owned catalogue source/drafts в checkpoint без Save, guard all private drafts beforeRestore; narrowcompile/review then native create/restore/Undo.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
