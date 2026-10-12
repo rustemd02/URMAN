@@ -74870,20 +74870,20 @@
                     }
                   ],
                   "assigned_owner": "codex/b20-2026-10-10",
-                  "active_owner": "codex/b20-2026-10-10",
+                  "active_owner": null,
                   "activity": {
-                    "state": "confirmed_active",
-                    "reason": "Seventh protected jobdc822645df394bb7a2e82500b9358112 RUNNING source4776f8ce/snapshot89996bf371d428d08c042fee7c4efbba9d14660dca67ed683fd0d83706866628: distinct native Front0-only scenario plus new fit/plan/shutdown; previous seven-window geometry/Undo evidence retained."
+                    "state": "stage_delivered",
+                    "reason": "Native seventh job завершён: Front0 request/preview/Apply/game/Undo принят как geometry stage; overall FAIL renderer close. RUNNING claim устарел. Luna 12.10 readback verified18/18 PNG hashes and recipe before/apply/undo SHA; shutdown defect отдельно исследуется."
                   },
                   "task_type": "integration_check",
                   "status": "in_progress",
-                  "implementation_state": "not_started",
-                  "technical_verification_state": "not_run",
+                  "implementation_state": "implemented",
+                  "technical_verification_state": "failed",
                   "remaining": [
-                    "SingleFront0 and seven-window request/preview/Apply/matched game/full source Undo accepted as geometry stages. Overall native receipt still FAIL on eight parent renderer/resource exit errors; fix and verify narrow close path.",
-                    "Multi-house/global scope and restart/history persistence acceptance remain open. No performance or complete UX/art acceptance; historical fourth-run partial failure retained as evidence."
+                    "Узкая native проверка нормального закрытия загруженной 3D-карты: устранить подтверждённые renderer/resource leaks.",
+                    "Явно подтвердить неизменность дверей в уже имеющихся source/geometry artifacts; остальные семь окон и высоты подтверждены."
                   ],
-                  "next_action": "Fix confirmed parent shutdown resource ownership/close path from seventh receipt without another full request loop; verify shortest native close scenario. Then continue multi-house/global scope and restart/history gates; preserve accepted singleFront0 and seven-window geometry/Undo evidence.",
+                  "next_action": "Исправить подтверждённое владение ресурсами при close, затем один короткий existing native close сценарий. Multi-house/global и restart относятся к родительским/соседним контрактам, не расширять собственный child DoD.",
                   "blocker": null,
                   "external_gates": [],
                   "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -81895,19 +81895,19 @@
                   "owner": "codex/b20-2026-10-10",
                   "evidence": [],
                   "assigned_owner": "codex/b20-2026-10-10",
-                  "active_owner": null,
+                  "active_owner": "codex/b20-2026-10-10",
                   "activity": {
-                    "state": "paused_by_author",
-                    "reason": "Назначение Codex/DeepSeek сохранено; миграция не запускает production и не выдаёт peer-передачу за активную работу."
+                    "state": "confirmed_active",
+                    "reason": "Реализация контрольных точек48d0392b compiled0/0/source review. Luna исправляет bounded station export; следующий native A24 после release peer станции."
                   },
                   "task_type": "integration_check",
-                  "status": "todo",
-                  "implementation_state": "not_started",
+                  "status": "in_progress",
+                  "implementation_state": "implemented",
                   "technical_verification_state": "not_run",
                   "remaining": [
                     "Автор создаёт именованную контрольную версию и восстанавливает её без поиска файлов; отсутствует подтверждение собственного конечного DoD, перечисленного ниже."
                   ],
-                  "next_action": "Автор создаёт именованную контрольную версию и восстанавливает её без поиска файлов",
+                  "next_action": "На Windows: Create checkpoint с draft8 без Save, два изменения9/10, restore preview10→8, Restore, Undo→10, затем Undo обоих изменений до byte baseline7; настоящий restart показывает сохранённый checkpoint.",
                   "blocker": null,
                   "external_gates": [],
                   "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
