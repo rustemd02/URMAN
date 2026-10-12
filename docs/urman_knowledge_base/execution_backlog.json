@@ -110135,7 +110135,7 @@
       "id": "PW-034",
       "title": "Произвести общие материалы и растительные формы",
       "milestone": "PW-M2",
-      "status": "todo",
+      "status": "in_progress",
       "active_owner": null,
       "owner": "art",
       "priority": "P0",
@@ -110329,7 +110329,7 @@
       "assigned_owner": "art",
       "activity": {
         "state": "not_active",
-        "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+        "reason": "Конечный paper albedo/local book source/import этап проверен; текущий runtime/art и другие семьи открыты."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -110339,7 +110339,7 @@
         "Не создаются сотни уникальных текстур одинаковых досок.",
         "Уточнение автора 09.10.2026: материалы и растительные формы наружной деревни проверены в составе домов и окружения по выбранным автором скриншотам. Сопоставимы масштаб фактур, материальность дерева/земли/снега, объём и плотность растительности, свет и цветовые отношения. Новые текстуры поверх примитивных форм и отдельный образец материала не доказывают соответствие целой игровой сцены."
       ],
-      "next_action": "Создать спокойные семейства коры, краски, ткани, бумаги, земли и нужные карточки листвы.",
+      "next_action": "После release станции осмотреть текущий блок страниц крупно: отсутствие пересвета, видимых повторов и крупного шума. Затем принять paper art; другие material/vegetation семьи по своим входам.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -110349,7 +110349,10 @@
         "targets": [
           "game/scripts/PainterlyMaterialLibrary.cs",
           "game/scripts/GeneratedModularKitDressing.cs",
-          "assets/asset_registry.json"
+          "assets/asset_registry.json",
+          "game/assets/textures/painterly/book_paper_fibers_v1_albedo.png",
+          "game/assets/textures/painterly/book_paper_fibers_v1_albedo.png.import",
+          "game/scripts/ArrivalPersonalProps.cs"
         ],
         "required_inputs": [
           {
@@ -110409,7 +110412,9 @@
         },
         "actual_result": "NOT_RUN",
         "evidence_refs": [
-          "tasks[id=PW-034].evidence"
+          "tasks[id=PW-034].evidence",
+          "evidence/PW-034/book-paper-20261012/receipt.json",
+          "game/assets/textures/painterly/book_paper_fibers_v1.provenance.json"
         ],
         "engineering_completion_excludes_external_gates": true
       },
@@ -110566,7 +110571,36 @@
           "evidence_ref": "PW-034.evidence and named history progress; source_review shows available/missing inputs"
         }
       ],
-      "assignment_state": "preserved_person_or_existing_role; activity separate"
+      "assignment_state": "preserved_person_or_existing_role; activity separate",
+      "progress_2026_10_12_book_paper": {
+        "asset": "game/assets/textures/painterly/book_paper_fibers_v1_albedo.png",
+        "sha256": "bc41becac609071dd69eae64d061c174e4bc97993628b198941ce414baba84b4",
+        "dimensions_px": [
+          1254,
+          1254
+        ],
+        "provenance": "game/assets/textures/painterly/book_paper_fibers_v1.provenance.json",
+        "consumer": "FamilyTukayBookPresentation/RecessedPageBlock only",
+        "review": "Root personally inspected generated fiber image and source diff. Same BevelBox dimensions/bevel/position, visualOnly retained via existing Part helper; no shared cache/cloth/geometry/state/guards changed. Authored metre UV scale12.5 =80mm tile. Shared pale-albedo gain limited locally by texture_strength .10; tone/finish/proc_response remain inherited.",
+        "import": {
+          "result": "PASS",
+          "engine": "Godot4.7.1",
+          "type": "CompressedTexture2D",
+          "mipmaps": true,
+          "size_limit": 1024,
+          "log": "evidence/PW-034/book-paper-20261012/godot-import.log"
+        },
+        "compile": {
+          "result": "PASS",
+          "warnings": 0,
+          "errors": 0,
+          "seconds": 25.77,
+          "log": "evidence/PW-034/book-paper-20261012/game-build.log"
+        },
+        "native_game": "NOT_RUN: active B20 station owner",
+        "runtime_question": "Близкий вид страницы: бумага отличается от cloth, нет пересвета/крупного шума/видимого tile seam; геометрия и support прежние.",
+        "remaining": "Protected Windows close-up/material repetition/brightness and author acceptance; other material and vegetation families remain open."
+      }
     },
     {
       "id": "PW-035",

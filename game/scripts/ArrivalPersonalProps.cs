@@ -136,11 +136,26 @@ internal partial class ArrivalPersonalProps : Node3D
         cloth.ResourceName = "FamilyBook_ClothMetric80mm";
         cloth.Uv1Scale = new(12.5f, 12.5f, 1f);
         cloth.SetMeta("surfaceTileMetres", .08f);
-        var paper = PainterlyMaterialLibrary.ForColor("d6ccb3", "paper", sheltered: true);
+        var paper = (ShaderMaterial)PainterlyMaterialLibrary.ForColor("d6ccb3", "paper", sheltered: true).Duplicate();
+        const string paperTexturePath = "res://assets/textures/painterly/book_paper_fibers_v1_albedo.png";
+        if (ResourceLoader.Exists(paperTexturePath)
+            && ResourceLoader.Load<Texture2D>(paperTexturePath) is { } paperTexture)
+        {
+            paper.SetShaderParameter("albedo_texture", paperTexture);
+            paper.SetShaderParameter("has_albedo_texture", true);
+            paper.SetShaderParameter("authored_uv_texture", true);
+            paper.SetShaderParameter("texture_scale", new Vector2(12.5f, 12.5f));
+            // The shared shader amplifies pale albedo; keep the book's quiet ivory tint.
+            paper.SetShaderParameter("texture_strength", .10f);
+            paper.SetMeta("sourceTexture", paperTexturePath);
+            paper.SetMeta("surfaceTileMetres", .08f);
+        }
         AddBookPart(book, "LowerClothBoard", new(FamilyBookWidth, .004f, FamilyBookDepth),
             new(0f, -.017f, 0f), cloth, .0015f);
-        AddBookPart(book, "RecessedPageBlock", new(FamilyBookWidth - .010f, .028f, FamilyBookDepth - .010f),
-            Vector3.Zero, paper, .001f);
+        var pageBlock = RuralPropGeometry.Part(book, "RecessedPageBlock",
+            RuralPropGeometry.BevelBox(new(FamilyBookWidth - .010f, .028f, FamilyBookDepth - .010f), .001f),
+            Vector3.Zero, paper);
+        pageBlock.SetMeta("visualOnly", true);
         var upperClothBoard = new MeshInstance3D
         {
             Name = "UpperClothBoard",
