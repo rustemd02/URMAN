@@ -1,0 +1,26 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-13"
+  ],
+  "stage": "the broad runtime hash is taken from the resolver, not from folders",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-12 16:16 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "9a5f0a62",
+  "why": "the previous version scanned folder names, and a folder scan is both too wide and too narrow: it missed LOADER SCRIPTS entirely (they live in game/scripts) and it would have dragged in editor addon scenes (game/addons/gevp) if extended to all .tscn",
+  "the_new_basis": "RuntimeSourceFiles is now the UNION of the resolver's own AuthoredDependencies across every world the catalog reports, minus the compiled packs. The file list comes from the owner's mapping rather than from a convention",
+  "the_bug_the_probe_caught": "pairing a world to its campaign by world.CampaignSelection silently dropped the default world, whose selection is EMPTY - six world plots vanished from the list. The pairing now goes through catalog.WorldsFor(campaign.Selection), which is the catalog's own accessor",
+  "measured": "sixteen files: two scenes, FOUR loader scripts and six world plots, with no compiled pack and no addon scene",
+  "verified": {
+    "probe": "PASS 768/768 including the composition checks and the real-plot edit",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors",
+    "not_run": "no game launch"
+  },
+  "files": {
+    "evidence/STUDIO/b20-deepseek-ai-13/2026-10-11-runtime-hash-from-resolver/check.log": "03a5a4d247963c7d9d000c14987c4bb64ab8977c5edcc5554a4efee6e51a6df7"
+  },
+  "open": [
+    "the two caller insertions remain Codex's"
+  ]
+}

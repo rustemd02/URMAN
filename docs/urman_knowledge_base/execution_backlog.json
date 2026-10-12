@@ -74730,6 +74730,12 @@
                 "result": "REAL HOLE FOUND AND CLOSED by deepseek v4.1 flash: RuntimeSourceHash hashed game/content JSON only, while the runtime LOADS scenes from res://scenes (Act1WorldLayout names them) and the repository has TWENTY-NINE .tscn files under game/scenes - so an author editing a scene during a compile would NOT have moved the hash, a FALSE-FRESH inside the very method meant to close that direction. The method now hashes the scenes too and the note reports the count. Verified: editing a real scene CHANGES the hash and restoring the file restores it exactly, leaving no trace. Boundary: this concerns the BROAD option (a); the per-world fingerprint Codex asked for already covered the SELECTED world's scene, because the resolver lists it among AuthoredDependencies. Verified: probe PASS 769/769 including the four scene checks; Core 0/0",
                 "source": "src-dotnet/Urman.Studio.Core/Play/PlayPreparation.cs (RuntimeSourceHash, RuntimeSourceHashNote, ScenesUnder); evidence evidence/STUDIO/b20-deepseek-ai-13/2026-10-11-scenes-in-runtime-hash",
                 "verification": "probe PASS 769/769 including the four scene checks; Core 0/0. The two caller insertions and a Studio run are NOT_RUN"
+              },
+              {
+                "stage": "2026-10-11 the broad runtime hash is taken from the resolver, not from folders",
+                "result": "correction and redesign by deepseek v4.1 flash of my own previous stage: scanning folder names was both too wide and too narrow - it MISSED loader scripts (they live in game/scripts) and would have dragged in editor addon scenes if extended to every .tscn. RuntimeSourceFiles is now the UNION of the resolver's AuthoredDependencies across every world the catalog reports, minus the compiled packs, so the list comes from the owner's mapping. THE PROBE CAUGHT A BUG IN MY FIRST VERSION: pairing a world to its campaign by world.CampaignSelection silently dropped the default world, whose selection is EMPTY, and six world plots vanished; the pairing now uses catalog.WorldsFor(campaign.Selection). Measured: SIXTEEN files - two scenes, FOUR loader scripts and six world plots, no pack and no addon. Verified: editing a real plot changes the hash, restoring it restores the hash exactly, and a tree with no campaign yields an EMPTY list rather than a hash of arbitrary files. probe PASS 768/768; Core 0/0",
+                "source": "src-dotnet/Urman.Studio.Core/Play/PlayPreparation.cs (RuntimeSourceHash, RuntimeSourceFiles, RuntimeSourceHashNote); evidence evidence/STUDIO/b20-deepseek-ai-13/2026-10-11-runtime-hash-from-resolver",
+                "verification": "probe PASS 768/768 including the composition checks, the real-plot edit and the empty-tree case; Core 0/0. The two caller insertions and a Studio run are NOT_RUN"
               }
             ],
             "stage_tasks": [
@@ -74789,7 +74795,9 @@
               "ИСПРАВЛЕНИЕ моего receipt: у реального мира ЕСТЬ скрипт-загрузчик Act1DemoRoot.cs, всего 9 зависимостей; и 5 новых пинов на числа.",
               "Ранее переданный частичный этап (2026-10-11 a correction to my own receipt, and pins for the numbers it quotes) ждёт ревью/приёмки; полный done_when не выполнен.",
               "НАЙДЕНА И ЗАКРЫТА дыра: широкий RuntimeSourceHash не покрывал СЦЕНЫ (29 .tscn вне модулей) — теперь покрывает.",
-              "Ранее переданный частичный этап (2026-10-11 the broad runtime hash covers the scenes too) ждёт ревью/приёмки; полный done_when не выполнен."
+              "Ранее переданный частичный этап (2026-10-11 the broad runtime hash covers the scenes too) ждёт ревью/приёмки; полный done_when не выполнен.",
+              "Широкий хеш переведён на ОБЪЕДИНЕНИЕ AuthoredDependencies резолвера (16 файлов: 2 сцены, 4 скрипта-загрузчика, 6 участков), без паков и аддонов; probe поймал мою ошибку парного сопоставления.",
+              "Ранее переданный частичный этап (2026-10-11 the broad runtime hash is taken from the resolver, not from folders) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
             "next_action": "STUDIO/AI-13/SELECTOR: подключить выбор actual context.",
             "blocker": null,

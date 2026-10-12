@@ -1,0 +1,7 @@
+== AI-13: the broad runtime hash is taken from the resolver, not from folders
+
+
+Прошло времени 00:00:03.39
+  real world plot: act1_far_bank.world.v1.json; hash changed: True; restored identically: True
+  resolver-derived runtime files: 16 (scenes 2, scripts 4, plots 6)
+PROBE RESULT: PASS

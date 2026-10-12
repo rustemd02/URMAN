@@ -145,84 +145,68 @@ public static class PlayPreparation
     /// CompileInputHash so a caller can compare the two for what each one covers.
     ///
     /// CompileInputHash covers what the COMPILER reads: the campaign manifest, its module files,
-    /// the schemas and the photoBook authoring specs. It does NOT cover the runtime content that
-    /// lives OUTSIDE the module folders - game/content/world world plots, game/content/cutscenes
-    /// timelines, the animation catalogue and the studio recipes - and THAT is what a change during
-    /// a compile can slip past a guard that only compares CompileInputHash.
+    /// the schemas and the photoBook authoring specs. It does NOT cover what the RUNTIME reads
+    /// outside the module folders, and this method closes exactly that gap.
     ///
-    /// This method hashes exactly those authored runtime files and, like CompileInputHash,
-    /// deliberately EXCLUDES every *.compiled.v1.json: the compiler writes those itself, so hashing
-    /// them would make a legitimate compile look like an authored change.
+    /// The file list is not guessed from folder names: it is the UNION of the resolver's own
+    /// AuthoredDependencies across every world the catalog knows, minus the generated compiled
+    /// packs. That makes it cover each world's scene, its world plots and its LOADER SCRIPTS
+    /// (which a folder scan of game/content missed entirely), while leaving unrelated content such
+    /// as editor addon scenes out - this is the broad option (a), but taken from the owner's
+    /// mapping instead of from a convention.
     ///
-    /// Boundary, stated because it costs something: this covers ALL authored runtime content, not
-    /// only the selected campaign's. A change to another campaign's world plot therefore invalidates
-    /// a run of this one. That direction is chosen on purpose - a false-stale wastes a compile, while
-    /// a missed change launches a scene the author did not ask for - and narrowing it to one campaign
-    /// needs a mapping from a campaign or world selection to its runtime FILES, which the manifest
-    /// does not carry today: it names scene IDS, not paths.
+    /// Boundary, stated because it costs something: it spans ALL campaigns, so a change to another
+    /// campaign's world also invalidates a run. That direction is chosen on purpose - a false-stale
+    /// wastes a compile while a missed change launches a scene the author did not ask for. The
+    /// per-world method below is the narrow one, and it is the one a pre-await/post-await guard
+    /// should compare.
     /// </summary>
     public static string RuntimeSourceHash(string root)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(root);
         var full = Path.GetFullPath(root);
+        return HashFiles(full, RuntimeSourceFiles(root).ToArray());
+    }
+
+    /// <summary>Every authored runtime file the catalog's worlds depend on, packs excluded.</summary>
+    public static IReadOnlyList<string> RuntimeSourceFiles(string root)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(root);
+        var catalog = CampaignWorldCatalog.Discover(root);
         var files = new SortedSet<string>(StringComparer.Ordinal);
-        // game/content holds the authored JSON, and game/scenes holds the scenes the runtime LOADS
-        // (res://scenes/...). The first version of this method covered only the former, which left a
-        // real hole: an author could edit a scene during a compile and the guard would not notice.
-        foreach (var folder in new[] { Path.Combine("game", "content") })
+        foreach (var campaign in catalog.Campaigns)
         {
-            var path = Path.Combine(full, folder);
-            if (!Directory.Exists(path))
-            {
-                continue;
-            }
+            files.Add(campaign.RelativePath);
+        }
 
-            foreach (var file in Directory.EnumerateFiles(path, "*.json", SearchOption.AllDirectories))
+        // Pair each campaign with the worlds the CATALOG itself reports for it. Matching on
+        // world.CampaignSelection alone is not enough: the default world act1_demo carries an EMPTY
+        // selection, so pairing that way silently dropped its six world plots - which is exactly the
+        // FALSE-FRESH this method exists to prevent, and the probe caught it.
+        foreach (var campaign in catalog.Campaigns)
+        {
+            foreach (var world in catalog.WorldsFor(campaign.Selection))
             {
-                if (file.Contains(".compiled.", StringComparison.Ordinal))
+                foreach (var dependency in catalog.AuthoredDependencies(campaign, world))
                 {
-                    continue;
+                    files.Add(dependency);
                 }
-
-                files.Add(file);
             }
         }
 
-        foreach (var file in ScenesUnder(full))
-        {
-            files.Add(file);
-        }
-
-        using var sha = System.Security.Cryptography.SHA256.Create();
-        var writer = new MemoryStream();
-        foreach (var file in files)
-        {
-            var relative = Path.GetRelativePath(full, file).Replace('\\', '/');
-            var bytes = File.ReadAllBytes(file);
-            writer.Write(System.Text.Encoding.UTF8.GetBytes(relative));
-            writer.Write([0]);
-            writer.Write(bytes);
-            writer.Write([0]);
-        }
-
-        writer.Position = 0;
-        return Convert.ToHexString(sha.ComputeHash(writer)).ToLowerInvariant();
+        return files
+            .Where(path => !path.EndsWith(".compiled.v1.json", StringComparison.Ordinal))
+            .ToArray();
     }
 
     /// <summary>What the runtime hash covers and what it costs, for a caller that shows it.</summary>
     public static string RuntimeSourceHashNote(string root)
     {
-        var full = Path.GetFullPath(root);
-        var count = 0;
-        var path = Path.Combine(full, "game", "content");
-        if (Directory.Exists(path))
-        {
-            count = Directory.EnumerateFiles(path, "*.json", SearchOption.AllDirectories)
-                .Count(file => !file.Contains(".compiled.", StringComparison.Ordinal));
-        }
-
-        var scenes = ScenesUnder(full).Count();
-        return $"RuntimeSourceHash: {count} авторских рантайм-файлов контента и {scenes} сцен (без compiled-паков). Покрывает контент и сцены ВНЕ папок модулей; изменение чужой кампании тоже инвалидирует прогон — это выбрано сознательно, потому что пропущенное изменение опаснее лишней сборки.";
+        var files = RuntimeSourceFiles(root);
+        var scenes = files.Count(path => path.EndsWith(".tscn", StringComparison.Ordinal));
+        var scripts = files.Count(path => path.EndsWith(".cs", StringComparison.Ordinal));
+        var plots = files.Count(path => path.Contains("/world/", StringComparison.Ordinal));
+        return $"RuntimeSourceHash: {files.Count} авторских рантайм-файлов от резолвера (сцен {scenes}, скриптов-загрузчиков {scripts}, участков мира {plots}) без compiled-паков. Список — ОБЪЕДИНЕНИЕ AuthoredDependencies всех миров, поэтому ловит и сцены, и скрипты, которые скан папок пропускал.";
     }
 
     /// <summary>
