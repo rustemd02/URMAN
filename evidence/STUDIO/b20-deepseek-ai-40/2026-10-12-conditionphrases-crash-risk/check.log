@@ -1,0 +1,14 @@
+== AI-40: a crash risk in a file I do NOT own, reached through MY calls
+
+-- proven in isolation: a (string?) cast on a node holding an object throws:
+   CAST THREW: InvalidOperationException - The node must be of type 'JsonValue'.
+-- the two lines in ConditionPhrases.cs (a file in main, NOT mine):
+74:        if ((string?)(rule["op"] as JsonValue) is { } unsupported && NotExecuted.Contains(unsupported))
+79:        var op = (string?)rule["op"] ?? "";
+-- MY projections pass it rule objects from authored content:
+src-dotnet/Urman.Studio.Core/Editing/PcChatContent.cs:187:            if (ConditionPhrases.Kind(op) is null)
+src-dotnet/Urman.Studio.Core/Editing/AuthoringDiagnostics.cs:34:        foreach (var (id, op) in ConditionPhrases.FindNotExecuted(workspace).Where(item => item.EntityId == entityId))
+src-dotnet/Urman.Studio.Core/Editing/AuthoringDiagnostics.cs:36:            var known = ConditionPhrases.Kind(op);
+src-dotnet/Urman.Studio.Core/Editing/AuthoringDiagnostics.cs:149:        foreach (var (entityId, op) in ConditionPhrases.FindNotExecuted(workspace))
+  ConditionPhrases guards the cast on 1 line and leaves it unguarded on 1
+PROBE RESULT: PASS

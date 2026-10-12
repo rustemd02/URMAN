@@ -1,0 +1,25 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-40",
+    "STUDIO/AI-24"
+  ],
+  "stage": "a crash risk in a file I do NOT own, reached through MY calls",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-12 (MSK)",
+  "branch": "deepseek/b20-editor-content",
+  "base": "be80c216",
+  "the_defect": "ConditionPhrases.cs is IN main and is NOT mine. Its Describe(JsonObject rule) guards the op cast on line 74 with 'as JsonValue' and then CASTS THE SAME FIELD DIRECTLY on line 79: var op = (string?)rule[\"op\"] ?? \"\". For a rule whose op holds an object or an array that cast throws InvalidOperationException, not a reported problem",
+  "why_it_reaches_me": "MY projections call this file on authored content: PcChatContent line 187 calls ConditionPhrases.Kind(op) while validating chat conditions, and AuthoringDiagnostics lines 34/149/152 call FindNotExecuted and Kind. So a malformed op in authored content would crash through my code path, in the very place my own projections were swept to avoid exactly that",
+  "proven": "a minimal standalone program shows the cast throwing: InvalidOperationException 'The node must be of type JsonValue'. Two probe assertions then pin the source shape: the guarded line is present AND one unguarded line of the same cast is present",
+  "what_i_am_not_doing": "I am NOT editing ConditionPhrases.cs. It is another owner's file, and the rule is to hand a defect with evidence rather than to reach into someone else's file",
+  "the_ask": "the owner can make line 79 read the same guard as line 74, for instance 'var op = (string?)(rule[\"op\"] as JsonValue) ?? \"\";'. If the owner prefers, I can send that as a one-line patch instead",
+  "verified": {
+    "probe": "PASS 793/793 including the two source-shape assertions",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors",
+    "not_run": "no game launch: the crash would happen in the editor, not in play"
+  },
+  "files": {
+    "evidence/STUDIO/b20-deepseek-ai-40/2026-10-12-conditionphrases-crash-risk/check.log": "a90e02f207164938c36bd98b22eda6c125edc8784f0d6dff1b3ec9116a37adc5"
+  }
+}
