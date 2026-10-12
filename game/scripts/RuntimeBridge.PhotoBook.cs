@@ -24,6 +24,7 @@ public partial class RuntimeBridge
         bool BackRead,
         bool Mounted)
     {
+        public string PageId { get; init; } = string.Empty;
         public bool CanReadBack { get; init; }
         public bool CanMount { get; init; }
     }
@@ -70,6 +71,7 @@ public partial class RuntimeBridge
                 backRead,
                 mounted)
             {
+                PageId = definition.PageId,
                 CanReadBack = !ReferenceEquals(_photoBookBusySession, session)
                     && CanReadPhotoBack(definition.Id, definition.BackTextRu, state),
                 CanMount = !ReferenceEquals(_photoBookBusySession, session)
