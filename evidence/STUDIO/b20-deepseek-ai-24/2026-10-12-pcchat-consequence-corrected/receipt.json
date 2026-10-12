@@ -1,0 +1,27 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-24"
+  ],
+  "stage": "I corrected my own claim about the consequence of a dangling chat target",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-12 17:22 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "ab3e12f4",
+  "my_error": "in the previous stage I read only the UI path (OldPcUi.Chat.PendingChoiceNode uses TryGetValue and stalls) and wrote that a dangling chat target makes the thread stop SILENTLY. That is WRONG for a chat. CompiledCampaignRepository validates it while BUILDING the repository at load: it walks every chat node and choice and throws InvalidDataException 'leads to unknown node' (lines 223-228). The whole compiled campaign therefore fails to load, not one branch",
+  "the_corrected_message": "now says the runtime checks targets at load and throws InvalidDataException, so the WHOLE campaign will not open rather than one branch",
+  "the_lesson": "I read one consumer and generalised. The UI path does stall quietly, but it is only reached if the repository loaded - and it cannot. A claim about a consequence needs the EARLIEST place the failure happens, not the first one I happened to read",
+  "what_did_not_change": "the check that the target must exist was right all along; only my description of what happens when it does not",
+  "own_mistake_again": "this receipt was ALSO missing from its commit, for the same script syntax error as the previous one - twice in a row. It is added separately rather than by rewriting the pushed commit",
+  "verified": {
+    "probe": "PASS 774/774 with the two assertions naming InvalidDataException and the whole-campaign failure",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors",
+    "not_run": "no game launch: seeing the load fail is runtime acceptance"
+  },
+  "files": {
+    "evidence/STUDIO/b20-deepseek-ai-24/2026-10-12-pcchat-consequence-corrected/check.log": "1c63d67f53d906072e602e81ee9d427b186a22f9f04de9f52138d94b4689835c"
+  },
+  "open": [
+    "the wording is not yet seen by an author in the editor"
+  ]
+}
