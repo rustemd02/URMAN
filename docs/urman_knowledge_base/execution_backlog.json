@@ -79603,6 +79603,17 @@
                 ],
                 "actual_result": "Root viewed loaded village ready113121ms. Authored-content6.814s/materials1.202s/addressmounts50.626s/total58.643s: dominant source localized to79authored address registrations. Six full diagnostic lines equal previous5e680a26; normalX gameExitCode0, zero resource leaks, userdataoriginal rename-restoredverified; doctorready/busynull/orphanfalse/recoveryfalse.",
                 "limits": "WrapperFAIL one startupGOGVulkan deprecatedlayerJSON error retained. This snapshot has profile split only, not new prepared-face cache; no cache speed claim."
+              },
+              {
+                "stage": "2026-10-12 prepared faces for authored address pass",
+                "result": "SOURCE_GAME_COMPILE_0_0_INDEPENDENT_REVIEW_NATIVE_UNMEASURED",
+                "source": [
+                  "game/scripts/AddressFacadeMount.cs",
+                  "game/scripts/Act1ConnectedWorld.AuthoredWorld.cs"
+                ],
+                "verification": "Luna FAST/Max implementation; Sol6.1medium independent final source review including early AABB rejection accepted. Root affected Game compile0warnings/0errors13.13s and scoped diffcheck.",
+                "actual_result": "Pass-local ordered mesh/transforms/8-corner world bounds/path snapshot created after full geometry/material regrade. Lazy transformed triangles reused only during synchronous authored address registration. Cached AABB rejection precedes live visibility/sign/foliage/interior checks for intersecting meshes; exact mesh/triangle/candidate ordering, coverage/occluder thresholds/gate rules remain. Later Inspect/Reconcile retain uncached geometry queries; no static cache.",
+                "remaining": "One changed-source native map run must prove speed, mount/diagnostic equivalence and no leaks. Current measured50.626s address bottleneck was before this patch."
               }
             ],
             "stage_tasks": [
@@ -79637,7 +79648,7 @@
             "implementation_state": "implemented",
             "technical_verification_state": "not_run",
             "remaining": "Полная3Dкарта измерена114.365с вместо181.025с с прежними диагностическимиcounts и cleanresourceclose. Она всё ещё медленная; authored58с требует причинного разбиения. Novice/usability and remaining editor scope stay open.",
-            "next_action": "Разделить существующий authored profile на Director.Build / material regrade / authored address mounts и измерить реальную задержку58с; не повторять тот же snapshot. Кандидат — повторные полные world mesh scans при79 address mounts, не менять геометрию без причинного замера.",
+            "next_action": "Один changed-source Windows MapLoad/normalclose: сравнить authored-addresses50.626с/ready113121ms, полныйdiagnostic/mount output и ресурсы. Prepared-face cache нельзя использовать после неподвижного синхронного прохода; поздние geometry edits остаются live.",
             "blocker": null,
             "external_gates": [
               {
@@ -79719,8 +79730,8 @@
                 "scenario": "A15 и маленькое окно/150% scale; записать успешность, время, конкретные ошибки, не выдуманные оценки удобства.",
                 "success": "Новичок выбирает дом, меняет вручную, запускает AI, отменяет, открывает связь и сохраняет без подсказки разработчика о классах/путях.",
                 "repeat_only_if": "Изменён предметный contract/input или предыдущий сценарий неполон.",
-                "current_stage_question": "Где находится measured authored58.389s: Director.Build, material regrade или authored address mounts?",
-                "current_stage_success": "Один b5f367c4 Windows snapshot с тремя existing profile labels, общим ready time и прежними diagnostic counts; обычное закрытие и userdata restore; wrapper failures сохранить. Измерение локализует задержку, не доказывает новое ускорение."
+                "current_stage_question": "Уменьшил ли pass-local prepared-face cache реальные50.626s authored address mounts без изменения мест/владельцев табличек, diagnosticcounts и закрытия?",
+                "current_stage_success": "Changed-source native timings and original diagnostics/mount outputs match; root views loaded scene, normalclose game0/noresourceleaks/userdata restored. Source-only compile not speed proof; GOG wrapperfailure retained."
               },
               "actual_result": null,
               "evidence_refs": [

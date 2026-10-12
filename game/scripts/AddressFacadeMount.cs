@@ -29,7 +29,59 @@ internal static class AddressFacadeMount
     internal const string FenceMountSuffix=" (parcel fence mount)";
     internal sealed record Triangle(Vector2 A,Vector2 B,Vector2 C);
     internal sealed record Coverage(bool Supported,double MissingArea,string Owner,string Reason,bool TimberCladding=false);
-    private sealed record Face(Vector3 A,Vector3 B,Vector3 C,string Owner);
+    internal sealed record Face(Vector3 A,Vector3 B,Vector3 C,string Owner);
+    private sealed record PreparedMeshFaces(MeshInstance3D Instance,Mesh Mesh,Transform3D Transform,Aabb WorldBounds,string Owner)
+    {
+        public Face[]? Faces;
+    }
+
+    /// <summary>A synchronous, caller-owned snapshot for repeated sightline queries during one world-build pass.</summary>
+    internal sealed class PreparedWorldFaces
+    {
+        private readonly PreparedMeshFaces[] _meshes;
+
+        internal PreparedWorldFaces(Node3D root)
+        {
+            _meshes=Descendants(root).OfType<MeshInstance3D>()
+                .Select(mesh=>(Instance:mesh,Mesh:mesh.Mesh))
+                .Where(pair=>pair.Mesh is not null)
+                .Select(pair=>
+                {
+                    var transform=pair.Instance.GlobalTransform;
+                    var bounds=pair.Mesh!.GetAabb();
+                    var worldBounds=Bounds(Enumerable.Range(0,8).Select(i=>transform*bounds.GetEndpoint(i)));
+                    return new PreparedMeshFaces(pair.Instance,pair.Mesh!,transform,worldBounds,pair.Instance.GetPath().ToString());
+                }).ToArray();
+        }
+
+        internal Face[] VisibleFaces(Aabb bounds)
+        {
+            var result=new List<Face>();
+            foreach(var prepared in _meshes)
+            {
+                if(!prepared.WorldBounds.Intersects(bounds))continue;
+                var mesh=prepared.Instance;
+                if(mesh.Mesh is null||!mesh.IsVisibleInTree())continue;
+                if(mesh.GetParent() is AddressSignVisualComponent)continue;
+                // Keep the existing live ancestry filters even though geometry is captured for this pass.
+                if(IsWalkThroughFoliage(mesh)||IsInteriorDressing(mesh))continue;
+                prepared.Faces??=TransformFaces(prepared.Mesh,prepared.Transform,prepared.Owner);
+                result.AddRange(prepared.Faces);
+            }
+            return result.ToArray();
+        }
+    }
+
+    internal static PreparedWorldFaces PrepareWorldFaces(Node3D root)=>new(root);
+
+    private static Face[] TransformFaces(Mesh mesh,Transform3D transform,string owner)
+    {
+        var raw=mesh.GetFaces();var result=new Face[raw.Length/3];
+        for(var i=0;i+2<raw.Length;i+=3)
+            result[i/3]=new(transform*raw[i],transform*raw[i+1],transform*raw[i+2],owner);
+        return result;
+    }
+
     private sealed class Plane(float depth,string owner)
     {
         public float Depth=depth;
@@ -57,9 +109,9 @@ internal static class AddressFacadeMount
             ||name=="CoreWallVolume"||name.StartsWith("MosqueHallEast",StringComparison.Ordinal);
     }
 
-    public static bool TryFind(Node3D building,Vector3 door,Vector3 outward,Node3D world,out Vector3 point,out Vector3 mountedOutward,out string owner,out string failure,string? explicitExteriorWall=null)
+    public static bool TryFind(Node3D building,Vector3 door,Vector3 outward,Node3D world,out Vector3 point,out Vector3 mountedOutward,out string owner,out string failure,string? explicitExteriorWall=null,PreparedWorldFaces? preparedWorldFaces=null)
     {
-        if(TryFindOnWalls(building,door,outward,world,out point,out mountedOutward,out owner,out failure,explicitExteriorWall))return true;
+        if(TryFindOnWalls(building,door,outward,world,out point,out mountedOutward,out owner,out failure,explicitExteriorWall,preparedWorldFaces))return true;
         // No façade wall beside this door carries the plate at reading height.
         // Parcel fences, gate posts, plinths and props are deliberately not a
         // fallback (author 2026-10-04): a random rail or ledge reads as a strange
@@ -70,7 +122,7 @@ internal static class AddressFacadeMount
         return false;
     }
 
-    private static bool TryFindOnWalls(Node3D building,Vector3 door,Vector3 outward,Node3D world,out Vector3 point,out Vector3 mountedOutward,out string owner,out string failure,string? explicitExteriorWall=null)
+    private static bool TryFindOnWalls(Node3D building,Vector3 door,Vector3 outward,Node3D world,out Vector3 point,out Vector3 mountedOutward,out string owner,out string failure,string? explicitExteriorWall,PreparedWorldFaces? preparedWorldFaces)
     {
         point=default;mountedOutward=default;owner="";failure="";outward.Y=0;outward=outward.Normalized();
         // Seni-door houses face their side entry away from the street: the
@@ -81,7 +133,8 @@ internal static class AddressFacadeMount
         var tried=new List<string>();
         foreach(var sweep in new[]{outward,-outward,new Vector3(outward.Z,0,-outward.X),new Vector3(-outward.Z,0,outward.X)})
         {
-            if(TryFindOnWallsOriented(building,door,sweep,world,out point,out owner,out var orientedFailure,explicitExteriorWall,oriented:sweep!=outward))
+            if(TryFindOnWallsOriented(building,door,sweep,world,out point,out owner,out var orientedFailure,explicitExteriorWall,
+                oriented:sweep!=outward,preparedWorldFaces:preparedWorldFaces))
             {
                 mountedOutward=sweep;
                 if(sweep!=outward)owner+=" (street-facing wall; seni door faces elsewhere)";
@@ -93,7 +146,7 @@ internal static class AddressFacadeMount
         return false;
     }
 
-    private static bool TryFindOnWallsOriented(Node3D building,Vector3 door,Vector3 outward,Node3D world,out Vector3 point,out string owner,out string failure,string? explicitExteriorWall,bool oriented=false)
+    private static bool TryFindOnWallsOriented(Node3D building,Vector3 door,Vector3 outward,Node3D world,out Vector3 point,out string owner,out string failure,string? explicitExteriorWall,bool oriented=false,PreparedWorldFaces? preparedWorldFaces=null)
     {
         point=default;owner="";failure="";outward.Y=0;outward=outward.Normalized();
         var right=new Vector3(outward.Z,0,-outward.X);
@@ -158,7 +211,7 @@ internal static class AddressFacadeMount
         // Include sibling porch meshes and nearby buildings, not just eligible
         // wall owners. Bound the mesh read once, before testing candidates.
         var bounds=Bounds(candidates.Select(c=>right*c.Center.X+Vector3.Up*c.Center.Y+outward*c.Plane.Depth)).Grow(4.2f);
-        var faces=VisibleFaces(world,bounds);
+        var faces=VisibleFaces(world,bounds,preparedWorldFaces);
         var refusals=new Dictionary<string,int>(StringComparer.Ordinal);
         void Refused(string reason){refusals[reason]=refusals.GetValueOrDefault(reason)+1;}
         foreach(var candidate in candidates.OrderBy(c=>c.Score).ThenBy(c=>c.Plane.Owner,StringComparer.Ordinal))
@@ -373,7 +426,7 @@ internal static class AddressFacadeMount
     /// posts and rails, where a passer-by in the street can read it. Only members of this
     /// household are considered, never a neighbour's fence, and the complete rectangle must
     /// lie on one solid member's own street-facing face at reading height.</summary>
-    internal static bool TryFindOnOwnYardFence(Node3D building,Vector3 gate,Vector3 outward,Node3D world,out Vector3 point,out string owner,out string failure)
+    internal static bool TryFindOnOwnYardFence(Node3D building,Vector3 gate,Vector3 outward,Node3D world,out Vector3 point,out string owner,out string failure,PreparedWorldFaces? preparedWorldFaces=null)
     {
         point=default;owner="";failure="";outward.Y=0;outward=outward.Normalized();
         var right=new Vector3(outward.Z,0,-outward.X);
@@ -437,7 +490,7 @@ internal static class AddressFacadeMount
         }
         if(candidates.Count==0){failure="no own gate/rail rectangle at reading height";return false;}
         var bounds=Bounds(candidates.Select(c=>c.Point)).Grow(4.2f);
-        var faces2=VisibleFaces(world,bounds);
+        var faces2=VisibleFaces(world,bounds,preparedWorldFaces);
         var refusals=new Dictionary<string,int>(StringComparer.Ordinal);
         foreach(var candidate in candidates.OrderBy(c=>c.Score))
         {
@@ -530,8 +583,9 @@ internal static class AddressFacadeMount
         return front>depth?point+outward*(front-depth):point;
     }
 
-    private static Face[] VisibleFaces(Node3D root,Aabb bounds)
+    private static Face[] VisibleFaces(Node3D root,Aabb bounds,PreparedWorldFaces? preparedWorldFaces=null)
     {
+        if(preparedWorldFaces is not null)return preparedWorldFaces.VisibleFaces(bounds);
         var result=new List<Face>();
         foreach(var mesh in Descendants(root).OfType<MeshInstance3D>().Where(m=>m.Mesh is not null&&m.IsVisibleInTree()))
         {

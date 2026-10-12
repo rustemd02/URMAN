@@ -28,12 +28,13 @@ public partial class Act1ConnectedWorld
         // addressed plots should silently omit the far bank.
         ProfileWorldBuildStep("authored-addresses", () =>
         {
+            var preparedWorldFaces = AddressFacadeMount.PrepareWorldFaces(this);
             foreach (var file in DirAccess.GetFilesAt(AuthoredWorldDirector.WorldDirectory)
                 .Where(file => file.EndsWith(".world.v1.json", StringComparison.Ordinal)).Order(StringComparer.Ordinal))
             {
                 using var layout = JsonDocument.Parse(global::Godot.FileAccess.GetFileAsString($"{AuthoredWorldDirector.WorldDirectory}/{file}"));
                 if (!layout.RootElement.TryGetProperty("executor", out var executor) || executor.GetString() != "generic") continue;
-                RegisterAuthoredPlotAddresses(layout.RootElement);
+                RegisterAuthoredPlotAddresses(layout.RootElement, preparedWorldFaces);
             }
         });
         foreach (var anchor in KitPlacementTakeover.Unmatched())
@@ -42,7 +43,7 @@ public partial class Act1ConnectedWorld
         }
     }
 
-    private void RegisterAuthoredPlotAddresses(JsonElement layout)
+    private void RegisterAuthoredPlotAddresses(JsonElement layout, AddressFacadeMount.PreparedWorldFaces preparedWorldFaces)
     {
         foreach (var row in layout.GetProperty("entities").EnumerateArray())
         {
@@ -69,8 +70,9 @@ public partial class Act1ConnectedWorld
             // Behind a street gate the plate belongs on the gate itself, readable from the street;
             // the house facade stays the fallback when the gate offers no free rail or post.
             var mount = false;
-            if (gates.Length == 2 && AddressFacadeMount.TryFindOnOwnYardFence(root, accessOwner, outward, this, out sign, out owner, out failure)) { mount = true; signOutward = outward; }
-            if (!mount) mount = AddressFacadeMount.TryFind(root, door, outward, this, out sign, out signOutward, out owner, out failure);
+            if (gates.Length == 2 && AddressFacadeMount.TryFindOnOwnYardFence(root, accessOwner, outward, this, out sign, out owner, out failure, preparedWorldFaces)) { mount = true; signOutward = outward; }
+            if (!mount) mount = AddressFacadeMount.TryFind(root, door, outward, this, out sign, out signOutward, out owner, out failure,
+                preparedWorldFaces: preparedWorldFaces);
             root.SetMeta("addressSignMountAvailable", mount);
             root.SetMeta("addressSignMountOwner", owner);
             root.SetMeta("addressSignMountFailure", failure);
