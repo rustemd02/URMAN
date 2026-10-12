@@ -1373,9 +1373,16 @@ public partial class StudioRoot : Control
             return;
         }
 
-        var position = _search.GetScreenPosition() + new Vector2(0, _search.Size.Y + 4);
+        // PopupPanel.Popup uses parent-viewport coordinates for embedded windows.
+        var position = _search.GetGlobalTransformWithCanvas() * new Vector2(0, _search.Size.Y + 4);
         _results.Popup(new Rect2I((Vector2I)position, new Vector2I(560, 320)));
-        _search.GrabFocus();
+        Callable.From(() =>
+        {
+            if (_results.Visible)
+            {
+                _search.GrabFocus();
+            }
+        }).CallDeferred();
         _search.CaretColumn = _search.Text.Length;
     }
 

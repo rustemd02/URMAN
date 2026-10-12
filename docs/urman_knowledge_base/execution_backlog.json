@@ -4750,8 +4750,8 @@
             "assigned_owner": "art/materials/qa",
             "active_owner": null,
             "activity": {
-              "state": "not_active",
-              "reason": "Root закончил source/reference readback и объявил точную S04 scale поправку; Luna ещё не назначена на write."
+              "state": "released",
+              "reason": "Native Luna6Max выполнила one-line numeric Scale correction у existing semantic snow_roof owner; root diff/consumer inspection+scoped diff-check приняли source. Native queued после B20 restart, stage не completed."
             },
             "task_type": "engineering",
             "status": "in_progress",
@@ -4760,7 +4760,7 @@
             "remaining": [
               "Подключить S04 — Снег на крышах и верхних гранях; собственного целевого receipt пока нет."
             ],
-            "next_action": "Luna исправляет только world-triplanar scale existing snow_roof на .5 для обязательного 2×2м repeat; после release станции root принимает actual близкий скат/кромку и сохранность snow mood.",
+            "next_action": "После B20 terminal/recovery/release снять близкий actual roof snow cap и matched C2 High/FOV70; принять спокойный2м repeat и сохранный snow response, record source/snapshot/receipt.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -4840,8 +4840,10 @@
               "authority": "Прямое поручение автора выполнять B02 с Luna6Max; create_goal active.",
               "source_readback": "Existing S04 reuse map personally viewed; inventory132 mandates reuse. Current PML world-triplanar scale1 conflicts with current S04 2×2м brief; S01 same path already scale.5 for2м.",
               "scope": "Only WinterTextures[snow_roof].Scale 1→.5; existing map/owner/shader strength/response/geometry unchanged.",
-              "result": "Source patch pending; current native receipt/art not confirmed. Texture per-file provenance remains a parent license/acceptance issue; general existing README is not fabricated per-file proof.",
-              "next_action": "Luna исправляет только world-triplanar scale existing snow_roof на .5 для обязательного 2×2м repeat; после release станции root принимает actual близкий скат/кромку и сохранность snow mood."
+              "result": "Одна строка existing WinterTextures snow_roof: Scale Vector2(1,1)→(.5,.5), exact2м repeat. Root personally viewed PNG/C2 baseline; callers и world-triplanar sampling проверены Luna, root scoped diff и diff-check passed. Native/art NOT_RUN.",
+              "next_action": "После B20 terminal/recovery/release снять близкий actual roof snow cap и matched C2 High/FOV70; принять спокойный2м repeat и сохранный snow response, record source/snapshot/receipt.",
+              "source_sha256": "63d8eb80105662e3d95214fcfb3dcc60ce88cd52a070072d10ab3b5bfc2efe1c",
+              "affected_consumers": "Existing shared roof/cap/sill/canopy snow_roof, включая Prologue и experimental route; geometry/weather/microrelief/strength unchanged. Не выдавать один будущий кадр за art приёмку всех сцен."
             }
           },
           {
@@ -75239,13 +75241,27 @@
                       "actual_result": "Native click hit HeroHouse_Left_LogCrown; source confirms aperture-cut visible crown geometry versus broad BoxShape. Studio Pick only for hero+LogCrown now selects nearest visible triangle. Secondary ray excludes only this placement collision owners and gives earlier external hits/empty hits to normal authored/marker selection with actual depth; crowns use existing wall side label/ID. No game collision change. Final Game compile0warnings/0errors14.56s after global::Godot namespace correction; independent Luna review confirms both selection findings fixed, no new explicit defects. Native verification remains pending.",
                       "verification": "game/studio/StudioWorldSection.cs PickVisibleHeroHouseSurface; observed job45217200 game.log StudioPick hit and eye-level-inside-house.png; no new request/Apply claim. Final diff-check PASS, independent Luna read-only review; no runtime claim from compile.",
                       "remaining": "Fresh selected Front0 native request/preview/Apply/reopen/byteUndo/Redo/finalUndo after peer Windows release."
+                    },
+                    {
+                      "stage": "2026-10-13 two native Studio processes and search repair",
+                      "result": "RESTART_RUNNER_VERIFIED_AI_RESTART_NOT_RUN",
+                      "actual_result": "job6a6fde7385d94607924cc783114bee01 snapshot e433da427d24fb6c60197adc9e2dcbb3c0213bb79673edb76fa6522a2a47fc5c: actual Studio101128 then107512 in same workspace, both exit0; userdataRestoredtrue/recoveryfalse. Overall FAIL retained: GOG Galaxy deprecated Vulkan layer JSON loader ERROR in both launches. No leaks/orphans reported in two logs. No new Codex request/proposal/Apply: search row/Enter did not activate. Baseline recipe2bcbc3ad88f8ecec5473a7ed9b5d144f649c9d7cf90c0212ec34a6cafb0aa4b4 and history sequence absent.",
+                      "verification": [
+                        "evidence/STUDIO/practical-editor-2026-10-13/windows-codex-restart-selection/receipt.json",
+                        "evidence/STUDIO/practical-editor-2026-10-13/windows-codex-restart-selection/game.log",
+                        "evidence/STUDIO/practical-editor-2026-10-13/windows-codex-restart-selection/game-restart-1.log",
+                        "evidence/STUDIO/practical-editor-2026-10-13/windows-codex-restart-selection/second-studio.png"
+                      ],
+                      "source_result": "StudioRoot OnSearch uses parent viewport transform for embedded Popup rect and deferred focus; Luna bounded producer/Enter/click/Navigate review found no other deterministic blocker, Game compile0warnings/0errors15.82s. New source native not run.",
+                      "helper_result": "eng/windows-game-ui.ps1 exact job/PID/source/HWND/owned-popup focus guards; unconditional key/button release, unique CreateNew result + no-reparse outputdir. Actual capture/click/keys/text on both Studio processes; PID4/stale import denied. Final Windows PS5 parse0errors SHA32a4951303023ed07e0ae79a423c87dacd44601cae04c6c9b9f71a44ea3a7415. Luna+peer review caught output symlink and long-held focus gaps, fixed; movement rechecks≤50ms. Fullgame/movement not yet runtime verified.",
+                      "remaining": "Fresh changed-source search selection, real Codex Apply and durable reopen Undo/Redo/finalUndo; no overall clean station/AI claim."
                     }
                   ],
                   "assigned_owner": "codex/b20-2026-10-10",
                   "active_owner": null,
                   "activity": {
-                    "state": "waiting_resource",
-                    "reason": "Verified camera/runner repair bf37e309 and visible-mesh picker finalcompile0/0; source stage delivered, Windows released for waiting peer PW017/VEHICLE; fresh native integration after peer release. Assigned Codex owner preserved."
+                    "state": "stage_delivered",
+                    "reason": "Protected6a6fde73 terminal; actual2Studio launches exit0 and userdata restored. Fresh Codex Apply/reopen Undo not run due search activation; search source repaired/compiled, native pending."
                   },
                   "task_type": "integration_check",
                   "status": "in_progress",
@@ -75254,7 +75270,7 @@
                   "remaining": [
                     "Native Front0 selection after camera/triangle picking repairs; fresh realCodex proposal/preview/Apply and reopen Undo/Redo/finalUndo."
                   ],
-                  "next_action": "После peer release выполнить один fresh native job с camera clearance, visible triangle picking и исправленным restart runner; fresh Front0 Codex→preview→Apply→reopen→byteUndo/Redo/finalUndo.",
+                  "next_action": "После release B02 проверить поиск на новом source: выбрать Hero/Front0, fresh Codex preview/Apply → новое Studio → byte-exact Undo/Redo/finalUndo. Прежний принятый CODEX-UI этап сохранить; не повторять неизменённый snapshot.",
                   "blocker": null,
                   "external_gates": [],
                   "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
