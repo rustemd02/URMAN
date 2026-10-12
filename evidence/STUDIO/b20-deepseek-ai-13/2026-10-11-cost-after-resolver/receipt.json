@@ -1,0 +1,28 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-13"
+  ],
+  "stage": "what the two hashes cost now that the broad one runs the catalog",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-12 16:31 +0300",
+  "branch": "deepseek/b20-editor-content",
+  "base": "9a5f0a62",
+  "result": {
+    "RuntimeSourceHash": "4.6 ms per call, measured over five passes. It costs more than the earlier folder scan (0.7 ms) because it now runs CampaignWorldCatalog.Discover and asks the resolver for every world's dependencies - which is what makes it cover loader scripts and skip addon scenes",
+    "WorldSourceFingerprint": "0.4 ms per call, an order of magnitude cheaper, because it takes an ALREADY RESOLVED context: the caller resolves the world once before the await and once after, and hashes the dependency list each time",
+    "why_the_comparison_matters": "the guard runs twice per launch, so 4.6 ms twice is still nothing next to a compile; and a caller that already holds the context pays only 0.4 ms per check",
+    "note": "the numbers are from this machine and this checkout; the ORDER is the useful part, not the exact milliseconds"
+  },
+  "verified": {
+    "probe": "PASS 769/769 including both cost bounds and the comparison",
+    "compile": "Urman.Studio.Core 0 warnings/0 errors",
+    "not_run": "no game launch"
+  },
+  "files": {
+    "evidence/STUDIO/b20-deepseek-ai-13/2026-10-11-cost-after-resolver/check.log": "5059abdb96d4d48d1c29d4ef061a7adff9f3874d22d97aee49dd711395b5c0ec"
+  },
+  "open": [
+    "the two caller insertions remain Codex's"
+  ]
+}

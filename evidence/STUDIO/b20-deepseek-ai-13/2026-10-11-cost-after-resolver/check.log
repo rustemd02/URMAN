@@ -1,0 +1,5 @@
+== AI-13: what the two hashes cost now that the broad one runs the catalog
+
+  RuntimeSourceHash cost: 5,3 ms per call (it re-runs the catalog now)
+  WorldSourceFingerprint cost: 0,3 ms per call (no catalog, it takes the context)
+PROBE RESULT: PASS

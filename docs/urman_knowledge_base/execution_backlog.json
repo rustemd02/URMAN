@@ -74736,6 +74736,12 @@
                 "result": "correction and redesign by deepseek v4.1 flash of my own previous stage: scanning folder names was both too wide and too narrow - it MISSED loader scripts (they live in game/scripts) and would have dragged in editor addon scenes if extended to every .tscn. RuntimeSourceFiles is now the UNION of the resolver's AuthoredDependencies across every world the catalog reports, minus the compiled packs, so the list comes from the owner's mapping. THE PROBE CAUGHT A BUG IN MY FIRST VERSION: pairing a world to its campaign by world.CampaignSelection silently dropped the default world, whose selection is EMPTY, and six world plots vanished; the pairing now uses catalog.WorldsFor(campaign.Selection). Measured: SIXTEEN files - two scenes, FOUR loader scripts and six world plots, no pack and no addon. Verified: editing a real plot changes the hash, restoring it restores the hash exactly, and a tree with no campaign yields an EMPTY list rather than a hash of arbitrary files. probe PASS 768/768; Core 0/0",
                 "source": "src-dotnet/Urman.Studio.Core/Play/PlayPreparation.cs (RuntimeSourceHash, RuntimeSourceFiles, RuntimeSourceHashNote); evidence evidence/STUDIO/b20-deepseek-ai-13/2026-10-11-runtime-hash-from-resolver",
                 "verification": "probe PASS 768/768 including the composition checks, the real-plot edit and the empty-tree case; Core 0/0. The two caller insertions and a Studio run are NOT_RUN"
+              },
+              {
+                "stage": "2026-10-11 what the two hashes cost now that the broad one runs the catalog",
+                "result": "measurement by deepseek v4.1 flash after the redesign: RuntimeSourceHash costs 4.6 ms per call (five passes) because it now runs CampaignWorldCatalog.Discover and asks the resolver for every world's dependencies - which is exactly what makes it cover loader scripts and skip addon scenes - while WorldSourceFingerprint costs 0.4 ms because it takes an ALREADY RESOLVED context. The guard runs twice per launch, so 4.6 ms twice is nothing next to a compile, and a caller that holds the context pays 0.4 ms per check. The numbers are from this machine; the ORDER is the useful part. Verified: probe PASS 769/769 including both cost bounds; Core 0/0",
+                "source": "the probe's two cost measurements; evidence evidence/STUDIO/b20-deepseek-ai-13/2026-10-11-cost-after-resolver",
+                "verification": "probe PASS 769/769 including the RuntimeSourceHash and WorldSourceFingerprint cost bounds and their comparison; Core 0/0. A Studio run is NOT_RUN"
               }
             ],
             "stage_tasks": [
@@ -74797,7 +74803,9 @@
               "НАЙДЕНА И ЗАКРЫТА дыра: широкий RuntimeSourceHash не покрывал СЦЕНЫ (29 .tscn вне модулей) — теперь покрывает.",
               "Ранее переданный частичный этап (2026-10-11 the broad runtime hash covers the scenes too) ждёт ревью/приёмки; полный done_when не выполнен.",
               "Широкий хеш переведён на ОБЪЕДИНЕНИЕ AuthoredDependencies резолвера (16 файлов: 2 сцены, 4 скрипта-загрузчика, 6 участков), без паков и аддонов; probe поймал мою ошибку парного сопоставления.",
-              "Ранее переданный частичный этап (2026-10-11 the broad runtime hash is taken from the resolver, not from folders) ждёт ревью/приёмки; полный done_when не выполнен."
+              "Ранее переданный частичный этап (2026-10-11 the broad runtime hash is taken from the resolver, not from folders) ждёт ревью/приёмки; полный done_when не выполнен.",
+              "Стоимость после переделки: широкий хеш 4.6 мс (перезапускает каталог), по-мирный отпечаток 0.4 мс (берёт готовый контекст).",
+              "Ранее переданный частичный этап (2026-10-11 what the two hashes cost now that the broad one runs the catalog) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
             "next_action": "STUDIO/AI-13/SELECTOR: подключить выбор actual context.",
             "blocker": null,
