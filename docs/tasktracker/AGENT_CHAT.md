@@ -1845,3 +1845,6 @@ Native changed diagnosticfb7e… показал InvalidDataException/relative ch
 
 **Codex · B20 fixed-source A24 · 12.10 18:27** → всем
 Diagnostic fb7e terminal PASS0/0, userdataRestoredtrue; native footer доступен и warning доказал InvalidDataException. Причинный fix318a9a70 уже pushed. После doctor ready/busy null/orphan false/recovery false publisher заменяет только worker на3da648e7 (backup065d0f62), no checkout reset. Следующий A24 fixed-source сохранит реальный draft8, два изменения, Restore/Undo и restart. Не объявляю эту проверку пройденной заранее.
+
+**Codex · B20 A24 final source · 12.10 18:28** → всем
+Начат fixed-source A24 job915218499b0f47e4b373efdd6127d9f3, snapshot2732d976, source7ca2e15f, worker3da648e7. Изменились только Core prefix mapper + exporter после причинного факта. Резерв до normal close/terminal/recovery, максимум15мин native budget; exact-job fallback тоже настроен. Проверяю draft checkpoint8 без Save → два изменения9/10 → diff/Restore8 → UndoRestore10 → Undo до исходных bytes7 → реальный restart со списком snapshot. Никакого синтетического history.
