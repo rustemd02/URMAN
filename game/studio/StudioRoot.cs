@@ -18,6 +18,9 @@ public interface IStudioSection
     /// <summary>Select an entity by ID; false when this section does not show it.</summary>
     bool Reveal(string id);
     void Refresh();
+    bool HasPendingChanges => false;
+    bool SavePendingChanges() => true;
+    void DiscardPendingChanges() { }
 }
 
 /// <summary>
@@ -119,7 +122,8 @@ public partial class StudioRoot : Control
         try
         {
             var pending = StudioFileTransaction.RecoverWithOwnedPathPolicy(RepositoryRoot,
-                path => StudioAiPanel.OwnsFile(path) || path == StudioItemsSection.SourcePath,
+                path => StudioAiPanel.OwnsFile(path) || path == StudioItemsSection.SourcePath
+                    || path == StudioVehiclesSection.SourcePath,
                 (owner, path) => StudioFileTransaction.IsAuthoredSourceDeletionOwner(owner)
                     && StudioWorkspace.IsCanonicalAuthoredJsonSourcePath(path));
             if (pending.Count > 0)
@@ -164,6 +168,7 @@ public partial class StudioRoot : Control
         Register(new StudioCharacterSection(this));
         Register(new StudioContentSection(this));
         Register(new StudioItemsSection(this));
+        Register(new StudioVehiclesSection(this));
         foreach (var (key, title) in new[] { ("ui", "Интерфейс игры") })
         {
             Register(new StudioPendingSection(key, title));
@@ -480,7 +485,7 @@ public partial class StudioRoot : Control
             catch (Exception error) { evidenceReadError = error.GetType().Name; }
             try
             {
-                await Session.UndoAsync(ReloadCheckpointSourcesAndWorldAsync);
+                await Session.UndoAsync(HistoryViewBarrier(redo: false));
             }
             catch (UndoConflictException error)
             {
@@ -546,7 +551,7 @@ public partial class StudioRoot : Control
             catch (Exception error) { evidenceReadError = error.GetType().Name; }
             try
             {
-                await Session.RedoAsync(ReloadCheckpointSourcesAndWorldAsync);
+                await Session.RedoAsync(HistoryViewBarrier(redo: true));
             }
             catch (UndoConflictException error)
             {
@@ -634,13 +639,12 @@ public partial class StudioRoot : Control
             if (!autosave) ShowBanner("Дождитесь изменения модели и обновления вида.", error: false);
             return false;
         }
-        if (!autosave && _sections.TryGetValue("items", out var itemSection)
-            && itemSection is StudioItemsSection items && items.HasPendingChanges)
+        foreach (var section in _sections.Values.Where(section => !autosave && section.HasPendingChanges))
         {
-            if (!items.SavePendingChanges())
+            if (!section.SavePendingChanges())
             {
-                OpenSection("items");
-                ShowBanner("Товары не сохранены. Проверьте сообщение в карточке товара; правки оставлены в редакторе.", error: true);
+                OpenSection(section.Key);
+                ShowBanner("Изменения не сохранены. Проверьте сообщение в разделе; правки оставлены в редакторе.", error: true);
                 return false;
             }
         }
@@ -999,8 +1003,7 @@ public partial class StudioRoot : Control
         if (_closing) return;
         if (!_discardUnsavedOnClose && !HasActiveShutdownAction()
             && (Workspace is not null && Workspace.Files.Any(file => file.Dirty)
-                || _sections.TryGetValue("items", out var itemSection)
-                    && itemSection is StudioItemsSection items && items.HasPendingChanges))
+                || _sections.Values.Any(section => section.HasPendingChanges)))
         {
             OfferSaveBeforeClose();
             return;
@@ -1110,8 +1113,8 @@ public partial class StudioRoot : Control
             try
             {
                 foreach (var file in Workspace.Files.Where(file => file.Dirty)) Drafts.Discard(file.RelativePath);
-                if (_sections.TryGetValue("items", out var section) && section is StudioItemsSection items)
-                    items.DiscardPendingChanges();
+                foreach (var section in _sections.Values.Where(section => section.HasPendingChanges))
+                    section.DiscardPendingChanges();
                 _discardUnsavedOnClose = true;
                 dialog.QueueFree();
                 _unsavedCloseDialog = null;
@@ -1138,8 +1141,7 @@ public partial class StudioRoot : Control
         _undo.TooltipText = Session.UndoLabel is { } undo ? $"Отменить: {undo} (⌘/Ctrl+Z)" : "Нечего отменять";
         _redo.TooltipText = Session.RedoLabel is { } redo ? $"Повторить: {redo} (⇧⌘/Ctrl+Z)" : "Нечего повторять";
         var dirty = Workspace.Files.Count(file => file.Dirty);
-        if (_sections.TryGetValue("items", out var itemSection)
-            && itemSection is StudioItemsSection items && items.HasPendingChanges) dirty++;
+        dirty += _sections.Values.Count(section => section.HasPendingChanges);
         (string text, Color color) = (_saveError, _conflictNote, _run, dirty) switch
         {
             ({ } error, _, _, _) => ($"! Не сохранено: {error}", StudioTheme.Bad),
@@ -1186,7 +1188,7 @@ public partial class StudioRoot : Control
         var mainSections = new (string Key, string Title)[]
         {
             ("world", "Мир"), ("quests", "Квесты"), ("scenes", "Диалоги"),
-            ("characters", "Персонажи"), ("items", "Предметы"), ("content", "Контент")
+            ("characters", "Персонажи"), ("items", "Предметы"), ("vehicles", "Параметры"), ("content", "Контент")
         };
         for (var index = 0; index < mainSections.Length; index++)
             sectionsPopup.AddItem(mainSections[index].Title, index);

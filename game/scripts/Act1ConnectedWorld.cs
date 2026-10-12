@@ -1239,7 +1239,8 @@ public partial class Act1ConnectedWorld : Node3D
         BindAuthoredWinterTrees(core);
         ApplyAct1DaylightPresentationPass(core);
         ReplaceKitWinterShrubs(core);
-        if (!_studioPreview) BuildVillageLife(core);
+        if (_studioPreview) BuildVillageLifePreviewPlacements(core);
+        else BuildVillageLife(core);
     }
 
     /// <summary>
@@ -1400,19 +1401,12 @@ public partial class Act1ConnectedWorld : Node3D
         _lifeRandom.Randomize();
         _lifeWait = _lifeRandom.RandfRange(24f, 38f);
 
-        var source = ResourceLoader.Load<PackedScene>(VillageExteriorKitScenePath).Instantiate<Node3D>();
-        var cat = FindDescendants<Node3D>(source).Single(node => node.Name == "AmbientCat");
-        _yardCat = AttachAct1ExteriorKitComponent(_villageLife, cat, "YardCat", Vector3.Zero,
-            0f, Vector3.One, "village_day@babai-cleared-approach");
-        _yardCat.GlobalPosition = LifeGround(-28.3f, 6.4f);
-        _yardCat.RotationDegrees = new Vector3(0f, 90f, 0f);
-        _catLegs = FindDescendants<Node3D>(cat)
+        var (cat, bird) = BuildVillageLifeKitPlacements(_villageLife);
+        _yardCat = cat;
+        _catLegs = FindDescendants<Node3D>(_yardCat)
             .Where(node => node.Name.ToString().StartsWith("CatLeg", StringComparison.Ordinal))
             .Select(node => (node, node.Basis,
                 node.Name == "CatLegFrontL" || node.Name == "CatLegBackR" ? 0f : Mathf.Pi)).ToArray();
-        var crow = FindDescendants<Node3D>(source).Single(node => node.Name == "AmbientCrow");
-        var bird = AttachAct1ExteriorKitComponent(_villageLife, crow, "Crow0", Vector3.Zero,
-            90f, Vector3.One, "village_day@above-street");
         _crows = [bird, (Node3D)bird.Duplicate(), (Node3D)bird.Duplicate()];
         for (var i = 0; i < _crows.Length; i++)
         {
@@ -1432,8 +1426,6 @@ public partial class Act1ConnectedWorld : Node3D
                 : materialName.Contains("WetSlate", StringComparison.Ordinal) ? "242a2e" : "394149";
             mesh.SetSurfaceOverrideMaterial(surface, PainterlyMaterialLibrary.ForColor(color));
         }
-        source.Free();
-
         // One anonymous background resident: the neighbour at the woodpile, on
         // the human kit like the named cast. No NPC, interaction, route or
         // persistent identity; he breathes in his looping idle.
@@ -1511,6 +1503,37 @@ public partial class Act1ConnectedWorld : Node3D
         }
         _chimneySmoke = _villageLife.GetChildren().OfType<CpuParticles3D>().ToArray();
         if (anchors.Count != 2) throw new InvalidOperationException("Village life requires two uncovered chimney tops.");
+    }
+
+    private void BuildVillageLifePreviewPlacements(Node3D core)
+    {
+        _villageLife = new Node3D { Name = "VillageLife" };
+        _villageLife.SetMeta("presentationOnly", true);
+        _villageLife.SetMeta("collisionOwner", "none");
+        _villageLife.SetMeta("event", 0);
+        core.AddChild(_villageLife);
+        // Keep the two authored kit placements in the real Studio world. The
+        // preview omits their ambient movement, resident and chimney simulation.
+        BuildVillageLifeKitPlacements(_villageLife);
+    }
+
+    private static (Node3D Cat, Node3D Crow) BuildVillageLifeKitPlacements(Node3D parent)
+    {
+        var source = ResourceLoader.Load<PackedScene>(VillageExteriorKitScenePath).Instantiate<Node3D>();
+        try
+        {
+            var cat = FindDescendants<Node3D>(source).Single(node => node.Name == "AmbientCat");
+            var placedCat = AttachAct1ExteriorKitComponent(parent, cat, "YardCat",
+                LifeGround(-28.3f, 6.4f), 90f, Vector3.One, "village_day@babai-cleared-approach");
+            var crow = FindDescendants<Node3D>(source).Single(node => node.Name == "AmbientCrow");
+            var placedCrow = AttachAct1ExteriorKitComponent(parent, crow, "Crow0", Vector3.Zero,
+                90f, Vector3.One, "village_day@above-street");
+            return (placedCat, placedCrow);
+        }
+        finally
+        {
+            source.Free();
+        }
     }
 
     private static Vector3 LifeGround(float x, float z) =>

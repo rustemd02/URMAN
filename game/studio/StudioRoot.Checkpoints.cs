@@ -136,6 +136,16 @@ public partial class StudioRoot
         await ((StudioWorldSection)Section("world")).ReloadGeometryAsync();
     }
 
+    private Func<Task> HistoryViewBarrier(bool redo)
+    {
+        var paths = Session.History(redo).FirstOrDefault()?.Paths;
+        // Catalogue transactions refresh their own forms; rebuilding the map cannot change their preview.
+        return paths is { Count: > 0 } && paths.All(path => path == StudioItemsSection.SourcePath
+                || path == StudioVehiclesSection.SourcePath)
+            ? static () => Task.CompletedTask
+            : ReloadCheckpointSourcesAndWorldAsync;
+    }
+
     private static bool CheckpointRefusal(Exception error) => error is IOException or UnauthorizedAccessException
         or ArgumentException or InvalidOperationException or System.Text.Json.JsonException;
 }

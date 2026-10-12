@@ -41,7 +41,11 @@ public static class KitPlacementTakeover
         return _byAnchor;
     }
 
-    public static void Reset() => _byAnchor = null;
+    public static void Reset()
+    {
+        _byAnchor = null;
+        Seen.Clear();
+    }
 
     /// <summary>Apply the authored placement (if taken over) to a freshly placed component, then record the proposal when harvesting.</summary>
     public static void Apply(Node3D placement, string componentName, string assetSource, string logicalAnchor)
