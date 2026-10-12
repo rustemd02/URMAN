@@ -862,6 +862,9 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
                 sourceMeshPath = shapeOwner.GetMeta("authoredSourceMesh").AsString();
             }
 
+            if (OS.IsDebugBuild())
+                GD.Print($"StudioPick hit screen={screen} viewport={_viewport.Size} collider={colliderNode?.GetPath()} authoredSourceMesh={sourceMeshPath ?? "<missing>"}");
+
             for (var node = colliderNode; node is not null; node = node.GetParent())
             {
                 if (!node.HasMeta(AuthoredWorldPlot.AuthoredIdMeta)) continue;
@@ -874,6 +877,8 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
                 }
             }
         }
+        if (!hit.ContainsKey("collider") && OS.IsDebugBuild())
+            GD.Print($"StudioPick miss screen={screen} viewport={_viewport.Size}");
         string? best = null;
         var bestDistance = PickRadiusPixels;
         foreach (var (id, marker) in _markers)

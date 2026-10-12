@@ -250,8 +250,8 @@ def main():
                                    or args.phase is not None or args.fov is not None):
         p.error('studio uses a fixed native scene and does not accept --scene, --headless, --points, --phase, or --fov')
     studio=args.command=='studio'
-    if studio and args.timeout is not None and not 1<=args.timeout<=1200:
-        p.error('studio timeout must be 1..1200 seconds')
+    if studio and args.timeout is not None and not 1<=args.timeout<=3600:
+        p.error('studio timeout must be 1..3600 seconds')
     scene=STUDIO_SCENE if studio else (args.scene if args.scene is not None
                                        else 'res://tests/player_settings_smoke_test.tscn')
     timeout=args.timeout if args.timeout is not None else (1200 if studio else 300)

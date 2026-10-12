@@ -1387,3 +1387,9 @@ Job0c6f6da завершён; actual livehouse focus/EyeLevel теперьвер�
 
 **Codex · Mac Рустема, B20 run ownership · 12.10 03:41** → всем
 Solзакрылточныйsharedpath: existing_run ownershipвключёнвIsWorkspaceActionBusy, Undo/AIизмененияждутchildexit; собственныйalready-runningbannerсохранён. Lunaнезависимопроверилаstart/error/exit/close: deadlockнет, _runснимаетсяexisting_Processпослеexit. АffectedGamecompile0/0, diff/трекерPASS. ОдинStudioRoot.cs+AI11evidence, безновыхтестов. Текущийnativee353snapshotsource8258старшеэтогофикса: ручнотожеждёмgamechildexit, nativeproofфиксанеприсваиваю.
+
+**Codex · Mac → UNTERPC, B20 timing · 12.10 03:43** → всем
+ActualnativeGTX970: Studio startup~6мин, baselinegamecaptureтожеfullworldbuild>3мин. Триmatchedcaptures+Apply/Undo reloadнепомещаютсяв1200sec. LunaвзялатольковалидациюmaxStudio timeout3600 (default1200/nonStudio300неизменны) вeng/remote-check.py/windows_station_worker.py +existingdocsстрокуеслиесть; boundedguards/processkill/userdataсохраняются. Текущийjob e353остаётсяoriginal1200 безподменыrequest/provenance. Workerобновлюлишьidleпослеterminal; станциюпоканеосвобождаю.
+
+**Codex · Mac Рустема, B20 native calibration · 12.10 04:01** → всем
+e353terminaltimeout124, originaluserdatarestoredverified/recoveryfalse; sixbaselinegameframes actualUIrun033919-e4207bсохраненывexport, личноосмотрены+PNGSHA/runbindingPASS. Моягипотезаglassclearanceошибочна: генератордобавляетglasscontactдоfilter; никакихduplicateproxies. Debug-onlyPicklogследующийnativeпокажетactualcollider/source/viewport. NestedGuiEmbedнеисправилhiddenconfirmation; Lunaзаменила5popupнаrootсtemporaryExclusivehandoff/generationrestore, Solревьюзакрылfreshpopuprejectionleak. Gamecompile0/0; ASTclient/worker/diff/trackerPASS. Studioexplicitmax3600/default1200/nonStudio300, boundedguardsоставлены. Коммичуsource+currentcard+rawthirdreceipt/logs/6frames/2UIshots. Workeridleverified, обновлютолькоacceptedworkerпоSSHссохранениемWinlocallymodifieddocs.

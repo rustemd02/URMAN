@@ -58,6 +58,10 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
     private HouseWindowProposal? _proposal;
     private AcceptDialog? _disclosureDialog;
     private ConfirmationDialog? _scopeConfirmationDialog;
+    private Window? _rootPopup;
+    private bool _rootPopupLeaseHeld;
+    private bool _rootPopupOriginalExclusive;
+    private int _rootPopupGeneration;
     private string? _stage;
     private StageArtifactHashes? _previewArtifactHashes;
     private string? _approvedScopeSnapshotHash;
@@ -92,7 +96,6 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
     public StudioAiPanel(StudioRoot studio)
     {
         _studio = studio;
-        GuiEmbedSubwindows = true;
         Title = "Изменить окна выбранного дома";
         OkButtonText = "Закрыть";
         MinSize = new(600, 560);
@@ -199,7 +202,13 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
             if (_disclosureDialog is { } disclosureDialog && GodotObject.IsInstanceValid(disclosureDialog))
             {
                 _disclosureDialog = null;
-                disclosureDialog.QueueFree();
+                CloseRootPopup(disclosureDialog);
+            }
+            try { CloseActiveRootPopup(); }
+            catch (Exception error)
+            {
+                try { if (GodotObject.IsInstanceValid(_studio)) _studio.ShowBanner("Не удалось закрыть диалог Studio: " + error.Message, error: true); }
+                catch (Exception) { }
             }
             if (_fenceMode)
             {
@@ -221,6 +230,72 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
             }).CallDeferred();
         };
         TreeExiting += HandlePanelTreeExiting;
+    }
+
+    private void ShowRootPopup(Window popup, Action open)
+    {
+        if (_rootPopup is not null)
+        {
+            if (_rootPopup != popup && GodotObject.IsInstanceValid(popup)) popup.Free();
+            throw new InvalidOperationException("Сначала закройте текущее окно Studio.");
+        }
+
+        if (!_rootPopupLeaseHeld)
+        {
+            _rootPopupOriginalExclusive = Exclusive;
+            _rootPopupLeaseHeld = true;
+        }
+        _rootPopup = popup;
+        _rootPopupGeneration++;
+        popup.VisibilityChanged += () =>
+        {
+            if (!popup.Visible) ReleaseRootPopup(popup);
+        };
+        popup.TreeExiting += () => ReleaseRootPopup(popup);
+
+        try
+        {
+            Exclusive = false;
+            popup.Exclusive = true;
+            _studio.AddChild(popup);
+            open();
+        }
+        catch
+        {
+            CloseRootPopup(popup);
+            throw;
+        }
+    }
+
+    private void CloseRootPopup(Window popup)
+    {
+        if (GodotObject.IsInstanceValid(popup))
+        {
+            if (popup.Visible) popup.Hide();
+            popup.QueueFree();
+        }
+        ReleaseRootPopup(popup);
+    }
+
+    private void CloseActiveRootPopup()
+    {
+        if (_rootPopup is { } popup) CloseRootPopup(popup);
+    }
+
+    private void ReleaseRootPopup(Window popup)
+    {
+        if (_rootPopup != popup) return;
+        _rootPopup = null;
+        var generation = ++_rootPopupGeneration;
+        Callable.From(() =>
+        {
+            if (!GodotObject.IsInstanceValid(this) || generation != _rootPopupGeneration
+                || _rootPopup is not null || !_rootPopupLeaseHeld)
+                return;
+
+            _rootPopupLeaseHeld = false;
+            if (IsInsideTree()) Exclusive = _rootPopupOriginalExclusive;
+        }).CallDeferred();
     }
 
     private void UpdateScopeStatus(bool scopeChanged = false)
@@ -639,16 +714,15 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
         dialog.Confirmed += () =>
         {
             if (_disclosureDialog == dialog) _disclosureDialog = null;
-            dialog.QueueFree();
+            CloseRootPopup(dialog);
         };
-        AddChild(dialog);
         dialog.VisibilityChanged += () =>
         {
             if (dialog.Visible) return;
             if (_disclosureDialog == dialog) _disclosureDialog = null;
-            dialog.QueueFree();
+            CloseRootPopup(dialog);
         };
-        dialog.PopupCenteredClamped(new Vector2I(1040, 720), 0.9f);
+        ShowRootPopup(dialog, () => dialog.PopupCenteredClamped(new Vector2I(1040, 720), 0.9f));
     }
 
     private bool InvalidatePreparedRequest()
@@ -667,7 +741,7 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
         if (_disclosureDialog is { } dialog && GodotObject.IsInstanceValid(dialog))
         {
             _disclosureDialog = null;
-            dialog.QueueFree();
+            CloseRootPopup(dialog);
         }
         return true;
     }
@@ -710,7 +784,7 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
             if (_scopeConfirmationDialog != dialog) return;
             _scopeConfirmationDialog = null;
             _scopeConfirmationBusy = false;
-            if (GodotObject.IsInstanceValid(dialog)) dialog.QueueFree();
+            if (GodotObject.IsInstanceValid(dialog)) CloseRootPopup(dialog);
             if (!GodotObject.IsInstanceValid(this)) return;
             SetBusy(_busy);
             dispatch(globalInstructions);
@@ -739,8 +813,7 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
         try
         {
             SetBusy(_busy);
-            AddChild(dialog);
-            dialog.PopupCentered(new Vector2I(620, 400));
+            ShowRootPopup(dialog, () => dialog.PopupCentered(new Vector2I(620, 400)));
         }
         catch
         {
@@ -822,6 +895,12 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
     {
         try { DismissPendingScopeConfirmation(); }
         catch (Exception) { }
+        try { CloseActiveRootPopup(); }
+        catch (Exception error)
+        {
+            try { if (GodotObject.IsInstanceValid(_studio)) _studio.ShowBanner("Не удалось закрыть диалог Studio при закрытии панели: " + error.Message, error: true); }
+            catch (Exception) { }
+        }
 
         if (!_fenceMode && _fenceRequest is null && _fenceProposal is null && !HasTransientFencePreview) return;
         _cancel?.Cancel();
@@ -846,7 +925,7 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
         if (_scopeConfirmationDialog != dialog) return;
         _scopeConfirmationDialog = null;
         _scopeConfirmationBusy = false;
-        if (GodotObject.IsInstanceValid(dialog)) dialog.QueueFree();
+        if (GodotObject.IsInstanceValid(dialog)) CloseRootPopup(dialog);
         if (GodotObject.IsInstanceValid(this) && IsInsideTree()) SetBusy(_busy);
     }
 
@@ -916,7 +995,7 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
         };
         picker.FileSelected += path =>
         {
-            picker.QueueFree();
+            CloseRootPopup(picker);
             if (IsActionBusy || !Visible || _request?.RequestId != requestId)
             {
                 _status.Text = "Ответ не открыт: запрос изменился или панель недоступна. Выберите файл для актуального запроса.";
@@ -924,9 +1003,8 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
             }
             _ = RunProposalAsync(fromManual: true, proposalFile: path);
         };
-        picker.Canceled += picker.QueueFree;
-        AddChild(picker);
-        picker.PopupCentered(new Vector2I(900, 600));
+        picker.Canceled += () => CloseRootPopup(picker);
+        ShowRootPopup(picker, () => picker.PopupCentered(new Vector2I(900, 600)));
     }
 
     private void OpenPreviewFailurePicker()
@@ -952,12 +1030,11 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
         };
         picker.FileSelected += path =>
         {
-            picker.QueueFree();
+            CloseRootPopup(picker);
             RestorePreviewFailure(path);
         };
-        picker.Canceled += picker.QueueFree;
-        AddChild(picker);
-        picker.PopupCentered(new Vector2I(900, 600));
+        picker.Canceled += () => CloseRootPopup(picker);
+        ShowRootPopup(picker, () => picker.PopupCentered(new Vector2I(900, 600)));
     }
 
     private void RestorePreviewFailure(string selectedPath)

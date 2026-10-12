@@ -1414,7 +1414,7 @@ class Station:
         mode = spec.get('mode')
         if mode not in ('smoke', 'capture', 'studio'):
             raise ValueError('unsupported mode')
-        timeout_max = 1200 if mode == 'studio' else 300
+        timeout_max = 3600 if mode == 'studio' else 300
         if type(spec.get('timeout')) is not int or not 1 <= spec['timeout'] <= timeout_max:
             raise ValueError(f'timeout must be 1..{timeout_max} seconds')
         if type(spec.get('headless')) is not bool:

@@ -297,7 +297,7 @@ public partial class StudioAiPanel
             };
             picker.FileSelected += path =>
             {
-                picker.QueueFree();
+                CloseRootPopup(picker);
                 if (IsActionBusy || !Visible || !_fenceMode || _fenceRequest?.RequestId != requestId
                     || !ReferenceEquals(_fenceRequest, request))
                 {
@@ -321,9 +321,8 @@ public partial class StudioAiPanel
                     confirmedRequest => _ = RunFenceProposalAsync(fromManual: true, manualProposalJson: proposalJson,
                         preparedRequest: confirmedRequest));
             };
-            picker.Canceled += picker.QueueFree;
-            AddChild(picker);
-            picker.PopupCentered(new Vector2I(900, 600));
+            picker.Canceled += () => CloseRootPopup(picker);
+            ShowRootPopup(picker, () => picker.PopupCentered(new Vector2I(900, 600)));
         }
         catch (Exception error) { _status.Text = FenceManualReadyStatus("Файл ответа не открыт: " + error.Message); }
     }

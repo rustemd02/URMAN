@@ -234,7 +234,7 @@ smoke/capture задания и фиксированный Studio-сеанс; п
 с прежним ID отклоняется. Не создавать новый ID для повтора потерянного ответа.
 
 API: GET `/health`, POST `/snapshots` (ZIP с manifest), POST `/jobs` (JSON),
-GET `/jobs/<id>`, GET `/jobs/<id>/result`. Timeout игры 1–300 секунд, Studio 1–1200; build/content
+GET `/jobs/<id>`, GET `/jobs/<id>/result`. Timeout игры 1–300 секунд, Studio 1–3600; build/content
 имеют отдельные deadlines. Потеря клиентского подключения не отменяет задание.
 Дедлайн ожидания клиента ограничен; позже доступны status/fetch.
 
