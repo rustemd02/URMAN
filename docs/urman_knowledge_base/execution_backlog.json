@@ -73487,6 +73487,12 @@
                 "implementation": "New accepted file commands retain bounded label and positive explicit acceptance order. Stable exclusive allocator lock held through AtomicFile counter update and accepted journal; gaps survive failed acceptance. Counter scope/version/max validated, missing or malformed counter with ordered journals refuses. Loader checks all images/exact path sets, continuous hash chains for repeated paths, aggregate current cursor boundary and after-prefix/before-suffix side sequence, then hydrates correctly ordered Undo/Redo stacks and persisted labels. No GUID/mtime ordering or image cleanup.",
                 "verification": "Root affected Game build0/0 + diffcheck. Independent Sol6.1medium source review accepted after fixing malformed counter startup exception and actual counter-volume budget path. No new tests/probes; actual multi-command restart and native Undo/Redo not executed.",
                 "remaining": "Entity/mixed/redo-branch history remains fenced. Multiple legacy journals or mixed legacy/ordered journals require explicit migration decision. No multi-process promotion isolation claimed; existing conflict/rollback protection remains. Full ledger/epoch/pending transition and UI acceptance still open."
+              },
+              {
+                "date": "2026-10-12",
+                "kind": "game-run-source-ownership",
+                "source": "game/studio/StudioRoot.cs",
+                "actual_result": "Existing game child ownership now participates in IsWorkspaceActionBusy, blocking Undo/guarded AI edits until existing exit observer clears _run; specific already-running message preserved. Sol implementation/Luna independent lifecycle review; affected Game compile0warnings0errors14.64s. Running third snapshot predates this fix, no native proof claimed."
               }
             ],
             "stage_tasks": [

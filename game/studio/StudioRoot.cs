@@ -335,7 +335,7 @@ public partial class StudioRoot : Control
 
     private StudioAiPanel? _aiPanel;
     public bool IsAiPanelVisible => _aiPanel is { Visible: true };
-    internal bool IsWorkspaceActionBusy => _playPreparing || _historyActionBusy || _checkpointBusy || Session.IsBusy;
+    internal bool IsWorkspaceActionBusy => _playPreparing || _run is not null || _historyActionBusy || _checkpointBusy || Session.IsBusy;
     public void OpenAiPanel()
     {
         _aiPanel ??= new StudioAiPanel(this);
@@ -804,14 +804,14 @@ public partial class StudioRoot : Control
             ShowBanner("Подготовка пробного запуска уже идёт. Дождитесь её завершения.", error: false);
             return;
         }
-        if (IsAiActionBusy)
-        {
-            ShowBanner("Завершите текущее действие Studio, прежде чем запускать игру.", error: false);
-            return;
-        }
         if (_run is not null)
         {
             ShowBanner("Пробный запуск уже идёт. Закройте окно игры, чтобы запустить новую версию.", error: false);
+            return;
+        }
+        if (IsAiActionBusy)
+        {
+            ShowBanner("Завершите текущее действие Studio, прежде чем запускать игру.", error: false);
             return;
         }
 
