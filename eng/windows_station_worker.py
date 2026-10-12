@@ -45,6 +45,7 @@ STUDIO_MAX_RUN_LOG = 8 * 1024**2
 STUDIO_MAX_RUN_FRAME = STUDIO_MAX_ACTION_FRAME
 STUDIO_MAX_RUN_FRAME_JSON = 256 * 1024
 STUDIO_MAX_WORKSPACE_ENTRIES = 100_000
+STUDIO_MAX_GODOT_SIDECAR = 64 * 1024
 STUDIO_HOUSE_WINDOW_IDS = (
     'B20_windows_exterior', 'B20_windows_interior', 'B20_windows_seni',
     'B20_windows_rear', 'B20_windows_left', 'B20_windows_right',
@@ -478,6 +479,56 @@ def _studio_resume_source_candidate(relative, expected_source_files):
     return True
 
 
+def _studio_resume_sidecar_limit(relative, expected_source_files):
+    if not relative.startswith('game/'):
+        return None
+    if relative.endswith('.import'):
+        counterpart = relative[:-len('.import')]
+        if Path(counterpart).suffix.lower() not in {'.png', '.svg', '.jpg', '.wav', '.ogg', '.glb'}:
+            return None
+    elif relative.endswith('.uid'):
+        counterpart = relative[:-len('.uid')]
+        if Path(counterpart).suffix.lower() not in {'.cs', '.gd', '.gdshader'}:
+            return None
+    else:
+        return None
+    if counterpart not in expected_source_files:
+        return None
+    return STUDIO_MAX_GODOT_SIDECAR
+
+
+def _studio_validate_resume_sidecar(relative, raw):
+    if relative.endswith('.import'):
+        counterpart = relative[:-len('.import')]
+        try:
+            content = raw.decode('utf-8')
+        except UnicodeDecodeError as error:
+            raise ValueError('paired Godot import metadata is not UTF-8: ' + relative) from error
+        expected_source = counterpart[len('game/'):]
+        current_section = None
+        deps_sections = 0
+        assignments = []
+        for line in content.splitlines():
+            stripped = line.strip()
+            if stripped.startswith('[') and stripped.endswith(']'):
+                current_section = stripped
+                if current_section == '[deps]':
+                    deps_sections += 1
+            elif re.match(r'^\s*source_file\s*=', line):
+                assignments.append((current_section, line))
+        expected_line = f'source_file="res://{expected_source}"'
+        if (deps_sections != 1 or len(assignments) != 1
+                or assignments[0] != ('[deps]', expected_line)):
+            raise ValueError('paired Godot import metadata has an unexpected source path: ' + relative)
+        return
+    try:
+        content = raw.decode('ascii')
+    except UnicodeDecodeError as error:
+        raise ValueError('paired Godot UID metadata is not ASCII: ' + relative) from error
+    if not re.fullmatch(r'uid://[a-z0-9]{1,64}\r?\n?', content):
+        raise ValueError('paired Godot UID metadata has an unexpected value: ' + relative)
+
+
 def _studio_resume_local_settings(source):
     settings = {}
     for relative in ('.urman-studio/codex-pilot.json', '.urman-studio/preferences.json'):
@@ -502,6 +553,7 @@ def _studio_resume_workspace_inventory(source, expected_source_files, expected_s
     source_root = Path(source)
     actual_source_files = set()
     actual_studio_files = set()
+    paired_sidecars = {}
     pending = [source_root]
     entries_seen = 0
     override_bytes = {
@@ -539,17 +591,29 @@ def _studio_resume_workspace_inventory(source, expected_source_files, expected_s
                     actual_studio_files.add(relative)
                     if relative in expected_source_files:
                         actual_source_files.add(relative)
-                elif _studio_resume_source_candidate(relative, expected_source_files):
+                elif relative in expected_source_files:
                     actual_source_files.add(relative)
+                else:
+                    sidecar_limit = _studio_resume_sidecar_limit(relative, expected_source_files)
+                    if sidecar_limit is not None:
+                        _, raw = _studio_read(source, relative, sidecar_limit,
+                                              'paired Godot import/UID metadata')
+                        _studio_validate_resume_sidecar(relative, raw)
+                        paired_sidecars[relative] = (
+                            path, len(raw), hashlib.sha256(raw).hexdigest(), sidecar_limit)
+                        actual_source_files.add(relative)
+                    elif _studio_resume_source_candidate(relative, expected_source_files):
+                        actual_source_files.add(relative)
 
-    if actual_source_files != expected_source_files:
-        extra = sorted(actual_source_files - expected_source_files)
-        missing = sorted(expected_source_files - actual_source_files)
+    expected_source_with_sidecars = expected_source_files | set(paired_sidecars)
+    if actual_source_files != expected_source_with_sidecars:
+        extra = sorted(actual_source_files - expected_source_with_sidecars)
+        missing = sorted(expected_source_with_sidecars - actual_source_files)
         raise ValueError('retained source file set differs from the accepted transaction state: '
                          + (extra[0] if extra else missing[0]))
     if actual_studio_files != expected_studio_files:
         raise ValueError('retained Studio metadata contains unexpected or missing files')
-    return actual_source_files
+    return actual_source_files, paired_sidecars
 
 
 def _studio_copy_verified(source, destination, expected_size, expected_hash, limit):
@@ -760,7 +824,9 @@ def _studio_prepare_resume_workspace(jobs, resume_job_id, snapshot_id, destinati
         current_paths = before_paths - {path for path, value in target_after.items() if value is None}
         current_paths |= {path for path, value in target_after.items() if value is not None}
         current_paths |= set(metadata_to_copy)
-        _studio_resume_workspace_inventory(original_source, current_paths, expected_studio_files)
+        _, paired_sidecars = _studio_resume_workspace_inventory(
+            original_source, current_paths, expected_studio_files)
+        current_paths |= set(paired_sidecars)
 
         derived = dict(base_manifest)
         derived['files'] = {path: dict(meta) for path, meta in base_manifest['files'].items()}
@@ -775,6 +841,13 @@ def _studio_prepare_resume_workspace(jobs, resume_job_id, snapshot_id, destinati
             existing = derived['files'].get(relative)
             if existing is not None and existing != metadata_file:
                 raise ValueError('Studio resume metadata conflicts with the original snapshot: ' + relative)
+            derived['files'][relative] = metadata_file
+            copied_metadata.append({'path': relative, 'bytes': size, 'sha256': sha})
+        for relative, (_, size, sha, _) in sorted(paired_sidecars.items()):
+            metadata_file = {'sha256': sha, 'bytes': size}
+            existing = derived['files'].get(relative)
+            if existing is not None and existing != metadata_file:
+                raise ValueError('Godot sidecar conflicts with the original snapshot: ' + relative)
             derived['files'][relative] = metadata_file
             copied_metadata.append({'path': relative, 'bytes': size, 'sha256': sha})
         derived['resume'] = {
@@ -801,10 +874,14 @@ def _studio_prepare_resume_workspace(jobs, resume_job_id, snapshot_id, destinati
         destination.mkdir()
         for relative, meta in sorted(derived['files'].items()):
             metadata_entry = metadata_to_copy.get(relative)
-            source_path = (metadata_entry[0] if metadata_entry is not None
-                           else _studio_path(original_source, relative))
-            limit = (metadata_entry[3] if metadata_entry is not None
-                     else STUDIO_MAX_BINARY if relative in target_after else MAX_SOURCE)
+            sidecar_entry = paired_sidecars.get(relative)
+            if metadata_entry is not None:
+                source_path, limit = metadata_entry[0], metadata_entry[3]
+            elif sidecar_entry is not None:
+                source_path, limit = sidecar_entry[0], sidecar_entry[3]
+            else:
+                source_path = _studio_path(original_source, relative)
+                limit = STUDIO_MAX_BINARY if relative in target_after else MAX_SOURCE
             _studio_copy_verified(source_path, destination / relative, meta['bytes'], meta['sha256'],
                                   limit)
         manifest_path = destination / 'snapshot-manifest.json'
