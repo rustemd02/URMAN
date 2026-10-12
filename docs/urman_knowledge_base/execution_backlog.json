@@ -80920,7 +80920,7 @@
             "active_owner": "codex/b20-2026-10-10",
             "activity": {
               "state": "confirmed_active",
-              "reason": "Root + Luna UI добавляют readonly semantic Git review; Sol проверяет Core cloning/format contract. Без runtime по авторскому stop."
+              "reason": "Root delegates Luna bounded registered-source update/delete membership transaction slice in StudioWorkspace/EditSession/StudioCollabSection; no automatic registration of arbitrary ApplyFilesAsync assets, dirty drafts retained/refused. New-file creation stays disabled pending actual schema/kind admissibility policy."
             },
             "task_type": "engineering",
             "status": "in_progress",
@@ -80932,7 +80932,7 @@
               "Native/network A23, Apply/Undo/Redo and restart proof deferred by author; no runtime claims.",
               "Source-text dirty tracking can keep formatting-only changes dirty after typed Undo. Trusted origin fetch preview cap still not network byte cap."
             ],
-            "next_action": "Довести authoring file lifecycle creation/deletion через durable transaction/session history, затем curated Send; принять исправленные DeepSeek stages отдельно. Native/runtime проверки только после возобновления автором.",
+            "next_action": "Implement/review registered source deletion/update→single durable transaction→Workspace membership/Undo/Redo; narrow Core/Game compile. New-source schema policy/creation, Send/idempotent/offline queue and native/network A23/restart remain open.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
