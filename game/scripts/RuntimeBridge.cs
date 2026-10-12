@@ -338,11 +338,13 @@ public partial class RuntimeBridge : Node
         player.SetSessionTransition(true);
         PlayTimeBoundary?.Invoke("load-start");
         var loadingScreen = LoadingScreenUi.Show(this, "Возвращение в деревню", "Начинаем новую историю");
+        var sessionStarted = false;
         try
         {
             await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
             await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
-            return await CreateFreshSessionAsync(debugSession, player);
+            sessionStarted = await CreateFreshSessionAsync(debugSession, player);
+            return sessionStarted;
         }
         finally
         {
@@ -350,6 +352,7 @@ public partial class RuntimeBridge : Node
             SampleLoadingTime();
             _loadPreparing = false;
             player.SetSessionTransition(NeedsPhysicalRecovery);
+            PlayTimeBoundary?.Invoke(sessionStarted ? "load-restored" : "load-failed");
         }
     }
 

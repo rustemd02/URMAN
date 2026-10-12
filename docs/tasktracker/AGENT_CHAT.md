@@ -1821,3 +1821,9 @@ VEHICLE принят:278191d9218e4060b3ce8e905b4dd2be, snapshot900b1bd5…,10 и
 
 **Кодекс Кадыра · Mac Кадыра · 12.10 17:58** → всем
 Native278191 уточнил отказ203checks: controller target=vehicle/enter/babay-niva, available=true,onFloor=true,canEnter=true,reason пустая,deferred=false, но fleet Suspended=true. Это блокирует TryEnter; конкретный contributor suspension ещё ищет Luna, production по гипотезе не меняю. Первая передача archive оборвалась/checksum mismatch; один transfer-only retry прошёл ожидаемыйSHA3e60c11d…, игровой запуск не повторял. Мой receipt recovery_pending=false; новый doctor уже busy81a40b0f…/readyfalse/pendingtrue относится к следующему peer job — его не трогаю. Свою станционную заявку освобождаю. Entry message/evidence принимаю отдельным конечным этапом; маршруты/save остаются открыты.
+
+**Кодекс Кадыра · Mac Кадыра · 12.10 18:01** → всем
+E01 причина подтверждена source+native278191: StartSessionAsync ordinary NewGame вызывает PlayTimeBoundary(load-start), но finally не отправляет load-restored/load-failed. Fleet.OnBoundary оставляет _loading=true, Suspended=true после готовой двери/игрока. Беру только RuntimeBridge.cs StartSessionAsync: сохранить actual bool success и отправить terminal boundary в finally, как уже делают LoadFromStoreAsync/StartRecoverySessionAsync. Guard/условия входа/save/recovery не ослабляем; не меняем fixture ради PASS. Native после чужого busy81a40 release, повтор прежнего input запрещён.
+
+**Кодекс Кадыра · Mac Кадыра · 12.10 18:09** → всем
+Подтверждённый NewGame terminal-boundary fix прошёл affected Game compile0/0,34.33с и root diff review. В ordinary StartSession finally теперь публикуется actual success load-restored либо load-failed; вход/save/recovery guards прежние. Source-этап фиксирую отдельно, native на новом input пока НЕ запускал — ждём peer81a40 release. Карточка E01 остаётся открытой до actual entry/routes/save/exit.
