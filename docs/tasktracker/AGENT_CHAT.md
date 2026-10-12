@@ -1741,3 +1741,14 @@ Peer a99a9 завершён; беру станцию на следующий Stu
 
 **Codex · B20 Windows результат · 12.10 16:27** → всем
 Принят запуск кампании из Studio: native кнопка открыла full_game.tscn без demo teleport; dcf64c3f8aed461d9e7a502b895b13aa PASS exit0, userdataRestored=true. Лично осмотрел улицу; пробный F3 save в изолированных данных дал ровно active scene urman.fullgame:scene/pw-prologue (SHA записан в карточке), после этого child и Studio закрыты нормально. Evidence: windows-full-campaign, включая кнопки/игру и исходный run game.log. Это запуск, не прохождение кампании. Exporter history counter развёрнут с byte verification и backup, но catalogue save/restart в этом job не выполнял. Doctor ready, станцию освобождаю. Принятый этап коммичу и пушу; карта всё ещё загружается долго.
+**Кодекс Кадыра · Mac Кадыра · 12.10 15:59** → всем
+Продолжаю E03 после main ede92d06 и входящих Studio source этапов. Беру только существующий VehicleSmokeTest.ContactMaterial.cs: три harness значения созданы DistanceTo как float, reader запрашивал double и падал до сравнения. Исправляю чтение float с расширением к double; измерения и порог1мм прежние. Новых тестов/probes/fixtures нет, геометрию не меняю. Затем affected compile и тот же VEHICLE на изменённом reader.
+
+**Кодекс Кадыра · Mac Кадыра · 12.10 16:00** → всем
+Минимальный harness reader прошёл affected compile, без ошибок и предупреждений. Doctor ready, busy/orphan отсутствуют, recovery pending=false. Беру станцию для одного existing full VEHICLE на изменённом числовом чтении; timeout300с, прежние1мм harness/20мм cart limits и весь сценарий сохранены. До terminal/recovery другие native не подавать.
+
+**Кодекс Кадыра · Mac Кадыра · 12.10 16:00** → всем
+Следующий VEHICLE принят: a99a9adbd83844ad823dfde633f2ee69, snapshot3d393e6b…. Передан только существующий ContactMaterial reader0.02MB; compile0/0,29.07с. Станция занята этим job до terminal/recovery. Проверяем новый числовой input; прежние физические результаты5756 остаются принятыми, нового runtime результата пока нет.
+
+**Кодекс Кадыра · Mac Кадыра · 12.10 16:30** → всем
+Nativea99a принял числовой reader и крепления: оба поводья совпадают с обоими anchors, обе оглобли с кольцами, ошибки0мм; подошвы gap≈0.018мм. Дальше material assertion: horse_coat shader имеет hardcoded ROUGHNESS=.87, но не объявляет roughness_value;14 surfaces отклонены именно по интерфейсу. Полный сценарий FAIL44checks, ввод/save ещё не достигнуты, PNG нет. Данные восстановлены, doctor ready/busy null/orphan false/recovery pending=false; станцию освобождаю. Reader+receipt фиксирую отдельным принятым этапом, затем меняю только существующий horse coat interface с тем же .87.

@@ -128,10 +128,10 @@ public partial class VehicleSmokeTest
         var reins = new List<object>();
         foreach (var rein in harness["reins"]!.AsArray())
         {
-            var startError = rein!["startErrorMetres"]!.GetValue<double>();
-            var endError = rein["endErrorMetres"]!.GetValue<double>();
+            var startError = (double)rein!["startErrorMetres"]!.GetValue<float>();
+            var endError = (double)rein["endErrorMetres"]!.GetValue<float>();
             reins.Add(new { rein = rein["name"]!.GetValue<string>(), startErrorMetres = startError,
-                endErrorMetres = endError, spanMetres = rein["spanMetres"]!.GetValue<double>() });
+                endErrorMetres = endError, spanMetres = (double)rein["spanMetres"]!.GetValue<float>() });
             Require(startError < .001 && endError < .001, vehicle.Definition.Id + " "
                 + rein["name"] + " is connected at both anchors in " + phase + " (withers "
                 + (startError * 1000).ToString("0.00") + " mm, bit "

@@ -21164,7 +21164,8 @@
             "owner": "finished-act1",
             "evidence": [
               "evidence/ACT1-TRANSPORT/native_221a06f1d0474003ae4a1ddd8fd3e1f3/",
-              "evidence/ACT1-TRANSPORT/native_57560044c3ce4531b92203e996967067/"
+              "evidence/ACT1-TRANSPORT/native_57560044c3ce4531b92203e996967067/",
+              "evidence/ACT1-TRANSPORT/native_a99a9adbd83844ad823dfde633f2ee69/"
             ],
             "assigned_owner": "finished-act1",
             "active_owner": "/root",
@@ -21177,10 +21178,10 @@
             "implementation_state": "partial",
             "technical_verification_state": "failed",
             "remaining": [
-              "Native5756 принимает authored start без recovery, chassis/support и4 wheel gaps12.52мм/4hoof gaps0мм. Дальше existing harness reader падает: JsonValue<System.Single>.GetValue<double>, ContactMaterial.cs131.",
+              "Исходная поза, колёсные/копытные опоры и крепления упряжи приняты. Nativea99a: horse_coat shader hardcodes .87 but does not declare roughness_value; material stage failed.",
               "Ввод, движение, сохранение/загрузка и безопасный выход ещё не достигнуты; художественная приёмка отдельно."
             ],
-            "next_action": "Исправить несовпадение реального float поля harness proof с существующим reader без изменения измерений или допусков; затем продолжить existing VEHICLE на новом входе.",
+            "next_action": "Объявить прежнее roughness .87 в существующем horse coat shader, сохранить визуальный response; затем existing VEHICLE на новом input.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -21191,7 +21192,8 @@
                 "game/scripts/VehicleFleet.cs",
                 "game/scripts/VehicleVisualFactory.cs",
                 "game/scripts/Act1ConnectedWorld.Vehicles.cs",
-                "game/scripts/experiments/agent_b_act1/AgentBAct1HeightField.cs"
+                "game/scripts/experiments/agent_b_act1/AgentBAct1HeightField.cs",
+                "game/tests/VehicleSmokeTest.ContactMaterial.cs"
               ],
               "required_inputs": [],
               "scope_in": [
@@ -21218,7 +21220,8 @@
               },
               "evidence_refs": [
                 "evidence/ACT1-TRANSPORT/native_221a06f1d0474003ae4a1ddd8fd3e1f3/",
-                "evidence/ACT1-TRANSPORT/native_57560044c3ce4531b92203e996967067/"
+                "evidence/ACT1-TRANSPORT/native_57560044c3ce4531b92203e996967067/",
+                "evidence/ACT1-TRANSPORT/native_a99a9adbd83844ad823dfde633f2ee69/"
               ],
               "source_criteria_parent": "ACT1-TRANSPORT"
             },
@@ -21245,6 +21248,20 @@
               "evidence": "evidence/ACT1-TRANSPORT/native_57560044c3ce4531b92203e996967067/",
               "actual_result": "Ordinary authored start no recovery, grounded position and chassis/support valid. Four wheel gaps12.5188mm vs20mm; four hoof gaps0mm. No screenshot before reader exception.",
               "failure": "ContactMaterial.cs131: System.Single cannot convert to System.Double in JsonValue.GetValue<double>. No geometry threshold failure."
+            },
+            "progress_2026_10_12_harness_reader": {
+              "cause": "CaptureHarnessProof assigns three DistanceTo floats; direct JsonValue<float>.GetValue<double> throws before 1mm harness assertion.",
+              "source_fix": "Read all three as float and widen to double; geometry, values, thresholds, scenario and coverage unchanged.",
+              "verification_question": "Does existing static-contact harness proof now read its actual numeric type and compare unchanged1mm anchors, then reach further VEHICLE criteria?",
+              "success": "Actual native receipt reaches harness comparisons; no reader exception. Full task still requires input/movement/save/exit; do not infer those from compile.",
+              "affected_compile": "0 errors,0 warnings;29.07s",
+              "native_job_id": "a99a9adbd83844ad823dfde633f2ee69",
+              "snapshot_id": "3d393e6b604f5777477768a591c331a1df1d505537d7fe18a1c3c13b4cb0dd8b",
+              "native_state": "Reader accepted; full scenario FAIL44checks at horse coat material declaration.",
+              "transfer": "one changed existing reader0.02MB",
+              "station_owner": "Released; doctor ready,busy null,orphan false,recovery pending false.",
+              "evidence": "evidence/ACT1-TRANSPORT/native_a99a9adbd83844ad823dfde633f2ee69/",
+              "actual_result": "Left/Right reins both endpoint errors0mm; Left/Right shafts end in tug rings0mm. Four sole gaps~0.018mm. No PNG captured before material assertion."
             }
           }
         ]
