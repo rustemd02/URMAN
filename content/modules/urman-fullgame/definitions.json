@@ -1849,7 +1849,19 @@
             "op": "photoworlds.fact.observe",
             "factId": "prologue_branch_moved",
             "sourceId": "urman.fullgame:interaction/pw-prologue-branch-move"
-          },
+          }
+        ]
+      },
+      {
+        "id": "urman.fullgame:interaction/pw-prologue-f03-end",
+        "labelTextId": "urman.fullgame:text/pw-label-prologue-f03-end",
+        "conditions": [
+          {
+            "op": "photoworlds.fact.observed",
+            "factId": "prologue_branch_moved"
+          }
+        ],
+        "effects": [
           {
             "op": "photoworlds.prologue.complete"
           },
@@ -2870,6 +2882,26 @@
         ]
       },
       {
+        "id": "urman.fullgame:interaction/pw-forest-branch-move",
+        "labelTextId": "urman.fullgame:text/pw-label-forest-branch-move",
+        "conditions": [
+          {
+            "op": "not",
+            "condition": {
+              "op": "photoworlds.fact.observed",
+              "factId": "prologue_branch_moved"
+            }
+          }
+        ],
+        "effects": [
+          {
+            "op": "photoworlds.fact.observe",
+            "factId": "prologue_branch_moved",
+            "sourceId": "urman.fullgame:interaction/pw-forest-branch-move"
+          }
+        ]
+      },
+      {
         "id": "urman.fullgame:interaction/pw-forest-photographer",
         "labelTextId": "urman.fullgame:text/pw-label-forest-photographer",
         "conditions": [
@@ -3673,6 +3705,17 @@
   },
   {
     "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-label-prologue-f03-end",
+    "value": {
+      "default": "Выйти из леса и продолжить путь",
+      "translations": {
+        "ru": "Выйти из леса и продолжить путь"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
     "id": "urman.fullgame:text/pw-label-prologue-skip",
     "value": {
       "default": "Пропустить лесной пролог и выйти из Нивы у дома",
@@ -4129,6 +4172,17 @@
       "default": "Сопоставить три ствола и школьную подпись",
       "translations": {
         "ru": "Сопоставить три ствола и школьную подпись"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-label-forest-branch-move",
+    "value": {
+      "default": "Уложить ветку на боковые корни",
+      "translations": {
+        "ru": "Уложить ветку на боковые корни"
       }
     },
     "purpose": "ui"

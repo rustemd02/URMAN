@@ -540,7 +540,8 @@
         "id": "prologue_branch_moved",
         "provenanceKind": "direct-player-action",
         "sourceIds": [
-          "urman.fullgame:interaction/pw-prologue-branch-move"
+          "urman.fullgame:interaction/pw-prologue-branch-move",
+          "urman.fullgame:interaction/pw-forest-branch-move"
         ]
       },
       {

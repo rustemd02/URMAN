@@ -110,7 +110,9 @@ public partial class FullGameFlowSmokeTest : Node
         else
         {
             await InteractAndAssertDuplicateOccurrenceAsync(bridge, "pw-prologue-photo-source");
-            await InteractAsync(bridge, "pw-prologue-branch-move", Scene("pw-niva-arrival"));
+            await ExpectBlockedAsync(bridge, "pw-prologue-f03-end");
+            await InteractAsync(bridge, "pw-prologue-branch-move", Scene("pw-prologue"));
+            await InteractAsync(bridge, "pw-prologue-f03-end", Scene("pw-niva-arrival"));
         }
 
         Require(BeatState(bridge.SelectRuntimeState(), "pw-b01-niva-arrival") == "available",
@@ -253,6 +255,8 @@ public partial class FullGameFlowSmokeTest : Node
     private async Task CompleteForestAsync(RuntimeBridge bridge)
     {
         await InteractAsync(bridge, "pw-enter-forest", Scene("pw-forest"));
+        if (!FactObserved(bridge.SelectRuntimeState(), "prologue_branch_moved"))
+            await InteractAsync(bridge, "pw-forest-branch-move", Scene("pw-forest"));
         await InteractAsync(bridge, "pw-forest-group");
         await InteractAsync(bridge, "pw-forest-photographer");
         await InteractAsync(bridge, "pw-forest-shurale");
