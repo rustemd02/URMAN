@@ -200,8 +200,15 @@ HERO_WINDOW_IDS = ("Front0", "Front1", "Front2", "Rear0", "Rear1", "Left0", "Rig
 
 
 def hero_window_widths(recipe: dict) -> dict:
-    return {window_id: recipe.get("windowWidths", {}).get(window_id, recipe["windowClearWidth"])
-            for window_id in HERO_WINDOW_IDS}
+    overrides = recipe.get("windowWidths", {})
+    return {
+        window_id: overrides.get(
+            window_id,
+            0.80 if window_id == "SeniOuter0" and recipe.get("modelPath") is None
+            else recipe["windowClearWidth"],
+        )
+        for window_id in HERO_WINDOW_IDS
+    }
 
 
 def load_hero_house_recipe(path: Path) -> dict:

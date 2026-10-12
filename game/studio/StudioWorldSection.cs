@@ -31,6 +31,7 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
     private readonly Dictionary<string, string> _previewed = new(StringComparer.Ordinal);
     private Control? _view;
     private SubViewport _viewport = null!;
+    private SubViewport.UpdateMode? _childRunPreviousUpdateMode;
     private SubViewportContainer _container = null!;
     private Camera3D _camera = null!;
     private Node3D _markerRoot = null!;
@@ -88,6 +89,22 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
     public Vector3 Pivot => _pivot;
     public bool WorldReady => _demo is not null && _hint is { Visible: false };
     public bool HasViewportFocus => _container is not null && _container.IsVisibleInTree() && _container.HasFocus();
+
+    public void SetChildRunRenderingPaused(bool paused)
+    {
+        if (_view is null || !GodotObject.IsInstanceValid(_viewport)) return;
+        if (paused)
+        {
+            if (_childRunPreviousUpdateMode.HasValue) return;
+            _childRunPreviousUpdateMode = _viewport.RenderTargetUpdateMode;
+            _viewport.RenderTargetUpdateMode = SubViewport.UpdateMode.Disabled;
+            return;
+        }
+
+        if (_childRunPreviousUpdateMode is not { } previous) return;
+        _childRunPreviousUpdateMode = null;
+        if (GodotObject.IsInstanceValid(_viewport)) _viewport.RenderTargetUpdateMode = previous;
+    }
 
     public void SuspendForAi()
     {

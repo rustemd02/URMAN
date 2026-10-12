@@ -224,6 +224,7 @@ public partial class StudioRoot : Control
 
         if (_run is { HasExited: true } finishedRun)
         {
+            ((StudioWorldSection)Section("world")).SetChildRunRenderingPaused(false);
             _run = null;
             RefreshStatus();
             if (_lastRunWasHouseCapture)
@@ -906,6 +907,7 @@ public partial class StudioRoot : Control
                 throw;
             }
             _run = run;
+            ((StudioWorldSection)Section("world")).SetChildRunRenderingPaused(true);
             LastRun = folder;
             _lastRunWasHouseCapture = captureHouseWindows;
             run.OutputDataReceived += (_, data) => Write(data.Data);
@@ -978,6 +980,7 @@ public partial class StudioRoot : Control
                 if (!run.WaitForExit(5000)) throw new TimeoutException();
             }
             if (!run.HasExited) throw new TimeoutException();
+            ((StudioWorldSection)Section("world")).SetChildRunRenderingPaused(false);
             if (ReferenceEquals(_run, run)) _run = null;
             run.Dispose();
             GetTree().Quit();
