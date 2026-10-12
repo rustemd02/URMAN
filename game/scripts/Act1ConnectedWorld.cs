@@ -6427,7 +6427,7 @@ public partial class Act1ConnectedWorld : Node3D
 
     private static void ProfileWorldBuildStep(string stage,Action build)
     {
-        if(OS.GetEnvironment("URMAN_WORLD_BUILD_PROFILE")!="1") {build();return;}
+        if(!StudioPreviewMode && OS.GetEnvironment("URMAN_WORLD_BUILD_PROFILE")!="1") {build();return;}
         var elapsed=System.Diagnostics.Stopwatch.StartNew();
         build();
         GD.Print($"world-build-profile|{stage}|{elapsed.Elapsed.TotalSeconds.ToString("0.000",System.Globalization.CultureInfo.InvariantCulture)}s");

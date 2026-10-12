@@ -860,6 +860,7 @@ public partial class StudioRoot : Control
             RefreshStatus("Подготовка запуска…");
             if (!SaveAll(autosave: false)) return;
 
+            var start = _current is not null && _sections[_current] is StudioWorldSection world ? world.PlayStart() : null;
             var capturePoints = captureHouseWindows ? HouseWindowCapturePoints() : null;
             var houseSources = CapturePlayHouseSources(Workspace.Root);
             var build = await PlayPreparation.CompileAsync(Workspace.Root);
@@ -876,7 +877,6 @@ public partial class StudioRoot : Control
                 return;
             }
 
-            var start = _current is not null && _sections[_current] is StudioWorldSection world ? world.PlayStart() : null;
             var godot = OS.GetExecutablePath();
             var arguments = new List<string> { "--path", ProjectSettings.GlobalizePath("res://"), "res://scenes/act1_demo.tscn", "--" };
             if (!captureHouseWindows)

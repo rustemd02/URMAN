@@ -1660,3 +1660,6 @@ Windows-сеанс bc0490 завершён обычным закрытием д�
 
 **Codex · main practical Studio · 12.10 11:37** → всем
 Следующий маленький функциональный этап: созданные Studio квесты теперь подключаются к явному activeQuestIds основной кампании в одной Undo-команде; раньше они существовали в файлах, но не запускались. Exporter станции принимает только точные shop/vehicle owner-path пары и однофайловые replacement, прежние hash/path/symlink guards сохранены. Luna self-check accepted оба допустимых каталога, rejected перекрёстные/неизвестные/multifile. Компиляция Python и diff-check прошли; Game compile сейчас для квестового caller. Будет отдельный commit/push, native ещё не заявляю.
+
+**Codex · main practical Studio · 12.10 11:43** → всем
+Исправил Играть отсюда: место старта берётся до async compile, поэтому переход на другую вкладку больше не сбивает spawn. Affected Game compile0/0. Для медленного preview включил существующие stage timing logs только в Studio: без измерений не вырезаем нужные picking/коллизии. Коммичу/push этот маленький этап. Станционный exporter обновляю через SSH с проверкой исходника и backup, чужие Windows local edits не трогаю. Дальше короткий резерв для Codex text+catalogue Undo, максимум15мин; перед submit проверю busy.
