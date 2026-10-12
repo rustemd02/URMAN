@@ -79588,6 +79588,21 @@
                 "actual_result": "Existing ProfileWorldBuildStep used for authored-content/materials/addresses; same synchronous ordering, sorted file loop, filters, metadata and exceptions, outer authored retained.",
                 "verification": "Luna FAST/Max implementation, root source comparison/scoped diffcheck and affected Game compile0warnings/0errors15.60s; nullable compiler flow annotations corrected after introducing synchronous lambdas. No new tests/probes.",
                 "remaining": "One changed-source Windows map run must attribute measured authored58.389s before next optimization."
+              },
+              {
+                "stage": "2026-10-12 authored bottleneck measured",
+                "result": "NATIVE_ADDRESS_MOUNTS_50_626S_CAUSE_CONFIRMED_NORMAL_CLOSE_0_GOG_WRAPPER_FAIL",
+                "source_commit": "b5f367c44dcaec0eb5a2427b5ed13318e9db0143",
+                "job": "cd949a0c664742559389b44391634675",
+                "snapshot": "7ed163817eea892094971b9534e3e101f1f607cc92b12bc862a61254d63a50ef",
+                "evidence": [
+                  "evidence/STUDIO/practical-editor-2026-10-12/windows-authored-profile/receipt.json",
+                  "evidence/STUDIO/practical-editor-2026-10-12/windows-authored-profile/game.log",
+                  "evidence/STUDIO/practical-editor-2026-10-12/windows-authored-profile/stdout.log",
+                  "evidence/STUDIO/practical-editor-2026-10-12/windows-authored-profile-live/map-ready.png"
+                ],
+                "actual_result": "Root viewed loaded village ready113121ms. Authored-content6.814s/materials1.202s/addressmounts50.626s/total58.643s: dominant source localized to79authored address registrations. Six full diagnostic lines equal previous5e680a26; normalX gameExitCode0, zero resource leaks, userdataoriginal rename-restoredverified; doctorready/busynull/orphanfalse/recoveryfalse.",
+                "limits": "WrapperFAIL one startupGOGVulkan deprecatedlayerJSON error retained. This snapshot has profile split only, not new prepared-face cache; no cache speed claim."
               }
             ],
             "stage_tasks": [
@@ -79704,7 +79719,8 @@
                 "scenario": "A15 и маленькое окно/150% scale; записать успешность, время, конкретные ошибки, не выдуманные оценки удобства.",
                 "success": "Новичок выбирает дом, меняет вручную, запускает AI, отменяет, открывает связь и сохраняет без подсказки разработчика о классах/путях.",
                 "repeat_only_if": "Изменён предметный contract/input или предыдущий сценарий неполон.",
-                "current_stage_question": "Сокращает ли extracted PackedScene cache и консервативный foliage road bound время полной карты без изменения геометрии/объектов/лесных diagnostics и без новых утечек при закрытии?"
+                "current_stage_question": "Где находится measured authored58.389s: Director.Build, material regrade или authored address mounts?",
+                "current_stage_success": "Один b5f367c4 Windows snapshot с тремя existing profile labels, общим ready time и прежними diagnostic counts; обычное закрытие и userdata restore; wrapper failures сохранить. Измерение локализует задержку, не доказывает новое ускорение."
               },
               "actual_result": null,
               "evidence_refs": [
