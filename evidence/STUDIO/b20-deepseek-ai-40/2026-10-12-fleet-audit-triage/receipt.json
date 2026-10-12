@@ -1,0 +1,23 @@
+{
+  "schema": 1,
+  "units": [
+    "STUDIO/AI-40"
+  ],
+  "stage": "a 32-file adversarial audit of my projections: what survived triage",
+  "owner": "deepseek v4.1 flash",
+  "when_msk": "2026-10-12 (MSK)",
+  "branch": "deepseek/b20-editor-content",
+  "base": "d278c444",
+  "why": "the author asked for maximum parallelism, so I ran a read-only audit fleet over the thirty-two projection files I own: one audit agent per file, then a verifier agent for each high-severity candidate. Forty-four child agents in total ran against the checkout and modified nothing",
+  "the_result": "NINE of the thirty-two files came back with candidate findings. The first candidate I triaged myself is REFUTED: PcChatContent L185-191 was reported as a crash risk and a false runtime claim, but ConditionPhrases.Kind takes a STRING (line 107), and every op reaching it is extracted by Ops() at line 637, which adds an op ONLY when it is a JsonValue string and otherwise records a malformed finding. So there is no crash there and no false claim",
+  "what_it_corroborated": "independently flagged my own reported defect in ConditionPhrases L79 (the unguarded cast), and produced candidates in CutsceneActions, GameSettingsSurface, InvestigationPuzzle, KitTakeover, MaterialModes, ItemSpawns, Vehicles and StudioWritePaths",
+  "the_rule_i_am_holding": "an audit candidate is not a finding until I have read the runtime consumer myself. Earlier tonight I reported a consequence from a single consumer and was wrong, and this same fleet's first candidate was wrong, which is exactly why each remaining candidate is being verified one by one against the code it depends on",
+  "verified": {
+    "probe": "PASS 795/795, unchanged by the audit because it read only",
+    "compile": "no code was changed by the audit",
+    "not_run": "the remaining candidates are not yet triaged"
+  },
+  "files": {
+    "evidence/STUDIO/b20-deepseek-ai-40/2026-10-12-fleet-audit-triage/check.log": "723f63c609d3628f8f2c4ff40d66ea2e6179f279e2bcf82905e42883688a5e32"
+  }
+}

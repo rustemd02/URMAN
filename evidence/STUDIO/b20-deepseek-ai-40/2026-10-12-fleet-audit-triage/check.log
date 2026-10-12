@@ -1,0 +1,13 @@
+== a 32-file adversarial audit of my projections: what survived triage
+
+-- the fleet: 32 audit agents (one per projection file) + 12 verifiers, 44 child agents total
+-- 9 of 32 files came back with candidate findings
+-- TRIAGE of the first candidate: PcChatContent L185-191 'false runtime claim + crash'
+   REFUTED: ConditionPhrases.Kind takes a STRING (line 107: Kind(string op)), and the ops that
+   reach it come from Ops() at line 637, which adds an op only when it is a JsonValue string;
+   a non-string op becomes a 'malformed' finding instead. So no crash and no false claim there
+-- what the audit DID corroborate independently:
+   my own reported ConditionPhrases L79 unguarded cast, plus candidate findings in CutsceneActions,
+   GameSettingsSurface, InvestigationPuzzle, KitTakeover, MaterialModes, ItemSpawns, Vehicles, StudioWritePaths
+-- each remaining candidate is being verified against its runtime consumer before any of it is acted on
+== probe still PASS at 795 checks

@@ -82040,6 +82040,12 @@
                 "result": "self-check by deepseek v4.1 flash of my own previous finding: if Describe had no caller the report would be cosmetic, and I have already made one severity mistake tonight by reasoning from a single consumer. FINDING: Describe IS called with real authored rule objects on live paths - StudioCollabSection line 499 calls phrases.Describe(rule) on a JsonObject rule read from content, and StudioRuleEditor line 89 renders a rule the editor is editing - both passing into the method whose line 74 guards the op cast and line 79 does not. SO THE SEVERITY HOLDS: a malformed op in authored content reaches the unguarded cast through the Studio UI and throws InvalidOperationException inside a Godot callback instead of reporting to the author. What is new here is the EVIDENCE: the probe now asserts the two live call sites by name, so the claim cannot be read as being about dead code. Verified: probe PASS 795/795; Core 0/0",
                 "source": "game/studio/StudioCollabSection.cs line 499 and game/studio/StudioRuleEditor.cs line 89, plus ConditionPhrases.cs line 79 (not mine); evidence evidence/STUDIO/b20-deepseek-ai-40/2026-10-12-conditionphrases-live-callers",
                 "verification": "probe PASS 795/795 including the two live-caller assertions; Core 0/0. The throw would happen in the editor and is NOT_RUN"
+              },
+              {
+                "stage": "2026-10-12 a 32-file adversarial audit of my projections: what survived triage",
+                "result": "audit by deepseek v4.1 flash at the author's request for maximum parallelism: a read-only fleet of THIRTY-TWO audit agents (one per projection file I own) plus TWELVE verifier agents for the high-severity candidates - forty-four child agents, nothing modified. NINE of the thirty-two files returned candidates. THE FIRST CANDIDATE IS REFUTED: PcChatContent L185-191 was reported as a crash risk and a false runtime claim, but ConditionPhrases.Kind takes a STRING (line 107) and every op reaching it comes from Ops() at line 637, which adds an op only when it is a JsonValue string and otherwise records a malformed finding - no crash, no false claim. The fleet independently corroborated my own ConditionPhrases L79 report and raised candidates in CutsceneActions, GameSettingsSurface, InvestigationPuzzle, KitTakeover, MaterialModes, ItemSpawns, Vehicles and StudioWritePaths. THE RULE I AM HOLDING: a candidate is not a finding until I have read the runtime consumer myself - I already reported one consequence from a single consumer and was wrong, and this fleet's first candidate was wrong too. Each remaining candidate is being verified one by one. Verified: probe PASS 795/795; no code changed",
+                "source": "a read-only audit fleet over src-dotnet/Urman.Studio.Core/Editing/*.cs; evidence evidence/STUDIO/b20-deepseek-ai-40/2026-10-12-fleet-audit-triage",
+                "verification": "probe PASS 795/795, unchanged because the audit only read; the remaining candidates are NOT triaged yet"
               }
             ],
             "stage_tasks": [
@@ -82097,7 +82103,9 @@
               "ПЕРЕДАНО владельцу: в ConditionPhrases.cs (файл в main, не мой) строка 74 защищает приведение op, а строка 79 делает то же приведение напрямую → InvalidOperationException; сюда попадают МОИ проекции.",
               "Ранее переданный частичный этап (2026-10-12 a crash risk in a file I do NOT own, reached through MY calls) ждёт ревью/приёмки; полный done_when не выполнен.",
               "Риск падения в ConditionPhrases подтверждён как ЖИВОЙ: Describe зовут StudioCollabSection:499 и StudioRuleEditor:89 с реальными авторскими правилами.",
-              "Ранее переданный частичный этап (2026-10-12 the ConditionPhrases crash risk is on a LIVE path, not dead code) ждёт ревью/приёмки; полный done_when не выполнен."
+              "Ранее переданный частичный этап (2026-10-12 the ConditionPhrases crash risk is on a LIVE path, not dead code) ждёт ревью/приёмки; полный done_when не выполнен.",
+              "Аудит 32 файлов (44 субагента, только чтение): 9 файлов с кандидатами; ПЕРВЫЙ кандидат (PcChatContent) ОПРОВЕРГНУТ чтением Kind/Ops; остальные проверяю по одному.",
+              "Ранее переданный частичный этап (2026-10-12 a 32-file adversarial audit of my projections: what survived triage) ждёт ревью/приёмки; полный done_when не выполнен."
             ],
             "next_action": "UI стартового состояния; пометка synthetic/reachable; runtime trace с occurrence ID; pause clock; шаг события; copy transform только явной командой; handoff case.",
             "blocker": null,
