@@ -3996,8 +3996,8 @@
       "title": "Дополненный существующий инвентарь текстур для текущих и планируемых объектов",
       "progress_2026_09_22": "Полный реестр 132/132 на cd4e703: 31 reuse, 37 new, 5 edit, 59 conditional. Все карточки книги и групп очереди совпадают без дублей; для каждой указан реальный потребитель либо конкретно недостающие UV/маска/носитель/решение. 18 ранее подключённых результатов включены как reuse. Рекомендации reuse не закрывают source/visual/art; условные карточки остаются работой соответствующих групп. Проверены локальные ссылки и названные PNG: три отсутствующих файла явно отмечены как отсутствующие, не выданы за готовые.",
       "milestone": "M4",
-      "status": "todo",
-      "active_owner": null,
+      "status": "in_progress",
+      "active_owner": "codex/b02-2026-10-13",
       "owner": "art/materials/qa",
       "depends_on": [],
       "scope": [
@@ -4180,8 +4180,8 @@
       },
       "assigned_owner": "art/materials/qa",
       "activity": {
-        "state": "not_active",
-        "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+        "state": "confirmed_active",
+        "reason": "Exact S03/S05 metadata reconciled, verified S04 procedural lineage now being added by Luna to existing inventory/registry."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -4356,7 +4356,27 @@
           "evidence_ref": "ACT1-TEXTURE.00.evidence and named history progress; source_review shows available/missing inputs"
         }
       ],
-      "assignment_state": "preserved_person_or_existing_role; activity separate"
+      "assignment_state": "preserved_person_or_existing_role; activity separate",
+      "progress_2026_10_13_b02": {
+        "result": "S03/S05 existing inventory rows/README reconciled with real consumers. Existing asset registry has exact2texture entries with generator/seed/licence/SHA/RGB8sRGB/1m/opaquebitmap/consumer/evidence boundaries. MAT-S01 source+assembled request summary both current scale1m. Root JSON/unique IDs/2actual PNG SHAs/scoped diffcheck PASS. No art accepted; full132 inventory not complete. S04 per-file provenance stillunknown; no invented source/licence.",
+        "next_action": "Reconcile existing rows using named procedural receipts/real consumers and valid old evidence; leave S04 provenance explicitly unknown until source proof, no invented licence.",
+        "targets_updated": [
+          "assets/asset_registry.json",
+          "game/assets/textures/painterly/README.md",
+          "docs/urman_knowledge_base/art/texture_runtime_inventory_2026-09-22.md",
+          "docs/urman_knowledge_base/art/asset_requests/MAT.md",
+          "docs/urman_knowledge_base/art/VISUAL_RESET_GENERATION_REQUESTS_2026-10-08.md"
+        ],
+        "s04_lineage": {
+          "png_sha256": "a0817899fa6c1401c5b9a49130467cf8956e86927afd5ef434f346df9a401f14",
+          "birth_commit": "08cf7a6fcdde59af560da72f598f569e67120de3",
+          "generator": "tools/textures/generate_winter_snow.py#snow_roof",
+          "seed": 20260910,
+          "verification": "Native Luna in-memory existing function comparison, no main/output/assets rewritten: exact current1024RGB pixels reproduced; currentPNG byte-identical birthblob. Separate originalcommand receipt not found.",
+          "pixel_sha256": "27ffef1fbc168a5c4aef04acd947ed02f576c5c044c9c19091c18c5fedc87555",
+          "result": "Procedural lineage proved; root accepted metadata update, no ImageGen/externalimage claimed."
+        }
+      }
     },
     {
       "id": "ACT1-TEXTURE.01",
@@ -4748,10 +4768,10 @@
             "owner": "art/materials/qa",
             "evidence": [],
             "assigned_owner": "art/materials/qa",
-            "active_owner": "codex/b02-2026-10-13",
+            "active_owner": null,
             "activity": {
-              "state": "confirmed_active",
-              "reason": "Actual protected before capture 1316005f22c747d18f793453bd8f1d17 RUNNING; primary принимает парное изображение после restored source candidate. Windows owner B02 after B20 release."
+              "state": "released",
+              "reason": "Matched native before/after partial evidence delivered, station released; physical motion/indoor scenario and visual criteria open."
             },
             "task_type": "engineering",
             "status": "in_progress",
@@ -4760,7 +4780,7 @@
             "remaining": [
               "Подключить S04 — Снег на крышах и верхних гранях; собственного целевого receipt пока нет."
             ],
-            "next_action": "Принять receipt/два кадра текущего before job; затем matched candidate snapshot с сохранённой геометрией, проверить защиту данных и сравнить actual изображение.",
+            "next_action": "Проверить фактуру/свет в движении и actual walk-in indoor grade через существующий защищённый игровой маршрут; сохранить отдельную художественную приёмку. До этого completed не ставить.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -4841,19 +4861,39 @@
               "source_readback": "Existing S04 reuse map personally viewed; inventory132 mandates reuse. Current PML world-triplanar scale1 conflicts with current S04 2×2м brief; S01 same path already scale.5 for2м.",
               "scope": "Only WinterTextures[snow_roof].Scale 1→.5; existing map/owner/shader strength/response/geometry unchanged.",
               "result": "Одна строка existing WinterTextures snow_roof: Scale Vector2(1,1)→(.5,.5), exact2м repeat. Root personally viewed PNG/C2 baseline; callers и world-triplanar sampling проверены Luna, root scoped diff и diff-check passed. Native/art NOT_RUN.",
-              "next_action": "Принять receipt/два кадра текущего before job; затем matched candidate snapshot с сохранённой геометрией, проверить защиту данных и сравнить actual изображение.",
+              "next_action": "Проверить фактуру/свет в движении и actual walk-in indoor grade через существующий защищённый игровой маршрут; сохранить отдельную художественную приёмку. До этого completed не ставить.",
               "source_sha256": "63d8eb80105662e3d95214fcfb3dcc60ce88cd52a070072d10ab3b5bfc2efe1c",
               "affected_consumers": "Existing shared roof/cap/sill/canopy snow_roof, включая Prologue и experimental route; geometry/weather/microrelief/strength unchanged. Не выдавать один будущий кадр за art приёмку всех сцен.",
               "before_job": {
                 "id": "1316005f22c747d18f793453bd8f1d17",
                 "snapshot": "1c5546f64b207e9e3b043d6ee58b5232c9b5010f1644d87abd0e39891b016ac3",
-                "result": "NOT_ACCEPTED_YET",
+                "result": "PASS",
                 "points": "C1_street_high:Ground@0,1.7,12>Ground@0,1.6,-30;C2_house_high:Ground@-14,1.7,4>Ground@-30,1.8,-6",
                 "phase": "village-winter-crisp",
                 "fov": 70,
                 "preset": "high",
-                "source_candidate_restored_exact_bytes": true
-              }
+                "source_candidate_restored_exact_bytes": true,
+                "receipt": "evidence/ACT1-ATMOSPHERE/crisp-day-20261013/before/receipt.json",
+                "userdataRestored": true,
+                "gameExitCode": 0
+              },
+              "after_job": {
+                "id": "57cdf3cdbbc044e39a0270958602ad2d",
+                "snapshot": "86de13c9755f2512ff8042689e039ff4cc0c83b63872426bda0ef31371864203",
+                "result": "PASS",
+                "points": "C1_street_high:Ground@0,1.7,12>Ground@0,1.6,-30;C2_house_high:Ground@-14,1.7,4>Ground@-30,1.8,-6",
+                "phase": "village-winter-crisp",
+                "fov": 70,
+                "preset": "high",
+                "receipt": "evidence/ACT1-ATMOSPHERE/crisp-day-20261013/after/receipt.json",
+                "userdataRestored": true,
+                "gameExitCode": 0,
+                "snapshot_hashes_verified": true
+              },
+              "before_visual_readback": "Root и независимая Luna осмотрели актуальные C1/C2: серый sky/fog veil и слабые тёплые массы; на крыше спокойный белый пласт с мелким зерном. Before технический PASS не художественная приёмка.",
+              "paired_visual_result": "Root viewed both pairs: clearer distance, warmer lit wood/snow vs cool shadow; near log wall remains overly dark, repeated angular forest silhouettes and limited material variation remain. S04 2m repeat source bound, quiet roof seen, movement shimmer not verified. Not full visual completion.",
+              "source_comparison": "Only six atmosphere fields, PML snow_roof scale, and peer AI14 AuthoredWorldDirector differ. Independent Luna: ordinary catalogs/GLB roots do not enter new optional selectedRoot/modelPath branch; geometry selection unchanged. Other snapshot files equal.",
+              "station_release": "doctor ready=true,busy_job=null,orphan_game_process=false,userdata_recovery_pending=false after PASS; Windows released."
             }
           },
           {
@@ -4868,10 +4908,10 @@
               "evidence/ACT1-TEXTURE/s05-parking-20261012/asset-import.log"
             ],
             "assigned_owner": "art/materials/qa",
-            "active_owner": null,
+            "active_owner": "codex/b02-2026-10-13",
             "activity": {
-              "state": "released",
-              "reason": "Source/import принят ранее; exact camera/phase recipe подготовлена. Native в очереди peer VEHICLE → B20 restart → S05. Активный runtime claim освобождён до явного release; назначение сохранено."
+              "state": "confirmed_active",
+              "reason": "Actual frost job0db2c0fbd4f34a7c97e4e052bf4cd62d RUNNING after accepted crisp/restored. B02 releases Windows to B20 after terminal."
             },
             "task_type": "engineering",
             "status": "in_progress",
@@ -4881,7 +4921,7 @@
               "Осмотреть actual PoliceParking/ParkingHardstanding на Windows: локальность S05 у колёс, контраст/повторы и сохранность снегового response при смене атмосферы; художественная приёмка открыта.",
               "Остальные S05 потребители не объявлены подключёнными; динамические wheel/foot marks этого visual box не заявлены."
             ],
-            "next_action": "После release peer VEHICLE и B20 restart снять целевой native PoliceParking/ParkingHardstanding; лично оценить локальность S05, повторы и снеговой отклик в двух существующих погодных фазах.",
+            "next_action": "Принять same-camera frost receipt/изображения, сверить preset/FOV/source и snow response; закрыть только конечный S05 ownDoD если доказан, внешний artgate родителя остаётся. После terminal/restoration отдать Windows B20.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -4924,7 +4964,7 @@
               ],
               "verification": {
                 "method": "targeted_runtime_scenario",
-                "question": "S05 на actual PoliceParking/ParkingHardstanding под DistrictZhiguli локален у колёс, читается как смерзшийся снег без крупного тайлинга/грязевого ковра и сохраняет снеговой отклик при смене существующей атмосферы?",
+                "question": "В actual PoliceParking локальный смерзшийся S05 снег у колёс читается без грубого тайлинга и сохраняет существующий snow mood в crisp/frost, не расползается на соседнюю дорогу?",
                 "scenario": {
                   "targets": [
                     "game/assets/textures/painterly/README.md",
@@ -4972,6 +5012,59 @@
               ],
               "verification": "Existing targeted station capture; repeat compile/import только при изменённом consumer/input.",
               "next_action": "После release peer VEHICLE и B20 restart снять целевой native PoliceParking/ParkingHardstanding; лично оценить локальность S05, повторы и снеговой отклик в двух существующих погодных фазах."
+            },
+            "progress_2026_10_13_b02": {
+              "crisp_rejected": {
+                "job": "06677d7516ee412a90601070c9c2386f",
+                "receipt": "evidence/ACT1-TEXTURE/s05-parking-20261013/crisp/receipt.json",
+                "technical": "PASS/restoredtrue",
+                "visual": "REJECTED: both cameras meet wall, parking not seen. PoliceParking inherits parent basis; negative localX points toward building."
+              },
+              "corrected_crisp": {
+                "job": "e1c390c5b15b4c9bb1a6098a6f7c6b1d",
+                "snapshot": "033ca729c83440350bdfdff95a365390d869944b95889d17ade0945c73fd0610",
+                "result": "PASS",
+                "points": "s05_parking_wide:PoliceParking@3.3,2.4,3.2>PoliceParking@0,0.25,0;s05_parking_contact:PoliceParking@2.4,1.0,1.4>PoliceParking@0.78,0.18,1.2",
+                "receipt": "evidence/ACT1-TEXTURE/s05-parking-20261013/crisp-outward/receipt.json",
+                "userdataRestored": true,
+                "visual": "Target visible, REJECTED hard rectangular gray carpet. Source natural-edge candidate required before frost."
+              },
+              "graphics": "Unbound names: actual medium, graphicsComparable=null. Do not label High; compare same effective preset in frost.",
+              "next_action": "Принять same-camera frost receipt/изображения, сверить preset/FOV/source и snow response; закрыть только конечный S05 ownDoD если доказан, внешний artgate родителя остаётся. После terminal/restoration отдать Windows B20.",
+              "candidate": {
+                "result": "IMPLEMENTED_SOURCE_NATIVE_RUNNING",
+                "scope": "S05 only opt-in UV two-axis edge blend reusing fresh/packed response, Low equivalent; built-in PlaneMesh samefootprint and oldtopY-.005, shadowoff. Collision/car unchanged.",
+                "source_checks": "Worker affectedGamecompile0/0 14.30s; root diff inspection/diffcheck passed; no shader/render acceptance yet.",
+                "job": "8b3f35fc6fd64181884d86a8ca410a3b",
+                "snapshot": "c5cd8350534d6141002c3e3a8a7da74eaabf31d57d369b5c9c8406131661c98f",
+                "status": "PASS",
+                "pml_sha256": "13835a6fc4a88686d8d6a1f50015298631d5efc54c2baf183b6ca0fb5a2d8e40",
+                "police_sha256": "b92d30675ffb3ee29b95d4c5368b0da52111e5d7e696afb02dc2ca6a102852e9",
+                "receipt": "evidence/ACT1-TEXTURE/s05-parking-20261013/crisp-soft/receipt.json",
+                "userdataRestored": true,
+                "visual_result": "REJECTED: central dirty fade works, opaque fresh=snow_color still leaves a blue rectangular plane edge different from actual underlying ground. C# compile/native shader/game passed, art/receiver not accepted."
+              },
+              "revised_strategy": "After observed opaque colour mismatch, isolated WheelSnowPatchShader analytical ALPHA fades to actual underlying snow, no new bitmap. Shared ShaderSource remains opaque; failed endfade changes removed, original roads unchanged. Plane sameoldtop/collision preserved.",
+              "alpha_candidate": {
+                "job": "762e96c8f9a146dc82de590ec0b2c431",
+                "snapshot": "d086c4b6ad61a73d226397c1b36412b2175bd5b6f9ea224ff4eafcae6387a0f6",
+                "status": "PASS",
+                "phase": "village-winter-crisp",
+                "points": "s05_parking_wide:PoliceParking@3.3,2.4,3.2>PoliceParking@0,0.25,0;s05_parking_contact:PoliceParking@2.4,1.0,1.4>PoliceParking@0.78,0.18,1.2",
+                "source_sha256": "1f06e04fef0a7d35615b3966611f0cf5cf1b72941f97ecb19432a46245604fe8",
+                "source_checks": "Worker affected C#compile0/0 13.52s, root scoped diffcheck; isolated shader/actual alpha blend not yet proved. Root prefixed injected locals s05_.",
+                "receipt": "evidence/ACT1-TEXTURE/s05-parking-20261013/crisp-alpha/receipt.json",
+                "userdataRestored": true,
+                "gameExitCode": 0,
+                "visual_result": "Root personally viewed wide/contact: hard rectangle gone, localized dirty wheel-side snow fades into actual ground, no visible sorting/gap in these target views. Independent Luna isolated-shader source review no defect. Scoped crisp acceptance, external art/whole scene not accepted."
+              },
+              "frost_candidate": {
+                "job": "0db2c0fbd4f34a7c97e4e052bf4cd62d",
+                "snapshot": "6c38698ad02f516f240888394584979224a73bcbefac5ad44decd98c9394a842",
+                "status": "RUNNING",
+                "phase": "village-winter-frost",
+                "points": "s05_parking_wide:PoliceParking@3.3,2.4,3.2>PoliceParking@0,0.25,0;s05_parking_contact:PoliceParking@2.4,1.0,1.4>PoliceParking@0.78,0.18,1.2"
+              }
             }
           },
           {
@@ -96654,10 +96747,10 @@
             "owner": "unassigned",
             "evidence": [],
             "assigned_owner": "codex/b02-2026-10-13",
-            "active_owner": "codex/b02-2026-10-13",
+            "active_owner": null,
             "activity": {
-              "state": "confirmed_active",
-              "reason": "Actual protected before capture 1316005f22c747d18f793453bd8f1d17 RUNNING; primary принимает парное изображение после restored source candidate. Windows owner B02 after B20 release."
+              "state": "released",
+              "reason": "Matched native before/after partial evidence delivered, station released; physical motion/indoor scenario and visual criteria open."
             },
             "task_type": "engineering",
             "status": "in_progress",
@@ -96667,7 +96760,7 @@
               "Actual Windows сравнение нового crisp профиля с сохранённым C1_street_high baseline: warm-key/cool-fill, ясный воздух и минимум три плана, читаемый белый снег/лицо/тёмный фасад; без пересвета и одинакового цветного фильтра.",
               "Сохранность существующих snowfall/blizzard/ночных состояний и nearby walk-in indoor grade; художественная приёмка остаётся у внешнего гейта родителя."
             ],
-            "next_action": "Принять receipt/два кадра текущего before job; затем matched candidate snapshot с сохранённой геометрией, проверить защиту данных и сравнить actual изображение.",
+            "next_action": "Сравнить второй crisp candidate с сохранённым after C1/C2 High/FOV70; затем existing Studio PlayFromHere exactPID route для actual motion/indoorgrade.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -96728,17 +96821,43 @@
               "source_scope": "Только шесть параметров existing village-winter-crisp: ambient.color/sun.color/fog.color/density/aerialPerspective/skyAffect. Ни нового профиля/owner, ни C#/shader/geometry/weather-budget/selector/ночных состояний.",
               "result": "Source кандидат шести fields подготовлен; root просмотрел полный scoped diff, JSON/semantic check/diff-check passed. Independent Luna review подтвердил границы и identified real indoor-grade dependency; free camera её не включает. Runtime/art NOT_RUN.",
               "verification": "Existing station matched C1+S05/adjacent walk-in view после peer reservations; source JSON parse/semantic diff и scoped diff-check. Новых тестов/probes нет.",
-              "next_action": "Принять receipt/два кадра текущего before job; затем matched candidate snapshot с сохранённой геометрией, проверить защиту данных и сравнить actual изображение.",
+              "next_action": "Проверить фактуру/свет в движении и actual walk-in indoor grade через существующий защищённый игровой маршрут; сохранить отдельную художественную приёмку. До этого completed не ставить.",
               "candidate_sha256": "4c100c13bb49e0201a816a33bf60bbf49c9b3041d63825f59516a13bbb6beb7f",
               "before_job": {
                 "id": "1316005f22c747d18f793453bd8f1d17",
                 "snapshot": "1c5546f64b207e9e3b043d6ee58b5232c9b5010f1644d87abd0e39891b016ac3",
-                "result": "NOT_ACCEPTED_YET",
+                "result": "PASS",
                 "points": "C1_street_high:Ground@0,1.7,12>Ground@0,1.6,-30;C2_house_high:Ground@-14,1.7,4>Ground@-30,1.8,-6",
                 "phase": "village-winter-crisp",
                 "fov": 70,
                 "preset": "high",
-                "source_candidate_restored_exact_bytes": true
+                "source_candidate_restored_exact_bytes": true,
+                "receipt": "evidence/ACT1-ATMOSPHERE/crisp-day-20261013/before/receipt.json",
+                "userdataRestored": true,
+                "gameExitCode": 0
+              },
+              "after_job": {
+                "id": "57cdf3cdbbc044e39a0270958602ad2d",
+                "snapshot": "86de13c9755f2512ff8042689e039ff4cc0c83b63872426bda0ef31371864203",
+                "result": "PASS",
+                "points": "C1_street_high:Ground@0,1.7,12>Ground@0,1.6,-30;C2_house_high:Ground@-14,1.7,4>Ground@-30,1.8,-6",
+                "phase": "village-winter-crisp",
+                "fov": 70,
+                "preset": "high",
+                "receipt": "evidence/ACT1-ATMOSPHERE/crisp-day-20261013/after/receipt.json",
+                "userdataRestored": true,
+                "gameExitCode": 0,
+                "snapshot_hashes_verified": true
+              },
+              "before_visual_readback": "Root и независимая Luna осмотрели актуальные C1/C2: серый sky/fog veil и слабые тёплые массы; на крыше спокойный белый пласт с мелким зерном. Before технический PASS не художественная приёмка.",
+              "paired_visual_result": "Root viewed both pairs: clearer distance, warmer lit wood/snow vs cool shadow; near log wall remains overly dark, repeated angular forest silhouettes and limited material variation remain. S04 2m repeat source bound, quiet roof seen, movement shimmer not verified. Not full visual completion.",
+              "source_comparison": "Only six atmosphere fields, PML snow_roof scale, and peer AI14 AuthoredWorldDirector differ. Independent Luna: ordinary catalogs/GLB roots do not enter new optional selectedRoot/modelPath branch; geometry selection unchanged. Other snapshot files equal.",
+              "station_release": "doctor ready=true,busy_job=null,orphan_game_process=false,userdata_recovery_pending=false after PASS; Windows released.",
+              "second_candidate": {
+                "changes": "ambientenergy .44→.60 restores before fill linear luminance after blue recolor; suncolor ffe3bd→ffd2a3 for amber direct key. Energy/exposure/angle unchanged.",
+                "cause": "Old/new ambient luminance .45888781/.33590811; preserving oldfill needs .60109 energy. Existing direct-key shadowwall readability not sufficient in first after.",
+                "sha256": "7f4a2bb69d8e28c2adaba66574a9196d0fe445e4a858a238eb300b24553e0fb0",
+                "visual_result": "NOT_RUN for matched C1/C2; current S05 candidate includes source, not proof of whole street."
               }
             }
           },
@@ -110661,7 +110780,7 @@
       "id": "PW-032",
       "title": "Исправить привязку мазка к движущимся поверхностям",
       "milestone": "PW-M2",
-      "status": "todo",
+      "status": "in_progress",
       "active_owner": null,
       "owner": "render",
       "priority": "P0",
@@ -110850,9 +110969,8 @@
       },
       "assigned_owner": "claude/visual-reset-2026-10-09",
       "activity": {
-        "state": "not_confirmed",
-        "last_recorded_owner": "claude/visual-reset-2026-10-09",
-        "reason": "Историческое поле не доказывает работу сейчас; назначение сохранено. Подтверждение берётся из нового ответа/живого сеанса, не из возраста записи."
+        "state": "released",
+        "reason": "Finite FacilityManualDoor source stage implemented/reviewed/compiled; actual protected motion via Studio PlayFromHere remains next, source claim released."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -110861,7 +110979,7 @@
         "Фактура остаётся на поверхности, а не скользит по объекту.",
         "Ветер и тени согласованы с реальной деформацией."
       ],
-      "next_action": "Разделить мировые, локальные и UV-выборки; деформируемые меши используют устойчивую UV-привязку.",
+      "next_action": "Accept bounded source change/affected compile, then real door rotation close/quarter/open views/movement through supported protected game session.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -111080,7 +111198,18 @@
           "evidence_ref": "PW-032.evidence and named history progress; source_review shows available/missing inputs"
         }
       ],
-      "assignment_state": "preserved_person_or_existing_role; activity separate"
+      "assignment_state": "preserved_person_or_existing_role; activity separate",
+      "progress_2026_10_13_b02": {
+        "scope": "Only common FacilityManualDoor leaf/plank wood texture coordinates; ForLocalWoodPiece reused preserving default carried boards/maps/scales. Other moving consumers remain full PW032 scope, not claimed complete.",
+        "cause": "Hinge changes global transform; default wood_furniture/wood sample world_position/world_normal, so map coordinate changes relative to leaf.",
+        "targets": [
+          "game/scripts/PainterlyMaterialLibrary.cs#ForLocalWoodPiece",
+          "game/scripts/Act1ConnectedWorld.MosqueInterior.cs#FacilityManualDoor"
+        ],
+        "result": "Finite FacilityManualDoor wood anchoring source implemented: local cached surface variants preserve finish/maps/scale/weather; unchanged default CarryableProp. Root inspected exact producer/shader and independent Luna source review no defect. Worker Gamecompile0 errors/0 warnings; actual door motion NOT_RUN.",
+        "next_action": "Accept bounded source change/affected compile, then real door rotation close/quarter/open views/movement through supported protected game session.",
+        "verification": "Source diff/caller inspection + independent Luna review; affected Game compile reported worker console. No visual completion claim."
+      }
     },
     {
       "id": "PW-033",
