@@ -417,9 +417,12 @@ public partial class JournalUi
             _photoBookFrontImage.Visible = true;
         }
         _photoBookTitle.Text = photo.Title;
-        _photoBookPlacement.Text = photo.Mounted
+        var placement = photo.Mounted
             ? "Место в альбоме: снимок вклеен на свою страницу."
             : "Место в альбоме: снимок пока не вклеен.";
+        _photoBookPlacement.Text = string.IsNullOrWhiteSpace(photo.OriginLabel)
+            ? placement
+            : $"{placement}\nПроисхождение: {photo.OriginLabel}.";
         _photoBookFrontBrief.Text = string.IsNullOrWhiteSpace(photo.FrontBrief)
             ? "Описание снимка пока не добавлено."
             : photo.FrontBrief;

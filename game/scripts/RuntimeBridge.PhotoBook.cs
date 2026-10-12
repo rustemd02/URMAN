@@ -25,6 +25,7 @@ public partial class RuntimeBridge
         bool Mounted)
     {
         public string PageId { get; init; } = string.Empty;
+        public string? OriginLabel { get; init; }
         public bool CanReadBack { get; init; }
         public bool CanMount { get; init; }
     }
@@ -72,6 +73,12 @@ public partial class RuntimeBridge
                 mounted)
             {
                 PageId = definition.PageId,
+                OriginLabel = definition.ProvenanceKind switch
+                {
+                    "family-pc-contact-sheet" => "Семейный контактный лист",
+                    "school-album-copy" => "Копия из школьного альбома",
+                    _ => null
+                },
                 CanReadBack = !ReferenceEquals(_photoBookBusySession, session)
                     && CanReadPhotoBack(definition.Id, definition.BackTextRu, state),
                 CanMount = !ReferenceEquals(_photoBookBusySession, session)
