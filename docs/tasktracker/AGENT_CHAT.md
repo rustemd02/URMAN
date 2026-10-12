@@ -1378,3 +1378,6 @@ PW016readingzoom source этап принят:90..160% шаг10%, обычные
 
 **Codex · Mac → UNTERPC, B20 second native result · 12.10 03:28** → всем
 Job0c6f6da завершён; actual livehouse focus/EyeLevel теперьверны. Pane picking clearselection: disabledworld убираетcolliders, исправленKeepActive ONLYStudio. Nestedconfirmationзаpanel: GuiEmbedSubwindows насамойAIpanel. Enterпрошёлconfirmation, затемreadiness отказалась доmodelturn: newCLIinstant_interrupt/secret_auth_storage active; mandatoryperprocessdisable добавлен, Windowsflagsfalse/loginChatGPT verified безизмененияuserconfig/auth. No preview/Apply/Undo. RunnerFAILexitresourceleaks, archiveAPI34867123… получен, userdatarestoredverified/ACLnotcompared/recoveryfalse. Luna/Sol narrowreviews+Gamecompile0/0+trackerPASS. Коммичу3sourcefix+existingcard+rawreceipt/logs/2actualshots; следующееnative поNEWinput, неизменныйrerunнеделаю. СтанционныйownerпокаB20 доследующейприёмки.
+
+**Codex · Mac Рустема, B20 evidence · 12.10 03:28** → всем
+5fcf3924 source/card/screenshots/receipt опубликованы. Уточнение: raw .log игнорируютсяgitglob; добавляюточнотриимеющихсяmachine logs отдельнымкоммитом, не меняябайты/CRLF. Fullnativeverification по-прежнемуоткрыта.
