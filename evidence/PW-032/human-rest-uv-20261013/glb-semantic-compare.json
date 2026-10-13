@@ -1,0 +1,833 @@
+{
+  "files": {
+    "baseline": "/Users/unterlantas/Documents/GitHub/URMAN/game/assets/generated/urman_character_kit_v2.glb",
+    "candidate": "/tmp/pw032-human-uv-decimate-20261013/candidate/game/assets/generated/urman_character_kit_v2.glb"
+  },
+  "counts": {
+    "nodes": [
+      799,
+      799
+    ],
+    "meshes": [
+      196,
+      196
+    ],
+    "materials": [
+      75,
+      75
+    ],
+    "textures": [
+      63,
+      63
+    ],
+    "images": [
+      14,
+      14
+    ],
+    "skins": [
+      9,
+      9
+    ],
+    "animations": [
+      36,
+      36
+    ]
+  },
+  "node_semantics": {
+    "node_count_before": 799,
+    "node_count_after": 799,
+    "node_records_equal": true,
+    "node_record_delta": 0,
+    "target_nodes_equal": true,
+    "target_node_count": 83,
+    "target_node_differences": [],
+    "target_uv_marker_values": {
+      "Mansur_BootLeft_LOD0": "metres; rest surface; runtime repeat 0.5m",
+      "Mansur_BootLeft_LOD1": "metres; transferred from LOD0 rest surface; runtime repeat 0.5m",
+      "Mansur_BootRight_LOD0": "metres; rest surface; runtime repeat 0.5m",
+      "Mansur_BootRight_LOD1": "metres; transferred from LOD0 rest surface; runtime repeat 0.5m",
+      "Mansur_Coat_LOD0": "metres; rest surface; runtime repeat 0.5m",
+      "Mansur_Coat_LOD1": "metres; transferred from LOD0 rest surface; runtime repeat 0.5m",
+      "Mansur_CoatSkirt_LOD0": "metres; rest surface; runtime repeat 0.5m",
+      "Mansur_CoatSkirt_LOD1": "metres; transferred from LOD0 rest surface; runtime repeat 0.5m",
+      "Mansur_Hat_LOD0": "metres; rest surface; runtime repeat 0.5m",
+      "Mansur_Hat_LOD1": "metres; transferred from LOD0 rest surface; runtime repeat 0.5m",
+      "Mansur_Sash_LOD0": "metres; rest surface; runtime repeat 0.5m",
+      "Mansur_Sash_LOD1": "metres; transferred from LOD0 rest surface; runtime repeat 0.5m",
+      "Mansur_Trousers_LOD0": "metres; rest surface; runtime repeat 0.5m",
+      "Mansur_Trousers_LOD1": "metres; transferred from LOD0 rest surface; runtime repeat 0.5m",
+      "Gulsina_BootLeft_LOD0": "metres; rest surface; runtime repeat 0.5m",
+      "Gulsina_BootLeft_LOD1": "metres; transferred from LOD0 rest surface; runtime repeat 0.5m",
+      "Gulsina_BootRight_LOD0": "metres; rest surface; runtime repeat 0.5m",
+      "Gulsina_BootRight_LOD1": "metres; transferred from LOD0 rest surface; runtime repeat 0.5m",
+      "Gulsina_Coat_LOD0": "metres; rest surface; runtime repeat 0.5m",
+      "Gulsina_Coat_LOD1": "metres; transferred from LOD0 rest surface; runtime repeat 0.5m",
+      "Gulsina_Sash_LOD0": "metres; rest surface; runtime repeat 0.5m",
+      "Gulsina_Sash_LOD1": "metres; transferred from LOD0 rest surface; runtime repeat 0.5m",
+      "Gulsina_Scarf_LOD0": "metres; rest surface; runtime repeat 0.5m",
+      "Gulsina_Scarf_LOD1": "metres; transferred from LOD0 rest surface; runtime repeat 0.5m",
+      "Gulsina_Skirt_LOD0": "metres; rest surface; runtime repeat 0.5m",
+      "Gulsina_Skirt_LOD1": "metres; transferred from LOD0 rest surface; runtime repeat 0.5m",
+      "Gulsina_Trousers_LOD0": "metres; rest surface; runtime repeat 0.5m",
+      "Gulsina_Trousers_LOD1": "metres; transferred from LOD0 rest surface; runtime repeat 0.5m",
+      "Tamara_BootLeft_LOD0": "metres; rest surface; runtime repeat 0.5m",
+      "Tamara_BootLeft_LOD1": "metres; transferred from LOD0 rest surface; runtime repeat 0.5m",
+      "Tamara_BootRight_LOD0": "metres; rest surface; runtime repeat 0.5m",
+      "Tamara_BootRight_LOD1": "metres; transferred from LOD0 rest surface; runtime repeat 0.5m",
+      "Tamara_Sash_LOD0": "metres; rest surface; runtime repeat 0.5m",
+      "Tamara_Sash_LOD1": "metres; transferred from LOD0 rest surface; runtime repeat 0.5m",
+      "Tamara_Trousers_LOD0": "metres; rest surface; runtime repeat 0.5m",
+      "Tamara_Trousers_LOD1": "metres; transferred from LOD0 rest surface; runtime repeat 0.5m",
+      "PhoneGuy_BootLeft_LOD0": "metres; rest surface; runtime repeat 0.5m",
+      "PhoneGuy_BootLeft_LOD1": "metres; transferred from LOD0 rest surface; runtime repeat 0.5m",
+      "PhoneGuy_BootRight_LOD0": "metres; rest surface; runtime repeat 0.5m",
+      "PhoneGuy_BootRight_LOD1": "metres; transferred from LOD0 rest surface; runtime repeat 0.5m",
+      "PhoneGuy_Coat_LOD0": "metres; rest surface; runtime repeat 0.5m",
+      "PhoneGuy_Coat_LOD1": "metres; transferred from LOD0 rest surface; runtime repeat 0.5m",
+      "PhoneGuy_CoatSkirt_LOD0": "metres; rest surface; runtime repeat 0.5m",
+      "PhoneGuy_CoatSkirt_LOD1": "metres; transferred from LOD0 rest surface; runtime repeat 0.5m",
+      "PhoneGuy_Hat_LOD0": "metres; rest surface; runtime repeat 0.5m",
+      "PhoneGuy_Hat_LOD1": "metres; transferred from LOD0 rest surface; runtime repeat 0.5m",
+      "PhoneGuy_Sash_LOD0": "metres; rest surface; runtime repeat 0.5m",
+      "PhoneGuy_Sash_LOD1": "metres; transferred from LOD0 rest surface; runtime repeat 0.5m",
+      "PhoneGuy_Trousers_LOD0": "metres; rest surface; runtime repeat 0.5m",
+      "PhoneGuy_Trousers_LOD1": "metres; transferred from LOD0 rest surface; runtime repeat 0.5m",
+      "TimurHazrat_BootLeft_LOD0": "metres; rest surface; runtime repeat 0.5m",
+      "TimurHazrat_BootLeft_LOD1": "metres; transferred from LOD0 rest surface; runtime repeat 0.5m",
+      "TimurHazrat_BootRight_LOD0": "metres; rest surface; runtime repeat 0.5m",
+      "TimurHazrat_BootRight_LOD1": "metres; transferred from LOD0 rest surface; runtime repeat 0.5m",
+      "TimurHazrat_Coat_LOD1": "metres; transferred from LOD0 rest surface; runtime repeat 0.5m",
+      "TimurHazrat_CoatSkirt_LOD1": "metres; transferred from LOD0 rest surface; runtime repeat 0.5m",
+      "TimurHazrat_Trousers_LOD1": "metres; transferred from LOD0 rest surface; runtime repeat 0.5m",
+      "Resident_BootLeft_LOD0": "metres; rest surface; runtime repeat 0.5m",
+      "Resident_BootLeft_LOD1": "metres; transferred from LOD0 rest surface; runtime repeat 0.5m",
+      "Resident_BootRight_LOD0": "metres; rest surface; runtime repeat 0.5m",
+      "Resident_BootRight_LOD1": "metres; transferred from LOD0 rest surface; runtime repeat 0.5m",
+      "Resident_Coat_LOD0": "metres; rest surface; runtime repeat 0.5m",
+      "Resident_Coat_LOD1": "metres; transferred from LOD0 rest surface; runtime repeat 0.5m",
+      "Resident_CoatSkirt_LOD0": "metres; rest surface; runtime repeat 0.5m",
+      "Resident_CoatSkirt_LOD1": "metres; transferred from LOD0 rest surface; runtime repeat 0.5m",
+      "Resident_Hat_LOD0": "metres; rest surface; runtime repeat 0.5m",
+      "Resident_Hat_LOD1": "metres; transferred from LOD0 rest surface; runtime repeat 0.5m",
+      "Resident_Sash_LOD0": "metres; rest surface; runtime repeat 0.5m",
+      "Resident_Sash_LOD1": "metres; transferred from LOD0 rest surface; runtime repeat 0.5m",
+      "Resident_Trousers_LOD0": "metres; rest surface; runtime repeat 0.5m",
+      "Resident_Trousers_LOD1": "metres; transferred from LOD0 rest surface; runtime repeat 0.5m",
+      "Naila_BootLeft_LOD0": "metres; rest surface; runtime repeat 0.5m",
+      "Naila_BootLeft_LOD1": "metres; transferred from LOD0 rest surface; runtime repeat 0.5m",
+      "Naila_BootRight_LOD0": "metres; rest surface; runtime repeat 0.5m",
+      "Naila_BootRight_LOD1": "metres; transferred from LOD0 rest surface; runtime repeat 0.5m",
+      "Naila_Coat_LOD0": "metres; rest surface; runtime repeat 0.5m",
+      "Naila_Coat_LOD1": "metres; transferred from LOD0 rest surface; runtime repeat 0.5m",
+      "Naila_CoatSkirt_LOD0": "metres; rest surface; runtime repeat 0.5m",
+      "Naila_CoatSkirt_LOD1": "metres; transferred from LOD0 rest surface; runtime repeat 0.5m",
+      "Naila_Sash_LOD0": "metres; rest surface; runtime repeat 0.5m",
+      "Naila_Sash_LOD1": "metres; transferred from LOD0 rest surface; runtime repeat 0.5m",
+      "Naila_Trousers_LOD0": "metres; rest surface; runtime repeat 0.5m",
+      "Naila_Trousers_LOD1": "metres; transferred from LOD0 rest surface; runtime repeat 0.5m"
+    },
+    "target_uv_marker_mismatches": []
+  },
+  "mesh_triangle_semantic_differences": [],
+  "target_vertex_expansion": [
+    {
+      "mesh": "Gulsina_Body_LOD0.001",
+      "vertices_before": 2192,
+      "vertices_after": 4353,
+      "delta": 2161,
+      "triangles_before": 4332,
+      "triangles_after": 4332
+    },
+    {
+      "mesh": "Gulsina_Body_LOD0.002",
+      "vertices_before": 378,
+      "vertices_after": 775,
+      "delta": 397,
+      "triangles_before": 732,
+      "triangles_after": 732
+    },
+    {
+      "mesh": "Gulsina_Body_LOD0.003",
+      "vertices_before": 684,
+      "vertices_after": 1431,
+      "delta": 747,
+      "triangles_before": 1356,
+      "triangles_after": 1356
+    },
+    {
+      "mesh": "Gulsina_Body_LOD0.004",
+      "vertices_before": 684,
+      "vertices_after": 1431,
+      "delta": 747,
+      "triangles_before": 1356,
+      "triangles_after": 1356
+    },
+    {
+      "mesh": "Gulsina_Body_LOD0.005",
+      "vertices_before": 1098,
+      "vertices_after": 2148,
+      "delta": 1050,
+      "triangles_before": 2180,
+      "triangles_after": 2180
+    },
+    {
+      "mesh": "Gulsina_BootLeft_LOD1",
+      "vertices_before": 243,
+      "vertices_after": 594,
+      "delta": 351,
+      "triangles_before": 474,
+      "triangles_after": 474
+    },
+    {
+      "mesh": "Gulsina_BootRight_LOD1",
+      "vertices_before": 243,
+      "vertices_after": 603,
+      "delta": 360,
+      "triangles_before": 474,
+      "triangles_after": 474
+    },
+    {
+      "mesh": "Gulsina_Coat_LOD1",
+      "vertices_before": 784,
+      "vertices_after": 1854,
+      "delta": 1070,
+      "triangles_before": 1516,
+      "triangles_after": 1516
+    },
+    {
+      "mesh": "Gulsina_Sash_LOD0",
+      "vertices_before": 112,
+      "vertices_after": 240,
+      "delta": 128,
+      "triangles_before": 224,
+      "triangles_after": 224
+    },
+    {
+      "mesh": "Gulsina_Sash_LOD1",
+      "vertices_before": 112,
+      "vertices_after": 240,
+      "delta": 128,
+      "triangles_before": 224,
+      "triangles_after": 224
+    },
+    {
+      "mesh": "Gulsina_Scarf_LOD1",
+      "vertices_before": 389,
+      "vertices_after": 927,
+      "delta": 538,
+      "triangles_before": 762,
+      "triangles_after": 762
+    },
+    {
+      "mesh": "Gulsina_Skirt_LOD0",
+      "vertices_before": 1124,
+      "vertices_after": 1124,
+      "delta": 0,
+      "triangles_before": 672,
+      "triangles_after": 672
+    },
+    {
+      "mesh": "Gulsina_Skirt_LOD1",
+      "vertices_before": 1124,
+      "vertices_after": 1124,
+      "delta": 0,
+      "triangles_before": 672,
+      "triangles_after": 672
+    },
+    {
+      "mesh": "Gulsina_Trousers_LOD1",
+      "vertices_before": 140,
+      "vertices_after": 323,
+      "delta": 183,
+      "triangles_before": 256,
+      "triangles_after": 256
+    },
+    {
+      "mesh": "Mansur_Body_LOD0.001",
+      "vertices_before": 1916,
+      "vertices_after": 3771,
+      "delta": 1855,
+      "triangles_before": 3808,
+      "triangles_after": 3808
+    },
+    {
+      "mesh": "Mansur_Body_LOD0.002",
+      "vertices_before": 812,
+      "vertices_after": 1333,
+      "delta": 521,
+      "triangles_before": 1616,
+      "triangles_after": 1616
+    },
+    {
+      "mesh": "Mansur_Body_LOD0.003",
+      "vertices_before": 696,
+      "vertices_after": 1515,
+      "delta": 819,
+      "triangles_before": 1380,
+      "triangles_after": 1380
+    },
+    {
+      "mesh": "Mansur_Body_LOD0.004",
+      "vertices_before": 696,
+      "vertices_after": 1515,
+      "delta": 819,
+      "triangles_before": 1380,
+      "triangles_after": 1380
+    },
+    {
+      "mesh": "Mansur_BootLeft_LOD1",
+      "vertices_before": 247,
+      "vertices_after": 623,
+      "delta": 376,
+      "triangles_before": 482,
+      "triangles_after": 482
+    },
+    {
+      "mesh": "Mansur_BootRight_LOD1",
+      "vertices_before": 247,
+      "vertices_after": 626,
+      "delta": 379,
+      "triangles_before": 482,
+      "triangles_after": 482
+    },
+    {
+      "mesh": "Mansur_CoatSkirt_LOD0",
+      "vertices_before": 1128,
+      "vertices_after": 1128,
+      "delta": 0,
+      "triangles_before": 672,
+      "triangles_after": 672
+    },
+    {
+      "mesh": "Mansur_CoatSkirt_LOD1",
+      "vertices_before": 1128,
+      "vertices_after": 1128,
+      "delta": 0,
+      "triangles_before": 672,
+      "triangles_after": 672
+    },
+    {
+      "mesh": "Mansur_Coat_LOD1",
+      "vertices_before": 678,
+      "vertices_after": 1532,
+      "delta": 854,
+      "triangles_before": 1332,
+      "triangles_after": 1332
+    },
+    {
+      "mesh": "Mansur_Hat_LOD0",
+      "vertices_before": 402,
+      "vertices_after": 682,
+      "delta": 280,
+      "triangles_before": 792,
+      "triangles_after": 792
+    },
+    {
+      "mesh": "Mansur_Hat_LOD1",
+      "vertices_before": 144,
+      "vertices_after": 298,
+      "delta": 154,
+      "triangles_before": 274,
+      "triangles_after": 274
+    },
+    {
+      "mesh": "Mansur_Sash_LOD0",
+      "vertices_before": 112,
+      "vertices_after": 240,
+      "delta": 128,
+      "triangles_before": 224,
+      "triangles_after": 224
+    },
+    {
+      "mesh": "Mansur_Sash_LOD1",
+      "vertices_before": 112,
+      "vertices_after": 240,
+      "delta": 128,
+      "triangles_before": 224,
+      "triangles_after": 224
+    },
+    {
+      "mesh": "Mansur_Trousers_LOD1",
+      "vertices_before": 286,
+      "vertices_after": 565,
+      "delta": 279,
+      "triangles_before": 564,
+      "triangles_after": 564
+    },
+    {
+      "mesh": "Naila_Body_LOD0.001",
+      "vertices_before": 2200,
+      "vertices_after": 4376,
+      "delta": 2176,
+      "triangles_before": 4348,
+      "triangles_after": 4348
+    },
+    {
+      "mesh": "Naila_Body_LOD0.002",
+      "vertices_before": 738,
+      "vertices_after": 1321,
+      "delta": 583,
+      "triangles_before": 1452,
+      "triangles_after": 1452
+    },
+    {
+      "mesh": "Naila_Body_LOD0.003",
+      "vertices_before": 684,
+      "vertices_after": 1451,
+      "delta": 767,
+      "triangles_before": 1356,
+      "triangles_after": 1356
+    },
+    {
+      "mesh": "Naila_Body_LOD0.004",
+      "vertices_before": 684,
+      "vertices_after": 1451,
+      "delta": 767,
+      "triangles_before": 1356,
+      "triangles_after": 1356
+    },
+    {
+      "mesh": "Naila_BootLeft_LOD1",
+      "vertices_before": 243,
+      "vertices_after": 582,
+      "delta": 339,
+      "triangles_before": 474,
+      "triangles_after": 474
+    },
+    {
+      "mesh": "Naila_BootRight_LOD1",
+      "vertices_before": 243,
+      "vertices_after": 593,
+      "delta": 350,
+      "triangles_before": 474,
+      "triangles_after": 474
+    },
+    {
+      "mesh": "Naila_CoatSkirt_LOD0",
+      "vertices_before": 1144,
+      "vertices_after": 1144,
+      "delta": 0,
+      "triangles_before": 672,
+      "triangles_after": 672
+    },
+    {
+      "mesh": "Naila_CoatSkirt_LOD1",
+      "vertices_before": 1144,
+      "vertices_after": 1144,
+      "delta": 0,
+      "triangles_before": 672,
+      "triangles_after": 672
+    },
+    {
+      "mesh": "Naila_Coat_LOD1",
+      "vertices_before": 786,
+      "vertices_after": 1872,
+      "delta": 1086,
+      "triangles_before": 1520,
+      "triangles_after": 1520
+    },
+    {
+      "mesh": "Naila_Sash_LOD0",
+      "vertices_before": 112,
+      "vertices_after": 240,
+      "delta": 128,
+      "triangles_before": 224,
+      "triangles_after": 224
+    },
+    {
+      "mesh": "Naila_Sash_LOD1",
+      "vertices_before": 112,
+      "vertices_after": 240,
+      "delta": 128,
+      "triangles_before": 224,
+      "triangles_after": 224
+    },
+    {
+      "mesh": "Naila_Trousers_LOD1",
+      "vertices_before": 266,
+      "vertices_after": 589,
+      "delta": 323,
+      "triangles_before": 508,
+      "triangles_after": 508
+    },
+    {
+      "mesh": "PhoneGuy_Body_LOD0.001",
+      "vertices_before": 1888,
+      "vertices_after": 3629,
+      "delta": 1741,
+      "triangles_before": 3752,
+      "triangles_after": 3752
+    },
+    {
+      "mesh": "PhoneGuy_Body_LOD0.002",
+      "vertices_before": 994,
+      "vertices_after": 1606,
+      "delta": 612,
+      "triangles_before": 1980,
+      "triangles_after": 1980
+    },
+    {
+      "mesh": "PhoneGuy_Body_LOD0.003",
+      "vertices_before": 444,
+      "vertices_after": 1034,
+      "delta": 590,
+      "triangles_before": 880,
+      "triangles_after": 880
+    },
+    {
+      "mesh": "PhoneGuy_Body_LOD0.004",
+      "vertices_before": 444,
+      "vertices_after": 1034,
+      "delta": 590,
+      "triangles_before": 880,
+      "triangles_after": 880
+    },
+    {
+      "mesh": "PhoneGuy_BootLeft_LOD1",
+      "vertices_before": 158,
+      "vertices_after": 428,
+      "delta": 270,
+      "triangles_before": 308,
+      "triangles_after": 308
+    },
+    {
+      "mesh": "PhoneGuy_BootRight_LOD1",
+      "vertices_before": 158,
+      "vertices_after": 427,
+      "delta": 269,
+      "triangles_before": 308,
+      "triangles_after": 308
+    },
+    {
+      "mesh": "PhoneGuy_CoatSkirt_LOD0",
+      "vertices_before": 1124,
+      "vertices_after": 1124,
+      "delta": 0,
+      "triangles_before": 672,
+      "triangles_after": 672
+    },
+    {
+      "mesh": "PhoneGuy_CoatSkirt_LOD1",
+      "vertices_before": 1124,
+      "vertices_after": 1124,
+      "delta": 0,
+      "triangles_before": 672,
+      "triangles_after": 672
+    },
+    {
+      "mesh": "PhoneGuy_Coat_LOD1",
+      "vertices_before": 668,
+      "vertices_after": 1470,
+      "delta": 802,
+      "triangles_before": 1312,
+      "triangles_after": 1312
+    },
+    {
+      "mesh": "PhoneGuy_Hat_LOD0",
+      "vertices_before": 386,
+      "vertices_after": 626,
+      "delta": 240,
+      "triangles_before": 768,
+      "triangles_after": 768
+    },
+    {
+      "mesh": "PhoneGuy_Hat_LOD1",
+      "vertices_before": 136,
+      "vertices_after": 268,
+      "delta": 132,
+      "triangles_before": 268,
+      "triangles_after": 268
+    },
+    {
+      "mesh": "PhoneGuy_Sash_LOD0",
+      "vertices_before": 112,
+      "vertices_after": 240,
+      "delta": 128,
+      "triangles_before": 224,
+      "triangles_after": 224
+    },
+    {
+      "mesh": "PhoneGuy_Sash_LOD1",
+      "vertices_before": 112,
+      "vertices_after": 240,
+      "delta": 128,
+      "triangles_before": 224,
+      "triangles_after": 224
+    },
+    {
+      "mesh": "PhoneGuy_Trousers_LOD1",
+      "vertices_before": 350,
+      "vertices_after": 666,
+      "delta": 316,
+      "triangles_before": 692,
+      "triangles_after": 692
+    },
+    {
+      "mesh": "Resident_Body_LOD0.001",
+      "vertices_before": 1916,
+      "vertices_after": 3774,
+      "delta": 1858,
+      "triangles_before": 3808,
+      "triangles_after": 3808
+    },
+    {
+      "mesh": "Resident_Body_LOD0.002",
+      "vertices_before": 812,
+      "vertices_after": 1335,
+      "delta": 523,
+      "triangles_before": 1616,
+      "triangles_after": 1616
+    },
+    {
+      "mesh": "Resident_Body_LOD0.003",
+      "vertices_before": 698,
+      "vertices_after": 1507,
+      "delta": 809,
+      "triangles_before": 1384,
+      "triangles_after": 1384
+    },
+    {
+      "mesh": "Resident_Body_LOD0.004",
+      "vertices_before": 698,
+      "vertices_after": 1507,
+      "delta": 809,
+      "triangles_before": 1384,
+      "triangles_after": 1384
+    },
+    {
+      "mesh": "Resident_BootLeft_LOD1",
+      "vertices_before": 248,
+      "vertices_after": 618,
+      "delta": 370,
+      "triangles_before": 484,
+      "triangles_after": 484
+    },
+    {
+      "mesh": "Resident_BootRight_LOD1",
+      "vertices_before": 248,
+      "vertices_after": 620,
+      "delta": 372,
+      "triangles_before": 484,
+      "triangles_after": 484
+    },
+    {
+      "mesh": "Resident_CoatSkirt_LOD0",
+      "vertices_before": 1124,
+      "vertices_after": 1124,
+      "delta": 0,
+      "triangles_before": 672,
+      "triangles_after": 672
+    },
+    {
+      "mesh": "Resident_CoatSkirt_LOD1",
+      "vertices_before": 1124,
+      "vertices_after": 1124,
+      "delta": 0,
+      "triangles_before": 672,
+      "triangles_after": 672
+    },
+    {
+      "mesh": "Resident_Coat_LOD1",
+      "vertices_before": 678,
+      "vertices_after": 1525,
+      "delta": 847,
+      "triangles_before": 1332,
+      "triangles_after": 1332
+    },
+    {
+      "mesh": "Resident_Hat_LOD0",
+      "vertices_before": 402,
+      "vertices_after": 682,
+      "delta": 280,
+      "triangles_before": 792,
+      "triangles_after": 792
+    },
+    {
+      "mesh": "Resident_Hat_LOD1",
+      "vertices_before": 144,
+      "vertices_after": 279,
+      "delta": 135,
+      "triangles_before": 272,
+      "triangles_after": 272
+    },
+    {
+      "mesh": "Resident_Sash_LOD0",
+      "vertices_before": 112,
+      "vertices_after": 240,
+      "delta": 128,
+      "triangles_before": 224,
+      "triangles_after": 224
+    },
+    {
+      "mesh": "Resident_Sash_LOD1",
+      "vertices_before": 112,
+      "vertices_after": 240,
+      "delta": 128,
+      "triangles_before": 224,
+      "triangles_after": 224
+    },
+    {
+      "mesh": "Resident_Trousers_LOD1",
+      "vertices_before": 286,
+      "vertices_after": 565,
+      "delta": 279,
+      "triangles_before": 564,
+      "triangles_after": 564
+    },
+    {
+      "mesh": "Tamara_Body_LOD0.002",
+      "vertices_before": 790,
+      "vertices_after": 842,
+      "delta": 52,
+      "triangles_before": 816,
+      "triangles_after": 816
+    },
+    {
+      "mesh": "Tamara_Body_LOD0.003",
+      "vertices_before": 376,
+      "vertices_after": 762,
+      "delta": 386,
+      "triangles_before": 728,
+      "triangles_after": 728
+    },
+    {
+      "mesh": "Tamara_Body_LOD0.004",
+      "vertices_before": 678,
+      "vertices_after": 1342,
+      "delta": 664,
+      "triangles_before": 1344,
+      "triangles_after": 1344
+    },
+    {
+      "mesh": "Tamara_Body_LOD0.005",
+      "vertices_before": 678,
+      "vertices_after": 1342,
+      "delta": 664,
+      "triangles_before": 1344,
+      "triangles_after": 1344
+    },
+    {
+      "mesh": "Tamara_BootLeft_LOD1",
+      "vertices_before": 241,
+      "vertices_after": 564,
+      "delta": 323,
+      "triangles_before": 470,
+      "triangles_after": 470
+    },
+    {
+      "mesh": "Tamara_BootRight_LOD1",
+      "vertices_before": 241,
+      "vertices_after": 560,
+      "delta": 319,
+      "triangles_before": 470,
+      "triangles_after": 470
+    },
+    {
+      "mesh": "Tamara_Sash_LOD1",
+      "vertices_before": 349,
+      "vertices_after": 366,
+      "delta": 17,
+      "triangles_before": 284,
+      "triangles_after": 284
+    },
+    {
+      "mesh": "Tamara_Trousers_LOD1",
+      "vertices_before": 139,
+      "vertices_after": 330,
+      "delta": 191,
+      "triangles_before": 254,
+      "triangles_after": 254
+    },
+    {
+      "mesh": "TimurHazrat_Body_LOD0.003",
+      "vertices_before": 444,
+      "vertices_after": 1032,
+      "delta": 588,
+      "triangles_before": 880,
+      "triangles_after": 880
+    },
+    {
+      "mesh": "TimurHazrat_Body_LOD0.004",
+      "vertices_before": 444,
+      "vertices_after": 1032,
+      "delta": 588,
+      "triangles_before": 880,
+      "triangles_after": 880
+    },
+    {
+      "mesh": "TimurHazrat_BootLeft_LOD1",
+      "vertices_before": 158,
+      "vertices_after": 429,
+      "delta": 271,
+      "triangles_before": 308,
+      "triangles_after": 308
+    },
+    {
+      "mesh": "TimurHazrat_BootRight_LOD1",
+      "vertices_before": 158,
+      "vertices_after": 428,
+      "delta": 270,
+      "triangles_before": 308,
+      "triangles_after": 308
+    },
+    {
+      "mesh": "TimurHazrat_CoatSkirt_LOD1",
+      "vertices_before": 1136,
+      "vertices_after": 1136,
+      "delta": 0,
+      "triangles_before": 672,
+      "triangles_after": 672
+    },
+    {
+      "mesh": "TimurHazrat_Coat_LOD1",
+      "vertices_before": 1695,
+      "vertices_after": 1557,
+      "delta": -138,
+      "triangles_before": 1332,
+      "triangles_after": 1332
+    },
+    {
+      "mesh": "TimurHazrat_Trousers_LOD1",
+      "vertices_before": 513,
+      "vertices_after": 530,
+      "delta": 17,
+      "triangles_before": 494,
+      "triangles_after": 494
+    }
+  ],
+  "global_sections": {
+    "asset_equal": true,
+    "extensionsUsed_equal": true,
+    "extensionsRequired_equal": true,
+    "materials": {
+      "count_before": 75,
+      "count_after": 75,
+      "equal": true,
+      "diff_names": []
+    },
+    "images": {
+      "count_before": 14,
+      "count_after": 14,
+      "equal": true,
+      "diff_names": []
+    },
+    "textures": {
+      "count_before": 63,
+      "count_after": 63,
+      "equal": true
+    },
+    "skins": {
+      "count_before": 9,
+      "count_after": 9,
+      "equal": true,
+      "diff_names": []
+    },
+    "animations": {
+      "count_before": 36,
+      "count_after": 36,
+      "equal": true,
+      "diff_names": []
+    },
+    "scene_roots_equal": true
+  }
+}

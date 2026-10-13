@@ -111126,7 +111126,7 @@
       "assigned_owner": "claude/visual-reset-2026-10-09",
       "activity": {
         "state": "confirmed_active",
-        "reason": "BathSpirit source slice verified/stopped; native Luna implements next finite83-node generic human rest-UV/coherentLOD cohort with exact exceptions and semantic preservation. Actual native motion remains separate."
+        "reason": "83-node UV cohort published/structurally verified; waiting for specific live station389 release while source integration proceeds. Actual native movement/art remains open."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -111136,9 +111136,9 @@
         "Exact six-mesh Timur metric rest UV source complete with geometry/rig/animation/material preservation; actual coat/skirt/trousers Idle/walk/turn native view remains.",
         "BathSpirit rigid rest texture source implemented with original finish/shelter and preserved defaults; actual chest/head motion/readability requires protected Windows view.",
         "Book/held sleeves/W01 moving branch source-safe; fulfill named movement checks as required, preserve existing valid wind/normal receipts on unchanged inputs.",
-        "Оставшиеся83-node generic UV/coherentLOD cohort: first transfer candidate rejected, canonical data preserved; second existing generator order must pass exact geometry/skin/UV preservation before publication."
+        "83-node generic cloth/rest UV cohort published and structurally checked; actual gait/LOD appearance and custom Tamara print/Timur cap/collar consumers remain."
       ],
-      "next_action": "Finish isolated83-node UV-before-Decimate candidate and compare accepted LOD1 geometry/skin/normal semantics; publish only matching result. BathSpirit source accepted, actual native motions remain after shared station release.",
+      "next_action": "After station389 terminal/recovery/release, use existing protected Studio PlayFromHere to inspect door rotation, nearby interior and Timur/human cloth movement; preserve separate author art acceptance.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -111389,7 +111389,7 @@
             "TimurHazrat_Trousers_LOD1"
           ],
           "source_before_sha256": "e7cc2e10831f2bd7b7ee5a9ef55bc362ad8ede8600a4114fd9a6065403fd3d23",
-          "source_after_sha256": "346bbb283090472def6a7977c17557750510bdee0cfb9eaf759882542b2dc15",
+          "source_after_sha256": "346bbbb283090472def6a7977c17557750510bdee0cfb9eaf759882542b2dc15",
           "glb_before_sha256": "b8cf7a5893ca2f2a0511eeab51c38e0cce29d3f42f6c858f9896c275522dd078",
           "glb_after_sha256": "93d29f993716083f5e8d4989953dbc881897d06e7e13d0b50b0912fceb4f5bce",
           "method": "Bundled Blender background: guarded import generate_character_kit_v2, reopen canonical blend, assert exact6 names/materials/armature, existing metric_cloth_uv(each exact name), existing export_kit(root). No main/broad actor refresh/regeneration/C# change.",
@@ -111424,9 +111424,38 @@
             "PhoneGuy": 14
           },
           "cause": "ApplyHumanMaterials475-501 already assigns all named non-skin/non-hair families to cloth; absent metric marker leaves world projection. Felt/fur/leather family reclassification is not a real blocker. Protected mixed print UV Tamara_Coat is real exception.",
-          "next_finite_source": "Second hypothesis: existing canonical metricLOD0→copy/Decimate.35 before armature, isolated candidate first. Publish only if LOD1 triangle geometry/normals/skin and all non-target/material/image/animation/transform semantics equal accepted baseline; no LOD0-only fallback. Exact protected print/custom exceptions remain.",
-          "lod_constraint": "Existing full generator creates metricLOD0 then decimated copy retaining UV. Late independent SmartProjectLOD1 risks distance pattern changes; next finite slice uses rest-surface UV transfer to existingLOD1, preserving geometry/rig/animations.",
+          "next_finite_source": "83-node cohort published after exact semantic preservation checks. Remaining custom consumers: protected mixed Tamara print UV, Timur derived cap and chest collar; actual native actor gait/LOD appearance remains open.",
+          "lod_constraint": "Published cohort follows metric LOD0 then existing Decimate .35 before armature; 43 LOD1 pairs preserve oriented triangle/normal/skin/material semantics. Previous nearest-chart transfer rejected.",
           "first_hypothesis": "Nearest polygon UV DataTransfer isolated candidate rejected: MansurBootLeft LOD1 UVarea/geometry36.882, median edge stretch7.76/p95 34.40; CoatSkirt zero nearest-distance but UVarea6.034/p95stretch57.98; Coat UVarea103.58. Cause target faces cross incompatible source UV chart seams. Canonical asset/receipt bytes unchanged."
+        },
+        "human_rest_uv_slice": {
+          "targets": "80 new metric nodes: Mansur14/Gulsina14/Naila12/Resident14/PhoneGuy14/Tamara8/Timur boots4; plus3 existing Timur garment LOD1 for coherent UV collapse.",
+          "result": "Canonical blend/GLB and existing structure receipt updated. Cloth uses existing ForMovingCloth; no runtime material family change. Protected Tamara printed Coat UV0, Timur cap/sash, Alsu/Rinat, skin/hair/images unchanged.",
+          "source_sha256": {
+            "assets/source/blender/urman_character_kit_v2.blend": "4364c986d42aa3a944f473e14959ea577dac67d57f03e9f9b7e1666f9288a6d1",
+            "game/assets/generated/urman_character_kit_v2.glb": "9ad3080652d71117a63303e8eabb2662d7f43cdf7b69dae9b0680b69d0a32a50",
+            "assets/source/blender/receipts/urman_character_kit_v2.structure.json": "74ee6a31ebbba219d6968185de6f2bef2a55a4177847ec0b7831b1e99a8e18e3"
+          },
+          "method": "Existing metric_cloth_uv LOD0 then duplicate/Decimate .35 before armature; semantic comparison accepted against unchanged canonical baseline immediately before atomic publication.",
+          "verification": "43/43 LOD1 geometry/normal/skin/material semantics equal;799nodes/196meshes;113non-target meshes preserved;75materials/63textures/14images/9skins/36animations unchanged. Existing structure --check same. Target UV0 and derived tangent intentionally changed.",
+          "cost": "GLB38844368 bytes versus35225464: +3618904(+10.3%); UV seam vertices +37667;291531triangles unchanged. No FPS claim.",
+          "evidence": [
+            "evidence/PW-032/human-rest-uv-20261013/glb-semantic-compare.json",
+            "evidence/PW-032/human-rest-uv-20261013/blend-state-compare.json",
+            "evidence/PW-032/human-rest-uv-20261013/pre-export-report.json",
+            "evidence/PW-032/human-rest-uv-20261013/exported-uv-readback.json"
+          ],
+          "runtime": "NOT_RUN; actual animation, LOD transition and art acceptance pending.",
+          "baseline_sha256": {
+            "blend": "346bbbb283090472def6a7977c17557750510bdee0cfb9eaf759882542b2dc15",
+            "glb": "93d29f993716083f5e8d4989953dbc881897d06e7e13d0b50b0912fceb4f5bce"
+          },
+          "comparison_script_sha256": {
+            "compare_glb_semantics.py": "3a3ac1cc2aa68c14ae1534fb78334e6d3e2fc9ce533a4b5ae37c859b79e478f9",
+            "compare_blend_state.py": "fec471db34a78deb2ff1387851532c74ade96831fb6a239ce35155c6bd584b96",
+            "apply_uv_before_decimate.py": "61ba76aeadff165a571c6d0d35e17a4c8408fac15d98c1269114e073d08ad08d"
+          },
+          "independent_review": "Luna: no structural defect. Target UV0/tangent excluded from structural comparisons, numeric comparisons round to7decimals; marker does not prove art. Separate pre-export metrics finite/range; root exported canonical UV readback83 finite, UV/geometry area .88859966–1.00000015,0 UV-degenerate triangles with nonzero geometry; Timur CoatLOD1 ratio .93059377. Its -138vertex change is UV seam dedup, triangle semantics unchanged. Native gait/LOD/appearance still required."
         }
       }
     },

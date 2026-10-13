@@ -1,0 +1,583 @@
+[
+  {
+    "node": "Mansur_BootLeft_LOD0",
+    "finite": true,
+    "uv_geometry_area_ratio": 0.999999963077732,
+    "uv_degenerate_nonzero_geometry_triangles": 0,
+    "triangles": 1380
+  },
+  {
+    "node": "Mansur_BootLeft_LOD1",
+    "finite": true,
+    "uv_geometry_area_ratio": 0.9199062389268555,
+    "uv_degenerate_nonzero_geometry_triangles": 0,
+    "triangles": 482
+  },
+  {
+    "node": "Mansur_BootRight_LOD0",
+    "finite": true,
+    "uv_geometry_area_ratio": 1.0000000882479358,
+    "uv_degenerate_nonzero_geometry_triangles": 0,
+    "triangles": 1380
+  },
+  {
+    "node": "Mansur_BootRight_LOD1",
+    "finite": true,
+    "uv_geometry_area_ratio": 0.91824991301044,
+    "uv_degenerate_nonzero_geometry_triangles": 0,
+    "triangles": 482
+  },
+  {
+    "node": "Mansur_Coat_LOD0",
+    "finite": true,
+    "uv_geometry_area_ratio": 1.0000000510442504,
+    "uv_degenerate_nonzero_geometry_triangles": 0,
+    "triangles": 3808
+  },
+  {
+    "node": "Mansur_Coat_LOD1",
+    "finite": true,
+    "uv_geometry_area_ratio": 0.9313829921175649,
+    "uv_degenerate_nonzero_geometry_triangles": 0,
+    "triangles": 1332
+  },
+  {
+    "node": "Mansur_CoatSkirt_LOD0",
+    "finite": true,
+    "uv_geometry_area_ratio": 1.0000000607054949,
+    "uv_degenerate_nonzero_geometry_triangles": 0,
+    "triangles": 672
+  },
+  {
+    "node": "Mansur_CoatSkirt_LOD1",
+    "finite": true,
+    "uv_geometry_area_ratio": 1.0000000607054949,
+    "uv_degenerate_nonzero_geometry_triangles": 0,
+    "triangles": 672
+  },
+  {
+    "node": "Mansur_Hat_LOD0",
+    "finite": true,
+    "uv_geometry_area_ratio": 0.9999998885304506,
+    "uv_degenerate_nonzero_geometry_triangles": 0,
+    "triangles": 792
+  },
+  {
+    "node": "Mansur_Hat_LOD1",
+    "finite": true,
+    "uv_geometry_area_ratio": 0.8977322669383384,
+    "uv_degenerate_nonzero_geometry_triangles": 0,
+    "triangles": 274
+  },
+  {
+    "node": "Mansur_Sash_LOD0",
+    "finite": true,
+    "uv_geometry_area_ratio": 0.9999998981539134,
+    "uv_degenerate_nonzero_geometry_triangles": 0,
+    "triangles": 224
+  },
+  {
+    "node": "Mansur_Sash_LOD1",
+    "finite": true,
+    "uv_geometry_area_ratio": 0.9999998981539134,
+    "uv_degenerate_nonzero_geometry_triangles": 0,
+    "triangles": 224
+  },
+  {
+    "node": "Mansur_Trousers_LOD0",
+    "finite": true,
+    "uv_geometry_area_ratio": 1.000000081243985,
+    "uv_degenerate_nonzero_geometry_triangles": 0,
+    "triangles": 1616
+  },
+  {
+    "node": "Mansur_Trousers_LOD1",
+    "finite": true,
+    "uv_geometry_area_ratio": 0.9374712524790136,
+    "uv_degenerate_nonzero_geometry_triangles": 0,
+    "triangles": 564
+  },
+  {
+    "node": "Gulsina_BootLeft_LOD0",
+    "finite": true,
+    "uv_geometry_area_ratio": 0.9999998942818247,
+    "uv_degenerate_nonzero_geometry_triangles": 0,
+    "triangles": 1356
+  },
+  {
+    "node": "Gulsina_BootLeft_LOD1",
+    "finite": true,
+    "uv_geometry_area_ratio": 0.9355241184096234,
+    "uv_degenerate_nonzero_geometry_triangles": 0,
+    "triangles": 474
+  },
+  {
+    "node": "Gulsina_BootRight_LOD0",
+    "finite": true,
+    "uv_geometry_area_ratio": 0.9999999517548446,
+    "uv_degenerate_nonzero_geometry_triangles": 0,
+    "triangles": 1356
+  },
+  {
+    "node": "Gulsina_BootRight_LOD1",
+    "finite": true,
+    "uv_geometry_area_ratio": 0.933048494398239,
+    "uv_degenerate_nonzero_geometry_triangles": 0,
+    "triangles": 474
+  },
+  {
+    "node": "Gulsina_Coat_LOD0",
+    "finite": true,
+    "uv_geometry_area_ratio": 0.9999999543939315,
+    "uv_degenerate_nonzero_geometry_triangles": 0,
+    "triangles": 4332
+  },
+  {
+    "node": "Gulsina_Coat_LOD1",
+    "finite": true,
+    "uv_geometry_area_ratio": 0.9421769271640069,
+    "uv_degenerate_nonzero_geometry_triangles": 0,
+    "triangles": 1516
+  },
+  {
+    "node": "Gulsina_Sash_LOD0",
+    "finite": true,
+    "uv_geometry_area_ratio": 1.0000000379857201,
+    "uv_degenerate_nonzero_geometry_triangles": 0,
+    "triangles": 224
+  },
+  {
+    "node": "Gulsina_Sash_LOD1",
+    "finite": true,
+    "uv_geometry_area_ratio": 1.0000000379857201,
+    "uv_degenerate_nonzero_geometry_triangles": 0,
+    "triangles": 224
+  },
+  {
+    "node": "Gulsina_Scarf_LOD0",
+    "finite": true,
+    "uv_geometry_area_ratio": 0.9999999502003628,
+    "uv_degenerate_nonzero_geometry_triangles": 0,
+    "triangles": 2180
+  },
+  {
+    "node": "Gulsina_Scarf_LOD1",
+    "finite": true,
+    "uv_geometry_area_ratio": 0.9239232609235544,
+    "uv_degenerate_nonzero_geometry_triangles": 0,
+    "triangles": 762
+  },
+  {
+    "node": "Gulsina_Skirt_LOD0",
+    "finite": true,
+    "uv_geometry_area_ratio": 1.0000000399321252,
+    "uv_degenerate_nonzero_geometry_triangles": 0,
+    "triangles": 672
+  },
+  {
+    "node": "Gulsina_Skirt_LOD1",
+    "finite": true,
+    "uv_geometry_area_ratio": 1.0000000399321252,
+    "uv_degenerate_nonzero_geometry_triangles": 0,
+    "triangles": 672
+  },
+  {
+    "node": "Gulsina_Trousers_LOD0",
+    "finite": true,
+    "uv_geometry_area_ratio": 0.9999999719475353,
+    "uv_degenerate_nonzero_geometry_triangles": 0,
+    "triangles": 732
+  },
+  {
+    "node": "Gulsina_Trousers_LOD1",
+    "finite": true,
+    "uv_geometry_area_ratio": 0.9087134929984334,
+    "uv_degenerate_nonzero_geometry_triangles": 0,
+    "triangles": 256
+  },
+  {
+    "node": "Tamara_BootLeft_LOD0",
+    "finite": true,
+    "uv_geometry_area_ratio": 1.000000054174845,
+    "uv_degenerate_nonzero_geometry_triangles": 0,
+    "triangles": 1344
+  },
+  {
+    "node": "Tamara_BootLeft_LOD1",
+    "finite": true,
+    "uv_geometry_area_ratio": 0.9333029800307973,
+    "uv_degenerate_nonzero_geometry_triangles": 0,
+    "triangles": 470
+  },
+  {
+    "node": "Tamara_BootRight_LOD0",
+    "finite": true,
+    "uv_geometry_area_ratio": 1.0000000638910307,
+    "uv_degenerate_nonzero_geometry_triangles": 0,
+    "triangles": 1344
+  },
+  {
+    "node": "Tamara_BootRight_LOD1",
+    "finite": true,
+    "uv_geometry_area_ratio": 0.9331700494400762,
+    "uv_degenerate_nonzero_geometry_triangles": 0,
+    "triangles": 470
+  },
+  {
+    "node": "Tamara_Sash_LOD0",
+    "finite": true,
+    "uv_geometry_area_ratio": 1.0000001533725593,
+    "uv_degenerate_nonzero_geometry_triangles": 0,
+    "triangles": 816
+  },
+  {
+    "node": "Tamara_Sash_LOD1",
+    "finite": true,
+    "uv_geometry_area_ratio": 0.934228758538849,
+    "uv_degenerate_nonzero_geometry_triangles": 0,
+    "triangles": 284
+  },
+  {
+    "node": "Tamara_Trousers_LOD0",
+    "finite": true,
+    "uv_geometry_area_ratio": 0.9999999581232429,
+    "uv_degenerate_nonzero_geometry_triangles": 0,
+    "triangles": 728
+  },
+  {
+    "node": "Tamara_Trousers_LOD1",
+    "finite": true,
+    "uv_geometry_area_ratio": 0.9145384393940885,
+    "uv_degenerate_nonzero_geometry_triangles": 0,
+    "triangles": 254
+  },
+  {
+    "node": "PhoneGuy_BootLeft_LOD0",
+    "finite": true,
+    "uv_geometry_area_ratio": 0.9999999739791657,
+    "uv_degenerate_nonzero_geometry_triangles": 0,
+    "triangles": 880
+  },
+  {
+    "node": "PhoneGuy_BootLeft_LOD1",
+    "finite": true,
+    "uv_geometry_area_ratio": 0.9262791913171703,
+    "uv_degenerate_nonzero_geometry_triangles": 0,
+    "triangles": 308
+  },
+  {
+    "node": "PhoneGuy_BootRight_LOD0",
+    "finite": true,
+    "uv_geometry_area_ratio": 1.000000016884675,
+    "uv_degenerate_nonzero_geometry_triangles": 0,
+    "triangles": 880
+  },
+  {
+    "node": "PhoneGuy_BootRight_LOD1",
+    "finite": true,
+    "uv_geometry_area_ratio": 0.9319525894959072,
+    "uv_degenerate_nonzero_geometry_triangles": 0,
+    "triangles": 308
+  },
+  {
+    "node": "PhoneGuy_Coat_LOD0",
+    "finite": true,
+    "uv_geometry_area_ratio": 1.000000040498501,
+    "uv_degenerate_nonzero_geometry_triangles": 0,
+    "triangles": 3752
+  },
+  {
+    "node": "PhoneGuy_Coat_LOD1",
+    "finite": true,
+    "uv_geometry_area_ratio": 0.935326763248485,
+    "uv_degenerate_nonzero_geometry_triangles": 0,
+    "triangles": 1312
+  },
+  {
+    "node": "PhoneGuy_CoatSkirt_LOD0",
+    "finite": true,
+    "uv_geometry_area_ratio": 1.000000006129902,
+    "uv_degenerate_nonzero_geometry_triangles": 0,
+    "triangles": 672
+  },
+  {
+    "node": "PhoneGuy_CoatSkirt_LOD1",
+    "finite": true,
+    "uv_geometry_area_ratio": 1.000000006129902,
+    "uv_degenerate_nonzero_geometry_triangles": 0,
+    "triangles": 672
+  },
+  {
+    "node": "PhoneGuy_Hat_LOD0",
+    "finite": true,
+    "uv_geometry_area_ratio": 0.9999999044733434,
+    "uv_degenerate_nonzero_geometry_triangles": 0,
+    "triangles": 768
+  },
+  {
+    "node": "PhoneGuy_Hat_LOD1",
+    "finite": true,
+    "uv_geometry_area_ratio": 0.9008155857704829,
+    "uv_degenerate_nonzero_geometry_triangles": 0,
+    "triangles": 268
+  },
+  {
+    "node": "PhoneGuy_Sash_LOD0",
+    "finite": true,
+    "uv_geometry_area_ratio": 0.9999999927811996,
+    "uv_degenerate_nonzero_geometry_triangles": 0,
+    "triangles": 224
+  },
+  {
+    "node": "PhoneGuy_Sash_LOD1",
+    "finite": true,
+    "uv_geometry_area_ratio": 0.9999999927811996,
+    "uv_degenerate_nonzero_geometry_triangles": 0,
+    "triangles": 224
+  },
+  {
+    "node": "PhoneGuy_Trousers_LOD0",
+    "finite": true,
+    "uv_geometry_area_ratio": 0.999999961395366,
+    "uv_degenerate_nonzero_geometry_triangles": 0,
+    "triangles": 1980
+  },
+  {
+    "node": "PhoneGuy_Trousers_LOD1",
+    "finite": true,
+    "uv_geometry_area_ratio": 0.9465708577460665,
+    "uv_degenerate_nonzero_geometry_triangles": 0,
+    "triangles": 692
+  },
+  {
+    "node": "TimurHazrat_BootLeft_LOD0",
+    "finite": true,
+    "uv_geometry_area_ratio": 0.9999999473071092,
+    "uv_degenerate_nonzero_geometry_triangles": 0,
+    "triangles": 880
+  },
+  {
+    "node": "TimurHazrat_BootLeft_LOD1",
+    "finite": true,
+    "uv_geometry_area_ratio": 0.9220848609730408,
+    "uv_degenerate_nonzero_geometry_triangles": 0,
+    "triangles": 308
+  },
+  {
+    "node": "TimurHazrat_BootRight_LOD0",
+    "finite": true,
+    "uv_geometry_area_ratio": 0.9999999919806246,
+    "uv_degenerate_nonzero_geometry_triangles": 0,
+    "triangles": 880
+  },
+  {
+    "node": "TimurHazrat_BootRight_LOD1",
+    "finite": true,
+    "uv_geometry_area_ratio": 0.9278655429034876,
+    "uv_degenerate_nonzero_geometry_triangles": 0,
+    "triangles": 308
+  },
+  {
+    "node": "TimurHazrat_Coat_LOD1",
+    "finite": true,
+    "uv_geometry_area_ratio": 0.9305937689591511,
+    "uv_degenerate_nonzero_geometry_triangles": 0,
+    "triangles": 1332
+  },
+  {
+    "node": "TimurHazrat_CoatSkirt_LOD1",
+    "finite": true,
+    "uv_geometry_area_ratio": 1.0000000222619316,
+    "uv_degenerate_nonzero_geometry_triangles": 0,
+    "triangles": 672
+  },
+  {
+    "node": "TimurHazrat_Trousers_LOD1",
+    "finite": true,
+    "uv_geometry_area_ratio": 0.9286452650949698,
+    "uv_degenerate_nonzero_geometry_triangles": 0,
+    "triangles": 494
+  },
+  {
+    "node": "Resident_BootLeft_LOD0",
+    "finite": true,
+    "uv_geometry_area_ratio": 0.999999937013068,
+    "uv_degenerate_nonzero_geometry_triangles": 0,
+    "triangles": 1384
+  },
+  {
+    "node": "Resident_BootLeft_LOD1",
+    "finite": true,
+    "uv_geometry_area_ratio": 0.9200617134980751,
+    "uv_degenerate_nonzero_geometry_triangles": 0,
+    "triangles": 484
+  },
+  {
+    "node": "Resident_BootRight_LOD0",
+    "finite": true,
+    "uv_geometry_area_ratio": 0.9999999561916446,
+    "uv_degenerate_nonzero_geometry_triangles": 0,
+    "triangles": 1384
+  },
+  {
+    "node": "Resident_BootRight_LOD1",
+    "finite": true,
+    "uv_geometry_area_ratio": 0.9197524521132097,
+    "uv_degenerate_nonzero_geometry_triangles": 0,
+    "triangles": 484
+  },
+  {
+    "node": "Resident_Coat_LOD0",
+    "finite": true,
+    "uv_geometry_area_ratio": 0.9999999497193575,
+    "uv_degenerate_nonzero_geometry_triangles": 0,
+    "triangles": 3808
+  },
+  {
+    "node": "Resident_Coat_LOD1",
+    "finite": true,
+    "uv_geometry_area_ratio": 0.9318893196851887,
+    "uv_degenerate_nonzero_geometry_triangles": 0,
+    "triangles": 1332
+  },
+  {
+    "node": "Resident_CoatSkirt_LOD0",
+    "finite": true,
+    "uv_geometry_area_ratio": 0.9999999990452376,
+    "uv_degenerate_nonzero_geometry_triangles": 0,
+    "triangles": 672
+  },
+  {
+    "node": "Resident_CoatSkirt_LOD1",
+    "finite": true,
+    "uv_geometry_area_ratio": 0.9999999990452376,
+    "uv_degenerate_nonzero_geometry_triangles": 0,
+    "triangles": 672
+  },
+  {
+    "node": "Resident_Hat_LOD0",
+    "finite": true,
+    "uv_geometry_area_ratio": 1.0000000267768068,
+    "uv_degenerate_nonzero_geometry_triangles": 0,
+    "triangles": 792
+  },
+  {
+    "node": "Resident_Hat_LOD1",
+    "finite": true,
+    "uv_geometry_area_ratio": 0.8885996618240485,
+    "uv_degenerate_nonzero_geometry_triangles": 0,
+    "triangles": 272
+  },
+  {
+    "node": "Resident_Sash_LOD0",
+    "finite": true,
+    "uv_geometry_area_ratio": 0.9999998467860186,
+    "uv_degenerate_nonzero_geometry_triangles": 0,
+    "triangles": 224
+  },
+  {
+    "node": "Resident_Sash_LOD1",
+    "finite": true,
+    "uv_geometry_area_ratio": 0.9999998467860186,
+    "uv_degenerate_nonzero_geometry_triangles": 0,
+    "triangles": 224
+  },
+  {
+    "node": "Resident_Trousers_LOD0",
+    "finite": true,
+    "uv_geometry_area_ratio": 0.999999983162945,
+    "uv_degenerate_nonzero_geometry_triangles": 0,
+    "triangles": 1616
+  },
+  {
+    "node": "Resident_Trousers_LOD1",
+    "finite": true,
+    "uv_geometry_area_ratio": 0.9410703921657614,
+    "uv_degenerate_nonzero_geometry_triangles": 0,
+    "triangles": 564
+  },
+  {
+    "node": "Naila_BootLeft_LOD0",
+    "finite": true,
+    "uv_geometry_area_ratio": 0.9999999079506526,
+    "uv_degenerate_nonzero_geometry_triangles": 0,
+    "triangles": 1356
+  },
+  {
+    "node": "Naila_BootLeft_LOD1",
+    "finite": true,
+    "uv_geometry_area_ratio": 0.9217801835464757,
+    "uv_degenerate_nonzero_geometry_triangles": 0,
+    "triangles": 474
+  },
+  {
+    "node": "Naila_BootRight_LOD0",
+    "finite": true,
+    "uv_geometry_area_ratio": 0.9999999459011226,
+    "uv_degenerate_nonzero_geometry_triangles": 0,
+    "triangles": 1356
+  },
+  {
+    "node": "Naila_BootRight_LOD1",
+    "finite": true,
+    "uv_geometry_area_ratio": 0.9176385081562775,
+    "uv_degenerate_nonzero_geometry_triangles": 0,
+    "triangles": 474
+  },
+  {
+    "node": "Naila_Coat_LOD0",
+    "finite": true,
+    "uv_geometry_area_ratio": 1.0000000595084158,
+    "uv_degenerate_nonzero_geometry_triangles": 0,
+    "triangles": 4348
+  },
+  {
+    "node": "Naila_Coat_LOD1",
+    "finite": true,
+    "uv_geometry_area_ratio": 0.934439462259852,
+    "uv_degenerate_nonzero_geometry_triangles": 0,
+    "triangles": 1520
+  },
+  {
+    "node": "Naila_CoatSkirt_LOD0",
+    "finite": true,
+    "uv_geometry_area_ratio": 1.0000000256562094,
+    "uv_degenerate_nonzero_geometry_triangles": 0,
+    "triangles": 672
+  },
+  {
+    "node": "Naila_CoatSkirt_LOD1",
+    "finite": true,
+    "uv_geometry_area_ratio": 1.0000000256562094,
+    "uv_degenerate_nonzero_geometry_triangles": 0,
+    "triangles": 672
+  },
+  {
+    "node": "Naila_Sash_LOD0",
+    "finite": true,
+    "uv_geometry_area_ratio": 0.9999998506017908,
+    "uv_degenerate_nonzero_geometry_triangles": 0,
+    "triangles": 224
+  },
+  {
+    "node": "Naila_Sash_LOD1",
+    "finite": true,
+    "uv_geometry_area_ratio": 0.9999998506017908,
+    "uv_degenerate_nonzero_geometry_triangles": 0,
+    "triangles": 224
+  },
+  {
+    "node": "Naila_Trousers_LOD0",
+    "finite": true,
+    "uv_geometry_area_ratio": 1.000000068035502,
+    "uv_degenerate_nonzero_geometry_triangles": 0,
+    "triangles": 1452
+  },
+  {
+    "node": "Naila_Trousers_LOD1",
+    "finite": true,
+    "uv_geometry_area_ratio": 0.9094402678966734,
+    "uv_degenerate_nonzero_geometry_triangles": 0,
+    "triangles": 508
+  }
+]

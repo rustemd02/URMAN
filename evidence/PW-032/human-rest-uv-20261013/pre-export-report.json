@@ -1,0 +1,1472 @@
+{
+  "candidate_lod1_semantic_comparisons": [
+    {
+      "name": "Mansur_BootLeft_LOD1",
+      "equal": true,
+      "triangle_count": 482,
+      "semantic_delta_triangles": 0,
+      "target_vertices": 247,
+      "candidate_vertices": 247,
+      "target_polygons": 482,
+      "candidate_polygons": 482
+    },
+    {
+      "name": "Mansur_BootRight_LOD1",
+      "equal": true,
+      "triangle_count": 482,
+      "semantic_delta_triangles": 0,
+      "target_vertices": 247,
+      "candidate_vertices": 247,
+      "target_polygons": 482,
+      "candidate_polygons": 482
+    },
+    {
+      "name": "Mansur_Coat_LOD1",
+      "equal": true,
+      "triangle_count": 1332,
+      "semantic_delta_triangles": 0,
+      "target_vertices": 742,
+      "candidate_vertices": 742,
+      "target_polygons": 1331,
+      "candidate_polygons": 1331
+    },
+    {
+      "name": "Mansur_CoatSkirt_LOD1",
+      "equal": true,
+      "triangle_count": 672,
+      "semantic_delta_triangles": 0,
+      "target_vertices": 336,
+      "candidate_vertices": 336,
+      "target_polygons": 336,
+      "candidate_polygons": 336
+    },
+    {
+      "name": "Mansur_Hat_LOD1",
+      "equal": true,
+      "triangle_count": 274,
+      "semantic_delta_triangles": 0,
+      "target_vertices": 144,
+      "candidate_vertices": 144,
+      "target_polygons": 226,
+      "candidate_polygons": 226
+    },
+    {
+      "name": "Mansur_Sash_LOD1",
+      "equal": true,
+      "triangle_count": 224,
+      "semantic_delta_triangles": 0,
+      "target_vertices": 112,
+      "candidate_vertices": 112,
+      "target_polygons": 112,
+      "candidate_polygons": 112
+    },
+    {
+      "name": "Mansur_Trousers_LOD1",
+      "equal": true,
+      "triangle_count": 564,
+      "semantic_delta_triangles": 0,
+      "target_vertices": 318,
+      "candidate_vertices": 318,
+      "target_polygons": 554,
+      "candidate_polygons": 554
+    },
+    {
+      "name": "Gulsina_BootLeft_LOD1",
+      "equal": true,
+      "triangle_count": 474,
+      "semantic_delta_triangles": 0,
+      "target_vertices": 243,
+      "candidate_vertices": 243,
+      "target_polygons": 473,
+      "candidate_polygons": 473
+    },
+    {
+      "name": "Gulsina_BootRight_LOD1",
+      "equal": true,
+      "triangle_count": 474,
+      "semantic_delta_triangles": 0,
+      "target_vertices": 243,
+      "candidate_vertices": 243,
+      "target_polygons": 473,
+      "candidate_polygons": 473
+    },
+    {
+      "name": "Gulsina_Coat_LOD1",
+      "equal": true,
+      "triangle_count": 1516,
+      "semantic_delta_triangles": 0,
+      "target_vertices": 812,
+      "candidate_vertices": 812,
+      "target_polygons": 1500,
+      "candidate_polygons": 1500
+    },
+    {
+      "name": "Gulsina_Sash_LOD1",
+      "equal": true,
+      "triangle_count": 224,
+      "semantic_delta_triangles": 0,
+      "target_vertices": 112,
+      "candidate_vertices": 112,
+      "target_polygons": 112,
+      "candidate_polygons": 112
+    },
+    {
+      "name": "Gulsina_Scarf_LOD1",
+      "equal": true,
+      "triangle_count": 762,
+      "semantic_delta_triangles": 0,
+      "target_vertices": 389,
+      "candidate_vertices": 389,
+      "target_polygons": 754,
+      "candidate_polygons": 754
+    },
+    {
+      "name": "Gulsina_Skirt_LOD1",
+      "equal": true,
+      "triangle_count": 672,
+      "semantic_delta_triangles": 0,
+      "target_vertices": 336,
+      "candidate_vertices": 336,
+      "target_polygons": 336,
+      "candidate_polygons": 336
+    },
+    {
+      "name": "Gulsina_Trousers_LOD1",
+      "equal": true,
+      "triangle_count": 256,
+      "semantic_delta_triangles": 0,
+      "target_vertices": 168,
+      "candidate_vertices": 168,
+      "target_polygons": 255,
+      "candidate_polygons": 255
+    },
+    {
+      "name": "Naila_BootLeft_LOD1",
+      "equal": true,
+      "triangle_count": 474,
+      "semantic_delta_triangles": 0,
+      "target_vertices": 243,
+      "candidate_vertices": 243,
+      "target_polygons": 474,
+      "candidate_polygons": 474
+    },
+    {
+      "name": "Naila_BootRight_LOD1",
+      "equal": true,
+      "triangle_count": 474,
+      "semantic_delta_triangles": 0,
+      "target_vertices": 243,
+      "candidate_vertices": 243,
+      "target_polygons": 474,
+      "candidate_polygons": 474
+    },
+    {
+      "name": "Naila_Coat_LOD1",
+      "equal": true,
+      "triangle_count": 1520,
+      "semantic_delta_triangles": 0,
+      "target_vertices": 814,
+      "candidate_vertices": 814,
+      "target_polygons": 1504,
+      "candidate_polygons": 1504
+    },
+    {
+      "name": "Naila_CoatSkirt_LOD1",
+      "equal": true,
+      "triangle_count": 672,
+      "semantic_delta_triangles": 0,
+      "target_vertices": 336,
+      "candidate_vertices": 336,
+      "target_polygons": 336,
+      "candidate_polygons": 336
+    },
+    {
+      "name": "Naila_Sash_LOD1",
+      "equal": true,
+      "triangle_count": 224,
+      "semantic_delta_triangles": 0,
+      "target_vertices": 112,
+      "candidate_vertices": 112,
+      "target_polygons": 112,
+      "candidate_polygons": 112
+    },
+    {
+      "name": "Naila_Trousers_LOD1",
+      "equal": true,
+      "triangle_count": 508,
+      "semantic_delta_triangles": 0,
+      "target_vertices": 294,
+      "candidate_vertices": 294,
+      "target_polygons": 485,
+      "candidate_polygons": 485
+    },
+    {
+      "name": "Resident_BootLeft_LOD1",
+      "equal": true,
+      "triangle_count": 484,
+      "semantic_delta_triangles": 0,
+      "target_vertices": 248,
+      "candidate_vertices": 248,
+      "target_polygons": 484,
+      "candidate_polygons": 484
+    },
+    {
+      "name": "Resident_BootRight_LOD1",
+      "equal": true,
+      "triangle_count": 484,
+      "semantic_delta_triangles": 0,
+      "target_vertices": 248,
+      "candidate_vertices": 248,
+      "target_polygons": 484,
+      "candidate_polygons": 484
+    },
+    {
+      "name": "Resident_Coat_LOD1",
+      "equal": true,
+      "triangle_count": 1332,
+      "semantic_delta_triangles": 0,
+      "target_vertices": 742,
+      "candidate_vertices": 742,
+      "target_polygons": 1331,
+      "candidate_polygons": 1331
+    },
+    {
+      "name": "Resident_CoatSkirt_LOD1",
+      "equal": true,
+      "triangle_count": 672,
+      "semantic_delta_triangles": 0,
+      "target_vertices": 336,
+      "candidate_vertices": 336,
+      "target_polygons": 336,
+      "candidate_polygons": 336
+    },
+    {
+      "name": "Resident_Hat_LOD1",
+      "equal": true,
+      "triangle_count": 272,
+      "semantic_delta_triangles": 0,
+      "target_vertices": 144,
+      "candidate_vertices": 144,
+      "target_polygons": 225,
+      "candidate_polygons": 225
+    },
+    {
+      "name": "Resident_Sash_LOD1",
+      "equal": true,
+      "triangle_count": 224,
+      "semantic_delta_triangles": 0,
+      "target_vertices": 112,
+      "candidate_vertices": 112,
+      "target_polygons": 112,
+      "candidate_polygons": 112
+    },
+    {
+      "name": "Resident_Trousers_LOD1",
+      "equal": true,
+      "triangle_count": 564,
+      "semantic_delta_triangles": 0,
+      "target_vertices": 318,
+      "candidate_vertices": 318,
+      "target_polygons": 554,
+      "candidate_polygons": 554
+    },
+    {
+      "name": "PhoneGuy_BootLeft_LOD1",
+      "equal": true,
+      "triangle_count": 308,
+      "semantic_delta_triangles": 0,
+      "target_vertices": 200,
+      "candidate_vertices": 200,
+      "target_polygons": 308,
+      "candidate_polygons": 308
+    },
+    {
+      "name": "PhoneGuy_BootRight_LOD1",
+      "equal": true,
+      "triangle_count": 308,
+      "semantic_delta_triangles": 0,
+      "target_vertices": 200,
+      "candidate_vertices": 200,
+      "target_polygons": 308,
+      "candidate_polygons": 308
+    },
+    {
+      "name": "PhoneGuy_Coat_LOD1",
+      "equal": true,
+      "triangle_count": 1312,
+      "semantic_delta_triangles": 0,
+      "target_vertices": 672,
+      "candidate_vertices": 672,
+      "target_polygons": 1302,
+      "candidate_polygons": 1302
+    },
+    {
+      "name": "PhoneGuy_CoatSkirt_LOD1",
+      "equal": true,
+      "triangle_count": 672,
+      "semantic_delta_triangles": 0,
+      "target_vertices": 336,
+      "candidate_vertices": 336,
+      "target_polygons": 336,
+      "candidate_polygons": 336
+    },
+    {
+      "name": "PhoneGuy_Hat_LOD1",
+      "equal": true,
+      "triangle_count": 268,
+      "semantic_delta_triangles": 0,
+      "target_vertices": 136,
+      "candidate_vertices": 136,
+      "target_polygons": 191,
+      "candidate_polygons": 191
+    },
+    {
+      "name": "PhoneGuy_Sash_LOD1",
+      "equal": true,
+      "triangle_count": 224,
+      "semantic_delta_triangles": 0,
+      "target_vertices": 112,
+      "candidate_vertices": 112,
+      "target_polygons": 112,
+      "candidate_polygons": 112
+    },
+    {
+      "name": "PhoneGuy_Trousers_LOD1",
+      "equal": true,
+      "triangle_count": 692,
+      "semantic_delta_triangles": 0,
+      "target_vertices": 386,
+      "candidate_vertices": 386,
+      "target_polygons": 684,
+      "candidate_polygons": 684
+    },
+    {
+      "name": "Tamara_BootLeft_LOD1",
+      "equal": true,
+      "triangle_count": 470,
+      "semantic_delta_triangles": 0,
+      "target_vertices": 241,
+      "candidate_vertices": 241,
+      "target_polygons": 470,
+      "candidate_polygons": 470
+    },
+    {
+      "name": "Tamara_BootRight_LOD1",
+      "equal": true,
+      "triangle_count": 470,
+      "semantic_delta_triangles": 0,
+      "target_vertices": 241,
+      "candidate_vertices": 241,
+      "target_polygons": 470,
+      "candidate_polygons": 470
+    },
+    {
+      "name": "Tamara_Sash_LOD1",
+      "equal": true,
+      "triangle_count": 284,
+      "semantic_delta_triangles": 0,
+      "target_vertices": 215,
+      "candidate_vertices": 215,
+      "target_polygons": 238,
+      "candidate_polygons": 238
+    },
+    {
+      "name": "Tamara_Trousers_LOD1",
+      "equal": true,
+      "triangle_count": 254,
+      "semantic_delta_triangles": 0,
+      "target_vertices": 167,
+      "candidate_vertices": 167,
+      "target_polygons": 251,
+      "candidate_polygons": 251
+    },
+    {
+      "name": "TimurHazrat_BootLeft_LOD1",
+      "equal": true,
+      "triangle_count": 308,
+      "semantic_delta_triangles": 0,
+      "target_vertices": 200,
+      "candidate_vertices": 200,
+      "target_polygons": 308,
+      "candidate_polygons": 308
+    },
+    {
+      "name": "TimurHazrat_BootRight_LOD1",
+      "equal": true,
+      "triangle_count": 308,
+      "semantic_delta_triangles": 0,
+      "target_vertices": 200,
+      "candidate_vertices": 200,
+      "target_polygons": 308,
+      "candidate_polygons": 308
+    },
+    {
+      "name": "TimurHazrat_Coat_LOD1",
+      "equal": true,
+      "triangle_count": 1332,
+      "semantic_delta_triangles": 0,
+      "target_vertices": 742,
+      "candidate_vertices": 742,
+      "target_polygons": 1331,
+      "candidate_polygons": 1331
+    },
+    {
+      "name": "TimurHazrat_CoatSkirt_LOD1",
+      "equal": true,
+      "triangle_count": 672,
+      "semantic_delta_triangles": 0,
+      "target_vertices": 336,
+      "candidate_vertices": 336,
+      "target_polygons": 336,
+      "candidate_polygons": 336
+    },
+    {
+      "name": "TimurHazrat_Trousers_LOD1",
+      "equal": true,
+      "triangle_count": 494,
+      "semantic_delta_triangles": 0,
+      "target_vertices": 283,
+      "candidate_vertices": 283,
+      "target_polygons": 481,
+      "candidate_polygons": 481
+    }
+  ],
+  "mismatch_count": 0,
+  "uv_metrics": {
+    "Mansur_BootLeft_LOD1": {
+      "LOD0": {
+        "finite": true,
+        "geometry_area": 0.54712,
+        "uv_area": 0.54712,
+        "uv_over_geometry": 1.0,
+        "edge_stretch_p50": 1.0574,
+        "edge_stretch_p95": 1.2257,
+        "edge_stretch_p99": 1.3679,
+        "edge_stretch_max": 1.8096,
+        "edge_count": 4140
+      },
+      "candidate_LOD1": {
+        "finite": true,
+        "geometry_area": 0.526151,
+        "uv_area": 0.48401,
+        "uv_over_geometry": 0.91991,
+        "edge_stretch_p50": 1.0743,
+        "edge_stretch_p95": 1.6748,
+        "edge_stretch_p99": 2.1145,
+        "edge_stretch_max": 3.8842,
+        "edge_count": 1446
+      }
+    },
+    "Mansur_BootRight_LOD1": {
+      "LOD0": {
+        "finite": true,
+        "geometry_area": 0.547127,
+        "uv_area": 0.547127,
+        "uv_over_geometry": 1.0,
+        "edge_stretch_p50": 1.0574,
+        "edge_stretch_p95": 1.2209,
+        "edge_stretch_p99": 1.3679,
+        "edge_stretch_max": 1.8096,
+        "edge_count": 4140
+      },
+      "candidate_LOD1": {
+        "finite": true,
+        "geometry_area": 0.526947,
+        "uv_area": 0.483869,
+        "uv_over_geometry": 0.91825,
+        "edge_stretch_p50": 1.0748,
+        "edge_stretch_p95": 1.6426,
+        "edge_stretch_p99": 2.1602,
+        "edge_stretch_max": 5.0036,
+        "edge_count": 1446
+      }
+    },
+    "Mansur_Coat_LOD1": {
+      "LOD0": {
+        "finite": true,
+        "geometry_area": 2.328774,
+        "uv_area": 2.328774,
+        "uv_over_geometry": 1.0,
+        "edge_stretch_p50": 1.0676,
+        "edge_stretch_p95": 1.2045,
+        "edge_stretch_p99": 1.3288,
+        "edge_stretch_max": 2.7859,
+        "edge_count": 11424
+      },
+      "candidate_LOD1": {
+        "finite": true,
+        "geometry_area": 2.243733,
+        "uv_area": 2.089775,
+        "uv_over_geometry": 0.93138,
+        "edge_stretch_p50": 1.0736,
+        "edge_stretch_p95": 1.587,
+        "edge_stretch_p99": 2.0879,
+        "edge_stretch_max": 8.8578,
+        "edge_count": 3996
+      }
+    },
+    "Mansur_CoatSkirt_LOD1": {
+      "LOD0": {
+        "finite": true,
+        "geometry_area": 1.077836,
+        "uv_area": 1.077836,
+        "uv_over_geometry": 1.0,
+        "edge_stretch_p50": 1.0508,
+        "edge_stretch_p95": 1.2112,
+        "edge_stretch_p99": 1.2487,
+        "edge_stretch_max": 1.3763,
+        "edge_count": 2016
+      },
+      "candidate_LOD1": {
+        "finite": true,
+        "geometry_area": 1.077836,
+        "uv_area": 1.077836,
+        "uv_over_geometry": 1.0,
+        "edge_stretch_p50": 1.0508,
+        "edge_stretch_p95": 1.2112,
+        "edge_stretch_p99": 1.2487,
+        "edge_stretch_max": 1.3763,
+        "edge_count": 2016
+      }
+    },
+    "Mansur_Hat_LOD1": {
+      "LOD0": {
+        "finite": true,
+        "geometry_area": 0.456199,
+        "uv_area": 0.456198,
+        "uv_over_geometry": 1.0,
+        "edge_stretch_p50": 1.065,
+        "edge_stretch_p95": 1.1817,
+        "edge_stretch_p99": 1.445,
+        "edge_stretch_max": 1.4452,
+        "edge_count": 2376
+      },
+      "candidate_LOD1": {
+        "finite": true,
+        "geometry_area": 0.434282,
+        "uv_area": 0.389869,
+        "uv_over_geometry": 0.89773,
+        "edge_stretch_p50": 1.0525,
+        "edge_stretch_p95": 1.5267,
+        "edge_stretch_p99": 1.8325,
+        "edge_stretch_max": 3.4503,
+        "edge_count": 822
+      }
+    },
+    "Mansur_Sash_LOD1": {
+      "LOD0": {
+        "finite": true,
+        "geometry_area": 0.166403,
+        "uv_area": 0.166403,
+        "uv_over_geometry": 1.0,
+        "edge_stretch_p50": 1.0444,
+        "edge_stretch_p95": 1.0813,
+        "edge_stretch_p99": 1.2724,
+        "edge_stretch_max": 1.2724,
+        "edge_count": 672
+      },
+      "candidate_LOD1": {
+        "finite": true,
+        "geometry_area": 0.166403,
+        "uv_area": 0.166403,
+        "uv_over_geometry": 1.0,
+        "edge_stretch_p50": 1.0444,
+        "edge_stretch_p95": 1.0813,
+        "edge_stretch_p99": 1.2724,
+        "edge_stretch_max": 1.2724,
+        "edge_count": 672
+      }
+    },
+    "Mansur_Trousers_LOD1": {
+      "LOD0": {
+        "finite": true,
+        "geometry_area": 0.990845,
+        "uv_area": 0.990845,
+        "uv_over_geometry": 1.0,
+        "edge_stretch_p50": 1.054,
+        "edge_stretch_p95": 1.111,
+        "edge_stretch_p99": 1.2429,
+        "edge_stretch_max": 1.6081,
+        "edge_count": 4848
+      },
+      "candidate_LOD1": {
+        "finite": true,
+        "geometry_area": 0.984634,
+        "uv_area": 0.923066,
+        "uv_over_geometry": 0.93747,
+        "edge_stretch_p50": 1.0554,
+        "edge_stretch_p95": 1.4128,
+        "edge_stretch_p99": 1.8845,
+        "edge_stretch_max": 3.9003,
+        "edge_count": 1692
+      }
+    },
+    "Gulsina_BootLeft_LOD1": {
+      "LOD0": {
+        "finite": true,
+        "geometry_area": 0.534586,
+        "uv_area": 0.534586,
+        "uv_over_geometry": 1.0,
+        "edge_stretch_p50": 1.0651,
+        "edge_stretch_p95": 1.2464,
+        "edge_stretch_p99": 1.4149,
+        "edge_stretch_max": 16.1029,
+        "edge_count": 4068
+      },
+      "candidate_LOD1": {
+        "finite": true,
+        "geometry_area": 0.51546,
+        "uv_area": 0.482225,
+        "uv_over_geometry": 0.93552,
+        "edge_stretch_p50": 1.0716,
+        "edge_stretch_p95": 1.6629,
+        "edge_stretch_p99": 2.4753,
+        "edge_stretch_max": 4.5443,
+        "edge_count": 1422
+      }
+    },
+    "Gulsina_BootRight_LOD1": {
+      "LOD0": {
+        "finite": true,
+        "geometry_area": 0.534591,
+        "uv_area": 0.534591,
+        "uv_over_geometry": 1.0,
+        "edge_stretch_p50": 1.0652,
+        "edge_stretch_p95": 1.2406,
+        "edge_stretch_p99": 1.4021,
+        "edge_stretch_max": 16.103,
+        "edge_count": 4068
+      },
+      "candidate_LOD1": {
+        "finite": true,
+        "geometry_area": 0.517172,
+        "uv_area": 0.482547,
+        "uv_over_geometry": 0.93305,
+        "edge_stretch_p50": 1.0714,
+        "edge_stretch_p95": 1.6432,
+        "edge_stretch_p99": 2.2398,
+        "edge_stretch_max": 4.678,
+        "edge_count": 1422
+      }
+    },
+    "Gulsina_Coat_LOD1": {
+      "LOD0": {
+        "finite": true,
+        "geometry_area": 2.07325,
+        "uv_area": 2.07325,
+        "uv_over_geometry": 1.0,
+        "edge_stretch_p50": 1.0638,
+        "edge_stretch_p95": 1.2141,
+        "edge_stretch_p99": 1.3531,
+        "edge_stretch_max": 4.9711,
+        "edge_count": 12996
+      },
+      "candidate_LOD1": {
+        "finite": true,
+        "geometry_area": 2.005447,
+        "uv_area": 1.889486,
+        "uv_over_geometry": 0.94218,
+        "edge_stretch_p50": 1.0705,
+        "edge_stretch_p95": 1.5555,
+        "edge_stretch_p99": 2.1648,
+        "edge_stretch_max": 5.9934,
+        "edge_count": 4548
+      }
+    },
+    "Gulsina_Sash_LOD1": {
+      "LOD0": {
+        "finite": true,
+        "geometry_area": 0.180108,
+        "uv_area": 0.180108,
+        "uv_over_geometry": 1.0,
+        "edge_stretch_p50": 1.0445,
+        "edge_stretch_p95": 1.0877,
+        "edge_stretch_p99": 1.289,
+        "edge_stretch_max": 1.289,
+        "edge_count": 672
+      },
+      "candidate_LOD1": {
+        "finite": true,
+        "geometry_area": 0.180108,
+        "uv_area": 0.180108,
+        "uv_over_geometry": 1.0,
+        "edge_stretch_p50": 1.0445,
+        "edge_stretch_p95": 1.0877,
+        "edge_stretch_p99": 1.289,
+        "edge_stretch_max": 1.289,
+        "edge_count": 672
+      }
+    },
+    "Gulsina_Scarf_LOD1": {
+      "LOD0": {
+        "finite": true,
+        "geometry_area": 0.359263,
+        "uv_area": 0.359263,
+        "uv_over_geometry": 1.0,
+        "edge_stretch_p50": 1.066,
+        "edge_stretch_p95": 1.2138,
+        "edge_stretch_p99": 1.3435,
+        "edge_stretch_max": 1.6766,
+        "edge_count": 6540
+      },
+      "candidate_LOD1": {
+        "finite": true,
+        "geometry_area": 0.347204,
+        "uv_area": 0.32079,
+        "uv_over_geometry": 0.92392,
+        "edge_stretch_p50": 1.0707,
+        "edge_stretch_p95": 1.6123,
+        "edge_stretch_p99": 2.4082,
+        "edge_stretch_max": 4.204,
+        "edge_count": 2286
+      }
+    },
+    "Gulsina_Skirt_LOD1": {
+      "LOD0": {
+        "finite": true,
+        "geometry_area": 2.344589,
+        "uv_area": 2.344589,
+        "uv_over_geometry": 1.0,
+        "edge_stretch_p50": 1.0491,
+        "edge_stretch_p95": 1.1916,
+        "edge_stretch_p99": 1.2439,
+        "edge_stretch_max": 1.3016,
+        "edge_count": 2016
+      },
+      "candidate_LOD1": {
+        "finite": true,
+        "geometry_area": 2.344589,
+        "uv_area": 2.344589,
+        "uv_over_geometry": 1.0,
+        "edge_stretch_p50": 1.0491,
+        "edge_stretch_p95": 1.1916,
+        "edge_stretch_p99": 1.2439,
+        "edge_stretch_max": 1.3016,
+        "edge_count": 2016
+      }
+    },
+    "Gulsina_Trousers_LOD1": {
+      "LOD0": {
+        "finite": true,
+        "geometry_area": 0.419314,
+        "uv_area": 0.419314,
+        "uv_over_geometry": 1.0,
+        "edge_stretch_p50": 1.0565,
+        "edge_stretch_p95": 1.15,
+        "edge_stretch_p99": 1.2582,
+        "edge_stretch_max": 1.3776,
+        "edge_count": 2196
+      },
+      "candidate_LOD1": {
+        "finite": true,
+        "geometry_area": 0.402474,
+        "uv_area": 0.365734,
+        "uv_over_geometry": 0.90871,
+        "edge_stretch_p50": 1.054,
+        "edge_stretch_p95": 1.5515,
+        "edge_stretch_p99": 2.364,
+        "edge_stretch_max": 5.9691,
+        "edge_count": 768
+      }
+    },
+    "Naila_BootLeft_LOD1": {
+      "LOD0": {
+        "finite": true,
+        "geometry_area": 0.530663,
+        "uv_area": 0.530663,
+        "uv_over_geometry": 1.0,
+        "edge_stretch_p50": 1.0635,
+        "edge_stretch_p95": 1.2246,
+        "edge_stretch_p99": 1.3455,
+        "edge_stretch_max": 4.8203,
+        "edge_count": 4068
+      },
+      "candidate_LOD1": {
+        "finite": true,
+        "geometry_area": 0.509489,
+        "uv_area": 0.469637,
+        "uv_over_geometry": 0.92178,
+        "edge_stretch_p50": 1.0717,
+        "edge_stretch_p95": 1.6163,
+        "edge_stretch_p99": 2.2394,
+        "edge_stretch_max": 3.1945,
+        "edge_count": 1422
+      }
+    },
+    "Naila_BootRight_LOD1": {
+      "LOD0": {
+        "finite": true,
+        "geometry_area": 0.530664,
+        "uv_area": 0.530664,
+        "uv_over_geometry": 1.0,
+        "edge_stretch_p50": 1.0638,
+        "edge_stretch_p95": 1.2242,
+        "edge_stretch_p99": 1.3523,
+        "edge_stretch_max": 4.8203,
+        "edge_count": 4068
+      },
+      "candidate_LOD1": {
+        "finite": true,
+        "geometry_area": 0.511543,
+        "uv_area": 0.469411,
+        "uv_over_geometry": 0.91764,
+        "edge_stretch_p50": 1.0715,
+        "edge_stretch_p95": 1.6378,
+        "edge_stretch_p99": 2.2836,
+        "edge_stretch_max": 4.7382,
+        "edge_count": 1422
+      }
+    },
+    "Naila_Coat_LOD1": {
+      "LOD0": {
+        "finite": true,
+        "geometry_area": 1.916381,
+        "uv_area": 1.916381,
+        "uv_over_geometry": 1.0,
+        "edge_stretch_p50": 1.0642,
+        "edge_stretch_p95": 1.2159,
+        "edge_stretch_p99": 1.3482,
+        "edge_stretch_max": 3.7456,
+        "edge_count": 13044
+      },
+      "candidate_LOD1": {
+        "finite": true,
+        "geometry_area": 1.854827,
+        "uv_area": 1.733223,
+        "uv_over_geometry": 0.93444,
+        "edge_stretch_p50": 1.0697,
+        "edge_stretch_p95": 1.5505,
+        "edge_stretch_p99": 2.0416,
+        "edge_stretch_max": 4.5414,
+        "edge_count": 4560
+      }
+    },
+    "Naila_CoatSkirt_LOD1": {
+      "LOD0": {
+        "finite": true,
+        "geometry_area": 1.397887,
+        "uv_area": 1.397887,
+        "uv_over_geometry": 1.0,
+        "edge_stretch_p50": 1.0508,
+        "edge_stretch_p95": 1.219,
+        "edge_stretch_p99": 1.2463,
+        "edge_stretch_max": 1.3665,
+        "edge_count": 2016
+      },
+      "candidate_LOD1": {
+        "finite": true,
+        "geometry_area": 1.397887,
+        "uv_area": 1.397887,
+        "uv_over_geometry": 1.0,
+        "edge_stretch_p50": 1.0508,
+        "edge_stretch_p95": 1.219,
+        "edge_stretch_p99": 1.2463,
+        "edge_stretch_max": 1.3665,
+        "edge_count": 2016
+      }
+    },
+    "Naila_Sash_LOD1": {
+      "LOD0": {
+        "finite": true,
+        "geometry_area": 0.172435,
+        "uv_area": 0.172435,
+        "uv_over_geometry": 1.0,
+        "edge_stretch_p50": 1.0446,
+        "edge_stretch_p95": 1.0891,
+        "edge_stretch_p99": 1.2927,
+        "edge_stretch_max": 1.2928,
+        "edge_count": 672
+      },
+      "candidate_LOD1": {
+        "finite": true,
+        "geometry_area": 0.172435,
+        "uv_area": 0.172435,
+        "uv_over_geometry": 1.0,
+        "edge_stretch_p50": 1.0446,
+        "edge_stretch_p95": 1.0891,
+        "edge_stretch_p99": 1.2927,
+        "edge_stretch_max": 1.2928,
+        "edge_count": 672
+      }
+    },
+    "Naila_Trousers_LOD1": {
+      "LOD0": {
+        "finite": true,
+        "geometry_area": 0.771883,
+        "uv_area": 0.771883,
+        "uv_over_geometry": 1.0,
+        "edge_stretch_p50": 1.0517,
+        "edge_stretch_p95": 1.1337,
+        "edge_stretch_p99": 1.2594,
+        "edge_stretch_max": 1.5962,
+        "edge_count": 4356
+      },
+      "candidate_LOD1": {
+        "finite": true,
+        "geometry_area": 0.75826,
+        "uv_area": 0.689592,
+        "uv_over_geometry": 0.90944,
+        "edge_stretch_p50": 1.0552,
+        "edge_stretch_p95": 1.539,
+        "edge_stretch_p99": 1.9726,
+        "edge_stretch_max": 3.3007,
+        "edge_count": 1524
+      }
+    },
+    "Resident_BootLeft_LOD1": {
+      "LOD0": {
+        "finite": true,
+        "geometry_area": 0.545584,
+        "uv_area": 0.545584,
+        "uv_over_geometry": 1.0,
+        "edge_stretch_p50": 1.0573,
+        "edge_stretch_p95": 1.2196,
+        "edge_stretch_p99": 1.3783,
+        "edge_stretch_max": 1.9059,
+        "edge_count": 4152
+      },
+      "candidate_LOD1": {
+        "finite": true,
+        "geometry_area": 0.525762,
+        "uv_area": 0.483733,
+        "uv_over_geometry": 0.92006,
+        "edge_stretch_p50": 1.074,
+        "edge_stretch_p95": 1.7052,
+        "edge_stretch_p99": 2.2095,
+        "edge_stretch_max": 4.8319,
+        "edge_count": 1452
+      }
+    },
+    "Resident_BootRight_LOD1": {
+      "LOD0": {
+        "finite": true,
+        "geometry_area": 0.545579,
+        "uv_area": 0.545579,
+        "uv_over_geometry": 1.0,
+        "edge_stretch_p50": 1.0575,
+        "edge_stretch_p95": 1.2167,
+        "edge_stretch_p99": 1.3769,
+        "edge_stretch_max": 1.906,
+        "edge_count": 4152
+      },
+      "candidate_LOD1": {
+        "finite": true,
+        "geometry_area": 0.526284,
+        "uv_area": 0.484051,
+        "uv_over_geometry": 0.91975,
+        "edge_stretch_p50": 1.0742,
+        "edge_stretch_p95": 1.7052,
+        "edge_stretch_p99": 2.2573,
+        "edge_stretch_max": 4.8612,
+        "edge_count": 1452
+      }
+    },
+    "Resident_Coat_LOD1": {
+      "LOD0": {
+        "finite": true,
+        "geometry_area": 2.418469,
+        "uv_area": 2.418468,
+        "uv_over_geometry": 1.0,
+        "edge_stretch_p50": 1.0669,
+        "edge_stretch_p95": 1.2067,
+        "edge_stretch_p99": 1.3281,
+        "edge_stretch_max": 5.6844,
+        "edge_count": 11424
+      },
+      "candidate_LOD1": {
+        "finite": true,
+        "geometry_area": 2.334169,
+        "uv_area": 2.175187,
+        "uv_over_geometry": 0.93189,
+        "edge_stretch_p50": 1.0749,
+        "edge_stretch_p95": 1.6509,
+        "edge_stretch_p99": 2.1565,
+        "edge_stretch_max": 5.7563,
+        "edge_count": 3996
+      }
+    },
+    "Resident_CoatSkirt_LOD1": {
+      "LOD0": {
+        "finite": true,
+        "geometry_area": 1.081127,
+        "uv_area": 1.081127,
+        "uv_over_geometry": 1.0,
+        "edge_stretch_p50": 1.0504,
+        "edge_stretch_p95": 1.2109,
+        "edge_stretch_p99": 1.2485,
+        "edge_stretch_max": 1.3746,
+        "edge_count": 2016
+      },
+      "candidate_LOD1": {
+        "finite": true,
+        "geometry_area": 1.081127,
+        "uv_area": 1.081127,
+        "uv_over_geometry": 1.0,
+        "edge_stretch_p50": 1.0504,
+        "edge_stretch_p95": 1.2109,
+        "edge_stretch_p99": 1.2485,
+        "edge_stretch_max": 1.3746,
+        "edge_count": 2016
+      }
+    },
+    "Resident_Hat_LOD1": {
+      "LOD0": {
+        "finite": true,
+        "geometry_area": 0.458491,
+        "uv_area": 0.458491,
+        "uv_over_geometry": 1.0,
+        "edge_stretch_p50": 1.0651,
+        "edge_stretch_p95": 1.1816,
+        "edge_stretch_p99": 1.4448,
+        "edge_stretch_max": 1.4451,
+        "edge_count": 2376
+      },
+      "candidate_LOD1": {
+        "finite": true,
+        "geometry_area": 0.422195,
+        "uv_area": 0.375162,
+        "uv_over_geometry": 0.8886,
+        "edge_stretch_p50": 1.0489,
+        "edge_stretch_p95": 1.4775,
+        "edge_stretch_p99": 1.9704,
+        "edge_stretch_max": 3.5021,
+        "edge_count": 816
+      }
+    },
+    "Resident_Sash_LOD1": {
+      "LOD0": {
+        "finite": true,
+        "geometry_area": 0.168228,
+        "uv_area": 0.168228,
+        "uv_over_geometry": 1.0,
+        "edge_stretch_p50": 1.0444,
+        "edge_stretch_p95": 1.0817,
+        "edge_stretch_p99": 1.2735,
+        "edge_stretch_max": 1.2735,
+        "edge_count": 672
+      },
+      "candidate_LOD1": {
+        "finite": true,
+        "geometry_area": 0.168228,
+        "uv_area": 0.168228,
+        "uv_over_geometry": 1.0,
+        "edge_stretch_p50": 1.0444,
+        "edge_stretch_p95": 1.0817,
+        "edge_stretch_p99": 1.2735,
+        "edge_stretch_max": 1.2735,
+        "edge_count": 672
+      }
+    },
+    "Resident_Trousers_LOD1": {
+      "LOD0": {
+        "finite": true,
+        "geometry_area": 0.984464,
+        "uv_area": 0.984464,
+        "uv_over_geometry": 1.0,
+        "edge_stretch_p50": 1.054,
+        "edge_stretch_p95": 1.1113,
+        "edge_stretch_p99": 1.2449,
+        "edge_stretch_max": 1.589,
+        "edge_count": 4848
+      },
+      "candidate_LOD1": {
+        "finite": true,
+        "geometry_area": 0.978505,
+        "uv_area": 0.920842,
+        "uv_over_geometry": 0.94107,
+        "edge_stretch_p50": 1.056,
+        "edge_stretch_p95": 1.4237,
+        "edge_stretch_p99": 1.8449,
+        "edge_stretch_max": 4.1265,
+        "edge_count": 1692
+      }
+    },
+    "PhoneGuy_BootLeft_LOD1": {
+      "LOD0": {
+        "finite": true,
+        "geometry_area": 0.226594,
+        "uv_area": 0.226594,
+        "uv_over_geometry": 1.0,
+        "edge_stretch_p50": 1.0598,
+        "edge_stretch_p95": 1.2315,
+        "edge_stretch_p99": 1.4377,
+        "edge_stretch_max": 1.8828,
+        "edge_count": 2640
+      },
+      "candidate_LOD1": {
+        "finite": true,
+        "geometry_area": 0.214143,
+        "uv_area": 0.198357,
+        "uv_over_geometry": 0.92628,
+        "edge_stretch_p50": 1.0745,
+        "edge_stretch_p95": 1.7036,
+        "edge_stretch_p99": 2.3347,
+        "edge_stretch_max": 5.1183,
+        "edge_count": 924
+      }
+    },
+    "PhoneGuy_BootRight_LOD1": {
+      "LOD0": {
+        "finite": true,
+        "geometry_area": 0.226588,
+        "uv_area": 0.226588,
+        "uv_over_geometry": 1.0,
+        "edge_stretch_p50": 1.06,
+        "edge_stretch_p95": 1.2307,
+        "edge_stretch_p99": 1.4447,
+        "edge_stretch_max": 1.8828,
+        "edge_count": 2640
+      },
+      "candidate_LOD1": {
+        "finite": true,
+        "geometry_area": 0.213369,
+        "uv_area": 0.19885,
+        "uv_over_geometry": 0.93195,
+        "edge_stretch_p50": 1.0773,
+        "edge_stretch_p95": 1.6138,
+        "edge_stretch_p99": 2.2756,
+        "edge_stretch_max": 5.2837,
+        "edge_count": 924
+      }
+    },
+    "PhoneGuy_Coat_LOD1": {
+      "LOD0": {
+        "finite": true,
+        "geometry_area": 2.493054,
+        "uv_area": 2.493054,
+        "uv_over_geometry": 1.0,
+        "edge_stretch_p50": 1.0612,
+        "edge_stretch_p95": 1.1825,
+        "edge_stretch_p99": 1.334,
+        "edge_stretch_max": 20.4403,
+        "edge_count": 11256
+      },
+      "candidate_LOD1": {
+        "finite": true,
+        "geometry_area": 2.407833,
+        "uv_area": 2.25211,
+        "uv_over_geometry": 0.93533,
+        "edge_stretch_p50": 1.0687,
+        "edge_stretch_p95": 1.5466,
+        "edge_stretch_p99": 2.1778,
+        "edge_stretch_max": 4.6489,
+        "edge_count": 3936
+      }
+    },
+    "PhoneGuy_CoatSkirt_LOD1": {
+      "LOD0": {
+        "finite": true,
+        "geometry_area": 0.607203,
+        "uv_area": 0.607203,
+        "uv_over_geometry": 1.0,
+        "edge_stretch_p50": 1.0621,
+        "edge_stretch_p95": 1.2049,
+        "edge_stretch_p99": 1.345,
+        "edge_stretch_max": 1.4435,
+        "edge_count": 2016
+      },
+      "candidate_LOD1": {
+        "finite": true,
+        "geometry_area": 0.607203,
+        "uv_area": 0.607203,
+        "uv_over_geometry": 1.0,
+        "edge_stretch_p50": 1.0621,
+        "edge_stretch_p95": 1.2049,
+        "edge_stretch_p99": 1.345,
+        "edge_stretch_max": 1.4435,
+        "edge_count": 2016
+      }
+    },
+    "PhoneGuy_Hat_LOD1": {
+      "LOD0": {
+        "finite": true,
+        "geometry_area": 0.255591,
+        "uv_area": 0.255591,
+        "uv_over_geometry": 1.0,
+        "edge_stretch_p50": 1.0706,
+        "edge_stretch_p95": 1.2094,
+        "edge_stretch_p99": 1.3133,
+        "edge_stretch_max": 1.3771,
+        "edge_count": 2304
+      },
+      "candidate_LOD1": {
+        "finite": true,
+        "geometry_area": 0.25407,
+        "uv_area": 0.228871,
+        "uv_over_geometry": 0.90082,
+        "edge_stretch_p50": 1.0529,
+        "edge_stretch_p95": 1.4948,
+        "edge_stretch_p99": 1.6477,
+        "edge_stretch_max": 1.676,
+        "edge_count": 804
+      }
+    },
+    "PhoneGuy_Sash_LOD1": {
+      "LOD0": {
+        "finite": true,
+        "geometry_area": 0.172779,
+        "uv_area": 0.172779,
+        "uv_over_geometry": 1.0,
+        "edge_stretch_p50": 1.0443,
+        "edge_stretch_p95": 1.0647,
+        "edge_stretch_p99": 1.2295,
+        "edge_stretch_max": 1.2295,
+        "edge_count": 672
+      },
+      "candidate_LOD1": {
+        "finite": true,
+        "geometry_area": 0.172779,
+        "uv_area": 0.172779,
+        "uv_over_geometry": 1.0,
+        "edge_stretch_p50": 1.0443,
+        "edge_stretch_p95": 1.0647,
+        "edge_stretch_p99": 1.2295,
+        "edge_stretch_max": 1.2295,
+        "edge_count": 672
+      }
+    },
+    "PhoneGuy_Trousers_LOD1": {
+      "LOD0": {
+        "finite": true,
+        "geometry_area": 1.444307,
+        "uv_area": 1.444306,
+        "uv_over_geometry": 1.0,
+        "edge_stretch_p50": 1.0537,
+        "edge_stretch_p95": 1.1106,
+        "edge_stretch_p99": 1.2478,
+        "edge_stretch_max": 1.7701,
+        "edge_count": 5940
+      },
+      "candidate_LOD1": {
+        "finite": true,
+        "geometry_area": 1.433597,
+        "uv_area": 1.357001,
+        "uv_over_geometry": 0.94657,
+        "edge_stretch_p50": 1.0567,
+        "edge_stretch_p95": 1.4471,
+        "edge_stretch_p99": 2.0029,
+        "edge_stretch_max": 3.6948,
+        "edge_count": 2076
+      }
+    },
+    "Tamara_BootLeft_LOD1": {
+      "LOD0": {
+        "finite": true,
+        "geometry_area": 0.589236,
+        "uv_area": 0.589236,
+        "uv_over_geometry": 1.0,
+        "edge_stretch_p50": 1.0555,
+        "edge_stretch_p95": 1.2032,
+        "edge_stretch_p99": 1.3369,
+        "edge_stretch_max": 1.6081,
+        "edge_count": 4032
+      },
+      "candidate_LOD1": {
+        "finite": true,
+        "geometry_area": 0.568634,
+        "uv_area": 0.530708,
+        "uv_over_geometry": 0.9333,
+        "edge_stretch_p50": 1.066,
+        "edge_stretch_p95": 1.5124,
+        "edge_stretch_p99": 1.8725,
+        "edge_stretch_max": 4.2502,
+        "edge_count": 1410
+      }
+    },
+    "Tamara_BootRight_LOD1": {
+      "LOD0": {
+        "finite": true,
+        "geometry_area": 0.589236,
+        "uv_area": 0.589236,
+        "uv_over_geometry": 1.0,
+        "edge_stretch_p50": 1.0553,
+        "edge_stretch_p95": 1.2082,
+        "edge_stretch_p99": 1.3411,
+        "edge_stretch_max": 1.6213,
+        "edge_count": 4032
+      },
+      "candidate_LOD1": {
+        "finite": true,
+        "geometry_area": 0.569598,
+        "uv_area": 0.531532,
+        "uv_over_geometry": 0.93317,
+        "edge_stretch_p50": 1.0665,
+        "edge_stretch_p95": 1.4826,
+        "edge_stretch_p99": 1.8556,
+        "edge_stretch_max": 2.6956,
+        "edge_count": 1410
+      }
+    },
+    "Tamara_Sash_LOD1": {
+      "LOD0": {
+        "finite": true,
+        "geometry_area": 0.174075,
+        "uv_area": 0.174075,
+        "uv_over_geometry": 1.0,
+        "edge_stretch_p50": 1.0619,
+        "edge_stretch_p95": 1.2027,
+        "edge_stretch_p99": 1.3479,
+        "edge_stretch_max": 1.6098,
+        "edge_count": 2448
+      },
+      "candidate_LOD1": {
+        "finite": true,
+        "geometry_area": 0.173101,
+        "uv_area": 0.161716,
+        "uv_over_geometry": 0.93423,
+        "edge_stretch_p50": 1.0639,
+        "edge_stretch_p95": 1.3758,
+        "edge_stretch_p99": 1.718,
+        "edge_stretch_max": 3.6901,
+        "edge_count": 852
+      }
+    },
+    "Tamara_Trousers_LOD1": {
+      "LOD0": {
+        "finite": true,
+        "geometry_area": 0.458372,
+        "uv_area": 0.458372,
+        "uv_over_geometry": 1.0,
+        "edge_stretch_p50": 1.0578,
+        "edge_stretch_p95": 1.1396,
+        "edge_stretch_p99": 1.2732,
+        "edge_stretch_max": 1.3459,
+        "edge_count": 2184
+      },
+      "candidate_LOD1": {
+        "finite": true,
+        "geometry_area": 0.439581,
+        "uv_area": 0.402014,
+        "uv_over_geometry": 0.91454,
+        "edge_stretch_p50": 1.0572,
+        "edge_stretch_p95": 1.4795,
+        "edge_stretch_p99": 1.6894,
+        "edge_stretch_max": 8.3912,
+        "edge_count": 762
+      }
+    },
+    "TimurHazrat_BootLeft_LOD1": {
+      "LOD0": {
+        "finite": true,
+        "geometry_area": 0.228959,
+        "uv_area": 0.228959,
+        "uv_over_geometry": 1.0,
+        "edge_stretch_p50": 1.0597,
+        "edge_stretch_p95": 1.2301,
+        "edge_stretch_p99": 1.4372,
+        "edge_stretch_max": 1.8776,
+        "edge_count": 2640
+      },
+      "candidate_LOD1": {
+        "finite": true,
+        "geometry_area": 0.216483,
+        "uv_area": 0.199616,
+        "uv_over_geometry": 0.92208,
+        "edge_stretch_p50": 1.0787,
+        "edge_stretch_p95": 1.704,
+        "edge_stretch_p99": 2.3673,
+        "edge_stretch_max": 5.1916,
+        "edge_count": 924
+      }
+    },
+    "TimurHazrat_BootRight_LOD1": {
+      "LOD0": {
+        "finite": true,
+        "geometry_area": 0.228953,
+        "uv_area": 0.228953,
+        "uv_over_geometry": 1.0,
+        "edge_stretch_p50": 1.0598,
+        "edge_stretch_p95": 1.2261,
+        "edge_stretch_p99": 1.446,
+        "edge_stretch_max": 1.8776,
+        "edge_count": 2640
+      },
+      "candidate_LOD1": {
+        "finite": true,
+        "geometry_area": 0.21576,
+        "uv_area": 0.200196,
+        "uv_over_geometry": 0.92787,
+        "edge_stretch_p50": 1.0772,
+        "edge_stretch_p95": 1.6249,
+        "edge_stretch_p99": 2.2943,
+        "edge_stretch_max": 5.3597,
+        "edge_count": 924
+      }
+    },
+    "TimurHazrat_Coat_LOD1": {
+      "LOD0": {
+        "finite": true,
+        "geometry_area": 2.40469,
+        "uv_area": 2.40469,
+        "uv_over_geometry": 1.0,
+        "edge_stretch_p50": 1.0668,
+        "edge_stretch_p95": 1.2011,
+        "edge_stretch_p99": 1.3356,
+        "edge_stretch_max": 4.6352,
+        "edge_count": 11424
+      },
+      "candidate_LOD1": {
+        "finite": true,
+        "geometry_area": 2.32358,
+        "uv_area": 2.162309,
+        "uv_over_geometry": 0.93059,
+        "edge_stretch_p50": 1.0744,
+        "edge_stretch_p95": 1.6044,
+        "edge_stretch_p99": 2.108,
+        "edge_stretch_max": 9.206,
+        "edge_count": 3996
+      }
+    },
+    "TimurHazrat_CoatSkirt_LOD1": {
+      "LOD0": {
+        "finite": true,
+        "geometry_area": 1.407044,
+        "uv_area": 1.407044,
+        "uv_over_geometry": 1.0,
+        "edge_stretch_p50": 1.0503,
+        "edge_stretch_p95": 1.1884,
+        "edge_stretch_p99": 1.2526,
+        "edge_stretch_max": 1.3993,
+        "edge_count": 2016
+      },
+      "candidate_LOD1": {
+        "finite": true,
+        "geometry_area": 1.407044,
+        "uv_area": 1.407044,
+        "uv_over_geometry": 1.0,
+        "edge_stretch_p50": 1.0503,
+        "edge_stretch_p95": 1.1884,
+        "edge_stretch_p99": 1.2526,
+        "edge_stretch_max": 1.3993,
+        "edge_count": 2016
+      }
+    },
+    "TimurHazrat_Trousers_LOD1": {
+      "LOD0": {
+        "finite": true,
+        "geometry_area": 0.819783,
+        "uv_area": 0.819783,
+        "uv_over_geometry": 1.0,
+        "edge_stretch_p50": 1.0512,
+        "edge_stretch_p95": 1.1358,
+        "edge_stretch_p99": 1.2666,
+        "edge_stretch_max": 1.7989,
+        "edge_count": 4236
+      },
+      "candidate_LOD1": {
+        "finite": true,
+        "geometry_area": 0.81339,
+        "uv_area": 0.755351,
+        "uv_over_geometry": 0.92865,
+        "edge_stretch_p50": 1.0568,
+        "edge_stretch_p95": 1.6161,
+        "edge_stretch_p99": 2.5911,
+        "edge_stretch_max": 8.3814,
+        "edge_count": 1482
+      }
+    }
+  },
+  "target_count": 83,
+  "new_lod0_count": 40,
+  "lod1_pairs": 43
+}

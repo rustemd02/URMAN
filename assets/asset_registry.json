@@ -2818,8 +2818,8 @@
       "id": "character.act1.human.v2",
       "source": "assets/source/blender/urman_character_kit_v2.blend",
       "derived": "game/assets/generated/urman_character_kit_v2.glb",
-      "sourceSha256": "346bbbb283090472def6a7977c17557750510bdee0cfb9eaf759882542b2dc15",
-      "derivedSha256": "93d29f993716083f5e8d4989953dbc881897d06e7e13d0b50b0912fceb4f5bce",
+      "sourceSha256": "4364c986d42aa3a944f473e14959ea577dac67d57f03e9f9b7e1666f9288a6d1",
+      "derivedSha256": "9ad3080652d71117a63303e8eabb2662d7f43cdf7b69dae9b0680b69d0a32a50",
       "generator": "tools/blender/generate_character_kit_v2.py",
       "license": "CC0 1.0 (Quaternius bodies/hair/motion; MakeHuman/MPFB Tamara age-study head and old-female albedo) + project-original clothing, fitting and clip selection",
       "scale": 1.0,
@@ -2837,7 +2837,7 @@
       "lod": "LOD0 + Decimate LOD1 (35%); Godot 0-18m / 14-48m",
       "status": "art candidate 2026-09-27 hair-tone: moderate crown smoothing preserves waves; lighter grey hair; warm face factor(.8,.68,.57). Strong smoothing rejected. Native front/profile/Idle/Talk inspected;9 rigs/36 clips and other meshes exact;all14 embedded images unchanged;generator bindings/weights/material/geometry match. Same DLL prior full scene/skip81/cold11 in aged-head-scene/cold-load, not rerun for this cosmetic-only edit. Human likeness, continuous gait/audio remain open. Evidence docs/production/tamara_mvp_2026-09-26/hair-tone/.",
       "releaseDisposition": "include-in-act1-release; runtime-loaded by GeneratedCharacterKitDressing for human prefixes",
-      "uv": "PW-032 13.10.2026: metric rest UV/cloth_uv_units added only to TimurHazrat Coat, CoatSkirt and Trousers LOD0/1 (six meshes), using existing metric_cloth_uv/export_kit. Other source meshes/rig/animation/materials preserved semantically; UV seams may duplicate vertices without changing triangles. Native Timur animation/art review pending in PW-032."
+      "uv": "PW-03213.10.2026: existing six Timur garment rest UV extended by80 generic human cloth nodes;3 Timur LOD1 rebuilt via existing metricLOD0→Decimate.35 for UV coherence. 83targetnodes; protected mixed Tamara printUV0/Timur cap+sash unchanged. Geometry/rig/animation/material/image semantics preserved. UV seams +37667vertices/+3618904GLBbytes; triangles unchanged. Native gait/LOD/art review pending. Evidence evidence/PW-032/human-rest-uv-20261013/."
     },
     {
       "id": "texture.act1.shop-sign-ashamlyklar",

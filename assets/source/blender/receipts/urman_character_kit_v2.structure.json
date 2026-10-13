@@ -1507,7 +1507,7 @@
       ]
      },
      "triangles": 4332,
-     "vertices": 2192
+     "vertices": 4353
     }
    ]
   },
@@ -1545,7 +1545,7 @@
       ]
      },
      "triangles": 732,
-     "vertices": 378
+     "vertices": 775
     }
    ]
   },
@@ -1583,7 +1583,7 @@
       ]
      },
      "triangles": 1356,
-     "vertices": 684
+     "vertices": 1431
     }
    ]
   },
@@ -1621,7 +1621,7 @@
       ]
      },
      "triangles": 1356,
-     "vertices": 684
+     "vertices": 1431
     }
    ]
   },
@@ -1659,7 +1659,7 @@
       ]
      },
      "triangles": 2180,
-     "vertices": 1098
+     "vertices": 2148
     }
    ]
   },
@@ -1734,7 +1734,7 @@
       ]
      },
      "triangles": 474,
-     "vertices": 243
+     "vertices": 594
     }
    ]
   },
@@ -1772,7 +1772,7 @@
       ]
      },
      "triangles": 474,
-     "vertices": 243
+     "vertices": 603
     }
    ]
   },
@@ -1810,7 +1810,7 @@
       ]
      },
      "triangles": 1516,
-     "vertices": 784
+     "vertices": 1854
     }
    ]
   },
@@ -1892,6 +1892,7 @@
       "JOINTS_0",
       "NORMAL",
       "POSITION",
+      "TEXCOORD_0",
       "WEIGHTS_0"
      ],
      "material": "4a3f44__cloth",
@@ -1909,7 +1910,7 @@
       ]
      },
      "triangles": 224,
-     "vertices": 112
+     "vertices": 240
     }
    ]
   },
@@ -1921,6 +1922,7 @@
       "JOINTS_0",
       "NORMAL",
       "POSITION",
+      "TEXCOORD_0",
       "WEIGHTS_0"
      ],
      "material": "4a3f44__cloth",
@@ -1938,7 +1940,7 @@
       ]
      },
      "triangles": 224,
-     "vertices": 112
+     "vertices": 240
     }
    ]
   },
@@ -1976,7 +1978,7 @@
       ]
      },
      "triangles": 762,
-     "vertices": 389
+     "vertices": 927
     }
    ]
   },
@@ -1988,6 +1990,7 @@
       "JOINTS_0",
       "NORMAL",
       "POSITION",
+      "TEXCOORD_0",
       "WEIGHTS_0"
      ],
      "material": "4a3f44__cloth",
@@ -2017,6 +2020,7 @@
       "JOINTS_0",
       "NORMAL",
       "POSITION",
+      "TEXCOORD_0",
       "WEIGHTS_0"
      ],
      "material": "4a3f44__cloth",
@@ -2072,7 +2076,7 @@
       ]
      },
      "triangles": 256,
-     "vertices": 140
+     "vertices": 323
     }
    ]
   },
@@ -2199,7 +2203,7 @@
       ]
      },
      "triangles": 3808,
-     "vertices": 1916
+     "vertices": 3771
     }
    ]
   },
@@ -2233,7 +2237,7 @@
       ]
      },
      "triangles": 1616,
-     "vertices": 812
+     "vertices": 1333
     }
    ]
   },
@@ -2267,7 +2271,7 @@
       ]
      },
      "triangles": 1380,
-     "vertices": 696
+     "vertices": 1515
     }
    ]
   },
@@ -2301,7 +2305,7 @@
       ]
      },
      "triangles": 1380,
-     "vertices": 696
+     "vertices": 1515
     }
    ]
   },
@@ -2368,7 +2372,7 @@
       ]
      },
      "triangles": 482,
-     "vertices": 247
+     "vertices": 623
     }
    ]
   },
@@ -2402,7 +2406,7 @@
       ]
      },
      "triangles": 482,
-     "vertices": 247
+     "vertices": 626
     }
    ]
   },
@@ -2414,6 +2418,7 @@
       "JOINTS_0",
       "NORMAL",
       "POSITION",
+      "TEXCOORD_0",
       "WEIGHTS_0"
      ],
      "material": "5e4638__sheepskin",
@@ -2443,6 +2448,7 @@
       "JOINTS_0",
       "NORMAL",
       "POSITION",
+      "TEXCOORD_0",
       "WEIGHTS_0"
      ],
      "material": "5e4638__sheepskin",
@@ -2494,7 +2500,7 @@
       ]
      },
      "triangles": 1332,
-     "vertices": 678
+     "vertices": 1532
     }
    ]
   },
@@ -2636,6 +2642,7 @@
       "JOINTS_0",
       "NORMAL",
       "POSITION",
+      "TEXCOORD_0",
       "WEIGHTS_0"
      ],
      "material": "6a5846__fur",
@@ -2653,7 +2660,7 @@
       ]
      },
      "triangles": 792,
-     "vertices": 402
+     "vertices": 682
     }
    ]
   },
@@ -2665,6 +2672,7 @@
       "JOINTS_0",
       "NORMAL",
       "POSITION",
+      "TEXCOORD_0",
       "WEIGHTS_0"
      ],
      "material": "6a5846__fur",
@@ -2682,7 +2690,7 @@
       ]
      },
      "triangles": 274,
-     "vertices": 144
+     "vertices": 298
     }
    ]
   },
@@ -2694,6 +2702,7 @@
       "JOINTS_0",
       "NORMAL",
       "POSITION",
+      "TEXCOORD_0",
       "WEIGHTS_0"
      ],
      "material": "2e2924__cloth",
@@ -2711,7 +2720,7 @@
       ]
      },
      "triangles": 224,
-     "vertices": 112
+     "vertices": 240
     }
    ]
   },
@@ -2723,6 +2732,7 @@
       "JOINTS_0",
       "NORMAL",
       "POSITION",
+      "TEXCOORD_0",
       "WEIGHTS_0"
      ],
      "material": "2e2924__cloth",
@@ -2740,7 +2750,7 @@
       ]
      },
      "triangles": 224,
-     "vertices": 112
+     "vertices": 240
     }
    ]
   },
@@ -2774,7 +2784,7 @@
       ]
      },
      "triangles": 564,
-     "vertices": 286
+     "vertices": 565
     }
    ]
   },
@@ -2849,7 +2859,7 @@
       ]
      },
      "triangles": 4348,
-     "vertices": 2200
+     "vertices": 4376
     }
    ]
   },
@@ -2887,7 +2897,7 @@
       ]
      },
      "triangles": 1452,
-     "vertices": 738
+     "vertices": 1321
     }
    ]
   },
@@ -2925,7 +2935,7 @@
       ]
      },
      "triangles": 1356,
-     "vertices": 684
+     "vertices": 1451
     }
    ]
   },
@@ -2963,7 +2973,7 @@
       ]
      },
      "triangles": 1356,
-     "vertices": 684
+     "vertices": 1451
     }
    ]
   },
@@ -3038,7 +3048,7 @@
       ]
      },
      "triangles": 474,
-     "vertices": 243
+     "vertices": 582
     }
    ]
   },
@@ -3076,7 +3086,7 @@
       ]
      },
      "triangles": 474,
-     "vertices": 243
+     "vertices": 593
     }
    ]
   },
@@ -3088,6 +3098,7 @@
       "JOINTS_0",
       "NORMAL",
       "POSITION",
+      "TEXCOORD_0",
       "WEIGHTS_0"
      ],
      "material": "dfe3dc__cloth",
@@ -3117,6 +3128,7 @@
       "JOINTS_0",
       "NORMAL",
       "POSITION",
+      "TEXCOORD_0",
       "WEIGHTS_0"
      ],
      "material": "dfe3dc__cloth",
@@ -3172,7 +3184,7 @@
       ]
      },
      "triangles": 1520,
-     "vertices": 786
+     "vertices": 1872
     }
    ]
   },
@@ -3314,6 +3326,7 @@
       "JOINTS_0",
       "NORMAL",
       "POSITION",
+      "TEXCOORD_0",
       "WEIGHTS_0"
      ],
      "material": "c9cec6__cloth",
@@ -3331,7 +3344,7 @@
       ]
      },
      "triangles": 224,
-     "vertices": 112
+     "vertices": 240
     }
    ]
   },
@@ -3343,6 +3356,7 @@
       "JOINTS_0",
       "NORMAL",
       "POSITION",
+      "TEXCOORD_0",
       "WEIGHTS_0"
      ],
      "material": "c9cec6__cloth",
@@ -3360,7 +3374,7 @@
       ]
      },
      "triangles": 224,
-     "vertices": 112
+     "vertices": 240
     }
    ]
   },
@@ -3398,7 +3412,7 @@
       ]
      },
      "triangles": 508,
-     "vertices": 266
+     "vertices": 589
     }
    ]
   },
@@ -3465,7 +3479,7 @@
       ]
      },
      "triangles": 3752,
-     "vertices": 1888
+     "vertices": 3629
     }
    ]
   },
@@ -3499,7 +3513,7 @@
       ]
      },
      "triangles": 1980,
-     "vertices": 994
+     "vertices": 1606
     }
    ]
   },
@@ -3533,7 +3547,7 @@
       ]
      },
      "triangles": 880,
-     "vertices": 444
+     "vertices": 1034
     }
    ]
   },
@@ -3567,7 +3581,7 @@
       ]
      },
      "triangles": 880,
-     "vertices": 444
+     "vertices": 1034
     }
    ]
   },
@@ -3634,7 +3648,7 @@
       ]
      },
      "triangles": 308,
-     "vertices": 158
+     "vertices": 428
     }
    ]
   },
@@ -3668,7 +3682,7 @@
       ]
      },
      "triangles": 308,
-     "vertices": 158
+     "vertices": 427
     }
    ]
   },
@@ -3680,6 +3694,7 @@
       "JOINTS_0",
       "NORMAL",
       "POSITION",
+      "TEXCOORD_0",
       "WEIGHTS_0"
      ],
      "material": "4c5566__cloth",
@@ -3709,6 +3724,7 @@
       "JOINTS_0",
       "NORMAL",
       "POSITION",
+      "TEXCOORD_0",
       "WEIGHTS_0"
      ],
      "material": "4c5566__cloth",
@@ -3760,7 +3776,7 @@
       ]
      },
      "triangles": 1312,
-     "vertices": 668
+     "vertices": 1470
     }
    ]
   },
@@ -3842,6 +3858,7 @@
       "JOINTS_0",
       "NORMAL",
       "POSITION",
+      "TEXCOORD_0",
       "WEIGHTS_0"
      ],
      "material": "565f6e__knit",
@@ -3859,7 +3876,7 @@
       ]
      },
      "triangles": 768,
-     "vertices": 386
+     "vertices": 626
     }
    ]
   },
@@ -3871,6 +3888,7 @@
       "JOINTS_0",
       "NORMAL",
       "POSITION",
+      "TEXCOORD_0",
       "WEIGHTS_0"
      ],
      "material": "565f6e__knit",
@@ -3888,7 +3906,7 @@
       ]
      },
      "triangles": 268,
-     "vertices": 136
+     "vertices": 268
     }
    ]
   },
@@ -3900,6 +3918,7 @@
       "JOINTS_0",
       "NORMAL",
       "POSITION",
+      "TEXCOORD_0",
       "WEIGHTS_0"
      ],
      "material": "343c49__cloth",
@@ -3917,7 +3936,7 @@
       ]
      },
      "triangles": 224,
-     "vertices": 112
+     "vertices": 240
     }
    ]
   },
@@ -3929,6 +3948,7 @@
       "JOINTS_0",
       "NORMAL",
       "POSITION",
+      "TEXCOORD_0",
       "WEIGHTS_0"
      ],
      "material": "343c49__cloth",
@@ -3946,7 +3966,7 @@
       ]
      },
      "triangles": 224,
-     "vertices": 112
+     "vertices": 240
     }
    ]
   },
@@ -3980,7 +4000,7 @@
       ]
      },
      "triangles": 692,
-     "vertices": 350
+     "vertices": 666
     }
    ]
   },
@@ -4047,7 +4067,7 @@
       ]
      },
      "triangles": 3808,
-     "vertices": 1916
+     "vertices": 3774
     }
    ]
   },
@@ -4081,7 +4101,7 @@
       ]
      },
      "triangles": 1616,
-     "vertices": 812
+     "vertices": 1335
     }
    ]
   },
@@ -4115,7 +4135,7 @@
       ]
      },
      "triangles": 1384,
-     "vertices": 698
+     "vertices": 1507
     }
    ]
   },
@@ -4149,7 +4169,7 @@
       ]
      },
      "triangles": 1384,
-     "vertices": 698
+     "vertices": 1507
     }
    ]
   },
@@ -4216,7 +4236,7 @@
       ]
      },
      "triangles": 484,
-     "vertices": 248
+     "vertices": 618
     }
    ]
   },
@@ -4250,7 +4270,7 @@
       ]
      },
      "triangles": 484,
-     "vertices": 248
+     "vertices": 620
     }
    ]
   },
@@ -4262,6 +4282,7 @@
       "JOINTS_0",
       "NORMAL",
       "POSITION",
+      "TEXCOORD_0",
       "WEIGHTS_0"
      ],
      "material": "414840__cloth",
@@ -4291,6 +4312,7 @@
       "JOINTS_0",
       "NORMAL",
       "POSITION",
+      "TEXCOORD_0",
       "WEIGHTS_0"
      ],
      "material": "414840__cloth",
@@ -4342,7 +4364,7 @@
       ]
      },
      "triangles": 1332,
-     "vertices": 678
+     "vertices": 1525
     }
    ]
   },
@@ -4484,6 +4506,7 @@
       "JOINTS_0",
       "NORMAL",
       "POSITION",
+      "TEXCOORD_0",
       "WEIGHTS_0"
      ],
      "material": "4a4038__fur",
@@ -4501,7 +4524,7 @@
       ]
      },
      "triangles": 792,
-     "vertices": 402
+     "vertices": 682
     }
    ]
   },
@@ -4513,6 +4536,7 @@
       "JOINTS_0",
       "NORMAL",
       "POSITION",
+      "TEXCOORD_0",
       "WEIGHTS_0"
      ],
      "material": "4a4038__fur",
@@ -4530,7 +4554,7 @@
       ]
      },
      "triangles": 272,
-     "vertices": 144
+     "vertices": 279
     }
    ]
   },
@@ -4542,6 +4566,7 @@
       "JOINTS_0",
       "NORMAL",
       "POSITION",
+      "TEXCOORD_0",
       "WEIGHTS_0"
      ],
      "material": "2a2b27__cloth",
@@ -4559,7 +4584,7 @@
       ]
      },
      "triangles": 224,
-     "vertices": 112
+     "vertices": 240
     }
    ]
   },
@@ -4571,6 +4596,7 @@
       "JOINTS_0",
       "NORMAL",
       "POSITION",
+      "TEXCOORD_0",
       "WEIGHTS_0"
      ],
      "material": "2a2b27__cloth",
@@ -4588,7 +4614,7 @@
       ]
      },
      "triangles": 224,
-     "vertices": 112
+     "vertices": 240
     }
    ]
   },
@@ -4622,7 +4648,7 @@
       ]
      },
      "triangles": 564,
-     "vertices": 286
+     "vertices": 565
     }
    ]
   },
@@ -5379,7 +5405,7 @@
       ]
      },
      "triangles": 816,
-     "vertices": 790
+     "vertices": 842
     }
    ]
   },
@@ -5417,7 +5443,7 @@
       ]
      },
      "triangles": 728,
-     "vertices": 376
+     "vertices": 762
     }
    ]
   },
@@ -5455,7 +5481,7 @@
       ]
      },
      "triangles": 1344,
-     "vertices": 678
+     "vertices": 1342
     }
    ]
   },
@@ -5493,7 +5519,7 @@
       ]
      },
      "triangles": 1344,
-     "vertices": 678
+     "vertices": 1342
     }
    ]
   },
@@ -5605,7 +5631,7 @@
       ]
      },
      "triangles": 470,
-     "vertices": 241
+     "vertices": 564
     }
    ]
   },
@@ -5643,7 +5669,7 @@
       ]
      },
      "triangles": 470,
-     "vertices": 241
+     "vertices": 560
     }
    ]
   },
@@ -5912,7 +5938,7 @@
       ]
      },
      "triangles": 284,
-     "vertices": 349
+     "vertices": 366
     }
    ]
   },
@@ -6010,7 +6036,7 @@
       ]
      },
      "triangles": 254,
-     "vertices": 139
+     "vertices": 330
     }
    ]
   },
@@ -6205,7 +6231,7 @@
       ]
      },
      "triangles": 880,
-     "vertices": 444
+     "vertices": 1032
     }
    ]
   },
@@ -6239,7 +6265,7 @@
       ]
      },
      "triangles": 880,
-     "vertices": 444
+     "vertices": 1032
     }
    ]
   },
@@ -6306,7 +6332,7 @@
       ]
      },
      "triangles": 308,
-     "vertices": 158
+     "vertices": 429
     }
    ]
   },
@@ -6340,7 +6366,7 @@
       ]
      },
      "triangles": 308,
-     "vertices": 158
+     "vertices": 428
     }
    ]
   },
@@ -6434,7 +6460,7 @@
       ]
      },
      "triangles": 1332,
-     "vertices": 1695
+     "vertices": 1557
     }
    ]
   },
@@ -6714,7 +6740,7 @@
       ]
      },
      "triangles": 494,
-     "vertices": 513
+     "vertices": 530
     }
    ]
   },
@@ -7762,6 +7788,9 @@
   },
   {
    "children": [],
+   "extras": {
+    "cloth_uv_units": "metres; rest surface; runtime repeat 0.5m"
+   },
    "index": 158,
    "mesh": "Gulsina_Body_LOD0.003",
    "name": "Gulsina_BootLeft_LOD0",
@@ -7797,6 +7826,9 @@
   },
   {
    "children": [],
+   "extras": {
+    "cloth_uv_units": "metres; transferred from LOD0 rest surface; runtime repeat 0.5m"
+   },
    "index": 159,
    "mesh": "Gulsina_BootLeft_LOD1",
    "name": "Gulsina_BootLeft_LOD1",
@@ -7832,6 +7864,9 @@
   },
   {
    "children": [],
+   "extras": {
+    "cloth_uv_units": "metres; rest surface; runtime repeat 0.5m"
+   },
    "index": 160,
    "mesh": "Gulsina_Body_LOD0.004",
    "name": "Gulsina_BootRight_LOD0",
@@ -7867,6 +7902,9 @@
   },
   {
    "children": [],
+   "extras": {
+    "cloth_uv_units": "metres; transferred from LOD0 rest surface; runtime repeat 0.5m"
+   },
    "index": 161,
    "mesh": "Gulsina_BootRight_LOD1",
    "name": "Gulsina_BootRight_LOD1",
@@ -7902,6 +7940,9 @@
   },
   {
    "children": [],
+   "extras": {
+    "cloth_uv_units": "metres; rest surface; runtime repeat 0.5m"
+   },
    "index": 162,
    "mesh": "Gulsina_Body_LOD0.001",
    "name": "Gulsina_Coat_LOD0",
@@ -7937,6 +7978,9 @@
   },
   {
    "children": [],
+   "extras": {
+    "cloth_uv_units": "metres; transferred from LOD0 rest surface; runtime repeat 0.5m"
+   },
    "index": 163,
    "mesh": "Gulsina_Coat_LOD1",
    "name": "Gulsina_Coat_LOD1",
@@ -8172,6 +8216,9 @@
   },
   {
    "children": [],
+   "extras": {
+    "cloth_uv_units": "metres; rest surface; runtime repeat 0.5m"
+   },
    "index": 168,
    "mesh": "Gulsina_Sash_LOD0",
    "name": "Gulsina_Sash_LOD0",
@@ -8207,6 +8254,9 @@
   },
   {
    "children": [],
+   "extras": {
+    "cloth_uv_units": "metres; transferred from LOD0 rest surface; runtime repeat 0.5m"
+   },
    "index": 169,
    "mesh": "Gulsina_Sash_LOD1",
    "name": "Gulsina_Sash_LOD1",
@@ -8242,6 +8292,9 @@
   },
   {
    "children": [],
+   "extras": {
+    "cloth_uv_units": "metres; rest surface; runtime repeat 0.5m"
+   },
    "index": 170,
    "mesh": "Gulsina_Body_LOD0.005",
    "name": "Gulsina_Scarf_LOD0",
@@ -8277,6 +8330,9 @@
   },
   {
    "children": [],
+   "extras": {
+    "cloth_uv_units": "metres; transferred from LOD0 rest surface; runtime repeat 0.5m"
+   },
    "index": 171,
    "mesh": "Gulsina_Scarf_LOD1",
    "name": "Gulsina_Scarf_LOD1",
@@ -8312,6 +8368,9 @@
   },
   {
    "children": [],
+   "extras": {
+    "cloth_uv_units": "metres; rest surface; runtime repeat 0.5m"
+   },
    "index": 172,
    "mesh": "Gulsina_Skirt_LOD0",
    "name": "Gulsina_Skirt_LOD0",
@@ -8347,6 +8406,9 @@
   },
   {
    "children": [],
+   "extras": {
+    "cloth_uv_units": "metres; transferred from LOD0 rest surface; runtime repeat 0.5m"
+   },
    "index": 173,
    "mesh": "Gulsina_Skirt_LOD1",
    "name": "Gulsina_Skirt_LOD1",
@@ -8382,6 +8444,9 @@
   },
   {
    "children": [],
+   "extras": {
+    "cloth_uv_units": "metres; rest surface; runtime repeat 0.5m"
+   },
    "index": 174,
    "mesh": "Gulsina_Body_LOD0.002",
    "name": "Gulsina_Trousers_LOD0",
@@ -8417,6 +8482,9 @@
   },
   {
    "children": [],
+   "extras": {
+    "cloth_uv_units": "metres; transferred from LOD0 rest surface; runtime repeat 0.5m"
+   },
    "index": 175,
    "mesh": "Gulsina_Trousers_LOD1",
    "name": "Gulsina_Trousers_LOD1",
@@ -8922,6 +8990,9 @@
   },
   {
    "children": [],
+   "extras": {
+    "cloth_uv_units": "metres; rest surface; runtime repeat 0.5m"
+   },
    "index": 69,
    "mesh": "Mansur_Body_LOD0.003",
    "name": "Mansur_BootLeft_LOD0",
@@ -8957,6 +9028,9 @@
   },
   {
    "children": [],
+   "extras": {
+    "cloth_uv_units": "metres; transferred from LOD0 rest surface; runtime repeat 0.5m"
+   },
    "index": 70,
    "mesh": "Mansur_BootLeft_LOD1",
    "name": "Mansur_BootLeft_LOD1",
@@ -8992,6 +9066,9 @@
   },
   {
    "children": [],
+   "extras": {
+    "cloth_uv_units": "metres; rest surface; runtime repeat 0.5m"
+   },
    "index": 71,
    "mesh": "Mansur_Body_LOD0.004",
    "name": "Mansur_BootRight_LOD0",
@@ -9027,6 +9104,9 @@
   },
   {
    "children": [],
+   "extras": {
+    "cloth_uv_units": "metres; transferred from LOD0 rest surface; runtime repeat 0.5m"
+   },
    "index": 72,
    "mesh": "Mansur_BootRight_LOD1",
    "name": "Mansur_BootRight_LOD1",
@@ -9062,6 +9142,9 @@
   },
   {
    "children": [],
+   "extras": {
+    "cloth_uv_units": "metres; rest surface; runtime repeat 0.5m"
+   },
    "index": 75,
    "mesh": "Mansur_CoatSkirt_LOD0",
    "name": "Mansur_CoatSkirt_LOD0",
@@ -9097,6 +9180,9 @@
   },
   {
    "children": [],
+   "extras": {
+    "cloth_uv_units": "metres; transferred from LOD0 rest surface; runtime repeat 0.5m"
+   },
    "index": 76,
    "mesh": "Mansur_CoatSkirt_LOD1",
    "name": "Mansur_CoatSkirt_LOD1",
@@ -9132,6 +9218,9 @@
   },
   {
    "children": [],
+   "extras": {
+    "cloth_uv_units": "metres; rest surface; runtime repeat 0.5m"
+   },
    "index": 73,
    "mesh": "Mansur_Body_LOD0.001",
    "name": "Mansur_Coat_LOD0",
@@ -9167,6 +9256,9 @@
   },
   {
    "children": [],
+   "extras": {
+    "cloth_uv_units": "metres; transferred from LOD0 rest surface; runtime repeat 0.5m"
+   },
    "index": 74,
    "mesh": "Mansur_Coat_LOD1",
    "name": "Mansur_Coat_LOD1",
@@ -9412,6 +9504,9 @@
   },
   {
    "children": [],
+   "extras": {
+    "cloth_uv_units": "metres; rest surface; runtime repeat 0.5m"
+   },
    "index": 83,
    "mesh": "Mansur_Hat_LOD0",
    "name": "Mansur_Hat_LOD0",
@@ -9447,6 +9542,9 @@
   },
   {
    "children": [],
+   "extras": {
+    "cloth_uv_units": "metres; transferred from LOD0 rest surface; runtime repeat 0.5m"
+   },
    "index": 84,
    "mesh": "Mansur_Hat_LOD1",
    "name": "Mansur_Hat_LOD1",
@@ -9546,6 +9644,9 @@
   },
   {
    "children": [],
+   "extras": {
+    "cloth_uv_units": "metres; rest surface; runtime repeat 0.5m"
+   },
    "index": 85,
    "mesh": "Mansur_Sash_LOD0",
    "name": "Mansur_Sash_LOD0",
@@ -9581,6 +9682,9 @@
   },
   {
    "children": [],
+   "extras": {
+    "cloth_uv_units": "metres; transferred from LOD0 rest surface; runtime repeat 0.5m"
+   },
    "index": 86,
    "mesh": "Mansur_Sash_LOD1",
    "name": "Mansur_Sash_LOD1",
@@ -9616,6 +9720,9 @@
   },
   {
    "children": [],
+   "extras": {
+    "cloth_uv_units": "metres; rest surface; runtime repeat 0.5m"
+   },
    "index": 87,
    "mesh": "Mansur_Body_LOD0.002",
    "name": "Mansur_Trousers_LOD0",
@@ -9651,6 +9758,9 @@
   },
   {
    "children": [],
+   "extras": {
+    "cloth_uv_units": "metres; transferred from LOD0 rest surface; runtime repeat 0.5m"
+   },
    "index": 88,
    "mesh": "Mansur_Trousers_LOD1",
    "name": "Mansur_Trousers_LOD1",
@@ -9789,6 +9899,9 @@
   },
   {
    "children": [],
+   "extras": {
+    "cloth_uv_units": "metres; rest surface; runtime repeat 0.5m"
+   },
    "index": 779,
    "mesh": "Naila_Body_LOD0.003",
    "name": "Naila_BootLeft_LOD0",
@@ -9824,6 +9937,9 @@
   },
   {
    "children": [],
+   "extras": {
+    "cloth_uv_units": "metres; transferred from LOD0 rest surface; runtime repeat 0.5m"
+   },
    "index": 780,
    "mesh": "Naila_BootLeft_LOD1",
    "name": "Naila_BootLeft_LOD1",
@@ -9859,6 +9975,9 @@
   },
   {
    "children": [],
+   "extras": {
+    "cloth_uv_units": "metres; rest surface; runtime repeat 0.5m"
+   },
    "index": 781,
    "mesh": "Naila_Body_LOD0.004",
    "name": "Naila_BootRight_LOD0",
@@ -9894,6 +10013,9 @@
   },
   {
    "children": [],
+   "extras": {
+    "cloth_uv_units": "metres; transferred from LOD0 rest surface; runtime repeat 0.5m"
+   },
    "index": 782,
    "mesh": "Naila_BootRight_LOD1",
    "name": "Naila_BootRight_LOD1",
@@ -9929,6 +10051,9 @@
   },
   {
    "children": [],
+   "extras": {
+    "cloth_uv_units": "metres; rest surface; runtime repeat 0.5m"
+   },
    "index": 785,
    "mesh": "Naila_CoatSkirt_LOD0",
    "name": "Naila_CoatSkirt_LOD0",
@@ -9964,6 +10089,9 @@
   },
   {
    "children": [],
+   "extras": {
+    "cloth_uv_units": "metres; transferred from LOD0 rest surface; runtime repeat 0.5m"
+   },
    "index": 786,
    "mesh": "Naila_CoatSkirt_LOD1",
    "name": "Naila_CoatSkirt_LOD1",
@@ -9999,6 +10127,9 @@
   },
   {
    "children": [],
+   "extras": {
+    "cloth_uv_units": "metres; rest surface; runtime repeat 0.5m"
+   },
    "index": 783,
    "mesh": "Naila_Body_LOD0.001",
    "name": "Naila_Coat_LOD0",
@@ -10034,6 +10165,9 @@
   },
   {
    "children": [],
+   "extras": {
+    "cloth_uv_units": "metres; transferred from LOD0 rest surface; runtime repeat 0.5m"
+   },
    "index": 784,
    "mesh": "Naila_Coat_LOD1",
    "name": "Naila_Coat_LOD1",
@@ -10339,6 +10473,9 @@
   },
   {
    "children": [],
+   "extras": {
+    "cloth_uv_units": "metres; rest surface; runtime repeat 0.5m"
+   },
    "index": 793,
    "mesh": "Naila_Sash_LOD0",
    "name": "Naila_Sash_LOD0",
@@ -10374,6 +10511,9 @@
   },
   {
    "children": [],
+   "extras": {
+    "cloth_uv_units": "metres; transferred from LOD0 rest surface; runtime repeat 0.5m"
+   },
    "index": 794,
    "mesh": "Naila_Sash_LOD1",
    "name": "Naila_Sash_LOD1",
@@ -10409,6 +10549,9 @@
   },
   {
    "children": [],
+   "extras": {
+    "cloth_uv_units": "metres; rest surface; runtime repeat 0.5m"
+   },
    "index": 795,
    "mesh": "Naila_Body_LOD0.002",
    "name": "Naila_Trousers_LOD0",
@@ -10444,6 +10587,9 @@
   },
   {
    "children": [],
+   "extras": {
+    "cloth_uv_units": "metres; transferred from LOD0 rest surface; runtime repeat 0.5m"
+   },
    "index": 796,
    "mesh": "Naila_Trousers_LOD1",
    "name": "Naila_Trousers_LOD1",
@@ -10582,6 +10728,9 @@
   },
   {
    "children": [],
+   "extras": {
+    "cloth_uv_units": "metres; rest surface; runtime repeat 0.5m"
+   },
    "index": 334,
    "mesh": "PhoneGuy_Body_LOD0.003",
    "name": "PhoneGuy_BootLeft_LOD0",
@@ -10617,6 +10766,9 @@
   },
   {
    "children": [],
+   "extras": {
+    "cloth_uv_units": "metres; transferred from LOD0 rest surface; runtime repeat 0.5m"
+   },
    "index": 335,
    "mesh": "PhoneGuy_BootLeft_LOD1",
    "name": "PhoneGuy_BootLeft_LOD1",
@@ -10652,6 +10804,9 @@
   },
   {
    "children": [],
+   "extras": {
+    "cloth_uv_units": "metres; rest surface; runtime repeat 0.5m"
+   },
    "index": 336,
    "mesh": "PhoneGuy_Body_LOD0.004",
    "name": "PhoneGuy_BootRight_LOD0",
@@ -10687,6 +10842,9 @@
   },
   {
    "children": [],
+   "extras": {
+    "cloth_uv_units": "metres; transferred from LOD0 rest surface; runtime repeat 0.5m"
+   },
    "index": 337,
    "mesh": "PhoneGuy_BootRight_LOD1",
    "name": "PhoneGuy_BootRight_LOD1",
@@ -10722,6 +10880,9 @@
   },
   {
    "children": [],
+   "extras": {
+    "cloth_uv_units": "metres; rest surface; runtime repeat 0.5m"
+   },
    "index": 340,
    "mesh": "PhoneGuy_CoatSkirt_LOD0",
    "name": "PhoneGuy_CoatSkirt_LOD0",
@@ -10757,6 +10918,9 @@
   },
   {
    "children": [],
+   "extras": {
+    "cloth_uv_units": "metres; transferred from LOD0 rest surface; runtime repeat 0.5m"
+   },
    "index": 341,
    "mesh": "PhoneGuy_CoatSkirt_LOD1",
    "name": "PhoneGuy_CoatSkirt_LOD1",
@@ -10792,6 +10956,9 @@
   },
   {
    "children": [],
+   "extras": {
+    "cloth_uv_units": "metres; rest surface; runtime repeat 0.5m"
+   },
    "index": 338,
    "mesh": "PhoneGuy_Body_LOD0.001",
    "name": "PhoneGuy_Coat_LOD0",
@@ -10827,6 +10994,9 @@
   },
   {
    "children": [],
+   "extras": {
+    "cloth_uv_units": "metres; transferred from LOD0 rest surface; runtime repeat 0.5m"
+   },
    "index": 339,
    "mesh": "PhoneGuy_Coat_LOD1",
    "name": "PhoneGuy_Coat_LOD1",
@@ -11002,6 +11172,9 @@
   },
   {
    "children": [],
+   "extras": {
+    "cloth_uv_units": "metres; rest surface; runtime repeat 0.5m"
+   },
    "index": 346,
    "mesh": "PhoneGuy_Hat_LOD0",
    "name": "PhoneGuy_Hat_LOD0",
@@ -11037,6 +11210,9 @@
   },
   {
    "children": [],
+   "extras": {
+    "cloth_uv_units": "metres; transferred from LOD0 rest surface; runtime repeat 0.5m"
+   },
    "index": 347,
    "mesh": "PhoneGuy_Hat_LOD1",
    "name": "PhoneGuy_Hat_LOD1",
@@ -11132,6 +11308,9 @@
   },
   {
    "children": [],
+   "extras": {
+    "cloth_uv_units": "metres; rest surface; runtime repeat 0.5m"
+   },
    "index": 348,
    "mesh": "PhoneGuy_Sash_LOD0",
    "name": "PhoneGuy_Sash_LOD0",
@@ -11167,6 +11346,9 @@
   },
   {
    "children": [],
+   "extras": {
+    "cloth_uv_units": "metres; transferred from LOD0 rest surface; runtime repeat 0.5m"
+   },
    "index": 349,
    "mesh": "PhoneGuy_Sash_LOD1",
    "name": "PhoneGuy_Sash_LOD1",
@@ -11202,6 +11384,9 @@
   },
   {
    "children": [],
+   "extras": {
+    "cloth_uv_units": "metres; rest surface; runtime repeat 0.5m"
+   },
    "index": 350,
    "mesh": "PhoneGuy_Body_LOD0.002",
    "name": "PhoneGuy_Trousers_LOD0",
@@ -11237,6 +11422,9 @@
   },
   {
    "children": [],
+   "extras": {
+    "cloth_uv_units": "metres; transferred from LOD0 rest surface; runtime repeat 0.5m"
+   },
    "index": 351,
    "mesh": "PhoneGuy_Trousers_LOD1",
    "name": "PhoneGuy_Trousers_LOD1",
@@ -11375,6 +11563,9 @@
   },
   {
    "children": [],
+   "extras": {
+    "cloth_uv_units": "metres; rest surface; runtime repeat 0.5m"
+   },
    "index": 690,
    "mesh": "Resident_Body_LOD0.003",
    "name": "Resident_BootLeft_LOD0",
@@ -11410,6 +11601,9 @@
   },
   {
    "children": [],
+   "extras": {
+    "cloth_uv_units": "metres; transferred from LOD0 rest surface; runtime repeat 0.5m"
+   },
    "index": 691,
    "mesh": "Resident_BootLeft_LOD1",
    "name": "Resident_BootLeft_LOD1",
@@ -11445,6 +11639,9 @@
   },
   {
    "children": [],
+   "extras": {
+    "cloth_uv_units": "metres; rest surface; runtime repeat 0.5m"
+   },
    "index": 692,
    "mesh": "Resident_Body_LOD0.004",
    "name": "Resident_BootRight_LOD0",
@@ -11480,6 +11677,9 @@
   },
   {
    "children": [],
+   "extras": {
+    "cloth_uv_units": "metres; transferred from LOD0 rest surface; runtime repeat 0.5m"
+   },
    "index": 693,
    "mesh": "Resident_BootRight_LOD1",
    "name": "Resident_BootRight_LOD1",
@@ -11515,6 +11715,9 @@
   },
   {
    "children": [],
+   "extras": {
+    "cloth_uv_units": "metres; rest surface; runtime repeat 0.5m"
+   },
    "index": 696,
    "mesh": "Resident_CoatSkirt_LOD0",
    "name": "Resident_CoatSkirt_LOD0",
@@ -11550,6 +11753,9 @@
   },
   {
    "children": [],
+   "extras": {
+    "cloth_uv_units": "metres; transferred from LOD0 rest surface; runtime repeat 0.5m"
+   },
    "index": 697,
    "mesh": "Resident_CoatSkirt_LOD1",
    "name": "Resident_CoatSkirt_LOD1",
@@ -11585,6 +11791,9 @@
   },
   {
    "children": [],
+   "extras": {
+    "cloth_uv_units": "metres; rest surface; runtime repeat 0.5m"
+   },
    "index": 694,
    "mesh": "Resident_Body_LOD0.001",
    "name": "Resident_Coat_LOD0",
@@ -11620,6 +11829,9 @@
   },
   {
    "children": [],
+   "extras": {
+    "cloth_uv_units": "metres; transferred from LOD0 rest surface; runtime repeat 0.5m"
+   },
    "index": 695,
    "mesh": "Resident_Coat_LOD1",
    "name": "Resident_Coat_LOD1",
@@ -11865,6 +12077,9 @@
   },
   {
    "children": [],
+   "extras": {
+    "cloth_uv_units": "metres; rest surface; runtime repeat 0.5m"
+   },
    "index": 704,
    "mesh": "Resident_Hat_LOD0",
    "name": "Resident_Hat_LOD0",
@@ -11900,6 +12115,9 @@
   },
   {
    "children": [],
+   "extras": {
+    "cloth_uv_units": "metres; transferred from LOD0 rest surface; runtime repeat 0.5m"
+   },
    "index": 705,
    "mesh": "Resident_Hat_LOD1",
    "name": "Resident_Hat_LOD1",
@@ -11997,6 +12215,9 @@
   },
   {
    "children": [],
+   "extras": {
+    "cloth_uv_units": "metres; rest surface; runtime repeat 0.5m"
+   },
    "index": 706,
    "mesh": "Resident_Sash_LOD0",
    "name": "Resident_Sash_LOD0",
@@ -12032,6 +12253,9 @@
   },
   {
    "children": [],
+   "extras": {
+    "cloth_uv_units": "metres; transferred from LOD0 rest surface; runtime repeat 0.5m"
+   },
    "index": 707,
    "mesh": "Resident_Sash_LOD1",
    "name": "Resident_Sash_LOD1",
@@ -12067,6 +12291,9 @@
   },
   {
    "children": [],
+   "extras": {
+    "cloth_uv_units": "metres; rest surface; runtime repeat 0.5m"
+   },
    "index": 708,
    "mesh": "Resident_Body_LOD0.002",
    "name": "Resident_Trousers_LOD0",
@@ -12102,6 +12329,9 @@
   },
   {
    "children": [],
+   "extras": {
+    "cloth_uv_units": "metres; transferred from LOD0 rest surface; runtime repeat 0.5m"
+   },
    "index": 709,
    "mesh": "Resident_Trousers_LOD1",
    "name": "Resident_Trousers_LOD1",
@@ -13147,6 +13377,9 @@
   },
   {
    "children": [],
+   "extras": {
+    "cloth_uv_units": "metres; rest surface; runtime repeat 0.5m"
+   },
    "index": 245,
    "mesh": "Tamara_Body_LOD0.004",
    "name": "Tamara_BootLeft_LOD0",
@@ -13182,6 +13415,9 @@
   },
   {
    "children": [],
+   "extras": {
+    "cloth_uv_units": "metres; transferred from LOD0 rest surface; runtime repeat 0.5m"
+   },
    "index": 246,
    "mesh": "Tamara_BootLeft_LOD1",
    "name": "Tamara_BootLeft_LOD1",
@@ -13217,6 +13453,9 @@
   },
   {
    "children": [],
+   "extras": {
+    "cloth_uv_units": "metres; rest surface; runtime repeat 0.5m"
+   },
    "index": 247,
    "mesh": "Tamara_Body_LOD0.005",
    "name": "Tamara_BootRight_LOD0",
@@ -13252,6 +13491,9 @@
   },
   {
    "children": [],
+   "extras": {
+    "cloth_uv_units": "metres; transferred from LOD0 rest surface; runtime repeat 0.5m"
+   },
    "index": 248,
    "mesh": "Tamara_BootRight_LOD1",
    "name": "Tamara_BootRight_LOD1",
@@ -13699,6 +13941,9 @@
   },
   {
    "children": [],
+   "extras": {
+    "cloth_uv_units": "metres; rest surface; runtime repeat 0.5m"
+   },
    "index": 259,
    "mesh": "Tamara_Body_LOD0.002",
    "name": "Tamara_Sash_LOD0",
@@ -13734,6 +13979,9 @@
   },
   {
    "children": [],
+   "extras": {
+    "cloth_uv_units": "metres; transferred from LOD0 rest surface; runtime repeat 0.5m"
+   },
    "index": 260,
    "mesh": "Tamara_Sash_LOD1",
    "name": "Tamara_Sash_LOD1",
@@ -13839,6 +14087,9 @@
   },
   {
    "children": [],
+   "extras": {
+    "cloth_uv_units": "metres; rest surface; runtime repeat 0.5m"
+   },
    "index": 263,
    "mesh": "Tamara_Body_LOD0.003",
    "name": "Tamara_Trousers_LOD0",
@@ -13874,6 +14125,9 @@
   },
   {
    "children": [],
+   "extras": {
+    "cloth_uv_units": "metres; transferred from LOD0 rest surface; runtime repeat 0.5m"
+   },
    "index": 264,
    "mesh": "Tamara_Trousers_LOD1",
    "name": "Tamara_Trousers_LOD1",
@@ -14082,6 +14336,9 @@
   },
   {
    "children": [],
+   "extras": {
+    "cloth_uv_units": "metres; rest surface; runtime repeat 0.5m"
+   },
    "index": 423,
    "mesh": "TimurHazrat_Body_LOD0.003",
    "name": "TimurHazrat_BootLeft_LOD0",
@@ -14117,6 +14374,9 @@
   },
   {
    "children": [],
+   "extras": {
+    "cloth_uv_units": "metres; transferred from LOD0 rest surface; runtime repeat 0.5m"
+   },
    "index": 424,
    "mesh": "TimurHazrat_BootLeft_LOD1",
    "name": "TimurHazrat_BootLeft_LOD1",
@@ -14152,6 +14412,9 @@
   },
   {
    "children": [],
+   "extras": {
+    "cloth_uv_units": "metres; rest surface; runtime repeat 0.5m"
+   },
    "index": 425,
    "mesh": "TimurHazrat_Body_LOD0.004",
    "name": "TimurHazrat_BootRight_LOD0",
@@ -14187,6 +14450,9 @@
   },
   {
    "children": [],
+   "extras": {
+    "cloth_uv_units": "metres; transferred from LOD0 rest surface; runtime repeat 0.5m"
+   },
    "index": 426,
    "mesh": "TimurHazrat_BootRight_LOD1",
    "name": "TimurHazrat_BootRight_LOD1",
@@ -14261,7 +14527,7 @@
   {
    "children": [],
    "extras": {
-    "cloth_uv_units": "metres; rest surface; runtime repeat 0.5m"
+    "cloth_uv_units": "metres; transferred from LOD0 rest surface; runtime repeat 0.5m"
    },
    "index": 430,
    "mesh": "TimurHazrat_CoatSkirt_LOD1",
@@ -14337,7 +14603,7 @@
   {
    "children": [],
    "extras": {
-    "cloth_uv_units": "metres; rest surface; runtime repeat 0.5m"
+    "cloth_uv_units": "metres; transferred from LOD0 rest surface; runtime repeat 0.5m"
    },
    "index": 428,
    "mesh": "TimurHazrat_Coat_LOD1",
@@ -14827,7 +15093,7 @@
   {
    "children": [],
    "extras": {
-    "cloth_uv_units": "metres; rest surface; runtime repeat 0.5m"
+    "cloth_uv_units": "metres; transferred from LOD0 rest surface; runtime repeat 0.5m"
    },
    "index": 442,
    "mesh": "TimurHazrat_Trousers_LOD1",
