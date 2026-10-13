@@ -76541,6 +76541,19 @@
                 ],
                 "verification": "Core compile0/0 3.51s; Game affected compile0/0 17.53s, final after shutdown/source-switch fixes0/0 14.44s. Independent Luna strict protocol/source binding review. Sol partial review found two corrected defects before usage limit; final independent Luna integration review clean, source only.",
                 "limits": "No native Codex road request/preview/Apply/Undo/traversal yet."
+              },
+              {
+                "date": "2026-10-13",
+                "kind": "targeted-native-defect",
+                "result": "Windows23 road editor rendered, source switched to yar-north and exact fractional prompt entered. Confirmation rendered behind the editor and long DialogText expanded width; no Codex request sent and no authored source changed. Native defect addressed by attaching disclosure to Studio root, wrapped explanation, clamped popup and pending disclosure lifecycle cleanup.",
+                "source": [
+                  "evidence/STUDIO/practical-editor-2026-10-13/windows-road-disclosure/receipt.json",
+                  "evidence/STUDIO/practical-editor-2026-10-13/windows-road-disclosure/game.log",
+                  "evidence/STUDIO/practical-editor-2026-10-13/windows-road-disclosure/road-disclosure.png",
+                  "game/studio/StudioWorldSection.Roads.cs"
+                ],
+                "verification": "Native23 job7a5708b4b0944bdc9103a91021c4edca snapshot631be2247956f8f8b261c40dc72ba2f0491138cfbe52a6a7af11f0116d132b14: stationcompile0/0 34.26s, map72700ms, overallFAIL onlyGOGloader, gameExit0. Normal close; guard log restored/verified, receipt userdataRestored=false due engine-error throw before assignment; freshdoctor ready/busy=null/recovery=false/orphan=false. UI fix affected Game compile0/0 16.22s and scoped diffcheck.",
+                "limits": "No actual Codex road response, preview/Apply/Undo or traversal. UI stacking/size fix requires changed native verification; selective diagnostics not exercised."
               }
             ],
             "stage_tasks": [
@@ -76569,7 +76582,7 @@
             "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": "Codex road request/disclosure/typed bounded proposal → deterministic ghost preview → explicit Apply source интегрирован; ручной smooth и durable history сохранены. Не проверены native диалог, настоящий Codex road ответ/Apply/Undo/restart/проход A04.",
-            "next_action": "На свободной Windows проверить новый road Codex диалог и preview/Apply/Undo для yar-north; затем целевой проход A04 и restart без повторения принятого hero pilot.",
+            "next_action": "После узкого B02 idle worker update проверить исправленное disclosure и настоящий Codex yar-north preview/Apply/Undo; затем A04 проход/restart.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -111726,7 +111739,22 @@
             "eng/windows_station_worker.py": "16f15d0c5def20a986b52ff333302d7fa9731cfd5ca508c42d8aeb805d878ba8"
           },
           "verification": "Both Python AST parse; scoped diffcheck; root inspected client/server trust-boundary constraints and existing runner passthrough. Luna reached runner-path investigation before usage limit; final patch implemented by root, no fresh Luna code review claimed.",
-          "remaining": "Independent protocol review if available; update worker only after actual idle/recovery-ready/lease release. Then one ordinary gameplay window with exact PID/source ownership for door/actor phases and real screenshots; no new probe/test and no motion claim yet."
+          "remaining": "Independent protocol review if available; update worker only after actual idle/recovery-ready/lease release. Then one ordinary gameplay window with exact PID/source ownership for door/actor phases and real screenshots; no new probe/test and no motion claim yet.",
+          "station_update_preflight": {
+            "repository": "C:/Users/ruste/Documents/GitHub/URMAN",
+            "head": "37bdeba1",
+            "tracked_dirty_paths": [
+              ".gitattributes",
+              "docs/production/README_WINDOWS_WORKER_FOR_AGENTS.md",
+              "docs/production/WINDOWS_TEST_STATION_RU.md",
+              "eng/run-windows-check.ps1",
+              "eng/windows_station_worker.py"
+            ],
+            "worker_before_sha256": "3da648e7dc74899c7c467df673fdc449321c6c275cd2cc0b2fc73bbc9fb4eeac",
+            "source_match": "Actual worker bytes equal accepted local c8e0ef44 parent byte-for-byte; use exact SHA before mutation. No git pull/reset/stash or blind dirty-file replacement.",
+            "method": "After terminal/restored/explicit station release and fresh doctor ready, use existing manage-windows-worker.ps1 stop/lock-release gate, backup exact old worker, apply only new worker source, restart existing interactive task. Preserve all other dirty paths and protect recovery state.",
+            "state": "read-only preflight verified; no stop/deployment. Peer7a570 remains RUNNING."
+          }
         }
       }
     },

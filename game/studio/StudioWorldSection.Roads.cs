@@ -168,6 +168,7 @@ public sealed partial class StudioWorldSection
         RoadSegmentSmoothRequest? acceptedRequest = null;
         RoadSegmentSmoothProposal? acceptedProposal = null;
         CancellationTokenSource? roadCancellation = null;
+        ConfirmationDialog? pendingDisclosure = null;
         string? consentWarning = null;
         Node3D? overlay = null;
         var closed = false;
@@ -287,6 +288,7 @@ public sealed partial class StudioWorldSection
             if (closed) return;
             closed = true;
             roadCancellation?.Cancel();
+            if (pendingDisclosure is { } disclosure) DismissDisclosure(disclosure);
             ClearOverlay();
             if (openedDemo is not null && GodotObject.IsInstanceValid(openedDemo))
                 openedDemo.TreeExiting -= CloseEditor;
@@ -294,6 +296,14 @@ public sealed partial class StudioWorldSection
                 openedView.TreeExiting -= CloseEditor;
             if (_roadEditorDialog == dialog) _roadEditorDialog = null;
             if (GodotObject.IsInstanceValid(dialog) && dialog.IsInsideTree()) dialog.QueueFree();
+        }
+
+        void DismissDisclosure(ConfirmationDialog disclosure)
+        {
+            if (pendingDisclosure != disclosure) return;
+            pendingDisclosure = null;
+            if (GodotObject.IsInstanceValid(disclosure) && disclosure.IsInsideTree())
+                disclosure.QueueFree();
         }
 
         void EnsureEditorCurrent(CancellationTokenSource? ownRoadOperation = null)
@@ -540,7 +550,7 @@ public sealed partial class StudioWorldSection
 
         void AskCodex()
         {
-            if (closed || _roadAiBusy || roadCancellation is not null
+            if (closed || _roadAiBusy || roadCancellation is not null || pendingDisclosure is not null
                 || studio.IsWorkspaceActionBusy || studio.IsAiActionBusy) return;
             try
             {
@@ -565,11 +575,18 @@ public sealed partial class StudioWorldSection
                     Title = "Проверьте передачу запроса Codex",
                     OkButtonText = "Отправить этот запрос",
                     MinSize = new Vector2I(820, 620),
-                    DialogText = "Подтвердите передачу точного снимка ниже. Запрос включает всю выбранную дорогу и её точки, выбранный диапазон, остальные дорожные оси двух исходников для сохранения стыков и эту инструкцию."
+                    DialogText = "Подтвердите снимок запроса."
                 };
+                disclosure.GetLabel().AutowrapMode = TextServer.AutowrapMode.WordSmart;
                 disclosure.AddCancelButton("Назад");
                 var disclosureBody = new VBoxContainer { SizeFlagsHorizontal = Control.SizeFlags.ExpandFill };
                 disclosure.AddChild(disclosureBody);
+                disclosureBody.AddChild(new Label
+                {
+                    Text = "Передача включает всю выбранную дорогу и её точки, выбранный диапазон, остальные дорожные оси двух исходников для сохранения стыков и эту инструкцию.",
+                    AutowrapMode = TextServer.AutowrapMode.WordSmart,
+                    CustomMinimumSize = new Vector2(740, 48)
+                });
                 disclosureBody.AddChild(new Label
                 {
                     Text = $"Источник: {request.SourcePath}\nДорожка: {request.RoadId}; точки {request.StartIndex}–{request.EndIndex} включительно\nСнимок SHA-256: {request.SourceSha256}\nКонтекст: {request.ContextRoads.Count} дорожных осей (обе части деревни и фиксированные оси генератора)\nГлобальные инструкции: {(allowGlobalInstructions ? "разрешены — только ~/.codex/AGENTS.md" : "выключены")}\nCodex не получает инструменты, MCP или право записи. Будут предложены только сила и максимальный сдвиг точки.",
@@ -589,7 +606,7 @@ public sealed partial class StudioWorldSection
                 {
                     if (resolved) return;
                     resolved = true;
-                    if (GodotObject.IsInstanceValid(disclosure)) disclosure.QueueFree();
+                    DismissDisclosure(disclosure);
                     if (closed) return;
                     try
                     {
@@ -609,15 +626,24 @@ public sealed partial class StudioWorldSection
                 {
                     resolved = true;
                     if (!closed) status.Text = "Запрос не отправлен. Проект не менялся.";
-                    if (GodotObject.IsInstanceValid(disclosure)) disclosure.QueueFree();
+                    DismissDisclosure(disclosure);
                 };
                 disclosure.CloseRequested += () =>
                 {
                     resolved = true;
-                    if (GodotObject.IsInstanceValid(disclosure)) disclosure.QueueFree();
+                    DismissDisclosure(disclosure);
                 };
-                dialog.AddChild(disclosure);
-                disclosure.PopupCentered(new Vector2I(820, 620));
+                pendingDisclosure = disclosure;
+                try
+                {
+                    studio.AddChild(disclosure);
+                    disclosure.PopupCenteredClamped(new Vector2I(820, 620), 0.9f);
+                }
+                catch
+                {
+                    DismissDisclosure(disclosure);
+                    throw;
+                }
             }
             catch (Exception error)
             {
