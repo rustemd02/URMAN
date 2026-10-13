@@ -150,6 +150,8 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
         StudioRoot.Button(toolbar, "План сверху", () => { _topView = true; UpdateCamera(); });
         StudioRoot.Button(toolbar, "◎ К выделенному", FocusSelection).TooltipText = "Навести камеру на выделенный объект (F)";
         StudioRoot.Button(toolbar, "👁 С уровня глаз", EyeLevel).TooltipText = "Посмотреть на выделенное с высоты глаз игрока (1,7 м)";
+        StudioRoot.Button(toolbar, "Для Codex…", CopySelectionForCodex).TooltipText = "Пожелание и контекст выбранного объекта или группы для ручной передачи Codex";
+        StudioRoot.Button(toolbar, "Область для Codex…", PickAreaForCodex).TooltipText = "Выбрать два противоположных угла области на земле и скопировать её координаты";
         var layers = new MenuButton { Text = "Слои ▾", Flat = false };
         var layerNames = new (string Kind, string Label)[] { ("kit-placement", "Постройки деревни"), ("prop", "Поставленные объекты"), ("scatter", "Посадки"), ("npc", "Персонажи"),
             ("pickup", "Предметы"), ("item-spawn", "Предметы квестов"), ("trigger", "Области-триггеры"), ("marker", "Точки"), ("fence-run", "Заборы"), ("road-path", "Дороги") };
@@ -482,6 +484,7 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
         if (_view is null) return;
         if (_loadWorldTask is { IsCompleted: false } loading) await loading;
         if (_shuttingDown || _view is null || _demo is null) return;
+        EndPointPick();
         _reloading = true;
         var previous = _demo;
         var recipeFile = Path.Combine(studio.Workspace.Root, "game/content/studio/hero_house.recipe.json");
