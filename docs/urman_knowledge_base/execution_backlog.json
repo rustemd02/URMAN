@@ -102986,7 +102986,7 @@
       "id": "PW-007",
       "title": "Создать строгий каталог фото, миров и разворотов",
       "milestone": "PW-M1",
-      "status": "todo",
+      "status": "in_progress",
       "active_owner": null,
       "owner": "integration",
       "priority": "P0",
@@ -103017,7 +103017,9 @@
       "evidence": [
         "evidence/PW-007/receipt.json",
         "evidence/PW-007/native_3195422fc11a4a8b88e9811d01587782",
-        "evidence/PW-007/native_3195422fc11a4a8b88e9811d01587782/root-review.json"
+        "evidence/PW-007/native_3195422fc11a4a8b88e9811d01587782/root-review.json",
+        "evidence/PW-007/current-catalog-20261013/content-cli-build.log",
+        "evidence/PW-007/current-catalog-20261013/content-compile.log"
       ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-007",
       "source_requirements": [
@@ -103031,7 +103033,7 @@
       "reference_ids": [
         "REQ"
       ],
-      "runtime_evidence": "PASS logical catalog load only; PHYSICAL NOT_RUN",
+      "runtime_evidence": "Historical logical3195422 native accepted at exact old snapshot; current 2026-10-13 source compile/byte-identical pack PASS, current native repository load NOT_RUN.",
       "author_acceptance": "PENDING",
       "mvp_priority": 20,
       "mvp_packet": "PW1",
@@ -103145,19 +103147,16 @@
       },
       "assigned_owner": "integration",
       "activity": {
-        "state": "not_active",
-        "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+        "state": "released",
+        "reason": "Historical logical slice accepted only for exact old snapshot; current compiler/pack stage verified, current repository-load still open after source changes."
       },
       "task_type": "engineering",
-      "implementation_state": "partial",
+      "implementation_state": "implemented",
       "technical_verification_state": "not_run",
       "remaining": [
-        "Каталог содержит 5 миров и 13 фотографий без битых ссылок.",
-        "Удаление required world/resource не маскируется default-пустышкой.",
-        "Для urman.fullgame отсутствие PhotoBook отклоняется схемой/компилятором и runtime repository; legacy campaign без PhotoBook сохраняет совместимость, заглушка не подставляется.",
-        "Семь logical PhotoWorlds v1 anchors, включая PW_PROLOGUE_ROAD существующего пролога, имеют ровно одного authored scene owner; это не подтверждает физическое размещение или безопасный spawn."
+        "Current-hash protected repository/catalog load using existing bounded scenario after station owner release. Six covered source/pack hashes changed since accepted3195422; historical native cannot certify them. Physical placement/resources/ordinary book/art are outside this finite logical unit and remain with existing tasks."
       ],
-      "next_action": "Адаптировать эти spec JSON в реальный формат контента.",
+      "next_action": "After live station owner release, use existing bounded repository-load scenario on current catalog candidate; preserve accepted historical3195422 and current successful compiler/pack result, no new negative fixtures or unchanged compiler rerun.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -103371,7 +103370,44 @@
           "evidence_ref": "PW-007.evidence and named history progress; source_review shows available/missing inputs"
         }
       ],
-      "assignment_state": "preserved_person_or_existing_role; activity separate"
+      "assignment_state": "preserved_person_or_existing_role; activity separate",
+      "progress_2026_10_13_catalog_acceptance": {
+        "historical_stage": "Accepted existing receipt/root-review exact snapshot04824ea5ac58cbfc6976bf0b9987fc963b71835e01572ff302e3880f51a7459e logical 5 worlds/13 photos/required failure compatibility/7 anchor owners only; PW006 old whole-dependency is removed by current dispatch contract.",
+        "independent_review": "Luna compared exact current finite DoD/receipts and covered diffs. Core count/anchor structural validation unchanged; optional text/provenance/interaction code and resulting pack changed, requiring current native load rather than transferring old PASS.",
+        "matched_receipt_paths": [
+          "content/schemas/campaign-manifest.schema.json",
+          "content/campaigns/urman.fullgame/photoworlds-sources/photos.spec.json",
+          "content/campaigns/urman.fullgame/photoworlds-sources/worlds.spec.json",
+          "content/campaigns/urman.fullgame/photoworlds-sources/assets.spec.json"
+        ],
+        "changed_receipt_paths": [
+          "content/campaigns/urman.fullgame/campaign.json",
+          "content/modules/urman-fullgame/definitions.json",
+          "src-dotnet/Urman.Core/Narrative/PhotoWorldCatalog.cs",
+          "src-dotnet/Urman.Content/Compilation/ContentCompiler.cs",
+          "game/scripts/CompiledCampaignRepository.cs",
+          "game/content/urman.fullgame.compiled.v1.json"
+        ],
+        "current_source_hashes_sha256": {
+          "content/schemas/campaign-manifest.schema.json": "e4851b09d642fddc1e8ade80b4c5a791c101482fb81427db89c0cf2e645a2062",
+          "content/campaigns/urman.fullgame/campaign.json": "bd5deb3cbbffa6609e7231fd9438f04ff0d7d87b4903839c6a4f30956d3b6ba9",
+          "content/modules/urman-fullgame/definitions.json": "1f3e25935991e915c70aae603dcf2a2ce4ca146c8772b9f44714e38ac44bb62f",
+          "src-dotnet/Urman.Core/Narrative/PhotoWorldCatalog.cs": "e93d14d7cdd013b249a9b2313121ef339eeac27307c3506680611dfbf4ae99b4",
+          "src-dotnet/Urman.Content/Compilation/ContentCompiler.cs": "cbd6e0def21414177d6e1707cba084b3d62025e39e0bc75fb9ad3e9c17aefc7c",
+          "game/scripts/CompiledCampaignRepository.cs": "38020f8663ca6b0842b14e36672bf1cc672496fab4c75c61264c7d027ec96926",
+          "content/campaigns/urman.fullgame/photoworlds-sources/photos.spec.json": "6127fe5180785ac303d4372b4537c38d253c255e88dc04a5d8c821e4a01bc2cc",
+          "content/campaigns/urman.fullgame/photoworlds-sources/worlds.spec.json": "d1e870648629b901a0b962e8798671e634a21b7787a94b89325151fafa306353",
+          "content/campaigns/urman.fullgame/photoworlds-sources/assets.spec.json": "b4aa6e775b2591e1cb56d0bf82ad19f0051a21ea6ebd96367839ea2f6f2847c1",
+          "game/content/urman.fullgame.compiled.v1.json": "9e4c79c19b17f9fb3e3f29a59d498dfbf082a91f63f37ec37123043fa4e817bf"
+        },
+        "verification": "ContentCli affected build 0 warnings/0 errors4.44s; existing compiler fullgame compile exit0 to private temp output, resulting SHA9e4c79c19b17f9fb3e3f29a59d498dfbf082a91f63f37ec37123043fa4e817bf exactly matches shipped pack; production output untouched. No new tests/probes/fixtures/native/station.",
+        "current_native": "NOT_RUN; B02 C2-only live lease preserved.",
+        "evidence": [
+          "evidence/PW-007/current-catalog-20261013/content-cli-build.log",
+          "evidence/PW-007/current-catalog-20261013/content-compile.log"
+        ],
+        "limits": "No current runtime, physical photo placement/safe spawn/resource production/ordinary route/art acceptance claimed. Old machine receipts left unchanged."
+      }
     },
     {
       "id": "PW-008",
