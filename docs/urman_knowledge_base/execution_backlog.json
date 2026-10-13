@@ -116229,6 +116229,18 @@
           "evidence/ACT1-TEXTURE/s05-parking-20261013/crisp-alpha/",
           "evidence/ACT1-TEXTURE/s05-parking-20261013/frost-alpha/"
         ]
+      },
+      "progress_2026_10_13_near_logwall": {
+        "input": "B02 exact High/FOV70 after-fill C1/C2 e7efe8d PASS/gameExit0/userdataRestoredtrue; root personally compared after-fill C1/C2 with beforeC2.",
+        "visual_result": "Near logwall nearly black in before and after; angular crowns also predate changed light. Whole village/art not accepted.",
+        "source_review": "Luna identifies candidate house-old-pc-babai-approach / HeroHouse_TimberPlaster at(-28,0,-3.4),yaw64.722; URMAN_Hero_Log and replacement log crowns use8b7763 wood_log_uv W01 surface override, originals hidden when crowns replace. No confirmed wrong binding or double tint.",
+        "limits": "Free-camera C2 sidecar cameraOwnerPath/targetOwnerPath null; aggregates cannot identify exact pixel owner. Eave shadow plausible, not proven. No material/light/geometry edits or new native run justified.",
+        "next_input": "Owner-resolved view/selection of same dark wall through existing Studio inspector or guarded capture after peer station release; confirm consumer before any material/art edit.",
+        "evidence": [
+          "evidence/ACT1-ATMOSPHERE/crisp-day-20261013/after-fill/frames/C1_street_high.png",
+          "evidence/ACT1-ATMOSPHERE/crisp-day-20261013/after-fill/frames/C2_house_high.png",
+          "evidence/ACT1-ATMOSPHERE/crisp-day-20261013/before/frames/C2_house_high.png"
+        ]
       }
     },
     {
