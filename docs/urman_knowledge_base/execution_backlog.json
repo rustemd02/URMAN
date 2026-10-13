@@ -76698,6 +76698,18 @@
                 ],
                 "verification": "Native23 job7a5708b4b0944bdc9103a91021c4edca snapshot631be2247956f8f8b261c40dc72ba2f0491138cfbe52a6a7af11f0116d132b14: stationcompile0/0 34.26s, map72700ms, overallFAIL onlyGOGloader, gameExit0. Normal close; guard log restored/verified, receipt userdataRestored=false due engine-error throw before assignment; freshdoctor ready/busy=null/recovery=false/orphan=false. UI fix affected Game compile0/0 16.22s and scoped diffcheck.",
                 "limits": "No actual Codex road response, preview/Apply/Undo or traversal. UI stacking/size fix requires changed native verification; selective diagnostics not exercised."
+              },
+              {
+                "date": "2026-10-13",
+                "result": "Protected Windows12a5: loaded Studio, Farbank yar-north interval0-4, exact0.617/0.327 prompt and global consent visible; frozen disclosure is now in front and clamped. Root personally inspected both PNGs. Removed overlapping built-in disclosure label in subsequent source (inspect/diffcheck only).",
+                "source": [
+                  "game/studio/StudioWorldSection.Roads.cs",
+                  "evidence/STUDIO/practical-editor-2026-10-13/windows-road-codex-complete/receipt.json",
+                  "evidence/STUDIO/practical-editor-2026-10-13/windows-road-codex-complete/disclosure-front.png",
+                  "evidence/STUDIO/practical-editor-2026-10-13/windows-road-codex-complete/selected-road-and-prompt.png"
+                ],
+                "verification": "Job12a5 terminalFAIL/game124 after1800s. No Send clicked, no model response/preview/Apply/Undo. Raw userdataRestoredfalse retained; game.log verified original file restoration and doctor ready/busy-null/recoveryfalse/orphanfalse.",
+                "limits": "Full road scenario remains unverified. Last label-only polish excludes native snapshot. Station released to B02."
               }
             ],
             "stage_tasks": [
@@ -76725,9 +76737,9 @@
             "status": "in_progress",
             "implementation_state": "partial",
             "technical_verification_state": "not_run",
-            "remaining": "Codex road request/disclosure/typed bounded proposal → deterministic ghost preview → explicit Apply source интегрирован; ручной smooth и durable history сохранены. Не проверены native диалог, настоящий Codex road ответ/Apply/Undo/restart/проход A04.",
-            "next_action": "После узкого B02 idle worker update проверить исправленное disclosure и настоящий Codex yar-north preview/Apply/Undo; затем A04 проход/restart.",
-            "blocker": null,
+            "remaining": "Native selection/prompt/consent/front disclosure checked. Real Codex road response, proposal preview, Apply/Undo/restart and A04 traversal remain unverified; native12a5 exhausted30min beforeSend.",
+            "next_action": "After B02 station release, root sole UI driver uses four bounded existing guarded action batches: load, frozen request review, real proposal Apply, Undo/normalclose; preserve exact hashes. No new helpers/probes or arbitrary PID.",
+            "blocker": "Per-action remote UI driving and coordination exhausted1800s beforeSend; two incomplete attempts. Same stepwise driving will not be repeated.",
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
             "work_contract": {
@@ -80313,6 +80325,17 @@
                 ],
                 "verification": "Luna implementation, independent Luna geometry/source review clean, affected Game compile0warnings/0errors17.12s and scoped diffcheck.",
                 "limits": "Native timing unverified; first-orientation success adds snapshot allocation and no measured improvement is claimed. Currentjob12a5 excludes this source change."
+              },
+              {
+                "date": "2026-10-13",
+                "result": "Native12a5 initial world readiness77671ms, wait76916ms; snapshot excludes later wall-face reuse. Full road reload is currently required: source/HeightField cache refresh does not rebuild road ribbons/address graph/grounded dependents alone.",
+                "source": [
+                  "evidence/STUDIO/practical-editor-2026-10-13/windows-road-codex-complete/game.log",
+                  "game/studio/StudioWorldSection.cs",
+                  "game/scripts/Act1ConnectedWorld.Studio.cs"
+                ],
+                "verification": "Actual phase markers and bounded independent Luna refresh ownership review; no selective road shortcut implemented.",
+                "limits": "No measured optimization gain. Hero selective early guard remains unknown; actual changed source timing and full usability remain open."
               }
             ],
             "stage_tasks": [
@@ -80347,7 +80370,7 @@
             "implementation_state": "implemented",
             "technical_verification_state": "not_run",
             "remaining": "Native22 подтвердил настоящий Rear0 Codex preview/Apply/полную отмену; ускорение НЕ достигнуто: карта72.755s, Apply fullreload87.992s, Undo fullreload72.726s; selective tags отсутствуют. Причина раннего отказа неизвестна. Полный usability/novice и прочие B20 сценарии открыты.",
-            "next_action": "После peer playe78c terminal/release выполнить исправленный road native24 и захватить новые phase tags; настоящий hero Apply/Undo отдельно должен показать конкретный selective guard и скорость.",
+            "next_action": "After station release and bounded real road scenario, measure changed wall-face source only if changed input; actual hero Apply/Undo must capture early selective guard. Do not repeat untouched baseline.",
             "blocker": null,
             "external_gates": [
               {
