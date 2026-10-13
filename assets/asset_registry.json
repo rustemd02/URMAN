@@ -4345,6 +4345,28 @@
       "collision": "unchanged; material-only existing visual receiver",
       "qa": "Root inspected raster; current file SHA equals existing procedural receipt. Independent Luna verified exact receiver/local projection/scale. New wall shader appearance/native/art pending; no new texture or generator run.",
       "status": "partial receiver integration; native/art open"
+    },
+    {
+      "id": "texture.painterly.w10.v1",
+      "source": "Existing project-original procedural bake receipt W10, game/assets/textures/painterly/procedural_bake_receipt_v1.json",
+      "derived": "game/assets/textures/painterly/wood_bath_light_v1_albedo.png",
+      "derivedSha256": "4ea2e018d65cc4645f24158bba3173949312c668fd8ecdc4eccc3ce26f398eb3",
+      "generator": "tools/blender/bake_procedural_textures.py",
+      "license": "project-original procedural (no third-party source)",
+      "scale": 0.75,
+      "triangleBudget": 0,
+      "textureBudget": 1024,
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "materials": [
+        "wood_bath_light"
+      ],
+      "materialOwner": "Existing BathSteamRoomLining authored UV retained; BathFloor and BathPartitionLeft/Right/Lintel now duplicate per-instance W10 with local original coordinates and upright Y grain on vertical faces, local Z grain on floor; cached/shared PML unchanged",
+      "collision": "FacilitySolid existing separate contact bodies unchanged",
+      "qa": "Independent Luna confirmed source axis cause and returned visual mesh ownership; existing raster hash equals receipt. Scoped compile separate; current native four-receiver appearance/motion and art open.",
+      "status": "partial native/visual acceptance open"
     }
   ]
 }

@@ -5998,21 +5998,25 @@
             "title": "Подключить W10 — Светлое дерево бани",
             "result": "Подключить W10 — Светлое дерево бани",
             "owner": "art/materials/qa",
-            "evidence": [],
+            "evidence": [
+              "evidence/ACT1-TEXTURE.02/bath-w10-local-20261013/game-build.log",
+              "game/assets/textures/painterly/README.md",
+              "assets/asset_registry.json"
+            ],
             "assigned_owner": "art/materials/qa",
             "active_owner": null,
             "activity": {
-              "state": "not_active",
-              "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+              "state": "released",
+              "reason": "Finite four-receiver local projection compiled; current native and full W10 art criteria pending station owner release."
             },
             "task_type": "engineering",
-            "status": "todo",
+            "status": "in_progress",
             "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
-              "Подключить W10 — Светлое дерево бани; собственного целевого receipt пока нет."
+              "Current targeted native view/movement of BathFloor and BathPartitionLeft/Right/Lintel: local Z floor grain, upright Y on wall faces, no contact/state regression; benches and remaining W10 receivers and author art acceptance. Preserve accepted authored SteamRoomLining receipts."
             ],
-            "next_action": "Сопоставить текущий результат: Подключить W10 — Светлое дерево бани. Затем изменить только установленный остаток.",
+            "next_action": "After live B02/B20 station release, inspect these four bath receivers only in one scoped view/movement; do not repeat accepted SteamRoomLining capture or unchanged compile.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -6022,7 +6026,8 @@
                 "game/assets/textures/painterly/README.md",
                 "assets/asset_registry.json",
                 "docs/urman_knowledge_base/art/urman_imagegen_texture_prompt_book_2026-09-22.md",
-                "docs/urman_knowledge_base/assets.md"
+                "docs/urman_knowledge_base/assets.md",
+                "game/scripts/Act1ConnectedWorld.Bathhouse.cs"
               ],
               "required_inputs": [],
               "scope_in": [
@@ -6075,7 +6080,22 @@
               "verification": [],
               "acceptance": []
             },
-            "depends_on": []
+            "depends_on": [],
+            "progress_2026_10_13_local_receivers": {
+              "cause": "Bathhouse inherits oldBarn rotation; four W10 boxes used world triplanar and upright_texture=false, mapping raster V along Z on X-facing vertical faces.",
+              "result": "Four returned visual meshes duplicate their exact material and set local_floor_texture=true/upright_texture=true. Local original VERTEX/NORMAL provides floorXZ and wallZY/XY; .75m scale, tint, geometry, FacilitySolid separate contacts, state unchanged. Authored SteamRoomLining and D03 left unchanged.",
+              "asset_sha256": "4ea2e018d65cc4645f24158bba3173949312c668fd8ecdc4eccc3ce26f398eb3",
+              "source_sha256": "2d98388c9a7316c12fe8747deee1b26d93d1286558e7b4c269f88dcac792b734",
+              "review": "Root viewed W10 source raster and inspected bounded diff; independent Luna verified axis/returned mesh/contact separation.",
+              "verification": "Scoped Game compile 0 warnings/0 errors, 38.93s; not shader/visual acceptance.",
+              "native": "NOT_RUN; station live owner preserved.",
+              "build_log": "evidence/ACT1-TEXTURE.02/bath-w10-local-20261013/game-build.log"
+            },
+            "station_coordination_2026_10_13": {
+              "observation": "Fresh read-only doctor ready=true, busy_job=null, recovery=false, orphan=false after latest source checkpoint. This does not revoke peer forest slot assignment.",
+              "next": "Existing Codex B02 dominant forest lease release requested in AGENT_CHAT; preserve it until acknowledgment. After release publish root bath lease checkpoint before guarded submit. Do not repeat unchanged doctor/old jobs.",
+              "source": "Current main includes D03 e8ca7795 and W10 local87cee004; W11 c2ab actual body proof retained, only revised caps view remains."
+            }
           },
           {
             "id": "ACT1-TEXTURE.02/E16",
@@ -6100,7 +6120,7 @@
               "Face-on centered wood_cut cap rings are not accepted from the oblique first view; exact revised point in progress_2026_10_13_bath_view.",
               "Other W11 handles/portable consumers and full child/art/motion criteria remain open."
             ],
-            "next_action": "After actual owner of50923b93c99b4ef48a3f3ddff4d6c25e terminal/restored/release and a published lease checkpoint, capture only revised bath_firewood_caps face-on point. Do not repeat accepted c2ab body view or compile unchanged source. Keep otherW11/art criteria open.",
+            "next_action": "After Codex B02 releases current dominant forest station assignment, publish bath lease checkpoint then capture only revised bath_firewood_caps face-on point. Fresh doctor idle/restored observed; historical50923 no longer treated as active. Retain accepted c2ab body view and unchanged compile.",
             "blocker": {
               "reason": "Auto-review denied remote-check snapshot transfer to UNTERPC; explicit transfer-approval question pending. Source work and local compilation completed.",
               "release_when": "Author explicitly approves sending the URMAN checkout snapshot to UNTERPC through eng/remote-check.py."
@@ -6200,6 +6220,11 @@
                 "remaining": "Exact face-on cap view after live owner release; no automatic retry."
               },
               "release": "First job userdataRestored=true; fresh doctor idle before cap attempt, subsequent external busy job preserved. Own cap reservation released in chat; no attempt to stop/recover another job."
+            },
+            "station_coordination_2026_10_13": {
+              "observation": "Fresh read-only doctor ready=true, busy_job=null, recovery=false, orphan=false after latest source checkpoint. This does not revoke peer forest slot assignment.",
+              "next": "Existing Codex B02 dominant forest lease release requested in AGENT_CHAT; preserve it until acknowledgment. After release publish root bath lease checkpoint before guarded submit. Do not repeat unchanged doctor/old jobs.",
+              "source": "Current main includes D03 e8ca7795 and W10 local87cee004; W11 c2ab actual body proof retained, only revised caps view remains."
             }
           },
           {
@@ -12567,6 +12592,11 @@
               "source_sha256": "d8d29fc8eb2aebef2bdafa3c27c502b52742cda56afa1e156ba42e966df8e56e",
               "verification": "Game scoped build succeeded 0 errors/0 warnings. This C# build does not parse/accept Godot shader or prove in-game visuals.",
               "build_log": "evidence/ACT1-TEXTURE.05/bath-soot-20261013/game-build.log"
+            },
+            "station_coordination_2026_10_13": {
+              "observation": "Fresh read-only doctor ready=true, busy_job=null, recovery=false, orphan=false after latest source checkpoint. This does not revoke peer forest slot assignment.",
+              "next": "Existing Codex B02 dominant forest lease release requested in AGENT_CHAT; preserve it until acknowledgment. After release publish root bath lease checkpoint before guarded submit. Do not repeat unchanged doctor/old jobs.",
+              "source": "Current main includes D03 e8ca7795 and W10 local87cee004; W11 c2ab actual body proof retained, only revised caps view remains."
             }
           },
           {
