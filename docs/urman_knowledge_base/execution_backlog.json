@@ -111198,7 +111198,7 @@
       "assigned_owner": "claude/visual-reset-2026-10-09",
       "activity": {
         "state": "confirmed_active",
-        "reason": "Finite83UV/Tamara/collar/helper source stages delivered; native77 rejectedandrestoredverified. Exactsnapshot pause alreadyconfirmed, so no duplicateworldrender fix. Nextbounded existingcapture-protocol inspection foractualgame/motion proof."
+        "reason": "Cap source accepted after independent Luna review and affected Game compile; native77 rejected preserved. Existing renderer capture input confirmed, Windows22ed released/restored. Next one actual mosque_hall viewport view."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -111208,9 +111208,9 @@
         "Exact six-mesh Timur metric rest UV source complete with geometry/rig/animation/material preservation; actual coat/skirt/trousers Idle/walk/turn native view remains.",
         "BathSpirit rigid rest texture source implemented with original finish/shelter and preserved defaults; actual chest/head motion/readability requires protected Windows view.",
         "Book/held sleeves/W01 moving branch source-safe; fulfill named movement checks as required, preserve existing valid wind/normal receipts on unchanged inputs.",
-        "83genericUV/coherentLOD and2Tamara redtrim sourceaccepted; print/geometry/rig/images preserved. Collar sourceaccepted. Actual nativegait/LOD/door/collar views and derivedcap restUV remain."
+        "83genericUV/coherentLOD +2Tamara trim +2Timur cap sourceaccepted; printedUV/rig/geometry/images preserved, collar accepted. Actual nativegait/LOD/door/collar/cap views remain."
       ],
-      "next_action": "Inspect existing Act1DemoRoot.DevViewCapture renderer capture and supported exactmotion inputs; require realgamepixels and door/actor movement, preserve remainingcapUV. Do not repeat sameGDI/Studio1200 run withoutnewverified captureinput. Wait forPW044/B20 stationqueue release beforeownnextnative.",
+      "next_action": "Run one protected Windows renderer capture at existing mosque_hall checkpoint after station release; inspect actual imported cap/collar/costume and indoor readability. Do not treat wide/static shot as close-up or movement acceptance; named door/gait motion remains.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -111484,10 +111484,10 @@
         },
         "remaining_human_source_inventory": {
           "cause": "ApplyHumanMaterials475-501 already assigns all named non-skin/non-hair families to cloth; absent metric marker leaves world projection. Felt/fur/leather family reclassification is not a real blocker. Protected mixed print UV Tamara_Coat is real exception.",
-          "next_finite_source": "83generic +2Tamara trim source stages accepted; collar cached rigidlocal sourceaccepted. Live derived cap restUV remains; sash is explicitly hidden in current mosque dress. Nextactualnative door/human/collar motion after stationlease.",
+          "next_finite_source": "Cap metricUV/fitted-repeat/smooth-normal source accepted. Remaining unmarked sash is explicitly hidden by current mosque dress. Next actual native actor/door views; no blanket source rewrite.",
           "lod_constraint": "Published cohort follows metric LOD0 then existing Decimate .35 before armature; 43 LOD1 pairs preserve oriented triangle/normal/skin/material semantics. Previous nearest-chart transfer rejected.",
           "first_hypothesis": "Nearest polygon UV DataTransfer isolated candidate rejected: MansurBootLeft LOD1 UVarea/geometry36.882, median edge stretch7.76/p95 34.40; CoatSkirt zero nearest-distance but UVarea6.034/p95stretch57.98; Coat UVarea103.58. Cause target faces cross incompatible source UV chart seams. Canonical asset/receipt bytes unchanged.",
-          "cap_next_input": "Derived fitted cap requires proper rest UV side chart by arc length + top chart with skin/color/normal streams copied across seam; base/internal LOD indices remapped consistently. Existing skinned localVERTEX path is unsafe; keep cap open rather than fake rigid projection.",
+          "cap_next_input": "Existing mosque_hall viewport frame for native import/costume/indoor readability; exact close-up requires runtime transformed geometry, not raw pre-skin vertex coordinates.",
           "baseline_missing_metric_nodes": 86,
           "baseline_uv0_present": 56,
           "baseline_uv0_missing": 30,
@@ -111500,10 +111500,8 @@
             "Tamara": 10,
             "PhoneGuy": 14
           },
-          "current_missing_metric_nodes": 4,
+          "current_missing_metric_nodes": 2,
           "current_missing_metric_node_names": [
-            "TimurHazrat_Hat_LOD0",
-            "TimurHazrat_Hat_LOD1",
             "TimurHazrat_Sash_LOD0",
             "TimurHazrat_Sash_LOD1"
           ]
@@ -111593,6 +111591,35 @@
           ],
           "source_review_input": "Exactimmutable StudioRoot.cs/StudioWorldSection.cs copied from77source, SHA63bdc888...d05a8a/65c57e77...24cf27 matchreceipt. CurrentStudioRoot differs; previewpause claim cannot be transferred to77 beforeexactsource review.",
           "source_review_result": "Luna revalidated exact77source/SHA: StudioRoot1011 already calls SetChildRunRenderingPaused(true); WorldSection101–116 disables/restores previewSubViewport. Currentcode change is not newpauseinput; duplicatecontinuous preview rendering hypothesis unsupported. Two rejectedchildimages byteidenticalStudioUI. Afterstartup90banks no-op traversals/82addedShovelHeaps are additionalwork, notcauseofearlierstartuprescuemetric. Presentation/capturecause unconfirmed."
+        },
+        "timur_cap_slice": {
+          "state": "source_accepted; native_import/art/motion NOT_RUN",
+          "targets": [
+            "TimurHazrat_Hat_LOD0",
+            "TimurHazrat_Hat_LOD1"
+          ],
+          "sha256": {
+            "assets/source/blender/urman_character_kit_v2.blend": "b8bd5a21c3dc0efbc6be2f2a1e15a0243cc791a140bdca908d8a3260e4e7a275",
+            "game/assets/generated/urman_character_kit_v2.glb": "12c2868eb4426dd9c36cfbf71c21db5677de6f9576ecd6308dd5b832a17cca9f",
+            "assets/source/blender/receipts/urman_character_kit_v2.structure.json": "bc4a77895922f9cb24ba74b786e30a75d50f54862afde3e6c76b735f6bb5efbc",
+            "game/scripts/Act1ConnectedWorld.MosqueImamDress.cs": "5006302d8d1ea48c2491a3a07d8db208bdcc4ca28afc7cc6cf5e2e7107b7a12c"
+          },
+          "result": "Added metric rest UV before glTF import; fitted-cap derivative uses common LOD0 area correction .6706129 and existing ClothFor(3d4c41). Seam copies group face normals by original position+authored normal, preserving pre-UV smoothing and hard-normal boundaries. No-UV shadow remains supported; imported surface LOD indices/skin/colors/materials retained.",
+          "verification": "Independent Luna source review; existing structure receipt check same. Both caps48→104 vertices,92triangles unchanged; all non-target mesh UV/geometry/rig/36animations/14images unchanged. Grouped derived normals differ from preUV<=1.48e-6 degrees; fitted UV area/geometry ratio1. Affected Game build0warnings/0errors17.38s; scoped diffcheck clean.",
+          "evidence": [
+            "evidence/PW-032/human-rest-uv-20261013/cap-glb-semantic-compare.json",
+            "evidence/PW-032/human-rest-uv-20261013/cap-derived-normal-semantic.json",
+            "evidence/PW-032/human-rest-uv-20261013/cap-fit-normal-probe.json"
+          ],
+          "remaining": "Actual native imported-cap/collar appearance and Idle/turn/LOD movement; author art acceptance open."
+        },
+        "native_cap_view": {
+          "state": "pending_submission",
+          "question": "Does the current cap UV/normal source import without shader/skin errors and preserve readable Timur costume/collar in actual mosque_hall indoor rendering?",
+          "success": "Actual Godot viewport PNG at exact manifest checkpoint, valid ownership/source SHA and restored userdata. Wide/static view proves only import/context appearance; detailed cap/gait/door acceptance stays open.",
+          "points": "mosque_hall:MosqueInterior@1.8,1.6,-0.2>MosqueInterior@-0.7,1.4,-4.2",
+          "phase": "village-winter-crisp",
+          "fov": 70
         }
       }
     },

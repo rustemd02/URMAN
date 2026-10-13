@@ -2818,8 +2818,8 @@
       "id": "character.act1.human.v2",
       "source": "assets/source/blender/urman_character_kit_v2.blend",
       "derived": "game/assets/generated/urman_character_kit_v2.glb",
-      "sourceSha256": "eddbaa4202013cd45c23c9a32525c7e1c69807c90967dc97167983859a4b1622",
-      "derivedSha256": "8ae08a59505c217a53c156a43ae6d42937fbdd946ff186f3af44bdbe65b2a524",
+      "sourceSha256": "b8bd5a21c3dc0efbc6be2f2a1e15a0243cc791a140bdca908d8a3260e4e7a275",
+      "derivedSha256": "12c2868eb4426dd9c36cfbf71c21db5677de6f9576ecd6308dd5b832a17cca9f",
       "generator": "tools/blender/generate_character_kit_v2.py",
       "license": "CC0 1.0 (Quaternius bodies/hair/motion; MakeHuman/MPFB Tamara age-study head and old-female albedo) + project-original clothing, fitting and clip selection",
       "scale": 1.0,
@@ -2837,7 +2837,7 @@
       "lod": "LOD0 + Decimate LOD1 (35%); Godot 0-18m / 14-48m",
       "status": "art candidate 2026-09-27 hair-tone: moderate crown smoothing preserves waves; lighter grey hair; warm face factor(.8,.68,.57). Strong smoothing rejected. Native front/profile/Idle/Talk inspected;9 rigs/36 clips and other meshes exact;all14 embedded images unchanged;generator bindings/weights/material/geometry match. Same DLL prior full scene/skip81/cold11 in aged-head-scene/cold-load, not rerun for this cosmetic-only edit. Human likeness, continuous gait/audio remain open. Evidence docs/production/tamara_mvp_2026-09-26/hair-tone/.",
       "releaseDisposition": "include-in-act1-release; runtime-loaded by GeneratedCharacterKitDressing for human prefixes",
-      "uv": "PW-03213.10.2026: existing six Timur garment rest UV extended by80 generic human cloth nodes;3 Timur LOD1 rebuilt via existing metricLOD0→Decimate.35 for UV coherence. 83targetnodes; protected mixed Tamara printUV0/Timur cap+sash unchanged. Geometry/rig/animation/material/image semantics preserved. UV seams +37667vertices/+3618904GLBbytes; triangles unchanged. Native gait/LOD/art review pending. Evidence evidence/PW-032/human-rest-uv-20261013/. Subsequent Tamara Coat LOD0/1: only red trim Blender UV*.095 with existing metricmarker; printUV float32exact, all83cohort and geometry/skin/animation/images unchanged. Generator preserves printCoat/Skirt UV before LODcopy. Native art/motion pending."
+      "uv": "PW-03213.10.2026: existing six Timur garment rest UV extended by80 generic human cloth nodes;3 Timur LOD1 rebuilt via existing metricLOD0→Decimate.35 for UV coherence. 83targetnodes; protected mixed Tamara printUV0/Timur cap+sash unchanged. Geometry/rig/animation/material/image semantics preserved. UV seams +37667vertices/+3618904GLBbytes; triangles unchanged. Native gait/LOD/art review pending. Evidence evidence/PW-032/human-rest-uv-20261013/. Subsequent Tamara Coat LOD0/1: only red trim Blender UV*.095 with existing metricmarker; printUV float32exact, all83cohort and geometry/skin/animation/images unchanged. Generator preserves printCoat/Skirt UV before LODcopy. Native art/motion pending. Subsequent Timur Hat LOD0/1: metric rest UV, +56 seam vertices each;92triangles each unchanged. Mosque fitted-cap shared UVscale .6706129 and sourceposition/normal seam grouping preserve prior smoothing. Existing ClothFor; prior85cloth UV/rig/images/animations unchanged. Native import/art/movement pending."
     },
     {
       "id": "texture.act1.shop-sign-ashamlyklar",
