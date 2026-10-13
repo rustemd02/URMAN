@@ -111126,7 +111126,7 @@
       "assigned_owner": "claude/visual-reset-2026-10-09",
       "activity": {
         "state": "confirmed_active",
-        "reason": "83-node UV cohort published/structurally verified; waiting for specific live station389 release while source integration proceeds. Actual native movement/art remains open."
+        "reason": "Own nativeStudio77c14ee... RUNNING with acceptedimmutable snapshotb575...;83cohort delivered, Tamara/collar sources accepted; realgame motion/art observation pending."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -111136,9 +111136,9 @@
         "Exact six-mesh Timur metric rest UV source complete with geometry/rig/animation/material preservation; actual coat/skirt/trousers Idle/walk/turn native view remains.",
         "BathSpirit rigid rest texture source implemented with original finish/shelter and preserved defaults; actual chest/head motion/readability requires protected Windows view.",
         "Book/held sleeves/W01 moving branch source-safe; fulfill named movement checks as required, preserve existing valid wind/normal receipts on unchanged inputs.",
-        "83-node generic cloth/rest UV cohort published and structurally checked; actual gait/LOD appearance and custom Tamara print/Timur cap/collar consumers remain."
+        "83genericUV/coherentLOD and2Tamara redtrim sourceaccepted; print/geometry/rig/images preserved. Collar sourceaccepted. Actual nativegait/LOD/door/collar views and derivedcap restUV remain."
       ],
-      "next_action": "After station389 terminal/recovery/release, use existing protected Studio PlayFromHere to inspect door rotation, nearby interior and Timur/human cloth movement; preserve separate author art acceptance.",
+      "next_action": "Use live own77c14ee5b05f4313a26713aa90352bb1 Studio PlayFromHere; inspect door rotation, Timur/collar cloth motion and nearby interior. Follow same handle to terminal/recovery; no restart from observation timeout.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -111411,10 +111411,15 @@
           "runtime": "NOT_RUN; per-mesh anchoring does not claim seamless pattern across separately rotated pieces or artistic readiness."
         },
         "remaining_human_source_inventory": {
-          "missing_metric_nodes": 86,
-          "uv0_present": 56,
-          "uv0_missing": 30,
-          "prefixes": {
+          "cause": "ApplyHumanMaterials475-501 already assigns all named non-skin/non-hair families to cloth; absent metric marker leaves world projection. Felt/fur/leather family reclassification is not a real blocker. Protected mixed print UV Tamara_Coat is real exception.",
+          "next_finite_source": "83generic +2Tamara trim source stages accepted; collar cached rigidlocal sourceaccepted. Live derived cap restUV remains; sash is explicitly hidden in current mosque dress. Nextactualnative door/human/collar motion after stationlease.",
+          "lod_constraint": "Published cohort follows metric LOD0 then existing Decimate .35 before armature; 43 LOD1 pairs preserve oriented triangle/normal/skin/material semantics. Previous nearest-chart transfer rejected.",
+          "first_hypothesis": "Nearest polygon UV DataTransfer isolated candidate rejected: MansurBootLeft LOD1 UVarea/geometry36.882, median edge stretch7.76/p95 34.40; CoatSkirt zero nearest-distance but UVarea6.034/p95stretch57.98; Coat UVarea103.58. Cause target faces cross incompatible source UV chart seams. Canonical asset/receipt bytes unchanged.",
+          "cap_next_input": "Derived fitted cap requires proper rest UV side chart by arc length + top chart with skin/color/normal streams copied across seam; base/internal LOD indices remapped consistently. Existing skinned localVERTEX path is unsafe; keep cap open rather than fake rigid projection.",
+          "baseline_missing_metric_nodes": 86,
+          "baseline_uv0_present": 56,
+          "baseline_uv0_missing": 30,
+          "baseline_prefixes": {
             "Mansur": 14,
             "Gulsina": 14,
             "Naila": 12,
@@ -111423,10 +111428,13 @@
             "Tamara": 10,
             "PhoneGuy": 14
           },
-          "cause": "ApplyHumanMaterials475-501 already assigns all named non-skin/non-hair families to cloth; absent metric marker leaves world projection. Felt/fur/leather family reclassification is not a real blocker. Protected mixed print UV Tamara_Coat is real exception.",
-          "next_finite_source": "83-node cohort published after exact semantic preservation checks. Remaining custom consumers: protected mixed Tamara print UV, Timur derived cap and chest collar; actual native actor gait/LOD appearance remains open.",
-          "lod_constraint": "Published cohort follows metric LOD0 then existing Decimate .35 before armature; 43 LOD1 pairs preserve oriented triangle/normal/skin/material semantics. Previous nearest-chart transfer rejected.",
-          "first_hypothesis": "Nearest polygon UV DataTransfer isolated candidate rejected: MansurBootLeft LOD1 UVarea/geometry36.882, median edge stretch7.76/p95 34.40; CoatSkirt zero nearest-distance but UVarea6.034/p95stretch57.98; Coat UVarea103.58. Cause target faces cross incompatible source UV chart seams. Canonical asset/receipt bytes unchanged."
+          "current_missing_metric_nodes": 4,
+          "current_missing_metric_node_names": [
+            "TimurHazrat_Hat_LOD0",
+            "TimurHazrat_Hat_LOD1",
+            "TimurHazrat_Sash_LOD0",
+            "TimurHazrat_Sash_LOD1"
+          ]
         },
         "human_rest_uv_slice": {
           "targets": "80 new metric nodes: Mansur14/Gulsina14/Naila12/Resident14/PhoneGuy14/Tamara8/Timur boots4; plus3 existing Timur garment LOD1 for coherent UV collapse.",
@@ -111456,6 +111464,46 @@
             "apply_uv_before_decimate.py": "61ba76aeadff165a571c6d0d35e17a4c8408fac15d98c1269114e073d08ad08d"
           },
           "independent_review": "Luna: no structural defect. Target UV0/tangent excluded from structural comparisons, numeric comparisons round to7decimals; marker does not prove art. Separate pre-export metrics finite/range; root exported canonical UV readback83 finite, UV/geometry area .88859966–1.00000015,0 UV-degenerate triangles with nonzero geometry; Timur CoatLOD1 ratio .93059377. Its -138vertex change is UV seam dedup, triangle semantics unchanged. Native gait/LOD/appearance still required."
+        },
+        "collar_slice": {
+          "target": "game/scripts/Act1ConnectedWorld.MosqueImamDress.cs#ConfigureMosqueImamDress",
+          "source_sha256": "e82738ad80e83ca28ad64d40055003b68258e96aea75a7257d46e0c96468deaf",
+          "result": "Unskinned CylinderMesh CollarBand under existing chest BoneAttachment uses existing cached rigid-local cloth material with zero rest offset; originalded6c2/cloth/sheltered/texture scale preserved via preserveSurfaceDefaults. Geometry, attachment/bones and cap unchanged.",
+          "verification": "Root producer/helper/caller inspection and independent Luna source review confirm unskinned rigid primitive, preserved cloth family/albedo/scale/shelter and world-weather calculations. Scoped diffcheck clean. Exactexisting helper signature reused; no build/test/runtime run.",
+          "runtime": "NOT_RUN; current389 is live owner session, native collar/actor movement remains pending."
+        },
+        "tamara_trim_slice": {
+          "targets": [
+            "Tamara_Coat_LOD0",
+            "Tamara_Coat_LOD1",
+            "tools/blender/generate_character_kit_v2.py#tamara_housecoat/finish_character"
+          ],
+          "source_sha256": {
+            "assets/source/blender/urman_character_kit_v2.blend": "eddbaa4202013cd45c23c9a32525c7e1c69807c90967dc97167983859a4b1622",
+            "game/assets/generated/urman_character_kit_v2.glb": "8ae08a59505c217a53c156a43ae6d42937fbdd946ff186f3af44bdbe65b2a524",
+            "assets/source/blender/receipts/urman_character_kit_v2.structure.json": "6ffae2b8c2e459d4f47872406d43729b8a6a61fbb1c419f1af1a47ecc042acb2",
+            "tools/blender/generate_character_kit_v2.py": "9e26eaeadf11adbe8ef05aef159e9a50d4f2cc9de9b6efc63e1818747c6705b3"
+          },
+          "baseline_sha256": {
+            "blend": "4364c986d42aa3a944f473e14959ea577dac67d57f03e9f9b7e1666f9288a6d1",
+            "glb": "9ad3080652d71117a63303e8eabb2662d7f43cdf7b69dae9b0680b69d0a32a50"
+          },
+          "result": "Only red trim material-index1 UV loops multiplied by.095, print material-index0 UV unchanged; existingclothmarker routes trim through existing ForMovingCloth. Generator same-path guard preserves printedCoat/Skirt maps; canonicalSkirt unchanged.",
+          "verification": "Published after canonicalbaseline SHA recheck.799nodes/196meshes preserved; allnon-coat including83UVcohort exact;75materials/63textures/14embeddedimages/9skins/36animations unchanged. Printed UV0 float32 sequence exact4838LOD0/2132LOD1 vertices; trim triangle mapping U=.095U,V=.905+.095V from glTFVflip, maxF32error2.38e-7 over648/189triangles. Existingstructure check same; receipt only2newcoatmarkers.",
+          "evidence": [
+            "evidence/PW-032/human-rest-uv-20261013/tamara-glb-semantic-compare.json"
+          ],
+          "uv_check_script_sha256": "ee31b2226d32557af3faed0b27878660cfd681edb9e2459f648df875477c9411",
+          "runtime": "NOT_RUN; art/gait pending in single next protectedStudio snapshot."
+        },
+        "native_motion_session": {
+          "job_id": "77c14ee5b05f4313a26713aa90352bb1",
+          "snapshot_id": "b575c616d8c6446be4d60ba652e94bf4b6c3b8327f3309ff355aae0b1484d979",
+          "state": "RUNNING; no actualframes accepted yet",
+          "question": "Does rigid-localgrain follow FacilityManualDoor hinge and collar, does restUVcloth follow Idle/turn without sliding and preserve indoor readability?",
+          "success": "Actual protectedStudioPlayFromHere screenshots/movement in ordinary game; preserve print/snow/material response; no source-onlyartclaim.",
+          "station_before": "389terminalFAIL; ordinarydoctor busy=null,userdata_recovery_pending=false,orphan_game_process=false,readytrue.",
+          "source_provenance": "Includes current B20 collision/recipe/interior/UI source in immutable snapshot; no B20acceptance claim. Sourcefreeze released afteraccepted."
         }
       }
     },

@@ -1133,6 +1133,15 @@ def tamara_housecoat(obj: bpy.types.Object, arm: bpy.types.Object, collar: bool)
         scale = math.sqrt(sum(f.area for f in obj.data.polygons) / area) / .095
         for loop in uv.data:
             loop.uv *= scale
+        # The printed navy/ivory cloth keeps its authored 95 mm repeat. Only
+        # the red fastening is unprinted painterly cloth: convert its UVs from
+        # that print scale to rest-surface metres for the moving-cloth shader.
+        trim_loops = [loop_index for face in obj.data.polygons if face.material_index == 1
+                      for loop_index in face.loop_indices]
+        assert trim_loops, f"{obj.name}: expected authored red trim faces"
+        for loop_index in trim_loops:
+            uv.data[loop_index].uv *= .095
+        obj["cloth_uv_units"] = "metres; rest surface; runtime repeat 0.5m"
 
 
 def load_actions(ual: Path) -> dict[str, bpy.types.Action]:
@@ -1305,6 +1314,10 @@ def finish_character(prefix: str, arm: bpy.types.Object, parts: list[bpy.types.O
     if prefix in PEOPLE:
         for part in parts:
             if any(is_cloth_material(mat) for mat in part.data.materials if mat):
+                if prefix == "Tamara" and part.name in {"Tamara_Coat_LOD0", "Tamara_Skirt_LOD0"}:
+                    # The housecoat meshes carry authored printed image UVs;
+                    # remapping either whole mesh here would destroy the print.
+                    continue
                 metric_cloth_uv(part)
     for part in list(parts):
         copy = part.copy()
@@ -1312,6 +1325,8 @@ def finish_character(prefix: str, arm: bpy.types.Object, parts: list[bpy.types.O
         bpy.context.scene.collection.objects.link(copy)
         copy.name = part.name.replace("_LOD0", "_LOD1")
         copy.data.name = copy.name
+        if prefix == "Tamara" and part.name == "Tamara_Coat_LOD0":
+            copy["cloth_uv_units"] = "metres; transferred from LOD0 rest surface; runtime repeat 0.5m"
         copy.parent = arm
         copy.matrix_world = part.matrix_world.copy()
         if len(copy.data.polygons) > 400:

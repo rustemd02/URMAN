@@ -53,7 +53,8 @@ public partial class Act1ConnectedWorld
         var coatCloth = PainterlyMaterialLibrary.ForColor("363d47", "cloth", sheltered: true);
         var trouserCloth = PainterlyMaterialLibrary.ForColor("2d3136", "cloth", sheltered: true);
         var capCloth = PainterlyMaterialLibrary.ForColor("3d4c41", "cloth", sheltered: true);
-        var shirtCloth = PainterlyMaterialLibrary.ForColor("ded6c2", "cloth", sheltered: true);
+        var shirtCloth = PainterlyMaterialLibrary.ForLocalWoodPiece("ded6c2", Vector3.Zero, "cloth",
+            sheltered: true, preserveSurfaceDefaults: true);
 
         var derived = new List<ArrayMesh>();
         try
@@ -63,7 +64,7 @@ public partial class Act1ConnectedWorld
                 // Sober city-imam suit tones replace the near-military green
                 // wool overcoat and the black trousers of the generic kit.
                 // VIS-104: skinned garment pieces take UV-bound cloth once the kit
-                // carries metric UVs; the derived cap and shirt stay rigid world cloth.
+                // carries metric UVs; the derived cap still needs its own rest UVs.
                 foreach (var garment in new[] { "Coat", "CoatSkirt" })
                 {
                     var piece = Piece($"TimurHazrat_{garment}_LOD{lod}");

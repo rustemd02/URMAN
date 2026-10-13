@@ -1,0 +1,104 @@
+{
+  "files": {
+    "baseline": "/tmp/pw032-tamara-mixed-20261013/baseline/input.glb",
+    "candidate": "/tmp/pw032-tamara-mixed-20261013/candidate/game/assets/generated/urman_character_kit_v2.glb"
+  },
+  "counts": {
+    "nodes": [
+      799,
+      799
+    ],
+    "meshes": [
+      196,
+      196
+    ],
+    "materials": [
+      75,
+      75
+    ],
+    "textures": [
+      63,
+      63
+    ],
+    "images": [
+      14,
+      14
+    ],
+    "skins": [
+      9,
+      9
+    ],
+    "animations": [
+      36,
+      36
+    ]
+  },
+  "node_semantics": {
+    "node_count_before": 799,
+    "node_count_after": 799,
+    "node_records_equal": true,
+    "node_record_delta": 0,
+    "target_nodes_equal": true,
+    "target_node_count": 2,
+    "target_node_differences": [],
+    "target_uv_marker_values": {
+      "Tamara_Coat_LOD0": "metres; rest surface; runtime repeat 0.5m",
+      "Tamara_Coat_LOD1": "metres; transferred from LOD0 rest surface; runtime repeat 0.5m"
+    },
+    "target_uv_marker_mismatches": []
+  },
+  "mesh_triangle_semantic_differences": [],
+  "target_vertex_expansion": [
+    {
+      "mesh": "Tamara_Body_LOD0.001",
+      "vertices_before": 5605,
+      "vertices_after": 5605,
+      "delta": 0,
+      "triangles_before": 6548,
+      "triangles_after": 6548
+    },
+    {
+      "mesh": "Tamara_Coat_LOD1",
+      "vertices_before": 2454,
+      "vertices_after": 2454,
+      "delta": 0,
+      "triangles_before": 2290,
+      "triangles_after": 2290
+    }
+  ],
+  "global_sections": {
+    "asset_equal": true,
+    "extensionsUsed_equal": true,
+    "extensionsRequired_equal": true,
+    "materials": {
+      "count_before": 75,
+      "count_after": 75,
+      "equal": true,
+      "diff_names": []
+    },
+    "images": {
+      "count_before": 14,
+      "count_after": 14,
+      "equal": true,
+      "diff_names": []
+    },
+    "textures": {
+      "count_before": 63,
+      "count_after": 63,
+      "equal": true
+    },
+    "skins": {
+      "count_before": 9,
+      "count_after": 9,
+      "equal": true,
+      "diff_names": []
+    },
+    "animations": {
+      "count_before": 36,
+      "count_after": 36,
+      "equal": true,
+      "diff_names": []
+    },
+    "scene_roots_equal": true
+  }
+}

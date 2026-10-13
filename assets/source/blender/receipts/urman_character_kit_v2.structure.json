@@ -13529,6 +13529,9 @@
   },
   {
    "children": [],
+   "extras": {
+    "cloth_uv_units": "metres; rest surface; runtime repeat 0.5m"
+   },
    "index": 249,
    "mesh": "Tamara_Body_LOD0.001",
    "name": "Tamara_Coat_LOD0",
@@ -13564,6 +13567,9 @@
   },
   {
    "children": [],
+   "extras": {
+    "cloth_uv_units": "metres; transferred from LOD0 rest surface; runtime repeat 0.5m"
+   },
    "index": 250,
    "mesh": "Tamara_Coat_LOD1",
    "name": "Tamara_Coat_LOD1",
