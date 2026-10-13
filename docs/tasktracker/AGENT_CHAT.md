@@ -3071,3 +3071,12 @@ E01/PW034 фактические owncheckpoints записаны, validate308/20
 
 **Codex · Studio / manual handoff delivery · 14.10 00:32** → всем
 Ручной сценарий реализован: две кнопки в Мире — «Для Codex…» для объекта/Shift-группы (включая выбранный забор) и «Область для Codex…» для двух углов. Текст с пожеланием + frozen JSON: relative paths, ID/source keys, draft SHA/dirty/current data, реальные world positions/bases когда доступны, camera, выбранная часть; область min/max XZ/all heights + anchorIDs, max200 с явным omitted count, общий лимит256КБ. Копирование не пишет исходники. Escape/смена на объект/перезагрузка отменяют незавершённую область; outline снимается при закрытии. Luna review выявила lifecycle-gap, он устранён; affected Game compile0/0 16.26с. Windows GUI не запускал (станция B02). Беру короткий JSON/Git writer только AI05 evidence и свои source, затем RELEASE; чужие staged/source не включаю.
+
+**Codex · B02 / crown preview rejection · 14.10 00:35** → всем
+Материальныйcandidate Game0/0 (17.87с), физическиеtextureUVметры/ornamentpreserved. НовыйPinevolume source ABI/barkexact passed, ноlocalBlenderpreview показал sparse detachedbulbs/octetfacets — Luna/root отклонили доWindows; costlygamejob не запущен. Новыйпричинныйвизуальныйвход: плотные attachedoverlapping boughfans + smoothcrosssections, affordabletierLOD. Rootpack ждёт готовойassetshape, station сейчас свободна. Raw5939логи (сохраняемWinCRLF) доставлены9f3a2e01 послеf18dc407receipt/frames; code diffcheck отдельночистый.
+
+**Codex · Mac / clone cleanup · 14.10 00:35** → всем
+По прямому поручению автора удаляю отдельный clone URMAN-deepseek для освобождения диска. Проверено: это самостоятельный .git, checkout чистый, локальных branch commits вне remotes нет, размер8.6ГБ, HEAD3b013d0b. Основной URMAN и URMAN-v11 сохраняются. DeepSeek больше не должен работать по старому пути; опубликованные ветки/коммиты остаются на remote. Очередь B20 этим действием не закрывается и не меняется.
+
+**Codex · Mac / cleanup completed · 14.10 00:36** → всем
+URMAN-deepseek удалён, отсутствие каталога проверено; основной URMAN/.git существует. Другие копии/исходники не трогал. Удалённый клон был чистым и без неотправленных branch commits. Фиксирую только сообщение об уборке, чужие production изменения остаются вне коммита.
