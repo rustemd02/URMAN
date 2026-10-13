@@ -12710,7 +12710,7 @@
             "active_owner": null,
             "activity": {
               "state": "released",
-              "reason": "Finite one-pane D07 hookup source accepted after independent review and affected Game compile; shader/runtime/thaw/art acceptance remains open."
+              "reason": "Own static native D07 pane stage accepted; terminal/restored and doctor idle confirmed, station released. Full HighLow/thaw/art remains open."
             },
             "task_type": "engineering",
             "status": "in_progress",
@@ -12719,7 +12719,7 @@
             "remaining": [
               "Подключить D07 — Морозный узор окна; собственного целевого receipt пока нет."
             ],
-            "next_action": "After confirmed current station worker and owner release, use existing capture on exact YardRepairCorner/WindowFrost to inspect full-pane D07 pattern and shader parsing/High+Low; ordinary thaw should remove same node and retain repair-strip read prerequisite. No unchanged broad TEXTURE rerun; child remains partial until own runtime/art criteria.",
+            "next_action": "Use accepted Medium static9839 frames without rerun. After current UI worker2/helper deployment, ordinary window-thaw disappearance and prerequisite/repair-strip visibility must be verified; different High/Low/night/view-through requirements remain explicit, child partial.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -12775,9 +12775,9 @@
               ],
               "scope": "One isolated material copy; optional full-pane local XY UV only when size>0, all prior frost UV paths unchanged by default. Existing opaque alpha, geometry/collision/position/visibility/thaw/prerequisite unchanged.",
               "verification_question": "Does only WindowFrost use complete top-down RGBA frost pattern, with alpha mixed over prior opaque tint and no cached material/other consumer/game-state mutation? Compile is not shader parsing or visual proof.",
-              "native": "NOT_RUN; no station job submitted.",
+              "native": "9839cc2c8bba4168bd56e457c1631c9c PASS/gameExit0/userdataRestoredtrue; actual deployed worker16f15d0c matches accepted capture baseline, UI2 not used.",
               "remaining": "Actual target pane High/Low/current view, ordinary thaw disappearance and clue gating/restoration/art; no full E07 completion inferred from source.",
-              "state": "Accepted source stage; actual shader/native NOT_RUN.",
+              "state": "Accepted native static one-pane stage; full child partial.",
               "source_sha256": {
                 "game/scripts/PainterlyMaterialLibrary.cs": "7038998fbda777576ea9243cbc99c845445faf6f298291e65339321a27bef34d",
                 "game/scripts/Act1ConnectedWorld.YardMechanisms.cs": "7fc4ecf0792902b721fbf7d89dddc2af16c1b897d2af97db0bf0f5d958ef47cf"
@@ -12788,7 +12788,35 @@
                 "seconds": 28.58,
                 "log": "evidence/ACT1-TEXTURE.05/yard-frost-20261013/game-build.log"
               },
-              "review": "Root full diff + independent Luna: local duplicate before parameters, exact XY top-down pane mapping, half-texel clamp only opted-in path, zero default old UV unchanged. Alpha still affects color/roughness only, no ALPHA/transparency/emission; callback/state/geometry/collision/clue hiding intact. C# compile does not parse Godot shader or prove appearance."
+              "review": "Root full diff + independent Luna: local duplicate before parameters, exact XY top-down pane mapping, half-texel clamp only opted-in path, zero default old UV unchanged. Alpha still affects color/roughness only, no ALPHA/transparency/emission; callback/state/geometry/collision/clue hiding intact. C# compile does not parse Godot shader or prove appearance.",
+              "capture_question": "Does current engine parse optional shader and show full-pane RGBA frost pattern at exact YardRepairCorner/WindowFrost, with opaque center/clue hidden and adjacent default materials intact? Static control views only; no thaw/HighLow/native-gameplay proof.",
+              "capture_plan": {
+                "points": "yard_frost_close:YardRepairCorner@0,1.45,0.35>YardRepairCorner@0,1.45,-0.752;yard_frost_context:YardRepairCorner@0.7,1.7,1.7>YardRepairCorner@0,1.45,-0.752",
+                "fov": "50",
+                "phase": "village-winter-crisp",
+                "mode": "existing capture",
+                "timeout": 300,
+                "baseline_worker_sha": "16f15d0c5def20a986b52ff333302d7fa9731cfd5ca508c42d8aeb805d878ba8",
+                "ui_transport_used": false
+              },
+              "job_id": "9839cc2c8bba4168bd56e457c1631c9c",
+              "snapshot_id": "5affc2a11ef4715e13a7739e2bdc4089380e11bad7427db94518ebc755891439",
+              "archive_sha256": "cdd7cebe0d0d653aad39584631c37a8b975e7ca4e99705c5433e974340060530",
+              "actual_review": "Root personally viewed both current PNGs: recognizable full frost edges, upright orientation, opaque center still hides repair strip. Adjacent wood/metal render without visible shader defect. Exact YardRepairCorner camera+target owner confirmed. Medium/.90 scale/1920x1080/FOV50/winter-crisp; no HighLow, motion, ordinary thaw or final art claim.",
+              "native_evidence": [
+                "evidence/ACT1-TEXTURE.05/yard-frost-20261013/native_9839cc2c/receipt.json",
+                "evidence/ACT1-TEXTURE.05/yard-frost-20261013/native_9839cc2c/request.json",
+                "evidence/ACT1-TEXTURE.05/yard-frost-20261013/native_9839cc2c/result.zip",
+                "evidence/ACT1-TEXTURE.05/yard-frost-20261013/native_9839cc2c/frames/yard_frost_close.png",
+                "evidence/ACT1-TEXTURE.05/yard-frost-20261013/native_9839cc2c/frames/yard_frost_close.json",
+                "evidence/ACT1-TEXTURE.05/yard-frost-20261013/native_9839cc2c/frames/yard_frost_context.png",
+                "evidence/ACT1-TEXTURE.05/yard-frost-20261013/native_9839cc2c/frames/yard_frost_context.json",
+                "evidence/ACT1-TEXTURE.05/yard-frost-20261013/native_9839cc2c/game.log",
+                "evidence/ACT1-TEXTURE.05/yard-frost-20261013/native_9839cc2c/build.log",
+                "evidence/ACT1-TEXTURE.05/yard-frost-20261013/native_9839cc2c/import.log",
+                "evidence/ACT1-TEXTURE.05/yard-frost-20261013/native_9839cc2c/engine-errors.log"
+              ],
+              "station_release": "Fresh doctor ready=true,busy_job=null,recovery=false,orphan=false after terminal/restored; Windows released in AGENT_CHAT."
             }
           },
           {
