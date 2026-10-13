@@ -4323,6 +4323,28 @@
       "qa": "Root inspected generated raster and RGBA histogram/hash; small partial alpha touches edge (corner 1/255), masked by physical consumer. C# compile/source review separate; shader/import/current native appearance and art acceptance open.",
       "status": "source-integrated candidate; native NOT_RUN",
       "releaseDisposition": "D03 localized soot candidate; not accepted in-game until import and targeted bathhouse view/movement"
+    },
+    {
+      "id": "texture.painterly.w07.v1",
+      "source": "Existing project-original procedural bake, 2026-10-10; game/assets/textures/painterly/procedural_bake_receipt_v1.json W07",
+      "derived": "game/assets/textures/painterly/wood_shed_dark_v1_albedo.png",
+      "derivedSha256": "78dec8eb6d003df7ee844002c34e8b8f8d7408a8a45e35668b9503dc751957cb",
+      "generator": "tools/blender/bake_procedural_textures.py",
+      "license": "project-original procedural (no third-party source)",
+      "scale": 1,
+      "triangleBudget": 0,
+      "textureBudget": 1024,
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "materials": [
+        "wood_shed_dark"
+      ],
+      "materialOwner": "PML existing W07 and HeroYardShed_LoftBoard_*; 2026-10-13 isolated per-instance BabaiYardToolShed/Wall override, local upright metric projection with texture_scale .66 for parent uniformScale .66",
+      "collision": "unchanged; material-only existing visual receiver",
+      "qa": "Root inspected raster; current file SHA equals existing procedural receipt. Independent Luna verified exact receiver/local projection/scale. New wall shader appearance/native/art pending; no new texture or generator run.",
+      "status": "partial receiver integration; native/art open"
     }
   ]
 }

@@ -996,3 +996,7 @@ Generate exactly one flat localized color decal on genuine alpha transparency. K
 
 Material request: One soft irregular soot deposit, warm neutral charcoal-grey with feathered broken edges and a slight upward spreading tendency. Transparent surrounding area. No flames, stove opening, smoke plume, wall background, occult mark or pitch-black sharp border. The decal is used at 20–40 cm scale on metal near a bathhouse firebox; keep generous fully transparent margins.
 ```
+
+## W07 named shed wall — 2026-10-13
+
+Reuses the unchanged existing `wood_shed_dark_v1_albedo.png` (1024 × 1024 RGB, SHA-256 `78dec8eb6d003df7ee844002c34e8b8f8d7408a8a45e35668b9503dc751957cb`, matches procedural receipt). `BabaiYardToolShed/Wall` alone now uses a duplicate W07 material with local upright projection and texture scale .66 compensating its .66 uniform parent scale: one world metre per repeat. Tint remains `62655d`; grounded mesh, roofs, door, other sheds, collisions and save state are unchanged. Root raster inspection and independent source review performed; targeted current Windows view/movement and artistic acceptance remain open. This material stage does not complete the shed geometry/reference rework.
