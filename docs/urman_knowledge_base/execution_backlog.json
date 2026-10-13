@@ -59659,7 +59659,8 @@
                 "evidence/ACT1-DEPTH.9/log-winding-20261013/frames/C1_street_high.png"
               ],
               "verification": "9da4e956 PASS/game0/import0/build0, userdataRestored=true; archive SHA2e81f8e2…e9bc0cd проверен. Совпадают camera/target/FOV/spec и profile/exteriorGLB SHA с after-fill baseline. Baseline PML SHA c34f61…d5988 точно найден в 30238e8c; diff к current содержит только local-piece helper, wood_log_uv/wood_facade/tint и shader block прежние. Fresh doctor ready/busy-null/recoveryfalse/orphanfalse.",
-              "remaining": "Полное качество дома/движение/авторская художественная приёмка открыты. Автор разрешил работу по описаниям, если старые оригиналы T1–T4/P2 не найдены: имена и точные SHA проверены среди100455 локальных PNG/JPG/WEBP без совпадений, provenance6efda188/29f70dab local-only на Mac Кадыра; запрос о сохранённой копии в общем чате. Это не останавливает художественную работу. Angular repeated forest остаётся главным видимым расхождением; TimberHomeStyle имеет отдельную несогласованность winding."
+              "remaining": "Полное качество дома/движение/авторская художественная приёмка открыты. Автор разрешил работу по описаниям, если старые оригиналы T1–T4/P2 не найдены: имена и точные SHA проверены среди100455 локальных PNG/JPG/WEBP без совпадений, provenance6efda188/29f70dab local-only на Mac Кадыра; запрос о сохранённой копии в общем чате. Это не останавливает художественную работу. Angular repeated forest остаётся главным видимым расхождением; TimberHomeStyle имеет отдельную несогласованность winding.",
+              "root_acceptance": "Кодекс Кадыра лично просмотрел delivered current C1/C2 13.10: near log wall wood/round crowns/end grain restored, street no visible regression; PASS/gameExit0/userdataRestoredtrue verified. Accepted scoped repair only; full house/reference/movement/author gates unchanged. No rerun."
             },
             "progress_2026_10_13_joinery_winding": {
               "state": "accepted_source_repair",
@@ -106151,7 +106152,7 @@
       "assigned_owner": "art",
       "activity": {
         "state": "released",
-        "reason": "Finite owned HTTPS transport source stage accepted after independent review, AST and affected Game compile; deployment/native gate remains open."
+        "reason": "Exact active-scene capture correction accepted after root + independent Luna review and Python AST. Worker deployment and native remain open; no station used."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -106160,7 +106161,7 @@
         "Actual Windows book inspection/reopen/tab/load/session/carry/vehicle guards, contacts and framing; native/human art acceptance not performed.",
         "Walking first-person grip and typed PageId→3D page/photo/flip/mount motion, editable typography/glyph text and FOV/accessibility acceptance remain open."
       ],
-      "next_action": "Station owner deploys reviewed worker/helper during idle/restored lease and confirms normal_ui_transport_version=1; then one own protected full_game play with typed input/current viewport, explicit close and restored receipt. J/Tab book navigation remains a separate helper input.",
+      "next_action": "Station owner deploys latest reviewed UI worker/helper at idle/restored lease and confirms normal_ui_transport_version=1. For current connected village/book use play act1_demo --submit-only; capture-current receipt must match that active scene. play-full is a different per-zone world, no equivalent visual acceptance. Actual own input→frame→close→restored remains open.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -106496,8 +106497,8 @@
           "game/scripts/Main.InteractiveFrameCapture.cs"
         ],
         "sha256": {
-          "eng/windows_station_worker.py": "027ac3135520fba955df4df597fa133f2270b8f7fcd6127ffae00881e8d82f26",
-          "eng/remote-check.py": "42760c5848f37f793588cab7c818230c1d5cb270558f2ca6e9b9474a01afdd35",
+          "eng/windows_station_worker.py": "2c6dfece1c55a6264a22866632480e553b8b49f50f1afe8c8a8f8c83999d7a99",
+          "eng/remote-check.py": "4288210abecf4ca338378b3e74d0c05d8de7c9d8f430e2e8c0e31f6fdbf248ea",
           "game/scripts/Main.cs": "86cb9d28616bc2979e1a77f0faf4d86f26c20b58a91e4544d0bbfd6f8998fd33",
           "game/scripts/Main.InteractiveFrameCapture.cs": "431a57d283fff366cc5bdc3aa455968de5ad4295b33958f68de1293dac72549c"
         },
@@ -106511,13 +106512,14 @@
         "native": "NOT_RUN; current station worker not yet deployed/confirmed. No station lease/job/input/capture used.",
         "remaining": "Actual Windows process/window topology, renderer capture/input/close/data restoration required. Prior helper lacks J/Tab; no book navigation, grip/art/game readiness inferred.",
         "commands": [
-          "remote-check.py play-full --timeout 1200",
+          "remote-check.py play --timeout 1200 --submit-only # connected village; play-full is separate per-zone",
           "remote-check.py ui --job-id ID --ui-action keys --keys {ENTER}",
           "remote-check.py ui --job-id ID --ui-action move --key w --duration-ms 500",
           "remote-check.py capture-current --job-id ID --output /absolute/frame.png"
         ],
         "integration": "Preserved peer c8e0ef44 existing play→act1_demo, timeout1200, synchronous wait/output/ordinary health. Added separate play-full→fixed full_game async/version gate; same bounded mode play accepts only two fixed scenes. Peer deployed play-only worker16f15d0c and live e78c lease preserved; new UI transport not yet deployed.",
-        "integration_review": "Independent Luna merge review: no blocking source regression; legacy act1_demo path preserved. capture-current now rejects non-full_game before publishing any request; help names play-full."
+        "integration_review": "Independent Luna merge review: no blocking source regression; legacy act1_demo path preserved. capture-current now rejects non-full_game before publishing any request; help names play-full.",
+        "scene_correction": "Accepted source correction after peer6fac2231: default connected village is act1_demo and contains Main receiver. Both fixed play scenes allowed; returned scenePath must exactly match server active_spec.scene. full_game per-zone is not equivalent connected-world visual proof. Root + independent Luna source review no blockers; AST PASS. Earlier full_game-only restriction superseded by this correction."
       }
     },
     {
