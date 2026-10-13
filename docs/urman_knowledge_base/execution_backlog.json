@@ -76785,6 +76785,20 @@
                 ],
                 "verification": "Independent Luna numeric and dialog reviews clean; final affected Game compile0warnings/0errors14.10s. Native27gameExit0 with2GOG+2exclusive-window errors, overallFAIL; rawuserdataRestoredfalse retained, guardlog verified originals and doctor ready/no recovery/orphan. Request/proposal copied read-only from isolated source after exporter schema error.",
                 "limits": "New fixes not yet native-tested. No actual road Apply/Undo/restart/traversal. Exporter schema3 support pending binding review/deployment."
+              },
+              {
+                "date": "2026-10-13",
+                "result": "Accepted native Codex road UI stage: yar-north0-4 → real request8eb8e7bdd0a647dd96feceb15c75318c → proposal0.617/0.327 → changed ghost preview → Apply/worldready → Undo/worldready. Only point2 moved to75.92069085061314,4.317236597547412; displacement0.32699999999988627<=0.327. All other far-bank fields and open-part source unchanged.",
+                "source": [
+                  "evidence/STUDIO/practical-editor-2026-10-13/windows-road-apply-undo/receipt.json",
+                  "evidence/STUDIO/practical-editor-2026-10-13/windows-road-apply-undo/preview.png",
+                  "evidence/STUDIO/practical-editor-2026-10-13/windows-road-apply-undo/applied.png",
+                  "evidence/STUDIO/practical-editor-2026-10-13/windows-road-apply-undo/undone.png",
+                  "evidence/STUDIO/practical-editor-2026-10-13/windows-road-apply-undo/transactions/b994934832374549ad417f231f258465/journal.json",
+                  "evidence/STUDIO/practical-editor-2026-10-13/windows-road-apply-undo/final-source-readback.json"
+                ],
+                "verification": "Root personally viewed UI phases; exact before/after image SHA9edf3cbfe0e900aa18a2c32b31ae0b461ecd1dca7a722fc47a2b1506b7ddc7fe/18d8b73f1903e3eb9e87a792ec038404c544a64cec815512d6814676ffb05891. Final journal committed/sidebefore and original source SHA restored. Native29 game0/userdataRestoredtrue, only2GOG loader errors; oldworker export schema error retained, overallFAIL. Freshdoctor ready/no recovery/orphan; lease released.",
+                "limits": "Road player traversal/no-fall A04 and full restart history remain unverified. Exporter source345b48c3 published but oldstationworker not deployed. No wholeAI16/B20 completion."
               }
             ],
             "stage_tasks": [
@@ -76812,8 +76826,8 @@
             "status": "in_progress",
             "implementation_state": "partial",
             "technical_verification_state": "not_run",
-            "remaining": "Real Codex road response obtained; new numeric-cap and modal-handoff source fixes compiled/reviewed. Successful changed preview/Apply/Undo/restart and A04 traversal remain open.",
-            "next_action": "After B02 station release run changed Core/UI through bounded root batches: real Codex .617/.327 → changed preview → Apply → exact Undo → normalclose. Verify point2 only changed and otherworld unchanged; deploy reviewed exporter only while station idle.",
+            "remaining": "Native Codex preview/Apply/exact Undo accepted; endpoints/otherroads/otherfields preserved. A04 player no-fall traversal, restart history and deployed road evidence exporter remain open.",
+            "next_action": "Use accepted road artifacts without repeating baseline; next bounded A04 checks player traversal over edited segment and exact restart history on permitted station after lease. Deploy reviewed exporter only while idle with backup/readback.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -80421,6 +80435,16 @@
                 ],
                 "verification": "Actual tags and personally viewed PNG; affected Game compile0/0 after new modalityfix.",
                 "limits": "No performance gain claimed; hero selective guard/latency and full novice usability remain open."
+              },
+              {
+                "date": "2026-10-13",
+                "result": "Native29 modality errors absent and numeric no-op fixed; map82393ms, Apply worldreload79918ms, Undo worldreload86430ms. Core/UI pipeline functions but remains slow.",
+                "source": [
+                  "evidence/STUDIO/practical-editor-2026-10-13/windows-road-apply-undo/game.log",
+                  "evidence/STUDIO/practical-editor-2026-10-13/windows-road-apply-undo/engine-errors.log"
+                ],
+                "verification": "Actual phase tags and accepted preview/Apply/Undo UI; game0, newreceiptuserdataRestoredtrue. Only2GOG errors remain. Reviewed runnerb8 deployed with exactbasebackup and installedSHA7d58836ff5aac2393840a4d6aa63f58a54b1de408129968c2ce3f05bb6d3bf99.",
+                "limits": "No latency improvement claimed; fullmap rebuild and hero selective guard/usability still open. Worker schema3 exporter not deployed."
               }
             ],
             "stage_tasks": [
