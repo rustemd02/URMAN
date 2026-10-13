@@ -111731,7 +111731,7 @@
           "station_after": "Freshdoctor readytrue/busy=null/recoveryfalse/orphanfalse; released afterterminal."
         },
         "protected_play_transport": {
-          "state": "source implemented; station undeployed; native not_run",
+          "state": "deployed and fresh station doctor ready; ordinary play verification pending",
           "cause": "Station API lacked ordinary persistent fullgame play; existing runner already supports protected native Modeplay. Studio child GDI underlay cannot prove movement; static viewport6fa accepted only context.",
           "result": "Expose play through existing jobs/runner path, fixed act1_demo native window, timeout1..1200, no capture points/profile/FOV or Studio overrides. Source/PID/UI guard, immutable snapshot, protected_run, journal/recovery/cleanup unchanged; runner already uses always-on-top for native play.",
           "sha256": {
@@ -111753,8 +111753,21 @@
             "worker_before_sha256": "3da648e7dc74899c7c467df673fdc449321c6c275cd2cc0b2fc73bbc9fb4eeac",
             "source_match": "Actual worker bytes equal accepted local c8e0ef44 parent byte-for-byte; use exact SHA before mutation. No git pull/reset/stash or blind dirty-file replacement.",
             "method": "After terminal/restored/explicit station release and fresh doctor ready, use existing manage-windows-worker.ps1 stop/lock-release gate, backup exact old worker, apply only new worker source, restart existing interactive task. Preserve all other dirty paths and protect recovery state.",
-            "state": "read-only preflight verified; no stop/deployment. Peer7a570 remains RUNNING."
-          }
+            "state": "deployed via existing manage stop/start after terminal7a570/release/ready; exact worker backup preserved; four other tracked dirty files unchanged"
+          },
+          "station_deployed_sha256": "16f15d0c5def20a986b52ff333302d7fa9731cfd5ca508c42d8aeb805d878ba8",
+          "peer_review": "Peer Codex reported bounded read-only review of c8e0ef44/runner: no blockers; not deployment/native acceptance.",
+          "backup": "D:/URMAN-STATION/data/maintenance/worker-backups/windows_station_worker-before-play-3da648e7.py"
+        },
+        "ordinary_play_session": {
+          "state": "accepted; actual game window/motion not_run",
+          "question": "Does protected ordinary act1_demo produce an actual foreground playable window, and can existing exact job/PID/sourceRoot UI controls show door/actor phases with attached grain?",
+          "success": "Actual owned native game pixels; phase controls and visible result with no source/viewport/GDI-underlay substitution; preserve user data and normal close/restoration. First window proof alone does not close full door/gait/art DoD.",
+          "scene": "res://scenes/act1_demo.tscn",
+          "timeout": 900,
+          "mode": "play",
+          "job_id": "e78c8511846a499cb8c8089e47f9367d",
+          "snapshot_id": "13b1b67d0572b8e62a3182e4739f0a05a6576afc651cb5cee6c024c7db6bf41d"
         }
       }
     },
