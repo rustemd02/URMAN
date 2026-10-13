@@ -6227,9 +6227,9 @@
             "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
-              "Подключить B02 — Чистая штукатурка мечети; собственного целевого receipt пока нет."
+              "Named B02 bitmap/source/SHA and intended visible mosque plaster consumer not established; no target receipt. Preserve required texture scope until explicit disposition is justified against current timber-hall design."
             ],
-            "next_action": "Сопоставить текущий результат: Подключить B02 — Чистая штукатурка мечети. Затем изменить только установленный остаток.",
+            "next_action": "Resolve intended visible clean-plaster consumer against current mosque timber architecture and accepted references; produce/register/bind named map only after that input. Do not globally repoint plaster or silently substitute yard walls.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -6292,7 +6292,17 @@
               "verification": [],
               "acceptance": []
             },
-            "depends_on": []
+            "depends_on": [],
+            "progress_2026_10_13_source_preflight": {
+              "result": "Luna read-only: named urman_b02_v01_basecolor.png absent from assets/registry. Actual prayer hall has timber/painted trim; old plaster HallNorth/South/recess hidden, HallWest/East restyled. Five yard walls still use generic plaster→aged_plaster_v3_albedo.png; not the intended clean prayer-space consumer.",
+              "source": [
+                "docs/urman_knowledge_base/art/urman_imagegen_texture_prompt_book_2026-09-22.md",
+                "game/scripts/Act1ConnectedWorld.MosqueExterior.cs",
+                "game/scripts/Act1ConnectedWorld.MosqueInterior.cs",
+                "game/scripts/PainterlyMaterialLibrary.cs"
+              ],
+              "acceptance": "NOT_RUN; no supersession or courtyard substitution accepted."
+            }
           },
           {
             "id": "ACT1-TEXTURE.02/E19",
@@ -97108,6 +97118,11 @@
                 "receipt": "evidence/ACT1-ATMOSPHERE/crisp-day-20261013/after-fill/receipt.json",
                 "verification": "PASS; current atmosphere SHA7f4a2bb69d8e28c2adaba66574a9196d0fe445e4a858a238eb300b24553e0fb0 matches; snapshot0979fda55ee3c81cb25142e3b7566b7fe5edecd73577f802f18a0076b9ea1b4d verified; Vulkan GTX970; Game build0/0; gameExitCode0; userdataRestoredtrue. F03/S04/car source also changed, so not every image difference is attributed only to light."
               }
+            },
+            "progress_2026_10_13_c2_source_review": {
+              "result": "Luna: same dark C2 wall already present in before/after/after-fill, identical camera/FOV; crisp change does not cause it. Sidecar aggregate histogram cannot bind dark pixel to owner/material/normal/shadow. Earlier Babai(-28,-3.4)/yaw64.722 is pre-relocation, not current runtime owner position. Hero candidate log uses wood_log_uv/tint8b7763/W01, but specific pixel-owner unproven.",
+              "next_input": "Existing neutral-albedo diagnostic view could distinguish tint from lighting; remote-check transport currently does not pass URMAN_DIAGNOSTIC_VIEW. Need supported exact neutral view or pixel-owner evidence before correction.",
+              "scope": "Read-only; no blind tint/light correction, B03 geometry unchanged."
             }
           },
           {
@@ -111072,7 +111087,11 @@
         },
         "assets/source/blender/urman_character_kit_v2.blend",
         "game/assets/generated/urman_character_kit_v2.glb",
-        "assets/source/blender/receipts/urman_character_kit_v2.structure.json"
+        "assets/source/blender/receipts/urman_character_kit_v2.structure.json",
+        "evidence/PW-032/cap-native-20261013/receipt.json",
+        "evidence/PW-032/cap-native-20261013/frames/mosque_hall.png",
+        "evidence/PW-032/cap-native-20261013/frames/mosque_hall.json",
+        "evidence/PW-032/cap-native-20261013/game.log"
       ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-032",
       "source_requirements": [
@@ -111222,7 +111241,7 @@
       "assigned_owner": "claude/visual-reset-2026-10-09",
       "activity": {
         "state": "confirmed_active",
-        "reason": "Cap source accepted after independent Luna review and affected Game compile; native77 rejected preserved. Existing renderer capture input confirmed, Windows22ed released/restored. Next one actual mosque_hall viewport view."
+        "reason": "Cap source and actual native viewport import/context accepted; feca61ea pushed, 6fa6b2c PASS/restored/hashverified. Detailed art/motion remains; root preparing next exact ordinary movement input."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -111234,7 +111253,7 @@
         "Book/held sleeves/W01 moving branch source-safe; fulfill named movement checks as required, preserve existing valid wind/normal receipts on unchanged inputs.",
         "83genericUV/coherentLOD +2Tamara trim +2Timur cap sourceaccepted; printedUV/rig/geometry/images preserved, collar accepted. Actual nativegait/LOD/door/collar/cap views remain."
       ],
-      "next_action": "Run one protected Windows renderer capture at existing mosque_hall checkpoint after station release; inspect actual imported cap/collar/costume and indoor readability. Do not treat wide/static shot as close-up or movement acceptance; named door/gait motion remains.",
+      "next_action": "Obtain existing ordinary gameplay movement with exact ownership and actual viewport pixels: FacilityManualDoor hinge plus Timur Idle/turn/LOD. Native mosque_hall static/context accepted; do not rerun unchanged wideframe or same rejected Studio/GDI capture. Solve supported exact motion/presentation input first, then one targeted check.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -111617,7 +111636,7 @@
           "source_review_result": "Luna revalidated exact77source/SHA: StudioRoot1011 already calls SetChildRunRenderingPaused(true); WorldSection101–116 disables/restores previewSubViewport. Currentcode change is not newpauseinput; duplicatecontinuous preview rendering hypothesis unsupported. Two rejectedchildimages byteidenticalStudioUI. Afterstartup90banks no-op traversals/82addedShovelHeaps are additionalwork, notcauseofearlierstartuprescuemetric. Presentation/capturecause unconfirmed."
         },
         "timur_cap_slice": {
-          "state": "source_accepted; native_import/art/motion NOT_RUN",
+          "state": "source and actual native import/context accepted; detailed_cap/art/motion open",
           "targets": [
             "TimurHazrat_Hat_LOD0",
             "TimurHazrat_Hat_LOD1"
@@ -111635,15 +111654,28 @@
             "evidence/PW-032/human-rest-uv-20261013/cap-derived-normal-semantic.json",
             "evidence/PW-032/human-rest-uv-20261013/cap-fit-normal-probe.json"
           ],
-          "remaining": "Actual native imported-cap/collar appearance and Idle/turn/LOD movement; author art acceptance open."
+          "remaining": "Detailed actual cap/collar view and Idle/turn/LOD movement; author art acceptance open."
         },
         "native_cap_view": {
-          "state": "pending_submission",
+          "state": "native_import/context accepted; detailed_cap/art/motion remains open",
           "question": "Does the current cap UV/normal source import without shader/skin errors and preserve readable Timur costume/collar in actual mosque_hall indoor rendering?",
           "success": "Actual Godot viewport PNG at exact manifest checkpoint, valid ownership/source SHA and restored userdata. Wide/static view proves only import/context appearance; detailed cap/gait/door acceptance stays open.",
           "points": "mosque_hall:MosqueInterior@1.8,1.6,-0.2>MosqueInterior@-0.7,1.4,-4.2",
           "phase": "village-winter-crisp",
-          "fov": 70
+          "fov": 70,
+          "job_id": "6fa6b2c6133e4454a3834a5cfbcfb9de",
+          "snapshot_id": "b42a9655e3021125b79fada067fe6857b04bc4ee5bd89c75087e1b715e387e43",
+          "source_commit": "feca61ea",
+          "result_sha256": "a33ce8963483bfd4cbc0b73903b9dae44e02c0ee5fb4033247711e76e6d6c652",
+          "actual": "PASS/gameExit0/userdataRestoredtrue; VulkanForward+GTX970, actual Medium (.9 render scale), FOV70, village-winter-crisp/indoor shelter snowinactive. GLB/dress/PML/characterdressing snapshot hashes match current input.",
+          "root_visual_review": "Personally viewed actual1920x1080 viewport PNG: Timur cap/collar/coat silhouette intact, cloth and ivory/green hall readable, no obvious split-seam destruction. Static wideframe cannot prove metric details, continuous gait/turn/door or fullart. Coarse garment folds/character faces and angular forest behind windows remain.",
+          "evidence": [
+            "evidence/PW-032/cap-native-20261013/receipt.json",
+            "evidence/PW-032/cap-native-20261013/frames/mosque_hall.png",
+            "evidence/PW-032/cap-native-20261013/frames/mosque_hall.json",
+            "evidence/PW-032/cap-native-20261013/game.log"
+          ],
+          "station_after": "Freshdoctor readytrue/busy=null/recoveryfalse/orphanfalse; released afterterminal."
         }
       }
     },
