@@ -126,6 +126,115 @@ public sealed class StudioWorkspace
         Reindex();
     }
 
+    internal void EnsureCanCreateAuthoredJsonSource(string relativePath, byte[] bytes)
+    {
+        var ids = ReadValidatedAuthoredJsonSourceIds(relativePath, bytes);
+        StudioFileTransaction.EnsureNoLinks(Root, relativePath);
+        var fullPath = Path.Combine(Root, relativePath.Replace('/', Path.DirectorySeparatorChar));
+        if (_files.ContainsKey(relativePath) || System.IO.File.Exists(fullPath) || Directory.Exists(fullPath))
+            throw new InvalidOperationException($"Исходник {relativePath} уже существует.");
+        EnsureNoEntityIdConflicts(ids, relativePath);
+    }
+
+    internal void EnsureAuthoredJsonSourceCreationTransition(string relativePath, string expectedSha256, bool forward)
+    {
+        if (!IsCanonicalAuthoredJsonSourcePath(relativePath))
+            throw new InvalidOperationException("Команда создания исходника вышла за разрешённый путь.");
+
+        StudioFileTransaction.EnsureNoLinks(Root, relativePath);
+        if (forward)
+        {
+            if (_files.ContainsKey(relativePath))
+                throw new InvalidOperationException("Повторное создание остановлено: в Studio уже зарегистрирован исходник или черновик с этим путём.");
+            return;
+        }
+
+        if (!_files.TryGetValue(relativePath, out var file)
+            || file.IsNew || file.Dirty
+            || !string.Equals(file.LoadedSha256, expectedSha256, StringComparison.Ordinal))
+            throw new InvalidOperationException("Отмена создания остановлена: зарегистрированный исходник изменён или заменён черновиком.");
+    }
+
+    internal void ReconcileCreatedAuthoredJsonSource(string relativePath, byte[] verifiedAfterBytes, string expectedSha256)
+    {
+        var ids = ReadValidatedAuthoredJsonSourceIds(relativePath, verifiedAfterBytes);
+        if (!string.Equals(AtomicFile.Sha256(verifiedAfterBytes), expectedSha256, StringComparison.Ordinal))
+            throw new InvalidDataException("Создание исходника не соответствует проверенному образу транзакции.");
+
+        StudioFileTransaction.EnsureNoLinks(Root, relativePath);
+        var fullPath = Path.Combine(Root, relativePath.Replace('/', Path.DirectorySeparatorChar));
+        if (Directory.Exists(fullPath))
+            throw new IOException($"Исходник {relativePath} заменён каталогом.");
+
+        _files.TryGetValue(relativePath, out var registered);
+        if (!System.IO.File.Exists(fullPath))
+        {
+            if (registered is null) return;
+            if (registered.IsNew || registered.Dirty
+                || !string.Equals(registered.LoadedSha256, expectedSha256, StringComparison.Ordinal))
+                throw new InvalidOperationException("Удаление остановлено: локальный черновик исходника нельзя потерять.");
+            _files.Remove(relativePath);
+            Reindex();
+            return;
+        }
+
+        var currentBytes = StudioFileTransaction.ReadBoundedFile(fullPath, StudioFileTransaction.MaximumAuthoredSourceBytes);
+        if (!currentBytes.AsSpan().SequenceEqual(verifiedAfterBytes)
+            || !string.Equals(AtomicFile.Sha256(currentBytes), expectedSha256, StringComparison.Ordinal))
+            throw new ExternalChangeException(relativePath);
+
+        if (registered is not null)
+        {
+            if (registered.IsNew || registered.Dirty
+                || !string.Equals(registered.LoadedSha256, expectedSha256, StringComparison.Ordinal))
+                throw new InvalidOperationException("Создание остановлено: локальный черновик исходника нельзя заменить.");
+            return;
+        }
+
+        EnsureNoEntityIdConflicts(ids, relativePath);
+        var created = AuthoredFile.Load(Root, relativePath);
+        if (!created.RootIsArray || !string.Equals(created.LoadedSha256, expectedSha256, StringComparison.Ordinal))
+            throw new InvalidDataException("Проверенный образ больше не соответствует регистрируемому JSON-исходнику.");
+
+        var previousConflicts = IdentityConflicts.ToHashSet(StringComparer.Ordinal);
+        _files.Add(relativePath, created);
+        Reindex();
+        if (IdentityConflicts.Any(conflict => !previousConflicts.Contains(conflict)))
+        {
+            _files.Remove(relativePath);
+            Reindex();
+            throw new InvalidOperationException("Создание исходника создаёт повторяющиеся ID. Исправьте входящую версию.");
+        }
+    }
+
+    private string[] ReadValidatedAuthoredJsonSourceIds(string relativePath, byte[] bytes)
+    {
+        if (!IsCanonicalAuthoredJsonSourcePath(relativePath))
+            throw new InvalidOperationException("Разрешено создавать только канонический JSON-исходник Studio.");
+        ArgumentNullException.ThrowIfNull(bytes);
+        if (bytes.LongLength > StudioFileTransaction.MaximumAuthoredSourceBytes)
+            throw new InvalidDataException("Исходник превышает лимит 8 МиБ.");
+
+        var ids = StudioFileTransaction.ReadAuthoredEntitySourceIds(bytes);
+        var text = new System.Text.UTF8Encoding(false, true).GetString(bytes);
+        if (!AuthoredFile.CreateNew(Root, relativePath, text).RootIsArray)
+            throw new InvalidDataException("Исходник должен содержать список сущностей.");
+        return ids;
+    }
+
+    private void EnsureNoEntityIdConflicts(IEnumerable<string> ids, string newPath)
+    {
+        var incoming = ids.ToHashSet(StringComparer.Ordinal);
+        foreach (var id in incoming)
+        {
+            if (_ambiguousIds.Contains(id)
+                || _index.ContainsKey(id)
+                || _files.Values.Any(file => !string.Equals(file.RelativePath, newPath, StringComparison.Ordinal)
+                    && file.RootIsArray && file.Keys().Contains(id, StringComparer.Ordinal)))
+                throw new InvalidOperationException($"Создание исходника создаёт конфликт ID {id}.");
+        }
+    }
+
     internal void ReconcileRecoveredAuthoredJsonSource(string relativePath, byte[] verifiedBeforeBytes, string expectedSha256)
     {
         if (!IsCanonicalAuthoredJsonSourcePath(relativePath)

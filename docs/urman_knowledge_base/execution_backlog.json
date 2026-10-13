@@ -80242,6 +80242,16 @@
                 ],
                 "verification": "Luna bounded native timing/source investigation; root inspected exact hunk and scoped git diff --check. Logging-only change; next already-required changed road native24 also compiles and captures these tags.",
                 "limits": "No speed improvement claimed; new timings not yet observed. JSON reread optimization deferred because potential saving is unmeasured and does not explain full latency."
+              },
+              {
+                "date": "2026-10-13",
+                "result": "Native phase tags localize load: wait-studio-preview-ready delta75024ms of total75793ms; instantiate59ms/add-child195ms/parking105ms/entities17ms/refresh390ms.",
+                "source": [
+                  "evidence/STUDIO/practical-editor-2026-10-13/windows-road-codex-fixed/game.log",
+                  "evidence/STUDIO/practical-editor-2026-10-13/windows-road-codex-fixed/receipt.json"
+                ],
+                "verification": "Immutable snapshot c271a017, job50923b93 terminalFAIL only two GOG overlay loader errors; normalclose and guardlog verified restore; fresh doctor ready/busy-null/recoveryfalse/orphanfalse.",
+                "limits": "No performance improvement; road model/Apply/Undo not executed. Raw receipt restoration flag retained unchanged."
               }
             ],
             "stage_tasks": [
@@ -82365,6 +82375,20 @@
                 ],
                 "verification": "Luna implementation + independent Sol6.1medium data/compat review; final affected Core compile0warnings/0errors0.62s; scoped diffcheck.",
                 "limits": "No actual Git Send/deletion or two-checkout nativeA23 executed. Binary/new authored-source transfer remains open; existingcatalogue flows retained."
+              },
+              {
+                "date": "2026-10-13",
+                "result": "Incoming absent canonical authored JSON: explicit preview/Add → durable creation transaction → workspace registration; Undo removes exact source and Redo restores it. Startup recovery and ordered history accept the exact creation owner.",
+                "source": [
+                  "game/studio/StudioCollabSection.cs",
+                  "game/studio/StudioRoot.cs",
+                  "src-dotnet/Urman.Studio.Core/Collaboration/GitRevisionInbox.cs",
+                  "src-dotnet/Urman.Studio.Core/Editing/EditSession.cs",
+                  "src-dotnet/Urman.Studio.Core/Editing/StudioWorkspace.cs",
+                  "src-dotnet/Urman.Studio.Core/Storage/StudioFileTransaction.cs"
+                ],
+                "verification": "Affected Game compile 0 warnings/0 errors 18.51s; independent Luna Core/root review clean; scoped diffcheck.",
+                "limits": "No native incoming creation/Undo/restart or two-checkout A23 proof; binary closure remains open."
               }
             ],
             "stage_tasks": [
@@ -82394,8 +82418,8 @@
             "status": "in_progress",
             "implementation_state": "partial",
             "technical_verification_state": "not_run",
-            "remaining": "Outgoing tracked-source deletion source поддержан в существующем preview/Send/index/receipt пути и проверен compile/review; native two-checkout Receive/Apply/Undo/Send/retry ещё не выполнен. Binary asset closure/new source coverage открыты.",
-            "next_action": "Провести конечный two-checkout A23 с deleted authored source: preview tombstone → явный Send → Receive/review/Apply → Undo; проверить source hashes, exact Git tree и сохранность других файлов.",
+            "remaining": "New canonical source Receive/Apply/Undo/recovery source implemented and compiled; actual two-checkout Send/Receive/conflict/idempotency and binary asset closure remain open.",
+            "next_action": "Run existing two-checkout A23 with new/deleted authored source: explicit Send → Review/Apply → Undo → restart history; verify exact hashes and unrelated files.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",

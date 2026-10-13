@@ -126,7 +126,8 @@ public partial class StudioRoot : Control
         {
             var pending = StudioFileTransaction.RecoverWithOwnedPathPolicy(RepositoryRoot,
                 StudioAiPanel.OwnsFile,
-                (owner, path) => StudioFileTransaction.IsAuthoredSourceDeletionOwner(owner)
+                (owner, path) => (StudioFileTransaction.IsAuthoredSourceDeletionOwner(owner)
+                        || StudioFileTransaction.IsAuthoredSourceCreationOwner(owner))
                     && StudioWorkspace.IsCanonicalAuthoredJsonSourcePath(path)
                     || StudioFileTransaction.IsOwnedCatalogPath(owner, path)
                     || HouseFamilyWindowProtocol.IsTransactionPath(owner, path)
@@ -159,7 +160,9 @@ public partial class StudioRoot : Control
                 includeOwnedCatalogs: true,
                 includeHouseFamilies: true,
                 includeFenceAlignments: true,
-                includeRoadSmooth: true);
+                includeRoadSmooth: true,
+                sourceCreationOwner: StudioFileTransaction.IsAuthoredSourceCreationOwner,
+                sourceCreationPath: StudioWorkspace.IsCanonicalAuthoredJsonSourcePath);
         }
         catch (Exception error) when (error is IOException or UnauthorizedAccessException or InvalidDataException or InvalidOperationException or ArgumentException)
         {

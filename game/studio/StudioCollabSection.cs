@@ -343,12 +343,62 @@ public sealed class StudioCollabSection(StudioRoot studio) : IStudioSection
         string? selectedMineText = null;
         MergeResult? selectedPreview = null;
         var selectedRegistered = false;
+        var selectedNewSource = false;
+        string? selectedNewSourceHash = null;
+        string? selectedNewSourceReviewBlocker = null;
         StudioCheckpointCatalogSource? selectedCatalog = null;
         string? selectedCatalogHash = null;
         Button apply = null!;
         apply = StudioRoot.Button(box, "Применить решение", () => _ = ApplySelectedAsync());
         apply.ThemeTypeVariation = "PrimaryButton";
         apply.Disabled = true;
+
+        bool IsPureIncomingSourceAddition(GitIncomingFile file, StudioCheckpointCatalogSource? catalog) =>
+            file.BaseText is null && file.IncomingText is not null && catalog is null
+            && !studio.Workspace.HasFile(file.RelativePath)
+            && !studio.GetAuthoringCatalogSources().Any(source => source.Path == file.RelativePath)
+            && StudioWorkspace.IsCanonicalAuthoredJsonSourcePath(file.RelativePath);
+
+        string? InspectNewSourceCandidate(GitIncomingFile file, StudioCheckpointCatalogSource? catalog,
+            out string? incomingHash)
+        {
+            incomingHash = null;
+            if (!IsPureIncomingSourceAddition(file, catalog))
+                return "Это не новое добавление канонического JSON-исходника.";
+
+            try
+            {
+                var text = file.IncomingText!;
+                var bytes = new System.Text.UTF8Encoding(false, true).GetBytes(text);
+                incomingHash = AtomicFile.Sha256(bytes);
+                var parsed = AuthoredFile.CreateNew(studio.Workspace.Root, file.RelativePath, text);
+                if (!parsed.RootIsArray)
+                    return "Новый источник должен содержать список сущностей.";
+                var ids = AuthoredFile.EntityIdsInSource(file.RelativePath, text);
+                var keys = parsed.Keys().ToArray();
+                if (ids.Length != keys.Length || ids.Any(string.IsNullOrWhiteSpace)
+                    || ids.Distinct(StringComparer.Ordinal).Count() != ids.Length)
+                    return "Новый источник должен содержать уникальный строковый ID у каждой сущности.";
+
+                StudioFileTransaction.EnsureNoLinks(studio.Workspace.Root, file.RelativePath);
+                var fullPath = Path.Combine(studio.Workspace.Root,
+                    file.RelativePath.Replace('/', Path.DirectorySeparatorChar));
+                if (studio.Workspace.HasFile(file.RelativePath) || File.Exists(fullPath) || Directory.Exists(fullPath))
+                    return "Путь уже появился в workspace или на диске после получения. Получите версию заново.";
+
+                var conflict = ids.FirstOrDefault(id => studio.Workspace.IsAmbiguous(id)
+                    || studio.Workspace.Locate(id) is { } address
+                        && !string.Equals(address.RelativePath, file.RelativePath, StringComparison.Ordinal));
+                if (conflict is not null)
+                    return $"ID «{conflict}» уже занят другим исходником. Обновите версию или устраните конфликт перед добавлением.";
+                return null;
+            }
+            catch (Exception error) when (error is IOException or UnauthorizedAccessException or ArgumentException
+                or InvalidOperationException or KeyNotFoundException or FormatException or System.Text.Json.JsonException)
+            {
+                return "Новый исходник нельзя безопасно проверить: " + error.Message;
+            }
+        }
 
         void ClearConflictCards()
         {
@@ -363,6 +413,16 @@ public sealed class StudioCollabSection(StudioRoot studio) : IStudioSection
         {
             var file = selectedFile;
             var preview = selectedPreview;
+            var newSourceBlocker = selectedNewSourceReviewBlocker;
+            if (selectedNewSource && file is not null && newSourceBlocker is null)
+            {
+                newSourceBlocker = InspectNewSourceCandidate(file, selectedCatalog, out var currentIncomingHash);
+                if (newSourceBlocker is null
+                    && !string.Equals(currentIncomingHash, selectedNewSourceHash, StringComparison.Ordinal))
+                    newSourceBlocker = "Полученный снимок изменился после просмотра. Выберите файл заново.";
+                if (newSourceBlocker is not null)
+                    selectedNewSourceReviewBlocker = newSourceBlocker;
+            }
             var incomingDeletesSource = file is not null && file.IncomingText is null;
             var registeredSource = file is not null && studio.Workspace.HasFile(file.RelativePath);
             var registeredFile = registeredSource ? studio.Workspace.File(file!.RelativePath) : null;
@@ -371,14 +431,21 @@ public sealed class StudioCollabSection(StudioRoot studio) : IStudioSection
             var deletionBlockedByDraft = incomingDeletesSource && registeredFile is not null
                 && (registeredFile.Dirty || registeredFile.IsNew);
             apply.Text = file is null ? "Применить решение"
+                : selectedNewSource ? "Добавить новый исходник (один отменяемый шаг)"
                 : incomingDeletesSource ? "Удалить исходник (один отменяемый шаг)"
                 : selectedCatalog is not null ? "Применить каталог (один отменяемый шаг)"
                 : "Добавить объединение в локальный черновик";
             var reason = selectedCatalog is not null
                 ? "Каталог будет сохранён одним отменяемым действием. Отправки нет; игра прочитает его при следующем запуске."
                 : "Готово: объединение попадёт в черновик одним отменяемым действием. Автосохранения и отправки нет.";
-            if (file is null || preview is null || selectedMineText is null)
+            if (file is null)
                 reason = "Выберите файл для семантического сравнения.";
+            else if (selectedNewSource && newSourceBlocker is not null)
+                reason = newSourceBlocker;
+            else if (preview is null || (selectedMineText is null && !selectedNewSource))
+                reason = "Выберите файл для семантического сравнения.";
+            else if (selectedNewSource)
+                reason = newSourceBlocker ?? "Моей версии пока нет. По отдельному нажатию будет добавлен точный входящий снимок; до этого диск и workspace не меняются.";
             else if (!selectedRegistered)
                 reason = "Применение недоступно: источник не зарегистрирован в Studio; он доступен только для просмотра.";
             else if (deletionUnsupported)
@@ -391,15 +458,18 @@ public sealed class StudioCollabSection(StudioRoot studio) : IStudioSection
                     : "Не удалось собрать объединённый источник; доступен только просмотр.";
             var undecided = file is not null && preview is not null
                 && preview.Conflicts.Any(conflict => reviewChoices.GetValueOrDefault((file.RelativePath, conflict.Path)) == ConflictChoice.Undecided);
-            if (undecided && selectedRegistered)
+            if (undecided && (selectedRegistered || selectedNewSource))
                 reason = "Выберите «Оставить моё» или «Взять входящее» для каждого конфликта.";
-            apply.Disabled = file is null || preview is null || selectedMineText is null || !selectedRegistered
+            apply.Disabled = file is null || preview is null || (selectedMineText is null && !selectedNewSource)
+                || (selectedNewSource ? newSourceBlocker is not null : !selectedRegistered)
                 || (preview.Merged is null && !incomingDeletesSource)
+                || (selectedNewSource && preview.Conflicts.Count > 0)
                 || deletionUnsupported
                 || deletionBlockedByDraft
                 || undecided;
             mergeSummary.Text = preview is null
                 ? reason
+                : selectedNewSource ? reason
                 : $"Автоматически объединяемых значений: {preview.AutoMerged}. Конфликтов: {preview.Conflicts.Count}. {reason}";
         }
 
@@ -440,6 +510,9 @@ public sealed class StudioCollabSection(StudioRoot studio) : IStudioSection
             selectedMineText = null;
             selectedPreview = null;
             selectedCatalog = studio.GetAuthoringCatalogSources().SingleOrDefault(source => source.Path == file.RelativePath);
+            selectedNewSource = IsPureIncomingSourceAddition(file, selectedCatalog);
+            selectedNewSourceHash = null;
+            selectedNewSourceReviewBlocker = null;
             selectedCatalogHash = null;
             selectedRegistered = studio.Workspace.HasFile(file.RelativePath) || selectedCatalog is not null;
             foreach (var key in reviewChoices.Keys.Where(key => key.File == file.RelativePath).ToArray()) reviewChoices.Remove(key);
@@ -454,6 +527,21 @@ public sealed class StudioCollabSection(StudioRoot studio) : IStudioSection
                 var catalogImage = selectedCatalog?.Capture();
                 if (catalogImage?.DraftBytes is not null)
                     throw new InvalidOperationException("Сначала сохраните или отмените черновик каталога.");
+                if (selectedNewSource)
+                {
+                    selectedNewSourceReviewBlocker = InspectNewSourceCandidate(file, selectedCatalog,
+                        out selectedNewSourceHash);
+                    var incomingText = file.IncomingText!;
+                    var incomingSource = AuthoredFile.CreateNew(studio.Workspace.Root, file.RelativePath, incomingText);
+                    if (incomingSource.RootIsArray)
+                        selectedPreview = incomingSource.PreviewMerge(null, incomingText);
+                    mine.Text = selectedNewSourceReviewBlocker?.StartsWith("Путь уже появился", StringComparison.Ordinal) == true
+                        ? "Моя версия:\nПуть появился после получения; снимок устарел. Получите эту версию заново."
+                        : "Моя версия:\nИсходника нет. Справа показан точный входящий снимок.";
+                    RefreshConflictCards();
+                    UpdateApplyState();
+                    return;
+                }
                 var local = studio.Workspace.HasFile(file.RelativePath)
                     ? studio.Workspace.File(file.RelativePath)
                     : LoadIncomingReviewFallback(file.RelativePath);
@@ -486,6 +574,9 @@ public sealed class StudioCollabSection(StudioRoot studio) : IStudioSection
             selectedMineText = null;
             selectedPreview = null;
             selectedRegistered = false;
+            selectedNewSource = false;
+            selectedNewSourceHash = null;
+            selectedNewSourceReviewBlocker = null;
             selectedCatalog = null;
             selectedCatalogHash = null;
             reviewChoices.Clear();
@@ -506,19 +597,23 @@ public sealed class StudioCollabSection(StudioRoot studio) : IStudioSection
 
         async Task ApplySelectedAsync()
         {
-            if (apply.Disabled || selectedFile is null || selectedMineText is null || selectedPreview is null) return;
+            if (apply.Disabled || selectedFile is null || selectedPreview is null
+                || (selectedMineText is null && !selectedNewSource)) return;
             var file = selectedFile;
             var expectedText = selectedMineText;
             var preview = selectedPreview;
+            var isNewSource = selectedNewSource;
+            var expectedNewSourceHash = selectedNewSourceHash;
+            var newSourceCatalog = selectedCatalog;
             apply.Disabled = true;
             try
             {
                 var decisions = preview.Conflicts.ToDictionary(conflict => conflict, conflict =>
                     reviewChoices.GetValueOrDefault((file.RelativePath, conflict.Path), ConflictChoice.Undecided));
                 var resolved = ConflictResolution.Apply(preview, decisions);
-                if (selectedCatalog is { } catalog)
+                if (newSourceCatalog is { } catalog)
                 {
-                    if (studio.IsWorkspaceActionBusy || studio.HasPendingAuthoringDrafts || resolved is null)
+                    if (expectedText is null || studio.IsWorkspaceActionBusy || studio.HasPendingAuthoringDrafts || resolved is null)
                         throw new InvalidOperationException("Сначала завершите действие и сохраните или отмените черновики. Удаление каталога недоступно.");
                     var currentCatalog = studio.GetAuthoringCatalogSources().Single(source => source.Path == file.RelativePath);
                     var image = currentCatalog.Capture();
@@ -536,6 +631,48 @@ public sealed class StudioCollabSection(StudioRoot studio) : IStudioSection
                     reviewChoices.Clear();
                     studio.Refresh();
                     dialog.QueueFree();
+                    return;
+                }
+                if (isNewSource)
+                {
+                    if (expectedText is not null || !ReferenceEquals(selectedFile, file)
+                        || !IsPureIncomingSourceAddition(file, newSourceCatalog)
+                        || file.IncomingText is null || expectedNewSourceHash is null)
+                    {
+                        InvalidateReview("Новый исходник не добавлен: выбранный снимок или тип операции изменился. Выберите файл заново.");
+                        return;
+                    }
+
+                    var blocker = InspectNewSourceCandidate(file, newSourceCatalog, out var currentIncomingHash);
+                    if (blocker is not null
+                        || !string.Equals(currentIncomingHash, expectedNewSourceHash, StringComparison.Ordinal)
+                        || selectedNewSourceReviewBlocker is not null
+                        || resolved is null || preview.Conflicts.Count > 0)
+                    {
+                        InvalidateReview("Новый исходник не добавлен: "
+                            + (blocker ?? selectedNewSourceReviewBlocker ?? "снимок или список ID изменился после просмотра.")
+                            + " Получите или выберите версию заново.");
+                        return;
+                    }
+
+                    var exactIncomingBytes = new System.Text.UTF8Encoding(false, true).GetBytes(file.IncomingText);
+                    if (!string.Equals(AtomicFile.Sha256(exactIncomingBytes), expectedNewSourceHash, StringComparison.Ordinal))
+                    {
+                        InvalidateReview("Новый исходник не добавлен: входящий снимок отличается от показанного. Получите версию заново.");
+                        return;
+                    }
+
+                    await studio.Session.CreateAuthoredJsonSourceAsync(file.RelativePath, exactIncomingBytes,
+                        "Добавить полученный исходник", incoming.OperationId, RefreshAfterSourceDeletionAsync);
+                    reviewChoices.Clear();
+                    studio.Refresh();
+                    dialog.QueueFree();
+                    return;
+                }
+
+                if (expectedText is null)
+                {
+                    InvalidateReview("Объединение не применено: снимок локального источника отсутствует. Выберите файл заново.");
                     return;
                 }
                 if (!studio.Workspace.HasFile(file.RelativePath))

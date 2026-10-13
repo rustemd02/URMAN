@@ -132,11 +132,15 @@ public sealed class EditSession(StudioWorkspace workspace)
         bool includeOwnedCatalogs = false,
         bool includeHouseFamilies = false,
         bool includeFenceAlignments = false,
-        bool includeRoadSmooth = false)
+        bool includeRoadSmooth = false,
+        Func<string, bool>? sourceCreationOwner = null,
+        Func<string, bool>? sourceCreationPath = null)
     {
         EnsureAvailable();
         if (_open is not null || _undo.Count != 0 || _redo.Count != 0)
             throw new InvalidOperationException("Persistent history requires an empty edit session.");
+        if ((sourceCreationOwner is null) != (sourceCreationPath is null))
+            throw new ArgumentException("Authored-source creation history requires both owner and path policies.");
 
         var result = StudioFileTransaction.LoadCommittedFileHistoryWithAuthoredSourceDeletions(
             Workspace.Root, owner, allowedPath, allowedFileSet, sourceDeletionOwner, sourceDeletionPath,
@@ -144,7 +148,11 @@ public sealed class EditSession(StudioWorkspace workspace)
                 Workspace.ReconcileRecoveredAuthoredJsonSource(path, beforeBytes, beforeSha256),
             includeOwnedCatalogs,
             includeHouseFamilies,
-            includeFenceAlignments, includeRoadSmooth);
+            includeFenceAlignments, includeRoadSmooth,
+            sourceCreationOwner,
+            sourceCreationPath,
+            sourceCreationOwner is null ? null : (path, afterBytes, afterSha256) => () =>
+                Workspace.ReconcileCreatedAuthoredJsonSource(path, afterBytes, afterSha256));
         return RestoreCommittedFileHistoryResult(legacyLabel, result);
     }
 
@@ -270,6 +278,28 @@ public sealed class EditSession(StudioWorkspace workspace)
             afterPromotionAsync);
     }
 
+    /// <summary>Create one absent authored JSON entity source as a durable Undo/Redo command.</summary>
+    public async Task CreateAuthoredJsonSourceAsync(string relativePath, byte[] utf8, string label,
+        string operationId, Func<Task> afterPromotionAsync)
+    {
+        EnsureAvailable();
+        if (_open is not null) throw new InvalidOperationException("Завершите текущее составное действие перед созданием исходника.");
+        ArgumentNullException.ThrowIfNull(utf8);
+        ArgumentNullException.ThrowIfNull(afterPromotionAsync);
+        if (!Guid.TryParseExact(operationId, "N", out var parsedOperationId))
+            throw new ArgumentException("Для создания исходника требуется идентификатор входящей версии GUID N.", nameof(operationId));
+
+        var bytes = utf8.ToArray();
+        Workspace.EnsureCanCreateAuthoredJsonSource(relativePath, bytes);
+        var owner = StudioFileTransaction.AuthoredSourceCreationOwnerPrefix + parsedOperationId.ToString("N");
+        var expectedSha256 = AtomicFile.Sha256(bytes);
+        var writes = new[] { new StudioFileWrite(relativePath, null, bytes) };
+        var allowedPaths = new HashSet<string>(StringComparer.Ordinal) { relativePath };
+        await ApplyFilesAsync(label, owner, writes, allowedPaths,
+            () => Workspace.ReconcileCreatedAuthoredJsonSource(relativePath, bytes, expectedSha256),
+            afterPromotionAsync);
+    }
+
     /// <summary>Replace (or create) an entity by ID in its file.</summary>
     public void Set(string relativePath, string key, JsonNode? value, string label) => Apply(relativePath, key, value, remove: false, label);
 
@@ -366,6 +396,7 @@ public sealed class EditSession(StudioWorkspace workspace)
 
         try
         {
+            EnsureAuthoredSourceCreationTransition(command, forward: false);
             EnsureCanRevert(command, forward: false);
             command.Files?.Restore(forward: false);
             try
@@ -398,6 +429,7 @@ public sealed class EditSession(StudioWorkspace workspace)
 
         try
         {
+            EnsureAuthoredSourceCreationTransition(command, forward: true);
             EnsureCanRevert(command, forward: true);
             command.Files?.Restore(forward: true);
             try
@@ -436,6 +468,7 @@ public sealed class EditSession(StudioWorkspace workspace)
         {
             Changed?.Invoke();
             var command = _undo.Peek();
+            EnsureAuthoredSourceCreationTransition(command, forward: false);
             EnsureCanRevert(command, forward: false);
             await command.Files!.RestoreAsync(forward: false, fileViewBarrier);
             try
@@ -473,6 +506,7 @@ public sealed class EditSession(StudioWorkspace workspace)
         {
             Changed?.Invoke();
             var command = _redo.Peek();
+            EnsureAuthoredSourceCreationTransition(command, forward: true);
             EnsureCanRevert(command, forward: true);
             await command.Files!.RestoreAsync(forward: true, fileViewBarrier);
             try
@@ -633,6 +667,19 @@ public sealed class EditSession(StudioWorkspace workspace)
         {
             throw new UndoConflictException(command.Label, blocked, blockedFiles);
         }
+    }
+
+    private void EnsureAuthoredSourceCreationTransition(EditCommand command, bool forward)
+    {
+        if (command.Files is not { } transaction
+            || !StudioFileTransaction.IsAuthoredSourceCreationOwner(transaction.Owner)) return;
+        if (transaction.RelativePaths.Count != 1)
+            throw new InvalidDataException("Команда создания исходника должна менять ровно один файл.");
+
+        var relativePath = transaction.RelativePaths[0];
+        var expectedAfterSha256 = transaction.AfterSha256For(relativePath)
+            ?? throw new InvalidDataException("Команда создания исходника не содержит проверенного образа.");
+        Workspace.EnsureAuthoredJsonSourceCreationTransition(relativePath, expectedAfterSha256, forward);
     }
 
     private EntityChange[] EntityConflicts(EditCommand command, bool forward)

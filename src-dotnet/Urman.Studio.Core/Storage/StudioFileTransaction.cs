@@ -33,6 +33,7 @@ public sealed class StudioFileTransaction
     private const int JournalVersion = 1;
     internal const int MaximumAuthoredSourceBytes = 8 * 1024 * 1024;
     public const string AuthoredSourceDeletionOwnerPrefix = "urman.studio:authored-source-delete/";
+    public const string AuthoredSourceCreationOwnerPrefix = "urman.studio:authored-source-create/";
     private const string ShopCatalogOwner = "urman.studio:shop-catalog";
     private const string ShopCatalogPath = "game/content/urman.shop.v1.json";
     private const string VehicleCatalogOwner = "urman.studio:vehicle-catalog";
@@ -77,11 +78,18 @@ public sealed class StudioFileTransaction
     public string? CommandLabel => _commandLabel;
     public IReadOnlyList<string> RelativePaths => _changes.Select(change => change.RelativePath).ToArray();
     internal bool IsAtAfterSide => _currentSide == "after";
+    internal string? AfterSha256For(string relativePath) =>
+        _changes.FirstOrDefault(change => string.Equals(change.RelativePath, relativePath, StringComparison.Ordinal))?.AfterSha256;
 
     public static bool IsAuthoredSourceDeletionOwner(string owner) =>
         owner.StartsWith(AuthoredSourceDeletionOwnerPrefix, StringComparison.Ordinal)
         && Guid.TryParseExact(owner[AuthoredSourceDeletionOwnerPrefix.Length..], "N", out var operationId)
         && string.Equals(owner[AuthoredSourceDeletionOwnerPrefix.Length..], operationId.ToString("N"), StringComparison.Ordinal);
+
+    public static bool IsAuthoredSourceCreationOwner(string owner) =>
+        owner.StartsWith(AuthoredSourceCreationOwnerPrefix, StringComparison.Ordinal)
+        && Guid.TryParseExact(owner[AuthoredSourceCreationOwnerPrefix.Length..], "N", out var operationId)
+        && string.Equals(owner[AuthoredSourceCreationOwnerPrefix.Length..], operationId.ToString("N"), StringComparison.Ordinal);
 
     public static bool IsOwnedCatalogPath(string owner, string path) =>
         owner == ShopCatalogOwner && path == ShopCatalogPath
@@ -105,6 +113,7 @@ public sealed class StudioFileTransaction
 
     private static bool IsBoundedSourceOwner(string owner) =>
         IsAuthoredSourceDeletionOwner(owner)
+        || IsAuthoredSourceCreationOwner(owner)
         || owner is ShopCatalogOwner or VehicleCatalogOwner
         || IsGeometryReplacementOwner(owner);
 
@@ -631,14 +640,20 @@ public sealed class StudioFileTransaction
         bool includeOwnedCatalogs = false,
         bool includeHouseFamilies = false,
         bool includeFenceAlignments = false,
-        bool includeRoadSmooth = false)
+        bool includeRoadSmooth = false,
+        Func<string, bool>? sourceCreationOwner = null,
+        Func<string, bool>? sourceCreationPath = null,
+        Func<string, byte[], string, Action>? sourceCreationAfterPromotion = null)
     {
         ArgumentNullException.ThrowIfNull(sourceDeletionOwner);
         ArgumentNullException.ThrowIfNull(sourceDeletionPath);
         ArgumentNullException.ThrowIfNull(sourceDeletionAfterPromotion);
+        if ((sourceCreationOwner is null) != (sourceCreationPath is null)
+            || (sourceCreationOwner is null) != (sourceCreationAfterPromotion is null))
+            throw new ArgumentException("Authored-source creation history requires owner, path, and reconciliation policies.");
         return LoadCommittedFileHistoryCore(root, owner, allowedPath, allowedFileSet,
             sourceDeletionOwner, sourceDeletionPath, sourceDeletionAfterPromotion, includeOwnedCatalogs, includeHouseFamilies,
-            includeFenceAlignments, includeRoadSmooth);
+            includeFenceAlignments, includeRoadSmooth, sourceCreationOwner, sourceCreationPath, sourceCreationAfterPromotion);
     }
 
     private static StudioFileHistoryStackLoadResult LoadCommittedFileHistoryCore(
@@ -652,7 +667,10 @@ public sealed class StudioFileTransaction
         bool includeOwnedCatalogs = false,
         bool includeHouseFamilies = false,
         bool includeFenceAlignments = false,
-        bool includeRoadSmooth = false)
+        bool includeRoadSmooth = false,
+        Func<string, bool>? sourceCreationOwner = null,
+        Func<string, bool>? sourceCreationPath = null,
+        Func<string, byte[], string, Action>? sourceCreationAfterPromotion = null)
     {
         ArgumentNullException.ThrowIfNull(allowedPath);
         ArgumentNullException.ThrowIfNull(allowedFileSet);
@@ -668,7 +686,7 @@ public sealed class StudioFileTransaction
         if (!Directory.Exists(transactionRoot)) return new([], 0, null);
         EnsureNoLinks(rootPath, TransactionDirectory, allowStudioMetadata: true);
 
-        var matching = new List<(string Directory, Manifest Manifest, bool IsSourceDeletion, bool IsCatalog, bool IsHouseFamily, bool IsGeometryReplacement, string? SourcePath, byte[]? SourceBeforeBytes)>();
+        var matching = new List<(string Directory, Manifest Manifest, bool IsSourceDeletion, bool IsSourceCreation, bool IsCatalog, bool IsHouseFamily, bool IsGeometryReplacement, string? SourcePath, byte[]? SourceBeforeBytes, byte[]? SourceAfterBytes)>();
         var unreadable = new List<string>();
         foreach (var directory in Directory.EnumerateDirectories(transactionRoot))
         {
@@ -686,6 +704,7 @@ public sealed class StudioFileTransaction
 
                 var manifest = ReadManifest(rootPath, directory);
                 var isSourceDeletion = sourceDeletionOwner?.Invoke(manifest.Owner) == true;
+                var isSourceCreation = sourceCreationOwner?.Invoke(manifest.Owner) == true;
                 var isCatalog = includeOwnedCatalogs && IsOwnedCatalogOwner(manifest.Owner);
                 var isHouseFamily = includeHouseFamilies
                     && Urman.Studio.Core.AI.HouseFamilyWindowProtocol.IsTransactionOwner(manifest.Owner);
@@ -694,7 +713,7 @@ public sealed class StudioFileTransaction
                     || includeRoadSmooth && Urman.Studio.Core.AI.RoadSegmentSmoothSource.IsTransactionOwner(manifest.Owner);
                 if (manifest.Status != "committed" || !manifest.Accepted)
                     continue;
-                if (!isSourceDeletion && !isCatalog && !isHouseFamily && !isGeometryReplacement
+                if (!isSourceDeletion && !isSourceCreation && !isCatalog && !isHouseFamily && !isGeometryReplacement
                     && !string.Equals(manifest.Owner, owner, StringComparison.Ordinal))
                 {
                     if (manifest.AcceptedOrder is not null)
@@ -704,6 +723,7 @@ public sealed class StudioFileTransaction
 
                 string? sourcePath = null;
                 byte[]? sourceBeforeBytes = null;
+                byte[]? sourceAfterBytes = null;
                 if (isSourceDeletion)
                 {
                     if (manifest.Changes.Count != 1)
@@ -719,6 +739,26 @@ public sealed class StudioFileTransaction
                         || !TryReadVerifiedAuthoredEntityListBeforeImage(rootPath, directory, change, out sourceBeforeBytes))
                     {
                         unreadable.Add($"{id}: authored source deletion path or saved before image is not valid");
+                        continue;
+                    }
+                    sourcePath = normalizedSourcePath;
+                }
+
+                if (isSourceCreation)
+                {
+                    if (manifest.Changes.Count != 1)
+                    {
+                        unreadable.Add($"{id}: authored source creation does not contain exactly one file");
+                        continue;
+                    }
+
+                    var change = manifest.Changes[0];
+                    if (!TryNormalizeRecoveryPath(rootPath, change.RelativePath, out var normalizedSourcePath)
+                        || sourceCreationPath is null || !sourceCreationPath(normalizedSourcePath)
+                        || change.BeforeSha256 is not null || change.AfterSha256 is null
+                        || !TryReadVerifiedAuthoredEntitySourceAfterImage(rootPath, directory, change, out sourceAfterBytes))
+                    {
+                        unreadable.Add($"{id}: authored source creation path or saved after image is not valid");
                         continue;
                     }
                     sourcePath = normalizedSourcePath;
@@ -742,7 +782,8 @@ public sealed class StudioFileTransaction
                     continue;
                 }
 
-                matching.Add((directory, manifest, isSourceDeletion, isCatalog, isHouseFamily, isGeometryReplacement, sourcePath, sourceBeforeBytes));
+                matching.Add((directory, manifest, isSourceDeletion, isSourceCreation, isCatalog, isHouseFamily,
+                    isGeometryReplacement, sourcePath, sourceBeforeBytes, sourceAfterBytes));
             }
             catch (Exception error)
             {
@@ -771,7 +812,8 @@ public sealed class StudioFileTransaction
         var boundary = new Dictionary<string, string?>(StringComparer.Ordinal);
         var boundedAuthoredSourcePaths = new HashSet<string>(StringComparer.Ordinal);
         var transactions = new List<StudioFileTransaction>();
-        foreach (var (manifestDirectory, candidate, isSourceDeletion, isCatalog, isHouseFamily, isGeometryReplacement, sourcePath, sourceBeforeBytes) in matching)
+        foreach (var (manifestDirectory, candidate, isSourceDeletion, isSourceCreation, isCatalog, isHouseFamily,
+            isGeometryReplacement, sourcePath, sourceBeforeBytes, sourceAfterBytes) in matching)
         {
             if (candidate.Side != candidate.RollbackSide || candidate.Side != candidate.TargetSide)
                 return new([], 0, "История Undo не восстановлена: стороны журнала противоречат друг другу.");
@@ -783,6 +825,7 @@ public sealed class StudioFileTransaction
             var normalizedPaths = new List<string>(candidate.Changes.Count);
             Func<string, bool> transactionPathAllowed = allowedPath;
             if (isSourceDeletion) transactionPathAllowed = sourceDeletionPath!;
+            else if (isSourceCreation) transactionPathAllowed = sourceCreationPath!;
             else if (isCatalog) transactionPathAllowed = path => IsOwnedCatalogPath(candidate.Owner, path);
             else if (isHouseFamily) transactionPathAllowed = path =>
                 Urman.Studio.Core.AI.HouseFamilyWindowProtocol.IsTransactionPath(candidate.Owner, path)
@@ -799,7 +842,10 @@ public sealed class StudioFileTransaction
             if (normalizedPaths.Distinct(StringComparer.Ordinal).Count() != normalizedPaths.Count
                 || (isSourceDeletion
                     ? normalizedPaths.Count != 1 || !string.Equals(normalizedPaths[0], sourcePath, StringComparison.Ordinal)
-                    : isCatalog
+                    : isSourceCreation
+                        ? normalizedPaths.Count != 1 || !string.Equals(normalizedPaths[0], sourcePath, StringComparison.Ordinal)
+                            || candidate.Changes[0].BeforeSha256 is not null || candidate.Changes[0].AfterSha256 is null
+                        : isCatalog
                         ? normalizedPaths.Count != 1 || !IsOwnedCatalogPath(candidate.Owner, normalizedPaths[0])
                         : isHouseFamily
                             ? !Urman.Studio.Core.AI.HouseFamilyWindowProtocol.IsTransactionFileSet(normalizedPaths)
@@ -810,7 +856,9 @@ public sealed class StudioFileTransaction
                                 : !allowedFileSet(normalizedPaths)))
                 return new([], 0, isSourceDeletion
                     ? "История Undo не восстановлена: путь исходника удаления изменился."
-                    : isCatalog
+                    : isSourceCreation
+                        ? "История Undo не восстановлена: путь или образ создаваемого исходника изменился."
+                        : isCatalog
                         ? "История Undo не восстановлена: путь каталога не соответствует его владельцу."
                         : isHouseFamily
                             ? "История Undo не восстановлена: набор файлов семейного дома не соответствует контракту операции."
@@ -818,13 +866,13 @@ public sealed class StudioFileTransaction
                                 ? "История Undo не восстановлена: файл изменения дорожки или забора не соответствует контракту операции."
                                 : "История Undo не восстановлена: набор файлов не соответствует контракту изменения дома.");
             if (ValidateManifestImages(rootPath, manifestDirectory, candidate,
-                    isSourceDeletion || isCatalog || isGeometryReplacement ? MaximumAuthoredSourceBytes : null).Count > 0)
+                    isSourceDeletion || isSourceCreation || isCatalog || isGeometryReplacement ? MaximumAuthoredSourceBytes : null).Count > 0)
                 return new([], 0, "История Undo не восстановлена: сохранённые версии файлов повреждены или недоступны.");
 
             foreach (var change in candidate.Changes)
             {
                 var path = NormalizeRelativePath(change.RelativePath);
-                if (isSourceDeletion || isCatalog || isGeometryReplacement) boundedAuthoredSourcePaths.Add(path);
+                if (isSourceDeletion || isSourceCreation || isCatalog || isGeometryReplacement) boundedAuthoredSourcePaths.Add(path);
                 if (chain.TryGetValue(path, out var previous) && previous != change.BeforeSha256)
                     return new([], 0, "История Undo не восстановлена: исходные версии команд не образуют непрерывную цепочку.");
                 chain[path] = change.AfterSha256;
@@ -838,6 +886,13 @@ public sealed class StudioFileTransaction
                     || sourceDeletionAfterPromotion is null || sourcePath is null)
                     return new([], 0, "История Undo не восстановлена: не удалось подготовить восстановление удалённого исходника.");
                 afterPromotion = sourceDeletionAfterPromotion(sourcePath, sourceBeforeBytes.ToArray(), beforeSha256);
+            }
+            else if (isSourceCreation)
+            {
+                if (sourceAfterBytes is null || candidate.Changes[0].AfterSha256 is not { } afterSha256
+                    || sourceCreationAfterPromotion is null || sourcePath is null)
+                    return new([], 0, "История Undo не восстановлена: не удалось подготовить создание исходника.");
+                afterPromotion = sourceCreationAfterPromotion(sourcePath, sourceAfterBytes.ToArray(), afterSha256);
             }
 
             transactions.Add(FromManifest(rootPath, manifestDirectory, candidate,
@@ -951,6 +1006,36 @@ public sealed class StudioFileTransaction
         Func<string, bool> allowedPath,
         Func<string, string, bool>? allowedOwnedPath)
     {
+        if (IsAuthoredSourceCreationOwner(manifest.Owner))
+        {
+            if (allowedOwnedPath is null || manifest.Changes.Count != 1
+                || !TryNormalizeRecoveryPath(root, manifest.Changes[0].RelativePath, out var createdSourcePath)
+                || !allowedOwnedPath(manifest.Owner, createdSourcePath))
+                return _ => false;
+
+            var creation = manifest.Changes[0];
+            if (creation.BeforeSha256 is not null || creation.AfterSha256 is null
+                || !TryReadVerifiedAuthoredEntitySourceAfterImage(root, directory, creation, out _))
+                return _ => false;
+
+            var creationVerified = manifest.Status switch
+            {
+                "staging" => manifest.Side == "before"
+                    && manifest.RollbackSide == "before" && manifest.TargetSide == "after"
+                    && CurrentSha256(root, createdSourcePath, MaximumAuthoredSourceBytes) is null,
+                "applying" => manifest.Side == manifest.RollbackSide
+                    && (manifest.RollbackSide == "before" && manifest.TargetSide == "after"
+                        || manifest.RollbackSide == "after" && manifest.TargetSide == "before")
+                    && ValidateManifestImages(root, directory, manifest, MaximumAuthoredSourceBytes).Count == 0,
+                _ => false
+            };
+            return creationVerified
+                ? path => TryNormalizeRecoveryPath(root, path, out var normalized)
+                    && string.Equals(normalized, createdSourcePath, StringComparison.Ordinal)
+                    && allowedOwnedPath(manifest.Owner, normalized)
+                : _ => false;
+        }
+
         if (IsGeometryReplacementOwner(manifest.Owner))
         {
             if (manifest.Changes.Count != 1
@@ -1048,6 +1133,7 @@ public sealed class StudioFileTransaction
     // Bound source reads; path access still depends on the allowlist or verified owner policy above.
     private static int? RecoveryByteLimit(Manifest manifest) =>
         manifest.Owner.StartsWith(AuthoredSourceDeletionOwnerPrefix, StringComparison.Ordinal)
+            || IsAuthoredSourceCreationOwner(manifest.Owner)
             || IsOwnedCatalogOwner(manifest.Owner)
             || IsGeometryReplacementOwner(manifest.Owner)
             ? MaximumAuthoredSourceBytes
@@ -1078,6 +1164,48 @@ public sealed class StudioFileTransaction
         }
         catch (Exception error) when (error is IOException or UnauthorizedAccessException or ArgumentException
             or InvalidOperationException or JsonException or System.Security.SecurityException or NotSupportedException)
+        {
+            return false;
+        }
+    }
+
+    private static bool TryReadVerifiedAuthoredEntitySourceAfterImage(
+        string root,
+        string directory,
+        FileChange change,
+        out byte[] afterBytes)
+    {
+        afterBytes = [];
+        if (change.BeforeSha256 is not null || change.AfterSha256 is null || change.AfterImage is null) return false;
+
+        try
+        {
+            var imagePath = Path.Combine(directory, change.AfterImage);
+            var relativeImagePath = Path.GetRelativePath(root, imagePath).Replace('\\', '/');
+            EnsureNoLinks(root, relativeImagePath, allowStudioMetadata: true);
+            var bytes = ReadBoundedFile(imagePath, MaximumAuthoredSourceBytes);
+            if (!string.Equals(AtomicFile.Sha256(bytes), change.AfterSha256, StringComparison.Ordinal)
+                || !IsValidAuthoredEntitySource(root, change.RelativePath, bytes)) return false;
+            afterBytes = bytes;
+            return true;
+        }
+        catch (Exception error) when (error is IOException or UnauthorizedAccessException or ArgumentException
+            or InvalidOperationException or JsonException or System.Security.SecurityException or NotSupportedException)
+        {
+            return false;
+        }
+    }
+
+    private static bool IsValidAuthoredEntitySource(string root, string relativePath, byte[] bytes)
+    {
+        try
+        {
+            _ = ReadAuthoredEntitySourceIds(bytes);
+            var text = new System.Text.UTF8Encoding(false, true).GetString(bytes);
+            return AuthoredFile.CreateNew(root, relativePath, text).RootIsArray;
+        }
+        catch (Exception error) when (error is ArgumentException or InvalidDataException or JsonException
+            or InvalidOperationException or NotSupportedException)
         {
             return false;
         }
@@ -1117,6 +1245,61 @@ public sealed class StudioFileTransaction
         }
 
         return foundEntities && entities.ValueKind == JsonValueKind.Array;
+    }
+
+    internal static string[] ReadAuthoredEntitySourceIds(byte[] bytes)
+    {
+        ArgumentNullException.ThrowIfNull(bytes);
+        using var document = JsonDocument.Parse(bytes);
+        var root = document.RootElement;
+        JsonElement entities;
+        if (root.ValueKind == JsonValueKind.Array)
+        {
+            entities = root;
+        }
+        else if (root.ValueKind == JsonValueKind.Object)
+        {
+            entities = default;
+            var foundEntities = false;
+            foreach (var property in root.EnumerateObject())
+            {
+                if (!string.Equals(property.Name, "entities", StringComparison.Ordinal)) continue;
+                if (foundEntities || property.Value.ValueKind != JsonValueKind.Array)
+                    throw new InvalidDataException("Исходник должен содержать один массив entities.");
+                entities = property.Value;
+                foundEntities = true;
+            }
+            if (!foundEntities) throw new InvalidDataException("Исходник должен содержать список сущностей.");
+        }
+        else
+        {
+            throw new InvalidDataException("Исходник должен иметь корень-массив или объект с массивом entities.");
+        }
+
+        var ids = new List<string>(entities.GetArrayLength());
+        var seen = new HashSet<string>(StringComparer.Ordinal);
+        foreach (var entity in entities.EnumerateArray())
+        {
+            if (entity.ValueKind != JsonValueKind.Object)
+                throw new InvalidDataException("Каждая сущность исходника должна быть объектом с уникальным строковым ID.");
+
+            string? id = null;
+            var foundId = false;
+            foreach (var property in entity.EnumerateObject())
+            {
+                if (!string.Equals(property.Name, "id", StringComparison.Ordinal)) continue;
+                if (foundId || property.Value.ValueKind != JsonValueKind.String)
+                    throw new InvalidDataException("Каждая сущность исходника должна иметь один строковый ID.");
+                id = property.Value.GetString();
+                foundId = true;
+            }
+
+            if (!foundId || string.IsNullOrWhiteSpace(id) || !seen.Add(id))
+                throw new InvalidDataException("Исходник содержит отсутствующие или повторяющиеся ID сущностей.");
+            ids.Add(id);
+        }
+
+        return ids.ToArray();
     }
 
     private static bool TryNormalizeRecoveryPath(string root, string path, out string normalized)

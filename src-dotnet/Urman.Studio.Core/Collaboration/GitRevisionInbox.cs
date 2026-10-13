@@ -64,15 +64,52 @@ public sealed class GitRevisionInbox(StudioWorkspace workspace,
             {
                 token.ThrowIfCancellationRequested();
                 ValidatePath(path);
-                if (!allowed.Contains(path))
+                var registeredPath = allowed.Contains(path);
+                var possibleNewSource = !registeredPath && !catalogValidators.ContainsKey(path)
+                    && StudioWorkspace.IsCanonicalAuthoredJsonSourcePath(path);
+                if (!registeredPath && !possibleNewSource)
                 {
                     excluded.Add(path);
                     continue;
                 }
+
+                if (possibleNewSource)
+                {
+                    StudioFileTransaction.EnsureNoLinks(workspace.Root, path);
+                    var fullPath = Path.Combine(workspace.Root, path.Replace('/', Path.DirectorySeparatorChar));
+                    if (workspace.HasFile(path) || File.Exists(fullPath) || Directory.Exists(fullPath))
+                    {
+                        excluded.Add(path);
+                        continue;
+                    }
+                }
+
                 var before = await ReadSourceAsync(ancestor, path, remaining, catalogValidators, token).ConfigureAwait(false);
                 remaining -= before.Bytes;
                 var after = await ReadSourceAsync(incoming, path, remaining, catalogValidators, token).ConfigureAwait(false);
                 remaining -= after.Bytes;
+
+                var incomingAddsSource = before.Text is null && after.Text is not null;
+                if (incomingAddsSource && possibleNewSource)
+                {
+                    // A source can be created only from a pure Git addition while both the
+                    // workspace and disk still have no local identity for that path.
+                    StudioFileTransaction.EnsureNoLinks(workspace.Root, path);
+                    var fullPath = Path.Combine(workspace.Root, path.Replace('/', Path.DirectorySeparatorChar));
+                    if (!StudioWorkspace.IsCanonicalAuthoredJsonSourcePath(path) || catalogValidators.ContainsKey(path)
+                        || workspace.HasFile(path) || File.Exists(fullPath) || Directory.Exists(fullPath)
+                        || !AuthoredFile.CreateNew(workspace.Root, path, after.Text!).RootIsArray)
+                    {
+                        excluded.Add(path);
+                        continue;
+                    }
+                }
+                else if (possibleNewSource)
+                {
+                    excluded.Add(path);
+                    continue;
+                }
+
                 files.Add(new GitIncomingFile(path, before.Text, after.Text));
             }
             token.ThrowIfCancellationRequested();
