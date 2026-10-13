@@ -76799,6 +76799,13 @@
                 ],
                 "verification": "Root personally viewed UI phases; exact before/after image SHA9edf3cbfe0e900aa18a2c32b31ae0b461ecd1dca7a722fc47a2b1506b7ddc7fe/18d8b73f1903e3eb9e87a792ec038404c544a64cec815512d6814676ffb05891. Final journal committed/sidebefore and original source SHA restored. Native29 game0/userdataRestoredtrue, only2GOG loader errors; oldworker export schema error retained, overallFAIL. Freshdoctor ready/no recovery/orphan; lease released.",
                 "limits": "Road player traversal/no-fall A04 and full restart history remain unverified. Exporter source345b48c3 published but oldstationworker not deployed. No wholeAI16/B20 completion."
+              },
+              {
+                "stage": "2026-10-13 deployed road exporter against accepted native29",
+                "result": "WINDOWS_EXPORT_PASS_DEPLOYED_API_PRESERVED",
+                "source": "eng/windows_station_worker.py @345b48c3 export-only closure",
+                "evidence_path": "evidence/STUDIO/practical-editor-2026-10-13/windows-road-apply-undo",
+                "actual_result": "Exact deployed exporter matched reviewed parent; added only road validators/constants/export function. Existing Station/Handler AST preserved. Candidate export completed on native29 saved source without a new game run; current-targets confirms exact before SHA9edf3cbfe0e900aa18a2c32b31ae0b461ecd1dca7a722fc47a2b1506b7ddc7fe. Atomic replace and old worker backup verified; deployed SHA97aa0cdef00518045878530ad010180783b2aec61362976499b4522235e8dd07. Worker restarted through existing idle-guarded manager; doctor ready/no job/recovery/orphan. Original native29 FAIL receipt remains unchanged; export PASS does not prove player traversal or restart history."
               }
             ],
             "stage_tasks": [
@@ -76817,17 +76824,17 @@
               ],
               "done_when": "Сегмент стал геометрически непрерывным; крайние точки и соседние маршруты сохранены; игрок не проваливается."
             },
-            "active_owner": "Codex",
+            "active_owner": null,
             "activity": {
-              "state": "confirmed_active",
-              "reason": "Manual road segment UI/Core and durable transaction history implemented; provider and native road scenario remain."
+              "state": "released",
+              "reason": "Road exporter deployment and saved-native29 export stage verified; next player/restart stage not started."
             },
             "task_type": "engineering",
             "status": "in_progress",
             "implementation_state": "partial",
             "technical_verification_state": "not_run",
-            "remaining": "Native Codex preview/Apply/exact Undo accepted; endpoints/otherroads/otherfields preserved. A04 player no-fall traversal, restart history and deployed road evidence exporter remain open.",
-            "next_action": "Use accepted road artifacts without repeating baseline; next bounded A04 checks player traversal over edited segment and exact restart history on permitted station after lease. Deploy reviewed exporter only while idle with backup/readback.",
+            "remaining": "Native Codex preview/Apply/exact Undo and deployed road evidence export accepted; A04 player no-fall traversal and restart history remain open.",
+            "next_action": "Use accepted road artifacts without repeating baseline; next bounded A04 checks player traversal over edited segment and exact restart history on permitted station after lease.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
