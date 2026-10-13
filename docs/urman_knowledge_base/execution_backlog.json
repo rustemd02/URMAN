@@ -115763,7 +115763,7 @@
       "title": "Удержать красоту наружной деревни после разделения",
       "milestone": "PW-M3",
       "status": "in_progress",
-      "active_owner": "/root",
+      "active_owner": null,
       "owner": "art",
       "priority": "P1",
       "complexity": "complex",
@@ -115798,7 +115798,8 @@
           "kind": "native_capture",
           "path": "evidence/PW-044/visual-capture-2026-10-09/receipt.json",
           "result": "Нативная съёмка станции UNTERPC (GTX 970, Vulkan Forward+, engine-errors.log пуст, PASS, 399 с): C1_arrival_street и C2_hero_house, 1920x1080, scale 0.9, FOV 70, дерево 06db3774; снимок со скриптом runner версии bd22574c (хеш 1853e63f…) — станционной.  Чтение кадров: вместо тёмного плоского сине-серого вида 07.10 — морозный день, голубой снег с длинными тенями и сугробами, срубные дома с бирюзовыми резными наличниками и сосульками, сосны в дымке. Дефекты: на C1 в центре улицы стоит безголовое тело игрока из коробок (камера съёмки у игрока); на C2 ворота — плоская плита; низкий контраст, фасады всё ещё без глубины; draw calls 25 474 (C1) и 20 440 (C2) — тяжело для GTX 970. Не PASS по done_when: нужны приёмка автора, парные High/Low, движение."
-        }
+        },
+        "evidence/PW-044/zhiguli-paint-20261013/"
       ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-044",
       "source_requirements": [
@@ -116054,8 +116055,8 @@
       },
       "assigned_owner": "art",
       "activity": {
-        "state": "confirmed_active",
-        "reason": "Explicit B02 release04:30 followed by fresh doctor clear. Root accepts one changed Zhiguli paint capture using existing two parking views."
+        "state": "released",
+        "reason": "Finite DistrictZhiguli shell fix accepted by actual native parking pair/root personal review; terminalPASS/restored/freshdoctor clear. Whole village/art remains open."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -116064,7 +116065,7 @@
         "Деревня материальна и обжита, а не выглядит меню порталов.",
         "Новые миры не маскируют технические регрессии."
       ],
-      "next_action": "После peer station release принять same existing S05 parking wide/contact на изменённом exact Steel paint; сохранить снимки для личного root просмотра. Полная деревня/внешний art gate открыты.",
+      "next_action": "Accepted exact Zhiguli shell stage stopped; continue only separate confirmed village visual remainder, beginning owner-resolved dark wall input after existing queue. Do not repeat accepted paint capture without changed input.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -116383,7 +116384,7 @@
         "verification_question": "Does same parking wide/contact show painted green-grey body without brushed-metal stripes, while wheels/trim/snow/geometry and third-party attribution remain intact?",
         "success": "Only this model exact Steel slot uses existing vehicle_paint; Wheel_steel/Metal/default generic path unchanged; native matching views actually reviewed.",
         "source_state": "Accepted: optional exact ordinal paintedBodySlot defaultnull; only BuildDistrictZhiguli opts into Steel→vehicle_paint4c5d4c. Wheel_steel/Metal/generic mappings, mesh/UV/source asset/CCBY attribution unchanged.",
-        "native_state": "RUNNING one agreed existing crisp parking wide/contact capture; station root until terminal/recovery.",
+        "native_state": "PASS; root accepted exact shell finish stage after personally viewing both actual parking PNGs. Body green-grey lacquer replaces grey brushed stripes; Wheel_steel/Metal remain bare; snow patch soft edge preserved. Whole car/village art not accepted.",
         "affected_compile": "Game build succeeded:0 errors,0 warnings;27.59s",
         "source_files": [
           "game/scripts/VehicleVisualFactory.DistrictZhiguli.cs",
@@ -116398,7 +116399,12 @@
         "native_job_id": "8e96a23adb91440982c571c37024185a",
         "snapshot_id": "7f14ff79e2eccf67f04965990221457eb7e20375cde6bdd788fe3df235f28376",
         "snapshot_base_commit": "69e97d7e",
-        "transfer": "12 changed source files0.5MB after safe incoming19d3d9a4 road refresh merge; no asset regeneration, Studio/road refresh source included as provenance only."
+        "transfer": "12 changed source files0.5MB after safe incoming19d3d9a4 road refresh merge; no asset regeneration, Studio/road refresh source included as provenance only.",
+        "stage_state": "completed",
+        "evidence": "evidence/PW-044/zhiguli-paint-20261013/",
+        "archive_sha256": "e78add1b4bf22bba57a09a602e9993e5127fcd5b126154f2cdfc50d8b3dbe479",
+        "userdata": "Receipt gameExitCode0/userdataRestoredtrue; freshdoctor ready,busy null,orphanfalse,recoveryfalse. Station explicitly released to B20 next.",
+        "visual_limits": "Only existing crisp parking wide/contact pair; no driving/frost/full village/human art claim. Roof, geometry, licensed UV/source attribution and generic bare-metal mappings unchanged."
       },
       "progress_2026_10_13_near_logwall": {
         "input": "B02 exact High/FOV70 after-fill C1/C2 e7efe8d PASS/gameExit0/userdataRestoredtrue; root personally compared after-fill C1/C2 with beforeC2.",

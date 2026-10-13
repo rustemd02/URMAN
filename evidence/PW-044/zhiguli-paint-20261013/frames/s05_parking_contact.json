@@ -1,0 +1,505 @@
+{
+  "metadataVersion": 2,
+  "engineVersion": "4.7.1-stable (official)",
+  "os": "Windows",
+  "point": "s05_parking_contact",
+  "spec": "s05_parking_contact:PoliceParking@2.4,1.0,1.4\u003EPoliceParking@0.78,0.18,1.2",
+  "cameraName": "DevViewCamera",
+  "cameraPath": "/root/Act1Demo/Main/DevViewCamera",
+  "cameraPosition": {
+    "x": 81,
+    "y": 1.184784,
+    "z": -3.8
+  },
+  "cameraTarget": {
+    "x": 81.200005,
+    "y": 0.364784,
+    "z": -5.42
+  },
+  "cameraForward": {
+    "x": 0.10949,
+    "y": -0.448899,
+    "z": -0.886849
+  },
+  "cameraSpace": "node:/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageRavine/RavineFarBank/FarBankPublic_police/PoliceParking",
+  "targetSpace": "node:/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageRavine/RavineFarBank/FarBankPublic_police/PoliceParking",
+  "cameraOwnerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageRavine/RavineFarBank/FarBankPublic_police/PoliceParking",
+  "targetOwnerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageRavine/RavineFarBank/FarBankPublic_police/PoliceParking",
+  "cameraOwnerZone": null,
+  "targetOwnerZone": null,
+  "fov": 70,
+  "fovSource": "explicit",
+  "diagnosticView": null,
+  "playerBodyHidden": true,
+  "diagnosticNeutralScope": null,
+  "near": 0.05,
+  "far": 160,
+  "viewportWidth": 1920,
+  "viewportHeight": 1080,
+  "scaling3DScale": 0.9,
+  "scaling3DMode": "Bilinear",
+  "graphicsPreset": "medium",
+  "graphicsRequestedPreset": null,
+  "graphicsEffectivePreset": "medium",
+  "playerGraphicsPreset": "medium",
+  "graphicsPreferredPreset": "medium",
+  "graphicsSessionOverride": null,
+  "graphicsPresetApplyStatus": "not-requested",
+  "graphicsComparable": null,
+  "graphicsBudget": "preset=medium,lod_threshold=1.50,scale=0.90,msaa=Msaa2X,shadow_filter=SoftLow,directional_shadow_distance=80,directional_shadow_atlas=4096,positional_shadow_atlas=2048,ssao_gate=authored,probe=none",
+  "activeZoneId": "village_day",
+  "requestedZoneId": null,
+  "checkpointSubject": null,
+  "requestedProfile": null,
+  "atmosphereProfile": "village-winter-crisp",
+  "atmosphereOwner": "AgentBExteriorWorld",
+  "studioPreviewProfile": null,
+  "environmentPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentBEnvironment",
+  "tonemapMode": "Agx",
+  "fogEnabled": true,
+  "volumetricFogEnabled": false,
+  "fogColor": "a9bddcff",
+  "fogDensity": 0.0035,
+  "snowActive": true,
+  "snowAmount": 4000,
+  "blizzardActive": false,
+  "drawCalls": 9042,
+  "renderHistogram": {
+    "groups": 595,
+    "top": [
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_PlantedFoliage/WinterSpruce_1_Plant/WinterSpruce_1_LOD",
+        "instances": 266,
+        "cost": 798,
+        "shadowCost": 0
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_PlantedFoliage/WinterSpruce_2_Plant/WinterSpruce_2_LOD",
+        "instances": 198,
+        "cost": 594,
+        "shadowCost": 0
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_PlantedFoliage/WinterSpruce_3_Plant/WinterSpruce_3_LOD",
+        "instances": 92,
+        "cost": 276,
+        "shadowCost": 0
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AuthoredWorldDirector/h033-house/Visual/VillageParcel_VariantA_TimberGable",
+        "instances": 153,
+        "cost": 163,
+        "shadowCost": 69
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AuthoredWorldDirector/h034-house/Visual/VillageParcel_VariantB_PlasterAnnex",
+        "instances": 151,
+        "cost": 162,
+        "shadowCost": 70
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AuthoredWorldDirector/ns-n-e3-house/Visual/VillageParcel_VariantB_PlasterAnnex",
+        "instances": 151,
+        "cost": 162,
+        "shadowCost": 70
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AuthoredWorldDirector/ns-m-e5-house/Visual/VillageParcel_VariantA_TimberGable",
+        "instances": 151,
+        "cost": 161,
+        "shadowCost": 67
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AuthoredWorldDirector/h050-house/Visual/VillageParcel_VariantA_TimberGable",
+        "instances": 138,
+        "cost": 147,
+        "shadowCost": 53
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AuthoredWorldDirector/h070-house/Visual/VillageParcel_VariantC_BanyaYard",
+        "instances": 139,
+        "cost": 146,
+        "shadowCost": 57
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AuthoredWorldDirector/ns-m-w5-house/Visual/VillageParcel_VariantC_BanyaYard",
+        "instances": 139,
+        "cost": 146,
+        "shadowCost": 57
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_PlantedFoliage/WinterBirdCherry_1_Plant/WinterBirdCherry_1_LOD",
+        "instances": 47,
+        "cost": 94,
+        "shadowCost": 0
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_PlantedFoliage/WinterBirch_1_Plant/WinterBirch_1_LOD",
+        "instances": 36,
+        "cost": 72,
+        "shadowCost": 0
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AuthoredWorldDirector/ns-m-e4b-house/Visual/VillageParcel_VariantC_BanyaYard",
+        "instances": 65,
+        "cost": 69,
+        "shadowCost": 23
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_PlantedFoliage/WinterBirch_2_Plant/WinterBirch_2_LOD",
+        "instances": 30,
+        "cost": 60,
+        "shadowCost": 0
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/KaraForestEdge/KaraWatershedStand/BranchSkeletonLOD",
+        "instances": 19,
+        "cost": 55,
+        "shadowCost": 55
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageRavine/RavineFarBank/FarBankPublic_police/PoliceRadiator-3_",
+        "instances": 45,
+        "cost": 45,
+        "shadowCost": 45
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageRavine/RavineFarBank/FarBankPublic_police/PoliceRadiator3_",
+        "instances": 45,
+        "cost": 45,
+        "shadowCost": 45
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_PlantedFoliage/WinterSpruce_4_Plant/WinterSpruce_4_LOD",
+        "instances": 14,
+        "cost": 42,
+        "shadowCost": 0
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_PlantedFoliage/WinterMaple_1_Plant/WinterMaple_1_LOD",
+        "instances": 19,
+        "cost": 38,
+        "shadowCost": 0
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_PlantedFoliage/WinterLinden_1_Plant/WinterLinden_1_LOD",
+        "instances": 16,
+        "cost": 32,
+        "shadowCost": 0
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/BackdropMidWoodlandEast/Tree/BandTree",
+        "instances": 14,
+        "cost": 28,
+        "shadowCost": 28
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AuthoredWorldDirector/green-well/Visual/Well_YardLandmark",
+        "instances": 16,
+        "cost": 28,
+        "shadowCost": 28
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/KaraForestEdge/KaraShelteredRegrowth/BranchSkeletonLOD",
+        "instances": 10,
+        "cost": 26,
+        "shadowCost": 26
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_PlantedFoliage/WinterRowan_2_Plant/WinterRowan_2_LOD",
+        "instances": 13,
+        "cost": 26,
+        "shadowCost": 0
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageForestGorge/SuspensionBridge/SuspensionBridgeIntact/SuspensionPlank_",
+        "instances": 24,
+        "cost": 24,
+        "shadowCost": 24
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/SettlementAddressPresentation/AddressPlate_ADR-H/@MeshInstance3D",
+        "instances": 24,
+        "cost": 24,
+        "shadowCost": 0
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AuthoredWorldDirector/h082-house/Visual/VillageParcel_VariantB_PlasterAnnex",
+        "instances": 22,
+        "cost": 23,
+        "shadowCost": 11
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_PlantedFoliage/FallenBranch_2_Plant/FallenBranch_2_LOD",
+        "instances": 10,
+        "cost": 20,
+        "shadowCost": 20
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_PlantedFoliage/WinterFarBirdCherry_1_Cell11_-",
+        "instances": 9,
+        "cost": 18,
+        "shadowCost": 0
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageRavine/RavineIce_",
+        "instances": 16,
+        "cost": 16,
+        "shadowCost": 16
+      }
+    ],
+    "topByName": [
+      {
+        "owner": "WinterSpruce_",
+        "instances": 570,
+        "cost": 1710,
+        "shadowCost": 0
+      },
+      {
+        "owner": "BranchSkeletonLOD",
+        "instances": 76,
+        "cost": 184,
+        "shadowCost": 184
+      },
+      {
+        "owner": "@MeshInstanceD",
+        "instances": 162,
+        "cost": 162,
+        "shadowCost": 114
+      },
+      {
+        "owner": "WinterBirch_",
+        "instances": 66,
+        "cost": 132,
+        "shadowCost": 0
+      },
+      {
+        "owner": "GorgeRimFence_far_Post",
+        "instances": 111,
+        "cost": 111,
+        "shadowCost": 111
+      },
+      {
+        "owner": "GorgeRimFence_near_Post",
+        "instances": 106,
+        "cost": 106,
+        "shadowCost": 106
+      },
+      {
+        "owner": "WinterBirdCherry_",
+        "instances": 47,
+        "cost": 94,
+        "shadowCost": 0
+      },
+      {
+        "owner": "WinterMaple_",
+        "instances": 19,
+        "cost": 38,
+        "shadowCost": 0
+      },
+      {
+        "owner": "GorgeRimFence_far_Rail",
+        "instances": 37,
+        "cost": 37,
+        "shadowCost": 37
+      },
+      {
+        "owner": "GorgeRimFence_far_LowerRail",
+        "instances": 37,
+        "cost": 37,
+        "shadowCost": 37
+      },
+      {
+        "owner": "WinterLinden_",
+        "instances": 18,
+        "cost": 36,
+        "shadowCost": 0
+      },
+      {
+        "owner": "GorgeRimFence_near_Rail",
+        "instances": 35,
+        "cost": 35,
+        "shadowCost": 35
+      },
+      {
+        "owner": "GorgeRimFence_near_LowerRail",
+        "instances": 35,
+        "cost": 35,
+        "shadowCost": 35
+      },
+      {
+        "owner": "BandTree",
+        "instances": 15,
+        "cost": 31,
+        "shadowCost": 31
+      },
+      {
+        "owner": "RavineRimFence_Post",
+        "instances": 28,
+        "cost": 28,
+        "shadowCost": 28
+      },
+      {
+        "owner": "WinterRowan_",
+        "instances": 13,
+        "cost": 26,
+        "shadowCost": 0
+      },
+      {
+        "owner": "SuspensionPlank_",
+        "instances": 24,
+        "cost": 24,
+        "shadowCost": 24
+      },
+      {
+        "owner": "GorgeRock__near",
+        "instances": 22,
+        "cost": 22,
+        "shadowCost": 22
+      },
+      {
+        "owner": "GorgeRock__far",
+        "instances": 21,
+        "cost": 21,
+        "shadowCost": 21
+      },
+      {
+        "owner": "FallenBranch_",
+        "instances": 10,
+        "cost": 20,
+        "shadowCost": 20
+      },
+      {
+        "owner": "WinterFarBirdCherry__Cell_-",
+        "instances": 10,
+        "cost": 20,
+        "shadowCost": 0
+      },
+      {
+        "owner": "RavineIce_",
+        "instances": 16,
+        "cost": 16,
+        "shadowCost": 16
+      },
+      {
+        "owner": "KaraSlopeRoot_Base",
+        "instances": 12,
+        "cost": 12,
+        "shadowCost": 12
+      },
+      {
+        "owner": "KaraSlopeRoot_Tip",
+        "instances": 12,
+        "cost": 12,
+        "shadowCost": 12
+      },
+      {
+        "owner": "metal_office_desk_drawer_",
+        "instances": 12,
+        "cost": 12,
+        "shadowCost": 12
+      },
+      {
+        "owner": "RavineRimFence_Rail",
+        "instances": 9,
+        "cost": 9,
+        "shadowCost": 9
+      },
+      {
+        "owner": "RavineRimFence_LowerRail",
+        "instances": 9,
+        "cost": 9,
+        "shadowCost": 9
+      },
+      {
+        "owner": "PorchStep",
+        "instances": 9,
+        "cost": 9,
+        "shadowCost": 9
+      },
+      {
+        "owner": "Fern__Cell_-",
+        "instances": 9,
+        "cost": 9,
+        "shadowCost": 0
+      },
+      {
+        "owner": "VariantA_TimberGable_Dwelling_Street_Window_Glass",
+        "instances": 9,
+        "cost": 9,
+        "shadowCost": 0
+      },
+      {
+        "owner": "VariantA_TimberGable_Dwelling_Street_Window_Jamb",
+        "instances": 9,
+        "cost": 9,
+        "shadowCost": 0
+      },
+      {
+        "owner": "VariantA_TimberGable_Dwelling_Street_Window_Jamb-",
+        "instances": 9,
+        "cost": 9,
+        "shadowCost": 0
+      },
+      {
+        "owner": "VariantA_TimberGable_Dwelling_Street_Window_Mullion",
+        "instances": 9,
+        "cost": 9,
+        "shadowCost": 0
+      },
+      {
+        "owner": "VariantA_TimberGable_Dwelling_Street_Window_Rail",
+        "instances": 9,
+        "cost": 9,
+        "shadowCost": 0
+      },
+      {
+        "owner": "VariantA_TimberGable_Dwelling_Street_Window_Rail-",
+        "instances": 9,
+        "cost": 9,
+        "shadowCost": 0
+      },
+      {
+        "owner": "VariantA_TimberGable_Dwelling_Street_Window_Recess",
+        "instances": 9,
+        "cost": 9,
+        "shadowCost": 0
+      },
+      {
+        "owner": "VariantA_TimberGable_Dwelling_Street_Window_Sill",
+        "instances": 9,
+        "cost": 9,
+        "shadowCost": 0
+      },
+      {
+        "owner": "VariantA_Shed_Door_Plank_",
+        "instances": 9,
+        "cost": 9,
+        "shadowCost": 9
+      },
+      {
+        "owner": "VariantA_Shed_Roof",
+        "instances": 3,
+        "cost": 9,
+        "shadowCost": 9
+      },
+      {
+        "owner": "VariantC_BanyaYard_Dwelling_Street_Window_Glass",
+        "instances": 9,
+        "cost": 9,
+        "shadowCost": 0
+      }
+    ],
+    "totals": {
+      "instances": 3083,
+      "cost": 4613,
+      "shadowCost": 1748,
+      "castsShadowSmall": {
+        "instances": 212,
+        "cost": 214,
+        "shadowCost": 214
+      }
+    }
+  },
+  "capturedUnixSeconds": 1791856431
+}
