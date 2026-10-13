@@ -13,6 +13,41 @@ public partial class Act1ConnectedWorld
     internal const string BathhouseObservationInteraction = "urman.chapter1:interaction/bathhouse-condensation-observation";
     private const string BathStoveKey = "bathhouse/stove";
     private const string BathSteamKey = "bathhouse/steam";
+    private const string BathFireboxSootTexturePath = "res://assets/textures/painterly/urman_d03_v01_rgba.png";
+    private const string BathFireboxSootShaderSource = """
+        shader_type spatial;
+        render_mode blend_mix, depth_draw_opaque, cull_back;
+
+        uniform sampler2D soot_texture : source_color, filter_linear_mipmap, repeat_disable;
+        uniform vec2 soot_quad_center_local;
+        // Bathhouse-local x-min, x-max, y-min, y-max of the current metal front.
+        uniform vec4 body_front_rect_local;
+        // Bathhouse-local x-min, x-max, y-min, y-max occupied by the raised door frame.
+        uniform vec4 door_frame_rect_local;
+        varying vec2 bathhouse_local_xy;
+
+        void vertex() {
+            bathhouse_local_xy = VERTEX.xy + soot_quad_center_local;
+        }
+
+        void fragment() {
+            if (bathhouse_local_xy.x < body_front_rect_local.x
+                || bathhouse_local_xy.x > body_front_rect_local.y
+                || bathhouse_local_xy.y < body_front_rect_local.z
+                || bathhouse_local_xy.y > body_front_rect_local.w) discard;
+            if (bathhouse_local_xy.x >= door_frame_rect_local.x
+                && bathhouse_local_xy.x <= door_frame_rect_local.y
+                && bathhouse_local_xy.y >= door_frame_rect_local.z
+                && bathhouse_local_xy.y <= door_frame_rect_local.w) discard;
+
+            vec4 soot = texture(soot_texture, UV);
+            ALBEDO = soot.rgb;
+            ALPHA = soot.a * 0.60;
+            ROUGHNESS = 0.99;
+            SPECULAR = 0.0;
+            METALLIC = 0.0;
+        }
+        """;
     private Node3D? _bathhouse;
     private Node3D? _bathCondensation;
     private MeshInstance3D? _bathEmbers;
@@ -244,6 +279,7 @@ public partial class Act1ConnectedWorld
         _bathEmbers.MaterialOverride = new StandardMaterial3D { AlbedoColor = new Color("a3572c"), EmissionEnabled = true,
             Emission = new Color("d67a31"), EmissionEnergyMultiplier = .55f, Roughness = 1 };
         for (var bar = 0; bar < 6; bar++) AddVisualBox(bath, "BathFireboxGrille" + bar, new(.018f, .25f, .015f), new(-1.495f + bar * .067f, .57f, -.702f), "383c33", "metal");
+        AddBathFireboxSoot(bath);
         FacilityRod(bath, "BathFireboxHandle", new(-1.05f, .47f, -.69f), new(-1.05f, .65f, -.69f), .024f, "4b4d41");
         AddVisualBox(bath, "BathAshPan", new(.42f, .11f, .075f), new(-1.33f, .29f, -.72f), "55594d", "metal");
         FacilityRod(bath, "BathChimney", new(-1.58f, .99f, -1.31f), new(-1.58f, 3.88f, -1.31f), .095f, "2e2c28");
@@ -271,6 +307,29 @@ public partial class Act1ConnectedWorld
         _facilityLights.Add(_bathFireLight);
         _bathSteam = BathMist("BathSteam", new(-1.32f, 1.08f, -1.04f), 28, 2.6f, .21f, new Color(.81f, .82f, .75f, .18f));
         _bathSmoke = BathMist("BathChimneySmoke", new(-1.58f, 3.95f, -1.31f), 12, 4f, .32f, new Color(.44f, .45f, .43f, .22f));
+    }
+
+    private static void AddBathFireboxSoot(Node3D bath)
+    {
+        if (!ResourceLoader.Exists(BathFireboxSootTexturePath)
+            || ResourceLoader.Load<Texture2D>(BathFireboxSootTexturePath) is not { } sootTexture) return;
+
+        var material = new ShaderMaterial { Shader = new Shader { Code = BathFireboxSootShaderSource } };
+        material.SetShaderParameter("soot_texture", sootTexture);
+        material.SetShaderParameter("soot_quad_center_local", new Vector2(-1.49f, .65f));
+        // BathStoveFirebox: centre (-1.33,.525), size (.71,.63), so x[-1.685,-.975], y[.21,.84].
+        material.SetShaderParameter("body_front_rect_local", new Vector4(-1.685f, -.975f, .21f, .84f));
+        // BathFireboxDoorFrame: centre (-1.33,.57), size (.50,.34), so x[-1.58,-1.08], y[.40,.74].
+        material.SetShaderParameter("door_frame_rect_local", new Vector4(-1.58f, -1.08f, .40f, .74f));
+
+        bath.AddChild(new MeshInstance3D
+        {
+            Name = "BathFireboxSoot",
+            Mesh = new QuadMesh { Size = new Vector2(.36f, .28f) },
+            Position = new Vector3(-1.49f, .65f, -.7595f),
+            MaterialOverride = material,
+            CastShadow = GeometryInstance3D.ShadowCastingSetting.Off
+        });
     }
 
     private static MeshInstance3D BathFirewoodRod(Node3D parent, string name, Vector3 a, Vector3 b, float radius, string color)

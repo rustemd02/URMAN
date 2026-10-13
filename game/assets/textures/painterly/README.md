@@ -982,3 +982,17 @@ S04 reuses the existing project-original `snow_roof_v1_albedo.png`, not a new Im
 - `wood_bath_light_v1_albedo.png` — W10, 0.75 m (6 soft-seamed boards)
 - `wood_split_firewood_v1_albedo.png` — W11, 0.5 m
 - `bark_spruce_v1_albedo.png` — F03, 1 m
+
+## D03 v01 — localized bath firebox soot, 2026-10-13
+
+Built-in ImageGen; selected `urman_d03_v01_rgba.png`, unchanged 1536 × 1024 RGBA. SHA-256 `c0c85023de3641e29502635ce4edb77d69483476b05569f47d10d8e2ef05f386`. Original output `exec-78eca505-5000-46e5-be69-7766feb121b7.png`; no external references or pixel edits. Alpha range 0–253, 947224 fully transparent pixels, 625640 partial pixels. One corner has alpha 1/255; no claim of perfectly empty border. Optional bathhouse-only .36 × .28 m overlay, clipped to existing metal and excluding raised door-frame bounds. No collisions, fire/state or other room changes. Native import, shader rendering, motion and art acceptance remain open.
+
+Exact generation prompt:
+
+```text
+For URMAN, an original painterly low-poly mystery game set in a living Tatar village in winter 2026. Use broad calm pigment fields and restrained readable medium-scale detail, coherent muted natural color, no photorealistic micro-noise or extreme grunge.
+
+Generate exactly one flat localized color decal on genuine alpha transparency. Keep pigment variation restrained and edges suitable for compositing; no baked cast shadow, glow, substrate plane, checkerboard picture, text, watermark or collage. Output only one RGBA decal image.
+
+Material request: One soft irregular soot deposit, warm neutral charcoal-grey with feathered broken edges and a slight upward spreading tendency. Transparent surrounding area. No flames, stove opening, smoke plume, wall background, occult mark or pitch-black sharp border. The decal is used at 20–40 cm scale on metal near a bathhouse firebox; keep generous fully transparent margins.
+```
