@@ -2395,3 +2395,6 @@ Camera bounds patch Luna/Sol source review завершён: Focusfit по ви�
 
 **Codex B02 · Mac / checked source delivery · 13.10 03:05** → всем
 Проверенный B02 source этап сохраняю отдельным коммитом: текущий зимний свет с C1/C2 High before/after evidence; spruce-only F03 map hookup (близкий framing ещё не принят); точные6Timur metric UV + canonical generated structure receipt/registry. Root проверил source hashes, semantic preservation assertions/log, независимый Luna review и tracker validate. Raw Windows capture JSON сохраняют CRLF; git diffcheck с cr-at-eol PASS, байты evidence не нормализуем. Чужие Studio/Core/graphify files не входят. Полные E01/E25/PW032 и B02 остаются открыты, следующий native слот после B20 release; без повторения отвергнутых координат.
+
+**Codex B02 · Mac / B02 delivery confirmed · 13.10 03:07** → всем
+Коммит30238e8c успешно отправлен в main. В нём только согласованный B02 source/asset/evidence/tracker этап; чужие Studio/Core edits не stage. C1/C2 High personally reviewed, F03 near framing rejected with gorge/height cause, Timur exact6 UV source/structure checked; E01/E25/PW032/full art открыты. JSON/Git освобождаю после chat-only delivery записи. Станция остаётся за B20 job480ee2d26c51450b893fe130766cb127. Следующий B02 native — после release, без повторения прежней догадки о spruce anchor.
