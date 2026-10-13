@@ -121,13 +121,12 @@ public partial class Act1ConnectedWorld
 
         var surface = new SurfaceTool();
         surface.Begin(Mesh.PrimitiveType.Triangles);
-        // Same front-face rule as TimberHomeStyle.AppendChamferedBox, which renders
-        // correctly in this project: emit so that (b - a) x (c - a) faces the normal.
+        // Godot front faces wind clockwise when seen from the outward normal.
         void Tri((Vector3 P, Vector3 N, Vector2 Uv) a, (Vector3 P, Vector3 N, Vector2 Uv) b, (Vector3 P, Vector3 N, Vector2 Uv) c)
         {
             var face = (b.P - a.P).Cross(c.P - a.P);
             var normal = a.N + b.N + c.N;
-            if (face.Dot(normal) < 0f) (b, c) = (c, b);
+            if (face.Dot(normal) > 0f) (b, c) = (c, b);
             foreach (var v in new[] { a, b, c })
             {
                 surface.SetNormal(v.N);

@@ -301,8 +301,8 @@ public partial class Act1ConnectedWorld
         Vector3 P(float along, float depth, float height) => alongX ? new(along, height, depth) : new(depth, height, along);
         void Tri((Vector3 P, Vector3 N, Vector2 U) a, (Vector3 P, Vector3 N, Vector2 U) b, (Vector3 P, Vector3 N, Vector2 U) c)
         {
-            // Same front-face rule as TimberHomeStyle.AppendChamferedBox.
-            if ((b.P - a.P).Cross(c.P - a.P).Dot(a.N + b.N + c.N) < 0f) (b, c) = (c, b);
+            // Godot front faces wind clockwise when seen from the outward normal.
+            if ((b.P - a.P).Cross(c.P - a.P).Dot(a.N + b.N + c.N) > 0f) (b, c) = (c, b);
             foreach (var v in new[] { a, b, c }) { surface.SetNormal(v.N); surface.SetUV(v.U); surface.AddVertex(v.P); }
         }
         var ring = new (float D, float Y, Vector3 N, float Arc)[WallLogSegments + 1];

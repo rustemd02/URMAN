@@ -59574,7 +59574,7 @@
               "reason": "Историческое поле не доказывает работу сейчас; назначение сохранено. Подтверждение берётся из нового ответа/живого сеанса, не из возраста записи."
             },
             "task_type": "engineering",
-            "status": "todo",
+            "status": "in_progress",
             "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
@@ -59641,7 +59641,26 @@
               "verification": [],
               "acceptance": []
             },
-            "depends_on": []
+            "depends_on": [],
+            "progress_2026_10_13_log_winding": {
+              "result": "Windows C2 лично просмотрен: тёмные тела стали читаемыми округлыми брёвнами с древесной фактурой и видимыми торцами; поленница также исправлена. C1 уличный кадр лично просмотрен без видимого ухудшения. Исправлены только два winding условия; UV, материалы, outward normals и свет неизменны.",
+              "verification_question": "На прежнем C2 при village-winter-crisp/FOV70 восстанавливаются ли видимая наружная полусфера брёвен и читаемая древесина, без изменения света/tint? C1 проверяет тот же путь в уличной композиции.",
+              "success_condition": "Текущие Windows C1/C2 лично просмотрены; поверхность сруба читается как древесина, торцы не пропадают, отсутствует ухудшение уличного кадра; receipt/restoration проверены. Это узкий repair, не полный DoD дома/художественная приёмка.",
+              "job_id": "9da4e9566b18480aaa6ac7cb821d1cb7",
+              "snapshot_id": "f08e60941333e1807bd544d7bf2e764ff38a2c7976af15056a81fa147816ebf2",
+              "state": "accepted_repair",
+              "targets": [
+                "game/scripts/Act1ConnectedWorld.RoundLogs.cs",
+                "game/scripts/Act1ConnectedWorld.DwellingLogWalls.cs"
+              ],
+              "evidence": [
+                "evidence/ACT1-DEPTH.9/log-winding-20261013/receipt.json",
+                "evidence/ACT1-DEPTH.9/log-winding-20261013/frames/C2_house_high.png",
+                "evidence/ACT1-DEPTH.9/log-winding-20261013/frames/C1_street_high.png"
+              ],
+              "verification": "9da4e956 PASS/game0/import0/build0, userdataRestored=true; archive SHA2e81f8e2…e9bc0cd проверен. Совпадают camera/target/FOV/spec и profile/exteriorGLB SHA с after-fill baseline. Baseline PML SHA c34f61…d5988 точно найден в 30238e8c; diff к current содержит только local-piece helper, wood_log_uv/wood_facade/tint и shader block прежние. Fresh doctor ready/busy-null/recoveryfalse/orphanfalse.",
+              "remaining": "Полное качество дома по T1–T4 и движение/авторская художественная приёмка открыты. T1–T4/P2 отсутствуют на Mac, запрошены оригиналы. Angular repeated forest остаётся главным видимым расхождением; TimberHomeStyle имеет аналогичную несогласованность winding, требует отдельного узкого кадра до изменения."
+            }
           },
           {
             "id": "ACT1-DEPTH.9/E02",
