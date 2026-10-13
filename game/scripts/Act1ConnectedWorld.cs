@@ -8110,8 +8110,8 @@ public partial class Act1ConnectedWorld : Node3D
         AddVisualBox(facade, "Door", new(0.92f, Mathf.Min(2.05f, wallHeight * 0.72f), 0.08f), new(doorX, 0.78f, frontZ), "4b382c", "wood");
         AddVisualBox(facade, "DoorLintel", new(1.16f, 0.11f, 0.12f), new(doorX, 1.72f, frontZ + 0.03f), trimColor, "wood");
         AddVisualBox(facade, "Window", new(1.12f, 0.78f, 0.06f), new(footprint.X * 0.18f, wallHeight * 0.56f, frontZ + 0.02f), "6f8079", "glass");
-        AddVisualBox(facade, "WindowTrimTop", new(1.30f, 0.10f, 0.10f), new(footprint.X * 0.18f, wallHeight * 0.56f + 0.47f, frontZ + 0.05f), trimColor, "wood");
-        AddVisualBox(facade, "WindowTrimBottom", new(1.30f, 0.10f, 0.10f), new(footprint.X * 0.18f, wallHeight * 0.56f - 0.47f, frontZ + 0.05f), trimColor, "wood");
+        AddVisualBox(facade, "WindowTrimTop", new(1.30f, 0.10f, 0.10f), new(footprint.X * 0.18f, wallHeight * 0.56f + 0.47f, frontZ + 0.05f), trimColor, "wood_painted_trim");
+        AddVisualBox(facade, "WindowTrimBottom", new(1.30f, 0.10f, 0.10f), new(footprint.X * 0.18f, wallHeight * 0.56f - 0.47f, frontZ + 0.05f), trimColor, "wood_painted_trim");
 
         // First-person review reaches the rear of these parcels as often as
         // the approach sees their front. A restrained rear window pair keeps
@@ -8136,14 +8136,14 @@ public partial class Act1ConnectedWorld : Node3D
                 new(rearWindowWidth + 0.16f, 0.08f, 0.10f),
                 new(offset, rearWindowY + rearWindowHeight * 0.56f, rearZ - 0.03f),
                 trimColor,
-                "wood");
+                "wood_painted_trim");
             AddVisualBox(
                 facade,
                 $"RearWindow{suffix}Bottom",
                 new(rearWindowWidth + 0.16f, 0.08f, 0.10f),
                 new(offset, rearWindowY - rearWindowHeight * 0.56f, rearZ - 0.03f),
                 trimColor,
-                "wood");
+                "wood_painted_trim");
         }
 
         foreach (var (x, suffix) in new[]
@@ -8153,8 +8153,8 @@ public partial class Act1ConnectedWorld : Node3D
                  })
         {
             AddVisualBox(facade, $"SideWindow{suffix}", new(0.06f, rearWindowHeight, 0.86f), new(x, rearWindowY, 0.05f), "65756e", "glass");
-            AddVisualBox(facade, $"SideWindow{suffix}Top", new(0.10f, 0.08f, 1.02f), new(x, rearWindowY + rearWindowHeight * 0.56f, 0.05f), trimColor, "wood");
-            AddVisualBox(facade, $"SideWindow{suffix}Bottom", new(0.10f, 0.08f, 1.02f), new(x, rearWindowY - rearWindowHeight * 0.56f, 0.05f), trimColor, "wood");
+            AddVisualBox(facade, $"SideWindow{suffix}Top", new(0.10f, 0.08f, 1.02f), new(x, rearWindowY + rearWindowHeight * 0.56f, 0.05f), trimColor, "wood_painted_trim");
+            AddVisualBox(facade, $"SideWindow{suffix}Bottom", new(0.10f, 0.08f, 1.02f), new(x, rearWindowY - rearWindowHeight * 0.56f, 0.05f), trimColor, "wood_painted_trim");
         }
 
         if (porch)

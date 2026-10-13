@@ -5724,19 +5724,19 @@
             "owner": "art/materials/qa",
             "evidence": [],
             "assigned_owner": "art/materials/qa",
-            "active_owner": null,
+            "active_owner": "codex/b02",
             "activity": {
-              "state": "not_active",
-              "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+              "state": "confirmed_active",
+              "reason": "Luna6Max выполнила конечный source этап W05, root проверяет и ожидает целевой Windows вид."
             },
             "task_type": "engineering",
-            "status": "todo",
+            "status": "in_progress",
             "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
-              "Подключить W05 — Светлая краска наличников; собственного целевого receipt пока нет."
+              "Целевой Windows вид FapReturnHouseEast: читаемая крашеная обвязка передних/задних/боковых окон; целевой receipt ещё не получен."
             ],
-            "next_action": "Сопоставить текущий результат: Подключить W05 — Светлая краска наличников. Затем изменить только установленный остаток.",
+            "next_action": "После текущего B20 и елового сравнения снять точный FapReturnHouseEast; проверить W05 и неизменность геометрии/tint.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -5746,9 +5746,17 @@
                 "game/assets/textures/painterly/README.md",
                 "assets/asset_registry.json",
                 "docs/urman_knowledge_base/art/urman_imagegen_texture_prompt_book_2026-09-22.md",
-                "docs/urman_knowledge_base/assets.md"
+                "docs/urman_knowledge_base/assets.md",
+                "game/scripts/Act1ConnectedWorld.cs",
+                "game/scripts/PainterlyMaterialLibrary.cs"
               ],
-              "required_inputs": [],
+              "required_inputs": [
+                {
+                  "path": "game/assets/textures/painterly/urman_w05_v02_basecolor.png",
+                  "sha256": "c2170588472b77aab0f560818d34349cc4397d1793f0e5d06a7cbd73ee2ac317",
+                  "consumer": "PainterlyMaterialLibrary wood_painted_trim; AddVillageFacade FapReturnHouseEast, singleSlopeRoof=true"
+                }
+              ],
               "scope_in": [
                 "Подключить W05 — Светлая краска наличников"
               ],
@@ -5766,22 +5774,17 @@
               ],
               "verification": {
                 "method": "targeted_runtime_scenario",
-                "question": "Подключить W05 — Светлая краска наличников",
+                "question": "FapReturnHouseEast: W05 используется верх/низ front/rear/side окон, геометрия/tint сохранены?",
                 "scenario": {
                   "targets": [
-                    "game/assets/textures/painterly/README.md",
-                    "assets/asset_registry.json",
-                    "docs/urman_knowledge_base/art/urman_imagegen_texture_prompt_book_2026-09-22.md",
-                    "docs/urman_knowledge_base/assets.md"
+                    "game/scripts/Act1ConnectedWorld.cs",
+                    "game/assets/textures/painterly/urman_w05_v02_basecolor.png"
                   ],
                   "actions": [
-                    "Сопоставить текущий Подключить W05 — Светлая краска наличников с указанным источником/consumer.",
-                    "Внести только отсутствующую часть этого результата у существующего владельца.",
-                    "Выполнить указанную узкую проверку, сохранить фактический результат и остановиться."
+                    "Посмотреть передние, задние и боковые оконные обвязки FapReturnHouseEast в текущей connected scene."
                   ],
                   "observations": [
-                    "Подключить W05 — Светлая краска наличников выполнено у указанных targets и используется реальным потребителем.",
-                    "Проверка данного объекта/действия и сохранности связанного состояния записана; соседние объекты не выданы за проверенные."
+                    "Светлая крашеная фактура соответствует существующей W05; геометрия/tint не изменены."
                   ],
                   "bound": "Только этот объект/контракт на одном named candidate; asset import или affected compile лишь при изменении соответствующего источника, human approval отдельно."
                 },
@@ -5791,7 +5794,10 @@
                 ],
                 "repeat_only_if": "Изменился покрываемый вход/consumer/контракт; без этого уже принятая проверка используется повторно без запуска."
               },
-              "evidence_refs": [],
+              "evidence_refs": [
+                "game/scripts/Act1ConnectedWorld.cs",
+                "game/assets/textures/painterly/urman_w05_v02_basecolor.png"
+              ],
               "source_criteria_parent": "ACT1-TEXTURE.02"
             },
             "dependencies": {
@@ -5799,7 +5805,20 @@
               "verification": [],
               "acceptance": []
             },
-            "depends_on": []
+            "depends_on": [],
+            "progress_2026_10_13": {
+              "result": "Существующая W05 назначена шести вызовам верх/низ окон AddVillageFacade (front/rear/side), прежние tint/геометрия/остальные детали сохранены. Large gabled branch остаётся authored.",
+              "targets": [
+                "game/scripts/Act1ConnectedWorld.cs"
+              ],
+              "verification": "Root лично просмотрел PNG и сверил SHA; Luna exact consumer/source implementation, root six-call diff review; scoped diff-check PASS. Literal material keys reuse existing PML, compilation risk not introduced; native not_run.",
+              "verification_question": "FapReturnHouseEast показывает W05 painted grain на обвязке всех окон, без изменённой геометрии или ошибочного назначения стеклу/стенам?",
+              "evidence": [
+                "game/assets/textures/painterly/urman_w05_v02_basecolor.png",
+                "game/scripts/Act1ConnectedWorld.cs"
+              ],
+              "remaining": "Windows/art/motion открыты; source этап не завершает всю E12."
+            }
           },
           {
             "id": "ACT1-TEXTURE.02/E13",
