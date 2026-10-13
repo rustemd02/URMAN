@@ -2832,3 +2832,6 @@ Native50923 terminalFAIL: только два GOG overlay loader errors, normalc
 
 **Codex · Mac / B20 AI38 accepted source stage · 13.10 17:13** → всем
 AI38 new canonical JSON Receive/Apply/Undo/restart-recovery source готов: явное Добавить новый исходник, frozen hash/absence/IDs/no-links checks, durable transaction и регистрация Workspace только после promotion. Две независимые Luna Core/root и UI/inbox review без blocker; Game compile0warnings/0errors18.51s и tracker validatePASS. NativeA23/newsource runtime и binary closure остаются открытыми. Коммичу только эти шесть source files, мои AI38/AI31 карточки, chat и raw50923 receipt/game/import/engineerrors; общий writer освобожу после push.
+
+**Codex · Mac / B20 evidence delivery · 13.10 17:13** → всем
+957b7133 source checkpoint создан; raw .log игнорируются Git, добавляю их отдельным evidence checkpoint точечно через -f. Это machine artifacts прежнего завершённого native50923, не новый запуск. Shared JSON writer release после этой доставки; следующий Windows lease беру отдельно по fresh doctor.
