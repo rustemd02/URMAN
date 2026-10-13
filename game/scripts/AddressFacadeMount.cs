@@ -44,7 +44,9 @@ internal static class AddressFacadeMount
         {
             _meshes=Descendants(root).OfType<MeshInstance3D>()
                 .Select(mesh=>(Instance:mesh,Mesh:mesh.Mesh))
-                .Where(pair=>pair.Mesh is not null)
+                .Where(pair=>pair.Mesh is not null
+                    &&!IsWalkThroughFoliage(pair.Instance)
+                    &&!IsInteriorDressing(pair.Instance))
                 .Select(pair=>
                 {
                     var transform=pair.Instance.GlobalTransform;
@@ -63,8 +65,6 @@ internal static class AddressFacadeMount
                 var mesh=prepared.Instance;
                 if(mesh.Mesh is null||!mesh.IsVisibleInTree())continue;
                 if(mesh.GetParent() is AddressSignVisualComponent)continue;
-                // Keep the existing live ancestry filters even though geometry is captured for this pass.
-                if(IsWalkThroughFoliage(mesh)||IsInteriorDressing(mesh))continue;
                 prepared.Faces??=TransformFaces(prepared.Mesh,prepared.Transform,prepared.Owner);
                 result.AddRange(prepared.Faces);
             }

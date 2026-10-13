@@ -80031,6 +80031,16 @@
                 "verification": "Final affected Game compile 0 warnings/0 errors 16.03s after unchanged-model width guard; independent Luna final source review, all-eight exterior coverage and legal wall-root name stability reviewed; scoped diff check passed.",
                 "limits": "Native selective speed/cleanup not verified. Job389452e71fbd445ab7c77ba4355fd6fd predates selective source: baseline map74857ms and actual EyeLevel outside roof, normal-close watchdog before new Codex/Apply; terminal FAIL GOG loader preserved, user data restored.",
                 "receipt": "evidence/STUDIO/practical-editor-2026-10-13/windows-camera-cleanup/receipt.json"
+              },
+              {
+                "date": "2026-10-13",
+                "kind": "source-progress",
+                "result": "Existing synchronous PreparedWorldFaces snapshot excludes never-occluding walk-through foliage/interior meshes once instead of repeating ancestry checks per address query. Retained solid meshes keep live visibility/sign-owner/bounds/triangle checks; nonprepared path unchanged.",
+                "source": [
+                  "game/scripts/AddressFacadeMount.cs"
+                ],
+                "verification": "Luna implementation and independent Luna source review: synchronous snapshot lifetime/classification unchanged; affected Game compile 0 warnings/0 errors16.89s and scoped diffcheck. Baseline389 log authored-addresses11.545s, map74857ms.",
+                "limits": "Candidate source optimization; changed Windows address timing not measured, no speed claim."
               }
             ],
             "stage_tasks": [
