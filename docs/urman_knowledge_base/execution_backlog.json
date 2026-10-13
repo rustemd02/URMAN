@@ -12709,17 +12709,17 @@
             "assigned_owner": "art/materials/qa",
             "active_owner": null,
             "activity": {
-              "state": "not_active",
-              "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+              "state": "released",
+              "reason": "Finite one-pane D07 hookup source accepted after independent review and affected Game compile; shader/runtime/thaw/art acceptance remains open."
             },
             "task_type": "engineering",
-            "status": "todo",
-            "implementation_state": "not_started",
+            "status": "in_progress",
+            "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
               "Подключить D07 — Морозный узор окна; собственного целевого receipt пока нет."
             ],
-            "next_action": "Сопоставить текущий результат: Подключить D07 — Морозный узор окна. Затем изменить только установленный остаток.",
+            "next_action": "After confirmed current station worker and owner release, use existing capture on exact YardRepairCorner/WindowFrost to inspect full-pane D07 pattern and shader parsing/High+Low; ordinary thaw should remove same node and retain repair-strip read prerequisite. No unchanged broad TEXTURE rerun; child remains partial until own runtime/art criteria.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -12730,7 +12730,9 @@
                 "assets/asset_registry.json",
                 "docs/urman_knowledge_base/art/urman_imagegen_texture_prompt_book_2026-09-22.md",
                 "docs/urman_knowledge_base/assets.md",
-                "docs/urman_knowledge_base/art/texture_runtime_inventory_2026-09-22.md"
+                "docs/urman_knowledge_base/art/texture_runtime_inventory_2026-09-22.md",
+                "game/scripts/PainterlyMaterialLibrary.cs",
+                "game/scripts/Act1ConnectedWorld.YardMechanisms.cs"
               ],
               "required_inputs": [],
               "scope_in": [
@@ -12763,7 +12765,31 @@
               "verification": [],
               "acceptance": []
             },
-            "depends_on": []
+            "depends_on": [],
+            "progress_2026_10_13_yard_frost": {
+              "result": "Replace snow pigment on existing opaque thaw mask with actual existing RGBA frost pattern across exact .79×.77m pane; no clue visibility or physics change.",
+              "input": "Registered project-generated D07 frost_window_v1_albedo.png SHA9b9362881cb5913f10117118524132f95d7d5cff5cc830fe832afee17194cdda; root personally viewed image; inventory explicitly names missing WindowFrost map hookup.",
+              "files": [
+                "game/scripts/PainterlyMaterialLibrary.cs",
+                "game/scripts/Act1ConnectedWorld.YardMechanisms.cs"
+              ],
+              "scope": "One isolated material copy; optional full-pane local XY UV only when size>0, all prior frost UV paths unchanged by default. Existing opaque alpha, geometry/collision/position/visibility/thaw/prerequisite unchanged.",
+              "verification_question": "Does only WindowFrost use complete top-down RGBA frost pattern, with alpha mixed over prior opaque tint and no cached material/other consumer/game-state mutation? Compile is not shader parsing or visual proof.",
+              "native": "NOT_RUN; no station job submitted.",
+              "remaining": "Actual target pane High/Low/current view, ordinary thaw disappearance and clue gating/restoration/art; no full E07 completion inferred from source.",
+              "state": "Accepted source stage; actual shader/native NOT_RUN.",
+              "source_sha256": {
+                "game/scripts/PainterlyMaterialLibrary.cs": "7038998fbda777576ea9243cbc99c845445faf6f298291e65339321a27bef34d",
+                "game/scripts/Act1ConnectedWorld.YardMechanisms.cs": "7fc4ecf0792902b721fbf7d89dddc2af16c1b897d2af97db0bf0f5d958ef47cf"
+              },
+              "compile": {
+                "warnings": 0,
+                "errors": 0,
+                "seconds": 28.58,
+                "log": "evidence/ACT1-TEXTURE.05/yard-frost-20261013/game-build.log"
+              },
+              "review": "Root full diff + independent Luna: local duplicate before parameters, exact XY top-down pane mapping, half-texel clamp only opted-in path, zero default old UV unchanged. Alpha still affects color/roughness only, no ALPHA/transparency/emission; callback/state/geometry/collision/clue hiding intact. C# compile does not parse Godot shader or prove appearance."
+            }
           },
           {
             "id": "ACT1-TEXTURE.05/E08",
