@@ -99,7 +99,7 @@ public static class TimberHomeStyle
             // Godot front faces are clockwise seen from the normal side; the two
             // triangles of the quad are wound together, never one flipped alone.
             // A reflected transform reverses both triangles as a pair.
-            if (((b - a).Cross(cc - a).Dot(normal) < 0) != reflected)
+            if (((b - a).Cross(cc - a).Dot(normal) > 0) != reflected)
             { Emit(a); Emit(cc); Emit(b); Emit(a); Emit(d); Emit(cc); }
             else
             { Emit(a); Emit(b); Emit(cc); Emit(a); Emit(cc); Emit(d); }
