@@ -93,12 +93,12 @@
           "village_day"
         ],
         "ambient": {
-          "energy": 0.60,
-          "color": "839ecb",
+          "energy": 0.72,
+          "color": "8e9bc8",
           "skyContribution": 0
         },
         "fog": {
-          "color": "a9bddc",
+          "color": "b6bcd2",
           "density": 0.0035,
           "height": 1.2,
           "heightDensity": 0.004,
@@ -113,8 +113,8 @@
         },
         "sky": {
           "top": "35689f",
-          "horizon": "dbe9f4",
-          "groundHorizon": "bfd0e2",
+          "horizon": "e7d6c1",
+          "groundHorizon": "c6c4d8",
           "groundBottom": "31517a",
           "sunAngleMax": 1.4,
           "sunCurve": 0.12,
@@ -126,8 +126,8 @@
           ]
         },
         "sun": {
-          "color": "ffd2a3",
-          "energy": 1.85,
+          "color": "ffc98d",
+          "energy": 2.30,
           "shadowOpacity": 0.86,
           "rotation": [
             -16,
@@ -135,10 +135,10 @@
           ]
         },
         "snow": {
-          "color": "c4d2ff",
+          "color": "ece8dc",
           "coverage": 1.0,
           "sparkle": 1.15,
-          "tintStrength": 0.5
+          "tintStrength": 0.35
         },
         "weather": {
           "direction": [

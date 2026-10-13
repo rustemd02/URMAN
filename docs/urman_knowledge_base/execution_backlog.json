@@ -97351,20 +97351,21 @@
               "evidence/ACT1-ATMOSPHERE/crisp-day-20261013/after-fill/frames/C2_house_high.png"
             ],
             "assigned_owner": "codex/b02-2026-10-13",
-            "active_owner": null,
+            "active_owner": "codex/b02",
             "activity": {
-              "state": "released",
-              "reason": "Matched native before/after partial evidence delivered, station released; physical motion/indoor scenario and visual criteria open."
+              "state": "confirmed_active",
+              "reason": "Luna6Max и root выполнили цельный daylight profile source candidate, ожидают одной игровой приёмки."
             },
             "task_type": "engineering",
             "status": "in_progress",
             "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
+              "Новый цельный daylight colorscript source candidate не принят в игре; нужен один matched C1/C2 before/after.",
               "Nearby ordinary walk-in indoor grade/motion with current crisp source: dark wood/face/snow readability, no exposure/color regression.",
               "Existing snowfall/blizzard/night source unchanged, but actual changed indoor path and parent artistic acceptance remain open; near-black logwall and angular forest handed to corresponding visual consumers."
             ],
-            "next_action": "Use existing protected Studio PlayFromHere exactPID route after B20 changed-protocol slot for ordinary door/nearby indoor walk; repeat C1/C2 only on changed relevant input or concrete defect.",
+            "next_action": "После текущего B20 slot выполнить одно C1/C2 сравнение цельного daylight candidate; принять/отклонить видимый результат, без серии мелких настроек.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -97470,6 +97471,22 @@
               "result": "Luna: same dark C2 wall already present in before/after/after-fill, identical camera/FOV; crisp change does not cause it. Sidecar aggregate histogram cannot bind dark pixel to owner/material/normal/shadow. Earlier Babai(-28,-3.4)/yaw64.722 is pre-relocation, not current runtime owner position. Hero candidate log uses wood_log_uv/tint8b7763/W01, but specific pixel-owner unproven.",
               "next_input": "Existing neutral-albedo diagnostic view could distinguish tint from lighting; remote-check transport currently does not pass URMAN_DIAGNOSTIC_VIEW. Need supported exact neutral view or pixel-owner evidence before correction.",
               "scope": "Read-only; no blind tint/light correction, B03 geometry unchanged."
+            },
+            "progress_2026_10_13_daylight_colorscript": {
+              "state": "source_candidate_pending_runtime",
+              "result": "Одна согласованная ревизия существующего village-winter-crisp, обычныйvillage_day@arrival: neutralcream snow позволяет key/fill организовать крупные warm/cool planes поP1. Nine authored keys изменены, новые профили/material owners не добавлены.",
+              "targets": [
+                "game/content/world/atmosphere.v1.json"
+              ],
+              "inputs": [
+                "docs/URMAN_VISUAL_RESET_2026-10-07/references/P1_user_selected_painterly.png",
+                "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/docs/04_ART_DIRECTION_RU.md",
+                "evidence/PW-034/dominant-pine-20261013/c2-only/frames/C2_house_high.png"
+              ],
+              "verification": "Luna JSON parse и recursive nine-key/one-entity diff check; root personally previousC2/P1 and source diffreview, diff-check PASS. Same IDs/zones/exposure/sunrotation/visibility/weather/blizzard and all otherprofiles preserved. Source only; runtime not_run.",
+              "verification_question": "На прежних C1/C2 High/FOV70 яснее ли крупные тёплые освещённые плоскости и холодные тени, без клиппинга снега/дерева, плоской заливки и потери трёх планов?",
+              "success_condition": "Root лично matchedC1/C2 before/after оценивает coherent scene-wide gain; unchanged profile transitions kept, nearby indoor/motion остаётся отдельным обязательным остатком.",
+              "remaining": "Целевое игровое сравнение послеB20 station release; candidate не принят. Первыйcurrent newcapture не заменяет indoor walk/motion/authorart."
             }
           },
           {
