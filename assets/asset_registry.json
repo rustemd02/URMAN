@@ -4280,6 +4280,71 @@
       "lod": "Existing regional foliage mesh/LOD unchanged; target runtime import/mipmap behavior requires its own evidence.",
       "qa": "Receipt/hash/source consumer independently inspected by Luna and root; native bark close/context view pending under ACT1-TEXTURE.02/E25 in execution_backlog.json.",
       "releaseDisposition": "Spruce bark slot only; pine, birch and other tree families unchanged. Parent artistic acceptance remains separate."
+    },
+    {
+      "id": "texture.painterly.d03.v01",
+      "source": "OpenAI ImageGen built-in 2026-10-13; exec-78eca505-5000-46e5-be69-7766feb121b7.png",
+      "derived": "game/assets/textures/painterly/urman_d03_v01_rgba.png",
+      "derivedSha256": "c0c85023de3641e29502635ce4edb77d69483476b05569f47d10d8e2ef05f386",
+      "sourceSha256": "c0c85023de3641e29502635ce4edb77d69483476b05569f47d10d8e2ef05f386",
+      "generator": "Built-in ImageGen transparent-background; selected PNG copied byte-identically, no pixel edits or external references",
+      "license": "Project-generated",
+      "prompt": "For URMAN, an original painterly low-poly mystery game set in a living Tatar village in winter 2026. Use broad calm pigment fields and restrained readable medium-scale detail, coherent muted natural color, no photorealistic micro-noise or extreme grunge.\n\nGenerate exactly one flat localized color decal on genuine alpha transparency. Keep pigment variation restrained and edges suitable for compositing; no baked cast shadow, glow, substrate plane, checkerboard picture, text, watermark or collage. Output only one RGBA decal image.\n\nMaterial request: One soft irregular soot deposit, warm neutral charcoal-grey with feathered broken edges and a slight upward spreading tendency. Transparent surrounding area. No flames, stove opening, smoke plume, wall background, occult mark or pitch-black sharp border. The decal is used at 20–40 cm scale on metal near a bathhouse firebox; keep generous fully transparent margins.",
+      "scale": 1,
+      "triangleBudget": 2,
+      "textureBudget": 1536,
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "sourceBytes": 2019706,
+      "alpha": {
+        "mode": "RGBA",
+        "range": [
+          0,
+          253
+        ],
+        "zeroPixels": 947224,
+        "partialPixels": 625640,
+        "opaquePixels": 0,
+        "cornerAlpha": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "materials": [
+        "BathFireboxSoot per-instance alpha shader"
+      ],
+      "materialOwner": "Act1ConnectedWorld.Bathhouse.cs AddBathFireboxSoot, optional singleton only; .36×.28m QuadMesh at (-1.49,.65,-.7595), alpha × .60, source_color sampler; exact metal XY bounds and raised door frame exclusion",
+      "collision": "None; existing stove/fire interactions and geometry unchanged",
+      "lod": "Godot default import not yet verified; runtime linear mipmap sampler, non-repeating UV. No import receipt claimed.",
+      "qa": "Root inspected generated raster and RGBA histogram/hash; small partial alpha touches edge (corner 1/255), masked by physical consumer. C# compile/source review separate; shader/import/current native appearance and art acceptance open.",
+      "status": "source-integrated candidate; native NOT_RUN",
+      "releaseDisposition": "D03 localized soot candidate; not accepted in-game until import and targeted bathhouse view/movement"
+    },
+    {
+      "id": "texture.painterly.w07.v1",
+      "source": "Existing project-original procedural bake, 2026-10-10; game/assets/textures/painterly/procedural_bake_receipt_v1.json W07",
+      "derived": "game/assets/textures/painterly/wood_shed_dark_v1_albedo.png",
+      "derivedSha256": "78dec8eb6d003df7ee844002c34e8b8f8d7408a8a45e35668b9503dc751957cb",
+      "generator": "tools/blender/bake_procedural_textures.py",
+      "license": "project-original procedural (no third-party source)",
+      "scale": 1,
+      "triangleBudget": 0,
+      "textureBudget": 1024,
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "materials": [
+        "wood_shed_dark"
+      ],
+      "materialOwner": "PML existing W07 and HeroYardShed_LoftBoard_*; 2026-10-13 isolated per-instance BabaiYardToolShed/Wall override, local upright metric projection with texture_scale .66 for parent uniformScale .66",
+      "collision": "unchanged; material-only existing visual receiver",
+      "qa": "Root inspected raster; current file SHA equals existing procedural receipt. Independent Luna verified exact receiver/local projection/scale. New wall shader appearance/native/art pending; no new texture or generator run.",
+      "status": "partial receiver integration; native/art open"
     }
   ]
 }

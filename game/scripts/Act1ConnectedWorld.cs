@@ -10791,6 +10791,18 @@ public partial class Act1ConnectedWorld : Node3D
         support.Y = AgentBAct1HeightField.CollisionGround(support.X, support.Z) - .04f;
         shed.GlobalPosition = support;
         var wall = AddVisualBox(shed, "Wall", new(3.7f, 2.15f, 2.8f), new(0f, 1.08f, 0f), wallColor, "plaster");
+        if (name == "BabaiYardToolShed")
+        {
+            // W07 is upright timber only on this named receiver. Keep the
+            // cached material untouched and compensate the uniform parent
+            // scale so local projections still repeat at one world metre.
+            var timber = (ShaderMaterial)PainterlyMaterialLibrary.ForColor(wallColor, "wood_shed_dark").Duplicate();
+            timber.SetShaderParameter("upright_texture", true);
+            timber.SetShaderParameter("local_floor_texture", true);
+            timber.SetShaderParameter("texture_scale", Vector2.One * uniformScale);
+            wall.MaterialOverride = timber;
+            wall.SetMeta("painterlyMaterial", "wood_shed_dark/W07/local-metric");
+        }
         using var arrays = wall.Mesh.SurfaceGetArrays(0);
         var vertices = arrays[(int)Mesh.ArrayType.Vertex].AsVector3Array();
         for (var i = 0; i < vertices.Length; i++)

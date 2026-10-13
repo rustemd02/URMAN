@@ -5899,21 +5899,25 @@
             "title": "Подключить W07 — Тёмное дерево сарая",
             "result": "Подключить W07 — Тёмное дерево сарая",
             "owner": "art/materials/qa",
-            "evidence": [],
+            "evidence": [
+              "evidence/ACT1-TEXTURE.02/shed-w07-20261013/game-build.log",
+              "game/assets/textures/painterly/README.md",
+              "assets/asset_registry.json"
+            ],
             "assigned_owner": "art/materials/qa",
             "active_owner": null,
             "activity": {
-              "state": "not_active",
-              "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+              "state": "released",
+              "reason": "One named source receiver integrated and compiled; station belongs to B20, native/art left open."
             },
             "task_type": "engineering",
-            "status": "todo",
+            "status": "in_progress",
             "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
-              "Подключить W07 — Тёмное дерево сарая; собственного целевого receipt пока нет."
+              "Current target Windows close view and movement for BabaiYardToolShed/Wall and HeroYardShed_LoftBoard_*; remaining intended AddVisualShed receivers and author art acceptance. Material source does not deliver shed geometry/reference rework."
             ],
-            "next_action": "Сопоставить текущий результат: Подключить W07 — Тёмное дерево сарая. Затем изменить только установленный остаток.",
+            "next_action": "After current B20 owner releases station, inspect one target view/movement of BabaiYardToolShed to verify upright metre-scale W07; preserve unchanged existing source build and avoid generic reruns.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -5923,7 +5927,8 @@
                 "game/assets/textures/painterly/README.md",
                 "assets/asset_registry.json",
                 "docs/urman_knowledge_base/art/urman_imagegen_texture_prompt_book_2026-09-22.md",
-                "docs/urman_knowledge_base/assets.md"
+                "docs/urman_knowledge_base/assets.md",
+                "game/scripts/Act1ConnectedWorld.cs"
               ],
               "required_inputs": [],
               "scope_in": [
@@ -5976,7 +5981,16 @@
               "verification": [],
               "acceptance": []
             },
-            "depends_on": []
+            "depends_on": [],
+            "progress_2026_10_13_named_wall": {
+              "result": "BabaiYardToolShed/Wall alone now duplicates existing W07 material: upright_texture=true, local_floor_texture=true, texture_scale=.66 compensates parent .66 uniformScale for world metre repeat. Same tint62655d/grounded vertices/roof/door/contacts/save; no shared material/cache changes.",
+              "asset_sha256": "78dec8eb6d003df7ee844002c34e8b8f8d7408a8a45e35668b9503dc751957cb",
+              "source_sha256": "9eeb52eb2b307a41f0fc67c9ff4b718324a849aadd2efe04ac2cd2a8407bba34",
+              "source_review": "Root raster inspected; independent Luna confirmed original local VERTEX/NORMAL, X/Z plane orientation and uniform metric scale; source reviewed after scoped edit.",
+              "verification": "Scoped Game compile succeeded 0 errors/0 warnings; does not verify shader rendering/native visual/game acceptance.",
+              "evidence": "evidence/ACT1-TEXTURE.02/shed-w07-20261013/game-build.log",
+              "native": "NOT_RUN; B20 live lease preserved."
+            }
           },
           {
             "id": "ACT1-TEXTURE.02/E15",
@@ -12477,21 +12491,25 @@
             "title": "Подключить D03 — Копоть у топки",
             "result": "Подключить D03 — Копоть у топки",
             "owner": "art/materials/qa",
-            "evidence": [],
+            "evidence": [
+              "game/assets/textures/painterly/README.md",
+              "assets/asset_registry.json",
+              "evidence/ACT1-TEXTURE.05/bath-soot-20261013/game-build.log"
+            ],
             "assigned_owner": "art/materials/qa",
             "active_owner": null,
             "activity": {
-              "state": "not_active",
-              "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+              "state": "released",
+              "reason": "Finite source/asset checkpoint complete; target import/native/art pending station current owner release."
             },
             "task_type": "engineering",
-            "status": "todo",
-            "implementation_state": "not_started",
+            "status": "in_progress",
+            "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
-              "Подключить D03 — Копоть у топки; собственного целевого receipt пока нет."
+              "Godot import and shader parsing; targeted current bath firebox view and nearby movement, actual soot readability and door/embers unaffected; full D03 art acceptance remains open."
             ],
-            "next_action": "Сопоставить текущий результат: Подключить D03 — Копоть у топки. Затем изменить только установленный остаток.",
+            "next_action": "After current station owner releases: publish lease before submit; import snapshot with D03 asset and capture only bath firebox. Do not rerun unchanged source build or repeat unrelated frames.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -12502,7 +12520,9 @@
                 "assets/asset_registry.json",
                 "docs/urman_knowledge_base/art/urman_imagegen_texture_prompt_book_2026-09-22.md",
                 "docs/urman_knowledge_base/assets.md",
-                "docs/urman_knowledge_base/art/texture_runtime_inventory_2026-09-22.md"
+                "docs/urman_knowledge_base/art/texture_runtime_inventory_2026-09-22.md",
+                "game/scripts/Act1ConnectedWorld.Bathhouse.cs",
+                "game/assets/textures/painterly/urman_d03_v01_rgba.png"
               ],
               "required_inputs": [],
               "scope_in": [
@@ -12535,7 +12555,19 @@
               "verification": [],
               "acceptance": []
             },
-            "depends_on": []
+            "depends_on": [],
+            "progress_2026_10_13_soot": {
+              "inputs": "Existing D03 prompt; current BathStoveFirebox front XY .71×.63, center(-1.33,.525,-1.09), frontZ-.76; raised doorframe .50×.34 at(-1.33,.57,-.74); existing metal tint494c44.",
+              "scope": "Exactly one flat original charcoal-grey RGBA deposit, transparent surroundings, no object/opening/fire/scene/text/marks/baked lighting. Optional isolated visual alpha surface only on body metal with exact bounds/door region clip, no physics/state/other rooms changes.",
+              "native": "NOT_RUN; current external station job 50923b93c99b4ef48a3f3ddff4d6c25e preserved; no retry or guard bypass.",
+              "result": "Built-in ImageGen D03 RGBA copied byte-identical; isolated optional metal-clipped BathFireboxSoot consumer. Root raster inspected; alpha 0–253, 947224 transparent/625640 partial, small edge alpha retained without editing. Independent Luna source review found no confirmed defect.",
+              "asset": "game/assets/textures/painterly/urman_d03_v01_rgba.png",
+              "asset_sha256": "c0c85023de3641e29502635ce4edb77d69483476b05569f47d10d8e2ef05f386",
+              "prompt": "Exact prompt/provenance in game/assets/textures/painterly/README.md D03 v01 and assets/asset_registry.json texture.painterly.d03.v01.",
+              "source_sha256": "d8d29fc8eb2aebef2bdafa3c27c502b52742cda56afa1e156ba42e966df8e56e",
+              "verification": "Game scoped build succeeded 0 errors/0 warnings. This C# build does not parse/accept Godot shader or prove in-game visuals.",
+              "build_log": "evidence/ACT1-TEXTURE.05/bath-soot-20261013/game-build.log"
+            }
           },
           {
             "id": "ACT1-TEXTURE.05/E04",

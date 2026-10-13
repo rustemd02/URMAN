@@ -982,3 +982,21 @@ S04 reuses the existing project-original `snow_roof_v1_albedo.png`, not a new Im
 - `wood_bath_light_v1_albedo.png` — W10, 0.75 m (6 soft-seamed boards)
 - `wood_split_firewood_v1_albedo.png` — W11, 0.5 m
 - `bark_spruce_v1_albedo.png` — F03, 1 m
+
+## D03 v01 — localized bath firebox soot, 2026-10-13
+
+Built-in ImageGen; selected `urman_d03_v01_rgba.png`, unchanged 1536 × 1024 RGBA. SHA-256 `c0c85023de3641e29502635ce4edb77d69483476b05569f47d10d8e2ef05f386`. Original output `exec-78eca505-5000-46e5-be69-7766feb121b7.png`; no external references or pixel edits. Alpha range 0–253, 947224 fully transparent pixels, 625640 partial pixels. One corner has alpha 1/255; no claim of perfectly empty border. Optional bathhouse-only .36 × .28 m overlay, clipped to existing metal and excluding raised door-frame bounds. No collisions, fire/state or other room changes. Native import, shader rendering, motion and art acceptance remain open.
+
+Exact generation prompt:
+
+```text
+For URMAN, an original painterly low-poly mystery game set in a living Tatar village in winter 2026. Use broad calm pigment fields and restrained readable medium-scale detail, coherent muted natural color, no photorealistic micro-noise or extreme grunge.
+
+Generate exactly one flat localized color decal on genuine alpha transparency. Keep pigment variation restrained and edges suitable for compositing; no baked cast shadow, glow, substrate plane, checkerboard picture, text, watermark or collage. Output only one RGBA decal image.
+
+Material request: One soft irregular soot deposit, warm neutral charcoal-grey with feathered broken edges and a slight upward spreading tendency. Transparent surrounding area. No flames, stove opening, smoke plume, wall background, occult mark or pitch-black sharp border. The decal is used at 20–40 cm scale on metal near a bathhouse firebox; keep generous fully transparent margins.
+```
+
+## W07 named shed wall — 2026-10-13
+
+Reuses the unchanged existing `wood_shed_dark_v1_albedo.png` (1024 × 1024 RGB, SHA-256 `78dec8eb6d003df7ee844002c34e8b8f8d7408a8a45e35668b9503dc751957cb`, matches procedural receipt). `BabaiYardToolShed/Wall` alone now uses a duplicate W07 material with local upright projection and texture scale .66 compensating its .66 uniform parent scale: one world metre per repeat. Tint remains `62655d`; grounded mesh, roofs, door, other sheds, collisions and save state are unchanged. Root raster inspection and independent source review performed; targeted current Windows view/movement and artistic acceptance remain open. This material stage does not complete the shed geometry/reference rework.
