@@ -6,6 +6,7 @@ import hashlib
 import hmac
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 import json
+import math
 import os
 from pathlib import Path
 import re
@@ -63,6 +64,12 @@ STUDIO_CHECKPOINT_SOURCE_ROOTS = (
     'game/content/cutscenes', 'game/content/animations',
 )
 STUDIO_CHECKPOINT_HERO_RECIPE = 'game/content/studio/hero_house.recipe.json'
+STUDIO_ROAD_OPERATION = 'road.segment.smooth'
+STUDIO_ROAD_OWNER_PREFIX = 'urman.studio:' + STUDIO_ROAD_OPERATION + '/'
+STUDIO_ROAD_SOURCE_PATHS = frozenset((
+    'game/content/world/act1_open_part.world.v1.json',
+    'game/content/world/act1_far_bank.world.v1.json',
+))
 STUDIO_PRESERVE_MARKER = '.preserve-source'
 STUDIO_MAX_REQUESTS = 32
 STUDIO_MAX_TRANSACTIONS = 32
@@ -79,6 +86,7 @@ STUDIO_MAX_CHECKPOINTS = 32
 STUDIO_MAX_CHECKPOINT_FILES = 2000
 STUDIO_MAX_CHECKPOINT_BYTES = 8 * 1024**2
 STUDIO_MAX_AUTHORED_JSON = 8 * 1024**2
+STUDIO_MAX_ROAD_SOURCE = 512 * 1024
 STUDIO_MAX_RUN_MANIFEST = 16 * 1024
 STUDIO_MAX_RUN_LOG = 8 * 1024**2
 STUDIO_MAX_RUN_FRAME = STUDIO_MAX_ACTION_FRAME
@@ -436,6 +444,185 @@ def _studio_checkpoint_source_path(relative):
     return relative.endswith('.md') and relative.startswith('content/modules/')
 
 
+def _studio_road_text(value, label, maximum_length):
+    if not isinstance(value, str):
+        raise ValueError('Studio road request has invalid ' + label)
+    try:
+        utf16_length = len(value.encode('utf-16-le', errors='strict')) // 2
+        value.encode('utf-8', errors='strict')
+    except UnicodeEncodeError as error:
+        raise ValueError('Studio road request has invalid Unicode in ' + label) from error
+    if (not value or utf16_length > maximum_length or value.strip() != value
+            or any(ord(character) < 32 or 127 <= ord(character) <= 159 for character in value)):
+        raise ValueError('Studio road request has invalid ' + label)
+    return value
+
+
+def _studio_road_number(value, label, *, positive=False):
+    if type(value) not in (int, float):
+        raise ValueError('Studio road request has invalid ' + label)
+    try:
+        number = float(value)
+    except (OverflowError, ValueError) as error:
+        raise ValueError('Studio road request has invalid ' + label) from error
+    if (not math.isfinite(number) or abs(number) > 3.4028234663852886e38
+            or (positive and number <= 0)):
+        raise ValueError('Studio road request has invalid ' + label)
+    return number
+
+
+def _studio_road_json_is_compact(raw):
+    quoted = False
+    escaped = False
+    for byte in raw:
+        if quoted:
+            if escaped:
+                escaped = False
+            elif byte == 0x5c:
+                escaped = True
+            elif byte == 0x22:
+                quoted = False
+        elif byte == 0x22:
+            quoted = True
+        elif byte in (0x20, 0x09, 0x0a, 0x0d):
+            return False
+    return not quoted and not escaped
+
+
+def _studio_validate_road_record(record, label, maximum_points):
+    if (not isinstance(record, dict) or list(record) != ['id', 'street', 'width', 'points']):
+        raise ValueError('Studio road request has invalid ' + label)
+    _studio_road_text(record['id'], label + ' ID', 256)
+    _studio_road_text(record['street'], label + ' street', 256)
+    _studio_road_number(record['width'], label + ' width', positive=True)
+    points = record['points']
+    if not isinstance(points, list) or not 2 <= len(points) <= maximum_points:
+        raise ValueError('Studio road request has invalid ' + label + ' points')
+    for point in points:
+        if not isinstance(point, dict) or list(point) != ['x', 'z']:
+            raise ValueError('Studio road request has invalid ' + label + ' point')
+        _studio_road_number(point['x'], label + ' point X')
+        _studio_road_number(point['z'], label + ' point Z')
+    return len(points)
+
+
+def _studio_validate_road_request(request, request_bytes, request_id):
+    """Accept only the frozen road.segment.smooth schema emitted by Core."""
+    expected_fields = [
+        'kind', 'schemaVersion', 'requestId', 'instruction', 'project',
+        'selection', 'source', 'contextRoads', 'capabilities',
+    ]
+    if (not isinstance(request, dict) or list(request) != expected_fields
+            or request.get('kind') != 'urman.studio.authoring-request'
+            or type(request.get('schemaVersion')) is not int or request['schemaVersion'] != 3
+            or request.get('requestId') != request_id
+            or not re.fullmatch('[a-f0-9]{32}', request_id)):
+        raise ValueError('Studio road request identity or schema is invalid: ' + request_id)
+    if not _studio_road_json_is_compact(request_bytes):
+        raise ValueError('Studio road request is not in Core compact JSON form: ' + request_id)
+
+    instruction = request['instruction']
+    if not isinstance(instruction, str):
+        raise ValueError('Studio road request instruction is invalid: ' + request_id)
+    try:
+        instruction_bytes = instruction.encode('utf-8', errors='strict')
+    except UnicodeEncodeError as error:
+        raise ValueError('Studio road request instruction has invalid Unicode: ' + request_id) from error
+    if (not 1 <= len(instruction_bytes) <= 16 * 1024
+            or any((ord(character) < 32 and character not in '\r\n\t')
+                   or 127 <= ord(character) <= 159 for character in instruction)):
+        raise ValueError('Studio road request instruction is outside its bounds: ' + request_id)
+
+    project = request['project']
+    if (not isinstance(project, dict) or list(project) != ['id', 'snapshotHash']
+            or project['id'] != 'github:rustemd02/URMAN'
+            or not isinstance(project['snapshotHash'], str)
+            or not re.fullmatch('[a-f0-9]{64}', project['snapshotHash'])):
+        raise ValueError('Studio road request project identity is invalid: ' + request_id)
+
+    selection = request['selection']
+    if (not isinstance(selection, dict)
+            or list(selection) != ['kind', 'sourcePath', 'roadId', 'startIndex', 'endIndex']
+            or selection['kind'] != 'road-segment'
+            or not isinstance(selection['sourcePath'], str)
+            or selection['sourcePath'] not in STUDIO_ROAD_SOURCE_PATHS):
+        raise ValueError('Studio road request selection is invalid: ' + request_id)
+    road_id = _studio_road_text(selection['roadId'], 'selected road ID', 256)
+    start_index, end_index = selection['startIndex'], selection['endIndex']
+    if type(start_index) is not int or type(end_index) is not int or start_index < 0 or end_index < start_index:
+        raise ValueError('Studio road request range is invalid: ' + request_id)
+
+    source = request['source']
+    if (not isinstance(source, dict) or list(source) != ['path', 'sha256', 'selectedRoad']
+            or source['path'] != selection['sourcePath']
+            or not isinstance(source['sha256'], str)
+            or not re.fullmatch('[a-f0-9]{64}', source['sha256'])):
+        raise ValueError('Studio road request source identity is invalid: ' + request_id)
+    selected_points = _studio_validate_road_record(source['selectedRoad'], 'selected road', 8192)
+    if (source['selectedRoad']['id'] != road_id or end_index >= selected_points
+            or end_index - start_index < 4):
+        raise ValueError('Studio road request range does not match the selected road: ' + request_id)
+
+    context = request['contextRoads']
+    if not isinstance(context, list) or len(context) > 1024:
+        raise ValueError('Studio road request context exceeds its road limit: ' + request_id)
+    context_points = 0
+    for index, road in enumerate(context):
+        context_points += _studio_validate_road_record(road, 'context road ' + str(index), 8192)
+        if context_points > 32768:
+            raise ValueError('Studio road request context exceeds its point limit: ' + request_id)
+
+    capabilities = request['capabilities']
+    if (not isinstance(capabilities, list) or len(capabilities) != 1
+            or not isinstance(capabilities[0], dict)
+            or list(capabilities[0]) != ['name', 'version']
+            or capabilities[0]['name'] != STUDIO_ROAD_OPERATION
+            or type(capabilities[0]['version']) is not int or capabilities[0]['version'] != 1):
+        raise ValueError('Studio road request capability is invalid: ' + request_id)
+    snapshot_hash = project['snapshotHash']
+    project_marker = (b',"project":{"id":"github:rustemd02/URMAN","snapshotHash":"'
+                      + snapshot_hash.encode('ascii') + b'"},"selection":')
+    if request_bytes.count(project_marker) != 1:
+        raise ValueError('Studio road request has no unique canonical snapshot-hash field: ' + request_id)
+    blank_marker = b',"project":{"id":"github:rustemd02/URMAN","snapshotHash":""},"selection":'
+    canonical_without_hash = request_bytes.replace(project_marker, blank_marker, 1)
+    if hashlib.sha256(canonical_without_hash).hexdigest() != snapshot_hash:
+        raise ValueError('Studio road request snapshot hash does not match its frozen canonical bytes: ' + request_id)
+    return selection['sourcePath']
+
+
+def _studio_validate_road_proposal(proposal, request, request_id):
+    expected_fields = [
+        'operation', 'requestId', 'snapshotHash', 'sourcePath', 'roadId',
+        'startIndex', 'endIndex', 'strength', 'maxDeviation', 'summary',
+    ]
+    selection = request['selection']
+    if (not isinstance(proposal, dict) or list(proposal) != expected_fields
+            or proposal.get('operation') != STUDIO_ROAD_OPERATION
+            or proposal.get('requestId') != request_id
+            or proposal.get('snapshotHash') != request['project']['snapshotHash']
+            or proposal.get('sourcePath') != selection['sourcePath']
+            or proposal.get('roadId') != selection['roadId']
+            or type(proposal.get('startIndex')) is not int or proposal['startIndex'] != selection['startIndex']
+            or type(proposal.get('endIndex')) is not int or proposal['endIndex'] != selection['endIndex']):
+        raise ValueError('Studio road request and proposal identity do not match: ' + request_id)
+    strength = _studio_road_number(proposal['strength'], 'proposal strength')
+    deviation = _studio_road_number(proposal['maxDeviation'], 'proposal deviation')
+    if not 0.05 <= strength <= 1 or not 0.05 <= deviation <= 1:
+        raise ValueError('Studio road proposal parameters are outside their bounds: ' + request_id)
+    summary = proposal['summary']
+    if not isinstance(summary, str):
+        raise ValueError('Studio road proposal summary is invalid: ' + request_id)
+    try:
+        summary_length = len(summary.encode('utf-16-le', errors='strict')) // 2
+        summary.encode('utf-8', errors='strict')
+    except UnicodeEncodeError as error:
+        raise ValueError('Studio road proposal summary has invalid Unicode: ' + request_id) from error
+    if (not 1 <= summary_length <= 500 or summary.strip() != summary
+            or any(ord(character) < 32 or 127 <= ord(character) <= 159 for character in summary)):
+        raise ValueError('Studio road proposal summary is outside its bounds: ' + request_id)
+
+
 def _studio_checkpoint_strings(value):
     if isinstance(value, str):
         yield value
@@ -670,6 +857,9 @@ def export_studio_session(source, output):
     output = Path(output)
     payloads = []
     request_ids = {}
+    road_request_paths = {}
+    road_request_hashes = {}
+    road_source_targets = set()
     request_hashes = {}
     proposal_ids = set()
     proposal_hashes = {}
@@ -700,18 +890,34 @@ def export_studio_session(source, output):
             _, request_bytes = _studio_read(source, f'.urman-studio/ai-jobs/{request_id}/request.json',
                                             STUDIO_MAX_REQUEST, 'Studio request')
             request = _studio_json(request_bytes, STUDIO_MAX_REQUEST, 'Studio request')
-            if (not isinstance(request, dict) or request.get('kind') != 'urman.studio.authoring-request'
-                    or request.get('schemaVersion') != 2 or request.get('requestId') != request_id):
+            road_source_path = None
+            if (isinstance(request, dict) and request.get('kind') == 'urman.studio.authoring-request'
+                    and type(request.get('schemaVersion')) is int and request['schemaVersion'] == 2
+                    and request.get('requestId') == request_id):
+                pass
+            elif (isinstance(request, dict) and request.get('kind') == 'urman.studio.authoring-request'
+                    and type(request.get('schemaVersion')) is int and request['schemaVersion'] == 3):
+                road_source_path = _studio_validate_road_request(request, request_bytes, request_id)
+            else:
                 raise ValueError('Studio request identity is invalid: ' + request_id)
             request_ids[request_id] = request
+            if road_source_path is not None:
+                road_request_paths[request_id] = road_source_path
+                road_request_hashes[request_id] = request['source']['sha256']
+                road_source_targets.add(road_source_path)
             request_hashes[request_id] = hashlib.sha256(request_bytes).hexdigest()
             payloads.append((f'.urman-studio/ai-jobs/{request_id}/request.json', request_bytes, None))
             proposal_bytes = None
             if 'proposal.json' in names:
+                proposal_limit = 8 * 1024 if road_source_path is not None else STUDIO_MAX_PROPOSAL
                 _, proposal_bytes = _studio_read(source, f'.urman-studio/ai-jobs/{request_id}/proposal.json',
-                                                 STUDIO_MAX_PROPOSAL, 'Studio proposal')
-                proposal = _studio_json(proposal_bytes, STUDIO_MAX_PROPOSAL, 'Studio proposal')
-                if (not isinstance(proposal, dict) or proposal.get('requestId') != request_id
+                                                 proposal_limit, 'Studio proposal')
+                proposal = _studio_json(proposal_bytes, proposal_limit, 'Studio proposal')
+                if road_source_path is not None:
+                    if not _studio_road_json_is_compact(proposal_bytes):
+                        raise ValueError('Studio road proposal is not in Core compact JSON form: ' + request_id)
+                    _studio_validate_road_proposal(proposal, request, request_id)
+                elif (not isinstance(proposal, dict) or proposal.get('requestId') != request_id
                         or not isinstance(request.get('project'), dict)
                         or proposal.get('snapshotHash') != request['project'].get('snapshotHash')):
                     raise ValueError('Studio request and proposal identity do not match: ' + request_id)
@@ -835,6 +1041,7 @@ def export_studio_session(source, output):
 
     transactions_by_request = {}
     direct_transaction_targets = set()
+    road_transaction_hash_pairs = {}
     checkpoint_transaction_targets = set()
     maximum_accepted_order = 0
     transactions_root = _studio_path(source, '.urman-studio/transactions', kind='dir', missing=True)
@@ -862,10 +1069,14 @@ def export_studio_session(source, output):
             owner = journal['owner']
             checkpoint_owner = (re.fullmatch(re.escape(STUDIO_CHECKPOINT_OWNER_PREFIX) + r'([a-f0-9]{32})', owner)
                                 if isinstance(owner, str) else None)
+            road_owner = (re.fullmatch(re.escape(STUDIO_ROAD_OWNER_PREFIX) + r'([a-f0-9]{32})', owner)
+                          if isinstance(owner, str) else None)
             checkpoint_id = checkpoint_owner.group(1) if checkpoint_owner else None
             is_checkpoint_transaction = checkpoint_id is not None
+            is_road_transaction = road_owner is not None
             if (not isinstance(owner, str)
                     or (owner != STUDIO_OWNER and owner not in STUDIO_DIRECT_FILE_OWNERS
+                        and not is_road_transaction
                         and (not is_checkpoint_transaction or checkpoint_id not in checkpoint_sources))):
                 raise ValueError('Unexpected Studio transaction owner; source must be preserved: ' + transaction_id)
             if not is_checkpoint_transaction and len(journal_bytes) > STUDIO_MAX_JOURNAL:
@@ -903,6 +1114,8 @@ def export_studio_session(source, output):
                 raise ValueError('Studio transaction status is invalid: ' + transaction_id)
             if is_checkpoint_transaction:
                 valid_file_count = isinstance(journal['files'], list) and 1 <= len(journal['files']) <= STUDIO_MAX_CHECKPOINT_FILES
+            elif is_road_transaction:
+                valid_file_count = isinstance(journal['files'], list) and len(journal['files']) == 1
             else:
                 allowed_file_counts = (1,) if is_direct_file_transaction else (3, 4)
                 valid_file_count = isinstance(journal['files'], list) and len(journal['files']) in allowed_file_counts
@@ -937,8 +1150,12 @@ def export_studio_session(source, output):
                         image_relative = f'.urman-studio/transactions/{transaction_id}/{image}'
                         image_path = _studio_path(source, image_relative)
                         image_size = image_path.stat().st_size
-                        if image_size > (STUDIO_MAX_CHECKPOINT_BYTES if is_checkpoint_transaction else STUDIO_MAX_BINARY):
-                            raise ValueError('Studio transaction image exceeds 128 MiB: ' + transaction_id)
+                        transaction_image_limit = (STUDIO_MAX_CHECKPOINT_BYTES if is_checkpoint_transaction
+                                                   else STUDIO_MAX_ROAD_SOURCE if is_road_transaction
+                                                   else STUDIO_MAX_BINARY)
+                        if image_size > transaction_image_limit:
+                            raise ValueError('Studio transaction image exceeds its owner-specific size limit: '
+                                             + transaction_id)
                         payloads.append((image_relative, image_path, file_hash))
 
                 if is_direct_file_transaction:
@@ -946,6 +1163,13 @@ def export_studio_session(source, output):
                         raise ValueError('Studio direct-file transaction targets an unapproved owner/path pair: ' + transaction_id)
                     if item['beforeSha256'] is None or item['afterSha256'] is None:
                         raise ValueError('Studio direct-file transaction must replace an existing source file: ' + transaction_id)
+                elif is_road_transaction:
+                    if (relative not in STUDIO_ROAD_SOURCE_PATHS
+                            or item['beforeSha256'] is None or item['afterSha256'] is None):
+                        raise ValueError('Studio road transaction must replace exactly one approved road source: ' + transaction_id)
+                    if accepted and status_value == 'committed':
+                        road_transaction_hash_pairs.setdefault(relative, []).append(
+                            (item['beforeSha256'], item['afterSha256']))
                 elif is_checkpoint_transaction:
                     if (relative not in checkpoint_sources[checkpoint_id]
                             or not _studio_checkpoint_source_path(relative)
@@ -966,6 +1190,10 @@ def export_studio_session(source, output):
                 if indexed_paths != [STUDIO_DIRECT_FILE_OWNERS[owner]] or request_id is not None:
                     raise ValueError('Studio direct-file transaction does not contain exactly its owner-approved target: ' + transaction_id)
                 direct_transaction_targets.add(indexed_paths[0])
+            elif is_road_transaction:
+                if len(indexed_paths) != 1 or indexed_paths[0] not in STUDIO_ROAD_SOURCE_PATHS or request_id is not None:
+                    raise ValueError('Studio road transaction does not contain exactly one approved target: ' + transaction_id)
+                road_source_targets.add(indexed_paths[0])
             elif is_checkpoint_transaction:
                 target_paths = set(indexed_paths)
                 if (len(target_paths) != len(indexed_paths)
@@ -1161,9 +1389,12 @@ def export_studio_session(source, output):
     current_targets = {}
     inspected_bytes = 0
     for request_id in sorted(request_ids):
-        model = f'game/assets/models/studio/hero-house-{request_id}.glb'
-        targets = sorted({'game/content/studio/hero_house.recipe.json', model, model + '.manifest.json',
-                          f'assets/source/blender/studio/hero-house-{request_id}.blend'})
+        if request_id in road_request_paths:
+            targets = [road_request_paths[request_id]]
+        else:
+            model = f'game/assets/models/studio/hero-house-{request_id}.glb'
+            targets = sorted({'game/content/studio/hero_house.recipe.json', model, model + '.manifest.json',
+                              f'assets/source/blender/studio/hero-house-{request_id}.blend'})
         entries = []
         for relative in targets:
             if relative in current_targets:
@@ -1171,9 +1402,27 @@ def export_studio_session(source, output):
                 continue
             path = _studio_path(source, relative, missing=True)
             if path is None:
+                if request_id in road_request_paths:
+                    raise ValueError('Studio road request source is missing from the current tree: ' + relative)
                 entry = {'path': relative, 'present': False, 'bytes': 0, 'sha256': None}
             else:
-                size, sha = _studio_hash(path, STUDIO_MAX_BINARY)
+                size, sha = _studio_hash(path, STUDIO_MAX_ROAD_SOURCE if relative in STUDIO_ROAD_SOURCE_PATHS
+                                         else STUDIO_MAX_BINARY)
+                if request_id in road_request_paths and sha != road_request_hashes[request_id]:
+                    pairs = road_transaction_hash_pairs.get(relative, ())
+                    reachable = {road_request_hashes[request_id]}
+                    frontier = [road_request_hashes[request_id]]
+                    while frontier and sha not in reachable:
+                        current_hash = frontier.pop()
+                        for before_hash, after_hash in pairs:
+                            neighbor = after_hash if before_hash == current_hash else (
+                                before_hash if after_hash == current_hash else None)
+                            if neighbor is not None and neighbor not in reachable:
+                                reachable.add(neighbor)
+                                frontier.append(neighbor)
+                    if sha not in reachable:
+                        raise ValueError('Studio road source and frozen request are not joined by active committed transaction hashes: '
+                                         + relative)
                 inspected_bytes += size
                 if inspected_bytes > STUDIO_MAX_EXPORT:
                     raise ValueError('Studio current-target evidence exceeds the 512 MiB inspection budget')
@@ -1194,8 +1443,10 @@ def export_studio_session(source, output):
     receipt_bytes = canonical(receipt)
     payloads.append(('current-targets.json', receipt_bytes, None))
 
-    for relative in sorted(direct_transaction_targets | checkpoint_transaction_targets):
-        _, target_bytes = _studio_read(source, relative, STUDIO_MAX_AUTHORED_JSON,
+    for relative in sorted(direct_transaction_targets | road_source_targets | checkpoint_transaction_targets):
+        _, target_bytes = _studio_read(source, relative,
+                                       STUDIO_MAX_ROAD_SOURCE if relative in STUDIO_ROAD_SOURCE_PATHS
+                                       else STUDIO_MAX_AUTHORED_JSON,
                                        'Studio authored source')
         _studio_checkpoint_source_values(target_bytes, relative)
         target_hash = hashlib.sha256(target_bytes).hexdigest()
