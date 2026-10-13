@@ -82154,6 +82154,16 @@
                 ],
                 "actual_result": "Root opened Collaboration through More menu; Prepare version visibly refused in protected snapshot without .git, controls remain available; no network Send.",
                 "remaining": "Does not prove successful Prepare/Send/receive/merge/archive/two-checkout A23."
+              },
+              {
+                "date": "2026-10-13",
+                "kind": "source-progress",
+                "result": "Existing outbox freezes tracked100644 canonical authored JSON root-array deletion from pinned base, emits before-only v2 tombstone while reading legacyv1; preview after=null, isolated index removal and exact commit path/tree absence verification. Preparation revalidates absent target/no links; introduced resource refs cannot resolve to a tombstone.",
+                "source": [
+                  "src-dotnet/Urman.Studio.Core/Collaboration/GitRevisionOutbox.cs"
+                ],
+                "verification": "Luna implementation + independent Sol6.1medium data/compat review; final affected Core compile0warnings/0errors0.62s; scoped diffcheck.",
+                "limits": "No actual Git Send/deletion or two-checkout nativeA23 executed. Binary/new authored-source transfer remains open; existingcatalogue flows retained."
               }
             ],
             "stage_tasks": [
@@ -82174,17 +82184,17 @@
               ],
               "done_when": "Два checkout с разными корнями обмениваются одной ревизией; конфликт видим; unrelated код не отправлен; повтор передачи не дублирует commit/изменение."
             },
-            "active_owner": "codex/b20-2026-10-10",
+            "active_owner": "Codex",
             "activity": {
               "state": "confirmed_active",
-              "reason": "Принят конкретный registered-text Send sourceэтап; actualA23 ещёнепроверен, сохраненыfullparentDoD иunsupportedscope."
+              "reason": "Outgoing deletion source slice compiled/reviewed and being delivered; practical two-checkout native remains open."
             },
             "task_type": "engineering",
             "status": "in_progress",
             "implementation_state": "partial",
             "technical_verification_state": "not_run",
-            "remaining": "Оба направления передачи сохранённых магазина/транспорта реализованы и проверены source/compile; реальный network A23 и native catalogue receive/conflict/Apply/Undo не проверены. Asset closure/new source/outgoing deletion coverage остаются открыты.",
-            "next_action": "Проверить реальный A23 Receive/review/Apply/Undo/Send/retry между разрешёнными checkout; отдельно остаются binary assets/new sources/outgoing deletions.",
+            "remaining": "Outgoing tracked-source deletion source поддержан в существующем preview/Send/index/receipt пути и проверен compile/review; native two-checkout Receive/Apply/Undo/Send/retry ещё не выполнен. Binary asset closure/new source coverage открыты.",
+            "next_action": "Провести конечный two-checkout A23 с deleted authored source: preview tombstone → явный Send → Receive/review/Apply → Undo; проверить source hashes, exact Git tree и сохранность других файлов.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",

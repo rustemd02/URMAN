@@ -162,17 +162,25 @@ public sealed class GitRevisionOutbox(StudioWorkspace workspace,
         }
 
         var changedPaths = await ChangedPathsAsync(baseRevision, token).ConfigureAwait(false);
-        await ValidateIntroducedResourceReferencesAsync(baseRevision, tree, candidates, token).ConfigureAwait(false);
         foreach (var path in changedPaths)
         {
             if (path.StartsWith(".urman-studio/", StringComparison.Ordinal)) continue;
-            if (!candidates.ContainsKey(path))
+            if (candidates.ContainsKey(path)) continue;
+
+            var deletion = await ReadTrackedSourceDeletionAsync(path, tree, objectFormat, token).ConfigureAwait(false);
+            if (deletion is null)
+            {
                 excluded.Add(path + " (не входит в сохранённый набор исходников)");
+                continue;
+            }
+
+            AddPending(path, deletion.Before, deletion.BaseObjectId, null, objectFormat, candidates, ref totalBytes);
         }
+        await ValidateIntroducedResourceReferencesAsync(baseRevision, tree, candidates, token).ConfigureAwait(false);
         foreach (var path in candidates.Keys) excluded.RemoveWhere(value => value.StartsWith(path + " (", StringComparison.Ordinal));
         if (candidates.TryGetValue(HeroRecipePath, out var recipe))
         {
-            var recipeDocument = JsonDocument.Parse(Utf8.GetString(recipe.After));
+            var recipeDocument = JsonDocument.Parse(Utf8.GetString(recipe.After!));
             var modelPath = ReadModelPath(recipeDocument.RootElement);
             var resource = modelPath is null ? null : ResourcePath(modelPath);
             if (resource is not null && changedPaths.Contains(resource, StringComparer.Ordinal))
@@ -186,6 +194,7 @@ public sealed class GitRevisionOutbox(StudioWorkspace workspace,
         EnsureOutboxCapacity();
 
         RevalidateSources(captured);
+        RevalidateDeletedSources(candidates.Values);
         RevalidateCatalogFiles(ownedCatalogSources, capturedCatalogs);
         if (!SameBytes(heroBytes, ReadOptionalHeroRecipe()))
             throw Refusal("Рецепт дома изменился во время подготовки. Обновите сравнение.");
@@ -209,23 +218,27 @@ public sealed class GitRevisionOutbox(StudioWorkspace workspace,
         {
             token.ThrowIfCancellationRequested();
             var file = files[index];
+            var after = file.After;
             var beforeImage = file.Before is null ? null : "before-" + index.ToString("D4", System.Globalization.CultureInfo.InvariantCulture) + ".txt";
-            var afterImage = "after-" + index.ToString("D4", System.Globalization.CultureInfo.InvariantCulture) + ".txt";
+            var afterImage = after is null ? null : "after-" + index.ToString("D4", System.Globalization.CultureInfo.InvariantCulture) + ".txt";
             if (beforeImage is not null)
                 WritePrivateFile(relativeDirectory + "/" + beforeImage, file.Before!);
-            WritePrivateFile(relativeDirectory + "/" + afterImage, file.After);
+            if (afterImage is not null)
+                WritePrivateFile(relativeDirectory + "/" + afterImage, after!);
             capsuleFiles[index] = new(file.Path, beforeImage, afterImage, file.Before?.Length ?? 0,
-                file.After.Length, file.Before is null ? null : AtomicFile.Sha256(file.Before),
-                AtomicFile.Sha256(file.After), file.BaseObjectId, GitBlobHash(objectFormat, file.After));
+                after?.Length ?? 0, file.Before is null ? null : AtomicFile.Sha256(file.Before),
+                after is null ? null : AtomicFile.Sha256(after), file.BaseObjectId,
+                after is null ? null : GitBlobHash(objectFormat, after));
         }
 
         var endpoint = await PushEndpointAsync(hooksRelative, token).ConfigureAwait(false);
         var fingerprint = Fingerprint(endpoint);
-        var receipt = new Receipt(1, id, baseRevision, null, branch, remoteBranch, fingerprint,
+        var receipt = new Receipt(files.Any(file => file.After is null) ? 2 : 1, id, baseRevision, null, branch, remoteBranch, fingerprint,
             "Pending", capsuleFiles, excluded.ToArray());
         await UpdatePrivateRefAsync(hooksRelative, "refs/urman-studio/outbox/" + id, baseRevision,
             new string('0', baseRevision.Length), token).ConfigureAwait(false);
         RevalidateSources(captured);
+        RevalidateDeletedSources(candidates.Values);
         RevalidateCatalogFiles(ownedCatalogSources, capturedCatalogs);
         if (!SameBytes(heroBytes, ReadOptionalHeroRecipe()))
             throw Refusal("Рецепт дома изменился во время подготовки. Обновите сравнение.");
@@ -250,12 +263,13 @@ public sealed class GitRevisionOutbox(StudioWorkspace workspace,
         var file = receipt.Files.SingleOrDefault(item => item.Path == relativePath)
             ?? throw Refusal("Файл не входит в сохранённый запрос.");
         var before = file.BeforeImage is null ? null : ReadSnapshot(receipt.Id, file.BeforeImage, file.BeforeBytes, file.BeforeSha256);
-        var after = ReadSnapshot(receipt.Id, file.AfterImage, file.AfterBytes, file.AfterSha256);
+        var after = file.AfterImage is null ? null : ReadSnapshot(receipt.Id, file.AfterImage, file.AfterBytes, file.AfterSha256);
         var beforeText = before is null ? null : Utf8.GetString(before);
-        var afterText = Utf8.GetString(after);
+        var afterText = after is null ? null : Utf8.GetString(after);
         var validators = CurrentCatalogSources().ToDictionary(source => source.Path, StringComparer.Ordinal);
-        ValidateSourceBytes(file.Path, after, validators);
+        if (after is not null) ValidateSourceBytes(file.Path, after, validators);
         if (before is not null) ValidateSourceBytes(file.Path, before, validators);
+        if (after is null && before is not null) ValidateDeletionSourceBytes(file.Path, before);
         await Task.CompletedTask.ConfigureAwait(false);
         return new(file.Path, beforeText, afterText);
     }
@@ -444,10 +458,19 @@ public sealed class GitRevisionOutbox(StudioWorkspace workspace,
         foreach (var file in files)
         {
             token.ThrowIfCancellationRequested();
+            if (file.After is null)
+            {
+                if (file.Before is null || file.BaseObjectId is null)
+                    throw Refusal("Для удаления исходника нужен проверенный базовый образ.");
+                var removal = Utf8.GetBytes("0 " + new string('0', ObjectHashLength(objectFormat)) + "\t" + file.Path + "\0");
+                indexInfo.Write(removal);
+                continue;
+            }
+
             var objectBytes = await RunGitAsync(WithHooks(hooksRelative, ["hash-object", "-w", "--no-filters", "--stdin"]),
-                256, token, file.After, environment).ConfigureAwait(false);
+                256, token, file.After!, environment).ConfigureAwait(false);
             var objectId = Utf8.GetString(objectBytes).Trim();
-            var expectedId = GitBlobHash(objectFormat, file.After);
+            var expectedId = GitBlobHash(objectFormat, file.After!);
             if (!string.Equals(objectId, expectedId, StringComparison.Ordinal)) throw Refusal("Исходник не прошёл проверку Git blob.");
             objects.Add(file.Path, objectId);
             var record = Utf8.GetBytes("100644 blob " + objectId + "\t" + file.Path + "\0");
@@ -483,11 +506,16 @@ public sealed class GitRevisionOutbox(StudioWorkspace workspace,
         if (!changed.SequenceEqual(expectedPaths, StringComparer.Ordinal))
             throw Refusal("В сохранённом коммите обнаружены пути вне утверждённого набора исходников.");
         var entries = await ReadTreeEntriesAsync(commit, expectedPaths, hooksRelative, token).ConfigureAwait(false);
-        if (entries.Count != receipt.Files.Length) throw Refusal("Сохранённый коммит не содержит весь утверждённый набор исходников.");
+        if (entries.Count != receipt.Files.Count(file => file.AfterImage is not null))
+            throw Refusal("Сохранённый коммит не содержит весь утверждённый набор исходников.");
         foreach (var file in receipt.Files)
         {
             var entry = entries.GetValueOrDefault(file.Path);
-            if (entry is null || entry.Mode != "100644" || entry.Type != "blob" || entry.ObjectId != file.AfterObjectId)
+            if (file.AfterImage is null)
+            {
+                if (entry is not null) throw Refusal("Сохранённый коммит не удалил утверждённый исходник.");
+            }
+            else if (entry is null || entry.Mode != "100644" || entry.Type != "blob" || entry.ObjectId != file.AfterObjectId)
                 throw Refusal("Сохранённый коммит не совпадает с замороженным текстовым preview.");
         }
     }
@@ -612,6 +640,46 @@ public sealed class GitRevisionOutbox(StudioWorkspace workspace,
         return paths.ToArray();
     }
 
+    private async Task<PendingFile?> ReadTrackedSourceDeletionAsync(string path,
+        IReadOnlyDictionary<string, TreeEntry> baseTree, string objectFormat, CancellationToken token)
+    {
+        if (!StudioWorkspace.IsCanonicalAuthoredJsonSourcePath(path) || workspace.HasFile(path)) return null;
+
+        StudioFileTransaction.EnsureNoLinks(workspace.Root, path);
+        var fullPath = Absolute(path);
+        if (File.Exists(fullPath) || Directory.Exists(fullPath)) return null;
+        if (!baseTree.TryGetValue(path, out var baseEntry) || baseEntry.Mode != "100644" || baseEntry.Type != "blob")
+            return null;
+
+        var before = await ReadBlobAsync(baseEntry.ObjectId, token).ConfigureAwait(false);
+        if (GitBlobHash(objectFormat, before) != baseEntry.ObjectId)
+            throw Refusal("Удаляемый исходник не совпадает с закреплённой базовой ревизией.");
+        var source = AuthoredFile.CreateNew(workspace.Root, path, Utf8.GetString(before));
+        _ = source.Snapshot();
+        if (!source.RootIsArray) return null;
+        return new(path, before, baseEntry.ObjectId, null);
+    }
+
+    private void RevalidateDeletedSources(IEnumerable<PendingFile> files)
+    {
+        foreach (var file in files.Where(candidate => candidate.After is null))
+        {
+            StudioFileTransaction.EnsureNoLinks(workspace.Root, file.Path);
+            if (workspace.HasFile(file.Path) || File.Exists(Absolute(file.Path)) || Directory.Exists(Absolute(file.Path)))
+                throw Refusal("Удаляемый исходник изменился во время подготовки. Обновите сравнение.");
+        }
+    }
+
+    private static void ValidateDeletionSourceBytes(string path, byte[] bytes)
+    {
+        if (!StudioWorkspace.IsCanonicalAuthoredJsonSourcePath(path))
+            throw Refusal("Удалять можно только зарегистрированный JSON-исходник Studio.");
+        var source = AuthoredFile.CreateNew(".", path, Utf8.GetString(bytes));
+        _ = source.Snapshot();
+        if (!source.RootIsArray)
+            throw Refusal("Удаление доступно только для JSON-исходника со списком объектов.");
+    }
+
     private List<PendingFile> LoadAndValidateAllFiles(Receipt receipt)
     {
         var files = new List<PendingFile>(receipt.Files.Length);
@@ -619,9 +687,10 @@ public sealed class GitRevisionOutbox(StudioWorkspace workspace,
         foreach (var item in receipt.Files)
         {
             var before = item.BeforeImage is null ? null : ReadSnapshot(receipt.Id, item.BeforeImage, item.BeforeBytes, item.BeforeSha256);
-            var after = ReadSnapshot(receipt.Id, item.AfterImage, item.AfterBytes, item.AfterSha256);
-            ValidateSourceBytes(item.Path, after, validators);
+            var after = item.AfterImage is null ? null : ReadSnapshot(receipt.Id, item.AfterImage, item.AfterBytes, item.AfterSha256);
+            if (after is not null) ValidateSourceBytes(item.Path, after, validators);
             if (before is not null) ValidateSourceBytes(item.Path, before, validators);
+            if (after is null && before is not null) ValidateDeletionSourceBytes(item.Path, before);
             files.Add(new(item.Path, before, item.BaseObjectId, after));
         }
         return files;
@@ -652,7 +721,7 @@ public sealed class GitRevisionOutbox(StudioWorkspace workspace,
         foreach (var file in receipt.Files)
         {
             if (file.BeforeImage is not null) ValidateSnapshotMetadata(id, file.BeforeImage, file.BeforeBytes);
-            ValidateSnapshotMetadata(id, file.AfterImage, file.AfterBytes);
+            if (file.AfterImage is not null) ValidateSnapshotMetadata(id, file.AfterImage, file.AfterBytes);
             actualBytes += file.BeforeBytes + (long)file.AfterBytes;
             if (actualBytes > ContentBudget) throw Refusal("Запись очереди превышает лимит исходников.");
         }
@@ -661,7 +730,7 @@ public sealed class GitRevisionOutbox(StudioWorkspace workspace,
 
     private void ValidateReceipt(Receipt receipt, string id)
     {
-        if (receipt.Version != 1 || receipt.Id != id || receipt.Files is null || receipt.ExcludedPaths is null
+        if (receipt.Version is not (1 or 2) || receipt.Id != id || receipt.Files is null || receipt.ExcludedPaths is null
             || receipt.Files.Length > MaxFiles || receipt.ExcludedPaths.Length > MaxFiles
             || receipt.BaseRevision is null || !GitRevisionInbox.IsHash(receipt.BaseRevision)
             || receipt.CommitRevision is { } commit && !GitRevisionInbox.IsHash(commit)
@@ -676,17 +745,22 @@ public sealed class GitRevisionOutbox(StudioWorkspace workspace,
         {
             if (file is null || file.Path is null) throw Refusal("Запись очереди содержит пустой исходник.");
             ValidateSourcePath(file.Path);
-            if (!seen.Add(file.Path) || file.AfterImage is null || file.AfterBytes < 0 || file.BeforeBytes < 0
+            var deletion = file.AfterImage is null;
+            if (!seen.Add(file.Path) || file.AfterBytes < 0 || file.BeforeBytes < 0
                 || file.BeforeImage is null && (file.BeforeBytes != 0 || file.BeforeSha256 is not null || file.BaseObjectId is not null)
                 || file.BeforeImage is not null && (file.BeforeBytes <= 0 || !IsSha256(file.BeforeSha256)
                     || file.BaseObjectId is null || !GitRevisionInbox.IsHash(file.BaseObjectId)
                     || file.BaseObjectId.Length != receipt.BaseRevision.Length)
-                || file.AfterBytes <= 0 || !IsSha256(file.AfterSha256) || !GitRevisionInbox.IsHash(file.AfterObjectId)
-                || file.AfterObjectId.Length != receipt.BaseRevision.Length)
+                || deletion && (receipt.Version != 2 || file.BeforeImage is null
+                    || !StudioWorkspace.IsCanonicalAuthoredJsonSourcePath(file.Path)
+                    || file.AfterBytes != 0 || file.AfterSha256 is not null || file.AfterObjectId is not null)
+                || !deletion && (file.AfterBytes <= 0 || !IsSha256(file.AfterSha256) || file.AfterObjectId is null
+                    || !GitRevisionInbox.IsHash(file.AfterObjectId)
+                    || file.AfterObjectId.Length != receipt.BaseRevision.Length))
                 throw Refusal("Запись очереди содержит недопустимый исходник. Файлы не изменены.");
             var ordinal = Array.IndexOf(receipt.Files, file).ToString("D4", System.Globalization.CultureInfo.InvariantCulture);
             if (file.BeforeImage is not null && file.BeforeImage != "before-" + ordinal + ".txt"
-                || file.AfterImage != "after-" + ordinal + ".txt")
+                || file.AfterImage is not null && file.AfterImage != "after-" + ordinal + ".txt")
                 throw Refusal("Запись очереди содержит неверное имя образа исходника.");
         }
         foreach (var path in receipt.ExcludedPaths)
@@ -862,11 +936,13 @@ public sealed class GitRevisionOutbox(StudioWorkspace workspace,
     private string Absolute(string relative) => Path.Combine(workspace.Root, relative.Replace('/', Path.DirectorySeparatorChar));
     private bool RepositoryExists() => Directory.Exists(Absolute(".git")) || File.Exists(Absolute(".git"));
 
-    private static void AddPending(string path, byte[]? before, string? baseObjectId, byte[] after, string objectFormat,
+    private static void AddPending(string path, byte[]? before, string? baseObjectId, byte[]? after, string objectFormat,
         IDictionary<string, PendingFile> candidates, ref long totalBytes)
     {
-        if (after.Length == 0) throw Refusal("Пустые текстовые источники не передаются.");
-        totalBytes += after.LongLength + (before?.LongLength ?? 0);
+        if (after is { Length: 0 }) throw Refusal("Пустые текстовые источники не передаются.");
+        if (after is null && (before is null || baseObjectId is null))
+            throw Refusal("Удаление исходника требует проверенный базовый образ.");
+        totalBytes += (after?.LongLength ?? 0) + (before?.LongLength ?? 0);
         if (totalBytes > ContentBudget || candidates.Count >= MaxFiles) throw Refusal("Подготовленные исходники превышают лимит 8 MiB или 2000 файлов.");
         if (before is not null && (baseObjectId is null || GitBlobHash(objectFormat, before) != baseObjectId))
             throw Refusal("Базовый текстовый образ не совпадает с выбранной ревизией.");
@@ -880,6 +956,7 @@ public sealed class GitRevisionOutbox(StudioWorkspace workspace,
         foreach (var (sourcePath, file) in candidates.OrderBy(entry => entry.Key, StringComparer.Ordinal))
         {
             token.ThrowIfCancellationRequested();
+            if (file.After is null) continue;
             if (!sourcePath.EndsWith(".json", StringComparison.Ordinal)) continue;
 
             var beforeReferences = new HashSet<string>(StringComparer.Ordinal);
@@ -889,7 +966,7 @@ public sealed class GitRevisionOutbox(StudioWorkspace workspace,
                 CollectResourceReferences(before.RootElement, beforeReferences);
             }
 
-            using var after = JsonDocument.Parse(Utf8.GetString(file.After));
+            using var after = JsonDocument.Parse(Utf8.GetString(file.After!));
             var afterReferences = new HashSet<string>(StringComparer.Ordinal);
             CollectResourceReferences(after.RootElement, afterReferences);
             foreach (var reference in afterReferences.Except(beforeReferences, StringComparer.Ordinal))
@@ -897,7 +974,11 @@ public sealed class GitRevisionOutbox(StudioWorkspace workspace,
                 var relative = ResourcePath(reference);
                 if (relative is null) throw Refusal("JSON-исходник ссылается на путь ресурса вне безопасной области.");
                 StudioFileTransaction.EnsureNoLinks(workspace.Root, relative);
-                if (candidates.ContainsKey(relative)) continue;
+                if (candidates.TryGetValue(relative, out var resourceCandidate))
+                {
+                    if (resourceCandidate.After is not null) continue;
+                    throw Refusal("JSON-исходник ссылается на ресурс, который удаляется в этой передаче.");
+                }
 
                 if (!baseTree.TryGetValue(relative, out var entry))
                 {
@@ -1042,9 +1123,9 @@ public sealed class GitRevisionOutbox(StudioWorkspace workspace,
     private sealed record SourceCapture(AuthoredFile File, AuthoredSourceSnapshot Source);
     private sealed record CatalogCapture(StudioCheckpointCatalogSource Source, StudioCheckpointCatalogImage Image, byte[] Bytes);
     private sealed record TreeEntry(string Mode, string Type, string ObjectId);
-    private sealed record PendingFile(string Path, byte[]? Before, string? BaseObjectId, byte[] After);
-    private sealed record CapsuleFile(string Path, string? BeforeImage, string AfterImage, int BeforeBytes, int AfterBytes,
-        string? BeforeSha256, string? AfterSha256, string? BaseObjectId, string AfterObjectId);
+    private sealed record PendingFile(string Path, byte[]? Before, string? BaseObjectId, byte[]? After);
+    private sealed record CapsuleFile(string Path, string? BeforeImage, string? AfterImage, int BeforeBytes, int AfterBytes,
+        string? BeforeSha256, string? AfterSha256, string? BaseObjectId, string? AfterObjectId);
     private sealed record Receipt(int Version, string Id, string BaseRevision, string? CommitRevision, string Branch,
         string RemoteBranch, string OriginFingerprint, string State, CapsuleFile[] Files, string[] ExcludedPaths);
 }
