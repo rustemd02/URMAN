@@ -112720,6 +112720,65 @@
         "native_game": "NOT_RUN: active B20 station owner",
         "runtime_question": "Близкий вид страницы: бумага отличается от cloth, нет пересвета/крупного шума/видимого tile seam; геометрия и support прежние.",
         "remaining": "Protected Windows close-up/material repetition/brightness and author acceptance; other material and vegetation families remain open."
+      },
+      "progress_2026_10_13_spruce_crown": {
+        "state": "accepted_partial_improvement",
+        "result": "Второй Windows C1/C2 лично просмотрен: прежняя плотность дальних крон восстановлена, ближние bough masses объёмнее. Это ограниченное улучшение существующей геометрии, а не достаточное качество леса по референсам: силуэты всё ещё условные/угловатые. Подгонку чисел остановить; следующий результат — сопоставить готовую WinterPine с текстурированной хвоей в существующей forest band.",
+        "verification_question": "В прежнем C2 кроны стали объёмными мягкими bough masses, а Far не превратился в голые столбы/просветы?",
+        "success_condition": "CurrentWindowsHighC2 лично сопоставлен с f680baseline, кроны заметно убедительнее, без barepoles/нарушения rooted envelopes/LOD. Receipt/restoration подтверждены. WholePW034/artacceptance отдельно открыты.",
+        "targets": [
+          "assets/source/blender/agent_b_act1/agent_b_foliage.py",
+          "assets/source/blender/agent_b_act1/agentb_foliage_kit.blend",
+          "game/assets/models/agent_b_act1/agentb_foliage_kit.glb"
+        ],
+        "implementation_note": "Штатный fullgenerator остановился на прежнем deciduous polyline tube winding assert до WinterSpruce. Общийhelper/other species не исправляем: выбрана ограниченная замена только12spruce variants в existingblend через existingwinter_spruce_variant и прежние exportflags, temporarydriver не новая repoсистема. FullgeneratorPASS не заявлять.",
+        "job_id": "5c70d6dc7f3549338debe3ba28d77d93",
+        "snapshot_id": "6e58d863cde71fcda3b0957ec69bdde7e73ad8eb3266d03b94da5ea066dd4303",
+        "generator_counts": {
+          "near": [
+            2564,
+            3752,
+            4772,
+            5792
+          ],
+          "light": [
+            1172,
+            1224,
+            1380,
+            1320
+          ],
+          "far": [
+            372,
+            480,
+            600,
+            672
+          ]
+        },
+        "budget_decision": "Авторский приоритет красоты: root разрешил локальный Far cap700 только для четырёх высоких еловых вариантов вместо прежних400; максимум672. Это стоимость сохранения прежней плотности при закрытой объёмной форме. Near/Light/остальные семейства в прежних лимитах, FPS не подтверждён.",
+        "source_hashes": {
+          "blend": "3606bdfa394f115ed83779cbe56b4e528b387f05407aed0e19882a4c7f78c8bb",
+          "glb": "721c385c6c95de8c13dd555061edbe73fb5c56df6c0c37605539e8af41b15bfd"
+        },
+        "remaining": "PW-034/B02 и авторская художественная приёмка открыты; движение/FPS не проверены. Следующий конечный вход — готовый winter.pine.v1 с alpha needle cards через existing FoliageMesh, текущий кадр решит пригодность. Никаких следующих тюнингов whorl/radii без нового причинного факта. Старый full generator deciduous assert отдельно остаётся.",
+        "attempts": [
+          {
+            "job_id": "97f3f51720944c35b653c5cdd393f839",
+            "technical": "PASS, build/import/game 0, userdataRestored=true; archive SHA73ca73b6…ce86859 проверен",
+            "art": "rejected: C1 показывает слишком редкие дальние кроны и длинные голые верхушки; C2 ближние массы объёмнее, но skyline недостаточно плотный",
+            "evidence": [
+              "evidence/PW-034/spruce-crown-20261013/frames/C1_street_high.png",
+              "evidence/PW-034/spruce-crown-20261013/frames/C2_house_high.png",
+              "evidence/PW-034/spruce-crown-20261013/receipt.json"
+            ]
+          }
+        ],
+        "verification": "5c70d6dc PASS/build/import/game0, userdataRestored=true; archive SHA cc74e92a…4facfca проверен. High C1/C2, camera/target/FOV/spec/profile совпадают с f680; между snapshot изменился только foliage GLB. Исходник/blend/GLB согласованы, scoped regeneration stdout сохранён; полный main generator не объявлен проходящим.",
+        "evidence": [
+          "evidence/PW-034/spruce-crown-20261013/dense-far/receipt.json",
+          "evidence/PW-034/spruce-crown-20261013/dense-far/generator.log",
+          "evidence/PW-034/spruce-crown-20261013/dense-far/frames/C1_street_high.png",
+          "evidence/PW-034/spruce-crown-20261013/dense-far/frames/C2_house_high.png"
+        ]
       }
     },
     {

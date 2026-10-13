@@ -1322,7 +1322,7 @@ def winter_spruce_variant(index, height, tier="near"):
         # height a denser ladder reads as forest, a smoother single bough does
         # not.
         stations = 5 if tier == "near" and level_count <= 22 else 4 if tier == "near" else 3 if tier == "light" else 2
-        sides = 5 if tier == "near" else 5 if tier == "light" else 3
+        sides = 6 if tier == "near" else 5 if tier == "light" else 3
     else:
         stations = 6 if tier == "near" else 3
         sides = 6 if tier == "near" else 5 if tier == "light" else 3
@@ -1368,31 +1368,19 @@ def winter_spruce_variant(index, height, tier="near"):
                 # the tiers merge into one soft crown instead.
                 radii.append(length * (.13 + .21 * math.sin(math.pi * t)) * (1 - .90 * t))
             if tall and tier == "far":
-                # Four triangles per spray preserve the whorl count. The old
-                # eight-triangle two-ring bough halved the whorls and left a
-                # ladder of disconnected flags at ordinary street distances.
-                middle = points[0].lerp(points[-1], .38)
-                tangent = (points[-1] - points[0]).normalized()
-                side = tangent.cross(Vector((0, 0, 1))).normalized()
-                up = side.cross(tangent).normalized()
-                base = len(vertices)
-                # Root, two shoulders and tip: all four faces belong to a
-                # bough attached to the trunk, not a floating triangular base.
-                vertices.extend(tuple(point) for point in (
-                    points[0], middle + side * length * .22 + up * length * .12,
-                    middle - side * length * .22 + up * length * .12, points[-1]))
-                faces.extend(((base, base + 1, base + 2),
-                              (base, base + 3, base + 1),
-                              (base + 1, base + 3, base + 2),
-                              (base + 2, base + 3, base)))
+                # Far silhouettes keep tapered volume with a triangular tube;
+                # the shorter whorl ladder stays inside its existing budget.
+                far_radii = [length * .22, radii[-1]]
+                _append_polyline_tube(vertices, faces, points, far_radii,
+                                      sides=3, flatten=.95)
             elif tall:
                 # Keep a continuous foliage mass. Scalloped cross-sections
                 # break the long straight blade without thinning it into a
                 # bare branch skeleton at street distance.
-                fractions = ([0, .12, .25, .38, .50, .63, .75, .88, 1]
-                             if tier == "near" else [0, .30, .64, 1])
-                lobes = ([.08, .20, .14, .23, .14, .19, .105, .13, .012]
-                         if tier == "near" else [.08, .22, .18, .012])
+                fractions = ([0, .20, .40, .60, .80, 1]
+                             if tier == "near" else [0, .42, 1])
+                lobes = ([.08, .17, .21, .16, .10, .012]
+                         if tier == "near" else [.08, .22, .012])
                 side = Vector((-direction.y, direction.x, 0))
                 crown_points, crown_radii = [], []
                 for t, radius in zip(fractions, lobes):
@@ -1401,7 +1389,7 @@ def winter_spruce_variant(index, height, tier="near"):
                     crown_points.append(point)
                     crown_radii.append(length * radius * rng.uniform(.88, 1.12))
                 _append_polyline_tube(vertices, faces, crown_points, crown_radii,
-                                      sides=4, flatten=.95)
+                                      sides=sides, flatten=.95)
             else:
                 _append_polyline_tube(vertices, faces, points, radii,
                                       sides=sides, flatten=.80)
@@ -1458,7 +1446,10 @@ def winter_spruce_variant(index, height, tier="near"):
     _smooth_winter_surfaces(objects, tier)
     for polygon in needles.data.polygons:
         polygon.use_smooth = tall or tier != "far"
-    _assert_winter_variant(prefix, objects, tier)
+    far_tall_limits = None
+    if tall and tier == "far" and index in (3, 4, 5, 6):
+        far_tall_limits = {"near": (2000, 6000), "light": (600, 1500), "far": (100, 700)}
+    _assert_winter_variant(prefix, objects, tier, limits=far_tall_limits)
     return objects
 
 
