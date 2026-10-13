@@ -5724,10 +5724,10 @@
             "owner": "art/materials/qa",
             "evidence": [],
             "assigned_owner": "art/materials/qa",
-            "active_owner": "codex/b02",
+            "active_owner": null,
             "activity": {
-              "state": "confirmed_active",
-              "reason": "Luna6Max выполнила конечный source этап W05, root проверяет и ожидает целевой Windows вид."
+              "state": "not_active",
+              "reason": "Source этап W05 доставлен c2e9cc28; сейчас целевая Windows проверка ещё не начата, назначение art/materials/qa сохранено."
             },
             "task_type": "engineering",
             "status": "in_progress",
@@ -112675,7 +112675,7 @@
         "Не создаются сотни уникальных текстур одинаковых досок.",
         "Уточнение автора 09.10.2026: материалы и растительные формы наружной деревни проверены в составе домов и окружения по выбранным автором скриншотам. Сопоставимы масштаб фактур, материальность дерева/земли/снега, объём и плотность растительности, свет и цветовые отношения. Новые текстуры поверх примитивных форм и отдельный образец материала не доказывают соответствие целой игровой сцены."
       ],
-      "next_action": "После освобождения Windows проверить кандидат LOD крупных елей на прежних C1/C2; принять только заметное визуальное улучшение.",
+      "next_action": "Закончить крупный dominant forest visual candidate, affected compile и C1/C2 native сравнение; принять только заметно более убедительные кроны.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -112975,7 +112975,7 @@
           "blend": "3606bdfa394f115ed83779cbe56b4e528b387f05407aed0e19882a4c7f78c8bb",
           "glb": "721c385c6c95de8c13dd555061edbe73fb5c56df6c0c37605539e8af41b15bfd"
         },
-        "remaining": "Полное качество леса, движение/FPS и авторская приёмка открыты. Следующий конечный шаг — текущие Windows C1/C2 с локальным кандидатом LOD крупных WinterSpruce_3..6: потолок 2.2 вместо budget1.6, согласованные три диапазона; source review/diff-check выполнены, runtime ещё не проверен. Вопрос: улучшает ли Near силуэт видимых больших крон без новых просветов? Станция пока у B20; кандидат не принят.",
+        "remaining": "После двух гипотез pine-band/LOD без существенного визуального результата подход сменён: крупная замена представления доминирующего forestRimSpruce3..6 текущим CC0-derived WinterPine Near/Light/Far. Luna готовит candidate только existingExteriorLayer: rooted AABB fitting visual geometry, сохранение sourceplant/road/roof/collision. Риски alpha/collider/Farcost; actual artwork/motion/FPS не проверены. LOD2.2 отклонён, дальнейших мелких подстроек не назначать. Кандидат реализован в одном ExteriorLayer файле: geometry-fit в существующем RegionalMesh cache, runtime audit видит actual fitted mesh, MeshInstance identity и source/visual metadata разделены. Root scoped source review и affected Game compile0 warnings/0 errors17.53s PASS; native ещё не запускался, не принят.",
         "attempts": [
           {
             "job_id": "97f3f51720944c35b653c5cdd393f839",
@@ -112996,6 +112996,17 @@
               "evidence/PW-034/pine-band-20261013/receipt.json",
               "evidence/PW-034/pine-band-20261013/frames/C1_street_high.png",
               "evidence/PW-034/pine-band-20261013/frames/C2_house_high.png"
+            ]
+          },
+          {
+            "job_id": "53b5d2fc422c4378a60efc837aa9b4d9",
+            "snapshot_id": "315036283b547a29a209a4c4d5b12c281582170740cfdc46a6796212e2a27af5",
+            "technical": "PASS/build/import/game0, userdataRestored=true; archive SHA0b4aeabaeb8e46e00e70d11d141d727379b1cb047a6e18e407f1d747ffb19116 verified; matched camera/target/FOV70/High/crisp against dense-far.",
+            "art": "rejected: root лично просмотрел C1/C2, потолокLOD2.2 не даёт заметного улучшения доминирующего угловатого леса. Только ownConfigureFoliageRange возвращён кHEAD; кандидат не внедрён.",
+            "evidence": [
+              "evidence/PW-034/spruce-lod-20261013/receipt.json",
+              "evidence/PW-034/spruce-lod-20261013/frames/C1_street_high.png",
+              "evidence/PW-034/spruce-lod-20261013/frames/C2_house_high.png"
             ]
           }
         ],
