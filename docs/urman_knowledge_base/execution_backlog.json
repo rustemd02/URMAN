@@ -76480,7 +76480,22 @@
             "verification": "A04: поворот между двумя фиксированными стыками; пройти участок.",
             "risks_recovery_external_gates": "Большой slope/terrain mismatch — блокирующая диагностика; rollback включает опорные данные и коллизию.",
             "required": true,
-            "evidence": [],
+            "evidence": [
+              {
+                "date": "2026-10-13",
+                "kind": "source-progress",
+                "result": "Actual open-part/far-bank roads[] now reread and validate atomically before existing Studio full-world reload. Existing OpenPart/FarBank parsers and heightfield road owner reused; fixed axes/point precision unchanged, max road halfwidth recomputed, collision-face cache cleared only when axes change. Failed new world build restores previous plot caches/axes/max/face array before old scene reattach. Hero selective path skips this full reload.",
+                "source": [
+                  "game/scripts/experiments/agent_b_act1/AgentBAct1HeightField.cs",
+                  "game/scripts/Act1ConnectedWorld.OpenPart.cs",
+                  "game/scripts/Act1ConnectedWorld.FarBank.cs",
+                  "game/scripts/Act1ConnectedWorld.RoadSourceRefresh.cs",
+                  "game/studio/StudioWorldSection.cs"
+                ],
+                "verification": "Luna implementation + independent Luna publish/rollback/numeric-order review; root fixed Godot/System.IO FileAccess name ambiguity; final affected Game compile0warnings/0errors13.55s; scoped diffcheck.",
+                "limits": "No native road edit/traversal/Undo; segment picking, typed smooth proposal/preview/Apply and restart owner still open. HouseholdPads separate startup cache unchanged; terrainPad authoring not claimed by road-only refresh."
+              }
+            ],
             "stage_tasks": [
               "STUDIO.P2"
             ],
@@ -76497,19 +76512,17 @@
               ],
               "done_when": "Сегмент стал геометрически непрерывным; крайние точки и соседние маршруты сохранены; игрок не проваливается."
             },
-            "active_owner": null,
+            "active_owner": "Codex",
             "activity": {
-              "state": "paused_by_author",
-              "reason": "Назначение Codex/DeepSeek сохранено; миграция не запускает production и не выдаёт peer-передачу за активную работу."
+              "state": "confirmed_active",
+              "reason": "Road-only runtime reload contract integrated/compiled/reviewed; next finite selection and smooth operation remains to implement."
             },
             "task_type": "engineering",
-            "status": "todo",
+            "status": "in_progress",
             "implementation_state": "not_started",
             "technical_verification_state": "not_run",
-            "remaining": [
-              "Дорожку можно сгладить на выбранном отрезке с сохранением присоединений.; отсутствует подтверждение собственного конечного DoD, перечисленного ниже."
-            ],
-            "next_action": "Добавить handles/segment IDs; ограничить endpoints/tangent; smooth operation; сопоставить ground heights; collision/visual refresh.",
+            "remaining": "Runtime road-source reload/rollback source принят compile/review. Остались реальные segment IDs/выбор и handles, typed road.segment.smooth с фиксированными стыками/шириной и ограничением отклонения, preview/Apply/Undo/restart integration и целевой A04 проход по поверхности.",
+            "next_action": "Добавить реальный выбор отрезка roads[] и typed smooth request/proposal/source rewrite, использующий принятый reload для видимой дороги/ground/graph; затем preview/Apply/Undo через существующую файловую транзакцию.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",

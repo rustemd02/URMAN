@@ -24,7 +24,14 @@ public partial class Act1ConnectedWorld
         if (_openPart is { } cached) return cached;
         var path = AgentBAct1Layout.OpenPartPlotPath;
         if (!global::Godot.FileAccess.FileExists(path)) return (_openPart = ([], [], [])).Value;
-        using var doc = JsonDocument.Parse(global::Godot.FileAccess.GetFileAsString(path));
+        _openPart = ParseOpenPartPlotJson(global::Godot.FileAccess.GetFileAsString(path));
+        return _openPart.Value;
+    }
+
+    private static (FarBankRoad[] Roads, OpenPartLot[] Lots, (Vector2 Centre, float Yaw, Vector2 Half)[] Parcels)
+        ParseOpenPartPlotJson(string json)
+    {
+        using var doc = JsonDocument.Parse(json);
         var root = doc.RootElement;
         var roads = root.GetProperty("roads").EnumerateArray().Select(road => new FarBankRoad(
             road.GetProperty("id").GetString()!, road.GetProperty("street").GetString()!,
@@ -42,8 +49,7 @@ public partial class Act1ConnectedWorld
                 p.GetProperty("yawDegrees").GetSingle(),
                 new Vector2(p.GetProperty("terrainPad").GetProperty("halfSize")[0].GetSingle(),
                     p.GetProperty("terrainPad").GetProperty("halfSize")[1].GetSingle()))).ToArray();
-        _openPart = (roads, lots, parcels);
-        return _openPart.Value;
+        return (roads, lots, parcels);
     }
 
     /// <summary>Trodden snow streets of the open part and the straight FAP street; the

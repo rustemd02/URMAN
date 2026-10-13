@@ -22,7 +22,13 @@ public partial class Act1ConnectedWorld
         if (_farBank is { } cached) return cached;
         var path = AgentBAct1HeightField.FarBankPlotPath;
         if (!global::Godot.FileAccess.FileExists(path)) return (_farBank = ([], [], Vector3.Zero)).Value;
-        using var doc = JsonDocument.Parse(global::Godot.FileAccess.GetFileAsString(path));
+        _farBank = ParseFarBankPlotJson(global::Godot.FileAccess.GetFileAsString(path));
+        return _farBank.Value;
+    }
+
+    private static (FarBankRoad[] Roads, FarBankPublic[] Buildings, Vector3 Green) ParseFarBankPlotJson(string json)
+    {
+        using var doc = JsonDocument.Parse(json);
         var root = doc.RootElement;
         var roads = root.GetProperty("roads").EnumerateArray().Select(road => new FarBankRoad(
             road.GetProperty("id").GetString()!, road.GetProperty("street").GetString()!,
@@ -33,8 +39,7 @@ public partial class Act1ConnectedWorld
             AuthoredWorldPlot.ToVector3(b.GetProperty("position")), b.GetProperty("yawDegrees").GetSingle(),
             new Vector2(b.GetProperty("size")[0].GetSingle(), b.GetProperty("size")[1].GetSingle()))).ToArray();
         var green = root.GetProperty("green");
-        _farBank = (roads, buildings, new Vector3(green.GetProperty("x").GetSingle(), 0, green.GetProperty("z").GetSingle()));
-        return _farBank.Value;
+        return (roads, buildings, new Vector3(green.GetProperty("x").GetSingle(), 0, green.GetProperty("z").GetSingle()));
     }
 
     private static void AddFarBankQuarter(Node3D farBank)

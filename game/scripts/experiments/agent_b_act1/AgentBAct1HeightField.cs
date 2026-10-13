@@ -69,7 +69,7 @@ public static class AgentBAct1HeightField
 
     private static readonly float[] HalfWidths = { 2.25f, 1.90f, 1.4f, 1.90f, 1.75f, 2.0f, 1.75f, 2.1f };
 
-    private static readonly ((float X, float Z)[] Points, double HalfWidth)[] RoadAxes = new ((float X, float Z)[] Points, double HalfWidth)[]
+    private static readonly ((float X, float Z)[] Points, double HalfWidth)[] BaseRoadAxes = new ((float X, float Z)[] Points, double HalfWidth)[]
     {
         (MainAxis, HalfWidths[0]), (FapAxis, HalfWidths[1]),
         (AgentBAct1Layout.BridgeApproachAxis.Select(p => (p.X, p.Y)).ToArray(), 2.3),
@@ -77,9 +77,12 @@ public static class AgentBAct1HeightField
         (PlazaWalk, 1.2),
         (AgentBAct1Layout.PlazaDriveAxis.Select(p => (p.X, p.Y)).ToArray(), 2.0),
         (AgentBAct1Layout.MosqueWalkAxis.Select(p => (p.X, p.Y)).ToArray(), .8)
-    }.Concat(PlotRoads(FarBankPlotPath)).Concat(PlotRoads(AgentBAct1Layout.OpenPartPlotPath)).ToArray();
+    };
 
-    internal static double MaxRoadHalfWidth { get; } = RoadAxes.Max(road => road.HalfWidth);
+    private static ((float X, float Z)[] Points, double HalfWidth)[] RoadAxes = BaseRoadAxes
+        .Concat(PlotRoads(FarBankPlotPath)).Concat(PlotRoads(AgentBAct1Layout.OpenPartPlotPath)).ToArray();
+
+    internal static double MaxRoadHalfWidth { get; private set; } = RoadAxes.Max(road => road.HalfWidth);
 
     /// <summary>Streets of the far bank and of the open part live in their plot data with the households they serve.</summary>
     internal const string FarBankPlotPath = "res://content/world/act1_far_bank.world.v1.json";
@@ -87,12 +90,67 @@ public static class AgentBAct1HeightField
     internal static ((float X, float Z)[] Points, double HalfWidth)[] PlotRoads(string path)
     {
         if (!global::Godot.FileAccess.FileExists(path)) return [];
-        using var doc = System.Text.Json.JsonDocument.Parse(global::Godot.FileAccess.GetFileAsString(path));
+        return PlotRoadsFromJson(global::Godot.FileAccess.GetFileAsString(path));
+    }
+
+    internal static ((float X, float Z)[] Points, double HalfWidth)[] PlotRoadsFromJson(string json)
+    {
+        using var doc = System.Text.Json.JsonDocument.Parse(json);
         if (!doc.RootElement.TryGetProperty("roads", out var roads)) return [];
         return roads.EnumerateArray().Select(road => (
             road.GetProperty("points").EnumerateArray().Select(p => (p[0].GetSingle(), p[1].GetSingle())).ToArray(),
             road.GetProperty("width").GetDouble() * .5)).ToArray();
     }
+
+    /// <summary>Replace only the two plot-owned road axes for a Studio full reload.</summary>
+    /// <returns>An idempotent rollback restoring the previous axes and cached terrain faces.</returns>
+    internal static System.Action ReplacePlotRoadAxesForStudio(
+        ((float X, float Z)[] Points, double HalfWidth)[] plotRoads)
+    {
+        ArgumentNullException.ThrowIfNull(plotRoads);
+        if (plotRoads.Any(road => road.Points is null || road.Points.Length < 2
+                || !double.IsFinite(road.HalfWidth) || road.HalfWidth <= 0
+                || road.Points.Any(point => !float.IsFinite(point.X) || !float.IsFinite(point.Z))))
+            throw new InvalidDataException("Studio road sources contain an invalid road axis.");
+
+        var nextRoadAxes = BaseRoadAxes.Concat(plotRoads).ToArray();
+        var nextMaxRoadHalfWidth = nextRoadAxes.Max(road => road.HalfWidth);
+        var previousRoadAxes = RoadAxes;
+        var previousMaxRoadHalfWidth = MaxRoadHalfWidth;
+        var previousCollisionFaces = _collisionFaces;
+        var axesChanged = !RoadAxesEqual(previousRoadAxes, nextRoadAxes);
+        var rolledBack = false;
+
+        System.Action rollback = () =>
+        {
+            if (rolledBack) return;
+            RoadAxes = previousRoadAxes;
+            MaxRoadHalfWidth = previousMaxRoadHalfWidth;
+            _collisionFaces = previousCollisionFaces;
+            rolledBack = true;
+        };
+
+        RoadAxes = nextRoadAxes;
+        MaxRoadHalfWidth = nextMaxRoadHalfWidth;
+        if (axesChanged) _collisionFaces = null;
+        return rollback;
+    }
+
+    private static bool RoadAxesEqual(
+        ((float X, float Z)[] Points, double HalfWidth)[] left,
+        ((float X, float Z)[] Points, double HalfWidth)[] right)
+    {
+        if (left.Length != right.Length) return false;
+        for (var i = 0; i < left.Length; i++)
+        {
+            if (left[i].HalfWidth != right[i].HalfWidth || left[i].Points.Length != right[i].Points.Length)
+                return false;
+            for (var point = 0; point < left[i].Points.Length; point++)
+                if (left[i].Points[point] != right[i].Points[point]) return false;
+        }
+        return true;
+    }
+
     private static Vector3[]? _collisionFaces;
     private sealed class HouseholdPad(float x, float z, float halfX, float halfZ, float yaw, float anchorX, float anchorZ, float feather)
     {

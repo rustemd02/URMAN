@@ -463,6 +463,7 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
         _reloading = true;
         var previous = _demo;
         var recipeFile = Path.Combine(studio.Workspace.Root, "game/content/studio/hero_house.recipe.json");
+        Action? rollbackRoadSources = null;
         try
         {
             var recipeText = File.ReadAllText(recipeFile);
@@ -480,6 +481,7 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
                 return;
             }
 
+            rollbackRoadSources = Act1ConnectedWorld.ReloadRoadSourcesForStudio();
             ClearFencePick();
             _pickedPart = null;
             studio.ShowProperties();
@@ -502,12 +504,14 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
                 return;
             }
             if (_hint.Visible) throw new InvalidOperationException("Новая сцена дома не загрузилась.");
-            previous?.Free();
-            _houseRecipeShown = recipeText;
             UpdateCamera();
+            previous?.Free();
+            rollbackRoadSources = null;
+            _houseRecipeShown = recipeText;
         }
         catch
         {
+            rollbackRoadSources?.Invoke();
             if (_demo is not null && !ReferenceEquals(_demo, previous)) { _viewport.RemoveChild(_demo); _demo.Free(); }
             _demo = previous;
             if (previous is not null && previous.GetParent() is null) _viewport.AddChild(previous);
