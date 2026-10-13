@@ -80332,7 +80332,7 @@
                 "source": [
                   "evidence/STUDIO/practical-editor-2026-10-13/windows-road-codex-complete/game.log",
                   "game/studio/StudioWorldSection.cs",
-                  "game/scripts/Act1ConnectedWorld.Studio.cs"
+                  "game/scripts/Act1ConnectedWorld.RoadSourceRefresh.cs"
                 ],
                 "verification": "Actual phase markers and bounded independent Luna refresh ownership review; no selective road shortcut implemented.",
                 "limits": "No measured optimization gain. Hero selective early guard remains unknown; actual changed source timing and full usability remain open."
