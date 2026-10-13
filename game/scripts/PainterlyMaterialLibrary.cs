@@ -766,9 +766,6 @@ public static class PainterlyMaterialLibrary
         ["wet_ground"] = ("res://assets/textures/painterly/damp_earth_v5_albedo.png", new Vector2(1.0f, 2.1f)),
         ["plaster"] = ("res://assets/textures/painterly/aged_plaster_v3_albedo.png", new Vector2(0.7f, 0.55f)),
         ["foliage"] = ("res://assets/textures/painterly/pine_foliage_v2_albedo.png", new Vector2(1.4f, 1.4f)),
-        // These surfaces have no v1 predecessor. They are scoped to the
-        // authored stone/fabric presentation anchors in the benchmark scenes;
-        // existing wood/plaster/earth/foliage mappings remain v1.
         ["stone"] = ("res://assets/textures/painterly/mossy_stone_v3_albedo.png", new Vector2(1.5f, 1.5f)),
         ["stone_foundation"] = ("res://assets/textures/painterly/urman_b07_v02_basecolor.png", Vector2.One),
         ["fabric"] = ("res://assets/textures/painterly/old_fabric_v3_albedo.png", new Vector2(2.0f, 2.0f)),
@@ -860,24 +857,24 @@ public static class PainterlyMaterialLibrary
     {
         // Facade boards: long along the wall, tight across it. The wear map is the
         // VIS-093 request; until it ships the bottom wear alone carries history.
-        ["wood_facade"] = new() { Relief = .38f, ReliefFreq = new(2.6f, 22f), ReliefRoughness = .10f,
+        ["wood_facade"] = new() { Relief = .38f, ReliefFreq = new(1.95f, 16.5f), ReliefRoughness = .10f,
             NormalMap = ResponseRoot + "wood_grain_v1_normal.png", NormalScale = .35f,
             RoughnessMap = ResponseRoot + "wood_grain_v1_roughness.png", RoughnessDelta = .14f,
             WearMap = ResponseRoot + "wood_wear_v1_mask.png", WearRoughness = .18f, WearMetallic = 0f,
             WearTint = "6b5a48", WearTintBlend = .55f, TilesPerMetre = .5f,
             WearBottom = .45f, WearBottomHeight = .30f, FrostRoughness = .04f },
-        ["wood_fence"] = new() { Relief = .45f, ReliefFreq = new(3.2f, 30f), ReliefRoughness = .12f,
+        ["wood_fence"] = new() { Relief = .45f, ReliefFreq = new(2.4f, 22.5f), ReliefRoughness = .12f,
             NormalMap = ResponseRoot + "wood_grain_v1_normal.png", NormalScale = .30f,
             WearMap = ResponseRoot + "wood_wear_v1_mask.png", WearRoughness = .20f,
             WearTint = "6b5a48", WearTintBlend = .50f, TilesPerMetre = .5f,
             WearBottom = .60f, WearBottomHeight = .34f, FrostRoughness = .05f },
-        ["wood"] = new() { Relief = .30f, ReliefFreq = new(3.5f, 24f), ReliefRoughness = .08f,
+        ["wood"] = new() { Relief = .30f, ReliefFreq = new(2.625f, 18f), ReliefRoughness = .08f,
             WearBottom = .35f, WearBottomHeight = .28f },
-        ["wood_prop"] = new() { Relief = .30f, ReliefFreq = new(3.5f, 24f), ReliefRoughness = .08f,
+        ["wood_prop"] = new() { Relief = .30f, ReliefFreq = new(2.625f, 18f), ReliefRoughness = .08f,
             WearBottom = .25f, WearBottomHeight = .18f },
-        ["wood_furniture"] = new() { Relief = .26f, ReliefFreq = new(4f, 26f), ReliefRoughness = .07f,
+        ["wood_furniture"] = new() { Relief = .26f, ReliefFreq = new(3f, 19.5f), ReliefRoughness = .07f,
             WearBottom = .18f, WearBottomHeight = .10f },
-        ["wood_furniture_interior"] = new() { Relief = .24f, ReliefFreq = new(4f, 28f), ReliefRoughness = .06f },
+        ["wood_furniture_interior"] = new() { Relief = .24f, ReliefFreq = new(3f, 21f), ReliefRoughness = .06f },
         ["wood_cut"] = new() { Relief = .18f, ReliefFreq = new(9f, 9f), EndGrainWear = .22f },
         ["wood_carved"] = new() { Relief = .34f, ReliefFreq = new(6f, 20f), ReliefRoughness = .08f },
         ["wood_bark"] = new() { Relief = .70f, ReliefFreq = new(5f, 16f), ReliefRoughness = .14f },
@@ -887,19 +884,19 @@ public static class PainterlyMaterialLibrary
         ["bark_pine"] = new() { Relief = .72f, ReliefFreq = new(4.5f, 13f), ReliefRoughness = .15f },
         // Plaster is isotropic and macro-driven: relief stays under 5 mm equivalent so
         // it never competes with the 2..8 m heterogeneity the civic block owns (VIS-094).
-        ["plaster"] = new() { Relief = .26f, ReliefFreq = new(8f, 8f), ReliefRoughness = .14f,
+        ["plaster"] = new() { Relief = .26f, ReliefFreq = new(6f, 6f), ReliefRoughness = .14f,
             NormalMap = ResponseRoot + "civic_plaster_v1_normal.png", NormalScale = .28f,
             RoughnessMap = ResponseRoot + "civic_plaster_v1_roughness.png", RoughnessDelta = .16f,
             TilesPerMetre = .45f, WearBottom = .20f, WearBottomHeight = .40f },
-        ["wall_institution"] = new() { Relief = .26f, ReliefFreq = new(8f, 8f), ReliefRoughness = .14f,
+        ["wall_institution"] = new() { Relief = .26f, ReliefFreq = new(6f, 6f), ReliefRoughness = .14f,
             NormalMap = ResponseRoot + "civic_plaster_v1_normal.png", NormalScale = .28f,
             RoughnessMap = ResponseRoot + "civic_plaster_v1_roughness.png", RoughnessDelta = .16f,
             WearMap = ResponseRoot + "civic_repair_v1_mask.png", WearRoughness = -.06f,
             WearTint = "d9d6cb", WearTintBlend = .35f, TilesPerMetre = .45f,
             WearBottom = .22f, WearBottomHeight = .45f },
-        ["stone"] = new() { Relief = .45f, ReliefFreq = new(6f, 6f), ReliefRoughness = .12f,
+        ["stone"] = new() { Relief = .45f, ReliefFreq = new(4.5f, 4.5f), ReliefRoughness = .12f,
             WearBottom = .20f, WearBottomHeight = .22f },
-        ["stone_foundation"] = new() { Relief = .48f, ReliefFreq = new(6f, 6f), ReliefRoughness = .12f,
+        ["stone_foundation"] = new() { Relief = .48f, ReliefFreq = new(4.5f, 4.5f), ReliefRoughness = .12f,
             WearBottom = .30f, WearBottomHeight = .26f },
         // Metal is split by physical finish, not by specular (VIS-095).
         ["metal"] = new() { Relief = .20f, ReliefFreq = new(3.5f, 3.5f), ReliefRoughness = .06f,
@@ -929,7 +926,7 @@ public static class PainterlyMaterialLibrary
             NormalMap = ResponseRoot + "roof_sheet_v1_normal.png", NormalScale = .26f,
             WearMap = ResponseRoot + "metal_wear_v1_mask.png", WearRoughness = .26f, WearMetallic = .08f,
             WearTint = "6b4a35", WearTintBlend = .75f, TilesPerMetre = .5f, FrostRoughness = .14f },
-        ["log_wall"] = new() { Relief = .40f, ReliefFreq = new(2.2f, 18f), ReliefRoughness = .10f,
+        ["log_wall"] = new() { Relief = .40f, ReliefFreq = new(1.65f, 13.5f), ReliefRoughness = .10f,
             WearBottom = .30f, WearBottomHeight = .35f },
         ["cloth"] = new() { Relief = .22f, ReliefFreq = new(16f, 16f), ReliefRoughness = .05f },
         ["fabric_upholstery"] = new() { Relief = .24f, ReliefFreq = new(15f, 15f), ReliefRoughness = .06f },
@@ -937,10 +934,10 @@ public static class PainterlyMaterialLibrary
         ["cloth_towel"] = new() { Relief = .30f, ReliefFreq = new(13f, 13f), ReliefRoughness = .06f },
         ["cloth_clinic"] = new() { Relief = .16f, ReliefFreq = new(18f, 18f), ReliefRoughness = .04f },
         ["carpet"] = new() { Relief = .32f, ReliefFreq = new(20f, 20f), ReliefRoughness = .06f },
-        ["grass"] = new() { Relief = .30f, ReliefFreq = new(12f, 12f), ReliefRoughness = .06f },
+        ["grass"] = new() { Relief = .30f, ReliefFreq = new(9f, 9f), ReliefRoughness = .06f },
         ["hay_fibers"] = new() { Relief = .35f, ReliefFreq = new(8f, 20f), ReliefRoughness = .08f },
         ["hay_bundle"] = new() { Relief = .35f, ReliefFreq = new(8f, 20f), ReliefRoughness = .08f },
-        ["earth"] = new() { Relief = .22f, ReliefFreq = new(9f, 9f), ReliefRoughness = .10f },
+        ["earth"] = new() { Relief = .22f, ReliefFreq = new(6.75f, 6.75f), ReliefRoughness = .10f },
         ["paper"] = new() { Relief = .10f, ReliefFreq = new(26f, 26f), ReliefRoughness = .08f },
         ["leather"] = new() { Relief = .34f, ReliefFreq = new(7f, 9f), ReliefRoughness = .12f },
         ["plastic_abs"] = new() { Relief = .06f, ReliefFreq = new(22f, 22f), ReliefRoughness = .05f },
@@ -1765,33 +1762,50 @@ public static class PainterlyMaterialLibrary
             "vehicle_rubber" or "vehicle_plastic" or "vehicle_trim_metal" => 0.04f,
             _ => 0.10f
         });
-        material.SetShaderParameter("texture_strength", finishSurface switch
+        material.SetShaderParameter("texture_strength", surface == "wood_painted_trim" ? 0.95f : finishSurface switch
         {
             "hay_fibers" or "hay_bundle" => 1.0f,
             "foliage" => 0.95f,
             "grass" or "leaf_birch" => 0.95f,
             "roof" or "roof_metal" => 0.94f,
             "bark_birch" or "bark_pine" => 0.94f,
-            "log_wall" or "wall_institution" => 0.92f,
+            "log_wall" or "wall_institution" => 0.82f,
             "wallpaper" => 0.90f,
             "ornament_trim" or "carpet" or "fabric_pattern" or "wood_carved" => 0.88f,
-            "earth" => 0.95f,
-            "terrain" => 0.95f,
-            "wet_ground" => 0.92f,
-            "wet_road" => 0.95f,
-            "wood" => 0.95f,
-            "wood_facade" => 0.95f,
-            "wood_fence" => 0.95f,
-            "wood_furniture" or "wood_furniture_interior" => 0.92f,
-            "wood_prop" => 0.92f,
+            "earth" or "terrain" or "wet_ground" or "wet_road" => 0.82f,
+            "wood" or "wood_facade" or "wood_fence" => 0.82f,
+            "wood_furniture" or "wood_furniture_interior" or "wood_prop" => 0.86f,
             "wood_bark" => 0.95f,
-            "plaster" => 0.95f,
-            "stone" => 0.95f,
+            "plaster" => 0.82f,
+            "stone" => 0.84f,
             "fabric" or "fabric_upholstery" => 0.88f,
             "cloth" or "cloth_clinic" => 0.88f,
             "water" => 0.0f,
             _ => 0.90f
         });
+        // P1's broad paint masses belong to the surface, not the screen. Reuse the
+        // existing low-frequency noise layer and give environment families a larger,
+        // stronger patch while leaving cloth, faces, paper and ornament at the calm
+        // defaults. No extra texture read or per-pixel noise evaluation is added.
+        var macroProfile = finishSurface switch
+        {
+            "wood" or "wood_facade" or "wood_fence" or "log_wall" =>
+                (Scale: new Vector2(.20f, .07f), Gain: 1.65f),
+            "wood_furniture" or "wood_furniture_interior" or "wood_prop" =>
+                (Scale: new Vector2(.23f, .08f), Gain: 1.30f),
+            "plaster" or "wall_institution" =>
+                (Scale: new Vector2(.20f, .07f), Gain: 1.55f),
+            "stone" => (Scale: new Vector2(.18f, .06f), Gain: 1.45f),
+            "earth" or "terrain" or "wet_ground" or "wet_road" or "grass" =>
+                (Scale: new Vector2(.18f, .06f), Gain: 1.35f),
+            _ => (Scale: new Vector2(.33f, .11f), Gain: 1f)
+        };
+        // Decorative painted trim shares wood_facade's map response, but its carved
+        // edge must not inherit the broad siding wash.
+        if (surface == "wood_painted_trim")
+            macroProfile = (new Vector2(.33f, .11f), 1f);
+        material.SetShaderParameter("macro_scale", macroProfile.Scale);
+        material.SetShaderParameter("macro_gain", macroProfile.Gain);
         // World Y is not height above support: lowered rooms and downhill
         // facades otherwise receive arbitrary dirt. Existing shadows/SSAO own contact.
         material.SetShaderParameter("ground_darken", 0f);

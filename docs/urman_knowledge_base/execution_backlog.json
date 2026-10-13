@@ -4682,21 +4682,23 @@
             "title": "Подключить S03 — Утоптанный снег у дверей",
             "result": "Подключить S03 — Утоптанный снег у дверей",
             "owner": "art/materials/qa",
-            "evidence": [],
+            "evidence": [
+              "evidence/PW-034/whole-style-20261014/day-pair/receipt.json",
+              "evidence/PW-034/whole-style-20261014/day-pair/frames/C1_street_high.png",
+              "evidence/PW-034/whole-style-20261014/day-pair/frames/C1_street_high.json"
+            ],
             "assigned_owner": "art/materials/qa",
             "active_owner": null,
             "activity": {
               "state": "not_active",
-              "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+              "reason": "Конечное подключение принято root и независимым GPT-6 Luna / Max 14.10.2026; активная заявка освобождена, назначение сохранено."
             },
             "task_type": "engineering",
-            "status": "todo",
-            "implementation_state": "partial",
-            "technical_verification_state": "not_run",
-            "remaining": [
-              "Подключить S03 — Утоптанный снег у дверей; собственного целевого receipt пока нет."
-            ],
-            "next_action": "Сопоставить текущий результат: Подключить S03 — Утоптанный снег у дверей. Затем изменить только установленный остаток.",
+            "status": "completed",
+            "implementation_state": "implemented",
+            "technical_verification_state": "passed",
+            "remaining": [],
+            "next_action": "Собственный DoD подключения принят; полный материал QA/движение и авторская приёмка сохраняются в существующих .12/.13 и motion gates.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -4706,9 +4708,18 @@
                 "game/assets/textures/painterly/README.md",
                 "assets/asset_registry.json",
                 "docs/urman_knowledge_base/art/urman_imagegen_texture_prompt_book_2026-09-22.md",
-                "docs/urman_knowledge_base/assets.md"
+                "docs/urman_knowledge_base/assets.md",
+                "game/scripts/PainterlyMaterialLibrary.cs",
+                "game/scripts/Act1ConnectedWorld.cs",
+                "game/scripts/Act1ConnectedWorld.Addresses.cs"
               ],
-              "required_inputs": [],
+              "required_inputs": [
+                {
+                  "artifact": "Существующая изготовленная/зарегистрированная карта и её фактический runtime consumer",
+                  "path": "game/assets/textures/painterly/snow_trampled_v2_albedo.png",
+                  "availability": "available"
+                }
+              ],
               "scope_in": [
                 "Подключить S03 — Утоптанный снег у дверей"
               ],
@@ -4751,7 +4762,11 @@
                 ],
                 "repeat_only_if": "Изменился покрываемый вход/consumer/контракт; без этого уже принятая проверка используется повторно без запуска."
               },
-              "evidence_refs": [],
+              "evidence_refs": [
+                "evidence/PW-034/whole-style-20261014/day-pair/receipt.json",
+                "evidence/PW-034/whole-style-20261014/day-pair/frames/C1_street_high.png",
+                "evidence/PW-034/whole-style-20261014/day-pair/frames/C1_street_high.json"
+              ],
               "source_criteria_parent": "ACT1-TEXTURE.02"
             },
             "dependencies": {
@@ -4759,7 +4774,17 @@
               "verification": [],
               "acceptance": []
             },
-            "depends_on": []
+            "depends_on": [],
+            "progress_2026_10_14_binding": {
+              "result": "S03: snow_trampled → snow_trampled_v2_albedo.png; метрический world-XZ repeat 1m, реальные AB_road_crown/house path graph consumers, SHA2a53d2…ece540c4, procedural seed20261010/project-original.",
+              "verification": "Root + GPT-6 Luna / Max source/consumer/provenance readback и текущий защищённый кадр. Receipt PASS, snapshot hashes verified, build/import/game0, userdataRestored=true, engine-errors empty. C1 не заменяет P03 close/P06 along road/P07 distance; эти material-quality проверки остаются в существующем полном QA.",
+              "evidence": [
+                "evidence/PW-034/whole-style-20261014/day-pair/receipt.json",
+                "evidence/PW-034/whole-style-20261014/day-pair/frames/C1_street_high.png",
+                "evidence/PW-034/whole-style-20261014/day-pair/frames/C1_street_high.json"
+              ],
+              "external_acceptance": "Авторская художественная/культурная приёмка библиотеки остаётся открытой; этот completed означает только конечное подключение."
+            }
           },
           {
             "id": "ACT1-TEXTURE.02/E02",
@@ -6998,21 +7023,25 @@
             "title": "Подключить F04 — Хвоя на существующих объёмах кроны",
             "result": "Подключить F04 — Хвоя на существующих объёмах кроны",
             "owner": "art/materials/qa",
-            "evidence": [],
+            "evidence": [
+              "evidence/PW-034/whole-style-20261014/day-pair/receipt.json",
+              "evidence/PW-034/whole-style-20261014/day-pair/frames/C1_street_high.png",
+              "evidence/PW-034/whole-style-20261014/day-pair/frames/C2_house_high.png",
+              "assets/asset_registry.json",
+              "game/assets/textures/painterly/README.md"
+            ],
             "assigned_owner": "art/materials/qa",
             "active_owner": null,
             "activity": {
               "state": "not_active",
-              "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+              "reason": "Конечное подключение принято root и независимым GPT-6 Luna / Max 14.10.2026; активная заявка освобождена, назначение сохранено."
             },
             "task_type": "engineering",
-            "status": "todo",
-            "implementation_state": "partial",
-            "technical_verification_state": "not_run",
-            "remaining": [
-              "Подключить F04 — Хвоя на существующих объёмах кроны; собственного целевого receipt пока нет."
-            ],
-            "next_action": "Сопоставить текущий результат: Подключить F04 — Хвоя на существующих объёмах кроны. Затем изменить только установленный остаток.",
+            "status": "completed",
+            "implementation_state": "implemented",
+            "technical_verification_state": "passed",
+            "remaining": [],
+            "next_action": "Собственный finite binding DoD принят; художественная/культурная приёмка библиотеки остаётся в существующих внешних gates.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -7022,9 +7051,17 @@
                 "game/assets/textures/painterly/README.md",
                 "assets/asset_registry.json",
                 "docs/urman_knowledge_base/art/urman_imagegen_texture_prompt_book_2026-09-22.md",
-                "docs/urman_knowledge_base/assets.md"
+                "docs/urman_knowledge_base/assets.md",
+                "game/scripts/PainterlyMaterialLibrary.cs",
+                "game/scripts/experiments/agent_b_act1/AgentBAct1ExteriorLayer.cs"
               ],
-              "required_inputs": [],
+              "required_inputs": [
+                {
+                  "artifact": "Существующая изготовленная/зарегистрированная карта и её фактический runtime consumer",
+                  "path": "game/assets/textures/painterly/pine_foliage_v2_albedo.png",
+                  "availability": "available"
+                }
+              ],
               "scope_in": [
                 "Подключить F04 — Хвоя на существующих объёмах кроны"
               ],
@@ -7067,7 +7104,13 @@
                 ],
                 "repeat_only_if": "Изменился покрываемый вход/consumer/контракт; без этого уже принятая проверка используется повторно без запуска."
               },
-              "evidence_refs": [],
+              "evidence_refs": [
+                "evidence/PW-034/whole-style-20261014/day-pair/receipt.json",
+                "evidence/PW-034/whole-style-20261014/day-pair/frames/C1_street_high.png",
+                "evidence/PW-034/whole-style-20261014/day-pair/frames/C2_house_high.png",
+                "assets/asset_registry.json",
+                "game/assets/textures/painterly/README.md"
+              ],
               "source_criteria_parent": "ACT1-TEXTURE.02"
             },
             "dependencies": {
@@ -7075,7 +7118,19 @@
               "verification": [],
               "acceptance": []
             },
-            "depends_on": []
+            "depends_on": [],
+            "progress_2026_10_14_binding": {
+              "result": "Существующий F04 runtime binding согласован с реестром и README: foliage → pine_foliage_v2_albedo.png, 1.4 repeats/m; AB_needles подключён через ForCutout у реального planted consumer. Новых карт/лицензий/asset-файлов не добавлено.",
+              "verification": "Current snapshot cd6db6db… hashes verified: PML678ea357… и PNG3838784b… совпали на момент захвата с bytes/registry. После захвата удалён только устаревший комментарий PML, mapping/поведение неизменно. Windows db970500 PASS, build/import/game0, userdataRestored=true. Root и Luna лично посмотрели C1/C2 High. Подтверждено подключение/объект и сохранность данных; отдельный прирост одной текстуры и temporal stability не утверждаются.",
+              "evidence": [
+                "evidence/PW-034/whole-style-20261014/day-pair/receipt.json",
+                "evidence/PW-034/whole-style-20261014/day-pair/frames/C1_street_high.png",
+                "evidence/PW-034/whole-style-20261014/day-pair/frames/C2_house_high.png",
+                "assets/asset_registry.json",
+                "game/assets/textures/painterly/README.md"
+              ],
+              "external_acceptance": "Авторская art-lock и культурная приёмка открыты; текущий комментарий не подменяет их."
+            }
           },
           {
             "id": "ACT1-TEXTURE.02/E27",
@@ -9615,21 +9670,23 @@
             "title": "Подключить T04 — Плотная домашняя штора",
             "result": "Подключить T04 — Плотная домашняя штора",
             "owner": "art/materials/qa",
-            "evidence": [],
+            "evidence": [
+              "evidence/PW-034/whole-style-20261014/house-high/receipt.json",
+              "evidence/PW-034/whole-style-20261014/house-high/frames/babai_room_overview_high.png",
+              "evidence/PW-034/whole-style-20261014/house-high/frames/babai_room_overview_high.json"
+            ],
             "assigned_owner": "art/materials/qa",
             "active_owner": null,
             "activity": {
               "state": "not_active",
-              "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+              "reason": "Конечное подключение принято root и независимым GPT-6 Luna / Max 14.10.2026; активная заявка освобождена, назначение сохранено."
             },
             "task_type": "engineering",
-            "status": "todo",
-            "implementation_state": "not_started",
-            "technical_verification_state": "not_run",
-            "remaining": [
-              "Подключить T04 — Плотная домашняя штора; собственного целевого receipt пока нет."
-            ],
-            "next_action": "Сопоставить текущий результат: Подключить T04 — Плотная домашняя штора. Затем изменить только установленный остаток.",
+            "status": "completed",
+            "implementation_state": "implemented",
+            "technical_verification_state": "passed",
+            "remaining": [],
+            "next_action": "Собственный DoD подключения принят; полный материал QA/движение и авторская приёмка сохраняются в существующих .12/.13 и motion gates.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -9639,9 +9696,17 @@
                 "game/assets/textures/painterly/README.md",
                 "assets/asset_registry.json",
                 "docs/urman_knowledge_base/art/urman_imagegen_texture_prompt_book_2026-09-22.md",
-                "docs/urman_knowledge_base/assets.md"
+                "docs/urman_knowledge_base/assets.md",
+                "game/scripts/PainterlyMaterialLibrary.cs",
+                "game/scripts/StyleBenchmarkInteriorFactory.cs"
               ],
-              "required_inputs": [],
+              "required_inputs": [
+                {
+                  "artifact": "Существующая изготовленная/зарегистрированная карта и её фактический runtime consumer",
+                  "path": "game/assets/textures/painterly/urman_t04_v01_basecolor.png",
+                  "availability": "available"
+                }
+              ],
               "scope_in": [
                 "Подключить T04 — Плотная домашняя штора"
               ],
@@ -9684,7 +9749,11 @@
                 ],
                 "repeat_only_if": "Изменился покрываемый вход/consumer/контракт; без этого уже принятая проверка используется повторно без запуска."
               },
-              "evidence_refs": [],
+              "evidence_refs": [
+                "evidence/PW-034/whole-style-20261014/house-high/receipt.json",
+                "evidence/PW-034/whole-style-20261014/house-high/frames/babai_room_overview_high.png",
+                "evidence/PW-034/whole-style-20261014/house-high/frames/babai_room_overview_high.json"
+              ],
               "source_criteria_parent": "ACT1-TEXTURE.03"
             },
             "dependencies": {
@@ -9692,7 +9761,17 @@
               "verification": [],
               "acceptance": []
             },
-            "depends_on": []
+            "depends_on": [],
+            "progress_2026_10_14_binding": {
+              "result": "T04: cloth_curtain → urman_t04_v01_basecolor.png на непрозрачных DrapedFabric шторах; исходные складки и отдельный sheer alpha сохранены, UV в метрах, repeat0.5m, SHA/проектное происхождение совпадают с реестром.",
+              "verification": "Root + GPT-6 Luna / Max source/consumer/provenance readback и текущий защищённый кадр. Receipt PASS, snapshot hashes verified, build/import/game0, userdataRestored=true, engine-errors empty. requested High → фактический Low/performance-rescue; это binding/use evidence, не High материал QA или обычная граница интерьера.",
+              "evidence": [
+                "evidence/PW-034/whole-style-20261014/house-high/receipt.json",
+                "evidence/PW-034/whole-style-20261014/house-high/frames/babai_room_overview_high.png",
+                "evidence/PW-034/whole-style-20261014/house-high/frames/babai_room_overview_high.json"
+              ],
+              "external_acceptance": "Авторская художественная/культурная приёмка библиотеки остаётся открытой; этот completed означает только конечное подключение."
+            }
           },
           {
             "id": "ACT1-TEXTURE.03/E19",
@@ -10113,21 +10192,23 @@
             "title": "Подключить T12 — Обои жилой комнаты",
             "result": "Подключить T12 — Обои жилой комнаты",
             "owner": "art/materials/qa",
-            "evidence": [],
+            "evidence": [
+              "evidence/PW-034/whole-style-20261014/house-high/receipt.json",
+              "evidence/PW-034/whole-style-20261014/house-high/frames/babai_room_overview_high.png",
+              "evidence/PW-034/whole-style-20261014/house-high/frames/babai_room_overview_high.json"
+            ],
             "assigned_owner": "art/materials/qa",
             "active_owner": null,
             "activity": {
               "state": "not_active",
-              "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+              "reason": "Конечное подключение принято root и независимым GPT-6 Luna / Max 14.10.2026; активная заявка освобождена, назначение сохранено."
             },
             "task_type": "engineering",
-            "status": "todo",
-            "implementation_state": "not_started",
-            "technical_verification_state": "not_run",
-            "remaining": [
-              "Подключить T12 — Обои жилой комнаты; собственного целевого receipt пока нет."
-            ],
-            "next_action": "Сопоставить текущий результат: Подключить T12 — Обои жилой комнаты. Затем изменить только установленный остаток.",
+            "status": "completed",
+            "implementation_state": "implemented",
+            "technical_verification_state": "passed",
+            "remaining": [],
+            "next_action": "Собственный DoD подключения принят; полный материал QA/движение и авторская приёмка сохраняются в существующих .12/.13 и motion gates.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -10137,9 +10218,17 @@
                 "game/assets/textures/painterly/README.md",
                 "assets/asset_registry.json",
                 "docs/urman_knowledge_base/art/urman_imagegen_texture_prompt_book_2026-09-22.md",
-                "docs/urman_knowledge_base/assets.md"
+                "docs/urman_knowledge_base/assets.md",
+                "game/scripts/PainterlyMaterialLibrary.cs",
+                "game/scripts/StyleBenchmarkInteriorFactory.Rooms.cs"
               ],
-              "required_inputs": [],
+              "required_inputs": [
+                {
+                  "artifact": "Существующая изготовленная/зарегистрированная карта и её фактический runtime consumer",
+                  "path": "game/assets/textures/painterly/wallpaper_old_v1_albedo.png",
+                  "availability": "available"
+                }
+              ],
               "scope_in": [
                 "Подключить T12 — Обои жилой комнаты"
               ],
@@ -10182,7 +10271,11 @@
                 ],
                 "repeat_only_if": "Изменился покрываемый вход/consumer/контракт; без этого уже принятая проверка используется повторно без запуска."
               },
-              "evidence_refs": [],
+              "evidence_refs": [
+                "evidence/PW-034/whole-style-20261014/house-high/receipt.json",
+                "evidence/PW-034/whole-style-20261014/house-high/frames/babai_room_overview_high.png",
+                "evidence/PW-034/whole-style-20261014/house-high/frames/babai_room_overview_high.json"
+              ],
               "source_criteria_parent": "ACT1-TEXTURE.03"
             },
             "dependencies": {
@@ -10190,7 +10283,17 @@
               "verification": [],
               "acceptance": []
             },
-            "depends_on": []
+            "depends_on": [],
+            "progress_2026_10_14_binding": {
+              "result": "T12: wallpaper → wallpaper_old_v1_albedo.png на реальных жилых wall panels; plaster pier не перекрашен, scale(.55,-.55)/upright projection, repeat~1.82m, SHA/проектное происхождение совпадают с реестром.",
+              "verification": "Root + GPT-6 Luna / Max source/consumer/provenance readback и текущий защищённый кадр. Receipt PASS, snapshot hashes verified, build/import/game0, userdataRestored=true, engine-errors empty. requested High → фактический Low/performance-rescue; это binding/use evidence, не High материал QA или обычная граница интерьера.",
+              "evidence": [
+                "evidence/PW-034/whole-style-20261014/house-high/receipt.json",
+                "evidence/PW-034/whole-style-20261014/house-high/frames/babai_room_overview_high.png",
+                "evidence/PW-034/whole-style-20261014/house-high/frames/babai_room_overview_high.json"
+              ],
+              "external_acceptance": "Авторская художественная/культурная приёмка библиотеки остаётся открытой; этот completed означает только конечное подключение."
+            }
           }
         ]
       },
@@ -97584,6 +97687,19 @@
               ],
               "verification": "Windows db970500f14b41e5af81c00cdfdf59ec PASS; build/import/game=0, engine-errors empty, userdataRestored=true, snapshot hashes verified. High, Vulkan GTX970, FOV70, matched camera/spec. Archive SHA a85ab239db518f4970f6ad0e3602ce169ae77147d5034dd875b653910a85e4a3. Blender/assertions/structure: LOD total 6618/3309/1323; crown 2692/1346/538; exact LOD0 bark positions/root/bounds preserved.",
               "remaining": "Обычный проход/повороты и граница интерьера ещё не проверены. Изменённые Zirat/Kara profiles требуют собственных кадров."
+            },
+            "progress_2026_10_14_profiles": {
+              "result": "Root лично принял два существующих C5 palette checkpoints: холодная Kara-night и дымчато-лиловая Zirat-muted сохраняют читаемые дорогу/передние массы, отличаются от тёплого crisp дня.",
+              "verification": "fe302acb43564e58af39d4b99bc5552a PASS, build/import/game0, engine-errors empty, userdataRestored=true, snapshot hashes verified. Both effectiveHigh/comparabletrue/FOV70; palette evaluation in village_day, не физическая Kara/Zirat граница.",
+              "evidence": [
+                "evidence/PW-034/whole-style-20261014/night-pair/receipt.json",
+                "evidence/PW-034/whole-style-20261014/night-pair/frames/C5_forest_night.png",
+                "evidence/PW-034/whole-style-20261014/night-pair/frames/C5_dusk.png",
+                "evidence/PW-034/whole-style-20261014/zirat-pair/receipt.json",
+                "evidence/PW-034/whole-style-20261014/zirat-pair/frames/zirat_entry_verify.png",
+                "evidence/PW-034/whole-style-20261014/zirat-pair/frames/zirat_row_verify.png"
+              ],
+              "remaining": "Actual Zirat7995 PASS/restored/hashes verified, entry/row personally reviewed, but effectiveLow/performance-rescue (not High). Ordinary movement/boundary and author art open. House8419 also effectiveLow despite requestedHigh, not High material validation."
             }
           },
           {
@@ -111848,7 +111964,7 @@
         "Book/held sleeves/W01 moving branch source-safe; fulfill named movement checks as required, preserve existing valid wind/normal receipts on unchanged inputs.",
         "83genericUV/coherentLOD +2Tamara trim +2Timur cap sourceaccepted; printedUV/rig/geometry/images preserved, collar accepted. Actual nativegait/LOD/door/collar/cap views remain."
       ],
-      "next_action": "Use delivered PW017 play-full (full_game.tscn) and owned HTTPS UI/current viewport for next door/actor phase check after confirmed version1 worker deployment on idle station. Coordinate worker update after peer24 terminal/restored/released. Preserve e78 legacy pixels/timeout evidence; no parallel GDI tooling or unchanged900s legacy repeat.",
+      "next_action": "Через готовый защищённый play-full и owned UI/current viewport пройти обычный старт full_game, движение/поворот и существующую дверь дома по фактическому экрану; сохранить восстановление данных и реальные кадры. Статический capture этого сценария не закрывает.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -112328,6 +112444,15 @@
           ],
           "entry_scope": "e78 exercised legacy act1_demo only. Incoming PW017851a9a7c preserves that play and adds play-full/full_game plus owned HTTPS/current viewport. Do not infer fullcampaign appearance from legacy intro frames."
         }
+      },
+      "progress_2026_10_14_native_ui": {
+        "state": "support_ready",
+        "result": "Необходимый native play/UI v2 установлен на idle Windows-станции только в worker и helper; прежние task/config/runner/dependencies сохранены. Guarded rollback первой попытки и затем успешная инструментированная установка с двумя verified backups записаны в существующем receipt.",
+        "evidence": [
+          "evidence/PW-032/native-ui-v2-20261014/deployment.json"
+        ],
+        "verification": "Root authenticated doctor: ready=true, busy=null, orphan=false, recovery=false, normal_ui_transport_version=2. Exact deployed worker931b27…0faf4/helper3b7175…4161e и oldbackup97aa0c…5e8dd07 verified. Первая причина ошибки не доказана.",
+        "remaining": "Actual HTTPS capture-current/input returned502 during first live play; retained diagnostics do not prove cause. Existing guarded interactive helper works for actual default act1_demo arrival. Ordinary full_game actor/door/held-object motion remains unverified; installation health is not UI execution proof."
       }
     },
     {
@@ -112910,7 +113035,7 @@
         "Не создаются сотни уникальных текстур одинаковых досок.",
         "Уточнение автора 09.10.2026: материалы и растительные формы наружной деревни проверены в составе домов и окружения по выбранным автором скриншотам. Сопоставимы масштаб фактур, материальность дерева/земли/снега, объём и плотность растительности, свет и цветовые отношения. Новые текстуры поверх примитивных форм и отдельный образец материала не доказывают соответствие целой игровой сцены."
       ],
-      "next_action": "Внести ограниченный крупный skyline pass в существующий forest-rim owner: разноуровневые массы и высокие опорные деревья при сохранении размещений/guards; затем текущие matched C1/C2. Проверить интерьер и ночные состояния отдельно; обычное движение после guarded native UI v2.",
+      "next_action": "Текущий protected normal play5f54: подтвердить собственное окно/viewport после первого HTTP502, затем обычное движение/повороты/дверь и реальный MP4, не debug-zone. Источники принятого skyline больше не подстраивать без нового дефекта.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -113308,6 +113433,18 @@
           "material": "678ea35726c88134caf67d21b75993fd0cdc8fcd139df48b15053420f0c95bf3",
           "atmosphere": "09fb5721d636eedd49b5d5ca9ce9b23db83e2b08be40faddd9f1d9a1fcb5c010"
         }
+      },
+      "progress_2026_10_14_skyline": {
+        "state": "accepted_engineering_stage_static",
+        "result": "Существующие четыре стороны forest ring Spruce3..6 имеют разноуровневые массы и редкие outer-row высокие anchors вместо сплошной одинаковой стены. Source e8d370a3; arrival closure/story/manual trees остаются на прежнем пути.",
+        "scope": "Только existing forestRing exactposition/sourceVariant; plan/root/count не меняются, guards/LOD/material ABI сохраняются. Фактически видимое число может измениться из-за lower-vertex road suppression после нового basis; его проверяем кадром/существующим census, не выдаём plan.Count за visibleCount.",
+        "verification": "c7a15f7952d84c1d91aafd42dee0b721 PASS; build/import/game0, engine-errors empty, userdataRestored=true, snapshot hashes verified; archive7c2660e338358446b96dd2c2b53656d6fb8e663110f2d69e0fb3f45828541644. Exact cameras/spec/FOV70/High/comparabletrue/profile match day-pair, current Exterior e8d370a3/PML684a7ae9/atmosphere09fb5721 hashes match snapshot. Root+independent Luna personally adopted: houses/road foreground stronger, dense skyline lower and varied without obvious holes; full P1 depth still open.",
+        "remaining": "Accepted static engineering stage; ordinary movement/LOD/FPS and full artwork acceptance remain open. Existing runtime tier census6038/sharedRootInstances18241 unchanged, not proof of every exact suppression identity.",
+        "evidence": [
+          "evidence/PW-034/whole-style-20261014/skyline-day/receipt.json",
+          "evidence/PW-034/whole-style-20261014/skyline-day/frames/C1_street_high.png",
+          "evidence/PW-034/whole-style-20261014/skyline-day/frames/C2_house_high.png"
+        ]
       }
     },
     {
@@ -134712,8 +134849,8 @@
       "id": "PW-089",
       "title": "Устранить мерцание и скольжение в движении",
       "milestone": "PW-M4",
-      "status": "todo",
-      "active_owner": null,
+      "status": "in_progress",
+      "active_owner": "codex/b02",
       "owner": "render",
       "priority": "P1",
       "complexity": "complex",
@@ -134892,8 +135029,8 @@
       },
       "assigned_owner": "render",
       "activity": {
-        "state": "not_active",
-        "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+        "state": "confirmed_active",
+        "reason": "Root действительно начал обычный protected play и подготовку настоящего MP4 14.10.2026; назначение render сохраняется."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -134902,7 +135039,7 @@
         "Реальные ролики показывают устойчивый мазок.",
         "Статичные красивые PNG не подменяют temporal review."
       ],
-      "next_action": "На каждом F1/F3 снять боковое движение и поворот.",
+      "next_action": "Fresh protected normal play: immediate verified legacy GUI input (not repeated HTTPS502), observe settings/gameplay and record actual window MP4 with isolated OBS. Close recorder orderly, verify MP4 duration/frames, preserve/restored userdata. Static PNG not temporal review.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -135173,7 +135310,32 @@
           "evidence_ref": "PW-089.evidence and named history progress; source_review shows available/missing inputs"
         }
       ],
-      "assignment_state": "preserved_person_or_existing_role; activity separate"
+      "assignment_state": "preserved_person_or_existing_role; activity separate",
+      "progress_2026_10_14_normal_play": {
+        "result": "Обычный default act1_demo: живое меню → защищённый ENTER → начало новой игры → обычный ESC/деревня с arrival text. Root лично посмотрел фактические GUI frames. Не debug-zone/semantic dispatch; движение/ролик пока отсутствуют.",
+        "job_id": "5f54e74f108344629a9ef6f3be1f86ac",
+        "snapshot_id": "866aeedeab925110607bad464dfa5a5393d458366607eb213e4e55c6ae181276",
+        "transport": "Native HTTPS capture-current + ENTER returned502, cause unknown retained diagnostics absent; no confirmed native input effect. Existing guarded interactive helper with explicit own job/PID/sourceRoot succeeded, B20target untouched.",
+        "verification": "Raw first-play receipt: source/build/import0, game124 timeout, resultSHA31e65e97a63978ef5e5149c0f5a9391e4f9248d785bb135f9b779074d363a193, userdataRestored=true, snapshot_hashes_verified=true; fresh doctor idle/ready/recoveryfalse/orphanfalse. FAIL retained, temporal review absent.",
+        "evidence": [
+          "evidence/PW-089/ordinary-style-20261014/frames/00-menu.png",
+          "evidence/PW-089/ordinary-style-20261014/frames/01-new-game.png",
+          "evidence/PW-089/ordinary-style-20261014/frames/02-skip-opening.png",
+          "evidence/PW-089/ordinary-style-20261014/first-play/receipt.json"
+        ],
+        "remaining": "Actual walk/turn/indoor boundary + realmovie and review. Installed OBS29 isolated portable candidate with one ownedwindow/no desktop/audio devices ready; not launched yet."
+      },
+      "progress_2026_10_14_second_play": {
+        "state": "in_progress",
+        "job_id": "f697ba9266d546ac81e8958cbaaddacd",
+        "snapshot_id": "10a0a4ef32c51654472686d68abd0f1d943793ebc2fd46c04c62d9e9da859579",
+        "result": "Root personally viewed real ordinary arrival after guarded ENTER/new game and ESC/skip. Warm wood/cool snow and volume forest visible from player camera; actual movement/MP4 pending.",
+        "evidence": [
+          "evidence/PW-089/ordinary-style-20261014/frames/10-second-menu.png",
+          "evidence/PW-089/ordinary-style-20261014/frames/11-second-new-game.png",
+          "evidence/PW-089/ordinary-style-20261014/frames/12-second-village.png"
+        ]
+      }
     },
     {
       "id": "PW-090",

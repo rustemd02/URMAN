@@ -189,12 +189,14 @@
     },
     {
       "id": "C5_forest_night",
+      "graphicsPreset": "high",
       "spec": "Ground@0,1.7,-40>Ground@0,2.0,-80",
       "profile": "kara-winter-night-edge",
       "subject": "лес в нечеловеческую ночь (VIS-073/074): первые 2–3 слоя стволов читаемы, дальше глубина растворяется; near-план не молоко."
     },
     {
       "id": "C5_dusk",
+      "graphicsPreset": "high",
       "spec": "Ground@0,1.7,-40>Ground@0,2.0,-80",
       "profile": "zirat-winter-muted",
       "subject": "лес в сумерках (VIS-073): контрольный уровень тумана между деревенским днём и лесной ночью."
@@ -270,12 +272,14 @@
     },
     {
       "id": "zirat_entry_verify",
+      "graphicsPreset": "high",
       "zoneId": "zirat_road",
       "spec": "ZiratMemoryField@13.25968,1.163604,-76.89984>ZiratMemoryField@6.7,0.510804,-78",
       "subject": "VIS-022 P15: вход зирата со стороны подхода и граница/ворота. Owner-local камера вычислена от ApproachAxis[0], высота приблизительная для статичного вида; это не обычный spawn и не доказательство прохода. Камера сведена к уникальному существующему ZiratMemoryField из текущих transforms; высота входа выведена из terrain collider, не измерена новым кадром."
     },
     {
       "id": "zirat_row_verify",
+      "graphicsPreset": "high",
       "zoneId": "zirat_road",
       "spec": "ZiratMemoryField@3.8448,1.488,-75.8032>ReadZiratFamilyInscriptions@0,0,0",
       "subject": "VIS-022 P15b: ряд с очищенной дорожки, существующая точка чтения и живая цель надписи. Высота камеры приблизительная для статичного вида; это не обычный spawn и не доказательство прохода. Камера сведена к уникальному существующему ZiratMemoryField из текущих transforms; высота входа выведена из terrain collider, не измерена новым кадром."

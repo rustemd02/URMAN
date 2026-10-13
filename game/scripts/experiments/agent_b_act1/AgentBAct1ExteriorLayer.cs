@@ -1442,6 +1442,9 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         var roofs = BuildingRoofBounds(GetParent());
         var plan = new List<(Vector2 Position, string Variant)>();
         Act1ConnectedWorld.ProfileWorldBuildStep("agent-b-densified-plan", () => plan = BuildDensifiedPlan());
+        var forestRingRows = new Dictionary<(Vector2 Position, string Variant), int>();
+        foreach (var ringTree in _forestRingTrees.Where(tree => tree.Edge < 4))
+            forestRingRows.TryAdd((ringTree.Planted, ringTree.Variant), ringTree.Row);
         var maxRoadHalfWidth = AgentBAct1HeightField.MaxRoadHalfWidth;
         var architecture = GetNode<StaticBody3D>("AgentB_ArchitectureCollision");
         var stemCount = 0;
@@ -1455,6 +1458,7 @@ public partial class AgentBAct1ExteriorLayer : Node3D
             var groundCover = smallShrub || sourceVariant.StartsWith("Fern_", StringComparison.Ordinal)
                 || sourceVariant.StartsWith("Sedge_", StringComparison.Ordinal) || sourceVariant.StartsWith("GrassTuft_", StringComparison.Ordinal);
             var variant = sourceVariant.Replace("WinterLight", "Winter", StringComparison.Ordinal);
+            var isForestRingCanopy = forestRingRows.TryGetValue((position, sourceVariant), out var forestRingRow);
             if (smallShrub) variant = woodlandRegrowth ? "WinterSpruce_1" : "WinterBirdCherry_1";
             if (variant.StartsWith("Birch_", StringComparison.Ordinal)) variant = "WinterBirch_1";
             // VIS-084: a tall pine standing in a yard of the newer parcels is the same
@@ -1497,10 +1501,39 @@ public partial class AgentBAct1ExteriorLayer : Node3D
                 vertical *= Mathf.Lerp(.78f, 1.2f, distance)
                     * Mathf.Lerp(.86f, 1.14f, DeterministicPhase(position, 19.3f));
             }
-            if (variant is "WinterSpruce_4" or "WinterSpruce_5" or "WinterSpruce_6")
+            if (isForestRingCanopy && variant is ("WinterSpruce_3" or "WinterSpruce_4" or "WinterSpruce_5" or "WinterSpruce_6"))
             {
-                // Broad groves share a skyline instead of making every tree
-                // another independent spike in an even-height perimeter.
+                // Keep a few far-row anchors while lowering the repeated conifer wall into tiered masses.
+                var field = .65f * Mathf.Sin(position.X * .055f + position.Y * .075f + 1.2f)
+                    + .35f * Mathf.Sin(position.X * -.028f + position.Y * .110f - .3f);
+                var grove = Mathf.SmoothStep(-.10f, .65f, field);
+                var tallAnchor = forestRingRow <= 2 && variant == "WinterSpruce_6" && grove >= .78f;
+                var crownScale = variant switch
+                {
+                    "WinterSpruce_3" => Mathf.Lerp(.90f, 1.02f, grove),
+                    "WinterSpruce_4" => Mathf.Lerp(.76f, .92f, grove),
+                    "WinterSpruce_5" => Mathf.Lerp(.70f, .88f, grove),
+                    "WinterSpruce_6" => tallAnchor
+                        ? Mathf.Lerp(1.08f, 1.16f, grove)
+                        : Mathf.Lerp(.68f, .84f, grove),
+                    _ => 1f
+                };
+                horizontal *= crownScale;
+                vertical *= crownScale;
+                var heightCeiling = tallAnchor ? 36f : variant switch
+                {
+                    "WinterSpruce_3" => 15f,
+                    "WinterSpruce_4" => 18.5f,
+                    "WinterSpruce_5" => 24.5f,
+                    _ => 29f
+                };
+                var uniformCeiling = Mathf.Min(1f, heightCeiling / (template.Mesh.GetAabb().Size.Y * vertical));
+                horizontal *= uniformCeiling;
+                vertical *= uniformCeiling;
+            }
+            else if (variant is "WinterSpruce_4" or "WinterSpruce_5" or "WinterSpruce_6")
+            {
+                // Keep the established scale for authored story plants outside the rim.
                 var field = .65f * Mathf.Sin(position.X * .055f + position.Y * .075f + 1.2f)
                     + .35f * Mathf.Sin(position.X * -.028f + position.Y * .110f - .3f);
                 var grove = Mathf.SmoothStep(-.10f, .65f, field);

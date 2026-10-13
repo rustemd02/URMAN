@@ -93,12 +93,12 @@
           "village_day"
         ],
         "ambient": {
-          "energy": 0.72,
-          "color": "8e9bc8",
+          "energy": 0.68,
+          "color": "7f91c4",
           "skyContribution": 0
         },
         "fog": {
-          "color": "b6bcd2",
+          "color": "98add2",
           "density": 0.0035,
           "height": 1.2,
           "heightDensity": 0.004,
@@ -113,8 +113,8 @@
         },
         "sky": {
           "top": "35689f",
-          "horizon": "e7d6c1",
-          "groundHorizon": "c6c4d8",
+          "horizon": "d6c8bb",
+          "groundHorizon": "b4b8d4",
           "groundBottom": "31517a",
           "sunAngleMax": 1.4,
           "sunCurve": 0.12,
@@ -126,8 +126,8 @@
           ]
         },
         "sun": {
-          "color": "ffc98d",
-          "energy": 2.30,
+          "color": "ffb874",
+          "energy": 2.5,
           "shadowOpacity": 0.86,
           "rotation": [
             -16,
@@ -135,7 +135,7 @@
           ]
         },
         "snow": {
-          "color": "ece8dc",
+          "color": "e8e1d6",
           "coverage": 1.0,
           "sparkle": 1.15,
           "tintStrength": 0.35
@@ -315,11 +315,11 @@
         ],
         "ambient": {
           "energy": 0.62,
-          "color": "6d7fae",
+          "color": "77819d",
           "skyContribution": 0
         },
         "fog": {
-          "color": "5a6480",
+          "color": "706f84",
           "density": 0.012,
           "height": 1.4,
           "heightDensity": 0.006,
@@ -333,10 +333,10 @@
           "radius": 0.4
         },
         "sky": {
-          "top": "242f56",
-          "horizon": "9d7a90",
-          "groundHorizon": "645572",
-          "groundBottom": "1c2338",
+          "top": "253354",
+          "horizon": "aa8996",
+          "groundHorizon": "756a83",
+          "groundBottom": "222941",
           "sunAngleMax": 0,
           "sunCurve": 0.12,
           "cover": [
@@ -347,7 +347,7 @@
           ]
         },
         "sun": {
-          "color": "c9a3b4",
+          "color": "dfc0aa",
           "energy": 1.05,
           "shadowOpacity": 0.72,
           "rotation": [
@@ -356,7 +356,7 @@
           ]
         },
         "snow": {
-          "color": "aeb8e2",
+          "color": "b9c2d8",
           "coverage": 1.0,
           "sparkle": 0.5,
           "tintStrength": 0.4
@@ -373,7 +373,7 @@
           "streak": 0.012
         },
         "plume": {
-          "color": "aeb4c4",
+          "color": "c5b6b1",
           "opacity": 0.3
         }
       }
@@ -465,11 +465,11 @@
         ],
         "ambient": {
           "energy": 0.28,
-          "color": "43706b",
+          "color": "516f88",
           "skyContribution": 0
         },
         "fog": {
-          "color": "2f5b55",
+          "color": "3d5a6d",
           "density": 0.026,
           "height": 2.6,
           "heightDensity": 0.05,
@@ -483,10 +483,10 @@
           "radius": 0.4
         },
         "sky": {
-          "top": "0c2226",
-          "horizon": "2a5450",
-          "groundHorizon": "1c3b39",
-          "groundBottom": "0a1a1e",
+          "top": "151a34",
+          "horizon": "35596b",
+          "groundHorizon": "293f4c",
+          "groundBottom": "0d1728",
           "sunAngleMax": 0,
           "sunCurve": 0.12,
           "cover": [
@@ -497,7 +497,7 @@
           ]
         },
         "sun": {
-          "color": "9fd0cc",
+          "color": "b7b5ce",
           "energy": 0.22,
           "shadowOpacity": 0.5,
           "rotation": [
@@ -506,7 +506,7 @@
           ]
         },
         "snow": {
-          "color": "93b6b0",
+          "color": "a5b4d0",
           "coverage": 0.85,
           "sparkle": 0.35,
           "tintStrength": 0.5
@@ -523,7 +523,7 @@
           "streak": 0.02
         },
         "plume": {
-          "color": "6f8a86",
+          "color": "c5aa88",
           "opacity": 0.26
         }
       }

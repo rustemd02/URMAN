@@ -1158,12 +1158,12 @@
       "materials": [
         "PineFoliage"
       ],
-      "materialOwner": "PainterlyMaterialLibrary/foliage preview swap only; runtime v1 remains active",
+      "materialOwner": "PainterlyMaterialLibrary/foliage (runtime map; 1.4 repeats per metre)",
       "collision": "not applicable",
       "lod": "not applicable",
       "qa": "docs/urman_knowledge_base/art/texture_candidates_qa.md; Godot day/house/forest candidate captures",
       "status": "production-candidate; image-and-scene-qa-pass; art-lock-pending",
-      "releaseDisposition": "candidate-provenance; not referenced by PainterlyMaterialLibrary; exclude-from-act1-release unless selected by ART-009"
+      "releaseDisposition": "runtime-referenced; author art-lock pending"
     },
     {
       "id": "texture.painterly.pine-foliage.v3",

@@ -49,7 +49,7 @@ Source-gate PASS1/1: mean seams .0120/.0182, maximum .1176/.0784; no clipping. M
 
 ## T04 / T12 — curtains and retained wallpaper, 2026-09-22
 
-T04: built-in ImageGen, original `exec-cb00fd97-2bbf-45d8-be31-53d2d7a27b48.png` in the thread's generated_images directory. Selected `urman_t04_v01_basecolor.png`, unchanged 1254 × 1254 RGB; SHA-256 `01d96aa2ff9e10974984ce64ba05f637e48f80dc55bc00ecc353876e7df70e45`. Mipmaps, 1024 import cap. Separate `cloth_curtain` semantic, scale 2 × 2 on metre UVs, only the two opaque drapes on each of seven Factory windows. Existing folds, thin closed mesh, glass, sheer alpha, shadows and collision unchanged; cloth finish response reused. Base tint `94aaa4` remains a muted green-grey in Low, which omits the bitmap.
+T04: built-in ImageGen, original `exec-cb00fd97-2bbf-45d8-be31-53d2d7a27b48.png` in the thread's generated_images directory. Selected `urman_t04_v01_basecolor.png`, unchanged 1254 × 1254 RGB; SHA-256 `01d96aa2ff9e10974984ce64ba05f637e48f80dc55bc00ecc353876e7df70e45`. Mipmaps, 1024 import cap. Separate `cloth_curtain` semantic, scale 2 × 2 on metre UVs, only the two opaque drapes on each of seven Factory windows. Existing folds, thin closed mesh, glass, sheer alpha, shadows and collision unchanged; cloth finish response reused. Base tint `94aaa4` remains a muted green-grey in Low; the mapped bitmap is still sampled once with reduced texture strength.
 
 Exact built-in prompt:
 
@@ -402,7 +402,7 @@ and [`texture_candidates_qa.md`](../../../../docs/urman_knowledge_base/art/textu
 | `weathered_wood_boards_v2_albedo.png` | wood, fences, roofs and furniture | `03499969fcb1cb172a3d6b4b11bb710c65daa159e4c9cb24de11f4a1c3c1c9bf` | `PainterlyMaterialLibrary/wood` (preview-only; v1 remains active) | selected production candidate; art-lock-pending |
 | `aged_plaster_v2_albedo.png` | village house and FAP plaster | `a88975b10aa0d7070f868408366309c2b4100fd5eb1defd9fb08fe3281083416` | `PainterlyMaterialLibrary/plaster` (preview-only; v1 remains active) | selected production candidate; art-lock-pending |
 | `damp_earth_v2_albedo.png` | dirt roads and forest paths | `02f356c591d52fdde31992f6064fbb3b10ec6928e856bfbb0315a687c24aeb56` | `PainterlyMaterialLibrary/earth` (preview-only; v1 remains active) | selected production candidate; art-lock-pending |
-| `pine_foliage_v2_albedo.png` | faceted conifer crowns | `3838784bdcf4d3fd31f6bf6bff93ef5906452cebe3df1d6b86075b42888e8ff6` | `PainterlyMaterialLibrary/foliage` (preview-only; v1 remains active) | selected production candidate; art-lock-pending |
+| `pine_foliage_v2_albedo.png` | faceted conifer crowns | `3838784bdcf4d3fd31f6bf6bff93ef5906452cebe3df1d6b86075b42888e8ff6` | `PainterlyMaterialLibrary/foliage` (runtime map; 1.4 repeats per metre; art-lock pending) | selected production candidate; art-lock-pending |
 | `mossy_stone_v2_albedo.png` | boundary walls, old foundations and path stones | `38b0e69f32a4e3e859921229cab0ea7bf12426dac9b8e150683b7607b5277b15` | `PainterlyMaterialLibrary/stone`, 2.4×2.4; v2-only presentation owner | selected candidate; mapped, art-lock-pending |
 | `old_fabric_v2_albedo.png` | household cloth, curtains and rugs | `f1c646785cddb876510f81be2400c6c2da01764b1fceb5d2bb8e92f0186d9132` | `PainterlyMaterialLibrary/fabric`, 3.0×3.0; v2-only presentation owner | selected candidate; mapped, art-lock-pending |
 
