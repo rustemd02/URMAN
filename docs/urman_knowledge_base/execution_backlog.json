@@ -59659,7 +59659,7 @@
                 "evidence/ACT1-DEPTH.9/log-winding-20261013/frames/C1_street_high.png"
               ],
               "verification": "9da4e956 PASS/game0/import0/build0, userdataRestored=true; archive SHA2e81f8e2…e9bc0cd проверен. Совпадают camera/target/FOV/spec и profile/exteriorGLB SHA с after-fill baseline. Baseline PML SHA c34f61…d5988 точно найден в 30238e8c; diff к current содержит только local-piece helper, wood_log_uv/wood_facade/tint и shader block прежние. Fresh doctor ready/busy-null/recoveryfalse/orphanfalse.",
-              "remaining": "Полное качество дома по T1–T4 и движение/авторская художественная приёмка открыты. T1–T4/P2 отсутствуют на Mac, запрошены оригиналы. Angular repeated forest остаётся главным видимым расхождением; TimberHomeStyle имеет аналогичную несогласованность winding, требует отдельного узкого кадра до изменения."
+              "remaining": "Полное качество дома/движение/авторская художественная приёмка открыты. Автор разрешил работу по описаниям, если старые оригиналы T1–T4/P2 не найдены: имена и точные SHA проверены среди100455 локальных PNG/JPG/WEBP без совпадений, provenance6efda188/29f70dab local-only на Mac Кадыра; запрос о сохранённой копии в общем чате. Это не останавливает художественную работу. Angular repeated forest остаётся главным видимым расхождением; TimberHomeStyle имеет отдельную несогласованность winding."
             }
           },
           {
