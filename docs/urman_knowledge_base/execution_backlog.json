@@ -112760,7 +112760,7 @@
         "Не создаются сотни уникальных текстур одинаковых досок.",
         "Уточнение автора 09.10.2026: материалы и растительные формы наружной деревни проверены в составе домов и окружения по выбранным автором скриншотам. Сопоставимы масштаб фактур, материальность дерева/земли/снега, объём и плотность растительности, свет и цветовые отношения. Новые текстуры поверх примитивных форм и отдельный образец материала не доказывают соответствие целой игровой сцены."
       ],
-      "next_action": "Закончить крупный dominant forest visual candidate, affected compile и C1/C2 native сравнение; принять только заметно более убедительные кроны.",
+      "next_action": "Выбрать существующую dependency-ready конечную единицу для крупного улучшения общей сцены поP1; accepted foreststage не перепроверять без изменённого входа.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -113024,7 +113024,7 @@
       },
       "progress_2026_10_13_spruce_crown": {
         "state": "accepted_partial_improvement",
-        "result": "Второй Windows C1/C2 лично просмотрен: прежняя плотность дальних крон восстановлена, ближние bough masses объёмнее. Это ограниченное улучшение существующей геометрии, а не достаточное качество леса по референсам: силуэты всё ещё условные/угловатые. Готовая сосна в дальней полосе не улучшила композицию; выбор отклонён и восстановлен.",
+        "result": "Принят крупный forest representation этап: visual3LOD dominant forestRimWinterSpruce3..6 заменены fitted currentCC0-derived WinterPine. Root лично сравнил exactC1/C2: более плотная связная масса крон вместо крупныхугловатыхшпилей; independentLuna6Max подтверждает видимое улучшение. Это не полная художественная приёмка леса/P1/B02.",
         "verification_question": "В прежнем C2 кроны стали объёмными мягкими bough masses, а Far не превратился в голые столбы/просветы?",
         "success_condition": "CurrentWindowsHighC2 лично сопоставлен с f680baseline, кроны заметно убедительнее, без barepoles/нарушения rooted envelopes/LOD. Receipt/restoration подтверждены. WholePW034/artacceptance отдельно открыты.",
         "targets": [
@@ -113060,7 +113060,7 @@
           "blend": "3606bdfa394f115ed83779cbe56b4e528b387f05407aed0e19882a4c7f78c8bb",
           "glb": "721c385c6c95de8c13dd555061edbe73fb5c56df6c0c37605539e8af41b15bfd"
         },
-        "remaining": "После двух гипотез pine-band/LOD без существенного визуального результата подход сменён: крупная замена представления доминирующего forestRimSpruce3..6 текущим CC0-derived WinterPine Near/Light/Far. Luna готовит candidate только existingExteriorLayer: rooted AABB fitting visual geometry, сохранение sourceplant/road/roof/collision. Риски alpha/collider/Farcost; actual artwork/motion/FPS не проверены. LOD2.2 отклонён, дальнейших мелких подстроек не назначать. Кандидат реализован в одном ExteriorLayer файле: geometry-fit в существующем RegionalMesh cache, runtime audit видит actual fitted mesh, MeshInstance identity и source/visual metadata разделены. Root scoped source review и affected Game compile0 warnings/0 errors17.53s PASS; native ещё не запускался, не принят.",
+        "remaining": "PW034/B02/fullreferencequality открыты. Large visual forest change adopted: currentPine3LOD fitted/rooted, sourceplant placement/roads/roofs/stemcollisions preserved; root+independentLuna C1/C2 artwork evidence accepted only limitedstage. Repeatedfaceted snowcrowns, overallP1 colour/light/material, motion/FPS and collider correspondence remain unverified. First dcb NVIDIA-driver crash preserved as unresolved recurrence risk, not declaredfixed; C2 recoveryPASS sameHigh/Vulkan. Следующий крупный видимый этап — цельный цвет/свет/материальность сцены поP1; не новая подстройка дальности/whorl.",
         "attempts": [
           {
             "job_id": "97f3f51720944c35b653c5cdd393f839",
@@ -113093,6 +113093,29 @@
               "evidence/PW-034/spruce-lod-20261013/frames/C1_street_high.png",
               "evidence/PW-034/spruce-lod-20261013/frames/C2_house_high.png"
             ]
+          },
+          {
+            "job_id": "dcb714d9eb2f46a293d0879f27a2529d",
+            "snapshot_id": "a9536c37e8c3854eab2d35a21707705f73c2f532b13c956e3697c2e57bf0e7ec",
+            "technical": "FAIL/gameExit-1, build/import0; rawuserdataRestored=false retained, guardlog restored verified + doctorready/busy-null/recoveryfalse/orphanfalse. ArchiveSHAcac04f4e1578c4c18138b831bb083f344cf39d2135aace2b5829a066a5ba2e87 verified. C1 saved, C2 missing.",
+            "art": "Root лично просмотрел currentC1; independentLuna6Max сравнил сP1 иbaseline: fuller/deeper forest, provisionalC1 acceptance only; overalllanguage/light/material stillnotP1. Wholecandidate adoption pending C2.",
+            "failure_evidence": "Windows Application1000 exact16:32:46UTC: Godot faultingmodule nvoglv64.dll exception0xc0000094. Timeout excluded from actualguard/runner/worker paths. Source trigger unknown; no claim fixed.",
+            "evidence": [
+              "evidence/PW-034/dominant-pine-20261013/receipt.json",
+              "evidence/PW-034/dominant-pine-20261013/frames/C1_street_high.png",
+              "evidence/PW-034/dominant-pine-20261013/windows-application-events.json",
+              "evidence/PW-034/dominant-pine-20261013/game.log"
+            ]
+          },
+          {
+            "job_id": "241987cc40324f609263e8d76c79ef86",
+            "snapshot_id": "6543860f9734013663abf1ef62e0249db20a1c6d0511d53ab43bc9ca91888b0a",
+            "technical": "PASS/build/import/game0/userdataRestoredtrue; archiveSHA2da1e61aa51af9ca96ded61c50a024960574b853cfd9c63e3b865743b621b014 verified. CurrentExteriorLayer/PML/PineGLB match exact snapshotSHA; C2 camera/target/FOV70/High/crisp match baseline53b5.",
+            "art": "accepted_partial_improvement: root personally C2 and independentLuna6Max confirm denseconnectedstand behind houses, framing intact; repeated faceted snowy crowns stillconditional, fullP1 notachieved. C1 acceptance uses prior actual dcb frame; originalFAIL nothidden.",
+            "evidence": [
+              "evidence/PW-034/dominant-pine-20261013/c2-only/receipt.json",
+              "evidence/PW-034/dominant-pine-20261013/c2-only/frames/C2_house_high.png"
+            ]
           }
         ],
         "verification": "5c70d6dc PASS/build/import/game0, userdataRestored=true; archive SHA cc74e92a…4facfca проверен. High C1/C2, camera/target/FOV/spec/profile совпадают с f680; между snapshot изменился только foliage GLB. Исходник/blend/GLB согласованы, scoped regeneration stdout сохранён; полный main generator не объявлен проходящим.",
@@ -113100,7 +113123,10 @@
           "evidence/PW-034/spruce-crown-20261013/dense-far/receipt.json",
           "evidence/PW-034/spruce-crown-20261013/dense-far/generator.log",
           "evidence/PW-034/spruce-crown-20261013/dense-far/frames/C1_street_high.png",
-          "evidence/PW-034/spruce-crown-20261013/dense-far/frames/C2_house_high.png"
+          "evidence/PW-034/spruce-crown-20261013/dense-far/frames/C2_house_high.png",
+          "game/scripts/experiments/agent_b_act1/AgentBAct1ExteriorLayer.cs",
+          "evidence/PW-034/dominant-pine-20261013/frames/C1_street_high.png",
+          "evidence/PW-034/dominant-pine-20261013/c2-only/frames/C2_house_high.png"
         ]
       }
     },

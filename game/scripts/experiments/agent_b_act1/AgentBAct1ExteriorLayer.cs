@@ -1397,8 +1397,22 @@ public partial class AgentBAct1ExteriorLayer : Node3D
             geometry[variant] = cached;
             return cached;
         }
-        ArrayMesh RegionalMesh(string variant, string region)
+        ArrayMesh RegionalMesh(string variant, string region, bool forestRimPineVisual = false)
         {
+            if (forestRimPineVisual)
+            {
+                var pineVariant = PineVisualTier(variant);
+                var fittedVariant = variant.Replace("Spruce_", "PineForSpruce_", StringComparison.Ordinal);
+                if (graded.TryGetValue((fittedVariant, region), out var fitted)) return fitted;
+                var pine = FoliageMesh(pineVariant, region);
+                var sourceSize = Geometry(variant).Mesh.GetAabb().Size;
+                var pineSize = pine.GetAabb().Size;
+                var fit = new Vector3(sourceSize.X / pineSize.X, sourceSize.Y / pineSize.Y,
+                    sourceSize.Z / pineSize.Z);
+                fitted = FitMeshFromRoot(pine, fit);
+                graded[(fittedVariant, region)] = fitted;
+                return fitted;
+            }
             if (variant is "WinterPine" or "WinterLightPine" or "WinterFarPine") return FoliageMesh(variant, region);
             if (graded.TryGetValue((variant, region), out var cached)) return cached;
             var source = Geometry(variant);
@@ -1411,6 +1425,10 @@ public partial class AgentBAct1ExteriorLayer : Node3D
             graded[(variant, region)] = result;
             return result;
         }
+        static string PineVisualTier(string variant) =>
+            variant.StartsWith("WinterLightSpruce_", StringComparison.Ordinal) ? "WinterLightPine"
+            : variant.StartsWith("WinterFarSpruce_", StringComparison.Ordinal) ? "WinterFarPine"
+            : "WinterPine";
 
         var plants = new Node3D { Name = "AgentB_PlantedFoliage" };
         AddChild(plants);
@@ -1586,6 +1604,8 @@ public partial class AgentBAct1ExteriorLayer : Node3D
             }
             var region = forestRim || variant == "FallenBranch_2" || position.Y <= -86f ? "kara" : position.Y <= -58f ? "zirat" : "village";
             var hasLods = variant.StartsWith("Winter", StringComparison.Ordinal);
+            var forestRimPineVisual = forestRim && variant is
+                ("WinterSpruce_3" or "WinterSpruce_4" or "WinterSpruce_5" or "WinterSpruce_6");
             var tiers = hasLods ? new[] { variant, variant.Replace("Winter", "WinterLight", StringComparison.Ordinal), variant.Replace("Winter", "WinterFar", StringComparison.Ordinal) }
                 : new[] { variant };
             var tree = groundCover ? null : new Node3D { Name = $"{variant}_Plant{plants.GetChildCount()}", Position = target, Basis = basis };
@@ -1594,11 +1614,12 @@ public partial class AgentBAct1ExteriorLayer : Node3D
                 plants.AddChild(tree);
                 tree.SetMeta("presentationOnly", true);
                 tree.SetMeta("plantVariant", variant);
+                tree.SetMeta("plantVisualVariant", forestRimPineVisual ? "WinterPine" : variant);
                 tree.SetMeta("plantPosition", target);
             }
             for (var lod = 0; lod < tiers.Length; lod++)
             {
-                var mesh = RegionalMesh(tiers[lod], region);
+                var mesh = RegionalMesh(tiers[lod], region, forestRimPineVisual);
                 if (groundCover)
                 {
                     var cell = new Vector2I(Mathf.FloorToInt(position.X / 12f), Mathf.FloorToInt(position.Y / 12f));
@@ -1609,6 +1630,7 @@ public partial class AgentBAct1ExteriorLayer : Node3D
                 else
                 {
                     var instance = new MeshInstance3D { Name = $"{variant}_LOD{lod}", Mesh = mesh };
+                    instance.SetMeta("visualMeshVariant", forestRimPineVisual ? PineVisualTier(tiers[lod]) : tiers[lod]);
                     // VIS-029: the far tier only ever exists beyond its own begin
                     // distance, and on every authored profile that is inside fog the
                     // shadow of that trunk cannot be read. The near silhouette the
@@ -1740,6 +1762,24 @@ public partial class AgentBAct1ExteriorLayer : Node3D
     {
         using var arrays = mesh.SurfaceGetArrays(surface);
         return arrays[(int)Mesh.ArrayType.Vertex].AsVector3Array();
+    }
+
+    private static ArrayMesh FitMeshFromRoot(ArrayMesh source, Vector3 scale)
+    {
+        var fitted = new ArrayMesh();
+        var transform = new Transform3D(Basis.Identity.Scaled(scale), Vector3.Zero);
+        for (var surfaceIndex = 0; surfaceIndex < source.GetSurfaceCount(); surfaceIndex++)
+        {
+            using var surface = new SurfaceTool();
+            surface.Begin(Mesh.PrimitiveType.Triangles);
+            surface.AppendFrom(source, surfaceIndex, transform);
+            surface.Index();
+            surface.Commit(fitted);
+            var fittedSurface = fitted.GetSurfaceCount() - 1;
+            fitted.SurfaceSetName(fittedSurface, source.SurfaceGetName(surfaceIndex));
+            fitted.SurfaceSetMaterial(fittedSurface, source.SurfaceGetMaterial(surfaceIndex));
+        }
+        return fitted;
     }
 
     private const double FoliageRoadClearanceSafetyMargin = .01d;
