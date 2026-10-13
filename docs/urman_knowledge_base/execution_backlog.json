@@ -116366,7 +116366,7 @@
         "verification_question": "Does same parking wide/contact show painted green-grey body without brushed-metal stripes, while wheels/trim/snow/geometry and third-party attribution remain intact?",
         "success": "Only this model exact Steel slot uses existing vehicle_paint; Wheel_steel/Metal/default generic path unchanged; native matching views actually reviewed.",
         "source_state": "Accepted: optional exact ordinal paintedBodySlot defaultnull; only BuildDistrictZhiguli opts into Steel→vehicle_paint4c5d4c. Wheel_steel/Metal/generic mappings, mesh/UV/source asset/CCBY attribution unchanged.",
-        "native_state": "Reserved one existing crisp/FOV70 parking wide/contact capture after B02 release; fresh doctor ready/busy null/orphan false/recovery false.",
+        "native_state": "RUNNING one agreed existing crisp parking wide/contact capture; station root until terminal/recovery.",
         "affected_compile": "Game build succeeded:0 errors,0 warnings;27.59s",
         "source_files": [
           "game/scripts/VehicleVisualFactory.DistrictZhiguli.cs",
@@ -116377,7 +116377,11 @@
           "evidence/ACT1-TEXTURE/s05-parking-20261013/crisp-outward/frames/s05_parking_wide.png",
           "evidence/ACT1-TEXTURE/s05-parking-20261013/crisp-alpha/",
           "evidence/ACT1-TEXTURE/s05-parking-20261013/frost-alpha/"
-        ]
+        ],
+        "native_job_id": "8e96a23adb91440982c571c37024185a",
+        "snapshot_id": "7f14ff79e2eccf67f04965990221457eb7e20375cde6bdd788fe3df235f28376",
+        "snapshot_base_commit": "69e97d7e",
+        "transfer": "12 changed source files0.5MB after safe incoming19d3d9a4 road refresh merge; no asset regeneration, Studio/road refresh source included as provenance only."
       },
       "progress_2026_10_13_near_logwall": {
         "input": "B02 exact High/FOV70 after-fill C1/C2 e7efe8d PASS/gameExit0/userdataRestoredtrue; root personally compared after-fill C1/C2 with beforeC2.",
