@@ -111198,7 +111198,7 @@
       "assigned_owner": "claude/visual-reset-2026-10-09",
       "activity": {
         "state": "confirmed_active",
-        "reason": "Own nativeStudio77c14ee... RUNNING with acceptedimmutable snapshotb575...;83cohort delivered, Tamara/collar sources accepted; realgame motion/art observation pending."
+        "reason": "83UV+Tamara/collar source stages pushed; ownnative77 stopped/FAIL/restoredverified, noactualmotion/art accepted. Luna read-only investigates specific presentation/performance cause; no duplicate run."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -111210,7 +111210,7 @@
         "Book/held sleeves/W01 moving branch source-safe; fulfill named movement checks as required, preserve existing valid wind/normal receipts on unchanged inputs.",
         "83genericUV/coherentLOD and2Tamara redtrim sourceaccepted; print/geometry/rig/images preserved. Collar sourceaccepted. Actual nativegait/LOD/door/collar views and derivedcap restUV remain."
       ],
-      "next_action": "Use live own77c14ee5b05f4313a26713aa90352bb1 Studio PlayFromHere; inspect door rotation, Timur/collar cloth motion and nearby interior. Follow same handle to terminal/recovery; no restart from observation timeout.",
+      "next_action": "Read exactchild log/Studio preview lifetime and recurringbanks cause with boundedLuna; require newcausalfact before anothernative session. Keepdoor/actor/collar actualmotion andcaprestUV open; stationreleased forPW044car.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -111571,11 +111571,27 @@
         "native_motion_session": {
           "job_id": "77c14ee5b05f4313a26713aa90352bb1",
           "snapshot_id": "b575c616d8c6446be4d60ba652e94bf4b6c3b8327f3309ff355aae0b1484d979",
-          "state": "RUNNING; no actualframes accepted yet",
+          "state": "TERMINALFAIL; gameExit0; movement/art NOT_ACCEPTED; stationreleased",
           "question": "Does rigid-localgrain follow FacilityManualDoor hinge and collar, does restUVcloth follow Idle/turn without sliding and preserve indoor readability?",
           "success": "Actual protectedStudioPlayFromHere screenshots/movement in ordinary game; preserve print/snow/material response; no source-onlyartclaim.",
           "station_before": "389terminalFAIL; ordinarydoctor busy=null,userdata_recovery_pending=false,orphan_game_process=false,readytrue.",
-          "source_provenance": "Includes current B20 collision/recipe/interior/UI source in immutable snapshot; no B20acceptance claim. Sourcefreeze released afteraccepted."
+          "source_provenance": "Includes current B20 collision/recipe/interior/UI source in immutable snapshot; no B20acceptance claim. Sourcefreeze released afteraccepted.",
+          "result_sha256": "95e1676356bcd4a890c64ebe89548d1f9d3cc103073d405f8a7a8f98008d7663",
+          "actual": "StudioWorldReady73.658s, PlayFromHere inner run-20261013-042108-f9026f/childpid109096. ChildGameReady+Playstarted markers present at(8.681,-.21142,-16.202)/yaw84.7/onfloortrue.2guardedchildcaptureimages containStudio underlay, rejected asactualgame/motion evidence. No WASD/doorinputaccepted.",
+          "startup_metric": "Existing performance rescue Low avg2669.5ms/median2646.6ms reason slow-startup; notsteadyFPS measurement. Recurringbanks/yard-snow logs continue; causal blocker stillunconfirmed.",
+          "guard_fix": "eng/windows-game-ui.ps1: canonicalGetFullPath TrimEnd directoryseparators only. Actualownedchild--path ends slash; normalizedEqualtrue; fixguard acceptedexactjob/source/PID/title/foreground. Allremainingguards unchanged.",
+          "guard_fix_sha256": "6f3c643c698e504ae2f29e6dfa98d94e0781b719705e793b19baa70fc538288d",
+          "restore": "RawreceiptuserdataRestoredfalse retained; run-windows-check throws onengineErrors before settingthisflagtrue. Rawgame.log5857/import.log1914 eachconfirm originalfilesrestored byrenameandverified(ACLnotcompared); freshdoctor busy=null,recoveryfalse,orphanfalse,readytrue.",
+          "evidence": [
+            "evidence/PW-032/native-motion-20261013/receipt.json",
+            "evidence/PW-032/native-motion-20261013/game.log",
+            "evidence/PW-032/native-motion-20261013/child-game.log",
+            "evidence/PW-032/native-motion-20261013/frames/rejected-child-window-first.png",
+            "evidence/PW-032/native-motion-20261013/frames/rejected-child-window-second.png",
+            "evidence/PW-032/native-motion-20261013/source/station-selected/game/studio/StudioRoot.cs",
+            "evidence/PW-032/native-motion-20261013/source/station-selected/game/studio/StudioWorldSection.cs"
+          ],
+          "source_review_input": "Exactimmutable StudioRoot.cs/StudioWorldSection.cs copied from77source, SHA63bdc888...d05a8a/65c57e77...24cf27 matchreceipt. CurrentStudioRoot differs; previewpause claim cannot be transferred to77 beforeexactsource review."
         }
       }
     },

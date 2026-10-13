@@ -324,7 +324,7 @@ try {
     $pathArguments = [regex]::Matches([string]$processes[0].CommandLine,$pathArgumentPattern)
     if ($pathArguments.Count -ne 1) { throw 'The owned Godot command must have exactly one --path argument.' }
     $actualGamePath = if ($pathArguments[0].Groups[1].Success) { $pathArguments[0].Groups[1].Value } else { $pathArguments[0].Groups[2].Value }
-    if ([IO.Path]::GetFullPath($actualGamePath) -ine $expectedGamePath) {
+    if ([IO.Path]::GetFullPath($actualGamePath).TrimEnd([char[]]@('\','/')) -ine $expectedGamePath) {
         throw 'The requested Godot PID is not running this job source.'
     }
 
