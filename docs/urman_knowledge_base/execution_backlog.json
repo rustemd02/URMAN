@@ -106114,7 +106114,7 @@
       "assigned_owner": "art",
       "activity": {
         "state": "released",
-        "reason": "Finite closed-book walking source/compile accepted; actual Windows verification not yet started. Assigned owner preserved."
+        "reason": "Finite owned HTTPS transport source stage accepted after independent review, AST and affected Game compile; deployment/native gate remains open."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -106123,7 +106123,7 @@
         "Actual Windows book inspection/reopen/tab/load/session/carry/vehicle guards, contacts and framing; native/human art acceptance not performed.",
         "Walking first-person grip and typed PageId→3D page/photo/flip/mount motion, editable typography/glyph text and FOV/accessibility acceptance remain open."
       ],
-      "next_action": "After station release, actual ordinary received book→Нести→walk/look at current FOV→Убрать and load/vehicle/carry/ladder guards; capture book/wrists/body. Full PageId/flip/mount/walking-art still open.",
+      "next_action": "Station owner deploys reviewed worker/helper during idle/restored lease and confirms normal_ui_transport_version=1; then one own protected full_game play with typed input/current viewport, explicit close and restored receipt. J/Tab book navigation remains a separate helper input.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -106141,7 +106141,11 @@
           "game/scripts/JournalUi.PhotoBookInspection.cs",
           "game/scripts/FirstPersonController.PhotoBookGrip.cs",
           "game/scripts/FirstPersonController.cs",
-          "game/scripts/JournalUi.cs"
+          "game/scripts/JournalUi.cs",
+          "eng/windows_station_worker.py",
+          "eng/remote-check.py",
+          "game/scripts/Main.cs",
+          "game/scripts/Main.InteractiveFrameCapture.cs"
         ],
         "required_inputs": [
           {
@@ -106441,6 +106445,42 @@
         "body_invariant": "Confirmed generation source tools/blender/generate_character_kit.py:184-247 faceted_torso; Body_LOD0:816-824 uses torso only. Sleeves separate825-844, CoatHem separate faceted_prism880-890; structure receipt lists distinct meshes. Lowerbody source does not duplicate arms/hands.",
         "root_review": "Root fixed stale-session idempotence, hides old anchor before queued free, validates journal tree after awaited Close, refreshes invalid carry cache, allows local put-away when other carry/vehicle guards hide take. Existing received/mount inspector binding intact.",
         "affected_compile": "Final0 errors,0 warnings32.35s; earlier35.68s superseded after review fixes."
+      },
+      "progress_2026_10_13_owned_https_ui": {
+        "result": "Portable typed controls for own active isolated full_game play job and current ENGINE viewport frame; no private SSH client/credentials copies or GDI proof.",
+        "inputs": "Existing HTTPS Client/auth, protected native runner play support, exact PID/source/window/foreground PS helper; full_game root Main current viewport.",
+        "scope": "Fixed play scene, bounded existing keys/move, auth-principal job binding and serialized UI; fixed nonce frame request/output inside job artifacts; no arbitrary path/script/PID, game/save/camera mutations or new gameplay probes/tests.",
+        "verification": "Source/independent review + AST/affected Game compile; deployment/version readiness and actual own-job input/renderer/native book criteria remain REQUIRED, not source-only completion.",
+        "state": "Source stage accepted; deployment/native NOT_RUN.",
+        "files": [
+          "eng/windows_station_worker.py",
+          "eng/remote-check.py",
+          "game/scripts/Main.cs",
+          "game/scripts/Main.InteractiveFrameCapture.cs"
+        ],
+        "sha256": {
+          "eng/windows_station_worker.py": "027ac3135520fba955df4df597fa133f2270b8f7fcd6127ffae00881e8d82f26",
+          "eng/remote-check.py": "42760c5848f37f793588cab7c818230c1d5cb270558f2ca6e9b9474a01afdd35",
+          "game/scripts/Main.cs": "86cb9d28616bc2979e1a77f0faf4d86f26c20b58a91e4544d0bbfd6f8998fd33",
+          "game/scripts/Main.InteractiveFrameCapture.cs": "431a57d283fff366cc5bdc3aa455968de5ad4295b33958f68de1293dac72549c"
+        },
+        "affected_compile": {
+          "warnings": 0,
+          "errors": 0,
+          "seconds": 25.85,
+          "log": "evidence/PW-017/owned-https-ui-20261013/game-build.log"
+        },
+        "source_review": "Root reviewed full diff + independent Luna final review no blocking source defect. Fixed active-job readiness, actual pinned GUI/console descendant selection, fixed helper availability, bounded request/dimensions and repeated preclaim refusal. Python AST PASS; diffcheck and tracker validation PASS.",
+        "native": "NOT_RUN; current station worker not yet deployed/confirmed. No station lease/job/input/capture used.",
+        "remaining": "Actual Windows process/window topology, renderer capture/input/close/data restoration required. Prior helper lacks J/Tab; no book navigation, grip/art/game readiness inferred.",
+        "commands": [
+          "remote-check.py play-full --timeout 1200",
+          "remote-check.py ui --job-id ID --ui-action keys --keys {ENTER}",
+          "remote-check.py ui --job-id ID --ui-action move --key w --duration-ms 500",
+          "remote-check.py capture-current --job-id ID --output /absolute/frame.png"
+        ],
+        "integration": "Preserved peer c8e0ef44 existing play→act1_demo, timeout1200, synchronous wait/output/ordinary health. Added separate play-full→fixed full_game async/version gate; same bounded mode play accepts only two fixed scenes. Peer deployed play-only worker16f15d0c and live e78c lease preserved; new UI transport not yet deployed.",
+        "integration_review": "Independent Luna merge review: no blocking source regression; legacy act1_demo path preserved. capture-current now rejects non-full_game before publishing any request; help names play-full."
       }
     },
     {

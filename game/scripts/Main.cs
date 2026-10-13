@@ -67,6 +67,7 @@ public partial class Main : Node3D
 
     public override void _Ready()
     {
+        ConfigureInteractiveFrameCapture();
         AddToGroup("zone_manager");
         _zoneHost = GetNode<Node3D>("ZoneHost");
         if (EnableZoneTransitionFade)
