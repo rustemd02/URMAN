@@ -106178,7 +106178,7 @@
       "assigned_owner": "art",
       "activity": {
         "state": "released",
-        "reason": "Finite native journal/focus key source stage accepted after root + independent Luna review and AST; deployment/native remains separate."
+        "reason": "Finite editable physical catalog-title source accepted after root + independent Luna review and affected Game0/0; actual caption/glpyh/depth/readability and book art remain open."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -106187,7 +106187,7 @@
         "Actual Windows book inspection/reopen/tab/load/session/carry/vehicle guards, contacts and framing; native/human art acceptance not performed.",
         "Walking first-person grip and typed PageId→3D page/photo/flip/mount motion, editable typography/glyph text and FOV/accessibility acceptance remain open."
       ],
-      "next_action": "Station owner deploys latest reviewed UI worker AND windows-game-ui.ps1 at idle/restored lease, confirms normal_ui_transport_version=2. Then own connected play act1_demo --submit-only: actual J opens journal, Tab/Shift-Tab/Left/Right navigate, capture exact active viewport, ordinary close and restoration. No readiness/source substitution for book/art acceptance.",
+      "next_action": "After station owner deploys latest UI worker/helper and confirms version2, actual owned connected play should open journal, select mounted S-GARDEN, open physical spread, inspect Cyrillic caption/font/ink-depth at current framing, close/reopen and clear selection/session; capture exact active viewport, close and verify restoration. Full book/walking/typedpage/literary/language/art remain open.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -106210,7 +106210,8 @@
           "eng/remote-check.py",
           "game/scripts/Main.cs",
           "game/scripts/Main.InteractiveFrameCapture.cs",
-          "eng/windows-game-ui.ps1"
+          "eng/windows-game-ui.ps1",
+          "game/scripts/JournalUi.PhotoBookInspection.Text.cs"
         ],
         "required_inputs": [
           {
@@ -106573,6 +106574,30 @@
           "remote-check.py ui --job-id ID --ui-action keys --keys {LEFT}",
           "remote-check.py ui --job-id ID --ui-action keys --keys {RIGHT}"
         ]
+      },
+      "progress_2026_10_13_physical_caption": {
+        "result": "Caption from existing acquired/mounted S-GARDEN Title on the existing physical album leaf, with editable UTF text instead of baked bitmap.",
+        "inputs": "photos.spec.json S-GARDEN title Соседский сад; current projection PageId gating; family_book.py exact AlbumPageTurnHinge/leaf .006..216m X, Z±.132m, surfaceY<=.000275; registered existing PT Sans Regular.",
+        "files": [
+          "game/scripts/JournalUi.PhotoBookInspection.cs",
+          "game/scripts/JournalUi.PhotoBookInspection.Text.cs"
+        ],
+        "scope": "One Label3D owned by isolated model/hinge, below existing 150×100mm insert; visible only open+eligible selected/mounted samePageId, clear on selection/unmount/session/close. No literary/Tatar/back-text/provenance/save/action/model/hand/pose changes.",
+        "verification_question": "Does Label3D use only same acquired mounted projection Title, remain inside leaf below insert above paper, and clear without stale text/render-loop/session leakage? Source/compile separate from actual font/depth/contact/readability/art.",
+        "native": "NOT_RUN; UI worker2 deployment still required; no station job submitted.",
+        "remaining": "Actual Windows open/select/close/reopen/session/unmount captions and readable Cyrillic glyphs/ink-depth; broader editable page text and literary/language/art gates remain open.",
+        "state": "Accepted finite source stage; native NOT_RUN.",
+        "source_sha256": {
+          "game/scripts/JournalUi.PhotoBookInspection.cs": "bf1670f771c092c5ac7941a99e97a8113a6fad8d77f85af8c407fd5eb6909f17",
+          "game/scripts/JournalUi.PhotoBookInspection.Text.cs": "c502d91566f416ab3d47019a8e0cf57e60584b28cb420e9aaf098d2d60ab0ef5"
+        },
+        "compile": {
+          "warnings": 0,
+          "errors": 0,
+          "seconds": 37.0,
+          "log": "evidence/PW-017/physical-caption-20261013/game-build.log"
+        },
+        "review": "Root + independent Luna: acquired/mounted/PageId/session guard, only selected.Title Соседский сад; Label3D .16m width/.005m em within leaf below insert, visible only open, hidden/freed on clear, redraw only changed text/visibility. No author/Tatar/back prose/state/mesh changes. captionable=false belongs player-prepared world.captions (PhotoWorldState.PrepareCaption/validation), not catalog-title presentation; no PrepareCaption or saved captions writes."
       }
     },
     {
