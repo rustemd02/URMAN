@@ -65,8 +65,11 @@ function Invoke-Logged([string]$Name, [string]$Exe, [string[]]$Arguments, [int]$
     finally { $ErrorActionPreference = $savedPreference }
     [IO.File]::WriteAllLines("$output/$Name.log", [string[]]@($stepLines), [Text.UTF8Encoding]::new($false))
     $receipt.steps[$Name] = @{ exitCode = $code }
-    if ($code -ne 0) { throw "$Name exited $code; see $output/$Name.log" }
     $log = Get-Content "$output/$Name.log" -Raw
+    if ($Arguments -contains $guard) {
+        $receipt.userdataRestored = [bool]($log -match 'userdata guard: original files.*restored.*verified')
+    }
+    if ($code -ne 0) { throw "$Name exited $code; see $output/$Name.log" }
     $engineErrors = @($log -split '\r?\n' | Where-Object { $_ -match '(?im)(^|\s)(ERROR:|SCRIPT ERROR:)|\bFAIL\b|Unhandled exception' })
     if ($engineErrors.Count -gt 0) {
         if (-not $DeferEngineErrors) { throw "$Name reported engine errors; inspect the log before accepting it." }
@@ -213,7 +216,6 @@ try {
                 }
                 if ($Mode -eq 'smoke' -and $Scene -eq 'res://tests/act1_main_menu_smoke_test.tscn' -and (Get-Content "$output/$stepName.log" -Raw) -notmatch '\bPASS\b') { throw 'Main menu smoke did not emit its expected PASS marker.' }
                 if ($Mode -eq 'smoke' -and $Scene -eq 'res://tests/player_settings_smoke_test.tscn' -and (Get-Content "$output/$stepName.log" -Raw) -notmatch 'player-settings-smoke: SaveGameV3 settings') { throw 'Player settings smoke did not emit its expected completion marker.' }
-                $receipt.userdataRestored = $true
                 $receipt.gameExitCode = $runRecord.exitCode
                 if ($Mode -eq 'capture' -and -not (Test-Path "$output/frames/*.png")) { throw 'No capture frames were produced.' }
                 $runRecord.status = if ($runRecord.engineErrors.Count -gt 0) { 'FAIL' } else { 'PASS' }
