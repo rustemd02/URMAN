@@ -654,7 +654,7 @@ Material request: Maintained old softwood surface, grey honey-brown with quiet s
 
 Применение: wood_fence, старые ограды.\
 Тип: TILE · бесшовная RGB-карта. Масштаб / формат: 1 × 1 м.\
-Имя кандидата: `urman_w02_v01_basecolor.png`.
+Выбранная карта: `urman_w02_v02_basecolor.png`; точный источник, промпты и SHA — в [README фактур](../../../game/assets/textures/painterly/README.md#w02--silver-grey-fence-wood-2026-09-22).
 
 ```text
 For URMAN, an original painterly low-poly mystery game set in a living Tatar village in winter 2026. Use broad calm pigment fields and restrained readable medium-scale detail, coherent muted natural color, no photorealistic micro-noise or extreme grunge.

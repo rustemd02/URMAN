@@ -231,7 +231,7 @@ def studio_readiness(client):
 
 def main():
     p=argparse.ArgumentParser(description=__doc__)
-    p.add_argument('command',choices=['doctor','smoke','capture','studio','status','fetch'])
+    p.add_argument('command',choices=['doctor','smoke','capture','play','studio','status','fetch'])
     p.add_argument('--root',type=Path,default=Path(__file__).resolve().parent.parent)
     p.add_argument('--job-id');p.add_argument('--scene')
     p.add_argument('--points');p.add_argument('--timeout',type=int)
@@ -253,12 +253,21 @@ def main():
     if args.command=='studio' and (args.scene is not None or args.headless or args.points is not None
                                    or args.phase is not None or args.fov is not None):
         p.error('studio uses a fixed native scene and does not accept --scene, --headless, --points, --phase, or --fov')
+    play=args.command=='play'
+    if play and (args.scene is not None or args.headless or args.points is not None
+                 or args.phase is not None or args.fov is not None or args.studio_authoring):
+        p.error('play uses native act1_demo and does not accept scene, capture, or Studio overrides')
+    if play and args.timeout is not None and not 1<=args.timeout<=1200:
+        p.error('play timeout must be 1..1200 seconds')
     studio=args.command=='studio'
     if studio and args.timeout is not None and not 1<=args.timeout<=3600:
         p.error('studio timeout must be 1..3600 seconds')
-    scene=STUDIO_SCENE if studio else (args.scene if args.scene is not None
-                                       else 'res://tests/player_settings_smoke_test.tscn')
-    timeout=args.timeout if args.timeout is not None else (1200 if studio else 300)
+    scene=args.scene if args.scene is not None else 'res://tests/player_settings_smoke_test.tscn'
+    if studio:
+        scene=STUDIO_SCENE
+    elif play:
+        scene='res://scenes/act1_demo.tscn'
+    timeout=args.timeout if args.timeout is not None else (1200 if studio or play else 300)
     wait=args.wait if args.wait is not None else (3600 if studio else 1200)
     c=Client()
     if args.command=='doctor':

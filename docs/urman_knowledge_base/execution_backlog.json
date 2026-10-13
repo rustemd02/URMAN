@@ -5625,21 +5625,25 @@
             "title": "Подключить W02 — Серебристое дерево забора",
             "result": "Подключить W02 — Серебристое дерево забора",
             "owner": "art/materials/qa",
-            "evidence": [],
+            "evidence": [
+              "docs/production/act1_takeover_evidence_2026-09-16/texture-fence-uv-20260922-02/high/act1_visual_review_receipt.json",
+              "docs/production/act1_takeover_evidence_2026-09-16/texture-fence-uv-20260922-02/low/act1_visual_review_receipt.json"
+            ],
             "assigned_owner": "art/materials/qa",
             "active_owner": null,
             "activity": {
               "state": "not_active",
-              "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+              "reason": "Finite source/doc reconciliation accepted; current Windows verification and remaining grain-axis adoption still open. Luna stopped at usage limit before covered-input comparison."
             },
             "task_type": "engineering",
-            "status": "todo",
+            "status": "in_progress",
             "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
-              "Подключить W02 — Серебристое дерево забора; собственного целевого receipt пока нет."
+              "Current Windows view of exact W02-mapped rail/slat/post consumers; Sep22 Metal frames cannot establish current Windows appearance or unchanged covered source.",
+              "Mixed imported fences/wattle still use legacy maps until grain axes and applicable W02 consumers are resolved; full adoption/art acceptance not claimed."
             ],
-            "next_action": "Сопоставить текущий результат: Подключить W02 — Серебристое дерево забора. Затем изменить только установленный остаток.",
+            "next_action": "Verify current named fence owner/transform and W02 input against existing source. Use one exact Windows view on changed/current relevant input when needed; preserve existing valid historical receipts. Resolve remaining mixed-axis consumers without global blind texture swap.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -5702,7 +5706,15 @@
               "verification": [],
               "acceptance": []
             },
-            "depends_on": []
+            "depends_on": [],
+            "progress_2026_10_13_source_reconciliation": {
+              "selected": "game/assets/textures/painterly/urman_w02_v02_basecolor.png",
+              "sha256": "73d9883cdc094f70f720a0246e6a6d7a10e3f19cc8a20ad39a92a9c4f7e0f148",
+              "source_result": "Luna confirms existing 1m repeat/1024 cap/mips and real wood_fence_vertical/rail/uv bindings. Root reconciled promptbook selected v02 name and inventory exact owners; no bitmap/runtime code changes.",
+              "historical_evidence": "docs/production/act1_takeover_evidence_2026-09-16/texture-fence-uv-20260922-02/",
+              "verification": "Root verified all3 PNG SHA against own receipt; personally viewed East High. Logs identify exact W02 rail texture/authoredUV. Actual renderer Metal4.0 AppleM4Pro, not Windows. Current covered-input equivalence unfinished after Luna usage limit; no repeated capture or completed claim.",
+              "remaining": "Current exact target/provenance check, Windows view where applicable, mixed-axis adoption and art gates."
+            }
           },
           {
             "id": "ACT1-TEXTURE.02/E12",
@@ -111279,7 +111291,7 @@
         "Book/held sleeves/W01 moving branch source-safe; fulfill named movement checks as required, preserve existing valid wind/normal receipts on unchanged inputs.",
         "83genericUV/coherentLOD +2Tamara trim +2Timur cap sourceaccepted; printedUV/rig/geometry/images preserved, collar accepted. Actual nativegait/LOD/door/collar/cap views remain."
       ],
-      "next_action": "Obtain existing ordinary gameplay movement with exact ownership and actual viewport pixels: FacilityManualDoor hinge plus Timur Idle/turn/LOD. Native mosque_hall static/context accepted; do not rerun unchanged wideframe or same rejected Studio/GDI capture. Solve supported exact motion/presentation input first, then one targeted check.",
+      "next_action": "After peer station terminal/restored/released, deploy protected-play worker by existing idle update procedure; run one bounded ordinary act1_demo play, use existing exact PID/sourceRoot UI helper to inspect real door/actor phases. Capture transport does not itself prove motion; unchanged wideframe/GDI repeats prohibited.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -111294,7 +111306,9 @@
           "game/scripts/Act1ConnectedWorld.MosqueImamDress.cs",
           "game/scripts/BathSpirit.cs",
           "assets/source/blender/urman_character_kit_v2.blend",
-          "game/assets/generated/urman_character_kit_v2.glb"
+          "game/assets/generated/urman_character_kit_v2.glb",
+          "eng/remote-check.py",
+          "eng/windows_station_worker.py"
         ],
         "required_inputs": [
           {
@@ -111702,6 +111716,17 @@
             "evidence/PW-032/cap-native-20261013/game.log"
           ],
           "station_after": "Freshdoctor readytrue/busy=null/recoveryfalse/orphanfalse; released afterterminal."
+        },
+        "protected_play_transport": {
+          "state": "source implemented; station undeployed; native not_run",
+          "cause": "Station API lacked ordinary persistent fullgame play; existing runner already supports protected native Modeplay. Studio child GDI underlay cannot prove movement; static viewport6fa accepted only context.",
+          "result": "Expose play through existing jobs/runner path, fixed act1_demo native window, timeout1..1200, no capture points/profile/FOV or Studio overrides. Source/PID/UI guard, immutable snapshot, protected_run, journal/recovery/cleanup unchanged; runner already uses always-on-top for native play.",
+          "sha256": {
+            "eng/remote-check.py": "84915fbc84d27bcd000ae26ed447e7610ca832fe7758422ad53a22a3999f480e",
+            "eng/windows_station_worker.py": "16f15d0c5def20a986b52ff333302d7fa9731cfd5ca508c42d8aeb805d878ba8"
+          },
+          "verification": "Both Python AST parse; scoped diffcheck; root inspected client/server trust-boundary constraints and existing runner passthrough. Luna reached runner-path investigation before usage limit; final patch implemented by root, no fresh Luna code review claimed.",
+          "remaining": "Independent protocol review if available; update worker only after actual idle/recovery-ready/lease release. Then one ordinary gameplay window with exact PID/source ownership for door/actor phases and real screenshots; no new probe/test and no motion claim yet."
         }
       }
     },

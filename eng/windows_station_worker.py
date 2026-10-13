@@ -1735,13 +1735,13 @@ class Station:
             if missing:
                 raise ValueError(f'snapshot blobs incomplete ({len(missing)} missing); re-run the client')
         mode = spec.get('mode')
-        if mode not in ('smoke', 'capture', 'studio'):
+        if mode not in ('smoke', 'capture', 'play', 'studio'):
             raise ValueError('unsupported mode')
         restarts = spec.get('studio_restarts', 0)
         if (type(restarts) is not int or not 0 <= restarts <= 2
                 or ('studio_restarts' in spec and mode != 'studio')):
             raise ValueError('studio_restarts requires Studio mode and an integer of 0..2')
-        timeout_max = 3600 if mode == 'studio' else 300
+        timeout_max = 3600 if mode == 'studio' else 1200 if mode == 'play' else 300
         if type(spec.get('timeout')) is not int or not 1 <= spec['timeout'] <= timeout_max:
             raise ValueError(f'timeout must be 1..{timeout_max} seconds')
         if type(spec.get('headless')) is not bool:
@@ -1768,6 +1768,9 @@ class Station:
             raise ValueError('smoke requires an existing test scene')
         if mode == 'capture' and (scene != 'res://scenes/act1_demo.tscn' or spec['headless']):
             raise ValueError('capture requires native act1_demo')
+        if mode == 'play' and (scene != 'res://scenes/act1_demo.tscn' or spec['headless']
+                               or spec.get('points', '')):
+            raise ValueError('play requires native act1_demo without capture points')
         points = spec.get('points', '')
         number = r'-?\d+(?:\.\d+)?'
         vector = rf'(?:[A-Za-z][A-Za-z0-9_]*@)?{number},{number},{number}'
