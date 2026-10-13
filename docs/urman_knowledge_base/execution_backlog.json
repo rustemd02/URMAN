@@ -106152,7 +106152,7 @@
       "assigned_owner": "art",
       "activity": {
         "state": "released",
-        "reason": "Exact active-scene capture correction accepted after root + independent Luna review and Python AST. Worker deployment and native remain open; no station used."
+        "reason": "Finite native journal/focus key source stage accepted after root + independent Luna review and AST; deployment/native remains separate."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -106161,7 +106161,7 @@
         "Actual Windows book inspection/reopen/tab/load/session/carry/vehicle guards, contacts and framing; native/human art acceptance not performed.",
         "Walking first-person grip and typed PageId→3D page/photo/flip/mount motion, editable typography/glyph text and FOV/accessibility acceptance remain open."
       ],
-      "next_action": "Station owner deploys latest reviewed UI worker/helper at idle/restored lease and confirms normal_ui_transport_version=1. For current connected village/book use play act1_demo --submit-only; capture-current receipt must match that active scene. play-full is a different per-zone world, no equivalent visual acceptance. Actual own input→frame→close→restored remains open.",
+      "next_action": "Station owner deploys latest reviewed UI worker AND windows-game-ui.ps1 at idle/restored lease, confirms normal_ui_transport_version=2. Then own connected play act1_demo --submit-only: actual J opens journal, Tab/Shift-Tab/Left/Right navigate, capture exact active viewport, ordinary close and restoration. No readiness/source substitution for book/art acceptance.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -106183,7 +106183,8 @@
           "eng/windows_station_worker.py",
           "eng/remote-check.py",
           "game/scripts/Main.cs",
-          "game/scripts/Main.InteractiveFrameCapture.cs"
+          "game/scripts/Main.InteractiveFrameCapture.cs",
+          "eng/windows-game-ui.ps1"
         ],
         "required_inputs": [
           {
@@ -106520,6 +106521,32 @@
         "integration": "Preserved peer c8e0ef44 existing play→act1_demo, timeout1200, synchronous wait/output/ordinary health. Added separate play-full→fixed full_game async/version gate; same bounded mode play accepts only two fixed scenes. Peer deployed play-only worker16f15d0c and live e78c lease preserved; new UI transport not yet deployed.",
         "integration_review": "Independent Luna merge review: no blocking source regression; legacy act1_demo path preserved. capture-current now rejects non-full_game before publishing any request; help names play-full.",
         "scene_correction": "Accepted source correction after peer6fac2231: default connected village is act1_demo and contains Main receiver. Both fixed play scenes allowed; returned scenePath must exactly match server active_spec.scene. full_game per-zone is not equivalent connected-world visual proof. Root + independent Luna source review no blockers; AST PASS. Earlier full_game-only restriction superseded by this correction."
+      },
+      "progress_2026_10_13_journal_keys": {
+        "result": "Own-job typed journal opening/focus navigation using existing J and native focus keys; no arbitrary text or mouse surface.",
+        "files": [
+          "eng/windows_station_worker.py",
+          "eng/remote-check.py",
+          "eng/windows-game-ui.ps1"
+        ],
+        "inputs": "game/project.godot journal physical_keycode74; JournalUi._UnhandledInput journal handler; existing Send-StudioChord foreground/key-release guards.",
+        "scope": "Explicit j, {TAB}, +{TAB}, {LEFT}, {RIGHT}; previous key chords preserved, no modifier combinations generated for new keys; version2 rejects stale worker before upload/job.",
+        "verification_question": "Do both HTTPS allowlists admit only named added keys, PS map the exact VKs, and all ownership/foreground/try-finally guards stay unchanged? Source review/AST sufficient for this source slice; actual Windows input/focus/art remains separate.",
+        "state": "Accepted finite source stage; deployment/native NOT_RUN.",
+        "sha256": {
+          "eng/windows_station_worker.py": "c496f72868b1d06bac5d0095ca4251a4180de1e7e44bf250f9bb6cbd05822978",
+          "eng/remote-check.py": "958909e8ceab62edc988bd204c93ae8a9f7b71cc846467a8d4cc11c742128e93",
+          "eng/windows-game-ui.ps1": "3b717556335481fc68a83c27290d35ea792bb02cef77178ef0f39fbd8ab4161e"
+        },
+        "verification": "Root full diff review: two equal explicit endpoint allowlists, prior chord generation unchanged; PS only4VKcases, foreground/assertion/finally unchanged. Python AST PASS; Game compile not repeated because no game/source/asset change. Independent Luna review accepted: no blocking regression; version2 pre-action gate unchanged.",
+        "remaining": "Deploy latest worker + exact helper text while idle/restored, confirm normal_ui_transport_version=2 before any play/UI action; actual journal/focus/navigation/book inspection remains NOT_RUN.",
+        "commands": [
+          "remote-check.py ui --job-id ID --ui-action keys --keys j",
+          "remote-check.py ui --job-id ID --ui-action keys --keys {TAB}",
+          "remote-check.py ui --job-id ID --ui-action keys --keys +{TAB}",
+          "remote-check.py ui --job-id ID --ui-action keys --keys {LEFT}",
+          "remote-check.py ui --job-id ID --ui-action keys --keys {RIGHT}"
+        ]
       }
     },
     {

@@ -102,8 +102,12 @@ function Send-StudioChord([string]$Keys) {
         '{DOWN}' { 40 }
         '{UP}' { 38 }
         '{SPACE}' { 32 }
+        '{TAB}' { 9 }
+        '{LEFT}' { 37 }
+        '{RIGHT}' { 39 }
         'a' { 65 }
         'f' { 70 }
+        'j' { 74 }
         'v' { 86 }
         'z' { 90 }
         default { throw 'Unsupported game UI key.' }

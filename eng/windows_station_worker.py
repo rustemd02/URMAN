@@ -32,11 +32,13 @@ STUDIO_SCENE = 'res://studio/studio_main.tscn'
 FULL_GAME_SCENE = 'res://scenes/full_game.tscn'
 ACT1_DEMO_SCENE = 'res://scenes/act1_demo.tscn'
 APPROVED_PLAY_SCENES = (ACT1_DEMO_SCENE, FULL_GAME_SCENE)
-NORMAL_UI_TRANSPORT_VERSION = 1
+NORMAL_UI_TRANSPORT_VERSION = 2
 UI_KEY_BASES = ('{ENTER}', '{ESC}', '{DOWN}', '{UP}', '{SPACE}', 'a', 'f', 'v', 'z')
+UI_KEY_ADDITIONS = ('j', '{TAB}', '+{TAB}', '{LEFT}', '{RIGHT}')
 UI_KEY_CHORDS = frozenset(
     [*UI_KEY_BASES,
-     *(modifier + key for modifier in ('^', '+', '^+') for key in UI_KEY_BASES)])
+     *(modifier + key for modifier in ('^', '+', '^+') for key in UI_KEY_BASES),
+     *UI_KEY_ADDITIONS])
 UI_MOVE_KEYS = frozenset(('w', 'a', 's', 'd', 'e'))
 UI_ACTION_LIMIT = 4096
 UI_HELPER_TIMEOUT_SECONDS = 20
