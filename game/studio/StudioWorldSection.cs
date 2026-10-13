@@ -342,6 +342,7 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
     private async Task LoadWorldCoreAsync()
     {
         var loadStarted = Time.GetTicksMsec();
+        var phaseStarted = loadStarted;
         _hint.Text = "Загружается деревня… Это та же сборка мира, что и в игре.";
         _hint.Visible = true;
         _loadWorldButton.Visible = true;
@@ -355,9 +356,13 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
             await studio.ToSignal(studio.GetTree(), SceneTree.SignalName.ProcessFrame);
             if (_shuttingDown) return;
 
+            phaseStarted = Time.GetTicksMsec();
             var packed = ResourceLoader.Load<PackedScene>("res://scenes/act1_demo.tscn")
                 ?? throw new InvalidOperationException("Сцена деревни недоступна.");
             demo = packed.Instantiate<Act1DemoRoot>();
+            var phaseFinished = Time.GetTicksMsec();
+            GD.Print($"urman-studio-load-phase|resource-load-instantiate|elapsed_ms={phaseFinished - loadStarted}|delta_ms={phaseFinished - phaseStarted}");
+            phaseStarted = phaseFinished;
             demo.StudioPreviewMode = true;
             _demo = demo;
             if (!_resizeRenderSubscribed)
@@ -369,11 +374,17 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
             _viewport.RenderTargetUpdateMode = SubViewport.UpdateMode.Disabled;
             Act1ConnectedWorld.StudioPreviewMode = true;
             _viewport.AddChild(demo);
+            phaseFinished = Time.GetTicksMsec();
+            GD.Print($"urman-studio-load-phase|viewport-add-child|elapsed_ms={phaseFinished - loadStarted}|delta_ms={phaseFinished - phaseStarted}");
+            phaseStarted = phaseFinished;
             for (var frame = 0; frame < 900 && !_shuttingDown && !demo.StudioPreviewReady; frame++)
             {
                 await studio.ToSignal(studio.GetTree(), SceneTree.SignalName.ProcessFrame);
             }
             Act1ConnectedWorld.StudioPreviewMode = false;
+            phaseFinished = Time.GetTicksMsec();
+            GD.Print($"urman-studio-load-phase|wait-studio-preview-ready|elapsed_ms={phaseFinished - loadStarted}|delta_ms={phaseFinished - phaseStarted}");
+            phaseStarted = phaseFinished;
             if (_shuttingDown) return;
             if (!demo.StudioPreviewReady)
                 throw new TimeoutException("Мир игры не успел подготовиться для Studio.");
@@ -402,12 +413,20 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
             Input.MouseMode = Input.MouseModeEnum.Visible;
             _camera.MakeCurrent();
             _hint.Visible = false;
+            phaseFinished = Time.GetTicksMsec();
+            GD.Print($"urman-studio-load-phase|park-hud-colliders|elapsed_ms={phaseFinished - loadStarted}|delta_ms={phaseFinished - phaseStarted}");
+            phaseStarted = phaseFinished;
             foreach (var (id, entity) in WorldEntities().Where(item => IsGeneric(item.Id)))
             {
                 _previewed[id] = entity.ToJsonString();
             }
+            phaseFinished = Time.GetTicksMsec();
+            GD.Print($"urman-studio-load-phase|world-entities-previewed|elapsed_ms={phaseFinished - loadStarted}|delta_ms={phaseFinished - phaseStarted}");
+            phaseStarted = phaseFinished;
 
             Refresh();
+            phaseFinished = Time.GetTicksMsec();
+            GD.Print($"urman-studio-load-phase|refresh|elapsed_ms={phaseFinished - loadStarted}|delta_ms={phaseFinished - phaseStarted}");
             GD.Print($"urman-studio-preview-ready elapsed_ms={Time.GetTicksMsec() - loadStarted}");
         }
         catch

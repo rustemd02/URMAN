@@ -80139,6 +80139,17 @@
                 ],
                 "verification": "Affected Game compile0/0 17.53s, final integration after review fixes0/0 14.44s; source diff reviewed.",
                 "limits": "Diagnostic source only, no identified runtime cause or speed improvement claimed."
+              },
+              {
+                "date": "2026-10-13",
+                "kind": "source-diagnostic",
+                "result": "Native23 total72700ms; largest explicitly profiled address stage10470ms, but existing named phases do not account for all startup latency. Added six sparse elapsed/delta tags to existing Studio load path for load/instantiate, AddChild, readiness wait, HUD/collider parking, authored entity snapshot and Refresh. Control flow and existing ready total preserved.",
+                "source": [
+                  "game/studio/StudioWorldSection.cs",
+                  "evidence/STUDIO/practical-editor-2026-10-13/windows-road-disclosure/game.log"
+                ],
+                "verification": "Luna bounded native timing/source investigation; root inspected exact hunk and scoped git diff --check. Logging-only change; next already-required changed road native24 also compiles and captures these tags.",
+                "limits": "No speed improvement claimed; new timings not yet observed. JSON reread optimization deferred because potential saving is unmeasured and does not explain full latency."
               }
             ],
             "stage_tasks": [
@@ -80173,7 +80184,7 @@
             "implementation_state": "implemented",
             "technical_verification_state": "not_run",
             "remaining": "Native22 подтвердил настоящий Rear0 Codex preview/Apply/полную отмену; ускорение НЕ достигнуто: карта72.755s, Apply fullreload87.992s, Undo fullreload72.726s; selective tags отсутствуют. Причина раннего отказа неизвестна. Полный usability/novice и прочие B20 сценарии открыты.",
-            "next_action": "На Windows захватить точный early-guard token при изменённом selective Apply/Undo; не заявлять скорость до фактического selective пути.",
+            "next_action": "После peer playe78c terminal/release выполнить исправленный road native24 и захватить новые phase tags; настоящий hero Apply/Undo отдельно должен показать конкретный selective guard и скорость.",
             "blocker": null,
             "external_gates": [
               {
