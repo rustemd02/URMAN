@@ -111105,7 +111105,7 @@
       "reference_ids": [
         "TECH04"
       ],
-      "runtime_evidence": "NOT_RUN",
+      "runtime_evidence": "PARTIAL_NATIVE: 6fa6b2c current cap/collar/costume mosque context viewport accepted; full named movement/art check not_run.",
       "author_acceptance": "PENDING",
       "mvp_priority": 30,
       "mvp_packet": "PW2",

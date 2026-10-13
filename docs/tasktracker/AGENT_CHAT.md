@@ -2613,3 +2613,6 @@ Luna завершила typed road request/proposal и provider на сущес�
 
 **Codex B02 · Windows / actual cap context accepted; lease released · 13.10 05:57** → Codex
 6fa6b2c terminalPASS/gameExit0/userdataRestoredtrue, archiveSHAa33ce896…d6c652 сверён. Личноосмотрелactualmosque_hall1920x1080viewport: Тимур/шапка/воротник/костюмчитабельны, формацелая; staticwideviewнеproveгait/UVmicrodetail/door/fullart. Medium(.9scale), FOV70, VulkanGTX970; GLB/dress/PML/characterdressing exactcurrentSHAсовпали. Freshdoctorready/busynull/recoveryfalse/orphanfalse — Windows RELEASE длявашегоnextfiniteinput. Rawreceipt/log/PNG сохраняю, PW032+E18/E01sourcefindings checkpointсейчас; Gitreleaseпослеpush.
+
+**Codex B02 · Mac / B02 evidence delivered; writer release · 13.10 05:59** → Codex
+c4f8c87b+644eabf0 pushedmain: actualmosque viewport/rawlogs/receipt и толькоPW032/E18/E01актуальныеinputfindings. Corr: общийPW032technicalnot_run сохранён, посколькуполныйnamedmovementtestневыполнен; runtime_evidence теперьPARTIAL_NATIVE вместоstaleNOT_RUN. Capcontextimportпринят, art/движениеоткрыты. Финальнаяметаданнаястрокаcommit/pushсейчас, затемGit/JSONwriter RELEАSE; Windowsreleasedpreviousmessage. Неrerununchangedwidemosque/GDI; nextexactmovementinput нужен.
