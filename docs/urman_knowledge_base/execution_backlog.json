@@ -110934,7 +110934,7 @@
       "title": "Исправить привязку мазка к движущимся поверхностям",
       "milestone": "PW-M2",
       "status": "in_progress",
-      "active_owner": null,
+      "active_owner": "codex/b02-2026-10-13",
       "owner": "render",
       "priority": "P0",
       "complexity": "complex",
@@ -111125,8 +111125,8 @@
       },
       "assigned_owner": "claude/visual-reset-2026-10-09",
       "activity": {
-        "state": "released",
-        "reason": "Exact six-mesh Timur rest-UV source slice implemented and semantically checked; source stage stopped. Actual costume/door/creature motion remains full PW032 requirement."
+        "state": "confirmed_active",
+        "reason": "BathSpirit source slice verified/stopped; native Luna implements next finite83-node generic human rest-UV/coherentLOD cohort with exact exceptions and semantic preservation. Actual native motion remains separate."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -111134,10 +111134,11 @@
       "remaining": [
         "Actual FacilityManualDoor close/quarter/open movement and preserved weather/material response.",
         "Exact six-mesh Timur metric rest UV source complete with geometry/rig/animation/material preservation; actual coat/skirt/trousers Idle/walk/turn native view remains.",
-        "BathSpirit moving robe/skin/hair currently use world projection; implement faithful local/rest coordinates without changing its material finish or shelter.",
-        "Book/held sleeves/W01 moving branch source-safe; fulfill named movement checks as required, preserve existing valid wind/normal receipts on unchanged inputs."
+        "BathSpirit rigid rest texture source implemented with original finish/shelter and preserved defaults; actual chest/head motion/readability requires protected Windows view.",
+        "Book/held sleeves/W01 moving branch source-safe; fulfill named movement checks as required, preserve existing valid wind/normal receipts on unchanged inputs.",
+        "Оставшиеся83-node generic UV/coherentLOD cohort: first transfer candidate rejected, canonical data preserved; second existing generator order must pass exact geometry/skin/UV preservation before publication."
       ],
-      "next_action": "After B20 station release, use existing protected Studio PlayFromHere route for actual door/nearby indoor and Timur cloth motion; BathSpirit faithful local/rest anchoring still requires implementation.",
+      "next_action": "Finish isolated83-node UV-before-Decimate candidate and compare accepted LOD1 geometry/skin/normal semantics; publish only matching result. BathSpirit source accepted, actual native motions remain after shared station release.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -111395,6 +111396,37 @@
           "preservation": "Luna semantic GLB before/after comparison PASS: 799 nodes/196 meshes/75 materials/291531 triangles; exact non-target primitive streams+indices; target oriented triangles preserve POSITION/NORMAL/COLOR/JOINTS/WEIGHTS/UV1; six UV0 finite with surface UV area/rest area ratio1 within1e-4; skins/inverse binds, hierarchy/transforms, materials/images and all animation sample data unchanged. Export UV seams duplicate some target vertices; topology/triangle semantics preserved. Root inspected comparison assertions/log.",
           "structure_receipt": "assets/source/blender/receipts/urman_character_kit_v2.structure.json regenerated with existing glb_structure_receipt.py; existing --check PASS once. Diff includes exact6Timur plus14Rinat metadata/UV fields already present in pre-task GLB but missing from old receipt; non-target Rinat semantic streams unchanged.",
           "runtime": "NOT_RUN for updated Timur actor Idle/walk/turn; metric marker triggers existing ForMovingCloth and mosque recolor path, but source check is not artistic movement proof."
+        },
+        "bath_spirit_slice": {
+          "targets": [
+            "game/scripts/PainterlyMaterialLibrary.cs#ForLocalWoodPiece",
+            "game/scripts/BathSpirit.cs#Initialize"
+          ],
+          "source_sha256": {
+            "game/scripts/PainterlyMaterialLibrary.cs": "ea1bfda2486e2b8dc86e7dd33293f5e5189231e722ebe768d5daa2ae8f85e743",
+            "game/scripts/BathSpirit.cs": "19c768fe3825ea17dd7c94c3c94d7197a0b04981f16e1f23cc1867e8b0748e56"
+          },
+          "result": "16 procedural meshes retain original wood_furniture/wood_prop colors, shelteredtrue and surface-default texture scale. Cached local/rest variants use fixed body offsets, head/hair include original head pivot. Existing carried board .55/.30 snow.14 branch and exposed door defaults preserved; weather baseline copied when present. Geometry/pose/animation/collision/transparency unchanged.",
+          "verification": "Root inspected all helper callers and exact diff; independent Luna source review clean; one serial Game compile0 warnings/0errors,16.89s. Command: source eng/dotnet-env.sh && .tools/dotnet/dotnet build game/Urman.Game.csproj --no-restore --disable-build-servers --verbosity quiet -nodeReuse:false -m:1. Diffcheck passed.",
+          "runtime": "NOT_RUN; per-mesh anchoring does not claim seamless pattern across separately rotated pieces or artistic readiness."
+        },
+        "remaining_human_source_inventory": {
+          "missing_metric_nodes": 86,
+          "uv0_present": 56,
+          "uv0_missing": 30,
+          "prefixes": {
+            "Mansur": 14,
+            "Gulsina": 14,
+            "Naila": 12,
+            "TimurHazrat": 8,
+            "Resident": 14,
+            "Tamara": 10,
+            "PhoneGuy": 14
+          },
+          "cause": "ApplyHumanMaterials475-501 already assigns all named non-skin/non-hair families to cloth; absent metric marker leaves world projection. Felt/fur/leather family reclassification is not a real blocker. Protected mixed print UV Tamara_Coat is real exception.",
+          "next_finite_source": "Second hypothesis: existing canonical metricLOD0→copy/Decimate.35 before armature, isolated candidate first. Publish only if LOD1 triangle geometry/normals/skin and all non-target/material/image/animation/transform semantics equal accepted baseline; no LOD0-only fallback. Exact protected print/custom exceptions remain.",
+          "lod_constraint": "Existing full generator creates metricLOD0 then decimated copy retaining UV. Late independent SmartProjectLOD1 risks distance pattern changes; next finite slice uses rest-surface UV transfer to existingLOD1, preserving geometry/rig/animations.",
+          "first_hypothesis": "Nearest polygon UV DataTransfer isolated candidate rejected: MansurBootLeft LOD1 UVarea/geometry36.882, median edge stretch7.76/p95 34.40; CoatSkirt zero nearest-distance but UVarea6.034/p95stretch57.98; Coat UVarea103.58. Cause target faces cross incompatible source UV chart seams. Canonical asset/receipt bytes unchanged."
         }
       }
     },

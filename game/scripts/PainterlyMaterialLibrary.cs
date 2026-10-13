@@ -1342,20 +1342,21 @@ public static class PainterlyMaterialLibrary
     public static void SetGroundContact(GeometryInstance3D instance, float supportWorldY) =>
         instance.SetInstanceShaderParameter("ground_base_y", supportWorldY);
 
-    public static ShaderMaterial ForLocalWoodPiece(string htmlColor, Vector3 pieceOffset, string surface = "wood_prop")
+    public static ShaderMaterial ForLocalWoodPiece(string htmlColor, Vector3 pieceOffset, string surface = "wood_prop",
+        bool? sheltered = null, bool preserveSurfaceDefaults = false)
     {
-        // Each board piece shares the same object-space grain but has its own
-        // offset. Keep the variants in the normal cache so live graphics and
+        // Each rigid piece has its own rest offset. Keep variants in the normal cache so live graphics and
         // motion settings reach them as well as the base wood material.
+        var resolvedSheltered = sheltered ?? (surface == "wood_prop");
         var cacheKey = FormattableString.Invariant(
-            $"local-wood:{surface}:{htmlColor}:{pieceOffset.X:R}:{pieceOffset.Y:R}:{pieceOffset.Z:R}");
+            $"local-wood:{surface}:{htmlColor}:{(resolvedSheltered ? "sheltered" : "exposed")}:{preserveSurfaceDefaults}:{pieceOffset.X:R}:{pieceOffset.Y:R}:{pieceOffset.Z:R}");
         if (Materials.TryGetValue(cacheKey, out var existing)) return existing;
 
-        var source = (ShaderMaterial)ForColor(htmlColor, surface, sheltered: surface == "wood_prop");
+        var source = (ShaderMaterial)ForColor(htmlColor, surface, sheltered: resolvedSheltered);
         var material = (ShaderMaterial)source.Duplicate();
         material.SetShaderParameter("local_wood_texture", true);
         material.SetShaderParameter("local_wood_offset", pieceOffset);
-        if (surface == "wood_prop")
+        if (surface == "wood_prop" && !preserveSurfaceDefaults)
         {
             material.SetShaderParameter("texture_scale", new Vector2(.55f, .30f));
             material.SetShaderParameter("snow_coverage", .14f);

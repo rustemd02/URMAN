@@ -125,9 +125,9 @@ public partial class BathSpirit : Node3D
         _world = world;
         _bathRoot = GetParent() as Node3D ?? world;
         _headless = DisplayServer.GetName() == "headless";
-        var robe = PainterlyMaterialLibrary.ForColor("171310", "wood_furniture", sheltered: true);
-        var skin = PainterlyMaterialLibrary.ForColor("3d362e", "wood_prop", sheltered: true);
-        var hair = PainterlyMaterialLibrary.ForColor("0b0908", "wood_prop", sheltered: true);
+        ShaderMaterial RigidMaterial(string color, string surface, Vector3 restOffset) =>
+            PainterlyMaterialLibrary.ForLocalWoodPiece(color, restOffset, surface,
+                sheltered: true, preserveSurfaceDefaults: true);
 
         _parts = new MeshInstance3D[16];
         var partIndex = 0;
@@ -151,22 +151,25 @@ public partial class BathSpirit : Node3D
         // A long wet hem instead of legs: wrong, robe-like, and it dissolves
         // into the floor shadow before the player can read a stance.
         Part("SpiritHem", new CylinderMesh { TopRadius = .20f, BottomRadius = .43f, Height = 1.30f, RadialSegments = 10, Rings = 1 },
-            new(0, .65f, 0), robe);
+            new(0, .65f, 0), RigidMaterial("171310", "wood_furniture", new(0, .65f, 0)));
         Part("SpiritTorso", new CylinderMesh { TopRadius = .17f, BottomRadius = .23f, Height = .64f, RadialSegments = 10, Rings = 1 },
-            new(0, 1.56f, 0), robe);
-        _chest = Part("SpiritChest", new BoxMesh { Size = new(.40f, .36f, .25f) }, new(0, 1.66f, .01f), robe);
-        _shoulders = Part("SpiritShoulderShelf", new BoxMesh { Size = new(.66f, .15f, .22f) }, new(0, 1.92f, 0), robe);
+            new(0, 1.56f, 0), RigidMaterial("171310", "wood_furniture", new(0, 1.56f, 0)));
+        _chest = Part("SpiritChest", new BoxMesh { Size = new(.40f, .36f, .25f) }, new(0, 1.66f, .01f),
+            RigidMaterial("171310", "wood_furniture", new(0, 1.66f, .01f)));
+        _shoulders = Part("SpiritShoulderShelf", new BoxMesh { Size = new(.66f, .15f, .22f) }, new(0, 1.92f, 0),
+            RigidMaterial("171310", "wood_furniture", new(0, 1.92f, 0)));
         Part("SpiritNeck", new CylinderMesh { TopRadius = .048f, BottomRadius = .058f, Height = .20f, RadialSegments = 8 },
-            new(0, 2.06f, 0), skin);
+            new(0, 2.06f, 0), RigidMaterial("3d362e", "wood_prop", new(0, 2.06f, 0)));
         _headPivot = new Node3D { Name = "SpiritHeadPivot", Position = new(0, 2.13f, 0) };
         AddChild(_headPivot);
+        var headAt = new Vector3(0, .075f, .005f);
         var head = new MeshInstance3D
         {
             Name = "SpiritHead",
             Mesh = new SphereMesh { Radius = .10f, Height = .20f, RadialSegments = 10, Rings = 6 },
-            Position = new(0, .075f, .005f),
+            Position = headAt,
             Scale = new(.94f, 1.03f, .9f),
-            MaterialOverride = skin,
+            MaterialOverride = RigidMaterial("3d362e", "wood_prop", _headPivot.Position + headAt),
             CastShadow = GeometryInstance3D.ShadowCastingSetting.Off,
             Transparency = 1f
         };
@@ -183,7 +186,7 @@ public partial class BathSpirit : Node3D
                 Mesh = new BoxMesh { Size = new(.026f, .34f, .012f) },
                 Position = at,
                 RotationDegrees = new(-7f + strand * 2f, 0, Mathf.Sin(angle) * 14f),
-                MaterialOverride = hair,
+                MaterialOverride = RigidMaterial("0b0908", "wood_prop", _headPivot.Position + at),
                 CastShadow = GeometryInstance3D.ShadowCastingSetting.Off,
                 Transparency = 1f
             };
@@ -194,9 +197,11 @@ public partial class BathSpirit : Node3D
         {
             var suffix = side < 0 ? "Left" : "Right";
             Part("SpiritArm" + suffix, new BoxMesh { Size = new(.075f, .98f, .075f) },
-                new(side * .38f, 1.42f, .04f), robe, new(4f, 0, side * 7f));
+                new(side * .38f, 1.42f, .04f),
+                RigidMaterial("171310", "wood_furniture", new(side * .38f, 1.42f, .04f)), new(4f, 0, side * 7f));
             Part("SpiritHand" + suffix, new BoxMesh { Size = new(.10f, .19f, .08f) },
-                new(side * .43f, .86f, .06f), skin, new(6f, 0, side * 4f));
+                new(side * .43f, .86f, .06f),
+                RigidMaterial("3d362e", "wood_prop", new(side * .43f, .86f, .06f)), new(6f, 0, side * 4f));
         }
         _shouldersBase = _shoulders.Position;
         _chestBase = _chest.Position;
