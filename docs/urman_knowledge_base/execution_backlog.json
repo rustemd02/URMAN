@@ -80285,6 +80285,15 @@
                 ],
                 "verification": "Immutable snapshot c271a017, job50923b93 terminalFAIL only two GOG overlay loader errors; normalclose and guardlog verified restore; fresh doctor ready/busy-null/recoveryfalse/orphanfalse.",
                 "limits": "No performance improvement; road model/Apply/Undo not executed. Raw receipt restoration flag retained unchanged."
+              },
+              {
+                "date": "2026-10-13",
+                "result": "Wall fallback captures eligible transformed house faces once per synchronous search, reuses them across orientation attempts; visibility/owner/order/projection/plane grouping preserved, Inspect retains original path.",
+                "source": [
+                  "game/scripts/AddressFacadeMount.cs"
+                ],
+                "verification": "Luna implementation, independent Luna geometry/source review clean, affected Game compile0warnings/0errors17.12s and scoped diffcheck.",
+                "limits": "Native timing unverified; first-orientation success adds snapshot allocation and no measured improvement is claimed. Currentjob12a5 excludes this source change."
               }
             ],
             "stage_tasks": [

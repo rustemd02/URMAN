@@ -30,6 +30,7 @@ internal static class AddressFacadeMount
     internal sealed record Triangle(Vector2 A,Vector2 B,Vector2 C);
     internal sealed record Coverage(bool Supported,double MissingArea,string Owner,string Reason,bool TimberCladding=false);
     internal sealed record Face(Vector3 A,Vector3 B,Vector3 C,string Owner);
+    private sealed record PreparedWallMeshFaces(Vector3[] Vertices,string Owner);
     private sealed record PreparedMeshFaces(MeshInstance3D Instance,Mesh Mesh,Transform3D Transform,Aabb WorldBounds,string Owner)
     {
         public Face[]? Faces;
@@ -125,6 +126,11 @@ internal static class AddressFacadeMount
     private static bool TryFindOnWalls(Node3D building,Vector3 door,Vector3 outward,Node3D world,out Vector3 point,out Vector3 mountedOutward,out string owner,out string failure,string? explicitExteriorWall,PreparedWorldFaces? preparedWorldFaces)
     {
         point=default;mountedOutward=default;owner="";failure="";outward.Y=0;outward=outward.Normalized();
+        // The four fallback orientations project the same eligible wall triangles
+        // onto different axes. Capture their world-space vertices once for this
+        // synchronous search; each orientation still applies its own plane test
+        // and keeps the original candidate ordering.
+        var preparedWallFaces=CaptureWallFaces(building,explicitExteriorWall);
         // Seni-door houses face their side entry away from the street: the
         // door-facing planes are narrow and pierced while a blank street wall
         // stands around the corner. Try the door orientation first, then the
@@ -134,7 +140,7 @@ internal static class AddressFacadeMount
         foreach(var sweep in new[]{outward,-outward,new Vector3(outward.Z,0,-outward.X),new Vector3(-outward.Z,0,outward.X)})
         {
             if(TryFindOnWallsOriented(building,door,sweep,world,out point,out owner,out var orientedFailure,explicitExteriorWall,
-                oriented:sweep!=outward,preparedWorldFaces:preparedWorldFaces))
+                oriented:sweep!=outward,preparedWorldFaces:preparedWorldFaces,preparedWallFaces:preparedWallFaces))
             {
                 mountedOutward=sweep;
                 if(sweep!=outward)owner+=" (street-facing wall; seni door faces elsewhere)";
@@ -146,11 +152,11 @@ internal static class AddressFacadeMount
         return false;
     }
 
-    private static bool TryFindOnWallsOriented(Node3D building,Vector3 door,Vector3 outward,Node3D world,out Vector3 point,out string owner,out string failure,string? explicitExteriorWall,bool oriented=false,PreparedWorldFaces? preparedWorldFaces=null)
+    private static bool TryFindOnWallsOriented(Node3D building,Vector3 door,Vector3 outward,Node3D world,out Vector3 point,out string owner,out string failure,string? explicitExteriorWall,bool oriented=false,PreparedWorldFaces? preparedWorldFaces=null,PreparedWallMeshFaces[]? preparedWallFaces=null)
     {
         point=default;owner="";failure="";outward.Y=0;outward=outward.Normalized();
         var right=new Vector3(outward.Z,0,-outward.X);
-        var planes=Planes(building,outward,right,explicitExteriorWall);
+        var planes=Planes(building,outward,right,explicitExteriorWall,preparedWallFaces);
         // The plate hangs on the wall segment the door pierces (or its gate),
         // beside the entrance at human reading height: the free rectangle
         // nearest the door axis, target centre 1.8 m above the facade's own
@@ -385,7 +391,22 @@ internal static class AddressFacadeMount
         for(var i=1;i<6;i++){var y=-HalfHeight+2*HalfHeight*i/6;yield return center+new Vector2(-HalfWidth,y);yield return center+new Vector2(HalfWidth,y);}
         foreach(var x in new[]{-RivetX,RivetX})foreach(var y in new[]{-RivetY,RivetY})yield return center+new Vector2(x,y);
     }
-    private static List<Plane> Planes(Node3D building,Vector3 outward,Vector3 right,string? explicitExteriorWall=null)
+    private static PreparedWallMeshFaces[] CaptureWallFaces(Node3D building,string? explicitExteriorWall)
+    {
+        if(explicitExteriorWall is not null&&!VerifiedExplicitWall(explicitExteriorWall))
+            throw new ArgumentException("Unverified explicit exterior facade: "+explicitExteriorWall);
+        var faces=new List<PreparedWallMeshFaces>();
+        foreach(var mesh in Descendants(building).OfType<MeshInstance3D>().Where(m=>m.IsVisibleInTree()&&m.Mesh is not null
+            &&(explicitExteriorWall is null?Eligible(m.Name.ToString()):m.Name==explicitExteriorWall)))
+        {
+            var raw=mesh.Mesh!.GetFaces();var transform=mesh.GlobalTransform;var vertices=new Vector3[raw.Length-raw.Length%3];
+            for(var i=0;i<vertices.Length;i++)vertices[i]=transform*raw[i];
+            faces.Add(new(vertices,mesh.GetPath().ToString()));
+        }
+        return faces.ToArray();
+    }
+
+    private static List<Plane> Planes(Node3D building,Vector3 outward,Vector3 right,string? explicitExteriorWall=null,PreparedWallMeshFaces[]? preparedWallFaces=null)
     {
         // The first two names are exterior walls in author_rural_dwelling; Pier1Skin is the
         // outer skin of the civic square's hollow front walls and Walls the solid shells of
@@ -396,17 +417,32 @@ internal static class AddressFacadeMount
         if(explicitExteriorWall is not null && !VerifiedExplicitWall(explicitExteriorWall))
             throw new ArgumentException("Unverified explicit exterior facade: "+explicitExteriorWall);
         var planes=new List<Plane>();
-        foreach(var mesh in Descendants(building).OfType<MeshInstance3D>().Where(m=>m.IsVisibleInTree()&&m.Mesh is not null
-            &&(explicitExteriorWall is null?Eligible(m.Name.ToString()):m.Name==explicitExteriorWall)))
+        if(preparedWallFaces is not null)
         {
-            var owner=mesh.GetPath().ToString();var faces=mesh.Mesh!.GetFaces();
-            for(var i=0;i+2<faces.Length;i+=3)
+            foreach(var prepared in preparedWallFaces)
+            for(var i=0;i+2<prepared.Vertices.Length;i+=3)
             {
-                var a=mesh.GlobalTransform*faces[i];var b=mesh.GlobalTransform*faces[i+1];var c=mesh.GlobalTransform*faces[i+2];
+                var a=prepared.Vertices[i];var b=prepared.Vertices[i+1];var c=prepared.Vertices[i+2];var owner=prepared.Owner;
                 if(Math.Abs((b-a).Cross(c-a).Normalized().Dot(outward))<.999f)continue;
                 var depth=a.Dot(outward);var plane=planes.FirstOrDefault(p=>Math.Abs(p.Depth-depth)<.006f&&p.Owner==owner);
                 if(plane is null){plane=new(depth,owner);planes.Add(plane);}
                 plane.Triangles.Add(new(new(a.Dot(right),a.Y),new(b.Dot(right),b.Y),new(c.Dot(right),c.Y)));
+            }
+        }
+        else
+        {
+            foreach(var mesh in Descendants(building).OfType<MeshInstance3D>().Where(m=>m.IsVisibleInTree()&&m.Mesh is not null
+                &&(explicitExteriorWall is null?Eligible(m.Name.ToString()):m.Name==explicitExteriorWall)))
+            {
+                var owner=mesh.GetPath().ToString();var faces=mesh.Mesh!.GetFaces();
+                for(var i=0;i+2<faces.Length;i+=3)
+                {
+                    var a=mesh.GlobalTransform*faces[i];var b=mesh.GlobalTransform*faces[i+1];var c=mesh.GlobalTransform*faces[i+2];
+                    if(Math.Abs((b-a).Cross(c-a).Normalized().Dot(outward))<.999f)continue;
+                    var depth=a.Dot(outward);var plane=planes.FirstOrDefault(p=>Math.Abs(p.Depth-depth)<.006f&&p.Owner==owner);
+                    if(plane is null){plane=new(depth,owner);planes.Add(plane);}
+                    plane.Triangles.Add(new(new(a.Dot(right),a.Y),new(b.Dot(right),b.Y),new(c.Dot(right),c.Y)));
+                }
             }
         }
         return planes.GroupBy(p=>p.Owner,StringComparer.Ordinal).Select(g=>g.OrderByDescending(p=>p.Depth).First()).ToList();

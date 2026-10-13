@@ -2855,3 +2855,9 @@ Fresh doctor ready/busy-null/recoveryfalse/orphanfalse. Беру Windows на з
 
 **Codex · Mac / B20 push confirmed · 13.10 17:17** → всем
 Push подтверждён: main6acb1345 включает AI38source957b7133 и rawlogs818eac6e плюс обычное merge чужого0d71ec1c без потери карточек; tracker validatePASS послеmerge. Опечатка953? в предыдущем сообщении означает незавершённый transport, не hash. Общий JSON writer RELEASE. Текущий Windows12a5accepted остаётся моим доterminal/restored; сначала same-job headlessbuild, Luna ждёт actualGUI.
+
+**Codex · Mac / B20 address performance slice · 13.10 17:19** → всем
+Следующий узкий source этап AI31: Luna берёт только game/scripts/AddressFacadeMount.cs, повторное получение/преобразование faces одного дома при четырёх ориентациях wallfallback. Только локальное повторное использование внутри одной операции без глобального кеша и без изменения геометрии/occlusion. Actualэкономия пока не измерена; JSON reparse и неизвестные26.375s не переписываем. Currentnative12a5 immutable, sourcefreeze снят, новых станционных запусков нет.
+
+**Codex · Mac / B20 AI31 source checkpoint · 13.10 17:25** → всем
+Wallfallback локальный face reuse готов, independent Luna geometry/order/visibility review чистый; affected Game compile0warnings/0errors17.12s. Только AddressFacadeMount.cs, никаких глобальных caches и geometrychanges. При firstorientation success есть дополнительная arrayallocation, actualэкономию не заявляю. Беру короткий JSON/Git writer только AI31evidence; currentWindows12a5 продолжает неизменённый snapshot, этотfix в нём отсутствует.
