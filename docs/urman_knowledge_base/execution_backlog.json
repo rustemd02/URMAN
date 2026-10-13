@@ -6056,18 +6056,18 @@
             "assigned_owner": "art/materials/qa",
             "active_owner": null,
             "activity": {
-              "state": "stopped",
-              "reason": "11.10: live bath W11 source stage and affected compile 0/0 finished; root released source files. Native view pending snapshot-transfer approval; child remains partial."
+              "state": "released",
+              "reason": "First static W11 body/axial grain accepted with PASS/restored receipt. Required face-on cap submit rejected by station busy50923 before execution; no rerun, reservation released, other owner preserved."
             },
             "task_type": "engineering",
             "status": "in_progress",
             "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
-              "One protected close Windows view of BathDryFirewood0..4 after explicit snapshot-transfer approval; inspect axial W11 and centered wood_cut caps.",
-              "Other W11 handles/portable wood consumers and full child DoD remain open."
+              "Face-on centered wood_cut cap rings are not accepted from the oblique first view; exact revised point in progress_2026_10_13_bath_view.",
+              "Other W11 handles/portable consumers and full child/art/motion criteria remain open."
             ],
-            "next_action": "After snapshot-transfer approval, capture bath_firewood:BabaiBathhouse@0,0.8,1.8>BabaiBathhouse@-1.54,0.28,1.03 --fov 50; review actual image and protected receipt, then address other W11 consumers.",
+            "next_action": "After actual owner of50923b93c99b4ef48a3f3ddff4d6c25e terminal/restored/release and a published lease checkpoint, capture only revised bath_firewood_caps face-on point. Do not repeat accepted c2ab body view or compile unchanged source. Keep otherW11/art criteria open.",
             "blocker": {
               "reason": "Auto-review denied remote-check snapshot transfer to UNTERPC; explicit transfer-approval question pending. Source work and local compilation completed.",
               "release_when": "Author explicitly approves sending the URMAN checkout snapshot to UNTERPC through eng/remote-check.py."
@@ -6134,7 +6134,40 @@
               "verification": [],
               "acceptance": []
             },
-            "depends_on": []
+            "depends_on": [],
+            "progress_2026_10_13_bath_view": {
+              "verification_question": "Does actual BathDryFirewood0..4 preserve round silhouettes, W11 axial side grain and centered wood_cut caps at the existing named BabaiBathhouse view? Static view only, other consumers/art/motion not accepted.",
+              "points": "bath_firewood:BabaiBathhouse@0,0.8,1.8>BabaiBathhouse@-1.54,0.28,1.03",
+              "fov": 50,
+              "mode": "existing capture",
+              "phase": "village-winter-crisp",
+              "baseline_worker_sha": "16f15d0c5def20a986b52ff333302d7fa9731cfd5ca508c42d8aeb805d878ba8",
+              "state": "Accepted partial native static body stage; required cap rings remain unaccepted.",
+              "job_id": "c2ab81958a584231b8e64db5db6283ae",
+              "snapshot_id": "6d0c41bed749a546e332e70d2a03a226b5565ba5dd8e1e98c0c80d2e8a160de5",
+              "first_receipt": "PASS/gameExit0/userdataRestoredtrue/worker16f15d0c",
+              "changed_cap_question": "First image shows oblique small cap ellipses; source Bathhouse.cs places log ends at Z1.29. Face-on exact cap view tests centered rings without changing material/light/candidate.",
+              "cap_points": "bath_firewood_caps:BabaiBathhouse@-1.62,0.205,1.92>BabaiBathhouse@-1.62,0.205,1.29",
+              "review": "Root personally viewed actual bath_firewood PNG: rounded silhouettes and axial side grain visible; oblique small cap ellipses do not establish centered ring detail. Medium/.9scale/FOV50; exact BabaiBathhouse camera+target owner verified. No source/build changes.",
+              "archive_sha256": "c3b8c586d05328ec4b69367f682118ef5ce8e4f44ee4d885c9c7afd43b5019d2",
+              "evidence": [
+                "evidence/ACT1-TEXTURE.02/bath-w11-20261013/native_c2ab8195/receipt.json",
+                "evidence/ACT1-TEXTURE.02/bath-w11-20261013/native_c2ab8195/request.json",
+                "evidence/ACT1-TEXTURE.02/bath-w11-20261013/native_c2ab8195/result.zip",
+                "evidence/ACT1-TEXTURE.02/bath-w11-20261013/native_c2ab8195/frames/bath_firewood.png",
+                "evidence/ACT1-TEXTURE.02/bath-w11-20261013/native_c2ab8195/frames/bath_firewood.json",
+                "evidence/ACT1-TEXTURE.02/bath-w11-20261013/native_c2ab8195/frames/_capture-summary.json"
+              ],
+              "cap_submission": {
+                "job_id_printed_before_post": "028365045ffd4aab9c9739f338a0e923",
+                "accepted": false,
+                "http_status": 409,
+                "busy_job": "50923b93c99b4ef48a3f3ddff4d6c25e",
+                "game_started": false,
+                "remaining": "Exact face-on cap view after live owner release; no automatic retry."
+              },
+              "release": "First job userdataRestored=true; fresh doctor idle before cap attempt, subsequent external busy job preserved. Own cap reservation released in chat; no attempt to stop/recover another job."
+            }
           },
           {
             "id": "ACT1-TEXTURE.02/E17",
