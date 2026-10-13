@@ -115746,7 +115746,7 @@
       "title": "Удержать красоту наружной деревни после разделения",
       "milestone": "PW-M3",
       "status": "in_progress",
-      "active_owner": null,
+      "active_owner": "/root",
       "owner": "art",
       "priority": "P1",
       "complexity": "complex",
@@ -116037,8 +116037,8 @@
       },
       "assigned_owner": "art",
       "activity": {
-        "state": "released",
-        "reason": "Finite exact DistrictZhiguli painted-shell source accepted by root review/affected compile0/0; native same parking views and whole PW044 open."
+        "state": "confirmed_active",
+        "reason": "Explicit B02 release04:30 followed by fresh doctor clear. Root accepts one changed Zhiguli paint capture using existing two parking views."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -116366,7 +116366,7 @@
         "verification_question": "Does same parking wide/contact show painted green-grey body without brushed-metal stripes, while wheels/trim/snow/geometry and third-party attribution remain intact?",
         "success": "Only this model exact Steel slot uses existing vehicle_paint; Wheel_steel/Metal/default generic path unchanged; native matching views actually reviewed.",
         "source_state": "Accepted: optional exact ordinal paintedBodySlot defaultnull; only BuildDistrictZhiguli opts into Steel→vehicle_paint4c5d4c. Wheel_steel/Metal/generic mappings, mesh/UV/source asset/CCBY attribution unchanged.",
-        "native_state": "Changed car paint NOT_RUN. Newly delivered baseline/snow receipts verified PASS/gameExit0/userdataRestoredtrue; car source fix300408ad not in those captures. Current B20 Windows561a reservation preserved.",
+        "native_state": "Reserved one existing crisp/FOV70 parking wide/contact capture after B02 release; fresh doctor ready/busy null/orphan false/recovery false.",
         "affected_compile": "Game build succeeded:0 errors,0 warnings;27.59s",
         "source_files": [
           "game/scripts/VehicleVisualFactory.DistrictZhiguli.cs",
