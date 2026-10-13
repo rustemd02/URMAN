@@ -120,6 +120,7 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
 
     public void SuspendForAi()
     {
+        CancelFenceHandleDrag();
         _orbiting = false;
         _orbitingWithAltLeft = false;
         _panning = false;
@@ -237,6 +238,7 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
 
         var tree = studio.GetTree();
         ClearFencePick();
+        DisposeFenceSupportHandles();
         if (_view is { } view && GodotObject.IsInstanceValid(view)) view.QueueFree();
         _view = null;
         _demo = null;
@@ -897,6 +899,7 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
             _camera.Size = _distance * 1.4f;
             _camera.GlobalPosition = _pivot + new Vector3(0, 120f, 0);
             _camera.RotationDegrees = new Vector3(-90f, 0f, 0f);
+            UpdateFenceSupportHandleVisuals();
             RequestViewportRender();
             return;
         }
@@ -905,12 +908,20 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
         var rotation = Basis.FromEuler(new Vector3(Mathf.DegToRad(_pitch), Mathf.DegToRad(_yaw), 0f));
         _camera.GlobalPosition = _pivot + rotation * new Vector3(0, 0, _distance);
         _camera.LookAt(_pivot, Vector3.Up);
+        UpdateFenceSupportHandleVisuals();
         RequestViewportRender();
     }
 
     private void OnViewportInput(InputEvent @event)
     {
-        if (_shuttingDown || studio.IsWorkspaceActionBusy || studio.IsAiPanelVisible) return;
+        if (_shuttingDown || _reloading || _fenceApplyInProgress
+            || studio.IsWorkspaceActionBusy || studio.IsAiActionBusy || studio.IsAiPanelVisible)
+        {
+            CancelFenceHandleDrag();
+            return;
+        }
+        if (FenceSupportToolActive) UpdateFenceSupportHandleVisuals();
+        if (HandleFenceSupportDragInput(@event)) return;
         if (@event is InputEventKey { Pressed: true, Echo: false, Keycode: global::Godot.Key.Enter or global::Godot.Key.KpEnter } key
             && (key.MetaPressed || key.CtrlPressed) && HasViewportFocus)
         {
@@ -975,6 +986,7 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
                 break;
             case InputEventMouseButton { ButtonIndex: MouseButton.Left, Pressed: true } press:
                 _container.GrabFocus();
+                if (TryBeginFenceHandleDrag(press.Position)) break;
                 if (TryPickFence(press.Position))
                 {
                     BuildMarkers();

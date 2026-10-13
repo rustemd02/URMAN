@@ -34,6 +34,10 @@ public sealed partial class StudioWorldSection
     private sealed record FenceAiPreview(
         Act1ConnectedWorld World, FencePreviewSources WorkspaceSources, FencePreviewSources CandidateSources,
         FenceAlignmentRequest Request, FenceAlignmentProposal Proposal, bool Applied);
+    private sealed record FenceSupportHandle(int PostIndex, bool Aligned, Vector3 Top);
+    private sealed record FenceHandleDrag(
+        FencePick Pick, FencePreviewSources Sources, AuthoredSourceSnapshot Source,
+        int PostIndex, bool Align, int HandleSlot, Vector2 PressPosition);
     internal sealed record FenceApplyPlan(
         string RelativePath, string BeforeText, string CandidateText, string BeforeHash, string CandidateHash,
         FencePreviewSources BeforeSources, FencePreviewSources CandidateSources, IReadOnlySet<string> ExistingIdentityConflicts)
@@ -43,6 +47,13 @@ public sealed partial class StudioWorldSection
 
     private FencePick? _fencePick;
     private MeshInstance3D? _fenceRangeMarker;
+    private readonly MeshInstance3D?[] _fenceSupportHandleMarkers = new MeshInstance3D?[2];
+    private readonly Button?[] _fenceSupportHandleTargets = new Button?[2];
+    private CollisionShape3D? _fenceSupportHandleSource;
+    private FenceSupportHandle[]? _fenceSupportHandles;
+    private FenceHandleDrag? _fenceHandleDrag;
+    private bool FenceSupportToolActive => _measuring || _sculpting || _brushing
+        || _placing is not null || _pointPick is not null;
     private Act1ConnectedWorld? _fencePreviewWorld;
     private FencePreviewSources? _fencePreviewedSources;
     private Act1ConnectedWorld? _fencePreviewFailedWorld;
@@ -57,9 +68,11 @@ public sealed partial class StudioWorldSection
 
     private void ClearFencePick()
     {
+        CancelFenceHandleDrag();
         _fencePick = null;
         if (_fenceRangeMarker is not null && GodotObject.IsInstanceValid(_fenceRangeMarker))
             _fenceRangeMarker.Visible = false;
+        HideFenceSupportHandles();
         RequestViewportRender();
     }
 
@@ -979,6 +992,7 @@ public sealed partial class StudioWorldSection
         }
 
         panel.Text($"Будут выпрямлены секции {start + 1}–{start + 3}; крайние стойки области останутся на месте.", muted: true);
+        panel.Text("Перетащите цветную метку одной из двух внутренних стоек на подпись: выпрямление или возврат исходного наклона. Изменение попадёт в черновик только при отпускании.", muted: true);
         panel.Buttons(
             ("Выпрямить 3 секции", () => EditFenceAlignment(current, start, align: true)),
             ("Сбросить выпрямление", () => EditFenceAlignment(current, start, align: false)));
@@ -996,42 +1010,77 @@ public sealed partial class StudioWorldSection
 
     private void EditFenceAlignment(FencePick selected, int start, bool align)
     {
+        if (start < 0 || start > selected.BayCount - 3)
+        {
+            ClearFenceSelectionAndRefresh();
+            studio.ShowBanner("Забор не изменён: диапазон секций устарел.", error: true);
+            return;
+        }
+
+        EditFenceAlignmentPosts(selected, [start + 1, start + 2], align,
+            align ? "выпрямить три секции забора" : "сбросить выпрямление забора", expectedText: null);
+    }
+
+    private bool EditFenceAlignmentPosts(
+        FencePick selected, IReadOnlyList<int> postIndices, bool align, string label, string? expectedText)
+    {
+        if (_fenceApplyInProgress || _reloading || studio.IsWorkspaceActionBusy)
+        {
+            studio.ShowBanner("Дождитесь завершения текущего действия Studio, прежде чем менять забор.", error: false);
+            return false;
+        }
+
         if (_fenceAiPreview is not null)
         {
             studio.ShowBanner("Сначала снимите временный предпросмотр AI забора.", error: false);
-            return;
+            return false;
         }
 
         if (studio.IsAiActionBusy)
         {
             studio.ShowBanner("Дождитесь завершения текущего действия Studio, прежде чем менять забор.", error: false);
-            return;
+            return false;
         }
 
         if (!TryGetFreshFencePick(selected, out var current, out var error)
-            || current.BayCount < 3 || start < 0 || start > current.BayCount - 3)
+            || current.BayCount < 3 || postIndices.Count is < 1 or > 2)
         {
             ClearFenceSelectionAndRefresh();
             studio.ShowBanner("Забор не изменён: " + (error.Length == 0 ? "границы пролёта устарели." : error), error: true);
-            return;
+            return false;
         }
 
-        var interiorPosts = new[] { start + 1, start + 2 };
+        var selectedStart = Math.Clamp(current.BayIndex, 0, current.BayCount - 3);
+        if (postIndices.Any(index => index <= selectedStart || index >= selectedStart + 3))
+        {
+            ClearFenceSelectionAndRefresh();
+            studio.ShowBanner("Забор не изменён: стойка выходит за выбранные три секции.", error: true);
+            return false;
+        }
+
         var file = studio.Workspace.File(current.RelativePath);
-        var expectedText = file.Text;
-        var label = align ? "выпрямить три секции забора" : "сбросить выпрямление забора";
+        var currentText = file.Text;
+        if (expectedText is not null && !string.Equals(currentText, expectedText, StringComparison.Ordinal))
+        {
+            ClearFenceSelectionAndRefresh();
+            studio.ShowBanner("Забор не изменён: черновик исходника поменялся во время перетаскивания.", error: true);
+            return false;
+        }
+
+        expectedText ??= currentText;
         string? replacementText = null;
         try
         {
             replacementText = Urman.Studio.Core.AI.FenceAlignmentSource.Rewrite(
-                current.RelativePath, expectedText, current.LotId, current.RunId, current.BayCount, interiorPosts, align);
+                current.RelativePath, expectedText, current.LotId, current.RunId, current.BayCount, postIndices, align);
             if (replacementText == expectedText)
             {
                 studio.RefreshStatus(align ? "Эти стойки уже выпрямлены" : "Для этих стоек нет выпрямления");
-                return;
+                return false;
             }
 
             studio.Session.ReplaceDraft(current.RelativePath, expectedText, replacementText, label);
+            return true;
         }
         catch (Exception failure) when (failure is IOException or UnauthorizedAccessException or ArgumentException
             or InvalidOperationException or KeyNotFoundException or FormatException or JsonException or InvalidDataException)
@@ -1041,8 +1090,439 @@ public sealed partial class StudioWorldSection
                 studio.ShowBanner("Изменение забора применено, но Studio не завершила обновление вида: " + failure.Message, error: true);
             else
                 studio.ShowBanner("Забор не изменён: " + failure.Message, error: true);
+            return false;
         }
     }
+
+    private void EnsureFenceSupportHandleControls()
+    {
+        if (_container is null || !GodotObject.IsInstanceValid(_container)
+            || _viewport is null || !GodotObject.IsInstanceValid(_viewport)) return;
+
+        for (var slot = 0; slot < 2; slot++)
+        {
+            if (_fenceSupportHandleMarkers[slot] is not { } marker || !GodotObject.IsInstanceValid(marker))
+            {
+                var tint = slot == 0 ? new Color("83d6a1") : new Color("8fc8e4");
+                marker = new MeshInstance3D
+                {
+                    Name = $"StudioFenceSupportHandle_{slot + 1}",
+                    Mesh = new SphereMesh { Radius = .16f, Height = .32f },
+                    MaterialOverride = new StandardMaterial3D
+                    {
+                        AlbedoColor = tint,
+                        ShadingMode = BaseMaterial3D.ShadingModeEnum.Unshaded,
+                        NoDepthTest = true,
+                        RenderPriority = 20
+                    },
+                    Visible = false
+                };
+                _viewport.AddChild(marker);
+                _fenceSupportHandleMarkers[slot] = marker;
+            }
+
+            if (_fenceSupportHandleTargets[slot] is not { } target || !GodotObject.IsInstanceValid(target))
+            {
+                target = new Button
+                {
+                    Name = $"StudioFenceSupportDropTarget_{slot + 1}",
+                    Text = "Выровнять",
+                    TooltipText = "Перетащите сюда маркер стойки. Это действие меняет только одну стойку выбранного забора.",
+                    FocusMode = Control.FocusModeEnum.None,
+                    MouseFilter = Control.MouseFilterEnum.Ignore,
+                    CustomMinimumSize = new Vector2(150, 34),
+                    Size = new Vector2(150, 34),
+                    Visible = false
+                };
+                _container.AddChild(target);
+                _fenceSupportHandleTargets[slot] = target;
+            }
+        }
+    }
+
+    private bool TryGetFenceSupportHandles(FencePick pick, out FenceSupportHandle[] handles)
+    {
+        handles = [];
+        if (ReferenceEquals(_fenceSupportHandleSource, pick.Shape)
+            && _fenceSupportHandles is { Length: 2 } cached
+            && GodotObject.IsInstanceValid(pick.Shape) && pick.Shape.IsInsideTree())
+        {
+            handles = cached;
+            return true;
+        }
+
+        var world = CurrentFenceWorld();
+        if (world is null || !GodotObject.IsInstanceValid(pick.Shape) || !pick.Shape.IsInsideTree()
+            || !IsUnderNode(pick.Shape, world) || pick.BayCount < 3)
+        {
+            _fenceSupportHandleSource = null;
+            _fenceSupportHandles = null;
+            return false;
+        }
+
+        _fenceSupportHandleSource = null;
+        _fenceSupportHandles = null;
+
+        var start = Math.Clamp(pick.BayIndex, 0, pick.BayCount - 3);
+        var delta = pick.RunEnd - pick.RunStart;
+        if (delta.LengthSquared() < .0001f) return false;
+        var along = new Vector3(delta.X, 0f, delta.Y).Normalized();
+        if (!float.IsFinite(along.X) || !float.IsFinite(along.Z) || along.LengthSquared() < .99f) return false;
+
+        if (pick.Shape.GetParent() is not CollisionObject3D owner) return false;
+        var supportHandles = new FenceSupportHandle[2];
+        var supportShapes = new CollisionShape3D?[2];
+        var wantedPostIndices = new[] { start + 1, start + 2 };
+        foreach (var child in owner.GetChildren())
+        {
+            if (child is not CollisionShape3D shape || !shape.HasMeta("runId")
+                || !string.Equals(shape.GetMeta("runId").AsString(), pick.RunId, StringComparison.Ordinal)
+                || !shape.HasMeta("bayIndex")) continue;
+
+            var bayIndex = shape.GetMeta("bayIndex").AsInt32();
+            for (var slot = 0; slot < wantedPostIndices.Length; slot++)
+            {
+                if (bayIndex != wantedPostIndices[slot]) continue;
+                if (supportShapes[slot] is not null) return false;
+                supportShapes[slot] = shape;
+            }
+        }
+
+        for (var slot = 0; slot < supportHandles.Length; slot++)
+        {
+            var postIndex = wantedPostIndices[slot];
+            if (supportShapes[slot] is not { } shape) return false;
+            if (!IsUnderNode(shape, world) || shape.Shape is not BoxShape3D bay
+                || !shape.HasMeta("footStart") || !shape.HasMeta("groundStartY")
+                || !shape.HasMeta("postLeanDegrees") || !shape.HasMeta("alignedStartPost")) return false;
+            var foot = shape.GetMeta("footStart").AsVector3();
+            var ground = shape.GetMeta("groundStartY").AsSingle();
+            // The builder stores its already-radian `lean` value in this legacy
+            // metadata field; use the same units as PostPointAt.
+            var leanRadians = shape.GetMeta("postLeanDegrees").AsSingle();
+            var aligned = shape.GetMeta("alignedStartPost").AsBool();
+            var rise = ground + bay.Size.Y + .11f - foot.Y;
+            var crown = rise + .045f;
+            if (!IsFinite(foot) || !float.IsFinite(ground) || !float.IsFinite(leanRadians)
+                || !float.IsFinite(rise) || rise <= 0f || !float.IsFinite(crown)
+                || (aligned && Mathf.Abs(leanRadians) > .001f)) return false;
+
+            var top = foot + Vector3.Up * crown
+                + along * (crown * Mathf.Tan(leanRadians));
+            if (!IsFinite(top)) return false;
+            supportHandles[slot] = new FenceSupportHandle(postIndex, aligned, top);
+        }
+
+        _fenceSupportHandleSource = pick.Shape;
+        _fenceSupportHandles = supportHandles;
+        handles = supportHandles;
+        return true;
+    }
+
+    private void UpdateFenceSupportHandleVisuals()
+    {
+        if (_fencePick is not { } pick || studio.Selection is not null || _fenceAiPreview is not null || _fenceApplyInProgress
+            || _reloading || studio.IsAiActionBusy || studio.IsWorkspaceActionBusy
+            || FenceSupportToolActive
+            || _camera is null || !GodotObject.IsInstanceValid(_camera)
+            || _container is null || !GodotObject.IsInstanceValid(_container)
+            || !TryGetFenceSupportHandles(pick, out var handles))
+        {
+            if (_fenceHandleDrag is not null) CancelFenceHandleDrag();
+            HideFenceSupportHandles();
+            return;
+        }
+
+        _fenceSupportHandles = handles;
+        EnsureFenceSupportHandleControls();
+        var containerSize = _container.Size;
+        if (containerSize.X <= 0f || containerSize.Y <= 0f)
+        {
+            HideFenceSupportHandles();
+            return;
+        }
+
+        for (var slot = 0; slot < handles.Length; slot++)
+        {
+            var marker = _fenceSupportHandleMarkers[slot];
+            var target = _fenceSupportHandleTargets[slot];
+            if (marker is null || target is null || !GodotObject.IsInstanceValid(marker)
+                || !GodotObject.IsInstanceValid(target)) continue;
+
+            var handle = handles[slot];
+            var cameraLocal = _camera.ToLocal(handle.Top);
+            var screen = _camera.UnprojectPosition(handle.Top);
+            if (cameraLocal.Z >= 0f || !IsFiniteScreen(screen)
+                || screen.X < -32f || screen.Y < -32f
+                || screen.X > containerSize.X + 32f || screen.Y > containerSize.Y + 32f)
+            {
+                marker.Visible = false;
+                target.Visible = false;
+                continue;
+            }
+
+            marker.GlobalPosition = handle.Top;
+            marker.Visible = true;
+            target.Text = handle.Aligned ? "↶ Вернуть наклон" : "↕ Выровнять";
+            target.TooltipText = handle.Aligned
+                ? "Перетащите маркер в эту зону, чтобы восстановить исходный наклон стойки."
+                : "Перетащите маркер в эту зону, чтобы поставить стойку вертикально.";
+            target.Modulate = handle.Aligned ? new Color("e8bd76") : new Color("93d4a5");
+            var offset = slot == 0 ? new Vector2(78f, -34f) : new Vector2(78f, 34f);
+            var topLeft = screen + offset - target.Size * .5f;
+            topLeft.X = Mathf.Clamp(topLeft.X, 2f, Mathf.Max(2f, containerSize.X - target.Size.X - 2f));
+            topLeft.Y = Mathf.Clamp(topLeft.Y, 2f, Mathf.Max(2f, containerSize.Y - target.Size.Y - 2f));
+            target.Position = topLeft;
+            target.Visible = true;
+        }
+
+        RequestViewportRender();
+    }
+
+    private bool TryBeginFenceHandleDrag(Vector2 screen)
+    {
+        if (FenceSupportToolActive || _fencePick is not { } selected) return false;
+        if (_fenceSupportHandles is not { Length: 2 } cachedHandles) return false;
+
+        var nearestSlot = -1;
+        var nearestDistance = 24f;
+        for (var slot = 0; slot < cachedHandles.Length; slot++)
+        {
+            var marker = _fenceSupportHandleMarkers[slot];
+            if (marker is null || !GodotObject.IsInstanceValid(marker) || !marker.Visible) continue;
+            var distance = _camera.UnprojectPosition(cachedHandles[slot].Top).DistanceTo(screen);
+            if (!float.IsFinite(distance) || distance >= nearestDistance) continue;
+            nearestDistance = distance;
+            nearestSlot = slot;
+        }
+        if (nearestSlot < 0) return false;
+
+        if (_fenceAiPreview is not null || _fenceApplyInProgress || _reloading
+            || studio.IsAiActionBusy || studio.IsWorkspaceActionBusy)
+        {
+            studio.ShowBanner("Дождитесь завершения текущего действия Studio, прежде чем менять стойку.", error: false);
+            return true;
+        }
+
+        if (!TryGetFreshFencePick(selected, out var current, out var error))
+        {
+            ClearFenceSelectionAndRefresh();
+            studio.ShowBanner("Перетаскивание стойки отклонено: "
+                + (error.Length == 0 ? "выбранный участок устарел или недоступен." : error), error: true);
+            return true;
+        }
+        if (!TryGetPreviewSources(out var sources, out _, out error)
+            || CurrentFenceWorld() is not { } world || !IsCurrentPreview(world, sources)
+            || !SameFenceRun(selected, current) || current.BayIndex != selected.BayIndex
+            || current.BayCount != selected.BayCount
+            || !studio.Workspace.HasFile(current.RelativePath))
+        {
+            ClearFenceSelectionAndRefresh();
+            studio.ShowBanner("Перетаскивание стойки отклонено: "
+                + (error.Length == 0 ? "предпросмотр или источник устарел." : error), error: true);
+            return true;
+        }
+        if (!TryGetFenceSupportHandles(current, out var handles)
+            || handles[nearestSlot].PostIndex != cachedHandles[nearestSlot].PostIndex
+            || handles[nearestSlot].Aligned != cachedHandles[nearestSlot].Aligned
+            || handles[nearestSlot].Top.DistanceTo(cachedHandles[nearestSlot].Top) > .01f)
+        {
+            ClearFenceSelectionAndRefresh();
+            studio.ShowBanner("Перетаскивание стойки отклонено: опора изменилась после отображения ручки.", error: true);
+            return true;
+        }
+
+        try
+        {
+            var source = studio.Workspace.File(current.RelativePath).CaptureSource();
+            if (!string.Equals(source.Text,
+                    current.RelativePath == OpenPartFenceFile ? sources.OpenPart : sources.FarBank,
+                    StringComparison.Ordinal))
+                throw new InvalidOperationException("Черновик не совпадает с текущим предпросмотром.");
+
+            var handle = handles[nearestSlot];
+            _fenceHandleDrag = new FenceHandleDrag(current, sources, source,
+                handle.PostIndex, Align: !handle.Aligned, HandleSlot: nearestSlot, PressPosition: screen);
+            _container.GrabFocus();
+            UpdateFenceHandleDropHighlight(nearestSlot, false);
+            return true;
+        }
+        catch (Exception failure) when (failure is IOException or UnauthorizedAccessException or ArgumentException
+            or InvalidOperationException or InvalidDataException)
+        {
+            ClearFenceSelectionAndRefresh();
+            studio.ShowBanner("Перетаскивание стойки отклонено: " + failure.Message, error: true);
+            return true;
+        }
+    }
+
+    private bool IsFenceHandleDragCurrent(FenceHandleDrag drag, out string error)
+    {
+        error = "";
+        if (_fenceApplyInProgress || _reloading || studio.IsAiActionBusy || studio.IsWorkspaceActionBusy || _fenceAiPreview is not null
+            || FenceSupportToolActive
+            || studio.Selection is not null || _fencePick is not { } selected
+            || !ReferenceEquals(drag.Pick.Shape, selected.Shape) || !SameFenceRun(drag.Pick, selected)
+            || selected.BayIndex != drag.Pick.BayIndex)
+        {
+            error = "выбор, предпросмотр или действие Studio изменились.";
+            return false;
+        }
+        if (!TryGetFreshFencePick(drag.Pick, out var current, out error)
+            || !ReferenceEquals(drag.Pick.Shape, current.Shape)
+            || !SameFenceRun(drag.Pick, current) || current.BayIndex != drag.Pick.BayIndex
+            || current.BayCount != drag.Pick.BayCount) return false;
+        if (!TryGetPreviewSources(out var sources, out _, out error) || sources != drag.Sources)
+        {
+            error = "исходники забора изменились во время перетаскивания.";
+            return false;
+        }
+
+        try
+        {
+            if (studio.Workspace.File(current.RelativePath).CaptureSource() != drag.Source)
+            {
+                error = "черновик забора изменился во время перетаскивания.";
+                return false;
+            }
+        }
+        catch (Exception failure) when (failure is IOException or UnauthorizedAccessException or ArgumentException
+            or InvalidDataException or InvalidOperationException)
+        {
+            error = "не удалось подтвердить исходник: " + failure.Message;
+            return false;
+        }
+
+        return true;
+    }
+
+    private void UpdateFenceHandleDragInput(Vector2 screen)
+    {
+        if (_fenceHandleDrag is not { } drag) return;
+        UpdateFenceHandleDropHighlight(drag.HandleSlot, IsInsideFenceHandleDropTarget(drag.HandleSlot, screen));
+    }
+
+    private bool HandleFenceSupportDragInput(InputEvent @event)
+    {
+        if (_fenceHandleDrag is null) return false;
+        if (FenceSupportToolActive)
+        {
+            CancelFenceHandleDrag();
+            return false;
+        }
+
+        switch (@event)
+        {
+            case InputEventKey { Pressed: true, Echo: false, Keycode: global::Godot.Key.Escape }:
+                CancelFenceHandleDrag();
+                UpdateFenceSupportHandleVisuals();
+                _container.AcceptEvent();
+                return true;
+            case InputEventMouseButton { ButtonIndex: MouseButton.Left, Pressed: false } release:
+                FinishFenceHandleDrag(release.Position);
+                _container.AcceptEvent();
+                return true;
+            case InputEventMouseMotion motion when motion.ButtonMask.HasFlag(MouseButtonMask.Left):
+                UpdateFenceHandleDragInput(motion.Position);
+                _container.AcceptEvent();
+                return true;
+            case InputEventMouseMotion:
+                CancelFenceHandleDrag();
+                return false;
+            default:
+                // Keep a grabbed handle isolated from camera navigation and other edits.
+                return true;
+        }
+    }
+
+    private void FinishFenceHandleDrag(Vector2 screen)
+    {
+        if (_fenceHandleDrag is not { } drag) return;
+        var isTarget = drag.PressPosition.DistanceTo(screen) >= DragThresholdPixels
+            && IsInsideFenceHandleDropTarget(drag.HandleSlot, screen);
+        CancelFenceHandleDrag();
+        if (!isTarget)
+        {
+            UpdateFenceSupportHandleVisuals();
+            return;
+        }
+
+        if (!IsFenceHandleDragCurrent(drag, out var error))
+        {
+            ClearFenceSelectionAndRefresh();
+            studio.ShowBanner("Перетаскивание стойки отменено: " + error, error: true);
+            return;
+        }
+
+        if (EditFenceAlignmentPosts(drag.Pick, [drag.PostIndex], drag.Align,
+            drag.Align ? "выпрямить одну стойку забора" : "вернуть исходный наклон стойки забора",
+            drag.Source.Text))
+            studio.RefreshStatus(drag.Align
+                ? "Одна стойка выпрямлена; Ctrl/⌘Z отменит последнее действие Studio."
+                : "Исходный наклон стойки восстановлен одним действием Studio.");
+        UpdateFenceSupportHandleVisuals();
+    }
+
+    private bool IsInsideFenceHandleDropTarget(int slot, Vector2 screen)
+    {
+        if (slot < 0 || slot >= _fenceSupportHandleTargets.Length
+            || _fenceSupportHandleTargets[slot] is not { } target
+            || !GodotObject.IsInstanceValid(target) || !target.Visible) return false;
+        return new Rect2(target.Position, target.Size).Grow(10f).HasPoint(screen);
+    }
+
+    private void UpdateFenceHandleDropHighlight(int slot, bool active)
+    {
+        if (slot < 0 || slot >= _fenceSupportHandleTargets.Length
+            || _fenceSupportHandleTargets[slot] is not { } target
+            || !GodotObject.IsInstanceValid(target)) return;
+        if (active)
+        {
+            target.Modulate = new Color("fff0a5");
+            target.Scale = new Vector2(1.06f, 1.06f);
+        }
+        else
+        {
+            var aligned = false;
+            if (_fenceHandleDrag is { } drag && drag.HandleSlot == slot)
+                aligned = !drag.Align;
+            else if (_fenceSupportHandles is { Length: 2 } handles)
+                aligned = handles[slot].Aligned;
+            target.Modulate = aligned ? new Color("e8bd76") : new Color("93d4a5");
+            target.Scale = Vector2.One;
+        }
+    }
+
+    private void CancelFenceHandleDrag()
+    {
+        var drag = _fenceHandleDrag;
+        _fenceHandleDrag = null;
+        if (drag is not null) UpdateFenceHandleDropHighlight(drag.HandleSlot, false);
+    }
+
+    private void HideFenceSupportHandles()
+    {
+        _fenceSupportHandleSource = null;
+        _fenceSupportHandles = null;
+        foreach (var marker in _fenceSupportHandleMarkers)
+            if (marker is not null && GodotObject.IsInstanceValid(marker)) marker.Visible = false;
+        foreach (var target in _fenceSupportHandleTargets)
+            if (target is not null && GodotObject.IsInstanceValid(target)) target.Visible = false;
+    }
+
+    private void DisposeFenceSupportHandles()
+    {
+        CancelFenceHandleDrag();
+        for (var slot = 0; slot < _fenceSupportHandleMarkers.Length; slot++)
+        {
+            if (_fenceSupportHandleMarkers[slot] is { } marker && GodotObject.IsInstanceValid(marker)) marker.QueueFree();
+            if (_fenceSupportHandleTargets[slot] is { } target && GodotObject.IsInstanceValid(target)) target.QueueFree();
+            _fenceSupportHandleMarkers[slot] = null;
+            _fenceSupportHandleTargets[slot] = null;
+        }
+    }
+
+    private static bool IsFiniteScreen(Vector2 value) => float.IsFinite(value.X) && float.IsFinite(value.Y);
 
     private void UpdateFenceRangeMarker(FencePick pick)
     {
@@ -1050,6 +1530,7 @@ public sealed partial class StudioWorldSection
         {
             if (_fenceRangeMarker is not null && GodotObject.IsInstanceValid(_fenceRangeMarker))
                 _fenceRangeMarker.Visible = false;
+            HideFenceSupportHandles();
             RequestViewportRender();
             return;
         }
@@ -1080,6 +1561,7 @@ public sealed partial class StudioWorldSection
             new Basis(Vector3.Up, Mathf.Atan2(direction.X, direction.Y)),
             new Vector3(centre.X, ground + .75f, centre.Y));
         _fenceRangeMarker.Visible = true;
+        UpdateFenceSupportHandleVisuals();
         RequestViewportRender();
     }
 }

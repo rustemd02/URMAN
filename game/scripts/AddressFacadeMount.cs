@@ -35,11 +35,16 @@ internal static class AddressFacadeMount
     {
         public Face[]? Faces;
     }
+    private sealed record BoundsNode(Vector3 Minimum,Vector3 Maximum,int Left,int Right,int Start,int Count,bool CanPrune);
 
     /// <summary>A synchronous, caller-owned snapshot for repeated sightline queries during one world-build pass.</summary>
     internal sealed class PreparedWorldFaces
     {
+        private const int BoundsLeafSize=8;
         private readonly PreparedMeshFaces[] _meshes;
+        private readonly int[] _boundsOrder;
+        private readonly BoundsNode[] _boundsTree;
+        private readonly int _boundsRoot;
 
         internal PreparedWorldFaces(Node3D root)
         {
@@ -55,13 +60,22 @@ internal static class AddressFacadeMount
                     var worldBounds=Bounds(Enumerable.Range(0,8).Select(i=>transform*bounds.GetEndpoint(i)));
                     return new PreparedMeshFaces(pair.Instance,pair.Mesh!,transform,worldBounds,pair.Instance.GetPath().ToString());
                 }).ToArray();
+
+            _boundsOrder=Enumerable.Range(0,_meshes.Length).ToArray();
+            var nodes=new List<BoundsNode>();
+            _boundsRoot=_meshes.Length==0?-1:BuildBoundsTree(_boundsOrder,0,_boundsOrder.Length,nodes);
+            _boundsTree=nodes.ToArray();
         }
 
         internal Face[] VisibleFaces(Aabb bounds)
         {
             var result=new List<Face>();
-            foreach(var prepared in _meshes)
+            var candidates=new List<int>();
+            if(_boundsRoot>=0)CollectBoundsCandidates(_boundsRoot,bounds,CanSafelyPrune(bounds),candidates);
+            candidates.Sort(); // Restore the original depth-first mesh order before materializing faces.
+            foreach(var index in candidates)
             {
+                var prepared=_meshes[index];
                 if(!prepared.WorldBounds.Intersects(bounds))continue;
                 var mesh=prepared.Instance;
                 if(mesh.Mesh is null||!mesh.IsVisibleInTree())continue;
@@ -71,6 +85,101 @@ internal static class AddressFacadeMount
             }
             return result.ToArray();
         }
+
+        private int BuildBoundsTree(int[] order,int start,int count,List<BoundsNode> nodes)
+        {
+            var minimum=Vector3.Zero;
+            var maximum=Vector3.Zero;
+            var hasSafeBounds=false;
+            var canPrune=true;
+            for(var i=0;i<count;i++)
+            {
+                var bounds=_meshes[order[start+i]].WorldBounds;
+                if(!CanSafelyPrune(bounds))
+                {
+                    canPrune=false;
+                    continue;
+                }
+                var leafMinimum=ComponentMin(bounds.Position,bounds.End);
+                var leafMaximum=ComponentMax(bounds.Position,bounds.End);
+                if(!hasSafeBounds)
+                {
+                    minimum=leafMinimum;
+                    maximum=leafMaximum;
+                    hasSafeBounds=true;
+                }
+                else
+                {
+                    minimum=ComponentMin(minimum,leafMinimum);
+                    maximum=ComponentMax(maximum,leafMaximum);
+                }
+            }
+            var index=nodes.Count;
+            nodes.Add(new(minimum,maximum,-1,-1,start,count,canPrune));
+            if(count<=BoundsLeafSize)return index;
+
+            var spanX=(double)maximum.X-minimum.X;
+            var spanY=(double)maximum.Y-minimum.Y;
+            var spanZ=(double)maximum.Z-minimum.Z;
+            var axis=spanX>=spanY&&spanX>=spanZ?0:spanY>=spanZ?1:2;
+            Array.Sort(order,start,count,Comparer<int>.Create((left,right)=>
+            {
+                static double Center(Aabb value,int axis)
+                {
+                    var start=axis switch {0=>value.Position.X,1=>value.Position.Y,_=>value.Position.Z};
+                    var end=axis switch {0=>value.End.X,1=>value.End.Y,_=>value.End.Z};
+                    return ((double)start+end)*.5d;
+                }
+                var leftCentre=Center(_meshes[left].WorldBounds,axis);
+                var rightCentre=Center(_meshes[right].WorldBounds,axis);
+                var comparison=leftCentre.CompareTo(rightCentre);
+                return comparison!=0?comparison:left.CompareTo(right);
+            }));
+
+            var leftCount=count/2;
+            var leftChild=BuildBoundsTree(order,start,leftCount,nodes);
+            var rightChild=BuildBoundsTree(order,start+leftCount,count-leftCount,nodes);
+            nodes[index]=new(minimum,maximum,leftChild,rightChild,0,0,canPrune);
+            return index;
+        }
+
+        private void CollectBoundsCandidates(int nodeIndex,Aabb query,bool canPruneQuery,List<int> candidates)
+        {
+            var node=_boundsTree[nodeIndex];
+            if(canPruneQuery&&node.CanPrune&&Disjoint(node.Minimum,node.Maximum,query))return;
+            if(node.Count>0)
+            {
+                for(var i=0;i<node.Count;i++)candidates.Add(_boundsOrder[node.Start+i]);
+                return;
+            }
+            CollectBoundsCandidates(node.Left,query,canPruneQuery,candidates);
+            CollectBoundsCandidates(node.Right,query,canPruneQuery,candidates);
+        }
+
+        private static bool CanSafelyPrune(Aabb bounds)
+        {
+            // Malformed bounds and their ancestors stay on the traversal path;
+            // exact per-mesh Intersects remains the final authority.
+            if(!bounds.Position.IsFinite()||!bounds.Size.IsFinite()||!bounds.End.IsFinite()
+                ||bounds.Size.X<0||bounds.Size.Y<0||bounds.Size.Z<0)return false;
+            return true;
+        }
+
+        private static bool Disjoint(Vector3 minimum,Vector3 maximum,Aabb query)
+        {
+            var queryMinimum=query.Position;
+            var queryMaximum=query.End;
+            // Strict comparisons keep face/edge-touching bounds as candidates,
+            // matching an inclusive intersection broad phase.
+            return queryMaximum.X<minimum.X||queryMaximum.Y<minimum.Y||queryMaximum.Z<minimum.Z
+                ||queryMinimum.X>maximum.X||queryMinimum.Y>maximum.Y||queryMinimum.Z>maximum.Z;
+        }
+
+        private static Vector3 ComponentMin(Vector3 left,Vector3 right)=>new(
+            Mathf.Min(left.X,right.X),Mathf.Min(left.Y,right.Y),Mathf.Min(left.Z,right.Z));
+
+        private static Vector3 ComponentMax(Vector3 left,Vector3 right)=>new(
+            Mathf.Max(left.X,right.X),Mathf.Max(left.Y,right.Y),Mathf.Max(left.Z,right.Z));
     }
 
     internal static PreparedWorldFaces PrepareWorldFaces(Node3D root)=>new(root);

@@ -76550,6 +76550,15 @@
                 ],
                 "verification": "Luna implementation plus independent Luna policy/caller review; root fixed one C# local naming collision, final Game compile 0 errors/0 warnings14.74s; scoped diff check passed.",
                 "limits": "New fence restart Undo/Redo not native verified; no whole AI15 completion. Existing live-session Apply/history path retained, no new tests/probes."
+              },
+              {
+                "stage": "2026-10-14 manual fence support handles source",
+                "result": "GAME_COMPILE_0_0_REVIEW_PASS_NATIVE_OPEN",
+                "source": [
+                  "game/studio/StudioWorldSection.Fences.cs",
+                  "game/studio/StudioWorldSection.cs"
+                ],
+                "actual_result": "Two real interior post markers with labeled alignment/reset drop targets; same existing fenceAlignment schema, no arbitrary offsets. Press freezes source/shape; movement only highlights target; release rewrites one permitted post in one existing ReplaceDraft Undo step. Escape/tool takeover/lost Left release cancel without mutation. Live shape/source hashes checked again at release. Marker lookup cached per picked bay, scans only selected fence body direct children on miss; camera/pointer hot path has no whole-world traversal or source parsing. Luna implementation and independent FSM review; root fixed review boundary and final affected Game compile0/0 in13.38s. Native A03 handles not yet verified."
               }
             ],
             "stage_tasks": [
@@ -76568,20 +76577,19 @@
               ],
               "done_when": "Изменены только выбранные секции; нет разрывов/пересечений; калитка открывается как раньше."
             },
-            "active_owner": "Codex",
+            "active_owner": null,
             "activity": {
-              "state": "confirmed_active",
-              "reason": "Fence startup history source slice delivered; native restart Undo/Redo pending available serialized Windows slot."
+              "state": "released",
+              "reason": "Manual-handle engineering slice compiled and reviewed; native A03 remains open."
             },
             "task_type": "engineering",
             "status": "in_progress",
             "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
-              "Typed fence direct/manual reply and transient preview are wired in source; ONE durable Apply/source baseline sync, restart/history/provenance receipts and draggable handles remain.",
-              "Native A03: three bays, wicket operation, unchanged outer supports/neighbors, source/play provenance and complete Undo not verified."
+              "Typed fence direct/manual reply, transient preview, durable Apply and manual alignment/reset handles are wired and compiled; native A03 gesture/three bays/wicket/endpoints/neighbor preservation and exact restart/history Undo remain unverified."
             ],
-            "next_action": "На свободной Windows станции провести existing fence preview/Apply → полное закрытие/reopen → Undo/Redo; сверить source hashes и игровой вид.",
+            "next_action": "Run bounded native A03: choose three fence bays, drag one interior support to align, cancel another gesture, Apply and exact Undo; verify outer supports/wicket/neighbors and restart history.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -80452,6 +80460,12 @@
                 ],
                 "verification": "Actual phase tags and accepted preview/Apply/Undo UI; game0, newreceiptuserdataRestoredtrue. Only2GOG errors remain. Reviewed runnerb8 deployed with exactbasebackup and installedSHA7d58836ff5aac2393840a4d6aa63f58a54b1de408129968c2ce3f05bb6d3bf99.",
                 "limits": "No latency improvement claimed; fullmap rebuild and hero selective guard/usability still open. Worker schema3 exporter not deployed."
+              },
+              {
+                "stage": "2026-10-14 address mounting broad phase",
+                "result": "GAME_COMPILE_0_0_SOURCE_REVIEW_PASS_SPEED_UNMEASURED",
+                "source": "game/scripts/AddressFacadeMount.cs",
+                "actual_result": "Native29 authored-addresses10.837/11.036/11.151s identifies repeated full snapshot scans. Existing per-build PreparedWorldFaces now has balanced endpoint hierarchy; every mesh represented once, candidates restored to original order, unchanged exact Intersects/visibility/faces cache. Invalid bounds or queries bypass pruning; aggregate endpoints avoid inward float Aabb merge rounding. Luna implementation and independent source review, root numerical invariant correction; affected Game compile0/0. Native speed/fidelity comparison unmeasured; no claim fullmap speed fixed."
               }
             ],
             "stage_tasks": [
