@@ -34,6 +34,7 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
     private bool _comparing;
     private RuntimeBridge? _bridge;
     private IReadOnlyList<ResolvedJournalEntry> _projection = [];
+    private Viewport? _refitViewport;
     private AccessibilitySettingsSnapshot _accessibility = AccessibilitySettingsSnapshot.Default;
 
     public int RenderedEntryCount => _projection.Count;
@@ -53,6 +54,8 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
     public string LearnedVocabularyText => BuildWordSummary();
 
     private AudioStreamPlayer? _foley;
+
+    public override void _EnterTree() => BindRefitSignal();
 
     public override void _Ready()
     {
@@ -81,7 +84,7 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
         BuildPhotoBookUi();
         _close.Pressed += Close;
         _entries.ItemSelected += SelectEntry;
-        GetViewport().SizeChanged += RefitToViewport;
+        BindRefitSignal();
         if (FindPlayer() is { } player)
         {
             ApplyAccessibilitySettings(player.Accessibility);
@@ -167,6 +170,7 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
 
     public override void _ExitTree()
     {
+        UnbindRefitSignal();
         CloseBookInspection();
         if (_bridge is not null) _bridge.RuntimeStateChanged -= OnRuntimeStateChanged;
         _bridge = null;
@@ -680,7 +684,7 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
 
     private void RefitToViewport()
     {
-        if (_book is null)
+        if (!IsInsideTree() || _book is null)
         {
             return;
         }
@@ -703,5 +707,27 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
         _book.OffsetRight = size.X / 2f;
         _book.OffsetBottom = size.Y / 2f;
         _book.PivotOffset = size / 2f;
+    }
+
+    private void BindRefitSignal()
+    {
+        if (!IsInsideTree() || _book is null || _refitViewport is not null)
+        {
+            return;
+        }
+
+        _refitViewport = GetViewport();
+        _refitViewport.SizeChanged += RefitToViewport;
+    }
+
+    private void UnbindRefitSignal()
+    {
+        if (_refitViewport is null)
+        {
+            return;
+        }
+
+        _refitViewport.SizeChanged -= RefitToViewport;
+        _refitViewport = null;
     }
 }

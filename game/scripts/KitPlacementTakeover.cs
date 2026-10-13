@@ -106,8 +106,8 @@ public static class KitPlacementTakeover
         if (entity.GetProperty("id").GetString() == HeroHouseRecipe.EntityId
             && HeroHouseRecipe.Load().ModelPath is { } modelPath)
         {
-            var document = new GltfDocument();
-            var state = new GltfState();
+            using var document = new GltfDocument();
+            using var state = new GltfState();
             if (document.AppendFromFile(ProjectSettings.GlobalizePath(modelPath), state) != Error.Ok)
                 throw new InvalidOperationException($"Не импортирован вариант дома: {modelPath}");
             var root = document.GenerateScene(state) as Node3D

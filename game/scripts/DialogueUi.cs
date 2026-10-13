@@ -14,6 +14,7 @@ public partial class DialogueUi : CanvasLayer, IAccessibilitySettingsTarget
     private RuntimeBridge? _bridge;
     private CompiledDialogueContent? _dialogue;
     private CompiledDialogueNodeContent? _node;
+    private Viewport? _refitViewport;
     private AccessibilitySettingsSnapshot _accessibility = AccessibilitySettingsSnapshot.Default;
 
     public bool IsOpen => _screen.Visible;
@@ -27,6 +28,10 @@ public partial class DialogueUi : CanvasLayer, IAccessibilitySettingsTarget
     }
 
     private AudioStreamPlayer? _foley;
+
+    public override void _EnterTree() => BindRefitSignals();
+
+    public override void _ExitTree() => UnbindRefitSignals();
 
     public override void _Ready()
     {
@@ -44,9 +49,7 @@ public partial class DialogueUi : CanvasLayer, IAccessibilitySettingsTarget
         {
             if (_screen.Visible && _continue.IsVisibleInTree() && !_continue.HasFocus()) _continue.GrabFocus();
         };
-        GetViewport().SizeChanged += RefitToViewport;
-        _panel.MinimumSizeChanged += RefitToViewport;
-        _line.Resized += RefitToViewport;
+        BindRefitSignals();
         if (GetTree().GetFirstNodeInGroup("player_controller") is FirstPersonController player)
         {
             ApplyAccessibilitySettings(player.Accessibility);
@@ -62,6 +65,11 @@ public partial class DialogueUi : CanvasLayer, IAccessibilitySettingsTarget
 
     private void RefitToViewport()
     {
+        if (!IsInsideTree() || _panel is null || _line is null || _choices is null)
+        {
+            return;
+        }
+
         var viewport = _panel.GetViewportRect().Size;
         var scale = Mathf.Clamp((float)_accessibility.TextScale, 0.8f, 1.6f);
         var width = Mathf.Max(1f, Mathf.Min(viewport.X - 48f, 860f * scale));
@@ -76,6 +84,32 @@ public partial class DialogueUi : CanvasLayer, IAccessibilitySettingsTarget
         _panel.OffsetRight = width * .5f;
         _panel.OffsetTop = -height - 48f;
         _panel.OffsetBottom = -48f;
+    }
+
+    private void BindRefitSignals()
+    {
+        if (!IsInsideTree() || _panel is null || _line is null || _refitViewport is not null)
+        {
+            return;
+        }
+
+        _refitViewport = GetViewport();
+        _refitViewport.SizeChanged += RefitToViewport;
+        _panel.MinimumSizeChanged += RefitToViewport;
+        _line.Resized += RefitToViewport;
+    }
+
+    private void UnbindRefitSignals()
+    {
+        if (_refitViewport is null)
+        {
+            return;
+        }
+
+        _refitViewport.SizeChanged -= RefitToViewport;
+        if (_panel is not null) _panel.MinimumSizeChanged -= RefitToViewport;
+        if (_line is not null) _line.Resized -= RefitToViewport;
+        _refitViewport = null;
     }
 
     public override void _UnhandledInput(InputEvent inputEvent)

@@ -1827,7 +1827,9 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
         var recipe = JsonNode.Parse(File.ReadAllText(Path.Combine(_studio.Workspace.Root, RecipePath)))!;
         if ((string?)recipe["modelPath"] is not { } modelPath) return;
         var fullPath = Path.Combine(_studio.Workspace.Root, "game", modelPath["res://".Length..]);
-        if (new GltfDocument().AppendFromFile(fullPath, new GltfState()) != Error.Ok)
+        using var document = new GltfDocument();
+        using var state = new GltfState();
+        if (document.AppendFromFile(fullPath, state) != Error.Ok)
             throw new IOException("Импорт модели не прошёл; возвращаю предыдущую версию.");
     }
 
@@ -1864,8 +1866,8 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
 
     private static Node3D LoadHousePreview(byte[] bytes, string basePath)
     {
-        var document = new GltfDocument();
-        var state = new GltfState();
+        using var document = new GltfDocument();
+        using var state = new GltfState();
         if (document.AppendFromBuffer(bytes, basePath, state) != Error.Ok)
             throw new InvalidOperationException("Модель дома не прошла импорт предпросмотра.");
         if (document.GenerateScene(state) is not Node3D scene)

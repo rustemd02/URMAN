@@ -22,6 +22,7 @@ public partial class DocumentUi : CanvasLayer, IAccessibilitySettingsTarget
     private SourceExcerptSelection _excerpts = null!;
     private RuntimeBridge? _bridge;
     private CompiledDocumentContent? _document;
+    private Viewport? _refitViewport;
     private AccessibilitySettingsSnapshot _accessibility = AccessibilitySettingsSnapshot.Default;
 
     public bool IsOpen => _screen.Visible;
@@ -31,6 +32,10 @@ public partial class DocumentUi : CanvasLayer, IAccessibilitySettingsTarget
     public string StatusText => _status?.Text ?? string.Empty;
 
     private AudioStreamPlayer? _foley;
+
+    public override void _EnterTree() => BindRefitSignal();
+
+    public override void _ExitTree() => UnbindRefitSignal();
 
     public override void _Ready()
     {
@@ -50,7 +55,7 @@ public partial class DocumentUi : CanvasLayer, IAccessibilitySettingsTarget
         _excerpts.SelectionModeChanged += selecting => _close.Text = selecting ? "Закрыть" : closeLabel;
         _close.Pressed += Close;
         _save.Pressed += SaveToJournal;
-        GetViewport().SizeChanged += RefitToViewport;
+        BindRefitSignal();
         if (FindPlayer() is { } player)
         {
             ApplyAccessibilitySettings(player.Accessibility);
@@ -171,7 +176,7 @@ public partial class DocumentUi : CanvasLayer, IAccessibilitySettingsTarget
 
     private void RefitToViewport()
     {
-        if (_documentView is null)
+        if (!IsInsideTree() || _documentView is null)
         {
             return;
         }
@@ -194,5 +199,27 @@ public partial class DocumentUi : CanvasLayer, IAccessibilitySettingsTarget
         _documentView.OffsetRight = size.X / 2f;
         _documentView.OffsetBottom = size.Y / 2f;
         _documentView.PivotOffset = size / 2f;
+    }
+
+    private void BindRefitSignal()
+    {
+        if (!IsInsideTree() || _documentView is null || _refitViewport is not null)
+        {
+            return;
+        }
+
+        _refitViewport = GetViewport();
+        _refitViewport.SizeChanged += RefitToViewport;
+    }
+
+    private void UnbindRefitSignal()
+    {
+        if (_refitViewport is null)
+        {
+            return;
+        }
+
+        _refitViewport.SizeChanged -= RefitToViewport;
+        _refitViewport = null;
     }
 }

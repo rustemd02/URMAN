@@ -75427,22 +75427,35 @@
                       ],
                       "verification": "Root personally viewed copied UI frames and receipt/logs. Existing DraftStore.Write now reached with clean autosave and immediately after successful Undo/Redo, retaining pending artifacts. Provider adds bounded typeMissing/status kind diagnostics only, no guard relaxation. Official docs plus installed Windows0.162.1 generated schema checked; affected Game compile0/0 and Sol source review.",
                       "limits": "No fresh preview/Apply/game/restart Undo success; old accepted CODEX-UI evidence retained. New draft sync/diagnostics require changed native snapshot."
+                    },
+                    {
+                      "date": "2026-10-13",
+                      "kind": "native-progress",
+                      "job_id": "480ee2d26c51450b893fe130766cb127",
+                      "snapshot_id": "48a495dcb0a3535abfa2d8f44fcb4a1f4f28498fffc9bd7415657309d9e9d787",
+                      "receipt": "evidence/STUDIO/practical-editor-2026-10-13/windows-codex-restart-fixed/receipt.json",
+                      "result": "Fresh actual Left0 selection without moving house; Codex requestf9c8876f04af4d8daae114116a58c4fe returns1.06→1.20; rendered preview and Apply transaction195c22577f65472bb2c19ad82a8e67e3. Native game run-20261013-031350-65236a captured6 fixed views, root viewed Left/exterior/Seni. Both Studio processes exit0 in same workspace; second opens accepted history without recovery/fence. Reopen Undo restores recipe2bcbc3ad88f8ecec5473a7ed9b5d144f649c9d7cf90c0212ec34a6cafb0aa4b4 and removes3generated paths; Redo matches all4 journal after hashes; finalUndo repeats baseline/absence. userdataRestored=true, recoveryPending=false.",
+                      "evidence_refs": [
+                        "evidence/STUDIO/practical-editor-2026-10-13/windows-codex-restart-fixed/studio-session/.urman-studio/transactions/195c22577f65472bb2c19ad82a8e67e3/journal.json",
+                        "evidence/STUDIO/practical-editor-2026-10-13/windows-codex-restart-fixed/studio-session/.urman-studio/ai-jobs/f9c8876f04af4d8daae114116a58c4fe/actions",
+                        "evidence/STUDIO/practical-editor-2026-10-13/windows-codex-restart-fixed/studio-session/.urman-studio/runs/run-20261013-031350-65236a/manifest.json",
+                        "evidence/STUDIO/practical-editor-2026-10-13/windows-codex-restart-fixed/studio-session/current-targets.json"
+                      ],
+                      "limits": "SelectedLeft0, not a new Front0 camera acceptance; existing accepted Front0 CODEX-UI result preserved. Wrapper FAIL retains GOG Vulkan loader error plus3 detached DialogueUi/JournalUi/DocumentUi resize errors in first launch, gamechild7TextureRIDs. Cleanup/rendering stays AI31; overall AI12/Claude/Studio goal remains open. Success of this request does not explain prior intermittent protocol SAFEFAIL."
                     }
                   ],
                   "assigned_owner": "codex/b20-2026-10-10",
                   "active_owner": null,
                   "activity": {
-                    "state": "source_slice_delivered",
-                    "reason": "Actual new request safely failed, both launches terminated and station restored. Causal diagnostic and stale-draft/navigation fixes compiled; next native changed snapshot required."
+                    "state": "stage_delivered",
+                    "reason": "Own durable file-history DoD accepted by actual two-process native cycle and exact4hash/absence readback. SelectedLeft0 exercises same persisted history contract; historical Front0 pilot retained. Full station cleanup is separate AI31 remainder."
                   },
                   "task_type": "integration_check",
-                  "status": "in_progress",
-                  "implementation_state": "not_started",
-                  "technical_verification_state": "not_run",
-                  "remaining": [
-                    "Native Front0 selection after camera/triangle picking repairs; fresh realCodex proposal/preview/Apply and reopen Undo/Redo/finalUndo."
-                  ],
-                  "next_action": "Запустить изменённый snapshot с metadata-only protocol diagnostic; установить конкретный threadStatus/itemType сбоя и исправить причину до повторного preview/Apply/restart Undo. Не удалять history fence вручную и не подменять реальный запрос старым proposal.",
+                  "status": "completed",
+                  "implementation_state": "implemented",
+                  "technical_verification_state": "passed",
+                  "remaining": [],
+                  "next_action": "Собственный durable reopen/Undo/Redo этап завершён. Native cleanup/camera/performance остаток — существующая AI31; общий AI12 не закрыт.",
                   "blocker": null,
                   "external_gates": [],
                   "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -75484,11 +75497,17 @@
                       "scenario": "Один Codex restart/reopen/Undo/Redo с именованным request/transaction/candidate и user-data canaries.",
                       "success": "Выполнены все перечисленные собственные критерии, без расширения на родителя.",
                       "repeat_only_if": "Изменился source/candidate/input/покрываемый контракт.",
-                      "current_stage_question": "Переживает ли fresh realCodex Front0 Apply полное закрытие/новый процесс и возвращает ли Undo исходные bytes/absence с Redo и окончательнойUndo?",
+                      "current_stage_question": "Переживает ли fresh realCodex Left0 Apply полное закрытие/новый процесс и возвращает ли Undo исходные bytes/absence с Redo и окончательнойUndo?",
                       "current_stage_success": "Два nativeStudio процесса в одном protectedworkspace, fresh request/transaction IDs, exactfourfile hash/absence comparison и normalclose/userdatarestored; остальные AI12/Claude/общийgoal не закрывать."
                     },
-                    "actual_result": null,
-                    "evidence_refs": []
+                    "actual_result": "Fresh actual Left0 selection without moving house; Codex requestf9c8876f04af4d8daae114116a58c4fe returns1.06→1.20; rendered preview and Apply transaction195c22577f65472bb2c19ad82a8e67e3. Native game run-20261013-031350-65236a captured6 fixed views, root viewed Left/exterior/Seni. Both Studio processes exit0 in same workspace; second opens accepted history without recovery/fence. Reopen Undo restores recipe2bcbc3ad88f8ecec5473a7ed9b5d144f649c9d7cf90c0212ec34a6cafb0aa4b4 and removes3generated paths; Redo matches all4 journal after hashes; finalUndo repeats baseline/absence. userdataRestored=true, recoveryPending=false.",
+                    "evidence_refs": [
+                      "evidence/STUDIO/practical-editor-2026-10-13/windows-codex-restart-fixed/studio-session/.urman-studio/transactions/195c22577f65472bb2c19ad82a8e67e3/journal.json",
+                      "evidence/STUDIO/practical-editor-2026-10-13/windows-codex-restart-fixed/studio-session/.urman-studio/ai-jobs/f9c8876f04af4d8daae114116a58c4fe/actions",
+                      "evidence/STUDIO/practical-editor-2026-10-13/windows-codex-restart-fixed/studio-session/.urman-studio/runs/run-20261013-031350-65236a/manifest.json",
+                      "evidence/STUDIO/practical-editor-2026-10-13/windows-codex-restart-fixed/studio-session/current-targets.json",
+                      "evidence/STUDIO/practical-editor-2026-10-13/windows-codex-restart-fixed/receipt.json"
+                    ]
                   },
                   "dependencies": {
                     "implementation": [],
@@ -79959,6 +79978,20 @@
                 ],
                 "verification": "Luna implementation, independent Sol review closed nonvisual/hidden-mesh regressions; affected Game compile 0 errors/0 warnings14.19s, diff check passed.",
                 "limits": "Windows job480ee2d26c51450b893fe130766cb127 snapshot48a495dcb0a3535abfa2d8f44fcb4a1f4f28498fffc9bd7415657309d9e9d787 predates camera patch; native framing and actual EyeLevel missing-bounds cause remain unverified."
+              },
+              {
+                "date": "2026-10-13",
+                "kind": "source-progress",
+                "result": "Native480 confirms click selection without accidental move and scoped Codex preview/Apply/game/restartUndo. First launch stack identifies3 detached UI resize callbacks, not restartUndo; gamechild independently leaks7TextureRIDs. Added deterministic GLTF document/state disposal in hero runtime/validation/preview, matching existing family/nonhero patterns; refit signals disconnect/reconnect with tree lifecycle and outside-tree guard.",
+                "source": [
+                  "game/scripts/KitPlacementTakeover.cs",
+                  "game/studio/StudioAiPanel.cs",
+                  "game/scripts/DialogueUi.cs",
+                  "game/scripts/JournalUi.cs",
+                  "game/scripts/DocumentUi.cs"
+                ],
+                "verification": "Luna source fixes + independent Sol review, serial affected Game compile0/0 13.58s; existing native receipt/logs at evidence/STUDIO/practical-editor-2026-10-13/windows-codex-restart-fixed",
+                "limits": "New disposal/refit fixes and camera bounds patch not native verified. Do not call7RID fixed; fullmap reload aftersingle Apply still slow, no existing safe hero exterior/interior selective rebuild."
               }
             ],
             "stage_tasks": [
@@ -79993,7 +80026,7 @@
             "implementation_state": "implemented",
             "technical_verification_state": "not_run",
             "remaining": "Native fullmap74.176с против181.025с и originalcounts/resourceclose подтверждены. Она всё ещё медленная; полная usability/novice и остальные B20сценарии остаются. Следующий приоритет — применённое Codex окно после restart/Undo/Redo.",
-            "next_action": "Не повторять accepted a3a58665 mapbenchmark. Продолжить готовый STUDIO/AI-12/CODEX-RESTART с двумя процессами Studio; дальнейшая perf только по новому причинному факту/изменённому input.",
+            "next_action": "На changed snapshot проверить camera fit и очищение после hero privateGLB/Apply/reload, затем убрать долгую полную перегрузку безопасным общим путём exterior+interior; не повторять уже доказанный durable restart ради процесса.",
             "blocker": null,
             "external_gates": [
               {
