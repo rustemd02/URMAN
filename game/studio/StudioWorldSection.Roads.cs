@@ -172,6 +172,7 @@ public sealed partial class StudioWorldSection
         string? consentWarning = null;
         Node3D? overlay = null;
         var closed = false;
+        var originalEditorExclusive = dialog.Exclusive;
 
         var consentPath = Path.Combine(studio.Workspace.Root,
             RoadCodexConsentPath.Replace('/', Path.DirectorySeparatorChar));
@@ -301,10 +302,25 @@ public sealed partial class StudioWorldSection
         void DismissDisclosure(ConfirmationDialog disclosure)
         {
             if (pendingDisclosure != disclosure) return;
-            pendingDisclosure = null;
             if (GodotObject.IsInstanceValid(disclosure) && disclosure.IsInsideTree())
+            {
+                if (disclosure.Visible) disclosure.Hide();
                 disclosure.QueueFree();
+            }
+            pendingDisclosure = null;
+            Callable.From(() =>
+            {
+                if (!closed && pendingDisclosure is null && GodotObject.IsInstanceValid(dialog)
+                    && dialog.IsInsideTree() && dialog.Visible)
+                    dialog.Exclusive = originalEditorExclusive;
+            }).CallDeferred();
         }
+
+        dialog.VisibilityChanged += () =>
+        {
+            if (!closed && pendingDisclosure is null && dialog.Visible)
+                dialog.Exclusive = originalEditorExclusive;
+        };
 
         void EnsureEditorCurrent(CancellationTokenSource? ownRoadOperation = null)
         {
@@ -636,6 +652,8 @@ public sealed partial class StudioWorldSection
                 pendingDisclosure = disclosure;
                 try
                 {
+                    dialog.Exclusive = false;
+                    disclosure.Exclusive = true;
                     studio.AddChild(disclosure);
                     disclosure.PopupCenteredClamped(new Vector2I(820, 620), 0.9f);
                 }

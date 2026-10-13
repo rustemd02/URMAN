@@ -451,9 +451,29 @@ public static class RoadSegmentSmoothSource
         var appliedLength = StableLength(x - current.X, z - current.Z);
         if (appliedLength > maxDeviation)
         {
-            // A coordinate near a large ULP may round a sub-metre request to a larger step; skip it.
-            updated = current;
-            return false;
+            // Adding a clamped offset to world coordinates can round its measured
+            // length a few ULPs above the requested cap. Retreat inside the cap
+            // before rejecting steps that are too coarse to represent safely.
+            var coordinateMagnitude = Math.Max(
+                Math.Max(Math.Abs(current.X), Math.Abs(current.Z)),
+                Math.Max(Math.Abs(x), Math.Abs(z)));
+            var coordinateUlp = Math.BitIncrement(coordinateMagnitude) - coordinateMagnitude;
+            var safeLength = maxDeviation - 8 * coordinateUlp;
+            if (safeLength <= 0)
+            {
+                updated = current;
+                return false;
+            }
+
+            var correction = safeLength / appliedLength;
+            x = current.X + (x - current.X) * correction;
+            z = current.Z + (z - current.Z) * correction;
+            appliedLength = StableLength(x - current.X, z - current.Z);
+            if (appliedLength > maxDeviation)
+            {
+                updated = current;
+                return false;
+            }
         }
 
         updated = new RoadControlPoint(x, z);

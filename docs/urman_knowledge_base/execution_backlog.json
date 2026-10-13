@@ -76742,6 +76742,19 @@
                 ],
                 "verification": "Job12a5 terminalFAIL/game124 after1800s. No Send clicked, no model response/preview/Apply/Undo. Raw userdataRestoredfalse retained; game.log verified original file restoration and doctor ready/busy-null/recoveryfalse/orphanfalse.",
                 "limits": "Full road scenario remains unverified. Last label-only polish excludes native snapshot. Station released to B02."
+              },
+              {
+                "date": "2026-10-13",
+                "result": "Native27 real Codex request3d83aac02b294662834d151123010f69 returns strength0.617/maxDeviation0.327. Candidate rejected by double rounding: measured0.32700000000000173>0.327; point2 is not locked. Core now retreats rounded over-cap candidate by8coordinateULP and retains strict final cap. Road disclosure releases/restores editor exclusivity using existing lifecycle.",
+                "source": [
+                  "src-dotnet/Urman.Studio.Core/AI/RoadSegmentSmoothSource.cs",
+                  "game/studio/StudioWorldSection.Roads.cs",
+                  "evidence/STUDIO/practical-editor-2026-10-13/windows-road-real-proposal/receipt.json",
+                  "evidence/STUDIO/practical-editor-2026-10-13/windows-road-real-proposal/ai-jobs/3d83aac02b294662834d151123010f69/proposal.json",
+                  "evidence/STUDIO/practical-editor-2026-10-13/windows-road-real-proposal/no-op-preview.png"
+                ],
+                "verification": "Independent Luna numeric and dialog reviews clean; final affected Game compile0warnings/0errors14.10s. Native27gameExit0 with2GOG+2exclusive-window errors, overallFAIL; rawuserdataRestoredfalse retained, guardlog verified originals and doctor ready/no recovery/orphan. Request/proposal copied read-only from isolated source after exporter schema error.",
+                "limits": "New fixes not yet native-tested. No actual road Apply/Undo/restart/traversal. Exporter schema3 support pending binding review/deployment."
               }
             ],
             "stage_tasks": [
@@ -76769,9 +76782,9 @@
             "status": "in_progress",
             "implementation_state": "partial",
             "technical_verification_state": "not_run",
-            "remaining": "Native selection/prompt/consent/front disclosure checked. Real Codex road response, proposal preview, Apply/Undo/restart and A04 traversal remain unverified; native12a5 exhausted30min beforeSend.",
-            "next_action": "After B02 station release, root sole UI driver uses four bounded existing guarded action batches: load, frozen request review, real proposal Apply, Undo/normalclose; preserve exact hashes. No new helpers/probes or arbitrary PID.",
-            "blocker": "Per-action remote UI driving and coordination exhausted1800s beforeSend; two incomplete attempts. Same stepwise driving will not be repeated.",
+            "remaining": "Real Codex road response obtained; new numeric-cap and modal-handoff source fixes compiled/reviewed. Successful changed preview/Apply/Undo/restart and A04 traversal remain open.",
+            "next_action": "After B02 station release run changed Core/UI through bounded root batches: real Codex .617/.327 → changed preview → Apply → exact Undo → normalclose. Verify point2 only changed and otherworld unchanged; deploy reviewed exporter only while station idle.",
+            "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
             "work_contract": {
@@ -80368,6 +80381,16 @@
                 ],
                 "verification": "Actual phase markers and bounded independent Luna refresh ownership review; no selective road shortcut implemented.",
                 "limits": "No measured optimization gain. Hero selective early guard remains unknown; actual changed source timing and full usability remain open."
+              },
+              {
+                "date": "2026-10-13",
+                "result": "Native27 phase-ready72970ms after wallface reuse, wait72204ms; not an isolated performance comparison because peerworld inputs differ. Front disclosure no label overlap visually confirmed; exclusive sibling error separately corrected in subsequent source.",
+                "source": [
+                  "evidence/STUDIO/practical-editor-2026-10-13/windows-road-real-proposal/game.log",
+                  "evidence/STUDIO/practical-editor-2026-10-13/windows-road-real-proposal/disclosure.png"
+                ],
+                "verification": "Actual tags and personally viewed PNG; affected Game compile0/0 after new modalityfix.",
+                "limits": "No performance gain claimed; hero selective guard/latency and full novice usability remain open."
               }
             ],
             "stage_tasks": [

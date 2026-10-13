@@ -1,0 +1,4 @@
+ERROR: GENERAL - Message Id Number: 0 | Message Id Name: Loader Message
+ERROR: Attempting to make child window exclusive, but the parent window already has another exclusive child. This window: /root/StudioRoot/@ConfirmationDialog@5771, parent window: /root, current exclusive child window: /root/StudioRoot/@AcceptDialog@5751
+ERROR: GENERAL - Message Id Number: 0 | Message Id Name: Loader Message
+ERROR: Attempting to make child window exclusive, but the parent window already has another exclusive child. This window: /root/StudioRoot/@ConfirmationDialog@5771, parent window: /root, current exclusive child window: /root/StudioRoot/@AcceptDialog@5751

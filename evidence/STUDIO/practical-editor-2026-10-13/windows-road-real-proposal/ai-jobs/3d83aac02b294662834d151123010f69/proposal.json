@@ -1,0 +1,1 @@
+{"operation":"road.segment.smooth","requestId":"3d83aac02b294662834d151123010f69","snapshotHash":"2b3f35f57d4bf7711d735deb52ee1df92f0c7138a7411788ca231c8a06347a3c","sourcePath":"game/content/world/act1_far_bank.world.v1.json","roadId":"yar-north","startIndex":0,"endIndex":4,"strength":0.617,"maxDeviation":0.327,"summary":"Smooth the selected bend while preserving junctions."}
