@@ -76494,6 +76494,18 @@
                 ],
                 "verification": "Luna implementation + independent Luna publish/rollback/numeric-order review; root fixed Godot/System.IO FileAccess name ambiguity; final affected Game compile0warnings/0errors13.55s; scoped diffcheck.",
                 "limits": "No native road edit/traversal/Undo; segment picking, typed smooth proposal/preview/Apply and restart owner still open. HouseholdPads separate startup cache unchanged; terrainPad authoring not claimed by road-only refresh."
+              },
+              {
+                "date": "2026-10-13",
+                "kind": "source-progress",
+                "result": "Manual road selector and inclusive control-point interval with ghost-only preview. Smooth preserves IDs/width/count, interval endpoints and tangents; clamps displacement; rejects changed intersections/overlaps across both authored worlds and fixed code axes. Apply reuses existing one-file SHA-guarded transaction; road owner opted into durable recovery and mixed history.",
+                "source": [
+                  "game/studio/StudioWorldSection.Roads.cs",
+                  "src-dotnet/Urman.Studio.Core/AI/RoadSegmentSmoothSource.cs",
+                  "src-dotnet/Urman.Studio.Core/Storage/StudioFileTransaction.cs"
+                ],
+                "verification": "Luna implementation and independent Luna/Sol reviews; affected Core compile 0/0 3.45s, Game compile 0/0 14.70s; Windows snapshot compile 0/0 33.52s.",
+                "limits": "Road dialog not opened natively; no road traversal/Undo/restart evidence; direct Codex road request remains."
               }
             ],
             "stage_tasks": [
@@ -76515,14 +76527,14 @@
             "active_owner": "Codex",
             "activity": {
               "state": "confirmed_active",
-              "reason": "Road-only runtime reload contract integrated/compiled/reviewed; next finite selection and smooth operation remains to implement."
+              "reason": "Manual road segment UI/Core and durable transaction history implemented; provider and native road scenario remain."
             },
             "task_type": "engineering",
             "status": "in_progress",
-            "implementation_state": "not_started",
+            "implementation_state": "partial",
             "technical_verification_state": "not_run",
-            "remaining": "Runtime road-source reload/rollback source принят compile/review. Остались реальные segment IDs/выбор и handles, typed road.segment.smooth с фиксированными стыками/шириной и ограничением отклонения, preview/Apply/Undo/restart integration и целевой A04 проход по поверхности.",
-            "next_action": "Добавить реальный выбор отрезка roads[] и typed smooth request/proposal/source rewrite, использующий принятый reload для видимой дороги/ground/graph; затем preview/Apply/Undo через существующую файловую транзакцию.",
+            "remaining": "Ручной выбор roads[]/интервала, ghost preview, bounded smooth, Apply и durable owner/history реализованы и компилируются. Не проверены native открытие диалога/Apply/Undo/restart/проход A04; прямой Codex запрос дороги ещё не подключён.",
+            "next_action": "Подключить road.segment.smooth к существующему Codex request/proposal потоку, затем целевой Windows preview/Apply/Undo и проход A04.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -80054,6 +80066,18 @@
                 ],
                 "verification": "Luna implementation and independent Luna source review: synchronous snapshot lifetime/classification unchanged; affected Game compile 0 warnings/0 errors16.89s and scoped diffcheck. Baseline389 log authored-addresses11.545s, map74857ms.",
                 "limits": "Candidate source optimization; changed Windows address timing not measured, no speed claim."
+              },
+              {
+                "date": "2026-10-13",
+                "kind": "targeted-native",
+                "result": "Rear0 selected → real Codex request7fc1e64fa5974dc899eb29ad6d61ced0 → rendered preview → accepted transactionff1cee0097324005a03776a4771a1b73 → accepted Undo. Only Rear0 width1.20; other windows preserved including SeniOuter0=.80. Original recipeSHA2bcbc3ad88f8ecec5473a7ed9b5d144f649c9d7cf90c0212ec34a6cafb0aa4b4 restored; generated GLB/Blend/manifest absent afterUndo. Three action frame receipts have captureError=null.",
+                "source": [
+                  "evidence/STUDIO/practical-editor-2026-10-13/windows-selective-road-ui/receipt.json",
+                  "evidence/STUDIO/practical-editor-2026-10-13/windows-selective-road-ui/game.log",
+                  "evidence/STUDIO/practical-editor-2026-10-13/windows-selective-road-ui/studio-session/.urman-studio/transactions/ff1cee0097324005a03776a4771a1b73/journal.json"
+                ],
+                "verification": "Windows job22ed5971df164cb5b56a62247343946c snapshot6a7fd2e78e6d1718b1c625fa855600622329ebbc1f72b37c26b35a13251a9dae. Overall FAIL: GOG loader errors. No Texture RID/Refit errors in this Studio run. Normal close and original user data restored; fresh doctor ready/busy=null/recovery=false/orphan=false.",
+                "limits": "No selective refresh logs; full reload72.755/87.992/72.726s. Cause unknown; descendant predicate hypothesis disproved and reverted before commit. No game-child inspection or road native proof."
               }
             ],
             "stage_tasks": [
@@ -80081,14 +80105,14 @@
             "active_owner": "Codex",
             "activity": {
               "state": "confirmed_active",
-              "reason": "Selective hero exterior/interior refresh integrated and compiled; primary owns native changed Apply timing after B02/PW044 station queue."
+              "reason": "Native22 actual window transaction/Undo verified, selective performance failed; bounded causal diagnostics next."
             },
             "task_type": "engineering",
             "status": "in_progress",
             "implementation_state": "implemented",
             "technical_verification_state": "not_run",
-            "remaining": "Selective refresh source интегрирован и компилируется; скорость и rollback нового пути ещё не проверены native. Карта загружается ~75s. Полный usability/novice и оставшиеся B20 сценарии открыты; durable Codex restart уже принят отдельным этапом.",
-            "next_action": "На свободной Windows станции выполнить изменённый selective Apply → осмотр → Undo, измерить задержку по сравнению с полной перезагрузкой ~70s и проверить закрытие импортированного GLB.",
+            "remaining": "Native22 подтвердил настоящий Rear0 Codex preview/Apply/полную отмену; ускорение НЕ достигнуто: карта72.755s, Apply fullreload87.992s, Undo fullreload72.726s; selective tags отсутствуют. Причина раннего отказа неизвестна. Полный usability/novice и прочие B20 сценарии открыты.",
+            "next_action": "Записать конкретные причины раннего отказа selective refresh в существующем пути; следующий native только с изменённым диагностическим входом после освобождения Windows.",
             "blocker": null,
             "external_gates": [
               {

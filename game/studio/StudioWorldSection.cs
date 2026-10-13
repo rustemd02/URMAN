@@ -169,6 +169,7 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
         };
         toolbar.AddChild(layers);
         StudioRoot.Button(toolbar, "📏 Линейка", () => { _measuring = !_measuring; _measureStart = null; studio.RefreshStatus(_measuring ? "Линейка: щёлкните две точки на земле" : "Линейка выключена"); });
+        StudioRoot.Button(toolbar, "Дорожки", OpenRoadEditor).TooltipText = "Выбрать участок дороги, посмотреть сглаживание и применить с возможностью отмены";
         StudioRoot.Button(toolbar, "☀ Свет и погода", OpenAtmosphere).TooltipText = "Небо, солнце, туман; предпросмотр на деревне";
         _terrainButton = StudioRoot.Button(toolbar, "⛰ Рельеф", () =>
         {

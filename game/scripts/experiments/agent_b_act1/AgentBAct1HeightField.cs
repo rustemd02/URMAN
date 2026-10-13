@@ -104,6 +104,9 @@ public static class AgentBAct1HeightField
 
     /// <summary>Replace only the two plot-owned road axes for a Studio full reload.</summary>
     /// <returns>An idempotent rollback restoring the previous axes and cached terrain faces.</returns>
+    internal static ((float X, float Z)[] Points, double HalfWidth)[] FixedRoadAxesForStudio =>
+        BaseRoadAxes.Select(road => (road.Points.ToArray(), road.HalfWidth)).ToArray();
+
     internal static System.Action ReplacePlotRoadAxesForStudio(
         ((float X, float Z)[] Points, double HalfWidth)[] plotRoads)
     {

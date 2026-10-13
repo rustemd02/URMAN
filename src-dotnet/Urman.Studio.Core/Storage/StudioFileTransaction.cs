@@ -89,10 +89,24 @@ public sealed class StudioFileTransaction
 
     private static bool IsOwnedCatalogOwner(string owner) => owner is ShopCatalogOwner or VehicleCatalogOwner;
 
+    private static bool IsGeometryReplacementOwner(string owner) =>
+        Urman.Studio.Core.AI.FenceAlignmentProtocol.IsTransactionOwner(owner)
+        || Urman.Studio.Core.AI.RoadSegmentSmoothSource.IsTransactionOwner(owner);
+
+    private static bool IsGeometryReplacementPath(string owner, string path) =>
+        Urman.Studio.Core.AI.FenceAlignmentProtocol.IsTransactionPath(owner, path)
+        || Urman.Studio.Core.AI.RoadSegmentSmoothSource.IsTransactionPath(owner, path);
+
+    private static bool IsGeometryReplacementFileSet(string owner, IReadOnlyList<string> paths) =>
+        Urman.Studio.Core.AI.FenceAlignmentProtocol.IsTransactionOwner(owner)
+            ? Urman.Studio.Core.AI.FenceAlignmentProtocol.IsTransactionFileSet(paths)
+            : Urman.Studio.Core.AI.RoadSegmentSmoothSource.IsTransactionOwner(owner)
+                && Urman.Studio.Core.AI.RoadSegmentSmoothSource.IsTransactionFileSet(paths);
+
     private static bool IsBoundedSourceOwner(string owner) =>
         IsAuthoredSourceDeletionOwner(owner)
         || owner is ShopCatalogOwner or VehicleCatalogOwner
-        || Urman.Studio.Core.AI.FenceAlignmentProtocol.IsTransactionOwner(owner);
+        || IsGeometryReplacementOwner(owner);
 
     /// <summary>
     /// Save pre/post images, write an applying journal, then promote every file.
@@ -616,14 +630,15 @@ public sealed class StudioFileTransaction
         Func<string, byte[], string, Action> sourceDeletionAfterPromotion,
         bool includeOwnedCatalogs = false,
         bool includeHouseFamilies = false,
-        bool includeFenceAlignments = false)
+        bool includeFenceAlignments = false,
+        bool includeRoadSmooth = false)
     {
         ArgumentNullException.ThrowIfNull(sourceDeletionOwner);
         ArgumentNullException.ThrowIfNull(sourceDeletionPath);
         ArgumentNullException.ThrowIfNull(sourceDeletionAfterPromotion);
         return LoadCommittedFileHistoryCore(root, owner, allowedPath, allowedFileSet,
             sourceDeletionOwner, sourceDeletionPath, sourceDeletionAfterPromotion, includeOwnedCatalogs, includeHouseFamilies,
-            includeFenceAlignments);
+            includeFenceAlignments, includeRoadSmooth);
     }
 
     private static StudioFileHistoryStackLoadResult LoadCommittedFileHistoryCore(
@@ -636,7 +651,8 @@ public sealed class StudioFileTransaction
         Func<string, byte[], string, Action>? sourceDeletionAfterPromotion,
         bool includeOwnedCatalogs = false,
         bool includeHouseFamilies = false,
-        bool includeFenceAlignments = false)
+        bool includeFenceAlignments = false,
+        bool includeRoadSmooth = false)
     {
         ArgumentNullException.ThrowIfNull(allowedPath);
         ArgumentNullException.ThrowIfNull(allowedFileSet);
@@ -652,7 +668,7 @@ public sealed class StudioFileTransaction
         if (!Directory.Exists(transactionRoot)) return new([], 0, null);
         EnsureNoLinks(rootPath, TransactionDirectory, allowStudioMetadata: true);
 
-        var matching = new List<(string Directory, Manifest Manifest, bool IsSourceDeletion, bool IsCatalog, bool IsHouseFamily, bool IsFenceAlignment, string? SourcePath, byte[]? SourceBeforeBytes)>();
+        var matching = new List<(string Directory, Manifest Manifest, bool IsSourceDeletion, bool IsCatalog, bool IsHouseFamily, bool IsGeometryReplacement, string? SourcePath, byte[]? SourceBeforeBytes)>();
         var unreadable = new List<string>();
         foreach (var directory in Directory.EnumerateDirectories(transactionRoot))
         {
@@ -673,11 +689,12 @@ public sealed class StudioFileTransaction
                 var isCatalog = includeOwnedCatalogs && IsOwnedCatalogOwner(manifest.Owner);
                 var isHouseFamily = includeHouseFamilies
                     && Urman.Studio.Core.AI.HouseFamilyWindowProtocol.IsTransactionOwner(manifest.Owner);
-                var isFenceAlignment = includeFenceAlignments
-                    && Urman.Studio.Core.AI.FenceAlignmentProtocol.IsTransactionOwner(manifest.Owner);
+                var isGeometryReplacement = includeFenceAlignments
+                    && Urman.Studio.Core.AI.FenceAlignmentProtocol.IsTransactionOwner(manifest.Owner)
+                    || includeRoadSmooth && Urman.Studio.Core.AI.RoadSegmentSmoothSource.IsTransactionOwner(manifest.Owner);
                 if (manifest.Status != "committed" || !manifest.Accepted)
                     continue;
-                if (!isSourceDeletion && !isCatalog && !isHouseFamily && !isFenceAlignment
+                if (!isSourceDeletion && !isCatalog && !isHouseFamily && !isGeometryReplacement
                     && !string.Equals(manifest.Owner, owner, StringComparison.Ordinal))
                 {
                     if (manifest.AcceptedOrder is not null)
@@ -716,16 +733,16 @@ public sealed class StudioFileTransaction
                     continue;
                 }
 
-                if (isFenceAlignment && (manifest.Changes.Count != 1
-                    || !Urman.Studio.Core.AI.FenceAlignmentProtocol.IsTransactionPath(
+                if (isGeometryReplacement && (manifest.Changes.Count != 1
+                    || !IsGeometryReplacementPath(
                         manifest.Owner, manifest.Changes[0].RelativePath)
-                    || !HasValidFenceAlignmentImageStates(manifest.Changes)))
+                    || !HasValidGeometryReplacementImageStates(manifest.Changes)))
                 {
-                    unreadable.Add($"{id}: fence alignment transaction is not an exact one-file replacement");
+                    unreadable.Add($"{id}: geometry transaction is not an exact one-file replacement");
                     continue;
                 }
 
-                matching.Add((directory, manifest, isSourceDeletion, isCatalog, isHouseFamily, isFenceAlignment, sourcePath, sourceBeforeBytes));
+                matching.Add((directory, manifest, isSourceDeletion, isCatalog, isHouseFamily, isGeometryReplacement, sourcePath, sourceBeforeBytes));
             }
             catch (Exception error)
             {
@@ -754,7 +771,7 @@ public sealed class StudioFileTransaction
         var boundary = new Dictionary<string, string?>(StringComparer.Ordinal);
         var boundedAuthoredSourcePaths = new HashSet<string>(StringComparer.Ordinal);
         var transactions = new List<StudioFileTransaction>();
-        foreach (var (manifestDirectory, candidate, isSourceDeletion, isCatalog, isHouseFamily, isFenceAlignment, sourcePath, sourceBeforeBytes) in matching)
+        foreach (var (manifestDirectory, candidate, isSourceDeletion, isCatalog, isHouseFamily, isGeometryReplacement, sourcePath, sourceBeforeBytes) in matching)
         {
             if (candidate.Side != candidate.RollbackSide || candidate.Side != candidate.TargetSide)
                 return new([], 0, "История Undo не восстановлена: стороны журнала противоречат друг другу.");
@@ -770,8 +787,8 @@ public sealed class StudioFileTransaction
             else if (isHouseFamily) transactionPathAllowed = path =>
                 Urman.Studio.Core.AI.HouseFamilyWindowProtocol.IsTransactionPath(candidate.Owner, path)
                 && allowedPath(path);
-            else if (isFenceAlignment) transactionPathAllowed = path =>
-                Urman.Studio.Core.AI.FenceAlignmentProtocol.IsTransactionPath(candidate.Owner, path)
+            else if (isGeometryReplacement) transactionPathAllowed = path =>
+                IsGeometryReplacementPath(candidate.Owner, path)
                 && allowedPath(path);
             foreach (var change in candidate.Changes)
             {
@@ -787,9 +804,9 @@ public sealed class StudioFileTransaction
                         : isHouseFamily
                             ? !Urman.Studio.Core.AI.HouseFamilyWindowProtocol.IsTransactionFileSet(normalizedPaths)
                                 || !HasValidHouseFamilyImageStates(candidate.Changes)
-                            : isFenceAlignment
-                                ? !Urman.Studio.Core.AI.FenceAlignmentProtocol.IsTransactionFileSet(normalizedPaths)
-                                    || !HasValidFenceAlignmentImageStates(candidate.Changes)
+                            : isGeometryReplacement
+                                ? !IsGeometryReplacementFileSet(candidate.Owner, normalizedPaths)
+                                    || !HasValidGeometryReplacementImageStates(candidate.Changes)
                                 : !allowedFileSet(normalizedPaths)))
                 return new([], 0, isSourceDeletion
                     ? "История Undo не восстановлена: путь исходника удаления изменился."
@@ -797,17 +814,17 @@ public sealed class StudioFileTransaction
                         ? "История Undo не восстановлена: путь каталога не соответствует его владельцу."
                         : isHouseFamily
                             ? "История Undo не восстановлена: набор файлов семейного дома не соответствует контракту операции."
-                            : isFenceAlignment
-                                ? "История Undo не восстановлена: файл выпрямления забора не соответствует контракту операции."
+                            : isGeometryReplacement
+                                ? "История Undo не восстановлена: файл изменения дорожки или забора не соответствует контракту операции."
                                 : "История Undo не восстановлена: набор файлов не соответствует контракту изменения дома.");
             if (ValidateManifestImages(rootPath, manifestDirectory, candidate,
-                    isSourceDeletion || isCatalog || isFenceAlignment ? MaximumAuthoredSourceBytes : null).Count > 0)
+                    isSourceDeletion || isCatalog || isGeometryReplacement ? MaximumAuthoredSourceBytes : null).Count > 0)
                 return new([], 0, "История Undo не восстановлена: сохранённые версии файлов повреждены или недоступны.");
 
             foreach (var change in candidate.Changes)
             {
                 var path = NormalizeRelativePath(change.RelativePath);
-                if (isSourceDeletion || isCatalog || isFenceAlignment) boundedAuthoredSourcePaths.Add(path);
+                if (isSourceDeletion || isCatalog || isGeometryReplacement) boundedAuthoredSourcePaths.Add(path);
                 if (chain.TryGetValue(path, out var previous) && previous != change.BeforeSha256)
                     return new([], 0, "История Undo не восстановлена: исходные версии команд не образуют непрерывную цепочку.");
                 chain[path] = change.AfterSha256;
@@ -934,12 +951,12 @@ public sealed class StudioFileTransaction
         Func<string, bool> allowedPath,
         Func<string, string, bool>? allowedOwnedPath)
     {
-        if (Urman.Studio.Core.AI.FenceAlignmentProtocol.IsTransactionOwner(manifest.Owner))
+        if (IsGeometryReplacementOwner(manifest.Owner))
         {
             if (manifest.Changes.Count != 1
                 || !TryNormalizeRecoveryPath(root, manifest.Changes[0].RelativePath, out var fenceSourcePath)
-                || !Urman.Studio.Core.AI.FenceAlignmentProtocol.IsTransactionPath(manifest.Owner, fenceSourcePath)
-                || !HasValidFenceAlignmentImageStates(manifest.Changes)
+                || !IsGeometryReplacementPath(manifest.Owner, fenceSourcePath)
+                || !HasValidGeometryReplacementImageStates(manifest.Changes)
                 || allowedOwnedPath is not null && !allowedOwnedPath(manifest.Owner, fenceSourcePath))
                 return _ => false;
 
@@ -953,7 +970,7 @@ public sealed class StudioFileTransaction
             };
             return fenceVerified
                 ? path => TryNormalizeRecoveryPath(root, path, out var fenceNormalized)
-                    && Urman.Studio.Core.AI.FenceAlignmentProtocol.IsTransactionPath(manifest.Owner, fenceNormalized)
+                    && IsGeometryReplacementPath(manifest.Owner, fenceNormalized)
                     && (allowedPath(fenceNormalized) || allowedOwnedPath?.Invoke(manifest.Owner, fenceNormalized) == true)
                 : _ => false;
         }
@@ -1025,14 +1042,14 @@ public sealed class StudioFileTransaction
         return true;
     }
 
-    private static bool HasValidFenceAlignmentImageStates(IReadOnlyList<FileChange> changes) =>
+    private static bool HasValidGeometryReplacementImageStates(IReadOnlyList<FileChange> changes) =>
         changes.Count == 1 && changes[0].BeforeSha256 is not null && changes[0].AfterSha256 is not null;
 
     // Bound source reads; path access still depends on the allowlist or verified owner policy above.
     private static int? RecoveryByteLimit(Manifest manifest) =>
         manifest.Owner.StartsWith(AuthoredSourceDeletionOwnerPrefix, StringComparison.Ordinal)
             || IsOwnedCatalogOwner(manifest.Owner)
-            || Urman.Studio.Core.AI.FenceAlignmentProtocol.IsTransactionOwner(manifest.Owner)
+            || IsGeometryReplacementOwner(manifest.Owner)
             ? MaximumAuthoredSourceBytes
             : null;
 
