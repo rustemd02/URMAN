@@ -111153,7 +111153,12 @@
         "evidence/PW-032/cap-native-20261013/receipt.json",
         "evidence/PW-032/cap-native-20261013/frames/mosque_hall.png",
         "evidence/PW-032/cap-native-20261013/frames/mosque_hall.json",
-        "evidence/PW-032/cap-native-20261013/game.log"
+        "evidence/PW-032/cap-native-20261013/game.log",
+        "evidence/PW-032/ordinary-play-20261013/receipt.json",
+        "evidence/PW-032/ordinary-play-20261013/game.log",
+        "evidence/PW-032/ordinary-play-20261013/frames/prologue-forest.png",
+        "evidence/PW-032/ordinary-play-20261013/frames/prologue-ride.png",
+        "evidence/PW-032/ordinary-play-20261013/frames/prologue-village-dialogue.png"
       ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-032",
       "source_requirements": [
@@ -111315,7 +111320,7 @@
         "Book/held sleeves/W01 moving branch source-safe; fulfill named movement checks as required, preserve existing valid wind/normal receipts on unchanged inputs.",
         "83genericUV/coherentLOD +2Tamara trim +2Timur cap sourceaccepted; printedUV/rig/geometry/images preserved, collar accepted. Actual nativegait/LOD/door/collar/cap views remain."
       ],
-      "next_action": "After peer station terminal/restored/released, deploy protected-play worker by existing idle update procedure; run one bounded ordinary act1_demo play, use existing exact PID/sourceRoot UI helper to inspect real door/actor phases. Capture transport does not itself prove motion; unchanged wideframe/GDI repeats prohibited.",
+      "next_action": "Read existing ordinary prologue skip/dialogue/quit bindings; use confirmed controls to reach village door/actor within bounded play and close normally. Do not repeat unchanged unattended900s NewGame. Preserve actual foreground-world proof and rejected introforest art for existing B02 plant/colorscript work.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -111742,7 +111747,7 @@
           "station_after": "Freshdoctor readytrue/busy=null/recoveryfalse/orphanfalse; released afterterminal."
         },
         "protected_play_transport": {
-          "state": "deployed and fresh station doctor ready; ordinary play verification pending",
+          "state": "deployed; actual native menu/world pixels and NewGame control verified; normalclose/fullmotion remains",
           "cause": "Station API lacked ordinary persistent fullgame play; existing runner already supports protected native Modeplay. Studio child GDI underlay cannot prove movement; static viewport6fa accepted only context.",
           "result": "Expose play through existing jobs/runner path, fixed act1_demo native window, timeout1..1200, no capture points/profile/FOV or Studio overrides. Source/PID/UI guard, immutable snapshot, protected_run, journal/recovery/cleanup unchanged; runner already uses always-on-top for native play.",
           "sha256": {
@@ -111771,14 +111776,27 @@
           "backup": "D:/URMAN-STATION/data/maintenance/worker-backups/windows_station_worker-before-play-3da648e7.py"
         },
         "ordinary_play_session": {
-          "state": "accepted; actual game window/motion not_run",
+          "state": "terminal FAIL/timeout124; actual foreground game pixels verified; full motion/art not accepted",
           "question": "Does protected ordinary act1_demo produce an actual foreground playable window, and can existing exact job/PID/sourceRoot UI controls show door/actor phases with attached grain?",
           "success": "Actual owned native game pixels; phase controls and visible result with no source/viewport/GDI-underlay substitution; preserve user data and normal close/restoration. First window proof alone does not close full door/gait/art DoD.",
           "scene": "res://scenes/act1_demo.tscn",
           "timeout": 900,
           "mode": "play",
           "job_id": "e78c8511846a499cb8c8089e47f9367d",
-          "snapshot_id": "13b1b67d0572b8e62a3182e4739f0a05a6576afc651cb5cee6c024c7db6bf41d"
+          "snapshot_id": "13b1b67d0572b8e62a3182e4739f0a05a6576afc651cb5cee6c024c7db6bf41d",
+          "result_sha256": "78f69063b3e01c8f61d7dcae70fe7b5c4803e79d34dfad2a40a57348f5f01619",
+          "actual": "Owned native GUIpid114356/console116436, exact sourceRoot jobpath, URMANDEBUG foreground. Mainmenu→NewGameclick/loading→actualprologueforest→Mansurcar/villagedialogue. Not Studio underlay. NewGame control works; Wrequest accepted with durationMs2000 but prologue transition does not prove walking, dialogue choice click not proven to select choice. No door/gait acceptance.",
+          "prologue_times": "Rawlog deep-forest walk300.7s skippedfalse; approach-road654m/161.7s; village leg68.7s. Ordinary route consumes much of900s; next interaction proof needs exact ordinary skip/dialogue/quit controls, not same unattended repeat.",
+          "restore": "Rawreceipt userdataRestoredfalse preserved. Rawgame.log confirms originalfilesrestoredbyrenameandverified(ACLnotcompared); freshdoctor ready/busy=null/recoveryfalse/orphanfalse. Timeout124 isnotnormalclose/PASS.",
+          "source": "Snapshot hashes verified; actualworker16f15d0c5def20a986b52ff333302d7fa9731cfd5ca508c42d8aeb805d878ba8 matches deployed transport.",
+          "visual_result": "Root viewed actualforest/car/village frames. Introforest crude column-like trunks, near-monochrome teal; art quality rejected. Driver/clothing present, no detailed moving-grain acceptance. Menu art is not runtime art evidence.",
+          "evidence": [
+            "evidence/PW-032/ordinary-play-20261013/receipt.json",
+            "evidence/PW-032/ordinary-play-20261013/game.log",
+            "evidence/PW-032/ordinary-play-20261013/frames/prologue-forest.png",
+            "evidence/PW-032/ordinary-play-20261013/frames/prologue-ride.png",
+            "evidence/PW-032/ordinary-play-20261013/frames/prologue-village-dialogue.png"
+          ]
         }
       }
     },
