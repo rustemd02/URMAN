@@ -69,7 +69,13 @@ public partial class Act1ConnectedWorld
             MechanismSolid(yard, $"WindowJamb{x}", new(.065f, .91f, .085f), new(x, 1.45f, -.745f), "83928b");
         foreach (var y in new[] { 1.005f, 1.895f })
             MechanismSolid(yard, $"WindowRail{y}", new(.96f, .065f, .085f), new(0, y, -.745f), "83928b");
-        var frost = MechanismVisual(yard, "WindowFrost", new(.79f, .77f, .006f), new(0, 1.45f, -.752f), "c3ced0", "snow");
+        var frost = MechanismVisual(yard, "WindowFrost", new(.79f, .77f, .006f), new(0, 1.45f, -.752f), "c3ced0", "frost_window");
+        if (frost.MaterialOverride is ShaderMaterial frostMaterial)
+        {
+            var frostPaneMaterial = (ShaderMaterial)frostMaterial.Duplicate();
+            frostPaneMaterial.SetShaderParameter("frost_pane_size", new Vector2(.79f, .77f));
+            frost.MaterialOverride = frostPaneMaterial;
+        }
         var windowThaw = YardMechanism.Create("window-thaw", YardMechanism.Operation.Thaw, frost,
             "Протереть обмерзшее стекло", "Нужна тёплая ткань", "Отошёл иней. За стеклом видна отогнутая жестяная полоска.",
             solved => frost.Visible = !solved);

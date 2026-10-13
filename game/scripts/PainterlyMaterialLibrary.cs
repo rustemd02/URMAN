@@ -49,6 +49,7 @@ public static class PainterlyMaterialLibrary
 
         uniform vec4 base_color : source_color;
         uniform bool edge_frost = false;
+        uniform vec2 frost_pane_size = vec2(0.0);
         uniform vec4 shadow_color : source_color;
         uniform float brush_scale = 0.7;
         uniform float variation = 0.16;
@@ -186,6 +187,7 @@ public static class PainterlyMaterialLibrary
         varying vec3 world_normal;
         varying vec3 local_wood_position;
         varying vec3 local_wood_normal;
+        varying vec2 frost_uv;
 
         vec3 triplanar_albedo(vec3 position, vec3 normal) {
             vec3 blend = pow(abs(normal), vec3(4.0));
@@ -270,6 +272,11 @@ public static class PainterlyMaterialLibrary
         }
 
         void vertex() {
+            frost_uv = UV;
+            if (frost_pane_size.x > 0.0 && frost_pane_size.y > 0.0) {
+                frost_uv = vec2(VERTEX.x / frost_pane_size.x + 0.5,
+                    0.5 - VERTEX.y / frost_pane_size.y);
+            }
             local_wood_position = local_fence_rail ? VERTEX.xzy
                 : (local_floor_texture ? VERTEX : (VERTEX + local_wood_offset).zyx);
             local_wood_normal = local_fence_rail ? NORMAL.xzy
@@ -286,7 +293,12 @@ public static class PainterlyMaterialLibrary
             float wet_factor = clamp(wet_grade, 0.0, 1.0);
             if (edge_frost && has_albedo_texture) {
                 // RGBA edge pigment overlays intact glass, including on Low.
-                vec4 frost = texture(albedo_texture, UV);
+                vec2 frost_sample_uv = UV;
+                if (frost_pane_size.x > 0.0 && frost_pane_size.y > 0.0) {
+                    vec2 frost_texel = vec2(0.5) / vec2(textureSize(albedo_texture, 0));
+                    frost_sample_uv = clamp(frost_uv, frost_texel, vec2(1.0) - frost_texel);
+                }
+                vec4 frost = texture(albedo_texture, frost_sample_uv);
                 ALBEDO = mix(base_color.rgb, frost.rgb, frost.a);
                 ROUGHNESS = mix(0.30, 0.86, frost.a);
                 SPECULAR = 0.35;

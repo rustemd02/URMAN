@@ -126,6 +126,7 @@ public partial class JournalUi
     private void OpenBookInspection()
     {
         if (!CanInspectBook() || _bookInspectionView is not null) return;
+        _bookInspectionOpenPose = false;
         var bookScene = ResourceLoader.Load<PackedScene>(InspectionBookPath);
         var handsScene = ResourceLoader.Load<PackedScene>(InspectionHandsPath);
         if (bookScene is null || handsScene is null) return;
@@ -213,7 +214,10 @@ public partial class JournalUi
             && _bookInspectionPhotoAppliedMaterial is { } currentMaterial
             && _bookInspectionPhotoSurface >= 0
             && ReferenceEquals(currentInsert.GetSurfaceOverrideMaterial(_bookInspectionPhotoSurface), currentMaterial))
+        {
+            RefreshBookInspectionPhotoCaption(selected.Title);
             return;
+        }
 
         if (PhotoBookFrontTexture(selected.PhotoId) is not { } frontTexture)
         {
@@ -242,12 +246,14 @@ public partial class JournalUi
         _bookInspectionPhotoSurface = surface;
         _bookInspectionPhotoOriginalSurfaceMaterial = previousOverride;
         _bookInspectionPhotoAppliedMaterial = isolatedMaterial;
+        RefreshBookInspectionPhotoCaption(selected.Title);
         if (_bookInspectionViewport is not null)
             _bookInspectionViewport.RenderTargetUpdateMode = SubViewport.UpdateMode.Once;
     }
 
     private void ClearBookInspectionPhotoOverride()
     {
+        ClearBookInspectionPhotoCaption();
         if (_bookInspectionPhotoInsert is { } insert
             && GodotObject.IsInstanceValid(insert)
             && _bookInspectionPhotoSurface >= 0
@@ -281,6 +287,8 @@ public partial class JournalUi
         // photo state changes when the player examines the book's construction.
         Pose(_bookInspectionModel, open ? "open" : "close");
         Pose(_bookInspectionHands, open ? "hold_open" : "hold_closed");
+        _bookInspectionOpenPose = open;
+        RefreshBookInspectionPhoto();
         if (_bookInspectionViewport is not null) _bookInspectionViewport.RenderTargetUpdateMode = SubViewport.UpdateMode.Once;
     }
 
@@ -303,6 +311,7 @@ public partial class JournalUi
         _bookInspectionViewport = null;
         _bookInspectionPivot = _bookInspectionModel = _bookInspectionHands = null;
         _bookInspectionSession = null;
+        _bookInspectionOpenPose = false;
         if (GodotObject.IsInstanceValid(_bookInspectionToggle)) _bookInspectionToggle.Text = "Осмотреть книгу в руках";
     }
 }
