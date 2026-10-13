@@ -48,6 +48,8 @@ public static partial class StyleBenchmarkInteriorFactory
         new("Right0", new(4.10f, 1.44f, .90f), -90)
     };
 
+    private static readonly string[] WindowShellWallPrefixes = ["FrontWall", "BackWall", "LeftWall", "RightWall"];
+
     public static Transform3D TransformFromFacade(Node3D facade) =>
         facade.GlobalTransform * new Transform3D(Basis.Identity, RoomOffset);
 
@@ -60,22 +62,12 @@ public static partial class StyleBenchmarkInteriorFactory
         Block(room, "Floor", new(8.4f, .18f, 7.4f), new(0, -.09f, 0), "7a4634", "wood_floor_planked");
         // P2 / VIS-098: whitewashed plaster ceiling, warm off-white so the lamp light bounces.
         Block(room, "Ceiling", new(8.4f, .16f, 7.4f), new(0, 2.68f, 0), "e6e0d2", "plaster_domestic");
-
-        Wall(room, "FrontWall", 4.2f, 3.6f, false,
-            [new(DoorX, DoorWidth, 0, DoorHeight),
-             new(-.85f, recipe.WidthFor("Front0"), WindowSill, WindowHead),
-             new(1f, recipe.WidthFor("Front1"), WindowSill, WindowHead),
-             new(2.85f, recipe.WidthFor("Front2"), WindowSill, WindowHead)]);
-        Wall(room, "BackWall", 4.2f, -3.6f, false,
-            [new(-2.55f, recipe.WidthFor("Rear0"), WindowSill, WindowHead), new(2.55f, recipe.WidthFor("Rear1"), WindowSill, WindowHead)]);
-        Wall(room, "LeftWall", 3.5f, -4.1f, true, [new(.60f, recipe.WidthFor("Left0"), WindowSill, WindowHead)]);
-        Wall(room, "RightWall", 3.5f, 4.1f, true, [new(.90f, recipe.WidthFor("Right0"), WindowSill, WindowHead)]);
+        BuildWindowShell(room, recipe);
 
         // Exposed beams sit above the clear ceiling datum, never through heads.
         foreach (var x in new[] { -2.25f, 2.25f })
             Block(room, "CeilingBeam" + (x < 0 ? "Left" : "Right"), new(.20f, .18f, 7f),
                 new(x, 2.693f, 0), "493629", "wood", collision: false);
-        foreach (var window in Windows) BuildWindow(room, window, recipe.WidthFor(window.Name));
         AddRoomTrim(room);
         InteriorReflectionProbes.Add(room, "HeroRoomReflectionProbe", new(0, CeilingHeight * .5f, 0),
             new(ClearWidth, CeilingHeight, ClearDepth));
@@ -102,6 +94,165 @@ public static partial class StyleBenchmarkInteriorFactory
             Block(room, "FamilyPhotoShelfBracket" + (z < -2.5f ? "Rear" : "Front"),
                 new(.44f, .14f, .065f), new(-3.77f, .96f, z), "493629", "wood", false);
     }
+
+    internal static IReadOnlyList<StaticBody3D> RefreshWindowShell(
+        Node3D room,
+        HeroHouseRecipe recipe,
+        Action<IReadOnlyList<StaticBody3D>>? beforeCommit = null)
+    {
+        if (!room.HasMeta("heroHouseContract")
+            || !string.Equals(room.GetMeta("heroHouseContract").AsString(), ContractVersion, StringComparison.Ordinal)
+            || !room.HasMeta("heroHouseWindowClearWidth"))
+        {
+            throw new InvalidOperationException("Cannot refresh windows on a room without the hero-house interior contract.");
+        }
+
+        var staging = new Node3D();
+        Node3D? backup = null;
+        Node[] stagedRoots = [];
+        (Node Node, int Index)[] originalRoots = [];
+        var previousWindowWidth = room.GetMeta("heroHouseWindowClearWidth");
+        var committed = false;
+        try
+        {
+            if (previousWindowWidth.VariantType != Variant.Type.Float
+                || !float.IsFinite(previousWindowWidth.AsSingle())
+                || previousWindowWidth.AsSingle() < HeroHouseRecipe.MinWindowClearWidth
+                || previousWindowWidth.AsSingle() > HeroHouseRecipe.MaxWindowClearWidth)
+            {
+                throw new InvalidOperationException("Cannot refresh a room with invalid hero-house window-width metadata.");
+            }
+
+            var replacementBodies = BuildWindowShell(staging, recipe);
+            stagedRoots = staging.GetChildren().ToArray();
+            var expectedNames = stagedRoots.Select(node => node.Name.ToString()).ToHashSet(StringComparer.Ordinal);
+            if (expectedNames.Count != stagedRoots.Length)
+                throw new InvalidOperationException("The staged hero-house window shell contains duplicate roots.");
+
+            originalRoots = room.GetChildren()
+                .Where(IsWindowShellRoot)
+                .Select(node => (node, node.GetIndex()))
+                .ToArray();
+            var originalNames = originalRoots.Select(item => item.Node.Name.ToString()).ToHashSet(StringComparer.Ordinal);
+            if (originalNames.Count != originalRoots.Length || !expectedNames.SetEquals(originalNames))
+                throw new InvalidOperationException("The existing hero-house window shell does not match the expected direct roots.");
+            ValidateWindowShell(originalRoots.Select(item => item.Node));
+
+            backup = new Node3D();
+            var replacementsByName = stagedRoots.ToDictionary(node => node.Name.ToString(), StringComparer.Ordinal);
+            foreach (var (original, index) in originalRoots)
+            {
+                room.RemoveChild(original);
+                backup.AddChild(original);
+
+                var replacement = replacementsByName[original.Name.ToString()];
+                staging.RemoveChild(replacement);
+                room.AddChild(replacement);
+                room.MoveChild(replacement, index);
+            }
+
+            room.SetMeta("heroHouseWindowClearWidth", recipe.WindowClearWidth);
+            beforeCommit?.Invoke(replacementBodies);
+            committed = true;
+            return replacementBodies;
+        }
+        catch
+        {
+            if (backup is not null)
+            {
+                foreach (var replacement in stagedRoots)
+                {
+                    if (replacement.GetParent() != room) continue;
+                    room.RemoveChild(replacement);
+                    replacement.Free();
+                }
+
+                foreach (var (original, _) in originalRoots)
+                {
+                    if (original.GetParent() is { } parent) parent.RemoveChild(original);
+                }
+
+                foreach (var (original, index) in originalRoots)
+                {
+                    room.AddChild(original);
+                    room.MoveChild(original, Math.Min(index, room.GetChildCount() - 1));
+                }
+            }
+
+            room.SetMeta("heroHouseWindowClearWidth", previousWindowWidth);
+            throw;
+        }
+        finally
+        {
+            staging.Free();
+            if (backup is not null && (committed || backup.GetChildCount() == 0)) backup.Free();
+        }
+    }
+
+    private static StaticBody3D[] BuildWindowShell(Node3D room, HeroHouseRecipe recipe)
+    {
+        var bodies = new List<StaticBody3D>();
+        bodies.AddRange(Wall(room, "FrontWall", 4.2f, 3.6f, false,
+            [new(DoorX, DoorWidth, 0, DoorHeight),
+             new(-.85f, recipe.WidthFor("Front0"), WindowSill, WindowHead),
+             new(1f, recipe.WidthFor("Front1"), WindowSill, WindowHead),
+             new(2.85f, recipe.WidthFor("Front2"), WindowSill, WindowHead)]));
+        bodies.AddRange(Wall(room, "BackWall", 4.2f, -3.6f, false,
+            [new(-2.55f, recipe.WidthFor("Rear0"), WindowSill, WindowHead),
+             new(2.55f, recipe.WidthFor("Rear1"), WindowSill, WindowHead)]));
+        bodies.AddRange(Wall(room, "LeftWall", 3.5f, -4.1f, true,
+            [new(.60f, recipe.WidthFor("Left0"), WindowSill, WindowHead)]));
+        bodies.AddRange(Wall(room, "RightWall", 3.5f, 4.1f, true,
+            [new(.90f, recipe.WidthFor("Right0"), WindowSill, WindowHead)]));
+        foreach (var window in Windows) bodies.Add(BuildWindow(room, window, recipe.WidthFor(window.Name)));
+        return bodies.ToArray();
+    }
+
+    private static bool IsWindowShellRoot(Node node)
+    {
+        var name = node.Name.ToString();
+        return name.StartsWith("HeroRoomWindow", StringComparison.Ordinal)
+            || WindowShellWallPrefixes.Any(prefix => name.StartsWith(prefix, StringComparison.Ordinal));
+    }
+
+    private static void ValidateWindowShell(IEnumerable<Node> roots)
+    {
+        var expectedWindows = Windows.ToDictionary(window => "HeroRoomWindow" + window.Name, StringComparer.Ordinal);
+        foreach (var root in roots)
+        {
+            var name = root.Name.ToString();
+            if (WindowShellWallPrefixes.Any(prefix => name.StartsWith(prefix, StringComparison.Ordinal)))
+            {
+                if (root is not StaticBody3D wall || !HasArchitectureContact(wall))
+                    throw new InvalidOperationException($"Refusing to replace non-architecture wall root '{name}'.");
+                continue;
+            }
+
+            if (root is not Node3D windowRoot || !expectedWindows.TryGetValue(name, out var window)
+                || !windowRoot.HasMeta("openingCenter") || windowRoot.GetMeta("openingCenter").AsVector3() != window.Center
+                || !windowRoot.HasMeta("clearOpening"))
+            {
+                throw new InvalidOperationException($"Refusing to replace unrecognized hero-house window root '{name}'.");
+            }
+
+            var opening = windowRoot.GetMeta("clearOpening").AsVector2();
+            if (!float.IsFinite(opening.X) || opening.X < HeroHouseRecipe.MinWindowClearWidth
+                || opening.X > HeroHouseRecipe.MaxWindowClearWidth || opening.Y != WindowHead - WindowSill
+                || windowRoot.GetNodeOrNull<StaticBody3D>("Glazing") is not { } glazing
+                || !HasArchitectureContact(glazing))
+            {
+                throw new InvalidOperationException($"Refusing to replace malformed hero-house window root '{name}'.");
+            }
+        }
+
+        if (roots.Count(root => WindowShellWallPrefixes.Any(prefix => root.Name.ToString().StartsWith(prefix, StringComparison.Ordinal))) == 0)
+            throw new InvalidOperationException("The existing hero-house shell has no wall contacts.");
+    }
+
+    private static bool HasArchitectureContact(StaticBody3D body) =>
+        body.HasMeta("collisionOwner")
+        && string.Equals(body.GetMeta("collisionOwner").AsString(), "house-interior-architecture", StringComparison.Ordinal)
+        && body.GetNodeOrNull<CollisionShape3D>("Contact") is not null;
 
     /// <summary>
     /// P2 / VIS-098: the joints of a lived-in Tatar room are finished, not raw: a painted
@@ -175,8 +326,9 @@ public static partial class StyleBenchmarkInteriorFactory
 
     private readonly record struct Opening(float Center, float Width, float Bottom, float Top);
 
-    private static void Wall(Node3D room, string name, float halfLength, float at, bool sideWall, Opening[] openings)
+    private static StaticBody3D[] Wall(Node3D room, string name, float halfLength, float at, bool sideWall, Opening[] openings)
     {
+        var bodies = new List<StaticBody3D>();
         var cursor = -halfLength;
         var index = 0;
         foreach (var opening in openings.OrderBy(value => value.Center))
@@ -204,6 +356,7 @@ public static partial class StyleBenchmarkInteriorFactory
             var segment = Block(room, name + suffix, size, center,
                 stoveWall ? "bdb6a2" : sideWall ? "917f64" : "9a8767",
                 stoveWall ? "plaster_domestic" : "wallpaper");
+            bodies.Add(segment);
             var lining = segment.GetNode<MeshInstance3D>("Visible");
             // The exterior shell already has faces at both structural datums.
             // Seat the plaster finish 2mm into the room and away from the outer
@@ -217,9 +370,11 @@ public static partial class StyleBenchmarkInteriorFactory
                 : new Vector3(InteriorFinishThickness * 2, InteriorFinishThickness * 2, 0)));
             lining.SetMeta("interiorFinishThickness", InteriorFinishThickness);
         }
+
+        return bodies.ToArray();
     }
 
-    private static void BuildWindow(Node3D room, Window window, float windowClearWidth)
+    private static StaticBody3D BuildWindow(Node3D room, Window window, float windowClearWidth)
     {
         var root = new Node3D { Name = "HeroRoomWindow" + window.Name, Position = window.Center,
             RotationDegrees = new(0, window.YawDegrees, 0) };
@@ -284,6 +439,7 @@ public static partial class StyleBenchmarkInteriorFactory
                 .81f, -.68f, .28f, .025f, 3, false, rear ? "c3b28f" : "94aaa4");
         }
         DrapedFabric(root, "SheerCurtain", 0, windowClearWidth - .02f, .81f, -.67f, .22f, .010f, 7, true);
+        return glazing;
     }
 
     private static ShaderMaterial WindowGlassMaterial() => new()

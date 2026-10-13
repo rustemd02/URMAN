@@ -461,12 +461,28 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
         if (_loadWorldTask is { IsCompleted: false } loading) await loading;
         if (_shuttingDown || _view is null || _demo is null) return;
         _reloading = true;
-        ClearFencePick();
-        _pickedPart = null;
-        studio.ShowProperties();
         var previous = _demo;
+        var recipeFile = Path.Combine(studio.Workspace.Root, "game/content/studio/hero_house.recipe.json");
         try
         {
+            var recipeText = File.ReadAllText(recipeFile);
+            if (_houseRecipeShown is not null && _houseRecipeShown != recipeText
+                && previous.GetTree().GetNodesInGroup("act1_connected_world")
+                    .OfType<Act1ConnectedWorld>().FirstOrDefault(previous.IsAncestorOf) is { } world
+                && world.TryRefreshHeroHouseWindowGeometry(HeroHouseRecipe.Parse(_houseRecipeShown), HeroHouseRecipe.Parse(recipeText)))
+            {
+                _houseRecipeShown = recipeText;
+                _indexedDisplayDemo = null;
+                BuildMarkers();
+                studio.ShowProperties();
+                RequestViewportRender();
+                GD.Print("urman-studio-hero-window-refresh: selective");
+                return;
+            }
+
+            ClearFencePick();
+            _pickedPart = null;
+            studio.ShowProperties();
             _hint.Text = "Обновляю модель дома…";
             _hint.Visible = true;
             if (previous is not null) _viewport.RemoveChild(previous);
@@ -487,13 +503,14 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
             }
             if (_hint.Visible) throw new InvalidOperationException("Новая сцена дома не загрузилась.");
             previous?.Free();
+            _houseRecipeShown = recipeText;
             UpdateCamera();
         }
         catch
         {
-            if (_demo is not null) { _viewport.RemoveChild(_demo); _demo.Free(); }
+            if (_demo is not null && !ReferenceEquals(_demo, previous)) { _viewport.RemoveChild(_demo); _demo.Free(); }
             _demo = previous;
-            if (previous is not null) _viewport.AddChild(previous);
+            if (previous is not null && previous.GetParent() is null) _viewport.AddChild(previous);
             _hint.Visible = previous is null;
             _camera.MakeCurrent();
             throw;
@@ -531,6 +548,7 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
 
     private string? _atmosphereShown;
     private string? _houseRecipeShown;
+    private string? _houseRecipeRefreshAttempt;
 
     public void Refresh()
     {
@@ -543,9 +561,12 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
         if (File.Exists(recipeFile))
         {
             var recipe = File.ReadAllText(recipeFile);
-            if (_houseRecipeShown is not null && _houseRecipeShown != recipe && !_reloading)
+            if (_houseRecipeShown is null) _houseRecipeShown = recipe;
+            else if (_houseRecipeShown != recipe && !_reloading && _houseRecipeRefreshAttempt != recipe)
+            {
+                _houseRecipeRefreshAttempt = recipe;
                 RefreshGeometryObserved();
-            _houseRecipeShown = recipe;
+            }
         }
 
         // Atmosphere edits, undo and redo show on the village at once.

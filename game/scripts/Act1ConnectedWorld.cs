@@ -715,22 +715,7 @@ public partial class Act1ConnectedWorld : Node3D
                     // floor/walls inert so they cannot block the exterior
                     // route. InteractionTarget bodies are restored by the
                     // separate interaction-routing pass below.
-                    foreach (var body in FindDescendants<StaticBody3D>(instance)
-                        .Where(candidate => candidate is not InteractionTarget))
-                    {
-                        if (!body.HasMeta("connectedWorldOriginalCollisionLayer"))
-                        {
-                            body.SetMeta("connectedWorldOriginalCollisionLayer", (int)body.CollisionLayer);
-                            body.SetMeta("connectedWorldOriginalCollisionMask", (int)body.CollisionMask);
-                        }
-
-                        body.CollisionLayer = isActive
-                            ? (uint)body.GetMeta("connectedWorldOriginalCollisionLayer").AsInt32()
-                            : 0u;
-                        body.CollisionMask = isActive
-                            ? (uint)body.GetMeta("connectedWorldOriginalCollisionMask").AsInt32()
-                            : 0u;
-                    }
+                    SetInteriorStaticCollisionEnabled(FindDescendants<StaticBody3D>(instance), isActive);
                 }
                 if (string.Equals(placement.PlacementId, "village-main-road", StringComparison.Ordinal))
                 {

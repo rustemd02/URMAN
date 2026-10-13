@@ -10,6 +10,7 @@ public partial class Act1ConnectedWorld
 {
     private const string MainStreetFencedServiceLaneSlug = "main-street-fenced-service-lane";
     private const string ConnectiveStreetShedBypassSlug = "connective-street-shed-bypass";
+    private const string HeroRearBoundaryOwnerMeta = "heroRearBoundaryOwner";
 
     private StaticBody3D? _act1BypassCollision;
     private CollisionShape3D? _mainStreetServiceGateCollision;
@@ -269,6 +270,14 @@ public partial class Act1ConnectedWorld
         })
         {
             var boundary = core.GetNode<Node3D>(path);
+            if (boundary.Name == "BabaiApproachDwellingFacade")
+            {
+                foreach (var shape in BuildHeroRearBoundaryCollisionShapes(
+                    _act1BypassCollision, boundary, disabled: false))
+                    _act1BypassCollision.AddChild(shape, forceReadableName: true);
+                continue;
+            }
+
             foreach (var mesh in FindDescendants<MeshInstance3D>(boundary).Where(mesh =>
                 mesh.Mesh is not null && mesh.Visible
                 && mesh.Name.ToString().EndsWith("_LOD0", StringComparison.Ordinal)
@@ -284,6 +293,42 @@ public partial class Act1ConnectedWorld
                 }, forceReadableName: true);
         }
         SetBypassCollisionEnabled(_act1BypassCollision, false);
+    }
+
+    private static CollisionShape3D[] BuildHeroRearBoundaryCollisionShapes(
+        StaticBody3D collisionOwner,
+        Node3D geometryRoot,
+        bool disabled)
+    {
+        var shapes = new System.Collections.Generic.List<CollisionShape3D>();
+        try
+        {
+            foreach (var mesh in FindDescendants<MeshInstance3D>(geometryRoot)
+                .Where(mesh => mesh.Mesh is not null && mesh.Visible
+                    && mesh.Name.ToString().EndsWith("_LOD0", StringComparison.Ordinal)
+                    && (mesh.Name.ToString().Contains("_Wall_", StringComparison.Ordinal)
+                        || mesh.Name.ToString().Contains("_Foundation_", StringComparison.Ordinal)
+                        || mesh.Name.ToString().Contains("_Leaf_", StringComparison.Ordinal))))
+            {
+                var shape = new CollisionShape3D
+                {
+                    Name = "RearBoundary_" + mesh.Name,
+                    Transform = collisionOwner.GlobalTransform.AffineInverse() * mesh.GlobalTransform,
+                    Shape = mesh.Mesh!.CreateTrimeshShape(),
+                    Disabled = disabled
+                };
+                shape.SetMeta(HeroRearBoundaryOwnerMeta, HeroHouseRecipe.EntityId);
+                shapes.Add(shape);
+            }
+            return shapes.ToArray();
+        }
+        catch
+        {
+            foreach (var shape in shapes)
+                if (GodotObject.IsInstanceValid(shape))
+                    shape.Free();
+            throw;
+        }
     }
 
     private void UpdateAct1BypassDiscoveries()

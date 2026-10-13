@@ -76093,7 +76093,7 @@
               "Native A02/A05 with multiple houses, exclusion and new object after submit remains unverified.",
               "Native single-house mandatory confirmation walkthrough including cancel/hide/exit/changed sources and direct/manual policy; source compile is not rendered UX proof."
             ],
-            "next_action": "После исправления подтверждённой причины Codex SAFEFAIL проверить native A/B/C frozen scope, приватную сборку, Apply и полную отмену; сохранять полный оставшийся scope.",
+            "next_action": "Проверить native A/B/C frozen scope, приватную сборку, Apply и полную отмену на текущем строгом Codex transport; прежний SAFEFAIL сохранить как историю, успешный реальный запрос480 не считать доказательством его причины.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -79992,6 +79992,32 @@
                 ],
                 "verification": "Luna source fixes + independent Sol review, serial affected Game compile0/0 13.58s; existing native receipt/logs at evidence/STUDIO/practical-editor-2026-10-13/windows-codex-restart-fixed",
                 "limits": "New disposal/refit fixes and camera bounds patch not native verified. Do not call7RID fixed; fullmap reload aftersingle Apply still slow, no existing safe hero exterior/interior selective rebuild."
+              },
+              {
+                "date": "2026-10-13",
+                "kind": "source-progress",
+                "result": "Confirmed Apply fullreload~70s; no existing safe combined selective refresh. Implementing exact four wall groups/seven interior window roots via shared initial/staged builder; room furniture/doors/interactions and inactive interior collision policy preserved.",
+                "source": [
+                  "game/scripts/StyleBenchmarkInteriorFactory.cs"
+                ],
+                "verification": "Next affected Game compile and independent review after bounded source is ready; actual Apply latency after integration.",
+                "limits": "Source in progress, not runtime accepted. Current native389 uses earlier immutable snapshot755820... only camera/disposal/refit fixes."
+              },
+              {
+                "date": "2026-10-13",
+                "kind": "source-progress",
+                "result": "Shared staged wall/window shell, hero-only component/collision replacement with rollback and preserved support contacts; Studio Apply/Undo caller uses compatible selective refresh, otherwise existing full reload. Invalid unchanged recipe does not repeatedly reload; failed early reload keeps previous live demo.",
+                "source": [
+                  "game/scripts/StyleBenchmarkInteriorFactory.cs",
+                  "game/scripts/Act1ConnectedWorld.AuthoredKitCollision.cs",
+                  "game/scripts/Act1ConnectedWorld.BypassDiscoveries.cs",
+                  "game/scripts/Act1ConnectedWorld.HeroRecipeRefresh.cs",
+                  "game/scripts/Act1ConnectedWorld.cs",
+                  "game/studio/StudioWorldSection.cs"
+                ],
+                "verification": "Final affected Game compile 0 warnings/0 errors 16.03s after unchanged-model width guard; independent Luna final source review, all-eight exterior coverage and legal wall-root name stability reviewed; scoped diff check passed.",
+                "limits": "Native selective speed/cleanup not verified. Job389452e71fbd445ab7c77ba4355fd6fd predates selective source: baseline map74857ms and actual EyeLevel outside roof, normal-close watchdog before new Codex/Apply; terminal FAIL GOG loader preserved, user data restored.",
+                "receipt": "evidence/STUDIO/practical-editor-2026-10-13/windows-camera-cleanup/receipt.json"
               }
             ],
             "stage_tasks": [
@@ -80016,17 +80042,17 @@
               ],
               "done_when": "Новичок выбирает дом, меняет вручную, запускает AI, отменяет, открывает связь и сохраняет без подсказки разработчика о классах/путях."
             },
-            "active_owner": "codex/b20-2026-10-10",
+            "active_owner": "Codex",
             "activity": {
               "state": "confirmed_active",
-              "reason": "Принятый runtime181992ms иcleanresourceclose сохранён. Следующий guardedowner scan sourceэтап принятcompile/review; native ещёнемерили. Практическая готовность/новичокостаютсяоткрыты, Send отдельноAI38."
+              "reason": "Selective hero exterior/interior refresh integrated and compiled; primary owns native changed Apply timing after B02/PW044 station queue."
             },
             "task_type": "engineering",
             "status": "in_progress",
             "implementation_state": "implemented",
             "technical_verification_state": "not_run",
-            "remaining": "Native fullmap74.176с против181.025с и originalcounts/resourceclose подтверждены. Она всё ещё медленная; полная usability/novice и остальные B20сценарии остаются. Следующий приоритет — применённое Codex окно после restart/Undo/Redo.",
-            "next_action": "На changed snapshot проверить camera fit и очищение после hero privateGLB/Apply/reload, затем убрать долгую полную перегрузку безопасным общим путём exterior+interior; не повторять уже доказанный durable restart ради процесса.",
+            "remaining": "Selective refresh source интегрирован и компилируется; скорость и rollback нового пути ещё не проверены native. Карта загружается ~75s. Полный usability/novice и оставшиеся B20 сценарии открыты; durable Codex restart уже принят отдельным этапом.",
+            "next_action": "На свободной Windows станции выполнить изменённый selective Apply → осмотр → Undo, измерить задержку по сравнению с полной перезагрузкой ~70s и проверить закрытие импортированного GLB.",
             "blocker": null,
             "external_gates": [
               {
@@ -80108,8 +80134,8 @@
                 "scenario": "A15 и маленькое окно/150% scale; записать успешность, время, конкретные ошибки, не выдуманные оценки удобства.",
                 "success": "Новичок выбирает дом, меняет вручную, запускает AI, отменяет, открывает связь и сохраняет без подсказки разработчика о классах/путях.",
                 "repeat_only_if": "Изменён предметный contract/input или предыдущий сценарий неполон.",
-                "current_stage_question": "Уменьшил ли pass-local prepared-face cache реальные50.626s authored address mounts без изменения мест/владельцев табличек, diagnosticcounts и закрытия?",
-                "current_stage_success": "Changed-source native timings and original diagnostics/mount outputs match; root views loaded scene, normalclose game0/noresourceleaks/userdata restored. Source-only compile not speed proof; GOG wrapperfailure retained."
+                "current_stage_question": "Уменьшает ли selective hero refresh задержку настоящего Codex Apply/Undo без изменения соседних объектов и контактов?",
+                "current_stage_success": "Actual selected window changes, Undo restores original; timing captured, neighbor/support contacts retained; normal close and data restoration. Source compile is not speed proof."
               },
               "actual_result": null,
               "evidence_refs": [

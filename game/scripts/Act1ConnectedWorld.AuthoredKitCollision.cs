@@ -5,6 +5,21 @@ namespace Urman.Godot;
 
 public partial class Act1ConnectedWorld
 {
+    internal readonly record struct HeroExteriorCollisionStage(
+        StaticBody3D? PreviousKitProxy,
+        StaticBody3D? ReplacementKitProxy,
+        CollisionShape3D[] PreviousRearBoundaryShapes,
+        CollisionShape3D[] ReplacementRearBoundaryShapes,
+        int ReplacementKitShapeCount);
+
+    private readonly record struct AuthoredKitBlockerPlacementResult(
+        StaticBody3D? Proxy,
+        int ShapeCount,
+        int SkippedRoadClear,
+        int SkippedFlatSlab,
+        int ExactArchitecture,
+        int Carved);
+
     /// <summary>
     /// Authored kit components arrive presentation-only, so walls, fences and
     /// outbuildings used to be walk-through. Pierced walls use their actual
@@ -45,136 +60,21 @@ public partial class Act1ConnectedWorld
                 continue;
             }
 
-            // Created lazily: a StaticBody3D that never enters the tree is a leaked
-            // physics body at exit, and most placements end up with no blocker.
-            StaticBody3D? proxy = null;
-            var componentBlocked = 0;
-        foreach (var mesh in FindDescendants<MeshInstance3D>(placement))
-        {
-            if (mesh.Name.ToString() == "AuthoredKitCollisionProxy" || mesh.Mesh is null || !mesh.IsVisibleInTree())
+            var result = BuildAuthoredKitBlockerForPlacement(
+                placement, placement, existingSourceContacts, doorTargets);
+            skippedRoadClear += result.SkippedRoadClear;
+            skippedFlatSlab += result.SkippedFlatSlab;
+            exactArchitecture += result.ExactArchitecture;
+            carved += result.Carved;
+            if (result.Proxy is null)
             {
                 continue;
             }
 
-            var meshName = mesh.Name.ToString();
-            // A mesh already assigned to an explicit physical owner (service
-            // shed, usable porch or local support) must not receive a second body.
-            if (existingSourceContacts.Contains(mesh.GetPath().ToString()))
-                continue;
-            var building = meshName.StartsWith("HeroHouse_", StringComparison.Ordinal)
-                || AuthoredKitBlockerFamilies.Any(family => meshName.StartsWith(family, StringComparison.Ordinal));
-            // Use the authored opening topology on every house, not only its
-            // street face. The old global DwellingFacade side/rear exception
-            // also removed walls from non-enterable neighboring houses.
-            var piercedWall = building && meshName.Contains("_Wall", StringComparison.Ordinal)
-                && meshName.EndsWith("_LOD0", StringComparison.Ordinal);
-            var clinicShell = meshName is "FapFacade_Body_LOD0" or "FapServiceShed_Body_LOD0";
-            var closedOpening = building && meshName.EndsWith("_LOD0", StringComparison.Ordinal)
-                && (meshName.Contains("_Glass_", StringComparison.Ordinal)
-                    || meshName.Contains("_Leaf_", StringComparison.Ordinal)
-                    || meshName.EndsWith("StreetDoorClosed_LOD0", StringComparison.Ordinal)
-                    || meshName is "FapFacade_DoorPanel_LOD0" or "FapFacade_ServiceDoor_LOD0");
-            // The playable house's street leaf is where the entry interaction lives; a contact
-            // on it stands in front of that target and swallows the player's look ray.
-            if (closedOpening && placement.Name == "BabaiApproachDwellingFacade"
-                && meshName == "HeroHouse_StreetDoorClosed_LOD0")
-                continue;
-            if (piercedWall || clinicShell || closedOpening)
-            {
-                proxy ??= NewKitBlockerProxy();
-                proxy.AddChild(AuthoredSurfaceContact(placement, mesh));
-                componentBlocked++;
-                blocked++;
-                exactArchitecture++;
-                continue;
-            }
-            // Each log and transverse beam is a solid of its own. The generic
-            // wall filter intentionally rejects low slabs and previously also
-            // rejected every log here. Preserve the empty spaces between them.
-            if (meshName.StartsWith("Woodpile_Log_", StringComparison.Ordinal)
-                || meshName.StartsWith("Woodpile_Support", StringComparison.Ordinal))
-            {
-                // This one presentation explicitly wraps village_day's existing
-                // FirewoodCollision; do not create a second physical owner.
-                if (placement.Name == "MainStreetPhysicalFirewood") continue;
-                proxy ??= NewKitBlockerProxy();
-                proxy.AddChild(AuthoredSolidContact(placement, mesh, $"{meshName}_Contact"));
-                componentBlocked++;
-                blocked++;
-                continue;
-            }
-            if (!building)
-            {
-                continue;
-            }
-
-            if (AuthoredKitClearanceParts.Any(part => meshName.Contains(part, StringComparison.Ordinal)))
-            {
-                continue;
-            }
-
-            var (frame, bounds) = AuthoredKitMeshBounds(mesh);
-            var size = bounds.Size;
-            if (size.X < .25f && size.Z < .25f)
-            {
-                continue;
-            }
-
-            // Bands and flat slabs (footing caps, plinths, floors, roof planes)
-            // span the whole footprint but are not walls: blocking them would seal
-            // the walkable interior of the hero house and turn every roof into a
-            // ceiling. Walls are tall and thin, sheds are tall volumes; those stay.
-            if (size.Y < .8f || Mathf.Min(size.X, size.Z) > 2.5f * size.Y)
-            {
-                skippedFlatSlab++;
-                continue;
-            }
-
-            var centre = frame * bounds.GetCenter();
-            // Never let a blocker reach into the walkable road envelope: the
-            // route, the interaction approaches and the bypasses all run there.
-            var road = AgentBAct1HeightField.RoadInfo(centre.X, centre.Z);
-            if (road.Distance < road.HalfWidth - .15f)
-            {
-                skippedRoadClear++;
-                continue;
-            }
-
-            // A raking verge is one inclined solid, not an upright wall. The
-            // generic five-slab envelope filled the air below its slope. Keep
-            // the existing eligibility filters and bake the actual beam instead.
-            if (meshName.EndsWith("_VergeLeft_LOD0", StringComparison.Ordinal)
-                || meshName.EndsWith("_VergeRight_LOD0", StringComparison.Ordinal))
-            {
-                proxy ??= NewKitBlockerProxy();
-                var contact = AuthoredSolidContact(placement, mesh, $"{meshName}_Contact");
-                contact.SetMeta("contactPolicy", "authored-solid-inclined-verge");
-                proxy.AddChild(contact);
-                componentBlocked++;
-                blocked++;
-                continue;
-            }
-
-            var shapes = AuthoredKitMeshBlockers(placement, mesh.Name, frame, bounds, doorTargets, out var meshCarved);
-            carved += meshCarved;
-            foreach (var shape in shapes)
-            {
-                proxy ??= NewKitBlockerProxy();
-                shape.SetMeta("authoredSourceMesh", mesh.GetPath().ToString());
-                proxy.AddChild(shape);
-                componentBlocked++;
-                blocked++;
-            }
-        }
-
-            if (proxy is null)
-            {
-                continue;
-            }
-
-            placement.AddChild(proxy);
-            placement.SetMeta("authoredKitBlockerCount", componentBlocked);
+            placement.AddChild(result.Proxy);
+            placement.SetMeta("authoredKitBlockerCount", result.ShapeCount);
             placements++;
+            blocked += result.ShapeCount;
         }
 
         GD.Print(
@@ -195,6 +95,170 @@ public partial class Act1ConnectedWorld
         RebuildMosqueSurfaceContacts();
         SetAuthoredKitCollisionEnabled(!Act1WorldLayout.TryGetPlacement(ActiveZoneId, out var activePlacement)
             || !activePlacement.Interior, ActiveZoneId);
+    }
+
+    /// <summary>
+    /// Build detached hero-only replacements; the caller keeps current owners for rollback
+    /// and frees the returned replacements if it abandons the swap.
+    /// </summary>
+    internal HeroExteriorCollisionStage PrepareHeroExteriorCollisionStage(
+        Node3D placement,
+        Node3D sourceComponent)
+    {
+        if (placement.Name != "BabaiApproachDwellingFacade")
+            throw new ArgumentException("The selective collision stage is only for the hero dwelling.", nameof(placement));
+        if (!placement.IsInsideTree() || !ReferenceEquals(sourceComponent.GetParent(), placement)
+            || !sourceComponent.IsInsideTree())
+            throw new ArgumentException("The staged hero component must be a direct child of its stable placement.", nameof(sourceComponent));
+        var bypassCollision = _act1BypassCollision;
+        if (bypassCollision is null || !GodotObject.IsInstanceValid(bypassCollision))
+            throw new InvalidOperationException("The Act I bypass collision owner is not ready.");
+
+        var previousProxy = placement.GetNodeOrNull<StaticBody3D>("AuthoredKitCollisionProxy");
+        var previousRearShapes = FindDescendants<CollisionShape3D>(bypassCollision)
+            .Where(shape => shape.HasMeta(HeroRearBoundaryOwnerMeta)
+                && shape.GetMeta(HeroRearBoundaryOwnerMeta).AsString() == HeroHouseRecipe.EntityId)
+            .ToArray();
+        var existingSourceContacts = FindDescendants<CollisionShape3D>(this)
+            .Where(shape => shape.HasMeta("authoredSourceMesh") && shape.GetParent() != previousProxy)
+            .Select(shape => shape.GetMeta("authoredSourceMesh").AsString())
+            .ToHashSet(StringComparer.Ordinal);
+        var doorTargets = FindDescendants<InteractionTarget>(this)
+            .Where(target => target.IsInsideTree())
+            .Select(target => target.GlobalPosition)
+            .ToArray();
+        var built = BuildAuthoredKitBlockerForPlacement(
+            placement, sourceComponent, existingSourceContacts, doorTargets);
+        try
+        {
+            if (built.Proxy is { } replacementProxy && previousProxy is not null)
+            {
+                replacementProxy.CollisionLayer = previousProxy.CollisionLayer;
+                replacementProxy.CollisionMask = previousProxy.CollisionMask;
+                foreach (var meta in new[] { "exteriorOriginalCollisionLayer", "exteriorOriginalCollisionMask" })
+                    if (previousProxy.HasMeta(meta))
+                        replacementProxy.SetMeta(meta, previousProxy.GetMeta(meta));
+            }
+
+            var disabled = previousRearShapes.FirstOrDefault()?.Disabled
+                ?? bypassCollision.CollisionLayer == 0;
+            var replacementRearShapes = BuildHeroRearBoundaryCollisionShapes(
+                bypassCollision, sourceComponent, disabled);
+            return new HeroExteriorCollisionStage(
+                previousProxy, built.Proxy, previousRearShapes, replacementRearShapes, built.ShapeCount);
+        }
+        catch
+        {
+            built.Proxy?.Free();
+            throw;
+        }
+    }
+
+    private static AuthoredKitBlockerPlacementResult BuildAuthoredKitBlockerForPlacement(
+        Node3D placement,
+        Node3D geometryRoot,
+        HashSet<string> existingSourceContacts,
+        Vector3[] doorTargets)
+    {
+        StaticBody3D? proxy = null;
+        var shapeCount = 0;
+        var skippedRoadClear = 0;
+        var skippedFlatSlab = 0;
+        var exactArchitecture = 0;
+        var carved = 0;
+        try
+        {
+            foreach (var mesh in FindDescendants<MeshInstance3D>(geometryRoot))
+            {
+                if (mesh.Name.ToString() == "AuthoredKitCollisionProxy" || mesh.Mesh is null || !mesh.IsVisibleInTree())
+                    continue;
+
+                var meshName = mesh.Name.ToString();
+                if (existingSourceContacts.Contains(mesh.GetPath().ToString()))
+                    continue;
+                var building = meshName.StartsWith("HeroHouse_", StringComparison.Ordinal)
+                    || AuthoredKitBlockerFamilies.Any(family => meshName.StartsWith(family, StringComparison.Ordinal));
+                var piercedWall = building && meshName.Contains("_Wall", StringComparison.Ordinal)
+                    && meshName.EndsWith("_LOD0", StringComparison.Ordinal);
+                var clinicShell = meshName is "FapFacade_Body_LOD0" or "FapServiceShed_Body_LOD0";
+                var closedOpening = building && meshName.EndsWith("_LOD0", StringComparison.Ordinal)
+                    && (meshName.Contains("_Glass_", StringComparison.Ordinal)
+                        || meshName.Contains("_Leaf_", StringComparison.Ordinal)
+                        || meshName.EndsWith("StreetDoorClosed_LOD0", StringComparison.Ordinal)
+                        || meshName is "FapFacade_DoorPanel_LOD0" or "FapFacade_ServiceDoor_LOD0");
+                // The street leaf owns the entry interaction ray; a contact there would swallow it.
+                if (closedOpening && placement.Name == "BabaiApproachDwellingFacade"
+                    && meshName == "HeroHouse_StreetDoorClosed_LOD0")
+                    continue;
+                if (piercedWall || clinicShell || closedOpening)
+                {
+                    proxy ??= NewKitBlockerProxy();
+                    proxy.AddChild(AuthoredSurfaceContact(placement, mesh));
+                    shapeCount++;
+                    exactArchitecture++;
+                    continue;
+                }
+                if (meshName.StartsWith("Woodpile_Log_", StringComparison.Ordinal)
+                    || meshName.StartsWith("Woodpile_Support", StringComparison.Ordinal))
+                {
+                    // The main-street stack already has its explicit FirewoodCollision.
+                    if (placement.Name == "MainStreetPhysicalFirewood") continue;
+                    proxy ??= NewKitBlockerProxy();
+                    proxy.AddChild(AuthoredSolidContact(placement, mesh, $"{meshName}_Contact"));
+                    shapeCount++;
+                    continue;
+                }
+                if (!building || AuthoredKitClearanceParts.Any(part => meshName.Contains(part, StringComparison.Ordinal)))
+                    continue;
+
+                var (frame, bounds) = AuthoredKitMeshBounds(mesh);
+                var size = bounds.Size;
+                if (size.X < .25f && size.Z < .25f)
+                    continue;
+                // Flat slabs would close the house interior or roof; walls and tall volumes remain.
+                if (size.Y < .8f || Mathf.Min(size.X, size.Z) > 2.5f * size.Y)
+                {
+                    skippedFlatSlab++;
+                    continue;
+                }
+
+                var centre = frame * bounds.GetCenter();
+                // Keep contacts out of the road envelope used by routes and approaches.
+                var road = AgentBAct1HeightField.RoadInfo(centre.X, centre.Z);
+                if (road.Distance < road.HalfWidth - .15f)
+                {
+                    skippedRoadClear++;
+                    continue;
+                }
+                if (meshName.EndsWith("_VergeLeft_LOD0", StringComparison.Ordinal)
+                    || meshName.EndsWith("_VergeRight_LOD0", StringComparison.Ordinal))
+                {
+                    proxy ??= NewKitBlockerProxy();
+                    var contact = AuthoredSolidContact(placement, mesh, $"{meshName}_Contact");
+                    contact.SetMeta("contactPolicy", "authored-solid-inclined-verge");
+                    proxy.AddChild(contact);
+                    shapeCount++;
+                    continue;
+                }
+
+                var shapes = AuthoredKitMeshBlockers(placement, mesh.Name, frame, bounds, doorTargets, out var meshCarved);
+                carved += meshCarved;
+                foreach (var shape in shapes)
+                {
+                    proxy ??= NewKitBlockerProxy();
+                    shape.SetMeta("authoredSourceMesh", mesh.GetPath().ToString());
+                    proxy.AddChild(shape);
+                    shapeCount++;
+                }
+            }
+        }
+        catch
+        {
+            proxy?.Free();
+            throw;
+        }
+        return new AuthoredKitBlockerPlacementResult(
+            proxy, shapeCount, skippedRoadClear, skippedFlatSlab, exactArchitecture, carved);
     }
 
     private void SetAuthoredKitCollisionEnabled(bool exteriorEnabled, string activeZoneId)
