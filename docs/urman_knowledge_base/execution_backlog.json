@@ -97401,7 +97401,10 @@
             "evidence": [
               "evidence/ACT1-ATMOSPHERE/crisp-day-20261013/after-fill/receipt.json",
               "evidence/ACT1-ATMOSPHERE/crisp-day-20261013/after-fill/frames/C1_street_high.png",
-              "evidence/ACT1-ATMOSPHERE/crisp-day-20261013/after-fill/frames/C2_house_high.png"
+              "evidence/ACT1-ATMOSPHERE/crisp-day-20261013/after-fill/frames/C2_house_high.png",
+              "evidence/ACT1-ATMOSPHERE/daylight-whole-scene-20261014/receipt.json",
+              "evidence/ACT1-ATMOSPHERE/daylight-whole-scene-20261014/frames/C1_street_high.png",
+              "evidence/ACT1-ATMOSPHERE/daylight-whole-scene-20261014/frames/C2_house_high.png"
             ],
             "assigned_owner": "codex/b02-2026-10-13",
             "active_owner": "codex/b02",
@@ -97414,11 +97417,11 @@
             "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
-              "Новый цельный daylight colorscript source candidate не принят в игре; нужен один matched C1/C2 before/after.",
+              "Крупный integratedPine/material/crisppalette source candidate не принят в игре; daylight5939 PASS/readablebutmodest сохранён какcurrentbefore.",
               "Nearby ordinary walk-in indoor grade/motion with current crisp source: dark wood/face/snow readability, no exposure/color regression.",
               "Existing snowfall/blizzard/night source unchanged, but actual changed indoor path and parent artistic acceptance remain open; near-black logwall and angular forest handed to corresponding visual consumers."
             ],
-            "next_action": "После текущего B20 slot выполнить одно C1/C2 сравнение цельного daylight candidate; принять/отклонить видимый результат, без серии мелких настроек.",
+            "next_action": "Принять один крупный integratedPine/material/crisppalette candidate поcurrentC1/C2 после sourceABI/census/affectedcompile; motion/indoor blocker сохранить и не выдавать статические кадры за движение.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -97542,12 +97545,24 @@
               "remaining": "Целевое игровое сравнение послеB20 station release; candidate не принят. Первыйcurrent newcapture не заменяет indoor walk/motion/authorart."
             },
             "progress_2026_10_14_resume": {
-              "state": "awaiting_station_release",
+              "state": "major_integrated_candidate_in_progress",
               "authority": "Живое поручение автора 14.10: B02 с GPT-6 Luna / Max; крупный красивый игровой результат имеет приоритет над формальным следованием карточкам. Внешняя авторская приёмка отдельно.",
               "readback": "Root лично осмотрел exact local P1 и current C2 dominant-pine/c2-only: плотность леса улучшена, зубчатые повторные снежные кроны и дробность фактур мешают цельной цветовой организации. Historical frame не выдан за текущую проверку pending colorscript.",
               "verification_question": "На том же ordinary village-winter-crisp High/FOV70 читаются выразительные тёплый прямой свет/холодные тени и три пространственных плана без серого sky-fog veil, пересвета снега и утечки состояния в соседний интерьер?",
               "station": "doctor 14.10 ready=true/busy=null/recovery=false/orphan=false с установленным certifi/TLS verification; live B20 native30 reservation сохраняется до terminal/restored/release. Запрос #982 в AGENT_CHAT.",
               "next_action": "После B20 RELEASE и свежего doctor взять один matched C1/C2 daylight capture; лично принять/отклонить весь вид. Ordinary indoor/motion остаётся обязательным отдельным остатком."
+            },
+            "progress_2026_10_14_daylight_native": {
+              "job_id": "593906f6dd684531a7480bd7a07512db",
+              "snapshot_id": "ec16d5688a5588ea17e418c6876e9a2bd70a1a42508022e97971263ad0eab9ca",
+              "source_sha256": "7870adc3e3be1c8a0ec00e27620d2284e8a7fd59155790e44938a372696859bd",
+              "receipt": "evidence/ACT1-ATMOSPHERE/daylight-whole-scene-20261014/receipt.json",
+              "archive_sha256": "a83f7f4470db22cefd314f8ee4452f609737da9e1204545cabae9cb448a929ac",
+              "verification": "PASS; build0/0/import0/game0/engine-errors empty/userdataRestoredtrue/snapshot_hashes_verifiedtrue; current crispHigh/FOV70/VulkanGTX970; freshdoctorready/busy-null/recoveryfalse/orphanfalse.",
+              "visual_readback": "Root personally matched historical dominantPineC1/C2 and exactP1/new5939pair; independent Luna agrees: warmer wood/lit snow, readable cool shadows, but whole-scene gain remains modest/palegrey; not target art or motion acceptance.",
+              "attribution": "Snapshot also contains peerHeroRecipeRefresh live-pose fix and delivered studio/address source; no wholevisualdifference attributed solelytoatmosphere. PML7038998f/Pine6b36723a hashbound unchanged in5939.",
+              "next_candidate": "Root existingcrisp eight coordinatedpalette values; Luna volumetricPine crown and existingenvironment organicmacro materialpass; preserved authoredUV/metres/selector/weather/rotation/exposure. Current newcandidate not_run.",
+              "motion_blocker": "Current deployeddoctor lacks normal_ui_transport_version; localv2 key-only controls have no mouse/gamepadaxislook; full_game house gated bypw-b01-niva-arrival. No proven ordinary physical route; release_when deployed owned protectedlook controls and visible completedbeat/prompt allow actualwalk-in. Nextfinite step: existingowner transportdeployment/route acceptance, not invented keyboardcoordinates/debugdispatch."
             }
           },
           {
@@ -112671,7 +112686,7 @@
       "title": "Произвести общие материалы и растительные формы",
       "milestone": "PW-M2",
       "status": "in_progress",
-      "active_owner": null,
+      "active_owner": "codex/b02",
       "owner": "art",
       "priority": "P0",
       "complexity": "complex",
@@ -112863,8 +112878,8 @@
       },
       "assigned_owner": "art",
       "activity": {
-        "state": "not_active",
-        "reason": "Конечный paper albedo/local book source/import этап проверен; текущий runtime/art и другие семьи открыты."
+        "state": "confirmed_active",
+        "reason": "14.10 direct B02 goal05:00: root интегрирует; Luna GPT-6 Max owns existing Pine source mesh family, independent Luna reviews shared material cadence."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -112874,7 +112889,7 @@
         "Не создаются сотни уникальных текстур одинаковых досок.",
         "Уточнение автора 09.10.2026: материалы и растительные формы наружной деревни проверены в составе домов и окружения по выбранным автором скриншотам. Сопоставимы масштаб фактур, материальность дерева/земли/снега, объём и плотность растительности, свет и цветовые отношения. Новые текстуры поверх примитивных форм и отдельный образец материала не доказывают соответствие целой игровой сцены."
       ],
-      "next_action": "Выбрать существующую dependency-ready конечную единицу для крупного улучшения общей сцены поP1; accepted foreststage не перепроверять без изменённого входа.",
+      "next_action": "Принять крупный Pine crown candidate поsource ABI/census и одномуmatched WindowsC1/C2 послеterminal/restored текущего5939 daylight job; затем конкретныйmotion/LOD остаток.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -113242,6 +113257,25 @@
           "evidence/PW-034/dominant-pine-20261013/frames/C1_street_high.png",
           "evidence/PW-034/dominant-pine-20261013/c2-only/frames/C2_house_high.png"
         ]
+      },
+      "progress_2026_10_14_crown": {
+        "state": "implementation_in_progress",
+        "result": "Объёмная нерегулярная крона существующей доминирующей Pine family вместо одинакового жёсткого плоского snow-card silhouette; large whole-scene style gain, не локальнаяLOD настройка.",
+        "targets": [
+          "assets/source/blender/urman_winter_pine_v2.py",
+          "assets/source/blender/urman_winter_pine.blend",
+          "game/assets/models/act1/urman_winter_pine.glb"
+        ],
+        "inputs": [
+          "docs/URMAN_VISUAL_RESET_2026-10-07/references/P1_user_selected_painterly.png",
+          "evidence/PW-034/dominant-pine-20261013/c2-only/frames/C2_house_high.png",
+          "assets/source/quaternius/stylized_nature/README.md"
+        ],
+        "scope": "Толькоexisting crown/source family; placement/count/root/nodeLOD/normalizedbaseheight/AABBfit/materialABI/CC0provenance сохранить. Triangle census допускает изменение по новой объёмной форме; LOD стоимость явно измерить.",
+        "dod": "Runtime семейство даёт объёмные нерегулярные силуэты в matchedC1/C2; структура/импорт проходят, density/framing сохранены. Motion/LOD и внешняяauthorart не выводятся из static capture.",
+        "verification_question": "Ушли ли повторные треугольные снежные короны и стала ли лесная масса цельнее/живописнее на текущем daylight, без holes/потери плотности/зависания?",
+        "verification": "Existing Blender generation assertions+glTFstructure/trianglecensus; одинroot-controlled Windows import/captureC1/C2 текущего daylight. Без новыхtests/probes.",
+        "remaining": "Source candidate generation/review/import/static visual judgment ещёpending; motion/LOD/fullPW034/fullB02/authorart open."
       }
     },
     {
