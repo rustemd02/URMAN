@@ -130,7 +130,8 @@ public sealed class EditSession(StudioWorkspace workspace)
         Func<string, bool> sourceDeletionOwner,
         Func<string, bool> sourceDeletionPath,
         bool includeOwnedCatalogs = false,
-        bool includeHouseFamilies = false)
+        bool includeHouseFamilies = false,
+        bool includeFenceAlignments = false)
     {
         EnsureAvailable();
         if (_open is not null || _undo.Count != 0 || _redo.Count != 0)
@@ -141,7 +142,8 @@ public sealed class EditSession(StudioWorkspace workspace)
             (path, beforeBytes, beforeSha256) => () =>
                 Workspace.ReconcileRecoveredAuthoredJsonSource(path, beforeBytes, beforeSha256),
             includeOwnedCatalogs,
-            includeHouseFamilies);
+            includeHouseFamilies,
+            includeFenceAlignments);
         return RestoreCommittedFileHistoryResult(legacyLabel, result);
     }
 

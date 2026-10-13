@@ -76309,7 +76309,20 @@
                 "result": "Typed direct Codex and bounded strict-UTF8 clipboard/file replies re-use frozen request approval/exact global-instruction bool; request-bound proposal stored atomic create-new. Runtime candidate uses additive byte-local source transform without Workspace/Session/source mutation; cancel/hide/tree-exit/stale restores frozen source view before forgetting state, failed live restore retains latch. Freed-world ownership safely cleared. Root world/panel preview gate blocks Play/Undo/checkpoint/manual edits. No-op replies explicitly report no candidate. Fence Apply disabled pending ONE durable transaction.",
                 "verification": "Final affected Game compile --no-restore: 0 errors/0 warnings; tracker/diff checks. First compile found ambiguous FileAccess constructor cascade, corrected. Five existing Luna FAST/Max bounded implementation/reviews and Sol6.1medium independent source review found/restored geometry-drift/freed-world/cancellation/policy/freshness issues. No model/GUI/runtime/tests/probes for this slice."
               },
-              "2026-10-12 bounded fence Apply: three existing panel/fence files, existing Session.ApplyFilesAsync one exact allowlisted world-plot source write/zero-entity history transaction; frozen request/source/selection/geometry/hash/clean-baseline revalidation, transient restore before write, guarded callback sync for promotion and rollback, safety latch retained on uncertainty. Two explicit authored paths added to recovery OwnsFile. Narrow Game compile0/0 and independent Sol source review no P1/P2. No native fence Apply/Undo/restart proof; current exact-house history hydration intentionally excludes fence, AI29/restart remains open; draggable handles/native A03/full parent acceptance unchanged."
+              "2026-10-12 bounded fence Apply: three existing panel/fence files, existing Session.ApplyFilesAsync one exact allowlisted world-plot source write/zero-entity history transaction; frozen request/source/selection/geometry/hash/clean-baseline revalidation, transient restore before write, guarded callback sync for promotion and rollback, safety latch retained on uncertainty. Two explicit authored paths added to recovery OwnsFile. Narrow Game compile0/0 and independent Sol source review no P1/P2. No native fence Apply/Undo/restart proof; current exact-house history hydration intentionally excludes fence, AI29/restart remains open; draggable handles/native A03/full parent acceptance unchanged.",
+              {
+                "date": "2026-10-13",
+                "kind": "source-progress",
+                "result": "Accepted fence one-file replacement participates in startup ordered mixed history with exact lowercase GUID operation owner and two supported source paths. Pending recovery refuses create/delete/additional paths and validates before/after images; existing world HistoryViewBarrier reused.",
+                "source": [
+                  "src-dotnet/Urman.Studio.Core/AI/FenceAlignmentProposal.cs",
+                  "src-dotnet/Urman.Studio.Core/Editing/EditSession.cs",
+                  "src-dotnet/Urman.Studio.Core/Storage/StudioFileTransaction.cs",
+                  "game/studio/StudioRoot.cs"
+                ],
+                "verification": "Luna implementation plus independent Luna policy/caller review; root fixed one C# local naming collision, final Game compile 0 errors/0 warnings14.74s; scoped diff check passed.",
+                "limits": "New fence restart Undo/Redo not native verified; no whole AI15 completion. Existing live-session Apply/history path retained, no new tests/probes."
+              }
             ],
             "stage_tasks": [
               "STUDIO.P2"
@@ -76327,10 +76340,10 @@
               ],
               "done_when": "Изменены только выбранные секции; нет разрывов/пересечений; калитка открывается как раньше."
             },
-            "active_owner": null,
+            "active_owner": "Codex",
             "activity": {
-              "state": "source_stage_complete",
-              "reason": "Luna bounded durable one-file fence Apply source compiled/reviewed; native A03, restart/history receipts and movable handles remain open."
+              "state": "confirmed_active",
+              "reason": "Fence startup history source slice delivered; native restart Undo/Redo pending available serialized Windows slot."
             },
             "task_type": "engineering",
             "status": "in_progress",
@@ -76340,7 +76353,7 @@
               "Typed fence direct/manual reply and transient preview are wired in source; ONE durable Apply/source baseline sync, restart/history/provenance receipts and draggable handles remain.",
               "Native A03: three bays, wicket operation, unchanged outer supports/neighbors, source/play provenance and complete Undo not verified."
             ],
-            "next_action": "Verify bounded fence Apply/Undo native A03 in later serialized station window; implement remaining movable handles and mixed-history/restart support through existing contracts. Source stage does not close parent AI15.",
+            "next_action": "На свободной Windows станции провести existing fence preview/Apply → полное закрытие/reopen → Undo/Redo; сверить source hashes и игровой вид.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",

@@ -115,6 +115,7 @@ public static class FenceAlignmentProtocol
 {
     public const string Kind = AuthoringRequestV2.Kind;
     public const int SchemaVersion = 3;
+    public const string TransactionOwnerPrefix = "urman.studio:" + FenceAlignmentProposal.Operation + "/";
     public const int MaximumSerializedRequestBytes = 256 * 1024;
     private const int MaximumPromptBytes = 256 * 1024;
     private const int MaximumProposalBytes = 8 * 1024;
@@ -131,6 +132,20 @@ public static class FenceAlignmentProtocol
         ReadCommentHandling = JsonCommentHandling.Disallow,
         UnmappedMemberHandling = JsonUnmappedMemberHandling.Disallow
     };
+
+    public static bool IsTransactionOwner(string? owner)
+    {
+        if (owner is null || !owner.StartsWith(TransactionOwnerPrefix, StringComparison.Ordinal)) return false;
+        var requestId = owner.AsSpan(TransactionOwnerPrefix.Length);
+        if (requestId.Length != 32 || !Guid.TryParseExact(requestId, "N", out var parsed)) return false;
+        return string.Equals(requestId.ToString(), parsed.ToString("N"), StringComparison.Ordinal);
+    }
+
+    public static bool IsTransactionPath(string? owner, string? path) =>
+        IsTransactionOwner(owner) && path is OpenPartPath or FarBankPath;
+
+    public static bool IsTransactionFileSet(IReadOnlyList<string> paths) =>
+        paths is { Count: 1 } && paths[0] is OpenPartPath or FarBankPath;
 
     public static string SerializeRequest(FenceAlignmentRequest request)
     {

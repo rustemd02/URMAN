@@ -129,7 +129,8 @@ public partial class StudioRoot : Control
                 (owner, path) => StudioFileTransaction.IsAuthoredSourceDeletionOwner(owner)
                     && StudioWorkspace.IsCanonicalAuthoredJsonSourcePath(path)
                     || StudioFileTransaction.IsOwnedCatalogPath(owner, path)
-                    || HouseFamilyWindowProtocol.IsTransactionPath(owner, path));
+                    || HouseFamilyWindowProtocol.IsTransactionPath(owner, path)
+                    || FenceAlignmentProtocol.IsTransactionPath(owner, path));
             if (pending.Count > 0)
             {
                 ShowBlocked("Нужно восстановить незавершённое изменение модели.",
@@ -155,7 +156,8 @@ public partial class StudioRoot : Control
                 StudioFileTransaction.IsAuthoredSourceDeletionOwner,
                 StudioWorkspace.IsCanonicalAuthoredJsonSourcePath,
                 includeOwnedCatalogs: true,
-                includeHouseFamilies: true);
+                includeHouseFamilies: true,
+                includeFenceAlignments: true);
         }
         catch (Exception error) when (error is IOException or UnauthorizedAccessException or InvalidDataException or InvalidOperationException or ArgumentException)
         {
