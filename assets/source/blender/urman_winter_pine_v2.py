@@ -1,47 +1,53 @@
 #!/usr/bin/env python3
-"""VIS-025 / VIS-084: rebuild the WinterPine hero silhouette as irregular masses.
+"""VIS-025 / VIS-084: rebuild WinterPine with irregular volumetric boughs.
 
 The shipped `urman_winter_pine.glb` is a normalised Quaternius pine: its needle
 cards sit in a small number of near-coplanar rings, which is what R025 reads as
 "плоские повторяющиеся ярусы кроны". This script keeps every external contract
-the runtime asserts and changes only the crown construction:
+the runtime asserts and changes only the crown construction. It starts from an
+immutable production GLB pinned below so bark seating and positions are exact;
+the original CC0 source is still hash- and geometry-validated:
 
   * the same pinned source files and SHA-256 gates as `prepare_winter_pine.py`;
   * the same node names `WinterPine_LOD0/1/2` under the `URMAN_WinterPine` root,
     the same two material slots `AB_bark` / `AB_needles`, the same embedded
     `Leaf_Pine_C` alpha texture, the same normalisation (base z = 0, height = 1);
-  * the same 462 needle triangles and the same bark-only decimation ratios, so
-    the leaf/UV LOD contract and the triangle census do not drift.
+  * the same node/LOD, material, placement-envelope and bark-decimation contracts.
 
-What changes: the connected needle islands are re-seated into 3-5 uneven crown
-masses with open gaps between them, per-mass heading, per-mass reach and
-per-mass droop, and each island's own tip lift. Nothing is added or deleted, so
-the cost is measurable against the v1 census; the silhouette stops repeating one
-flat disc.
+What changes: the source needle cards are replaced by twenty closed, smoothly
+shaded bough volumes and one narrow central leader. Their staggered heights,
+unequal reach and gentle droop make one organic asymmetric crown instead of
+repeating hard triangular card tiers. The foliage UV samples an opaque point in
+the pinned alpha texture, preserving the existing runtime cutout material ABI.
 
-Run in Blender 4.5 LTS (this repository's prepared production step, not run by
-the authoring agent):
+Run in Blender 4.5 LTS:
 
     blender --background --python assets/source/blender/urman_winter_pine_v2.py -- --root .
 
-Then verify with the existing capture pair P16 forest close / P16b medium and
-the R025 framing, and record the printed census in
-docs/production/visual_restyle_2026-10-07/ledger_TREES.md.
+Then verify with matched Windows C1/C2 daylight captures and LOD motion review.
 """
 from __future__ import annotations
 
 import argparse
+import bmesh
 import hashlib
 import json
 import math
+import random
+import subprocess
 import sys
+import tempfile
 from pathlib import Path
 
 import bpy
+from mathutils import Vector
 
 
 SOURCE_SHA256 = "54c72a4d614f053dd4b3d4404076a361de6085ec6a34560e42a76d7e79d89830"
 SOURCE_BIN_SHA256 = "73edd69d7e789b12bfa32ab202c62d74ae98f0bba67975205211bf51906d8c82"
+BASELINE_REVISION = "cf63e6a9cbbf280d1ad56755936ea00345e94733"
+BASELINE_GLB_PATH = "game/assets/models/act1/urman_winter_pine.glb"
+BASELINE_GLB_SHA256 = "6b36723a8a38fa37e44852f1c16b42b5dbc1a539d10e73cdd5c676daa705db38"
 TEXTURE_SHA256 = {
     "Bark_NormalTree.png": "f36e94fdd73255347325b998e02a0b2575fdf714b0315bfe5e8ff34bc8e13603",
     "Bark_NormalTree_Normal.png": "852f6155404b8c39e100e41e26970e02a6a5c81b482d3726618dab28e3ad03a2",
@@ -49,11 +55,17 @@ TEXTURE_SHA256 = {
 }
 EXPECTED_SOURCE_BARK_TRIANGLES = 4502
 EXPECTED_SOURCE_LEAF_TRIANGLES = 462
+EXPECTED_BASELINE_BARK_TRIANGLES = 3926
+EXPECTED_BASELINE_LEAF_TRIANGLES = 462
+EXPECTED_CROWN_TRIANGLES = 2692
 ASSET_ID = "winter.pine.v2"
-# Three to five masses. The count is chosen per seed inside this band; more
-# masses would spend the crown budget on noise at 15 m, fewer would not read as
-# a mass at all.
-MASS_COUNTS = (3, 4, 5)
+# Blender-space bounds converted from the current production GLB's AB_needles
+# POSITION envelope (glTF Y-up maps to Blender Z-up with a sign flip on Y).
+REFERENCE_CROWN_BOUNDS = ((-0.28594157, 0.20259976), (-0.23044090, 0.31010240),
+                          (0.46301207, 1.0))
+BOUGH_PROFILE = ((0.0, 0.038, 0.034), (0.16, 0.079, 0.060),
+                 (0.36, 0.091, 0.057), (0.60, 0.079, 0.046),
+                 (0.82, 0.054, 0.031), (1.0, 0.016, 0.012))
 
 
 def parse_argv() -> tuple[Path, int]:
@@ -101,159 +113,228 @@ def validate_source(source_path: Path) -> str:
     return ";".join(f"{name}={digest}" for name, digest in sorted(TEXTURE_SHA256.items()))
 
 
-def needle_islands(obj: bpy.types.Object, material_name: str) -> list[list[int]]:
-    """Connected components of one material's faces, welded by position.
+def add_closed_branch(bm: bmesh.types.BMesh, angle: float, base_z: float,
+                      length: float, width: float, height: float, droop: float,
+                      lateral: float, material_index: int, uv_layer) -> tuple[list, list]:
+    """Build one closed, rounded, swept foliage volume from six profile rings."""
+    radial = Vector((math.cos(angle), math.sin(angle), 0.0))
+    side = Vector((-math.sin(angle), math.cos(angle), 0.0))
+    up = Vector((0.0, 0.0, 1.0))
+    rings, vertices, faces = [], [], []
+    segments = 10
+    for t, profile_width, profile_height in BOUGH_PROFILE:
+        # The narrow first ring starts inside the central foliage core, so every
+        # bough visibly grows out of the trunk instead of floating beside it.
+        centre = radial * (length * t) + side * (lateral * math.sin(math.pi * t))
+        centre.z = base_z + 0.040 * math.sin(math.pi * t) - droop * t * t
+        ring = []
+        for segment in range(segments):
+            a = math.tau * segment / segments
+            point = centre + side * (math.cos(a) * width * profile_width / 0.091)
+            vertical = math.sin(a)
+            # The underside stays shallow while the upper side holds a round
+            # snow-bearing arc instead of a symmetric rubbery oval.
+            vertical *= 1.0 if vertical >= 0.0 else 0.62
+            vertical += 0.14 * (1.0 - math.cos(a))
+            point += up * (vertical * height * profile_height / 0.060)
+            vertex = bm.verts.new(point)
+            ring.append(vertex)
+            vertices.append(vertex)
+        rings.append(ring)
+    for lower, upper in zip(rings, rings[1:]):
+        for segment in range(segments):
+            faces.append(bm.faces.new((lower[segment], lower[(segment + 1) % segments],
+                                       upper[(segment + 1) % segments], upper[segment])))
+    for ring, reverse in ((rings[0], True), (rings[-1], False)):
+        centre = bm.verts.new(sum((vertex.co for vertex in ring), Vector()) / segments)
+        vertices.append(centre)
+        for segment in range(segments):
+            pair = (ring[(segment + 1) % segments], ring[segment]) if reverse else (ring[segment], ring[(segment + 1) % segments])
+            faces.append(bm.faces.new((centre, *pair)))
+    for face in faces:
+        face.material_index = material_index
+        face.smooth = True
+        for loop in face.loops:
+            loop[uv_layer].uv = (0.5, 0.5)
+    return faces, vertices
 
-    The glTF splits hard normals and UV seams, so vertices are welded only for
-    selection. The source mesh, its UVs and its material channels stay intact;
-    this returns groups of polygon indices that form one physical bough card.
-    """
+
+def add_central_core(bm: bmesh.types.BMesh, material_index: int, uv_layer) -> tuple[list, list]:
+    """Create a subtly irregular foliage spine that joins all radial branch fans."""
+    profile = ((0.465, 0.006, 0.000, 0.000), (0.515, 0.039, 0.004, -0.004),
+               (0.585, 0.068, 0.009, -0.001), (0.665, 0.082, 0.014, 0.005),
+               (0.745, 0.073, 0.020, 0.008), (0.825, 0.052, 0.024, 0.003),
+               (0.910, 0.026, 0.020, -0.002), (0.982, 0.004, 0.012, -0.004))
+    segments = 12
+    loops, vertices, faces = [], [], []
+    for ring_index, (z, radius, lean_x, lean_y) in enumerate(profile):
+        loop = []
+        centre = Vector((lean_x, lean_y, z))
+        for segment in range(segments):
+            angle = math.tau * segment / segments
+            irregularity = (1.0 + 0.055 * math.sin(3.0 * angle + ring_index * 0.83)
+                            + 0.035 * math.cos(5.0 * angle - ring_index * 0.61))
+            vertex = bm.verts.new(centre + Vector((math.cos(angle) * radius * irregularity,
+                                                    math.sin(angle) * radius * irregularity * 0.92,
+                                                    0.0)))
+            loop.append(vertex)
+            vertices.append(vertex)
+        loops.append(loop)
+    for lower, upper in zip(loops, loops[1:]):
+        for segment in range(segments):
+            faces.append(bm.faces.new((lower[segment], lower[(segment + 1) % segments],
+                                       upper[(segment + 1) % segments], upper[segment])))
+    for ring, reverse in ((loops[0], True), (loops[-1], False)):
+        centre = bm.verts.new(sum((vertex.co for vertex in ring), Vector()) / segments)
+        vertices.append(centre)
+        for segment in range(segments):
+            pair = (ring[(segment + 1) % segments], ring[segment]) if reverse else (ring[segment], ring[(segment + 1) % segments])
+            faces.append(bm.faces.new((centre, *pair)))
+    for face in faces:
+        face.material_index = material_index
+        face.smooth = True
+        for loop in face.loops:
+            loop[uv_layer].uv = (0.5, 0.5)
+    return faces, vertices
+
+
+def add_central_leader(bm: bmesh.types.BMesh, material_index: int, uv_layer) -> tuple[list, list]:
+    """Make a slim, subtly leaning terminal shoot that completes the silhouette."""
+    rings = ((0.0, 0.72, 0.050), (0.24, 0.79, 0.045), (0.51, 0.87, 0.032),
+             (0.78, 0.95, 0.017), (1.0, 1.0, 0.001))
+    segments = 10
+    built, vertices, loops = [], [], []
+    for lean, z, radius in rings:
+        centre = Vector((0.012 + lean * 0.018, -0.012 + lean * 0.010, z))
+        loop = []
+        for i in range(segments):
+            vertex = bm.verts.new(centre + Vector((math.cos(math.tau * i / segments) * radius,
+                                                    math.sin(math.tau * i / segments) * radius,
+                                                    0.0)))
+            loop.append(vertex)
+            vertices.append(vertex)
+        loops.append(loop)
+    for lower, upper in zip(loops, loops[1:]):
+        for i in range(segments):
+            built.append(bm.faces.new((lower[i], lower[(i + 1) % segments],
+                                       upper[(i + 1) % segments], upper[i])))
+    for ring, reverse in ((loops[0], True), (loops[-1], False)):
+        centre = bm.verts.new(sum((vertex.co for vertex in ring), Vector()) / segments)
+        vertices.append(centre)
+        for i in range(segments):
+            pair = (ring[(i + 1) % segments], ring[i]) if reverse else (ring[i], ring[(i + 1) % segments])
+            built.append(bm.faces.new((centre, *pair)))
+    for face in built:
+        face.material_index = material_index
+        face.smooth = True
+        for loop in face.loops:
+            loop[uv_layer].uv = (0.5, 0.5)
+    return built, vertices
+
+
+def rebuild_volumetric_crown(obj: bpy.types.Object, seed: int, leaf_image: bpy.types.Image) -> dict:
+    """Replace alpha cards with closed bough lobes inside the accepted Pine AABB."""
     mesh = obj.data
-    slot = next(index for index, s in enumerate(mesh.materials)
-                if s is not None and s.name == material_name)
-    positions: dict[tuple, int] = {}
-    per_face = []
-    neighbors: dict[int, set[int]] = {}
-    welds: dict[int, set[int]] = {}
-    for poly in mesh.polygons:
-        if poly.material_index != slot:
-            continue
-        welded = []
-        for index in poly.vertices:
-            key = tuple(round(c, 6) for c in mesh.vertices[index].co)
-            vertex_id = positions.setdefault(key, len(positions))
-            welded.append(vertex_id)
-            welds.setdefault(vertex_id, set()).add(index)
-        per_face.append((poly.index, welded))
-        for a, b in zip(welded, welded[1:] + welded[:1]):
-            neighbors.setdefault(a, set()).add(b)
-            neighbors.setdefault(b, set()).add(a)
-    face_of = {vertex: face for face, verts in per_face for vertex in verts}
-    remaining = {vertex for vertex, _ in per_face}
-    islands: list[list[int]] = []
-    while remaining:
-        pending, component = [next(iter(remaining))], set()
-        while pending:
-            vertex = pending.pop()
-            if vertex in component:
-                continue
-            component.add(vertex)
-            pending.extend(neighbors[vertex] - component)
-        remaining -= component
-        islands.append(sorted({face_of[vertex] for vertex in component}))
-    return islands
+    leaf_slot = next(index for index, material in enumerate(mesh.materials)
+                     if material is not None and material.name == "AB_needles")
+    # Keep the existing runtime alpha-cutout path. The opaque texel makes these
+    # closed volumes solid while the shared shader still world-projects foliage.
+    cx, cy = leaf_image.size[0] // 2, leaf_image.size[1] // 2
+    alpha = leaf_image.pixels[(cy * leaf_image.size[0] + cx) * 4 + 3]
+    if alpha <= 0.2:
+        raise RuntimeError("Leaf_Pine_C center texel is no longer opaque for volumetric crown UVs")
+    bark_triangles_before = material_triangles(obj, "AB_bark")
+    bark_vertex_positions_before = sorted(
+        tuple(round(float(component), 8) for component in obj.data.vertices[index].co)
+        for polygon in obj.data.polygons if polygon.material_index != leaf_slot
+        for index in polygon.vertices
+    )
 
+    bm = bmesh.new()
+    bm.from_mesh(mesh)
+    uv_layer = bm.loops.layers.uv.active or bm.loops.layers.uv.verify()
+    old_needles = [face for face in bm.faces if face.material_index == leaf_slot]
+    if not old_needles:
+        bm.free()
+        raise RuntimeError("no AB_needles faces found; the source mesh contract changed")
+    bmesh.ops.delete(bm, geom=old_needles, context="FACES")
+    loose = [vertex for vertex in bm.verts if not vertex.link_faces]
+    if loose:
+        bmesh.ops.delete(bm, geom=loose, context="VERTS")
 
-def mass_schedule(index: int, height: float, seed: int):
-    """Uneven crown masses: extents, heading, reach, droop and gap share."""
-    rng = __import__("random").Random(seed * 7919 + index)
-    mass_count = MASS_COUNTS[(index + seed) % len(MASS_COUNTS)]
-    weights = [rng.uniform(0.55, 1.55) for _ in range(mass_count)]
-    total = sum(weights)
-    extents = [weight / total for weight in weights]
-    gap = 0.045 + 0.03 * rng.random()
-    usable = 1.0 - gap * (mass_count - 1)
-    masses, walked = [], 0.0
-    for mass in range(mass_count):
-        extent = extents[mass] * usable
-        masses.append({
-            "base": mass / mass_count,
-            "start": walked,
-            "end": walked + extent,
-            "heading": rng.uniform(0.0, math.tau),
-            "reach": rng.uniform(0.80, 1.14),
-            "droop": rng.uniform(-0.16, 0.10),
-            "lift": rng.uniform(0.04, 0.16),
-        })
-        walked += extent + gap
-    return masses
+    rng = random.Random(seed * 7919 + 25)
+    # One substantial swept bough at each level: unequal reach and angle keep
+    # the silhouette organic without adding noisy needle-sized detail.
+    branches = []
+    branch_count = 20
+    for index in range(branch_count):
+        along_crown = index / max(branch_count - 1, 1)
+        branches.append((0.480 + 0.370 * along_crown + rng.uniform(-0.016, 0.016),
+                         (0.340 - 0.205 * along_crown) * rng.uniform(0.88, 1.12),
+                         (0.102 - 0.045 * along_crown) * rng.uniform(0.80, 1.20),
+                         (0.046 - 0.021 * along_crown) * rng.uniform(0.82, 1.18),
+                         (0.040 - 0.020 * along_crown) * rng.uniform(0.85, 1.15),
+                         0.22 + index * 2.399963229728653 + rng.uniform(-0.26, 0.26),
+                         rng.uniform(-0.018, 0.018)))
+    new_faces, new_vertices = [], []
+    for base_z, length, width, height, droop, angle, lateral in branches:
+        faces, vertices = add_closed_branch(bm, angle, base_z, length, width, height,
+                                             droop, lateral, leaf_slot, uv_layer)
+        new_faces.extend(faces)
+        new_vertices.extend(vertices)
+    core_faces, core_vertices = add_central_core(bm, leaf_slot, uv_layer)
+    new_faces.extend(core_faces)
+    new_vertices.extend(core_vertices)
+    faces, vertices = add_central_leader(bm, leaf_slot, uv_layer)
+    new_faces.extend(faces)
+    new_vertices.extend(vertices)
 
-
-def reshape_crown(obj: bpy.types.Object, seed: int) -> dict:
-    """Re-seat every needle island into one of the authored crown masses."""
-    mesh = obj.data
-    height = max(vertex.co.z for vertex in mesh.vertices)
-    base = min(vertex.co.z for vertex in mesh.vertices)
-    span = max(height - base, 1e-6)
-    islands = needle_islands(obj, "AB_needles")
-    if not islands:
-        raise RuntimeError("no AB_needles islands found; the crown contract changed")
-    masses = mass_schedule(seed, height, seed)
-    moved = 0
-    for island_index, faces in enumerate(islands):
-        centre = [0.0, 0.0, 0.0]
-        count = 0
-        for poly_index in faces:
-            for vertex_index in mesh.polygons[poly_index].vertices:
-                point = mesh.vertices[vertex_index].co
-                centre[0] += point.x
-                centre[1] += point.y
-                centre[2] += point.z
-                count += 1
-        centre = [value / max(count, 1) for value in centre]
-        # The island's own normalised height decides which mass it belongs to,
-        # so the re-arrangement is a re-reading of the existing ladder rather
-        # than a random scatter of cards.
-        level = (centre[2] - base) / span
-        band = 1.0 / len(masses)
-        mass_id = min(len(masses) - 1, int(level / band))
-        mass = masses[mass_id]
-        # Position inside that mass, 0..1.
-        local = (level - mass_id * band) / band
-        # Seat the card inside its mass: mass centre of extent, uneven radius
-        # from the mass heading, mass reach plus this card's own share of the
-        # mass, then the mass droop and tip lift.
-        target = (mass["start"] + mass["end"]) * 0.5 * span + base
-        rise = (local - 0.5) * (mass["end"] - mass["start"]) * span * 0.8
-        angle = mass["heading"] + local * 2.39996
-        radius = math.hypot(centre[0], centre[1])
-        reach = mass["reach"] * (1.0 + 0.18 * math.sin(local * math.pi))
-        shift = [
-            math.cos(angle) * radius * (reach - 1.0) ,
-            math.sin(angle) * radius * (reach - 1.0),
-            target + rise - centre[2] + mass["droop"] * span * 0.05,
-        ]
-        for poly_index in faces:
-            for vertex_index in mesh.polygons[poly_index].vertices:
-                vertex = mesh.vertices[vertex_index]
-                point = vertex.co
-                tilt = mass["lift"] * 0.5
-                # A small pitch about the card's own radial axis is what stops
-                # two cards in one mass from sharing a plane.
-                radial = Vector2D(point.x, point.y)
-                turned = radial.rotated(tilt * (1.0 if radial.x >= 0 else -1.0))
-                vertex.co = (
-                    point.x + (turned.x - radial.x) + shift[0],
-                    point.y + (turned.y - radial.y) + shift[1],
-                    point.z + shift[2],
-                )
-        moved += len(faces)
+    bounds = tuple((min(vertex.co[axis] for vertex in new_vertices),
+                    max(vertex.co[axis] for vertex in new_vertices)) for axis in range(3))
+    for vertex in new_vertices:
+        for axis, (low, high) in enumerate(bounds):
+            target_low, target_high = REFERENCE_CROWN_BOUNDS[axis]
+            vertex.co[axis] = target_low + (vertex.co[axis] - low) * (target_high - target_low) / (high - low)
+    bmesh.ops.recalc_face_normals(bm, faces=new_faces)
+    crown_triangles = sum(len(face.verts) - 2 for face in new_faces)
+    if crown_triangles != EXPECTED_CROWN_TRIANGLES:
+        bm.free()
+        raise RuntimeError(f"volumetric crown triangle census changed: {crown_triangles}")
+    if any(not math.isfinite(component) for vertex in new_vertices for component in vertex.co):
+        bm.free()
+        raise RuntimeError("volumetric crown contains a non-finite vertex")
+    bm.to_mesh(mesh)
+    bm.free()
     mesh.update()
+    bark_vertex_positions_after = sorted(
+        tuple(round(float(component), 8) for component in mesh.vertices[index].co)
+        for polygon in mesh.polygons if polygon.material_index != leaf_slot
+        for index in polygon.vertices
+    )
+    if bark_vertex_positions_after != bark_vertex_positions_before:
+        raise RuntimeError("crown replacement changed the existing bark vertex positions")
+    bark_triangles_after = material_triangles(obj, "AB_bark")
+    if bark_triangles_after != bark_triangles_before:
+        raise RuntimeError("crown replacement changed the existing bark triangle census")
     return {
-        "needle_islands": len(islands),
-        "needle_faces_moved": moved,
-        "mass_count": len(masses),
-        "mass_extents": [round(mass["end"] - mass["start"], 4) for mass in masses],
-        "mass_headings": [round(mass["heading"] % math.tau, 4) for mass in masses],
-        "mass_reach": [round(mass["reach"], 4) for mass in masses],
+        "bark_triangles_preserved": bark_triangles_after,
+        "bark_triangle_census_preserved": True,
+        "bark_vertex_position_occurrences_preserved": len(bark_vertex_positions_after),
+        "bark_vertex_positions_preserved": True,
+        "source_alpha_card_faces_removed": len(old_needles),
+        "closed_bough_volumes": len(branches),
+        "central_core_volumes": 1,
+        "central_leader_volumes": 1,
+        "needle_triangles": crown_triangles,
+        "alpha_sample_uv": [0.5, 0.5],
+        "alpha_sample": round(float(alpha), 4),
+        "reference_bounds_blender": [list(bounds) for bounds in REFERENCE_CROWN_BOUNDS],
+        "bough_heights": [round(branch[0], 3) for branch in branches],
     }
 
 
-class Vector2D:
-    """Minimal 2D helper so the card tilt needs no extra dependency."""
-
-    __slots__ = ("x", "y")
-
-    def __init__(self, x: float, y: float):
-        self.x, self.y = x, y
-
-    def rotated(self, angle: float) -> "Vector2D":
-        cosine, sine = math.cos(angle), math.sin(angle)
-        return Vector2D(self.x * cosine - self.y * sine, self.x * sine + self.y * cosine)
-
-
 def make_lod(source: bpy.types.Object, name: str, ratio: float) -> bpy.types.Object:
-    """Decimate bark only; needle triangles and their UVs stay unchanged."""
+    """Decimate bark and closed crown separately, retaining material slots and UVs."""
     expected_leaf = material_triangles(source, "AB_needles")
     result = source.copy()
     result.data = source.data.copy()
@@ -281,14 +362,23 @@ def make_lod(source: bpy.types.Object, name: str, ratio: float) -> bpy.types.Obj
         modifier.use_collapse_triangulate = True
     bpy.ops.object.modifier_apply(modifier=modifier.name)
     bpy.ops.object.select_all(action="DESELECT")
+    leaves.select_set(True)
+    bpy.context.view_layer.objects.active = leaves
+    foliage_modifier = leaves.modifiers.new(f"{name}_CrownDecimate", "DECIMATE")
+    foliage_modifier.ratio = ratio
+    if hasattr(foliage_modifier, "use_collapse_triangulate"):
+        foliage_modifier.use_collapse_triangulate = True
+    bpy.ops.object.modifier_apply(modifier=foliage_modifier.name)
+    bpy.ops.object.select_all(action="DESELECT")
     bark.select_set(True)
     leaves.select_set(True)
     bpy.context.view_layer.objects.active = bark
     bpy.ops.object.join()
     result = bpy.context.object
     result.name = name
-    if material_triangles(result, "AB_needles") != expected_leaf:
-        raise RuntimeError(f"{name} changed the needle triangle contract")
+    reduced_leaf = material_triangles(result, "AB_needles")
+    if reduced_leaf <= 0 or reduced_leaf >= expected_leaf:
+        raise RuntimeError(f"{name} did not reduce the crown for its LOD budget")
     return result
 
 
@@ -299,7 +389,6 @@ def main() -> None:
     glb_path = root / "game/assets/models/act1/urman_winter_pine.glb"
     manifest_path = root / "game/assets/models/act1/urman_winter_pine_v2_manifest.json"
     texture_manifest = validate_source(source_path)
-    leaf_path = source_path.with_name("Leaf_Pine_C.png")
 
     bpy.ops.object.select_all(action="SELECT")
     bpy.ops.object.delete(use_global=False)
@@ -308,76 +397,17 @@ def main() -> None:
         for block in list(group):
             group.remove(block, do_unlink=True)
 
+    # Validate the pinned source mesh census and preserve its raw height as provenance.
     before = set(bpy.context.scene.objects)
     bpy.ops.import_scene.gltf(filepath=str(source_path))
     meshes = [obj for obj in set(bpy.context.scene.objects) - before if obj.type == "MESH"]
     if len(meshes) != 1:
-        raise RuntimeError(f"expected one imported mesh, found {len(meshes)}")
+        raise RuntimeError(f"expected one pinned source mesh, found {len(meshes)}")
     source = meshes[0]
-    world = source.matrix_world.copy()
-    source.parent = None
-    source.matrix_world = world
-    for obj in list(bpy.context.scene.objects):
-        if obj != source:
-            bpy.data.objects.remove(obj, do_unlink=True)
-
-    bark_slot = next(index for index, slot in enumerate(source.data.materials)
-                     if slot is not None and slot.name == "Bark_NormalTree")
-    leaf_slot = next(index for index, slot in enumerate(source.data.materials)
-                     if slot is not None and slot.name == "Leaves_Pine")
     if material_triangles(source, "Bark_NormalTree") != EXPECTED_SOURCE_BARK_TRIANGLES:
         raise RuntimeError("Pine_3 bark geometry contract changed")
     if material_triangles(source, "Leaves_Pine") != EXPECTED_SOURCE_LEAF_TRIANGLES:
         raise RuntimeError("Pine_3 leaf geometry contract changed")
-
-    bark = bpy.data.materials.new("AB_bark")
-    bark.use_nodes = True
-    nodes, links = bark.node_tree.nodes, bark.node_tree.links
-    nodes.clear()
-    output = nodes.new("ShaderNodeOutputMaterial")
-    shader = nodes.new("ShaderNodeBsdfPrincipled")
-    # VIS-082: cold grey-brown conifer bark, no red-brown baseline.
-    shader.inputs["Base Color"].default_value = (0.30, 0.26, 0.225, 1.0)
-    shader.inputs["Roughness"].default_value = 0.93
-    shader.inputs["Metallic"].default_value = 0.0
-    links.new(shader.outputs["BSDF"], output.inputs["Surface"])
-
-    leaves = bpy.data.materials.new("AB_needles")
-    leaves.use_nodes = True
-    leaves.use_backface_culling = False
-    try:
-        leaves.surface_render_method = "DITHERED"
-    except (AttributeError, TypeError):
-        pass
-    leaf_image = bpy.data.images.load(str(leaf_path), check_existing=False)
-    leaf_image.pack()
-    leaf_nodes, leaf_links = leaves.node_tree.nodes, leaves.node_tree.links
-    leaf_nodes.clear()
-    leaf_output = leaf_nodes.new("ShaderNodeOutputMaterial")
-    leaf_shader = leaf_nodes.new("ShaderNodeBsdfPrincipled")
-    leaf_texture = leaf_nodes.new("ShaderNodeTexImage")
-    leaf_texture.image = leaf_image
-    alpha_clip = leaf_nodes.new("ShaderNodeMath")
-    alpha_clip.operation = "GREATER_THAN"
-    alpha_clip.inputs[1].default_value = 0.2
-    leaf_shader.inputs["Roughness"].default_value = 0.9
-    leaf_links.new(leaf_texture.outputs["Color"], leaf_shader.inputs["Base Color"])
-    leaf_links.new(leaf_texture.outputs["Alpha"], alpha_clip.inputs[0])
-    leaf_links.new(alpha_clip.outputs[0], leaf_shader.inputs["Alpha"])
-    leaf_links.new(leaf_shader.outputs["BSDF"], leaf_output.inputs["Surface"])
-
-    original_indices = [poly.material_index for poly in source.data.polygons]
-    source.data.materials.clear()
-    source.data.materials.append(bark)
-    source.data.materials.append(leaves)
-    for polygon, material_index in zip(source.data.polygons, original_indices):
-        if material_index == bark_slot:
-            polygon.material_index = 0
-        elif material_index == leaf_slot:
-            polygon.material_index = 1
-        else:
-            raise RuntimeError(f"unexpected Pine_3 material index {material_index}")
-
     bpy.ops.object.select_all(action="DESELECT")
     source.select_set(True)
     bpy.context.view_layer.objects.active = source
@@ -387,17 +417,58 @@ def main() -> None:
     raw_height = high - low
     if raw_height <= 0.001:
         raise RuntimeError("Pine_3 has no usable vertical extent")
-    scale = 1.0 / raw_height
-    for vertex in source.data.vertices:
-        vertex.co.x *= scale
-        vertex.co.y *= scale
-        vertex.co.z = (vertex.co.z - low) * scale
-    source.data.update()
-    source.name = "WinterPine_LOD0"
 
-    census = reshape_crown(source, seed)
-    if material_triangles(source, "AB_needles") != EXPECTED_SOURCE_LEAF_TRIANGLES:
-        raise RuntimeError("the crown re-seat changed the 462 needle triangle contract")
+    # Discard the raw mesh and rebase from this immutable, hash-pinned production
+    # GLB. This preserves the accepted trunk/bark vertices instead of resampling
+    # them through a new foliage layout.
+    for obj in list(bpy.context.scene.objects):
+        bpy.data.objects.remove(obj, do_unlink=True)
+    for group in (bpy.data.meshes, bpy.data.curves, bpy.data.materials,
+                  bpy.data.images):
+        for block in list(group):
+            group.remove(block, do_unlink=True)
+    result = subprocess.run(
+        ["git", "show", f"{BASELINE_REVISION}:{BASELINE_GLB_PATH}"],
+        cwd=root, check=True, capture_output=True,
+    )
+    baseline_bytes = result.stdout
+    baseline_sha = hashlib.sha256(baseline_bytes).hexdigest()
+    if baseline_sha != BASELINE_GLB_SHA256:
+        raise RuntimeError(f"pinned Pine baseline SHA256 changed: {baseline_sha}")
+    with tempfile.TemporaryDirectory(prefix="urman-pine-baseline-") as directory:
+        baseline_path = Path(directory) / "urman_winter_pine.glb"
+        baseline_path.write_bytes(baseline_bytes)
+        before = set(bpy.context.scene.objects)
+        bpy.ops.import_scene.gltf(filepath=str(baseline_path))
+    imported = set(bpy.context.scene.objects) - before
+    source = next((obj for obj in imported if obj.name == "WinterPine_LOD0"), None)
+    if source is None or source.type != "MESH":
+        raise RuntimeError("pinned Pine baseline does not contain WinterPine_LOD0")
+    source.parent = None
+    for obj in imported:
+        if obj != source:
+            bpy.data.objects.remove(obj, do_unlink=True)
+    source.name = "WinterPine_LOD0"
+    bark = next((material for material in source.data.materials if material.name == "AB_bark"), None)
+    leaves = next((material for material in source.data.materials if material.name == "AB_needles"), None)
+    if bark is None or leaves is None:
+        raise RuntimeError("pinned Pine baseline material ABI changed")
+    if material_triangles(source, "AB_bark") != EXPECTED_BASELINE_BARK_TRIANGLES:
+        raise RuntimeError("pinned Pine baseline bark triangle census changed")
+    if material_triangles(source, "AB_needles") != EXPECTED_BASELINE_LEAF_TRIANGLES:
+        raise RuntimeError("pinned Pine baseline foliage triangle census changed")
+    leaf_image = next((node.image for node in leaves.node_tree.nodes
+                       if node.type == "TEX_IMAGE" and node.image is not None), None)
+    if leaf_image is None or leaf_image.name != "Leaf_Pine_C":
+        raise RuntimeError("pinned Pine baseline embedded Leaf_Pine_C texture is missing")
+    base_z = min(vertex.co.z for vertex in source.data.vertices)
+    normalized_height = max(vertex.co.z for vertex in source.data.vertices) - base_z
+    if abs(base_z) > 1e-5 or abs(normalized_height - 1.0) > 1e-5:
+        raise RuntimeError("pinned Pine baseline is no longer normalized to base z=0, height=1")
+
+    census = rebuild_volumetric_crown(source, seed, leaf_image)
+    if material_triangles(source, "AB_needles") != EXPECTED_CROWN_TRIANGLES:
+        raise RuntimeError("the generated crown differs from its fixed volumetric triangle census")
 
     lod1 = make_lod(source, "WinterPine_LOD1", 0.5)
     lod2 = make_lod(source, "WinterPine_LOD2", 0.2)
@@ -413,6 +484,8 @@ def main() -> None:
             "asset_id": ASSET_ID,
             "source_sha256": SOURCE_SHA256,
             "source_bin_sha256": SOURCE_BIN_SHA256,
+            "pinned_geometry_baseline_sha256": BASELINE_GLB_SHA256,
+            "pinned_geometry_baseline_revision": BASELINE_REVISION,
             "license": "CC0 1.0 Universal",
             "collision": "none",
             "lod_level": level,
@@ -429,20 +502,24 @@ def main() -> None:
         "generator": "urman_winter_pine_v2.py",
         "crown_seed": seed,
         "normalized_base_z_m": 0.0,
-        "normalized_height_m": 1.0,
         "raw_source_height_m": raw_height,
+        "normalized_height_m": normalized_height,
+        "pinned_geometry_baseline_sha256": BASELINE_GLB_SHA256,
+        "pinned_geometry_baseline_revision": BASELINE_REVISION,
         "lod0_triangles": counts[0],
         "lod1_triangles": counts[1],
         "lod2_triangles": counts[2],
         "lod_policy": "LOD0 0-26m; LOD1 24-64m; LOD2 60m+",
-        "leaf_triangles_lod0": EXPECTED_SOURCE_LEAF_TRIANGLES,
+        "leaf_triangles_lod0": material_triangles(source, "AB_needles"),
         "leaf_triangles_lod1": material_triangles(lod1, "AB_needles"),
         "leaf_triangles_lod2": material_triangles(lod2, "AB_needles"),
-        "leaf_lod_policy": "all LODs retain the original 462 AB_needles triangles; bark-only decimation",
-        "crown_policy": ("3-5 uneven needle masses with open gaps, per-mass heading, reach and "
-                         "droop; no repeated coplanar tier (VIS-025)"),
+        "source_leaf_triangles": EXPECTED_SOURCE_LEAF_TRIANGLES,
+        "leaf_lod_policy": "crown decimated with bark at 0.5 LOD1 / 0.2 LOD2 for affordable distant trees",
+        "crown_policy": ("20 overlapping radial/spiral swept bough volumes around one irregular central core "
+                         "plus one leaning leader; smooth-shaded, "
+                         "asymmetric, and bounded to the previously shipped crown AABB (VIS-025/VIS-084)"),
         "census": json.dumps(census, sort_keys=True),
-        "material_policy": "AB_bark opaque + AB_needles MASK .2 double-sided; Leaf_Pine_C embedded",
+        "material_policy": "pinned production AB_bark/AB_needles materials and embedded Leaf_Pine_C retained",
         "collision_policy": "none; existing Agent B terrain/road guards own traversal",
     }.items():
         asset_root[key] = value
@@ -481,21 +558,28 @@ def main() -> None:
         "command": f"blender --background --python assets/source/blender/urman_winter_pine_v2.py -- --root . --seed {seed}",
         "crown_seed": seed,
         "source": {"gltf_sha256": SOURCE_SHA256, "bin_sha256": SOURCE_BIN_SHA256,
-                   "textures": TEXTURE_SHA256},
+                   "textures": TEXTURE_SHA256,
+                   "pinned_geometry_baseline_revision": BASELINE_REVISION,
+                   "pinned_geometry_baseline_sha256": BASELINE_GLB_SHA256},
         "outputs": {"blend": str(blend_path.relative_to(root)),
                     "glb": str(glb_path.relative_to(root))},
         "triangle_census": {"lod0": counts[0], "lod1": counts[1], "lod2": counts[2],
-                            "needles": EXPECTED_SOURCE_LEAF_TRIANGLES},
+                            "needles": material_triangles(source, "AB_needles"),
+                            "needles_lod1": material_triangles(lod1, "AB_needles"),
+                            "needles_lod2": material_triangles(lod2, "AB_needles"),
+                            "source_leaf_cards": EXPECTED_SOURCE_LEAF_TRIANGLES},
         "crown": census,
         "glb_sha256": sha256(glb_path),
         "contracts_kept": ["WinterPine_LOD0/1/2 node names", "AB_bark + AB_needles slots",
-                           "base z = 0, height = 1 normalisation", "462 needle triangles",
-                           "no collision"],
-        "verification": "P16 forest close + P16b medium + R025 before/after pair",
+                           "base z = 0, height = 1 normalisation", "pinned CC0 source and embedded Leaf_Pine_C",
+                           "exact bark vertex positions from pinned production baseline",
+                           "current production crown AABB", "no collision"],
+        "verification": "GLB structure/AABB and generator checks; matched Windows C1/C2 daylight plus LOD motion review still required",
     }, indent=1, sort_keys=True), encoding="utf-8")
 
     print(f"winter-pine-v2: lod0={counts[0]} lod1={counts[1]} lod2={counts[2]} "
-          f"islands={census['needle_islands']} masses={census['mass_count']} "
+          f"boughs={census['closed_bough_volumes']} "
+          f"needles={census['needle_triangles']} source_cards={census['source_alpha_card_faces_removed']} "
           f"raw_height={raw_height:.6f} normalized=1.0 base_z=0.0")
     print(f"winter-pine-v2: blend={blend_path} glb={glb_path} manifest={manifest_path}")
 

@@ -1,0 +1,93 @@
+{
+ "asset_id": "winter.pine.v2",
+ "command": "blender --background --python assets/source/blender/urman_winter_pine_v2.py -- --root . --seed 20261008",
+ "contracts_kept": [
+  "WinterPine_LOD0/1/2 node names",
+  "AB_bark + AB_needles slots",
+  "base z = 0, height = 1 normalisation",
+  "pinned CC0 source and embedded Leaf_Pine_C",
+  "exact bark vertex positions from pinned production baseline",
+  "current production crown AABB",
+  "no collision"
+ ],
+ "crown": {
+  "alpha_sample": 1.0,
+  "alpha_sample_uv": [
+   0.5,
+   0.5
+  ],
+  "bark_triangle_census_preserved": true,
+  "bark_triangles_preserved": 3926,
+  "bark_vertex_position_occurrences_preserved": 11778,
+  "bark_vertex_positions_preserved": true,
+  "bough_heights": [
+   0.472,
+   0.496,
+   0.532,
+   0.546,
+   0.563,
+   0.561,
+   0.61,
+   0.61,
+   0.637,
+   0.651,
+   0.67,
+   0.71,
+   0.71,
+   0.742,
+   0.737,
+   0.768,
+   0.788,
+   0.82,
+   0.837,
+   0.843
+  ],
+  "central_core_volumes": 1,
+  "central_leader_volumes": 1,
+  "closed_bough_volumes": 20,
+  "needle_triangles": 2692,
+  "reference_bounds_blender": [
+   [
+    -0.28594157,
+    0.20259976
+   ],
+   [
+    -0.2304409,
+    0.3101024
+   ],
+   [
+    0.46301207,
+    1.0
+   ]
+  ],
+  "source_alpha_card_faces_removed": 462
+ },
+ "crown_seed": 20261008,
+ "generator": "assets/source/blender/urman_winter_pine_v2.py",
+ "glb_sha256": "d3f3ba8e9d9e05cb78de294b74ce1f0ad95cf42eefa4e5bed3804ae4981566ea",
+ "outputs": {
+  "blend": "assets/source/blender/urman_winter_pine.blend",
+  "glb": "game/assets/models/act1/urman_winter_pine.glb"
+ },
+ "source": {
+  "bin_sha256": "73edd69d7e789b12bfa32ab202c62d74ae98f0bba67975205211bf51906d8c82",
+  "gltf_sha256": "54c72a4d614f053dd4b3d4404076a361de6085ec6a34560e42a76d7e79d89830",
+  "pinned_geometry_baseline_revision": "cf63e6a9cbbf280d1ad56755936ea00345e94733",
+  "pinned_geometry_baseline_sha256": "6b36723a8a38fa37e44852f1c16b42b5dbc1a539d10e73cdd5c676daa705db38",
+  "textures": {
+   "Bark_NormalTree.png": "f36e94fdd73255347325b998e02a0b2575fdf714b0315bfe5e8ff34bc8e13603",
+   "Bark_NormalTree_Normal.png": "852f6155404b8c39e100e41e26970e02a6a5c81b482d3726618dab28e3ad03a2",
+   "Leaf_Pine_C.png": "86f7ff7a214f5424de48d269568f36a15485e61c80677e426c7be9f45181eef9"
+  }
+ },
+ "triangle_census": {
+  "lod0": 6618,
+  "lod1": 3309,
+  "lod2": 1323,
+  "needles": 2692,
+  "needles_lod1": 1346,
+  "needles_lod2": 538,
+  "source_leaf_cards": 462
+ },
+ "verification": "GLB structure/AABB and generator checks; matched Windows C1/C2 daylight plus LOD motion review still required"
+}

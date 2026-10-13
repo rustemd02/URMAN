@@ -2166,18 +2166,18 @@
       "id": "winter.pine.v1",
       "source": "assets/source/blender/urman_winter_pine.blend",
       "derived": "game/assets/models/act1/urman_winter_pine.glb",
-      "generator": "tools/blender/prepare_winter_pine.py; Blender 4.5.12 LTS",
+      "generator": "assets/source/blender/urman_winter_pine_v2.py; Blender 4.5.12 LTS",
       "license": "CC0-1.0; Quaternius Stylized Nature MegaKit Standard derivative",
       "scale": 1.0,
-      "triangleBudget": 4388,
+      "triangleBudget": 6618,
       "textureBudget": 2048,
       "materials": [
         "AB_bark",
         "AB_needles"
       ],
       "collision": "asset: none; existing AgentB exterior owner bakes rooted LOD0 stem faces for planted pines, with unchanged road/roof guards",
-      "lod": "LOD0 4388 triangles; LOD1 2425; LOD2 1247. Template fade bands 0–26m/24–64m/60m+; existing planted range scales by clamp(height/8,1,3). All tiers retain 462 alpha-masked leaf triangles and original UVs; bark-only decimation; normalized height 1m",
-      "status": "source/import and native High lower-branch pilot checked; one local LOD2 normal risk and overall forest art acceptance remain open",
+      "lod": "LOD0 6618 triangles; LOD1 3309; LOD2 1323. Crown 2692/1346/538 closed-volume triangles replaces 462 flat alpha cards; original LOD0 bark positions and normalized height 1m retained. Template fade bands 0–26m/24–64m/60m+; existing planted range scales by clamp(height/8,1,3).",
+      "status": "Source/structure/import and matched native High C1/C2 volume stage accepted by root and independent Luna on 2026-10-14; ordinary motion/LOD/performance and full forest art acceptance remain open",
       "releaseDisposition": "include-in-act1-release; existing authored Kara conifers and western near woodland PlantFoliage stand",
       "originalSource": {
         "source": "assets/source/quaternius/stylized_nature/Pine_3.gltf",
@@ -2186,8 +2186,8 @@
         "url": "https://quaternius.com/packs/stylizednaturemegakit.html",
         "licenseFile": "assets/source/quaternius/stylized_nature/License_Standard.txt"
       },
-      "sourceSha256": "b13b1554a4deaeaddc637519d1bd862581da557ba783f5849db2169a3cfc376f",
-      "derivedSha256": "6b36723a8a38fa37e44852f1c16b42b5dbc1a539d10e73cdd5c676daa705db38"
+      "sourceSha256": "7e2c48880dbee8629e20b6c42210e427a1e929e1428a8446ec03e0795b9b1db0",
+      "derivedSha256": "d3f3ba8e9d9e05cb78de294b74ce1f0ad95cf42eefa4e5bed3804ae4981566ea"
     },
     {
       "id": "texture.winter.pine-alpha.v1",

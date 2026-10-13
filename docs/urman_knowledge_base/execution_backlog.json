@@ -97426,11 +97426,11 @@
             "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
-              "Крупный integratedPine/material/crisppalette source candidate не принят в игре; daylight5939 PASS/readablebutmodest сохранён какcurrentbefore.",
-              "Nearby ordinary walk-in indoor grade/motion with current crisp source: dark wood/face/snow readability, no exposure/color regression.",
-              "Existing snowfall/blizzard/night source unchanged, but actual changed indoor path and parent artistic acceptance remain open; near-black logwall and angular forest handed to corresponding visual consumers."
+              "Дневной integrated static этап принят; ordinary walk/turn/indoor boundary с текущим источником ещё не проверен.",
+              "Снять существующие High Zirat/Kara и house checkpoints раздельно по zone; не выдавать static view за обычный проход.",
+              "Авторская художественная приёмка сохраняется отдельно."
             ],
-            "next_action": "Принять один крупный integratedPine/material/crisppalette candidate поcurrentC1/C2 после sourceABI/census/affectedcompile; motion/indoor blocker сохранить и не выдавать статические кадры за движение.",
+            "next_action": "Проверить house High и две ночные палитры в отдельных существующих checkpoints; выполнить обычное движение и границу интерьера через восстановленный native UI v2.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -97572,6 +97572,18 @@
               "attribution": "Snapshot also contains peerHeroRecipeRefresh live-pose fix and delivered studio/address source; no wholevisualdifference attributed solelytoatmosphere. PML7038998f/Pine6b36723a hashbound unchanged in5939.",
               "next_candidate": "Root existingcrisp eight coordinatedpalette values; Luna volumetricPine crown and existingenvironment organicmacro materialpass; preserved authoredUV/metres/selector/weather/rotation/exposure. Current newcandidate not_run.",
               "motion_blocker": "Current deployeddoctor lacks normal_ui_transport_version; localv2 key-only controls have no mouse/gamepadaxislook; full_game house gated bypw-b01-niva-arrival. No proven ordinary physical route; release_when deployed owned protectedlook controls and visible completedbeat/prompt allow actualwalk-in. Nextfinite step: existingowner transportdeployment/route acceptance, not invented keyboardcoordinates/debugdispatch."
+            },
+            "progress_2026_10_14_integrated": {
+              "state": "static_daylight_accepted",
+              "result": "Цельный дневной кадр: тёплое дерево/свет и холодные снежные тени выразительнее; лесная масса объёмнее. Принят root и независимым Luna как ограниченный этап, не полная художественная приёмка.",
+              "job_id": "db970500f14b41e5af81c00cdfdf59ec",
+              "evidence": [
+                "evidence/PW-034/whole-style-20261014/day-pair/receipt.json",
+                "evidence/PW-034/whole-style-20261014/day-pair/frames/C1_street_high.png",
+                "evidence/PW-034/whole-style-20261014/day-pair/frames/C2_house_high.png"
+              ],
+              "verification": "Windows db970500f14b41e5af81c00cdfdf59ec PASS; build/import/game=0, engine-errors empty, userdataRestored=true, snapshot hashes verified. High, Vulkan GTX970, FOV70, matched camera/spec. Archive SHA a85ab239db518f4970f6ad0e3602ce169ae77147d5034dd875b653910a85e4a3. Blender/assertions/structure: LOD total 6618/3309/1323; crown 2692/1346/538; exact LOD0 bark positions/root/bounds preserved.",
+              "remaining": "Обычный проход/повороты и граница интерьера ещё не проверены. Изменённые Zirat/Kara profiles требуют собственных кадров."
             }
           },
           {
@@ -112898,7 +112910,7 @@
         "Не создаются сотни уникальных текстур одинаковых досок.",
         "Уточнение автора 09.10.2026: материалы и растительные формы наружной деревни проверены в составе домов и окружения по выбранным автором скриншотам. Сопоставимы масштаб фактур, материальность дерева/земли/снега, объём и плотность растительности, свет и цветовые отношения. Новые текстуры поверх примитивных форм и отдельный образец материала не доказывают соответствие целой игровой сцены."
       ],
-      "next_action": "Принять крупный Pine crown candidate поsource ABI/census и одномуmatched WindowsC1/C2 послеterminal/restored текущего5939 daylight job; затем конкретныйmotion/LOD остаток.",
+      "next_action": "Внести ограниченный крупный skyline pass в существующий forest-rim owner: разноуровневые массы и высокие опорные деревья при сохранении размещений/guards; затем текущие matched C1/C2. Проверить интерьер и ночные состояния отдельно; обычное движение после guarded native UI v2.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -113268,8 +113280,8 @@
         ]
       },
       "progress_2026_10_14_crown": {
-        "state": "implementation_in_progress",
-        "result": "Объёмная нерегулярная крона существующей доминирующей Pine family вместо одинакового жёсткого плоского snow-card silhouette; large whole-scene style gain, не локальнаяLOD настройка.",
+        "state": "accepted_engineering_stage_static",
+        "result": "Объёмная крона существующей Pine family внедрена: 20 перекрывающихся ветвей вместо плоских alpha-карточек. Root и независимый GPT-6 Luna / Max лично сравнили текущие C1/C2 с предыдущей парой и точным P1: лес глубже и цельнее, плотность и кадрирование сохранены. Выигрыш относится ко всему пакету Pine/материалы/свет, не изолированно к Pine.",
         "targets": [
           "assets/source/blender/urman_winter_pine_v2.py",
           "assets/source/blender/urman_winter_pine.blend",
@@ -113283,8 +113295,19 @@
         "scope": "Толькоexisting crown/source family; placement/count/root/nodeLOD/normalizedbaseheight/AABBfit/materialABI/CC0provenance сохранить. Triangle census допускает изменение по новой объёмной форме; LOD стоимость явно измерить.",
         "dod": "Runtime семейство даёт объёмные нерегулярные силуэты в matchedC1/C2; структура/импорт проходят, density/framing сохранены. Motion/LOD и внешняяauthorart не выводятся из static capture.",
         "verification_question": "Ушли ли повторные треугольные снежные короны и стала ли лесная масса цельнее/живописнее на текущем daylight, без holes/потери плотности/зависания?",
-        "verification": "Existing Blender generation assertions+glTFstructure/trianglecensus; одинroot-controlled Windows import/captureC1/C2 текущего daylight. Без новыхtests/probes.",
-        "remaining": "Source candidate generation/review/import/static visual judgment ещёpending; motion/LOD/fullPW034/fullB02/authorart open."
+        "verification": "Windows db970500f14b41e5af81c00cdfdf59ec PASS; build/import/game=0, engine-errors empty, userdataRestored=true, snapshot hashes verified. High, Vulkan GTX970, FOV70, matched camera/spec. Archive SHA a85ab239db518f4970f6ad0e3602ce169ae77147d5034dd875b653910a85e4a3. Blender/assertions/structure: LOD total 6618/3309/1323; crown 2692/1346/538; exact LOD0 bark positions/root/bounds preserved.",
+        "remaining": "Этот конечный crown/source/import/static этап принят. Полный PW-034/B02 открыт: повторяемый высокий skyline, материалы интерьера, ordinary движение/LOD/FPS и отдельная авторская художественная приёмка не закрыты.",
+        "evidence": [
+          "evidence/PW-034/whole-style-20261014/day-pair/receipt.json",
+          "evidence/PW-034/whole-style-20261014/day-pair/frames/C1_street_high.png",
+          "evidence/PW-034/whole-style-20261014/day-pair/frames/C2_house_high.png",
+          "game/assets/models/act1/urman_winter_pine_v2_manifest.json"
+        ],
+        "source_hashes": {
+          "glb": "d3f3ba8e9d9e05cb78de294b74ce1f0ad95cf42eefa4e5bed3804ae4981566ea",
+          "material": "678ea35726c88134caf67d21b75993fd0cdc8fcd139df48b15053420f0c95bf3",
+          "atmosphere": "09fb5721d636eedd49b5d5ca9ce9b23db83e2b08be40faddd9f1d9a1fcb5c010"
+        }
       }
     },
     {
