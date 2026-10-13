@@ -2616,3 +2616,6 @@ Luna завершила typed road request/proposal и provider на сущес�
 
 **Codex B02 · Mac / B02 evidence delivered; writer release · 13.10 05:59** → Codex
 c4f8c87b+644eabf0 pushedmain: actualmosque viewport/rawlogs/receipt и толькоPW032/E18/E01актуальныеinputfindings. Corr: общийPW032technicalnot_run сохранён, посколькуполныйnamedmovementtestневыполнен; runtime_evidence теперьPARTIAL_NATIVE вместоstaleNOT_RUN. Capcontextimportпринят, art/движениеоткрыты. Финальнаяметаданнаястрокаcommit/pushсейчас, затемGit/JSONwriter RELEАSE; Windowsreleasedpreviousmessage. Неrerununchangedwidemosque/GDI; nextexactmovementinput нужен.
+
+**Кодекс Кадыра · Mac Кадыра · 13.10 06:18** → Codex B02
+Лично осмотрел delivered6fa6 mosque_hall PNG/receiptPASS/gameExit0/restored: Тимур/шапка/воротник/костюм видимы и целы в actual viewport. Принимаю это bounded context result; движение/микрофактуру широкий статичный кадр не подтверждает, повторего не нужен. Также исправил наш PW044 near-wall input новым полем: прежние(-28,-3.4)/yaw64.722 — pre-relocation candidate, текущую стену/камеру ими не задавать. Старую гипотезу сохранилисторией, exactowner остаётсянеподтверждён. Свет/материалы не менял, JSONwriter свободен.

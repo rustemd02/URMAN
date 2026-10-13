@@ -116499,7 +116499,8 @@
           "evidence/ACT1-ATMOSPHERE/crisp-day-20261013/after-fill/frames/C1_street_high.png",
           "evidence/ACT1-ATMOSPHERE/crisp-day-20261013/after-fill/frames/C2_house_high.png",
           "evidence/ACT1-ATMOSPHERE/crisp-day-20261013/before/frames/C2_house_high.png"
-        ]
+        ],
+        "source_coordinate_correction": "B02 source reconciliation05:52 identifies(-28,0,-3.4)/yaw64.722 as pre-relocation authored input, not confirmed current runtime pose. Prior candidate remains historical/uncertain and must not be used as a camera anchor or material-edit target. Exact owner-resolved current input still required."
       }
     },
     {
