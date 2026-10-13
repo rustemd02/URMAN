@@ -72,6 +72,8 @@ def validate(backlog, before=None):
         require(bool(node.get('next_action')), f'{tid}: empty next_action')
         if node['active_owner']:
             require(node.get('activity', {}).get('state') == 'confirmed_active', f'{tid}: unconfirmed active_owner')
+        if node['status'] == 'completed':
+            require(node['active_owner'] is None, f'{tid}: completed task retains active_owner')
         if node['status'] == 'blocked':
             require(bool(node.get('blocker', {}).get('reason')) and bool(node.get('blocker', {}).get('release_when')),
                     f'{tid}: missing blocker/release condition')
