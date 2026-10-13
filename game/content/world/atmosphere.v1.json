@@ -93,17 +93,17 @@
           "village_day"
         ],
         "ambient": {
-          "energy": 0.44,
-          "color": "9fb6da",
+          "energy": 0.60,
+          "color": "839ecb",
           "skyContribution": 0
         },
         "fog": {
-          "color": "c2d0e0",
-          "density": 0.0055,
+          "color": "a9bddc",
+          "density": 0.0035,
           "height": 1.2,
           "heightDensity": 0.004,
-          "aerialPerspective": 0.4,
-          "skyAffect": 0.55,
+          "aerialPerspective": 0.30,
+          "skyAffect": 0.22,
           "sunScatter": 0.06
         },
         "exposure": 0.85,
@@ -126,7 +126,7 @@
           ]
         },
         "sun": {
-          "color": "fff0da",
+          "color": "ffd2a3",
           "energy": 1.85,
           "shadowOpacity": 0.86,
           "rotation": [

@@ -6762,33 +6762,57 @@
             "title": "Подключить F03 — Еловая кора",
             "result": "Подключить F03 — Еловая кора",
             "owner": "art/materials/qa",
-            "evidence": [],
+            "evidence": [
+              "game/assets/textures/painterly/procedural_bake_receipt_v1.json",
+              "evidence/ACT1-ATMOSPHERE/crisp-day-20261013/after-fill/receipt.json",
+              "evidence/ACT1-TEXTURE/f03-spruce-20261013/first/receipt.json",
+              "evidence/ACT1-TEXTURE/f03-spruce-20261013/first/frames/F03_spruce_context.png",
+              "evidence/ACT1-TEXTURE/f03-spruce-20261013/first/frames/F03_spruce_bark.png"
+            ],
             "assigned_owner": "art/materials/qa",
             "active_owner": null,
             "activity": {
-              "state": "not_active",
-              "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+              "state": "released",
+              "reason": "F03 source/compile stage accepted; target framing rejected, causal source investigation complete. Root stopped this attempt; next native requires a verified visible spruce anchor/terrain and station slot."
             },
             "task_type": "engineering",
-            "status": "todo",
-            "implementation_state": "partial",
+            "status": "in_progress",
+            "implementation_state": "implemented",
             "technical_verification_state": "not_run",
             "remaining": [
-              "Подключить F03 — Еловая кора; собственного целевого receipt пока нет."
+              "Существующий consumer подключён и собран, но близкий вид коры не получен: подтвердить surviving spruce anchor/terrain, затем actual near-bark/context view в следующем свободном станционном слоте."
             ],
-            "next_action": "Сопоставить текущий результат: Подключить F03 — Еловая кора. Затем изменить только установленный остаток.",
+            "next_action": "Confirm an available existing inspection/selection route or definite surviving spruce outside gorge cleanup, then bind real trunk height through Ground/tree-local coordinates. Exact live PlantN and Godot Remote Scene Tree availability are not established; do not launch another guessed capture.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
             "work_contract": {
               "result": "Подключить F03 — Еловая кора",
               "targets": [
-                "game/assets/textures/painterly/README.md",
+                "game/scripts/PainterlyMaterialLibrary.cs",
+                "game/scripts/experiments/agent_b_act1/AgentBAct1ExteriorLayer.cs",
+                "game/assets/textures/painterly/bark_spruce_v1_albedo.png",
                 "assets/asset_registry.json",
-                "docs/urman_knowledge_base/art/urman_imagegen_texture_prompt_book_2026-09-22.md",
-                "docs/urman_knowledge_base/assets.md"
+                "game/assets/textures/painterly/README.md",
+                "docs/urman_knowledge_base/art/texture_runtime_inventory_2026-09-22.md"
               ],
-              "required_inputs": [],
+              "required_inputs": [
+                {
+                  "artifact": "F03 project-original procedural RGB8 sRGB 1024x1024, seed20260303, 1m repeat, SHA3a526b203d11df79eb7c99bb2317f84fd60f58978cf0ce54e6f94be7efc66acf",
+                  "path": "game/assets/textures/painterly/bark_spruce_v1_albedo.png",
+                  "availability": "available"
+                },
+                {
+                  "artifact": "Exact seed/hash/format/license receipt",
+                  "path": "game/assets/textures/painterly/procedural_bake_receipt_v1.json",
+                  "availability": "available"
+                },
+                {
+                  "artifact": "Written F03 spruce material brief, not an invented external reference",
+                  "path": "docs/urman_knowledge_base/art/urman_imagegen_texture_prompt_book_2026-09-22.md#f03",
+                  "availability": "available"
+                }
+              ],
               "scope_in": [
                 "Подключить F03 — Еловая кора"
               ],
@@ -6806,22 +6830,24 @@
               ],
               "verification": {
                 "method": "targeted_runtime_scenario",
-                "question": "Подключить F03 — Еловая кора",
+                "question": "Does the spruce bark map visibly render on the authored spruce at 1m repeat without buried detail, seams or accidentally changing other tree species; protected run restores user data?",
                 "scenario": {
                   "targets": [
-                    "game/assets/textures/painterly/README.md",
+                    "game/scripts/PainterlyMaterialLibrary.cs",
+                    "game/scripts/experiments/agent_b_act1/AgentBAct1ExteriorLayer.cs",
+                    "game/assets/textures/painterly/bark_spruce_v1_albedo.png",
                     "assets/asset_registry.json",
-                    "docs/urman_knowledge_base/art/urman_imagegen_texture_prompt_book_2026-09-22.md",
-                    "docs/urman_knowledge_base/assets.md"
+                    "game/assets/textures/painterly/README.md",
+                    "docs/urman_knowledge_base/art/texture_runtime_inventory_2026-09-22.md"
                   ],
                   "actions": [
-                    "Сопоставить текущий Подключить F03 — Еловая кора с указанным источником/consumer.",
-                    "Внести только отсутствующую часть этого результата у существующего владельца.",
-                    "Выполнить указанную узкую проверку, сохранить фактический результат и остановиться."
+                    "Read exact current bark_spruce source/receipt consumer; preserve other tree routes.",
+                    "Capture authored spruce context and near bark using existing AgentB_PlantedFoliage anchor; inspect target validity and actual map/scale/readability.",
+                    "Read receipt source hashes, renderer, gameExitCode and userdataRestored; parent art remains separate."
                   ],
                   "observations": [
-                    "Подключить F03 — Еловая кора выполнено у указанных targets и используется реальным потребителем.",
-                    "Проверка данного объекта/действия и сохранности связанного состояния записана; соседние объекты не выданы за проверенные."
+                    "Spruce target and surface visibly identifiable; no material seam/black missing texture; 1m source scale and other species routes preserved.",
+                    "Native Vulkan successful closure and original user data restored."
                   ],
                   "bound": "Только этот объект/контракт на одном named candidate; asset import или affected compile лишь при изменении соответствующего источника, human approval отдельно."
                 },
@@ -6832,14 +6858,26 @@
                 "repeat_only_if": "Изменился покрываемый вход/consumer/контракт; без этого уже принятая проверка используется повторно без запуска."
               },
               "evidence_refs": [],
-              "source_criteria_parent": "ACT1-TEXTURE.02"
+              "source_criteria_parent": "ACT1-TEXTURE.02",
+              "engineering_completion_excludes_external_gates": true
             },
             "dependencies": {
               "implementation": [],
               "verification": [],
               "acceptance": []
             },
-            "depends_on": []
+            "depends_on": [],
+            "progress_2026_10_13_b02": {
+              "source": "Spruce-only 1m upright map hookup, existing wood_bark finish and FamilyResponse preserved; birch/pine/other trees and geometry/LOD/collision unchanged. Independent Luna source+metadata review clean; registry uniqueID/SHA/1m and diffcheck passed.",
+              "compile_evidence": "e7efe8d030d24db396b0e8eaf661fa08 current PML/exterior source hashes match; Game build0/0. C1/C2 images are not own F03 bark acceptance.",
+              "target_job": "2cea520860774c5bb3ccb74208950fd0",
+              "target_snapshot": "764ff97663fb82248a49aa082374d5d5c8d2c5920940518175039ff5fdd811b0",
+              "runtime_target_review": "Root personally viewed first context/bark PNG: technical PASS/verified snapshot/gameExitCode0/userdataRestoredtrue, but both fail near-bark subject framing (river/sky/distant trees). No dark-map conclusion from wrong frame. First source-only placement hypothesis rejected; inspect actual surviving spruce anchor/terrain before next capture.",
+              "risk": "Dark bitmap times retained spruce/Kara tint may hide detail; do not change tint without target evidence.",
+              "target_receipt": "evidence/ACT1-TEXTURE/f03-spruce-20261013/first/receipt.json",
+              "station_release": "Fresh doctor ready=true,busy_job=null,orphan=false,userdata_recovery_pending=false; released to B20 changed-protocol job480ee2d26c51450b893fe130766cb127.",
+              "framing_cause": "Authored(-4.5,-92) lies inside gorge: RiverMeander approx-97.755, channel lowers terrain approx5.27m; plant uses CollisionGround-.04 while parent-relative camera/target kept literalY. Gorge cleanup can hide this mesh (abs centre offset<7.4m). Capture histogram removes digits/aggregates owners, so it cannot recover exact live PlantN. One hypothesis rejected, not a bark-map failure."
+            }
           },
           {
             "id": "ACT1-TEXTURE.02/E26",
@@ -96821,7 +96859,11 @@
             "title": "Согласовать зимний внешний свет/видимость/частицы с действующим профилем деревни",
             "result": "Согласовать зимний внешний свет/видимость/частицы с действующим профилем деревни",
             "owner": "unassigned",
-            "evidence": [],
+            "evidence": [
+              "evidence/ACT1-ATMOSPHERE/crisp-day-20261013/after-fill/receipt.json",
+              "evidence/ACT1-ATMOSPHERE/crisp-day-20261013/after-fill/frames/C1_street_high.png",
+              "evidence/ACT1-ATMOSPHERE/crisp-day-20261013/after-fill/frames/C2_house_high.png"
+            ],
             "assigned_owner": "codex/b02-2026-10-13",
             "active_owner": null,
             "activity": {
@@ -96833,10 +96875,10 @@
             "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
-              "Actual Windows сравнение нового crisp профиля с сохранённым C1_street_high baseline: warm-key/cool-fill, ясный воздух и минимум три плана, читаемый белый снег/лицо/тёмный фасад; без пересвета и одинакового цветного фильтра.",
-              "Сохранность существующих snowfall/blizzard/ночных состояний и nearby walk-in indoor grade; художественная приёмка остаётся у внешнего гейта родителя."
+              "Nearby ordinary walk-in indoor grade/motion with current crisp source: dark wood/face/snow readability, no exposure/color regression.",
+              "Existing snowfall/blizzard/night source unchanged, but actual changed indoor path and parent artistic acceptance remain open; near-black logwall and angular forest handed to corresponding visual consumers."
             ],
-            "next_action": "Сравнить второй crisp candidate с сохранённым after C1/C2 High/FOV70; затем existing Studio PlayFromHere exactPID route для actual motion/indoorgrade.",
+            "next_action": "Use existing protected Studio PlayFromHere exactPID route after B20 changed-protocol slot for ordinary door/nearby indoor walk; repeat C1/C2 only on changed relevant input or concrete defect.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -96933,7 +96975,9 @@
                 "changes": "ambientenergy .44→.60 restores before fill linear luminance after blue recolor; suncolor ffe3bd→ffd2a3 for amber direct key. Energy/exposure/angle unchanged.",
                 "cause": "Old/new ambient luminance .45888781/.33590811; preserving oldfill needs .60109 energy. Existing direct-key shadowwall readability not sufficient in first after.",
                 "sha256": "7f4a2bb69d8e28c2adaba66574a9196d0fe445e4a858a238eb300b24553e0fb0",
-                "visual_result": "NOT_RUN for matched C1/C2; current S05 candidate includes source, not proof of whole street."
+                "visual_result": "Root personally viewed matched C1/C2 High/FOV70 current e7efe8d: warmer lit snow/wood against cool shadows, clearer house layers; near logwall remains very dark and forest silhouettes angular. Scoped outdoor source stage accepted; actual nearby indoor walk/motion and parent art still pending.",
+                "receipt": "evidence/ACT1-ATMOSPHERE/crisp-day-20261013/after-fill/receipt.json",
+                "verification": "PASS; current atmosphere SHA7f4a2bb69d8e28c2adaba66574a9196d0fe445e4a858a238eb300b24553e0fb0 matches; snapshot0979fda55ee3c81cb25142e3b7566b7fe5edecd73577f802f18a0076b9ea1b4d verified; Vulkan GTX970; Game build0/0; gameExitCode0; userdataRestoredtrue. F03/S04/car source also changed, so not every image difference is attributed only to light."
               }
             }
           },
@@ -110896,7 +110940,10 @@
           "kind": "static_audit",
           "path": "game/scripts/PainterlyMaterialLibrary.cs",
           "result": "PW-032/S2 по коду: в painterly-шейдере нет случайного seed на кадр и нет экранной сетки (grep: SCREEN_UV, FRAGCOORD, VIEWPORT_SIZE — 0 совпадений; TIME — только фаза ветрового качания, строка 23). PW-032/S1: движущаяся одежда идёт через ForMovingCloth (UV-мазок, cell_jitter=0); для остальных NPC UV-ткань включается только по метке cloth_uv_units в glTF extras — до перегенерации китов в Blender они остаются на мировой проекции. Runtime NOT_RUN (станция недоступна)."
-        }
+        },
+        "assets/source/blender/urman_character_kit_v2.blend",
+        "game/assets/generated/urman_character_kit_v2.glb",
+        "assets/source/blender/receipts/urman_character_kit_v2.structure.json"
       ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-032",
       "source_requirements": [
@@ -111046,16 +111093,18 @@
       "assigned_owner": "claude/visual-reset-2026-10-09",
       "activity": {
         "state": "released",
-        "reason": "Finite FacilityManualDoor source stage implemented/reviewed/compiled; actual protected motion via Studio PlayFromHere remains next, source claim released."
+        "reason": "Exact six-mesh Timur rest-UV source slice implemented and semantically checked; source stage stopped. Actual costume/door/creature motion remains full PW032 requirement."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
       "technical_verification_state": "not_run",
       "remaining": [
-        "Фактура остаётся на поверхности, а не скользит по объекту.",
-        "Ветер и тени согласованы с реальной деформацией."
+        "Actual FacilityManualDoor close/quarter/open movement and preserved weather/material response.",
+        "Exact six-mesh Timur metric rest UV source complete with geometry/rig/animation/material preservation; actual coat/skirt/trousers Idle/walk/turn native view remains.",
+        "BathSpirit moving robe/skin/hair currently use world projection; implement faithful local/rest coordinates without changing its material finish or shelter.",
+        "Book/held sleeves/W01 moving branch source-safe; fulfill named movement checks as required, preserve existing valid wind/normal receipts on unchanged inputs."
       ],
-      "next_action": "Accept bounded source change/affected compile, then real door rotation close/quarter/open views/movement through supported protected game session.",
+      "next_action": "After B20 station release, use existing protected Studio PlayFromHere route for actual door/nearby indoor and Timur cloth motion; BathSpirit faithful local/rest anchoring still requires implementation.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -111065,7 +111114,12 @@
         "targets": [
           "game/scripts/PainterlyMaterialLibrary.cs",
           "game/scripts/GeneratedModularKitDressing.cs",
-          "assets/asset_registry.json"
+          "assets/asset_registry.json",
+          "game/scripts/GeneratedCharacterKitDressing.cs",
+          "game/scripts/Act1ConnectedWorld.MosqueImamDress.cs",
+          "game/scripts/BathSpirit.cs",
+          "assets/source/blender/urman_character_kit_v2.blend",
+          "game/assets/generated/urman_character_kit_v2.glb"
         ],
         "required_inputs": [
           {
@@ -111284,7 +111338,31 @@
         ],
         "result": "Finite FacilityManualDoor wood anchoring source implemented: local cached surface variants preserve finish/maps/scale/weather; unchanged default CarryableProp. Root inspected exact producer/shader and independent Luna source review no defect. Worker Gamecompile0 errors/0 warnings; actual door motion NOT_RUN.",
         "next_action": "Accept bounded source change/affected compile, then real door rotation close/quarter/open views/movement through supported protected game session.",
-        "verification": "Source diff/caller inspection + independent Luna review; affected Game compile reported worker console. No visual completion claim."
+        "verification": "Source diff/caller inspection + independent Luna review; affected Game compile reported worker console. No visual completion claim.",
+        "remaining_consumers_source_review": {
+          "confirmed": "Timur Coat/CoatSkirt/Trousers LOD0/1 lack metric marker; CoatSkirt also lacks UV0. Live Idle/reposition routes ForColor world cloth. BathSpirit world-projected robe/skin/hair move with chest/head.",
+          "source_safe": "Family book and held sleeves use UV0 textured GLB; W01 moved branch uses textured UV0 original bark; winter needle wind keeps rest varyings and corrected normals. Source proof is not fresh actual movement proof.",
+          "timur_inputs": "assets/source/blender/urman_character_kit_v2.blend; game/assets/generated/urman_character_kit_v2.glb; tools/blender/generate_character_kit_v2.py guarded import/export_kit and tools/blender/generate_character_kit.py metric_cloth_uv. Bundled Blender .tools/blender/Blender.app/Contents/MacOS/Blender.",
+          "timur_scope": "Exact6 coat/skirts/trousers only, no broad refresh selector, no new CLI option or generator change; preserve other meshes/rig/animation/materials/rights."
+        },
+        "timur_slice": {
+          "targets": [
+            "TimurHazrat_Coat_LOD0",
+            "TimurHazrat_Coat_LOD1",
+            "TimurHazrat_CoatSkirt_LOD0",
+            "TimurHazrat_CoatSkirt_LOD1",
+            "TimurHazrat_Trousers_LOD0",
+            "TimurHazrat_Trousers_LOD1"
+          ],
+          "source_before_sha256": "e7cc2e10831f2bd7b7ee5a9ef55bc362ad8ede8600a4114fd9a6065403fd3d23",
+          "source_after_sha256": "346bbb283090472def6a7977c17557750510bdee0cfb9eaf759882542b2dc15",
+          "glb_before_sha256": "b8cf7a5893ca2f2a0511eeab51c38e0cce29d3f42f6c858f9896c275522dd078",
+          "glb_after_sha256": "93d29f993716083f5e8d4989953dbc881897d06e7e13d0b50b0912fceb4f5bce",
+          "method": "Bundled Blender background: guarded import generate_character_kit_v2, reopen canonical blend, assert exact6 names/materials/armature, existing metric_cloth_uv(each exact name), existing export_kit(root). No main/broad actor refresh/regeneration/C# change.",
+          "preservation": "Luna semantic GLB before/after comparison PASS: 799 nodes/196 meshes/75 materials/291531 triangles; exact non-target primitive streams+indices; target oriented triangles preserve POSITION/NORMAL/COLOR/JOINTS/WEIGHTS/UV1; six UV0 finite with surface UV area/rest area ratio1 within1e-4; skins/inverse binds, hierarchy/transforms, materials/images and all animation sample data unchanged. Export UV seams duplicate some target vertices; topology/triangle semantics preserved. Root inspected comparison assertions/log.",
+          "structure_receipt": "assets/source/blender/receipts/urman_character_kit_v2.structure.json regenerated with existing glb_structure_receipt.py; existing --check PASS once. Diff includes exact6Timur plus14Rinat metadata/UV fields already present in pre-task GLB but missing from old receipt; non-target Rinat semantic streams unchanged.",
+          "runtime": "NOT_RUN for updated Timur actor Idle/walk/turn; metric marker triggers existing ForMovingCloth and mosque recolor path, but source check is not artistic movement proof."
+        }
       }
     },
     {

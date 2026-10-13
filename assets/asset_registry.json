@@ -2818,8 +2818,8 @@
       "id": "character.act1.human.v2",
       "source": "assets/source/blender/urman_character_kit_v2.blend",
       "derived": "game/assets/generated/urman_character_kit_v2.glb",
-      "sourceSha256": "e7cc2e10831f2bd7b7ee5a9ef55bc362ad8ede8600a4114fd9a6065403fd3d23",
-      "derivedSha256": "b8cf7a5893ca2f2a0511eeab51c38e0cce29d3f42f6c858f9896c275522dd078",
+      "sourceSha256": "346bbbb283090472def6a7977c17557750510bdee0cfb9eaf759882542b2dc15",
+      "derivedSha256": "93d29f993716083f5e8d4989953dbc881897d06e7e13d0b50b0912fceb4f5bce",
       "generator": "tools/blender/generate_character_kit_v2.py",
       "license": "CC0 1.0 (Quaternius bodies/hair/motion; MakeHuman/MPFB Tamara age-study head and old-female albedo) + project-original clothing, fitting and clip selection",
       "scale": 1.0,
@@ -2836,7 +2836,8 @@
       "collision": "none; interaction targets and zone colliders own physics",
       "lod": "LOD0 + Decimate LOD1 (35%); Godot 0-18m / 14-48m",
       "status": "art candidate 2026-09-27 hair-tone: moderate crown smoothing preserves waves; lighter grey hair; warm face factor(.8,.68,.57). Strong smoothing rejected. Native front/profile/Idle/Talk inspected;9 rigs/36 clips and other meshes exact;all14 embedded images unchanged;generator bindings/weights/material/geometry match. Same DLL prior full scene/skip81/cold11 in aged-head-scene/cold-load, not rerun for this cosmetic-only edit. Human likeness, continuous gait/audio remain open. Evidence docs/production/tamara_mvp_2026-09-26/hair-tone/.",
-      "releaseDisposition": "include-in-act1-release; runtime-loaded by GeneratedCharacterKitDressing for human prefixes"
+      "releaseDisposition": "include-in-act1-release; runtime-loaded by GeneratedCharacterKitDressing for human prefixes",
+      "uv": "PW-032 13.10.2026: metric rest UV/cloth_uv_units added only to TimurHazrat Coat, CoatSkirt and Trousers LOD0/1 (six meshes), using existing metric_cloth_uv/export_kit. Other source meshes/rig/animation/materials preserved semantically; UV seams may duplicate vertices without changing triangles. Native Timur animation/art review pending in PW-032."
     },
     {
       "id": "texture.act1.shop-sign-ashamlyklar",
@@ -4249,6 +4250,36 @@
       "qa": "PNG SHA-256 matches its only introduction blob; snow_roof() with seed 20260910 reproduces decoded RGB pixels (SHA-256 27ffef1fbc168a5c4aef04acd947ed02f576c5c044c9c19091c18c5fedc87555). C2 target static/motion and art review remain open.",
       "status": "existing-map reuse; source and pixel reproduction verified; target visual/art review pending",
       "releaseDisposition": "Existing snow_roof slot and mapped receivers only; no new map, geometry change, or visual acceptance claimed."
+    },
+    {
+      "id": "texture.painterly.f03.v01",
+      "source": "Project-original procedural bake; tools/blender/bake_procedural_textures.py; game/assets/textures/painterly/procedural_bake_receipt_v1.json card F03",
+      "derived": "game/assets/textures/painterly/bark_spruce_v1_albedo.png",
+      "derivedSha256": "3a526b203d11df79eb7c99bb2317f84fd60f58978cf0ce54e6f94be7efc66acf",
+      "generator": "tools/blender/bake_procedural_textures.py; seed 20260303",
+      "license": "project-original procedural (no third-party source)",
+      "dimensions": "1024x1024",
+      "format": "PNG RGB8",
+      "colorSpace": "Consumed as sRGB source_color; receipt declares sRGB; PNG has no embedded ICC profile",
+      "uv": "Seamless TILE, upright world-triplanar; 1 m per repeat",
+      "mask": "None; opaque RGB material map",
+      "purpose": "Cool gray-brown spruce bark with smaller irregular scale groups and restrained violet-brown variation.",
+      "reference": "docs/urman_knowledge_base/art/urman_imagegen_texture_prompt_book_2026-09-22.md#f03; written surface brief, no separate exact reference image/path recorded.",
+      "scale": 1,
+      "triangleBudget": 0,
+      "textureBudget": 1024,
+      "materials": [
+        "bark_spruce"
+      ],
+      "materialOwner": "PainterlyMaterialLibrary.SurfaceTextures[\"bark_spruce\"]; RegionalFoliageMaterial assigns only spruce bark, preserving existing tint and shelter.",
+      "consumerPaths": [
+        "game/scripts/PainterlyMaterialLibrary.cs",
+        "game/scripts/experiments/agent_b_act1/AgentBAct1ExteriorLayer.cs"
+      ],
+      "collision": "unchanged",
+      "lod": "Existing regional foliage mesh/LOD unchanged; target runtime import/mipmap behavior requires its own evidence.",
+      "qa": "Receipt/hash/source consumer independently inspected by Luna and root; native bark close/context view pending under ACT1-TEXTURE.02/E25 in execution_backlog.json.",
+      "releaseDisposition": "Spruce bark slot only; pine, birch and other tree families unchanged. Parent artistic acceptance remains separate."
     }
   ]
 }

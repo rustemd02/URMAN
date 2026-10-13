@@ -1826,7 +1826,8 @@ public partial class AgentBAct1ExteriorLayer : Node3D
     {
         var birch = variant.Contains("Birch", StringComparison.Ordinal);
         var pine = variant.Contains("Pine", StringComparison.Ordinal);
-        var conifer = pine || variant.Contains("Spruce", StringComparison.Ordinal);
+        var spruce = variant.Contains("Spruce", StringComparison.Ordinal);
+        var conifer = pine || spruce;
         return kind switch
         {
             "snow" => PainterlyMaterialLibrary.ForColor("e8edf0", "snow_roof"),
@@ -1835,7 +1836,7 @@ public partial class AgentBAct1ExteriorLayer : Node3D
                 birch ? region == "kara" ? "90978c" : "c9c2ad"
                     : !conifer ? region == "kara" ? "575953" : "9b9487"
                     : region == "kara" ? "504c43" : "685e50",
-                birch ? "bark_birch_winter" : pine ? "bark_pine" : "wood_bark", sheltered: region == "kara"),
+                birch ? "bark_birch_winter" : pine ? "bark_pine" : spruce ? "bark_spruce" : "wood_bark", sheltered: region == "kara"),
             "stone" => PainterlyMaterialLibrary.ForColor("74766d", "stone"),
             // Winter conifers already carry shaped snow caps. A second shader
             // blanket bleaches every bough into a bright plate against the sky.

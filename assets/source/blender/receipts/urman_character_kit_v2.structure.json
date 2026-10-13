@@ -4689,7 +4689,7 @@
       ]
      },
      "triangles": 3800,
-     "vertices": 1912
+     "vertices": 3672
     }
    ]
   },
@@ -4723,7 +4723,7 @@
       ]
      },
      "triangles": 1616,
-     "vertices": 812
+     "vertices": 1326
     }
    ]
   },
@@ -4757,7 +4757,7 @@
       ]
      },
      "triangles": 1384,
-     "vertices": 698
+     "vertices": 1483
     }
    ]
   },
@@ -4791,7 +4791,7 @@
       ]
      },
      "triangles": 1384,
-     "vertices": 698
+     "vertices": 1483
     }
    ]
   },
@@ -4858,7 +4858,7 @@
       ]
      },
      "triangles": 484,
-     "vertices": 248
+     "vertices": 588
     }
    ]
   },
@@ -4892,7 +4892,7 @@
       ]
      },
      "triangles": 484,
-     "vertices": 248
+     "vertices": 573
     }
    ]
   },
@@ -4904,6 +4904,7 @@
       "JOINTS_0",
       "NORMAL",
       "POSITION",
+      "TEXCOORD_0",
       "WEIGHTS_0"
      ],
      "material": "3a4452__cloth",
@@ -4933,6 +4934,7 @@
       "JOINTS_0",
       "NORMAL",
       "POSITION",
+      "TEXCOORD_0",
       "WEIGHTS_0"
      ],
      "material": "3a4452__cloth",
@@ -4984,7 +4986,7 @@
       ]
      },
      "triangles": 1330,
-     "vertices": 677
+     "vertices": 1462
     }
    ]
   },
@@ -5126,6 +5128,7 @@
       "JOINTS_0",
       "NORMAL",
       "POSITION",
+      "TEXCOORD_0",
       "WEIGHTS_0"
      ],
      "material": "3b4250__fur",
@@ -5143,7 +5146,7 @@
       ]
      },
      "triangles": 792,
-     "vertices": 402
+     "vertices": 682
     }
    ]
   },
@@ -5155,6 +5158,7 @@
       "JOINTS_0",
       "NORMAL",
       "POSITION",
+      "TEXCOORD_0",
       "WEIGHTS_0"
      ],
      "material": "3b4250__fur",
@@ -5172,7 +5176,7 @@
       ]
      },
      "triangles": 274,
-     "vertices": 144
+     "vertices": 290
     }
    ]
   },
@@ -5184,6 +5188,7 @@
       "JOINTS_0",
       "NORMAL",
       "POSITION",
+      "TEXCOORD_0",
       "WEIGHTS_0"
      ],
      "material": "23262b__cloth",
@@ -5201,7 +5206,7 @@
       ]
      },
      "triangles": 224,
-     "vertices": 112
+     "vertices": 240
     }
    ]
   },
@@ -5213,6 +5218,7 @@
       "JOINTS_0",
       "NORMAL",
       "POSITION",
+      "TEXCOORD_0",
       "WEIGHTS_0"
      ],
      "material": "23262b__cloth",
@@ -5230,7 +5236,7 @@
       ]
      },
      "triangles": 224,
-     "vertices": 112
+     "vertices": 240
     }
    ]
   },
@@ -5264,7 +5270,7 @@
       ]
      },
      "triangles": 564,
-     "vertices": 286
+     "vertices": 561
     }
    ]
   },
@@ -6131,7 +6137,7 @@
       ]
      },
      "triangles": 3808,
-     "vertices": 1916
+     "vertices": 3783
     }
    ]
   },
@@ -6165,7 +6171,7 @@
       ]
      },
      "triangles": 1412,
-     "vertices": 710
+     "vertices": 1220
     }
    ]
   },
@@ -6346,6 +6352,7 @@
       "JOINTS_0",
       "NORMAL",
       "POSITION",
+      "TEXCOORD_0",
       "WEIGHTS_0"
      ],
      "material": "3f4a44__wool",
@@ -6375,6 +6382,7 @@
       "JOINTS_0",
       "NORMAL",
       "POSITION",
+      "TEXCOORD_0",
       "WEIGHTS_0"
      ],
      "material": "3f4a44__wool",
@@ -6426,7 +6434,7 @@
       ]
      },
      "triangles": 1332,
-     "vertices": 678
+     "vertices": 1695
     }
    ]
   },
@@ -6706,7 +6714,7 @@
       ]
      },
      "triangles": 494,
-     "vertices": 251
+     "vertices": 513
     }
    ]
   },
@@ -12232,6 +12240,9 @@
   },
   {
    "children": [],
+   "extras": {
+    "cloth_uv_units": "metres; rest surface; runtime repeat 0.5m"
+   },
    "index": 601,
    "mesh": "Rinat_Body_LOD0.003",
    "name": "Rinat_BootLeft_LOD0",
@@ -12267,6 +12278,9 @@
   },
   {
    "children": [],
+   "extras": {
+    "cloth_uv_units": "metres; rest surface; runtime repeat 0.5m"
+   },
    "index": 602,
    "mesh": "Rinat_BootLeft_LOD1",
    "name": "Rinat_BootLeft_LOD1",
@@ -12302,6 +12316,9 @@
   },
   {
    "children": [],
+   "extras": {
+    "cloth_uv_units": "metres; rest surface; runtime repeat 0.5m"
+   },
    "index": 603,
    "mesh": "Rinat_Body_LOD0.004",
    "name": "Rinat_BootRight_LOD0",
@@ -12337,6 +12354,9 @@
   },
   {
    "children": [],
+   "extras": {
+    "cloth_uv_units": "metres; rest surface; runtime repeat 0.5m"
+   },
    "index": 604,
    "mesh": "Rinat_BootRight_LOD1",
    "name": "Rinat_BootRight_LOD1",
@@ -12372,6 +12392,9 @@
   },
   {
    "children": [],
+   "extras": {
+    "cloth_uv_units": "metres; rest surface; runtime repeat 0.5m"
+   },
    "index": 607,
    "mesh": "Rinat_CoatSkirt_LOD0",
    "name": "Rinat_CoatSkirt_LOD0",
@@ -12407,6 +12430,9 @@
   },
   {
    "children": [],
+   "extras": {
+    "cloth_uv_units": "metres; rest surface; runtime repeat 0.5m"
+   },
    "index": 608,
    "mesh": "Rinat_CoatSkirt_LOD1",
    "name": "Rinat_CoatSkirt_LOD1",
@@ -12442,6 +12468,9 @@
   },
   {
    "children": [],
+   "extras": {
+    "cloth_uv_units": "metres; rest surface; runtime repeat 0.5m"
+   },
    "index": 605,
    "mesh": "Rinat_Body_LOD0.001",
    "name": "Rinat_Coat_LOD0",
@@ -12477,6 +12506,9 @@
   },
   {
    "children": [],
+   "extras": {
+    "cloth_uv_units": "metres; rest surface; runtime repeat 0.5m"
+   },
    "index": 606,
    "mesh": "Rinat_Coat_LOD1",
    "name": "Rinat_Coat_LOD1",
@@ -12722,6 +12754,9 @@
   },
   {
    "children": [],
+   "extras": {
+    "cloth_uv_units": "metres; rest surface; runtime repeat 0.5m"
+   },
    "index": 615,
    "mesh": "Rinat_Hat_LOD0",
    "name": "Rinat_Hat_LOD0",
@@ -12757,6 +12792,9 @@
   },
   {
    "children": [],
+   "extras": {
+    "cloth_uv_units": "metres; rest surface; runtime repeat 0.5m"
+   },
    "index": 616,
    "mesh": "Rinat_Hat_LOD1",
    "name": "Rinat_Hat_LOD1",
@@ -12854,6 +12892,9 @@
   },
   {
    "children": [],
+   "extras": {
+    "cloth_uv_units": "metres; rest surface; runtime repeat 0.5m"
+   },
    "index": 617,
    "mesh": "Rinat_Sash_LOD0",
    "name": "Rinat_Sash_LOD0",
@@ -12889,6 +12930,9 @@
   },
   {
    "children": [],
+   "extras": {
+    "cloth_uv_units": "metres; rest surface; runtime repeat 0.5m"
+   },
    "index": 618,
    "mesh": "Rinat_Sash_LOD1",
    "name": "Rinat_Sash_LOD1",
@@ -12924,6 +12968,9 @@
   },
   {
    "children": [],
+   "extras": {
+    "cloth_uv_units": "metres; rest surface; runtime repeat 0.5m"
+   },
    "index": 619,
    "mesh": "Rinat_Body_LOD0.002",
    "name": "Rinat_Trousers_LOD0",
@@ -12959,6 +13006,9 @@
   },
   {
    "children": [],
+   "extras": {
+    "cloth_uv_units": "metres; rest surface; runtime repeat 0.5m"
+   },
    "index": 620,
    "mesh": "Rinat_Trousers_LOD1",
    "name": "Rinat_Trousers_LOD1",
@@ -14172,6 +14222,9 @@
   },
   {
    "children": [],
+   "extras": {
+    "cloth_uv_units": "metres; rest surface; runtime repeat 0.5m"
+   },
    "index": 429,
    "mesh": "TimurHazrat_CoatSkirt_LOD0",
    "name": "TimurHazrat_CoatSkirt_LOD0",
@@ -14207,6 +14260,9 @@
   },
   {
    "children": [],
+   "extras": {
+    "cloth_uv_units": "metres; rest surface; runtime repeat 0.5m"
+   },
    "index": 430,
    "mesh": "TimurHazrat_CoatSkirt_LOD1",
    "name": "TimurHazrat_CoatSkirt_LOD1",
@@ -14242,6 +14298,9 @@
   },
   {
    "children": [],
+   "extras": {
+    "cloth_uv_units": "metres; rest surface; runtime repeat 0.5m"
+   },
    "index": 427,
    "mesh": "TimurHazrat_Body_LOD0.001",
    "name": "TimurHazrat_Coat_LOD0",
@@ -14277,6 +14336,9 @@
   },
   {
    "children": [],
+   "extras": {
+    "cloth_uv_units": "metres; rest surface; runtime repeat 0.5m"
+   },
    "index": 428,
    "mesh": "TimurHazrat_Coat_LOD1",
    "name": "TimurHazrat_Coat_LOD1",
@@ -14726,6 +14788,9 @@
   },
   {
    "children": [],
+   "extras": {
+    "cloth_uv_units": "metres; rest surface; runtime repeat 0.5m"
+   },
    "index": 441,
    "mesh": "TimurHazrat_Body_LOD0.002",
    "name": "TimurHazrat_Trousers_LOD0",
@@ -14761,6 +14826,9 @@
   },
   {
    "children": [],
+   "extras": {
+    "cloth_uv_units": "metres; rest surface; runtime repeat 0.5m"
+   },
    "index": 442,
    "mesh": "TimurHazrat_Trousers_LOD1",
    "name": "TimurHazrat_Trousers_LOD1",

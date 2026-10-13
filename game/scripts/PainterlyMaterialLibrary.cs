@@ -735,6 +735,7 @@ public static class PainterlyMaterialLibrary
         ["wood_split_uv"] = ("res://assets/textures/painterly/wood_split_firewood_v1_albedo.png", new Vector2(2f, 2f)),
         ["wood_prop"] = ("res://assets/textures/painterly/weathered_wood_boards_v3_albedo.png", new Vector2(0.9f, 0.9f)),
         ["wood_bark"] = ("res://assets/textures/painterly/bark_pine_v1_albedo.png", new Vector2(1.05f, 1.05f)),
+        ["bark_spruce"] = ("res://assets/textures/painterly/bark_spruce_v1_albedo.png", Vector2.One),
         ["bark_pine"] = ("res://assets/textures/painterly/urman_f02_v02_basecolor.png", Vector2.One),
         ["plaster_domestic"] = ("res://assets/textures/painterly/urman_b01_v01_basecolor.png", Vector2.One),
         ["cloth_table"] = ("res://assets/textures/painterly/urman_t01_v02_basecolor.png", new Vector2(2f, 2f)),
@@ -868,6 +869,7 @@ public static class PainterlyMaterialLibrary
         ["wood_cut"] = new() { Relief = .18f, ReliefFreq = new(9f, 9f), EndGrainWear = .22f },
         ["wood_carved"] = new() { Relief = .34f, ReliefFreq = new(6f, 20f), ReliefRoughness = .08f },
         ["wood_bark"] = new() { Relief = .70f, ReliefFreq = new(5f, 16f), ReliefRoughness = .14f },
+        ["bark_spruce"] = new() { Relief = .70f, ReliefFreq = new(5f, 16f), ReliefRoughness = .14f },
         ["bark_birch"] = new() { Relief = .55f, ReliefFreq = new(4f, 14f), ReliefRoughness = .12f },
         ["bark_birch_winter"] = new() { Relief = .55f, ReliefFreq = new(4f, 14f), ReliefRoughness = .12f },
         ["bark_pine"] = new() { Relief = .72f, ReliefFreq = new(4.5f, 13f), ReliefRoughness = .15f },
@@ -1621,6 +1623,7 @@ public static class PainterlyMaterialLibrary
             "wood_bath_light" => "wood_furniture",
             "wood_shed_dark" => "wood",
             "wood_split" or "wood_split_uv" => "wood_prop",
+            "bark_spruce" => "wood_bark",
             "wood_fence_vertical" or "wood_fence_rail" or "wood_fence_uv" => "wood_fence",
             "plaster_domestic" => "wall_institution",
             "stone_foundation" => "stone",
@@ -1642,7 +1645,7 @@ public static class PainterlyMaterialLibrary
         material.SetShaderParameter("cut_wood_end", surface == "wood_cut");
         material.SetShaderParameter("upright_texture", surface is "log_wall" or "fabric_pattern" or "hay_bundle"
             or "wood_facade" or "wood_painted_blue" or "wood_painted_green" or "wood_painted_trim" or "wood_floor_painted"
-            or "bark_birch_winter" or "bark_pine" or "wallpaper" or "wood_fence_vertical" or "wood_fence_rail");
+            or "bark_birch_winter" or "bark_pine" or "bark_spruce" or "wallpaper" or "wood_fence_vertical" or "wood_fence_rail");
         material.SetShaderParameter("local_wood_texture", surface == "hay_bundle");
         material.SetShaderParameter("local_floor_texture", surface is "wood_floor_painted" or "wood_fence_vertical" or "wood_fence_rail");
         material.SetShaderParameter("local_fence_rail", surface == "wood_fence_rail");
