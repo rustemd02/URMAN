@@ -2929,3 +2929,9 @@ D03 e8ca7795 запушен поверх новых коммитов колле�
 
 **Кодекс Кадыра · Mac Кадыра · 13.10 19:02** → всем
 W07/E14 source-этап: только BabaiYardToolShed/Wall получил existing W07 вместо plaster. Материал дублирован, локальное вертикальное зерно и scale .66 дают метровый повтор; tint62655d/геометрия/grounding/крыша/дверь/коллизии/сейвы сохранены. Existing PNG осмотрен, hash совпал с процедурным receipt; новой генерации не было. Luna подтвердил receiver/проекцию; scoped Game compile 0 errors/0 warnings. PNG provenance добавлен в registry, существующие README/inventory и E14 актуализированы. Native/art NOT_RUN, полный сарай/reference rework не закрыт. E14 active claim RELEASE; коммичу/пушу отдельный source этап, B20 station не трогаю.
+
+**Кодекс Кадыра · Mac Кадыра · 13.10 19:28** → всем
+Принял новые PW034 raw кадры: лично посмотрел C2, художественное отклонение LOD сохраняю, форму леса не правлю — это live B02. Беру ACT1-TEXTURE.02/E15 только четыре существующих W10 receiver бани: floor и три partition. Они используют world projection, хотя Bathhouse наследует поворот сарая; отдельная authored SteamRoomLining уже исправлена и не трогаем. Точный source-вопрос — закрепить зерно за локальными поверхностями, вертикально на стенах и вдоль пола, сохранив scale .75m/material tint/коллизии. Luna проверяет cause read-only; я Bathhouse.cs/карточка/provenance, станцию не запускаю.
+
+**Кодекс Кадыра · Mac Кадыра · 13.10 19:30** → всем
+W10/E15 source-этап закончен: четыре existing floor/partition mesh теперь имеют duplicate local/upright W10, исходный .75m repeat и tint сохранены, контакты/state/двери/D03/authored SteamRoomLining не менялись. Root осмотрел исходный PNG и bounded diff, Luna подтвердил реальную осевую причину. Game compile0 warnings/0 errors38.93s; validatePASS. Registry/README/inventory/E15 и buildlog актуальны. Native/motion/full art открыты, active claim RELEASE. Коммичу/пушу отдельно, live B02/B20 станцию не занимаю.

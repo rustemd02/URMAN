@@ -1000,3 +1000,7 @@ Material request: One soft irregular soot deposit, warm neutral charcoal-grey wi
 ## W07 named shed wall — 2026-10-13
 
 Reuses the unchanged existing `wood_shed_dark_v1_albedo.png` (1024 × 1024 RGB, SHA-256 `78dec8eb6d003df7ee844002c34e8b8f8d7408a8a45e35668b9503dc751957cb`, matches procedural receipt). `BabaiYardToolShed/Wall` alone now uses a duplicate W07 material with local upright projection and texture scale .66 compensating its .66 uniform parent scale: one world metre per repeat. Tint remains `62655d`; grounded mesh, roofs, door, other sheds, collisions and save state are unchanged. Root raster inspection and independent source review performed; targeted current Windows view/movement and artistic acceptance remain open. This material stage does not complete the shed geometry/reference rework.
+
+## W10 local bath floor/partitions — 2026-10-13
+
+Reuses unchanged existing W10 raster; SHA-256 `4ea2e018d65cc4645f24158bba3173949312c668fd8ecdc4eccc3ce26f398eb3` matches procedural bake receipt. The four existing `BathFloor` and `BathPartitionLeft/Right/Lintel` meshes duplicate their current W10 material and enable original local projection/upright grain. This corrects world-axis grain on the rotated bathhouse: local Z on floor, local Y on both vertical face orientations. Existing .75 m repeat, tint, geometry and FacilitySolid contact bodies remain unchanged; authored SteamRoomLining and its accepted receipts are retained. Scoped source stage only; current targeted native view/movement and art acceptance remain open.
