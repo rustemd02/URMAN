@@ -23,22 +23,35 @@ public partial class Act1ConnectedWorld
     /// <summary>Refresh only the hero window shell; incompatible geometry uses the caller's full reload.</summary>
     public bool TryRefreshHeroHouseWindowGeometry(HeroHouseRecipe previousRecipe, HeroHouseRecipe nextRecipe)
     {
+        bool Reject(string reason)
+        {
+            GD.Print($"hero-window-refresh: skipped={reason}");
+            return false;
+        }
+
         // A recipe-only edit cannot supply matching exterior geometry; use the existing reload path.
         if (previousRecipe.ModelPath == nextRecipe.ModelPath
             && HeroHouseRecipe.WindowIds.Any(id => previousRecipe.WidthFor(id) != nextRecipe.WidthFor(id)))
-            return false;
+            return Reject("same-model-path-width-edit");
         var facade = GetNodeOrNull<Node3D>(
             "Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/BabaiApproachDwellingFacade");
-        if (!IsInsideTree() || facade is null || !facade.IsVisibleInTree()
-            || !_zoneInstances.TryGetValue("house_old_pc", out var room)
-            || !room.HasMeta("heroHouseWindowClearWidth")
-            || room.GetMeta("heroHouseWindowClearWidth").VariantType != Variant.Type.Float
-            || !float.IsFinite(room.GetMeta("heroHouseWindowClearWidth").AsSingle())
-            || Math.Abs(room.GetMeta("heroHouseWindowClearWidth").AsSingle() - previousRecipe.WindowClearWidth) > .0001f
-            || facade.GetNodeOrNull<Node3D>(HeroHouseRecipe.Component) is not { } oldComponent
-            || !facade.HasMeta("assetSource")
-            || facade.GetMeta("assetSource").AsString() != (previousRecipe.ModelPath ?? VillageExteriorKitScenePath))
-            return false;
+        if (!IsInsideTree()) return Reject("outside-tree");
+        if (facade is null) return Reject("facade-missing");
+        if (!facade.IsVisibleInTree()) return Reject("facade-hidden");
+        if (!_zoneInstances.TryGetValue("house_old_pc", out var room) || room is null)
+            return Reject("room-missing");
+        if (!room.HasMeta("heroHouseWindowClearWidth")) return Reject("width-meta-missing");
+        var roomWidth = room.GetMeta("heroHouseWindowClearWidth");
+        if (roomWidth.VariantType != Variant.Type.Float) return Reject("width-meta-type");
+        var roomWidthValue = roomWidth.AsSingle();
+        if (!float.IsFinite(roomWidthValue)) return Reject("width-meta-value");
+        if (Math.Abs(roomWidthValue - previousRecipe.WindowClearWidth) > .0001f)
+            return Reject("width-baseline-mismatch");
+        var oldComponent = facade.GetNodeOrNull<Node3D>(HeroHouseRecipe.Component);
+        if (oldComponent is null) return Reject("component-missing");
+        if (!facade.HasMeta("assetSource")) return Reject("asset-meta-missing");
+        if (facade.GetMeta("assetSource").AsString() != (previousRecipe.ModelPath ?? VillageExteriorKitScenePath))
+            return Reject("asset-baseline-mismatch");
 
         Node3D? imported = null;
         var stagingOwner = new Node3D { Name = "HeroWindowRefreshStaging" };
@@ -60,17 +73,17 @@ public partial class Act1ConnectedWorld
             if (currentRecipe.ModelPath != nextRecipe.ModelPath
                 || currentRecipe.WindowClearHeight != nextRecipe.WindowClearHeight
                 || HeroHouseRecipe.WindowIds.Any(id => currentRecipe.WidthFor(id) != nextRecipe.WidthFor(id)))
-                return false;
+                return Reject("recipe-no-longer-current");
             var packed = ResourceLoader.Load<PackedScene>(VillageExteriorKitScenePath);
-            if (packed is null) return false;
+            if (packed is null) return Reject("kit-scene-missing");
             var root = packed.Instantiate();
-            if (root is not Node3D imported3D) { root.Free(); return false; }
+            if (root is not Node3D imported3D) { root.Free(); return Reject("kit-root-not-node3d"); }
             imported = imported3D;
             var kit = imported.Name == VillageExteriorKitRootName ? imported
                 : imported.GetNodeOrNull<Node3D>(VillageExteriorKitRootName);
             var baseline = kit?.GetNodeOrNull<Node3D>(VillageExteriorKitComponentNames[9]);
             if (baseline is null || FindDescendants<Node>(baseline).Any(node => node is CollisionObject3D or CollisionShape3D))
-                return false;
+                return Reject("kit-baseline-invalid");
             var basis = ComposeImportedAncestorBasis(baseline);
             facade.GetParent().AddChild(stagingOwner);
             var stagedFacade = new Node3D { Name = "BabaiApproachDwellingFacade", Transform = facade.Transform };
@@ -85,12 +98,12 @@ public partial class Act1ConnectedWorld
             if (freshComponent is null || !HeroRefreshTransformsEqual(stagedFacade.GlobalTransform, facade.GlobalTransform)
                 || !stagedFacade.Visible
                 || FindDescendants<Node>(freshComponent).Any(node => node is CollisionObject3D or CollisionShape3D))
-                return false;
+                return Reject("staged-component-invalid");
             RegradeAct1DaylightKitMaterials(stagedFacade);
             ApplyHeroWarmWindow(stagedFacade);
             var door = FindDescendants<MeshInstance3D>(freshComponent)
                 .Where(mesh => mesh.Name == "HeroHouse_StreetDoorClosed_LOD0").ToArray();
-            if (door.Length != 1) return false;
+            if (door.Length != 1) return Reject("door-anchor-count");
             if (!HeroRefreshAnchorsCompatible(facade, oldComponent, freshComponent, out var incompatibleReason))
             {
                 GD.Print($"hero-window-refresh: incompatible={incompatibleReason}; using full world reload");
@@ -105,16 +118,17 @@ public partial class Act1ConnectedWorld
             facade.AddChild(freshComponent);
             facade.MoveChild(freshComponent, componentIndex);
             collision = PrepareHeroExteriorCollisionStage(facade, freshComponent);
-            if (collision.PreviousKitProxy is null || collision.ReplacementKitProxy is null) return false;
+            if (collision.PreviousKitProxy is null || collision.ReplacementKitProxy is null)
+                return Reject("collision-proxies-invalid");
             var prefix = freshComponent.GetPath().ToString() + "/";
             proxyIndex = collision.PreviousKitProxy.GetIndex();
             foreach (var contact in collision.PreviousKitProxy.GetChildren())
             {
-                if (!contact.HasMeta("authoredSourceMesh")) return false;
+                if (!contact.HasMeta("authoredSourceMesh")) return Reject("retained-contact-source-missing");
                 var source = contact.GetMeta("authoredSourceMesh").AsString();
                 if (source.StartsWith(prefix, StringComparison.Ordinal)) continue;
                 if (contact is not CollisionShape3D || facade.GetNodeOrNull<MeshInstance3D>(source) is null)
-                    return false;
+                    return Reject("retained-contact-owner-invalid");
                 retainedContacts.Add((contact, contact.GetIndex()));
             }
             foreach (var (contact, _) in retainedContacts)
@@ -144,7 +158,7 @@ public partial class Act1ConnectedWorld
         }
         catch (Exception exception)
         {
-            GD.PrintErr($"hero-window-refresh: {exception.GetType().Name}; using full world reload");
+            GD.PrintErr($"hero-window-refresh: failed={exception.GetType().Name}; using full world reload");
             return false;
         }
         finally

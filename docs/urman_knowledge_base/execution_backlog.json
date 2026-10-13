@@ -76516,6 +76516,19 @@
                 ],
                 "verification": "Luna implementation and independent Luna/Sol reviews; affected Core compile 0/0 3.45s, Game compile 0/0 14.70s; Windows snapshot compile 0/0 33.52s.",
                 "limits": "Road dialog not opened natively; no road traversal/Undo/restart evidence; direct Codex road request remains."
+              },
+              {
+                "date": "2026-10-13",
+                "kind": "source-progress",
+                "result": "Road dialog now captures/discloses exact immutable request, uses shared restricted Codex structured provider, permits only bounded strength/maxDeviation response and derives candidate locally. Root busy guard, close cancellation, isolated temporary cwd, source/context freshness checks and existing explicit one-file Apply retained. Exact proposal parameters remain authoritative without SpinBox step rounding; manual preview revokes AI binding. Scrollable dialog bounded to820x620.",
+                "source": [
+                  "src-dotnet/Urman.Studio.Core/AI/RoadSegmentSmoothProposal.cs",
+                  "src-dotnet/Urman.Studio.Core/AI/CodexProposalProvider.Roads.cs",
+                  "game/studio/StudioWorldSection.Roads.cs",
+                  "game/studio/StudioRoot.AiEvidence.cs"
+                ],
+                "verification": "Core compile0/0 3.51s; Game affected compile0/0 17.53s, final after shutdown/source-switch fixes0/0 14.44s. Independent Luna strict protocol/source binding review. Sol partial UX/concurrency review found two corrected defects and stopped at usage limit; final Luna integration review pending.",
+                "limits": "No native Codex road request/preview/Apply/Undo/traversal yet."
               }
             ],
             "stage_tasks": [
@@ -76543,8 +76556,8 @@
             "status": "in_progress",
             "implementation_state": "partial",
             "technical_verification_state": "not_run",
-            "remaining": "Ручной выбор roads[]/интервала, ghost preview, bounded smooth, Apply и durable owner/history реализованы и компилируются. Не проверены native открытие диалога/Apply/Undo/restart/проход A04; прямой Codex запрос дороги ещё не подключён.",
-            "next_action": "Подключить road.segment.smooth к существующему Codex request/proposal потоку, затем целевой Windows preview/Apply/Undo и проход A04.",
+            "remaining": "Codex road request/disclosure/typed bounded proposal → deterministic ghost preview → explicit Apply source интегрирован; ручной smooth и durable history сохранены. Не проверены native диалог, настоящий Codex road ответ/Apply/Undo/restart/проход A04.",
+            "next_action": "На свободной Windows проверить новый road Codex диалог и preview/Apply/Undo для yar-north; затем целевой проход A04 и restart без повторения принятого hero pilot.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -76592,7 +76605,9 @@
                 "question": "Дорожку можно сгладить на выбранном отрезке с сохранением присоединений.",
                 "scenario": "A04: поворот между двумя фиксированными стыками; пройти участок.",
                 "success": "Сегмент стал геометрически непрерывным; крайние точки и соседние маршруты сохранены; игрок не проваливается.",
-                "repeat_only_if": "Изменён предметный contract/input или предыдущий сценарий неполон."
+                "repeat_only_if": "Изменён предметный contract/input или предыдущий сценарий неполон.",
+                "current_stage_question": "Создаёт ли настоящий Codex road запрос только ghost candidate, а отдельный Apply/Undo меняет и полностью восстанавливает ровно выбранный world JSON?",
+                "current_stage_success": "Снимок и согласие показаны, строгий ответ принят, только один road interval изменён; Undo восстановил исходный SHA, соседний world source неизменен, нормальное закрытие и userdata restoration."
               },
               "actual_result": null,
               "evidence_refs": [
@@ -80088,6 +80103,17 @@
                 ],
                 "verification": "Windows job22ed5971df164cb5b56a62247343946c snapshot6a7fd2e78e6d1718b1c625fa855600622329ebbc1f72b37c26b35a13251a9dae. Overall FAIL: GOG loader errors. No Texture RID/Refit errors in this Studio run. Normal close and original user data restored; fresh doctor ready/busy=null/recovery=false/orphan=false.",
                 "limits": "No selective refresh logs; full reload72.755/87.992/72.726s. Cause unknown; descendant predicate hypothesis disproved and reverted before commit. No game-child inspection or road native proof."
+              },
+              {
+                "date": "2026-10-13",
+                "kind": "source-progress",
+                "result": "Added bounded reason tokens at each early selective refresh prerequisite and caller baseline/world gate. Existing fallback behavior retained; no raw paths/recipes or secret data logged.",
+                "source": [
+                  "game/scripts/Act1ConnectedWorld.HeroRecipeRefresh.cs",
+                  "game/studio/StudioWorldSection.cs"
+                ],
+                "verification": "Affected Game compile0/0 17.53s, final integration after review fixes0/0 14.44s; source diff reviewed.",
+                "limits": "Diagnostic source only, no identified runtime cause or speed improvement claimed."
               }
             ],
             "stage_tasks": [
@@ -80122,7 +80148,7 @@
             "implementation_state": "implemented",
             "technical_verification_state": "not_run",
             "remaining": "Native22 подтвердил настоящий Rear0 Codex preview/Apply/полную отмену; ускорение НЕ достигнуто: карта72.755s, Apply fullreload87.992s, Undo fullreload72.726s; selective tags отсутствуют. Причина раннего отказа неизвестна. Полный usability/novice и прочие B20 сценарии открыты.",
-            "next_action": "Записать конкретные причины раннего отказа selective refresh в существующем пути; следующий native только с изменённым диагностическим входом после освобождения Windows.",
+            "next_action": "На Windows захватить точный early-guard token при изменённом selective Apply/Undo; не заявлять скорость до фактического selective пути.",
             "blocker": null,
             "external_gates": [
               {

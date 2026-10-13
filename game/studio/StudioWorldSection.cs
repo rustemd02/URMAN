@@ -468,18 +468,26 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
         try
         {
             var recipeText = File.ReadAllText(recipeFile);
-            if (_houseRecipeShown is not null && _houseRecipeShown != recipeText
-                && previous.GetTree().GetNodesInGroup("act1_connected_world")
-                    .OfType<Act1ConnectedWorld>().FirstOrDefault(previous.IsAncestorOf) is { } world
-                && world.TryRefreshHeroHouseWindowGeometry(HeroHouseRecipe.Parse(_houseRecipeShown), HeroHouseRecipe.Parse(recipeText)))
+            if (_houseRecipeShown is null)
+                GD.Print("hero-window-refresh: skipped=recipe-baseline-missing");
+            else if (_houseRecipeShown == recipeText)
+                GD.Print("hero-window-refresh: skipped=recipe-unchanged");
+            else
             {
-                _houseRecipeShown = recipeText;
-                _indexedDisplayDemo = null;
-                BuildMarkers();
-                studio.ShowProperties();
-                RequestViewportRender();
-                GD.Print("urman-studio-hero-window-refresh: selective");
-                return;
+                var world = previous.GetTree().GetNodesInGroup("act1_connected_world")
+                    .OfType<Act1ConnectedWorld>().FirstOrDefault(previous.IsAncestorOf);
+                if (world is null)
+                    GD.Print("hero-window-refresh: skipped=connected-world-not-found");
+                else if (world.TryRefreshHeroHouseWindowGeometry(HeroHouseRecipe.Parse(_houseRecipeShown), HeroHouseRecipe.Parse(recipeText)))
+                {
+                    _houseRecipeShown = recipeText;
+                    _indexedDisplayDemo = null;
+                    BuildMarkers();
+                    studio.ShowProperties();
+                    RequestViewportRender();
+                    GD.Print("urman-studio-hero-window-refresh: selective");
+                    return;
+                }
             }
 
             rollbackRoadSources = Act1ConnectedWorld.ReloadRoadSourcesForStudio();

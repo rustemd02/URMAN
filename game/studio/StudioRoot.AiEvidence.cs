@@ -39,7 +39,7 @@ public partial class StudioRoot
 
     internal bool IsAiActionBusy => IsWorkspaceActionBusy || IsTextAiBusy || _aiEvidenceCaptureBusy
         || _sections.TryGetValue("world", out var section) && section is StudioWorldSection world
-            && world.HasTransientFencePreview
+            && (world.HasTransientFencePreview || world.IsRoadAiBusy)
         || _aiPanel is not null && GodotObject.IsInstanceValid(_aiPanel)
             && (_aiPanel.IsActionBusy || _aiPanel.HasTransientFencePreview);
 

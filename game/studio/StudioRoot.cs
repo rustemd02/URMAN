@@ -1154,7 +1154,8 @@ public partial class StudioRoot : Control
         _playPreparing || _historyActionBusy || _checkpointBusy || _aiEvidenceCaptureBusy
         || Session is not null && Session.IsBusy
         || _aiPanel is { } panel && GodotObject.IsInstanceValid(panel) && panel.HasActiveOperation
-        || _textAiPanel is { } textPanel && GodotObject.IsInstanceValid(textPanel) && textPanel.HasActiveOperation;
+        || _textAiPanel is { } textPanel && GodotObject.IsInstanceValid(textPanel) && textPanel.HasActiveOperation
+        || _sections.TryGetValue("world", out var section) && section is StudioWorldSection world && world.IsRoadAiBusy;
 
     private void OfferSaveBeforeClose()
     {
