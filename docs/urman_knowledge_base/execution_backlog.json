@@ -80466,6 +80466,14 @@
                 "result": "GAME_COMPILE_0_0_SOURCE_REVIEW_PASS_SPEED_UNMEASURED",
                 "source": "game/scripts/AddressFacadeMount.cs",
                 "actual_result": "Native29 authored-addresses10.837/11.036/11.151s identifies repeated full snapshot scans. Existing per-build PreparedWorldFaces now has balanced endpoint hierarchy; every mesh represented once, candidates restored to original order, unchanged exact Intersects/visibility/faces cache. Invalid bounds or queries bypass pruning; aggregate endpoints avoid inward float Aabb merge rounding. Luna implementation and independent source review, root numerical invariant correction; affected Game compile0/0. Native speed/fidelity comparison unmeasured; no claim fullmap speed fixed."
+              },
+              {
+                "stage": "2026-10-14 minimum Studio delivery and refresh guard",
+                "result": "WINDOWS_CODEX_APPLY_EXACT_UNDO_GUARD_IDENTIFIED_SOURCE_COMPILE_0_0",
+                "evidence_path": "evidence/STUDIO/practical-editor-2026-10-13/windows-hero-refresh-guard",
+                "job_id": "306b04d17c354959af60d2f58588f240",
+                "snapshot_id": "40d8c1b2b751848f2d883bccb3dfe4653f6581d80dd42f47342b18b8dfa8aeda",
+                "actual_result": "Real Codex request6e2c1d92ff144c4ba47f02e543f70604 proposed seven main-room windows1.12m, excluded entry window/global width/height retained; root viewed disclosure/preview/Apply/Undo. Journal6e913b9dbdb54b9aa87eb0bca1297138 committed/before; recipe exactSHA2bcbc…aa4b4, all three private outputs absent. Initial74.203s/Apply83.327s/Undo75.547s; bothrefreshes skipped=staged-component-invalid. Joblater timedout exit124, receiptuserdataRestored=true, doctorready/noorphan/recovery. Source geometry-only stage now explicitly preserves live facade pose after takeover; independent review retained structural/anchor/collision/rollback guards, compile0/0 in18.92s. Current plot lacksgroundingReferenceXZ, so doublegrounding not asserted as actualcause; exactfailed compoundclause/newrefresh runtime remains unverified."
               }
             ],
             "stage_tasks": [
@@ -80490,17 +80498,17 @@
               ],
               "done_when": "Новичок выбирает дом, меняет вручную, запускает AI, отменяет, открывает связь и сохраняет без подсказки разработчика о классах/путях."
             },
-            "active_owner": "Codex",
+            "active_owner": null,
             "activity": {
-              "state": "confirmed_active",
-              "reason": "Native22 actual window transaction/Undo verified, selective performance failed; bounded causal diagnostics next."
+              "state": "released",
+              "reason": "Author narrowed and requested closure of current Studio execution goal; accepted minimum scenarios retained, full card remains open."
             },
             "task_type": "engineering",
             "status": "in_progress",
             "implementation_state": "implemented",
             "technical_verification_state": "not_run",
-            "remaining": "Native22 подтвердил настоящий Rear0 Codex preview/Apply/полную отмену; ускорение НЕ достигнуто: карта72.755s, Apply fullreload87.992s, Undo fullreload72.726s; selective tags отсутствуют. Причина раннего отказа неизвестна. Полный usability/novice и прочие B20 сценарии открыты.",
-            "next_action": "After station release and bounded real road scenario, measure changed wall-face source only if changed input; actual hero Apply/Undo must capture early selective guard. Do not repeat untouched baseline.",
+            "remaining": "Full novice/usability acceptance, native manual fence handles, measured address-index speed and selective hero refresh after pose-preservation remain open. Author explicitly closed the current execution goal at minimum editing/save/Undo plus Codex window preview/Apply/exact Undo; full B20 task acceptance is not claimed.",
+            "next_action": "Await a new author request before resuming wider B20; if requested, verify new selective refresh and fence handles on Windows, using accepted artifacts instead of repeating unchanged baselines.",
             "blocker": null,
             "external_gates": [
               {

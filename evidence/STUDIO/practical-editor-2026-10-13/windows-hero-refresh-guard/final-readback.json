@@ -1,0 +1,70 @@
+{
+  "privatePaths": [
+    {
+      "present": false,
+      "path": "game\\assets\\models\\studio\\hero-house-6e2c1d92ff144c4ba47f02e543f70604.glb"
+    },
+    {
+      "present": false,
+      "path": "assets\\source\\blender\\studio\\hero-house-6e2c1d92ff144c4ba47f02e543f70604.blend"
+    },
+    {
+      "present": false,
+      "path": "game\\assets\\models\\studio\\hero-house-6e2c1d92ff144c4ba47f02e543f70604.glb.manifest.json"
+    }
+  ],
+  "recipeSha": "2bcbc3ad88f8ecec5473a7ed9b5d144f649c9d7cf90c0212ec34a6cafb0aa4b4",
+  "journal": {
+    "version": 1,
+    "id": "6e913b9dbdb54b9aa87eb0bca1297138",
+    "owner": "urman.world:act1/kit/house-old-pc-babai-approach",
+    "status": "committed",
+    "rollbackSide": "before",
+    "targetSide": "before",
+    "side": "before",
+    "accepted": true,
+    "acceptedOrder": 1,
+    "commandLabel": "\u0438\u0437\u043c\u0435\u043d\u0438\u0442\u044c \u043e\u043a\u043d\u0430 \u0434\u043e\u043c\u0430 \u0447\u0435\u0440\u0435\u0437 Codex",
+    "files": [
+      {
+        "relativePath": "game/content/studio/hero_house.recipe.json",
+        "expectedSha256": "2bcbc3ad88f8ecec5473a7ed9b5d144f649c9d7cf90c0212ec34a6cafb0aa4b4",
+        "beforeSha256": "2bcbc3ad88f8ecec5473a7ed9b5d144f649c9d7cf90c0212ec34a6cafb0aa4b4",
+        "afterSha256": "1a565d5177936a52201672856783328dd098e37bf8a31934bdb0c87af941fd1c",
+        "beforeImage": "before-0000.bin",
+        "afterImage": "after-0000.bin"
+      },
+      {
+        "relativePath": "game/assets/models/studio/hero-house-6e2c1d92ff144c4ba47f02e543f70604.glb",
+        "expectedSha256": null,
+        "beforeSha256": null,
+        "afterSha256": "fe676154d7fd4517c4f69eb86fd5b7adeeeec0a1022f738f157ff1c11cf1cb90",
+        "beforeImage": null,
+        "afterImage": "after-0001.bin"
+      },
+      {
+        "relativePath": "assets/source/blender/studio/hero-house-6e2c1d92ff144c4ba47f02e543f70604.blend",
+        "expectedSha256": null,
+        "beforeSha256": null,
+        "afterSha256": "e94d7644dc4d6eaaace13eed97285e41d8f5f1492aa4fb1e6703bb1b92ecdbbf",
+        "beforeImage": null,
+        "afterImage": "after-0002.bin"
+      },
+      {
+        "relativePath": "game/assets/models/studio/hero-house-6e2c1d92ff144c4ba47f02e543f70604.glb.manifest.json",
+        "expectedSha256": null,
+        "beforeSha256": null,
+        "afterSha256": "702c9f2092134e45b0ddc8b05911d7fd3be63c7b94a1736c1bb167a0d81d9b14",
+        "beforeImage": null,
+        "afterImage": "after-0003.bin"
+      }
+    ]
+  },
+  "refreshLog": [
+    "urman-studio-preview-ready elapsed_ms=74203",
+    "hero-window-refresh: skipped=staged-component-invalid",
+    "urman-studio-preview-ready elapsed_ms=83327",
+    "hero-window-refresh: skipped=staged-component-invalid",
+    "urman-studio-preview-ready elapsed_ms=75547"
+  ]
+}

@@ -94,6 +94,8 @@ public partial class Act1ConnectedWorld
             stagedFacade.AddChild(baseline);
             KitPlacementTakeover.Apply(stagedFacade, HeroHouseRecipe.Component, VillageExteriorKitScenePath,
                 "house_old_pc@babai-approach");
+            // Replace window geometry while preserving the live placement and terrain alignment.
+            stagedFacade.GlobalTransform = facade.GlobalTransform;
             freshComponent = stagedFacade.GetNodeOrNull<Node3D>(HeroHouseRecipe.Component);
             if (freshComponent is null || !HeroRefreshTransformsEqual(stagedFacade.GlobalTransform, facade.GlobalTransform)
                 || !stagedFacade.Visible
