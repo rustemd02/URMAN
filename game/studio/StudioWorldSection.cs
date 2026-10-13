@@ -1329,31 +1329,154 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
 
     private void EyeLevel()
     {
-        if (studio.Selection is not { } id || studio.Workspace.Get(id) is not JsonObject entity || DisplayAnchor(id, entity) is not { } at) return;
+        if (studio.Selection is not { } id || studio.Workspace.Get(id) is not JsonObject) return;
+        if (!TryGetLiveVisualBounds(id, out var at, out var bounds, out _))
+        {
+            studio.RefreshStatus("Нельзя перейти на уровень глаз: видимые границы объекта недоступны или некорректны; камера не изменена");
+            return;
+        }
+
+        var pivot = at + new Vector3(0, 1.7f, 0);
+        if (!TryGetPerspectiveFitDistance(bounds, pivot, out var distance))
+        {
+            studio.RefreshStatus("Нельзя безопасно кадрировать объект с уровня глаз; камера не изменена");
+            return;
+        }
+
         _topView = false;
         _pitch = -4f;
-        _pivot = at + new Vector3(0, 1.7f, 0);
-        var radius = 0f;
-        if (LiveDisplayNode(id) is { } display)
-        {
-            Aabb? bounds = null;
-            foreach (var visual in display.FindChildren("*", nameof(VisualInstance3D), true, false)
-                         .OfType<VisualInstance3D>().Prepend(display as VisualInstance3D).OfType<VisualInstance3D>())
-            {
-                var box = visual.GlobalTransform * visual.GetAabb();
-                bounds = bounds is { } current ? current.Merge(box) : box;
-            }
+        _pivot = pivot;
+        _distance = distance;
+        UpdateCamera();
+    }
 
-            if (bounds is { } visualBounds)
+    private bool TryGetLiveVisualBounds(string id, out Vector3 anchor, out Aabb bounds, out bool invalidBounds)
+    {
+        anchor = default;
+        bounds = default;
+        invalidBounds = false;
+        if (LiveDisplayNode(id) is not { } display || !GodotObject.IsInstanceValid(display) || display.IsQueuedForDeletion())
+            return false;
+
+        anchor = display.GlobalPosition;
+        if (!IsFinite(anchor))
+        {
+            invalidBounds = true;
+            return false;
+        }
+
+        Aabb? mergedBounds = null;
+        foreach (var visual in display.FindChildren("*", nameof(VisualInstance3D), true, false)
+                     .OfType<VisualInstance3D>().Prepend(display as VisualInstance3D).OfType<VisualInstance3D>())
+        {
+            if (!GodotObject.IsInstanceValid(visual) || visual.IsQueuedForDeletion() || !visual.IsVisibleInTree()) continue;
+            var box = visual.GlobalTransform * visual.GetAabb();
+            if (!IsValidBounds(box))
             {
-                for (var corner = 0; corner < 8; corner++)
-                    radius = Mathf.Max(radius, visualBounds.GetEndpoint(corner).DistanceTo(at));
+                invalidBounds = true;
+                return false;
+            }
+            var sizeSquared = box.Size.LengthSquared();
+            if (!float.IsFinite(sizeSquared))
+            {
+                invalidBounds = true;
+                return false;
+            }
+            if (sizeSquared <= 1e-6f) continue;
+            mergedBounds = mergedBounds is { } current ? current.Merge(box) : box;
+            if (!IsValidBounds(mergedBounds.Value))
+            {
+                invalidBounds = true;
+                return false;
             }
         }
 
-        _distance = Mathf.Max(6f, radius + 2f);
-        UpdateCamera();
+        if (mergedBounds is not { } result) return false;
+        if (!IsValidBounds(result))
+        {
+            invalidBounds = true;
+            return false;
+        }
+        var totalSizeSquared = result.Size.LengthSquared();
+        if (!float.IsFinite(totalSizeSquared))
+        {
+            invalidBounds = true;
+            return false;
+        }
+        if (totalSizeSquared <= 1e-6f) return false;
+        bounds = result;
+        return true;
     }
+
+    private bool TryGetPerspectiveFitDistance(Aabb bounds, Vector3 target, out float distance)
+    {
+        distance = 0f;
+        if (_camera is null || !GodotObject.IsInstanceValid(_camera)
+            || _viewport is null || !GodotObject.IsInstanceValid(_viewport)) return false;
+
+        var viewportSize = _viewport.GetVisibleRect().Size;
+        if (!float.IsFinite(viewportSize.X) || !float.IsFinite(viewportSize.Y)
+            || viewportSize.X <= 0f || viewportSize.Y <= 0f
+            || !float.IsFinite(_camera.Fov) || _camera.Fov <= 0f || _camera.Fov >= 180f) return false;
+
+        var aspect = viewportSize.X / viewportSize.Y;
+        var tangent = Mathf.Tan(Mathf.DegToRad(_camera.Fov) * .5f);
+        var halfWidthTangent = _camera.KeepAspect == Camera3D.KeepAspectEnum.Width ? tangent : tangent * aspect;
+        var halfHeightTangent = _camera.KeepAspect == Camera3D.KeepAspectEnum.Width ? tangent / aspect : tangent;
+        if (!float.IsFinite(aspect) || aspect <= 0f
+            || !float.IsFinite(halfWidthTangent) || halfWidthTangent <= 0f
+            || !float.IsFinite(halfHeightTangent) || halfHeightTangent <= 0f
+            || !IsValidBounds(bounds) || !IsFinite(target)) return false;
+
+        var radius = BoundsRadius(bounds, target);
+        var narrowHalfAngle = Mathf.Atan(Mathf.Min(halfWidthTangent, halfHeightTangent));
+        var sine = Mathf.Sin(narrowHalfAngle);
+        if (!float.IsFinite(radius) || radius <= 0f || !float.IsFinite(sine) || sine <= 0f) return false;
+
+        distance = Mathf.Max(radius + 2f, radius / sine + 2f);
+        return float.IsFinite(distance) && distance > 0f;
+    }
+
+    private bool TryGetTopViewFitDistance(Aabb bounds, out float distance)
+    {
+        distance = 0f;
+        if (_camera is null || !GodotObject.IsInstanceValid(_camera)
+            || _viewport is null || !GodotObject.IsInstanceValid(_viewport) || !IsValidBounds(bounds)) return false;
+
+        var viewportSize = _viewport.GetVisibleRect().Size;
+        if (!float.IsFinite(viewportSize.X) || !float.IsFinite(viewportSize.Y)
+            || viewportSize.X <= 0f || viewportSize.Y <= 0f) return false;
+        var aspect = viewportSize.X / viewportSize.Y;
+        if (!float.IsFinite(aspect) || aspect <= 0f) return false;
+
+        // In the top view, world X and Z span the camera's horizontal and vertical axes.
+        var requiredWidth = bounds.Size.X + 4f;
+        var requiredHeight = bounds.Size.Z + 4f;
+        var requiredSize = _camera.KeepAspect == Camera3D.KeepAspectEnum.Width
+            ? Mathf.Max(requiredWidth, requiredHeight * aspect)
+            : Mathf.Max(requiredHeight, requiredWidth / aspect);
+        distance = requiredSize / 1.4f; // UpdateCamera maps distance to orthographic Camera3D.Size.
+        return float.IsFinite(distance) && distance > 0f;
+    }
+
+    private static float BoundsRadius(Aabb bounds, Vector3 target)
+    {
+        var radius = 0f;
+        for (var corner = 0; corner < 8; corner++)
+        {
+            var endpoint = bounds.GetEndpoint(corner);
+            if (!IsFinite(endpoint)) return float.NaN;
+            radius = Mathf.Max(radius, endpoint.DistanceTo(target));
+        }
+        return radius;
+    }
+
+    private static bool IsValidBounds(Aabb bounds) =>
+        IsFinite(bounds.Position) && IsFinite(bounds.Size)
+        && bounds.Size.X >= 0f && bounds.Size.Y >= 0f && bounds.Size.Z >= 0f;
+
+    private static bool IsFinite(Vector3 value) =>
+        float.IsFinite(value.X) && float.IsFinite(value.Y) && float.IsFinite(value.Z);
 
     private void PickAt(WorldPick? pick)
     {
@@ -1451,13 +1574,35 @@ public sealed partial class StudioWorldSection(StudioRoot studio) : IStudioSecti
 
     private void FocusSelection()
     {
-        if (studio.Selection is { } id && studio.Workspace.Get(id) is JsonObject entity
-            && DisplayAnchor(id, entity) is { } at)
+        if (studio.Selection is not { } id || studio.Workspace.Get(id) is not JsonObject entity) return;
+        if (!TryGetLiveVisualBounds(id, out _, out var bounds, out var invalidBounds))
         {
-            _pivot = at;
-            _distance = Mathf.Min(_distance, 18f);
-            UpdateCamera();
+            if (!invalidBounds && (string?)entity["kind"] != "kit-placement"
+                && DisplayAnchor(id, entity) is { } at && IsFinite(at))
+            {
+                _pivot = at;
+                _distance = Mathf.Min(_distance, 18f);
+                UpdateCamera();
+                return;
+            }
+
+            studio.RefreshStatus("Нельзя кадрировать выделенный объект: его видимые границы недоступны или некорректны; камера не изменена");
+            return;
         }
+
+        var center = bounds.GetCenter();
+        var hasFit = _topView
+            ? TryGetTopViewFitDistance(bounds, out var distance)
+            : TryGetPerspectiveFitDistance(bounds, center, out distance);
+        if (!hasFit || !IsFinite(center))
+        {
+            studio.RefreshStatus("Нельзя безопасно кадрировать выделенный объект; камера не изменена");
+            return;
+        }
+
+        _pivot = center;
+        _distance = distance;
+        UpdateCamera();
     }
 
     // ---- placing from the catalogue (WORLD03) -------------------------------------------------

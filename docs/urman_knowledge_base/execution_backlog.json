@@ -79911,6 +79911,16 @@
                 ],
                 "verification": "Actual repro frames evidence/STUDIO/practical-editor-2026-10-13/windows-codex-restart-family/b20-561-eye-level.png and b20-561-undo-move-framed.png; Luna fix + independent Sol final review; affected Game compile 0/0.",
                 "limits": "New guards/idle rendering not native verified. Current native map ready72.608s; first run has7 Texture RIDs leaked after AI panel use, cause not proven. EyeLevel clipped and Enter selection behavior still need actual follow-up; no overall usability/performance completion."
+              },
+              {
+                "date": "2026-10-13",
+                "kind": "source-progress",
+                "result": "Focus frames visible model bounds using FOV/aspect and orthographic top view instead of forcing an 18m zoom. EyeLevel preserves the camera and reports unavailable/invalid bounds. Nonvisual marker/trigger/road point-focus retained; hidden meshes excluded.",
+                "source": [
+                  "game/studio/StudioWorldSection.cs"
+                ],
+                "verification": "Luna implementation, independent Sol review closed nonvisual/hidden-mesh regressions; affected Game compile 0 errors/0 warnings14.19s, diff check passed.",
+                "limits": "Windows job480ee2d26c51450b893fe130766cb127 snapshot48a495dcb0a3535abfa2d8f44fcb4a1f4f28498fffc9bd7415657309d9e9d787 predates camera patch; native framing and actual EyeLevel missing-bounds cause remain unverified."
               }
             ],
             "stage_tasks": [
