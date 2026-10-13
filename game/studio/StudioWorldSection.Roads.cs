@@ -575,9 +575,9 @@ public sealed partial class StudioWorldSection
                     Title = "Проверьте передачу запроса Codex",
                     OkButtonText = "Отправить этот запрос",
                     MinSize = new Vector2I(820, 620),
-                    DialogText = "Подтвердите снимок запроса."
+                    DialogText = ""
                 };
-                disclosure.GetLabel().AutowrapMode = TextServer.AutowrapMode.WordSmart;
+                disclosure.GetLabel().Hide();
                 disclosure.AddCancelButton("Назад");
                 var disclosureBody = new VBoxContainer { SizeFlagsHorizontal = Control.SizeFlags.ExpandFill };
                 disclosure.AddChild(disclosureBody);
