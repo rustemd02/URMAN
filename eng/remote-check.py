@@ -21,6 +21,14 @@ from remote_common import (MAX_ARCHIVE, MAX_SOURCE, REPOSITORY, canonical, candi
                            studio_authoring_path, MAX_RESULT_BYTES, MAX_RESULT_FILES)
 
 STUDIO_SCENE = 'res://studio/studio_main.tscn'
+FULL_GAME_SCENE = 'res://scenes/full_game.tscn'
+NORMAL_UI_TRANSPORT_VERSION = 1
+UI_KEY_BASES = ('{ENTER}', '{ESC}', '{DOWN}', '{UP}', '{SPACE}', 'a', 'f', 'v', 'z')
+UI_KEY_CHORDS = frozenset(
+    [*UI_KEY_BASES,
+     *(modifier + key for modifier in ('^', '+', '^+') for key in UI_KEY_BASES)])
+UI_MOVE_KEYS = frozenset(('w', 'a', 's', 'd', 'e'))
+INTERACTIVE_FRAME_PNG_LIMIT = 16 * 1024**2
 
 def check_result_destination(path):
     try:
@@ -157,6 +165,12 @@ class Client:
         with response:
             return json.load(response)
 
+    def ui_action(self,jid,action):
+        return self.request('/jobs/'+jid+'/ui',action)
+
+    def capture_current(self,jid):
+        return self.request('/jobs/'+jid+'/ui',{'action':'capture-current'},raw=True)
+
     def fetch(self,jid,dest):
         status=self.request('/jobs/'+jid)
         if status['status']=='RUNNING':
@@ -229,9 +243,37 @@ def studio_readiness(client):
         raise ValueError('Studio readiness response must contain a boolean ready field')
     return result
 
+def native_ui_readiness(client, *, require_idle_ready):
+    result=client.request('/health')
+    if not isinstance(result,dict):
+        raise ValueError('Windows station health response is invalid')
+    if result.get('normal_ui_transport_version') != NORMAL_UI_TRANSPORT_VERSION:
+        raise ValueError('Windows station worker lacks native play/UI transport; update and restart its worker.')
+    desktop=result.get('desktop')
+    if (not isinstance(desktop,dict) or desktop.get('interactive') is not True
+            or desktop.get('input_desktop') is not True):
+        raise ValueError('Windows station does not have an interactive input desktop')
+    if require_idle_ready and result.get('ready') is not True:
+        raise ValueError('station not ready: '+json.dumps(result,ensure_ascii=False))
+    if require_idle_ready and result.get('busy_job') is not None:
+        raise ValueError('station is busy; native play requires an idle station')
+    return result
+
+def new_interactive_capture_destination(path):
+    if path is None or not path.is_absolute():
+        raise ValueError('capture-current --output must be an absolute file path')
+    for current in [*reversed(path.parents),path]:
+        check_result_destination(current)
+    if not path.parent.is_dir():
+        raise ValueError('capture-current output parent directory does not exist')
+    if path.exists() or path.is_symlink():
+        raise ValueError('capture-current output already exists')
+    return path
+
 def main():
     p=argparse.ArgumentParser(description=__doc__)
-    p.add_argument('command',choices=['doctor','smoke','capture','play','studio','status','fetch'])
+    p.add_argument('command',choices=['doctor','smoke','capture','studio','play','play-full','ui',
+                                      'capture-current','status','fetch'])
     p.add_argument('--root',type=Path,default=Path(__file__).resolve().parent.parent)
     p.add_argument('--job-id');p.add_argument('--scene')
     p.add_argument('--points');p.add_argument('--timeout',type=int)
@@ -239,6 +281,10 @@ def main():
     p.add_argument('--fov',help="capture only: 'player' (player camera FOV) or a number; default control views use 70")
     p.add_argument('--headless',action='store_true');p.add_argument('--wait',type=int)
     p.add_argument('--output',type=Path);p.add_argument('--submit-only',action='store_true')
+    p.add_argument('--ui-action',choices=['keys','move'])
+    p.add_argument('--keys',help='ui keys only: one fixed key or key chord')
+    p.add_argument('--key',help='ui move only: w, a, s, d, or e')
+    p.add_argument('--duration-ms',type=int,help='ui move only: 1..2000 milliseconds')
     p.add_argument('--studio-authoring',action='store_true',
                    help='include the two fixed house generator inputs in the source snapshot')
     p.add_argument('--studio-readiness',action='store_true',
@@ -253,20 +299,63 @@ def main():
     if args.command=='studio' and (args.scene is not None or args.headless or args.points is not None
                                    or args.phase is not None or args.fov is not None):
         p.error('studio uses a fixed native scene and does not accept --scene, --headless, --points, --phase, or --fov')
-    play=args.command=='play'
-    if play and (args.scene is not None or args.headless or args.points is not None
-                 or args.phase is not None or args.fov is not None or args.studio_authoring):
-        p.error('play uses native act1_demo and does not accept scene, capture, or Studio overrides')
-    if play and args.timeout is not None and not 1<=args.timeout<=1200:
-        p.error('play timeout must be 1..1200 seconds')
     studio=args.command=='studio'
+    native_full=args.command=='play-full'
+    play=args.command in ('play','play-full')
+    capture_current=args.command=='capture-current'
+    capture_destination=None
+    if native_full and args.job_id is not None and not re.fullmatch('[a-f0-9]{32}',args.job_id):
+        p.error('play job IDs must be 32 lowercase hexadecimal characters')
+    if play and (args.scene is not None or args.headless or args.points is not None
+                 or args.phase is not None or args.fov is not None or args.studio_restarts
+                 or args.studio_authoring or args.ui_action is not None or args.keys is not None
+                 or args.key is not None or args.duration_ms is not None
+                 or (native_full and args.output is not None and args.wait is None)):
+        p.error('play/play-full uses its fixed native scene; UI controls require the ui command')
+    if args.command=='ui':
+        if not args.job_id or not re.fullmatch('[a-f0-9]{32}',args.job_id):
+            p.error('ui requires a 32-character lowercase hexadecimal --job-id from play')
+        if args.scene is not None or args.points is not None or args.phase is not None or args.fov is not None or args.headless:
+            p.error('ui does not accept scene, capture, or headless options')
+        if args.timeout is not None:
+            p.error('ui does not accept job timeout options')
+        if args.ui_action=='keys':
+            if args.keys not in UI_KEY_CHORDS or args.key is not None or args.duration_ms is not None:
+                p.error('ui keys requires one supported --keys value and no movement options')
+            ui_request={'action':'keys','keys':args.keys}
+        elif args.ui_action=='move':
+            if (args.key not in UI_MOVE_KEYS or type(args.duration_ms) is not int
+                    or not 1<=args.duration_ms<=2000 or args.keys is not None):
+                p.error('ui move requires --key w/a/s/d/e and --duration-ms 1..2000')
+            ui_request={'action':'move','key':args.key,'durationMs':args.duration_ms}
+        else:
+            p.error('ui requires --ui-action keys or move')
+        if args.wait is not None or args.output is not None or args.submit_only or args.studio_authoring or args.studio_restarts:
+            p.error('ui does not accept job submission or output options')
+    if capture_current:
+        if not args.job_id or not re.fullmatch('[a-f0-9]{32}',args.job_id):
+            p.error('capture-current requires a 32-character lowercase hexadecimal --job-id from play-full')
+        if args.output is None:
+            p.error('capture-current requires --output with an absolute file path')
+        if (args.scene is not None or args.points is not None or args.phase is not None
+                or args.fov is not None or args.headless or args.timeout is not None
+                or args.wait is not None or args.submit_only or args.studio_authoring
+                or args.studio_restarts):
+            p.error('capture-current accepts only --job-id and --output')
+        try:
+            capture_destination=new_interactive_capture_destination(args.output)
+        except ValueError as error:
+            p.error(str(error))
     if studio and args.timeout is not None and not 1<=args.timeout<=3600:
         p.error('studio timeout must be 1..3600 seconds')
-    scene=args.scene if args.scene is not None else 'res://tests/player_settings_smoke_test.tscn'
-    if studio:
-        scene=STUDIO_SCENE
-    elif play:
-        scene='res://scenes/act1_demo.tscn'
+    if play and args.timeout is not None and not 1<=args.timeout<=1200:
+        p.error('play/play-full timeout must be 1..1200 seconds')
+    if args.command!='ui' and (args.ui_action is not None or args.keys is not None
+                               or args.key is not None or args.duration_ms is not None):
+        p.error('--ui-action, --keys, --key, and --duration-ms require the ui command')
+    scene=STUDIO_SCENE if studio else (FULL_GAME_SCENE if native_full else 'res://scenes/act1_demo.tscn' if play else (args.scene if args.scene is not None
+                                       else 'res://tests/player_settings_smoke_test.tscn')
+    )
     timeout=args.timeout if args.timeout is not None else (1200 if studio or play else 300)
     wait=args.wait if args.wait is not None else (3600 if studio else 1200)
     c=Client()
@@ -278,10 +367,46 @@ def main():
             p.error('--job-id required')
         result=c.request('/jobs/'+args.job_id) if args.command=='status' else c.fetch(args.job_id,args.output or args.root/'.codex-captures/remote'/args.job_id)
         print(json.dumps(result,indent=2));return 1 if result['status']=='FAIL' else 0
+    if args.command=='ui':
+        native_ui_readiness(c,require_idle_ready=False)
+        result=c.ui_action(args.job_id,ui_request)
+        print(json.dumps(result,ensure_ascii=False,indent=2))
+        return 0 if result.get('ok') is True else 1
+    if capture_current:
+        native_ui_readiness(c,require_idle_ready=False)
+        with c.capture_current(args.job_id) as response:
+            if response.headers.get_content_type()!='image/png':
+                raise ValueError('station did not return a verified PNG viewport')
+            try:
+                content_length=int(response.headers.get('Content-Length',''))
+            except ValueError as error:
+                raise ValueError('station viewport length is invalid') from error
+            expected_hash=response.headers.get('X-URMAN-Frame-SHA256','')
+            if (not 1<=content_length<=INTERACTIVE_FRAME_PNG_LIMIT
+                    or not re.fullmatch('[a-f0-9]{64}',expected_hash)):
+                raise ValueError('station viewport response is outside its verified bounds')
+            png=response.read(INTERACTIVE_FRAME_PNG_LIMIT+1)
+        if (len(png)!=content_length or len(png)>INTERACTIVE_FRAME_PNG_LIMIT
+                or png[:8]!=b'\x89PNG\r\n\x1a\n'
+                or hashlib.sha256(png).hexdigest()!=expected_hash):
+            raise ValueError('station viewport PNG failed its length or checksum check')
+        created=False
+        try:
+            with capture_destination.open('xb') as output:
+                created=True
+                output.write(png)
+        except Exception:
+            if created:
+                capture_destination.unlink(missing_ok=True)
+            raise
+        print('Current game viewport saved:',capture_destination)
+        return 0
     if studio:
         health=studio_readiness(c)
         if not health['ready']:
             raise ValueError('Studio station not ready: '+json.dumps(health,ensure_ascii=False))
+    elif native_full:
+        health=native_ui_readiness(c,require_idle_ready=True)
     else:
         health=c.request('/health')
         if not health['ready']:
@@ -293,7 +418,7 @@ def main():
     manifest=build_manifest(args.root, studio_authoring=studio or args.studio_authoring)
     publish_snapshot(c,args.root,manifest)
     jid=args.job_id or uuid.uuid4().hex
-    spec={'job_id':jid,'snapshot_id':manifest['snapshot_id'],'mode':args.command,
+    spec={'job_id':jid,'snapshot_id':manifest['snapshot_id'],'mode':'play' if native_full else args.command,
           'scene':'res://scenes/act1_demo.tscn' if args.command=='capture' else scene,
           'timeout':timeout,'headless':args.headless,'points':args.points or ''}
     if args.studio_restarts:
@@ -311,6 +436,9 @@ def main():
     except Exception:
         print('Submission reply not confirmed; query status with this job_id before retrying.',file=sys.stderr)
         raise
+    if native_full and args.wait is None:
+        print('Native play submitted. Use ui --job-id '+jid+' for bounded input; use status/fetch after it exits.')
+        return 0
     if args.submit_only:
         return 0
     deadline=time.monotonic()+wait

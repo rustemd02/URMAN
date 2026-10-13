@@ -29,6 +29,20 @@ KEEP_MANIFESTS = 50
 KEEP_ARCHIVES = 1        # the newest archive is what an empty blob store is seeded from
 BLOB_GRACE = 24 * 3600   # content a client may still be uploading is not collected
 STUDIO_SCENE = 'res://studio/studio_main.tscn'
+FULL_GAME_SCENE = 'res://scenes/full_game.tscn'
+NORMAL_UI_TRANSPORT_VERSION = 1
+UI_KEY_BASES = ('{ENTER}', '{ESC}', '{DOWN}', '{UP}', '{SPACE}', 'a', 'f', 'v', 'z')
+UI_KEY_CHORDS = frozenset(
+    [*UI_KEY_BASES,
+     *(modifier + key for modifier in ('^', '+', '^+') for key in UI_KEY_BASES)])
+UI_MOVE_KEYS = frozenset(('w', 'a', 's', 'd', 'e'))
+UI_ACTION_LIMIT = 4096
+UI_HELPER_TIMEOUT_SECONDS = 20
+INTERACTIVE_FRAME_TIMEOUT_SECONDS = 30
+INTERACTIVE_FRAME_REQUEST_LIMIT = 1024
+INTERACTIVE_FRAME_RESULT_LIMIT = 8 * 1024
+INTERACTIVE_FRAME_PNG_LIMIT = 16 * 1024**2
+INTERACTIVE_FRAME_DIMENSION_LIMIT = 4096
 STUDIO_OWNER = 'urman.world:act1/kit/house-old-pc-babai-approach'
 STUDIO_DIRECT_FILE_OWNERS = {
     'urman.studio:shop-catalog': 'game/content/urman.shop.v1.json',
@@ -1431,6 +1445,95 @@ def desktop():
         user32.CloseDesktop.argtypes = [ctypes.c_void_p]; user32.CloseDesktop(handle)
     return {'session_id': session.value, 'interactive': session.value != 0, 'input_desktop': unlocked}
 
+
+def _windows_process_table():
+    if sys.platform != 'win32':
+        return {}
+    from ctypes import wintypes
+
+    class ProcessEntry32W(ctypes.Structure):
+        _fields_ = [
+            ('dwSize', wintypes.DWORD), ('cntUsage', wintypes.DWORD),
+            ('th32ProcessID', wintypes.DWORD), ('th32DefaultHeapID', ctypes.c_size_t),
+            ('th32ModuleID', wintypes.DWORD), ('cntThreads', wintypes.DWORD),
+            ('th32ParentProcessID', wintypes.DWORD), ('pcPriClassBase', wintypes.LONG),
+            ('dwFlags', wintypes.DWORD), ('szExeFile', wintypes.WCHAR * 260),
+        ]
+
+    kernel32 = ctypes.WinDLL('kernel32', use_last_error=True)
+    kernel32.CreateToolhelp32Snapshot.argtypes = [wintypes.DWORD, wintypes.DWORD]
+    kernel32.CreateToolhelp32Snapshot.restype = wintypes.HANDLE
+    kernel32.Process32FirstW.argtypes = [wintypes.HANDLE, ctypes.POINTER(ProcessEntry32W)]
+    kernel32.Process32FirstW.restype = wintypes.BOOL
+    kernel32.Process32NextW.argtypes = [wintypes.HANDLE, ctypes.POINTER(ProcessEntry32W)]
+    kernel32.Process32NextW.restype = wintypes.BOOL
+    kernel32.CloseHandle.argtypes = [wintypes.HANDLE]
+    kernel32.CloseHandle.restype = wintypes.BOOL
+
+    snapshot = kernel32.CreateToolhelp32Snapshot(0x00000002, 0)
+    if snapshot == wintypes.HANDLE(-1).value:
+        raise OSError(ctypes.get_last_error(), 'cannot enumerate station processes')
+    processes = {}
+    try:
+        entry = ProcessEntry32W()
+        entry.dwSize = ctypes.sizeof(entry)
+        if kernel32.Process32FirstW(snapshot, ctypes.byref(entry)):
+            while True:
+                pid = int(entry.th32ProcessID)
+                processes[pid] = (int(entry.th32ParentProcessID), str(entry.szExeFile))
+                entry.dwSize = ctypes.sizeof(entry)
+                if not kernel32.Process32NextW(snapshot, ctypes.byref(entry)):
+                    break
+    finally:
+        kernel32.CloseHandle(snapshot)
+    return processes
+
+
+def _windows_process_image(pid):
+    if sys.platform != 'win32':
+        return None
+    from ctypes import wintypes
+
+    kernel32 = ctypes.WinDLL('kernel32', use_last_error=True)
+    kernel32.OpenProcess.argtypes = [wintypes.DWORD, wintypes.BOOL, wintypes.DWORD]
+    kernel32.OpenProcess.restype = wintypes.HANDLE
+    kernel32.QueryFullProcessImageNameW.argtypes = [
+        wintypes.HANDLE, wintypes.DWORD, wintypes.LPWSTR, ctypes.POINTER(wintypes.DWORD)]
+    kernel32.QueryFullProcessImageNameW.restype = wintypes.BOOL
+    kernel32.CloseHandle.argtypes = [wintypes.HANDLE]
+    kernel32.CloseHandle.restype = wintypes.BOOL
+
+    handle = kernel32.OpenProcess(0x1000, False, pid)  # PROCESS_QUERY_LIMITED_INFORMATION
+    if not handle:
+        return None
+    try:
+        buffer = ctypes.create_unicode_buffer(32768)
+        length = wintypes.DWORD(len(buffer))
+        if not kernel32.QueryFullProcessImageNameW(handle, 0, buffer, ctypes.byref(length)):
+            return None
+        return buffer.value
+    finally:
+        kernel32.CloseHandle(handle)
+
+
+def _windows_descendants(root_pid):
+    processes = _windows_process_table()
+    if root_pid not in processes:
+        return {}
+    children = {}
+    for pid, (parent, name) in processes.items():
+        children.setdefault(parent, []).append((pid, name))
+    descendants = {}
+    pending = [root_pid]
+    while pending:
+        parent = pending.pop()
+        for pid, name in children.get(parent, ()):
+            if pid in descendants:
+                continue
+            descendants[pid] = name
+            pending.append(pid)
+    return descendants
+
 class Station:
     def __init__(self, config):
         self.config = config
@@ -1438,6 +1541,10 @@ class Station:
         self.worker_code_sha256 = digest(Path(__file__))
         self.data = Path(config['data']).resolve(); self.data.mkdir(parents=True, exist_ok=True)
         self.lock = threading.Lock(); self.busy = None
+        self.job_owners = {}
+        self.active_spec = None
+        self.active_source = None
+        self.active_runner = None
         self.snapshots = self.data / 'snapshots'; self.snapshots.mkdir(exist_ok=True)
         self.jobs = self.data / 'runs'; self.jobs.mkdir(exist_ok=True)
         self.blobs = self.data / 'blobs'; self.blobs.mkdir(exist_ok=True)
@@ -1568,7 +1675,7 @@ class Station:
         dotnet = self.repo / '.tools/dotnet/dotnet.exe'
         tools = (godot.is_file() and dotnet.is_file() and Path(self.config['python']).is_file()
                  and all((self.repo/'eng'/name).is_file() for name in
-                         ('run-windows-check.ps1','protected_run.py','remote_common.py')))
+                         ('run-windows-check.ps1','protected_run.py','remote_common.py','windows-game-ui.ps1')))
         d = desktop(); pending = self.recovery()
         pipeline_locked = False
         try:
@@ -1585,6 +1692,7 @@ class Station:
                 'host': os.environ['COMPUTERNAME'], 'desktop': d, 'tools': tools,
                 'userdata_recovery_pending': pending, 'orphan_game_process': bool(orphaned),
                 'busy_job': self.busy, 'godot': pins['godot']['version'],
+                'normal_ui_transport_version': NORMAL_UI_TRANSPORT_VERSION,
                 'sdk': json.loads((self.repo/'global.json').read_text(encoding='utf-8-sig'))['sdk']['version'],
                 'blob_store': self.blob_usage(), 'disk': self.disk(),
                 'gpu_acceptance': self.config.get('gpu_acceptance', 'not-run')}
@@ -1716,7 +1824,9 @@ class Station:
         finally:
             self.lock.release()
 
-    def submit(self, spec):
+    def submit(self, spec, principal):
+        if not isinstance(principal, str) or not principal:
+            raise ValueError('authenticated job principal required')
         if set(spec) - {'job_id','snapshot_id','mode','scene','timeout','headless','points','phase','fov','studio_restarts'}:
             raise ValueError('unknown job field')
         jid = spec.get('job_id', '')
@@ -1751,6 +1861,8 @@ class Station:
             raise ValueError('invalid scene')
         if scene == STUDIO_SCENE and mode != 'studio':
             raise ValueError('Studio scene is only available in fixed Studio mode')
+        if scene == FULL_GAME_SCENE and mode != 'play':
+            raise ValueError('full-game scene is only available in fixed native play mode')
         if mode == 'studio':
             if scene != STUDIO_SCENE or spec['headless']:
                 raise ValueError('Studio mode requires the fixed native Studio scene')
@@ -1764,13 +1876,16 @@ class Station:
                     or 'game/content/studio/hero_house.recipe.json' not in manifest_files
                     or 'game/studio/studio_main.tscn' not in manifest_files):
                 raise ValueError('Studio snapshot requires the fixed scene, two authoring inputs, and HeroHouse recipe')
+        if mode == 'play':
+            if (scene not in (FULL_GAME_SCENE, 'res://scenes/act1_demo.tscn') or spec['headless']
+                    or spec.get('points', '') or spec.get('phase', '') or spec.get('fov', '')
+                    or 'studio_restarts' in spec
+                    or (scene == FULL_GAME_SCENE and not re.fullmatch('[a-f0-9]{32}', jid))):
+                raise ValueError('play requires an approved fixed native scene, bounded job ID, and no capture options')
         if mode == 'smoke' and not scene.startswith('res://tests/'):
             raise ValueError('smoke requires an existing test scene')
         if mode == 'capture' and (scene != 'res://scenes/act1_demo.tscn' or spec['headless']):
             raise ValueError('capture requires native act1_demo')
-        if mode == 'play' and (scene != 'res://scenes/act1_demo.tscn' or spec['headless']
-                               or spec.get('points', '')):
-            raise ValueError('play requires native act1_demo without capture points')
         points = spec.get('points', '')
         number = r'-?\d+(?:\.\d+)?'
         vector = rf'(?:[A-Za-z][A-Za-z0-9_]*@)?{number},{number},{number}'
@@ -1803,9 +1918,418 @@ class Station:
                 _studio_write_marker(path)
             write_json(path/'request.json', spec)
             status = {'job_id':jid, 'snapshot_id':sid, 'status':'RUNNING', 'started':time.time()}
-            write_json(path/'status.json', status); self.busy = jid
+            write_json(path/'status.json', status)
+            self.busy = jid
+            self.job_owners[jid] = principal
+            self.active_spec = dict(spec)
+            self.active_source = path/'source'
+            self.active_runner = None
             threading.Thread(target=self.execute, args=(path,spec,status), daemon=False).start()
             return 202, status
+
+    def _active_game_pid(self, jid):
+        runner = self.active_runner
+        source = self.active_source
+        spec = self.active_spec
+        if (spec is None or spec.get('mode') != 'play' or spec.get('job_id') != jid
+                or runner is None or runner.poll() is not None or source is None):
+            return None
+        try:
+            expected_source = (self.jobs / jid / 'source').resolve(strict=True)
+            source_info = source.lstat()
+            if (_studio_reparse(source_info) or not stat.S_ISDIR(source_info.st_mode)
+                    or source.resolve(strict=True) != expected_source):
+                return None
+            _studio_path(source, 'game/project.godot')
+
+            helper_relative = 'eng/windows-game-ui.ps1'
+            manifest = self.verified_snapshot_manifest(spec['snapshot_id'])
+            helper_entry = (manifest or {}).get('files', {}).get(helper_relative)
+            if not isinstance(helper_entry, dict) or not re.fullmatch('[a-f0-9]{64}', helper_entry.get('sha256', '')):
+                return None
+            source_helper = _studio_path(source, helper_relative)
+            station_helper = _studio_path(self.repo, helper_relative)
+            expected_helper_hash = helper_entry['sha256']
+            if (digest(source_helper) != expected_helper_hash
+                    or source_helper.read_text(encoding='utf-8-sig')
+                    != station_helper.read_text(encoding='utf-8-sig')):
+                return None
+
+            pins = json.loads((self.repo / 'eng/toolchain.json').read_text(encoding='utf-8-sig'))
+            version = pins['godot']['version'].split('.stable')[0]
+            executable_directory = (self.repo / '.tools/godot/windows'
+                                    / f'Godot_v{version}-stable_mono_win64')
+            expected_console = (executable_directory
+                                / f'Godot_v{version}-stable_mono_win64_console.exe').resolve(strict=True)
+            gui_candidate = executable_directory / f'Godot_v{version}-stable_mono_win64.exe'
+            expected_gui = gui_candidate.resolve(strict=True) if gui_candidate.is_file() else None
+            expected_images = {
+                os.path.normcase(os.path.normpath(str(path)))
+                for path in (expected_console, expected_gui) if path is not None
+            }
+            descendants = _windows_descendants(runner.pid)
+            gui_candidates = []
+            console_candidates = []
+            for pid, name in descendants.items():
+                if name.casefold() not in {
+                        expected_console.name.casefold(),
+                        expected_gui.name.casefold() if expected_gui is not None else '',
+                }:
+                    continue
+                image = _windows_process_image(pid)
+                normalized_image = os.path.normcase(os.path.normpath(image)) if image else None
+                if normalized_image not in expected_images:
+                    continue
+                if expected_gui is not None and normalized_image == os.path.normcase(os.path.normpath(str(expected_gui))):
+                    gui_candidates.append(pid)
+                elif normalized_image == os.path.normcase(os.path.normpath(str(expected_console))):
+                    console_candidates.append(pid)
+            if len(gui_candidates) == 1:
+                return gui_candidates[0]
+            if not gui_candidates and len(console_candidates) == 1:
+                return console_candidates[0]
+            return None
+        except (OSError, ValueError, KeyError, TypeError):
+            return None
+
+    @staticmethod
+    def _validate_ui_action(action):
+        if not isinstance(action, dict) or not isinstance(action.get('action'), str):
+            raise ValueError('UI action must be one bounded keys or move request')
+        kind = action['action']
+        if kind == 'keys':
+            keys = action.get('keys')
+            if set(action) != {'action', 'keys'} or not isinstance(keys, str) or keys not in UI_KEY_CHORDS:
+                raise ValueError('UI keys action is outside the fixed key allowlist')
+            return kind
+        if kind == 'move':
+            key = action.get('key')
+            if (set(action) != {'action', 'key', 'durationMs'}
+                    or not isinstance(key, str) or key not in UI_MOVE_KEYS
+                    or type(action.get('durationMs')) is not int
+                    or not 1 <= action['durationMs'] <= 2000):
+                raise ValueError('UI move action is outside the bounded movement allowlist')
+            return kind
+        raise ValueError('UI action must be one bounded keys or move request')
+
+    @staticmethod
+    def _validate_interactive_frame_result(report, jid, request_id, pid):
+        if not isinstance(report, dict):
+            raise ValueError('interactive frame result must be an object')
+        if (report.get('kind') != 'interactive-game-viewport'
+                or report.get('jobId') != jid or report.get('requestId') != request_id
+                or type(report.get('pid')) is not int or report['pid'] != pid):
+            raise ValueError('interactive frame identity does not match the active job')
+        if report.get('status') != 'ok':
+            raise ValueError('interactive frame was refused by the game')
+        expected = {'kind', 'jobId', 'requestId', 'pid', 'status', 'width', 'height',
+                    'pngSha256', 'scenePath', 'cameraPath'}
+        if set(report) != expected:
+            raise ValueError('interactive frame result fields are invalid')
+        width, height = report.get('width'), report.get('height')
+        if (type(width) is not int or type(height) is not int
+                or not 1 <= width <= INTERACTIVE_FRAME_DIMENSION_LIMIT
+                or not 1 <= height <= INTERACTIVE_FRAME_DIMENSION_LIMIT):
+            raise ValueError('interactive frame dimensions are outside the bound')
+        if report.get('scenePath') != FULL_GAME_SCENE:
+            raise ValueError('interactive frame scene is not the fixed full-game scene')
+        camera_path = report.get('cameraPath')
+        if (not isinstance(camera_path, str) or len(camera_path) > 512
+                or not camera_path.startswith('/root/') or '\\' in camera_path or ':' in camera_path
+                or any(ord(character) < 32 for character in camera_path)
+                or any(part in ('', '.', '..') for part in camera_path.split('/')[1:])):
+            raise ValueError('interactive frame camera path is invalid')
+        if not isinstance(report.get('pngSha256'), str) or not re.fullmatch('[a-f0-9]{64}', report['pngSha256']):
+            raise ValueError('interactive frame checksum is invalid')
+        return report
+
+    def capture_current(self, jid, principal, action):
+        if not re.fullmatch('[a-f0-9]{32}', jid):
+            return 404, {'error': 'unknown or unavailable running play job'}
+        if action != {'action': 'capture-current'}:
+            return 400, {'error': 'capture-current accepts no additional fields'}
+        if sys.platform != 'win32':
+            return 503, {'error': 'native game viewport capture is available only on the Windows station'}
+
+        with self.lock:
+            if self.busy != jid or jid not in self.job_owners:
+                return 404, {'error': 'unknown or unavailable running play job'}
+            if self.job_owners.get(jid) != principal:
+                return 403, {'error': 'job owner required'}
+            if (self.active_spec is None or self.active_spec.get('mode') != 'play'
+                    or self.active_spec.get('job_id') != jid
+                    or self.active_spec.get('scene') != FULL_GAME_SCENE):
+                return 409, {'error': 'owned native play job is unavailable'}
+            pid = self._active_game_pid(jid)
+            runner = self.active_runner
+            if pid is None or runner is None:
+                return 409, {'error': 'owned native game process is not ready for capture'}
+
+            temporary = None
+            request_published = False
+            try:
+                frames = _studio_path(self.jobs, f'{jid}/artifacts/frames', kind='dir')
+                expected_frames = (self.jobs / jid / 'artifacts' / 'frames').resolve(strict=True)
+                if frames.resolve(strict=True) != expected_frames:
+                    return 409, {'error': 'owned native frame directory is unavailable'}
+
+                request_path = frames / 'interactive.request.json'
+                processing_path = frames / 'interactive.request.processing.json'
+                request_id = None
+                result_path = None
+                image_path = None
+                pending_file = None
+                for _ in range(3):
+                    pending_paths = []
+                    for name in (request_path.name, processing_path.name):
+                        candidate_path = _studio_path(frames, name, missing=True)
+                        if candidate_path is None:
+                            continue
+                        try:
+                            candidate_info = candidate_path.lstat()
+                        except FileNotFoundError:
+                            continue
+                        if (_studio_reparse(candidate_info) or not stat.S_ISREG(candidate_info.st_mode)
+                                or candidate_info.st_size > INTERACTIVE_FRAME_REQUEST_LIMIT):
+                            return 409, {'error': 'pending interactive viewport request is invalid'}
+                        pending_paths.append(candidate_path)
+                    if len(pending_paths) > 1:
+                        return 409, {'error': 'interactive viewport request state is ambiguous'}
+                    if not pending_paths:
+                        break
+                    pending_file = pending_paths[0]
+                    try:
+                        pending_path_info = pending_file.lstat()
+                        with pending_file.open('rb') as stream:
+                            pending_info = os.fstat(stream.fileno())
+                            if (_studio_reparse(pending_info) or not stat.S_ISREG(pending_info.st_mode)
+                                    or pending_info.st_size > INTERACTIVE_FRAME_REQUEST_LIMIT
+                                    or not os.path.samestat(pending_path_info, pending_info)):
+                                return 409, {'error': 'pending interactive viewport request is invalid'}
+                            pending = _studio_json(stream.read(INTERACTIVE_FRAME_REQUEST_LIMIT + 1),
+                                                   INTERACTIVE_FRAME_REQUEST_LIMIT,
+                                                   'pending interactive viewport request')
+                    except FileNotFoundError:
+                        pending_file = None
+                        continue
+                    if (not isinstance(pending, dict) or set(pending) != {'version', 'jobId', 'requestId'}
+                            or type(pending.get('version')) is not int or pending['version'] != 1
+                            or pending.get('jobId') != jid
+                            or not isinstance(pending.get('requestId'), str)
+                            or not re.fullmatch('[a-f0-9]{32}', pending['requestId'])):
+                        return 409, {'error': 'pending interactive viewport request does not match this job'}
+                    request_id = pending['requestId']
+                    request_published = True
+                    break
+
+                if request_id is None:
+                    for _ in range(4):
+                        candidate = uuid.uuid4().hex
+                        result_candidate = f'interactive-{candidate}.json'
+                        image_candidate = f'interactive-{candidate}.png'
+                        temporary_candidate = f'interactive.request-{candidate}.tmp'
+                        if any(_studio_path(frames, name, missing=True) is not None
+                               for name in (result_candidate, image_candidate, temporary_candidate)):
+                            continue
+                        request_id = candidate
+                        result_path = frames / result_candidate
+                        image_path = frames / image_candidate
+                        temporary = frames / temporary_candidate
+                        break
+                    if request_id is None or result_path is None or image_path is None or temporary is None:
+                        return 409, {'error': 'cannot allocate a unique interactive viewport request'}
+
+                    payload = canonical({'version': 1, 'jobId': jid, 'requestId': request_id})
+                    if len(payload) > INTERACTIVE_FRAME_REQUEST_LIMIT:
+                        return 409, {'error': 'interactive viewport request exceeds its size bound'}
+                    with temporary.open('xb') as stream:
+                        stream.write(payload)
+                        stream.flush()
+                        os.fsync(stream.fileno())
+                    try:
+                        os.rename(temporary, request_path)
+                    except OSError:
+                        temporary.unlink(missing_ok=True)
+                        return 409, {'error': 'an interactive viewport request is already pending'}
+                    request_published = True
+
+                if request_id is None:
+                    return 409, {'error': 'interactive viewport request identity is unavailable'}
+                if result_path is None:
+                    result_path = frames / f'interactive-{request_id}.json'
+                if image_path is None:
+                    image_path = frames / f'interactive-{request_id}.png'
+
+                deadline = time.monotonic() + INTERACTIVE_FRAME_TIMEOUT_SECONDS
+                while True:
+                    _studio_path(frames, request_path.name, missing=True)
+                    _studio_path(frames, processing_path.name, missing=True)
+                    result_file = _studio_path(frames, result_path.name, missing=True)
+                    if result_file is not None:
+                        break
+                    if runner.poll() is not None:
+                        return 409, {'error': 'owned native game exited before the viewport was captured'}
+                    remaining = deadline - time.monotonic()
+                    if remaining <= 0:
+                        return 504, {'error': 'interactive viewport capture timed out; the request remains pending'}
+                    time.sleep(min(0.1, remaining))
+
+                result_info = result_file.lstat()
+                if (_studio_reparse(result_info) or not stat.S_ISREG(result_info.st_mode)
+                        or result_info.st_size > INTERACTIVE_FRAME_RESULT_LIMIT):
+                    return 409, {'error': 'interactive viewport result is invalid'}
+                with result_file.open('rb') as stream:
+                    opened_info = os.fstat(stream.fileno())
+                    if (_studio_reparse(opened_info) or not stat.S_ISREG(opened_info.st_mode)
+                            or opened_info.st_size != result_info.st_size
+                            or not os.path.samestat(result_info, opened_info)):
+                        return 409, {'error': 'interactive viewport result changed while reading'}
+                    report = _studio_json(stream.read(INTERACTIVE_FRAME_RESULT_LIMIT + 1),
+                                         INTERACTIVE_FRAME_RESULT_LIMIT, 'interactive viewport result')
+                self._validate_interactive_frame_result(report, jid, request_id, pid)
+
+                image_file = _studio_path(frames, image_path.name)
+                image_info = image_file.lstat()
+                if (_studio_reparse(image_info) or not stat.S_ISREG(image_info.st_mode)
+                        or image_info.st_size <= 0 or image_info.st_size > INTERACTIVE_FRAME_PNG_LIMIT):
+                    return 409, {'error': 'interactive viewport PNG is outside the size bound'}
+                with image_file.open('rb') as stream:
+                    opened_info = os.fstat(stream.fileno())
+                    if (_studio_reparse(opened_info) or not stat.S_ISREG(opened_info.st_mode)
+                            or opened_info.st_size != image_info.st_size
+                            or not os.path.samestat(image_info, opened_info)):
+                        return 409, {'error': 'interactive viewport PNG changed while reading'}
+                    png = stream.read(INTERACTIVE_FRAME_PNG_LIMIT + 1)
+                after_info = image_file.lstat()
+                if (len(png) != image_info.st_size or len(png) > INTERACTIVE_FRAME_PNG_LIMIT
+                        or not os.path.samestat(image_info, after_info)):
+                    return 409, {'error': 'interactive viewport PNG changed while reading'}
+                if (len(png) < 33 or png[:8] != b'\x89PNG\r\n\x1a\n'
+                        or int.from_bytes(png[8:12], 'big') != 13 or png[12:16] != b'IHDR'
+                        or not png.endswith(b'\x00\x00\x00\x00IEND\xaeB`\x82')):
+                    return 409, {'error': 'interactive viewport PNG encoding is invalid'}
+                png_width = int.from_bytes(png[16:20], 'big')
+                png_height = int.from_bytes(png[20:24], 'big')
+                png_hash = hashlib.sha256(png).hexdigest()
+                if (png_width != report['width'] or png_height != report['height']
+                        or png_hash != report['pngSha256']):
+                    return 409, {'error': 'interactive viewport PNG does not match its receipt'}
+                return 200, (png, {'pngSha256': png_hash, 'width': png_width, 'height': png_height})
+            except (OSError, ValueError, KeyError, TypeError):
+                if temporary is not None and not request_published:
+                    try:
+                        temporary.unlink(missing_ok=True)
+                    except OSError:
+                        pass
+                return 409, {'error': 'interactive viewport capture failed validation'}
+
+    def _run_ui_helper(self, jid, pid, source, action):
+        system_root = os.environ.get('SystemRoot')
+        if not system_root:
+            return False
+        powershell = Path(system_root) / 'System32/WindowsPowerShell/v1.0/powershell.exe'
+        helper = self.repo / 'eng/windows-game-ui.ps1'
+        if not powershell.is_file() or not helper.is_file():
+            return False
+
+        try:
+            with tempfile.TemporaryDirectory(prefix='urman-game-ui-') as private_temp:
+                private_root = Path(private_temp).resolve(strict=True)
+                helper_temp = private_root / 'urman-codex-studio-ui'
+                helper_temp.mkdir()
+                root_info = private_root.lstat()
+                helper_info = helper_temp.lstat()
+                if (_studio_reparse(root_info) or not stat.S_ISDIR(root_info.st_mode)
+                        or _studio_reparse(helper_info) or not stat.S_ISDIR(helper_info.st_mode)):
+                    return False
+
+                request_id = uuid.uuid4().hex
+                request_path = helper_temp / f'request-{request_id}.json'
+                result_path = helper_temp / f'result-{request_id}.json'
+                image_path = helper_temp / f'image-{request_id}.png'
+                request = {
+                    'jobId': jid,
+                    'pid': pid,
+                    'sourceRoot': str(source),
+                    'result': str(result_path),
+                    'image': str(image_path),
+                    **action,
+                }
+                with request_path.open('xb') as stream:
+                    stream.write(canonical(request))
+
+                system_path = os.pathsep.join((str(Path(system_root) / 'System32'), system_root))
+                module_path = str(Path(system_root) / 'System32/WindowsPowerShell/v1.0/Modules')
+                helper_env = {
+                    'SystemRoot': system_root,
+                    'WINDIR': system_root,
+                    'OS': 'Windows_NT',
+                    'TEMP': str(private_root),
+                    'TMP': str(private_root),
+                    'PATH': system_path,
+                    'PSModulePath': module_path,
+                }
+                command = [str(powershell), '-NoLogo', '-NoProfile', '-NonInteractive',
+                           '-ExecutionPolicy', 'Bypass', '-File', str(helper),
+                           '-RequestPath', str(request_path)]
+                process = subprocess.Popen(
+                    command, stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL,
+                    stderr=subprocess.DEVNULL, cwd=str(private_root), env=helper_env,
+                    creationflags=subprocess.CREATE_NO_WINDOW)
+                try:
+                    exit_code = process.wait(timeout=UI_HELPER_TIMEOUT_SECONDS)
+                except subprocess.TimeoutExpired:
+                    process.kill()
+                    process.wait(timeout=2)
+                    return False
+
+                try:
+                    result_info = result_path.lstat()
+                    if (_studio_reparse(result_info) or not stat.S_ISREG(result_info.st_mode)
+                            or result_info.st_size > 8 * 1024):
+                        return False
+                    with result_path.open('rb') as stream:
+                        report = _studio_json(stream.read(8 * 1024 + 1), 8 * 1024, 'UI helper result')
+                except (OSError, ValueError):
+                    return False
+                return exit_code == 0 and isinstance(report, dict) and report.get('ok') is True
+        except (OSError, ValueError, subprocess.SubprocessError):
+            return False
+
+    def ui_action(self, jid, principal, action):
+        if not re.fullmatch('[a-f0-9]{32}', jid):
+            return 404, {'error': 'unknown or unavailable running play job'}
+        try:
+            self._validate_ui_action(action)
+        except ValueError as error:
+            return 400, {'error': str(error)}
+
+        with self.lock:
+            if self.busy != jid or jid not in self.job_owners:
+                return 404, {'error': 'unknown or unavailable running play job'}
+            if self.job_owners.get(jid) != principal:
+                return 403, {'error': 'job owner required'}
+            if (self.active_spec is None or self.active_spec.get('mode') != 'play'
+                    or self.active_spec.get('job_id') != jid):
+                return 409, {'error': 'owned native play job is unavailable'}
+            pid = self._active_game_pid(jid)
+            source = self.active_source
+            if pid is None or source is None:
+                return 409, {'error': 'owned native game window is not ready for input'}
+            kind = action['action']
+            if not self._run_ui_helper(jid, pid, source, action):
+                return 409, {'job_id': jid, 'action': kind, 'ok': False,
+                             'error': 'native game input was refused or did not complete'}
+            return 200, {'job_id': jid, 'action': kind, 'ok': True}
+
+    def _clear_active_job(self, jid):
+        if self.busy == jid:
+            self.busy = None
+        self.job_owners.pop(jid, None)
+        if self.active_spec is not None and self.active_spec.get('job_id') == jid:
+            self.active_spec = None
+            self.active_source = None
+            self.active_runner = None
 
     def execute(self, path, spec, status):
         output = path/'artifacts'
@@ -1832,7 +2356,10 @@ class Station:
                     if json.loads((source/pin).read_text(encoding='utf-8-sig')) != json.loads((self.repo/pin).read_text(encoding='utf-8-sig')):
                         raise ValueError('snapshot toolchain differs from station: '+pin)
                 execution_files = {}
-                for name in ('eng/run-windows-check.ps1','eng/protected_run.py','eng/remote_common.py'):
+                execution_names = ('eng/run-windows-check.ps1','eng/protected_run.py','eng/remote_common.py')
+                if spec['mode'] == 'play':
+                    execution_names += ('eng/windows-game-ui.ps1',)
+                for name in execution_names:
                     # Git normalizes Windows/Mac line endings differently. Require
                     # identical source text, and record both actual byte hashes.
                     if (source/name).read_text(encoding='utf-8-sig') != (self.repo/name).read_text(encoding='utf-8-sig'):
@@ -1840,6 +2367,13 @@ class Station:
                     execution_files[name] = {'station_sha256':digest(self.repo/name),'snapshot_sha256':manifest['files'][name]['sha256'],'source_text_equal':True}
                 # Station-local override is recorded separately; never overwrite a developer file.
                 (source/'game/override.cfg').write_text('[filesystem]\nimport/blender/enabled=false\n')
+                runner_env = None
+                if spec['mode'] == 'play':
+                    frames = output/'frames'
+                    frames.mkdir()
+                    runner_env = os.environ.copy()
+                    runner_env['URMAN_INTERACTIVE_FRAME_DIR'] = str(frames.resolve())
+                    runner_env['URMAN_INTERACTIVE_FRAME_JOB'] = spec['job_id']
                 command = ['powershell.exe','-NoProfile','-ExecutionPolicy','Bypass','-File',
                            str(self.repo/'eng/run-windows-check.ps1'), '-Root',str(source),
                            '-ToolsRoot',str(self.repo), '-Provenance',str(source/'snapshot-manifest.json'),
@@ -1856,7 +2390,13 @@ class Station:
                 if spec.get('studio_restarts'):
                     command += ['-StudioRestarts', str(spec['studio_restarts'])]
                 with (output/'stdout.log').open('wb') as out, (output/'stderr.log').open('wb') as err:
-                    p = subprocess.Popen(command,stdout=out,stderr=err,creationflags=subprocess.CREATE_NO_WINDOW)
+                    p = subprocess.Popen(command,stdout=out,stderr=err,creationflags=subprocess.CREATE_NO_WINDOW,
+                                         env=runner_env)
+                    if spec['mode'] == 'play':
+                        with self.lock:
+                            if self.busy == spec['job_id']:
+                                self.active_runner = p
+                                self.active_source = source
                     # Runner bounds build/content/import/game separately. This outer emergency
                     # deadline preserves the guard's recovery marker instead of claiming restore.
                     try:
@@ -1932,7 +2472,7 @@ class Station:
                         except OSError as error:
                             print('Studio source marker retained:', error, file=sys.stderr)
                 finally:
-                    self.busy = None
+                    self._clear_active_job(spec['job_id'])
         except Exception as error:
             if is_studio:
                 preserve_source = True
@@ -1943,7 +2483,7 @@ class Station:
             _write_result_unavailable(path, status, error)
         finally:
             with self.lock:
-                self.busy = None
+                self._clear_active_job(spec['job_id'])
 
 class Handler(BaseHTTPRequestHandler):
     def log_message(self, *args):
@@ -1954,9 +2494,28 @@ class Handler(BaseHTTPRequestHandler):
         self.send_header('Content-Type','application/json'); self.send_header('Content-Length',str(len(data)))
         self.end_headers(); self.wfile.write(data)
 
+    def respond_interactive_frame(self, png, metadata):
+        self.send_response(200)
+        self.send_header('Content-Type', 'image/png')
+        self.send_header('Content-Length', str(len(png)))
+        self.send_header('X-URMAN-Frame-SHA256', metadata['pngSha256'])
+        self.send_header('Cache-Control', 'no-store')
+        self.send_header('X-Content-Type-Options', 'nosniff')
+        self.end_headers()
+        self.wfile.write(png)
+
+    def authenticated_principal(self):
+        value = self.headers.get('Authorization','')
+        matches = []
+        for principal, token in self.server.station.config['tokens'].items():
+            if isinstance(token, str) and hmac.compare_digest(value, 'Bearer ' + token):
+                matches.append(principal)
+        return matches[0] if len(matches) == 1 else None
+
     def authorized(self):
         value = self.headers.get('Authorization','')
-        return any(hmac.compare_digest(value, 'Bearer '+token) for token in self.server.station.config['tokens'].values())
+        return any(hmac.compare_digest(value, 'Bearer '+token)
+                   for token in self.server.station.config['tokens'].values())
 
     def do_GET(self):
         if not self.authorized():
@@ -1990,12 +2549,28 @@ class Handler(BaseHTTPRequestHandler):
     def do_POST(self):
         if not self.authorized():
             return self.respond(401,{'error':'authorization required'})
+        principal = self.authenticated_principal()
         self.connection.settimeout(300)
         station = self.server.station
         try:
             size = int(self.headers.get('Content-Length','0'))
             if size <= 0 or size > MAX_ARCHIVE:
                 return self.respond(413,{'error':'invalid request size'})
+            ui = re.fullmatch(r'/jobs/([a-f0-9]{32})/ui', self.path)
+            if ui:
+                if principal is None:
+                    return self.respond(401, {'error':'unambiguous job principal required'})
+                if size > UI_ACTION_LIMIT:
+                    return self.respond(413, {'error':'UI action exceeds its size limit'})
+                action = _studio_json(self.rfile.read(size), UI_ACTION_LIMIT, 'UI action')
+                if isinstance(action, dict) and action.get('action') == 'capture-current':
+                    code, value = station.capture_current(ui[1], principal, action)
+                    if code == 200:
+                        png, metadata = value
+                        return self.respond_interactive_frame(png, metadata)
+                    return self.respond(code, value)
+                code, value = station.ui_action(ui[1], principal, action)
+                return self.respond(code, value)
             if self.path == '/snapshots':
                 with tempfile.TemporaryDirectory(dir=station.data) as temp:
                     temp = Path(temp); archive = temp/'upload.zip'
@@ -2036,7 +2611,9 @@ class Handler(BaseHTTPRequestHandler):
                 return self.respond(200,{'snapshot_id':sid,'known':not missing,
                                          'missing':missing,'files':len(manifest['files'])})
             if self.path == '/jobs' and size <= 16384:
-                code, value = station.submit(json.loads(self.rfile.read(size)))
+                if principal is None:
+                    return self.respond(401, {'error':'unambiguous job principal required'})
+                code, value = station.submit(json.loads(self.rfile.read(size)), principal)
                 return self.respond(code,value)
             return self.respond(404,{'error':'unknown operation'})
         except (ValueError, KeyError, OSError, zipfile.BadZipFile) as error:
