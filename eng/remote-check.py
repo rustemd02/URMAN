@@ -22,11 +22,13 @@ from remote_common import (MAX_ARCHIVE, MAX_SOURCE, REPOSITORY, canonical, candi
 
 STUDIO_SCENE = 'res://studio/studio_main.tscn'
 FULL_GAME_SCENE = 'res://scenes/full_game.tscn'
-NORMAL_UI_TRANSPORT_VERSION = 1
+NORMAL_UI_TRANSPORT_VERSION = 2
 UI_KEY_BASES = ('{ENTER}', '{ESC}', '{DOWN}', '{UP}', '{SPACE}', 'a', 'f', 'v', 'z')
+UI_KEY_ADDITIONS = ('j', '{TAB}', '+{TAB}', '{LEFT}', '{RIGHT}')
 UI_KEY_CHORDS = frozenset(
     [*UI_KEY_BASES,
-     *(modifier + key for modifier in ('^', '+', '^+') for key in UI_KEY_BASES)])
+     *(modifier + key for modifier in ('^', '+', '^+') for key in UI_KEY_BASES),
+     *UI_KEY_ADDITIONS])
 UI_MOVE_KEYS = frozenset(('w', 'a', 's', 'd', 'e'))
 INTERACTIVE_FRAME_PNG_LIMIT = 16 * 1024**2
 
@@ -275,7 +277,7 @@ def main():
     p.add_argument('command',choices=['doctor','smoke','capture','studio','play','play-full','ui',
                                       'capture-current','status','fetch'])
     p.add_argument('--root',type=Path,default=Path(__file__).resolve().parent.parent)
-    p.add_argument('--job-id');p.add_argument('--scene')
+    p.add_argument('--job-id',help='capture-current uses your own running play or play-full job ID');p.add_argument('--scene')
     p.add_argument('--points');p.add_argument('--timeout',type=int)
     p.add_argument('--phase',help='capture only: authored atmosphere profile id (URMAN_ATMOSPHERE_PHASE)')
     p.add_argument('--fov',help="capture only: 'player' (player camera FOV) or a number; default control views use 70")
@@ -334,7 +336,7 @@ def main():
             p.error('ui does not accept job submission or output options')
     if capture_current:
         if not args.job_id or not re.fullmatch('[a-f0-9]{32}',args.job_id):
-            p.error('capture-current requires a 32-character lowercase hexadecimal --job-id from play-full')
+            p.error('capture-current requires a 32-character lowercase hexadecimal --job-id from your own play or play-full job')
         if args.output is None:
             p.error('capture-current requires --output with an absolute file path')
         if (args.scene is not None or args.points is not None or args.phase is not None

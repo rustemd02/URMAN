@@ -30,11 +30,15 @@ KEEP_ARCHIVES = 1        # the newest archive is what an empty blob store is see
 BLOB_GRACE = 24 * 3600   # content a client may still be uploading is not collected
 STUDIO_SCENE = 'res://studio/studio_main.tscn'
 FULL_GAME_SCENE = 'res://scenes/full_game.tscn'
-NORMAL_UI_TRANSPORT_VERSION = 1
+ACT1_DEMO_SCENE = 'res://scenes/act1_demo.tscn'
+APPROVED_PLAY_SCENES = (ACT1_DEMO_SCENE, FULL_GAME_SCENE)
+NORMAL_UI_TRANSPORT_VERSION = 2
 UI_KEY_BASES = ('{ENTER}', '{ESC}', '{DOWN}', '{UP}', '{SPACE}', 'a', 'f', 'v', 'z')
+UI_KEY_ADDITIONS = ('j', '{TAB}', '+{TAB}', '{LEFT}', '{RIGHT}')
 UI_KEY_CHORDS = frozenset(
     [*UI_KEY_BASES,
-     *(modifier + key for modifier in ('^', '+', '^+') for key in UI_KEY_BASES)])
+     *(modifier + key for modifier in ('^', '+', '^+') for key in UI_KEY_BASES),
+     *UI_KEY_ADDITIONS])
 UI_MOVE_KEYS = frozenset(('w', 'a', 's', 'd', 'e'))
 UI_ACTION_LIMIT = 4096
 UI_HELPER_TIMEOUT_SECONDS = 20
@@ -2013,7 +2017,7 @@ class Station:
         raise ValueError('UI action must be one bounded keys or move request')
 
     @staticmethod
-    def _validate_interactive_frame_result(report, jid, request_id, pid):
+    def _validate_interactive_frame_result(report, jid, request_id, pid, expected_scene):
         if not isinstance(report, dict):
             raise ValueError('interactive frame result must be an object')
         if (report.get('kind') != 'interactive-game-viewport'
@@ -2031,8 +2035,9 @@ class Station:
                 or not 1 <= width <= INTERACTIVE_FRAME_DIMENSION_LIMIT
                 or not 1 <= height <= INTERACTIVE_FRAME_DIMENSION_LIMIT):
             raise ValueError('interactive frame dimensions are outside the bound')
-        if report.get('scenePath') != FULL_GAME_SCENE:
-            raise ValueError('interactive frame scene is not the fixed full-game scene')
+        if (expected_scene not in APPROVED_PLAY_SCENES
+                or report.get('scenePath') != expected_scene):
+            raise ValueError('interactive frame scene does not match the active approved play scene')
         camera_path = report.get('cameraPath')
         if (not isinstance(camera_path, str) or len(camera_path) > 512
                 or not camera_path.startswith('/root/') or '\\' in camera_path or ':' in camera_path
@@ -2058,8 +2063,9 @@ class Station:
                 return 403, {'error': 'job owner required'}
             if (self.active_spec is None or self.active_spec.get('mode') != 'play'
                     or self.active_spec.get('job_id') != jid
-                    or self.active_spec.get('scene') != FULL_GAME_SCENE):
+                    or self.active_spec.get('scene') not in APPROVED_PLAY_SCENES):
                 return 409, {'error': 'owned native play job is unavailable'}
+            expected_scene = self.active_spec['scene']
             pid = self._active_game_pid(jid)
             runner = self.active_runner
             if pid is None or runner is None:
@@ -2186,7 +2192,7 @@ class Station:
                         return 409, {'error': 'interactive viewport result changed while reading'}
                     report = _studio_json(stream.read(INTERACTIVE_FRAME_RESULT_LIMIT + 1),
                                          INTERACTIVE_FRAME_RESULT_LIMIT, 'interactive viewport result')
-                self._validate_interactive_frame_result(report, jid, request_id, pid)
+                self._validate_interactive_frame_result(report, jid, request_id, pid, expected_scene)
 
                 image_file = _studio_path(frames, image_path.name)
                 image_info = image_file.lstat()
