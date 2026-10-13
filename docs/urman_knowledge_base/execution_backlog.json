@@ -111198,7 +111198,7 @@
       "assigned_owner": "claude/visual-reset-2026-10-09",
       "activity": {
         "state": "confirmed_active",
-        "reason": "83UV+Tamara/collar source stages pushed; ownnative77 stopped/FAIL/restoredverified, noactualmotion/art accepted. Luna read-only investigates specific presentation/performance cause; no duplicate run."
+        "reason": "Finite83UV/Tamara/collar/helper source stages delivered; native77 rejectedandrestoredverified. Exactsnapshot pause alreadyconfirmed, so no duplicateworldrender fix. Nextbounded existingcapture-protocol inspection foractualgame/motion proof."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -111210,7 +111210,7 @@
         "Book/held sleeves/W01 moving branch source-safe; fulfill named movement checks as required, preserve existing valid wind/normal receipts on unchanged inputs.",
         "83genericUV/coherentLOD and2Tamara redtrim sourceaccepted; print/geometry/rig/images preserved. Collar sourceaccepted. Actual nativegait/LOD/door/collar views and derivedcap restUV remain."
       ],
-      "next_action": "Read exactchild log/Studio preview lifetime and recurringbanks cause with boundedLuna; require newcausalfact before anothernative session. Keepdoor/actor/collar actualmotion andcaprestUV open; stationreleased forPW044car.",
+      "next_action": "Inspect existing Act1DemoRoot.DevViewCapture renderer capture and supported exactmotion inputs; require realgamepixels and door/actor movement, preserve remainingcapUV. Do not repeat sameGDI/Studio1200 run withoutnewverified captureinput. Wait forPW044/B20 stationqueue release beforeownnextnative.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -111591,7 +111591,8 @@
             "evidence/PW-032/native-motion-20261013/source/station-selected/game/studio/StudioRoot.cs",
             "evidence/PW-032/native-motion-20261013/source/station-selected/game/studio/StudioWorldSection.cs"
           ],
-          "source_review_input": "Exactimmutable StudioRoot.cs/StudioWorldSection.cs copied from77source, SHA63bdc888...d05a8a/65c57e77...24cf27 matchreceipt. CurrentStudioRoot differs; previewpause claim cannot be transferred to77 beforeexactsource review."
+          "source_review_input": "Exactimmutable StudioRoot.cs/StudioWorldSection.cs copied from77source, SHA63bdc888...d05a8a/65c57e77...24cf27 matchreceipt. CurrentStudioRoot differs; previewpause claim cannot be transferred to77 beforeexactsource review.",
+          "source_review_result": "Luna revalidated exact77source/SHA: StudioRoot1011 already calls SetChildRunRenderingPaused(true); WorldSection101–116 disables/restores previewSubViewport. Currentcode change is not newpauseinput; duplicatecontinuous preview rendering hypothesis unsupported. Two rejectedchildimages byteidenticalStudioUI. Afterstartup90banks no-op traversals/82addedShovelHeaps are additionalwork, notcauseofearlierstartuprescuemetric. Presentation/capturecause unconfirmed."
         }
       }
     },
