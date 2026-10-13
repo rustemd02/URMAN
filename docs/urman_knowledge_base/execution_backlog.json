@@ -6090,6 +6090,11 @@
               "verification": "Scoped Game compile 0 warnings/0 errors, 38.93s; not shader/visual acceptance.",
               "native": "NOT_RUN; station live owner preserved.",
               "build_log": "evidence/ACT1-TEXTURE.02/bath-w10-local-20261013/game-build.log"
+            },
+            "station_coordination_2026_10_13": {
+              "observation": "Fresh read-only doctor ready=true, busy_job=null, recovery=false, orphan=false after latest source checkpoint. This does not revoke peer forest slot assignment.",
+              "next": "Existing Codex B02 dominant forest lease release requested in AGENT_CHAT; preserve it until acknowledgment. After release publish root bath lease checkpoint before guarded submit. Do not repeat unchanged doctor/old jobs.",
+              "source": "Current main includes D03 e8ca7795 and W10 local87cee004; W11 c2ab actual body proof retained, only revised caps view remains."
             }
           },
           {
@@ -6115,7 +6120,7 @@
               "Face-on centered wood_cut cap rings are not accepted from the oblique first view; exact revised point in progress_2026_10_13_bath_view.",
               "Other W11 handles/portable consumers and full child/art/motion criteria remain open."
             ],
-            "next_action": "After actual owner of50923b93c99b4ef48a3f3ddff4d6c25e terminal/restored/release and a published lease checkpoint, capture only revised bath_firewood_caps face-on point. Do not repeat accepted c2ab body view or compile unchanged source. Keep otherW11/art criteria open.",
+            "next_action": "After Codex B02 releases current dominant forest station assignment, publish bath lease checkpoint then capture only revised bath_firewood_caps face-on point. Fresh doctor idle/restored observed; historical50923 no longer treated as active. Retain accepted c2ab body view and unchanged compile.",
             "blocker": {
               "reason": "Auto-review denied remote-check snapshot transfer to UNTERPC; explicit transfer-approval question pending. Source work and local compilation completed.",
               "release_when": "Author explicitly approves sending the URMAN checkout snapshot to UNTERPC through eng/remote-check.py."
@@ -6215,6 +6220,11 @@
                 "remaining": "Exact face-on cap view after live owner release; no automatic retry."
               },
               "release": "First job userdataRestored=true; fresh doctor idle before cap attempt, subsequent external busy job preserved. Own cap reservation released in chat; no attempt to stop/recover another job."
+            },
+            "station_coordination_2026_10_13": {
+              "observation": "Fresh read-only doctor ready=true, busy_job=null, recovery=false, orphan=false after latest source checkpoint. This does not revoke peer forest slot assignment.",
+              "next": "Existing Codex B02 dominant forest lease release requested in AGENT_CHAT; preserve it until acknowledgment. After release publish root bath lease checkpoint before guarded submit. Do not repeat unchanged doctor/old jobs.",
+              "source": "Current main includes D03 e8ca7795 and W10 local87cee004; W11 c2ab actual body proof retained, only revised caps view remains."
             }
           },
           {
@@ -12582,6 +12592,11 @@
               "source_sha256": "d8d29fc8eb2aebef2bdafa3c27c502b52742cda56afa1e156ba42e966df8e56e",
               "verification": "Game scoped build succeeded 0 errors/0 warnings. This C# build does not parse/accept Godot shader or prove in-game visuals.",
               "build_log": "evidence/ACT1-TEXTURE.05/bath-soot-20261013/game-build.log"
+            },
+            "station_coordination_2026_10_13": {
+              "observation": "Fresh read-only doctor ready=true, busy_job=null, recovery=false, orphan=false after latest source checkpoint. This does not revoke peer forest slot assignment.",
+              "next": "Existing Codex B02 dominant forest lease release requested in AGENT_CHAT; preserve it until acknowledgment. After release publish root bath lease checkpoint before guarded submit. Do not repeat unchanged doctor/old jobs.",
+              "source": "Current main includes D03 e8ca7795 and W10 local87cee004; W11 c2ab actual body proof retained, only revised caps view remains."
             }
           },
           {
