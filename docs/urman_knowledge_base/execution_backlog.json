@@ -6084,10 +6084,10 @@
               "evidence/ACT1-TEXTURE.05/bath-acceptance-20261014/native_cd6671/frames/bath_w10.json"
             ],
             "assigned_owner": "art/materials/qa",
-            "active_owner": null,
+            "active_owner": "/root",
             "activity": {
-              "state": "released",
-              "reason": "Scoped current static review finished; exact remaining recorded, no repeat unchanged capture."
+              "state": "confirmed_active",
+              "reason": "One floor-focused view on exact BathFloor owner, completing missing coverage in cd6671; no source or UI/input changes."
             },
             "task_type": "engineering",
             "status": "in_progress",
@@ -6176,7 +6176,7 @@
               "next": "Existing Codex B02 dominant forest lease release requested in AGENT_CHAT; preserve it until acknowledgment. After release publish root bath lease checkpoint before guarded submit. Do not repeat unchanged doctor/old jobs.",
               "source": "Current main includes D03 e8ca7795 and W10 local87cee004; W11 c2ab actual body proof retained, only revised caps view remains."
             },
-            "current_verification_question": "In the current guarded snapshot, verify only named bath consumer: soot clipped to metal away from raised door/embers; W10 local floor/partition grain; W11 caps endgrain face-on; M03 enamel outer Bowl. Success: corresponding exact owner frame, no visible shader error, raw restoration verified; unrelated/motion/art remain open.",
+            "current_verification_question": "Is current W10 floor grain along local Z at .75m repeat on exact BathFloor, in a floor-focused current frame? Partition-only cd6671 retained; floor movement/other receiver/art remain separate.",
             "native_static_2026_10_14": {
               "job_id": "cd6671e122bc40d7bd83b90717777411",
               "snapshot_id": "458bee27309003b964d39c6633a42d31adb71242302a5693b8c2e782a9e547eb",
