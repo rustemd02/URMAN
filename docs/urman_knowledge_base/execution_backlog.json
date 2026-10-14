@@ -98073,21 +98073,24 @@
             "title": "Согласовать уютный свет интерьеров и переход наружу без утечки shared-параметров",
             "result": "Согласовать уютный свет интерьеров и переход наружу без утечки shared-параметров",
             "owner": "unassigned",
-            "evidence": [],
+            "evidence": [
+              "evidence/PW-043/release-path-20261015/native_2903/receipt.json",
+              "evidence/PW-043/release-path-20261015/native_2903/game.log",
+              "evidence/PW-043/release-path-20261015/frames/2903-route/after-house-exit.png",
+              "evidence/PW-043/release-path-20261015/frames/2903-route/house-exit-before-e.json"
+            ],
             "assigned_owner": "unassigned",
             "active_owner": null,
             "activity": {
               "state": "not_active",
-              "reason": "Обратная runtime граница не проверена; текущая попытка остановлена, активная заявка освобождена. Без закрытия own DoD."
+              "reason": "Root принял собственную текущую ordinary full_game границу интерьер→двор; тёплый grade не протёк наружу, данные восстановлены. Assigned owner сохранён; lifecycle/author/art не закрыты."
             },
             "task_type": "engineering",
-            "status": "in_progress",
-            "implementation_state": "partial",
-            "technical_verification_state": "not_run",
-            "remaining": [
-              "Согласовать уютный свет интерьеров и переход наружу без утечки shared-параметров; собственного целевого receipt пока нет."
-            ],
-            "next_action": "В следующей конечной проверке выбрать обычный play-full PhotoWorlds либо пройти штатные chapter1 tea prerequisites; по фактическому E prompt войти/выйти и сравнить exterior profile. Нынешний проход не выдать за return.",
+            "status": "completed",
+            "implementation_state": "implemented",
+            "technical_verification_state": "passed",
+            "remaining": [],
+            "next_action": "Own lighting boundary DoD принят. Parent/full motion/art/audio/release gates и отдельные exit-resource leaks остаются открытыми; этот переход без нового входа не повторять.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -98156,6 +98159,17 @@
               "raw_movie_delivery": "Downloaded147925529 bytes; SHA8b8a0b71901e3788bd293ebedca57976e9694373755ea6fcd2f0b21021f877e0 matches remote stop receipt. AVFoundation856.8s/1280x720/onevideo+oneaudio/4nativePTS decoded. Root personally viewed299.867/728.267 exterior-only; no entry/return. Raw148MB retained locally, not Git (>100MiB).",
               "recording_evidence": "evidence/ACT1-ATMOSPHERE/e02-return-20261014/recording/decoded/movie-inspection.json",
               "audio_limit": "Recorder configured with no audio sources; one container audio track exists, samples not analyzed. No auditory acceptance."
+            },
+            "progress_2026_10_15_current_return": {
+              "result": "Обычный полный вход/чай/книга и HouseExit вернул village_day@from_house. Root лично сравнил текущий тёплый интерьер с холодным снегом/синими тенями и зимним sky снаружи.",
+              "receipt": "evidence/PW-043/release-path-20261015/native_2903/receipt.json",
+              "frames": [
+                "evidence/PW-043/release-path-20261015/frames/2903-route/after-tea-choice.png",
+                "evidence/PW-043/release-path-20261015/frames/2903-route/house-exit-before-e.json",
+                "evidence/PW-043/release-path-20261015/frames/2903-route/after-house-exit.png"
+              ],
+              "data_integrity": "userdataRestored and snapshot_hashes_verified true",
+              "limit": "GameExit0; overall FAIL exit-only RID/resource leaks retained as separate lifecycle risk, no clean whole-runtime claim."
             }
           }
         ]
@@ -108197,10 +108211,10 @@
         "verification_question": "Работает ли физический путь пролог→прибытие→дом/книга с доступным обычным вводом и без обхода авторских условий?",
         "success_condition": "AffectedC#compile and guardedactualfullscene: controls/skip-orbranch+F03/niva/home/tea/book; noNewGame/Continue/export/fullreleaseclaim untilactualownDoD.",
         "remaining": "PFOREST/Sschoolfront unavailable, fullW01F10–F16 andallworld/artgates open; default/export remainunchanged untilplayerpath verified.",
-        "next_action": "Один следующий конечный шаг: уже подтверждённый подход/чайный выбор Enter→физический book-handoff→PhotoBook UI. Не повторять статический свет или диагностику двери.",
+        "next_action": "Принять текущий этап и произвести предусмотренный P-FOREST: сначала камера/три опоры PW-040/E01, затем источник/provenance/front+thumbnail PW-040/E02 и точный book consumer. Lifecycle exit-RID остаётся отдельной runtime работой.",
         "build": "evidence/PW-043/release-path-20261014/game-build-dense-forest.log",
         "build_result": "AffectedGameC#0errors/0warnings; nofullruntimeclaim. Producer127008tris/heights0,1,3,4m/2.1mwidth/hash checks;30registered original trees reused.",
-        "station_wait": "a44 завершён timeout124; userdataRestored=true, snapshot_hashes_verified=true. Input/OBS освобождены.",
+        "station_wait": "2903 штатно закрыт/terminal; userdataRestored=true/snapshot_hashes_verified=true, exit resource leaks recorded. Новых запусков нет.",
         "runtime_attempt_8195": {
           "receipt": "evidence/PW-043/release-path-20261014/native_8195/receipt.json",
           "game_log": "evidence/PW-043/release-path-20261014/native_8195/game.log",
@@ -108276,6 +108290,31 @@
           "result": "Обычный skip→Нива→ворота→дом→диалог Гөлсинә. Чайный выбор Enter не принят до остановки по таймеру, книгу ещё не получали.",
           "frames": "evidence/PW-043/release-path-20261014/frames/a44f-route",
           "next_action": "Один следующий конечный шаг: уже подтверждённый подход/чайный выбор Enter→физический book-handoff→PhotoBook UI. Не повторять статический свет или диагностику двери."
+        }
+      },
+      "progress_2026_10_15_book_handoff": {
+        "state": "tea_book_received_exit_verified",
+        "verification_question": "После обычного входа/приветствия завершается ли чайный выбор и физическая передача книги с открытием PhotoBook UI?",
+        "success_condition": "Runtime warm-arrival и family-book receive отражены, текущая PhotoBook UI лично просмотрена; сохранён receipt и восстановление пользовательских данных. Не заявлять весь PW-019/PW-043 или художественную приёмку.",
+        "job": "290318f8357049d4b2ad5dde9bcc3f8b",
+        "snapshot": "7caed9bc7e3e5cfe4931cc4a19eb699706e15a0e929a60778683b4348d3b8ed5",
+        "source_change": "None; new finite action/verification scope after proven reachable door/tea dialog, not a repeat of accepted lighting/door verification.",
+        "input_owner": "release_route_play (native Luna Fast role)",
+        "next_action": "Принять текущий этап и произвести предусмотренный P-FOREST: сначала камера/три опоры PW-040/E01, затем источник/provenance/front+thumbnail PW-040/E02 и точный book consumer. Lifecycle exit-RID остаётся отдельной runtime работой.",
+        "result": "Обычный tea choice Enter→доступный book E→PhotoBook UI→HouseExit E→зимний двор. Root лично просмотрел физическую книгу, фотоальбом и холодный двор после выхода.",
+        "receipt": "evidence/PW-043/release-path-20261015/native_2903/receipt.json",
+        "game_log": "evidence/PW-043/release-path-20261015/native_2903/game.log",
+        "frames": "evidence/PW-043/release-path-20261015/frames/2903-route",
+        "technical_scope": "Own finite handoff/boundary stage accepted; not full PW-019/PW-043/PhotoWorlds release. Raw log [56] photoworlds.book.received and zone-loaded house_old_pc@entry→village_day@from_house.",
+        "runtime_limits": "Game exited normally 0, userdataRestored/hashverified true; station receipt FAIL solely exit RID/resource leaks. Lifecycle not claimed clean.",
+        "ui_defects": {
+          "heading": "Confirmed vertical character column caused by autowrap label without ExpandFill; one existing flag added, code inspection/diff check; changed-render check pending.",
+          "pforest_front": "P-FOREST SPECIFIED_NOT_PRODUCED; A-PHOTOSET REQUESTED/REQUIRES_PROVENANCE. No exact front runtime file. Not replaced by First Snow or S-GARDEN."
+        },
+        "lifecycle_risk": {
+          "blocker": "Normal owned exit from connected village/house path reports GPU RID/resource leaks; owner not identified. Focus cue hypothesis refuted by bounded source inspection.",
+          "release_condition": "Same connected-world path closes normally without the recorded RID/resource errors, preserving station/userdata guards.",
+          "next_finite_step": "Identify the retained owned render resource/node in connected-world lifetime before choosing a minimal fix; no speculative focus cleanup."
         }
       }
     },
@@ -116125,6 +116164,14 @@
               },
               "native_album_view": "NOT_RUN",
               "remaining": "Actual list readability/keyboard scroll/session/Continue on Windows; 12 fronts and complete thumbnail asset set open"
+            },
+            "progress_2026_10_15_pforest_preview": {
+              "state": "front_unproduced_heading_fix_implemented",
+              "native_before": "evidence/PW-043/release-path-20261015/frames/2903-route/after-book-handoff.png",
+              "confirmed_input": "content/campaigns/urman.fullgame/photoworlds-sources/photos.spec.json:P-FOREST SPECIFIED_NOT_PRODUCED; assets.spec.json:A-PHOTOSET REQUESTED, REQUIRES_PROVENANCE",
+              "heading_fix": "game/scripts/JournalUi.PhotoBook.cs: front heading ExpandFill using existing layout pattern; source/diff inspected. New native layout not yet captured.",
+              "missing_front_release_condition": "Produced P-FOREST front/thumbnail + source provenance, matching staged camera/three recognizable portal supports; registered exact asset consumed by photo album. Author art acceptance remains separate.",
+              "next_finite_step": "PW-040/E01: first P-FOREST camera/three supports in its corresponding W01 stage, then produce/register that front under PW-040/E02. Do not require full neighboring aggregate before checking named stage artifact."
             }
           },
           {
@@ -117519,10 +117566,10 @@
         "verification_question": "Работает ли физический путь пролог→прибытие→дом/книга с доступным обычным вводом и без обхода авторских условий?",
         "success_condition": "AffectedC#compile and guardedactualfullscene: controls/skip-orbranch+F03/niva/home/tea/book; noNewGame/Continue/export/fullreleaseclaim untilactualownDoD.",
         "remaining": "PFOREST/Sschoolfront unavailable, fullW01F10–F16 andallworld/artgates open; default/export remainunchanged untilplayerpath verified.",
-        "next_action": "Один следующий конечный шаг: уже подтверждённый подход/чайный выбор Enter→физический book-handoff→PhotoBook UI. Не повторять статический свет или диагностику двери.",
+        "next_action": "Принять текущий этап и произвести предусмотренный P-FOREST: сначала камера/три опоры PW-040/E01, затем источник/provenance/front+thumbnail PW-040/E02 и точный book consumer. Lifecycle exit-RID остаётся отдельной runtime работой.",
         "build": "evidence/PW-043/release-path-20261014/game-build-dense-forest.log",
         "build_result": "AffectedGameC#0errors/0warnings; nofullruntimeclaim. Producer127008tris/heights0,1,3,4m/2.1mwidth/hash checks;30registered original trees reused.",
-        "station_wait": "a44 завершён timeout124; userdataRestored=true, snapshot_hashes_verified=true. Input/OBS освобождены.",
+        "station_wait": "2903 штатно закрыт/terminal; userdataRestored=true/snapshot_hashes_verified=true, exit resource leaks recorded. Новых запусков нет.",
         "runtime_attempt_8195": {
           "receipt": "evidence/PW-043/release-path-20261014/native_8195/receipt.json",
           "game_log": "evidence/PW-043/release-path-20261014/native_8195/game.log",
@@ -117598,6 +117645,31 @@
           "result": "Обычный skip→Нива→ворота→дом→диалог Гөлсинә. Чайный выбор Enter не принят до остановки по таймеру, книгу ещё не получали.",
           "frames": "evidence/PW-043/release-path-20261014/frames/a44f-route",
           "next_action": "Один следующий конечный шаг: уже подтверждённый подход/чайный выбор Enter→физический book-handoff→PhotoBook UI. Не повторять статический свет или диагностику двери."
+        }
+      },
+      "progress_2026_10_15_book_handoff": {
+        "state": "tea_book_received_exit_verified",
+        "verification_question": "После обычного входа/приветствия завершается ли чайный выбор и физическая передача книги с открытием PhotoBook UI?",
+        "success_condition": "Runtime warm-arrival и family-book receive отражены, текущая PhotoBook UI лично просмотрена; сохранён receipt и восстановление пользовательских данных. Не заявлять весь PW-019/PW-043 или художественную приёмку.",
+        "job": "290318f8357049d4b2ad5dde9bcc3f8b",
+        "snapshot": "7caed9bc7e3e5cfe4931cc4a19eb699706e15a0e929a60778683b4348d3b8ed5",
+        "source_change": "None; new finite action/verification scope after proven reachable door/tea dialog, not a repeat of accepted lighting/door verification.",
+        "input_owner": "release_route_play (native Luna Fast role)",
+        "next_action": "Принять текущий этап и произвести предусмотренный P-FOREST: сначала камера/три опоры PW-040/E01, затем источник/provenance/front+thumbnail PW-040/E02 и точный book consumer. Lifecycle exit-RID остаётся отдельной runtime работой.",
+        "result": "Обычный tea choice Enter→доступный book E→PhotoBook UI→HouseExit E→зимний двор. Root лично просмотрел физическую книгу, фотоальбом и холодный двор после выхода.",
+        "receipt": "evidence/PW-043/release-path-20261015/native_2903/receipt.json",
+        "game_log": "evidence/PW-043/release-path-20261015/native_2903/game.log",
+        "frames": "evidence/PW-043/release-path-20261015/frames/2903-route",
+        "technical_scope": "Own finite handoff/boundary stage accepted; not full PW-019/PW-043/PhotoWorlds release. Raw log [56] photoworlds.book.received and zone-loaded house_old_pc@entry→village_day@from_house.",
+        "runtime_limits": "Game exited normally 0, userdataRestored/hashverified true; station receipt FAIL solely exit RID/resource leaks. Lifecycle not claimed clean.",
+        "ui_defects": {
+          "heading": "Confirmed vertical character column caused by autowrap label without ExpandFill; one existing flag added, code inspection/diff check; changed-render check pending.",
+          "pforest_front": "P-FOREST SPECIFIED_NOT_PRODUCED; A-PHOTOSET REQUESTED/REQUIRES_PROVENANCE. No exact front runtime file. Not replaced by First Snow or S-GARDEN."
+        },
+        "lifecycle_risk": {
+          "blocker": "Normal owned exit from connected village/house path reports GPU RID/resource leaks; owner not identified. Focus cue hypothesis refuted by bounded source inspection.",
+          "release_condition": "Same connected-world path closes normally without the recorded RID/resource errors, preserving station/userdata guards.",
+          "next_finite_step": "Identify the retained owned render resource/node in connected-world lifetime before choosing a minimal fix; no speculative focus cleanup."
         }
       }
     },

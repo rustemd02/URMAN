@@ -167,7 +167,8 @@ public partial class JournalUi
         _photoBookFrontHeading = new Label
         {
             Text = "Описание снимка",
-            AutowrapMode = TextServer.AutowrapMode.WordSmart
+            AutowrapMode = TextServer.AutowrapMode.WordSmart,
+            SizeFlagsHorizontal = Control.SizeFlags.ExpandFill
         };
         frontCardHeading.AddChild(_photoBookFrontHeading);
         frontCardHeading.AddChild(new Control { SizeFlagsHorizontal = Control.SizeFlags.ExpandFill });

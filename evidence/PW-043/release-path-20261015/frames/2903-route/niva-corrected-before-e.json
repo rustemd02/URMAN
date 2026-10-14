@@ -1,0 +1,25 @@
+{
+  "kind": "interactive-game-viewport",
+  "jobId": "290318f8357049d4b2ad5dde9bcc3f8b",
+  "requestId": "0de7e79f4ca3454a89d06dffc35726d5",
+  "pid": 129856,
+  "status": "ok",
+  "width": 1886,
+  "height": 1061,
+  "pngSha256": "79e63de05fae00608007d5339efe45d84a4d3349a5dea9eb3545665d5aa90b7b",
+  "scenePath": "res://scenes/full_game.tscn",
+  "cameraPath": "/root/FullGameMain/Player/Head/Camera3D",
+  "cameraPosition": [
+    -0.79561603,
+    1.1310012,
+    14.154938
+  ],
+  "cameraRotationDegrees": [
+    0,
+    171.2,
+    0
+  ],
+  "interactionRayCollider": "/root/FullGameMain/ZoneHost/Act1ConnectedWorld/VillageVehicles/babay-niva/PhotoWorldNivaStop",
+  "interactionId": "urman.fullgame:interaction/pw-niva-stop",
+  "interactionAvailable": true
+}
