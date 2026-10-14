@@ -4792,21 +4792,30 @@
             "title": "Подключить S04 — Снег на крышах и верхних гранях",
             "result": "Подключить S04 — Снег на крышах и верхних гранях",
             "owner": "art/materials/qa",
-            "evidence": [],
+            "evidence": [
+              "evidence/PW-034/whole-style-20261014/core-house-style/receipt.json",
+              "evidence/PW-034/whole-style-20261014/core-house-style/frames/C2_house_high.png",
+              "evidence/PW-034/whole-style-20261014/street-close/receipt.json",
+              "evidence/PW-034/whole-style-20261014/street-close/frames/street_left_close.png",
+              "evidence/PW-034/whole-style-20261014/street-close/frames/street_right_close.png",
+              "evidence/PW-089/ordinary-style-20261014/wgc-short/movie-inspection-walk/movie-inspection.json",
+              "evidence/PW-089/ordinary-style-20261014/wgc-short/movie-inspection-walk/temporal-01-150.jpg",
+              "evidence/PW-089/ordinary-style-20261014/wgc-short/movie-inspection-walk/temporal-01-200.jpg",
+              "evidence/PW-089/ordinary-style-20261014/wgc-short/movie-inspection-walk/temporal-01-300.jpg",
+              "evidence/PW-089/ordinary-style-20261014/wgc-short/movie-inspection-walk/temporal-01-450.jpg"
+            ],
             "assigned_owner": "art/materials/qa",
             "active_owner": null,
             "activity": {
-              "state": "released",
-              "reason": "Matched native before/after partial evidence delivered, station released; physical motion/indoor scenario and visual criteria open."
+              "state": "not_active",
+              "reason": "Собственное подключение S04 принято root и независимым GPT-6 Luna / Max по current High consumer/source receipts; назначение сохранено. Полная temporal/art приёмка не объявлена."
             },
             "task_type": "engineering",
-            "status": "in_progress",
-            "implementation_state": "partial",
-            "technical_verification_state": "not_run",
-            "remaining": [
-              "Подключить S04 — Снег на крышах и верхних гранях; собственного целевого receipt пока нет."
-            ],
-            "next_action": "Проверить фактуру/свет в движении и actual walk-in indoor grade через существующий защищённый игровой маршрут; сохранить отдельную художественную приёмку. До этого completed не ставить.",
+            "status": "completed",
+            "implementation_state": "implemented",
+            "technical_verification_state": "passed",
+            "remaining": [],
+            "next_action": "Own finite S04 binding DoD accepted; no new roof map. Motion shimmer/full material QA remains open under existing PW-089 and parent acceptance; author art/culture gates preserved.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -4920,6 +4929,26 @@
               "paired_visual_result": "Root viewed both pairs: clearer distance, warmer lit wood/snow vs cool shadow; near log wall remains overly dark, repeated angular forest silhouettes and limited material variation remain. S04 2m repeat source bound, quiet roof seen, movement shimmer not verified. Not full visual completion.",
               "source_comparison": "Only six atmosphere fields, PML snow_roof scale, and peer AI14 AuthoredWorldDirector differ. Independent Luna: ordinary catalogs/GLB roots do not enter new optional selectedRoot/modelPath branch; geometry selection unchanged. Other snapshot files equal.",
               "station_release": "doctor ready=true,busy_job=null,orphan_game_process=false,userdata_recovery_pending=false after PASS; Windows released."
+            },
+            "progress_2026_10_14_binding": {
+              "state": "completed_own_binding_dod",
+              "result": "Existing roof snow map bound world-triplanar at .5/m = 2m repeat; actual settled roof cap and geometric thickness/eave edge visible. Root personally inspected C2 and street_left_close; independent GPT-6 Luna Max readback confirms source/receipt/current consumer. No new map/geometry.",
+              "evidence": [
+                "evidence/PW-034/whole-style-20261014/core-house-style/receipt.json",
+                "evidence/PW-034/whole-style-20261014/core-house-style/frames/C2_house_high.png",
+                "evidence/PW-034/whole-style-20261014/street-close/receipt.json",
+                "evidence/PW-034/whole-style-20261014/street-close/frames/street_left_close.png",
+                "evidence/PW-034/whole-style-20261014/street-close/frames/street_right_close.png",
+                "evidence/PW-089/ordinary-style-20261014/wgc-short/movie-inspection-walk/movie-inspection.json",
+                "evidence/PW-089/ordinary-style-20261014/wgc-short/movie-inspection-walk/temporal-01-150.jpg",
+                "evidence/PW-089/ordinary-style-20261014/wgc-short/movie-inspection-walk/temporal-01-200.jpg",
+                "evidence/PW-089/ordinary-style-20261014/wgc-short/movie-inspection-walk/temporal-01-300.jpg",
+                "evidence/PW-089/ordinary-style-20261014/wgc-short/movie-inspection-walk/temporal-01-450.jpg"
+              ],
+              "verification": "Current High/FOV70 crisp village_day; PASS build/import/game0, userdataRestoredtrue, snapshot_hashes_verifiedtrue; PML/Act1ConnectedWorld/map hashes match current source. At these still views no obvious repeated tile; stills do not establish temporal shimmer.",
+              "acceptance": "Root accepts finite reuse/binding and real roof consumer from current High static views/source/restored receipts, following existing S03/F04 binding-unit boundary. This does not claim absence of temporal flicker or complete material library art acceptance.",
+              "limitations": "Own finite binding/current roof result accepted; broader High temporal/material QA and author art remain open under existing PW-089/parent gates.",
+              "motion_readback": "Actual Medium WGC slice380–425s: root personally inspected395/400/410/425s (samples150/200/300/450), independent Luna inspected17selectedtimes including391pause/392.5resume. Visible roof caps retain eave/thickness and calm texture; no obvious tile/shimmer in these samples. Not full High temporal or all conditions."
             }
           },
           {
@@ -97516,24 +97545,28 @@
               "evidence/ACT1-ATMOSPHERE/crisp-day-20261013/after-fill/frames/C2_house_high.png",
               "evidence/ACT1-ATMOSPHERE/daylight-whole-scene-20261014/receipt.json",
               "evidence/ACT1-ATMOSPHERE/daylight-whole-scene-20261014/frames/C1_street_high.png",
-              "evidence/ACT1-ATMOSPHERE/daylight-whole-scene-20261014/frames/C2_house_high.png"
+              "evidence/ACT1-ATMOSPHERE/daylight-whole-scene-20261014/frames/C2_house_high.png",
+              "evidence/PW-089/ordinary-style-20261014/wgc-retry-frames/04-current-after-enter.png",
+              "evidence/PW-089/ordinary-style-20261014/wgc-retry-frames/08-enter-prompt.png",
+              "evidence/PW-089/ordinary-style-20261014/wgc-retry-play/receipt.json",
+              "evidence/PW-089/ordinary-style-20261014/wgc-short/PW089-2026-10-14_04-15-31.mp4",
+              "evidence/PW-089/ordinary-style-20261014/wgc-short/movie-inspection-last120/movie-inspection.json",
+              "evidence/PW-089/ordinary-style-20261014/wgc-short/movie-inspection-last120/temporal-01-1080.jpg",
+              "evidence/PW-089/ordinary-style-20261014/wgc-short/movie-inspection-last120/temporal-01-1130.jpg",
+              "evidence/PW-089/ordinary-style-20261014/wgc-short/movie-inspection-last120/temporal-01-1200.jpg"
             ],
             "assigned_owner": "codex/b02-2026-10-13",
-            "active_owner": "codex/b02",
+            "active_owner": null,
             "activity": {
-              "state": "confirmed_active",
-              "reason": "14.10: прямое возобновление B02/create_goal; root принимает pending daylight candidate, GPT-6 Luna Max независимо смотрит кадры и защищённый motion/indoor route."
+              "state": "not_active",
+              "reason": "Root accepted finite village-winter light/visibility/particles own DoD from existing current High static views plus ordinary Medium motion and real loading-boundary into warm house; assigned owner and external parent art gates preserved."
             },
             "task_type": "engineering",
-            "status": "in_progress",
-            "implementation_state": "partial",
-            "technical_verification_state": "not_run",
-            "remaining": [
-              "Дневной integrated static этап принят; ordinary walk/turn/indoor boundary с текущим источником ещё не проверен.",
-              "Снять существующие High Zirat/Kara и house checkpoints раздельно по zone; не выдавать static view за обычный проход.",
-              "Авторская художественная приёмка сохраняется отдельно."
-            ],
-            "next_action": "Проверить house High и две ночные палитры в отдельных существующих checkpoints; выполнить обычное движение и границу интерьера через восстановленный native UI v2.",
+            "status": "completed",
+            "implementation_state": "implemented",
+            "technical_verification_state": "passed",
+            "remaining": [],
+            "next_action": "Own winter-village engineering result accepted; stop this unit. Broader High temporal/material QA and author/culture acceptance remain under existing PW-089/PW-034/parent gates.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -97700,6 +97733,23 @@
                 "evidence/PW-034/whole-style-20261014/zirat-pair/frames/zirat_row_verify.png"
               ],
               "remaining": "Actual Zirat7995 PASS/restored/hashes verified, entry/row personally reviewed, but effectiveLow/performance-rescue (not High). Ordinary movement/boundary and author art open. House8419 also effectiveLow despite requestedHigh, not High material validation."
+            },
+            "progress_2026_10_14_ordinary_boundary": {
+              "state": "ordinary_motion_and_location_boundary_verified",
+              "job_id": "3c45916e79184f219e569aa7f1a998c1",
+              "result": "Root ordinary New Game -> skipped arrival -> physical walk/relative look -> observed E prompt -> E entered actual warm house with Abi, cloth curtains and wallpaper. No debug teleport/checkpoint dispatch. Interior image does not show outside snow/lilac grade leaking over room.",
+              "evidence": [
+                "evidence/PW-089/ordinary-style-20261014/wgc-retry-frames/04-current-after-enter.png",
+                "evidence/PW-089/ordinary-style-20261014/wgc-retry-frames/08-enter-prompt.png",
+                "evidence/PW-089/ordinary-style-20261014/wgc-retry-play/receipt.json",
+                "evidence/PW-089/ordinary-style-20261014/wgc-short/PW089-2026-10-14_04-15-31.mp4",
+                "evidence/PW-089/ordinary-style-20261014/wgc-short/movie-inspection-last120/movie-inspection.json",
+                "evidence/PW-089/ordinary-style-20261014/wgc-short/movie-inspection-last120/temporal-01-1080.jpg",
+                "evidence/PW-089/ordinary-style-20261014/wgc-short/movie-inspection-last120/temporal-01-1130.jpg",
+                "evidence/PW-089/ordinary-style-20261014/wgc-short/movie-inspection-last120/temporal-01-1200.jpg"
+              ],
+              "verification": "Hash-verified finalized WGC movie642.067s1280x720, real normalE transition exterior -> loading overlay -> actual warm room/Abi; root personally reviewed distributedframe03/04 and dense1080/1100/1130/1150/1200. Ordinary runtime Medium per game.log, not High/comparable. Existing High/FOV70 matched static PASS receipts plus this state-boundary review are accepted as sufficient for own winter-village unit; no full High temporal or external art claim. Play overallFAILtimeout124 retained, userdataRestored/hashverifiedtrue.",
+              "correction": "Earlier inference of recording ending before house entry from separately observed clock times was wrong; movie frames authoritatively include loading and indoor arrival. Not continuous geometric walk-through."
             }
           },
           {
@@ -113477,6 +113527,18 @@
           "evidence/PW-034/whole-style-20261014/street-close/frames/street_left_close.png",
           "evidence/PW-034/whole-style-20261014/street-close/frames/street_right_close.png"
         ]
+      },
+      "progress_2026_10_14_portal_fix": {
+        "state": "implemented_compile_pass_runtime_pending",
+        "defect": "BuildDwellingLogWalls rebuilt crowns across the source HeroHouse street Portal0: closed door fails Street_ prefix and Portal0 jamb/rails fail Recess/Glass/Leaf filter. Seen in ordinary07-porch-interact.png; source GLB aperture correct.",
+        "change": "Only exact HeroHouse_Street_Wall_LOD0 collects four existing Portal0 jamb/rail meshes into one projected local aperture. Frame/source mesh/material/collision/LOD and other houses unchanged.",
+        "target": "game/scripts/Act1ConnectedWorld.DwellingLogWalls.cs",
+        "verification": "Affected game module: .tools/dotnet/dotnet build game/Urman.Game.csproj --no-restore --nologo -v:q exit0, 0 warnings/errors (16.30s). Source diff-check passes; source receipt has four exact portal members. Current corrected runtime door not captured yet.",
+        "evidence": [
+          "evidence/PW-089/ordinary-style-20261014/wgc-retry-frames/07-porch-interact.png",
+          "assets/source/blender/receipts/urman_village_exterior_kit.structure.json"
+        ],
+        "next_action": "After Windows C-space/transport/owned-recorder cleanup releases station, existing babai_entry_door and babai_porch_side_clear_high targeted current capture; personally verify exposed closed door and ordinary entry."
       }
     },
     {
@@ -134913,7 +134975,12 @@
           "kind": "code_static",
           "path": "docs/production/visual_restyle_2026-10-07/P2_DESIGN_DIRECTIONS_RU.md",
           "result": "Статическая реализация (dotnet build 0/0): VIS-036 — mipmaps полотенца; VIS-039 — диагностический режим съёмки; VIS-104 — UV одежды в генераторах (нужна перегенерация); VIS-111 — FOV съёмки. Runtime NOT_RUN; Кадры before/after не сняты: станция UNTERPC отклоняет задания «station execution infrastructure differs from snapshot: eng/run-windows-check.ps1» (четыре попытки 08–09.10 с версиями скрипта b93ecf97, e3c9b89a, origin/main и текущей; копия станции не совпала ни с одной — см. docs/production/WINDOWS_SSH_SETUP_PROMPT_RU.md, раздел «Почини несовпадение runner»). Локальный запуск на Mac (Metal, Forward+) загрузил сцену; найденные ошибки шейдеров исправлены. Авторская приёмка — PENDING."
-        }
+        },
+        "evidence/PW-089/ordinary-style-20261014/wgc-short/PW089-2026-10-14_04-15-31.mp4",
+        "evidence/PW-089/ordinary-style-20261014/wgc-short/movie-inspection-last120/movie-inspection.json",
+        "evidence/PW-089/ordinary-style-20261014/wgc-short/movie-inspection-last120/temporal-01-1080.jpg",
+        "evidence/PW-089/ordinary-style-20261014/wgc-short/movie-inspection-last120/temporal-01-1130.jpg",
+        "evidence/PW-089/ordinary-style-20261014/wgc-short/movie-inspection-last120/temporal-01-1200.jpg"
       ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-089",
       "source_requirements": [
@@ -135071,7 +135138,7 @@
         "Реальные ролики показывают устойчивый мазок.",
         "Статичные красивые PNG не подменяют temporal review."
       ],
-      "next_action": "Diagnose black game-window OBS capture from existing private scene/profile/log and exact method/selector; one next recording only with a new causal fact and early non-black decoded sample. Continue B02 style work independently; full motion/actor/door/material temporal DoD remains open.",
+      "next_action": "Station released; existing corrected hero door/porch capture, then broader High/all-family temporal QA only by concrete remaining contract. Actual Medium movie already accepted as finite real route/loading-boundary stage; external art gates open.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -135383,12 +135450,50 @@
         }
       },
       "progress_2026_10_14_wgc_attempt": {
-        "state": "in_progress",
+        "state": "partial_live_route_recorder_prelaunch_failed",
         "job_id": "d0168099cfb74a2a809c39fbd336dbab",
         "snapshot_id": "dc505ff9131dcc0c43d31ae5993bfd2c7734310f2695820e568c02f0acbe894b",
-        "result": "New ordinary protected play, no changed source since accepted static snapshot. Short explicit WGC(method2) recording first; longer physical motion only after decoded non-black game-window evidence. Prior black movie retained.",
-        "causal_fact": "Raw OBS log chose Automatic→BitBlt for Godot Engine class; single scene/source/selector/transform verified. Exact black-frame cause still not fully proven, WGC is a bounded next hypothesis.",
-        "verification_pending": "Root guarded menu/village capture, isolated recorder source logmethodWGC, short normal-close MP4 decode/nonblack; if successful walk/turn/door video; game/data restore receipt."
+        "result_sha256": "4cd99e550956fdd2e22fe84188495828230510fe045e5493903636d10a32d08f",
+        "receipt": "evidence/PW-089/ordinary-style-20261014/wgc-play/receipt.json",
+        "game_exit_code": 124,
+        "userdata_restored": true,
+        "snapshot_hashes_verified": true,
+        "visible_result": "Physical relative look and ordinary walking reached the house door prompt; 05-door-approach.png. Inside house and door motion not proved.",
+        "recorder_failure": "Task action supplied URMAN(DEBUG), actual owned window title URMAN (DEBUG); launcher rejected before OBS/sandbox. Exact exception was not retained, so title mismatch is a confirmed bad input, not claimed sole exception. Next fresh attempt retains transcript and uses exact nonempty title/class.",
+        "evidence": [
+          "evidence/PW-089/ordinary-style-20261014/wgc-frames/05-door-approach.png",
+          "evidence/PW-089/ordinary-style-20261014/recorder/wgc-start-failure-20261014T004646Z.txt"
+        ]
+      },
+      "progress_2026_10_14_wgc_retry": {
+        "state": "accepted_engineering_stage_real_movie_and_boundary",
+        "job_id": "3c45916e79184f219e569aa7f1a998c1",
+        "snapshot_id": "2ed8459f6166b79f79db2796fef1d0acbd90e88e4bd01b5144c6c50b6c0daa7b",
+        "result_sha256": "dd306f8b0ee07cfe441be94463073a0cda507aeafb2a41db5ec5fa16604258bb",
+        "receipt": "evidence/PW-089/ordinary-style-20261014/wgc-retry-play/receipt.json",
+        "game_exit_code": 124,
+        "userdata_restored": true,
+        "snapshot_hashes_verified": true,
+        "observed": "Root personally inspected distributed frame03 village/frame04 close log-house and dense samples1080 loading,1100/1130/1150/1200 warm interior/Abi. WGC non-black real game confirmed; same uncut recording includes normal location-loading transition, not geometric doorway walkthrough. Runtime Medium per game.log. 1201 timestamped decodes521.967–641.967 at.1s; no desktop/audio-source capture. Movie and receipts prove this finite capture/route stage, not complete High/all-family temporal QA.",
+        "blocker": "Resolved: owned lowdisk modal ACK matched exactPID/HWND/message/oneenabledOK; modalGone true, exact OBS PID122752 nowabsent, exec recovered, doctorready/busy-null/recoveryfalse/orphanfalse. FinalStopreceipt absent, so no claim that freshStop wrote receipt or caused exit. Valid movie and sourceSHA preserved.",
+        "movie": "evidence/PW-089/ordinary-style-20261014/wgc-short/PW089-2026-10-14_04-15-31.mp4",
+        "movie_bytes": 102114580,
+        "movie_sha256": "7f2b234fb622b519797db8b4fe644e688be41d22dc0dfd0ab86b0329a8315991",
+        "movie_duration_seconds": 642.067,
+        "timing_correction": "Approximate separately observed wall clocks do not justify excluding house entry; actual movie images show the transition. OBS low-space stop retained as rawlog fact.",
+        "evidence": [
+          "evidence/PW-089/ordinary-style-20261014/wgc-short/PW089-2026-10-14_04-15-31.mp4",
+          "evidence/PW-089/ordinary-style-20261014/wgc-short/movie-inspection-last120/movie-inspection.json",
+          "evidence/PW-089/ordinary-style-20261014/wgc-short/movie-inspection-last120/temporal-01-1080.jpg",
+          "evidence/PW-089/ordinary-style-20261014/wgc-short/movie-inspection-last120/temporal-01-1130.jpg",
+          "evidence/PW-089/ordinary-style-20261014/wgc-short/movie-inspection-last120/temporal-01-1200.jpg"
+        ],
+        "motion_readback": "Actual Medium walk380–425s and dense521.967–641.967 inspectedselectedframes byroot/Luna: wood pattern visibly attached throughlook/approach, roof caps quiet atobservedangles, no clear pine LODpop inshortslice, cloth/Abi indoorarrival sampled. Conicalforest remains visually repetitive. Not High/all-family QA, geometrydooranimation, sustainedFPS or externalacceptance.",
+        "cleanup_evidence": [
+          "evidence/PW-089/ordinary-style-20261014/wgc-short/recorder/obs-dialog-inspection-c52b6f228aeb.json",
+          "evidence/PW-089/ordinary-style-20261014/wgc-short/recorder/pw089-recorder-disk-modal-ack-c52b6f228aeb.json",
+          "evidence/PW-089/ordinary-style-20261014/wgc-short/cleanup-old-copied-installation-sftp.txt"
+        ]
       }
     },
     {

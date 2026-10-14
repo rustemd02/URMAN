@@ -1,0 +1,166 @@
+{
+    "capturedUtc":  "2026-10-14T02:12:57.6154119Z",
+    "process":  {
+                    "pid":  122752,
+                    "exe":  "C:\\Users\\ruste\\AppData\\Local\\Temp\\urman-pw089-wgc-20261014-3c45916e79184f219e569aa7f1a998c1\\obs-studio\\bin\\64bit\\obs64.exe",
+                    "startUtc":  "2026-10-14T01:15:20.9255846Z",
+                    "responding":  true
+                },
+    "visibleOwnedWindowCount":  2,
+    "windows":  [
+                    {
+                        "uiaError":  null,
+                        "textAndButtons":  [
+                                               {
+                                                   "controlType":  "ControlType.Text",
+                                                   "name":  "На диске недостаточно места для продолжения записи."
+                                               },
+                                               {
+                                                   "controlType":  "ControlType.Button",
+                                                   "name":  "OK"
+                                               }
+                                           ],
+                        "class":  "Qt643QWindowIcon",
+                        "uiaStatus":  "ok",
+                        "title":  "Недостаточно места на диске",
+                        "hwnd":  1442194
+                    },
+                    {
+                        "uiaError":  null,
+                        "textAndButtons":  [
+                                               {
+                                                   "controlType":  "ControlType.Text",
+                                                   "name":  "На диске недостаточно места для продолжения записи."
+                                               },
+                                               {
+                                                   "controlType":  "ControlType.Button",
+                                                   "name":  "OK"
+                                               },
+                                               {
+                                                   "controlType":  "ControlType.Text",
+                                                   "name":  "Источник не выбран"
+                                               },
+                                               {
+                                                   "controlType":  "ControlType.Button",
+                                                   "name":  "Свойства"
+                                               },
+                                               {
+                                                   "controlType":  "ControlType.Button",
+                                                   "name":  "Фильтры"
+                                               },
+                                               {
+                                                   "controlType":  "ControlType.Text",
+                                                   "name":  "LIVE: 00:00:00"
+                                               },
+                                               {
+                                                   "controlType":  "ControlType.Text",
+                                                   "name":  "REC: 00:00:00"
+                                               },
+                                               {
+                                                   "controlType":  "ControlType.Text",
+                                                   "name":  "CPU: 0.0%, 30.00 fps"
+                                               },
+                                               {
+                                                   "controlType":  "ControlType.Button",
+                                                   "name":  "Добавить"
+                                               },
+                                               {
+                                                   "controlType":  "ControlType.Button",
+                                                   "name":  "Удалить"
+                                               },
+                                               {
+                                                   "controlType":  "ControlType.Button",
+                                                   "name":  "Открыть фильтры сцены"
+                                               },
+                                               {
+                                                   "controlType":  "ControlType.Button",
+                                                   "name":  "Выше"
+                                               },
+                                               {
+                                                   "controlType":  "ControlType.Button",
+                                                   "name":  "Ниже"
+                                               },
+                                               {
+                                                   "controlType":  "ControlType.Button",
+                                                   "name":  "Float"
+                                               },
+                                               {
+                                                   "controlType":  "ControlType.Button",
+                                                   "name":  "Добавить"
+                                               },
+                                               {
+                                                   "controlType":  "ControlType.Button",
+                                                   "name":  "Удалить"
+                                               },
+                                               {
+                                                   "controlType":  "ControlType.Button",
+                                                   "name":  "Свойства"
+                                               },
+                                               {
+                                                   "controlType":  "ControlType.Button",
+                                                   "name":  "Выше"
+                                               },
+                                               {
+                                                   "controlType":  "ControlType.Button",
+                                                   "name":  "Ниже"
+                                               },
+                                               {
+                                                   "controlType":  "ControlType.Button",
+                                                   "name":  "Float"
+                                               },
+                                               {
+                                                   "controlType":  "ControlType.Button",
+                                                   "name":  "AdvAudioProps"
+                                               },
+                                               {
+                                                   "controlType":  "ControlType.Button",
+                                                   "name":  "Меню микшера звука"
+                                               },
+                                               {
+                                                   "controlType":  "ControlType.Button",
+                                                   "name":  "Float"
+                                               },
+                                               {
+                                                   "controlType":  "ControlType.Text",
+                                                   "name":  "Длительность"
+                                               },
+                                               {
+                                                   "controlType":  "ControlType.Button",
+                                                   "name":  "Добавить настраиваемый переход"
+                                               },
+                                               {
+                                                   "controlType":  "ControlType.Button",
+                                                   "name":  "Убрать настраиваемый переход"
+                                               },
+                                               {
+                                                   "controlType":  "ControlType.Button",
+                                                   "name":  "Параметры перехода"
+                                               },
+                                               {
+                                                   "controlType":  "ControlType.Button",
+                                                   "name":  "Float"
+                                               },
+                                               {
+                                                   "controlType":  "ControlType.Button",
+                                                   "name":  "Настройки"
+                                               },
+                                               {
+                                                   "controlType":  "ControlType.Button",
+                                                   "name":  "Выход"
+                                               },
+                                               {
+                                                   "controlType":  "ControlType.Button",
+                                                   "name":  "Настроить виртуальную камеру"
+                                               },
+                                               {
+                                                   "controlType":  "ControlType.Button",
+                                                   "name":  "Float"
+                                               }
+                                           ],
+                        "class":  "Qt643QWindowIcon",
+                        "uiaStatus":  "ok",
+                        "title":  "OBS 29.1.1 - Portable Mode - Профиль: URMAN-PW089 - Сцены: URMAN-PW089",
+                        "hwnd":  29953774
+                    }
+                ]
+}

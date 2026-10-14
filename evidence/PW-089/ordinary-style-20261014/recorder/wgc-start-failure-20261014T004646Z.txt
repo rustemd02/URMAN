@@ -1,0 +1,16 @@
+PW-089 isolated WGC recorder start attempt evidence
+
+Attempt: d0168099cfb74a2a809c39fbd336dbab
+Task: URMAN-PW089-WGC-START-d0168099
+Task principal: UnterLantas; Interactive; Limited
+Task last run UTC: 2026-10-14T00:46:46Z
+Task last result: 1
+Private sandbox existed after failed start: false
+OBS process/recording started: no
+
+Exact scheduled action:
+powershell.exe -NoProfile -STA -ExecutionPolicy Bypass -File "C:\Users\ruste\AppData\Local\Temp\urman-pw089-wgc-stage-20261014-d0168099\Start-PW089Recorder.ps1" -InstalledObsRoot "C:\Program Files\obs-studio" -SandboxRoot "C:\Users\ruste\AppData\Local\Temp\urman-pw089-wgc-20261014-d0168099" -GameJobId d0168099cfb74a2a809c39fbd336dbab -ExpectedSourceRoot "D:\URMAN-STATION\data\runs\d0168099cfb74a2a809c39fbd336dbab\source" -ExpectedScene "res://scenes/act1_demo.tscn" -GamePid 127524 -ExpectedGameStartUtc "2026-10-14T00:33:47.8618420Z" -GameHwnd 14485190 -GameTitle "URMAN(DEBUG)" -GameClass "" -GameExePath "C:\Users\ruste\Documents\GitHub\URMAN\.tools\godot\windows\Godot_v4.7.1-stable_mono_win64\Godot_v4.7.1-stable_mono_win64.exe"
+
+Window-title mismatch: the saved Legacy window result identifies the actual title as "URMAN (DEBUG)". This action passed "URMAN(DEBUG)" (without the space). The launcher's strict supplied-title comparison rejects a mismatch; the next fresh-job action must copy the exact title from that job's raw window result. No guard was weakened.
+
+The scheduled-task result retained only exit code 1; this attempt did not retain a PowerShell exception or transcript. The next launcher candidate writes a private transcript and exception details to Start-PW089Recorder-output.log beside the staged script. This records a future failure; it does not establish the cause of this attempt beyond the confirmed input mismatch.
