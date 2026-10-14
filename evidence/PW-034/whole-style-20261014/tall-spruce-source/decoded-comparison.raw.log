@@ -1,0 +1,15 @@
+WinterSpruce_3: triangles=2516, AABB-preserved=true
+WinterSpruce_4: triangles=2888, AABB-preserved=true
+WinterSpruce_5: triangles=2888, AABB-preserved=true
+WinterSpruce_6: triangles=2888, AABB-preserved=true
+WinterLightSpruce_3: triangles=1356, AABB-preserved=true
+WinterLightSpruce_4: triangles=1408, AABB-preserved=true
+WinterLightSpruce_5: triangles=1408, AABB-preserved=true
+WinterLightSpruce_6: triangles=1348, AABB-preserved=true
+WinterFarSpruce_3: triangles=440, AABB-preserved=true
+WinterFarSpruce_4: triangles=452, AABB-preserved=true
+WinterFarSpruce_5: triangles=452, AABB-preserved=true
+WinterFarSpruce_6: triangles=452, AABB-preserved=true
+BASELINE_SHA256 721c385c6c95de8c13dd555061edbe73fb5c56df6c0c37605539e8af41b15bfd
+CANDIDATE_SHA256 2e04434de764ece1cdb72367636cf0daafd1c0d539e59d9e417ad4dc255b5529
+DIFF_GROUPS 24 ONLY_NEEDLES_SNOW=true TRUNK_AND_NON_TARGET_CANONICAL=true NODE_CATALOG_PARENT_LINKS_MATERIALS=true

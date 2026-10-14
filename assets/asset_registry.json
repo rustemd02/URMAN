@@ -37,12 +37,12 @@
       "materials": [
         "stone_foundation"
       ],
-      "materialOwner": "PainterlyMaterialLibrary; connected-world FapFoundationStone and BuildPublicEntrySteps treads/nosings only. Global forest stone and mixed FapWetStone remain unchanged.",
+      "materialOwner": "PainterlyMaterialLibrary stone_foundation; current connected-world consumers: FapFoundationStone; BuildPublicEntrySteps treads/nosings; FarBank public-building plinths/porches/steps; SovkhozSquare plinths/portico floor/steps; YardFences gate-stone sills. Global forest stone and mixed FapWetStone remain unchanged.",
       "collision": "unchanged",
       "lod": "mipmaps; runtime cap 1024",
       "qa": "source-gate PASS1/1; build/native scope in docs/tasktracker/05_texture_production_2026-09-22.md",
       "status": "integrated-candidate; source-gate-pass; art-pending",
-      "releaseDisposition": "runtime-referenced on mapped foundations and public steps; remaining consumers and final art pending"
+      "releaseDisposition": "runtime-referenced by the listed shared foundation surfaces; the saved High/Low receipt targets FapFoundationStone only, while visual review of the other receivers and final art remain open"
     },
     {
       "id": "texture.painterly.w05.v02",

@@ -6613,21 +6613,26 @@
             "title": "Подключить B07 — Минеральный фундамент",
             "result": "Подключить B07 — Минеральный фундамент",
             "owner": "art/materials/qa",
-            "evidence": [],
+            "evidence": [
+              {
+                "date": "2026-10-14",
+                "kind": "accepted_existing_binding",
+                "result": "Actual B07 PNG matches registry SHA; current SurfaceTextures stone_foundation map Vector2.One and FAP/publicsteps receivers present. Existing22Sep namedHigh/Low frame hashes match and guard/build/import/source-drift checks passed then. Current whole-source hashes differ, so not a fresh current close-up. Current native wholeworld builds pass; own binding remains present. README/registry/inventory reconciled broader actual FarBank/Sovkhoz/YardFence foundation usage; globalforeststone/FapWetStone unchanged. Full current allconsumer art/motion not inferred.",
+                "path": "docs/production/act1_takeover_evidence_2026-09-16/texture-b07-20260922-01/act1_visual_review_receipt.json"
+              }
+            ],
             "assigned_owner": "art/materials/qa",
             "active_owner": null,
             "activity": {
               "state": "not_active",
-              "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+              "reason": "Root+Luna приняли уже выполненное B07 подключение по неизменному зарегистрированному PNG, текущим реальным receivers и существующему named foundation receipt; назначение сохранено."
             },
             "task_type": "engineering",
-            "status": "todo",
-            "implementation_state": "partial",
-            "technical_verification_state": "not_run",
-            "remaining": [
-              "Подключить B07 — Минеральный фундамент; собственного целевого receipt пока нет."
-            ],
-            "next_action": "Сопоставить текущий результат: Подключить B07 — Минеральный фундамент. Затем изменить только установленный остаток.",
+            "status": "completed",
+            "implementation_state": "implemented",
+            "technical_verification_state": "passed",
+            "remaining": [],
+            "next_action": "Собственный binding DoD принят; повтор без изменённого входа/consumer не требуется. Полная текущая art/motion проверка общей семьи остаётся в родительском QA.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -6639,7 +6644,18 @@
                 "docs/urman_knowledge_base/art/urman_imagegen_texture_prompt_book_2026-09-22.md",
                 "docs/urman_knowledge_base/assets.md"
               ],
-              "required_inputs": [],
+              "required_inputs": [
+                {
+                  "artifact": "Registered Project-generated B07 v02, SHA5a43ad685e6e47ce0ff8d15fad710b296de02d79faac7cb50bdfa8ab3e649ad7",
+                  "path": "game/assets/textures/painterly/urman_b07_v02_basecolor.png",
+                  "availability": "available"
+                },
+                {
+                  "artifact": "Existing named FAP foundation High/Low receipt, image hashes independently matched; historical source coverage qualified",
+                  "path": "docs/production/act1_takeover_evidence_2026-09-16/texture-b07-20260922-01/act1_visual_review_receipt.json",
+                  "availability": "available"
+                }
+              ],
               "scope_in": [
                 "Подключить B07 — Минеральный фундамент"
               ],
@@ -6682,8 +6698,15 @@
                 ],
                 "repeat_only_if": "Изменился покрываемый вход/consumer/контракт; без этого уже принятая проверка используется повторно без запуска."
               },
-              "evidence_refs": [],
-              "source_criteria_parent": "ACT1-TEXTURE.02"
+              "evidence_refs": [
+                "docs/production/act1_takeover_evidence_2026-09-16/texture-b07-20260922-01/act1_visual_review_receipt.json",
+                "assets/asset_registry.json",
+                "game/scripts/PainterlyMaterialLibrary.cs",
+                "game/scripts/Act1ConnectedWorld.cs",
+                "game/scripts/Act1ConnectedWorld.PublicBuildings.cs"
+              ],
+              "source_criteria_parent": "ACT1-TEXTURE.02",
+              "actual_result": "Accepted minimum B07 binding, not current all-consumer visual QA."
             },
             "dependencies": {
               "implementation": [],
@@ -113613,7 +113636,7 @@
         ]
       },
       "progress_2026_10_14_tall_spruce_crown_candidate": {
-        "state": "implemented_native_pending",
+        "state": "accepted_engineering_stage_static",
         "targets": [
           "assets/source/blender/agent_b_act1/agent_b_foliage.py",
           "game/assets/models/agent_b_act1/agentb_foliage_kit.glb"
@@ -113622,7 +113645,7 @@
         "scope": "TallSpruce3..6 acrossnear/light/far crownvolumes; preservetrunk/root/material/name/variantAABB/Pinefit/placement/seedABI and nonSpruce outputs; existingassertbands. Exporttemp beforepublish/check.",
         "verification_question": "Does broader nonrim spruce form reduce repeated conical/faceted ladder in currentwholeC1/C2, with density/framing preserved and no openmesh/LODpop?",
         "success_condition": "Existingstructure/LOD bands and preservednonSpruce/trunk/bounds pass; rootnativeactualwholeviews and movement judgement beforeacceptance. Census groupssourceSpruce alone cannotidentify everyPine-substituted instance.",
-        "remaining": "Source/tempgeometry, preservedchecks, nativeimport/actualscene and motion; externalart/cultureopen.",
+        "remaining": "Static ownasset stage accepted. Actualcurrentmotion pending; rimPine repetition, fullB02/art/culture gates open. Regular fullproducer Linden windingfailure unchanged; named selectedsource export uses immutable pinned blend + currentrecipe.",
         "source_sha256": "c3c0199a6ece37fed5d774a202e5944e84fb2fcb67f48baa117efc666c11f381",
         "runtime_glb_sha256": "2e04434de764ece1cdb72367636cf0daafd1c0d539e59d9e417ad4dc255b5529",
         "baseline_glb_sha256": "721c385c6c95de8c13dd555061edbe73fb5c56df6c0c37605539e8af41b15bfd",
@@ -113631,7 +113654,16 @@
         "generator_limit": "Regular fullproducer fails existing WinterLinden_2 windingassert identically on pinnedHEAD; unmodifiedguard. SelectedSpruce export uses exactSHA-pinned immutablebaseblend plus currentcrownrecipe into temp, not fullregeneration/allfamiliesfixed.",
         "implementer": "codex/b02_visual_readback GPT6LunaMax",
         "job_id": "db2b035e621748218989b27b7cff2194",
-        "snapshot_id": "551f4d23cbec05d27b3cf02e360a7e41ab30d460ac0b2ae50cd5254ae3b038cc"
+        "snapshot_id": "551f4d23cbec05d27b3cf02e360a7e41ab30d460ac0b2ae50cd5254ae3b038cc",
+        "runtime_verification": "db2 High C1/C2/front PASS/build/import/game0/restored/hashverified; snapshot551f4d23cbec05d27b3cf02e360a7e41ab30d460ac0b2ae50cd5254ae3b038cc/archivee756c3abb5f36364e718c2684a6d4d95a58987b0e28c3355933c3b8fb3d0c976/kit2e04434 verified. Root+Luna exactcamera/preset/profile compare: subtle local positive/noobviousnewdefect, dominant rimPine repetition remains. ExistingC5 8e82 PASS actualMedium/notHigh/village_day/crisp, extra forest-from-street coverage only. Engineering source/import/static asset iteration accepted, not solvedforest art.",
+        "evidence": [
+          "evidence/PW-034/whole-style-20261014/tall-spruce-high/receipt.json",
+          "evidence/PW-034/whole-style-20261014/tall-spruce-high/frames/C2_house_high.png",
+          "evidence/PW-034/whole-style-20261014/tall-spruce-forest-edge/receipt.json",
+          "evidence/PW-034/whole-style-20261014/tall-spruce-source/generator.raw.log",
+          "evidence/PW-034/whole-style-20261014/tall-spruce-source/decoded-comparison.raw.log",
+          "evidence/PW-034/whole-style-20261014/tall-spruce-source/bvh-seating.raw.log"
+        ]
       }
     },
     {
@@ -135623,6 +135655,14 @@
           "evidence/PW-089/ordinary-style-20261014/wgc-short/recorder/pw089-recorder-disk-modal-ack-c52b6f228aeb.json",
           "evidence/PW-089/ordinary-style-20261014/wgc-short/cleanup-old-copied-installation-sftp.txt"
         ]
+      },
+      "progress_2026_10_14_current_motion_retry": {
+        "state": "running",
+        "job_id": "931da07180f8485ba5d29d392fb5099a",
+        "snapshot_id": "e5d8e52a231a43dfd9cb844f3da41b870e1312ad20c876b6045b22f8800add5b",
+        "source": "Currentkit2e/PMLdfbe/LowSoftVeryLow; source-bound fresh ordinary play.",
+        "prior_attempt": "e836 timeout124/restored/hashverified; only menu/newgame/prologue UI frames, no currentmovie. GiantencodedSSH launch refused execchannel, then SFTP+smallcommand worked but sourceexpired guard refused beforeOBS. No recorder started.",
+        "next_action": "Luna owns fresh scoped OBS support; root immediately ordinary input/short walk and turn after startup. Persist actualmovie/readback, no oldsource extrapolation."
       }
     },
     {

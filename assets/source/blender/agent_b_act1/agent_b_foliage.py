@@ -23,6 +23,26 @@ sys.path.insert(0, HERE)
 
 import agent_b_common as ab  # noqa: E402
 
+# Root-local Blender-space needle bounds transcribed from the shipped kit
+# (SHA256 721c385c6c95de8c13dd555061edbe73fb5c56df6c0c37605539e8af41b15bfd).
+# The forest-rim runtime fits its Pine replacement to these per-LOD envelopes.
+_SPRUCES_3_6_CROWN_BOUNDS = {
+    (3, "near"): ((-2.51045609, -3.42095947, 0.65377599), (2.41315460, 4.22483826, 13.54537678)),
+    (3, "light"): ((-3.96221542, -3.43093872, 0.64703667), (3.42496991, 3.18857574, 13.54355717)),
+    (3, "far"): ((-2.43478394, -4.12981415, 0.64654636), (2.61632538, 3.48612976, 13.50032425)),
+    (4, "near"): ((-5.24999237, -3.41566467, 3.71682954), (3.55204010, 4.23888397, 18.54455757)),
+    (4, "light"): ((-4.45156765, -4.14727020, 3.54420233), (3.07546616, 3.97273254, 18.50364876)),
+    (4, "far"): ((-3.95768738, -4.02996063, 3.67291832), (3.68785095, 3.31545258, 18.58154678)),
+    (5, "near"): ((-2.64843369, -5.41448975, 3.99492073), (6.35131454, 5.04031372, 24.54328728)),
+    (5, "light"): ((-2.94449234, -5.11197662, 3.61533427), (5.82273102, 6.34715271, 24.57451439)),
+    (5, "far"): ((-2.96782899, -3.66432190, 4.20698118), (6.17077017, 5.85470581, 24.57915878)),
+    (6, "near"): ((-6.44462585, -5.10260010, 4.65436745), (8.66067505, 5.34347534, 30.57792664)),
+    (6, "light"): ((-6.04346466, -6.54568481, 6.10390139), (5.43821335, 6.50952911, 30.56342506)),
+    (6, "far"): ((-7.01892900, -5.95434570, 6.57736349), (6.39458847, 5.89329529, 30.50734901)),
+}
+_SPRUCES_3_6_BASELINE_BLEND_SHA256 = "3606bdfa394f115ed83779cbe56b4e528b387f05407aed0e19882a4c7f78c8bb"
+_SPRUCES_3_6_BASELINE_GLB_SHA256 = "721c385c6c95de8c13dd555061edbe73fb5c56df6c0c37605539e8af41b15bfd"
+
 
 def _conifer_branch_spray(name, centre, spread, lobe_width, thickness,
                           seed, material, lobe_count=3, station_count=5):
@@ -690,6 +710,110 @@ def _append_polyline_tube(vertices, faces, points, radii, sides=5, flatten=1.0):
     faces.append(tuple(reversed(rings[-1])))
 
 
+def _append_swept_spruce_bough(vertices, faces, root, angle, length,
+                                half_width, half_height, droop, lateral,
+                                profile, sides):
+    """Append one flat-sided, closed bough fan rooted on the spruce axis."""
+    radial = Vector((math.cos(angle), math.sin(angle), 0.0))
+    side = Vector((-radial.y, radial.x, 0.0))
+    up = Vector((0.0, 0.0, 1.0))
+    rings, centreline = [], []
+    for t, width_ratio, height_ratio in profile:
+        centre = Vector(root) + radial * (length * t)
+        centre += side * (lateral * length * math.sin(math.pi * t))
+        centre.z += length * (0.035 * math.sin(math.pi * t) - droop * t * t)
+        centreline.append(centre)
+        ring = []
+        for segment in range(sides):
+            a = math.tau * segment / sides
+            vertical = math.sin(a)
+            vertical *= 1.0 if vertical >= 0.0 else 0.62
+            vertical += 0.14 * (1.0 - math.cos(a))
+            point = centre + side * (math.cos(a) * half_width * width_ratio)
+            point += up * (vertical * half_height * height_ratio)
+            ring.append(len(vertices))
+            vertices.append(tuple(point))
+        rings.append(ring)
+    for lower, upper in zip(rings, rings[1:]):
+        for segment in range(sides):
+            following = (segment + 1) % sides
+            faces.append((lower[segment], lower[following], upper[following], upper[segment]))
+    for ring, reverse in ((rings[0], True), (rings[-1], False)):
+        centre = sum((Vector(vertices[index]) for index in ring), Vector()) / sides
+        centre_index = len(vertices)
+        vertices.append(tuple(centre))
+        for segment in range(sides):
+            following = (segment + 1) % sides
+            pair = (ring[following], ring[segment]) if reverse else (ring[segment], ring[following])
+            faces.append((centre_index, *pair))
+    return centreline
+
+
+def _spruce_axis_xy(trunk_points, z):
+    """Interpolate the authored bole axis at a crown vertex's height."""
+    for first, second in zip(trunk_points, trunk_points[1:]):
+        first, second = Vector(first), Vector(second)
+        if first.z <= z <= second.z:
+            amount = (z - first.z) / max(second.z - first.z, 1e-6)
+            point = first.lerp(second, amount)
+            return point.x, point.y
+    endpoint = Vector(trunk_points[0] if z < trunk_points[0][2] else trunk_points[-1])
+    return endpoint.x, endpoint.y
+
+
+def _fit_spruce_crown_xy(points, snow_points, trunk_points, target_bounds):
+    """Fit only radial reach, keeping every branch root on the unchanged bole."""
+    if not points:
+        return
+    reference_points = list(points)
+    for axis in range(2):
+        target_low, target_high = target_bounds[0][axis], target_bounds[1][axis]
+        axis_positions = [_spruce_axis_xy(trunk_points, point[2])[axis]
+                          for point in reference_points]
+        axis_low, axis_high = min(axis_positions), max(axis_positions)
+        assert target_low < axis_low and target_high > axis_high, (
+            "spruce crown envelope must contain the authored bole", axis,
+            target_low, axis_low, axis_high, target_high)
+
+        def extremum(scale, negative, want_min):
+            values = []
+            for point in reference_points:
+                centre = _spruce_axis_xy(trunk_points, point[2])[axis]
+                delta = point[axis] - centre
+                if (delta < 0.0) == negative:
+                    value = centre + delta * scale
+                else:
+                    value = centre
+                values.append(value)
+            return min(values) if want_min else max(values)
+
+        for negative, target, want_min in ((True, target_low, True),
+                                           (False, target_high, False)):
+            low_scale, high_scale = 0.0, 1.0
+            while ((extremum(high_scale, negative, want_min) > target)
+                   if want_min else
+                   (extremum(high_scale, negative, want_min) < target)):
+                high_scale *= 2.0
+                assert high_scale < 64.0, ("spruce crown fit diverged", axis, target)
+            for _ in range(48):
+                middle = (low_scale + high_scale) * 0.5
+                value = extremum(middle, negative, want_min)
+                outside = value > target if want_min else value < target
+                if outside:
+                    low_scale = middle
+                else:
+                    high_scale = middle
+            scale = (low_scale + high_scale) * 0.5
+            for target_points in (points, snow_points):
+                for point_index, point in enumerate(target_points):
+                    centre = _spruce_axis_xy(trunk_points, point[2])[axis]
+                    delta = point[axis] - centre
+                    if (delta < 0.0) == negative:
+                        updated = list(point)
+                        updated[axis] = centre + delta * scale
+                        target_points[point_index] = tuple(updated)
+
+
 def _bare_branch(name, vertices, faces, centreline, radii, segments=5):
     """Append a tapering branch; children must attach to this centreline."""
     _append_polyline_tube(vertices, faces, centreline, radii, sides=segments)
@@ -1296,7 +1420,7 @@ def winter_spruce_variant(index, height, tier="near"):
     # was wrong for a forest wall: the ring has to close as a mass, not as a row
     # of poles, so reach falls only gently with height.
     bough_ratio = .27 if height <= 8.0 else max(.228, .28 - (height - 8.0) * .0022)
-    levels = range(level_count)
+    levels = range(level_count) if not tall else ()
     # The young village firs keep their original two-branch far tier, which is
     # already at its budget ceiling. A tall forest spruce keeps the full radial
     # crown in every tier, because a two-branch far tier is exactly what leaves
@@ -1327,6 +1451,63 @@ def winter_spruce_variant(index, height, tier="near"):
         stations = 6 if tier == "near" else 3
         sides = 6 if tier == "near" else 5 if tier == "light" else 3
     caps = 0
+    if tall and index in (3, 4, 5, 6):
+        # Replace the stacked triangular plates with a single spiral of real,
+        # closed bough volumes. The fans overlap vertically and radially, while
+        # their shallow cross-sections leave small snow-bearing gaps between
+        # substantial limbs instead of making a rubbery ladder of pads.
+        target_bounds = _SPRUCES_3_6_CROWN_BOUNDS[(index, tier)]
+        branch_count = 20 if tier == "near" else 14 if tier == "light" else 9
+        sides = 10 if tier == "near" else 8 if tier == "light" else 6
+        profile = (
+            ((0.0, .42, .36), (.16, .87, .70), (.36, 1.0, .95),
+             (.60, .87, .77), (.82, .59, .52), (1.0, .16, .20))
+            if tier == "near" else
+            ((0.0, .42, .36), (.24, .95, .88), (.58, .90, .77),
+             (.84, .55, .50), (1.0, .16, .20))
+            if tier == "light" else
+            ((0.0, .42, .36), (.58, .95, .80), (1.0, .16, .20))
+        )
+        start_z = target_bounds[0][2] + height * .028
+        end_fraction = .94
+        crown_angles = []
+        cap_indices = set()
+        for level in sorted(cap_levels, reverse=True):
+            branch_index = round(level / max(level_count - 1, 1) * (branch_count - 1))
+            if branch_index not in cap_indices and len(cap_indices) < cap_limit:
+                cap_indices.add(branch_index)
+        if not cap_indices:
+            cap_indices.add(branch_count - 1)
+        crown_rng = random.Random(ab.stable_hash(f"spruce-fan:{index}:{tier}"))
+        for branch_index in range(branch_count):
+            fraction = branch_index / max(branch_count - 1, 1)
+            if 0 < branch_index < branch_count - 1:
+                fraction += crown_rng.uniform(-.012, .012)
+            root_z = start_z + (height * end_fraction - start_z) * fraction
+            root = _point_on_polyline(trunk_points, root_z / height)
+            angle = (index * .73 + branch_index * 2.399963229728653
+                     + crown_rng.uniform(-.34, .34))
+            crown_angles.append(angle)
+            taper = .22 + .78 * (1.0 - fraction) ** .70
+            length = height * bough_ratio * taper * crown_rng.uniform(.84, 1.16)
+            half_width = length * crown_rng.uniform(.16, .30) * (1.0 - .12 * fraction)
+            half_height = length * crown_rng.uniform(.040, .060)
+            droop = crown_rng.uniform(.075, .115)
+            lateral = crown_rng.uniform(-.045, .045)
+            centreline = _append_swept_spruce_bough(
+                vertices, faces, root, angle, length, half_width, half_height,
+                droop, lateral, profile, sides)
+            if branch_index in cap_indices:
+                _append_snow_cap(
+                    snow_vertices, snow_faces, centreline,
+                    half_height * .68, half_width * .42,
+                    branch_index + index)
+                caps += 1
+        # Fit each crown's horizontal envelope around the unchanged crooked
+        # trunk axis. The transform adjusts outward reach only, so all branch
+        # roots remain seated on the authored bole and the Pine-fit AABB stays
+        # identical for every LOD of the source variant.
+        _fit_spruce_crown_xy(vertices, snow_vertices, trunk_points, target_bounds)
     for level in levels:
         for branch in branches:
             if tier == "far" and level >= last_level - 1 and branch != 0:
@@ -1431,10 +1612,26 @@ def winter_spruce_variant(index, height, tier="near"):
         # A narrow inner crown joins the sprays without owning the silhouette.
         heights = [crown_base + (1.0 - crown_base) * t
                    for t in (0, .205, .489, .75, 1.0)]
-        points = [_point_on_polyline(trunk_points, t) for t in heights]
+        points = [_point_on_polyline(trunk_points, t) for t in heights[:-1]]
+        if index in (3, 4, 5, 6):
+            points.append(Vector((trunk_points[-1].x, trunk_points[-1].y,
+                                  _SPRUCES_3_6_CROWN_BOUNDS[(index, tier)][1][2])))
+        else:
+            points.append(_point_on_polyline(trunk_points, heights[-1]))
         _append_polyline_tube(vertices, faces, points,
                               [height * r for r in (.035, .05, .03, .012, .001)],
                               sides=4)
+    if tall and index in (3, 4, 5, 6):
+        # The old crown envelope is the runtime's exact per-tier fit. Align the
+        # replacement crown's uppermost needle/snow point to it after the tube
+        # caps are built; a vertical tube frame can otherwise overshoot its
+        # endpoint by a few millimetres.
+        target_top = _SPRUCES_3_6_CROWN_BOUNDS[(index, tier)][1][2]
+        generated_top = max(point[2] for point in vertices + snow_vertices)
+        vertical_fit = target_top - generated_top
+        for points in (vertices, snow_vertices):
+            for point_index, point in enumerate(points):
+                points[point_index] = (point[0], point[1], point[2] + vertical_fit)
     needles = ab.mesh_from_pydata(f"{prefix}_Needles", vertices, faces)
     ab.assign_material(needles, "AB_foliage_spruce")
     needle_heights = [vertex.co.z for vertex in needles.data.vertices]
@@ -1609,7 +1806,126 @@ def winter_old_branch_variant(index, height, tier="near"):
     return objects
 
 
+def _export_spruce_crown_candidate(baseline_blend: str) -> None:
+    """Rebuild only tall Spruce crowns over the pinned, immutable kit source."""
+    if not baseline_blend or not os.path.isfile(baseline_blend):
+        raise RuntimeError("AGENTB_SPRUCE_CROWN_BASELINE must name the pinned source .blend")
+    with open(baseline_blend, "rb") as handle:
+        source_digest = hashlib.sha256(handle.read()).hexdigest()
+    if source_digest != _SPRUCES_3_6_BASELINE_BLEND_SHA256:
+        raise RuntimeError(("unexpected Spruce baseline .blend SHA256", source_digest,
+                            _SPRUCES_3_6_BASELINE_BLEND_SHA256))
+
+    output_root = os.environ.get("AGENTB_OUT")
+    if not output_root:
+        raise RuntimeError("AGENTB_OUT must point to a private candidate directory")
+    output_root = os.path.realpath(output_root)
+    repository_root = os.path.realpath(os.path.join(HERE, "../../../../"))
+    if output_root == repository_root:
+        raise RuntimeError("Spruce candidate output may not overwrite checked-in assets")
+    glb_path = os.path.join(output_root, "game/assets/models/agent_b_act1",
+                            "agentb_foliage_kit.glb")
+    blend_path = os.path.join(output_root, "assets/source/blender/agent_b_act1",
+                              "agentb_foliage_kit.blend")
+    if os.path.realpath(glb_path) == os.path.realpath(os.path.join(
+            repository_root, "game/assets/models/agent_b_act1/agentb_foliage_kit.glb")):
+        raise RuntimeError("Spruce candidate may not overwrite the checked-in runtime kit")
+
+    bpy.ops.wm.open_mainfile(filepath=os.path.realpath(baseline_blend))
+    ab._material_cache.clear()
+    old_kit_root = bpy.data.objects.get("URMAN_AgentB_FoliageKit")
+    if old_kit_root is None:
+        raise RuntimeError("pinned Agent B kit root is missing")
+
+    replacements = []
+    spruce_specs = ((3, 13.5), (4, 18.5), (5, 24.5), (6, 30.5))
+    for tier, prefix in (("near", "WinterSpruce_"),
+                         ("light", "WinterLightSpruce_"),
+                         ("far", "WinterFarSpruce_")):
+        for index, height in spruce_specs:
+            variant_name = f"{prefix}{index}"
+            root_marker = bpy.data.objects.get(f"{variant_name}_Root")
+            if root_marker is None or not root_marker.get("native_root_pivot"):
+                raise RuntimeError(("pinned Spruce root marker missing", variant_name))
+
+            old_parts = {}
+            for part in ("Needles", "Snow"):
+                old_obj = bpy.data.objects.get(f"{variant_name}_{part}")
+                if old_obj is None or old_obj.parent != root_marker or old_obj.type != "MESH":
+                    raise RuntimeError(("pinned Spruce crown node mismatch", variant_name, part))
+                old_parts[part] = (old_obj.matrix_basis.copy(), dict(old_obj.items()))
+            old_trunk = bpy.data.objects.get(f"{variant_name}_Trunk")
+            if old_trunk is None or old_trunk.parent != root_marker or old_trunk.type != "MESH":
+                raise RuntimeError(("pinned Spruce trunk node mismatch", variant_name))
+
+            # Remove only the old crown nodes. The accepted source bark object,
+            # mesh datablock, parent, transform and all vertices remain intact.
+            for part in ("Needles", "Snow"):
+                old_obj = bpy.data.objects[f"{variant_name}_{part}"]
+                old_mesh = old_obj.data
+                bpy.data.objects.remove(old_obj, do_unlink=True)
+                if old_mesh.users == 0:
+                    bpy.data.meshes.remove(old_mesh)
+
+            old_trunk.name = f"{variant_name}_Trunk_PRESERVED"
+            generated = winter_spruce_variant(index, height, tier=tier)
+            generated_parts = {obj.name.rsplit("_", 1)[-1]: obj for obj in generated}
+            generated_trunk = generated_parts.pop("Trunk", None)
+            if generated_trunk is None or set(generated_parts) != {"Needles", "Snow"}:
+                raise RuntimeError(("generated Spruce part set mismatch", variant_name,
+                                    sorted(generated_parts)))
+            generated_mesh = generated_trunk.data
+            bpy.data.objects.remove(generated_trunk, do_unlink=True)
+            if generated_mesh.users == 0:
+                bpy.data.meshes.remove(generated_mesh)
+            old_trunk.name = f"{variant_name}_Trunk"
+
+            for part, obj in generated_parts.items():
+                # The old crown mesh stores the preview-cell offset in vertex
+                # coordinates and cancels it in the child transform. Retain
+                # that exact node transform and apply the same encoding.
+                ab.translate_vertices(obj, root_marker.location.x, root_marker.location.y, 0.0)
+                obj.parent = root_marker
+                obj.matrix_basis = old_parts[part][0]
+                for key, value in old_parts[part][1].items():
+                    obj[key] = value
+                if obj.name != f"{variant_name}_{part}":
+                    raise RuntimeError(("generated crown node name mismatch", variant_name,
+                                        part, obj.name))
+                replacements.append(obj)
+
+            print(f"AGENTB_SPRUCE_CROWN_REPLACED {variant_name} tier={tier} "
+                  f"triangles={sum(max(1, len(poly.vertices) - 2) for obj in generated_parts.values() for poly in obj.data.polygons)}")
+
+    # Drop the previous export wrapper, then let the shared exporter recreate
+    # it around the same scene objects and authored native roots.
+    for child in list(old_kit_root.children):
+        world_matrix = child.matrix_world.copy()
+        child.parent = None
+        child.matrix_world = world_matrix
+    bpy.data.objects.remove(old_kit_root, do_unlink=True)
+    objects = [obj for obj in bpy.data.objects
+               if obj.type == "MESH" or obj.get("native_root_pivot")]
+    if len(objects) != 307:
+        raise RuntimeError(("unexpected Agent B candidate object count", len(objects)))
+    ab.export_glb(objects, glb_path, "URMAN_AgentB_FoliageKit",
+                  preserve_hierarchy=True)
+    ab.save_blend(blend_path)
+    ab.report_kit("agentb_foliage_kit", objects, glb_path)
+    with open(glb_path, "rb") as handle:
+        output_digest = hashlib.sha256(handle.read()).hexdigest()
+    print(f"AGENTB_SPRUCE_CROWN_BASELINE blend_sha256={source_digest} "
+          f"glb_sha256={_SPRUCES_3_6_BASELINE_GLB_SHA256}")
+    print(f"AGENTB_SPRUCE_CROWN_OUTPUT glb={glb_path} sha256={output_digest} "
+          f"blend={blend_path}")
+
+
 def main() -> None:
+    crown_baseline = os.environ.get("AGENTB_SPRUCE_CROWN_BASELINE")
+    if crown_baseline:
+        _export_spruce_crown_candidate(crown_baseline)
+        return
+
     ab.setup_scene()
     objects: list = []
     variants: list[tuple[str, object]] = []

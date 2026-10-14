@@ -1,0 +1,25 @@
+Blender 4.5.12 LTS (hash 84afd5f785f7 built 2026-07-21 01:41:35)
+Traceback (most recent call last):
+  File "/tmp/urman-run-baseline.py", line 5, in <module>
+    exec(compile(open(source, 'rb').read(), source, 'exec'), namespace)
+  File "/tmp/urman-agentb-foliage-baseline.py", line 1824, in <module>
+    main()
+  File "/tmp/urman-agentb-foliage-baseline.py", line 1673, in main
+    objects.extend(winter_tree_variant(species, idx, h, spread, br, tw, berry,
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/urman-agentb-foliage-baseline.py", line 1021, in winter_tree_variant
+    _bare_branch(f"{prefix}_Primary{stem_index}_{branch_index}",
+  File "/tmp/urman-agentb-foliage-baseline.py", line 695, in _bare_branch
+    _append_polyline_tube(vertices, faces, centreline, radii, sides=segments)
+  File "/tmp/urman-agentb-foliage-baseline.py", line 683, in _append_polyline_tube
+    assert face_normal.dot(radial) > 1e-5, (
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ('polyline tube winding', 3, 0, -0.15892582386732101)
+AGENTB_DEADFALL FallenBranch_2 triangles=542 length=9.8
+AGENTB_WINTER_VARIANT WinterBirch_1 tier=near triangles=2868 objects=2
+AGENTB_WINTER_VARIANT WinterBirch_2 tier=near triangles=2344 objects=2
+AGENTB_WINTER_VARIANT WinterBirch_3 tier=near triangles=2928 objects=2
+AGENTB_WINTER_VARIANT WinterLinden_1 tier=near triangles=3452 objects=2
+AGENTB_WINTER_VARIANT WinterLinden_2 tier=near triangles=2928 objects=2
+
+Blender quit

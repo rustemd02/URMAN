@@ -1,0 +1,12 @@
+MESH_SEAT WinterSpruce_3 near branch_centers_inside 20 / 20 base_ring_vertices_inside 163 / 200 ray_odd_votes 60 / 60
+MESH_SEAT WinterLightSpruce_3 light branch_centers_inside 14 / 14 base_ring_vertices_inside 81 / 112 ray_odd_votes 42 / 42
+MESH_SEAT WinterFarSpruce_3 far branch_centers_inside 9 / 9 base_ring_vertices_inside 41 / 54 ray_odd_votes 27 / 27
+MESH_SEAT WinterSpruce_4 near branch_centers_inside 20 / 20 base_ring_vertices_inside 140 / 200 ray_odd_votes 60 / 60
+MESH_SEAT WinterLightSpruce_4 light branch_centers_inside 14 / 14 base_ring_vertices_inside 71 / 112 ray_odd_votes 42 / 42
+MESH_SEAT WinterFarSpruce_4 far branch_centers_inside 9 / 9 base_ring_vertices_inside 21 / 54 ray_odd_votes 27 / 27
+MESH_SEAT WinterSpruce_5 near branch_centers_inside 20 / 20 base_ring_vertices_inside 170 / 200 ray_odd_votes 60 / 60
+MESH_SEAT WinterLightSpruce_5 light branch_centers_inside 14 / 14 base_ring_vertices_inside 73 / 112 ray_odd_votes 42 / 42
+MESH_SEAT WinterFarSpruce_5 far branch_centers_inside 9 / 9 base_ring_vertices_inside 24 / 54 ray_odd_votes 27 / 27
+MESH_SEAT WinterSpruce_6 near branch_centers_inside 20 / 20 base_ring_vertices_inside 160 / 200 ray_odd_votes 60 / 60
+MESH_SEAT WinterLightSpruce_6 light branch_centers_inside 14 / 14 base_ring_vertices_inside 58 / 112 ray_odd_votes 42 / 42
+MESH_SEAT WinterFarSpruce_6 far branch_centers_inside 9 / 9 base_ring_vertices_inside 16 / 54 ray_odd_votes 27 / 27
