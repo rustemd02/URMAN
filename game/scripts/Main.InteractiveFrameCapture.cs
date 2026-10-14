@@ -124,6 +124,12 @@ public partial class Main
             var file = System.IO.Path.Combine(directory, $"interactive-{id}.png");
             using (var output = new FileStream(file, FileMode.CreateNew, System.IO.FileAccess.Write, FileShare.None))
                 output.Write(png);
+            var camera = viewport.GetCamera3D();
+            var ray = camera?.GetNodeOrNull<RayCast3D>("InteractionRay");
+            // Record the ordinary interaction ray with the current image. Do not
+            // refresh it, skip colliders, move the player, or dispatch an action.
+            var collider = ray?.IsColliding() == true ? ray.GetCollider() as Node : null;
+            var target = collider as InteractionTarget;
             WriteInteractiveFrameResult(directory, id, new JsonObject
             {
                 ["kind"] = "interactive-game-viewport", ["jobId"] = job, ["requestId"] = id,
@@ -131,7 +137,12 @@ public partial class Main
                 ["width"] = image.GetWidth(), ["height"] = image.GetHeight(),
                 ["pngSha256"] = Convert.ToHexString(SHA256.HashData(png)).ToLowerInvariant(),
                 ["scenePath"] = GetTree().CurrentScene?.SceneFilePath,
-                ["cameraPath"] = viewport.GetCamera3D()?.GetPath().ToString()
+                ["cameraPath"] = camera?.GetPath().ToString(),
+                ["cameraPosition"] = camera is null ? null : new JsonArray(camera.GlobalPosition.X, camera.GlobalPosition.Y, camera.GlobalPosition.Z),
+                ["cameraRotationDegrees"] = camera is null ? null : new JsonArray(camera.GlobalRotationDegrees.X, camera.GlobalRotationDegrees.Y, camera.GlobalRotationDegrees.Z),
+                ["interactionRayCollider"] = collider?.GetPath().ToString(),
+                ["interactionId"] = target?.InteractionId,
+                ["interactionAvailable"] = target is null ? null : JsonValue.Create(target.IsAvailable())
             });
         }
         catch (Exception error)

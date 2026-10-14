@@ -1,0 +1,25 @@
+{
+  "kind": "interactive-game-viewport",
+  "jobId": "a44f98cde72b40e69fa6aab393784a53",
+  "requestId": "95431f39ded74f4d8572d178cd5d54b3",
+  "pid": 124340,
+  "status": "ok",
+  "width": 1886,
+  "height": 1061,
+  "pngSha256": "744ad0348eb88c78c5052beedba3996c9abb4b5ca5036a22acda5a63df27cdfd",
+  "scenePath": "res://scenes/full_game.tscn",
+  "cameraPath": "/root/FullGameMain/Player/Head/Camera3D",
+  "cameraPosition": [
+    -8.164773,
+    1.4160465,
+    -1.9987133
+  ],
+  "cameraRotationDegrees": [
+    0,
+    89.91999,
+    0
+  ],
+  "interactionRayCollider": "/root/FullGameMain/ZoneHost/Act1ConnectedWorld/village-main-road/HouseDoor",
+  "interactionId": "urman.fullgame:interaction/pw-home-enter-house",
+  "interactionAvailable": true
+}

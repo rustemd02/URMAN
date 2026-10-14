@@ -1,0 +1,69 @@
+{
+  "audioTrackCount" : 1,
+  "decodedFrames" : [
+    {
+      "decodedSeconds" : 2.7666666666666666,
+      "decodedTimescale" : 15360,
+      "decodedValue" : 42496,
+      "file" : "frame-01.png",
+      "height" : 720,
+      "requestedSeconds" : 2.7933333333333334,
+      "requestedTimescale" : 600,
+      "requestedValue" : 1676,
+      "width" : 1280
+    },
+    {
+      "decodedSeconds" : 9.7666666666666675,
+      "decodedTimescale" : 15360,
+      "decodedValue" : 150016,
+      "file" : "frame-02.png",
+      "height" : 720,
+      "requestedSeconds" : 9.7766666666666673,
+      "requestedTimescale" : 600,
+      "requestedValue" : 5866,
+      "width" : 1280
+    },
+    {
+      "decodedSeconds" : 16.733333333333334,
+      "decodedTimescale" : 15360,
+      "decodedValue" : 257024,
+      "file" : "frame-03.png",
+      "height" : 720,
+      "requestedSeconds" : 16.760000000000002,
+      "requestedTimescale" : 600,
+      "requestedValue" : 10056,
+      "width" : 1280
+    },
+    {
+      "decodedSeconds" : 23.733333333333334,
+      "decodedTimescale" : 15360,
+      "decodedValue" : 364544,
+      "file" : "frame-04.png",
+      "height" : 720,
+      "requestedSeconds" : 23.743333333333332,
+      "requestedTimescale" : 600,
+      "requestedValue" : 14246,
+      "width" : 1280
+    }
+  ],
+  "durationSeconds" : 27.934000000000001,
+  "movieBytes" : 2255296,
+  "movieName" : "PW089-2026-10-15_01-10-26.mp4",
+  "naturalHeight" : 720,
+  "naturalWidth" : 1280,
+  "selectedPTSFrames" : [
+
+  ],
+  "selectedPTSSeconds" : [
+
+  ],
+  "temporalDecodedFrames" : [
+
+  ],
+  "temporalIntervals" : [
+
+  ],
+  "totalTrackCount" : 2,
+  "verification" : "AVFoundation loaded duration\/tracks and decoded four distributed frames; no temporal interval requested",
+  "videoTrackCount" : 1
+}

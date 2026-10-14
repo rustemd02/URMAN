@@ -1,0 +1,25 @@
+{
+  "kind": "interactive-game-viewport",
+  "jobId": "a44f98cde72b40e69fa6aab393784a53",
+  "requestId": "752bbc0c9f2f4fd09db1e3096c4ac21a",
+  "pid": 124340,
+  "status": "ok",
+  "width": 1886,
+  "height": 1061,
+  "pngSha256": "08c6ea2bcb9035dcae66f2ac11bf801c0f2691fb33b870b912a6e9478777f5ff",
+  "scenePath": "res://scenes/full_game.tscn",
+  "cameraPath": "/root/FullGameMain/Player/Head/Camera3D",
+  "cameraPosition": [
+    -11.088772,
+    1.6943085,
+    -1.9470729
+  ],
+  "cameraRotationDegrees": [
+    -15.999997,
+    69.1997,
+    0
+  ],
+  "interactionRayCollider": "/root/FullGameMain/ZoneHost/Act1ConnectedWorld/babay-abi-house/GulsinaNpc",
+  "interactionId": "urman.fullgame:interaction/pw-arrival-tea-talk",
+  "interactionAvailable": true
+}
