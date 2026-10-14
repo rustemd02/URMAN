@@ -1004,3 +1004,7 @@ Reuses the unchanged existing `wood_shed_dark_v1_albedo.png` (1024 × 1024 RGB, 
 ## W10 local bath floor/partitions — 2026-10-13
 
 Reuses unchanged existing W10 raster; SHA-256 `4ea2e018d65cc4645f24158bba3173949312c668fd8ecdc4eccc3ce26f398eb3` matches procedural bake receipt. The four existing `BathFloor` and `BathPartitionLeft/Right/Lintel` meshes duplicate their current W10 material and enable original local projection/upright grain. This corrects world-axis grain on the rotated bathhouse: local Z on floor, local Y on both vertical face orientations. Existing .75 m repeat, tint, geometry and FacilitySolid contact bodies remain unchanged; authored SteamRoomLining and its accepted receipts are retained. Scoped source stage only; current targeted native view/movement and art acceptance remain open.
+
+## M03 scoped bath wash-basin reuse — 2026-10-14
+
+`BathWashBasin/Bowl` alone reuses the registered ivory `realism_20260929/painted_steel_enamel_v1_basecolor.png`, runtime SHA-256 `b3e51ca2d1ba8c2db18ed6ed6541e4093da17793cc49318640bcb57693303fe2`. No new generation or pixel edits. A duplicate `enamel` material keeps tint `b1b8b0`, uses local .5 m triplanar repeat, and disables the generic whole-surface chip mask and bottom wear. Geometry, inner bottom, bucket, ladle, water/state/contact and shared cache stay unchanged. Source input and mesh hookup inspected; targeted current Windows view/movement and art remain open. Original source/derived provenance remains in the registry.
