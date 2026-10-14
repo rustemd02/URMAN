@@ -1,0 +1,445 @@
+{
+  "schema": "urman-family-book-stage/v1",
+  "status": "source asset stage; runtime, hands, authored type, and human/art acceptance remain open",
+  "rights": "original neutral cloth-bound family volume; no contemporary cover copy, baked title, portrait, or face imagery",
+  "dimensions_m": {
+    "closed_default": {
+      "width_x": 0.22,
+      "depth_y": 0.285,
+      "thickness_z": 0.038
+    },
+    "closed_default_actual_bounds": {
+      "min_xyz": [
+        -0.10999999940395355,
+        -0.14249999821186066,
+        -0.01900000125169754
+      ],
+      "max_xyz": [
+        0.10999999940395355,
+        0.14249999821186066,
+        0.01899999938905239
+      ],
+      "size_xyz": [
+        0.2199999988079071,
+        0.2849999964237213,
+        0.03800000064074993
+      ]
+    },
+    "open_cover_180deg": {
+      "width_x": 0.445,
+      "depth_y": 0.285,
+      "gutter_m": 0.005,
+      "cover_hinge_x": -0.1125
+    },
+    "axis_contract": "Blender source: X width, Y depth, Z thickness; exported glTF uses Y-up"
+  },
+  "materials": {
+    "cloth": {
+      "base_color_srgb": "#674b45",
+      "source_map": "game/assets/textures/painterly/urman_t01_v02_basecolor.png",
+      "source_sha256": "f3fa91c57468ea4034a126f55d1971303361cf0aceb5c70f644a561093127627",
+      "source_size_px": [
+        1254,
+        1254
+      ],
+      "tile_metres": 0.08,
+      "texture_strength": 0.1
+    },
+    "paper": {
+      "base_color_srgb": "#d6ccb3",
+      "source_map": "game/assets/textures/painterly/book_paper_fibers_v1_albedo.png",
+      "source_sha256": "bc41becac609071dd69eae64d061c174e4bc97993628b198941ce414baba84b4",
+      "source_size_px": [
+        1254,
+        1254
+      ],
+      "tile_metres": 0.08,
+      "texture_strength": 0.08
+    }
+  },
+  "meshes": [
+    {
+      "name": "AlbumInsert",
+      "vertices": 96,
+      "triangles": 188,
+      "material_names": [
+        "paper"
+      ]
+    },
+    {
+      "name": "AlbumPageLeaf",
+      "vertices": 442,
+      "triangles": 880,
+      "material_names": [
+        "paper"
+      ]
+    },
+    {
+      "name": "BackBoardInnerEndpaper",
+      "vertices": 96,
+      "triangles": 188,
+      "material_names": [
+        "paper"
+      ]
+    },
+    {
+      "name": "BackClothBoard",
+      "vertices": 96,
+      "triangles": 188,
+      "material_names": [
+        "cloth"
+      ]
+    },
+    {
+      "name": "ClothSpine",
+      "vertices": 30,
+      "triangles": 56,
+      "material_names": [
+        "cloth"
+      ]
+    },
+    {
+      "name": "FrontClothBoard",
+      "vertices": 384,
+      "triangles": 764,
+      "material_names": [
+        "cloth"
+      ]
+    },
+    {
+      "name": "FrontClothBoard_Core",
+      "vertices": 96,
+      "triangles": 188,
+      "material_names": [
+        "cloth"
+      ]
+    },
+    {
+      "name": "FrontCover_InnerEndpaper",
+      "vertices": 96,
+      "triangles": 188,
+      "material_names": [
+        "paper"
+      ]
+    },
+    {
+      "name": "PageBlock_ForeEdgeLayerRelief",
+      "vertices": 96,
+      "triangles": 144,
+      "material_names": [
+        "paper"
+      ]
+    },
+    {
+      "name": "PhotoCorner_FarLeft",
+      "vertices": 12,
+      "triangles": 20,
+      "material_names": [
+        "paper"
+      ]
+    },
+    {
+      "name": "PhotoCorner_FarRight",
+      "vertices": 12,
+      "triangles": 20,
+      "material_names": [
+        "paper"
+      ]
+    },
+    {
+      "name": "PhotoCorner_NearLeft",
+      "vertices": 12,
+      "triangles": 20,
+      "material_names": [
+        "paper"
+      ]
+    },
+    {
+      "name": "PhotoCorner_NearRight",
+      "vertices": 12,
+      "triangles": 20,
+      "material_names": [
+        "paper"
+      ]
+    },
+    {
+      "name": "RecessedPageBlock",
+      "vertices": 96,
+      "triangles": 188,
+      "material_names": [
+        "paper"
+      ]
+    },
+    {
+      "name": "SpineHeadband_Lower",
+      "vertices": 30,
+      "triangles": 56,
+      "material_names": [
+        "cloth"
+      ]
+    },
+    {
+      "name": "SpineHeadband_Upper",
+      "vertices": 30,
+      "triangles": 56,
+      "material_names": [
+        "cloth"
+      ]
+    }
+  ],
+  "clips": [
+    {
+      "name": "open",
+      "node": "FrontCoverHinge",
+      "action": "open",
+      "start_frame": 1,
+      "end_frame": 31,
+      "duration_seconds": 1.25,
+      "contract": {
+        "precondition": "closed/rest pose",
+        "start": {
+          "cover_hinge_y_degrees": 0.0
+        },
+        "end": {
+          "cover_hinge_y_degrees": -180.0
+        },
+        "bounded_range_degrees": [
+          -180.0,
+          0.0
+        ],
+        "support": "front cloth board rotates on the spine-side Y hinge"
+      }
+    },
+    {
+      "name": "close",
+      "node": "FrontCoverHinge",
+      "action": "close",
+      "start_frame": 1,
+      "end_frame": 31,
+      "duration_seconds": 1.25,
+      "contract": {
+        "precondition": "open pose at -180 degrees",
+        "start": {
+          "cover_hinge_y_degrees": -180.0
+        },
+        "end": {
+          "cover_hinge_y_degrees": 0.0
+        },
+        "bounded_range_degrees": [
+          -180.0,
+          0.0
+        ],
+        "support": "same physical spine hinge as open"
+      }
+    },
+    {
+      "name": "turn",
+      "node": "AlbumPageTurnHinge",
+      "action": "turn",
+      "start_frame": 1,
+      "end_frame": 31,
+      "duration_seconds": 1.25,
+      "contract": {
+        "precondition": "book open; no hand is represented",
+        "start": {
+          "page_hinge_y_degrees": 0.0
+        },
+        "end": {
+          "page_hinge_y_degrees": -180.0
+        },
+        "bounded_range_degrees": [
+          -180.0,
+          0.0
+        ],
+        "support": "the thin curved album leaf rotates around the spine and lifts above the page block"
+      }
+    },
+    {
+      "name": "mount",
+      "node": "PhotoInsertMotionControl",
+      "action": "mount",
+      "start_frame": 1,
+      "end_frame": 25,
+      "duration_seconds": 1.0,
+      "contract": {
+        "precondition": "open pose; inspection-space insert ready above the page",
+        "start": {
+          "insert_local_height_m": 0.03,
+          "rotation_y_degrees": -16.0
+        },
+        "end": {
+          "insert_local_height_m": 0.0006,
+          "rotation_y_degrees": 0.0
+        },
+        "bounded_range_m": {
+          "insert_local_height": [
+            0.0006,
+            0.03
+          ]
+        },
+        "support": "blank insert lowers into four fixed corner pockets"
+      }
+    },
+    {
+      "name": "inspect",
+      "node": "PhotoInsertMotionControl",
+      "action": "inspect",
+      "start_frame": 1,
+      "end_frame": 30,
+      "duration_seconds": 1.2083,
+      "contract": {
+        "precondition": "open pose; insert mounted",
+        "start": {
+          "insert_local_height_m": 0.0006,
+          "rotation_degrees": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "inspect_hold": {
+          "insert_local_height_m": 0.025,
+          "rotation_degrees": [
+            -8.0,
+            -12.0,
+            0.0
+          ]
+        },
+        "end": {
+          "insert_local_height_m": 0.0006,
+          "rotation_degrees": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "bounded_range_m": {
+          "insert_local_height": [
+            0.0006,
+            0.025
+          ]
+        },
+        "support": "the insert lifts clear of its pockets and returns to the page"
+      }
+    },
+    {
+      "name": "flip",
+      "node": "PhotoInsertMotionControl",
+      "action": "flip",
+      "start_frame": 1,
+      "end_frame": 27,
+      "duration_seconds": 1.0833,
+      "contract": {
+        "precondition": "open pose; mounted insert lifted clear of the fixed photo corners",
+        "start": {
+          "insert_local_height_m": 0.0005,
+          "rotation_y_degrees": 0.0
+        },
+        "flip_clearance": {
+          "insert_local_height_m": 0.0805,
+          "rotation_y_degrees": 180.0
+        },
+        "end": {
+          "insert_local_height_m": 0.0006,
+          "rotation_y_degrees": 0.0
+        },
+        "bounded_range_m": {
+          "insert_local_height": [
+            0.0006,
+            0.0805
+          ]
+        },
+        "bounded_range_degrees": [
+          0.0,
+          180.0
+        ],
+        "support": "the 150 by 100 mm blank insert lifts above its corners, flips around its center, and returns face up"
+      }
+    },
+    {
+      "name": "rest",
+      "node": "FrontCoverHinge",
+      "action": "rest",
+      "start_frame": 1,
+      "end_frame": 10,
+      "duration_seconds": 0.375,
+      "contract": {
+        "precondition": "closed cover nearly settled",
+        "start": {
+          "cover_hinge_y_degrees": -2.0
+        },
+        "apex": {
+          "cover_hinge_y_degrees": -0.35
+        },
+        "end": {
+          "cover_hinge_y_degrees": 0.0
+        },
+        "bounded_range_degrees": [
+          -2.0,
+          0.0
+        ],
+        "support": "small cloth-board rebound damps into the closed pose"
+      }
+    },
+    {
+      "name": "return",
+      "node": "FamilyBook_Root",
+      "action": "return",
+      "start_frame": 1,
+      "end_frame": 25,
+      "duration_seconds": 1.0,
+      "contract": {
+        "precondition": "closed book held in the bounded inspection pose",
+        "start": {
+          "root_lift_m": 0.024,
+          "root_pitch_x_degrees": -9.0
+        },
+        "end": {
+          "root_lift_m": 0.0,
+          "root_pitch_x_degrees": 0.0
+        },
+        "bounded_range": {
+          "root_lift_m": [
+            0.0,
+            0.024
+          ],
+          "root_pitch_x_degrees": [
+            -9.0,
+            0.0
+          ]
+        },
+        "support": "whole volume returns to its centred tabletop rest transform"
+      }
+    }
+  ],
+  "glb_animation_names": [
+    "return",
+    "turn",
+    "flip",
+    "inspect",
+    "mount",
+    "close",
+    "open",
+    "rest"
+  ],
+  "source": {
+    "script": "assets/source/blender/photoworlds/urman_family_book.py",
+    "script_sha256": "db72fcf1f3547271feb0a99e675794f825a54fb39d649f1a4364a2cf219dc730",
+    "textures": [
+      "game/assets/textures/painterly/urman_t01_v02_basecolor.png",
+      "game/assets/textures/painterly/book_paper_fibers_v1_albedo.png"
+    ]
+  },
+  "outputs": {
+    "blend": {
+      "path": "urman_family_book.blend",
+      "sha256": "d6464f6f4cd22bce59e6bd781f8fc43dee203bc39a586d3428fb5ee344ba29db",
+      "bytes": 6393397
+    },
+    "glb": {
+      "path": "urman_family_book.glb",
+      "sha256": "149dccca895d4c2757f65da005b38dfecacdc7f58bddcb971f309d44b3626993",
+      "bytes": 5796392
+    }
+  }
+}

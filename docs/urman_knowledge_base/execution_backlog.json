@@ -111825,7 +111825,19 @@
           "evidence_ref": "PW-031.evidence and named history progress; source_review shows available/missing inputs"
         }
       ],
-      "assignment_state": "preserved_person_or_existing_role; activity separate"
+      "assignment_state": "preserved_person_or_existing_role; activity separate",
+      "progress_2026_10_14_world_inputs": {
+        "state": "confirmed_missing_runtime_inputs",
+        "result": "Existing profiles cover village_day/house_old_pc/FAP/zirat/Kara edge, not W01–W05. W01 partialprototype ownhardcodedEnvironment withoutMain route. W02–W05 runtime scenes absent. Design sixview IDs are not actual capture points.",
+        "release_condition": "Existing PW045/050/055/060/065 owners supply actual world scene/zone route and six usable checkpoint specs; relevant artifact only, not full neighbor aggregate completion.",
+        "next_action": "Use accepted Village day evidence for own existing slice; world profile acceptance awaits concrete mapped runtime scenes. No new world implementation launched by this B02 check.",
+        "evidence": [
+          "game/content/world/atmosphere.v1.json",
+          "game/content/world/visual_checkpoints.v1.json",
+          "game/scripts/Main.cs",
+          "game/scenes/photoworlds/W01/W01.tscn"
+        ]
+      }
     },
     {
       "id": "PW-032",
@@ -112540,7 +112552,7 @@
       "id": "PW-033",
       "title": "Настроить воспроизводимый Blender→GLB цикл",
       "milestone": "PW-M2",
-      "status": "todo",
+      "status": "in_progress",
       "active_owner": null,
       "owner": "tools",
       "priority": "P0",
@@ -112714,9 +112726,8 @@
       },
       "assigned_owner": "claude/visual-reset-2026-10-09",
       "activity": {
-        "state": "not_confirmed",
-        "last_recorded_owner": "claude/visual-reset-2026-10-09",
-        "reason": "Историческое поле не доказывает работу сейчас; назначение сохранено. Подтверждение берётся из нового ответа/живого сеанса, не из возраста записи."
+        "state": "not_active",
+        "reason": "Finite family-book export stage accepted/released; historical assigned_owner retained. Full producer coverage remains open."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -112725,7 +112736,7 @@
         "Каждый новый GLB воспроизводимо выпускается из исходника.",
         "Нет абсолютных путей к файлам на компьютере художника."
       ],
-      "next_action": "Зафиксировать метры, трансформы, опорные точки, имена слотов, UV и экспорт.",
+      "next_action": "Verify named remaining photoworld GLB producers with available source inputs; .blend byte determinism is unconfirmed and not claimed.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -112906,7 +112917,20 @@
           "evidence_ref": "PW-033.evidence and named history progress; source_review shows available/missing inputs"
         }
       ],
-      "assignment_state": "preserved_person_or_existing_role; activity separate"
+      "assignment_state": "preserved_person_or_existing_role; activity separate",
+      "progress_2026_10_14_family_book_export": {
+        "state": "accepted_engineering_stage",
+        "result": "Confirmed obsolete BLENDER_EEVEE enum blocked existing producer on installed Blender4.5.12. Minimal existing EEVEE_NEXT one-line fix; two isolated no-render exports byte-identical GLB149dccca895d4c2757f65da005b38dfecacdc7f58bddcb971f309d44b3626993,5796392bytes.23nodes/18mesh names/2materials/8animations; source db72fcf1f3547271feb0a99e675794f825a54fb39d649f1a4364a2cf219dc730.",
+        "target": "assets/source/blender/photoworlds/urman_family_book.py",
+        "verification": "Existing producer twice into separate /tmp outputs BOOK_STAGE_OK. Root independently inspected one-line diff and checked both GLB hashes. Manifests relative source/texture/output paths; current input hashes match. Runtime existing GLB/.blend not overwritten. diff-checkPASS.",
+        "evidence": [
+          "evidence/PW-033/family-book-export-20261014/export-a-manifest.json",
+          "evidence/PW-033/family-book-export-20261014/export-b-manifest.json",
+          "evidence/PW-033/family-book-export-20261014/export-a.log",
+          "evidence/PW-033/family-book-export-20261014/export-b.log"
+        ],
+        "remaining": "Only named family-book GLB export accepted. .blend hashes differ, cause unconfirmed; all-new-GLB coverage/runtime binding/art are not inferred. PW033 fullcard remains open, original assignment preserved."
+      }
     },
     {
       "id": "PW-034",
@@ -113571,7 +113595,15 @@
         "source_sha256": "dfbe139c47a5d62c0ff5f3c7276e5afca23648dc9bc2f2091b313b75b751e793",
         "verification_question": "Do matched current High daylight frames read less uniformly clean and more painted than accepted previous stage, while wood, snow, road and house openings remain clear?",
         "success_condition": "Root and independent Luna inspect current C1/C2 High versus accepted exact cameras/P1; reject if dirty mottling or loss of readability. Low sidecar/drawcalls evidence separate, no FPS inference.",
-        "remaining": "Fresh native stills and visual judgement; external art/culture and full temporal gates remain open."
+        "remaining": "Fresh native stills and visual judgement; external art/culture and full temporal gates remain open.",
+        "runtime_attempt": {
+          "job_id": "a12ca07e947b4f5c9ed672d0a3dc5898",
+          "state": "failed_before_frames",
+          "cause": "Capture comparison job cannot mix High and Low. Exact guard read DevViewCapture408–456. Build0/0/restored/hashverified, framesnone.",
+          "evidence": "evidence/PW-034/whole-style-20261014/environment-macro-candidate/receipt.json"
+        },
+        "current_job_id": "60f65dcbcc51409fbb76aa472236653a",
+        "next_action": "Current allHigh C1/C2/front first; separate samecamera C2Low only after station release."
       }
     },
     {
@@ -114200,8 +114232,8 @@
       "id": "PW-037",
       "title": "Настроить LOD, batching и culling без разрушения стиля",
       "milestone": "PW-M2",
-      "status": "todo",
-      "active_owner": null,
+      "status": "in_progress",
+      "active_owner": "codex/b02",
       "owner": "render",
       "priority": "P0",
       "complexity": "medium",
@@ -114367,9 +114399,8 @@
       },
       "assigned_owner": "claude/visual-reset-2026-10-09",
       "activity": {
-        "state": "not_confirmed",
-        "last_recorded_owner": "claude/visual-reset-2026-10-09",
-        "reason": "Историческое поле не доказывает работу сейчас; назначение сохранено. Подтверждение берётся из нового ответа/живого сеанса, не из возраста записи."
+        "state": "confirmed_active",
+        "reason": "Root selects named C2 current High/Low measurement slice; historical assigned owner retained. Full LOD/culling/VIS acceptance remains open."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -114378,7 +114409,7 @@
         "Количество реальных отрисовок измерено, а не оценено по числу узлов GLB.",
         "Low не удаляет смысл уровня."
       ],
-      "next_action": "Разбить окружение на разумные пространственные группы с общими материалами и LOD.",
+      "next_action": "Inspect current C2 High/Low same-camera renderer counters and Low critical scene meaning; retain exact motion/culling remainder.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -114548,7 +114579,16 @@
           "evidence_ref": "PW-037.evidence and named history progress; source_review shows available/missing inputs"
         }
       ],
-      "assignment_state": "preserved_person_or_existing_role; activity separate"
+      "assignment_state": "preserved_person_or_existing_role; activity separate",
+      "progress_2026_10_14_c2_measurement": {
+        "state": "runtime_pending",
+        "job_id": "a12ca07e947b4f5c9ed672d0a3dc5898",
+        "snapshot_id": "95a04de3dd53b656688bff64beb43c7f39cda93120ab68648a9ec6ef7c90148b",
+        "verification_question": "What are actual renderer drawcalls at C2 High versus Low, and do house/road/floor/forest silhouette remain legible on Low?",
+        "success_condition": "Samecamera/FOV/profile verified sidecars, source hash matched, exact renderer counters and personal root+Luna frame readback; no FPS/culling-motion inference.",
+        "scope": "One named C2 measurement slice; full PW037 not closed by two stills.",
+        "remaining": "VIS027 bothdirection LOD threshold/motion; VIS030 left/right cull bounds and actual sway; VIS029 relevant census; distinct fence/NPC/club/window clauses remain mapped open."
+      }
     },
     {
       "id": "PW-038",

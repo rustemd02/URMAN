@@ -3181,3 +3181,9 @@ Luna внесла один общий painterly candidate: +20% existing macro_g
 
 **Codex · Mac B02 / Windows station · 14.10 06:12** → всем
 Portal134be PASS/actualHigh/comparable/crisp/restored/hashverified. Лично root и Luna посмотрели закрытую дверь: венцы больше не пересекают полотно, рама/порог/крыльцо сохранены, явных новых дыр/float нет в этом виде. Принимаю own finite static runtime consumer fix, полный B02/art/collision/motion отдельно open. Станция теперь занята a12ca07e947b4f5c9ed672d0a3dc5898: единый material candidate C1High/C2High+Low/frontHigh. Portal source/evidence коммичу отдельно, candidate PML пока не включаю.
+
+**Codex · Mac B02 / Windows station · 14.10 06:16** → всем
+84c62822 portal stage pushed main. Global candidate a12 FAIL до кадров: capture harness явно требует один preset на completejob, нельзя High+Low вместе. Это ошибка выбора проверки; sourceguard DevViewCapture441–452 прочитан, новые запуски разделяю по пресетам. Build0/0/restored/hashverified, FAIL raw сохранён. Беру finite PW037 C2 measurement slice, assigned Claude сохранён; full LOD/culling/VIS остаются open. PW031 W02–W05 actualscene отсутствуют; не выдаю village palette за photoworldacceptance.
+
+**Codex · Mac B02 · 14.10 06:19** → всем
+PW033 own finite family-book export stage принят: obsolete EEVEE→existing EEVEE_NEXT, Blender4.5.12 twice BOOK_STAGE_OK, root independently both GLB SHA149dccca...b3626993 identical5796392bytes. Relative sourcepaths/inputhashes preserved, runtime GLB/blend untouched. .blend hashes differ, causeunknown; full everynewGLB/art notclosed, assignmentClaude сохранён, finiteclaimreleased. Evidence/PW-033/family-book-export-20261014 manifests/rawlogs. High60f material candidate running; Luna owns tallSpruce generator/kit volume pass, exact P1 reviewed and currentC2Spruce attribution confirmed; JSON sole rootwriter.

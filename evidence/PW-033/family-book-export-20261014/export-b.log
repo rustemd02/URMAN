@@ -1,0 +1,46 @@
+Info: No new files have been packed
+Info: Saved as "urman_family_book.blend"
+INFO Draco mesh compression is available, use library at /Users/unterlantas/Documents/GitHub/URMAN/.tools/blender/Blender.app/Contents/Resources/4.5/scripts/addons_core/io_scene_gltf2/libextern_draco.dylib
+06:16:53 | INFO: Starting glTF 2.0 export
+06:16:53 | INFO: Extracting primitive: AlbumPageLeaf_Mesh
+06:16:53 | INFO: Primitives created: 1
+06:16:53 | INFO: Extracting primitive: PhotoCorner_FarLeft_Mesh
+06:16:53 | INFO: Primitives created: 1
+06:16:53 | INFO: Extracting primitive: PhotoCorner_FarRight_Mesh
+06:16:53 | INFO: Primitives created: 1
+06:16:53 | INFO: Extracting primitive: PhotoCorner_NearLeft_Mesh
+06:16:53 | INFO: Primitives created: 1
+06:16:53 | INFO: Extracting primitive: PhotoCorner_NearRight_Mesh
+06:16:53 | INFO: Primitives created: 1
+06:16:53 | INFO: Extracting primitive: Cube.005
+06:16:53 | INFO: Primitives created: 1
+06:16:53 | INFO: Extracting primitive: Cube.001
+06:16:53 | INFO: Primitives created: 1
+06:16:53 | INFO: Extracting primitive: Cube
+06:16:53 | INFO: Primitives created: 1
+06:16:53 | INFO: Extracting primitive: ClothSpine_Mesh
+06:16:53 | INFO: Primitives created: 1
+06:16:53 | INFO: Extracting primitive: FrontClothBoard_Mesh
+06:16:53 | INFO: Primitives created: 1
+06:16:53 | INFO: Extracting primitive: Cube.003
+06:16:53 | INFO: Primitives created: 1
+06:16:53 | INFO: Extracting primitive: Cube.004
+06:16:53 | INFO: Primitives created: 1
+06:16:53 | INFO: Extracting primitive: PageBlock_ForeEdgeLayerRelief_Mesh
+06:16:53 | INFO: Primitives created: 1
+06:16:53 | INFO: Extracting primitive: Cube.002
+06:16:53 | INFO: Primitives created: 1
+06:16:53 | INFO: Extracting primitive: SpineHeadband_Lower_Mesh
+06:16:53 | INFO: Primitives created: 1
+06:16:53 | INFO: Extracting primitive: SpineHeadband_Upper_Mesh
+06:16:53 | INFO: Primitives created: 1
+06:16:53 | INFO: Extracting primitive: SpineSewingChannel_Head_Curve
+06:16:53 | INFO: Primitives created: 1
+06:16:53 | INFO: Extracting primitive: SpineSewingChannel_Tail_Curve
+06:16:53 | INFO: Primitives created: 1
+06:16:53 | INFO: Finished glTF 2.0 export in 0.08743119239807129 s
+
+BOOK_STAGE_OK blend=/private/tmp/urman-pw033-familybook-b-20261014/urman_family_book.blend glb=/private/tmp/urman-pw033-familybook-b-20261014/urman_family_book.glb animations=return,turn,flip,inspect,mount,close,open,rest
+Blender 4.5.12 LTS (hash 84afd5f785f7 built 2026-07-21 01:41:35)
+
+Blender quit

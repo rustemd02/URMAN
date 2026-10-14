@@ -79,7 +79,7 @@ def reset_scene():
     scene.frame_start = 0
     scene.frame_end = 36
     scene.frame_set(0)
-    scene.render.engine = "BLENDER_EEVEE"
+    scene.render.engine = "BLENDER_EEVEE_NEXT"
     scene.render.resolution_x = 1024
     scene.render.resolution_y = 1024
     scene.render.resolution_percentage = 100
