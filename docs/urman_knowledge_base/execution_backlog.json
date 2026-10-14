@@ -113613,17 +113613,25 @@
         ]
       },
       "progress_2026_10_14_tall_spruce_crown_candidate": {
-        "state": "source_in_progress",
+        "state": "implemented_native_pending",
         "targets": [
           "assets/source/blender/agent_b_act1/agent_b_foliage.py",
           "game/assets/models/agent_b_act1/agentb_foliage_kit.glb"
         ],
-        "active_implementer": "codex/b02_visual_readback GPT6LunaMax",
         "reference": "P1_user_selected_painterly.png exact viewed; broad painted masses/credibleforms, not botanical literalcopy.",
         "scope": "TallSpruce3..6 acrossnear/light/far crownvolumes; preservetrunk/root/material/name/variantAABB/Pinefit/placement/seedABI and nonSpruce outputs; existingassertbands. Exporttemp beforepublish/check.",
         "verification_question": "Does broader nonrim spruce form reduce repeated conical/faceted ladder in currentwholeC1/C2, with density/framing preserved and no openmesh/LODpop?",
         "success_condition": "Existingstructure/LOD bands and preservednonSpruce/trunk/bounds pass; rootnativeactualwholeviews and movement judgement beforeacceptance. Census groupssourceSpruce alone cannotidentify everyPine-substituted instance.",
-        "remaining": "Source/tempgeometry, preservedchecks, nativeimport/actualscene and motion; externalart/cultureopen."
+        "remaining": "Source/tempgeometry, preservedchecks, nativeimport/actualscene and motion; externalart/cultureopen.",
+        "source_sha256": "c3c0199a6ece37fed5d774a202e5944e84fb2fcb67f48baa117efc666c11f381",
+        "runtime_glb_sha256": "2e04434de764ece1cdb72367636cf0daafd1c0d539e59d9e417ad4dc255b5529",
+        "baseline_glb_sha256": "721c385c6c95de8c13dd555061edbe73fb5c56df6c0c37605539e8af41b15bfd",
+        "baseline_blend_sha256": "3606bdfa394f115ed83779cbe56b4e528b387f05407aed0e19882a4c7f78c8bb",
+        "source_verification": "Baseline .blend→GLB roundtrip exact259canonicalmesh/materialgroups/308nodes/15materials/hierarchy. Only24Needles/Snowgroups changed; trunks/non-target/groups/materials/hierarchy/12AABBs unchanged. Near2516–2888/light1348–1408/far440–452 withinexistingbands. pycompile/diffcheck/pass. Originalbaseblend retained. Actual smallnewaxisoffset≤.114m; directBVH all20/14/9 branchrootcenters pervariant insideactual oldbark, base ringsintersect, nofloating bases.",
+        "generator_limit": "Regular fullproducer fails existing WinterLinden_2 windingassert identically on pinnedHEAD; unmodifiedguard. SelectedSpruce export uses exactSHA-pinned immutablebaseblend plus currentcrownrecipe into temp, not fullregeneration/allfamiliesfixed.",
+        "implementer": "codex/b02_visual_readback GPT6LunaMax",
+        "job_id": "db2b035e621748218989b27b7cff2194",
+        "snapshot_id": "551f4d23cbec05d27b3cf02e360a7e41ab30d460ac0b2ae50cd5254ae3b038cc"
       }
     },
     {
@@ -114253,7 +114261,7 @@
       "title": "Настроить LOD, batching и culling без разрушения стиля",
       "milestone": "PW-M2",
       "status": "in_progress",
-      "active_owner": "codex/b02",
+      "active_owner": null,
       "owner": "render",
       "priority": "P0",
       "complexity": "medium",
@@ -114293,7 +114301,7 @@
       "reference_ids": [
         "REQ"
       ],
-      "runtime_evidence": "NOT_RUN",
+      "runtime_evidence": "PARTIAL: accepted named C2 actual-render measurement and Low meaning slice; full LOD/cull motion and linked clauses remain open.",
       "author_acceptance": "PENDING",
       "mvp_priority": 30,
       "mvp_packet": "PW2",
@@ -114419,8 +114427,8 @@
       },
       "assigned_owner": "claude/visual-reset-2026-10-09",
       "activity": {
-        "state": "confirmed_active",
-        "reason": "Root selects named C2 current High/Low measurement slice; historical assigned owner retained. Full LOD/culling/VIS acceptance remains open."
+        "state": "not_active",
+        "reason": "Finite C2 measurement and Low filter stages accepted/released. assigned_owner retained; fullLOD/culling/motion/VIS coverage remains open."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -114429,7 +114437,7 @@
         "Количество реальных отрисовок измерено, а не оценено по числу узлов GLB.",
         "Low не удаляет смысл уровня."
       ],
-      "next_action": "Inspect current C2 High/Low same-camera renderer counters and Low critical scene meaning; retain exact motion/culling remainder.",
+      "next_action": "Observe actual LOD/cull boundary crossings for named current foliage candidate with existing protected ordinary play; current stills are not full motion/culling evidence.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -114601,7 +114609,7 @@
       ],
       "assignment_state": "preserved_person_or_existing_role; activity separate",
       "progress_2026_10_14_c2_measurement": {
-        "state": "runtime_pending",
+        "state": "accepted_finite_measurement_slice",
         "job_id": "a12ca07e947b4f5c9ed672d0a3dc5898",
         "snapshot_id": "95a04de3dd53b656688bff64beb43c7f39cda93120ab68648a9ec6ef7c90148b",
         "verification_question": "What are actual renderer drawcalls at C2 High versus Low, and do house/road/floor/forest silhouette remain legible on Low?",
@@ -114611,8 +114619,31 @@
         "high_job_id": "60f65dcbcc51409fbb76aa472236653a",
         "low_job_id": "462b11f51c284f89b030ad85cdcf210a",
         "high_draw_calls": 18552,
-        "low_state": "pending",
-        "prior_attempt": "a12 mixedpresets refused beforeframes, notmeasured"
+        "low_state": "passed",
+        "prior_attempt": "a12 mixedpresets refused beforeframes, notmeasured",
+        "low_draw_calls": 7976,
+        "verification": "CurrentHigh60f and Low462 PASS/build/import/game0/restored/hashverified. All1949 snapshotfile entries equal; identicalC2camera/FOV70/1920x1080/profilecrisp/zone/env. Root+Luna personally view: house/ground/road/fence/forest meaning retained, Low hardstairshadows conspicuously harm roof/log/snowquality. Drawcalls18552→7976, noFPS/p95inference.",
+        "evidence": [
+          "evidence/PW-034/whole-style-20261014/environment-macro-high/receipt.json",
+          "evidence/PW-034/whole-style-20261014/environment-macro-high/frames/C2_house_high.png",
+          "evidence/PW-037/c2-profile-pair-20261014/low/receipt.json",
+          "evidence/PW-037/c2-profile-pair-20261014/low/frames/C2_house_low.png"
+        ],
+        "source_confirmation": "Existing sourcegroups share rebasedvariant/regional meshes; individualtree3tiers and groundcover12m cells, notoneforestbatch. FoliageBudget measuresbounds/wind/rangegaps. Startupcensus loggedMedium—notcurrentLow: overFootprint0/uncovered0/rangeGaps0/doubleFullBands0; overTolerance38/worstCrown38.01% remainsunresolved, notpassedLODmotion."
+      },
+      "progress_2026_10_14_low_shadow_filter": {
+        "state": "accepted_engineering_stage_static",
+        "target": "game/scripts/GraphicsQuality.cs",
+        "result": "Low only Hard→SoftVeryLow supported by installed GodotSharp4.7.1. Existing scale/FSR/FXAA/MSAA/LODt/atlas/distance/High/Medium unchanged. Local dotnet PATH attempt notexecuted; Windows narrow capture willcompile.",
+        "verification_question": "Does sameC2 Low image soften visible staircase shadows on roof/logs without losing readability, while actualpreset/budget/sourcecovered remain comparable?",
+        "success_condition": "ActualLow sidecar SoftVeryLow/budgetunchanged exceptfilter, restored/hashverified, root+Luna direct previousHard/newframe judgement. No FPSclaim; marginalfiltercostnotmeasured.",
+        "verification": "c005ba233d0f40b29e5f163c1e4f8c1a PASS/snapshotbfc169ab4f1aece1de95c0fe679c1449dcfbef4aec65fd407f104e6015e3be1e/archive076ffe116ce77c8828d8b92543e8ed4e14e3ba9e6bf9fc8dd4a8f1f0a1e20528. build/import/game0/restored/hashverified. ActualLow/comparable/C2samecamera/crisp, SoftVeryLow readback; scale/.7/Fsr/Fxaa/MSAA/LODt/atlas/distance unchanged. Root+Luna personally compare oldHard/new: modestpositive softerroof/log shadows, no legibilityloss; residualnoise/staircase remains. drawcalls7976→7977, no filtercost/FPS inference.",
+        "evidence": [
+          "evidence/PW-037/c2-profile-pair-20261014/soft-filter/receipt.json",
+          "evidence/PW-037/c2-profile-pair-20261014/soft-filter/frames/C2_house_low.png",
+          "evidence/PW-037/c2-profile-pair-20261014/soft-filter/frames/C2_house_low.json"
+        ],
+        "remaining": "Finite static Low filterstage accepted. Temporal noise/FPS/p95 and fullLow quality/fullPW037 separateopen work."
       }
     },
     {

@@ -3190,3 +3190,6 @@ PW033 own finite family-book export stage принят: obsolete EEVEE→existin
 
 **Codex · Mac B02 / Windows station · 14.10 06:26** → всем
 High60f PASS/restored/hashverified: root+Luna exactC1/C2 compare принимают небольшой плюс tonalwood безdirtymottle, не globalbreakthrough. PMLdfbe, oldkit721c, C2drawcalls18552 неFPS. CurrentfrontHighcrisp не сравниваемisolated с oldfrostfront. Low462b11f51c284f89b030ad85cdcf210a immutableoldkit/currentPMLrunning, затем runtimeSprucecandidate. Коммичу принятый modestsharedmaterial + High/rawFAILevidence отдельно; крупный crownpass ещё pending и в коммит не входит.
+
+**Codex · Mac B02 / Windows station · 14.10 06:47** → всем
+Lowfilterc005 PASS/actualLow SoftVeryLow/restored/hashes: root+Luna сравнили с priorHard, крыша/брёвна мягче, nolegibilityloss, residualgrain/staircase остаётся. C2drawcalls7977 (неFPS), budgetotherflagsunchanged. Принимаю finite measuredC2+Lowfilter stages, claimreleased/fullPW037open. Sprucecandidate GLB2e04434 ready:24crown groups/12variantAABB unchanged, alltrunks/non-targets preserved; BVH rootsinsideoldbole, maxaxisoffset.114m. Baseline fullproducer Linden windingfailure confirmed; pinnedblendoverlay preservesguard/base. НовыйHigh candidate rootowns, originalblend immutable; art/motion notclosed.

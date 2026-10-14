@@ -5,7 +5,7 @@ namespace Urman.Godot;
 
 /// <summary>
 /// What each graphics preset costs beyond materials. "low" is for weak and
-/// lower-power integrated GPUs: FSR upscaling from a lower render scale, hard shadows from
+/// lower-power integrated GPUs: FSR upscaling from a lower render scale, very-low soft shadows from
 /// a smaller atlas over a shorter distance, coarser mesh LOD, no SSAO. Medium
 /// and high keep the look the scenes were authored at; medium's scale and MSAA
 /// are the declared startup contract.
@@ -81,7 +81,7 @@ public static class GraphicsQuality
         RenderingServer.DirectionalShadowAtlasSetSize(atlas, true);
         var filter = Preset switch
         {
-            "low" => RenderingServer.ShadowQuality.Hard,
+            "low" => RenderingServer.ShadowQuality.SoftVeryLow,
             "high" => RenderingServer.ShadowQuality.SoftMedium,
             _ => RenderingServer.ShadowQuality.SoftLow
         };
@@ -253,7 +253,7 @@ public static class GraphicsQuality
     {
         // P2: soft penumbrae instead of razor shadow edges. The angular size of the
         // winter sun disc widens the PCSS blur with distance from the caster (real
-        // sun ≈ 0.53°; a hazy winter sky spreads it). Low keeps hard shadows.
+        // sun ≈ 0.53°; a hazy winter sky spreads it). Low filters without angular penumbrae.
         sun.LightAngularDistance = Preset switch { "high" => 1.6f, "low" => 0f, _ => 0.9f };
         if (!sun.ShadowEnabled) return;
         sun.DirectionalShadowMode = Low ? DirectionalLight3D.ShadowMode.Parallel2Splits : DirectionalLight3D.ShadowMode.Parallel4Splits;
