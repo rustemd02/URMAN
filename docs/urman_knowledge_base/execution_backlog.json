@@ -8443,21 +8443,25 @@
             "title": "Подключить M03 — Белая бытовая эмаль",
             "result": "Подключить M03 — Белая бытовая эмаль",
             "owner": "art/materials/qa",
-            "evidence": [],
+            "evidence": [
+              "evidence/ACT1-TEXTURE.03/bath-m03-20261014/game-build.log",
+              "assets/asset_registry.json",
+              "game/assets/textures/painterly/README.md"
+            ],
             "assigned_owner": "art/materials/qa",
             "active_owner": null,
             "activity": {
-              "state": "not_active",
-              "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+              "state": "released",
+              "reason": "One named M03 wash-basin source receiver integrated and compiled; other receivers/current native/art open."
             },
             "task_type": "engineering",
-            "status": "todo",
-            "implementation_state": "not_started",
+            "status": "in_progress",
+            "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
-              "Подключить M03 — Белая бытовая эмаль; собственного целевого receipt пока нет."
+              "Current Windows target view/movement of BathWashBasin/Bowl and named M03 household receivers; verify enamel diffuse/roughness and no unwanted whole-surface chips. Full M03 receiver/art acceptance remains open."
             ],
-            "next_action": "Сопоставить текущий результат: Подключить M03 — Белая бытовая эмаль. Затем изменить только установленный остаток.",
+            "next_action": "After live B20 owner station release, inspect one scoped bath wash-basin view/movement using current raster/consumer; no unchanged compile or new bitmap generation. Preserve other M03 receivers and original asset provenance.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -8467,7 +8471,8 @@
                 "game/assets/textures/painterly/README.md",
                 "assets/asset_registry.json",
                 "docs/urman_knowledge_base/art/urman_imagegen_texture_prompt_book_2026-09-22.md",
-                "docs/urman_knowledge_base/assets.md"
+                "docs/urman_knowledge_base/assets.md",
+                "game/scripts/Act1ConnectedWorld.Bathhouse.cs"
               ],
               "required_inputs": [],
               "scope_in": [
@@ -8520,7 +8525,17 @@
               "verification": [],
               "acceptance": []
             },
-            "depends_on": []
+            "depends_on": [],
+            "progress_2026_10_14_basin": {
+              "cause": "Existing household BathWashBasin/Bowl used generic metal despite available project enamel raster/finish; M03 exact new file unnecessary for this named reuse.",
+              "result": "Only outer Bowl now duplicates enamel material, binds existing painted_steel_enamel_v1_basecolor, has_albedo_texture=true, local_floor_texture=true, texture_scale2m^-1 (.5m repeat), disables has_wear_mask and wear_bottom_gain. Tintb1b8b0, inner bottom, geometry, bucket/ladle/water/state/contact/cache preserved.",
+              "asset_sha256": "b3e51ca2d1ba8c2db18ed6ed6541e4093da17793cc49318640bcb57693303fe2",
+              "source_sha256": "b71a0d2ad9e5e855cb969bc31f4a0b341eeb2fe6a16dd27727e6fc87b9b166a2",
+              "review": "Independent Luna confirmed named missing metal→enamel hookup, available registered reuse and isolation; root personally viewed selected existing raster and reviewed final bounded diff. Original source/derived provenance preserved; no generation/pixel editing.",
+              "verification": "Scoped affected Game build succeeded 0 warnings/0 errors. C# build does not verify actual shader/native/art.",
+              "native": "NOT_RUN; current B20 native30 live station ownership preserved.",
+              "build_log": "evidence/ACT1-TEXTURE.03/bath-m03-20261014/game-build.log"
+            }
           },
           {
             "id": "ACT1-TEXTURE.03/E04",

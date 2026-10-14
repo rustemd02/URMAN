@@ -3294,7 +3294,13 @@
       ],
       "consumer": "RuralPropMaterials.Surface(steel); actual metric mesh UV",
       "qa": "source viewed; game receiver review pending, no human acceptance",
-      "sourceSha256": "6b5e2d7d839b5e9e889edc3853e3621fbb3880eccb9403a91ae48e3a427bb68b"
+      "sourceSha256": "6b5e2d7d839b5e9e889edc3853e3621fbb3880eccb9403a91ae48e3a427bb68b",
+      "additional_receiver_2026_10_14": {
+        "task": "ACT1-TEXTURE.03/E03 M03",
+        "receiver": "Act1ConnectedWorld.Bathhouse.cs: BathWashBasin/Bowl only",
+        "material": "Per-instance enamel clone, existing tint b1b8b0, .5m local triplanar repeat, whole-surface chip mask/bottom wear disabled; metallic0 enamel finish. Shared RuralPropMaterials/cache and other vessels retained.",
+        "state": "Source candidate; target native appearance/motion and art NOT_RUN. Existing selected runtime raster reused; no generation or pixel edit."
+      }
     },
     {
       "id": "texture.rural.realism.laminate.20260930",

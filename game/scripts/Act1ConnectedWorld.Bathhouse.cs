@@ -167,7 +167,8 @@ public partial class Act1ConnectedWorld
         for (var slat = 0; slat < 4; slat++)
             AddVisualBox(_bathhouse, "BathLampGuardSlat" + slat, new(.025f, .35f, .045f), new(1.48f + slat * .11f, 2.09f, -.40f), "4a3b2c", "wood");
         FacilityBench(_bathhouse, "BathWashBench", new(1.37f, 0, -1.44f), 1.65f, 90);
-        FacilityVessel(_bathhouse, "BathWashBasin", new(1.37f, .56f, -1.88f), .22f, .17f, "b1b8b0", false);
+        var washBasin = FacilityVessel(_bathhouse, "BathWashBasin", new(1.37f, .56f, -1.88f), .22f, .17f, "b1b8b0", false);
+        UseBathBasinEnamel(washBasin.GetNode<MeshInstance3D>("Bowl"));
         var bucket = FacilityVessel(_bathhouse, "BathWaterBucket", new(-.82f, .30f, 1.91f), .23f, .42f, "969e98", true);
         _bathWater = bucket.GetNode<MeshInstance3D>("Water");
         FacilityRod(bucket, "BucketHandleLeft", new(-.23f, .11f, 0), new(-.15f, .35f, 0), .009f, "696f65");
@@ -307,6 +308,26 @@ public partial class Act1ConnectedWorld
         _facilityLights.Add(_bathFireLight);
         _bathSteam = BathMist("BathSteam", new(-1.32f, 1.08f, -1.04f), 28, 2.6f, .21f, new Color(.81f, .82f, .75f, .18f));
         _bathSmoke = BathMist("BathChimneySmoke", new(-1.58f, 3.95f, -1.31f), 12, 4f, .32f, new Color(.44f, .45f, .43f, .22f));
+    }
+
+    private static void UseBathBasinEnamel(MeshInstance3D bowl)
+    {
+        const string texturePath = "res://assets/textures/realism_20260929/painted_steel_enamel_v1_basecolor.png";
+        if (!ResourceLoader.Exists(texturePath)
+            || ResourceLoader.Load<Texture2D>(texturePath) is not { } enamelTexture) return;
+
+        // M03 reuses the registered ivory enamel only on this wash basin.
+        // Keep the shared cache and other vessels untouched; chips need an
+        // authored edge mask rather than the generic whole-surface wear.
+        var enamel = (ShaderMaterial)PainterlyMaterialLibrary.ForColor("b1b8b0", "enamel").Duplicate();
+        enamel.SetShaderParameter("albedo_texture", enamelTexture);
+        enamel.SetShaderParameter("has_albedo_texture", true);
+        enamel.SetShaderParameter("texture_scale", new Vector2(2f, 2f));
+        enamel.SetShaderParameter("local_floor_texture", true);
+        enamel.SetShaderParameter("has_wear_mask", false);
+        enamel.SetShaderParameter("wear_bottom_gain", 0f);
+        bowl.MaterialOverride = enamel;
+        bowl.SetMeta("painterlyMaterial", "enamel/M03/registered-raster-reuse");
     }
 
     private static void UseLocalBathTimber(MeshInstance3D mesh)
