@@ -106409,7 +106409,7 @@
       "title": "Переработать журнал в семейную книгу без потери функций",
       "milestone": "PW-M1",
       "status": "in_progress",
-      "active_owner": null,
+      "active_owner": "/root",
       "owner": "integration",
       "priority": "P0",
       "complexity": "complex",
@@ -106554,8 +106554,8 @@
       },
       "assigned_owner": "integration",
       "activity": {
-        "state": "not_active",
-        "reason": "Bounded readingzoom source/compile accepted; fullbook/native/human acceptance remains."
+        "state": "confirmed_active",
+        "reason": "Finite ordinary native J open/close and actual visible old function tabs via deployed UI2/capture-current, no fixtures/state editing; protected own job after published lease."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -106799,7 +106799,8 @@
           "compile": "PASS Game0warnings0errors26.26s",
           "evidence": "evidence/PW-016/book-source-20261012.json"
         }
-      }
+      },
+      "current_verification_question": "On current ordinary act1_demo player state, does J open family-book UI with old functions accessible and close back to gameplay? Inspect actual viewport and any acquired-page prerequisites; do not infer Continue/acquisition/art from this finite action."
     },
     {
       "id": "PW-017",
