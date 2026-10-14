@@ -107978,7 +107978,7 @@
         "Вне якоря есть чтение без ложной кнопки входа.",
         "Первый якорь проверен до контекста, с нужным и чужим снимком и после визита: применимая причина отказа понятна без спойлера, пиксель-хантинга и выдачи знания. Недостаток подачи сначала подтверждён в обычном маршруте, затем исправлен существующим gate/hint owner."
       ],
-      "next_action": "Одна affectedGamecompile послефинальныхправок, один guardedfullgameactualwalkthrough наизменённомsource; rootactualframe/movementreadback.",
+      "next_action": "Один защищённый full_game запуск после исправления: проверить землю, управление, переход из пролога в прибытие и путь к дому/книге; записать актуальные кадры и движение.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -108157,7 +108157,7 @@
       ],
       "assignment_state": "preserved_person_or_existing_role; activity separate",
       "progress_2026_10_14_release_path": {
-        "state": "compiled_runtime_pending",
+        "state": "runtime_load_defect_fixed_verification_pending",
         "scope": "W01F00–F03 prologue→Niva→existingconnectedvillage/home/tea/book→gatedforestentry. Existingauthoredconditions/session/saveguards preserved.",
         "sources": [
           "game/scripts/Main.cs",
@@ -108172,10 +108172,18 @@
         "verification_question": "Работает ли физический путь пролог→прибытие→дом/книга с доступным обычным вводом и без обхода авторских условий?",
         "success_condition": "AffectedC#compile and guardedactualfullscene: controls/skip-orbranch+F03/niva/home/tea/book; noNewGame/Continue/export/fullreleaseclaim untilactualownDoD.",
         "remaining": "PFOREST/Sschoolfront unavailable, fullW01F10–F16 andallworld/artgates open; default/export remainunchanged untilplayerpath verified.",
-        "next_action": "Одна affectedGamecompile послефинальныхправок, один guardedfullgameactualwalkthrough наизменённомsource; rootactualframe/movementreadback.",
+        "next_action": "Один защищённый full_game запуск после исправления: проверить землю, управление, переход из пролога в прибытие и путь к дому/книге; записать актуальные кадры и движение.",
         "build": "evidence/PW-043/release-path-20261014/game-build.log",
         "build_result": "AffectedGameC#0errors/0warnings; nofullruntimeclaim. Producer127008tris/heights0,1,3,4m/2.1mwidth/hash checks;30registered original trees reused.",
-        "station_wait": "Actualbusy d97432a88f20407c9296289d0a4f056f/recoverypending. Afterterminal/restored/freshidle onefullscene walkthrough."
+        "station_wait": "Станция свободна: busy_job=null, recovery_pending=false, orphan_game_process=false.",
+        "runtime_attempt_8195": {
+          "receipt": "evidence/PW-043/release-path-20261014/native_8195/receipt.json",
+          "game_log": "evidence/PW-043/release-path-20261014/native_8195/game.log",
+          "result": "FAIL: timeout 124; BuildForest exception missing WinterLinden_3_Root prevented ground/branch activation. No movement evidence obtained.",
+          "userdataRestored": true,
+          "snapshot_hashes_verified": true
+        },
+        "load_defect_fix": "8 ссылок WinterBirch_3/WinterLinden_3 заменены существующими native variants *_2. Все 30 placements проверены по 308 nodes исходного GLB; missing=[]; affected Game compile 0 errors/0 warnings."
       }
     },
     {
@@ -117176,7 +117184,7 @@
         "Игрок не обязан повторять тизер; объяснение «просто сон» не закрывает интригу.",
         "Обычный New Game без override использует актуальный pack, ставит физический W01 и передаёт управление семейному прибытию; skip не выдаёт необязательное знание, Replay не меняет основной сеанс, Continue не запускает New Game."
       ],
-      "next_action": "Одна affectedGamecompile послефинальныхправок, один guardedfullgameactualwalkthrough наизменённомsource; rootactualframe/movementreadback.",
+      "next_action": "Один защищённый full_game запуск после исправления: проверить землю, управление, переход из пролога в прибытие и путь к дому/книге; записать актуальные кадры и движение.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -117403,7 +117411,7 @@
       ],
       "assignment_state": "preserved_person_or_existing_role; activity separate",
       "progress_2026_10_14_release_path": {
-        "state": "compiled_runtime_pending",
+        "state": "runtime_load_defect_fixed_verification_pending",
         "scope": "W01F00–F03 prologue→Niva→existingconnectedvillage/home/tea/book→gatedforestentry. Existingauthoredconditions/session/saveguards preserved.",
         "sources": [
           "game/scripts/Main.cs",
@@ -117418,10 +117426,18 @@
         "verification_question": "Работает ли физический путь пролог→прибытие→дом/книга с доступным обычным вводом и без обхода авторских условий?",
         "success_condition": "AffectedC#compile and guardedactualfullscene: controls/skip-orbranch+F03/niva/home/tea/book; noNewGame/Continue/export/fullreleaseclaim untilactualownDoD.",
         "remaining": "PFOREST/Sschoolfront unavailable, fullW01F10–F16 andallworld/artgates open; default/export remainunchanged untilplayerpath verified.",
-        "next_action": "Одна affectedGamecompile послефинальныхправок, один guardedfullgameactualwalkthrough наизменённомsource; rootactualframe/movementreadback.",
+        "next_action": "Один защищённый full_game запуск после исправления: проверить землю, управление, переход из пролога в прибытие и путь к дому/книге; записать актуальные кадры и движение.",
         "build": "evidence/PW-043/release-path-20261014/game-build.log",
         "build_result": "AffectedGameC#0errors/0warnings; nofullruntimeclaim. Producer127008tris/heights0,1,3,4m/2.1mwidth/hash checks;30registered original trees reused.",
-        "station_wait": "Actualbusy d97432a88f20407c9296289d0a4f056f/recoverypending. Afterterminal/restored/freshidle onefullscene walkthrough."
+        "station_wait": "Станция свободна: busy_job=null, recovery_pending=false, orphan_game_process=false.",
+        "runtime_attempt_8195": {
+          "receipt": "evidence/PW-043/release-path-20261014/native_8195/receipt.json",
+          "game_log": "evidence/PW-043/release-path-20261014/native_8195/game.log",
+          "result": "FAIL: timeout 124; BuildForest exception missing WinterLinden_3_Root prevented ground/branch activation. No movement evidence obtained.",
+          "userdataRestored": true,
+          "snapshot_hashes_verified": true
+        },
+        "load_defect_fix": "8 ссылок WinterBirch_3/WinterLinden_3 заменены существующими native variants *_2. Все 30 placements проверены по 308 nodes исходного GLB; missing=[]; affected Game compile 0 errors/0 warnings."
       }
     },
     {
@@ -118312,11 +118328,11 @@
             "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
-              "Произведены A-BRANCH и ground F00→F01 (30×72 м). Остальные ground узлы F02/F03/F10–F16, лесные семейства и hero composition, physical scene/consumer, игровые коллизии/ходьба, native/art приёмка открыты.",
+              "Ground F00→F03 и 30 зарегистрированных деревьев произведены; source references исправлены, affected compile принят. Native ходьба/ветка/F03/материалы и основная геометрия F10–F16 ещё открыты.",
               "F01/F03 authored graph gap исправлен в 5f1d9e98; существующий semantic route обновлён, ещё NOT_RUN. Нужен physical binding обоих endpoints и основного forest move, не ранний выход вместо полного пролога.",
               "W01 source consumer ground/F01 принят24.38s compile; real scene runtime/material/contacts/capsule/save/мovedbranchinspect NOT_RUN. Forestkit stage2 и isolatedbirch stage8 root rejected; untracked source/tmp сохранены, assetsнепубликовались."
             ],
-            "next_action": "Одна affectedGamecompile послефинальныхправок, один guardedfullgameactualwalkthrough наизменённомsource; rootactualframe/movementreadback.",
+            "next_action": "Один защищённый full_game запуск после исправления: проверить землю, управление, переход из пролога в прибытие и путь к дому/книге; записать актуальные кадры и движение.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -118452,7 +118468,7 @@
               "remaining": "Main/FreshSessionmappingнеизменён; fullW01/F02F03/forestkit/обычныйпроход/native/art/осмотрalreadymovedbranch открыты."
             },
             "progress_2026_10_14_release_path": {
-              "state": "compiled_runtime_pending",
+              "state": "runtime_load_defect_fixed_verification_pending",
               "scope": "W01F00–F03 prologue→Niva→existingconnectedvillage/home/tea/book→gatedforestentry. Existingauthoredconditions/session/saveguards preserved.",
               "sources": [
                 "game/scripts/Main.cs",
@@ -118467,10 +118483,18 @@
               "verification_question": "Работает ли физический путь пролог→прибытие→дом/книга с доступным обычным вводом и без обхода авторских условий?",
               "success_condition": "AffectedC#compile and guardedactualfullscene: controls/skip-orbranch+F03/niva/home/tea/book; noNewGame/Continue/export/fullreleaseclaim untilactualownDoD.",
               "remaining": "PFOREST/Sschoolfront unavailable, fullW01F10–F16 andallworld/artgates open; default/export remainunchanged untilplayerpath verified.",
-              "next_action": "Одна affectedGamecompile послефинальныхправок, один guardedfullgameactualwalkthrough наизменённомsource; rootactualframe/movementreadback.",
+              "next_action": "Один защищённый full_game запуск после исправления: проверить землю, управление, переход из пролога в прибытие и путь к дому/книге; записать актуальные кадры и движение.",
               "build": "evidence/PW-043/release-path-20261014/game-build.log",
               "build_result": "AffectedGameC#0errors/0warnings; nofullruntimeclaim. Producer127008tris/heights0,1,3,4m/2.1mwidth/hash checks;30registered original trees reused.",
-              "station_wait": "Actualbusy d97432a88f20407c9296289d0a4f056f/recoverypending. Afterterminal/restored/freshidle onefullscene walkthrough."
+              "station_wait": "Станция свободна: busy_job=null, recovery_pending=false, orphan_game_process=false.",
+              "runtime_attempt_8195": {
+                "receipt": "evidence/PW-043/release-path-20261014/native_8195/receipt.json",
+                "game_log": "evidence/PW-043/release-path-20261014/native_8195/game.log",
+                "result": "FAIL: timeout 124; BuildForest exception missing WinterLinden_3_Root prevented ground/branch activation. No movement evidence obtained.",
+                "userdataRestored": true,
+                "snapshot_hashes_verified": true
+              },
+              "load_defect_fix": "8 ссылок WinterBirch_3/WinterLinden_3 заменены существующими native variants *_2. Все 30 placements проверены по 308 nodes исходного GLB; missing=[]; affected Game compile 0 errors/0 warnings."
             }
           },
           {
