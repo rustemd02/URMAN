@@ -106424,7 +106424,7 @@
       "title": "Переработать журнал в семейную книгу без потери функций",
       "milestone": "PW-M1",
       "status": "in_progress",
-      "active_owner": "/root",
+      "active_owner": null,
       "owner": "integration",
       "priority": "P0",
       "complexity": "complex",
@@ -106448,7 +106448,11 @@
       "verify": [
         "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-016/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
       ],
-      "evidence": [],
+      "evidence": [
+        "evidence/PW-016/ordinary-ui-20261014/native_d8b67a/receipt.json",
+        "evidence/PW-016/ordinary-ui-20261014/capture-current-first.log",
+        "evidence/PW-016/ordinary-ui-20261014/capture-current-resume.log"
+      ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-016",
       "source_requirements": [
         "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/docs/11_TASKS_RU.md",
@@ -106569,8 +106573,8 @@
       },
       "assigned_owner": "integration",
       "activity": {
-        "state": "confirmed_active",
-        "reason": "Finite ordinary native J open/close and actual visible old function tabs via deployed UI2/capture-current, no fixtures/state editing; protected own job after published lease."
+        "state": "released",
+        "reason": "Ordinary J verification not started: capture-current502, delayed404 after terminal; source diagnosis needs Windows frame folder/upstream trace. No blind input/retry; station restored/released."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -106580,8 +106584,12 @@
         "Фотомиры не открывают клетки наружной карты.",
         "После обычного получения снимка игрок находит фронт/оборот и вклейку в семейной книге; Continue сохраняет личные записи и состояния снимка. Карта/адреса/словарь/прежний инвентарь используют существующий источник состояния; открытие страницы не выдаёт непрочитанное знание или внешнее подтверждение."
       ],
-      "next_action": "После ownerstationrelease проверить реальное чтение/zoom/motion/actions/Continue и размерыview; image assets/physicalbook fullposes/human acceptance open.",
-      "blocker": null,
+      "next_action": "Obtain existing d8b67a frame-folder/upstream502 facts from station owner; no repeated play/UI probes, no source guesses or guard relaxation. Once actual viewport delivery works, resume finite ordinary J open/close step and actual acquired-page prerequisites.",
+      "blocker": {
+        "reason": "No verified current viewport from deployed UI2 endpoint: first capture-current HTTP502 empty body; delayed resume404 after owned play terminal. Cause not established. Version2 advertisement does not certify capture transport.",
+        "release_condition": "Read existing owned run frames folder and upstream/relay response trace; confirm whether request published/claimed/result exists or precise backend refusal. Then repair only proven cause and get one verified current viewport before J input.",
+        "owner": "Codex station/relay owner, exact read-only handoff in AGENT_CHAT"
+      },
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
       "execution_mode": "production",
@@ -106815,7 +106823,21 @@
           "evidence": "evidence/PW-016/book-source-20261012.json"
         }
       },
-      "current_verification_question": "On current ordinary act1_demo player state, does J open family-book UI with old functions accessible and close back to gameplay? Inspect actual viewport and any acquired-page prerequisites; do not infer Continue/acquisition/art from this finite action."
+      "current_verification_question": "On current ordinary act1_demo player state, does J open family-book UI with old functions accessible and close back to gameplay? Inspect actual viewport and any acquired-page prerequisites; do not infer Continue/acquisition/art from this finite action.",
+      "progress_2026_10_14_ordinary_ui": {
+        "job_id": "d8b67a093d064bba8d60399339796c5f",
+        "snapshot_id": "d22b2e68f7101839788ee394c02452e8089eb427f48296fb69274426acb89cac",
+        "archive_sha256": "7afe5156cca45e8d1c2f09bae75e24453071d32543a5d3c663f06056bfb2457f",
+        "raw_receipt": "evidence/PW-016/ordinary-ui-20261014/native_d8b67a/receipt.json",
+        "runtime_result": "FAIL/game124; existing600s guard stopped owned child, userdataRestored=true/snapshot verified/engine errors0, actualworker931b27b95d52ddae6e51ba41ab5e1733225e8f74f5636974013ace918200faf4. Freshdoctorready/busy-null/recoveryfalse/orphanfalse.",
+        "input_result": "NOT_RUN: no J/key/movement/save/state editing sent; before viewport request502 emptybody, one delayedresume404 after terminal. No PNG.",
+        "source_review": "Independent Luna found no confirmed cause in current worker/Main; env setup/hook present, worker does not produce502, no interactive warnings in exportedgame.log. Exact missing input is Windows artifacts/frames contents and upstream/proxy trace. Local1055 listener identified as tailscaled, not a project proxy Python file; daemon/config untouched.",
+        "client_logs": [
+          "evidence/PW-016/ordinary-ui-20261014/capture-current-first.log",
+          "evidence/PW-016/ordinary-ui-20261014/capture-current-resume.log"
+        ],
+        "limits": "Do not infer journal/book rendering/acquisition/Continue/closure or regression from unavailable screenshot/timeout. Preserve existing source stages and physical/art gates."
+      }
     },
     {
       "id": "PW-017",
