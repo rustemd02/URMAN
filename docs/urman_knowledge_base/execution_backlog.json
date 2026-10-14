@@ -6086,7 +6086,7 @@
             "assigned_owner": "art/materials/qa",
             "active_owner": "Кодекс Кадыра",
             "activity": {
-              "state": "active",
+              "state": "confirmed_active",
               "reason": "One exact BathFloor capture after ce946 terminal/restored evidence and fresh doctor idle/ready/no recovery/no orphan; root slot request was published, no peer live job announced. Atomic409 will yield."
             },
             "task_type": "engineering",
