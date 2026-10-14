@@ -97742,7 +97742,8 @@
                 "game/scripts/Act1ConnectedWorld.cs",
                 "game/scripts/AmbientAudioDirector.cs",
                 "game/scenes/act1_demo.tscn",
-                "game/content/world/atmosphere.v1.json"
+                "game/content/world/atmosphere.v1.json",
+                "game/scripts/VillageWindowMaterials.cs"
               ],
               "required_inputs": [
                 {
@@ -97945,6 +97946,15 @@
               "root_readback": "Лично просмотрены actual C1/C2: жёлто-персиковый снег устранён, небо стально-голубое, дерево менее янтарное и остаётся читаемым. Высота леса этим snapshot ещё не исправлена; second job отдельно.",
               "independent_readback": "Luna personally viewed matched C1/C2/front: yellow regression resolved, near wood readable, clean portal.",
               "integrated_receipt": "evidence/PW-034/high-forest-restoration-20261014/receipt.json"
+            },
+            "progress_2026_10_14_occupied_windows": {
+              "state": "candidate_ready",
+              "source": "game/scripts/VillageWindowMaterials.cs",
+              "change": "DayGain .22→.50; daylamp.72/night1.20/emissionceil.95 and frost maps unchanged. Coldprofile/highforest unchanged.",
+              "verification_question": "Читаются ли тёплые жилые окна в C1/C2/front без белых прямоугольников и без глобального жёлтого света?",
+              "success_condition": "Matched currentHigh/FOV70 preserve coldsnow/sky and nearhouse detail, window warm accents visible locally. Actual root readback and native receipt; motion/indoor remain separate.",
+              "baseline": "evidence/PW-034/high-forest-restoration-20261014/frames",
+              "next_action": "Один narrowHighA/B через free atomic station lock; действующий PW016 не прерывать."
             }
           },
           {
@@ -113887,6 +113897,16 @@
         "snapshot_id": "fbf144dbe050fc9988dec9f627552567b955448d9425955e50d9567829f9e195",
         "receipt": "evidence/PW-034/high-forest-restoration-20261014/receipt.json",
         "root_readback": "Лично просмотрены matched High C1/C2/front: высокий зимний лес снова окружает деревню/дом, near architecture читается, холодный снег сохранён.6038 tiered/18241 roots/rangeGaps0 прежние. Повторяемость крон и LOD warnings/art/motion не закрыты."
+      },
+      "progress_2026_10_14_bough_thickness_candidate": {
+        "state": "private_generated_not_applied",
+        "source": "assets/source/blender/urman_winter_pine_v2.py",
+        "change": "Only bough thickness .046-.021*along→.030-.013*along; upperbase span .370 unchanged.",
+        "candidate_path": "/private/tmp/urman-pine-thickness-20261014.dFeT0V",
+        "glb_sha256": "1c38f7ea2e5788576a8ee3e9270191fd505933b73f3e8f6646af2ec6fe16f91f",
+        "verification": "ExistingBlender4.5.12 generator selfassertPASS:6618/3309/1323total,2692/1346/538foliage,3926bark and11778barkvertex occurrences preserved; normalizedheight1/root0/pinnedcrownAABB.",
+        "remaining": "Actualnative matchedvisual: flatterbranches without losing forestfullness. Canonical GLB/blend unchanged; model notaccepted.",
+        "next_action": "После оконного A/B отдельно подставить candidateGLB и один matched C1/C2/front с тем же lighting; accept/revert byactualreadback."
       }
     },
     {
