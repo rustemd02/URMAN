@@ -6347,21 +6347,26 @@
             "title": "Подключить W12 — Торец древесины",
             "result": "Подключить W12 — Торец древесины",
             "owner": "art/materials/qa",
-            "evidence": [],
+            "evidence": [
+              "game/scripts/Act1ConnectedWorld.Bathhouse.cs",
+              "game/scripts/PainterlyMaterialLibrary.cs",
+              "docs/urman_knowledge_base/art/urman_imagegen_texture_prompt_book_2026-09-22.md",
+              "evidence/ACT1-TEXTURE.05/bath-acceptance-20261014/native_cd6671/receipt.json",
+              "evidence/ACT1-TEXTURE.05/bath-acceptance-20261014/native_cd6671/frames/bath_caps.png",
+              "evidence/ACT1-TEXTURE.05/bath-acceptance-20261014/native_cd6671/frames/bath_caps.json"
+            ],
             "assigned_owner": "art/materials/qa",
             "active_owner": null,
             "activity": {
-              "state": "not_active",
-              "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+              "state": "released",
+              "reason": "Кодекс Кадыра принял конечный existing-procedural W12 consumer по сохранённому current-equivalent native evidence; новой production правки/запуска нет."
             },
             "task_type": "engineering",
-            "status": "todo",
-            "implementation_state": "partial",
-            "technical_verification_state": "not_run",
-            "remaining": [
-              "Подключить W12 — Торец древесины; собственного целевого receipt пока нет."
-            ],
-            "next_action": "Сопоставить текущий результат: Подключить W12 — Торец древесины. Затем изменить только установленный остаток.",
+            "status": "completed",
+            "implementation_state": "implemented",
+            "technical_verification_state": "passed",
+            "remaining": [],
+            "next_action": "Reuse accepted CutWoodEnds procedural end-grain and cd6671 cap frame. Separate W12 raster remains conditional on a proven artistic/UV defect; do not generate or rerun unchanged caps.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -6416,7 +6421,14 @@
                 ],
                 "repeat_only_if": "Изменился покрываемый вход/consumer/контракт; без этого уже принятая проверка используется повторно без запуска."
               },
-              "evidence_refs": [],
+              "evidence_refs": [
+                "game/scripts/Act1ConnectedWorld.Bathhouse.cs",
+                "game/scripts/PainterlyMaterialLibrary.cs",
+                "docs/urman_knowledge_base/art/urman_imagegen_texture_prompt_book_2026-09-22.md",
+                "evidence/ACT1-TEXTURE.05/bath-acceptance-20261014/native_cd6671/receipt.json",
+                "evidence/ACT1-TEXTURE.05/bath-acceptance-20261014/native_cd6671/frames/bath_caps.png",
+                "evidence/ACT1-TEXTURE.05/bath-acceptance-20261014/native_cd6671/frames/bath_caps.json"
+              ],
               "source_criteria_parent": "ACT1-TEXTURE.02"
             },
             "dependencies": {
@@ -6424,7 +6436,12 @@
               "verification": [],
               "acceptance": []
             },
-            "depends_on": []
+            "depends_on": [],
+            "progress_2026_10_14": {
+              "result": "W12 end-face requirement is supplied by existing procedural cut_wood_end, explicitly permitted by prompt-book W12; optional urman_w12_v01_basecolor.png was not generated or claimed. Real consumer BathFirewoodRod/CutWoodEnds uses wood_cut; cap UV centres on each cross-section independently of W11 side fibres.",
+              "verification": "Root personally viewed cd6671 bath_caps: growth rings centred on named log ends visible despite rack occlusion. PASS/build/import/game0, userdataRestored=true/snapshot_hashes_verified=true. PML current SHA matches receipt; full captured Bathhouse.cs SHA matches98904295, current BathFirewoodRod method byte-identical to that captured source; later basin shell change does not touch this consumer. Existing valid receipt reused without new compile/capture.",
+              "source_contract": "prompt book W12: use only if real UV end-face need; existing cut_wood_end already available. Engineering connection accepted; no assertion of full W11/motion/artist approval or other wood receivers."
+            }
           },
           {
             "id": "ACT1-TEXTURE.02/E18",
