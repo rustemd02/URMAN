@@ -97948,13 +97948,18 @@
               "integrated_receipt": "evidence/PW-034/high-forest-restoration-20261014/receipt.json"
             },
             "progress_2026_10_14_occupied_windows": {
-              "state": "candidate_ready",
+              "state": "rejected_weak_visual_impact_source_restored",
               "source": "game/scripts/VillageWindowMaterials.cs",
               "change": "DayGain .22→.50; daylamp.72/night1.20/emissionceil.95 and frost maps unchanged. Coldprofile/highforest unchanged.",
               "verification_question": "Читаются ли тёплые жилые окна в C1/C2/front без белых прямоугольников и без глобального жёлтого света?",
               "success_condition": "Matched currentHigh/FOV70 preserve coldsnow/sky and nearhouse detail, window warm accents visible locally. Actual root readback and native receipt; motion/indoor remain separate.",
               "baseline": "evidence/PW-034/high-forest-restoration-20261014/frames",
-              "next_action": "Один narrowHighA/B через free atomic station lock; действующий PW016 не прерывать."
+              "next_action": "Один narrowHighA/B через free atomic station lock; действующий PW016 не прерывать.",
+              "job_id": "390b0f6dd14b4797acd1690eb03bbe73",
+              "snapshot_id": "f98d246cf38fa55970c6ab9cf0315322bd0ec79fa266a6e8ccbbe55398d9eb80",
+              "receipt": "evidence/ACT1-ATMOSPHERE/occupied-windows-20261014/receipt.json",
+              "root_readback": "Лично viewedC1/front: slightpanewarmth, no substantialvibe. IndependentLuna C1/C2/front confirms weakimpact. DayGain .22 restored; no moreblind gain tuning.",
+              "causal_fact": "DayGain changes EMISSION only; clearpane ALBEDO carries~10.4% roomcolor beforefrost. Current opaque shader does notshowroom depth."
             }
           },
           {
@@ -113906,7 +113911,8 @@
         "glb_sha256": "1c38f7ea2e5788576a8ee3e9270191fd505933b73f3e8f6646af2ec6fe16f91f",
         "verification": "ExistingBlender4.5.12 generator selfassertPASS:6618/3309/1323total,2692/1346/538foliage,3926bark and11778barkvertex occurrences preserved; normalizedheight1/root0/pinnedcrownAABB.",
         "remaining": "Actualnative matchedvisual: flatterbranches without losing forestfullness. Canonical GLB/blend unchanged; model notaccepted.",
-        "next_action": "После оконного A/B отдельно подставить candidateGLB и один matched C1/C2/front с тем же lighting; accept/revert byactualreadback."
+        "next_action": "После оконного A/B отдельно подставить candidateGLB и один matched C1/C2/front с тем же lighting; accept/revert byactualreadback.",
+        "producer_evidence": "evidence/PW-034/bough-thickness-20261014/producer/generator.stdout.log; urman_winter_pine_v2_manifest.json"
       }
     },
     {
