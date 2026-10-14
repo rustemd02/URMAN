@@ -64,7 +64,7 @@
  },
  "crown_seed": 20261008,
  "generator": "assets/source/blender/urman_winter_pine_v2.py",
- "glb_sha256": "d3f3ba8e9d9e05cb78de294b74ce1f0ad95cf42eefa4e5bed3804ae4981566ea",
+ "glb_sha256": "1c38f7ea2e5788576a8ee3e9270191fd505933b73f3e8f6646af2ec6fe16f91f",
  "outputs": {
   "blend": "assets/source/blender/urman_winter_pine.blend",
   "glb": "game/assets/models/act1/urman_winter_pine.glb"

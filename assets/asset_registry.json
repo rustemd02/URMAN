@@ -2177,7 +2177,7 @@
       ],
       "collision": "asset: none; existing AgentB exterior owner bakes rooted LOD0 stem faces for planted pines, with unchanged road/roof guards",
       "lod": "LOD0 6618 triangles; LOD1 3309; LOD2 1323. Crown 2692/1346/538 closed-volume triangles replaces 462 flat alpha cards; original LOD0 bark positions and normalized height 1m retained. Template fade bands 0–26m/24–64m/60m+; existing planted range scales by clamp(height/8,1,3).",
-      "status": "Source/structure/import and matched native High C1/C2 volume stage accepted by root and independent Luna on 2026-10-14; ordinary motion/LOD/performance and full forest art acceptance remain open",
+      "status": "Existing generator/bark/root/AABB/LOD counts and nativeHigh C1/C2/front bough-thickness stage accepted by root+independentLuna2026-10-14: less puffy branches, tallfull forest preserved. Overall art/repeated tips/ordinary motion/LOD/performance remainopen.",
       "releaseDisposition": "include-in-act1-release; existing authored Kara conifers and western near woodland PlantFoliage stand",
       "originalSource": {
         "source": "assets/source/quaternius/stylized_nature/Pine_3.gltf",
@@ -2186,8 +2186,8 @@
         "url": "https://quaternius.com/packs/stylizednaturemegakit.html",
         "licenseFile": "assets/source/quaternius/stylized_nature/License_Standard.txt"
       },
-      "sourceSha256": "7e2c48880dbee8629e20b6c42210e427a1e929e1428a8446ec03e0795b9b1db0",
-      "derivedSha256": "d3f3ba8e9d9e05cb78de294b74ce1f0ad95cf42eefa4e5bed3804ae4981566ea"
+      "sourceSha256": "ee09c85acd99c33cf08acb3d100a0b812770c7faf7c7f9e200a449f42cef5371",
+      "derivedSha256": "1c38f7ea2e5788576a8ee3e9270191fd505933b73f3e8f6646af2ec6fe16f91f"
     },
     {
       "id": "texture.winter.pine-alpha.v1",

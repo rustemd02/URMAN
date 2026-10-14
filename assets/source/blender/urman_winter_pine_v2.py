@@ -272,7 +272,7 @@ def rebuild_volumetric_crown(obj: bpy.types.Object, seed: int, leaf_image: bpy.t
         branches.append((0.480 + 0.370 * along_crown + rng.uniform(-0.016, 0.016),
                          (0.340 - 0.205 * along_crown) * rng.uniform(0.88, 1.12),
                          (0.102 - 0.045 * along_crown) * rng.uniform(0.80, 1.20),
-                         (0.046 - 0.021 * along_crown) * rng.uniform(0.82, 1.18),
+                         (0.030 - 0.013 * along_crown) * rng.uniform(0.82, 1.18),
                          (0.040 - 0.020 * along_crown) * rng.uniform(0.85, 1.15),
                          0.22 + index * 2.399963229728653 + rng.uniform(-0.26, 0.26),
                          rng.uniform(-0.018, 0.018)))

@@ -113212,7 +113212,10 @@
         },
         "evidence/PW-034/high-forest-restoration-20261014/receipt.json",
         "evidence/PW-034/high-forest-restoration-20261014/frames/C1_street_high.png",
-        "evidence/PW-034/high-forest-restoration-20261014/frames/C2_house_high.png"
+        "evidence/PW-034/high-forest-restoration-20261014/frames/C2_house_high.png",
+        "evidence/PW-034/bough-thickness-20261014/native/receipt.json",
+        "evidence/PW-034/bough-thickness-20261014/native/frames/C2_house_high.png",
+        "evidence/PW-034/bough-thickness-20261014/producer/urman_winter_pine_v2_manifest.json"
       ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-034",
       "source_requirements": [
@@ -113378,7 +113381,7 @@
       "assigned_owner": "art",
       "activity": {
         "state": "released",
-        "reason": "Конечная реставрация высоты принята по actual High; полный материал/art/motion объём открыт."
+        "reason": "Конечная shared crown shape правка принята по generator/nativeHigh; motion/fullart отдельные."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -113388,7 +113391,7 @@
         "Не создаются сотни уникальных текстур одинаковых досок.",
         "Уточнение автора 09.10.2026: материалы и растительные формы наружной деревни проверены в составе домов и окружения по выбранным автором скриншотам. Сопоставимы масштаб фактур, материальность дерева/земли/снега, объём и плотность растительности, свет и цветовые отношения. Новые текстуры поверх примитивных форм и отдельный образец материала не доказывают соответствие целой игровой сцены."
       ],
-      "next_action": "Проверить восстановленный холодный высокий лес в текущем движении; повторяемые формы и внешняя художественная приёмка остаются открытыми.",
+      "next_action": "Текущая ordinary прогулка/поворот с принятым cold/highforest/lesspuffyshape; затем поactualmovement выбрать следующий крупный художественный остаток.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -113926,15 +113929,21 @@
         "root_readback": "Лично просмотрены matched High C1/C2/front: высокий зимний лес снова окружает деревню/дом, near architecture читается, холодный снег сохранён.6038 tiered/18241 roots/rangeGaps0 прежние. Повторяемость крон и LOD warnings/art/motion не закрыты."
       },
       "progress_2026_10_14_bough_thickness_candidate": {
-        "state": "private_generated_not_applied",
+        "state": "accepted_scoped_shape_stage",
         "source": "assets/source/blender/urman_winter_pine_v2.py",
         "change": "Only bough thickness .046-.021*along→.030-.013*along; upperbase span .370 unchanged.",
         "candidate_path": "/private/tmp/urman-pine-thickness-20261014.dFeT0V",
         "glb_sha256": "1c38f7ea2e5788576a8ee3e9270191fd505933b73f3e8f6646af2ec6fe16f91f",
         "verification": "ExistingBlender4.5.12 generator selfassertPASS:6618/3309/1323total,2692/1346/538foliage,3926bark and11778barkvertex occurrences preserved; normalizedheight1/root0/pinnedcrownAABB.",
         "remaining": "Actualnative matchedvisual: flatterbranches without losing forestfullness. Canonical GLB/blend unchanged; model notaccepted.",
-        "next_action": "После оконного A/B отдельно подставить candidateGLB и один matched C1/C2/front с тем же lighting; accept/revert byactualreadback.",
-        "producer_evidence": "evidence/PW-034/bough-thickness-20261014/producer/generator.stdout.log; urman_winter_pine_v2_manifest.json"
+        "next_action": "One matched C1/C2/front High after fresh doctor; root accept/revert byactualreadback.",
+        "producer_evidence": "evidence/PW-034/bough-thickness-20261014/producer/generator.stdout.log; urman_winter_pine_v2_manifest.json",
+        "verification_question": "Стали ли снежные ветви менее ватными и естественнее при сохранении высокого плотного леса и nearhouse readability?",
+        "baseline": "evidence/PW-034/high-forest-restoration-20261014/frames",
+        "job_id": "ce946274ff034e93a96f0895da68da81",
+        "snapshot_id": "883d278460c11416ee51809349362d11ffcda43679235ea7e6438dc159fdda07",
+        "receipt": "evidence/PW-034/bough-thickness-20261014/native/receipt.json",
+        "root_readback": "Personally viewedC1/C2/front: C2/front branches flatter lesscotton, no height/fullness loss; C1 gain modest. IndependentLuna accepts scopedshape only. 6038tiered/18241roots/rangeGaps0 preserved; repeat/prongs/LODwarnings/art/motion remainopen."
       }
     },
     {
