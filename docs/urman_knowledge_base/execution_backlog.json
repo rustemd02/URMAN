@@ -5992,10 +5992,15 @@
             "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
-              "Current target Windows close view and movement for BabaiYardToolShed/Wall and HeroYardShed_LoftBoard_*; remaining intended AddVisualShed receivers and author art acceptance. Material source does not deliver shed geometry/reference rework."
+              "Confirm surviving intended named W07 shed/woodwork receiver; old BabaiYardToolShed and authored loft shed are hidden by current relocation cleanup.",
+              "Current target Windows view/movement for surviving receiver, other intended receivers and author art; source compile alone remains insufficient."
             ],
-            "next_action": "After current B20 owner releases station, inspect one target view/movement of BabaiYardToolShed to verify upright metre-scale W07; preserve unchanged existing source build and avoid generic reruns.",
-            "blocker": null,
+            "next_action": "Choose one surviving intended W07 receiver with the B02 architecture owner before any capture/binding. RelocateBabaiHousehold hides BabaiYardToolShed and BabaiYardAuthoredShed by author cleanup; do not resurrect removed outbuildings or run a guessed hidden-node capture.",
+            "blocker": {
+              "reason": "Prepared named W07 receiver is hidden by current RelocateBabaiHousehold cleanup, invoked during world build. Its authored loft-shed alternative is also hidden; no native capture submitted.",
+              "release_condition": "Identify a surviving intended existing W07 receiver and exact constructor/material path, preserving author removal of surplus outbuildings; then bind/check only that receiver.",
+              "owner": "art/materials/qa with B02 architecture source owner"
+            },
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
             "work_contract": {
@@ -6067,6 +6072,10 @@
               "verification": "Scoped Game compile succeeded 0 errors/0 warnings; does not verify shader rendering/native visual/game acceptance.",
               "evidence": "evidence/ACT1-TEXTURE.02/shed-w07-20261013/game-build.log",
               "native": "NOT_RUN; B20 live lease preserved."
+            },
+            "progress_2026_10_14_receiver_liveness": {
+              "source": "game/scripts/Act1ConnectedWorld.BabaiRelocation.cs: RelocateBabaiHousehold hides BabaiYardAuthoredShed and BabaiYardToolShed. game/scripts/Act1ConnectedWorld.cs invokes relocate-babai after builders.",
+              "result": "Stopped prepared W07 capture before submitting. Previous source/compile evidence retained as a source stage, not live material delivery. Author-requested cleanup is preserved; no source revert, hidden-node resurrection, compile or station run."
             }
           },
           {
