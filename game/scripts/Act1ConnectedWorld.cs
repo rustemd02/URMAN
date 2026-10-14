@@ -5726,9 +5726,23 @@ public partial class Act1ConnectedWorld : Node3D
                     placement.Scale,
                     placement.LogicalAnchor,
                     VillageExteriorKitScenePath);
-                if (placement.ComponentName.StartsWith("VillageParcel_", StringComparison.Ordinal)
-                    || placement.ComponentName == "DwellingFacade_TimberPlaster")
+                if (placement.ComponentName.StartsWith("VillageParcel_", StringComparison.Ordinal))
+                {
+                    // Core street parcels used to get warm windows only. Reuse
+                    // the existing T1/T2-measured joinery and roof-edge dressing
+                    // under this stable placement ID. DressParcel finds its
+                    // dwelling descendants and skips each already-dressed one.
+                    TimberHomeStyle.DressParcel(
+                        attached,
+                        placement.LogicalAnchor,
+                        allowAddedStorey: false);
+
                     TimberHomeStyle.LightOccupiedWindows(attached, placement.LogicalAnchor);
+                }
+                else if (placement.ComponentName == "DwellingFacade_TimberPlaster")
+                {
+                    TimberHomeStyle.LightOccupiedWindows(attached, placement.LogicalAnchor);
+                }
                 if (string.Equals(placement.ComponentName, "DwellingFacade_TimberPlaster", StringComparison.Ordinal))
                 {
                     AddBabaiRearFacadeDressing(attached, Vector3.Zero, 0f);
@@ -11297,7 +11311,7 @@ public partial class Act1ConnectedWorld : Node3D
                 || name.EndsWith("_Jamb-1_LOD0", StringComparison.Ordinal)
                 || name.EndsWith("_Rail1_LOD0", StringComparison.Ordinal)
                 || name.EndsWith("_Rail-1_LOD0", StringComparison.Ordinal);
-            if (!isSurround)
+            if (!isSurround || HasTimberHomeStyleDressing(mesh, presentation))
             {
                 continue;
             }
@@ -11310,6 +11324,20 @@ public partial class Act1ConnectedWorld : Node3D
 
         presentation.SetMeta("paintedWindowSurroundCount", painted);
         GD.Print($"act1-window-surrounds: painted={painted}");
+    }
+
+    private static bool HasTimberHomeStyleDressing(MeshInstance3D mesh, Node3D presentation)
+    {
+        for (Node? ancestor = mesh.GetParent(); ancestor is not null && ancestor != presentation;
+             ancestor = ancestor.GetParent())
+        {
+            if (ancestor.Name.ToString().EndsWith("_Dwelling", StringComparison.Ordinal))
+            {
+                return ancestor.GetNodeOrNull<Node3D>("TatarCarpentry")?.HasMeta("householdStyle") == true;
+            }
+        }
+
+        return false;
     }
 
 }

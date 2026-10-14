@@ -1,0 +1,245 @@
+02:48:53.892: Command Line Arguments: --portable --multi --disable-updater --profile URMAN-PW089 --collection URMAN-PW089 --scene URMAN --startrecording
+02:48:53.899: CPU Name: AMD Ryzen 5 3600 6-Core Processor              
+02:48:53.899: CPU Speed: 3950MHz
+02:48:53.899: Physical Cores: 6, Logical Cores: 12
+02:48:53.899: Physical Memory: 16320MB Total, 2639MB Free
+02:48:53.899: Windows Version: 10.0 Build 22621 (release: 22H2; revision: 1105; 64-bit)
+02:48:53.899: Running as administrator: false
+02:48:53.899: Windows 10/11 Gaming Features:
+02:48:53.899: 	Game DVR: On
+02:48:53.899: 	Game Mode: Probably On (no reg key set)
+02:48:53.899: 	Hardware GPU Scheduler: Probably On (no reg key set)
+02:48:53.903: Sec. Software Status:
+02:48:53.906: 	Антивирусная программа Microsoft Defender: enabled (AV)
+02:48:53.906: 	Брандмауэр Windows: disabled (FW)
+02:48:53.907: Current Date/Time: 2026-10-14, 02:48:53
+02:48:53.907: Browser Hardware Acceleration: true
+02:48:53.907: Hide OBS windows from screen capture: false
+02:48:53.907: Qt Version: 6.4.3 (runtime), 6.4.3 (compiled)
+02:48:53.907: Portable mode: true
+02:48:59.619: OBS 29.1.1 (64-bit, windows)
+02:48:59.619: ---------------------------------
+02:48:59.620: ---------------------------------
+02:48:59.620: audio settings reset:
+02:48:59.620: 	samples per sec: 48000
+02:48:59.620: 	speakers:        2
+02:48:59.620: 	max buffering:   960 milliseconds
+02:48:59.620: 	buffering type:  dynamically increasing
+02:48:59.625: ---------------------------------
+02:48:59.625: Initializing D3D11...
+02:48:59.625: Available Video Adapters: 
+02:48:59.630: 	Adapter 0: NVIDIA GeForce GTX 970
+02:48:59.630: 	  Dedicated VRAM: 4226416640
+02:48:59.630: 	  Shared VRAM:    8556498944
+02:48:59.630: 	  PCI ID:         10de:13c2
+02:48:59.631: 	  Driver Version: 32.0.15.6094
+02:48:59.631: 	  output 0:
+02:48:59.631: 	    name=S24D590
+02:48:59.631: 	    pos={0, 0}
+02:48:59.631: 	    size={1920, 1080}
+02:48:59.631: 	    attached=true
+02:48:59.631: 	    refresh=60
+02:48:59.631: 	    bits_per_color=8
+02:48:59.631: 	    space=RGB_FULL_G22_NONE_P709
+02:48:59.631: 	    sdr_white_nits=80
+02:48:59.631: 	    nit_range=[min=0.500000, max=270.000000, max_full_frame=270.000000]
+02:48:59.631: 	    dpi=96 (100%)
+02:48:59.631: 	    id=\\?\DISPLAY#SAM0B47#5&27ecd2ab&1&UID37121#{e6f07b5f-ee97-4a90-b076-33f57bf4eaa7}
+02:48:59.631: 	    alt_id=\\.\DISPLAY1
+02:48:59.635: Loading up D3D11 on adapter NVIDIA GeForce GTX 970 (0)
+02:48:59.722: D3D11 loaded successfully, feature level used: b000
+02:48:59.722: DXGI increase maximum frame latency success
+02:48:59.726: D3D11 GPU priority setup failed (not admin?)
+02:49:01.420: ---------------------------------
+02:49:01.420: video settings reset:
+02:49:01.420: 	base resolution:   1280x720
+02:49:01.420: 	output resolution: 1280x720
+02:49:01.420: 	downscale filter:  Bicubic
+02:49:01.420: 	fps:               30/1
+02:49:01.420: 	format:            NV12
+02:49:01.420: 	YUV mode:          Rec. 709/Partial
+02:49:01.421: NV12 texture support enabled
+02:49:01.421: P010 texture support not available
+02:49:01.423: Audio monitoring device:
+02:49:01.423: 	name: По умолчанию
+02:49:01.423: 	id: default
+02:49:01.423: ---------------------------------
+02:49:01.448: No AJA devices found, skipping loading AJA UI plugin
+02:49:01.448: Failed to initialize module 'aja-output-ui.dll'
+02:49:01.470: No AJA devices found, skipping loading AJA plugin
+02:49:01.470: Failed to initialize module 'aja.dll'
+02:49:01.478: Skipping module '../../obs-plugins/64bit/chrome_elf.dll', not an OBS plugin
+02:49:01.583: [CoreAudio encoder]: Adding CoreAudio AAC encoder
+02:49:01.589: Failed to load 'en-US' text for module: 'decklink-captions.dll'
+02:49:01.594: Failed to load 'en-US' text for module: 'decklink-output-ui.dll'
+02:49:01.611: A DeckLink iterator could not be created.  The DeckLink drivers may not be installed
+02:49:01.611: Failed to initialize module 'decklink.dll'
+02:49:01.675: [AMF] Unable to load 'amfrt64.dll', error code 126.
+02:49:01.678: [AMF] AMF Test failed due to one or more errors.
+02:49:01.678: Failed to initialize module 'enc-amf.dll'
+02:49:02.276: Skipping module '../../obs-plugins/64bit/libcef.dll', not an OBS plugin
+02:49:02.280: Skipping module '../../obs-plugins/64bit/libEGL.dll', not an OBS plugin
+02:49:02.303: Skipping module '../../obs-plugins/64bit/libGLESv2.dll', not an OBS plugin
+02:49:02.478: [obs-browser]: Version 2.21.1
+02:49:02.478: [obs-browser]: CEF Version 103.0.5060.134 (runtime), 103.0.0-5060-shared-textures.2591+g4204d54+chromium-103.0.5060.134 (compiled)
+02:49:02.547: NVENC supported
+02:49:02.768: [NVENC] AV1 is not supported
+02:49:02.787: [noise suppress]: NVIDIA denoiser disabled, redistributable not found or could not be loaded.
+02:49:02.788: Failed to get NVVideoEffects.dll version info size
+02:49:02.790: [NVIDIA VIDEO FX]: FX disabled, redistributable not found or could not be loaded.
+02:49:02.947: [obs-websocket] [obs_module_load] you can haz websockets (Version: 5.2.2 | RPC Version: 1)
+02:49:02.947: [obs-websocket] [obs_module_load] Qt version (compile-time): 6.4.3 | Qt version (run-time): 6.4.3
+02:49:02.947: [obs-websocket] [obs_module_load] Linked ASIO Version: 101201
+02:49:02.955: [obs-websocket] [obs_module_load] Module loaded.
+02:49:03.045: [vlc-video]: VLC 3.0.8 Vetinari found, VLC video source enabled
+02:49:03.124: ---------------------------------
+02:49:03.124:   Loaded Modules:
+02:49:03.124:     win-wasapi.dll
+02:49:03.124:     win-dshow.dll
+02:49:03.124:     win-capture.dll
+02:49:03.124:     vlc-video.dll
+02:49:03.124:     text-freetype2.dll
+02:49:03.124:     rtmp-services.dll
+02:49:03.124:     obs-x264.dll
+02:49:03.124:     obs-websocket.dll
+02:49:03.124:     obs-vst.dll
+02:49:03.124:     obs-transitions.dll
+02:49:03.124:     obs-text.dll
+02:49:03.124:     obs-qsv11.dll
+02:49:03.124:     obs-outputs.dll
+02:49:03.124:     obs-filters.dll
+02:49:03.124:     obs-ffmpeg.dll
+02:49:03.124:     obs-browser.dll
+02:49:03.124:     image-source.dll
+02:49:03.124:     frontend-tools.dll
+02:49:03.124:     decklink-output-ui.dll
+02:49:03.124:     decklink-captions.dll
+02:49:03.124:     coreaudio-encoder.dll
+02:49:03.124: ---------------------------------
+02:49:03.124: ==== Startup complete ===============================================
+02:49:03.381: All scene data cleared
+02:49:03.381: ------------------------------------------------
+02:49:03.400: [window-capture: 'Owned URMAN window'] update settings:
+02:49:03.400: 	executable: Godot_v4.7.1-stable_mono_win64.exe
+02:49:03.400: 	method selected: Automatic
+02:49:03.400: 	method chosen: BitBlt
+02:49:03.400: 	force SDR: false
+02:49:03.401: Switched to scene 'URMAN'
+02:49:03.401: Starting recording due to command line parameter
+02:49:03.402: ------------------------------------------------
+02:49:03.402: Loaded scenes:
+02:49:03.402: - scene 'URMAN':
+02:49:03.402:     - source: 'Owned URMAN window' (window_capture)
+02:49:03.402: ------------------------------------------------
+02:49:03.566: ---------------------------------
+02:49:03.566: [x264 encoder: 'simple_video_recording'] preset: veryfast
+02:49:03.566: [x264 encoder: 'simple_video_recording'] profile: high
+02:49:03.566: [x264 encoder: 'simple_video_recording'] settings:
+02:49:03.566: 	rate_control: CRF
+02:49:03.566: 	bitrate:      0
+02:49:03.566: 	buffer size:  0
+02:49:03.566: 	crf:          14
+02:49:03.566: 	fps_num:      30
+02:49:03.566: 	fps_den:      1
+02:49:03.566: 	width:        1280
+02:49:03.566: 	height:       720
+02:49:03.566: 	keyint:       250
+02:49:03.566: 
+02:49:03.571: [CoreAudio AAC: 'simple_aac_recording0']: settings:
+02:49:03.571: 	mode:          AAC
+02:49:03.571: 	bitrate:       192
+02:49:03.571: 	sample rate:   48000
+02:49:03.571: 	cbr:           on
+02:49:03.571: 	output buffer: 1536
+02:49:03.596: ==== Recording Start ===============================================
+02:49:03.596: [ffmpeg muxer: 'simple_file_output'] Writing file 'C:/Users/ruste/AppData/Local/Temp/urman-pw089-recording-20261014-de6ab08a506f/recordings/PW089-2026-10-14_02-49-03.mp4'...
+02:49:03.805: [win-capture plugin] Successfully updated file 'compatibility.json' (version 3)
+02:49:03.806: [win-capture plugin] Successfully updated package (version 3)
+02:49:03.923: [rtmp-services plugin] Successfully updated file 'services.json' (version 293)
+02:49:03.924: [rtmp-services plugin] Successfully updated package (version 293)
+02:55:10.542: ==== Shutting down ==================================================
+02:55:10.571: All scene data cleared
+02:55:10.571: ------------------------------------------------
+02:55:10.595: [ffmpeg muxer: 'simple_file_output'] Output of file 'C:/Users/ruste/AppData/Local/Temp/urman-pw089-recording-20261014-de6ab08a506f/recordings/PW089-2026-10-14_02-49-03.mp4' stopped
+02:55:10.595: Output 'simple_file_output': stopping
+02:55:10.595: Output 'simple_file_output': Total frames output: 10978
+02:55:10.595: Output 'simple_file_output': Total drawn frames: 11010
+02:55:10.700: [obs-websocket] [obs_module_unload] Shutting down...
+02:55:10.701: [obs-websocket] [obs_module_unload] Finished shutting down.
+02:55:10.703: [Scripting] Total detached callbacks: 0
+02:55:10.714: Freeing OBS context data
+02:55:10.749: == Profiler Results =============================
+02:55:10.749: run_program_init: 9819.63 ms
+02:55:10.749:  ┣OBSApp::AppInit: 72.823 ms
+02:55:10.749:  ┃ ┗OBSApp::InitLocale: 27.78 ms
+02:55:10.749:  ┗OBSApp::OBSInit: 9670.01 ms
+02:55:10.749:    ┣obs_startup: 14.791 ms
+02:55:10.749:    ┗OBSBasic::OBSInit: 3943.61 ms
+02:55:10.749:      ┣OBSBasic::InitBasicConfig: 0.603 ms
+02:55:10.749:      ┣OBSBasic::ResetAudio: 0.232 ms
+02:55:10.749:      ┣OBSBasic::ResetVideo: 1803.57 ms
+02:55:10.749:      ┣OBSBasic::InitOBSCallbacks: 0.007 ms
+02:55:10.749:      ┣OBSBasic::InitHotkeys: 0.057 ms
+02:55:10.749:      ┣obs_load_all_modules2: 1700.36 ms
+02:55:10.749:      ┃ ┣obs_init_module(aja-output-ui.dll): 0.768 ms
+02:55:10.749:      ┃ ┣obs_init_module(aja.dll): 0.178 ms
+02:55:10.749:      ┃ ┣obs_init_module(coreaudio-encoder.dll): 89.409 ms
+02:55:10.749:      ┃ ┣obs_init_module(decklink-captions.dll): 0 ms
+02:55:10.749:      ┃ ┣obs_init_module(decklink-output-ui.dll): 0 ms
+02:55:10.749:      ┃ ┣obs_init_module(decklink.dll): 2.731 ms
+02:55:10.749:      ┃ ┣obs_init_module(enc-amf.dll): 47.419 ms
+02:55:10.749:      ┃ ┣obs_init_module(frontend-tools.dll): 5.116 ms
+02:55:10.749:      ┃ ┣obs_init_module(image-source.dll): 0.024 ms
+02:55:10.749:      ┃ ┣obs_init_module(obs-browser.dll): 0.536 ms
+02:55:10.749:      ┃ ┣obs_init_module(obs-ffmpeg.dll): 230.234 ms
+02:55:10.749:      ┃ ┃ ┗nvenc_check: 7.577 ms
+02:55:10.749:      ┃ ┣obs_init_module(obs-filters.dll): 3.198 ms
+02:55:10.749:      ┃ ┣obs_init_module(obs-outputs.dll): 0.025 ms
+02:55:10.749:      ┃ ┣obs_init_module(obs-qsv11.dll): 39.642 ms
+02:55:10.749:      ┃ ┣obs_init_module(obs-text.dll): 0.313 ms
+02:55:10.749:      ┃ ┣obs_init_module(obs-transitions.dll): 0.008 ms
+02:55:10.749:      ┃ ┣obs_init_module(obs-vst.dll): 0.004 ms
+02:55:10.749:      ┃ ┣obs_init_module(obs-websocket.dll): 8.641 ms
+02:55:10.749:      ┃ ┣obs_init_module(obs-x264.dll): 0.001 ms
+02:55:10.749:      ┃ ┣obs_init_module(rtmp-services.dll): 0.756 ms
+02:55:10.749:      ┃ ┣obs_init_module(text-freetype2.dll): 0.278 ms
+02:55:10.749:      ┃ ┣obs_init_module(vlc-video.dll): 10.821 ms
+02:55:10.749:      ┃ ┣obs_init_module(win-capture.dll): 13.78 ms
+02:55:10.749:      ┃ ┣obs_init_module(win-dshow.dll): 3.476 ms
+02:55:10.749:      ┃ ┣obs_init_module(win-wasapi.dll): 0.016 ms
+02:55:10.749:      ┃ ┗reset_win32_symbol_paths: 2.414 ms
+02:55:10.749:      ┣OBSBasic::InitService: 11.283 ms
+02:55:10.749:      ┣OBSBasic::ResetOutputs: 48.045 ms
+02:55:10.749:      ┣OBSBasic::CreateHotkeys: 0.037 ms
+02:55:10.749:      ┣OBSBasic::InitPrimitives: 0.094 ms
+02:55:10.749:      ┗OBSBasic::Load: 206.481 ms
+02:55:10.749: obs_hotkey_thread(25 ms): min=0.003 ms, median=0.007 ms, max=2.28 ms, 99th percentile=0.045 ms, 100% below 25 ms
+02:55:10.749: audio_thread(Audio): min=0.009 ms, median=0.193 ms, max=32.794 ms, 99th percentile=0.307 ms
+02:55:10.749:  ┗receive_audio: min=0.008 ms, median=0.165 ms, max=32.754 ms, 99th percentile=0.261 ms
+02:55:10.749:    ┣buffer_audio: min=0 ms, median=0.001 ms, max=0.012 ms, 99th percentile=0.003 ms
+02:55:10.749:    ┗do_encode: min=0.104 ms, median=0.161 ms, max=32.744 ms, 99th percentile=0.255 ms
+02:55:10.750:      ┣encode(simple_aac_recording0): min=0.095 ms, median=0.146 ms, max=32.735 ms, 99th percentile=0.234 ms
+02:55:10.750:      ┗send_packet: min=0.001 ms, median=0.014 ms, max=4.336 ms, 99th percentile=0.024 ms
+02:55:10.750: obs_graphics_thread(33.3333 ms): min=0.069 ms, median=0.686 ms, max=9.481 ms, 99th percentile=1.054 ms, 100% below 33.333 ms
+02:55:10.750:  ┣tick_sources: min=0.001 ms, median=0.247 ms, max=5.068 ms, 99th percentile=0.418 ms
+02:55:10.750:  ┣output_frame: min=0.062 ms, median=0.295 ms, max=1.604 ms, 99th percentile=0.491 ms
+02:55:10.750:  ┃ ┣gs_context(video->graphics): min=0.062 ms, median=0.164 ms, max=1.433 ms, 99th percentile=0.27 ms
+02:55:10.750:  ┃ ┃ ┣render_video: min=0.005 ms, median=0.053 ms, max=1.279 ms, 99th percentile=0.092 ms
+02:55:10.750:  ┃ ┃ ┃ ┣render_main_texture: min=0.003 ms, median=0.031 ms, max=0.57 ms, 99th percentile=0.05 ms
+02:55:10.750:  ┃ ┃ ┃ ┣render_convert_texture: min=0.004 ms, median=0.008 ms, max=0.41 ms, 99th percentile=0.014 ms
+02:55:10.750:  ┃ ┃ ┃ ┗stage_output_texture: min=0.001 ms, median=0.012 ms, max=1.209 ms, 99th percentile=0.021 ms
+02:55:10.750:  ┃ ┃ ┣gs_flush: min=0.022 ms, median=0.04 ms, max=0.68 ms, 99th percentile=0.138 ms
+02:55:10.750:  ┃ ┃ ┗download_frame: min=0 ms, median=0.068 ms, max=0.6 ms, 99th percentile=0.114 ms
+02:55:10.750:  ┃ ┗output_video_data: min=0.105 ms, median=0.13 ms, max=0.743 ms, 99th percentile=0.228 ms
+02:55:10.750:  ┗render_displays: min=0 ms, median=0.14 ms, max=8.862 ms, 99th percentile=0.228 ms
+02:55:10.750: video_thread(video): min=0.42 ms, median=0.517 ms, max=1.882 ms, 99th percentile=0.882 ms
+02:55:10.750:  ┗receive_video: min=0.419 ms, median=0.515 ms, max=1.879 ms, 99th percentile=0.88 ms
+02:55:10.750:    ┗do_encode: min=0.418 ms, median=0.515 ms, max=1.878 ms, 99th percentile=0.879 ms
+02:55:10.750:      ┣encode(simple_video_recording): min=0.404 ms, median=0.498 ms, max=1.876 ms, 99th percentile=0.859 ms
+02:55:10.750:      ┗send_packet: min=0.004 ms, median=0.015 ms, max=0.538 ms, 99th percentile=0.057 ms
+02:55:10.750: =================================================
+02:55:10.750: == Profiler Time Between Calls ==================
+02:55:10.750: obs_hotkey_thread(25 ms): min=24.411 ms, median=25.422 ms, max=29.285 ms, 54.7073% within ±2% of 25 ms (0.006744% lower, 45.2859% higher)
+02:55:10.750: obs_graphics_thread(33.3333 ms): min=28.59 ms, median=33.333 ms, max=38.078 ms, 99.9819% within ±2% of 33.333 ms (0.00902772% lower, 0.00902772% higher)
+02:55:10.750: =================================================
+02:55:10.762: Number of memory leaks: 2

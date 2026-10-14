@@ -1,0 +1,1 @@
+{"headless":false,"job_id":"80e10344727844df91597ed168896166","mode":"capture","points":"street_right_close:Ground@4,1.7,2>Ground@12,1.6,-4;street_left_close:Ground@-4,1.7,-14>Ground@-12,1.6,-20","scene":"res://scenes/act1_demo.tscn","snapshot_id":"35ced7e73606c95f313a29efb5225b21f95b1e2cba11b36599a5a6db345e352e","timeout":300}

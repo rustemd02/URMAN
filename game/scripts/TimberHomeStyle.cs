@@ -127,7 +127,7 @@ public static class TimberHomeStyle
         }
     }
 
-    public static void DressParcel(Node3D visual, string stableId)
+    public static void DressParcel(Node3D visual, string stableId, bool allowAddedStorey = true)
     {
         var seed=StableHash(stableId); var variant=(int)(seed%5);
         // Casing paint after the 09.10 photo references T1-T3: white, faded sky
@@ -137,6 +137,7 @@ public static class TimberHomeStyle
         foreach(var dwelling in visual.FindChildren("*","Node3D",true,false).OfType<Node3D>()
             .Where(n=>n.Name.ToString().EndsWith("_Dwelling",StringComparison.Ordinal)).ToArray())
         {
+            if(dwelling.GetNodeOrNull<Node3D>("TatarCarpentry")?.HasMeta("householdStyle") == true)continue;
             var source=dwelling.FindChildren("*",nameof(MeshInstance3D),true,false).OfType<MeshInstance3D>()
                 .Where(m=>m.Mesh is not null&&m.IsVisibleInTree()).ToArray();
             if(source.Length==0)continue;
@@ -168,9 +169,10 @@ public static class TimberHomeStyle
                 measured++;
             }
             LightOccupiedWindows(dwelling, stableId);
-            // A small minority has a real added storey. The existing pitched roof
-            // and its snow/flashings move together; collision is baked afterwards.
-            var twoStorey=seed%17==0;
+            // Only callers that rebuild source-mesh collision after styling may
+            // opt into the rare added storey; connected-core parcels opt out
+            // because their collision volume has a separate owner.
+            var twoStorey=allowAddedStorey&&seed%17==0;
             if(twoStorey)
             {
                 var walls=source.Where(m=>m.Name.ToString().Contains("_Wall",StringComparison.Ordinal)

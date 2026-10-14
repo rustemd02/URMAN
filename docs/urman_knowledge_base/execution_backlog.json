@@ -97943,7 +97943,23 @@
           "evidence_ref": "ACT1-ATMOSPHERE.evidence and named history progress; source_review shows available/missing inputs"
         }
       ],
-      "assignment_state": "unassigned_explicit_not_active"
+      "assignment_state": "unassigned_explicit_not_active",
+      "progress_2026_10_14_chromatic_day_candidate": {
+        "state": "accepted_engineering_stage_static",
+        "result": "Existing village-winter-crisp only: coherent violet-blue ambient/fog/sky planes, amber key and stronger cast shadows. IDs/zones/exposure/sun rotation/fog density/weather/snow remain unchanged.",
+        "targets": [
+          "game/content/world/atmosphere.v1.json"
+        ],
+        "verification_question": "At exact same C1/C2 High camera and snapshot with street facade integration, does amber key/violet fill produce stronger coherent painterly colour masses while preserving snow/face/wood readability?",
+        "success_condition": "Root actual current High before/after comparison accepts improved whole scene; reject excessive purple, dark unreadable shadow planes, clipped snow/face colour. Static check cannot accept art.",
+        "remaining": "Ordinary non-black motion, close face and interior/exterior boundary; external art/culture/language acceptance remains open. Avoid repeated palette adjustment absent observed defect.",
+        "verification": "b2a2e51828924fc08670a978b8f3431e PASS, snapshot7c8119d14ec6e2267ce63e6e030f228d8a2d97287fa12bbdef0b3fbb1faf0369, resultSHAef4a36b29d818ab98d9b342739fcd88513d847156291a6a8a8cec556d47f8813. Actual C1/C2 High/comparabletrue/crisp, game0/restored/hashverified, root+Luna personally compared same skyline-day cameras and exactP1. Warm wood/cool violet fill more coherent; snow and shaded log courses readable. No close face/fullmotion/interiorboundary proof. Source facade guard in this snapshot ineffective, no carpentry acceptance.",
+        "evidence": [
+          "evidence/PW-034/whole-style-20261014/chromatic-day-candidate/receipt.json",
+          "evidence/PW-034/whole-style-20261014/chromatic-day-candidate/frames/C1_street_high.png",
+          "evidence/PW-034/whole-style-20261014/chromatic-day-candidate/frames/C2_house_high.png"
+        ]
+      }
     },
     {
       "id": "ACT1-MATERIAL.MOTION",
@@ -113444,6 +113460,22 @@
           "evidence/PW-034/whole-style-20261014/skyline-day/receipt.json",
           "evidence/PW-034/whole-style-20261014/skyline-day/frames/C1_street_high.png",
           "evidence/PW-034/whole-style-20261014/skyline-day/frames/C2_house_high.png"
+        ]
+      },
+      "progress_2026_10_14_core_style_candidate": {
+        "state": "accepted_engineering_stage_static",
+        "result": "Shared visual interface only: core VillageParcel Dwelling now reuses existing TimberHomeStyle measured joinery/household paint, idempotent per dwelling; late neutral recolour respects householdStyle. Core explicitly disables added storey, preserving building volume and existing collision owner. No new assets/symbolism or separate B03 construction unit. Existing B03 assignments/cards unchanged.",
+        "targets": [
+          "game/scripts/Act1ConnectedWorld.cs",
+          "game/scripts/TimberHomeStyle.cs"
+        ],
+        "verification": "Fixed caller b3d69b47c05c4d0086cb44810dfebbbc PASS/snapshot755ec04d78e8de3ee1ed21d55246fe4164d6aa58a8968d8c23df9e38b93dc82e/result757d1d8bb5a6e203990cde9f549245364873c3600fc8065a0425d22873ef0f45; existing close views80e10344727844df91597ed168896166 PASS/snapshot35ced7e73606c95f313a29efb5225b21f95b1e2cba11b36599a5a6db345e352e/resultb78d0df77cfc5833eb999e2b714de805de7a271049c89f09188d5dee29b690e9. Actual High/comparable/crisp, build/import/game0, restored/hashesverified. Root+Luna personally viewed wide/close placement; no obvious duplicate/floating cornices or casing. Late paint952→736 and C1/C2 drawcalls+20/+14 corroborate caller integration, not FPS improvement.",
+        "remaining": "Accepted only shared style integration, wide gain modest. Similar low log-box masses/roof repetition and near blank dark shed still not P1-level building form/composition; T1–T4 image files absent, descriptors do not prove visual match. B03 assignments/cards and external art/culture gates remain untouched/open; ordinary non-black movement/face/boundary still pending.",
+        "evidence": [
+          "evidence/PW-034/whole-style-20261014/core-house-style/receipt.json",
+          "evidence/PW-034/whole-style-20261014/street-close/receipt.json",
+          "evidence/PW-034/whole-style-20261014/street-close/frames/street_left_close.png",
+          "evidence/PW-034/whole-style-20261014/street-close/frames/street_right_close.png"
         ]
       }
     },
@@ -135039,7 +135071,7 @@
         "Реальные ролики показывают устойчивый мазок.",
         "Статичные красивые PNG не подменяют temporal review."
       ],
-      "next_action": "Fresh protected normal play: immediate verified legacy GUI input (not repeated HTTPS502), observe settings/gameplay and record actual window MP4 with isolated OBS. Close recorder orderly, verify MP4 duration/frames, preserve/restored userdata. Static PNG not temporal review.",
+      "next_action": "Diagnose black game-window OBS capture from existing private scene/profile/log and exact method/selector; one next recording only with a new causal fact and early non-black decoded sample. Continue B02 style work independently; full motion/actor/door/material temporal DoD remains open.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -135326,15 +135358,37 @@
         "remaining": "Actual walk/turn/indoor boundary + realmovie and review. Installed OBS29 isolated portable candidate with one ownedwindow/no desktop/audio devices ready; not launched yet."
       },
       "progress_2026_10_14_second_play": {
-        "state": "in_progress",
+        "state": "partial_motion_capture_failed",
         "job_id": "f697ba9266d546ac81e8958cbaaddacd",
         "snapshot_id": "10a0a4ef32c51654472686d68abd0f1d943793ebc2fd46c04c62d9e9da859579",
         "result": "Root personally viewed real ordinary arrival after guarded ENTER/new game and ESC/skip. Warm wood/cool snow and volume forest visible from player camera; actual movement/MP4 pending.",
         "evidence": [
           "evidence/PW-089/ordinary-style-20261014/frames/10-second-menu.png",
           "evidence/PW-089/ordinary-style-20261014/frames/11-second-new-game.png",
-          "evidence/PW-089/ordinary-style-20261014/frames/12-second-village.png"
-        ]
+          "evidence/PW-089/ordinary-style-20261014/frames/12-second-village.png",
+          "evidence/PW-089/ordinary-style-20261014/frames/14-resume-walk.png",
+          "evidence/PW-089/ordinary-style-20261014/frames/17-continuous-yard-turn.png",
+          "evidence/PW-089/ordinary-style-20261014/second-play/receipt.json",
+          "evidence/PW-089/ordinary-style-20261014/movies/ordinary-play.mp4",
+          "evidence/PW-089/ordinary-style-20261014/movie-inspection/movie-inspection.json",
+          "evidence/PW-089/ordinary-style-20261014/recorder/stop.json"
+        ],
+        "verification": "Raw second-play: gameExitCode0, overallFAIL engine resource/RID leaks at exit, userdataRestored=true, hashesverified; fresh doctor ready/idle/recoveryfalse/orphanfalse. Actual guarded W walk and changed viewpoint confirmed root frames14/17. OBS normal close produced366s1280x720 MP4; root personally viewed distributed and dense movement samples, all viewed frames black. Container decode is not successful game capture.",
+        "result_sha256": "65d52f90645b039eb7cf8d00506f773b716a6ace111cce2305bd61f50fbd5da3",
+        "movie_sha256": "e6307415f0023dd158019fd54ba0814a18fd370dd151b2d9af9f27aa5545d221",
+        "blocker": {
+          "condition": "Owned WindowCapture MP4 encodes black frames despite real visible game GUI; cause not proven.",
+          "release_condition": "Actual owned game-window movie decodes non-black changing gameplay frames around verified physical motion.",
+          "next_finite_step": "Read-only existing OBS configuration/log/method diagnosis; root accepts corrected short ordinary movement recording only after early decoded non-black sample."
+        }
+      },
+      "progress_2026_10_14_wgc_attempt": {
+        "state": "in_progress",
+        "job_id": "d0168099cfb74a2a809c39fbd336dbab",
+        "snapshot_id": "dc505ff9131dcc0c43d31ae5993bfd2c7734310f2695820e568c02f0acbe894b",
+        "result": "New ordinary protected play, no changed source since accepted static snapshot. Short explicit WGC(method2) recording first; longer physical motion only after decoded non-black game-window evidence. Prior black movie retained.",
+        "causal_fact": "Raw OBS log chose Automatic→BitBlt for Godot Engine class; single scene/source/selector/transform verified. Exact black-frame cause still not fully proven, WGC is a bounded next hypothesis.",
+        "verification_pending": "Root guarded menu/village capture, isolated recorder source logmethodWGC, short normal-close MP4 decode/nonblack; if successful walk/turn/door video; game/data restore receipt."
       }
     },
     {
@@ -148644,7 +148698,23 @@
         "successor_tasks": [],
         "reason": "Совместимая игровая функция/арт/техническая приёмка сохранена; применить новый сценарный контракт и свежую регрессию, а не старые сюжетные предпосылки.",
         "contract": "docs/tasktracker/07_full_game_integration_2026-10-08.md",
-        "fresh_acceptance": "PW-096 и REL-003 на поставляемом candidate; completed прежней версии не является новым PASS."
+        "fresh_acceptance": "PW-096 и REL-003 на поставляемом candidate; completed прежней версии не является новым PASS.",
+        "progress_2026_10_14_chromatic_day_candidate": {
+          "state": "accepted_engineering_stage_static",
+          "result": "Existing village-winter-crisp only: coherent violet-blue ambient/fog/sky planes, amber key and stronger cast shadows. IDs/zones/exposure/sun rotation/fog density/weather/snow remain unchanged.",
+          "targets": [
+            "game/content/world/atmosphere.v1.json"
+          ],
+          "verification_question": "At exact same C1/C2 High camera and snapshot with street facade integration, does amber key/violet fill produce stronger coherent painterly colour masses while preserving snow/face/wood readability?",
+          "success_condition": "Root actual current High before/after comparison accepts improved whole scene; reject excessive purple, dark unreadable shadow planes, clipped snow/face colour. Static check cannot accept art.",
+          "remaining": "Ordinary non-black motion, close face and interior/exterior boundary; external art/culture/language acceptance remains open. Avoid repeated palette adjustment absent observed defect.",
+          "verification": "b2a2e51828924fc08670a978b8f3431e PASS, snapshot7c8119d14ec6e2267ce63e6e030f228d8a2d97287fa12bbdef0b3fbb1faf0369, resultSHAef4a36b29d818ab98d9b342739fcd88513d847156291a6a8a8cec556d47f8813. Actual C1/C2 High/comparabletrue/crisp, game0/restored/hashverified, root+Luna personally compared same skyline-day cameras and exactP1. Warm wood/cool violet fill more coherent; snow and shaded log courses readable. No close face/fullmotion/interiorboundary proof. Source facade guard in this snapshot ineffective, no carpentry acceptance.",
+          "evidence": [
+            "evidence/PW-034/whole-style-20261014/chromatic-day-candidate/receipt.json",
+            "evidence/PW-034/whole-style-20261014/chromatic-day-candidate/frames/C1_street_high.png",
+            "evidence/PW-034/whole-style-20261014/chromatic-day-candidate/frames/C2_house_high.png"
+          ]
+        }
       },
       {
         "id": "ACT1-MATERIAL.MOTION",
