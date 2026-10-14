@@ -710,7 +710,7 @@ Material request: Sage and subdued bottle-green painted timber, quiet medium-val
 
 Применение: Оконные обрамления, наличники.\
 Тип: TILE · бесшовная RGB-карта. Масштаб / формат: 0,5 × 0,5 м.\
-Имя кандидата: `urman_w05_v01_basecolor.png`.
+Первоначальный кандидат: `urman_w05_v01_basecolor.png`; текущий подключённый вариант — `urman_w05_v02_basecolor.png` (проверенный адресный edit, provenance в README и asset_registry).
 
 ```text
 For URMAN, an original painterly low-poly mystery game set in a living Tatar village in winter 2026. Use broad calm pigment fields and restrained readable medium-scale detail, coherent muted natural color, no photorealistic micro-noise or extreme grunge.
