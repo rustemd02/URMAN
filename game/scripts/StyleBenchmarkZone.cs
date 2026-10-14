@@ -379,6 +379,77 @@ public partial class StyleBenchmarkZone : Node3D
             "Пойти к фельдшерскому пункту",
             "fap_clinic",
             "waiting_room");
+
+        if (photoWorlds)
+        {
+            var nivaDefinition = VehicleDefinition.Load(VehicleFleet.DefinitionPath)
+                .Single(vehicle => vehicle.Id == "babay-niva" && vehicle.Kind == VehicleKind.Niva);
+            var fleet = GetTree().GetFirstNodeInGroup("vehicle_fleet") as VehicleFleet;
+            var existingNiva = fleet?.Vehicles.SingleOrDefault(vehicle =>
+                vehicle.Definition.Id == nivaDefinition.Id && vehicle.Definition.Kind == nivaDefinition.Kind);
+            if (existingNiva is not null)
+            {
+                AttachNivaStopTarget(CreateNivaStopTarget(nivaDefinition), existingNiva,
+                    existingNiva.GetNode<Node3D>("VehicleVisual"), nivaDefinition.HullCenter);
+            }
+            else if (fleet is not null || GetParent() is Act1ConnectedWorld)
+            {
+                // Connected-world zones are constructed before VehicleFleet.
+                // Register the authored interaction now, then attach it to the
+                // fleet's real controller after the world finishes building.
+                CreateNivaStopTarget(nivaDefinition);
+                CallDeferred(nameof(AttachNivaStopTargetToConnectedFleet));
+            }
+            else
+            {
+                // Standalone compact benchmarks have no VehicleFleet to own the
+                // arrival vehicle, so show the same authored model as a static
+                // presentation and keep the interaction on that visible vehicle.
+                var niva = VehicleVisualFactory.Build(nivaDefinition);
+                niva.Root.Name = "PhotoWorldArrivalNiva";
+                niva.Root.Position = nivaDefinition.Spawn;
+                niva.Root.RotationDegrees = new(0f, nivaDefinition.YawDegrees, 0f);
+                niva.Root.SetMeta("vehicleDefinitionId", nivaDefinition.Id);
+                AddChild(niva.Root);
+                AttachNivaStopTarget(CreateNivaStopTarget(nivaDefinition), niva.Root,
+                    niva.Root, nivaDefinition.HullCenter);
+            }
+        }
+    }
+
+    private InteractionTarget CreateNivaStopTarget(VehicleDefinition definition) => MakeInteractionBox(
+        "PhotoWorldNivaStop",
+        definition.HullSize,
+        Vector3.Zero,
+        "5e574a",
+        "urman.fullgame:interaction/pw-niva-stop",
+        "Остановить Ниву у дома и выйти после дороги");
+
+    private void AttachNivaStopTargetToConnectedFleet()
+    {
+        var target = GetNodeOrNull<InteractionTarget>("PhotoWorldNivaStop");
+        var fleet = GetTree().GetFirstNodeInGroup("vehicle_fleet") as VehicleFleet;
+        var niva = fleet?.Vehicles.SingleOrDefault(vehicle =>
+            vehicle.Definition.Id == "babay-niva" && vehicle.Definition.Kind == VehicleKind.Niva);
+        if (target is null || niva is null)
+        {
+            GD.PushWarning("The PhotoWorlds Niva stop target could not bind to the connected world's authored vehicle.");
+            return;
+        }
+
+        AttachNivaStopTarget(target, niva, niva.GetNode<Node3D>("VehicleVisual"), niva.Definition.HullCenter);
+    }
+
+    private static void AttachNivaStopTarget(
+        InteractionTarget target,
+        Node3D vehicleRoot,
+        Node3D physicalVisual,
+        Vector3 hullCenter)
+    {
+        target.Reparent(vehicleRoot);
+        target.Position = hullCenter;
+        target.Rotation = Vector3.Zero;
+        target.SetMeta("physicalVisual", physicalVisual.GetPath());
     }
 
     private void BuildHouseOldPc()
@@ -512,7 +583,7 @@ public partial class StyleBenchmarkZone : Node3D
             photoWorlds
                 ? "urman.fullgame:interaction/pw-home-exit-house"
                 : "urman.chapter1:interaction/house-to-route",
-            "Выйти на улицу",
+            photoWorlds ? "Выйти во двор" : "Выйти на улицу",
             "village_day",
             "from_house");
         houseExit.WorldFoleySample = "door_creak";

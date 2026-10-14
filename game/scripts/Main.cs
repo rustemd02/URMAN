@@ -5,6 +5,12 @@ namespace Urman.Godot;
 
 public partial class Main : Node3D
 {
+    private const string W01ScenePath = "res://scenes/photoworlds/W01/W01.tscn";
+    private const string PrologueSceneId = "urman.fullgame:scene/pw-prologue";
+    private const string NivaArrivalSceneId = "urman.fullgame:scene/pw-niva-arrival";
+    private const string HomeSceneId = "urman.fullgame:scene/pw-home";
+    private const string ForestSceneId = "urman.fullgame:scene/pw-forest";
+
     private static readonly IReadOnlyDictionary<string, string> ZoneScenes = new Dictionary<string, string>(StringComparer.Ordinal)
     {
         ["village_day"] = "res://scenes/zones/style_benchmark_day_street.tscn",
@@ -32,6 +38,13 @@ public partial class Main : Node3D
     private bool _hasLoadedInitialZone;
     private Act1ConnectedWorld? _connectedWorld;
     private bool _zoneSwitchBusy;
+    private RuntimeBridge? _fullGameRouteBridge;
+    private Node3D? _mountedW01;
+    private object? _lastFullGameRouteSession;
+    private string? _lastFullGameRouteScene;
+    private bool _routingFullGameScene;
+    private bool _preserveLoadedPhotoWorldTransform;
+    private object? _loadedPhotoWorldTransformSession;
 
     public string ActiveZoneScenePath { get; private set; } = string.Empty;
 
@@ -58,12 +71,15 @@ public partial class Main : Node3D
     public bool EnableZoneTransitionFade { get; set; }
 
     /// <summary>
-    /// Opt-in presentation mode for the dedicated Act I demo. The default
-    /// remains the existing one-zone loader used by ordinary tests and the
-    /// full-game entrypoint.
+    /// Opt-in presentation mode for connected Act I zones. The full-game
+    /// entrypoint enables it only for arrival and home routes that reuse them.
     /// </summary>
     [Export]
     public bool EnableAct1ConnectedWorld { get; set; }
+
+    /// <summary>Routes committed PhotoWorlds scenes to their existing physical presentation.</summary>
+    [Export]
+    public bool EnableFullGamePhotoWorldRouting { get; set; }
 
     public override void _Ready()
     {
@@ -75,18 +91,26 @@ public partial class Main : Node3D
             BuildZoneTransitionOverlay();
         }
 
-        if (EnableAct1ConnectedWorld)
+        if (EnableFullGamePhotoWorldRouting)
         {
-            _connectedWorld = new Act1ConnectedWorld
-            {
-                Name = Act1WorldLayout.ConnectedWorldRootName
-            };
-            _zoneHost.AddChild(_connectedWorld);
+            AttachFullGameRouteBridge();
+            ReconcileFullGameScenePresentation();
         }
-
-        SwitchZone(InitialZoneId, InitialSpawnPointId);
-        _hasLoadedInitialZone = true;
+        else
+        {
+            if (EnableAct1ConnectedWorld)
+                EnsureConnectedWorld();
+            SwitchZone(InitialZoneId, InitialSpawnPointId);
+        }
         GD.Print("УРМАН Godot vertical slice ready: Painterly Low-Poly / first person");
+    }
+
+    public override void _ExitTree()
+    {
+        if (_fullGameRouteBridge is { } bridge && GodotObject.IsInstanceValid(bridge))
+            bridge.RuntimeStateChanged -= OnFullGameRuntimeStateChanged;
+        _fullGameRouteBridge = null;
+        _mountedW01 = null;
     }
 
     internal static bool IsKnownZone(string zoneId) => ZoneScenes.ContainsKey(zoneId);
@@ -114,7 +138,17 @@ public partial class Main : Node3D
                 loading = LoadingScreenUi.Show(this, "Смена локации", "Готовим новое место в деревне");
                 await ToSignal(RenderingServer.Singleton, RenderingServer.SignalName.FramePostDraw);
             }
-            if (_connectedWorld is null && AlsuStreetWalkPresentation.SessionOwner(GetTree()) is { } companion
+            var retiringWorld = _connectedWorld is { } currentWorld && !Act1WorldLayout.ContainsZone(zoneId)
+                ? currentWorld
+                : null;
+            if (retiringWorld?.VehicleFleet is { } fleet
+                && !await fleet.FlushForSaveAsync()) return false;
+            if (retiringWorld is not null
+                && (!ReferenceEquals(retiringWorld, _connectedWorld)
+                    || !ReferenceEquals(session, bridge.SessionIdentity))) return false;
+            if (retiringWorld is not null && !await retiringWorld.FlushFacilitiesForSaveAsync()) return false;
+            if ((_connectedWorld is null || retiringWorld is not null)
+                && AlsuStreetWalkPresentation.SessionOwner(GetTree()) is { } companion
                 && !await companion.FlushForSaveAsync()) return false;
             if (!IsInsideTree() || IsQueuedForDeletion() || !ReferenceEquals(session, bridge.SessionIdentity))
                 return false;
@@ -138,14 +172,25 @@ public partial class Main : Node3D
             return;
         }
 
+        if (EnableFullGamePhotoWorldRouting
+            && GetTree().GetFirstNodeInGroup("runtime_bridge") is RuntimeBridge deferredBridge
+            && deferredBridge.IsW01PresentationDeferred)
+        {
+            if (deferredBridge.IsPhotoWorldSaveRestoreInProgress)
+            {
+                _preserveLoadedPhotoWorldTransform = true;
+                _loadedPhotoWorldTransformSession = deferredBridge.ProjectionSessionIdentity;
+            }
+            return;
+        }
+
+        if (EnableAct1ConnectedWorld && Act1WorldLayout.ContainsZone(zoneId))
+            EnsureConnectedWorld();
+        else
+            RetireConnectedWorld();
+
         if (_connectedWorld is not null)
         {
-            if (!Act1WorldLayout.ContainsZone(zoneId))
-            {
-                GD.PushError($"Connected Act I world cannot enter non-Act-I zone {zoneId}.");
-                return;
-            }
-
             if (!_connectedWorld.TryGetWorldSpawn(zoneId, spawnPointId, out var connectedSpawn))
             {
                 GD.PushError($"Connected Act I world has no mapped spawn '{zoneId}@{spawnPointId}'; transition aborted.");
@@ -175,6 +220,7 @@ public partial class Main : Node3D
                 PlayZoneTransition();
             }
 
+            _hasLoadedInitialZone = true;
             GD.Print($"zone-loaded: {zoneId}@{spawnPointId} connected-world={_connectedWorld.PersistentInstanceIdentity}");
             return;
         }
@@ -189,8 +235,17 @@ public partial class Main : Node3D
         // QueueFree retires the old zone at the end of the frame. Its companion
         // must stop participating in contact tests before the new one projects.
         AlsuStreetWalkPresentation.SessionOwner(GetTree())?.DisableContactForZoneDisposal();
+        if (EnableFullGamePhotoWorldRouting
+            && GetTree().GetFirstNodeInGroup("runtime_bridge") is RuntimeBridge restoringBridge
+            && restoringBridge.IsPhotoWorldSaveRestoreInProgress)
+        {
+            _preserveLoadedPhotoWorldTransform = true;
+            _loadedPhotoWorldTransformSession = restoringBridge.ProjectionSessionIdentity;
+        }
+        _mountedW01 = null;
         foreach (var child in _zoneHost.GetChildren())
         {
+            if (child is Node3D oldZone) oldZone.Visible = false;
             child.QueueFree();
         }
 
@@ -225,7 +280,207 @@ public partial class Main : Node3D
             PlayZoneTransition();
         }
 
+        _hasLoadedInitialZone = true;
         GD.Print($"zone-loaded: {zoneId}@{spawnPointId}");
+    }
+
+    private void EnsureConnectedWorld()
+    {
+        if (_connectedWorld is not null) return;
+
+        AlsuStreetWalkPresentation.SessionOwner(GetTree())?.DisableContactForZoneDisposal();
+        _mountedW01 = null;
+        foreach (var child in _zoneHost.GetChildren())
+        {
+            if (child is Node3D oldZone) oldZone.Visible = false;
+            child.QueueFree();
+        }
+
+        _connectedWorld = new Act1ConnectedWorld
+        {
+            Name = Act1WorldLayout.ConnectedWorldRootName
+        };
+        _zoneHost.AddChild(_connectedWorld);
+    }
+
+    private void RetireConnectedWorld()
+    {
+        if (_connectedWorld is not { } retiringWorld) return;
+        AlsuStreetWalkPresentation.SessionOwner(GetTree())?.DisableContactForZoneDisposal();
+        _connectedWorld = null;
+        retiringWorld.Visible = false;
+        retiringWorld.QueueFree();
+    }
+
+    private void AttachFullGameRouteBridge()
+    {
+        var bridge = GetTree().GetFirstNodeInGroup("runtime_bridge") as RuntimeBridge;
+        if (ReferenceEquals(_fullGameRouteBridge, bridge)) return;
+        if (_fullGameRouteBridge is { } previous && GodotObject.IsInstanceValid(previous))
+            previous.RuntimeStateChanged -= OnFullGameRuntimeStateChanged;
+        _fullGameRouteBridge = bridge;
+        if (_fullGameRouteBridge is { } current)
+            current.RuntimeStateChanged += OnFullGameRuntimeStateChanged;
+    }
+
+    private void OnFullGameRuntimeStateChanged()
+    {
+        if (!EnableFullGamePhotoWorldRouting || !IsInsideTree()) return;
+        AttachFullGameRouteBridge();
+        ReconcileFullGameScenePresentation();
+    }
+
+    private void ReconcileFullGameScenePresentation()
+    {
+        if (_routingFullGameScene || !EnableFullGamePhotoWorldRouting || !IsInsideTree()) return;
+        AttachFullGameRouteBridge();
+        if (_fullGameRouteBridge is not { } bridge || !GodotObject.IsInstanceValid(bridge)
+            || bridge.CurrentFullGamePhotoWorldRouteProjection() is not { } projection
+            || !ReferenceEquals(projection.SessionIdentity, bridge.SessionIdentity))
+            return;
+
+        _routingFullGameScene = true;
+        try
+        {
+            if (projection.ActiveSceneId is PrologueSceneId or ForestSceneId)
+            {
+                MountW01(projection, bridge);
+                return;
+            }
+
+            var targetZone = projection.ActiveSceneId == NivaArrivalSceneId
+                ? "village_day"
+                : bridge.CurrentZoneId == "house_old_pc" ? "house_old_pc" : "village_day";
+            var targetSpawn = targetZone == "house_old_pc"
+                ? (string.IsNullOrWhiteSpace(bridge.CurrentSpawnPointId) ? "entry" : bridge.CurrentSpawnPointId)
+                : projection.ActiveSceneId == HomeSceneId && bridge.CurrentZoneId == "village_day"
+                    ? (string.IsNullOrWhiteSpace(bridge.CurrentSpawnPointId) ? "arrival" : bridge.CurrentSpawnPointId)
+                    : "arrival";
+
+            // Home is a physical mode with a real doorway. Keep the indoor
+            // location when it is already selected, and only rebuild it when
+            // returning from W01 or from a different compact zone.
+            var needsZonePresentation = IsMountedW01()
+                || bridge.CurrentZoneId != targetZone
+                || bridge.CurrentSpawnPointId != targetSpawn
+                || (EnableAct1ConnectedWorld && Act1WorldLayout.ContainsZone(targetZone)
+                    && _connectedWorld?.ActiveZoneId != targetZone)
+                || (!EnableAct1ConnectedWorld && !IsMountedZone(targetZone));
+            if (needsZonePresentation)
+                SwitchZone(targetZone, targetSpawn);
+
+            if (!IsMountedZone(targetZone)) return;
+            _hasLoadedInitialZone = true;
+
+            _preserveLoadedPhotoWorldTransform = false;
+            _loadedPhotoWorldTransformSession = null;
+            _lastFullGameRouteSession = projection.SessionIdentity;
+            _lastFullGameRouteScene = projection.ActiveSceneId;
+        }
+        finally
+        {
+            _routingFullGameScene = false;
+        }
+    }
+
+    private void MountW01(RuntimeBridge.FullGamePhotoWorldRouteProjection projection, RuntimeBridge bridge)
+    {
+        var alreadyMounted = IsMountedW01();
+        var routeSceneChanged = !string.Equals(_lastFullGameRouteScene, projection.ActiveSceneId, StringComparison.Ordinal);
+        var sameSession = ReferenceEquals(_lastFullGameRouteSession, projection.SessionIdentity);
+
+        if (alreadyMounted)
+        {
+            if (routeSceneChanged && sameSession)
+                PlacePlayerAtW01Entry(_mountedW01!, "F00");
+            _preserveLoadedPhotoWorldTransform = false;
+            _loadedPhotoWorldTransformSession = null;
+            SetW01Ambience();
+            _hasLoadedInitialZone = true;
+            _lastFullGameRouteSession = projection.SessionIdentity;
+            _lastFullGameRouteScene = projection.ActiveSceneId;
+            return;
+        }
+
+        var packed = ResourceLoader.Load<PackedScene>(W01ScenePath);
+        if (packed is null)
+        {
+            GD.PushError($"Full-game W01 presentation is missing: {W01ScenePath}.");
+            return;
+        }
+
+        var world = packed.Instantiate<Node3D>();
+        if (world.GetNodeOrNull<Node3D>("Anchors/F00") is null)
+        {
+            world.Free();
+            GD.PushError("Full-game W01 presentation has no authored Anchors/F00 entry point.");
+            return;
+        }
+
+        RetireConnectedWorld();
+        AlsuStreetWalkPresentation.SessionOwner(GetTree())?.DisableContactForZoneDisposal();
+        foreach (var child in _zoneHost.GetChildren())
+        {
+            if (child is Node3D oldZone) oldZone.Visible = false;
+            child.QueueFree();
+        }
+        _zoneHost.AddChild(world);
+        _mountedW01 = world;
+        ActiveZoneScenePath = W01ScenePath;
+
+        var preserveLoadedTransform = _preserveLoadedPhotoWorldTransform
+            && ReferenceEquals(_loadedPhotoWorldTransformSession, projection.SessionIdentity);
+        var placeAtEntry = !preserveLoadedTransform
+            && (_lastFullGameRouteSession is null
+                || (sameSession && routeSceneChanged)
+                || (!sameSession && bridge.CurrentZoneId == "village_day"
+                    && bridge.CurrentSpawnPointId == "arrival"));
+        _preserveLoadedPhotoWorldTransform = false;
+        _loadedPhotoWorldTransformSession = null;
+        if (placeAtEntry)
+            PlacePlayerAtW01Entry(world, "F00");
+        SetW01Ambience();
+
+        _lastFullGameRouteSession = projection.SessionIdentity;
+        _lastFullGameRouteScene = projection.ActiveSceneId;
+        if (_hasLoadedInitialZone)
+            PlayZoneTransition();
+        _hasLoadedInitialZone = true;
+        GD.Print($"fullgame-scene-loaded: {projection.ActiveSceneId} physical=W01 entry=F00");
+    }
+
+    private bool IsMountedZone(string zoneId)
+    {
+        if (EnableAct1ConnectedWorld && Act1WorldLayout.ContainsZone(zoneId))
+            return _connectedWorld?.ActiveZoneId == zoneId;
+        return !IsMountedW01() && ZoneScenes.TryGetValue(zoneId, out var path)
+            && string.Equals(ActiveZoneScenePath, path, StringComparison.Ordinal);
+    }
+
+    private void SetW01Ambience()
+    {
+        if (GetTree().GetFirstNodeInGroup("ambient_audio") is not AmbientAudioDirector ambience) return;
+        ambience.SetPhysicalShelter(false);
+        // W01 is outdoors in the same winter pine air as the existing village bed.
+        ambience.SetZone("village_day");
+    }
+
+    private bool IsMountedW01() => _mountedW01 is { } world
+        && GodotObject.IsInstanceValid(world) && !world.IsQueuedForDeletion()
+        && ReferenceEquals(world.GetParent(), _zoneHost);
+
+    private void PlacePlayerAtW01Entry(Node3D world, string anchorId)
+    {
+        if (world.GetNodeOrNull<Node3D>($"Anchors/{anchorId}") is not { } anchor)
+        {
+            GD.PushError($"Full-game W01 presentation has no authored Anchors/{anchorId} entry point.");
+            return;
+        }
+        if (GetTree().GetFirstNodeInGroup("player_controller") is FirstPersonController player)
+        {
+            player.ApplyZoneSpawn(anchor.GlobalPosition, anchor.GlobalRotationDegrees.Y);
+            LastSpawnYawDegrees = anchor.GlobalRotationDegrees.Y;
+        }
     }
 
     private void BuildZoneTransitionOverlay()

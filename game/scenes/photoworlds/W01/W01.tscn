@@ -21,6 +21,30 @@ shadow_enabled = true
 [node name="Anchors" type="Node3D" parent="."]
 
 [node name="F00" type="Marker3D" parent="Anchors"]
+rotation_degrees = Vector3(0, -166.5, 0)
+
+[node name="PrologueUI" type="CanvasLayer" parent="."]
+layer = 12
+
+[node name="SkipButton" type="Button" parent="PrologueUI"]
+layout_mode = 0
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -560.0
+offset_top = 24.0
+offset_right = -24.0
+offset_bottom = 80.0
+custom_minimum_size = Vector2(280, 56)
+focus_mode = 2
+visible = false
+disabled = true
+text = "Пропустить лесной пролог и выйти из Нивы у дома"
 
 [node name="F01" type="Marker3D" parent="Anchors"]
 position = Vector3(12, 1, 50)
+
+[node name="F02" type="Marker3D" parent="Anchors"]
+position = Vector3(45, 3, 95)
+
+[node name="F03" type="Marker3D" parent="Anchors"]
+position = Vector3(80, 4, 140)

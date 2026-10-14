@@ -4375,6 +4375,22 @@
       "collision": "FacilitySolid existing separate contact bodies unchanged",
       "qa": "Independent Luna confirmed source axis cause and returned visual mesh ownership; existing raster hash equals receipt. Scoped compile separate; current native four-receiver appearance/motion and art open.",
       "status": "partial native/visual acceptance open"
+    },
+    {
+      "id": "photoworlds.w01.prologue-ground-f00-f03.v1",
+      "source": "assets/source/blender/photoworlds/W01/prologue-ground-f00-f03-v1.blend",
+      "derived": "game/assets/photoworlds/forest_ground/prologue-ground-f00-f03-v1.glb",
+      "generator": "assets/source/blender/photoworlds/W01/urman_forest_ground.py; Blender4.5.12LTS",
+      "license": "Project-original; author-specified level geometry and project-generated textures",
+      "scale": 1.0,
+      "triangleBudget": 127008,
+      "textureBudget": 2048,
+      "collision": "W01Controller uses existing AuthoredSurfaceContact; runtime verification pending",
+      "lod": "Single bounded F00-F03 terrain; F10-F16/fullW01 remain separate",
+      "status": "Producer route/width/hash checks and affectedC#compile passed; physical/art verification pending",
+      "releaseDisposition": "prologue integration candidate; not completed world/release",
+      "sourceSha256": "e0ef744cc0db86332987ae92734fb6e9aeab01f53f01155384a2a0415b3205eb",
+      "derivedSha256": "13b75dd2522786a2208e581c36e7334f9e863b5941d1b331cea6157ece7b6648"
     }
   ]
 }

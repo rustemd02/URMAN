@@ -107753,8 +107753,8 @@
       "id": "PW-019",
       "title": "Реализовать условия первого сознательного входа",
       "milestone": "PW-M1",
-      "status": "todo",
-      "active_owner": null,
+      "status": "in_progress",
+      "active_owner": "codex/release-route",
       "owner": "integration",
       "priority": "P0",
       "complexity": "medium",
@@ -107892,18 +107892,18 @@
       },
       "assigned_owner": "integration",
       "activity": {
-        "state": "not_active",
-        "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+        "state": "confirmed_active",
+        "reason": "Прямой приоритет автора: цельный начальный playerpath к release, микрополировка прекращена; root integration/Luna assignedboundedfiles, assigned_owner сохранён."
       },
       "task_type": "engineering",
-      "implementation_state": "not_started",
+      "implementation_state": "partial",
       "technical_verification_state": "not_run",
       "remaining": [
         "Случайное открытие книги не телепортирует.",
         "Вне якоря есть чтение без ложной кнопки входа.",
         "Первый якорь проверен до контекста, с нужным и чужим снимком и после визита: применимая причина отказа понятна без спойлера, пиксель-хантинга и выдачи знания. Недостаток подачи сначала подтверждён в обычном маршруте, затем исправлен существующим gate/hint owner."
       ],
-      "next_action": "Проверять приобретённость, монтаж, осмысленный контекст, 6 м радиус и безопасную стойку.",
+      "next_action": "Одна affectedGamecompile послефинальныхправок, один guardedfullgameactualwalkthrough наизменённомsource; rootactualframe/movementreadback.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -108080,7 +108080,28 @@
           "evidence_ref": "PW-019.evidence and named history progress; source_review shows available/missing inputs"
         }
       ],
-      "assignment_state": "preserved_person_or_existing_role; activity separate"
+      "assignment_state": "preserved_person_or_existing_role; activity separate",
+      "progress_2026_10_14_release_path": {
+        "state": "compiled_runtime_pending",
+        "scope": "W01F00–F03 prologue→Niva→existingconnectedvillage/home/tea/book→gatedforestentry. Existingauthoredconditions/session/saveguards preserved.",
+        "sources": [
+          "game/scripts/Main.cs",
+          "game/scripts/RuntimeBridge.PhotoWorldScene.cs",
+          "game/scripts/photoworlds/W01Controller.cs",
+          "game/scenes/photoworlds/W01/W01.tscn",
+          "game/scenes/full_game.tscn",
+          "game/scripts/StyleBenchmarkZone.cs",
+          "game/scripts/ArrivalPersonalProps.cs",
+          "assets/source/blender/photoworlds/W01/urman_forest_ground.py"
+        ],
+        "verification_question": "Работает ли физический путь пролог→прибытие→дом/книга с доступным обычным вводом и без обхода авторских условий?",
+        "success_condition": "AffectedC#compile and guardedactualfullscene: controls/skip-orbranch+F03/niva/home/tea/book; noNewGame/Continue/export/fullreleaseclaim untilactualownDoD.",
+        "remaining": "PFOREST/Sschoolfront unavailable, fullW01F10–F16 andallworld/artgates open; default/export remainunchanged untilplayerpath verified.",
+        "next_action": "Одна affectedGamecompile послефинальныхправок, один guardedfullgameactualwalkthrough наизменённомsource; rootactualframe/movementreadback.",
+        "build": "evidence/PW-043/release-path-20261014/game-build.log",
+        "build_result": "AffectedGameC#0errors/0warnings; nofullruntimeclaim. Producer127008tris/heights0,1,3,4m/2.1mwidth/hash checks;30registered original trees reused.",
+        "station_wait": "Actualbusy d97432a88f20407c9296289d0a4f056f/recoverypending. Afterterminal/restored/freshidle onefullscene walkthrough."
+      }
     },
     {
       "id": "PW-020",
@@ -116907,8 +116928,8 @@
       "id": "PW-043",
       "title": "Перенести пролог внутрь W01",
       "milestone": "PW-M3",
-      "status": "todo",
-      "active_owner": null,
+      "status": "in_progress",
+      "active_owner": "codex/release-route",
       "owner": "narrative",
       "priority": "P1",
       "complexity": "complex",
@@ -117069,18 +117090,18 @@
       },
       "assigned_owner": "narrative",
       "activity": {
-        "state": "not_active",
-        "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+        "state": "confirmed_active",
+        "reason": "Прямой приоритет автора: цельный начальный playerpath к release, микрополировка прекращена; root integration/Luna assignedboundedfiles, assigned_owner сохранён."
       },
       "task_type": "engineering",
-      "implementation_state": "not_started",
+      "implementation_state": "partial",
       "technical_verification_state": "not_run",
       "remaining": [
         "Вступление содержит управление и осмысленное действие, а не обязательную погоню.",
         "Игрок не обязан повторять тизер; объяснение «просто сон» не закрывает интригу.",
         "Обычный New Game без override использует актуальный pack, ставит физический W01 и передаёт управление семейному прибытию; skip не выдаёт необязательное знание, Replay не меняет основной сеанс, Continue не запускает New Game."
       ],
-      "next_action": "Реализовать F00–F03 и однократную связь с книгой в Ниве.",
+      "next_action": "Одна affectedGamecompile послефинальныхправок, один guardedfullgameactualwalkthrough наизменённомsource; rootactualframe/movementreadback.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -117305,7 +117326,28 @@
           "evidence_ref": "PW-043.evidence and named history progress; source_review shows available/missing inputs"
         }
       ],
-      "assignment_state": "preserved_person_or_existing_role; activity separate"
+      "assignment_state": "preserved_person_or_existing_role; activity separate",
+      "progress_2026_10_14_release_path": {
+        "state": "compiled_runtime_pending",
+        "scope": "W01F00–F03 prologue→Niva→existingconnectedvillage/home/tea/book→gatedforestentry. Existingauthoredconditions/session/saveguards preserved.",
+        "sources": [
+          "game/scripts/Main.cs",
+          "game/scripts/RuntimeBridge.PhotoWorldScene.cs",
+          "game/scripts/photoworlds/W01Controller.cs",
+          "game/scenes/photoworlds/W01/W01.tscn",
+          "game/scenes/full_game.tscn",
+          "game/scripts/StyleBenchmarkZone.cs",
+          "game/scripts/ArrivalPersonalProps.cs",
+          "assets/source/blender/photoworlds/W01/urman_forest_ground.py"
+        ],
+        "verification_question": "Работает ли физический путь пролог→прибытие→дом/книга с доступным обычным вводом и без обхода авторских условий?",
+        "success_condition": "AffectedC#compile and guardedactualfullscene: controls/skip-orbranch+F03/niva/home/tea/book; noNewGame/Continue/export/fullreleaseclaim untilactualownDoD.",
+        "remaining": "PFOREST/Sschoolfront unavailable, fullW01F10–F16 andallworld/artgates open; default/export remainunchanged untilplayerpath verified.",
+        "next_action": "Одна affectedGamecompile послефинальныхправок, один guardedfullgameactualwalkthrough наизменённомsource; rootactualframe/movementreadback.",
+        "build": "evidence/PW-043/release-path-20261014/game-build.log",
+        "build_result": "AffectedGameC#0errors/0warnings; nofullruntimeclaim. Producer127008tris/heights0,1,3,4m/2.1mwidth/hash checks;30registered original trees reused.",
+        "station_wait": "Actualbusy d97432a88f20407c9296289d0a4f056f/recoverypending. Afterterminal/restored/freshidle onefullscene walkthrough."
+      }
     },
     {
       "id": "PW-044",
@@ -118185,10 +118227,10 @@
               "evidence/PW-045/physical-input-20261012/"
             ],
             "assigned_owner": "world_art",
-            "active_owner": null,
+            "active_owner": "codex/release-route",
             "activity": {
-              "state": "released",
-              "reason": "Принят bounded source consumer ground/F01 по review/affected compile; forestkit визуально не принят, native/fullscene ещё open."
+              "state": "confirmed_active",
+              "reason": "Прямой приоритет автора: цельный начальный playerpath к release, микрополировка прекращена; root integration/Luna assignedboundedfiles, assigned_owner сохранён."
             },
             "task_type": "engineering",
             "status": "in_progress",
@@ -118199,7 +118241,7 @@
               "F01/F03 authored graph gap исправлен в 5f1d9e98; существующий semantic route обновлён, ещё NOT_RUN. Нужен physical binding обоих endpoints и основного forest move, не ранний выход вместо полного пролога.",
               "W01 source consumer ground/F01 принят24.38s compile; real scene runtime/material/contacts/capsule/save/мovedbranchinspect NOT_RUN. Forestkit stage2 и isolatedbirch stage8 root rejected; untracked source/tmp сохранены, assetsнепубликовались."
             ],
-            "next_action": "Перед следующим W01 входом решить непринятую форму одной берёзы с новым конкретным reference/topology input; source consumer можно принять native после station release, не подключая незавершённую кампанию.",
+            "next_action": "Одна affectedGamecompile послефинальныхправок, один guardedfullgameactualwalkthrough наизменённомsource; rootactualframe/movementreadback.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -118333,6 +118375,27 @@
               "verification": "Affected Game compile0 errors0 warnings24.38s; Luna read-only review+root corrected findings. Native scene/play/contacts/save NOT_RUN.",
               "evidence": "evidence/PW-045/physical-input-20261012/",
               "remaining": "Main/FreshSessionmappingнеизменён; fullW01/F02F03/forestkit/обычныйпроход/native/art/осмотрalreadymovedbranch открыты."
+            },
+            "progress_2026_10_14_release_path": {
+              "state": "compiled_runtime_pending",
+              "scope": "W01F00–F03 prologue→Niva→existingconnectedvillage/home/tea/book→gatedforestentry. Existingauthoredconditions/session/saveguards preserved.",
+              "sources": [
+                "game/scripts/Main.cs",
+                "game/scripts/RuntimeBridge.PhotoWorldScene.cs",
+                "game/scripts/photoworlds/W01Controller.cs",
+                "game/scenes/photoworlds/W01/W01.tscn",
+                "game/scenes/full_game.tscn",
+                "game/scripts/StyleBenchmarkZone.cs",
+                "game/scripts/ArrivalPersonalProps.cs",
+                "assets/source/blender/photoworlds/W01/urman_forest_ground.py"
+              ],
+              "verification_question": "Работает ли физический путь пролог→прибытие→дом/книга с доступным обычным вводом и без обхода авторских условий?",
+              "success_condition": "AffectedC#compile and guardedactualfullscene: controls/skip-orbranch+F03/niva/home/tea/book; noNewGame/Continue/export/fullreleaseclaim untilactualownDoD.",
+              "remaining": "PFOREST/Sschoolfront unavailable, fullW01F10–F16 andallworld/artgates open; default/export remainunchanged untilplayerpath verified.",
+              "next_action": "Одна affectedGamecompile послефинальныхправок, один guardedfullgameactualwalkthrough наизменённомsource; rootactualframe/movementreadback.",
+              "build": "evidence/PW-043/release-path-20261014/game-build.log",
+              "build_result": "AffectedGameC#0errors/0warnings; nofullruntimeclaim. Producer127008tris/heights0,1,3,4m/2.1mwidth/hash checks;30registered original trees reused.",
+              "station_wait": "Actualbusy d97432a88f20407c9296289d0a4f056f/recoverypending. Afterterminal/restored/freshidle onefullscene walkthrough."
             }
           },
           {
@@ -135591,8 +135654,8 @@
       },
       "assigned_owner": "render",
       "activity": {
-        "state": "not_active",
-        "reason": "Проверенные конечные этапы/evidence сохранены; запуск к09МСК завершён с открытым остатком, собственная активная заявка освобождена. Assigned owner сохранён."
+        "state": "released",
+        "reason": "Motion notobtained; автор сменилприоритет нацелыйreleasepath, stage остановлен, rawfailureсохранён."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -135979,6 +136042,17 @@
         },
         "actual_graphics": "Medium: game.log act1-foliage-lod graphics preset=medium/.90/MSAA2X/SoftLow; recording is not High or a Low filter cost proof.",
         "selection": "evidence/PW-089/current-style-20261014/second-recording/selected-pts/route-selection.json"
+      },
+      "progress_2026_10_14_cold_high_forest_motion": {
+        "state": "not_obtained_timeout",
+        "job_id": "786ffd295b104b88a67c1ee0935dffb4",
+        "snapshot_id": "facdd6cd4b5b2b52ee10113604c3cfed74cdec32769c702d221d5d52d81abca6",
+        "source_stage": "580bcc40; acceptedcold/highforest519a4403; DayGain.22 restored",
+        "verification_question": "В обычной прогулке/повороте читается ли холодная живая зимняя улица и высокий лес без броского popping/swimming ближайших материалов/крон?",
+        "success_condition": "Actualgame-onlyWGC movie/selectedPTS личноrootviewed; protectedjobdatarestore/hash receipt; ordinarypreset точноизlog, nofullHigh/LOD/audio/allfamilyclaim.",
+        "next_action": "Микрополировка остановлена автором. Сначала цельный новый playerpath, затем один защищённый реальный walkthrough на изменённом route; старый play безновогоinput не повторять.",
+        "receipt": "evidence/PW-089/cold-high-forest-20261014/native/receipt.json",
+        "result": "RawFAIL/game124; user data restored/hash verified. OBS notstarted; no movie/frames obtained. Only two headless imports observed early, later sourcecleaned; this does not prove GUI absent throughoutjob."
       }
     },
     {

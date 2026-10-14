@@ -1,6 +1,6 @@
-"""Build an original, finite W01 forest-ground terrain asset.
+"""Build an original, finite W01 F00→F03 prologue-ground terrain asset.
 
-Run with Blender 5.2:
+Run with Blender 4.5+:
   blender --background --python assets/source/blender/photoworlds/W01/urman_forest_ground.py \
     -- --output-dir /private/tmp/urman-forest-ground-YYYYMMDD
 
@@ -24,12 +24,13 @@ import bpy
 from mathutils import Vector
 
 
-X_BOUNDS = (-9.0, 21.0)
-Z_BOUNDS = (-11.0, 61.0)
+X_BOUNDS = (-9.0, 89.0)
+Z_BOUNDS = (-11.0, 151.0)
 ROUTE_HALF_WIDTH = 1.05
 GRID_STEP = 0.5
 TEXTURE_SIZE = 1024
 BAKE_SIZE = 2048
+BAKED_ALBEDO_FILENAME = "prologue-ground-f00-f03-baked-albedo-2k.png"
 METRES_PER_REPEAT = 8.0
 FPS = 24
 
@@ -47,13 +48,18 @@ NODES = {
     "F16": {"label": "Просвет к деревне", "xyz": (149.0, 8.0, 190.0), "role": "exit"},
 }
 
-# This partial asset includes only the authored F00↔F01 physical edge. The
-# rest of W01, including the F12↔F13 spatial transform, is intentionally out
-# of scope for this bounded stage.
+# The prologue is the authored continuous F00→F01→F02→F03 physical route.
+# Main-world F10–F16 and its F12↔F13 spatial transform remain outside this asset.
+PROLOGUE_ROUTE_NODE_IDS = ("F00", "F01", "F02", "F03")
 ROUTES = [
-    {"edge": ["F00", "F01"], "points": [(0, 0, 0), (12, 1, 50)], "kind": "authored_physical"},
+    {
+        "edge": [first, second],
+        "points": [NODES[first]["xyz"], NODES[second]["xyz"]],
+        "kind": "authored_physical",
+    }
+    for first, second in zip(PROLOGUE_ROUTE_NODE_IDS, PROLOGUE_ROUTE_NODE_IDS[1:])
 ]
-BUILD_NODE_IDS = ("F00", "F01")
+BUILD_NODE_IDS = PROLOGUE_ROUTE_NODE_IDS
 
 PALETTE_SRGB = {
     "dominant": "#2F625D",
@@ -116,22 +122,29 @@ def point_distance(px, pz, qx, qz):
     return math.hypot(px - qx, pz - qz)
 
 
-SEGMENT = {
-    "ax": 0.0, "ay": 0.0, "az": 0.0,
-    "bx": 12.0, "by": 1.0, "bz": 50.0,
-    "dx": 12.0, "dz": 50.0,
-    "length_sq": 12.0 ** 2 + 50.0 ** 2,
-    "length": math.hypot(12.0, 50.0),
-}
-
-
 def route_distance(x: float, z: float):
-    segment = SEGMENT
-    t = ((x - segment["ax"]) * segment["dx"] + (z - segment["az"]) * segment["dz"]) / segment["length_sq"]
-    t = clamp01(t)
-    qx = segment["ax"] + t * segment["dx"]
-    qz = segment["az"] + t * segment["dz"]
-    return point_distance(x, z, qx, qz)
+    nearest = math.inf
+    for route in ROUTES:
+        for first, second in zip(route["points"], route["points"][1:]):
+            dx, dz = second[0] - first[0], second[2] - first[2]
+            length_sq = dx * dx + dz * dz
+            t = clamp01(((x - first[0]) * dx + (z - first[2]) * dz) / length_sq)
+            qx, qz = first[0] + t * dx, first[2] + t * dz
+            nearest = min(nearest, point_distance(x, z, qx, qz))
+    return nearest
+
+
+def route_height_and_x(z: float):
+    first = NODES[PROLOGUE_ROUTE_NODE_IDS[0]]["xyz"]
+    if z <= first[2]:
+        return first[0], first[1]
+    for first_id, second_id in zip(PROLOGUE_ROUTE_NODE_IDS, PROLOGUE_ROUTE_NODE_IDS[1:]):
+        first, second = NODES[first_id]["xyz"], NODES[second_id]["xyz"]
+        if z <= second[2]:
+            t = clamp01((z - first[2]) / (second[2] - first[2]))
+            return first[0] + (second[0] - first[0]) * t, first[1] + (second[1] - first[1]) * t
+    last = NODES[PROLOGUE_ROUTE_NODE_IDS[-1]]["xyz"]
+    return last[0], last[1]
 
 
 def terrain_relief(x: float, z: float):
@@ -143,16 +156,12 @@ def terrain_relief(x: float, z: float):
     return 0.16 * shoulder_left + 0.12 * shoulder_right - 0.06 * shallow_hollow
 
 
-RELIEF_F00 = terrain_relief(0.0, 0.0)
-RELIEF_F01 = terrain_relief(12.0, 50.0)
-
-
 def surface_height_and_masks(x: float, z: float):
-    # One continuous ramp follows the authored F00→F01 height change. A
-    # smoothly compensated broad relief field is added everywhere; there is
-    # no nearest-segment switch, height ribbon, or endpoint pad blend.
-    t = ((x - SEGMENT["ax"]) * SEGMENT["dx"] + (z - SEGMENT["az"]) * SEGMENT["dz"]) / SEGMENT["length_sq"]
-    height = t + terrain_relief(x, z) - ((1.0 - t) * RELIEF_F00 + t * RELIEF_F01)
+    # Route height and center X interpolate between authored nodes by Z.
+    # Relief is compensated against that centerline so path samples retain
+    # the authored grade and node heights stay exact.
+    route_x, route_y = route_height_and_x(z)
+    height = route_y + terrain_relief(x, z) - terrain_relief(route_x, z)
 
     route_mask = clamp01(1.0 - smoothstep(ROUTE_HALF_WIDTH, 4.3, route_distance(x, z)))
     for node_id in BUILD_NODE_IDS:
@@ -255,18 +264,17 @@ def sample_values(first: float, second: float, step: float):
 
 
 def make_coordinate_axes():
-    # The bounded F00→F01 surface uses a regular half-metre grid. Authored
-    # integer coordinates are exact grid vertices, the 2.1 m route has more
-    # than four samples across it, and the patch stays below 20k triangles.
+    # Authored integer coordinates are exact half-metre-grid vertices, and
+    # the 2.1 m route has more than four samples across its walkable width.
     return sample_values(*X_BOUNDS, GRID_STEP), sample_values(*Z_BOUNDS, GRID_STEP)
 
 
 def png_material_images(output_dir: Path):
     image_paths = {
-        "soil": output_dir / "w01_forest_soil_1k.png",
-        "leaves": output_dir / "w01_forest_leaves_1k.png",
-        "roots": output_dir / "w01_forest_roots_1k.png",
-        "masks": output_dir / "w01_forest_masks_1k.png",
+        "soil": output_dir / "prologue-ground-f00-f03-soil-1k.png",
+        "leaves": output_dir / "prologue-ground-f00-f03-leaves-1k.png",
+        "roots": output_dir / "prologue-ground-f00-f03-roots-1k.png",
+        "masks": output_dir / "prologue-ground-f00-f03-masks-1k.png",
     }
     write_png(image_paths["soil"], TEXTURE_SIZE, TEXTURE_SIZE, 3, tile_pixel("soil"))
     write_png(image_paths["leaves"], TEXTURE_SIZE, TEXTURE_SIZE, 3, tile_pixel("leaf"))
@@ -421,7 +429,7 @@ def create_mesh(image_paths):
 def bake_material(material, ground, output_dir: Path):
     image = bpy.data.images.new("W01_ForestGround_BakedAlbedo_2K", width=BAKE_SIZE, height=BAKE_SIZE, alpha=False, float_buffer=False)
     image.colorspace_settings.name = "sRGB"
-    image.filepath_raw = str(output_dir / "w01_forest_ground_baked_albedo_2k.png")
+    image.filepath_raw = str(output_dir / BAKED_ALBEDO_FILENAME)
     image.file_format = "PNG"
     target = material.node_tree.nodes.new("ShaderNodeTexImage")
     target.name = "BAKE_TARGET_Ground_2K"
@@ -507,23 +515,23 @@ def add_preview_rig(scene):
     fill_data.size = 120
     fill = bpy.data.objects.new("Preview_SkyFill", fill_data)
     bpy.context.collection.objects.link(fill)
-    fill.location = (13, 25, 35)
-    look_at(fill, (6, -25, 0))
+    fill.location = (44, 35, 72)
+    look_at(fill, (40, -75, 2))
 
     overview_data = bpy.data.cameras.new("Preview_Overview_Camera")
     overview = bpy.data.objects.new("Preview_Overview_Camera", overview_data)
     bpy.context.collection.objects.link(overview)
-    overview.location = (44, -49, 37)
-    look_at(overview, (6, -25, 0.5))
+    overview.location = (46, -86, 76)
+    look_at(overview, (40, -75, 2))
     overview_data.type = "ORTHO"
-    overview_data.ortho_scale = 102
+    overview_data.ortho_scale = 184
     overview_data.lens = 40
 
-    path_data = bpy.data.cameras.new("Preview_F00_to_F01_Close_Camera")
-    path_camera = bpy.data.objects.new("Preview_F00_to_F01_Close_Camera", path_data)
+    path_data = bpy.data.cameras.new("Preview_F01_to_F02_Close_Camera")
+    path_camera = bpy.data.objects.new("Preview_F01_to_F02_Close_Camera", path_data)
     bpy.context.collection.objects.link(path_camera)
-    path_camera.location = (27.0, -25.0, 3.5)
-    look_at(path_camera, (5.0, -25.0, 0.5))
+    path_camera.location = (41.0, -58.0, 19.0)
+    look_at(path_camera, (28.5, -72.5, 2.0))
     path_data.type = "ORTHO"
     path_data.ortho_scale = 56
     path_data.lens = 35
@@ -603,7 +611,7 @@ def make_manifest(root, output_dir, ground, verts, xs, zs, node_heights, image_p
         "provenance": "Blender Cycles EMIT bake from the three project-original 1K tiles blended by ForestMasks vertex channels",
         "sRGB": True,
     }
-    preview_files = ["W01_ForestGround_Overview.png", "W01_ForestGround_F00_to_F01_Close.png"]
+    preview_files = ["W01_ForestGround_F00_to_F03_Overview.png", "W01_ForestGround_F01_to_F02_Close.png"]
     return {
         "asset_id": "A-FOREST-GROUND",
         "consumer": "W01",
@@ -633,8 +641,8 @@ def make_manifest(root, output_dir, ground, verts, xs, zs, node_heights, image_p
         },
         "godot_bounds_m": godot_bounds,
         "mesh": {
-            "file_blend": "urman_forest_ground.blend",
-            "file_glb": "urman_forest_ground.glb",
+            "file_blend": "prologue-ground-f00-f03-v1.blend",
+            "file_glb": "prologue-ground-f00-f03-v1.glb",
             "object": ground.name,
             "vertex_count": len(verts),
             "triangle_count": len(ground.data.polygons),
@@ -651,7 +659,7 @@ def make_manifest(root, output_dir, ground, verts, xs, zs, node_heights, image_p
             "visual_and_collision_surface_candidate": "same single terrain mesh; no separate height/normal-only relief",
             "collision_note": "candidate geometry only; no Godot collision resource or engine contact check in this stage",
         },
-        "coverage_scope": "bounded F00→F01 prologue ground section only",
+        "coverage_scope": "authored F00→F01→F02→F03 prologue ground route only",
         "unproduced_authored_nodes": [node_id for node_id in NODES if node_id not in BUILD_NODE_IDS],
         "authored_nodes": {
             node_id: {
@@ -677,9 +685,9 @@ def make_manifest(root, output_dir, ground, verts, xs, zs, node_heights, image_p
         "spatial_link": {
             "entry": "F12",
             "exit": "F13",
-            "asset_surface_relation": "outside this bounded F00→F01 patch",
+            "asset_surface_relation": "outside this bounded F00→F03 prologue route",
             "physical_corridor_generated_or_advertised": False,
-            "note": "F12↔F13 is a spatial transform, not an ordinary physical route; neither anchor nor corridor is included in this partial asset.",
+            "note": "F12↔F13 is a spatial transform, not an ordinary physical route; neither anchor nor corridor is included in this prologue asset.",
         },
         "vertex_masks": {
             "attribute": "ForestMasks",
@@ -703,8 +711,8 @@ def make_manifest(root, output_dir, ground, verts, xs, zs, node_heights, image_p
             "bake_input": "three shared 1K albedo maps and ForestMasks vertex channels",
         },
         "production_defaults": [
-            "A continuous, low-relief surface follows the exact F00→F01 endpoint heights; its shallow shoulders are a production default.",
-            "This asset deliberately stops at F01 and does not represent the remaining W01 nodes or routes.",
+            "A continuous, low-relief surface follows the exact F00→F01→F02→F03 node heights; its shallow shoulders are a production default.",
+            "This asset deliberately stops at F03 and does not represent the main W01 F10–F16 route or spatial link.",
             "Leaf and root fields are terrain materials/masks; no separate debris, fence, tree, or gameplay prop is included.",
         ],
         "offline_previews": preview_files,
@@ -713,7 +721,7 @@ def make_manifest(root, output_dir, ground, verts, xs, zs, node_heights, image_p
             "mesh_metrics_checked": True,
             "authored_node_heights_checked": True,
             "textures_written_and_hashed": True,
-            "blender_rendered_overview_and_f00_f01_close": True,
+            "blender_rendered_overview_and_f01_f02_close": True,
             "godot_import": "not run",
             "walk_and_collision_contact": "not run",
             "art_author_review": "pending",
@@ -733,28 +741,28 @@ def main():
     ground, verts, heights, xs, zs, material, mask_values = create_mesh(image_paths)
     node_heights = verify_mesh(verts, xs, zs)
     bake_image = bake_material(material, ground, output_dir)
-    bake_path = output_dir / "w01_forest_ground_baked_albedo_2k.png"
+    bake_path = output_dir / BAKED_ALBEDO_FILENAME
 
     overview, close_camera = add_preview_rig(scene)
     scene.camera = overview
-    scene.render.engine = "BLENDER_EEVEE"
+    scene.render.engine = "BLENDER_EEVEE_NEXT"
     scene.render.resolution_x = 1400
     scene.render.resolution_y = 1000
     scene.render.image_settings.file_format = "PNG"
-    scene.render.filepath = str(output_dir / "W01_ForestGround_Overview.png")
+    scene.render.filepath = str(output_dir / "W01_ForestGround_F00_to_F03_Overview.png")
     bpy.ops.render.render(write_still=True)
 
     scene.camera = close_camera
     scene.render.resolution_x = 1400
     scene.render.resolution_y = 1000
-    scene.render.filepath = str(output_dir / "W01_ForestGround_F00_to_F01_Close.png")
+    scene.render.filepath = str(output_dir / "W01_ForestGround_F01_to_F02_Close.png")
     bpy.ops.render.render(write_still=True)
 
     scene.camera = overview
-    scene.render.engine = "BLENDER_EEVEE"
+    scene.render.engine = "BLENDER_EEVEE_NEXT"
     scene.render.filepath = "//"
-    blend_path = output_dir / "urman_forest_ground.blend"
-    glb_path = output_dir / "urman_forest_ground.glb"
+    blend_path = output_dir / "prologue-ground-f00-f03-v1.blend"
+    glb_path = output_dir / "prologue-ground-f00-f03-v1.glb"
     bpy.ops.wm.save_as_mainfile(filepath=str(blend_path), check_existing=False)
 
     bpy.ops.object.select_all(action="DESELECT")
@@ -783,7 +791,7 @@ def main():
         manifest.setdefault("preview_receipts", {})[preview] = {"sha256": sha256(path), "bytes": path.stat().st_size}
     manifest["mesh"]["triangle_count"] = len(ground.data.polygons)
     manifest["mesh"]["vertex_count"] = len(ground.data.vertices)
-    manifest_path = output_dir / "manifest.json"
+    manifest_path = output_dir / "prologue-ground-f00-f03-v1.manifest.json"
     manifest_path.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(json.dumps({
         "output_dir": str(output_dir),

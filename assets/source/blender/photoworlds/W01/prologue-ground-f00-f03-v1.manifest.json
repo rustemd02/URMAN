@@ -1,0 +1,318 @@
+{
+  "asset_id": "A-FOREST-GROUND",
+  "consumer": "W01",
+  "stage_only": true,
+  "scene_ready": false,
+  "native_or_godot_import_verified": false,
+  "collision_surface_generated_or_verified": false,
+  "source_script": "/Users/unterlantas/Documents/GitHub/URMAN/assets/source/blender/photoworlds/W01/urman_forest_ground.py",
+  "source_script_sha256": "be3b1261bf399105a897dcd0a814575a08ab40cffade6b7075858880c181b3b0",
+  "input_specs": {
+    "asset_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/assets.spec.json",
+    "asset_spec_sha256": "b4aa6e775b2591e1cb56d0bf82ad19f0051a21ea6ebd96367839ea2f6f2847c1",
+    "level": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/levels/W01_Лес_за_спиной_RU.md",
+    "level_sha256": "044332371204d18f8564028132a7d363fd85eb3232440f48d3b8eb6eb5baef1d",
+    "palette": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/docs/04_ART_DIRECTION_RU.md",
+    "palette_sha256": "6b63eeee85cd94661fdb894adf879ed18bcca79e7a3fbb3a43b02dfb1c50194c",
+    "palette_srgb": {
+      "dominant": "#2F625D",
+      "light": "#B9C7A0",
+      "shadow": "#413A59",
+      "warm": "#C89757"
+    },
+    "palette_note": "PNG pixels are sRGB; Blender image nodes use sRGB so Blender decodes to linear for material evaluation."
+  },
+  "dimensions_m": {
+    "x": 98.0,
+    "z": 162.0,
+    "height_range": [
+      -0.05560199413457921,
+      4.0000000001588925
+    ]
+  },
+  "coordinate_mapping": {
+    "Godot_xyz": [
+      "X",
+      "Y",
+      "Z"
+    ],
+    "Blender_xyz_before_export": [
+      "Godot X",
+      "-Godot Z",
+      "Godot Y"
+    ],
+    "GLTF_Y_up_export_mapping": "(Blender X, Blender Z, -Blender Y)",
+    "imported_Godot_xyz": [
+      "Godot X",
+      "Godot Y",
+      "Godot +Z"
+    ],
+    "root": "world origin at F00"
+  },
+  "godot_bounds_m": {
+    "x": [
+      -9.0,
+      89.0
+    ],
+    "y": [
+      -0.05560199413457921,
+      4.0000000001588925
+    ],
+    "z": [
+      -11.0,
+      151.0
+    ]
+  },
+  "mesh": {
+    "file_blend": "prologue-ground-f00-f03-v1.blend",
+    "file_glb": "prologue-ground-f00-f03-v1.glb",
+    "object": "W01_ForestGround_Terrain",
+    "vertex_count": 64025,
+    "triangle_count": 127008,
+    "x_axis_coordinate_count": 197,
+    "z_axis_coordinate_count": 325,
+    "regular_grid_step_m": 0.5,
+    "expected_triangles": 127008,
+    "gltf_vertex_mask_attribute": "COLOR_0 normalized VEC4",
+    "gltf_vertex_mask_material_note": "Standard glTF PBR multiplies COLOR_0 into base color. The W01 Godot consumer must disable vertex_color_use_as_albedo or use a shader that consumes ForestMasks separately; standard glTF has no material flag to disable this multiplication.",
+    "uv_sets": {
+      "BakeUV": "world-aligned full terrain atlas UV for the Cycles-baked 2K albedo",
+      "MetricUV": "world X/Z divided by 8 m; repeats every 8 m"
+    },
+    "visual_and_collision_surface_candidate": "same single terrain mesh; no separate height/normal-only relief",
+    "collision_note": "candidate geometry only; no Godot collision resource or engine contact check in this stage",
+    "file_blend_sha256": "e0ef744cc0db86332987ae92734fb6e9aeab01f53f01155384a2a0415b3205eb",
+    "file_glb_sha256": "13b75dd2522786a2208e581c36e7334f9e863b5941d1b331cea6157ece7b6648",
+    "file_blend_bytes": 17642119,
+    "file_glb_bytes": 7554676
+  },
+  "coverage_scope": "authored F00→F01→F02→F03 prologue ground route only",
+  "unproduced_authored_nodes": [
+    "F10",
+    "F11",
+    "F12",
+    "F13",
+    "F14",
+    "F15",
+    "F16"
+  ],
+  "authored_nodes": {
+    "F00": {
+      "label": "Тропа пролога",
+      "role": "spawn_prologue",
+      "xyz_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "terrain_vertex_y_m": 0.0,
+      "height_matches_author": true,
+      "walkable_pad_mask_radius_m": 1.2
+    },
+    "F01": {
+      "label": "Перекладина на тропе",
+      "role": "action",
+      "xyz_m": [
+        12.0,
+        1.0,
+        50.0
+      ],
+      "terrain_vertex_y_m": 1.0,
+      "height_matches_author": true,
+      "walkable_pad_mask_radius_m": 1.2
+    },
+    "F02": {
+      "label": "Светлая расщелина",
+      "role": "vista",
+      "xyz_m": [
+        45.0,
+        3.0,
+        95.0
+      ],
+      "terrain_vertex_y_m": 3.0,
+      "height_matches_author": true,
+      "walkable_pad_mask_radius_m": 1.2
+    },
+    "F03": {
+      "label": "Дальний стук",
+      "role": "prologue_end",
+      "xyz_m": [
+        80.0,
+        4.0,
+        140.0
+      ],
+      "terrain_vertex_y_m": 4.0,
+      "height_matches_author": true,
+      "walkable_pad_mask_radius_m": 1.2
+    }
+  },
+  "physical_routes": {
+    "F00↔F01": {
+      "polyline_xyz_m": [
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          12.0,
+          1.0,
+          50.0
+        ]
+      ],
+      "width_m": 2.1,
+      "max_grade": 0.019447746039610348,
+      "max_sampled_surface_grade": 0.01944774603961123,
+      "route_kind": "authored_physical"
+    },
+    "F01↔F02": {
+      "polyline_xyz_m": [
+        [
+          12.0,
+          1.0,
+          50.0
+        ],
+        [
+          45.0,
+          3.0,
+          95.0
+        ]
+      ],
+      "width_m": 2.1,
+      "max_grade": 0.03584022203803136,
+      "max_sampled_surface_grade": 0.03584022203803391,
+      "route_kind": "authored_physical"
+    },
+    "F02↔F03": {
+      "polyline_xyz_m": [
+        [
+          45.0,
+          3.0,
+          95.0
+        ],
+        [
+          80.0,
+          4.0,
+          140.0
+        ]
+      ],
+      "width_m": 2.1,
+      "max_grade": 0.017541160386140585,
+      "max_sampled_surface_grade": 0.01754116038614375,
+      "route_kind": "authored_physical"
+    }
+  },
+  "spatial_link": {
+    "entry": "F12",
+    "exit": "F13",
+    "asset_surface_relation": "outside this bounded F00→F03 prologue route",
+    "physical_corridor_generated_or_advertised": false,
+    "note": "F12↔F13 is a spatial transform, not an ordinary physical route; neither anchor nor corridor is included in this prologue asset."
+  },
+  "vertex_masks": {
+    "attribute": "ForestMasks",
+    "domain": "POINT",
+    "glTF_attribute": "COLOR_0 normalized VEC4",
+    "channels": {
+      "R": "compacted readable route",
+      "G": "local colored leaf coverage",
+      "B": "soft root-mass coverage",
+      "A": "subtle moisture variation"
+    }
+  },
+  "gltf_vertex_color_export": {
+    "mode": "NAME",
+    "name": "ForestMasks",
+    "export_all_vertex_colors": false,
+    "material_semantics": "Standard glTF PBR multiplies COLOR_0 into base color. The W01 Godot consumer must disable vertex_color_use_as_albedo or use a shader that consumes ForestMasks separately; standard glTF has no material flag to disable this multiplication."
+  },
+  "textures": {
+    "soil": {
+      "file": "prologue-ground-f00-f03-soil-1k.png",
+      "sha256": "ad52c0e65ba7b56baf0e874cab016821391649dc3ae8c0759e430a62ca666d31",
+      "size_px": [
+        1024,
+        1024
+      ],
+      "provenance": "project-original deterministic tileable multiscale value-noise pixels; no third-party source",
+      "sRGB": true
+    },
+    "leaves": {
+      "file": "prologue-ground-f00-f03-leaves-1k.png",
+      "sha256": "0bd860024e1ed9ccf23493d5c302f0fabcb86baecb17646edd3266bb12855596",
+      "size_px": [
+        1024,
+        1024
+      ],
+      "provenance": "project-original deterministic tileable multiscale value-noise pixels; no third-party source",
+      "sRGB": true
+    },
+    "roots": {
+      "file": "prologue-ground-f00-f03-roots-1k.png",
+      "sha256": "77fbf6a08f0135a58a592ca46ebb89b57c5821c1caee01726f9a1a9459412251",
+      "size_px": [
+        1024,
+        1024
+      ],
+      "provenance": "project-original deterministic tileable multiscale value-noise pixels; no third-party source",
+      "sRGB": true
+    },
+    "masks": {
+      "file": "prologue-ground-f00-f03-masks-1k.png",
+      "sha256": "e28565a3335d63e047da8993233e4758869fcd975235c974f6b8e27313f9acee",
+      "size_px": [
+        1024,
+        1024
+      ],
+      "provenance": "project-original deterministic tileable multiscale value-noise pixels; no third-party source",
+      "sRGB": false
+    },
+    "cycles_baked_albedo": {
+      "file": "prologue-ground-f00-f03-baked-albedo-2k.png",
+      "sha256": "5ae7d0b25dfd7351cb4b51140200cb40eda745ca70679dc0e319cca3d6005607",
+      "size_px": [
+        2048,
+        2048
+      ],
+      "provenance": "Blender Cycles EMIT bake from the three project-original 1K tiles blended by ForestMasks vertex channels",
+      "sRGB": true
+    }
+  },
+  "texture_provenance": {
+    "source": "original deterministic tileable multiscale value-noise patterns produced by this Blender source",
+    "external_textures_used": [],
+    "shared_repeat_m": 8.0,
+    "bake_tool": "Blender Cycles EMIT bake",
+    "bake_uv": "BakeUV",
+    "bake_input": "three shared 1K albedo maps and ForestMasks vertex channels"
+  },
+  "production_defaults": [
+    "A continuous, low-relief surface follows the exact F00→F01→F02→F03 node heights; its shallow shoulders are a production default.",
+    "This asset deliberately stops at F03 and does not represent the main W01 F10–F16 route or spatial link.",
+    "Leaf and root fields are terrain materials/masks; no separate debris, fence, tree, or gameplay prop is included."
+  ],
+  "offline_previews": [
+    "W01_ForestGround_F00_to_F03_Overview.png",
+    "W01_ForestGround_F01_to_F02_Close.png"
+  ],
+  "verification_scope": {
+    "source_generated": true,
+    "mesh_metrics_checked": true,
+    "authored_node_heights_checked": true,
+    "textures_written_and_hashed": true,
+    "blender_rendered_overview_and_f01_f02_close": true,
+    "godot_import": "not run",
+    "walk_and_collision_contact": "not run",
+    "art_author_review": "pending"
+  },
+  "preview_receipts": {
+    "W01_ForestGround_F00_to_F03_Overview.png": {
+      "sha256": "dad4daec05e6a90af138945492786ead6f5a83442dc93b152b2e11f68df7e0c2",
+      "bytes": 1579351
+    },
+    "W01_ForestGround_F01_to_F02_Close.png": {
+      "sha256": "11190289c3242e4335082a4e38be9df4937ba1b1037138f1057381dac48b4cee",
+      "bytes": 1541497
+    }
+  }
+}

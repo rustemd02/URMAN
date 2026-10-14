@@ -185,6 +185,10 @@ internal partial class ArrivalPersonalProps : Node3D
                 journal.OpenPhotoBook(bridge);
             return await Task.FromResult(true);
         };
+
+        house.MakeInteractionBox("PhotoWorldForestEntryTarget", new(.30f, .08f, .24f),
+            book.Position, "4f5148",
+            "urman.fullgame:interaction/pw-enter-forest", "Вернуться к лесному снимку", rayOnly: true);
     }
 
     private static void ReplaceWithAuthoredFamilyBook(Node3D book, Material cloth, Material paper)
