@@ -6347,21 +6347,26 @@
             "title": "Подключить W12 — Торец древесины",
             "result": "Подключить W12 — Торец древесины",
             "owner": "art/materials/qa",
-            "evidence": [],
+            "evidence": [
+              "game/scripts/Act1ConnectedWorld.Bathhouse.cs",
+              "game/scripts/PainterlyMaterialLibrary.cs",
+              "docs/urman_knowledge_base/art/urman_imagegen_texture_prompt_book_2026-09-22.md",
+              "evidence/ACT1-TEXTURE.05/bath-acceptance-20261014/native_cd6671/receipt.json",
+              "evidence/ACT1-TEXTURE.05/bath-acceptance-20261014/native_cd6671/frames/bath_caps.png",
+              "evidence/ACT1-TEXTURE.05/bath-acceptance-20261014/native_cd6671/frames/bath_caps.json"
+            ],
             "assigned_owner": "art/materials/qa",
             "active_owner": null,
             "activity": {
-              "state": "not_active",
-              "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+              "state": "released",
+              "reason": "Кодекс Кадыра принял конечный existing-procedural W12 consumer по сохранённому current-equivalent native evidence; новой production правки/запуска нет."
             },
             "task_type": "engineering",
-            "status": "todo",
-            "implementation_state": "partial",
-            "technical_verification_state": "not_run",
-            "remaining": [
-              "Подключить W12 — Торец древесины; собственного целевого receipt пока нет."
-            ],
-            "next_action": "Сопоставить текущий результат: Подключить W12 — Торец древесины. Затем изменить только установленный остаток.",
+            "status": "completed",
+            "implementation_state": "implemented",
+            "technical_verification_state": "passed",
+            "remaining": [],
+            "next_action": "Reuse accepted CutWoodEnds procedural end-grain and cd6671 cap frame. Separate W12 raster remains conditional on a proven artistic/UV defect; do not generate or rerun unchanged caps.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -6416,7 +6421,14 @@
                 ],
                 "repeat_only_if": "Изменился покрываемый вход/consumer/контракт; без этого уже принятая проверка используется повторно без запуска."
               },
-              "evidence_refs": [],
+              "evidence_refs": [
+                "game/scripts/Act1ConnectedWorld.Bathhouse.cs",
+                "game/scripts/PainterlyMaterialLibrary.cs",
+                "docs/urman_knowledge_base/art/urman_imagegen_texture_prompt_book_2026-09-22.md",
+                "evidence/ACT1-TEXTURE.05/bath-acceptance-20261014/native_cd6671/receipt.json",
+                "evidence/ACT1-TEXTURE.05/bath-acceptance-20261014/native_cd6671/frames/bath_caps.png",
+                "evidence/ACT1-TEXTURE.05/bath-acceptance-20261014/native_cd6671/frames/bath_caps.json"
+              ],
               "source_criteria_parent": "ACT1-TEXTURE.02"
             },
             "dependencies": {
@@ -6424,7 +6436,12 @@
               "verification": [],
               "acceptance": []
             },
-            "depends_on": []
+            "depends_on": [],
+            "progress_2026_10_14": {
+              "result": "W12 end-face requirement is supplied by existing procedural cut_wood_end, explicitly permitted by prompt-book W12; optional urman_w12_v01_basecolor.png was not generated or claimed. Real consumer BathFirewoodRod/CutWoodEnds uses wood_cut; cap UV centres on each cross-section independently of W11 side fibres.",
+              "verification": "Root personally viewed cd6671 bath_caps: growth rings centred on named log ends visible despite rack occlusion. PASS/build/import/game0, userdataRestored=true/snapshot_hashes_verified=true. PML current SHA matches receipt; full captured Bathhouse.cs SHA matches98904295, current BathFirewoodRod method byte-identical to that captured source; later basin shell change does not touch this consumer. Existing valid receipt reused without new compile/capture.",
+              "source_contract": "prompt book W12: use only if real UV end-face need; existing cut_wood_end already available. Engineering connection accepted; no assertion of full W11/motion/artist approval or other wood receivers."
+            }
           },
           {
             "id": "ACT1-TEXTURE.02/E18",
@@ -6858,18 +6875,24 @@
             "assigned_owner": "art/materials/qa",
             "active_owner": null,
             "activity": {
-              "state": "not_active",
-              "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+              "state": "released",
+              "reason": "Root принял конечный read-only receiver lookup от Luna: eligible nonmetal sheet consumer не подтверждён; production не начат."
             },
             "task_type": "engineering",
-            "status": "todo",
+            "status": "in_progress",
             "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
-              "Подключить B09 — Серое кровельное покрытие; собственного целевого receipt пока нет."
+              "Нужен подтверждённый named runtime mesh неметаллических кровельных листов и его source/material path.",
+              "После подтверждения consumer произвести и подключить B09 либо принять существующий подходящий ресурс с provenance; текущая карта-кандидат B09 отсутствует.",
+              "Целевая native проверка named receiver; художественная приёмка отдельно."
             ],
-            "next_action": "Сопоставить текущий результат: Подключить B09 — Серое кровельное покрытие. Затем изменить только установленный остаток.",
-            "blocker": null,
+            "next_action": "Resolve a source-confirmed named nonmetal roofing-sheet receiver before producing B09. Existing HeroHouse_Roof_LOD0Mesh/source URMAN_Roof_WetSlate is routed to roof_metal, so do not silently replace it with fibre-cement. No guessed capture or global roof map swap.",
+            "blocker": {
+              "reason": "No source-confirmed existing nonmetal sheet receiver for B09. Available slate candidate is not B09 or wired runtime consumer; known exterior-kit roofs are routed to roof_metal.",
+              "release_condition": "Provide exact existing named nonmetal roofing-sheet constructor/material/geometry path or explicit scoped architectural reassignment; then generate/bind the authorised B09 candidate and verify that receiver.",
+              "owner": "Existing art/materials/qa assignment; architectural receiver must be resolved with B02 source owner."
+            },
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
             "work_contract": {
@@ -6931,7 +6954,17 @@
               "verification": [],
               "acceptance": []
             },
-            "depends_on": []
+            "depends_on": [],
+            "progress_2026_10_14_receiver_lookup": {
+              "result": "Bounded Luna read-only lookup: urman_b09_v01_basecolor.png absent; roof_slate_v1_albedo.png remains separate weathered-slate candidate/art-lock-pending and unbound. HeroHouse_Roof_LOD0Mesh source material URMAN_Roof_WetSlate mapped in Act1ConnectedWorld to roof_metal; AB_roof_shingle has no confirmed script consumer. No generation, source changes, compile, tests or station run.",
+              "sources": [
+                "docs/urman_knowledge_base/art/urman_imagegen_texture_prompt_book_2026-09-22.md",
+                "game/assets/textures/painterly/README.md",
+                "assets/source/blender/receipts/urman_village_exterior_kit.structure.json",
+                "game/scripts/Act1ConnectedWorld.cs"
+              ],
+              "limits": "Absence of a confirmed consumer is not proof that all roofing geometry is metallic; no architecture/material reassignment inferred from material naming."
+            }
           },
           {
             "id": "ACT1-TEXTURE.02/E24",
@@ -106590,7 +106623,7 @@
         "Фотомиры не открывают клетки наружной карты.",
         "После обычного получения снимка игрок находит фронт/оборот и вклейку в семейной книге; Continue сохраняет личные записи и состояния снимка. Карта/адреса/словарь/прежний инвентарь используют существующий источник состояния; открытие страницы не выдаёт непрочитанное знание или внешнее подтверждение."
       ],
-      "next_action": "Obtain existing d8b67a frame-folder/upstream502 facts from station owner; no repeated play/UI probes, no source guesses or guard relaxation. Once actual viewport delivery works, resume finite ordinary J open/close step and actual acquired-page prerequisites.",
+      "next_action": "Obtain upstream/relay trace for the exact first capture-current POST502 from station/relay owner; existing frames folder was reported empty. No repeated play/UI probes or source guesses. Repair only proven cause, verify one actual current viewport, then resume ordinary J open/close and acquired-page prerequisites.",
       "blocker": {
         "reason": "No verified current viewport from deployed UI2 endpoint: first capture-current HTTP502 empty body; delayed resume404 after owned play terminal. Cause not established. Version2 advertisement does not certify capture transport.",
         "release_condition": "Read existing owned run frames folder and upstream/relay response trace; confirm whether request published/claimed/result exists or precise backend refusal. Then repair only proven cause and get one verified current viewport before J input.",
@@ -106842,7 +106875,8 @@
           "evidence/PW-016/ordinary-ui-20261014/capture-current-first.log",
           "evidence/PW-016/ordinary-ui-20261014/capture-current-resume.log"
         ],
-        "limits": "Do not infer journal/book rendering/acquisition/Continue/closure or regression from unavailable screenshot/timeout. Preserve existing source stages and physical/art gates."
+        "limits": "Do not infer journal/book rendering/acquisition/Continue/closure or regression from unavailable screenshot/timeout. Preserve existing source stages and physical/art gates.",
+        "station_owner_followup": "AGENT_CHAT 14.10 13:06 Codex B02: read-only delegate reports existing artifacts/frames folder present but empty; exported request.json is protected play request, not capture-current HTTP request. No request/processing/result/PNG evidence establishes delivery of POST. Relay/upstream trace still missing; source and no-repeat restriction unchanged."
       }
     },
     {
