@@ -6081,10 +6081,10 @@
               "assets/asset_registry.json"
             ],
             "assigned_owner": "art/materials/qa",
-            "active_owner": null,
+            "active_owner": "/root",
             "activity": {
-              "state": "released",
-              "reason": "Finite four-receiver local projection compiled; current native and full W10 art criteria pending station owner release."
+              "state": "confirmed_active",
+              "reason": "One scoped four-point bath snapshot capture after peer station RELEASE02ee; source unchanged; root exact static review, full art/motion retained."
             },
             "task_type": "engineering",
             "status": "in_progress",
@@ -6172,7 +6172,8 @@
               "observation": "Fresh read-only doctor ready=true, busy_job=null, recovery=false, orphan=false after latest source checkpoint. This does not revoke peer forest slot assignment.",
               "next": "Existing Codex B02 dominant forest lease release requested in AGENT_CHAT; preserve it until acknowledgment. After release publish root bath lease checkpoint before guarded submit. Do not repeat unchanged doctor/old jobs.",
               "source": "Current main includes D03 e8ca7795 and W10 local87cee004; W11 c2ab actual body proof retained, only revised caps view remains."
-            }
+            },
+            "current_verification_question": "In the current guarded snapshot, verify only named bath consumer: soot clipped to metal away from raised door/embers; W10 local floor/partition grain; W11 caps endgrain face-on; M03 enamel outer Bowl. Success: corresponding exact owner frame, no visible shader error, raw restoration verified; unrelated/motion/art remain open."
           },
           {
             "id": "ACT1-TEXTURE.02/E16",
@@ -6184,10 +6185,10 @@
               "11.10.2026 source stage: BathDryFirewood0..4 preserve CylinderMesh triangles/normals/names/transforms and logsRemaining predicate; sides use cached wood_split_uv at 2/m, caps centered wood_cut. Affected .tools/dotnet build game/Urman.Game.csproj --no-restore --disable-build-servers: 0 warnings, 0 errors (23.04s); CS0234 qualification fixed before successful retry. No native frame/game/art PASS."
             ],
             "assigned_owner": "art/materials/qa",
-            "active_owner": null,
+            "active_owner": "/root",
             "activity": {
-              "state": "released",
-              "reason": "First static W11 body/axial grain accepted with PASS/restored receipt. Required face-on cap submit rejected by station busy50923 before execution; no rerun, reservation released, other owner preserved."
+              "state": "confirmed_active",
+              "reason": "One scoped four-point bath snapshot capture after peer station RELEASE02ee; source unchanged; root exact static review, full art/motion retained."
             },
             "task_type": "engineering",
             "status": "in_progress",
@@ -6302,7 +6303,8 @@
               "observation": "Fresh read-only doctor ready=true, busy_job=null, recovery=false, orphan=false after latest source checkpoint. This does not revoke peer forest slot assignment.",
               "next": "Existing Codex B02 dominant forest lease release requested in AGENT_CHAT; preserve it until acknowledgment. After release publish root bath lease checkpoint before guarded submit. Do not repeat unchanged doctor/old jobs.",
               "source": "Current main includes D03 e8ca7795 and W10 local87cee004; W11 c2ab actual body proof retained, only revised caps view remains."
-            }
+            },
+            "current_verification_question": "In the current guarded snapshot, verify only named bath consumer: soot clipped to metal away from raised door/embers; W10 local floor/partition grain; W11 caps endgrain face-on; M03 enamel outer Bowl. Success: corresponding exact owner frame, no visible shader error, raw restoration verified; unrelated/motion/art remain open."
           },
           {
             "id": "ACT1-TEXTURE.02/E17",
@@ -8528,10 +8530,10 @@
               "game/assets/textures/painterly/README.md"
             ],
             "assigned_owner": "art/materials/qa",
-            "active_owner": null,
+            "active_owner": "/root",
             "activity": {
-              "state": "released",
-              "reason": "One named M03 wash-basin source receiver integrated and compiled; other receivers/current native/art open."
+              "state": "confirmed_active",
+              "reason": "One scoped four-point bath snapshot capture after peer station RELEASE02ee; source unchanged; root exact static review, full art/motion retained."
             },
             "task_type": "engineering",
             "status": "in_progress",
@@ -8614,7 +8616,8 @@
               "verification": "Scoped affected Game build succeeded 0 warnings/0 errors. C# build does not verify actual shader/native/art.",
               "native": "NOT_RUN; current B20 native30 live station ownership preserved.",
               "build_log": "evidence/ACT1-TEXTURE.03/bath-m03-20261014/game-build.log"
-            }
+            },
+            "current_verification_question": "In the current guarded snapshot, verify only named bath consumer: soot clipped to metal away from raised door/embers; W10 local floor/partition grain; W11 caps endgrain face-on; M03 enamel outer Bowl. Success: corresponding exact owner frame, no visible shader error, raw restoration verified; unrelated/motion/art remain open."
           },
           {
             "id": "ACT1-TEXTURE.03/E04",
@@ -12719,10 +12722,10 @@
               "evidence/ACT1-TEXTURE.05/bath-soot-20261013/game-build.log"
             ],
             "assigned_owner": "art/materials/qa",
-            "active_owner": null,
+            "active_owner": "/root",
             "activity": {
-              "state": "released",
-              "reason": "Finite source/asset checkpoint complete; target import/native/art pending station current owner release."
+              "state": "confirmed_active",
+              "reason": "One scoped four-point bath snapshot capture after peer station RELEASE02ee; source unchanged; root exact static review, full art/motion retained."
             },
             "task_type": "engineering",
             "status": "in_progress",
@@ -12794,7 +12797,8 @@
               "observation": "Fresh read-only doctor ready=true, busy_job=null, recovery=false, orphan=false after latest source checkpoint. This does not revoke peer forest slot assignment.",
               "next": "Existing Codex B02 dominant forest lease release requested in AGENT_CHAT; preserve it until acknowledgment. After release publish root bath lease checkpoint before guarded submit. Do not repeat unchanged doctor/old jobs.",
               "source": "Current main includes D03 e8ca7795 and W10 local87cee004; W11 c2ab actual body proof retained, only revised caps view remains."
-            }
+            },
+            "current_verification_question": "In the current guarded snapshot, verify only named bath consumer: soot clipped to metal away from raised door/embers; W10 local floor/partition grain; W11 caps endgrain face-on; M03 enamel outer Bowl. Success: corresponding exact owner frame, no visible shader error, raw restoration verified; unrelated/motion/art remain open."
           },
           {
             "id": "ACT1-TEXTURE.05/E04",
