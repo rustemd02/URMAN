@@ -1,0 +1,78 @@
+﻿**********************
+Начало записи сценария Windows PowerShell
+Время начала: 20261014084037
+Имя пользователя: UNTERPC\UnterLantas
+Запуск от имени пользователя: UNTERPC\UnterLantas
+Имя конфигурации: 
+Компьютер: UNTERPC (Microsoft Windows NT 10.0.22621.0)
+Ведущее приложение: powershell.exe -NoProfile -STA -ExecutionPolicy Bypass -File C:\Users\ruste\AppData\Local\Temp\urman-pw089-e02-stage-20261014-02eeeb73ec8b4cbb87bfce6d5fa0fa02\Start-PW089Recorder.ps1 -InstalledObsRoot C:\Program Files\obs-studio -SandboxRoot C:\Users\ruste\AppData\Local\Temp\urman-pw089-e02-wgc-20261014-02eeeb73ec8b4cbb87bfce6d5fa0fa02-r1 -GameJobId 02eeeb73ec8b4cbb87bfce6d5fa0fa02 -ExpectedSourceRoot D:\URMAN-STATION\data\runs\02eeeb73ec8b4cbb87bfce6d5fa0fa02\source -ExpectedScene res://scenes/act1_demo.tscn -GamePid 130024 -ExpectedGameStartUtc 2026-10-14T05:35:35.1830960Z -GameHwnd 20186744 -GameTitle URMAN (DEBUG) -GameClass Engine -GameExePath C:\Users\ruste\Documents\GitHub\URMAN\.tools\godot\windows\Godot_v4.7.1-stable_mono_win64\Godot_v4.7.1-stable_mono_win64.exe
+ИД процесса: 129468
+PSVersion: 5.1.22621.963
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.22621.963
+BuildVersion: 10.0.22621.963
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+{
+    "startUtc":  "2026-10-14T05:40:41.9040850Z",
+    "obsWindowTitle":  "OBS 29.1.1 - Portable Mode - Профиль: URMAN-PW089 - Сцены: URMAN-PW089",
+    "configRelative":  "obs-studio\\config\\obs-studio",
+    "gameStartUtc":  "2026-10-14T05:35:35.1830960Z",
+    "streaming":  "not configured or started",
+    "gameSourceRoot":  "D:\\URMAN-STATION\\data\\runs\\02eeeb73ec8b4cbb87bfce6d5fa0fa02\\source",
+    "video":  {
+                  "encoder":  "x264",
+                  "width":  1280,
+                  "container":  "mp4",
+                  "fps":  30,
+                  "preset":  "veryfast",
+                  "height":  720
+              },
+    "status":  "owned_window_ready_recording_requested",
+    "obsExeRelative":  "obs-studio\\bin\\64bit\\obs64.exe",
+    "obsStartUtc":  "2026-10-14T05:40:41.8536587Z",
+    "gameJobId":  "02eeeb73ec8b4cbb87bfce6d5fa0fa02",
+    "audio":  {
+                  "policy":  "one silent track; no private/default OBS audio sources loaded",
+                  "trackMask":  1,
+                  "audioSourcesConfigured":  0
+              },
+    "recordPattern":  "recordings\\PW089-*.mp4",
+    "obsExeSha256":  "3506C3C9581A9C42A22377F872DFA805D665EF4454355412166D5662C7E0E095",
+    "obsHwnd":  1050168,
+    "scene":  "URMAN",
+    "obsPid":  116640,
+    "gameExeName":  "Godot_v4.7.1-stable_mono_win64.exe",
+    "obsWindowClass":  "Qt643QWindowIcon",
+    "gameHwnd":  20186744,
+    "obsInstallVersion":  "29.1.1",
+    "profile":  "URMAN-PW089",
+    "gameTitle":  "URMAN (DEBUG)",
+    "collection":  "URMAN-PW089",
+    "copiedInstallSubdirectories":  [
+                                        "bin",
+                                        "data",
+                                        "obs-plugins"
+                                    ],
+    "gameScene":  "res://scenes/act1_demo.tscn",
+    "websockets":  "explicitly disabled in this new portable global.ini",
+    "obsLogRelative":  "obs-studio\\config\\obs-studio\\logs",
+    "gameClass":  "Engine",
+    "gamePid":  130024,
+    "capture":  {
+                    "priority":  "exact class/title, executable preferred",
+                    "method":  "explicit WGC (method=2)",
+                    "cursor":  false,
+                    "sourceId":  "window_capture",
+                    "clientArea":  true
+                }
+}
+PS>$global:?
+True
+**********************
+Конец записи протокола Windows PowerShell
+Время окончания: 20261014084047
+**********************

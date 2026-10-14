@@ -1,0 +1,47 @@
+{
+  "audioTrackCount" : 1,
+  "decodedFrames" : [
+    {
+      "decodedSeconds" : 85.666666666666671,
+      "file" : "frame-01.png",
+      "height" : 720,
+      "requestedSeconds" : 85.680000000000007,
+      "width" : 1280
+    },
+    {
+      "decodedSeconds" : 299.86666666666667,
+      "file" : "frame-02.png",
+      "height" : 720,
+      "requestedSeconds" : 299.87833333333333,
+      "width" : 1280
+    },
+    {
+      "decodedSeconds" : 514.06666666666672,
+      "file" : "frame-03.png",
+      "height" : 720,
+      "requestedSeconds" : 514.07833333333338,
+      "width" : 1280
+    },
+    {
+      "decodedSeconds" : 728.26666666666665,
+      "file" : "frame-04.png",
+      "height" : 720,
+      "requestedSeconds" : 728.27999999999997,
+      "width" : 1280
+    }
+  ],
+  "durationSeconds" : 856.79999999999995,
+  "movieBytes" : 147925529,
+  "movieName" : "PW089-2026-10-14_08-40-46.mp4",
+  "naturalHeight" : 720,
+  "naturalWidth" : 1280,
+  "temporalDecodedFrames" : [
+
+  ],
+  "temporalIntervals" : [
+
+  ],
+  "totalTrackCount" : 2,
+  "verification" : "AVFoundation loaded duration\/tracks and decoded four distributed frames; no temporal interval requested",
+  "videoTrackCount" : 1
+}

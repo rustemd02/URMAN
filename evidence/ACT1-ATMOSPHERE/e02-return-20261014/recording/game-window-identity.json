@@ -1,0 +1,25 @@
+{
+    "capturedUtc":  "2026-10-14T05:39:54.9829579Z",
+    "jobId":  "02eeeb73ec8b4cbb87bfce6d5fa0fa02",
+    "sourceRoot":  "D:\\URMAN-STATION\\data\\runs\\02eeeb73ec8b4cbb87bfce6d5fa0fa02\\source",
+    "scene":  "res://scenes/act1_demo.tscn",
+    "pid":  130024,
+    "session":  1,
+    "creationUtc":  "2026-10-14T05:35:35.1830960Z",
+    "exePath":  "C:\\Users\\ruste\\Documents\\GitHub\\URMAN\\.tools\\godot\\windows\\Godot_v4.7.1-stable_mono_win64\\Godot_v4.7.1-stable_mono_win64.exe",
+    "visibleOwnedWindowCount":  1,
+    "approvedUrmanWindowCount":  1,
+    "windows":  [
+                    {
+                        "hwnd":  20186744,
+                        "title":  "URMAN (DEBUG)",
+                        "class":  "Engine",
+                        "rect":  [
+                                     -8,
+                                     -31,
+                                     1928,
+                                     1069
+                                 ]
+                    }
+                ]
+}

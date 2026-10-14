@@ -97913,7 +97913,9 @@
                 "userdata_restored": true,
                 "snapshot_hashes_verified": true
               },
-              "raw_movie_delivery": "Remote finalized SHA8b8a0b…f877e0; single-stream SFTP downloading at09МСК, local full-hash/decode pending. Not accepted as a return route."
+              "raw_movie_delivery": "Downloaded147925529 bytes; SHA8b8a0b71901e3788bd293ebedca57976e9694373755ea6fcd2f0b21021f877e0 matches remote stop receipt. AVFoundation856.8s/1280x720/onevideo+oneaudio/4nativePTS decoded. Root personally viewed299.867/728.267 exterior-only; no entry/return. Raw148MB retained locally, not Git (>100MiB).",
+              "recording_evidence": "evidence/ACT1-ATMOSPHERE/e02-return-20261014/recording/decoded/movie-inspection.json",
+              "audio_limit": "Recorder configured with no audio sources; one container audio track exists, samples not analyzed. No auditory acceptance."
             }
           }
         ]
@@ -135767,7 +135769,9 @@
         "exit_cleanup_blocker": {
           "evidence": "evidence/PW-089/current-style-20261014/second-play/engine-errors.log",
           "condition": "Установить конкретных владельцев renderer/ObjectDB ресурсов, оставшихся при обычном выходе из дома; после адресной правки normal-exit receipt без этих errors.",
-          "next_finite_step": "По существующим ресурсным owner/lifecycle путям локализовать 1Mesh/2Material/1Shader/1Instance; не считать эффект причиной без факта и не повторять тот же маршрут ради PASS."
+          "next_finite_step": "По существующим ресурсным owner/lifecycle путям локализовать 1Mesh/2Material/1Shader/1Instance; не считать эффект причиной без факта и не повторять тот же маршрут ради PASS.",
+          "additional_fact": "02ee ordinary exterior-only exit also reports same1Mesh/2Material/1Shader/1Instance/48resources; no house entry happened. This is a common exit lifecycle residue, not proven HouseExit/indoor-grade cause.",
+          "additional_evidence": "evidence/ACT1-ATMOSPHERE/e02-return-20261014/native/engine-errors.log"
         },
         "actual_graphics": "Medium: game.log act1-foliage-lod graphics preset=medium/.90/MSAA2X/SoftLow; recording is not High or a Low filter cost proof.",
         "selection": "evidence/PW-089/current-style-20261014/second-recording/selected-pts/route-selection.json"
