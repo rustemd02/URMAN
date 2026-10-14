@@ -108175,7 +108175,7 @@
         "next_action": "После штатного закрытия сохранить terminal receipt и доставить проверенный этап окружения. Дом: получить фактический ray hit/доступность target существующим runtime/debug средством, без повторного полного маршрута без нового входа.",
         "build": "evidence/PW-043/release-path-20261014/game-build-dense-forest.log",
         "build_result": "AffectedGameC#0errors/0warnings; nofullruntimeclaim. Producer127008tris/heights0,1,3,4m/2.1mwidth/hash checks;30registered original trees reused.",
-        "station_wait": "84c native extent кадр принят; exact-owned GUI штатно закрывается. Новых запусков нет.",
+        "station_wait": "84c завершён PASS/exit0 штатным закрытием; userdataRestored и snapshot_hashes_verified true. Новых запусков нет.",
         "runtime_attempt_8195": {
           "receipt": "evidence/PW-043/release-path-20261014/native_8195/receipt.json",
           "game_log": "evidence/PW-043/release-path-20261014/native_8195/game.log",
@@ -108223,13 +108223,15 @@
           "verification": "Existing Blender producer checks/hash passed; root personally viewed native full_game frame84c: right terrain boundary/black void absent, forest encloses path. Own finite extent check accepted; full movement/author/art/release acceptance remains open.",
           "native_frame": "evidence/PW-043/release-path-20261014/frames/expanded-winter-forest-84c.png",
           "native_frame_receipt": "evidence/PW-043/release-path-20261014/frames/expanded-winter-forest-84c.json",
-          "native_frame_sha256": "23c427b4b00ac694fc9cfbd08816f12bd8a32be33d40f8c3e69035f4aaaab1c6"
+          "native_frame_sha256": "23c427b4b00ac694fc9cfbd08816f12bd8a32be33d40f8c3e69035f4aaaab1c6",
+          "native_terminal_receipt": "evidence/PW-043/release-path-20261014/native_84c/receipt.json"
         },
         "house_entry_blocker": {
           "fact": "Подход к видимой двери после зарегистрированного pw-niva-stop не дал подтверждённого входа; timeout остановил запуск. Минимальный source review не выявил доказанного дефекта размещения/условий.",
           "release_condition": "Зафиксированы фактическая позиция игрока и первый collider/доступность HouseDoor либо успешно выполнен обычный E-вход.",
           "next_finite_step": "Получить существующим runtime/debug средством фактический ray hit и доступность target на дверном подходе, затем исправить только подтверждённую причину; не повторять полный маршрут без нового причинного входа."
-        }
+        },
+        "delivered_commit": "d9f5fe3e (main, pushed); winter enclosure engineering stage only"
       }
     },
     {
@@ -117475,7 +117477,7 @@
         "next_action": "После штатного закрытия сохранить terminal receipt и доставить проверенный этап окружения. Дом: получить фактический ray hit/доступность target существующим runtime/debug средством, без повторного полного маршрута без нового входа.",
         "build": "evidence/PW-043/release-path-20261014/game-build-dense-forest.log",
         "build_result": "AffectedGameC#0errors/0warnings; nofullruntimeclaim. Producer127008tris/heights0,1,3,4m/2.1mwidth/hash checks;30registered original trees reused.",
-        "station_wait": "84c native extent кадр принят; exact-owned GUI штатно закрывается. Новых запусков нет.",
+        "station_wait": "84c завершён PASS/exit0 штатным закрытием; userdataRestored и snapshot_hashes_verified true. Новых запусков нет.",
         "runtime_attempt_8195": {
           "receipt": "evidence/PW-043/release-path-20261014/native_8195/receipt.json",
           "game_log": "evidence/PW-043/release-path-20261014/native_8195/game.log",
@@ -117523,13 +117525,15 @@
           "verification": "Existing Blender producer checks/hash passed; root personally viewed native full_game frame84c: right terrain boundary/black void absent, forest encloses path. Own finite extent check accepted; full movement/author/art/release acceptance remains open.",
           "native_frame": "evidence/PW-043/release-path-20261014/frames/expanded-winter-forest-84c.png",
           "native_frame_receipt": "evidence/PW-043/release-path-20261014/frames/expanded-winter-forest-84c.json",
-          "native_frame_sha256": "23c427b4b00ac694fc9cfbd08816f12bd8a32be33d40f8c3e69035f4aaaab1c6"
+          "native_frame_sha256": "23c427b4b00ac694fc9cfbd08816f12bd8a32be33d40f8c3e69035f4aaaab1c6",
+          "native_terminal_receipt": "evidence/PW-043/release-path-20261014/native_84c/receipt.json"
         },
         "house_entry_blocker": {
           "fact": "Подход к видимой двери после зарегистрированного pw-niva-stop не дал подтверждённого входа; timeout остановил запуск. Минимальный source review не выявил доказанного дефекта размещения/условий.",
           "release_condition": "Зафиксированы фактическая позиция игрока и первый collider/доступность HouseDoor либо успешно выполнен обычный E-вход.",
           "next_finite_step": "Получить существующим runtime/debug средством фактический ray hit и доступность target на дверном подходе, затем исправить только подтверждённую причину; не повторять полный маршрут без нового причинного входа."
-        }
+        },
+        "delivered_commit": "d9f5fe3e (main, pushed); winter enclosure engineering stage only"
       }
     },
     {
@@ -118578,7 +118582,7 @@
               "next_action": "После штатного закрытия сохранить terminal receipt и доставить проверенный этап окружения. Дом: получить фактический ray hit/доступность target существующим runtime/debug средством, без повторного полного маршрута без нового входа.",
               "build": "evidence/PW-043/release-path-20261014/game-build-dense-forest.log",
               "build_result": "AffectedGameC#0errors/0warnings; nofullruntimeclaim. Producer127008tris/heights0,1,3,4m/2.1mwidth/hash checks;30registered original trees reused.",
-              "station_wait": "84c native extent кадр принят; exact-owned GUI штатно закрывается. Новых запусков нет.",
+              "station_wait": "84c завершён PASS/exit0 штатным закрытием; userdataRestored и snapshot_hashes_verified true. Новых запусков нет.",
               "runtime_attempt_8195": {
                 "receipt": "evidence/PW-043/release-path-20261014/native_8195/receipt.json",
                 "game_log": "evidence/PW-043/release-path-20261014/native_8195/game.log",
@@ -118626,13 +118630,15 @@
                 "verification": "Existing Blender producer checks/hash passed; root personally viewed native full_game frame84c: right terrain boundary/black void absent, forest encloses path. Own finite extent check accepted; full movement/author/art/release acceptance remains open.",
                 "native_frame": "evidence/PW-043/release-path-20261014/frames/expanded-winter-forest-84c.png",
                 "native_frame_receipt": "evidence/PW-043/release-path-20261014/frames/expanded-winter-forest-84c.json",
-                "native_frame_sha256": "23c427b4b00ac694fc9cfbd08816f12bd8a32be33d40f8c3e69035f4aaaab1c6"
+                "native_frame_sha256": "23c427b4b00ac694fc9cfbd08816f12bd8a32be33d40f8c3e69035f4aaaab1c6",
+                "native_terminal_receipt": "evidence/PW-043/release-path-20261014/native_84c/receipt.json"
               },
               "house_entry_blocker": {
                 "fact": "Подход к видимой двери после зарегистрированного pw-niva-stop не дал подтверждённого входа; timeout остановил запуск. Минимальный source review не выявил доказанного дефекта размещения/условий.",
                 "release_condition": "Зафиксированы фактическая позиция игрока и первый collider/доступность HouseDoor либо успешно выполнен обычный E-вход.",
                 "next_finite_step": "Получить существующим runtime/debug средством фактический ray hit и доступность target на дверном подходе, затем исправить только подтверждённую причину; не повторять полный маршрут без нового причинного входа."
-              }
+              },
+              "delivered_commit": "d9f5fe3e (main, pushed); winter enclosure engineering stage only"
             }
           },
           {
