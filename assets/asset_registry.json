@@ -4383,14 +4383,20 @@
       "generator": "assets/source/blender/photoworlds/W01/urman_forest_ground.py; Blender4.5.12LTS",
       "license": "Project-original; author-specified level geometry and project-generated textures",
       "scale": 1.0,
-      "triangleBudget": 127008,
+      "triangleBudget": 445952,
       "textureBudget": 2048,
       "collision": "W01Controller uses existing AuthoredSurfaceContact; runtime verification pending",
       "lod": "Single bounded F00-F03 terrain; F10-F16/fullW01 remain separate",
-      "status": "Producer route/width/hash checks and affectedC#compile passed; physical/art verification pending",
-      "releaseDisposition": "prologue integration candidate; not completed world/release",
-      "sourceSha256": "e0ef744cc0db86332987ae92734fb6e9aeab01f53f01155384a2a0415b3205eb",
-      "derivedSha256": "13b75dd2522786a2208e581c36e7334f9e863b5941d1b331cea6157ece7b6648"
+      "status": "Expanded F00–F03 winter surroundings: producer bounds/anchor heights/width/grades/hash checks passed; native full_game frame84c personally reviewed, visible ground boundary removed. Full collision/movement and author art acceptance remain open.",
+      "releaseDisposition": "Source candidate for enclosing winter forest; fullW01/F10–F16, author art and release remain open.",
+      "sourceSha256": "d0482eeea2dad57af1a6e399068c80ca3bd5f07f03f7d1d75b1b4627471113fd",
+      "derivedSha256": "63a311dd5fd7bdd1291aa4c30b2b53c6d3bb35743e72a38bbe182842a3e5a4cf",
+      "previousGeometry_2026_10_14": {
+        "sourceSha256": "e0ef744cc0db86332987ae92734fb6e9aeab01f53f01155384a2a0415b3205eb",
+        "derivedSha256": "13b75dd2522786a2208e581c36e7334f9e863b5941d1b331cea6157ece7b6648",
+        "triangleBudget": 127008
+      },
+      "nativeFrame": "evidence/PW-043/release-path-20261014/frames/expanded-winter-forest-84c.json"
     }
   ]
 }

@@ -1,0 +1,12 @@
+{
+  "kind": "interactive-game-viewport",
+  "jobId": "11c7da61de2f4e31aa48184f4349e332",
+  "requestId": "ef5f6e82f2ef4d2b881bb46af10a9255",
+  "pid": 115084,
+  "status": "ok",
+  "width": 1886,
+  "height": 1061,
+  "pngSha256": "d008a150f0233dac1d013fa13b6881db45d7a0c4c85cb724a37783a12c32714f",
+  "scenePath": "res://scenes/full_game.tscn",
+  "cameraPath": "/root/FullGameMain/Player/Head/Camera3D"
+}

@@ -6,7 +6,7 @@
   "native_or_godot_import_verified": false,
   "collision_surface_generated_or_verified": false,
   "source_script": "/Users/unterlantas/Documents/GitHub/URMAN/assets/source/blender/photoworlds/W01/urman_forest_ground.py",
-  "source_script_sha256": "be3b1261bf399105a897dcd0a814575a08ab40cffade6b7075858880c181b3b0",
+  "source_script_sha256": "3797224857ce23ef21268292b5be4e6c26bebb6ee5f39e14a22963e84ad23011",
   "input_specs": {
     "asset_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/assets.spec.json",
     "asset_spec_sha256": "b4aa6e775b2591e1cb56d0bf82ad19f0051a21ea6ebd96367839ea2f6f2847c1",
@@ -23,10 +23,10 @@
     "palette_note": "PNG pixels are sRGB; Blender image nodes use sRGB so Blender decodes to linear for material evaluation."
   },
   "dimensions_m": {
-    "x": 98.0,
-    "z": 162.0,
+    "x": 208.0,
+    "z": 268.0,
     "height_range": [
-      -0.05560199413457921,
+      -0.05560200196461811,
       4.0000000001588925
     ]
   },
@@ -51,28 +51,28 @@
   },
   "godot_bounds_m": {
     "x": [
-      -9.0,
-      89.0
+      -64.0,
+      144.0
     ],
     "y": [
-      -0.05560199413457921,
+      -0.05560200196461811,
       4.0000000001588925
     ],
     "z": [
-      -11.0,
-      151.0
+      -64.0,
+      204.0
     ]
   },
   "mesh": {
     "file_blend": "prologue-ground-f00-f03-v1.blend",
     "file_glb": "prologue-ground-f00-f03-v1.glb",
     "object": "W01_ForestGround_Terrain",
-    "vertex_count": 64025,
-    "triangle_count": 127008,
-    "x_axis_coordinate_count": 197,
-    "z_axis_coordinate_count": 325,
+    "vertex_count": 223929,
+    "triangle_count": 445952,
+    "x_axis_coordinate_count": 417,
+    "z_axis_coordinate_count": 537,
     "regular_grid_step_m": 0.5,
-    "expected_triangles": 127008,
+    "expected_triangles": 445952,
     "gltf_vertex_mask_attribute": "COLOR_0 normalized VEC4",
     "gltf_vertex_mask_material_note": "Standard glTF PBR multiplies COLOR_0 into base color. The W01 Godot consumer must disable vertex_color_use_as_albedo or use a shader that consumes ForestMasks separately; standard glTF has no material flag to disable this multiplication.",
     "uv_sets": {
@@ -81,10 +81,10 @@
     },
     "visual_and_collision_surface_candidate": "same single terrain mesh; no separate height/normal-only relief",
     "collision_note": "candidate geometry only; no Godot collision resource or engine contact check in this stage",
-    "file_blend_sha256": "e0ef744cc0db86332987ae92734fb6e9aeab01f53f01155384a2a0415b3205eb",
-    "file_glb_sha256": "13b75dd2522786a2208e581c36e7334f9e863b5941d1b331cea6157ece7b6648",
-    "file_blend_bytes": 17642119,
-    "file_glb_bytes": 7554676
+    "file_blend_sha256": "d0482eeea2dad57af1a6e399068c80ca3bd5f07f03f7d1d75b1b4627471113fd",
+    "file_glb_sha256": "63a311dd5fd7bdd1291aa4c30b2b53c6d3bb35743e72a38bbe182842a3e5a4cf",
+    "file_blend_bytes": 50559794,
+    "file_glb_bytes": 18912656
   },
   "coverage_scope": "authored F00→F01→F02→F03 prologue ground route only",
   "unproduced_authored_nodes": [
@@ -259,7 +259,7 @@
     },
     "masks": {
       "file": "prologue-ground-f00-f03-masks-1k.png",
-      "sha256": "e28565a3335d63e047da8993233e4758869fcd975235c974f6b8e27313f9acee",
+      "sha256": "95f2a184c31985d5a174888d233d5dbd4999b67aea44db72ce90a29b371898f6",
       "size_px": [
         1024,
         1024
@@ -269,7 +269,7 @@
     },
     "cycles_baked_albedo": {
       "file": "prologue-ground-f00-f03-baked-albedo-2k.png",
-      "sha256": "5ae7d0b25dfd7351cb4b51140200cb40eda745ca70679dc0e319cca3d6005607",
+      "sha256": "9dc079918c6c6eed6ce08a8b7d28907742f7f1abd68da85a4e3408b87ebad1d2",
       "size_px": [
         2048,
         2048
@@ -307,12 +307,12 @@
   },
   "preview_receipts": {
     "W01_ForestGround_F00_to_F03_Overview.png": {
-      "sha256": "dad4daec05e6a90af138945492786ead6f5a83442dc93b152b2e11f68df7e0c2",
-      "bytes": 1579351
+      "sha256": "2af97b140d4fb036fed18c189ba8074a473f69845615ac66fc9207f1eba4c7fe",
+      "bytes": 1696007
     },
     "W01_ForestGround_F01_to_F02_Close.png": {
-      "sha256": "11190289c3242e4335082a4e38be9df4937ba1b1037138f1057381dac48b4cee",
-      "bytes": 1541497
+      "sha256": "0b703844da4d783aad48c255cd92f17a1a1b107ca4d7e291c91159a714797e78",
+      "bytes": 1510192
     }
   }
 }

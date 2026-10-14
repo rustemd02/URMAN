@@ -108172,10 +108172,10 @@
         "verification_question": "Работает ли физический путь пролог→прибытие→дом/книга с доступным обычным вводом и без обхода авторских условий?",
         "success_condition": "AffectedC#compile and guardedactualfullscene: controls/skip-orbranch+F03/niva/home/tea/book; noNewGame/Continue/export/fullreleaseclaim untilactualownDoD.",
         "remaining": "PFOREST/Sschoolfront unavailable, fullW01F10–F16 andallworld/artgates open; default/export remainunchanged untilplayerpath verified.",
-        "next_action": "Цельный снеговой лес пролога из существующей произведённой pine geometry, затем один source-changed walkthrough: skip→Niva→дверь→чай/книга. Полный B02 и внешние гейты открыты.",
-        "build": "evidence/PW-043/release-path-20261014/game-build-whole-forest.log",
+        "next_action": "После штатного закрытия сохранить terminal receipt и доставить проверенный этап окружения. Дом: получить фактический ray hit/доступность target существующим runtime/debug средством, без повторного полного маршрута без нового входа.",
+        "build": "evidence/PW-043/release-path-20261014/game-build-dense-forest.log",
         "build_result": "AffectedGameC#0errors/0warnings; nofullruntimeclaim. Producer127008tris/heights0,1,3,4m/2.1mwidth/hash checks;30registered original trees reused.",
-        "station_wait": "Единственный source-changed native job83876bfec678402e9192e1cdb839d46c, snapshotdf9ae47d23eca1272066165ff57f818faebce5dc52115207cb7c5ac36049d870.",
+        "station_wait": "84c native extent кадр принят; exact-owned GUI штатно закрывается. Новых запусков нет.",
         "runtime_attempt_8195": {
           "receipt": "evidence/PW-043/release-path-20261014/native_8195/receipt.json",
           "game_log": "evidence/PW-043/release-path-20261014/native_8195/game.log",
@@ -108208,7 +108208,28 @@
         "niva_readback_correction": "Первое предположение root о несработавшем E опровергнуто raw [24] pw-niva-stop. Совпадение ray/body bounds — source risk, а не доказанная причина этой попытки; 10см margin следует существующему DriverDoor pattern, compile0/0, actual нового margin pending.",
         "motion_readback_334": "Root personally decoded exact PTS90.0/90.1333: реальная зимняя деревня и снег, поза/камера неизменны. Эти adjacent кадры не доказывают ходьбу; full raw MP4/hash сохранены локально.",
         "whole_forest_source_candidate": "Existing winter.pine.v1 full geometry через существующий FoliageMesh owner,37 rooted сосен12–18м/9 внутренних точек. Read-onlyGLB-AABB: ground bounds корней сохранены, minadditional pathclearance2.03м. Без создания/правки моделей и текстур. Native art pending.",
-        "motion_readback_e6": "Root просмотрел native MP4 PTS90/270/450: реальная камера приблизилась к видимой Ниве, холодная зимняя деревня/высокий лес сохранены. PTS transcript/snapshot/data восстановлены; Путь до двери/чая/книги ещё не проверен."
+        "motion_readback_e6": "Root просмотрел native MP4 PTS90/270/450: реальная камера приблизилась к видимой Ниве, холодная зимняя деревня/высокий лес сохранены. PTS transcript/snapshot/data восстановлены; Путь до двери/чая/книги ещё не проверен.",
+        "runtime_attempt_11c": {
+          "receipt": "evidence/PW-043/release-path-20261014/native_11c/receipt.json",
+          "game_log": "evidence/PW-043/release-path-20261014/native_11c/game.log",
+          "result": "Авторизованный обычный ввод: skip в зимнюю деревню, Нива и событие Алсу. Достигнут двор, вход дома не подтверждён; процесс завершён по таймауту 124.",
+          "frames": "evidence/PW-043/release-path-20261014/frames/11c7-route",
+          "personal_visual_review": "Кадр Алсу/зимней улицы лично просмотрен; кадр плотного пролога отвергнут из-за открытой границы земли справа. Авторская приёмка не заменена."
+        },
+        "expanded_ground_candidate": {
+          "bounds": "X[-64,144], Z[-64,204]",
+          "triangles": 445952,
+          "glb_sha256": "63a311dd5fd7bdd1291aa4c30b2b53c6d3bb35743e72a38bbe182842a3e5a4cf",
+          "verification": "Existing Blender producer checks/hash passed; root personally viewed native full_game frame84c: right terrain boundary/black void absent, forest encloses path. Own finite extent check accepted; full movement/author/art/release acceptance remains open.",
+          "native_frame": "evidence/PW-043/release-path-20261014/frames/expanded-winter-forest-84c.png",
+          "native_frame_receipt": "evidence/PW-043/release-path-20261014/frames/expanded-winter-forest-84c.json",
+          "native_frame_sha256": "23c427b4b00ac694fc9cfbd08816f12bd8a32be33d40f8c3e69035f4aaaab1c6"
+        },
+        "house_entry_blocker": {
+          "fact": "Подход к видимой двери после зарегистрированного pw-niva-stop не дал подтверждённого входа; timeout остановил запуск. Минимальный source review не выявил доказанного дефекта размещения/условий.",
+          "release_condition": "Зафиксированы фактическая позиция игрока и первый collider/доступность HouseDoor либо успешно выполнен обычный E-вход.",
+          "next_finite_step": "Получить существующим runtime/debug средством фактический ray hit и доступность target на дверном подходе, затем исправить только подтверждённую причину; не повторять полный маршрут без нового причинного входа."
+        }
       }
     },
     {
@@ -117451,10 +117472,10 @@
         "verification_question": "Работает ли физический путь пролог→прибытие→дом/книга с доступным обычным вводом и без обхода авторских условий?",
         "success_condition": "AffectedC#compile and guardedactualfullscene: controls/skip-orbranch+F03/niva/home/tea/book; noNewGame/Continue/export/fullreleaseclaim untilactualownDoD.",
         "remaining": "PFOREST/Sschoolfront unavailable, fullW01F10–F16 andallworld/artgates open; default/export remainunchanged untilplayerpath verified.",
-        "next_action": "Цельный снеговой лес пролога из существующей произведённой pine geometry, затем один source-changed walkthrough: skip→Niva→дверь→чай/книга. Полный B02 и внешние гейты открыты.",
-        "build": "evidence/PW-043/release-path-20261014/game-build-whole-forest.log",
+        "next_action": "После штатного закрытия сохранить terminal receipt и доставить проверенный этап окружения. Дом: получить фактический ray hit/доступность target существующим runtime/debug средством, без повторного полного маршрута без нового входа.",
+        "build": "evidence/PW-043/release-path-20261014/game-build-dense-forest.log",
         "build_result": "AffectedGameC#0errors/0warnings; nofullruntimeclaim. Producer127008tris/heights0,1,3,4m/2.1mwidth/hash checks;30registered original trees reused.",
-        "station_wait": "Единственный source-changed native job83876bfec678402e9192e1cdb839d46c, snapshotdf9ae47d23eca1272066165ff57f818faebce5dc52115207cb7c5ac36049d870.",
+        "station_wait": "84c native extent кадр принят; exact-owned GUI штатно закрывается. Новых запусков нет.",
         "runtime_attempt_8195": {
           "receipt": "evidence/PW-043/release-path-20261014/native_8195/receipt.json",
           "game_log": "evidence/PW-043/release-path-20261014/native_8195/game.log",
@@ -117487,7 +117508,28 @@
         "niva_readback_correction": "Первое предположение root о несработавшем E опровергнуто raw [24] pw-niva-stop. Совпадение ray/body bounds — source risk, а не доказанная причина этой попытки; 10см margin следует существующему DriverDoor pattern, compile0/0, actual нового margin pending.",
         "motion_readback_334": "Root personally decoded exact PTS90.0/90.1333: реальная зимняя деревня и снег, поза/камера неизменны. Эти adjacent кадры не доказывают ходьбу; full raw MP4/hash сохранены локально.",
         "whole_forest_source_candidate": "Existing winter.pine.v1 full geometry через существующий FoliageMesh owner,37 rooted сосен12–18м/9 внутренних точек. Read-onlyGLB-AABB: ground bounds корней сохранены, minadditional pathclearance2.03м. Без создания/правки моделей и текстур. Native art pending.",
-        "motion_readback_e6": "Root просмотрел native MP4 PTS90/270/450: реальная камера приблизилась к видимой Ниве, холодная зимняя деревня/высокий лес сохранены. PTS transcript/snapshot/data восстановлены; Путь до двери/чая/книги ещё не проверен."
+        "motion_readback_e6": "Root просмотрел native MP4 PTS90/270/450: реальная камера приблизилась к видимой Ниве, холодная зимняя деревня/высокий лес сохранены. PTS transcript/snapshot/data восстановлены; Путь до двери/чая/книги ещё не проверен.",
+        "runtime_attempt_11c": {
+          "receipt": "evidence/PW-043/release-path-20261014/native_11c/receipt.json",
+          "game_log": "evidence/PW-043/release-path-20261014/native_11c/game.log",
+          "result": "Авторизованный обычный ввод: skip в зимнюю деревню, Нива и событие Алсу. Достигнут двор, вход дома не подтверждён; процесс завершён по таймауту 124.",
+          "frames": "evidence/PW-043/release-path-20261014/frames/11c7-route",
+          "personal_visual_review": "Кадр Алсу/зимней улицы лично просмотрен; кадр плотного пролога отвергнут из-за открытой границы земли справа. Авторская приёмка не заменена."
+        },
+        "expanded_ground_candidate": {
+          "bounds": "X[-64,144], Z[-64,204]",
+          "triangles": 445952,
+          "glb_sha256": "63a311dd5fd7bdd1291aa4c30b2b53c6d3bb35743e72a38bbe182842a3e5a4cf",
+          "verification": "Existing Blender producer checks/hash passed; root personally viewed native full_game frame84c: right terrain boundary/black void absent, forest encloses path. Own finite extent check accepted; full movement/author/art/release acceptance remains open.",
+          "native_frame": "evidence/PW-043/release-path-20261014/frames/expanded-winter-forest-84c.png",
+          "native_frame_receipt": "evidence/PW-043/release-path-20261014/frames/expanded-winter-forest-84c.json",
+          "native_frame_sha256": "23c427b4b00ac694fc9cfbd08816f12bd8a32be33d40f8c3e69035f4aaaab1c6"
+        },
+        "house_entry_blocker": {
+          "fact": "Подход к видимой двери после зарегистрированного pw-niva-stop не дал подтверждённого входа; timeout остановил запуск. Минимальный source review не выявил доказанного дефекта размещения/условий.",
+          "release_condition": "Зафиксированы фактическая позиция игрока и первый collider/доступность HouseDoor либо успешно выполнен обычный E-вход.",
+          "next_finite_step": "Получить существующим runtime/debug средством фактический ray hit и доступность target на дверном подходе, затем исправить только подтверждённую причину; не повторять полный маршрут без нового причинного входа."
+        }
       }
     },
     {
@@ -118533,10 +118575,10 @@
               "verification_question": "Работает ли физический путь пролог→прибытие→дом/книга с доступным обычным вводом и без обхода авторских условий?",
               "success_condition": "AffectedC#compile and guardedactualfullscene: controls/skip-orbranch+F03/niva/home/tea/book; noNewGame/Continue/export/fullreleaseclaim untilactualownDoD.",
               "remaining": "PFOREST/Sschoolfront unavailable, fullW01F10–F16 andallworld/artgates open; default/export remainunchanged untilplayerpath verified.",
-              "next_action": "Цельный снеговой лес пролога из существующей произведённой pine geometry, затем один source-changed walkthrough: skip→Niva→дверь→чай/книга. Полный B02 и внешние гейты открыты.",
-              "build": "evidence/PW-043/release-path-20261014/game-build-whole-forest.log",
+              "next_action": "После штатного закрытия сохранить terminal receipt и доставить проверенный этап окружения. Дом: получить фактический ray hit/доступность target существующим runtime/debug средством, без повторного полного маршрута без нового входа.",
+              "build": "evidence/PW-043/release-path-20261014/game-build-dense-forest.log",
               "build_result": "AffectedGameC#0errors/0warnings; nofullruntimeclaim. Producer127008tris/heights0,1,3,4m/2.1mwidth/hash checks;30registered original trees reused.",
-              "station_wait": "Единственный source-changed native job83876bfec678402e9192e1cdb839d46c, snapshotdf9ae47d23eca1272066165ff57f818faebce5dc52115207cb7c5ac36049d870.",
+              "station_wait": "84c native extent кадр принят; exact-owned GUI штатно закрывается. Новых запусков нет.",
               "runtime_attempt_8195": {
                 "receipt": "evidence/PW-043/release-path-20261014/native_8195/receipt.json",
                 "game_log": "evidence/PW-043/release-path-20261014/native_8195/game.log",
@@ -118569,7 +118611,28 @@
               "niva_readback_correction": "Первое предположение root о несработавшем E опровергнуто raw [24] pw-niva-stop. Совпадение ray/body bounds — source risk, а не доказанная причина этой попытки; 10см margin следует существующему DriverDoor pattern, compile0/0, actual нового margin pending.",
               "motion_readback_334": "Root personally decoded exact PTS90.0/90.1333: реальная зимняя деревня и снег, поза/камера неизменны. Эти adjacent кадры не доказывают ходьбу; full raw MP4/hash сохранены локально.",
               "whole_forest_source_candidate": "Existing winter.pine.v1 full geometry через существующий FoliageMesh owner,37 rooted сосен12–18м/9 внутренних точек. Read-onlyGLB-AABB: ground bounds корней сохранены, minadditional pathclearance2.03м. Без создания/правки моделей и текстур. Native art pending.",
-              "motion_readback_e6": "Root просмотрел native MP4 PTS90/270/450: реальная камера приблизилась к видимой Ниве, холодная зимняя деревня/высокий лес сохранены. PTS transcript/snapshot/data восстановлены; Путь до двери/чая/книги ещё не проверен."
+              "motion_readback_e6": "Root просмотрел native MP4 PTS90/270/450: реальная камера приблизилась к видимой Ниве, холодная зимняя деревня/высокий лес сохранены. PTS transcript/snapshot/data восстановлены; Путь до двери/чая/книги ещё не проверен.",
+              "runtime_attempt_11c": {
+                "receipt": "evidence/PW-043/release-path-20261014/native_11c/receipt.json",
+                "game_log": "evidence/PW-043/release-path-20261014/native_11c/game.log",
+                "result": "Авторизованный обычный ввод: skip в зимнюю деревню, Нива и событие Алсу. Достигнут двор, вход дома не подтверждён; процесс завершён по таймауту 124.",
+                "frames": "evidence/PW-043/release-path-20261014/frames/11c7-route",
+                "personal_visual_review": "Кадр Алсу/зимней улицы лично просмотрен; кадр плотного пролога отвергнут из-за открытой границы земли справа. Авторская приёмка не заменена."
+              },
+              "expanded_ground_candidate": {
+                "bounds": "X[-64,144], Z[-64,204]",
+                "triangles": 445952,
+                "glb_sha256": "63a311dd5fd7bdd1291aa4c30b2b53c6d3bb35743e72a38bbe182842a3e5a4cf",
+                "verification": "Existing Blender producer checks/hash passed; root personally viewed native full_game frame84c: right terrain boundary/black void absent, forest encloses path. Own finite extent check accepted; full movement/author/art/release acceptance remains open.",
+                "native_frame": "evidence/PW-043/release-path-20261014/frames/expanded-winter-forest-84c.png",
+                "native_frame_receipt": "evidence/PW-043/release-path-20261014/frames/expanded-winter-forest-84c.json",
+                "native_frame_sha256": "23c427b4b00ac694fc9cfbd08816f12bd8a32be33d40f8c3e69035f4aaaab1c6"
+              },
+              "house_entry_blocker": {
+                "fact": "Подход к видимой двери после зарегистрированного pw-niva-stop не дал подтверждённого входа; timeout остановил запуск. Минимальный source review не выявил доказанного дефекта размещения/условий.",
+                "release_condition": "Зафиксированы фактическая позиция игрока и первый collider/доступность HouseDoor либо успешно выполнен обычный E-вход.",
+                "next_finite_step": "Получить существующим runtime/debug средством фактический ray hit и доступность target на дверном подходе, затем исправить только подтверждённую причину; не повторять полный маршрут без нового причинного входа."
+              }
             }
           },
           {

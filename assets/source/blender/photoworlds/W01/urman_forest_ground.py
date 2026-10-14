@@ -24,8 +24,8 @@ import bpy
 from mathutils import Vector
 
 
-X_BOUNDS = (-9.0, 89.0)
-Z_BOUNDS = (-11.0, 151.0)
+X_BOUNDS = (-64.0, 144.0)
+Z_BOUNDS = (-64.0, 204.0)
 ROUTE_HALF_WIDTH = 1.05
 GRID_STEP = 0.5
 TEXTURE_SIZE = 1024
