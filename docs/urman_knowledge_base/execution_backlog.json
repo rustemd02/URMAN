@@ -6084,10 +6084,10 @@
               "evidence/ACT1-TEXTURE.05/bath-acceptance-20261014/native_cd6671/frames/bath_w10.json"
             ],
             "assigned_owner": "art/materials/qa",
-            "active_owner": null,
+            "active_owner": "Кодекс Кадыра",
             "activity": {
-              "state": "released",
-              "reason": "Floor-focused target prepared but not submitted: actual peer ce946... owns atomic station lock. Preserve accepted partition and current peer High A/B."
+              "state": "active",
+              "reason": "One exact BathFloor capture after ce946 terminal/restored evidence and fresh doctor idle/ready/no recovery/no orphan; root slot request was published, no peer live job announced. Atomic409 will yield."
             },
             "task_type": "engineering",
             "status": "in_progress",
@@ -6096,7 +6096,7 @@
             "remaining": [
               "Current floor-focused view/movement, other W10 receivers and author art. Partition-only cd6671 static accepted; do not repeat it."
             ],
-            "next_action": "After Codex B02 ce946274ff034e93a96f0895da68da81 terminal/restored/release, publish floor lease then one exactBathFloor focused frame; no current peer interruption, no repeat accepted partition or failed book UI.",
+            "next_action": "Submit one protected bath_floor:BabaiBathhouse@-0.5,1.25,1.7>BathFloor@-0.5,0.03,1.0, FOV50/crisp. Publish actual job ID promptly, fetch/inspect receipt and named floor only, release on terminal/restoration.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -6194,6 +6194,12 @@
               "submitted": false,
               "observation": "doctor ready=true but busy_job=ce946274ff034e93a96f0895da68da81; actual busy lock is authoritative. Peer High A/B preserved.",
               "release": "Prepared root floor claim released until peer terminal/restoration/release. No game source or state changes."
+            },
+            "floor_check_2026_10_14": {
+              "question": "Does the named BathFloor show local metre-scale W10 across the visible floor instead of projection tied to world axes?",
+              "success": "Current exact target frame visibly covers floor; grain/scale assessed personally. PASS alone cannot certify unseen floor or motion.",
+              "capture_points": "bath_floor:BabaiBathhouse@-0.5,1.25,1.7>BathFloor@-0.5,0.03,1.0",
+              "source_changes": "None; accepted partition frame not repeated."
             }
           },
           {
