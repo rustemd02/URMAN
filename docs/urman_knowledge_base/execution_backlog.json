@@ -113544,16 +113544,34 @@
         ]
       },
       "progress_2026_10_14_portal_fix": {
-        "state": "implemented_compile_pass_runtime_pending",
+        "state": "accepted_engineering_stage_static",
         "defect": "BuildDwellingLogWalls rebuilt crowns across the source HeroHouse street Portal0: closed door fails Street_ prefix and Portal0 jamb/rails fail Recess/Glass/Leaf filter. Seen in ordinary07-porch-interact.png; source GLB aperture correct.",
         "change": "Only exact HeroHouse_Street_Wall_LOD0 collects four existing Portal0 jamb/rail meshes into one projected local aperture. Frame/source mesh/material/collision/LOD and other houses unchanged.",
         "target": "game/scripts/Act1ConnectedWorld.DwellingLogWalls.cs",
-        "verification": "Affected game module: .tools/dotnet/dotnet build game/Urman.Game.csproj --no-restore --nologo -v:q exit0, 0 warnings/errors (16.30s). Source diff-check passes; source receipt has four exact portal members. Current corrected runtime door not captured yet.",
+        "verification": "Windows134be66db3b74079a85ecc3f887500b7 PASS, snapshot85a0c7bf47cb214be379709c2dc524006820560f73db75af770b338b3507d937, archiveb5587ec48da3589d98177a07864dc34e80ab7c55a4d956f1d49be06ff4175230. build/import/game0, userdataRestored=true, snapshot_hashes_verified=true. ActualHigh/comparable/village-winter-crisp/village_day. Root and independent GPT6LunaMax personally viewed visible shut leaf free of cross-door crowns; retained jambs/threshold/landing, no obvious hole/float in this angle.",
         "evidence": [
-          "evidence/PW-089/ordinary-style-20261014/wgc-retry-frames/07-porch-interact.png",
-          "assets/source/blender/receipts/urman_village_exterior_kit.structure.json"
+          "evidence/PW-034/whole-style-20261014/portal-high/receipt.json",
+          "evidence/PW-034/whole-style-20261014/portal-high/frames/babai_porch_side_clear_high.png",
+          "evidence/PW-034/whole-style-20261014/portal-high/frames/babai_porch_side_clear_high.json"
         ],
-        "next_action": "After Windows C-space/transport/owned-recorder cleanup releases station, existing babai_entry_door and babai_porch_side_clear_high targeted current capture; personally verify exposed closed door and ordinary entry."
+        "next_action": "After Windows C-space/transport/owned-recorder cleanup releases station, existing babai_entry_door and babai_porch_side_clear_high targeted current capture; personally verify exposed closed door and ordinary entry.",
+        "runtime_attempt": {
+          "job_id": "3ef2a077fe6548829d2c70f0f2aef6fd",
+          "state": "failed_capture_contract_before_frames",
+          "cause": "Bound High porch mixed with unbound babai_entry_door; capture guard refused before writing frames. Windows build passed 0 warnings/errors, userdata restored.",
+          "evidence": "evidence/PW-034/whole-style-20261014/portal-restored/receipt.json",
+          "next_action": "Existing bound High porch only, job134be66db3b74079a85ecc3f887500b7; personally inspect closed door/portal."
+        },
+        "remaining": "Own source/runtime static portal consumer fix accepted; other angles/motion/collision/full B02 and external art gates not inferred. Existing normal E-entry movie covers prior working interaction, not new collision verification."
+      },
+      "progress_2026_10_14_environment_macro_candidate": {
+        "state": "implemented_runtime_pending",
+        "result": "Four existing environmental macro_gain values x1.20: wood/log1.98, plaster1.86, stone1.74, earth/terrain1.62. Shared family-wide painterly plane variation, no new asset or abstraction.",
+        "target": "game/scripts/PainterlyMaterialLibrary.cs",
+        "source_sha256": "dfbe139c47a5d62c0ff5f3c7276e5afca23648dc9bc2f2091b313b75b751e793",
+        "verification_question": "Do matched current High daylight frames read less uniformly clean and more painted than accepted previous stage, while wood, snow, road and house openings remain clear?",
+        "success_condition": "Root and independent Luna inspect current C1/C2 High versus accepted exact cameras/P1; reject if dirty mottling or loss of readability. Low sidecar/drawcalls evidence separate, no FPS inference.",
+        "remaining": "Fresh native stills and visual judgement; external art/culture and full temporal gates remain open."
       }
     },
     {

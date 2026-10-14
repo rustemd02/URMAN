@@ -147,6 +147,29 @@ public partial class Act1ConnectedWorld
                 foreach (var c in corners) local = local.Expand(c);
                 openings.Add(local);
             }
+            // The hero portal's jamb/rail names and removable door leaf miss the generic opening-name filter.
+            if (name == "HeroHouse_Street_Wall_LOD0")
+            {
+                var portalFrame = houseParts.Where(part => part.Mesh is not null && part.Name.ToString() is
+                    "HeroHouse_Street_Portal0_Jamb-1_LOD0" or "HeroHouse_Street_Portal0_Jamb1_LOD0"
+                    or "HeroHouse_Street_Portal0_Rail-1_LOD0" or "HeroHouse_Street_Portal0_Rail1_LOD0").ToArray();
+                if (portalFrame.Length == 4)
+                {
+                    Aabb? portalOpening = null;
+                    foreach (var part in portalFrame)
+                    {
+                        var box = part.GetAabb();
+                        foreach (var corner in Enumerable.Range(0, 8)
+                                     .Select(i => toWall * (part.GlobalTransform * box.GetEndpoint(i))))
+                        {
+                            portalOpening = portalOpening is { } current
+                                ? current.Expand(corner)
+                                : new Aabb(corner, Vector3.Zero);
+                        }
+                    }
+                    if (portalOpening is { } opening) openings.Add(opening);
+                }
+            }
 
             // The hero house keeps its own notched corner ends, so its crown stops at the corners.
             var main = !hero && MainWallSides.Any(side => name.Contains(side, StringComparison.Ordinal));
