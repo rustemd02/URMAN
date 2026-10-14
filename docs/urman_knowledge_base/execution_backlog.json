@@ -6875,18 +6875,24 @@
             "assigned_owner": "art/materials/qa",
             "active_owner": null,
             "activity": {
-              "state": "not_active",
-              "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+              "state": "released",
+              "reason": "Root принял конечный read-only receiver lookup от Luna: eligible nonmetal sheet consumer не подтверждён; production не начат."
             },
             "task_type": "engineering",
-            "status": "todo",
+            "status": "in_progress",
             "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
-              "Подключить B09 — Серое кровельное покрытие; собственного целевого receipt пока нет."
+              "Нужен подтверждённый named runtime mesh неметаллических кровельных листов и его source/material path.",
+              "После подтверждения consumer произвести и подключить B09 либо принять существующий подходящий ресурс с provenance; текущая карта-кандидат B09 отсутствует.",
+              "Целевая native проверка named receiver; художественная приёмка отдельно."
             ],
-            "next_action": "Сопоставить текущий результат: Подключить B09 — Серое кровельное покрытие. Затем изменить только установленный остаток.",
-            "blocker": null,
+            "next_action": "Resolve a source-confirmed named nonmetal roofing-sheet receiver before producing B09. Existing HeroHouse_Roof_LOD0Mesh/source URMAN_Roof_WetSlate is routed to roof_metal, so do not silently replace it with fibre-cement. No guessed capture or global roof map swap.",
+            "blocker": {
+              "reason": "No source-confirmed existing nonmetal sheet receiver for B09. Available slate candidate is not B09 or wired runtime consumer; known exterior-kit roofs are routed to roof_metal.",
+              "release_condition": "Provide exact existing named nonmetal roofing-sheet constructor/material/geometry path or explicit scoped architectural reassignment; then generate/bind the authorised B09 candidate and verify that receiver.",
+              "owner": "Existing art/materials/qa assignment; architectural receiver must be resolved with B02 source owner."
+            },
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
             "work_contract": {
@@ -6948,7 +6954,17 @@
               "verification": [],
               "acceptance": []
             },
-            "depends_on": []
+            "depends_on": [],
+            "progress_2026_10_14_receiver_lookup": {
+              "result": "Bounded Luna read-only lookup: urman_b09_v01_basecolor.png absent; roof_slate_v1_albedo.png remains separate weathered-slate candidate/art-lock-pending and unbound. HeroHouse_Roof_LOD0Mesh source material URMAN_Roof_WetSlate mapped in Act1ConnectedWorld to roof_metal; AB_roof_shingle has no confirmed script consumer. No generation, source changes, compile, tests or station run.",
+              "sources": [
+                "docs/urman_knowledge_base/art/urman_imagegen_texture_prompt_book_2026-09-22.md",
+                "game/assets/textures/painterly/README.md",
+                "assets/source/blender/receipts/urman_village_exterior_kit.structure.json",
+                "game/scripts/Act1ConnectedWorld.cs"
+              ],
+              "limits": "Absence of a confirmed consumer is not proof that all roofing geometry is metallic; no architecture/material reassignment inferred from material naming."
+            }
           },
           {
             "id": "ACT1-TEXTURE.02/E24",
