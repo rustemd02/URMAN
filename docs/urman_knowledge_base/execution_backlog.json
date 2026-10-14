@@ -6078,22 +6078,25 @@
             "evidence": [
               "evidence/ACT1-TEXTURE.02/bath-w10-local-20261013/game-build.log",
               "game/assets/textures/painterly/README.md",
-              "assets/asset_registry.json"
+              "assets/asset_registry.json",
+              "evidence/ACT1-TEXTURE.05/bath-acceptance-20261014/native_cd6671/receipt.json",
+              "evidence/ACT1-TEXTURE.05/bath-acceptance-20261014/native_cd6671/frames/bath_w10.png",
+              "evidence/ACT1-TEXTURE.05/bath-acceptance-20261014/native_cd6671/frames/bath_w10.json"
             ],
             "assigned_owner": "art/materials/qa",
-            "active_owner": "/root",
+            "active_owner": null,
             "activity": {
-              "state": "confirmed_active",
-              "reason": "One scoped four-point bath snapshot capture after peer station RELEASE02ee; source unchanged; root exact static review, full art/motion retained."
+              "state": "released",
+              "reason": "Scoped current static review finished; exact remaining recorded, no repeat unchanged capture."
             },
             "task_type": "engineering",
             "status": "in_progress",
             "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
-              "Current targeted native view/movement of BathFloor and BathPartitionLeft/Right/Lintel: local Z floor grain, upright Y on wall faces, no contact/state regression; benches and remaining W10 receivers and author art acceptance. Preserve accepted authored SteamRoomLining receipts."
+              "Current floor-focused view/movement, other W10 receivers and author art. Partition-only cd6671 static accepted; do not repeat it."
             ],
-            "next_action": "After live B02/B20 station release, inspect these four bath receivers only in one scoped view/movement; do not repeat accepted SteamRoomLining capture or unchanged compile.",
+            "next_action": "Verify only remaining floor and ordinary movement after station release; reuse accepted partition cd6671 and authored SteamRoomLining evidence.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -6173,7 +6176,19 @@
               "next": "Existing Codex B02 dominant forest lease release requested in AGENT_CHAT; preserve it until acknowledgment. After release publish root bath lease checkpoint before guarded submit. Do not repeat unchanged doctor/old jobs.",
               "source": "Current main includes D03 e8ca7795 and W10 local87cee004; W11 c2ab actual body proof retained, only revised caps view remains."
             },
-            "current_verification_question": "In the current guarded snapshot, verify only named bath consumer: soot clipped to metal away from raised door/embers; W10 local floor/partition grain; W11 caps endgrain face-on; M03 enamel outer Bowl. Success: corresponding exact owner frame, no visible shader error, raw restoration verified; unrelated/motion/art remain open."
+            "current_verification_question": "In the current guarded snapshot, verify only named bath consumer: soot clipped to metal away from raised door/embers; W10 local floor/partition grain; W11 caps endgrain face-on; M03 enamel outer Bowl. Success: corresponding exact owner frame, no visible shader error, raw restoration verified; unrelated/motion/art remain open.",
+            "native_static_2026_10_14": {
+              "job_id": "cd6671e122bc40d7bd83b90717777411",
+              "snapshot_id": "458bee27309003b964d39c6633a42d31adb71242302a5693b8c2e782a9e547eb",
+              "archive_sha256": "5906bd4f3c402fbbe69408a70364c46906d3d785f7de7e9171f4eafd745257ee",
+              "receipt": "evidence/ACT1-TEXTURE.05/bath-acceptance-20261014/native_cd6671/receipt.json",
+              "frame": "evidence/ACT1-TEXTURE.05/bath-acceptance-20261014/native_cd6671/frames/bath_w10.png",
+              "metadata": "evidence/ACT1-TEXTURE.05/bath-acceptance-20261014/native_cd6671/frames/bath_w10.json",
+              "technical": "PASS/build/import/game0, engine errors0, snapshot_hashes_verified=true, userdataRestored=true, actual worker931b27b95d52ddae6e51ba41ab5e1733225e8f74f5636974013ace918200faf4; freshdoctorready/busy-null/recoveryfalse/orphanfalse. Medium/.9scale/FOV50/crisp, exact BabaiBathhouse owner path verified.",
+              "root_decision": "ACCEPT_PARTITION_STATIC_ONLY",
+              "result": "Vertical local grain appears on partition; floor only partial in this frame. Exact current metadata/restore valid; floor/motion/remaining W10 art open.",
+              "pre_submit_correction": "3779f09 rejected HTTP400 before execution: decimal format required leading zeros; normalized only formatting, accepted cd6671. No guard bypass."
+            }
           },
           {
             "id": "ACT1-TEXTURE.02/E16",
@@ -6182,23 +6197,25 @@
             "result": "Подключить W11 — Расколотые дрова и рукояти",
             "owner": "art/materials/qa",
             "evidence": [
-              "11.10.2026 source stage: BathDryFirewood0..4 preserve CylinderMesh triangles/normals/names/transforms and logsRemaining predicate; sides use cached wood_split_uv at 2/m, caps centered wood_cut. Affected .tools/dotnet build game/Urman.Game.csproj --no-restore --disable-build-servers: 0 warnings, 0 errors (23.04s); CS0234 qualification fixed before successful retry. No native frame/game/art PASS."
+              "11.10.2026 source stage: BathDryFirewood0..4 preserve CylinderMesh triangles/normals/names/transforms and logsRemaining predicate; sides use cached wood_split_uv at 2/m, caps centered wood_cut. Affected .tools/dotnet build game/Urman.Game.csproj --no-restore --disable-build-servers: 0 warnings, 0 errors (23.04s); CS0234 qualification fixed before successful retry. No native frame/game/art PASS.",
+              "evidence/ACT1-TEXTURE.05/bath-acceptance-20261014/native_cd6671/receipt.json",
+              "evidence/ACT1-TEXTURE.05/bath-acceptance-20261014/native_cd6671/frames/bath_caps.png",
+              "evidence/ACT1-TEXTURE.05/bath-acceptance-20261014/native_cd6671/frames/bath_caps.json"
             ],
             "assigned_owner": "art/materials/qa",
-            "active_owner": "/root",
+            "active_owner": null,
             "activity": {
-              "state": "confirmed_active",
-              "reason": "One scoped four-point bath snapshot capture after peer station RELEASE02ee; source unchanged; root exact static review, full art/motion retained."
+              "state": "released",
+              "reason": "Scoped current static review finished; exact remaining recorded, no repeat unchanged capture."
             },
             "task_type": "engineering",
             "status": "in_progress",
             "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
-              "Face-on centered wood_cut cap rings are not accepted from the oblique first view; exact revised point in progress_2026_10_13_bath_view.",
-              "Other W11 handles/portable consumers and full child/art/motion criteria remain open."
+              "Other W11 receivers/movement/full art; bath side/body c2ab and current cap/end-grain cd6671 static stages accepted."
             ],
-            "next_action": "After Codex B02 releases current dominant forest station assignment, publish bath lease checkpoint then capture only revised bath_firewood_caps face-on point. Fresh doctor idle/restored observed; historical50923 no longer treated as active. Retain accepted c2ab body view and unchanged compile.",
+            "next_action": "Reuse accepted c2ab side/body + cd6671 cap proof; next check only independent remaining W11 receiver/movement/art. No cap or unchanged compile rerun.",
             "blocker": {
               "reason": "Auto-review denied remote-check snapshot transfer to UNTERPC; explicit transfer-approval question pending. Source work and local compilation completed.",
               "release_when": "Author explicitly approves sending the URMAN checkout snapshot to UNTERPC through eng/remote-check.py."
@@ -6304,7 +6321,19 @@
               "next": "Existing Codex B02 dominant forest lease release requested in AGENT_CHAT; preserve it until acknowledgment. After release publish root bath lease checkpoint before guarded submit. Do not repeat unchanged doctor/old jobs.",
               "source": "Current main includes D03 e8ca7795 and W10 local87cee004; W11 c2ab actual body proof retained, only revised caps view remains."
             },
-            "current_verification_question": "In the current guarded snapshot, verify only named bath consumer: soot clipped to metal away from raised door/embers; W10 local floor/partition grain; W11 caps endgrain face-on; M03 enamel outer Bowl. Success: corresponding exact owner frame, no visible shader error, raw restoration verified; unrelated/motion/art remain open."
+            "current_verification_question": "In the current guarded snapshot, verify only named bath consumer: soot clipped to metal away from raised door/embers; W10 local floor/partition grain; W11 caps endgrain face-on; M03 enamel outer Bowl. Success: corresponding exact owner frame, no visible shader error, raw restoration verified; unrelated/motion/art remain open.",
+            "native_static_2026_10_14": {
+              "job_id": "cd6671e122bc40d7bd83b90717777411",
+              "snapshot_id": "458bee27309003b964d39c6633a42d31adb71242302a5693b8c2e782a9e547eb",
+              "archive_sha256": "5906bd4f3c402fbbe69408a70364c46906d3d785f7de7e9171f4eafd745257ee",
+              "receipt": "evidence/ACT1-TEXTURE.05/bath-acceptance-20261014/native_cd6671/receipt.json",
+              "frame": "evidence/ACT1-TEXTURE.05/bath-acceptance-20261014/native_cd6671/frames/bath_caps.png",
+              "metadata": "evidence/ACT1-TEXTURE.05/bath-acceptance-20261014/native_cd6671/frames/bath_caps.json",
+              "technical": "PASS/build/import/game0, engine errors0, snapshot_hashes_verified=true, userdataRestored=true, actual worker931b27b95d52ddae6e51ba41ab5e1733225e8f74f5636974013ace918200faf4; freshdoctorready/busy-null/recoveryfalse/orphanfalse. Medium/.9scale/FOV50/crisp, exact BabaiBathhouse owner path verified.",
+              "root_decision": "ACCEPT_CAPS_STATIC_ONLY",
+              "result": "Centered end-grain rings now personally visible on current cap faces, partly occluded by rack; previous c2ab side/body acceptance retained. Not full W11/art/movement.",
+              "pre_submit_correction": "3779f09 rejected HTTP400 before execution: decimal format required leading zeros; normalized only formatting, accepted cd6671. No guard bypass."
+            }
           },
           {
             "id": "ACT1-TEXTURE.02/E17",
@@ -8527,7 +8556,11 @@
             "evidence": [
               "evidence/ACT1-TEXTURE.03/bath-m03-20261014/game-build.log",
               "assets/asset_registry.json",
-              "game/assets/textures/painterly/README.md"
+              "game/assets/textures/painterly/README.md",
+              "evidence/ACT1-TEXTURE.05/bath-acceptance-20261014/native_cd6671/receipt.json",
+              "evidence/ACT1-TEXTURE.05/bath-acceptance-20261014/native_cd6671/frames/bath_enamel.png",
+              "evidence/ACT1-TEXTURE.05/bath-acceptance-20261014/native_cd6671/frames/bath_enamel.json",
+              "evidence/ACT1-TEXTURE.03/bath-m03-inner-20261014/game-build.log"
             ],
             "assigned_owner": "art/materials/qa",
             "active_owner": "/root",
@@ -8617,7 +8650,27 @@
               "native": "NOT_RUN; current B20 native30 live station ownership preserved.",
               "build_log": "evidence/ACT1-TEXTURE.03/bath-m03-20261014/game-build.log"
             },
-            "current_verification_question": "In the current guarded snapshot, verify only named bath consumer: soot clipped to metal away from raised door/embers; W10 local floor/partition grain; W11 caps endgrain face-on; M03 enamel outer Bowl. Success: corresponding exact owner frame, no visible shader error, raw restoration verified; unrelated/motion/art remain open."
+            "current_verification_question": "In the current guarded snapshot, verify only named bath consumer: soot clipped to metal away from raised door/embers; W10 local floor/partition grain; W11 caps endgrain face-on; M03 enamel outer Bowl. Success: corresponding exact owner frame, no visible shader error, raw restoration verified; unrelated/motion/art remain open.",
+            "native_static_2026_10_14": {
+              "job_id": "cd6671e122bc40d7bd83b90717777411",
+              "snapshot_id": "458bee27309003b964d39c6633a42d31adb71242302a5693b8c2e782a9e547eb",
+              "archive_sha256": "5906bd4f3c402fbbe69408a70364c46906d3d785f7de7e9171f4eafd745257ee",
+              "receipt": "evidence/ACT1-TEXTURE.05/bath-acceptance-20261014/native_cd6671/receipt.json",
+              "frame": "evidence/ACT1-TEXTURE.05/bath-acceptance-20261014/native_cd6671/frames/bath_enamel.png",
+              "metadata": "evidence/ACT1-TEXTURE.05/bath-acceptance-20261014/native_cd6671/frames/bath_enamel.json",
+              "technical": "PASS/build/import/game0, engine errors0, snapshot_hashes_verified=true, userdataRestored=true, actual worker931b27b95d52ddae6e51ba41ab5e1733225e8f74f5636974013ace918200faf4; freshdoctorready/busy-null/recoveryfalse/orphanfalse. Medium/.9scale/FOV50/crisp, exact BabaiBathhouse owner path verified.",
+              "root_decision": "ACCEPT_ENAMEL_OUTER_ONLY_DEFECT_FOUND",
+              "result": "Existing ivory outer surface visible; confirmed open far interior wall from outward-only CylinderMesh. Basin-only inward shell source prepared, affected compile/current same-point recapture pending; other receivers/art/motion open.",
+              "pre_submit_correction": "3779f09 rejected HTTP400 before execution: decimal format required leading zeros; normalized only formatting, accepted cd6671. No guard bypass."
+            },
+            "progress_2026_10_14_inner_fix": {
+              "cause": "Actual cd6671 basin frame shows cut-away far inner wall; open CylinderMesh has only outward-facing triangles.",
+              "result": "One named InnerEnamelWall duplicates CylinderMesh, FlipFaces=true/same dimensions/open top/pose/material, CastShadowOff; shared mesh/other vessels/contacts/state intact.",
+              "source_sha256": "925e9806dcc0f50f98acb84e7aca268b05c09f60c35275730858d2dccdfcc61c",
+              "review": "Luna owns only Bathhouse source, root inspected bounded diff; actual API compiled.",
+              "verification": "Affected Game build succeeded0 errors/0 warnings; pending current exact same basin point post-fix.",
+              "build_log": "evidence/ACT1-TEXTURE.03/bath-m03-inner-20261014/game-build.log"
+            }
           },
           {
             "id": "ACT1-TEXTURE.03/E04",
@@ -12719,22 +12772,25 @@
             "evidence": [
               "game/assets/textures/painterly/README.md",
               "assets/asset_registry.json",
-              "evidence/ACT1-TEXTURE.05/bath-soot-20261013/game-build.log"
+              "evidence/ACT1-TEXTURE.05/bath-soot-20261013/game-build.log",
+              "evidence/ACT1-TEXTURE.05/bath-acceptance-20261014/native_cd6671/receipt.json",
+              "evidence/ACT1-TEXTURE.05/bath-acceptance-20261014/native_cd6671/frames/bath_soot.png",
+              "evidence/ACT1-TEXTURE.05/bath-acceptance-20261014/native_cd6671/frames/bath_soot.json"
             ],
             "assigned_owner": "art/materials/qa",
-            "active_owner": "/root",
+            "active_owner": null,
             "activity": {
-              "state": "confirmed_active",
-              "reason": "One scoped four-point bath snapshot capture after peer station RELEASE02ee; source unchanged; root exact static review, full art/motion retained."
+              "state": "released",
+              "reason": "Scoped current static review finished; exact remaining recorded, no repeat unchanged capture."
             },
             "task_type": "engineering",
             "status": "in_progress",
             "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
-              "Godot import and shader parsing; targeted current bath firebox view and nearby movement, actual soot readability and door/embers unaffected; full D03 art acceptance remains open."
+              "Current soot readability on real ordinary lit firebox state; full D03/motion/art acceptance. Cold/dark cd6671 not accepted for pigment visibility."
             ],
-            "next_action": "After current station owner releases: publish lease before submit; import snapshot with D03 asset and capture only bath firebox. Do not rerun unchanged source build or repeat unrelated frames.",
+            "next_action": "Use ordinary protected interaction/lighting state for readable firebox target after slot release; preserve cd6671 technical receipt, no blind source/lamp/profile changes or repeat cold frame.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -12798,7 +12854,19 @@
               "next": "Existing Codex B02 dominant forest lease release requested in AGENT_CHAT; preserve it until acknowledgment. After release publish root bath lease checkpoint before guarded submit. Do not repeat unchanged doctor/old jobs.",
               "source": "Current main includes D03 e8ca7795 and W10 local87cee004; W11 c2ab actual body proof retained, only revised caps view remains."
             },
-            "current_verification_question": "In the current guarded snapshot, verify only named bath consumer: soot clipped to metal away from raised door/embers; W10 local floor/partition grain; W11 caps endgrain face-on; M03 enamel outer Bowl. Success: corresponding exact owner frame, no visible shader error, raw restoration verified; unrelated/motion/art remain open."
+            "current_verification_question": "In the current guarded snapshot, verify only named bath consumer: soot clipped to metal away from raised door/embers; W10 local floor/partition grain; W11 caps endgrain face-on; M03 enamel outer Bowl. Success: corresponding exact owner frame, no visible shader error, raw restoration verified; unrelated/motion/art remain open.",
+            "native_static_2026_10_14": {
+              "job_id": "cd6671e122bc40d7bd83b90717777411",
+              "snapshot_id": "458bee27309003b964d39c6633a42d31adb71242302a5693b8c2e782a9e547eb",
+              "archive_sha256": "5906bd4f3c402fbbe69408a70364c46906d3d785f7de7e9171f4eafd745257ee",
+              "receipt": "evidence/ACT1-TEXTURE.05/bath-acceptance-20261014/native_cd6671/receipt.json",
+              "frame": "evidence/ACT1-TEXTURE.05/bath-acceptance-20261014/native_cd6671/frames/bath_soot.png",
+              "metadata": "evidence/ACT1-TEXTURE.05/bath-acceptance-20261014/native_cd6671/frames/bath_soot.json",
+              "technical": "PASS/build/import/game0, engine errors0, snapshot_hashes_verified=true, userdataRestored=true, actual worker931b27b95d52ddae6e51ba41ab5e1733225e8f74f5636974013ace918200faf4; freshdoctorready/busy-null/recoveryfalse/orphanfalse. Medium/.9scale/FOV50/crisp, exact BabaiBathhouse owner path verified.",
+              "root_decision": "NOT_ACCEPTED_READABILITY",
+              "result": "Cold/dark exact firebox frame does not establish soot readability; no shader errors, import/source/restore verified. Need ordinary lit stove state/current visibility, not blind light/source edits.",
+              "pre_submit_correction": "3779f09 rejected HTTP400 before execution: decimal format required leading zeros; normalized only formatting, accepted cd6671. No guard bypass."
+            }
           },
           {
             "id": "ACT1-TEXTURE.05/E04",
