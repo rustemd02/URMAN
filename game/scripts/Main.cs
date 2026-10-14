@@ -385,6 +385,7 @@ public partial class Main : Node3D
 
     private void MountW01(RuntimeBridge.FullGamePhotoWorldRouteProjection projection, RuntimeBridge bridge)
     {
+        var entryAnchorId = projection.ActiveSceneId == ForestSceneId ? "F10" : "F00";
         var alreadyMounted = IsMountedW01();
         var routeSceneChanged = !string.Equals(_lastFullGameRouteScene, projection.ActiveSceneId, StringComparison.Ordinal);
         var sameSession = ReferenceEquals(_lastFullGameRouteSession, projection.SessionIdentity);
@@ -392,7 +393,7 @@ public partial class Main : Node3D
         if (alreadyMounted)
         {
             if (routeSceneChanged && sameSession)
-                PlacePlayerAtW01Entry(_mountedW01!, "F00");
+                PlacePlayerAtW01Entry(_mountedW01!, entryAnchorId);
             _preserveLoadedPhotoWorldTransform = false;
             _loadedPhotoWorldTransformSession = null;
             SetW01Ambience();
@@ -410,10 +411,10 @@ public partial class Main : Node3D
         }
 
         var world = packed.Instantiate<Node3D>();
-        if (world.GetNodeOrNull<Node3D>("Anchors/F00") is null)
+        if (world.GetNodeOrNull<Node3D>($"Anchors/{entryAnchorId}") is null)
         {
             world.Free();
-            GD.PushError("Full-game W01 presentation has no authored Anchors/F00 entry point.");
+            GD.PushError($"Full-game W01 presentation has no authored Anchors/{entryAnchorId} entry point.");
             return;
         }
 
@@ -438,7 +439,7 @@ public partial class Main : Node3D
         _preserveLoadedPhotoWorldTransform = false;
         _loadedPhotoWorldTransformSession = null;
         if (placeAtEntry)
-            PlacePlayerAtW01Entry(world, "F00");
+            PlacePlayerAtW01Entry(world, entryAnchorId);
         SetW01Ambience();
 
         _lastFullGameRouteSession = projection.SessionIdentity;
@@ -446,7 +447,7 @@ public partial class Main : Node3D
         if (_hasLoadedInitialZone)
             PlayZoneTransition();
         _hasLoadedInitialZone = true;
-        GD.Print($"fullgame-scene-loaded: {projection.ActiveSceneId} physical=W01 entry=F00");
+        GD.Print($"fullgame-scene-loaded: {projection.ActiveSceneId} physical=W01 entry={entryAnchorId}");
     }
 
     private bool IsMountedZone(string zoneId)

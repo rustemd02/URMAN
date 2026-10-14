@@ -115912,19 +115912,19 @@
             "owner": "art",
             "evidence": [],
             "assigned_owner": "art",
-            "active_owner": null,
+            "active_owner": "Codex / Luna b02_family_coverage",
             "activity": {
-              "state": "not_active",
-              "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+              "state": "confirmed_active",
+              "reason": "Root начал/подтвердил first F10 camera/tableau; assigned art сохранён."
             },
             "task_type": "engineering",
-            "status": "todo",
-            "implementation_state": "not_started",
+            "status": "in_progress",
+            "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
               "Поставить камеры и три узнаваемые опоры каждой портальной фотографии до её финальной отрисовки.; собственного целевого receipt пока нет."
             ],
-            "next_action": "Сопоставить текущий результат: Поставить камеры и три узнаваемые опоры каждой портальной фотографии до её финальной отрисовки.. Затем изменить только установленный остаток.",
+            "next_action": "Исправить первый F10/photo camera и source routing, затем поставить три совпадающие опоры и произвести exact first-photo artwork. Не закрывать все portal cameras по одной.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -115985,7 +115985,19 @@
               "verification": [],
               "acceptance": []
             },
-            "depends_on": []
+            "depends_on": [],
+            "progress_2026_10_15_first_camera": {
+              "state": "source_camera_routing_compiled_tableau_in_progress",
+              "targets": [
+                "game/scripts/Main.cs",
+                "game/scenes/photoworlds/W01/W01.tscn"
+              ],
+              "confirmed_defect": "pw-forest currently shares F00 prologue spawn despite campaign mainSpawnNodeId F10; no photo camera/staged three supports.",
+              "result_scope": "First P-FOREST F10/camera only; all portal cameras and three matching supports remain required.",
+              "verification_question": "Does source route pw-forest to F10 while prologue stays F00 and valid restored transforms remain preserved?",
+              "success_condition": "Affected compile and scoped source inspection; later ordinary portal entry/native shot must prove rendered composition, not claimed now.",
+              "verification": ".tools/dotnet/dotnet build game/Urman.Game.csproj --no-restore -v minimal: exit0, 0 errors/0 warnings, 16.41s; scoped source/diff inspection passed. No rendered/ordinary firstportal entry claim."
+            }
           },
           {
             "id": "PW-040/E02",
@@ -115998,10 +116010,10 @@
               "evidence/PW-040/s-garden-20261012/thumbnail-build.log"
             ],
             "assigned_owner": "art",
-            "active_owner": null,
+            "active_owner": "Codex / Luna b02_family_coverage",
             "activity": {
-              "state": "released",
-              "reason": "Acquired-only S-GARDEN thumbnail consumer source этап принят; native album остаётся открытым."
+              "state": "confirmed_active",
+              "reason": "Начата оригинальная staged fictional P-FOREST composition, не все13fronts."
             },
             "task_type": "engineering",
             "status": "in_progress",
@@ -116166,12 +116178,13 @@
               "remaining": "Actual list readability/keyboard scroll/session/Continue on Windows; 12 fronts and complete thumbnail asset set open"
             },
             "progress_2026_10_15_pforest_preview": {
-              "state": "front_unproduced_heading_fix_implemented",
+              "state": "first_original_staged_candidate_in_progress",
               "native_before": "evidence/PW-043/release-path-20261015/frames/2903-route/after-book-handoff.png",
               "confirmed_input": "content/campaigns/urman.fullgame/photoworlds-sources/photos.spec.json:P-FOREST SPECIFIED_NOT_PRODUCED; assets.spec.json:A-PHOTOSET REQUESTED, REQUIRES_PROVENANCE",
               "heading_fix": "game/scripts/JournalUi.PhotoBook.cs: front heading ExpandFill using existing layout pattern; source/diff inspected. New native layout not yet captured.",
               "missing_front_release_condition": "Produced P-FOREST front/thumbnail + source provenance, matching staged camera/three recognizable portal supports; registered exact asset consumed by photo album. Author art acceptance remains separate.",
-              "next_finite_step": "PW-040/E01: first P-FOREST camera/three supports in its corresponding W01 stage, then produce/register that front under PW-040/E02. Do not require full neighboring aggregate before checking named stage artifact."
+              "next_finite_step": "PW-040/E01: first P-FOREST camera/three supports in its corresponding W01 stage, then produce/register that front under PW-040/E02. Do not require full neighboring aggregate before checking named stage artifact.",
+              "production_owner": "Luna b02_family_coverage; new isolated source/tableau/photo files only, root reviews image before consumer registration."
             }
           },
           {

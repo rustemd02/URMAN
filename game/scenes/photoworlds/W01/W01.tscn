@@ -46,6 +46,16 @@ shadow_opacity = 0.34
 [node name="F00" type="Marker3D" parent="Anchors"]
 rotation_degrees = Vector3(0, -166.5, 0)
 
+; Ground height sampled from the generated terrain at authored F10 X/Z.
+[node name="F10" type="Marker3D" parent="Anchors"]
+position = Vector3(0, 0.656942903, 35)
+rotation_degrees = Vector3(0, 180, 0)
+
+[node name="PForestPhotoCamera" type="Camera3D" parent="Anchors/F10"]
+position = Vector3(0, 1.55, 0)
+current = false
+fov = 48.0
+
 [node name="PrologueUI" type="CanvasLayer" parent="."]
 layer = 12
 
