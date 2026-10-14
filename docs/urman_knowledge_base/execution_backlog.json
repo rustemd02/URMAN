@@ -5992,10 +5992,15 @@
             "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
-              "Current target Windows close view and movement for BabaiYardToolShed/Wall and HeroYardShed_LoftBoard_*; remaining intended AddVisualShed receivers and author art acceptance. Material source does not deliver shed geometry/reference rework."
+              "Confirm surviving intended named W07 shed/woodwork receiver; old BabaiYardToolShed and authored loft shed are hidden by current relocation cleanup.",
+              "Current target Windows view/movement for surviving receiver, other intended receivers and author art; source compile alone remains insufficient."
             ],
-            "next_action": "After current B20 owner releases station, inspect one target view/movement of BabaiYardToolShed to verify upright metre-scale W07; preserve unchanged existing source build and avoid generic reruns.",
-            "blocker": null,
+            "next_action": "Choose one surviving intended W07 receiver with the B02 architecture owner before any capture/binding. RelocateBabaiHousehold hides BabaiYardToolShed and BabaiYardAuthoredShed by author cleanup; do not resurrect removed outbuildings or run a guessed hidden-node capture.",
+            "blocker": {
+              "reason": "Prepared named W07 receiver is hidden by current RelocateBabaiHousehold cleanup, invoked during world build. Its authored loft-shed alternative is also hidden; no native capture submitted.",
+              "release_condition": "Identify a surviving intended existing W07 receiver and exact constructor/material path, preserving author removal of surplus outbuildings; then bind/check only that receiver.",
+              "owner": "art/materials/qa with B02 architecture source owner"
+            },
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
             "work_contract": {
@@ -6067,6 +6072,10 @@
               "verification": "Scoped Game compile succeeded 0 errors/0 warnings; does not verify shader rendering/native visual/game acceptance.",
               "evidence": "evidence/ACT1-TEXTURE.02/shed-w07-20261013/game-build.log",
               "native": "NOT_RUN; B20 live lease preserved."
+            },
+            "progress_2026_10_14_receiver_liveness": {
+              "source": "game/scripts/Act1ConnectedWorld.BabaiRelocation.cs: RelocateBabaiHousehold hides BabaiYardAuthoredShed and BabaiYardToolShed. game/scripts/Act1ConnectedWorld.cs invokes relocate-babai after builders.",
+              "result": "Stopped prepared W07 capture before submitting. Previous source/compile evidence retained as a source stage, not live material delivery. Author-requested cleanup is preserved; no source revert, hidden-node resurrection, compile or station run."
             }
           },
           {
@@ -6081,22 +6090,25 @@
               "assets/asset_registry.json",
               "evidence/ACT1-TEXTURE.05/bath-acceptance-20261014/native_cd6671/receipt.json",
               "evidence/ACT1-TEXTURE.05/bath-acceptance-20261014/native_cd6671/frames/bath_w10.png",
-              "evidence/ACT1-TEXTURE.05/bath-acceptance-20261014/native_cd6671/frames/bath_w10.json"
+              "evidence/ACT1-TEXTURE.05/bath-acceptance-20261014/native_cd6671/frames/bath_w10.json",
+              "evidence/ACT1-TEXTURE.02/bath-floor-20261014/native_d97432/receipt.json",
+              "evidence/ACT1-TEXTURE.02/bath-floor-20261014/native_d97432/frames/bath_floor.png",
+              "evidence/ACT1-TEXTURE.02/bath-floor-20261014/native_d97432/frames/bath_floor.json"
             ],
             "assigned_owner": "art/materials/qa",
             "active_owner": null,
             "activity": {
               "state": "released",
-              "reason": "Floor-focused target prepared but not submitted: actual peer ce946... owns atomic station lock. Preserve accepted partition and current peer High A/B."
+              "reason": "One exact BathFloor static frame personally inspected; ownjob d97432 PASS/restored/hashverified, fresh doctor idle/ready/no recovery/no orphan."
             },
             "task_type": "engineering",
             "status": "in_progress",
             "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
-              "Current floor-focused view/movement, other W10 receivers and author art. Partition-only cd6671 static accepted; do not repeat it."
+              "Other named W10 receivers, ordinary movement and author art remain; cd6671 partition + d97432 floor static binding accepted. Do not repeat either unchanged frame."
             ],
-            "next_action": "After Codex B02 ce946274ff034e93a96f0895da68da81 terminal/restored/release, publish floor lease then one exactBathFloor focused frame; no current peer interruption, no repeat accepted partition or failed book UI.",
+            "next_action": "Reuse cd6671 partition and d97432 floor proof. Continue only a separately named remaining W10 receiver or ordinary movement/art criterion after station coordination; no unchanged compile/floor/partition rerun.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -6194,6 +6206,20 @@
               "submitted": false,
               "observation": "doctor ready=true but busy_job=ce946274ff034e93a96f0895da68da81; actual busy lock is authoritative. Peer High A/B preserved.",
               "release": "Prepared root floor claim released until peer terminal/restoration/release. No game source or state changes."
+            },
+            "floor_check_2026_10_14": {
+              "question": "Does the named BathFloor show local metre-scale W10 across the visible floor instead of projection tied to world axes?",
+              "success": "Current exact target frame visibly covers floor; grain/scale assessed personally. PASS alone cannot certify unseen floor or motion.",
+              "capture_points": "bath_floor:BabaiBathhouse@-0.5,1.25,1.7>BathFloor@-0.5,0.03,1.0",
+              "source_changes": "None; accepted partition frame not repeated.",
+              "job_id": "d97432a88f20407c9296289d0a4f056f",
+              "snapshot_id": "17259fa3d392fcd639b54793c38642d9115ac9eb0c7968defb67bc9b00a141aa",
+              "archive_sha256": "29470ae403a48285ded9d4be0c3756d4933fa7cfe87ca356880931b86c181dc5",
+              "receipt": "evidence/ACT1-TEXTURE.02/bath-floor-20261014/native_d97432/receipt.json",
+              "frame": "evidence/ACT1-TEXTURE.02/bath-floor-20261014/native_d97432/frames/bath_floor.png",
+              "metadata": "evidence/ACT1-TEXTURE.02/bath-floor-20261014/native_d97432/frames/bath_floor.json",
+              "result": "ACCEPT_NAMED_FLOOR_STATIC_BINDING_ONLY: exact BathFloor covers most frame; local lengthwise wood grain visible across floor and against perpendicular partition. Dark continuous grain does not establish board construction, author art, motion or all W10 consumers.",
+              "runtime": "PASS/build/import/game0; engine-errors log empty; userdataRestored=true/snapshot_hashes_verified=true; worker931b27b95d52ddae6e51ba41ab5e1733225e8f74f5636974013ace918200faf4. Freshdoctor ready/busy-null/recoveryfalse/orphanfalse."
             }
           },
           {
@@ -57277,18 +57303,22 @@
             "assigned_owner": "finished-act1",
             "active_owner": null,
             "activity": {
-              "state": "not_active",
-              "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+              "state": "released",
+              "reason": "Bounded source lookup and exact historical-frame lookup finished; current K13 identity missing, no causal producer claim or engineering mutation."
             },
             "task_type": "research",
-            "status": "todo",
+            "status": "blocked",
             "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
-              "Установить exact mesh/generator/consumer проёма K13 и отсутствие створки; собственного целевого receipt пока нет."
+              "Точное текущее положение/имя объекта K13 либо source-linked кадр с координатами; затем связать mesh/generator/consumer и причину отсутствия створки для E02."
             ],
-            "next_action": "Ответить на конкретный вопрос: Какой exact mesh/generator/consumer создаёт K13 и почему у него отсутствует створка?",
-            "blocker": null,
+            "next_action": "Obtain exact K13 image/zone/object identity or world coordinate from original review holder; then identify one current dynamic producer for E02. Do not treat historical walk-13 or separately mentioned mosque gap as K13; no guessed game capture or generic door rewrite.",
+            "blocker": {
+              "reason": "K13 is an unlocated historical review label, absent from current scene/runtime identifiers. Exact referenced frame/capture metadata not found in docs/evidence/outputs; current producer cannot be inferred.",
+              "release_when": "Exact original K13 frame with usable camera/object identity or current zone/world coordinate is supplied; map it to a surviving runtime mesh before producer edit.",
+              "owner": "Original TECH.3 review holder / finished-act1; read-only request to Claude in AGENT_CHAT."
+            },
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
             "work_contract": {
@@ -57330,7 +57360,18 @@
               "expected_answer": "Source path/symbol/mesh ID, наблюдаемая причина и bounded producer change единице E02.",
               "stop_when": "Ответ с source pointers сохранён в этой единице; дальнейшая implementation — её named successor."
             },
-            "depends_on": []
+            "depends_on": [],
+            "progress_2026_10_14": {
+              "result": "Act1DemoRoot scene dynamically instantiates Main/Act1ConnectedWorld; no K13 identifier in scene/runtime sources. act1_tech_review_2026-10-04.md has prose requiring leaf/window instead of board but no source/camera/coordinate. Mosque support gap is a separate observation, not established K13 identity. Exact labelled frame/metadata not found; walk-13 is historical route inventory with unknown snapshot, not K13.",
+              "verification": "Two bounded read-only lookups by Luna, no production edit/test/build/station run. Research DoD remains open: source path/symbol/mesh + actual cause unavailable.",
+              "sources": [
+                "game/scenes/act1_demo.tscn",
+                "game/scripts/Act1DemoRoot.cs",
+                "docs/production/act1_tech_review_2026-10-04.md",
+                "evidence/PW-001/README_VISUAL_INVENTORY.md"
+              ],
+              "successor": "ACT1-TECH.3/E02 only after exact identity/cause input; no blanket shared producer mutation."
+            }
           },
           {
             "id": "ACT1-TECH.3/E02",
