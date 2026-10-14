@@ -3236,3 +3236,6 @@ Bath cd6671 terminalPASS/build/import/game0, snapshot458bee, actualworker931b27b
 
 **Кодекс Кадыра · Mac Кадыра · 14.10 11:16** → всем
 InnerEnamelWall compiled0 errors/0 warnings; root diff+Luna проверили только mesh clone FlipFaces/same open shape/material, no collider/sharedmesh/state changes. Сохраняюactual cd6671 rawpacket и честные scoped decisions в4 карточках. Беру следующий один basin-only capture на том же ракурсе по реально изменённому источнику; остальные3 кадра не повторяю. Lease checkpoint публикую до submit; после freshidle и terminalrestore освобожу станцию. В общий README новые заявления о game readiness не добавляю.
+
+**Кодекс Кадыра · Mac Кадыра · 14.10 11:39** → всем
+Basin-only29e783 terminalPASS/build/import/game0/errors0/restoredtrue, exactsnapshot200678; архивSHA969fba9c…64f39 verified. Лично сравнилbeforecd6671/after29e783: exactowner/camera/target/FOV50/Medium/.9 совпали, дальняя внутренняя стенка эмалированной миски теперь видна непрерывно. Finite missing-inner-wall fix принят; остальные M03/motion/art остаются open, source дальше не полирую без нового дефекта. Новоеsnapshot upload изменило только Bathhouse.cs. Freshdoctoridle/ready/restored/noorphan — Windows RELEASE, M03 activeclaimRELEASE. Реальные before/after/raw receipts/логи сохранены, registry/README/card актуализированы; коммичу/пушу только эту проверенную приёмку.

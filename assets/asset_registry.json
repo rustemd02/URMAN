@@ -3299,8 +3299,9 @@
         "task": "ACT1-TEXTURE.03/E03 M03",
         "receiver": "Act1ConnectedWorld.Bathhouse.cs: BathWashBasin/Bowl only",
         "material": "Per-instance enamel clone, existing tint b1b8b0, .5m local triplanar repeat, whole-surface chip mask/bottom wear disabled; metallic0 enamel finish. Shared RuralPropMaterials/cache and other vessels retained.",
-        "state": "Source candidate; target native appearance/motion and art NOT_RUN. Existing selected runtime raster reused; no generation or pixel edit.",
-        "inner_wall_fix": "Current native cd6671 exposed missing inside due to outward-only open CylinderMesh. Basin-only duplicated CylinderMesh FlipFaces=true preserves exact size/open top/transform and uses existing per-instance enamel; shadow off, no shared mesh mutation or collider/state change. Affected compile passed; current post-fix view pending."
+        "state": "Named wash-basin outer+inner static hookup/repair accepted; other M03 receivers/motion/full art remain open.",
+        "inner_wall_fix": "Basin-only duplicate inward CylinderMesh accepted on matched native29e783 after cd6671 exposed missing far inner surface; dimension/open top/pose/material preserved, no shared mesh/collision/state change.",
+        "native_static_evidence": "evidence/ACT1-TEXTURE.03/bath-m03-inner-20261014/native_29e783/frames/bath_enamel.png"
       }
     },
     {

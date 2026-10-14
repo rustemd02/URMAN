@@ -8560,22 +8560,25 @@
               "evidence/ACT1-TEXTURE.05/bath-acceptance-20261014/native_cd6671/receipt.json",
               "evidence/ACT1-TEXTURE.05/bath-acceptance-20261014/native_cd6671/frames/bath_enamel.png",
               "evidence/ACT1-TEXTURE.05/bath-acceptance-20261014/native_cd6671/frames/bath_enamel.json",
-              "evidence/ACT1-TEXTURE.03/bath-m03-inner-20261014/game-build.log"
+              "evidence/ACT1-TEXTURE.03/bath-m03-inner-20261014/game-build.log",
+              "evidence/ACT1-TEXTURE.03/bath-m03-inner-20261014/native_29e783/receipt.json",
+              "evidence/ACT1-TEXTURE.03/bath-m03-inner-20261014/native_29e783/frames/bath_enamel.png",
+              "evidence/ACT1-TEXTURE.03/bath-m03-inner-20261014/native_29e783/frames/bath_enamel.json"
             ],
             "assigned_owner": "art/materials/qa",
-            "active_owner": "/root",
+            "active_owner": null,
             "activity": {
-              "state": "confirmed_active",
-              "reason": "One scoped four-point bath snapshot capture after peer station RELEASE02ee; source unchanged; root exact static review, full art/motion retained."
+              "state": "released",
+              "reason": "Confirmed missing inner wall repaired and accepted in matched current native frame; finite fix complete, other M03/motion/art retained."
             },
             "task_type": "engineering",
             "status": "in_progress",
             "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
-              "Current Windows target view/movement of BathWashBasin/Bowl and named M03 household receivers; verify enamel diffuse/roughness and no unwanted whole-surface chips. Full M03 receiver/art acceptance remains open."
+              "Other M03 household receivers, ordinary movement/lighting and full art acceptance. Named BathWashBasin enamel outer+inner-wall repair has current static proof."
             ],
-            "next_action": "After live B20 owner station release, inspect one scoped bath wash-basin view/movement using current raster/consumer; no unchanged compile or new bitmap generation. Preserve other M03 receivers and original asset provenance.",
+            "next_action": "Do not repeat accepted matched basin before/after; use receipts cd6671/29e783. Next only existing other M03 receiver or ordinary movement/art criterion.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -8670,6 +8673,18 @@
               "review": "Luna owns only Bathhouse source, root inspected bounded diff; actual API compiled.",
               "verification": "Affected Game build succeeded0 errors/0 warnings; pending current exact same basin point post-fix.",
               "build_log": "evidence/ACT1-TEXTURE.03/bath-m03-inner-20261014/game-build.log"
+            },
+            "native_inner_fix_2026_10_14": {
+              "job_id": "29e783ae0ce842c08e44f6b1a2fbeb70",
+              "snapshot_id": "200678d6eb8da6a7373079034facef0b88875115ebac0857858b8388312c1cbe",
+              "archive_sha256": "969fba9c31740574b6629a61b7b4ca711bd461fc70b9883cc06728588dd64f39",
+              "receipt": "evidence/ACT1-TEXTURE.03/bath-m03-inner-20261014/native_29e783/receipt.json",
+              "frame": "evidence/ACT1-TEXTURE.03/bath-m03-inner-20261014/native_29e783/frames/bath_enamel.png",
+              "metadata": "evidence/ACT1-TEXTURE.03/bath-m03-inner-20261014/native_29e783/frames/bath_enamel.json",
+              "verification": "PASS/build/import/game0, engine errors0, snapshot_hashes_verified=true, userdataRestored=true, actualworker931b27b95d52ddae6e51ba41ab5e1733225e8f74f5636974013ace918200faf4. Freshdoctorready/busy-null/recoveryfalse/orphanfalse. Uploaded only changed Bathhouse.cs (1938/1939 reused).",
+              "comparison": "Root personally viewed before cd6671 and after29e783. Metadata spec/owner/camera/target/FOV50/Medium/.9 scale equal; far inner wall now visible as continuous enamel bowl rather than cut-away gap. Existing bowl contents/pose/support unchanged.",
+              "decision": "ACCEPT_FINITE_INNER_WALL_REPAIR_AND_NAMED_ENAMEL_STATIC_ONLY",
+              "limits": "No whole M03/all vessels/movement/material lighting/art completion. Small bottom seam and coarse contents not claimed polished; no source rewrite in this accepted fix."
             }
           },
           {
