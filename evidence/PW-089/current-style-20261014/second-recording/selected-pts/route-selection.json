@@ -1,0 +1,91 @@
+{
+  "sourceMovie": "PW089-2026-10-14_07-57-51.mp4",
+  "sourceMovieBytes": 47343999,
+  "sourceMovieSha256": "775b3a03d2bec5f5b477ad1c957031e2e90018c8494b9d8669312209a049fe2a",
+  "decoder": "existing AVFoundation Inspect-PW089Movie-Route.swift",
+  "selectedFrameCount": 9,
+  "frames": [
+    {
+      "file": "pts-130.000s.jpg",
+      "requestedSeconds": 130,
+      "decodedSeconds": 130,
+      "width": 1280,
+      "height": 720,
+      "kind": "walk",
+      "visualNote": "Street view before passing Alsu."
+    },
+    {
+      "file": "pts-131.000s.jpg",
+      "requestedSeconds": 131,
+      "decodedSeconds": 131,
+      "width": 1280,
+      "height": 720,
+      "kind": "walk",
+      "visualNote": "Alsu passes close in the foreground."
+    },
+    {
+      "file": "pts-132.000s.jpg",
+      "requestedSeconds": 132,
+      "decodedSeconds": 132,
+      "width": 1280,
+      "height": 720,
+      "kind": "walk",
+      "visualNote": "Camera and passerby advance along the street."
+    },
+    {
+      "file": "pts-134.000s.jpg",
+      "requestedSeconds": 134,
+      "decodedSeconds": 134,
+      "width": 1280,
+      "height": 720,
+      "kind": "walk",
+      "visualNote": "House-location caption appears during approach."
+    },
+    {
+      "file": "pts-136.000s.jpg",
+      "requestedSeconds": 136,
+      "decodedSeconds": 136,
+      "width": 1280,
+      "height": 720,
+      "kind": "walk",
+      "visualNote": "Street and house continue shifting with movement."
+    },
+    {
+      "file": "pts-138.000s.jpg",
+      "requestedSeconds": 138,
+      "decodedSeconds": 138,
+      "width": 1280,
+      "height": 720,
+      "kind": "walk",
+      "visualNote": "Approach continues; caption fades."
+    },
+    {
+      "file": "pts-150.000s-door.jpg",
+      "requestedSeconds": 150,
+      "decodedSeconds": 150,
+      "width": 1280,
+      "height": 720,
+      "kind": "door",
+      "visualNote": "Exterior porch with the [E] enter-house prompt."
+    },
+    {
+      "file": "pts-234.000s-loading.jpg",
+      "requestedSeconds": 234,
+      "decodedSeconds": 234,
+      "width": 1280,
+      "height": 720,
+      "kind": "transition",
+      "visualNote": "Location-change loading screen at the porch."
+    },
+    {
+      "file": "pts-240.000s-interior.jpg",
+      "requestedSeconds": 240,
+      "decodedSeconds": 240,
+      "width": 1280,
+      "height": 720,
+      "kind": "interior",
+      "visualNote": "Warm interior with the grandmother character."
+    }
+  ],
+  "selectionNote": "Six 0.1-second-derived movement frames plus the clean 150s porch, 234s loading transition, and 240s interior states. The 230s sample was excluded because the pause menu covers the outdoor scene."
+}

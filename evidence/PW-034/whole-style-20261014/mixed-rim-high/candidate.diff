@@ -1,0 +1,18 @@
+diff --git a/game/scripts/experiments/agent_b_act1/AgentBAct1ExteriorLayer.cs b/game/scripts/experiments/agent_b_act1/AgentBAct1ExteriorLayer.cs
+index 47007a78..5d41c0d0 100644
+--- a/game/scripts/experiments/agent_b_act1/AgentBAct1ExteriorLayer.cs
++++ b/game/scripts/experiments/agent_b_act1/AgentBAct1ExteriorLayer.cs
+@@ -1637,8 +1637,12 @@ public partial class AgentBAct1ExteriorLayer : Node3D
+             }
+             var region = forestRim || variant == "FallenBranch_2" || position.Y <= -86f ? "kara" : position.Y <= -58f ? "zirat" : "village";
+             var hasLods = variant.StartsWith("Winter", StringComparison.Ordinal);
++            // Reuse the skyline grove field so pine and spruce form broad stands, not a repeated single crown.
++            var pineGrove = .65f * Mathf.Sin(position.X * .055f + position.Y * .075f + 1.2f)
++                + .35f * Mathf.Sin(position.X * -.028f + position.Y * .110f - .3f);
+             var forestRimPineVisual = forestRim && variant is
+-                ("WinterSpruce_3" or "WinterSpruce_4" or "WinterSpruce_5" or "WinterSpruce_6");
++                ("WinterSpruce_3" or "WinterSpruce_4" or "WinterSpruce_5" or "WinterSpruce_6")
++                && Mathf.SmoothStep(-.10f, .65f, pineGrove) >= .55f;
+             var tiers = hasLods ? new[] { variant, variant.Replace("Winter", "WinterLight", StringComparison.Ordinal), variant.Replace("Winter", "WinterFar", StringComparison.Ordinal) }
+                 : new[] { variant };
+             var tree = groundCover ? null : new Node3D { Name = $"{variant}_Plant{plants.GetChildCount()}", Position = target, Basis = basis };

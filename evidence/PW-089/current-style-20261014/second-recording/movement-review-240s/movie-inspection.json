@@ -1,0 +1,82 @@
+{
+  "audioTrackCount" : 1,
+  "decodedFrames" : [
+    {
+      "decodedSeconds" : 30.633333333333333,
+      "file" : "frame-01.png",
+      "height" : 720,
+      "requestedSeconds" : 30.649999999999999,
+      "width" : 1280
+    },
+    {
+      "decodedSeconds" : 107.26666666666667,
+      "file" : "frame-02.png",
+      "height" : 720,
+      "requestedSeconds" : 107.27333333333333,
+      "width" : 1280
+    },
+    {
+      "decodedSeconds" : 183.90000000000001,
+      "file" : "frame-03.png",
+      "height" : 720,
+      "requestedSeconds" : 183.90000000000001,
+      "width" : 1280
+    },
+    {
+      "decodedSeconds" : 260.5,
+      "file" : "frame-04.png",
+      "height" : 720,
+      "requestedSeconds" : 260.52499999999998,
+      "width" : 1280
+    }
+  ],
+  "durationSeconds" : 306.5,
+  "movieBytes" : 47343999,
+  "movieName" : "PW089-2026-10-14_07-57-51.mp4",
+  "naturalHeight" : 720,
+  "naturalWidth" : 1280,
+  "temporalDecodedFrames" : [
+    {
+      "decodedSeconds" : 240,
+      "file" : "temporal-01-000.jpg",
+      "height" : 720,
+      "intervalIndex" : 1,
+      "requestedSeconds" : 240,
+      "width" : 1280
+    },
+    {
+      "decodedSeconds" : 240.09999999999999,
+      "file" : "temporal-01-001.jpg",
+      "height" : 720,
+      "intervalIndex" : 1,
+      "requestedSeconds" : 240.09999999999999,
+      "width" : 1280
+    },
+    {
+      "decodedSeconds" : 240.19999999999999,
+      "file" : "temporal-01-002.jpg",
+      "height" : 720,
+      "intervalIndex" : 1,
+      "requestedSeconds" : 240.19999999999999,
+      "width" : 1280
+    },
+    {
+      "decodedSeconds" : 240.30000000000001,
+      "file" : "temporal-01-003.jpg",
+      "height" : 720,
+      "intervalIndex" : 1,
+      "requestedSeconds" : 240.30000000000001,
+      "width" : 1280
+    }
+  ],
+  "temporalIntervals" : [
+    {
+      "endSeconds" : 240.30000000000001,
+      "startSeconds" : 240,
+      "stepSeconds" : 0.10000000000000001
+    }
+  ],
+  "totalTrackCount" : 2,
+  "verification" : "AVFoundation loaded duration\/tracks, decoded four distributed frames, and decoded sequential 0.1-second samples in the explicitly supplied route interval",
+  "videoTrackCount" : 1
+}

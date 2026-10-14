@@ -17582,7 +17582,17 @@
           "evidence_ref": "ACT1-TEXTURE.11.evidence and named history progress; source_review shows available/missing inputs"
         }
       ],
-      "assignment_state": "preserved_person_or_existing_role; activity separate"
+      "assignment_state": "preserved_person_or_existing_role; activity separate",
+      "progress_2026_10_14_named_batch_map_review": {
+        "state": "source_coverage_confirmed_runtime_pending",
+        "result": "Luna GPT-6/Max: все16 PNG партии ACT1-TEXTURE.01 существуют, derivedSHA реестра совпадают и exact path связан с текущим PML semantic slot. Orphan PNG среди named input нет; новый произвольный bind не нужен. Полный movement/результат и паспортный DoD этим чтением не доказаны.",
+        "sources": [
+          "assets/asset_registry.json",
+          "game/scripts/PainterlyMaterialLibrary.cs",
+          "docs/urman_knowledge_base/art/urman_imagegen_texture_prompt_book_2026-09-22.md"
+        ],
+        "remaining": "Текущая runtime-приёмка полной применимой группы и license decision; source_review SHA от11.10 устарели по README/registry/PML/prompt book, историческая проверка не выдаётся за текущую."
+      }
     },
     {
       "id": "ACT1-TEXTURE.12",
@@ -113163,7 +113173,7 @@
         "Не создаются сотни уникальных текстур одинаковых досок.",
         "Уточнение автора 09.10.2026: материалы и растительные формы наружной деревни проверены в составе домов и окружения по выбранным автором скриншотам. Сопоставимы масштаб фактур, материальность дерева/земли/снега, объём и плотность растительности, свет и цветовые отношения. Новые текстуры поверх примитивных форм и отдельный образец материала не доказывают соответствие целой игровой сцены."
       ],
-      "next_action": "Текущий protected normal play5f54: подтвердить собственное окно/viewport после первого HTTP502, затем обычное движение/повороты/дверь и реальный MP4, не debug-zone. Источники принятого skyline больше не подстраивать без нового дефекта.",
+      "next_action": "Использовать принятый skyline и текущую обычную запись; кластерная смесь отклонена по High A/B. Следующий независимый конечный шаг — приёмка существующего уютного interior/exterior boundary, без ещё одной слепой настройки леса.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -113664,6 +113674,23 @@
           "evidence/PW-034/whole-style-20261014/tall-spruce-source/decoded-comparison.raw.log",
           "evidence/PW-034/whole-style-20261014/tall-spruce-source/bvh-seating.raw.log"
         ]
+      },
+      "progress_2026_10_14_mixed_rim_candidate": {
+        "state": "rejected_visual_candidate_source_restored",
+        "source": "game/scripts/experiments/agent_b_act1/AgentBAct1ExteriorLayer.cs",
+        "source_sha256": "09fe6a142ecd2811c452f50d2d2d70809c60cc307fe4517490a11edcb54f4ce5",
+        "result": "Один выбор формы на дерево по существующему плавному skyline grove field; исходные Spruce3..6 и fitted Pine образуют крупные рощи. Один bool применяется ко всем трём LOD; посадки, размер, collision и guards не изменены.",
+        "reference": "P1_user_selected_painterly: крупные живописные массы, не хвойный видовой образец; root и Luna просмотрели точный PNG.",
+        "verification_question": "Снижает ли смесь одинаковый ритм общего лесного горизонта на прежних C1/C2 High без очевидного нового дефекта?",
+        "next_action": "Use accepted current skyline; preserve failed candidate evidence, continue independently ready B02 finite units.",
+        "job_id": "09834daecad34ff895742f5e78366c47",
+        "snapshot_id": "773d5d5406ffba65d4c374b49f767455ad13a31c2501b608199f9ce20bf1d306",
+        "receipt": "evidence/PW-034/whole-style-20261014/mixed-rim-high/receipt.json",
+        "root_visual_review": "Actual comparable High C1/C2 personally viewed old/new: C2 variation modest, C1 more thin vertical crowns/right distant skyline. Not accepted as an art improvement; Luna independent readback pending.",
+        "measured": "same40families/6038tieredTrees/18241sharedRootInstances/0rangeGaps/0doubleFullBands. Existing worstCrown36.35%/overTolerance38 unchanged; not full LOD approval. High C1draw21732→21861/C218556→18827; no FPS claim.",
+        "decision": "Root A/B prefers previous continuous crown masses: mixed native Spruce3..6 makes the distant C1 skyline too thin/spiky; C2 improvement modest. Technical PASS is retained but not accepted art. Restored exactly own six-line selector change; exterior source now byte-identical to0d3e3e9b baseline.",
+        "candidate_diff": "evidence/PW-034/whole-style-20261014/mixed-rim-high/candidate.diff",
+        "release_condition": "Identify an actual crown/variant causing loss of visual mass in a matched view before another shape/selector hypothesis. No 5/6 guess without new causal input."
       }
     },
     {
@@ -132921,7 +132948,7 @@
       "id": "PW-083",
       "title": "Проверить границы сезонов, света и эффектов",
       "milestone": "PW-M4",
-      "status": "todo",
+      "status": "blocked",
       "active_owner": null,
       "owner": "render",
       "priority": "P1",
@@ -133070,8 +133097,12 @@
       "remaining": [
         "Проверить границы сезонов, света и эффектов; отсутствует подтверждение собственного конечного DoD, перечисленного ниже."
       ],
-      "next_action": "Проверить границы сезонов, света и эффектов",
-      "blocker": null,
+      "next_action": "Получить фактическую W02 summer scene+обычный переход; проверить один viewport/снег при выходе и входе по контракту PW-083. Разработка мира не запускается этим B02 исследованием.",
+      "blocker": {
+        "reason": "Единственная фактическая photoworld scene — W01/W01.tscn. W02–W05 сцен/маршрутов нет, поэтому собственный DoD W02 без зимней метели и переходы деревня↔каждый мир сейчас нельзя наблюдать. Повторный Village capture этого не докажет.",
+        "release_when": "Владельцы существующих PW-045/050/055/060/065 предоставляют конкретные runtime scene/zone route и usable checkpoint specs; не требуется completed всего соседнего блока.",
+        "next_action": "Получить фактическую W02 summer scene+обычный переход; проверить один viewport/снег при выходе и входе по контракту PW-083. Разработка мира не запускается этим B02 исследованием."
+      },
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
       "execution_mode": "production_paused_during_tracker_migration",
@@ -133292,7 +133323,19 @@
           "evidence_ref": "PW-083.evidence and named history progress; source_review shows available/missing inputs"
         }
       ],
-      "assignment_state": "preserved_person_or_existing_role; activity separate"
+      "assignment_state": "preserved_person_or_existing_role; activity separate",
+      "progress_2026_10_14_missing_world_inputs": {
+        "state": "confirmed_missing_runtime_inputs",
+        "result": "Единственная фактическая photoworld scene — W01/W01.tscn. W02–W05 сцен/маршрутов нет, поэтому собственный DoD W02 без зимней метели и переходы деревня↔каждый мир сейчас нельзя наблюдать. Повторный Village capture этого не докажет.",
+        "evidence": [
+          "game/scenes/photoworlds/W01/W01.tscn",
+          "game/content/world/atmosphere.v1.json",
+          "game/scripts/Main.cs",
+          "PW-031.progress_2026_10_14_world_inputs"
+        ],
+        "release_condition": "Владельцы существующих PW-045/050/055/060/065 предоставляют конкретные runtime scene/zone route и usable checkpoint specs; не требуется completed всего соседнего блока.",
+        "next_finite_step": "Получить фактическую W02 summer scene+обычный переход; проверить один viewport/снег при выходе и входе по контракту PW-083. Разработка мира не запускается этим B02 исследованием."
+      }
     },
     {
       "id": "PW-084",
@@ -135299,7 +135342,7 @@
         "Реальные ролики показывают устойчивый мазок.",
         "Статичные красивые PNG не подменяют temporal review."
       ],
-      "next_action": "Station released; existing corrected hero door/porch capture, then broader High/all-family temporal QA only by concrete remaining contract. Actual Medium movie already accepted as finite real route/loading-boundary stage; external art gates open.",
+      "next_action": "Сохранить MP4, выбранные native PTS/metadata и FAIL exit-leak receipt; принять только текущий конечный маршрут. Полный High/all-family temporal DoD и художественные гейты остаются.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -135657,12 +135700,24 @@
         ]
       },
       "progress_2026_10_14_current_motion_retry": {
-        "state": "running",
+        "state": "accepted_finite_current_route",
         "job_id": "931da07180f8485ba5d29d392fb5099a",
         "snapshot_id": "e5d8e52a231a43dfd9cb844f3da41b870e1312ad20c876b6045b22f8800add5b",
         "source": "Currentkit2e/PMLdfbe/LowSoftVeryLow; source-bound fresh ordinary play.",
         "prior_attempt": "e836 timeout124/restored/hashverified; only menu/newgame/prologue UI frames, no currentmovie. GiantencodedSSH launch refused execchannel, then SFTP+smallcommand worked but sourceexpired guard refused beforeOBS. No recorder started.",
-        "next_action": "Luna owns fresh scoped OBS support; root immediately ordinary input/short walk and turn after startup. Persist actualmovie/readback, no oldsource extrapolation."
+        "next_action": "Сохранить MP4, выбранные native PTS/metadata и FAIL exit-leak receipt; принять только текущий конечный маршрут. Полный High/all-family temporal DoD и художественные гейты остаются.",
+        "movie": "evidence/PW-089/current-style-20261014/second-recording/PW089-2026-10-14_07-57-51.mp4",
+        "movie_sha256": "775b3a03d2bec5f5b477ad1c957031e2e90018c8494b9d8669312209a049fe2a",
+        "duration_seconds": 306.5,
+        "station_result": "FAIL: exit resource/RID leaks; game exit0, build/import successful, userdata restored, snapshot hashes verified. This is not a PASS. Owned OBS WM_CLOSE exited with finalized matching MP4.",
+        "observed": "Root personally viewed MP4 actual PTS130/131/132/134/136/138 and adjacent133.9–134.2: physical camera movement past villagers to house; no obvious wood-pattern sliding or crown pop in this short reviewed sample. Clean PTS150 door E prompt,234 loading,240 interior. Ordinary source-bound route, not debug camera; all-family/High/FPS/complete flicker absence not claimed.",
+        "exit_cleanup_blocker": {
+          "evidence": "evidence/PW-089/current-style-20261014/second-play/engine-errors.log",
+          "condition": "Установить конкретных владельцев renderer/ObjectDB ресурсов, оставшихся при обычном выходе из дома; после адресной правки normal-exit receipt без этих errors.",
+          "next_finite_step": "По существующим ресурсным owner/lifecycle путям локализовать 1Mesh/2Material/1Shader/1Instance; не считать эффект причиной без факта и не повторять тот же маршрут ради PASS."
+        },
+        "actual_graphics": "Medium: game.log act1-foliage-lod graphics preset=medium/.90/MSAA2X/SoftLow; recording is not High or a Low filter cost proof.",
+        "selection": "evidence/PW-089/current-style-20261014/second-recording/selected-pts/route-selection.json"
       }
     },
     {
@@ -146897,7 +146952,17 @@
         "successor_tasks": [],
         "reason": "Совместимая игровая функция/арт/техническая приёмка сохранена; применить новый сценарный контракт и свежую регрессию, а не старые сюжетные предпосылки.",
         "contract": "docs/tasktracker/07_full_game_integration_2026-10-08.md",
-        "fresh_acceptance": "PW-096 и REL-003 на поставляемом candidate; completed прежней версии не является новым PASS."
+        "fresh_acceptance": "PW-096 и REL-003 на поставляемом candidate; completed прежней версии не является новым PASS.",
+        "progress_2026_10_14_named_batch_map_review": {
+          "state": "source_coverage_confirmed_runtime_pending",
+          "result": "Luna GPT-6/Max: все16 PNG партии ACT1-TEXTURE.01 существуют, derivedSHA реестра совпадают и exact path связан с текущим PML semantic slot. Orphan PNG среди named input нет; новый произвольный bind не нужен. Полный movement/результат и паспортный DoD этим чтением не доказаны.",
+          "sources": [
+            "assets/asset_registry.json",
+            "game/scripts/PainterlyMaterialLibrary.cs",
+            "docs/urman_knowledge_base/art/urman_imagegen_texture_prompt_book_2026-09-22.md"
+          ],
+          "remaining": "Текущая runtime-приёмка полной применимой группы и license decision; source_review SHA от11.10 устарели по README/registry/PML/prompt book, историческая проверка не выдаётся за текущую."
+        }
       },
       {
         "id": "ACT1-TEXTURE.12",
