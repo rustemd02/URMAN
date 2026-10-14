@@ -1790,14 +1790,14 @@ public static class PainterlyMaterialLibrary
         var macroProfile = finishSurface switch
         {
             "wood" or "wood_facade" or "wood_fence" or "log_wall" =>
-                (Scale: new Vector2(.20f, .07f), Gain: 1.65f),
+                (Scale: new Vector2(.20f, .07f), Gain: 1.98f),
             "wood_furniture" or "wood_furniture_interior" or "wood_prop" =>
                 (Scale: new Vector2(.23f, .08f), Gain: 1.30f),
             "plaster" or "wall_institution" =>
-                (Scale: new Vector2(.20f, .07f), Gain: 1.55f),
-            "stone" => (Scale: new Vector2(.18f, .06f), Gain: 1.45f),
+                (Scale: new Vector2(.20f, .07f), Gain: 1.86f),
+            "stone" => (Scale: new Vector2(.18f, .06f), Gain: 1.74f),
             "earth" or "terrain" or "wet_ground" or "wet_road" or "grass" =>
-                (Scale: new Vector2(.18f, .06f), Gain: 1.35f),
+                (Scale: new Vector2(.18f, .06f), Gain: 1.62f),
             _ => (Scale: new Vector2(.33f, .11f), Gain: 1f)
         };
         // Decorative painted trim shares wood_facade's map response, but its carved

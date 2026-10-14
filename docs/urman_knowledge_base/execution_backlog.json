@@ -113589,13 +113589,13 @@
         "remaining": "Own source/runtime static portal consumer fix accepted; other angles/motion/collision/full B02 and external art gates not inferred. Existing normal E-entry movie covers prior working interaction, not new collision verification."
       },
       "progress_2026_10_14_environment_macro_candidate": {
-        "state": "implemented_runtime_pending",
+        "state": "accepted_engineering_stage_static",
         "result": "Four existing environmental macro_gain values x1.20: wood/log1.98, plaster1.86, stone1.74, earth/terrain1.62. Shared family-wide painterly plane variation, no new asset or abstraction.",
         "target": "game/scripts/PainterlyMaterialLibrary.cs",
         "source_sha256": "dfbe139c47a5d62c0ff5f3c7276e5afca23648dc9bc2f2091b313b75b751e793",
         "verification_question": "Do matched current High daylight frames read less uniformly clean and more painted than accepted previous stage, while wood, snow, road and house openings remain clear?",
         "success_condition": "Root and independent Luna inspect current C1/C2 High versus accepted exact cameras/P1; reject if dirty mottling or loss of readability. Low sidecar/drawcalls evidence separate, no FPS inference.",
-        "remaining": "Fresh native stills and visual judgement; external art/culture and full temporal gates remain open.",
+        "remaining": "Modest shared material stage accepted; no major artistic leap/fullB02/temporal/fps/art inferred. Separate Low462 pending measurement; next major tallSpruce3..6 crownvolume source pass.",
         "runtime_attempt": {
           "job_id": "a12ca07e947b4f5c9ed672d0a3dc5898",
           "state": "failed_before_frames",
@@ -113603,7 +113603,27 @@
           "evidence": "evidence/PW-034/whole-style-20261014/environment-macro-candidate/receipt.json"
         },
         "current_job_id": "60f65dcbcc51409fbb76aa472236653a",
-        "next_action": "Current allHigh C1/C2/front first; separate samecamera C2Low only after station release."
+        "next_action": "Current allHigh C1/C2/front first; separate samecamera C2Low only after station release.",
+        "verification": "High60f65dcbcc51409fbb76aa472236653a PASS/snapshotfafe37a9ed1a0abff513e53e4f1fccbf45f3cf28f378fe886451712d8e11d8a8/archive d27ad26c8b7b7ab14d7076ba7140e7a8d00751455a7ed8d299ec4ae2dd83796f. build/import/game0, restored/hashverified. PML dfbe139c exactsnapshot, kit721c oldunchanged. Root+independentLuna personally compare exactC1/C2 High/FOV70/comparable/crisp: modest positive wood tonal variation atC2, little visibleC1 effect, no obviousdirtymottle/roadloss. FrontcurrentHigh acceptedascoverageonly, oldfrost front is notmatchedA/B.",
+        "evidence": [
+          "evidence/PW-034/whole-style-20261014/environment-macro-high/receipt.json",
+          "evidence/PW-034/whole-style-20261014/environment-macro-high/frames/C1_street_high.png",
+          "evidence/PW-034/whole-style-20261014/environment-macro-high/frames/C2_house_high.png",
+          "evidence/PW-034/whole-style-20261014/environment-macro-high/frames/babai_shape_front_high.png"
+        ]
+      },
+      "progress_2026_10_14_tall_spruce_crown_candidate": {
+        "state": "source_in_progress",
+        "targets": [
+          "assets/source/blender/agent_b_act1/agent_b_foliage.py",
+          "game/assets/models/agent_b_act1/agentb_foliage_kit.glb"
+        ],
+        "active_implementer": "codex/b02_visual_readback GPT6LunaMax",
+        "reference": "P1_user_selected_painterly.png exact viewed; broad painted masses/credibleforms, not botanical literalcopy.",
+        "scope": "TallSpruce3..6 acrossnear/light/far crownvolumes; preservetrunk/root/material/name/variantAABB/Pinefit/placement/seedABI and nonSpruce outputs; existingassertbands. Exporttemp beforepublish/check.",
+        "verification_question": "Does broader nonrim spruce form reduce repeated conical/faceted ladder in currentwholeC1/C2, with density/framing preserved and no openmesh/LODpop?",
+        "success_condition": "Existingstructure/LOD bands and preservednonSpruce/trunk/bounds pass; rootnativeactualwholeviews and movement judgement beforeacceptance. Census groupssourceSpruce alone cannotidentify everyPine-substituted instance.",
+        "remaining": "Source/tempgeometry, preservedchecks, nativeimport/actualscene and motion; externalart/cultureopen."
       }
     },
     {
@@ -114587,7 +114607,12 @@
         "verification_question": "What are actual renderer drawcalls at C2 High versus Low, and do house/road/floor/forest silhouette remain legible on Low?",
         "success_condition": "Samecamera/FOV/profile verified sidecars, source hash matched, exact renderer counters and personal root+Luna frame readback; no FPS/culling-motion inference.",
         "scope": "One named C2 measurement slice; full PW037 not closed by two stills.",
-        "remaining": "VIS027 bothdirection LOD threshold/motion; VIS030 left/right cull bounds and actual sway; VIS029 relevant census; distinct fence/NPC/club/window clauses remain mapped open."
+        "remaining": "VIS027 bothdirection LOD threshold/motion; VIS030 left/right cull bounds and actual sway; VIS029 relevant census; distinct fence/NPC/club/window clauses remain mapped open.",
+        "high_job_id": "60f65dcbcc51409fbb76aa472236653a",
+        "low_job_id": "462b11f51c284f89b030ad85cdcf210a",
+        "high_draw_calls": 18552,
+        "low_state": "pending",
+        "prior_attempt": "a12 mixedpresets refused beforeframes, notmeasured"
       }
     },
     {
