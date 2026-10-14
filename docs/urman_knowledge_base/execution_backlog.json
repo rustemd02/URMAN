@@ -57303,18 +57303,22 @@
             "assigned_owner": "finished-act1",
             "active_owner": null,
             "activity": {
-              "state": "not_active",
-              "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+              "state": "released",
+              "reason": "Bounded source lookup and exact historical-frame lookup finished; current K13 identity missing, no causal producer claim or engineering mutation."
             },
             "task_type": "research",
-            "status": "todo",
+            "status": "blocked",
             "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
-              "Установить exact mesh/generator/consumer проёма K13 и отсутствие створки; собственного целевого receipt пока нет."
+              "Точное текущее положение/имя объекта K13 либо source-linked кадр с координатами; затем связать mesh/generator/consumer и причину отсутствия створки для E02."
             ],
-            "next_action": "Ответить на конкретный вопрос: Какой exact mesh/generator/consumer создаёт K13 и почему у него отсутствует створка?",
-            "blocker": null,
+            "next_action": "Obtain exact K13 image/zone/object identity or world coordinate from original review holder; then identify one current dynamic producer for E02. Do not treat historical walk-13 or separately mentioned mosque gap as K13; no guessed game capture or generic door rewrite.",
+            "blocker": {
+              "reason": "K13 is an unlocated historical review label, absent from current scene/runtime identifiers. Exact referenced frame/capture metadata not found in docs/evidence/outputs; current producer cannot be inferred.",
+              "release_when": "Exact original K13 frame with usable camera/object identity or current zone/world coordinate is supplied; map it to a surviving runtime mesh before producer edit.",
+              "owner": "Original TECH.3 review holder / finished-act1; read-only request to Claude in AGENT_CHAT."
+            },
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
             "work_contract": {
@@ -57356,7 +57360,18 @@
               "expected_answer": "Source path/symbol/mesh ID, наблюдаемая причина и bounded producer change единице E02.",
               "stop_when": "Ответ с source pointers сохранён в этой единице; дальнейшая implementation — её named successor."
             },
-            "depends_on": []
+            "depends_on": [],
+            "progress_2026_10_14": {
+              "result": "Act1DemoRoot scene dynamically instantiates Main/Act1ConnectedWorld; no K13 identifier in scene/runtime sources. act1_tech_review_2026-10-04.md has prose requiring leaf/window instead of board but no source/camera/coordinate. Mosque support gap is a separate observation, not established K13 identity. Exact labelled frame/metadata not found; walk-13 is historical route inventory with unknown snapshot, not K13.",
+              "verification": "Two bounded read-only lookups by Luna, no production edit/test/build/station run. Research DoD remains open: source path/symbol/mesh + actual cause unavailable.",
+              "sources": [
+                "game/scenes/act1_demo.tscn",
+                "game/scripts/Act1DemoRoot.cs",
+                "docs/production/act1_tech_review_2026-10-04.md",
+                "evidence/PW-001/README_VISUAL_INVENTORY.md"
+              ],
+              "successor": "ACT1-TECH.3/E02 only after exact identity/cause input; no blanket shared producer mutation."
+            }
           },
           {
             "id": "ACT1-TECH.3/E02",
