@@ -6081,22 +6081,25 @@
               "assets/asset_registry.json",
               "evidence/ACT1-TEXTURE.05/bath-acceptance-20261014/native_cd6671/receipt.json",
               "evidence/ACT1-TEXTURE.05/bath-acceptance-20261014/native_cd6671/frames/bath_w10.png",
-              "evidence/ACT1-TEXTURE.05/bath-acceptance-20261014/native_cd6671/frames/bath_w10.json"
+              "evidence/ACT1-TEXTURE.05/bath-acceptance-20261014/native_cd6671/frames/bath_w10.json",
+              "evidence/ACT1-TEXTURE.02/bath-floor-20261014/native_d97432/receipt.json",
+              "evidence/ACT1-TEXTURE.02/bath-floor-20261014/native_d97432/frames/bath_floor.png",
+              "evidence/ACT1-TEXTURE.02/bath-floor-20261014/native_d97432/frames/bath_floor.json"
             ],
             "assigned_owner": "art/materials/qa",
-            "active_owner": "Кодекс Кадыра",
+            "active_owner": null,
             "activity": {
-              "state": "confirmed_active",
-              "reason": "One exact BathFloor capture after ce946 terminal/restored evidence and fresh doctor idle/ready/no recovery/no orphan; root slot request was published, no peer live job announced. Atomic409 will yield."
+              "state": "released",
+              "reason": "One exact BathFloor static frame personally inspected; ownjob d97432 PASS/restored/hashverified, fresh doctor idle/ready/no recovery/no orphan."
             },
             "task_type": "engineering",
             "status": "in_progress",
             "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
-              "Current floor-focused view/movement, other W10 receivers and author art. Partition-only cd6671 static accepted; do not repeat it."
+              "Other named W10 receivers, ordinary movement and author art remain; cd6671 partition + d97432 floor static binding accepted. Do not repeat either unchanged frame."
             ],
-            "next_action": "Submit one protected bath_floor:BabaiBathhouse@-0.5,1.25,1.7>BathFloor@-0.5,0.03,1.0, FOV50/crisp. Publish actual job ID promptly, fetch/inspect receipt and named floor only, release on terminal/restoration.",
+            "next_action": "Reuse cd6671 partition and d97432 floor proof. Continue only a separately named remaining W10 receiver or ordinary movement/art criterion after station coordination; no unchanged compile/floor/partition rerun.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -6199,7 +6202,15 @@
               "question": "Does the named BathFloor show local metre-scale W10 across the visible floor instead of projection tied to world axes?",
               "success": "Current exact target frame visibly covers floor; grain/scale assessed personally. PASS alone cannot certify unseen floor or motion.",
               "capture_points": "bath_floor:BabaiBathhouse@-0.5,1.25,1.7>BathFloor@-0.5,0.03,1.0",
-              "source_changes": "None; accepted partition frame not repeated."
+              "source_changes": "None; accepted partition frame not repeated.",
+              "job_id": "d97432a88f20407c9296289d0a4f056f",
+              "snapshot_id": "17259fa3d392fcd639b54793c38642d9115ac9eb0c7968defb67bc9b00a141aa",
+              "archive_sha256": "29470ae403a48285ded9d4be0c3756d4933fa7cfe87ca356880931b86c181dc5",
+              "receipt": "evidence/ACT1-TEXTURE.02/bath-floor-20261014/native_d97432/receipt.json",
+              "frame": "evidence/ACT1-TEXTURE.02/bath-floor-20261014/native_d97432/frames/bath_floor.png",
+              "metadata": "evidence/ACT1-TEXTURE.02/bath-floor-20261014/native_d97432/frames/bath_floor.json",
+              "result": "ACCEPT_NAMED_FLOOR_STATIC_BINDING_ONLY: exact BathFloor covers most frame; local lengthwise wood grain visible across floor and against perpendicular partition. Dark continuous grain does not establish board construction, author art, motion or all W10 consumers.",
+              "runtime": "PASS/build/import/game0; engine-errors log empty; userdataRestored=true/snapshot_hashes_verified=true; worker931b27b95d52ddae6e51ba41ab5e1733225e8f74f5636974013ace918200faf4. Freshdoctor ready/busy-null/recoveryfalse/orphanfalse."
             }
           },
           {
