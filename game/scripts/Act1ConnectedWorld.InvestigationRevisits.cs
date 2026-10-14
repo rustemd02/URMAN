@@ -25,6 +25,8 @@ public partial class Act1ConnectedWorld
         departure.Prompt = "Проверить поворот к зирату по схеме";
         departure.SetMeta("connectedDeparturePolicy", "existing roadside threshold; walk from village; unchanged narrative gates");
 
+        var photoWorldsCampaign = GetTree().GetFirstNodeInGroup("runtime_bridge") is RuntimeBridge bridge
+            && bridge.IsPhotoWorldsCampaign;
         foreach (var (zone, name) in new[]
         {
             ("house_old_pc", "HouseExit"),
@@ -33,6 +35,11 @@ public partial class Act1ConnectedWorld
             ("village_day", "ReturnToHouseRegister")
         })
         {
+            // This old Chapter 1 return portal is deliberately absent from the
+            // PhotoWorlds village; its authored HouseDoor remains the live route.
+            if (photoWorldsCampaign && zone == "village_day" && name == "ReturnToHouseRegister")
+                continue;
+
             var target = _zoneInstances[zone].GetNode<InteractionTarget>(name);
             // Returning is possible before these sources have been earned.
             // The door names its physical destination; the journal owns the

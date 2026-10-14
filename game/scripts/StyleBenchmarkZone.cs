@@ -24,6 +24,7 @@ public partial class StyleBenchmarkZone : Node3D
     private const string KaraForestEdgeKitScenePath =
         "res://assets/models/act1/urman_kara_forest_edge_kit.glb";
     private const string KaraForestEdgeKitRootName = "URMAN_KaraForestEdgeKit";
+    private const float NivaInteractionRayProxyMargin = .10f;
 
     private static readonly string[] ZiratRoadsideKitComponentNames =
     [
@@ -389,7 +390,7 @@ public partial class StyleBenchmarkZone : Node3D
                 vehicle.Definition.Id == nivaDefinition.Id && vehicle.Definition.Kind == nivaDefinition.Kind);
             if (existingNiva is not null)
             {
-                AttachNivaStopTarget(CreateNivaStopTarget(nivaDefinition), existingNiva,
+                AttachNivaStopTarget(CreateNivaStopTarget(nivaDefinition, sharesVehicleCollision: true), existingNiva,
                     existingNiva.GetNode<Node3D>("VehicleVisual"), nivaDefinition.HullCenter);
             }
             else if (fleet is not null || GetParent() is Act1ConnectedWorld)
@@ -397,7 +398,7 @@ public partial class StyleBenchmarkZone : Node3D
                 // Connected-world zones are constructed before VehicleFleet.
                 // Register the authored interaction now, then attach it to the
                 // fleet's real controller after the world finishes building.
-                CreateNivaStopTarget(nivaDefinition);
+                CreateNivaStopTarget(nivaDefinition, sharesVehicleCollision: true);
                 CallDeferred(nameof(AttachNivaStopTargetToConnectedFleet));
             }
             else
@@ -411,19 +412,29 @@ public partial class StyleBenchmarkZone : Node3D
                 niva.Root.RotationDegrees = new(0f, nivaDefinition.YawDegrees, 0f);
                 niva.Root.SetMeta("vehicleDefinitionId", nivaDefinition.Id);
                 AddChild(niva.Root);
-                AttachNivaStopTarget(CreateNivaStopTarget(nivaDefinition), niva.Root,
+                AttachNivaStopTarget(CreateNivaStopTarget(nivaDefinition, sharesVehicleCollision: false), niva.Root,
                     niva.Root, nivaDefinition.HullCenter);
             }
         }
     }
 
-    private InteractionTarget CreateNivaStopTarget(VehicleDefinition definition) => MakeInteractionBox(
-        "PhotoWorldNivaStop",
-        definition.HullSize,
-        Vector3.Zero,
-        "5e574a",
-        "urman.fullgame:interaction/pw-niva-stop",
-        "Остановить Ниву у дома и выйти после дороги");
+    private InteractionTarget CreateNivaStopTarget(VehicleDefinition definition, bool sharesVehicleCollision)
+    {
+        var size = sharesVehicleCollision
+            ? definition.HullSize + Vector3.One * (2f * NivaInteractionRayProxyMargin)
+            : definition.HullSize;
+        var target = MakeInteractionBox(
+            "PhotoWorldNivaStop",
+            size,
+            Vector3.Zero,
+            "5e574a",
+            "urman.fullgame:interaction/pw-niva-stop",
+            "Остановить Ниву у дома и выйти после дороги",
+            rayOnly: true);
+        target.ConfigureRayOnly();
+        target.SetPresentationEnabled(false);
+        return target;
+    }
 
     private void AttachNivaStopTargetToConnectedFleet()
     {
@@ -446,10 +457,17 @@ public partial class StyleBenchmarkZone : Node3D
         Node3D physicalVisual,
         Vector3 hullCenter)
     {
+        if (!GodotObject.IsInstanceValid(vehicleRoot) || !vehicleRoot.IsInsideTree()
+            || !GodotObject.IsInstanceValid(physicalVisual) || !physicalVisual.IsInsideTree())
+            return;
+
         target.Reparent(vehicleRoot);
         target.Position = hullCenter;
         target.Rotation = Vector3.Zero;
         target.SetMeta("physicalVisual", physicalVisual.GetPath());
+        target.PresentationGate = () => GodotObject.IsInstanceValid(physicalVisual)
+            && physicalVisual.IsInsideTree() && physicalVisual.IsVisibleInTree();
+        target.SetPresentationEnabled(true);
     }
 
     private void BuildHouseOldPc()
