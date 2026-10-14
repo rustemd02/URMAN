@@ -97628,20 +97628,24 @@
               "evidence/PW-089/ordinary-style-20261014/wgc-short/movie-inspection-last120/movie-inspection.json",
               "evidence/PW-089/ordinary-style-20261014/wgc-short/movie-inspection-last120/temporal-01-1080.jpg",
               "evidence/PW-089/ordinary-style-20261014/wgc-short/movie-inspection-last120/temporal-01-1130.jpg",
-              "evidence/PW-089/ordinary-style-20261014/wgc-short/movie-inspection-last120/temporal-01-1200.jpg"
+              "evidence/PW-089/ordinary-style-20261014/wgc-short/movie-inspection-last120/temporal-01-1200.jpg",
+              "evidence/ACT1-ATMOSPHERE/cold-restoration-20261014/receipt.json",
+              "evidence/PW-034/high-forest-restoration-20261014/frames/C1_street_high.png"
             ],
             "assigned_owner": "codex/b02-2026-10-13",
-            "active_owner": null,
+            "active_owner": "codex/b02",
             "activity": {
-              "state": "not_active",
-              "reason": "Root accepted finite village-winter light/visibility/particles own DoD from existing current High static views plus ordinary Medium motion and real loading-boundary into warm house; assigned owner and external parent art gates preserved."
+              "state": "confirmed_active",
+              "reason": "Начат отдельный художественный air-depth candidate; прежний принятый этап/evidence сохранён. Новое применение профиля нуждается в текущем narrow check."
             },
             "task_type": "engineering",
-            "status": "completed",
-            "implementation_state": "implemented",
+            "status": "in_progress",
+            "implementation_state": "partial",
             "technical_verification_state": "passed",
-            "remaining": [],
-            "next_action": "Own winter-village engineering result accepted; stop this unit. Broader High temporal/material QA and author/culture acceptance remain under existing PW-089/PW-034/parent gates.",
+            "remaining": [
+              "На изменённом cold profile нужна текущая обычная прогулка/повороты и проверка отсутствия утечки в физический indoor branch; внешняя художественная приёмка отдельно."
+            ],
+            "next_action": "Одна обычная текущая прогулка под холодным профилем; именованный переход/возврат только после подтверждения реальной ветки и её входов.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -97825,6 +97829,35 @@
               ],
               "verification": "Hash-verified finalized WGC movie642.067s1280x720, real normalE transition exterior -> loading overlay -> actual warm room/Abi; root personally reviewed distributedframe03/04 and dense1080/1100/1130/1150/1200. Ordinary runtime Medium per game.log, not High/comparable. Existing High/FOV70 matched static PASS receipts plus this state-boundary review are accepted as sufficient for own winter-village unit; no full High temporal or external art claim. Play overallFAILtimeout124 retained, userdataRestored/hashverifiedtrue.",
               "correction": "Earlier inference of recording ending before house entry from separately observed clock times was wrong; movie frames authoritatively include loading and indoor arrival. Not continuous geometric walk-through."
+            },
+            "progress_2026_10_14_air_depth": {
+              "state": "author_rejected_current_palette",
+              "prior_accepted_status": "completed",
+              "baseline": "evidence/PW-034/whole-style-20261014/tall-spruce-high/frames/C1_street_high.png; C2_house_high.png; babai_shape_front_high.png",
+              "result": "Единственный параметр village-winter-crisp.fog.density .0035→.0046; существующий дневной benchmark использует .0046. Цвета/sky/sun/snow/weather/геометрия неизменны.",
+              "source_sha256": "1b0b81b5c1b2df36951440e8eea06356f87c5db4f1d03e068bbf6b5890e5e710",
+              "verification_question": "Стала ли дальняя хвойная стена глубже/тише, без потери контраста ближних домов/человека и дверного проёма?",
+              "next_action": "Один matched High C1/C2/front native capture; root и независимый Luna readback. P1 переносит крупные живописные массы; W/V/I exact images не объявлены просмотренными.",
+              "job_id": "8c82cccf06044b02aa62ed8eed7f6daa",
+              "snapshot_id": "a21a2457b98accf59353cf4503747481624676b928d1a293d06bf54d39f86cd9",
+              "receipt": "evidence/ACT1-ATMOSPHERE/air-depth-20261014/receipt.json",
+              "root_readback": "Current C1/C2/front personally viewed: palette/near house/people still clear; stronger far-air change is modest. Candidate not yet full art acceptance or occupied-interior verification. Screens shown on user request.",
+              "author_feedback": "Автор 14.10 отверг усиленную желтизну: нужна зима татарской глубинки, прежний более холодный вариант лучше. Native PASS не означает художественное улучшение."
+            },
+            "progress_2026_10_14_cold_restoration": {
+              "state": "accepted_scoped_restoration",
+              "reference": "Actual after-fill C1/C2; atmosphere SHA7f4a2bb6 matches30238e8c.",
+              "result": "Only village-winter-crisp params restored to30238e8c; current material and portal source preserved.",
+              "verification_question": "Ушёл ли персиково-жёлтый оттенок снега/улицы, читается ли холодная зимняя деревня при сохранении видимых деталей дома и дверного проёма?",
+              "success_condition": "Matched High C1/C2/front показывают холодный снег и стальное небо без потери читаемости ближнего дома; root actual readback, native receipt.",
+              "next_action": "Принять actual C1/C2/front после завершения единственного станционного задания.",
+              "job_id": "b26fa09a54a14e4380af8a85c791490c",
+              "snapshot_id": "ca1eea4b6f2b4ae6439b454fa572e5969755a092ec1e43de4dc3c9c7ab64f5d6",
+              "submission_note": "First request rejected before run because -.5 number spelling; corrected exact prior request to -0.5. No failed visual hypothesis or game run.",
+              "receipt": "evidence/ACT1-ATMOSPHERE/cold-restoration-20261014/receipt.json",
+              "root_readback": "Лично просмотрены actual C1/C2: жёлто-персиковый снег устранён, небо стально-голубое, дерево менее янтарное и остаётся читаемым. Высота леса этим snapshot ещё не исправлена; second job отдельно.",
+              "independent_readback": "Luna personally viewed matched C1/C2/front: yellow regression resolved, near wood readable, clean portal.",
+              "integrated_receipt": "evidence/PW-034/high-forest-restoration-20261014/receipt.json"
             }
           },
           {
@@ -113051,7 +113084,10 @@
           "kind": "code_static",
           "path": "docs/production/visual_restyle_2026-10-07/P2_DESIGN_DIRECTIONS_RU.md",
           "result": "Статическая реализация (dotnet build 0/0): VIS-026 — просветы в лесной кромке; VIS-032 — волокно стоек крыльца; VIS-033 — затемнение от собственной опоры; VIS-039 — диагностический режим съёмки; VIS-084 — запрет хвойных по участкам; VIS-092 — отклик материалов; VIS-095 — диэлектрическая краска. Runtime NOT_RUN; Кадры before/after не сняты: станция UNTERPC отклоняет задания «station execution infrastructure differs from snapshot: eng/run-windows-check.ps1» (четыре попытки 08–09.10 с версиями скрипта b93ecf97, e3c9b89a, origin/main и текущей; копия станции не совпала ни с одной — см. docs/production/WINDOWS_SSH_SETUP_PROMPT_RU.md, раздел «Почини несовпадение runner»). Локальный запуск на Mac (Metal, Forward+) загрузил сцену; найденные ошибки шейдеров исправлены. Авторская приёмка — PENDING."
-        }
+        },
+        "evidence/PW-034/high-forest-restoration-20261014/receipt.json",
+        "evidence/PW-034/high-forest-restoration-20261014/frames/C1_street_high.png",
+        "evidence/PW-034/high-forest-restoration-20261014/frames/C2_house_high.png"
       ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-034",
       "source_requirements": [
@@ -113216,8 +113252,8 @@
       },
       "assigned_owner": "art",
       "activity": {
-        "state": "not_active",
-        "reason": "Проверенные конечные этапы/evidence сохранены; запуск к09МСК завершён с открытым остатком, собственная активная заявка освобождена. Assigned owner сохранён."
+        "state": "released",
+        "reason": "Конечная реставрация высоты принята по actual High; полный материал/art/motion объём открыт."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -113227,7 +113263,7 @@
         "Не создаются сотни уникальных текстур одинаковых досок.",
         "Уточнение автора 09.10.2026: материалы и растительные формы наружной деревни проверены в составе домов и окружения по выбранным автором скриншотам. Сопоставимы масштаб фактур, материальность дерева/земли/снега, объём и плотность растительности, свет и цветовые отношения. Новые текстуры поверх примитивных форм и отдельный образец материала не доказывают соответствие целой игровой сцены."
       ],
-      "next_action": "Использовать принятый skyline и текущую обычную запись; кластерная смесь отклонена по High A/B. Следующий независимый конечный шаг — приёмка существующего уютного interior/exterior boundary, без ещё одной слепой настройки леса.",
+      "next_action": "Проверить восстановленный холодный высокий лес в текущем движении; повторяемые формы и внешняя художественная приёмка остаются открытыми.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -113746,6 +113782,23 @@
         "candidate_diff": "evidence/PW-034/whole-style-20261014/mixed-rim-high/candidate.diff",
         "release_condition": "Identify an actual crown/variant causing loss of visual mass in a matched view before another shape/selector hypothesis. No 5/6 guess without new causal input.",
         "independent_visual_review": "GPT-6 Luna/Max agrees reject: C1 thinner peaks/gaps reduce crown mass; C2 no significant gain. Pixel→plantVariant not identified, so no blind only5/6 second hypothesis."
+      },
+      "progress_2026_10_14_author_feedback": {
+        "state": "visual_direction_rejected",
+        "feedback": "Автор: лес раньше был выше и лучше; нынешний результат не доставил нужный вайб. Сохранить прежний высокий силуэт; не продолжать сокращение верхушек.",
+        "next_action": "Luna read-only сопоставляет сохранённые C1/C2 и source/history, root восстанавливает высоту леса по конкретной причине без потери плотности."
+      },
+      "progress_2026_10_14_high_forest_restoration": {
+        "state": "accepted_scoped_restoration",
+        "cause": "d0d28664 introduced forest-ring crownScale .68–.92 and height caps15–29m.",
+        "result": "Reversed only exact exterior-layer diff fromd0d28664: restored prior Spruce4–6 height1.10–1.65, ceiling50m and width1–1.12; Spruce3 baseline. Density/plant locations/mesh/LOD/root fit unchanged.",
+        "verification_question": "Вернулся ли высокий лесной силуэт на C1/C2 при сохранении плотности и читаемости улицы/дома?",
+        "success_condition": "Matched High current C1/C2: taller enclosing winter forest, no changed planted count/road clearance; root actual readback and native receipt.",
+        "next_action": "После завершения cold-profile capture один сериализованный C1/C2/front High capture с восстановленным лесом.",
+        "job_id": "0414ae35c6f14526a6c17540e12ba14e",
+        "snapshot_id": "fbf144dbe050fc9988dec9f627552567b955448d9425955e50d9567829f9e195",
+        "receipt": "evidence/PW-034/high-forest-restoration-20261014/receipt.json",
+        "root_readback": "Лично просмотрены matched High C1/C2/front: высокий зимний лес снова окружает деревню/дом, near architecture читается, холодный снег сохранён.6038 tiered/18241 roots/rangeGaps0 прежние. Повторяемость крон и LOD warnings/art/motion не закрыты."
       }
     },
     {
