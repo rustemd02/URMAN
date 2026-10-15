@@ -106085,7 +106085,9 @@
       ],
       "evidence": [
         "evidence/PW-014/front-image-reader-20261015/game-build.log",
-        "Delivered peer evidence accepted by root as a limited older-source UI slice: evidence/PW-043/release-path-20261015/frames/131e-school/02-back-read.png personally viewed. Actual selected P-FOREST front and rendered back caption У леса. Перед отъездом. visible; lower transcription continues below scroll viewport, not720p/full readability acceptance. Native131e3584f04244e1961254867c6a96cb/receipt.json gameExit0/hashverified/userdataRestored true but overallFAIL with existing RID/48resources exit leaks. Snapshot6a6f24a531d782ce1a598ca63d376dc32269b0f6e472ed251756d4ccfd57844a/base817d2949 predates newer image reader/origin-label sources; it does NOT verify current PW014 reader zoom/pan/720p/session cleanup or PW008 labels. No separate back-read action log or persistence proof inferred from pixels. School/S-SCHOOL/F10 not reached; peer owner retains route work. No new run."
+        "Delivered peer evidence accepted by root as a limited older-source UI slice: evidence/PW-043/release-path-20261015/frames/131e-school/02-back-read.png personally viewed. Actual selected P-FOREST front and rendered back caption У леса. Перед отъездом. visible; lower transcription continues below scroll viewport, not720p/full readability acceptance. Native131e3584f04244e1961254867c6a96cb/receipt.json gameExit0/hashverified/userdataRestored true but overallFAIL with existing RID/48resources exit leaks. Snapshot6a6f24a531d782ce1a598ca63d376dc32269b0f6e472ed251756d4ccfd57844a/base817d2949 predates newer image reader/origin-label sources; it does NOT verify current PW014 reader zoom/pan/720p/session cleanup or PW008 labels. No separate back-read action log or persistence proof inferred from pixels. School/S-SCHOOL/F10 not reached; peer owner retains route work. No new run.",
+        "game/scripts/JournalUi.PhotoBook.cs + JournalUi.PhotoBook.ImageReader.cs: Рассмотреть оборот is a separate action row, shown only for fresh acquired/current-session selected photo with saved BackRead, exact current BackTextRu==authored caption and available loaded existing back image. Handler repeats guards before accessing image/body. Reuses existing DocumentImageReader/zoom/pan/text/title/origin; canonical PhotoId, no new tab/modal/state owner or back-read/facts dispatch. Unknown/unread/mismatched backs hidden. Launch-button ref restores correct keyboard focus and clears with reader lifecycle.",
+        "evidence/PW-014/back-image-reader-20261016/game-build.log: affected Game compile0errors/0warnings after root+Luna source review. Existing SetImages clears picture/description and ResetView for same PhotoId front/back, no stale-side cache. Existing selection/tab/session/close clears image/body/header and new button; separate row avoids extending old action HBox. Native current-source720p/reader fit/zoom-pan/return/state cleanup NOT_RUN; older131e back rendering does not verify this new control. No new tests/probes/fixtures/ordinary replay."
       ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-014",
       "source_requirements": [
@@ -106204,7 +106206,7 @@
       "assigned_owner": "integration",
       "activity": {
         "state": "released",
-        "reason": "Bounded front-image reader source accepted root+Luna and affected Game compile0/0; native720p and BackRead visual/state check remain, no game readiness claim."
+        "reason": "Root+Luna reviewed back-image inspection through existing reader; final affected compile passed. Native720p/front/back/selection/session acceptance remains open, no semantic ReadBack action added."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -106213,7 +106215,7 @@
         "Native720p front zoom/pan/readability and return/selection/focus/close/session behaviour for changed reader.",
         "Actual front-view→unread-back preservation; full two-side/one-command flip/transcription clauses and other required source criteria remain open."
       ],
-      "next_action": "In confirmed owned ordinary route with actual acquired P-FOREST, at720p open «Рассмотреть снимок», verify existing zoom/pan/text/title/origin and return focus to same album selection; unread back must remain unread. Then session/tab/close cleanup. No failed capture-current retry or duplicate first-photo acquisition proof.",
+      "next_action": "Within an already-owned ordinary book route, verify current-source720p front reader and newly gated Рассмотреть оборот after real ReadBack: unread hidden, known back fit/zoom/pan/exact transcription/title/origin, return same selection + launch focus; Esc/tab/session cleanup. Include PW008 labels/PW017 physical spread only where actual state allows. Do not replay acquisition/old502 or infer current UI from older131e.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",

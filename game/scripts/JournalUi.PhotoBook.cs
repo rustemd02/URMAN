@@ -50,6 +50,7 @@ public partial class JournalUi
     private TextureRect _photoBookBackImage = null!;
     private Label _photoBookBackText = null!;
     private Button _photoBookReadBackButton = null!;
+    private Button _photoBookInspectBackButton = null!;
     private Button _photoBookMountButton = null!;
     private Label _photoBookActionStatus = null!;
     private IReadOnlyList<RuntimeBridge.PhotoBookPhoto> _photoBookProjection = [];
@@ -249,6 +250,19 @@ public partial class JournalUi
         };
         photoActions.AddChild(_photoBookMountButton);
         _photoBookMountButton.Pressed += () => _ = PerformPhotoBookActionAsync(readBack: false);
+
+        var photoBackActions = new HBoxContainer { Name = "PhotoBackActions" };
+        _photoBookSpread.AddChild(photoBackActions);
+        _photoBookInspectBackButton = new Button
+        {
+            Name = "InspectPhotoBack",
+            Text = "Рассмотреть оборот",
+            Visible = false,
+            Disabled = true,
+            FocusMode = Control.FocusModeEnum.All
+        };
+        photoBackActions.AddChild(_photoBookInspectBackButton);
+        _photoBookInspectBackButton.Pressed += OpenSelectedPhotoBookBackReader;
         _photoBookActionStatus = new Label { Name = "ActionStatus",
             AutowrapMode = TextServer.AutowrapMode.WordSmart };
         _photoBookSpread.AddChild(_photoBookActionStatus);
@@ -392,6 +406,8 @@ public partial class JournalUi
         _photoBookRefreshing = true;
         _photoBookList.Clear();
         _photoBookInspectFrontButton.Visible = false;
+        _photoBookInspectBackButton.Visible = false;
+        _photoBookInspectBackButton.Disabled = true;
         _photoBookZoomControls.Visible = false;
         _photoBookEmpty.Visible = true;
         _photoBookTitle.Visible = false;
@@ -482,6 +498,11 @@ public partial class JournalUi
 
     private void ClearPhotoBookImages()
     {
+        if (GodotObject.IsInstanceValid(_photoBookInspectBackButton))
+        {
+            _photoBookInspectBackButton.Visible = false;
+            _photoBookInspectBackButton.Disabled = true;
+        }
         if (GodotObject.IsInstanceValid(_photoBookFrontImage))
         {
             _photoBookFrontImage.Texture = null;
