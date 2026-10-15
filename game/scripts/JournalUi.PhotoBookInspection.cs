@@ -19,6 +19,8 @@ public partial class JournalUi
     private int _bookInspectionPhotoSurface = -1;
     private Material? _bookInspectionPhotoOriginalSurfaceMaterial;
     private Material? _bookInspectionPhotoAppliedMaterial;
+    private string? _bookInspectionPhotoAppliedPhotoId;
+    private string? _bookInspectionPhotoAppliedPageId;
 
     // The GLB's only AlbumInsert top face is local Y=+0.000325 with normal +Y.
     // Its exported UV rectangle is U[-.0747075006,.0747075006], V[.9502924681,1.0497075319].
@@ -197,13 +199,22 @@ public partial class JournalUi
     {
         var selected = _photoBookProjection.FirstOrDefault(photo =>
             StringComparer.Ordinal.Equals(photo.PhotoId, _photoBookSelectedId));
-        if (_bookInspectionView is null || _bookInspectionModel is null || !CanInspectBook()
+        if (_bookInspectionView is null || _bookInspectionModel is null
+            || !_bookInspectionOpenPose || !CanInspectBook()
             || !ReferenceEquals(_bookInspectionSession, _bridge?.SessionIdentity)
             || selected is null
-            || !StringComparer.Ordinal.Equals(selected.PhotoId, SGardenPhotoId)
-            || !StringComparer.Ordinal.Equals(selected.PageId, SGardenPageId)
-            || !selected.Mounted
-            || !ResourceLoader.Exists(SGardenFrontImagePath))
+            || string.IsNullOrWhiteSpace(selected.PageId)
+            || !selected.Mounted)
+        {
+            ClearBookInspectionPhotoOverride();
+            return;
+        }
+
+        // The selected projection is acquired-only, and its PageId comes from
+        // the validated catalog. Mounted verifies that exact page before the
+        // existing front-only resolver feeds the physical insert.
+        var frontTexture = PhotoBookFrontTexture(selected.PhotoId);
+        if (frontTexture is null)
         {
             ClearBookInspectionPhotoOverride();
             return;
@@ -213,17 +224,14 @@ public partial class JournalUi
             && GodotObject.IsInstanceValid(currentInsert)
             && _bookInspectionPhotoAppliedMaterial is { } currentMaterial
             && _bookInspectionPhotoSurface >= 0
+            && StringComparer.Ordinal.Equals(_bookInspectionPhotoAppliedPhotoId, selected.PhotoId)
+            && StringComparer.Ordinal.Equals(_bookInspectionPhotoAppliedPageId, selected.PageId)
             && ReferenceEquals(currentInsert.GetSurfaceOverrideMaterial(_bookInspectionPhotoSurface), currentMaterial))
         {
             RefreshBookInspectionPhotoCaption(selected.Title);
             return;
         }
 
-        if (PhotoBookFrontTexture(selected.PhotoId) is not { } frontTexture)
-        {
-            ClearBookInspectionPhotoOverride();
-            return;
-        }
         ClearBookInspectionPhotoOverride();
         var insert = _bookInspectionModel.FindChildren("AlbumInsert", nameof(MeshInstance3D), true, false)
             .OfType<MeshInstance3D>().FirstOrDefault();
@@ -246,6 +254,8 @@ public partial class JournalUi
         _bookInspectionPhotoSurface = surface;
         _bookInspectionPhotoOriginalSurfaceMaterial = previousOverride;
         _bookInspectionPhotoAppliedMaterial = isolatedMaterial;
+        _bookInspectionPhotoAppliedPhotoId = selected.PhotoId;
+        _bookInspectionPhotoAppliedPageId = selected.PageId;
         RefreshBookInspectionPhotoCaption(selected.Title);
         if (_bookInspectionViewport is not null)
             _bookInspectionViewport.RenderTargetUpdateMode = SubViewport.UpdateMode.Once;
@@ -268,6 +278,8 @@ public partial class JournalUi
         _bookInspectionPhotoSurface = -1;
         _bookInspectionPhotoOriginalSurfaceMaterial = null;
         _bookInspectionPhotoAppliedMaterial = null;
+        _bookInspectionPhotoAppliedPhotoId = null;
+        _bookInspectionPhotoAppliedPageId = null;
     }
 
     private void SetBookInspectionPose(bool open)

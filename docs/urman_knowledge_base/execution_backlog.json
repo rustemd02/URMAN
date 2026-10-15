@@ -107022,7 +107022,8 @@
         "evidence/PW-017/book-hands-20261012/offline-open.png",
         "evidence/PW-017/book-hands-20261012/game-build.log",
         "evidence/PW-017/table-presence-20261012/receipt.json",
-        "evidence/PW-017/table-presence-20261012/game-build.log"
+        "evidence/PW-017/table-presence-20261012/game-build.log",
+        "evidence/PW-017/selected-front-20261015/game-build.log"
       ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-017",
       "source_requirements": [
@@ -107140,7 +107141,7 @@
       "assigned_owner": "art",
       "activity": {
         "state": "released",
-        "reason": "Finite editable physical catalog-title source accepted after root + independent Luna review and affected Game0/0; actual caption/glpyh/depth/readability and book art remain open."
+        "reason": "Bounded selected-front source stage reviewed root+Luna and affected Game compile0/0. Native physical preview remains separate and unclaimed."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -107149,7 +107150,7 @@
         "Actual Windows book inspection/reopen/tab/load/session/carry/vehicle guards, contacts and framing; native/human art acceptance not performed.",
         "Walking first-person grip and typed PageId→3D page/photo/flip/mount motion, editable typography/glyph text and FOV/accessibility acceptance remain open."
       ],
-      "next_action": "After station owner deploys latest UI worker/helper and confirms version2, actual owned connected play should open journal, select mounted S-GARDEN, open physical spread, inspect Cyrillic caption/font/ink-depth at current framing, close/reopen and clear selection/session; capture exact active viewport, close and verify restoration. Full book/walking/typedpage/literary/language/art remain open.",
+      "next_action": "Using confirmed owned ordinary GUI route after real book.received, select mounted P-FOREST and open physical inspection/spread; verify current front/title, close/reopen and eligible selection change without stale image, then session/tab teardown. Use source selected-front-20261015; no duplicate first-album/static table capture and no unchanged failing capture-current API retry.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -107178,15 +107179,15 @@
         "required_inputs": [
           {
             "task_id": "PW-015",
-            "artifact": "Реализовать вклейку и её сохранение",
+            "artifact": "Existing acquired-only PhotoBookProjection with catalog PageId and exact saved Mounted equality; real d884 acquired mounted P-FOREST prerequisite for this selected-front stage.",
             "requires": "relevant_artifact_not_full_parent",
-            "availability": "not_confirmed"
+            "availability": "available"
           },
           {
             "task_id": "PW-016",
-            "artifact": "Переработать журнал в семейную книгу без потери функций",
+            "artifact": "Existing JournalUi selected-photo album and optional physical inspection widget; d884 current first-photo UI received, other family-book functions still open.",
             "requires": "relevant_artifact_not_full_parent",
-            "availability": "not_confirmed"
+            "availability": "available"
           },
           {
             "artifact": "Accepted actual familybook closed220×285×38 /open445×285 mesh with8clips",
@@ -107270,15 +107271,15 @@
         "implementation": [
           {
             "task_id": "PW-015",
-            "artifact": "Реализовать вклейку и её сохранение",
+            "artifact": "Existing acquired-only PhotoBookProjection with catalog PageId and exact saved Mounted equality; real d884 acquired mounted P-FOREST prerequisite for this selected-front stage.",
             "requires": "relevant_artifact_not_full_parent",
-            "availability": "not_confirmed"
+            "availability": "available"
           },
           {
             "task_id": "PW-016",
-            "artifact": "Переработать журнал в семейную книгу без потери функций",
+            "artifact": "Existing JournalUi selected-photo album and optional physical inspection widget; d884 current first-photo UI received, other family-book functions still open.",
             "requires": "relevant_artifact_not_full_parent",
-            "availability": "not_confirmed"
+            "availability": "available"
           }
         ],
         "verification": [],
@@ -107560,6 +107561,20 @@
           "log": "evidence/PW-017/physical-caption-20261013/game-build.log"
         },
         "review": "Root + independent Luna: acquired/mounted/PageId/session guard, only selected.Title Соседский сад; Label3D .16m width/.005m em within leaf below insert, visible only open, hidden/freed on clear, redraw only changed text/visibility. No author/Tatar/back prose/state/mesh changes. captionable=false belongs player-prepared world.captions (PhotoWorldState.PrepareCaption/validation), not catalog-title presentation; no PrepareCaption or saved captions writes."
+      },
+      "progress_2026_10_15_selected_front": {
+        "problem": "Physical inspection hardcoded S-GARDEN/PAGE-GARDEN and its path, so real first acquired P-FOREST could render in 2D album but was excluded from the 3D insert.",
+        "result": "Existing acquired-only selected projection and validated catalog PageId/Mounted now feed existing PhotoBookFrontTexture resolver into exact AlbumInsert surface0. Front remains clipped to existing upper-face UV patch. Current open-pose guard clears on close; existing session/selection/unmounted/no-front clear preserved. Per-instance material duplication preserves shared cache.",
+        "root_review": "Found and fixed stale-front risk introduced by generalisation: material-reference fast path now additionally compares applied PhotoId and PageId; both stored after assignment and reset on Clear. Caption uses selected.Title; no new story/state/IDs/acquisition/ownership granted.",
+        "source": "game/scripts/JournalUi.PhotoBookInspection.cs",
+        "source_sha256": "3b28d38f7efa4e98889ebb0a39d414ae29d0fdfa1d523a7fe701f5d4edb68354",
+        "verification": {
+          "method": "root diff+independent Luna source review; affected Game build",
+          "result": "PASS source/compile only: exit0, warnings0/errors0,33.32s. No new tests/probes/game/station run.",
+          "evidence": "evidence/PW-017/selected-front-20261015/game-build.log"
+        },
+        "native": "NOT_RUN for changed source; d884 is prerequisite acquired/mounted P-FOREST and current 2D UI, not proof of this new physical overlay.",
+        "remaining": "Actual native front/UV/framing/caption/readability, selection switch, close/session lifecycle; walking grip/typed physical multi-page turn/all photos/FOV/art remain open."
       }
     },
     {
