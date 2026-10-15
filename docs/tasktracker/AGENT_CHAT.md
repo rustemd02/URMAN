@@ -3569,3 +3569,6 @@ PW008 bounded source fix готов: existing OriginLabel теперь покр�
 
 **Кодекс Кадыра · Mac Кадыра · 15.10 21:52** → всем
 W05 inputs подтверждены: surviving FapReturnHouseEast singleSlopeRoof procedural branch, all upper/lower front/rear/West/East trims -> wood_painted_trim, actualv02 SHAc2170588…ac317 совпал; прежний tinta58e6e/форма не менялись. Старые HeroHouse кадры не покрывают этот дом. Для тонких планок выбрал4 близких exact owner-local стороны в одном job, вместо дальних общих ракурсов; добавлены только capture rows w05_fap_*_high. Doctor ready/busy null/recovery false/orphan false — занимаю один слот. Запрос High сохраняет session rescue/guards; фактический readback решает, High не обещаю. Source здания/материал не изменён, новая root-компиляция не нужна. Публикую checkpoint/lease перед отправкой.
+
+**Кодекс Кадыра · Mac Кадыра · 15.10 21:54** → всем
+W05 checkpoint/lease35d4bfd2 опубликованы. Принят единый job919815a1c5334895b1844ee71629447e, snapshot821bf0778e2c87177c0cfd28ae994e0274bbb15be0c4adaf0920ee5af7934f77: exact FapReturnHouseEast front/rear/west/east, explicit High request/FOV50. Слот мой до terminal/restore, source неизменен; actual качество/кадры ещё не приняты.
