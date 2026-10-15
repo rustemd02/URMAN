@@ -5,6 +5,8 @@ namespace Urman.Godot;
 public static partial class VehicleVisualFactory
 {
     public const string NivaModelPath = "res://assets/generated/urman_niva.glb";
+    private const string NivaTyreRubberTexturePath = "res://assets/textures/realism_20260929/moulded_rubber_black_v1_basecolor.png";
+    private const float NivaTyreRubberRepeatMetres = 0.35f;
 
     // Retained like the character kit: every Niva build instantiates this one
     // scene, and a collected wrapper between loads can swap a dead GC handle.
@@ -54,7 +56,7 @@ public static partial class VehicleVisualFactory
             for (var surface = 0; surface < source.Mesh.GetSurfaceCount(); surface++)
             {
                 var authored = source.Mesh.SurfaceGetMaterial(surface)?.ResourceName ?? string.Empty;
-                part.SetSurfaceOverrideMaterial(surface, ModelMaterial(authored));
+                part.SetSurfaceOverrideMaterial(surface, ModelMaterial(authored, partName == "NivaWheel"));
             }
             part.SetMeta("assetSource", NivaModelPath);
             part.SetMeta("collisionAuthority", "none; VehicleController hull and wheel shapes");
@@ -75,9 +77,8 @@ public static partial class VehicleVisualFactory
         return extras["urman_triangle_corners"].AsInt32();
     }
 
-    private static Material ModelMaterial(string authoredName)
+    private static Material ModelMaterial(string authoredName, bool isNivaWheel = false)
     {
-        if (ModelMaterials.TryGetValue(authoredName, out var cached)) return cached;
         // The generator authors every finish as "<6 hex>__<surface>"
         // (tools/blender/generate_niva.py); anything else is a hand-renamed slot
         // that would silently take the old 808080 default grey. VIS-105 forbids a
@@ -87,8 +88,37 @@ public static partial class VehicleVisualFactory
             throw new InvalidDataException(
                 $"Niva finish '{authoredName}' is not authored as <hex6>__<surface>; "
                 + "fix the generator material name rather than letting the model take a fallback.");
+        var isNivaTyreRubber = isNivaWheel && StringComparer.Ordinal.Equals(parts[1], "rubber");
+        // Only the four imported tyre surfaces get this variant. The source
+        // vehicle_rubber material stays cached for body, cabin and pedal parts.
+        var cacheKey = isNivaTyreRubber ? authoredName + "|NivaWheelTyre" : authoredName;
+        if (ModelMaterials.TryGetValue(cacheKey, out var cached)) return cached;
         var material = ForFinish(parts[0], parts[1]);
-        ModelMaterials[authoredName] = material;
+        if (isNivaTyreRubber) material = NivaTyreRubberMaterial(material);
+        ModelMaterials[cacheKey] = material;
+        return material;
+    }
+
+    private static Material NivaTyreRubberMaterial(Material vehicleRubber)
+    {
+        // Missing/failed optional texture loading leaves the authored finish in
+        // place, so an absent M07 asset never prevents the vehicle from loading.
+        if (PainterlyMaterialLibrary.SuppressTextureLoadsForHeadlessTests
+            || vehicleRubber is not ShaderMaterial source
+            || !ResourceLoader.Exists(NivaTyreRubberTexturePath)
+            || ResourceLoader.Load<Texture2D>(NivaTyreRubberTexturePath) is not { } texture)
+            return vehicleRubber;
+
+        // The imported tyre primitive has no UVs. Keep the base vehicle finish
+        // shared and give only this wheel-scoped duplicate a mesh-local triplanar
+        // projection, one repeat per authored 0.35 m tile.
+        var material = (ShaderMaterial)source.Duplicate();
+        material.SetShaderParameter("albedo_texture", texture);
+        material.SetShaderParameter("has_albedo_texture", true);
+        material.SetShaderParameter("authored_uv_texture", false);
+        material.SetShaderParameter("local_floor_texture", true);
+        var repeatsPerMetre = 1f / NivaTyreRubberRepeatMetres;
+        material.SetShaderParameter("texture_scale", new Vector2(repeatsPerMetre, repeatsPerMetre));
         return material;
     }
 

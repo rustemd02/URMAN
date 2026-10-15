@@ -8928,21 +8928,23 @@
             "title": "Подключить M07 — Резина",
             "result": "Подключить M07 — Резина",
             "owner": "art/materials/qa",
-            "evidence": [],
+            "evidence": [
+              "evidence/ACT1-TEXTURE.03/niva-rubber-20261015/game-build.log"
+            ],
             "assigned_owner": "art/materials/qa",
-            "active_owner": null,
+            "active_owner": "Кодекс Кадыра",
             "activity": {
-              "state": "not_active",
-              "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+              "state": "confirmed_active",
+              "reason": "Root+Luna named NivaWheel rubber stage only, confirmed imported primitive/source and registered base material; no global PML/vehicle logic changes."
             },
             "task_type": "engineering",
-            "status": "todo",
+            "status": "in_progress",
             "implementation_state": "not_started",
             "technical_verification_state": "not_run",
             "remaining": [
               "Подключить M07 — Резина; собственного целевого receipt пока нет."
             ],
-            "next_action": "Сопоставить текущий результат: Подключить M07 — Резина. Затем изменить только установленный остаток.",
+            "next_action": "One protected niva_m07 tyre capture at saved exact babay-niva local points after fresh idle confirmed; publish actual job ID, fetch/inspect material only, release on terminal/restored. No vehicle driving or unchanged source rerun.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -8952,7 +8954,8 @@
                 "game/assets/textures/painterly/README.md",
                 "assets/asset_registry.json",
                 "docs/urman_knowledge_base/art/urman_imagegen_texture_prompt_book_2026-09-22.md",
-                "docs/urman_knowledge_base/assets.md"
+                "docs/urman_knowledge_base/assets.md",
+                "game/scripts/VehicleVisualFactory.NivaModel.cs"
               ],
               "required_inputs": [],
               "scope_in": [
@@ -9005,7 +9008,25 @@
               "verification": [],
               "acceptance": []
             },
-            "depends_on": []
+            "depends_on": [],
+            "progress_2026_10_15_niva_tyres": {
+              "result": "Existing registered smooth rubber base connected only to imported NivaWheel rubber primitive via wheel-scoped ModelMaterials cache clone. Other five rubber surfaces unchanged. Existing geometry carries tyre shape/36 tread blocks; image supplies quiet base color only.",
+              "source": "game/scripts/VehicleVisualFactory.NivaModel.cs",
+              "source_sha256": "21bc92886d9d0ed8b0a33543d5573a240cf0990db22c213ebfefea0c31123d5a",
+              "asset": "game/assets/textures/realism_20260929/moulded_rubber_black_v1_basecolor.png",
+              "asset_sha256": "b93a9616d9fca772570a7cf8e0c7746686a21f291eb51d3e9f33ba5426ca2f1e",
+              "projection": "Imported tyre has no TEXCOORD_0; local triplanar one repeat/0.35m, no wheel scale, same shader tint/finish. Optional missing asset/headless texture suppression keeps original. Authored live1f2320 not rewritten to generator262a26.",
+              "verification": "Root+Luna source review; affected Game compile exit0/warnings0/errors0/31.65s, evidence/ACT1-TEXTURE.03/niva-rubber-20261015/game-build.log. Native not yet run; no new tests/probes.",
+              "limits": "No geometry, route, contacts, save, driver or wheel simulation changes; not vehicle motion acceptance."
+            },
+            "native_question_2026_10_15": {
+              "question": "Does front-left existing Niva tyre retain quiet dark rubber, with geometric tread readable and no projection seam/incorrect material on rim/body?",
+              "success": "Personally inspect named babay-niva left-front wheel close view; record only static material result, not driving, animation or art approval.",
+              "points": "niva_m07:babay-niva@-1.55,0.62,-0.8>babay-niva@-0.78,0.345,-1.18",
+              "scene": "res://scenes/act1_demo.tscn",
+              "profile": "village-winter-crisp",
+              "fov": 50
+            }
           },
           {
             "id": "ACT1-TEXTURE.03/E07",

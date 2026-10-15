@@ -1016,3 +1016,9 @@ M03 follow-up: current guarded `cd6671` exposed the outward-only basin cylinderâ
 W12 uses the existing `cut_wood_end` shader through `BathFirewoodRod` / `CutWoodEnds` (`wood_cut`). Each end face has centred cross-section UVs, separately from W11 longitudinal sides. The prompt book makes a separate W12 raster conditional on a demonstrated UV/art need; no `urman_w12_v01_basecolor.png` was generated or registered.
 
 Root inspected the existing Windows `bath_caps.png` in `evidence/ACT1-TEXTURE.05/bath-acceptance-20261014/native_cd6671/`: centred rings are visible behind the rack. Its receipt is PASS with verified snapshot hashes and restored player data. The captured PML matches current source, and the cap-producing method is unchanged; later basin repair is unrelated. This accepts the finite E17 connection without another run, and does not close W11 movement or artistic acceptance.
+
+## M07 Niva tyre source binding â€” 15.10.2026
+
+The existing registered `realism_20260929/moulded_rubber_black_v1_basecolor.png` (SHA-256 `b93a9616d9fca772570a7cf8e0c7746686a21f291eb51d3e9f33ba5426ca2f1e`) is also bound to the four imported `NivaWheel` rubber surfaces through a private cached material clone in `VehicleVisualFactory.NivaModel.cs`. The five other rubber surfaces retain their original finish. The imported tyres have no UVs, so this receiver uses mesh-local triplanar sampling at 0.35 m per repeat; authored tint, matte response, tyre/tread geometry and vehicle behaviour are unchanged.
+
+The original ImageGen receipt remains `docs/production/visual_rework_2026-09-29/texture_generation_followup.json`: the source is smooth moulded foot-cap rubber, reused as quiet base colour; tread is geometry, not imagery. Root viewed the existing raster and reviewed the scoped source; affected Game build passed with zero warnings/errors. Native close-view and motion/art acceptance remain pending; no raster was generated or edited for this binding.
