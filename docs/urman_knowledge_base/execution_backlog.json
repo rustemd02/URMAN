@@ -9213,21 +9213,24 @@
             "title": "Подключить M10 — Неглазурованная керамика",
             "result": "Подключить M10 — Неглазурованная керамика",
             "owner": "art/materials/qa",
-            "evidence": [],
+            "evidence": [
+              "game/scripts/StyleBenchmarkInteriorFactory.Rooms.cs:172 BuildKitchen creates existing KitchenBowlOfSweets via RuralPropGeometry.Lathe(sweet-bowl) and RuralPropMaterials.Surface(earthenware); metric circumference/profile-length UV; .5m tile, roughness .90/specular .08/metallic0. No added decorative/ethnic vessel.",
+              "assets/asset_registry.json: texture.rural.realism.earthenware.20260930, original project ImageGen assets/source/imagegen/2026-09-29/unglazed_earthenware_v1_basecolor.png and game/assets/textures/realism_20260929/unglazed_earthenware_source_v1_basecolor.png SHA312d6457da248ca89d2d7e0b992841350981d5ec09fd9c81d896936b044c6da4. Actual selected reuse, not a new file named after nominal urman_m10_v01 candidate.",
+              "evidence/ACT1-TEXTURE.03/home-m11-20261015/native_75b784/receipt.json: native75b784629cc2437b87a1e0e788732415 PASS/build-import-game0, snapshot4096616090d5eabf88b8ebf8d40a632090c5f0b6522a8d5bd61e7095cd6a87ca hashesverified/userdataRestored true; current M10 producer/material/geometry/texture hashes match exactly. Raw zip SHA3befedba06bf63812ebfa06f59d97b9ced0949263c1a67b767bebb0146139df9, engine-errors empty. Reused without new execution.",
+              "evidence/ACT1-TEXTURE.03/home-m11-20261015/native_75b784/frames/home_tea_m11.png: root personally viewed large supported terracotta bowl with visible inner well/rim and matte material, distinct from cream glazed cups/cloth/wood, no obvious UV collapse/seam. Actual frame target remains KitchenTeapot/home_tea_m11, not a dedicated M10 camera; bowl visibly in frame and source matched. Actual Low/performance-rescue/.7/FOV50; finite static M10 material consumer accepted only, no Medium/movement/full art or before/after claim."
+            ],
             "assigned_owner": "art/materials/qa",
             "active_owner": null,
             "activity": {
-              "state": "not_active",
-              "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+              "state": "released",
+              "reason": "Root personally accepted existing M10 kitchen bowl material consumer from already delivered current-equivalent native75b784; source unchanged, no redundant run."
             },
             "task_type": "engineering",
-            "status": "todo",
-            "implementation_state": "not_started",
-            "technical_verification_state": "not_run",
-            "remaining": [
-              "Подключить M10 — Неглазурованная керамика; собственного целевого receipt пока нет."
-            ],
-            "next_action": "Сопоставить текущий результат: Подключить M10 — Неглазурованная керамика. Затем изменить только установленный остаток.",
+            "status": "completed",
+            "implementation_state": "implemented",
+            "technical_verification_state": "passed",
+            "remaining": [],
+            "next_action": "Reuse existing earthenware consumer and native75b784 bowl visibility. Stop finite M10 hookup unit; no new map/build/capture for unchanged inputs. Parent full art/quality/movement acceptance remains separate.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",

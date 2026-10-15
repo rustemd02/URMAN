@@ -3383,7 +3383,14 @@
       ],
       "consumer": "RuralPropMaterials.Surface(earthenware); actual metric mesh UV",
       "qa": "source viewed; game receiver review pending, no human acceptance",
-      "sourceSha256": "312d6457da248ca89d2d7e0b992841350981d5ec09fd9c81d896936b044c6da4"
+      "sourceSha256": "312d6457da248ca89d2d7e0b992841350981d5ec09fd9c81d896936b044c6da4",
+      "named_consumer_2026_10_15_m10": {
+        "task": "ACT1-TEXTURE.03/E09",
+        "receiver": "BabaiHouseWing/Kitchen/KitchenBowlOfSweets; BuildKitchen -> Lathe(sweet-bowl) -> RuralPropMaterials.Surface(earthenware)",
+        "mapping_response": "Metric circumference/profile-length UV, .5m tile, .90 roughness/.08 specular/metallic0; existing white tint. Original source/material unchanged.",
+        "native_evidence": "evidence/ACT1-TEXTURE.03/home-m11-20261015/native_75b784/frames/home_tea_m11.png",
+        "qa": "Root personally viewed large matte terracotta bowl interior/rim/support distinct from glazed cups/cloth/wood. Exact producer/material/geometry/map snapshot hashes match. Reused current delivered receipt without new run. Point targets KitchenTeapot, bowl is visibly in frame; actual Low/performance-rescue/.7. Finite M10 static hookup accepted, no dedicated M10 framing/Medium/movement/full art claim."
+      }
     },
     {
       "id": "texture.rural.realism.metal.20260930",

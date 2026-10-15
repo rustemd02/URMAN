@@ -1049,3 +1049,15 @@ renderer: the same lid contour now faces outward, and the mouth has a 2 mm
 ceramic wall/open rim at unchanged outer size and transform. Cream glaze and
 physical table support are visible. Finite M11 engineering accepted; both frames
 used Low/performance-rescue at 0.7 scale, not full art/Medium/movement acceptance.
+
+M10 earthenware (15.10.2026): existing `KitchenBowlOfSweets` uses
+`realism_20260929/unglazed_earthenware_source_v1_basecolor.png`, registered as
+`texture.rural.realism.earthenware.20260930` (SHA `312d6457…b044c6da4`). This is the
+selected original generated surface, not a newly produced nominal `urman_m10_v01`
+file. `BuildKitchen` creates its real lathed bowl with metric UV, 0.5 m repeat and
+`.90/.08/0` roughness/specular/metallic. Root accepted the large visible matte bowl
+in existing `home-m11-20261015/native_75b784/frames/home_tea_m11.png`; current source,
+material, geometry and map match the receipt snapshot exactly. That point still
+targets the teapot, with the bowl visibly in frame; no dedicated M10 view is claimed.
+No source change, new generation/build/run was needed. Finite static hookup only:
+actual Low/performance-rescue at 0.7 scale, no full art/Medium/movement acceptance.
