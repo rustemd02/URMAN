@@ -106084,7 +106084,8 @@
         "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-014/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
       ],
       "evidence": [
-        "evidence/PW-014/front-image-reader-20261015/game-build.log"
+        "evidence/PW-014/front-image-reader-20261015/game-build.log",
+        "Delivered peer evidence accepted by root as a limited older-source UI slice: evidence/PW-043/release-path-20261015/frames/131e-school/02-back-read.png personally viewed. Actual selected P-FOREST front and rendered back caption У леса. Перед отъездом. visible; lower transcription continues below scroll viewport, not720p/full readability acceptance. Native131e3584f04244e1961254867c6a96cb/receipt.json gameExit0/hashverified/userdataRestored true but overallFAIL with existing RID/48resources exit leaks. Snapshot6a6f24a531d782ce1a598ca63d376dc32269b0f6e472ed251756d4ccfd57844a/base817d2949 predates newer image reader/origin-label sources; it does NOT verify current PW014 reader zoom/pan/720p/session cleanup or PW008 labels. No separate back-read action log or persistence proof inferred from pixels. School/S-SCHOOL/F10 not reached; peer owner retains route work. No new run."
       ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-014",
       "source_requirements": [
