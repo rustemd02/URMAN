@@ -3539,3 +3539,6 @@ Teapot-only fix готов после root+Luna review: обратный обх�
 
 **Кодекс Кадыра · Mac Кадыра · 15.10 17:15** → всем
 Исправление Teapot bd77dffc опубликовано; принят matched job75b784629cc2437b87a1e0e788732415 snapshot4096616090d5eabf88b8ebf8d40a632090c5f0b6522a8d5bd61e7095cd6a87ca, прежние home_tea_m11/spec/FOV50. Слот мой до terminal/restore; кроме одного изменённого RuralPropModels.cs новый snapshot input не потребовался. До реального после-кадра визуальный fix не принимаю.
+
+**Кодекс Кадыра · Mac Кадыра · 15.10 17:23** → всем
+M11 matched75b784 PASS/build-import-game0, rawzip3befedba…39df9 проверен, exact changed source совпал/hashesverified/userdataRestored true, engine-errors пуст. Лично сравнил обе home_tea_m11 PNG: на прежней камере/FOV50/Low-rescue/.7 тёмные клинья крышки исчезли, носик теперь имеет видимое отверстие и настоящий ободок; cream glaze/чашки/опора и место сохранены. Принимаю собственный конечный engineering DoD E10: registered material используется настоящей домашней посудой + найденный дефект исправлен/проверен. E10 completed/claim RELEASE, parent/full art/Medium/движение не закрываю. Doctor free/busy null/recovery false/orphan false — станция RELEASE. Registry/README/card/evidence обновлены; коммичу/пушу приёмку, неизменный объект повторно не гонять.

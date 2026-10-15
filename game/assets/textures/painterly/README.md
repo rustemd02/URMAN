@@ -1035,3 +1035,17 @@ Root viewed the actual supported radiator in native `a4a223ffb07141b88929a1bcc61
 Static hookup accepted, no obvious texture collapse/seam; pigment remains subtle.
 Actual profile was Low/performance-rescue at scale 0.7, not a Medium comparison.
 No claimed before/after improvement or full M04 cabinet/pipe/art/movement acceptance.
+
+M11 household ceramic (15.10.2026): the existing registered
+`realism_20260929/glazed_ceramic_cream_source_v1_basecolor.png` already reaches
+`KitchenTeapot` and `KitchenCup0..2` through `RuralPropModels.Teapot/Cup` and
+`RuralPropMaterials.Surface(ceramic)`. Metric lathe/tube UVs repeat at 0.5 m;
+runtime roughness/specular/metallic remain `.26/.34/0`. No new map/material rewrite.
+Root's actual `home_tea_m11` before/after frames are in
+`evidence/ACT1-TEXTURE.03/home-m11-20261015/native_97eb82/frames/` and
+`evidence/ACT1-TEXTURE.03/home-m11-20261015/native_75b784/frames/`.
+The observed inverted lid and capped spout were repaired only in the Teapot
+renderer: the same lid contour now faces outward, and the mouth has a 2 mm
+ceramic wall/open rim at unchanged outer size and transform. Cream glaze and
+physical table support are visible. Finite M11 engineering accepted; both frames
+used Low/performance-rescue at 0.7 scale, not full art/Medium/movement acceptance.

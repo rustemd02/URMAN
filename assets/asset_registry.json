@@ -3353,7 +3353,15 @@
       ],
       "consumer": "RuralPropMaterials.Surface(ceramic); actual metric mesh UV",
       "qa": "source viewed; game receiver review pending, no human acceptance",
-      "sourceSha256": "68c36f276415f25a287f4a85ec7b1765059e4c42d4604ef6cb31e619ca624757"
+      "sourceSha256": "68c36f276415f25a287f4a85ec7b1765059e4c42d4604ef6cb31e619ca624757",
+      "named_consumer_2026_10_15_m11": {
+        "task": "ACT1-TEXTURE.03/E10",
+        "receiver": "BabaiHouseWing/Kitchen/KitchenTeapot and KitchenCup0..2; existing RuralPropModels.Teapot/Cup -> RuralPropMaterials.Surface(ceramic)",
+        "runtime_response": "Existing ceramic .26 roughness/.34 specular/metallic0, .5m metric Lathe/Tube UV; cup ede7d9, teapot dcd5bd. Registry original source roughness .28 retained as history, actual runtime .26.",
+        "native_evidence": "evidence/ACT1-TEXTURE.03/home-m11-20261015/native_75b784/frames/home_tea_m11.png",
+        "before_evidence": "evidence/ACT1-TEXTURE.03/home-m11-20261015/native_97eb82/frames/home_tea_m11.png",
+        "qa": "Root personally viewed cream glaze/real material consumer and matched repair of inward-facing lid/capped spout. Finite M11 engineering accepted; actual Low/performance-rescue/.7, no full art/Medium/movement acceptance. Original asset and shared material unchanged."
+      }
     },
     {
       "id": "texture.rural.realism.earthenware.20260930",
