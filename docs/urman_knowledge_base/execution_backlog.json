@@ -10230,21 +10230,23 @@
             "title": "Подключить T07 — Полотенце",
             "result": "Подключить T07 — Полотенце",
             "owner": "art/materials/qa",
-            "evidence": [],
+            "evidence": [
+              "Root+Luna source input accepted: StyleBenchmarkZone(FapClinic)._Ready -> BuildFapClinic/AttachFapInteriorSet -> ClinicSurfacePresentation.Attach exact FapInteriorWashUnit_Towel_LOD0/LOD1 -> ForColor(c9c6b7,cloth_towel,sheltered), registered original T07v01 .5m triplanar (mesh has POSITION/NORMAL, no UV). Current source/GLB/PML/texture hashes match delivered a4a223, but radiator close-up does not show towel. No missing source binding; only actual towel frame remains. Root personally viewed T07 PNG; no museum/ornament resource substitution."
+            ],
             "assigned_owner": "art/materials/qa",
-            "active_owner": null,
+            "active_owner": "codex/root",
             "activity": {
-              "state": "not_active",
-              "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+              "state": "confirmed_active",
+              "reason": "Root verifies one existing live clinic wash-unit towel consumer from current accepted FAP source/snapshot, Luna read-only. No source edit or station claim until exact inputs."
             },
             "task_type": "engineering",
-            "status": "todo",
-            "implementation_state": "not_started",
+            "status": "in_progress",
+            "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
               "Подключить T07 — Полотенце; собственного целевого receipt пока нет."
             ],
-            "next_action": "Сопоставить текущий результат: Подключить T07 — Полотенце. Затем изменить только установленный остаток.",
+            "next_action": "Root reserves one free station slot for existing fap_wash_towel, protected explicit High request; inspect actual folded cloth/material/rim and metadata, retain raw receipt/restoration. No production source edit/new compile/map generation.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -10256,7 +10258,13 @@
                 "docs/urman_knowledge_base/art/urman_imagegen_texture_prompt_book_2026-09-22.md",
                 "docs/urman_knowledge_base/assets.md"
               ],
-              "required_inputs": [],
+              "required_inputs": [
+                {
+                  "path": "game/assets/textures/painterly/urman_t07_v01_basecolor.png",
+                  "sha256": "fccb9fd4da890707bbb2bc7762f836474d17fc49fa36e95aad7f60ba96d5e899",
+                  "consumer": "Live ClinicSurfacePresentation.Attach -> FapInteriorWashUnit_Towel_LOD0/LOD1, cloth_towel .5m triplanar; same source/GLB/PML hashes as current accepted a4a223 FAP snapshot."
+                }
+              ],
               "scope_in": [
                 "Подключить T07 — Полотенце"
               ],
@@ -10274,7 +10282,7 @@
               ],
               "verification": {
                 "method": "targeted_runtime_scenario",
-                "question": "Подключить T07 — Полотенце",
+                "question": "Does the existing folded FAP wash-unit towel show clean pale cotton loops on its real geometry, distinct from paper/metal, without obvious stretched projection/seams? Record actual High/rescue metadata; do not infer motion/full art.",
                 "scenario": {
                   "targets": [
                     "game/assets/textures/painterly/README.md",

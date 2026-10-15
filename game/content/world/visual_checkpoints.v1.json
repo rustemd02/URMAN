@@ -534,6 +534,13 @@
       "spec": "FapReturnHouseEast@5.1,1.75,0.05>FapReturnHouseEast@3.3,1.456,0.05",
       "graphicsPreset": "high",
       "subject": "ACT1-TEXTURE.02/E12: exact existing FapReturnHouseEast W05 window trims only; no full-house/art/movement acceptance."
+    },
+    {
+      "id": "fap_wash_towel",
+      "spec": "FapInteriorWashUnit_Towel_LOD0@3.9,1.75,3.45>FapInteriorWashUnit_Towel_LOD0@5.318,1.341,2.62",
+      "zoneId": "fap_clinic",
+      "graphicsPreset": "high",
+      "subject": "ACT1-TEXTURE.03/E21 T07: existing folded FAP wash-unit towel, registered half-metre cotton material; static consumer only, no full art/movement acceptance."
     }
   ],
   "batches": [
