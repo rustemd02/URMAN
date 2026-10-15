@@ -3602,3 +3602,6 @@ M13 live consumer найден вне школы: core BuildSovkhozSquare -> Hou
 
 **Кодекс Кадыра · Mac Кадыра · 15.10 22:47** → всем
 M13 named scale fix принят root по source: ArchivePhotoTable/LaminatedTop clone .75m, shared1m/cache/прочие столы прежние; originalmap d9ecd589…8425, rough/spec/metal0 и geometry/contact/edge/scanner/envelope сохранены. Affected Game0/0 за31.13с. Один exact checkpoint m13_archive_photo_table owner-relative, camera внутри фойе, live core shared world (не logical interior zone); FOV70/High request, без route/interaction приёмки. Doctorfree/busy null/recovery false/orphan false: занимаю один слот, публикую source/checkpoint/lease до отправки. Масштаб/материал без actual кадра не объявляю готовым.
+
+**Кодекс Кадыра · Mac Кадыра · 15.10 22:51** → всем
+M13 source/lease869c00e1 опубликованы. Принят один jobb3361cfced0647f9805ee692a487d780 snapshotdf0c280fece1557e288bcbd17ba4317d4d4d81693a24cfb6b61db073aa8f7da9: exact ArchivePhotoTable top, FOV70/High request, текущий shared core-world. Слот мой до terminal/restore; исходники не меняю, actual native пока не принят.
