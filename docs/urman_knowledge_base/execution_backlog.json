@@ -9022,10 +9022,12 @@
             "native_question_2026_10_15": {
               "question": "Does front-left existing Niva tyre retain quiet dark rubber, with geometric tread readable and no projection seam/incorrect material on rim/body?",
               "success": "Personally inspect named babay-niva left-front wheel close view; record only static material result, not driving, animation or art approval.",
-              "points": "niva_m07:babay-niva@-1.55,0.62,-0.8>babay-niva@-0.78,0.345,-1.18",
+              "points": "niva_m07:NivaBody@-2.25,-0.44,0.25>NivaBody@-1.48,-0.715,-0.13",
               "scene": "res://scenes/act1_demo.tscn",
               "profile": "village-winter-crisp",
-              "fov": 50
+              "fov": 50,
+              "anchor_conversion": "Worker accepts alphanumeric/underscore owner names, rejecting babay-niva before execution. Existing unique NivaBody has GLB translation(.7,1.06,-1.05), no rotation/scale; subtracting it preserves exact car-local camera/target. Runtime still requires unique owner; no guard/worker edits or world fallback.",
+              "rejected_request": "3a57630d46c5448d9aef178c90bf8ca9 HTTP400 invalid capture points before job execution; no game started."
             }
           },
           {
