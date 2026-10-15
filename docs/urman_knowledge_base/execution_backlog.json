@@ -57433,22 +57433,30 @@
             "title": "Устранить пустоту/z-fighting выбранного shared door/wall/roof/window producer по exact mesh IDs",
             "result": "Устранить пустоту/z-fighting выбранного shared door/wall/roof/window producer по exact mesh IDs",
             "owner": "finished-act1",
-            "evidence": [],
+            "evidence": [
+              "evidence/ACT1-TEXTURE.03/home-m11-20261015/native_75b784/frames/home_tea_m11.png: root personally observed grey panes behind the kitchen tea set. Current relevant StyleBenchmarkInteriorFactory.Rooms.cs matches receipt snapshot, no new runtime launched.",
+              "game/scripts/StyleBenchmarkInteriorFactory.Rooms.cs: WingOrigin=(0,-30,0), BuildKitchen creates KitchenWindowNorth/Pane and KitchenWindowWest/Pane via FrostWindow. FrostPane is unshaded StandardMaterial3D with opaque alpha1; meta explicitly says frosted daylight panel; wing has no exterior. Root+Luna source check: intentional sealed-wing fallback, not PML frost-window binding/UV error/z-fighting. Making it transparent would reveal empty space; no source edit, no whole-house rework or K13 substitution."
+            ],
             "assigned_owner": "finished-act1",
             "active_owner": null,
             "activity": {
-              "state": "not_active",
-              "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+              "state": "released",
+              "reason": "Root+Luna traced the current kitchen grey-pane observation to an intentional sealed-wing daylight fallback, not a correctable material/UV/z-fighting defect. No production changes or run; historical K13 remains unidentified."
             },
             "task_type": "engineering",
-            "status": "todo",
+            "status": "blocked",
             "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
-              "Устранить пустоту/z-fighting выбранного shared door/wall/roof/window producer по exact mesh IDs; собственного целевого receipt пока нет."
+              "Existing exact K13 producer/mesh/cause input from ACT1-TECH.3/E01 is still missing; no fix claimed.",
+              "Current KitchenWindowNorth/Pane and KitchenWindowWest/Pane intentionally show opaque frosted daylight in the sealed BabaiHouseWing. Showing a real outside view requires an actual exterior/occlusion design, outside this material-only candidate; not introduced as a new mandatory requirement here."
             ],
-            "next_action": "Сопоставить текущий результат: Устранить пустоту/z-fighting выбранного shared door/wall/roof/window producer по exact mesh IDs. Затем изменить только установленный остаток.",
-            "blocker": null,
+            "next_action": "Reuse this causal finding; no kitchen transparency patch or unchanged native rerun. Continue E02 only after the exact K13 input in E01 or a separately explicit source-confirmed selected shared-producer defect becomes available.",
+            "blocker": {
+              "reason": "The known actionable K13 shared-producer defect still lacks exact frame/zone/mesh input from E01. Current kitchen grey panes are not K13 and are intentional opaque daylight panels in a sealed wing at y=-30 with no exterior; a transparency-only patch would expose empty space, so they are not substituted for that missing case.",
+              "release_when": "Supply exact K13 frame/object identity/zone or another explicitly selected source-confirmed shared-producer defect with its real exterior/occlusion contract. Do not rerun the unchanged kitchen frame or blindly enable transparency.",
+              "owner": "finished-act1 / original K13 review holder; E01 retains exact missing-input request."
+            },
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
             "work_contract": {
