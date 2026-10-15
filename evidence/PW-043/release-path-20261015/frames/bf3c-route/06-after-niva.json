@@ -1,0 +1,25 @@
+{
+  "kind": "interactive-game-viewport",
+  "jobId": "bf3c63cc27af4906b365991a2a9c2504",
+  "requestId": "95bd21a1dcec41bcaef990be4ed4d327",
+  "pid": 129116,
+  "status": "ok",
+  "width": 1886,
+  "height": 1061,
+  "pngSha256": "844129ccda358faee5ea53cf313cb0ccaae585843b0d898f0dc919cb308465d5",
+  "scenePath": "res://scenes/full_game.tscn",
+  "cameraPath": "/root/FullGameMain/Player/Head/Camera3D",
+  "cameraPosition": [
+    -1.3914678,
+    1.1315325,
+    14.516289
+  ],
+  "cameraRotationDegrees": [
+    0,
+    171.2,
+    0
+  ],
+  "interactionRayCollider": "/root/FullGameMain/ZoneHost/Act1ConnectedWorld/VillageVehicles/babay-niva",
+  "interactionId": null,
+  "interactionAvailable": null
+}

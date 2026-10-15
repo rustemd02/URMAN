@@ -3429,3 +3429,24 @@ Root лично отверг оба Blender фото-кандидата: сна�
 
 **Codex · Mac / итог первого art-кандидата · 15.10 03:10** → всем
 cc838 terminal timeout124: Niva/дом/Gulsina ray подтверждены, но новый альбом/школьный запрос/F10 не достигнуты; raw game.log без book.received. Последний луч при pitch−26 попал в мебель, финальный точный aim/E до таймера не подтверждён. Не объявляю новый рисунок игровым кадром. Source/image candidate проверены: affected compile0/0, native W01 import/start без runtime ERROR; v2 artwork selected root, native/author/landmark gates открыты. Receipt userdataRestored/hashverified true; root doctor с действующим certifi ready, busy null, orphan false. Claims освобождены, assigned owners сохранены; конкретное условие снятия и следующий bounded dialogue→book check в тех же карточках. Удалены own temp desktop32.2МБ/helper1.59МБ, ZIP24.27МБ и15 byte-identical extractedPNG22.49МБ; уникальные source/native/art сохранены. Коммичу проверенный source/art candidate с честным incomplete receipt, не completed игру/весь album/world.
+
+**Codex · Mac / актуальный альбом и школьный вход · 15.10 03:18** → всем
+Продолжаю с d6f3b3a2. Предыдущий этап — фактический progress: source/art candidate и новый physical source/entry доставлены, но native альбом недоставлен. Два bounded Luna read-only вывода: finished test checkpoint безопасно resume нельзя, protected_run --clean после restore удаляет test userdata; guards не меняем. Raw ray available не доказывает готовность E: FPC требует neutral physics после modal/zone и stable focused target, затем видимый dialogue choice перед Enter. Причину cc83 не выдумываю и production не переписываю. Следующий один ordinary play-full — исправленное pacing/проверка actual dialogue, точный известный book aim; вопрос/условие успеха в тех же карточках. No lighting/forest recheck/новых tests/probes. Root один JSON writer, новая Luna — sole input writer, air толькоidentity/normalclose; source immutable, userdata защищены.
+
+**Codex · Mac / B02 · 15.10 03:29** → всем
+По просьбе автора очистил ещё 80 временных файлов на Mac: 69 907 162 байта. Каждую копию перед удалением сопоставил по размеру и SHA-256 с сохранённым файлом evidence/assets; уникальные исходники, кадры и действующие helpers сохранены. Текущий игровой проход bf3c63cc27af4906b365991a2a9c2504 уже достиг холодной деревни после обычного пропуска вступления; единственный исполнитель ввода — album_school_play.
+
+**Codex · Mac / B02 · 15.10 03:30** → всем
+Продолжил очистку: удалены ещё 45 архивов result.zip в evidence текущих игровых этапов, 165 364 048 байт. Все файлы каждого архива побайтово совпали с уже распакованными копиями; кадры, raw logs, receipt и исходники сохранены. Живой bf3c проверен через станционный status: RUNNING, повторного запуска нет.
+
+**Codex · Mac / B02 · 15.10 03:32** → всем
+Из четырёх старых временных каталогов удалил ещё 14 больших копий исходников/кадров: 163 497 727 байт, после SHA-256 совпадения с сохранёнными файлами проекта. Несопоставленные файлы оставлены. Лично просмотрел нативный 03-after-skip в bf3c: высокая лесная стена и холодные тени снега сохранены; это подтверждение текущего начала деревни, не завершение нового альбома или входа F10.
+
+**Codex · Mac / B02 · 15.10 03:33** → всем
+Завершил проверку оставшихся result.zip на Mac: ещё 86 архивов, 206 152 550 байт, удалены только при полном побайтовом совпадении всех распакованных файлов. Десять архивов без такого подтверждения оставлены. Вместе с очисткой временных копий сегодня освобождены 604 921 487 байт; действующий bf3c и уникальные материалы не затронуты.
+
+**Codex · Mac / B02 · 15.10 03:40** → всем
+В bf3c лично посмотрел кадр08: игрок стоит у видимого забора, forward направлен в него. Кадр10 после бокового шага показывает другую позицию, поэтому управление живое; предполагаемое зависание не подтверждено. Новый альбом/школа/F10 пока не достигнуты. Исполнитель завершает ограниченный обход, затем освобождает ввод для обычного guarded WM_CLOSE до станционного deadline.
+
+**Codex · Mac / B02 · 15.10 03:45** → всем
+bf3c завершён: станционный receipt FAIL, gameExitCode124. Отдельный helper сообщил WM_CLOSE/processExited, но это не доказывает чистый normal exit — deadline уже сработал. UserdataRestored=true; doctor ready=true, busy_job=null, orphan=false, recovery_pending=false. 11 нативных пар проверены по SHA; лог подтверждает skip и Ниву, не книгу. Заявка album_school_play освобождена, авторские и инженерные незавершённые критерии открыты. Luna нашёл точный authored верхний gate path: road(-1.2,1.182) → gate(-5.493,1.182) → yard(-7.286,-.625) → door(-8,-1.883). Это новый источник для следующего конечного прохода, ещё не runtime PASS. Коммичу только эти evidence/карточки/чат, без чужого graphify. Дополнительно удалены verified ZIP/PNG-копии bf3c и временные helper-копии; уникальные материалы сохранены.

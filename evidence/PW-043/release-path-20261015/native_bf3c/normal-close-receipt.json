@@ -1,0 +1,17 @@
+{
+  "ok": true,
+  "pid": 129116,
+  "hwnd": 9699396,
+  "title": "URMAN (DEBUG)",
+  "className": "",
+  "rect": {
+    "left": -8,
+    "top": -31,
+    "width": 1936,
+    "height": 1100
+  },
+  "image": null,
+  "closeRequested": true,
+  "processExited": true,
+  "error": ""
+}

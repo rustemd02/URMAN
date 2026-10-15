@@ -107891,7 +107891,12 @@
       "verify": [
         "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-019/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
       ],
-      "evidence": [],
+      "evidence": [
+        "evidence/PW-043/release-path-20261015/native_bf3c/receipt.json",
+        "evidence/PW-043/release-path-20261015/native_bf3c/game.log",
+        "evidence/PW-043/release-path-20261015/frames/bf3c-route/03-after-skip.png",
+        "evidence/PW-043/release-path-20261015/frames/bf3c-route/11-door-check.png"
+      ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-019",
       "source_requirements": [
         "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/docs/11_TASKS_RU.md",
@@ -108007,7 +108012,7 @@
       "assigned_owner": "integration",
       "activity": {
         "state": "not_active",
-        "reason": "Текущий source/art этап сохранён, runtime попытка terminal; input/station claims освобождены, own full DoD не закрыт. Assigned owner сохранён."
+        "reason": "Конечный bf3c verification остановлен до нового альбома, ввод освобождён. Receipt FAIL124, данные восстановлены; assigned owner сохранён. Новое причинное наблюдение — забор и точный authored gate route, не production freeze."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -108330,6 +108335,52 @@
         "release_condition": "Visible focused tea choice accepted, then live book ray available and native acquired album showing exact v2 front/header; subsequent school source/request/first F10 measured separately.",
         "next_finite_step": "Use already accepted 2903 ordinary route and confirmed book pose; require actual visible dialogue before Enter, then exact book aim (yaw84.2/pitch-36.3 from cc83 final pose) or original 2903 pose/yaw90/pitch-41.92. Do not reuse failed shallow-26 aim or claim source image is a game frame. No broad lighting/forest recheck.",
         "cleanup": "Actor temporary desktop PNGs32,232,142B; air temphelpers1,592,975B; verified archive24,271,923B and canonical duplicate15 nativePNGs22,492,037B removed. Unique native pairs/source/art retained."
+      },
+      "progress_2026_10_15_album_choice_retry": {
+        "state": "stopped_incomplete",
+        "verification_question": "После подтверждённого видимого tea choice и live book E отображается ли exact v2 front/heading, затем обычный school source/request и first F10?",
+        "success_condition": "Native current album лично просмотрен с exact source, source/request acquisition/context/entry доказаны только если реально достигнуты; receipt/data restore сохранены; allphoto/world/author gates не закрывать.",
+        "changed_input": "Same production source; previous target verification incomplete. Neutral input/stable focused target before E, visible dialogue choice before Enter, exact book pitch instead of shallow-26; no manual facts/resume/teleport.",
+        "next_action": "Use the source-derived road/gate/yard/door anchors for one finite ordinary route to the actual new album; prepare a small close transport before launch and reserve at least 3 minutes. Do not replay the failed forward path.",
+        "job_id": "bf3c63cc27af4906b365991a2a9c2504",
+        "snapshot_sha256": "3530e560aaa163894e2c9c8597a05f30c8d9d551aa71203da7b9d4f595e0feef",
+        "current_observation": "Native 03 confirms cold village arrival; 05 confirms available Niva stop ray. Camera at 08/09 is beside visible fence, repeated forward inputs did not move it. Native10 lateral motion changes pose, refuting general input freeze; ordinary gate detour remains unfinished. No new album, school acquisition or F10 native evidence yet.",
+        "root_visual_review": [
+          "evidence/PW-043/release-path-20261015/frames/bf3c-route/03-after-skip.png",
+          "evidence/PW-043/release-path-20261015/frames/bf3c-route/08-door-ray.png"
+        ],
+        "station_result": "FAIL; gameExitCode=124 at deadline. Separate guarded WM_CLOSE result reports requested/processExited=true, but this does not prove clean normal exit. userdataRestored=true; doctor ready=true,busy_job=null,orphan_game_process=false,recovery_pending=false.",
+        "observed_result": "11 native PNG/JSON pairs verified by root against job/PID/SHA. Root personally viewed cold high-forest village, fence obstruction and final yard pose. Raw log confirms prologue skip and Niva scene entry; no house/tea/book/school/F10 completion. No production input freeze evidenced.",
+        "blocker": "This bounded verification exhausted its station budget before the book. Forward motion was aimed into a visible fence; lateral motion changed position. The exact existing gate route was then recovered from source.",
+        "release_condition": "Ordinary route through the authored gate reaches the actual house/tea/book UI; native v2 album is personally reviewed, then school/F10 can be checked. No state injection or save carry-over.",
+        "ordinary_route_source": {
+          "source": "game/scripts/experiments/agent_b_act1/AgentBAct1Layout.cs:218,343; assets/source/blender/agent_b_act1/agent_b_buildings.py:993",
+          "world_xz_anchors": [
+            [
+              -1.2,
+              1.182
+            ],
+            [
+              -5.493,
+              1.182
+            ],
+            [
+              -7.286,
+              -0.625
+            ],
+            [
+              -8,
+              -1.883
+            ]
+          ],
+          "scope": "Source-derived walk path, not yet runtime-tested; upper GateBabai always open, lower optional side-board gate is separate."
+        },
+        "evidence_refs": [
+          "evidence/PW-043/release-path-20261015/native_bf3c/receipt.json",
+          "evidence/PW-043/release-path-20261015/native_bf3c/game.log",
+          "evidence/PW-043/release-path-20261015/frames/bf3c-route/03-after-skip.png",
+          "evidence/PW-043/release-path-20261015/frames/bf3c-route/11-door-check.png"
+        ]
       }
     },
     {
@@ -115924,12 +115975,17 @@
             "title": "Поставить камеры и три узнаваемые опоры каждой портальной фотографии до её финальной отрисовки.",
             "result": "Поставить камеры и три узнаваемые опоры каждой портальной фотографии до её финальной отрисовки.",
             "owner": "art",
-            "evidence": [],
+            "evidence": [
+              "evidence/PW-043/release-path-20261015/native_bf3c/receipt.json",
+              "evidence/PW-043/release-path-20261015/native_bf3c/game.log",
+              "evidence/PW-043/release-path-20261015/frames/bf3c-route/03-after-skip.png",
+              "evidence/PW-043/release-path-20261015/frames/bf3c-route/11-door-check.png"
+            ],
             "assigned_owner": "art",
             "active_owner": null,
             "activity": {
               "state": "not_active",
-              "reason": "Source/candidate произведён и проверен compile/import; current target-native недоставлен в terminal запуске. Claim освобождён, assigned art сохранён."
+              "reason": "Конечный bf3c verification остановлен до нового альбома, ввод освобождён. Receipt FAIL124, данные восстановлены; assigned owner сохранён. Новое причинное наблюдение — забор и точный authored gate route, не production freeze."
             },
             "task_type": "engineering",
             "status": "in_progress",
@@ -116038,6 +116094,52 @@
               "release_condition": "Visible focused tea choice accepted, then live book ray available and native acquired album showing exact v2 front/header; subsequent school source/request/first F10 measured separately.",
               "next_finite_step": "Use already accepted 2903 ordinary route and confirmed book pose; require actual visible dialogue before Enter, then exact book aim (yaw84.2/pitch-36.3 from cc83 final pose) or original 2903 pose/yaw90/pitch-41.92. Do not reuse failed shallow-26 aim or claim source image is a game frame. No broad lighting/forest recheck.",
               "cleanup": "Actor temporary desktop PNGs32,232,142B; air temphelpers1,592,975B; verified archive24,271,923B and canonical duplicate15 nativePNGs22,492,037B removed. Unique native pairs/source/art retained."
+            },
+            "progress_2026_10_15_album_choice_retry": {
+              "state": "stopped_incomplete",
+              "verification_question": "После подтверждённого видимого tea choice и live book E отображается ли exact v2 front/heading, затем обычный school source/request и first F10?",
+              "success_condition": "Native current album лично просмотрен с exact source, source/request acquisition/context/entry доказаны только если реально достигнуты; receipt/data restore сохранены; allphoto/world/author gates не закрывать.",
+              "changed_input": "Same production source; previous target verification incomplete. Neutral input/stable focused target before E, visible dialogue choice before Enter, exact book pitch instead of shallow-26; no manual facts/resume/teleport.",
+              "next_action": "Use the source-derived road/gate/yard/door anchors for one finite ordinary route to the actual new album; prepare a small close transport before launch and reserve at least 3 minutes. Do not replay the failed forward path.",
+              "job_id": "bf3c63cc27af4906b365991a2a9c2504",
+              "snapshot_sha256": "3530e560aaa163894e2c9c8597a05f30c8d9d551aa71203da7b9d4f595e0feef",
+              "current_observation": "Native 03 confirms cold village arrival; 05 confirms available Niva stop ray. Camera at 08/09 is beside visible fence, repeated forward inputs did not move it. Native10 lateral motion changes pose, refuting general input freeze; ordinary gate detour remains unfinished. No new album, school acquisition or F10 native evidence yet.",
+              "root_visual_review": [
+                "evidence/PW-043/release-path-20261015/frames/bf3c-route/03-after-skip.png",
+                "evidence/PW-043/release-path-20261015/frames/bf3c-route/08-door-ray.png"
+              ],
+              "station_result": "FAIL; gameExitCode=124 at deadline. Separate guarded WM_CLOSE result reports requested/processExited=true, but this does not prove clean normal exit. userdataRestored=true; doctor ready=true,busy_job=null,orphan_game_process=false,recovery_pending=false.",
+              "observed_result": "11 native PNG/JSON pairs verified by root against job/PID/SHA. Root personally viewed cold high-forest village, fence obstruction and final yard pose. Raw log confirms prologue skip and Niva scene entry; no house/tea/book/school/F10 completion. No production input freeze evidenced.",
+              "blocker": "This bounded verification exhausted its station budget before the book. Forward motion was aimed into a visible fence; lateral motion changed position. The exact existing gate route was then recovered from source.",
+              "release_condition": "Ordinary route through the authored gate reaches the actual house/tea/book UI; native v2 album is personally reviewed, then school/F10 can be checked. No state injection or save carry-over.",
+              "ordinary_route_source": {
+                "source": "game/scripts/experiments/agent_b_act1/AgentBAct1Layout.cs:218,343; assets/source/blender/agent_b_act1/agent_b_buildings.py:993",
+                "world_xz_anchors": [
+                  [
+                    -1.2,
+                    1.182
+                  ],
+                  [
+                    -5.493,
+                    1.182
+                  ],
+                  [
+                    -7.286,
+                    -0.625
+                  ],
+                  [
+                    -8,
+                    -1.883
+                  ]
+                ],
+                "scope": "Source-derived walk path, not yet runtime-tested; upper GateBabai always open, lower optional side-board gate is separate."
+              },
+              "evidence_refs": [
+                "evidence/PW-043/release-path-20261015/native_bf3c/receipt.json",
+                "evidence/PW-043/release-path-20261015/native_bf3c/game.log",
+                "evidence/PW-043/release-path-20261015/frames/bf3c-route/03-after-skip.png",
+                "evidence/PW-043/release-path-20261015/frames/bf3c-route/11-door-check.png"
+              ]
             }
           },
           {
@@ -116048,13 +116150,17 @@
             "owner": "art",
             "evidence": [
               "evidence/PW-040/s-garden-20261012/thumbnail-receipt.json",
-              "evidence/PW-040/s-garden-20261012/thumbnail-build.log"
+              "evidence/PW-040/s-garden-20261012/thumbnail-build.log",
+              "evidence/PW-043/release-path-20261015/native_bf3c/receipt.json",
+              "evidence/PW-043/release-path-20261015/native_bf3c/game.log",
+              "evidence/PW-043/release-path-20261015/frames/bf3c-route/03-after-skip.png",
+              "evidence/PW-043/release-path-20261015/frames/bf3c-route/11-door-check.png"
             ],
             "assigned_owner": "art",
             "active_owner": null,
             "activity": {
               "state": "not_active",
-              "reason": "Source/candidate произведён и проверен compile/import; current target-native недоставлен в terminal запуске. Claim освобождён, assigned art сохранён."
+              "reason": "Конечный bf3c verification остановлен до нового альбома, ввод освобождён. Receipt FAIL124, данные восстановлены; assigned owner сохранён. Новое причинное наблюдение — забор и точный authored gate route, не production freeze."
             },
             "task_type": "engineering",
             "status": "in_progress",
@@ -116064,7 +116170,7 @@
               "13backSVG produced1800×1200 and Godot rendered; protected album view/authorart+language acceptance open.",
               "12other fronts, S-GARDEN1800×1200final, all thumbnails и scene/identity alignment; full E02 остаётся открытым."
             ],
-            "next_action": "Лично принять первый native album/front/thumbnail и school contact-copy источник; сохранить расхождения с F10/game scene, не закрывать остальные11fronts/allphoto DoD.",
+            "next_action": "Показать P-FOREST v2 и исправленный заголовок в реальном приобретённом PhotoBook через обычный authored gate/tea/book путь; затем продолжать остальные фронты. Все 13 не закрывать по первому.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -116246,6 +116352,52 @@
               "release_condition": "Visible focused tea choice accepted, then live book ray available and native acquired album showing exact v2 front/header; subsequent school source/request/first F10 measured separately.",
               "next_finite_step": "Use already accepted 2903 ordinary route and confirmed book pose; require actual visible dialogue before Enter, then exact book aim (yaw84.2/pitch-36.3 from cc83 final pose) or original 2903 pose/yaw90/pitch-41.92. Do not reuse failed shallow-26 aim or claim source image is a game frame. No broad lighting/forest recheck.",
               "cleanup": "Actor temporary desktop PNGs32,232,142B; air temphelpers1,592,975B; verified archive24,271,923B and canonical duplicate15 nativePNGs22,492,037B removed. Unique native pairs/source/art retained."
+            },
+            "progress_2026_10_15_album_choice_retry": {
+              "state": "stopped_incomplete",
+              "verification_question": "После подтверждённого видимого tea choice и live book E отображается ли exact v2 front/heading, затем обычный school source/request и first F10?",
+              "success_condition": "Native current album лично просмотрен с exact source, source/request acquisition/context/entry доказаны только если реально достигнуты; receipt/data restore сохранены; allphoto/world/author gates не закрывать.",
+              "changed_input": "Same production source; previous target verification incomplete. Neutral input/stable focused target before E, visible dialogue choice before Enter, exact book pitch instead of shallow-26; no manual facts/resume/teleport.",
+              "next_action": "Use the source-derived road/gate/yard/door anchors for one finite ordinary route to the actual new album; prepare a small close transport before launch and reserve at least 3 minutes. Do not replay the failed forward path.",
+              "job_id": "bf3c63cc27af4906b365991a2a9c2504",
+              "snapshot_sha256": "3530e560aaa163894e2c9c8597a05f30c8d9d551aa71203da7b9d4f595e0feef",
+              "current_observation": "Native 03 confirms cold village arrival; 05 confirms available Niva stop ray. Camera at 08/09 is beside visible fence, repeated forward inputs did not move it. Native10 lateral motion changes pose, refuting general input freeze; ordinary gate detour remains unfinished. No new album, school acquisition or F10 native evidence yet.",
+              "root_visual_review": [
+                "evidence/PW-043/release-path-20261015/frames/bf3c-route/03-after-skip.png",
+                "evidence/PW-043/release-path-20261015/frames/bf3c-route/08-door-ray.png"
+              ],
+              "station_result": "FAIL; gameExitCode=124 at deadline. Separate guarded WM_CLOSE result reports requested/processExited=true, but this does not prove clean normal exit. userdataRestored=true; doctor ready=true,busy_job=null,orphan_game_process=false,recovery_pending=false.",
+              "observed_result": "11 native PNG/JSON pairs verified by root against job/PID/SHA. Root personally viewed cold high-forest village, fence obstruction and final yard pose. Raw log confirms prologue skip and Niva scene entry; no house/tea/book/school/F10 completion. No production input freeze evidenced.",
+              "blocker": "This bounded verification exhausted its station budget before the book. Forward motion was aimed into a visible fence; lateral motion changed position. The exact existing gate route was then recovered from source.",
+              "release_condition": "Ordinary route through the authored gate reaches the actual house/tea/book UI; native v2 album is personally reviewed, then school/F10 can be checked. No state injection or save carry-over.",
+              "ordinary_route_source": {
+                "source": "game/scripts/experiments/agent_b_act1/AgentBAct1Layout.cs:218,343; assets/source/blender/agent_b_act1/agent_b_buildings.py:993",
+                "world_xz_anchors": [
+                  [
+                    -1.2,
+                    1.182
+                  ],
+                  [
+                    -5.493,
+                    1.182
+                  ],
+                  [
+                    -7.286,
+                    -0.625
+                  ],
+                  [
+                    -8,
+                    -1.883
+                  ]
+                ],
+                "scope": "Source-derived walk path, not yet runtime-tested; upper GateBabai always open, lower optional side-board gate is separate."
+              },
+              "evidence_refs": [
+                "evidence/PW-043/release-path-20261015/native_bf3c/receipt.json",
+                "evidence/PW-043/release-path-20261015/native_bf3c/game.log",
+                "evidence/PW-043/release-path-20261015/frames/bf3c-route/03-after-skip.png",
+                "evidence/PW-043/release-path-20261015/frames/bf3c-route/11-door-check.png"
+              ]
             }
           },
           {
@@ -117258,7 +117410,12 @@
       "verify": [
         "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-043/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
       ],
-      "evidence": [],
+      "evidence": [
+        "evidence/PW-043/release-path-20261015/native_bf3c/receipt.json",
+        "evidence/PW-043/release-path-20261015/native_bf3c/game.log",
+        "evidence/PW-043/release-path-20261015/frames/bf3c-route/03-after-skip.png",
+        "evidence/PW-043/release-path-20261015/frames/bf3c-route/11-door-check.png"
+      ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-043",
       "source_requirements": [
         "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/docs/11_TASKS_RU.md",
@@ -117388,7 +117545,7 @@
       "assigned_owner": "narrative",
       "activity": {
         "state": "not_active",
-        "reason": "Текущий source/art этап сохранён, runtime попытка terminal; input/station claims освобождены, own full DoD не закрыт. Assigned owner сохранён."
+        "reason": "Конечный bf3c verification остановлен до нового альбома, ввод освобождён. Receipt FAIL124, данные восстановлены; assigned owner сохранён. Новое причинное наблюдение — забор и точный authored gate route, не production freeze."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -117772,6 +117929,52 @@
         "release_condition": "Visible focused tea choice accepted, then live book ray available and native acquired album showing exact v2 front/header; subsequent school source/request/first F10 measured separately.",
         "next_finite_step": "Use already accepted 2903 ordinary route and confirmed book pose; require actual visible dialogue before Enter, then exact book aim (yaw84.2/pitch-36.3 from cc83 final pose) or original 2903 pose/yaw90/pitch-41.92. Do not reuse failed shallow-26 aim or claim source image is a game frame. No broad lighting/forest recheck.",
         "cleanup": "Actor temporary desktop PNGs32,232,142B; air temphelpers1,592,975B; verified archive24,271,923B and canonical duplicate15 nativePNGs22,492,037B removed. Unique native pairs/source/art retained."
+      },
+      "progress_2026_10_15_album_choice_retry": {
+        "state": "stopped_incomplete",
+        "verification_question": "После подтверждённого видимого tea choice и live book E отображается ли exact v2 front/heading, затем обычный school source/request и first F10?",
+        "success_condition": "Native current album лично просмотрен с exact source, source/request acquisition/context/entry доказаны только если реально достигнуты; receipt/data restore сохранены; allphoto/world/author gates не закрывать.",
+        "changed_input": "Same production source; previous target verification incomplete. Neutral input/stable focused target before E, visible dialogue choice before Enter, exact book pitch instead of shallow-26; no manual facts/resume/teleport.",
+        "next_action": "Use the source-derived road/gate/yard/door anchors for one finite ordinary route to the actual new album; prepare a small close transport before launch and reserve at least 3 minutes. Do not replay the failed forward path.",
+        "job_id": "bf3c63cc27af4906b365991a2a9c2504",
+        "snapshot_sha256": "3530e560aaa163894e2c9c8597a05f30c8d9d551aa71203da7b9d4f595e0feef",
+        "current_observation": "Native 03 confirms cold village arrival; 05 confirms available Niva stop ray. Camera at 08/09 is beside visible fence, repeated forward inputs did not move it. Native10 lateral motion changes pose, refuting general input freeze; ordinary gate detour remains unfinished. No new album, school acquisition or F10 native evidence yet.",
+        "root_visual_review": [
+          "evidence/PW-043/release-path-20261015/frames/bf3c-route/03-after-skip.png",
+          "evidence/PW-043/release-path-20261015/frames/bf3c-route/08-door-ray.png"
+        ],
+        "station_result": "FAIL; gameExitCode=124 at deadline. Separate guarded WM_CLOSE result reports requested/processExited=true, but this does not prove clean normal exit. userdataRestored=true; doctor ready=true,busy_job=null,orphan_game_process=false,recovery_pending=false.",
+        "observed_result": "11 native PNG/JSON pairs verified by root against job/PID/SHA. Root personally viewed cold high-forest village, fence obstruction and final yard pose. Raw log confirms prologue skip and Niva scene entry; no house/tea/book/school/F10 completion. No production input freeze evidenced.",
+        "blocker": "This bounded verification exhausted its station budget before the book. Forward motion was aimed into a visible fence; lateral motion changed position. The exact existing gate route was then recovered from source.",
+        "release_condition": "Ordinary route through the authored gate reaches the actual house/tea/book UI; native v2 album is personally reviewed, then school/F10 can be checked. No state injection or save carry-over.",
+        "ordinary_route_source": {
+          "source": "game/scripts/experiments/agent_b_act1/AgentBAct1Layout.cs:218,343; assets/source/blender/agent_b_act1/agent_b_buildings.py:993",
+          "world_xz_anchors": [
+            [
+              -1.2,
+              1.182
+            ],
+            [
+              -5.493,
+              1.182
+            ],
+            [
+              -7.286,
+              -0.625
+            ],
+            [
+              -8,
+              -1.883
+            ]
+          ],
+          "scope": "Source-derived walk path, not yet runtime-tested; upper GateBabai always open, lower optional side-board gate is separate."
+        },
+        "evidence_refs": [
+          "evidence/PW-043/release-path-20261015/native_bf3c/receipt.json",
+          "evidence/PW-043/release-path-20261015/native_bf3c/game.log",
+          "evidence/PW-043/release-path-20261015/frames/bf3c-route/03-after-skip.png",
+          "evidence/PW-043/release-path-20261015/frames/bf3c-route/11-door-check.png"
+        ]
       }
     },
     {
