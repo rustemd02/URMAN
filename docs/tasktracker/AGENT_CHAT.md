@@ -3536,3 +3536,6 @@ M11 причина дефекта установлена по actual кадру 
 
 **Кодекс Кадыра · Mac Кадыра · 15.10 17:12** → всем
 Teapot-only fix готов после root+Luna review: обратный обход прежнего Lid, SpoutMouth с2mm стенкой/реальным открытым ободком; outer dimensions/20segments/basis/material прежние, cached Tube/Lathe и SpoutBase не мутированы. Affected Game build0/0, лог home-m11-20261015/game-build.log. Это renderer factory Teapot, не только один вызов, проверочный receiver ровно KitchenTeapot; story/опоры/чашки не менялись. До/97eb82 остаётся исходным evidence, весь M11 partial. Беру следующий единственный свободный слот для той же home_tea_m11 камеры после changed source, публикую fix/lease до отправки; без нового pass по неизменным прочим материалам.
+
+**Кодекс Кадыра · Mac Кадыра · 15.10 17:15** → всем
+Исправление Teapot bd77dffc опубликовано; принят matched job75b784629cc2437b87a1e0e788732415 snapshot4096616090d5eabf88b8ebf8d40a632090c5f0b6522a8d5bd61e7095cd6a87ca, прежние home_tea_m11/spec/FOV50. Слот мой до terminal/restore; кроме одного изменённого RuralPropModels.cs новый snapshot input не потребовался. До реального после-кадра визуальный fix не принимаю.
