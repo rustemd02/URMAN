@@ -2143,7 +2143,8 @@ class Station:
             raise ValueError('capture requires native act1_demo')
         points = spec.get('points', '')
         number = r'-?\d+(?:\.\d+)?'
-        vector = rf'(?:[A-Za-z][A-Za-z0-9_]*@)?{number},{number},{number}'
+        # Authored node IDs include hyphens; wildcard and path characters stay excluded.
+        vector = rf'(?:[A-Za-z][A-Za-z0-9_-]*@)?{number},{number},{number}'
         entry = rf'[A-Za-z0-9_-]{{1,48}}:{vector}>{vector}'
         if not isinstance(points, str) or len(points) > 1000 or (points and not re.fullmatch(rf'{entry}(?:;{entry}){{0,7}}', points)):
             raise ValueError('invalid capture points')

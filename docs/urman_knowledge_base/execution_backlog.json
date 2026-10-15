@@ -95169,26 +95169,31 @@
             "assigned_owner": "/root",
             "active_owner": null,
             "activity": {
-              "state": "not_confirmed",
-              "last_recorded_owner": "/root",
-              "reason": "Историческое поле не доказывает работу сейчас; назначение сохранено. Подтверждение берётся из нового ответа/живого сеанса, не из возраста записи."
+              "state": "released",
+              "reason": "Root+Luna confirmed exact-owner grammar excludes every hyphenated address ID; minimal source fix reviewed/syntax-compiled, native pass waits confirmed deployment. No game/census job sent."
             },
             "task_type": "integration_check",
-            "status": "todo",
+            "status": "blocked",
             "implementation_state": "not_started",
             "technical_verification_state": "not_run",
             "remaining": [
-              "Проверить остальные facade-mount/access случаи табличек; отсутствует подтверждение собственного конечного DoD, перечисленного ниже."
+              "Confirm deployment of reviewed hyphen-safe owner grammar; no old-worker address jobs.",
+              "One address pass over existing remaining mount cases; explicit gate exceptions ADR-H032/H034/H045/H046 are source inputs, not asserted live signs. Other manifest/dynamic cases and actual access/art remain unaccepted until observed."
             ],
-            "next_action": "Проверить остальные facade-mount/access случаи табличек",
-            "blocker": null,
+            "next_action": "Station owner deploys reviewed worker source with exact hyphenated node names and confirms actual source SHA before any address capture. Then one named remaining-case pass from existing cases, preserving accepted mosque slice and fail-closed unique owner; no repeated rejected request.",
+            "blocker": {
+              "reason": "Current deployed931b27 worker owner grammar rejects AddressPlate_ADR-H032 and other real address names before execution. Remaining per-ID live sign census is not established; source contains two address universes and four explicit gate exceptions.",
+              "release_when": "Deployed worker source SHA matches a42234514036d149a1c4f1d019249609801ed1cddd702028b715952d08e5b656 (or a verified successor preserving this exact-name grammar); then resolve existing named sign presence/mount evidence in one bounded address pass, without fallback framing or new mandatory variants.",
+              "owner": "Codex station owner for deployment; /root for exact remaining-case acceptance."
+            },
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
             "work_contract": {
               "result": "Проверить остальные facade-mount/access случаи табличек",
               "targets": [
                 "game/scripts/AddressFacadeMount.cs",
-                "game/scripts/Act1ConnectedWorld.Addresses.cs"
+                "game/scripts/Act1ConnectedWorld.Addresses.cs",
+                "eng/windows_station_worker.py"
               ],
               "required_inputs": [],
               "scope_in": [
@@ -95221,7 +95226,14 @@
               "verification": [],
               "acceptance": []
             },
-            "depends_on": []
+            "depends_on": [],
+            "progress_2026_10_15_owner_grammar": {
+              "result": "Fixed one owner-character allowlist omission in worker: ASCII names may contain literal hyphen. Existing address Node names AddressPlate_<ADR-H...> were excluded even though Godot exact-owner resolver supports them.",
+              "source": "eng/windows_station_worker.py",
+              "source_sha256": "a42234514036d149a1c4f1d019249609801ed1cddd702028b715952d08e5b656",
+              "verification": "Root+independent Luna source review; python3 -m py_compile exit0. No new tests/fixtures/probes, no game/job/deploy. Native scene,8points/1000chars, numeric bounds, exactly-one-owner and no supplied-owner world fallback, snapshot/job/data guards unchanged.",
+              "scope_limit": "This is not a mount correctness/census/native PASS. Existing accepted mosque frames not repeated. Wildcard/path characters remain excluded; no aliases, guessed pose or broad guard relaxation."
+            }
           }
         ]
       },
