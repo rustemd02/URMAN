@@ -104175,7 +104175,7 @@
       "id": "PW-008",
       "title": "Разделить впечатление и доказанное знание",
       "milestone": "PW-M1",
-      "status": "todo",
+      "status": "in_progress",
       "active_owner": null,
       "owner": "integration",
       "priority": "P0",
@@ -104198,7 +104198,9 @@
         "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-008/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
       ],
       "evidence": [
-        "evidence/PW-008/receipt.json"
+        "evidence/PW-008/receipt.json",
+        "game/scripts/RuntimeBridge.PhotoBook.cs SHA3f5b35a29ef535e06214e4ba654e0595c0f1b01c0d130e0226b6af6e22fa137a: existing OriginLabel switch now covers all13 current strict catalog provenance categories; prior2 retained,11 missing mappings supplied. P-FOREST family-book-print now yields Снимок из семейной книги; S-GARDEN neighbor-voluntary-copy yields Копия от соседа. Unknown remains null. Root+Luna source review corrected speculative family adjective on file to Копия файла and neighbor plurality to singular.",
+        "evidence/PW-008/photo-origin-labels-20261015/game-build.log: final affected Game compile0errors/0warnings. Acquired/session/loading/catalog filters, unread BackText/BackRead, mounted/PageId/CanMount/CanReadBack and mutable facts/evidence/quest state untouched. Existing album placement and image-reader header already consume OriginLabel; no second UI/state owner or new test. Native current label/layout NOT_RUN; full PW008 not completed."
       ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-008",
       "source_requirements": [
@@ -104314,8 +104316,8 @@
       },
       "assigned_owner": "integration",
       "activity": {
-        "state": "not_active",
-        "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+        "state": "released",
+        "reason": "Root+Luna reviewed acquired-photo origin presentation for all13 catalog categories; final affected compile passed, native UI/W02 outside-evidence behavior remains open."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -104324,7 +104326,7 @@
         "Прохождение W02 само не подтверждает наружные сваи.",
         "UI объясняет источник знания и не выдумывает знание Айдара."
       ],
-      "next_action": "Добавить provenance категорий и ссылки на фото/место/диалог.",
+      "next_action": "In already-owned ordinary acquired P-FOREST album/720p reader route, verify visible Происхождение: Снимок из семейной книги without unread-back disclosure and same selection on return. Reuse current source; do not replay acquisition/old502. W02 alone vs independent E-BANK-OUTSIDE/E-PHOTOGRAPHER-OUTSIDE native proof remains separate and open.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -104332,20 +104334,21 @@
       "work_contract": {
         "result": "Разделить впечатление и доказанное знание",
         "targets": [
-          "game/scripts/RuntimeBridge.Notebook.cs"
+          "game/scripts/RuntimeBridge.Notebook.cs",
+          "game/scripts/RuntimeBridge.PhotoBook.cs"
         ],
         "required_inputs": [
           {
             "task_id": "PW-006",
-            "artifact": "Расширить единый kernel командами фотокниги",
+            "artifact": "Existing saved acquired-photo state/read-only PhotoBookPhotos consumer and typed PhotoWorldState persistence only; not full PW006 command set or world completion.",
             "requires": "relevant_artifact_not_full_parent",
-            "availability": "not_confirmed"
+            "availability": "available"
           },
           {
             "task_id": "PW-007",
-            "artifact": "Создать строгий каталог фото, миров и разворотов",
+            "artifact": "Accepted strict current full-game13-photo catalog including provenanceKind; PW007 completed/d884 plus current PhotoWorldCatalog parser.",
             "requires": "relevant_artifact_not_full_parent",
-            "availability": "not_confirmed"
+            "availability": "available"
           }
         ],
         "scope_in": [
@@ -104420,15 +104423,15 @@
         "implementation": [
           {
             "task_id": "PW-006",
-            "artifact": "Расширить единый kernel командами фотокниги",
+            "artifact": "Existing saved acquired-photo state/read-only PhotoBookPhotos consumer and typed PhotoWorldState persistence only; not full PW006 command set or world completion.",
             "requires": "relevant_artifact_not_full_parent",
-            "availability": "not_confirmed"
+            "availability": "available"
           },
           {
             "task_id": "PW-007",
-            "artifact": "Создать строгий каталог фото, миров и разворотов",
+            "artifact": "Accepted strict current full-game13-photo catalog including provenanceKind; PW007 completed/d884 plus current PhotoWorldCatalog parser.",
             "requires": "relevant_artifact_not_full_parent",
-            "availability": "not_confirmed"
+            "availability": "available"
           }
         ],
         "verification": [],
