@@ -8760,22 +8760,25 @@
             "owner": "art/materials/qa",
             "evidence": [
               "game/scripts/ClinicSurfacePresentation.cs: FapInteriorRadiator_Body_LOD0 only; original painted_steel_enamel_v1_basecolor.png SHA b3e51ca2d1ba8c2db18ed6ed6541e4093da17793cc49318640bcb57693303fe2; metric local triplanar .5m, existing tint 708584 and PML response retained, no UV channel in source mesh.",
-              "evidence/ACT1-TEXTURE.03/fap-m04-20261015/game-build.log: affected Game build 0 errors/0 warnings, 27.65s; root+Luna source review, no new tests. Not runtime/art acceptance."
+              "evidence/ACT1-TEXTURE.03/fap-m04-20261015/game-build.log: affected Game build 0 errors/0 warnings, 27.65s; root+Luna source review, no new tests. Not runtime/art acceptance.",
+              "evidence/ACT1-TEXTURE.03/fap-m04-20261015/native_a4a223/receipt.json: native a4a223ffb07141b88929a1bcc61bfd5f PASS, build/import/game0, raw zip SHA7908a8e78de2b9dad7488d8b8a45247d4c948398823da4e2eb5a2f874298830e, snapshot c083f2d82741057cec1abf989f30f07ac4fb1797790895aea17f347ae6e4bb4c hashes verified/userdata restored; exact source/map/checkpoint hashes match. Actual worker931b27..., address deployment still unconfirmed.",
+              "evidence/ACT1-TEXTURE.03/fap-m04-20261015/native_a4a223/frames/fap_radiator_m04.png: root personally viewed existing supported blue-grey radiator body and separate pipes under clinic window. No obvious texture seam/collapse; quiet pigment is subtle, no claimed before/after improvement. Static named hookup only. Metadata actual LOW/performance-rescue, scale0.7/FOV50/1920x1080, not Medium or full art/motion acceptance. Engine-errors.log empty; existing material-mode warnings retained."
             ],
             "assigned_owner": "art/materials/qa",
-            "active_owner": "codex/root",
+            "active_owner": null,
             "activity": {
-              "state": "confirmed_active",
-              "reason": "Root integrates one bounded M04 receiver; Luna checks existing source/binding, no station claim."
+              "state": "released",
+              "reason": "Root personally inspected actual native a4a223 radiator frame; named static material hookup accepted only, slot free/restored. Other M04 receivers/full art remain open."
             },
             "task_type": "engineering",
             "status": "in_progress",
             "implementation_state": "partial",
-            "technical_verification_state": "not_run",
+            "technical_verification_state": "passed",
             "remaining": [
-              "One protected native static view of existing FAP radiator: verify real mesh remains supported and the texture reads without UV collapse or obvious seams; other M04 cabinet/pipe consumers and full art/motion acceptance remain open."
+              "Other M04 cabinet/pipe consumers are outside the accepted radiator slice; select only an independently confirmed remaining receiver.",
+              "Full visual/material approval and ordinary movement remain open. Actual frame used automatic Low/performance-rescue, not a Medium-quality comparison; do not claim a visible before/after improvement."
             ],
-            "next_action": "Root reserves one free station slot for fap_radiator_m04 existing-clinic checkpoint; inspect actual frame, retain raw receipt and restoration proof, then release. No address/hyphen-owner or old502 jobs.",
+            "next_action": "Reuse native a4a223 for the radiator static hookup; no unchanged compile/capture rerun. Continue only a named remaining M04 receiver or a distinct required art/movement criterion after station serialization.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
