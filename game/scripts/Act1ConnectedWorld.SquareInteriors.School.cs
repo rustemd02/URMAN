@@ -4,6 +4,9 @@ namespace Urman.Godot;
 
 public partial class Act1ConnectedWorld
 {
+    private const string SchoolPhotoCopySourceInteraction = "urman.fullgame:interaction/pw-school-copy-source";
+    private const string SchoolPhotoCopyPermissionInteraction = "urman.fullgame:interaction/pw-school-copy-permission";
+
     // Compact village school: one storey, 20 x 11 m. A clear front corridor serves
     // the staff room, two small combined classes and the relocated school museum.
     // No scaling of desks, door clearances or interaction targets is involved.
@@ -117,6 +120,7 @@ public partial class Act1ConnectedWorld
             Vector3.Zero, new(.39f, .28f), flat: true);
         SquareLook(school, "SchoolRegister", "Открыть журнал", new(-8.0f, .8f, -3.9f), new(.6f, .3f, .5f),
             "Классный журнал. На последней странице подряд одиннадцать фамилий. Раньше страницы кончались раньше, чем классы.");
+        BuildSchoolPhotoCopyRequest(school);
         SShelf(school, body, "StaffBooks", new(-9.45f, 0, -1.3f), 90, 2.2f, 2.0f);
         for (var i = 0; i < 3; i++)
         {
@@ -139,6 +143,70 @@ public partial class Act1ConnectedWorld
         // Stable inspection ID remains, but this is now the end of the single-storey corridor.
         SquareLook(school, "SchoolStairWindow", "Выглянуть в окно", new(9.4f, 1.9f, 3.9f), new(.5f, 1.5f, 1.4f),
             "Из окна в конце коридора лес виден вплотную: ели стоят почти у ограды.");
+    }
+
+    private void BuildSchoolPhotoCopyRequest(Node3D school)
+    {
+        var sourceFolder = new Node3D { Name = "SchoolPhotoCopySourceFolder", Position = new(-8.48f, .74f, -3.98f) };
+        school.AddChild(sourceFolder);
+        sourceFolder.SetMeta("presentationRole", "closed permitted school-album copy folder; no photo or invented label");
+        sourceFolder.SetMeta("originalPolicy", "copy/request presentation; existing school originals remain in place");
+        SetSchoolPhotoCopyMetadata(sourceFolder, SchoolPhotoCopySourceInteraction);
+        RuralPropGeometry.Block(sourceFolder, "FolderPageStack", new(.202f, .012f, .145f), new(0, .012f, 0),
+            Mat("e8dfc8", "paper"), .002f);
+        RuralPropGeometry.Block(sourceFolder, "ClosedFolderCover", new(.222f, .012f, .156f), new(0, .026f, 0),
+            RuralPropMaterials.Surface("cloth", "495449"), .004f);
+        RuralPropGeometry.Block(sourceFolder, "FolderSpine", new(.012f, .021f, .158f), new(-.103f, .015f, 0),
+            RuralPropMaterials.Surface("upholstery", "5b6254"), .002f);
+        AddSchoolCopyContact(sourceFolder, "FolderContact", new(.222f, .04f, .156f));
+        var sourceTarget = FacilityTarget("SchoolPhotoCopySource", SchoolPhotoCopySourceInteraction,
+            "Найти разрешённую копию школьного альбома", school,
+            new(-8.48f, .76f, -3.98f), new(.20f, .09f, .14f));
+        SetSchoolPhotoCopyMetadata(sourceTarget, SchoolPhotoCopySourceInteraction);
+        RegisterPublicUse("school", sourceTarget, sourceFolder);
+
+        var requestSheet = new Node3D { Name = "SchoolPhotoCopyRequestSheet", Position = new(-8.48f, .74f, -3.62f) };
+        school.AddChild(requestSheet);
+        requestSheet.SetMeta("presentationRole", "blank closed copy-request envelope; no invented text or approval");
+        SetSchoolPhotoCopyMetadata(requestSheet, SchoolPhotoCopyPermissionInteraction);
+        RuralPropGeometry.Block(requestSheet, "RequestEnvelope", new(.19f, .012f, .125f), new(0, .006f, 0),
+            Mat("e8dfc8", "paper"), .002f);
+        RuralPropGeometry.Block(requestSheet, "EnvelopeFold", new(.15f, .003f, .055f), new(0, .014f, -.014f),
+            Mat("d8cdae", "paper"), .001f);
+        AddSchoolCopyContact(requestSheet, "EnvelopeContact", new(.19f, .035f, .125f));
+        var permissionTarget = FacilityTarget("SchoolPhotoCopyPermission", SchoolPhotoCopyPermissionInteraction,
+            "Попросить копию школьного снимка", school,
+            new(-8.48f, .758f, -3.62f), new(.18f, .08f, .11f));
+        SetSchoolPhotoCopyMetadata(permissionTarget, SchoolPhotoCopyPermissionInteraction);
+        RegisterPublicUse("school", permissionTarget, requestSheet);
+    }
+
+    private static void AddSchoolCopyContact(Node3D parent, string name, Vector3 size)
+    {
+        var contact = new StaticBody3D
+        {
+            Name = name,
+            CollisionLayer = 1,
+            CollisionMask = 0,
+        };
+        contact.AddChild(new CollisionShape3D
+        {
+            Name = "Shape",
+            Position = new(0, size.Y * .5f, 0),
+            Shape = new BoxShape3D { Size = size },
+        });
+        parent.AddChild(contact);
+    }
+
+    private static void SetSchoolPhotoCopyMetadata(Node node, string interactionId)
+    {
+        node.SetMeta("photoId", "S-SCHOOL");
+        node.SetMeta("sourceInteractionId", SchoolPhotoCopySourceInteraction);
+        node.SetMeta("permissionInteractionId", SchoolPhotoCopyPermissionInteraction);
+        node.SetMeta("printPhotoId", "S-SCHOOL");
+        node.SetMeta("requestedPrintPhotoId", "S-SCHOOL");
+        node.SetMeta("campaignInteractionId", interactionId);
+        node.SetMeta("runtimeStateOwner", "RuntimeBridge campaign action; no local state write");
     }
 
     private void BuildClassroom(Node3D school, StaticBody3D body, float x0, float x1, string title, bool tukay, bool drawings)

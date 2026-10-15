@@ -1,0 +1,83 @@
+{
+  "asset_id": "P-FOREST",
+  "version": "pforest-tableau-v1",
+  "status": "original_candidate_produced_not_scene_integrated_or_art_accepted",
+  "source_script": "assets/source/blender/photoworlds/W01/pforest_tableau.py",
+  "source_script_sha256": "12d80c87abe1601ef9c377f0ef86234031ea0195d8ddbce50993c8116cba85e5",
+  "editable_blend": "assets/source/blender/photoworlds/W01/pforest-tableau-v1.blend",
+  "editable_blend_sha256": "439b43b505a897663c9140634273e906323cf62e93f68f3ba9ed7f6943776384",
+  "runtime_landmarks_glb": "game/assets/photoworlds/forest_entry/pforest-tableau-v1.glb",
+  "runtime_landmarks_glb_sha256": "f50f061aa25cf8870058d46850af479340be57fe99954926697126502aa11c6b",
+  "photobook_front": "game/assets/textures/photobook/p-forest-front-v1.png",
+  "photobook_front_sha256": "e2917b1f17b3c813b203ade371e9b99151ff17a9dcfd5ffabb95b1980f1691e0",
+  "photobook_thumbnail": "game/assets/textures/photobook/p-forest-front-v1-thumbnail.png",
+  "photobook_thumbnail_sha256": "0ad5ee3c59ef38db106a54d857e612cad61dfd74db3cc5ae1724e081c7aca192",
+  "school_contact_copy": "game/assets/textures/photobook/s-school-front-v1.png",
+  "school_contact_copy_sha256": "e12aad6d8ddabc927aca4c6131fde45abcc9372d31084cae0c00c0a3fc416f40",
+  "school_contact_copy_parent": "game/assets/textures/photobook/p-forest-front-v1.png",
+  "school_contact_copy_parent_sha256": "e2917b1f17b3c813b203ade371e9b99151ff17a9dcfd5ffabb95b1980f1691e0",
+  "school_contact_copy_method": "Same staged P-FOREST capture, 36px side / 24px top-bottom warm paper border, no text/new render",
+  "school_contact_thumbnail": "game/assets/textures/photobook/s-school-front-v1-thumbnail.png",
+  "school_contact_thumbnail_sha256": "02aa9c164601da6ae95f14c688867a85405a53cff2c7873a5bc7f0e35870674a",
+  "photo_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/photos.spec.json#P-FOREST",
+  "reference_scope": {
+    "P1": "painterly surface treatment, broad painted value/color masses only; no copied setting, architecture, character, or exact palette",
+    "H2-1": "cold winter forest depth property",
+    "H2-2": "restrained warm wood in cold atmosphere",
+    "W1": "warm/cold winter color relationship"
+  },
+  "fictional_photo_people": {
+    "description": "three anonymous fictional clothed adults; no named or real family identity",
+    "base": "assets/source/blender/urman_character_kit_v2.blend#Resident_Rig and LOD0 clothing",
+    "source_license": "assets/source/blender/characters/Quaternius_CC0_License.txt (base figures); project-original material variants",
+    "photo_only": true
+  },
+  "source_tree": {
+    "file": "assets/source/blender/urman_winter_pine.blend#WinterPine_LOD0",
+    "upstream_manifest": "game/assets/models/act1/urman_winter_pine_v2_manifest.json",
+    "upstream_manifest_sha256": "3013c734e124186a3f323a25558971b5d787608e8223ed06ea0fdfb63906a7bd",
+    "source_blend_sha256": "ee09c85acd99c33cf08acb3d100a0b812770c7faf7c7f9e200a449f42cef5371",
+    "used_in_photo_render": true,
+    "included_in_runtime_glb": false,
+    "limitation": "Nine selected pine objects were absent from the generated GLB node list; cause unresolved."
+  },
+  "composition": "three central trunks; split birch left; low crossbar; modest natural root arch right; photo group looks slightly aside; no visible monster",
+  "camera": {
+    "authored_node": "F10",
+    "godot_xyz_m": [
+      0,
+      2.206942903,
+      35
+    ],
+    "vertical_fov_degrees": 48,
+    "resolution_px": [
+      1800,
+      1200
+    ],
+    "forward": "Godot +Z",
+    "blender_xyz": "(Godot X,-Godot Z,Godot Y)"
+  },
+  "walk_clearance_note": "Root arch placed on the right of the photographed group; exact F10-to-F11 route clearance still requires current scene integration/runtime inspection.",
+  "runtime_glb_scope": "Only authored trunk/bough, split birch/crossbar, root-arch and snowbank meshes; excludes photo-only group, camera, lights, render-only snow stage and winter-pine source meshes.",
+  "not_verified": "Godot import, scene integration, collision, player walk/camera, photo-book handoff, licensed final-package review, human art acceptance, and missing pine meshes in generated runtime GLB.",
+  "coordinate_mapping": {
+    "Godot_xyz": [
+      "X",
+      "Y",
+      "Z"
+    ],
+    "Blender_xyz_before_export": [
+      "Godot X",
+      "-Godot Z",
+      "Godot Y"
+    ],
+    "GLTF_Y_up_export_mapping": "(Blender X, Blender Z, -Blender Y)",
+    "imported_Godot_xyz": [
+      "Godot X",
+      "Godot Y",
+      "Godot +Z"
+    ],
+    "root": "world origin at F00"
+  },
+  "capture_generated_with_script_sha256": "4c1307aa86966940efb579b595cdc2bb9006122d2772849a7f6edce86af914b5"
+}

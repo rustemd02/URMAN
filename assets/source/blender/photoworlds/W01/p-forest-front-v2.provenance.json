@@ -1,0 +1,49 @@
+{
+  "asset_ids": [
+    "P-FOREST",
+    "S-SCHOOL"
+  ],
+  "status": "root_selected_art_candidate_native_and_author_acceptance_pending",
+  "method": "Built-in imagegen edit of original staged Blender composition; not actual game screenshot or historical family photograph",
+  "prompt": "Edit image 1 into a finished original in-game family album illustration, a believable evocative winter rural Tatarstan photograph expressed in chromatic painterly material realism. Image 1 is OUR staged 3D source and locks the camera and composition. Image 2 supplies ONLY painterly surface treatment and large coherent brushwork, NOT its yellow/orange palette, setting or characters. Keep image 1's 3:2 full-frame composition and exact landmark center positions, perspective, scale and silhouette: the distinctly split pale birch on the LEFT; the three tall central tree trunks behind the people; the low wooden crossbar left of center; the modest angular raised root arc on the RIGHT. Preserve the recognizable tree-side arrangement; do not invent new geographic landmarks, buildings, portals, monsters or a different camera. Transform plastic-looking materials into convincing frost-weathered bark, rough timber and thick soft snow, with restrained painterly strokes, cold blue-violet and teal shadows, soft pale winter daylight and atmospheric depth between tall forest layers. Absolutely no overall yellow, sepia, orange or sunset wash. The three existing anonymous fictional adults at the bottom center must become three distinct naturally proportioned rural people in modest practical winter coats, trousers, felt boots and winter hats, standing calmly facing the photographer with their gazes slightly off to the side; preserve their three positions and heights, give believable hands and relaxed shoulders, no soldiers, weapons, uniforms or copied actual cast identities. They are fictional, not a real historical family. Keep the camera crop and human grouping; no border, captions, lettering or watermark. Aim for a wistful lived-in winter memory, tender but quietly mysterious, materially believable rather than low-poly toy art. Background tall conifers should read naturally through cold depth while preserving their main positions. Deliver one finished 1800x1200 landscape illustration; this is an art candidate derived from a staged scene, not documentary evidence of a real family.",
+  "tool": "image_gen.imagegen",
+  "generation_id": "exec-5a8ca6d2-b23a-4ae5-9d12-18bb8795a656",
+  "inputs": [
+    {
+      "path": "game/assets/textures/photobook/p-forest-front-v1.png",
+      "sha256": "e2917b1f17b3c813b203ade371e9b99151ff17a9dcfd5ffabb95b1980f1691e0"
+    },
+    {
+      "path": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/references/P1_user_selected_painterly.png",
+      "sha256": "1d38dae75672be057a0c999ec6049f7f679b5e09f29bfa31670f8cdce2da6171"
+    }
+  ],
+  "original_generated_source": {
+    "path": "assets/source/blender/photoworlds/W01/p-forest-front-v2-source.png",
+    "sha256": "4fe71a9ac75c6ee3bc77bde40adce8955a7ce8e224f18455ac8b6bae503d02d0",
+    "size_px": [
+      1536,
+      1024
+    ]
+  },
+  "runtime_front": {
+    "path": "game/assets/textures/photobook/p-forest-front-v2.png",
+    "sha256": "c4b64f07534aca8a5e021b55f9e695686cd0180379d4227ebad19d169149c60e",
+    "size_px": [
+      1800,
+      1200
+    ],
+    "export": "sips mechanical resample, same 3:2 aspect; no further visual edits"
+  },
+  "runtime_thumbnail": {
+    "path": "game/assets/textures/photobook/p-forest-front-v2-thumbnail.png",
+    "sha256": "fb6b5768500f1d0c9906d1295b795e4810d21280c7d31058a31ae112b43e9341",
+    "size_px": [
+      256,
+      171
+    ]
+  },
+  "school_copy": "S-SCHOOL uses the exact same front and thumbnail pixels as a contact copy, with its own authored back/source/permission records; no duplicate bitmap or new geography",
+  "rights": "Project-generated artwork; anonymous fictional adults. Staged source uses project-original geometry and licensed CC0 Resident base; P1 used only for material/brushwork property, no copied scene/characters/palette. Final rights/human art gates remain open.",
+  "landmark_limit": "Recognizable positions/arrangement retained in art; imagegen added natural detail. Native W01 camera/three-support likeness not yet reviewed; full pixel-identical forest not claimed."
+}

@@ -11,6 +11,7 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
 {
     private const string GroundScenePath = "res://assets/photoworlds/forest_ground/prologue-ground-f00-f03-v1.glb";
     private const string BranchScenePath = "res://assets/photoworlds/branch/prologue-branch-v1.glb";
+    private const string PhotoTableauScenePath = "res://assets/photoworlds/forest_entry/pforest-tableau-v1.glb";
     private const string FoliageKitScenePath = "res://assets/models/agent_b_act1/agentb_foliage_kit.glb";
     private const string PrologueSceneId = "urman.fullgame:scene/pw-prologue";
     private const string ForestSceneId = "urman.fullgame:scene/pw-forest";
@@ -54,6 +55,8 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
     private static readonly Vector3 BranchMovedRootPosition = new(1.4f, 0.14f, 0f);
     private static readonly float BranchAcrossPathYaw = Mathf.RadToDeg(Mathf.Atan2(12f, 50f));
     private static readonly Vector3[] PrologueRouteNodes = { Vector3.Zero, BranchF01, PrologueF02, PrologueF03 };
+    private static readonly Vector2 MainSpawnRouteF10 = new(0f, 35f);
+    private static readonly Vector2 MainSpawnRouteF11 = new(14f, 48f);
     private static readonly (string Variant, Vector2 Position, float YawDegrees)[] PrologueForestTrees =
     {
         ("WinterBirch_2", new(-7f, 13f), 21f),
@@ -106,6 +109,8 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
     private Node3D? _gripCenter;
     private Node3D? _groundVisual;
     private Node3D? _forestVisual;
+    private Node3D? _photoTableauVisual;
+    private StaticBody3D? _photoTableauBody;
     private StaticBody3D? _groundBody;
     private StaticBody3D? _leftRootBody;
     private StaticBody3D? _rightRootBody;
@@ -122,6 +127,7 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         BuildGround();
         BuildForest();
         BuildBranch();
+        BuildPhotoTableau();
         BuildPrologueUi();
         SetProcess(true);
         TryBindRuntimeBridge();
@@ -157,6 +163,8 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         _groundBody = null;
         _groundVisual = null;
         _forestVisual = null;
+        _photoTableauVisual = null;
+        _photoTableauBody = null;
         _gripCenter = null;
         _movingRoot = null;
         _branchVisual = null;
@@ -237,6 +245,11 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
                 nearestSquared = Mathf.Min(nearestSquared, point.DistanceSquaredTo(start + segment * t));
             }
 
+            var mainSpawnSegment = MainSpawnRouteF11 - MainSpawnRouteF10;
+            var mainSpawnT = Mathf.Clamp((point - MainSpawnRouteF10).Dot(mainSpawnSegment)
+                / mainSpawnSegment.LengthSquared(), 0f, 1f);
+            nearestSquared = Mathf.Min(nearestSquared,
+                point.DistanceSquaredTo(MainSpawnRouteF10 + mainSpawnSegment * mainSpawnT));
             return Mathf.Sqrt(nearestSquared);
         }
 
@@ -440,6 +453,32 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         return material;
     }
 
+    private void BuildPhotoTableau()
+    {
+        _photoTableauVisual = LoadScene(PhotoTableauScenePath).Instantiate<Node3D>();
+        _photoTableauVisual.Name = "PForestPhotographedLandmarks";
+        _photoTableauVisual.Visible = false;
+        AddChild(_photoTableauVisual);
+        _photoTableauBody = new StaticBody3D
+        {
+            Name = "PForestLandmarkContact", CollisionLayer = 0u, CollisionMask = 3u
+        };
+        AddChild(_photoTableauBody);
+        foreach (var mesh in Descendants<MeshInstance3D>(_photoTableauVisual))
+        {
+            // The current W01 ground and high forest own the surrounding scene.
+            // The imported source supplies the recognizable photographed supports.
+            if (mesh.Name.ToString().Contains("Snowbank", StringComparison.Ordinal)
+                || mesh.Name.ToString().Contains("DistantTrunk", StringComparison.Ordinal))
+            {
+                mesh.Visible = false;
+                continue;
+            }
+            if (mesh.Mesh is not null)
+                _photoTableauBody.AddChild(Act1ConnectedWorld.AuthoredSurfaceContact(_photoTableauBody, mesh));
+        }
+    }
+
     private void BuildBranch()
     {
         var branchScene = LoadScene(BranchScenePath);
@@ -542,6 +581,8 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
     {
         if (_groundVisual is { } ground && GodotObject.IsInstanceValid(ground)) ground.Visible = visible;
         if (_forestVisual is { } forest && GodotObject.IsInstanceValid(forest)) forest.Visible = visible;
+        if (_photoTableauVisual is { } tableau && GodotObject.IsInstanceValid(tableau)) tableau.Visible = visible;
+        SetCollisionLayer(_photoTableauBody, visible ? 1u : 0u);
     }
 
     public override void _Input(InputEvent inputEvent)

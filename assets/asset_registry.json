@@ -4397,6 +4397,47 @@
         "triangleBudget": 127008
       },
       "nativeFrame": "evidence/PW-043/release-path-20261014/frames/expanded-winter-forest-84c.json"
+    },
+    {
+      "id": "texture.photoworlds.pforest.front.v2",
+      "source": "assets/source/blender/photoworlds/W01/p-forest-front-v2.provenance.json",
+      "derived": "game/assets/textures/photobook/p-forest-front-v2.png",
+      "derivedSha256": "c4b64f07534aca8a5e021b55f9e695686cd0180379d4227ebad19d169149c60e",
+      "generator": "Built-in ImageGen staged-scene edit; mechanical 1800x1200 export",
+      "license": "Project-generated; original staged geometry/CC0 Resident sources documented",
+      "scale": 1,
+      "triangleBudget": 0,
+      "textureBudget": 1800,
+      "materials": [
+        "family photo print front",
+        "exact school contact copy"
+      ],
+      "materialOwner": "JournalUi.PhotoBook acquired-photo projection",
+      "collision": "none",
+      "lod": "256x171 shared thumbnail",
+      "qa": "Root personally selected cold painterly candidate; native album/landmark/author verification pending",
+      "status": "integrated art candidate; native and author acceptance pending",
+      "releaseDisposition": "Only P-FOREST and S-SCHOOL fronts, not all13/allworlds or historical-family proof"
+    },
+    {
+      "id": "model.photoworlds.pforest.tableau.v1",
+      "source": "assets/source/blender/photoworlds/W01/pforest-tableau-v1.blend",
+      "derived": "game/assets/photoworlds/forest_entry/pforest-tableau-v1.glb",
+      "derivedSha256": "f50f061aa25cf8870058d46850af479340be57fe99954926697126502aa11c6b",
+      "generator": "assets/source/blender/photoworlds/W01/pforest_tableau.py; original authored supports",
+      "license": "Project-original geometry; no photo-only people exported",
+      "scale": 1,
+      "triangleBudget": 2840,
+      "textureBudget": 0,
+      "materials": [
+        "original rough trunk/birch/root/wood PBR"
+      ],
+      "materialOwner": "W01Controller photographed landmark scene; existing surrounding high forest and ground retained",
+      "collision": "AuthoredSurfaceContact on visible supports; render-only snowbanks/distant trunks disabled",
+      "lod": "finite first-entry support mesh; broader forest LOD unchanged",
+      "qa": "GLB parsed; affected compile passed; native import, contact and camera likeness pending",
+      "status": "integrated first-tableau candidate; native and author art pending",
+      "releaseDisposition": "First P-FOREST supports only, not all six silhouettes/all W01/world kits"
     }
   ]
 }

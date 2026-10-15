@@ -107868,7 +107868,7 @@
       "title": "Реализовать условия первого сознательного входа",
       "milestone": "PW-M1",
       "status": "in_progress",
-      "active_owner": "codex/release-route",
+      "active_owner": null,
       "owner": "integration",
       "priority": "P0",
       "complexity": "medium",
@@ -108006,8 +108006,8 @@
       },
       "assigned_owner": "integration",
       "activity": {
-        "state": "confirmed_active",
-        "reason": "Прямой приоритет автора: цельный начальный playerpath к release, микрополировка прекращена; root integration/Luna assignedboundedfiles, assigned_owner сохранён."
+        "state": "not_active",
+        "reason": "Текущий source/art этап сохранён, runtime попытка terminal; input/station claims освобождены, own full DoD не закрыт. Assigned owner сохранён."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -108017,7 +108017,7 @@
         "Вне якоря есть чтение без ложной кнопки входа.",
         "Первый якорь проверен до контекста, с нужным и чужим снимком и после визита: применимая причина отказа понятна без спойлера, пиксель-хантинга и выдачи знания. Недостаток подачи сначала подтверждён в обычном маршруте, затем исправлен существующим gate/hint owner."
       ],
-      "next_action": "Цельный снеговой лес пролога из существующей произведённой pine geometry, затем один source-changed walkthrough: skip→Niva→дверь→чай/книга. Полный B02 и внешние гейты открыты.",
+      "next_action": "Use already accepted 2903 ordinary route and confirmed book pose; require actual visible dialogue before Enter, then exact book aim (yaw84.2/pitch-36.3 from cc83 final pose) or original 2903 pose/yaw90/pitch-41.92. Do not reuse failed shallow-26 aim or claim source image is a game frame. No broad lighting/forest recheck.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -108210,8 +108210,8 @@
         ],
         "verification_question": "Работает ли физический путь пролог→прибытие→дом/книга с доступным обычным вводом и без обхода авторских условий?",
         "success_condition": "AffectedC#compile and guardedactualfullscene: controls/skip-orbranch+F03/niva/home/tea/book; noNewGame/Continue/export/fullreleaseclaim untilactualownDoD.",
-        "remaining": "PFOREST/Sschoolfront unavailable, fullW01F10–F16 andallworld/artgates open; default/export remainunchanged untilplayerpath verified.",
-        "next_action": "Принять текущий этап и произвести предусмотренный P-FOREST: сначала камера/три опоры PW-040/E01, затем источник/provenance/front+thumbnail PW-040/E02 и точный book consumer. Lifecycle exit-RID остаётся отдельной runtime работой.",
+        "remaining": "P-FOREST/S-SCHOOL front candidate/source/thumbnail теперь произведены и подключены; native album/permission/first-entry не проверены. Полный W01 F10–F16/allworld art и default/Continue/Replay/release остаются открытыми.",
+        "next_action": "Принять текущий ordinary native cc838: новый альбом/front/heading→school source/request→first forest F10 при штатных gates. Затем завершить установленный остаток соответствующего якоря/первого пути; default/Continue/Replay/full B02 и внешние gates отдельно.",
         "build": "evidence/PW-043/release-path-20261014/game-build-dense-forest.log",
         "build_result": "AffectedGameC#0errors/0warnings; nofullruntimeclaim. Producer127008tris/heights0,1,3,4m/2.1mwidth/hash checks;30registered original trees reused.",
         "station_wait": "2903 штатно закрыт/terminal; userdataRestored=true/snapshot_hashes_verified=true, exit resource leaks recorded. Новых запусков нет.",
@@ -108316,6 +108316,20 @@
           "release_condition": "Same connected-world path closes normally without the recorded RID/resource errors, preserving station/userdata guards.",
           "next_finite_step": "Identify the retained owned render resource/node in connected-world lifetime before choosing a minimal fix; no speculative focus cleanup."
         }
+      },
+      "progress_2026_10_15_changed_album_runtime": {
+        "state": "terminal_incomplete_album_verification",
+        "job": "cc838140b40341bd94e8e846284c99a5",
+        "snapshot": "8dbcdf7bc94e9b54ed0683d1c7aa19a50495f8352453454f93b9120a6bff2007",
+        "receipt": "evidence/PW-043/release-path-20261015/native_cc83/receipt.json",
+        "game_log": "evidence/PW-043/release-path-20261015/native_cc83/game.log",
+        "result": "Actual current W01 import/start, ordinary Niva→house and Gulsina ray available proven. New album image/header and school/source/request/F10 not reached; no book.received event in raw log. Last native ray hits furniture/no interaction; final aim/E unconfirmed before timeout.",
+        "last_ray": "evidence/PW-043/release-path-20261015/frames/cc83-route/15-family-book-ray.json",
+        "verification_limits": "GameExit124; no runtime ERROR observed, not clean normal-lifecycle proof. userdataRestored/snapshot_hashes_verified true, recovery_pending false; root configured-cert doctor ready/busy null/orphan false.",
+        "blocker": "Current changed album/first-portal verification incomplete: tea choice and book target were not positively confirmed within owned 1200s. No new production defect inferred.",
+        "release_condition": "Visible focused tea choice accepted, then live book ray available and native acquired album showing exact v2 front/header; subsequent school source/request/first F10 measured separately.",
+        "next_finite_step": "Use already accepted 2903 ordinary route and confirmed book pose; require actual visible dialogue before Enter, then exact book aim (yaw84.2/pitch-36.3 from cc83 final pose) or original 2903 pose/yaw90/pitch-41.92. Do not reuse failed shallow-26 aim or claim source image is a game frame. No broad lighting/forest recheck.",
+        "cleanup": "Actor temporary desktop PNGs32,232,142B; air temphelpers1,592,975B; verified archive24,271,923B and canonical duplicate15 nativePNGs22,492,037B removed. Unique native pairs/source/art retained."
       }
     },
     {
@@ -115912,10 +115926,10 @@
             "owner": "art",
             "evidence": [],
             "assigned_owner": "art",
-            "active_owner": "Codex / Luna b02_family_coverage",
+            "active_owner": null,
             "activity": {
-              "state": "confirmed_active",
-              "reason": "Root начал/подтвердил first F10 camera/tableau; assigned art сохранён."
+              "state": "not_active",
+              "reason": "Source/candidate произведён и проверен compile/import; current target-native недоставлен в terminal запуске. Claim освобождён, assigned art сохранён."
             },
             "task_type": "engineering",
             "status": "in_progress",
@@ -115933,9 +115947,16 @@
               "targets": [
                 "game/scripts/JournalUi.cs",
                 "game/scripts/JournalUi.Notebook.cs",
-                "src-dotnet/Urman.Core/Narrative/PhotoWorldCatalog.cs"
+                "src-dotnet/Urman.Core/Narrative/PhotoWorldCatalog.cs",
+                "game/scripts/Main.cs",
+                "game/scripts/photoworlds/W01Controller.cs",
+                "game/scenes/photoworlds/W01/W01.tscn",
+                "game/assets/photoworlds/forest_entry/pforest-tableau-v1.glb"
               ],
-              "required_inputs": [],
+              "required_inputs": [
+                "content/campaigns/urman.fullgame/photoworlds-sources/worlds.spec.json:W01 F10 photo camera/supports",
+                "assets/source/blender/photoworlds/W01/pforest-tableau-v1.manifest.json:first original candidate source"
+              ],
               "scope_in": [
                 "Поставить камеры и три узнаваемые опоры каждой портальной фотографии до её финальной отрисовки."
               ],
@@ -115958,7 +115979,11 @@
                   "targets": [
                     "game/scripts/JournalUi.cs",
                     "game/scripts/JournalUi.Notebook.cs",
-                    "src-dotnet/Urman.Core/Narrative/PhotoWorldCatalog.cs"
+                    "src-dotnet/Urman.Core/Narrative/PhotoWorldCatalog.cs",
+                    "game/scripts/Main.cs",
+                    "game/scripts/photoworlds/W01Controller.cs",
+                    "game/scenes/photoworlds/W01/W01.tscn",
+                    "game/assets/photoworlds/forest_entry/pforest-tableau-v1.glb"
                   ],
                   "actions": [
                     "Сопоставить текущий Поставить камеры и три узнаваемые опоры каждой портальной фотографии до её финальной отрисовки. с указанным источником/consumer.",
@@ -115987,7 +116012,7 @@
             },
             "depends_on": [],
             "progress_2026_10_15_first_camera": {
-              "state": "source_camera_routing_compiled_tableau_in_progress",
+              "state": "first_candidate_integrated_native_pending",
               "targets": [
                 "game/scripts/Main.cs",
                 "game/scenes/photoworlds/W01/W01.tscn"
@@ -115996,7 +116021,23 @@
               "result_scope": "First P-FOREST F10/camera only; all portal cameras and three matching supports remain required.",
               "verification_question": "Does source route pw-forest to F10 while prologue stays F00 and valid restored transforms remain preserved?",
               "success_condition": "Affected compile and scoped source inspection; later ordinary portal entry/native shot must prove rendered composition, not claimed now.",
-              "verification": ".tools/dotnet/dotnet build game/Urman.Game.csproj --no-restore -v minimal: exit0, 0 errors/0 warnings, 16.41s; scoped source/diff inspection passed. No rendered/ordinary firstportal entry claim."
+              "verification": "Affected Game compile exit0, 0 errors/0 warnings, 16.33s after current controller/album/school integration; no native or allportal result claim.",
+              "landmarks": "Original pforest-tableau-v1.glb recognizable supports only, current W01 high forest/ground preserved; first physical F10→F11 clearance added, existing prologue route height unchanged. Native likeness/contact not yet reviewed.",
+              "job": "cc838140b40341bd94e8e846284c99a5"
+            },
+            "progress_2026_10_15_changed_album_runtime": {
+              "state": "terminal_incomplete_album_verification",
+              "job": "cc838140b40341bd94e8e846284c99a5",
+              "snapshot": "8dbcdf7bc94e9b54ed0683d1c7aa19a50495f8352453454f93b9120a6bff2007",
+              "receipt": "evidence/PW-043/release-path-20261015/native_cc83/receipt.json",
+              "game_log": "evidence/PW-043/release-path-20261015/native_cc83/game.log",
+              "result": "Actual current W01 import/start, ordinary Niva→house and Gulsina ray available proven. New album image/header and school/source/request/F10 not reached; no book.received event in raw log. Last native ray hits furniture/no interaction; final aim/E unconfirmed before timeout.",
+              "last_ray": "evidence/PW-043/release-path-20261015/frames/cc83-route/15-family-book-ray.json",
+              "verification_limits": "GameExit124; no runtime ERROR observed, not clean normal-lifecycle proof. userdataRestored/snapshot_hashes_verified true, recovery_pending false; root configured-cert doctor ready/busy null/orphan false.",
+              "blocker": "Current changed album/first-portal verification incomplete: tea choice and book target were not positively confirmed within owned 1200s. No new production defect inferred.",
+              "release_condition": "Visible focused tea choice accepted, then live book ray available and native acquired album showing exact v2 front/header; subsequent school source/request/first F10 measured separately.",
+              "next_finite_step": "Use already accepted 2903 ordinary route and confirmed book pose; require actual visible dialogue before Enter, then exact book aim (yaw84.2/pitch-36.3 from cc83 final pose) or original 2903 pose/yaw90/pitch-41.92. Do not reuse failed shallow-26 aim or claim source image is a game frame. No broad lighting/forest recheck.",
+              "cleanup": "Actor temporary desktop PNGs32,232,142B; air temphelpers1,592,975B; verified archive24,271,923B and canonical duplicate15 nativePNGs22,492,037B removed. Unique native pairs/source/art retained."
             }
           },
           {
@@ -116010,10 +116051,10 @@
               "evidence/PW-040/s-garden-20261012/thumbnail-build.log"
             ],
             "assigned_owner": "art",
-            "active_owner": "Codex / Luna b02_family_coverage",
+            "active_owner": null,
             "activity": {
-              "state": "confirmed_active",
-              "reason": "Начата оригинальная staged fictional P-FOREST composition, не все13fronts."
+              "state": "not_active",
+              "reason": "Source/candidate произведён и проверен compile/import; current target-native недоставлен в terminal запуске. Claim освобождён, assigned art сохранён."
             },
             "task_type": "engineering",
             "status": "in_progress",
@@ -116023,7 +116064,7 @@
               "13backSVG produced1800×1200 and Godot rendered; protected album view/authorart+language acceptance open.",
               "12other fronts, S-GARDEN1800×1200final, all thumbnails и scene/identity alignment; full E02 остаётся открытым."
             ],
-            "next_action": "После release станции проверить actual acquired/backRead/caption-match album, S-GARDEN list thumbnail60×40, keyboardscroll/sessionclear и Continue; native/art и полный E02 открыты.",
+            "next_action": "Лично принять первый native album/front/thumbnail и school contact-copy источник; сохранить расхождения с F10/game scene, не закрывать остальные11fronts/allphoto DoD.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -116178,13 +116219,33 @@
               "remaining": "Actual list readability/keyboard scroll/session/Continue on Windows; 12 fronts and complete thumbnail asset set open"
             },
             "progress_2026_10_15_pforest_preview": {
-              "state": "first_original_staged_candidate_in_progress",
+              "state": "selected_pforest_school_contact_candidate_integrated_native_pending",
               "native_before": "evidence/PW-043/release-path-20261015/frames/2903-route/after-book-handoff.png",
               "confirmed_input": "content/campaigns/urman.fullgame/photoworlds-sources/photos.spec.json:P-FOREST SPECIFIED_NOT_PRODUCED; assets.spec.json:A-PHOTOSET REQUESTED, REQUIRES_PROVENANCE",
               "heading_fix": "game/scripts/JournalUi.PhotoBook.cs: front heading ExpandFill using existing layout pattern; source/diff inspected. New native layout not yet captured.",
               "missing_front_release_condition": "Produced P-FOREST front/thumbnail + source provenance, matching staged camera/three recognizable portal supports; registered exact asset consumed by photo album. Author art acceptance remains separate.",
-              "next_finite_step": "PW-040/E01: first P-FOREST camera/three supports in its corresponding W01 stage, then produce/register that front under PW-040/E02. Do not require full neighboring aggregate before checking named stage artifact.",
-              "production_owner": "Luna b02_family_coverage; new isolated source/tableau/photo files only, root reviews image before consumer registration."
+              "next_finite_step": "Guarded ordinary book receive→current album image/heading→school source/request→first forest entry if existing gates satisfied; personally review actual UI/camera/supports, preserve data.",
+              "production_owner": "Luna b02_family_coverage; new isolated source/tableau/photo files only, root reviews image before consumer registration.",
+              "produced_front": "game/assets/textures/photobook/p-forest-front-v2.png",
+              "provenance": "assets/source/blender/photoworlds/W01/p-forest-front-v2.provenance.json",
+              "result": "Root rejected two Blender visual candidates, then selected built-in ImageGen artistic treatment of staged composition. Cold blue/violet winter, three fictional adults and recognizable support arrangement. P-FOREST/S-SCHOOL share exact front/thumbnail pixels via acquired-photo consumer; own backs/provenance/permission remain separate.",
+              "limit": "Original art asset, not native screenshot; imagegen adds material/detail, native three-support likeness and author art acceptance pending. Other fronts/worlds remain open.",
+              "job": "cc838140b40341bd94e8e846284c99a5",
+              "snapshot": "8dbcdf7bc94e9b54ed0683d1c7aa19a50495f8352453454f93b9120a6bff2007"
+            },
+            "progress_2026_10_15_changed_album_runtime": {
+              "state": "terminal_incomplete_album_verification",
+              "job": "cc838140b40341bd94e8e846284c99a5",
+              "snapshot": "8dbcdf7bc94e9b54ed0683d1c7aa19a50495f8352453454f93b9120a6bff2007",
+              "receipt": "evidence/PW-043/release-path-20261015/native_cc83/receipt.json",
+              "game_log": "evidence/PW-043/release-path-20261015/native_cc83/game.log",
+              "result": "Actual current W01 import/start, ordinary Niva→house and Gulsina ray available proven. New album image/header and school/source/request/F10 not reached; no book.received event in raw log. Last native ray hits furniture/no interaction; final aim/E unconfirmed before timeout.",
+              "last_ray": "evidence/PW-043/release-path-20261015/frames/cc83-route/15-family-book-ray.json",
+              "verification_limits": "GameExit124; no runtime ERROR observed, not clean normal-lifecycle proof. userdataRestored/snapshot_hashes_verified true, recovery_pending false; root configured-cert doctor ready/busy null/orphan false.",
+              "blocker": "Current changed album/first-portal verification incomplete: tea choice and book target were not positively confirmed within owned 1200s. No new production defect inferred.",
+              "release_condition": "Visible focused tea choice accepted, then live book ray available and native acquired album showing exact v2 front/header; subsequent school source/request/first F10 measured separately.",
+              "next_finite_step": "Use already accepted 2903 ordinary route and confirmed book pose; require actual visible dialogue before Enter, then exact book aim (yaw84.2/pitch-36.3 from cc83 final pose) or original 2903 pose/yaw90/pitch-41.92. Do not reuse failed shallow-26 aim or claim source image is a game frame. No broad lighting/forest recheck.",
+              "cleanup": "Actor temporary desktop PNGs32,232,142B; air temphelpers1,592,975B; verified archive24,271,923B and canonical duplicate15 nativePNGs22,492,037B removed. Unique native pairs/source/art retained."
             }
           },
           {
@@ -117165,7 +117226,7 @@
       "title": "Перенести пролог внутрь W01",
       "milestone": "PW-M3",
       "status": "in_progress",
-      "active_owner": "codex/release-route",
+      "active_owner": null,
       "owner": "narrative",
       "priority": "P1",
       "complexity": "complex",
@@ -117326,8 +117387,8 @@
       },
       "assigned_owner": "narrative",
       "activity": {
-        "state": "confirmed_active",
-        "reason": "Прямой приоритет автора: цельный начальный playerpath к release, микрополировка прекращена; root integration/Luna assignedboundedfiles, assigned_owner сохранён."
+        "state": "not_active",
+        "reason": "Текущий source/art этап сохранён, runtime попытка terminal; input/station claims освобождены, own full DoD не закрыт. Assigned owner сохранён."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -117337,7 +117398,7 @@
         "Игрок не обязан повторять тизер; объяснение «просто сон» не закрывает интригу.",
         "Обычный New Game без override использует актуальный pack, ставит физический W01 и передаёт управление семейному прибытию; skip не выдаёт необязательное знание, Replay не меняет основной сеанс, Continue не запускает New Game."
       ],
-      "next_action": "Цельный снеговой лес пролога из существующей произведённой pine geometry, затем один source-changed walkthrough: skip→Niva→дверь→чай/книга. Полный B02 и внешние гейты открыты.",
+      "next_action": "Use already accepted 2903 ordinary route and confirmed book pose; require actual visible dialogue before Enter, then exact book aim (yaw84.2/pitch-36.3 from cc83 final pose) or original 2903 pose/yaw90/pitch-41.92. Do not reuse failed shallow-26 aim or claim source image is a game frame. No broad lighting/forest recheck.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -117578,8 +117639,8 @@
         ],
         "verification_question": "Работает ли физический путь пролог→прибытие→дом/книга с доступным обычным вводом и без обхода авторских условий?",
         "success_condition": "AffectedC#compile and guardedactualfullscene: controls/skip-orbranch+F03/niva/home/tea/book; noNewGame/Continue/export/fullreleaseclaim untilactualownDoD.",
-        "remaining": "PFOREST/Sschoolfront unavailable, fullW01F10–F16 andallworld/artgates open; default/export remainunchanged untilplayerpath verified.",
-        "next_action": "Принять текущий этап и произвести предусмотренный P-FOREST: сначала камера/три опоры PW-040/E01, затем источник/provenance/front+thumbnail PW-040/E02 и точный book consumer. Lifecycle exit-RID остаётся отдельной runtime работой.",
+        "remaining": "P-FOREST/S-SCHOOL front candidate/source/thumbnail теперь произведены и подключены; native album/permission/first-entry не проверены. Полный W01 F10–F16/allworld art и default/Continue/Replay/release остаются открытыми.",
+        "next_action": "Принять текущий ordinary native cc838: новый альбом/front/heading→school source/request→first forest F10 при штатных gates. Затем завершить установленный остаток соответствующего якоря/первого пути; default/Continue/Replay/full B02 и внешние gates отдельно.",
         "build": "evidence/PW-043/release-path-20261014/game-build-dense-forest.log",
         "build_result": "AffectedGameC#0errors/0warnings; nofullruntimeclaim. Producer127008tris/heights0,1,3,4m/2.1mwidth/hash checks;30registered original trees reused.",
         "station_wait": "2903 штатно закрыт/terminal; userdataRestored=true/snapshot_hashes_verified=true, exit resource leaks recorded. Новых запусков нет.",
@@ -117684,6 +117745,33 @@
           "release_condition": "Same connected-world path closes normally without the recorded RID/resource errors, preserving station/userdata guards.",
           "next_finite_step": "Identify the retained owned render resource/node in connected-world lifetime before choosing a minimal fix; no speculative focus cleanup."
         }
+      },
+      "progress_2026_10_15_school_copy": {
+        "state": "source_request_integrated_compile_pass_native_pending",
+        "confirmed_blocker": "S-SCHOOL acquire/source/permission actions exist in content/modules/urman-fullgame/definitions.json but no ordinary physical consumer exists; first forest gate requires S-SCHOOL.",
+        "release_condition": "Physical source/request bound to existing authored actions in school, actual ordinary book→school source→permission acquisition/P-FOREST context recorded; separate exact copy art/native/author gates retained.",
+        "next_finite_step": "Distinct school staff-room album and explicit request target using existing indoor/range/occlusion and kernel-owned semantic conditions, then targeted ordinary player path.",
+        "targets": [
+          "game/scripts/Act1ConnectedWorld.SquareInteriors.School.cs"
+        ],
+        "production_default": "Permitted-copy folder/request sheet in school staff room; original stays in album, existing source/permission IDs remain provenance. No invented named clerk, real family, or external rights acceptance.",
+        "verification_question": "Can ordinary book-holding player physically identify permitted school source and explicitly request the copy without legacy-photo alias or gate bypass?",
+        "success_condition": "Affected compile/source inspection, then guarded ordinary school use with recorded S-SCHOOL acquire/context and user-data restoration; source alone not completion.",
+        "source_check": "Separate source folder/request envelope at staff-desk left, existing FacilityTarget/RegisterPublicUse guards; no legacy-photo alias/manual facts/automatic acquisition. Affected build exit0/0errors/0warnings16.33s."
+      },
+      "progress_2026_10_15_changed_album_runtime": {
+        "state": "terminal_incomplete_album_verification",
+        "job": "cc838140b40341bd94e8e846284c99a5",
+        "snapshot": "8dbcdf7bc94e9b54ed0683d1c7aa19a50495f8352453454f93b9120a6bff2007",
+        "receipt": "evidence/PW-043/release-path-20261015/native_cc83/receipt.json",
+        "game_log": "evidence/PW-043/release-path-20261015/native_cc83/game.log",
+        "result": "Actual current W01 import/start, ordinary Niva→house and Gulsina ray available proven. New album image/header and school/source/request/F10 not reached; no book.received event in raw log. Last native ray hits furniture/no interaction; final aim/E unconfirmed before timeout.",
+        "last_ray": "evidence/PW-043/release-path-20261015/frames/cc83-route/15-family-book-ray.json",
+        "verification_limits": "GameExit124; no runtime ERROR observed, not clean normal-lifecycle proof. userdataRestored/snapshot_hashes_verified true, recovery_pending false; root configured-cert doctor ready/busy null/orphan false.",
+        "blocker": "Current changed album/first-portal verification incomplete: tea choice and book target were not positively confirmed within owned 1200s. No new production defect inferred.",
+        "release_condition": "Visible focused tea choice accepted, then live book ray available and native acquired album showing exact v2 front/header; subsequent school source/request/first F10 measured separately.",
+        "next_finite_step": "Use already accepted 2903 ordinary route and confirmed book pose; require actual visible dialogue before Enter, then exact book aim (yaw84.2/pitch-36.3 from cc83 final pose) or original 2903 pose/yaw90/pitch-41.92. Do not reuse failed shallow-26 aim or claim source image is a game frame. No broad lighting/forest recheck.",
+        "cleanup": "Actor temporary desktop PNGs32,232,142B; air temphelpers1,592,975B; verified archive24,271,923B and canonical duplicate15 nativePNGs22,492,037B removed. Unique native pairs/source/art retained."
       }
     },
     {

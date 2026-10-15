@@ -10,6 +10,8 @@ public partial class JournalUi
     private const string SGardenPhotoId = "S-GARDEN";
     private const string SGardenPageId = "PAGE-GARDEN";
     private const string SGardenFrontImagePath = "res://assets/textures/photobook/s-garden-front-v1.png";
+    private const string PForestFrontImagePath = "res://assets/textures/photobook/p-forest-front-v2.png";
+    private const string PForestThumbnailPath = "res://assets/textures/photobook/p-forest-front-v2-thumbnail.png";
     private static readonly IReadOnlyDictionary<string, (string Path, string Caption)> PhotoBookBackImages =
         new Dictionary<string, (string Path, string Caption)>(StringComparer.Ordinal)
         {
@@ -320,7 +322,7 @@ public partial class JournalUi
         for (var index = 0; index < _photoBookProjection.Count; index++)
         {
             var photo = _photoBookProjection[index];
-            _photoBookList.AddItem($"{index + 1:D2} · {photo.Title}", PhotoBookFrontTexture(photo.PhotoId));
+            _photoBookList.AddItem($"{index + 1:D2} · {photo.Title}", PhotoBookFrontTexture(photo.PhotoId, thumbnail: true));
             _photoBookList.SetItemTooltip(index, photo.Title);
         }
 
@@ -405,9 +407,18 @@ public partial class JournalUi
 
     // Front-only resource lookup: callers use the acquired projection. Never use
     // back images as list icons, since their captions require the ReadBack action.
-    private static Texture2D? PhotoBookFrontTexture(string photoId) =>
-        photoId == SGardenPhotoId && ResourceLoader.Exists(SGardenFrontImagePath)
-            ? ResourceLoader.Load<Texture2D>(SGardenFrontImagePath) : null;
+    private static Texture2D? PhotoBookFrontTexture(string photoId, bool thumbnail = false)
+    {
+        // The school contact print copies the same fictional staged photograph.
+        var path = photoId switch
+        {
+            SGardenPhotoId => SGardenFrontImagePath,
+            "P-FOREST" or "S-SCHOOL" => thumbnail ? PForestThumbnailPath : PForestFrontImagePath,
+            _ => null
+        };
+        return path is not null && ResourceLoader.Exists(path)
+            ? ResourceLoader.Load<Texture2D>(path) : null;
+    }
 
     private void ShowPhotoBookPhoto(RuntimeBridge.PhotoBookPhoto photo)
     {
