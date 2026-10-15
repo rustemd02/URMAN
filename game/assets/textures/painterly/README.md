@@ -1061,3 +1061,13 @@ material, geometry and map match the receipt snapshot exactly. That point still
 targets the teapot, with the bowl visibly in frame; no dedicated M10 view is claimed.
 No source change, new generation/build/run was needed. Finite static hookup only:
 actual Low/performance-rescue at 0.7 scale, no full art/Medium/movement acceptance.
+
+T07 named consumer acceptance (15.10.2026): root viewed the real folded FAP
+wash-unit towel in `evidence/ACT1-TEXTURE.03/fap-t07-20261015/native_d1dac7/frames/fap_wash_towel.png`.
+The existing original T07 bitmap is visible on the pale cotton front and folded
+return, with the rail/contact intact and no obvious stretched projection/seam.
+Current source/PML/GLB/PNG match the verified/restored native snapshot. No material,
+mesh or source-image change was needed. High was requested and initially applied,
+but the actual frame used Low/performance-rescue at 0.7 scale (`graphicsComparable=false`).
+Finite named static hookup accepted; High/art/movement and home/bath/mosque towel
+coverage are not claimed, and performance rescue must remain intact.

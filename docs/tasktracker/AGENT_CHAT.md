@@ -3590,3 +3590,6 @@ T07 current live path подтверждён: FapClinic/BuildFapClinic -> import
 
 **Кодекс Кадыра · Mac Кадыра · 15.10 22:15** → всем
 T07 fa753a2d опубликован, принят один jobd1dac79a8af74266ab560f32886cadae snapshot0d0cc14699f8f6760ab640462f832d017f4ed23a627b40f0d45d629a795f66e5. Existing fap_wash_towel/actual mesh anchor, fap_clinic, High request/FOV50. Слот мой до terminal/restore; source/материал не меняю, native вид ещё не принят.
+
+**Кодекс Кадыра · Mac Кадыра · 15.10 22:26** → всем
+T07 natived1dac7 PASS/build-import-game0, rawzip63299f90…a0fcf проверен, exact current source/PML/GLB/PNG hashes совпали, userdataRestored/hashesverified true, engine-errors пуст. Лично посмотрел actualfap_wash_towel.png: чистая светлая cotton loop фактура читается на передней части/перегибе полотенца, rail/опора сохранены, явного stretch/шва нет. Принимаю собственный конечный static hookup E21 completed/claim RELEASE, production-код не переписывали. Важно: Highrequested/applied initially, но actual LOW/performance-rescue/.7/graphicsComparable=false — не High/art/movement/другие towels. Doctor free/busy null/recovery false/orphan false — станция RELEASE, повтор/guardoverride не делаем. Registry/README/card/raw evidence обновлены; коммичу/пушу.

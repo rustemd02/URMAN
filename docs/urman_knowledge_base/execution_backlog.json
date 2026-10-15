@@ -10231,22 +10231,22 @@
             "result": "Подключить T07 — Полотенце",
             "owner": "art/materials/qa",
             "evidence": [
-              "Root+Luna source input accepted: StyleBenchmarkZone(FapClinic)._Ready -> BuildFapClinic/AttachFapInteriorSet -> ClinicSurfacePresentation.Attach exact FapInteriorWashUnit_Towel_LOD0/LOD1 -> ForColor(c9c6b7,cloth_towel,sheltered), registered original T07v01 .5m triplanar (mesh has POSITION/NORMAL, no UV). Current source/GLB/PML/texture hashes match delivered a4a223, but radiator close-up does not show towel. No missing source binding; only actual towel frame remains. Root personally viewed T07 PNG; no museum/ornament resource substitution."
+              "Root+Luna source input accepted: StyleBenchmarkZone(FapClinic)._Ready -> BuildFapClinic/AttachFapInteriorSet -> ClinicSurfacePresentation.Attach exact FapInteriorWashUnit_Towel_LOD0/LOD1 -> ForColor(c9c6b7,cloth_towel,sheltered), registered original T07v01 .5m triplanar (mesh has POSITION/NORMAL, no UV). Current source/GLB/PML/texture hashes match delivered a4a223, but radiator close-up does not show towel. No missing source binding; only actual towel frame remains. Root personally viewed T07 PNG; no museum/ornament resource substitution.",
+              "evidence/ACT1-TEXTURE.03/fap-t07-20261015/native_d1dac7/receipt.json + frames/fap_wash_towel.png: natived1dac79a8af74266ab560f32886cadae PASS/build-import-game0; raw zip SHA63299f900fa200ec5015d1c6d09e0e9e502d89c2d9bf25bbad56e5c25a3a0fcf; snapshot0d0cc14699f8f6760ab640462f832d017f4ed23a627b40f0d45d629a795f66e5 exact current ClinicSurfacePresentation/PML/GLB/T07 hashes match, hashesverified/userdataRestored true, engine-errors empty.",
+              "Root personally viewed actual folded pale cotton towel on its rail beside wash basin, visible loop texture/front+folded return, distinct from wall/paper/metal; no obvious stretched projection/seams. Exact owner /root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/fap-clinic-yard/FapInteriorSet/FapInteriorWashUnit_Towel_LOD0. Finite named static material hookup accepted only. High was requested/applied initially but actual frame LOW/performance-rescue, scale.7, graphicsComparable=false; no High/full art/movement/home/bath/mosque coverage claim. Native screenshot is not a new source/visual improvement claim. Station free/recovery false/orphan false after terminal; no repeated run/guard override."
             ],
             "assigned_owner": "art/materials/qa",
-            "active_owner": "codex/root",
+            "active_owner": null,
             "activity": {
-              "state": "confirmed_active",
-              "reason": "Root verifies one existing live clinic wash-unit towel consumer from current accepted FAP source/snapshot, Luna read-only. No source edit or station claim until exact inputs."
+              "state": "released",
+              "reason": "Root personally accepted existing named FAP T07 static material consumer in actual d1dac7 frame. No source rewrite; actual Low/rescue quality recorded, full art/High/movement/other consumers not claimed."
             },
             "task_type": "engineering",
-            "status": "in_progress",
-            "implementation_state": "partial",
-            "technical_verification_state": "not_run",
-            "remaining": [
-              "Подключить T07 — Полотенце; собственного целевого receipt пока нет."
-            ],
-            "next_action": "Root reserves one free station slot for existing fap_wash_towel, protected explicit High request; inspect actual folded cloth/material/rim and metadata, retain raw receipt/restoration. No production source edit/new compile/map generation.",
+            "status": "completed",
+            "implementation_state": "implemented",
+            "technical_verification_state": "passed",
+            "remaining": [],
+            "next_action": "Reuse accepted d1dac7 fap_wash_towel static consumer. Stop this finite T07 hookup unit; no unchanged capture/compile. Parent High/art/movement and other receivers remain separate; do not override performance rescue.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",

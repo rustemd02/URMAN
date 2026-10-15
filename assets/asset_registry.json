@@ -3037,9 +3037,15 @@
       "materialOwner": "PainterlyMaterialLibrary/cloth_towel; HouseWashTowel, BathDryTowel, MosqueWashTowel and the FAP wash-unit towels",
       "collision": "not applicable; existing towel geometry unchanged",
       "lod": "mipmaps; runtime size capped to 1024",
-      "qa": "capture frame fap_wash_towel; runtime and art acceptance pending",
+      "qa": "Named FAP static consumer accepted from current native d1dac7; broader consumers/art/movement/High remain unverified.",
       "status": "integrated-candidate; runtime-and-art-pending",
-      "releaseDisposition": "runtime-referenced; final art acceptance pending"
+      "releaseDisposition": "runtime-referenced; final art acceptance pending",
+      "named_consumer_2026_10_15_t07": {
+        "task": "ACT1-TEXTURE.03/E21",
+        "receiver": "FapInteriorWashUnit_Towel_LOD0 via ClinicSurfacePresentation.Attach -> cloth_towel; existing folded source geometry unchanged, .5m triplanar, c9c6b7 tint",
+        "native_evidence": "evidence/ACT1-TEXTURE.03/fap-t07-20261015/native_d1dac7/frames/fap_wash_towel.png",
+        "qa": "Root viewed real pale cotton loops/front+fold/rail support, no obvious projection/seam defect. Native PASS/restored/hashverified, exact current source/PML/GLB/PNG match. High requested/applied initially; actual Low/performance-rescue/.7, graphicsComparable=false. Static finite hookup only, not full art/High/movement/other towel consumers."
+      }
     },
     {
       "id": "animation.library.ual1-standard",
