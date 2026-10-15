@@ -9477,21 +9477,25 @@
             "title": "Подключить M13 — Мебельный ламинат",
             "result": "Подключить M13 — Мебельный ламинат",
             "owner": "art/materials/qa",
-            "evidence": [],
+            "evidence": [
+              "Current live chain confirmed Root+Luna: Build -> BuildSovkhozSquare -> HouseOfCulture/BuildClubFoyer -> SDesk/RuralPropModels.Desk -> LaminatedTop1.3x.035x.65 with metric BevelBox UV, actual registered original laminate map. Existing club_hall image does not show this foyer table; no exact current native receipt found.",
+              "game/scripts/Act1ConnectedWorld.SquareInteriors.Club.cs: existing named top gets per-instance StandardMaterial3D duplicate and .75m UV repeat per M13 prompt. Existing source map/.40rough/.30spec/metallic0/color retained, other desks/shared cache/geometry/contact/edge bands/scanner/envelope/state unchanged. No new texture or tests.",
+              "evidence/ACT1-TEXTURE.03/club-m13-20261015/game-build.log: affected Game build0errors/0warnings31.13s; root source review. Native NOT_RUN."
+            ],
             "assigned_owner": "art/materials/qa",
-            "active_owner": null,
+            "active_owner": "codex/root",
             "activity": {
-              "state": "not_active",
-              "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+              "state": "confirmed_active",
+              "reason": "Root verifies one existing live laminated desk-top consumer; Luna read-only actual chain/receipt check, no production edits or station claim."
             },
             "task_type": "engineering",
-            "status": "todo",
-            "implementation_state": "not_started",
+            "status": "in_progress",
+            "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
               "Подключить M13 — Мебельный ламинат; собственного целевого receipt пока нет."
             ],
-            "next_action": "Сопоставить текущий результат: Подключить M13 — Мебельный ламинат. Затем изменить только установленный остаток.",
+            "next_action": "Root reserves one free station slot for exact ArchivePhotoTable top/edge/support view; High request only, preserve rescue/metadata. Accept finite named M13 consumer only after actual frame/restoration; no school/F10/route acceptance.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -9501,9 +9505,17 @@
                 "game/assets/textures/painterly/README.md",
                 "assets/asset_registry.json",
                 "docs/urman_knowledge_base/art/urman_imagegen_texture_prompt_book_2026-09-22.md",
-                "docs/urman_knowledge_base/assets.md"
+                "docs/urman_knowledge_base/assets.md",
+                "game/scripts/Act1ConnectedWorld.SquareInteriors.Club.cs",
+                "game/content/world/visual_checkpoints.v1.json"
               ],
-              "required_inputs": [],
+              "required_inputs": [
+                {
+                  "path": "game/assets/textures/realism_20260929/school_laminate_beige_source_v1_basecolor.png",
+                  "sha256": "d9ecd589101d853f2d785284f8e2206bd41da7b4d30fca7c78ff85ac24a48425",
+                  "consumer": "Current core HouseOfCulture/ArchivePhotoTable/LaminatedTop; metric bevel-box UV, per-instance .75m repeat (generic rural1m retained elsewhere)."
+                }
+              ],
               "scope_in": [
                 "Подключить M13 — Мебельный ламинат"
               ],
@@ -9521,7 +9533,7 @@
               ],
               "verification": {
                 "method": "targeted_runtime_scenario",
-                "question": "Подключить M13 — Мебельный ламинат",
+                "question": "Does the live club archive table show the existing muted beige laminate with correct .75m metric repeat, distinct from separate edge band/metal frame, and unchanged geometry/support/scanner/envelope? Static named consumer only, actual graphics metadata required.",
                 "scenario": {
                   "targets": [
                     "game/assets/textures/painterly/README.md",

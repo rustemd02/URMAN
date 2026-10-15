@@ -541,6 +541,12 @@
       "zoneId": "fap_clinic",
       "graphicsPreset": "high",
       "subject": "ACT1-TEXTURE.03/E21 T07: existing folded FAP wash-unit towel, registered half-metre cotton material; static consumer only, no full art/movement acceptance."
+    },
+    {
+      "id": "m13_archive_photo_table",
+      "spec": "ArchivePhotoTable@-1.7,1.55,-0.5>ArchivePhotoTable@0,0.74,0",
+      "graphicsPreset": "high",
+      "subject": "ACT1-TEXTURE.03/E12: actual live club foyer archive table laminate, named0.75m metric repeat; static top/edge/support only, no interaction/route/full art acceptance."
     }
   ],
   "batches": [
