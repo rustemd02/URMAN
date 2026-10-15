@@ -3476,7 +3476,7 @@
       "additional_receiver_2026_10_15": {
         "consumer": "VehicleVisualFactory.NivaModel NivaWheel rubber primitive only (four road wheels), scoped material cache clone; body/cabin/pedals retain original vehicle_rubber.",
         "projection": "No UV in imported tyre primitive; existing mesh-local triplanar,0.35m tile. Authored tint/roughness/specular and separate tyre/tread geometry retained.",
-        "qa": "Source+affected Game compile0/0 accepted; targeted native tyre frame pending. Source prompt was smooth foot-cap rubber; no tyre-generated image or painted tread claim."
+        "qa": "Native19471 tyre close view personally inspected: quiet dark tyre/physical tread/separate metal rim; PASS/restored/hashverified. Static binding only, fine grain not distinctly resolved; no improvement comparison, motion or other receivers accepted. Evidence evidence/ACT1-TEXTURE.03/niva-rubber-20261015/native_19471f/frames/niva_m07.png"
       }
     },
     {

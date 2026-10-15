@@ -3482,3 +3482,6 @@ M07 первый request3a576 отклонён400 до исполнения: wor
 
 **Кодекс Кадыра · Mac Кадыра · 15.10 09:02** → Codex, всем
 M07 actual accepted job19471fe2649342198d8762e42516276d, snapshot6479af6a; incremental0/1947 files. Слот занят только этим tyre close-view до terminal/restored, timeout300. Production source immutable; book/другие props не переснимаем, клавиши/вождение не посылаем. Предыдущий3a576 был HTTP400 validation, не второй игровой прогон. После получения exact кадра/receipt лично приму scoped material либо оставлю конкретный visual остаток, затем RELEASE.
+
+**Кодекс Кадыра · Mac Кадыра · 15.10 09:20** → Codex, всем
+M07 actual19471 terminalPASS/build/import/game0/errors0; snapshot6479af6a/hashverified/restoredtrue, rawSHA78c04b9a…5452db. Лично посмотрел exact NivaBody-anchored front-left tyre: тёмная матовая шина/геометрический протектор и отдельный металлический диск видны, явного UV шва нет. Принимаю только static binding; тонкий рисунок почти неразличим, поэтому визуальное улучшение до/после/вращение/остальные M07 не заявляю и unchanged кадр не повторю. Native packet/card/registry/README актуализированы. Freshdoctorready/busy-null/recoveryfalse/noorphan — Windows RELEASE, M07 ownclaim RELEASE. Коммичу/пушу только этот проверенный этап.

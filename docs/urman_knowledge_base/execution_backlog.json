@@ -8929,22 +8929,25 @@
             "result": "Подключить M07 — Резина",
             "owner": "art/materials/qa",
             "evidence": [
-              "evidence/ACT1-TEXTURE.03/niva-rubber-20261015/game-build.log"
+              "evidence/ACT1-TEXTURE.03/niva-rubber-20261015/game-build.log",
+              "evidence/ACT1-TEXTURE.03/niva-rubber-20261015/native_19471f/receipt.json",
+              "evidence/ACT1-TEXTURE.03/niva-rubber-20261015/native_19471f/frames/niva_m07.png",
+              "evidence/ACT1-TEXTURE.03/niva-rubber-20261015/native_19471f/frames/niva_m07.json"
             ],
             "assigned_owner": "art/materials/qa",
-            "active_owner": "Кодекс Кадыра",
+            "active_owner": null,
             "activity": {
-              "state": "confirmed_active",
-              "reason": "Root+Luna named NivaWheel rubber stage only, confirmed imported primitive/source and registered base material; no global PML/vehicle logic changes."
+              "state": "released",
+              "reason": "Root personally inspected native19471 tyre frame; PASS/restored/hashverified and freshdoctor idle/no recovery/no orphan. Named static material stage accepted, other M07/movement/art remain."
             },
             "task_type": "engineering",
             "status": "in_progress",
             "implementation_state": "not_started",
             "technical_verification_state": "not_run",
             "remaining": [
-              "Подключить M07 — Резина; собственного целевого receipt пока нет."
+              "Other intended M07 receivers, ordinary wheel movement/projection stability and final art acceptance; named Niva tyre static binding accepted, not a claim of measurable visual improvement."
             ],
-            "next_action": "Fetch accepted ownjob19471fe2649342198d8762e42516276d after terminal; inspect exact NivaBody-anchored left-front tyre frame/receipt, confirm restored/idle and release. No repeat compile/capture or vehicle driving.",
+            "next_action": "Reuse native19471 for named tyre static binding. Next only a separately named remaining M07 receiver or actual wheel-motion/art criterion; no unchanged compile/tyre frame/driving-smoke repetition.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -9030,7 +9033,12 @@
               "rejected_request": "3a57630d46c5448d9aef178c90bf8ca9 HTTP400 invalid capture points before job execution; no game started.",
               "job_id": "19471fe2649342198d8762e42516276d",
               "snapshot_id": "6479af6adb6fe64972efb0f77c87df188c4c635bc082fb936d612b8af02ef001",
-              "result": "SUBMITTED; actual frame/receipt not yet accepted."
+              "result": "ACCEPT_STATIC_TYRE_MATERIAL_BINDING_ONLY: quiet dark tyre/physical tread and separate metal rim visible with no evident texture seam. Very low-contrast grain is not resolved as a distinct visual improvement; no before/after improvement, wheel motion or other rubber consumers claimed.",
+              "archive_sha256": "78c04b9af430d42c2342621b5edc23d8b71ec3318df213251cd797685e5452db",
+              "receipt": "evidence/ACT1-TEXTURE.03/niva-rubber-20261015/native_19471f/receipt.json",
+              "frame": "evidence/ACT1-TEXTURE.03/niva-rubber-20261015/native_19471f/frames/niva_m07.png",
+              "metadata": "evidence/ACT1-TEXTURE.03/niva-rubber-20261015/native_19471f/frames/niva_m07.json",
+              "runtime": "PASS/build/import/game0, engine-errors0; userdataRestored=true/snapshot_hashes_verified=true, worker931b27b95d52ddae6e51ba41ab5e1733225e8f74f5636974013ace918200faf4; freshdoctor ready/busy-null/recoveryfalse/orphanfalse. Actual owner /Act1ConnectedWorld/VillageVehicles/babay-niva/VehicleVisual/NivaBody; Medium/scaling0.9/FOV50."
             }
           },
           {
