@@ -8758,21 +8758,24 @@
             "title": "Подключить M04 — Окрашенный металл радиатора и шкафа",
             "result": "Подключить M04 — Окрашенный металл радиатора и шкафа",
             "owner": "art/materials/qa",
-            "evidence": [],
+            "evidence": [
+              "game/scripts/ClinicSurfacePresentation.cs: FapInteriorRadiator_Body_LOD0 only; original painted_steel_enamel_v1_basecolor.png SHA b3e51ca2d1ba8c2db18ed6ed6541e4093da17793cc49318640bcb57693303fe2; metric local triplanar .5m, existing tint 708584 and PML response retained, no UV channel in source mesh.",
+              "evidence/ACT1-TEXTURE.03/fap-m04-20261015/game-build.log: affected Game build 0 errors/0 warnings, 27.65s; root+Luna source review, no new tests. Not runtime/art acceptance."
+            ],
             "assigned_owner": "art/materials/qa",
-            "active_owner": null,
+            "active_owner": "codex/root",
             "activity": {
-              "state": "not_active",
-              "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+              "state": "confirmed_active",
+              "reason": "Root integrates one bounded M04 receiver; Luna checks existing source/binding, no station claim."
             },
             "task_type": "engineering",
-            "status": "todo",
-            "implementation_state": "not_started",
+            "status": "in_progress",
+            "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
-              "Подключить M04 — Окрашенный металл радиатора и шкафа; собственного целевого receipt пока нет."
+              "One protected native static view of existing FAP radiator: verify real mesh remains supported and the texture reads without UV collapse or obvious seams; other M04 cabinet/pipe consumers and full art/motion acceptance remain open."
             ],
-            "next_action": "Сопоставить текущий результат: Подключить M04 — Окрашенный металл радиатора и шкафа. Затем изменить только установленный остаток.",
+            "next_action": "Root reserves one free station slot for fap_radiator_m04 existing-clinic checkpoint; inspect actual frame, retain raw receipt and restoration proof, then release. No address/hyphen-owner or old502 jobs.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -8782,7 +8785,9 @@
                 "game/assets/textures/painterly/README.md",
                 "assets/asset_registry.json",
                 "docs/urman_knowledge_base/art/urman_imagegen_texture_prompt_book_2026-09-22.md",
-                "docs/urman_knowledge_base/assets.md"
+                "docs/urman_knowledge_base/assets.md",
+                "game/scripts/ClinicSurfacePresentation.cs",
+                "game/content/world/visual_checkpoints.v1.json"
               ],
               "required_inputs": [],
               "scope_in": [
@@ -8802,7 +8807,7 @@
               ],
               "verification": {
                 "method": "targeted_runtime_scenario",
-                "question": "Подключить M04 — Окрашенный металл радиатора и шкафа",
+                "question": "Does the existing clinic radiator body display the .5m enamel albedo without UV collapse/obvious seams, while its authored shape, tint and mounting remain intact? Static check only.",
                 "scenario": {
                   "targets": [
                     "game/assets/textures/painterly/README.md",

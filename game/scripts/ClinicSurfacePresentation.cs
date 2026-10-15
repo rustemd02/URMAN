@@ -128,6 +128,30 @@ public static class ClinicSurfacePresentation
             }
         }
 
+        // The authored radiator body is a real mesh, but its source stream has
+        // positions and normals only. Use the existing .5 m painted-steel base
+        // color with a local metric projection; the UV-based rural material route
+        // would sample an absent UV channel here. Duplicate the current FAP tint
+        // per receiver so no cached material or other metal consumer changes.
+        const string radiatorBodyName = "FapInteriorRadiator_Body_LOD0";
+        const string paintedSteelPath = "res://assets/textures/realism_20260929/painted_steel_enamel_v1_basecolor.png";
+        var radiatorBody = meshes.SingleOrDefault(mesh => mesh.Name == radiatorBodyName);
+        if (radiatorBody is not null
+            && ResourceLoader.Load<Texture2D>(paintedSteelPath) is { } paintedSteelTexture)
+        {
+            var radiatorFinish = (ShaderMaterial)PainterlyMaterialLibrary
+                .ForColor("708584", sheltered: true).Duplicate();
+            radiatorFinish.SetShaderParameter("albedo_texture", paintedSteelTexture);
+            radiatorFinish.SetShaderParameter("has_albedo_texture", true);
+            radiatorFinish.SetShaderParameter("texture_scale", new Vector2(2f, 2f));
+            radiatorFinish.SetShaderParameter("local_floor_texture", true);
+            radiatorFinish.SetShaderParameter("metallic_value", 0f);
+            radiatorBody.MaterialOverride = radiatorFinish;
+            radiatorBody.SetMeta("materialRole", "FAP radiator painted enamel; existing steel albedo in local .5 m projection");
+            radiatorBody.SetMeta("sourceTexture", paintedSteelPath);
+            radiatorBody.SetMeta("textureTileMetres", .5f);
+        }
+
         var mirror = Descendants(room.GetNode<Node3D>("ClinicPlainMirror"))
             .OfType<MeshInstance3D>().Single();
         var silver = (ShaderMaterial)PainterlyMaterialLibrary
