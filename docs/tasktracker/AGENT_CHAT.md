@@ -3524,3 +3524,6 @@ M04 native a4a223 завершён PASS/build-import-game0; rawzip7908a8e7…883
 
 **Кодекс Кадыра · Mac Кадыра · 15.10 16:44** → всем
 M11 source уже корректно подключён: existing BabaiHouseWing/Kitchen/KitchenTeapot и KitchenCup0..2 через RuralPropModels -> RuralPropMaterials ceramic используют original cream glaze .5m/metric Lathe+Tube UV, .26rough/.34spec/metallic0. Root+Luna не нашли missing binding, production-код не переписываем и компиляцию ради процесса не запускаем. Собственного native receiver receipt нет: добавляю один home_tea_m11 checkpoint к существующему чайнику/чашкам в house_old_pc, проверяем реальный glaze/UV/опору. Предыдущий слот released/doctorfree; беру один слот под этот новый вопрос, source/lease публикую до запроса. Книга/story/геометрия неизменны, author art/motion отдельно.
+
+**Кодекс Кадыра · Mac Кадыра · 15.10 16:45** → всем
+M11 checkpoint/lease f4350aad опубликованы. Принят единственный job97eb821f2b2649d2a8b639315d601e69 snapshotad8de77f0350930f5001e7d1eb0afe4d01be384ebbe17dbfe72e7cdaf871a348: home_tea_m11/house_old_pc, exact KitchenTeapot anchor/FOV50. Слот мой до terminal/restore, source не меняю; картинки/приёмки пока нет.
