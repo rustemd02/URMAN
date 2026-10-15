@@ -5795,23 +5795,30 @@
             "result": "Подключить W05 — Светлая краска наличников",
             "owner": "art/materials/qa",
             "evidence": [
-              "Delivered source c2e9cc28 reviewed: current AddVillageFacade FapReturnHouseEast procedural singleSlopeRoof branch, all front/rear/West/East upper/lower trim calls use wood_painted_trim; actual W05v02 SHA c2170588472b77aab0f560818d34349cc4397d1793f0e5d06a7cbd73ee2ac317 confirmed/root viewed PNG. No current exact-house receipt found by Luna; old HeroHouse trim views do not prove this receiver. Current source/tint/geometry unchanged."
+              "Delivered source c2e9cc28 reviewed: current AddVillageFacade FapReturnHouseEast procedural singleSlopeRoof branch, all front/rear/West/East upper/lower trim calls use wood_painted_trim; actual W05v02 SHA c2170588472b77aab0f560818d34349cc4397d1793f0e5d06a7cbd73ee2ac317 confirmed/root viewed PNG. No current exact-house receipt found by Luna; old HeroHouse trim views do not prove this receiver. Current source/tint/geometry unchanged.",
+              "evidence/ACT1-TEXTURE.02/w05-fap-20261015/native_919815/receipt.json + game.log: job919815a1c5334895b1844ee71629447e FAIL/game1, build/import0, High requested/applied/effective high, guard no Node3D FapReturnHouseEast under Main, no frame/world-space fallback. Raw zip SHAac52417ee3dd3a7dcaf41a76ad1a3522850e748073f1d1c32048d200ecca0109; snapshot821bf0778e2c87177c0cfd28ae994e0274bbb15be0c4adaf0920ee5af7934f77 source/PML/map hashes match; snapshot_hashes_verified/userdataRestored true. Existing exit RID/48-resource leak errors retained, no PASS claim.",
+              "Root+Luna causal source review after actual missing-node fact: Act1ConnectedWorld.Build() around409-418 explicitly retains legacy framing only as rollback/source and constructs sole Act1CoreWorldGreybox global visual owner. BuildVillageFraming has no current call; FapReturnHouseEast only exists under its BuildFapComposition path. Active FAP uses BuildCoreFapExterior/BuildAct1FapClinicKit; FapEastHorizonHouse is separately hidden and a replacement comment is not proof of a live exact node. No source fix/alias/legacy resurrection made. Doctor busy null/recovery false/orphan false, station released."
             ],
             "assigned_owner": "art/materials/qa",
-            "active_owner": "codex/root",
+            "active_owner": null,
             "activity": {
-              "state": "confirmed_active",
-              "reason": "Root accepts delivered c2e9cc28 W05 source stage and prepares only missing exact FapReturnHouseEast front/rear/side native views; generic assignment retained."
+              "state": "released",
+              "reason": "Actual native919815 refused missing exact FapReturnHouseEast owner; source lives only in disabled legacy framing path. No frames, no fallback/retry; source stage retained as history, current consumer unconfirmed."
             },
             "task_type": "engineering",
-            "status": "in_progress",
+            "status": "blocked",
             "implementation_state": "partial",
-            "technical_verification_state": "not_run",
+            "technical_verification_state": "failed",
             "remaining": [
-              "Целевой Windows вид FapReturnHouseEast: читаемая крашеная обвязка передних/задних/боковых окон; целевой receipt ещё не получен."
+              "Select the intended surviving current W05 receiver; historical FapReturnHouseEast code is not live. No window-trim frame or material acceptance was produced by919815.",
+              "Full art/movement and the exact current receiver verification remain open; unchanged old-node jobs are forbidden."
             ],
-            "next_action": "Root reserves one free station slot: exact front/rear/west/east W05 trim views in one explicit High batch. Preserve any rescue/session override; actual metadata decides quality acceptance. No geometry/material edit or root recompile.",
-            "blocker": null,
+            "next_action": "Resolve one intended surviving receiver with current core/authored architecture owner. Reuse919815 failure/call-chain evidence; do not repeat old FapReturnHouseEast jobs or silently substitute another house/clinic.",
+            "blocker": {
+              "reason": "FapReturnHouseEast does not exist in current connected-world runtime. Build() constructs Act1CoreWorldGreybox and intentionally does not invoke legacy BuildVillageFraming -> BuildAuthoredOutdoorBackbone -> BuildFapComposition; historical W05 source binding targets rollback-only code, not a surviving receiver.",
+              "release_when": "Choose a source-confirmed intended surviving W05 window-trim receiver in current core/authored plot presentation with actual exact owner/mesh identity and preserve its architecture/tint contract; then use only that new input for one named verification. Do not resurrect legacy house/enable old framing/alias or world-space fallback.",
+              "owner": "Current B02 architecture/Act1CoreWorldGreybox/AuthoredWorldDirector plot presentation owner; concrete handoff in AGENT_CHAT."
+            },
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
             "work_contract": {
