@@ -116012,10 +116012,10 @@
               "evidence/PW-043/release-path-20261015/frames/d884-root/11-album-detail.png"
             ],
             "assigned_owner": "art",
-            "active_owner": null,
+            "active_owner": "Codex root / school-to-F10 pilot",
             "activity": {
-              "state": "not_active",
-              "reason": "Root принял конечный current first-front/heading UI этап по actual native acquired PhotoBook и логbook.received; свой ввод освобождён, assigned owner сохранён. Full card/art/F10/shutdown gates открыты."
+              "state": "confirmed_active",
+              "reason": "131e закрыт частично: обычная книга и читаемый оборот доставлены нативно, школа/F10 нет; следующий bounded проход тем же единственным root-вводом, assigned owner сохранён."
             },
             "task_type": "engineering",
             "status": "in_progress",
@@ -116024,7 +116024,7 @@
             "remaining": [
               "Поставить камеры и три узнаваемые опоры каждой портальной фотографии до её финальной отрисовки.; собственного целевого receipt пока нет."
             ],
-            "next_action": "Проверить три узнаваемые опоры и photo camera первого F10 в actual ordinary forest entry после школьной копии; новый first front уже доступен как named native input. Остальные portal cameras не закрыты.",
+            "next_action": "Проверить три узнаваемые опоры и photo camera первого F10 в actual ordinary forest entry после школьной копии; новый first front уже доступен как named native input. 131e: обычный домашний маршрут и читаемый оборот доставлены нативно (book.received[56], frames 131e-school), школа/F10 не достигнуты — ход закончился у северного забора двора. Следующий bounded проход идёт улицей x≈-1.5 на север до z≈56-60, западом к апрону школы, затем source/permission→возврат к книге→pw-enter-forest→F10. Остальные portal cameras не закрыты.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -116189,6 +116189,26 @@
                 "evidence/PW-043/release-path-20261015/frames/d884-root/08-tea-dialog.png",
                 "evidence/PW-043/release-path-20261015/frames/d884-root/10-new-album.png",
                 "evidence/PW-043/release-path-20261015/frames/d884-root/11-album-detail.png"
+              ]
+            },
+            "progress_2026_10_15_school_f10": {
+              "state": "bounded_run_closed_known_leaks_school_not_reached",
+              "question": "Can the ordinary received book→visible back read→physical school source/request→first F10 entry produce current native forest frames and short real movement?",
+              "success": "Actual acquisition/context/entry in raw game log, SHA-bound native school/F10 frames personally reviewed; short owned-window movement if setup fits budget, userdata restored.",
+              "scope": "Current first school copy/first forest composition only; all-world/all-photo/author/release criteria remain open.",
+              "result_131e": "Ordinary home route re-delivered natively in job 131e3584f04244e1961254867c6a96cb: raw log prologue.completed[8]→pw-niva-stop[21]→book.received[56]; PhotoBook back «У леса. Перед отъездом.» personally readable in frame 02-back-read. School source/permission and F10 entry NOT reached: log has no pw-school-copy-source/permission, no S-SCHOOL, no pw-enter-forest. Walk ended at the yard north fence (-6.75,1.96,12.50,yaw179.92) after the authored door approach (-7.82,1.41,-1.88,yaw-90). Snapshot 6a6f24a531d782ce1a598ca63d376dc32269b0f6e472ed251756d4ccfd57844a.",
+              "verification_131e": "Receipt FAIL only from recurring exit RID/resource leaks (1Mesh/2Material/1Shader/1Instance/48resources); gameExitCode0; userdataRestored/snapshot_hashes_verified=true; doctor ready/idle, busy_job=null, orphan=false, recovery=false. 5/5 job-bound native frame pairs; 02-back-read and 05-road-observation personally reviewed.",
+              "next_action": "Next bounded ordinary play-full, street lane to school: from the house door through gate(-5.493,1.182)→road(-1.2,1.182) to street x≈-1.5, north to z≈56-60, west to school apron(-16.9,64); inside, corridor west to the teacher's room table folder; take pw-school-copy-source+permission; return to the home table book→pw-enter-forest→F10 with whole-forest frames and short real movement. Early control probe ({LEFT}/{RIGHT}, a/d) with a capture after each command; no repeat walking into the yard fence.",
+              "turn_mechanism": "Unknown: yaw changed between run frames 0→90→-90→179.92 while the game has no keyboard look and station UI accepts only keys/move; settle by probe in the next run.",
+              "reuse": "817d2949 accepted current P-FOREST v2/heading; no unchanged album-layout re-verification unless action becomes ambiguous.",
+              "job_id": "131e3584f04244e1961254867c6a96cb",
+              "snapshot_sha256": "6a6f24a531d782ce1a598ca63d376dc32269b0f6e472ed251756d4ccfd57844a",
+              "evidence_refs": [
+                "evidence/PW-043/release-path-20261015/native_131e/receipt.json",
+                "evidence/PW-043/release-path-20261015/native_131e/game.log",
+                "evidence/PW-043/release-path-20261015/native_131e/engine-errors.log",
+                "evidence/PW-043/release-path-20261015/frames/131e-school/02-back-read.png",
+                "evidence/PW-043/release-path-20261015/frames/131e-school/05-road-observation.png"
               ]
             }
           },
@@ -117453,7 +117473,7 @@
       "title": "Перенести пролог внутрь W01",
       "milestone": "PW-M3",
       "status": "in_progress",
-      "active_owner": null,
+      "active_owner": "Codex root / school-to-F10 pilot",
       "owner": "narrative",
       "priority": "P1",
       "complexity": "complex",
@@ -117624,8 +117644,8 @@
       },
       "assigned_owner": "narrative",
       "activity": {
-        "state": "not_active",
-        "reason": "Root принял конечный current first-front/heading UI этап по actual native acquired PhotoBook и логbook.received; свой ввод освобождён, assigned owner сохранён. Full card/art/F10/shutdown gates открыты."
+        "state": "confirmed_active",
+        "reason": "131e закрыт частично: обычная книга и читаемый оборот доставлены нативно, школа/F10 нет; следующий bounded проход тем же единственным root-вводом, assigned owner сохранён."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -117635,7 +117655,7 @@
         "Игрок не обязан повторять тизер; объяснение «просто сон» не закрывает интригу.",
         "Обычный New Game без override использует актуальный pack, ставит физический W01 и передаёт управление семейному прибытию; skip не выдаёт необязательное знание, Replay не меняет основной сеанс, Continue не запускает New Game."
       ],
-      "next_action": "Use already accepted 2903 ordinary route and confirmed book pose; require actual visible dialogue before Enter, then exact book aim (yaw84.2/pitch-36.3 from cc83 final pose) or original 2903 pose/yaw90/pitch-41.92. Do not reuse failed shallow-26 aim or claim source image is a game frame. No broad lighting/forest recheck.",
+      "next_action": "131e доставил ordinary book.received[56] и читаемый оборот нативно; школа/F10 не достигнуты (лог без pw-school-copy-*/S-SCHOOL/pw-enter-forest, ход закончился у северного забора двора). Next: bounded play-full улицей x≈-1.5 на север до z≈56-60→запад к апрону школы(-16.9,64)→коридор на запад до учительской→folder на столе→source+permission→возврат к книге→pw-enter-forest→F10 (whole-forest кадры+короткое движение). Control probe {LEFT}/{RIGHT}, a/d с capture после каждой команды. No broad lighting/forest recheck.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -118074,6 +118094,26 @@
           "evidence/PW-043/release-path-20261015/frames/d884-root/08-tea-dialog.png",
           "evidence/PW-043/release-path-20261015/frames/d884-root/10-new-album.png",
           "evidence/PW-043/release-path-20261015/frames/d884-root/11-album-detail.png"
+        ]
+      },
+      "progress_2026_10_15_school_f10": {
+        "state": "bounded_run_closed_known_leaks_school_not_reached",
+        "question": "Can the ordinary received book→visible back read→physical school source/request→first F10 entry produce current native forest frames and short real movement?",
+        "success": "Actual acquisition/context/entry in raw game log, SHA-bound native school/F10 frames personally reviewed; short owned-window movement if setup fits budget, userdata restored.",
+        "scope": "Current first school copy/first forest composition only; all-world/all-photo/author/release criteria remain open.",
+        "result_131e": "Ordinary home route re-delivered natively in job 131e3584f04244e1961254867c6a96cb: raw log prologue.completed[8]→pw-niva-stop[21]→book.received[56]; PhotoBook back «У леса. Перед отъездом.» personally readable in frame 02-back-read. School source/permission and F10 entry NOT reached: log has no pw-school-copy-source/permission, no S-SCHOOL, no pw-enter-forest. Walk ended at the yard north fence (-6.75,1.96,12.50,yaw179.92) after the authored door approach (-7.82,1.41,-1.88,yaw-90). Snapshot 6a6f24a531d782ce1a598ca63d376dc32269b0f6e472ed251756d4ccfd57844a.",
+        "verification_131e": "Receipt FAIL only from recurring exit RID/resource leaks (1Mesh/2Material/1Shader/1Instance/48resources); gameExitCode0; userdataRestored/snapshot_hashes_verified=true; doctor ready/idle, busy_job=null, orphan=false, recovery=false. 5/5 job-bound native frame pairs; 02-back-read and 05-road-observation personally reviewed.",
+        "next_action": "Next bounded ordinary play-full, street lane to school: from the house door through gate(-5.493,1.182)→road(-1.2,1.182) to street x≈-1.5, north to z≈56-60, west to school apron(-16.9,64); inside, corridor west to the teacher's room table folder; take pw-school-copy-source+permission; return to the home table book→pw-enter-forest→F10 with whole-forest frames and short real movement. Early control probe ({LEFT}/{RIGHT}, a/d) with a capture after each command; no repeat walking into the yard fence.",
+        "turn_mechanism": "Unknown: yaw changed between run frames 0→90→-90→179.92 while the game has no keyboard look and station UI accepts only keys/move; settle by probe in the next run.",
+        "reuse": "817d2949 accepted current P-FOREST v2/heading; no unchanged album-layout re-verification unless action becomes ambiguous.",
+        "job_id": "131e3584f04244e1961254867c6a96cb",
+        "snapshot_sha256": "6a6f24a531d782ce1a598ca63d376dc32269b0f6e472ed251756d4ccfd57844a",
+        "evidence_refs": [
+          "evidence/PW-043/release-path-20261015/native_131e/receipt.json",
+          "evidence/PW-043/release-path-20261015/native_131e/game.log",
+          "evidence/PW-043/release-path-20261015/native_131e/engine-errors.log",
+          "evidence/PW-043/release-path-20261015/frames/131e-school/02-back-read.png",
+          "evidence/PW-043/release-path-20261015/frames/131e-school/05-road-observation.png"
         ]
       }
     },

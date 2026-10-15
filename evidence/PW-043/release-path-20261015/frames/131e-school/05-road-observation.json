@@ -1,0 +1,25 @@
+{
+  "kind": "interactive-game-viewport",
+  "jobId": "131e3584f04244e1961254867c6a96cb",
+  "requestId": "363ebc175747482da53b8588139c80d0",
+  "pid": 117912,
+  "status": "ok",
+  "width": 1886,
+  "height": 1061,
+  "pngSha256": "5e87c3bb8a2bf3af59fdce2456433fdebb2176b42bd989e1a4e00bb92773166e",
+  "scenePath": "res://scenes/full_game.tscn",
+  "cameraPath": "/root/FullGameMain/Player/Head/Camera3D",
+  "cameraPosition": [
+    -6.749913,
+    1.9641895,
+    12.501321
+  ],
+  "cameraRotationDegrees": [
+    0,
+    179.92,
+    0
+  ],
+  "interactionRayCollider": null,
+  "interactionId": null,
+  "interactionAvailable": null
+}

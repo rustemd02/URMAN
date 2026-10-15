@@ -1,0 +1,25 @@
+{
+  "kind": "interactive-game-viewport",
+  "jobId": "131e3584f04244e1961254867c6a96cb",
+  "requestId": "126a103890784a5b86317548b1e182c4",
+  "pid": 117912,
+  "status": "ok",
+  "width": 1886,
+  "height": 1061,
+  "pngSha256": "851820429ac9a79e2e36e5d858fca47945e7eef67f0596074780a0d8479fc5fa",
+  "scenePath": "res://scenes/full_game.tscn",
+  "cameraPath": "/root/FullGameMain/Player/Head/Camera3D",
+  "cameraPosition": [
+    -10.970806,
+    1.6943085,
+    -2.1316257
+  ],
+  "cameraRotationDegrees": [
+    -1.7583359e-06,
+    -90.00028,
+    0
+  ],
+  "interactionRayCollider": "/root/FullGameMain/ZoneHost/Act1ConnectedWorld/babay-abi-house/HouseExit",
+  "interactionId": "urman.fullgame:interaction/pw-home-exit-house",
+  "interactionAvailable": true
+}
