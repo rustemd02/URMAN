@@ -137,6 +137,16 @@ public partial class Act1ConnectedWorld
         // Photo sorting is a current use of the club, already mentioned in the
         // village archive. The equipment is kept on a side table, not on stage.
         SDesk(club, body, "ArchivePhotoTable", new(-2.5f, 0, 4.7f), 180, 1.3f, .65f);
+        var archivePhotoTable = club.GetNode<Node3D>("ArchivePhotoTable");
+        var archiveLaminateTop = archivePhotoTable.GetNode<MeshInstance3D>("LaminatedTop");
+        if (archiveLaminateTop.MaterialOverride is not StandardMaterial3D sourceLaminate)
+            throw new InvalidOperationException("ArchivePhotoTable laminated top has no StandardMaterial3D source finish.");
+        var archiveLaminate = (StandardMaterial3D)sourceLaminate.Duplicate();
+        archiveLaminate.ResourceName = "M13_ArchivePhotoTable_Laminate_0_75m";
+        archiveLaminate.Uv1Scale = new(1f / .75f, 1f / .75f, 1f);
+        archiveLaminate.SetMeta("surfaceTileMetres", .75f);
+        archiveLaminateTop.MaterialOverride = archiveLaminate;
+        archiveLaminateTop.SetMeta("materialRole", "M13 furniture laminate; 0.75 m repeat on archive photo table only");
         SBox(club, null, "ArchiveScanner", new(.45f, .10f, .32f), new(-2.5f, .8f, 4.7f), Mat("c4c4bd", "plastic_abs"), shadow: false);
         var envelope=CivicSurfaceLibrary.Paper(club,"ArchiveEnvelope",new(.34f,.085f),new(-3.05f,.78f,4.7f),CivicSurfaceLibrary.Face("craft_details_v1_atlas.png",2,4,4),.002f);
         envelope.RotationDegrees=new(-90,0,0);

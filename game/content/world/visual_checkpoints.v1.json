@@ -510,6 +510,43 @@
       "graphicsPreset": "low",
       "spec": "BabaiApproachDwellingFacade@1.658,1.946,-2.634>BabaiApproachDwellingFacade@5.758,1.686,-1.734",
       "subject": "B20 Codex pilot: source-derived view of the Right0 primary opening; requires native occlusion/framing review."
+    },
+    {
+      "id": "w05_fap_front_high",
+      "spec": "FapReturnHouseEast@1.17,1.75,4.6>FapReturnHouseEast@1.17,1.456,2.4",
+      "graphicsPreset": "high",
+      "subject": "ACT1-TEXTURE.02/E12: exact existing FapReturnHouseEast W05 window trims only; no full-house/art/movement acceptance."
+    },
+    {
+      "id": "w05_fap_rear_high",
+      "spec": "FapReturnHouseEast@0,1.85,-6.8>FapReturnHouseEast@0,1.456,-2.37",
+      "graphicsPreset": "high",
+      "subject": "ACT1-TEXTURE.02/E12: exact existing FapReturnHouseEast W05 window trims only; no full-house/art/movement acceptance."
+    },
+    {
+      "id": "w05_fap_west_high",
+      "spec": "FapReturnHouseEast@-5.1,1.75,0.05>FapReturnHouseEast@-3.3,1.456,0.05",
+      "graphicsPreset": "high",
+      "subject": "ACT1-TEXTURE.02/E12: exact existing FapReturnHouseEast W05 window trims only; no full-house/art/movement acceptance."
+    },
+    {
+      "id": "w05_fap_east_high",
+      "spec": "FapReturnHouseEast@5.1,1.75,0.05>FapReturnHouseEast@3.3,1.456,0.05",
+      "graphicsPreset": "high",
+      "subject": "ACT1-TEXTURE.02/E12: exact existing FapReturnHouseEast W05 window trims only; no full-house/art/movement acceptance."
+    },
+    {
+      "id": "fap_wash_towel",
+      "spec": "FapInteriorWashUnit_Towel_LOD0@3.9,1.75,3.45>FapInteriorWashUnit_Towel_LOD0@5.318,1.341,2.62",
+      "zoneId": "fap_clinic",
+      "graphicsPreset": "high",
+      "subject": "ACT1-TEXTURE.03/E21 T07: existing folded FAP wash-unit towel, registered half-metre cotton material; static consumer only, no full art/movement acceptance."
+    },
+    {
+      "id": "m13_archive_photo_table",
+      "spec": "ArchivePhotoTable@-1.7,1.55,-0.5>ArchivePhotoTable@0,0.74,0",
+      "graphicsPreset": "high",
+      "subject": "ACT1-TEXTURE.03/E12: actual live club foyer archive table laminate, named0.75m metric repeat; static top/edge/support only, no interaction/route/full art acceptance."
     }
   ],
   "batches": [
