@@ -105990,7 +105990,7 @@
       "id": "PW-014",
       "title": "Реализовать фронт, оборот и читаемую транскрипцию",
       "milestone": "PW-M1",
-      "status": "todo",
+      "status": "in_progress",
       "active_owner": null,
       "owner": "integration",
       "priority": "P0",
@@ -106011,7 +106011,9 @@
       "verify": [
         "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-014/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
       ],
-      "evidence": [],
+      "evidence": [
+        "evidence/PW-014/front-image-reader-20261015/game-build.log"
+      ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-014",
       "source_requirements": [
         "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/docs/11_TASKS_RU.md",
@@ -106028,7 +106030,7 @@
       "reference_ids": [
         "REQ"
       ],
-      "runtime_evidence": "NOT_RUN",
+      "runtime_evidence": "Changed front-image reader NOT_RUN; d884 acquired P-FOREST/old album is a valid input, not evidence for this new reader.",
       "author_acceptance": "PENDING",
       "mvp_priority": 20,
       "mvp_packet": "PW1",
@@ -106128,17 +106130,17 @@
       },
       "assigned_owner": "integration",
       "activity": {
-        "state": "not_active",
-        "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+        "state": "released",
+        "reason": "Bounded front-image reader source accepted root+Luna and affected Game compile0/0; native720p and BackRead visual/state check remain, no game readiness claim."
       },
       "task_type": "engineering",
-      "implementation_state": "not_started",
+      "implementation_state": "partial",
       "technical_verification_state": "not_run",
       "remaining": [
-        "Фотографию можно прочитать при 720p без pixel hunting.",
-        "Back-read-флаг не выдаётся за просмотр thumbnail."
+        "Native720p front zoom/pan/readability and return/selection/focus/close/session behaviour for changed reader.",
+        "Actual front-view→unread-back preservation; full two-side/one-command flip/transcription clauses and other required source criteria remain open."
       ],
-      "next_action": "Показать две стороны и подпись происхождения.",
+      "next_action": "In confirmed owned ordinary route with actual acquired P-FOREST, at720p open «Рассмотреть снимок», verify existing zoom/pan/text/title/origin and return focus to same album selection; unread back must remain unread. Then session/tab/close cleanup. No failed capture-current retry or duplicate first-photo acquisition proof.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -106147,7 +106149,9 @@
         "result": "Реализовать фронт, оборот и читаемую транскрипцию",
         "targets": [
           "game/scripts/DocumentUi.cs",
-          "game/scripts/DocumentImageReader.cs"
+          "game/scripts/DocumentImageReader.cs",
+          "game/scripts/JournalUi.PhotoBook.cs",
+          "game/scripts/JournalUi.PhotoBook.ImageReader.cs"
         ],
         "required_inputs": [
           {
@@ -106201,7 +106205,7 @@
           ],
           "repeat_only_if": "Изменился покрываемый вход/consumer/контракт; без этого уже принятая проверка используется повторно без запуска."
         },
-        "actual_result": "NOT_RUN",
+        "actual_result": "PARTIAL source: selected acquired front reaches existing zoom/pan/text reader with context/return and cleanup. Affected compile0/0; changed reader native720p/BackRead criteria NOT_RUN.",
         "evidence_refs": [
           "tasks[id=PW-014].evidence"
         ],
@@ -106291,7 +106295,20 @@
           "evidence_ref": "PW-014.evidence and named history progress; source_review shows available/missing inputs"
         }
       ],
-      "assignment_state": "preserved_person_or_existing_role; activity separate"
+      "assignment_state": "preserved_person_or_existing_role; activity separate",
+      "progress_2026_10_15_front_reader": {
+        "problem": "PhotoBook page rendered a small front TextureRect while existing DocumentImageReader was reachable only from normal entries tab, so acquired photo could not reach its zoom/pan reader.",
+        "result": "Added «Рассмотреть снимок» and «Вернуться к фотоальбому» using a PhotoBook-page instance of existing DocumentImageReader; keeps selected PhotoId, friendly title/OriginLabel, description/text and existing text ReadingZoom. Physical preview is released when reader opens.",
+        "guards": "Open checks current SessionIdentity and fresh bridge.PhotoBookPhotos() acquired-only projection, then whitelisted existing front resource. DocumentImageContent uses canonical PhotoId; no new semantic IDs. No BackRead calls/state effects or unread-back paths; no second input/modal/state owner. Selection/session/tab/screen close/tree exit clear images/body/context; return restores album/focus.",
+        "root_review": "Reviewed actual reader pure-presentation API and targeted diff; corrected stale-session projection and kept canonical PhotoId + title/origin context. DocumentImageReader/DocumentUi/JournalUi.cs unchanged.",
+        "source_hashes": {
+          "game/scripts/JournalUi.PhotoBook.cs": "a8659d45fef9f54c96eca882d7a8bd10be0f90e1202d25a63b17b572f43d3768",
+          "game/scripts/JournalUi.PhotoBook.ImageReader.cs": "edfffab6c812a5c1f92cd7e953ec6d900380ed0203c7eedfe4885c2b6048770f"
+        },
+        "verification": "Affected Game build exit0/warnings0/errors0,50.13s; diff/whitespace clean. No new tests/probes/native run.",
+        "evidence": "evidence/PW-014/front-image-reader-20261015/game-build.log",
+        "limits": "Source/compile only; actual reader framing/readability,720p and lifecycle criteria not accepted until current native view."
+      }
     },
     {
       "id": "PW-015",
