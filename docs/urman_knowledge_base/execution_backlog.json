@@ -8944,7 +8944,7 @@
             "remaining": [
               "Подключить M07 — Резина; собственного целевого receipt пока нет."
             ],
-            "next_action": "One protected niva_m07 tyre capture at saved exact babay-niva local points after fresh idle confirmed; publish actual job ID, fetch/inspect material only, release on terminal/restored. No vehicle driving or unchanged source rerun.",
+            "next_action": "Fetch accepted ownjob19471fe2649342198d8762e42516276d after terminal; inspect exact NivaBody-anchored left-front tyre frame/receipt, confirm restored/idle and release. No repeat compile/capture or vehicle driving.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -9027,7 +9027,10 @@
               "profile": "village-winter-crisp",
               "fov": 50,
               "anchor_conversion": "Worker accepts alphanumeric/underscore owner names, rejecting babay-niva before execution. Existing unique NivaBody has GLB translation(.7,1.06,-1.05), no rotation/scale; subtracting it preserves exact car-local camera/target. Runtime still requires unique owner; no guard/worker edits or world fallback.",
-              "rejected_request": "3a57630d46c5448d9aef178c90bf8ca9 HTTP400 invalid capture points before job execution; no game started."
+              "rejected_request": "3a57630d46c5448d9aef178c90bf8ca9 HTTP400 invalid capture points before job execution; no game started.",
+              "job_id": "19471fe2649342198d8762e42516276d",
+              "snapshot_id": "6479af6adb6fe64972efb0f77c87df188c4c635bc082fb936d612b8af02ef001",
+              "result": "SUBMITTED; actual frame/receipt not yet accepted."
             }
           },
           {
