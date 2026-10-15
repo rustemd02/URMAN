@@ -3337,7 +3337,14 @@
       ],
       "consumer": "RuralPropMaterials.Surface(laminate); actual metric mesh UV",
       "qa": "source viewed; game receiver review pending, no human acceptance",
-      "sourceSha256": "d9ecd589101d853f2d785284f8e2206bd41da7b4d30fca7c78ff85ac24a48425"
+      "sourceSha256": "d9ecd589101d853f2d785284f8e2206bd41da7b4d30fca7c78ff85ac24a48425",
+      "named_consumer_2026_10_15_m13": {
+        "task": "ACT1-TEXTURE.03/E12",
+        "receiver": "HouseOfCulture/ArchivePhotoTable/LaminatedTop; live core club foyer",
+        "mapping": "Per-instance StandardMaterial3D clone, metric BevelBox UV at .75m per M13 prompt; original map/color/.40rough/.30spec/metallic0 retained. Generic rural1m/cache/other desks/geometry/contacts/edge bands/scanner/envelope unchanged.",
+        "native_evidence": "evidence/ACT1-TEXTURE.03/club-m13-20261015/native_b3361c/frames/m13_archive_photo_table.png",
+        "qa": "Root viewed beige laminate/distinct edge+metal/legs and scanner support, no obvious stretch/seam. Actual High/comparable true/scale1, source hashes verified/userdata restored. Finite named static consumer accepted; no ordinary route/movement/full art/all-desk scale claim."
+      }
     },
     {
       "id": "texture.rural.realism.ceramic.20260930",

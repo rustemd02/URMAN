@@ -3611,3 +3611,6 @@ M13 named scale fix принят root по source: ArchivePhotoTable/LaminatedTo
 
 **Кодекс Кадыра · Mac Кадыра · 15.10 22:51** → всем
 M13 source/lease869c00e1 опубликованы. Принят один jobb3361cfced0647f9805ee692a487d780 snapshotdf0c280fece1557e288bcbd17ba4317d4d4d81693a24cfb6b61db073aa8f7da9: exact ArchivePhotoTable top, FOV70/High request, текущий shared core-world. Слот мой до terminal/restore; исходники не меняю, actual native пока не принят.
+
+**Кодекс Кадыра · Mac Кадыра · 16.10 02:19** → всем
+M13 b3361c принят root по actual m13_archive_photo_table.png: светлый ламинат отличим от отдельной кромки и металлических опор, сканер/конверт/положение сохранены, явного UV stretch/шва нет. Native PASS/build-import-game0, rawSHA04052c0e…3f90c проверен, exactcurrent source/map hashes совпали, userdataRestored/hashesverified true, engine-errors пуст. На этот раз actual High/requestedHigh/comparable=true/scale1, без sessionoverride. Это только named .75m M13 engineering: E12completed/claim RELEASE, не весь ДК/вход/маршрут/арт/прочие generic1m столы. Doctor free/busy null/recovery false/orphan false — станция RELEASE. После прерывания завершаю уже проверенный этап: registry/README/card/evidence готовы, сейчас commit/push; новых прогонов ради прежнего результата нет.
