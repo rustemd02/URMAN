@@ -9299,7 +9299,9 @@
             "result": "Подключить M11 — Глазурованная бытовая керамика",
             "owner": "art/materials/qa",
             "evidence": [
-              "Existing source already bound: house_old_pc -> StyleBenchmarkInteriorFactory.BuildHouseRooms/BuildKitchen -> BabaiHouseWing/Kitchen/KitchenTeapot + KitchenCup0..2 -> RuralPropModels.Teapot/Cup -> RuralPropMaterials.Surface(ceramic). Registered original glazed_ceramic_cream_source_v1_basecolor.png SHA68c36f276415f25a287f4a85ec7b1765059e4c42d4604ef6cb31e619ca624757; metric Lathe/Tube UV with .5m repeat, cup ede7d9/teapot dcd5bd, rough .26/spec .34/metallic0. Root+Luna source check; no production source changes or new tests/build. Native still pending."
+              "Existing source already bound: house_old_pc -> StyleBenchmarkInteriorFactory.BuildHouseRooms/BuildKitchen -> BabaiHouseWing/Kitchen/KitchenTeapot + KitchenCup0..2 -> RuralPropModels.Teapot/Cup -> RuralPropMaterials.Surface(ceramic). Registered original glazed_ceramic_cream_source_v1_basecolor.png SHA68c36f276415f25a287f4a85ec7b1765059e4c42d4604ef6cb31e619ca624757; metric Lathe/Tube UV with .5m repeat, cup ede7d9/teapot dcd5bd, rough .26/spec .34/metallic0. Root+Luna source check; no production source changes or new tests/build. Native still pending.",
+              "evidence/ACT1-TEXTURE.03/home-m11-20261015/native_97eb82/receipt.json + frames/home_tea_m11.png: native97eb821f2b2649d2a8b639315d601e69 PASS, build/import/game0, rawSHA7a1aac361189e700f709bf007b907b24176e389877766e1ce120c4d7d69a5934, snapshotad8de77f0350930f5001e7d1eb0afe4d01be384ebbe17dbfe72e7cdaf871a348 exact source/map hashes verified/userdata restored. Root personally viewed cream cups/teapot distinct from wood/cloth, static material accepted; actual Low/performance-rescue/.7. Not whole object acceptance: lid dark wedges and capped spout observed.",
+              "Source diagnosis + local fix: RuralPropModels.Teapot lid profile ran opposite fixed Lathe winding; reverse same contour to restore outward/upward faces. SpoutMouth used capped Tube; replace only returned instance mesh with unique20-segment hollow Lathe/.016 outer-.014 inner radii (2mm wall/rim), unchanged endpoints/basis/material/SpoutBase. Shared Lathe/Tube/cache originals untouched. Renderer fix applies to Teapot-factory instances; only KitchenTeapot is the named visual verification target."
             ],
             "assigned_owner": "art/materials/qa",
             "active_owner": "codex/root",
@@ -9312,9 +9314,10 @@
             "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
-              "One native existing kitchen tea-set view: verify cream glaze is distinguishable from wood/table and no collapsed UV/obvious seams; retain physical geometry/support/state. Full art/motion acceptance separate."
+              "Inspect one matched home_tea_m11 native after the confirmed Teapot-only lid/spout repair: lid intact, spout visibly hollow with real rim, same cream material/cups/support; retain before97eb82.",
+              "Full art/movement acceptance separate; actual previous frame was Low/performance-rescue/.7, not Medium."
             ],
-            "next_action": "Root reserves one free station slot for home_tea_m11 existing-home checkpoint, inspect actual frame and restoration receipt, then release; no redundant source rewrite/compile.",
+            "next_action": "After affected compile, publish source/lease and submit one matched home_tea_m11 native for changed Teapot source; inspect before/after, retain restoration proof, release slot. No blind material rewrite.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",

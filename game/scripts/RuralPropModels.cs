@@ -148,9 +148,13 @@ public static class RuralPropModels
     {
         var r=Root(parent,name,at);var ceramic=M("ceramic","dcd5bd");
         RuralPropGeometry.Part(r,"PotBody",RuralPropGeometry.Lathe("teapot-body",[new(0,0),new(.05f,0),new(.07f,.01f),new(.09f,.045f),new(.083f,.09f),new(.055f,.123f),new(.050f,.125f)]),Vector3.Zero,ceramic);
-        RuralPropGeometry.Part(r,"Lid",RuralPropGeometry.Lathe("teapot-lid",[new(0,.142f),new(.012f,.142f),new(.018f,.132f),new(.045f,.13f),new(.053f,.125f)]),Vector3.Zero,ceramic);
+        RuralPropGeometry.Part(r,"Lid",RuralPropGeometry.Lathe("teapot-lid",[new(.053f,.125f),new(.045f,.13f),new(.018f,.132f),new(.012f,.142f),new(0,.142f)]),Vector3.Zero,ceramic);
         RuralPropGeometry.Tube(r,"SpoutBase",new(.07f,.045f,0),new(.115f,.075f,0),.024f,ceramic);
-        RuralPropGeometry.Tube(r,"SpoutMouth",new(.115f,.075f,0),new(.145f,.11f,0),.016f,ceramic);
+        var mouthStart=new Vector3(.115f,.075f,0);var mouthEnd=new Vector3(.145f,.11f,0);
+        var mouth=RuralPropGeometry.Tube(r,"SpoutMouth",mouthStart,mouthEnd,.016f,ceramic);
+        var mouthHalfLength=mouthStart.DistanceTo(mouthEnd)*.5f;
+        mouth.Mesh=RuralPropGeometry.Lathe("teapot-spout-mouth",
+            [new(.016f,-mouthHalfLength),new(.016f,mouthHalfLength),new(.014f,mouthHalfLength),new(.014f,-mouthHalfLength)],20);
         for(var i=0;i<18;i++)
         { var a=-Mathf.Pi*.5f+i/18f*Mathf.Pi;var b=-Mathf.Pi*.5f+(i+1)/18f*Mathf.Pi;
             RuralPropGeometry.Tube(r,"Handle",new(-.07f-Mathf.Cos(a)*.055f,.065f+Mathf.Sin(a)*.050f,0),new(-.07f-Mathf.Cos(b)*.055f,.065f+Mathf.Sin(b)*.050f,0),.008f,ceramic,12); }
