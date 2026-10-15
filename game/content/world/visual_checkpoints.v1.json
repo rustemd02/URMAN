@@ -510,6 +510,30 @@
       "graphicsPreset": "low",
       "spec": "BabaiApproachDwellingFacade@1.658,1.946,-2.634>BabaiApproachDwellingFacade@5.758,1.686,-1.734",
       "subject": "B20 Codex pilot: source-derived view of the Right0 primary opening; requires native occlusion/framing review."
+    },
+    {
+      "id": "w05_fap_front_high",
+      "spec": "FapReturnHouseEast@1.17,1.75,4.6>FapReturnHouseEast@1.17,1.456,2.4",
+      "graphicsPreset": "high",
+      "subject": "ACT1-TEXTURE.02/E12: exact existing FapReturnHouseEast W05 window trims only; no full-house/art/movement acceptance."
+    },
+    {
+      "id": "w05_fap_rear_high",
+      "spec": "FapReturnHouseEast@0,1.85,-6.8>FapReturnHouseEast@0,1.456,-2.37",
+      "graphicsPreset": "high",
+      "subject": "ACT1-TEXTURE.02/E12: exact existing FapReturnHouseEast W05 window trims only; no full-house/art/movement acceptance."
+    },
+    {
+      "id": "w05_fap_west_high",
+      "spec": "FapReturnHouseEast@-5.1,1.75,0.05>FapReturnHouseEast@-3.3,1.456,0.05",
+      "graphicsPreset": "high",
+      "subject": "ACT1-TEXTURE.02/E12: exact existing FapReturnHouseEast W05 window trims only; no full-house/art/movement acceptance."
+    },
+    {
+      "id": "w05_fap_east_high",
+      "spec": "FapReturnHouseEast@5.1,1.75,0.05>FapReturnHouseEast@3.3,1.456,0.05",
+      "graphicsPreset": "high",
+      "subject": "ACT1-TEXTURE.02/E12: exact existing FapReturnHouseEast W05 window trims only; no full-house/art/movement acceptance."
     }
   ],
   "batches": [

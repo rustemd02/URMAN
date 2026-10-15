@@ -5794,12 +5794,14 @@
             "title": "Подключить W05 — Светлая краска наличников",
             "result": "Подключить W05 — Светлая краска наличников",
             "owner": "art/materials/qa",
-            "evidence": [],
+            "evidence": [
+              "Delivered source c2e9cc28 reviewed: current AddVillageFacade FapReturnHouseEast procedural singleSlopeRoof branch, all front/rear/West/East upper/lower trim calls use wood_painted_trim; actual W05v02 SHA c2170588472b77aab0f560818d34349cc4397d1793f0e5d06a7cbd73ee2ac317 confirmed/root viewed PNG. No current exact-house receipt found by Luna; old HeroHouse trim views do not prove this receiver. Current source/tint/geometry unchanged."
+            ],
             "assigned_owner": "art/materials/qa",
-            "active_owner": null,
+            "active_owner": "codex/root",
             "activity": {
-              "state": "not_active",
-              "reason": "Source этап W05 доставлен c2e9cc28; сейчас целевая Windows проверка ещё не начата, назначение art/materials/qa сохранено."
+              "state": "confirmed_active",
+              "reason": "Root accepts delivered c2e9cc28 W05 source stage and prepares only missing exact FapReturnHouseEast front/rear/side native views; generic assignment retained."
             },
             "task_type": "engineering",
             "status": "in_progress",
@@ -5808,7 +5810,7 @@
             "remaining": [
               "Целевой Windows вид FapReturnHouseEast: читаемая крашеная обвязка передних/задних/боковых окон; целевой receipt ещё не получен."
             ],
-            "next_action": "После текущего B20 и елового сравнения снять точный FapReturnHouseEast; проверить W05 и неизменность геометрии/tint.",
+            "next_action": "Root reserves one free station slot: exact front/rear/west/east W05 trim views in one explicit High batch. Preserve any rescue/session override; actual metadata decides quality acceptance. No geometry/material edit or root recompile.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -5846,7 +5848,7 @@
               ],
               "verification": {
                 "method": "targeted_runtime_scenario",
-                "question": "FapReturnHouseEast: W05 используется верх/низ front/rear/side окон, геометрия/tint сохранены?",
+                "question": "Does exact FapReturnHouseEast show existing W05 painted grain on front/rear/both-side upper/lower window trims, with existing geometry and a58e6e tint retained? Verify actual High readback; lower rescue quality remains an open limit.",
                 "scenario": {
                   "targets": [
                     "game/scripts/Act1ConnectedWorld.cs",
