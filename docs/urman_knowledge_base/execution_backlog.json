@@ -103691,7 +103691,7 @@
       "id": "PW-007",
       "title": "Создать строгий каталог фото, миров и разворотов",
       "milestone": "PW-M1",
-      "status": "in_progress",
+      "status": "completed",
       "active_owner": null,
       "owner": "integration",
       "priority": "P0",
@@ -103724,7 +103724,10 @@
         "evidence/PW-007/native_3195422fc11a4a8b88e9811d01587782",
         "evidence/PW-007/native_3195422fc11a4a8b88e9811d01587782/root-review.json",
         "evidence/PW-007/current-catalog-20261013/content-cli-build.log",
-        "evidence/PW-007/current-catalog-20261013/content-compile.log"
+        "evidence/PW-007/current-catalog-20261013/content-compile.log",
+        "evidence/PW-043/release-path-20261015/native_d884/receipt.json",
+        "evidence/PW-043/release-path-20261015/frames/d884-root/10-new-album.png",
+        "evidence/PW-043/release-path-20261015/native_d884/game.log"
       ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-007",
       "source_requirements": [
@@ -103853,15 +103856,13 @@
       "assigned_owner": "integration",
       "activity": {
         "state": "released",
-        "reason": "Historical logical slice accepted only for exact old snapshot; current compiler/pack stage verified, current repository-load still open after source changes."
+        "reason": "Root accepted existing actual fullgame strict-catalog load and acquired projection from d884 after source-path/hash review; finite logical DoD complete, no new run."
       },
       "task_type": "engineering",
       "implementation_state": "implemented",
-      "technical_verification_state": "not_run",
-      "remaining": [
-        "Current-hash protected repository/catalog load using existing bounded scenario after station owner release. Six covered source/pack hashes changed since accepted3195422; historical native cannot certify them. Physical placement/resources/ordinary book/art are outside this finite logical unit and remain with existing tasks."
-      ],
-      "next_action": "After live station owner release, use existing bounded repository-load scenario on current catalog candidate; preserve accepted historical3195422 and current successful compiler/pack result, no new negative fixtures or unchanged compiler rerun.",
+      "technical_verification_state": "passed",
+      "remaining": [],
+      "next_action": "Reuse accepted logical catalog source/compiler and current d884 fullgame repository load. Physical resources/placement/all worlds/game/art stay with existing owning tasks; no unchanged catalog rerun or negative fixtures.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -103943,7 +103944,7 @@
           ],
           "repeat_only_if": "Изменился покрываемый вход/consumer/контракт; без этого уже принятая проверка используется повторно без запуска."
         },
-        "actual_result": "PASS logical catalog load only; PHYSICAL NOT_RUN",
+        "actual_result": "PASS finite logical catalog source/compiler/current d884 repository load; physical/art/full-game outside this unit remain open.",
         "evidence_refs": [
           "tasks[id=PW-007].evidence"
         ],
@@ -104112,6 +104113,22 @@
           "evidence/PW-007/current-catalog-20261013/content-compile.log"
         ],
         "limits": "No current runtime, physical photo placement/safe spawn/resource production/ordinary route/art acceptance claimed. Old machine receipts left unchanged."
+      },
+      "progress_2026_10_15_current_runtime_acceptance": {
+        "result": "ACCEPT_FINITE_LOGICAL_CATALOG: existing d884 full_game boot loads required compiled pack, CompiledCampaignRepository constructor rejects absent fullgame catalog and executes PhotoWorldCatalog.Parse + ValidatePhotoWorldAnchors. Actual book.received→P-FOREST album uses acquired-only RuntimeBridge.PhotoBookPhotos over that validated catalog. Prior source/compiler/negative-guard evidence retained; current required catalog/count/unique/ref/anchor guards personally reviewed, no new negative fixtures.",
+        "receipt": "evidence/PW-043/release-path-20261015/native_d884/receipt.json",
+        "frame": "evidence/PW-043/release-path-20261015/frames/d884-root/10-new-album.png",
+        "game_log": "evidence/PW-043/release-path-20261015/native_d884/game.log",
+        "current_hashes": {
+          "game/content/urman.fullgame.compiled.v1.json": "9e4c79c19b17f9fb3e3f29a59d498dfbf082a91f63f37ec37123043fa4e817bf",
+          "game/scripts/CompiledCampaignRepository.cs": "38020f8663ca6b0842b14e36672bf1cc672496fab4c75c61264c7d027ec96926",
+          "src-dotnet/Urman.Core/Narrative/PhotoWorldCatalog.cs": "e93d14d7cdd013b249a9b2313121ef339eeac27307c3506680611dfbf4ae99b4",
+          "game/scripts/RuntimeBridge.PhotoBook.cs": "1d514f2f5de55e5426b22a51934f3591ed9a01ce422e20af8da0ba542fc9ea38",
+          "game/scripts/JournalUi.PhotoBook.cs": "20084432ac9e0563c5ceef76a4fb80cfe52d4b971537fbbc35addb80b2e7a101",
+          "game/scenes/full_game.tscn": "36dc6d96ef7398d39b1dee8530935df4645c6fb0c64b161a26483cdc540f9e10"
+        },
+        "hash_basis": "Direct receipt snapshot.files hashes match where present, including compiled pack9e4c79c1…17bf; other relevant clean paths match verified snapshot base1a43fa757eacf994f34fa42fba1e7450413952c5 blobs. No scoped mismatch; no recompile/re-execution.",
+        "runtime_limits": "Receipt overallFAIL from engine lifecycle/resource errors; gameExit0, data restored, snapshot hashes verified. This accepts strict logical catalog load only, not physical resources/safe spawn, all world travel/photo production/book functions or whole-game release."
       }
     },
     {
@@ -105827,8 +105844,8 @@
           },
           {
             "task_id": "PW-007",
-            "artifact": "Создать строгий каталог фото, миров и разворотов — только соответствующий source/contract",
-            "availability": "not_confirmed",
+            "artifact": "Strict logical5world/13photo/7anchor catalog source+compiler and current d884 fullgame repository load/acquired projection; physical placement/resources/full campaign not implied.",
+            "availability": "available",
             "requires": "relevant_artifact_not_full_parent"
           }
         ],
@@ -105904,8 +105921,8 @@
           },
           {
             "task_id": "PW-007",
-            "artifact": "Создать строгий каталог фото, миров и разворотов — только соответствующий source/contract",
-            "availability": "not_confirmed",
+            "artifact": "Strict logical5world/13photo/7anchor catalog source+compiler and current d884 fullgame repository load/acquired projection; physical placement/resources/full campaign not implied.",
+            "availability": "available",
             "requires": "relevant_artifact_not_full_parent"
           }
         ],
@@ -106135,8 +106152,8 @@
         "required_inputs": [
           {
             "task_id": "PW-007",
-            "artifact": "Создать строгий каталог фото, миров и разворотов — только соответствующий source/contract",
-            "availability": "not_confirmed",
+            "artifact": "Strict logical5world/13photo/7anchor catalog source+compiler and current d884 fullgame repository load/acquired projection; physical placement/resources/full campaign not implied.",
+            "availability": "available",
             "requires": "relevant_artifact_not_full_parent"
           }
         ],
@@ -106212,8 +106229,8 @@
         "implementation": [
           {
             "task_id": "PW-007",
-            "artifact": "Создать строгий каталог фото, миров и разворотов — только соответствующий source/contract",
-            "availability": "not_confirmed",
+            "artifact": "Strict logical5world/13photo/7anchor catalog source+compiler and current d884 fullgame repository load/acquired projection; physical placement/resources/full campaign not implied.",
+            "availability": "available",
             "requires": "relevant_artifact_not_full_parent"
           }
         ],
