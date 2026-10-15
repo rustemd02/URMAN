@@ -103281,7 +103281,7 @@
       "id": "PW-006",
       "title": "Расширить единый kernel командами фотокниги",
       "milestone": "PW-M1",
-      "status": "todo",
+      "status": "in_progress",
       "active_owner": null,
       "owner": "integration",
       "priority": "P0",
@@ -103312,7 +103312,12 @@
         "evidence/PW-006/receipt.json",
         "evidence/PW-006/native_c5a5e7924acb4e1d858f029f2e7b9ba1/README.md",
         "evidence/PW-006/home_book_adapter.json",
-        "evidence/ACT1-DEPTH.9/native_house_44a8bd796c764c7ca31548554b55c2ac/root-review.json"
+        "evidence/ACT1-DEPTH.9/native_house_44a8bd796c764c7ca31548554b55c2ac/root-review.json",
+        "evidence/PW-043/release-path-20261015/native_d884/receipt.json",
+        "evidence/PW-043/release-path-20261015/native_d884/game.log",
+        "evidence/PW-043/release-path-20261015/frames/d884-root/09-book-ray.png",
+        "evidence/PW-043/release-path-20261015/frames/d884-root/10-new-album.png",
+        "evidence/PW-043/release-path-20261015/frames/d884-root/11-album-detail.png"
       ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-006",
       "source_requirements": [
@@ -103326,7 +103331,7 @@
         "REPO04",
         "REPO05"
       ],
-      "runtime_evidence": "PARTIAL_FAIL: native dcfb7e2a1a3940a79bba4cf8501fb674 failed before frame capture for the earlier keyboard-overlapping placement; the current yawed source fix compiled but awaits native verification.",
+      "runtime_evidence": "ACCEPT_PHYSICAL_BOOK_PLACEMENT_AND_FIRST_HANDOFF_ONLY: current authored GLB visible on table clear of keyboard in ordinary d884 frame09; [56] photoworlds.book.received and frame10 album confirm real first handoff. Overall receipt FAIL from lifecycle/resource errors, gameExit0/restored/hashverified. Kernel occurrence/denial and full command clauses remain open.",
       "author_acceptance": "PENDING",
       "mvp_priority": 20,
       "mvp_packet": "PW1",
@@ -103438,8 +103443,8 @@
       },
       "assigned_owner": "integration",
       "activity": {
-        "state": "not_active",
-        "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+        "state": "released",
+        "reason": "Root accepted delivered d884 physical-book placement/handoff stage after personal inspection; interrupted proposed static capture cancelled, no station run needed."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -103525,7 +103530,7 @@
           ],
           "repeat_only_if": "Изменился покрываемый вход/consumer/контракт; без этого уже принятая проверка используется повторно без запуска."
         },
-        "actual_result": "PARTIAL_FAIL: native dcfb7e2a1a3940a79bba4cf8501fb674 failed before frame capture for the earlier keyboard-overlapping placement; the current yawed source fix compiled but awaits native verification.",
+        "actual_result": "ACCEPT_PHYSICAL_BOOK_PLACEMENT_AND_FIRST_HANDOFF_ONLY: current authored GLB visible on table clear of keyboard in ordinary d884 frame09; [56] photoworlds.book.received and frame10 album confirm real first handoff. Overall receipt FAIL from lifecycle/resource errors, gameExit0/restored/hashverified. Kernel occurrence/denial and full command clauses remain open.",
         "evidence_refs": [
           "tasks[id=PW-006].evidence"
         ],
@@ -103632,7 +103637,21 @@
           "evidence_ref": "PW-006.evidence and named history progress; source_review shows available/missing inputs"
         }
       ],
-      "assignment_state": "preserved_person_or_existing_role; activity separate"
+      "assignment_state": "preserved_person_or_existing_role; activity separate",
+      "progress_2026_10_15_delivered_book": {
+        "result": "ACCEPT_PHYSICAL_BOOK_PLACEMENT_AND_FIRST_HANDOFF_ONLY: current authored GLB visible on table clear of keyboard in ordinary d884 frame09; [56] photoworlds.book.received and frame10 album confirm real first handoff. Overall receipt FAIL from lifecycle/resource errors, gameExit0/restored/hashverified. Kernel occurrence/denial and full command clauses remain open.",
+        "job_id": "d88445a39a4f4ab58a76f0d848fca88a",
+        "source_identity": "Current ArrivalPersonalProps.cs SHA44dbcf28ac283223282181f5075dd2b62c5d75a372c6709be733a320387a928c and family-book-v1.glb SHA66e47b1ec343cf5b6f6535d72c7b1e8f48e03755af50b4547fb4537adfa43915 exactly match receipt snapshot. Older44a8 remains historical procedural-book framing only.",
+        "root_inspection": "Personally viewed09 book-ray and10 new-album: physical book rests on cloth-covered table, separated from keyboard/photo/phone; prompt targets family book. UI shows acquired first photo and unread back. No inference of repeated occurrence, unavailable-action denial, all13 photos, F10, Continue, keyboardJ or author acceptance.",
+        "evidence": [
+          "evidence/PW-043/release-path-20261015/native_d884/receipt.json",
+          "evidence/PW-043/release-path-20261015/native_d884/game.log",
+          "evidence/PW-043/release-path-20261015/frames/d884-root/09-book-ray.png",
+          "evidence/PW-043/release-path-20261015/frames/d884-root/10-new-album.png",
+          "evidence/PW-043/release-path-20261015/frames/d884-root/11-album-detail.png"
+        ],
+        "no_repeat": "Existing delivered actual ordinary route supersedes proposed redundant geometry-only capture. No new compile/run/source edits."
+      }
     },
     {
       "id": "PW-007",
@@ -106703,7 +106722,7 @@
         "Фотомиры не открывают клетки наружной карты.",
         "После обычного получения снимка игрок находит фронт/оборот и вклейку в семейной книге; Continue сохраняет личные записи и состояния снимка. Карта/адреса/словарь/прежний инвентарь используют существующий источник состояния; открытие страницы не выдаёт непрочитанное знание или внешнее подтверждение."
       ],
-      "next_action": "Obtain upstream/relay trace for the exact first capture-current POST502 from station/relay owner; existing frames folder was reported empty. No repeated play/UI probes or source guesses. Repair only proven cause, verify one actual current viewport, then resume ordinary J open/close and acquired-page prerequisites.",
+      "next_action": "Reuse delivered d884 acquired-first-photo UI rendering; next only remaining family-book UI/function criterion through a confirmed owned guarded route. Exact capture-current502 trace remains required before repeating that API path; no repeated first-photo or geometry-only capture.",
       "blocker": {
         "reason": "No verified current viewport from deployed UI2 endpoint: first capture-current HTTP502 empty body; delayed resume404 after owned play terminal. Cause not established. Version2 advertisement does not certify capture transport.",
         "release_condition": "Read existing owned run frames folder and upstream/relay response trace; confirm whether request published/claimed/result exists or precise backend refusal. Then repair only proven cause and get one verified current viewport before J input.",
@@ -106957,6 +106976,16 @@
         ],
         "limits": "Do not infer journal/book rendering/acquisition/Continue/closure or regression from unavailable screenshot/timeout. Preserve existing source stages and physical/art gates.",
         "station_owner_followup": "AGENT_CHAT 14.10 13:06 Codex B02: read-only delegate reports existing artifacts/frames folder present but empty; exported request.json is protected play request, not capture-current HTTP request. No request/processing/result/PNG evidence establishes delivery of POST. Relay/upstream trace still missing; source and no-repeat restriction unchanged."
+      },
+      "progress_2026_10_15_received_ui": {
+        "result": "Root personally accepted limited actual acquired-first-photo UI rendering from peer delivered d884 frame10; title, horizontal thumbnail, old tab labels, front image and unread-back state visible. Tabs functioning, close/J/Continue, all photos, physical in-hands inspection and final family-book UI design remain unverified.",
+        "evidence": [
+          "evidence/PW-043/release-path-20261015/frames/d884-root/09-book-ray.png",
+          "evidence/PW-043/release-path-20261015/frames/d884-root/10-new-album.png",
+          "evidence/PW-043/release-path-20261015/frames/d884-root/11-album-detail.png"
+        ],
+        "runtime_receipt": "evidence/PW-043/release-path-20261015/native_d884/receipt.json",
+        "transport_limit": "Uses delivered guarded ordinary route evidence, not failed capture-current API. d8b502 cause/trace remains unresolved; do not repeat it or relabel old FAIL as PASS."
       }
     },
     {
