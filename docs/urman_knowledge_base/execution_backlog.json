@@ -107895,7 +107895,12 @@
         "evidence/PW-043/release-path-20261015/native_bf3c/receipt.json",
         "evidence/PW-043/release-path-20261015/native_bf3c/game.log",
         "evidence/PW-043/release-path-20261015/frames/bf3c-route/03-after-skip.png",
-        "evidence/PW-043/release-path-20261015/frames/bf3c-route/11-door-check.png"
+        "evidence/PW-043/release-path-20261015/frames/bf3c-route/11-door-check.png",
+        "evidence/PW-043/release-path-20261015/native_d884/receipt.json",
+        "evidence/PW-043/release-path-20261015/native_d884/game.log",
+        "evidence/PW-043/release-path-20261015/frames/d884-root/08-tea-dialog.png",
+        "evidence/PW-043/release-path-20261015/frames/d884-root/10-new-album.png",
+        "evidence/PW-043/release-path-20261015/frames/d884-root/11-album-detail.png"
       ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-019",
       "source_requirements": [
@@ -108012,7 +108017,7 @@
       "assigned_owner": "integration",
       "activity": {
         "state": "not_active",
-        "reason": "Конечный bf3c verification остановлен до нового альбома, ввод освобождён. Receipt FAIL124, данные восстановлены; assigned owner сохранён. Новое причинное наблюдение — забор и точный authored gate route, не production freeze."
+        "reason": "Root принял конечный current first-front/heading UI этап по actual native acquired PhotoBook и логbook.received; свой ввод освобождён, assigned owner сохранён. Full card/art/F10/shutdown gates открыты."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -108380,6 +108385,26 @@
           "evidence/PW-043/release-path-20261015/native_bf3c/game.log",
           "evidence/PW-043/release-path-20261015/frames/bf3c-route/03-after-skip.png",
           "evidence/PW-043/release-path-20261015/frames/bf3c-route/11-door-check.png"
+        ]
+      },
+      "progress_2026_10_15_root_album_pilot": {
+        "state": "accepted_first_front_ui_stage",
+        "question": "Does the ordinary authored gate→house→visible tea choice→physical book route show the exact v2 photo and readable heading in native acquired PhotoBook?",
+        "success": "Actual native album frame personally reviewed and SHA-bound; school/F10 only if time remains, engineering and external scope separate.",
+        "changed_input": "Root sole input writer, exact source-derived gate geometry and observed look calibration; no repeat forward into fence, no save injection/teleport.",
+        "next_action": "Use the verified ordinary route without repeating its already accepted per-waypoint captures; read the photo back via its visible button, acquire the permitted school contact copy through physical source/request, then enter F10 and inspect current whole forest composition. Keep shutdown-risk investigation independent.",
+        "job_id": "d88445a39a4f4ab58a76f0d848fca88a",
+        "snapshot_sha256": "42a714e958c50dc25cae989bcc43d71d8f522f5145060952fbfb19a56c30657d",
+        "result": "Ordinary skip→Niva→authored gate→physical house door→visible focused tea choice→physical book handoff→actual acquired P-FOREST v2 PhotoBook. Root personally viewed dialogue and native100/120% ReadingZoom pages: correct cold fictional-group front and thumbnail, readable horizontal heading. Raw[56] photoworlds.book.received confirms handoff. Back remains unread; school/F10 not reached.",
+        "verification": "11/11 PNG/JSON job/PID/SHA pairs verified. Front source SHA c4b64f07534aca8a5e021b55f9e695686cd0180379d4227ebad19d169149c60e matches station snapshot. Guarded WM_CLOSE succeeded before timeout; gameExitCode0; userdataRestored/snapshot_hashes_verified=true; doctor ready/idle/no orphan/recovery.",
+        "limits": "Overall receipt FAIL only recurring exit resource/RID errors:1Mesh/2Material/1Shader/1Instance/48 resources. First current front/heading engineering stage accepted; all13fronts, first F10 geometry/photo likeness, whole W01/motion and external author/culture/language/audio/rights/release gates remain open.",
+        "reading_zoom": "Source contract is ReadingZoom and scales text; 100→120% native text changes while the image keeps its230px baseline height. Do not misclassify this as a proved broken photo-zoom feature.",
+        "evidence_refs": [
+          "evidence/PW-043/release-path-20261015/native_d884/receipt.json",
+          "evidence/PW-043/release-path-20261015/native_d884/game.log",
+          "evidence/PW-043/release-path-20261015/frames/d884-root/08-tea-dialog.png",
+          "evidence/PW-043/release-path-20261015/frames/d884-root/10-new-album.png",
+          "evidence/PW-043/release-path-20261015/frames/d884-root/11-album-detail.png"
         ]
       }
     },
@@ -115979,13 +116004,18 @@
               "evidence/PW-043/release-path-20261015/native_bf3c/receipt.json",
               "evidence/PW-043/release-path-20261015/native_bf3c/game.log",
               "evidence/PW-043/release-path-20261015/frames/bf3c-route/03-after-skip.png",
-              "evidence/PW-043/release-path-20261015/frames/bf3c-route/11-door-check.png"
+              "evidence/PW-043/release-path-20261015/frames/bf3c-route/11-door-check.png",
+              "evidence/PW-043/release-path-20261015/native_d884/receipt.json",
+              "evidence/PW-043/release-path-20261015/native_d884/game.log",
+              "evidence/PW-043/release-path-20261015/frames/d884-root/08-tea-dialog.png",
+              "evidence/PW-043/release-path-20261015/frames/d884-root/10-new-album.png",
+              "evidence/PW-043/release-path-20261015/frames/d884-root/11-album-detail.png"
             ],
             "assigned_owner": "art",
             "active_owner": null,
             "activity": {
               "state": "not_active",
-              "reason": "Конечный bf3c verification остановлен до нового альбома, ввод освобождён. Receipt FAIL124, данные восстановлены; assigned owner сохранён. Новое причинное наблюдение — забор и точный authored gate route, не production freeze."
+              "reason": "Root принял конечный current first-front/heading UI этап по actual native acquired PhotoBook и логbook.received; свой ввод освобождён, assigned owner сохранён. Full card/art/F10/shutdown gates открыты."
             },
             "task_type": "engineering",
             "status": "in_progress",
@@ -115994,7 +116024,7 @@
             "remaining": [
               "Поставить камеры и три узнаваемые опоры каждой портальной фотографии до её финальной отрисовки.; собственного целевого receipt пока нет."
             ],
-            "next_action": "Исправить первый F10/photo camera и source routing, затем поставить три совпадающие опоры и произвести exact first-photo artwork. Не закрывать все portal cameras по одной.",
+            "next_action": "Проверить три узнаваемые опоры и photo camera первого F10 в actual ordinary forest entry после школьной копии; новый first front уже доступен как named native input. Остальные portal cameras не закрыты.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -116140,6 +116170,26 @@
                 "evidence/PW-043/release-path-20261015/frames/bf3c-route/03-after-skip.png",
                 "evidence/PW-043/release-path-20261015/frames/bf3c-route/11-door-check.png"
               ]
+            },
+            "progress_2026_10_15_root_album_pilot": {
+              "state": "first_front_input_ready_camera_pending",
+              "question": "Does the ordinary authored gate→house→visible tea choice→physical book route show the exact v2 photo and readable heading in native acquired PhotoBook?",
+              "success": "Actual native album frame personally reviewed and SHA-bound; school/F10 only if time remains, engineering and external scope separate.",
+              "changed_input": "Root sole input writer, exact source-derived gate geometry and observed look calibration; no repeat forward into fence, no save injection/teleport.",
+              "next_action": "Use the verified ordinary route without repeating its already accepted per-waypoint captures; read the photo back via its visible button, acquire the permitted school contact copy through physical source/request, then enter F10 and inspect current whole forest composition. Keep shutdown-risk investigation independent.",
+              "job_id": "d88445a39a4f4ab58a76f0d848fca88a",
+              "snapshot_sha256": "42a714e958c50dc25cae989bcc43d71d8f522f5145060952fbfb19a56c30657d",
+              "result": "Ordinary skip→Niva→authored gate→physical house door→visible focused tea choice→physical book handoff→actual acquired P-FOREST v2 PhotoBook. Root personally viewed dialogue and native100/120% ReadingZoom pages: correct cold fictional-group front and thumbnail, readable horizontal heading. Raw[56] photoworlds.book.received confirms handoff. Back remains unread; school/F10 not reached.",
+              "verification": "11/11 PNG/JSON job/PID/SHA pairs verified. Front source SHA c4b64f07534aca8a5e021b55f9e695686cd0180379d4227ebad19d169149c60e matches station snapshot. Guarded WM_CLOSE succeeded before timeout; gameExitCode0; userdataRestored/snapshot_hashes_verified=true; doctor ready/idle/no orphan/recovery.",
+              "limits": "Overall receipt FAIL only recurring exit resource/RID errors:1Mesh/2Material/1Shader/1Instance/48 resources. First current front/heading engineering stage accepted; all13fronts, first F10 geometry/photo likeness, whole W01/motion and external author/culture/language/audio/rights/release gates remain open.",
+              "reading_zoom": "Source contract is ReadingZoom and scales text; 100→120% native text changes while the image keeps its230px baseline height. Do not misclassify this as a proved broken photo-zoom feature.",
+              "evidence_refs": [
+                "evidence/PW-043/release-path-20261015/native_d884/receipt.json",
+                "evidence/PW-043/release-path-20261015/native_d884/game.log",
+                "evidence/PW-043/release-path-20261015/frames/d884-root/08-tea-dialog.png",
+                "evidence/PW-043/release-path-20261015/frames/d884-root/10-new-album.png",
+                "evidence/PW-043/release-path-20261015/frames/d884-root/11-album-detail.png"
+              ]
             }
           },
           {
@@ -116154,13 +116204,18 @@
               "evidence/PW-043/release-path-20261015/native_bf3c/receipt.json",
               "evidence/PW-043/release-path-20261015/native_bf3c/game.log",
               "evidence/PW-043/release-path-20261015/frames/bf3c-route/03-after-skip.png",
-              "evidence/PW-043/release-path-20261015/frames/bf3c-route/11-door-check.png"
+              "evidence/PW-043/release-path-20261015/frames/bf3c-route/11-door-check.png",
+              "evidence/PW-043/release-path-20261015/native_d884/receipt.json",
+              "evidence/PW-043/release-path-20261015/native_d884/game.log",
+              "evidence/PW-043/release-path-20261015/frames/d884-root/08-tea-dialog.png",
+              "evidence/PW-043/release-path-20261015/frames/d884-root/10-new-album.png",
+              "evidence/PW-043/release-path-20261015/frames/d884-root/11-album-detail.png"
             ],
             "assigned_owner": "art",
             "active_owner": null,
             "activity": {
               "state": "not_active",
-              "reason": "Конечный bf3c verification остановлен до нового альбома, ввод освобождён. Receipt FAIL124, данные восстановлены; assigned owner сохранён. Новое причинное наблюдение — забор и точный authored gate route, не production freeze."
+              "reason": "Root принял конечный current first-front/heading UI этап по actual native acquired PhotoBook и логbook.received; свой ввод освобождён, assigned owner сохранён. Full card/art/F10/shutdown gates открыты."
             },
             "task_type": "engineering",
             "status": "in_progress",
@@ -116170,7 +116225,7 @@
               "13backSVG produced1800×1200 and Godot rendered; protected album view/authorart+language acceptance open.",
               "12other fronts, S-GARDEN1800×1200final, all thumbnails и scene/identity alignment; full E02 остаётся открытым."
             ],
-            "next_action": "Показать P-FOREST v2 и исправленный заголовок в реальном приобретённом PhotoBook через обычный authored gate/tea/book путь; затем продолжать остальные фронты. Все 13 не закрывать по первому.",
+            "next_action": "Первый P-FOREST v2/front/thumbnail и horizontal heading приняты по actual acquired PhotoBook. Далее произвести остальные фронты по их camera/support inputs; native school contact-copy/back и W01/F10 likeness остаются открытыми.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -116397,6 +116452,26 @@
                 "evidence/PW-043/release-path-20261015/native_bf3c/game.log",
                 "evidence/PW-043/release-path-20261015/frames/bf3c-route/03-after-skip.png",
                 "evidence/PW-043/release-path-20261015/frames/bf3c-route/11-door-check.png"
+              ]
+            },
+            "progress_2026_10_15_root_album_pilot": {
+              "state": "accepted_first_front_ui_stage",
+              "question": "Does the ordinary authored gate→house→visible tea choice→physical book route show the exact v2 photo and readable heading in native acquired PhotoBook?",
+              "success": "Actual native album frame personally reviewed and SHA-bound; school/F10 only if time remains, engineering and external scope separate.",
+              "changed_input": "Root sole input writer, exact source-derived gate geometry and observed look calibration; no repeat forward into fence, no save injection/teleport.",
+              "next_action": "Use the verified ordinary route without repeating its already accepted per-waypoint captures; read the photo back via its visible button, acquire the permitted school contact copy through physical source/request, then enter F10 and inspect current whole forest composition. Keep shutdown-risk investigation independent.",
+              "job_id": "d88445a39a4f4ab58a76f0d848fca88a",
+              "snapshot_sha256": "42a714e958c50dc25cae989bcc43d71d8f522f5145060952fbfb19a56c30657d",
+              "result": "Ordinary skip→Niva→authored gate→physical house door→visible focused tea choice→physical book handoff→actual acquired P-FOREST v2 PhotoBook. Root personally viewed dialogue and native100/120% ReadingZoom pages: correct cold fictional-group front and thumbnail, readable horizontal heading. Raw[56] photoworlds.book.received confirms handoff. Back remains unread; school/F10 not reached.",
+              "verification": "11/11 PNG/JSON job/PID/SHA pairs verified. Front source SHA c4b64f07534aca8a5e021b55f9e695686cd0180379d4227ebad19d169149c60e matches station snapshot. Guarded WM_CLOSE succeeded before timeout; gameExitCode0; userdataRestored/snapshot_hashes_verified=true; doctor ready/idle/no orphan/recovery.",
+              "limits": "Overall receipt FAIL only recurring exit resource/RID errors:1Mesh/2Material/1Shader/1Instance/48 resources. First current front/heading engineering stage accepted; all13fronts, first F10 geometry/photo likeness, whole W01/motion and external author/culture/language/audio/rights/release gates remain open.",
+              "reading_zoom": "Source contract is ReadingZoom and scales text; 100→120% native text changes while the image keeps its230px baseline height. Do not misclassify this as a proved broken photo-zoom feature.",
+              "evidence_refs": [
+                "evidence/PW-043/release-path-20261015/native_d884/receipt.json",
+                "evidence/PW-043/release-path-20261015/native_d884/game.log",
+                "evidence/PW-043/release-path-20261015/frames/d884-root/08-tea-dialog.png",
+                "evidence/PW-043/release-path-20261015/frames/d884-root/10-new-album.png",
+                "evidence/PW-043/release-path-20261015/frames/d884-root/11-album-detail.png"
               ]
             }
           },
@@ -117414,7 +117489,12 @@
         "evidence/PW-043/release-path-20261015/native_bf3c/receipt.json",
         "evidence/PW-043/release-path-20261015/native_bf3c/game.log",
         "evidence/PW-043/release-path-20261015/frames/bf3c-route/03-after-skip.png",
-        "evidence/PW-043/release-path-20261015/frames/bf3c-route/11-door-check.png"
+        "evidence/PW-043/release-path-20261015/frames/bf3c-route/11-door-check.png",
+        "evidence/PW-043/release-path-20261015/native_d884/receipt.json",
+        "evidence/PW-043/release-path-20261015/native_d884/game.log",
+        "evidence/PW-043/release-path-20261015/frames/d884-root/08-tea-dialog.png",
+        "evidence/PW-043/release-path-20261015/frames/d884-root/10-new-album.png",
+        "evidence/PW-043/release-path-20261015/frames/d884-root/11-album-detail.png"
       ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-043",
       "source_requirements": [
@@ -117545,7 +117625,7 @@
       "assigned_owner": "narrative",
       "activity": {
         "state": "not_active",
-        "reason": "Конечный bf3c verification остановлен до нового альбома, ввод освобождён. Receipt FAIL124, данные восстановлены; assigned owner сохранён. Новое причинное наблюдение — забор и точный authored gate route, не production freeze."
+        "reason": "Root принял конечный current first-front/heading UI этап по actual native acquired PhotoBook и логbook.received; свой ввод освобождён, assigned owner сохранён. Full card/art/F10/shutdown gates открыты."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -117974,6 +118054,26 @@
           "evidence/PW-043/release-path-20261015/native_bf3c/game.log",
           "evidence/PW-043/release-path-20261015/frames/bf3c-route/03-after-skip.png",
           "evidence/PW-043/release-path-20261015/frames/bf3c-route/11-door-check.png"
+        ]
+      },
+      "progress_2026_10_15_root_album_pilot": {
+        "state": "accepted_first_front_ui_stage",
+        "question": "Does the ordinary authored gate→house→visible tea choice→physical book route show the exact v2 photo and readable heading in native acquired PhotoBook?",
+        "success": "Actual native album frame personally reviewed and SHA-bound; school/F10 only if time remains, engineering and external scope separate.",
+        "changed_input": "Root sole input writer, exact source-derived gate geometry and observed look calibration; no repeat forward into fence, no save injection/teleport.",
+        "next_action": "Use the verified ordinary route without repeating its already accepted per-waypoint captures; read the photo back via its visible button, acquire the permitted school contact copy through physical source/request, then enter F10 and inspect current whole forest composition. Keep shutdown-risk investigation independent.",
+        "job_id": "d88445a39a4f4ab58a76f0d848fca88a",
+        "snapshot_sha256": "42a714e958c50dc25cae989bcc43d71d8f522f5145060952fbfb19a56c30657d",
+        "result": "Ordinary skip→Niva→authored gate→physical house door→visible focused tea choice→physical book handoff→actual acquired P-FOREST v2 PhotoBook. Root personally viewed dialogue and native100/120% ReadingZoom pages: correct cold fictional-group front and thumbnail, readable horizontal heading. Raw[56] photoworlds.book.received confirms handoff. Back remains unread; school/F10 not reached.",
+        "verification": "11/11 PNG/JSON job/PID/SHA pairs verified. Front source SHA c4b64f07534aca8a5e021b55f9e695686cd0180379d4227ebad19d169149c60e matches station snapshot. Guarded WM_CLOSE succeeded before timeout; gameExitCode0; userdataRestored/snapshot_hashes_verified=true; doctor ready/idle/no orphan/recovery.",
+        "limits": "Overall receipt FAIL only recurring exit resource/RID errors:1Mesh/2Material/1Shader/1Instance/48 resources. First current front/heading engineering stage accepted; all13fronts, first F10 geometry/photo likeness, whole W01/motion and external author/culture/language/audio/rights/release gates remain open.",
+        "reading_zoom": "Source contract is ReadingZoom and scales text; 100→120% native text changes while the image keeps its230px baseline height. Do not misclassify this as a proved broken photo-zoom feature.",
+        "evidence_refs": [
+          "evidence/PW-043/release-path-20261015/native_d884/receipt.json",
+          "evidence/PW-043/release-path-20261015/native_d884/game.log",
+          "evidence/PW-043/release-path-20261015/frames/d884-root/08-tea-dialog.png",
+          "evidence/PW-043/release-path-20261015/frames/d884-root/10-new-album.png",
+          "evidence/PW-043/release-path-20261015/frames/d884-root/11-album-detail.png"
         ]
       }
     },

@@ -1,0 +1,25 @@
+{
+  "kind": "interactive-game-viewport",
+  "jobId": "d88445a39a4f4ab58a76f0d848fca88a",
+  "requestId": "6f009bfa492047478bdae9dc92f76d54",
+  "pid": 130808,
+  "status": "ok",
+  "width": 1886,
+  "height": 1061,
+  "pngSha256": "3bf14d6be7a84d7842410893e3ac65a5f8620d3ffcf1b76327a6440c92a83fef",
+  "scenePath": "res://scenes/full_game.tscn",
+  "cameraPath": "/root/FullGameMain/Player/Head/Camera3D",
+  "cameraPosition": [
+    -14.372444,
+    1.6943085,
+    -5.4163127
+  ],
+  "cameraRotationDegrees": [
+    -41.91999,
+    89.9997,
+    0
+  ],
+  "interactionRayCollider": "/root/FullGameMain/ZoneHost/Act1ConnectedWorld/babay-abi-house/PhotoWorldFamilyBookTarget",
+  "interactionId": "urman.fullgame:interaction/pw-book-handoff",
+  "interactionAvailable": true
+}
