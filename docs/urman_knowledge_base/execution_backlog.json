@@ -8758,21 +8758,27 @@
             "title": "Подключить M04 — Окрашенный металл радиатора и шкафа",
             "result": "Подключить M04 — Окрашенный металл радиатора и шкафа",
             "owner": "art/materials/qa",
-            "evidence": [],
+            "evidence": [
+              "game/scripts/ClinicSurfacePresentation.cs: FapInteriorRadiator_Body_LOD0 only; original painted_steel_enamel_v1_basecolor.png SHA b3e51ca2d1ba8c2db18ed6ed6541e4093da17793cc49318640bcb57693303fe2; metric local triplanar .5m, existing tint 708584 and PML response retained, no UV channel in source mesh.",
+              "evidence/ACT1-TEXTURE.03/fap-m04-20261015/game-build.log: affected Game build 0 errors/0 warnings, 27.65s; root+Luna source review, no new tests. Not runtime/art acceptance.",
+              "evidence/ACT1-TEXTURE.03/fap-m04-20261015/native_a4a223/receipt.json: native a4a223ffb07141b88929a1bcc61bfd5f PASS, build/import/game0, raw zip SHA7908a8e78de2b9dad7488d8b8a45247d4c948398823da4e2eb5a2f874298830e, snapshot c083f2d82741057cec1abf989f30f07ac4fb1797790895aea17f347ae6e4bb4c hashes verified/userdata restored; exact source/map/checkpoint hashes match. Actual worker931b27..., address deployment still unconfirmed.",
+              "evidence/ACT1-TEXTURE.03/fap-m04-20261015/native_a4a223/frames/fap_radiator_m04.png: root personally viewed existing supported blue-grey radiator body and separate pipes under clinic window. No obvious texture seam/collapse; quiet pigment is subtle, no claimed before/after improvement. Static named hookup only. Metadata actual LOW/performance-rescue, scale0.7/FOV50/1920x1080, not Medium or full art/motion acceptance. Engine-errors.log empty; existing material-mode warnings retained."
+            ],
             "assigned_owner": "art/materials/qa",
             "active_owner": null,
             "activity": {
-              "state": "not_active",
-              "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+              "state": "released",
+              "reason": "Root personally inspected actual native a4a223 radiator frame; named static material hookup accepted only, slot free/restored. Other M04 receivers/full art remain open."
             },
             "task_type": "engineering",
-            "status": "todo",
-            "implementation_state": "not_started",
-            "technical_verification_state": "not_run",
+            "status": "in_progress",
+            "implementation_state": "partial",
+            "technical_verification_state": "passed",
             "remaining": [
-              "Подключить M04 — Окрашенный металл радиатора и шкафа; собственного целевого receipt пока нет."
+              "Other M04 cabinet/pipe consumers are outside the accepted radiator slice; select only an independently confirmed remaining receiver.",
+              "Full visual/material approval and ordinary movement remain open. Actual frame used automatic Low/performance-rescue, not a Medium-quality comparison; do not claim a visible before/after improvement."
             ],
-            "next_action": "Сопоставить текущий результат: Подключить M04 — Окрашенный металл радиатора и шкафа. Затем изменить только установленный остаток.",
+            "next_action": "Reuse native a4a223 for the radiator static hookup; no unchanged compile/capture rerun. Continue only a named remaining M04 receiver or a distinct required art/movement criterion after station serialization.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -8782,7 +8788,9 @@
                 "game/assets/textures/painterly/README.md",
                 "assets/asset_registry.json",
                 "docs/urman_knowledge_base/art/urman_imagegen_texture_prompt_book_2026-09-22.md",
-                "docs/urman_knowledge_base/assets.md"
+                "docs/urman_knowledge_base/assets.md",
+                "game/scripts/ClinicSurfacePresentation.cs",
+                "game/content/world/visual_checkpoints.v1.json"
               ],
               "required_inputs": [],
               "scope_in": [
@@ -8802,7 +8810,7 @@
               ],
               "verification": {
                 "method": "targeted_runtime_scenario",
-                "question": "Подключить M04 — Окрашенный металл радиатора и шкафа",
+                "question": "Does the existing clinic radiator body display the .5m enamel albedo without UV collapse/obvious seams, while its authored shape, tint and mounting remain intact? Static check only.",
                 "scenario": {
                   "targets": [
                     "game/assets/textures/painterly/README.md",
@@ -8928,21 +8936,26 @@
             "title": "Подключить M07 — Резина",
             "result": "Подключить M07 — Резина",
             "owner": "art/materials/qa",
-            "evidence": [],
+            "evidence": [
+              "evidence/ACT1-TEXTURE.03/niva-rubber-20261015/game-build.log",
+              "evidence/ACT1-TEXTURE.03/niva-rubber-20261015/native_19471f/receipt.json",
+              "evidence/ACT1-TEXTURE.03/niva-rubber-20261015/native_19471f/frames/niva_m07.png",
+              "evidence/ACT1-TEXTURE.03/niva-rubber-20261015/native_19471f/frames/niva_m07.json"
+            ],
             "assigned_owner": "art/materials/qa",
             "active_owner": null,
             "activity": {
-              "state": "not_active",
-              "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+              "state": "released",
+              "reason": "Root personally inspected native19471 tyre frame; PASS/restored/hashverified and freshdoctor idle/no recovery/no orphan. Named static material stage accepted, other M07/movement/art remain."
             },
             "task_type": "engineering",
-            "status": "todo",
+            "status": "in_progress",
             "implementation_state": "not_started",
             "technical_verification_state": "not_run",
             "remaining": [
-              "Подключить M07 — Резина; собственного целевого receipt пока нет."
+              "Other intended M07 receivers, ordinary wheel movement/projection stability and final art acceptance; named Niva tyre static binding accepted, not a claim of measurable visual improvement."
             ],
-            "next_action": "Сопоставить текущий результат: Подключить M07 — Резина. Затем изменить только установленный остаток.",
+            "next_action": "Reuse native19471 for named tyre static binding. Next only a separately named remaining M07 receiver or actual wheel-motion/art criterion; no unchanged compile/tyre frame/driving-smoke repetition.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -8952,7 +8965,8 @@
                 "game/assets/textures/painterly/README.md",
                 "assets/asset_registry.json",
                 "docs/urman_knowledge_base/art/urman_imagegen_texture_prompt_book_2026-09-22.md",
-                "docs/urman_knowledge_base/assets.md"
+                "docs/urman_knowledge_base/assets.md",
+                "game/scripts/VehicleVisualFactory.NivaModel.cs"
               ],
               "required_inputs": [],
               "scope_in": [
@@ -9005,7 +9019,35 @@
               "verification": [],
               "acceptance": []
             },
-            "depends_on": []
+            "depends_on": [],
+            "progress_2026_10_15_niva_tyres": {
+              "result": "Existing registered smooth rubber base connected only to imported NivaWheel rubber primitive via wheel-scoped ModelMaterials cache clone. Other five rubber surfaces unchanged. Existing geometry carries tyre shape/36 tread blocks; image supplies quiet base color only.",
+              "source": "game/scripts/VehicleVisualFactory.NivaModel.cs",
+              "source_sha256": "21bc92886d9d0ed8b0a33543d5573a240cf0990db22c213ebfefea0c31123d5a",
+              "asset": "game/assets/textures/realism_20260929/moulded_rubber_black_v1_basecolor.png",
+              "asset_sha256": "b93a9616d9fca772570a7cf8e0c7746686a21f291eb51d3e9f33ba5426ca2f1e",
+              "projection": "Imported tyre has no TEXCOORD_0; local triplanar one repeat/0.35m, no wheel scale, same shader tint/finish. Optional missing asset/headless texture suppression keeps original. Authored live1f2320 not rewritten to generator262a26.",
+              "verification": "Root+Luna source review; affected Game compile exit0/warnings0/errors0/31.65s, evidence/ACT1-TEXTURE.03/niva-rubber-20261015/game-build.log. Native not yet run; no new tests/probes.",
+              "limits": "No geometry, route, contacts, save, driver or wheel simulation changes; not vehicle motion acceptance."
+            },
+            "native_question_2026_10_15": {
+              "question": "Does front-left existing Niva tyre retain quiet dark rubber, with geometric tread readable and no projection seam/incorrect material on rim/body?",
+              "success": "Personally inspect named babay-niva left-front wheel close view; record only static material result, not driving, animation or art approval.",
+              "points": "niva_m07:NivaBody@-2.25,-0.44,0.25>NivaBody@-1.48,-0.715,-0.13",
+              "scene": "res://scenes/act1_demo.tscn",
+              "profile": "village-winter-crisp",
+              "fov": 50,
+              "anchor_conversion": "Worker accepts alphanumeric/underscore owner names, rejecting babay-niva before execution. Existing unique NivaBody has GLB translation(.7,1.06,-1.05), no rotation/scale; subtracting it preserves exact car-local camera/target. Runtime still requires unique owner; no guard/worker edits or world fallback.",
+              "rejected_request": "3a57630d46c5448d9aef178c90bf8ca9 HTTP400 invalid capture points before job execution; no game started.",
+              "job_id": "19471fe2649342198d8762e42516276d",
+              "snapshot_id": "6479af6adb6fe64972efb0f77c87df188c4c635bc082fb936d612b8af02ef001",
+              "result": "ACCEPT_STATIC_TYRE_MATERIAL_BINDING_ONLY: quiet dark tyre/physical tread and separate metal rim visible with no evident texture seam. Very low-contrast grain is not resolved as a distinct visual improvement; no before/after improvement, wheel motion or other rubber consumers claimed.",
+              "archive_sha256": "78c04b9af430d42c2342621b5edc23d8b71ec3318df213251cd797685e5452db",
+              "receipt": "evidence/ACT1-TEXTURE.03/niva-rubber-20261015/native_19471f/receipt.json",
+              "frame": "evidence/ACT1-TEXTURE.03/niva-rubber-20261015/native_19471f/frames/niva_m07.png",
+              "metadata": "evidence/ACT1-TEXTURE.03/niva-rubber-20261015/native_19471f/frames/niva_m07.json",
+              "runtime": "PASS/build/import/game0, engine-errors0; userdataRestored=true/snapshot_hashes_verified=true, worker931b27b95d52ddae6e51ba41ab5e1733225e8f74f5636974013ace918200faf4; freshdoctor ready/busy-null/recoveryfalse/orphanfalse. Actual owner /Act1ConnectedWorld/VillageVehicles/babay-niva/VehicleVisual/NivaBody; Medium/scaling0.9/FOV50."
+            }
           },
           {
             "id": "ACT1-TEXTURE.03/E07",
@@ -9171,21 +9213,24 @@
             "title": "Подключить M10 — Неглазурованная керамика",
             "result": "Подключить M10 — Неглазурованная керамика",
             "owner": "art/materials/qa",
-            "evidence": [],
+            "evidence": [
+              "game/scripts/StyleBenchmarkInteriorFactory.Rooms.cs:172 BuildKitchen creates existing KitchenBowlOfSweets via RuralPropGeometry.Lathe(sweet-bowl) and RuralPropMaterials.Surface(earthenware); metric circumference/profile-length UV; .5m tile, roughness .90/specular .08/metallic0. No added decorative/ethnic vessel.",
+              "assets/asset_registry.json: texture.rural.realism.earthenware.20260930, original project ImageGen assets/source/imagegen/2026-09-29/unglazed_earthenware_v1_basecolor.png and game/assets/textures/realism_20260929/unglazed_earthenware_source_v1_basecolor.png SHA312d6457da248ca89d2d7e0b992841350981d5ec09fd9c81d896936b044c6da4. Actual selected reuse, not a new file named after nominal urman_m10_v01 candidate.",
+              "evidence/ACT1-TEXTURE.03/home-m11-20261015/native_75b784/receipt.json: native75b784629cc2437b87a1e0e788732415 PASS/build-import-game0, snapshot4096616090d5eabf88b8ebf8d40a632090c5f0b6522a8d5bd61e7095cd6a87ca hashesverified/userdataRestored true; current M10 producer/material/geometry/texture hashes match exactly. Raw zip SHA3befedba06bf63812ebfa06f59d97b9ced0949263c1a67b767bebb0146139df9, engine-errors empty. Reused without new execution.",
+              "evidence/ACT1-TEXTURE.03/home-m11-20261015/native_75b784/frames/home_tea_m11.png: root personally viewed large supported terracotta bowl with visible inner well/rim and matte material, distinct from cream glazed cups/cloth/wood, no obvious UV collapse/seam. Actual frame target remains KitchenTeapot/home_tea_m11, not a dedicated M10 camera; bowl visibly in frame and source matched. Actual Low/performance-rescue/.7/FOV50; finite static M10 material consumer accepted only, no Medium/movement/full art or before/after claim."
+            ],
             "assigned_owner": "art/materials/qa",
             "active_owner": null,
             "activity": {
-              "state": "not_active",
-              "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+              "state": "released",
+              "reason": "Root personally accepted existing M10 kitchen bowl material consumer from already delivered current-equivalent native75b784; source unchanged, no redundant run."
             },
             "task_type": "engineering",
-            "status": "todo",
-            "implementation_state": "not_started",
-            "technical_verification_state": "not_run",
-            "remaining": [
-              "Подключить M10 — Неглазурованная керамика; собственного целевого receipt пока нет."
-            ],
-            "next_action": "Сопоставить текущий результат: Подключить M10 — Неглазурованная керамика. Затем изменить только установленный остаток.",
+            "status": "completed",
+            "implementation_state": "implemented",
+            "technical_verification_state": "passed",
+            "remaining": [],
+            "next_action": "Reuse existing earthenware consumer and native75b784 bowl visibility. Stop finite M10 hookup unit; no new map/build/capture for unchanged inputs. Parent full art/quality/movement acceptance remains separate.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -9256,21 +9301,26 @@
             "title": "Подключить M11 — Глазурованная бытовая керамика",
             "result": "Подключить M11 — Глазурованная бытовая керамика",
             "owner": "art/materials/qa",
-            "evidence": [],
+            "evidence": [
+              "Existing source already bound: house_old_pc -> StyleBenchmarkInteriorFactory.BuildHouseRooms/BuildKitchen -> BabaiHouseWing/Kitchen/KitchenTeapot + KitchenCup0..2 -> RuralPropModels.Teapot/Cup -> RuralPropMaterials.Surface(ceramic). Registered original glazed_ceramic_cream_source_v1_basecolor.png SHA68c36f276415f25a287f4a85ec7b1765059e4c42d4604ef6cb31e619ca624757; metric Lathe/Tube UV with .5m repeat, cup ede7d9/teapot dcd5bd, rough .26/spec .34/metallic0. Root+Luna source check; no production source changes or new tests/build. Native still pending.",
+              "evidence/ACT1-TEXTURE.03/home-m11-20261015/native_97eb82/receipt.json + frames/home_tea_m11.png: native97eb821f2b2649d2a8b639315d601e69 PASS, build/import/game0, rawSHA7a1aac361189e700f709bf007b907b24176e389877766e1ce120c4d7d69a5934, snapshotad8de77f0350930f5001e7d1eb0afe4d01be384ebbe17dbfe72e7cdaf871a348 exact source/map hashes verified/userdata restored. Root personally viewed cream cups/teapot distinct from wood/cloth, static material accepted; actual Low/performance-rescue/.7. Not whole object acceptance: lid dark wedges and capped spout observed.",
+              "Source diagnosis + local fix: RuralPropModels.Teapot lid profile ran opposite fixed Lathe winding; reverse same contour to restore outward/upward faces. SpoutMouth used capped Tube; replace only returned instance mesh with unique20-segment hollow Lathe/.016 outer-.014 inner radii (2mm wall/rim), unchanged endpoints/basis/material/SpoutBase. Shared Lathe/Tube/cache originals untouched. Renderer fix applies to Teapot-factory instances; only KitchenTeapot is the named visual verification target.",
+              "evidence/ACT1-TEXTURE.03/home-m11-20261015/game-build.log: Teapot-only affected compile 0 errors/0 warnings,45.69s.",
+              "evidence/ACT1-TEXTURE.03/home-m11-20261015/native_75b784/receipt.json + frames/home_tea_m11.png: matched native75b784629cc2437b87a1e0e788732415 PASS/build-import-game0; raw zip SHA3befedba06bf63812ebfa06f59d97b9ced0949263c1a67b767bebb0146139df9; snapshot4096616090d5eabf88b8ebf8d40a632090c5f0b6522a8d5bd61e7095cd6a87ca exact changed source matches, hashes verified/userdata restored, engine-errors empty.",
+              "Root personally compared native97eb82 BEFORE and75b784 AFTER: same KitchenTeapot camera/spec/FOV50/Low/performance-rescue/.7. Dark lid wedges disappeared, cream lid has continuous outward surface; spout now visibly open with annular ceramic rim. Cups/glaze/table support/placement retained. Finite M11 engineering material consumer and found geometry defect accepted, not full art/Medium/ordinary movement/all-scene acceptance. Station terminal/free/recovery false/orphan false."
+            ],
             "assigned_owner": "art/materials/qa",
             "active_owner": null,
             "activity": {
-              "state": "not_active",
-              "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+              "state": "released",
+              "reason": "Root accepted existing M11 real household material consumer and confirmed Teapot lid/spout repair in matched native before/after. Finite engineering unit complete; broader art/movement/parent acceptance not claimed."
             },
             "task_type": "engineering",
-            "status": "todo",
-            "implementation_state": "not_started",
-            "technical_verification_state": "not_run",
-            "remaining": [
-              "Подключить M11 — Глазурованная бытовая керамика; собственного целевого receipt пока нет."
-            ],
-            "next_action": "Сопоставить текущий результат: Подключить M11 — Глазурованная бытовая керамика. Затем изменить только установленный остаток.",
+            "status": "completed",
+            "implementation_state": "implemented",
+            "technical_verification_state": "passed",
+            "remaining": [],
+            "next_action": "Reuse accepted home_tea_m11 matched97eb82/75b784 evidence and registered ceramic consumer. Stop this finite unit; no unchanged compile/capture. Parent art/quality/movement acceptance remains separate.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -9280,7 +9330,11 @@
                 "game/assets/textures/painterly/README.md",
                 "assets/asset_registry.json",
                 "docs/urman_knowledge_base/art/urman_imagegen_texture_prompt_book_2026-09-22.md",
-                "docs/urman_knowledge_base/assets.md"
+                "docs/urman_knowledge_base/assets.md",
+                "game/scripts/RuralPropModels.cs",
+                "game/scripts/RuralPropMaterials.cs",
+                "game/scripts/StyleBenchmarkInteriorFactory.Rooms.cs",
+                "game/content/world/visual_checkpoints.v1.json"
               ],
               "required_inputs": [],
               "scope_in": [
@@ -9300,7 +9354,7 @@
               ],
               "verification": {
                 "method": "targeted_runtime_scenario",
-                "question": "Подключить M11 — Глазурованная бытовая керамика",
+                "question": "Does the existing kitchen teapot/cup set show its registered quiet cream glaze without UV collapse/obvious seams, distinct from the wooden table and with existing support unchanged? Static material only.",
                 "scenario": {
                   "targets": [
                     "game/assets/textures/painterly/README.md",
@@ -57379,22 +57433,30 @@
             "title": "Устранить пустоту/z-fighting выбранного shared door/wall/roof/window producer по exact mesh IDs",
             "result": "Устранить пустоту/z-fighting выбранного shared door/wall/roof/window producer по exact mesh IDs",
             "owner": "finished-act1",
-            "evidence": [],
+            "evidence": [
+              "evidence/ACT1-TEXTURE.03/home-m11-20261015/native_75b784/frames/home_tea_m11.png: root personally observed grey panes behind the kitchen tea set. Current relevant StyleBenchmarkInteriorFactory.Rooms.cs matches receipt snapshot, no new runtime launched.",
+              "game/scripts/StyleBenchmarkInteriorFactory.Rooms.cs: WingOrigin=(0,-30,0), BuildKitchen creates KitchenWindowNorth/Pane and KitchenWindowWest/Pane via FrostWindow. FrostPane is unshaded StandardMaterial3D with opaque alpha1; meta explicitly says frosted daylight panel; wing has no exterior. Root+Luna source check: intentional sealed-wing fallback, not PML frost-window binding/UV error/z-fighting. Making it transparent would reveal empty space; no source edit, no whole-house rework or K13 substitution."
+            ],
             "assigned_owner": "finished-act1",
             "active_owner": null,
             "activity": {
-              "state": "not_active",
-              "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+              "state": "released",
+              "reason": "Root+Luna traced the current kitchen grey-pane observation to an intentional sealed-wing daylight fallback, not a correctable material/UV/z-fighting defect. No production changes or run; historical K13 remains unidentified."
             },
             "task_type": "engineering",
-            "status": "todo",
+            "status": "blocked",
             "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
-              "Устранить пустоту/z-fighting выбранного shared door/wall/roof/window producer по exact mesh IDs; собственного целевого receipt пока нет."
+              "Existing exact K13 producer/mesh/cause input from ACT1-TECH.3/E01 is still missing; no fix claimed.",
+              "Current KitchenWindowNorth/Pane and KitchenWindowWest/Pane intentionally show opaque frosted daylight in the sealed BabaiHouseWing. Showing a real outside view requires an actual exterior/occlusion design, outside this material-only candidate; not introduced as a new mandatory requirement here."
             ],
-            "next_action": "Сопоставить текущий результат: Устранить пустоту/z-fighting выбранного shared door/wall/roof/window producer по exact mesh IDs. Затем изменить только установленный остаток.",
-            "blocker": null,
+            "next_action": "Reuse this causal finding; no kitchen transparency patch or unchanged native rerun. Continue E02 only after the exact K13 input in E01 or a separately explicit source-confirmed selected shared-producer defect becomes available.",
+            "blocker": {
+              "reason": "The known actionable K13 shared-producer defect still lacks exact frame/zone/mesh input from E01. Current kitchen grey panes are not K13 and are intentional opaque daylight panels in a sealed wing at y=-30 with no exterior; a transparency-only patch would expose empty space, so they are not substituted for that missing case.",
+              "release_when": "Supply exact K13 frame/object identity/zone or another explicitly selected source-confirmed shared-producer defect with its real exterior/occlusion contract. Do not rerun the unchanged kitchen frame or blindly enable transparency.",
+              "owner": "finished-act1 / original K13 review holder; E01 retains exact missing-input request."
+            },
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
             "work_contract": {
@@ -95135,26 +95197,31 @@
             "assigned_owner": "/root",
             "active_owner": null,
             "activity": {
-              "state": "not_confirmed",
-              "last_recorded_owner": "/root",
-              "reason": "Историческое поле не доказывает работу сейчас; назначение сохранено. Подтверждение берётся из нового ответа/живого сеанса, не из возраста записи."
+              "state": "released",
+              "reason": "Root+Luna confirmed exact-owner grammar excludes every hyphenated address ID; minimal source fix reviewed/syntax-compiled, native pass waits confirmed deployment. No game/census job sent."
             },
             "task_type": "integration_check",
-            "status": "todo",
+            "status": "blocked",
             "implementation_state": "not_started",
             "technical_verification_state": "not_run",
             "remaining": [
-              "Проверить остальные facade-mount/access случаи табличек; отсутствует подтверждение собственного конечного DoD, перечисленного ниже."
+              "Confirm deployment of reviewed hyphen-safe owner grammar; no old-worker address jobs.",
+              "One address pass over existing remaining mount cases; explicit gate exceptions ADR-H032/H034/H045/H046 are source inputs, not asserted live signs. Other manifest/dynamic cases and actual access/art remain unaccepted until observed."
             ],
-            "next_action": "Проверить остальные facade-mount/access случаи табличек",
-            "blocker": null,
+            "next_action": "Station owner deploys reviewed worker source with exact hyphenated node names and confirms actual source SHA before any address capture. Then one named remaining-case pass from existing cases, preserving accepted mosque slice and fail-closed unique owner; no repeated rejected request.",
+            "blocker": {
+              "reason": "Current deployed931b27 worker owner grammar rejects AddressPlate_ADR-H032 and other real address names before execution. Remaining per-ID live sign census is not established; source contains two address universes and four explicit gate exceptions.",
+              "release_when": "Deployed worker source SHA matches a42234514036d149a1c4f1d019249609801ed1cddd702028b715952d08e5b656 (or a verified successor preserving this exact-name grammar); then resolve existing named sign presence/mount evidence in one bounded address pass, without fallback framing or new mandatory variants.",
+              "owner": "Codex station owner for deployment; /root for exact remaining-case acceptance."
+            },
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
             "work_contract": {
               "result": "Проверить остальные facade-mount/access случаи табличек",
               "targets": [
                 "game/scripts/AddressFacadeMount.cs",
-                "game/scripts/Act1ConnectedWorld.Addresses.cs"
+                "game/scripts/Act1ConnectedWorld.Addresses.cs",
+                "eng/windows_station_worker.py"
               ],
               "required_inputs": [],
               "scope_in": [
@@ -95187,7 +95254,14 @@
               "verification": [],
               "acceptance": []
             },
-            "depends_on": []
+            "depends_on": [],
+            "progress_2026_10_15_owner_grammar": {
+              "result": "Fixed one owner-character allowlist omission in worker: ASCII names may contain literal hyphen. Existing address Node names AddressPlate_<ADR-H...> were excluded even though Godot exact-owner resolver supports them.",
+              "source": "eng/windows_station_worker.py",
+              "source_sha256": "a42234514036d149a1c4f1d019249609801ed1cddd702028b715952d08e5b656",
+              "verification": "Root+independent Luna source review; python3 -m py_compile exit0. No new tests/fixtures/probes, no game/job/deploy. Native scene,8points/1000chars, numeric bounds, exactly-one-owner and no supplied-owner world fallback, snapshot/job/data guards unchanged.",
+              "scope_limit": "This is not a mount correctness/census/native PASS. Existing accepted mosque frames not repeated. Wildcard/path characters remain excluded; no aliases, guessed pose or broad guard relaxation."
+            }
           }
         ]
       },
@@ -103281,7 +103355,7 @@
       "id": "PW-006",
       "title": "Расширить единый kernel командами фотокниги",
       "milestone": "PW-M1",
-      "status": "todo",
+      "status": "in_progress",
       "active_owner": null,
       "owner": "integration",
       "priority": "P0",
@@ -103312,7 +103386,12 @@
         "evidence/PW-006/receipt.json",
         "evidence/PW-006/native_c5a5e7924acb4e1d858f029f2e7b9ba1/README.md",
         "evidence/PW-006/home_book_adapter.json",
-        "evidence/ACT1-DEPTH.9/native_house_44a8bd796c764c7ca31548554b55c2ac/root-review.json"
+        "evidence/ACT1-DEPTH.9/native_house_44a8bd796c764c7ca31548554b55c2ac/root-review.json",
+        "evidence/PW-043/release-path-20261015/native_d884/receipt.json",
+        "evidence/PW-043/release-path-20261015/native_d884/game.log",
+        "evidence/PW-043/release-path-20261015/frames/d884-root/09-book-ray.png",
+        "evidence/PW-043/release-path-20261015/frames/d884-root/10-new-album.png",
+        "evidence/PW-043/release-path-20261015/frames/d884-root/11-album-detail.png"
       ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-006",
       "source_requirements": [
@@ -103326,7 +103405,7 @@
         "REPO04",
         "REPO05"
       ],
-      "runtime_evidence": "PARTIAL_FAIL: native dcfb7e2a1a3940a79bba4cf8501fb674 failed before frame capture for the earlier keyboard-overlapping placement; the current yawed source fix compiled but awaits native verification.",
+      "runtime_evidence": "ACCEPT_PHYSICAL_BOOK_PLACEMENT_AND_FIRST_HANDOFF_ONLY: current authored GLB visible on table clear of keyboard in ordinary d884 frame09; [56] photoworlds.book.received and frame10 album confirm real first handoff. Overall receipt FAIL from lifecycle/resource errors, gameExit0/restored/hashverified. Kernel occurrence/denial and full command clauses remain open.",
       "author_acceptance": "PENDING",
       "mvp_priority": 20,
       "mvp_packet": "PW1",
@@ -103438,8 +103517,8 @@
       },
       "assigned_owner": "integration",
       "activity": {
-        "state": "not_active",
-        "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+        "state": "released",
+        "reason": "Root accepted delivered d884 physical-book placement/handoff stage after personal inspection; interrupted proposed static capture cancelled, no station run needed."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -103525,7 +103604,7 @@
           ],
           "repeat_only_if": "Изменился покрываемый вход/consumer/контракт; без этого уже принятая проверка используется повторно без запуска."
         },
-        "actual_result": "PARTIAL_FAIL: native dcfb7e2a1a3940a79bba4cf8501fb674 failed before frame capture for the earlier keyboard-overlapping placement; the current yawed source fix compiled but awaits native verification.",
+        "actual_result": "ACCEPT_PHYSICAL_BOOK_PLACEMENT_AND_FIRST_HANDOFF_ONLY: current authored GLB visible on table clear of keyboard in ordinary d884 frame09; [56] photoworlds.book.received and frame10 album confirm real first handoff. Overall receipt FAIL from lifecycle/resource errors, gameExit0/restored/hashverified. Kernel occurrence/denial and full command clauses remain open.",
         "evidence_refs": [
           "tasks[id=PW-006].evidence"
         ],
@@ -103632,13 +103711,27 @@
           "evidence_ref": "PW-006.evidence and named history progress; source_review shows available/missing inputs"
         }
       ],
-      "assignment_state": "preserved_person_or_existing_role; activity separate"
+      "assignment_state": "preserved_person_or_existing_role; activity separate",
+      "progress_2026_10_15_delivered_book": {
+        "result": "ACCEPT_PHYSICAL_BOOK_PLACEMENT_AND_FIRST_HANDOFF_ONLY: current authored GLB visible on table clear of keyboard in ordinary d884 frame09; [56] photoworlds.book.received and frame10 album confirm real first handoff. Overall receipt FAIL from lifecycle/resource errors, gameExit0/restored/hashverified. Kernel occurrence/denial and full command clauses remain open.",
+        "job_id": "d88445a39a4f4ab58a76f0d848fca88a",
+        "source_identity": "Current ArrivalPersonalProps.cs SHA44dbcf28ac283223282181f5075dd2b62c5d75a372c6709be733a320387a928c and family-book-v1.glb SHA66e47b1ec343cf5b6f6535d72c7b1e8f48e03755af50b4547fb4537adfa43915 exactly match receipt snapshot. Older44a8 remains historical procedural-book framing only.",
+        "root_inspection": "Personally viewed09 book-ray and10 new-album: physical book rests on cloth-covered table, separated from keyboard/photo/phone; prompt targets family book. UI shows acquired first photo and unread back. No inference of repeated occurrence, unavailable-action denial, all13 photos, F10, Continue, keyboardJ or author acceptance.",
+        "evidence": [
+          "evidence/PW-043/release-path-20261015/native_d884/receipt.json",
+          "evidence/PW-043/release-path-20261015/native_d884/game.log",
+          "evidence/PW-043/release-path-20261015/frames/d884-root/09-book-ray.png",
+          "evidence/PW-043/release-path-20261015/frames/d884-root/10-new-album.png",
+          "evidence/PW-043/release-path-20261015/frames/d884-root/11-album-detail.png"
+        ],
+        "no_repeat": "Existing delivered actual ordinary route supersedes proposed redundant geometry-only capture. No new compile/run/source edits."
+      }
     },
     {
       "id": "PW-007",
       "title": "Создать строгий каталог фото, миров и разворотов",
       "milestone": "PW-M1",
-      "status": "in_progress",
+      "status": "completed",
       "active_owner": null,
       "owner": "integration",
       "priority": "P0",
@@ -103671,7 +103764,10 @@
         "evidence/PW-007/native_3195422fc11a4a8b88e9811d01587782",
         "evidence/PW-007/native_3195422fc11a4a8b88e9811d01587782/root-review.json",
         "evidence/PW-007/current-catalog-20261013/content-cli-build.log",
-        "evidence/PW-007/current-catalog-20261013/content-compile.log"
+        "evidence/PW-007/current-catalog-20261013/content-compile.log",
+        "evidence/PW-043/release-path-20261015/native_d884/receipt.json",
+        "evidence/PW-043/release-path-20261015/frames/d884-root/10-new-album.png",
+        "evidence/PW-043/release-path-20261015/native_d884/game.log"
       ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-007",
       "source_requirements": [
@@ -103800,15 +103896,13 @@
       "assigned_owner": "integration",
       "activity": {
         "state": "released",
-        "reason": "Historical logical slice accepted only for exact old snapshot; current compiler/pack stage verified, current repository-load still open after source changes."
+        "reason": "Root accepted existing actual fullgame strict-catalog load and acquired projection from d884 after source-path/hash review; finite logical DoD complete, no new run."
       },
       "task_type": "engineering",
       "implementation_state": "implemented",
-      "technical_verification_state": "not_run",
-      "remaining": [
-        "Current-hash protected repository/catalog load using existing bounded scenario after station owner release. Six covered source/pack hashes changed since accepted3195422; historical native cannot certify them. Physical placement/resources/ordinary book/art are outside this finite logical unit and remain with existing tasks."
-      ],
-      "next_action": "After live station owner release, use existing bounded repository-load scenario on current catalog candidate; preserve accepted historical3195422 and current successful compiler/pack result, no new negative fixtures or unchanged compiler rerun.",
+      "technical_verification_state": "passed",
+      "remaining": [],
+      "next_action": "Reuse accepted logical catalog source/compiler and current d884 fullgame repository load. Physical resources/placement/all worlds/game/art stay with existing owning tasks; no unchanged catalog rerun or negative fixtures.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -103890,7 +103984,7 @@
           ],
           "repeat_only_if": "Изменился покрываемый вход/consumer/контракт; без этого уже принятая проверка используется повторно без запуска."
         },
-        "actual_result": "PASS logical catalog load only; PHYSICAL NOT_RUN",
+        "actual_result": "PASS finite logical catalog source/compiler/current d884 repository load; physical/art/full-game outside this unit remain open.",
         "evidence_refs": [
           "tasks[id=PW-007].evidence"
         ],
@@ -104059,13 +104153,29 @@
           "evidence/PW-007/current-catalog-20261013/content-compile.log"
         ],
         "limits": "No current runtime, physical photo placement/safe spawn/resource production/ordinary route/art acceptance claimed. Old machine receipts left unchanged."
+      },
+      "progress_2026_10_15_current_runtime_acceptance": {
+        "result": "ACCEPT_FINITE_LOGICAL_CATALOG: existing d884 full_game boot loads required compiled pack, CompiledCampaignRepository constructor rejects absent fullgame catalog and executes PhotoWorldCatalog.Parse + ValidatePhotoWorldAnchors. Actual book.received→P-FOREST album uses acquired-only RuntimeBridge.PhotoBookPhotos over that validated catalog. Prior source/compiler/negative-guard evidence retained; current required catalog/count/unique/ref/anchor guards personally reviewed, no new negative fixtures.",
+        "receipt": "evidence/PW-043/release-path-20261015/native_d884/receipt.json",
+        "frame": "evidence/PW-043/release-path-20261015/frames/d884-root/10-new-album.png",
+        "game_log": "evidence/PW-043/release-path-20261015/native_d884/game.log",
+        "current_hashes": {
+          "game/content/urman.fullgame.compiled.v1.json": "9e4c79c19b17f9fb3e3f29a59d498dfbf082a91f63f37ec37123043fa4e817bf",
+          "game/scripts/CompiledCampaignRepository.cs": "38020f8663ca6b0842b14e36672bf1cc672496fab4c75c61264c7d027ec96926",
+          "src-dotnet/Urman.Core/Narrative/PhotoWorldCatalog.cs": "e93d14d7cdd013b249a9b2313121ef339eeac27307c3506680611dfbf4ae99b4",
+          "game/scripts/RuntimeBridge.PhotoBook.cs": "1d514f2f5de55e5426b22a51934f3591ed9a01ce422e20af8da0ba542fc9ea38",
+          "game/scripts/JournalUi.PhotoBook.cs": "20084432ac9e0563c5ceef76a4fb80cfe52d4b971537fbbc35addb80b2e7a101",
+          "game/scenes/full_game.tscn": "36dc6d96ef7398d39b1dee8530935df4645c6fb0c64b161a26483cdc540f9e10"
+        },
+        "hash_basis": "Direct receipt snapshot.files hashes match where present, including compiled pack9e4c79c1…17bf; other relevant clean paths match verified snapshot base1a43fa757eacf994f34fa42fba1e7450413952c5 blobs. No scoped mismatch; no recompile/re-execution.",
+        "runtime_limits": "Receipt overallFAIL from engine lifecycle/resource errors; gameExit0, data restored, snapshot hashes verified. This accepts strict logical catalog load only, not physical resources/safe spawn, all world travel/photo production/book functions or whole-game release."
       }
     },
     {
       "id": "PW-008",
       "title": "Разделить впечатление и доказанное знание",
       "milestone": "PW-M1",
-      "status": "todo",
+      "status": "in_progress",
       "active_owner": null,
       "owner": "integration",
       "priority": "P0",
@@ -104088,7 +104198,9 @@
         "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-008/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
       ],
       "evidence": [
-        "evidence/PW-008/receipt.json"
+        "evidence/PW-008/receipt.json",
+        "game/scripts/RuntimeBridge.PhotoBook.cs SHA3f5b35a29ef535e06214e4ba654e0595c0f1b01c0d130e0226b6af6e22fa137a: existing OriginLabel switch now covers all13 current strict catalog provenance categories; prior2 retained,11 missing mappings supplied. P-FOREST family-book-print now yields Снимок из семейной книги; S-GARDEN neighbor-voluntary-copy yields Копия от соседа. Unknown remains null. Root+Luna source review corrected speculative family adjective on file to Копия файла and neighbor plurality to singular.",
+        "evidence/PW-008/photo-origin-labels-20261015/game-build.log: final affected Game compile0errors/0warnings. Acquired/session/loading/catalog filters, unread BackText/BackRead, mounted/PageId/CanMount/CanReadBack and mutable facts/evidence/quest state untouched. Existing album placement and image-reader header already consume OriginLabel; no second UI/state owner or new test. Native current label/layout NOT_RUN; full PW008 not completed."
       ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-008",
       "source_requirements": [
@@ -104204,8 +104316,8 @@
       },
       "assigned_owner": "integration",
       "activity": {
-        "state": "not_active",
-        "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+        "state": "released",
+        "reason": "Root+Luna reviewed acquired-photo origin presentation for all13 catalog categories; final affected compile passed, native UI/W02 outside-evidence behavior remains open."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -104214,7 +104326,7 @@
         "Прохождение W02 само не подтверждает наружные сваи.",
         "UI объясняет источник знания и не выдумывает знание Айдара."
       ],
-      "next_action": "Добавить provenance категорий и ссылки на фото/место/диалог.",
+      "next_action": "In already-owned ordinary acquired P-FOREST album/720p reader route, verify visible Происхождение: Снимок из семейной книги without unread-back disclosure and same selection on return. Reuse current source; do not replay acquisition/old502. W02 alone vs independent E-BANK-OUTSIDE/E-PHOTOGRAPHER-OUTSIDE native proof remains separate and open.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -104222,20 +104334,21 @@
       "work_contract": {
         "result": "Разделить впечатление и доказанное знание",
         "targets": [
-          "game/scripts/RuntimeBridge.Notebook.cs"
+          "game/scripts/RuntimeBridge.Notebook.cs",
+          "game/scripts/RuntimeBridge.PhotoBook.cs"
         ],
         "required_inputs": [
           {
             "task_id": "PW-006",
-            "artifact": "Расширить единый kernel командами фотокниги",
+            "artifact": "Existing saved acquired-photo state/read-only PhotoBookPhotos consumer and typed PhotoWorldState persistence only; not full PW006 command set or world completion.",
             "requires": "relevant_artifact_not_full_parent",
-            "availability": "not_confirmed"
+            "availability": "available"
           },
           {
             "task_id": "PW-007",
-            "artifact": "Создать строгий каталог фото, миров и разворотов",
+            "artifact": "Accepted strict current full-game13-photo catalog including provenanceKind; PW007 completed/d884 plus current PhotoWorldCatalog parser.",
             "requires": "relevant_artifact_not_full_parent",
-            "availability": "not_confirmed"
+            "availability": "available"
           }
         ],
         "scope_in": [
@@ -104310,15 +104423,15 @@
         "implementation": [
           {
             "task_id": "PW-006",
-            "artifact": "Расширить единый kernel командами фотокниги",
+            "artifact": "Existing saved acquired-photo state/read-only PhotoBookPhotos consumer and typed PhotoWorldState persistence only; not full PW006 command set or world completion.",
             "requires": "relevant_artifact_not_full_parent",
-            "availability": "not_confirmed"
+            "availability": "available"
           },
           {
             "task_id": "PW-007",
-            "artifact": "Создать строгий каталог фото, миров и разворотов",
+            "artifact": "Accepted strict current full-game13-photo catalog including provenanceKind; PW007 completed/d884 plus current PhotoWorldCatalog parser.",
             "requires": "relevant_artifact_not_full_parent",
-            "availability": "not_confirmed"
+            "availability": "available"
           }
         ],
         "verification": [],
@@ -105774,8 +105887,8 @@
           },
           {
             "task_id": "PW-007",
-            "artifact": "Создать строгий каталог фото, миров и разворотов — только соответствующий source/contract",
-            "availability": "not_confirmed",
+            "artifact": "Strict logical5world/13photo/7anchor catalog source+compiler and current d884 fullgame repository load/acquired projection; physical placement/resources/full campaign not implied.",
+            "availability": "available",
             "requires": "relevant_artifact_not_full_parent"
           }
         ],
@@ -105851,8 +105964,8 @@
           },
           {
             "task_id": "PW-007",
-            "artifact": "Создать строгий каталог фото, миров и разворотов — только соответствующий source/contract",
-            "availability": "not_confirmed",
+            "artifact": "Strict logical5world/13photo/7anchor catalog source+compiler and current d884 fullgame repository load/acquired projection; physical placement/resources/full campaign not implied.",
+            "availability": "available",
             "requires": "relevant_artifact_not_full_parent"
           }
         ],
@@ -105920,7 +106033,7 @@
       "id": "PW-014",
       "title": "Реализовать фронт, оборот и читаемую транскрипцию",
       "milestone": "PW-M1",
-      "status": "todo",
+      "status": "in_progress",
       "active_owner": null,
       "owner": "integration",
       "priority": "P0",
@@ -105941,7 +106054,9 @@
       "verify": [
         "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-014/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
       ],
-      "evidence": [],
+      "evidence": [
+        "evidence/PW-014/front-image-reader-20261015/game-build.log"
+      ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-014",
       "source_requirements": [
         "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/docs/11_TASKS_RU.md",
@@ -105958,7 +106073,7 @@
       "reference_ids": [
         "REQ"
       ],
-      "runtime_evidence": "NOT_RUN",
+      "runtime_evidence": "Changed front-image reader NOT_RUN; d884 acquired P-FOREST/old album is a valid input, not evidence for this new reader.",
       "author_acceptance": "PENDING",
       "mvp_priority": 20,
       "mvp_packet": "PW1",
@@ -106058,17 +106173,17 @@
       },
       "assigned_owner": "integration",
       "activity": {
-        "state": "not_active",
-        "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+        "state": "released",
+        "reason": "Bounded front-image reader source accepted root+Luna and affected Game compile0/0; native720p and BackRead visual/state check remain, no game readiness claim."
       },
       "task_type": "engineering",
-      "implementation_state": "not_started",
+      "implementation_state": "partial",
       "technical_verification_state": "not_run",
       "remaining": [
-        "Фотографию можно прочитать при 720p без pixel hunting.",
-        "Back-read-флаг не выдаётся за просмотр thumbnail."
+        "Native720p front zoom/pan/readability and return/selection/focus/close/session behaviour for changed reader.",
+        "Actual front-view→unread-back preservation; full two-side/one-command flip/transcription clauses and other required source criteria remain open."
       ],
-      "next_action": "Показать две стороны и подпись происхождения.",
+      "next_action": "In confirmed owned ordinary route with actual acquired P-FOREST, at720p open «Рассмотреть снимок», verify existing zoom/pan/text/title/origin and return focus to same album selection; unread back must remain unread. Then session/tab/close cleanup. No failed capture-current retry or duplicate first-photo acquisition proof.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -106077,13 +106192,15 @@
         "result": "Реализовать фронт, оборот и читаемую транскрипцию",
         "targets": [
           "game/scripts/DocumentUi.cs",
-          "game/scripts/DocumentImageReader.cs"
+          "game/scripts/DocumentImageReader.cs",
+          "game/scripts/JournalUi.PhotoBook.cs",
+          "game/scripts/JournalUi.PhotoBook.ImageReader.cs"
         ],
         "required_inputs": [
           {
             "task_id": "PW-007",
-            "artifact": "Создать строгий каталог фото, миров и разворотов — только соответствующий source/contract",
-            "availability": "not_confirmed",
+            "artifact": "Strict logical5world/13photo/7anchor catalog source+compiler and current d884 fullgame repository load/acquired projection; physical placement/resources/full campaign not implied.",
+            "availability": "available",
             "requires": "relevant_artifact_not_full_parent"
           }
         ],
@@ -106131,7 +106248,7 @@
           ],
           "repeat_only_if": "Изменился покрываемый вход/consumer/контракт; без этого уже принятая проверка используется повторно без запуска."
         },
-        "actual_result": "NOT_RUN",
+        "actual_result": "PARTIAL source: selected acquired front reaches existing zoom/pan/text reader with context/return and cleanup. Affected compile0/0; changed reader native720p/BackRead criteria NOT_RUN.",
         "evidence_refs": [
           "tasks[id=PW-014].evidence"
         ],
@@ -106159,8 +106276,8 @@
         "implementation": [
           {
             "task_id": "PW-007",
-            "artifact": "Создать строгий каталог фото, миров и разворотов — только соответствующий source/contract",
-            "availability": "not_confirmed",
+            "artifact": "Strict logical5world/13photo/7anchor catalog source+compiler and current d884 fullgame repository load/acquired projection; physical placement/resources/full campaign not implied.",
+            "availability": "available",
             "requires": "relevant_artifact_not_full_parent"
           }
         ],
@@ -106221,7 +106338,20 @@
           "evidence_ref": "PW-014.evidence and named history progress; source_review shows available/missing inputs"
         }
       ],
-      "assignment_state": "preserved_person_or_existing_role; activity separate"
+      "assignment_state": "preserved_person_or_existing_role; activity separate",
+      "progress_2026_10_15_front_reader": {
+        "problem": "PhotoBook page rendered a small front TextureRect while existing DocumentImageReader was reachable only from normal entries tab, so acquired photo could not reach its zoom/pan reader.",
+        "result": "Added «Рассмотреть снимок» and «Вернуться к фотоальбому» using a PhotoBook-page instance of existing DocumentImageReader; keeps selected PhotoId, friendly title/OriginLabel, description/text and existing text ReadingZoom. Physical preview is released when reader opens.",
+        "guards": "Open checks current SessionIdentity and fresh bridge.PhotoBookPhotos() acquired-only projection, then whitelisted existing front resource. DocumentImageContent uses canonical PhotoId; no new semantic IDs. No BackRead calls/state effects or unread-back paths; no second input/modal/state owner. Selection/session/tab/screen close/tree exit clear images/body/context; return restores album/focus.",
+        "root_review": "Reviewed actual reader pure-presentation API and targeted diff; corrected stale-session projection and kept canonical PhotoId + title/origin context. DocumentImageReader/DocumentUi/JournalUi.cs unchanged.",
+        "source_hashes": {
+          "game/scripts/JournalUi.PhotoBook.cs": "a8659d45fef9f54c96eca882d7a8bd10be0f90e1202d25a63b17b572f43d3768",
+          "game/scripts/JournalUi.PhotoBook.ImageReader.cs": "edfffab6c812a5c1f92cd7e953ec6d900380ed0203c7eedfe4885c2b6048770f"
+        },
+        "verification": "Affected Game build exit0/warnings0/errors0,50.13s; diff/whitespace clean. No new tests/probes/native run.",
+        "evidence": "evidence/PW-014/front-image-reader-20261015/game-build.log",
+        "limits": "Source/compile only; actual reader framing/readability,720p and lifecycle criteria not accepted until current native view."
+      }
     },
     {
       "id": "PW-015",
@@ -106703,7 +106833,7 @@
         "Фотомиры не открывают клетки наружной карты.",
         "После обычного получения снимка игрок находит фронт/оборот и вклейку в семейной книге; Continue сохраняет личные записи и состояния снимка. Карта/адреса/словарь/прежний инвентарь используют существующий источник состояния; открытие страницы не выдаёт непрочитанное знание или внешнее подтверждение."
       ],
-      "next_action": "Obtain upstream/relay trace for the exact first capture-current POST502 from station/relay owner; existing frames folder was reported empty. No repeated play/UI probes or source guesses. Repair only proven cause, verify one actual current viewport, then resume ordinary J open/close and acquired-page prerequisites.",
+      "next_action": "Reuse delivered d884 acquired-first-photo UI rendering; next only remaining family-book UI/function criterion through a confirmed owned guarded route. Exact capture-current502 trace remains required before repeating that API path; no repeated first-photo or geometry-only capture.",
       "blocker": {
         "reason": "No verified current viewport from deployed UI2 endpoint: first capture-current HTTP502 empty body; delayed resume404 after owned play terminal. Cause not established. Version2 advertisement does not certify capture transport.",
         "release_condition": "Read existing owned run frames folder and upstream/relay response trace; confirm whether request published/claimed/result exists or precise backend refusal. Then repair only proven cause and get one verified current viewport before J input.",
@@ -106957,6 +107087,16 @@
         ],
         "limits": "Do not infer journal/book rendering/acquisition/Continue/closure or regression from unavailable screenshot/timeout. Preserve existing source stages and physical/art gates.",
         "station_owner_followup": "AGENT_CHAT 14.10 13:06 Codex B02: read-only delegate reports existing artifacts/frames folder present but empty; exported request.json is protected play request, not capture-current HTTP request. No request/processing/result/PNG evidence establishes delivery of POST. Relay/upstream trace still missing; source and no-repeat restriction unchanged."
+      },
+      "progress_2026_10_15_received_ui": {
+        "result": "Root personally accepted limited actual acquired-first-photo UI rendering from peer delivered d884 frame10; title, horizontal thumbnail, old tab labels, front image and unread-back state visible. Tabs functioning, close/J/Continue, all photos, physical in-hands inspection and final family-book UI design remain unverified.",
+        "evidence": [
+          "evidence/PW-043/release-path-20261015/frames/d884-root/09-book-ray.png",
+          "evidence/PW-043/release-path-20261015/frames/d884-root/10-new-album.png",
+          "evidence/PW-043/release-path-20261015/frames/d884-root/11-album-detail.png"
+        ],
+        "runtime_receipt": "evidence/PW-043/release-path-20261015/native_d884/receipt.json",
+        "transport_limit": "Uses delivered guarded ordinary route evidence, not failed capture-current API. d8b502 cause/trace remains unresolved; do not repeat it or relabel old FAIL as PASS."
       }
     },
     {
@@ -106993,7 +107133,8 @@
         "evidence/PW-017/book-hands-20261012/offline-open.png",
         "evidence/PW-017/book-hands-20261012/game-build.log",
         "evidence/PW-017/table-presence-20261012/receipt.json",
-        "evidence/PW-017/table-presence-20261012/game-build.log"
+        "evidence/PW-017/table-presence-20261012/game-build.log",
+        "evidence/PW-017/selected-front-20261015/game-build.log"
       ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-017",
       "source_requirements": [
@@ -107111,7 +107252,7 @@
       "assigned_owner": "art",
       "activity": {
         "state": "released",
-        "reason": "Finite editable physical catalog-title source accepted after root + independent Luna review and affected Game0/0; actual caption/glpyh/depth/readability and book art remain open."
+        "reason": "Bounded selected-front source stage reviewed root+Luna and affected Game compile0/0. Native physical preview remains separate and unclaimed."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -107120,7 +107261,7 @@
         "Actual Windows book inspection/reopen/tab/load/session/carry/vehicle guards, contacts and framing; native/human art acceptance not performed.",
         "Walking first-person grip and typed PageId→3D page/photo/flip/mount motion, editable typography/glyph text and FOV/accessibility acceptance remain open."
       ],
-      "next_action": "After station owner deploys latest UI worker/helper and confirms version2, actual owned connected play should open journal, select mounted S-GARDEN, open physical spread, inspect Cyrillic caption/font/ink-depth at current framing, close/reopen and clear selection/session; capture exact active viewport, close and verify restoration. Full book/walking/typedpage/literary/language/art remain open.",
+      "next_action": "Using confirmed owned ordinary GUI route after real book.received, select mounted P-FOREST and open physical inspection/spread; verify current front/title, close/reopen and eligible selection change without stale image, then session/tab teardown. Use source selected-front-20261015; no duplicate first-album/static table capture and no unchanged failing capture-current API retry.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -107149,15 +107290,15 @@
         "required_inputs": [
           {
             "task_id": "PW-015",
-            "artifact": "Реализовать вклейку и её сохранение",
+            "artifact": "Existing acquired-only PhotoBookProjection with catalog PageId and exact saved Mounted equality; real d884 acquired mounted P-FOREST prerequisite for this selected-front stage.",
             "requires": "relevant_artifact_not_full_parent",
-            "availability": "not_confirmed"
+            "availability": "available"
           },
           {
             "task_id": "PW-016",
-            "artifact": "Переработать журнал в семейную книгу без потери функций",
+            "artifact": "Existing JournalUi selected-photo album and optional physical inspection widget; d884 current first-photo UI received, other family-book functions still open.",
             "requires": "relevant_artifact_not_full_parent",
-            "availability": "not_confirmed"
+            "availability": "available"
           },
           {
             "artifact": "Accepted actual familybook closed220×285×38 /open445×285 mesh with8clips",
@@ -107241,15 +107382,15 @@
         "implementation": [
           {
             "task_id": "PW-015",
-            "artifact": "Реализовать вклейку и её сохранение",
+            "artifact": "Existing acquired-only PhotoBookProjection with catalog PageId and exact saved Mounted equality; real d884 acquired mounted P-FOREST prerequisite for this selected-front stage.",
             "requires": "relevant_artifact_not_full_parent",
-            "availability": "not_confirmed"
+            "availability": "available"
           },
           {
             "task_id": "PW-016",
-            "artifact": "Переработать журнал в семейную книгу без потери функций",
+            "artifact": "Existing JournalUi selected-photo album and optional physical inspection widget; d884 current first-photo UI received, other family-book functions still open.",
             "requires": "relevant_artifact_not_full_parent",
-            "availability": "not_confirmed"
+            "availability": "available"
           }
         ],
         "verification": [],
@@ -107531,6 +107672,20 @@
           "log": "evidence/PW-017/physical-caption-20261013/game-build.log"
         },
         "review": "Root + independent Luna: acquired/mounted/PageId/session guard, only selected.Title Соседский сад; Label3D .16m width/.005m em within leaf below insert, visible only open, hidden/freed on clear, redraw only changed text/visibility. No author/Tatar/back prose/state/mesh changes. captionable=false belongs player-prepared world.captions (PhotoWorldState.PrepareCaption/validation), not catalog-title presentation; no PrepareCaption or saved captions writes."
+      },
+      "progress_2026_10_15_selected_front": {
+        "problem": "Physical inspection hardcoded S-GARDEN/PAGE-GARDEN and its path, so real first acquired P-FOREST could render in 2D album but was excluded from the 3D insert.",
+        "result": "Existing acquired-only selected projection and validated catalog PageId/Mounted now feed existing PhotoBookFrontTexture resolver into exact AlbumInsert surface0. Front remains clipped to existing upper-face UV patch. Current open-pose guard clears on close; existing session/selection/unmounted/no-front clear preserved. Per-instance material duplication preserves shared cache.",
+        "root_review": "Found and fixed stale-front risk introduced by generalisation: material-reference fast path now additionally compares applied PhotoId and PageId; both stored after assignment and reset on Clear. Caption uses selected.Title; no new story/state/IDs/acquisition/ownership granted.",
+        "source": "game/scripts/JournalUi.PhotoBookInspection.cs",
+        "source_sha256": "3b28d38f7efa4e98889ebb0a39d414ae29d0fdfa1d523a7fe701f5d4edb68354",
+        "verification": {
+          "method": "root diff+independent Luna source review; affected Game build",
+          "result": "PASS source/compile only: exit0, warnings0/errors0,33.32s. No new tests/probes/game/station run.",
+          "evidence": "evidence/PW-017/selected-front-20261015/game-build.log"
+        },
+        "native": "NOT_RUN for changed source; d884 is prerequisite acquired/mounted P-FOREST and current 2D UI, not proof of this new physical overlay.",
+        "remaining": "Actual native front/UV/framing/caption/readability, selection switch, close/session lifecycle; walking grip/typed physical multi-page turn/all photos/FOV/art remain open."
       }
     },
     {

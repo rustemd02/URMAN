@@ -75,8 +75,19 @@ public partial class RuntimeBridge
                 PageId = definition.PageId,
                 OriginLabel = definition.ProvenanceKind switch
                 {
+                    "family-book-print" => "Снимок из семейной книги",
+                    "family-envelope-print" => "Снимок из семейного конверта",
+                    "family-yard-print" => "Семейный отпечаток",
+                    "authorized-marat-file" => "Копия файла",
+                    "family-box-print" => "Снимок из семейной коробки",
                     "family-pc-contact-sheet" => "Семейный контактный лист",
                     "school-album-copy" => "Копия из школьного альбома",
+                    "archive-map-copy" => "Копия архивной схемы",
+                    "gulsina-family-album-copy" => "Копия из семейного альбома",
+                    "neighbor-voluntary-copy" => "Копия от соседа",
+                    "family-authorized-copy" => "Семейная копия",
+                    "family-photo-box-copy" => "Копия из семейной коробки",
+                    "player-created-epilogue-photo" => "Собственный снимок",
                     _ => null
                 },
                 CanReadBack = !ReferenceEquals(_photoBookBusySession, session)

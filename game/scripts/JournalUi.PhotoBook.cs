@@ -201,6 +201,15 @@ public partial class JournalUi
             AutowrapMode = TextServer.AutowrapMode.WordSmart,
             SizeFlagsHorizontal = Control.SizeFlags.ExpandFill };
         frontCardContent.AddChild(_photoBookFrontBrief);
+        _photoBookInspectFrontButton = new Button
+        {
+            Name = "InspectPhotoFront",
+            Text = "Рассмотреть снимок",
+            Visible = false,
+            FocusMode = Control.FocusModeEnum.All
+        };
+        frontCardContent.AddChild(_photoBookInspectFrontButton);
+        _photoBookInspectFrontButton.Pressed += OpenSelectedPhotoBookFrontReader;
         _photoBookSeparator = new HSeparator();
         _photoBookSpread.AddChild(_photoBookSeparator);
         _photoBookBackHeading = new Label { Text = "Оборот",
@@ -245,6 +254,7 @@ public partial class JournalUi
         _photoBookSpread.AddChild(_photoBookActionStatus);
 
         BuildBookInspection();
+        BuildPhotoBookImageReader();
 
         _tabs.TabChanged += index =>
         {
@@ -252,6 +262,7 @@ public partial class JournalUi
             if (index != PhotoBookTabIndex)
             {
                 CancelPhotoBookPlacementAnimation();
+                ClosePhotoBookImageReader();
                 CloseBookInspection();
                 return;
             }
@@ -261,10 +272,14 @@ public partial class JournalUi
         _screen.VisibilityChanged += () =>
         {
             if (!_screen.Visible)
-            { CancelPhotoBookPlacementAnimation(); CloseBookInspection(); }
+            { CancelPhotoBookPlacementAnimation(); ClosePhotoBookImageReader(); CloseBookInspection(); }
             else RefreshBookInspection();
         };
-        _screen.TreeExiting += CancelPhotoBookPlacementAnimation;
+        _screen.TreeExiting += () =>
+        {
+            CancelPhotoBookPlacementAnimation();
+            ClosePhotoBookImageReader();
+        };
     }
 
     internal void OpenPhotoBook(RuntimeBridge bridge)
@@ -297,6 +312,7 @@ public partial class JournalUi
         if (!ReferenceEquals(_photoBookSession, session))
         {
             CancelPhotoBookPlacementAnimation();
+            ClosePhotoBookImageReader();
             ClearPhotoBookImages();
             _photoBookSession = session;
             _photoBookSelectedId = null;
@@ -314,6 +330,7 @@ public partial class JournalUi
         if (!StringComparer.Ordinal.Equals(previousSelectedId, nextSelectedId))
         {
             CancelPhotoBookPlacementAnimation();
+            ClosePhotoBookImageReader();
             _photoBookActionStatus.Text = string.Empty;
         }
 
@@ -359,6 +376,7 @@ public partial class JournalUi
 
     private void ClearPhotoBookPage(bool resetSession)
     {
+        ClosePhotoBookImageReader();
         CloseBookInspection();
         _bookInspectionToggle.Visible = false;
         CancelPhotoBookPlacementAnimation();
@@ -373,6 +391,7 @@ public partial class JournalUi
         _photoBookProjection = [];
         _photoBookRefreshing = true;
         _photoBookList.Clear();
+        _photoBookInspectFrontButton.Visible = false;
         _photoBookZoomControls.Visible = false;
         _photoBookEmpty.Visible = true;
         _photoBookTitle.Visible = false;
@@ -397,6 +416,7 @@ public partial class JournalUi
         if (!StringComparer.Ordinal.Equals(_photoBookSelectedId, selected.PhotoId))
         {
             CancelPhotoBookPlacementAnimation();
+            ClosePhotoBookImageReader();
             _photoBookActionStatus.Text = string.Empty;
         }
         _photoBookSelectedId = selected.PhotoId;
@@ -407,15 +427,20 @@ public partial class JournalUi
 
     // Front-only resource lookup: callers use the acquired projection. Never use
     // back images as list icons, since their captions require the ReadBack action.
-    private static Texture2D? PhotoBookFrontTexture(string photoId, bool thumbnail = false)
+    private static string? PhotoBookFrontImageResourcePath(string photoId, bool thumbnail = false)
     {
         // The school contact print copies the same fictional staged photograph.
-        var path = photoId switch
+        return photoId switch
         {
             SGardenPhotoId => SGardenFrontImagePath,
             "P-FOREST" or "S-SCHOOL" => thumbnail ? PForestThumbnailPath : PForestFrontImagePath,
             _ => null
         };
+    }
+
+    private static Texture2D? PhotoBookFrontTexture(string photoId, bool thumbnail = false)
+    {
+        var path = PhotoBookFrontImageResourcePath(photoId, thumbnail);
         return path is not null && ResourceLoader.Exists(path)
             ? ResourceLoader.Load<Texture2D>(path) : null;
     }
@@ -452,6 +477,7 @@ public partial class JournalUi
             _photoBookBackImage.Texture = backImage;
             _photoBookBackImage.Visible = true;
         }
+        RefreshPhotoBookImageReaderAction(photo);
     }
 
     private void ClearPhotoBookImages()

@@ -1016,3 +1016,48 @@ M03 follow-up: current guarded `cd6671` exposed the outward-only basin cylinder�
 W12 uses the existing `cut_wood_end` shader through `BathFirewoodRod` / `CutWoodEnds` (`wood_cut`). Each end face has centred cross-section UVs, separately from W11 longitudinal sides. The prompt book makes a separate W12 raster conditional on a demonstrated UV/art need; no `urman_w12_v01_basecolor.png` was generated or registered.
 
 Root inspected the existing Windows `bath_caps.png` in `evidence/ACT1-TEXTURE.05/bath-acceptance-20261014/native_cd6671/`: centred rings are visible behind the rack. Its receipt is PASS with verified snapshot hashes and restored player data. The captured PML matches current source, and the cap-producing method is unchanged; later basin repair is unrelated. This accepts the finite E17 connection without another run, and does not close W11 movement or artistic acceptance.
+
+## M07 Niva tyre source binding — 15.10.2026
+
+The existing registered `realism_20260929/moulded_rubber_black_v1_basecolor.png` (SHA-256 `b93a9616d9fca772570a7cf8e0c7746686a21f291eb51d3e9f33ba5426ca2f1e`) is also bound to the four imported `NivaWheel` rubber surfaces through a private cached material clone in `VehicleVisualFactory.NivaModel.cs`. The five other rubber surfaces retain their original finish. The imported tyres have no UVs, so this receiver uses mesh-local triplanar sampling at 0.35 m per repeat; authored tint, matte response, tyre/tread geometry and vehicle behaviour are unchanged.
+
+The original ImageGen receipt remains `docs/production/visual_rework_2026-09-29/texture_generation_followup.json`: the source is smooth moulded foot-cap rubber, reused as quiet base colour; tread is geometry, not imagery. Root viewed the existing raster and reviewed the scoped source; affected Game build passed with zero warnings/errors. Native close-view and motion/art acceptance remain pending; no raster was generated or edited for this binding.
+
+Native follow-up: `evidence/ACT1-TEXTURE.03/niva-rubber-20261015/native_19471f/` contains the tyre close view and raw receipt/logs. Root inspected the dark tyre, geometric tread and separate metal rim; accepted only static material binding. The fine grain is not distinctly resolved, so this does not establish a visible before/after improvement, motion stability or other rubber consumers. Receipt PASS, snapshot hashes verified, player data restored; station released.
+
+M04 clinic radiator slice (15.10.2026): existing original
+`realism_20260929/painted_steel_enamel_v1_basecolor.png` is also bound only to
+`FapInteriorRadiator_Body_LOD0` by `ClinicSurfacePresentation.Attach`. The source
+mesh has no UV channel: a per-instance PML clone uses local triplanar projection
+at 0.5 m, retaining tint `708584` and response `.90/.20/0` (roughness/specular/metallic).
+Root viewed the actual supported radiator in native `a4a223ffb07141b88929a1bcc61bfd5f`:
+`evidence/ACT1-TEXTURE.03/fap-m04-20261015/native_a4a223/frames/fap_radiator_m04.png`.
+Static hookup accepted, no obvious texture collapse/seam; pigment remains subtle.
+Actual profile was Low/performance-rescue at scale 0.7, not a Medium comparison.
+No claimed before/after improvement or full M04 cabinet/pipe/art/movement acceptance.
+
+M11 household ceramic (15.10.2026): the existing registered
+`realism_20260929/glazed_ceramic_cream_source_v1_basecolor.png` already reaches
+`KitchenTeapot` and `KitchenCup0..2` through `RuralPropModels.Teapot/Cup` and
+`RuralPropMaterials.Surface(ceramic)`. Metric lathe/tube UVs repeat at 0.5 m;
+runtime roughness/specular/metallic remain `.26/.34/0`. No new map/material rewrite.
+Root's actual `home_tea_m11` before/after frames are in
+`evidence/ACT1-TEXTURE.03/home-m11-20261015/native_97eb82/frames/` and
+`evidence/ACT1-TEXTURE.03/home-m11-20261015/native_75b784/frames/`.
+The observed inverted lid and capped spout were repaired only in the Teapot
+renderer: the same lid contour now faces outward, and the mouth has a 2 mm
+ceramic wall/open rim at unchanged outer size and transform. Cream glaze and
+physical table support are visible. Finite M11 engineering accepted; both frames
+used Low/performance-rescue at 0.7 scale, not full art/Medium/movement acceptance.
+
+M10 earthenware (15.10.2026): existing `KitchenBowlOfSweets` uses
+`realism_20260929/unglazed_earthenware_source_v1_basecolor.png`, registered as
+`texture.rural.realism.earthenware.20260930` (SHA `312d6457…b044c6da4`). This is the
+selected original generated surface, not a newly produced nominal `urman_m10_v01`
+file. `BuildKitchen` creates its real lathed bowl with metric UV, 0.5 m repeat and
+`.90/.08/0` roughness/specular/metallic. Root accepted the large visible matte bowl
+in existing `home-m11-20261015/native_75b784/frames/home_tea_m11.png`; current source,
+material, geometry and map match the receipt snapshot exactly. That point still
+targets the teapot, with the bowl visibly in frame; no dedicated M10 view is claimed.
+No source change, new generation/build/run was needed. Finite static hookup only:
+actual Low/performance-rescue at 0.7 scale, no full art/Medium/movement acceptance.

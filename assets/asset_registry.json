@@ -3302,6 +3302,13 @@
         "state": "Named wash-basin outer+inner static hookup/repair accepted; other M03 receivers/motion/full art remain open.",
         "inner_wall_fix": "Basin-only duplicate inward CylinderMesh accepted on matched native29e783 after cd6671 exposed missing far inner surface; dimension/open top/pose/material preserved, no shared mesh/collision/state change.",
         "native_static_evidence": "evidence/ACT1-TEXTURE.03/bath-m03-inner-20261014/native_29e783/frames/bath_enamel.png"
+      },
+      "additional_receiver_2026_10_15_m04": {
+        "task": "ACT1-TEXTURE.03/E04",
+        "receiver": "ClinicSurfacePresentation.Attach: FapInteriorRadiator_Body_LOD0 only",
+        "material": "Per-instance original neutral enamel albedo; metric local triplanar .5m because source has no UV, existing 708584 tint and .90/.20/0 PML roughness/specular/metallic retained. Shared cache, other FAP fixtures, geometry/contacts unchanged.",
+        "native_static_evidence": "evidence/ACT1-TEXTURE.03/fap-m04-20261015/native_a4a223/frames/fap_radiator_m04.png",
+        "qa": "Root viewed actual supported radiator/no obvious seams. Static named hookup only; pigment is subtle, no before/after improvement claim. Actual Low/performance-rescue scale .7, full art/motion and other M04 consumers open."
       }
     },
     {
@@ -3346,7 +3353,15 @@
       ],
       "consumer": "RuralPropMaterials.Surface(ceramic); actual metric mesh UV",
       "qa": "source viewed; game receiver review pending, no human acceptance",
-      "sourceSha256": "68c36f276415f25a287f4a85ec7b1765059e4c42d4604ef6cb31e619ca624757"
+      "sourceSha256": "68c36f276415f25a287f4a85ec7b1765059e4c42d4604ef6cb31e619ca624757",
+      "named_consumer_2026_10_15_m11": {
+        "task": "ACT1-TEXTURE.03/E10",
+        "receiver": "BabaiHouseWing/Kitchen/KitchenTeapot and KitchenCup0..2; existing RuralPropModels.Teapot/Cup -> RuralPropMaterials.Surface(ceramic)",
+        "runtime_response": "Existing ceramic .26 roughness/.34 specular/metallic0, .5m metric Lathe/Tube UV; cup ede7d9, teapot dcd5bd. Registry original source roughness .28 retained as history, actual runtime .26.",
+        "native_evidence": "evidence/ACT1-TEXTURE.03/home-m11-20261015/native_75b784/frames/home_tea_m11.png",
+        "before_evidence": "evidence/ACT1-TEXTURE.03/home-m11-20261015/native_97eb82/frames/home_tea_m11.png",
+        "qa": "Root personally viewed cream glaze/real material consumer and matched repair of inward-facing lid/capped spout. Finite M11 engineering accepted; actual Low/performance-rescue/.7, no full art/Medium/movement acceptance. Original asset and shared material unchanged."
+      }
     },
     {
       "id": "texture.rural.realism.earthenware.20260930",
@@ -3368,7 +3383,14 @@
       ],
       "consumer": "RuralPropMaterials.Surface(earthenware); actual metric mesh UV",
       "qa": "source viewed; game receiver review pending, no human acceptance",
-      "sourceSha256": "312d6457da248ca89d2d7e0b992841350981d5ec09fd9c81d896936b044c6da4"
+      "sourceSha256": "312d6457da248ca89d2d7e0b992841350981d5ec09fd9c81d896936b044c6da4",
+      "named_consumer_2026_10_15_m10": {
+        "task": "ACT1-TEXTURE.03/E09",
+        "receiver": "BabaiHouseWing/Kitchen/KitchenBowlOfSweets; BuildKitchen -> Lathe(sweet-bowl) -> RuralPropMaterials.Surface(earthenware)",
+        "mapping_response": "Metric circumference/profile-length UV, .5m tile, .90 roughness/.08 specular/metallic0; existing white tint. Original source/material unchanged.",
+        "native_evidence": "evidence/ACT1-TEXTURE.03/home-m11-20261015/native_75b784/frames/home_tea_m11.png",
+        "qa": "Root personally viewed large matte terracotta bowl interior/rim/support distinct from glazed cups/cloth/wood. Exact producer/material/geometry/map snapshot hashes match. Reused current delivered receipt without new run. Point targets KitchenTeapot, bowl is visibly in frame; actual Low/performance-rescue/.7. Finite M10 static hookup accepted, no dedicated M10 framing/Medium/movement/full art claim."
+      }
     },
     {
       "id": "texture.rural.realism.metal.20260930",
@@ -3472,7 +3494,12 @@
       "roughness": 0.91,
       "metallic": 0,
       "consumer": "RuralPropModels.Chair/Desk moulded foot caps; actual bevel geometry and metric UV",
-      "qa": "source viewed; current receiver native review pending"
+      "qa": "source viewed; current receiver native review pending",
+      "additional_receiver_2026_10_15": {
+        "consumer": "VehicleVisualFactory.NivaModel NivaWheel rubber primitive only (four road wheels), scoped material cache clone; body/cabin/pedals retain original vehicle_rubber.",
+        "projection": "No UV in imported tyre primitive; existing mesh-local triplanar,0.35m tile. Authored tint/roughness/specular and separate tyre/tread geometry retained.",
+        "qa": "Native19471 tyre close view personally inspected: quiet dark tyre/physical tread/separate metal rim; PASS/restored/hashverified. Static binding only, fine grain not distinctly resolved; no improvement comparison, motion or other receivers accepted. Evidence evidence/ACT1-TEXTURE.03/niva-rubber-20261015/native_19471f/frames/niva_m07.png"
+      }
     },
     {
       "id": "texture.rural.realism.mosaic.20260930",
