@@ -427,6 +427,12 @@
       "zoneId": "fap_clinic"
     },
     {
+      "id": "home_tea_m11",
+      "spec": "KitchenTeapot@0.65,0.42,0.7>KitchenTeapot@0.15,0.06,0.03",
+      "subject": "ACT1-TEXTURE.03/E10: existing domestic teapot and cups with registered glazed ceramic; static material/metric UV check only.",
+      "zoneId": "house_old_pc"
+    },
+    {
       "id": "C1_street_low",
       "graphicsPreset": "low",
       "spec": "Ground@0,1.7,12>Ground@0,1.6,-30",

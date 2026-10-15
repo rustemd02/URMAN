@@ -9298,21 +9298,23 @@
             "title": "Подключить M11 — Глазурованная бытовая керамика",
             "result": "Подключить M11 — Глазурованная бытовая керамика",
             "owner": "art/materials/qa",
-            "evidence": [],
+            "evidence": [
+              "Existing source already bound: house_old_pc -> StyleBenchmarkInteriorFactory.BuildHouseRooms/BuildKitchen -> BabaiHouseWing/Kitchen/KitchenTeapot + KitchenCup0..2 -> RuralPropModels.Teapot/Cup -> RuralPropMaterials.Surface(ceramic). Registered original glazed_ceramic_cream_source_v1_basecolor.png SHA68c36f276415f25a287f4a85ec7b1765059e4c42d4604ef6cb31e619ca624757; metric Lathe/Tube UV with .5m repeat, cup ede7d9/teapot dcd5bd, rough .26/spec .34/metallic0. Root+Luna source check; no production source changes or new tests/build. Native still pending."
+            ],
             "assigned_owner": "art/materials/qa",
-            "active_owner": null,
+            "active_owner": "codex/root",
             "activity": {
-              "state": "not_active",
-              "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+              "state": "confirmed_active",
+              "reason": "Root integrates one bounded existing M11 household ceramic receiver; Luna source lookup only until exact producer/UV/binding confirmed."
             },
             "task_type": "engineering",
-            "status": "todo",
-            "implementation_state": "not_started",
+            "status": "in_progress",
+            "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
-              "Подключить M11 — Глазурованная бытовая керамика; собственного целевого receipt пока нет."
+              "One native existing kitchen tea-set view: verify cream glaze is distinguishable from wood/table and no collapsed UV/obvious seams; retain physical geometry/support/state. Full art/motion acceptance separate."
             ],
-            "next_action": "Сопоставить текущий результат: Подключить M11 — Глазурованная бытовая керамика. Затем изменить только установленный остаток.",
+            "next_action": "Root reserves one free station slot for home_tea_m11 existing-home checkpoint, inspect actual frame and restoration receipt, then release; no redundant source rewrite/compile.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -9322,7 +9324,11 @@
                 "game/assets/textures/painterly/README.md",
                 "assets/asset_registry.json",
                 "docs/urman_knowledge_base/art/urman_imagegen_texture_prompt_book_2026-09-22.md",
-                "docs/urman_knowledge_base/assets.md"
+                "docs/urman_knowledge_base/assets.md",
+                "game/scripts/RuralPropModels.cs",
+                "game/scripts/RuralPropMaterials.cs",
+                "game/scripts/StyleBenchmarkInteriorFactory.Rooms.cs",
+                "game/content/world/visual_checkpoints.v1.json"
               ],
               "required_inputs": [],
               "scope_in": [
@@ -9342,7 +9348,7 @@
               ],
               "verification": {
                 "method": "targeted_runtime_scenario",
-                "question": "Подключить M11 — Глазурованная бытовая керамика",
+                "question": "Does the existing kitchen teapot/cup set show its registered quiet cream glaze without UV collapse/obvious seams, distinct from the wooden table and with existing support unchanged? Static material only.",
                 "scenario": {
                   "targets": [
                     "game/assets/textures/painterly/README.md",
