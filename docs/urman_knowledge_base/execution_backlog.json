@@ -114606,6 +114606,13 @@
           "path": "docs/urman_knowledge_base/art/fullgame_frames/godot_w02_reflection_1080p.png",
           "result": "Ограниченный отражённый вид поставлен без SSR: над водой — настил и опорная композиция (три стойки, сколотая левая, диагональная доска), под поверхностью — зеркальные копии опор и скрытая линия старого подхода (W02Controller.BuildReflectionOutcrop: MirrorPost/HiddenApproach*), вода читает их через полупрозрачную поверхность. Кадр 1920x1080 снят защищённым захватом; второго полного рендера деревни нет.",
           "verified": "protected capture exit=0; кадр лично просмотрен; читаемость в движении и стоимость отражённого вида не измерены"
+        },
+        {
+          "date": "2026-10-17",
+          "kind": "guarded-capture-log",
+          "path": "evidence/PW-050/w02-home-capture-20261016/",
+          "result": "stdout защищённого прогона, снявшего кадр отражения, сохранён рядом с карточками без повторного прогона; в логе 'fullgame-frame: w02_reflection 1920x1080', renderer Metal 4.0 Forward+, guard-restore подтверждён.",
+          "verified": "SHA-256 godot_w02_reflection_1080p.png совпадает с записью root-ревью в карточке"
         }
       ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-035",
@@ -121613,6 +121620,13 @@
           "path": "docs/urman_knowledge_base/art/fullgame_frames/godot_w02_*_1080p.png",
           "result": "Проходимая геометрия «Мостки» собрана процедурно (W02Controller.cs + W02.tscn, монтирует Main.MountW02): вход, старый подход, залив и берега, дальняя стойка, камыш, настил отражения, созерцательные точки; защищённый захват снял 12 кадров 1920x1080, guard восстановил userdata.",
           "verified": "protected capture exit=0 (eng/capture-fullgame-frames.sh); кадры лично просмотрены; физический проход игрока и станционный receipt — PW-054/PW-094"
+        },
+        {
+          "date": "2026-10-17",
+          "kind": "guarded-capture-log",
+          "path": "evidence/PW-050/w02-home-capture-20261016/",
+          "result": "Сохранён существующий stdout/terminal последнего защищённого захвата W02/home без повторного прогона (запрос root 16.10): renderer 'Metal 4.0 - Forward+', хвост 'userdata guard: original files and permissions restored and verified', 22 кадра 1920x1080; рядом README с хешами.",
+          "verified": "Лог того самого прогона, чьи 12 W02-кадров закоммичены (415df477); SHA-256 кадров сверены с записью root-ревью 16.10; ERROR-строк нет (в хвосте известное RID-leak WARNING)"
         }
       ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-050",
@@ -122031,7 +122045,7 @@
       "remaining": [
         "Проходимая геометрия собрана процедурно и снята 12 кадрами (см. evidence). Осталось: приёмка обычного маршрута/изображений/повторного посещения — PW-054; станционный receipt. Родителя как разработку не вести — закрывать конкретные остатки."
       ],
-      "next_action": "Следующий конечный шаг: приёмка обычного маршрута W02 (PW-054) и станционный receipt при следующем слоте.",
+      "next_action": "Следующий конечный шаг: обычный маршрут W02 — книга→вход→камыш/отражение/старый подход→ответ→возврат, с отличением найденного действия от фактов, выставленных захватом (PW-054); станционный receipt при следующем слоте.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -130404,6 +130418,13 @@
           "path": "docs/urman_knowledge_base/art/fullgame_frames/godot_home_water_*_1080p.png",
           "result": "Источник P-WATER поставлен физически в доме: разрешённый семейный конверт со вторым отпечатком лежит на открытой западной части приподнятой столешницы у книги (ArrivalPersonalProps.BuildWaterChain), крафтовый конверт и авторская печать p-water-back, выезд печати при находке; цепочка дом → разговор → разрешение әби → выдача копии → вход в W02 держится WaterChainHomePresence. Три кадра 1920x1080: стол, книга+конверт сверху, печать крупно; подпись «У старых мостков.» читается и ориентирована для игрока со стороны комнаты.",
           "verified": "protected capture exit=0; кадры и кропы лично просмотрены; проход источник→копия в движении — за приёмкой"
+        },
+        {
+          "date": "2026-10-17",
+          "kind": "guarded-capture-log",
+          "path": "evidence/PW-050/w02-home-capture-20261016/",
+          "result": "stdout защищённого прогона домашних кадров сохранён рядом с карточками без повторного прогона; в логе PrintPaper/PrintBack visible=True и камеры home_water_*, renderer Metal 4.0 Forward+, guard-restore подтверждён.",
+          "verified": "SHA-256 godot_home_water_book/envelope_1080p.png совпадают с записью root-ревью в карточке"
         }
       ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-071",
