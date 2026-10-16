@@ -5393,10 +5393,10 @@
               "Station remains occupied by8180d19e767542f59e5c1603a0bd4b2a/recovery pending, no new S09 job submitted. Do not inspect/control/terminate peer run or replay blocked S08; wait owner release instead of unchanged polling."
             ],
             "assigned_owner": "art/materials/qa",
-            "active_owner": null,
+            "active_owner": "codex/root",
             "activity": {
-              "state": "released",
-              "reason": "Root+Luna reviewed finite named S09 bank source, affected compile passed. Native remains not_run while other station8180 holds slot/recovery; no job submitted or repeated doctor loop."
+              "state": "confirmed_active",
+              "reason": "Previous8180 terminal/restore, doctor now free/busy null/recovery false/orphan false. Root takes single native integration of prepared S09 named bank, combined with new M09 frame."
             },
             "task_type": "engineering",
             "status": "in_progress",
@@ -5406,11 +5406,8 @@
               "First actual native frame of named S09 snowy bank after station release; inspect quiet inclusions/2m scale/edge/support and separate sedge, record actual quality and restore evidence.",
               "Whole-family motion/art/other receivers remain outside this named source stage; do not claim white sedge material as S09 snow-surface acceptance."
             ],
-            "next_action": "After current8180 owner terminal/restore/release, capture s09_ditch_snow_bank once with current source; root inspect actual bank and retain separate art/motion gates. Reuse current30.01s affected compile; no unchanged build or doctor polling.",
-            "blocker": {
-              "reason": "Current station job8180d19e767542f59e5c1603a0bd4b2a is busy with userdata_recovery_pending=true; preserve its live owner. Named S09 source/compile/checkpoint ready, current game image not yet available.",
-              "release_when": "Current8180 owner releases slot after terminal/userdata restore; doctor confirms no busy/recovery/orphan. Then one source-changed s09_ditch_snow_bank capture, preserving guards/quality settings."
-            },
+            "next_action": "Capture current s09_ditch_snow_bank once with M09 named seat in one serialized High-request job, root inspect actual quality/visibility; no new compile or S08 replay.",
+            "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
             "work_contract": {
@@ -9163,21 +9160,24 @@
             "title": "Подключить M09 — Потёртый винил сидений",
             "result": "Подключить M09 — Потёртый винил сидений",
             "owner": "art/materials/qa",
-            "evidence": [],
+            "evidence": [
+              "Existing current vehicle fleet/babay-niva -> VehicleVisualFactory.Niva/NivaInterior -> authored302f2b__vinyl front seat cushions/backs/headrests/rear bench. Existing ForFinish vinyl procedural Grain(.78rough/.3spec) has no M09 bitmap. TX29-13 burgundy cloth is wool-blend auditorium upholstery, not a vinyl substitute; M07 tyre frame cannot accept seats.",
+              "evidence/ACT1-TEXTURE.03/niva-m09-20261016/imagegen-receipt.json: one original built-in image_gen M09 candidate from exact existing passport; source assets/source/imagegen/2026-10-16/urman_m09_v01_basecolor.png and byte-identical runtime game/assets/textures/painterly/urman_m09_v01_basecolor.png,1254²RGB SHA1a7041aebf4bd7212dc797fff669cebacaa4adf185372854e5d858e07ced9b60. No refs/pixel edits; full prompt/provenance saved. Root personally viewed original; native/art not yet accepted."
+            ],
             "assigned_owner": "art/materials/qa",
-            "active_owner": null,
+            "active_owner": "codex/root",
             "activity": {
-              "state": "not_active",
-              "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+              "state": "confirmed_active",
+              "reason": "Root takes one bounded M09 seat-vinyl receiver; Luna confirms original/current source first. Station remains with other8180; no polling or historic cabin replay."
             },
             "task_type": "engineering",
-            "status": "todo",
-            "implementation_state": "not_started",
+            "status": "in_progress",
+            "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
               "Подключить M09 — Потёртый винил сидений; собственного целевого receipt пока нет."
             ],
-            "next_action": "Сопоставить текущий результат: Подключить M09 — Потёртый винил сидений. Затем изменить только установленный остаток.",
+            "next_action": "Integrate NivaInterior302f2b-only optional M09 local triplanar map, normalized against linear mean to preserve existing tint; review/affected compile then one actual seat frame after station release. Shared Grain default off elsewhere; no control/physics/custody edits.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -9187,7 +9187,10 @@
                 "game/assets/textures/painterly/README.md",
                 "assets/asset_registry.json",
                 "docs/urman_knowledge_base/art/urman_imagegen_texture_prompt_book_2026-09-22.md",
-                "docs/urman_knowledge_base/assets.md"
+                "docs/urman_knowledge_base/assets.md",
+                "game/scripts/VehicleVisualFactory.Grain.cs",
+                "game/scripts/VehicleVisualFactory.NivaModel.cs",
+                "game/content/world/visual_checkpoints.v1.json"
               ],
               "required_inputs": [],
               "scope_in": [
@@ -9207,7 +9210,7 @@
               ],
               "verification": {
                 "method": "targeted_runtime_scenario",
-                "question": "Подключить M09 — Потёртый винил сидений",
+                "question": "Does existing NivaInterior 302f2b vinyl upholstery show quiet .5m local worn-grain modulation without seams/swimming or doubled darkening, preserving seat shapes/mounting and authored dark tint/response? Static named hookup only; ordinary motion/art separate.",
                 "scenario": {
                   "targets": [
                     "game/assets/textures/painterly/README.md",

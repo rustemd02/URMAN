@@ -566,6 +566,12 @@
       "spec": "RoadsideDitch_Bank_02_LOD0@0.35,1,1.45>RoadsideDitch_Bank_02_LOD0@0,0.065,0",
       "subject": "ACT1-TEXTURE.02/E07 S09: exact ground snow bank with local 2m inclusion albedo, adjacent sedge separate; authored tint/response/geometry/contact preserved. Static only.",
       "graphicsPreset": "high"
+    },
+    {
+      "id": "m09_niva_passenger",
+      "spec": "NivaInterior@0.842,0.5,-0.26>NivaInterior@1.142,0.06,0.39",
+      "subject": "ACT1-TEXTURE.03/E08: exact NivaInterior 302f2b vinyl passenger seat-back, original M09 .5m local RGB modulation; original dark tint/response/seat geometry retained. Static only, no whole cabin/motion acceptance.",
+      "graphicsPreset": "high"
     }
   ],
   "batches": [

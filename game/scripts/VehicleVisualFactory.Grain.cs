@@ -20,6 +20,10 @@ public static partial class VehicleVisualFactory
         uniform float specular_value = 0.3;
         uniform float fuzz = 0.0;
         uniform bool use_vertex_color = false;
+        uniform bool use_albedo_texture = false;
+        uniform sampler2D albedo_texture : source_color, filter_linear_mipmap_anisotropic, repeat_enable;
+        uniform vec3 albedo_reference_linear = vec3(1.0);
+        uniform vec2 albedo_texture_scale = vec2(1.0);
         varying vec3 local_position;
         varying vec3 local_normal;
         float hash3(vec3 p) { return fract(sin(dot(p, vec3(127.1, 311.7, 74.7))) * 43758.5453); }
@@ -35,7 +39,17 @@ public static partial class VehicleVisualFactory
             float fade = 1.0 - smoothstep(0.4, 1.5, length(fwidth(p)));
             float a = noise3(p) * 0.65 + noise3(p * 2.7 + 11.0) * 0.35;
             float curl = mix(0.5, a, fade);
-            vec3 colour = base_color.rgb * (1.0 - albedo_variation + 2.0 * albedo_variation * curl);
+            vec3 map_modulation = vec3(1.0);
+            if (use_albedo_texture) {
+                vec3 weights = pow(abs(normalize(local_normal)), vec3(4.0));
+                weights /= max(weights.x + weights.y + weights.z, 0.0001);
+                vec3 sampled = texture(albedo_texture, local_position.yz * albedo_texture_scale).rgb * weights.x
+                    + texture(albedo_texture, local_position.xz * albedo_texture_scale).rgb * weights.y
+                    + texture(albedo_texture, local_position.xy * albedo_texture_scale).rgb * weights.z;
+                map_modulation = clamp(sampled / max(albedo_reference_linear, vec3(0.0001)), vec3(0.75), vec3(1.25));
+            }
+            vec3 colour = base_color.rgb * map_modulation
+                * (1.0 - albedo_variation + 2.0 * albedo_variation * curl);
             if (use_vertex_color) colour *= COLOR.rgb;
             ALBEDO = colour;
             ROUGHNESS = roughness_value;
