@@ -1,0 +1,16 @@
+{
+  "label": "x17-sdoor1",
+  "rid": "b44447df59ef44ce8c0f0dd526dad68d",
+  "frame": "interactive-b44447df59ef44ce8c0f0dd526dad68d",
+  "pos": [
+    -14.98,
+    1.85,
+    65.01
+  ],
+  "yaw": 179.92,
+  "pitch": -9.92,
+  "interactionId": null,
+  "interactionAvailable": null,
+  "ray": "/root/FullGameMain/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/SovkhozSquare/OldSchool/FrontWall/FrontWallBody",
+  "status": "ok"
+}

@@ -1,0 +1,16 @@
+{
+  "label": "x17-door0",
+  "rid": "812269380bb74e4099097c758659c3af",
+  "frame": "interactive-812269380bb74e4099097c758659c3af",
+  "pos": [
+    -6.87,
+    1.46,
+    -2.35
+  ],
+  "yaw": 89.92,
+  "pitch": 0.0,
+  "interactionId": "urman.fullgame:interaction/pw-home-enter-house",
+  "interactionAvailable": true,
+  "ray": "/root/FullGameMain/ZoneHost/Act1ConnectedWorld/village-main-road/HouseDoor",
+  "status": "ok"
+}

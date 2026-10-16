@@ -1,0 +1,16 @@
+{
+  "label": "x17-book0",
+  "rid": "32fff65da0bd45a9ab8b255d2b770be6",
+  "frame": "interactive-32fff65da0bd45a9ab8b255d2b770be6",
+  "pos": [
+    -14.42,
+    1.69,
+    -5.41
+  ],
+  "yaw": 90.0,
+  "pitch": -41.92,
+  "interactionId": "urman.fullgame:interaction/pw-book-handoff",
+  "interactionAvailable": true,
+  "ray": "/root/FullGameMain/ZoneHost/Act1ConnectedWorld/babay-abi-house/PhotoWorldFamilyBookTarget",
+  "status": "ok"
+}

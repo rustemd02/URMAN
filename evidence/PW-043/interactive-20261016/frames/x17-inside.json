@@ -1,0 +1,16 @@
+{
+  "label": "x17-inside",
+  "rid": "619dcaf44f404f4fb5981efc45cca8e1",
+  "frame": "interactive-619dcaf44f404f4fb5981efc45cca8e1",
+  "pos": [
+    -11.1,
+    1.69,
+    -1.88
+  ],
+  "yaw": 90.0,
+  "pitch": 0.0,
+  "interactionId": null,
+  "interactionAvailable": null,
+  "ray": null,
+  "status": "ok"
+}

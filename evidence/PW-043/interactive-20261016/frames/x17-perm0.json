@@ -1,0 +1,16 @@
+{
+  "label": "x17-perm0",
+  "rid": "71cce8d1f88f43b991fc517508ccc9c7",
+  "frame": "interactive-71cce8d1f88f43b991fc517508ccc9c7",
+  "pos": [
+    -9.71,
+    2.58,
+    74.7
+  ],
+  "yaw": -162.32,
+  "pitch": -32.0,
+  "interactionId": null,
+  "interactionAvailable": null,
+  "ray": "/root/FullGameMain/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/SovkhozSquare/OldSchool/SchoolFurnitureBody",
+  "status": "ok"
+}

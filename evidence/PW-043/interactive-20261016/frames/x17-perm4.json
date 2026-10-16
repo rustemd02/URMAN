@@ -1,0 +1,16 @@
+{
+  "label": "x17-perm4",
+  "rid": "8a0311ddb6d342519026a201ad456bdd",
+  "frame": "interactive-8a0311ddb6d342519026a201ad456bdd",
+  "pos": [
+    -9.71,
+    2.58,
+    74.7
+  ],
+  "yaw": -162.32,
+  "pitch": -40.0,
+  "interactionId": null,
+  "interactionAvailable": null,
+  "ray": "/root/FullGameMain/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/SovkhozSquare/OldSchool/SchoolPhotoCopyRequestSheet/EnvelopeContact",
+  "status": "ok"
+}

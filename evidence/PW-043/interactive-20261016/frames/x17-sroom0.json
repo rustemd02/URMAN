@@ -1,0 +1,16 @@
+{
+  "label": "x17-sroom0",
+  "rid": "f798c28531b54612a1ec959aa5cc9c66",
+  "frame": "interactive-f798c28531b54612a1ec959aa5cc9c66",
+  "pos": [
+    -9.77,
+    2.58,
+    74.71
+  ],
+  "yaw": 178.0,
+  "pitch": -17.92,
+  "interactionId": null,
+  "interactionAvailable": null,
+  "ray": null,
+  "status": "ok"
+}

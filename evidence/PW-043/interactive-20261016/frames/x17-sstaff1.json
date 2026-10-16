@@ -1,0 +1,16 @@
+{
+  "label": "x17-sstaff1",
+  "rid": "ae85c0ebf0cd497fac349a878b464e9c",
+  "frame": "interactive-ae85c0ebf0cd497fac349a878b464e9c",
+  "pos": [
+    -8.08,
+    2.58,
+    69.14
+  ],
+  "yaw": 168.88,
+  "pitch": -9.92,
+  "interactionId": null,
+  "interactionAvailable": null,
+  "ray": "/root/FullGameMain/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/SovkhozSquare/OldSchool/CorridorWall0/CorridorWall0Body",
+  "status": "ok"
+}

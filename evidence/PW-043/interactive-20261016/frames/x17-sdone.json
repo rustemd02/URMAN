@@ -1,0 +1,16 @@
+{
+  "label": "x17-sdone",
+  "rid": "65a4421e47034e178d9ee2b4ff8e2deb",
+  "frame": "interactive-65a4421e47034e178d9ee2b4ff8e2deb",
+  "pos": [
+    -9.71,
+    2.58,
+    74.7
+  ],
+  "yaw": -162.32,
+  "pitch": -36.0,
+  "interactionId": "urman.fullgame:interaction/pw-school-copy-permission",
+  "interactionAvailable": true,
+  "ray": "/root/FullGameMain/ZoneHost/Act1ConnectedWorld/village-main-road/SchoolPhotoCopyPermission",
+  "status": "ok"
+}

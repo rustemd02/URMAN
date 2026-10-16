@@ -1,0 +1,16 @@
+{
+  "label": "x17-town0",
+  "rid": "d58ab47341804f58af0aad185b3a347b",
+  "frame": "interactive-d58ab47341804f58af0aad185b3a347b",
+  "pos": [
+    -7.82,
+    1.41,
+    -1.88
+  ],
+  "yaw": -90.0,
+  "pitch": 0.0,
+  "interactionId": null,
+  "interactionAvailable": null,
+  "ray": null,
+  "status": "ok"
+}
