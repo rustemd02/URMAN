@@ -4506,6 +4506,27 @@
       "materialOwner": "Existing DrainIceMaterial -> ForColor(8e9da8,ice,sheltered:true), roughness.82/specular.12/wet_grade0; unchanged.",
       "collision": "Existing visible mesh ActualSurfaceContact unchanged; no player/carry-state edits.",
       "qa": "evidence/ACT1-TEXTURE.02/s08-drain-20261016/native_860f58/frames/s08_drain_ice.png: rawPASS/actualHigh/comparabletrue, root sees partial ice but rejects full receiver acceptance because fixed street woodpile overlaps relocated crossing. Geometry issue/current task state solely ACT1-TEXTURE.02/E06; no new material or map generated."
+    },
+    {
+      "id": "texture.painterly.s09.v02",
+      "source": "Project-original procedural bake; tools/blender/bake_procedural_textures.py; game/assets/textures/painterly/procedural_bake_receipt_v1.json S09",
+      "derived": "game/assets/textures/painterly/snow_grass_v2_albedo.png",
+      "derivedSha256": "0d98222017a84c991b1b6e32df43e320ceb4e00a19ffd3d8444754acace13683",
+      "generator": "tools/blender/bake_procedural_textures.py; seed20261019",
+      "license": "project-original procedural (no third-party source)",
+      "dimensions": "1024x1024",
+      "format": "PNG RGB8",
+      "colorSpace": "sRGB",
+      "uv": "Seamless TILE, 2m per repeat, existing PML world projection retained on named bank",
+      "purpose": "Quiet snow surface with sparse flush straw fragments; separate upright sedge does not count as this surface receiver.",
+      "reference": "docs/urman_knowledge_base/art/urman_imagegen_texture_prompt_book_2026-09-22.md#s09",
+      "consumerPaths": [
+        "game/scripts/Act1ConnectedWorld.cs",
+        "game/scripts/PainterlyMaterialLibrary.cs"
+      ],
+      "materialOwner": "RegradeAct1DaylightKitMaterials exact RoadsideDitch_Bank_02_LOD0/DampEarth per-instance clone, preserves current f1f5f9 snow-ground tint and response; shared caches and other banks/plants unchanged.",
+      "collision": "Authored geometry and individually grounded contacts unchanged.",
+      "qa": "Root viewed original map; source review and affected Game build0/0 accepted. Current named native not_run while station8180 busy/recovery; actual game/movement/art acceptance stays in ACT1-TEXTURE.02/E07."
     }
   ]
 }

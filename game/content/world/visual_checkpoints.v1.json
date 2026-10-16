@@ -560,6 +560,12 @@
       "spec": "ShallowFrozenDrainBed@0.8,3,2.2>ShallowFrozenDrainBed@0,0.03,0",
       "subject": "ACT1-TEXTURE.02/E06 S08: existing shallow household drain ice, original 1m clouded ice map; static material/rim/contact view only, board/carry/state unchanged.",
       "graphicsPreset": "high"
+    },
+    {
+      "id": "s09_ditch_snow_bank",
+      "spec": "RoadsideDitch_Bank_02_LOD0@0.35,1,1.45>RoadsideDitch_Bank_02_LOD0@0,0.065,0",
+      "subject": "ACT1-TEXTURE.02/E07 S09: exact ground snow bank with local 2m inclusion albedo, adjacent sedge separate; authored tint/response/geometry/contact preserved. Static only.",
+      "graphicsPreset": "high"
     }
   ],
   "batches": [

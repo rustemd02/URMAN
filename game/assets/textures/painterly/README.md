@@ -1112,3 +1112,17 @@ Raw receipt PASS does not close visual acceptance: the fixed
 ice rim/contacts are not fully visible. Another angle would only show an
 uncovered portion; no unchanged rerun or material replacement is warranted.
 The precise geometric remainder and release condition live only in E06.
+
+
+S09 named bank source (16.10.2026): `snow_grass_v2_albedo.png`, original procedural
+SHA `0d98222017a84c991b1b6e32df43e320ceb4e00a19ffd3d8444754acace13683`,
+now has an explicit ground-surface receiver in connected-world material regrade:
+`ZiratRoadsideDitch/RoadsideDitch/RoadsideDitch_Bank_02_LOD0`, source `DampEarth`.
+Only its already graded shader material is cloned, replacing albedo at 2 m per
+repeat while retaining snow-ground tint `f1f5f9`, response and world projection.
+Other banks, shared caches, geometry, grounded contacts and separate sedge remain
+unchanged. Existing snow-grass assignments on upright plants are not evidence
+of this ground-snow brief. Root viewed the source map; affected build passed0/0,
+`evidence/ACT1-TEXTURE.02/s09-bank-20261016/game-build.log`.
+The first exact native `s09_ditch_snow_bank` view is still not_run; source and
+compile do not establish game, movement or art readiness. E07 owns that remainder.
