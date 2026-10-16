@@ -1071,3 +1071,16 @@ mesh or source-image change was needed. High was requested and initially applied
 but the actual frame used Low/performance-rescue at 0.7 scale (`graphicsComparable=false`).
 Finite named static hookup accepted; High/art/movement and home/bath/mosque towel
 coverage are not claimed, and performance rescue must remain intact.
+
+M13 archive-table consumer (15.10.2026): the existing original
+`realism_20260929/school_laminate_beige_source_v1_basecolor.png` is bound to the
+live club foyer `HouseOfCulture/ArchivePhotoTable/LaminatedTop`. A per-instance
+material clone sets its metric repeat to 0.75 m per M13; the generic rural 1 m
+material/cache and other desks remain unchanged. Map, color, .40/.30/0 response,
+table geometry, edge band, scanner/envelope and contacts are retained.
+Root accepted the actual High view in
+`evidence/ACT1-TEXTURE.03/club-m13-20261015/native_b3361c/frames/m13_archive_photo_table.png`:
+beige laminate, separate edge/metal frame and supports are visible, no obvious
+stretch/seam. High/comparable=true/scale1, verified/restored source snapshot.
+Finite named static consumer only; no ordinary entry route/movement/full art or
+all-desk 0.75 m claim.
