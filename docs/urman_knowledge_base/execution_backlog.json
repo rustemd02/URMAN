@@ -102219,6 +102219,11 @@
               "verification": "ContentCli compile (детерминированная сборка подтверждена до правки), статические проверки producer/registration/stale-name, protected headless semantic smoke exit=0 на macOS (pinned Godot .NET 4.7.1), guard восстановил userdata.",
               "evidence": "evidence/PW-003/graph-reconciliation-20261016/receipt.json",
               "not_run": "Станционный native receipt и реальный кадр исправленного контракта (автор деприоритизировал прогоны); физическая достижимость миров — PW-045–PW-069, обычный маршрут — PW-094."
+            },
+            "integration_review_2026_10_16": {
+              "reviewer": "Кодекс Кадыра / root",
+              "accepted_scope": "Existing finite semantic graph reconciliation receipt accepted: four receipt input hashes exactly match current definitions/campaign/smoke/compiled pack; root read existing SEMANTIC PASS covering both first-world orders, finale/revisit and optional W05 plus original-files/permissions restored-and-verified guard line. No rerun.",
+              "limits": "Existing green log retains exit resource/RID/ObjectDB leak errors/warnings; not a clean-engine/native/physical-world/art or campaign delivery claim. W02–W05 physical reachability and ordinary route remain with successor cards/owners."
             }
           }
         ]
