@@ -23,7 +23,10 @@ if grep -q '^ERROR:' "$IMPORT_LOG"; then
   exit 1
 fi
 
-if ! "$GODOT" --log-file "$CAPTURE_LOG.godot" --path game res://tests/full_game_dressing_capture.tscn >"$CAPTURE_LOG" 2>&1; then
+# The home frames walk the authored route in a real runtime session, so the
+# capture render runs under the same userdata guard as the smokes.
+if ! python3 "$URMAN_ROOT/eng/protected_run.py" --clean --timeout 1200 \
+    "$GODOT" --log-file "$CAPTURE_LOG.godot" --path game res://tests/full_game_dressing_capture.tscn >"$CAPTURE_LOG" 2>&1; then
   cat "$CAPTURE_LOG"
   exit 1
 fi

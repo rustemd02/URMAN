@@ -189,6 +189,158 @@ internal partial class ArrivalPersonalProps : Node3D
         house.MakeInteractionBox("PhotoWorldForestEntryTarget", new(.30f, .08f, .24f),
             book.Position, "4f5148",
             "urman.fullgame:interaction/pw-enter-forest", "Вернуться к лесному снимку", rayOnly: true);
+
+        BuildWaterChain(house, things, paper);
+    }
+
+    // The family envelope with the second print of the old footbridges lies one
+    // spot behind the book patch: the grandmother names the place, the player
+    // finds the print, she allows the copy, the page is mounted and the open
+    // print leads into W02. Windows between those affordances are presentation
+    // only; the compiled reactions stay owned by content.
+    private static void BuildWaterChain(StyleBenchmarkZone house, ArrivalPersonalProps things,
+        Material paper)
+    {
+        const float envelopeWidth = .165f;
+        const float envelopeDepth = .115f;
+        // The raised table tier carries the kettle and the bowl on its east
+        // stretch; its west stretch is open, so the envelope lies there turned
+        // just behind the book patch, clear of every cloth prop and in view.
+        const float envelopeYawDegrees = FamilyBookPlacementYawDegrees + 104f;
+        var tray = house.GetNode<Node3D>("GeneratedHouseInteriorAct1")
+            .FindChildren("*", nameof(MeshInstance3D), true, false)
+            .OfType<MeshInstance3D>().Single(mesh => mesh.Name == "HouseInterior_TableTray_LOD0");
+        var trayTop = PublicBuildingShell.Bounds(house, tray).End.Y;
+        var envelopePosition = new Vector3(.740f, trayTop + .0035f, -2.620f);
+
+        var yaw = Mathf.DegToRad(envelopeYawDegrees);
+        var right = new Vector2(Mathf.Cos(yaw), -Mathf.Sin(yaw));
+        var forward = new Vector2(Mathf.Sin(yaw), Mathf.Cos(yaw));
+        var halfWidth = envelopeWidth * .5f + .006f;
+        var halfDepth = envelopeDepth * .5f + .006f;
+        var footprint = new List<Vector2> { new(envelopePosition.X, envelopePosition.Z) };
+        foreach (var signX in new[] { -1f, 1f })
+        foreach (var signZ in new[] { -1f, 1f })
+            footprint.Add(new Vector2(envelopePosition.X, envelopePosition.Z)
+                + right * (signX * halfWidth) + forward * (signZ * halfDepth));
+
+        var trayFaceTransform = house.GlobalTransform.AffineInverse() * tray.GlobalTransform;
+        var trayFaces = tray.Mesh!.GetFaces().Select(face => trayFaceTransform * face).ToArray();
+        var heights = footprint.Select(point => TableTopHeightAt(
+            point, trayFaces, trayTop - .01f, trayTop + .01f)).ToArray();
+        if (heights.Any(float.IsNaN) || heights.Max() - heights.Min() > .002f)
+            throw new InvalidOperationException("The family envelope footprint is not fully supported by the measured tray surface.");
+
+        var envelopeBounds = new Aabb(
+            new(footprint.Min(point => point.X), envelopePosition.Y - .004f, footprint.Min(point => point.Y)),
+            new(footprint.Max(point => point.X) - footprint.Min(point => point.X), .012f,
+                footprint.Max(point => point.Y) - footprint.Min(point => point.Y)));
+        foreach (var mesh in house.FindChildren("*", nameof(MeshInstance3D), true, false)
+                     .OfType<MeshInstance3D>()
+                     .Where(mesh => mesh.Mesh is not null && mesh.IsVisibleInTree()
+                         && mesh.Name != "HouseInterior_TableTop_LOD0" && mesh.Name != "TeaTablecloth"
+                         && mesh.Name != "HouseInterior_TableTray_LOD0"
+                         && mesh.Name != "HouseInterior_TableTray_LOD1"))
+        {
+            var occupied = PublicBuildingShell.Bounds(house, mesh);
+            if (Overlaps(envelopeBounds, occupied))
+                throw new InvalidOperationException($"The family envelope footprint overlaps existing home prop {mesh.GetPath()}.");
+        }
+
+        var envelope = new Node3D
+        {
+            Name = "FamilyWaterEnvelope",
+            Position = envelopePosition,
+            RotationDegrees = new(0f, envelopeYawDegrees, 0f)
+        };
+        envelope.SetMeta("geometryOwner", nameof(ArrivalPersonalProps));
+        envelope.SetMeta("presentationRole", "family envelope holding the second print of the old footbridges");
+        envelope.SetMeta("assetStatus", "envelope and print are project-original; the W02 front art remains specified, not produced");
+        things.AddChild(envelope);
+        // The washed cloth is near-white, so plain cream stock loses the
+        // envelope completely; kraft keeps it and the print caption legible.
+        var envelopePaper = paper.Duplicate() as ShaderMaterial;
+        envelopePaper?.SetShaderParameter("base_color", Color.FromHtml("c8b184"));
+        var body = new MeshInstance3D
+        {
+            Name = "EnvelopeBody",
+            Mesh = RuralPropGeometry.BevelBox(new(envelopeWidth, .006f, envelopeDepth), .001f),
+            MaterialOverride = envelopePaper ?? paper
+        };
+        body.SetMeta("visualOnly", true);
+        envelope.AddChild(body);
+        var flap = new MeshInstance3D
+        {
+            Name = "EnvelopeFlap",
+            Position = new(0f, .0043f, -.034f),
+            RotationDegrees = new(9f, 0f, 0f),
+            Mesh = RuralPropGeometry.BevelBox(new(envelopeWidth, .0028f, .058f), .0008f),
+            MaterialOverride = envelopePaper ?? paper
+        };
+        flap.SetMeta("visualOnly", true);
+        envelope.AddChild(flap);
+
+        var print = new Node3D { Name = "FamilyWaterPrint", Position = new(0f, .0046f, .024f) };
+        print.SetMeta("visualOnly", true);
+        envelope.AddChild(print);
+        var printPaper = new MeshInstance3D
+        {
+            Name = "PrintPaper",
+            Mesh = RuralPropGeometry.BevelBox(new(.126f, .0014f, .090f), .0004f),
+            MaterialOverride = paper
+        };
+        printPaper.SetMeta("visualOnly", true);
+        print.AddChild(printPaper);
+        const string printBackPath = "res://assets/textures/photobook/backs-v1/p-water-back.svg";
+        if (ResourceLoader.Exists(printBackPath)
+            && ResourceLoader.Load<Texture2D>(printBackPath) is { } backTexture)
+        {
+            var backMaterial = new StandardMaterial3D
+            {
+                AlbedoTexture = backTexture,
+                Roughness = 1f,
+                TextureFilter = BaseMaterial3D.TextureFilterEnum.LinearWithMipmaps
+            };
+            var back = new MeshInstance3D
+            {
+                Name = "PrintBack",
+                Position = new(0f, .0012f, 0f),
+                // The authored back text reads from the room side of the table.
+                RotationDegrees = new(-90f, 0f, 180f),
+                Mesh = new QuadMesh { Size = new(.116f, .080f) },
+                MaterialOverride = backMaterial
+            };
+            back.SetMeta("visualOnly", true);
+            back.SetMeta("assetSource", printBackPath);
+            back.SetMeta("assetStatus", "authored back face; the W02 front art remains specified, not produced");
+            print.AddChild(back);
+        }
+
+        var envelopeCenter = envelopePosition + Vector3.Up * .06f;
+        var source = house.MakeInteractionBox("WaterPhotoSourceTarget", new(.26f, .14f, .24f),
+            envelopeCenter, "cfc4a8", "urman.fullgame:interaction/pw-water-photo-source",
+            "Найти в конверте снимок у мостков", rayOnly: true);
+        var entry = house.MakeInteractionBox("WaterRiverEntryTarget", new(.30f, .16f, .26f),
+            envelopeCenter, "8fa694", "urman.fullgame:interaction/pw-enter-river",
+            "Открыть снимок у мостков", rayOnly: true);
+        var npcAnchor = StyleBenchmarkInteriorFactory.GulsinaAnchor + Vector3.Up * .84f;
+        var talk = house.MakeInteractionBox("WaterPlaceTalkTarget", new(.62f, 1.68f, .46f),
+            npcAnchor, "6f6257", "urman.fullgame:interaction/pw-water-place-talk",
+            "Спросить әби, как она называет старые мостки", rayOnly: true);
+        var permission = house.MakeInteractionBox("WaterPhotoPermissionTarget", new(.62f, 1.68f, .46f),
+            npcAnchor, "6f6257", "urman.fullgame:interaction/pw-water-photo-permission",
+            "Получить разрешение на копию снимка", rayOnly: true);
+
+        things.AddChild(new WaterChainHomePresence
+        {
+            Name = "PhotoWorldWaterChainPresence",
+            SourceTarget = source,
+            RiverEntryTarget = entry,
+            TalkTarget = talk,
+            PermissionTarget = permission,
+            TeaTarget = house.GetNodeOrNull<InteractionTarget>("GulsinaNpc"),
+            Print = print
+        });
     }
 
     private static void ReplaceWithAuthoredFamilyBook(Node3D book, Material cloth, Material paper)

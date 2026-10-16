@@ -18,7 +18,8 @@ public partial class RuntimeBridge
         && _content is { HasPhotoWorlds: true }
         && ActiveSceneId is (
             "urman.fullgame:scene/pw-prologue"
-            or "urman.fullgame:scene/pw-forest");
+            or "urman.fullgame:scene/pw-forest"
+            or "urman.fullgame:scene/pw-river");
 
     internal sealed record W01BranchProjection(object SessionIdentity, string ActiveSceneId, bool Moved);
 
@@ -40,7 +41,8 @@ public partial class RuntimeBridge
                 "urman.fullgame:scene/pw-prologue"
                 or "urman.fullgame:scene/pw-niva-arrival"
                 or "urman.fullgame:scene/pw-home"
-                or "urman.fullgame:scene/pw-forest"))
+                or "urman.fullgame:scene/pw-forest"
+                or "urman.fullgame:scene/pw-river"))
             return null;
 
         return new FullGamePhotoWorldRouteProjection(session, sceneId);
@@ -69,5 +71,62 @@ public partial class RuntimeBridge
             && branch.TryGetProperty("sources", out var sources)
             && sources.ValueKind == JsonValueKind.Array && sources.GetArrayLength() > 0;
         return new W01BranchProjection(session, sceneId, moved);
+    }
+
+    /// <summary>
+    /// Presentation reads one committed fact anywhere the home chain is staged.
+    /// The fact itself stays owned by the runtime kernel; this only projects it.
+    /// </summary>
+    internal bool PhotoWorldFactObserved(string factId)
+    {
+        if (_loadingSlot || _loadPreparing || SessionIdentity is not { } session
+            || _content is not { HasPhotoWorlds: true })
+            return false;
+
+        var state = session.SelectState();
+        return state.TryGetProperty("photoworlds", out var world)
+            && world.ValueKind == JsonValueKind.Object
+            && world.TryGetProperty("facts", out var facts)
+            && facts.ValueKind == JsonValueKind.Object
+            && facts.TryGetProperty(factId, out var fact)
+            && fact.ValueKind == JsonValueKind.Object
+            && fact.TryGetProperty("sources", out var sources)
+            && sources.ValueKind == JsonValueKind.Array && sources.GetArrayLength() > 0;
+    }
+
+    internal sealed record W02WaterProjection(
+        object SessionIdentity, string ActiveSceneId, bool ReedOpened, bool EncounterResolved);
+
+    /// <summary>
+    /// The summer bank reads only committed W02 facts: the reed curtain that
+    /// opened and the answer that arrived. Both are presentation, never state.
+    /// </summary>
+    internal W02WaterProjection? CurrentW02WaterProjection()
+    {
+        if (_loadingSlot || _loadPreparing || SessionIdentity is not { } session
+            || _content is not { HasPhotoWorlds: true })
+            return null;
+
+        var state = session.SelectState();
+        if (!state.TryGetProperty("activeScene", out var scene)
+            || scene.ValueKind != JsonValueKind.String
+            || scene.GetString() is not { } sceneId
+            || sceneId != "urman.fullgame:scene/pw-river"
+            || !state.TryGetProperty("photoworlds", out var world)
+            || world.ValueKind != JsonValueKind.Object
+            || !world.TryGetProperty("facts", out var facts)
+            || facts.ValueKind != JsonValueKind.Object)
+            return null;
+
+        static bool Observed(JsonElement facts, string factId) =>
+            facts.TryGetProperty(factId, out var fact)
+            && fact.ValueKind == JsonValueKind.Object
+            && fact.TryGetProperty("sources", out var sources)
+            && sources.ValueKind == JsonValueKind.Array && sources.GetArrayLength() > 0;
+
+        return new W02WaterProjection(
+            session, sceneId,
+            Observed(facts, "water_reed_opened"),
+            Observed(facts, "water_encounter_resolved"));
     }
 }

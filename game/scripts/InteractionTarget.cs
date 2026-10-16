@@ -67,6 +67,11 @@ public partial class InteractionTarget : StaticBody3D
     internal Func<bool>? PresentationGate { get; set; }
     internal string PresentationGateHint { get; set; } = string.Empty;
 
+    // A local presentation step owned by a photo world and run before the
+    // authored dispatch: returning false consumes the press as a local-only
+    // action (no commit), so a two-step physical micro-sequence stays honest.
+    internal Func<bool>? PresentationBeforeDispatch { get; set; }
+
     // Runs after the authored interaction committed and before a dialogue or
     // document opens. An owner can commit its own transaction (for example a
     // hand-over whose count only the runtime knows) so the opened content reads
@@ -95,6 +100,7 @@ public partial class InteractionTarget : StaticBody3D
         PresentationRepeat = null;
         PresentationGate = null;
         PresentationGateHint = string.Empty;
+        PresentationBeforeDispatch = null;
     }
 
     internal bool IsSemanticallyAvailable() => _presentationEnabled
@@ -130,6 +136,11 @@ public partial class InteractionTarget : StaticBody3D
             }
 
             PresentationRepeat();
+            return;
+        }
+
+        if (PresentationBeforeDispatch is { } beforeDispatch && !beforeDispatch())
+        {
             return;
         }
 

@@ -1,0 +1,89 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource path="res://scripts/photoworlds/W02Controller.cs" type="Script" id="1_w02"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_W02Summer"]
+sky_top_color = Color(0.3, 0.52, 0.74, 1)
+sky_horizon_color = Color(0.82, 0.84, 0.72, 1)
+ground_bottom_color = Color(0.22, 0.3, 0.2, 1)
+ground_horizon_color = Color(0.54, 0.6, 0.45, 1)
+
+[sub_resource type="Sky" id="Sky_W02Summer"]
+sky_material = SubResource("ProceduralSkyMaterial_W02Summer")
+
+[sub_resource type="Environment" id="Environment_W02Summer"]
+background_mode = 2
+sky = SubResource("Sky_W02Summer")
+ambient_light_source = 3
+ambient_light_color = Color(0.74, 0.76, 0.68, 1)
+ambient_light_energy = 0.8
+tonemap_mode = 3
+tonemap_exposure = 1.0
+fog_enabled = true
+fog_light_color = Color(0.76, 0.8, 0.72, 1)
+fog_density = 0.0022
+fog_height = 1.5
+fog_height_density = 0.02
+fog_aerial_perspective = 0.5
+fog_sky_affect = 0.25
+fog_sun_scatter = 0.18
+
+[node name="W02" type="Node3D"]
+script = ExtResource("1_w02")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_W02Summer")
+
+[node name="Daylight" type="DirectionalLight3D" parent="."]
+rotation_degrees = Vector3(-38, -50, 0)
+light_color = Color(1, 0.94, 0.82, 1)
+light_energy = 1.08
+shadow_enabled = true
+shadow_opacity = 0.32
+
+[node name="Anchors" type="Node3D" parent="."]
+
+; R00 photo place / entry: the photographer's stand at the start of the dry piers.
+[node name="R00" type="Marker3D" parent="Anchors"]
+position = Vector3(0, 1.32, 0)
+rotation_degrees = Vector3(0, 180, 0)
+
+; R01 dry piers: the vista over the river before the bay turns away.
+[node name="R01" type="Marker3D" parent="Anchors"]
+position = Vector3(0, 1.32, 14)
+rotation_degrees = Vector3(0, -148, 0)
+
+; R02 quiet bay: the ledge platform over calm water on the descending spur.
+[node name="R02" type="Marker3D" parent="Anchors"]
+position = Vector3(-16, 0.62, 25)
+rotation_degrees = Vector3(0, -55.5, 0)
+
+; R03 reflection window: the outcrop where the finished print looked down.
+[node name="R03" type="Marker3D" parent="Anchors"]
+position = Vector3(10, 1.26, 30)
+rotation_degrees = Vector3(0, -128.6, 0)
+
+; R04 reed turn: the curtain the path bent around.
+[node name="R04" type="Marker3D" parent="Anchors"]
+position = Vector3(25, 1.08, 42)
+rotation_degrees = Vector3(0, -144.5, 0)
+
+; R05 old approach: the ruined piles entering the water.
+[node name="R05" type="Marker3D" parent="Anchors"]
+position = Vector3(40, 1.38, 63)
+rotation_degrees = Vector3(0, -158.2, 0)
+
+; R06 far piers: the pier where the loose board waited and the water answered.
+[node name="R06" type="Marker3D" parent="Anchors"]
+position = Vector3(48, 1.38, 83)
+rotation_degrees = Vector3(0, -138, 0)
+
+; R07 summer bank: the meadow bench looking back at the piers.
+[node name="R07" type="Marker3D" parent="Anchors"]
+position = Vector3(66, 2.08, 103)
+rotation_degrees = Vector3(0, -139.4, 0)
+
+; R08 opening: the summer exit where the bank lets the place go.
+[node name="R08" type="Marker3D" parent="Anchors"]
+position = Vector3(78, 2.08, 117)
+rotation_degrees = Vector3(0, 180, 0)
