@@ -18,7 +18,31 @@ public partial class Act1ConnectedWorld
         stop.SetMeta("sourceKey", "act1/arrival/bus-stop");
         stop.SetMeta("presentationRole", "ordinary rural stop beside the existing arrival bench");
         stop.SetMeta("documentId", ArrivalTimetableDocument);
-        FacilitySolid(stop, "GalvanizedPost", new(.085f, 2.76f, .085f), new(0, 1.38f, -.055f), "79837f", "metal");
+        var galvanizedPost = FacilitySolid(stop, "GalvanizedPost", new(.085f, 2.76f, .085f),
+            new(0, 1.38f, -.055f), "79837f", "metal");
+        const string galvanizedBaseColorPath =
+            "res://assets/textures/realism_20260929/galvanized_zinc_source_v1_basecolor.png";
+        if (!PainterlyMaterialLibrary.SuppressTextureLoadsForHeadlessTests
+            && ResourceLoader.Exists(galvanizedBaseColorPath)
+            && ResourceLoader.Load<Texture2D>(galvanizedBaseColorPath) is { } galvanizedBaseColor
+            && PainterlyMaterialLibrary.ForColor("79837f", "zinc_sheet") is ShaderMaterial zincSource)
+        {
+            // This named post is authored as galvanized; keep its finish scoped to
+            // this instance, and project the existing half-metre zinc tile in mesh
+            // space so the low exposed section reads as one physical sheet finish.
+            var zincMaterial = (ShaderMaterial)zincSource.Duplicate();
+            zincMaterial.ResourceName = "ArrivalStop_GalvanizedPost_M01";
+            zincMaterial.SetShaderParameter("albedo_texture", galvanizedBaseColor);
+            zincMaterial.SetShaderParameter("has_albedo_texture", true);
+            zincMaterial.SetShaderParameter("texture_scale", new Vector2(2f, 2f));
+            zincMaterial.SetShaderParameter("local_floor_texture", true);
+            zincMaterial.SetShaderParameter("authored_uv_texture", false);
+            // The quiet source tile carries only faint dull oxidation; do not add
+            // the generic zinc-sheet wear mask or its bottom-wear gradient here.
+            zincMaterial.SetShaderParameter("has_wear_mask", false);
+            zincMaterial.SetShaderParameter("wear_bottom_gain", 0f);
+            galvanizedPost.MaterialOverride = zincMaterial;
+        }
         AddVisualBox(stop, "PostCap", new(.10f, .025f, .10f), new(0, 2.775f, -.055f), "b0b5ae", "metal");
         FacilitySolid(stop, "BusSign", new(.56f, .68f, .035f), new(0, 2.42f, .012f), "294d72", "metal");
         AddVisualBox(stop, "WhiteSignField", new(.44f, .53f, .009f), new(0, 2.43f, .035f), "e1e0cb", "metal");

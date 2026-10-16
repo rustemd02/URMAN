@@ -1152,3 +1152,23 @@ isolated from broad surrounding snow; its inclusions/contacts remain unaccepted.
 The previous `7dad74` raw FAIL correctly refused a duplicate bare mesh owner.
 Both raw receipts are retained. No third guessed angle or general snow/material
 rewrite follows; exact visible-surface input is recorded only in E07.
+
+
+M01 arrival-post source (16.10.2026): the existing original
+`realism_20260929/galvanized_zinc_source_v1_basecolor.png` is bound only to
+`ArrivalBusStop/GalvanizedPost`. The explicit galvanized role is authored in
+`Act1ConnectedWorld.ArrivalStop.cs`; its former generic `metal` finish had no
+albedo and retained the ambiguous painted-metal default. A per-instance
+`zinc_sheet` clone uses 0.5 m local triplanar mapping, original tint `79837f`,
+and the library's `.52/.34/.90` roughness/specular/metallic response. Generic
+wear masks and bottom rust are disabled; the original map already supplies
+faint oxidation. No change to signs, paper, cap, shared cache, geometry,
+contact or state. Headless/missing-map paths retain the former finish.
+Source/runtime are byte-identical, SHA
+`899c9a9a2384ae43c70b5640e2d381712ea0e1af2210ce405f3b347d265546d7`;
+existing ImageGen provenance is in `texture.rural.realism.metal.20260930`.
+Root viewed the map and reviewed the source; affected build passed0/0,
+`evidence/ACT1-TEXTURE.03/arrival-m01-20261016/game-build.log`.
+First exact native `m01_arrival_post` is not_run while the station's peer run
+is active. Source and compile do not establish visual/movement/art acceptance;
+the task owns that remainder and the station release condition.

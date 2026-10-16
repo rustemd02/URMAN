@@ -8483,22 +8483,31 @@
             "title": "Подключить M01 — Сдержанно окисленный оцинкованный металл",
             "result": "Подключить M01 — Сдержанно окисленный оцинкованный металл",
             "owner": "art/materials/qa",
-            "evidence": [],
+            "evidence": [
+              "Existing original galvanized_zinc_v1_basecolor.png -> runtime galvanized_zinc_source_v1_basecolor.png, both SHA899c9a9a2384ae43c70b5640e2d381712ea0e1af2210ce405f3b347d265546d7,1024²RGB/.5m, registry texture.rural.realism.metal.20260930. Root viewed original/runtime map; project-generated ImageGen TX29 provenance retained, no new image or pixel edit. M01 promptbook requires quiet cool silver-grey zinc with faint oxidation, finish controlled in shader; no painted parts automatically metallic.",
+              "Live Build(core)->BuildArrivalBusStop->Arrival/ArrivalBusStop/GalvanizedPost explicitly galvanized. Former FacilitySolid metal -> PML generic mapless metallic0. New named returned mesh only receives duplicate zinc_sheet(.52rough/.34spec/.90metallic) + original .5m local triplanar; authored79837f tint/BoxMesh/collider retained. Generic wear mask/bottom gradient disabled to avoid invented strong rust; other stop parts/shared caches unchanged. Missing-map/headless retain original finish.",
+              "Post in stop-local: center(0,1.38,-.055),size(.085,2.76,.085), lower y0..69cm exposed below timetable. Prepared m01_arrival_post uses existing ArrivalBusStop owner, targets lower y.34/ground mount; no alias/worldfallback. Actual native not yet run.",
+              "evidence/ACT1-TEXTURE.03/arrival-m01-20261016/game-build.log: final affected Game0errors/0warnings29.94s; root+Luna source review, no new tests/probes/generation. Current station remains busycb9e608d97f64a75b189ab43590c9f29/recoverypending; no native M01 job submitted and no peer process/input interrupted. Source/compile do not prove visible galvanized finish."
+            ],
             "assigned_owner": "art/materials/qa",
             "active_owner": null,
             "activity": {
-              "state": "not_active",
-              "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+              "state": "released",
+              "reason": "Root+Luna source review and final affected compile accepted. Exact M01 checkpoint ready; first native not_run while peer cb9e still busy/recovery pending. No extra polling/submission."
             },
             "task_type": "engineering",
-            "status": "todo",
-            "implementation_state": "not_started",
+            "status": "in_progress",
+            "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
-              "Подключить M01 — Сдержанно окисленный оцинкованный металл; собственного целевого receipt пока нет."
+              "First actual native m01_arrival_post view of lower exposed post and ground mounting; root inspect restrained zinc mottling, no UV collapse/seam/float/chrome trick, preserve signs/paper/contact/state.",
+              "Other M01 zinc fixtures/roofs/buckets and motion/full art are outside this named source stage; generic metal must not be bulk reclassified."
             ],
-            "next_action": "Сопоставить текущий результат: Подключить M01 — Сдержанно окисленный оцинкованный металл. Затем изменить только установленный остаток.",
-            "blocker": null,
+            "next_action": "After currentcb9e owner terminal/restore/release, capture m01_arrival_post once with current source; root inspect actual visible zinc and metadata. Reuse current29.94s affected build, no repeated doctor loop or generic metal rewrite.",
+            "blocker": {
+              "reason": "First exact m01_arrival_post native cannot run while peer cb9e608d97f64a75b189ab43590c9f29 holds station with userdata_recovery_pending=true. Named source/compile/view input are ready.",
+              "release_when": "Current peer owner releases slot after terminal+userdata restore and doctor confirms no busy/recovery/orphan. Then one exact m01_arrival_post capture with current source; do not repeat affected compile or disturb current route."
+            },
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
             "work_contract": {
@@ -8507,7 +8516,9 @@
                 "game/assets/textures/painterly/README.md",
                 "assets/asset_registry.json",
                 "docs/urman_knowledge_base/art/urman_imagegen_texture_prompt_book_2026-09-22.md",
-                "docs/urman_knowledge_base/assets.md"
+                "docs/urman_knowledge_base/assets.md",
+                "game/scripts/Act1ConnectedWorld.ArrivalStop.cs",
+                "game/content/world/visual_checkpoints.v1.json"
               ],
               "required_inputs": [],
               "scope_in": [
@@ -8527,7 +8538,7 @@
               ],
               "verification": {
                 "method": "targeted_runtime_scenario",
-                "question": "Подключить M01 — Сдержанно окисленный оцинкованный металл",
+                "question": "Does the explicit existing GalvanizedPost lower exposed section show restrained zinc mottling at.5m with a dull metallic response, no obvious seam/collapse/floating ground mount, and unchanged stop signs/paper/contact/state? Static named hookup only; no matched before-after or whole M01 acceptance.",
                 "scenario": {
                   "targets": [
                     "game/assets/textures/painterly/README.md",

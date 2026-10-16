@@ -3435,7 +3435,14 @@
       ],
       "consumer": "RuralPropMaterials.Surface(metal); actual metric mesh UV",
       "qa": "source viewed; game receiver review pending, no human acceptance",
-      "sourceSha256": "899c9a9a2384ae43c70b5640e2d381712ea0e1af2210ce405f3b347d265546d7"
+      "sourceSha256": "899c9a9a2384ae43c70b5640e2d381712ea0e1af2210ce405f3b347d265546d7",
+      "additional_receiver_2026_10_16_m01": {
+        "task": "ACT1-TEXTURE.03/E01",
+        "receiver": "Act1CoreWorldGreybox/Arrival/ArrivalBusStop/GalvanizedPost only",
+        "material": "Per-instance PML zinc_sheet clone; original79837f tint, .5m local triplanar original albedo, existing .52rough/.34spec/.90metallic response. Generic wear-mask/bottom-rust disabled. Other stop parts/cache/geometry/collider/state unchanged; missing map/headless keeps former finish.",
+        "qa": "Root viewed original, source review+affected Game0/0 accepted; first exact native not_run while peer cb9e station busy/recovery. Current runtime/art gate remains in ACT1-TEXTURE.03/E01.",
+        "build_evidence": "evidence/ACT1-TEXTURE.03/arrival-m01-20261016/game-build.log"
+      }
     },
     {
       "id": "texture.rural.realism.concrete.20260930",
