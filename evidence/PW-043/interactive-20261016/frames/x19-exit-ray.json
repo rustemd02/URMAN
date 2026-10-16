@@ -1,0 +1,16 @@
+{
+  "label": "x19-exit-ray",
+  "rid": "53d75b5bf35945c8b08b175adff48ed5",
+  "frame": "interactive-53d75b5bf35945c8b08b175adff48ed5",
+  "pos": [
+    -14.3,
+    1.69,
+    -3.84
+  ],
+  "yaw": 178.16,
+  "pitch": -41.92,
+  "interactionId": null,
+  "interactionAvailable": null,
+  "ray": "/root/FullGameMain/ZoneHost/Act1ConnectedWorld/babay-abi-house/Floor",
+  "status": "ok"
+}

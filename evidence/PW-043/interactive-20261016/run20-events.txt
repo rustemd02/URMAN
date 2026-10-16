@@ -1,0 +1,59 @@
+job 247a5aecafd946a4a26f8b5679b81eaa, snapshot 9c834d394ff6c245a971cd10ef69995e57fbef09d14aa9ea46ad887e528b5783
+window 14:18:00 .. 14:38:00 MSK (1200 s cap); driver stopped itself 14:27:13; game died at the cap
+Run 20 was lost at the START: a refused niva spec left the player at the ride start
+(z 35.06 instead of the bridge stand z 14.7) and the driver only found out 50 m north of
+the house. Drive21 fixes the class (see below). This run also leaked the rescue6 bug.
+
+Game-side truth (stdout.log):
+ [8]/[9] photoworlds.prologue.completed via pw-prologue-skip
+ zone-loaded: village_day@arrival 14:19:34
+ checkpoint pw-niva-arrival 14:19:59
+ [21] scene.entered: urman.fullgame:interaction/pw-niva-stop  <- THE PRESENTATION fires it, not our act
+ NO [56] book, no school copy, no forest: the house was never entered.
+
+Driver timeline (run20-driver.log):
+[14:18:06] game window: pid 144144 hwnd 16711948 start 2026-10-16T11:18:00.8743220Z (budget 1178 s)
+[14:18:29] act x20-skip0 => ok first try
+[14:19:34] zone-loaded village_day@arrival fired; [14:19:59] checkpoint fired; arrival settled t0
+[14:19:59] act x20-niva
+[14:20:07]   => ok:false "The owned game window lost for..."  <-- REFUSAL 1, THE FATAL ONE
+[14:20:19] settle pw-niva-stop: count 1, baseline 1, ok:false timeout -> NIVA STOP = True (event from the presentation)
+[14:20:20] probe x20-p0: pos (-7.09, 1.86, 35.06) yaw 163.36  <-- THE RIDE START, not the bridge
+           (drive20 had no pose gate here; drive21 now probes this and retries the spec / walks to the stand)
+[14:20:22] act x20-leg-south => refused (2 s)
+[14:20:23] probe x20-p1: (-7.84, 37.37) yaw 147.36; south z = 37.37 target -2.05 dz = -39.42
+[14:20:23] act x20-south-fix0 -> TIMEOUT 90 s [14:21:53]
+[14:21:54] probe x20-p1b0: (-11.56, 47.66) yaw -133.92  <-- the overshot turn drifted the player NORTH-WEST
+[14:21:54] act x20-south-fix1 => refused; p1b1 (-11.53, 47.62) yaw -117.92
+[14:21:57] act x20-south-fix2 => refused; p1b2 (-11.51, 47.57) yaw -101.92
+[14:22:01] act x20-leg-west -> TIMEOUT 74 s [14:23:15]
+[14:23:16] door check 0 at (-11.6, 47.38): ray = (empty) avail = None  <-- 50 m north of the house
+[14:23:16] door-fix0 -> timeout 90 s [14:24:47]; door1 (-11.63, 47.37)
+[14:24:48] door-fix1 refused; door2 (-11.72, 47.36) yaw 10.88
+[14:24:53] door-fix2 refused; door3 (-11.75, 47.37) yaw 19.68
+[14:24:56] door-fix3 refused; door4 (-11.8, 47.39) yaw 35.68
+[14:25:00] door-fix4 -> timeout 87 s [14:26:27]; door5 (-11.67, 47.36) yaw -5.44
+[14:26:28] door-fix5 refused; door ray hit = False
+[14:26:31] act x20-door-e => ok (but nothing is there); settles: house_old_pc@entry count 0, count 0
+[14:27:10] ENTERED = False; act x20-entry (capture)
+[14:27:13] HOUSE NOT ENTERED; stop          <-- the driver read the state correctly and stopped
+[14:27:14] probe x20-fail: (-11.7, 1.9, 47.36) yaw 2.56
+Frames in evidence: x20-{p0,p1b2,door5,fail}.png (+json for p0/p1b2).
+
+Rescue6 (run20-rescue.log) - the wrong-place takeover:
+The rescue woke when drive20 exited, read the report, found no 'F10 FOREST ENTERED' and no
+'F10 skipped', and went 'proceeding carefully' - then ran its whole F10 tail on the live
+game in the wrong place: probes/fixes/E at (-11.87, 47.55), all door rays None, settles
+count 0, 'F10 ENTERED = False', final captures, 'DONE elapsed = 673' 14:30:55. Harmless
+(the run was already lost; the game sat to the cap) but wrong. rescue7 gates:
+  * 'HOUSE NOT ENTERED' in the report -> exit without acting;
+  * start pose mid-village (15 <= z <= 58) -> exit without acting.
+Frames: x20r-f10-door-e.png, x20r-sdone.png.
+
+Fixes shipped in drive21 (submitted after this run):
+  1. NIVA POSE GATE: after the beat event, probe the pose; if farther than 3 m from
+     (-0.88, 14.7) re-run the spec (x2; a refusal executes no input so a retry from the
+     same pose is safe), then walk_to the stand, verify again.
+  2. window-lost refusals in walk_to 'go' acts and south fix acts: retry once (timeouts
+     are NOT replayed blind - the next probe re-aims).
+  3. south fix loop 3 -> 5 rounds.

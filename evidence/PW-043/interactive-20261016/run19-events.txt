@@ -1,0 +1,50 @@
+job 58121ce7e7eb49d1b4c89f6811717bb4, snapshot 9a9cbbd808977438a8ea9bad7765e5e5c75e73a14f500ecf569186bf342c531b
+window 13:49:29 .. 14:09:13 MSK (1200 s cap); the game died at 14:00:19 with exit 1 (guard killed by a broad taskkill - see the last section)
+The book was taken ([56]); the run was lost at the house exit (a frozen spec replay + a stale fallback).
+
+Game stdout (run19-game.log), verified lines:
+ 54:[8]  photoworlds.prologue.completed: urman.fullgame:interaction/pw-prologue-skip
+ 55:[9]  scene.entered: urman.fullgame:interaction/pw-prologue-skip
+ 374:zone-loaded: village_day@arrival connected-world=408978197865
+ 393:SaveGameV3 written ... checkpoint.savegame-v3.json
+ 395:[21] scene.entered: urman.fullgame:interaction/pw-niva-stop
+ 453:zone-loaded: house_old_pc@entry connected-world=408978197865
+ 454:[56] photoworlds.book.received: urman.fullgame:interaction/pw-book-handoff   <- the book is back on the wedge-fix line (runs 16/17 also had it; run 18 lost it to the wedge)
+NO zone-loaded house_old_pc@from_house, NO [95], NO pw-forest: the exit never happened.
+engine-errors.log is empty; the PainterlyMaterialLibrary "no declared mode" warnings are the usual benign noise.
+
+Driver report (run19-driver.log) gates:
+[13:49:35] game window: pid 122208 hwnd 170721560 start 2026-10-16T10:49:29.8266110Z (budget 1178 s)
+[13:49:57] act x19-skip0 => ok:true first try
+[13:51:02] zone-loaded village_day@arrival fired; [13:51:27] checkpoint pw-niva-arrival; arrival settled t0
+[13:51:47] NIVA STOP = True; bridge probe at (-0.88,14.7)
+[13:52:26] door check 1 ray = pw-home-enter-house avail=True at (-6.9,-2.40) yaw 94.24; [13:52:29] door-e ok
+[13:52:41] ENTERED = True (zone-loaded house_old_pc@entry); zero timeouts through the house (wedge fix works)
+[13:52:44] inside probe (-11.1,-1.88) yaw 90; [13:52:52] tea ray pw-arrival-tea-talk avail at (-12.68,-2.69) yaw 69.2
+[13:53:16] book0 probe ray pw-book-handoff avail=True at (-14.39,-5.37) yaw 90.0 pitch -41.92
+[13:53:20] book-e ok; [13:53:32] BOOK = True
+[13:53:35] act x19-exit1 (spec ee90feaf, journal close + recorded walk)
+[13:54:45] => "actor result timeout"  <-- THE EXIT FROZE MID-WALK
+[13:54:48] exit-ray probe: pos (-14.3, 1.69, -3.84) yaw 178.16 pitch -41.92, ray .../babay-abi-house/Floor, no interaction
+[13:54:51] act x19-exit-e => ok:false "The owned game window lost foreground focus." (no image)  <-- REFUSAL 1
+[13:55:03] settle zone-loaded village_day@from_house count 0 -> exit miss
+[13:55:03] act x19-exit-esc ok 13:55:08 (foreground back)
+[13:55:10] exit2 probe (-14.52, -7.22) yaw -0.08 (the frozen actor's late inputs had drifted the player south-west)
+[13:55:20] act x19-exit-fix ok (walked to the STALE target -12.50,-3.25 yaw 268 - the old lesson, wrong stand)
+[13:55:24] act x19-exit-e2 ok; settle again count 0
+[13:55:36] OUTSIDE = False  <-- run already lost: everything after this is inside the house
+[13:55:39] outside capture; town0 probe (-12.45, -6.56) yaw -92.08 - still inside
+Then the outside route ran blind inside the walls: gate legs to (-9.92,-5.17), street stalled+jiggles, car-e to dist 21.55:
+[13:56:51] car-e-go1 => window lost 2; [13:56:54] car-e-jig2 => window lost 3; [13:56:54] car-e-go2 -> timeout [13:58:05]
+[13:58:07] car-pass-go0 -> timeout [13:59:25]; p1 (-12.23,-0.88) yaw -170 (crossed the room); [13:59:29] car-pass-go1 => window lost 4
+[13:59:29] car-pass-jig2 started - the last log line; the driver was killed at ~14:00:2x while chasing this corpse.
+Frames in evidence: x19-{skip0,book-e,exit-ray,exit-e.result,exit-e2,exit-esc.result,outside,town0}.
+
+The last section (why the game died early):
+- 14:00:1x: I ran a broad "taskkill /IM python.exe /F" to stop the driver and the rescue.
+- The protected_run guard is also a python process (pid 136344). It died too; its kill-on-close Windows job handle terminated the game at 14:00:19 (exit code 1), 9 min before the cap.
+- The guard therefore never ran its restore block: the userdata marker stayed set (backup .URMAN-protected-yd5q3z7q, existed=false) and the worker refused new jobs.
+- Recovery by hand (recover19.py, mirroring the guard): no game process, the game copy moved to <backup>/test-userdata, no original to restore (existed=false), backup directory removed, lock metadata truncated. Worker ready again; run 20 submitted.
+- LESSON: stop the driver by PID only. Never kill python.exe broadly on the station.
+
+Fixes shipped in drive20 (run 20 in flight): exit spec = first shot only; probe-driven fallback to the two proven stands (-11.02,-2.12 yaw -90, run 17; -11.73,-1.54 yaw -80, run 18); E retries alternate spec/plain-E; hard ABORT if the door never opens (no more blind outside legs from inside the house).

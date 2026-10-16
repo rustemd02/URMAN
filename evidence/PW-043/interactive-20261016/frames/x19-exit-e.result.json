@@ -1,0 +1,17 @@
+{
+  "ok": false,
+  "pid": 122208,
+  "hwnd": 170721560,
+  "title": "URMAN (DEBUG)",
+  "className": "Engine",
+  "rect": {
+    "left": -8,
+    "top": -31,
+    "width": 1936,
+    "height": 1100
+  },
+  "image": null,
+  "closeRequested": false,
+  "processExited": false,
+  "error": "The owned game window lost foreground focus."
+}
