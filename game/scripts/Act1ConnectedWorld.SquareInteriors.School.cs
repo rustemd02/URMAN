@@ -124,8 +124,8 @@ public partial class Act1ConnectedWorld
         SShelf(school, body, "StaffBooks", new(-9.45f, 0, -1.3f), 90, 2.2f, 2.0f);
         for (var i = 0; i < 3; i++)
         {
-            SBox(school, null, "GeraniumPot" + i, new(.16f, .16f, .16f), new(-9.1f + i * .0f, 1.2f, -3.1f + i * .55f), Mat("a2573d", "stone"), shadow: false);
-            school.AddChild(new MeshInstance3D { Name = "Geranium" + i, Mesh = new SphereMesh { Radius = .17f, Height = .3f }, Position = new(-9.1f, 1.42f, -3.1f + i * .55f), MaterialOverride = Mat("3f6a3a", "foliage") });
+            SBox(school, null, "GeraniumPot" + i, new(.16f, .16f, .16f), new(-9.1f + i * .0f, .082f, -3.1f + i * .55f), Mat("a2573d", "stone"), shadow: false);
+            school.AddChild(new MeshInstance3D { Name = "Geranium" + i, Mesh = new SphereMesh { Radius = .17f, Height = .3f }, Position = new(-9.1f, .302f, -3.1f + i * .55f), MaterialOverride = Mat("3f6a3a", "foliage") });
         }
         SPicture(school, "StaffNotice", new(-6.30f, 1.7f, -2.4f), -90, new(.7f, .35f), null, "d9d0b8", null);
 

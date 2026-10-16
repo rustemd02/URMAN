@@ -59444,7 +59444,7 @@
       },
       "title": "Рабочие комнаты школы/ДК, достаточные проходы и достоверные предметы",
       "milestone": "M5",
-      "status": "todo",
+      "status": "in_progress",
       "complexity": "medium",
       "active_owner": null,
       "owner": "finished-act1",
@@ -59469,7 +59469,9 @@
           "kind": "code+capture+walk-probe",
           "result": "29.09: для новой школы и ДК на площади сделаны просторные помещения (коридор 2,2 м, классы 7,6×8 м, зал 10,4 м, проходы ≥1 м); существующие тесные school/council у прежних владельцев не переносились."
         },
-        "docs/production/act1_depth_family_2026-10-04.md"
+        "docs/production/act1_depth_family_2026-10-04.md",
+        "evidence/PW-043/interactive-20261016/frames/x16-src1.png: personally reviewed before, unsupported school geranium pot.",
+        "game/scripts/Act1ConnectedWorld.SquareInteriors.School.cs: exact three GeraniumPot/Geranium pairs grounded by two Y-only edits; affected compile evidence/ACT1-DEPTH.5/geranium-contact-20261016/game-build.log 0errors/0warnings30.24s; native visible contact NOT_RUN."
       ],
       "mvp_priority": 22,
       "mvp_packet": "LEGACY-COMPAT",
@@ -59562,8 +59564,8 @@
       },
       "assigned_owner": "finished-act1",
       "activity": {
-        "state": "not_active",
-        "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+        "state": "released",
+        "reason": "Bounded confirmed floating-plant source fix and affected compile delivered. Native contact acceptance remains open and handed to next already-needed school route; no station taken."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -59571,7 +59573,7 @@
       "remaining": [
         "Можно войти, повернуться, найти сюжетное место и вернуться; комнаты не выглядят шкафами. Два учреждения не приняты по одному интерьеру."
       ],
-      "next_action": "Рабочие комнаты школы/ДК, достаточные проходы и достоверные предметы.",
+      "next_action": "Accept changed School.cs geranium floor-contact frame on next already-needed school pass; no unchanged compile/replay. Whole school/DK/movement/art DoD stays open.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -59579,12 +59581,14 @@
       "work_contract": {
         "result": "Рабочие комнаты школы/ДК, достаточные проходы и достоверные предметы.",
         "targets": [
-          "game/scripts/Act1ConnectedWorld.InteriorPresentation.cs"
+          "game/scripts/Act1ConnectedWorld.InteriorPresentation.cs",
+          "game/scripts/Act1ConnectedWorld.SquareInteriors.School.cs"
         ],
         "required_inputs": [],
         "scope_in": [
           "assets/",
-          "game/scripts/Act1ConnectedWorld.InteriorPresentation.cs"
+          "game/scripts/Act1ConnectedWorld.InteriorPresentation.cs",
+          "game/scripts/Act1ConnectedWorld.SquareInteriors.School.cs"
         ],
         "scope_out": [
           "Контент соседнего блока, кроме указанного артефакта-входа.",
@@ -59665,7 +59669,17 @@
           "evidence_ref": "ACT1-DEPTH.5.evidence and named history progress; source_review shows available/missing inputs"
         }
       ],
-      "assignment_state": "preserved_person_or_existing_role; activity separate"
+      "assignment_state": "preserved_person_or_existing_role; activity separate",
+      "geranium_contact_2026_10_16": {
+        "scope": "Only three GeraniumPot/Geranium pairs in school staff room, grounding on existing floor; no new furniture/colliders/interaction/state changes.",
+        "before": "evidence/PW-043/interactive-20261016/frames/x16-src1.png and x16-perm2.png: root personally viewed unsupported floating pot. School.cs pot center1.2m/height.16 -> bottom1.12m, foliage center1.42m; GroundFloor at.002m.",
+        "verification_question": "After changed placement do three pots sit on existing parquet with foliage still inserted, while school source/permission targets and passage remain reachable?",
+        "success_condition": "Affected compile and targeted current Windows view showing floor contact; source or compile alone does not accept visual stage.",
+        "remaining": "Current changed-input Windows frame confirming visible floor contact/foliage insertion and unchanged school source/permission route; use next already-needed peer school pass, not a replay solely for plants. Native/visual NOT_RUN.",
+        "source_result": "School.cs changes only pot Y1.2->.082 and foliage Y1.42->.302 for existing three pairs. CivicSurfaceLibrary.Floor vertices Y0 at GroundFloor node Y.002; pot height.16 gives exact bottom.002, foliage offset.22 and .01 insertion retained. Root reviewed two-line diff; no materials/xz/geometry dimensions/targets/collision/save changes.",
+        "build": "evidence/ACT1-DEPTH.5/geranium-contact-20261016/game-build.log",
+        "build_result": "Affected Game build succeeded: 0 warnings,0 errors,30.24s; no new tests or native job."
+      }
     },
     {
       "id": "ACT1-DEPTH.6",
