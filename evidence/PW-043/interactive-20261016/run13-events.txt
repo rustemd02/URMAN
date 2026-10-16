@@ -1,0 +1,10 @@
+54:[8] photoworlds.prologue.completed: urman.fullgame:interaction/pw-prologue-skip
+55:[9] scene.entered: urman.fullgame:interaction/pw-prologue-skip
+374:zone-loaded: village_day@arrival connected-world=458336767546
+394:checkpoint: auto-saved at urman.fullgame:scene/pw-niva-arrival
+409:checkpoint: auto-saved at urman.fullgame:scene/pw-niva-arrival
+ABSENT: [18] scene.entered: urman.fullgame:interaction/pw-niva-stop
+  (run11-game.log line 390 has it; run 13 never entered the stop interaction,
+   so beat/pw-b01-niva-arrival stayed 'available' and every house interaction
+   stayed gated: door probes x13-door-stand0/-empty and x13-fail all report
+   interactionId=null / interactionAvailable=null at the documented stand.)
