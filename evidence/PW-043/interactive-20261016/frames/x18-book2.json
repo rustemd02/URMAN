@@ -1,0 +1,16 @@
+{
+  "label": "x18-book2",
+  "rid": "2bb9d2108cc24578bf86d6b383b9ccd4",
+  "frame": "interactive-2bb9d2108cc24578bf86d6b383b9ccd4",
+  "pos": [
+    -11.73,
+    1.67,
+    -1.54
+  ],
+  "yaw": -79.92,
+  "pitch": 0.0,
+  "interactionId": "urman.fullgame:interaction/pw-home-exit-house",
+  "interactionAvailable": true,
+  "ray": "/root/FullGameMain/ZoneHost/Act1ConnectedWorld/babay-abi-house/HouseExit",
+  "status": "ok"
+}

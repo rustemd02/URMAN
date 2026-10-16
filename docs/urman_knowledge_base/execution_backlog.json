@@ -117917,7 +117917,17 @@
         "evidence/PW-043/interactive-20261016/frames/x17-perm-aim4",
         "evidence/PW-043/interactive-20261016/frames/x17-sdone",
         "evidence/PW-043/interactive-20261016/frames/x17-sdone.json",
-        "evidence/PW-043/interactive-20261016/frames/x17-sfinal"
+        "evidence/PW-043/interactive-20261016/frames/x17-sfinal",
+        "evidence/PW-043/interactive-20261016/frames/x18-skip0.png",
+        "evidence/PW-043/interactive-20261016/frames/x18-skip0.result.json",
+        "evidence/PW-043/interactive-20261016/frames/x18-door-e.png",
+        "evidence/PW-043/interactive-20261016/frames/x18-door-e.result.json",
+        "evidence/PW-043/interactive-20261016/frames/x18-inside.png",
+        "evidence/PW-043/interactive-20261016/frames/x18-book2.png",
+        "evidence/PW-043/interactive-20261016/frames/x18-book2.json",
+        "evidence/PW-043/interactive-20261016/frames/x18-book-retry.png",
+        "evidence/PW-043/interactive-20261016/frames/x18-book-retry.result.json",
+        "evidence/PW-043/interactive-20261016/frames/x18-outside.png"
       ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-043",
       "source_requirements": [

@@ -1,0 +1,17 @@
+{
+  "ok": true,
+  "pid": 142148,
+  "hwnd": 36700562,
+  "title": "URMAN (DEBUG)",
+  "className": "Engine",
+  "rect": {
+    "left": -8,
+    "top": -31,
+    "width": 1936,
+    "height": 1100
+  },
+  "image": "C:\\Users\\ruste\\AppData\\Local\\Temp\\urman-codex-studio-ui\\e3100c650cc3e6d529a5e711ea3fe61c-result.png",
+  "closeRequested": false,
+  "processExited": false,
+  "error": ""
+}
