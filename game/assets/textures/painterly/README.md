@@ -1098,3 +1098,17 @@ Root inspected the body side/top/bevel and mounting in native
 `evidence/ACT1-TEXTURE.03/fap-cabinet-m04-20261016/native_0b5512/frames/fap_cabinet_m04.png`.
 Static finish hookup accepted with no obvious seam/UV collapse. Actual Low/rescue,
 scale 0.7; no High, movement, whole-cabinet art or matched before/after acceptance.
+
+
+S08 small ice (16.10.2026): existing project-original procedural
+`ice_small_v1_albedo.png`, SHA `98827b3b79c5e9bb760e8e1d6d049836427c9079677ef34cde9923b314140595`,
+is already bound at 1 m through PML `ice` to `DrainIceMaterial` on
+`BabaiDrainBoardCrossing/ShallowFrozenDrainBed`. Source, physical contacts and
+carry state were retained. Root viewed the original map and actual native
+`860f58d1646a4dbbb166ec88d5f91f98` at High/comparable/scale 1:
+`evidence/ACT1-TEXTURE.02/s08-drain-20261016/native_860f58/frames/s08_drain_ice.png`.
+Raw receipt PASS does not close visual acceptance: the fixed
+`MainStreetPhysicalFirewood` overlaps the relocated crossing center, so the
+ice rim/contacts are not fully visible. Another angle would only show an
+uncovered portion; no unchanged rerun or material replacement is warranted.
+The precise geometric remainder and release condition live only in E06.

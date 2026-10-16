@@ -4485,6 +4485,27 @@
       "qa": "GLB parsed; affected compile passed; native import, contact and camera likeness pending",
       "status": "integrated first-tableau candidate; native and author art pending",
       "releaseDisposition": "First P-FOREST supports only, not all six silhouettes/all W01/world kits"
+    },
+    {
+      "id": "texture.painterly.s08.v01",
+      "source": "Project-original procedural bake; tools/blender/bake_procedural_textures.py; game/assets/textures/painterly/procedural_bake_receipt_v1.json S08",
+      "derived": "game/assets/textures/painterly/ice_small_v1_albedo.png",
+      "derivedSha256": "98827b3b79c5e9bb760e8e1d6d049836427c9079677ef34cde9923b314140595",
+      "generator": "tools/blender/bake_procedural_textures.py; seed20261018",
+      "license": "project-original procedural (no third-party source)",
+      "dimensions": "1024x1024",
+      "format": "PNG RGB8",
+      "colorSpace": "sRGB",
+      "uv": "Seamless TILE, PML ice 1m per repeat; BoardCrossing top UV uses local metres",
+      "purpose": "Clouded small ground ice; transparency, gloss and physical slip not baked into RGB.",
+      "reference": "docs/urman_knowledge_base/art/urman_imagegen_texture_prompt_book_2026-09-22.md#s08",
+      "consumerPaths": [
+        "game/scripts/PainterlyMaterialLibrary.cs",
+        "game/scripts/Act1ConnectedWorld.BoardCrossing.cs"
+      ],
+      "materialOwner": "Existing DrainIceMaterial -> ForColor(8e9da8,ice,sheltered:true), roughness.82/specular.12/wet_grade0; unchanged.",
+      "collision": "Existing visible mesh ActualSurfaceContact unchanged; no player/carry-state edits.",
+      "qa": "evidence/ACT1-TEXTURE.02/s08-drain-20261016/native_860f58/frames/s08_drain_ice.png: rawPASS/actualHigh/comparabletrue, root sees partial ice but rejects full receiver acceptance because fixed street woodpile overlaps relocated crossing. Geometry issue/current task state solely ACT1-TEXTURE.02/E06; no new material or map generated."
     }
   ]
 }

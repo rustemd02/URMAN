@@ -5292,23 +5292,30 @@
             "owner": "art/materials/qa",
             "evidence": [
               "S08 promptbook section539: 1x1m seamless RGB clouded pale grey-green/desaturated blue-grey ground ice; no baked transparency/specular/slip. Existing project-original procedural ice_small_v1_albedo.png SHA98827b3b79c5e9bb760e8e1d6d049836427c9079677ef34cde9923b314140595 verified against procedural_bake_receipt_v1.json; root viewed original map, no new image generation.",
-              "Live BuildCarryables -> BuildYardMechanisms -> BuildBoardCrossing creates BabaiDrainBoardCrossing/ShallowFrozenDrainBed -> DrainIceMaterial -> PML ice/WinterTextures map at1m. Existing analytic shallow ground-following mesh/contact and local frosted roughness.82/specular.12/wet_grade0 retained. No missing source binding, production code not changed; exact native receiver proof is missing."
+              "Live BuildCarryables -> BuildYardMechanisms -> BuildBoardCrossing creates BabaiDrainBoardCrossing/ShallowFrozenDrainBed -> DrainIceMaterial -> PML ice/WinterTextures map at1m. Existing analytic shallow ground-following mesh/contact and local frosted roughness.82/specular.12/wet_grade0 retained. No missing source binding, production code not changed; exact native receiver proof is missing.",
+              "evidence/ACT1-TEXTURE.02/s08-drain-20261016/native_860f58/receipt.json: native860f58d1646a4dbbb166ec88d5f91f98 rawPASS/build-import-game0; snapshot4d01225560e7d76aa8d304f26516b1c8518fef36961a83b839fe4782e377e70f/rawZIPde431a1bce2d11f73617f18a025feca925ea8993eedb1ffcb2ec3145cae8e356 verified, source BoardCrossing/YardMechanisms/Act1ConnectedWorld/PML/map/checkpoint exact current hashes. userdataRestored/snapshot_hashes_verified=true; worker931b27 unchanged; engine-errors empty.",
+              "evidence/ACT1-TEXTURE.02/s08-drain-20261016/native_860f58/frames/s08_drain_ice.png: root personally reviewed actualHigh/comparabletrue/scale1/FOV55/1920x1080. Partial clouded blue ice visible left of fence, but central bed under logs; rim/contacts not fully established, full static receiver acceptance NOT_ACCEPTED despite nativePASS. No new material/geometry/code/build tests added.",
+              "Confirmed source cause: Act1ConnectedWorld.BabaiRelocation.cs Move(root) handles direct Babai* roots; BoardCrossing built before relocation. Act1ConnectedWorld.cs MainStreetPhysicalFirewood is duplicate anchored(5,CollisionGround(5,2.3)-.04,2.3), scale(.9,1.25,1.1), intentionally matches existing FirewoodCollision. Crossing actual target(5.926085,.102559,2.646706) matches transformed source; woodpile local(-.989,-.014) overlaps ribbon. No unsupported claim of house/fence collision. Own job restored/terminal; subsequent doctor reports another busy8180d19e767542f59e5c1603a0bd4b2a with recovery pending, left untouched."
             ],
             "assigned_owner": "art/materials/qa",
-            "active_owner": "codex/root",
+            "active_owner": null,
             "activity": {
-              "state": "confirmed_active",
-              "reason": "Root takes finite S08 small-ice hookup; Luna read-only confirms original asset/passport/current live consumer before any source change or native job."
+              "state": "released",
+              "reason": "Existing S08 binding verified, but root rejected full static receiver acceptance due confirmed fixed woodpile overlap after crossing relocation. No blind camera rerun or protected carry-state change."
             },
             "task_type": "engineering",
-            "status": "in_progress",
+            "status": "blocked",
             "implementation_state": "partial",
-            "technical_verification_state": "not_run",
+            "technical_verification_state": "failed",
             "remaining": [
-              "Подключить S08 — Поверхность небольшого льда; собственного целевого receipt пока нет."
+              "Resolve the confirmed crossing/fixed street woodpile footprint overlap using current layout/physics owners; do not move only the visual logs or seed/reset carry-board saved state.",
+              "After changed placement/input, inspect exposed ice rim/ground contacts and separately retain ordinary movement/art acceptance. No unchanged native rerun."
             ],
-            "next_action": "Run first named s08_drain_ice capture of existing live receiver, inspect actual map/rim/ground contact and quality; preserve original source/collision/carry state. No code/build rewrite for already-correct binding.",
-            "blocker": null,
+            "next_action": "Coordinate one bounded layout reconciliation of BabaiDrainBoardCrossing with MainStreetPhysicalFirewood/FirewoodCollision; use source relocation fact and actual860f58, preserve carry-board persisted pose/custody. S08 map/PML binding needs no rewrite; switch to independent ready work while this geometric input remains unresolved.",
+            "blocker": {
+              "reason": "Actual High860f58 shows ShallowFrozenDrainBed centrally occluded by MainStreetPhysicalFirewood. RelocateBabaiHousehold moves direct Babai* crossing to(5.926,2.647), while street woodpile remains at(5,2.3), only.989m away, crossing-local(-.989,-.014) within ice ribbon. Fixed visual matches existing FirewoodCollision; moving only presentation would break physical correspondence. House/fence intersection not established.",
+              "release_when": "Provide a single reconciled current layout for relocated crossing/board-support approaches versus physics-owned street woodpile, preserving saved props/custody and contacts; then inspect changed receiver in one targeted view. A different angle of the unchanged overlapping center does not release this blocker."
+            },
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
             "work_contract": {
@@ -5380,19 +5387,19 @@
             "owner": "art/materials/qa",
             "evidence": [],
             "assigned_owner": "art/materials/qa",
-            "active_owner": null,
+            "active_owner": "codex/root",
             "activity": {
-              "state": "not_active",
-              "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+              "state": "confirmed_active",
+              "reason": "Independent S09 source/passport/live consumer read after S08 confirmed geometry blocker. No station claim while other8180 job active."
             },
             "task_type": "engineering",
-            "status": "todo",
+            "status": "in_progress",
             "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
               "Подключить S09 — Снег с редкими растительными включениями; собственного целевого receipt пока нет."
             ],
-            "next_action": "Сопоставить текущий результат: Подключить S09 — Снег с редкими растительными включениями. Затем изменить только установленный остаток.",
+            "next_action": "Confirm existing original S09 snow-grass map, exact live unoccluded receiver and missing proof; preserve all other consumers/state and wait current station owner without replaying S08.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
