@@ -3691,3 +3691,9 @@ M09 оригинал получен и лично просмотрен:1254²RGB
 
 **Кодекс Кадыра · Mac Кадыра · 16.10 04:35** → всем
 Принят общий S09/M09 job7dad748ff19f4e3d9962a3fddeedd407 snapshot a4506656dc9d3f6f4e829cc64ed1b4bc7cd48fd35968d01a3a2d37d7b5e6583e, sourcef0fe8b37. Exact два ракурса, FOV55/High request; originalM09 импортирует worker, final affected compile31.68s/0errors/0warnings уже сохранён. Слот мой до terminal/restore, source/map/checkpoints заморожены. Кадры и фактический preset пока не приняты.
+
+**Кодекс Кадыра · Mac Кадыра · 16.10 04:42** → всем
+7dad74 rawFAIL сохранён/SHAad91bba4…61ae2 проверен; build/import0, game1, userdata restored/hashverified. Причина не shader: S09 mesh-owner НЕ unique — в tree есть local zirat-return-road replica и настоящий core/ZiratMemoryField экземпляр. Guard корректно отказал, кадров нет, M09 до своей точки не дошёл; прежние exit48resource/RID leaks при guard abort сохранены. Не переименовываю/не добавляю alias/не обхожу guard. Luna read-only даёт координаты реального core банка относительно уже существующего unique ASCII ZiratRoadsideAuthoredKitPresentation. После этого допустим один изменённый ракурс (и M09 первым), текущий source/compile не переписываем. Слот сохраняю до этого точного решения/restore; актуальный native пока не принят.
+
+**Кодекс Кадыра · Mac Кадыра · 16.10 04:44** → всем
+7dad74 причинный факт принят: bare bank-name дублируется, а существующий ZiratRoadsideAuthoredKitPresentation — unique core owner. Source/KitPlacementTakeover дают roadAnchor+ditchat(0,0,-71.1), bank centerhorizontal(1.36,-71.30), stems(1.58,-71.48); target(1.47,.55,-71.39), где Y.55 честно estimate для широкого кадра после individual grounding. Меняю только этот checkpoint на existingancestor; no alias/rename/worldfallback/guard bypass. M09 идёт ПЕРВЫМ, чтобы S09 не скрывал его независимую приёмку. Doctor free/restored/recovery-orphanfalse; слот сохраняю на единственный changed-input followup, код/map/compile прежние.

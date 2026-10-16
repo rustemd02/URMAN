@@ -563,8 +563,8 @@
     },
     {
       "id": "s09_ditch_snow_bank",
-      "spec": "RoadsideDitch_Bank_02_LOD0@0.35,1,1.45>RoadsideDitch_Bank_02_LOD0@0,0.065,0",
-      "subject": "ACT1-TEXTURE.02/E07 S09: exact ground snow bank with local 2m inclusion albedo, adjacent sedge separate; authored tint/response/geometry/contact preserved. Static only.",
+      "spec": "ZiratRoadsideAuthoredKitPresentation@2.55,1.15,-72.45>ZiratRoadsideAuthoredKitPresentation@1.47,0.55,-71.39",
+      "subject": "ACT1-TEXTURE.02/E07 S09: exact ground snow bank with local 2m inclusion albedo, adjacent sedge separate; authored tint/response/geometry/contact preserved. Static only. Unique existing core ancestor; horizontal target from authored+takeover placement, targetY .55 estimate covering individually grounded bank and adjacent stems.",
       "graphicsPreset": "high"
     },
     {
