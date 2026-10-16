@@ -1,0 +1,21 @@
+{
+  "job_id": "5fb44b3d6ea547a69798c25ce17f4fb2",
+  "snapshot_id": "e2289e6be6f5a7bab0180219edb418e8550bdee0a6d6143bb99e2a26253bec1c",
+  "status": "FAIL",
+  "result_sha256": "b2c85f5408e5a6b8333c4ba84762b0a3a61c2ae1e515c7637d08f026b85f2c04",
+  "started": 1792126621.8209412,
+  "station_freed_bytes": 979902085,
+  "delivered": [
+    "[8] photoworlds.prologue.completed: pw-prologue-skip (click skip)",
+    "[9] scene.entered: pw-prologue-skip",
+    "zone-loaded: village_day@arrival",
+    "checkpoint auto-saved at pw-niva-arrival (x2)"
+  ],
+  "failure": "station b02 actor replaced on 15.10 by worker actor eng/windows-game-ui.ps1 - it rejects every 'look' action ('Unsupported game UI action.'), so the niva spec aborted at the first look; fallback walks took the player south; pw-niva-stop never fired; beat pw-b01-niva-arrival stayed available; all house interactions (door, tea) are gated by that beat, so the door ray was empty (4 probes) and E did not open the interior.",
+  "repair_in_run": "restored station actor from local b02-game-ui.ps1 with added j/TAB/LEFT/RIGHT keys (sha256 40665818df3db563d9b19899a3d9b22f7340269b115e3cb10f3dcdaea1276353, 'j' { 74 } count 1); live acts after repair: look turns the camera, 'j' accepted, responses carry hwnd 29294660/className Engine.",
+  "remaining": [
+    "PW-008 journal close/reopen pair - run 13 (clean start, fixed actor)",
+    "house chain (door/tea/book) - run 13",
+    "exit + school source/permission - run 13 or 14"
+  ]
+}
