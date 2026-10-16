@@ -117792,7 +117792,7 @@
       "title": "Перенести пролог внутрь W01",
       "milestone": "PW-M3",
       "status": "in_progress",
-      "active_owner": "Codex root / school-to-F10 pilot",
+      "active_owner": null,
       "owner": "narrative",
       "priority": "P1",
       "complexity": "complex",
@@ -118009,7 +118009,22 @@
         "evidence/PW-043/interactive-20261016/run20-events.txt",
         "evidence/PW-043/interactive-20261016/run20-game.log",
         "evidence/PW-043/interactive-20261016/run20-driver.log",
-        "evidence/PW-043/interactive-20261016/run20-rescue.log"
+        "evidence/PW-043/interactive-20261016/run20-rescue.log",
+        "evidence/PW-043/interactive-20261016/run11-game.log",
+        "evidence/PW-043/interactive-20261016/README.md",
+        "evidence/PW-043/interactive-20261016/run21-status.json",
+        "evidence/PW-043/interactive-20261016/run21-driver.log",
+        "evidence/PW-043/interactive-20261016/run21-rescue7-stdout.log",
+        "evidence/PW-043/interactive-20261016/run21-game.log",
+        "evidence/PW-043/interactive-20261016/run21-game-stdout.log",
+        "evidence/PW-043/interactive-20261016/frames/x21-skip0.png",
+        "evidence/PW-043/interactive-20261016/frames/x21-fail.png",
+        "evidence/PW-043/interactive-20261016/frames/x21-fail.json",
+        "evidence/PW-043/interactive-20261016/frames/x21-porch-viewport.png",
+        "evidence/PW-043/interactive-20261016/frames/x21-porch-viewport.json",
+        "evidence/PW-043/interactive-20261016/run22-status.json",
+        "evidence/PW-043/interactive-20261016/run22-driver-live.log",
+        "evidence/PW-043/interactive-20261016/run22-game.log"
       ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-043",
       "source_requirements": [
@@ -118139,8 +118154,8 @@
       },
       "assigned_owner": "narrative",
       "activity": {
-        "state": "confirmed_active",
-        "reason": "131e закрыт частично: обычная книга и читаемый оборот доставлены нативно, школа/F10 нет; прогон 13 упёрся в мою же регрессию ожидания прибытия (спека нивы в строящемся мире, бит pw-b01-niva-arrival остался available) — причина подтверждена definitions.json и логом 11; прогон 14 чинит ожидание и продолжает тем же единственным root-вводом, assigned owner сохранён."
+        "state": "released",
+        "reason": "Пилот school-to-F10 остановлен: после run22 (16.10 15:27) прогоны не возобновлялись, 16.10 сессия перешла на кодовую сверку графа. Факты пилота: школа взята в run16 (узко принята @Кодекс Кадыра), F10/лес — not-run; run21 залочен отказом окна на «ниве» (бит pw-niva-stop не зажёгся, спасатель rescue7 упёрся в пустую дверь), run22 простоял без драйвера. Сырые логи 11/16–22 и финальные кадры добавлены в git (README там же); активной заявки нет."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -118150,7 +118165,7 @@
         "Игрок не обязан повторять тизер; объяснение «просто сон» не закрывает интригу.",
         "Обычный New Game без override использует актуальный pack, ставит физический W01 и передаёт управление семейному прибытию; skip не выдаёт необязательное знание, Replay не меняет основной сеанс, Continue не запускает New Game."
       ],
-      "next_action": "Прогон 21 (drive21, job 9a73853c36b54f378ff1559915227f16, snapshot d58627ef, окно ~14:42–15:02) в полёте: нива с гейтом стойки → дом (дверь/чай/книга, книга уже бралась в 16/17/19) → НОВЫЙ выход (спек — первый выстрел, probe-driven фолбэк к двум доказанным стойкам, E-повторы, abort вместо слепых ног) → улица/машина → школа (source+permission aim-first свипом по 7 питчам) → F10 (rescue7 в резерве с гейтами). Смотреть первый прогон глазами. После леса — шаг к reader'у «Рассмотреть снимок» (📋 @Кодекс Кадыра) первым безопасным окном; ответа про «720p» жду.",
+      "next_action": "При возобновлении автором станционных прогонов: drive23 по записанным урокам (авто-повтор на window lost до гейта, гейт по позе после нивы, abort двери) до F10/леса, затем reader «Рассмотреть снимок» (📋 @Кодекс Кадыра: actual reader на текущем размере с честным viewport). До этого карточка прогонами не продвигается.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",

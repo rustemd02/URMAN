@@ -1,0 +1,46 @@
+[14:39:04] waiting for game window 9a73853c36b54f378ff1559915227f16
+[14:39:06]   still waiting i = 0
+[14:39:44]   still waiting i = 6
+[14:40:24]   still waiting i = 12
+[14:41:03]   still waiting i = 18
+[14:41:41]   still waiting i = 24
+[14:41:54] game window: pid 131904 hwnd 129565268 title  start 2026-10-16T11:41:52.7572830Z
+[14:41:54] budget: seconds to the 1200 s cap = 1182
+[14:42:14] act x21-skip0
+[14:42:17]   => {"ok": true, "pid": 131904, "hwnd": 129565268, "title": "URMAN (DEBUG)", "className": "Engine", "image": "C:\\Users\\ruste\\AppData\\Local\\Temp\\urman-codex-studio-ui\\94780c6179b5bdfeb4543c46ac697f0
+[14:42:17] skip ok = True
+[14:42:17] settle zone-loaded: village_day@arrival t=300
+[14:43:22]   => {"event": "zone-loaded: village_day@arrival", "count": 1, "baseline": 0, "ok": true}
+[14:43:22] arrival zone fired = True
+[14:43:22] settle checkpoint: auto-saved at urman.fullgame:scene/pw-niva-arrival t=120
+[14:43:48]   => {"event": "checkpoint: auto-saved at urman.fullgame:scene/pw-niva-arrival", "count": 1, "baseline": 0, "ok": true}
+[14:43:48] niva scene checkpoint fired = True (scene entered -> beat available)
+[14:43:48] arrival settled; t0
+[14:43:48] act x21-niva
+[14:43:50]   => {"ok": false, "pid": 131904, "hwnd": 129565268, "title": "URMAN (DEBUG)", "className": "Engine", "image": null, "closeRequested": false, "processExited": false, "error": "The owned game window lost fo
+[14:43:50] settle pw-niva-stop t=10
+[14:44:02]   => {"event": "pw-niva-stop", "count": 0, "baseline": 0, "ok": false, "timeout": true}
+[14:44:02] niva miss -> E retry 0
+[14:44:02] act x21-niva-e0
+[14:44:05]   => {"ok": false, "pid": 131904, "hwnd": 129565268, "title": "URMAN (DEBUG)", "className": "Engine", "image": null, "closeRequested": false, "processExited": false, "error": "The owned game window lost fo
+[14:44:05] settle pw-niva-stop t=10
+[14:44:17]   => {"event": "pw-niva-stop", "count": 0, "baseline": 0, "ok": false, "timeout": true}
+[14:44:17] niva miss -> E retry 1
+[14:44:17] act x21-niva-e1
+[14:44:21]   => {"ok": false, "pid": 131904, "hwnd": 129565268, "title": "URMAN (DEBUG)", "className": "Engine", "image": null, "closeRequested": false, "processExited": false, "error": "The owned game window lost fo
+[14:44:21] settle pw-niva-stop t=10
+[14:44:33]   => {"event": "pw-niva-stop", "count": 0, "baseline": 0, "ok": false, "timeout": true}
+[14:44:33] niva miss -> E retry 2
+[14:44:33] act x21-niva-e2
+[14:44:36]   => {"ok": true, "pid": 131904, "hwnd": 129565268, "title": "URMAN (DEBUG)", "className": "Engine", "image": "C:\\Users\\ruste\\AppData\\Local\\Temp\\urman-codex-studio-ui\\51ff31bc56193f2c063ff172e55c0fb
+[14:44:36] settle pw-niva-stop t=10
+[14:44:48]   => {"event": "pw-niva-stop", "count": 0, "baseline": 0, "ok": false, "timeout": true}
+[14:44:48] niva miss -> E retry 3
+[14:44:48] act x21-niva-e3
+[14:44:53]   => {"ok": true, "pid": 131904, "hwnd": 129565268, "title": "URMAN (DEBUG)", "className": "Engine", "image": "C:\\Users\\ruste\\AppData\\Local\\Temp\\urman-codex-studio-ui\\b0ffabe9a090fb7357d722f51b39ea7
+[14:44:53] settle pw-niva-stop t=10
+[14:45:05]   => {"event": "pw-niva-stop", "count": 0, "baseline": 0, "ok": false, "timeout": true}
+[14:45:05] NIVA STOP = False
+[14:45:05] NIVA BEAT LOCKED -> house door would stay empty; stop
+[14:45:05] probe x21-fail (try 1)
+[14:45:06]   => {"frame": "interactive-104078fb44784ab19be6cc8d341b0595", "pos": [-11.1, 1.89, 48.18], "yaw": 16.0, "pitch": 0.0, "interactionId": null, "interactionAvailable": null}

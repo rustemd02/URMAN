@@ -1,0 +1,8 @@
+[15:04:30] waiting for game window 667d3d59396a40c39fc4860c4954808f
+[15:04:31]   still waiting i = 0
+[15:05:11]   still waiting i = 6
+[15:05:53]   still waiting i = 12
+[15:06:31]   still waiting i = 18
+[15:07:10]   still waiting i = 24
+[15:07:24] game window: pid 126372 hwnd 67895810 title URMAN (DEBUG) start 2026-10-16T12:07:18.6424860Z
+[15:07:24] budget: seconds to the 1200 s cap = 1178

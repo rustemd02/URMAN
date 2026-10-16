@@ -1,0 +1,253 @@
+[14:19:42] rescue: waiting for drive20 to finish ...
+[14:19:54] rescue: drive20 gone (calm = 2 )
+[14:20:04] rescue: no skip/forest marker; game may be mid-F10 or dead; proceeding carefully
+[14:20:04] rescue: hardcoded identity (pid 144144)
+[14:20:04] game window: pid 144144 hwnd 16711948 title URMAN (DEBUG) start 2026-10-16T11:18:00.8743220Z
+[14:20:04] budget: seconds to the 1200 s cap = 1060
+[14:20:04] F10 budget: seconds left = 1060
+[14:20:04] probe x20r-f10-start (try 1)
+[14:20:05]   => {"frame": "interactive-9e3302e6681642dea4f0c6ebea7edba5", "pos": [-0.56, 1.04, 12.65], "yaw": 171.2, "pitch": 0.0, "interactionId": "urman.fullgame:interaction/pw-niva-stop", "interactionAvailable": true}
+[14:20:05] rescue start z = 12.65
+[14:20:05] rescue: already south of the school; straight to the legs
+[14:20:05] probe x20r-f10-entr-p0 (try 1)
+[14:20:05]   => {"frame": "interactive-248d7f4fd36f413a8962a2757a5a4215", "pos": [-0.68, 1.09, 13.37], "yaw": 171.2, "pitch": 0.0, "interactionId": "urman.fullgame:interaction/pw-niva-stop", "interactionAvailable": true}
+[14:20:05] x20r-f10-entr round 0 at [-0.68, 1.09, 13.37] dist 55.75
+[14:20:05] act x20r-f10-entr-go0
+[14:20:20]   => {"ok": false, "pid": 144144, "hwnd": 16711948, "title": "URMAN (DEBUG)", "className": "Engine", "image": null, "closeRequested": false, "processExited": false, "error": "The owned game window lost for
+[14:20:20] probe x20r-f10-entr-p1 (try 1)
+[14:20:21]   => {"frame": "interactive-5de16314300d4c9aa8410e6c2bf3af6a", "pos": [-7.79, 1.73, 37.39], "yaw": 163.36, "pitch": 0.0, "interactionId": null, "interactionAvailable": null}
+[14:20:21] x20r-f10-entr round 1 at [-7.79, 1.73, 37.39] dist 30.70
+[14:20:21] act x20r-f10-entr-go1
+[14:20:23]   => {"ok": false, "pid": 144144, "hwnd": 16711948, "title": "URMAN (DEBUG)", "className": "Engine", "image": null, "closeRequested": false, "processExited": false, "error": "The owned game window lost for
+[14:20:23] probe x20r-f10-entr-p2 (try 1)
+[14:20:24]   => {"frame": "interactive-1f89b81eca4d4ab48e1c9f1f1cf5c923", "pos": [-7.84, 1.73, 37.37], "yaw": 147.36, "pitch": 0.0, "interactionId": null, "interactionAvailable": null}
+[14:20:24] x20r-f10-entr round 2 at [-7.84, 1.73, 37.37] dist 30.71
+[14:20:24] x20r-f10-entr stalled; jiggle a
+[14:20:24] act x20r-f10-entr-jig2
+[14:20:27]   => {"ok": true, "pid": 144144, "hwnd": 16711948, "title": "URMAN (DEBUG)", "className": "Engine", "image": "C:\\Users\\ruste\\AppData\\Local\\Temp\\urman-codex-studio-ui\\f2663c6ab2d7b0cda66f8bd3c7e7e08a
+[14:20:27] act x20r-f10-entr-go2
+[14:20:44]   => {"ok": true, "pid": 144144, "hwnd": 16711948, "title": "URMAN (DEBUG)", "className": "Engine", "image": "C:\\Users\\ruste\\AppData\\Local\\Temp\\urman-codex-studio-ui\\9e3d9c38e72c8018931eac92dce3eaed
+[14:20:44] probe x20r-f10-entr-p3 (try 1)
+[14:20:45]   => {"frame": "interactive-5bc5c10d6f944ca28b9d885a71aa406a", "pos": [-11.79, 1.9, 47.69], "yaw": 147.36, "pitch": 0.0, "interactionId": null, "interactionAvailable": null}
+[14:20:45] exit door ray =  avail = None
+[14:20:45] act x20r-f10-out-push
+[14:20:56]   => {"ok": true, "pid": 144144, "hwnd": 16711948, "title": "URMAN (DEBUG)", "className": "Engine", "image": "C:\\Users\\ruste\\AppData\\Local\\Temp\\urman-codex-studio-ui\\fa3e3531e1a411627aad14f3aad9f3e6
+[14:20:56] probe x20r-f10-out0-p0 (try 1)
+[14:20:57]   => {"frame": "interactive-b13bb2750f834f81972deef5b320ce6d", "pos": [-11.69, 1.9, 47.36], "yaw": 0.0, "pitch": 0.0, "interactionId": null, "interactionAvailable": null}
+[14:20:57] x20r-f10-out0 round 0 at [-11.69, 1.9, 47.36] dist 15.96
+[14:20:57] act x20r-f10-out0-go0
+[14:20:59]   => {"ok": false, "pid": 144144, "hwnd": 16711948, "title": "URMAN (DEBUG)", "className": "Engine", "image": null, "closeRequested": false, "processExited": false, "error": "The owned game window lost for
+[14:20:59] probe x20r-f10-out0-p1 (try 1)
+[14:21:00]   => {"frame": "interactive-48aff35bbdd54fdd99b35fd621019f87", "pos": [-11.69, 1.9, 47.36], "yaw": 0.0, "pitch": 0.0, "interactionId": null, "interactionAvailable": null}
+[14:21:00] x20r-f10-out0 round 1 at [-11.69, 1.9, 47.36] dist 15.96
+[14:21:00] x20r-f10-out0 stalled; jiggle d
+[14:21:00] act x20r-f10-out0-jig1
+[14:21:04]   => {"ok": true, "pid": 144144, "hwnd": 16711948, "title": "URMAN (DEBUG)", "className": "Engine", "image": "C:\\Users\\ruste\\AppData\\Local\\Temp\\urman-codex-studio-ui\\968b01be50bccce68d5836809bb943ca
+[14:21:04] act x20r-f10-out0-go1
+[14:21:07]   => {"ok": false, "pid": 144144, "hwnd": 16711948, "title": "URMAN (DEBUG)", "className": "Engine", "image": null, "closeRequested": false, "processExited": false, "error": "The owned game window lost for
+[14:21:07] probe x20r-f10-out0-p2 (try 1)
+[14:21:08]   => {"frame": "interactive-25e4dca205e0492a896292ff3e6817b3", "pos": [-11.69, 1.9, 47.36], "yaw": 0.0, "pitch": 0.0, "interactionId": null, "interactionAvailable": null}
+[14:21:08] x20r-f10-out0 round 2 at [-11.69, 1.9, 47.36] dist 15.96
+[14:21:08] x20r-f10-out0 stalled; jiggle a
+[14:21:08] act x20r-f10-out0-jig2
+[14:21:11]   => {"ok": true, "pid": 144144, "hwnd": 16711948, "title": "URMAN (DEBUG)", "className": "Engine", "image": "C:\\Users\\ruste\\AppData\\Local\\Temp\\urman-codex-studio-ui\\8770b0162e60aa79b675a7062f49d458
+[14:21:11] act x20r-f10-out0-go2
+[14:21:28]   => {"ok": true, "pid": 144144, "hwnd": 16711948, "title": "URMAN (DEBUG)", "className": "Engine", "image": "C:\\Users\\ruste\\AppData\\Local\\Temp\\urman-codex-studio-ui\\968f68c639fa9e3576e72cf681b4ddde
+[14:21:28] probe x20r-f10-out0-p3 (try 1)
+[14:21:29]   => {"frame": "interactive-97a2efb5de6f4068afda58a3179e46a1", "pos": [-11.75, 1.9, 47.7], "yaw": 159.36, "pitch": 0.0, "interactionId": null, "interactionAvailable": null}
+[14:21:29] probe x20r-f10-col-p0 (try 1)
+[14:21:30]   => {"frame": "interactive-11531c4212e44c81a7ca6bb25dfe5919", "pos": [-11.75, 1.9, 47.7], "yaw": 159.36, "pitch": 0.0, "interactionId": null, "interactionAvailable": null}
+[14:21:30] x20r-f10-col round 0 at [-11.75, 1.9, 47.7] dist 15.00
+[14:21:30] act x20r-f10-col-go0
+[14:21:43]   => {"ok": true, "pid": 144144, "hwnd": 16711948, "title": "URMAN (DEBUG)", "className": "Engine", "image": "C:\\Users\\ruste\\AppData\\Local\\Temp\\urman-codex-studio-ui\\2d0e363054d31d06db6839ff01eb6846
+[14:21:43] probe x20r-f10-col-p1 (try 1)
+[14:21:44]   => {"frame": "interactive-b662a213ab4e43849e695d335cf9b661", "pos": [-11.56, 1.9, 47.66], "yaw": -133.44, "pitch": 0.0, "interactionId": null, "interactionAvailable": null}
+[14:21:44] x20r-f10-col round 1 at [-11.56, 1.9, 47.66] dist 14.89
+[14:21:44] x20r-f10-col stalled; jiggle d
+[14:21:44] act x20r-f10-col-jig1
+[14:21:47]   => {"ok": true, "pid": 144144, "hwnd": 16711948, "title": "URMAN (DEBUG)", "className": "Engine", "image": "C:\\Users\\ruste\\AppData\\Local\\Temp\\urman-codex-studio-ui\\a15cff6ad94c76efd2d18069056dc69d
+[14:21:47] act x20r-f10-col-go1
+[14:21:55]   => {"ok": false, "pid": 144144, "hwnd": 16711948, "title": "URMAN (DEBUG)", "className": "Engine", "image": null, "closeRequested": false, "processExited": false, "error": "The owned game window lost for
+[14:21:55] probe x20r-f10-col-p2 (try 1)
+[14:21:56]   => {"frame": "interactive-8729f17505ee45e0abb4dadd015831c8", "pos": [-11.56, 1.9, 47.66], "yaw": -133.92, "pitch": 0.0, "interactionId": null, "interactionAvailable": null}
+[14:21:56] x20r-f10-col round 2 at [-11.56, 1.9, 47.66] dist 14.89
+[14:21:56] x20r-f10-col stalled; jiggle a
+[14:21:56] act x20r-f10-col-jig2
+[14:21:59]   => {"ok": false, "pid": 144144, "hwnd": 16711948, "title": "URMAN (DEBUG)", "className": "Engine", "image": null, "closeRequested": false, "processExited": false, "error": "The owned game window lost for
+[14:21:59] act x20r-f10-col-go2
+[14:22:01]   => {"ok": false, "pid": 144144, "hwnd": 16711948, "title": "URMAN (DEBUG)", "className": "Engine", "image": null, "closeRequested": false, "processExited": false, "error": "The owned game window lost for
+[14:22:01] probe x20r-f10-col-p3 (try 1)
+[14:22:01]   => {"frame": "interactive-31dce1f93fa0495b91550553e5da42a8", "pos": [-11.51, 1.9, 47.57], "yaw": -101.92, "pitch": 0.0, "interactionId": null, "interactionAvailable": null}
+[14:22:01] x20r-f10-col round 3 at [-11.51, 1.9, 47.57] dist 14.91
+[14:22:01] x20r-f10-col stalled; jiggle d
+[14:22:01] act x20r-f10-col-jig3
+[14:22:05]   => {"ok": true, "pid": 144144, "hwnd": 16711948, "title": "URMAN (DEBUG)", "className": "Engine", "image": "C:\\Users\\ruste\\AppData\\Local\\Temp\\urman-codex-studio-ui\\7509c4f99bf69351956404aa8acf697a
+[14:22:05] act x20r-f10-col-go3
+[14:22:16]   => {"ok": true, "pid": 144144, "hwnd": 16711948, "title": "URMAN (DEBUG)", "className": "Engine", "image": "C:\\Users\\ruste\\AppData\\Local\\Temp\\urman-codex-studio-ui\\7f26c9cd97396c27d72c5e5c954c5f23
+[14:22:16] probe x20r-f10-col-p4 (try 1)
+[14:22:17]   => {"frame": "interactive-ad94db1cf3da4367a70f8eace57506bd", "pos": [-11.6, 1.9, 47.69], "yaw": -150.4, "pitch": 0.0, "interactionId": null, "interactionAvailable": null}
+[14:22:17] probe x20r-f10-mid-p0 (try 1)
+[14:22:17]   => {"frame": "interactive-efa1a16cf8b44756bc1fa23c5490c8f8", "pos": [-11.6, 1.9, 47.69], "yaw": -150.4, "pitch": 0.0, "interactionId": null, "interactionAvailable": null}
+[14:22:17] x20r-f10-mid round 0 at [-11.6, 1.9, 47.69] dist 27.12
+[14:22:17] act x20r-f10-mid-go0
+[14:22:38]   => {"ok": true, "pid": 144144, "hwnd": 16711948, "title": "URMAN (DEBUG)", "className": "Engine", "image": "C:\\Users\\ruste\\AppData\\Local\\Temp\\urman-codex-studio-ui\\4675c3838b71f5fef79679be10ded959
+[14:22:38] probe x20r-f10-mid-p1 (try 1)
+[14:22:39]   => {"frame": "interactive-7d353dde738147fa9d20be5eea2fb5a0", "pos": [-11.6, 1.9, 47.38], "yaw": -29.12, "pitch": 0.0, "interactionId": null, "interactionAvailable": null}
+[14:22:39] x20r-f10-mid round 1 at [-11.6, 1.9, 47.38] dist 26.85
+[14:22:39] x20r-f10-mid stalled; jiggle d
+[14:22:39] act x20r-f10-mid-jig1
+[14:22:42]   => {"ok": true, "pid": 144144, "hwnd": 16711948, "title": "URMAN (DEBUG)", "className": "Engine", "image": "C:\\Users\\ruste\\AppData\\Local\\Temp\\urman-codex-studio-ui\\f5667b2cc703ace93eed80da708f523e
+[14:22:42] act x20r-f10-mid-go1
+[14:22:57]   => {"ok": true, "pid": 144144, "hwnd": 16711948, "title": "URMAN (DEBUG)", "className": "Engine", "image": "C:\\Users\\ruste\\AppData\\Local\\Temp\\urman-codex-studio-ui\\cdc392a7956074e971474a7934f52d6a
+[14:22:57] probe x20r-f10-mid-p2 (try 1)
+[14:22:58]   => {"frame": "interactive-8b133a652f3b47508dc98430f0bf1072", "pos": [-11.6, 1.9, 47.38], "yaw": -29.44, "pitch": 0.0, "interactionId": null, "interactionAvailable": null}
+[14:22:58] x20r-f10-mid round 2 at [-11.6, 1.9, 47.38] dist 26.85
+[14:22:58] x20r-f10-mid stalled; jiggle a
+[14:22:58] act x20r-f10-mid-jig2
+[14:23:01]   => {"ok": true, "pid": 144144, "hwnd": 16711948, "title": "URMAN (DEBUG)", "className": "Engine", "image": "C:\\Users\\ruste\\AppData\\Local\\Temp\\urman-codex-studio-ui\\abb60e1e3f2d31a1e2d35249a748f89e
+[14:23:01] act x20r-f10-mid-go2
+[14:23:16]   => {"ok": true, "pid": 144144, "hwnd": 16711948, "title": "URMAN (DEBUG)", "className": "Engine", "image": "C:\\Users\\ruste\\AppData\\Local\\Temp\\urman-codex-studio-ui\\335abf6fd74fd7abaab2ce87069881d9
+[14:23:16] probe x20r-f10-mid-p3 (try 1)
+[14:23:17]   => {"frame": "interactive-88c3679eff5345b2aac1842fccfe3288", "pos": [-11.6, 1.9, 47.38], "yaw": -29.44, "pitch": 0.0, "interactionId": null, "interactionAvailable": null}
+[14:23:17] x20r-f10-mid round 3 at [-11.6, 1.9, 47.38] dist 26.85
+[14:23:17] x20r-f10-mid stalled; jiggle d
+[14:23:17] act x20r-f10-mid-jig3
+[14:23:20]   => {"ok": true, "pid": 144144, "hwnd": 16711948, "title": "URMAN (DEBUG)", "className": "Engine", "image": "C:\\Users\\ruste\\AppData\\Local\\Temp\\urman-codex-studio-ui\\ec676648a1965ccb98a226290530ffd2
+[14:23:20] act x20r-f10-mid-go3
+[14:23:35]   => {"ok": true, "pid": 144144, "hwnd": 16711948, "title": "URMAN (DEBUG)", "className": "Engine", "image": "C:\\Users\\ruste\\AppData\\Local\\Temp\\urman-codex-studio-ui\\4d2579a740e59b64c77d4beb7655f9fa
+[14:23:35] probe x20r-f10-mid-p4 (try 1)
+[14:23:36]   => {"frame": "interactive-b28e82eb9b2d4c45a283ef90541c6620", "pos": [-11.65, 1.9, 47.36], "yaw": -13.44, "pitch": 0.0, "interactionId": null, "interactionAvailable": null}
+[14:23:36] x20r-f10-mid round 4 at [-11.65, 1.9, 47.36] dist 26.86
+[14:23:36] x20r-f10-mid stalled; jiggle a
+[14:23:36] act x20r-f10-mid-jig4
+[14:23:39]   => {"ok": true, "pid": 144144, "hwnd": 16711948, "title": "URMAN (DEBUG)", "className": "Engine", "image": "C:\\Users\\ruste\\AppData\\Local\\Temp\\urman-codex-studio-ui\\3f658dd26ceedfd195d4592d4a4a7d3e
+[14:23:39] act x20r-f10-mid-go4
+[14:23:55]   => {"ok": true, "pid": 144144, "hwnd": 16711948, "title": "URMAN (DEBUG)", "className": "Engine", "image": "C:\\Users\\ruste\\AppData\\Local\\Temp\\urman-codex-studio-ui\\885a37d34d8a840e5f9fa5546784cf32
+[14:23:55] probe x20r-f10-mid-p5 (try 1)
+[14:23:56]   => {"frame": "interactive-854bd4f8ffd74ded938ee66435b49188", "pos": [-11.6, 1.9, 47.38], "yaw": -29.6, "pitch": 0.0, "interactionId": null, "interactionAvailable": null}
+[14:23:56] probe x20r-f10-car-p0 (try 1)
+[14:23:57]   => {"frame": "interactive-d12019206c664c92b0fecb2b0453d4e2", "pos": [-11.6, 1.9, 47.38], "yaw": -29.6, "pitch": 0.0, "interactionId": null, "interactionAvailable": null}
+[14:23:57] x20r-f10-car round 0 at [-11.6, 1.9, 47.38] dist 36.83
+[14:23:57] act x20r-f10-car-go0
+[14:24:16]   => {"ok": true, "pid": 144144, "hwnd": 16711948, "title": "URMAN (DEBUG)", "className": "Engine", "image": "C:\\Users\\ruste\\AppData\\Local\\Temp\\urman-codex-studio-ui\\3a0d380b84f451b380b628f907eba5d7
+[14:24:16] probe x20r-f10-car-p1 (try 1)
+[14:24:17]   => {"frame": "interactive-b7cb865605b84bc0a57be9df8799f13d", "pos": [-11.63, 1.9, 47.37], "yaw": -20.96, "pitch": 0.0, "interactionId": null, "interactionAvailable": null}
+[14:24:17] x20r-f10-car round 1 at [-11.63, 1.9, 47.37] dist 36.83
+[14:24:17] x20r-f10-car stalled; jiggle d
+[14:24:17] act x20r-f10-car-jig1
+[14:24:20]   => {"ok": true, "pid": 144144, "hwnd": 16711948, "title": "URMAN (DEBUG)", "className": "Engine", "image": "C:\\Users\\ruste\\AppData\\Local\\Temp\\urman-codex-studio-ui\\8ba130b23641938336bf5433a0767269
+[14:24:20] act x20r-f10-car-go1
+[14:24:40]   => {"ok": true, "pid": 144144, "hwnd": 16711948, "title": "URMAN (DEBUG)", "className": "Engine", "image": "C:\\Users\\ruste\\AppData\\Local\\Temp\\urman-codex-studio-ui\\9013853c45c22c2471e49a15be4f1966
+[14:24:40] probe x20r-f10-car-p2 (try 1)
+[14:24:41]   => {"frame": "interactive-6feeab6fefc44f7dbd740cfb8c7cac69", "pos": [-11.63, 1.9, 47.37], "yaw": -21.12, "pitch": 0.0, "interactionId": null, "interactionAvailable": null}
+[14:24:41] x20r-f10-car round 2 at [-11.63, 1.9, 47.37] dist 36.83
+[14:24:41] x20r-f10-car stalled; jiggle a
+[14:24:41] act x20r-f10-car-jig2
+[14:24:44]   => {"ok": true, "pid": 144144, "hwnd": 16711948, "title": "URMAN (DEBUG)", "className": "Engine", "image": "C:\\Users\\ruste\\AppData\\Local\\Temp\\urman-codex-studio-ui\\86b538d7dd063e3b1217e8ee148ff079
+[14:24:44] act x20r-f10-car-go2
+[14:24:49]   => {"ok": false, "pid": 144144, "hwnd": 16711948, "title": "URMAN (DEBUG)", "className": "Engine", "image": null, "closeRequested": false, "processExited": false, "error": "The owned game window lost for
+[14:24:49] probe x20r-f10-car-p3 (try 1)
+[14:24:50]   => {"frame": "interactive-e3ae26ddc9074baa936ecfa63f67c694", "pos": [-11.63, 1.9, 47.37], "yaw": -21.12, "pitch": 0.0, "interactionId": null, "interactionAvailable": null}
+[14:24:50] probe x20r-f10-south-p0 (try 1)
+[14:24:51]   => {"frame": "interactive-a47b92c65a024b35a246bd6347a47881", "pos": [-11.67, 1.9, 47.36], "yaw": -5.12, "pitch": 0.0, "interactionId": null, "interactionAvailable": null}
+[14:24:51] x20r-f10-south round 0 at [-11.67, 1.9, 47.36] dist 51.02
+[14:24:51] act x20r-f10-south-go0
+[14:24:53]   => {"ok": false, "pid": 144144, "hwnd": 16711948, "title": "URMAN (DEBUG)", "className": "Engine", "image": null, "closeRequested": false, "processExited": false, "error": "The owned game window lost for
+[14:24:53] probe x20r-f10-south-p1 (try 1)
+[14:24:54]   => {"frame": "interactive-3e32f28c58644511a843e86d8ba65945", "pos": [-11.7, 1.9, 47.36], "yaw": 3.68, "pitch": 0.0, "interactionId": null, "interactionAvailable": null}
+[14:24:54] x20r-f10-south round 1 at [-11.7, 1.9, 47.36] dist 51.03
+[14:24:54] x20r-f10-south stalled; jiggle d
+[14:24:54] act x20r-f10-south-jig1
+[14:24:57]   => {"ok": false, "pid": 144144, "hwnd": 16711948, "title": "URMAN (DEBUG)", "className": "Engine", "image": null, "closeRequested": false, "processExited": false, "error": "The owned game window lost for
+[14:24:57] act x20r-f10-south-go1
+[14:24:59]   => {"ok": false, "pid": 144144, "hwnd": 16711948, "title": "URMAN (DEBUG)", "className": "Engine", "image": null, "closeRequested": false, "processExited": false, "error": "The owned game window lost for
+[14:24:59] probe x20r-f10-south-p2 (try 1)
+[14:25:01]   => {"frame": "interactive-d47537867b0346239d8509496fe72764", "pos": [-11.8, 1.9, 47.39], "yaw": 35.68, "pitch": 0.0, "interactionId": null, "interactionAvailable": null}
+[14:25:01] x20r-f10-south round 2 at [-11.8, 1.9, 47.39] dist 51.08
+[14:25:01] x20r-f10-south stalled; jiggle a
+[14:25:01] act x20r-f10-south-jig2
+[14:25:04]   => {"ok": true, "pid": 144144, "hwnd": 16711948, "title": "URMAN (DEBUG)", "className": "Engine", "image": "C:\\Users\\ruste\\AppData\\Local\\Temp\\urman-codex-studio-ui\\925f971e39979e30c5d3c17b8b940e03
+[14:25:04] act x20r-f10-south-go2
+[14:25:31]   => {"ok": true, "pid": 144144, "hwnd": 16711948, "title": "URMAN (DEBUG)", "className": "Engine", "image": "C:\\Users\\ruste\\AppData\\Local\\Temp\\urman-codex-studio-ui\\dfe3c7695fa88b0fa56e73adc7907c98
+[14:25:31] probe x20r-f10-south-p3 (try 1)
+[14:25:32]   => {"frame": "interactive-4b47bc4d3bf24b61a4744f11dafae3fc", "pos": [-11.7, 1.9, 47.36], "yaw": 3.68, "pitch": 0.0, "interactionId": null, "interactionAvailable": null}
+[14:25:32] x20r-f10-south round 3 at [-11.7, 1.9, 47.36] dist 51.03
+[14:25:32] x20r-f10-south stalled; jiggle d
+[14:25:32] act x20r-f10-south-jig3
+[14:25:36]   => {"ok": true, "pid": 144144, "hwnd": 16711948, "title": "URMAN (DEBUG)", "className": "Engine", "image": "C:\\Users\\ruste\\AppData\\Local\\Temp\\urman-codex-studio-ui\\8e91cbd4778ad74764f3081b4a8fe1ea
+[14:25:36] act x20r-f10-south-go3
+[14:26:02]   => {"ok": true, "pid": 144144, "hwnd": 16711948, "title": "URMAN (DEBUG)", "className": "Engine", "image": "C:\\Users\\ruste\\AppData\\Local\\Temp\\urman-codex-studio-ui\\e89dd317f10e8e8f44e2677185e50a84
+[14:26:02] probe x20r-f10-south-p4 (try 1)
+[14:26:03]   => {"frame": "interactive-04bdd010f7ba488a8c4ceae5b3c05b38", "pos": [-11.65, 1.9, 47.36], "yaw": -12.32, "pitch": 0.0, "interactionId": null, "interactionAvailable": null}
+[14:26:03] probe x20r-f10-door-p0 (try 1)
+[14:26:03]   => {"frame": "interactive-310cc0b630de4b3abdc2890d97863ffa", "pos": [-11.65, 1.9, 47.36], "yaw": -12.32, "pitch": 0.0, "interactionId": null, "interactionAvailable": null}
+[14:26:03] x20r-f10-door round 0 at [-11.65, 1.9, 47.36] dist 49.99
+[14:26:03] act x20r-f10-door-go0
+[14:26:29]   => {"ok": false, "pid": 144144, "hwnd": 16711948, "title": "URMAN (DEBUG)", "className": "Engine", "image": null, "closeRequested": false, "processExited": false, "error": "The owned game window lost for
+[14:26:29] probe x20r-f10-door-p1 (try 1)
+[14:26:30]   => {"frame": "interactive-3c130a09c4874174b2493654e3e3b26b", "pos": [-11.67, 1.9, 47.36], "yaw": -5.44, "pitch": 0.0, "interactionId": null, "interactionAvailable": null}
+[14:26:30] x20r-f10-door round 1 at [-11.67, 1.9, 47.36] dist 49.99
+[14:26:30] x20r-f10-door stalled; jiggle d
+[14:26:30] act x20r-f10-door-jig1
+[14:27:32]   => {"ok": false, "error": "actor result timeout"}
+[14:27:32] act x20r-f10-door-go1
+[14:27:58]   => {"ok": true, "pid": 144144, "hwnd": 16711948, "title": "URMAN (DEBUG)", "className": "Engine", "image": "C:\\Users\\ruste\\AppData\\Local\\Temp\\urman-codex-studio-ui\\0b01cba90947f572ad6eeea381a4bbaf
+[14:27:58] probe x20r-f10-door-p2 (try 1)
+[14:27:59]   => {"frame": "interactive-7b38181088684627a8366076f009a101", "pos": [-11.7, 1.9, 47.36], "yaw": 2.56, "pitch": 0.0, "interactionId": null, "interactionAvailable": null}
+[14:27:59] x20r-f10-door round 2 at [-11.7, 1.9, 47.36] dist 49.99
+[14:27:59] x20r-f10-door stalled; jiggle a
+[14:27:59] act x20r-f10-door-jig2
+[14:28:02]   => {"ok": true, "pid": 144144, "hwnd": 16711948, "title": "URMAN (DEBUG)", "className": "Engine", "image": "C:\\Users\\ruste\\AppData\\Local\\Temp\\urman-codex-studio-ui\\9f1060d162659307e05b4ed0d211b30e
+[14:28:02] act x20r-f10-door-go2
+[14:28:28]   => {"ok": true, "pid": 144144, "hwnd": 16711948, "title": "URMAN (DEBUG)", "className": "Engine", "image": "C:\\Users\\ruste\\AppData\\Local\\Temp\\urman-codex-studio-ui\\6b6d55e35b0fc62b12b7e582323c7190
+[14:28:28] probe x20r-f10-door-p3 (try 1)
+[14:28:29]   => {"frame": "interactive-4da08c79e74f4d7bb534d4ac049bfb82", "pos": [-11.67, 1.9, 47.36], "yaw": -5.44, "pitch": 0.0, "interactionId": null, "interactionAvailable": null}
+[14:28:29] probe x20r-f10-door0 (try 1)
+[14:28:30]   => {"frame": "interactive-cf08933174e14cec8453d8d2ec7cfcec", "pos": [-11.67, 1.9, 47.36], "yaw": -5.44, "pitch": 0.0, "interactionId": null, "interactionAvailable": null}
+[14:28:30] F10 door check 0 ray =  avail = None
+[14:28:30] act x20r-f10-door-fix0
+[14:28:57]   => {"ok": true, "pid": 144144, "hwnd": 16711948, "title": "URMAN (DEBUG)", "className": "Engine", "image": "C:\\Users\\ruste\\AppData\\Local\\Temp\\urman-codex-studio-ui\\1b53c58efbccfbcf63994beb8c8e63ba
+[14:28:57] probe x20r-f10-door1 (try 1)
+[14:28:58]   => {"frame": "interactive-8cd0cdbd502e440c87896d8597e1aac2", "pos": [-11.87, 1.9, 47.55], "yaw": 94.24, "pitch": 0.0, "interactionId": null, "interactionAvailable": null}
+[14:28:58] F10 door check 1 ray =  avail = None
+[14:28:58] act x20r-f10-door-fix1
+[14:29:21]   => {"ok": true, "pid": 144144, "hwnd": 16711948, "title": "URMAN (DEBUG)", "className": "Engine", "image": "C:\\Users\\ruste\\AppData\\Local\\Temp\\urman-codex-studio-ui\\a65eb6b69d539cb3e19fd13f8b0ae462
+[14:29:21] probe x20r-f10-door2 (try 1)
+[14:29:22]   => {"frame": "interactive-95c4a6f348694c4fb71dc62e5e4cadc8", "pos": [-11.87, 1.9, 47.55], "yaw": 94.24, "pitch": 0.0, "interactionId": null, "interactionAvailable": null}
+[14:29:22] F10 door check 2 ray =  avail = None
+[14:29:22] F10 door fix stalled -> unstick combo
+[14:29:22] act x20r-f10-door-unstick
+[14:29:26]   => {"ok": true, "pid": 144144, "hwnd": 16711948, "title": "URMAN (DEBUG)", "className": "Engine", "image": "C:\\Users\\ruste\\AppData\\Local\\Temp\\urman-codex-studio-ui\\3c5a45f6f563a87cdfcb87f810526dea
+[14:29:26] probe x20r-f10-door3 (try 1)
+[14:29:27]   => {"frame": "interactive-b5875d967d5e4c239963dcd53170feb5", "pos": [-11.87, 1.9, 47.55], "yaw": 94.24, "pitch": 0.0, "interactionId": null, "interactionAvailable": null}
+[14:29:27] F10 door check 3 ray =  avail = None
+[14:29:27] act x20r-f10-door-fix3
+[14:29:50]   => {"ok": true, "pid": 144144, "hwnd": 16711948, "title": "URMAN (DEBUG)", "className": "Engine", "image": "C:\\Users\\ruste\\AppData\\Local\\Temp\\urman-codex-studio-ui\\9d74c56057bc063b6224b44539f7ae1b
+[14:29:50] probe x20r-f10-door4 (try 1)
+[14:29:51]   => {"frame": "interactive-ee17a0e1f76445419d4c210052febb38", "pos": [-11.87, 1.9, 47.55], "yaw": 94.24, "pitch": 0.0, "interactionId": null, "interactionAvailable": null}
+[14:29:51] F10 door check 4 ray =  avail = None
+[14:29:51] F10 door fix stalled -> unstick combo
+[14:29:51] act x20r-f10-door-unstick
+[14:29:55]   => {"ok": true, "pid": 144144, "hwnd": 16711948, "title": "URMAN (DEBUG)", "className": "Engine", "image": "C:\\Users\\ruste\\AppData\\Local\\Temp\\urman-codex-studio-ui\\c0710a1afb4d3716f86ff25d9948b0b6
+[14:29:55] probe x20r-f10-door5 (try 1)
+[14:29:56]   => {"frame": "interactive-f616807af0d34feaab39106c432ac167", "pos": [-11.87, 1.9, 47.55], "yaw": 94.24, "pitch": 0.0, "interactionId": null, "interactionAvailable": null}
+[14:29:56] F10 door check 5 ray =  avail = None
+[14:29:56] act x20r-f10-door-fix5
+[14:30:19]   => {"ok": true, "pid": 144144, "hwnd": 16711948, "title": "URMAN (DEBUG)", "className": "Engine", "image": "C:\\Users\\ruste\\AppData\\Local\\Temp\\urman-codex-studio-ui\\11e502017b1e24f02ea616a6b9142ea9
+[14:30:19] F10 door ray = False
+[14:30:19] act x20r-f10-door-e
+[14:30:23]   => {"ok": true, "pid": 144144, "hwnd": 16711948, "title": "URMAN (DEBUG)", "className": "Engine", "image": "C:\\Users\\ruste\\AppData\\Local\\Temp\\urman-codex-studio-ui\\9179db792f2e94dc94f88668e486a76a
+[14:30:23] settle zone-loaded: house_old_pc@entry t=12
+[14:30:35]   => {"event": "zone-loaded: house_old_pc@entry", "count": 0, "baseline": 0, "ok": false, "timeout": true}
+[14:30:35] act x20r-f10-door-e2
+[14:30:38]   => {"ok": true, "pid": 144144, "hwnd": 16711948, "title": "URMAN (DEBUG)", "className": "Engine", "image": "C:\\Users\\ruste\\AppData\\Local\\Temp\\urman-codex-studio-ui\\06dc8e7bf911f9996d88d2dbbdffdb79
+[14:30:38] settle zone-loaded: house_old_pc@entry t=12
+[14:30:50]   => {"event": "zone-loaded: house_old_pc@entry", "count": 0, "baseline": 0, "ok": false, "timeout": true}
+[14:30:50] F10 ENTERED = False
+[14:30:50] act x20r-f10-final
+[14:30:52]   => {"ok": true, "pid": 144144, "hwnd": 16711948, "title": "URMAN (DEBUG)", "className": "Engine", "image": "C:\\Users\\ruste\\AppData\\Local\\Temp\\urman-codex-studio-ui\\4c18a5ed8ce3c22a867185bee41c4414
+[14:30:52] act x20r-sfinal
+[14:30:55]   => {"ok": true, "pid": 144144, "hwnd": 16711948, "title": "URMAN (DEBUG)", "className": "Engine", "image": "C:\\Users\\ruste\\AppData\\Local\\Temp\\urman-codex-studio-ui\\12204c8d26a72042c87079bb5408df0a
+[14:30:55] probe x20r-sdone (try 1)
+[14:30:55]   => {"frame": "interactive-4f1b911d99154ea4b174d957388351be", "pos": [-11.87, 1.9, 47.55], "yaw": 94.24, "pitch": 0.0, "interactionId": null, "interactionAvailable": null}
+[14:30:55] DONE elapsed = 673

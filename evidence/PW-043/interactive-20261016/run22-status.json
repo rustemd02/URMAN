@@ -1,0 +1,12 @@
+{
+  "job_id": "667d3d59396a40c39fc4860c4954808f",
+  "snapshot_id": "67e74f292416ca350a08b776d67578e43247ba13197523eed1b711c363ba4863",
+  "status": "FAIL (game exited 124 at the cap; the driver died right after the window came up — nobody drove this run)",
+  "window": "job 15:04:19 .. 15:27:19 MSK; game window up 15:07:24; run22-driver-live.log ends at 'budget: seconds to the 1200 s cap = 1178'",
+  "delivered": [
+    "fullgame-scene-loaded: urman.fullgame:scene/pw-prologue physical=W01 entry=F00 — the game started in the prologue and stayed there"
+  ],
+  "guard": "userdata guard: child exceeded 1200s; stopping it -> original files restored by rename and verified (run22-game.log lines 54-55)",
+  "note": "last submitted job of the pilot; interactive runs were not resumed after it — the session pivoted to the code-side graph reconciliation",
+  "fetched": "17.10.2026, status/fetch only, no rerun"
+}

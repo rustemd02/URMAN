@@ -1,0 +1,15 @@
+{
+  "job_id": "9a73853c36b54f378ff1559915227f16",
+  "snapshot_id": "d58627ef03607765f4e9bd6b6b189a61ea63f75ab8e3b7c03e16221a04007f15",
+  "status": "FAIL (game exited 124 at the cap; the driver stopped itself at 14:45:05, rescue7 finished 14:50:46, the game then sat idle)",
+  "window": "job 14:38:54 .. 15:01:53 MSK (1200 s cap); game window up 14:41:54",
+  "delivered": [
+    "skip ok from the first attempt (x21-skip0 ok:true 14:42:17)",
+    "arrival settled: zone-loaded village_day@arrival 14:43:22, checkpoint pw-niva-arrival 14:43:48",
+    "honest negative: the niva act x21-niva was refused with 'The owned game window lost foreground focus' (14:43:50); three E-retries (e0/e1 refused, e2/e3 ok:true) never fired the pw-niva-stop event, so the niva beat stayed locked and the house door presentation would stay empty"
+  ],
+  "stop": "driver stopped itself: 'NIVA BEAT LOCKED -> house door would stay empty; stop' 14:45:05; fail probe x21-fail at (-11.1, 1.89, 48.18) yaw 16 — the player never left the ride start",
+  "rescue7": "f10rescue7 (launched 14:42, took over the same game pid 131904): walked to the house door at the porch (-6.79, 1.46, -2.15), five ray checks and two E attempts found no door interaction (the locked niva beat), F10 ENTERED = False, DONE elapsed = 453 (14:50:46); its last probe is the station frame x21-porch-viewport",
+  "guard": "userdata guard: child exceeded 1200s; stopping it -> original files restored by rename and verified (run21-game.log lines 572-573)",
+  "fetched": "17.10.2026, status/fetch only, no rerun"
+}
