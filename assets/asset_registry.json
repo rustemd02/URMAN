@@ -3440,8 +3440,9 @@
         "task": "ACT1-TEXTURE.03/E01",
         "receiver": "Act1CoreWorldGreybox/Arrival/ArrivalBusStop/GalvanizedPost only",
         "material": "Per-instance PML zinc_sheet clone; original79837f tint, .5m local triplanar original albedo, existing .52rough/.34spec/.90metallic response. Generic wear-mask/bottom-rust disabled. Other stop parts/cache/geometry/collider/state unchanged; missing map/headless keeps former finish.",
-        "qa": "Root viewed original, source review+affected Game0/0 accepted; first exact native not_run while peer cb9e station busy/recovery. Current runtime/art gate remains in ACT1-TEXTURE.03/E01.",
-        "build_evidence": "evidence/ACT1-TEXTURE.03/arrival-m01-20261016/game-build.log"
+        "qa": "Root personally accepted exact lower-post static zinc and snow contact at actualHigh/comparable/scale1, no obvious seam/collapse/chrome glare or demonstrated float. No matched before-after/other fixtures/movement/full art claim; scope/remnants solely ACT1-TEXTURE.03/E01.",
+        "build_evidence": "evidence/ACT1-TEXTURE.03/arrival-m01-20261016/game-build.log",
+        "native_static_evidence": "evidence/ACT1-TEXTURE.03/arrival-m01-20261016/native_e71e9b/frames/m01_arrival_post.png"
       }
     },
     {

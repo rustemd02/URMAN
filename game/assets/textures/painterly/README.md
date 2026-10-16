@@ -1169,6 +1169,10 @@ Source/runtime are byte-identical, SHA
 existing ImageGen provenance is in `texture.rural.realism.metal.20260930`.
 Root viewed the map and reviewed the source; affected build passed0/0,
 `evidence/ACT1-TEXTURE.03/arrival-m01-20261016/game-build.log`.
-First exact native `m01_arrival_post` is not_run while the station's peer run
-is active. Source and compile do not establish visual/movement/art acceptance;
-the task owns that remainder and the station release condition.
+Root personally viewed native `e71e9b9dd54b45d9b64d677a56a34c64`:
+`evidence/ACT1-TEXTURE.03/arrival-m01-20261016/native_e71e9b/frames/m01_arrival_post.png`.
+Actual High/comparable/scale1; named lower-post static zinc finish and snow contact
+accepted, with no obvious seam/collapse/chrome glare or demonstrated floating gap.
+No matched before-after, upper-sign, other-fixture, movement or full-art claim;
+the task owns those remaining criteria. Raw receipt PASS, hashes verified and
+player data restored. No unchanged capture/compile replay.
