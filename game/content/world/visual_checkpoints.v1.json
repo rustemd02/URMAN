@@ -547,6 +547,31 @@
       "spec": "ArchivePhotoTable@-1.7,1.55,-0.5>ArchivePhotoTable@0,0.74,0",
       "graphicsPreset": "high",
       "subject": "ACT1-TEXTURE.03/E12: actual live club foyer archive table laminate, named0.75m metric repeat; static top/edge/support only, no interaction/route/full art acceptance."
+    },
+    {
+      "id": "fap_cabinet_m04",
+      "spec": "FapInteriorCabinet_Body_LOD0@0.95,0.45,1.9>FapInteriorCabinet_Body_LOD0@0,0.02,0",
+      "subject": "ACT1-TEXTURE.03/E04: authored enamel medicine-cabinet carcass only, side/top and mounting; doors/insets/handles unchanged, no substrate or whole-cabinet acceptance.",
+      "zoneId": "fap_clinic",
+      "graphicsPreset": "high"
+    },
+    {
+      "id": "s08_drain_ice",
+      "spec": "ShallowFrozenDrainBed@0.8,3,2.2>ShallowFrozenDrainBed@0,0.03,0",
+      "subject": "ACT1-TEXTURE.02/E06 S08: existing shallow household drain ice, original 1m clouded ice map; static material/rim/contact view only, board/carry/state unchanged.",
+      "graphicsPreset": "high"
+    },
+    {
+      "id": "s09_ditch_snow_bank",
+      "spec": "ZiratRoadsideAuthoredKitPresentation@2.55,1.15,-72.45>ZiratRoadsideAuthoredKitPresentation@1.47,0.55,-71.39",
+      "subject": "ACT1-TEXTURE.02/E07 S09: exact ground snow bank with local 2m inclusion albedo, adjacent sedge separate; authored tint/response/geometry/contact preserved. Static only. Unique existing core ancestor; horizontal target from authored+takeover placement, targetY .55 estimate covering individually grounded bank and adjacent stems.",
+      "graphicsPreset": "high"
+    },
+    {
+      "id": "m09_niva_passenger",
+      "spec": "NivaInterior@0.842,0.5,-0.26>NivaInterior@1.142,0.06,0.39",
+      "subject": "ACT1-TEXTURE.03/E08: exact NivaInterior 302f2b vinyl passenger seat-back, original M09 .5m local RGB modulation; original dark tint/response/seat geometry retained. Static only, no whole cabin/motion acceptance.",
+      "graphicsPreset": "high"
     }
   ],
   "batches": [

@@ -7,6 +7,9 @@ public static partial class VehicleVisualFactory
     public const string NivaModelPath = "res://assets/generated/urman_niva.glb";
     private const string NivaTyreRubberTexturePath = "res://assets/textures/realism_20260929/moulded_rubber_black_v1_basecolor.png";
     private const float NivaTyreRubberRepeatMetres = 0.35f;
+    private const string NivaInteriorVinylTexturePath = "res://assets/textures/painterly/urman_m09_v01_basecolor.png";
+    private const float NivaInteriorVinylRepeatMetres = 0.5f;
+    private static readonly Vector3 NivaInteriorVinylReferenceLinear = new(0.07446924f, 0.04984906f, 0.03598655f);
 
     // Retained like the character kit: every Niva build instantiates this one
     // scene, and a collected wrapper between loads can swap a dead GC handle.
@@ -56,7 +59,8 @@ public static partial class VehicleVisualFactory
             for (var surface = 0; surface < source.Mesh.GetSurfaceCount(); surface++)
             {
                 var authored = source.Mesh.SurfaceGetMaterial(surface)?.ResourceName ?? string.Empty;
-                part.SetSurfaceOverrideMaterial(surface, ModelMaterial(authored, partName == "NivaWheel"));
+                part.SetSurfaceOverrideMaterial(surface, ModelMaterial(
+                    authored, partName == "NivaWheel", partName == "NivaInterior"));
             }
             part.SetMeta("assetSource", NivaModelPath);
             part.SetMeta("collisionAuthority", "none; VehicleController hull and wheel shapes");
@@ -77,7 +81,7 @@ public static partial class VehicleVisualFactory
         return extras["urman_triangle_corners"].AsInt32();
     }
 
-    private static Material ModelMaterial(string authoredName, bool isNivaWheel = false)
+    private static Material ModelMaterial(string authoredName, bool isNivaWheel = false, bool isNivaInterior = false)
     {
         // The generator authors every finish as "<6 hex>__<surface>"
         // (tools/blender/generate_niva.py); anything else is a hand-renamed slot
@@ -89,13 +93,39 @@ public static partial class VehicleVisualFactory
                 $"Niva finish '{authoredName}' is not authored as <hex6>__<surface>; "
                 + "fix the generator material name rather than letting the model take a fallback.");
         var isNivaTyreRubber = isNivaWheel && StringComparer.Ordinal.Equals(parts[1], "rubber");
+        var isNivaInteriorVinyl = isNivaInterior
+            && StringComparer.Ordinal.Equals(parts[0], "302f2b")
+            && StringComparer.Ordinal.Equals(parts[1], "vinyl");
         // Only the four imported tyre surfaces get this variant. The source
         // vehicle_rubber material stays cached for body, cabin and pedal parts.
-        var cacheKey = isNivaTyreRubber ? authoredName + "|NivaWheelTyre" : authoredName;
+        var cacheKey = isNivaTyreRubber
+            ? authoredName + "|NivaWheelTyre"
+            : isNivaInteriorVinyl ? authoredName + "|NivaInteriorVinyl" : authoredName;
         if (ModelMaterials.TryGetValue(cacheKey, out var cached)) return cached;
         var material = ForFinish(parts[0], parts[1]);
         if (isNivaTyreRubber) material = NivaTyreRubberMaterial(material);
+        else if (isNivaInteriorVinyl) material = NivaInteriorVinylMaterial(material);
         ModelMaterials[cacheKey] = material;
+        return material;
+    }
+
+    private static Material NivaInteriorVinylMaterial(Material vinyl)
+    {
+        // Optional M09 stays out of headless paths and falls back to the existing
+        // procedural seat finish if either the map or its import is unavailable.
+        if (PainterlyMaterialLibrary.SuppressTextureLoadsForHeadlessTests
+            || vinyl is not ShaderMaterial source
+            || !ResourceLoader.Exists(NivaInteriorVinylTexturePath)
+            || ResourceLoader.Load<Texture2D>(NivaInteriorVinylTexturePath) is not { } texture)
+            return vinyl;
+
+        // Keep the half-metre projection mesh-local, independent of imported UVs.
+        var material = (ShaderMaterial)source.Duplicate();
+        material.SetShaderParameter("albedo_texture", texture);
+        material.SetShaderParameter("use_albedo_texture", true);
+        material.SetShaderParameter("albedo_reference_linear", NivaInteriorVinylReferenceLinear);
+        material.SetShaderParameter("albedo_texture_scale", new Vector2(
+            1f / NivaInteriorVinylRepeatMetres, 1f / NivaInteriorVinylRepeatMetres));
         return material;
     }
 

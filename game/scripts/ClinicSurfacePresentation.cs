@@ -152,6 +152,39 @@ public static class ClinicSurfacePresentation
             radiatorBody.SetMeta("textureTileMetres", .5f);
         }
 
+        // The authored cabinet carcass is explicitly an enamel surface. Keep
+        // the current institutional tint, but replace the generic plaster
+        // finish with the neutral M04 enamel pigment. This does not assign a
+        // metal substrate or reclassify the separately authored doors/insets.
+        var cabinetBodies = meshes.Where(mesh =>
+                mesh.Name == "FapInteriorCabinet_Body_LOD0"
+                || mesh.Name == "FapInteriorCabinet_Body_LOD1")
+            .ToArray();
+        if (ResourceLoader.Load<Texture2D>(paintedSteelPath) is { } cabinetEnamelTexture)
+        {
+            foreach (var cabinetBody in cabinetBodies)
+            {
+                var cabinetEnamel = (ShaderMaterial)PainterlyMaterialLibrary
+                    .ForColor("7b8d86", "enamel", sheltered: true).Duplicate();
+                cabinetEnamel.SetShaderParameter("albedo_texture", cabinetEnamelTexture);
+                cabinetEnamel.SetShaderParameter("has_albedo_texture", true);
+                cabinetEnamel.SetShaderParameter("texture_scale", new Vector2(1f / .75f, 1f / .75f));
+                cabinetEnamel.SetShaderParameter("local_floor_texture", true);
+                cabinetEnamel.SetShaderParameter("metallic_value", 0f);
+                cabinetEnamel.SetShaderParameter("roughness_value", .45f);
+                cabinetEnamel.SetShaderParameter("specular_value", .28f);
+                cabinetEnamel.SetShaderParameter("variation", .018f);
+                cabinetEnamel.SetShaderParameter("finish_grain", .025f);
+                // No authored chips or exposed substrate on this carcass.
+                cabinetEnamel.SetShaderParameter("has_wear_mask", false);
+                cabinetEnamel.SetShaderParameter("wear_bottom_gain", 0f);
+                cabinetBody.MaterialOverride = cabinetEnamel;
+                cabinetBody.SetMeta("materialRole", "FAP medicine cabinet enamel carcass; dielectric M04 pigment, no substrate claim");
+                cabinetBody.SetMeta("sourceTexture", paintedSteelPath);
+                cabinetBody.SetMeta("textureTileMetres", .75f);
+            }
+        }
+
         var mirror = Descendants(room.GetNode<Node3D>("ClinicPlainMirror"))
             .OfType<MeshInstance3D>().Single();
         var silver = (ShaderMaterial)PainterlyMaterialLibrary

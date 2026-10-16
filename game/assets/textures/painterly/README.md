@@ -1084,3 +1084,45 @@ beige laminate, separate edge/metal frame and supports are visible, no obvious
 stretch/seam. High/comparable=true/scale1, verified/restored source snapshot.
 Finite named static consumer only; no ordinary entry route/movement/full art or
 all-desk 0.75 m claim.
+
+
+M04 clinic cabinet carcass (16.10.2026): the authored Blender role is explicitly
+`wall medicine cabinet enamel carcass`. Only `FapInteriorCabinet_Body_LOD0`
+(and exact LOD1 if present) receives the existing neutral enamel map above,
+per instance at 0.75 m local triplanar repeat, preserving tint `7b8d86`.
+The former plaster response is replaced by `.45/.28/0` roughness/specular/metallic;
+generic enamel chips and bottom wear are disabled. No physical substrate is asserted.
+Doors, wood insets, handles, shelf, geometry and shared material cache are unchanged.
+Root inspected the body side/top/bevel and mounting in native
+`0b5512aec3774878bc47a6a12a4ca7af`:
+`evidence/ACT1-TEXTURE.03/fap-cabinet-m04-20261016/native_0b5512/frames/fap_cabinet_m04.png`.
+Static finish hookup accepted with no obvious seam/UV collapse. Actual Low/rescue,
+scale 0.7; no High, movement, whole-cabinet art or matched before/after acceptance.
+
+
+S08 small ice (16.10.2026): existing project-original procedural
+`ice_small_v1_albedo.png`, SHA `98827b3b79c5e9bb760e8e1d6d049836427c9079677ef34cde9923b314140595`,
+is already bound at 1 m through PML `ice` to `DrainIceMaterial` on
+`BabaiDrainBoardCrossing/ShallowFrozenDrainBed`. Source, physical contacts and
+carry state were retained. Root viewed the original map and actual native
+`860f58d1646a4dbbb166ec88d5f91f98` at High/comparable/scale 1:
+`evidence/ACT1-TEXTURE.02/s08-drain-20261016/native_860f58/frames/s08_drain_ice.png`.
+Raw receipt PASS does not close visual acceptance: the fixed
+`MainStreetPhysicalFirewood` overlaps the relocated crossing center, so the
+ice rim/contacts are not fully visible. Another angle would only show an
+uncovered portion; no unchanged rerun or material replacement is warranted.
+The precise geometric remainder and release condition live only in E06.
+
+
+S09 named bank source (16.10.2026): `snow_grass_v2_albedo.png`, original procedural
+SHA `0d98222017a84c991b1b6e32df43e320ceb4e00a19ffd3d8444754acace13683`,
+now has an explicit ground-surface receiver in connected-world material regrade:
+`ZiratRoadsideDitch/RoadsideDitch/RoadsideDitch_Bank_02_LOD0`, source `DampEarth`.
+Only its already graded shader material is cloned, replacing albedo at 2 m per
+repeat while retaining snow-ground tint `f1f5f9`, response and world projection.
+Other banks, shared caches, geometry, grounded contacts and separate sedge remain
+unchanged. Existing snow-grass assignments on upright plants are not evidence
+of this ground-snow brief. Root viewed the source map; affected build passed0/0,
+`evidence/ACT1-TEXTURE.02/s09-bank-20261016/game-build.log`.
+The first exact native `s09_ditch_snow_bank` view is still not_run; source and
+compile do not establish game, movement or art readiness. E07 owns that remainder.

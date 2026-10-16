@@ -2475,6 +2475,28 @@ public partial class Act1ConnectedWorld : Node3D
                     mesh.SetMeta("materialProjection", "object-local triplanar; existing hay fiber texture; dry sheltered storage");
                 }
 
+                // S09 belongs to the snowy ground bank; the upright sedge cards
+                // keep their separate DitchGrass material. Clone the already
+                // graded bank instance so its snow-ground tint and response stay
+                // intact while only this surface receives the sparse inclusion map.
+                if (memberName == "RoadsideDitch_Bank_02_LOD0"
+                    && path.StartsWith(
+                        "RoadsideDitch_Bank_02_LOD0/RoadsideDitch/ZiratRoadsideDitch/",
+                        StringComparison.Ordinal)
+                    && string.Equals(sourceName, "DampEarth", StringComparison.Ordinal)
+                    && material is ShaderMaterial bankSnowMaterial
+                    && ResourceLoader.Load<Texture2D>(
+                        "res://assets/textures/painterly/snow_grass_v2_albedo.png") is { } snowGrassAlbedo)
+                {
+                    var s09BankMaterial = (ShaderMaterial)bankSnowMaterial.Duplicate();
+                    s09BankMaterial.SetShaderParameter("albedo_texture", snowGrassAlbedo);
+                    s09BankMaterial.SetShaderParameter("has_albedo_texture", true);
+                    s09BankMaterial.SetShaderParameter("texture_scale", new Vector2(.5f, .5f));
+                    material = s09BankMaterial;
+                    mesh.SetMeta("s09AlbedoSource", "snow_grass_v2_albedo.png");
+                    mesh.SetMeta("s09MetresPerRepeat", 2f);
+                }
+
                 // Public09: the five authored rear seni infill families are
                 // opaque planar sheets with doubleSided=true in the GLB. Their
                 // inward faces must retain that source contract after grading.

@@ -5290,22 +5290,32 @@
             "title": "Подключить S08 — Поверхность небольшого льда",
             "result": "Подключить S08 — Поверхность небольшого льда",
             "owner": "art/materials/qa",
-            "evidence": [],
+            "evidence": [
+              "S08 promptbook section539: 1x1m seamless RGB clouded pale grey-green/desaturated blue-grey ground ice; no baked transparency/specular/slip. Existing project-original procedural ice_small_v1_albedo.png SHA98827b3b79c5e9bb760e8e1d6d049836427c9079677ef34cde9923b314140595 verified against procedural_bake_receipt_v1.json; root viewed original map, no new image generation.",
+              "Live BuildCarryables -> BuildYardMechanisms -> BuildBoardCrossing creates BabaiDrainBoardCrossing/ShallowFrozenDrainBed -> DrainIceMaterial -> PML ice/WinterTextures map at1m. Existing analytic shallow ground-following mesh/contact and local frosted roughness.82/specular.12/wet_grade0 retained. No missing source binding, production code not changed; exact native receiver proof is missing.",
+              "evidence/ACT1-TEXTURE.02/s08-drain-20261016/native_860f58/receipt.json: native860f58d1646a4dbbb166ec88d5f91f98 rawPASS/build-import-game0; snapshot4d01225560e7d76aa8d304f26516b1c8518fef36961a83b839fe4782e377e70f/rawZIPde431a1bce2d11f73617f18a025feca925ea8993eedb1ffcb2ec3145cae8e356 verified, source BoardCrossing/YardMechanisms/Act1ConnectedWorld/PML/map/checkpoint exact current hashes. userdataRestored/snapshot_hashes_verified=true; worker931b27 unchanged; engine-errors empty.",
+              "evidence/ACT1-TEXTURE.02/s08-drain-20261016/native_860f58/frames/s08_drain_ice.png: root personally reviewed actualHigh/comparabletrue/scale1/FOV55/1920x1080. Partial clouded blue ice visible left of fence, but central bed under logs; rim/contacts not fully established, full static receiver acceptance NOT_ACCEPTED despite nativePASS. No new material/geometry/code/build tests added.",
+              "Confirmed source cause: Act1ConnectedWorld.BabaiRelocation.cs Move(root) handles direct Babai* roots; BoardCrossing built before relocation. Act1ConnectedWorld.cs MainStreetPhysicalFirewood is duplicate anchored(5,CollisionGround(5,2.3)-.04,2.3), scale(.9,1.25,1.1), intentionally matches existing FirewoodCollision. Crossing actual target(5.926085,.102559,2.646706) matches transformed source; woodpile local(-.989,-.014) overlaps ribbon. No unsupported claim of house/fence collision. Own job restored/terminal; subsequent doctor reports another busy8180d19e767542f59e5c1603a0bd4b2a with recovery pending, left untouched."
+            ],
             "assigned_owner": "art/materials/qa",
             "active_owner": null,
             "activity": {
-              "state": "not_active",
-              "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+              "state": "released",
+              "reason": "Existing S08 binding verified, but root rejected full static receiver acceptance due confirmed fixed woodpile overlap after crossing relocation. No blind camera rerun or protected carry-state change."
             },
             "task_type": "engineering",
-            "status": "todo",
+            "status": "blocked",
             "implementation_state": "partial",
-            "technical_verification_state": "not_run",
+            "technical_verification_state": "failed",
             "remaining": [
-              "Подключить S08 — Поверхность небольшого льда; собственного целевого receipt пока нет."
+              "Resolve the confirmed crossing/fixed street woodpile footprint overlap using current layout/physics owners; do not move only the visual logs or seed/reset carry-board saved state.",
+              "After changed placement/input, inspect exposed ice rim/ground contacts and separately retain ordinary movement/art acceptance. No unchanged native rerun."
             ],
-            "next_action": "Сопоставить текущий результат: Подключить S08 — Поверхность небольшого льда. Затем изменить только установленный остаток.",
-            "blocker": null,
+            "next_action": "Coordinate one bounded layout reconciliation of BabaiDrainBoardCrossing with MainStreetPhysicalFirewood/FirewoodCollision; use source relocation fact and actual860f58, preserve carry-board persisted pose/custody. S08 map/PML binding needs no rewrite; switch to independent ready work while this geometric input remains unresolved.",
+            "blocker": {
+              "reason": "Actual High860f58 shows ShallowFrozenDrainBed centrally occluded by MainStreetPhysicalFirewood. RelocateBabaiHousehold moves direct Babai* crossing to(5.926,2.647), while street woodpile remains at(5,2.3), only.989m away, crossing-local(-.989,-.014) within ice ribbon. Fixed visual matches existing FirewoodCollision; moving only presentation would break physical correspondence. House/fence intersection not established.",
+              "release_when": "Provide a single reconciled current layout for relocated crossing/board-support approaches versus physics-owned street woodpile, preserving saved props/custody and contacts; then inspect changed receiver in one targeted view. A different angle of the unchanged overlapping center does not release this blocker."
+            },
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
             "work_contract": {
@@ -5334,7 +5344,7 @@
               ],
               "verification": {
                 "method": "targeted_runtime_scenario",
-                "question": "Подключить S08 — Поверхность небольшого льда",
+                "question": "Does existing ShallowFrozenDrainBed visibly read as small clouded ice distinct from granular snow at its authored wandering ground-following rim, without UV collapse, raised slab or obvious floating contact? Static material hookup only; board/carry state not exercised.",
                 "scenario": {
                   "targets": [
                     "game/assets/textures/painterly/README.md",
@@ -5375,21 +5385,29 @@
             "title": "Подключить S09 — Снег с редкими растительными включениями",
             "result": "Подключить S09 — Снег с редкими растительными включениями",
             "owner": "art/materials/qa",
-            "evidence": [],
+            "evidence": [
+              "Original project procedural S09 snow_grass_v2_albedo.png, SHA0d98222017a84c991b1b6e32df43e320ceb4e00a19ffd3d8444754acace13683,1024² RGB/2m/seed20261019 matches procedural_bake_receipt_v1.json. Root viewed map and S09 brief: pearl ground snow with sparse flush straw fragments; separate upright plants are not this target surface.",
+              "Current live core BuildAct1ZiratRoadsideKit/RegradeAct1DaylightKitMaterials has DitchGrass→snow_grass on separate sedge geometry, insufficient for S09 ground-snow acceptance. Named RoadsideDitch_Bank_02_LOD0 is ground bank (DampEarth→snow_ground), centered mesh bounds(-.30,0,-.44)..(.30,.13,.44), node(1.36,.05,-.20) subsequently individually grounded. Missing local S09 albedo binding on this exact bank; no full-family replacement.",
+              "game/scripts/Act1ConnectedWorld.cs: post-regrade exact member/path/source DampEarth and ShaderMaterial guards; per-instance clone only RoadsideDitch_Bank_02_LOD0, original snow_grass_v2_albedo bound at texture_scale(.5,.5). Existing snow-ground tint f1f5f9/response/projection retained. Other banks/DampEarth/PML/cache/sedge meshes/geometry/contacts/state unchanged.",
+              "evidence/ACT1-TEXTURE.02/s09-bank-20261016/game-build.log: final affected Game build0 errors/0warnings,30.01s; root+Luna source review, no new tests/probes. Source/compile are not runtime/art acceptance. Exact owner-relative checkpoint s09_ditch_snow_bank uses centered mesh bbox and follows existing per-mesh grounding.",
+              "Station remains occupied by8180d19e767542f59e5c1603a0bd4b2a/recovery pending, no new S09 job submitted. Do not inspect/control/terminate peer run or replay blocked S08; wait owner release instead of unchanged polling.",
+              "evidence/ACT1-TEXTURE.03/niva-m09-20261016/native_7dad74/receipt.json: rawFAIL/game1/build-import0, ZIP SHAad91bba47d299b0f19d5bfb006f398c9394d9ec95d93ef51c123e57fdb961ae2/snapshot a4506656dc9d3f6f4e829cc64ed1b4bc7cd48fd35968d01a3a2d37d7b5e6583e verified, userdata restored/hashverified. S09 bare mesh matches2 (local zirat-return-road replica+core); unique-owner guard correctly refused/no frames, M09 notattempted. Existing48resource/RID guard-abort leaks retained, no new shader compilation error. Changed-input followup uses existing unique ZiratRoadsideAuthoredKitPresentation, no alias/rename/guard bypass. M09 runs first; current affected compile reused."
+            ],
             "assigned_owner": "art/materials/qa",
-            "active_owner": null,
+            "active_owner": "codex/root",
             "activity": {
-              "state": "not_active",
-              "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+              "state": "confirmed_active",
+              "reason": "Previous8180 terminal/restore, doctor now free/busy null/recovery false/orphan false. Root takes single native integration of prepared S09 named bank, combined with new M09 frame."
             },
             "task_type": "engineering",
-            "status": "todo",
+            "status": "in_progress",
             "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
-              "Подключить S09 — Снег с редкими растительными включениями; собственного целевого receipt пока нет."
+              "First actual native frame of named S09 snowy bank after station release; inspect quiet inclusions/2m scale/edge/support and separate sedge, record actual quality and restore evidence.",
+              "Whole-family motion/art/other receivers remain outside this named source stage; do not claim white sedge material as S09 snow-surface acceptance."
             ],
-            "next_action": "Сопоставить текущий результат: Подключить S09 — Снег с редкими растительными включениями. Затем изменить только установленный остаток.",
+            "next_action": "Capture changed unique-core-ancestor s09_ditch_snow_bank after M09 first point; source horizontal target(1.47,-71.39) from roadAnchor+component placement/takeover, targetY.55 explicitly estimated to cover individually grounded bank+stems. No material/compile rewrite for duplicate-name guard.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -5399,7 +5417,9 @@
                 "game/assets/textures/painterly/README.md",
                 "assets/asset_registry.json",
                 "docs/urman_knowledge_base/art/urman_imagegen_texture_prompt_book_2026-09-22.md",
-                "docs/urman_knowledge_base/assets.md"
+                "docs/urman_knowledge_base/assets.md",
+                "game/scripts/Act1ConnectedWorld.cs",
+                "game/content/world/visual_checkpoints.v1.json"
               ],
               "required_inputs": [],
               "scope_in": [
@@ -5419,7 +5439,7 @@
               ],
               "verification": {
                 "method": "targeted_runtime_scenario",
-                "question": "Подключить S09 — Снег с редкими растительными включениями",
+                "question": "Does the existing named RoadsideDitch_Bank_02_LOD0 ground bank show quiet S09 pearl snow with sparse flush fragments at2m, with adjacent upright sedge separate and bank shape/tint/support/contact unchanged? Static receiver only; no generic grass-family acceptance.",
                 "scenario": {
                   "targets": [
                     "game/assets/textures/painterly/README.md",
@@ -8771,23 +8791,27 @@
               "game/scripts/ClinicSurfacePresentation.cs: FapInteriorRadiator_Body_LOD0 only; original painted_steel_enamel_v1_basecolor.png SHA b3e51ca2d1ba8c2db18ed6ed6541e4093da17793cc49318640bcb57693303fe2; metric local triplanar .5m, existing tint 708584 and PML response retained, no UV channel in source mesh.",
               "evidence/ACT1-TEXTURE.03/fap-m04-20261015/game-build.log: affected Game build 0 errors/0 warnings, 27.65s; root+Luna source review, no new tests. Not runtime/art acceptance.",
               "evidence/ACT1-TEXTURE.03/fap-m04-20261015/native_a4a223/receipt.json: native a4a223ffb07141b88929a1bcc61bfd5f PASS, build/import/game0, raw zip SHA7908a8e78de2b9dad7488d8b8a45247d4c948398823da4e2eb5a2f874298830e, snapshot c083f2d82741057cec1abf989f30f07ac4fb1797790895aea17f347ae6e4bb4c hashes verified/userdata restored; exact source/map/checkpoint hashes match. Actual worker931b27..., address deployment still unconfirmed.",
-              "evidence/ACT1-TEXTURE.03/fap-m04-20261015/native_a4a223/frames/fap_radiator_m04.png: root personally viewed existing supported blue-grey radiator body and separate pipes under clinic window. No obvious texture seam/collapse; quiet pigment is subtle, no claimed before/after improvement. Static named hookup only. Metadata actual LOW/performance-rescue, scale0.7/FOV50/1920x1080, not Medium or full art/motion acceptance. Engine-errors.log empty; existing material-mode warnings retained."
+              "evidence/ACT1-TEXTURE.03/fap-m04-20261015/native_a4a223/frames/fap_radiator_m04.png: root personally viewed existing supported blue-grey radiator body and separate pipes under clinic window. No obvious texture seam/collapse; quiet pigment is subtle, no claimed before/after improvement. Static named hookup only. Metadata actual LOW/performance-rescue, scale0.7/FOV50/1920x1080, not Medium or full art/motion acceptance. Engine-errors.log empty; existing material-mode warnings retained.",
+              "game/scripts/ClinicSurfacePresentation.cs: explicit authored enamel carcass FapInteriorCabinet_Body_LOD0 (optional exact LOD1); per-instance enamel .75m local projection, tint7b8d86, roughness.45/specular.28/metallic0. Generic plaster replaced; wear mask/bottom chips disabled because no authored substrate exposure. Source role assets/source/blender/act1/urman_fap_clinic_kit.py:1552; doors/insets/handles/shelf untouched. ",
+              "evidence/ACT1-TEXTURE.03/fap-cabinet-m04-20261016/game-build.log: final affected Game build 0 errors/0 warnings, 23.42s; root+Luna review, no new tests. Prior generic enamel wear-mask inheritance caught by root and disabled before native.",
+              "evidence/ACT1-TEXTURE.03/fap-cabinet-m04-20261016/native_0b5512/receipt.json: job0b5512aec3774878bc47a6a12a4ca7af PASS; build/import/game0, snapshot e646310423a124a63aeff74b8b370bbc81b3d3027c19352bcb41a14054304f63/rawZIP SHA793c402b41f885675264d03390f2c261ae19c70ccea887a0f11d573e752358c2 verified, exact current source/map/checkpoint hashes matched after safe rebase (original snapshot commit e66f4b39 -> d68a6bf0). userdataRestored/snapshot_hashes_verified=true. Worker931b27 unchanged; no hyphen-owner deployment assumption.",
+              "evidence/ACT1-TEXTURE.03/fap-cabinet-m04-20261016/native_0b5512/frames/fap_cabinet_m04.png: root personally viewed actual live clinic carcass around separate plaster-coded door surrounds/wood insets/handles. Blue-grey smooth body side/top/bevels visible, mounted wall position intact, no obvious albedo seam/UV collapse; door finish explicitly unchanged and not accepted as enamel. Actual Low/performance-rescue/scale.7 at1920x1080, requestedHigh/applied but comparablefalse. Static named finish only, no matched before-after improvement, High/motion/ordinary access/full art claim. Engine-errors empty; existing 7 Texture RID exit warning retained. Doctor free/busy null/recovery false/orphan false."
             ],
             "assigned_owner": "art/materials/qa",
             "active_owner": null,
             "activity": {
               "state": "released",
-              "reason": "Root personally inspected actual native a4a223 radiator frame; named static material hookup accepted only, slot free/restored. Other M04 receivers/full art remain open."
+              "reason": "Root accepted finite clinic enamel-carcass static hookup in actual native0b5512; prior radiator proof retained. Whole M04 art/motion/other receivers remain open; station released after restore."
             },
             "task_type": "engineering",
             "status": "in_progress",
             "implementation_state": "partial",
             "technical_verification_state": "passed",
             "remaining": [
-              "Other M04 cabinet/pipe consumers are outside the accepted radiator slice; select only an independently confirmed remaining receiver.",
-              "Full visual/material approval and ordinary movement remain open. Actual frame used automatic Low/performance-rescue, not a Medium-quality comparison; do not claim a visible before/after improvement."
+              "Radiator and explicitly authored clinic cabinet enamel-carcass named static hookups accepted. Other requested cabinet/pipe receivers require exact current live source-role/consumer identification; separately plaster-coded doors/wood insets are not reclassified by this slice.",
+              "Full visual/material approval and ordinary movement remain open. Both M04 static frames used automatic Low/performance-rescue at scale.7; no Medium/High comparison or matched visible before-after improvement claimed."
             ],
-            "next_action": "Reuse native a4a223 for the radiator static hookup; no unchanged compile/capture rerun. Continue only a named remaining M04 receiver or a distinct required art/movement criterion after station serialization.",
+            "next_action": "Use accepted a4a223 radiator and0b5512 cabinet-carcass receipts without replay. For remaining M04 receiver choose one explicit current live producer/material role and concrete missing binding; preserve door/inset/handle finishes pending their own source-grounded contract. Full art/movement acceptance stays separate.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -8819,7 +8843,7 @@
               ],
               "verification": {
                 "method": "targeted_runtime_scenario",
-                "question": "Does the existing clinic radiator body display the .5m enamel albedo without UV collapse/obvious seams, while its authored shape, tint and mounting remain intact? Static check only.",
+                "question": "Does the actual clinic medicine-cabinet enamel carcass display its local .75m enamel coating on visible side/top without UV collapse or seams, with doors/insets/handles/geometry/mounting unchanged? Static named receiver only, no physical substrate assertion.",
                 "scenario": {
                   "targets": [
                     "game/assets/textures/painterly/README.md",
@@ -9137,21 +9161,25 @@
             "title": "Подключить M09 — Потёртый винил сидений",
             "result": "Подключить M09 — Потёртый винил сидений",
             "owner": "art/materials/qa",
-            "evidence": [],
+            "evidence": [
+              "Existing current vehicle fleet/babay-niva -> VehicleVisualFactory.Niva/NivaInterior -> authored302f2b__vinyl front seat cushions/backs/headrests/rear bench. Existing ForFinish vinyl procedural Grain(.78rough/.3spec) has no M09 bitmap. TX29-13 burgundy cloth is wool-blend auditorium upholstery, not a vinyl substitute; M07 tyre frame cannot accept seats.",
+              "evidence/ACT1-TEXTURE.03/niva-m09-20261016/imagegen-receipt.json: one original built-in image_gen M09 candidate from exact existing passport; source assets/source/imagegen/2026-10-16/urman_m09_v01_basecolor.png and byte-identical runtime game/assets/textures/painterly/urman_m09_v01_basecolor.png,1254²RGB SHA1a7041aebf4bd7212dc797fff669cebacaa4adf185372854e5d858e07ced9b60. No refs/pixel edits; full prompt/provenance saved. Root personally viewed original; native/art not yet accepted.",
+              "evidence/ACT1-TEXTURE.03/niva-m09-20261016/native_7dad74/receipt.json: rawFAIL/game1/build-import0, ZIP SHAad91bba47d299b0f19d5bfb006f398c9394d9ec95d93ef51c123e57fdb961ae2/snapshot a4506656dc9d3f6f4e829cc64ed1b4bc7cd48fd35968d01a3a2d37d7b5e6583e verified, userdata restored/hashverified. S09 bare mesh matches2 (local zirat-return-road replica+core); unique-owner guard correctly refused/no frames, M09 notattempted. Existing48resource/RID guard-abort leaks retained, no new shader compilation error. Changed-input followup uses existing unique ZiratRoadsideAuthoredKitPresentation, no alias/rename/guard bypass. M09 runs first; current affected compile reused."
+            ],
             "assigned_owner": "art/materials/qa",
-            "active_owner": null,
+            "active_owner": "codex/root",
             "activity": {
-              "state": "not_active",
-              "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+              "state": "confirmed_active",
+              "reason": "Root takes one bounded M09 seat-vinyl receiver; Luna confirms original/current source first. Station remains with other8180; no polling or historic cabin replay."
             },
             "task_type": "engineering",
-            "status": "todo",
-            "implementation_state": "not_started",
+            "status": "in_progress",
+            "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
               "Подключить M09 — Потёртый винил сидений; собственного целевого receipt пока нет."
             ],
-            "next_action": "Сопоставить текущий результат: Подключить M09 — Потёртый винил сидений. Затем изменить только установленный остаток.",
+            "next_action": "Integrate NivaInterior302f2b-only optional M09 local triplanar map, normalized against linear mean to preserve existing tint; review/affected compile then one actual seat frame after station release. Shared Grain default off elsewhere; no control/physics/custody edits.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -9161,7 +9189,10 @@
                 "game/assets/textures/painterly/README.md",
                 "assets/asset_registry.json",
                 "docs/urman_knowledge_base/art/urman_imagegen_texture_prompt_book_2026-09-22.md",
-                "docs/urman_knowledge_base/assets.md"
+                "docs/urman_knowledge_base/assets.md",
+                "game/scripts/VehicleVisualFactory.Grain.cs",
+                "game/scripts/VehicleVisualFactory.NivaModel.cs",
+                "game/content/world/visual_checkpoints.v1.json"
               ],
               "required_inputs": [],
               "scope_in": [
@@ -9181,7 +9212,7 @@
               ],
               "verification": {
                 "method": "targeted_runtime_scenario",
-                "question": "Подключить M09 — Потёртый винил сидений",
+                "question": "Does existing NivaInterior 302f2b vinyl upholstery show quiet .5m local worn-grain modulation without seams/swimming or doubled darkening, preserving seat shapes/mounting and authored dark tint/response? Static named hookup only; ordinary motion/art separate.",
                 "scenario": {
                   "targets": [
                     "game/assets/textures/painterly/README.md",
@@ -117705,7 +117736,8 @@
         "evidence/PW-043/interactive-20261016/notes.md",
         "evidence/PW-043/interactive-20261016/frames/r4-s04-check.png",
         "evidence/PW-043/interactive-20261016/frames/r4-s05-sweep.png",
-        "evidence/PW-043/interactive-20261016/frames/r5-s04b-check.png"
+        "evidence/PW-043/interactive-20261016/frames/r5-s04b-check.png",
+        "Root reviewed delivered 16Oct r3-s02b-inside, r3-s04b-check and r5-s04b-check PNGs: actual desktop game view is occluded by ChatGPT.exe application-error dialog 0xc000012d plus Windows Update toast. They show Niva/exterior wall, not house interior/book/reader/school/F10 acceptance. Host overlay is separate from URMAN engine failure; no reboot or guessed game fix. Existing route owner retained; next owned interaction must first clear/verify dialog and focus, not repeat five blind timed routes."
       ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-043",
       "source_requirements": [

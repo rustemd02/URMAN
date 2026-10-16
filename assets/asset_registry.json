@@ -3315,6 +3315,13 @@
         "material": "Per-instance original neutral enamel albedo; metric local triplanar .5m because source has no UV, existing 708584 tint and .90/.20/0 PML roughness/specular/metallic retained. Shared cache, other FAP fixtures, geometry/contacts unchanged.",
         "native_static_evidence": "evidence/ACT1-TEXTURE.03/fap-m04-20261015/native_a4a223/frames/fap_radiator_m04.png",
         "qa": "Root viewed actual supported radiator/no obvious seams. Static named hookup only; pigment is subtle, no before/after improvement claim. Actual Low/performance-rescue scale .7, full art/motion and other M04 consumers open."
+      },
+      "additional_receiver_2026_10_16_m04": {
+        "task": "ACT1-TEXTURE.03/E04",
+        "receiver": "ClinicSurfacePresentation.Attach: exact FapInteriorCabinet_Body_LOD0 (optional same-name LOD1 only)",
+        "material": "Explicit authored enamel carcass, no substrate claim; per-instance neutral enamel albedo .75m local triplanar, tint7b8d86, roughness.45/specular.28/metallic0, variation.018/finish_grain.025. Generic enamel chip mask/bottom wear disabled. Plaster-coded doors, wood insets, handles, shelf and shared cache untouched.",
+        "native_static_evidence": "evidence/ACT1-TEXTURE.03/fap-cabinet-m04-20261016/native_0b5512/frames/fap_cabinet_m04.png",
+        "qa": "Root viewed smooth blue-grey body side/top/bevel, no obvious UV collapse/seam, mounting intact. Static named hookup accepted; actual Low/rescue scale.7, no High/movement/full-art or matched before-after improvement claim."
       }
     },
     {
@@ -4478,6 +4485,48 @@
       "qa": "GLB parsed; affected compile passed; native import, contact and camera likeness pending",
       "status": "integrated first-tableau candidate; native and author art pending",
       "releaseDisposition": "First P-FOREST supports only, not all six silhouettes/all W01/world kits"
+    },
+    {
+      "id": "texture.painterly.s08.v01",
+      "source": "Project-original procedural bake; tools/blender/bake_procedural_textures.py; game/assets/textures/painterly/procedural_bake_receipt_v1.json S08",
+      "derived": "game/assets/textures/painterly/ice_small_v1_albedo.png",
+      "derivedSha256": "98827b3b79c5e9bb760e8e1d6d049836427c9079677ef34cde9923b314140595",
+      "generator": "tools/blender/bake_procedural_textures.py; seed20261018",
+      "license": "project-original procedural (no third-party source)",
+      "dimensions": "1024x1024",
+      "format": "PNG RGB8",
+      "colorSpace": "sRGB",
+      "uv": "Seamless TILE, PML ice 1m per repeat; BoardCrossing top UV uses local metres",
+      "purpose": "Clouded small ground ice; transparency, gloss and physical slip not baked into RGB.",
+      "reference": "docs/urman_knowledge_base/art/urman_imagegen_texture_prompt_book_2026-09-22.md#s08",
+      "consumerPaths": [
+        "game/scripts/PainterlyMaterialLibrary.cs",
+        "game/scripts/Act1ConnectedWorld.BoardCrossing.cs"
+      ],
+      "materialOwner": "Existing DrainIceMaterial -> ForColor(8e9da8,ice,sheltered:true), roughness.82/specular.12/wet_grade0; unchanged.",
+      "collision": "Existing visible mesh ActualSurfaceContact unchanged; no player/carry-state edits.",
+      "qa": "evidence/ACT1-TEXTURE.02/s08-drain-20261016/native_860f58/frames/s08_drain_ice.png: rawPASS/actualHigh/comparabletrue, root sees partial ice but rejects full receiver acceptance because fixed street woodpile overlaps relocated crossing. Geometry issue/current task state solely ACT1-TEXTURE.02/E06; no new material or map generated."
+    },
+    {
+      "id": "texture.painterly.s09.v02",
+      "source": "Project-original procedural bake; tools/blender/bake_procedural_textures.py; game/assets/textures/painterly/procedural_bake_receipt_v1.json S09",
+      "derived": "game/assets/textures/painterly/snow_grass_v2_albedo.png",
+      "derivedSha256": "0d98222017a84c991b1b6e32df43e320ceb4e00a19ffd3d8444754acace13683",
+      "generator": "tools/blender/bake_procedural_textures.py; seed20261019",
+      "license": "project-original procedural (no third-party source)",
+      "dimensions": "1024x1024",
+      "format": "PNG RGB8",
+      "colorSpace": "sRGB",
+      "uv": "Seamless TILE, 2m per repeat, existing PML world projection retained on named bank",
+      "purpose": "Quiet snow surface with sparse flush straw fragments; separate upright sedge does not count as this surface receiver.",
+      "reference": "docs/urman_knowledge_base/art/urman_imagegen_texture_prompt_book_2026-09-22.md#s09",
+      "consumerPaths": [
+        "game/scripts/Act1ConnectedWorld.cs",
+        "game/scripts/PainterlyMaterialLibrary.cs"
+      ],
+      "materialOwner": "RegradeAct1DaylightKitMaterials exact RoadsideDitch_Bank_02_LOD0/DampEarth per-instance clone, preserves current f1f5f9 snow-ground tint and response; shared caches and other banks/plants unchanged.",
+      "collision": "Authored geometry and individually grounded contacts unchanged.",
+      "qa": "Root viewed original map; source review and affected Game build0/0 accepted. Current named native not_run while station8180 busy/recovery; actual game/movement/art acceptance stays in ACT1-TEXTURE.02/E07."
     }
   ]
 }
