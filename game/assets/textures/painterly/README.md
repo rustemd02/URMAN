@@ -1126,3 +1126,29 @@ of this ground-snow brief. Root viewed the source map; affected build passed0/0,
 `evidence/ACT1-TEXTURE.02/s09-bank-20261016/game-build.log`.
 The first exact native `s09_ditch_snow_bank` view is still not_run; source and
 compile do not establish game, movement or art readiness. E07 owns that remainder.
+
+
+M09 Niva vinyl (16.10.2026): new original built-in ImageGen
+`urman_m09_v01_basecolor.png` (1254² RGB) is copied byte-identically from
+`assets/source/imagegen/2026-10-16/`; SHA
+`1a7041aebf4bd7212dc797fff669cebacaa4adf185372854e5d858e07ced9b60`.
+Full prompt, source, tool and rights provenance:
+`evidence/ACT1-TEXTURE.03/niva-m09-20261016/imagegen-receipt.json`.
+Only imported `NivaInterior/302f2b__vinyl` opts into a duplicated Grain material;
+all other finishes keep the new sampler disabled. Mesh-local triplanar sampling
+repeats every 0.5 m. RGB is normalized by the measured linear mean
+`(.07446924,.04984906,.03598655)` and clamped `.75..1.25`, preserving authored
+seat tint and preventing dark-map × dark-tint blackening. Existing `.78/.3/0`
+roughness/specular/metallic, grain, bump, fade, geometry and state remain.
+Root viewed native `ab6fb5d3e0f2434aaf4e88a9835a3a49`:
+`evidence/ACT1-TEXTURE.03/niva-m09-20261016/native_ab6fb5/frames/m09_niva_passenger.png`.
+Named passenger seat-back/headrest static hookup accepted at actual High,
+comparable, scale1, no obvious seam/collapse or doubled darkening. Other seats,
+vehicles, motion and full art are separate; no matched before/after claim.
+
+S09 native remainder (same ab6fb5 receipt): the corrected existing unique core
+ancestor produced an actual High frame, but the small target bank cannot be
+isolated from broad surrounding snow; its inclusions/contacts remain unaccepted.
+The previous `7dad74` raw FAIL correctly refused a duplicate bare mesh owner.
+Both raw receipts are retained. No third guessed angle or general snow/material
+rewrite follows; exact visible-surface input is recorded only in E07.

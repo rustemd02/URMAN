@@ -1,0 +1,505 @@
+{
+  "metadataVersion": 2,
+  "engineVersion": "4.7.1-stable (official)",
+  "os": "Windows",
+  "point": "s09_ditch_snow_bank",
+  "spec": "s09_ditch_snow_bank:ZiratRoadsideAuthoredKitPresentation@2.55,1.15,-72.45\u003EZiratRoadsideAuthoredKitPresentation@1.47,0.55,-71.39",
+  "cameraName": "DevViewCamera",
+  "cameraPath": "/root/Act1Demo/Main/DevViewCamera",
+  "cameraPosition": {
+    "x": 2.55,
+    "y": 1.15,
+    "z": -72.449997
+  },
+  "cameraTarget": {
+    "x": 1.47,
+    "y": 0.55,
+    "z": -71.389999
+  },
+  "cameraForward": {
+    "x": -0.663439,
+    "y": -0.368577,
+    "z": 0.651152
+  },
+  "cameraSpace": "node:/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation",
+  "targetSpace": "node:/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation",
+  "cameraOwnerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation",
+  "targetOwnerPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/ZiratMemoryField/ZiratRoadsideAuthoredKitPresentation",
+  "cameraOwnerZone": null,
+  "targetOwnerZone": null,
+  "fov": 55,
+  "fovSource": "explicit",
+  "diagnosticView": null,
+  "playerBodyHidden": true,
+  "diagnosticNeutralScope": null,
+  "near": 0.05,
+  "far": 160,
+  "viewportWidth": 1920,
+  "viewportHeight": 1080,
+  "scaling3DScale": 1,
+  "scaling3DMode": "Bilinear",
+  "graphicsPreset": "high",
+  "graphicsRequestedPreset": "high",
+  "graphicsEffectivePreset": "high",
+  "playerGraphicsPreset": "high",
+  "graphicsPreferredPreset": "high",
+  "graphicsSessionOverride": null,
+  "graphicsPresetApplyStatus": "applied-through-player-settings",
+  "graphicsComparable": true,
+  "graphicsBudget": "preset=high,lod_threshold=1.00,scale=1.00,msaa=Msaa4X,shadow_filter=SoftMedium,directional_shadow_distance=120,directional_shadow_atlas=4096,positional_shadow_atlas=4096,ssao_gate=authored,probe=none",
+  "activeZoneId": "village_day",
+  "requestedZoneId": null,
+  "checkpointSubject": "ACT1-TEXTURE.02/E07 S09: exact ground snow bank with local 2m inclusion albedo, adjacent sedge separate; authored tint/response/geometry/contact preserved. Static only. Unique existing core ancestor; horizontal target from authored\u002Btakeover placement, targetY .55 estimate covering individually grounded bank and adjacent stems.",
+  "requestedProfile": null,
+  "atmosphereProfile": "village-winter-crisp",
+  "atmosphereOwner": "AgentBExteriorWorld",
+  "studioPreviewProfile": null,
+  "environmentPath": "/root/Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentBEnvironment",
+  "tonemapMode": "Agx",
+  "fogEnabled": true,
+  "volumetricFogEnabled": false,
+  "fogColor": "a9bddcff",
+  "fogDensity": 0.0035,
+  "snowActive": true,
+  "snowAmount": 4000,
+  "blizzardActive": false,
+  "drawCalls": 30855,
+  "renderHistogram": {
+    "groups": 2901,
+    "top": [
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_PlantedFoliage/WinterSpruce_1_Plant/WinterSpruce_1_LOD",
+        "instances": 109,
+        "cost": 327,
+        "shadowCost": 0
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_PlantedFoliage/WinterSpruce_2_Plant/WinterSpruce_2_LOD",
+        "instances": 72,
+        "cost": 216,
+        "shadowCost": 0
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/SovkhozSquare/OldSchool/MuseumBooks/@MeshInstance3D",
+        "instances": 188,
+        "cost": 188,
+        "shadowCost": 6
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AuthoredWorldDirector/h012-house/Visual/VillageParcel_VariantB_PlasterAnnex",
+        "instances": 151,
+        "cost": 162,
+        "shadowCost": 70
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AuthoredWorldDirector/h024-house/Visual/VillageParcel_VariantB_PlasterAnnex",
+        "instances": 151,
+        "cost": 162,
+        "shadowCost": 70
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AuthoredWorldDirector/h025-house/Visual/VillageParcel_VariantA_TimberGable",
+        "instances": 151,
+        "cost": 161,
+        "shadowCost": 67
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AuthoredWorldDirector/h026-house/Visual/VillageParcel_VariantB_PlasterAnnex",
+        "instances": 150,
+        "cost": 161,
+        "shadowCost": 69
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AuthoredWorldDirector/h042-house/Visual/VillageParcel_VariantA_TimberGable",
+        "instances": 151,
+        "cost": 161,
+        "shadowCost": 67
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AuthoredWorldDirector/h073-house/Visual/VillageParcel_VariantA_TimberGable",
+        "instances": 151,
+        "cost": 161,
+        "shadowCost": 67
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AuthoredWorldDirector/h027-house/Visual/VillageParcel_VariantA_TimberGable",
+        "instances": 150,
+        "cost": 160,
+        "shadowCost": 66
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/Act1AuthoredExteriorKitPresentation/NeighborParcels/ConnectiveStreet/DeepParcel",
+        "instances": 151,
+        "cost": 158,
+        "shadowCost": 71
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AuthoredWorldDirector/h029-house/Visual/VillageParcel_VariantB_PlasterAnnex",
+        "instances": 141,
+        "cost": 151,
+        "shadowCost": 59
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AuthoredWorldDirector/h018-house/Visual/VillageParcel_VariantC_BanyaYard",
+        "instances": 139,
+        "cost": 146,
+        "shadowCost": 57
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AuthoredWorldDirector/h046-house/Visual/VillageParcel_VariantC_BanyaYard",
+        "instances": 139,
+        "cost": 146,
+        "shadowCost": 57
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AuthoredWorldDirector/h041-house/Visual/VillageParcel_VariantB_PlasterAnnex",
+        "instances": 135,
+        "cost": 144,
+        "shadowCost": 52
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/SovkhozSquare/OldSchool/ClassShelf_1\u20134 \u043A\u043B\u0430\u0441\u0441/@MeshInstance3D",
+        "instances": 113,
+        "cost": 113,
+        "shadowCost": 5
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/SovkhozSquare/OldSchool/ClassShelf_5\u20139 \u043A\u043B\u0430\u0441\u0441/@MeshInstance3D",
+        "instances": 113,
+        "cost": 113,
+        "shadowCost": 5
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/SovkhozSquare/HouseOfCulture/HallWoodArmrests",
+        "instances": 96,
+        "cost": 96,
+        "shadowCost": 96
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/SovkhozSquare/HouseOfCulture/HallSteelSupports",
+        "instances": 96,
+        "cost": 96,
+        "shadowCost": 96
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueInterior/MosqueEavesValance",
+        "instances": 78,
+        "cost": 78,
+        "shadowCost": 78
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/SovkhozSquare/OldSchool/PupilDesk_1\u20134 \u043A\u043B\u0430\u0441\u0441_/@MeshInstance3D",
+        "instances": 72,
+        "cost": 72,
+        "shadowCost": 72
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/SovkhozSquare/OldSchool/PupilDesk_5\u20139 \u043A\u043B\u0430\u0441\u0441_/@MeshInstance3D",
+        "instances": 72,
+        "cost": 72,
+        "shadowCost": 72
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/SettlementAddressPresentation/AddressPlate_ADR-H/@MeshInstance3D",
+        "instances": 72,
+        "cost": 72,
+        "shadowCost": 0
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/SovkhozSquare/OldSchool/PupilChair_1\u20134 \u043A\u043B\u0430\u0441\u0441_/@MeshInstance3D",
+        "instances": 66,
+        "cost": 66,
+        "shadowCost": 66
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/SovkhozSquare/OldSchool/PupilChair2_1\u20134 \u043A\u043B\u0430\u0441\u0441_/@MeshInstance3D",
+        "instances": 66,
+        "cost": 66,
+        "shadowCost": 66
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/SovkhozSquare/OldSchool/PupilChair_5\u20139 \u043A\u043B\u0430\u0441\u0441_/@MeshInstance3D",
+        "instances": 66,
+        "cost": 66,
+        "shadowCost": 66
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/SovkhozSquare/OldSchool/PupilChair2_5\u20139 \u043A\u043B\u0430\u0441\u0441_/@MeshInstance3D",
+        "instances": 66,
+        "cost": 66,
+        "shadowCost": 66
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueInterior/MosqueMinaretAccess/MinaretTread",
+        "instances": 60,
+        "cost": 60,
+        "shadowCost": 60
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/AgentBExteriorWorld/AgentB_PlantedFoliage/WinterBirdCherry_1_Plant/WinterBirdCherry_1_LOD",
+        "instances": 29,
+        "cost": 58,
+        "shadowCost": 0
+      },
+      {
+        "owner": "Act1Demo/Main/ZoneHost/Act1ConnectedWorld/Act1CoreWorldGreybox/VillageMosqueComplex/MosqueInterior/MosqueMinaretAccess/SpiralHandrail",
+        "instances": 54,
+        "cost": 54,
+        "shadowCost": 54
+      }
+    ],
+    "topByName": [
+      {
+        "owner": "@MeshInstanceD",
+        "instances": 1716,
+        "cost": 1716,
+        "shadowCost": 1192
+      },
+      {
+        "owner": "WinterSpruce_",
+        "instances": 181,
+        "cost": 543,
+        "shadowCost": 0
+      },
+      {
+        "owner": "HallWoodArmrests",
+        "instances": 96,
+        "cost": 96,
+        "shadowCost": 96
+      },
+      {
+        "owner": "HallSteelSupports",
+        "instances": 96,
+        "cost": 96,
+        "shadowCost": 96
+      },
+      {
+        "owner": "BathKamenkaStone_-__-_",
+        "instances": 91,
+        "cost": 91,
+        "shadowCost": 91
+      },
+      {
+        "owner": "MosqueEavesValance",
+        "instances": 78,
+        "cost": 78,
+        "shadowCost": 78
+      },
+      {
+        "owner": "HeroHouse_Street_Log_",
+        "instances": 37,
+        "cost": 74,
+        "shadowCost": 74
+      },
+      {
+        "owner": "MosqueBook_",
+        "instances": 24,
+        "cost": 72,
+        "shadowCost": 72
+      },
+      {
+        "owner": "MinaretTread",
+        "instances": 60,
+        "cost": 60,
+        "shadowCost": 60
+      },
+      {
+        "owner": "WinterBirdCherry_",
+        "instances": 29,
+        "cost": 58,
+        "shadowCost": 0
+      },
+      {
+        "owner": "FrameO_-___",
+        "instances": 56,
+        "cost": 56,
+        "shadowCost": 56
+      },
+      {
+        "owner": "FrameI_-___",
+        "instances": 56,
+        "cost": 56,
+        "shadowCost": 56
+      },
+      {
+        "owner": "SpiralHandrail",
+        "instances": 54,
+        "cost": 54,
+        "shadowCost": 54
+      },
+      {
+        "owner": "FrameO____",
+        "instances": 48,
+        "cost": 48,
+        "shadowCost": 48
+      },
+      {
+        "owner": "FrameI____",
+        "instances": 48,
+        "cost": 48,
+        "shadowCost": 48
+      },
+      {
+        "owner": "HallSeatPads",
+        "instances": 48,
+        "cost": 48,
+        "shadowCost": 48
+      },
+      {
+        "owner": "HallBackPads",
+        "instances": 48,
+        "cost": 48,
+        "shadowCost": 48
+      },
+      {
+        "owner": "HeroHouse_Rear_Log_",
+        "instances": 22,
+        "cost": 44,
+        "shadowCost": 44
+      },
+      {
+        "owner": "WinterBirch_",
+        "instances": 22,
+        "cost": 44,
+        "shadowCost": 0
+      },
+      {
+        "owner": "Sedge__Cell-_-",
+        "instances": 43,
+        "cost": 43,
+        "shadowCost": 0
+      },
+      {
+        "owner": "MosqueWindowCasingOuterStep",
+        "instances": 40,
+        "cost": 40,
+        "shadowCost": 40
+      },
+      {
+        "owner": "HeadCore",
+        "instances": 40,
+        "cost": 40,
+        "shadowCost": 40
+      },
+      {
+        "owner": "HeadSkin",
+        "instances": 40,
+        "cost": 40,
+        "shadowCost": 40
+      },
+      {
+        "owner": "RearLeg",
+        "instances": 39,
+        "cost": 39,
+        "shadowCost": 39
+      },
+      {
+        "owner": "FrontLeg",
+        "instances": 38,
+        "cost": 38,
+        "shadowCost": 38
+      },
+      {
+        "owner": "PierCore",
+        "instances": 38,
+        "cost": 38,
+        "shadowCost": 38
+      },
+      {
+        "owner": "PierSkin",
+        "instances": 38,
+        "cost": 38,
+        "shadowCost": 38
+      },
+      {
+        "owner": "Backing",
+        "instances": 38,
+        "cost": 38,
+        "shadowCost": 38
+      },
+      {
+        "owner": "FrameVertical-",
+        "instances": 38,
+        "cost": 38,
+        "shadowCost": 38
+      },
+      {
+        "owner": "FrameHorizontal-",
+        "instances": 38,
+        "cost": 38,
+        "shadowCost": 38
+      },
+      {
+        "owner": "FrameVertical",
+        "instances": 38,
+        "cost": 38,
+        "shadowCost": 38
+      },
+      {
+        "owner": "FrameHorizontal",
+        "instances": 38,
+        "cost": 38,
+        "shadowCost": 38
+      },
+      {
+        "owner": "HandmadeFace",
+        "instances": 38,
+        "cost": 38,
+        "shadowCost": 0
+      },
+      {
+        "owner": "HeroHouse_Icicle_",
+        "instances": 37,
+        "cost": 37,
+        "shadowCost": 0
+      },
+      {
+        "owner": "HeroHouse_Icicle-_",
+        "instances": 37,
+        "cost": 37,
+        "shadowCost": 0
+      },
+      {
+        "owner": "WinterLightBirdCherry__Cell-_-",
+        "instances": 12,
+        "cost": 36,
+        "shadowCost": 0
+      },
+      {
+        "owner": "Stem",
+        "instances": 36,
+        "cost": 36,
+        "shadowCost": 36
+      },
+      {
+        "owner": "Twig",
+        "instances": 36,
+        "cost": 36,
+        "shadowCost": 36
+      },
+      {
+        "owner": "HeroHouse_PodzorRearTooth",
+        "instances": 35,
+        "cost": 35,
+        "shadowCost": 0
+      },
+      {
+        "owner": "HeroHouse_PodzorStreetTooth",
+        "instances": 35,
+        "cost": 35,
+        "shadowCost": 0
+      }
+    ],
+    "totals": {
+      "instances": 8557,
+      "cost": 9402,
+      "shadowCost": 6315,
+      "castsShadowSmall": {
+        "instances": 2842,
+        "cost": 2934,
+        "shadowCost": 2934
+      }
+    }
+  },
+  "capturedUnixSeconds": 1792115441
+}

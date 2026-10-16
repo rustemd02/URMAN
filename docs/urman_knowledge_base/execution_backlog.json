@@ -5391,24 +5391,30 @@
               "game/scripts/Act1ConnectedWorld.cs: post-regrade exact member/path/source DampEarth and ShaderMaterial guards; per-instance clone only RoadsideDitch_Bank_02_LOD0, original snow_grass_v2_albedo bound at texture_scale(.5,.5). Existing snow-ground tint f1f5f9/response/projection retained. Other banks/DampEarth/PML/cache/sedge meshes/geometry/contacts/state unchanged.",
               "evidence/ACT1-TEXTURE.02/s09-bank-20261016/game-build.log: final affected Game build0 errors/0warnings,30.01s; root+Luna source review, no new tests/probes. Source/compile are not runtime/art acceptance. Exact owner-relative checkpoint s09_ditch_snow_bank uses centered mesh bbox and follows existing per-mesh grounding.",
               "Station remains occupied by8180d19e767542f59e5c1603a0bd4b2a/recovery pending, no new S09 job submitted. Do not inspect/control/terminate peer run or replay blocked S08; wait owner release instead of unchanged polling.",
-              "evidence/ACT1-TEXTURE.03/niva-m09-20261016/native_7dad74/receipt.json: rawFAIL/game1/build-import0, ZIP SHAad91bba47d299b0f19d5bfb006f398c9394d9ec95d93ef51c123e57fdb961ae2/snapshot a4506656dc9d3f6f4e829cc64ed1b4bc7cd48fd35968d01a3a2d37d7b5e6583e verified, userdata restored/hashverified. S09 bare mesh matches2 (local zirat-return-road replica+core); unique-owner guard correctly refused/no frames, M09 notattempted. Existing48resource/RID guard-abort leaks retained, no new shader compilation error. Changed-input followup uses existing unique ZiratRoadsideAuthoredKitPresentation, no alias/rename/guard bypass. M09 runs first; current affected compile reused."
+              "evidence/ACT1-TEXTURE.03/niva-m09-20261016/native_7dad74/receipt.json: rawFAIL/game1/build-import0, ZIP SHAad91bba47d299b0f19d5bfb006f398c9394d9ec95d93ef51c123e57fdb961ae2/snapshot a4506656dc9d3f6f4e829cc64ed1b4bc7cd48fd35968d01a3a2d37d7b5e6583e verified, userdata restored/hashverified. S09 bare mesh matches2 (local zirat-return-road replica+core); unique-owner guard correctly refused/no frames, M09 notattempted. Existing48resource/RID guard-abort leaks retained, no new shader compilation error. Changed-input followup uses existing unique ZiratRoadsideAuthoredKitPresentation, no alias/rename/guard bypass. M09 runs first; current affected compile reused.",
+              "evidence/ACT1-TEXTURE.03/niva-m09-20261016/native_ab6fb5/receipt.json: nativeab6fb5d3e0f2434aaf4e88a9835a3a49 PASS/build-import-game0, snapshot7216568f790e85607121c28df1bc01727e0aaff95338f18642ade2d37ab97040/rawZIP SHAa023e6355fb3cb9eb3f71fd20f07f913c49948989abd76d295c6d3e3ef926240 verified. Exact current Grain/NivaModel/Act1ConnectedWorld/M09/S09/checkpoint hashes matched. userdataRestored/snapshot_hashes_verified=true; worker931b27 unchanged. Both actualHigh/comparabletrue/scale1/FOV55/1920x1080. Engine-errors empty; existing7TextureRID exit warning retained.",
+              "evidence/ACT1-TEXTURE.03/niva-m09-20261016/native_ab6fb5/frames/s09_ditch_snow_bank.png: root personally viewed actual unique core ancestor frame. Snow field and separate sparse upright stems appear, but the intended .6x.88m Bank02 cannot be visually isolated from broad surrounding snow and its S09 inclusions/contacts cannot be established. Full named visual acceptance NOT_ACCEPTED despite rawPASS. No unproven assertion of burial/hidden status/UV defect, no third guessed angle, no code/map rewrite.",
+              "Current post-job doctor reports other busycb9e608d97f64a75b189ab43590c9f29/recoverypending, not a free station. Root ownab6fb5 already terminal/restored; other job left untouched."
             ],
             "assigned_owner": "art/materials/qa",
-            "active_owner": "codex/root",
+            "active_owner": null,
             "activity": {
-              "state": "confirmed_active",
-              "reason": "Previous8180 terminal/restore, doctor now free/busy null/recovery false/orphan false. Root takes single native integration of prepared S09 named bank, combined with new M09 frame."
+              "state": "released",
+              "reason": "Changed unique-owner native succeeded but root cannot isolate intended tiny bank/albedo in actual wide snow field. After duplicate-owner refusal + resolved-owner view, stop guessing views; preserve source/criteria and explicit visual remainder."
             },
             "task_type": "engineering",
-            "status": "in_progress",
+            "status": "blocked",
             "implementation_state": "partial",
-            "technical_verification_state": "not_run",
+            "technical_verification_state": "failed",
             "remaining": [
-              "First actual native frame of named S09 snowy bank after station release; inspect quiet inclusions/2m scale/edge/support and separate sedge, record actual quality and restore evidence.",
-              "Whole-family motion/art/other receivers remain outside this named source stage; do not claim white sedge material as S09 snow-surface acceptance."
+              "Identify actual visible Bank02 footprint against broad surrounding snow using existing inspection/selection route, or source-confirmed unobscured S09 ground receiver; exact local material binding alone is not visual acceptance.",
+              "S09 texture inclusions/edge/contact and ordinary motion/art are not accepted. Preserve raw7dad74 FAIL and ab6fb5 PASS, avoid unchanged compile or guessed camera reruns."
             ],
-            "next_action": "Capture changed unique-core-ancestor s09_ditch_snow_bank after M09 first point; source horizontal target(1.47,-71.39) from roadAnchor+component placement/takeover, targetY.55 explicitly estimated to cover individually grounded bank+stems. No material/compile rewrite for duplicate-name guard.",
-            "blocker": null,
+            "next_action": "Resolve concrete visible-surface identity using existing inspection route/source-grounded unobscured ground receiver. Reuse accepted source/compile and both raw receipts; do not turn white stems or broad snow field into S09 acceptance. Switch to independent ready work while this exact input remains missing.",
+            "blocker": {
+              "reason": "Two bounded native inputs resolved duplicate-name guard but did not establish visible Bank02/S09 surface identity: actual unique-ancestor frame shows broad surrounding snow and sparse stems; tiny intended bank cannot be isolated. Not enough evidence to claim burial, hidden node or UV failure.",
+              "release_when": "Obtain a current existing inspection/selection view that identifies Bank02 actual visible surface/grounding against surrounding snow, or a source-confirmed intended unobscured S09 ground receiver. Then one causally changed target; no third guessed angle, alias/guard bypass or generic snow replacement. Coordinate current station owner first."
+            },
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
             "work_contract": {
@@ -9164,22 +9170,26 @@
             "evidence": [
               "Existing current vehicle fleet/babay-niva -> VehicleVisualFactory.Niva/NivaInterior -> authored302f2b__vinyl front seat cushions/backs/headrests/rear bench. Existing ForFinish vinyl procedural Grain(.78rough/.3spec) has no M09 bitmap. TX29-13 burgundy cloth is wool-blend auditorium upholstery, not a vinyl substitute; M07 tyre frame cannot accept seats.",
               "evidence/ACT1-TEXTURE.03/niva-m09-20261016/imagegen-receipt.json: one original built-in image_gen M09 candidate from exact existing passport; source assets/source/imagegen/2026-10-16/urman_m09_v01_basecolor.png and byte-identical runtime game/assets/textures/painterly/urman_m09_v01_basecolor.png,1254²RGB SHA1a7041aebf4bd7212dc797fff669cebacaa4adf185372854e5d858e07ced9b60. No refs/pixel edits; full prompt/provenance saved. Root personally viewed original; native/art not yet accepted.",
-              "evidence/ACT1-TEXTURE.03/niva-m09-20261016/native_7dad74/receipt.json: rawFAIL/game1/build-import0, ZIP SHAad91bba47d299b0f19d5bfb006f398c9394d9ec95d93ef51c123e57fdb961ae2/snapshot a4506656dc9d3f6f4e829cc64ed1b4bc7cd48fd35968d01a3a2d37d7b5e6583e verified, userdata restored/hashverified. S09 bare mesh matches2 (local zirat-return-road replica+core); unique-owner guard correctly refused/no frames, M09 notattempted. Existing48resource/RID guard-abort leaks retained, no new shader compilation error. Changed-input followup uses existing unique ZiratRoadsideAuthoredKitPresentation, no alias/rename/guard bypass. M09 runs first; current affected compile reused."
+              "evidence/ACT1-TEXTURE.03/niva-m09-20261016/native_7dad74/receipt.json: rawFAIL/game1/build-import0, ZIP SHAad91bba47d299b0f19d5bfb006f398c9394d9ec95d93ef51c123e57fdb961ae2/snapshot a4506656dc9d3f6f4e829cc64ed1b4bc7cd48fd35968d01a3a2d37d7b5e6583e verified, userdata restored/hashverified. S09 bare mesh matches2 (local zirat-return-road replica+core); unique-owner guard correctly refused/no frames, M09 notattempted. Existing48resource/RID guard-abort leaks retained, no new shader compilation error. Changed-input followup uses existing unique ZiratRoadsideAuthoredKitPresentation, no alias/rename/guard bypass. M09 runs first; current affected compile reused.",
+              "evidence/ACT1-TEXTURE.03/niva-m09-20261016/game-build.log: final affected Game0errors/0warnings31.68s, root+Luna source review; no new tests/probes. New optional Grain sampler defaultOFF/neutral defaults; exact NivaInterior302f2b cache clone opts in, no shared material mutation. Procedural grain/bump/fade and .78/.3/metallic0 retained; .5m mesh-local triplanar uses measured-linear RGB normalization/clamp.75..1.25 to preserve authored tint.",
+              "evidence/ACT1-TEXTURE.03/niva-m09-20261016/native_ab6fb5/receipt.json: nativeab6fb5d3e0f2434aaf4e88a9835a3a49 PASS/build-import-game0, snapshot7216568f790e85607121c28df1bc01727e0aaff95338f18642ade2d37ab97040/rawZIP SHAa023e6355fb3cb9eb3f71fd20f07f913c49948989abd76d295c6d3e3ef926240 verified. Exact current Grain/NivaModel/Act1ConnectedWorld/M09/S09/checkpoint hashes matched. userdataRestored/snapshot_hashes_verified=true; worker931b27 unchanged. Both actualHigh/comparabletrue/scale1/FOV55/1920x1080. Engine-errors empty; existing7TextureRID exit warning retained.",
+              "evidence/ACT1-TEXTURE.03/niva-m09-20261016/native_ab6fb5/frames/m09_niva_passenger.png: root personally viewed dark brown-grey worn fine grain on existing passenger seat-back and visible headrest, quiet color fields/no obvious tile seam/collapse or doubled blackening; separate grey cloth cushion insert/metal supports/seat shape retained. Named static material hookup accepted. Existing1436363 handbrake view is different angle/older source, not a matched before-after comparison; no whole cabin/driving/motion/human-art acceptance. Own job terminal/restored; doctor now shows another busycb9e608d97f64a75b189ab43590c9f29/recoverypending, left untouched."
             ],
             "assigned_owner": "art/materials/qa",
-            "active_owner": "codex/root",
+            "active_owner": null,
             "activity": {
-              "state": "confirmed_active",
-              "reason": "Root takes one bounded M09 seat-vinyl receiver; Luna confirms original/current source first. Station remains with other8180; no polling or historic cabin replay."
+              "state": "released",
+              "reason": "Root accepted exact Niva passenger seat-back/headrest static M09 hookup in actual High ab6fb5; all other seats/consumers/movement/art remain outside accepted slice."
             },
             "task_type": "engineering",
             "status": "in_progress",
             "implementation_state": "partial",
-            "technical_verification_state": "not_run",
+            "technical_verification_state": "passed",
             "remaining": [
-              "Подключить M09 — Потёртый винил сидений; собственного целевого receipt пока нет."
+              "Other M09 seat/vehicle/clean clinic-couch variant consumers are outside the accepted exact Niva302f2b passenger seat-back/headrest view; select independently confirmed remaining receiver only.",
+              "Motion/swimming and full art acceptance remain open; no claimed matched before-after improvement or all-cabin completion. Reuse current native without unchanged compile/seat-frame rerun."
             ],
-            "next_action": "Integrate NivaInterior302f2b-only optional M09 local triplanar map, normalized against linear mean to preserve existing tint; review/affected compile then one actual seat frame after station release. Shared Grain default off elsewhere; no control/physics/custody edits.",
+            "next_action": "Reuse nativeab6fb5 named seat proof. Continue only independent remaining M09 source-confirmed receiver or ordinary motion/art criterion after current station owner release; no blanket vinyl update or unchanged rerun.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
