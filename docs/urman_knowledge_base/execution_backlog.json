@@ -7502,22 +7502,29 @@
             "title": "Подключить F07 — Сено",
             "result": "Подключить F07 — Сено",
             "owner": "art/materials/qa",
-            "evidence": [],
+            "evidence": [
+              "2026-10-16 root personally viewed original game/assets/textures/painterly/hay_fibers_v1_albedo.png and verified SHA10da320c0a3cd6e73c6d8db727cd20a7df319f98cf683fa14ccd572e8cf5be80 against asset_registry texture.painterly.hay-fibers-v1 and existing README provenance. Existing built-in ImageGen original retained unchanged; no regenerated F07 candidate or image edits.",
+              "Bounded source input check with Luna, corrected by root: BuildAct1CulvertVerandaDiscoveries/BuildHeroYardLoft creates BabaiYardAuthoredShed; RegradeAct1DaylightKitMaterials binds HeroYardShed_HayBundle_0..3_LOD0/1 to sheltered hay_bundle, original hay map at1.4 repeats/metre/object-local projection. However later Act1ConnectedWorld.cs Build order calls RelocateBabaiHousehold; Act1ConnectedWorld.BabaiRelocation.cs:33-39 explicitly hides BabaiYardAuthoredShed, and :69-72 hides separate BabaiYardHaystack. Creation/material binding is not a surviving visible receiver. No hookup patch, build, capture or new runtime/art acceptance."
+            ],
             "assigned_owner": "art/materials/qa",
             "active_owner": null,
             "activity": {
-              "state": "not_active",
-              "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+              "state": "released",
+              "reason": "Bounded F07 input check completed: both named hay candidates suppressed by current author cleanup. Existing original map/binding preserved; no production patch/build/native job justified."
             },
             "task_type": "engineering",
-            "status": "todo",
+            "status": "blocked",
             "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
-              "Подключить F07 — Сено; собственного целевого receipt пока нет."
+              "Provide one intended surviving F07 hay consumer under current architecture, without resurrecting the author-removed shed/haystack or substituting unrelated geometry.",
+              "After a confirmed live input, inspect existing original-map hookup/scale on that receiver and only change a demonstrated missing part; native readability/movement/art acceptance remains open."
             ],
-            "next_action": "Сопоставить текущий результат: Подключить F07 — Сено. Затем изменить только установленный остаток.",
-            "blocker": null,
+            "next_action": "Resolve intended surviving F07 consumer with current architecture owner before any generation, hookup or capture. Reuse existing original hay map and source binding; do not repeat hidden BabaiYardAuthoredShed/BabaiYardHaystack captures.",
+            "blocker": {
+              "reason": "The two checked intended hay candidates are suppressed by current author cleanup: BabaiYardAuthoredShed (including already mapped hay bundles) and BabaiYardHaystack. No visible current receiver established; adding texture code would not deliver player-visible hay.",
+              "release_when": "An intended hay consumer surviving current cleanup is identified/authorized by architecture owner, with an exact producer/node and material role for one bounded runtime check."
+            },
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
             "work_contract": {
