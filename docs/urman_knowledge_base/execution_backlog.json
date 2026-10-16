@@ -114893,7 +114893,18 @@
           "evidence_ref": "PW-035.evidence and named history progress; source_review shows available/missing inputs"
         }
       ],
-      "assignment_state": "preserved_person_or_existing_role; activity separate"
+      "assignment_state": "preserved_person_or_existing_role; activity separate",
+      "integration_review_2026_10_16_w02": {
+        "reviewer": "Кодекс Кадыра / root",
+        "accepted_scope": "Root sees submerged supports in staged reflection frame; existence only. Understanding relation to old approach, motion readability and cost not established.",
+        "frames": [
+          {
+            "path": "docs/urman_knowledge_base/art/fullgame_frames/godot_w02_reflection_1080p.png",
+            "sha256": "efe838ad8b6d8caa07060ae3a6f7ce60579e6c3c6649c1a7b7f4b1a50c1e5aea"
+          }
+        ],
+        "verification_limits": "Root reviewed existing PNGs only; FullGameDressingCapture uses an isolated 1920x1080 SubViewport/fixed camera, with ApplyCaptureFacts for reed_open/answer. These are staged render views, not ordinary player traversal, true main viewport, native station proof or acquired-state/persistence acceptance. Existing raw capture stdout/terminal/renderer/restore evidence requested; no rerun."
+      }
     },
     {
       "id": "PW-036",
@@ -122213,7 +122224,31 @@
           "evidence_ref": "PW-050.evidence and named history progress; source_review shows available/missing inputs"
         }
       ],
-      "assignment_state": "preserved_person_or_existing_role; activity separate"
+      "assignment_state": "preserved_person_or_existing_role; activity separate",
+      "integration_review_2026_10_16_w02": {
+        "reviewer": "Кодекс Кадыра / root",
+        "accepted_scope": "Visible assembled riverbank/boardwalk/pile geometry in existing entry/bay/old-approach staged views; finite scene existence accepted, overall PW050 remains partial.",
+        "frames": [
+          {
+            "path": "docs/urman_knowledge_base/art/fullgame_frames/godot_w02_entry_1080p.png",
+            "sha256": "028e77e32c295402e89d3a584d3a8818afd93ec28e73228af13e8ffb1053cd17"
+          },
+          {
+            "path": "docs/urman_knowledge_base/art/fullgame_frames/godot_w02_bay_1080p.png",
+            "sha256": "252944d919fb3c2910b374a03cc55259d03648fa56b11a0f130f94090849ef20"
+          },
+          {
+            "path": "docs/urman_knowledge_base/art/fullgame_frames/godot_w02_old_approach_1080p.png",
+            "sha256": "5b0ca7a5ce0934cdae24bffc037d725e6e063e327bcb06a105d42c8bc36ba802"
+          },
+          {
+            "path": "docs/urman_knowledge_base/art/fullgame_frames/godot_w02_answer_1080p.png",
+            "sha256": "c98ba10047bfe3ea7890fa389cc7cc697c99d92f17f1b69d697b60935a37cc8e"
+          }
+        ],
+        "verification_limits": "Root reviewed existing PNGs only; FullGameDressingCapture uses an isolated 1920x1080 SubViewport/fixed camera, with ApplyCaptureFacts for reed_open/answer. These are staged render views, not ordinary player traversal, true main viewport, native station proof or acquired-state/persistence acceptance. Existing raw capture stdout/terminal/renderer/restore evidence requested; no rerun.",
+        "visual_remaining": "Repeated simple ellipsoid tree crowns, rod-like sedge and uniform banks/boards remain coarse; finished painted world/material diversity and finished Su anasy image not accepted. Physical supports/passability/state changes, normal return/revisit PW054 and author/art/culture/audio gates remain open."
+      }
     },
     {
       "id": "PW-051",
@@ -130671,7 +130706,22 @@
           "evidence_ref": "PW-071.evidence and named history progress; source_review shows available/missing inputs"
         }
       ],
-      "assignment_state": "preserved_person_or_existing_role; activity separate"
+      "assignment_state": "preserved_person_or_existing_role; activity separate",
+      "integration_review_2026_10_16_water_source": {
+        "reviewer": "Кодекс Кадыра / root",
+        "accepted_scope": "Root sees unobscured envelope/print beside home book/table props in staged home views; placement visibility accepted only. Caption readability from normal player pose, D02 dialogue, permission/acquisition and book entry not accepted by these views.",
+        "frames": [
+          {
+            "path": "docs/urman_knowledge_base/art/fullgame_frames/godot_home_water_book_1080p.png",
+            "sha256": "68fabace66bf1826b45d95cfef7f8f4da1f8629b1ca3f9a616b9f3bd29b9609c"
+          },
+          {
+            "path": "docs/urman_knowledge_base/art/fullgame_frames/godot_home_water_envelope_1080p.png",
+            "sha256": "fd583dc8be28d7955a86cf17a738f27b85250791da1f33834ad28c7a67493119"
+          }
+        ],
+        "verification_limits": "Existing capture positions camera explicitly; no ordinary input/source→copy passage or session/save acceptance. Existing raw capture log requested without rerun. Full PW071 and D02 remain open."
+      }
     },
     {
       "id": "PW-072",
