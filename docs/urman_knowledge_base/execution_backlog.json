@@ -5290,21 +5290,24 @@
             "title": "Подключить S08 — Поверхность небольшого льда",
             "result": "Подключить S08 — Поверхность небольшого льда",
             "owner": "art/materials/qa",
-            "evidence": [],
+            "evidence": [
+              "S08 promptbook section539: 1x1m seamless RGB clouded pale grey-green/desaturated blue-grey ground ice; no baked transparency/specular/slip. Existing project-original procedural ice_small_v1_albedo.png SHA98827b3b79c5e9bb760e8e1d6d049836427c9079677ef34cde9923b314140595 verified against procedural_bake_receipt_v1.json; root viewed original map, no new image generation.",
+              "Live BuildCarryables -> BuildYardMechanisms -> BuildBoardCrossing creates BabaiDrainBoardCrossing/ShallowFrozenDrainBed -> DrainIceMaterial -> PML ice/WinterTextures map at1m. Existing analytic shallow ground-following mesh/contact and local frosted roughness.82/specular.12/wet_grade0 retained. No missing source binding, production code not changed; exact native receiver proof is missing."
+            ],
             "assigned_owner": "art/materials/qa",
-            "active_owner": null,
+            "active_owner": "codex/root",
             "activity": {
-              "state": "not_active",
-              "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+              "state": "confirmed_active",
+              "reason": "Root takes finite S08 small-ice hookup; Luna read-only confirms original asset/passport/current live consumer before any source change or native job."
             },
             "task_type": "engineering",
-            "status": "todo",
+            "status": "in_progress",
             "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
               "Подключить S08 — Поверхность небольшого льда; собственного целевого receipt пока нет."
             ],
-            "next_action": "Сопоставить текущий результат: Подключить S08 — Поверхность небольшого льда. Затем изменить только установленный остаток.",
+            "next_action": "Run first named s08_drain_ice capture of existing live receiver, inspect actual map/rim/ground contact and quality; preserve original source/collision/carry state. No code/build rewrite for already-correct binding.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -5334,7 +5337,7 @@
               ],
               "verification": {
                 "method": "targeted_runtime_scenario",
-                "question": "Подключить S08 — Поверхность небольшого льда",
+                "question": "Does existing ShallowFrozenDrainBed visibly read as small clouded ice distinct from granular snow at its authored wandering ground-following rim, without UV collapse, raised slab or obvious floating contact? Static material hookup only; board/carry state not exercised.",
                 "scenario": {
                   "targets": [
                     "game/assets/textures/painterly/README.md",
