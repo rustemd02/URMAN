@@ -1,0 +1,24 @@
+{
+  "job_id": "84109fb317e94585af776f0643d58050",
+  "snapshot_id": "69ed60f4bfbedbd199cab4f72c8b4e4fe6db4ef2d70dc30a1152a20d289ce4b9",
+  "status": "FAIL",
+  "result_sha256": "6ea34ea013772bf5f45caafee3888e0b133ce217a8366bb15ade24f7156ba934",
+  "started": "2026-10-16T07:48:53.3693427Z",
+  "steps": { "game": { "exitCode": 124 } },
+  "userdata_restored": true,
+  "window": "10:51:16 .. 11:11:01 MSK (1200 s cap, exit 124); the game sat idle at the staff-room door from ~11:03",
+  "delivered": [
+    "house chain re-proved fast: NIVA STOP 10:53:27 ([21] scene.entered pw-niva-stop right after the arrival checkpoint), door ray pw-home-enter-house 10:54:01, ENTERED 10:54:16, BOOK 10:55:07 ([56] photoworlds.book.received), OUTSIDE 10:55:38 (zone-loaded village_day@from_house)",
+    "SCHOOL COMPLETED for the first time: door ray square/school/entrance-r at (-17.15, 64.75) yaw -179.92 pitch -9.92 (11:01:09), corridor, staff door ray square/school/staff at (-9.79, 67.99) yaw 178 pitch -17.92 (11:01:40), staff room pose (-9.78, 2.58, 75.05)",
+    "SOURCE = True 11:02:03 (attempt 1, pitch -36, ray urman.fullgame:interaction/pw-school-copy-source available) -> E -> game log [93] photoworlds.fact.observed pw-school-copy-source (school_copy_identified)",
+    "PERMISSION = True 11:02:31 (attempt 2, pitch -55, ray interaction/pw-school-copy-permission available) -> E -> game log [99] photoworlds.photo.acquired pw-school-copy-permission (S-SCHOOL acquired), [100] photo.back-read, [101] photo.back-read (P-FOREST), [102] photo.context-known (P-FOREST)",
+    "all four pw-enter-forest conditions satisfied in state: book received + P-FOREST mounted (family book) + S-SCHOOL acquired + prologue completed",
+    "F10 started at 11:02:46 with 495 s left (> 420 gate); the staff-room exit walk began: staff stand distance 0.83 m"
+  ],
+  "failure": "The driver process froze at 11:02:59 on 'act x16-f10-staff-go1': the ssh stream stalled around 11:02:30 (the report file and the console both stop at that act) and the process then blocked writing to the dead pipe. The game itself stayed healthy and was killed by the 1200 s cap at 11:11:01 while the player stood near the staff door. Route lessons measured: approach 10:55:38->11:01:09 = 331 s for ~76 m in 10 walk_to legs (~33 s/leg with probe/turn/go overhead and stall jiggles); school interior+interactions only 97 s.",
+  "remaining": [
+    "F10 return walk to the house and the pw-enter-forest press (forest scene)",
+    "PW-043 house+journal leg: the journal reader ('Consider the photo') requested by Kadyr"
+  ],
+  "run17": "job 296bbd87fdb94198a8499cd7b5c848c8, snapshot bdccb719: drive17_station.py - driver output redirected to a file on the station (immune to dead ssh pipes), fewer/longer route legs (north: 7 legs instead of 10; south: 5 instead of 7), same school stands that worked in run 16"
+}

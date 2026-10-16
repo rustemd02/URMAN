@@ -1,0 +1,16 @@
+{
+  "label": "x16-sstaff1",
+  "rid": "76f1c01c22f74b7f84130d559790927a",
+  "frame": "interactive-76f1c01c22f74b7f84130d559790927a",
+  "pos": [
+    -9.79,
+    2.58,
+    67.99
+  ],
+  "yaw": 178.0,
+  "pitch": -17.92,
+  "interactionId": "urman.chapter1:local/square/school/staff",
+  "interactionAvailable": true,
+  "ray": "/root/FullGameMain/ZoneHost/Act1ConnectedWorld/village-main-road/SquareSchoolStaffDoorUse",
+  "status": "ok"
+}
