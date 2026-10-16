@@ -17,6 +17,7 @@ import sys
 import tempfile
 import threading
 import time
+import uuid
 import zipfile
 
 from remote_common import (MAX_ARCHIVE, MAX_RESULT_BYTES, MAX_RESULT_FILES,
