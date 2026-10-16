@@ -8490,10 +8490,10 @@
               "evidence/ACT1-TEXTURE.03/arrival-m01-20261016/game-build.log: final affected Game0errors/0warnings29.94s; root+Luna source review, no new tests/probes/generation. Current station remains busycb9e608d97f64a75b189ab43590c9f29/recoverypending; no native M01 job submitted and no peer process/input interrupted. Source/compile do not prove visible galvanized finish."
             ],
             "assigned_owner": "art/materials/qa",
-            "active_owner": null,
+            "active_owner": "codex/root",
             "activity": {
-              "state": "released",
-              "reason": "Root+Luna source review and final affected compile accepted. Exact M01 checkpoint ready; first native not_run while peer cb9e still busy/recovery pending. No extra polling/submission."
+              "state": "confirmed_active",
+              "reason": "Peercb9e terminal124/restored; doctor free/busy null/recovery false/orphan false. Root takes first exact M01 native with existing source/compile."
             },
             "task_type": "engineering",
             "status": "in_progress",
@@ -8503,11 +8503,8 @@
               "First actual native m01_arrival_post view of lower exposed post and ground mounting; root inspect restrained zinc mottling, no UV collapse/seam/float/chrome trick, preserve signs/paper/contact/state.",
               "Other M01 zinc fixtures/roofs/buckets and motion/full art are outside this named source stage; generic metal must not be bulk reclassified."
             ],
-            "next_action": "After currentcb9e owner terminal/restore/release, capture m01_arrival_post once with current source; root inspect actual visible zinc and metadata. Reuse current29.94s affected build, no repeated doctor loop or generic metal rewrite.",
-            "blocker": {
-              "reason": "First exact m01_arrival_post native cannot run while peer cb9e608d97f64a75b189ab43590c9f29 holds station with userdata_recovery_pending=true. Named source/compile/view input are ready.",
-              "release_when": "Current peer owner releases slot after terminal+userdata restore and doctor confirms no busy/recovery/orphan. Then one exact m01_arrival_post capture with current source; do not repeat affected compile or disturb current route."
-            },
+            "next_action": "Capture prepared m01_arrival_post once, root inspect exact lower galvanized finish/ground mount and actual quality; reuse29.94s compile.",
+            "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
             "work_contract": {
@@ -117758,7 +117755,8 @@
         "evidence/PW-043/interactive-20261016/frames/r4-s04-check.png",
         "evidence/PW-043/interactive-20261016/frames/r4-s05-sweep.png",
         "evidence/PW-043/interactive-20261016/frames/r5-s04b-check.png",
-        "Root reviewed delivered 16Oct r3-s02b-inside, r3-s04b-check and r5-s04b-check PNGs: actual desktop game view is occluded by ChatGPT.exe application-error dialog 0xc000012d plus Windows Update toast. They show Niva/exterior wall, not house interior/book/reader/school/F10 acceptance. Host overlay is separate from URMAN engine failure; no reboot or guessed game fix. Existing route owner retained; next owned interaction must first clear/verify dialog and focus, not repeat five blind timed routes."
+        "Root reviewed delivered 16Oct r3-s02b-inside, r3-s04b-check and r5-s04b-check PNGs: actual desktop game view is occluded by ChatGPT.exe application-error dialog 0xc000012d plus Windows Update toast. They show Niva/exterior wall, not house interior/book/reader/school/F10 acceptance. Host overlay is separate from URMAN engine failure; no reboot or guessed game fix. Existing route owner retained; next owned interaction must first clear/verify dialog and focus, not repeat five blind timed routes.",
+        "evidence/PW-043/release-path-20261016/native_cb9e/receipt.json: root received terminal peer jobcb9e608d97f64a75b189ab43590c9f29 rawFAIL/game124/1200s, ZIP SHA6e2b8e737da104212f2b2c609efafbf6dfce5a990ff430aae4d81ec4a206d51b verified; userdata restored/hashverified, engine-errors empty. No frames; root game.log read finds village_day@arrival only, no delivered house_old_pc entry/book.received or acquired-back UI proof. Peer owner unchanged; no route/book acceptance from planned script or timeout."
       ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-043",
       "source_requirements": [
