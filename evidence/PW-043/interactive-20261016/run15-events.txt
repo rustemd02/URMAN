@@ -1,0 +1,48 @@
+job 1fd9f47e49ef42bc8f98bec730ea20a7, snapshot 69ed60f4bfbedbd199cab4f72c8b4e4fe6db4ef2d70dc30a1152a20d289ce4b9
+window 09:34:17 .. 09:54:17 MSK (1200 s cap, game exit 124); userdata restored
+
+Game log (stdout.log), verified lines:
+2034:[8] photoworlds.prologue.completed: urman.fullgame:interaction/pw-prologue-skip
+2035:[9] scene.entered: urman.fullgame:interaction/pw-prologue-skip
+2354:zone-loaded: village_day@arrival connected-world=330494381626
+2373:checkpoint: auto-saved at urman.fullgame:scene/pw-niva-arrival
+2378:[21] scene.entered: urman.fullgame:interaction/pw-niva-stop
+2380:checkpoint: auto-saved at urman.fullgame:scene/pw-home
+2548:checkpoint: auto-saved at urman.fullgame:scene/pw-home
+2549:zone-loaded: house_old_pc@entry connected-world=330494381626
+2550:[56] photoworlds.book.received: urman.fullgame:interaction/pw-book-handoff
+2551:zone-loaded: village_day@from_house connected-world=330494381626
+
+Driver report (run15-report.txt) gates:
+[09:36:47] NIVA STOP = True
+[09:40:11] door ray hit = True
+[09:40:54] ENTERED = True
+[09:43:20] tea ray pw-arrival-tea-talk available (-12.68, 1.69, -2.69)
+[09:44:07] book ray pw-book-handoff available (-14.42, 1.69, -5.42) yaw 90 pitch -41.92
+[09:44:40] BOOK = True (settle found [56] photoworlds.book.received)
+[09:45:25] exit ray pw-home-exit-house available (-10.98, 1.69, -2.09)
+[09:46:02] OUTSIDE = True (zone-loaded village_day@from_house)
+
+School walk attempt (the failure) and the diagnostic frames:
+[09:46:36] outside pose (-7.82, 1.41, -1.88)
+[09:46:55] street round 0 -> [09:47:35] round 1 (-6.85, 1.43, -1.07): moved 1 m east, drifted 0.8 m NORTH;
+[09:48:12] round 2 (-6.86, 1.43, -1.1) stalled; jiggle; round 3 (-7.46, 1.43, -2.36) worse -> gave up
+           frame x15-street-p1 shows the yard-green north of the door row
+[09:50:27] north1 round 0 (-6.16, 0.35); [09:51:19] round 1 (-6.01, 1.99); round 2 stalled
+[09:52:23] north1 jiggle + go2 broke free NORTH: by [09:53:23] the player was at (-1.49, 14.7) -
+           the street at the arrival point
+[09:53:23] north2 round 0 act: zero movement (stall at (-1.52, 14.7)) - frame x15-north2-p0 shows
+           the parka Niva filling the view: the car stands ON the street z ~15.5-19.5, x ~-2.4..-0.6
+           (rear window + roof rack visible; the bus-stop case to the east)
+[09:54:17] game killed by the 1200 s cap while the driver retried the stall
+
+ABSENT: school source/permission (S-SCHOOL) and F10 pw-enter-forest.
+
+Routing lessons baked into run 16 (drive16_station.py):
+  1) leave the door row SOUTH to the proven z -2.55 corridor, then walk east through the gate line;
+  2) north on the street column; before the car move EAST to x +1.6 (its east side), pass to z 22.5,
+     then back to x -0.3 and north to z 63.5;
+  3) turn west along the school front strip to the porch stand (-17.05, 64.7);
+  4) the same go-around in reverse for the F10 southbound return;
+  5) the parcel plan (game/content/world/act1_open_part.world.v1.json + act1_north_street) has no
+     plots between x -6..+6 from z -3 to 70, so the main street column is clear apart from the car.

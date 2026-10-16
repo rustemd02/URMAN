@@ -1,0 +1,28 @@
+{
+  "job_id": "04888377469c425994441e410c8cd47f",
+  "snapshot_id": "8bc897593345b03bbe5b03293d5ae77eff192616f2883f3a3ec4447e00b28ecd",
+  "status": "FAIL",
+  "result_sha256": "21f59631954f53802df1c6999888a7991d03eda378c76e32f323d1b3f66fe6a9",
+  "started": 1792130243.4826972,
+  "steps": { "game": { "exitCode": 124 } },
+  "userdata_restored": true,
+  "window": "09:00:24 .. 09:20:18 MSK (1200 s cap, exit 124)",
+  "delivered": [
+    "[8] photoworlds.prologue.completed: pw-prologue-skip (click skip)",
+    "[9] scene.entered: pw-prologue-skip",
+    "zone-loaded: village_day@arrival",
+    "checkpoint: auto-saved at scene/pw-niva-arrival",
+    "[21] scene.entered: interaction/pw-niva-stop (E) - beat pw-b01-niva-arrival completed",
+    "door ray hit at the documented stand, ENTERED = True (house_old_pc@entry)",
+    "tea talk ray pw-arrival-tea-talk available + E (-12.73, -2.71, yaw 69.2, pitch -12)",
+    "book ray pw-book-handoff + E: [56] photoworlds.book.received",
+    "PW-008 journal close/reopen pair captured: x14-journal1 (open) -> close -> reopen act -> x14-journal2",
+    "exit ray pw-home-exit-house + E: zone-loaded village_day@from_house (OUTSIDE = True)"
+  ],
+  "failure": "The fixed arrival wait worked (zone 300 s + scene checkpoint + E retries), and the whole house chain (door, tea, book, journal pair, exit) passed for the first time. The school walk then failed the same way as run 14: the eastward crossing from the door row drifted north into the yard fence (stall at (-6.86, -1.1)), the north leg ran up the west yard line and stalled at (-6.77, 12.51) - a fence line west of the street; the sdoor loop slid west along that line to (-17.14, 12.51) instead of north to z 64.7. The game died on the 1200 s cap at 09:20:18 (driver exit into action timeouts).",
+  "remaining": [
+    "school source + permission (S-SCHOOL)",
+    "F10 pw-enter-forest forest entry"
+  ],
+  "run16": "job 84109fb317e94585af776f0643d58050, station-local driver drive16_station.py: probes/acts run on the station itself (1-3 s per interaction), fixed school route (south to the z -2.55 corridor, east through the gate, north on x -0.85, around the Niva east side x +1.6, then x -0.3 to z 63.5 and west to the porch -17.05, 64.7)"
+}

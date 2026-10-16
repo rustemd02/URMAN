@@ -1,0 +1,35 @@
+job 04888377469c425994441e410c8cd47f, snapshot 8bc897593345b03bbe5b03293d5ae77eff192616f2883f3a3ec4447e00b28ecd
+window 09:00:24 .. 09:20:18 MSK (1200 s cap, game exit 124); userdata restored
+
+Game log (stdout.log), verified lines:
+2034:[8] photoworlds.prologue.completed: urman.fullgame:interaction/pw-prologue-skip
+2035:[9] scene.entered: urman.fullgame:interaction/pw-prologue-skip
+2354:zone-loaded: village_day@arrival connected-world=238689455418
+2374:checkpoint: auto-saved at urman.fullgame:scene/pw-niva-arrival
+2378:[21] scene.entered: urman.fullgame:interaction/pw-niva-stop
+2380:checkpoint: auto-saved at urman.fullgame:scene/pw-home
+2548:checkpoint: auto-saved at urman.fullgame:scene/pw-home
+2549:zone-loaded: house_old_pc@entry connected-world=238689455418
+2550:[56] photoworlds.book.received: urman.fullgame:interaction/pw-book-handoff
+2551:zone-loaded: village_day@from_house connected-world=238689455418
+
+Driver report (run14-report.txt) gates:
+[09:02:45] NIVA STOP = True
+[09:05:46] door ray hit = True       (documented stand, house door ray)
+[09:06:25] ENTERED = True            (interior zone)
+[09:07:38] tea ray = urman.fullgame:interaction/pw-arrival-tea-talk, available=true
+           pose (-12.73, 1.69, -2.71) yaw 69.2 pitch -12.0
+[09:08:40] tea E re-probe: the talk interaction is still 'available' after E (repeatable dialogue)
+[09:09:57] BOOK = True               ([56] photoworlds.book.received)
+[09:10:21] act x14-journal-close      (PW-008 pair: close the journal)
+[09:10:39] act x14-journal-reopen     (reopen)
+[09:10:55] probe x14-journal2         (same photo selection kept)
+[09:11:55] exit ray = urman.fullgame:interaction/pw-home-exit-house, available=true
+[09:12:43] OUTSIDE = True             (zone-loaded village_day@from_house)
+[09:13:17] outside pose (-7.82, 1.41, -1.88)
+
+ABSENT: school source/permission (S-SCHOOL) and F10 pw-enter-forest - the school walk failed:
+  street stall (-6.86, 1.43, -1.1)   - the eastward crossing drifted north into the yard fence;
+  town2 (-9.18, 4.58) after the jiggle, town3 (-6.77, 12.51) - stalled at a fence line west of the street;
+  x14-porch0 / x14-sdoor0 same (-6.84, 12.51); sdoor1 (-16.12, 12.51), sdoor2 (-17.14, 12.51) -
+  the door fixes slid WEST along the z 12.51 line instead of north; the game died at the cap during sdoor3.

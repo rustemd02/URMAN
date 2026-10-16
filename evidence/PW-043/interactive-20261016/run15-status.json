@@ -1,0 +1,32 @@
+{
+  "job_id": "1fd9f47e49ef42bc8f98bec730ea20a7",
+  "snapshot_id": "69ed60f4bfbedbd199cab4f72c8b4e4fe6db4ef2d70dc30a1152a20d289ce4b9",
+  "status": "FAIL",
+  "result_sha256": "b90c56b03a56a073734fa9426a5b345b847f65b095913039ffe0be3a445f6abb",
+  "started": 1792132269.430187,
+  "steps": { "game": { "exitCode": 124 } },
+  "userdata_restored": true,
+  "window": "09:34:17 .. 09:54:17 MSK (1200 s cap, exit 124)",
+  "delivered": [
+    "[8] photoworlds.prologue.completed: pw-prologue-skip",
+    "[9] scene.entered: pw-prologue-skip",
+    "zone-loaded: village_day@arrival",
+    "checkpoint: auto-saved at scene/pw-niva-arrival",
+    "[21] scene.entered: interaction/pw-niva-stop - beat pw-b01-niva-arrival completed",
+    "door ray hit = True, ENTERED = True (09:40:54)",
+    "BOOK = True: [56] photoworlds.book.received (09:44:40)",
+    "exit ray pw-home-exit-house + E: OUTSIDE = True (09:46:02)"
+  ],
+  "failure": "Same house chain passed on the second fixed run; the school walk still failed. New evidence this run: (a) the eastward crossing from the door drifted north into the yard fence and stalled at (-6.85, -1.07); (b) the north leg up the west yard line stalled twice - (-6.01, 1.99) and then (-1.52, 14.7); (c) frame x15-north2-p0 shows why: the parka Niva stands ON the street right at the arrival point (z ~15.5-19.5), the camera looks straight into its rear window; the driver died against the 1200 s cap at 09:54:17 while retrying that stall.",
+  "remaining": [
+    "school source + permission (S-SCHOOL)",
+    "F10 pw-enter-forest forest entry"
+  ],
+  "routing_lessons": [
+    "door-row crossing must stay on the proven z ~-2.4..-2.55 corridor, stepping south first",
+    "the Niva blocks the street at z 15.5-19.5 - both passes go around its east side x +1.6",
+    "the west side x -6.8 lofts into a yard fence line (z 12.5) - never use it",
+    "the street column x -0.85 is proven to z 14.7 and is clear north of the Niva per the parcel plan (no plots between x -6..+6 from z -3 to 70)"
+  ],
+  "run16": "job 84109fb317e94585af776f0643d58050 (station-local driver drive16_station.py)"
+}
