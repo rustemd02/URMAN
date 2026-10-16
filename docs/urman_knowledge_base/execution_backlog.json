@@ -117698,7 +117698,11 @@
         "evidence/PW-043/release-path-20261015/native_d884/game.log",
         "evidence/PW-043/release-path-20261015/frames/d884-root/08-tea-dialog.png",
         "evidence/PW-043/release-path-20261015/frames/d884-root/10-new-album.png",
-        "evidence/PW-043/release-path-20261015/frames/d884-root/11-album-detail.png"
+        "evidence/PW-043/release-path-20261015/frames/d884-root/11-album-detail.png",
+        "evidence/PW-043/interactive-20261016/notes.md",
+        "evidence/PW-043/interactive-20261016/frames/r4-s04-check.png",
+        "evidence/PW-043/interactive-20261016/frames/r4-s05-sweep.png",
+        "evidence/PW-043/interactive-20261016/frames/r5-s04b-check.png"
       ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-043",
       "source_requirements": [
@@ -117839,7 +117843,7 @@
         "Игрок не обязан повторять тизер; объяснение «просто сон» не закрывает интригу.",
         "Обычный New Game без override использует актуальный pack, ставит физический W01 и передаёт управление семейному прибытию; skip не выдаёт необязательное знание, Replay не меняет основной сеанс, Continue не запускает New Game."
       ],
-      "next_action": "131e доставил ordinary book.received[56] и читаемый оборот нативно; школа/F10 не достигнуты (лог без pw-school-copy-*/S-SCHOOL/pw-enter-forest, ход закончился у северного забора двора). Next: bounded play-full улицей x≈-1.5 на север до z≈56-60→запад к апрону школы(-16.9,64)→коридор на запад до учительской→folder на столе→source+permission→возврат к книге→pw-enter-forest→F10 (whole-forest кадры+короткое движение). Control probe {LEFT}/{RIGHT}, a/d с capture после каждой команды. No broad lighting/forest recheck.",
+      "next_action": "Прогон 6 (после niva-stop игрок уже у дома — не ходить на юг): capture, найти дверь глазами, встать в 1,2-1,5 м восточнее портала (-9.5,-1.88) на линии z≈-1,88, смотреть на запад, E -> settle 'zone-loaded: house_old_pc@entry' (до 300 c) -> внутри capture: Гөлсинә (-13.4,-2.95) E (чай) -> стол книги (-14.0,-5.2): look down, E -> settle 'photoworlds.book.received' -> журнал: клик (744,849) 'Прочитать оборот' + кадр (PW-008). Маршрут за один 1200 c прогон не помещается — сегментировать: прогон A книга/оборот, прогон B школа (source+permission), прогон C лес F10; каждый закрывать чистым close с startUtc прогона.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -118299,7 +118303,8 @@
           "evidence/PW-043/release-path-20261015/frames/131e-school/02-back-read.png",
           "evidence/PW-043/release-path-20261015/frames/131e-school/05-road-observation.png"
         ]
-      }
+      },
+      "progress_2026_10_16_interactive_runs": "Пять bounded play-full прогонов (34dab7f7, 02746747, 6d262e6b, 9a68b64c, 7685af5d): skip пролога и pw-niva-stop отработали нативно в каждом (лог: [N] scene.entered pw-niva-stop + checkpoint pw-home); игра на каждом прогоне убита жёстким капом runner'а 1200 c (eng/windows_station_worker.py timeout_max=1200 для play) — receipt FAIL exit 124. Дверь дома не открыта: портал GLB (-9.5,-1.88) утоплен на ~1.16 м за лицевую стену (~-8.34), E из упора в стену не достаёт; niva-stop сам телепортирует к дому и чекпойнтит pw-home. Внутренние id из лога 131e: zone-loaded house_old_pc@entry (вход), photoworlds.book.received (pw-book-handoff). capture-current транспорта нет — кадры только скриншотами actor'а. Записи и кадры: evidence/PW-043/interactive-20261016/."
     },
     {
       "id": "PW-044",
