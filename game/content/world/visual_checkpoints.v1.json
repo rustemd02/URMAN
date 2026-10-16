@@ -572,6 +572,12 @@
       "spec": "NivaInterior@0.842,0.5,-0.26>NivaInterior@1.142,0.06,0.39",
       "subject": "ACT1-TEXTURE.03/E08: exact NivaInterior 302f2b vinyl passenger seat-back, original M09 .5m local RGB modulation; original dark tint/response/seat geometry retained. Static only, no whole cabin/motion acceptance.",
       "graphicsPreset": "high"
+    },
+    {
+      "id": "m01_arrival_post",
+      "spec": "ArrivalBusStop@0.3,0.54,0.55>ArrivalBusStop@0,0.34,-0.055",
+      "subject": "ACT1-TEXTURE.03/E01 M01: existing explicit galvanized post, exposed lower section and ground mounting, local half-metre zinc albedo; sign/paper/cap/contact/state unchanged. Static named receiver only.",
+      "graphicsPreset": "high"
     }
   ],
   "batches": [

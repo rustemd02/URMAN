@@ -3435,7 +3435,14 @@
       ],
       "consumer": "RuralPropMaterials.Surface(metal); actual metric mesh UV",
       "qa": "source viewed; game receiver review pending, no human acceptance",
-      "sourceSha256": "899c9a9a2384ae43c70b5640e2d381712ea0e1af2210ce405f3b347d265546d7"
+      "sourceSha256": "899c9a9a2384ae43c70b5640e2d381712ea0e1af2210ce405f3b347d265546d7",
+      "additional_receiver_2026_10_16_m01": {
+        "task": "ACT1-TEXTURE.03/E01",
+        "receiver": "Act1CoreWorldGreybox/Arrival/ArrivalBusStop/GalvanizedPost only",
+        "material": "Per-instance PML zinc_sheet clone; original79837f tint, .5m local triplanar original albedo, existing .52rough/.34spec/.90metallic response. Generic wear-mask/bottom-rust disabled. Other stop parts/cache/geometry/collider/state unchanged; missing map/headless keeps former finish.",
+        "qa": "Root viewed original, source review+affected Game0/0 accepted; first exact native not_run while peer cb9e station busy/recovery. Current runtime/art gate remains in ACT1-TEXTURE.03/E01.",
+        "build_evidence": "evidence/ACT1-TEXTURE.03/arrival-m01-20261016/game-build.log"
+      }
     },
     {
       "id": "texture.rural.realism.concrete.20260930",
@@ -4526,7 +4533,32 @@
       ],
       "materialOwner": "RegradeAct1DaylightKitMaterials exact RoadsideDitch_Bank_02_LOD0/DampEarth per-instance clone, preserves current f1f5f9 snow-ground tint and response; shared caches and other banks/plants unchanged.",
       "collision": "Authored geometry and individually grounded contacts unchanged.",
-      "qa": "Root viewed original map; source review and affected Game build0/0 accepted. Current named native not_run while station8180 busy/recovery; actual game/movement/art acceptance stays in ACT1-TEXTURE.02/E07."
+      "qa": "evidence/ACT1-TEXTURE.03/niva-m09-20261016/native_ab6fb5/frames/s09_ditch_snow_bank.png: actualHigh/rawPASS unique-core-ancestor view, but root cannot isolate intended small bank/inclusions against broad surrounding snow. Full visual receiver NOT_ACCEPTED. Prior7dad74 rawFAIL correctly refused duplicate mesh owner. Current precise remainder only ACT1-TEXTURE.02/E07; no third guessed view or material rewrite."
+    },
+    {
+      "id": "texture.painterly.m09.v01",
+      "source": "assets/source/imagegen/2026-10-16/urman_m09_v01_basecolor.png",
+      "derived": "game/assets/textures/painterly/urman_m09_v01_basecolor.png",
+      "sourceSha256": "1a7041aebf4bd7212dc797fff669cebacaa4adf185372854e5d858e07ced9b60",
+      "derivedSha256": "1a7041aebf4bd7212dc797fff669cebacaa4adf185372854e5d858e07ced9b60",
+      "generator": "OpenAI built-in image_gen; model ID not exposed; no reference images or pixel edits",
+      "license": "Project generated",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "format": "PNG RGB8",
+      "units": "metres",
+      "uv": ".5m mesh-local triplanar, no source UV required",
+      "reference": "docs/urman_knowledge_base/art/urman_imagegen_texture_prompt_book_2026-09-22.md#m09",
+      "provenance": "evidence/ACT1-TEXTURE.03/niva-m09-20261016/imagegen-receipt.json (full prompt/tool/source paths/linear mean)",
+      "materialOwner": "VehicleVisualFactory.NivaModel exact NivaInterior302f2b__vinyl clone; Grain optional map defaultOFF elsewhere. Sampled RGB normalized by measured linear mean and clamped.75..1.25; authored hue/brightness/.78rough/.3spec/metallic0/grain/bump/fade retained.",
+      "consumerPaths": [
+        "game/scripts/VehicleVisualFactory.NivaModel.cs",
+        "game/scripts/VehicleVisualFactory.Grain.cs"
+      ],
+      "collision": "Geometry, vehicle/controller/physics/custody unchanged.",
+      "qa": "evidence/ACT1-TEXTURE.03/niva-m09-20261016/native_ab6fb5/frames/m09_niva_passenger.png: root accepted named passenger seat-back/headrest static worn-grain hookup at actualHigh/comparable/scale1. No obvious seam/collapse/doubled darkening; no matched before-after or all-seat/motion/art claim. Remaining task state only ACT1-TEXTURE.03/E08."
     }
   ]
 }
