@@ -615,21 +615,21 @@
         ]
       },
       {
-        "id": "forest_group_seen",
+        "id": "forest_camera_back_seen",
         "provenanceKind": "direct-world-observation",
         "sourceIds": [
           "urman.fullgame:interaction/pw-forest-group"
         ]
       },
       {
-        "id": "forest_photographer_found",
+        "id": "forest_beyond_frame_seen",
         "provenanceKind": "spatial-observation",
         "sourceIds": [
           "urman.fullgame:interaction/pw-forest-photographer"
         ]
       },
       {
-        "id": "forest_shurale_listened",
+        "id": "forest_encounter_resolved",
         "provenanceKind": "character-conversation",
         "sourceIds": [
           "urman.fullgame:interaction/pw-forest-shurale"
@@ -643,10 +643,24 @@
         ]
       },
       {
-        "id": "water_safe_bypass_opened",
+        "id": "water_reflection_relation_seen",
+        "provenanceKind": "direct-world-observation",
+        "sourceIds": [
+          "urman.fullgame:interaction/pw-water-reflection"
+        ]
+      },
+      {
+        "id": "water_reed_opened",
         "provenanceKind": "direct-player-action",
         "sourceIds": [
           "urman.fullgame:interaction/pw-water-bypass"
+        ]
+      },
+      {
+        "id": "water_encounter_resolved",
+        "provenanceKind": "character-response",
+        "sourceIds": [
+          "urman.fullgame:interaction/pw-water-encounter"
         ]
       },
       {
@@ -657,14 +671,28 @@
         ]
       },
       {
-        "id": "house_shutter_adjusted",
+        "id": "house_shutter_opened",
         "provenanceKind": "direct-player-action",
         "sourceIds": [
           "urman.fullgame:interaction/pw-house-shutter"
         ]
       },
       {
-        "id": "house_two_views_compared",
+        "id": "house_door_left_seen",
+        "provenanceKind": "spatial-observation",
+        "sourceIds": [
+          "urman.fullgame:interaction/pw-house-door-left"
+        ]
+      },
+      {
+        "id": "house_door_right_seen",
+        "provenanceKind": "spatial-observation",
+        "sourceIds": [
+          "urman.fullgame:interaction/pw-house-door-right"
+        ]
+      },
+      {
+        "id": "house_two_views_seen",
         "provenanceKind": "spatial-observation",
         "sourceIds": [
           "urman.fullgame:interaction/pw-house-two-views"
@@ -675,6 +703,20 @@
         "provenanceKind": "independent-spatial-observation",
         "sourceIds": [
           "urman.fullgame:interaction/pw-house-camera-position"
+        ]
+      },
+      {
+        "id": "cloth_cleared",
+        "provenanceKind": "direct-player-action",
+        "sourceIds": [
+          "urman.fullgame:interaction/pw-house-cloth"
+        ]
+      },
+      {
+        "id": "house_frame_seen",
+        "provenanceKind": "spatial-observation",
+        "sourceIds": [
+          "urman.fullgame:interaction/pw-house-frame"
         ]
       },
       {
@@ -699,17 +741,31 @@
         ]
       },
       {
-        "id": "common_relationships_connected",
+        "id": "common_three_relations_seen",
         "provenanceKind": "direct-world-observation",
         "sourceIds": [
           "urman.fullgame:interaction/pw-common-three-places"
         ]
       },
       {
-        "id": "common_horizon_uncovered",
+        "id": "common_view_uncovered",
+        "provenanceKind": "direct-player-action",
+        "sourceIds": [
+          "urman.fullgame:interaction/pw-common-cloth"
+        ]
+      },
+      {
+        "id": "common_horizon_seen",
         "provenanceKind": "direct-player-action",
         "sourceIds": [
           "urman.fullgame:interaction/pw-common-horizon"
+        ]
+      },
+      {
+        "id": "common_note_finished",
+        "provenanceKind": "direct-player-action",
+        "sourceIds": [
+          "urman.fullgame:interaction/pw-common-note"
         ]
       },
       {
@@ -741,24 +797,31 @@
         ]
       },
       {
-        "id": "cellar_household_order_seen",
+        "id": "cellar_household_pattern_seen",
         "provenanceKind": "direct-world-observation",
         "sourceIds": [
           "urman.fullgame:interaction/pw-cellar-order"
         ]
       },
       {
-        "id": "cellar_shared_object_found",
+        "id": "cellar_box_returned",
         "provenanceKind": "household-object-observation",
         "sourceIds": [
           "urman.fullgame:interaction/pw-cellar-object"
         ]
       },
       {
-        "id": "cellar_bichura_answered",
+        "id": "cellar_response_seen",
         "provenanceKind": "character-response",
         "sourceIds": [
           "urman.fullgame:interaction/pw-cellar-response"
+        ]
+      },
+      {
+        "id": "cellar_niche_seen",
+        "provenanceKind": "direct-world-observation",
+        "sourceIds": [
+          "urman.fullgame:interaction/pw-cellar-niche"
         ]
       }
     ],

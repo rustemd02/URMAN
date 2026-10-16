@@ -1,0 +1,42 @@
+{
+  "task": "PW-003/GRAPH-CHECK (+parent PW-003)",
+  "date": "2026-10-16",
+  "author": "Codex (Mac)",
+  "result": "Canonical world-fact reconciliation complete on the authored side: all 19 required W01-W05 completion facts now have real runtime producers in the compiled campaign graph, registered photoBook sources included; the protected full_game_flow_smoke_test passes end-to-end (routes A/B, blocked prerequisites, finale without W05, free revisit, optional W05 after the finale).",
+  "problem": "Commit fdd771d0 (2026-10-09) rewrote the five world quest completion conditions to the canonical worlds.spec fact IDs while the five world scenes kept producing the previous fact names. 17 of the 19 required facts had no producer at all; the two shared names kept their producers. Every world return interaction is gated on its own quest completion, so no world could be finished and the campaign stalled after W01.",
+  "changes": [
+    "content/modules/urman-fullgame/definitions.json: the pw-forest / pw-river / pw-house / pw-common / pw-cellar scene interaction chains now produce the canonical fact set, in the passport action order, with the previous facts kept where canonical (water_old_approach_seen, house_camera_position_seen) and new authored steps added (pw-water-reflection, pw-water-encounter, pw-house-door-left, pw-house-door-right, pw-house-cloth, pw-house-frame, pw-common-cloth, pw-common-note, pw-cellar-niche); nine label texts added, eight updated.",
+    "content/campaigns/urman.fullgame/campaign.json: photoBook fact registry renamed to the canonical IDs and extended with the nine new facts (provenance kinds preserved for renames).",
+    "game/tests/FullGameFlowSmokeTest.cs: the W02-W04 drives follow the canonical chains; the stale prologue Alsu expectation (broken by the 2026-10-14 W01-prologue rework) replaced by a design-correct check, with Alsu's real stationary presence asserted at the arrival/home chapter instead; optional W05 chain driven after the finale."
+  ],
+  "mapping_required_fact_to_producer": {
+    "W01": {"forest_camera_back_seen": "pw-forest-group", "forest_beyond_frame_seen": "pw-forest-photographer", "forest_encounter_resolved": "pw-forest-shurale"},
+    "W02": {"water_reflection_relation_seen": "pw-water-reflection", "water_reed_opened": "pw-water-bypass", "water_old_approach_seen": "pw-water-old-approach", "water_encounter_resolved": "pw-water-encounter"},
+    "W03": {"house_shutter_opened": "pw-house-shutter", "house_two_views_seen": "pw-house-two-views (after pw-house-door-left + pw-house-door-right)", "house_camera_position_seen": "pw-house-camera-position", "house_frame_seen": "pw-house-frame (after pw-house-cloth)"},
+    "W04": {"common_three_relations_seen": "pw-common-three-places", "common_view_uncovered": "pw-common-cloth", "common_horizon_seen": "pw-common-horizon", "common_note_finished": "pw-common-note"},
+    "W05": {"cellar_household_pattern_seen": "pw-cellar-order", "cellar_box_returned": "pw-cellar-object", "cellar_response_seen": "pw-cellar-response", "cellar_niche_seen": "pw-cellar-niche"}
+  },
+  "verification": {
+    "static": [
+      "every quest fact condition has a producer in the compiled graph (0 missing)",
+      "every observed (factId, sourceId) pair is registered in the photoBook with matching provenanceKind (0 problems)",
+      "no stale pre-reconciliation fact names remain in content sources",
+      "ContentCli recompile reproduces the committed pack byte-identically before the edit (deterministic pipeline)"
+    ],
+    "baseline_red": "protected headless full_game_flow_smoke_test failed before the edit at the stale prologue Alsu checkpoint ('The full-game prologue did not have its real stationary Alsu owner'), i.e. before the world section; log fgflow-baseline-red.log",
+    "green": "protected headless full_game_flow_smoke_test exit=0: 'fullgame-flow-smoke: SEMANTIC PASS - prologue/skip, B01 Niva stop and home tea, W01<->W02 order, W03, independent outside evidence, Old PC caption-before-print, W04, unresolved Marat question, epilogue and return/revisit, optional W05 cellar after the finale'; log fgflow-green-w05.log",
+    "platform": "macOS, pinned Godot .NET 4.7.1, eng/run-smoke-guarded.sh (headless default), userdata guard restored originals byte-for-byte"
+  },
+  "hashes_after_change": {
+    "content/modules/urman-fullgame/definitions.json": "863bb20dc2eac4966ea04c7d132cdba9ed47a191ba9f0cf286f8524a237f2bad",
+    "content/campaigns/urman.fullgame/campaign.json": "7c42406f0a2edf0b3f6c6325777dc0802c498b52991d9cdab669cdc8b2ea0cf2",
+    "game/tests/FullGameFlowSmokeTest.cs": "f0c1383a4925eb358d070ba0098e6d62746600229b5c23dff527cfe982b866cc",
+    "game/content/urman.fullgame.compiled.v1.json": "c67a92651cd1ae25215c5a94a00a1418528a5bea9604c2faa375b3fc4ba3ab81"
+  },
+  "not_run": [
+    "Windows station native receipt and real visual frame for this corrected graph (author deprioritized run-grinding; visual confirmation will belong to the physical-world and ordinary-route work)",
+    "physical presentation/reachability of the W02-W05 producers (successor cards PW-045-PW-069; full physical route PW-094)",
+    "author/art/culture/language/audio external acceptance"
+  ],
+  "handoff": "The semantic graph is consistent and the producers are the exact authored interactions the physical world cards will place and dispatch; their physical passport done_when remains fully in PW-045/046, PW-051/052, PW-056/057, PW-061, PW-067 and the ordinary route in PW-094."
+}

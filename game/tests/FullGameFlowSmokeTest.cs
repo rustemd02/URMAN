@@ -66,7 +66,7 @@ public partial class FullGameFlowSmokeTest : Node
             await RunRouteAsync(runtime, skipPrologue: true, riverFirst: true, captureCaptionUiFrame: false);
 
             GD.Print("fullgame-flow-smoke: SEMANTIC PASS — prologue/skip, B01 Niva stop and home tea, W01↔W02 order, W03, independent outside evidence, "
-                + "Old PC caption-before-print, W04, optional W05, unresolved Marat question, epilogue and return/revisit; "
+                + "Old PC caption-before-print, W04, unresolved Marat question, epilogue and return/revisit, optional W05 cellar after the finale; "
                 + "PHYSICAL NOT_RUN — PW-075 file/search and printer consumers, PW-094 ordinary route, PW-098 handover/anchors/art.");
         }
         catch (Exception error)
@@ -122,6 +122,10 @@ public partial class FullGameFlowSmokeTest : Node
         await InteractAsync(bridge, "pw-niva-stop", Scene("pw-home"));
         Require(BeatState(bridge.SelectRuntimeState(), "pw-b01-niva-arrival") == "completed",
             "Stopping the Niva did not complete the authored arrival transition.");
+        await WaitFor(() => AlsuStreetWalkPresentation.SessionOwner(GetTree()) is { } companion
+                && companion.Checkpoint == 0 && !companion.Arrived
+                && Mathf.IsZeroApprox(companion.SessionWalkedMetres),
+            "The arrival/home chapter did not project the real stationary village companion (Alsu).");
         await ExpectBlockedAsync(bridge, "pw-book-handoff");
         await DialogueAsync(bridge, "pw-arrival-tea-talk", "pw-arrival-tea", "greeting", "stay-for-tea");
         Require(BeatState(bridge.SelectRuntimeState(), "pw-b01-warm-arrival") == "completed"
@@ -198,7 +202,9 @@ public partial class FullGameFlowSmokeTest : Node
         await InteractAsync(bridge, "pw-enter-common", Scene("pw-common"));
         await ExpectBlockedAsync(bridge, "pw-common-horizon");
         await InteractAsync(bridge, "pw-common-three-places");
+        await InteractAsync(bridge, "pw-common-cloth");
         await InteractAsync(bridge, "pw-common-horizon");
+        await InteractAsync(bridge, "pw-common-note");
         Require(QuestStatus(bridge.SelectRuntimeState(), "pw-w04") == "completed",
             "W04 did not complete after its typed caption, mounted page and authored narrative objectives.");
 
@@ -225,6 +231,20 @@ public partial class FullGameFlowSmokeTest : Node
         await InteractAsync(bridge, "pw-enter-forest", Scene("pw-forest"));
         await InteractAsync(bridge, "pw-forest-return", Scene("pw-home"));
         Require(bridge.ActiveSceneId == Scene("pw-home"), "The completed player could not return home after a free revisit.");
+
+        await InteractAsync(bridge, "pw-family-box-source");
+        await InteractAsync(bridge, "pw-family-box-permission");
+        await InteractAsync(bridge, "pw-cellar-photo-source");
+        await InteractAsync(bridge, "pw-cellar-photo-permission");
+        await InteractAsync(bridge, "pw-mount-cellar-photo");
+        await InteractAsync(bridge, "pw-enter-cellar", Scene("pw-cellar"));
+        await InteractAsync(bridge, "pw-cellar-order");
+        await InteractAsync(bridge, "pw-cellar-object");
+        await InteractAsync(bridge, "pw-cellar-response");
+        await InteractAsync(bridge, "pw-cellar-niche");
+        Require(QuestStatus(bridge.SelectRuntimeState(), "pw-w05") == "completed",
+            "The optional W05 cellar chapter did not complete after its four authored household actions.");
+        await InteractAsync(bridge, "pw-cellar-return", Scene("pw-home"));
     }
 
     private async Task PrepareRiverAsync(RuntimeBridge bridge)
@@ -244,11 +264,13 @@ public partial class FullGameFlowSmokeTest : Node
     private async Task CompleteRiverWorldAsync(RuntimeBridge bridge)
     {
         await InteractAsync(bridge, "pw-enter-river", Scene("pw-river"));
-        await InteractAsync(bridge, "pw-water-old-approach");
+        await InteractAsync(bridge, "pw-water-reflection");
         await InteractAsync(bridge, "pw-water-bypass");
-        await InteractAsync(bridge, "pw-water-damp-print");
+        await InteractAsync(bridge, "pw-water-old-approach");
+        await InteractAsync(bridge, "pw-water-encounter");
         Require(QuestStatus(bridge.SelectRuntimeState(), "pw-w02") == "completed",
-            "W02 did not complete after its three authored observations.");
+            "W02 did not complete after its four authored world actions.");
+        await InteractAsync(bridge, "pw-water-damp-print");
         await InteractAsync(bridge, "pw-water-return", Scene("pw-home"));
     }
 
@@ -277,8 +299,12 @@ public partial class FullGameFlowSmokeTest : Node
     {
         await InteractAsync(bridge, "pw-enter-house", Scene("pw-house"));
         await InteractAsync(bridge, "pw-house-shutter");
+        await InteractAsync(bridge, "pw-house-door-left");
+        await InteractAsync(bridge, "pw-house-door-right");
         await InteractAsync(bridge, "pw-house-two-views");
         await InteractAsync(bridge, "pw-house-camera-position");
+        await InteractAsync(bridge, "pw-house-cloth");
+        await InteractAsync(bridge, "pw-house-frame");
         Require(QuestStatus(bridge.SelectRuntimeState(), "pw-w03") == "completed",
             "W03 did not complete after its authored camera-position sequence.");
         await InteractAsync(bridge, "pw-house-return", Scene("pw-home"));
@@ -500,15 +526,8 @@ public partial class FullGameFlowSmokeTest : Node
         var initialPhotoWorldJson = World(initialState).GetRawText();
         Require(!FactObserved(initialState, "prologue_photo_recognized"),
             "The prologue photo fact was already observed before the save-isolation check.");
-        var companion = AlsuStreetWalkPresentation.SessionOwner(GetTree());
-        Require(companion is not null && companion.Checkpoint == 0 && !companion.Arrived
-                && Mathf.IsZeroApprox(companion.SessionWalkedMetres),
-            "The full-game prologue did not have its real stationary Alsu owner at the initial checkpoint.");
-        var companionReadyBeforeSave = companion!.PhysicalAccessReady;
-        var companionPositionBeforeSave = companion.Actor.GlobalPosition;
-        var companionYawBeforeSave = companion.Actor.GlobalRotation.Y;
-        using var companionBeforeSaveDocument = JsonDocument.Parse(companion.DescribeWalkEligibility());
-        var companionBeforeSave = companionBeforeSaveDocument.RootElement.Clone();
+        Require(AlsuStreetWalkPresentation.SessionOwner(GetTree()) is null,
+            "The W01 prologue owned a village street companion before the arrival chapter.");
 
         Require(await bridge.SaveSlotAsync(SaveIsolationSlot),
             "The PhotoWorlds RuntimeBridge could not save its quick slot.");
@@ -530,62 +549,14 @@ public partial class FullGameFlowSmokeTest : Node
         Require(savedPhotoWorld.GetProperty("campaign").GetProperty("exactVersion").GetString() == "1.0.0",
             "The disk save does not retain the authored campaign version.");
         var postSaveState = bridge.SelectRuntimeState();
-        var companionPositionAfterSave = companion.Actor.GlobalPosition;
-        var companionYawAfterSave = companion.Actor.GlobalRotation.Y;
-        var companionReadyAfterSave = companion.PhysicalAccessReady;
-        using var companionAfterSaveDocument = JsonDocument.Parse(companion.DescribeWalkEligibility());
-        var companionAfterSave = companionAfterSaveDocument.RootElement.Clone();
         var savedProps = decodedSave.Runtime.State.GetProperty("world.props");
         Require(savedProps.ValueKind == JsonValueKind.Object
-                && savedProps.TryGetProperty(AlsuStreetWalkPresentation.SavePropId, out _),
-            "The normal save did not persist Alsu's actual prologue physical owner record.");
-        var savedCompanionPose = savedProps.GetProperty(AlsuStreetWalkPresentation.SavePropId);
-        var savedCompanionPosition = new Vector3(
-            savedCompanionPose.GetProperty("position").GetProperty("x").GetSingle(),
-            savedCompanionPose.GetProperty("position").GetProperty("y").GetSingle(),
-            savedCompanionPose.GetProperty("position").GetProperty("z").GetSingle());
-        var savedCheckpoint = savedCompanionPose.GetProperty("checkpoint").GetInt32();
-        var savedPendingCheckpoint = savedCompanionPose.GetProperty("pendingCheckpoint").GetInt32();
-        var savedTravel = savedCompanionPose.GetProperty("segmentTravel").GetSingle();
-        var savedYaw = savedCompanionPose.GetProperty("yaw").GetSingle();
-        var savedSchema = savedCompanionPose.GetProperty("schemaVersion").GetInt32();
-        var beforeCheckpoint = companionBeforeSave.GetProperty("checkpoint").GetInt32();
-        var beforePendingCheckpoint = companionBeforeSave.GetProperty("pendingCheckpoint").GetInt32();
-        var beforeTravel = companionBeforeSave.GetProperty("walkedMetres").GetSingle();
-        var beforePosition = companionPositionBeforeSave;
-        var beforeYaw = companionYawBeforeSave;
-        var afterCheckpoint = companionAfterSave.GetProperty("checkpoint").GetInt32();
-        var afterPendingCheckpoint = companionAfterSave.GetProperty("pendingCheckpoint").GetInt32();
-        var afterTravel = companionAfterSave.GetProperty("walkedMetres").GetSingle();
-        var afterPosition = companionPositionAfterSave;
-        var afterYaw = companionYawAfterSave;
-        var poseDiagnostic = $"readiness(before={companionReadyBeforeSave}, after={companionReadyAfterSave}); "
-            + $"saved(schema={savedSchema}, checkpoint={savedCheckpoint}, pending={savedPendingCheckpoint}, travel={savedTravel:R}, yaw={savedYaw:R}, position={savedCompanionPosition}); "
-            + $"before(checkpoint={beforeCheckpoint}, pending={beforePendingCheckpoint}, travel={beforeTravel:R}, yaw={beforeYaw:R}, position={beforePosition}); "
-            + $"after(checkpoint={afterCheckpoint}, pending={afterPendingCheckpoint}, travel={afterTravel:R}, yaw={afterYaw:R}, position={afterPosition}); "
-            + $"positionDistances(saved-before={savedCompanionPosition.DistanceTo(beforePosition):R}, saved-after={savedCompanionPosition.DistanceTo(afterPosition):R}, before-after={beforePosition.DistanceTo(afterPosition):R}).";
-        var preSavePoseWasStable = !companionReadyBeforeSave
-            || savedCompanionPosition.DistanceTo(companionPositionBeforeSave) <= .001f
-                && Mathf.IsEqualApprox(savedYaw, companionYawBeforeSave);
-        Require(companionReadyAfterSave
-                && savedCompanionPose.GetProperty("schemaVersion").GetInt32() == 1
-                && savedCheckpoint == companion.Checkpoint
-                && savedPendingCheckpoint == savedCheckpoint
-                && savedCheckpoint == beforeCheckpoint && savedCheckpoint == afterCheckpoint
-                && savedPendingCheckpoint == beforePendingCheckpoint && savedPendingCheckpoint == afterPendingCheckpoint
-                && Mathf.IsEqualApprox(savedTravel, beforeTravel)
-                && Mathf.IsEqualApprox(savedTravel, afterTravel)
-                && preSavePoseWasStable
-                && savedCompanionPosition.DistanceTo(companionPositionAfterSave) <= .001f
-                && Mathf.IsEqualApprox(savedYaw, companionYawAfterSave)
-                && Mathf.IsEqualApprox(savedTravel, companion.SessionWalkedMetres),
-            "The disk snapshot did not preserve the real stationary Alsu pose, checkpoint, pending checkpoint, and travel state: " + poseDiagnostic);
+                && !savedProps.TryGetProperty(AlsuStreetWalkPresentation.SavePropId, out _),
+            "The prologue save invented the village companion record before her arrival chapter.");
 
         var initialProps = JsonNode.Parse(initialState.GetProperty("world.props").GetRawText())!.AsObject();
-        var expectedProps = (JsonObject)initialProps.DeepClone();
-        expectedProps[AlsuStreetWalkPresentation.SavePropId] = JsonNode.Parse(savedCompanionPose.GetRawText());
-        Require(JsonNode.DeepEquals(expectedProps, JsonNode.Parse(savedProps.GetRawText())),
-            "The companion flush did not preserve pre-existing world.props while adding only its actual pose.");
+        Require(JsonNode.DeepEquals(initialProps, JsonNode.Parse(savedProps.GetRawText())),
+            "The prologue save changed world.props with no physical owner to flush.");
         var initialWithoutProps = JsonNode.Parse(initialState.GetRawText())!.AsObject();
         var savedWithoutProps = JsonNode.Parse(decodedSave.Runtime.State.GetRawText())!.AsObject();
         initialWithoutProps.Remove("world.props");
@@ -609,17 +580,14 @@ public partial class FullGameFlowSmokeTest : Node
         Require(await bridge.LoadSlotAsync(SaveIsolationSlot),
             "The PhotoWorlds RuntimeBridge could not restore its disk quick slot.");
         var restoredState = bridge.SelectRuntimeState();
-        var restoredCompanion = AlsuStreetWalkPresentation.SessionOwner(GetTree());
         Require(bridge.ActiveSceneId == Scene("pw-prologue")
                 && JsonNode.DeepEquals(JsonNode.Parse(decodedSave.Runtime.State.GetRawText()),
                     JsonNode.Parse(restoredState.GetRawText()))
                 && JsonNode.DeepEquals(JsonNode.Parse(initialPhotoWorldJson),
                     JsonNode.Parse(World(restoredState).GetRawText()))
-                && restoredCompanion is not null
-                && restoredCompanion.Checkpoint == savedCheckpoint
-                && restoredCompanion.Actor.GlobalPosition.DistanceTo(savedCompanionPosition) <= .001f
+                && AlsuStreetWalkPresentation.SessionOwner(GetTree()) is null
                 && !FactObserved(restoredState, "prologue_photo_recognized"),
-            "The disk load did not restore the exact decoded PhotoWorlds prologue snapshot and actual companion pose.");
+            "The disk load did not restore the exact decoded PhotoWorlds prologue snapshot.");
         Require(File.ReadAllBytes(canaries.NamespacedPrimaryPath).SequenceEqual(savedBytes),
             "Loading rewrote the namespaced quick slot unexpectedly.");
         AssertLegacyCanariesUnchanged(canaries);

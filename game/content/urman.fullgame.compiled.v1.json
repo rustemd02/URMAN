@@ -648,21 +648,21 @@
           ]
         },
         {
-          "id": "forest_group_seen",
+          "id": "forest_camera_back_seen",
           "provenanceKind": "direct-world-observation",
           "sourceIds": [
             "urman.fullgame:interaction/pw-forest-group"
           ]
         },
         {
-          "id": "forest_photographer_found",
+          "id": "forest_beyond_frame_seen",
           "provenanceKind": "spatial-observation",
           "sourceIds": [
             "urman.fullgame:interaction/pw-forest-photographer"
           ]
         },
         {
-          "id": "forest_shurale_listened",
+          "id": "forest_encounter_resolved",
           "provenanceKind": "character-conversation",
           "sourceIds": [
             "urman.fullgame:interaction/pw-forest-shurale"
@@ -676,10 +676,24 @@
           ]
         },
         {
-          "id": "water_safe_bypass_opened",
+          "id": "water_reflection_relation_seen",
+          "provenanceKind": "direct-world-observation",
+          "sourceIds": [
+            "urman.fullgame:interaction/pw-water-reflection"
+          ]
+        },
+        {
+          "id": "water_reed_opened",
           "provenanceKind": "direct-player-action",
           "sourceIds": [
             "urman.fullgame:interaction/pw-water-bypass"
+          ]
+        },
+        {
+          "id": "water_encounter_resolved",
+          "provenanceKind": "character-response",
+          "sourceIds": [
+            "urman.fullgame:interaction/pw-water-encounter"
           ]
         },
         {
@@ -690,14 +704,28 @@
           ]
         },
         {
-          "id": "house_shutter_adjusted",
+          "id": "house_shutter_opened",
           "provenanceKind": "direct-player-action",
           "sourceIds": [
             "urman.fullgame:interaction/pw-house-shutter"
           ]
         },
         {
-          "id": "house_two_views_compared",
+          "id": "house_door_left_seen",
+          "provenanceKind": "spatial-observation",
+          "sourceIds": [
+            "urman.fullgame:interaction/pw-house-door-left"
+          ]
+        },
+        {
+          "id": "house_door_right_seen",
+          "provenanceKind": "spatial-observation",
+          "sourceIds": [
+            "urman.fullgame:interaction/pw-house-door-right"
+          ]
+        },
+        {
+          "id": "house_two_views_seen",
           "provenanceKind": "spatial-observation",
           "sourceIds": [
             "urman.fullgame:interaction/pw-house-two-views"
@@ -708,6 +736,20 @@
           "provenanceKind": "independent-spatial-observation",
           "sourceIds": [
             "urman.fullgame:interaction/pw-house-camera-position"
+          ]
+        },
+        {
+          "id": "cloth_cleared",
+          "provenanceKind": "direct-player-action",
+          "sourceIds": [
+            "urman.fullgame:interaction/pw-house-cloth"
+          ]
+        },
+        {
+          "id": "house_frame_seen",
+          "provenanceKind": "spatial-observation",
+          "sourceIds": [
+            "urman.fullgame:interaction/pw-house-frame"
           ]
         },
         {
@@ -732,17 +774,31 @@
           ]
         },
         {
-          "id": "common_relationships_connected",
+          "id": "common_three_relations_seen",
           "provenanceKind": "direct-world-observation",
           "sourceIds": [
             "urman.fullgame:interaction/pw-common-three-places"
           ]
         },
         {
-          "id": "common_horizon_uncovered",
+          "id": "common_view_uncovered",
+          "provenanceKind": "direct-player-action",
+          "sourceIds": [
+            "urman.fullgame:interaction/pw-common-cloth"
+          ]
+        },
+        {
+          "id": "common_horizon_seen",
           "provenanceKind": "direct-player-action",
           "sourceIds": [
             "urman.fullgame:interaction/pw-common-horizon"
+          ]
+        },
+        {
+          "id": "common_note_finished",
+          "provenanceKind": "direct-player-action",
+          "sourceIds": [
+            "urman.fullgame:interaction/pw-common-note"
           ]
         },
         {
@@ -774,24 +830,31 @@
           ]
         },
         {
-          "id": "cellar_household_order_seen",
+          "id": "cellar_household_pattern_seen",
           "provenanceKind": "direct-world-observation",
           "sourceIds": [
             "urman.fullgame:interaction/pw-cellar-order"
           ]
         },
         {
-          "id": "cellar_shared_object_found",
+          "id": "cellar_box_returned",
           "provenanceKind": "household-object-observation",
           "sourceIds": [
             "urman.fullgame:interaction/pw-cellar-object"
           ]
         },
         {
-          "id": "cellar_bichura_answered",
+          "id": "cellar_response_seen",
           "provenanceKind": "character-response",
           "sourceIds": [
             "urman.fullgame:interaction/pw-cellar-response"
+          ]
+        },
+        {
+          "id": "cellar_niche_seen",
+          "provenanceKind": "direct-world-observation",
+          "sourceIds": [
+            "urman.fullgame:interaction/pw-cellar-niche"
           ]
         }
       ],
@@ -20881,7 +20944,7 @@
             "effects": [
               {
                 "op": "photoworlds.fact.observe",
-                "factId": "cellar_household_order_seen",
+                "factId": "cellar_household_pattern_seen",
                 "sourceId": "urman.fullgame:interaction/pw-cellar-order"
               }
             ]
@@ -20892,13 +20955,13 @@
             "conditions": [
               {
                 "op": "photoworlds.fact.observed",
-                "factId": "cellar_household_order_seen"
+                "factId": "cellar_household_pattern_seen"
               }
             ],
             "effects": [
               {
                 "op": "photoworlds.fact.observe",
-                "factId": "cellar_shared_object_found",
+                "factId": "cellar_box_returned",
                 "sourceId": "urman.fullgame:interaction/pw-cellar-object"
               }
             ]
@@ -20909,14 +20972,31 @@
             "conditions": [
               {
                 "op": "photoworlds.fact.observed",
-                "factId": "cellar_shared_object_found"
+                "factId": "cellar_box_returned"
               }
             ],
             "effects": [
               {
                 "op": "photoworlds.fact.observe",
-                "factId": "cellar_bichura_answered",
+                "factId": "cellar_response_seen",
                 "sourceId": "urman.fullgame:interaction/pw-cellar-response"
+              }
+            ]
+          },
+          {
+            "id": "urman.fullgame:interaction/pw-cellar-niche",
+            "labelTextId": "urman.fullgame:text/pw-label-cellar-niche",
+            "conditions": [
+              {
+                "op": "photoworlds.fact.observed",
+                "factId": "cellar_response_seen"
+              }
+            ],
+            "effects": [
+              {
+                "op": "photoworlds.fact.observe",
+                "factId": "cellar_niche_seen",
+                "sourceId": "urman.fullgame:interaction/pw-cellar-niche"
               }
             ]
           },
@@ -20995,8 +21075,25 @@
             "effects": [
               {
                 "op": "photoworlds.fact.observe",
-                "factId": "common_relationships_connected",
+                "factId": "common_three_relations_seen",
                 "sourceId": "urman.fullgame:interaction/pw-common-three-places"
+              }
+            ]
+          },
+          {
+            "id": "urman.fullgame:interaction/pw-common-cloth",
+            "labelTextId": "urman.fullgame:text/pw-label-common-cloth",
+            "conditions": [
+              {
+                "op": "photoworlds.fact.observed",
+                "factId": "common_three_relations_seen"
+              }
+            ],
+            "effects": [
+              {
+                "op": "photoworlds.fact.observe",
+                "factId": "common_view_uncovered",
+                "sourceId": "urman.fullgame:interaction/pw-common-cloth"
               }
             ]
           },
@@ -21006,14 +21103,31 @@
             "conditions": [
               {
                 "op": "photoworlds.fact.observed",
-                "factId": "common_relationships_connected"
+                "factId": "common_view_uncovered"
               }
             ],
             "effects": [
               {
                 "op": "photoworlds.fact.observe",
-                "factId": "common_horizon_uncovered",
+                "factId": "common_horizon_seen",
                 "sourceId": "urman.fullgame:interaction/pw-common-horizon"
+              }
+            ]
+          },
+          {
+            "id": "urman.fullgame:interaction/pw-common-note",
+            "labelTextId": "urman.fullgame:text/pw-label-common-note",
+            "conditions": [
+              {
+                "op": "photoworlds.fact.observed",
+                "factId": "common_horizon_seen"
+              }
+            ],
+            "effects": [
+              {
+                "op": "photoworlds.fact.observe",
+                "factId": "common_note_finished",
+                "sourceId": "urman.fullgame:interaction/pw-common-note"
               }
             ]
           },
@@ -21175,7 +21289,7 @@
             "effects": [
               {
                 "op": "photoworlds.fact.observe",
-                "factId": "forest_group_seen",
+                "factId": "forest_camera_back_seen",
                 "sourceId": "urman.fullgame:interaction/pw-forest-group"
               }
             ]
@@ -21206,13 +21320,13 @@
             "conditions": [
               {
                 "op": "photoworlds.fact.observed",
-                "factId": "forest_group_seen"
+                "factId": "forest_camera_back_seen"
               }
             ],
             "effects": [
               {
                 "op": "photoworlds.fact.observe",
-                "factId": "forest_photographer_found",
+                "factId": "forest_beyond_frame_seen",
                 "sourceId": "urman.fullgame:interaction/pw-forest-photographer"
               }
             ]
@@ -21223,13 +21337,13 @@
             "conditions": [
               {
                 "op": "photoworlds.fact.observed",
-                "factId": "forest_photographer_found"
+                "factId": "forest_beyond_frame_seen"
               }
             ],
             "effects": [
               {
                 "op": "photoworlds.fact.observe",
-                "factId": "forest_shurale_listened",
+                "factId": "forest_encounter_resolved",
                 "sourceId": "urman.fullgame:interaction/pw-forest-shurale"
               }
             ]
@@ -22226,8 +22340,42 @@
             "effects": [
               {
                 "op": "photoworlds.fact.observe",
-                "factId": "house_shutter_adjusted",
+                "factId": "house_shutter_opened",
                 "sourceId": "urman.fullgame:interaction/pw-house-shutter"
+              }
+            ]
+          },
+          {
+            "id": "urman.fullgame:interaction/pw-house-door-left",
+            "labelTextId": "urman.fullgame:text/pw-label-house-door-left",
+            "conditions": [
+              {
+                "op": "photoworlds.fact.observed",
+                "factId": "house_shutter_opened"
+              }
+            ],
+            "effects": [
+              {
+                "op": "photoworlds.fact.observe",
+                "factId": "house_door_left_seen",
+                "sourceId": "urman.fullgame:interaction/pw-house-door-left"
+              }
+            ]
+          },
+          {
+            "id": "urman.fullgame:interaction/pw-house-door-right",
+            "labelTextId": "urman.fullgame:text/pw-label-house-door-right",
+            "conditions": [
+              {
+                "op": "photoworlds.fact.observed",
+                "factId": "house_shutter_opened"
+              }
+            ],
+            "effects": [
+              {
+                "op": "photoworlds.fact.observe",
+                "factId": "house_door_right_seen",
+                "sourceId": "urman.fullgame:interaction/pw-house-door-right"
               }
             ]
           },
@@ -22237,13 +22385,17 @@
             "conditions": [
               {
                 "op": "photoworlds.fact.observed",
-                "factId": "house_shutter_adjusted"
+                "factId": "house_door_left_seen"
+              },
+              {
+                "op": "photoworlds.fact.observed",
+                "factId": "house_door_right_seen"
               }
             ],
             "effects": [
               {
                 "op": "photoworlds.fact.observe",
-                "factId": "house_two_views_compared",
+                "factId": "house_two_views_seen",
                 "sourceId": "urman.fullgame:interaction/pw-house-two-views"
               }
             ]
@@ -22254,7 +22406,7 @@
             "conditions": [
               {
                 "op": "photoworlds.fact.observed",
-                "factId": "house_two_views_compared"
+                "factId": "house_two_views_seen"
               }
             ],
             "effects": [
@@ -22262,6 +22414,40 @@
                 "op": "photoworlds.fact.observe",
                 "factId": "house_camera_position_seen",
                 "sourceId": "urman.fullgame:interaction/pw-house-camera-position"
+              }
+            ]
+          },
+          {
+            "id": "urman.fullgame:interaction/pw-house-cloth",
+            "labelTextId": "urman.fullgame:text/pw-label-house-cloth",
+            "conditions": [
+              {
+                "op": "photoworlds.fact.observed",
+                "factId": "house_camera_position_seen"
+              }
+            ],
+            "effects": [
+              {
+                "op": "photoworlds.fact.observe",
+                "factId": "cloth_cleared",
+                "sourceId": "urman.fullgame:interaction/pw-house-cloth"
+              }
+            ]
+          },
+          {
+            "id": "urman.fullgame:interaction/pw-house-frame",
+            "labelTextId": "urman.fullgame:text/pw-label-house-frame",
+            "conditions": [
+              {
+                "op": "photoworlds.fact.observed",
+                "factId": "cloth_cleared"
+              }
+            ],
+            "effects": [
+              {
+                "op": "photoworlds.fact.observe",
+                "factId": "house_frame_seen",
+                "sourceId": "urman.fullgame:interaction/pw-house-frame"
               }
             ]
           },
@@ -22457,14 +22643,14 @@
         "onExit": [],
         "interactions": [
           {
-            "id": "urman.fullgame:interaction/pw-water-old-approach",
-            "labelTextId": "urman.fullgame:text/pw-label-water-old-approach",
+            "id": "urman.fullgame:interaction/pw-water-reflection",
+            "labelTextId": "urman.fullgame:text/pw-label-water-reflection",
             "conditions": [],
             "effects": [
               {
                 "op": "photoworlds.fact.observe",
-                "factId": "water_old_approach_seen",
-                "sourceId": "urman.fullgame:interaction/pw-water-old-approach"
+                "factId": "water_reflection_relation_seen",
+                "sourceId": "urman.fullgame:interaction/pw-water-reflection"
               }
             ]
           },
@@ -22474,14 +22660,48 @@
             "conditions": [
               {
                 "op": "photoworlds.fact.observed",
+                "factId": "water_reflection_relation_seen"
+              }
+            ],
+            "effects": [
+              {
+                "op": "photoworlds.fact.observe",
+                "factId": "water_reed_opened",
+                "sourceId": "urman.fullgame:interaction/pw-water-bypass"
+              }
+            ]
+          },
+          {
+            "id": "urman.fullgame:interaction/pw-water-old-approach",
+            "labelTextId": "urman.fullgame:text/pw-label-water-old-approach",
+            "conditions": [
+              {
+                "op": "photoworlds.fact.observed",
+                "factId": "water_reed_opened"
+              }
+            ],
+            "effects": [
+              {
+                "op": "photoworlds.fact.observe",
+                "factId": "water_old_approach_seen",
+                "sourceId": "urman.fullgame:interaction/pw-water-old-approach"
+              }
+            ]
+          },
+          {
+            "id": "urman.fullgame:interaction/pw-water-encounter",
+            "labelTextId": "urman.fullgame:text/pw-label-water-encounter",
+            "conditions": [
+              {
+                "op": "photoworlds.fact.observed",
                 "factId": "water_old_approach_seen"
               }
             ],
             "effects": [
               {
                 "op": "photoworlds.fact.observe",
-                "factId": "water_safe_bypass_opened",
-                "sourceId": "urman.fullgame:interaction/pw-water-bypass"
+                "factId": "water_encounter_resolved",
+                "sourceId": "urman.fullgame:interaction/pw-water-encounter"
               }
             ]
           },
@@ -22490,8 +22710,9 @@
             "labelTextId": "urman.fullgame:text/pw-label-water-damp-print",
             "conditions": [
               {
-                "op": "photoworlds.fact.observed",
-                "factId": "water_safe_bypass_opened"
+                "op": "quest.status",
+                "questId": "urman.fullgame:quest/pw-w02",
+                "status": "completed"
               }
             ],
             "effects": [
@@ -28792,11 +29013,22 @@
       },
       {
         "schemaVersion": 1,
+        "id": "urman.fullgame:text/pw-label-cellar-niche",
+        "value": {
+          "default": "\u041E\u0441\u043C\u043E\u0442\u0440\u0435\u0442\u044C \u043D\u0438\u0448\u0443 \u043F\u043E\u0434 \u043D\u0438\u0436\u043D\u0435\u0439 \u043F\u043E\u043B\u043A\u043E\u0439",
+          "translations": {
+            "ru": "\u041E\u0441\u043C\u043E\u0442\u0440\u0435\u0442\u044C \u043D\u0438\u0448\u0443 \u043F\u043E\u0434 \u043D\u0438\u0436\u043D\u0435\u0439 \u043F\u043E\u043B\u043A\u043E\u0439"
+          }
+        },
+        "purpose": "ui"
+      },
+      {
+        "schemaVersion": 1,
         "id": "urman.fullgame:text/pw-label-cellar-object",
         "value": {
-          "default": "\u041D\u0430\u0439\u0442\u0438 \u043E\u0441\u0442\u0430\u0432\u043B\u0435\u043D\u043D\u0443\u044E \u043B\u044E\u0434\u044C\u043C\u0438 \u0432\u0435\u0449\u044C \u0437\u0430 \u043F\u043E\u043B\u043A\u043E\u0439",
+          "default": "\u0412\u0435\u0440\u043D\u0443\u0442\u044C \u043A\u043E\u0440\u043E\u0431\u043A\u0443 \u043D\u0430 \u043F\u0443\u0441\u0442\u0443\u044E \u043E\u043F\u043E\u0440\u0443",
           "translations": {
-            "ru": "\u041D\u0430\u0439\u0442\u0438 \u043E\u0441\u0442\u0430\u0432\u043B\u0435\u043D\u043D\u0443\u044E \u043B\u044E\u0434\u044C\u043C\u0438 \u0432\u0435\u0449\u044C \u0437\u0430 \u043F\u043E\u043B\u043A\u043E\u0439"
+            "ru": "\u0412\u0435\u0440\u043D\u0443\u0442\u044C \u043A\u043E\u0440\u043E\u0431\u043A\u0443 \u043D\u0430 \u043F\u0443\u0441\u0442\u0443\u044E \u043E\u043F\u043E\u0440\u0443"
           }
         },
         "purpose": "ui"
@@ -28838,9 +29070,9 @@
         "schemaVersion": 1,
         "id": "urman.fullgame:text/pw-label-cellar-response",
         "value": {
-          "default": "\u041E\u0442\u0432\u0435\u0442\u0438\u0442\u044C \u043D\u0430 \u043F\u0440\u0438\u0441\u0443\u0442\u0441\u0442\u0432\u0438\u0435 \u0411\u0438\u0447\u0443\u0440\u044B \u0441\u043F\u043E\u043A\u043E\u0439\u043D\u044B\u043C \u0431\u044B\u0442\u043E\u0432\u044B\u043C \u0436\u0435\u0441\u0442\u043E\u043C",
+          "default": "\u041D\u0430\u0431\u043B\u044E\u0434\u0430\u0442\u044C \u043E\u0442\u0432\u0435\u0442\u043D\u043E\u0435 \u0434\u0432\u0438\u0436\u0435\u043D\u0438\u0435 \u0411\u0438\u0447\u0443\u0440\u044B",
           "translations": {
-            "ru": "\u041E\u0442\u0432\u0435\u0442\u0438\u0442\u044C \u043D\u0430 \u043F\u0440\u0438\u0441\u0443\u0442\u0441\u0442\u0432\u0438\u0435 \u0411\u0438\u0447\u0443\u0440\u044B \u0441\u043F\u043E\u043A\u043E\u0439\u043D\u044B\u043C \u0431\u044B\u0442\u043E\u0432\u044B\u043C \u0436\u0435\u0441\u0442\u043E\u043C"
+            "ru": "\u041D\u0430\u0431\u043B\u044E\u0434\u0430\u0442\u044C \u043E\u0442\u0432\u0435\u0442\u043D\u043E\u0435 \u0434\u0432\u0438\u0436\u0435\u043D\u0438\u0435 \u0411\u0438\u0447\u0443\u0440\u044B"
           }
         },
         "purpose": "ui"
@@ -28852,6 +29084,17 @@
           "default": "\u0412\u0435\u0440\u043D\u0443\u0442\u044C\u0441\u044F \u043A \u0441\u0435\u043C\u044C\u0435",
           "translations": {
             "ru": "\u0412\u0435\u0440\u043D\u0443\u0442\u044C\u0441\u044F \u043A \u0441\u0435\u043C\u044C\u0435"
+          }
+        },
+        "purpose": "ui"
+      },
+      {
+        "schemaVersion": 1,
+        "id": "urman.fullgame:text/pw-label-common-cloth",
+        "value": {
+          "default": "\u0421\u043D\u044F\u0442\u044C \u0442\u043A\u0430\u043D\u044C \u0441 \u043B\u0438\u043D\u0438\u0438 \u0432\u0437\u0433\u043B\u044F\u0434\u0430 \u0438 \u0441\u043B\u043E\u0436\u0438\u0442\u044C \u043D\u0430 \u043E\u043F\u043E\u0440\u0443",
+          "translations": {
+            "ru": "\u0421\u043D\u044F\u0442\u044C \u0442\u043A\u0430\u043D\u044C \u0441 \u043B\u0438\u043D\u0438\u0438 \u0432\u0437\u0433\u043B\u044F\u0434\u0430 \u0438 \u0441\u043B\u043E\u0436\u0438\u0442\u044C \u043D\u0430 \u043E\u043F\u043E\u0440\u0443"
           }
         },
         "purpose": "ui"
@@ -28882,9 +29125,20 @@
         "schemaVersion": 1,
         "id": "urman.fullgame:text/pw-label-common-horizon",
         "value": {
-          "default": "\u041E\u0442\u0432\u0435\u0441\u0442\u0438 \u0442\u043A\u0430\u043D\u044C \u0438 \u043E\u0442\u043A\u0440\u044B\u0442\u044C \u043E\u0431\u0449\u0438\u0439 \u0433\u043E\u0440\u0438\u0437\u043E\u043D\u0442",
+          "default": "\u0423\u0432\u0438\u0434\u0435\u0442\u044C \u043E\u0431\u0449\u0438\u0439 \u0433\u043E\u0440\u0438\u0437\u043E\u043D\u0442 \u0441 \u0448\u0438\u0440\u043E\u043A\u043E\u0439 \u043F\u043B\u043E\u0449\u0430\u0434\u043A\u0438",
           "translations": {
-            "ru": "\u041E\u0442\u0432\u0435\u0441\u0442\u0438 \u0442\u043A\u0430\u043D\u044C \u0438 \u043E\u0442\u043A\u0440\u044B\u0442\u044C \u043E\u0431\u0449\u0438\u0439 \u0433\u043E\u0440\u0438\u0437\u043E\u043D\u0442"
+            "ru": "\u0423\u0432\u0438\u0434\u0435\u0442\u044C \u043E\u0431\u0449\u0438\u0439 \u0433\u043E\u0440\u0438\u0437\u043E\u043D\u0442 \u0441 \u0448\u0438\u0440\u043E\u043A\u043E\u0439 \u043F\u043B\u043E\u0449\u0430\u0434\u043A\u0438"
+          }
+        },
+        "purpose": "ui"
+      },
+      {
+        "schemaVersion": 1,
+        "id": "urman.fullgame:text/pw-label-common-note",
+        "value": {
+          "default": "\u0414\u043E\u043F\u0438\u0441\u0430\u0442\u044C \u043F\u043E\u043C\u0435\u0442\u0443 \u043A \u043E\u0431\u0449\u0435\u043C\u0443 \u043A\u0430\u0434\u0440\u0443",
+          "translations": {
+            "ru": "\u0414\u043E\u043F\u0438\u0441\u0430\u0442\u044C \u043F\u043E\u043C\u0435\u0442\u0443 \u043A \u043E\u0431\u0449\u0435\u043C\u0443 \u043A\u0430\u0434\u0440\u0443"
           }
         },
         "purpose": "ui"
@@ -29069,9 +29323,9 @@
         "schemaVersion": 1,
         "id": "urman.fullgame:text/pw-label-forest-group",
         "value": {
-          "default": "\u0421\u043E\u043F\u043E\u0441\u0442\u0430\u0432\u0438\u0442\u044C \u0442\u0440\u0438 \u0441\u0442\u0432\u043E\u043B\u0430 \u0438 \u0448\u043A\u043E\u043B\u044C\u043D\u0443\u044E \u043F\u043E\u0434\u043F\u0438\u0441\u044C",
+          "default": "\u0412\u0441\u0442\u0430\u0442\u044C \u0441\u043D\u0430\u0440\u0443\u0436\u0438 \u0433\u0440\u0443\u043F\u043F\u044B \u0438 \u043F\u0440\u043E\u0432\u0435\u0440\u0438\u0442\u044C, \u043A\u0443\u0434\u0430 \u0441\u043C\u043E\u0442\u0440\u0435\u043B\u0438 \u043B\u044E\u0434\u0438",
           "translations": {
-            "ru": "\u0421\u043E\u043F\u043E\u0441\u0442\u0430\u0432\u0438\u0442\u044C \u0442\u0440\u0438 \u0441\u0442\u0432\u043E\u043B\u0430 \u0438 \u0448\u043A\u043E\u043B\u044C\u043D\u0443\u044E \u043F\u043E\u0434\u043F\u0438\u0441\u044C"
+            "ru": "\u0412\u0441\u0442\u0430\u0442\u044C \u0441\u043D\u0430\u0440\u0443\u0436\u0438 \u0433\u0440\u0443\u043F\u043F\u044B \u0438 \u043F\u0440\u043E\u0432\u0435\u0440\u0438\u0442\u044C, \u043A\u0443\u0434\u0430 \u0441\u043C\u043E\u0442\u0440\u0435\u043B\u0438 \u043B\u044E\u0434\u0438"
           }
         },
         "purpose": "ui"
@@ -29080,9 +29334,9 @@
         "schemaVersion": 1,
         "id": "urman.fullgame:text/pw-label-forest-photographer",
         "value": {
-          "default": "\u041E\u0431\u043E\u0439\u0442\u0438 \u043A\u043E\u043C\u043F\u043E\u0437\u0438\u0446\u0438\u044E \u0438 \u043D\u0430\u0439\u0442\u0438 \u043C\u0435\u0441\u0442\u043E \u0444\u043E\u0442\u043E\u0433\u0440\u0430\u0444\u0430",
+          "default": "\u041E\u0431\u043E\u0439\u0442\u0438 \u043A\u043E\u043C\u043F\u043E\u0437\u0438\u0446\u0438\u044E \u0447\u0435\u0440\u0435\u0437 \u043A\u043E\u0440\u043D\u0435\u0432\u043E\u0439 \u043F\u043E\u0432\u043E\u0440\u043E\u0442",
           "translations": {
-            "ru": "\u041E\u0431\u043E\u0439\u0442\u0438 \u043A\u043E\u043C\u043F\u043E\u0437\u0438\u0446\u0438\u044E \u0438 \u043D\u0430\u0439\u0442\u0438 \u043C\u0435\u0441\u0442\u043E \u0444\u043E\u0442\u043E\u0433\u0440\u0430\u0444\u0430"
+            "ru": "\u041E\u0431\u043E\u0439\u0442\u0438 \u043A\u043E\u043C\u043F\u043E\u0437\u0438\u0446\u0438\u044E \u0447\u0435\u0440\u0435\u0437 \u043A\u043E\u0440\u043D\u0435\u0432\u043E\u0439 \u043F\u043E\u0432\u043E\u0440\u043E\u0442"
           }
         },
         "purpose": "ui"
@@ -29102,9 +29356,9 @@
         "schemaVersion": 1,
         "id": "urman.fullgame:text/pw-label-forest-shurale",
         "value": {
-          "default": "\u0412\u044B\u0441\u043B\u0443\u0448\u0430\u0442\u044C \u043D\u0435\u0441\u043E\u0433\u043B\u0430\u0441\u0438\u0435 \u0428\u0443\u0440\u0430\u043B\u0435 \u043E \u0442\u043E\u043C, \u043A\u0443\u0434\u0430 \u0441\u043C\u043E\u0442\u0440\u0435\u043B\u0438 \u043B\u044E\u0434\u0438",
+          "default": "\u0423\u0431\u0440\u0430\u0442\u044C \u0440\u0435\u043C\u0435\u043D\u044C \u0441\u0442\u0430\u0440\u043E\u0439 \u0441\u0443\u043C\u043A\u0438 \u0441 \u043F\u0443\u0442\u0438 \u0428\u0443\u0440\u0430\u043B\u0435",
           "translations": {
-            "ru": "\u0412\u044B\u0441\u043B\u0443\u0448\u0430\u0442\u044C \u043D\u0435\u0441\u043E\u0433\u043B\u0430\u0441\u0438\u0435 \u0428\u0443\u0440\u0430\u043B\u0435 \u043E \u0442\u043E\u043C, \u043A\u0443\u0434\u0430 \u0441\u043C\u043E\u0442\u0440\u0435\u043B\u0438 \u043B\u044E\u0434\u0438"
+            "ru": "\u0423\u0431\u0440\u0430\u0442\u044C \u0440\u0435\u043C\u0435\u043D\u044C \u0441\u0442\u0430\u0440\u043E\u0439 \u0441\u0443\u043C\u043A\u0438 \u0441 \u043F\u0443\u0442\u0438 \u0428\u0443\u0440\u0430\u043B\u0435"
           }
         },
         "purpose": "ui"
@@ -29188,6 +29442,50 @@
       },
       {
         "schemaVersion": 1,
+        "id": "urman.fullgame:text/pw-label-house-cloth",
+        "value": {
+          "default": "\u0421\u043D\u044F\u0442\u044C \u0437\u0430\u0446\u0435\u043F\u0438\u0432\u0448\u0443\u044E\u0441\u044F \u0442\u043A\u0430\u043D\u044C \u0438 \u0443\u043B\u043E\u0436\u0438\u0442\u044C \u043D\u0430 \u0441\u0442\u043E\u043B\u0438\u043A",
+          "translations": {
+            "ru": "\u0421\u043D\u044F\u0442\u044C \u0437\u0430\u0446\u0435\u043F\u0438\u0432\u0448\u0443\u044E\u0441\u044F \u0442\u043A\u0430\u043D\u044C \u0438 \u0443\u043B\u043E\u0436\u0438\u0442\u044C \u043D\u0430 \u0441\u0442\u043E\u043B\u0438\u043A"
+          }
+        },
+        "purpose": "ui"
+      },
+      {
+        "schemaVersion": 1,
+        "id": "urman.fullgame:text/pw-label-house-door-left",
+        "value": {
+          "default": "\u041E\u0441\u043C\u043E\u0442\u0440\u0435\u0442\u044C \u0432\u0438\u0434 \u0438\u0437 \u0434\u0432\u0435\u0440\u0438 \u043A \u0441\u0430\u0434\u0443",
+          "translations": {
+            "ru": "\u041E\u0441\u043C\u043E\u0442\u0440\u0435\u0442\u044C \u0432\u0438\u0434 \u0438\u0437 \u0434\u0432\u0435\u0440\u0438 \u043A \u0441\u0430\u0434\u0443"
+          }
+        },
+        "purpose": "ui"
+      },
+      {
+        "schemaVersion": 1,
+        "id": "urman.fullgame:text/pw-label-house-door-right",
+        "value": {
+          "default": "\u041E\u0441\u043C\u043E\u0442\u0440\u0435\u0442\u044C \u0432\u0438\u0434 \u0438\u0437 \u0434\u0432\u0435\u0440\u0438 \u043A \u043E\u043A\u043D\u0443",
+          "translations": {
+            "ru": "\u041E\u0441\u043C\u043E\u0442\u0440\u0435\u0442\u044C \u0432\u0438\u0434 \u0438\u0437 \u0434\u0432\u0435\u0440\u0438 \u043A \u043E\u043A\u043D\u0443"
+          }
+        },
+        "purpose": "ui"
+      },
+      {
+        "schemaVersion": 1,
+        "id": "urman.fullgame:text/pw-label-house-frame",
+        "value": {
+          "default": "\u041E\u0441\u043C\u043E\u0442\u0440\u0435\u0442\u044C \u0432\u043D\u0443\u0442\u0440\u0435\u043D\u043D\u044E\u044E \u0441\u0442\u043E\u0440\u043E\u043D\u0443 \u0440\u0430\u043C\u043A\u0438",
+          "translations": {
+            "ru": "\u041E\u0441\u043C\u043E\u0442\u0440\u0435\u0442\u044C \u0432\u043D\u0443\u0442\u0440\u0435\u043D\u043D\u044E\u044E \u0441\u0442\u043E\u0440\u043E\u043D\u0443 \u0440\u0430\u043C\u043A\u0438"
+          }
+        },
+        "purpose": "ui"
+      },
+      {
+        "schemaVersion": 1,
         "id": "urman.fullgame:text/pw-label-house-photo-permission",
         "value": {
           "default": "\u041F\u043E\u043F\u0440\u043E\u0441\u0438\u0442\u044C \u0441\u0435\u043C\u0435\u0439\u043D\u0443\u044E \u043A\u043E\u043F\u0438\u044E \u0441\u043D\u0438\u043C\u043A\u0430 \u0434\u0432\u043E\u0440\u0430",
@@ -29223,9 +29521,9 @@
         "schemaVersion": 1,
         "id": "urman.fullgame:text/pw-label-house-shutter",
         "value": {
-          "default": "\u041F\u043E\u043F\u0440\u0430\u0432\u0438\u0442\u044C \u0437\u0430\u0435\u0434\u0430\u044E\u0449\u0443\u044E \u0441\u0442\u0430\u0432\u043D\u044E",
+          "default": "\u041E\u0442\u043A\u0440\u044B\u0442\u044C \u0437\u0430\u0435\u0434\u0430\u044E\u0449\u0443\u044E \u0441\u0442\u0430\u0432\u043D\u044E",
           "translations": {
-            "ru": "\u041F\u043E\u043F\u0440\u0430\u0432\u0438\u0442\u044C \u0437\u0430\u0435\u0434\u0430\u044E\u0449\u0443\u044E \u0441\u0442\u0430\u0432\u043D\u044E"
+            "ru": "\u041E\u0442\u043A\u0440\u044B\u0442\u044C \u0437\u0430\u0435\u0434\u0430\u044E\u0449\u0443\u044E \u0441\u0442\u0430\u0432\u043D\u044E"
           }
         },
         "purpose": "ui"
@@ -29454,9 +29752,20 @@
         "schemaVersion": 1,
         "id": "urman.fullgame:text/pw-label-water-damp-print",
         "value": {
-          "default": "\u041F\u043E\u0441\u043B\u0435 \u0432\u043E\u0437\u0432\u0440\u0430\u0449\u0435\u043D\u0438\u044F \u0437\u0430\u043C\u0435\u0442\u0438\u0442\u044C \u043E\u0434\u0438\u043D \u0432\u043B\u0430\u0436\u043D\u044B\u0439 \u0443\u0433\u043E\u043B\u043E\u043A \u043E\u0442\u043F\u0435\u0447\u0430\u0442\u043A\u0430",
+          "default": "\u0417\u0430\u043C\u0435\u0442\u0438\u0442\u044C \u043E\u0434\u0438\u043D \u0432\u043B\u0430\u0436\u043D\u044B\u0439 \u0443\u0433\u043E\u043B\u043E\u043A \u043E\u0442\u043F\u0435\u0447\u0430\u0442\u043A\u0430",
           "translations": {
-            "ru": "\u041F\u043E\u0441\u043B\u0435 \u0432\u043E\u0437\u0432\u0440\u0430\u0449\u0435\u043D\u0438\u044F \u0437\u0430\u043C\u0435\u0442\u0438\u0442\u044C \u043E\u0434\u0438\u043D \u0432\u043B\u0430\u0436\u043D\u044B\u0439 \u0443\u0433\u043E\u043B\u043E\u043A \u043E\u0442\u043F\u0435\u0447\u0430\u0442\u043A\u0430"
+            "ru": "\u0417\u0430\u043C\u0435\u0442\u0438\u0442\u044C \u043E\u0434\u0438\u043D \u0432\u043B\u0430\u0436\u043D\u044B\u0439 \u0443\u0433\u043E\u043B\u043E\u043A \u043E\u0442\u043F\u0435\u0447\u0430\u0442\u043A\u0430"
+          }
+        },
+        "purpose": "ui"
+      },
+      {
+        "schemaVersion": 1,
+        "id": "urman.fullgame:text/pw-label-water-encounter",
+        "value": {
+          "default": "\u041F\u043E\u043B\u043E\u0436\u0438\u0442\u044C \u0434\u043E\u0449\u0435\u0447\u043A\u0443 \u043D\u0430 \u043C\u0435\u0441\u0442\u043E \u0438 \u0437\u0430\u043C\u0435\u0442\u0438\u0442\u044C \u043E\u0442\u0432\u0435\u0442",
+          "translations": {
+            "ru": "\u041F\u043E\u043B\u043E\u0436\u0438\u0442\u044C \u0434\u043E\u0449\u0435\u0447\u043A\u0443 \u043D\u0430 \u043C\u0435\u0441\u0442\u043E \u0438 \u0437\u0430\u043C\u0435\u0442\u0438\u0442\u044C \u043E\u0442\u0432\u0435\u0442"
           }
         },
         "purpose": "ui"
@@ -29501,6 +29810,17 @@
           "default": "\u0421\u043F\u0440\u043E\u0441\u0438\u0442\u044C \u04D9\u0431\u0438, \u043A\u0430\u043A \u043E\u043D\u0430 \u043D\u0430\u0437\u044B\u0432\u0430\u0435\u0442 \u0441\u0442\u0430\u0440\u044B\u0435 \u043C\u043E\u0441\u0442\u043A\u0438",
           "translations": {
             "ru": "\u0421\u043F\u0440\u043E\u0441\u0438\u0442\u044C \u04D9\u0431\u0438, \u043A\u0430\u043A \u043E\u043D\u0430 \u043D\u0430\u0437\u044B\u0432\u0430\u0435\u0442 \u0441\u0442\u0430\u0440\u044B\u0435 \u043C\u043E\u0441\u0442\u043A\u0438"
+          }
+        },
+        "purpose": "ui"
+      },
+      {
+        "schemaVersion": 1,
+        "id": "urman.fullgame:text/pw-label-water-reflection",
+        "value": {
+          "default": "\u041E\u0441\u043C\u043E\u0442\u0440\u0435\u0442\u044C \u0442\u0440\u0438 \u0441\u0442\u043E\u0439\u043A\u0438 \u0438 \u043D\u0430\u0441\u0442\u0438\u043B \u0432 \u043E\u0442\u0440\u0430\u0436\u0435\u043D\u0438\u0438",
+          "translations": {
+            "ru": "\u041E\u0441\u043C\u043E\u0442\u0440\u0435\u0442\u044C \u0442\u0440\u0438 \u0441\u0442\u043E\u0439\u043A\u0438 \u0438 \u043D\u0430\u0441\u0442\u0438\u043B \u0432 \u043E\u0442\u0440\u0430\u0436\u0435\u043D\u0438\u0438"
           }
         },
         "purpose": "ui"
@@ -31000,7 +31320,7 @@
     {
       "moduleId": "urman.fullgame",
       "exactVersion": "1.0.0",
-      "sha256": "e56476f93f528905bc07f52d3b3b4ab0579748d14bf9cf43ab8919ac29b5661f"
+      "sha256": "748883e093af052269f76ea6131417b6d7071ead6c8db03f5b22368da19333ec"
     },
     {
       "moduleId": "urman.oldpc",
@@ -31008,5 +31328,5 @@
       "sha256": "f11d7970fd65ec8deb5cab4fe8e78424c6565dcd124684df556e1551039bf496"
     }
   ],
-  "campaignFingerprint": "53c2a506438461294653a3378192814f26944f9b6712d406ff1fd3e764eead91"
+  "campaignFingerprint": "140ee25a973316e7bb4110757abef6a0aebd370ba29685e89dd238f9dede4d82"
 }

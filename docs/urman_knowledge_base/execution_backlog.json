@@ -101850,8 +101850,8 @@
       "id": "PW-003",
       "title": "Перестроить сюжетный граф кампании «За краем снимка»",
       "milestone": "PW-M0",
-      "status": "todo",
-      "active_owner": null,
+      "status": "in_progress",
+      "active_owner": "codex/graph-reconciliation-2026-10-16",
       "owner": "narrative",
       "priority": "P0",
       "complexity": "complex",
@@ -101927,7 +101927,14 @@
           "verified": "Content compile and compiled-contract audit PASS. No game build, test, Windows/native run or full route verification performed after this source correction. Full route remains blocked by 17 absent producers."
         },
         "evidence/PW-003/native_f377c44ea4bf447cae3c6ca6a51c422f/root-review.json",
-        "evidence/PW-003/native_caa74d6981ac42edb4d9c51be51272f3/root-review.json"
+        "evidence/PW-003/native_caa74d6981ac42edb4d9c51be51272f3/root-review.json",
+        {
+          "date": "2026-10-16",
+          "kind": "source-compile-semantic-route",
+          "path": "evidence/PW-003/graph-reconciliation-20261016/receipt.json",
+          "result": "Квест-условия и сцены всех пяти миров сведены с каноническими фактами паспортов; 17 ранее отсутствовавших производителей добавлены; полный protected full_game_flow_smoke_test проходит, включая опциональное W05 после финала.",
+          "verified": "static producer/registration audit + ContentCli compile + protected headless semantic route exit=0; station native/visual and physical worlds NOT_RUN (successors/author deprioritization)"
+        }
       ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-003",
       "source_requirements": [
@@ -101942,7 +101949,7 @@
       "reference_ids": [
         "REQ"
       ],
-      "runtime_evidence": "Corrected source and compiled urman.fullgame pack verified; compiled pack SHA 91df2fc7fecdab3f49a83af7775a896e3310657cd9e302621b721b69bf94c0ad, campaign fingerprint aecbc853a4171fcd2ce21fcd4c3eb41e3db0377a18c0bdcc5273d4be02c31ba6. Corrected-source Windows/native flow NOT_RUN. The 17 absent producers still block full route; two existing semantic sources lack physical validation. Native PASS 442857 is historical on the previous graph/source only; ordinary route, profile/style and author acceptance remain separate gates.",
+      "runtime_evidence": "2026-10-16: corrected-source protected headless semantic route PASS (exit=0) on macOS with pinned Godot .NET 4.7.1; compiled pack SHA c67a92651cd1ae25215c5a94a00a1418528a5bea9604c2faa375b3fc4ba3ab81; all five worlds complete their canonical fact chains; optional W05 driven after the finale. Historical: compiled pack 91df2fc7... (pre-correction); native PASS 442857 describes the previous graph and remains historical. Windows/native visual receipt of the corrected contract NOT_RUN; ordinary route, profile/style and author acceptance remain separate gates.",
       "author_acceptance": "PENDING",
       "mvp_priority": 10,
       "mvp_packet": "PW0",
@@ -102132,23 +102139,21 @@
             "result": "Сопоставить полный authored сюжетный граф с physical fact producers без выдачи debug route за игрока",
             "owner": "narrative",
             "evidence": [
-              "evidence/PW-003/prologue-graph-20261012/"
+              "evidence/PW-003/prologue-graph-20261012/",
+              "evidence/PW-003/graph-reconciliation-20261016/receipt.json"
             ],
             "assigned_owner": "narrative",
             "active_owner": null,
             "activity": {
               "state": "released",
-              "reason": "Конечный authored W01 graph fix принят по source/ContentCli/affected compile; physical route и полный GRAPH-CHECK ещё открыты."
+              "reason": "Канонические производители W01–W05 сведены с authored графом, зарегистрированы и проверены существующим semantic route; физическая презентация/маршрут остаются PW-045–PW-069 и PW-094."
             },
             "task_type": "integration_check",
-            "status": "in_progress",
-            "implementation_state": "partial",
-            "technical_verification_state": "not_run",
-            "remaining": [
-              "Сопоставить полный authored сюжетный граф с physical fact producers без выдачи debug route за игрока; отсутствует подтверждение собственного конечного DoD, перечисленного ниже.",
-              "Source gap F01/F03 исправлен и скомпилирован; existing semantic route обновлён, ещё NOT_RUN. Физические F01/F03 producers отсутствуют; полный graph map/W04/two first orders открыты."
-            ],
-            "next_action": "После реализации W01 consumer принять protected existing FullGameFlowSmokeTest semantic route на освобождённой станции; сопоставить остальные required facts с реальными producer, не debug route.",
+            "status": "completed",
+            "implementation_state": "implemented",
+            "technical_verification_state": "passed",
+            "remaining": [],
+            "next_action": "Ничего не расширять: использовать принятый результат как вход следующей единицы.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -102186,9 +102191,10 @@
                 "success": "Выполнены все перечисленные собственные критерии, без расширения на родителя.",
                 "repeat_only_if": "Изменился source/candidate/input/покрываемый контракт."
               },
-              "actual_result": null,
+              "actual_result": "Все 19 required W01–W05 фактов имеют authored runtime producers в скомпилированном графе; существующий semantic route проходит полностью.",
               "evidence_refs": [
-                "evidence/PW-003/prologue-graph-20261012/"
+                "evidence/PW-003/prologue-graph-20261012/",
+                "evidence/PW-003/graph-reconciliation-20261016/receipt.json"
               ]
             },
             "dependencies": {
@@ -102205,6 +102211,14 @@
               "verification": "ContentCli fullgame compile exit0; affected Game build0 errors0 warnings28.06s. Root сверил условия/эффекты/skip, existing semantic scenario минимально обновлён под намеренный контракт, НЕ запускался.",
               "evidence": "evidence/PW-003/prologue-graph-20261012/",
               "physical_acceptance": "OPEN: F01/F03 native consumer отсутствует; full GRAPH-CHECK не completed."
+            },
+            "progress_2026_10_16": {
+              "question": "Каждый required fact W01–W05 имеет реальный runtime producer, а quest-условия совпадают с производителями без debug route?",
+              "result": "Да, на authored/compiled уровне: 19/19 канонических фактов завершения производятся authored сценами пяти миров в порядке действий паспортов; photoBook регистрация каждого (factId, sourceId) пары совпадает; полный protected full_game_flow_smoke_test проходит (routes A/B, blocked prerequisites, финал без W05, возврат и ревизит, опциональное W05 после финала).",
+              "found_defect": "Коммит fdd771d0 перевёл условия квестов на канонические ID, но сцены миров продолжали выдавать старые имена: 17 из 19 фактов не имели производителя, возврат из мира требовал завершения квеста — кампания после W01 была непроходима.",
+              "verification": "ContentCli compile (детерминированная сборка подтверждена до правки), статические проверки producer/registration/stale-name, protected headless semantic smoke exit=0 на macOS (pinned Godot .NET 4.7.1), guard восстановил userdata.",
+              "evidence": "evidence/PW-003/graph-reconciliation-20261016/receipt.json",
+              "not_run": "Станционный native receipt и реальный кадр исправленного контракта (автор деприоритизировал прогоны); физическая достижимость миров — PW-045–PW-069, обычный маршрут — PW-094."
             }
           }
         ]
@@ -102371,16 +102385,17 @@
       },
       "assigned_owner": "narrative",
       "activity": {
-        "state": "not_active",
-        "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+        "state": "confirmed_active",
+        "reason": "Канонический граф сведён и проверен существующим smoke; агрегат остаётся открыт для native/visual receipt исправленного контракта и физических миров-преемников."
       },
       "task_type": "aggregate",
       "implementation_state": "partial",
       "technical_verification_state": "not_run",
       "remaining": [
-        "Перестроить сюжетный граф кампании «За краем снимка»; отсутствует подтверждение собственного конечного DoD, перечисленного ниже."
+        "Семантический граф сведён с каноническими производителями и проверен существующим protected smoke (routes A/B, финал без W05, возврат/ревизит, опциональное W05); ",
+        "Осталось: native/visual receipt исправленного контракта (или обоснованный NOT_RUN) и физические миры/обычный маршрут в PW-045–PW-069/PW-094."
       ],
-      "next_action": "Перестроить сюжетный граф кампании «За краем снимка»",
+      "next_action": "Не расширять агрегат: следующий предметный шаг — физическая презентация миров (W02 первым) в своих карточках; native receipt собрать при первой станционной проверке исправленного графа.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -102660,7 +102675,17 @@
           "evidence_ref": "PW-003.evidence and named history progress; source_review shows available/missing inputs"
         }
       ],
-      "assignment_state": "preserved_person_or_existing_role; activity separate"
+      "assignment_state": "preserved_person_or_existing_role; activity separate",
+      "progress_2026_10_16": {
+        "result": "Канонический контракт завершения миров реализован на authored уровне и подтверждён semantic route; reopened-причина 2026-10-09 (несовпадение квестов и производителей) снята.",
+        "evidence": "evidence/PW-003/graph-reconciliation-20261016/receipt.json",
+        "children": {
+          "PW-003/GRAPH-SOURCE": "completed (history)",
+          "PW-003/NEGATIVE-W01": "completed (history)",
+          "PW-003/GRAPH-CHECK": "completed 2026-10-16"
+        },
+        "not_run": "native/visual receipt, физические миры, внешние приёмки."
+      }
     },
     {
       "id": "PW-004",
