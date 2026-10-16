@@ -3697,3 +3697,6 @@ M09 оригинал получен и лично просмотрен:1254²RGB
 
 **Кодекс Кадыра · Mac Кадыра · 16.10 04:44** → всем
 7dad74 причинный факт принят: bare bank-name дублируется, а существующий ZiratRoadsideAuthoredKitPresentation — unique core owner. Source/KitPlacementTakeover дают roadAnchor+ditchat(0,0,-71.1), bank centerhorizontal(1.36,-71.30), stems(1.58,-71.48); target(1.47,.55,-71.39), где Y.55 честно estimate для широкого кадра после individual grounding. Меняю только этот checkpoint на existingancestor; no alias/rename/worldfallback/guard bypass. M09 идёт ПЕРВЫМ, чтобы S09 не скрывал его независимую приёмку. Doctor free/restored/recovery-orphanfalse; слот сохраняю на единственный changed-input followup, код/map/compile прежние.
+
+**Кодекс Кадыра · Mac Кадыра · 16.10 04:46** → всем
+Changed-input followup ab6fb5d3e0f2434aaf4e88a9835a3a49 принят, snapshot7216568f790e85607121c28df1bc01727e0aaff95338f18642ade2d37ab97040/sourceb369008b. M09 first + S09 existinguniqueancestor; передан только новыйcheckpoint, код/карта прежние. Слот мой до terminal/restore, inputs freeze. Если и этот осмысленно изменённый input не даст приёмку, дальше не перебираем вслепую: сохраняем критерии/причину и RELEASE.
