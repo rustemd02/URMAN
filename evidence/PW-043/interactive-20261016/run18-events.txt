@@ -1,0 +1,48 @@
+job d02405bfc61d412c8b91895964ef0ab4, snapshot 68203f4a14c11146f06efd7ca0b4fbab16e193ca5eb760c07c9bfb0fc4162096
+window 13:25:27 .. 13:45:27 MSK (1200 s cap); the driver chain was stopped by hand at 13:46:47
+The run is a LOSS: the book was never taken, the school was never reached. The cause is an actor-task wedge,
+not the route.
+
+Game stdout (run18-game.log), verified lines:
+ 1980:userdata guard: original files restored by rename and verified
+ 2032:fullgame-scene-loaded: urman.fullgame:scene/pw-prologue physical=W01 entry=F00
+ 2034:[8]  photoworlds.prologue.completed: urman.fullgame:interaction/pw-prologue-skip
+ 2035:[9]  scene.entered: urman.fullgame:interaction/pw-prologue-skip
+ 2354:zone-loaded: village_day@arrival connected-world=425923186234
+ 2375:[21] scene.entered: urman.fullgame:interaction/pw-niva-stop
+ 2417:zone-loaded: house_old_pc@entry connected-world=425923186234
+ 2418:zone-loaded: house_old_pc@from_house connected-world=425923186234
+NO [56] photoworlds.book.received, NO [95] photoworlds.fact.observed, NO pw-forest: the book section failed.
+
+Driver report (run18-stdout.log) gates:
+[13:25:34] game window: pid 142148 hwnd 36700562 start 2026-10-16T10:25:27.1775450Z
+[13:25:54] act x18-skip0 => ok:true  (skip retry: 20 s settle then first attempt - the run-16/17 loss is gone)
+[13:25:56] skip ok = True
+[13:28:26] act x18-door-e => ok:true; [13:28:38] settle zone-loaded: house_old_pc@entry (baseline artifact; ENTERED = True)
+[13:28:38] act x18-entry (a plain capture) -> [13:29:38] "actor result timeout"
+[13:29:39] x18-tea-approach -> timeout [13:30:58]
+[13:30:58] x18-tea-fix -> timeout [13:32:09]
+[13:32:09] x18-tea-e -> timeout [13:33:11]
+[13:33:14] x18-book-enter -> timeout [13:34:16]
+[13:34:19] x18-book-approach -> timeout [13:35:40]
+[13:35:41] book check 0 ray = ...HeroRoomWindowLeft0/Glazing
+[13:36:45] x18-book-fix1 -> timeout [13:38:07]
+[13:36:54] probe x18-book1 ray = ...HouseInteriorFurnitureColli
+[13:38:08] probe x18-book2 ray = urman.fullgame:interaction/pw-home-exit-house avail = True
+[13:39:24] x18-book-e -> timeout [13:40:26] (its request bb563637...json has no result file)
+[13:40:38] act x18-book-retry => ok:true after 5 s (the task recovered by itself)
+[13:40:43] E landed on the EXIT door pose -> the player left the house (zone-loaded house_old_pc@from_house)
+[13:42:02] the driver moved on to the route legs (x18-street/x18-car-e) without the book
+[13:46:47] the chain was killed by hand (the run was already dead at the cap)
+
+The wedge mechanics (station facts):
+- The scheduled task URMAN-Codex-B02-UI (actor: urman-b02-game-ui.ps1 -RequestPath ...) was in State Running
+  with a stuck instance started right after the zone transition; Start-ScheduledTask on a running task is a
+  no-op (IgnoreNew), so every re-registered request sat unexecuted and the driver saw bare timeouts.
+- Once the stuck instance released (~10 min), stale requests executed late: results appeared in
+  C:\Users\ruste\AppData\Local\Temp\urman-codex-studio-ui at 13:38:48, 13:39:13/19/26/32/38/41/43 for
+  requests created at 13:38:4x-13:39:4x; those catch-up inputs pushed the player around the entry area
+  (that is why the book checks saw glazing, furniture and finally the exit door).
+- Fix shipped in drive19_station.py (and f10rescue5_station.py): task_command now runs
+  Stop-ScheduledTask -ErrorAction SilentlyContinue BEFORE Register-ScheduledTask -Force/Start-ScheduledTask.
+  A wedged act can still time out once, but the following act self-heals instead of parking for minutes.
