@@ -3315,6 +3315,13 @@
         "material": "Per-instance original neutral enamel albedo; metric local triplanar .5m because source has no UV, existing 708584 tint and .90/.20/0 PML roughness/specular/metallic retained. Shared cache, other FAP fixtures, geometry/contacts unchanged.",
         "native_static_evidence": "evidence/ACT1-TEXTURE.03/fap-m04-20261015/native_a4a223/frames/fap_radiator_m04.png",
         "qa": "Root viewed actual supported radiator/no obvious seams. Static named hookup only; pigment is subtle, no before/after improvement claim. Actual Low/performance-rescue scale .7, full art/motion and other M04 consumers open."
+      },
+      "additional_receiver_2026_10_16_m04": {
+        "task": "ACT1-TEXTURE.03/E04",
+        "receiver": "ClinicSurfacePresentation.Attach: exact FapInteriorCabinet_Body_LOD0 (optional same-name LOD1 only)",
+        "material": "Explicit authored enamel carcass, no substrate claim; per-instance neutral enamel albedo .75m local triplanar, tint7b8d86, roughness.45/specular.28/metallic0, variation.018/finish_grain.025. Generic enamel chip mask/bottom wear disabled. Plaster-coded doors, wood insets, handles, shelf and shared cache untouched.",
+        "native_static_evidence": "evidence/ACT1-TEXTURE.03/fap-cabinet-m04-20261016/native_0b5512/frames/fap_cabinet_m04.png",
+        "qa": "Root viewed smooth blue-grey body side/top/bevel, no obvious UV collapse/seam, mounting intact. Static named hookup accepted; actual Low/rescue scale.7, no High/movement/full-art or matched before-after improvement claim."
       }
     },
     {

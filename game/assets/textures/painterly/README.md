@@ -1084,3 +1084,17 @@ beige laminate, separate edge/metal frame and supports are visible, no obvious
 stretch/seam. High/comparable=true/scale1, verified/restored source snapshot.
 Finite named static consumer only; no ordinary entry route/movement/full art or
 all-desk 0.75 m claim.
+
+
+M04 clinic cabinet carcass (16.10.2026): the authored Blender role is explicitly
+`wall medicine cabinet enamel carcass`. Only `FapInteriorCabinet_Body_LOD0`
+(and exact LOD1 if present) receives the existing neutral enamel map above,
+per instance at 0.75 m local triplanar repeat, preserving tint `7b8d86`.
+The former plaster response is replaced by `.45/.28/0` roughness/specular/metallic;
+generic enamel chips and bottom wear are disabled. No physical substrate is asserted.
+Doors, wood insets, handles, shelf, geometry and shared material cache are unchanged.
+Root inspected the body side/top/bevel and mounting in native
+`0b5512aec3774878bc47a6a12a4ca7af`:
+`evidence/ACT1-TEXTURE.03/fap-cabinet-m04-20261016/native_0b5512/frames/fap_cabinet_m04.png`.
+Static finish hookup accepted with no obvious seam/UV collapse. Actual Low/rescue,
+scale 0.7; no High, movement, whole-cabinet art or matched before/after acceptance.
