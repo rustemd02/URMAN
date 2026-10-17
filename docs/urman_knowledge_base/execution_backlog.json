@@ -121162,6 +121162,14 @@
         "keep": "Оригинальный образ и татарская идентичность; существующая небоевая сюжетная встреча, D06/D07/помощь с сумкой; нет копии конкретного кинообраза/новой фольклорной догмы.",
         "implementation_direction": "Цельная органическая форма; почти узнаваемая, тревожно нарушенная анатомия; измождённое асимметричное лицо/тяжёлый взгляд, длинные пальцы; материальность и сдержанное движение. Не скрывать слабую модель темнотой.",
         "acceptance": "Шурале выглядит современно устрашающе в духе психологического авторского хоррора (уточнение автора: злодеи A24): оригинальная цельная анатомия/силуэт, тревожные лицо/взгляд/длинные руки и сдержанная неестественная пластика; без игрушечного добродушия. Оценка по актуальным игровым кадрам и движению, не по числу полигонов."
+      },
+      "concept_review_2026_10_17": {
+        "artifact": "assets/source/blender/photoworlds/W01/shurale-concepts/modern-horror-anatomy-v1.png",
+        "provenance": "Generated with built-in image_gen; original production concept, not a folklore source or author-approved final design.",
+        "direction": "Modern restrained psychological horror; 2.35m woody humanoid, gaunt original face, recessed eyes, defined cheek/jaw/nose planes, neck tendons/clavicles, articulated long hands, coherent organic anatomy. No glowing eyes, combat pose, gore, occult symbols or copied film creature.",
+        "review": "Root viewed all three v2 Blender previews and rejected featureless rubber torso, smiling flat face, unreadable joints and collapsed working pose. Two failed source constructions are not runtime-ready. New concept viewed; accepted only as a modeling guide.",
+        "next_action": "Rebuild authored anatomy and face/hand topology against concept; show source previews before runtime promotion; then verify native motion.",
+        "remaining": "Actual model, readable seven clips, native scene quality and author/cultural acceptance remain open."
       }
     },
     {
@@ -140857,13 +140865,14 @@
         "result": "Exact own-window hidden/minimized and five activation-phase failure reasons; no input/focus bypass. SSH is a different session so its USER32 inspection was skipped.",
         "verification": "Windows PowerShell parser PASS, worker AST PASS, fixed allowlist mapping/source review; exact deployed baseline/SHA verified, idle worker restarted through scheduled task.",
         "backup": "Local Windows station maintenance/20261017-focus-phase-c928f670",
-        "remaining": "One ordinary native activation attempt must identify actual failure phase; no claim focus fixed.",
+        "remaining": "Find smallest verified own-window activation path from Win32 contract; preserve ownership/foreground/input guards. Do not retry same activation blindly.",
         "next_job": {
           "job_id": "9a74d01c3b034036baa39d6559e7e4ee",
           "snapshot_id": "2d7d9b14ebaece1c669a26e1b305e5f79d95ddcc6efec7a15de110ab5392d4d0",
           "question": "One Enter at actualmenu: identify exact phasecode or observe successfulNewGame; no blind repeats.",
           "timeout_seconds": 240
-        }
+        },
+        "observed_result": "Native9a74d01c: actualmenu captured; oneEnter refused409 ui_focus_activation_refused. Ownedwindow visibility/iconic gates passed; Windows refused secondSetForegroundWindow. No game input/path acceptance."
       }
     },
     {

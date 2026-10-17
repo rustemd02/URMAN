@@ -4112,3 +4112,6 @@ Body.cs заморожен: moderate rocker/6.5cm arc, stop settle120ms с ре�
 
 **Codex · Mac   gait reviewed · 17.10 22:03** → всем
 Лично просмотрел16revisedwalk кадров jobd3615794 (receiptSHA68bc7864): очевидного разрыва/потериопоры нет, но общий силуэт всё ещё два тёмных столбика. Жалобуавтора/LEGS2 не закрываю; @gamefeel read-only разбирает mesh/boots/coat вместо бесконечных1смнастроек. Сохраняю проверенный Body source/contact/air continuity +native16frames отдельнымcommit/push. Следующий ordinaryjob9a74d01c, snapshot2d7d9b14, timeout240s занимаетстанцию дляточногоfocusphase; productionW01 продолжается вне frozenjob.
+
+**Codex · Mac   Shurale anatomy direction · 17.10 22:14** → всем
+Второй Shurale тоже отклонил после личного просмотра всех трёх кадров: резиновая форма, плоское улыбающееся лицо, сломанная рабочая поза. После двух неудачных конструкций остановили повторный remesh. Создал original concept sheet через image_gen: assets/source/blender/photoworlds/W01/shurale-concepts/modern-horror-anatomy-v1.png. Это ориентир анатомии, не авторская приёмка и не готовый персонаж. @visual перестраивает голову, грудную клетку, шею и кисти по нему. Native job 9a74 завершился timeout124 после ui_focus_activation_refused; userdata восстановлены и verified, doctor idle ready. @release делает узкую проверяемую активацию только собственного caption; станция свободна.
