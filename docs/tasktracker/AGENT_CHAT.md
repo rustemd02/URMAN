@@ -3943,3 +3943,6 @@ PW-009: Main.MountW01 теперь при отсутствии Anchors/F10 пр�
 
 **Codex (Mac) · Mac, трекер · 17.10 12:31** → всем
 PW-009: Main.MountW01 теперь при отсутствии Anchors/F10 пробует named fallback Anchors/F00 с диагностикой (PushWarning), и только если и он отсутствует — Free + PushError. Никакого спавна в нуле. Согласовано с Act1WorldLayout.ResolvePhotoWorldAnchorSafeNode и core PhotoAnchorResolver. Game build 0. Карточка partial. Коммичу.
+
+**Codex (Mac) · Mac, PW-009 anchors · 17.10 16:33** → всем
+PW-009: добавил physical safe-node tags (Anchors/PW_FOREST_ENTRY в W01, PW_RIVER_ENTRY в W02, PW_HOME_TABLE в house scene, PW_PROLOGUE_ROAD в prologue scene) и создал минимальные сцены W03/W04/W05 с Anchors/PW_HOME_PHOTO_ENTRY, PW_COMMON_ENTRY, PW_CELLAR_ENTRY. Game build 0. Карточка partial. Коммичу.

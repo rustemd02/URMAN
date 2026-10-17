@@ -1,0 +1,17 @@
+[gd_scene load_steps=1 format=3]
+
+[node name="W05" type="Node3D"]
+
+[node name="Anchors" type="Node3D" parent="."]
+
+; B00: cellar entry spawn.
+[node name="B00" type="Marker3D" parent="Anchors"]
+position = Vector3(0, 0, 0)
+
+; B07: cellar exit.
+[node name="B07" type="Marker3D" parent="Anchors"]
+position = Vector3(2, 0, 0)
+
+; PW_CELLAR_ENTRY: semantic alias for B00 (PhotoWorlds W05 entry anchor).
+[node name="PW_CELLAR_ENTRY" type="Marker3D" parent="Anchors"]
+position = Vector3(0, 0, 0)

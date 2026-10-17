@@ -48,6 +48,11 @@ shadow_opacity = 0.32
 position = Vector3(0, 1.32, 0)
 rotation_degrees = Vector3(0, 180, 0)
 
+; PW_RIVER_ENTRY: semantic alias for R00 (PhotoWorlds W02 entry anchor).
+[node name="PW_RIVER_ENTRY" type="Marker3D" parent="Anchors"]
+position = Vector3(0, 1.32, 0)
+rotation_degrees = Vector3(0, 180, 0)
+
 ; R01 dry piers: the vista over the river before the bay turns away.
 [node name="R01" type="Marker3D" parent="Anchors"]
 position = Vector3(0, 1.32, 14)

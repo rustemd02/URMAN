@@ -5,3 +5,9 @@
 [node name="StyleBenchmarkKaraUrmanNight" type="Node3D"]
 script = ExtResource("1_zone")
 ZoneKind = 2
+
+[node name="Anchors" type="Node3D" parent="."]
+
+; PW_PROLOGUE_ROAD: semantic anchor for the prologue road (PhotoWorlds support anchor).
+[node name="PW_PROLOGUE_ROAD" type="Marker3D" parent="Anchors"]
+position = Vector3(0, 0.05, 0)

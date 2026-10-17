@@ -104666,6 +104666,20 @@
           "path": "game/scripts/Main.cs (MountW01 fallback) + Act1WorldLayout.cs",
           "result": "Main.MountW01: при отсутствии Anchors/{entryAnchorId} (F10) пробует named fallback Anchors/F00 с диагностикой (PushWarning), и только если и он отсутствует — Free + PushError. Никакого спавна в нуле. Согласовано с Act1WorldLayout.ResolvePhotoWorldAnchorSafeNode и core PhotoAnchorResolver.",
           "verified": "dotnet build Urman.Game.csproj: 0 ошибок. Runtime-проверка на реальной сцене NOT_RUN."
+        },
+        {
+          "date": "2026-10-17",
+          "kind": "scene-edit",
+          "path": "game/scenes/photoworlds/W01/W01.tscn, W02/W02.tscn, W03/W03.tscn, W04/W04.tscn, W05/W05.tscn",
+          "result": "Добавлены physical safe-node tags: Anchors/PW_FOREST_ENTRY (W01, alias F10), Anchors/PW_RIVER_ENTRY (W02, alias R00). Созданы минимальные сцены W03/W04/W05 с Anchors/PW_HOME_PHOTO_ENTRY (H00/H08), PW_COMMON_ENTRY (C00/C08), PW_CELLAR_ENTRY (B00/B07).",
+          "verified": "Game build 0. Anchors/PW_HOME_TABLE и PW_PROLOGUE_ROAD в house/prologue scenes — NOT_RUN."
+        },
+        {
+          "date": "2026-10-17",
+          "kind": "scene-edit",
+          "path": "game/scenes/photoworlds/W01/W01.tscn, W02/W02.tscn, W03/W03.tscn, W04/W04.tscn, W05/W05.tscn, zones/style_benchmark_house_pc.tscn, zones/style_benchmark_kara_urman_night.tscn",
+          "result": "Добавлены physical safe-node tags: Anchors/PW_FOREST_ENTRY (W01, alias F10), Anchors/PW_RIVER_ENTRY (W02, alias R00), Anchors/PW_HOME_TABLE (house scene), Anchors/PW_PROLOGUE_ROAD (prologue scene). Созданы минимальные сцены W03/W04/W05 с Anchors/PW_HOME_PHOTO_ENTRY (H00/H08), PW_COMMON_ENTRY (C00/C08), PW_CELLAR_ENTRY (B00/B07).",
+          "verified": "Game build 0. Runtime-verify на реальной сцене NOT_RUN (нужна станция)."
         }
       ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-009",
@@ -104785,10 +104799,10 @@
       "implementation_state": "partial",
       "technical_verification_state": "passed",
       "remaining": [
-        "Готово: core PhotoAnchorResolver (7 якорей, named fallback, ValidateAnchors); Act1WorldLayout реестр 7 якорей→safe node names + ResolvePhotoWorldAnchorSafeNode; Main.MountW01 теперь использует named fallback (F00) при отсутствии Anchors/F10 вместо спавна в нуле, с диагностикой. Core build 0, 68/68 dotnet-тестов, game build 0.",
-        "Осталось: добавить physical safe-node tags (Anchors/PW_*) в сцены W01/W02 и создать сцены/якоря для W03–W05 (требует дизайн размещения); заменить PushError+Free в MountW02 аналогичным fallback; verify на реальной сцене."
+        "Готово: core PhotoAnchorResolver (7 якорей, named fallback, ValidateAnchors); Act1WorldLayout реестр 7 якорей→safe node names + ResolvePhotoWorldAnchorSafeNode; Main.MountW01 fallback (F10→F00); physical safe-node tags Anchors/PW_FOREST_ENTRY в W01.tscn, Anchors/PW_RIVER_ENTRY в W02.tscn, Anchors/PW_HOME_TABLE в house scene, Anchors/PW_PROLOGUE_ROAD в prologue scene; созданы минимальные сцены W03/W04/W05 с Anchors/PW_HOME_PHOTO_ENTRY, PW_COMMON_ENTRY, PW_CELLAR_ENTRY. Core build 0, 68/68 dotnet-тестов, game build 0.",
+        "Осталось: заменить PushError+Free в MountW02 аналогичным fallback; verify на реальной сцене."
       ],
-      "next_action": "Добавить physical safe-node tags (Anchors/PW_*) в сцены W01/W02 и создать сцены/якоря для W03–W05 (дизайн размещения); затем заменить PushError+Free в MountW02 аналогичным fallback.",
+      "next_action": "Заменить PushError+Free в MountW02 аналогичным fallback; затем verify на реальной сцене.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",

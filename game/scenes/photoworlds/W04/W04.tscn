@@ -1,0 +1,17 @@
+[gd_scene load_steps=1 format=3]
+
+[node name="W04" type="Node3D"]
+
+[node name="Anchors" type="Node3D" parent="."]
+
+; C00: common entry spawn.
+[node name="C00" type="Marker3D" parent="Anchors"]
+position = Vector3(0, 0, 0)
+
+; C08: common exit.
+[node name="C08" type="Marker3D" parent="Anchors"]
+position = Vector3(2, 0, 0)
+
+; PW_COMMON_ENTRY: semantic alias for C00 (PhotoWorlds W04 entry anchor).
+[node name="PW_COMMON_ENTRY" type="Marker3D" parent="Anchors"]
+position = Vector3(0, 0, 0)

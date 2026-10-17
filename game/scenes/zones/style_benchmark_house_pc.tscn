@@ -5,3 +5,9 @@
 [node name="StyleBenchmarkHousePc" type="Node3D"]
 script = ExtResource("1_zone")
 ZoneKind = 1
+
+[node name="Anchors" type="Node3D" parent="."]
+
+; PW_HOME_TABLE: semantic anchor for the family table (PhotoWorlds support anchor).
+[node name="PW_HOME_TABLE" type="Marker3D" parent="Anchors"]
+position = Vector3(0.712, 0.95, -2.1025)

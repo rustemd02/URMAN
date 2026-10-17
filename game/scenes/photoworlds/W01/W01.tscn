@@ -51,6 +51,11 @@ rotation_degrees = Vector3(0, -166.5, 0)
 position = Vector3(0, 0.656942903, 35)
 rotation_degrees = Vector3(0, 180, 0)
 
+; PW_FOREST_ENTRY: semantic alias for F10 (PhotoWorlds W01 entry anchor).
+[node name="PW_FOREST_ENTRY" type="Marker3D" parent="Anchors"]
+position = Vector3(0, 0.656942903, 35)
+rotation_degrees = Vector3(0, 180, 0)
+
 [node name="PForestPhotoCamera" type="Camera3D" parent="Anchors/F10"]
 position = Vector3(0, 1.55, 0)
 current = false
