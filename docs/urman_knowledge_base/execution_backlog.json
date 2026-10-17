@@ -104624,7 +104624,7 @@
       "id": "PW-009",
       "title": "Создать реестр семантических якорей и safe nodes",
       "milestone": "PW-M1",
-      "status": "todo",
+      "status": "in_progress",
       "active_owner": null,
       "owner": "integration",
       "priority": "P0",
@@ -104645,7 +104645,15 @@
       "verify": [
         "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-009/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
       ],
-      "evidence": [],
+      "evidence": [
+        {
+          "date": "2026-10-17",
+          "kind": "dotnet-build-and-tests",
+          "path": "src-dotnet/Urman.Core/Narrative/PhotoAnchorResolver.cs",
+          "result": "Добавлен PhotoAnchorResolver: 7 известных якорей (5 world-bound со spawn/exit safe nodes, 2 support), named fallback PW_HOME_TABLE для неизвестных/пустых якорей, ValidateAnchors бросает на дубликате и неизвестном якоре. Дубликат уже ловится PhotoWorldCatalog.Validate (requiredAnchors.Distinct.Count == length).",
+          "verified": "dotnet build Urman.Core.csproj: 0 ошибок; dotnet test Urman.Core.Tests: 68/68 PASS. Game-side safe-node tags и fallback в Main — NOT_RUN."
+        }
+      ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-009",
       "source_requirements": [
         "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/docs/11_TASKS_RU.md",
@@ -104756,17 +104764,17 @@
       },
       "assigned_owner": "integration",
       "activity": {
-        "state": "not_active",
-        "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+        "state": "released",
+        "reason": "Добавлен PhotoAnchorResolver (src-dotnet/Urman.Core/Narrative): 7 известных якорей, named fallback PW_HOME_TABLE для неизвестных/пустых, ValidateAnchors бросает на дубликате и неизвестном якоре. Дубликат уже ловится PhotoWorldCatalog.Validate. Game-side safe-node tags в Act1WorldLayout остаются следующим шагом."
       },
       "task_type": "engineering",
-      "implementation_state": "not_started",
-      "technical_verification_state": "not_run",
+      "implementation_state": "partial",
+      "technical_verification_state": "passed",
       "remaining": [
-        "Дублированный якорь ловится валидатором.",
-        "Fallback всегда именованный и проверенный."
+        "Готово: core-resolver с 7 якорями (PW_FOREST_ENTRY→F10/F16, PW_RIVER_ENTRY→R00/R08, PW_HOME_PHOTO_ENTRY→H00/H08, PW_COMMON_ENTRY→C00/C08, PW_CELLAR_ENTRY→B00/B07, PW_HOME_TABLE и PW_PROLOGUE_ROAD как support) и named fallback PW_HOME_TABLE; ValidateAnchors бросает на дубликате и неизвестном якоре; дубликат уже ловится PhotoWorldCatalog.Validate. Сборка core + 68 dotnet-тестов PASS.",
+        "Осталось: game-side safe-node tags в Act1WorldLayout/сцене (physical node paths для всех 7 якорей), диагностика отсутствующего узла без спавна в нуле в Main (сейчас PushError+Free — заменить на fallback+диагностику), проверка на реальной сцене."
       ],
-      "next_action": "Описать 7 якорей и локальные safe nodes W01–W05.",
+      "next_action": "Привязать 7 якорей к physical safe nodes в Act1WorldLayout/сцене и заменить PushError+Free на fallback+диагностику в Main; затем build + smoke.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
