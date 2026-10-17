@@ -20,6 +20,8 @@ public static class UrmanGameUiNative {
  [DllImport("user32.dll")] public static extern IntPtr GetAncestor(IntPtr h,uint flags);
  [DllImport("user32.dll")] public static extern bool SetProcessDPIAware();
  [DllImport("user32.dll")] public static extern bool SetForegroundWindow(IntPtr h);
+ [DllImport("user32.dll")] public static extern bool AttachThreadInput(uint attach,uint attachTo,bool attachState);
+ [DllImport("kernel32.dll")] public static extern uint GetCurrentThreadId();
  [DllImport("user32.dll")] public static extern uint MapVirtualKey(uint code,uint mapType);
  [DllImport("user32.dll")] public static extern void keybd_event(byte key,byte scan,uint flags,UIntPtr extra);
  [DllImport("user32.dll")] public static extern bool SetCursorPos(int x,int y);
@@ -78,6 +80,43 @@ function Assert-TargetWindow([switch]$RequireForeground) {
 }
 
 function Assert-InputTarget() { Assert-TargetWindow -RequireForeground }
+
+function Focus-VerifiedTarget {
+    if (Test-OwnedForeground) { return }
+    [void][UrmanGameUiNative]::SetForegroundWindow($script:TargetHandle)
+    if (Test-OwnedForeground) { return }
+
+    $foreground = [UrmanGameUiNative]::GetForegroundWindow()
+    $currentThread = [UrmanGameUiNative]::GetCurrentThreadId()
+    [uint32]$foregroundProcess = 0
+    $foregroundThread = [uint32]0
+    if ($foreground -ne [IntPtr]::Zero) {
+        $foregroundThread = [UrmanGameUiNative]::GetWindowThreadProcessId($foreground,[ref]$foregroundProcess)
+        if ($foregroundThread -eq 0 -or $currentThread -eq 0) {
+            throw 'The owned game window lost foreground focus.'
+        }
+    }
+
+    $attached = $false
+    try {
+        if ($foregroundThread -ne 0 -and $foregroundThread -ne $currentThread) {
+            $attached = [UrmanGameUiNative]::AttachThreadInput($currentThread,$foregroundThread,$true)
+            if (-not $attached) { throw 'The owned game window lost foreground focus.' }
+        }
+        if ($foreground -ne [IntPtr]::Zero -and
+            [UrmanGameUiNative]::GetForegroundWindow() -ne $foreground) {
+            throw 'The owned game window lost foreground focus.'
+        }
+        if (-not [UrmanGameUiNative]::SetForegroundWindow($script:TargetHandle)) {
+            throw 'The owned game window lost foreground focus.'
+        }
+    } finally {
+        # Detach before any injected input; AttachThreadInput resets shared key state.
+        if ($attached -and -not [UrmanGameUiNative]::AttachThreadInput($currentThread,$foregroundThread,$false)) {
+            throw 'The owned game window lost foreground focus.'
+        }
+    }
+}
 
 function Release-KeySafely([byte]$Key) {
     [UrmanGameUiNative]::keybd_event($Key,0,2,[UIntPtr]::Zero)
@@ -387,7 +426,7 @@ try {
 
     Assert-TargetWindow
     if (-not (Test-OwnedForeground)) {
-        [void][UrmanGameUiNative]::SetForegroundWindow($script:TargetHandle)
+        Focus-VerifiedTarget
     }
     Start-Sleep -Milliseconds 200
     Assert-InputTarget

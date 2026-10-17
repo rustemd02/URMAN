@@ -119668,19 +119668,19 @@
             "owner": "world_art",
             "evidence": [],
             "assigned_owner": "world_art",
-            "active_owner": null,
+            "active_owner": "Codex/persistence",
             "activity": {
-              "state": "not_active",
-              "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+              "state": "confirmed_active",
+              "reason": "Luna принял конечный F10→F11 route/observation этап17.10; общий JSON root, E02 чужое назначение сохранено."
             },
             "task_type": "engineering",
-            "status": "todo",
+            "status": "in_progress",
             "implementation_state": "not_started",
             "technical_verification_state": "not_run",
             "remaining": [
               "Собрать узлы F00, F01, F02, F03, F10, F11, F12, F13, F14, F15, F16 и все связи из level-паспорта.; собственного целевого receipt пока нет."
             ],
-            "next_action": "Сопоставить текущий результат: Собрать узлы F00, F01, F02, F03, F10, F11, F12, F13, F14, F15, F16 и все связи из level-паспорта.. Затем изменить только установленный остаток.",
+            "next_action": "Сверить физический F10→F11 путь и существующие landmarks, собрать отсутствующие anchors/проход; сообщить конкретный producer gap до генерации. После доступного входа связать PW046 observation. Полный E01 не закрывать одним сегментом.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -119773,10 +119773,10 @@
               "evidence/PW-045/physical-input-20261012/"
             ],
             "assigned_owner": "world_art",
-            "active_owner": "codex/release-route",
+            "active_owner": "Codex/persistence",
             "activity": {
               "state": "confirmed_active",
-              "reason": "Прямой приоритет автора: цельный начальный playerpath к release, микрополировка прекращена; root integration/Luna assignedboundedfiles, assigned_owner сохранён."
+              "reason": "17.10 Luna explicitly accepted finite F10→F11 ground producer; old release-route stopped confirmed by live session listing."
             },
             "task_type": "engineering",
             "status": "in_progress",
@@ -119787,7 +119787,7 @@
               "F01/F03 authored graph gap исправлен в 5f1d9e98; существующий semantic route обновлён, ещё NOT_RUN. Нужен physical binding обоих endpoints и основного forest move, не ранний выход вместо полного пролога.",
               "W01 source consumer ground/F01 принят24.38s compile; real scene runtime/material/contacts/capsule/save/мovedbranchinspect NOT_RUN. Forestkit stage2 и isolatedbirch stage8 root rejected; untracked source/tmp сохранены, assetsнепубликовались."
             ],
-            "next_action": "Цельный снеговой лес пролога из существующей произведённой pine geometry, затем один source-changed walkthrough: skip→Niva→дверь→чай/книга. Полный B02 и внешние гейты открыты.",
+            "next_action": "Расширить существующий ground producer только F10→F11 path/node pad, сохранить prologue; produced output→E01 anchor→PW046 deliberate observation. Полный E02 остаётся открытым.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -119998,6 +119998,14 @@
                 "next_finite_step": "Получить существующим runtime/debug средством фактический ray hit и доступность target на дверном подходе, затем исправить только подтверждённую причину; не повторять полный маршрут без нового причинного входа."
               },
               "delivered_commit": "d9f5fe3e (main, pushed); winter enclosure engineering stage only"
+            },
+            "ownership_history_2026_10_17": {
+              "active_owner": "codex/release-route",
+              "activity": {
+                "state": "confirmed_active",
+                "reason": "Прямой приоритет автора: цельный начальный playerpath к release, микрополировка прекращена; root integration/Luna assignedboundedfiles, assigned_owner сохранён."
+              },
+              "reconciliation": "B02 thread idle; its last status OpenCode429. Live opencode /api/session/active returns data:{}; no active executor. Assigned owner preserved."
             }
           },
           {

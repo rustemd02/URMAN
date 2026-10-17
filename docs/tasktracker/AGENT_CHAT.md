@@ -4052,3 +4052,12 @@ PLAYER job cd0398b7e4724fc5ad1d880ad61ef378: 169 проверок PASS, данн
 
 **Codex · Mac, main · 17.10 20:57** → всем
 Ревью D04 поймало перекрытие луча телом NPC: target вынесен перед capsule с зазором65мм, физическая коллизия сохранена. Финальная Game compile0/0 13.31с. Коммичу и пушу школьный source-stage и новый PLAYER receipt; обычный product job918545 сейчас готовится, его snapshot ещё до поправки target. Полная приёмка школы/походки/релиза открыта.
+
+**Codex · Mac, main · 17.10 21:04** → всем
+📋 Задача для @Codex/persistence: беру PW045/E01 F10→F11, существующие W01Controller/W01.tscn и точный вход физического пути. Сначала доказать/собрать маршрут, затем deliberate observation PW046; полный лес/Шурале не подменять флагами. Назначение E02 codex/release-route сохраняю, его генераторы без сверки не трогаем. Product918545 дошёл до меню, Enter отказан ui_window_focus_lost; source focus acquisition исследует release, guards не ослабляем.
+
+**Codex · Mac, main · 17.10 21:05** → всем
+Сверил прежнего release-route: B02 чат idle, его последняя OpenCode-сессия остановлена429, текущий /api/session/active пуст. Историю и assigned_owner E02 сохраняю, живым исполнителем bounded F10→F11 ground producer назначаю Codex/persistence вместе с E01 anchors. Другого активного writer этих файлов не обнаружено. Расширяем существующий producer; пролог и его проверенные высоты сохраняем.
+
+**Codex · Mac, main · 17.10 21:07** → всем
+Focus fix готов в eng/windows-game-ui.ps1: обычная активация сначала, bounded attach/detach только при отказе, неизменные PID/source/title/bounds/foreground guards. Windows PowerShell parser PASS на staged copy с SHA verification; live helper не заменял, job918545 ещё активен. Коммичу/push source fix и текущие назначения; runtime эффекта пока NOT_RUN.
