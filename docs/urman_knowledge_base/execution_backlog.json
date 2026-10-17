@@ -70631,6 +70631,12 @@
         "verification": "Affected Game compile 0 errors/0 warnings17.87s; independent review found prior contact/projection defects resolved; no further source finding. Native visual pending.",
         "source": "game/scripts/FirstPersonController.Body.cs",
         "remaining": "Compare fresh native walk frames; normal jump/landing/turn/strafe/crouch and audio need actual observation; do not equate compile with satisfying movement."
+      },
+      "jump_candidate_2026_10_17": {
+        "source": "game/scripts/FirstPersonController.Movement.cs",
+        "result": "JumpHeight .42→.60m and air acceleration5→7.5m/s². Source-derived airtime .394→.471s; walking momentum can reverse before landing. Existing exact smoke peak range intentionally updated to .56–.68m.",
+        "verification": "Source inspection only so far; native job3169a0f2 includes candidate. No new tests added or run.",
+        "remaining": "Compile/native jump/air steering/held-jump/roof/crouch check and subjective movement acceptance. No claim natural or satisfying."
       }
     },
     {
@@ -140873,6 +140879,17 @@
           "timeout_seconds": 240
         },
         "observed_result": "Native9a74d01c: actualmenu captured; oneEnter refused409 ui_focus_activation_refused. Ownedwindow visibility/iconic gates passed; Windows refused secondSetForegroundWindow. No game input/path acceptance."
+      },
+      "caption_activation_2026_10_17": {
+        "source": [
+          "eng/windows-game-ui.ps1",
+          "eng/windows_station_worker.py"
+        ],
+        "result": "After actual ui_focus_activation_refused, add one verified own-window HTCAPTION click; check exact HWND/PID/root-owner, bounded hit-test, pointer stability and physical left-button state before input; retain 200ms foreground guard.",
+        "verification": "Independent read-only source review found no substantive blocker; native INPUT layout 40B x64/28B x86; Windows PS parser and extracted C# Add-Type compile PASS; worker AST PASS. Exact baseline/staged/installed SHA verified; backup maintenance/20261017-caption-7df214be; idle scheduled worker restarted.",
+        "remaining": "Native activation and normal gameplay not yet verified; input has inherent small TOCTOU between final ownership check and injection.",
+        "job_id": "3169a0f24896435ea7602586f69feb15",
+        "snapshot_id": "1716716e5db1ec3a51ae65929476b4a2bd77018120579ee91d8174848f6e3de2"
       }
     },
     {

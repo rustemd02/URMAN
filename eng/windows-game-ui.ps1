@@ -11,6 +11,9 @@ using System;
 using System.Runtime.InteropServices;
 public static class UrmanGameUiNative {
  [StructLayout(LayoutKind.Sequential)] public struct Rect { public int Left,Top,Right,Bottom; }
+ [StructLayout(LayoutKind.Sequential)] public struct Point { public int X,Y; }
+ [StructLayout(LayoutKind.Sequential)] public struct MouseInput { public int dx,dy; public uint mouseData,dwFlags,time; public UIntPtr dwExtraInfo; }
+ [StructLayout(LayoutKind.Sequential)] public struct Input { public uint type; public MouseInput mouse; }
  public delegate bool EnumProc(IntPtr h,IntPtr extra);
  [DllImport("user32.dll")] public static extern bool EnumWindows(EnumProc callback,IntPtr extra);
  [DllImport("user32.dll", CharSet=CharSet.Unicode)] public static extern int GetWindowText(IntPtr h,System.Text.StringBuilder text,int length);
@@ -27,7 +30,28 @@ public static class UrmanGameUiNative {
  [DllImport("user32.dll")] public static extern uint MapVirtualKey(uint code,uint mapType);
  [DllImport("user32.dll")] public static extern void keybd_event(byte key,byte scan,uint flags,UIntPtr extra);
  [DllImport("user32.dll")] public static extern bool SetCursorPos(int x,int y);
+ [DllImport("user32.dll")] public static extern bool GetCursorPos(out Point p);
+ [DllImport("user32.dll")] public static extern bool GetClientRect(IntPtr h,out Rect r);
+ [DllImport("user32.dll")] public static extern bool ClientToScreen(IntPtr h,ref Point p);
+ [DllImport("user32.dll")] public static extern IntPtr WindowFromPoint(Point p);
+ [DllImport("user32.dll",EntryPoint="SendMessageTimeoutW",SetLastError=true)]
+ public static extern IntPtr SendMessageTimeout(IntPtr h,uint message,IntPtr wParam,IntPtr lParam,uint flags,uint timeout,out IntPtr result);
+ [DllImport("user32.dll",SetLastError=true)] public static extern uint SendInput(uint count,Input[] inputs,int inputSize);
+ [DllImport("user32.dll")] public static extern short GetAsyncKeyState(int virtualKey);
  [DllImport("user32.dll")] public static extern void mouse_event(uint flags,int x,int y,uint data,UIntPtr extra);
+ public static int InputSize() { return Marshal.SizeOf(typeof(Input)); }
+ public static IntPtr PackScreenPoint(int x,int y) {
+  return new IntPtr(unchecked(((y & 0xffff) << 16) | (x & 0xffff)));
+ }
+ public static Input[] LeftClickInputs() {
+  return new Input[] {
+   new Input { type=0, mouse=new MouseInput { dwFlags=0x0002, dwExtraInfo=UIntPtr.Zero } },
+   new Input { type=0, mouse=new MouseInput { dwFlags=0x0004, dwExtraInfo=UIntPtr.Zero } }
+  };
+ }
+ public static Input[] LeftButtonUpInput() {
+  return new Input[] { new Input { type=0, mouse=new MouseInput { dwFlags=0x0004, dwExtraInfo=UIntPtr.Zero } } };
+ }
 }
 '@
 [void][UrmanGameUiNative]::SetProcessDPIAware()
@@ -84,6 +108,159 @@ function Assert-TargetWindow([switch]$RequireForeground) {
 
 function Assert-InputTarget() { Assert-TargetWindow -RequireForeground }
 
+function Get-VerifiedCaptionPoint {
+    Assert-TargetWindow
+    if ([UrmanGameUiNative]::IsIconic($script:TargetHandle)) { throw 'The owned game window is minimized.' }
+    if (-not [UrmanGameUiNative]::IsWindowVisible($script:TargetHandle)) { throw 'The owned game window is hidden.' }
+
+    $window = New-Object UrmanGameUiNative+Rect
+    $client = New-Object UrmanGameUiNative+Rect
+    if (-not [UrmanGameUiNative]::GetWindowRect($script:TargetHandle,[ref]$window) -or
+        -not [UrmanGameUiNative]::GetClientRect($script:TargetHandle,[ref]$client)) {
+        throw 'The owned game caption point is unavailable.'
+    }
+    if ($client.Right -le $client.Left -or $client.Bottom -le $client.Top) {
+        throw 'The owned game caption point is unavailable.'
+    }
+    if ($window.Left -ne $script:InitialRect.Left -or $window.Top -ne $script:InitialRect.Top -or
+        $window.Right -ne $script:InitialRect.Right -or $window.Bottom -ne $script:InitialRect.Bottom) {
+        throw 'The owned game caption target changed.'
+    }
+
+    $clientOrigin = New-Object UrmanGameUiNative+Point
+    if (-not [UrmanGameUiNative]::ClientToScreen($script:TargetHandle,[ref]$clientOrigin)) {
+        throw 'The owned game caption point is unavailable.'
+    }
+    $width = $window.Right - $window.Left
+    $height = $window.Bottom - $window.Top
+    $captionHeight = $clientOrigin.Y - $window.Top
+    if ($width -lt 2 -or $height -lt 2 -or $captionHeight -lt 2 -or $captionHeight -ge $height) {
+        throw 'The owned game caption point is unavailable.'
+    }
+
+    $x = $window.Left + [int][Math]::Floor($width / 2.0)
+    $y = $window.Top + [int][Math]::Floor($captionHeight / 2.0)
+    if ($x -lt -32768 -or $x -gt 32767 -or $y -lt -32768 -or $y -gt 32767) {
+        throw 'The owned game caption point is unavailable.'
+    }
+    return @{ X = $x; Y = $y }
+}
+
+function Assert-VerifiedCaptionOwnership([object]$Point) {
+    $screenPoint = New-Object UrmanGameUiNative+Point
+    $screenPoint.X = [int]$Point.X
+    $screenPoint.Y = [int]$Point.Y
+    $hit = [UrmanGameUiNative]::WindowFromPoint($screenPoint)
+    if ($hit -eq [IntPtr]::Zero -or $hit -ne $script:TargetHandle) {
+        throw 'The owned game caption target changed.'
+    }
+
+    [uint32]$hitOwner = 0
+    $hitThread = [UrmanGameUiNative]::GetWindowThreadProcessId($hit,[ref]$hitOwner)
+    if ($hitThread -eq 0 -or [int]$hitOwner -ne $script:TargetPid -or
+        [UrmanGameUiNative]::GetAncestor($hit,3) -ne $script:TargetHandle) {
+        throw 'The owned game caption target changed.'
+    }
+    return $hit
+}
+
+function Assert-VerifiedCaptionHit([object]$Point) {
+    $hit = Assert-VerifiedCaptionOwnership $Point
+    $screenPoint = New-Object UrmanGameUiNative+Point
+    $screenPoint.X = [int]$Point.X
+    $screenPoint.Y = [int]$Point.Y
+    $hitTestResult = [IntPtr]::Zero
+    $hitTestPoint = [UrmanGameUiNative]::PackScreenPoint($screenPoint.X,$screenPoint.Y)
+    $hitTestSent = [UrmanGameUiNative]::SendMessageTimeout(
+        $hit,0x0084,[IntPtr]::Zero,$hitTestPoint,0x22,250,[ref]$hitTestResult)
+    if ($hitTestSent -eq [IntPtr]::Zero -or $hitTestResult.ToInt64() -ne 2) {
+        throw 'The owned game caption point is unavailable.'
+    }
+}
+
+function Invoke-VerifiedCaptionActivation {
+    if (Test-OwnedForeground) { return }
+
+    $originalPointer = New-Object UrmanGameUiNative+Point
+    if (-not [UrmanGameUiNative]::GetCursorPos([ref]$originalPointer)) {
+        throw 'The owned game caption pointer is unavailable.'
+    }
+    $captionPoint = $null
+    $pointerMoved = $false
+    $buttonMayBeDown = $false
+    $sendInputAttempted = $false
+    try {
+        $captionPoint = Get-VerifiedCaptionPoint
+        if (([UrmanGameUiNative]::GetAsyncKeyState(1) -band 0x8000) -ne 0) {
+            throw 'The owned game caption input was refused.'
+        }
+        Assert-VerifiedCaptionHit $captionPoint
+        $currentPointer = New-Object UrmanGameUiNative+Point
+        if (-not [UrmanGameUiNative]::GetCursorPos([ref]$currentPointer)) {
+            throw 'The owned game caption pointer is unavailable.'
+        }
+        if ($currentPointer.X -ne $originalPointer.X -or $currentPointer.Y -ne $originalPointer.Y) {
+            throw 'The owned game caption target changed.'
+        }
+        if (([UrmanGameUiNative]::GetAsyncKeyState(1) -band 0x8000) -ne 0) {
+            throw 'The owned game caption input was refused.'
+        }
+        $pointerMoved = $true
+        if (-not [UrmanGameUiNative]::SetCursorPos([int]$captionPoint.X,[int]$captionPoint.Y)) {
+            throw 'The owned game caption input was refused.'
+        }
+
+        $recheckedPoint = Get-VerifiedCaptionPoint
+        if ($recheckedPoint.X -ne $captionPoint.X -or $recheckedPoint.Y -ne $captionPoint.Y) {
+            throw 'The owned game caption target changed.'
+        }
+        $currentPointer = New-Object UrmanGameUiNative+Point
+        if (-not [UrmanGameUiNative]::GetCursorPos([ref]$currentPointer)) {
+            throw 'The owned game caption pointer is unavailable.'
+        }
+        if ($currentPointer.X -ne $captionPoint.X -or $currentPointer.Y -ne $captionPoint.Y) {
+            throw 'The owned game caption target changed.'
+        }
+        if (Test-OwnedForeground) { return }
+
+        $inputs = [UrmanGameUiNative]::LeftClickInputs()
+        Assert-TargetWindow
+        Assert-VerifiedCaptionHit $captionPoint
+        Assert-TargetWindow
+        [void](Assert-VerifiedCaptionOwnership $captionPoint)
+        $currentPointer = New-Object UrmanGameUiNative+Point
+        if (-not [UrmanGameUiNative]::GetCursorPos([ref]$currentPointer)) {
+            throw 'The owned game caption pointer is unavailable.'
+        }
+        if ($currentPointer.X -ne $captionPoint.X -or $currentPointer.Y -ne $captionPoint.Y) {
+            throw 'The owned game caption target changed.'
+        }
+        if (([UrmanGameUiNative]::GetAsyncKeyState(1) -band 0x8000) -ne 0) {
+            throw 'The owned game caption input was refused.'
+        }
+        $sendInputAttempted = $true
+        $inserted = [UrmanGameUiNative]::SendInput([uint32]$inputs.Length,$inputs,[UrmanGameUiNative]::InputSize())
+        $sendInputAttempted = $false
+        if ($inserted -gt 0) { $buttonMayBeDown = $true }
+        if ($inserted -ne 2) { throw 'The owned game caption input was refused.' }
+        $buttonMayBeDown = $false
+        Start-Sleep -Milliseconds 50
+    } finally {
+        if ($buttonMayBeDown -or $sendInputAttempted) {
+            $upInput = [UrmanGameUiNative]::LeftButtonUpInput()
+            $released = [UrmanGameUiNative]::SendInput(1,$upInput,[UrmanGameUiNative]::InputSize())
+            if ($released -ne 1) { Release-MouseSafely 4 }
+        }
+        if ($pointerMoved -and $captionPoint -ne $null) {
+            $currentPointer = New-Object UrmanGameUiNative+Point
+            if ([UrmanGameUiNative]::GetCursorPos([ref]$currentPointer) -and
+                $currentPointer.X -eq $captionPoint.X -and $currentPointer.Y -eq $captionPoint.Y) {
+                [void][UrmanGameUiNative]::SetCursorPos($originalPointer.X,$originalPointer.Y)
+            }
+        }
+    }
+}
+
 function Focus-VerifiedTarget {
     if (Test-OwnedForeground) { return }
     $script:FocusAcquisitionAttempted = $true
@@ -102,6 +279,7 @@ function Focus-VerifiedTarget {
     }
 
     $attached = $false
+    $activationRefused = $false
     try {
         if ($foregroundThread -ne 0 -and $foregroundThread -ne $currentThread) {
             $attached = [UrmanGameUiNative]::AttachThreadInput($currentThread,$foregroundThread,$true)
@@ -111,14 +289,15 @@ function Focus-VerifiedTarget {
             [UrmanGameUiNative]::GetForegroundWindow() -ne $foreground) {
             throw 'The foreground window changed during focus acquisition.'
         }
-        if (-not [UrmanGameUiNative]::SetForegroundWindow($script:TargetHandle)) {
-            throw 'Windows refused game-window activation.'
-        }
+        $activationRefused = -not [UrmanGameUiNative]::SetForegroundWindow($script:TargetHandle)
     } finally {
         # Detach before any injected input; AttachThreadInput resets shared key state.
         if ($attached -and -not [UrmanGameUiNative]::AttachThreadInput($currentThread,$foregroundThread,$false)) {
             throw 'The helper could not detach from the foreground input thread.'
         }
+    }
+    if ($activationRefused -and -not (Test-OwnedForeground)) {
+        Invoke-VerifiedCaptionActivation
     }
 }
 
