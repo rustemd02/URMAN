@@ -16,6 +16,8 @@ public static class UrmanGameUiNative {
  [DllImport("user32.dll", CharSet=CharSet.Unicode)] public static extern int GetWindowText(IntPtr h,System.Text.StringBuilder text,int length);
  [DllImport("user32.dll")] public static extern uint GetWindowThreadProcessId(IntPtr h,out uint processId);
  [DllImport("user32.dll")] public static extern bool GetWindowRect(IntPtr h,out Rect r);
+ [DllImport("user32.dll")] public static extern bool IsWindowVisible(IntPtr h);
+ [DllImport("user32.dll")] public static extern bool IsIconic(IntPtr h);
  [DllImport("user32.dll")] public static extern IntPtr GetForegroundWindow();
  [DllImport("user32.dll")] public static extern IntPtr GetAncestor(IntPtr h,uint flags);
  [DllImport("user32.dll")] public static extern bool SetProcessDPIAware();
@@ -36,6 +38,7 @@ $script:TargetPid = 0
 $script:TargetVerified = $false
 $script:TargetTitle = $null
 $script:InitialRect = $null
+$script:FocusAcquisitionAttempted = $false
 $script:Request = $null
 $script:ResultPath = $null
 $script:ImagePath = $null
@@ -83,6 +86,7 @@ function Assert-InputTarget() { Assert-TargetWindow -RequireForeground }
 
 function Focus-VerifiedTarget {
     if (Test-OwnedForeground) { return }
+    $script:FocusAcquisitionAttempted = $true
     [void][UrmanGameUiNative]::SetForegroundWindow($script:TargetHandle)
     if (Test-OwnedForeground) { return }
 
@@ -101,19 +105,19 @@ function Focus-VerifiedTarget {
     try {
         if ($foregroundThread -ne 0 -and $foregroundThread -ne $currentThread) {
             $attached = [UrmanGameUiNative]::AttachThreadInput($currentThread,$foregroundThread,$true)
-            if (-not $attached) { throw 'The owned game window lost foreground focus.' }
+            if (-not $attached) { throw 'The helper could not attach to the foreground input thread.' }
         }
         if ($foreground -ne [IntPtr]::Zero -and
             [UrmanGameUiNative]::GetForegroundWindow() -ne $foreground) {
-            throw 'The owned game window lost foreground focus.'
+            throw 'The foreground window changed during focus acquisition.'
         }
         if (-not [UrmanGameUiNative]::SetForegroundWindow($script:TargetHandle)) {
-            throw 'The owned game window lost foreground focus.'
+            throw 'Windows refused game-window activation.'
         }
     } finally {
         # Detach before any injected input; AttachThreadInput resets shared key state.
         if ($attached -and -not [UrmanGameUiNative]::AttachThreadInput($currentThread,$foregroundThread,$false)) {
-            throw 'The owned game window lost foreground focus.'
+            throw 'The helper could not detach from the foreground input thread.'
         }
     }
 }
@@ -411,6 +415,8 @@ try {
     [uint32]$windowOwner = 0
     [void][UrmanGameUiNative]::GetWindowThreadProcessId($script:TargetHandle,[ref]$windowOwner)
     if ([int]$windowOwner -ne $script:TargetPid) { throw 'The selected window is not owned by the requested PID.' }
+    if ([UrmanGameUiNative]::IsIconic($script:TargetHandle)) { throw 'The owned game window is minimized.' }
+    if (-not [UrmanGameUiNative]::IsWindowVisible($script:TargetHandle)) { throw 'The owned game window is hidden.' }
     $initial = New-Object UrmanGameUiNative+Rect
     if (-not [UrmanGameUiNative]::GetWindowRect($script:TargetHandle,[ref]$initial)) {
         throw 'The owned game window bounds are unavailable.'
@@ -429,6 +435,9 @@ try {
         Focus-VerifiedTarget
     }
     Start-Sleep -Milliseconds 200
+    if ($script:FocusAcquisitionAttempted -and -not (Test-OwnedForeground)) {
+        throw 'The owned game window lost foreground focus after activation.'
+    }
     Assert-InputTarget
 
     if ([string]$script:Request.action -eq 'sequence') {

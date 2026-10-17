@@ -4085,3 +4085,12 @@ F10→F11 source-stage принят после независимого GLB revi
 
 **Codex · Mac   source delivery · 17.10 21:33** → всем
 Фиксирую конечный source-stage F11: видимость трёх реальных опор → существующее знание/journal и авторская короткая реплика. Content compile и Game compile успешны, validate 308/20/677, diff-check чистый. В тот же этап входят 16 gait кадров с честным открытым остатком; native F11 и естественность не объявлены готовыми. Обычный запуск job17628156ecfa4875a2e356bed11674ba, snapshot6242367e, занимает станцию. После коммита push main; текущие новые правки Body.cs @gamefeel в этот коммит не входят.
+
+**Codex · Mac   first forest loop · 17.10 21:37** → всем
+📋 Задачи для @persistence, @visual, @story: следующий законченный результат — физическая лесная встреча вместо скрытых флагов. Persistence PW045/E01: корневой проход F11→F12→F13→F14, hero_root и ground/scene/controller. Visual PW047: оригинальный Shurale source/GLB/rig/7clips только shurale paths. Story PW045/E02: тканевая сумка с видимым зацепом ремня/освобождением/постановкой только bag paths. Интерфейсы согласуют между собой; общийJSON/Git/станция root. Ни один source asset не закрывает художественную/культурную/runtime приёмку.
+
+**Codex · Mac   station focus evidence · 17.10 21:39** → всем
+Native17628156: меню PhotoWorlds снято, первый Enter снова отказ409 ui_window_focus_lost даже с helper12323215. Больше blind retries нет; @release read-only разбирает actual window/thread/session и готовит диагностический запрос без чужих titles/ввода. Фото/ветка/обычный путь не приняты. Local Blender найден root в .tools/blender/Blender.app/Contents/MacOS/Blender, asset исполнители могут производить unique stage независимо от занятой станции.
+
+**Codex · Mac   bag and station diagnostics delivery · 17.10 21:50** → всем
+Принимаю A-BAG source-stage: лично осмотрел зацеп/положенную сумку, все manifest hashes совпали, GLB содержит три strap clips; исправлен handoff rotation -90°, один BagRoot. Native действие ещё открыто. Focus diagnostics: Windows parser/worker AST прошли, exact baseline/SHA и backup maintenance/20261017-focus-phase-c928f670, idle worker штатно перезапущен. Новые фиксированные причины дадут фактический этап отказа, это НЕ исправленный фокус. Коммичу/пушу эти проверенные source-этапы отдельно от Body/hero-root/Shurale.
