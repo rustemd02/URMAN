@@ -7,7 +7,7 @@ sourceFile: documents/rec_internal_accounting_line_1987.md
 assetRefs: ["urman.oldpc:asset/ui-old-pc-error-corrupt-file-base"]
 knowledgeRefs: []
 accessConditions: []
-openEffects: []
+openEffects: [{"op":"journal.record","entryId":"urman.oldpc:document/rec_internal_accounting_line_1987","sourceId":"urman.oldpc:document/rec_internal_accounting_line_1987"}]
 oldPc: {"type": "corrupted_fragment", "pcSection": "internal_accounting", "canonStatus": "canon", "reliability": "corrupted", "searchTerms": ["1987", "граница", "ответил", "реестр", "строка", "язма", "урман"], "suggestedTerms": ["граница", "ответил"], "tier": "A"}
 ---
 

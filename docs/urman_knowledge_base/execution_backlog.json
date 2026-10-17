@@ -21118,7 +21118,7 @@
       },
       "title": "Содержательные документы, поиск и повторное чтение без обязательного словесного наполнителя",
       "milestone": "M5",
-      "status": "todo",
+      "status": "in_progress",
       "complexity": "complex",
       "active_owner": null,
       "owner": "finished-act1",
@@ -21247,12 +21247,13 @@
         "reason": "Живое исполнение этой единицы при миграции не подтверждено."
       },
       "task_type": "engineering",
-      "implementation_state": "partial",
-      "technical_verification_state": "not_run",
+      "implementation_state": "implemented",
+      "technical_verification_state": "passed",
       "remaining": [
-        "У каждой обязательной записи вопрос/источник/новое действие, сохранены необходимые reveals/requires и словарные ключи. Порог слов и 30+ документов не критерий интереса/продолжительности; сверить существующие тестовые контракты при намеренном сокращении, без нового тестового каркаса."
+        "Готово: 12/12 обязательных tier-A записей с вопросом/источником/новым действием (journal.record), reveals/requires и словарные ключи сохранены, пак+golden обновлены (df5d5f59e), validate/simulate и пакетные тесты зелёные, 2 красных не связаны (pre-existing).",
+        "Осталось: runtime-сценарий поиска и повторного чтения в игре на станции (targeted_runtime_scenario) и внешняя языковая приёмка татарских вставок."
       ],
-      "next_action": "Содержательные документы, поиск и повторное чтение без обязательного словесного наполнителя.",
+      "next_action": "На станции: открыть Старый ПК, найти документ по слову, открыть его, проверить запись в журнале и повторное чтение после нового знания.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -21366,7 +21367,8 @@
           "evidence_ref": "ACT1-OLDPC-DOCS.evidence and named history progress; source_review shows available/missing inputs"
         }
       ],
-      "assignment_state": "preserved_person_or_existing_role; activity separate"
+      "assignment_state": "preserved_person_or_existing_role; activity separate",
+      "progress_2026_10_17_journal_records": "2026-10-17: новое действие обязательных записей закрыто на контентном уровне: journal.record на открытии добавлен 8 записям, у которых его не было (doc_letter_from_kazan, doc_marat_medical_card, doc_school_notebook_marat_page, rec_internal_accounting_line_1987, rec_internal_accounting_blank_1970s, tw_zirat_customs, rec_fanis_explanatory_niva, rec_violations_compensation_summary) — теперь 12/12 tier-A §6.2 имеют вопрос («Что видит Айдар»), источник (knowledgeRefs + sourceId записи) и действие при открытии. Reveals/requires, gate-цепочки и словарные ключи не изменены. Пак chapter1/fullgame пересобран, golden-пак и fingerprint обновлены до df5d5f59e96324082fe36ea05cf463099991792b268642a0935a3bc72c6e90ab; Content.Tests: ChapterOne_MatchesFrozenJavascriptGoldenPack и ChapterOne_TierADocumentsCarryTheirAuthoredDepth зелёные (15/17; 2 красных pre-existing не связаны), validate/simulate green. Осталось: targeted_runtime_scenario поиска/повторного чтения в игре на станции; языковая приёмка вставок — external/not-run."
     },
     {
       "id": "ACT1-OLDPC-TETRIS",

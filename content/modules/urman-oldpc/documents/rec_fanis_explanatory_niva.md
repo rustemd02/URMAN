@@ -7,7 +7,7 @@ sourceFile: documents/rec_fanis_explanatory_niva.md
 assetRefs: ["urman.oldpc:asset/ui-document-viewer-template"]
 knowledgeRefs: []
 accessConditions: [{"op":"knowledge.status","knowledgeId":"urman.chapter1:knowledge/clue_marat_official_death_version","status":"confirmed"}]
-openEffects: []
+openEffects: [{"op":"journal.record","entryId":"urman.oldpc:document/rec_fanis_explanatory_niva","sourceId":"urman.oldpc:document/rec_fanis_explanatory_niva"}]
 oldPc: {"type":"record","pcSection":"household_registry","canonStatus":"canon","reliability":"partial_truth","searchTerms":["Фанис","объяснительная","Нива","заявка","поворот","юл","зират","машина"],"suggestedTerms":["Нива","заявка","поворот"],"tier":"A"}
 ---
 

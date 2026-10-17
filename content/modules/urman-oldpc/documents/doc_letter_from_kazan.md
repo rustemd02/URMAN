@@ -7,7 +7,7 @@ sourceFile: documents/doc_letter_from_kazan.md
 assetRefs: ["urman.oldpc:asset/ui-document-viewer-template"]
 knowledgeRefs: []
 accessConditions: []
-openEffects: []
+openEffects: [{"op":"journal.record","entryId":"urman.oldpc:document/doc_letter_from_kazan","sourceId":"urman.oldpc:document/doc_letter_from_kazan"}]
 oldPc: {"type":"message","pcSection":"household_misc","canonStatus":"canon","reliability":"personal_memory","searchTerms":["письмо","Казань","мама","Айдар","внуку","лагерь","бабай","әби"],"suggestedTerms":["Айдар","Казань","лагерь"],"tier":"A"}
 ---
 

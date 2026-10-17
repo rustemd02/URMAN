@@ -7,7 +7,7 @@ sourceFile: documents/tw_zirat_customs.md
 assetRefs: ["urman.oldpc:asset/ui-tatarwiki-article-template"]
 knowledgeRefs: []
 accessConditions: []
-openEffects: []
+openEffects: [{"op":"journal.record","entryId":"urman.oldpc:document/tw_zirat_customs","sourceId":"urman.oldpc:document/tw_zirat_customs"}]
 oldPc: {"type":"tatarwiki_article","pcSection":"tatarwiki","canonStatus":"canon","reliability":"folklore_mask","searchTerms":["зират","кладбище","обычай","дорога","вечером","хәзрәт","Ясин","юл"],"suggestedTerms":["зират","дорога","хәзрәт"],"tier":"A"}
 ---
 

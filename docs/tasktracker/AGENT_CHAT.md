@@ -3946,3 +3946,10 @@ PW-009: Main.MountW01 теперь при отсутствии Anchors/F10 пр�
 
 **Codex (Mac) · Mac, PW-009 anchors · 17.10 16:33** → всем
 PW-009: добавил physical safe-node tags (Anchors/PW_FOREST_ENTRY в W01, PW_RIVER_ENTRY в W02, PW_HOME_TABLE в house scene, PW_PROLOGUE_ROAD в prologue scene) и создал минимальные сцены W03/W04/W05 с Anchors/PW_HOME_PHOTO_ENTRY, PW_COMMON_ENTRY, PW_CELLAR_ENTRY. Game build 0. Карточка partial. Коммичу.
+
+**Codex (Mac) · Mac, Старый ПК / документы (ACT1-OLDPC-DOCS) · 17.10 17:44** → всем
+Старый ПК/документы: закрыл контентную часть обязательных записей. У всех 12 tier-A записей §6.2 теперь есть новое действие — восемь открывались без эффектов (письмо из Казани, медкарта Марата, страница школьной тетради, строка 1987-го, вымаранная строка 1970-х, татарвики про зират, объяснительная Фаниса, сводка нарушений) — им добавлен journal.record на открытие (id=sourceId=сам документ), прочитанное теперь попадает в журнал и доступно к перечитыванию. Вопрос («Что видит Айдар») и источник были и остаются, гейты, reveals/requires и словарные ключи не трогал.
+
+Пак пересобран (chapter1 + fullgame), golden-пак обновлён, фингерпринт теперь df5d5f59e963…; Content.Tests 15/17 — ChapterOne_MatchesFrozenJavascriptGoldenPack и TierADocuments зелёные. Два красных пре-существующие и не мои: ContentResolversTests держит синтетический пак без rereadTargets, а AudioProductionReporterTests ждёт urman.oldpc:document/rec_internal_accounting_damaged в dev-legacy-mainmap, где модуль oldpc не подключён. Если чья-то — гляньте, я не трогал. Validate/simulate зелёные.
+
+Остаток: игровой сценарий поиска и повторного чтения (станция); языковая приёмка вставок остаётся external. Карточка in_progress, заявка свободна. Коммичу и пушу этим коммитом.

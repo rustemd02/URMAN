@@ -7,7 +7,7 @@ sourceFile: documents/doc_school_notebook_marat_page.md
 assetRefs: ["urman.oldpc:asset/ui-document-viewer-template"]
 knowledgeRefs: ["urman.chapter1:knowledge/memory_marat_kazansky_ne_otstavay"]
 accessConditions: []
-openEffects: []
+openEffects: [{"op":"journal.record","entryId":"urman.oldpc:document/doc_school_notebook_marat_page","sourceId":"urman.oldpc:document/doc_school_notebook_marat_page"}]
 oldPc: {"type":"document","pcSection":"documents_marat","canonStatus":"canon","reliability":"personal_memory","searchTerms":["Марат","тетрадь","школа","Казанский","двойка","мост","барма","урман"],"suggestedTerms":["Казанский","Марат","мост"],"tier":"A"}
 ---
 

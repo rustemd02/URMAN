@@ -7,7 +7,7 @@ sourceFile: documents/doc_marat_medical_card.md
 assetRefs: ["urman.oldpc:asset/doc-marat-medical-record-bg"]
 knowledgeRefs: []
 accessConditions: [{"op":"npc.state","characterId":"urman.chapter1:character/naila","stateKey":"record_access_granted","value":true}]
-openEffects: []
+openEffects: [{"op":"journal.record","entryId":"urman.oldpc:document/doc_marat_medical_card","sourceId":"urman.oldpc:document/doc_marat_medical_card"}]
 oldPc: {"type":"document","pcSection":"documents_marat","canonStatus":"canon","reliability":"partial_truth","searchTerms":["медкарта","карта","ФАП","ЭКГ","Наиля","Марат","тавыш","бессонница"],"suggestedTerms":["ЭКГ","невролог","ФАП"],"tier":"A"}
 ---
 

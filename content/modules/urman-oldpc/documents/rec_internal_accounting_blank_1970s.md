@@ -7,7 +7,7 @@ sourceFile: documents/rec_internal_accounting_blank_1970s.md
 assetRefs: ["urman.oldpc:asset/ui-document-viewer-template"]
 knowledgeRefs: []
 accessConditions: []
-openEffects: []
+openEffects: [{"op":"journal.record","entryId":"urman.oldpc:document/rec_internal_accounting_blank_1970s","sourceId":"urman.oldpc:document/rec_internal_accounting_blank_1970s"}]
 oldPc: {"type":"record","pcSection":"internal_accounting","canonStatus":"canon","reliability":"partial_truth","searchTerms":["1974","вымарано","строка","учёт","не подлежит","урман","дрова"],"suggestedTerms":["вымарано","учёт","1987"],"tier":"A"}
 ---
 

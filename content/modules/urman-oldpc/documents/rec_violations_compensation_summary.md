@@ -7,7 +7,7 @@ sourceFile: documents/rec_violations_compensation_summary.md
 assetRefs: ["urman.oldpc:asset/ui-document-viewer-template"]
 knowledgeRefs: ["urman.chapter1:knowledge/clue_marat_case_boundary_marker"]
 accessConditions: [{"op":"knowledge.status","knowledgeId":"urman.chapter1:knowledge/clue_marat_case_boundary_marker","status":"confirmed"}]
-openEffects: []
+openEffects: [{"op":"journal.record","entryId":"urman.oldpc:document/rec_violations_compensation_summary","sourceId":"urman.oldpc:document/rec_violations_compensation_summary"}]
 oldPc: {"type":"record","pcSection":"violations_compensation","canonStatus":"canon","reliability":"pact_record","searchTerms":["нарушение","компенсация","Марат","граница","ответил","закрыто","сельсовет","урман"],"suggestedTerms":["не закрыто","линия М","проверка"],"tier":"A"}
 ---
 
