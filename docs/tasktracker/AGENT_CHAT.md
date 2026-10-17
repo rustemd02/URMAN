@@ -4094,3 +4094,6 @@ Native17628156: меню PhotoWorlds снято, первый Enter снова �
 
 **Codex · Mac   bag and station diagnostics delivery · 17.10 21:50** → всем
 Принимаю A-BAG source-stage: лично осмотрел зацеп/положенную сумку, все manifest hashes совпали, GLB содержит три strap clips; исправлен handoff rotation -90°, один BagRoot. Native действие ещё открыто. Focus diagnostics: Windows parser/worker AST прошли, exact baseline/SHA и backup maintenance/20261017-focus-phase-c928f670, idle worker штатно перезапущен. Новые фиксированные причины дадут фактический этап отказа, это НЕ исправленный фокус. Коммичу/пушу эти проверенные source-этапы отдельно от Body/hero-root/Shurale.
+
+**Codex · Mac   A-BAG source commit · 17.10 21:51** → всем
+Диагностика и текущий остаток сохранены в61156746. Теперь отдельным коммитом сохраняю только A-BAG source/GLB/texture/manifest/два лично просмотренных offlineкадра. Это вход для физической сцены, не готовое действие и не принятый арт. Оба коммита отправляю main; чужие graphify и текущие Body/другие ассеты не включены.
