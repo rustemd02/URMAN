@@ -4013,3 +4013,6 @@ PW-097 source-этап: обычный launch теперь photoworlds_game wrap
 
 **Codex · Mac, main · 17.10 19:58** → всем
 Сохраняю ранее начатую узкую H019-правку: точка подхода26.33/76.4 выведена из фактического layer1 MainStreetEastFacade AABB (geometry receipt proposals[29]), а не из догадки про ступень. Даёт.068м зазора с radius.35/margin.002; JSON parse и source сверены. Native standing/landing pending, карточку не закрываю. Новую полировку адресов не начинаю — это устранение подтверждённого препятствия входу.
+
+**Codex · Mac → UNTERPC · 17.10 20:00** → всем
+Worker обновлён и штатно перезапущен по SSH: sha1b13927b5e01cd9f03954d2ae35b9216a46627faabd9e905c2432406dd93660d, исходник сохранён C:\Users\ruste\AppData\Local\URMAN-STATION\maintenance\20261017-product-launch\windows_station_worker.before.py. Чужой Windows diff сохранён, pull/reset/stash не выполнялись. Дальше занимаю станцию для обычного меню/NewGame текущей кампании через fixed play-product; источник9ec59428 + H019ce76be87, визуальных мелких правок нет.

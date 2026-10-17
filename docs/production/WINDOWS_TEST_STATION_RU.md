@@ -25,7 +25,9 @@ checkout есть авторинговый `game/assets/models/props/milk_bottle
 `-Provenance`. Неудачный прогон оставлен как история: receipt
 `.codex-captures/windows/20261008-003103-54b4b331` (все сборки exit 0, падение на
 гейте импорта). Исправлять это удалением `.blend`, отключением sparse checkout или
-ослаблением гейта запрещено. Интерактивный `play` станционным клиентом не поддерживается.
+ослаблением гейта запрещено. Интерактивный запуск поддерживают фиксированные
+`play`, `play-full` и `play-product`; ввод и кадры — через `ui` и `capture-current`
+собственного активного задания.
 
 ## SSH с Mac: проверенное подключение 17.10.2026
 
@@ -55,7 +57,10 @@ ssh -i "$HOME/.ssh/urman_station_ed25519" \
 свободной станции, отсутствия orphan/recovery и чужих активных заданий. В Windows
 checkout проверить `git status` и ветку; сохранять чужие изменения. Только при
 безопасном fast-forward выполнить `git pull --ff-only origin main`, затем штатные
-`eng\manage-windows-worker.ps1 -Action stop` и `-Action start`. После перезапуска
+`powershell -NoProfile -ExecutionPolicy Bypass -File eng\manage-windows-worker.ps1 -Action stop`
+и ту же команду с `-Action start`. Это параметр одного процесса, не изменение
+системной execution policy. Прямой вызов `.ps1` в стандартной SSH-сессии может
+отклоняться политикой выполнения. После перезапуска
 повторно проверить doctor. Не прерывать активную игровую проверку ради обновления.
 SSH служит для обслуживания; игровые запуски по-прежнему идут через
 `eng/remote-check.py` и защиту userdata. Успешный SSH не доказывает готовность
