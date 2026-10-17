@@ -23,6 +23,9 @@ $ToolsRoot = (Resolve-Path $ToolsRoot).Path
 if ($Mode -eq 'smoke' -and (-not $Scene -or $Scene -notlike 'res://tests/*.tscn')) {
     throw 'Select exactly one existing res://tests/*.tscn scene.'
 }
+if ($Mode -eq 'smoke' -and $Scene -eq 'res://tests/gait_capture_probe.tscn' -and $Headless) {
+    throw 'The existing gait capture requires the native renderer.'
+}
 if (-not $Scene) { $Scene = 'res://scenes/act1_demo.tscn' }
 if ($Scene -notmatch '^res://[\w/.-]+\.tscn$' -or $Scene.Contains('..') -or
     -not (Test-Path (Join-Path "$Root/game" $Scene.Substring(6)))) { throw 'Invalid or missing scene.' }
@@ -86,10 +89,12 @@ $savedPhase = $env:URMAN_ATMOSPHERE_PHASE
 $savedFov = $env:URMAN_VIEW_FOV
 $vehicleSmoke = $Mode -eq 'smoke' -and $Scene -eq 'res://tests/vehicle_smoke_test.tscn'
 $playerSmoke = $Mode -eq 'smoke' -and $Scene -eq 'res://tests/act1_player_movement_smoke_test.tscn'
+$gaitSmoke = $Mode -eq 'smoke' -and $Scene -eq 'res://tests/gait_capture_probe.tscn'
 $playerEnvironment = @{}
 foreach ($name in @('URMAN_PLAYER_OUTPUT', 'URMAN_PLAYER_CAPTURE')) {
     $playerEnvironment[$name] = [Environment]::GetEnvironmentVariable($name, 'Process')
 }
+$gaitEnvironment = @{ URMAN_GAIT_OUTPUT = [Environment]::GetEnvironmentVariable('URMAN_GAIT_OUTPUT', 'Process') }
 $vehicleEnvironment = @{}
 foreach ($name in @('URMAN_VEHICLE_OUTPUT', 'URMAN_VEHICLE_CAPTURE', 'URMAN_VEHICLE_WHEELS_ONLY', 'URMAN_VEHICLE_MOUSE_ONLY', 'URMAN_VEHICLE_COMPOUND_ONLY', 'URMAN_VEHICLE_CONTACT_ONLY', 'URMAN_VEHICLE_ADDRESS_ONLY', 'URMAN_VEHICLE_CART_ONLY')) {
     $vehicleEnvironment[$name] = [Environment]::GetEnvironmentVariable($name, 'Process')
@@ -200,6 +205,14 @@ try {
             if (-not $Headless) { $env:URMAN_PLAYER_CAPTURE = '1' }
             $receipt.playerEvidence = 'player/player-movement-receipt.json'
         }
+        if ($gaitSmoke) {
+            foreach ($name in $gaitEnvironment.Keys) {
+                [Environment]::SetEnvironmentVariable($name, $null, 'Process')
+            }
+            # Keep the existing gait sequence's images inside this job's artifacts.
+            $env:URMAN_GAIT_OUTPUT = Join-Path ([IO.Path]::GetFullPath($output)) 'gait'
+            $receipt.gaitEvidence = 'gait/'
+        }
         if ($Mode -eq 'smoke') { $baseArguments += '--urman-smoke-background-input' }
         $runCount = if ($studioPlay) { 1 + $StudioRestarts } else { 1 }
         $gamePhaseClock = [Diagnostics.Stopwatch]::StartNew()
@@ -285,6 +298,11 @@ try {
     if ($playerSmoke) {
         foreach ($name in $playerEnvironment.Keys) {
             [Environment]::SetEnvironmentVariable($name, $playerEnvironment[$name], 'Process')
+        }
+    }
+    if ($gaitSmoke) {
+        foreach ($name in $gaitEnvironment.Keys) {
+            [Environment]::SetEnvironmentVariable($name, $gaitEnvironment[$name], 'Process')
         }
     }
     $env:URMAN_VIEW_CAPTURE = $savedCapture

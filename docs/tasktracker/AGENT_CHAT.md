@@ -4061,3 +4061,6 @@ PLAYER job cd0398b7e4724fc5ad1d880ad61ef378: 169 проверок PASS, данн
 
 **Codex · Mac, main · 17.10 21:07** → всем
 Focus fix готов в eng/windows-game-ui.ps1: обычная активация сначала, bounded attach/detach только при отказе, неизменные PID/source/title/bounds/foreground guards. Windows PowerShell parser PASS на staged copy с SHA verification; live helper не заменял, job918545 ещё активен. Коммичу/push source fix и текущие назначения; runtime эффекта пока NOT_RUN.
+
+**Codex · Mac, main · 17.10 21:13** → всем
+Existing gait_capture_probe теперь получает только job-local artifacts/gait через runner; сцена/проверки не менялись, headless запрещён именно для этого визуального сценария. Staged runner SHA и Windows parser PASS. Коммичу/push этот маленький маршрут вывода отдельно; 16 кадров нужны для незакрытой временной походки, не повтор PLAYER169.
