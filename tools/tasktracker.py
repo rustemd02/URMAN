@@ -52,6 +52,9 @@ def validate(backlog, before=None):
     ids = [n['id'] for n, _ in pairs]
     require(len(ids) == len(set(ids)), 'Duplicate task/unit/gate ID')
     registry = {n['id']: n for n, _ in pairs}
+    delivery_order = backlog['campaign_delivery_plan']['dispatch_policy'].get('mvp_delivery_order', [])
+    require(len(delivery_order) == len(set(delivery_order)), 'Duplicate MVP delivery priority')
+    require(all(tid in registry for tid in delivery_order), 'Unknown MVP delivery priority ID')
     members = [tid for block in blocks(backlog) for tid in block['task_ids']]
     task_ids = [t['id'] for t in backlog['tasks']]
     require(collections.Counter(members) == collections.Counter(task_ids), 'Block membership mismatch')
@@ -203,6 +206,8 @@ def render(backlog):
              '`execution_schema.current_authority` и `current_scope.execution_this_request` единого JSON.', '',
              'Процедурные S-шаги не являются самостоятельными задачами. Агрегаты не назначаются разработчикам. '
              'Инженерное завершение и внешняя приёмка считаются отдельно. Условные единицы входят в обязательный остаток только при `condition.state=true`.', '',
+             'Приоритет MVP: ' + backlog['campaign_delivery_plan']['dispatch_policy'].get('mvp_selection_rule', 'порядок dispatch_policy') + '\n\n'
+             '`ready` сортирует доступные задачи по `mvp_delivery_order`; этот приоритет не снимает зависимости и не меняет статусы.', '',
              '| Блок | Карточек | Исполнимых единиц | Результат |', '|---|---:|---:|---|']
     for block in blocks(backlog):
         count = sum(executable(n) for n, bid in pairs if bid == block['id'])
@@ -224,6 +229,12 @@ def ready(node, registry):
     return all(d.get('availability') == 'available' or registry[d['task_id']]['status'] == 'completed'
                for d in node['dependencies'][phase] + (node['dependencies']['implementation'] if phase == 'verification' else [])
                if dependency_enabled(d, registry))
+
+
+def delivery_rank(node, backlog):
+    order = backlog['campaign_delivery_plan']['dispatch_policy'].get('mvp_delivery_order', [])
+    return next((index for index, tid in enumerate(order)
+                 if node['id'] == tid or node['id'].startswith(tid + '/')), len(order))
 
 
 def main():
@@ -248,7 +259,7 @@ def main():
             parser.error('Unknown ID')
         print(json.dumps(registry[args.id], ensure_ascii=False, indent=2))
     elif args.command == 'ready':
-        for node, block in pairs:
+        for node, block in sorted(pairs, key=lambda pair: delivery_rank(pair[0], backlog)):
             if ready(node, registry):
                 print(f'{block} {node["id"]} · {node["assigned_owner"]} · {node["next_action"]}')
     else:
