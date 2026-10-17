@@ -10,6 +10,10 @@ namespace Urman.Godot;
 /// </summary>
 public partial class DocumentUi : CanvasLayer, IAccessibilitySettingsTarget
 {
+    private const string PrologueSceneId = "urman.fullgame:scene/pw-prologue";
+    private const string ProloguePhotoId = "P-FOREST";
+    private const string ProloguePhotoImagePath = "res://assets/textures/photobook/p-forest-front-v2.png";
+
     private Control _screen = null!;
     private Control _documentView = null!;
     private StyleBox? _notebookSheet;
@@ -22,6 +26,8 @@ public partial class DocumentUi : CanvasLayer, IAccessibilitySettingsTarget
     private SourceExcerptSelection _excerpts = null!;
     private RuntimeBridge? _bridge;
     private CompiledDocumentContent? _document;
+    private RuntimeBridge? _prologuePhotoInspectionBridge;
+    private object? _prologuePhotoInspectionSession;
     private Viewport? _refitViewport;
     private AccessibilitySettingsSnapshot _accessibility = AccessibilitySettingsSnapshot.Default;
 
@@ -35,7 +41,11 @@ public partial class DocumentUi : CanvasLayer, IAccessibilitySettingsTarget
 
     public override void _EnterTree() => BindRefitSignal();
 
-    public override void _ExitTree() => UnbindRefitSignal();
+    public override void _ExitTree()
+    {
+        StopProloguePhotoInspectionMonitoring();
+        UnbindRefitSignal();
+    }
 
     public override void _Ready()
     {
@@ -116,6 +126,7 @@ public partial class DocumentUi : CanvasLayer, IAccessibilitySettingsTarget
 
     public void Open(RuntimeBridge bridge, CompiledDocumentContent document)
     {
+        StopProloguePhotoInspectionMonitoring();
         _bridge = bridge;
         _document = document;
         _title.Text = document.Title;
@@ -123,6 +134,7 @@ public partial class DocumentUi : CanvasLayer, IAccessibilitySettingsTarget
         _images.SetImages(document.Images);
         _excerpts.Bind(bridge, document.Id);
         _status.Text = "Документ найден в зоне · можно добавить в журнал";
+        _save.Visible = true;
         _save.Disabled = false;
         UiFoley.Play(_foley, "paper_open");
         _screen.Visible = true;
@@ -130,6 +142,63 @@ public partial class DocumentUi : CanvasLayer, IAccessibilitySettingsTarget
         _close.GrabFocus();
         // ACT1-LANG.2: reading a document auto-collects unknown Tatar words.
         _ = bridge.ObserveVocabularyTextAsync(document.Title + "\n" + document.BodyMarkdown, document.Id);
+    }
+
+    /// <summary>Shows the physical F00 source print in the existing image reader without opening or recording a document.</summary>
+    public bool OpenProloguePhotoInspection(RuntimeBridge bridge)
+    {
+        if (!IsInsideTree() || !GodotObject.IsInstanceValid(bridge) || bridge.IsQueuedForDeletion()
+            || !bridge.IsPhotoWorldsCampaign || bridge.SessionIdentity is not { } session
+            || bridge.ActiveSceneId != PrologueSceneId)
+            return false;
+
+        var photo = bridge.PhotoBookPhotos().FirstOrDefault(candidate => candidate.PhotoId == ProloguePhotoId);
+        if (photo is null || !ResourceLoader.Exists(ProloguePhotoImagePath)
+            || !ReferenceEquals(session, bridge.SessionIdentity) || bridge.ActiveSceneId != PrologueSceneId)
+            return false;
+
+        var description = string.IsNullOrWhiteSpace(photo.FrontBrief) ? photo.Title : photo.FrontBrief;
+        StopProloguePhotoInspectionMonitoring();
+        _prologuePhotoInspectionBridge = bridge;
+        _prologuePhotoInspectionSession = session;
+        bridge.RuntimeStateChanged += OnProloguePhotoInspectionRuntimeStateChanged;
+        _bridge = bridge;
+        _document = null;
+        _excerpts.Clear();
+        _title.Text = photo.Title;
+        _body.Text = photo.Title + "\n\n" + description;
+        _images.SetImages([new DocumentImageContent(ProloguePhotoId, ProloguePhotoImagePath, description)]);
+        _status.Text = "Рассмотрите снимок · Esc или «Закрыть» — вернуться к месту";
+        _save.Visible = false;
+        _save.Disabled = true;
+        UiFoley.Play(_foley, "paper_open");
+        _screen.Visible = true;
+        SetPlayerModal(true);
+        _images.ShowPicture(true);
+        return true;
+    }
+
+    private void OnProloguePhotoInspectionRuntimeStateChanged()
+    {
+        if (!IsInsideTree() || !_screen.Visible)
+        {
+            StopProloguePhotoInspectionMonitoring();
+            return;
+        }
+
+        var bridge = _prologuePhotoInspectionBridge;
+        if (bridge is null || !GodotObject.IsInstanceValid(bridge) || bridge.IsQueuedForDeletion()
+            || !ReferenceEquals(_prologuePhotoInspectionSession, bridge.SessionIdentity)
+            || bridge.ActiveSceneId != PrologueSceneId)
+            Close();
+    }
+
+    private void StopProloguePhotoInspectionMonitoring()
+    {
+        if (_prologuePhotoInspectionBridge is { } bridge && GodotObject.IsInstanceValid(bridge))
+            bridge.RuntimeStateChanged -= OnProloguePhotoInspectionRuntimeStateChanged;
+        _prologuePhotoInspectionBridge = null;
+        _prologuePhotoInspectionSession = null;
     }
 
     private async void SaveToJournal()
@@ -159,6 +228,7 @@ public partial class DocumentUi : CanvasLayer, IAccessibilitySettingsTarget
     {
         UiFoley.Play(_foley, "ui_click");
         _screen.Visible = false;
+        StopProloguePhotoInspectionMonitoring();
         _excerpts.Clear();
         _images.SetImages(null);
         _bridge = null;

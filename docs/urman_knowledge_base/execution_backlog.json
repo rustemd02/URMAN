@@ -117315,7 +117315,7 @@
       "id": "PW-041",
       "title": "Набрать текст книги и короткие реплики",
       "milestone": "PW-M2",
-      "status": "todo",
+      "status": "in_progress",
       "active_owner": null,
       "owner": "narrative",
       "priority": "P0",
@@ -117456,7 +117456,7 @@
         "reason": "Живое исполнение этой единицы при миграции не подтверждено."
       },
       "task_type": "engineering",
-      "implementation_state": "not_started",
+      "implementation_state": "partial",
       "technical_verification_state": "not_run",
       "remaining": [
         "Критические строки редактируются отдельно от изображения.",
@@ -117472,7 +117472,11 @@
         "targets": [
           "game/scripts/JournalUi.cs",
           "game/scripts/JournalUi.Notebook.cs",
-          "src-dotnet/Urman.Core/Narrative/PhotoWorldCatalog.cs"
+          "src-dotnet/Urman.Core/Narrative/PhotoWorldCatalog.cs",
+          "content/modules/urman-fullgame/definitions.json",
+          "content/modules/urman-fullgame/module.json",
+          "content/campaigns/urman.fullgame/campaign.json",
+          "game/scripts/DialogueUi.cs"
         ],
         "required_inputs": [
           {
@@ -117624,7 +117628,18 @@
           "evidence_ref": "PW-041.evidence and named history progress; source_review shows available/missing inputs"
         }
       ],
-      "assignment_state": "preserved_person_or_existing_role; activity separate"
+      "assignment_state": "preserved_person_or_existing_role; activity separate",
+      "progress_2026_10_17": {
+        "result": "Утверждённый D01 включён после чая, warm-arrival только на последней реплике, книга отдельным действием. D06 объясняет ремень, отдельное действие bag-release завершает встречу и открывает D07; conversation больше не подменяет физическое действие.",
+        "targets": [
+          "content/modules/urman-fullgame/definitions.json",
+          "content/modules/urman-fullgame/module.json",
+          "content/campaigns/urman.fullgame/campaign.json",
+          "game/scripts/DialogueUi.cs"
+        ],
+        "verification": "Fullgame content compile exit0; affected Game compile0warnings/0errors15.43с, source review точных строк/refs/effects PASS. Existing tea/forest assertions минимально обновлены под changedcontract; native не запускался. Narrative commit bf446a06.",
+        "remaining": "Прочие утверждённые диалоги/книга/физические producers, полная приёмка карточки сохраняется. D04 требует реального staff, не голоса из конверта; D00/D05 требуют корректного порядка перед scene transition."
+      }
     },
     {
       "id": "PW-042",
@@ -117976,7 +117991,7 @@
       "title": "Перенести пролог внутрь W01",
       "milestone": "PW-M3",
       "status": "in_progress",
-      "active_owner": "Codex/persistence",
+      "active_owner": null,
       "owner": "narrative",
       "priority": "P1",
       "complexity": "complex",
@@ -118338,8 +118353,8 @@
       },
       "assigned_owner": "narrative",
       "activity": {
-        "state": "confirmed_active",
-        "reason": "17.10: persistence принял физическую ветку и существующий photo-source пролога в W01Controller/W01.tscn."
+        "state": "not_active",
+        "reason": "17.10: persistence передал source этап ветки/фотографии; независимый source review пройден, compile/runtime принимает root."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -118349,7 +118364,7 @@
         "Игрок не обязан повторять тизер; объяснение «просто сон» не закрывает интригу.",
         "Обычный New Game без override использует актуальный pack, ставит физический W01 и передаёт управление семейному прибытию; skip не выдаёт необязательное знание, Replay не меняет основной сеанс, Continue не запускает New Game."
       ],
-      "next_action": "Сделать видимое движение ветки и осматриваемый photo-source через существующий semantic flow, затем проверить обычный пролог.",
+      "next_action": "Root: узкая Game compile и текущий Windows пролог с видимой карточкой/движением ветки; не считать source diff готовым игровым прологом.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -118360,7 +118375,8 @@
           "game/scenes/photoworlds/W01/W01.tscn",
           "game/content/photoworlds/W01/W01.world.json",
           "game/scripts/photoworlds/W01Controller.cs",
-          "assets/source/blender/photoworlds/W01/"
+          "assets/source/blender/photoworlds/W01/",
+          "game/scripts/DocumentUi.cs"
         ],
         "required_inputs": [
           {
@@ -118838,6 +118854,16 @@
           "accepted_scope": "Root read original game stdout lines2562–2568: fact.observed from pw-school-copy-source; photo.acquired, two photo.back-read and photo.context-known events from pw-school-copy-permission; cap1200s then original files restored by rename and verified. These raw events/guard result are now accepted, beyond earlier prompt-only scope.",
           "limits": "Raw ZIP/source-manifest binding not independently verified; Windows ACLs explicitly not compared. PhotoId semantics as described by peer/interaction contract; no new UI reader, persistence, ordinary F10/forest return or whole PW043 acceptance. Run19 manual recovery remains peer-reported, not proven by later run20 restore."
         }
+      },
+      "progress_2026_10_17": {
+        "result": "Ветка проигрывает существующий lift_and_place перед authored dispatch; отказ/исключение возвращает проекцию reducer, load/scene change отменяет presentation. F00 получил видимую P-FOREST карточку и совпадающий ray target. Осмотр карточки открывает existing DocumentImageReader fit/zoom/pan без выдачи книги; Esc закрывает reader, session/scene change снимает modal; prologue skip защищён от modal.",
+        "targets": [
+          "game/scripts/photoworlds/W01Controller.cs",
+          "game/scenes/photoworlds/W01/W01.tscn",
+          "game/scripts/DocumentUi.cs"
+        ],
+        "verification": "Affected Game compile0warnings/0errors15.43с, независимые source reviews branch+reader/skip/session PASS. Native анимация/видимость/осмотр NOT_RUN.",
+        "remaining": "Обычный пролог/skip/Replay/Continue и rendered движение; этап не закрывает PW-043."
       }
     },
     {
@@ -140701,7 +140727,9 @@
         "finding": "Обычный play-product дошёл до текущего меню. capture-current отверг JSON: Main выдаёт пять дополнительных camera/ray полей, worker ожидал строго старые десять. Raw PNG собственного job скачан и SHA сверён; официальный endpoint не принят.",
         "change": "Worker принимает старый report либо полный известный metadata набор; проверяет типы/диапазоны/path/id/согласованность. Scene/job/PID/hash guards сохранены.",
         "evidence": "evidence/PW-097/product-launch-20261017/menu-artifact.png; job b8fbe85bd93a46d8bffb21f6389c04d6",
-        "verification": "AST и source review PASS; redeploy только после завершения активного job и userdata restore; новый capture-current NOT_RUN. UI Enter отказал, обычный NewGame/Continue ещё не доказан."
+        "verification": "AST и source review PASS; redeploy только после завершения активного job и userdata restore; новый capture-current NOT_RUN. UI Enter отказал, обычный NewGame/Continue ещё не доказан.",
+        "terminal": "b8fbe85bd93a46d8bffb21f6389c04d6 FAIL/gameExit124; userdata restored/verified в game.log, doctor ready/idle/recoveryfalse/orphanfalse. Native receipt/result.zip сохранены; engine-errors.log пуст, timeout не объявлен PASS.",
+        "deployment": "51074bb6 worker/runner deployed после hash сверки и backup, PS parse PASS, штатный restart и doctor ready. UI safe reason_code и fixed existing PLAYER output доступны; новая проверка ещё не запускалась."
       }
     },
     {

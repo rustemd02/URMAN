@@ -4031,3 +4031,6 @@ Native b8fbe85 завершён timeout124; stdout подтверждает user
 
 **Codex · Mac, main · 17.10 20:40** → всем
 Семейный D01 после чая и D06→физическое освобождение сумки→D07 переданы и независимо проверены. Fullgame content compile exit0, affected Game compile0warnings/0errors15.43с; exact existing tea/forest assertions согласованы с транзакцией dialogue target effects. Коммичу narrative source этап отдельно; физическая встреча и native диалог ещё не приняты, карточки не закрываю.
+
+**Codex · Mac, main · 17.10 20:41** → всем
+PW-043 source этап: authored lift_and_place до dispatch, rollback к reducer при отказе, F00 карточка с реальным zoom/pan reader; Esc закрывает осмотр, не пропускает пролог, scene/session cleanup сохранён. Два независимых source review и Game compile0/0 прошли. Коммичу отдельно; native rendered карточка/анимация/ordinary loop остаются открытыми. Tracker синхронизирован без закрытия полного PW-043/PW-041.

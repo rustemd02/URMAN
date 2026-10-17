@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Godot;
 using Urman.Experiments.AgentBAct1;
 using Urman.Core.Persistence;
@@ -13,14 +14,18 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
     private const string BranchScenePath = "res://assets/photoworlds/branch/prologue-branch-v1.glb";
     private const string PhotoTableauScenePath = "res://assets/photoworlds/forest_entry/pforest-tableau-v1.glb";
     private const string FoliageKitScenePath = "res://assets/models/agent_b_act1/agentb_foliage_kit.glb";
+    private const string ProloguePhotoTexturePath = "res://assets/textures/photobook/p-forest-front-v2.png";
     private const string PrologueSceneId = "urman.fullgame:scene/pw-prologue";
     private const string ForestSceneId = "urman.fullgame:scene/pw-forest";
+    private const string ProloguePhotoSourceInteractionId = "urman.fullgame:interaction/pw-prologue-photo-source";
     private const string PrologueBranchInteractionId = "urman.fullgame:interaction/pw-prologue-branch-move";
     private const string PrologueEndInteractionId = "urman.fullgame:interaction/pw-prologue-f03-end";
     private const string PrologueSkipInteractionId = "urman.fullgame:interaction/pw-prologue-skip";
     private const string ForestBranchInteractionId = "urman.fullgame:interaction/pw-forest-branch-move";
+    private const string ProloguePhotoSourceLabelTextId = "urman.fullgame:text/pw-label-prologue-photo-source";
     private const string PrologueEndLabelTextId = "urman.fullgame:text/pw-label-prologue-f03-end";
     private const string PrologueSkipLabelTextId = "urman.fullgame:text/pw-label-prologue-skip";
+    private const string BranchMoveAnimationName = "lift_and_place";
     private const string FreshSnowTexturePath = "res://assets/textures/painterly/snow_fresh_v1_albedo.png";
     private const string TrampledSnowTexturePath = "res://assets/textures/painterly/snow_trampled_v2_albedo.png";
     private const string ForestRootsTexturePath = "res://assets/photoworlds/forest_ground/w01_forest_roots_1k.png";
@@ -107,9 +112,12 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
     private Node3D? _branchVisual;
     private Node3D? _movingRoot;
     private Node3D? _gripCenter;
+    private AnimationPlayer? _branchAnimation;
     private Node3D? _groundVisual;
     private Node3D? _forestVisual;
     private Node3D? _photoTableauVisual;
+    private MeshInstance3D? _prologuePhotoCard;
+    private InteractionTarget? _prologuePhotoTarget;
     private StaticBody3D? _photoTableauBody;
     private StaticBody3D? _groundBody;
     private StaticBody3D? _leftRootBody;
@@ -118,6 +126,10 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
     private InteractionTarget? _branchTarget;
     private InteractionTarget? _prologueEndTarget;
     private InteractionTarget? _prologueSkipTarget;
+    private string? _branchMoveInteractionId;
+    private string? _branchMoveSceneId;
+    private object? _branchMoveSession;
+    private bool _branchMoveInProgress;
     private Button? _prologueSkipButton;
     private AccessibilitySettingsSnapshot _accessibility = AccessibilitySettingsSnapshot.Default;
 
@@ -128,6 +140,7 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         BuildForest();
         BuildBranch();
         BuildPhotoTableau();
+        BuildProloguePhotoSource();
         BuildPrologueUi();
         SetProcess(true);
         TryBindRuntimeBridge();
@@ -136,7 +149,11 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
             ?? AccessibilitySettingsSnapshot.Default);
     }
 
-    public override void _Process(double delta) => TryBindRuntimeBridge();
+    public override void _Process(double delta)
+    {
+        TryBindRuntimeBridge();
+        RefreshPrologueSkipButtonState();
+    }
 
     public void ApplyAccessibilitySettings(AccessibilitySettingsSnapshot settings)
     {
@@ -151,12 +168,21 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         SetProcess(false);
         if (_bridge is { } bridge && GodotObject.IsInstanceValid(bridge))
             bridge.RuntimeStateChanged -= ApplyProjection;
+        if (_branchAnimation is { } animation && GodotObject.IsInstanceValid(animation))
+            animation.AnimationFinished -= OnBranchAnimationFinished;
         GetViewport().SizeChanged -= RefitPrologueSkipButton;
         _bridge = null;
         _branchTarget = null;
         _prologueEndTarget = null;
         _prologueSkipTarget = null;
+        _prologuePhotoTarget = null;
+        _prologuePhotoCard = null;
         _prologueSkipButton = null;
+        _branchAnimation = null;
+        _branchMoveInteractionId = null;
+        _branchMoveSceneId = null;
+        _branchMoveSession = null;
+        _branchMoveInProgress = false;
         _movingBranchBody = null;
         _leftRootBody = null;
         _rightRootBody = null;
@@ -479,6 +505,54 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         }
     }
 
+    private void BuildProloguePhotoSource()
+    {
+        var anchor = GetNode<Marker3D>("Anchors/F00/ProloguePhotoSource");
+        var cardSize = new Vector2(0.34f, 0.227f);
+        var material = new StandardMaterial3D
+        {
+            AlbedoTexture = LoadTexture(ProloguePhotoTexturePath),
+            ShadingMode = BaseMaterial3D.ShadingModeEnum.Unshaded,
+            CullMode = BaseMaterial3D.CullModeEnum.Disabled
+        };
+        _prologuePhotoCard = new MeshInstance3D
+        {
+            Name = "F00ProloguePhotoPrint",
+            Mesh = new QuadMesh { Size = cardSize },
+            MaterialOverride = material,
+            Visible = false
+        };
+        anchor.AddChild(_prologuePhotoCard);
+
+        var target = new InteractionTarget
+        {
+            Name = "F00ProloguePhotoSourceTarget",
+            InteractionId = ProloguePhotoSourceInteractionId,
+            CollisionLayer = 4u,
+            CollisionMask = 0u
+        };
+        target.ConfigureRayOnly();
+        target.AddChild(new CollisionShape3D
+        {
+            Name = "F00ProloguePhotoSourceRayShape",
+            Shape = new BoxShape3D { Size = new Vector3(cardSize.X, cardSize.Y, 0.018f) }
+        });
+        anchor.AddChild(target);
+        target.SetPresentationEnabled(false);
+        target.AfterDispatch = OpenProloguePhotoInspectionAsync;
+        _prologuePhotoTarget = target;
+    }
+
+    private Task<bool> OpenProloguePhotoInspectionAsync()
+    {
+        var bridge = _bridge;
+        var documentUi = GetTree().GetFirstNodeInGroup("document_ui") as DocumentUi;
+        var opened = bridge is not null && GodotObject.IsInstanceValid(bridge)
+            && bridge.SessionIdentity is not null && bridge.ActiveSceneId == PrologueSceneId
+            && documentUi?.OpenProloguePhotoInspection(bridge) == true;
+        return Task.FromResult(opened);
+    }
+
     private void BuildBranch()
     {
         var branchScene = LoadScene(BranchScenePath);
@@ -490,6 +564,11 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         AddChild(_branchVisual);
 
         _movingRoot = RequireDescendant<Node3D>(_branchVisual, "PrologueBranch_MovingRoot");
+        _branchAnimation = Descendants<AnimationPlayer>(_branchVisual).FirstOrDefault()
+            ?? throw new InvalidOperationException("W01 branch asset is missing its authored AnimationPlayer.");
+        if (!_branchAnimation.HasAnimation(BranchMoveAnimationName))
+            throw new InvalidOperationException($"W01 branch asset is missing animation: {BranchMoveAnimationName}");
+        _branchAnimation.AnimationFinished += OnBranchAnimationFinished;
         var branchMesh = RequireDescendant<MeshInstance3D>(_branchVisual, "PrologueBranch_Body");
         var leftRootMesh = RequireDescendant<MeshInstance3D>(_branchVisual, "SIDE_RootSupport_Left");
         var rightRootMesh = RequireDescendant<MeshInstance3D>(_branchVisual, "SIDE_RootSupport_Right");
@@ -504,7 +583,6 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
     {
         if (_bridge is { } current && GodotObject.IsInstanceValid(current))
         {
-            SetProcess(false);
             return;
         }
 
@@ -514,7 +592,6 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
 
         _bridge = bridge;
         bridge.RuntimeStateChanged += ApplyProjection;
-        SetProcess(false);
         ApplyProjection();
     }
 
@@ -528,8 +605,10 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         var projection = bridge.CurrentW01BranchProjection();
         if (projection is null)
         {
+            CancelBranchMoveAnimation();
             visual.Visible = false;
             SetWorldPresentationVisible(false);
+            SetProloguePhotoSourceVisible(bridge, false);
             SetCollisionLayer(_groundBody, 0u);
             SetCollisionLayer(_movingBranchBody, 0u);
             SetCollisionLayer(_leftRootBody, 0u);
@@ -548,8 +627,10 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         };
         if (string.IsNullOrEmpty(interaction.Item1))
         {
+            CancelBranchMoveAnimation();
             visual.Visible = false;
             SetWorldPresentationVisible(false);
+            SetProloguePhotoSourceVisible(bridge, false);
             SetCollisionLayer(_groundBody, 0u);
             SetCollisionLayer(_movingBranchBody, 0u);
             SetCollisionLayer(_leftRootBody, 0u);
@@ -560,13 +641,15 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
             return;
         }
 
-        // The authored rest_moved clip translates this root by exactly (1.4, .14, 0).
-        // Snap on every validated projection so new sessions and restored saves agree.
+        // A new session or restored save is projected directly into its durable pose.
+        // Only a live player action plays lift_and_place before its fact is dispatched.
+        CancelBranchMoveAnimation();
         if (_movingRoot is { } movingRoot && GodotObject.IsInstanceValid(movingRoot))
             movingRoot.Position = projection.Moved ? BranchMovedRootPosition : Vector3.Zero;
 
         visual.Visible = true;
         SetWorldPresentationVisible(true);
+        SetProloguePhotoSourceVisible(bridge, projection.ActiveSceneId == PrologueSceneId);
         SetCollisionLayer(_groundBody, 1u);
         SetCollisionLayer(_movingBranchBody, 1u);
         SetCollisionLayer(_leftRootBody, 1u);
@@ -575,6 +658,124 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         _branchTarget?.SetPresentationEnabled(!projection.Moved);
         SetPrologueEndVisible(bridge, projection.ActiveSceneId == PrologueSceneId);
         SetPrologueSkipVisible(bridge, projection.ActiveSceneId == PrologueSceneId);
+    }
+
+    private void SetProloguePhotoSourceVisible(RuntimeBridge bridge, bool visible)
+    {
+        if (_prologuePhotoCard is { } card && GodotObject.IsInstanceValid(card))
+            card.Visible = visible;
+        if (_prologuePhotoTarget is not { } target || !GodotObject.IsInstanceValid(target)) return;
+        target.Prompt = bridge.ResolveText(ProloguePhotoSourceLabelTextId);
+        target.SetPresentationEnabled(visible);
+    }
+
+    private void CancelBranchMoveAnimation()
+    {
+        _branchMoveInProgress = false;
+        _branchMoveInteractionId = null;
+        _branchMoveSceneId = null;
+        _branchMoveSession = null;
+        if (_branchAnimation is { } animation && GodotObject.IsInstanceValid(animation))
+            animation.Stop();
+    }
+
+    private bool BeginBranchMove(string interactionId)
+    {
+        if (_branchMoveInProgress
+            || _bridge is not { } bridge || !GodotObject.IsInstanceValid(bridge)
+            || bridge.SessionIdentity is not { } session
+            || _branchAnimation is not { } animation || !GodotObject.IsInstanceValid(animation)
+            || _movingRoot is not { } movingRoot || !GodotObject.IsInstanceValid(movingRoot)
+            || !animation.HasAnimation(BranchMoveAnimationName))
+            return false;
+
+        var projection = bridge.CurrentW01BranchProjection();
+        if (projection is null || projection.Moved
+            || (projection.ActiveSceneId != PrologueSceneId && projection.ActiveSceneId != ForestSceneId))
+            return false;
+
+        _branchMoveInProgress = true;
+        _branchMoveInteractionId = interactionId;
+        _branchMoveSceneId = projection.ActiveSceneId;
+        _branchMoveSession = session;
+        _branchTarget?.SetPresentationEnabled(false);
+        if (_accessibility.ReducedMotion)
+        {
+            animation.Stop();
+            movingRoot.Position = BranchMovedRootPosition;
+            CommitCompletedBranchMove();
+        }
+        else
+        {
+            animation.Play(BranchMoveAnimationName);
+        }
+        return false;
+    }
+
+    private void OnBranchAnimationFinished(StringName animationName)
+    {
+        if (animationName != BranchMoveAnimationName || !_branchMoveInProgress) return;
+        CommitCompletedBranchMove();
+    }
+
+    private void CommitCompletedBranchMove()
+    {
+        if (!_branchMoveInProgress) return;
+        var bridge = _bridge;
+        var session = _branchMoveSession;
+        var interactionId = _branchMoveInteractionId;
+        var sceneId = _branchMoveSceneId;
+        _branchMoveInProgress = false;
+        _branchMoveSession = null;
+        _branchMoveInteractionId = null;
+        _branchMoveSceneId = null;
+
+        if (bridge is null || !GodotObject.IsInstanceValid(bridge)
+            || session is null || string.IsNullOrWhiteSpace(interactionId) || sceneId is null
+            || !IsInsideTree() || IsQueuedForDeletion())
+        {
+            ApplyProjection();
+            return;
+        }
+
+        DispatchCompletedBranchMoveAsync(bridge, session, interactionId, sceneId);
+    }
+
+    private async void DispatchCompletedBranchMoveAsync(
+        RuntimeBridge bridge, object session, string interactionId, string sceneId)
+    {
+        var projection = bridge.CurrentW01BranchProjection();
+        if (!ReferenceEquals(session, bridge.SessionIdentity)
+            || MainMenuUi.AnyUndismissed(GetTree())
+            || projection is null || projection.ActiveSceneId != sceneId || projection.Moved)
+        {
+            ApplyProjection();
+            return;
+        }
+
+        try
+        {
+            await bridge.DispatchInteractionAsync(interactionId);
+        }
+        catch (Exception exception)
+        {
+            GD.PushError($"W01 branch interaction failed before commit: {exception.Message}");
+            if (GodotObject.IsInstanceValid(this) && IsInsideTree() && !IsQueuedForDeletion())
+                ApplyProjection();
+            return;
+        }
+
+        if (!GodotObject.IsInstanceValid(this) || !IsInsideTree() || IsQueuedForDeletion()) return;
+        if (!GodotObject.IsInstanceValid(bridge) || !ReferenceEquals(session, bridge.SessionIdentity))
+        {
+            ApplyProjection();
+            return;
+        }
+
+        // The reducer remains authoritative. A rejected action must not leave a
+        // moved-looking branch with no saved fact; a successful one projects the
+        // committed pose through the same route used by load and new-game state.
+        ApplyProjection();
     }
 
     private void SetWorldPresentationVisible(bool visible)
@@ -589,6 +790,7 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
     {
         if (inputEvent is InputEventKey { Echo: true }
             || !inputEvent.IsActionPressed("ui_cancel")
+            || GetTree().GetFirstNodeInGroup("player_controller") is not FirstPersonController { ModalOpen: false }
             || _prologueSkipButton is not { Visible: true, Disabled: false }
             || _prologueSkipTarget is not { } target
             || !GodotObject.IsInstanceValid(target)
@@ -666,12 +868,25 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         _prologueSkipTarget?.SetPresentationEnabled(visible);
         button.Text = bridge.ResolveText(PrologueSkipLabelTextId);
         button.Visible = visible;
-        button.Disabled = !visible || _prologueSkipTarget?.IsAvailable() != true;
+        SetProcess(visible);
+        RefreshPrologueSkipButtonState();
     }
 
     private void OnPrologueSkipPressed()
     {
-        if (_prologueSkipTarget is { } target && GodotObject.IsInstanceValid(target)) target.Interact();
+        if (GetTree().GetFirstNodeInGroup("player_controller") is not FirstPersonController { ModalOpen: false }
+            || _prologueSkipButton is not { Visible: true, Disabled: false }
+            || _prologueSkipTarget is not { } target || !GodotObject.IsInstanceValid(target))
+            return;
+        target.Interact();
+    }
+
+    private void RefreshPrologueSkipButtonState()
+    {
+        if (_prologueSkipButton is not { } button || !GodotObject.IsInstanceValid(button)) return;
+        button.Disabled = !button.Visible
+            || GetTree().GetFirstNodeInGroup("player_controller") is not FirstPersonController { ModalOpen: false }
+            || _prologueSkipTarget?.IsAvailable() != true;
     }
 
     private void RefitPrologueSkipButton()
@@ -711,6 +926,7 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
             CollisionMask = 0u
         };
         target.ConfigureRayOnly();
+        target.PresentationBeforeDispatch = () => BeginBranchMove(interactionId);
         target.AddChild(new CollisionShape3D
         {
             Name = "Branch_GripRayShape",

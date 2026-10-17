@@ -46,6 +46,11 @@ shadow_opacity = 0.34
 [node name="F00" type="Marker3D" parent="Anchors"]
 rotation_degrees = Vector3(0, -166.5, 0)
 
+; Inside F00's authored 1.2 m walkable pad, off the route centerline for a downward print inspection.
+[node name="ProloguePhotoSource" type="Marker3D" parent="Anchors/F00"]
+position = Vector3(-0.75, 0.025, 0.48)
+rotation_degrees = Vector3(-90, 180, 0)
+
 ; Ground height sampled from the generated terrain at authored F10 X/Z.
 [node name="F10" type="Marker3D" parent="Anchors"]
 position = Vector3(0, 0.656942903, 35)
