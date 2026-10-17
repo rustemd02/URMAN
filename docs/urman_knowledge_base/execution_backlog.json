@@ -18564,11 +18564,13 @@
               "reason": "Живое исполнение этой единицы при миграции не подтверждено."
             },
             "task_type": "engineering",
-            "status": "completed",
+            "status": "todo",
             "implementation_state": "implemented",
-            "technical_verification_state": "passed",
-            "remaining": [],
-            "next_action": "Собственный DoD принят: тот же прогон — при переназначенном вводе бег быстрее неизменённой ходьбы (1.70 → 2.55 м за 30 тиков), аналоговый ход плавный, диагональ ограничена, старые настройки не теряют jump/sprint, спринт останавливается у физической стены без «шагающих» ног и без потери сцепления капсулы. Receipt и кадры: evidence/ACT1-PLAYER/player-movement-20261017. Новых версий требований нет.",
+            "technical_verification_state": "not_run",
+            "remaining": [
+              "Повторно проверить sprint/remapped input/diagonal/wall stop при намеренно изменённых скорости и acceleration."
+            ],
+            "next_action": "После ACT1-LEGS.1 candidate проверить существующий PLAYER сценарий; старые1.70/2.55м — исторический результат, не новый эталон.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -18594,7 +18596,8 @@
               ],
               "done_when": [
                 "Согласовать бег с переназначенным вводом и выходом в обычный шаг выполнено у указанных targets и используется реальным потребителем.",
-                "Проверка данного объекта/действия и сохранности связанного состояния записана; соседние объекты не выданы за проверенные."
+                "Проверка данного объекта/действия и сохранности связанного состояния записана; соседние объекты не выданы за проверенные.",
+                "Скорости соответствуют текущим параметрам контроллера, короткий разгон/торможение учтены; бег быстрее ходьбы, диагональ не ускоряет, remapped input и wall stop сохранены."
               ],
               "verification": {
                 "method": "targeted_runtime_scenario",
@@ -18611,7 +18614,18 @@
               "verification": [],
               "acceptance": []
             },
-            "depends_on": []
+            "depends_on": [],
+            "completion_history_2026_10_17": {
+              "status": "completed",
+              "technical_verification_state": "passed",
+              "next_action": "Собственный DoD принят: тот же прогон — при переназначенном вводе бег быстрее неизменённой ходьбы (1.70 → 2.55 м за 30 тиков), аналоговый ход плавный, диагональ ограничена, старые настройки не теряют jump/sprint, спринт останавливается у физической стены без «шагающих» ног и без потери сцепления капсулы. Receipt и кадры: evidence/ACT1-PLAYER/player-movement-20261017. Новых версий требований нет.",
+              "evidence": [
+                "evidence/ACT1-PLAYER/player-movement-20261017/player-movement-receipt.json",
+                "evidence/ACT1-PLAYER/player-movement-20261017/run.log",
+                "evidence/ACT1-PLAYER/player-movement-20261017/02_walking_lower_body.png",
+                "evidence/ACT1-PLAYER/player-movement-20261017/05_wall_stop_lower_body.png"
+              ]
+            }
           },
           {
             "id": "ACT1-PLAYER/E03",
@@ -70197,8 +70211,8 @@
       "id": "ACT1-LEGS.1",
       "remaining_map_2026_10_04": "docs/production/act1_remaining_cards_map_2026-10-04.md",
       "execution": {
-        "kind": "integration_check",
-        "unit": "Исправленный first-person body без новой системы анимации NPC.",
+        "kind": "engineering",
+        "unit": "Согласованные ноги, шаги, камера, остановка, прыжок и смена стойки у существующего first-person контроллера.",
         "steps": [
           {
             "id": "ACT1-LEGS.1/S0",
@@ -70224,16 +70238,17 @@
         "acceptance": "Ограниченный work_contract.done_when; source acceptance_requirements и external_gates сохраняют полный продукт.",
         "verification": {
           "method": "targeted_runtime_scenario",
-          "question": "Ноги Айдара синхронизированы с фактическим движением",
+          "question": "Совпадают ли опора стоп, реальное перемещение, звук и камера во всех переходах без регрессии коллизий?",
           "scenario": {
             "targets": [
-              "game/scripts/FirstPersonController.Body.cs",
+              "game/scripts/FirstPersonController.cs",
               "game/scripts/FirstPersonController.Movement.cs",
-              "game/scripts/FirstPersonController.Stance.cs"
+              "game/scripts/FirstPersonController.Stance.cs",
+              "game/scripts/FirstPersonController.Body.cs",
+              "game/scripts/FootstepAudioController.cs"
             ],
             "actions": [
-              "Исправленный first-person body без новой системы анимации NPC.",
-              "В движении/остановке/повороте нет противофазы и скольжения ног; тело не мешает камере/взаимодействию. Есть короткий захват анимации, не только статичный кадр."
+              "walk → stop → sprint → wall stop → strafe → backwards → turn → crouch → stand → jump/landing → crouch jump → step, обычная камера и камера вниз."
             ],
             "observations": [
               "В движении/остановке/повороте нет противофазы и скольжения ног; тело не мешает камере/взаимодействию. Есть короткий захват анимации, не только статичный кадр."
@@ -70241,7 +70256,9 @@
             "bound": "Только этот объект/контракт на одном named candidate; asset import или affected compile лишь при изменении соответствующего источника, human approval отдельно."
           },
           "success": [
-            "В движении/остановке/повороте нет противофазы и скольжения ног; тело не мешает камере/взаимодействию. Есть короткий захват анимации, не только статичный кадр."
+            "В движении/остановке/повороте нет противофазы и скольжения ног; тело не мешает камере/взаимодействию. Есть короткий захват анимации, не только статичный кадр.",
+            "Ноги, звук шагов и restrained bob используют фактическое post-move горизонтальное перемещение, включая strafe/backwards; у стены/остановки нет шага на месте и ретракционного скольжения.",
+            "Взлёт/полёт/приземление и crouch/stand переходят согласованно без скачка глаза; сохраняются roof/grounded/input/modal/reduced-motion guards и достижимость IK."
           ],
           "repeat_only_if": "Изменился покрываемый вход/consumer/контракт; без этого уже принятая проверка используется повторно без запуска."
         },
@@ -70258,16 +70275,18 @@
       },
       "title": "Ноги Айдара синхронизированы с фактическим движением",
       "milestone": "M5",
-      "status": "blocked",
+      "status": "in_progress",
       "complexity": "medium",
-      "active_owner": null,
+      "active_owner": "Codex/performance",
       "owner": "finished-act1",
       "parent_id": "ACT1-LEGS",
       "depends_on": [],
       "scope": [
-        "game/scripts/FirstPersonController.Body.cs",
+        "game/scripts/FirstPersonController.cs",
         "game/scripts/FirstPersonController.Movement.cs",
-        "game/scripts/FirstPersonController.Stance.cs"
+        "game/scripts/FirstPersonController.Stance.cs",
+        "game/scripts/FirstPersonController.Body.cs",
+        "game/scripts/FootstepAudioController.cs"
       ],
       "source_requirements": [
         "docs/tasktracker/04_author_gamefeel_overhaul_2026-09-20.md",
@@ -70277,7 +70296,9 @@
       ],
       "deliverable": "Исправленный first-person body без новой системы анимации NPC.",
       "done_when": [
-        "В движении/остановке/повороте нет противофазы и скольжения ног; тело не мешает камере/взаимодействию. Есть короткий захват анимации, не только статичный кадр."
+        "В движении/остановке/повороте нет противофазы и скольжения ног; тело не мешает камере/взаимодействию. Есть короткий захват анимации, не только статичный кадр.",
+        "Ноги, звук шагов и restrained bob используют фактическое post-move горизонтальное перемещение, включая strafe/backwards; у стены/остановки нет шага на месте и ретракционного скольжения.",
+        "Взлёт/полёт/приземление и crouch/stand переходят согласованно без скачка глаза; сохраняются roof/grounded/input/modal/reduced-motion guards и достижимость IK."
       ],
       "evidence": [
         "docs/production/tamara_mvp_2026-09-26/legs/",
@@ -70381,35 +70402,38 @@
       },
       "assigned_owner": "finished-act1",
       "activity": {
-        "state": "not_active",
-        "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+        "state": "confirmed_active",
+        "reason": "17.10: performance принял пять файлов согласованного locomotion; подтверждены разные фазы ног/звука/камеры и скачок стойки."
       },
-      "task_type": "integration_check",
-      "implementation_state": "implemented",
+      "task_type": "engineering",
+      "implementation_state": "partial",
       "technical_verification_state": "not_run",
       "remaining": [
-        "Текущий source gait/movement просмотр; прошлые Body hashes не доказывают этот candidate."
+        "В движении/остановке/повороте нет противофазы и скольжения ног; тело не мешает камере/взаимодействию. Есть короткий захват анимации, не только статичный кадр.",
+        "Ноги, звук шагов и restrained bob используют фактическое post-move горизонтальное перемещение, включая strafe/backwards; у стены/остановки нет шага на месте и ретракционного скольжения.",
+        "Взлёт/полёт/приземление и crouch/stand переходят согласованно без скачка глаза; сохраняются roof/grounded/input/modal/reduced-motion guards и достижимость IK."
       ],
-      "next_action": "Установить доступность existing dynamic capture branch по текущему станционному протоколу; затем один walk/run/turn/crouch/stop current-source capture, без новой animation системы.",
-      "blocker": {
-        "reason": "Fresh current-source walk/run/turn/crouch/stop motion proof отсутствует; прежняя запись о занятой станции не подтверждает текущую занятость. Existing capture branch не передаётся documented remote-check path.",
-        "release_when": "После отдельного возобновления доступен станционный existing dynamic capture path и current-source motion receipt для root просмотра."
-      },
+      "next_action": "performance реализует согласованный controller diff; затем независимое ревью, узкая компиляция и текущий Windows motion просмотр.",
+      "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
-      "execution_mode": "production_paused_during_tracker_migration",
+      "execution_mode": "live_author_request_2026_10_17",
       "work_contract": {
-        "result": "Исправленный first-person body без новой системы анимации NPC.",
+        "result": "Согласованные ноги, шаги, камера, остановка, прыжок и смена стойки у существующего first-person контроллера.",
         "targets": [
-          "game/scripts/FirstPersonController.Body.cs",
+          "game/scripts/FirstPersonController.cs",
           "game/scripts/FirstPersonController.Movement.cs",
-          "game/scripts/FirstPersonController.Stance.cs"
+          "game/scripts/FirstPersonController.Stance.cs",
+          "game/scripts/FirstPersonController.Body.cs",
+          "game/scripts/FootstepAudioController.cs"
         ],
         "required_inputs": [],
         "scope_in": [
-          "game/scripts/FirstPersonController.Body.cs",
+          "game/scripts/FirstPersonController.cs",
           "game/scripts/FirstPersonController.Movement.cs",
-          "game/scripts/FirstPersonController.Stance.cs"
+          "game/scripts/FirstPersonController.Stance.cs",
+          "game/scripts/FirstPersonController.Body.cs",
+          "game/scripts/FootstepAudioController.cs"
         ],
         "scope_out": [
           "Контент соседнего блока, кроме указанного артефакта-входа.",
@@ -70417,24 +70441,28 @@
           "Человеческое одобрение учитывается отдельными gates."
         ],
         "steps": [
-          "Исправленный first-person body без новой системы анимации NPC.",
-          "В движении/остановке/повороте нет противофазы и скольжения ног; тело не мешает камере/взаимодействию. Есть короткий захват анимации, не только статичный кадр."
+          "Свести фазу и контакты существующего тела/камеры/звука.",
+          "Согласовать короткий отклик горизонтального движения, воздушное управление, прыжок и безопасный переход стойки.",
+          "Узкая affected-module compile и текущий существующий movement scenario; непрерывный визуальный просмотр перед закрытием."
         ],
         "done_when": [
-          "В движении/остановке/повороте нет противофазы и скольжения ног; тело не мешает камере/взаимодействию. Есть короткий захват анимации, не только статичный кадр."
+          "В движении/остановке/повороте нет противофазы и скольжения ног; тело не мешает камере/взаимодействию. Есть короткий захват анимации, не только статичный кадр.",
+          "Ноги, звук шагов и restrained bob используют фактическое post-move горизонтальное перемещение, включая strafe/backwards; у стены/остановки нет шага на месте и ретракционного скольжения.",
+          "Взлёт/полёт/приземление и crouch/stand переходят согласованно без скачка глаза; сохраняются roof/grounded/input/modal/reduced-motion guards и достижимость IK."
         ],
         "verification": {
           "method": "targeted_runtime_scenario",
-          "question": "Ноги Айдара синхронизированы с фактическим движением",
+          "question": "Совпадают ли опора стоп, реальное перемещение, звук и камера во всех переходах без регрессии коллизий?",
           "scenario": {
             "targets": [
-              "game/scripts/FirstPersonController.Body.cs",
+              "game/scripts/FirstPersonController.cs",
               "game/scripts/FirstPersonController.Movement.cs",
-              "game/scripts/FirstPersonController.Stance.cs"
+              "game/scripts/FirstPersonController.Stance.cs",
+              "game/scripts/FirstPersonController.Body.cs",
+              "game/scripts/FootstepAudioController.cs"
             ],
             "actions": [
-              "Исправленный first-person body без новой системы анимации NPC.",
-              "В движении/остановке/повороте нет противофазы и скольжения ног; тело не мешает камере/взаимодействию. Есть короткий захват анимации, не только статичный кадр."
+              "walk → stop → sprint → wall stop → strafe → backwards → turn → crouch → stand → jump/landing → crouch jump → step, обычная камера и камера вниз."
             ],
             "observations": [
               "В движении/остановке/повороте нет противофазы и скольжения ног; тело не мешает камере/взаимодействию. Есть короткий захват анимации, не только статичный кадр."
@@ -70442,11 +70470,13 @@
             "bound": "Только этот объект/контракт на одном named candidate; asset import или affected compile лишь при изменении соответствующего источника, human approval отдельно."
           },
           "success": [
-            "В движении/остановке/повороте нет противофазы и скольжения ног; тело не мешает камере/взаимодействию. Есть короткий захват анимации, не только статичный кадр."
+            "В движении/остановке/повороте нет противофазы и скольжения ног; тело не мешает камере/взаимодействию. Есть короткий захват анимации, не только статичный кадр.",
+            "Ноги, звук шагов и restrained bob используют фактическое post-move горизонтальное перемещение, включая strafe/backwards; у стены/остановки нет шага на месте и ретракционного скольжения.",
+            "Взлёт/полёт/приземление и crouch/stand переходят согласованно без скачка глаза; сохраняются roof/grounded/input/modal/reduced-motion guards и достижимость IK."
           ],
           "repeat_only_if": "Изменился покрываемый вход/consumer/контракт; без этого уже принятая проверка используется повторно без запуска."
         },
-        "actual_result": "2026-10-08: source audit found no proven runtime defect, so no game code changed. Fresh dynamic proof is unavailable while pw001_baseline owns Windows; remote-check cannot activate the scene's env-gated captures. Current-source animation capture and root visual acceptance remain required; keep open.",
+        "actual_result": "Source diagnosis: walk3.4m/s, cycle1.1m (~6.18 footfalls/s); strafe cycleShare.35 при audio .55m; bob8.2rad/s независимо от скорости; eye стойки скачет. Новые 2.2/4.0m/s и cycle2m — гипотеза кандидата, не принятый feel.",
         "evidence_refs": [
           "tasks[id=ACT1-LEGS.1].evidence"
         ],
@@ -70510,7 +70540,69 @@
           "evidence_ref": "ACT1-LEGS.1.evidence and named history progress; source_review shows available/missing inputs"
         }
       ],
-      "assignment_state": "preserved_person_or_existing_role; activity separate"
+      "assignment_state": "preserved_person_or_existing_role; activity separate",
+      "revision_history_2026_10_17": {
+        "status": "blocked",
+        "blocker": {
+          "reason": "Fresh current-source walk/run/turn/crouch/stop motion proof отсутствует; прежняя запись о занятой станции не подтверждает текущую занятость. Existing capture branch не передаётся documented remote-check path.",
+          "release_when": "После отдельного возобновления доступен станционный existing dynamic capture path и current-source motion receipt для root просмотра."
+        },
+        "next_action": "Установить доступность existing dynamic capture branch по текущему станционному протоколу; затем один walk/run/turn/crouch/stop current-source capture, без новой animation системы.",
+        "work_contract": {
+          "result": "Исправленный first-person body без новой системы анимации NPC.",
+          "targets": [
+            "game/scripts/FirstPersonController.Body.cs",
+            "game/scripts/FirstPersonController.Movement.cs",
+            "game/scripts/FirstPersonController.Stance.cs"
+          ],
+          "required_inputs": [],
+          "scope_in": [
+            "game/scripts/FirstPersonController.Body.cs",
+            "game/scripts/FirstPersonController.Movement.cs",
+            "game/scripts/FirstPersonController.Stance.cs"
+          ],
+          "scope_out": [
+            "Контент соседнего блока, кроме указанного артефакта-входа.",
+            "Новые защитные слои/абстракции вне собственного результата.",
+            "Человеческое одобрение учитывается отдельными gates."
+          ],
+          "steps": [
+            "Исправленный first-person body без новой системы анимации NPC.",
+            "В движении/остановке/повороте нет противофазы и скольжения ног; тело не мешает камере/взаимодействию. Есть короткий захват анимации, не только статичный кадр."
+          ],
+          "done_when": [
+            "В движении/остановке/повороте нет противофазы и скольжения ног; тело не мешает камере/взаимодействию. Есть короткий захват анимации, не только статичный кадр."
+          ],
+          "verification": {
+            "method": "targeted_runtime_scenario",
+            "question": "Ноги Айдара синхронизированы с фактическим движением",
+            "scenario": {
+              "targets": [
+                "game/scripts/FirstPersonController.Body.cs",
+                "game/scripts/FirstPersonController.Movement.cs",
+                "game/scripts/FirstPersonController.Stance.cs"
+              ],
+              "actions": [
+                "Исправленный first-person body без новой системы анимации NPC.",
+                "В движении/остановке/повороте нет противофазы и скольжения ног; тело не мешает камере/взаимодействию. Есть короткий захват анимации, не только статичный кадр."
+              ],
+              "observations": [
+                "В движении/остановке/повороте нет противофазы и скольжения ног; тело не мешает камере/взаимодействию. Есть короткий захват анимации, не только статичный кадр."
+              ],
+              "bound": "Только этот объект/контракт на одном named candidate; asset import или affected compile лишь при изменении соответствующего источника, human approval отдельно."
+            },
+            "success": [
+              "В движении/остановке/повороте нет противофазы и скольжения ног; тело не мешает камере/взаимодействию. Есть короткий захват анимации, не только статичный кадр."
+            ],
+            "repeat_only_if": "Изменился покрываемый вход/consumer/контракт; без этого уже принятая проверка используется повторно без запуска."
+          },
+          "actual_result": "2026-10-08: source audit found no proven runtime defect, so no game code changed. Fresh dynamic proof is unavailable while pw001_baseline owns Windows; remote-check cannot activate the scene's env-gated captures. Current-source animation capture and root visual acceptance remain required; keep open.",
+          "evidence_refs": [
+            "tasks[id=ACT1-LEGS.1].evidence"
+          ],
+          "engineering_completion_excludes_external_gates": true
+        }
+      }
     },
     {
       "id": "ACT1-LEGS.2",
@@ -70625,7 +70717,7 @@
       "remaining": [
         "Приёмка походки (ходьба/бег/присед/повороты); отсутствует подтверждение собственного конечного DoD, перечисленного ниже."
       ],
-      "next_action": "Приёмка походки (ходьба/бег/присед/повороты)",
+      "next_action": "Принять новый candidate ACT1-LEGS.1 в непрерывном движении; static PNG и smoke не доказывают естественность.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -70653,7 +70745,7 @@
           "Человеческое одобрение учитывается отдельными gates."
         ],
         "steps": [
-          "Снять короткое движение с обычной камерой вниз для ходьбы/бега/приседа/поворота по отдельности.",
+          "Снять непрерывное движение walk/stop/sprint/wall/strafe/backwards/turn/crouch/stand/jump/landing/step с обычной камерой и камерой вниз; сверить звук и контакты.",
           "Проверить опору, скольжение, пересечения камеры и переходы.",
           "Вернуть конкретный дефект в .1; технический player smoke и человеческую правдоподобность разделить."
         ],
@@ -117884,7 +117976,7 @@
       "title": "Перенести пролог внутрь W01",
       "milestone": "PW-M3",
       "status": "in_progress",
-      "active_owner": null,
+      "active_owner": "Codex/persistence",
       "owner": "narrative",
       "priority": "P1",
       "complexity": "complex",
@@ -118246,8 +118338,8 @@
       },
       "assigned_owner": "narrative",
       "activity": {
-        "state": "released",
-        "reason": "Пилот school-to-F10 остановлен: после run22 (16.10 15:27) прогоны не возобновлялись, 16.10 сессия перешла на кодовую сверку графа. Факты пилота: школа взята в run16 (узко принята @Кодекс Кадыра), F10/лес — not-run; run21 залочен отказом окна на «ниве» (бит pw-niva-stop не зажёгся, спасатель rescue7 упёрся в пустую дверь), run22 простоял без драйвера. Сырые логи 11/16–22 и финальные кадры добавлены в git (README там же); активной заявки нет."
+        "state": "confirmed_active",
+        "reason": "17.10: persistence принял физическую ветку и существующий photo-source пролога в W01Controller/W01.tscn."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -118257,7 +118349,7 @@
         "Игрок не обязан повторять тизер; объяснение «просто сон» не закрывает интригу.",
         "Обычный New Game без override использует актуальный pack, ставит физический W01 и передаёт управление семейному прибытию; skip не выдаёт необязательное знание, Replay не меняет основной сеанс, Continue не запускает New Game."
       ],
-      "next_action": "При возобновлении автором станционных прогонов: drive23 по записанным урокам (авто-повтор на window lost до гейта, гейт по позе после нивы, abort двери) до F10/леса, затем reader «Рассмотреть снимок» (📋 @Кодекс Кадыра: actual reader на текущем размере с честным viewport). До этого карточка прогонами не продвигается.",
+      "next_action": "Сделать видимое движение ветки и осматриваемый photo-source через существующий semantic flow, затем проверить обычный пролог.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -120223,7 +120315,7 @@
       "id": "PW-046",
       "title": "W01: действия за рамкой и состояние ветки",
       "milestone": "PW-M3",
-      "status": "todo",
+      "status": "in_progress",
       "active_owner": null,
       "owner": "gameplay",
       "priority": "P1",
@@ -120367,7 +120459,7 @@
       "assigned_owner": "gameplay",
       "activity": {
         "state": "not_active",
-        "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+        "reason": "17.10: генерация/реализация полного F11–F16 отложена до согласованного движения и тактильного начала; source/assets не произведены."
       },
       "task_type": "engineering",
       "implementation_state": "not_started",
@@ -120377,7 +120469,7 @@
         "После возврата сохраняются правильное положение ветки и один набор знаний.",
         "Полный паспорт уровня docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/levels/W01_Лес_за_спиной_RU.md реализован: узлы/физические связи/действия/существо или человеческая сцена/созерцание/возврат/кадры; схема не заменяет проходимый runtime."
       ],
-      "next_action": "Реализовать четыре действия F11/F01/F13/F14 через основной reducer.",
+      "next_action": "Собрать F10→F11→F12→F13 физический путь/осмотр/обратимый проход в W01Controller/W01.tscn; затем связать видимую F14 strap-встречу и F16 return с authored reducer без прямого обхода условий.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -120561,13 +120653,18 @@
           "evidence_ref": "PW-046.evidence and named history progress; source_review shows available/missing inputs"
         }
       ],
-      "assignment_state": "preserved_person_or_existing_role; activity separate"
+      "assignment_state": "preserved_person_or_existing_role; activity separate",
+      "progress_2026_10_17": {
+        "finding": "Группа P-FOREST photo-only; runtime living group не нужен. Физические targets group/photographer/shurale/return отсутствуют; smoke вызывает IDs напрямую и не доказывает проходимость. W01/F11-F16 geometry/encounter missing.",
+        "scope": "Один законченный первый photo-loop, не отдельная полировка леса. Persistence controller/scene, visual Shurale/bag, story authored D06/D07. Root station/integration; готовность только по реальному пути.",
+        "verification": "После changed snapshot пройти ordinary F10→support tableau→за кадр→strap action→return; runtime NOT_RUN."
+      }
     },
     {
       "id": "PW-047",
       "title": "W01: произвести, оживить и поставить Шурале",
       "milestone": "PW-M3",
-      "status": "todo",
+      "status": "in_progress",
       "active_owner": null,
       "owner": "character_art",
       "priority": "P1",
@@ -120719,7 +120816,7 @@
       "assigned_owner": "character_art",
       "activity": {
         "state": "not_active",
-        "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+        "reason": "17.10: генерация/реализация полного F11–F16 отложена до согласованного движения и тактильного начала; source/assets не произведены."
       },
       "task_type": "engineering",
       "implementation_state": "not_started",
@@ -120729,7 +120826,7 @@
         "Нет полосы босса, оленьего черепа и копии чужого маскота.",
         "Полный паспорт уровня docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/levels/W01_Лес_за_спиной_RU.md реализован: узлы/физические связи/действия/существо или человеческая сцена/созерцание/возврат/кадры; схема не заменяет проходимый runtime."
       ],
-      "next_action": "Произвести Шурале с ригом и семью клипами.",
+      "next_action": "Произвести видимого Шурале и сумку с ремнём, согласовать transforms/7clip interface с W01Controller; авторская/культурная/художественная приёмка отдельна, кандидат не объявлять принятым.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -120921,7 +121018,11 @@
           "evidence_ref": "PW-047.evidence and named history progress; source_review shows available/missing inputs"
         }
       ],
-      "assignment_state": "preserved_person_or_existing_role; activity separate"
+      "assignment_state": "preserved_person_or_existing_role; activity separate",
+      "progress_2026_10_17": {
+        "inputs": "A-SHURALE/A-BAG written specs; W01 nonviolent authored encounter; ART01 only style guidance, no character-specific approved visual plate.",
+        "scope": "Original asset candidate, не копия современного персонажа/не невидимая точка взаимодействия. Author/culture/art acceptance pending."
+      }
     },
     {
       "id": "PW-048",
@@ -153220,19 +153321,26 @@
       "integration": "Регулярный отдельный commit/push каждого проверенного этапа, не копить большой незакоммиченный пакет. Source/compile этап не выдавать за native acceptance; включать только свои проверенные файлы/хунки, сохранять чужие изменения.",
       "mvp_selection_rule": "Сначала законченные, сразу заметные игроку этапы: обычный запуск и Continue; цельный пролог и первая прогулка; фото → физическая книга → вход → содержательное действие → возврат → сохранённое продолжение; убедительная сцена деревни; самостоятельный релизный кандидат. Мелкие веточки, кусты, фактуры и локальная полировка идут после этих результатов, кроме доказанного блокера проходимости, читаемости, стабильности или производительности выбранного этапа.",
       "mvp_delivery_order": [
+        "ACT1-LEGS.1",
+        "ACT1-PLAYER/E02",
+        "ACT1-LEGS.2",
         "PW-097",
+        "PW-043",
+        "PW-041",
+        "PW-019",
+        "PW-045",
+        "PW-046",
+        "PW-047",
+        "ACT1-MECH-AUDIT.3",
         "FINISH-06/E01",
         "FINISH-06/E02",
         "UXA-001/READY",
-        "PW-043",
-        "PW-045",
         "PW-013",
         "PW-014",
         "PW-017",
         "PW-016",
         "PW-015",
         "PW-018",
-        "PW-019",
         "PW-020",
         "PW-021",
         "PW-022",
@@ -153269,7 +153377,15 @@
         "PW-098",
         "PW-100",
         "REL-003"
-      ]
+      ],
+      "experience_priority_2026_10_17": {
+        "source": "Прямое поручение автора: ноги, прыжки и всё перемещение странные; механики не притягивают, цикл непонятен. Сначала крупные заметные исправления.",
+        "decision": "Согласовать существующий контроллер, физические последствия действий и первые сцены. Не заменять контроллер целиком и не маскировать проблему отдельной настройкой скорости.",
+        "player_loop": "Заметить вопрос на снимке → найти источник/сравнить → сознательно войти → выполнить пространственное действие → вернуться с видимым результатом и следующим вопросом.",
+        "narrative": "Семейная просьба закончить работу Марата и восстановить связи людей/мест; Айдар знает о смерти Марата. Не вводить детектив об убийстве.",
+        "visual": "Принимать целую сцену с понятным направлением движения, глубиной и архитектурой; одиночные веточки/фактуры не заменяют результат.",
+        "acceptance": "Техническая проверка не доказывает удовольствие. Непрерывное движение и обычный цикл требуют просмотра; авторская и newcomer-приёмка остаются открытыми."
+      }
     }
   },
   "requirements_integration_2026_10_10": {

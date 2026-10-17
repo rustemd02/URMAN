@@ -517,7 +517,7 @@ OldPc UI и его контент; семейная книга B01, единое
 | `ACT1-UI.3` | engineering | HUD и диалог; [контракт/входы/evidence](../urman_knowledge_base/execution_backlog.json) |
 | `ACT1-UI.7` | integration_check | Совокупная приёмка UI; [контракт/входы/evidence](../urman_knowledge_base/execution_backlog.json) |
 | `ACT1-LEGS` | aggregate | Правдоподобные ноги при взгляде вниз; [контракт/входы/evidence](../urman_knowledge_base/execution_backlog.json) |
-| `ACT1-LEGS.1` | integration_check | Ноги Айдара синхронизированы с фактическим движением; [контракт/входы/evidence](../urman_knowledge_base/execution_backlog.json) |
+| `ACT1-LEGS.1` | engineering | Ноги Айдара синхронизированы с фактическим движением; [контракт/входы/evidence](../urman_knowledge_base/execution_backlog.json) |
 | `ACT1-LEGS.2` | integration_check | Приёмка походки (ходьба/бег/присед/повороты); [контракт/входы/evidence](../urman_knowledge_base/execution_backlog.json) |
 | `ACT1-UI.FOCUS` | engineering | Один активный выбор при keyboard focus и hover другого пункта; [контракт/входы/evidence](../urman_knowledge_base/execution_backlog.json) |
 | `ACT1-UI.LOADING` | engineering | Понятные реальные состояния загрузки без новой обязательной иллюстрации; [контракт/входы/evidence](../urman_knowledge_base/execution_backlog.json) |
