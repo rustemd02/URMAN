@@ -4,14 +4,28 @@ namespace Urman.Godot;
 
 public partial class FirstPersonController
 {
-    private const float SprintMultiplier = 1.5f;
+    private const float SprintMultiplier = 2.6f / 1.6f;
     private const float JumpHeight = .42f;
+    private const float GroundAcceleration = 24f;
+    private const float GroundDeceleration = 30f;
+    private const float AirControlAcceleration = 5f;
     private uint _walkingCollisionLayer;
     private uint _walkingCollisionMask;
 
     public bool IsSprinting { get; private set; }
     public bool VehicleControlled { get; private set; }
     internal int GroundedJumps { get; private set; }
+
+    private void ApplyHorizontalMovement(Vector2 input, float speed, float delta, bool grounded)
+    {
+        var target = input * speed;
+        var current = new Vector2(Velocity.X, Velocity.Z);
+        var acceleration = grounded
+            ? (target.LengthSquared() > .0001f ? GroundAcceleration : GroundDeceleration)
+            : AirControlAcceleration;
+        current = current.MoveToward(target, acceleration * delta);
+        Velocity = new(current.X, Velocity.Y, current.Y);
+    }
 
     private void TryJumpFromGround()
     {
@@ -29,7 +43,7 @@ public partial class FirstPersonController
                 NotifyTraversal("Сверху тесно. Сначала выйдите туда, где можно встать.");
                 return;
             }
-            SetCrouched(false);
+            SetCrouched(false, smoothPresentation: true);
         }
         // A grounded press starts one ordinary hop. Holding the action does not
         // repeat on landing, and the step solver never cancels an upward jump.

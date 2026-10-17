@@ -30,7 +30,7 @@ public partial class FirstPersonController
     private void RestoreStanceAtDestination()
     {
         if (_stanceCapsule is null) return;
-        SetCrouched(true);
+        SetCrouched(true, smoothPresentation: false);
         _restoreStancePending = true;
     }
 
@@ -38,7 +38,7 @@ public partial class FirstPersonController
     {
         if (!_restoreStancePending) return;
         _restoreStancePending = false;
-        SetCrouched(!CanStandAt(GlobalPosition));
+        SetCrouched(!CanStandAt(GlobalPosition), smoothPresentation: false);
     }
 
     private void ToggleCrouch()
@@ -53,7 +53,7 @@ public partial class FirstPersonController
         // lantern after crouching leaves its light and the player's hand apart.
         if (_carryCoordinator is not null
             && !_carryCoordinator.TryMoveHeldForStanceChange(GlobalBasis * (targetHead - _head.Position))) return;
-        SetCrouched(crouched);
+        SetCrouched(crouched, smoothPresentation: _carryCoordinator?.HeldItem is null);
         // Staying crouched is intentional. Walking back out always remains
         // available, including after releasing the key or loading a save.
     }
@@ -108,7 +108,7 @@ public partial class FirstPersonController
         }
     }
 
-    private void SetCrouched(bool crouched)
+    private void SetCrouched(bool crouched, bool smoothPresentation = false)
     {
         if (_stanceCapsule is null || _stanceCollision is null) return;
         IsCrouching = crouched;
@@ -117,12 +117,45 @@ public partial class FirstPersonController
         _stanceCollision.Position = Vector3.Up * height * .5f;
         _headBasePosition = _standingHeadPosition
             - Vector3.Up * (crouched ? _standingHeight - CrouchedHeight : 0);
-        _head.Position = _headBasePosition;
-        _headBobPhase = 0;
+        _smoothStancePresentation = smoothPresentation;
+        if (!smoothPresentation)
+        {
+            _headStancePresentationPosition = _headBasePosition;
+            _headBobOffset = 0;
+            _head.Position = _headBasePosition;
+        }
         // Capsule and eye height change together. The lower-body pose must use
-        // that same stance immediately, including a restored low-space save;
-        // otherwise the lowered camera can enter the still-standing coat.
-        _bodyCrouch = crouched ? 1f : 0f;
+        // the same target stance. The capsule changes immediately; only the
+        // non-colliding eye/body presentation blends when clearance is known.
+        if (!smoothPresentation) _bodyCrouch = crouched ? 1f : 0f;
         UpdateVisibleBody(0, moving: false);
+    }
+
+    private void KeepCrouchCameraClearBeforeMove(Vector2 horizontalVelocity, float delta)
+    {
+        if (!_smoothStancePresentation || !IsCrouching || horizontalVelocity.LengthSquared() < .0001f) return;
+        var destination = GlobalPosition + new Vector3(horizontalVelocity.X, 0, horizontalVelocity.Y) * delta;
+        // The capsule is already crouched, so it could enter a low doorway while
+        // the smoothed eye is still at standing height. Check the next movement
+        // endpoint with the standing volume; if that path loses clearance, snap
+        // the presentation down before the capsule is allowed to move there.
+        if (CanStandAt(destination)) return;
+        SnapCrouchPresentationDown();
+    }
+
+    private void KeepCrouchCameraClearAfterMove()
+    {
+        if (!_smoothStancePresentation || !IsCrouching || CanStandAt(GlobalPosition)) return;
+        // The CharacterBody may slide to a point different from the requested
+        // endpoint. Recheck its resolved position before rendering this frame.
+        SnapCrouchPresentationDown();
+    }
+
+    private void SnapCrouchPresentationDown()
+    {
+        _headStancePresentationPosition = _headBasePosition;
+        _headBobOffset = 0;
+        _head.Position = _headBasePosition - Vector3.Up * _stepEyeDrop;
+        _smoothStancePresentation = false;
     }
 }

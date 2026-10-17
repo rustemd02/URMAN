@@ -16,7 +16,7 @@ public partial class FirstPersonController : CharacterBody3D, IAccessibilitySett
     private const int FocusSwitchFrames = 2;
 
     [Export(PropertyHint.Range, "1,8,0.1")]
-    public float WalkSpeed { get; set; } = 3.4f;
+    public float WalkSpeed { get; set; } = 1.6f;
 
     [Export(PropertyHint.Range, "0.02,1,0.01")]
     public float MouseSensitivity { get; set; } = 0.16f;
@@ -67,7 +67,9 @@ public partial class FirstPersonController : CharacterBody3D, IAccessibilitySett
     private string _gamepadInteractionHint = "[A]";
     private AccessibilitySettingsSnapshot _accessibility = AccessibilitySettingsSnapshot.Default;
     private Vector3 _headBasePosition;
-    private float _headBobPhase;
+    private Vector3 _headStancePresentationPosition;
+    private float _headBobOffset;
+    private bool _smoothStancePresentation;
     private CarryCoordinator? _carryCoordinator;
 
     public bool ModalOpen => _modalOpen || _sessionTransition;
@@ -206,6 +208,7 @@ public partial class FirstPersonController : CharacterBody3D, IAccessibilitySett
         // movement share this head anchor, including save/vehicle restoration.
         _head.Position += Vector3.Forward * .18f;
         _headBasePosition = _head.Position;
+        _headStancePresentationPosition = _headBasePosition;
         InitializeStance();
         InitializeStepMotion();
         InitializeVisibleBody();
@@ -251,7 +254,9 @@ public partial class FirstPersonController : CharacterBody3D, IAccessibilitySett
         _pitch = Mathf.Clamp((float)transform.RotationDegrees.X, -82f, 82f);
         _head.RotationDegrees = new Vector3(_pitch, 0, 0);
         _head.Position = _headBasePosition;
-        _headBobPhase = 0;
+        _headStancePresentationPosition = _headBasePosition;
+        _headBobOffset = 0;
+        _smoothStancePresentation = false;
         Velocity = Vector3.Zero;
         // Start small until the destination's restored collision has reached
         // the physics server. A save underneath a deck must not stand up inside it.
@@ -398,8 +403,8 @@ public partial class FirstPersonController : CharacterBody3D, IAccessibilitySett
         if (_modalOpen)
         {
             Velocity = Vector3.Zero;
-            UpdateHeadBob(delta, moving: false);
             UpdateVisibleBody(delta, moving: false);
+            UpdateHeadBob(delta, moving: false);
             SetInteractionPrompt(string.Empty);
             return;
         }
@@ -422,7 +427,7 @@ public partial class FirstPersonController : CharacterBody3D, IAccessibilitySett
         IsSprinting = !IsCrouching && !_worldInteractionNeedsRelease && Input.IsActionPressed("sprint")
             && input.LengthSquared() > .01f;
         var speed = IsCrouching ? WalkSpeed * .58f : IsSprinting ? WalkSpeed * SprintMultiplier : WalkSpeed;
-        Velocity = new Vector3(direction.X * speed, Velocity.Y, direction.Z * speed);
+        ApplyHorizontalMovement(new Vector2(direction.X, direction.Z), speed, (float)delta, IsOnFloor());
         TryJumpFromGround();
         if (!IsOnFloor())
         {
@@ -436,10 +441,13 @@ public partial class FirstPersonController : CharacterBody3D, IAccessibilitySett
             Velocity = _carryCoordinator.ConstrainCarriedMovement(Velocity, (float)delta);
             _carryCoordinator.ObserveCarriedMovement(requested, Velocity);
         }
+        KeepCrouchCameraClearBeforeMove(new Vector2(Velocity.X, Velocity.Z), (float)delta);
+        _bodyVerticalSpeedBeforeMove = Velocity.Y;
         if (Velocity.Y > .05f || !TryWalkUpStep((float)delta)) MoveAndSlide();
         ClampToAuthoredWorld();
-        UpdateHeadBob(delta, new Vector2(Velocity.X, Velocity.Z).LengthSquared() > 0.01f && IsOnFloor());
-        UpdateVisibleBody(delta, input.LengthSquared() > 0.01f);
+        KeepCrouchCameraClearAfterMove();
+        UpdateVisibleBody(delta, moving: false);
+        UpdateHeadBob(delta, _bodyTraveling && IsOnFloor());
         UpdateInteraction();
     }
 
@@ -543,19 +551,26 @@ public partial class FirstPersonController : CharacterBody3D, IAccessibilitySett
     private void UpdateHeadBob(double delta, bool moving)
     {
         _stepEyeDrop = Math.Max(0f, _stepEyeDrop - (float)delta * 1.8f);
-        var rest = _headBasePosition - Vector3.Up * _stepEyeDrop;
-        if (HeadBobEnabled && moving)
+        if (_smoothStancePresentation)
         {
-            _headBobPhase += (float)delta * 8.2f;
-            var offset = new Vector3(
-                Mathf.Cos(_headBobPhase * 0.5f) * 0.012f,
-                Mathf.Sin(_headBobPhase) * 0.024f,
-                0);
-            _head.Position = rest + offset;
-            return;
+            _headStancePresentationPosition = _headStancePresentationPosition.MoveToward(
+                _headBasePosition, (float)delta * 2.8f);
+            if (_headStancePresentationPosition.DistanceTo(_headBasePosition) < .001f)
+            {
+                _headStancePresentationPosition = _headBasePosition;
+                _smoothStancePresentation = false;
+            }
         }
+        else _headStancePresentationPosition = _headBasePosition;
 
-        _head.Position = _head.Position.Lerp(rest, Mathf.Clamp((float)delta * 10, 0, 1));
+        // The restrained vertical cue follows the same measured ground path as
+        // the feet. It stops after real travel stops and remains fully disabled
+        // by the player's reduced-motion preference.
+        var bobTarget = HeadBobEnabled && moving
+            ? Mathf.Sin(_bodyGait * Mathf.Tau * 2f) * .006f : 0f;
+        _headBobOffset = Mathf.Lerp(_headBobOffset, bobTarget, Mathf.Clamp((float)delta * 14f, 0f, 1f));
+        _head.Position = _headStancePresentationPosition - Vector3.Up * _stepEyeDrop
+            + Vector3.Up * _headBobOffset;
     }
 
     private void ApplyGraphicsPreset()

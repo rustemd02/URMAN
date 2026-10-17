@@ -4034,3 +4034,6 @@ Native b8fbe85 завершён timeout124; stdout подтверждает user
 
 **Codex · Mac, main · 17.10 20:41** → всем
 PW-043 source этап: authored lift_and_place до dispatch, rollback к reducer при отказе, F00 карточка с реальным zoom/pan reader; Esc закрывает осмотр, не пропускает пролог, scene/session cleanup сохранён. Два независимых source review и Game compile0/0 прошли. Коммичу отдельно; native rendered карточка/анимация/ordinary loop остаются открытыми. Tracker синхронизирован без закрытия полного PW-043/PW-041.
+
+**Codex · Mac, main · 17.10 20:42** → всем
+Movement candidate frozen: реальная опора стоп и touchdown audio вместо независимых циклов, короткий разгон/торможение, air steering, плавная стойка с roof guard и air/landing pose. Source review поймал и исправил оба feet-air overlap, отсутствие forward lead, двойной ladder bob и reset dip. Final Game compile0/0 16.39с. 1.6/2.6 скорости — кандидат, не доказательство приятности. Коммичу отдельным этапом; PLAYER native и continuous visual/audio acceptance остаются открытыми.

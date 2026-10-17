@@ -56,8 +56,12 @@ public partial class Act1PlayerMovementSmokeTest : Node
             var running = await MeasureTravel(start, sprint: true);
             var analogue = await MeasureTravel(start, sprint: false, strength: .35f);
             var diagonal = await MeasureTravel(start, sprint: false, diagonal: true);
-            Check(walking > 1.25f && walking < 2.0f && running > walking * 1.35f && running < walking * 1.65f,
-                $"real run is faster than unchanged walking: walk={walking:F3}m run={running:F3}m per 30 physics ticks");
+            // At the default 60 Hz physics rate, the 24 m/s² grounded ramp
+            // produces about .76 m at 1.6 m/s and 1.18 m at 2.6 m/s over 30
+            // ticks. Keep a modest margin for frame scheduling and collision.
+            Check(walking > .65f && walking < .90f && running > 1.0f && running < 1.38f
+                && running > walking * 1.25f && running < walking * 1.8f,
+                $"walk and sprint follow the grounded ramp (1.6/2.6 m/s): walk={walking:F3}m run={running:F3}m per 30 physics ticks");
             Check(analogue > .05f && analogue < walking * .55f && diagonal <= walking * 1.06f,
                 $"analogue approach stays gradual and diagonals stay bounded: analogue={analogue:F3}, diagonal={diagonal:F3}");
 

@@ -15,19 +15,40 @@ public partial class FirstPersonController
     private MeshInstance3D? _bodyCoatMesh;
     private Vector3 _bodyPreviousFeet;
     private float _bodyGait;
-    private float _bodyStride;
     private float _bodyCrouch;
+    private float _bodyLocomotionDip;
+    private float _bodyAirBlend;
+    private float _bodyLandingCompression;
+    private float _bodyVerticalSpeedBeforeMove;
+    private double _bodyGroundTravelMeters;
+    private double _bodyLastFootContactTravelMeters;
+    private double _bodyFootContactIntervalMeters;
+    private ulong _bodyFootContactCount;
+    private int _bodyNextSwingLegIndex;
+    private bool _bodyWasGrounded;
+    private bool _bodyTraveling;
     private global::Godot.Collections.Array<Rid> _bodyFloorExclude = null!;
 
     private sealed record BodyLeg(int Thigh, int Knee, int Ankle, Transform3D ThighRest,
-        Transform3D KneeRest, Transform3D AnkleRest, Vector3 Sole, float UpperLength, float LowerLength, float Phase)
+        Transform3D KneeRest, Transform3D AnkleRest, Vector3 Sole, float UpperLength, float LowerLength)
     {
         public Transform3D? TurnPlant;
         public Transform3D TurnFrom, TurnTarget;
         public float TurnProgress = 1f;
+        public Transform3D? GaitPlant;
+        public Transform3D SwingFrom, SwingTarget;
+        public Transform3D? LastFootPose;
+        public double SwingStartTravel;
+        public float SwingTravelMeters;
+        public float StanceTravelMeters;
+        public double PlantStartTravel;
+        public bool IsSwinging;
     }
 
     internal int VisibleBodyMeshCount { get; private set; }
+    internal double BodyGroundTravelMeters => _bodyGroundTravelMeters;
+    internal ulong BodyFootContactCount => _bodyFootContactCount;
+    internal double BodyFootContactIntervalMeters => _bodyFootContactIntervalMeters;
     internal Vector3[] VisibleBodySoles => _bodyLegs.Select(leg =>
         _bodySkeleton.GlobalTransform * _bodySkeleton.GetBoneGlobalPose(leg.Ankle)
         * (leg.AnkleRest.AffineInverse() * leg.Sole)).ToArray();
@@ -147,7 +168,7 @@ public partial class FirstPersonController
         var modelToSkeleton = thighRest * sourceSkin.GetBindPose(thighBind);
         TailorBodyTrousers(trouser, modelToSkeleton, thigh, knee, side);
         _bodyLegs.Add(new(thigh, knee, ankle, thighRest, kneeRest, ankleRest, sole,
-            thighRest.Origin.DistanceTo(kneeRest.Origin), kneeRest.Origin.DistanceTo(ankleRest.Origin), side == "Left" ? 0 : .5f));
+            thighRest.Origin.DistanceTo(kneeRest.Origin), kneeRest.Origin.DistanceTo(ankleRest.Origin)));
     }
 
     private void PrepareBodyCoat(MeshInstance3D coat)
@@ -328,14 +349,25 @@ public partial class FirstPersonController
     private void ResetVisibleBodyMotion()
     {
         _bodyPreviousFeet = GlobalPosition;
-        _bodyGait = _bodyStride = 0;
-        foreach (var leg in _bodyLegs) leg.TurnPlant = null;
+        _bodyGait = 0;
+        _bodyLocomotionDip = 0;
+        _bodyGroundTravelMeters = 0;
+        _bodyLastFootContactTravelMeters = 0;
+        _bodyFootContactIntervalMeters = 0;
+        _bodyFootContactCount = 0;
+        _bodyNextSwingLegIndex = 0;
+        _bodyTraveling = false;
+        _bodyWasGrounded = false;
+        _bodyAirBlend = _bodyLandingCompression = 0;
+        foreach (var leg in _bodyLegs)
+        {
+            leg.TurnPlant = leg.GaitPlant = leg.LastFootPose = null;
+            leg.IsSwinging = false;
+            leg.SwingTravelMeters = leg.StanceTravelMeters = 0;
+            leg.PlantStartTravel = 0;
+            leg.TurnProgress = 1;
+        }
     }
-
-    /// <summary>Metres of travel per full two-foot stride cycle. Half of it is
-    /// the plant interval, so the visible feet and the footstep audio land on
-    /// the same footsteps instead of sliding against each other.</summary>
-    internal const float GaitCycleMeters = 1.1f;
 
     private void SetBodyGlobalPose(int bone, Transform3D pose)
     {
@@ -351,7 +383,8 @@ public partial class FirstPersonController
             if (!stationary) { leg.TurnPlant = null; leg.TurnProgress = 1; continue; }
             if (leg.TurnPlant is null)
             {
-                leg.TurnPlant = _bodySkeleton.GlobalTransform * new Transform3D(Basis.Identity, ProjectBodyFoot(leg.AnkleRest.Origin));
+                leg.TurnPlant = leg.LastFootPose ?? leg.GaitPlant
+                    ?? _bodySkeleton.GlobalTransform * new Transform3D(Basis.Identity, ProjectBodyFoot(leg.AnkleRest.Origin));
                 leg.TurnProgress = 1;
             }
         }
@@ -387,6 +420,107 @@ public partial class FirstPersonController
         return foot;
     }
 
+    private Vector3 BodyDirectionInSkeleton(Vector2 movement)
+    {
+        if (movement.LengthSquared() < .000001f) return Vector3.Back;
+        var direction = _bodySkeleton.GlobalBasis.Inverse() * new Vector3(movement.X, 0, movement.Y).Normalized();
+        direction.Y = 0;
+        return direction.LengthSquared() > .000001f ? direction.Normalized() : Vector3.Back;
+    }
+
+    private float BodyStanceTravel(BodyLeg leg, Vector3 hipShift, Vector3 direction)
+    {
+        var foot = leg.GaitPlant is { } plant
+            ? (_bodySkeleton.GlobalTransform.AffineInverse() * plant).Origin
+            : leg.AnkleRest.Origin;
+        var hip = leg.ThighRest.Origin + hipShift;
+        var reach = Math.Max(.05f, leg.UpperLength + leg.LowerLength - .035f);
+        var vertical = foot.Y - hip.Y;
+        var planarReach = Mathf.Sqrt(Math.Max(0, reach * reach - vertical * vertical));
+        var horizontalDirection = new Vector2(direction.X, direction.Z).Normalized();
+        if (horizontalDirection.LengthSquared() < .000001f) horizontalDirection = Vector2.Up;
+        var offset = new Vector2(foot.X - hip.X, foot.Z - hip.Z);
+        var along = offset.Dot(horizontalDirection);
+        var across = offset - horizontalDirection * along;
+        var available = along + Mathf.Sqrt(Math.Max(0, planarReach * planarReach - across.LengthSquared()));
+        // Stance consumes only three quarters of the measured leg reach. The
+        // remaining margin lets the existing two-bone IK absorb slopes/steps
+        // without stretching the imported trousers or boot. This is a per-foot
+        // reachable travel window, not a fixed cadence shared by every direction.
+        return Mathf.Clamp(available * .75f, .02f, .65f);
+    }
+
+    private static float BodyForwardLead(BodyLeg leg, Vector3 hipShift, Vector3 direction)
+    {
+        var alongDirection = direction.Normalized();
+        var safeReach = Math.Max(.05f, leg.UpperLength + leg.LowerLength - .04f);
+        var offset = leg.AnkleRest.Origin - (leg.ThighRest.Origin + hipShift);
+        var along = offset.Dot(alongDirection);
+        var across = offset - alongDirection * along;
+        var maximumAlong = Mathf.Sqrt(Math.Max(0, safeReach * safeReach - across.LengthSquared()));
+        // Keep a small but visible lead at touchdown, bounded by the actual
+        // leg envelope at the lowered moving hip. The final two-bone solve still
+        // clamps to the exact imported thigh and shin lengths.
+        return Mathf.Clamp(maximumAlong - along, 0f, .26f);
+    }
+
+    private void RecordBodyFootContact()
+    {
+        if (_bodyFootContactCount > 0)
+            _bodyFootContactIntervalMeters = Math.Max(0, _bodyGroundTravelMeters - _bodyLastFootContactTravelMeters);
+        _bodyLastFootContactTravelMeters = _bodyGroundTravelMeters;
+        _bodyFootContactCount++;
+    }
+
+    private void UpdateGroundFootCycle(Vector3 hipShift, Vector3 travelDirection)
+    {
+        if (_bodyLegs.Count != 2 || !_bodyTraveling) return;
+        var activeSwingIndex = _bodyLegs.FindIndex(leg => leg.IsSwinging);
+        if (activeSwingIndex >= 0)
+        {
+            var swinging = _bodyLegs[activeSwingIndex];
+            var travel = (float)Math.Max(0, _bodyGroundTravelMeters - swinging.SwingStartTravel);
+            var progress = Mathf.Clamp(travel / Math.Max(.02f, swinging.SwingTravelMeters), 0f, 1f);
+            if (progress < 1f) return;
+
+            swinging.IsSwinging = false;
+            swinging.GaitPlant = swinging.SwingTarget;
+            swinging.PlantStartTravel = _bodyGroundTravelMeters;
+            swinging.StanceTravelMeters = BodyStanceTravel(swinging, hipShift, travelDirection);
+            _bodyNextSwingLegIndex = 1 - activeSwingIndex;
+            RecordBodyFootContact();
+            return;
+        }
+
+        var step = _bodyLegs[_bodyNextSwingLegIndex];
+        var support = _bodyLegs[1 - _bodyNextSwingLegIndex];
+        if (step.GaitPlant is null || support.GaitPlant is null) return;
+        var travelFromPlant = (float)Math.Max(0, _bodyGroundTravelMeters - step.PlantStartTravel);
+        var stepFootLocal = _bodySkeleton.GlobalTransform.AffineInverse() * step.GaitPlant.Value;
+        var stepHip = step.ThighRest.Origin + hipShift;
+        var stepReach = step.UpperLength + step.LowerLength - .04f;
+        var stepNearReach = (stepFootLocal.Origin - stepHip).Length() >= stepReach * .94f;
+        var supportWindow = BodyStanceTravel(support, hipShift, travelDirection);
+        // Start the first foot transfer as soon as actual movement begins; the
+        // opposite sole stays planted while the torso moves through its reach.
+        var firstTransfer = _bodyFootContactCount == 0;
+        if (!firstTransfer && travelFromPlant < step.StanceTravelMeters && !stepNearReach) return;
+
+        // Land before the opposite planted leg reaches its safe IK envelope.
+        // The small margin also gives the next foot a grounded contact frame.
+        var swingDistance = Mathf.Max(.02f, Math.Min(.55f, supportWindow * .85f));
+        step.SwingFrom = step.GaitPlant.Value;
+        step.SwingStartTravel = _bodyGroundTravelMeters;
+        step.SwingTravelMeters = swingDistance;
+        var lead = BodyForwardLead(step, hipShift, travelDirection);
+        var targetLocal = step.AnkleRest.Origin + travelDirection * (swingDistance + lead);
+        step.SwingTarget = _bodySkeleton.GlobalTransform
+            * new Transform3D(Basis.Identity, ProjectBodyFoot(targetLocal));
+        step.GaitPlant = null;
+        step.StanceTravelMeters = 0;
+        step.IsSwinging = true;
+    }
+
     private void UpdateVisibleBody(double delta, bool moving)
     {
         if (_visibleBody is null || VehicleControlled) return;
@@ -394,32 +528,82 @@ public partial class FirstPersonController
         _bodyPreviousFeet = GlobalPosition;
         var distance = movement.Length();
         if (distance > .6f) { movement = Vector2.Zero; distance = 0; }
-        // One foot plants every half cycle. Only travel along the facing may
-        // advance the cycle: strafing then shuffles instead of moonwalking
-        // forward, and backpedalling walks the cycle backwards.
-        var forward = new Vector2(-GlobalTransform.Basis.Z.X, -GlobalTransform.Basis.Z.Z);
-        var forwardLength = forward.Length();
-        var forwardShare = distance > .000001f && forwardLength > .000001f
-            ? Mathf.Clamp(movement.Dot(forward) / (forwardLength * distance), -1f, 1f) : 0f;
-        // Interpolate magnitude separately: blending .35 to -1 would freeze
-        // the gait on a shallow backward diagonal despite real travel.
-        var cycleShare = Mathf.Lerp(.35f, 1f, Mathf.Abs(forwardShare))
-            * (forwardShare < 0f ? -1f : 1f);
-        var planarSpeed = (float)delta > 0f ? distance / (float)delta : 0f;
         var grounded = IsOnFloor() && !IsClimbingLadder;
-        if (grounded) _bodyGait = ((_bodyGait + distance * cycleShare / GaitCycleMeters) % 1f + 1f) % 1f;
-        var walking = moving && distance > .0005f && grounded;
-        var modeSpeed = IsCrouching ? WalkSpeed * .58f : IsSprinting ? WalkSpeed * SprintMultiplier : WalkSpeed;
-        var strideTarget = walking
-            ? (IsSprinting ? .24f : .17f)
-                * Mathf.Clamp(planarSpeed / modeSpeed, .4f, 1f)
-                * Mathf.Clamp(.4f + .6f * Mathf.Abs(forwardShare), .4f, 1f)
-            : 0f;
-        _bodyStride = Mathf.MoveToward(_bodyStride, strideTarget, (float)delta * 1.2f);
-        _bodyCrouch = Mathf.MoveToward(_bodyCrouch, IsCrouching ? 1 : 0, (float)delta * 9f);
-        UpdateTurnPlants(grounded && !walking && distance < .0005f && _bodyStride < .001f
-            && _bodyCrouch < .001f && !_modalOpen);
-        var hipShift = new Vector3(0, -.27f * _bodyCrouch, -.10f * _bodyCrouch);
+        _bodyTraveling = grounded && distance > .0005f;
+        if (grounded && distance > .0001f)
+        {
+            _bodyGroundTravelMeters += distance;
+        }
+        if (_bodyFootContactIntervalMeters > .001f)
+        {
+            var intervalProgress = Mathf.Clamp((float)((_bodyGroundTravelMeters - _bodyLastFootContactTravelMeters)
+                / _bodyFootContactIntervalMeters), 0f, 1f);
+            _bodyGait = (_bodyFootContactCount & 1) == 0
+                ? intervalProgress * .5f
+                : .5f + intervalProgress * .5f;
+        }
+        if (grounded && !_bodyWasGrounded)
+            _bodyLandingCompression = Mathf.Clamp(-_bodyVerticalSpeedBeforeMove * .006f, 0, .025f);
+        _bodyWasGrounded = grounded;
+        _bodyAirBlend = Mathf.MoveToward(_bodyAirBlend, grounded ? 0f : 1f,
+            (float)delta * (grounded ? 8f : 5f));
+        _bodyLandingCompression = Mathf.MoveToward(_bodyLandingCompression, 0f, (float)delta * .20f);
+        _bodyCrouch = Mathf.MoveToward(_bodyCrouch, IsCrouching ? 1 : 0, (float)delta * 3.8f);
+        _bodyLocomotionDip = Mathf.MoveToward(_bodyLocomotionDip,
+            _bodyTraveling && !IsCrouching ? 1f : 0f, (float)delta * 14f);
+        var hipShift = new Vector3(0, -.27f * _bodyCrouch - .15f * _bodyLocomotionDip
+                - .018f * _bodyAirBlend - _bodyLandingCompression,
+            -.10f * _bodyCrouch);
+        var localTravelDirection = BodyDirectionInSkeleton(movement);
+
+        if (grounded)
+        {
+            foreach (var leg in _bodyLegs)
+            {
+                if (!_bodyTraveling)
+                {
+                    // Freeze a step exactly where movement stopped. Projecting
+                    // it during the pose update below removes any swing lift,
+                    // without pulling a planted sole back under the pelvis.
+                    if (leg.IsSwinging)
+                    {
+                        RecordBodyFootContact();
+                        _bodyNextSwingLegIndex = 1 - _bodyLegs.IndexOf(leg);
+                    }
+                    if (leg.LastFootPose is { } last) leg.GaitPlant = last;
+                    if (leg.GaitPlant is null)
+                        leg.GaitPlant = _bodySkeleton.GlobalTransform
+                            * new Transform3D(Basis.Identity, ProjectBodyFoot(leg.AnkleRest.Origin));
+                    leg.IsSwinging = false;
+                    leg.StanceTravelMeters = 0;
+                    leg.PlantStartTravel = _bodyGroundTravelMeters;
+                }
+                else if (leg.GaitPlant is null && !leg.IsSwinging)
+                {
+                    leg.GaitPlant = _bodySkeleton.GlobalTransform
+                        * new Transform3D(Basis.Identity, ProjectBodyFoot(leg.AnkleRest.Origin));
+                    leg.PlantStartTravel = _bodyGroundTravelMeters;
+                    leg.StanceTravelMeters = BodyStanceTravel(leg, hipShift, localTravelDirection);
+                }
+                else if (_bodyTraveling && leg.GaitPlant is not null && leg.StanceTravelMeters <= 0)
+                {
+                    leg.PlantStartTravel = _bodyGroundTravelMeters;
+                    leg.StanceTravelMeters = BodyStanceTravel(leg, hipShift, localTravelDirection);
+                }
+            }
+        }
+        else
+        {
+            foreach (var leg in _bodyLegs)
+            {
+                leg.GaitPlant = null;
+                leg.TurnPlant = null;
+                leg.IsSwinging = false;
+                leg.StanceTravelMeters = 0;
+            }
+        }
+
+        UpdateTurnPlants(grounded && !_bodyTraveling && _bodyCrouch < .001f && !_modalOpen);
         // Turning the hips over planted feet needs a little knee bend. Keep
         // both anchors within the real leg reach instead of dragging them
         // inward with the final IK clamp as the torso rotates away.
@@ -434,12 +618,12 @@ public partial class FirstPersonController
         _bodySkeleton.SetBonePosePosition(_bodySpine, _bodySpineRest + hipShift);
         SetBodyGlobalPose(_bodyUpperCoat, new(Basis.Identity.Scaled(new Vector3(1, 1f - .60f * _bodyCrouch, 1)),
             _bodyUpperCoatRest.Origin + hipShift));
+        if (grounded) UpdateGroundFootCycle(hipShift, localTravelDirection);
         foreach (var leg in _bodyLegs)
         {
-            var phase = (_bodyGait + leg.Phase) % 1f;
-            var wave = Mathf.Sin(phase * Mathf.Tau);
-            var foot = leg.AnkleRest.Origin + new Vector3(0, 0, -Mathf.Cos(phase * Mathf.Tau) * _bodyStride);
             var footBasis = Basis.Identity;
+            var foot = leg.AnkleRest.Origin;
+            var swingLift = 0f;
             var turnLift = 0f;
             if (leg.TurnPlant is { } plant)
             {
@@ -454,10 +638,31 @@ public partial class FirstPersonController
                 foot = localPlant.Origin;
                 footBasis = localPlant.Basis;
             }
-            if (IsOnFloor() && !IsClimbingLadder)
+
+            if (grounded && leg.TurnPlant is null)
+            {
+                if (leg.IsSwinging)
+                {
+                    var travel = (float)Math.Max(0, _bodyGroundTravelMeters - leg.SwingStartTravel);
+                    var progress = Mathf.Clamp(travel / Math.Max(.02f, leg.SwingTravelMeters), 0f, 1f);
+                    var eased = 1f - (1f - progress) * (1f - progress);
+                    var swingWorld = leg.SwingFrom.InterpolateWith(leg.SwingTarget, eased);
+                    foot = (_bodySkeleton.GlobalTransform.AffineInverse() * swingWorld).Origin;
+                    footBasis = (_bodySkeleton.GlobalTransform.AffineInverse() * swingWorld).Basis;
+                    swingLift = Mathf.Sin(progress * Mathf.Pi) * .045f;
+                }
+                else if (leg.GaitPlant is { } gaitPlant)
+                {
+                    var localPlant = _bodySkeleton.GlobalTransform.AffineInverse() * gaitPlant;
+                    foot = localPlant.Origin;
+                    footBasis = localPlant.Basis;
+                }
+            }
+
+            if (grounded)
                 foot = ProjectBodyFoot(foot);
-            else foot.Y += .06f;
-            foot.Y += Math.Max(0, wave) * _bodyStride * .40f + turnLift;
+            else foot.Y += .035f * _bodyAirBlend;
+            foot.Y += swingLift + turnLift;
             var hip = leg.ThighRest.Origin + hipShift;
             var offset = foot - hip;
             var reach = Mathf.Clamp(offset.Length(), .05f, leg.UpperLength + leg.LowerLength - .001f);
@@ -473,6 +678,7 @@ public partial class FirstPersonController
             SetBodyGlobalPose(leg.Thigh, new(new Basis(thighTurn) * leg.ThighRest.Basis, hip));
             SetBodyGlobalPose(leg.Knee, new(new Basis(shinTurn), knee));
             SetBodyGlobalPose(leg.Ankle, new(footBasis, foot));
+            leg.LastFootPose = _bodySkeleton.GlobalTransform * new Transform3D(footBasis, foot);
         }
     }
 }

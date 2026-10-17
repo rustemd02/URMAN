@@ -70277,7 +70277,7 @@
       "milestone": "M5",
       "status": "in_progress",
       "complexity": "medium",
-      "active_owner": "Codex/performance",
+      "active_owner": null,
       "owner": "finished-act1",
       "parent_id": "ACT1-LEGS",
       "depends_on": [],
@@ -70402,18 +70402,18 @@
       },
       "assigned_owner": "finished-act1",
       "activity": {
-        "state": "confirmed_active",
-        "reason": "17.10: performance принял пять файлов согласованного locomotion; подтверждены разные фазы ног/звука/камеры и скачок стойки."
+        "state": "not_active",
+        "reason": "Performance передал frozen controller; root принимает текущим существующим PLAYER runtime."
       },
       "task_type": "engineering",
-      "implementation_state": "partial",
+      "implementation_state": "implemented",
       "technical_verification_state": "not_run",
       "remaining": [
         "В движении/остановке/повороте нет противофазы и скольжения ног; тело не мешает камере/взаимодействию. Есть короткий захват анимации, не только статичный кадр.",
         "Ноги, звук шагов и restrained bob используют фактическое post-move горизонтальное перемещение, включая strafe/backwards; у стены/остановки нет шага на месте и ретракционного скольжения.",
         "Взлёт/полёт/приземление и crouch/stand переходят согласованно без скачка глаза; сохраняются roof/grounded/input/modal/reduced-motion guards и достижимость IK."
       ],
-      "next_action": "performance реализует согласованный controller diff; затем независимое ревью, узкая компиляция и текущий Windows motion просмотр.",
+      "next_action": "Root: один existing act1_player_movement_smoke_test на новом candidate через station, затем inspect кадров/конкретных defects; непрерывный feel gate остаётся отдельным.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -70476,7 +70476,7 @@
           ],
           "repeat_only_if": "Изменился покрываемый вход/consumer/контракт; без этого уже принятая проверка используется повторно без запуска."
         },
-        "actual_result": "Source diagnosis: walk3.4m/s, cycle1.1m (~6.18 footfalls/s); strafe cycleShare.35 при audio .55m; bob8.2rad/s независимо от скорости; eye стойки скачет. Новые 2.2/4.0m/s и cycle2m — гипотеза кандидата, не принятый feel.",
+        "actual_result": "17.10 source candidate: 1.6m/s walk,2.6 sprint, короткий ground accel/decel и bounded air steering; grounded gait допускает только один swing, world plants/forward lead ограничены реальными длинами ног; звук touchdown-driven, bob согласован с контактами. Takeoff/landing/stance сглажены; low-roof camera guard до и после move; save/zone/vehicle reset очищает presentation. Fixed2m cycle и2.2/4.0 отвергнуты при review из-за отсутствия опоры. Новый feel не принят.",
         "evidence_refs": [
           "tasks[id=ACT1-LEGS.1].evidence"
         ],
@@ -70602,6 +70602,18 @@
           ],
           "engineering_completion_excludes_external_gates": true
         }
+      },
+      "source_stage_2026_10_17": {
+        "verification": "Final affected Game compile0warnings/0errors16.39с, независимый review: support-gap/forwardlead/ladder duplicate/reset исправлены. Existing speed assertion минимально обновлён, новыхtests нет.",
+        "remaining": "Existing PLAYER native receipt/кадры и непрерывная авторская приёмка; компиляция не доказывает естественность/звук.",
+        "targets": [
+          "game/scripts/FirstPersonController.cs",
+          "game/scripts/FirstPersonController.Body.cs",
+          "game/scripts/FirstPersonController.Movement.cs",
+          "game/scripts/FirstPersonController.Stance.cs",
+          "game/scripts/FootstepAudioController.cs",
+          "game/tests/Act1PlayerMovementSmokeTest.cs"
+        ]
       }
     },
     {
