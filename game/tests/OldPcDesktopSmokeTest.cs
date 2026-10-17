@@ -24,6 +24,10 @@ public partial class OldPcDesktopSmokeTest : Node
         try
         {
             main = ResourceLoader.Load<PackedScene>("res://scenes/main.tscn")!.Instantiate<Main>();
+            // The physical arrival photograph lives in the house zone of the
+            // connected world; this bounded test mounts it like the other
+            // Act I smokes instead of walking to it.
+            main.EnableAct1ConnectedWorld = true;
             AddChild(main);
             await Frames(3);
             var bridge = GetTree().GetFirstNodeInGroup("runtime_bridge") as RuntimeBridge
@@ -419,7 +423,10 @@ public partial class OldPcDesktopSmokeTest : Node
         await Frames(3);
 
         // Use the existing arrival source/reader as in Act1ArrivalFlowProof. This
-        // bounded desktop test checks reachable narrative state, not the walk to it.
+        // bounded desktop test checks reachable narrative state, not the walk to it:
+        // the photograph is owned by the house zone, so activate that zone directly.
+        main.SwitchZone("house_old_pc", "entry");
+        await Frames(3);
         var original = main.FindChildren("ArrivalPhotoTarget", nameof(StaticBody3D), true, false)
             .OfType<InteractionTarget>().Single();
         Check(original.IsAvailable() && original.DocumentId == originalId,

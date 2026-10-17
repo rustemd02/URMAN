@@ -19792,7 +19792,11 @@
             "title": "Подключить browser navigation/back/history к accessConditions и desktop snapshot",
             "result": "Подключить browser navigation/back/history к accessConditions и desktop snapshot",
             "owner": "finished-act1",
-            "evidence": [],
+            "evidence": [
+              "evidence/ACT1-OLDPC/desktop-smoke-20261017/receipt.json",
+              "evidence/ACT1-OLDPC/desktop-smoke-20261017/game.log",
+              "evidence/ACT1-OLDPC/desktop-smoke-20261017/engine-errors.log"
+            ],
             "assigned_owner": "finished-act1",
             "active_owner": null,
             "activity": {
@@ -19800,13 +19804,11 @@
               "reason": "Живое исполнение этой единицы при миграции не подтверждено."
             },
             "task_type": "engineering",
-            "status": "todo",
-            "implementation_state": "partial",
-            "technical_verification_state": "not_run",
-            "remaining": [
-              "Подключить browser navigation/back/history к accessConditions и desktop snapshot; собственного целевого receipt пока нет."
-            ],
-            "next_action": "Сопоставить текущий результат: Подключить browser navigation/back/history к accessConditions и desktop snapshot. Затем изменить только установленный остаток.",
+            "status": "completed",
+            "implementation_state": "implemented",
+            "technical_verification_state": "passed",
+            "remaining": [],
+            "next_action": "Собственный DoD принят: receipt 41432d83 — back/история сохраняются и восстанавливаются, locked-адреса не обходят accessConditions, BrowserHistory живёт в desktop snapshot. Новых версий требований нет.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -19858,7 +19860,11 @@
             "title": "Подключить document viewer с повторным чтением и запретом чужого knowledge",
             "result": "Подключить document viewer с повторным чтением и запретом чужого knowledge",
             "owner": "finished-act1",
-            "evidence": [],
+            "evidence": [
+              "evidence/ACT1-OLDPC/desktop-smoke-20261017/receipt.json",
+              "evidence/ACT1-OLDPC/desktop-smoke-20261017/game.log",
+              "evidence/ACT1-OLDPC/desktop-smoke-20261017/engine-errors.log"
+            ],
             "assigned_owner": "finished-act1",
             "active_owner": null,
             "activity": {
@@ -19866,13 +19872,11 @@
               "reason": "Живое исполнение этой единицы при миграции не подтверждено."
             },
             "task_type": "engineering",
-            "status": "todo",
-            "implementation_state": "partial",
-            "technical_verification_state": "not_run",
-            "remaining": [
-              "Подключить document viewer с повторным чтением и запретом чужого knowledge; собственного целевого receipt пока нет."
-            ],
-            "next_action": "Сопоставить текущий результат: Подключить document viewer с повторным чтением и запретом чужого knowledge. Затем изменить только установленный остаток.",
+            "status": "completed",
+            "implementation_state": "implemented",
+            "technical_verification_state": "passed",
+            "remaining": [],
+            "next_action": "Собственный DoD принят: receipt 41432d83 — viewer открывает реальные источники по ссылкам, повторное чтение не дублирует запись и не выдаёт чужое знание, закрытая фотография не раскрывается до исходника. Новых версий требований нет.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -19924,7 +19928,11 @@
             "title": "Подключить notes/editor save draft и reopen без потери пользовательского текста",
             "result": "Подключить notes/editor save draft и reopen без потери пользовательского текста",
             "owner": "finished-act1",
-            "evidence": [],
+            "evidence": [
+              "evidence/ACT1-OLDPC/desktop-smoke-20261017/receipt.json",
+              "evidence/ACT1-OLDPC/desktop-smoke-20261017/game.log",
+              "evidence/ACT1-OLDPC/desktop-smoke-20261017/engine-errors.log"
+            ],
             "assigned_owner": "finished-act1",
             "active_owner": null,
             "activity": {
@@ -19932,13 +19940,11 @@
               "reason": "Живое исполнение этой единицы при миграции не подтверждено."
             },
             "task_type": "engineering",
-            "status": "todo",
-            "implementation_state": "partial",
-            "technical_verification_state": "not_run",
-            "remaining": [
-              "Подключить notes/editor save draft и reopen без потери пользовательского текста; собственного целевого receipt пока нет."
-            ],
-            "next_action": "Сопоставить текущий результат: Подключить notes/editor save draft и reopen без потери пользовательского текста. Затем изменить только установленный остаток.",
+            "status": "completed",
+            "implementation_state": "implemented",
+            "technical_verification_state": "passed",
+            "remaining": [],
+            "next_action": "Собственный DoD принят: receipt 41432d83 — заметка сохраняет текст (включая татарские буквы), удаление/восстановление из корзины и load не теряют пользовательский текст; новая игра его не наследует. Новых версий требований нет.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -19990,7 +19996,11 @@
             "title": "Подключить social page links/доступные записи к snapshot без spoiler выдачи",
             "result": "Подключить social page links/доступные записи к snapshot без spoiler выдачи",
             "owner": "finished-act1",
-            "evidence": [],
+            "evidence": [
+              "evidence/ACT1-OLDPC/desktop-smoke-20261017/receipt.json",
+              "evidence/ACT1-OLDPC/desktop-smoke-20261017/game.log",
+              "evidence/ACT1-OLDPC/desktop-smoke-20261017/engine-errors.log"
+            ],
             "assigned_owner": "finished-act1",
             "active_owner": null,
             "activity": {
@@ -19998,13 +20008,11 @@
               "reason": "Живое исполнение этой единицы при миграции не подтверждено."
             },
             "task_type": "engineering",
-            "status": "todo",
-            "implementation_state": "partial",
-            "technical_verification_state": "not_run",
-            "remaining": [
-              "Подключить social page links/доступные записи к snapshot без spoiler выдачи; собственного целевого receipt пока нет."
-            ],
-            "next_action": "Сопоставить текущий результат: Подключить social page links/доступные записи к snapshot без spoiler выдачи. Затем изменить только установленный остаток.",
+            "status": "completed",
+            "implementation_state": "implemented",
+            "technical_verification_state": "passed",
+            "remaining": [],
+            "next_action": "Собственный DoD принят: receipt 41432d83 — лента и карточки ответов доступны по snapshot, чужие/закрытые записи выдаются без спойлеров, ссылки профилей открываются через общий runtime. Новых версий требований нет.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
