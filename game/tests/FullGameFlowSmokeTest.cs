@@ -67,7 +67,7 @@ public partial class FullGameFlowSmokeTest : Node
 
             GD.Print("fullgame-flow-smoke: SEMANTIC PASS — prologue/skip, B01 Niva stop and home tea, W01↔W02 order, W03, independent outside evidence, "
                 + "Old PC family folder contact sheet/copy/search and caption-before-print/print, W04, unresolved Marat question, epilogue and return/revisit, optional W05 cellar after the finale; "
-                + "PHYSICAL NOT_RUN — home printer prop and physical print consumers (PW-042/PW-075), PW-094 ordinary route, PW-098 handover/anchors/art.");
+                + "PHYSICAL NOT_RUN — physical print consumers (PW-042/PW-075), PW-094 ordinary route, PW-098 handover/anchors/art.");
         }
         catch (Exception error)
         {

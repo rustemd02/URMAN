@@ -191,6 +191,7 @@ internal partial class ArrivalPersonalProps : Node3D
             "urman.fullgame:interaction/pw-enter-forest", "Вернуться к лесному снимку", rayOnly: true);
 
         BuildWaterChain(house, things, paper);
+        BuildHomePrinter(house, things, paper);
     }
 
     // The family envelope with the second print of the old footbridges lies one
@@ -349,6 +350,184 @@ internal partial class ArrivalPersonalProps : Node3D
             CommonFilePermissionTarget = filePermission,
             TeaTarget = house.GetNodeOrNull<InteractionTarget>("GulsinaNpc"),
             Print = print
+        });
+    }
+
+    // The desk printer beside the old PC. Its sheet is the same authored
+    // P-COMMON page the book mounts, so the paper never becomes a second
+    // source. The patch is picked from measured free table area: every
+    // candidate must sit flat on the real TableTop faces and stay clear of
+    // every already visible home prop, exactly like the book and envelope.
+    private static void BuildHomePrinter(StyleBenchmarkZone house, ArrivalPersonalProps things,
+        Material paper)
+    {
+        const float bodyWidth = .36f;
+        const float bodyDepth = .30f;
+        const float bodyHeight = .15f;
+        var table = house.GetNode<Node3D>("GeneratedHouseInteriorAct1")
+            .FindChildren("*", nameof(MeshInstance3D), true, false)
+            .OfType<MeshInstance3D>().Single(mesh => mesh.Name == "HouseInterior_TableTop_LOD0");
+        var support = PublicBuildingShell.Bounds(house, table);
+        var faceTransform = house.GlobalTransform.AffineInverse() * table.GlobalTransform;
+        var faces = table.Mesh!.GetFaces().Select(face => faceTransform * face).ToArray();
+
+        // Pick the free patch closest to the old PC: the CRT, the paper stack,
+        // the cup and the lamp own the rest of the west stretch, and the sheet
+        // slides forward, so the tray needs open table in front of it.
+        var chosen = Vector3.Zero;
+        var placed = false;
+        var bestDistance = float.PositiveInfinity;
+        var gridStep = .06f;
+        var xs = new List<float>();
+        var zs = new List<float>();
+        for (var x = support.Position.X + .32f; x <= support.End.X - .32f; x += gridStep)
+            xs.Add(x);
+        for (var z = support.Position.Z + .22f; z <= support.End.Z - .22f; z += gridStep)
+            zs.Add(z);
+
+        foreach (var x in xs)
+        foreach (var z in zs)
+        {
+            var candidate = new Vector2(x, z);
+            var halfWidth = bodyWidth * .5f + .01f;
+            var halfDepth = bodyDepth * .5f + .01f;
+            var points = new List<Vector2> { candidate };
+            foreach (var signX in new[] { -1f, 1f })
+            foreach (var signZ in new[] { -1f, 1f })
+                points.Add(candidate + new Vector2(signX * halfWidth, signZ * halfDepth));
+            var heights = points.Select(point => TableTopHeightAt(
+                point, faces, support.Position.Y - .01f, support.End.Y + .01f)).ToArray();
+            if (heights.Any(float.IsNaN) || heights.Max() - heights.Min() > .002f)
+                continue;
+
+            var bounds = new Aabb(
+                new(points.Min(point => point.X), heights.Max(), points.Min(point => point.Y)),
+                new(points.Max(point => point.X) - points.Min(point => point.X), bodyHeight + .01f,
+                    points.Max(point => point.Y) - points.Min(point => point.Y)));
+            var blocker = house.FindChildren("*", nameof(MeshInstance3D), true, false)
+                .OfType<MeshInstance3D>()
+                .Where(mesh => mesh.Mesh is not null && mesh.IsVisibleInTree()
+                    && mesh.Name != "HouseInterior_TableTop_LOD0" && mesh.Name != "TeaTablecloth")
+                .FirstOrDefault(mesh => Overlaps(bounds, PublicBuildingShell.Bounds(house, mesh)));
+            if (blocker is not null)
+            {
+                GD.PushWarning($"Printer candidate ({x:0.00},{z:0.00}) overlaps {blocker.Name}.");
+                continue;
+            }
+
+            // Prefer a patch near the old PC anchor instead of the far west
+            // corner of the table.
+            var distance = (x - 0f) * (x - 0f) + (z + 2.68f) * (z + 2.68f);
+            if (distance >= bestDistance) continue;
+            bestDistance = distance;
+            chosen = new Vector3(x, heights.Max() + .004f, z);
+            placed = true;
+        }
+
+        if (!placed)
+            throw new InvalidOperationException("No supported free table patch remains for the desk printer.");
+
+        var printer = new Node3D
+        {
+            Name = "HomeDeskPrinter",
+            Position = chosen
+        };
+        printer.SetMeta("geometryOwner", nameof(ArrivalPersonalProps));
+        printer.SetMeta("presentationRole", "desk printer that turns the authored P-COMMON print into paper");
+        printer.SetMeta("assetStatus", "project-original procedural printer; the sheet reuses the authored p-common back artwork");
+        things.AddChild(printer);
+
+        var body = new MeshInstance3D
+        {
+            Name = "PrinterBody",
+            Position = new(0f, bodyHeight * .5f, 0f),
+            Mesh = RuralPropGeometry.BevelBox(new(bodyWidth, bodyHeight, bodyDepth), .004f),
+            MaterialOverride = RuralPropMaterials.Surface("plastic", "c9bfa6")
+        };
+        body.SetMeta("visualOnly", true);
+        printer.AddChild(body);
+
+        var lid = new MeshInstance3D
+        {
+            Name = "PrinterLidSeam",
+            Position = new(0f, bodyHeight + .001f, -.008f),
+            Mesh = RuralPropGeometry.BevelBox(new(bodyWidth - .04f, .006f, bodyDepth - .06f), .0015f),
+            MaterialOverride = RuralPropMaterials.Surface("plastic", "b3a98f")
+        };
+        lid.SetMeta("visualOnly", true);
+        printer.AddChild(lid);
+
+        var slot = new MeshInstance3D
+        {
+            Name = "PrinterOutputSlot",
+            Position = new(0f, .052f, bodyDepth * .5f),
+            Mesh = RuralPropGeometry.BevelBox(new(bodyWidth - .10f, .022f, .012f), .001f),
+            MaterialOverride = RuralPropMaterials.Surface("rubber", "3f3a33")
+        };
+        slot.SetMeta("visualOnly", true);
+        printer.AddChild(slot);
+
+        var outputTray = new MeshInstance3D
+        {
+            Name = "PrinterOutputTray",
+            Position = new(0f, .044f, bodyDepth * .5f + .06f),
+            Mesh = RuralPropGeometry.BevelBox(new(bodyWidth - .08f, .006f, .12f), .002f),
+            MaterialOverride = RuralPropMaterials.Surface("plastic", "bdb397")
+        };
+        outputTray.SetMeta("visualOnly", true);
+        printer.AddChild(outputTray);
+
+        var led = new MeshInstance3D
+        {
+            Name = "PrinterPowerLed",
+            Position = new(.12f, .052f, bodyDepth * .5f + .001f),
+            Mesh = new BoxMesh { Size = new(.008f, .004f, .002f) },
+            MaterialOverride = PainterlyMaterialLibrary.ForColor("86a86b")
+        };
+        led.SetMeta("visualOnly", true);
+        printer.AddChild(led);
+
+        var sheet = new Node3D { Name = "PrinterSheet", Visible = false };
+        printer.AddChild(sheet);
+        var sheetPaper = new MeshInstance3D
+        {
+            Name = "PrinterSheetPaper",
+            Mesh = RuralPropGeometry.BevelBox(new(.148f, .0014f, .100f), .0004f),
+            MaterialOverride = paper
+        };
+        sheetPaper.SetMeta("visualOnly", true);
+        sheet.AddChild(sheetPaper);
+        const string sheetBackPath = "res://assets/textures/photobook/backs-v1/p-common-back.svg";
+        if (ResourceLoader.Exists(sheetBackPath)
+            && ResourceLoader.Load<Texture2D>(sheetBackPath) is { } backTexture)
+        {
+            var backMaterial = new StandardMaterial3D
+            {
+                AlbedoTexture = backTexture,
+                Roughness = 1f,
+                TextureFilter = BaseMaterial3D.TextureFilterEnum.LinearWithMipmaps
+            };
+            var back = new MeshInstance3D
+            {
+                Name = "PrinterSheetBack",
+                Position = new(0f, .0011f, 0f),
+                // The authored page reads from the room side, like the water print.
+                RotationDegrees = new(-90f, 0f, 180f),
+                Mesh = new QuadMesh { Size = new(.140f, .094f) },
+                MaterialOverride = backMaterial
+            };
+            back.SetMeta("visualOnly", true);
+            back.SetMeta("assetSource", sheetBackPath);
+            back.SetMeta("assetStatus", "authored back face; the P-COMMON front art remains specified, not produced");
+            sheet.AddChild(back);
+        }
+
+        printer.AddChild(new HomePrinterPresence
+        {
+            Name = "HomePrinterPresence",
+            Sheet = sheet,
+            SheetInLocalZ = .075f,
+            SheetOutLocalZ = .215f
         });
     }
 

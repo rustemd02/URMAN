@@ -51,7 +51,7 @@ public partial class FullGameDressingCapture : Node
     // full-game scene. The camera stands at the authored house entry spawn and
     // looks at the family table; the close frame steps from the envelope back
     // towards that entry, which is the way a player approaches the table.
-    private const int HomeFrameCount = 3;
+    private const int HomeFrameCount = 5;
 
     public override async void _Ready()
     {
@@ -261,6 +261,38 @@ public partial class FullGameDressingCapture : Node
         if (!await ShotAsync("home_water_envelope",
             envelope + Vector3.Up * .45f + roomFront * .10f,
             envelope + Vector3.Up * .01f))
+        {
+            return false;
+        }
+
+        // The desk printer stands in its own measured patch left of the
+        // keyboard; the ordinary state has an empty output tray.
+        var printerNode = zone.FindChild("HomeDeskPrinter", true, false) as Node3D;
+        var sheetNode = printerNode?.FindChild("PrinterSheet", true, false) as Node3D;
+        var printerPresence = printerNode?.FindChild("HomePrinterPresence", true, false) as HomePrinterPresence;
+        if (printerNode is null || sheetNode is null || printerPresence is null)
+        {
+            Fail("The runtime-backed home is missing the desk printer.");
+            return false;
+        }
+        GD.Print($"fullgame-home: printer={printerNode.GlobalPosition} sheetVisible={sheetNode.Visible} "
+            + $"sheetZ={sheetNode.Position.Z} staged=false");
+        if (!await ShotAsync("home_pc_printer",
+            printerNode.GlobalPosition + new Vector3(.85f, .68f, 1.15f),
+            printerNode.GlobalPosition + new Vector3(0f, .06f, -.02f)))
+        {
+            return false;
+        }
+
+        // Staged, presentation-only frame: the sheet's ordinary appearance is
+        // driven by the real mounted state (PW-042 remaining). This frame only
+        // proves the tray geometry and the authored p-common page.
+        printerPresence.ApplyCaptureFacts(sheetInTray: true);
+        GD.Print($"fullgame-home: printer sheet staged for the static frame only; sheetVisible={sheetNode.Visible} "
+            + $"sheetZ={sheetNode.Position.Z} captureFact=staged-sheet");
+        if (!await ShotAsync("home_pc_printer_sheet",
+            printerNode.GlobalPosition + new Vector3(.85f, .68f, 1.15f),
+            printerNode.GlobalPosition + new Vector3(0f, .06f, -.02f)))
         {
             return false;
         }
