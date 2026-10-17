@@ -406,7 +406,10 @@ public partial class Main : Node3D
         if (alreadyMounted)
         {
             if (routeSceneChanged && sameSession)
-                PlacePlayerAtW01Entry(_mountedW01!, entryAnchorId);
+            {
+                var resolved = ResolveEntryAnchor(_mountedW01!, entryAnchorId, "F00");
+                PlacePlayerAtW01Entry(_mountedW01!, resolved);
+            }
             _preserveLoadedPhotoWorldTransform = false;
             _loadedPhotoWorldTransformSession = null;
             SetW01Ambience();
@@ -424,11 +427,25 @@ public partial class Main : Node3D
         }
 
         var world = packed.Instantiate<Node3D>();
+        var resolvedAnchorId = entryAnchorId;
         if (world.GetNodeOrNull<Node3D>($"Anchors/{entryAnchorId}") is null)
         {
-            world.Free();
-            GD.PushError($"Full-game W01 presentation has no authored Anchors/{entryAnchorId} entry point.");
-            return;
+            // Named fallback instead of an unnamed/zero spawn: the default
+            // entry anchor is the verified safe node for this world.
+            const string fallbackAnchorId = "F00";
+            if (entryAnchorId != fallbackAnchorId
+                && world.GetNodeOrNull<Node3D>($"Anchors/{fallbackAnchorId}") is not null)
+            {
+                GD.PushWarning($"Full-game W01 presentation has no authored Anchors/{entryAnchorId} entry point; "
+                    + $"using named fallback Anchors/{fallbackAnchorId}.");
+                resolvedAnchorId = fallbackAnchorId;
+            }
+            else
+            {
+                world.Free();
+                GD.PushError($"Full-game W01 presentation has no authored Anchors/{entryAnchorId} entry point.");
+                return;
+            }
         }
 
         RetireConnectedWorld();
@@ -452,7 +469,7 @@ public partial class Main : Node3D
         _preserveLoadedPhotoWorldTransform = false;
         _loadedPhotoWorldTransformSession = null;
         if (placeAtEntry)
-            PlacePlayerAtW01Entry(world, entryAnchorId);
+            PlacePlayerAtW01Entry(world, resolvedAnchorId);
         SetW01Ambience();
 
         _lastFullGameRouteSession = projection.SessionIdentity;
@@ -460,7 +477,21 @@ public partial class Main : Node3D
         if (_hasLoadedInitialZone)
             PlayZoneTransition();
         _hasLoadedInitialZone = true;
-        GD.Print($"fullgame-scene-loaded: {projection.ActiveSceneId} physical=W01 entry={entryAnchorId}");
+        GD.Print($"fullgame-scene-loaded: {projection.ActiveSceneId} physical=W01 entry={resolvedAnchorId}");
+    }
+
+    private static string ResolveEntryAnchor(Node3D world, string entryAnchorId, string fallbackAnchorId)
+    {
+        if (world.GetNodeOrNull<Node3D>($"Anchors/{entryAnchorId}") is not null)
+            return entryAnchorId;
+        if (entryAnchorId != fallbackAnchorId
+            && world.GetNodeOrNull<Node3D>($"Anchors/{fallbackAnchorId}") is not null)
+        {
+            GD.PushWarning($"Full-game W01 presentation has no authored Anchors/{entryAnchorId} entry point; "
+                + $"using named fallback Anchors/{fallbackAnchorId}.");
+            return fallbackAnchorId;
+        }
+        return entryAnchorId;
     }
 
     private bool IsMountedZone(string zoneId)

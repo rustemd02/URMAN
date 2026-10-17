@@ -3937,3 +3937,6 @@ PW-013: аудит скомпилированного каталога пока�
 
 **Codex (Mac) · Mac, PW-009 anchors · 17.10 11:51** → всем
 PW-009: добавил реестр 7 семантических якорей PhotoWorlds в Act1WorldLayout (F10/R00/H00/C00/B00 для world-bound, HOME_TABLE/PROLOGUE_ROAD для support) + ResolvePhotoWorldAnchorSafeNode с named fallback HOME_TABLE, согласовано с core PhotoAnchorResolver. Game build 0. Main.cs fallback wiring и scene tags — следующий шаг. Карточка partial. Коммичу.
+
+**Codex (Mac) · Mac, PW-009 anchors · 17.10 12:31** → всем
+PW-009: Main.MountW01 теперь при отсутствии Anchors/F10 пробует named fallback Anchors/F00 с диагностикой, и только если и он отсутствует — Free + PushError. Никакого спавна в нуле. Согласовано с Act1WorldLayout.ResolvePhotoWorldAnchorSafeNode и core PhotoAnchorResolver. Game build 0. Карточка partial, заявка освобождена. Коммичу.

@@ -104659,6 +104659,13 @@
           "path": "game/scripts/Act1WorldLayout.cs (PhotoWorldAnchorSafeNodes + ResolvePhotoWorldAnchorSafeNode + IsPhotoWorldAnchor)",
           "result": "Добавлен реестр 7 семантических якорей PhotoWorlds → safe node names (F10/R00/H00/C00/B00 для world-bound, HOME_TABLE/PROLOGUE_ROAD для support) и helper с named fallback HOME_TABLE. Согласовано с PhotoAnchorResolver в core.",
           "verified": "dotnet build Urman.Game.csproj: 0 ошибок. Main.cs fallback wiring и scene tags — NOT_RUN."
+        },
+        {
+          "date": "2026-10-17",
+          "kind": "build",
+          "path": "game/scripts/Main.cs (MountW01 fallback) + Act1WorldLayout.cs",
+          "result": "Main.MountW01: при отсутствии Anchors/{entryAnchorId} (F10) пробует named fallback Anchors/F00 с диагностикой (PushWarning), и только если и он отсутствует — Free + PushError. Никакого спавна в нуле. Согласовано с Act1WorldLayout.ResolvePhotoWorldAnchorSafeNode и core PhotoAnchorResolver.",
+          "verified": "dotnet build Urman.Game.csproj: 0 ошибок. Runtime-проверка на реальной сцене NOT_RUN."
         }
       ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-009",
@@ -104778,10 +104785,10 @@
       "implementation_state": "partial",
       "technical_verification_state": "passed",
       "remaining": [
-        "Готово: core-resolver (7 якорей, named fallback, ValidateAnchors); Act1WorldLayout.PhotoWorldAnchorSafeNodes — реестр 7 якорей→safe node names (F10/R00/H00/C00/B00/HOME_TABLE/PROLOGUE_ROAD) + ResolvePhotoWorldAnchorSafeNode с named fallback HOME_TABLE; core build 0, 68/68 dotnet-тестов, game build 0.",
-        "Осталось: заменить PushError+Free в Main на fallback+диагностику (использовать Act1WorldLayout.ResolvePhotoWorldAnchorSafeNode и PhotoAnchorResolver), добавить physical safe-node tags (Anchors/PW_*) в сцены W01/W02 и создать сцены/якоря для W03–W05 (требует дизайн размещения)."
+        "Готово: core PhotoAnchorResolver (7 якорей, named fallback, ValidateAnchors); Act1WorldLayout реестр 7 якорей→safe node names + ResolvePhotoWorldAnchorSafeNode; Main.MountW01 теперь использует named fallback (F00) при отсутствии Anchors/F10 вместо спавна в нуле, с диагностикой. Core build 0, 68/68 dotnet-тестов, game build 0.",
+        "Осталось: добавить physical safe-node tags (Anchors/PW_*) в сцены W01/W02 и создать сцены/якоря для W03–W05 (требует дизайн размещения); заменить PushError+Free в MountW02 аналогичным fallback; verify на реальной сцене."
       ],
-      "next_action": "Заменить PushError+Free в Main на fallback+диагностику через Act1WorldLayout.ResolvePhotoWorldAnchorSafeNode; затем добавить Anchors/PW_* в сцены W01/W02.",
+      "next_action": "Добавить physical safe-node tags (Anchors/PW_*) в сцены W01/W02 и создать сцены/якоря для W03–W05 (дизайн размещения); затем заменить PushError+Free в MountW02 аналогичным fallback.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
