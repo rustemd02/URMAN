@@ -8,13 +8,15 @@ using PlayTimeBlock = Urman.Godot.RuntimeBridge.PlayTimeBlock;
 namespace Urman.Godot;
 
 /// <summary>
-/// The current product entrypoint: a compact, playable Chapter 1 demo.
-/// Acts 2–5 remain available to their own smoke/capture scenes, but are not
-/// reachable from the demo launch path. This wrapper owns only presentation
-/// framing; RuntimeBridge remains the sole narrative-state owner.
+/// Shared campaign presentation wrapper. The project launch and the retained
+/// Act I demo scene select their own Main scene; RuntimeBridge remains the sole
+/// narrative-state owner.
 /// </summary>
 public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
 {
+    private const string LegacyMainScenePath = "res://scenes/main.tscn";
+    private const string PhotoWorldMainScenePath = "res://scenes/full_game.tscn";
+    private const string PhotoWorldPrologueSceneId = "urman.fullgame:scene/pw-prologue";
     private const string CliffhangerBeat = "urman.chapter1:beat/cliffhanger-hard-cut";
     // The forest entry emits Marat's trace and Rinat's interruption together.
     // The final card waits for AudioCueUi to drain its presentation queue; this
@@ -28,6 +30,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
     private PauseMenuUi? _pauseMenu;
     private Control? _introScreen;
     private bool _introReplay;
+    private bool _photoWorldReplay;
     private bool _playerSessionSelected;
     private VBoxContainer? _introStack;
     private Label? _introControls;
@@ -127,6 +130,14 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
     private double _m10FocusLostSeconds, _m10LoadingSeconds, _m10MenuSeconds;
     private double _m10EndingSeconds, _m10NotReadySeconds;
 
+    [Export]
+    public string MainScenePath { get; set; } = LegacyMainScenePath;
+
+    private bool UsesPhotoWorldsCampaign => string.Equals(
+        MainScenePath,
+        PhotoWorldMainScenePath,
+        StringComparison.Ordinal);
+
     internal bool M10TimingEnabled => _m10TimingEnabled;
     internal double M10ElapsedSeconds => _m10TimingEnabled
         ? (Time.GetTicksUsec() - _m10StartedUsec) / 1_000_000.0 : 0;
@@ -191,7 +202,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
 
     public override void _Ready()
     {
-        if (!StudioPreviewMode)
+        if (!StudioPreviewMode && !UsesPhotoWorldsCampaign)
         {
             DevRideCaptureBoot();
             DevViewCaptureBoot();
@@ -212,14 +223,14 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
                 return;
             }
 
-            loading = LoadingScreenUi.Show(this, "Кара-Урман", "Подготавливаем деревню и первую встречу");
+            loading = LoadingScreenUi.Show(this, "УРМАН", "Подготавливаем игровой мир");
             await ToSignal(RenderingServer.Singleton, RenderingServer.SignalName.FramePostDraw);
             if (!IsInsideTree()) return;
             InitializeDemo();
         }
         catch (Exception exception)
         {
-            GD.PushError($"Act I startup failed: {exception}");
+            GD.PushError($"Game startup failed: {exception}");
             var arguments = OS.GetCmdlineArgs();
             var unattendedSmoke = arguments.Contains("--urman-smoke-background-input", StringComparer.Ordinal)
                 && arguments.Any(argument => argument.StartsWith("res://tests/", StringComparison.Ordinal)
@@ -229,7 +240,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
             if (DisplayServer.GetName() != "headless" && !unattendedSmoke)
             {
                 OS.Alert(
-                    "Не удалось запустить Акт I.\nЗаново распакуйте архив игры и повторите запуск.",
+                    "Не удалось запустить игру.\nПроверьте файлы игры и повторите запуск.",
                     "УРМАН — ошибка запуска");
             }
 
@@ -245,13 +256,14 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
     {
         AddToGroup(AccessibilityPresentation.TargetGroup);
         AddToGroup("act1_demo_root");
-        if (!StudioPreviewMode) DebugVillageMinimap.AttachIfEnabled(this);
+        if (!StudioPreviewMode && !UsesPhotoWorldsCampaign) DebugVillageMinimap.AttachIfEnabled(this);
         var commandLine = OS.GetCmdlineArgs();
-        _performanceProbe = !StudioPreviewMode && (commandLine.Contains("--urman-perf-probe", StringComparer.Ordinal)
+        _performanceProbe = !StudioPreviewMode && !UsesPhotoWorldsCampaign
+            && (commandLine.Contains("--urman-perf-probe", StringComparer.Ordinal)
             || commandLine.Any(argument => argument.StartsWith(
                 "--urman-perf-probe-mode=",
                 StringComparison.Ordinal)));
-        if (!StudioPreviewMode) ConfigureM10Timing(commandLine);
+        if (!StudioPreviewMode && !UsesPhotoWorldsCampaign) ConfigureM10Timing(commandLine);
         if (_performanceProbe)
         {
             // Select the already-authored connected-world placement before
@@ -262,23 +274,30 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
                 out _performanceProbeConfigurationValid);
         }
 
-        var packed = ResourceLoader.Load<PackedScene>("res://scenes/main.tscn")
-            ?? throw new InvalidOperationException("Act 1 demo could not load the first-person main scene.");
+        var packed = ResourceLoader.Load<PackedScene>(MainScenePath)
+            ?? throw new InvalidOperationException($"Configured campaign main scene could not load: {MainScenePath}.");
         _main = packed.Instantiate<Main>()
-            ?? throw new InvalidOperationException("Act 1 demo main scene did not instantiate Main.");
-        _main.InitialZoneId = _performanceSample.ZoneId;
-        _main.InitialSpawnPointId = _performanceSample.SpawnPointId;
-        _main.EnableZoneTransitionFade = true;
-        _main.EnableAct1ConnectedWorld = true;
+            ?? throw new InvalidOperationException("Configured campaign scene did not instantiate Main.");
+        if (!UsesPhotoWorldsCampaign)
+        {
+            _main.InitialZoneId = _performanceSample.ZoneId;
+            _main.InitialSpawnPointId = _performanceSample.SpawnPointId;
+            _main.EnableZoneTransitionFade = true;
+            _main.EnableAct1ConnectedWorld = true;
+        }
         AddChild(_main);
         _player = _main.GetNodeOrNull<FirstPersonController>("Player")
-            ?? throw new InvalidOperationException("Act I player did not load.");
+            ?? throw new InvalidOperationException("Campaign player did not load.");
         // A child _Ready exception is logged by Godot instead of propagating
-        // through AddChild. Check the completed owners before exposing a menu.
-        if (_main.ConnectedWorld?.IsBuilt != true
-            || _main.GetNodeOrNull<RuntimeBridge>("RuntimeBridge")?.SessionIdentity is null)
+        // through AddChild. The current campaign projects PhotoWorld routes;
+        // ActiveZoneScenePath is assigned only after Main mounts that world.
+        var bridge = _main.GetNodeOrNull<RuntimeBridge>("RuntimeBridge");
+        var presentationReady = UsesPhotoWorldsCampaign
+            ? !string.IsNullOrWhiteSpace(_main.ActiveZoneScenePath)
+            : _main.ConnectedWorld?.IsBuilt == true;
+        if (!presentationReady || bridge?.SessionIdentity is null)
         {
-            throw new InvalidOperationException("Act I world or campaign did not finish loading.");
+            throw new InvalidOperationException("Campaign world or runtime did not finish loading.");
         }
 
         if (StudioPreviewMode)
@@ -291,21 +310,25 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
 
         // The protected view-capture comparison applies its requested player preset once,
         // before the startup performance guard can rescue a slow machine to Low.
-        ApplyDevViewCaptureGraphicsPresetBeforeStartupGuard();
+        if (!UsesPhotoWorldsCampaign) ApplyDevViewCaptureGraphicsPresetBeforeStartupGuard();
 
-        DebugWorldGrid.AttachIfEnabled(this);
-        DebugSoundPanel.AttachIfEnabled(this);
+        if (!UsesPhotoWorldsCampaign)
+        {
+            DebugWorldGrid.AttachIfEnabled(this);
+            DebugSoundPanel.AttachIfEnabled(this);
+        }
 
         BuildMainMenu();
         if (_mainMenu?.NewGameButton is null)
         {
-            throw new InvalidOperationException("Act I main menu did not load.");
+            throw new InvalidOperationException("Campaign main menu did not load.");
         }
 
         BuildPauseMenu();
-        BuildRouteCue();
+        if (!UsesPhotoWorldsCampaign) BuildRouteCue();
         CallDeferred(nameof(AttachRuntimeBridge));
-        if (StudioPlayRequest.Parse([.. commandLine, .. OS.GetCmdlineUserArgs()]) is { } studioPlay)
+        if (!UsesPhotoWorldsCampaign
+            && StudioPlayRequest.Parse([.. commandLine, .. OS.GetCmdlineUserArgs()]) is { } studioPlay)
         {
             _ = StartStudioPlayAsync(studioPlay);
         }
@@ -426,6 +449,17 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
 
     private void OnRuntimeStateChanged()
     {
+        if (UsesPhotoWorldsCampaign)
+        {
+            if (_photoWorldReplay
+                && _bridge is { } photoWorldBridge
+                && photoWorldBridge.ActiveSceneId != PhotoWorldPrologueSceneId)
+            {
+                ReturnFromPhotoWorldReplay();
+            }
+            return;
+        }
+
         if (_m10TimingEnabled && _bridge is { } bridge)
         {
             var state = bridge.SelectRuntimeState();
@@ -512,6 +546,8 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
 
     private void EvaluateEndingState()
     {
+        if (UsesPhotoWorldsCampaign) return;
+
         var bridge = _bridge;
         if (_endingShown || bridge is null || !GodotObject.IsInstanceValid(bridge))
         {
@@ -1298,7 +1334,11 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
         // UIUX-001: gameplay input stays gated behind the menu choice.
         player?.SetModalOpen(true);
 
-        _mainMenu = new MainMenuUi { Name = "Act1MainMenu" };
+        _mainMenu = new MainMenuUi
+        {
+            Name = "Act1MainMenu",
+            IsPhotoWorldsCampaign = UsesPhotoWorldsCampaign
+        };
         _mainMenu.NewGameRequested += () => _ = OnMenuStartSessionAsync(startNewGame: true);
         _mainMenu.ContinueRequested += () => _ = OnMenuStartSessionAsync(startNewGame: false);
         _mainMenu.ReplayIntroRequested += () => _ = OnMenuReplayIntroAsync();
@@ -1369,10 +1409,11 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
             }
             _playerSessionSelected = true;
             _introReplay = false;
+            _photoWorldReplay = false;
             _endingShown = false;
             _endingPending = false;
             _endingDelay = 0;
-            if (startNewGame) await ShowIntroAfterMenuAsync();
+            if (startNewGame && !UsesPhotoWorldsCampaign) await ShowIntroAfterMenuAsync();
             else
             {
                 _mainMenu?.Dismiss();
@@ -1395,13 +1436,34 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
             // A separate debug session supplies the arrival world without changing player saves.
             if (!await bridge.StartDebugSessionAsync())
             {
-                _mainMenu?.ShowStatus("Не удалось показать вступление.");
+                _mainMenu?.ShowStatus(UsesPhotoWorldsCampaign
+                    ? "Не удалось запустить пролог."
+                    : "Не удалось показать вступление.");
                 return;
             }
-            _introReplay = true;
-            await ShowIntroAfterMenuAsync();
+            if (UsesPhotoWorldsCampaign)
+            {
+                _photoWorldReplay = true;
+                _mainMenu?.Dismiss();
+                _mainMenu = null;
+                _player?.SetModalOpen(false);
+                RefreshGameplayAudioPauseState();
+            }
+            else
+            {
+                _introReplay = true;
+                await ShowIntroAfterMenuAsync();
+            }
         }
         finally { _menuBusy = false; }
+    }
+
+    private void ReturnFromPhotoWorldReplay()
+    {
+        if (!_photoWorldReplay) return;
+        _photoWorldReplay = false;
+        BuildMainMenu();
+        RefreshGameplayAudioPauseState();
     }
 
     /// <summary>
@@ -1518,6 +1580,8 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
     /// </summary>
     public async Task<bool> StartDebugZoneAsync(string zoneId, string spawnPointId, Vector3? position = null, float yawDegrees = 0f)
     {
+        if (UsesPhotoWorldsCampaign) return false;
+
         var bridge = _bridge ?? GetTree().GetFirstNodeInGroup("runtime_bridge") as RuntimeBridge;
         if (bridge is null || _menuBusy)
         {

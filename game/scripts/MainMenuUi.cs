@@ -5,9 +5,9 @@ namespace Urman.Godot;
 
 /// <summary>
 /// UIUX-001 public main menu overlay. Pure presentation: it owns no runtime,
-/// session or save state — choices are reported as events and the Act I demo
-/// root executes them through the RuntimeBridge lifecycle APIs. Gameplay input
-/// stays gated (player modal) until a choice starts the session.
+/// session or save state — choices are reported as events and the campaign root
+/// executes them through RuntimeBridge lifecycle APIs. Gameplay input stays
+/// gated (player modal) until a choice starts the session.
 /// </summary>
 public partial class MainMenuUi : CanvasLayer, IAccessibilitySettingsTarget
 {
@@ -78,6 +78,9 @@ public partial class MainMenuUi : CanvasLayer, IAccessibilitySettingsTarget
     public Button? SettingsButton => _settingsButton;
     public Button? AboutButton => _aboutButton;
     public bool IsDismissed { get; private set; }
+
+    /// <summary>Selects the current campaign's subtitle and replay wording.</summary>
+    public bool IsPhotoWorldsCampaign { get; set; }
 
     internal const string Group = "main_menu";
 
@@ -278,7 +281,7 @@ public partial class MainMenuUi : CanvasLayer, IAccessibilitySettingsTarget
         _subtitle = new Label
         {
             Name = "Subtitle",
-            Text = "АКТ I · ВОЗВРАЩЕНИЕ В КАРА-УРМАН",
+            Text = IsPhotoWorldsCampaign ? "ЗА КРАЕМ СНИМКА" : "АКТ I · ВОЗВРАЩЕНИЕ В КАРА-УРМАН",
             ThemeTypeVariation = UrmanUiTheme.Tag,
             SizeFlagsHorizontal = Control.SizeFlags.ShrinkBegin
         };
@@ -318,7 +321,9 @@ public partial class MainMenuUi : CanvasLayer, IAccessibilitySettingsTarget
         };
         layout.AddChild(_continueHint);
 
-        _replayIntroButton = MenuButton("ReplayIntroButton", "Посмотреть вступление");
+        _replayIntroButton = MenuButton(
+            "ReplayIntroButton",
+            IsPhotoWorldsCampaign ? "Посмотреть пролог" : "Посмотреть вступление");
         _replayIntroButton.Pressed += () => { DisarmNewGame(); ReplayIntroRequested?.Invoke(); };
         layout.AddChild(_replayIntroButton);
 
@@ -330,7 +335,7 @@ public partial class MainMenuUi : CanvasLayer, IAccessibilitySettingsTarget
         _aboutButton.Pressed += OpenAbout;
         layout.AddChild(_aboutButton);
 
-        if (DebugZonesEnabled)
+        if (DebugZonesEnabled && !IsPhotoWorldsCampaign)
         {
             _debugButton = MenuButton("DebugZonesButton", "Отладка: локации");
             _debugButton.Pressed += OpenDebugZones;
@@ -406,7 +411,7 @@ public partial class MainMenuUi : CanvasLayer, IAccessibilitySettingsTarget
     /// </summary>
     private void OpenDebugZones()
     {
-        if (_debugZones is not null || _scroll is null || _layout is null) return;
+        if (IsPhotoWorldsCampaign || _debugZones is not null || _scroll is null || _layout is null) return;
         DisarmNewGame();
         _layout.Hide();
         _debugZones = new VBoxContainer { Name = "DebugZones", SizeFlagsHorizontal = Control.SizeFlags.ExpandFill };

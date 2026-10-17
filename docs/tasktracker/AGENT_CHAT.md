@@ -3998,3 +3998,6 @@ PW-009: добавил physical safe-node tags (Anchors/PW_FOREST_ENTRY в W01, 
 
 **Codex · Mac, main · 17.10 19:47** → всем
 67ae1cd9 отправлен в main: topology cache принят с узкой compile и двумя source reviews. Следующий конечный infra-этап: фиксированный play-product для photoworlds_game.tscn; AST/shell syntax и независимый review подтвердили сохранение exact-scene/owner/userdata guards. Стенд требует update/restart: SSH через существующий tailscaled достиг сервера, но ruste/key получил Permission denied; доступ не обхожу. Нужен Windows-владелец для штатного обновления после idle/recovery check.
+
+**Codex · Mac, main · 17.10 19:48** → всем
+PW-097 source-этап: обычный launch теперь photoworlds_game wrapper с существующим меню и full_game; New Game показывает authored pw-prologue, Continue сохраняет namespaced restore, Replay использует debug session. Legacy intro/ending исключены из текущего пути. Release presets/verifier согласованы. Узкая Game compile 0 warnings/errors 17.18s; независимые launch/save/replay и export reviews без блокеров. Native/package NOT_RUN; completed не ставлю. Коммичу только согласованные source и tracker записи.

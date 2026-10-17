@@ -140402,7 +140402,7 @@
       "assigned_owner": "integration",
       "activity": {
         "state": "confirmed_active",
-        "reason": "17.10: возобновлённое поручение; persistence реализует обычный запуск, release завершил export wiring, root интегрирует и проверяет."
+        "reason": "Root интегрирует принятый source/compile этап; native gate ожидает обновления станции."
       },
       "task_type": "engineering",
       "implementation_state": "not_started",
@@ -140411,7 +140411,7 @@
         "Новая игра не стартует случайно в старой сцене.",
         "История решений сохранена, но не конкурирует с текущим заданием."
       ],
-      "next_action": "Завершить photoworlds_game wrapper, проверить сборку и независимое ревью, затем native New Game/Continue после обновления точного allowlist станции.",
+      "next_action": "Проверить обычный current-campaign menu/NewGame/Continue/replay на Windows после штатного обновления worker (5559230c).",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -140591,7 +140591,9 @@
       "assignment_state": "preserved_person_or_existing_role; activity separate",
       "progress_2026_10_17": {
         "finding": "Ordinary project.godot -> act1_demo.tscn -> Act1DemoRoot.InitializeDemo -> main.tscn -> default chapter1 campaign. full_game.tscn selected by play-full has current campaign but no shared MainMenu/Continue; fullgame scenes/content excluded in export presets.",
-        "next": "Реализуется общий MainMenu с текущей кампанией; export wiring изменён. Native и package verification ещё не выполнены."
+        "next": "После обновления Windows worker до5559230c выполнить play-product и текущий native menu/NewGame/Continue/replay; экспортный package gate остаётся отдельной проверкой.",
+        "result": "Обычный project launch -> photoworlds_game.tscn -> общий Act1DemoRoot/MainMenu -> full_game.tscn. Новая игра открывает authored pw-prologue; Continue использует существующий namespaced restore; replay isolated debug. Legacy intro/ending/dev paths gated. Две release export presets включают актуальную кампанию; verifier требует текущий entrypoint и W01 bootstrap.",
+        "verification": "Узкая Urman.Game compile: 0 warnings/errors,17.18s. Независимое launch/save/replay review и export source review: без блокеров. shell syntax PASS. Native и package execution NOT_RUN."
       }
     },
     {

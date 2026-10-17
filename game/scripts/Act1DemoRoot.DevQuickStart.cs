@@ -38,7 +38,8 @@ public partial class Act1DemoRoot
 
     private bool DevQuickKey(InputEvent inputEvent)
     {
-        if (!OS.IsDebugBuild() || inputEvent is not InputEventKey { Pressed: true, Echo: false } key) return false;
+        if (UsesPhotoWorldsCampaign || !OS.IsDebugBuild()
+            || inputEvent is not InputEventKey { Pressed: true, Echo: false } key) return false;
         if (key.Keycode is not (Key.F5 or Key.F6)) return false;
         _devRestartSection = key.Keycode == Key.F6 ? "forest" : _rideCamera is not null ? "ride" : "forest";
         GD.Print($"dev-quick-start: reload -> {_devRestartSection}");

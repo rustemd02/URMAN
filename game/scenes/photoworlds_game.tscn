@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource path="res://scripts/Act1DemoRoot.cs" type="Script" id="1_campaign_root"]
+
+[node name="PhotoWorldsGame" type="Node"]
+script = ExtResource("1_campaign_root")
+MainScenePath = "res://scenes/full_game.tscn"

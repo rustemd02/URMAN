@@ -275,6 +275,8 @@ footstep_stems = tuple(
 
 required_scene_names = (
     "act1_demo",
+    "photoworlds_game",
+    "full_game",
     "main",
     "player/first_person_player",
     "ui/audio_cue_ui",
@@ -339,9 +341,8 @@ def assert_scope(raw: bytes, entries: dict[str, tuple[int, int]], label: str) ->
         parts = set(lower.split("/"))
         if (
             lower.startswith("tests/")
+            or lower.startswith("studio/")
             or lower.startswith("scripts/experiments/")
-            or "full_game" in lower
-            or "fullgame" in lower
             or ("agent_b" in lower and name not in agent_b_source_paths)
             or "retired_candidates" in lower
             or lower.startswith(".tools/")
@@ -378,6 +379,15 @@ def assert_scope(raw: bytes, entries: dict[str, tuple[int, int]], label: str) ->
     content_payload = raw[content_offset : content_offset + content_size]
     if b'"schemaVersion": 1' not in content_payload or b'"id": "urman.chapter1"' not in content_payload:
         fail(f"{label} content does not contain the chapter-one campaign marker")
+
+    fullgame_name = "content/urman.fullgame.compiled.v1.json"
+    require(entries, fullgame_name)
+    fullgame_offset, fullgame_size = entries[fullgame_name]
+    fullgame_payload = raw[fullgame_offset : fullgame_offset + fullgame_size]
+    if (b'"schemaVersion": 1' not in fullgame_payload
+            or b'"id": "urman.fullgame"' not in fullgame_payload
+            or b'"entrypoint": "urman.fullgame:scene/pw-prologue"' not in fullgame_payload):
+        fail(f"{label} content does not contain the current PhotoWorlds campaign entrypoint")
 
     # These owners load JSON dynamically; all_resources alone is not evidence
     # that the native package retained their complete registered dependencies.
@@ -491,12 +501,12 @@ run_headless() {
     cat "$log_file"
     fail "headless package bootstrap reported an error: $label"
   fi
-  grep -Fq "zone-loaded: village_day@arrival" "$log_file" \
-    || fail "headless package bootstrap missed Act I launch marker: $label"
+  grep -Fq "fullgame-scene-loaded: urman.fullgame:scene/pw-prologue physical=W01" "$log_file" \
+    || fail "headless package bootstrap missed the PhotoWorlds prologue launch marker: $label"
   echo "act1-release: $label headless/Dummy bootstrap PASS"
 }
 
 run_headless macOS "$MAC_PCK" "$TEMP_ROOT/macos-launch.log"
 run_headless Windows "$WINDOWS_PCK" "$TEMP_ROOT/windows-launch.log"
 
-echo "act1-release: PASS — reproducible Act I PCK scope gate only; RC/release readiness remains OPEN"
+echo "act1-release: PASS — reproducible PhotoWorlds launch PCK scope gate only; RC/release readiness remains OPEN"
