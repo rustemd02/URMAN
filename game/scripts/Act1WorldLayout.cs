@@ -272,4 +272,34 @@ public static class ZiratPlotLayout
         new("ZiratMarkerGroup_Far_Companion_00_LOD0", -20.90f, -78.70f, 3f),
         new("ZiratMarkerGroup_Far_Companion_01_LOD0", -21.10f, -86.80f, -6f),
     ];
+    // PhotoWorlds semantic anchors. Each anchor maps to the authored safe node
+    // name used as `Anchors/{name}` in the village/world scenes. An unknown or
+    // missing anchor resolves to the named fallback (PW_HOME_TABLE's safe node)
+    // instead of an empty or zero spawn; the caller must still verify the node
+    // exists in the scene and log a diagnostic when it does not.
+    public static readonly IReadOnlyDictionary<string, string> PhotoWorldAnchorSafeNodes =
+        new Dictionary<string, string>(StringComparer.Ordinal)
+        {
+            ["PW_FOREST_ENTRY"] = "F10",
+            ["PW_RIVER_ENTRY"] = "R00",
+            ["PW_HOME_PHOTO_ENTRY"] = "H00",
+            ["PW_COMMON_ENTRY"] = "C00",
+            ["PW_CELLAR_ENTRY"] = "B00",
+            ["PW_HOME_TABLE"] = "HOME_TABLE",
+            ["PW_PROLOGUE_ROAD"] = "PROLOGUE_ROAD",
+        };
+
+    public const string PhotoWorldAnchorFallback = "HOME_TABLE";
+
+    public static string ResolvePhotoWorldAnchorSafeNode(string? anchorId)
+    {
+        if (string.IsNullOrWhiteSpace(anchorId)) return PhotoWorldAnchorFallback;
+        if (PhotoWorldAnchorSafeNodes.TryGetValue(anchorId!, out var safeNode)
+            && !string.IsNullOrWhiteSpace(safeNode))
+            return safeNode;
+        return PhotoWorldAnchorFallback;
+    }
+
+    public static bool IsPhotoWorldAnchor(string? anchorId) =>
+        !string.IsNullOrWhiteSpace(anchorId) && PhotoWorldAnchorSafeNodes.ContainsKey(anchorId!);
 }

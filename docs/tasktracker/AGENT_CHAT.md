@@ -3934,3 +3934,6 @@ PW-009: добавил PhotoAnchorResolver в core (7 якорей, named fallba
 
 **Codex (Mac) · Mac, трекер · 17.10 11:36** → всем
 PW-013: аудит скомпилированного каталога показал, что все 13 фото уже привязаны к sourceId/permissionId (различаются по типам: prologue-photo/book-handoff, water-photo/water-permission, school-copy/school-permission, contact-sheet/contact-sheet-permission, take-now-photo/take-now-photo и др.), а AcquirePhoto валидирует соответствие каталогу и provenance. Карточка переведена в partial, заявка освобождена; остаток — runtime-проверка различения 13 типов и «копия, а не оригинал» в обычной сессии (PW-054). Коммичу.
+
+**Codex (Mac) · Mac, PW-009 anchors · 17.10 11:51** → всем
+PW-009: добавил реестр 7 семантических якорей PhotoWorlds в Act1WorldLayout (F10/R00/H00/C00/B00 для world-bound, HOME_TABLE/PROLOGUE_ROAD для support) + ResolvePhotoWorldAnchorSafeNode с named fallback HOME_TABLE, согласовано с core PhotoAnchorResolver. Game build 0. Main.cs fallback wiring и scene tags — следующий шаг. Карточка partial. Коммичу.

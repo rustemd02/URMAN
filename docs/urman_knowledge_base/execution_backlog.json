@@ -104652,6 +104652,13 @@
           "path": "src-dotnet/Urman.Core/Narrative/PhotoAnchorResolver.cs",
           "result": "Добавлен PhotoAnchorResolver: 7 известных якорей (5 world-bound со spawn/exit safe nodes, 2 support), named fallback PW_HOME_TABLE для неизвестных/пустых якорей, ValidateAnchors бросает на дубликате и неизвестном якоре. Дубликат уже ловится PhotoWorldCatalog.Validate (requiredAnchors.Distinct.Count == length).",
           "verified": "dotnet build Urman.Core.csproj: 0 ошибок; dotnet test Urman.Core.Tests: 68/68 PASS. Game-side safe-node tags и fallback в Main — NOT_RUN."
+        },
+        {
+          "date": "2026-10-17",
+          "kind": "build",
+          "path": "game/scripts/Act1WorldLayout.cs (PhotoWorldAnchorSafeNodes + ResolvePhotoWorldAnchorSafeNode + IsPhotoWorldAnchor)",
+          "result": "Добавлен реестр 7 семантических якорей PhotoWorlds → safe node names (F10/R00/H00/C00/B00 для world-bound, HOME_TABLE/PROLOGUE_ROAD для support) и helper с named fallback HOME_TABLE. Согласовано с PhotoAnchorResolver в core.",
+          "verified": "dotnet build Urman.Game.csproj: 0 ошибок. Main.cs fallback wiring и scene tags — NOT_RUN."
         }
       ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-009",
@@ -104771,10 +104778,10 @@
       "implementation_state": "partial",
       "technical_verification_state": "passed",
       "remaining": [
-        "Готово: core-resolver с 7 якорями (PW_FOREST_ENTRY→F10/F16, PW_RIVER_ENTRY→R00/R08, PW_HOME_PHOTO_ENTRY→H00/H08, PW_COMMON_ENTRY→C00/C08, PW_CELLAR_ENTRY→B00/B07, PW_HOME_TABLE и PW_PROLOGUE_ROAD как support) и named fallback PW_HOME_TABLE; ValidateAnchors бросает на дубликате и неизвестном якоре; дубликат уже ловится PhotoWorldCatalog.Validate. Сборка core + 68 dotnet-тестов PASS.",
-        "Осталось: game-side safe-node tags в Act1WorldLayout/сцене (physical node paths для всех 7 якорей), диагностика отсутствующего узла без спавна в нуле в Main (сейчас PushError+Free — заменить на fallback+диагностику), проверка на реальной сцене."
+        "Готово: core-resolver (7 якорей, named fallback, ValidateAnchors); Act1WorldLayout.PhotoWorldAnchorSafeNodes — реестр 7 якорей→safe node names (F10/R00/H00/C00/B00/HOME_TABLE/PROLOGUE_ROAD) + ResolvePhotoWorldAnchorSafeNode с named fallback HOME_TABLE; core build 0, 68/68 dotnet-тестов, game build 0.",
+        "Осталось: заменить PushError+Free в Main на fallback+диагностику (использовать Act1WorldLayout.ResolvePhotoWorldAnchorSafeNode и PhotoAnchorResolver), добавить physical safe-node tags (Anchors/PW_*) в сцены W01/W02 и создать сцены/якоря для W03–W05 (требует дизайн размещения)."
       ],
-      "next_action": "Привязать 7 якорей к physical safe nodes в Act1WorldLayout/сцене и заменить PushError+Free на fallback+диагностику в Main; затем build + smoke.",
+      "next_action": "Заменить PushError+Free в Main на fallback+диагностику через Act1WorldLayout.ResolvePhotoWorldAnchorSafeNode; затем добавить Anchors/PW_* в сцены W01/W02.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
