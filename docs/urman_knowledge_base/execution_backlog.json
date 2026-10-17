@@ -2672,7 +2672,7 @@
       "lesson": "A warning in an edited file can emit stale bytes under a fresh mtime. Byte-verify (utf8 methods, utf16-le literals) before any native verdict. Audit-20's anchor verdict is void; do not cite it."
     }
   },
-  "updated": "2026-10-11",
+  "updated": "2026-10-17",
   "goal_key": "urman-photoworlds-finished-game",
   "goal_statement": "Довести единую очередь до готовой игры «За краем снимка»: обычная зимняя Кара-Урман, физическая книга Тукая, 13 снимков, пять полноценных фотомиров, пролог W01, реальные внешние подтверждения, домашний эпилог и свободные возвращения. Все применимые требования Visual Reset и PhotoWorlds, сохранённые бытовые системы и выпускная приёмка обязательны; готовность принимается REL-003 на конкретной поставляемой сборке, а не по числу закрытых карточек.",
   "historical_execution_limits": "Предыдущий исполнитель останавливался по лимитам своего запуска и старому временному поручению 2026-09-12; эти условия сохранены в history/progress и не являются актуальным требованием данной сессии.",
@@ -2706,11 +2706,11 @@
       "Studio как условие выпуска игры",
       "Автоматическое удаление web runtime или пользовательских saves"
     ],
-    "execution_this_request": "Живое вечернее поручение автора 08.10.2026: выполнять dependency-ready очередь до 10:00 09.10 Europe/Moscow; native GPT-6 Luna / Max, Windows-проверки через remote-check.py, личная визуальная приёмка root, commit/push проверенных задач/блоков в main. Полный done_when и внешние гейты сохраняются."
+    "execution_this_request": "Живое поручение автора 17.10.2026: продолжить все задачи единого трекера с ближайшим приоритетом — довести Акт I до релиза, приятного игрового опыта, сильного сюжета, графики и оптимизации. Использовать максимум доступных независимых субагентов; общий JSON, Git, сборки и Windows-станция сериализованы. Разработка и необходимые проверки возобновлены; commit/push проверенных этапов в main остаются разрешены. Полный объём кампании и отдельные обязательные внешние гейты сохраняются; релизная готовность ещё не подтверждена."
   },
   "role": "Машиночитаемая очередь исполнения. Она не заменяет goal, канон, decision log, архитектуру или evidence.",
   "authority": {
-    "goal": "Прямое поручение 08.10: единая точка входа со всеми задачами готовой игры и обоих новых пакетов; эта сессия приводит документы в порядок.",
+    "goal": "Живое поручение автора 17.10.2026: продолжить все задачи единого трекера с ближайшим приоритетом — довести Акт I до релиза, приятного игрового опыта, сильного сюжета, графики и оптимизации. Использовать максимум доступных независимых субагентов; общий JSON, Git, сборки и Windows-станция сериализованы. Разработка и необходимые проверки возобновлены; commit/push проверенных этапов в main остаются разрешены. Полный объём кампании и отдельные обязательные внешние гейты сохраняются; релизная готовность ещё не подтверждена.",
     "goal_frame": "docs/tasktracker/07_full_game_integration_2026-10-08.md",
     "canonical_sources": [
       "AGENTS.md",
@@ -156332,8 +156332,8 @@
     "historical_fields": "history_before_2026_10_11, dated progress/checkpoints, old receipts/spec OPEN/NOT_RUN and source_dependencies are provenance, never current readiness.; execution_mode от миграции не блокирует явно возобновлённый B20.",
     "dependency_semantics": "implementation needs named artifact, verification needs exact candidate/source input, acceptance keeps full product. A parent ID does not require full completed unless requires=full_acceptance. Availability not_confirmed is not permission to invent an input.",
     "completion_rule": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
-    "paused_scope": "Миграция завершена80bede64; живое возобновление B20 автором11.10. Native CODEX-UI сначала, остальные Codex B20 затем; никаких новых tests/probes по умолчанию.",
-    "current_authority": "author/2026-10-11-resume-B20"
+    "paused_scope": "Общая документальная пауза снята живым поручением 17.10.2026. Существующие ограничения на новые тесты, данные игрока, ресурсы и внешнюю приёмку сохраняются.",
+    "current_authority": "author/2026-10-17-act1-release"
   },
   "tracker_migration_2026_10_11": {
     "authority": "Живой запрос автора: перестроить весь tracker, не продолжать development; commit/push checked docs в main.",

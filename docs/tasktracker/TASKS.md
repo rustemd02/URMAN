@@ -4,7 +4,7 @@
 
 Источник состояний, назначений, результатов и evidence — только [execution_backlog.json](../urman_knowledge_base/execution_backlog.json). Этот индекс генерирует `python3 tools/tasktracker.py render`; он не хранит статусы. `python3 tools/tasktracker.py show ID` показывает конечный контракт и следующий шаг; `ready` — доступные входы.
 
-Действующий порядок 11.10: [короткое исполнение](06_small_model_execution_2026-09-22.md) и [полный продукт](07_full_game_integration_2026-10-08.md). Сейчас разрешена только миграция трекера; живое поручение после миграции указано в execution_schema.current_authority.
+Действующий порядок 11.10: [короткое исполнение](06_small_model_execution_2026-09-22.md) и [полный продукт](07_full_game_integration_2026-10-08.md). Живое поручение и разрешённый объём указаны в `execution_schema.current_authority` и `current_scope.execution_this_request` единого JSON.
 
 Процедурные S-шаги не являются самостоятельными задачами. Агрегаты не назначаются разработчикам. Инженерное завершение и внешняя приёмка считаются отдельно. Условные единицы входят в обязательный остаток только при `condition.state=true`.
 
