@@ -114911,7 +114911,8 @@
           }
         ],
         "verification_limits": "Root reviewed existing PNGs only; FullGameDressingCapture uses an isolated 1920x1080 SubViewport/fixed camera, with ApplyCaptureFacts for reed_open/answer. These are staged render views, not ordinary player traversal, true main viewport, native station proof or acquired-state/persistence acceptance. Existing raw capture stdout/terminal/renderer/restore evidence requested; no rerun."
-      }
+      },
+      "raw_log_handoff_check_2026_10_17": "README delivered for W02/home capture, but both named capture.stdout.log and capture.godot.log are absent from this checkout after9d2dd6bb. Root cannot yet independently confirm renderer/guard from raw stdout; exact existing logs requested via AGENT_CHAT, no repeated capture. Prior staged-view acceptance limits unchanged."
     },
     {
       "id": "PW-036",
@@ -118646,8 +118647,14 @@
             "interaction_available": true
           }
         ],
-        "reported_not_independently_verified": "run16-events.txt and peer status report [93] school_copy_identified, [99] S-SCHOOL acquired, [100][101] back-read and [102] P-FOREST context-known; game exit124/rawFAIL and userdata restored. run16-game.log named by card is absent from checkout and raw result ZIP not delivered/verified by this reviewer. No raw event/restore/source-hash certification claimed.",
-        "remaining": "Receive existing run16 raw log/terminal/restore evidence without rerun; actual reader/front/back UI, true720p and physical forest entry/F10 remain open. Preserve current route owner and guards; no station job started by reviewer."
+        "reported_not_independently_verified": "Earlier missing run16-game.log delivered17Oct and reviewed in raw_log_review_2026_10_17. Raw result ZIP/hash/source-manifest binding still not independently verified; nonexistent driver terminal cannot be required/recreated.",
+        "remaining": "No rerun for accepted run16 events/guard or prompts. Actual reader/front/back UI, true720p and physical forest entry/F10 remain open; rawZIP provenance only if existing artifact becomes available. Preserve released pilot status; do not repeat21/22 without changed causal input.",
+        "raw_log_review_2026_10_17": {
+          "path": "evidence/PW-043/interactive-20261016/run16-game.log",
+          "sha256": "6903eaf659317fe0d8b35dffde3502a81c9bba27ee06e8d345db36c7f092284d",
+          "accepted_scope": "Root read original game stdout lines2562–2568: fact.observed from pw-school-copy-source; photo.acquired, two photo.back-read and photo.context-known events from pw-school-copy-permission; cap1200s then original files restored by rename and verified. These raw events/guard result are now accepted, beyond earlier prompt-only scope.",
+          "limits": "Raw ZIP/source-manifest binding not independently verified; Windows ACLs explicitly not compared. PhotoId semantics as described by peer/interaction contract; no new UI reader, persistence, ordinary F10/forest return or whole PW043 acceptance. Run19 manual recovery remains peer-reported, not proven by later run20 restore."
+        }
       }
     },
     {
@@ -122277,7 +122284,8 @@
         ],
         "verification_limits": "Root reviewed existing PNGs only; FullGameDressingCapture uses an isolated 1920x1080 SubViewport/fixed camera, with ApplyCaptureFacts for reed_open/answer. These are staged render views, not ordinary player traversal, true main viewport, native station proof or acquired-state/persistence acceptance. Existing raw capture stdout/terminal/renderer/restore evidence requested; no rerun.",
         "visual_remaining": "Repeated simple ellipsoid tree crowns, rod-like sedge and uniform banks/boards remain coarse; finished painted world/material diversity and finished Su anasy image not accepted. Physical supports/passability/state changes, normal return/revisit PW054 and author/art/culture/audio gates remain open."
-      }
+      },
+      "raw_log_handoff_check_2026_10_17": "README delivered for W02/home capture, but both named capture.stdout.log and capture.godot.log are absent from this checkout after9d2dd6bb. Root cannot yet independently confirm renderer/guard from raw stdout; exact existing logs requested via AGENT_CHAT, no repeated capture. Prior staged-view acceptance limits unchanged."
     },
     {
       "id": "PW-051",
@@ -130757,7 +130765,8 @@
           }
         ],
         "verification_limits": "Existing capture positions camera explicitly; no ordinary input/source→copy passage or session/save acceptance. Existing raw capture log requested without rerun. Full PW071 and D02 remain open."
-      }
+      },
+      "raw_log_handoff_check_2026_10_17": "README delivered for W02/home capture, but both named capture.stdout.log and capture.godot.log are absent from this checkout after9d2dd6bb. Root cannot yet independently confirm renderer/guard from raw stdout; exact existing logs requested via AGENT_CHAT, no repeated capture. Prior staged-view acceptance limits unchanged."
     },
     {
       "id": "PW-072",
