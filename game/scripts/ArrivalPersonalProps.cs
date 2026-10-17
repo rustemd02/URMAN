@@ -329,7 +329,8 @@ internal partial class ArrivalPersonalProps : Node3D
             "Спросить әби, как она называет старые мостки", rayOnly: true);
         var permission = house.MakeInteractionBox("WaterPhotoPermissionTarget", new(.62f, 1.68f, .46f),
             npcAnchor, "6f6257", "urman.fullgame:interaction/pw-water-photo-permission",
-            "Получить разрешение на копию снимка", rayOnly: true);
+            "Получить разрешение на копию снимка",
+            dialogueId: "urman.fullgame:dialogue/pw-water-photo-permission", rayOnly: true);
 
         things.AddChild(new WaterChainHomePresence
         {

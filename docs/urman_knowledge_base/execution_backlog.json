@@ -130448,7 +130448,8 @@
           "path": "evidence/PW-050/w02-home-capture-20261016/",
           "result": "stdout защищённого прогона домашних кадров сохранён рядом с карточками без повторного прогона; в логе PrintPaper/PrintBack visible=True и камеры home_water_*, renderer Metal 4.0 Forward+, guard-restore подтверждён.",
           "verified": "SHA-256 godot_home_water_book/envelope_1080p.png совпадают с записью root-ревью в карточке"
-        }
+        },
+        "D02 source stage2026-10-17: exact authored five Russian lines via existing dialogue graph; real WaterPhotoPermissionTarget explicitly bound. Narrow ContentCli fullgame compile exit0 + exact-spec text/unchanged-grant comparison; affected Game0errors/0warnings30.88s evidence/PW-071/d02-permission-20261017/game-build.log. GUI/native/control return NOT_RUN; does not close PW071."
       ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-071",
       "source_requirements": [
@@ -130568,15 +130569,15 @@
       "assigned_owner": "integration",
       "activity": {
         "state": "released",
-        "reason": "Конечная постановка источника P-WATER с разрешением и копией снята тремя кадрами; активной заявки нет, остаток — остальные источники и D02-гэп."
+        "reason": "Bounded D02 content+physical-target hookup and compile delivered; ordinary dialogue/modal/copy route acceptance still open. No station job."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
       "technical_verification_state": "not_run",
       "remaining": [
-        "P-WATER поставлен и снят (см. evidence). Осталось: остальные источники P/S из 13 паспортов; D02-диалог разрешения («Есть второй отпечаток») отсутствует в компилированном контенте — контентный гэп; обычный проход источник→копия в движении."
+        "P-WATER поставлен и снят (см. evidence). Осталось: остальные источники P/S из 13 паспортов; D02 теперь подключён к content и настоящему домашнему target; обычная GUI/modal-приёмка пяти строк и двух ответов ещё NOT_RUN; обычный проход источник→копия в движении."
       ],
-      "next_action": "Разместить следующий именованный источник тем же паттерном (школьная копия — школьная зона) и снять кадр.",
+      "next_action": "Accept D02 on next already-needed ordinary home water-source route: five exact lines/two replies/close/control restored, same existing permission/photo conditions. No unchanged compile or staged screenshot as dialogue proof; remaining photo sources stay open.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -130586,7 +130587,11 @@
         "targets": [
           "content/campaigns/urman.fullgame/campaign.json",
           "game/scripts/Act1DemoRoot.cs",
-          "game/scripts/RuntimeBridge.cs"
+          "game/scripts/RuntimeBridge.cs",
+          "content/modules/urman-fullgame/definitions.json",
+          "content/modules/urman-fullgame/module.json",
+          "game/content/urman.fullgame.compiled.v1.json",
+          "game/scripts/ArrivalPersonalProps.cs"
         ],
         "required_inputs": [
           {
@@ -130611,7 +130616,11 @@
         "scope_in": [
           "Act1ConnectedWorld.ImageDiscoveries.cs",
           "family/school/council interactions",
-          "photo catalog"
+          "photo catalog",
+          "content/modules/urman-fullgame/definitions.json",
+          "content/modules/urman-fullgame/module.json",
+          "game/content/urman.fullgame.compiled.v1.json",
+          "game/scripts/ArrivalPersonalProps.cs"
         ],
         "scope_out": [
           "Контент соседнего блока, кроме указанного артефакта-входа.",
@@ -130766,7 +130775,23 @@
         ],
         "verification_limits": "Existing capture positions camera explicitly; no ordinary input/source→copy passage or session/save acceptance. Existing raw capture log requested without rerun. Full PW071 and D02 remain open."
       },
-      "raw_log_handoff_check_2026_10_17": "README delivered for W02/home capture, but both named capture.stdout.log and capture.godot.log are absent from this checkout after9d2dd6bb. Root cannot yet independently confirm renderer/guard from raw stdout; exact existing logs requested via AGENT_CHAT, no repeated capture. Prior staged-view acceptance limits unchanged."
+      "raw_log_handoff_check_2026_10_17": "README delivered for W02/home capture, but both named capture.stdout.log and capture.godot.log are absent from this checkout after9d2dd6bb. Root cannot yet independently confirm renderer/guard from raw stdout; exact existing logs requested via AGENT_CHAT, no repeated capture. Prior staged-view acceptance limits unchanged.",
+      "d02_2026_10_17": {
+        "scope": "Only missing D02 Russian authored dialogue at existing permission interaction; no new state, photo, story branching or physical-world implementation.",
+        "source": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/dialogues.spec.json#D02",
+        "verification_question": "Does actual permission interaction show all five exact authored D02 lines with correct speakers via existing dialogue ownership, then preserve permission/copy transition without extra activation?",
+        "success_condition": "Named content hookup + narrow compile; ordinary player modal/permission passage required for visual/interaction readiness, not source alone.",
+        "source_result": "Exact D02.01/.03/.05 Gulsina nodes and D02.02/.04 Aidar reply choices registered as dialogue/pw-water-photo-permission and five RU texts. Added targetDialogueId to existing interaction plus explicit dialogueId to real home WaterPhotoPermissionTarget (StyleBenchmarkZone.MakeInteractionBox does not infer compiled targetDialogueId). No generic UI plumbing, no grants/effects/conditions/timing changes or invented translation.",
+        "verification": "Existing ContentCli fullgame compile exit0; exact five RU strings compared to D02 spec and present in compiled pack; permission interaction unchanged except targetDialogueId. Root reviewed content + actual physical call-site. Affected Game build0errors/0warnings30.88s.",
+        "build": "evidence/PW-071/d02-permission-20261017/game-build.log",
+        "source_hashes": {
+          "content/modules/urman-fullgame/definitions.json": "0324a12d5ccfb8bc62b66a0ab34314c45619d137c978c46ac15aac22fb0ef771",
+          "content/modules/urman-fullgame/module.json": "9d0d187c4bc4a9db790113ae4a3789705d0bd6631abe24c9378e5e52d9b42170",
+          "game/content/urman.fullgame.compiled.v1.json": "f2e9d273bcf0adfcc556fa63505e0528a78ace9aea1363713ee0e58b0694edfa",
+          "game/scripts/ArrivalPersonalProps.cs": "dd6f2a8e3f82efdda4a775a3f7c253ae52766d43be6e92ac8ba3b7f2de9f51f8"
+        },
+        "remaining": "Ordinary home permission activation/modal sequence: show five authored lines through two player replies, close with existing Continue, verify no duplicated input/hidden journal/blocked controls; acquisition timing remains existing dispatch-before-dialogue. Native/GUI NOT_RUN, translation/voice/human gates remain open."
+      }
     },
     {
       "id": "PW-072",

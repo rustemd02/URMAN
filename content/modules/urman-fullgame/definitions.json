@@ -2091,7 +2091,8 @@
             "sourceId": "urman.fullgame:interaction/pw-water-photo-source",
             "permissionId": "urman.fullgame:interaction/pw-water-photo-permission"
           }
-        ]
+        ],
+        "targetDialogueId": "urman.fullgame:dialogue/pw-water-photo-permission"
       },
       {
         "id": "urman.fullgame:interaction/pw-mount-water-photo",
@@ -3979,6 +3980,112 @@
             "nextNodeId": null
           }
         ]
+      }
+    ]
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-dialogue-water-permission-offer",
+    "value": {
+      "default": "Эту можешь себе оставить. Есть второй отпечаток.",
+      "translations": {
+        "ru": "Эту можешь себе оставить. Есть второй отпечаток."
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-choice-water-permission-ask-bridge",
+    "value": {
+      "default": "Это наши мостки?",
+      "translations": {
+        "ru": "Это наши мостки?"
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-dialogue-water-permission-old-bridge",
+    "value": {
+      "default": "Старые. Теперь от них только сваи.",
+      "translations": {
+        "ru": "Старые. Теперь от них только сваи."
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-choice-water-permission-ask-descent",
+    "value": {
+      "default": "Откуда туда спускались?",
+      "translations": {
+        "ru": "Откуда туда спускались?"
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-dialogue-water-permission-shore",
+    "value": {
+      "default": "Я с той стороны ходила. Но берег уже совсем другой.",
+      "translations": {
+        "ru": "Я с той стороны ходила. Но берег уже совсем другой."
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:dialogue/pw-water-photo-permission",
+    "participantRoles": [
+      "aidar",
+      "gulsina"
+    ],
+    "startNodeId": "offer",
+    "nodes": [
+      {
+        "id": "offer",
+        "speakerRole": "gulsina",
+        "textId": "urman.fullgame:text/pw-dialogue-water-permission-offer",
+        "conditions": [],
+        "effects": [],
+        "choices": [
+          {
+            "id": "ask-bridge",
+            "textId": "urman.fullgame:text/pw-choice-water-permission-ask-bridge",
+            "conditions": [],
+            "effects": [],
+            "nextNodeId": "old-bridge"
+          }
+        ]
+      },
+      {
+        "id": "old-bridge",
+        "speakerRole": "gulsina",
+        "textId": "urman.fullgame:text/pw-dialogue-water-permission-old-bridge",
+        "conditions": [],
+        "effects": [],
+        "choices": [
+          {
+            "id": "ask-descent",
+            "textId": "urman.fullgame:text/pw-choice-water-permission-ask-descent",
+            "conditions": [],
+            "effects": [],
+            "nextNodeId": "shore"
+          }
+        ]
+      },
+      {
+        "id": "shore",
+        "speakerRole": "gulsina",
+        "textId": "urman.fullgame:text/pw-dialogue-water-permission-shore",
+        "conditions": [],
+        "effects": [],
+        "choices": []
       }
     ]
   },
