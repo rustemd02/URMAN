@@ -6381,5 +6381,16 @@
         "choices": []
       }
     ]
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-observation-forest-camera-back",
+    "value": {
+      "default": "А смотрят они все не на фотографа.",
+      "translations": {
+        "ru": "А смотрят они все не на фотографа."
+      }
+    },
+    "purpose": "dialogue"
   }
 ]

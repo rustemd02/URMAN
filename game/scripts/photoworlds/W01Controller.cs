@@ -22,10 +22,14 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
     private const string PrologueEndInteractionId = "urman.fullgame:interaction/pw-prologue-f03-end";
     private const string PrologueSkipInteractionId = "urman.fullgame:interaction/pw-prologue-skip";
     private const string ForestBranchInteractionId = "urman.fullgame:interaction/pw-forest-branch-move";
+    private const string ForestCameraBackInteractionId = "urman.fullgame:interaction/pw-forest-group";
+    private const string ForestCameraBackFactId = "forest_camera_back_seen";
     private const string ProloguePhotoSourceLabelTextId = "urman.fullgame:text/pw-label-prologue-photo-source";
     private const string PrologueEndLabelTextId = "urman.fullgame:text/pw-label-prologue-f03-end";
     private const string PrologueSkipLabelTextId = "urman.fullgame:text/pw-label-prologue-skip";
+    private const string ForestCameraBackTextId = "urman.fullgame:text/pw-observation-forest-camera-back";
     private const string BranchMoveAnimationName = "lift_and_place";
+    private const double ForestObservationPollSeconds = 0.2;
     private const string FreshSnowTexturePath = "res://assets/textures/painterly/snow_fresh_v1_albedo.png";
     private const string TrampledSnowTexturePath = "res://assets/textures/painterly/snow_trampled_v2_albedo.png";
     private const string ForestRootsTexturePath = "res://assets/photoworlds/forest_ground/w01_forest_roots_1k.png";
@@ -58,6 +62,10 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
     private static readonly Vector3 PrologueF02 = new(45f, 3f, 95f);
     private static readonly Vector3 PrologueF03 = new(80f, 4f, 140f);
     private static readonly Vector3 BranchMovedRootPosition = new(1.4f, 0.14f, 0f);
+    // Hints follow authored landmark centerlines; startup resolves them onto each mesh's triangles.
+    private static readonly Vector3 ForestSplitBirchObservationHint = new(4.25f, 2.2f, 46.1f);
+    private static readonly Vector3 ForestCrossbarObservationHint = new(3.6f, 1.15f, 45.975f);
+    private static readonly Vector3 ForestRootArchObservationHint = new(-6.2f, 1.85f, 46f);
     private static readonly float BranchAcrossPathYaw = Mathf.RadToDeg(Mathf.Atan2(12f, 50f));
     private static readonly Vector3[] PrologueRouteNodes = { Vector3.Zero, BranchF01, PrologueF02, PrologueF03 };
     private static readonly Vector2 MainSpawnRouteF10 = new(0f, 35f);
@@ -119,6 +127,18 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
     private MeshInstance3D? _prologuePhotoCard;
     private InteractionTarget? _prologuePhotoTarget;
     private StaticBody3D? _photoTableauBody;
+    private CollisionShape3D? _forestSplitBirchContact;
+    private CollisionShape3D? _forestCrossbarContact;
+    private CollisionShape3D? _forestRootArchContact;
+    private Vector3 _forestSplitBirchObservationPoint;
+    private Vector3 _forestCrossbarObservationPoint;
+    private Vector3 _forestRootArchObservationPoint;
+    private readonly global::Godot.Collections.Array<Rid> _forestObservationRayExclusions = new();
+    private double _forestObservationPollElapsed;
+    private object? _forestObservationFailedSession;
+    private Vector3 _forestObservationFailedPosition;
+    private Vector3 _forestObservationFailedForward;
+    private bool _forestObservationDispatching;
     private StaticBody3D? _groundBody;
     private StaticBody3D? _leftRootBody;
     private StaticBody3D? _rightRootBody;
@@ -143,6 +163,7 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         BuildProloguePhotoSource();
         BuildPrologueUi();
         SetProcess(true);
+        SetPhysicsProcess(false);
         TryBindRuntimeBridge();
         ApplyAccessibilitySettings(
             (GetTree().GetFirstNodeInGroup("player_controller") as FirstPersonController)?.Accessibility
@@ -153,6 +174,14 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
     {
         TryBindRuntimeBridge();
         RefreshPrologueSkipButtonState();
+    }
+
+    public override void _PhysicsProcess(double delta)
+    {
+        _forestObservationPollElapsed += delta;
+        if (_forestObservationPollElapsed < ForestObservationPollSeconds) return;
+        _forestObservationPollElapsed = 0;
+        TryObserveForestCameraBack();
     }
 
     public void ApplyAccessibilitySettings(AccessibilitySettingsSnapshot settings)
@@ -166,6 +195,7 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
     public override void _ExitTree()
     {
         SetProcess(false);
+        SetPhysicsProcess(false);
         if (_bridge is { } bridge && GodotObject.IsInstanceValid(bridge))
             bridge.RuntimeStateChanged -= ApplyProjection;
         if (_branchAnimation is { } animation && GodotObject.IsInstanceValid(animation))
@@ -191,6 +221,12 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         _forestVisual = null;
         _photoTableauVisual = null;
         _photoTableauBody = null;
+        _forestSplitBirchContact = null;
+        _forestCrossbarContact = null;
+        _forestRootArchContact = null;
+        _forestObservationRayExclusions.Clear();
+        _forestObservationFailedSession = null;
+        _forestObservationDispatching = false;
         _gripCenter = null;
         _movingRoot = null;
         _branchVisual = null;
@@ -500,8 +536,24 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
                 mesh.Visible = false;
                 continue;
             }
-            if (mesh.Mesh is not null)
-                _photoTableauBody.AddChild(Act1ConnectedWorld.AuthoredSurfaceContact(_photoTableauBody, mesh));
+            if (mesh.Mesh is null) continue;
+            var contact = Act1ConnectedWorld.AuthoredSurfaceContact(_photoTableauBody, mesh);
+            _photoTableauBody.AddChild(contact);
+            switch (mesh.Name.ToString())
+            {
+                case "PForest_SplitBirch_left_stem":
+                    _forestSplitBirchContact = contact;
+                    _forestSplitBirchObservationPoint = ForestObservationPoint(mesh, ForestSplitBirchObservationHint);
+                    break;
+                case "PForest_LowCrossbar":
+                    _forestCrossbarContact = contact;
+                    _forestCrossbarObservationPoint = ForestObservationPoint(mesh, ForestCrossbarObservationHint);
+                    break;
+                case "PForest_RootArch_modest_natural":
+                    _forestRootArchContact = contact;
+                    _forestRootArchObservationPoint = ForestObservationPoint(mesh, ForestRootArchObservationHint);
+                    break;
+            }
         }
     }
 
@@ -603,6 +655,9 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
             return;
 
         var projection = bridge.CurrentW01BranchProjection();
+        if (projection is null || projection.ActiveSceneId != ForestSceneId
+            || !ReferenceEquals(_forestObservationFailedSession, projection.SessionIdentity))
+            _forestObservationFailedSession = null;
         if (projection is null)
         {
             CancelBranchMoveAnimation();
@@ -616,6 +671,7 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
             _branchTarget?.SetPresentationEnabled(false);
             SetPrologueEndVisible(bridge, false);
             SetPrologueSkipVisible(bridge, false);
+            SetPhysicsProcess(false);
             return;
         }
 
@@ -638,6 +694,7 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
             _branchTarget?.SetPresentationEnabled(false);
             SetPrologueEndVisible(bridge, false);
             SetPrologueSkipVisible(bridge, false);
+            SetPhysicsProcess(false);
             return;
         }
 
@@ -658,6 +715,201 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         _branchTarget?.SetPresentationEnabled(!projection.Moved);
         SetPrologueEndVisible(bridge, projection.ActiveSceneId == PrologueSceneId);
         SetPrologueSkipVisible(bridge, projection.ActiveSceneId == PrologueSceneId);
+        SetPhysicsProcess(projection.ActiveSceneId == ForestSceneId
+            && !bridge.PhotoWorldFactObserved(ForestCameraBackFactId));
+    }
+
+    private void TryObserveForestCameraBack()
+    {
+        if (_forestObservationDispatching
+            || _bridge is not { } bridge || !GodotObject.IsInstanceValid(bridge)
+            || bridge.SessionIdentity is not { } session)
+            return;
+
+        var projection = bridge.CurrentW01BranchProjection();
+        if (projection is null || projection.ActiveSceneId != ForestSceneId
+            || !ReferenceEquals(projection.SessionIdentity, session))
+        {
+            SetPhysicsProcess(false);
+            return;
+        }
+        if (bridge.PhotoWorldFactObserved(ForestCameraBackFactId))
+        {
+            SetPhysicsProcess(false);
+            return;
+        }
+
+        if (MainMenuUi.AnyUndismissed(GetTree())
+            || GetTree().GetFirstNodeInGroup("player_controller") is not FirstPersonController player
+            || player.ModalOpen || player.VehicleControlled || player.IsClimbingLadder || !player.IsOnFloor())
+            return;
+
+        var camera = player.GetNodeOrNull<Camera3D>("Head/Camera3D");
+        var f11 = GetNodeOrNull<Marker3D>("Anchors/F11");
+        if (camera is null || !GodotObject.IsInstanceValid(camera) || !camera.Current
+            || f11 is null || !GodotObject.IsInstanceValid(f11))
+            return;
+
+        var playerPosition = player.GlobalPosition;
+        var offset = playerPosition - f11.GlobalPosition;
+        if (Math.Abs(offset.X) > 1.5f || Math.Abs(offset.Z) > 1.5f)
+        {
+            _forestObservationFailedSession = null;
+            return;
+        }
+
+        var forward = (-camera.GlobalBasis.Z).Normalized();
+        if (ObservationFailureStillSame(session, playerPosition, forward)) return;
+
+        if (_forestSplitBirchContact is not { } splitBirchContact
+            || !GodotObject.IsInstanceValid(splitBirchContact)
+            || _forestCrossbarContact is not { } crossbarContact
+            || !GodotObject.IsInstanceValid(crossbarContact)
+            || _forestRootArchContact is not { } rootArchContact
+            || !GodotObject.IsInstanceValid(rootArchContact)
+            || _photoTableauBody is not { } tableauBody
+            || !GodotObject.IsInstanceValid(tableauBody)
+            || _photoTableauVisual is not { Visible: true } tableauVisual
+            || !GodotObject.IsInstanceValid(tableauVisual))
+            return;
+
+        if (!_forestObservationRayExclusions.Contains(player.GetRid()))
+        {
+            _forestObservationRayExclusions.Clear();
+            _forestObservationRayExclusions.Add(player.GetRid());
+        }
+
+        var space = GetWorld3D().DirectSpaceState;
+        var eye = camera.GlobalPosition;
+        if (!ForestLandmarkFramedAndVisible(camera, eye, _forestSplitBirchObservationPoint,
+                splitBirchContact, tableauBody, space)
+            || !ForestLandmarkFramedAndVisible(camera, eye, _forestCrossbarObservationPoint,
+                crossbarContact, tableauBody, space)
+            || !ForestLandmarkFramedAndVisible(camera, eye, _forestRootArchObservationPoint,
+                rootArchContact, tableauBody, space))
+            return;
+
+        _forestObservationDispatching = true;
+        SetPhysicsProcess(false);
+        DispatchForestCameraBackObservationAsync(bridge, session, player, playerPosition, forward);
+    }
+
+    private bool ForestLandmarkFramedAndVisible(
+        Camera3D camera,
+        Vector3 eye,
+        Vector3 point,
+        CollisionShape3D expectedContact,
+        StaticBody3D tableauBody,
+        PhysicsDirectSpaceState3D space)
+    {
+        var local = camera.ToLocal(point);
+        if (local.Z >= -0.05f) return false;
+        var viewport = camera.GetViewport().GetVisibleRect().Size;
+        var aspect = viewport.X / Math.Max(viewport.Y, 1f);
+        var tangent = Mathf.Tan(Mathf.DegToRad(camera.Fov) * 0.5f);
+        var halfWidth = camera.KeepAspect == Camera3D.KeepAspectEnum.Width ? tangent : tangent * aspect;
+        var halfHeight = camera.KeepAspect == Camera3D.KeepAspectEnum.Width ? tangent / aspect : tangent;
+        if (Math.Abs(local.X / -local.Z) > halfWidth || Math.Abs(local.Y / -local.Z) > halfHeight)
+            return false;
+
+        using var ray = PhysicsRayQueryParameters3D.Create(eye, point, 3u, _forestObservationRayExclusions);
+        var hit = space.IntersectRay(ray);
+        if (hit.Count == 0 || hit["collider"].AsGodotObject() is not CollisionObject3D collider
+            || !ReferenceEquals(collider, tableauBody))
+            return false;
+
+        var shapeOwnerId = collider.ShapeFindOwner(hit["shape"].AsInt32());
+        return shapeOwnerId >= 0
+            && ReferenceEquals(collider.ShapeOwnerGetOwner(shapeOwnerId), expectedContact);
+    }
+
+    private async void DispatchForestCameraBackObservationAsync(
+        RuntimeBridge bridge,
+        object session,
+        FirstPersonController player,
+        Vector3 playerPosition,
+        Vector3 forward)
+    {
+        var committed = false;
+        try
+        {
+            committed = await bridge.DispatchInteractionAsync(ForestCameraBackInteractionId);
+        }
+        catch (Exception exception)
+        {
+            GD.PushError($"W01 forest camera-back observation failed before commit: {exception.Message}");
+        }
+
+        if (!GodotObject.IsInstanceValid(this) || !IsInsideTree() || IsQueuedForDeletion()) return;
+        _forestObservationDispatching = false;
+        if (!GodotObject.IsInstanceValid(bridge) || !ReferenceEquals(session, bridge.SessionIdentity))
+        {
+            ApplyProjection();
+            return;
+        }
+
+        var projection = bridge.CurrentW01BranchProjection();
+        if (committed && projection is { ActiveSceneId: ForestSceneId } current
+            && ReferenceEquals(current.SessionIdentity, session)
+            && bridge.PhotoWorldFactObserved(ForestCameraBackFactId))
+        {
+            _forestObservationFailedSession = null;
+            SetPhysicsProcess(false);
+            if (GodotObject.IsInstanceValid(player)
+                && ReferenceEquals(GetTree().GetFirstNodeInGroup("player_controller"), player))
+                player.NotifyTraversal(bridge.ResolveText(ForestCameraBackTextId));
+            return;
+        }
+
+        if (projection is { ActiveSceneId: ForestSceneId } stillCurrent
+            && ReferenceEquals(stillCurrent.SessionIdentity, session)
+            && !bridge.PhotoWorldFactObserved(ForestCameraBackFactId))
+        {
+            _forestObservationFailedSession = session;
+            _forestObservationFailedPosition = playerPosition;
+            _forestObservationFailedForward = forward;
+            SetPhysicsProcess(true);
+            return;
+        }
+
+        ApplyProjection();
+    }
+
+    private bool ObservationFailureStillSame(object session, Vector3 position, Vector3 forward)
+    {
+        if (!ReferenceEquals(_forestObservationFailedSession, session))
+        {
+            _forestObservationFailedSession = null;
+            return false;
+        }
+
+        if (position.DistanceTo(_forestObservationFailedPosition) < 0.2f
+            && forward.Dot(_forestObservationFailedForward) >= 0.99f)
+            return true;
+
+        _forestObservationFailedSession = null;
+        return false;
+    }
+
+    private static Vector3 ForestObservationPoint(MeshInstance3D mesh, Vector3 hint)
+    {
+        var faces = mesh.Mesh!.GetFaces();
+        var bestDistance = float.PositiveInfinity;
+        var bestPoint = Vector3.Zero;
+        for (var index = 0; index + 2 < faces.Length; index += 3)
+        {
+            var localCenter = (faces[index] + faces[index + 1] + faces[index + 2]) / 3f;
+            var worldCenter = mesh.GlobalTransform * localCenter;
+            var distance = worldCenter.DistanceSquaredTo(hint);
+            if (distance >= bestDistance) continue;
+            bestDistance = distance;
+            bestPoint = worldCenter;
+        }
+
+        if (float.IsPositiveInfinity(bestDistance))
+            throw new InvalidOperationException($"W01 landmark has no triangle observation point: {mesh.Name}");
+        var inward = hint - bestPoint;
+        return bestPoint + inward.Normalized() * Math.Min(0.015f, inward.Length() * 0.1f);
     }
 
     private void SetProloguePhotoSourceVisible(RuntimeBridge bridge, bool visible)

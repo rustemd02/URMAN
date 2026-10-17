@@ -30476,6 +30476,17 @@
       },
       {
         "schemaVersion": 1,
+        "id": "urman.fullgame:text/pw-observation-forest-camera-back",
+        "value": {
+          "default": "\u0410 \u0441\u043C\u043E\u0442\u0440\u044F\u0442 \u043E\u043D\u0438 \u0432\u0441\u0435 \u043D\u0435 \u043D\u0430 \u0444\u043E\u0442\u043E\u0433\u0440\u0430\u0444\u0430.",
+          "translations": {
+            "ru": "\u0410 \u0441\u043C\u043E\u0442\u0440\u044F\u0442 \u043E\u043D\u0438 \u0432\u0441\u0435 \u043D\u0435 \u043D\u0430 \u0444\u043E\u0442\u043E\u0433\u0440\u0430\u0444\u0430."
+          }
+        },
+        "purpose": "dialogue"
+      },
+      {
+        "schemaVersion": 1,
         "id": "urman.fullgame:text/pw-quest-w01-objective",
         "value": {
           "default": "\u041D\u0430\u0439\u0442\u0438 \u0442\u043E\u0447\u043A\u0443 \u0441\u044A\u0451\u043C\u043A\u0438 \u0438 \u0432\u044B\u0441\u043B\u0443\u0448\u0430\u0442\u044C \u0432\u0437\u0433\u043B\u044F\u0434 \u0438\u0437-\u0437\u0430 \u043A\u0430\u0434\u0440\u0430",
@@ -31936,7 +31947,7 @@
     {
       "moduleId": "urman.fullgame",
       "exactVersion": "1.0.0",
-      "sha256": "fa05ff435367e4f364ae73a3279b268f38164bbf6258044d5036cf242a3d6645"
+      "sha256": "46df4450cab531df0c849cc23f32059c7ae67476115298faca79cac9acdfbc39"
     },
     {
       "moduleId": "urman.oldpc",
@@ -31944,5 +31955,5 @@
       "sha256": "a3cd65ca0fa229fb9162081dcb579945c63e78f2a72939c473f477b54067b292"
     }
   ],
-  "campaignFingerprint": "0eede9cee293eaca20c1b561f432e45d265292394c789f88ffceafa70844cd83"
+  "campaignFingerprint": "60fdd3bc0ef9c12c5c022e804b01c28e71fddf48bcf8490bc68303b593d7b7a2"
 }

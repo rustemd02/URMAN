@@ -70277,7 +70277,7 @@
       "milestone": "M5",
       "status": "in_progress",
       "complexity": "medium",
-      "active_owner": null,
+      "active_owner": "Codex/gamefeel",
       "owner": "finished-act1",
       "parent_id": "ACT1-LEGS",
       "depends_on": [],
@@ -70402,8 +70402,8 @@
       },
       "assigned_owner": "finished-act1",
       "activity": {
-        "state": "not_active",
-        "reason": "Native механическая проверка завершена; визуальная приёмка движения остаётся открыта."
+        "state": "confirmed_active",
+        "reason": "Актуальные 16 walk кадров показывают жёсткий силуэт ног. Codex/gamefeel реализует артикуляцию свободной стопы в existing Body.cs, сохраняя опорную подошву."
       },
       "task_type": "engineering",
       "implementation_state": "implemented",
@@ -70413,7 +70413,7 @@
         "Ноги, звук шагов и restrained bob используют фактическое post-move горизонтальное перемещение, включая strafe/backwards; у стены/остановки нет шага на месте и ретракционного скольжения.",
         "Взлёт/полёт/приземление и crouch/stand переходят согласованно без скачка глаза; сохраняются roof/grounded/input/modal/reduced-motion guards и достижимость IK."
       ],
-      "next_action": "Root: один existing act1_player_movement_smoke_test на новом candidate через station, затем inspect кадров/конкретных defects; непрерывный feel gate остаётся отдельным.",
+      "next_action": "Добавить физически правдоподобную артикуляцию свободной стопы/колена в существующий contact gait и осмотреть изменённое движение; не завышать подъём ради заметности.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -70673,9 +70673,9 @@
       },
       "title": "Приёмка походки (ходьба/бег/присед/повороты)",
       "milestone": "M5",
-      "status": "todo",
+      "status": "in_progress",
       "complexity": "simple",
-      "active_owner": null,
+      "active_owner": "Codex/root",
       "owner": "finished-act1",
       "depends_on": [],
       "scope": [
@@ -70731,8 +70731,8 @@
       },
       "assigned_owner": "finished-act1",
       "activity": {
-        "state": "not_active",
-        "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+        "state": "confirmed_active",
+        "reason": "Codex/root просмотрел 16 последовательных кадров обычной ходьбы; отдельное ревью силуэта Codex/gamefeel. Остальные режимы не приняты."
       },
       "task_type": "integration_check",
       "implementation_state": "partial",
@@ -70740,7 +70740,7 @@
       "remaining": [
         "Приёмка походки (ходьба/бег/присед/повороты); отсутствует подтверждение собственного конечного DoD, перечисленного ниже."
       ],
-      "next_action": "Принять новый candidate ACT1-LEGS.1 в непрерывном движении; static PNG и smoke не доказывают естественность.",
+      "next_action": "Разобрать короткий силуэт ног по текущим кадрам и геометрии; затем проверить изменённый вид и недостающие режимы в обычном запуске.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -70827,7 +70827,17 @@
           "evidence_ref": "ACT1-LEGS.2.evidence and named history progress; source_review shows available/missing inputs"
         }
       ],
-      "assignment_state": "preserved_person_or_existing_role; activity separate"
+      "assignment_state": "preserved_person_or_existing_role; activity separate",
+      "verification_question_2026_10_17": "Как выглядят контакты/перенос стоп в последовательности обычной ходьбы candidate6cddcb55 после contact-driven controller? Этот сценарий не доказывает прыжок/бег/звук.",
+      "progress_2026_10_17": {
+        "result": "Existing gait_capture_probe: 16 кадров, чередование стоп видно; явного разрыва корпуса нет. Короткий столбчатый силуэт ног под пальто требует предметного ревью. PASS означает сохранение кадров, не естественность движения.",
+        "job_id": "9afe6073193346a794a8b498c5392273",
+        "snapshot_id": "6cddcb55d8bd6ad9ca3d8b0e2715c2933802ddb402ad7dd336d9b14834e2219e",
+        "result_sha256": "3b253baeacb359c693ff11ee1af344994408e6a855287765e20f9dbc09c4c789",
+        "evidence": "evidence/ACT1-LEGS/gait-contact-20261017/",
+        "userdata": "original files restored by rename and verified; Windows ACLs not compared",
+        "limits": "Только walk; прыжок/бег/присед/повороты/звук и человеческая правдоподобность остаются открытыми."
+      }
     },
     {
       "id": "ACT1-TAMARA-FENCE",
@@ -120531,8 +120541,8 @@
       },
       "assigned_owner": "gameplay",
       "activity": {
-        "state": "not_active",
-        "reason": "17.10: генерация/реализация полного F11–F16 отложена до согласованного движения и тактильного начала; source/assets не произведены."
+        "state": "not_confirmed",
+        "reason": "Конечный F11 source-stage frozen; compilation 0 errors/warnings, independent review layer finding withdrawn after full caller-path. Native path not yet accepted."
       },
       "task_type": "engineering",
       "implementation_state": "not_started",
@@ -120542,7 +120552,7 @@
         "После возврата сохраняются правильное положение ветки и один набор знаний.",
         "Полный паспорт уровня docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/levels/W01_Лес_за_спиной_RU.md реализован: узлы/физические связи/действия/существо или человеческая сцена/созерцание/возврат/кадры; схема не заменяет проходимый runtime."
       ],
-      "next_action": "Собрать F10→F11→F12→F13 физический путь/осмотр/обратимый проход в W01Controller/W01.tscn; затем связать видимую F14 strap-встречу и F16 return с authored reducer без прямого обхода условий.",
+      "next_action": "В F11 3×3м увидеть три реальные опоры с LOS без modal/load; existing reducer pw-forest-group → краткая реплика и journal. Нет невидимого target/forcedtimer/автозавершения F13; physical root-turn остаётся открытым.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -120731,6 +120741,11 @@
         "finding": "Группа P-FOREST photo-only; runtime living group не нужен. Физические targets group/photographer/shurale/return отсутствуют; smoke вызывает IDs напрямую и не доказывает проходимость. W01/F11-F16 geometry/encounter missing.",
         "scope": "Один законченный первый photo-loop, не отдельная полировка леса. Persistence controller/scene, visual Shurale/bag, story authored D06/D07. Root station/integration; готовность только по реальному пути.",
         "verification": "После changed snapshot пройти ordinary F10→support tableau→за кадр→strap action→return; runtime NOT_RUN."
+      },
+      "progress_f11_2026_10_17": {
+        "result": "F11 grounded observation zone, frustum/LOS of three exact landmark shapes, existing pw-forest-group reducer, localized authored reaction. No invisible interaction target or auto-F13.",
+        "verification": "Affected Game compile 0 errors/warnings; source review layer0 finding withdrawn: visible projection sets layer1 before polling. Content compiled. Runtime not yet accepted.",
+        "remaining": "Native approach/framing/reaction/journal; F12–F16 and encounter remain open."
       }
     },
     {
