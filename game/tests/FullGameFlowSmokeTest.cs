@@ -146,6 +146,31 @@ public partial class FullGameFlowSmokeTest : Node
 
         await InteractAsync(bridge, "pw-school-copy-source");
         await InteractAsync(bridge, "pw-school-copy-permission");
+        var schoolDialogueId = Prefix + "dialogue/pw-school-copy";
+        Require(await bridge.EnterDialogueNodeAsync(schoolDialogueId, "d04-01"),
+            $"The approved school dialogue could not start: {schoolDialogueId}/d04-01.");
+        var schoolState = bridge.SelectRuntimeState();
+        Require(!Photo(World(schoolState), "S-SCHOOL").GetProperty("acquired").GetBoolean()
+                && !Photo(World(schoolState), "S-SCHOOL").GetProperty("backRead").GetBoolean()
+                && !Photo(World(schoolState), "P-FOREST").GetProperty("contextKnown").GetBoolean()
+                && !Photo(World(schoolState), "P-FOREST").GetProperty("backRead").GetBoolean(),
+            "The school copy or forest context was granted before the staff's approved reply.");
+        Require(await bridge.ChooseDialogueAsync(schoolDialogueId, "d04-01", "d04-02"),
+            $"The approved school dialogue could not continue: {schoolDialogueId}/d04-01/d04-02.");
+        Require(await bridge.EnterDialogueNodeAsync(schoolDialogueId, "d04-03"),
+            $"The approved school context line could not be entered: {schoolDialogueId}/d04-03.");
+        schoolState = bridge.SelectRuntimeState();
+        Require(!Photo(World(schoolState), "S-SCHOOL").GetProperty("acquired").GetBoolean()
+                && !Photo(World(schoolState), "P-FOREST").GetProperty("contextKnown").GetBoolean(),
+            "The school request granted its copy or forest context before the player asked for the copy.");
+        Require(await bridge.ChooseDialogueAsync(schoolDialogueId, "d04-03", "d04-04"),
+            $"The approved school copy request could not be applied: {schoolDialogueId}/d04-03/d04-04.");
+        schoolState = bridge.SelectRuntimeState();
+        Require(Photo(World(schoolState), "S-SCHOOL").GetProperty("acquired").GetBoolean()
+                && !Photo(World(schoolState), "S-SCHOOL").GetProperty("backRead").GetBoolean()
+                && Photo(World(schoolState), "P-FOREST").GetProperty("contextKnown").GetBoolean()
+                && !Photo(World(schoolState), "P-FOREST").GetProperty("backRead").GetBoolean(),
+            "The approved school reply did not grant only the permitted school copy and forest context.");
 
         if (riverFirst)
         {

@@ -269,6 +269,7 @@ public partial class DialogueUi : CanvasLayer, IAccessibilitySettingsTarget
         "rinat" => "РИНАТ",
         "timur" or "timur-hazrat" => "ТИМУР ХӘЗРӘТ",
         "razilya" => "РАЗИЛЯ",
+        "school_staff" => "СОТРУДНИЦА ШКОЛЫ",
         "shurale" => "Шурале",
         "tamara" => "ТАМАРА ГЕННАДЬЕВНА",
         _ => role.ToUpperInvariant()

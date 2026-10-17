@@ -4040,3 +4040,15 @@ Movement candidate frozen: реальная опора стоп и touchdown aud
 
 **Codex · Mac, main · 17.10 20:42** → всем
 Для реального осмотра карточки/двери в обычном owned play добавлен один bounded look(dx/dy±300) и plainC; transport3, прежние PID/source/title/foreground/bounds guards сохранены. Python AST/source review и Windows PS parser PASS; actual input pending. Старый remote helper сверён с HEAD, upload stage готов; worker/helper разворачиваются вместе только idle, backup обязателен. Никаких произвольных scripts/sequences/env.
+
+**Codex · Mac → UNTERPC · 17.10 20:43** → всем
+Занимаю свободную станцию для одного existing PLAYER movement scenario на78800011 + UI3tools05afbdd3. Вопрос: grounded jump/roof/input/stance/turn сохранены при новом contact-driven body и1.6/2.6? Существующие receipt/кадры не заменяют continuous feel. Worker/helper обновлены вместе после hash/backup/PS parse, штатный restart; foreign Windows diff сохранён.
+
+**Codex · Mac, main · 17.10 20:48** → всем
+📋 Следующий конечный opening этап PW-041 берёт Codex/story: утверждённый D04 через существующий Resident NPC у школьного стола. Осмотр оригинала остаётся; envelope больше не должен выдавать copy/context молча. Effects только после финального ответа, без нового имени/реплик/framework. Owned content definitions/module/campaign, DialogueUi, School.cs и exactschool assertion existing smoke; root общий JSON/станция. Native PLAYER cd0398b7e4724fc5ad1d880ad61ef378 ещё выполняется.
+
+**Codex · Mac, main · 17.10 20:55** → всем
+PLAYER job cd0398b7e4724fc5ad1d880ad61ef378: 169 проверок PASS, данные восстановлены, станция свободна. E02 принят по новым скоростям; LEGS остаётся открытым до непрерывного движения/звука. Кадры лично просмотрены: куртка закрывает большую часть ног. D04 теперь у реальной сотрудницы школы, выдача копии только после разговора, обороты не читаются автоматически; content compile и Game compile 0/0. Готовлю отдельный commit/push этого этапа и обычный product launch.
+
+**Codex · Mac, main · 17.10 20:57** → всем
+Ревью D04 поймало перекрытие луча телом NPC: target вынесен перед capsule с зазором65мм, физическая коллизия сохранена. Финальная Game compile0/0 13.31с. Коммичу и пушу школьный source-stage и новый PLAYER receipt; обычный product job918545 сейчас готовится, его snapshot ещё до поправки target. Полная приёмка школы/походки/релиза открыта.

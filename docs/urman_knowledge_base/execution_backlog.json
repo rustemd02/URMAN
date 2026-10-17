@@ -18555,7 +18555,9 @@
               "evidence/ACT1-PLAYER/player-movement-20261017/player-movement-receipt.json",
               "evidence/ACT1-PLAYER/player-movement-20261017/run.log",
               "evidence/ACT1-PLAYER/player-movement-20261017/02_walking_lower_body.png",
-              "evidence/ACT1-PLAYER/player-movement-20261017/05_wall_stop_lower_body.png"
+              "evidence/ACT1-PLAYER/player-movement-20261017/05_wall_stop_lower_body.png",
+              "evidence/ACT1-PLAYER/contact-movement-20261017/receipt.json",
+              "evidence/ACT1-PLAYER/contact-movement-20261017/player/player-movement-receipt.json"
             ],
             "assigned_owner": "finished-act1",
             "active_owner": null,
@@ -18564,13 +18566,11 @@
               "reason": "Живое исполнение этой единицы при миграции не подтверждено."
             },
             "task_type": "engineering",
-            "status": "todo",
+            "status": "completed",
             "implementation_state": "implemented",
-            "technical_verification_state": "not_run",
-            "remaining": [
-              "Повторно проверить sprint/remapped input/diagonal/wall stop при намеренно изменённых скорости и acceleration."
-            ],
-            "next_action": "После ACT1-LEGS.1 candidate проверить существующий PLAYER сценарий; старые1.70/2.55м — исторический результат, не новый эталон.",
+            "technical_verification_state": "passed",
+            "remaining": [],
+            "next_action": "Собственный обновлённый контракт принят по native job cd0398b7e4724fc5ad1d880ad61ef378: walk0.760/run1.180м за30ticks, remapped input/diagonal/wall/modal/stance guards PASS. Естественность движения остаётся ACT1-LEGS.1/.2.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -70403,11 +70403,11 @@
       "assigned_owner": "finished-act1",
       "activity": {
         "state": "not_active",
-        "reason": "Performance передал frozen controller; root принимает текущим существующим PLAYER runtime."
+        "reason": "Native механическая проверка завершена; визуальная приёмка движения остаётся открыта."
       },
       "task_type": "engineering",
       "implementation_state": "implemented",
-      "technical_verification_state": "not_run",
+      "technical_verification_state": "passed",
       "remaining": [
         "В движении/остановке/повороте нет противофазы и скольжения ног; тело не мешает камере/взаимодействию. Есть короткий захват анимации, не только статичный кадр.",
         "Ноги, звук шагов и restrained bob используют фактическое post-move горизонтальное перемещение, включая strafe/backwards; у стены/остановки нет шага на месте и ретракционного скольжения.",
@@ -70614,6 +70614,17 @@
           "game/scripts/FootstepAudioController.cs",
           "game/tests/Act1PlayerMovementSmokeTest.cs"
         ]
+      },
+      "verification_question_2026_10_17": "Сохраняет ли новый controller grounded jump/roof/input/stance/turn constraints при1.6/2.6 и actualfootcontacts? Existing PLAYER receipt+кадры, не continuous feel PASS.",
+      "progress_2026_10_17_native": {
+        "job_id": "cd0398b7e4724fc5ad1d880ad61ef378",
+        "result": "169 existing checks PASS; userdata restored/verified, doctor idle. Root осмотрел standing/walk/back/crouch/turn PNG: разрывов не видно, куртка сильно закрывает ноги. Статичные кадры не доказывают естественную походку/прыжок/звук.",
+        "evidence": [
+          "evidence/ACT1-PLAYER/contact-movement-20261017/receipt.json",
+          "evidence/ACT1-PLAYER/contact-movement-20261017/player/player-movement-receipt.json",
+          "evidence/ACT1-PLAYER/contact-movement-20261017/player/02_walking_lower_body.png"
+        ],
+        "remaining": "Непрерывное движение walk/run/air/landing/stance со звуком и авторская оценка; не повторять тот же механический smoke без нового дефекта."
       }
     },
     {
@@ -117465,7 +117476,7 @@
       "assigned_owner": "narrative",
       "activity": {
         "state": "not_active",
-        "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+        "reason": "D04 source stage передан координатору и скомпилирован; runtime отдельно."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -117474,7 +117485,7 @@
         "Критические строки редактируются отдельно от изображения.",
         "Отсутствующая запись голоса не блокирует прохождение."
       ],
-      "next_action": "Внести рабочие реплики документа 15 и оригинальные подписи в исходный формат контента.",
+      "next_action": "Проверить D04 у физической сотрудницы в обычном маршруте; затем оставшиеся D00/D05 с корректным переходом сцен. Back-read только в reader.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -117488,7 +117499,8 @@
           "content/modules/urman-fullgame/definitions.json",
           "content/modules/urman-fullgame/module.json",
           "content/campaigns/urman.fullgame/campaign.json",
-          "game/scripts/DialogueUi.cs"
+          "game/scripts/DialogueUi.cs",
+          "game/scripts/Act1ConnectedWorld.SquareInteriors.School.cs"
         ],
         "required_inputs": [
           {
@@ -117651,6 +117663,11 @@
         ],
         "verification": "Fullgame content compile exit0; affected Game compile0warnings/0errors15.43с, source review точных строк/refs/effects PASS. Existing tea/forest assertions минимально обновлены под changedcontract; native не запускался. Narrative commit bf446a06.",
         "remaining": "Прочие утверждённые диалоги/книга/физические producers, полная приёмка карточки сохраняется. D04 требует реального staff, не голоса из конверта; D00/D05 требуют корректного порядка перед scene transition."
+      },
+      "progress_2026_10_17_d04": {
+        "result": "Реальная анонимная сотрудница школы вместо конверта. Точные D04.01–05; терминальный ответ выдаёт S-SCHOOL и context P-FOREST. Оба backRead остаются false до реального чтения. Повторно использован существующий female Naila mesh, уникальный арт не принят.",
+        "verification": "Content compile exit0; final Game affected compile0warnings/0errors13.31s. Independent review found capsule occluding face-on target; moved target65mm clear in front, source bounds checked. Existing school assertion updated only for intentional contract. Native D04 NOT_RUN; product job918545 snapshot predates target correction.",
+        "remaining": "Проверить обычный доступ к NPC/разговору; прочие реплики и полная карточка открыты."
       }
     },
     {

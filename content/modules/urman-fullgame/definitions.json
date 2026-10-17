@@ -2019,27 +2019,8 @@
             "factId": "school_copy_identified"
           }
         ],
-        "effects": [
-          {
-            "op": "photoworlds.photo.acquire",
-            "photoId": "S-SCHOOL",
-            "sourceId": "urman.fullgame:interaction/pw-school-copy-source",
-            "permissionId": "urman.fullgame:interaction/pw-school-copy-permission"
-          },
-          {
-            "op": "photoworlds.photo.back-read",
-            "photoId": "S-SCHOOL"
-          },
-          {
-            "op": "photoworlds.photo.back-read",
-            "photoId": "P-FOREST"
-          },
-          {
-            "op": "photoworlds.photo.context-known",
-            "photoId": "P-FOREST",
-            "sourceId": "urman.fullgame:interaction/pw-school-copy-source"
-          }
-        ]
+        "effects": [],
+        "targetDialogueId": "urman.fullgame:dialogue/pw-school-copy"
       },
       {
         "id": "urman.fullgame:interaction/pw-water-place-talk",
@@ -4011,6 +3992,69 @@
             "nextNodeId": null
           }
         ]
+      }
+    ]
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:dialogue/pw-school-copy",
+    "participantRoles": [
+      "aidar",
+      "school_staff"
+    ],
+    "startNodeId": "d04-01",
+    "nodes": [
+      {
+        "id": "d04-01",
+        "speakerRole": "school_staff",
+        "textId": "urman.fullgame:text/pw-dialogue-school-copy-d04-01",
+        "conditions": [],
+        "effects": [],
+        "choices": [
+          {
+            "id": "d04-02",
+            "textId": "urman.fullgame:text/pw-choice-school-copy-d04-02",
+            "conditions": [],
+            "effects": [],
+            "nextNodeId": "d04-03"
+          }
+        ]
+      },
+      {
+        "id": "d04-03",
+        "speakerRole": "school_staff",
+        "textId": "urman.fullgame:text/pw-dialogue-school-copy-d04-03",
+        "conditions": [],
+        "effects": [],
+        "choices": [
+          {
+            "id": "d04-04",
+            "textId": "urman.fullgame:text/pw-choice-school-copy-d04-04",
+            "conditions": [],
+            "effects": [],
+            "nextNodeId": "d04-05"
+          }
+        ]
+      },
+      {
+        "id": "d04-05",
+        "speakerRole": "school_staff",
+        "textId": "urman.fullgame:text/pw-dialogue-school-copy-d04-05",
+        "conditions": [],
+        "effects": [
+          {
+            "op": "photoworlds.photo.acquire",
+            "photoId": "S-SCHOOL",
+            "sourceId": "urman.fullgame:interaction/pw-school-copy-source",
+            "permissionId": "urman.fullgame:interaction/pw-school-copy-permission"
+          },
+          {
+            "op": "photoworlds.photo.context-known",
+            "photoId": "P-FOREST",
+            "sourceId": "urman.fullgame:interaction/pw-school-copy-source"
+          }
+        ],
+        "choices": []
       }
     ]
   },
@@ -5999,6 +6043,61 @@
       "default": "«Ну вот ты и дома, Айдар. Проходи, чай ещё горячий. Я рада, что ты приехал; расскажи, как дорога».",
       "translations": {
         "ru": "«Ну вот ты и дома, Айдар. Проходи, чай ещё горячий. Я рада, что ты приехал; расскажи, как дорога»."
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-dialogue-school-copy-d04-01",
+    "value": {
+      "default": "Альбом можно посмотреть здесь. Страницы не вынимай, они уже держатся кое-как.",
+      "translations": {
+        "ru": "Альбом можно посмотреть здесь. Страницы не вынимай, они уже держатся кое-как."
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-choice-school-copy-d04-02",
+    "value": {
+      "default": "Мне бы понять, с какой стороны леса стояли.",
+      "translations": {
+        "ru": "Мне бы понять, с какой стороны леса стояли."
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-dialogue-school-copy-d04-03",
+    "value": {
+      "default": "На соседнем кадре видно. Смотри, перекладина та же.",
+      "translations": {
+        "ru": "На соседнем кадре видно. Смотри, перекладина та же."
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-choice-school-copy-d04-04",
+    "value": {
+      "default": "Можно копию?",
+      "translations": {
+        "ru": "Можно копию?"
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-dialogue-school-copy-d04-05",
+    "value": {
+      "default": "Сделаю. Оригинал пусть здесь остаётся.",
+      "translations": {
+        "ru": "Сделаю. Оригинал пусть здесь остаётся."
       }
     },
     "purpose": "dialogue"

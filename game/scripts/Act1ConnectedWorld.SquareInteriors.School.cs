@@ -165,20 +165,32 @@ public partial class Act1ConnectedWorld
         SetSchoolPhotoCopyMetadata(sourceTarget, SchoolPhotoCopySourceInteraction);
         RegisterPublicUse("school", sourceTarget, sourceFolder);
 
-        var requestSheet = new Node3D { Name = "SchoolPhotoCopyRequestSheet", Position = new(-8.48f, .74f, -3.62f) };
-        school.AddChild(requestSheet);
-        requestSheet.SetMeta("presentationRole", "blank closed copy-request envelope; no invented text or approval");
-        SetSchoolPhotoCopyMetadata(requestSheet, SchoolPhotoCopyPermissionInteraction);
-        RuralPropGeometry.Block(requestSheet, "RequestEnvelope", new(.19f, .012f, .125f), new(0, .006f, 0),
-            Mat("e8dfc8", "paper"), .002f);
-        RuralPropGeometry.Block(requestSheet, "EnvelopeFold", new(.15f, .003f, .055f), new(0, .014f, -.014f),
-            Mat("d8cdae", "paper"), .001f);
-        AddSchoolCopyContact(requestSheet, "EnvelopeContact", new(.19f, .035f, .125f));
+        // The approved school role is a real person in the staff room. Reuse the
+        // existing female human-kit appearance; role text remains anonymous.
+        var staff = GeneratedCharacterKitDressing.Attach(school, "school_staff", "Naila", new(-7.0f, 0, -2.65f), sheltered: true);
+        staff.Name = "Npc_school_staff";
+        staff.RotationDegrees = new(0, 180, 0);
+        GeneratedCharacterKitDressing.GroundSolesOnAnchor(staff);
+        SetSchoolPhotoCopyMetadata(staff, SchoolPhotoCopyPermissionInteraction);
+        var staffContact = new StaticBody3D
+        {
+            Name = "SchoolStaffContact",
+            Position = new(-7.0f, .82f, -2.65f),
+            CollisionLayer = 2,
+            CollisionMask = 0,
+        };
+        staffContact.AddChild(new CollisionShape3D
+        {
+            Shape = new CapsuleShape3D { Radius = .24f, Height = 1.64f },
+        });
+        school.AddChild(staffContact);
+        _facilityBodies.Add(staffContact);
         var permissionTarget = FacilityTarget("SchoolPhotoCopyPermission", SchoolPhotoCopyPermissionInteraction,
             "Попросить копию школьного снимка", school,
-            new(-8.48f, .758f, -3.62f), new(.18f, .08f, .11f));
+            new(-7.0f, 1.32f, -2.15f), new(.62f, .62f, .39f));
+        permissionTarget.DialogueId = "urman.fullgame:dialogue/pw-school-copy";
         SetSchoolPhotoCopyMetadata(permissionTarget, SchoolPhotoCopyPermissionInteraction);
-        RegisterPublicUse("school", permissionTarget, requestSheet);
+        RegisterPublicUse("school", permissionTarget, staffContact);
     }
 
     private static void AddSchoolCopyContact(Node3D parent, string name, Vector3 size)
