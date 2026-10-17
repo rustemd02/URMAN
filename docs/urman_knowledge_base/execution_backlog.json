@@ -119668,10 +119668,10 @@
             "owner": "world_art",
             "evidence": [],
             "assigned_owner": "world_art",
-            "active_owner": "Codex/persistence",
+            "active_owner": null,
             "activity": {
-              "state": "confirmed_active",
-              "reason": "Luna принял конечный F10→F11 route/observation этап17.10; общий JSON root, E02 чужое назначение сохранено."
+              "state": "not_active",
+              "reason": "F10→F11 producer/anchor source frozen; root принимает generated artifacts и планирует native import/route check."
             },
             "task_type": "engineering",
             "status": "in_progress",
@@ -119680,7 +119680,7 @@
             "remaining": [
               "Собрать узлы F00, F01, F02, F03, F10, F11, F12, F13, F14, F15, F16 и все связи из level-паспорта.; собственного целевого receipt пока нет."
             ],
-            "next_action": "Сверить физический F10→F11 путь и существующие landmarks, собрать отсутствующие anchors/проход; сообщить конкретный producer gap до генерации. После доступного входа связать PW046 observation. Полный E01 не закрывать одним сегментом.",
+            "next_action": "Проверить импорт/видимость/проходимость F10→F11 на native candidate; затем физически понятное наблюдение PW046 без целиться в пустоту. Не закрывать весь E01/E02 одним сегментом.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -119759,7 +119759,12 @@
             },
             "depends_on": [
               "PW-010"
-            ]
+            ],
+            "progress_2026_10_17_f11": {
+              "result": "Произведён 2.1м F10→F11 track и F11 ground anchor(14,.968182076,48); F00–F03 heights/grades сохранены. Blender223929vertices/445952triangles, source manifest обновлён.",
+              "verification": "Blender generation exit0 + scoped diffcheck + manifest/source review; native import/contact/frame NOT_RUN. Offline preview только terrain, не художественная приёмка сцены.",
+              "remaining": "Native route/frame; natural observation action PW046 пока не реализован — invisible ray hotspot отклонён. F12–F16 и остальные families открыты."
+            }
           },
           {
             "id": "PW-045/E02",
@@ -119773,10 +119778,10 @@
               "evidence/PW-045/physical-input-20261012/"
             ],
             "assigned_owner": "world_art",
-            "active_owner": "Codex/persistence",
+            "active_owner": null,
             "activity": {
-              "state": "confirmed_active",
-              "reason": "17.10 Luna explicitly accepted finite F10→F11 ground producer; old release-route stopped confirmed by live session listing."
+              "state": "not_active",
+              "reason": "F10→F11 producer/anchor source frozen; root принимает generated artifacts и планирует native import/route check."
             },
             "task_type": "engineering",
             "status": "in_progress",
@@ -119787,7 +119792,7 @@
               "F01/F03 authored graph gap исправлен в 5f1d9e98; существующий semantic route обновлён, ещё NOT_RUN. Нужен physical binding обоих endpoints и основного forest move, не ранний выход вместо полного пролога.",
               "W01 source consumer ground/F01 принят24.38s compile; real scene runtime/material/contacts/capsule/save/мovedbranchinspect NOT_RUN. Forestkit stage2 и isolatedbirch stage8 root rejected; untracked source/tmp сохранены, assetsнепубликовались."
             ],
-            "next_action": "Расширить существующий ground producer только F10→F11 path/node pad, сохранить prologue; produced output→E01 anchor→PW046 deliberate observation. Полный E02 остаётся открытым.",
+            "next_action": "Проверить импорт/видимость/проходимость F10→F11 на native candidate; затем физически понятное наблюдение PW046 без целиться в пустоту. Не закрывать весь E01/E02 одним сегментом.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -120006,6 +120011,11 @@
                 "reason": "Прямой приоритет автора: цельный начальный playerpath к release, микрополировка прекращена; root integration/Luna assignedboundedfiles, assigned_owner сохранён."
               },
               "reconciliation": "B02 thread idle; its last status OpenCode429. Live opencode /api/session/active returns data:{}; no active executor. Assigned owner preserved."
+            },
+            "progress_2026_10_17_f11": {
+              "result": "Произведён 2.1м F10→F11 track и F11 ground anchor(14,.968182076,48); F00–F03 heights/grades сохранены. Blender223929vertices/445952triangles, source manifest обновлён.",
+              "verification": "Blender generation exit0 + scoped diffcheck + manifest/source review; native import/contact/frame NOT_RUN. Offline preview только terrain, не художественная приёмка сцены.",
+              "remaining": "Native route/frame; natural observation action PW046 пока не реализован — invisible ray hotspot отклонён. F12–F16 и остальные families открыты."
             }
           },
           {

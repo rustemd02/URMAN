@@ -6,7 +6,7 @@
   "native_or_godot_import_verified": false,
   "collision_surface_generated_or_verified": false,
   "source_script": "/Users/unterlantas/Documents/GitHub/URMAN/assets/source/blender/photoworlds/W01/urman_forest_ground.py",
-  "source_script_sha256": "3797224857ce23ef21268292b5be4e6c26bebb6ee5f39e14a22963e84ad23011",
+  "source_script_sha256": "cc844fc076f7e37d7a0d20a274c22819290d9b6b5d87e89bc7547a0ae1dbafb1",
   "input_specs": {
     "asset_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/assets.spec.json",
     "asset_spec_sha256": "b4aa6e775b2591e1cb56d0bf82ad19f0051a21ea6ebd96367839ea2f6f2847c1",
@@ -81,21 +81,20 @@
     },
     "visual_and_collision_surface_candidate": "same single terrain mesh; no separate height/normal-only relief",
     "collision_note": "candidate geometry only; no Godot collision resource or engine contact check in this stage",
-    "file_blend_sha256": "d0482eeea2dad57af1a6e399068c80ca3bd5f07f03f7d1d75b1b4627471113fd",
-    "file_glb_sha256": "63a311dd5fd7bdd1291aa4c30b2b53c6d3bb35743e72a38bbe182842a3e5a4cf",
-    "file_blend_bytes": 50559794,
-    "file_glb_bytes": 18912656
+    "file_blend_sha256": "2b6f98be33b642b1586be4afd6a9c53e211cb8c2f51958c15886d5ca0f0f4475",
+    "file_glb_sha256": "c8a9ddd7b82e9cb10258b10607711f5f4dbbd53388ac6a5ccc5c6ea8c4b15bd1",
+    "file_blend_bytes": 50561681,
+    "file_glb_bytes": 18914544
   },
-  "coverage_scope": "authored F00→F01→F02→F03 prologue ground route only",
+  "coverage_scope": "authored F00→F01→F02→F03 prologue route and F10→F11 main-entry observation approach; remaining F12–F16 routes are not produced here",
   "unproduced_authored_nodes": [
-    "F10",
-    "F11",
     "F12",
     "F13",
     "F14",
     "F15",
     "F16"
   ],
+  "terrain_anchor_height_note": "F10/F11 X/Z retain the W01 passport values. Their Y values there are design-local; the existing continuous ground preserves the authored F00→F03 height profile, so these two markers use their sampled ground heights instead (F10=0.656942903 m, F11=0.968182076 m). This preserves the prologue route and avoids placing F11 below the terrain or changing its shared surface.",
   "authored_nodes": {
     "F00": {
       "label": "Тропа пролога",
@@ -143,6 +142,30 @@
       ],
       "terrain_vertex_y_m": 4.0,
       "height_matches_author": true,
+      "walkable_pad_mask_radius_m": 1.2
+    },
+    "F10": {
+      "label": "Позиция семейной камеры",
+      "role": "spawn_main",
+      "xyz_m": [
+        0.0,
+        0.0,
+        35.0
+      ],
+      "terrain_vertex_y_m": 0.6569429025655424,
+      "height_matches_author": false,
+      "walkable_pad_mask_radius_m": 1.2
+    },
+    "F11": {
+      "label": "Пустое место за группой",
+      "role": "observation",
+      "xyz_m": [
+        14.0,
+        0.0,
+        48.0
+      ],
+      "terrain_vertex_y_m": 0.9681820758217896,
+      "height_matches_author": false,
       "walkable_pad_mask_radius_m": 1.2
     }
   },
@@ -200,12 +223,30 @@
       "max_grade": 0.017541160386140585,
       "max_sampled_surface_grade": 0.01754116038614375,
       "route_kind": "authored_physical"
+    },
+    "F10↔F11": {
+      "polyline_xyz_m": [
+        [
+          0.0,
+          0.0,
+          35.0
+        ],
+        [
+          14.0,
+          0.0,
+          48.0
+        ]
+      ],
+      "width_m": 2.1,
+      "max_grade": 0.0,
+      "max_sampled_surface_grade": 0.024120861155261616,
+      "route_kind": "authored_physical"
     }
   },
   "spatial_link": {
     "entry": "F12",
     "exit": "F13",
-    "asset_surface_relation": "outside this bounded F00→F03 prologue route",
+    "asset_surface_relation": "outside this bounded F00→F03 and F10→F11 surface routes",
     "physical_corridor_generated_or_advertised": false,
     "note": "F12↔F13 is a spatial transform, not an ordinary physical route; neither anchor nor corridor is included in this prologue asset."
   },
@@ -259,7 +300,7 @@
     },
     "masks": {
       "file": "prologue-ground-f00-f03-masks-1k.png",
-      "sha256": "95f2a184c31985d5a174888d233d5dbd4999b67aea44db72ce90a29b371898f6",
+      "sha256": "80d48c94eb2bf32118be6f23f9af4fa716b0e0265fc21fb35e129587177b0703",
       "size_px": [
         1024,
         1024
@@ -269,7 +310,7 @@
     },
     "cycles_baked_albedo": {
       "file": "prologue-ground-f00-f03-baked-albedo-2k.png",
-      "sha256": "9dc079918c6c6eed6ce08a8b7d28907742f7f1abd68da85a4e3408b87ebad1d2",
+      "sha256": "d098bf39ebc1dde45c453b5345887bcec1a3f72f3ef1c98db1d0773ac770253d",
       "size_px": [
         2048,
         2048
@@ -288,7 +329,8 @@
   },
   "production_defaults": [
     "A continuous, low-relief surface follows the exact F00→F01→F02→F03 node heights; its shallow shoulders are a production default.",
-    "This asset deliberately stops at F03 and does not represent the main W01 F10–F16 route or spatial link.",
+    "A 2.1 m readable ground track and walkable observation pad connect F10→F11 over the same surface, without changing the prologue profile.",
+    "This bounded route does not produce F12–F16 or the F12↔F13 spatial link.",
     "Leaf and root fields are terrain materials/masks; no separate debris, fence, tree, or gameplay prop is included."
   ],
   "offline_previews": [
@@ -307,12 +349,12 @@
   },
   "preview_receipts": {
     "W01_ForestGround_F00_to_F03_Overview.png": {
-      "sha256": "2af97b140d4fb036fed18c189ba8074a473f69845615ac66fc9207f1eba4c7fe",
-      "bytes": 1696007
+      "sha256": "74913f9fc767597211f3ef9ccadb36eaf1c88662eb032138edd286c7d4285751",
+      "bytes": 1696572
     },
     "W01_ForestGround_F01_to_F02_Close.png": {
-      "sha256": "0b703844da4d783aad48c255cd92f17a1a1b107ca4d7e291c91159a714797e78",
-      "bytes": 1510192
+      "sha256": "0448bee27e108329353b43338de7883ab992d381adfd2a51f24c9ad6240b324d",
+      "bytes": 1510181
     }
   }
 }

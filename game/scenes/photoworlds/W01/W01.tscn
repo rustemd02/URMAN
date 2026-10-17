@@ -66,6 +66,10 @@ position = Vector3(0, 1.55, 0)
 current = false
 fov = 48.0
 
+; Passport X/Z retained; Y is sampled from the existing continuous ground to keep the marker on its surface.
+[node name="F11" type="Marker3D" parent="Anchors"]
+position = Vector3(14, 0.968182076, 48)
+
 [node name="PrologueUI" type="CanvasLayer" parent="."]
 layer = 12
 

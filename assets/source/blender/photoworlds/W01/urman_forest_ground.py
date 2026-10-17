@@ -49,8 +49,10 @@ NODES = {
 }
 
 # The prologue is the authored continuous F00→F01→F02→F03 physical route.
-# Main-world F10–F16 and its F12↔F13 spatial transform remain outside this asset.
+# The main entry adds only the F10→F11 approach; F12–F16 and its spatial link remain outside this asset.
 PROLOGUE_ROUTE_NODE_IDS = ("F00", "F01", "F02", "F03")
+MAIN_ENTRY_ROUTE_NODE_IDS = ("F10", "F11")
+PRODUCED_ROUTE_NODE_IDS = PROLOGUE_ROUTE_NODE_IDS + MAIN_ENTRY_ROUTE_NODE_IDS
 ROUTES = [
     {
         "edge": [first, second],
@@ -58,8 +60,14 @@ ROUTES = [
         "kind": "authored_physical",
     }
     for first, second in zip(PROLOGUE_ROUTE_NODE_IDS, PROLOGUE_ROUTE_NODE_IDS[1:])
+] + [
+    {
+        "edge": list(MAIN_ENTRY_ROUTE_NODE_IDS),
+        "points": [NODES[node_id]["xyz"] for node_id in MAIN_ENTRY_ROUTE_NODE_IDS],
+        "kind": "authored_physical",
+    }
 ]
-BUILD_NODE_IDS = PROLOGUE_ROUTE_NODE_IDS
+BUILD_NODE_IDS = PRODUCED_ROUTE_NODE_IDS
 
 PALETTE_SRGB = {
     "dominant": "#2F625D",
@@ -135,6 +143,8 @@ def route_distance(x: float, z: float):
 
 
 def route_height_and_x(z: float):
+    # Keep the existing F00→F03 height profile unchanged. F10→F11 follows the
+    # same continuous surface; its waypoint heights are sampled from that mesh.
     first = NODES[PROLOGUE_ROUTE_NODE_IDS[0]]["xyz"]
     if z <= first[2]:
         return first[0], first[1]
@@ -157,9 +167,8 @@ def terrain_relief(x: float, z: float):
 
 
 def surface_height_and_masks(x: float, z: float):
-    # Route height and center X interpolate between authored nodes by Z.
-    # Relief is compensated against that centerline so path samples retain
-    # the authored grade and node heights stay exact.
+    # Height continues to follow the established F00→F03 centerline. Additional
+    # route links change only the route mask, not the prologue terrain profile.
     route_x, route_y = route_height_and_x(z)
     height = route_y + terrain_relief(x, z) - terrain_relief(route_x, z)
 
@@ -578,7 +587,7 @@ def verify_mesh(verts, xs, zs):
             raise RuntimeError(f"Authored anchor {node_id} is not a mesh vertex") from error
         index = iz * len(xs) + ix
         actual[node_id] = verts[index][2]
-        if abs(actual[node_id] - y) > 1e-6:
+        if node_id in PROLOGUE_ROUTE_NODE_IDS and abs(actual[node_id] - y) > 1e-6:
             raise RuntimeError(f"Authored height mismatch at {node_id}: {actual[node_id]} vs {y}")
     return actual
 
@@ -659,8 +668,15 @@ def make_manifest(root, output_dir, ground, verts, xs, zs, node_heights, image_p
             "visual_and_collision_surface_candidate": "same single terrain mesh; no separate height/normal-only relief",
             "collision_note": "candidate geometry only; no Godot collision resource or engine contact check in this stage",
         },
-        "coverage_scope": "authored F00→F01→F02→F03 prologue ground route only",
+        "coverage_scope": "authored F00→F01→F02→F03 prologue route and F10→F11 main-entry observation approach; remaining F12–F16 routes are not produced here",
         "unproduced_authored_nodes": [node_id for node_id in NODES if node_id not in BUILD_NODE_IDS],
+        "terrain_anchor_height_note": (
+            "F10/F11 X/Z retain the W01 passport values. Their Y values there are design-local; "
+            "the existing continuous ground preserves the authored F00→F03 height profile, so "
+            f"these two markers use their sampled ground heights instead (F10={node_heights['F10']:.9f} m, "
+            f"F11={node_heights['F11']:.9f} m). This preserves the prologue route and avoids placing F11 below "
+            "the terrain or changing its shared surface."
+        ),
         "authored_nodes": {
             node_id: {
                 "label": node["label"],
@@ -685,7 +701,7 @@ def make_manifest(root, output_dir, ground, verts, xs, zs, node_heights, image_p
         "spatial_link": {
             "entry": "F12",
             "exit": "F13",
-            "asset_surface_relation": "outside this bounded F00→F03 prologue route",
+            "asset_surface_relation": "outside this bounded F00→F03 and F10→F11 surface routes",
             "physical_corridor_generated_or_advertised": False,
             "note": "F12↔F13 is a spatial transform, not an ordinary physical route; neither anchor nor corridor is included in this prologue asset.",
         },
@@ -712,7 +728,8 @@ def make_manifest(root, output_dir, ground, verts, xs, zs, node_heights, image_p
         },
         "production_defaults": [
             "A continuous, low-relief surface follows the exact F00→F01→F02→F03 node heights; its shallow shoulders are a production default.",
-            "This asset deliberately stops at F03 and does not represent the main W01 F10–F16 route or spatial link.",
+            "A 2.1 m readable ground track and walkable observation pad connect F10→F11 over the same surface, without changing the prologue profile.",
+            "This bounded route does not produce F12–F16 or the F12↔F13 spatial link.",
             "Leaf and root fields are terrain materials/masks; no separate debris, fence, tree, or gameplay prop is included.",
         ],
         "offline_previews": preview_files,

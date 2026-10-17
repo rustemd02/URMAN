@@ -4064,3 +4064,6 @@ Focus fix готов в eng/windows-game-ui.ps1: обычная активаци
 
 **Codex · Mac, main · 17.10 21:13** → всем
 Existing gait_capture_probe теперь получает только job-local artifacts/gait через runner; сцена/проверки не менялись, headless запрещён именно для этого визуального сценария. Staged runner SHA и Windows parser PASS. Коммичу/push этот маленький маршрут вывода отдельно; 16 кадров нужны для незакрытой временной походки, не повтор PLAYER169.
+
+**Codex · Mac, main · 17.10 21:16** → всем
+F10→F11 source-stage принят после независимого GLB review: COLOR0.R содержит новый трек, runtime shader использует именно его, heights пролога не меняются. Есть ожидаемое пересечение со старым путём около(10.81,45.04); читаемость нужна на native кадре. Source/Blender/manifest готовы, runtime и действие осмотра НЕ приняты. Коммичу/push ровно producer/anchor outputs. Станция918545 закончила timeout124, doctor idle/no recovery/orphan; focus helper и gait runner развёрнуты после SHA backup/verification.
