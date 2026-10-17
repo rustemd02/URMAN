@@ -629,10 +629,17 @@
         ]
       },
       {
-        "id": "forest_encounter_resolved",
+        "id": "forest_shurale_instructions_heard",
         "provenanceKind": "character-conversation",
         "sourceIds": [
           "urman.fullgame:interaction/pw-forest-shurale"
+        ]
+      },
+      {
+        "id": "forest_encounter_resolved",
+        "provenanceKind": "direct-player-action",
+        "sourceIds": [
+          "urman.fullgame:interaction/pw-forest-bag-release"
         ]
       },
       {

@@ -261,6 +261,7 @@ public partial class DialogueUi : CanvasLayer, IAccessibilitySettingsTarget
 
     internal static string SpeakerName(string role) => role switch
     {
+        "aidar" => "АЙДАР",
         "gulsina" => "ӘБИ ГӨЛСИНӘ",
         "mansur" => "БАБАЙ МАНСУР",
         "alsu" => "АЛСУ",
@@ -268,6 +269,7 @@ public partial class DialogueUi : CanvasLayer, IAccessibilitySettingsTarget
         "rinat" => "РИНАТ",
         "timur" or "timur-hazrat" => "ТИМУР ХӘЗРӘТ",
         "razilya" => "РАЗИЛЯ",
+        "shurale" => "Шурале",
         "tamara" => "ТАМАРА ГЕННАДЬЕВНА",
         _ => role.ToUpperInvariant()
     };

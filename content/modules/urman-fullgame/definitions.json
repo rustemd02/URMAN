@@ -2921,20 +2921,51 @@
       },
       {
         "id": "urman.fullgame:interaction/pw-forest-shurale",
+        "labelTextId": "urman.fullgame:text/pw-label-forest-shurale-talk",
+        "conditions": [
+          {
+            "op": "photoworlds.fact.observed",
+            "factId": "forest_beyond_frame_seen"
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "photoworlds.fact.observed",
+              "factId": "forest_shurale_instructions_heard"
+            }
+          }
+        ],
+        "effects": [],
+        "targetDialogueId": "urman.fullgame:dialogue/pw-forest-shurale-d06"
+      },
+      {
+        "id": "urman.fullgame:interaction/pw-forest-bag-release",
         "labelTextId": "urman.fullgame:text/pw-label-forest-shurale",
         "conditions": [
           {
             "op": "photoworlds.fact.observed",
             "factId": "forest_beyond_frame_seen"
+          },
+          {
+            "op": "photoworlds.fact.observed",
+            "factId": "forest_shurale_instructions_heard"
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "photoworlds.fact.observed",
+              "factId": "forest_encounter_resolved"
+            }
           }
         ],
         "effects": [
           {
             "op": "photoworlds.fact.observe",
             "factId": "forest_encounter_resolved",
-            "sourceId": "urman.fullgame:interaction/pw-forest-shurale"
+            "sourceId": "urman.fullgame:interaction/pw-forest-bag-release"
           }
-        ]
+        ],
+        "targetDialogueId": "urman.fullgame:dialogue/pw-forest-shurale-d07"
       },
       {
         "id": "urman.fullgame:interaction/pw-forest-return",
@@ -4476,6 +4507,17 @@
   },
   {
     "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-label-forest-shurale-talk",
+    "value": {
+      "default": "Подойти к Шурале",
+      "translations": {
+        "ru": "Подойти к Шурале"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
     "id": "urman.fullgame:text/pw-label-forest-return",
     "value": {
       "default": "Вернуться к домашней книге",
@@ -5875,6 +5917,83 @@
   },
   {
     "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-dialogue-arrival-tea-d01-01",
+    "value": {
+      "default": "Эту стопку рядом положи. Я всё собиралась фотографии разобрать.",
+      "translations": {
+        "ru": "Эту стопку рядом положи. Я всё собиралась фотографии разобрать."
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-choice-arrival-tea-d01-02",
+    "value": {
+      "default": "А почему они в Тукае?",
+      "translations": {
+        "ru": "А почему они в Тукае?"
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-dialogue-arrival-tea-d01-03",
+    "value": {
+      "default": "Книжку часто открывали. Что хотелось сохранить, туда и клали.",
+      "translations": {
+        "ru": "Книжку часто открывали. Что хотелось сохранить, туда и клали."
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-choice-arrival-tea-d01-04",
+    "value": {
+      "default": "Тут разным почерком.",
+      "translations": {
+        "ru": "Тут разным почерком."
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-dialogue-arrival-tea-d01-05",
+    "value": {
+      "default": "Не один человек жил. Марат последние листы добавлял.",
+      "translations": {
+        "ru": "Не один человек жил. Марат последние листы добавлял."
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-choice-arrival-tea-d01-06",
+    "value": {
+      "default": "Можно я посмотрю?",
+      "translations": {
+        "ru": "Можно я посмотрю?"
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-dialogue-arrival-tea-d01-07",
+    "value": {
+      "default": "Смотри. Только подписывай, что узнал. Потом опять некому будет объяснить.",
+      "translations": {
+        "ru": "Смотри. Только подписывай, что узнал. Потом опять некому будет объяснить."
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
     "id": "urman.fullgame:text/pw-dialogue-arrival-tea-greeting",
     "value": {
       "default": "«Ну вот ты и дома, Айдар. Проходи, чай ещё горячий. Я рада, что ты приехал; расскажи, как дорога».",
@@ -5915,16 +6034,252 @@
             "id": "stay-for-tea",
             "textId": "urman.fullgame:text/pw-choice-arrival-tea-stay",
             "conditions": [],
-            "effects": [
-              {
-                "op": "beat.set-state",
-                "beatId": "urman.fullgame:beat/pw-b01-warm-arrival",
-                "state": "completed"
-              }
-            ],
-            "nextNodeId": null
+            "effects": [],
+            "nextNodeId": "d01-01"
           }
         ]
+      },
+      {
+        "id": "d01-01",
+        "speakerRole": "gulsina",
+        "textId": "urman.fullgame:text/pw-dialogue-arrival-tea-d01-01",
+        "conditions": [],
+        "effects": [],
+        "choices": [
+          {
+            "id": "d01-02",
+            "textId": "urman.fullgame:text/pw-choice-arrival-tea-d01-02",
+            "conditions": [],
+            "effects": [],
+            "nextNodeId": "d01-03"
+          }
+        ]
+      },
+      {
+        "id": "d01-03",
+        "speakerRole": "gulsina",
+        "textId": "urman.fullgame:text/pw-dialogue-arrival-tea-d01-03",
+        "conditions": [],
+        "effects": [],
+        "choices": [
+          {
+            "id": "d01-04",
+            "textId": "urman.fullgame:text/pw-choice-arrival-tea-d01-04",
+            "conditions": [],
+            "effects": [],
+            "nextNodeId": "d01-05"
+          }
+        ]
+      },
+      {
+        "id": "d01-05",
+        "speakerRole": "gulsina",
+        "textId": "urman.fullgame:text/pw-dialogue-arrival-tea-d01-05",
+        "conditions": [],
+        "effects": [],
+        "choices": [
+          {
+            "id": "d01-06",
+            "textId": "urman.fullgame:text/pw-choice-arrival-tea-d01-06",
+            "conditions": [],
+            "effects": [],
+            "nextNodeId": "d01-07"
+          }
+        ]
+      },
+      {
+        "id": "d01-07",
+        "speakerRole": "gulsina",
+        "textId": "urman.fullgame:text/pw-dialogue-arrival-tea-d01-07",
+        "conditions": [],
+        "effects": [
+          {
+            "op": "beat.set-state",
+            "beatId": "urman.fullgame:beat/pw-b01-warm-arrival",
+            "state": "completed"
+          }
+        ],
+        "choices": []
+      }
+    ]
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-dialogue-forest-shurale-d06-01",
+    "value": {
+      "default": "Не тяни. Ремень под корнем.",
+      "translations": {
+        "ru": "Не тяни. Ремень под корнем."
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-choice-forest-shurale-d06-02",
+    "value": {
+      "default": "Я хотел пройти.",
+      "translations": {
+        "ru": "Я хотел пройти."
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-dialogue-forest-shurale-d06-03",
+    "value": {
+      "default": "Вижу. Сначала отцепи.",
+      "translations": {
+        "ru": "Вижу. Сначала отцепи."
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-choice-forest-shurale-d06-04",
+    "value": {
+      "default": "Это твоя сумка?",
+      "translations": {
+        "ru": "Это твоя сумка?"
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-dialogue-forest-shurale-d06-05",
+    "value": {
+      "default": "Нет. Потому и мешает.",
+      "translations": {
+        "ru": "Нет. Потому и мешает."
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:dialogue/pw-forest-shurale-d06",
+    "participantRoles": [
+      "aidar",
+      "shurale"
+    ],
+    "startNodeId": "d06-01",
+    "nodes": [
+      {
+        "id": "d06-01",
+        "speakerRole": "shurale",
+        "textId": "urman.fullgame:text/pw-dialogue-forest-shurale-d06-01",
+        "conditions": [],
+        "effects": [],
+        "choices": [
+          {
+            "id": "d06-02",
+            "textId": "urman.fullgame:text/pw-choice-forest-shurale-d06-02",
+            "conditions": [],
+            "effects": [],
+            "nextNodeId": "d06-03"
+          }
+        ]
+      },
+      {
+        "id": "d06-03",
+        "speakerRole": "shurale",
+        "textId": "urman.fullgame:text/pw-dialogue-forest-shurale-d06-03",
+        "conditions": [],
+        "effects": [],
+        "choices": [
+          {
+            "id": "d06-04",
+            "textId": "urman.fullgame:text/pw-choice-forest-shurale-d06-04",
+            "conditions": [],
+            "effects": [],
+            "nextNodeId": "d06-05"
+          }
+        ]
+      },
+      {
+        "id": "d06-05",
+        "speakerRole": "shurale",
+        "textId": "urman.fullgame:text/pw-dialogue-forest-shurale-d06-05",
+        "conditions": [],
+        "effects": [
+          {
+            "op": "photoworlds.fact.observe",
+            "factId": "forest_shurale_instructions_heard",
+            "sourceId": "urman.fullgame:interaction/pw-forest-shurale"
+          }
+        ],
+        "choices": []
+      }
+    ]
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-dialogue-forest-shurale-d07-01",
+    "value": {
+      "default": "Теперь свободно.",
+      "translations": {
+        "ru": "Теперь свободно."
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-choice-forest-shurale-d07-02",
+    "value": {
+      "default": "На фотографии тебя нет.",
+      "translations": {
+        "ru": "На фотографии тебя нет."
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-dialogue-forest-shurale-d07-03",
+    "value": {
+      "default": "Так снимали не меня.",
+      "translations": {
+        "ru": "Так снимали не меня."
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:dialogue/pw-forest-shurale-d07",
+    "participantRoles": [
+      "aidar",
+      "shurale"
+    ],
+    "startNodeId": "d07-01",
+    "nodes": [
+      {
+        "id": "d07-01",
+        "speakerRole": "shurale",
+        "textId": "urman.fullgame:text/pw-dialogue-forest-shurale-d07-01",
+        "conditions": [],
+        "effects": [],
+        "choices": [
+          {
+            "id": "d07-02",
+            "textId": "urman.fullgame:text/pw-choice-forest-shurale-d07-02",
+            "conditions": [],
+            "effects": [],
+            "nextNodeId": "d07-03"
+          }
+        ]
+      },
+      {
+        "id": "d07-03",
+        "speakerRole": "shurale",
+        "textId": "urman.fullgame:text/pw-dialogue-forest-shurale-d07-03",
+        "conditions": [],
+        "effects": [],
+        "choices": []
       }
     ]
   }

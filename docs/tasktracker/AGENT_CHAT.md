@@ -4028,3 +4028,6 @@ Worker обновлён и штатно перезапущен по SSH: sha1b13
 
 **Codex · Mac, main · 17.10 20:25** → всем
 Native b8fbe85 завершён timeout124; stdout подтверждает userdata restored/verified, игровое прохождение не принято. Исправлен конкретный диагностический пробел UI: вместо потерянного helper error API отдаёт фиксированный безопасный reason_code, все guards сохранены. Existing movement smoke получил свой artifact/player output по уже имеющемуся vehicle pattern, без нового теста/probe/env passthrough. Source/AST и независимое review PASS; remote runner побайтно соответствует прежнему HEAD. После idle doctor и PS parse обновлю эти точные инструменты с backup, чужие Windows изменения сохраню.
+
+**Codex · Mac, main · 17.10 20:40** → всем
+Семейный D01 после чая и D06→физическое освобождение сумки→D07 переданы и независимо проверены. Fullgame content compile exit0, affected Game compile0warnings/0errors15.43с; exact existing tea/forest assertions согласованы с транзакцией dialogue target effects. Коммичу narrative source этап отдельно; физическая встреча и native диалог ещё не приняты, карточки не закрываю.

@@ -127,10 +127,16 @@ public partial class FullGameFlowSmokeTest : Node
                 && Mathf.IsZeroApprox(companion.SessionWalkedMetres),
             "The arrival/home chapter did not project the real stationary village companion (Alsu).");
         await ExpectBlockedAsync(bridge, "pw-book-handoff");
-        await DialogueAsync(bridge, "pw-arrival-tea-talk", "pw-arrival-tea", "greeting", "stay-for-tea");
+        await DialogueAsync(bridge, "pw-arrival-tea-talk", "pw-arrival-tea", "greeting", "stay-for-tea",
+            ("d01-01", "d01-02"), ("d01-03", "d01-04"));
+        var arrivalDialogueId = Prefix + "dialogue/pw-arrival-tea";
+        Require(BeatState(bridge.SelectRuntimeState(), "pw-b01-warm-arrival") != "completed",
+            "The warm-arrival beat completed before Gulsina's final D01 line.");
+        Require(await bridge.ChooseDialogueAsync(arrivalDialogueId, "d01-05", "d01-06"),
+            $"The final D01 response could not be applied: {arrivalDialogueId}/d01-05/d01-06.");
         Require(BeatState(bridge.SelectRuntimeState(), "pw-b01-warm-arrival") == "completed"
                 && !BookReceived(bridge.SelectRuntimeState()),
-            "The home welcome/tea exchange was skipped or silently granted the book.");
+            "The complete welcome/tea exchange did not finish separately from the physical book handoff.");
         await ExpectBlockedAsync(bridge, "pw-enter-forest");
         await ExpectBlockedAsync(bridge, "pw-enter-river");
         await InteractAsync(bridge, "pw-book-handoff");
@@ -279,9 +285,21 @@ public partial class FullGameFlowSmokeTest : Node
             await InteractAsync(bridge, "pw-forest-branch-move", Scene("pw-forest"));
         await InteractAsync(bridge, "pw-forest-group");
         await InteractAsync(bridge, "pw-forest-photographer");
-        await InteractAsync(bridge, "pw-forest-shurale");
-        Require(QuestStatus(bridge.SelectRuntimeState(), "pw-w01") == "completed",
-            "W01 did not complete after its authored observation and conversation sequence.");
+        await DialogueAsync(bridge, "pw-forest-shurale", "pw-forest-shurale-d06",
+            "d06-01", "d06-02", ("d06-03", "d06-04"));
+        var forestState = bridge.SelectRuntimeState();
+        Require(FactObserved(forestState, "forest_shurale_instructions_heard"),
+            "The final D06 node did not record that Shurale's instructions were heard.");
+        Require(!FactObserved(forestState, "forest_encounter_resolved")
+                && QuestStatus(forestState, "pw-w01") != "completed",
+            "The Shurale conversation resolved W01 before the bag was released.");
+        await DialogueAsync(bridge, "pw-forest-bag-release", "pw-forest-shurale-d07",
+            "d07-01", "d07-02");
+        forestState = bridge.SelectRuntimeState();
+        Require(FactObserved(forestState, "forest_encounter_resolved"),
+            "The separate bag-release interaction did not resolve the forest encounter.");
+        Require(QuestStatus(forestState, "pw-w01") == "completed",
+            "W01 did not complete after the authored conversation and bag-release sequence.");
         await InteractAsync(bridge, "pw-forest-return", Scene("pw-home"));
     }
 
@@ -458,14 +476,21 @@ public partial class FullGameFlowSmokeTest : Node
     }
 
     private async Task DialogueAsync(RuntimeBridge bridge, string interaction, string dialogue,
-        string node, string choice)
+        string node, string choice, params (string Node, string Choice)[] followupTurns)
     {
         await InteractAsync(bridge, interaction);
         var dialogueId = Prefix + "dialogue/" + dialogue;
-        Require(await bridge.EnterDialogueNodeAsync(dialogueId, node),
-            $"The authored dialogue node could not be entered: {dialogueId}/{node}.");
-        Require(await bridge.ChooseDialogueAsync(dialogueId, node, choice),
-            $"The authored dialogue choice could not be applied: {dialogueId}/{node}/{choice}.");
+        await EnterAndChooseAsync(node, choice);
+        foreach (var (nextNode, nextChoice) in followupTurns)
+            await EnterAndChooseAsync(nextNode, nextChoice);
+
+        async Task EnterAndChooseAsync(string turnNode, string turnChoice)
+        {
+            Require(await bridge.EnterDialogueNodeAsync(dialogueId, turnNode),
+                $"The authored dialogue node could not be entered: {dialogueId}/{turnNode}.");
+            Require(await bridge.ChooseDialogueAsync(dialogueId, turnNode, turnChoice),
+                $"The authored dialogue choice could not be applied: {dialogueId}/{turnNode}/{turnChoice}.");
+        }
     }
 
     private async Task InteractAsync(RuntimeBridge bridge, string localId, string? targetSceneId = null)
