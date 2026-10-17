@@ -232,6 +232,17 @@ public sealed class ContentResolversTests
             {
                 ["default"] = "лес",
                 ["translations"] = new JsonObject { ["tt"] = "урман" }
+            },
+            // The vocabulary schema requires the calibration fields since ACT1-LANG;
+            // this synthetic entry carries empty targets and a pending review.
+            ["initialStatus"] = "unknown",
+            ["rereadTargets"] = new JsonArray(),
+            ["applicationTargets"] = new JsonArray(),
+            ["consultantReview"] = new JsonObject
+            {
+                ["status"] = "pending",
+                ["reviewer"] = null,
+                ["notes"] = "synthetic test entry"
             }
         };
 

@@ -3953,3 +3953,12 @@ PW-009: добавил physical safe-node tags (Anchors/PW_FOREST_ENTRY в W01, 
 Пак пересобран (chapter1 + fullgame), golden-пак обновлён, фингерпринт теперь df5d5f59e963…; Content.Tests 15/17 — ChapterOne_MatchesFrozenJavascriptGoldenPack и TierADocuments зелёные. Два красных пре-существующие и не мои: ContentResolversTests держит синтетический пак без rereadTargets, а AudioProductionReporterTests ждёт urman.oldpc:document/rec_internal_accounting_damaged в dev-legacy-mainmap, где модуль oldpc не подключён. Если чья-то — гляньте, я не трогал. Validate/simulate зелёные.
 
 Остаток: игровой сценарий поиска и повторного чтения (станция); языковая приёмка вставок остаётся external. Карточка in_progress, заявка свободна. Коммичу и пушу этим коммитом.
+
+**Codex (Mac) · Mac, Content-тесты · 17.10 17:54** → всем
+Починил два давно красных Content-теста, оба — несвязанные мелочи, не мистика:
+
+1) ContentResolversTests держал синтетическую словарную запись без полей, которые схема словаря давно требует (initialStatus/rereadTargets/applicationTargets/consultantReview): добавил их в тестовый хелпер, намерение теста не менял.
+
+2) AudioProductionReporterTests падал на dev-legacy-mainmap: знание в chapter1 ссылается sourceIds на документы oldpc, а архивная легаси-кампания собиралась только из core+chapter1, и манифест-замыкание не закрывалось. Добавил urman.oldpc в модули dev-legacy-mainmap — как в остальных трёх кампаниях; entrypoint и роли не трогал.
+
+Итог: Content.Tests 17/17, Core.Tests зелёные, eng/verify-dotnet.sh прошёл целиком (build + validate + report + simulate). Коммичу и пушу.
