@@ -22,6 +22,7 @@ from remote_common import (MAX_ARCHIVE, MAX_SOURCE, REPOSITORY, canonical, candi
 
 STUDIO_SCENE = 'res://studio/studio_main.tscn'
 FULL_GAME_SCENE = 'res://scenes/full_game.tscn'
+PHOTO_WORLDS_GAME_SCENE = 'res://scenes/photoworlds_game.tscn'
 NORMAL_UI_TRANSPORT_VERSION = 2
 UI_KEY_BASES = ('{ENTER}', '{ESC}', '{DOWN}', '{UP}', '{SPACE}', 'a', 'f', 'v', 'z')
 UI_KEY_ADDITIONS = ('j', '{TAB}', '+{TAB}', '{LEFT}', '{RIGHT}')
@@ -274,10 +275,10 @@ def new_interactive_capture_destination(path):
 
 def main():
     p=argparse.ArgumentParser(description=__doc__)
-    p.add_argument('command',choices=['doctor','smoke','capture','studio','play','play-full','ui',
+    p.add_argument('command',choices=['doctor','smoke','capture','studio','play','play-full','play-product','ui',
                                       'capture-current','status','fetch'])
     p.add_argument('--root',type=Path,default=Path(__file__).resolve().parent.parent)
-    p.add_argument('--job-id',help='capture-current uses your own running play or play-full job ID');p.add_argument('--scene')
+    p.add_argument('--job-id',help='capture-current uses your own running play, play-full, or play-product job ID');p.add_argument('--scene')
     p.add_argument('--points');p.add_argument('--timeout',type=int)
     p.add_argument('--phase',help='capture only: authored atmosphere profile id (URMAN_ATMOSPHERE_PHASE)')
     p.add_argument('--fov',help="capture only: 'player' (player camera FOV) or a number; default control views use 70")
@@ -303,17 +304,19 @@ def main():
         p.error('studio uses a fixed native scene and does not accept --scene, --headless, --points, --phase, or --fov')
     studio=args.command=='studio'
     native_full=args.command=='play-full'
-    play=args.command in ('play','play-full')
+    native_product=args.command=='play-product'
+    native_interactive=native_full or native_product
+    play=args.command in ('play','play-full','play-product')
     capture_current=args.command=='capture-current'
     capture_destination=None
-    if native_full and args.job_id is not None and not re.fullmatch('[a-f0-9]{32}',args.job_id):
+    if native_interactive and args.job_id is not None and not re.fullmatch('[a-f0-9]{32}',args.job_id):
         p.error('play job IDs must be 32 lowercase hexadecimal characters')
     if play and (args.scene is not None or args.headless or args.points is not None
                  or args.phase is not None or args.fov is not None or args.studio_restarts
                  or args.studio_authoring or args.ui_action is not None or args.keys is not None
                  or args.key is not None or args.duration_ms is not None
-                 or (native_full and args.output is not None and args.wait is None)):
-        p.error('play/play-full uses its fixed native scene; UI controls require the ui command')
+                 or (native_interactive and args.output is not None and args.wait is None)):
+        p.error('play/play-full/play-product uses its fixed native scene; UI controls require the ui command')
     if args.command=='ui':
         if not args.job_id or not re.fullmatch('[a-f0-9]{32}',args.job_id):
             p.error('ui requires a 32-character lowercase hexadecimal --job-id from play')
@@ -336,7 +339,7 @@ def main():
             p.error('ui does not accept job submission or output options')
     if capture_current:
         if not args.job_id or not re.fullmatch('[a-f0-9]{32}',args.job_id):
-            p.error('capture-current requires a 32-character lowercase hexadecimal --job-id from your own play or play-full job')
+            p.error('capture-current requires a 32-character lowercase hexadecimal --job-id from your own play, play-full, or play-product job')
         if args.output is None:
             p.error('capture-current requires --output with an absolute file path')
         if (args.scene is not None or args.points is not None or args.phase is not None
@@ -351,11 +354,11 @@ def main():
     if studio and args.timeout is not None and not 1<=args.timeout<=3600:
         p.error('studio timeout must be 1..3600 seconds')
     if play and args.timeout is not None and not 1<=args.timeout<=1200:
-        p.error('play/play-full timeout must be 1..1200 seconds')
+        p.error('play/play-full/play-product timeout must be 1..1200 seconds')
     if args.command!='ui' and (args.ui_action is not None or args.keys is not None
                                or args.key is not None or args.duration_ms is not None):
         p.error('--ui-action, --keys, --key, and --duration-ms require the ui command')
-    scene=STUDIO_SCENE if studio else (FULL_GAME_SCENE if native_full else 'res://scenes/act1_demo.tscn' if play else (args.scene if args.scene is not None
+    scene=STUDIO_SCENE if studio else (PHOTO_WORLDS_GAME_SCENE if native_product else FULL_GAME_SCENE if native_full else 'res://scenes/act1_demo.tscn' if play else (args.scene if args.scene is not None
                                        else 'res://tests/player_settings_smoke_test.tscn')
     )
     timeout=args.timeout if args.timeout is not None else (1200 if studio or play else 300)
@@ -407,7 +410,7 @@ def main():
         health=studio_readiness(c)
         if not health['ready']:
             raise ValueError('Studio station not ready: '+json.dumps(health,ensure_ascii=False))
-    elif native_full:
+    elif native_interactive:
         health=native_ui_readiness(c,require_idle_ready=True)
     else:
         health=c.request('/health')
@@ -420,7 +423,7 @@ def main():
     manifest=build_manifest(args.root, studio_authoring=studio or args.studio_authoring)
     publish_snapshot(c,args.root,manifest)
     jid=args.job_id or uuid.uuid4().hex
-    spec={'job_id':jid,'snapshot_id':manifest['snapshot_id'],'mode':'play' if native_full else args.command,
+    spec={'job_id':jid,'snapshot_id':manifest['snapshot_id'],'mode':'play' if play else args.command,
           'scene':'res://scenes/act1_demo.tscn' if args.command=='capture' else scene,
           'timeout':timeout,'headless':args.headless,'points':args.points or ''}
     if args.studio_restarts:
@@ -438,7 +441,7 @@ def main():
     except Exception:
         print('Submission reply not confirmed; query status with this job_id before retrying.',file=sys.stderr)
         raise
-    if native_full and args.wait is None:
+    if native_interactive and args.wait is None:
         print('Native play submitted. Use ui --job-id '+jid+' for bounded input; use status/fetch after it exits.')
         return 0
     if args.submit_only:

@@ -3995,3 +3995,6 @@ PW-009: добавил physical safe-node tags (Anchors/PW_FOREST_ENTRY в W01, 
 
 **Codex · Mac, main · 17.10 19:46** → всем
 Принимаю конечный source-этап ACT1-ADDR-ACCESS: ReachableNodes повторно использует topology adjacency до RebuildCore, но проверяет живые gates/mode/winter на каждом запросе. Два независимых source-review без блокеров; узкая сборка Urman.Game прошла: 0 warnings/errors. Это не FPS-замер и не закрытие H019/всей карточки. Коммичу только этот код и актуальные записи трекера/чата; launch/export/forest остаются в работе.
+
+**Codex · Mac, main · 17.10 19:47** → всем
+67ae1cd9 отправлен в main: topology cache принят с узкой compile и двумя source reviews. Следующий конечный infra-этап: фиксированный play-product для photoworlds_game.tscn; AST/shell syntax и независимый review подтвердили сохранение exact-scene/owner/userdata guards. Стенд требует update/restart: SSH через существующий tailscaled достиг сервера, но ruste/key получил Permission denied; доступ не обхожу. Нужен Windows-владелец для штатного обновления после idle/recovery check.

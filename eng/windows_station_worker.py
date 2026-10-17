@@ -33,7 +33,8 @@ BLOB_GRACE = 24 * 3600   # content a client may still be uploading is not collec
 STUDIO_SCENE = 'res://studio/studio_main.tscn'
 FULL_GAME_SCENE = 'res://scenes/full_game.tscn'
 ACT1_DEMO_SCENE = 'res://scenes/act1_demo.tscn'
-APPROVED_PLAY_SCENES = (ACT1_DEMO_SCENE, FULL_GAME_SCENE)
+PHOTO_WORLDS_GAME_SCENE = 'res://scenes/photoworlds_game.tscn'
+APPROVED_PLAY_SCENES = (ACT1_DEMO_SCENE, FULL_GAME_SCENE, PHOTO_WORLDS_GAME_SCENE)
 NORMAL_UI_TRANSPORT_VERSION = 2
 UI_KEY_BASES = ('{ENTER}', '{ESC}', '{DOWN}', '{UP}', '{SPACE}', 'a', 'f', 'v', 'z')
 UI_KEY_ADDITIONS = ('j', '{TAB}', '+{TAB}', '{LEFT}', '{RIGHT}')
@@ -2119,6 +2120,8 @@ class Station:
             raise ValueError('Studio scene is only available in fixed Studio mode')
         if scene == FULL_GAME_SCENE and mode != 'play':
             raise ValueError('full-game scene is only available in fixed native play mode')
+        if scene == PHOTO_WORLDS_GAME_SCENE and mode != 'play':
+            raise ValueError('PhotoWorlds product scene is only available in fixed native play mode')
         if mode == 'studio':
             if scene != STUDIO_SCENE or spec['headless']:
                 raise ValueError('Studio mode requires the fixed native Studio scene')
@@ -2133,10 +2136,11 @@ class Station:
                     or 'game/studio/studio_main.tscn' not in manifest_files):
                 raise ValueError('Studio snapshot requires the fixed scene, two authoring inputs, and HeroHouse recipe')
         if mode == 'play':
-            if (scene not in (FULL_GAME_SCENE, 'res://scenes/act1_demo.tscn') or spec['headless']
+            if (scene not in (FULL_GAME_SCENE, ACT1_DEMO_SCENE, PHOTO_WORLDS_GAME_SCENE) or spec['headless']
                     or spec.get('points', '') or spec.get('phase', '') or spec.get('fov', '')
                     or 'studio_restarts' in spec
-                    or (scene == FULL_GAME_SCENE and not re.fullmatch('[a-f0-9]{32}', jid))):
+                    or (scene in (FULL_GAME_SCENE, PHOTO_WORLDS_GAME_SCENE)
+                        and not re.fullmatch('[a-f0-9]{32}', jid))):
                 raise ValueError('play requires an approved fixed native scene, bounded job ID, and no capture options')
         if mode == 'smoke' and not scene.startswith('res://tests/'):
             raise ValueError('smoke requires an existing test scene')
