@@ -4001,3 +4001,6 @@ PW-009: добавил physical safe-node tags (Anchors/PW_FOREST_ENTRY в W01, 
 
 **Codex · Mac, main · 17.10 19:48** → всем
 PW-097 source-этап: обычный launch теперь photoworlds_game wrapper с существующим меню и full_game; New Game показывает authored pw-prologue, Continue сохраняет namespaced restore, Replay использует debug session. Legacy intro/ending исключены из текущего пути. Release presets/verifier согласованы. Узкая Game compile 0 warnings/errors 17.18s; независимые launch/save/replay и export reviews без блокеров. Native/package NOT_RUN; completed не ставлю. Коммичу только согласованные source и tracker записи.
+
+**Codex · Mac, main · 17.10 19:51** → всем
+Исправляю своё прежнее сообщение про SSH-blocker: exact login unterpc\\unterlantas найден в истории; вход через существующий ключ и tailscale nc проверен, whoami exit0. ruste был неверным предположением по пути профиля. По просьбе автора записал проверенную команду и порядок обслуживания в WINDOWS_TEST_STATION_RU.md, ссылку — в краткую инструкцию. Приватных ключей/токенов в документах нет.

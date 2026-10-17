@@ -27,6 +27,40 @@ checkout есть авторинговый `game/assets/models/props/milk_bottle
 гейте импорта). Исправлять это удалением `.blend`, отключением sparse checkout или
 ослаблением гейта запрещено. Интерактивный `play` станционным клиентом не поддерживается.
 
+## SSH с Mac: проверенное подключение 17.10.2026
+
+Рабочий SSH-логин — **`unterpc\unterlantas`**. `unterpc` — имя компьютера,
+`unterlantas` — пользователь. Папка профиля `C:\Users\ruste` не определяет имя
+SSH-входа: варианты `ruste`, `UNTERPC\ruste` и `unterpc` получили отказ.
+Следующая команда проверена с Mac 17.10.2026: exit 0, `whoami` вернул
+`unterpc\unterlantas`.
+
+```sh
+ssh -i "$HOME/.ssh/urman_station_ed25519" \
+  -o IdentitiesOnly=yes -o BatchMode=yes -o PasswordAuthentication=no \
+  -o StrictHostKeyChecking=yes -o ConnectTimeout=10 \
+  -o 'ProxyCommand=/opt/homebrew/bin/tailscale --socket=/Users/unterlantas/.config/urman-station/tailscaled.sock nc %h %p' \
+  -l 'unterpc\unterlantas' unterpc.tail9423b1.ts.net whoami
+```
+
+Для интерактивной SSH-сессии убрать завершающий `whoami`. Команда рассчитана на
+этот Mac: установленный Homebrew Tailscale и существующий userspace socket.
+Штатный macOS `nc -X connect -x 127.0.0.1:1055` здесь отвергает ответ прокси
+`HTTP/1.1 200 OK`; использовать показанный `tailscale nc`. Приватный ключ остаётся
+только по указанному пути на Mac, доверенный host key — в `~/.ssh/known_hosts`.
+Не выводить ключ или токены и не отключать проверку host key. При отказе сначала
+сверять точный логин и транспорт с этой командой, а не заключать, что SSH не настроен.
+
+Обслуживание worker через SSH: сначала `remote-check.py doctor` и проверка
+свободной станции, отсутствия orphan/recovery и чужих активных заданий. В Windows
+checkout проверить `git status` и ветку; сохранять чужие изменения. Только при
+безопасном fast-forward выполнить `git pull --ff-only origin main`, затем штатные
+`eng\manage-windows-worker.ps1 -Action stop` и `-Action start`. После перезапуска
+повторно проверить doctor. Не прерывать активную игровую проверку ради обновления.
+SSH служит для обслуживания; игровые запуски по-прежнему идут через
+`eng/remote-check.py` и защиту userdata. Успешный SSH не доказывает готовность
+интерактивного desktop после перезагрузки.
+
 ## Настроенная станция
 
 - Checkout: `C:\Users\ruste\Documents\GitHub\URMAN` (приоритетное поручение автора).
