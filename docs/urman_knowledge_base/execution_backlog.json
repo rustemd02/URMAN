@@ -105869,7 +105869,7 @@
       "id": "PW-013",
       "title": "Реализовать приобретение и разрешённое копирование фото",
       "milestone": "PW-M1",
-      "status": "todo",
+      "status": "in_progress",
       "active_owner": null,
       "owner": "integration",
       "priority": "P0",
@@ -105891,7 +105891,15 @@
       "verify": [
         "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-013/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
       ],
-      "evidence": [],
+      "evidence": [
+        {
+          "date": "2026-10-17",
+          "kind": "compiled-catalog-audit",
+          "path": "game/content/urman.fullgame.compiled.v1.json (photoworlds catalog, photos[])",
+          "result": "Все 13 фото имеют непустые sourceId и permissionId, различающиеся по типам (pw-prologue-photo-source/pw-book-handoff, pw-water-photo-source/pw-water-photo-permission, pw-school-copy-source/pw-school-copy-permission, pw-contact-sheet-source/pw-contact-sheet-permission, pw-take-now-photo/pw-take-now-photo и др.). AcquirePhoto валидирует соответствие каталогу и provenance; повторное приобретение из другого источника отвергается.",
+          "verified": "Аудит каталога: 13/13 с sourceId+permissionId, 13 уникальных pageId. Core build 0. Runtime-проверка различения типов NOT_RUN."
+        }
+      ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-013",
       "source_requirements": [
         "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/docs/11_TASKS_RU.md",
@@ -106003,17 +106011,17 @@
       },
       "assigned_owner": "integration",
       "activity": {
-        "state": "not_active",
-        "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+        "state": "released",
+        "reason": "Все 13 фото уже привязаны к sourceId/permissionId в скомпилированном каталоге (P-FOREST..P-CELLAR, S-SCHOOL..S-NOW); AcquirePhoto в PhotoWorldState валидирует sourceId/permissionId против каталога и отвергает повторное приобретение из другого provenance. Остаток — runtime-проверка различения 13 типов и «копия, а не оригинал» в обычной сессии."
       },
       "task_type": "engineering",
-      "implementation_state": "not_started",
+      "implementation_state": "partial",
       "technical_verification_state": "not_run",
       "remaining": [
-        "13 типов источников корректно различаются.",
-        "Нет украденного оригинала там, где сценарий обещал копию."
+        "Готово: 13 фото привязаны к sourceId/permissionId (compiled catalog); AcquirePhoto проверяет соответствие каталогу и provenance; повторное приобретение из другого источника отвергается. Редьюсер уже обрабатывает pw1.photo.acquire.",
+        "Осталось: runtime-проверка различения 13 типов источников и что оригинал остаётся на месте там, где обещана копия (школьный/сельский альбом) — нужна обычная сессия/станция (PW-054 или targeted scenario)."
       ],
-      "next_action": "Привязать способы P/S acquisition к источникам и ownership.",
+      "next_action": "На ближайшем обычном маршруте (PW-054) пройти приобретение нескольких P/S и убедиться, что оригинал остаётся на месте, а копия появляется в книге; заодно PW-008/PW-014 (front/back reader).",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",

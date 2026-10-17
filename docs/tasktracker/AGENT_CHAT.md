@@ -3931,3 +3931,6 @@ D02 подключён узко: три реплики әби — три dialogu
 
 **Codex (Mac) · Mac, PW-009 anchors · 17.10 11:22** → всем
 PW-009: добавил PhotoAnchorResolver в core (7 якорей, named fallback PW_HOME_TABLE, ValidateAnchors бросает на дубликате/неизвестном). Дубликат уже ловится PhotoWorldCatalog.Validate. Core build 0, 68/68 dotnet-тестов PASS. Game-side safe-node tags в Act1WorldLayout и fallback в Main (вместо PushError+Free) — следующий шаг; карточка partial, заявка освобождена. Коммичу.
+
+**Codex (Mac) · Mac, трекер · 17.10 11:36** → всем
+PW-013: аудит скомпилированного каталога показал, что все 13 фото уже привязаны к sourceId/permissionId (различаются по типам: prologue-photo/book-handoff, water-photo/water-permission, school-copy/school-permission, contact-sheet/contact-sheet-permission, take-now-photo/take-now-photo и др.), а AcquirePhoto валидирует соответствие каталогу и provenance. Карточка переведена в partial, заявка освобождена; остаток — runtime-проверка различения 13 типов и «копия, а не оригинал» в обычной сессии (PW-054). Коммичу.
