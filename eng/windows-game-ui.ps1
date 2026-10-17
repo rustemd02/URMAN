@@ -23,7 +23,7 @@ public static class UrmanGameUiNative {
  [DllImport("user32.dll")] public static extern uint MapVirtualKey(uint code,uint mapType);
  [DllImport("user32.dll")] public static extern void keybd_event(byte key,byte scan,uint flags,UIntPtr extra);
  [DllImport("user32.dll")] public static extern bool SetCursorPos(int x,int y);
- [DllImport("user32.dll")] public static extern void mouse_event(uint flags,uint x,uint y,uint data,UIntPtr extra);
+ [DllImport("user32.dll")] public static extern void mouse_event(uint flags,int x,int y,uint data,UIntPtr extra);
 }
 '@
 [void][UrmanGameUiNative]::SetProcessDPIAware()
@@ -106,6 +106,7 @@ function Send-StudioChord([string]$Keys) {
         '{LEFT}' { 37 }
         '{RIGHT}' { 39 }
         'a' { 65 }
+        'c' { 67 }
         'f' { 70 }
         'j' { 74 }
         'v' { 86 }
@@ -189,6 +190,21 @@ function Move-Game([object]$Action) {
     }
 }
 
+function Look-Game([object]$Action) {
+    $dx = 0
+    $dy = 0
+    if (-not [int]::TryParse([string]$Action.dx,[ref]$dx) -or
+        -not [int]::TryParse([string]$Action.dy,[ref]$dy) -or
+        $dx -lt -300 -or $dx -gt 300 -or $dy -lt -300 -or $dy -gt 300 -or
+        ($dx -eq 0 -and $dy -eq 0)) {
+        throw 'Look deltas must be non-zero integers between -300 and 300.'
+    }
+
+    Assert-InputTarget
+    [UrmanGameUiNative]::mouse_event(1,$dx,$dy,0,[UIntPtr]::Zero)
+    Assert-InputTarget
+}
+
 function Invoke-GameAction([object]$Action) {
     switch ([string]$Action.action) {
         'click' {
@@ -248,6 +264,7 @@ function Invoke-GameAction([object]$Action) {
             Send-StudioChord '^v'
         }
         'move' { Move-Game $Action }
+        'look' { Look-Game $Action }
         default { throw 'Unsupported game UI action.' }
     }
 }

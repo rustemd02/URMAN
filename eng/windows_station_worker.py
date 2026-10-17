@@ -35,14 +35,15 @@ FULL_GAME_SCENE = 'res://scenes/full_game.tscn'
 ACT1_DEMO_SCENE = 'res://scenes/act1_demo.tscn'
 PHOTO_WORLDS_GAME_SCENE = 'res://scenes/photoworlds_game.tscn'
 APPROVED_PLAY_SCENES = (ACT1_DEMO_SCENE, FULL_GAME_SCENE, PHOTO_WORLDS_GAME_SCENE)
-NORMAL_UI_TRANSPORT_VERSION = 2
+NORMAL_UI_TRANSPORT_VERSION = 3
 UI_KEY_BASES = ('{ENTER}', '{ESC}', '{DOWN}', '{UP}', '{SPACE}', 'a', 'f', 'v', 'z')
-UI_KEY_ADDITIONS = ('j', '{TAB}', '+{TAB}', '{LEFT}', '{RIGHT}')
+UI_KEY_ADDITIONS = ('c', 'j', '{TAB}', '+{TAB}', '{LEFT}', '{RIGHT}')
 UI_KEY_CHORDS = frozenset(
     [*UI_KEY_BASES,
      *(modifier + key for modifier in ('^', '+', '^+') for key in UI_KEY_BASES),
      *UI_KEY_ADDITIONS])
 UI_MOVE_KEYS = frozenset(('w', 'a', 's', 'd', 'e'))
+UI_LOOK_DELTA_LIMIT = 300
 UI_HELPER_FAILURE_CODES = {
     'The requested game window is not verified.': 'ui_window_unverified',
     'The owned game window changed process.': 'ui_window_process_changed',
@@ -58,6 +59,7 @@ UI_HELPER_FAILURE_CODES = {
     'The requested Godot PID is not running this job source.': 'ui_source_guard_refused',
     'Unsupported game UI key.': 'ui_action_refused',
     'Unsupported game UI action.': 'ui_action_refused',
+    'Look deltas must be non-zero integers between -300 and 300.': 'ui_action_refused',
 }
 UI_ACTION_LIMIT = 4096
 UI_HELPER_TIMEOUT_SECONDS = 20
@@ -2272,11 +2274,12 @@ class Station:
     @staticmethod
     def _validate_ui_action(action):
         if not isinstance(action, dict) or not isinstance(action.get('action'), str):
-            raise ValueError('UI action must be one bounded keys or move request')
+            raise ValueError('UI action must be one bounded keys, move, or look request')
         kind = action['action']
         if kind == 'keys':
             keys = action.get('keys')
-            if set(action) != {'action', 'keys'} or not isinstance(keys, str) or keys not in UI_KEY_CHORDS:
+            if (set(action) != {'action', 'keys'} or not isinstance(keys, str)
+                    or keys not in UI_KEY_CHORDS):
                 raise ValueError('UI keys action is outside the fixed key allowlist')
             return kind
         if kind == 'move':
@@ -2287,7 +2290,17 @@ class Station:
                     or not 1 <= action['durationMs'] <= 2000):
                 raise ValueError('UI move action is outside the bounded movement allowlist')
             return kind
-        raise ValueError('UI action must be one bounded keys or move request')
+        if kind == 'look':
+            dx = action.get('dx')
+            dy = action.get('dy')
+            if (set(action) != {'action', 'dx', 'dy'}
+                    or type(dx) is not int or type(dy) is not int
+                    or not -UI_LOOK_DELTA_LIMIT <= dx <= UI_LOOK_DELTA_LIMIT
+                    or not -UI_LOOK_DELTA_LIMIT <= dy <= UI_LOOK_DELTA_LIMIT
+                    or (dx == 0 and dy == 0)):
+                raise ValueError('UI look action is outside the bounded relative-delta allowlist')
+            return kind
+        raise ValueError('UI action must be one bounded keys, move, or look request')
 
     @staticmethod
     def _validate_interactive_frame_result(report, jid, request_id, pid, expected_scene):

@@ -23,14 +23,15 @@ from remote_common import (MAX_ARCHIVE, MAX_SOURCE, REPOSITORY, canonical, candi
 STUDIO_SCENE = 'res://studio/studio_main.tscn'
 FULL_GAME_SCENE = 'res://scenes/full_game.tscn'
 PHOTO_WORLDS_GAME_SCENE = 'res://scenes/photoworlds_game.tscn'
-NORMAL_UI_TRANSPORT_VERSION = 2
+NORMAL_UI_TRANSPORT_VERSION = 3
 UI_KEY_BASES = ('{ENTER}', '{ESC}', '{DOWN}', '{UP}', '{SPACE}', 'a', 'f', 'v', 'z')
-UI_KEY_ADDITIONS = ('j', '{TAB}', '+{TAB}', '{LEFT}', '{RIGHT}')
+UI_KEY_ADDITIONS = ('c', 'j', '{TAB}', '+{TAB}', '{LEFT}', '{RIGHT}')
 UI_KEY_CHORDS = frozenset(
     [*UI_KEY_BASES,
      *(modifier + key for modifier in ('^', '+', '^+') for key in UI_KEY_BASES),
      *UI_KEY_ADDITIONS])
 UI_MOVE_KEYS = frozenset(('w', 'a', 's', 'd', 'e'))
+UI_LOOK_DELTA_LIMIT = 300
 INTERACTIVE_FRAME_PNG_LIMIT = 16 * 1024**2
 
 def check_result_destination(path):
@@ -284,10 +285,12 @@ def main():
     p.add_argument('--fov',help="capture only: 'player' (player camera FOV) or a number; default control views use 70")
     p.add_argument('--headless',action='store_true');p.add_argument('--wait',type=int)
     p.add_argument('--output',type=Path);p.add_argument('--submit-only',action='store_true')
-    p.add_argument('--ui-action',choices=['keys','move'])
+    p.add_argument('--ui-action',choices=['keys','move','look'])
     p.add_argument('--keys',help='ui keys only: one fixed key or key chord')
     p.add_argument('--key',help='ui move only: w, a, s, d, or e')
     p.add_argument('--duration-ms',type=int,help='ui move only: 1..2000 milliseconds')
+    p.add_argument('--dx',type=int,help='ui look only: relative horizontal mouse delta, -300..300')
+    p.add_argument('--dy',type=int,help='ui look only: relative vertical mouse delta, -300..300')
     p.add_argument('--studio-authoring',action='store_true',
                    help='include the two fixed house generator inputs in the source snapshot')
     p.add_argument('--studio-readiness',action='store_true',
@@ -315,6 +318,7 @@ def main():
                  or args.phase is not None or args.fov is not None or args.studio_restarts
                  or args.studio_authoring or args.ui_action is not None or args.keys is not None
                  or args.key is not None or args.duration_ms is not None
+                 or args.dx is not None or args.dy is not None
                  or (native_interactive and args.output is not None and args.wait is None)):
         p.error('play/play-full/play-product uses its fixed native scene; UI controls require the ui command')
     if args.command=='ui':
@@ -325,16 +329,26 @@ def main():
         if args.timeout is not None:
             p.error('ui does not accept job timeout options')
         if args.ui_action=='keys':
-            if args.keys not in UI_KEY_CHORDS or args.key is not None or args.duration_ms is not None:
+            if (args.keys not in UI_KEY_CHORDS or args.key is not None or args.duration_ms is not None
+                    or args.dx is not None or args.dy is not None):
                 p.error('ui keys requires one supported --keys value and no movement options')
             ui_request={'action':'keys','keys':args.keys}
         elif args.ui_action=='move':
             if (args.key not in UI_MOVE_KEYS or type(args.duration_ms) is not int
-                    or not 1<=args.duration_ms<=2000 or args.keys is not None):
+                    or not 1<=args.duration_ms<=2000 or args.keys is not None
+                    or args.dx is not None or args.dy is not None):
                 p.error('ui move requires --key w/a/s/d/e and --duration-ms 1..2000')
             ui_request={'action':'move','key':args.key,'durationMs':args.duration_ms}
+        elif args.ui_action=='look':
+            if (type(args.dx) is not int or type(args.dy) is not int
+                    or not -UI_LOOK_DELTA_LIMIT <= args.dx <= UI_LOOK_DELTA_LIMIT
+                    or not -UI_LOOK_DELTA_LIMIT <= args.dy <= UI_LOOK_DELTA_LIMIT
+                    or (args.dx == 0 and args.dy == 0)
+                    or args.keys is not None or args.key is not None or args.duration_ms is not None):
+                p.error('ui look requires --dx/--dy in -300..300, a non-zero delta, and no other input options')
+            ui_request={'action':'look','dx':args.dx,'dy':args.dy}
         else:
-            p.error('ui requires --ui-action keys or move')
+            p.error('ui requires --ui-action keys, move, or look')
         if args.wait is not None or args.output is not None or args.submit_only or args.studio_authoring or args.studio_restarts:
             p.error('ui does not accept job submission or output options')
     if capture_current:
@@ -356,8 +370,9 @@ def main():
     if play and args.timeout is not None and not 1<=args.timeout<=1200:
         p.error('play/play-full/play-product timeout must be 1..1200 seconds')
     if args.command!='ui' and (args.ui_action is not None or args.keys is not None
-                               or args.key is not None or args.duration_ms is not None):
-        p.error('--ui-action, --keys, --key, and --duration-ms require the ui command')
+                               or args.key is not None or args.duration_ms is not None
+                               or args.dx is not None or args.dy is not None):
+        p.error('--ui-action, --keys, --key, --duration-ms, --dx, and --dy require the ui command')
     scene=STUDIO_SCENE if studio else (PHOTO_WORLDS_GAME_SCENE if native_product else FULL_GAME_SCENE if native_full else 'res://scenes/act1_demo.tscn' if play else (args.scene if args.scene is not None
                                        else 'res://tests/player_settings_smoke_test.tscn')
     )

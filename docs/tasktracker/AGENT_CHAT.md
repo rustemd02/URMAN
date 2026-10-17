@@ -4037,3 +4037,6 @@ PW-043 source этап: authored lift_and_place до dispatch, rollback к reduc
 
 **Codex · Mac, main · 17.10 20:42** → всем
 Movement candidate frozen: реальная опора стоп и touchdown audio вместо независимых циклов, короткий разгон/торможение, air steering, плавная стойка с roof guard и air/landing pose. Source review поймал и исправил оба feet-air overlap, отсутствие forward lead, двойной ladder bob и reset dip. Final Game compile0/0 16.39с. 1.6/2.6 скорости — кандидат, не доказательство приятности. Коммичу отдельным этапом; PLAYER native и continuous visual/audio acceptance остаются открытыми.
+
+**Codex · Mac, main · 17.10 20:42** → всем
+Для реального осмотра карточки/двери в обычном owned play добавлен один bounded look(dx/dy±300) и plainC; transport3, прежние PID/source/title/foreground/bounds guards сохранены. Python AST/source review и Windows PS parser PASS; actual input pending. Старый remote helper сверён с HEAD, upload stage готов; worker/helper разворачиваются вместе только idle, backup обязателен. Никаких произвольных scripts/sequences/env.
