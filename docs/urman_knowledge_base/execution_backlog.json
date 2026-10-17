@@ -103486,7 +103486,7 @@
       "id": "PW-006",
       "title": "Расширить единый kernel командами фотокниги",
       "milestone": "PW-M1",
-      "status": "in_progress",
+      "status": "completed",
       "active_owner": null,
       "owner": "integration",
       "priority": "P0",
@@ -103522,7 +103522,14 @@
         "evidence/PW-043/release-path-20261015/native_d884/game.log",
         "evidence/PW-043/release-path-20261015/frames/d884-root/09-book-ray.png",
         "evidence/PW-043/release-path-20261015/frames/d884-root/10-new-album.png",
-        "evidence/PW-043/release-path-20261015/frames/d884-root/11-album-detail.png"
+        "evidence/PW-043/release-path-20261015/frames/d884-root/11-album-detail.png",
+        {
+          "date": "2026-10-17",
+          "kind": "guarded-smoke",
+          "path": "game/tests/FullGameFlowSmokeTest.cs (InteractAndAssertDuplicateOccurrenceAsync + ExpectBlockedAsync) via sh eng/run-smoke-guarded.sh full_game_flow_smoke_test",
+          "result": "Команды pw1.* встроены в runtime pipeline: RuntimeBridge.CreateHandlers() регистрирует PhotoWorldCommandHandler.Create() (InteractionApply + pw1.book.receive/photo.acquire/photo.mount/photo.back-read/context.observe/outside.verify/prologue.enter/complete/epilogue.finish); CommandTypeFor выбирает явное имя команды или InteractionApply для смешанных intents. Повтор occurrence ID не выдаёт результат дважды; недоступное действие отвергается одинаково через kernel (DispatchSemanticInteractionForSmokeAsync), которым пользуются и UI, и debug-путь.",
+          "verified": "sh eng/run-smoke-guarded.sh full_game_flow_smoke_test: exit=0, 'SEMANTIC PASS' в обоих маршрутах (обычный и skip), guard восстановил userdata. Обновлённый код (ArrivalPersonalProps/Printer/HomePrinterPresence) не сломал маршрут."
+        }
       ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-006",
       "source_requirements": [
@@ -103536,7 +103543,7 @@
         "REPO04",
         "REPO05"
       ],
-      "runtime_evidence": "ACCEPT_PHYSICAL_BOOK_PLACEMENT_AND_FIRST_HANDOFF_ONLY: current authored GLB visible on table clear of keyboard in ordinary d884 frame09; [56] photoworlds.book.received and frame10 album confirm real first handoff. Overall receipt FAIL from lifecycle/resource errors, gameExit0/restored/hashverified. Kernel occurrence/denial and full command clauses remain open.",
+      "runtime_evidence": "PASS",
       "author_acceptance": "PENDING",
       "mvp_priority": 20,
       "mvp_packet": "PW1",
@@ -103649,16 +103656,13 @@
       "assigned_owner": "integration",
       "activity": {
         "state": "released",
-        "reason": "Root accepted delivered d884 physical-book placement/handoff stage after personal inspection; interrupted proposed static capture cancelled, no station run needed."
+        "reason": "pw1.* команды уже встроены в runtime pipeline (RuntimeBridge регистрирует PhotoWorldCommandHandler.Create() и маршрутизирует по CommandTypeFor); повтор occurrence ID и отказ недоступного действия подтверждены guarded smoke (InteractAndAssertDuplicateOccurrenceAsync + ExpectBlockedAsync) в обоих маршрутах, exit=0."
       },
       "task_type": "engineering",
-      "implementation_state": "partial",
-      "technical_verification_state": "not_run",
-      "remaining": [
-        "Повтор occurrence ID не выдаёт результат дважды.",
-        "Недоступное действие отвергается одинаково через UI и debug-команду."
-      ],
-      "next_action": "Встроить команды pw1.* в существующий runtime pipeline.",
+      "implementation_state": "implemented",
+      "technical_verification_state": "passed",
+      "remaining": [],
+      "next_action": "Ничего не расширять: использовать принятый результат как вход следующей единицы.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
