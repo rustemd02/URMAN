@@ -111,7 +111,7 @@ public sealed class OldPcDesktopSnapshot
         var visited = new HashSet<string>(StringComparer.Ordinal);
         if (VisitedDocumentIds.Any(id => id is null || !documents.Contains(id) || !visited.Add(id)))
             throw new InvalidDataException("Old PC visited documents are invalid.");
-        if (Folder is null || !(Folder is "computer" or "notes" or "trash" or "pictures" || sections.Contains(Folder))
+        if (Folder is null || !(Folder is "computer" or "notes" or "trash" or "pictures" or "family" || sections.Contains(Folder))
             || !FiniteRange(ElapsedSeconds, 0, 315360000))
             throw new InvalidDataException("Old PC desktop folder or clock is invalid.");
         if (Chat.Count > ChatThreads.Length || HintsSeen.Count > MaximumSeenHints

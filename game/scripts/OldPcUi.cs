@@ -162,6 +162,7 @@ public partial class OldPcUi : CanvasLayer, IAccessibilitySettingsTarget
         if (!IsInsideTree() || !_screen.Visible || _bridge?.SessionIdentity is null) return;
         RefreshVocabulary();
         RefreshPhotoCaptionAction();
+        if (_desktop.Folder == "family") RefreshFileList(false);
     }
 
     private async void Search()

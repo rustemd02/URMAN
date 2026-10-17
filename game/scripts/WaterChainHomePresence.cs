@@ -16,6 +16,7 @@ internal partial class WaterChainHomePresence : Node3D
     internal InteractionTarget RiverEntryTarget = null!;
     internal InteractionTarget TalkTarget = null!;
     internal InteractionTarget PermissionTarget = null!;
+    internal InteractionTarget CommonFilePermissionTarget = null!;
     internal InteractionTarget? TeaTarget;
     internal Node3D? Print;
     internal float PrintInLocalZ = .024f;
@@ -33,7 +34,8 @@ internal partial class WaterChainHomePresence : Node3D
         // The zone's own targets capture their ray layer in _Ready; the first
         // presentation pass waits for that so no window is written too early.
         if (!IsReady(SourceTarget) || !IsReady(RiverEntryTarget) || !IsReady(TalkTarget)
-            || !IsReady(PermissionTarget) || (TeaTarget is { } tea && !IsReady(tea)))
+            || !IsReady(PermissionTarget) || !IsReady(CommonFilePermissionTarget)
+            || (TeaTarget is { } tea && !IsReady(tea)))
             return;
 
         Apply();
@@ -66,18 +68,24 @@ internal partial class WaterChainHomePresence : Node3D
         var water = bridge.PhotoBookPhotos().FirstOrDefault(photo => photo.PhotoId == "P-WATER");
         var acquired = water is not null;
         var mountedAndRead = water is { Mounted: true, BackRead: true };
+        var fileFound = bridge.PhotoWorldFactObserved("common_marat_file_found");
+        var commonAcquired = bridge.PhotoBookPhotos().Any(photo => photo.PhotoId == "P-COMMON");
 
         var talkLive = bookReceived && !told;
         var permissionLive = bookReceived && told && found && !acquired;
         var sourceLive = bookReceived && !found;
         var riverLive = told && mountedAndRead;
+        // The family file question only exists once the file was found on the
+        // PC and the family copy is not saved yet.
+        var filePermissionLive = fileFound && !commonAcquired;
 
         TalkTarget.SetPresentationEnabled(talkLive);
         PermissionTarget.SetPresentationEnabled(permissionLive);
+        CommonFilePermissionTarget.SetPresentationEnabled(filePermissionLive);
         SourceTarget.SetPresentationEnabled(sourceLive);
         RiverEntryTarget.SetPresentationEnabled(riverLive);
         // әби keeps her greeting whenever the chain is not asking a question.
-        TeaTarget?.SetPresentationEnabled(!bookReceived || (!talkLive && !permissionLive));
+        TeaTarget?.SetPresentationEnabled(!bookReceived || (!talkLive && !permissionLive && !filePermissionLive));
 
         if (Print is { } print)
         {

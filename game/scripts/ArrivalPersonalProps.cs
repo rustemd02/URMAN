@@ -331,6 +331,13 @@ internal partial class ArrivalPersonalProps : Node3D
             npcAnchor, "6f6257", "urman.fullgame:interaction/pw-water-photo-permission",
             "Получить разрешение на копию снимка",
             dialogueId: "urman.fullgame:dialogue/pw-water-photo-permission", rayOnly: true);
+        // The same әби keeps the later family-file question. Only one of the
+        // three boxes at this anchor is projected at a time, so the ray never
+        // has to choose between the water chain and the common file.
+        var filePermission = house.MakeInteractionBox("CommonFilePermissionTarget", new(.62f, 1.68f, .46f),
+            npcAnchor, "6f6257", "urman.fullgame:interaction/pw-common-file-permission",
+            "Попросить разрешённую копию файла Марата",
+            dialogueId: "urman.fullgame:dialogue/pw-common-file-permission", rayOnly: true);
 
         things.AddChild(new WaterChainHomePresence
         {
@@ -339,6 +346,7 @@ internal partial class ArrivalPersonalProps : Node3D
             RiverEntryTarget = entry,
             TalkTarget = talk,
             PermissionTarget = permission,
+            CommonFilePermissionTarget = filePermission,
             TeaTarget = house.GetNodeOrNull<InteractionTarget>("GulsinaNpc"),
             Print = print
         });

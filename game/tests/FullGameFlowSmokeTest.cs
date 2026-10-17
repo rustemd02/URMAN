@@ -66,8 +66,8 @@ public partial class FullGameFlowSmokeTest : Node
             await RunRouteAsync(runtime, skipPrologue: true, riverFirst: true, captureCaptionUiFrame: false);
 
             GD.Print("fullgame-flow-smoke: SEMANTIC PASS — prologue/skip, B01 Niva stop and home tea, W01↔W02 order, W03, independent outside evidence, "
-                + "Old PC caption-before-print, W04, unresolved Marat question, epilogue and return/revisit, optional W05 cellar after the finale; "
-                + "PHYSICAL NOT_RUN — PW-075 file/search and printer consumers, PW-094 ordinary route, PW-098 handover/anchors/art.");
+                + "Old PC family folder contact sheet/copy/search and caption-before-print/print, W04, unresolved Marat question, epilogue and return/revisit, optional W05 cellar after the finale; "
+                + "PHYSICAL NOT_RUN — home printer prop and physical print consumers (PW-042/PW-075), PW-094 ordinary route, PW-098 handover/anchors/art.");
         }
         catch (Exception error)
         {
@@ -170,9 +170,7 @@ public partial class FullGameFlowSmokeTest : Node
             "Outside evidence did not retain its independent constituent sources.");
         await InteractAsync(bridge, "pw-connect-outside-notes");
 
-        await InteractAsync(bridge, "pw-contact-sheet-source");
-        await InteractAsync(bridge, "pw-contact-sheet-permission");
-        await InteractAsync(bridge, "pw-common-file-source");
+        await DiscoverCommonFileThroughOldPcAsync(bridge);
         await DialogueAsync(bridge, "pw-common-file-permission", "pw-common-file-permission", "permission", "accept-copy");
 
         var beforeCaption = Photo(World(bridge.SelectRuntimeState()), "P-COMMON");
@@ -194,7 +192,7 @@ public partial class FullGameFlowSmokeTest : Node
         Require(!Photo(World(bridge.SelectRuntimeState()), "P-COMMON").GetProperty("mounted").GetBoolean(),
             "Caption preparation silently mounted the digital file as a paper print.");
 
-        await InteractAsync(bridge, "pw-print-common-photo");
+        await PrintCommonPhotoThroughOldPcAsync(bridge);
         var printed = Photo(World(bridge.SelectRuntimeState()), "P-COMMON");
         Require(printed.GetProperty("mounted").GetBoolean()
                 && printed.GetProperty("pageId").GetString() == "PAGE-COMMON",
@@ -386,6 +384,77 @@ public partial class FullGameFlowSmokeTest : Node
             captionButtonVisible = prepare.IsVisibleInTree(),
             pngBase64 = Convert.ToBase64String(png)
         }));
+    }
+
+    // The family folder is the visible PhotoWorlds route to the contact sheet,
+    // its allowed copy and the file the sheet names. The smoke presses the same
+    // widgets a player uses instead of the semantic dispatcher, so a broken
+    // desktop shell cannot pass this section by accident.
+    private async Task DiscoverCommonFileThroughOldPcAsync(RuntimeBridge bridge)
+    {
+        var ui = GetTree().GetFirstNodeInGroup("old_pc_ui") as OldPcUi;
+        Require(ui is not null, "The existing Old PC UI is unavailable in the full-game scene.");
+        bridge.OpenOldPcUi();
+        await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+        ui!.LaunchApplication("files");
+        await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+        var files = ui.GetNode<ItemList>("Screen/App_files/Layout/Content/Files");
+        if (!HasFileRow(files, "folder:family"))
+        {
+            ui.GetNode<Button>("Screen/App_files/Layout/Content/Tools/Up").EmitSignal(BaseButton.SignalName.Pressed);
+            await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+        }
+        SelectFileRow(files, "folder:family");
+        ui.GetNode<Button>("Screen/App_files/Layout/Content/Tools/Open").EmitSignal(BaseButton.SignalName.Pressed);
+        await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+        SelectFileRow(files, "family:contact-sheet");
+        ui.GetNode<Button>("Screen/App_files/Layout/Content/Tools/Open").EmitSignal(BaseButton.SignalName.Pressed);
+        var copy = ui.GetNode<Button>("Screen/App_files/Layout/Content/FamilyCopy");
+        await WaitFor(() => FactObserved(bridge.SelectRuntimeState(), "contact_sheet_found")
+                && copy.Visible && !copy.Disabled,
+            "The visible family folder did not open the contact sheet and enable its allowed copy.");
+        copy.EmitSignal(BaseButton.SignalName.Pressed);
+        await WaitFor(() => Photo(World(bridge.SelectRuntimeState()), "S-PRINT").GetProperty("acquired").GetBoolean(),
+            "The visible copy action did not save the contact sheet copy into the book.");
+        var query = ui.GetNode<LineEdit>("Screen/App_files/Layout/Content/FamilySearch/Query");
+        query.Text = "общий";
+        ui.GetNode<Button>("Screen/App_files/Layout/Content/FamilySearch/Find").EmitSignal(BaseButton.SignalName.Pressed);
+        var reader = ui.GetNode<Control>("Screen/App_files/Layout/Content/FamilyReader");
+        await WaitFor(() => FactObserved(bridge.SelectRuntimeState(), "common_marat_file_found") && reader.Visible,
+            "The family folder search did not find and open Marat's file by the contact-sheet name.");
+        ui.GetNode<Button>("Screen/Computer/Layout/Header/Close").EmitSignal(Button.SignalName.Pressed);
+        await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+    }
+
+    // The print is the visible digital half of the paper photo: the notepad
+    // button must be the one that mounts the authored page.
+    private async Task PrintCommonPhotoThroughOldPcAsync(RuntimeBridge bridge)
+    {
+        var ui = GetTree().GetFirstNodeInGroup("old_pc_ui") as OldPcUi;
+        Require(ui is not null, "The existing Old PC UI is unavailable in the full-game scene.");
+        bridge.OpenOldPcUi();
+        await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+        ui!.LaunchApplication("notepad");
+        await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+        var print = ui.GetNode<Button>("Screen/App_notepad/Layout/Content/PrintPhotoCommon");
+        Require(print.Visible && !print.Disabled,
+            "The visible print action did not enable after the authored caption was prepared.");
+        print.EmitSignal(BaseButton.SignalName.Pressed);
+        await WaitFor(() => Photo(World(bridge.SelectRuntimeState()), "P-COMMON").GetProperty("mounted").GetBoolean(),
+            "The visible print action did not mount the authored page.");
+        ui.GetNode<Button>("Screen/Computer/Layout/Header/Close").EmitSignal(Button.SignalName.Pressed);
+        await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+    }
+
+    private static bool HasFileRow(ItemList list, string metadata) =>
+        Enumerable.Range(0, list.ItemCount).Any(index => list.GetItemMetadata(index).AsString() == metadata);
+
+    private static void SelectFileRow(ItemList list, string metadata)
+    {
+        var row = Enumerable.Range(0, list.ItemCount)
+            .FirstOrDefault(index => list.GetItemMetadata(index).AsString() == metadata, -1);
+        Require(row >= 0, "The expected file row is missing: " + metadata);
+        list.Select(row);
     }
 
     private async Task DialogueAsync(RuntimeBridge bridge, string interaction, string dialogue,

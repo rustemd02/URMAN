@@ -117462,7 +117462,7 @@
       "id": "PW-042",
       "title": "Сделать физическую печать из ПК",
       "milestone": "PW-M2",
-      "status": "todo",
+      "status": "in_progress",
       "active_owner": null,
       "owner": "integration",
       "priority": "P0",
@@ -117485,7 +117485,15 @@
       "verify": [
         "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-042/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
       ],
-      "evidence": [],
+      "evidence": [
+        {
+          "date": "2026-10-17",
+          "kind": "guarded-smoke",
+          "path": "game/scripts/OldPcUi.Apps.cs (PrintPhotoCommon) + game/tests/FullGameFlowSmokeTest.cs",
+          "result": "Цифровая половина печати: кнопка блокнота «Напечатать подписанный снимок для книги» видима после подготовки подписи, диспатчит pw-print-common-photo и монтирует PAGE-COMMON; лист — та же PhotoId, которую проецирует домашний принтер (принтер-предмет — остаток S1).",
+          "verified": "guarded smoke exit=0: события photoworlds.photo.mounted pw-print-common-photo в обоих маршрутах, проверка mounted+PAGE-COMMON после кнопки; физический лоток NOT_RUN."
+        }
+      ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-042",
       "source_requirements": [
         "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/docs/11_TASKS_RU.md",
@@ -117602,17 +117610,17 @@
       },
       "assigned_owner": "integration",
       "activity": {
-        "state": "not_active",
-        "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+        "state": "released",
+        "reason": "Цифровая половина поставлена: кнопка «Напечатать подписанный снимок для книги» появляется после собственной подписи и монтирует PAGE-COMMON (guarded smoke PASS); физического принтера с лотком ещё нет — это остаток. Заявка освобождена."
       },
       "task_type": "engineering",
-      "implementation_state": "not_started",
+      "implementation_state": "partial",
       "technical_verification_state": "not_run",
       "remaining": [
-        "У цифрового действия есть видимый бумажный результат.",
-        "Лист появляется в правильном лотке и не исчезает после загрузки."
+        "Готово: у цифрового действия есть видимый результат в книге — печать из блокнота монтирует PAGE-COMMON после подписи; до подписи действие отклоняется (smoke ExpectBlocked).",
+        "Осталось: физический принтер у домашнего ПК с реальным лотком и видимым листом P-COMMON; лист должен сохраняться после загрузки. Кадры печати — вместе с принтером."
       ],
-      "next_action": "Произвести принтер и подключить условие разрешённого семейного файла.",
+      "next_action": "Произвести принтер-предмет у домашнего ПК: корпус, лоток, выезжающий лист P-COMMON при смонтированной странице (та же PhotoId, без второго источника), своим presence и кадрами.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -131814,7 +131822,7 @@
       "id": "PW-075",
       "title": "Сделать поиск файла и собственную подпись на ПК",
       "milestone": "PW-M3",
-      "status": "todo",
+      "status": "in_progress",
       "active_owner": null,
       "owner": "integration",
       "priority": "P1",
@@ -131840,7 +131848,15 @@
       "verify": [
         "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-075/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
       ],
-      "evidence": [],
+      "evidence": [
+        {
+          "date": "2026-10-17",
+          "kind": "guarded-smoke",
+          "path": "game/scripts/OldPcUi.Apps.cs + game/tests/FullGameFlowSmokeTest.cs (ui-driven family folder)",
+          "result": "Обычная оболочка «Мой компьютер» проведена нажатиями тех же виджетов, что у игрока: папка «Семейные снимки» (строка контактного листа), кнопка «Сохранить разрешённую копию контактного листа» (S-PRINT acquired+back-read), поиск имени с листа «общий» находит и открывает общий_кадр.jpg (common_marat_file_found, читалка видима), печать из блокнота «Напечатать подписанный снимок для книги» монтирует PAGE-COMMON. Smoke больше не диспатчит эти шаги семантическим диспатчером.",
+          "verified": "sh eng/run-smoke-guarded.sh full_game_flow_smoke_test: exit=0, строка 'SEMANTIC PASS', события pw-contact-sheet-source/pw-contact-sheet-permission/pw-print-common-photo в обоих маршрутах, 'userdata guard: original files and permissions restored and verified'. Нативные кадры папки NOT_RUN."
+        }
+      ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-075",
       "source_requirements": [
         "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/docs/11_TASKS_RU.md",
@@ -131959,18 +131975,17 @@
       },
       "assigned_owner": "integration",
       "activity": {
-        "state": "not_active",
-        "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+        "state": "released",
+        "reason": "Обычная оболочка «Мой компьютер» доведена от контактного листа до поиска файла и печати и проверена guarded smoke нажатиями тех же виджетов; заявка освобождена. Остаток — нативные кадры и физические потребители (PW-042/PW-015) и языковая проверка."
       },
       "task_type": "engineering",
-      "implementation_state": "not_started",
+      "implementation_state": "partial",
       "technical_verification_state": "not_run",
       "remaining": [
-        "Нет внешнего аккаунта/API и требований к неизвестной раскладке.",
-        "W04 проверяет подготовленность подписи, а не просто число полученных фото.",
-        "Обычная оболочка ПК доводит один PhotoId от поиска разрешённого файла и непустой собственной подписи до потребителя физической копии PW-042 и вклейки PW-015. Отмена не завершает ввод, повтор не дублирует прогресс, текст сохраняется через Continue; татарский ввод проверен действием, не только глифами."
+        "Готово: S-PRINT → папка «Семейные снимки» → разрешённая копия листа → поиск имени с листа находит общий_кадр.jpg → собственная подпись → печать монтирует PAGE-COMMON; всё нажатиями обычных виджетов (guarded smoke PASS, см. evidence).",
+        "Осталось: нативные кадры папки/поиска/печати (пока только headless-семантика и кадр подписи); татарский ввод проверен действием (языковой гейт PW-080); физический потребитель копии после принтера PW-042 и вклейка PW-015."
       ],
-      "next_action": "По S-PRINT найти локальный семейный файл Марата.",
+      "next_action": "Снять нативный кадр папки «Семейные снимки» и печати существующим захватом; после производства принтера (PW-042/S1) проверить физический потребитель копии тем же сценарием.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",

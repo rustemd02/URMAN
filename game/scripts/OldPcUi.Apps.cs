@@ -18,11 +18,17 @@ public partial class OldPcUi
     private ItemList _trashList = null!;
     private Label _folderLabel = null!;
     private Label _fileStatus = null!;
+    private HBoxContainer _familySearchRow = null!;
+    private LineEdit _familySearch = null!;
+    private RichTextLabel _familyReader = null!;
+    private Button _familyCopyButton = null!;
+    private string? _familyShownFile;
     private readonly Dictionary<string, TextEdit> _editors = new(StringComparer.Ordinal);
     private readonly Dictionary<string, LineEdit> _editorNames = new(StringComparer.Ordinal);
     private readonly Dictionary<string, Label> _editorStatuses = new(StringComparer.Ordinal);
     private Button? _photoCaptionButton;
     private Label? _photoCaptionHint;
+    private Button? _photoPrintButton;
     private bool _photoCaptionPending;
     private long _photoCaptionRequestVersion;
     private object? _photoCaptionRequestSession;
@@ -171,9 +177,24 @@ public partial class OldPcUi
         DesktopButton(tools, "Delete", "В корзину", DeleteSelectedNote);
         _folderLabel = new Label { Name = "Folder", AutowrapMode = TextServer.AutowrapMode.WordSmart };
         body.AddChild(_folderLabel);
+        _familySearchRow = new HBoxContainer { Name = "FamilySearch", Visible = false };
+        body.AddChild(_familySearchRow);
+        _familySearch = new LineEdit { Name = "Query", SizeFlagsHorizontal = Control.SizeFlags.ExpandFill,
+            PlaceholderText = "Имя файла с контактного листа", MaxLength = 96 };
+        _familySearchRow.AddChild(_familySearch);
+        _familySearch.TextSubmitted += _ => RunFamilySearch();
+        DesktopButton(_familySearchRow, "Find", "Найти", RunFamilySearch)
+            .TooltipText = "Поиск по семейной папке";
         _fileList = new ItemList { Name = "Files", SizeFlagsVertical = Control.SizeFlags.ExpandFill };
         body.AddChild(_fileList);
         _fileList.ItemActivated += _ => OpenFileSelection(false);
+        _familyReader = new RichTextLabel { Name = "FamilyReader", BbcodeEnabled = false, Visible = false,
+            SizeFlagsVertical = Control.SizeFlags.ExpandFill, ScrollActive = true,
+            SelectionEnabled = true, FocusMode = Control.FocusModeEnum.All };
+        body.AddChild(_familyReader);
+        _familyCopyButton = DesktopButton(body, "FamilyCopy",
+            "Сохранить разрешённую копию контактного листа", SaveFamilyContactSheetCopy);
+        _familyCopyButton.Visible = false;
         _fileStatus = new Label { Name = "Status", AutowrapMode = TextServer.AutowrapMode.WordSmart };
         body.AddChild(_fileStatus);
         var trash = CreateDesktopWindow("trash", "Корзина · Чүплек", out _);
@@ -196,15 +217,26 @@ public partial class OldPcUi
             return;
         }
         var folder = _desktop.Folder;
-        _folderLabel.Text = folder == "computer" ? "C:\\Мои документы" : "C:\\Мои документы\\" + SectionLabel(folder);
+        _folderLabel.Text = folder switch
+        {
+            "computer" => "C:\\Мои документы",
+            "family" => "C:\\Мои документы\\Семейные снимки",
+            _ => "C:\\Мои документы\\" + SectionLabel(folder)
+        };
         if (folder == "computer")
         {
             AddFileRow(list, "▸ Заметки Айдара", "folder:notes");
             AddFileRow(list, "▸ Фотографии", "folder:pictures");
+            if (_bridge.IsPhotoWorldsCampaign)
+                AddFileRow(list, "▸ Семейные снимки", "folder:family");
             foreach (var section in _bridge.OldPcDocuments.Where(document => _bridge.IsOldPcDocumentAccessible(document.Id))
                          .Select(document => document.Section).Distinct().OrderBy(SectionLabel, StringComparer.CurrentCulture))
                 AddFileRow(list, "▸ " + SectionLabel(section), "folder:" + section);
             _fileStatus.Text = "Дважды нажмите папку или выделите её и выберите «Открыть».";
+        }
+        else if (folder == "family")
+        {
+            RefreshFamilyFolder(list);
         }
         else if (folder == "notes")
         {
@@ -219,6 +251,167 @@ public partial class OldPcUi
                          && (folder == "pictures" ? document.Images is { Count: > 0 } : document.Section == folder)))
                 AddFileRow(list, document.Title, "doc:" + document.Id);
             _fileStatus.Text = "Архивные источники открываются для чтения; выписки сохраняются в книжку.";
+        }
+
+        _familySearchRow.Visible = folder == "family";
+        _familyReader.Visible = folder == "family" && _familyShownFile is not null;
+        RefreshFamilyCopyAction();
+    }
+
+    // The family folder is the PhotoWorlds side of «Мой компьютер»: the saved
+    // contact sheet and the file it names. Both open through their authored
+    // interactions, so no fact, photo or permission is granted by the shell.
+    private const string FamilyMaratFileName = "общий_кадр.jpg";
+
+    private void RefreshFamilyFolder(ItemList list)
+    {
+        if (_bridge is not { } bridge) return;
+        if (bridge.IsInteractionAvailable("urman.fullgame:interaction/pw-contact-sheet-source"))
+            AddFileRow(list, "Контактный лист · плёнка «лето»", "family:contact-sheet");
+        if (bridge.PhotoWorldFactObserved("common_marat_file_found"))
+            AddFileRow(list, FamilyMaratFileName, "family:marat-file");
+        var sheetSaved = bridge.PhotoBookPhotos().Any(photo => photo.PhotoId == "S-PRINT");
+        var copyAcquired = bridge.PhotoBookPhotos().Any(photo => photo.PhotoId == "P-COMMON");
+        _fileStatus.Text = list.ItemCount == 0
+            ? "Семейная папка. Сохранённые снимки появятся здесь."
+            : copyAcquired
+                ? "Семья разрешила копию файла. Подпишите снимок в блокноте — и его можно напечатать."
+                : bridge.PhotoWorldFactObserved("common_marat_file_found")
+                    ? "Файл «" + FamilyMaratFileName + "» найден. Копию можно сохранить только с разрешения семьи."
+                    : sheetSaved
+                        ? "Копия контактного листа сохранена в книгу. Имя нужного файла — на самом листе."
+                        : "Дважды нажмите файл, чтобы открыть его. Часть файлов ищется по имени с контактного листа.";
+    }
+
+    private void RefreshFamilyCopyAction()
+    {
+        if (_familyCopyButton is null || _bridge is not { } bridge) return;
+        var canSave = _desktop.Folder == "family"
+            && bridge.IsInteractionAvailable("urman.fullgame:interaction/pw-contact-sheet-permission")
+            && !bridge.PhotoBookPhotos().Any(photo => photo.PhotoId == "S-PRINT");
+        _familyCopyButton.Visible = canSave;
+        _familyCopyButton.Disabled = !canSave;
+    }
+
+    // The name comes from the contact sheet. It stays Russian until the Tatar
+    // line passes the language review (PW-080); a reviewed alias can be added
+    // to the match below without touching the folder or its rows.
+    private async void RunFamilySearch()
+    {
+        if (_bridge is not { } bridge || _familySearch is null) return;
+        var query = _familySearch.Text.Trim();
+        if (query.Length == 0)
+        {
+            _fileStatus.Text = "Введите имя файла — оно записано на контактном листе.";
+            return;
+        }
+        static string Normalize(string text) => FoldSearchText(text).Replace('_', ' ');
+        var folded = Normalize(query);
+        var matches = folded.Length >= 3
+            && Normalize(FamilyMaratFileName).Contains(folded, StringComparison.Ordinal);
+        if (!matches)
+        {
+            _fileStatus.Text = $"По запросу «{query}» в семейной папке ничего не найдено. Сверьтесь с именем на контактном листе.";
+            return;
+        }
+        if (!bridge.IsInteractionAvailable("urman.fullgame:interaction/pw-common-file-source"))
+        {
+            _fileStatus.Text = $"Файл «{FamilyMaratFileName}» в папке пока нет.";
+            return;
+        }
+        await FindFamilyMaratFileAsync(bridge);
+    }
+
+    private async void OpenFamilyFile(string target)
+    {
+        if (_bridge is not { } bridge) return;
+        if (target == "family:contact-sheet")
+        {
+            await DispatchFamilyStepAsync(bridge, "urman.fullgame:interaction/pw-contact-sheet-source");
+            if (!IsInsideTree() || _bridge != bridge) return;
+            ShowFamilyContactSheet(bridge);
+            RefreshFileList(false);
+            return;
+        }
+        if (target == "family:marat-file") await FindFamilyMaratFileAsync(bridge);
+    }
+
+    private async Task FindFamilyMaratFileAsync(RuntimeBridge bridge)
+    {
+        await DispatchFamilyStepAsync(bridge, "urman.fullgame:interaction/pw-common-file-source");
+        if (!IsInsideTree() || _bridge != bridge) return;
+        if (bridge.PhotoWorldFactObserved("common_marat_file_found"))
+        {
+            ShowFamilyMaratFile(bridge);
+        }
+        else
+        {
+            _fileStatus.Text = "Файл не открылся — попробуйте ещё раз.";
+        }
+        RefreshFileList(false);
+    }
+
+    private void ShowFamilyContactSheet(RuntimeBridge bridge)
+    {
+        _familyShownFile = "contact-sheet";
+        var saved = bridge.PhotoBookPhotos().Any(photo => photo.PhotoId == "S-PRINT");
+        _familyReader.Text = string.Join('\n', new List<string>
+        {
+            "Контактный лист · плёнка «лето»",
+            "Семейная папка · сохранённая копия",
+            "",
+            "Кадры плёнки:",
+            "1–3. Двор со ставней.",
+            "4–6. Дети у мостов.",
+            "7–9. Соседский сад.",
+            "10–11. Люди у леса.",
+            "12. Общий кадр — сохранён отдельным файлом: " + FamilyMaratFileName,
+            "",
+            saved ? "Копия листа сохранена в книгу." : "Копию листа можно сохранить в книгу."
+        });
+    }
+
+    private void ShowFamilyMaratFile(RuntimeBridge bridge)
+    {
+        _familyShownFile = "marat-file";
+        var copyAcquired = bridge.PhotoBookPhotos().Any(photo => photo.PhotoId == "P-COMMON");
+        _familyReader.Text = string.Join('\n', new List<string>
+        {
+            FamilyMaratFileName,
+            "Семейные снимки · сохранённый файл",
+            "",
+            "Общий кадр с плёнки «лето»: проём, берег и дальний дом.",
+            "На файле черновая подпись: «Черновик. Подпись не закончена».",
+            "",
+            copyAcquired
+                ? "Семья разрешила копию. Составьте свою подпись в блокноте — и снимок можно напечатать."
+                : "Копию можно сохранить только с разрешения семьи. Поговорите с әби."
+        });
+    }
+
+    private async void SaveFamilyContactSheetCopy()
+    {
+        if (_bridge is not { } bridge || _familyCopyButton is null) return;
+        if (!bridge.IsInteractionAvailable("urman.fullgame:interaction/pw-contact-sheet-permission")) return;
+        _familyCopyButton.Disabled = true;
+        var saved = await DispatchFamilyStepAsync(bridge, "urman.fullgame:interaction/pw-contact-sheet-permission");
+        if (!IsInsideTree() || _bridge != bridge) return;
+        if (_familyShownFile == "contact-sheet") ShowFamilyContactSheet(bridge);
+        RefreshFileList(false);
+        if (!saved && !bridge.PhotoBookPhotos().Any(photo => photo.PhotoId == "S-PRINT"))
+            _fileStatus.Text = "Копию сохранить не удалось — попробуйте ещё раз.";
+    }
+
+    private static async Task<bool> DispatchFamilyStepAsync(RuntimeBridge bridge, string interactionId)
+    {
+        try
+        {
+            return await bridge.DispatchInteractionAsync(interactionId);
+        }
+        catch (Exception error)
+        {
+            GD.PushWarning("Family folder action failed: " + error.Message);
+            return false;
         }
     }
 
@@ -250,6 +443,10 @@ public partial class OldPcUi
             if (note is null) return;
             if (note.RichText) _desktop.WriterId = note.Id; else _desktop.NoteId = note.Id;
             LaunchApplication(note.RichText ? "writer" : "notepad");
+        }
+        else if (selected.StartsWith("family:", StringComparison.Ordinal))
+        {
+            OpenFamilyFile(selected);
         }
         else if (selected.StartsWith("doc:", StringComparison.Ordinal)) OpenArchiveSource(selected[4..]);
     }
@@ -338,6 +535,9 @@ public partial class OldPcUi
             body.AddChild(_photoCaptionHint);
             _photoCaptionButton = DesktopButton(body, "PreparePhotoCaption", "Составить подпись", PreparePhotoCaptionFromNote);
             _photoCaptionButton.Visible = false;
+            _photoPrintButton = DesktopButton(body, "PrintPhotoCommon",
+                "Напечатать подписанный снимок для книги", PrintCommonPhotoFromNote);
+            _photoPrintButton.Visible = false;
         }
         if (rich)
         {
@@ -421,6 +621,7 @@ public partial class OldPcUi
 
     private void RefreshPhotoCaptionAction()
     {
+        RefreshPhotoPrintAction();
         if (_photoCaptionButton is null || _photoCaptionHint is null) return;
         if (_photoCaptionPending && !ReferenceEquals(_photoCaptionRequestSession, _bridge?.SessionIdentity))
         {
@@ -492,6 +693,41 @@ public partial class OldPcUi
         IsInsideTree() && _screen.Visible && _bridge == bridge && _photoCaptionRequestVersion == version
         && _windows.TryGetValue("notepad", out var window) && window.Open
         && ReferenceEquals(session, bridge.SessionIdentity);
+
+    // The digital half of the print: the authored interaction mounts the
+    // authored page and completes its beat; the physical sheet is the same
+    // PhotoId projected by the home printer presence, never a second source.
+    private void RefreshPhotoPrintAction()
+    {
+        if (_photoPrintButton is null) return;
+        var bridge = _bridge;
+        if (bridge is null || !bridge.IsPhotoWorldsCampaign)
+        {
+            _photoPrintButton.Visible = false;
+            return;
+        }
+        var printed = bridge.PhotoBookPhotos().Any(photo => photo.PhotoId == "P-COMMON" && photo.Mounted);
+        var available = bridge.IsInteractionAvailable("urman.fullgame:interaction/pw-print-common-photo");
+        _photoPrintButton.Visible = available && !printed;
+        _photoPrintButton.Disabled = !available;
+    }
+
+    private async void PrintCommonPhotoFromNote()
+    {
+        if (_bridge is not { } bridge || _photoPrintButton is null) return;
+        if (!bridge.IsInteractionAvailable("urman.fullgame:interaction/pw-print-common-photo"))
+        {
+            _editorStatuses["notepad"].Text = "Печать откроется после собственной подписи и разрешённого файла.";
+            return;
+        }
+        _photoPrintButton.Disabled = true;
+        var printed = await DispatchFamilyStepAsync(bridge, "urman.fullgame:interaction/pw-print-common-photo");
+        if (!IsInsideTree() || _bridge != bridge) return;
+        RefreshPhotoPrintAction();
+        _editorStatuses["notepad"].Text = printed
+            ? "Снимок напечатан: страница вложена в книгу."
+            : "Напечатать не удалось — попробуйте ещё раз.";
+    }
 
     private void FormatSelection(string open, string? close = null)
     {
