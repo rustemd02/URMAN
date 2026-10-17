@@ -18484,7 +18484,11 @@
             "title": "Согласовать прыжок с grounded/капсулой на земле и у препятствия",
             "result": "Согласовать прыжок с grounded/капсулой на земле и у препятствия",
             "owner": "finished-act1",
-            "evidence": [],
+            "evidence": [
+              "evidence/ACT1-PLAYER/player-movement-20261017/player-movement-receipt.json",
+              "evidence/ACT1-PLAYER/player-movement-20261017/run.log",
+              "evidence/ACT1-PLAYER/player-movement-20261017/01_standing_look_down.png"
+            ],
             "assigned_owner": "finished-act1",
             "active_owner": null,
             "activity": {
@@ -18492,13 +18496,11 @@
               "reason": "Живое исполнение этой единицы при миграции не подтверждено."
             },
             "task_type": "engineering",
-            "status": "todo",
-            "implementation_state": "partial",
-            "technical_verification_state": "not_run",
-            "remaining": [
-              "Согласовать прыжок с grounded/капсулой на земле и у препятствия; собственного целевого receipt пока нет."
-            ],
-            "next_action": "Сопоставить текущий результат: Согласовать прыжок с grounded/капсулой на земле и у препятствия. Затем изменить только установленный остаток.",
+            "status": "completed",
+            "implementation_state": "implemented",
+            "technical_verification_state": "passed",
+            "remaining": [],
+            "next_action": "Собственный DoD принят: native-прогон act1_player_movement_smoke_test 17.10 (guarded, background input replay) — grounded-прыжок ровно один, повтор в воздухе и на приземлении не срабатывает, пик 0.30–0.58 м, модальный/сессионный ввод не прыгает, прыжок под низкой крышей не проходит. Receipt и кадры: evidence/ACT1-PLAYER/player-movement-20261017. Новых версий требований нет.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -18549,7 +18551,12 @@
             "title": "Согласовать бег с переназначенным вводом и выходом в обычный шаг",
             "result": "Согласовать бег с переназначенным вводом и выходом в обычный шаг",
             "owner": "finished-act1",
-            "evidence": [],
+            "evidence": [
+              "evidence/ACT1-PLAYER/player-movement-20261017/player-movement-receipt.json",
+              "evidence/ACT1-PLAYER/player-movement-20261017/run.log",
+              "evidence/ACT1-PLAYER/player-movement-20261017/02_walking_lower_body.png",
+              "evidence/ACT1-PLAYER/player-movement-20261017/05_wall_stop_lower_body.png"
+            ],
             "assigned_owner": "finished-act1",
             "active_owner": null,
             "activity": {
@@ -18557,13 +18564,11 @@
               "reason": "Живое исполнение этой единицы при миграции не подтверждено."
             },
             "task_type": "engineering",
-            "status": "todo",
-            "implementation_state": "partial",
-            "technical_verification_state": "not_run",
-            "remaining": [
-              "Согласовать бег с переназначенным вводом и выходом в обычный шаг; собственного целевого receipt пока нет."
-            ],
-            "next_action": "Сопоставить текущий результат: Согласовать бег с переназначенным вводом и выходом в обычный шаг. Затем изменить только установленный остаток.",
+            "status": "completed",
+            "implementation_state": "implemented",
+            "technical_verification_state": "passed",
+            "remaining": [],
+            "next_action": "Собственный DoD принят: тот же прогон — при переназначенном вводе бег быстрее неизменённой ходьбы (1.70 → 2.55 м за 30 тиков), аналоговый ход плавный, диагональ ограничена, старые настройки не теряют jump/sprint, спринт останавливается у физической стены без «шагающих» ног и без потери сцепления капсулы. Receipt и кадры: evidence/ACT1-PLAYER/player-movement-20261017. Новых версий требований нет.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -18614,7 +18619,11 @@
             "title": "Согласовать приседание с реальной высотой капсулы и отказом встать под препятствием",
             "result": "Согласовать приседание с реальной высотой капсулы и отказом встать под препятствием",
             "owner": "finished-act1",
-            "evidence": [],
+            "evidence": [
+              "evidence/ACT1-PLAYER/player-movement-20261017/player-movement-receipt.json",
+              "evidence/ACT1-PLAYER/player-movement-20261017/run.log",
+              "evidence/ACT1-PLAYER/player-movement-20261017/03_crouched_look_down.png"
+            ],
             "assigned_owner": "finished-act1",
             "active_owner": null,
             "activity": {
@@ -18622,13 +18631,11 @@
               "reason": "Живое исполнение этой единицы при миграции не подтверждено."
             },
             "task_type": "engineering",
-            "status": "todo",
-            "implementation_state": "partial",
-            "technical_verification_state": "not_run",
-            "remaining": [
-              "Согласовать приседание с реальной высотой капсулы и отказом встать под препятствием; собственного целевого receipt пока нет."
-            ],
-            "next_action": "Сопоставить текущий результат: Согласовать приседание с реальной высотой капсулы и отказом встать под препятствием. Затем изменить только установленный остаток.",
+            "status": "completed",
+            "implementation_state": "implemented",
+            "technical_verification_state": "passed",
+            "remaining": [],
+            "next_action": "Собственный DoD принят: тот же прогон — присед меняет реальную капсулу до 1.05–1.10 м, низкая крыша отклоняет вставание и не пропускает прыжок, вне препятствия стойка восстанавливается точно. Receipt и кадры: evidence/ACT1-PLAYER/player-movement-20261017. Новых версий требований нет.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",

@@ -28,7 +28,13 @@ public partial class Act1PlayerMovementSmokeTest : Node
             AddChild(_demo);
             await Frames(10);
             Check(await this.StartThroughMainMenuAsync(_demo), "ordinary New Game");
-            _demo._UnhandledInput(new InputEventKey { Keycode = Key.E, PhysicalKeycode = Key.E, Pressed = true });
+            // The night-forest teaser now opens a new game (A02 N2.1); a
+            // player skips it with Esc and lands on the ordinary village day,
+            // so this bounded check does the same before using its local road
+            // fixture.
+            _demo._Input(new InputEventAction { Action = "ui_cancel", Pressed = true });
+            for (var frame = 0; frame < 180 && _demo.IntroVisible; frame++) await Frames(1);
+            Check(!_demo.IntroVisible, "skipping the night teaser releases the ordinary village player");
             await Frames(8);
             _player = _demo.DemoMain.GetNode<FirstPersonController>("Player");
             Check(!_player.ModalOpen && _player.VisibleBodyMeshCount == 6,
@@ -289,7 +295,15 @@ public partial class Act1PlayerMovementSmokeTest : Node
                     ScreenRelative = ScreenMouseProbe
                 };
                 Input.ParseInputEvent(motion);
-                await Frames(3);
+                // The injected event is flushed through the real viewport
+                // pipeline on a process frame. Physics ticks alone can pass
+                // before that flush on a slow frame, so wait for the actual
+                // delivery instead of a fixed tick count.
+                for (var wait = 0; wait < 60 && _observedMouseMotion is null; wait++)
+                {
+                    await Frames(1);
+                    await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+                }
                 _observeMouseMotion = false;
                 var after = _player.CapturePortableTransform().RotationDegrees;
                 var turn = new Vector2(Mathf.Wrap((float)(after.Y - before.Y), -180f, 180f),
