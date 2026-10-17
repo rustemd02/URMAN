@@ -70277,7 +70277,7 @@
       "milestone": "M5",
       "status": "in_progress",
       "complexity": "medium",
-      "active_owner": "Codex/gamefeel",
+      "active_owner": null,
       "owner": "finished-act1",
       "parent_id": "ACT1-LEGS",
       "depends_on": [],
@@ -70402,8 +70402,8 @@
       },
       "assigned_owner": "finished-act1",
       "activity": {
-        "state": "confirmed_active",
-        "reason": "Актуальные 16 walk кадров показывают жёсткий силуэт ног. Codex/gamefeel реализует артикуляцию свободной стопы в existing Body.cs, сохраняя опорную подошву."
+        "state": "not_active",
+        "reason": "Body.cs source frozen; affected Game compile0/0 and independent review passed. Root handles new native gait candidate."
       },
       "task_type": "engineering",
       "implementation_state": "implemented",
@@ -70625,6 +70625,12 @@
           "evidence/ACT1-PLAYER/contact-movement-20261017/player/02_walking_lower_body.png"
         ],
         "remaining": "Непрерывное движение walk/run/air/landing/stance со звуком и авторская оценка; не повторять тот же механический smoke без нового дефекта."
+      },
+      "rocker_stage_2026_10_17": {
+        "result": "6.5cm swing arc and modest boot rocker, 120ms stop settle with contact only at completion, per-frame terrain projection, bounded local takeoff pose blend120ms, torso transition143ms. Existing world-planted support retained.",
+        "verification": "Affected Game compile 0 errors/0 warnings17.87s; independent review found prior contact/projection defects resolved; no further source finding. Native visual pending.",
+        "source": "game/scripts/FirstPersonController.Body.cs",
+        "remaining": "Compare fresh native walk frames; normal jump/landing/turn/strafe/crouch and audio need actual observation; do not equate compile with satisfying movement."
       }
     },
     {
@@ -70732,7 +70738,7 @@
       "assigned_owner": "finished-act1",
       "activity": {
         "state": "confirmed_active",
-        "reason": "Codex/root просмотрел 16 последовательных кадров обычной ходьбы; отдельное ревью силуэта Codex/gamefeel. Остальные режимы не приняты."
+        "reason": "Root принимает revised rocker/settle candidate: existing gait jobd36157940f3441c98d57ec7b3d82ce27, snapshot a7f87f1c087186fa869dd42c44af1f44807096094bac8a73d6281bd436f129d9."
       },
       "task_type": "integration_check",
       "implementation_state": "partial",
@@ -70740,7 +70746,7 @@
       "remaining": [
         "Приёмка походки (ходьба/бег/присед/повороты); отсутствует подтверждение собственного конечного DoD, перечисленного ниже."
       ],
-      "next_action": "Разобрать короткий силуэт ног по текущим кадрам и геометрии; затем проверить изменённый вид и недостающие режимы в обычном запуске.",
+      "next_action": "Предметно проверить first-person mesh/boot/coat proportions and weights: silhouette remains weak after gait tuning. Native ordinary input diagnosis needed for jump/landing/manual path.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -70828,7 +70834,7 @@
         }
       ],
       "assignment_state": "preserved_person_or_existing_role; activity separate",
-      "verification_question_2026_10_17": "Как выглядят контакты/перенос стоп в последовательности обычной ходьбы candidate6cddcb55 после contact-driven controller? Этот сценарий не доказывает прыжок/бег/звук.",
+      "verification_question_2026_10_17": "Изменились ли видимая артикуляция/силуэт и сохранена ли опора в16walk кадрах revised rocker candidate a7f87f1c против6cddcb55? Прыжок/прочие режимы/звук этим не проверяются.",
       "progress_2026_10_17": {
         "result": "Existing gait_capture_probe: 16 кадров, чередование стоп видно; явного разрыва корпуса нет. Короткий столбчатый силуэт ног под пальто требует предметного ревью. PASS означает сохранение кадров, не естественность движения.",
         "job_id": "9afe6073193346a794a8b498c5392273",
@@ -70837,6 +70843,15 @@
         "evidence": "evidence/ACT1-LEGS/gait-contact-20261017/",
         "userdata": "original files restored by rename and verified; Windows ACLs not compared",
         "limits": "Только walk; прыжок/бег/присед/повороты/звук и человеческая правдоподобность остаются открытыми."
+      },
+      "rocker_native_2026_10_17": {
+        "job_id": "d36157940f3441c98d57ec7b3d82ce27",
+        "snapshot_id": "a7f87f1c087186fa869dd42c44af1f44807096094bac8a73d6281bd436f129d9",
+        "result_sha256": "68bc7864929f8591d0446b4431f5888da21fe029f6bf89f74a0f4c4b00d0bf85",
+        "evidence": "evidence/ACT1-LEGS/rocker-contact-20261017/",
+        "result": "16 walk frames saved and personally viewed by root. Alternating poses/no obvious seam or support break; dark-column silhouette remains similar. This does not resolve author movement complaint.",
+        "userdata": "original files restored by rename and verified; Windows ACLs not compared",
+        "limits": "Only walk sampling; jump/landing/stop/audio/other modes and subjective satisfaction remain open."
       }
     },
     {
@@ -120782,7 +120797,8 @@
       "done_when": [
         "У персонажа есть самостоятельное поведение до и после действия игрока.",
         "Нет полосы босса, оленьего черепа и копии чужого маскота.",
-        "Полный паспорт уровня docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/levels/W01_Лес_за_спиной_RU.md реализован: узлы/физические связи/действия/существо или человеческая сцена/созерцание/возврат/кадры; схема не заменяет проходимый runtime."
+        "Полный паспорт уровня docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/levels/W01_Лес_за_спиной_RU.md реализован: узлы/физические связи/действия/существо или человеческая сцена/созерцание/возврат/кадры; схема не заменяет проходимый runtime.",
+        "Шурале выглядит современно устрашающе в духе психологического авторского хоррора (уточнение автора: злодеи A24): оригинальная цельная анатомия/силуэт, тревожные лицо/взгляд/длинные руки и сдержанная неестественная пластика; без игрушечного добродушия. Оценка по актуальным игровым кадрам и движению, не по числу полигонов."
       ],
       "verify": [
         "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-047/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
@@ -120793,7 +120809,8 @@
         "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/docs/11_TASKS_RU.md",
         "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/docs/12_QA_RU.md",
         "docs/tasktracker/07_full_game_integration_2026-10-08.md",
-        "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/levels/W01_Лес_за_спиной_RU.md"
+        "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/levels/W01_Лес_за_спиной_RU.md",
+        "author/2026-10-17-shurale-modern-horror"
       ],
       "asset_ids": [
         "A-SHURALE"
@@ -120864,14 +120881,16 @@
             "observations": [
               "У персонажа есть самостоятельное поведение до и после действия игрока.",
               "Нет полосы босса, оленьего черепа и копии чужого маскота.",
-              "Полный паспорт уровня docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/levels/W01_Лес_за_спиной_RU.md реализован: узлы/физические связи/действия/существо или человеческая сцена/созерцание/возврат/кадры; схема не заменяет проходимый runtime."
+              "Полный паспорт уровня docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/levels/W01_Лес_за_спиной_RU.md реализован: узлы/физические связи/действия/существо или человеческая сцена/созерцание/возврат/кадры; схема не заменяет проходимый runtime.",
+              "Шурале выглядит современно устрашающе в духе психологического авторского хоррора (уточнение автора: злодеи A24): оригинальная цельная анатомия/силуэт, тревожные лицо/взгляд/длинные руки и сдержанная неестественная пластика; без игрушечного добродушия. Оценка по актуальным игровым кадрам и движению, не по числу полигонов."
             ],
             "bound": "Только этот объект/контракт на одном named candidate; asset import или affected compile лишь при изменении соответствующего источника, human approval отдельно."
           },
           "success": [
             "У персонажа есть самостоятельное поведение до и после действия игрока.",
             "Нет полосы босса, оленьего черепа и копии чужого маскота.",
-            "Полный паспорт уровня docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/levels/W01_Лес_за_спиной_RU.md реализован: узлы/физические связи/действия/существо или человеческая сцена/созерцание/возврат/кадры; схема не заменяет проходимый runtime."
+            "Полный паспорт уровня docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/levels/W01_Лес_за_спиной_RU.md реализован: узлы/физические связи/действия/существо или человеческая сцена/созерцание/возврат/кадры; схема не заменяет проходимый runtime.",
+            "Шурале выглядит современно устрашающе в духе психологического авторского хоррора (уточнение автора: злодеи A24): оригинальная цельная анатомия/силуэт, тревожные лицо/взгляд/длинные руки и сдержанная неестественная пластика; без игрушечного добродушия. Оценка по актуальным игровым кадрам и движению, не по числу полигонов."
           ],
           "repeat_only_if": "Изменился покрываемый вход/consumer/контракт; без этого уже принятая проверка используется повторно без запуска."
         },
@@ -120924,7 +120943,7 @@
         "Нет полосы босса, оленьего черепа и копии чужого маскота.",
         "Полный паспорт уровня docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/levels/W01_Лес_за_спиной_RU.md реализован: узлы/физические связи/действия/существо или человеческая сцена/созерцание/возврат/кадры; схема не заменяет проходимый runtime."
       ],
-      "next_action": "Произвести видимого Шурале и сумку с ремнём, согласовать transforms/7clip interface с W01Controller; авторская/культурная/художественная приёмка отдельна, кандидат не объявлять принятым.",
+      "next_action": "Переработать rejected mannequin в цельного современно устрашающего оригинального Шурале по live author direction; проверить skin/weights и полный силуэт/рабочую позу до runtime promotion.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -120981,7 +121000,8 @@
         "done_when": [
           "У персонажа есть самостоятельное поведение до и после действия игрока.",
           "Нет полосы босса, оленьего черепа и копии чужого маскота.",
-          "Полный паспорт уровня docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/levels/W01_Лес_за_спиной_RU.md реализован: узлы/физические связи/действия/существо или человеческая сцена/созерцание/возврат/кадры; схема не заменяет проходимый runtime."
+          "Полный паспорт уровня docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/levels/W01_Лес_за_спиной_RU.md реализован: узлы/физические связи/действия/существо или человеческая сцена/созерцание/возврат/кадры; схема не заменяет проходимый runtime.",
+          "Шурале выглядит современно устрашающе в духе психологического авторского хоррора (уточнение автора: злодеи A24): оригинальная цельная анатомия/силуэт, тревожные лицо/взгляд/длинные руки и сдержанная неестественная пластика; без игрушечного добродушия. Оценка по актуальным игровым кадрам и движению, не по числу полигонов."
         ],
         "verification": {
           "method": "targeted_runtime_scenario",
@@ -121001,14 +121021,16 @@
             "observations": [
               "У персонажа есть самостоятельное поведение до и после действия игрока.",
               "Нет полосы босса, оленьего черепа и копии чужого маскота.",
-              "Полный паспорт уровня docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/levels/W01_Лес_за_спиной_RU.md реализован: узлы/физические связи/действия/существо или человеческая сцена/созерцание/возврат/кадры; схема не заменяет проходимый runtime."
+              "Полный паспорт уровня docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/levels/W01_Лес_за_спиной_RU.md реализован: узлы/физические связи/действия/существо или человеческая сцена/созерцание/возврат/кадры; схема не заменяет проходимый runtime.",
+              "Шурале выглядит современно устрашающе в духе психологического авторского хоррора (уточнение автора: злодеи A24): оригинальная цельная анатомия/силуэт, тревожные лицо/взгляд/длинные руки и сдержанная неестественная пластика; без игрушечного добродушия. Оценка по актуальным игровым кадрам и движению, не по числу полигонов."
             ],
             "bound": "Только этот объект/контракт на одном named candidate; asset import или affected compile лишь при изменении соответствующего источника, human approval отдельно."
           },
           "success": [
             "У персонажа есть самостоятельное поведение до и после действия игрока.",
             "Нет полосы босса, оленьего черепа и копии чужого маскота.",
-            "Полный паспорт уровня docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/levels/W01_Лес_за_спиной_RU.md реализован: узлы/физические связи/действия/существо или человеческая сцена/созерцание/возврат/кадры; схема не заменяет проходимый runtime."
+            "Полный паспорт уровня docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/levels/W01_Лес_за_спиной_RU.md реализован: узлы/физические связи/действия/существо или человеческая сцена/созерцание/возврат/кадры; схема не заменяет проходимый runtime.",
+            "Шурале выглядит современно устрашающе в духе психологического авторского хоррора (уточнение автора: злодеи A24): оригинальная цельная анатомия/силуэт, тревожные лицо/взгляд/длинные руки и сдержанная неестественная пластика; без игрушечного добродушия. Оценка по актуальным игровым кадрам и движению, не по числу полигонов."
           ],
           "repeat_only_if": "Изменился покрываемый вход/consumer/контракт; без этого уже принятая проверка используется повторно без запуска."
         },
@@ -121114,12 +121136,32 @@
           "external_gate_ids": [],
           "assessment": "not_confirmed_current_result",
           "evidence_ref": "PW-047.evidence and named history progress; source_review shows available/missing inputs"
+        },
+        {
+          "criterion": "Шурале выглядит современно устрашающе в духе психологического авторского хоррора (уточнение автора: злодеи A24): оригинальная цельная анатомия/силуэт, тревожные лицо/взгляд/длинные руки и сдержанная неестественная пластика; без игрушечного добродушия. Оценка по актуальным игровым кадрам и движению, не по числу полигонов.",
+          "technical_owner": "PW-047",
+          "external_gate_ids": [],
+          "assessment": "not_confirmed_current_result",
+          "evidence_ref": "PW-047.author_direction_2026_10_17 and source_art_review_2026_10_17; final art acceptance remains required"
         }
       ],
       "assignment_state": "preserved_person_or_existing_role; activity separate",
       "progress_2026_10_17": {
         "inputs": "A-SHURALE/A-BAG written specs; W01 nonviolent authored encounter; ART01 only style guidance, no character-specific approved visual plate.",
         "scope": "Original asset candidate, не копия современного персонажа/не невидимая точка взаимодействия. Author/culture/art acceptance pending."
+      },
+      "source_art_review_2026_10_17": {
+        "candidate": "assets/source/blender/photoworlds/W01/shurale_v1_candidate.glb",
+        "decision": "REJECT_RUNTIME_PROMOTION",
+        "finding": "Root personally viewed full and face-hands previews: segmented toy silhouette, ball shoulders/hips, generic human face/hair and uniform pale palette do not meet requested quality. Export also warned on parenting/influence truncation/matrix values.",
+        "next": "Continuous organic mesh/anatomy, passport silhouette/face/hands, valid skin/normalized≤4 weights/finite transforms; show full character and bent working pose before promotion. Not art/cultural accepted."
+      },
+      "author_direction_2026_10_17": {
+        "source": "Прямое сообщение автора: «шурале должен выглядеть по-современному устрашающе, как злодеи из а24»",
+        "disposition": "REWRITE мягкий/добродушный визуальный трактовки; EXTEND текущий PW047, не новая очередь",
+        "keep": "Оригинальный образ и татарская идентичность; существующая небоевая сюжетная встреча, D06/D07/помощь с сумкой; нет копии конкретного кинообраза/новой фольклорной догмы.",
+        "implementation_direction": "Цельная органическая форма; почти узнаваемая, тревожно нарушенная анатомия; измождённое асимметричное лицо/тяжёлый взгляд, длинные пальцы; материальность и сдержанное движение. Не скрывать слабую модель темнотой.",
+        "acceptance": "Шурале выглядит современно устрашающе в духе психологического авторского хоррора (уточнение автора: злодеи A24): оригинальная цельная анатомия/силуэт, тревожные лицо/взгляд/длинные руки и сдержанная неестественная пластика; без игрушечного добродушия. Оценка по актуальным игровым кадрам и движению, не по числу полигонов."
       }
     },
     {
@@ -140815,7 +140857,13 @@
         "result": "Exact own-window hidden/minimized and five activation-phase failure reasons; no input/focus bypass. SSH is a different session so its USER32 inspection was skipped.",
         "verification": "Windows PowerShell parser PASS, worker AST PASS, fixed allowlist mapping/source review; exact deployed baseline/SHA verified, idle worker restarted through scheduled task.",
         "backup": "Local Windows station maintenance/20261017-focus-phase-c928f670",
-        "remaining": "One ordinary native activation attempt must identify actual failure phase; no claim focus fixed."
+        "remaining": "One ordinary native activation attempt must identify actual failure phase; no claim focus fixed.",
+        "next_job": {
+          "job_id": "9a74d01c3b034036baa39d6559e7e4ee",
+          "snapshot_id": "2d7d9b14ebaece1c669a26e1b305e5f79d95ddcc6efec7a15de110ab5392d4d0",
+          "question": "One Enter at actualmenu: identify exact phasecode or observe successfulNewGame; no blind repeats.",
+          "timeout_seconds": 240
+        }
       }
     },
     {

@@ -38,6 +38,15 @@ public partial class FirstPersonController
         public Transform3D? GaitPlant;
         public Transform3D SwingFrom, SwingTarget;
         public Transform3D? LastFootPose;
+        public float FootRockRadians, FootLiftMeters;
+        public bool IsFootSettling;
+        public float SettleProgress = 1f;
+        public Transform3D SettleTargetFoot;
+        public Vector3 SettleFromSole, SettleTargetSole;
+        public float SettleStartRock, SettleStartLift;
+        public Transform3D AirPoseFrom;
+        public float AirPoseProgress = 1f;
+        public bool AirPoseBlendActive, AirPoseJustStarted;
         public double SwingStartTravel;
         public float SwingTravelMeters;
         public float StanceTravelMeters;
@@ -363,6 +372,11 @@ public partial class FirstPersonController
         {
             leg.TurnPlant = leg.GaitPlant = leg.LastFootPose = null;
             leg.IsSwinging = false;
+            leg.IsFootSettling = false;
+            leg.FootRockRadians = leg.FootLiftMeters = 0;
+            leg.SettleProgress = 1;
+            leg.AirPoseProgress = 1;
+            leg.AirPoseBlendActive = leg.AirPoseJustStarted = false;
             leg.SwingTravelMeters = leg.StanceTravelMeters = 0;
             leg.PlantStartTravel = 0;
             leg.TurnProgress = 1;
@@ -450,6 +464,33 @@ public partial class FirstPersonController
         return Mathf.Clamp(available * .75f, .02f, .65f);
     }
 
+    private void BeginBodyFootSettle(BodyLeg leg)
+    {
+        if (leg.LastFootPose is not { } last)
+        {
+            leg.IsSwinging = false;
+            return;
+        }
+
+        var soleOffset = leg.AnkleRest.AffineInverse() * leg.Sole;
+        var fromSole = last * soleOffset;
+        var neutralBasis = last.Basis * new Basis(Vector3.Right, -leg.FootRockRadians);
+        var neutralOrigin = fromSole - neutralBasis * soleOffset;
+        var neutralLocal = _bodySkeleton.GlobalTransform.AffineInverse()
+            * new Transform3D(neutralBasis, neutralOrigin);
+        var targetOrigin = ProjectBodyFoot(neutralLocal.Origin);
+        leg.SettleTargetFoot = _bodySkeleton.GlobalTransform
+            * new Transform3D(neutralLocal.Basis, targetOrigin);
+        leg.SettleFromSole = fromSole;
+        leg.SettleTargetSole = leg.SettleTargetFoot * soleOffset;
+        leg.SettleStartRock = leg.FootRockRadians;
+        leg.SettleStartLift = leg.FootLiftMeters;
+        leg.SettleProgress = 0;
+        leg.IsFootSettling = true;
+        leg.IsSwinging = false;
+        leg.GaitPlant = null;
+    }
+
     private static float BodyForwardLead(BodyLeg leg, Vector3 hipShift, Vector3 direction)
     {
         var alongDirection = direction.Normalized();
@@ -474,7 +515,7 @@ public partial class FirstPersonController
 
     private void UpdateGroundFootCycle(Vector3 hipShift, Vector3 travelDirection)
     {
-        if (_bodyLegs.Count != 2 || !_bodyTraveling) return;
+        if (_bodyLegs.Count != 2 || !_bodyTraveling || _bodyLegs.Any(leg => leg.IsFootSettling)) return;
         var activeSwingIndex = _bodyLegs.FindIndex(leg => leg.IsSwinging);
         if (activeSwingIndex >= 0)
         {
@@ -542,15 +583,51 @@ public partial class FirstPersonController
                 ? intervalProgress * .5f
                 : .5f + intervalProgress * .5f;
         }
-        if (grounded && !_bodyWasGrounded)
+        var wasGrounded = _bodyWasGrounded;
+        var tookOff = wasGrounded && !grounded;
+        if (grounded && !wasGrounded)
             _bodyLandingCompression = Mathf.Clamp(-_bodyVerticalSpeedBeforeMove * .006f, 0, .025f);
+        if (_modalOpen || grounded)
+        {
+            foreach (var leg in _bodyLegs)
+            {
+                leg.AirPoseBlendActive = leg.AirPoseJustStarted = false;
+                leg.AirPoseProgress = 1;
+            }
+        }
+        else if (tookOff)
+        {
+            foreach (var leg in _bodyLegs)
+            {
+                leg.AirPoseBlendActive = false;
+                leg.AirPoseProgress = 0;
+                if (leg.LastFootPose is not { } last) continue;
+                var priorLocal = _bodySkeleton.GlobalTransform.AffineInverse() * last;
+                var offset = priorLocal.Origin - leg.AnkleRest.Origin;
+                if (offset.Length() > .35f) offset = offset.Normalized() * .35f;
+                // A short, local transition preserves the launch pose without
+                // pinning the boot to its takeoff world position during flight.
+                var priorRotation = priorLocal.Basis.Orthonormalized().GetRotationQuaternion();
+                var priorAngle = priorRotation.GetAngle();
+                var priorAxis = priorRotation.GetAxis();
+                var boundedBasis = priorAngle > .18f && priorAxis.LengthSquared() > .000001f
+                    ? new Basis(new Quaternion(priorAxis.Normalized(), .18f))
+                    : priorLocal.Basis.Orthonormalized();
+                leg.AirPoseFrom = new Transform3D(boundedBasis, leg.AnkleRest.Origin + offset);
+                leg.AirPoseBlendActive = true;
+                leg.AirPoseJustStarted = true;
+            }
+        }
         _bodyWasGrounded = grounded;
         _bodyAirBlend = Mathf.MoveToward(_bodyAirBlend, grounded ? 0f : 1f,
             (float)delta * (grounded ? 8f : 5f));
         _bodyLandingCompression = Mathf.MoveToward(_bodyLandingCompression, 0f, (float)delta * .20f);
         _bodyCrouch = Mathf.MoveToward(_bodyCrouch, IsCrouching ? 1 : 0, (float)delta * 3.8f);
+        // Carry the gait dip through a takeoff/stop instead of returning the
+        // pelvis to neutral in only a few frames; the planted-foot IK still
+        // owns the same reach envelope throughout the slower transition.
         _bodyLocomotionDip = Mathf.MoveToward(_bodyLocomotionDip,
-            _bodyTraveling && !IsCrouching ? 1f : 0f, (float)delta * 14f);
+            _bodyTraveling && !IsCrouching ? 1f : 0f, (float)delta * 7f);
         var hipShift = new Vector3(0, -.27f * _bodyCrouch - .15f * _bodyLocomotionDip
                 - .018f * _bodyAirBlend - _bodyLandingCompression,
             -.10f * _bodyCrouch);
@@ -562,23 +639,26 @@ public partial class FirstPersonController
             {
                 if (!_bodyTraveling)
                 {
-                    // Freeze a step exactly where movement stopped. Projecting
-                    // it during the pose update below removes any swing lift,
-                    // without pulling a planted sole back under the pelvis.
-                    if (leg.IsSwinging)
+                    // Bring a mid-swing sole to the floor while its rocker
+                    // unwinds. Keep the other foot's existing world plant.
+                    if (leg.IsSwinging && !leg.IsFootSettling)
                     {
-                        RecordBodyFootContact();
                         _bodyNextSwingLegIndex = 1 - _bodyLegs.IndexOf(leg);
+                        BeginBodyFootSettle(leg);
                     }
-                    if (leg.LastFootPose is { } last) leg.GaitPlant = last;
-                    if (leg.GaitPlant is null)
-                        leg.GaitPlant = _bodySkeleton.GlobalTransform
-                            * new Transform3D(Basis.Identity, ProjectBodyFoot(leg.AnkleRest.Origin));
-                    leg.IsSwinging = false;
-                    leg.StanceTravelMeters = 0;
-                    leg.PlantStartTravel = _bodyGroundTravelMeters;
+                    if (!leg.IsFootSettling)
+                    {
+                        if (leg.LastFootPose is { } last) leg.GaitPlant = last;
+                        if (leg.GaitPlant is null)
+                            leg.GaitPlant = _bodySkeleton.GlobalTransform
+                                * new Transform3D(Basis.Identity, ProjectBodyFoot(leg.AnkleRest.Origin));
+                        leg.IsSwinging = false;
+                        leg.FootRockRadians = leg.FootLiftMeters = 0;
+                        leg.StanceTravelMeters = 0;
+                        leg.PlantStartTravel = _bodyGroundTravelMeters;
+                    }
                 }
-                else if (leg.GaitPlant is null && !leg.IsSwinging)
+                else if (leg.GaitPlant is null && !leg.IsSwinging && !leg.IsFootSettling)
                 {
                     leg.GaitPlant = _bodySkeleton.GlobalTransform
                         * new Transform3D(Basis.Identity, ProjectBodyFoot(leg.AnkleRest.Origin));
@@ -599,11 +679,13 @@ public partial class FirstPersonController
                 leg.GaitPlant = null;
                 leg.TurnPlant = null;
                 leg.IsSwinging = false;
+                leg.IsFootSettling = false;
                 leg.StanceTravelMeters = 0;
             }
         }
 
-        UpdateTurnPlants(grounded && !_bodyTraveling && _bodyCrouch < .001f && !_modalOpen);
+        UpdateTurnPlants(grounded && !_bodyTraveling && !_bodyLegs.Any(leg => leg.IsFootSettling)
+            && _bodyCrouch < .001f && !_modalOpen);
         // Turning the hips over planted feet needs a little knee bend. Keep
         // both anchors within the real leg reach instead of dragging them
         // inward with the final IK clamp as the torso rotates away.
@@ -623,8 +705,9 @@ public partial class FirstPersonController
         {
             var footBasis = Basis.Identity;
             var foot = leg.AnkleRest.Origin;
-            var swingLift = 0f;
+            var soleOffset = leg.AnkleRest.AffineInverse() * leg.Sole;
             var turnLift = 0f;
+            var projectedByPose = false;
             if (leg.TurnPlant is { } plant)
             {
                 if (leg.TurnProgress < 1)
@@ -637,32 +720,85 @@ public partial class FirstPersonController
                 var localPlant = _bodySkeleton.GlobalTransform.AffineInverse() * plant;
                 foot = localPlant.Origin;
                 footBasis = localPlant.Basis;
+                leg.FootRockRadians = leg.FootLiftMeters = 0;
             }
 
             if (grounded && leg.TurnPlant is null)
             {
-                if (leg.IsSwinging)
+                if (leg.IsFootSettling)
+                {
+                    leg.SettleProgress = Math.Min(1, leg.SettleProgress + (float)delta / .12f);
+                    var eased = Mathf.SmoothStep(0, 1, leg.SettleProgress);
+                    var sole = leg.SettleFromSole.Lerp(leg.SettleTargetSole, eased);
+                    leg.FootRockRadians = Mathf.Lerp(leg.SettleStartRock, 0, eased);
+                    leg.FootLiftMeters = Mathf.Lerp(leg.SettleStartLift, 0, eased);
+                    var worldBasis = leg.SettleTargetFoot.Basis
+                        * new Basis(Vector3.Right, leg.FootRockRadians);
+                    var worldOrigin = sole - worldBasis * soleOffset;
+                    var localPose = _bodySkeleton.GlobalTransform.AffineInverse()
+                        * new Transform3D(worldBasis, worldOrigin);
+                    foot = localPose.Origin;
+                    footBasis = localPose.Basis;
+                    projectedByPose = true;
+                    if (leg.SettleProgress >= 1)
+                    {
+                        leg.GaitPlant = leg.SettleTargetFoot;
+                        leg.IsFootSettling = false;
+                        leg.FootRockRadians = leg.FootLiftMeters = 0;
+                        leg.PlantStartTravel = _bodyGroundTravelMeters;
+                        leg.StanceTravelMeters = 0;
+                        RecordBodyFootContact();
+                    }
+                }
+                else if (leg.IsSwinging)
                 {
                     var travel = (float)Math.Max(0, _bodyGroundTravelMeters - leg.SwingStartTravel);
                     var progress = Mathf.Clamp(travel / Math.Max(.02f, leg.SwingTravelMeters), 0f, 1f);
                     var eased = 1f - (1f - progress) * (1f - progress);
                     var swingWorld = leg.SwingFrom.InterpolateWith(leg.SwingTarget, eased);
-                    foot = (_bodySkeleton.GlobalTransform.AffineInverse() * swingWorld).Origin;
-                    footBasis = (_bodySkeleton.GlobalTransform.AffineInverse() * swingWorld).Basis;
-                    swingLift = Mathf.Sin(progress * Mathf.Pi) * .045f;
+                    var neutralLocal = _bodySkeleton.GlobalTransform.AffineInverse() * swingWorld;
+                    neutralLocal.Origin = ProjectBodyFoot(neutralLocal.Origin);
+                    leg.FootLiftMeters = Mathf.Sin(progress * Mathf.Pi) * .065f;
+                    leg.FootRockRadians = Mathf.Sin(progress * Mathf.Tau) * .10f;
+                    var sole = neutralLocal.Origin + neutralLocal.Basis * soleOffset
+                        + Vector3.Up * leg.FootLiftMeters;
+                    footBasis = neutralLocal.Basis * new Basis(Vector3.Right, leg.FootRockRadians);
+                    foot = sole - footBasis * soleOffset;
+                    projectedByPose = true;
                 }
                 else if (leg.GaitPlant is { } gaitPlant)
                 {
                     var localPlant = _bodySkeleton.GlobalTransform.AffineInverse() * gaitPlant;
                     foot = localPlant.Origin;
                     footBasis = localPlant.Basis;
+                    leg.FootRockRadians = leg.FootLiftMeters = 0;
                 }
             }
 
-            if (grounded)
+            if (grounded && !projectedByPose)
                 foot = ProjectBodyFoot(foot);
-            else foot.Y += .035f * _bodyAirBlend;
-            foot.Y += swingLift + turnLift;
+            else if (!grounded)
+            {
+                leg.FootRockRadians = Mathf.MoveToward(leg.FootRockRadians, 0, (float)delta * 1.5f);
+                leg.FootLiftMeters = Mathf.MoveToward(leg.FootLiftMeters, 0, (float)delta * .55f);
+                footBasis *= new Basis(Vector3.Right, leg.FootRockRadians);
+                var sole = foot + footBasis * soleOffset
+                    + Vector3.Up * (.035f * _bodyAirBlend + leg.FootLiftMeters);
+                foot = sole - footBasis * soleOffset;
+                if (leg.AirPoseBlendActive)
+                {
+                    if (leg.AirPoseJustStarted)
+                        leg.AirPoseJustStarted = false;
+                    else
+                        leg.AirPoseProgress = Math.Min(1, leg.AirPoseProgress + (float)delta / .12f);
+                    var eased = Mathf.SmoothStep(0, 1, leg.AirPoseProgress);
+                    var airPose = leg.AirPoseFrom.InterpolateWith(new Transform3D(footBasis, foot), eased);
+                    footBasis = airPose.Basis;
+                    foot = airPose.Origin;
+                    if (leg.AirPoseProgress >= 1) leg.AirPoseBlendActive = false;
+                }
+            }
+            foot.Y += turnLift;
             var hip = leg.ThighRest.Origin + hipShift;
             var offset = foot - hip;
             var reach = Mathf.Clamp(offset.Length(), .05f, leg.UpperLength + leg.LowerLength - .001f);

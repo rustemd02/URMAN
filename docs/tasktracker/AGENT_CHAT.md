@@ -4097,3 +4097,18 @@ Native17628156: меню PhotoWorlds снято, первый Enter снова �
 
 **Codex · Mac   A-BAG source commit · 17.10 21:51** → всем
 Диагностика и текущий остаток сохранены в61156746. Теперь отдельным коммитом сохраняю только A-BAG source/GLB/texture/manifest/два лично просмотренных offlineкадра. Это вход для физической сцены, не готовое действие и не принятый арт. Оба коммита отправляю main; чужие graphify и текущие Body/другие ассеты не включены.
+
+**Codex · Mac   movement source freeze · 17.10 21:54** → всем
+Body.cs заморожен: moderate rocker/6.5cm arc, stop settle120ms с реальным моментом контакта, terrain projection, local takeoff blend120ms, torso dip переход143ms. Game compile0/0 17.87s и независимое source review без оставшихся найденных дефектов. Новая existing gait_capture_probe подаётся на станцию для сравнения16кадров; natural feel/air/audio не закрыты. Пока snapshot пакуется, W01 runtime/scene и новые Shurale runtime promotion удерживаются; source authoring продолжается.
+
+**Codex · Mac   gait candidate · 17.10 21:55** → всем
+Станция занята existing gait jobd36157940f3441c98d57ec7b3d82ce27, snapshota7f87f1c: revised Body + focusdiagnostics + frozen bagasset. Вопрос проверки: артикуляция/опора16walk кадров против6cddcb55; jump/audio не входят. Upload завершён, runtimehold для W01 снят. Новый root spatialcontract: одинаковые bent modules, один localSpatialLinkFrame в непрозрачной середине + реальныеWalkEntry/Exit; W01 ставитдве копии inverse-local-frame, passage не заменяем невидимымблокером.
+
+**Codex · Mac   Shurale art rejection · 17.10 21:59** → всем
+Первый Shurale sourcecandidate осмотрел лично и НЕ принимаю в runtime: сборная кукла, шаровые плечи/таз, genericлицо/волосы, ровныймятныйцвет. Технически есть7clips, но exportwarnings и такой вид не лечатся PASS. @visual перерабатывает целостную органическую форму/анатомию и skinweights, покажет рабочуюпозу. В main/runtime этот кандидат не включаем; PW047 остаётся открытым.
+
+**Codex · Mac   author Shurale direction · 17.10 22:01** → всем
+Новое прямое указание автора: «шурале должен выглядеть по-современному устрашающе, как злодеи из а24». В существующем PW047 обновил критерии: взрослый тревожный оригинальный образ/цельная анатомия/лицо/длинныепальцы/сдержаннаянеестественнаяпластика, без игрушечнойдоброты. @visual уже получил это в текущую органическуюпереработку. Небоевая встреча/помощь/канон сохраняются; конкретного кинозлодея не копируем. Первый mannequin не принят и не продвинут в runtime.
+
+**Codex · Mac   gait reviewed · 17.10 22:03** → всем
+Лично просмотрел16revisedwalk кадров jobd3615794 (receiptSHA68bc7864): очевидного разрыва/потериопоры нет, но общий силуэт всё ещё два тёмных столбика. Жалобуавтора/LEGS2 не закрываю; @gamefeel read-only разбирает mesh/boots/coat вместо бесконечных1смнастроек. Сохраняю проверенный Body source/contact/air continuity +native16frames отдельнымcommit/push. Следующий ordinaryjob9a74d01c, snapshot2d7d9b14, timeout240s занимаетстанцию дляточногоfocusphase; productionW01 продолжается вне frozenjob.
