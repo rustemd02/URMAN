@@ -140696,6 +140696,12 @@
         "next": "После обновления Windows worker до5559230c выполнить play-product и текущий native menu/NewGame/Continue/replay; экспортный package gate остаётся отдельной проверкой.",
         "result": "Обычный project launch -> photoworlds_game.tscn -> общий Act1DemoRoot/MainMenu -> full_game.tscn. Новая игра открывает authored pw-prologue; Continue использует существующий namespaced restore; replay isolated debug. Legacy intro/ending/dev paths gated. Две release export presets включают актуальную кампанию; verifier требует текущий entrypoint и W01 bootstrap.",
         "verification": "Узкая Urman.Game compile: 0 warnings/errors,17.18s. Независимое launch/save/replay review и export source review: без блокеров. shell syntax PASS. Native и package execution NOT_RUN."
+      },
+      "capture_protocol_2026_10_17": {
+        "finding": "Обычный play-product дошёл до текущего меню. capture-current отверг JSON: Main выдаёт пять дополнительных camera/ray полей, worker ожидал строго старые десять. Raw PNG собственного job скачан и SHA сверён; официальный endpoint не принят.",
+        "change": "Worker принимает старый report либо полный известный metadata набор; проверяет типы/диапазоны/path/id/согласованность. Scene/job/PID/hash guards сохранены.",
+        "evidence": "evidence/PW-097/product-launch-20261017/menu-artifact.png; job b8fbe85bd93a46d8bffb21f6389c04d6",
+        "verification": "AST и source review PASS; redeploy только после завершения активного job и userdata restore; новый capture-current NOT_RUN. UI Enter отказал, обычный NewGame/Continue ещё не доказан."
       }
     },
     {

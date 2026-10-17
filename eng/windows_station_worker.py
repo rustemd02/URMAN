@@ -2283,9 +2283,12 @@ class Station:
             raise ValueError('interactive frame identity does not match the active job')
         if report.get('status') != 'ok':
             raise ValueError('interactive frame was refused by the game')
-        expected = {'kind', 'jobId', 'requestId', 'pid', 'status', 'width', 'height',
+        required = {'kind', 'jobId', 'requestId', 'pid', 'status', 'width', 'height',
                     'pngSha256', 'scenePath', 'cameraPath'}
-        if set(report) != expected:
+        optional = {'cameraPosition', 'cameraRotationDegrees', 'interactionRayCollider',
+                    'interactionId', 'interactionAvailable'}
+        fields = set(report)
+        if not required.issubset(fields) or fields - required not in (set(), optional):
             raise ValueError('interactive frame result fields are invalid')
         width, height = report.get('width'), report.get('height')
         if (type(width) is not int or type(height) is not int
@@ -2295,14 +2298,44 @@ class Station:
         if (expected_scene not in APPROVED_PLAY_SCENES
                 or report.get('scenePath') != expected_scene):
             raise ValueError('interactive frame scene does not match the active approved play scene')
+        def valid_node_path(value):
+            return (isinstance(value, str) and len(value) <= 512
+                    and value.startswith('/root/') and '\\' not in value and ':' not in value
+                    and not any(ord(character) < 32 for character in value)
+                    and not any(part in ('', '.', '..') for part in value.split('/')[1:]))
+
         camera_path = report.get('cameraPath')
-        if (not isinstance(camera_path, str) or len(camera_path) > 512
-                or not camera_path.startswith('/root/') or '\\' in camera_path or ':' in camera_path
-                or any(ord(character) < 32 for character in camera_path)
-                or any(part in ('', '.', '..') for part in camera_path.split('/')[1:])):
+        if not valid_node_path(camera_path):
             raise ValueError('interactive frame camera path is invalid')
         if not isinstance(report.get('pngSha256'), str) or not re.fullmatch('[a-f0-9]{64}', report['pngSha256']):
             raise ValueError('interactive frame checksum is invalid')
+        if fields - required:
+            def valid_vec3(value):
+                return (isinstance(value, list) and len(value) == 3
+                        and all(type(component) in (int, float)
+                                and abs(component) <= 1_000_000 and math.isfinite(component)
+                                for component in value))
+
+            camera_position = report['cameraPosition']
+            camera_rotation = report['cameraRotationDegrees']
+            if ((camera_position is None) != (camera_rotation is None)
+                    or (camera_position is not None and not valid_vec3(camera_position))
+                    or (camera_rotation is not None and not valid_vec3(camera_rotation))):
+                raise ValueError('interactive frame camera metadata is invalid')
+            ray_collider = report['interactionRayCollider']
+            interaction_id = report['interactionId']
+            interaction_available = report['interactionAvailable']
+            if ray_collider is not None and not valid_node_path(ray_collider):
+                raise ValueError('interactive frame interaction collider path is invalid')
+            if (interaction_id is not None
+                    and (not isinstance(interaction_id, str)
+                         or not re.fullmatch(r'[A-Za-z0-9_.:/-]{1,256}', interaction_id))):
+                raise ValueError('interactive frame interaction ID is invalid')
+            if interaction_available is not None and type(interaction_available) is not bool:
+                raise ValueError('interactive frame interaction availability is invalid')
+            if ((interaction_id is None) != (interaction_available is None)
+                    or (interaction_id is not None and ray_collider is None)):
+                raise ValueError('interactive frame interaction metadata is inconsistent')
         return report
 
     def capture_current(self, jid, principal, action):
