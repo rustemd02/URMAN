@@ -182,7 +182,11 @@
       "streetId": "bakcha",
       "number": "6",
       "cadastral": "URM-Q01-P0118",
-      "role": "residential"
+      "role": "residential",
+      "accessXZ": [
+        26.33,
+        76.4
+      ]
     },
     {
       "sourceName": "WestReturnMidFacade",

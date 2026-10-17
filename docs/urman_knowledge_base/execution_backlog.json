@@ -49205,7 +49205,7 @@
         "Планировка и доступ согласованы с PW-003/PW-044/PW-070: все обязательные якоря и действия достижимы; ночное разрушение моста/закрытие дальней половины не являются обязательными условиями новой истории.",
         "Применимые прежние жалобы/адреса и ограничения сохранены с явной картой PW-004; реальные координаты, scale, save/load и обе стороны переходов подтверждены на текущей сборке."
       ],
-      "next_action": "Исправить подтверждённый ADR-H019 access binding и убрать повторное построение adjacency в ReachableNodes, сохранив live Allowed/gates; проверить существующим address-path сценарием. Полный DoD карточки остаётся отдельным остатком.",
+      "next_action": "Подтвердить H019 обычным подходом на текущем native snapshot: стояние, вход и возврат без столкновения. Не расширять в полировку адресного мира; цель — доступный игроку дом.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -49350,7 +49350,8 @@
       "assignment_state": "preserved_person_or_existing_role; activity separate",
       "progress_2026_10_17": {
         "result": "SettlementRoadGraph.cs: lazy adjacency topology cache; RebuildCore invalidates; Allowed/gates/mode/winter evaluated each query. Two independent source reviews passed. Game build0warnings/0errors16.86s; runtime AddressRegistrySmoke not run. ADR-H019 physical access blocked in existing receipt; manifest unchanged.",
-        "next": "Проверить существующим AddressRegistrySmoke cache semantics, затем отдельно подтвердить физический access candidate H019. Не заявлять прирост FPS."
+        "next": "Проверить существующим AddressRegistrySmoke cache semantics, затем отдельно подтвердить физический access candidate H019. Не заявлять прирост FPS.",
+        "access_candidate": "ADR-H019 accessXZ [26.33,76.4]: existing e04-world-full-20261017/address-remediation-geometry.json proposals[29] identifies layer1 Act1BypassCollision/MainStreetEastFacade AABB maxZ75.979996. Old center76.2762527 overlaps radius.35+margin.002; candidate clears by.068m. Manifest JSON parse/source comparison passed; native approach/landing still NOT_RUN."
       }
     },
     {

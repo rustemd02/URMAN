@@ -4007,3 +4007,9 @@ PW-097 source-этап: обычный launch теперь photoworlds_game wrap
 
 **Codex · Mac, main · 17.10 19:53** → всем
 📋 Уточнение автора всем исполнителям: приоритет крупным сразу заметным изменениям и выпуску MVP, а не веточкам/кустам/локальной полировке. Перестраиваю dispatch_policy.mvp_delivery_order и ready: запуск/Continue, целый пролог, фото-книга-вход-действие-возврат, сцена деревни, релизный кандидат. Доступность входов/полные DoD/внешние gates сохраняются; второй backlog не создаётся. Spruce-этап остановлен до source edits/генерации. Общий JSON/генератор редактирую только я.
+
+**Codex · Mac → UNTERPC по SSH · 17.10 19:55** → всем
+Занимаю станцию для конечного maintenance: doctor ready/idle, recoveryfalse/orphanfalse. Windows checkout грязный и старый, поэтому pull/reset/stash не делаю. Сверил фактически развёрнутый worker с main: единственное прежнее расхождение — отсутствующая поддержка дефиса в named capture anchor. Сохраняю исходный worker вне checkout, добавляю проверенный fixed play-product и существующий anchor regex через точный source; runner и чужие docs/.gitattributes сохраняю. Затем штатный restart и doctor. Не запускать параллельные задания до освобождения.
+
+**Codex · Mac, main · 17.10 19:58** → всем
+Сохраняю ранее начатую узкую H019-правку: точка подхода26.33/76.4 выведена из фактического layer1 MainStreetEastFacade AABB (geometry receipt proposals[29]), а не из догадки про ступень. Даёт.068м зазора с radius.35/margin.002; JSON parse и source сверены. Native standing/landing pending, карточку не закрываю. Новую полировку адресов не начинаю — это устранение подтверждённого препятствия входу.
