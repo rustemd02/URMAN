@@ -18974,16 +18974,16 @@
             "active_owner": null,
             "activity": {
               "state": "not_active",
-              "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+              "reason": "Запуск прерван17.10; субагенты остановлены, source/evidence сохранены, completion не заявлен."
             },
             "task_type": "engineering",
-            "status": "todo",
+            "status": "in_progress",
             "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
               "Согласовать27 building bindings/street aliases с SettlementRegistry/SettlementRoadGraph; собственного целевого receipt пока нет."
             ],
-            "next_action": "Сопоставить текущий результат: Согласовать27 building bindings/street aliases с SettlementRegistry/SettlementRoadGraph. Затем изменить только установленный остаток.",
+            "next_action": "Согласовать27manifest bindings с runtime:9активны, H051–H059 reserved replacements, H060–H068 отсутствуют без inactive diagnostics. Три aliases подтверждены; физический доступ отдельный.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -25478,16 +25478,16 @@
             "active_owner": null,
             "activity": {
               "state": "not_active",
-              "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+              "reason": "Запуск прерван17.10; субагенты остановлены, source/evidence сохранены, completion не заявлен."
             },
             "task_type": "engineering",
-            "status": "todo",
+            "status": "in_progress",
             "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
               "Подключить Continue самого свежего совместимого save с unknown-version refusal; собственного целевого receipt пока нет."
             ],
-            "next_action": "Сопоставить текущий результат: Подключить Continue самого свежего совместимого save с unknown-version refusal. Затем изменить только установленный остаток.",
+            "next_action": "Проверить текущий menu Continue и unknown-version refusal; исторические source hashes меню устарели. Отдельно PW-097/UXA-001: обычный запуск использует chapter1, fullgame не подключён к меню.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -25521,7 +25521,7 @@
               ],
               "verification": {
                 "method": "targeted_runtime_scenario",
-                "question": "Подключить Continue самого свежего совместимого save с unknown-version refusal",
+                "question": "Выбирает ли обычный Continue текущей сборки самый свежий совместимый primary/backup без изменения исходных сейвов и без принятия неизвестной версии?",
                 "scenario": [
                   "Narrow existing path selected from handover section 28 after inspecting actual owner."
                 ],
@@ -49038,9 +49038,9 @@
       },
       "title": "Физический доступ к адресам и честные границы новой кампании",
       "milestone": "M2",
-      "status": "todo",
+      "status": "in_progress",
       "complexity": "simple",
-      "active_owner": null,
+      "active_owner": "Codex",
       "owner": "finished-act1",
       "depends_on": [
         "ACT1-ADDR"
@@ -49194,8 +49194,8 @@
       },
       "assigned_owner": "finished-act1",
       "activity": {
-        "state": "not_active",
-        "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+        "state": "confirmed_active",
+        "reason": "17.10: RoadGraph source review и узкая compile прошли; H019 кандидат пересматривается по фактическим коллайдерам."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -49205,7 +49205,7 @@
         "Планировка и доступ согласованы с PW-003/PW-044/PW-070: все обязательные якоря и действия достижимы; ночное разрушение моста/закрытие дальней половины не являются обязательными условиями новой истории.",
         "Применимые прежние жалобы/адреса и ограничения сохранены с явной картой PW-004; реальные координаты, scale, save/load и обе стороны переходов подтверждены на текущей сборке."
       ],
-      "next_action": "Сверить прежние физические/адресные дефекты и callers с новой картой кампании и семью якорями.",
+      "next_action": "Исправить подтверждённый ADR-H019 access binding и убрать повторное построение adjacency в ReachableNodes, сохранив live Allowed/gates; проверить существующим address-path сценарием. Полный DoD карточки остаётся отдельным остатком.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -49215,7 +49215,8 @@
         "targets": [
           "game/content/urman.settlement.addresses.v1.json",
           "game/scripts/Act1ConnectedWorld.Addresses.cs",
-          "game/scripts/AddressAccessVerifier.cs"
+          "game/scripts/AddressAccessVerifier.cs",
+          "game/scripts/SettlementRoadGraph.cs"
         ],
         "required_inputs": [
           {
@@ -49248,7 +49249,7 @@
         ],
         "verification": {
           "method": "targeted_runtime_scenario",
-          "question": "Физический доступ к адресам и честные границы новой кампании",
+          "question": "Получает ли ADR-H019 проверенный доступ с обычной дороги и безопасную standing/landing позицию без изменения адреса, коллайдеров и сохранений?",
           "scenario": "Узкая существующая проверка геометрии/доступа и актуальный защищённый проход выбранного участка.",
           "success": "Наблюдаемый результат этой единицы и обратное действие/восстановление там, где меняются данные. Для ассета — импорт выбранного файла и целевой вид/движение; для кода — узкая компиляция только затронутого модуля, затем указанный пользовательский сценарий. Компиляция не доказывает изображение или GUI.",
           "repeat_only_if": "Изменился покрываемый вход/consumer/контракт; без этого уже принятая проверка используется повторно без запуска."
@@ -49346,7 +49347,11 @@
           "evidence_ref": "ACT1-ADDR-ACCESS.evidence and named history progress; source_review shows available/missing inputs"
         }
       ],
-      "assignment_state": "preserved_person_or_existing_role; activity separate"
+      "assignment_state": "preserved_person_or_existing_role; activity separate",
+      "progress_2026_10_17": {
+        "result": "SettlementRoadGraph.cs: lazy adjacency topology cache; RebuildCore invalidates; Allowed/gates/mode/winter evaluated each query. Two independent source reviews passed. Game build0warnings/0errors16.86s; runtime AddressRegistrySmoke not run. ADR-H019 physical access blocked in existing receipt; manifest unchanged.",
+        "next": "Проверить существующим AddressRegistrySmoke cache semantics, затем отдельно подтвердить физический access candidate H019. Не заявлять прирост FPS."
+      }
     },
     {
       "id": "ACT1-LANG",
@@ -62382,7 +62387,7 @@
             "active_owner": null,
             "activity": {
               "state": "not_active",
-              "reason": "Ограниченный roof-only runtime asset/import этап проверен; Windows художественная проверка открыта."
+              "reason": "Запуск прерван17.10; субагенты остановлены, source/evidence сохранены, completion не заявлен."
             },
             "task_type": "engineering",
             "status": "in_progress",
@@ -62391,7 +62396,7 @@
             "remaining": [
               "Согласовать силуэт, цоколь, вынос кровли и глубину проёмов эталонного дома с выбранным reference ID; собственного целевого receipt пока нет."
             ],
-            "next_action": "После освобождения станции выполнить целевой Windows вид/движение текущего дома с roof-only kit; отдельно сохранить переданный владельцу Seni regeneration drift. Полный E01 не закрыт.",
+            "next_action": "Снять текущие named front/oblique виды существующих30roof ribs, проверить читаемость открытого металла относительно снега; не генерировать повторно уже имеющуюся геометрию без визуального дефекта.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -113873,7 +113878,7 @@
       "title": "Произвести общие материалы и растительные формы",
       "milestone": "PW-M2",
       "status": "in_progress",
-      "active_owner": null,
+      "active_owner": "Codex/visual",
       "owner": "art",
       "priority": "P0",
       "complexity": "complex",
@@ -114071,8 +114076,8 @@
       },
       "assigned_owner": "art",
       "activity": {
-        "state": "released",
-        "reason": "Конечная shared crown shape правка принята по generator/nativeHigh; motion/fullart отдельные."
+        "state": "confirmed_active",
+        "reason": "17.10: root просмотрел текущие C1/C2; visual исправляет повторяющуюся геометрию короткой заснеженной ели."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -114082,7 +114087,7 @@
         "Не создаются сотни уникальных текстур одинаковых досок.",
         "Уточнение автора 09.10.2026: материалы и растительные формы наружной деревни проверены в составе домов и окружения по выбранным автором скриншотам. Сопоставимы масштаб фактур, материальность дерева/земли/снега, объём и плотность растительности, свет и цветовые отношения. Новые текстуры поверх примитивных форм и отдельный образец материала не доказывают соответствие целой игровой сцены."
       ],
-      "next_action": "Текущая ordinary прогулка/поворот с принятым cold/highforest/lesspuffyshape; затем поactualmovement выбрать следующий крупный художественный остаток.",
+      "next_action": "Закончить bounded spruce geometry, импортировать на станции и сравнить C1/C2 с неизменённым рецептом baseline.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -114127,7 +114132,7 @@
         ],
         "verification": {
           "method": "targeted_runtime_scenario",
-          "question": "Произвести общие материалы и растительные формы",
+          "question": "Сохраняют ли текущие материалы домов, снег и растительность читаемую форму/цвет на одинаковых C1/C2 village-winter-crisp High FOV70 после изменений с14.10? Два текущих кадра служат baseline, не художественной приёмкой.",
           "scenario": {
             "targets": [
               "game/scripts/PainterlyMaterialLibrary.cs",
@@ -114635,6 +114640,11 @@
         "snapshot_id": "883d278460c11416ee51809349362d11ffcda43679235ea7e6438dc159fdda07",
         "receipt": "evidence/PW-034/bough-thickness-20261014/native/receipt.json",
         "root_readback": "Personally viewedC1/C2/front: C2/front branches flatter lesscotton, no height/fullness loss; C1 gain modest. IndependentLuna accepts scopedshape only. 6038tiered/18241roots/rangeGaps0 preserved; repeat/prongs/LODwarnings/art/motion remainopen."
+      },
+      "progress_2026_10_17": {
+        "result": "C1/C2 village-winter-crisp High FOV70 baseline job59ce9e23c0774a98b256c773eb431172 PASS; artifacts fetched. Root ещё не просмотрел PNG, art acceptance не заявлена. Snapshot2aea2f3d6d35ab604126e087634cc6eac08a8b0496406a55afc9e572d9b3a1db предшествует RoadGraph patch.",
+        "evidence": "evidence/PW-034/current-baseline-20261017/receipt.json",
+        "root_visual_review": "Просмотрены C1/C2 evidence/PW-034/current-baseline-20261017: повторяющиеся острые ели и плоские снежные ярусы; текущий конечный этап исправляет геометрию, авторская приёмка остаётся открыта."
       }
     },
     {
@@ -140248,8 +140258,8 @@
       "id": "PW-097",
       "title": "Удалить противоречивые активные инструкции и мёртвые входы",
       "milestone": "PW-M5",
-      "status": "todo",
-      "active_owner": null,
+      "status": "in_progress",
+      "active_owner": "Codex",
       "owner": "integration",
       "priority": "P1",
       "complexity": "medium",
@@ -140391,8 +140401,8 @@
       },
       "assigned_owner": "integration",
       "activity": {
-        "state": "not_active",
-        "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+        "state": "confirmed_active",
+        "reason": "17.10: возобновлённое поручение; persistence реализует обычный запуск, release завершил export wiring, root интегрирует и проверяет."
       },
       "task_type": "engineering",
       "implementation_state": "not_started",
@@ -140401,7 +140411,7 @@
         "Новая игра не стартует случайно в старой сцене.",
         "История решений сохранена, но не конкурирует с текущим заданием."
       ],
-      "next_action": "Сверить все действующие ТЗ и главные точки входа.",
+      "next_action": "Завершить photoworlds_game wrapper, проверить сборку и независимое ревью, затем native New Game/Continue после обновления точного allowlist станции.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -140578,7 +140588,11 @@
           "evidence_ref": "PW-097.evidence and named history progress; source_review shows available/missing inputs"
         }
       ],
-      "assignment_state": "preserved_person_or_existing_role; activity separate"
+      "assignment_state": "preserved_person_or_existing_role; activity separate",
+      "progress_2026_10_17": {
+        "finding": "Ordinary project.godot -> act1_demo.tscn -> Act1DemoRoot.InitializeDemo -> main.tscn -> default chapter1 campaign. full_game.tscn selected by play-full has current campaign but no shared MainMenu/Continue; fullgame scenes/content excluded in export presets.",
+        "next": "Реализуется общий MainMenu с текущей кампанией; export wiring изменён. Native и package verification ещё не выполнены."
+      }
     },
     {
       "id": "PW-098",

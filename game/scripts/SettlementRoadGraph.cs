@@ -46,6 +46,11 @@ public sealed class SettlementRoadGraph
     private readonly Dictionary<string, SettlementRoad> _roads = new(StringComparer.Ordinal);
     private readonly Dictionary<string, SettlementGraphNode> _nodes = new(StringComparer.Ordinal);
     private readonly Dictionary<string, SettlementGraphEdge> _edges = new(StringComparer.Ordinal);
+    // Reachability topology is immutable between RebuildCore calls. Keep an
+    // ordered edge table plus per-node edge indices so each access query does
+    // not reconstruct its own dictionary of neighbor lists.
+    private SettlementGraphEdge[]? _reachabilityEdges;
+    private Dictionary<string,int[]>? _reachabilityAdjacency;
     private SettlementGraphEdge[]? _vehicleNearestEdges;
     private readonly HashSet<string> _blockedRoads = new(StringComparer.Ordinal);
     // Authored vehicle drive envelope (see CarTravelPolicy). Written only by
@@ -250,6 +255,7 @@ public sealed class SettlementRoadGraph
         var startedUsec = _measureRebuild ? global::Godot.Time.GetTicksUsec() : 0UL;
         var allocatedBefore = _measureRebuild ? GC.GetAllocatedBytesForCurrentThread() : 0L;
         long acceptedPairs = 0,broadphaseRejectedPairs=0;
+        _reachabilityEdges=null;_reachabilityAdjacency=null;
         _nodes.Clear(); _edges.Clear();
         _vehicleNearestEdges=null;
         var segments = new List<Segment>();
@@ -621,19 +627,44 @@ public sealed class SettlementRoadGraph
     public bool Allowed(SettlementGraphEdge edge,SettlementTravelMode mode,bool winter) =>
         (edge.Modes&mode)!=0 && !_blockedRoads.Contains(edge.RoadId) && (!winter || !edge.WinterBlocked)
         && (edge.GateKey.Length==0 || GateIsOpen?.Invoke(edge.GateKey)==true);
+    private void EnsureReachabilityTopology()
+    {
+        if(_reachabilityEdges is not null)return;
+        var edges=_edges.Values.ToArray();
+        var building=new Dictionary<string,List<int>>(StringComparer.Ordinal);
+        for(var index=0;index<edges.Length;index++)
+        {
+            var edge=edges[index];
+            if(!building.TryGetValue(edge.A,out var fromA))building[edge.A]=fromA=[];
+            fromA.Add(index);
+            if(!building.TryGetValue(edge.B,out var fromB))building[edge.B]=fromB=[];
+            fromB.Add(index);
+        }
+        var adjacency=new Dictionary<string,int[]>(building.Count,StringComparer.Ordinal);
+        foreach(var (node,incidentEdges) in building)adjacency.Add(node,incidentEdges.ToArray());
+        _reachabilityAdjacency=adjacency;
+        _reachabilityEdges=edges;
+    }
     public HashSet<string> ReachableNodes(string start,SettlementTravelMode mode,bool winter=true)
     {
         var seen=new HashSet<string>(StringComparer.Ordinal);
         if(!_nodes.ContainsKey(start))return seen;
-        var adjacent=new Dictionary<string,List<string>>(StringComparer.Ordinal);
-        foreach(var edge in _edges.Values.Where(e=>Allowed(e,mode,winter)))
-        {
-            if(!adjacent.TryGetValue(edge.A,out var a)){a=[];adjacent[edge.A]=a;}a.Add(edge.B);
-            if(!adjacent.TryGetValue(edge.B,out var b)){b=[];adjacent[edge.B]=b;}b.Add(edge.A);
-        }
+        EnsureReachabilityTopology();
+        var edges=_reachabilityEdges!;
+        var adjacent=_reachabilityAdjacency!;
+        // Keep the original global edge order and evaluate all live travel
+        // predicates on every query before walking the topology snapshot.
+        var allowed=new bool[edges.Length];
+        for(var index=0;index<edges.Length;index++)allowed[index]=Allowed(edges[index],mode,winter);
         var pending=new Queue<string>();seen.Add(start);pending.Enqueue(start);
         while(pending.TryDequeue(out var node))
-            if(adjacent.TryGetValue(node,out var next))foreach(var id in next)if(seen.Add(id))pending.Enqueue(id);
+            if(adjacent.TryGetValue(node,out var next))foreach(var index in next)
+            {
+                if(!allowed[index])continue;
+                var edge=edges[index];
+                var id=edge.A==node?edge.B:edge.A;
+                if(seen.Add(id))pending.Enqueue(id);
+            }
         return seen;
     }
     public IReadOnlyList<string> Route(string start,string destination,SettlementTravelMode mode,bool winter=true,string? streetId=null)

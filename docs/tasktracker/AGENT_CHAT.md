@@ -3974,3 +3974,24 @@ PW-009: добавил physical safe-node tags (Anchors/PW_FOREST_ENTRY в W01, 
 
 **Codex · Mac, координация релиза Акта I · 17.10 19:26** → всем
 📋 Задача для @Luna-story, @Luna-gamefeel, @Luna-visual, @Luna-performance, @Luna-persistence, @Luna-release: проверить соответственно сюжет/ранний маршрут, взаимодействия, референсы/текущий визуал, узкие места, сохранения и условия выпуска. Каждый возвращает одну конечную карточку с исходным дефектом, точными файлами и проверкой; общие файлы и станция остаются у меня. Все шесть native luna_fast запущены. Windows doctor ready: desktop доступен, busy/recovery/orphan отсутствуют; локальному Python нужен существующий certifi CA через SSL_CERT_FILE. В JSON/AGENTS/входе трекера зафиксировано новое поручение автора; старую doc-only строку генератора убрал. Render/validate/diff-check прошли.
+
+**Codex · Mac, координация релиза Акта I · 17.10 19:27** → всем
+5c2cf077 запушен в main: актуальный мандат и вход трекера, без production-правок. FINISH-06/E02 взял Luna-persistence на приёмку существующего Continue: сначала свежесть receipts и full_game consumer, без переписывания работающих saves. Assigned owner сохранён; реальный исполнитель указан active_owner. Остальные Luna заканчивают выбор узких production-остатков.
+
+**Codex · Mac → Windows, PW-034 baseline · 17.10 19:28** → всем
+Занимаю станцию для двух сопоставимых C1/C2 кадров текущих материалов домов, снега и растительности: тот же village-winter-crisp/High/FOV70, что14.10. Вопрос записан в PW-034; это current baseline для конкретной визуальной правки, без полного smoke и без закрытия искусства.
+
+**Codex · Mac, распределение production · 17.10 19:30** → всем
+📋 Задача для @Luna-gamefeel: ACT1-ADDR-ACCESS, доказать и исправить только standing/access binding ADR-H019 в адресном manifest. @Luna-performance: тот же access path, только SettlementRoadGraph.cs — убрать повторное построение неизменной adjacency при каждом ReachableNodes, оставив Allowed/gates живыми; прирост FPS не заявлять. @Luna-visual: ACT1-DEPTH.12/E01, два ската металлической крыши, существующий Blender source/GLB без изменения силуэта/снега/входа. @Luna-release принимает E04 по27ID/aliases отдельно от физической доступности. Строить/запускать/коммитить буду я после source review; новые тесты не создаём.
+
+**Codex · Mac, прерванный запуск Акта I · 17.10 19:35** → всем
+Запуск прерван; все Luna остановлены, active claims освобождены. Локально сохранён RoadGraph topology cache: два независимых source review и Game compile0/0; runtime smoke ещё не выполнен, commit не делаю. H019 manifest и roof GLB не менялись:30roof ribs уже существуют, прежнее подозрение об отсутствии исправлено. Baseline59ce9e PASS скачан в evidence/PW-034/current-baseline-20261017; PNG root ещё не оценил. Главный следующий шаг — PW-097/UXA-001: обычный запуск пока chapter1, fullgame без меню/Continue и исключён из export; это подтверждённый релизный разрыв, source fix ещё не начат. E04/Continue остаются открыты с точным остатком в JSON.
+
+**Codex · Mac, возобновление цели Акта I · 17.10 19:37** → всем
+Автор прямо возобновил работу и поручил create_goal: цель создана и active. Все шесть Luna снова запущены. Приоритет — обычный вход PhotoWorlds через существующее меню и безопасный Continue, затем корректный экспорт; параллельно завершаем RoadGraph и точный H019/визуальный остаток. Повторять законченный baseline59ce не будем. Два turn_aborted были приняты за остановку ошибочно; это не новая продуктовая пауза.
+
+**Codex · Mac, main · 17.10 19:45** → всем
+Продолжаю по прямому поручению автора; create_goal активна. PW-097: persistence владеет обычным запуском/меню, release завершил экспортные фильтры. PW-034: visual правит геометрию коротких елей по просмотренным текущим C1/C2. Performance добавляет строго фиксированный play-product в клиент/allowlist станции; защита данных не меняется. Общий JSON и Git у меня. H019 не принимаю как исправленный без причинной проверки реальных коллайдеров.
+
+**Codex · Mac, main · 17.10 19:46** → всем
+Принимаю конечный source-этап ACT1-ADDR-ACCESS: ReachableNodes повторно использует topology adjacency до RebuildCore, но проверяет живые gates/mode/winter на каждом запросе. Два независимых source-review без блокеров; узкая сборка Urman.Game прошла: 0 warnings/errors. Это не FPS-замер и не закрытие H019/всей карточки. Коммичу только этот код и актуальные записи трекера/чата; launch/export/forest остаются в работе.
