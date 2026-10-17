@@ -119711,7 +119711,7 @@
             "remaining": [
               "Собрать узлы F00, F01, F02, F03, F10, F11, F12, F13, F14, F15, F16 и все связи из level-паспорта.; собственного целевого receipt пока нет."
             ],
-            "next_action": "Native import and F11→F12→F13→F14 round trip/capsule/save on frozen candidate; repair hero-root forms, then F15/F16. Do not close whole unit with this source slice.",
+            "next_action": "Verify frozen F00–F16 candidate in native ordinary play; full forest encounter requires Shurale/D06 and physical bag, then F16 return. Art and human gates remain separate.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -119806,6 +119806,17 @@
               ],
               "verification": "Pinned Blender generated/exported; source-stage/runtime GLB SHA matched; root viewed offline previews; independent traversal review and bug corrections; affected Game compile PASS 16.52s, 0 warnings/errors. Native import/traversal NOT_RUN.",
               "remaining": "Portal art rejected as cones/pipes and needs coherent organic forms; runtime collision/motion/return/save and F15/F16 still open. Terrain-fit F14Y4 differs from designY7; local terrain-consistent placement only, not final composition acceptance."
+            },
+            "progress_2026_10_18_f16": {
+              "result": "Versioned F00–F16 ground, terrain-fit F15/F16 anchors, protected route clearance, ordinary outward F16 crossing bound to existing completion-gated return. F14 producer/artifacts preserved.",
+              "source": [
+                "assets/source/blender/photoworlds/W01/urman_forest_ground_f16.py",
+                "assets/source/blender/photoworlds/W01/prologue-ground-f00-f16-v1/",
+                "game/scripts/photoworlds/W01Controller.cs",
+                "game/scenes/photoworlds/W01/W01.tscn"
+              ],
+              "verification": "Pinned Blender generation/hash checks; 236817verts/471680tris, +5.77%; independent source review no substantive blocker. AffectedGamecompile16.41s 0errors/warnings. Native traversal NOT_RUN.",
+              "remaining": "Ordinary full route/return/save/reentry; F15 vista and hero-root art acceptance remain open."
             }
           },
           {
@@ -120804,7 +120815,8 @@
         "source": "game/scripts/photoworlds/W01Controller.Bag.cs",
         "result": "One bag instance: player-gated strap release → visible lift/side/rotate/lower → authored reducer fact → awaited same-session checkpoint and D07. Saved projection restores final pose; cancellation/session change does not commit partial motion. Save failure warns and preserves dialogue/story progression.",
         "verification": "Source review + strict markers/support mesh contact; Game compile PASS16.52s. Native physical action/save/reentry NOT_RUN.",
-        "remaining": "Shurale/D06 encounter binding and native action/placement/save/return acceptance; no hidden fact bypass."
+        "remaining": "Shurale/D06 encounter binding and native action/placement/save/return acceptance; no hidden fact bypass.",
+        "modal_correction_2026_10_18": "Pause/player modal cancels pre-commit release/placement and reprojects snagged pose; committed fact survives, pending D07 opens only in same modal-free forest session. Source reviewed and compiled16.41s; native interruption/save still unverified."
       }
     },
     {
@@ -121204,6 +121216,15 @@
         "review": "Root viewed all three v2 Blender previews and rejected featureless rubber torso, smiling flat face, unreadable joints and collapsed working pose. Two failed source constructions are not runtime-ready. New concept viewed; accepted only as a modeling guide.",
         "next_action": "Rebuild authored anatomy and face/hand topology against concept; show source previews before runtime promotion; then verify native motion.",
         "remaining": "Actual model, readable seven clips, native scene quality and author/cultural acceptance remain open."
+      },
+      "anatomy_base_2026_10_18": {
+        "result": "Root personally reviewed and accepted MPFB-derived aged male gaunt head and continuous body ONLY as topology/anatomy donor for original Shurale; previous scripted/tube/grafted candidates rejected.",
+        "source": [
+          "assets/source/blender/photoworlds/W01/shurale_head_v4/",
+          "assets/source/blender/photoworlds/W01/shurale_body_v4/"
+        ],
+        "verification": "Exact MPFB2v2.0.17 archive SHA verified against prior receipt; real morph targets validated, isolated pinnedBlender generation; head4453verts/4426faces, body13380verts/13378faces at2.35m. CC0 assets/output versus GPLaddoncode distinguished in manifests.",
+        "remaining": "Character look/material/eyes/working pose, native rig and seven clips/LODs/cleanGLB/runtime; final modern horror visual/cultural/author acceptance remains open."
       }
     },
     {
@@ -131165,6 +131186,15 @@
           "game/scripts/ArrivalPersonalProps.cs": "dd6f2a8e3f82efdda4a775a3f7c253ae52766d43be6e92ac8ba3b7f2de9f51f8"
         },
         "remaining": "Ordinary home permission activation/modal sequence: show five authored lines through two player replies, close with existing Continue, verify no duplicated input/hidden journal/blocked controls; acquisition timing remains existing dispatch-before-dialogue. Native/GUI NOT_RUN, translation/voice/human gates remain open."
+      },
+      "return_loop_source_2026_10_18": {
+        "result": "Existing Gulsina anchor offers authored D03 after W01/W02; committed first-world-home fact reveals physical P-HOUSE envelope; existing source/permission/acquire/mount pipeline uses persisted state.",
+        "source": [
+          "game/scripts/ArrivalPersonalProps.cs",
+          "game/scripts/WaterChainHomePresence.cs"
+        ],
+        "verification": "Independent source review no confirmed defect; affectedGamecompile16.41s0errors/warnings. Native visibility/interactions/Continue NOT_RUN.",
+        "remaining": "P-HOUSE front not produced, existing back only; W03 pw-house routing/scene implementation remains separate and is not claimed playable."
       }
     },
     {
@@ -140919,6 +140949,13 @@
         "job_id": "3169a0f24896435ea7602586f69feb15",
         "snapshot_id": "1716716e5db1ec3a51ae65929476b4a2bd77018120579ee91d8174848f6e3de2",
         "observed_result": "3169a0f2 actual menu, one Enter refused ui_focus_caption_target_changed; no gameplay input. Terminal timeout124, resultSHAd980d83b962f21e199afd5f099328668bec554fa7e17c6311fcb580192382e11; userdataRestored=true. Seven fixed phase codes now distinguish bounds/hit HWND/owner/pointer without exposing foreign data; no behavior relaxed."
+      },
+      "native_cursor_mismatch_2026_10_18": {
+        "job_id": "24a195657d7542b8890046731d391ba3",
+        "snapshot_id": "785866519cdc274af682554c1708b68a16f7c0c021251c7ea487e4d2ba250356",
+        "result": "Actualmenu captured, oneEnter refused ui_focus_caption_pointer_moved_post_move: pre-move own HWND/HTCAPTION passed, SetCursorPostrue but observed pointer differed. No gameplayinputaccepted.",
+        "terminal_result_sha256": "2a28301be331487c2dab804c3b47f9c9f2e59b7b7dad259c913de1df93f4857d",
+        "remaining": "Distinguish causal clip from intervening warp using only bounded read-only GetClipCursor in existing refusal path; no clip clear or focus guard relaxation."
       }
     },
     {
@@ -156780,5 +156817,10 @@
     "author_request": "2026-10-12: забей на четкие критерии приемки, доделай URMAN Studio чтобы работал",
     "priority": "Deliver working editor actions and usable UI; formal acceptance gates do not block source delivery. Keep file/save protection and report runtime limits.",
     "verification": "Affected Game compile, focused source review, short Windows functional checks; no broad repeated smoke or new process documents."
+  },
+  "author_priority_2026_10_18": {
+    "source": "Live author goal update",
+    "instruction": "Continue at least until 10:00 Europe/Moscow 2026-10-18; prioritize compelling clear player loop, substantial visible scenes, story and performance; max independent subagents and regular verified commit/push. Deadline is duration of work, not release proof.",
+    "deadline": "2026-10-18T10:00:00+03:00"
   }
 }

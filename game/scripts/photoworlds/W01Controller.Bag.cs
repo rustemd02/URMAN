@@ -27,6 +27,8 @@ public partial class W01Controller
     private InteractionTarget? _bagTarget;
     private object? _bagActionSession;
     private string? _bagActionSceneId;
+    private object? _bagPendingDialogueSession;
+    private string? _bagPendingDialogueSceneId;
     private BagActionPhase _bagActionPhase;
     private Transform3D _bagPlacementStart;
     private Transform3D _bagPlacementEnd;
@@ -39,13 +41,15 @@ public partial class W01Controller
     private void ProcessBagPresentation(double delta)
     {
         if (!EnsureBagPresentation()) return;
+        if (TryOpenPendingBagDialogue()) return;
         if (_bagActionPhase == BagActionPhase.Idle) return;
 
         var bridge = _bridge;
         var resolvedDuringCommit = _bagActionPhase == BagActionPhase.Committing
             && bridge is { } currentBridge && GodotObject.IsInstanceValid(currentBridge)
             && currentBridge.PhotoWorldFactObserved(BagEncounterFactId);
-        if (!IsBagActionCurrent(bridge, _bagActionSession, _bagActionSceneId, allowResolved: resolvedDuringCommit))
+        if (!IsBagActionCurrent(bridge, _bagActionSession, _bagActionSceneId,
+                allowResolved: resolvedDuringCommit, allowModal: resolvedDuringCommit))
         {
             CancelBagAction();
             ApplyBagProjection();
@@ -67,7 +71,8 @@ public partial class W01Controller
         _bagTarget!.Prompt = bridge.ResolveText(BagLabelTextId);
 
         if (_bagActionPhase == BagActionPhase.Committing
-            && IsBagActionCurrent(bridge, _bagActionSession, _bagActionSceneId, allowResolved: resolved))
+            && IsBagActionCurrent(bridge, _bagActionSession, _bagActionSceneId,
+                allowResolved: resolved, allowModal: resolved))
         {
             _bagRoot!.Visible = true;
             _bagTarget!.SetPresentationEnabled(false);
@@ -100,6 +105,7 @@ public partial class W01Controller
 
         _bagActionSession = null;
         _bagActionSceneId = null;
+        ClearPendingBagDialogue();
         _bagActionPhase = BagActionPhase.Idle;
         _bagPlacementElapsed = 0;
         _bagPlacementDuration = 0;
@@ -177,7 +183,7 @@ public partial class W01Controller
         if (_bridge is not { } bridge || !GodotObject.IsInstanceValid(bridge)
             || bridge.CurrentW01BranchProjection() is not { ActiveSceneId: ForestSceneId } projection
             || bridge.PhotoWorldFactObserved(BagEncounterFactId)
-            || MainMenuUi.AnyUndismissed(GetTree())
+            || BagModalOpen()
             || _bagAnimation is not { } animation || !GodotObject.IsInstanceValid(animation))
             return false;
 
@@ -359,8 +365,7 @@ public partial class W01Controller
         if (!GodotObject.IsInstanceValid(this) || !IsInsideTree() || IsQueuedForDeletion()
             || !GodotObject.IsInstanceValid(bridge)
             || !ReferenceEquals(session, bridge.SessionIdentity)
-            || !OwnsBagCommit(session, sceneId)
-            || !IsBagActionCurrent(bridge, session, sceneId, allowResolved: true)
+            || !IsBagActionCurrent(bridge, session, sceneId, allowResolved: true, allowModal: true)
             || bridge.CurrentW01BranchProjection() is not { ActiveSceneId: var activeSceneId }
             || activeSceneId != sceneId
             || !bridge.PhotoWorldFactObserved(BagEncounterFactId))
@@ -378,9 +383,59 @@ public partial class W01Controller
         SetBagRestPose(placed: true);
         _bagRoot!.Visible = true;
         _bagTarget?.SetPresentationEnabled(false);
-        if (!MainMenuUi.AnyUndismissed(GetTree()))
-            bridge.OpenDialogueUi(BagDialogueId);
+        if (BagModalOpen())
+        {
+            _bagPendingDialogueSession = session;
+            _bagPendingDialogueSceneId = sceneId;
+            return;
+        }
+
+        ClearPendingBagDialogue();
+        bridge.OpenDialogueUi(BagDialogueId);
     }
+
+    private bool TryOpenPendingBagDialogue()
+    {
+        if (_bagPendingDialogueSession is not { } session || _bagPendingDialogueSceneId is not { } sceneId)
+            return false;
+
+        var bridge = _bridge;
+        if (bridge is null || !GodotObject.IsInstanceValid(bridge))
+        {
+            ClearPendingBagDialogue();
+            return false;
+        }
+
+        var projection = bridge.CurrentW01BranchProjection();
+        if (projection is null || !ReferenceEquals(session, bridge.SessionIdentity)
+            || !ReferenceEquals(projection.SessionIdentity, session)
+            || projection.ActiveSceneId != sceneId
+            || !bridge.PhotoWorldFactObserved(BagEncounterFactId))
+        {
+            ClearPendingBagDialogue();
+            return false;
+        }
+
+        if (BagModalOpen()) return false;
+
+        ClearPendingBagDialogue();
+        SetBagRestPose(placed: true);
+        _bagRoot!.Visible = true;
+        _bagTarget?.SetPresentationEnabled(false);
+        bridge.OpenDialogueUi(BagDialogueId);
+        return true;
+    }
+
+    private void ClearPendingBagDialogue()
+    {
+        _bagPendingDialogueSession = null;
+        _bagPendingDialogueSceneId = null;
+    }
+
+    private bool BagModalOpen() =>
+        MainMenuUi.AnyUndismissed(GetTree())
+        || GetTree().GetFirstNodeInGroup("pause_menu") is PauseMenuUi { IsOpen: true }
+        || GetTree().GetFirstNodeInGroup("player_controller") is FirstPersonController { ModalOpen: true };
 
     private void ReconcileBagCommitIfOwned(object session, string sceneId)
     {
@@ -399,12 +454,13 @@ public partial class W01Controller
         RuntimeBridge? bridge,
         object? session,
         string? sceneId,
-        bool allowResolved = false)
+        bool allowResolved = false,
+        bool allowModal = false)
     {
         if (bridge is null || !GodotObject.IsInstanceValid(bridge)
             || session is null || sceneId != ForestSceneId
             || !ReferenceEquals(session, bridge.SessionIdentity)
-            || MainMenuUi.AnyUndismissed(GetTree()))
+            || (!allowModal && BagModalOpen()))
             return false;
 
         var projection = bridge.CurrentW01BranchProjection();

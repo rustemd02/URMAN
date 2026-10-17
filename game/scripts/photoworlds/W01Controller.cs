@@ -7,10 +7,10 @@ using Urman.Core.Persistence;
 
 namespace Urman.Godot;
 
-/// <summary>Scene-owned F00→F03 prologue ground and authored actions for W01.</summary>
+/// <summary>Scene-owned W01 route ground with authored prologue and forest actions.</summary>
 public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
 {
-    private const string GroundScenePath = "res://assets/photoworlds/forest_ground/prologue-ground-f00-f14-v1.glb";
+    private const string GroundScenePath = "res://assets/photoworlds/forest_ground/prologue-ground-f00-f16-v1.glb";
     private const string HeroRootTurnScenePath = "res://assets/photoworlds/hero_root/hero-root-turn-v1.glb";
     private const string F14OldRootSupportScenePath = "res://assets/photoworlds/hero_root/f14-old-root-support-v1.glb";
     private const string BranchScenePath = "res://assets/photoworlds/branch/prologue-branch-v1.glb";
@@ -19,6 +19,7 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
     private const string ProloguePhotoTexturePath = "res://assets/textures/photobook/p-forest-front-v2.png";
     private const string PrologueSceneId = "urman.fullgame:scene/pw-prologue";
     private const string ForestSceneId = "urman.fullgame:scene/pw-forest";
+    private const string ForestReturnInteractionId = "urman.fullgame:interaction/pw-forest-return";
     private const string ProloguePhotoSourceInteractionId = "urman.fullgame:interaction/pw-prologue-photo-source";
     private const string PrologueBranchInteractionId = "urman.fullgame:interaction/pw-prologue-branch-move";
     private const string PrologueEndInteractionId = "urman.fullgame:interaction/pw-prologue-f03-end";
@@ -77,6 +78,12 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
     private static readonly Vector3[] PrologueRouteNodes = { Vector3.Zero, BranchF01, PrologueF02, PrologueF03 };
     private static readonly Vector2 MainSpawnRouteF10 = new(0f, 35f);
     private static readonly Vector2 MainSpawnRouteF11 = new(14f, 48f);
+    private static readonly Vector2[] ForestExitRouteNodes =
+    {
+        new(112f, 148f),
+        new(132f, 169f),
+        new(149f, 190f)
+    };
     private static readonly (string Variant, Vector2 Position, float YawDegrees)[] PrologueForestTrees =
     {
         ("WinterBirch_2", new(-7f, 13f), 21f),
@@ -165,6 +172,10 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
     private int _rootLinkCooldownPortal = -1;
     private float _rootLinkPreviousSignedDistance;
     private int _rootLinkPreviousPlaneSide;
+    private Marker3D? _forestExitFrame;
+    private object? _forestExitSessionIdentity;
+    private int _forestExitPreviousPlaneSide;
+    private bool _forestExitDispatching;
     private InteractionTarget? _branchTarget;
     private InteractionTarget? _prologueEndTarget;
     private InteractionTarget? _prologueSkipTarget;
@@ -187,6 +198,7 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         BuildProloguePhotoSource();
         BuildPrologueUi();
         BuildBagPresentation();
+        _forestExitFrame = GetNode<Marker3D>("Anchors/F16");
         SetProcess(true);
         SetPhysicsProcess(false);
         TryBindRuntimeBridge();
@@ -205,6 +217,7 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
     public override void _PhysicsProcess(double delta)
     {
         TryTraverseRootPassage();
+        TryExitForestAtF16();
         _forestObservationPollElapsed += delta;
         if (_forestObservationPollElapsed < ForestObservationPollSeconds) return;
         _forestObservationPollElapsed = 0;
@@ -258,6 +271,8 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         _forestObservationDispatching = false;
         _rootPassageEnabled = false;
         ResetRootPassageTracking(null);
+        ResetForestExitTracking(null);
+        _forestExitFrame = null;
         _heroRootContactAtF12 = null;
         _heroRootContactAtF13 = null;
         _f14OldRootSupportContact = null;
@@ -275,13 +290,13 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
     {
         var groundScene = LoadScene(GroundScenePath);
         _groundVisual = groundScene.Instantiate<Node3D>();
-        _groundVisual.Name = "F00F03GroundVisual";
+        _groundVisual.Name = "F00F16GroundVisual";
         _groundVisual.Visible = false;
         AddChild(_groundVisual);
 
         _groundBody = new StaticBody3D
         {
-            Name = "F00F03GroundContact",
+            Name = "F00F16GroundContact",
             CollisionLayer = 0u,
             CollisionMask = 3u
         };
@@ -384,6 +399,91 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         _rootLinkCooldownPortal = -1;
         _rootLinkPreviousSignedDistance = 0f;
         _rootLinkPreviousPlaneSide = 0;
+    }
+
+    private void ResetForestExitTracking(object? sessionIdentity)
+    {
+        _forestExitSessionIdentity = sessionIdentity;
+        _forestExitPreviousPlaneSide = 0;
+        _forestExitDispatching = false;
+    }
+
+    private void TryExitForestAtF16()
+    {
+        if (_forestExitFrame is not { } exitFrame || !GodotObject.IsInstanceValid(exitFrame)
+            || _bridge is not { } bridge || !GodotObject.IsInstanceValid(bridge)
+            || bridge.SessionIdentity is not { } session
+            || GetTree().GetFirstNodeInGroup("player_controller") is not FirstPersonController player
+            || !GodotObject.IsInstanceValid(player))
+        {
+            ResetForestExitTracking(null);
+            return;
+        }
+
+        var projection = bridge.CurrentW01BranchProjection();
+        if (projection is null || projection.ActiveSceneId != ForestSceneId
+            || !ReferenceEquals(projection.SessionIdentity, session))
+        {
+            ResetForestExitTracking(null);
+            return;
+        }
+
+        if (!ReferenceEquals(_forestExitSessionIdentity, session))
+        {
+            ResetForestExitTracking(session);
+            return;
+        }
+
+        if (MainMenuUi.AnyUndismissed(GetTree()) || player.ModalOpen || player.VehicleControlled
+            || player.IsClimbingLadder || !player.IsOnFloor())
+        {
+            _forestExitPreviousPlaneSide = 0;
+            return;
+        }
+
+        var local = exitFrame.GlobalTransform.AffineInverse() * player.GlobalTransform;
+        if (Math.Abs(local.Origin.X) > RootPassageCenterHalfWidth
+            || Math.Abs(local.Origin.Y) > RootPassageGroundTolerance
+            || Math.Abs(local.Origin.Z) > RootPassagePlaneHalfDepth)
+        {
+            _forestExitPreviousPlaneSide = 0;
+            return;
+        }
+
+        var previousSide = _forestExitPreviousPlaneSide;
+        var currentSide = RootPassagePlaneSide(local.Origin.Z);
+        if (currentSide == 0) return;
+        _forestExitPreviousPlaneSide = currentSide;
+        if (previousSide != -1 || currentSide != 1 || _forestExitDispatching) return;
+
+        _ = DispatchForestReturnAsync(bridge, session);
+    }
+
+    private async Task DispatchForestReturnAsync(RuntimeBridge bridge, object session)
+    {
+        _forestExitDispatching = true;
+        var dispatched = false;
+        try
+        {
+            dispatched = await bridge.DispatchInteractionAsync(ForestReturnInteractionId);
+        }
+        catch (Exception error)
+        {
+            GD.PushWarning($"W01 F16 return dispatch failed: {error.Message}");
+        }
+
+        if (!GodotObject.IsInstanceValid(this) || !IsInsideTree()) return;
+
+        var projection = GodotObject.IsInstanceValid(bridge) ? bridge.CurrentW01BranchProjection() : null;
+        if (!GodotObject.IsInstanceValid(bridge) || !ReferenceEquals(bridge.SessionIdentity, session)
+            || projection is null || projection.ActiveSceneId != ForestSceneId
+            || !ReferenceEquals(projection.SessionIdentity, session))
+        {
+            ResetForestExitTracking(null);
+            return;
+        }
+
+        _forestExitDispatching = dispatched;
     }
 
     private void TryTraverseRootPassage()
@@ -556,6 +656,15 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
                 / mainSpawnSegment.LengthSquared(), 0f, 1f);
             nearestSquared = Mathf.Min(nearestSquared,
                 point.DistanceSquaredTo(MainSpawnRouteF10 + mainSpawnSegment * mainSpawnT));
+            for (var routeIndex = 1; routeIndex < ForestExitRouteNodes.Length; routeIndex++)
+            {
+                var start = ForestExitRouteNodes[routeIndex - 1];
+                var segment = ForestExitRouteNodes[routeIndex] - start;
+                var t = Mathf.Clamp((point - start).Dot(segment) / segment.LengthSquared(), 0f, 1f);
+                nearestSquared = Mathf.Min(nearestSquared,
+                    point.DistanceSquaredTo(start + segment * t));
+            }
+
             return Mathf.Sqrt(nearestSquared);
         }
 
@@ -906,6 +1015,7 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
             _forestObservationFailedSession = null;
         if (projection is null)
         {
+            ResetForestExitTracking(null);
             CancelBranchMoveAnimation();
             visual.Visible = false;
             SetWorldPresentationVisible(false);
@@ -929,6 +1039,7 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         };
         if (string.IsNullOrEmpty(interaction.Item1))
         {
+            ResetForestExitTracking(null);
             CancelBranchMoveAnimation();
             visual.Visible = false;
             SetWorldPresentationVisible(false);

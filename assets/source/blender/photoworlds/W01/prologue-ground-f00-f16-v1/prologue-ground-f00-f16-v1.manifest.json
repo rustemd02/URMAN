@@ -1,0 +1,747 @@
+{
+  "asset_id": "A-FOREST-GROUND",
+  "consumer": "W01",
+  "stage_only": true,
+  "scene_ready": false,
+  "native_or_godot_import_verified": false,
+  "collision_surface_generated_or_verified": false,
+  "source_script": "/Users/unterlantas/Documents/GitHub/URMAN/assets/source/blender/photoworlds/W01/urman_forest_ground_f16.py",
+  "source_script_sha256": "7c9efb2415afca3c5b81846cf8dcbb0555d431b24e6ead52bfd467ded8ab3ed9",
+  "input_specs": {
+    "asset_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/assets.spec.json",
+    "asset_spec_sha256": "b4aa6e775b2591e1cb56d0bf82ad19f0051a21ea6ebd96367839ea2f6f2847c1",
+    "level": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/levels/W01_Лес_за_спиной_RU.md",
+    "level_sha256": "044332371204d18f8564028132a7d363fd85eb3232440f48d3b8eb6eb5baef1d",
+    "palette": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/docs/04_ART_DIRECTION_RU.md",
+    "palette_sha256": "6b63eeee85cd94661fdb894adf879ed18bcca79e7a3fbb3a43b02dfb1c50194c",
+    "palette_srgb": {
+      "dominant": "#2F625D",
+      "light": "#B9C7A0",
+      "shadow": "#413A59",
+      "warm": "#C89757"
+    },
+    "palette_note": "PNG pixels are sRGB; Blender image nodes use sRGB so Blender decodes to linear for material evaluation."
+  },
+  "dimensions_m": {
+    "x": 220.0,
+    "z": 268.0,
+    "height_range": [
+      -0.05560200196461811,
+      4.0000000001588925
+    ]
+  },
+  "coordinate_mapping": {
+    "Godot_xyz": [
+      "X",
+      "Y",
+      "Z"
+    ],
+    "Blender_xyz_before_export": [
+      "Godot X",
+      "-Godot Z",
+      "Godot Y"
+    ],
+    "GLTF_Y_up_export_mapping": "(Blender X, Blender Z, -Blender Y)",
+    "imported_Godot_xyz": [
+      "Godot X",
+      "Godot Y",
+      "Godot +Z"
+    ],
+    "root": "world origin at F00"
+  },
+  "godot_bounds_m": {
+    "x": [
+      -64.0,
+      156.0
+    ],
+    "y": [
+      -0.05560200196461811,
+      4.0000000001588925
+    ],
+    "z": [
+      -64.0,
+      204.0
+    ]
+  },
+  "previous_version_geometry_comparison": {
+    "manifest": "assets/source/blender/photoworlds/W01/prologue-ground-f00-f14-v1.manifest.json",
+    "manifest_sha256": "cff977f0b3c73f0b9063508178ab5118aefe47b4009122de377b77f17907ed4e",
+    "vertex_count_before": 223929,
+    "vertex_count_after": 236817,
+    "triangle_count_before": 445952,
+    "triangle_count_after": 471680,
+    "vertex_count_delta": 12888,
+    "triangle_count_delta": 25728,
+    "godot_bounds_delta_m_by_axis": {
+      "x": [
+        0.0,
+        12.0
+      ],
+      "y": [
+        0.0,
+        0.0
+      ],
+      "z": [
+        0.0,
+        0.0
+      ]
+    },
+    "bounds_unchanged": false,
+    "grid_step_before_m": 0.5,
+    "grid_step_after_m": 0.5
+  },
+  "mesh": {
+    "file_blend": "prologue-ground-f00-f16-v1.blend",
+    "file_glb": "prologue-ground-f00-f16-v1.glb",
+    "object": "W01_ForestGround_Terrain",
+    "vertex_count": 236817,
+    "triangle_count": 471680,
+    "x_axis_coordinate_count": 441,
+    "z_axis_coordinate_count": 537,
+    "regular_grid_step_m": 0.5,
+    "expected_triangles": 471680,
+    "gltf_vertex_mask_attribute": "COLOR_0 normalized VEC4",
+    "gltf_vertex_mask_material_note": "Standard glTF PBR multiplies COLOR_0 into base color. The W01 Godot consumer must disable vertex_color_use_as_albedo or use a shader that consumes ForestMasks separately; standard glTF has no material flag to disable this multiplication.",
+    "uv_sets": {
+      "BakeUV": "world-aligned full terrain atlas UV for the Cycles-baked 2K albedo",
+      "MetricUV": "world X/Z divided by 8 m; repeats every 8 m"
+    },
+    "visual_and_collision_surface_candidate": "same single terrain mesh; no separate height/normal-only relief",
+    "collision_note": "candidate geometry only; no Godot collision resource or engine contact check in this stage",
+    "file_blend_sha256": "2681022ccf20f8e02fa93dbf8a27975bffb6dbb8709af8a8ce1be594ef2af1a3",
+    "file_glb_sha256": "e4efe0135be94e9ba750e172fe438d25b1742c7f711cb01dcf0388b3043ae7b8",
+    "file_blend_bytes": 54297717,
+    "file_glb_bytes": 20849860
+  },
+  "coverage_scope": "authored F00→F01→F02→F03 prologue route; F10→F11→transformed WalkEntry approach; transformed WalkExit→F14→F15→F16 reversible forest route; the F12↔F13 opaque bent passage is a separate hero-root asset",
+  "unproduced_authored_nodes": [],
+  "terrain_anchor_height_note": "F10–F16 X/Z retain the W01 passport values. Their Y values are design-local; the existing continuous ground preserves the authored F00→F03 height profile, so these markers use sampled ground heights instead (F10=0.656942903 m, F11=0.968182076 m, F12=1.890062531 m, F13=3.555555556 m, F14=4.000000000 m, F15=4.000000000 m, F16=4.000000000 m). This keeps every anchor on the unchanged shared surface while extending only the readable route mask and the eastern terrain edge needed by F16.",
+  "authored_nodes": {
+    "F00": {
+      "label": "Тропа пролога",
+      "role": "spawn_prologue",
+      "xyz_m": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "terrain_vertex_y_m": 0.0,
+      "height_matches_author": true,
+      "walkable_pad_mask_radius_m": 1.2,
+      "spatial_frame_not_ground_route": false
+    },
+    "F01": {
+      "label": "Перекладина на тропе",
+      "role": "action",
+      "xyz_m": [
+        12.0,
+        1.0,
+        50.0
+      ],
+      "terrain_vertex_y_m": 1.0,
+      "height_matches_author": true,
+      "walkable_pad_mask_radius_m": 1.2,
+      "spatial_frame_not_ground_route": false
+    },
+    "F02": {
+      "label": "Светлая расщелина",
+      "role": "vista",
+      "xyz_m": [
+        45.0,
+        3.0,
+        95.0
+      ],
+      "terrain_vertex_y_m": 3.0,
+      "height_matches_author": true,
+      "walkable_pad_mask_radius_m": 1.2,
+      "spatial_frame_not_ground_route": false
+    },
+    "F03": {
+      "label": "Дальний стук",
+      "role": "prologue_end",
+      "xyz_m": [
+        80.0,
+        4.0,
+        140.0
+      ],
+      "terrain_vertex_y_m": 4.0,
+      "height_matches_author": true,
+      "walkable_pad_mask_radius_m": 1.2,
+      "spatial_frame_not_ground_route": false
+    },
+    "F10": {
+      "label": "Позиция семейной камеры",
+      "role": "spawn_main",
+      "xyz_m": [
+        0.0,
+        0.0,
+        35.0
+      ],
+      "terrain_vertex_y_m": 0.6569429025655424,
+      "height_matches_author": false,
+      "walkable_pad_mask_radius_m": 1.2,
+      "spatial_frame_not_ground_route": false
+    },
+    "F11": {
+      "label": "Пустое место за группой",
+      "role": "observation",
+      "xyz_m": [
+        14.0,
+        0.0,
+        48.0
+      ],
+      "terrain_vertex_y_m": 0.9681820758217896,
+      "height_matches_author": false,
+      "walkable_pad_mask_radius_m": 1.2,
+      "spatial_frame_not_ground_route": false
+    },
+    "F12": {
+      "label": "Корневой поворот",
+      "role": "spatial_link_entry",
+      "xyz_m": [
+        24.0,
+        1.0,
+        70.0
+      ],
+      "terrain_vertex_y_m": 1.8900625310535752,
+      "height_matches_author": false,
+      "walkable_pad_mask_radius_m": 0.0,
+      "spatial_frame_not_ground_route": true
+    },
+    "F13": {
+      "label": "Обратная сторона трёх стволов",
+      "role": "spatial_link_exit",
+      "xyz_m": [
+        95.0,
+        6.0,
+        120.0
+      ],
+      "terrain_vertex_y_m": 3.5555555555555554,
+      "height_matches_author": false,
+      "walkable_pad_mask_radius_m": 0.0,
+      "spatial_frame_not_ground_route": true
+    },
+    "F14": {
+      "label": "Площадка старого корня",
+      "role": "encounter",
+      "xyz_m": [
+        112.0,
+        7.0,
+        148.0
+      ],
+      "terrain_vertex_y_m": 4.0,
+      "height_matches_author": false,
+      "walkable_pad_mask_radius_m": 1.2,
+      "spatial_frame_not_ground_route": false
+    },
+    "F15": {
+      "label": "Кроны над ложбиной",
+      "role": "linger",
+      "xyz_m": [
+        132.0,
+        9.0,
+        169.0
+      ],
+      "terrain_vertex_y_m": 4.0,
+      "height_matches_author": false,
+      "walkable_pad_mask_radius_m": 1.2,
+      "spatial_frame_not_ground_route": false
+    },
+    "F16": {
+      "label": "Просвет к деревне",
+      "role": "exit",
+      "xyz_m": [
+        149.0,
+        8.0,
+        190.0
+      ],
+      "terrain_vertex_y_m": 4.0,
+      "height_matches_author": false,
+      "walkable_pad_mask_radius_m": 1.2,
+      "spatial_frame_not_ground_route": false
+    }
+  },
+  "physical_routes": {
+    "F00↔F01": {
+      "polyline_xyz_m": [
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          12.0,
+          1.0,
+          50.0
+        ]
+      ],
+      "width_m": 2.1,
+      "max_grade": 0.019447746039610348,
+      "max_sampled_surface_grade": 0.01944774603961123,
+      "route_kind": "authored_physical"
+    },
+    "F01↔F02": {
+      "polyline_xyz_m": [
+        [
+          12.0,
+          1.0,
+          50.0
+        ],
+        [
+          45.0,
+          3.0,
+          95.0
+        ]
+      ],
+      "width_m": 2.1,
+      "max_grade": 0.03584022203803136,
+      "max_sampled_surface_grade": 0.03584022203803391,
+      "route_kind": "authored_physical"
+    },
+    "F02↔F03": {
+      "polyline_xyz_m": [
+        [
+          45.0,
+          3.0,
+          95.0
+        ],
+        [
+          80.0,
+          4.0,
+          140.0
+        ]
+      ],
+      "width_m": 2.1,
+      "max_grade": 0.017541160386140585,
+      "max_sampled_surface_grade": 0.01754116038614375,
+      "route_kind": "authored_physical"
+    },
+    "F10↔F11": {
+      "polyline_xyz_m": [
+        [
+          0.0,
+          0.6569429025655424,
+          35.0
+        ],
+        [
+          14.0,
+          0.9681820758217896,
+          48.0
+        ]
+      ],
+      "width_m": 2.1,
+      "max_grade": 0.016291002892952003,
+      "max_sampled_surface_grade": 0.024120861155261616,
+      "route_kind": "authored_physical"
+    },
+    "F11↔WalkEntry": {
+      "polyline_xyz_m": [
+        [
+          14.0,
+          0.9681820758217896,
+          48.0
+        ],
+        [
+          14.698112954205024,
+          0.9809756818948385,
+          48.653507324637474
+        ],
+        [
+          15.415177133720814,
+          0.9932215879907461,
+          49.33651098231662
+        ],
+        [
+          16.14626220909741,
+          1.0059010020303238,
+          50.046502215657966
+        ],
+        [
+          16.88643785088485,
+          1.0337336084540343,
+          50.78097226728205
+        ],
+        [
+          17.630773729633173,
+          1.0620900777324809,
+          51.5374123798094
+        ],
+        [
+          18.37433951589242,
+          1.0913478443849791,
+          52.31331379586057
+        ],
+        [
+          19.112204880212623,
+          1.1218806615705401,
+          53.10616775805609
+        ],
+        [
+          19.83943949314383,
+          1.1539787517256195,
+          53.913465509016476
+        ],
+        [
+          20.551113025236074,
+          1.1877920188837245,
+          54.73269829136228
+        ],
+        [
+          21.242295147039396,
+          1.2233066378489708,
+          55.561357347714036
+        ],
+        [
+          21.90805552910384,
+          1.260354849188277,
+          56.396933920692284
+        ],
+        [
+          22.543463841979438,
+          1.298649479226793,
+          57.236919252917545
+        ],
+        [
+          23.143589756216233,
+          1.3378307889600638,
+          58.07880458701037
+        ],
+        [
+          23.703502942364263,
+          1.377513721014772,
+          58.920081165591284
+        ],
+        [
+          24.218273070973567,
+          1.4173269390204373,
+          59.75824023128083
+        ],
+        [
+          24.682969812594184,
+          1.4569393354167453,
+          60.59077302669954
+        ]
+      ],
+      "width_m": 2.1,
+      "max_grade": 0.04154667713766844,
+      "max_sampled_surface_grade": 0.04158697014117561,
+      "route_kind": "authored_physical_to_transformed_walk_entry"
+    },
+    "WalkExit↔F14": {
+      "polyline_xyz_m": [
+        [
+          103.15845320418948,
+          3.6608233300789643,
+          124.7370498535534
+        ],
+        [
+          103.60851346646405,
+          3.681565969758821,
+          125.67046863914696
+        ],
+        [
+          104.08135906921835,
+          3.7065666576847582,
+          126.79549959581412
+        ],
+        [
+          104.57503705127709,
+          3.735243441041225,
+          128.08595484685512
+        ],
+        [
+          105.08759445146504,
+          3.76701436701267,
+          129.51564651557015
+        ],
+        [
+          105.61707830860689,
+          3.801297482783543,
+          131.05838672525942
+        ],
+        [
+          106.16153566152741,
+          3.8375108355382928,
+          132.68798759922316
+        ],
+        [
+          106.71901354905133,
+          3.875072472461367,
+          134.37826126076152
+        ],
+        [
+          107.28755901000335,
+          3.9134004407372167,
+          136.10301983317476
+        ],
+        [
+          107.86521908320825,
+          3.9519127875502895,
+          137.83607543976302
+        ],
+        [
+          108.45004080749071,
+          3.9900275600850352,
+          139.55124020382658
+        ],
+        [
+          109.0400712216755,
+          4.0,
+          141.2223262486656
+        ],
+        [
+          109.63335736458737,
+          4.0,
+          142.82314569758032
+        ],
+        [
+          110.227946275051,
+          4.0,
+          144.3275106738709
+        ],
+        [
+          110.82188499189117,
+          4.0,
+          145.70923330083758
+        ],
+        [
+          111.41322055393259,
+          4.0,
+          146.94212570178053
+        ],
+        [
+          112.0,
+          4.0,
+          148.0
+        ]
+      ],
+      "width_m": 2.1,
+      "max_grade": 0.021105133204429433,
+      "max_sampled_surface_grade": 0.02110513320443041,
+      "route_kind": "authored_physical_from_transformed_walk_exit"
+    },
+    "F14↔F15": {
+      "polyline_xyz_m": [
+        [
+          112.0,
+          4.0,
+          148.0
+        ],
+        [
+          132.0,
+          4.0,
+          169.0
+        ]
+      ],
+      "width_m": 2.1,
+      "max_grade": 0.0,
+      "max_sampled_surface_grade": 0.0,
+      "route_kind": "authored_physical_forest_exit"
+    },
+    "F15↔F16": {
+      "polyline_xyz_m": [
+        [
+          132.0,
+          4.0,
+          169.0
+        ],
+        [
+          149.0,
+          4.0,
+          190.0
+        ]
+      ],
+      "width_m": 2.1,
+      "max_grade": 0.0,
+      "max_sampled_surface_grade": 0.0,
+      "route_kind": "authored_physical_forest_exit"
+    }
+  },
+  "spatial_link": {
+    "entry": "F12",
+    "exit": "F13",
+    "asset_surface_relation": "F12 and F13 are the mid-bend spatial-link frames; ground route masks end at the transformed WalkEntry/WalkExit nodes, which join the solid root-ribbon floor",
+    "terrain_mesh_contains_passage": false,
+    "paired_hero_root_asset": "res://assets/photoworlds/hero_root/hero-root-turn-v1.glb",
+    "module_contract": {
+      "frame_node": "SpatialLinkFrame",
+      "frame_local_godot_xyz_m": [
+        -5.0,
+        0.0,
+        0.0
+      ],
+      "frame_local_yaw_deg": 0.0,
+      "world_frame_yaw_default_deg": 27.853843237396983,
+      "world_frame_yaw_basis": "mean of passport F11→F12 and F13→F14 horizontal tangents",
+      "walk_entry_node": "WalkEntry",
+      "walk_entry_local_godot_xyz_m": [
+        0.0,
+        -0.43312319563683,
+        -8.0
+      ],
+      "walk_entry_world_godot_xyz_m": [
+        24.682969812594184,
+        1.4569393354167453,
+        60.59077302669954
+      ],
+      "walk_exit_node": "WalkExit",
+      "walk_exit_local_godot_xyz_m": [
+        0.0,
+        0.10526777452340896,
+        8.0
+      ],
+      "walk_exit_world_godot_xyz_m": [
+        103.15845320418948,
+        3.6608233300789643,
+        124.7370498535534
+      ],
+      "walk_surface_heights": {
+        "f12_spatial_frame_y_m": 1.8900625310535752,
+        "walk_entry_ground_y_m": 1.4569393354167453,
+        "walk_entry_local_y_delta_m": -0.43312319563683,
+        "f13_spatial_frame_y_m": 3.5555555555555554,
+        "walk_exit_ground_y_m": 3.6608233300789643,
+        "walk_exit_local_y_delta_m": 0.10526777452340896
+      },
+      "centerline_function": "x=-5*sin(pi*(z+8)/16)^2, local y smoothly joins ground endpoint samples and is 0 at SpatialLinkFrame, z in [-8,+8]",
+      "centerline_waypoints_local_godot_m": [
+        [
+          0.0,
+          -0.43312319563683,
+          -8.0
+        ],
+        [
+          -2.5,
+          0.0,
+          -4.0
+        ],
+        [
+          -5.0,
+          0.0,
+          0.0
+        ],
+        [
+          -2.5,
+          0.0,
+          4.0
+        ],
+        [
+          0.0,
+          0.10526777452340896,
+          8.0
+        ]
+      ],
+      "route_half_width_m": 1.1,
+      "route_waypoint_transform": "worldF12orF13Frame * inverse(local SpatialLinkFrame); terrain masks terminate at transformed WalkEntry and WalkExit, never directly across the central buttress",
+      "spatial_pairing": "paired copies share identical local SpatialLinkFrame pose; reciprocal player transfer occurs only at that opaque mid-bend plane"
+    },
+    "note": "F12↔F13 is a reversible authored transform at one opaque mid-bend SpatialLinkFrame; terrain pads do not form a direct masked shortcut through the buttress."
+  },
+  "vertex_masks": {
+    "attribute": "ForestMasks",
+    "domain": "POINT",
+    "glTF_attribute": "COLOR_0 normalized VEC4",
+    "channels": {
+      "R": "compacted readable route",
+      "G": "local colored leaf coverage",
+      "B": "soft root-mass coverage",
+      "A": "subtle moisture variation"
+    }
+  },
+  "gltf_vertex_color_export": {
+    "mode": "NAME",
+    "name": "ForestMasks",
+    "export_all_vertex_colors": false,
+    "material_semantics": "Standard glTF PBR multiplies COLOR_0 into base color. The W01 Godot consumer must disable vertex_color_use_as_albedo or use a shader that consumes ForestMasks separately; standard glTF has no material flag to disable this multiplication."
+  },
+  "textures": {
+    "soil": {
+      "file": "prologue-ground-f00-f16-soil-1k.png",
+      "sha256": "ad52c0e65ba7b56baf0e874cab016821391649dc3ae8c0759e430a62ca666d31",
+      "size_px": [
+        1024,
+        1024
+      ],
+      "provenance": "project-original deterministic tileable multiscale value-noise pixels; no third-party source",
+      "sRGB": true
+    },
+    "leaves": {
+      "file": "prologue-ground-f00-f16-leaves-1k.png",
+      "sha256": "0bd860024e1ed9ccf23493d5c302f0fabcb86baecb17646edd3266bb12855596",
+      "size_px": [
+        1024,
+        1024
+      ],
+      "provenance": "project-original deterministic tileable multiscale value-noise pixels; no third-party source",
+      "sRGB": true
+    },
+    "roots": {
+      "file": "prologue-ground-f00-f16-roots-1k.png",
+      "sha256": "77fbf6a08f0135a58a592ca46ebb89b57c5821c1caee01726f9a1a9459412251",
+      "size_px": [
+        1024,
+        1024
+      ],
+      "provenance": "project-original deterministic tileable multiscale value-noise pixels; no third-party source",
+      "sRGB": true
+    },
+    "masks": {
+      "file": "prologue-ground-f00-f16-masks-1k.png",
+      "sha256": "fb802651427e3bf37702b73807a5f7b596f1ed214c974443fc079bb6710236ec",
+      "size_px": [
+        1024,
+        1024
+      ],
+      "provenance": "project-original deterministic tileable multiscale value-noise pixels; no third-party source",
+      "sRGB": false
+    },
+    "cycles_baked_albedo": {
+      "file": "prologue-ground-f00-f16-baked-albedo-2k.png",
+      "sha256": "8c62cb48115602fea87cc612fc703b40f35bf1a91853880f8964adb65710083f",
+      "size_px": [
+        2048,
+        2048
+      ],
+      "provenance": "Blender Cycles EMIT bake from the three project-original 1K tiles blended by ForestMasks vertex channels",
+      "sRGB": true
+    }
+  },
+  "texture_provenance": {
+    "source": "original deterministic tileable multiscale value-noise patterns produced by this Blender source",
+    "external_textures_used": [],
+    "shared_repeat_m": 8.0,
+    "bake_tool": "Blender Cycles EMIT bake",
+    "bake_uv": "BakeUV",
+    "bake_input": "three shared 1K albedo maps and ForestMasks vertex channels"
+  },
+  "production_defaults": [
+    "A continuous, low-relief surface follows the exact F00→F01→F02→F03 node heights; its shallow shoulders are a production default.",
+    "A 2.1 m readable ground track connects F10→F11→transformed WalkEntry, transformed WalkExit→F14, and F14→F15→F16 on the same continuous surface; no terrain height profile is introduced beyond F03.",
+    "F12↔F13 uses a separate opaque, walk-through paired hero-root asset with one mid-bend SpatialLinkFrame and distinct WalkEntry/WalkExit endpoints.",
+    "Leaf and root fields are terrain materials/masks; no separate debris, fence, tree, or gameplay prop is included."
+  ],
+  "offline_previews": [
+    "W01_ForestGround_F00_to_F16_Overview.png",
+    "W01_ForestGround_F11_to_F16_Routes.png"
+  ],
+  "verification_scope": {
+    "source_generated": true,
+    "mesh_metrics_checked": true,
+    "authored_node_heights_checked": true,
+    "textures_written_and_hashed": true,
+    "godot_import": "not run",
+    "walk_and_collision_contact": "not run",
+    "art_author_review": "pending",
+    "blender_rendered_overview_and_f11_f16_route_view": true
+  },
+  "preview_receipts": {
+    "W01_ForestGround_F00_to_F16_Overview.png": {
+      "sha256": "c197f0173b8968b759718b03311774f19ff5e3d2715dedaf92e3456cd31daec7",
+      "bytes": 1698167
+    },
+    "W01_ForestGround_F11_to_F16_Routes.png": {
+      "sha256": "74f13b43e3dda97ff2cbc6d303cb529ef5ceac9c041790881066ce23542039d0",
+      "bytes": 1618474
+    }
+  }
+}

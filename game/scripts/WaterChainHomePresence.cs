@@ -17,8 +17,13 @@ internal partial class WaterChainHomePresence : Node3D
     internal InteractionTarget TalkTarget = null!;
     internal InteractionTarget PermissionTarget = null!;
     internal InteractionTarget CommonFilePermissionTarget = null!;
+    internal InteractionTarget HomeReturnTarget = null!;
+    internal InteractionTarget HousePhotoSourceTarget = null!;
+    internal InteractionTarget HousePhotoPermissionTarget = null!;
     internal InteractionTarget? TeaTarget;
     internal Node3D? Print;
+    internal Node3D? HousePhotoEnvelope;
+    internal Node3D? HousePhotoPrint;
     internal float PrintInLocalZ = .024f;
     internal float PrintOutLocalZ = .085f;
 
@@ -35,6 +40,8 @@ internal partial class WaterChainHomePresence : Node3D
         // presentation pass waits for that so no window is written too early.
         if (!IsReady(SourceTarget) || !IsReady(RiverEntryTarget) || !IsReady(TalkTarget)
             || !IsReady(PermissionTarget) || !IsReady(CommonFilePermissionTarget)
+            || !IsReady(HomeReturnTarget) || !IsReady(HousePhotoSourceTarget)
+            || !IsReady(HousePhotoPermissionTarget)
             || (TeaTarget is { } tea && !IsReady(tea)))
             return;
 
@@ -70,22 +77,42 @@ internal partial class WaterChainHomePresence : Node3D
         var mountedAndRead = water is { Mounted: true, BackRead: true };
         var fileFound = bridge.PhotoWorldFactObserved("common_marat_file_found");
         var commonAcquired = bridge.PhotoBookPhotos().Any(photo => photo.PhotoId == "P-COMMON");
+        var firstHomeTalk = bridge.PhotoWorldFactObserved("first_world_home_talk");
+        var housePrintFound = bridge.PhotoWorldFactObserved("house_print_found");
+        var houseAcquired = bridge.PhotoBookPhotos().Any(photo => photo.PhotoId == "P-HOUSE");
 
-        var talkLive = bookReceived && !told;
-        var permissionLive = bookReceived && told && found && !acquired;
+        var homeReturnLive = bookReceived && !firstHomeTalk
+            && bridge.IsInteractionAvailable(HomeReturnTarget.InteractionId);
+        var housePermissionLive = bookReceived && firstHomeTalk && housePrintFound && !houseAcquired
+            && bridge.IsInteractionAvailable(HousePhotoPermissionTarget.InteractionId);
+        var talkLive = bookReceived && !told && !homeReturnLive && !housePermissionLive;
+        var permissionLive = bookReceived && told && found && !acquired && !homeReturnLive && !housePermissionLive;
         var sourceLive = bookReceived && !found;
         var riverLive = told && mountedAndRead;
         // The family file question only exists once the file was found on the
         // PC and the family copy is not saved yet.
-        var filePermissionLive = fileFound && !commonAcquired;
+        var filePermissionLive = fileFound && !commonAcquired && !homeReturnLive && !housePermissionLive;
+        var houseSourceLive = bookReceived && firstHomeTalk && !housePrintFound
+            && bridge.IsInteractionAvailable(HousePhotoSourceTarget.InteractionId);
 
+        HomeReturnTarget.Prompt = bridge.ResolveText("urman.fullgame:text/pw-label-first-world-home-talk");
+        HousePhotoSourceTarget.Prompt = bridge.ResolveText("urman.fullgame:text/pw-label-house-photo-source");
+        HousePhotoPermissionTarget.Prompt = bridge.ResolveText("urman.fullgame:text/pw-label-house-photo-permission");
+        HomeReturnTarget.SetPresentationEnabled(homeReturnLive);
         TalkTarget.SetPresentationEnabled(talkLive);
         PermissionTarget.SetPresentationEnabled(permissionLive);
         CommonFilePermissionTarget.SetPresentationEnabled(filePermissionLive);
         SourceTarget.SetPresentationEnabled(sourceLive);
         RiverEntryTarget.SetPresentationEnabled(riverLive);
+        HousePhotoSourceTarget.SetPresentationEnabled(houseSourceLive);
+        HousePhotoPermissionTarget.SetPresentationEnabled(housePermissionLive);
         // әби keeps her greeting whenever the chain is not asking a question.
-        TeaTarget?.SetPresentationEnabled(!bookReceived || (!talkLive && !permissionLive && !filePermissionLive));
+        TeaTarget?.SetPresentationEnabled(!bookReceived || (!homeReturnLive && !talkLive
+            && !permissionLive && !filePermissionLive && !housePermissionLive));
+
+        if (HousePhotoEnvelope is { } houseEnvelope)
+            houseEnvelope.Visible = bridge.ActiveSceneId == "urman.fullgame:scene/pw-home"
+                && bookReceived && firstHomeTalk;
 
         if (Print is { } print)
         {
@@ -99,6 +126,21 @@ internal partial class WaterChainHomePresence : Node3D
                 var tween = CreateTween();
                 tween.SetTrans(Tween.TransitionType.Sine).SetEase(Tween.EaseType.InOut);
                 tween.TweenProperty(print, "position:z", goal, .9f);
+            }
+        }
+
+        if (HousePhotoPrint is { } housePrint)
+        {
+            var goal = firstHomeTalk ? PrintOutLocalZ : PrintInLocalZ;
+            if (!_appliedOnce || Mathf.IsEqualApprox(housePrint.Position.Z, goal))
+            {
+                housePrint.Position = new Vector3(housePrint.Position.X, housePrint.Position.Y, goal);
+            }
+            else
+            {
+                var tween = CreateTween();
+                tween.SetTrans(Tween.TransitionType.Sine).SetEase(Tween.EaseType.InOut);
+                tween.TweenProperty(housePrint, "position:z", goal, .9f);
             }
         }
 
