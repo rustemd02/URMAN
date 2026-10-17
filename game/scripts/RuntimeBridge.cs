@@ -159,6 +159,7 @@ public partial class RuntimeBridge : Node
 
     public override void _ExitTree()
     {
+        CancelQueuedForcedCheckpoint();
         if (_audioCueUi is not null) _audioCueUi.CueStarted -= OnAudioCueStarted;
         _audioCueUi = null;
         _runtimeStateNotificationQueued = false;
@@ -332,6 +333,7 @@ public partial class RuntimeBridge : Node
             return false;
         }
 
+        CancelQueuedForcedCheckpoint();
         if (NeedsPhysicalRecovery) return await StartRecoverySessionAsync(debugSession, player);
         _loadPreparing = true;
         _loadingTimeSampleUsec = Time.GetTicksUsec();
@@ -406,6 +408,7 @@ public partial class RuntimeBridge : Node
         var rolledBack = false;
         // Reserve the load while live owners finish their normal commits. Input,
         // save and new-game are blocked without opening dispatch during projection.
+        CancelQueuedForcedCheckpoint();
         _loadPreparing = true;
         player.SetSessionTransition(true);
         _loadingTimeSampleUsec = Time.GetTicksUsec();
@@ -576,6 +579,8 @@ public partial class RuntimeBridge : Node
 
     private string? _lastCheckpointScene;
     private bool _checkpointBusy;
+    private TaskCompletionSource<bool>? _queuedForcedCheckpoint;
+    private RuntimeKernel? _queuedForcedCheckpointSession;
     private bool _loadingSlot;
     private bool _loadPreparing;
 
@@ -626,37 +631,131 @@ public partial class RuntimeBridge : Node
         return false;
     }
 
-    internal async Task SaveCheckpointAsync(bool force = false)
+    internal async Task<bool> SaveCheckpointAsync(bool force = false)
     {
-        if (_loadingSlot || _checkpointBusy || _content is null || ActiveSceneId is not { } scene)
+        if (_loadingSlot || _loadPreparing || _content is null || ActiveSceneId is not { } scene
+            || _kernel is not { } session)
         {
-            return;
+            return false;
         }
 
         if (!force && (!CheckpointScenes.Contains(scene) || _lastCheckpointScene == scene))
         {
-            return;
+            return false;
         }
 
         if (FindPlayer()?.IsClimbingLadder == true)
         {
             _checkpointAfterLadder = true;
-            return;
+            return false;
         }
+
+        if (_checkpointBusy)
+        {
+            if (!force || !ReferenceEquals(session, _kernel) || _loadingSlot || _loadPreparing)
+                return false;
+
+            if (_queuedForcedCheckpoint is null
+                || !ReferenceEquals(_queuedForcedCheckpointSession, session))
+            {
+                _queuedForcedCheckpoint?.TrySetResult(false);
+                _queuedForcedCheckpointSession = session;
+                _queuedForcedCheckpoint = new(TaskCreationOptions.RunContinuationsAsynchronously);
+            }
+
+            return await _queuedForcedCheckpoint.Task;
+        }
+
         _checkpointBusy = true;
-        var session = _kernel;
+        TaskCompletionSource<bool>? queuedOnEntry = null;
+        if (_queuedForcedCheckpoint is { } queued)
+        {
+            if (ReferenceEquals(_queuedForcedCheckpointSession, session)) queuedOnEntry = queued;
+            else queued.TrySetResult(false);
+            _queuedForcedCheckpoint = null;
+            _queuedForcedCheckpointSession = null;
+        }
+
         try
         {
-            if (await SaveSlotAsync(CheckpointSlot) && ReferenceEquals(session, _kernel))
+            var saved = await WriteCheckpointForSessionAsync(session, scene);
+            queuedOnEntry?.TrySetResult(saved);
+
+            while (_queuedForcedCheckpoint is { } pending)
             {
-                _lastCheckpointScene = scene;
-                GD.Print($"checkpoint: auto-saved at {scene}");
+                var pendingSession = _queuedForcedCheckpointSession;
+                if (pendingSession is null || !ReferenceEquals(pendingSession, _kernel)
+                    || _loadingSlot || _loadPreparing)
+                {
+                    _queuedForcedCheckpoint = null;
+                    _queuedForcedCheckpointSession = null;
+                    pending.TrySetResult(false);
+                    continue;
+                }
+
+                if (FindPlayer()?.IsClimbingLadder == true)
+                {
+                    _checkpointAfterLadder = true;
+                    break;
+                }
+
+                var pendingScene = ActiveSceneId;
+                _queuedForcedCheckpoint = null;
+                _queuedForcedCheckpointSession = null;
+                var pendingSaved = false;
+                try
+                {
+                    if (pendingScene is not null)
+                        pendingSaved = await WriteCheckpointForSessionAsync(pendingSession, pendingScene);
+                }
+                catch
+                {
+                    pending.TrySetResult(false);
+                    throw;
+                }
+                pending.TrySetResult(pendingSaved);
             }
+
+            return saved;
+        }
+        catch
+        {
+            queuedOnEntry?.TrySetResult(false);
+            _queuedForcedCheckpoint?.TrySetResult(false);
+            _queuedForcedCheckpoint = null;
+            _queuedForcedCheckpointSession = null;
+            throw;
         }
         finally
         {
             _checkpointBusy = false;
         }
+    }
+
+    private async Task<bool> WriteCheckpointForSessionAsync(RuntimeKernel session, string scene)
+    {
+        if (!ReferenceEquals(session, _kernel) || _loadingSlot || _loadPreparing || _content is null)
+            return false;
+        if (FindPlayer()?.IsClimbingLadder == true)
+        {
+            _checkpointAfterLadder = true;
+            return false;
+        }
+
+        var saved = await SaveSlotAsync(CheckpointSlot);
+        if (!saved || !ReferenceEquals(session, _kernel) || _loadingSlot || _loadPreparing)
+            return false;
+
+        _lastCheckpointScene = scene;
+        GD.Print($"checkpoint: auto-saved at {scene}");
+        return true;
+    }
+
+    private void CancelQueuedForcedCheckpoint()
+    {
+        _queuedForcedCheckpoint?.TrySetResult(false);
+        _queuedForcedCheckpoint = null;
+        _queuedForcedCheckpointSession = null;
     }
 
     public void SetWorldLocation(string zoneId, string spawnPointId)
@@ -2023,6 +2122,7 @@ public partial class RuntimeBridge : Node
 
     private void ReplaceKernel(RuntimeKernel kernel)
     {
+        CancelQueuedForcedCheckpoint();
         _checkpointAfterLadder = false;
         _kernel?.Dispose();
         _kernel = kernel;

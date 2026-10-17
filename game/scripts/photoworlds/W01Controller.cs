@@ -10,7 +10,9 @@ namespace Urman.Godot;
 /// <summary>Scene-owned F00→F03 prologue ground and authored actions for W01.</summary>
 public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
 {
-    private const string GroundScenePath = "res://assets/photoworlds/forest_ground/prologue-ground-f00-f03-v1.glb";
+    private const string GroundScenePath = "res://assets/photoworlds/forest_ground/prologue-ground-f00-f14-v1.glb";
+    private const string HeroRootTurnScenePath = "res://assets/photoworlds/hero_root/hero-root-turn-v1.glb";
+    private const string F14OldRootSupportScenePath = "res://assets/photoworlds/hero_root/f14-old-root-support-v1.glb";
     private const string BranchScenePath = "res://assets/photoworlds/branch/prologue-branch-v1.glb";
     private const string PhotoTableauScenePath = "res://assets/photoworlds/forest_entry/pforest-tableau-v1.glb";
     private const string FoliageKitScenePath = "res://assets/models/agent_b_act1/agentb_foliage_kit.glb";
@@ -30,6 +32,11 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
     private const string ForestCameraBackTextId = "urman.fullgame:text/pw-observation-forest-camera-back";
     private const string BranchMoveAnimationName = "lift_and_place";
     private const double ForestObservationPollSeconds = 0.2;
+    private const float RootPassageCenterHalfWidth = 0.72f;
+    private const float RootPassageGroundTolerance = 0.32f;
+    private const float RootPassagePlaneHalfDepth = 1.15f;
+    private const float RootPassageExitSweepDistance = 0.36f;
+    private const float RootPassagePlaneSideEpsilon = 0.05f;
     private const string FreshSnowTexturePath = "res://assets/textures/painterly/snow_fresh_v1_albedo.png";
     private const string TrampledSnowTexturePath = "res://assets/textures/painterly/snow_trampled_v2_albedo.png";
     private const string ForestRootsTexturePath = "res://assets/photoworlds/forest_ground/w01_forest_roots_1k.png";
@@ -143,6 +150,21 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
     private StaticBody3D? _leftRootBody;
     private StaticBody3D? _rightRootBody;
     private StaticBody3D? _movingBranchBody;
+    private Node3D? _heroRootAtF12;
+    private Node3D? _heroRootAtF13;
+    private StaticBody3D? _heroRootContactAtF12;
+    private StaticBody3D? _heroRootContactAtF13;
+    private Node3D? _f14OldRootSupportVisual;
+    private StaticBody3D? _f14OldRootSupportContact;
+    private Marker3D? _rootLinkFrameF12;
+    private Marker3D? _rootLinkFrameF13;
+    private readonly KinematicCollision3D _rootLinkExitSweep = new();
+    private bool _rootPassageEnabled;
+    private object? _rootPassageSessionIdentity;
+    private int _rootLinkTrackedPortal = -1;
+    private int _rootLinkCooldownPortal = -1;
+    private float _rootLinkPreviousSignedDistance;
+    private int _rootLinkPreviousPlaneSide;
     private InteractionTarget? _branchTarget;
     private InteractionTarget? _prologueEndTarget;
     private InteractionTarget? _prologueSkipTarget;
@@ -157,11 +179,14 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
     {
         AddToGroup(AccessibilityPresentation.TargetGroup);
         BuildGround();
+        BuildRootPassage();
+        BuildF14OldRootSupport();
         BuildForest();
         BuildBranch();
         BuildPhotoTableau();
         BuildProloguePhotoSource();
         BuildPrologueUi();
+        BuildBagPresentation();
         SetProcess(true);
         SetPhysicsProcess(false);
         TryBindRuntimeBridge();
@@ -174,10 +199,12 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
     {
         TryBindRuntimeBridge();
         RefreshPrologueSkipButtonState();
+        ProcessBagPresentation(delta);
     }
 
     public override void _PhysicsProcess(double delta)
     {
+        TryTraverseRootPassage();
         _forestObservationPollElapsed += delta;
         if (_forestObservationPollElapsed < ForestObservationPollSeconds) return;
         _forestObservationPollElapsed = 0;
@@ -200,6 +227,8 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
             bridge.RuntimeStateChanged -= ApplyProjection;
         if (_branchAnimation is { } animation && GodotObject.IsInstanceValid(animation))
             animation.AnimationFinished -= OnBranchAnimationFinished;
+        ExitBagPresentation();
+        _rootLinkExitSweep.Dispose();
         GetViewport().SizeChanged -= RefitPrologueSkipButton;
         _bridge = null;
         _branchTarget = null;
@@ -227,6 +256,16 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         _forestObservationRayExclusions.Clear();
         _forestObservationFailedSession = null;
         _forestObservationDispatching = false;
+        _rootPassageEnabled = false;
+        ResetRootPassageTracking(null);
+        _heroRootContactAtF12 = null;
+        _heroRootContactAtF13 = null;
+        _f14OldRootSupportContact = null;
+        _f14OldRootSupportVisual = null;
+        _heroRootAtF12 = null;
+        _heroRootAtF13 = null;
+        _rootLinkFrameF12 = null;
+        _rootLinkFrameF13 = null;
         _gripCenter = null;
         _movingRoot = null;
         _branchVisual = null;
@@ -254,6 +293,211 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
             mesh.MaterialOverride = snowMaterial;
             _groundBody.AddChild(Act1ConnectedWorld.AuthoredSurfaceContact(_groundBody, mesh));
         }
+    }
+
+    private void BuildRootPassage()
+    {
+        _rootLinkFrameF12 = GetNode<Marker3D>("Anchors/F12");
+        _rootLinkFrameF13 = GetNode<Marker3D>("Anchors/F13");
+        var scene = LoadScene(HeroRootTurnScenePath);
+        (_heroRootAtF12, _heroRootContactAtF12) = BuildRootPassageCopy(scene, _rootLinkFrameF12, "F12");
+        (_heroRootAtF13, _heroRootContactAtF13) = BuildRootPassageCopy(scene, _rootLinkFrameF13, "F13");
+    }
+
+    private void BuildF14OldRootSupport()
+    {
+        var f14 = GetNode<Marker3D>("Anchors/F14");
+        var visual = LoadScene(F14OldRootSupportScenePath).Instantiate<Node3D>();
+        visual.Name = "F14_OldRootSupport";
+        visual.Visible = false;
+        f14.AddChild(visual);
+
+        var contact = new StaticBody3D
+        {
+            Name = "F14_OldRootSupportContact",
+            CollisionLayer = 0u,
+            CollisionMask = 3u
+        };
+        visual.AddChild(contact);
+        foreach (var mesh in Descendants<MeshInstance3D>(visual).Where(mesh => mesh.Mesh is not null).ToArray())
+            contact.AddChild(Act1ConnectedWorld.AuthoredSurfaceContact(contact, mesh));
+
+        _f14OldRootSupportVisual = visual;
+        _f14OldRootSupportContact = contact;
+    }
+
+    private (Node3D Visual, StaticBody3D Contact) BuildRootPassageCopy(
+        PackedScene scene, Marker3D spatialLinkFrame, string endpointName)
+    {
+        var visual = scene.Instantiate<Node3D>();
+        visual.Name = $"A_HERO_ROOT_{endpointName}";
+        visual.Visible = false;
+        AddChild(visual);
+
+        var localLinkFrame = RequireDescendant<Node3D>(visual, "SpatialLinkFrame");
+        var localFrameTransform = visual.GlobalTransform.AffineInverse() * localLinkFrame.GlobalTransform;
+        visual.GlobalTransform = spatialLinkFrame.GlobalTransform * localFrameTransform.AffineInverse();
+
+        var contact = new StaticBody3D
+        {
+            Name = $"A_HERO_ROOT_{endpointName}_Contact",
+            CollisionLayer = 0u,
+            CollisionMask = 3u
+        };
+        visual.AddChild(contact);
+        foreach (var mesh in Descendants<MeshInstance3D>(visual).Where(mesh => mesh.Mesh is not null).ToArray())
+        {
+            var collision = new CollisionShape3D
+            {
+                Name = $"{mesh.Name}_Contact",
+                Shape = mesh.Mesh!.CreateTrimeshShape(),
+                Transform = contact.GlobalTransform.AffineInverse() * mesh.GlobalTransform
+            };
+            contact.AddChild(collision);
+        }
+
+        return (visual, contact);
+    }
+
+    private void ApplyRootPassageProjection(RuntimeBridge.W01BranchProjection? projection)
+    {
+        var enabled = projection is { ActiveSceneId: ForestSceneId }
+            && _bridge is { } bridge && GodotObject.IsInstanceValid(bridge)
+            && ReferenceEquals(projection.SessionIdentity, bridge.SessionIdentity);
+        var sessionIdentity = enabled ? projection!.SessionIdentity : null;
+        if (!enabled || !ReferenceEquals(_rootPassageSessionIdentity, sessionIdentity))
+            ResetRootPassageTracking(sessionIdentity);
+        _rootPassageEnabled = enabled;
+        if (_heroRootAtF12 is { } atF12 && GodotObject.IsInstanceValid(atF12)) atF12.Visible = enabled;
+        if (_heroRootAtF13 is { } atF13 && GodotObject.IsInstanceValid(atF13)) atF13.Visible = enabled;
+        SetCollisionLayer(_heroRootContactAtF12, enabled ? 1u : 0u);
+        SetCollisionLayer(_heroRootContactAtF13, enabled ? 1u : 0u);
+        if (_f14OldRootSupportVisual is { } support && GodotObject.IsInstanceValid(support))
+            support.Visible = enabled;
+        SetCollisionLayer(_f14OldRootSupportContact, enabled ? 1u : 0u);
+    }
+
+    private void ResetRootPassageTracking(object? sessionIdentity)
+    {
+        _rootPassageSessionIdentity = sessionIdentity;
+        _rootLinkTrackedPortal = -1;
+        _rootLinkCooldownPortal = -1;
+        _rootLinkPreviousSignedDistance = 0f;
+        _rootLinkPreviousPlaneSide = 0;
+    }
+
+    private void TryTraverseRootPassage()
+    {
+        if (!_rootPassageEnabled
+            || _rootLinkFrameF12 is not { } f12 || !GodotObject.IsInstanceValid(f12)
+            || _rootLinkFrameF13 is not { } f13 || !GodotObject.IsInstanceValid(f13)
+            || _bridge is not { } bridge || !GodotObject.IsInstanceValid(bridge)
+            || bridge.SessionIdentity is not { } session
+            || GetTree().GetFirstNodeInGroup("player_controller") is not FirstPersonController player
+            || !GodotObject.IsInstanceValid(player))
+        {
+            ResetRootPassageTracking(null);
+            return;
+        }
+
+        if (!ReferenceEquals(_rootPassageSessionIdentity, session))
+        {
+            ResetRootPassageTracking(session);
+            return;
+        }
+
+        var projection = bridge.CurrentW01BranchProjection();
+        if (projection is null || projection.ActiveSceneId != ForestSceneId
+            || !ReferenceEquals(projection.SessionIdentity, session)
+            || MainMenuUi.AnyUndismissed(GetTree())
+            || player.ModalOpen || player.VehicleControlled || player.IsClimbingLadder || !player.IsOnFloor())
+        {
+            _rootLinkTrackedPortal = -1;
+            _rootLinkPreviousPlaneSide = 0;
+            return;
+        }
+
+        var f12Local = f12.GlobalTransform.AffineInverse() * player.GlobalTransform;
+        var f13Local = f13.GlobalTransform.AffineInverse() * player.GlobalTransform;
+        if (_rootLinkCooldownPortal == 0 && IsInsideRootPassageLinkVolume(f12Local)) return;
+        if (_rootLinkCooldownPortal == 1 && IsInsideRootPassageLinkVolume(f13Local)) return;
+        if (_rootLinkCooldownPortal >= 0)
+        {
+            _rootLinkCooldownPortal = -1;
+            _rootLinkTrackedPortal = -1;
+        }
+
+        var portal = -1;
+        var localTransform = Transform3D.Identity;
+        if (IsInsideRootPassageLinkVolume(f12Local))
+        {
+            portal = 0;
+            localTransform = f12Local;
+        }
+        else if (IsInsideRootPassageLinkVolume(f13Local))
+        {
+            portal = 1;
+            localTransform = f13Local;
+        }
+
+        if (portal < 0)
+        {
+            _rootLinkTrackedPortal = -1;
+            _rootLinkPreviousPlaneSide = 0;
+            return;
+        }
+
+        var signedDistance = localTransform.Origin.Z;
+        if (_rootLinkTrackedPortal != portal)
+        {
+            _rootLinkTrackedPortal = portal;
+            _rootLinkPreviousSignedDistance = signedDistance;
+            _rootLinkPreviousPlaneSide = RootPassagePlaneSide(signedDistance);
+            return;
+        }
+
+        var previousDistance = _rootLinkPreviousSignedDistance;
+        _rootLinkPreviousSignedDistance = signedDistance;
+        var previousSide = _rootLinkPreviousPlaneSide;
+        var currentSide = RootPassagePlaneSide(signedDistance);
+        if (currentSide == 0) return;
+
+        _rootLinkPreviousPlaneSide = currentSide;
+        var crossedLinkPlane = previousSide != 0 && previousSide != currentSide;
+        if (!crossedLinkPlane) return;
+
+        var crossingDirection = signedDistance > previousDistance ? 1f : -1f;
+
+        var sourceFrame = portal == 0 ? f12 : f13;
+        var destinationFrame = portal == 0 ? f13 : f12;
+        var destinationTransform = destinationFrame.GlobalTransform * localTransform;
+        var destinationMotion = destinationFrame.GlobalBasis.Z.Normalized()
+            * crossingDirection * RootPassageExitSweepDistance;
+        if (player.TestMove(destinationTransform, destinationMotion, _rootLinkExitSweep, .001f, false, 4))
+            return;
+
+        var relativeVelocity = sourceFrame.GlobalBasis.Orthonormalized().Inverse() * player.Velocity;
+        player.GlobalTransform = destinationTransform;
+        player.Velocity = destinationFrame.GlobalBasis.Orthonormalized() * relativeVelocity;
+        _rootLinkCooldownPortal = 1 - portal;
+        _rootLinkTrackedPortal = 1 - portal;
+        _rootLinkPreviousSignedDistance = signedDistance;
+        _rootLinkPreviousPlaneSide = currentSide;
+    }
+
+    private static int RootPassagePlaneSide(float signedDistance)
+    {
+        if (signedDistance > RootPassagePlaneSideEpsilon) return 1;
+        if (signedDistance < -RootPassagePlaneSideEpsilon) return -1;
+        return 0;
+    }
+
+    private static bool IsInsideRootPassageLinkVolume(Transform3D localTransform)
+    {
+        var point = localTransform.Origin;
+        return Math.Abs(point.X) <= RootPassageCenterHalfWidth
+            && Math.Abs(point.Y) <= RootPassageGroundTolerance
+            && Math.Abs(point.Z) <= RootPassagePlaneHalfDepth;
     }
 
     private void BuildForest()
@@ -655,6 +899,8 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
             return;
 
         var projection = bridge.CurrentW01BranchProjection();
+        ApplyRootPassageProjection(projection);
+        ApplyBagProjection();
         if (projection is null || projection.ActiveSceneId != ForestSceneId
             || !ReferenceEquals(_forestObservationFailedSession, projection.SessionIdentity))
             _forestObservationFailedSession = null;
@@ -715,8 +961,7 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         _branchTarget?.SetPresentationEnabled(!projection.Moved);
         SetPrologueEndVisible(bridge, projection.ActiveSceneId == PrologueSceneId);
         SetPrologueSkipVisible(bridge, projection.ActiveSceneId == PrologueSceneId);
-        SetPhysicsProcess(projection.ActiveSceneId == ForestSceneId
-            && !bridge.PhotoWorldFactObserved(ForestCameraBackFactId));
+        SetPhysicsProcess(projection.ActiveSceneId == ForestSceneId);
     }
 
     private void TryObserveForestCameraBack()
@@ -730,12 +975,12 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         if (projection is null || projection.ActiveSceneId != ForestSceneId
             || !ReferenceEquals(projection.SessionIdentity, session))
         {
-            SetPhysicsProcess(false);
+            SetPhysicsProcess(_rootPassageEnabled);
             return;
         }
         if (bridge.PhotoWorldFactObserved(ForestCameraBackFactId))
         {
-            SetPhysicsProcess(false);
+            SetPhysicsProcess(_rootPassageEnabled);
             return;
         }
 
@@ -790,7 +1035,7 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
             return;
 
         _forestObservationDispatching = true;
-        SetPhysicsProcess(false);
+        SetPhysicsProcess(_rootPassageEnabled);
         DispatchForestCameraBackObservationAsync(bridge, session, player, playerPosition, forward);
     }
 
@@ -854,7 +1099,7 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
             && bridge.PhotoWorldFactObserved(ForestCameraBackFactId))
         {
             _forestObservationFailedSession = null;
-            SetPhysicsProcess(false);
+            SetPhysicsProcess(_rootPassageEnabled);
             if (GodotObject.IsInstanceValid(player)
                 && ReferenceEquals(GetTree().GetFirstNodeInGroup("player_controller"), player))
                 player.NotifyTraversal(bridge.ResolveText(ForestCameraBackTextId));
@@ -868,7 +1113,7 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
             _forestObservationFailedSession = session;
             _forestObservationFailedPosition = playerPosition;
             _forestObservationFailedForward = forward;
-            SetPhysicsProcess(true);
+            SetPhysicsProcess(_rootPassageEnabled);
             return;
         }
 

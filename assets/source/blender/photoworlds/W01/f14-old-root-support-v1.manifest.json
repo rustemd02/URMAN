@@ -1,0 +1,132 @@
+{
+  "schema": 1,
+  "asset_id": "A-HERO-ROOT / W01 F14 visible support",
+  "version": "f14-old-root-support-v1",
+  "source_script": "assets/source/blender/photoworlds/W01/f14_old_root_support_v1.py",
+  "source_script_sha256": "3441c185c90fa2e65c125d7c48d20b883ec2e4434a1c695abb616d05e8b82d3a",
+  "references": {
+    "asset_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/assets.spec.json",
+    "asset_spec_sha256": "b4aa6e775b2591e1cb56d0bf82ad19f0051a21ea6ebd96367839ea2f6f2847c1",
+    "level_passport": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/levels/W01_Лес_за_спиной_RU.md",
+    "level_passport_sha256": "044332371204d18f8564028132a7d363fd85eb3232440f48d3b8eb6eb5baef1d",
+    "ground_manifest": "assets/source/blender/photoworlds/W01/prologue-ground-f00-f14-v1.manifest.json",
+    "ground_manifest_sha256": "cff977f0b3c73f0b9063508178ab5118aefe47b4009122de377b77f17907ed4e"
+  },
+  "consumer": "W01 F14 visible old-root support; same fused mesh supplies runtime static contact and the physical bag snag point",
+  "coordinate_contract": {
+    "runtime_scene_path": "res://assets/photoworlds/hero_root/f14-old-root-support-v1.glb",
+    "root_node": "F14_OldRootSupport",
+    "root_transform_owner": "W01 scene parents the instance under Anchors/F14 at identity",
+    "coordinates": "F14-local Godot metres; Blender source maps (X,-Z,Y)",
+    "sampled_terrain_height_y_m": 4.0,
+    "passport_design_local_y_m": 7.0,
+    "terrain_fit_note": "F14 X/Z are retained; terrain-fit Y=4.0 follows the unchanged generated shared ground surface rather than floating at the design-local Y=7.0",
+    "scene_owned_markers": {
+      "BagSnagContact": {
+        "path": "Anchors/F14/BagSnagContact",
+        "local_godot_xyz_m": [
+          2.2,
+          1.28,
+          0.46
+        ]
+      },
+      "BagPlacementGround": {
+        "path": "Anchors/F14/BagPlacementGround",
+        "local_godot_xyz_m": [
+          2.45,
+          0.0,
+          0.46
+        ]
+      }
+    }
+  },
+  "geometry": {
+    "mesh_objects": {
+      "F14_OldRootSupport_LOD0": {
+        "vertices": 17371,
+        "triangles": 34738
+      }
+    },
+    "vertex_count": 17371,
+    "triangle_count": 34738,
+    "godot_f14_local_bounds_m": {
+      "x": [
+        1.15251,
+        2.58044
+      ],
+      "y": [
+        -0.721,
+        1.37851
+      ],
+      "z": [
+        -1.21791,
+        1.10223
+      ]
+    },
+    "voxel_remesh_size_m": 0.025,
+    "construction": "five smooth tapered root limbs, fused by voxel remesh into one closed visible mesh; basal ends buried below terrain; upper fork tips taper to small rounded ends",
+    "bag_contact": "BagSnagContact lands at the measured outer right fork tip; the scene marker and GLB empty share the same F14-local coordinates",
+    "runtime_collision": "StaticBody3D concave contact shapes are created from this exact visible mesh by W01Controller",
+    "art_status": "offline asset preview only; full F14 composition and native play inspection remain pending",
+    "bag_contact_nearest_surface_distance_m": 0.000355
+  },
+  "material": {
+    "bark_source": "game/assets/textures/painterly/bark_spruce_v1_albedo.png",
+    "bark_sha256": "3a526b203d11df79eb7c99bb2317f84fd60f58978cf0ce54e6f94be7efc66acf",
+    "bark_receipt": "game/assets/textures/painterly/procedural_bake_receipt_v1.json",
+    "bark_receipt_entry": {
+      "card": "F03",
+      "consumer": "new spruce bark slot (suggest bark_spruce): AgentBAct1ExteriorLayer WinterSpruce_* trunks, non-pine bark path",
+      "file": "game/assets/textures/painterly/bark_spruce_v1_albedo.png",
+      "generator": "tools/blender/bake_procedural_textures.py",
+      "licence": "project-original procedural (no third-party source)",
+      "metres_per_repeat": 1.0,
+      "seed": 20260303,
+      "sha256": "3a526b203d11df79eb7c99bb2317f84fd60f58978cf0ce54e6f94be7efc66acf",
+      "size": "1024x1024 RGB8 sRGB"
+    },
+    "mask": {
+      "file": "f14-old-root-support-v1-mask-2k.png",
+      "sha256": "4ed124a6e9e9437175d4454135b5b336ad38a68f72a09b00bcda2f36fa8c4ba7",
+      "size_px": [
+        2048,
+        2048
+      ],
+      "provenance": "project-original deterministic W01 root mask from shared hero-root authoring helper"
+    },
+    "baked_albedo": {
+      "file": "f14-old-root-support-v1-albedo-2k.png",
+      "sha256": "34e9dc63dcfbda56096718bdbc29163bb7d2c487fbd5076ae9d8328131d3dcde",
+      "runtime_embedded": true,
+      "size_px": [
+        2048,
+        2048
+      ]
+    }
+  },
+  "artifacts": {
+    "blend": {
+      "path": "f14-old-root-support-v1.blend",
+      "sha256": "f3feef414c349d14c6760c737da090b3fae9232327fc075e2a8f0b252cf2fbba",
+      "bytes": 4282620
+    },
+    "glb": {
+      "path": "f14-old-root-support-v1.glb",
+      "sha256": "139fa50058d51dcf27a441b9fef2f7a2d6566b2c8de7f55f4dcd8456e144397b",
+      "bytes": 3253728
+    },
+    "preview": {
+      "path": "f14-old-root-support-v1-preview.png",
+      "sha256": "025455c4c2af29bcf1b5b3cab919fd364ba11dd77b9267e6c89dcb7cae177984",
+      "bytes": 1509365
+    }
+  },
+  "verification": {
+    "source_generated": true,
+    "mesh_fused_and_bounded": true,
+    "snag_marker_distance_to_root_mesh_m": "measured by deterministic surface-nearest query in generator",
+    "native_godot_import": "not run",
+    "gameplay_collision_and_bag_placement": "not run",
+    "full_scene_and_art_acceptance": "pending"
+  }
+}

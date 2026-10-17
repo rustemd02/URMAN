@@ -124,7 +124,7 @@ function Get-VerifiedCaptionPoint {
     }
     if ($window.Left -ne $script:InitialRect.Left -or $window.Top -ne $script:InitialRect.Top -or
         $window.Right -ne $script:InitialRect.Right -or $window.Bottom -ne $script:InitialRect.Bottom) {
-        throw 'The owned game caption target changed.'
+        throw 'The owned game caption bounds changed.'
     }
 
     $clientOrigin = New-Object UrmanGameUiNative+Point
@@ -152,14 +152,14 @@ function Assert-VerifiedCaptionOwnership([object]$Point) {
     $screenPoint.Y = [int]$Point.Y
     $hit = [UrmanGameUiNative]::WindowFromPoint($screenPoint)
     if ($hit -eq [IntPtr]::Zero -or $hit -ne $script:TargetHandle) {
-        throw 'The owned game caption target changed.'
+        throw 'The owned game caption hit window changed.'
     }
 
     [uint32]$hitOwner = 0
     $hitThread = [UrmanGameUiNative]::GetWindowThreadProcessId($hit,[ref]$hitOwner)
     if ($hitThread -eq 0 -or [int]$hitOwner -ne $script:TargetPid -or
         [UrmanGameUiNative]::GetAncestor($hit,3) -ne $script:TargetHandle) {
-        throw 'The owned game caption target changed.'
+        throw 'The owned game caption hit owner changed.'
     }
     return $hit
 }
@@ -200,7 +200,7 @@ function Invoke-VerifiedCaptionActivation {
             throw 'The owned game caption pointer is unavailable.'
         }
         if ($currentPointer.X -ne $originalPointer.X -or $currentPointer.Y -ne $originalPointer.Y) {
-            throw 'The owned game caption target changed.'
+            throw 'The pointer moved during the pre-move caption check.'
         }
         if (([UrmanGameUiNative]::GetAsyncKeyState(1) -band 0x8000) -ne 0) {
             throw 'The owned game caption input was refused.'
@@ -212,14 +212,14 @@ function Invoke-VerifiedCaptionActivation {
 
         $recheckedPoint = Get-VerifiedCaptionPoint
         if ($recheckedPoint.X -ne $captionPoint.X -or $recheckedPoint.Y -ne $captionPoint.Y) {
-            throw 'The owned game caption target changed.'
+            throw 'The owned game caption point changed after positioning.'
         }
         $currentPointer = New-Object UrmanGameUiNative+Point
         if (-not [UrmanGameUiNative]::GetCursorPos([ref]$currentPointer)) {
             throw 'The owned game caption pointer is unavailable.'
         }
         if ($currentPointer.X -ne $captionPoint.X -or $currentPointer.Y -ne $captionPoint.Y) {
-            throw 'The owned game caption target changed.'
+            throw 'The pointer moved after caption positioning.'
         }
         if (Test-OwnedForeground) { return }
 
@@ -233,7 +233,7 @@ function Invoke-VerifiedCaptionActivation {
             throw 'The owned game caption pointer is unavailable.'
         }
         if ($currentPointer.X -ne $captionPoint.X -or $currentPointer.Y -ne $captionPoint.Y) {
-            throw 'The owned game caption target changed.'
+            throw 'The pointer moved during the caption hit test.'
         }
         if (([UrmanGameUiNative]::GetAsyncKeyState(1) -band 0x8000) -ne 0) {
             throw 'The owned game caption input was refused.'

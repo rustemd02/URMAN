@@ -1,4 +1,4 @@
-"""Build an original, finite W01 F00→F03 prologue-ground terrain asset.
+"""Build an original, finite W01 F00→F14 route-ground terrain asset.
 
 Run with Blender 4.5+:
   blender --background --python assets/source/blender/photoworlds/W01/urman_forest_ground.py \
@@ -30,7 +30,7 @@ ROUTE_HALF_WIDTH = 1.05
 GRID_STEP = 0.5
 TEXTURE_SIZE = 1024
 BAKE_SIZE = 2048
-BAKED_ALBEDO_FILENAME = "prologue-ground-f00-f03-baked-albedo-2k.png"
+BAKED_ALBEDO_FILENAME = "prologue-ground-f00-f14-baked-albedo-2k.png"
 METRES_PER_REPEAT = 8.0
 FPS = 24
 
@@ -49,10 +49,65 @@ NODES = {
 }
 
 # The prologue is the authored continuous F00→F01→F02→F03 physical route.
-# The main entry adds only the F10→F11 approach; F12–F16 and its spatial link remain outside this asset.
+# Main entry and forest-side route sections share the same sampled ground profile.
 PROLOGUE_ROUTE_NODE_IDS = ("F00", "F01", "F02", "F03")
 MAIN_ENTRY_ROUTE_NODE_IDS = ("F10", "F11")
-PRODUCED_ROUTE_NODE_IDS = PROLOGUE_ROUTE_NODE_IDS + MAIN_ENTRY_ROUTE_NODE_IDS
+FOREST_EXIT_ROUTE_NODE_IDS = ("F14",)
+PRODUCED_ROUTE_NODE_IDS = PROLOGUE_ROUTE_NODE_IDS + ("F10", "F11", "F12", "F13", "F14")
+PAD_ROUTE_NODE_IDS = PROLOGUE_ROUTE_NODE_IDS + ("F10", "F11", "F14")
+PORTAL_LINK_LOCAL_GODOT = (-5.0, 0.0, 0.0)
+WALK_ENTRY_LOCAL_XZ = (0.0, -8.0)
+WALK_EXIT_LOCAL_XZ = (0.0, 8.0)
+PORTAL_ROUTE_HALF_WIDTH_M = 1.10
+F12_INCOMING_YAW_RAD = math.atan2(NODES["F12"]["xyz"][0] - NODES["F11"]["xyz"][0], NODES["F12"]["xyz"][2] - NODES["F11"]["xyz"][2])
+F13_OUTGOING_YAW_RAD = math.atan2(NODES["F14"]["xyz"][0] - NODES["F13"]["xyz"][0], NODES["F14"]["xyz"][2] - NODES["F13"]["xyz"][2])
+PORTAL_FRAME_YAW_RAD = (F12_INCOMING_YAW_RAD + F13_OUTGOING_YAW_RAD) * 0.5
+PORTAL_FRAME_YAW_DEG = math.degrees(PORTAL_FRAME_YAW_RAD)
+
+
+def portal_endpoint_xz(frame_node_id: str, local_xz):
+    frame = NODES[frame_node_id]["xyz"]
+    local_frame_x, _, local_frame_z = PORTAL_LINK_LOCAL_GODOT
+    dx, dz = local_xz[0] - local_frame_x, local_xz[1] - local_frame_z
+    cosine, sine = math.cos(PORTAL_FRAME_YAW_RAD), math.sin(PORTAL_FRAME_YAW_RAD)
+    return (frame[0] + dx * cosine + dz * sine,
+            frame[2] - dx * sine + dz * cosine)
+
+
+PORTAL_WALK_ENTRY_XZ = portal_endpoint_xz("F12", WALK_ENTRY_LOCAL_XZ)
+PORTAL_WALK_EXIT_XZ = portal_endpoint_xz("F13", WALK_EXIT_LOCAL_XZ)
+
+
+def bezier_route(first, second, start_yaw, end_yaw, first_handle, second_handle, samples=16):
+    start = (first[0], first[2])
+    end = (second[0], second[2])
+    start_forward = (math.sin(start_yaw), math.cos(start_yaw))
+    end_forward = (math.sin(end_yaw), math.cos(end_yaw))
+    control_1 = (start[0] + start_forward[0] * first_handle,
+                 start[1] + start_forward[1] * first_handle)
+    control_2 = (end[0] - end_forward[0] * second_handle,
+                 end[1] - end_forward[1] * second_handle)
+    points = []
+    for index in range(samples + 1):
+        t = index / samples
+        one = 1.0 - t
+        x = one**3 * start[0] + 3.0 * one**2 * t * control_1[0] + 3.0 * one * t**2 * control_2[0] + t**3 * end[0]
+        z = one**3 * start[1] + 3.0 * one**2 * t * control_1[1] + 3.0 * one * t**2 * control_2[1] + t**3 * end[1]
+        points.append((x, 0.0, z))
+    return points
+
+
+WALK_ENTRY_ROUTE = bezier_route(
+    NODES["F11"]["xyz"], (PORTAL_WALK_ENTRY_XZ[0], 0.0, PORTAL_WALK_ENTRY_XZ[1]),
+    math.atan2(NODES["F11"]["xyz"][0] - NODES["F10"]["xyz"][0], NODES["F11"]["xyz"][2] - NODES["F10"]["xyz"][2]),
+    PORTAL_FRAME_YAW_RAD, 5.0, 5.0,
+)
+WALK_EXIT_ROUTE = bezier_route(
+    (PORTAL_WALK_EXIT_XZ[0], 0.0, PORTAL_WALK_EXIT_XZ[1]), NODES["F14"]["xyz"],
+    PORTAL_FRAME_YAW_RAD,
+    math.atan2(NODES["F14"]["xyz"][0] - NODES["F13"]["xyz"][0], NODES["F14"]["xyz"][2] - NODES["F13"]["xyz"][2]),
+    5.0, 6.0,
+)
 ROUTES = [
     {
         "edge": [first, second],
@@ -62,9 +117,19 @@ ROUTES = [
     for first, second in zip(PROLOGUE_ROUTE_NODE_IDS, PROLOGUE_ROUTE_NODE_IDS[1:])
 ] + [
     {
-        "edge": list(MAIN_ENTRY_ROUTE_NODE_IDS),
+        "edge": ["F10", "F11"],
         "points": [NODES[node_id]["xyz"] for node_id in MAIN_ENTRY_ROUTE_NODE_IDS],
         "kind": "authored_physical",
+    },
+    {
+        "edge": ["F11", "WalkEntry"],
+        "points": WALK_ENTRY_ROUTE,
+        "kind": "authored_physical_to_transformed_walk_entry",
+    },
+    {
+        "edge": ["WalkExit", "F14"],
+        "points": WALK_EXIT_ROUTE,
+        "kind": "authored_physical_from_transformed_walk_exit",
     }
 ]
 BUILD_NODE_IDS = PRODUCED_ROUTE_NODE_IDS
@@ -143,8 +208,8 @@ def route_distance(x: float, z: float):
 
 
 def route_height_and_x(z: float):
-    # Keep the existing F00→F03 height profile unchanged. F10→F11 follows the
-    # same continuous surface; its waypoint heights are sampled from that mesh.
+    # Keep the existing F00→F03 height profile unchanged. All later route
+    # segments follow that same continuous surface; waypoint heights are sampled.
     first = NODES[PROLOGUE_ROUTE_NODE_IDS[0]]["xyz"]
     if z <= first[2]:
         return first[0], first[1]
@@ -168,27 +233,86 @@ def terrain_relief(x: float, z: float):
 
 def surface_height_and_masks(x: float, z: float):
     # Height continues to follow the established F00→F03 centerline. Additional
-    # route links change only the route mask, not the prologue terrain profile.
+    # route links change only the route mask, not the established terrain profile.
     route_x, route_y = route_height_and_x(z)
     height = route_y + terrain_relief(x, z) - terrain_relief(route_x, z)
 
     route_mask = clamp01(1.0 - smoothstep(ROUTE_HALF_WIDTH, 4.3, route_distance(x, z)))
-    for node_id in BUILD_NODE_IDS:
+    for node_id in PAD_ROUTE_NODE_IDS:
         nx, _, nz = NODES[node_id]["xyz"]
         pad_mask = 1.0 - smoothstep(1.2, 2.0, point_distance(x, z, nx, nz))
         route_mask = max(route_mask, pad_mask)
+    for nx, nz in (PORTAL_WALK_ENTRY_XZ, PORTAL_WALK_EXIT_XZ):
+        endpoint_pad = 1.0 - smoothstep(1.2, 2.0, point_distance(x, z, nx, nz))
+        route_mask = max(route_mask, endpoint_pad)
     leaf_a = math.exp(-(((x - 4.8) / 3.6) ** 2 + ((z - 15.0) / 8.0) ** 2) * 0.5)
     leaf_b = math.exp(-(((x - 15.8) / 4.0) ** 2 + ((z - 39.0) / 9.0) ** 2) * 0.5)
     root_a = math.exp(-(((x - 16.0) / 3.2) ** 2 + ((z - 52.0) / 5.5) ** 2) * 0.5)
     root_b = math.exp(-(((x - 7.0) / 3.2) ** 2 + ((z - 48.0) / 5.0) ** 2) * 0.5)
+    root_turn = math.exp(-(((x - 24.0) / 4.2) ** 2 + ((z - 70.0) / 5.0) ** 2) * 0.5)
+    root_back = math.exp(-(((x - 95.0) / 4.8) ** 2 + ((z - 120.0) / 5.5) ** 2) * 0.5)
+    root_encounter = math.exp(-(((x - 112.0) / 6.0) ** 2 + ((z - 148.0) / 5.5) ** 2) * 0.5)
     leaf_mask = (0.08 + 0.24 * max(leaf_a, leaf_b)) * (1.0 - 0.9 * route_mask)
-    root_mask = clamp01(0.32 * max(root_a, root_b)) * (1.0 - 0.85 * route_mask)
+    root_mask = clamp01(0.32 * max(root_a, root_b, root_turn, root_back, root_encounter)) * (1.0 - 0.85 * route_mask)
     moisture = clamp01(0.12 + 0.16 * (1.0 - max(leaf_a, leaf_b)) + 0.12 * shallow_hollow_value(x, z))
     return height, (route_mask, leaf_mask, root_mask, moisture)
 
 
 def shallow_hollow_value(x: float, z: float):
     return math.exp(-(((x + 4.0) / 6.0) ** 2 + ((z - 42.0) / 11.0) ** 2) * 0.5)
+
+
+def synchronize_route_heights():
+    # The mask route follows the existing continuous surface without altering
+    # its height field. This also makes the manifest's grades comparable to it.
+    for route in ROUTES:
+        route["points"] = [
+            (point[0], surface_height_and_masks(point[0], point[2])[0], point[2])
+            for point in route["points"]
+        ]
+
+
+def portal_link_contract():
+    entry_x, entry_z = PORTAL_WALK_ENTRY_XZ
+    exit_x, exit_z = PORTAL_WALK_EXIT_XZ
+    f12_x, _, f12_z = NODES["F12"]["xyz"]
+    f13_x, _, f13_z = NODES["F13"]["xyz"]
+    entry_height = surface_height_and_masks(entry_x, entry_z)[0]
+    exit_height = surface_height_and_masks(exit_x, exit_z)[0]
+    f12_height = surface_height_and_masks(f12_x, f12_z)[0]
+    f13_height = surface_height_and_masks(f13_x, f13_z)[0]
+    return {
+        "frame_node": "SpatialLinkFrame",
+        "frame_local_godot_xyz_m": list(PORTAL_LINK_LOCAL_GODOT),
+        "frame_local_yaw_deg": 0.0,
+        "world_frame_yaw_default_deg": PORTAL_FRAME_YAW_DEG,
+        "world_frame_yaw_basis": "mean of passport F11→F12 and F13→F14 horizontal tangents",
+        "walk_entry_node": "WalkEntry",
+        "walk_entry_local_godot_xyz_m": [WALK_ENTRY_LOCAL_XZ[0], entry_height - f12_height, WALK_ENTRY_LOCAL_XZ[1]],
+        "walk_entry_world_godot_xyz_m": [entry_x, entry_height, entry_z],
+        "walk_exit_node": "WalkExit",
+        "walk_exit_local_godot_xyz_m": [WALK_EXIT_LOCAL_XZ[0], exit_height - f13_height, WALK_EXIT_LOCAL_XZ[1]],
+        "walk_exit_world_godot_xyz_m": [exit_x, exit_height, exit_z],
+        "walk_surface_heights": {
+            "f12_spatial_frame_y_m": f12_height,
+            "walk_entry_ground_y_m": entry_height,
+            "walk_entry_local_y_delta_m": entry_height - f12_height,
+            "f13_spatial_frame_y_m": f13_height,
+            "walk_exit_ground_y_m": exit_height,
+            "walk_exit_local_y_delta_m": exit_height - f13_height,
+        },
+        "centerline_function": "x=-5*sin(pi*(z+8)/16)^2, local y smoothly joins ground endpoint samples and is 0 at SpatialLinkFrame, z in [-8,+8]",
+        "centerline_waypoints_local_godot_m": [
+            [0.0, entry_height - f12_height, -8.0],
+            [-2.5, 0.0, -4.0],
+            [-5.0, 0.0, 0.0],
+            [-2.5, 0.0, 4.0],
+            [0.0, exit_height - f13_height, 8.0],
+        ],
+        "route_half_width_m": PORTAL_ROUTE_HALF_WIDTH_M,
+        "route_waypoint_transform": "worldF12orF13Frame * inverse(local SpatialLinkFrame); terrain masks terminate at transformed WalkEntry and WalkExit, never directly across the central buttress",
+        "spatial_pairing": "paired copies share identical local SpatialLinkFrame pose; reciprocal player transfer occurs only at that opaque mid-bend plane",
+    }
 
 
 def mask_pixel(xi: int, yi: int):
@@ -280,10 +404,10 @@ def make_coordinate_axes():
 
 def png_material_images(output_dir: Path):
     image_paths = {
-        "soil": output_dir / "prologue-ground-f00-f03-soil-1k.png",
-        "leaves": output_dir / "prologue-ground-f00-f03-leaves-1k.png",
-        "roots": output_dir / "prologue-ground-f00-f03-roots-1k.png",
-        "masks": output_dir / "prologue-ground-f00-f03-masks-1k.png",
+        "soil": output_dir / "prologue-ground-f00-f14-soil-1k.png",
+        "leaves": output_dir / "prologue-ground-f00-f14-leaves-1k.png",
+        "roots": output_dir / "prologue-ground-f00-f14-roots-1k.png",
+        "masks": output_dir / "prologue-ground-f00-f14-masks-1k.png",
     }
     write_png(image_paths["soil"], TEXTURE_SIZE, TEXTURE_SIZE, 3, tile_pixel("soil"))
     write_png(image_paths["leaves"], TEXTURE_SIZE, TEXTURE_SIZE, 3, tile_pixel("leaf"))
@@ -536,13 +660,13 @@ def add_preview_rig(scene):
     overview_data.ortho_scale = 184
     overview_data.lens = 40
 
-    path_data = bpy.data.cameras.new("Preview_F01_to_F02_Close_Camera")
-    path_camera = bpy.data.objects.new("Preview_F01_to_F02_Close_Camera", path_data)
+    path_data = bpy.data.cameras.new("Preview_F11_to_F14_Route_Camera")
+    path_camera = bpy.data.objects.new("Preview_F11_to_F14_Route_Camera", path_data)
     bpy.context.collection.objects.link(path_camera)
-    path_camera.location = (41.0, -58.0, 19.0)
-    look_at(path_camera, (28.5, -72.5, 2.0))
+    path_camera.location = (63.0, -142.0, 62.0)
+    look_at(path_camera, (63.0, -98.0, 2.0))
     path_data.type = "ORTHO"
-    path_data.ortho_scale = 56
+    path_data.ortho_scale = 148
     path_data.lens = 35
     return overview, path_camera
 
@@ -551,24 +675,22 @@ def route_grade_summary():
     summary = {}
     for route in ROUTES:
         parts = []
+        sampled_grades = []
         for first, second in zip(route["points"], route["points"][1:]):
             dx, dz = second[0] - first[0], second[2] - first[2]
             length = math.hypot(dx, dz)
             parts.append(abs(second[1] - first[1]) / length)
-        first, second = route["points"][0], route["points"][-1]
-        dx, dz = second[0] - first[0], second[2] - first[2]
-        length = math.hypot(dx, dz)
-        samples = max(1, math.ceil(length / 0.25))
-        heights = []
-        for index in range(samples + 1):
-            t = index / samples
-            x = first[0] + dx * t
-            z = first[2] + dz * t
-            heights.append(surface_height_and_masks(x, z)[0])
-        actual_grade = max(abs(b - a) / (length / samples) for a, b in zip(heights, heights[1:]))
+            samples = max(1, math.ceil(length / 0.25))
+            heights = []
+            for index in range(samples + 1):
+                t = index / samples
+                x = first[0] + dx * t
+                z = first[2] + dz * t
+                heights.append(surface_height_and_masks(x, z)[0])
+            sampled_grades.extend(abs(b - a) / (length / samples) for a, b in zip(heights, heights[1:]))
         summary["↔".join(route["edge"])] = {
             "max_authored_or_default_segment_grade": max(parts),
-            "max_sampled_surface_grade": actual_grade,
+            "max_sampled_surface_grade": max(sampled_grades),
             "width_m": ROUTE_HALF_WIDTH * 2.0,
             "route_kind": route["kind"],
         }
@@ -596,6 +718,11 @@ def make_manifest(root, output_dir, ground, verts, xs, zs, node_heights, image_p
     spec_path = root / "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/assets.spec.json"
     level_path = root / "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/levels/W01_Лес_за_спиной_RU.md"
     palette_path = root / "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/docs/04_ART_DIRECTION_RU.md"
+    previous_manifest_path = root / "assets/source/blender/photoworlds/W01/prologue-ground-f00-f03-v1.manifest.json"
+    previous_manifest = json.loads(previous_manifest_path.read_text(encoding="utf-8"))
+    previous_mesh = previous_manifest["mesh"]
+    previous_bounds = previous_manifest["godot_bounds_m"]
+    portal_contract = portal_link_contract()
     route_points = {}
     for route in ROUTES:
         route_points["↔".join(route["edge"])] = [list(map(float, point)) for point in route["points"]]
@@ -603,6 +730,15 @@ def make_manifest(root, output_dir, ground, verts, xs, zs, node_heights, image_p
         "x": [min(v[0] for v in verts), max(v[0] for v in verts)],
         "y": [min(v[2] for v in verts), max(v[2] for v in verts)],
         "z": [min(-v[1] for v in verts), max(-v[1] for v in verts)],
+    }
+    current_triangle_count = len(ground.data.polygons)
+    current_vertex_count = len(ground.data.vertices)
+    bounds_delta = {
+        axis: [
+            godot_bounds[axis][index] - previous_bounds[axis][index]
+            for index in range(2)
+        ]
+        for axis in ("x", "y", "z")
     }
     textures = {}
     for key, path in image_paths.items():
@@ -620,7 +756,7 @@ def make_manifest(root, output_dir, ground, verts, xs, zs, node_heights, image_p
         "provenance": "Blender Cycles EMIT bake from the three project-original 1K tiles blended by ForestMasks vertex channels",
         "sRGB": True,
     }
-    preview_files = ["W01_ForestGround_F00_to_F03_Overview.png", "W01_ForestGround_F01_to_F02_Close.png"]
+    preview_files = ["W01_ForestGround_F00_to_F14_Overview.png", "W01_ForestGround_F11_to_F14_Routes.png"]
     return {
         "asset_id": "A-FOREST-GROUND",
         "consumer": "W01",
@@ -649,12 +785,26 @@ def make_manifest(root, output_dir, ground, verts, xs, zs, node_heights, image_p
             "root": "world origin at F00",
         },
         "godot_bounds_m": godot_bounds,
+        "previous_version_geometry_comparison": {
+            "manifest": str(previous_manifest_path.relative_to(root)),
+            "manifest_sha256": sha256(previous_manifest_path),
+            "vertex_count_before": previous_mesh["vertex_count"],
+            "vertex_count_after": current_vertex_count,
+            "triangle_count_before": previous_mesh["triangle_count"],
+            "triangle_count_after": current_triangle_count,
+            "vertex_count_delta": current_vertex_count - previous_mesh["vertex_count"],
+            "triangle_count_delta": current_triangle_count - previous_mesh["triangle_count"],
+            "godot_bounds_delta_m_by_axis": bounds_delta,
+            "bounds_unchanged": all(abs(delta) < 1e-6 for values in bounds_delta.values() for delta in values),
+            "grid_step_before_m": previous_mesh["regular_grid_step_m"],
+            "grid_step_after_m": GRID_STEP,
+        },
         "mesh": {
-            "file_blend": "prologue-ground-f00-f03-v1.blend",
-            "file_glb": "prologue-ground-f00-f03-v1.glb",
+            "file_blend": "prologue-ground-f00-f14-v1.blend",
+            "file_glb": "prologue-ground-f00-f14-v1.glb",
             "object": ground.name,
             "vertex_count": len(verts),
-            "triangle_count": len(ground.data.polygons),
+            "triangle_count": current_triangle_count,
             "x_axis_coordinate_count": len(xs),
             "z_axis_coordinate_count": len(zs),
             "regular_grid_step_m": GRID_STEP,
@@ -668,14 +818,14 @@ def make_manifest(root, output_dir, ground, verts, xs, zs, node_heights, image_p
             "visual_and_collision_surface_candidate": "same single terrain mesh; no separate height/normal-only relief",
             "collision_note": "candidate geometry only; no Godot collision resource or engine contact check in this stage",
         },
-        "coverage_scope": "authored F00→F01→F02→F03 prologue route and F10→F11 main-entry observation approach; remaining F12–F16 routes are not produced here",
+        "coverage_scope": "authored F00→F01→F02→F03 prologue route; F10→F11→transformed WalkEntry approach; transformed WalkExit→F14 encounter approach; the F12↔F13 opaque bent passage is a separate hero-root asset",
         "unproduced_authored_nodes": [node_id for node_id in NODES if node_id not in BUILD_NODE_IDS],
         "terrain_anchor_height_note": (
-            "F10/F11 X/Z retain the W01 passport values. Their Y values there are design-local; "
+            "F10–F14 X/Z retain the W01 passport values. Their Y values are design-local; "
             "the existing continuous ground preserves the authored F00→F03 height profile, so "
-            f"these two markers use their sampled ground heights instead (F10={node_heights['F10']:.9f} m, "
-            f"F11={node_heights['F11']:.9f} m). This preserves the prologue route and avoids placing F11 below "
-            "the terrain or changing its shared surface."
+            "these markers use sampled ground heights instead ("
+            + ", ".join(f"{node_id}={node_heights[node_id]:.9f} m" for node_id in ("F10", "F11", "F12", "F13", "F14"))
+            + "). This keeps every anchor on the unchanged shared surface while extending only the readable route mask."
         ),
         "authored_nodes": {
             node_id: {
@@ -684,7 +834,8 @@ def make_manifest(root, output_dir, ground, verts, xs, zs, node_heights, image_p
                 "xyz_m": list(node["xyz"]),
                 "terrain_vertex_y_m": node_heights[node_id],
                 "height_matches_author": abs(node_heights[node_id] - node["xyz"][1]) < 1e-6,
-                "walkable_pad_mask_radius_m": 1.2,
+                "walkable_pad_mask_radius_m": 1.2 if node_id in PAD_ROUTE_NODE_IDS else 0.0,
+                "spatial_frame_not_ground_route": node_id in ("F12", "F13"),
             }
             for node_id, node in NODES.items() if node_id in BUILD_NODE_IDS
         },
@@ -701,9 +852,11 @@ def make_manifest(root, output_dir, ground, verts, xs, zs, node_heights, image_p
         "spatial_link": {
             "entry": "F12",
             "exit": "F13",
-            "asset_surface_relation": "outside this bounded F00→F03 and F10→F11 surface routes",
-            "physical_corridor_generated_or_advertised": False,
-            "note": "F12↔F13 is a spatial transform, not an ordinary physical route; neither anchor nor corridor is included in this prologue asset.",
+            "asset_surface_relation": "F12 and F13 are the mid-bend spatial-link frames; ground route masks end at the transformed WalkEntry/WalkExit nodes, which join the solid root-ribbon floor",
+            "terrain_mesh_contains_passage": False,
+            "paired_hero_root_asset": "res://assets/photoworlds/hero_root/hero-root-turn-v1.glb",
+            "module_contract": portal_contract,
+            "note": "F12↔F13 is a reversible authored transform at one opaque mid-bend SpatialLinkFrame; terrain pads do not form a direct masked shortcut through the buttress.",
         },
         "vertex_masks": {
             "attribute": "ForestMasks",
@@ -728,8 +881,8 @@ def make_manifest(root, output_dir, ground, verts, xs, zs, node_heights, image_p
         },
         "production_defaults": [
             "A continuous, low-relief surface follows the exact F00→F01→F02→F03 node heights; its shallow shoulders are a production default.",
-            "A 2.1 m readable ground track and walkable observation pad connect F10→F11 over the same surface, without changing the prologue profile.",
-            "This bounded route does not produce F12–F16 or the F12↔F13 spatial link.",
+            "A 2.1 m readable ground track connects F10→F11→transformed WalkEntry and transformed WalkExit→F14 on the same unchanged surface; only the existing color-mask route changes.",
+            "F12↔F13 uses a separate opaque, walk-through paired hero-root asset with one mid-bend SpatialLinkFrame and distinct WalkEntry/WalkExit endpoints.",
             "Leaf and root fields are terrain materials/masks; no separate debris, fence, tree, or gameplay prop is included.",
         ],
         "offline_previews": preview_files,
@@ -738,7 +891,7 @@ def make_manifest(root, output_dir, ground, verts, xs, zs, node_heights, image_p
             "mesh_metrics_checked": True,
             "authored_node_heights_checked": True,
             "textures_written_and_hashed": True,
-            "blender_rendered_overview_and_f01_f02_close": True,
+            "blender_rendered_overview_and_f11_f14_route_view": True,
             "godot_import": "not run",
             "walk_and_collision_contact": "not run",
             "art_author_review": "pending",
@@ -753,6 +906,7 @@ def main():
         raise RuntimeError(f"Refusing to overwrite existing staging directory: {output_dir}")
     output_dir.mkdir(parents=True, exist_ok=False)
     root = project_root()
+    synchronize_route_heights()
     scene = configure_scene()
     image_paths = png_material_images(output_dir)
     ground, verts, heights, xs, zs, material, mask_values = create_mesh(image_paths)
@@ -766,20 +920,20 @@ def main():
     scene.render.resolution_x = 1400
     scene.render.resolution_y = 1000
     scene.render.image_settings.file_format = "PNG"
-    scene.render.filepath = str(output_dir / "W01_ForestGround_F00_to_F03_Overview.png")
+    scene.render.filepath = str(output_dir / "W01_ForestGround_F00_to_F14_Overview.png")
     bpy.ops.render.render(write_still=True)
 
     scene.camera = close_camera
     scene.render.resolution_x = 1400
     scene.render.resolution_y = 1000
-    scene.render.filepath = str(output_dir / "W01_ForestGround_F01_to_F02_Close.png")
+    scene.render.filepath = str(output_dir / "W01_ForestGround_F11_to_F14_Routes.png")
     bpy.ops.render.render(write_still=True)
 
     scene.camera = overview
     scene.render.engine = "BLENDER_EEVEE_NEXT"
     scene.render.filepath = "//"
-    blend_path = output_dir / "prologue-ground-f00-f03-v1.blend"
-    glb_path = output_dir / "prologue-ground-f00-f03-v1.glb"
+    blend_path = output_dir / "prologue-ground-f00-f14-v1.blend"
+    glb_path = output_dir / "prologue-ground-f00-f14-v1.glb"
     bpy.ops.wm.save_as_mainfile(filepath=str(blend_path), check_existing=False)
 
     bpy.ops.object.select_all(action="DESELECT")
@@ -808,7 +962,7 @@ def main():
         manifest.setdefault("preview_receipts", {})[preview] = {"sha256": sha256(path), "bytes": path.stat().st_size}
     manifest["mesh"]["triangle_count"] = len(ground.data.polygons)
     manifest["mesh"]["vertex_count"] = len(ground.data.vertices)
-    manifest_path = output_dir / "prologue-ground-f00-f03-v1.manifest.json"
+    manifest_path = output_dir / "prologue-ground-f00-f14-v1.manifest.json"
     manifest_path.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(json.dumps({
         "output_dir": str(output_dir),

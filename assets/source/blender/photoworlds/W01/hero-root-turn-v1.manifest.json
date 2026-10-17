@@ -1,0 +1,285 @@
+{
+  "asset_id": "A-HERO-ROOT",
+  "asset": "hero-root-turn-v1",
+  "consumer": "W01 F12↔F13 spatial passage; paired copies share one local SpatialLinkFrame",
+  "stage_only": true,
+  "scene_ready": false,
+  "native_or_godot_import_verified": false,
+  "collision_surface_generated_or_verified": false,
+  "source_script": "/Users/unterlantas/Documents/GitHub/URMAN/assets/source/blender/photoworlds/W01/hero_root_turn_v1.py",
+  "source_script_sha256": "6907f77928c7e8045405644d3bc2be82f0b1df9b6af73fd1d6e88eda081159e0",
+  "input_specs": {
+    "asset_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/assets.spec.json",
+    "asset_spec_sha256": "b4aa6e775b2591e1cb56d0bf82ad19f0051a21ea6ebd96367839ea2f6f2847c1",
+    "level_passport": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/levels/W01_Лес_за_спиной_RU.md",
+    "level_passport_sha256": "044332371204d18f8564028132a7d363fd85eb3232440f48d3b8eb6eb5baef1d",
+    "bark_texture": "game/assets/textures/painterly/bark_spruce_v1_albedo.png",
+    "bark_texture_sha256": "3a526b203d11df79eb7c99bb2317f84fd60f58978cf0ce54e6f94be7efc66acf",
+    "bark_receipt": "game/assets/textures/painterly/procedural_bake_receipt_v1.json",
+    "bark_receipt_sha256": "077559f555634885de4616311688d65066b9c0a063a686a0b77836c016dadc2c",
+    "bark_receipt_entry": {
+      "card": "F03",
+      "consumer": "new spruce bark slot (suggest bark_spruce): AgentBAct1ExteriorLayer WinterSpruce_* trunks, non-pine bark path",
+      "file": "game/assets/textures/painterly/bark_spruce_v1_albedo.png",
+      "generator": "tools/blender/bake_procedural_textures.py",
+      "licence": "project-original procedural (no third-party source)",
+      "metres_per_repeat": 1.0,
+      "seed": 20260303,
+      "sha256": "3a526b203d11df79eb7c99bb2317f84fd60f58978cf0ce54e6f94be7efc66acf",
+      "size": "1024x1024 RGB8 sRGB"
+    },
+    "ground_manifest": "assets/source/blender/photoworlds/W01/prologue-ground-f00-f14-v1.manifest.json",
+    "ground_manifest_sha256": "cff977f0b3c73f0b9063508178ab5118aefe47b4009122de377b77f17907ed4e",
+    "ground_source_sha256": "ba60f5a792b92fbf7a8ad54ee5b91f8657b74814961958e006e7a3d65520467b"
+  },
+  "coordinate_contract": {
+    "source_local": "Godot X/Y/Z in metres; Blender source maps (X,-Z,Y)",
+    "root_node": "A_HERO_ROOT_Turn",
+    "imported_scale": 1.0,
+    "godot_forward": "+Z",
+    "walk_surface_y_m": "sampled from generated ground endpoint heights; zero at SpatialLinkFrame",
+    "world_frame_yaw_default_deg": 27.853843237396983,
+    "world_frame_yaw_basis": "mean of F11→F12 and F13→F14 horizontal passport tangents"
+  },
+  "mesh": {
+    "file_blend": "hero-root-turn-v1.blend",
+    "file_glb": "hero-root-turn-v1.glb",
+    "root_node": "A_HERO_ROOT_Turn",
+    "vertex_count": 15656,
+    "triangle_count": 30108,
+    "mesh_objects": {
+      "HeroRoot_Arch_Root_One": {
+        "vertices": 920,
+        "triangles": 1764
+      },
+      "HeroRoot_Arch_Root_Three": {
+        "vertices": 776,
+        "triangles": 1476
+      },
+      "HeroRoot_Arch_Root_Two": {
+        "vertices": 920,
+        "triangles": 1764
+      },
+      "HeroRoot_Buttress_Root_East": {
+        "vertices": 702,
+        "triangles": 1320
+      },
+      "HeroRoot_Buttress_Root_Northeast": {
+        "vertices": 702,
+        "triangles": 1320
+      },
+      "HeroRoot_Buttress_Root_Southeast": {
+        "vertices": 702,
+        "triangles": 1320
+      },
+      "HeroRoot_Central_Root_Rib": {
+        "vertices": 380,
+        "triangles": 700
+      },
+      "HeroRoot_CentralButtress_LOD0": {
+        "vertices": 1624,
+        "triangles": 3136
+      },
+      "HeroRoot_Entry_Root_Spur": {
+        "vertices": 434,
+        "triangles": 800
+      },
+      "HeroRoot_Entry_Support_Root": {
+        "vertices": 380,
+        "triangles": 700
+      },
+      "HeroRoot_EntryButtress_LOD0": {
+        "vertices": 840,
+        "triangles": 1600
+      },
+      "HeroRoot_Exit_Root_Spur": {
+        "vertices": 434,
+        "triangles": 800
+      },
+      "HeroRoot_Exit_Support_Root": {
+        "vertices": 380,
+        "triangles": 700
+      },
+      "HeroRoot_ExitButtress_LOD0": {
+        "vertices": 840,
+        "triangles": 1600
+      },
+      "HeroRoot_Side_Root_Left": {
+        "vertices": 380,
+        "triangles": 700
+      },
+      "HeroRoot_Side_Root_Right": {
+        "vertices": 380,
+        "triangles": 700
+      },
+      "HeroRoot_Trunk_Center_LOD0": {
+        "vertices": 1322,
+        "triangles": 2640
+      },
+      "HeroRoot_Trunk_Left_LOD0": {
+        "vertices": 1046,
+        "triangles": 2088
+      },
+      "HeroRoot_Trunk_Right_LOD0": {
+        "vertices": 1046,
+        "triangles": 2088
+      },
+      "HeroRoot_WalkRibbon_LOD0": {
+        "vertices": 1448,
+        "triangles": 2892
+      }
+    },
+    "godot_bounds_m": {
+      "x": [
+        -6.099999904632568,
+        7.138066291809082
+      ],
+      "y": [
+        -0.893123209476471,
+        8.430000305175781
+      ],
+      "z": [
+        -10.503305435180664,
+        10.642671585083008
+      ]
+    },
+    "unique_mask": {
+      "file": "hero-root-turn-v1-mask-2k.png",
+      "sha256": "4ed124a6e9e9437175d4454135b5b336ad38a68f72a09b00bcda2f36fa8c4ba7",
+      "size_px": [
+        2048,
+        2048
+      ],
+      "channels": {
+        "R": "bark relief",
+        "G": "asset-specific lichen blend",
+        "B": "worn root grain"
+      },
+      "provenance": "project-original deterministic tileable multiscale value-noise mask; no third-party source"
+    },
+    "baked_albedo": {
+      "file": "hero-root-turn-v1-albedo-2k.png",
+      "sha256": "34e9dc63dcfbda56096718bdbc29163bb7d2c487fbd5076ae9d8328131d3dcde",
+      "size_px": [
+        2048,
+        2048
+      ],
+      "provenance": "GLTF-compatible linear-space blend of project-original bark albedo and the authored mask Green channel; packed into the Blender source",
+      "runtime_embedded": true
+    },
+    "reused_bark": {
+      "file": "game/assets/textures/painterly/bark_spruce_v1_albedo.png",
+      "sha256": "3a526b203d11df79eb7c99bb2317f84fd60f58978cf0ce54e6f94be7efc66acf",
+      "repeat_m": 1.0,
+      "source": "game/assets/textures/painterly/procedural_bake_receipt_v1.json#textures.F03",
+      "provenance": "project-original procedural (no third-party source)"
+    },
+    "file_blend_sha256": "77fea773a68405ac9843cd6600392d9176da166a8bf1bcf06fc31e36940b1fd5",
+    "file_glb_sha256": "dbdfb18788a2b0d1202b7caa1bce68646f2a30f44267fb4e9615533c08494761",
+    "file_blend_bytes": 4144445,
+    "file_glb_bytes": 3102268
+  },
+  "spatial_link": {
+    "frame_node": "SpatialLinkFrame",
+    "frame_local_godot_xyz_m": [
+      -5.0,
+      0.0,
+      0.0
+    ],
+    "frame_local_yaw_deg": 0.0,
+    "player_entry_node": "WalkEntry",
+    "player_entry_local_godot_xyz_m": [
+      0.0,
+      -0.43312319563683,
+      -8.0
+    ],
+    "player_exit_node": "WalkExit",
+    "player_exit_local_godot_xyz_m": [
+      0.0,
+      0.10526777452340896,
+      8.0
+    ],
+    "route_waypoints_godot_local_m": [
+      [
+        0.0,
+        -0.43312319563683,
+        -8.0
+      ],
+      [
+        -2.5,
+        -0.216561597818415,
+        -4.0
+      ],
+      [
+        -5.0,
+        0.0,
+        0.0
+      ],
+      [
+        -2.5,
+        0.05263388726170448,
+        4.0
+      ],
+      [
+        0.0,
+        0.10526777452340896,
+        8.0
+      ]
+    ],
+    "centerline_function": "x=-5*sin(pi*(z+8)/16)^2; y smoothly joins generated WalkEntry/WalkExit ground deltas to y=0 at SpatialLinkFrame; z in [-8,+8]",
+    "minimum_sampled_turn_radius_m": 2.5938223012438475,
+    "route_half_width_m": 1.1,
+    "route_headroom_m": 2.15,
+    "pairing": "rootTransform = worldSpatialLinkFrame * inverse(local SpatialLinkFrame); apply reciprocal transform at the same local plane; retain local relative yaw and horizontal velocity",
+    "walk_endpoint_world_positions_from_ground_manifest": {
+      "WalkEntry": [
+        24.682969812594184,
+        1.4569393354167453,
+        60.59077302669954
+      ],
+      "WalkExit": [
+        103.15845320418948,
+        3.6608233300789643,
+        124.7370498535534
+      ]
+    },
+    "ground_manifest_input": "assets/source/blender/photoworlds/W01/prologue-ground-f00-f14-v1.manifest.json",
+    "ground_manifest_sha256": "cff977f0b3c73f0b9063508178ab5118aefe47b4009122de377b77f17907ed4e"
+  },
+  "geometry_safety": {
+    "straight_eye_height_chord_occluded": true,
+    "eye_height_m": 1.62,
+    "minimum_route_turn_radius_m": 2.5938223012438475,
+    "clear_walkway_width_m": 2.2,
+    "minimum_sampled_side_clearance_m": 2.0098220921063996,
+    "minimum_sampled_headroom_m": 2.8530436472501606,
+    "headroom_requirement_m": 2.15,
+    "headroom_sample_method": "raycast up from five lateral stations at 0.16 m above ribbon, 321 longitudinal stations; recorded ground-to-first-obstruction height (4.16 m lower bound when no hit within 4 m)",
+    "walkable_floor": "HeroRoot_WalkRibbon_LOD0, solid mesh with closed sides and underside"
+  },
+  "coverage_scope": "one opaque, physically walkable curved root passage module; not a complete W01 forest or encounter",
+  "offline_previews": [
+    "hero-root-turn-v1-entry.png",
+    "hero-root-turn-v1-overview.png"
+  ],
+  "verification_scope": {
+    "source_generated": true,
+    "node_names_checked_in_blender_scene": true,
+    "mesh_metrics_checked": true,
+    "sightline_and_clearance_sampled": true,
+    "blender_rendered_entry_and_overview": true,
+    "godot_import": "not run",
+    "in_game_frame_mapping_and_physics": "not run",
+    "art_author_review": "pending"
+  },
+  "offline_preview_receipts": {
+    "hero-root-turn-v1-entry.png": {
+      "sha256": "4bcbded8e8be5838d930ae514da40374718941305a8c386a74cc3e9e7a6d60fd",
+      "bytes": 1842785
+    },
+    "hero-root-turn-v1-overview.png": {
+      "sha256": "7ef6a5f1a67d5098b59690deee0cd7a237c9b168c43f87b2875f6cc8af50d8aa",
+      "bytes": 1860582
+    }
+  }
+}

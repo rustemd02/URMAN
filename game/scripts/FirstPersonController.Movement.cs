@@ -5,10 +5,10 @@ namespace Urman.Godot;
 public partial class FirstPersonController
 {
     private const float SprintMultiplier = 2.6f / 1.6f;
-    private const float JumpHeight = .42f;
+    private const float JumpHeight = .60f;
     private const float GroundAcceleration = 24f;
     private const float GroundDeceleration = 30f;
-    private const float AirControlAcceleration = 5f;
+    private const float AirControlAcceleration = 7.5f;
     private uint _walkingCollisionLayer;
     private uint _walkingCollisionMask;
 

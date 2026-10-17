@@ -70,6 +70,28 @@ fov = 48.0
 [node name="F11" type="Marker3D" parent="Anchors"]
 position = Vector3(14, 0.968182076, 48)
 
+; Shared opaque spatial-link plane. Both mount frames use the same passport-derived yaw.
+[node name="F12" type="Marker3D" parent="Anchors"]
+position = Vector3(24, 1.890062531, 70)
+rotation_degrees = Vector3(0, 27.853843, 0)
+
+[node name="F13" type="Marker3D" parent="Anchors"]
+position = Vector3(95, 3.555555556, 120)
+rotation_degrees = Vector3(0, 27.853843, 0)
+
+; Passport X/Z retained; Y=4 is sampled from the continuous terrain (passport Y=7 is design-local).
+[node name="F14" type="Marker3D" parent="Anchors"]
+position = Vector3(112, 4, 148)
+rotation_degrees = Vector3(0, 31.2845, 0)
+
+; Both markers match the F14-local support and placement coordinates in the A-HERO-ROOT support manifest.
+[node name="BagSnagContact" type="Marker3D" parent="Anchors/F14"]
+position = Vector3(2.2, 1.28, 0.46)
+
+; The released bag settles on the sampled terrain shoulder just outside the trail edge.
+[node name="BagPlacementGround" type="Marker3D" parent="Anchors/F14"]
+position = Vector3(2.45, 0, 0.46)
+
 [node name="PrologueUI" type="CanvasLayer" parent="."]
 layer = 12
 

@@ -117,7 +117,7 @@ public partial class Act1PlayerMovementSmokeTest : Node
                 peak = Math.Max(peak, _player.GlobalPosition.Y);
             }
             Check(_player.GroundedJumps == jumps + 1 && _player.IsOnFloor()
-                && peak - baseY > .30f && peak - baseY < .58f,
+                && peak - baseY > .56f && peak - baseY < .68f,
                 $"airborne repress and held landing cannot double-jump or repeat; peak={peak - baseY:F3}m");
             Input.ActionRelease("jump");
             await Frames(3);

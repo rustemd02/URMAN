@@ -70635,7 +70635,7 @@
       "jump_candidate_2026_10_17": {
         "source": "game/scripts/FirstPersonController.Movement.cs",
         "result": "JumpHeight .42→.60m and air acceleration5→7.5m/s². Source-derived airtime .394→.471s; walking momentum can reverse before landing. Existing exact smoke peak range intentionally updated to .56–.68m.",
-        "verification": "Source inspection only so far; native job3169a0f2 includes candidate. No new tests added or run.",
+        "verification": "Game affected compile PASS16.52s 0 errors/warnings; native3169a0f2 build/importexit0 reachedmenu but refusedinput, jump itself NOT_RUN.",
         "remaining": "Compile/native jump/air steering/held-jump/roof/crouch check and subjective movement acceptance. No claim natural or satisfying."
       }
     },
@@ -119699,19 +119699,19 @@
             "owner": "world_art",
             "evidence": [],
             "assigned_owner": "world_art",
-            "active_owner": "Codex/persistence",
+            "active_owner": null,
             "activity": {
-              "state": "confirmed_active",
-              "reason": "F11→F12→F13→F14 physical passage/platform; exact W01 scene/controller, ground generator/output and hero_root assets. No automatic encounter completion."
+              "state": "not_active",
+              "reason": "F12–F14 technical source slice integrated and affected compile passed; root native integration pending. Existing assigned owner preserved."
             },
             "task_type": "engineering",
             "status": "in_progress",
-            "implementation_state": "not_started",
+            "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
               "Собрать узлы F00, F01, F02, F03, F10, F11, F12, F13, F14, F15, F16 и все связи из level-паспорта.; собственного целевого receipt пока нет."
             ],
-            "next_action": "Проверить импорт/видимость/проходимость F10→F11 на native candidate; затем физически понятное наблюдение PW046 без целиться в пустоту. Не закрывать весь E01/E02 одним сегментом.",
+            "next_action": "Native import and F11→F12→F13→F14 round trip/capsule/save on frozen candidate; repair hero-root forms, then F15/F16. Do not close whole unit with this source slice.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -119795,6 +119795,17 @@
               "result": "Произведён 2.1м F10→F11 track и F11 ground anchor(14,.968182076,48); F00–F03 heights/grades сохранены. Blender223929vertices/445952triangles, source manifest обновлён.",
               "verification": "Blender generation exit0 + scoped diffcheck + manifest/source review; native import/contact/frame NOT_RUN. Offline preview только terrain, не художественная приёмка сцены.",
               "remaining": "Native route/frame; natural observation action PW046 пока не реализован — invisible ray hotspot отклонён. F12–F16 и остальные families открыты."
+            },
+            "progress_2026_10_17_f14": {
+              "result": "Terrain-fit F11→F12 and F13→F14 ground; reciprocal opaque-bend SpatialLinkFrame passage, capsule exit sweep, leave-volume cooldown; same-scene session reset and observed-opposite-side crossing. F14 visible root-fork support/contact plus strict snag/placement markers.",
+              "source": [
+                "game/scripts/photoworlds/W01Controller.cs",
+                "game/scenes/photoworlds/W01/W01.tscn",
+                "assets/source/blender/photoworlds/W01/hero_root_turn_v1.py",
+                "assets/source/blender/photoworlds/W01/f14_old_root_support_v1.py"
+              ],
+              "verification": "Pinned Blender generated/exported; source-stage/runtime GLB SHA matched; root viewed offline previews; independent traversal review and bug corrections; affected Game compile PASS 16.52s, 0 warnings/errors. Native import/traversal NOT_RUN.",
+              "remaining": "Portal art rejected as cones/pipes and needs coherent organic forms; runtime collision/motion/return/save and F15/F16 still open. Terrain-fit F14Y4 differs from designY7; local terrain-consistent placement only, not final composition acceptance."
             }
           },
           {
@@ -119812,7 +119823,7 @@
             "active_owner": null,
             "activity": {
               "state": "not_active",
-              "reason": "A-BAG source/GLB/3strap clips delivered and root reviewed both offline poses; native import/integration still open."
+              "reason": "F12–F14 technical source slice integrated and affected compile passed; root native integration pending. Existing assigned owner preserved."
             },
             "task_type": "engineering",
             "status": "in_progress",
@@ -119823,7 +119834,7 @@
               "F01/F03 authored graph gap исправлен в 5f1d9e98; существующий semantic route обновлён, ещё NOT_RUN. Нужен physical binding обоих endpoints и основного forest move, не ранний выход вместо полного пролога.",
               "W01 source consumer ground/F01 принят24.38s compile; real scene runtime/material/contacts/capsule/save/мovedbranchinspect NOT_RUN. Forestkit stage2 и isolatedbirch stage8 root rejected; untracked source/tmp сохранены, assetsнепубликовались."
             ],
-            "next_action": "Проверить импорт/видимость/проходимость F10→F11 на native candidate; затем физически понятное наблюдение PW046 без целиться в пустоту. Не закрывать весь E01/E02 одним сегментом.",
+            "next_action": "Native import and F11→F12→F13→F14 round trip/capsule/save on frozen candidate; repair hero-root forms, then F15/F16. Do not close whole unit with this source slice.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -120055,6 +120066,17 @@
               "runtime_asset": "game/assets/photoworlds/bag/bag-v1.glb",
               "verification": "Root viewed both offline previews; exporter checked dimensions/nodes/clips; root verified all manifest hashes. Godot import and physical action NOT_RUN.",
               "remaining": "Instantiate and align actual root snag, D06 gate→visible release/place→single reducer success/D07; native and art acceptance."
+            },
+            "progress_2026_10_17_f14": {
+              "result": "Terrain-fit F11→F12 and F13→F14 ground; reciprocal opaque-bend SpatialLinkFrame passage, capsule exit sweep, leave-volume cooldown; same-scene session reset and observed-opposite-side crossing. F14 visible root-fork support/contact plus strict snag/placement markers.",
+              "source": [
+                "game/scripts/photoworlds/W01Controller.cs",
+                "game/scenes/photoworlds/W01/W01.tscn",
+                "assets/source/blender/photoworlds/W01/hero_root_turn_v1.py",
+                "assets/source/blender/photoworlds/W01/f14_old_root_support_v1.py"
+              ],
+              "verification": "Pinned Blender generated/exported; source-stage/runtime GLB SHA matched; root viewed offline previews; independent traversal review and bug corrections; affected Game compile PASS 16.52s, 0 warnings/errors. Native import/traversal NOT_RUN.",
+              "remaining": "Portal art rejected as cones/pipes and needs coherent organic forms; runtime collision/motion/return/save and F15/F16 still open. Terrain-fit F14Y4 differs from designY7; local terrain-consistent placement only, not final composition acceptance."
             }
           },
           {
@@ -120777,6 +120799,12 @@
         "result": "F11 grounded observation zone, frustum/LOS of three exact landmark shapes, existing pw-forest-group reducer, localized authored reaction. No invisible interaction target or auto-F13.",
         "verification": "Affected Game compile 0 errors/warnings; source review layer0 finding withdrawn: visible projection sets layer1 before polling. Content compiled. Runtime not yet accepted.",
         "remaining": "Native approach/framing/reaction/journal; F12–F16 and encounter remain open."
+      },
+      "bag_integration_2026_10_17": {
+        "source": "game/scripts/photoworlds/W01Controller.Bag.cs",
+        "result": "One bag instance: player-gated strap release → visible lift/side/rotate/lower → authored reducer fact → awaited same-session checkpoint and D07. Saved projection restores final pose; cancellation/session change does not commit partial motion. Save failure warns and preserves dialogue/story progression.",
+        "verification": "Source review + strict markers/support mesh contact; Game compile PASS16.52s. Native physical action/save/reentry NOT_RUN.",
+        "remaining": "Shurale/D06 encounter binding and native action/placement/save/return acceptance; no hidden fact bypass."
       }
     },
     {
@@ -140889,7 +140917,8 @@
         "verification": "Independent read-only source review found no substantive blocker; native INPUT layout 40B x64/28B x86; Windows PS parser and extracted C# Add-Type compile PASS; worker AST PASS. Exact baseline/staged/installed SHA verified; backup maintenance/20261017-caption-7df214be; idle scheduled worker restarted.",
         "remaining": "Native activation and normal gameplay not yet verified; input has inherent small TOCTOU between final ownership check and injection.",
         "job_id": "3169a0f24896435ea7602586f69feb15",
-        "snapshot_id": "1716716e5db1ec3a51ae65929476b4a2bd77018120579ee91d8174848f6e3de2"
+        "snapshot_id": "1716716e5db1ec3a51ae65929476b4a2bd77018120579ee91d8174848f6e3de2",
+        "observed_result": "3169a0f2 actual menu, one Enter refused ui_focus_caption_target_changed; no gameplay input. Terminal timeout124, resultSHAd980d83b962f21e199afd5f099328668bec554fa7e17c6311fcb580192382e11; userdataRestored=true. Seven fixed phase codes now distinguish bounds/hit HWND/owner/pointer without exposing foreign data; no behavior relaxed."
       }
     },
     {
