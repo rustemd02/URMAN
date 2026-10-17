@@ -85,6 +85,11 @@ $savedPoints = $env:URMAN_VIEW_POINTS
 $savedPhase = $env:URMAN_ATMOSPHERE_PHASE
 $savedFov = $env:URMAN_VIEW_FOV
 $vehicleSmoke = $Mode -eq 'smoke' -and $Scene -eq 'res://tests/vehicle_smoke_test.tscn'
+$playerSmoke = $Mode -eq 'smoke' -and $Scene -eq 'res://tests/act1_player_movement_smoke_test.tscn'
+$playerEnvironment = @{}
+foreach ($name in @('URMAN_PLAYER_OUTPUT', 'URMAN_PLAYER_CAPTURE')) {
+    $playerEnvironment[$name] = [Environment]::GetEnvironmentVariable($name, 'Process')
+}
 $vehicleEnvironment = @{}
 foreach ($name in @('URMAN_VEHICLE_OUTPUT', 'URMAN_VEHICLE_CAPTURE', 'URMAN_VEHICLE_WHEELS_ONLY', 'URMAN_VEHICLE_MOUSE_ONLY', 'URMAN_VEHICLE_COMPOUND_ONLY', 'URMAN_VEHICLE_CONTACT_ONLY', 'URMAN_VEHICLE_ADDRESS_ONLY', 'URMAN_VEHICLE_CART_ONLY')) {
     $vehicleEnvironment[$name] = [Environment]::GetEnvironmentVariable($name, 'Process')
@@ -186,6 +191,15 @@ try {
             if (-not $Headless) { $env:URMAN_VEHICLE_CAPTURE = '1' }
             $receipt.vehicleEvidence = 'vehicle/receipt.json'
         }
+        if ($playerSmoke) {
+            foreach ($name in $playerEnvironment.Keys) {
+                [Environment]::SetEnvironmentVariable($name, $null, 'Process')
+            }
+            # Use the existing movement scenario's output contract, within this job's artifacts.
+            $env:URMAN_PLAYER_OUTPUT = Join-Path ([IO.Path]::GetFullPath($output)) 'player'
+            if (-not $Headless) { $env:URMAN_PLAYER_CAPTURE = '1' }
+            $receipt.playerEvidence = 'player/player-movement-receipt.json'
+        }
         if ($Mode -eq 'smoke') { $baseArguments += '--urman-smoke-background-input' }
         $runCount = if ($studioPlay) { 1 + $StudioRestarts } else { 1 }
         $gamePhaseClock = [Diagnostics.Stopwatch]::StartNew()
@@ -266,6 +280,11 @@ try {
     if ($vehicleSmoke) {
         foreach ($name in $vehicleEnvironment.Keys) {
             [Environment]::SetEnvironmentVariable($name, $vehicleEnvironment[$name], 'Process')
+        }
+    }
+    if ($playerSmoke) {
+        foreach ($name in $playerEnvironment.Keys) {
+            [Environment]::SetEnvironmentVariable($name, $playerEnvironment[$name], 'Process')
         }
     }
     $env:URMAN_VIEW_CAPTURE = $savedCapture

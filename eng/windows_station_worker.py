@@ -43,6 +43,22 @@ UI_KEY_CHORDS = frozenset(
      *(modifier + key for modifier in ('^', '+', '^+') for key in UI_KEY_BASES),
      *UI_KEY_ADDITIONS])
 UI_MOVE_KEYS = frozenset(('w', 'a', 's', 'd', 'e'))
+UI_HELPER_FAILURE_CODES = {
+    'The requested game window is not verified.': 'ui_window_unverified',
+    'The owned game window changed process.': 'ui_window_process_changed',
+    'The owned game window title changed.': 'ui_window_title_changed',
+    'The owned game window lost foreground focus.': 'ui_window_focus_lost',
+    'The owned game window bounds are unavailable.': 'ui_window_bounds_unavailable',
+    'The owned game window bounds changed during the request.': 'ui_window_bounds_changed',
+    'The owned game window bounds are outside the supported range.': 'ui_window_bounds_invalid',
+    'Expected exactly one approved URMAN window for the owned Godot PID.': 'ui_window_missing_or_ambiguous',
+    'The selected window is not owned by the requested PID.': 'ui_process_guard_refused',
+    'The requested PID is not one live Godot process.': 'ui_process_guard_refused',
+    'The owned Godot command must have exactly one --path argument.': 'ui_source_guard_refused',
+    'The requested Godot PID is not running this job source.': 'ui_source_guard_refused',
+    'Unsupported game UI key.': 'ui_action_refused',
+    'Unsupported game UI action.': 'ui_action_refused',
+}
 UI_ACTION_LIMIT = 4096
 UI_HELPER_TIMEOUT_SECONDS = 20
 INTERACTIVE_FRAME_TIMEOUT_SECONDS = 30
@@ -2522,11 +2538,11 @@ class Station:
     def _run_ui_helper(self, jid, pid, source, action):
         system_root = os.environ.get('SystemRoot')
         if not system_root:
-            return False
+            return 'ui_helper_launch_failed'
         powershell = Path(system_root) / 'System32/WindowsPowerShell/v1.0/powershell.exe'
         helper = self.repo / 'eng/windows-game-ui.ps1'
         if not powershell.is_file() or not helper.is_file():
-            return False
+            return 'ui_helper_launch_failed'
 
         try:
             with tempfile.TemporaryDirectory(prefix='urman-game-ui-') as private_temp:
@@ -2537,7 +2553,7 @@ class Station:
                 helper_info = helper_temp.lstat()
                 if (_studio_reparse(root_info) or not stat.S_ISDIR(root_info.st_mode)
                         or _studio_reparse(helper_info) or not stat.S_ISDIR(helper_info.st_mode)):
-                    return False
+                    return 'ui_helper_launch_failed'
 
                 request_id = uuid.uuid4().hex
                 request_path = helper_temp / f'request-{request_id}.json'
@@ -2577,20 +2593,27 @@ class Station:
                 except subprocess.TimeoutExpired:
                     process.kill()
                     process.wait(timeout=2)
-                    return False
+                    return 'ui_helper_timeout'
 
                 try:
                     result_info = result_path.lstat()
                     if (_studio_reparse(result_info) or not stat.S_ISREG(result_info.st_mode)
                             or result_info.st_size > 8 * 1024):
-                        return False
+                        return 'ui_helper_invalid_result'
                     with result_path.open('rb') as stream:
                         report = _studio_json(stream.read(8 * 1024 + 1), 8 * 1024, 'UI helper result')
                 except (OSError, ValueError):
-                    return False
-                return exit_code == 0 and isinstance(report, dict) and report.get('ok') is True
+                    return 'ui_helper_invalid_result'
+                if exit_code == 0 and isinstance(report, dict) and report.get('ok') is True:
+                    return None
+                if isinstance(report, dict) and report.get('ok') is False:
+                    error = report.get('error')
+                    if isinstance(error, str):
+                        return UI_HELPER_FAILURE_CODES.get(error, 'ui_helper_refused')
+                    return 'ui_helper_refused'
+                return 'ui_helper_invalid_result'
         except (OSError, ValueError, subprocess.SubprocessError):
-            return False
+            return 'ui_helper_launch_failed'
 
     def ui_action(self, jid, principal, action):
         if not re.fullmatch('[a-f0-9]{32}', jid):
@@ -2613,9 +2636,11 @@ class Station:
             if pid is None or source is None:
                 return 409, {'error': 'owned native game window is not ready for input'}
             kind = action['action']
-            if not self._run_ui_helper(jid, pid, source, action):
+            reason_code = self._run_ui_helper(jid, pid, source, action)
+            if reason_code is not None:
                 return 409, {'job_id': jid, 'action': kind, 'ok': False,
-                             'error': 'native game input was refused or did not complete'}
+                             'error': 'native game input was refused or did not complete',
+                             'reason_code': reason_code}
             return 200, {'job_id': jid, 'action': kind, 'ok': True}
 
     def _clear_active_job(self, jid):

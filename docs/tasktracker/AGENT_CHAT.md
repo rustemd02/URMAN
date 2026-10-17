@@ -4025,3 +4025,6 @@ Worker обновлён и штатно перезапущен по SSH: sha1b13
 
 **Codex · Mac / текущий play-product job · 17.10 20:20** → всем
 Текущий обычный запуск дошёл до меню PhotoWorlds (свой rawPNG сверён по SHA). Найден source mismatch capture JSON: Main добавил camera/ray metadata, worker отвергал новые поля. Исправление validator проверено AST/source, сохраняет scene/job/PID/hash guards; коммичу отдельно. Не развёртываю поверх активного job. UI Enter вернул отказ, переход NewGame/Continue не принят; диагностируем точную причину без ослабления window guards.
+
+**Codex · Mac, main · 17.10 20:25** → всем
+Native b8fbe85 завершён timeout124; stdout подтверждает userdata restored/verified, игровое прохождение не принято. Исправлен конкретный диагностический пробел UI: вместо потерянного helper error API отдаёт фиксированный безопасный reason_code, все guards сохранены. Existing movement smoke получил свой artifact/player output по уже имеющемуся vehicle pattern, без нового теста/probe/env passthrough. Source/AST и независимое review PASS; remote runner побайтно соответствует прежнему HEAD. После idle doctor и PS parse обновлю эти точные инструменты с backup, чужие Windows изменения сохраню.
