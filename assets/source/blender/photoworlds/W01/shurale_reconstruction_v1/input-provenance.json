@@ -1,0 +1,32 @@
+{
+  "purpose": "Original single-view input for one source-only Shurale 3D head reconstruction; not an accepted runtime model.",
+  "created_utc": "2026-10-18",
+  "creator": "OpenAI image_gen.imagegen via Codex",
+  "source_reference": "assets/source/blender/photoworlds/W01/shurale-concepts/modern-horror-anatomy-v1.png",
+  "input_file": "input-head-v1.png",
+  "sha256": "909a6ca80c425ac4a2bea864a13e9165328873073ecf57ea56991d92660b8b82",
+  "image": {
+    "size": [
+      1312,
+      1199
+    ],
+    "mode": "RGBA",
+    "alpha_extrema": [
+      0,
+      255
+    ]
+  },
+  "direction": "Original psychologically unsettling woodland character; gaunt continuous cheek/jaw, real recessed sockets/lids and restrained living gaze, one horn, integrated longitudinal wood anatomy. Single isolated nearfrontal15degree view, complete crown/horn/jaw/shortneck, neutral studio light, transparent background. Not a copy of a named film character.",
+  "source_review": "Root and visual worker viewed input; visible front forms provide volume cues, while finegrain/wrinkles/color are material cues. Back/profile and neck fit remain unknown until actual3D review.",
+  "reconstruction_candidate": {
+    "implementation": "https://github.com/VAST-AI-Research/TripoSR",
+    "code_commit": "107cefdc244c39106fa830359024f6a2f1c78871",
+    "model": "https://huggingface.co/stabilityai/TripoSR",
+    "model_revision": "5b521936b01fbe1890f6f9baed0254ab6351c04a",
+    "expected_checkpoint_sha256": "429e2c6b22a0923967459de24d67f05962b235f79cde6b032aa7ed2ffcd970ee",
+    "license_source": "https://github.com/VAST-AI-Research/TripoSR/blob/107cefdc244c39106fa830359024f6a2f1c78871/LICENSE",
+    "availability": "Public ungated; setup started, inference and quality not yet verified.",
+    "scope": "One CPU source study; preserve notices; no runtime/canonical promotion."
+  },
+  "acceptance": "Neutral untextured front/3q/profile must show actual brow/socket/cheek/jaw depth and no protruding toy eyeballs or texture-only relief; then fit existing v6 neck/rig, retopology/LOD/contact/export and native/author/cultural acceptance separately."
+}

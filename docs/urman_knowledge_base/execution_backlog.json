@@ -121123,7 +121123,7 @@
       "assigned_owner": "character_art",
       "activity": {
         "state": "confirmed_active",
-        "reason": "Native visual worker started one genuinely different explicit authored-topology head source candidate; root owns integration/visual review, no canonical promotion without viewed quality."
+        "reason": "Native performance worker started actual pinnedCPU reconstruction setup; root reviewed originalinput, owns sourceprovenance/integration/visualacceptance. No canonicalpromotion."
       },
       "task_type": "engineering",
       "implementation_state": "not_started",
@@ -121134,7 +121134,7 @@
         "Полный паспорт уровня docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/levels/W01_Лес_за_спиной_RU.md реализован: узлы/физические связи/действия/существо или человеческая сцена/созерцание/возврат/кадры; схема не заменяет проходимый runtime.",
         "Шурале выглядит современно устрашающе в духе психологического авторского хоррора (уточнение автора: злодеи A24): оригинальная цельная анатомия/силуэт, тревожные лицо/взгляд/длинные руки и сдержанная неестественная пластика; без игрушечного добродушия. Оценка по актуальным игровым кадрам и движению, не по числу полигонов."
       ],
-      "next_action": "Produce coherent original full-character sculpt/face/gaze using a genuinely different mesh-authoring approach or a suitable authored source; then exact rig/contact/export and native/author/cultural acceptance. Do not repeat rejected field-displacement/UV-color variants.",
+      "next_action": "Complete one pinnedCPU TripoSR source reconstruction; inspect actual untextured front/3q/profile before any integration, then exact source-fit/rig/contact/LOD/export and native/author/culture acceptance.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -121443,8 +121443,22 @@
         "scope": "One source-only coherent original head built from explicit anatomical cage/loops, not field/UV/scalar variants of existing human head. Preserve frozen v6 neck/worldscale/attachment; neutral full-face+profile review before any rig/runtime promotion.",
         "target": "assets/source/blender/photoworlds/W01/shurale_authored_head_v1/",
         "verification_question": "Does new actual 3D silhouette, recessed eye socket/living gaze, continuous cheek/jaw and one horn visibly meet modern disturbing psychological-horror direction at 2–3m without hiding in darkness?",
-        "result": "IN_PROGRESS; no art/runtime acceptance.",
-        "stop": "After one coherent candidate review, either accept finite source improvement or record exact quality/tool constraint; no endless parameter churn."
+        "result": "REJECTED_SOURCE_REVIEW: root personally viewed neutral front+profile; blank horizontally banded mask, protruding toy eyes/nose, no coherent disturbing anatomical silhouette. New mesh topology alone did not improve requested art. No canonical promotion.",
+        "stop": "After one coherent candidate review, either accept finite source improvement or record exact quality/tool constraint; no endless parameter churn.",
+        "evidence": [
+          "assets/source/blender/photoworlds/W01/shurale_authored_head_v1/authored-head-v1-front.png",
+          "assets/source/blender/photoworlds/W01/shurale_authored_head_v1/authored-head-v1-profile.png",
+          "assets/source/blender/photoworlds/W01/shurale_authored_head_v1/shurale-authored-head-v1.blend"
+        ],
+        "next": "Parameter generation stopped. Bounded read-only investigation of exact authored-cage failure and existing licensed source; independent primary-source feasibility/licensing check of local original-image→3D reconstruction. No installations/weight downloads/runtime changes until concrete route exists."
+      },
+      "reconstruction_stage_2026_10_18": {
+        "result": "IN_PROGRESS: one publicMIT pinnedTripoSR CPU source generation from original single-head input, isolated .tools environment, no global/station/runtime changes.",
+        "input": "assets/source/blender/photoworlds/W01/shurale_reconstruction_v1/input-head-v1.png",
+        "provenance": "assets/source/blender/photoworlds/W01/shurale_reconstruction_v1/input-provenance.json",
+        "verification_question": "Neutral untextured front/3q/profile must show actual brow/socket/cheek/jaw depth and no protruding toy eyeballs or texture-only relief; then fit existing v6 neck/rig, retopology/LOD/contact/export and native/author/cultural acceptance separately.",
+        "remaining": "Setup/actual generation unverified; do not confuse generated reference or model training claims with production sculpt. Original authored-head v1 remains rejected.",
+        "limits": "One generation, max2 causal installation hypotheses; no parameter/model churn. Stop and record exactblocker if tool or actualclay forms fail."
       }
     },
     {
