@@ -2133,6 +2133,42 @@
         "targetDialogueId": "urman.fullgame:dialogue/pw-first-world-home"
       },
       {
+        "id": "urman.fullgame:interaction/pw-alsu-before-w04-talk",
+        "labelTextId": "urman.fullgame:text/pw-label-alsu-before-w04-talk",
+        "conditions": [
+          {
+            "op": "quest.status",
+            "questId": "urman.fullgame:quest/pw-w03",
+            "status": "completed"
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "quest.status",
+              "questId": "urman.fullgame:quest/pw-w04",
+              "status": "active"
+            }
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "quest.status",
+              "questId": "urman.fullgame:quest/pw-w04",
+              "status": "completed"
+            }
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "photoworlds.fact.observed",
+              "factId": "alsu_bank_meeting_planned"
+            }
+          }
+        ],
+        "effects": [],
+        "targetDialogueId": "urman.fullgame:dialogue/pw-alsu-before-w04"
+      },
+      {
         "id": "urman.fullgame:interaction/pw-house-photo-source",
         "labelTextId": "urman.fullgame:text/pw-label-house-photo-source",
         "conditions": [
@@ -2693,6 +2729,25 @@
             "op": "photoworlds.photo.state",
             "photoId": "P-COMMON",
             "state": "mounted"
+          },
+          {
+            "op": "any",
+            "conditions": [
+              {
+                "op": "photoworlds.fact.observed",
+                "factId": "alsu_bank_meeting_planned"
+              },
+              {
+                "op": "quest.status",
+                "questId": "urman.fullgame:quest/pw-w04",
+                "status": "active"
+              },
+              {
+                "op": "quest.status",
+                "questId": "urman.fullgame:quest/pw-w04",
+                "status": "completed"
+              }
+            ]
           }
         ],
         "effects": [],
@@ -3362,6 +3417,25 @@
         "op": "photoworlds.photo.state",
         "photoId": "P-COMMON",
         "state": "mounted"
+      },
+      {
+        "op": "any",
+        "conditions": [
+          {
+            "op": "photoworlds.fact.observed",
+            "factId": "alsu_bank_meeting_planned"
+          },
+          {
+            "op": "quest.status",
+            "questId": "urman.fullgame:quest/pw-w04",
+            "status": "active"
+          },
+          {
+            "op": "quest.status",
+            "questId": "urman.fullgame:quest/pw-w04",
+            "status": "completed"
+          }
+        ]
       }
     ],
     "onEnter": [],
@@ -5003,6 +5077,137 @@
   },
   {
     "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-label-alsu-before-w04-talk",
+    "value": {
+      "default": "Поговорить с Алсу перед общим снимком",
+      "translations": {
+        "ru": "Поговорить с Алсу перед общим снимком"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-dialogue-alsu-before-w04-d17-01",
+    "value": {
+      "default": "Я потом через луг пойду. Ты опять к фотографиям?",
+      "translations": {
+        "ru": "Я потом через луг пойду. Ты опять к фотографиям?"
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-dialogue-alsu-before-w04-d17-02",
+    "value": {
+      "default": "Хочу один вид сравнить. Теперь знаю, где стоять.",
+      "translations": {
+        "ru": "Хочу один вид сравнить. Теперь знаю, где стоять."
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-dialogue-alsu-before-w04-d17-03",
+    "value": {
+      "default": "Тогда там и встретимся. Покажешь.",
+      "translations": {
+        "ru": "Тогда там и встретимся. Покажешь."
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-choice-alsu-before-w04-continue",
+    "value": {
+      "default": "Продолжить разговор",
+      "translations": {
+        "ru": "Продолжить разговор"
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-choice-alsu-before-w04-agree",
+    "value": {
+      "default": "Согласиться показать ей вид",
+      "translations": {
+        "ru": "Согласиться показать ей вид"
+      }
+    },
+    "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:dialogue/pw-alsu-before-w04",
+    "participantRoles": [
+      "aidar",
+      "alsu"
+    ],
+    "startNodeId": "d17_01",
+    "nodes": [
+      {
+        "id": "d17_01",
+        "speakerRole": "alsu",
+        "textId": "urman.fullgame:text/pw-dialogue-alsu-before-w04-d17-01",
+        "conditions": [],
+        "effects": [],
+        "choices": [
+          {
+            "id": "continue_01",
+            "textId": "urman.fullgame:text/pw-choice-alsu-before-w04-continue",
+            "conditions": [],
+            "effects": [],
+            "nextNodeId": "d17_02"
+          }
+        ]
+      },
+      {
+        "id": "d17_02",
+        "speakerRole": "aidar",
+        "textId": "urman.fullgame:text/pw-dialogue-alsu-before-w04-d17-02",
+        "conditions": [],
+        "effects": [],
+        "choices": [
+          {
+            "id": "continue_02",
+            "textId": "urman.fullgame:text/pw-choice-alsu-before-w04-continue",
+            "conditions": [],
+            "effects": [],
+            "nextNodeId": "d17_03"
+          }
+        ]
+      },
+      {
+        "id": "d17_03",
+        "speakerRole": "alsu",
+        "textId": "urman.fullgame:text/pw-dialogue-alsu-before-w04-d17-03",
+        "conditions": [],
+        "effects": [],
+        "choices": [
+          {
+            "id": "agree_to_show_view",
+            "textId": "urman.fullgame:text/pw-choice-alsu-before-w04-agree",
+            "conditions": [],
+            "effects": [
+              {
+                "op": "photoworlds.fact.observe",
+                "factId": "alsu_bank_meeting_planned",
+                "sourceId": "urman.fullgame:interaction/pw-alsu-before-w04-talk"
+              }
+            ],
+            "nextNodeId": null
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "schemaVersion": 1,
     "id": "urman.fullgame:dialogue/pw-alsu-leaf",
     "participantRoles": [
       "aidar",
@@ -6554,6 +6759,292 @@
       "default": "Пройди по тропе под кронами к дому.",
       "translations": {
         "ru": "Пройди по тропе под кронами к дому."
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-hint-river-reflection-question",
+    "value": {
+      "default": "Что добавляет отражение к виду берега?",
+      "translations": {
+        "ru": "Что добавляет отражение к виду берега?"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-hint-river-reflection-area",
+    "value": {
+      "default": "Окно у берега, где видны стойки и край настила.",
+      "translations": {
+        "ru": "Окно у берега, где видны стойки и край настила."
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-hint-river-reed-question",
+    "value": {
+      "default": "Что скрывает камышовый поворот?",
+      "translations": {
+        "ru": "Что скрывает камышовый поворот?"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-hint-river-reed-area",
+    "value": {
+      "default": "Связка сухого камыша у прохода.",
+      "translations": {
+        "ru": "Связка сухого камыша у прохода."
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-hint-river-approach-question",
+    "value": {
+      "default": "Откуда можно подойти к дальним мосткам?",
+      "translations": {
+        "ru": "Откуда можно подойти к дальним мосткам?"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-hint-river-approach-area",
+    "value": {
+      "default": "Старые опоры за открывшимся проходом.",
+      "translations": {
+        "ru": "Старые опоры за открывшимся проходом."
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-hint-river-encounter-question",
+    "value": {
+      "default": "Что можно вернуть на место, чтобы пройти дальше?",
+      "translations": {
+        "ru": "Что можно вернуть на место, чтобы пройти дальше?"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-hint-river-encounter-area",
+    "value": {
+      "default": "Сдвинутая дощечка настила у дальних мостков.",
+      "translations": {
+        "ru": "Сдвинутая дощечка настила у дальних мостков."
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-hint-house-shutter-question",
+    "value": {
+      "default": "Что изменится, если открыть ставню?",
+      "translations": {
+        "ru": "Что изменится, если открыть ставню?"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-hint-house-shutter-area",
+    "value": {
+      "default": "Открытая веранда, у ставни с видимым креплением.",
+      "translations": {
+        "ru": "Открытая веранда, у ставни с видимым креплением."
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-hint-house-doors-question",
+    "value": {
+      "default": "Что остаётся общим в двух видах двора?",
+      "translations": {
+        "ru": "Что остаётся общим в двух видах двора?"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-hint-house-doors-area",
+    "value": {
+      "default": "Два дверных проёма у открытой веранды.",
+      "translations": {
+        "ru": "Два дверных проёма у открытой веранды."
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-hint-house-camera-question",
+    "value": {
+      "default": "Где стоял человек, снимавший двор?",
+      "translations": {
+        "ru": "Где стоял человек, снимавший двор?"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-hint-house-camera-area",
+    "value": {
+      "default": "Сторона фотографа у забора и окна.",
+      "translations": {
+        "ru": "Сторона фотографа у забора и окна."
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-hint-house-cloth-question",
+    "value": {
+      "default": "Что мешает рассмотреть внутреннюю сторону рамки?",
+      "translations": {
+        "ru": "Что мешает рассмотреть внутреннюю сторону рамки?"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-hint-house-cloth-area",
+    "value": {
+      "default": "Лёгкая ткань зацепилась у окна.",
+      "translations": {
+        "ru": "Лёгкая ткань зацепилась у окна."
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-hint-house-frame-question",
+    "value": {
+      "default": "Что оставили на внутренней стороне рамки?",
+      "translations": {
+        "ru": "Что оставили на внутренней стороне рамки?"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-hint-house-frame-area",
+    "value": {
+      "default": "Освобождённая от ткани рамка у окна.",
+      "translations": {
+        "ru": "Освобождённая от ткани рамка у окна."
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-hint-common-places-question",
+    "value": {
+      "default": "Как три проёма связаны с уже знакомыми местами?",
+      "translations": {
+        "ru": "Как три проёма связаны с уже знакомыми местами?"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-hint-common-places-area",
+    "value": {
+      "default": "Три проёма у начала общей тропы.",
+      "translations": {
+        "ru": "Три проёма у начала общей тропы."
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-hint-common-cloth-question",
+    "value": {
+      "default": "Что мешает линии взгляда с тропы?",
+      "translations": {
+        "ru": "Что мешает линии взгляда с тропы?"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-hint-common-cloth-area",
+    "value": {
+      "default": "Ткань закреплена на средней тропе.",
+      "translations": {
+        "ru": "Ткань закреплена на средней тропе."
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-hint-common-horizon-question",
+    "value": {
+      "default": "Что видно с широкой площадки?",
+      "translations": {
+        "ru": "Что видно с широкой площадки?"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-hint-common-horizon-area",
+    "value": {
+      "default": "Обзорная площадка дальше по средней тропе.",
+      "translations": {
+        "ru": "Обзорная площадка дальше по средней тропе."
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-hint-common-note-question",
+    "value": {
+      "default": "Какую мысль ты хочешь сохранить рядом со снимком?",
+      "translations": {
+        "ru": "Какую мысль ты хочешь сохранить рядом со снимком?"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-hint-common-note-area",
+    "value": {
+      "default": "Столик с отпечатком на краю луга.",
+      "translations": {
+        "ru": "Столик с отпечатком на краю луга."
       }
     },
     "purpose": "ui"

@@ -17,9 +17,11 @@ public partial class PhotoBankApproachPresence : Node3D
     private const string BankToEpilogueInteractionId = "urman.fullgame:interaction/pw-bank-to-epilogue";
     private const string LeafWitnessInteractionId = "urman.fullgame:interaction/pw-witness-summer-leaf";
     private const string AlsuLeafInteractionId = "urman.fullgame:interaction/pw-alsu-leaf-talk";
+    private const string AlsuBeforeW04InteractionId = "urman.fullgame:interaction/pw-alsu-before-w04-talk";
     private const string WinterPilesFactId = "winter_piles_inspected";
     private const string LeafWitnessFactId = "outside_leaf_witnessed";
     private const string AlsuLeafDialogueId = "urman.fullgame:dialogue/pw-alsu-leaf";
+    private const string AlsuBeforeW04DialogueId = "urman.fullgame:dialogue/pw-alsu-before-w04";
 
     private RuntimeBridge? _bridge;
     private Node3D? _bankApproach;
@@ -32,6 +34,7 @@ public partial class PhotoBankApproachPresence : Node3D
     private InteractionTarget? _bankReturnTarget;
     private InteractionTarget? _bankToEpilogueTarget;
     private InteractionTarget? _alsuLeafTarget;
+    private InteractionTarget? _alsuBeforeW04Target;
     private InteractionTarget? _enterBankTarget;
     private InteractionTarget? _legacyAlsuTarget;
     private Node3D? _alsuActor;
@@ -128,6 +131,10 @@ public partial class PhotoBankApproachPresence : Node3D
             _alsuLeafTarget = CreateTarget("AlsuLeafTalkTarget", AlsuLeafInteractionId,
                 "urman.fullgame:text/pw-label-alsu-leaf-talk", bankReturn, .52f, .82f,
                 AlsuLeafDialogueId);
+        if (_alsuBeforeW04Target is null)
+            _alsuBeforeW04Target = CreateTarget("AlsuBeforeW04TalkTarget", AlsuBeforeW04InteractionId,
+                "urman.fullgame:text/pw-label-alsu-before-w04-talk", actor, .52f, .84f,
+                AlsuBeforeW04DialogueId);
     }
 
     private InteractionTarget? CreateTarget(
@@ -208,14 +215,23 @@ public partial class PhotoBankApproachPresence : Node3D
             && actor.GetNodeOrNull<AlsuStreetWalkPresentation>("AlsuStreetWalk") is { PhysicalAccessReady: true };
         var alsuTalkReady = bankRouteActive && interactionWindowOpen && alsuReady
             && IsInteractionReady(bridge, AlsuLeafInteractionId);
+        var alsuBeforeW04Available = homeRouteActive && alsuReady
+            && IsInteractionReady(bridge, AlsuBeforeW04InteractionId);
+        var alsuBeforeW04Ready = alsuBeforeW04Available && interactionWindowOpen;
         if (_alsuLeafTarget is { } alsuTarget && GodotObject.IsInstanceValid(alsuTarget)
             && _alsuActor is { } movingActor && GodotObject.IsInstanceValid(movingActor))
         {
             alsuTarget.GlobalPosition = movingActor.GlobalPosition + Vector3.Up * .84f;
-            SetTarget(alsuTarget, bridge, "urman.fullgame:text/pw-label-alsu-leaf-talk", alsuTalkReady);
         }
+        SetTarget(_alsuLeafTarget, bridge, "urman.fullgame:text/pw-label-alsu-leaf-talk", alsuTalkReady);
+        if (_alsuBeforeW04Target is { } beforeTarget && GodotObject.IsInstanceValid(beforeTarget)
+            && _alsuActor is { } beforeActor && GodotObject.IsInstanceValid(beforeActor))
+        {
+            beforeTarget.GlobalPosition = beforeActor.GlobalPosition + Vector3.Up * .84f;
+        }
+        SetTarget(_alsuBeforeW04Target, bridge, "urman.fullgame:text/pw-label-alsu-before-w04-talk", alsuBeforeW04Ready);
 
-        if (bankRouteActive)
+        if (bankRouteActive || alsuBeforeW04Available)
             SuppressLegacyAlsuTarget();
         else if (connectedWorld?.ActiveZoneId == "village_day")
             RestoreLegacyAlsuTarget();
@@ -246,7 +262,7 @@ public partial class PhotoBankApproachPresence : Node3D
         foreach (var target in new[]
         {
             _enterBankTarget, _winterPilesTarget, _verifyBankTarget,
-            _bankReturnTarget, _bankToEpilogueTarget, _alsuLeafTarget
+            _bankReturnTarget, _bankToEpilogueTarget, _alsuLeafTarget, _alsuBeforeW04Target
         })
         {
             if (target is { } current && GodotObject.IsInstanceValid(current) && !current.IsQueuedForDeletion())

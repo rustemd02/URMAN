@@ -783,6 +783,13 @@
         ]
       },
       {
+        "id": "alsu_bank_meeting_planned",
+        "provenanceKind": "explicit-meeting-agreement",
+        "sourceIds": [
+          "urman.fullgame:interaction/pw-alsu-before-w04-talk"
+        ]
+      },
+      {
         "id": "alsu_meeting_agreed",
         "provenanceKind": "shared-witness-conversation",
         "sourceIds": [

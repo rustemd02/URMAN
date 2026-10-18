@@ -111932,6 +111932,16 @@
         "result": "Explicit book-page request cycles human question→area→concrete action→hide, chosen from live W01 facts/available authored interaction. Disclosure resets on stage/session/reopen. Completed quest has explicit exit context. No state effects, penalty, idle prompts or new input action.",
         "verification": "18 authored Russian IDs compiled into canonical pack; source/UI review corrected completed-exit hint gate. Game affected compile14.49s0errors/warnings. Native UI NOT_RUN.",
         "remaining": "Native book/focus/layout/disclosure/return/save behavior; other PhotoWorld hint stages and external language/author acceptance remain open."
+      },
+      "world_guidance_source_stage_2026_10_18": {
+        "result": "Existing book Question→Area→Action guidance extended fromW01 toW02/W03/W04. Journal selects current-world objective; scene/session/key context resets disclosures.26localizedRU question/area resources reuse actual authored action labels; no new rewards or duplicate HUD.",
+        "targets": [
+          "game/scripts/RuntimeBridge.PhotoWorldHints.cs",
+          "game/scripts/JournalUi.cs",
+          "content/modules/urman-fullgame/definitions.json"
+        ],
+        "verification": "Independent source review CLEAN for actual fact/action pairs, scene→quest mapping, objective counters and resource coverage; compiled fullgame and affectedGame15.73s/0errors/warnings.",
+        "remaining": "Actual ordinary GUI readability/disclosure in all worlds and native lifecycle checks remain open."
       }
     },
     {
@@ -121754,7 +121764,13 @@
           },
           "next": "Use the completed pilot to correct coherent horror art direction and preserve close face geometry/normal details; author restrained creature motion and retarget to existing53-bone/7-clip/LOD/branch contract before canonical replacement. No automatic new generation or final texture spend.",
           "storage": "Raw highpoly/Blender studies/remesh/rig exports remain local review sources, not shipped canonical assets. Selected original image_gen input, exact prompt/provenance and its own earlier source reference are committed for reproducible art direction; paths/hashes of local outputs are recorded.",
-          "input_provenance": "assets/source/blender/photoworlds/W01/shurale_meshy_v3/input-shurale-v3.provenance.json"
+          "input_provenance": "assets/source/blender/photoworlds/W01/shurale_meshy_v3/input-shurale-v3.provenance.json",
+          "normal_bake": {
+            "path_local": "assets/source/blender/photoworlds/W01/shurale_meshy_v3/normal-bake/manifest.json",
+            "result": "One Blender4.5.12 Cycles2K tangent high→30K bake restores eye/mouth/finger surface detail in matched actual grey material views. Root personally viewed face/hands; no obvious large seams/ray misses in inspected views. Exact ray-hit count unavailable; silhouette/rest/rig untouched.",
+            "cost_credits": 0,
+            "acceptance": "Technical source detail retention only; coherent horror art, custom motion, runtime contacts/LOD/native gates remain open."
+          }
         }
       }
     },
@@ -133625,7 +133641,7 @@
         "Нет внезапного спавна внутри камеры и дублированной Алсу.",
         "Её реакция не описывает событие, которого игрок ещё не видел."
       ],
-      "next_action": "Заранее договориться о встрече у PW_COMMON_ENTRY по обычной человеческой причине.",
+      "next_action": "Verify D17 ordinary village conversation at actual Alsu → firstW04 entry → pre-agreed bank meeting; keep actual native movement/homeward route and external acceptance open.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -133849,6 +133865,19 @@
         ],
         "result": "Same soleAlsu actor staged synchronously at grounded-off-camera marker after W04, uses actualNPC+Z convention and existing physicalbody/feet support barriers. Taggedworld.props pose bank-meeting-v1 survives Bank/Home/Epilogue; absent/legacy tags retain old waypointvalidation. Explicit pending-ground-snap flag only allows authoredY before first validatedsupport; false/absent keeps strictsavedY. No legacy pendingcheckpoint commits inbankmode.",
         "source_review": "Independent save/route review clean in bounds; root additionally retained strict arrived/checkpoint consistency and corrected nullable flow. Source-space capsule clearances checked, actualphysics remains open."
+      },
+      "d17_source_stage_2026_10_18": {
+        "result": "D17 explicit physical conversation with the existing Alsu in pw-home/village_day after W03 and before first W04. Only final choice records alsu_bank_meeting_planned. W04 action and scene entry require planned OR active/completedW04; lifecycle review proves active starts only after actual scene entry, preserving legacy continuation without new-game bypass. Post-leaf alsu_meeting_agreed and epilogue gates unchanged.",
+        "targets": [
+          "content/modules/urman-fullgame/definitions.json",
+          "content/modules/urman-fullgame/module.json",
+          "content/campaigns/urman.fullgame/campaign.json",
+          "game/content/urman.fullgame.compiled.v1.json",
+          "game/scripts/PhotoBankApproachPresence.cs",
+          "game/scripts/RuntimeBridge.cs"
+        ],
+        "verification": "Existing ContentCli fullgame compilation succeeded; affected Game build15.73s,0errors/0warnings. Independent bounded D17 state/actor/source review; root fixed target lifecycle and legacy-target suppression independent of input modal.",
+        "remaining": "Ordinary native D17→W04→meeting→leaf→home/Continue and artistic/human acceptance unproved; authored homeward actor route remains open."
       }
     },
     {

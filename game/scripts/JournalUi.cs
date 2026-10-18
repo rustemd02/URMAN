@@ -203,8 +203,10 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
         RefreshNotebookPages();
         RefreshPhotoBookPage();
         var objectives = _bridge?.ActiveObjectives() ?? [];
-        var photoWorldObjective = objectives.FirstOrDefault(objective =>
-            objective.QuestId == "urman.fullgame:quest/pw-w01");
+        var photoWorldQuestId = PhotoWorldHintQuestId(_bridge?.ActiveSceneId);
+        var photoWorldObjective = photoWorldQuestId is null
+            ? null
+            : objectives.FirstOrDefault(objective => objective.QuestId == photoWorldQuestId);
         var photoWorldHint = _bridge?.CurrentPhotoWorldHint();
         var photoWorldHintContextKey = PhotoWorldHintContextKey(
             _bridge, photoWorldObjective, photoWorldHint?.Key);
@@ -404,8 +406,10 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
         var bridge = _bridge;
         if (bridge is null || bridge.SessionIdentity is null) return;
         var hint = bridge.CurrentPhotoWorldHint();
-        var activeObjective = bridge.ActiveObjectives().FirstOrDefault(entry =>
-            entry.QuestId == "urman.fullgame:quest/pw-w01");
+        var photoWorldQuestId = PhotoWorldHintQuestId(bridge.ActiveSceneId);
+        var activeObjective = photoWorldQuestId is null
+            ? null
+            : bridge.ActiveObjectives().FirstOrDefault(entry => entry.QuestId == photoWorldQuestId);
         var contextKey = PhotoWorldHintContextKey(bridge, activeObjective, hint?.Key);
         SyncPhotoWorldHint(hint, contextKey);
         if (hint is null || string.IsNullOrWhiteSpace(hint.Question)
@@ -490,6 +494,7 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
         if (bridge is null || hintKey is null) return null;
         if (hintKey == "exit")
         {
+            if (bridge.ActiveSceneId != "urman.fullgame:scene/pw-forest") return null;
             var state = bridge.SelectRuntimeState();
             if (state.TryGetProperty("quests", out var quests)
                 && quests.ValueKind == System.Text.Json.JsonValueKind.Object
@@ -498,15 +503,24 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
                 && quest.TryGetProperty("status", out var status)
                 && status.GetString() == "completed")
             {
-                return "urman.fullgame:quest/pw-w01\u001fcompleted-context";
+                return $"{bridge.ActiveSceneId}\u001furman.fullgame:quest/pw-w01\u001fcompleted-context";
             }
             return null;
         }
 
         return activeObjective is null
             ? null
-            : $"{activeObjective.QuestId}\u001factive\u001f{activeObjective.ObjectiveId}";
+            : $"{bridge.ActiveSceneId}\u001f{activeObjective.QuestId}\u001factive\u001f{activeObjective.ObjectiveId}";
     }
+
+    private static string? PhotoWorldHintQuestId(string? activeSceneId) => activeSceneId switch
+    {
+        "urman.fullgame:scene/pw-forest" => "urman.fullgame:quest/pw-w01",
+        "urman.fullgame:scene/pw-river" => "urman.fullgame:quest/pw-w02",
+        "urman.fullgame:scene/pw-house" => "urman.fullgame:quest/pw-w03",
+        "urman.fullgame:scene/pw-common" => "urman.fullgame:quest/pw-w04",
+        _ => null
+    };
 
     private string? ArrivalObjectiveText() =>
         _bridge is { ActiveSceneId: "urman.chapter1:scene/arrival_vehicle_dusk" }

@@ -590,7 +590,9 @@ public partial class RuntimeBridge : Node
     {
         if (_loadingSlot || _loadPreparing || NeedsPhysicalRecovery) return false;
         if (!HasRequiredWorldState(interactionId)) return false;
-        if (interactionId == "urman.chapter1:interaction/talk-alsu"
+        if ((interactionId is "urman.chapter1:interaction/talk-alsu"
+                or "urman.fullgame:interaction/pw-alsu-before-w04-talk"
+                or "urman.fullgame:interaction/pw-alsu-leaf-talk")
             && AlsuStreetWalkPresentation.SessionOwner(GetTree()) is { PhysicalAccessReady: false }) return false;
         if (IsSourceExcerptAction(interactionId)) return IsSourceExcerptAuthorized(interactionId);
         if (interactionId == RinatPresencePresentation.ObservationId)

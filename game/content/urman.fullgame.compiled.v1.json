@@ -816,6 +816,13 @@
           ]
         },
         {
+          "id": "alsu_bank_meeting_planned",
+          "provenanceKind": "explicit-meeting-agreement",
+          "sourceIds": [
+            "urman.fullgame:interaction/pw-alsu-before-w04-talk"
+          ]
+        },
+        {
           "id": "alsu_meeting_agreed",
           "provenanceKind": "shared-witness-conversation",
           "sourceIds": [
@@ -7626,6 +7633,71 @@
               }
             ],
             "choices": []
+          }
+        ]
+      },
+      {
+        "schemaVersion": 1,
+        "id": "urman.fullgame:dialogue/pw-alsu-before-w04",
+        "participantRoles": [
+          "aidar",
+          "alsu"
+        ],
+        "startNodeId": "d17_01",
+        "nodes": [
+          {
+            "id": "d17_01",
+            "speakerRole": "alsu",
+            "textId": "urman.fullgame:text/pw-dialogue-alsu-before-w04-d17-01",
+            "conditions": [],
+            "effects": [],
+            "choices": [
+              {
+                "id": "continue_01",
+                "textId": "urman.fullgame:text/pw-choice-alsu-before-w04-continue",
+                "conditions": [],
+                "effects": [],
+                "nextNodeId": "d17_02"
+              }
+            ]
+          },
+          {
+            "id": "d17_02",
+            "speakerRole": "aidar",
+            "textId": "urman.fullgame:text/pw-dialogue-alsu-before-w04-d17-02",
+            "conditions": [],
+            "effects": [],
+            "choices": [
+              {
+                "id": "continue_02",
+                "textId": "urman.fullgame:text/pw-choice-alsu-before-w04-continue",
+                "conditions": [],
+                "effects": [],
+                "nextNodeId": "d17_03"
+              }
+            ]
+          },
+          {
+            "id": "d17_03",
+            "speakerRole": "alsu",
+            "textId": "urman.fullgame:text/pw-dialogue-alsu-before-w04-d17-03",
+            "conditions": [],
+            "effects": [],
+            "choices": [
+              {
+                "id": "agree_to_show_view",
+                "textId": "urman.fullgame:text/pw-choice-alsu-before-w04-agree",
+                "conditions": [],
+                "effects": [
+                  {
+                    "op": "photoworlds.fact.observe",
+                    "factId": "alsu_bank_meeting_planned",
+                    "sourceId": "urman.fullgame:interaction/pw-alsu-before-w04-talk"
+                  }
+                ],
+                "nextNodeId": null
+              }
+            ]
           }
         ]
       },
@@ -21380,6 +21452,25 @@
             "op": "photoworlds.photo.state",
             "photoId": "P-COMMON",
             "state": "mounted"
+          },
+          {
+            "op": "any",
+            "conditions": [
+              {
+                "op": "photoworlds.fact.observed",
+                "factId": "alsu_bank_meeting_planned"
+              },
+              {
+                "op": "quest.status",
+                "questId": "urman.fullgame:quest/pw-w04",
+                "status": "active"
+              },
+              {
+                "op": "quest.status",
+                "questId": "urman.fullgame:quest/pw-w04",
+                "status": "completed"
+              }
+            ]
           }
         ],
         "onEnter": [],
@@ -21943,6 +22034,42 @@
             "targetDialogueId": "urman.fullgame:dialogue/pw-first-world-home"
           },
           {
+            "id": "urman.fullgame:interaction/pw-alsu-before-w04-talk",
+            "labelTextId": "urman.fullgame:text/pw-label-alsu-before-w04-talk",
+            "conditions": [
+              {
+                "op": "quest.status",
+                "questId": "urman.fullgame:quest/pw-w03",
+                "status": "completed"
+              },
+              {
+                "op": "not",
+                "condition": {
+                  "op": "quest.status",
+                  "questId": "urman.fullgame:quest/pw-w04",
+                  "status": "active"
+                }
+              },
+              {
+                "op": "not",
+                "condition": {
+                  "op": "quest.status",
+                  "questId": "urman.fullgame:quest/pw-w04",
+                  "status": "completed"
+                }
+              },
+              {
+                "op": "not",
+                "condition": {
+                  "op": "photoworlds.fact.observed",
+                  "factId": "alsu_bank_meeting_planned"
+                }
+              }
+            ],
+            "effects": [],
+            "targetDialogueId": "urman.fullgame:dialogue/pw-alsu-before-w04"
+          },
+          {
             "id": "urman.fullgame:interaction/pw-house-photo-source",
             "labelTextId": "urman.fullgame:text/pw-label-house-photo-source",
             "conditions": [
@@ -22503,6 +22630,25 @@
                 "op": "photoworlds.photo.state",
                 "photoId": "P-COMMON",
                 "state": "mounted"
+              },
+              {
+                "op": "any",
+                "conditions": [
+                  {
+                    "op": "photoworlds.fact.observed",
+                    "factId": "alsu_bank_meeting_planned"
+                  },
+                  {
+                    "op": "quest.status",
+                    "questId": "urman.fullgame:quest/pw-w04",
+                    "status": "active"
+                  },
+                  {
+                    "op": "quest.status",
+                    "questId": "urman.fullgame:quest/pw-w04",
+                    "status": "completed"
+                  }
+                ]
               }
             ],
             "effects": [],
@@ -29112,6 +29258,28 @@
       },
       {
         "schemaVersion": 1,
+        "id": "urman.fullgame:text/pw-choice-alsu-before-w04-agree",
+        "value": {
+          "default": "\u0421\u043E\u0433\u043B\u0430\u0441\u0438\u0442\u044C\u0441\u044F \u043F\u043E\u043A\u0430\u0437\u0430\u0442\u044C \u0435\u0439 \u0432\u0438\u0434",
+          "translations": {
+            "ru": "\u0421\u043E\u0433\u043B\u0430\u0441\u0438\u0442\u044C\u0441\u044F \u043F\u043E\u043A\u0430\u0437\u0430\u0442\u044C \u0435\u0439 \u0432\u0438\u0434"
+          }
+        },
+        "purpose": "dialogue"
+      },
+      {
+        "schemaVersion": 1,
+        "id": "urman.fullgame:text/pw-choice-alsu-before-w04-continue",
+        "value": {
+          "default": "\u041F\u0440\u043E\u0434\u043E\u043B\u0436\u0438\u0442\u044C \u0440\u0430\u0437\u0433\u043E\u0432\u043E\u0440",
+          "translations": {
+            "ru": "\u041F\u0440\u043E\u0434\u043E\u043B\u0436\u0438\u0442\u044C \u0440\u0430\u0437\u0433\u043E\u0432\u043E\u0440"
+          }
+        },
+        "purpose": "dialogue"
+      },
+      {
+        "schemaVersion": 1,
         "id": "urman.fullgame:text/pw-choice-alsu-leaf-agree-to-return",
         "value": {
           "default": "\u041F\u043E\u0439\u0442\u0438 \u0434\u043E\u043C\u043E\u0439 \u0432\u043C\u0435\u0441\u0442\u0435",
@@ -29293,6 +29461,39 @@
           "default": "\u0421\u043F\u0440\u043E\u0441\u0438\u0442\u044C \u043C\u0435\u0441\u0442\u043D\u043E\u0435 \u043D\u0430\u0437\u0432\u0430\u043D\u0438\u0435",
           "translations": {
             "ru": "\u0421\u043F\u0440\u043E\u0441\u0438\u0442\u044C \u043C\u0435\u0441\u0442\u043D\u043E\u0435 \u043D\u0430\u0437\u0432\u0430\u043D\u0438\u0435"
+          }
+        },
+        "purpose": "dialogue"
+      },
+      {
+        "schemaVersion": 1,
+        "id": "urman.fullgame:text/pw-dialogue-alsu-before-w04-d17-01",
+        "value": {
+          "default": "\u042F \u043F\u043E\u0442\u043E\u043C \u0447\u0435\u0440\u0435\u0437 \u043B\u0443\u0433 \u043F\u043E\u0439\u0434\u0443. \u0422\u044B \u043E\u043F\u044F\u0442\u044C \u043A \u0444\u043E\u0442\u043E\u0433\u0440\u0430\u0444\u0438\u044F\u043C?",
+          "translations": {
+            "ru": "\u042F \u043F\u043E\u0442\u043E\u043C \u0447\u0435\u0440\u0435\u0437 \u043B\u0443\u0433 \u043F\u043E\u0439\u0434\u0443. \u0422\u044B \u043E\u043F\u044F\u0442\u044C \u043A \u0444\u043E\u0442\u043E\u0433\u0440\u0430\u0444\u0438\u044F\u043C?"
+          }
+        },
+        "purpose": "dialogue"
+      },
+      {
+        "schemaVersion": 1,
+        "id": "urman.fullgame:text/pw-dialogue-alsu-before-w04-d17-02",
+        "value": {
+          "default": "\u0425\u043E\u0447\u0443 \u043E\u0434\u0438\u043D \u0432\u0438\u0434 \u0441\u0440\u0430\u0432\u043D\u0438\u0442\u044C. \u0422\u0435\u043F\u0435\u0440\u044C \u0437\u043D\u0430\u044E, \u0433\u0434\u0435 \u0441\u0442\u043E\u044F\u0442\u044C.",
+          "translations": {
+            "ru": "\u0425\u043E\u0447\u0443 \u043E\u0434\u0438\u043D \u0432\u0438\u0434 \u0441\u0440\u0430\u0432\u043D\u0438\u0442\u044C. \u0422\u0435\u043F\u0435\u0440\u044C \u0437\u043D\u0430\u044E, \u0433\u0434\u0435 \u0441\u0442\u043E\u044F\u0442\u044C."
+          }
+        },
+        "purpose": "dialogue"
+      },
+      {
+        "schemaVersion": 1,
+        "id": "urman.fullgame:text/pw-dialogue-alsu-before-w04-d17-03",
+        "value": {
+          "default": "\u0422\u043E\u0433\u0434\u0430 \u0442\u0430\u043C \u0438 \u0432\u0441\u0442\u0440\u0435\u0442\u0438\u043C\u0441\u044F. \u041F\u043E\u043A\u0430\u0436\u0435\u0448\u044C.",
+          "translations": {
+            "ru": "\u0422\u043E\u0433\u0434\u0430 \u0442\u0430\u043C \u0438 \u0432\u0441\u0442\u0440\u0435\u0442\u0438\u043C\u0441\u044F. \u041F\u043E\u043A\u0430\u0436\u0435\u0448\u044C."
           }
         },
         "purpose": "dialogue"
@@ -29541,6 +29742,94 @@
       },
       {
         "schemaVersion": 1,
+        "id": "urman.fullgame:text/pw-hint-common-cloth-area",
+        "value": {
+          "default": "\u0422\u043A\u0430\u043D\u044C \u0437\u0430\u043A\u0440\u0435\u043F\u043B\u0435\u043D\u0430 \u043D\u0430 \u0441\u0440\u0435\u0434\u043D\u0435\u0439 \u0442\u0440\u043E\u043F\u0435.",
+          "translations": {
+            "ru": "\u0422\u043A\u0430\u043D\u044C \u0437\u0430\u043A\u0440\u0435\u043F\u043B\u0435\u043D\u0430 \u043D\u0430 \u0441\u0440\u0435\u0434\u043D\u0435\u0439 \u0442\u0440\u043E\u043F\u0435."
+          }
+        },
+        "purpose": "ui"
+      },
+      {
+        "schemaVersion": 1,
+        "id": "urman.fullgame:text/pw-hint-common-cloth-question",
+        "value": {
+          "default": "\u0427\u0442\u043E \u043C\u0435\u0448\u0430\u0435\u0442 \u043B\u0438\u043D\u0438\u0438 \u0432\u0437\u0433\u043B\u044F\u0434\u0430 \u0441 \u0442\u0440\u043E\u043F\u044B?",
+          "translations": {
+            "ru": "\u0427\u0442\u043E \u043C\u0435\u0448\u0430\u0435\u0442 \u043B\u0438\u043D\u0438\u0438 \u0432\u0437\u0433\u043B\u044F\u0434\u0430 \u0441 \u0442\u0440\u043E\u043F\u044B?"
+          }
+        },
+        "purpose": "ui"
+      },
+      {
+        "schemaVersion": 1,
+        "id": "urman.fullgame:text/pw-hint-common-horizon-area",
+        "value": {
+          "default": "\u041E\u0431\u0437\u043E\u0440\u043D\u0430\u044F \u043F\u043B\u043E\u0449\u0430\u0434\u043A\u0430 \u0434\u0430\u043B\u044C\u0448\u0435 \u043F\u043E \u0441\u0440\u0435\u0434\u043D\u0435\u0439 \u0442\u0440\u043E\u043F\u0435.",
+          "translations": {
+            "ru": "\u041E\u0431\u0437\u043E\u0440\u043D\u0430\u044F \u043F\u043B\u043E\u0449\u0430\u0434\u043A\u0430 \u0434\u0430\u043B\u044C\u0448\u0435 \u043F\u043E \u0441\u0440\u0435\u0434\u043D\u0435\u0439 \u0442\u0440\u043E\u043F\u0435."
+          }
+        },
+        "purpose": "ui"
+      },
+      {
+        "schemaVersion": 1,
+        "id": "urman.fullgame:text/pw-hint-common-horizon-question",
+        "value": {
+          "default": "\u0427\u0442\u043E \u0432\u0438\u0434\u043D\u043E \u0441 \u0448\u0438\u0440\u043E\u043A\u043E\u0439 \u043F\u043B\u043E\u0449\u0430\u0434\u043A\u0438?",
+          "translations": {
+            "ru": "\u0427\u0442\u043E \u0432\u0438\u0434\u043D\u043E \u0441 \u0448\u0438\u0440\u043E\u043A\u043E\u0439 \u043F\u043B\u043E\u0449\u0430\u0434\u043A\u0438?"
+          }
+        },
+        "purpose": "ui"
+      },
+      {
+        "schemaVersion": 1,
+        "id": "urman.fullgame:text/pw-hint-common-note-area",
+        "value": {
+          "default": "\u0421\u0442\u043E\u043B\u0438\u043A \u0441 \u043E\u0442\u043F\u0435\u0447\u0430\u0442\u043A\u043E\u043C \u043D\u0430 \u043A\u0440\u0430\u044E \u043B\u0443\u0433\u0430.",
+          "translations": {
+            "ru": "\u0421\u0442\u043E\u043B\u0438\u043A \u0441 \u043E\u0442\u043F\u0435\u0447\u0430\u0442\u043A\u043E\u043C \u043D\u0430 \u043A\u0440\u0430\u044E \u043B\u0443\u0433\u0430."
+          }
+        },
+        "purpose": "ui"
+      },
+      {
+        "schemaVersion": 1,
+        "id": "urman.fullgame:text/pw-hint-common-note-question",
+        "value": {
+          "default": "\u041A\u0430\u043A\u0443\u044E \u043C\u044B\u0441\u043B\u044C \u0442\u044B \u0445\u043E\u0447\u0435\u0448\u044C \u0441\u043E\u0445\u0440\u0430\u043D\u0438\u0442\u044C \u0440\u044F\u0434\u043E\u043C \u0441\u043E \u0441\u043D\u0438\u043C\u043A\u043E\u043C?",
+          "translations": {
+            "ru": "\u041A\u0430\u043A\u0443\u044E \u043C\u044B\u0441\u043B\u044C \u0442\u044B \u0445\u043E\u0447\u0435\u0448\u044C \u0441\u043E\u0445\u0440\u0430\u043D\u0438\u0442\u044C \u0440\u044F\u0434\u043E\u043C \u0441\u043E \u0441\u043D\u0438\u043C\u043A\u043E\u043C?"
+          }
+        },
+        "purpose": "ui"
+      },
+      {
+        "schemaVersion": 1,
+        "id": "urman.fullgame:text/pw-hint-common-places-area",
+        "value": {
+          "default": "\u0422\u0440\u0438 \u043F\u0440\u043E\u0451\u043C\u0430 \u0443 \u043D\u0430\u0447\u0430\u043B\u0430 \u043E\u0431\u0449\u0435\u0439 \u0442\u0440\u043E\u043F\u044B.",
+          "translations": {
+            "ru": "\u0422\u0440\u0438 \u043F\u0440\u043E\u0451\u043C\u0430 \u0443 \u043D\u0430\u0447\u0430\u043B\u0430 \u043E\u0431\u0449\u0435\u0439 \u0442\u0440\u043E\u043F\u044B."
+          }
+        },
+        "purpose": "ui"
+      },
+      {
+        "schemaVersion": 1,
+        "id": "urman.fullgame:text/pw-hint-common-places-question",
+        "value": {
+          "default": "\u041A\u0430\u043A \u0442\u0440\u0438 \u043F\u0440\u043E\u0451\u043C\u0430 \u0441\u0432\u044F\u0437\u0430\u043D\u044B \u0441 \u0443\u0436\u0435 \u0437\u043D\u0430\u043A\u043E\u043C\u044B\u043C\u0438 \u043C\u0435\u0441\u0442\u0430\u043C\u0438?",
+          "translations": {
+            "ru": "\u041A\u0430\u043A \u0442\u0440\u0438 \u043F\u0440\u043E\u0451\u043C\u0430 \u0441\u0432\u044F\u0437\u0430\u043D\u044B \u0441 \u0443\u0436\u0435 \u0437\u043D\u0430\u043A\u043E\u043C\u044B\u043C\u0438 \u043C\u0435\u0441\u0442\u0430\u043C\u0438?"
+          }
+        },
+        "purpose": "ui"
+      },
+      {
+        "schemaVersion": 1,
         "id": "urman.fullgame:text/pw-hint-forest-bag-action",
         "value": {
           "default": "\u041F\u043E\u0441\u043B\u0435 \u0440\u0430\u0437\u0433\u043E\u0432\u043E\u0440\u0430 \u0441 \u0428\u0443\u0440\u0430\u043B\u0435 \u043E\u0441\u0432\u043E\u0431\u043E\u0434\u0438 \u0440\u0435\u043C\u0435\u043D\u044C \u0438 \u0443\u043B\u043E\u0436\u0438 \u0441\u0443\u043C\u043A\u0443 \u0441\u0431\u043E\u043A\u0443.",
@@ -29717,6 +30006,116 @@
       },
       {
         "schemaVersion": 1,
+        "id": "urman.fullgame:text/pw-hint-house-camera-area",
+        "value": {
+          "default": "\u0421\u0442\u043E\u0440\u043E\u043D\u0430 \u0444\u043E\u0442\u043E\u0433\u0440\u0430\u0444\u0430 \u0443 \u0437\u0430\u0431\u043E\u0440\u0430 \u0438 \u043E\u043A\u043D\u0430.",
+          "translations": {
+            "ru": "\u0421\u0442\u043E\u0440\u043E\u043D\u0430 \u0444\u043E\u0442\u043E\u0433\u0440\u0430\u0444\u0430 \u0443 \u0437\u0430\u0431\u043E\u0440\u0430 \u0438 \u043E\u043A\u043D\u0430."
+          }
+        },
+        "purpose": "ui"
+      },
+      {
+        "schemaVersion": 1,
+        "id": "urman.fullgame:text/pw-hint-house-camera-question",
+        "value": {
+          "default": "\u0413\u0434\u0435 \u0441\u0442\u043E\u044F\u043B \u0447\u0435\u043B\u043E\u0432\u0435\u043A, \u0441\u043D\u0438\u043C\u0430\u0432\u0448\u0438\u0439 \u0434\u0432\u043E\u0440?",
+          "translations": {
+            "ru": "\u0413\u0434\u0435 \u0441\u0442\u043E\u044F\u043B \u0447\u0435\u043B\u043E\u0432\u0435\u043A, \u0441\u043D\u0438\u043C\u0430\u0432\u0448\u0438\u0439 \u0434\u0432\u043E\u0440?"
+          }
+        },
+        "purpose": "ui"
+      },
+      {
+        "schemaVersion": 1,
+        "id": "urman.fullgame:text/pw-hint-house-cloth-area",
+        "value": {
+          "default": "\u041B\u0451\u0433\u043A\u0430\u044F \u0442\u043A\u0430\u043D\u044C \u0437\u0430\u0446\u0435\u043F\u0438\u043B\u0430\u0441\u044C \u0443 \u043E\u043A\u043D\u0430.",
+          "translations": {
+            "ru": "\u041B\u0451\u0433\u043A\u0430\u044F \u0442\u043A\u0430\u043D\u044C \u0437\u0430\u0446\u0435\u043F\u0438\u043B\u0430\u0441\u044C \u0443 \u043E\u043A\u043D\u0430."
+          }
+        },
+        "purpose": "ui"
+      },
+      {
+        "schemaVersion": 1,
+        "id": "urman.fullgame:text/pw-hint-house-cloth-question",
+        "value": {
+          "default": "\u0427\u0442\u043E \u043C\u0435\u0448\u0430\u0435\u0442 \u0440\u0430\u0441\u0441\u043C\u043E\u0442\u0440\u0435\u0442\u044C \u0432\u043D\u0443\u0442\u0440\u0435\u043D\u043D\u044E\u044E \u0441\u0442\u043E\u0440\u043E\u043D\u0443 \u0440\u0430\u043C\u043A\u0438?",
+          "translations": {
+            "ru": "\u0427\u0442\u043E \u043C\u0435\u0448\u0430\u0435\u0442 \u0440\u0430\u0441\u0441\u043C\u043E\u0442\u0440\u0435\u0442\u044C \u0432\u043D\u0443\u0442\u0440\u0435\u043D\u043D\u044E\u044E \u0441\u0442\u043E\u0440\u043E\u043D\u0443 \u0440\u0430\u043C\u043A\u0438?"
+          }
+        },
+        "purpose": "ui"
+      },
+      {
+        "schemaVersion": 1,
+        "id": "urman.fullgame:text/pw-hint-house-doors-area",
+        "value": {
+          "default": "\u0414\u0432\u0430 \u0434\u0432\u0435\u0440\u043D\u044B\u0445 \u043F\u0440\u043E\u0451\u043C\u0430 \u0443 \u043E\u0442\u043A\u0440\u044B\u0442\u043E\u0439 \u0432\u0435\u0440\u0430\u043D\u0434\u044B.",
+          "translations": {
+            "ru": "\u0414\u0432\u0430 \u0434\u0432\u0435\u0440\u043D\u044B\u0445 \u043F\u0440\u043E\u0451\u043C\u0430 \u0443 \u043E\u0442\u043A\u0440\u044B\u0442\u043E\u0439 \u0432\u0435\u0440\u0430\u043D\u0434\u044B."
+          }
+        },
+        "purpose": "ui"
+      },
+      {
+        "schemaVersion": 1,
+        "id": "urman.fullgame:text/pw-hint-house-doors-question",
+        "value": {
+          "default": "\u0427\u0442\u043E \u043E\u0441\u0442\u0430\u0451\u0442\u0441\u044F \u043E\u0431\u0449\u0438\u043C \u0432 \u0434\u0432\u0443\u0445 \u0432\u0438\u0434\u0430\u0445 \u0434\u0432\u043E\u0440\u0430?",
+          "translations": {
+            "ru": "\u0427\u0442\u043E \u043E\u0441\u0442\u0430\u0451\u0442\u0441\u044F \u043E\u0431\u0449\u0438\u043C \u0432 \u0434\u0432\u0443\u0445 \u0432\u0438\u0434\u0430\u0445 \u0434\u0432\u043E\u0440\u0430?"
+          }
+        },
+        "purpose": "ui"
+      },
+      {
+        "schemaVersion": 1,
+        "id": "urman.fullgame:text/pw-hint-house-frame-area",
+        "value": {
+          "default": "\u041E\u0441\u0432\u043E\u0431\u043E\u0436\u0434\u0451\u043D\u043D\u0430\u044F \u043E\u0442 \u0442\u043A\u0430\u043D\u0438 \u0440\u0430\u043C\u043A\u0430 \u0443 \u043E\u043A\u043D\u0430.",
+          "translations": {
+            "ru": "\u041E\u0441\u0432\u043E\u0431\u043E\u0436\u0434\u0451\u043D\u043D\u0430\u044F \u043E\u0442 \u0442\u043A\u0430\u043D\u0438 \u0440\u0430\u043C\u043A\u0430 \u0443 \u043E\u043A\u043D\u0430."
+          }
+        },
+        "purpose": "ui"
+      },
+      {
+        "schemaVersion": 1,
+        "id": "urman.fullgame:text/pw-hint-house-frame-question",
+        "value": {
+          "default": "\u0427\u0442\u043E \u043E\u0441\u0442\u0430\u0432\u0438\u043B\u0438 \u043D\u0430 \u0432\u043D\u0443\u0442\u0440\u0435\u043D\u043D\u0435\u0439 \u0441\u0442\u043E\u0440\u043E\u043D\u0435 \u0440\u0430\u043C\u043A\u0438?",
+          "translations": {
+            "ru": "\u0427\u0442\u043E \u043E\u0441\u0442\u0430\u0432\u0438\u043B\u0438 \u043D\u0430 \u0432\u043D\u0443\u0442\u0440\u0435\u043D\u043D\u0435\u0439 \u0441\u0442\u043E\u0440\u043E\u043D\u0435 \u0440\u0430\u043C\u043A\u0438?"
+          }
+        },
+        "purpose": "ui"
+      },
+      {
+        "schemaVersion": 1,
+        "id": "urman.fullgame:text/pw-hint-house-shutter-area",
+        "value": {
+          "default": "\u041E\u0442\u043A\u0440\u044B\u0442\u0430\u044F \u0432\u0435\u0440\u0430\u043D\u0434\u0430, \u0443 \u0441\u0442\u0430\u0432\u043D\u0438 \u0441 \u0432\u0438\u0434\u0438\u043C\u044B\u043C \u043A\u0440\u0435\u043F\u043B\u0435\u043D\u0438\u0435\u043C.",
+          "translations": {
+            "ru": "\u041E\u0442\u043A\u0440\u044B\u0442\u0430\u044F \u0432\u0435\u0440\u0430\u043D\u0434\u0430, \u0443 \u0441\u0442\u0430\u0432\u043D\u0438 \u0441 \u0432\u0438\u0434\u0438\u043C\u044B\u043C \u043A\u0440\u0435\u043F\u043B\u0435\u043D\u0438\u0435\u043C."
+          }
+        },
+        "purpose": "ui"
+      },
+      {
+        "schemaVersion": 1,
+        "id": "urman.fullgame:text/pw-hint-house-shutter-question",
+        "value": {
+          "default": "\u0427\u0442\u043E \u0438\u0437\u043C\u0435\u043D\u0438\u0442\u0441\u044F, \u0435\u0441\u043B\u0438 \u043E\u0442\u043A\u0440\u044B\u0442\u044C \u0441\u0442\u0430\u0432\u043D\u044E?",
+          "translations": {
+            "ru": "\u0427\u0442\u043E \u0438\u0437\u043C\u0435\u043D\u0438\u0442\u0441\u044F, \u0435\u0441\u043B\u0438 \u043E\u0442\u043A\u0440\u044B\u0442\u044C \u0441\u0442\u0430\u0432\u043D\u044E?"
+          }
+        },
+        "purpose": "ui"
+      },
+      {
+        "schemaVersion": 1,
         "id": "urman.fullgame:text/pw-hint-more",
         "value": {
           "default": "\u041F\u043E\u0434\u0441\u043A\u0430\u0437\u0430\u0442\u044C \u0442\u043E\u0447\u043D\u0435\u0435",
@@ -29728,11 +30127,110 @@
       },
       {
         "schemaVersion": 1,
+        "id": "urman.fullgame:text/pw-hint-river-approach-area",
+        "value": {
+          "default": "\u0421\u0442\u0430\u0440\u044B\u0435 \u043E\u043F\u043E\u0440\u044B \u0437\u0430 \u043E\u0442\u043A\u0440\u044B\u0432\u0448\u0438\u043C\u0441\u044F \u043F\u0440\u043E\u0445\u043E\u0434\u043E\u043C.",
+          "translations": {
+            "ru": "\u0421\u0442\u0430\u0440\u044B\u0435 \u043E\u043F\u043E\u0440\u044B \u0437\u0430 \u043E\u0442\u043A\u0440\u044B\u0432\u0448\u0438\u043C\u0441\u044F \u043F\u0440\u043E\u0445\u043E\u0434\u043E\u043C."
+          }
+        },
+        "purpose": "ui"
+      },
+      {
+        "schemaVersion": 1,
+        "id": "urman.fullgame:text/pw-hint-river-approach-question",
+        "value": {
+          "default": "\u041E\u0442\u043A\u0443\u0434\u0430 \u043C\u043E\u0436\u043D\u043E \u043F\u043E\u0434\u043E\u0439\u0442\u0438 \u043A \u0434\u0430\u043B\u044C\u043D\u0438\u043C \u043C\u043E\u0441\u0442\u043A\u0430\u043C?",
+          "translations": {
+            "ru": "\u041E\u0442\u043A\u0443\u0434\u0430 \u043C\u043E\u0436\u043D\u043E \u043F\u043E\u0434\u043E\u0439\u0442\u0438 \u043A \u0434\u0430\u043B\u044C\u043D\u0438\u043C \u043C\u043E\u0441\u0442\u043A\u0430\u043C?"
+          }
+        },
+        "purpose": "ui"
+      },
+      {
+        "schemaVersion": 1,
+        "id": "urman.fullgame:text/pw-hint-river-encounter-area",
+        "value": {
+          "default": "\u0421\u0434\u0432\u0438\u043D\u0443\u0442\u0430\u044F \u0434\u043E\u0449\u0435\u0447\u043A\u0430 \u043D\u0430\u0441\u0442\u0438\u043B\u0430 \u0443 \u0434\u0430\u043B\u044C\u043D\u0438\u0445 \u043C\u043E\u0441\u0442\u043A\u043E\u0432.",
+          "translations": {
+            "ru": "\u0421\u0434\u0432\u0438\u043D\u0443\u0442\u0430\u044F \u0434\u043E\u0449\u0435\u0447\u043A\u0430 \u043D\u0430\u0441\u0442\u0438\u043B\u0430 \u0443 \u0434\u0430\u043B\u044C\u043D\u0438\u0445 \u043C\u043E\u0441\u0442\u043A\u043E\u0432."
+          }
+        },
+        "purpose": "ui"
+      },
+      {
+        "schemaVersion": 1,
+        "id": "urman.fullgame:text/pw-hint-river-encounter-question",
+        "value": {
+          "default": "\u0427\u0442\u043E \u043C\u043E\u0436\u043D\u043E \u0432\u0435\u0440\u043D\u0443\u0442\u044C \u043D\u0430 \u043C\u0435\u0441\u0442\u043E, \u0447\u0442\u043E\u0431\u044B \u043F\u0440\u043E\u0439\u0442\u0438 \u0434\u0430\u043B\u044C\u0448\u0435?",
+          "translations": {
+            "ru": "\u0427\u0442\u043E \u043C\u043E\u0436\u043D\u043E \u0432\u0435\u0440\u043D\u0443\u0442\u044C \u043D\u0430 \u043C\u0435\u0441\u0442\u043E, \u0447\u0442\u043E\u0431\u044B \u043F\u0440\u043E\u0439\u0442\u0438 \u0434\u0430\u043B\u044C\u0448\u0435?"
+          }
+        },
+        "purpose": "ui"
+      },
+      {
+        "schemaVersion": 1,
+        "id": "urman.fullgame:text/pw-hint-river-reed-area",
+        "value": {
+          "default": "\u0421\u0432\u044F\u0437\u043A\u0430 \u0441\u0443\u0445\u043E\u0433\u043E \u043A\u0430\u043C\u044B\u0448\u0430 \u0443 \u043F\u0440\u043E\u0445\u043E\u0434\u0430.",
+          "translations": {
+            "ru": "\u0421\u0432\u044F\u0437\u043A\u0430 \u0441\u0443\u0445\u043E\u0433\u043E \u043A\u0430\u043C\u044B\u0448\u0430 \u0443 \u043F\u0440\u043E\u0445\u043E\u0434\u0430."
+          }
+        },
+        "purpose": "ui"
+      },
+      {
+        "schemaVersion": 1,
+        "id": "urman.fullgame:text/pw-hint-river-reed-question",
+        "value": {
+          "default": "\u0427\u0442\u043E \u0441\u043A\u0440\u044B\u0432\u0430\u0435\u0442 \u043A\u0430\u043C\u044B\u0448\u043E\u0432\u044B\u0439 \u043F\u043E\u0432\u043E\u0440\u043E\u0442?",
+          "translations": {
+            "ru": "\u0427\u0442\u043E \u0441\u043A\u0440\u044B\u0432\u0430\u0435\u0442 \u043A\u0430\u043C\u044B\u0448\u043E\u0432\u044B\u0439 \u043F\u043E\u0432\u043E\u0440\u043E\u0442?"
+          }
+        },
+        "purpose": "ui"
+      },
+      {
+        "schemaVersion": 1,
+        "id": "urman.fullgame:text/pw-hint-river-reflection-area",
+        "value": {
+          "default": "\u041E\u043A\u043D\u043E \u0443 \u0431\u0435\u0440\u0435\u0433\u0430, \u0433\u0434\u0435 \u0432\u0438\u0434\u043D\u044B \u0441\u0442\u043E\u0439\u043A\u0438 \u0438 \u043A\u0440\u0430\u0439 \u043D\u0430\u0441\u0442\u0438\u043B\u0430.",
+          "translations": {
+            "ru": "\u041E\u043A\u043D\u043E \u0443 \u0431\u0435\u0440\u0435\u0433\u0430, \u0433\u0434\u0435 \u0432\u0438\u0434\u043D\u044B \u0441\u0442\u043E\u0439\u043A\u0438 \u0438 \u043A\u0440\u0430\u0439 \u043D\u0430\u0441\u0442\u0438\u043B\u0430."
+          }
+        },
+        "purpose": "ui"
+      },
+      {
+        "schemaVersion": 1,
+        "id": "urman.fullgame:text/pw-hint-river-reflection-question",
+        "value": {
+          "default": "\u0427\u0442\u043E \u0434\u043E\u0431\u0430\u0432\u043B\u044F\u0435\u0442 \u043E\u0442\u0440\u0430\u0436\u0435\u043D\u0438\u0435 \u043A \u0432\u0438\u0434\u0443 \u0431\u0435\u0440\u0435\u0433\u0430?",
+          "translations": {
+            "ru": "\u0427\u0442\u043E \u0434\u043E\u0431\u0430\u0432\u043B\u044F\u0435\u0442 \u043E\u0442\u0440\u0430\u0436\u0435\u043D\u0438\u0435 \u043A \u0432\u0438\u0434\u0443 \u0431\u0435\u0440\u0435\u0433\u0430?"
+          }
+        },
+        "purpose": "ui"
+      },
+      {
+        "schemaVersion": 1,
         "id": "urman.fullgame:text/pw-hint-show",
         "value": {
           "default": "\u041F\u043E\u043A\u0430\u0437\u0430\u0442\u044C \u043F\u043E\u0434\u0441\u043A\u0430\u0437\u043A\u0443",
           "translations": {
             "ru": "\u041F\u043E\u043A\u0430\u0437\u0430\u0442\u044C \u043F\u043E\u0434\u0441\u043A\u0430\u0437\u043A\u0443"
+          }
+        },
+        "purpose": "ui"
+      },
+      {
+        "schemaVersion": 1,
+        "id": "urman.fullgame:text/pw-label-alsu-before-w04-talk",
+        "value": {
+          "default": "\u041F\u043E\u0433\u043E\u0432\u043E\u0440\u0438\u0442\u044C \u0441 \u0410\u043B\u0441\u0443 \u043F\u0435\u0440\u0435\u0434 \u043E\u0431\u0449\u0438\u043C \u0441\u043D\u0438\u043C\u043A\u043E\u043C",
+          "translations": {
+            "ru": "\u041F\u043E\u0433\u043E\u0432\u043E\u0440\u0438\u0442\u044C \u0441 \u0410\u043B\u0441\u0443 \u043F\u0435\u0440\u0435\u0434 \u043E\u0431\u0449\u0438\u043C \u0441\u043D\u0438\u043C\u043A\u043E\u043C"
           }
         },
         "purpose": "ui"
@@ -32145,7 +32643,7 @@
     {
       "moduleId": "urman.fullgame",
       "exactVersion": "1.0.0",
-      "sha256": "5db86fa5912561b92b1165e23cfb223400b9d06ab6da60ae8d2b0bd131e8cd62"
+      "sha256": "17e27d0e95863ac125d74d6951ab902bc4cab94295dfd055d8a5fbc13a626d74"
     },
     {
       "moduleId": "urman.oldpc",
@@ -32153,5 +32651,5 @@
       "sha256": "a3cd65ca0fa229fb9162081dcb579945c63e78f2a72939c473f477b54067b292"
     }
   ],
-  "campaignFingerprint": "0b1a4c3e32b374360f4aebda32d524362862b9f1c171b3f7ec69422f09a8cb1d"
+  "campaignFingerprint": "adae4cc89a8bcb8de37a0a687760f36a59072ee72bb86c07308c83b71c8cb79f"
 }
