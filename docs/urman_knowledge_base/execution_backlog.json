@@ -121144,7 +121144,7 @@
       "assigned_owner": "character_art",
       "activity": {
         "state": "confirmed_active",
-        "reason": "Root accepted the viewed raw mesh as an anatomical source base. The visual worker owns one controlled cleanup, retopology and embedded-eye candidate; the canonical actor is unchanged."
+        "reason": "Root rejected refine-v1 as a donor after viewing actual frames. Visual owns one corrected anatomical/aperture cleanup in refine-v2; performance checks the regional triangle budget read-only. Canonical actor remains unchanged."
       },
       "task_type": "engineering",
       "implementation_state": "not_started",
@@ -121155,7 +121155,7 @@
         "Полный паспорт уровня docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/levels/W01_Лес_за_спиной_RU.md реализован: узлы/физические связи/действия/существо или человеческая сцена/созерцание/возврат/кадры; схема не заменяет проходимый runtime.",
         "Шурале выглядит современно устрашающе в духе психологического авторского хоррора (уточнение автора: злодеи A24): оригинальная цельная анатомия/силуэт, тревожные лицо/взгляд/длинные руки и сдержанная неестественная пластика; без игрушечного добродушия. Оценка по актуальным игровым кадрам и движению, не по числу полигонов."
       ],
-      "next_action": "View one refined head in neutral and color front, three-quarter and profile views. Then fit the accepted source to the existing v6 neck and rig, preserve contact, produce LODs/export, and complete native/author/cultural acceptance.",
+      "next_action": "Review the corrected refine-v2 head and the source-backed regional budget before authorizing a graft into the frozen v6 rig. Runtime actor, whole-body art, native and external acceptance remain open.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -121484,7 +121484,10 @@
         "generation_provenance": "assets/source/blender/photoworlds/W01/shurale_reconstruction_v1/triposr-output/generation-provenance.json",
         "review": "assets/source/blender/photoworlds/W01/shurale_reconstruction_v1/review/",
         "verification": "Successful CPU OBJ run:16.1s (inference2.33, extraction6.40, export0.17).69159 vertices and138084 face records; Blender drops10 degenerate triangles. Source, model, checkpoint, extractor and patch hashes are pinned. Root inspected all five DCC views. The GLB exporter hit a known NumPy API incompatibility; the same input and model succeeded with the existing OBJ option. No runtime files changed.",
-        "setup_resolution": "Initial setup exposed an optional Gradio resolver conflict and an xatlas build failure. Inspection proved texture-baking imports are optional; a small mesh-only CLI patch avoids those dependencies. Required ONNX Runtime and the pinned CPU mesh extractor installed successfully. All caches remain in .tools; no account, global package install, station run or local Godot was used."
+        "setup_resolution": "Initial setup exposed an optional Gradio resolver conflict and an xatlas build failure. Inspection proved texture-baking imports are optional; a small mesh-only CLI patch avoids those dependencies. Required ONNX Runtime and the pinned CPU mesh extractor installed successfully. All caches remain in .tools; no account, global package install, station run or local Godot was used.",
+        "refine_v1_review": "REJECTED_AS_DONOR. Root viewed neutral front/profile/back and color front. The face retains heavy surface ripple and secondary spikes; one eye is mostly hidden and the other protrudes at the inner rim. The guessed socket centers and intact skin occlusion do not produce a living gaze. No canonical promotion.",
+        "next": "One corrected refine-v2 source candidate: locate actual orbital apertures, author lids/openings around recessed eyes, trim secondary silhouette spikes and smooth high-frequency reconstruction noise while preserving the main horn, ears and facial planes. Review neutral/color front, three-quarter and profile. No new inference variants.",
+        "regional_budget": "Read-only canonical source: LOD0 27036 triangles, old head/eyes above candidate neck cut approximately8788, retained body approximately18248 including6388 hand/finger triangles. Donor including eyes should be7–10k triangles, yielding25.2–28.2k actor and avoiding global LOD0 decimation. Bisect contour and final export-stage coordinates must be verified when grafting; no head/body graft accepted yet."
       }
     },
     {
@@ -124588,7 +124591,7 @@
             "remaining": [
               "Собрать узлы H00, H01, H02, H03, H04, H05, H06, H07, H08 и все связи из level-паспорта.; собственного целевого receipt пока нет."
             ],
-            "next_action": "Сопоставить текущий результат: Собрать узлы H00, H01, H02, H03, H04, H05, H06, H07, H08 и все связи из level-паспорта.. Затем изменить только установленный остаток.",
+            "next_action": "Produce the actual W03 H00–H08 walkable scene from the named level passport, then connect physical P-HOUSE entry and Main scene/return routing. The current empty marker scene is not an available world.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -124667,7 +124670,18 @@
             },
             "depends_on": [
               "PW-010"
-            ]
+            ],
+            "source_reachability_review_2026_10_18": {
+              "finding": "Release-blocking missing production: P-HOUSE acquisition, permission, mount and back-read are reachable, but there is no physical pw-enter-house target or Main pw-house presentation route. W03.tscn contains only H00/H08/entry markers, no walkable scene or controller. The Journal currently exposes the content-level entry hint after back-read.",
+              "evidence": [
+                "game/scripts/ArrivalPersonalProps.cs",
+                "game/scripts/Main.cs",
+                "game/scripts/JournalUi.cs",
+                "game/scenes/photoworlds/W03/W03.tscn"
+              ],
+              "required_result": "Produce the authored H00–H08 walkable world and its actual entry/return presentation using the existing W01/W02 route pattern. Connect P-HOUSE only to that real scene; a target that sends the player to the current empty scene does not satisfy this result.",
+              "limits": "Independent source inspection only. No world authored, no native check, no completion claim."
+            }
           },
           {
             "id": "PW-055/E02",
