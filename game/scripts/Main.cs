@@ -487,7 +487,7 @@ public partial class Main : Node3D
         if (entryAnchorId != fallbackAnchorId
             && world.GetNodeOrNull<Node3D>($"Anchors/{fallbackAnchorId}") is not null)
         {
-            GD.PushWarning($"Full-game W01 presentation has no authored Anchors/{entryAnchorId} entry point; "
+            GD.PushWarning($"Full-game presentation has no authored Anchors/{entryAnchorId} entry point; "
                 + $"using named fallback Anchors/{fallbackAnchorId}.");
             return fallbackAnchorId;
         }
@@ -524,7 +524,10 @@ public partial class Main : Node3D
         if (alreadyMounted)
         {
             if (routeSceneChanged && sameSession)
-                PlacePlayerAtW01Entry(_mountedW02!, entryAnchorId);
+            {
+                var resolved = ResolveEntryAnchor(_mountedW02!, entryAnchorId, "R08");
+                PlacePlayerAtW01Entry(_mountedW02!, resolved);
+            }
             _preserveLoadedPhotoWorldTransform = false;
             _loadedPhotoWorldTransformSession = null;
             SetW02Ambience();
@@ -542,11 +545,20 @@ public partial class Main : Node3D
         }
 
         var world = packed.Instantiate<Node3D>();
+        var resolvedPlacementEntryNodeId = entryAnchorId;
         if (world.GetNodeOrNull<Node3D>($"Anchors/{entryAnchorId}") is null)
         {
-            world.Free();
-            GD.PushError($"Full-game W02 presentation has no authored Anchors/{entryAnchorId} entry point.");
-            return;
+            const string fallbackAnchorId = "R08";
+            if (world.GetNodeOrNull<Node3D>($"Anchors/{fallbackAnchorId}") is null)
+            {
+                world.Free();
+                GD.PushError($"Full-game W02 presentation has no authored Anchors/{entryAnchorId} entry point or named fallback Anchors/{fallbackAnchorId}.");
+                return;
+            }
+
+            GD.PushWarning($"Full-game W02 presentation has no authored Anchors/{entryAnchorId} entry point; "
+                + $"using named fallback Anchors/{fallbackAnchorId}.");
+            resolvedPlacementEntryNodeId = fallbackAnchorId;
         }
 
         RetireConnectedWorld();
@@ -570,7 +582,7 @@ public partial class Main : Node3D
         _preserveLoadedPhotoWorldTransform = false;
         _loadedPhotoWorldTransformSession = null;
         if (placeAtEntry)
-            PlacePlayerAtW01Entry(world, entryAnchorId);
+            PlacePlayerAtW01Entry(world, resolvedPlacementEntryNodeId);
         SetW02Ambience();
 
         _lastFullGameRouteSession = projection.SessionIdentity;
@@ -578,7 +590,7 @@ public partial class Main : Node3D
         if (_hasLoadedInitialZone)
             PlayZoneTransition();
         _hasLoadedInitialZone = true;
-        GD.Print($"fullgame-scene-loaded: {projection.ActiveSceneId} physical=W02 entry={entryAnchorId}");
+        GD.Print($"fullgame-scene-loaded: {projection.ActiveSceneId} physical=W02 entry={resolvedPlacementEntryNodeId}");
     }
 
     private bool IsMountedW02() => _mountedW02 is { } world

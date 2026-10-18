@@ -104970,17 +104970,17 @@
       },
       "assigned_owner": "integration",
       "activity": {
-        "state": "released",
-        "reason": "Добавлен PhotoAnchorResolver (src-dotnet/Urman.Core/Narrative): 7 известных якорей, named fallback PW_HOME_TABLE для неизвестных/пустых, ValidateAnchors бросает на дубликате и неизвестном якоре. Дубликат уже ловится PhotoWorldCatalog.Validate. Game-side safe-node tags в Act1WorldLayout остаются следующим шагом."
+        "state": "not_active",
+        "reason": "Finite MountW02 source fallback implemented/reviewed and affected Game compiled; native support/capsule acceptance remains open."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
       "technical_verification_state": "passed",
       "remaining": [
-        "Готово: core PhotoAnchorResolver (7 якорей, named fallback, ValidateAnchors); Act1WorldLayout реестр 7 якорей→safe node names + ResolvePhotoWorldAnchorSafeNode; Main.MountW01 fallback (F10→F00); physical safe-node tags Anchors/PW_FOREST_ENTRY в W01.tscn, Anchors/PW_RIVER_ENTRY в W02.tscn, Anchors/PW_HOME_TABLE в house scene, Anchors/PW_PROLOGUE_ROAD в prologue scene; созданы минимальные сцены W03/W04/W05 с Anchors/PW_HOME_PHOTO_ENTRY, PW_COMMON_ENTRY, PW_CELLAR_ENTRY. Core build 0, 68/68 dotnet-тестов, game build 0.",
-        "Осталось: заменить PushError+Free в MountW02 аналогичным fallback; verify на реальной сцене."
+        "Named R00→R08 source fallback delivered in both MountW02 placement branches, fails closed when both nodes are absent.",
+        "Native W02 R08 support/clear capsule and applicable full anchor acceptance remain open."
       ],
-      "next_action": "Заменить PushError+Free в MountW02 аналогичным fallback; затем verify на реальной сцене.",
+      "next_action": "Verify authored R08 fallback support and capsule clearance on actual W02 using existing narrow native route when owned foreground is available; source fallback now controls both initial and already-mounted placement.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -105116,7 +105116,13 @@
           "evidence_ref": "PW-009.evidence and named history progress; source_review shows available/missing inputs"
         }
       ],
-      "assignment_state": "preserved_person_or_existing_role; activity separate"
+      "assignment_state": "preserved_person_or_existing_role; activity separate",
+      "source_fallback_2026_10_18": {
+        "result": "MountW02 initial load verifies Anchors/R08 when R00 missing, warns and uses resolved ID for actual placement/log; already-mounted route changes reuse existing ResolveEntryAnchor R00→R08; missing both retains fail-closed Free/error before mount. Existing resolver warning world-neutral.",
+        "verification": "Root source/caller inspection caught missing already-mounted branch; affected Game compile13.86s,0warnings/0errors after resolving C# local-name collision; git diff --check passed.",
+        "artifact": "game/scripts/Main.cs",
+        "native": "NOT_RUN; support/clearance not inferred from compile."
+      }
     },
     {
       "id": "PW-010",
@@ -121018,9 +121024,10 @@
       "remaining": [
         "У персонажа есть самостоятельное поведение до и после действия игрока.",
         "Нет полосы босса, оленьего черепа и копии чужого маскота.",
-        "Полный паспорт уровня docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/levels/W01_Лес_за_спиной_RU.md реализован: узлы/физические связи/действия/существо или человеческая сцена/созерцание/возврат/кадры; схема не заменяет проходимый runtime."
+        "Полный паспорт уровня docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/levels/W01_Лес_за_спиной_RU.md реализован: узлы/физические связи/действия/существо или человеческая сцена/созерцание/возврат/кадры; схема не заменяет проходимый runtime.",
+        "Шурале выглядит современно устрашающе в духе психологического авторского хоррора (уточнение автора: злодеи A24): оригинальная цельная анатомия/силуэт, тревожные лицо/взгляд/длинные руки и сдержанная неестественная пластика; без игрушечного добродушия. Оценка по актуальным игровым кадрам и движению, не по числу полигонов."
       ],
-      "next_action": "Accept corrected material/pose-preserving motion package and original character look; then integrate exact canonical GLB and five W01 hooks with targeted native import/ordinary-route acceptance.",
+      "next_action": "Review exact v6 source package with true opposing-pad grip, coherent surface, actual restrained clips and rooted branch attachment; only then canonical GLB/five hooks and targeted native import. Art/human acceptance remains open.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -121259,11 +121266,11 @@
       },
       "character_package_2026_10_18": {
         "source": "assets/source/blender/photoworlds/W01/shurale_character_v4/export-v1/",
-        "result": "MPFB-derived continuous53bonebody with verifiedphysicalbranchcontact, baked2Kalbedo/1Kmask, staged7clips/2LODs. Runtimepartial prepared separately, canonicalasset NOT_PROMOTED.",
-        "remaining": "Exact supported branch material and pose-preserving real clips; serious original v5 character-look study and textured art review; canonical asset/lifecyclehooks; native visual/motion and cultural/author acceptance.",
+        "result": "MPFB-derived continuous53bone source, baked textures, staged7clips/2LODs. Earlier axis-preserving export stage accepted only; later waist candidate rejected for false grip. Canonical asset NOT_PROMOTED.",
+        "remaining": "Produce genuine opposing thumb/index grip on corrected v6 engineering base; coherent woody surface and pose-derived motion; exact reimport review, physical rooted attachment, canonical asset/hooks, native movement and author/culture/art acceptance.",
         "verification_question": "Does the exact fresh GLB reimport preserve the source two-handed front working pose, feet, face orientation and restrained notice transition?",
-        "decision": "Axis/IK-helper cause corrected in source exporter; root personally viewed exact paired source/reimport full figure and grip. Finite working-pose export stage accepted; canonical runtime not yet promoted. Original horror look and remaining clips are not accepted.",
-        "candidate_sha256": "a9510f602e9d25bae3216f519144f74d93a08eaf88040e4264bc8a26599ea39b",
+        "decision": "Historical axis-fixed export preserves source/reimport transforms; later fc342 waist candidate REJECTED: branch crosses wrists/hand backs, fingers hang below. Nearest weighted-skin distance is not opposed-pad contact. No whole-character grip/art acceptance.",
+        "candidate_sha256": "fc342d0b5a0333f60fae083a1d209688ba119572560c012abd6777ba6db4fed3",
         "causal_finding": "normalize_root rotated rig alone; IK target/pole helpers and branch stayed on old side. Exporter now transforms the full pose setup consistently; original source and imported GLB bone matrices differ at most1.2e-6.",
         "source_review": "export-v1/reimport-review/axis-fixed source-work-full.png/reimport-work-full.png and reimport-work-contact.png personally viewed. Imported branch material became white because procedural graph was unsupported: exporter supported Principled material correction pending.",
         "code_stage": "W01 Shurale partial prepared without lifecyclehooks; manifest loopmodes, physicalbranch visibility, pairedLOD, D06/D07 modal/response flow. Independent review corrected Stop→Play snaps via0.18blend and per-node speaking response. Affected Game compile14.43s0warnings/errors. Native not exercised.",
@@ -121275,6 +121282,16 @@
         "decision": "REJECT_RUNTIME_PROMOTION",
         "review": "Root personally viewed whole-front/threequarter/facehands EEVEE. Generic bald human, enlarged smoothforehead, hourglassbody and angular brownmask do not meet original modern horror look. Stop color-mask variants; actual silhouette/head form needed.",
         "causal_input": "Measured current rig armchain≈.71m at2.35m body cannot reach actualroot surface. Inspect stronger native MPFB limb/finger targets before rigfit, preserving valid anatomy/skin; no postrigstretching shortcut."
+      },
+      "source_review_2026_10_18": {
+        "v6_source": "assets/source/blender/photoworlds/W01/shurale_character_v6/shurale-character-look-v6.blend",
+        "v6_sha256": "8c49565c415b416ca962259da7f8f43e617835ee746a91abade95fe2d56ef9f2",
+        "sculpt_cause": "Raw mesh edits were overridden by active MPFB shape keys; fixed relative V6_Anatomy captures evaluated donor mix before weighted head/neck sculpt and rig fitting. Evaluated coordinates match key within7.45e-9m;5538 vertices changed, max.026495m. Arm chain.8214m.",
+        "geometry_acceptance": "Engineering topology/rig base only. Root viewed corrected head: generic bald donor/hourglass still not final horror art.",
+        "grip_rejection": "Root personally viewed exact waist reimport work-full/work-contact: no actual two-handed grip. Export manifest now labels nearest-skin numbers proximity only, not grip.",
+        "motion_slice": "Pinned Blender v4 real leg IK step has left sole drift0, right lift.040975m/forward.099842m; noticed root-up head yaw40.22deg/updot.98784. Root viewed frames; methods only, must retarget/revalidate new true-grip v6. Shoulder follow unmeasured.",
+        "surface": "Soft marbling v1 and binary bark-cap/armour v2 rejected. Original generated bark image available with generation provenance; single coherent whole-body v3 correction in progress. No runtime promotion.",
+        "next": "One source package: corrected v6 + genuine opposed pads/full hand matrices + v3 wood + real derived clips. Exact fresh reimport full/face/hands review before canonical copy."
       }
     },
     {
@@ -122737,7 +122754,7 @@
       "title": "W02: связать отражение с настоящим подходом",
       "milestone": "PW-M3",
       "status": "in_progress",
-      "active_owner": null,
+      "active_owner": "Codex/story",
       "owner": "gameplay",
       "priority": "P1",
       "complexity": "complex",
@@ -122874,8 +122891,8 @@
       },
       "assigned_owner": "gameplay",
       "activity": {
-        "state": "not_active",
-        "reason": "Finite R04 source slice accepted after independent lifecycle/geometry review and affected Game compile; native/art remainder remains open."
+        "state": "confirmed_active",
+        "reason": "Finite R03 player payoff: existing passport promises learned relation sketch; source observation currently has no visible notebook result. Own notebook projection + authored SVG only."
       },
       "task_type": "engineering",
       "implementation_state": "not_started",
@@ -122885,7 +122902,7 @@
         "Внутреннее наблюдение не является внешним подтверждением.",
         "Полный паспорт уровня docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/levels/W02_Мостки_RU.md реализован: узлы/физические связи/действия/существо или человеческая сцена/созерцание/возврат/кадры; схема не заменяет проходимый runtime."
       ],
-      "next_action": "Verify actual ordinary R03→R04→R05 route and visible physical opening when native foreground is available; retain reflection/art/full PW051 remainder.",
+      "next_action": "Deliver existing R03 journal sketch after saved reflection observation, reusing current image reader and preserving inside-photo provenance; then native R03→R04→R05 acceptance when foreground is available.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -122896,7 +122913,9 @@
           "game/scenes/photoworlds/W02/W02.tscn",
           "game/content/photoworlds/W02/W02.world.json",
           "game/scripts/photoworlds/W02Controller.cs",
-          "assets/source/blender/photoworlds/W02/"
+          "assets/source/blender/photoworlds/W02/",
+          "game/scripts/RuntimeBridge.Notebook.cs",
+          "game/assets/photoworlds/W02/water-reflection-relation-sketch.svg"
         ],
         "required_inputs": [
           {
@@ -122923,7 +122942,9 @@
         ],
         "scope_in": [
           "W02 scene/controller",
-          "photoworld quest content"
+          "photoworld quest content",
+          "game/scripts/RuntimeBridge.Notebook.cs",
+          "game/assets/photoworlds/W02/water-reflection-relation-sketch.svg"
         ],
         "scope_out": [
           "Контент соседнего блока, кроме указанного артефакта-входа.",
@@ -123067,6 +123088,12 @@
         "verification_question": "Does physical crossing remain blocked while visible reeds obstruct it, and do restore/session/scene transitions project exact closed/open state without stale tween callbacks?",
         "remaining": "Native R03→R04→R05 ordinary route, reflection motion/cost, remaining PW051 DoD and art/external gates.",
         "verification": "Affected Game compile14.63s0warnings/errors; final one-line contiguous-half grouping inspected after independent review. No new tests. No native W02 acceptance."
+      },
+      "r03_payoff_2026_10_18": {
+        "finding": "Passport water_reflection feedback promises notebook relation sketch; current savedfact produces generic source provenance only, no visible learned relation. R04/R05 structural links already exist.",
+        "result": "IN_PROGRESS: one original incomplete three-support/deck relation sketch on existing source card through ResolvedJournalEntry.Images; no new lore/map or external confirmation.",
+        "verification_question": "Does the source card show the learned relation only after observed water_reflection_relation_seen, survive load, and disappear in unrelated sessions without fact while personal notes stay untouched?",
+        "remaining": "Source/compiled check and native journal current-frame acceptance; no current runtime claim."
       }
     },
     {
