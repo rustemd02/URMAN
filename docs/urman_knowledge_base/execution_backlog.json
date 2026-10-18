@@ -62493,13 +62493,10 @@
             "owner": "art/architecture",
             "evidence": [],
             "assigned_owner": "art/architecture",
-            "active_owner": "Codex/root + w03_geometry",
+            "active_owner": null,
             "activity": {
-              "state": "confirmed_active",
-              "reason": "Prepare exact current hero component for whole-asset material production; preserve measured openings/names/transforms, use existing runtime-rounded shapes before API texture. Wrongshape Meshydonor notpromoted.",
-              "files": [
-                "assets/source/blender/act1/hero_house_pbr_v1/"
-              ]
+              "state": "released",
+              "reason": "Finite nativepreview finished and stationfreed. Sourcehouseinventory retained; artnotaccepted becauseactualcloseview shows triangular/star facets. Authorfacepriority nowactive; no repeatedhouse variants."
             },
             "task_type": "engineering",
             "status": "in_progress",
@@ -62508,7 +62505,7 @@
             "remaining": [
               "Согласовать силуэт, цоколь, вынос кровли и глубину проёмов эталонного дома с выбранным reference ID; собственного целевого receipt пока нет."
             ],
-            "next_action": "Prepare exact current HeroHouse_TimberPlaster opaquegeometry withsemanticnodes forone4KPBR retexture10credits fromownImageGenreference; compare actualgeometry+materials beforeintegration through existingmodelPath/kitowner.",
+            "next_action": "После текущего приоритета лица Шурале разобрать конкретные facets в native closeview у существующего producer: UV islands disconnected crown triangles / tangent-normal correspondence. Не повторять обычный запуск/focus и не менять шейдеры наугад; defaultrecipe/sourcekit остаются прежними.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -62590,6 +62587,15 @@
               "result": "Hero-onlysuppressionnowrecognizesnumberedLog; excludesLogCrown,cornerends,joinery/otherhouses. Existingcrown/door/windowboundsunchanged; no globalgeometrycleanup.",
               "verification": "ActualcanonicalGLB1528nodeJSON inspection; affectedGamecompilePASS19.27s,0errors/0warnings; rootdiffreview; no newtests. TargetednativehouseframeafterPBRcandidate stillpending.",
               "file": "game/scripts/Act1ConnectedWorld.DwellingLogWalls.cs"
+            },
+            "native_pbr_preview_2026_10_18": {
+              "job_id": "0dd9c3434cea4e819a47fc089a0a8fa5",
+              "snapshot_id": "5829aa152f5be7c0dc4796a909fca2520c92318d47751af88d37af4866a36f4f",
+              "state": "PASS_TECHNICAL_ONLY",
+              "candidate_sha256": "fbd9d32dc8d4d5035094a9390921685a942e856efde73eff223ff190387e50d9",
+              "boundary": "Existing staticcapture two70FOVpoints, no key/mouseinjection. One temporary recipe modelPath inimmutable snapshot only; localdefaultrecipe SHA2bcbc3ad88f8ecec5473a7ed9b5d144f649c9d7cf90c0212ec34a6cafb0aa4b4 restored; ownedgame stagingfile removed. Doctor before ready/idle,recovery/orphanfalse. Actual result pending.",
+              "receipt": "evidence/ACT1-DEPTH.12/native_pbr_candidate_0dd9c3434cea4e819a47fc089a0a8fa5/receipt.json",
+              "root_review": "Personally viewed actualfront+porch nativeGTX970: woodbrown/readable, so DCCflatblack notsolematerialtruth. Obvious triangular/star facets andnoisypatches onlogs/cornercuts remain; notartaccepted/notdefaultpromoted. Import/build/gameexit0, userdataRestoredtrue; freshdoctorready/idle,recovery/orphanfalse. Staticpreviewnotordinaryinput/StudioUVacceptance."
             }
           },
           {
@@ -62600,14 +62606,10 @@
             "owner": "art/architecture",
             "evidence": [],
             "assigned_owner": "art/architecture",
-            "active_owner": "Codex/root",
+            "active_owner": null,
             "activity": {
-              "state": "confirmed_active",
-              "reason": "Root owns one pricedAPI4KPBR material request on exact authoredhero geometry after source preparation. Existingglass/recess/snow owners retained, no wrongMeshymonolithpromotion.",
-              "files": [
-                "assets/source/blender/act1/hero_house_pbr_v1/",
-                "eng/meshy_assets.py"
-              ]
+              "state": "released",
+              "reason": "Finite nativepreview finished and stationfreed. Sourcehouseinventory retained; artnotaccepted becauseactualcloseview shows triangular/star facets. Authorfacepriority nowactive; no repeatedhouse variants."
             },
             "task_type": "engineering",
             "status": "in_progress",
@@ -62616,7 +62618,7 @@
             "remaining": [
               "Согласовать цвет дерева/наличников, свет окон и снег эталонного дома с существующими материалами; собственного целевого receipt пока нет."
             ],
-            "next_action": "Проверить фактические atlas pixels и COLOR_0/material multiplication чёрных стен; исправлять только доказанную причину. После принятого вида сохранить PBR через существующие канонические .py/.blend и Studio rebuild, затем сравнимый Windows кадр. Исходный GLB Meshy нормализован, его геометрия не используется.",
+            "next_action": "После текущего приоритета лица Шурале разобрать конкретные facets в native closeview у существующего producer: UV islands disconnected crown triangles / tangent-normal correspondence. Не повторять обычный запуск/focus и не менять шейдеры наугад; defaultrecipe/sourcekit остаются прежними.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -62674,6 +62676,15 @@
               },
               "material_cause_review": "Pinned Blender actual UV samples are mid-gray wood (wall mean118/115/110), correct glTF V flip and active UVMap, baseColor factorwhite, no COLOR_0. Source already has inward exteriorwall winding; street/left crown customloop normals oppose trianglewinding on100% sampled corners (median dot−.977), roof/jamb dot+1. Source and attached normals identical. One controlled source orientation correction + samecamera render authorized, no new credits.",
               "studio_preservation_boundary": "Existing author_hero_house deletes/rebuilds geometry and UV/material slots; new atlas is SmartUV/globalpacked over runtime-roundedgeometry+four crowns. No proven generic UV transfer for all legal width edits; do not claim ModelPath alone preserves Studio appearance or promote blind normalized-bounds transfer."
+            },
+            "native_pbr_preview_2026_10_18": {
+              "job_id": "0dd9c3434cea4e819a47fc089a0a8fa5",
+              "snapshot_id": "5829aa152f5be7c0dc4796a909fca2520c92318d47751af88d37af4866a36f4f",
+              "state": "PASS_TECHNICAL_ONLY",
+              "candidate_sha256": "fbd9d32dc8d4d5035094a9390921685a942e856efde73eff223ff190387e50d9",
+              "boundary": "Existing staticcapture two70FOVpoints, no key/mouseinjection. One temporary recipe modelPath inimmutable snapshot only; localdefaultrecipe SHA2bcbc3ad88f8ecec5473a7ed9b5d144f649c9d7cf90c0212ec34a6cafb0aa4b4 restored; ownedgame stagingfile removed. Doctor before ready/idle,recovery/orphanfalse. Actual result pending.",
+              "receipt": "evidence/ACT1-DEPTH.12/native_pbr_candidate_0dd9c3434cea4e819a47fc089a0a8fa5/receipt.json",
+              "root_review": "Personally viewed actualfront+porch nativeGTX970: woodbrown/readable, so DCCflatblack notsolematerialtruth. Obvious triangular/star facets andnoisypatches onlogs/cornercuts remain; notartaccepted/notdefaultpromoted. Import/build/gameexit0, userdataRestoredtrue; freshdoctorready/idle,recovery/orphanfalse. Staticpreviewnotordinaryinput/StudioUVacceptance."
             }
           }
         ]
@@ -121159,7 +121170,7 @@
       "title": "W01: произвести, оживить и поставить Шурале",
       "milestone": "PW-M3",
       "status": "in_progress",
-      "active_owner": "Codex/shurale_fit",
+      "active_owner": "Codex/root + shurale_fit",
       "owner": "character_art",
       "priority": "P1",
       "complexity": "complex",
@@ -121201,7 +121212,7 @@
         "ART02"
       ],
       "runtime_evidence": "NOT_RUN",
-      "author_acceptance": "PENDING",
+      "author_acceptance": "REJECTED_CURRENT_FACE",
       "mvp_priority": 40,
       "mvp_packet": "PW3",
       "delivery": {
@@ -121314,9 +121325,9 @@
       "assigned_owner": "character_art",
       "activity": {
         "state": "confirmed_active",
-        "reason": "Bounded existing53clip→actual66skin movement sourcecandidate in runtime-motion only; currentgenericgait failedneutralreview. Canonicalactor/skin remainfrozen pendingcontract+pose review.",
+        "reason": "Author rejected currentface. New owncloseportrait generated and one Meshy7.1head/bust+4KPBR produced; actualanatomy review before localhead/neckfit. Oldbody/holdfrozen, no canonicalpromotion.",
         "files": [
-          "assets/source/blender/photoworlds/W01/shurale_meshy_v3/runtime-motion/"
+          "assets/source/blender/photoworlds/W01/shurale_meshy_v3/face-redesign-v1/"
         ]
       },
       "task_type": "engineering",
@@ -121328,7 +121339,7 @@
         "Полный паспорт уровня docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/levels/W01_Лес_за_спиной_RU.md реализован: узлы/физические связи/действия/существо или человеческая сцена/созерцание/возврат/кадры; схема не заменяет проходимый runtime.",
         "Шурале выглядит современно устрашающе в духе психологического авторского хоррора (уточнение автора: злодеи A24): оригинальная цельная анатомия/силуэт, тревожные лицо/взгляд/длинные руки и сдержанная неестественная пластика; без игрушечного добродушия. Оценка по актуальным игровым кадрам и движению, не по числу полигонов."
       ],
-      "next_action": "Produce a coherent authored whole-actor replacement from the original modern-horror concept, preserving one-horn Tatar identity, readable living gaze, restrained behavior, physical hands/branch contact and D06→Bag→D07. Existing feed-forward raw head/body studies are insufficient; do not promote them or repeat scalar/inference variants. Native and author/cultural gates remain open.",
+      "next_action": "Переделать собственный image_gen-референс лица по прямому отказу автора; после фактического просмотра выбрать целую 3D-коррекцию головы, сохраняя полезный риг/движения. Текущую голову не переносить в canonical.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -121860,7 +121871,22 @@
           "sha256": "46aaf3893441a89a99917e88134500a193b2e1dfb6323ab2d09df82ab3157d9a",
           "verification": "One corrected export/reimport: non-Hips translation max4.84e−7m; finger length .0423509904→.0423509501m, forearm .4659966319→.4659962442m; 66joints/7clips/398finite floataccessors. Root viewed work+step: blowups gone, but branchfloats acrosschest awayfromhands. No actorpromotion. Twelve pinnedBlender exporter RuntimeWarnings persist; finitebuffers do not prove art/contact."
         },
-        "input_motion_fact": "Read-only fiveframes/clip across52mappedjoints: source has0constraints, oneassignedslot/action, matrix_basis matches evaluatedparentrelativepose within2.98e−7. Work/step source arms static; gesture/yield actuallyvary. Staticwork motion is content, not hiddenIK/slotloss."
+        "input_motion_fact": "Read-only fiveframes/clip across52mappedjoints: source has0constraints, oneassignedslot/action, matrix_basis matches evaluatedparentrelativepose within2.98e−7. Work/step source arms static; gesture/yield actuallyvary. Staticwork motion is content, not hiddenIK/slotloss.",
+        "authored_hold_candidate": {
+          "path_local": "assets/source/blender/photoworlds/W01/shurale_meshy_v3/runtime-motion/shurale_meshy_v3_motion_candidate.glb",
+          "sha256": "a26f4f786484f2946e6ed47b1bef30003487cb40e0c02cc8abb8480932ea49bb",
+          "result": "Two-armIK and actual-skin contact source work hold. Root viewed white full/hands: branch now reaches both hands, but readable opposed grip/movement not accepted from skin distances alone. 66joints/7clips, finite reimport, unchanged bone lengths, groundedfeet. Source only, current face explicitly rejected by author."
+        },
+        "motion_pbr_composition_blocker": "Actual material binding stopped before export: LOD1 UV domain coverage85852/93184 checked points;2outsideunitUV. No combined candidate exists. Current highqualityLOD0 maps valid, LOD1 decimation/UV needs actualproducer correction before any runtimepromotion; no blindbinding/UVfallback."
+      },
+      "author_face_feedback_2026_10_18": {
+        "source": "Live author reply",
+        "quote": "у шурале лицо тупое как у болвана",
+        "result": "Current Meshy v3 face art rejected. Technical rig, measured jointlength and sourcecontact work remain useful engineering evidence; no canonical/finalactor acceptance.",
+        "next_action": "Actually inspect new geometry from close face reference, fit whole head/neck with explicit existingHead/Neck ownership only if anatomy is acceptable; no assumed humanapproval or blind heattransfer.",
+        "new_reference": "assets/source/blender/photoworlds/W01/shurale_meshy_v3/face-redesign-v1/input-face-redesign-v1.png",
+        "actual_source_review": "Root personally viewed actual PBR3q and neutral front/3q/profile: physicalorbitaldepth/lids/nose/lips andsinglehorn coherent, stronger than oldmask. Source-direction accepted for reducedhead/neckfit only; no finalauthorapproval or canonicalpromotion. Raw6.116Mtri/5819components/nonmanifold source notgame-ready. Existingbody is connectedskin, so newhead mustreplace oldhead acrossclosedneckseam with explicitHead/Neckblend, no overlapmask or wholebodyheattransfer.",
+        "presentation_gap": "Actual W01 only plays7clips; no live head/eye tracking, blink or facialdriver. Fixed noticedyaw alone cannotprovideattentivegaze. Reuse existing after-animation boneaim pattern only whennewsemantichead available; respectReducedMotion andexistinggesture/yield, do not claim eyecontrols onunsegmentedmesh."
       }
     },
     {
@@ -157962,12 +157988,12 @@
     "credits": {
       "authorized_budget": 4000,
       "ui_balance_observed": 4100,
-      "agent_spent_after_purchase": 75,
-      "authorized_budget_remaining": 3925,
+      "agent_spent_after_purchase": 110,
+      "authorized_budget_remaining": 3890,
       "rule": "Total owner cap4000 including already spent operations. Use suitable Meshy texture/remesh/rig quality tools after actual source review; record displayed cost and result, no blind repeats. Own image_gen only for prototype images; no Meshy image-generation spend. UI bonuses do not expand cap; no additional purchase/subscription.",
       "latest_ui_balance_observed": 4145,
-      "balance_note": "Actual latest API balance4175: monthly3025/permanent1150 after two10-credit retxtures. Total authorizedspend75/4000, remaining3925. Prior unexplained50-credit permanent bonus is not additional authorization.",
-      "latest_api_balance_observed": 4175
+      "balance_note": "Latest API balance4140: monthly2990/permanent1150 afterhead30+remesh5. Total authorizedspend110/4000, remaining3890; permanentbonus doesnotexpandcap.",
+      "latest_api_balance_observed": 4140
     },
     "first_input": "Existing own Shurale7.1 generated before subscription, now raw downloaded normally at zero added generation spend. Original freeCCBY4.0 provenance retained; no automatic private/ownership claim.",
     "operations": [
@@ -158081,6 +158107,29 @@
         "output": "assets/source/blender/photoworlds/W01/shurale_meshy_v3/pbr-v1/meshy-retxt-4k-keepuv.glb",
         "output_sha256": "b86fd7d83c93c3eef4c14555d1f94cda9f54f8a98cbf88b8d97b605e69a19917",
         "bytes": 34025420
+      },
+      {
+        "task_id": "PW-047",
+        "operation": "One Meshy7.1 Standard head/bust generation with4KPBR from new own face reference after authorrejection",
+        "api_task_id": "01a14fd9-9cf9-7129-b3a9-64ad7a8b5202",
+        "cost_credits": 30,
+        "cost_basis": "Actual API SUCCEEDED/progress100/consumed30 in286.9s; onePOST. Normaldownload209250796B, rawhighpoly localonly.",
+        "input": "assets/source/blender/photoworlds/W01/shurale_meshy_v3/face-redesign-v1/input-face-redesign-v1.png",
+        "input_sha256": "d8d504c193ea29731a8c4d0c059e9501770305d7b81df72ac206d4f02d8909f9",
+        "prototype_source": "Built-in image_gen, actual root/user-visible closeface reference. No Meshy imagegenerator.",
+        "result": "Actualsource/PBR geometry review in pinnedBlender delegated toshurale_fit face-redesign-v1 only. No fit/reduction/newrig before rootviews facial anatomy. Raw209MBnotshipped/notGit.",
+        "output": "assets/source/blender/photoworlds/W01/shurale_meshy_v3/face-redesign-v1/meshy71-face-redesign-original.glb",
+        "output_sha256": "4a2ff86ad0e0add821c7e657ed24592a3d94b34f3e187bcef6412661507f2edc",
+        "bytes": 209250796
+      },
+      {
+        "task_id": "PW-047",
+        "operation": "API triangle remesh100K from existing successful closehead task; no re-upload209MB",
+        "api_task_id": "01a14fea-cd85-7470-aeb2-1ac6b4914405",
+        "input_task_id": "01a14fd9-9cf9-7129-b3a9-64ad7a8b5202",
+        "cost_credits": 5,
+        "cost_basis": "Actual API SUCCEEDED/progress100/consumed5 in320s; onePOST usinginput_task_id. Outputdownload/geometryreviewpending.",
+        "result": "Pending actual reducedface comparison; target100000 is a request, not measuredoutput or runtimeclaim. Source had6116400tris/5819components/518350boundaryedges, no skin/actions."
       }
     ],
     "next_large_static_candidate": {
@@ -158102,7 +158151,7 @@
       "key_monthly_limit": 2999,
       "secret_storage": "Owner-only local configuration outside Git; no key value in repository or receipts",
       "verification": "Authenticated GET https://api.meshy.ai/openapi/v1/balance returned HTTP200; actual balance4145/monthly3045/permanent1100. Read-only call, no added spend.",
-      "cost_boundary": "API prices differ from web: official remesh5 vs observedweb0; review endpoint cost before paid calls. Total campaign cap4000 including web+API; current remaining3925.",
+      "cost_boundary": "Total authorized cap4000 includingweb/API. Current spent110, remaining3890. One-shot pricedcalls; no newpurchase.",
       "authority": "Owner explicit action-time reply authorized creating and connecting API key.",
       "client": "eng/meshy_assets.py: balance/list/status, explicitpricedsubmit-image/submit-retexture/submit-remesh, SUCCEEDED-onlyGLBdownload; no Meshyimagegeneration. Read-onlybalance/list3endpoints verified; existingwebtasks notreturnedbyAPIlist."
     }

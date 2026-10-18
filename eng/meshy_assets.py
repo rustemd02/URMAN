@@ -297,8 +297,9 @@ def build_parser():
     retexture_parser.add_argument("--keep-uv", action="store_true", help="preserve the input model's UV layout")
     retexture_parser.add_argument("--spend-credits", type=int, help="must equal the printed estimate before a paid task is created")
 
-    remesh_parser = commands.add_parser("submit-remesh", help="create a 100K triangle remesh task from a local GLB")
-    remesh_parser.add_argument("model", type=Path, help="local GLB model (maximum 100 MB)")
+    remesh_parser = commands.add_parser("submit-remesh", help="remesh a local GLB or an existing successful Meshy task")
+    remesh_parser.add_argument("model", nargs="?", type=Path, help="local GLB model (maximum 100 MB)")
+    remesh_parser.add_argument("--input-task-id", help="successful Image-to-3D, Text-to-3D or Retexture task; avoids re-uploading its model")
     remesh_parser.add_argument("--target-polycount", type=int, default=100000)
     remesh_parser.add_argument("--spend-credits", type=int, help="must equal the printed estimate before a paid task is created")
 
@@ -317,6 +318,11 @@ def run(args):
             raise ClientError("style-prompt must be non-empty and at most 800 characters")
     if args.command == "submit-remesh" and not 100 <= args.target_polycount <= 300000:
         raise ClientError("target-polycount must be from 100 to 300000")
+    if args.command == "submit-remesh":
+        if (args.model is None) == (args.input_task_id is None):
+            raise ClientError("provide exactly one local model or --input-task-id")
+        if args.input_task_id is not None:
+            args.input_task_id = require_task_id(args.input_task_id)
 
     if args.command == "download-glb":
         args.task_id = require_task_id(args.task_id)
@@ -408,12 +414,13 @@ def run(args):
         return 0
 
     if args.command == "submit-remesh":
-        model = data_uri(args.model, ".glb", "application/octet-stream", MAX_MODEL_DATA_URI_BYTES,
-                         signature=b"glTF")
+        source = ({"input_task_id": args.input_task_id} if args.input_task_id is not None else
+                  {"model_url": data_uri(args.model, ".glb", "application/octet-stream", MAX_MODEL_DATA_URI_BYTES,
+                                         signature=b"glTF")})
         credits = 5
         require_spend_ack(f"{args.target_polycount:,}-face triangle remesh", credits, args.spend_credits)
         task = client.request_json("POST", "/remesh", {
-            "model_url": model,
+            **source,
             "target_formats": ["glb"],
             "topology": "triangle",
             "target_polycount": args.target_polycount,

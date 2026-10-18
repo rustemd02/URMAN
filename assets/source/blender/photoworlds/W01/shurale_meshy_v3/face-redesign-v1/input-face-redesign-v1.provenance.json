@@ -1,0 +1,14 @@
+{
+  "task_id": "PW-047",
+  "tool": "built-in image_gen",
+  "reason": "Author explicitly rejected v3 face as looking stupid/mannequin-like. New original close head reference before actual3D facial anatomy correction.",
+  "output": "input-face-redesign-v1.png",
+  "sha256": "d8d504c193ea29731a8c4d0c059e9501770305d7b81df72ac206d4f02d8909f9",
+  "source_references": [
+    "assets/source/blender/photoworlds/W01/shurale_meshy_v3/input-shurale-v3.png",
+    "assets/source/blender/photoworlds/W01/shurale_meshy_v3/pbr-v1/views/pbr-v1-face.png"
+  ],
+  "art_brief": "One small crooked foreheadhorn. Precise focused smaller realeyes/deeporbit/heavyupperlids, organic asymmetricbone/skin, restrainedfoldedears, narrowclosedmouth/lipcompression, calculatingattention. Living ash-grey skin organically into fine timberfibres, no decorativearmor/tribaltattoos/grin/dollstare. Original practical-creature modernfolk-horror, not a filmcopy. One neutral3q head-shoulders portrait with fullhorn andneck.",
+  "root_review": "Actually viewed output: more focused gaze, eyelid volume and asymmetric expression than frozen3Dface. New image only; not a verified3Dhead or finalauthorapproval. Next validate geometry and existing66-rig neck seam before canonical use.",
+  "rights": "Own original inputs and built-inimage_gen output; owner authorizes Meshy assetproduction within4000total, no Meshy imagegeneration."
+}
