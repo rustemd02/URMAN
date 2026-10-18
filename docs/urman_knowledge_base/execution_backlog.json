@@ -25511,6 +25511,16 @@
               "result": "UNKNOWN_CAUSE; NO_STATION_RETRY",
               "finding": "4f86e4fca4b5404f8e015cb55e5ded01 refused before Enter injection. New Game callback therefore cannot explain this attempt. A fresh helper enumerates the owned HWND per request; no cross-request stale handle. Existing evidence does not retain foreground HWND/PID or before/after window snapshots. No game window-mode/size/position calls were found.",
               "limits": "Read-only source/log inspection by independent native luna_fast; no guard weakening, source fix or Windows action. A bounded review of retaining the existing helper result is next; no new probe/API or unchanged focus workaround."
+            },
+            "ui_refusal_evidence_fix_2026_10_18": {
+              "result": "SOURCE_DELIVERED; STATION_NOT_UPDATED",
+              "files": [
+                "eng/windows-game-ui.ps1",
+                "eng/windows_station_worker.py"
+              ],
+              "change": "Persist first bounded allowlisted2KiB UI refusal under existing job artifacts, retaining only selected owned HWND and foreground category/phase from existing checks. Drain in-flight UI/capture before archive; keep busy until finish. Existing reserved regular filename is atomically replaced by bounded record, not treated as trusted evidence. No raw foreign-window data, action payload or guard weakening.",
+              "verification": "Root diff/caller/path review and independent review; reserved existing-filename bypass corrected. In-memory Python syntax PASS. Windows PowerShell Parser.ParseFile on exact incoming source PASS0errors; both incoming SHA256 match local files. No game run or cause resolution claimed.",
+              "deployment_input": "Readonly SSH confirmed dirty Windows37bdeba1 checkout must not pull/reset/stash. BOTH target eng files exactly match prechange Mac HEAD SHA cf6974df… and2fbe7fbb…; a compare-and-swap update of only these owned maintenance files can preserve all other dirty state. Station doctor ready/idle, no orphan/recovery."
             }
           },
           {
@@ -121013,7 +121023,7 @@
       "title": "W01: произвести, оживить и поставить Шурале",
       "milestone": "PW-M3",
       "status": "in_progress",
-      "active_owner": "Codex/whole_actor_route",
+      "active_owner": null,
       "owner": "character_art",
       "priority": "P1",
       "complexity": "complex",
@@ -121167,8 +121177,8 @@
       },
       "assigned_owner": "character_art",
       "activity": {
-        "state": "confirmed_active",
-        "reason": "One source-only full-body input/reconstruction on the already installed pinned CPU TripoSR. Whole actor graft study rejected as art; no runtime promotion."
+        "state": "not_active",
+        "reason": "Finite whole-body source reconstruction reviewed and rejected for actor production. Both head graft and whole-body feed-forward inference fail art requirements; no canonical promotion or repeated variants."
       },
       "task_type": "engineering",
       "implementation_state": "not_started",
@@ -121179,7 +121189,7 @@
         "Полный паспорт уровня docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/levels/W01_Лес_за_спиной_RU.md реализован: узлы/физические связи/действия/существо или человеческая сцена/созерцание/возврат/кадры; схема не заменяет проходимый runtime.",
         "Шурале выглядит современно устрашающе в духе психологического авторского хоррора (уточнение автора: злодеи A24): оригинальная цельная анатомия/силуэт, тревожные лицо/взгляд/длинные руки и сдержанная неестественная пластика; без игрушечного добродушия. Оценка по актуальным игровым кадрам и движению, не по числу полигонов."
       ],
-      "next_action": "Review the one source-only full-actor graft from frozen v6 and the8452-triangle head. Verify neck/material/weights/LOD and preserved clips/contact; accept or reject the actual viewed candidate before canonical promotion.",
+      "next_action": "Produce a coherent authored whole-actor replacement from the original modern-horror concept, preserving one-horn Tatar identity, readable living gaze, restrained behavior, physical hands/branch contact and D06→Bag→D07. Existing feed-forward raw head/body studies are insufficient; do not promote them or repeat scalar/inference variants. Native and author/cultural gates remain open.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -121544,7 +121554,12 @@
         "owner": "Codex/whole_actor_route",
         "scope": "One isolated full-body original concept input, then exactly one raw OBJ inference with already installed pinned TripoSR CPU. Target actual ribcage/scapula/pelvis and continuous whole silhouette; no v6 field-displacement rerun, new model dependencies, rig or canonical edits.",
         "folder": "assets/source/blender/photoworlds/W01/shurale_reconstruction_v1/whole-body-v1/",
-        "acceptance": "Actual neutral source front/3q/profile review for coherent anatomy. Unknown hidden surfaces, retopology/rig/contact/native/art/cultural acceptance stay open. An image or successful inference is not accepted game art."
+        "acceptance": "Actual neutral source front/3q/profile review for coherent anatomy. Unknown hidden surfaces, retopology/rig/contact/native/art/cultural acceptance stay open. An image or successful inference is not accepted game art.",
+        "result": "REJECTED_AS_PRODUCTION_ACTOR; RAW_STUDY_STOPPED",
+        "raw_obj_sha256": "5c718d783e609a0c726d1e256a15a2d9d2584d392c2d743fcf667028e3faa292",
+        "technical": "One pinned CPU run18.60s,peak RSS3.65GB;24550vertices/49036faces. Root viewed actual front/front3q/profile after correcting camera axes and OBJ missing normals with display-only smooth shading; immutable geometry hash unchanged.",
+        "review": "More anatomical ribcage/scapula silhouette than smooth v6, but face is unresolved, fingers fused into claws/mitten masses, legs/shoulders/back have large inconsistent lumps and deformations. This is not credible modern horror art, and no retopology/rig/runtime promotion is accepted.",
+        "next": "Stop repeated feed-forward inference/scalar studies. Keep canonical functional v6 until a coherent authored whole-actor replacement satisfies anatomy/material/contact/motion and native visual review. Existing PW-047 criteria remain mandatory; independent MVP work continues."
       }
     },
     {

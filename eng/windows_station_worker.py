@@ -79,6 +79,9 @@ UI_HELPER_FAILURE_CODES = {
     'Unsupported game UI action.': 'ui_action_refused',
     'Look deltas must be non-zero integers between -300 and 300.': 'ui_action_refused',
 }
+UI_HELPER_REASON_CODES = frozenset(UI_HELPER_FAILURE_CODES.values()) | frozenset({
+    'ui_helper_launch_failed', 'ui_helper_timeout', 'ui_helper_invalid_result', 'ui_helper_refused',
+})
 UI_ACTION_LIMIT = 4096
 UI_HELPER_TIMEOUT_SECONDS = 20
 INTERACTIVE_FRAME_TIMEOUT_SECONDS = 30
@@ -1835,6 +1838,7 @@ class Station:
         self.data = Path(config['data']).resolve(); self.data.mkdir(parents=True, exist_ok=True)
         self.lock = threading.Lock(); self.busy = None
         self.job_owners = {}
+        self.ui_refusal_attempted = set()
         self.active_spec = None
         self.active_source = None
         self.active_runner = None
@@ -2569,11 +2573,11 @@ class Station:
     def _run_ui_helper(self, jid, pid, source, action):
         system_root = os.environ.get('SystemRoot')
         if not system_root:
-            return 'ui_helper_launch_failed'
+            return 'ui_helper_launch_failed', None, None
         powershell = Path(system_root) / 'System32/WindowsPowerShell/v1.0/powershell.exe'
         helper = self.repo / 'eng/windows-game-ui.ps1'
         if not powershell.is_file() or not helper.is_file():
-            return 'ui_helper_launch_failed'
+            return 'ui_helper_launch_failed', None, None
 
         try:
             with tempfile.TemporaryDirectory(prefix='urman-game-ui-') as private_temp:
@@ -2584,7 +2588,7 @@ class Station:
                 helper_info = helper_temp.lstat()
                 if (_studio_reparse(root_info) or not stat.S_ISDIR(root_info.st_mode)
                         or _studio_reparse(helper_info) or not stat.S_ISDIR(helper_info.st_mode)):
-                    return 'ui_helper_launch_failed'
+                    return 'ui_helper_launch_failed', None, None
 
                 request_id = uuid.uuid4().hex
                 request_path = helper_temp / f'request-{request_id}.json'
@@ -2624,27 +2628,78 @@ class Station:
                 except subprocess.TimeoutExpired:
                     process.kill()
                     process.wait(timeout=2)
-                    return 'ui_helper_timeout'
+                    return 'ui_helper_timeout', None, process.returncode
 
                 try:
                     result_info = result_path.lstat()
                     if (_studio_reparse(result_info) or not stat.S_ISREG(result_info.st_mode)
                             or result_info.st_size > 8 * 1024):
-                        return 'ui_helper_invalid_result'
+                        return 'ui_helper_invalid_result', None, exit_code
                     with result_path.open('rb') as stream:
                         report = _studio_json(stream.read(8 * 1024 + 1), 8 * 1024, 'UI helper result')
                 except (OSError, ValueError):
-                    return 'ui_helper_invalid_result'
+                    return 'ui_helper_invalid_result', None, exit_code
                 if exit_code == 0 and isinstance(report, dict) and report.get('ok') is True:
-                    return None
+                    return None, None, exit_code
                 if isinstance(report, dict) and report.get('ok') is False:
                     error = report.get('error')
                     if isinstance(error, str):
-                        return UI_HELPER_FAILURE_CODES.get(error, 'ui_helper_refused')
-                    return 'ui_helper_refused'
-                return 'ui_helper_invalid_result'
+                        return UI_HELPER_FAILURE_CODES.get(error, 'ui_helper_refused'), report, exit_code
+                    return 'ui_helper_refused', report, exit_code
+                return 'ui_helper_invalid_result', report if isinstance(report, dict) else None, exit_code
         except (OSError, ValueError, subprocess.SubprocessError):
-            return 'ui_helper_launch_failed'
+            return 'ui_helper_launch_failed', None, None
+
+    def _record_first_ui_refusal(self, jid, expected_pid, reason_code, report, exit_code):
+        if jid in self.ui_refusal_attempted:
+            return
+        if (not re.fullmatch('[a-f0-9]{32}', jid)
+                or reason_code not in UI_HELPER_REASON_CODES):
+            return
+        # The caller holds self.lock. Mark before disk I/O so a failed write is
+        # never replaced by a later refusal from the same running job.
+        self.ui_refusal_attempted.add(jid)
+
+        record = {'schema_version': 1, 'job_id': jid, 'reason_code': reason_code}
+        if type(exit_code) is int and 0 <= exit_code <= 0xFFFFFFFF:
+            record['helper_exit_code'] = exit_code
+        if isinstance(report, dict):
+            if type(report.get('ok')) is bool:
+                record['helper_ok'] = report['ok']
+            relation = report.get('foregroundRelation')
+            if (isinstance(relation, str)
+                    and relation in {'owned', 'same_pid_other_window', 'other_or_none', 'unknown'}):
+                record['foreground_relation'] = relation
+            phase = report.get('focusPhase')
+            if (isinstance(phase, str)
+                    and phase in {'pre_activation', 'activation', 'post_activation', 'action', 'unknown'}):
+                record['focus_phase'] = phase
+            # The helper reports only its selected target handle. Require its
+            # PID to match the already-verified job PID, but never persist PID,
+            # title, rectangle, image path, raw error, or action fields.
+            target_handle = report.get('targetHwnd')
+            if (type(report.get('pid')) is int and report['pid'] == expected_pid
+                    and type(target_handle) is int and 0 < target_handle <= 0x7FFFFFFFFFFFFFFF):
+                record['target_hwnd'] = target_handle
+
+        payload = canonical(record)
+        if len(payload) > 2048:
+            raise ValueError('native UI refusal evidence exceeded its fixed bound')
+        artifacts = _studio_path(self.jobs, f'{jid}/artifacts', kind='dir')
+        expected_artifacts = (self.jobs / jid / 'artifacts').resolve(strict=True)
+        if artifacts.resolve(strict=True) != expected_artifacts:
+            raise ValueError('native UI refusal artifact root changed')
+        _studio_path(artifacts, 'ui-first-refusal.json', missing=True)
+        # A pre-existing regular file at this reserved name is untrusted; the
+        # durable writer atomically replaces it with this allowlisted record.
+        temporary = _studio_path(artifacts, 'ui-first-refusal.tmp', missing=True)
+        if temporary is not None:
+            raise ValueError('native UI refusal temporary path already exists')
+        _studio_write_durable_json(artifacts / 'ui-first-refusal.json', record)
+        saved = _studio_path(artifacts, 'ui-first-refusal.json')
+        saved_info = saved.lstat()
+        if _studio_reparse(saved_info) or not stat.S_ISREG(saved_info.st_mode) or saved_info.st_size > 2048:
+            raise ValueError('native UI refusal evidence failed its bounded file check')
 
     def ui_action(self, jid, principal, action):
         if not re.fullmatch('[a-f0-9]{32}', jid):
@@ -2667,8 +2722,14 @@ class Station:
             if pid is None or source is None:
                 return 409, {'error': 'owned native game window is not ready for input'}
             kind = action['action']
-            reason_code = self._run_ui_helper(jid, pid, source, action)
+            reason_code, report, exit_code = self._run_ui_helper(jid, pid, source, action)
             if reason_code is not None:
+                try:
+                    self._record_first_ui_refusal(jid, pid, reason_code, report, exit_code)
+                except Exception:
+                    # Preserve the original refused-action response if evidence
+                    # storage fails; do not expose paths or report contents.
+                    print('native game UI refusal evidence write failed', file=sys.stderr)
                 return 409, {'job_id': jid, 'action': kind, 'ok': False,
                              'error': 'native game input was refused or did not complete',
                              'reason_code': reason_code}
@@ -2678,6 +2739,7 @@ class Station:
         if self.busy == jid:
             self.busy = None
         self.job_owners.pop(jid, None)
+        self.ui_refusal_attempted.discard(jid)
         if self.active_spec is not None and self.active_spec.get('job_id') == jid:
             self.active_spec = None
             self.active_source = None
@@ -2799,6 +2861,14 @@ class Station:
                     write_json(receipt_path, receipt)
 
             write_json(output/'request.json',spec)
+            # Drain any in-flight UI/capture request before taking the archive
+            # snapshot. Keep busy and ownership reserved until final cleanup.
+            with self.lock:
+                if (self.active_spec is not None
+                        and self.active_spec.get('job_id') == spec['job_id']):
+                    self.active_spec = None
+                    self.active_source = None
+                    self.active_runner = None
             status['finished'] = time.time()
             try:
                 status['result_sha256'] = _archive_result(path, output)

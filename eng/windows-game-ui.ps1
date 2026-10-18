@@ -65,6 +65,8 @@ $script:TargetVerified = $false
 $script:TargetTitle = $null
 $script:InitialRect = $null
 $script:FocusAcquisitionAttempted = $false
+$script:ForegroundRelation = 'unknown'
+$script:FocusPhase = 'unknown'
 $script:Request = $null
 $script:ResultPath = $null
 $script:ImagePath = $null
@@ -72,11 +74,30 @@ $script:ImageCaptured = $false
 
 function Test-OwnedForeground {
     $foreground = [UrmanGameUiNative]::GetForegroundWindow()
-    if ($foreground -eq $script:TargetHandle) { return $true }
+    if ($foreground -eq $script:TargetHandle) {
+        $script:ForegroundRelation = 'owned'
+        return $true
+    }
     [uint32]$owner = 0
     [void][UrmanGameUiNative]::GetWindowThreadProcessId($foreground,[ref]$owner)
-    return [int]$owner -eq $script:TargetPid -and
-        [UrmanGameUiNative]::GetAncestor($foreground,3) -eq $script:TargetHandle
+    if ($foreground -eq [IntPtr]::Zero) {
+        $script:ForegroundRelation = 'other_or_none'
+        return $false
+    }
+    if ($owner -eq 0) {
+        $script:ForegroundRelation = 'unknown'
+        return $false
+    }
+    if ([int]$owner -ne $script:TargetPid) {
+        $script:ForegroundRelation = 'other_or_none'
+        return $false
+    }
+    if ([UrmanGameUiNative]::GetAncestor($foreground,3) -eq $script:TargetHandle) {
+        $script:ForegroundRelation = 'owned'
+        return $true
+    }
+    $script:ForegroundRelation = 'same_pid_other_window'
+    return $false
 }
 
 function Assert-TargetWindow([switch]$RequireForeground) {
@@ -290,6 +311,7 @@ function Invoke-VerifiedCaptionActivation {
 
 function Focus-VerifiedTarget {
     if (Test-OwnedForeground) { return }
+    $script:FocusPhase = 'activation'
     $script:FocusAcquisitionAttempted = $true
     [void][UrmanGameUiNative]::SetForegroundWindow($script:TargetHandle)
     if (Test-OwnedForeground) { return }
@@ -533,6 +555,9 @@ function Write-Result([bool]$Ok,[string]$ErrorText) {
         ok = $Ok
         pid = $(if ($script:TargetVerified) { $script:TargetPid } else { $null })
         title = $script:TargetTitle
+        targetHwnd = $(if ($script:TargetHandle -ne [IntPtr]::Zero) { $script:TargetHandle.ToInt64() } else { $null })
+        foregroundRelation = $script:ForegroundRelation
+        focusPhase = $script:FocusPhase
         rect = $rectValue
         image = $(if ($Ok -and $script:ImageCaptured) { $script:ImagePath } else { $null })
         error = $ErrorText
@@ -637,13 +662,18 @@ try {
     }
 
     Assert-TargetWindow
+    $script:FocusPhase = 'pre_activation'
     if (-not (Test-OwnedForeground)) {
         Focus-VerifiedTarget
     }
     Start-Sleep -Milliseconds 200
-    if ($script:FocusAcquisitionAttempted -and -not (Test-OwnedForeground)) {
-        throw 'The owned game window lost foreground focus after activation.'
+    if ($script:FocusAcquisitionAttempted) {
+        $script:FocusPhase = 'post_activation'
+        if (-not (Test-OwnedForeground)) {
+            throw 'The owned game window lost foreground focus after activation.'
+        }
     }
+    $script:FocusPhase = 'action'
     Assert-InputTarget
 
     if ([string]$script:Request.action -eq 'sequence') {
