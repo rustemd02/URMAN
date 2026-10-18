@@ -120881,7 +120881,7 @@
       "title": "W01: произвести, оживить и поставить Шурале",
       "milestone": "PW-M3",
       "status": "in_progress",
-      "active_owner": null,
+      "active_owner": "Codex / visual",
       "owner": "character_art",
       "priority": "P1",
       "complexity": "complex",
@@ -121035,8 +121035,8 @@
       },
       "assigned_owner": "character_art",
       "activity": {
-        "state": "not_active",
-        "reason": "Finite canonical actor/gesture/yield/rooted support integration delivered, source reviewed/compiled and native assets imported. Ordinary/art/native full encounter acceptance remains open; no unchanged semantic retry."
+        "state": "confirmed_active",
+        "reason": "Bounded v8 whole-anatomy source study, plus source-confirmed W01 process lifecycle correction; root owns integration/tracker."
       },
       "task_type": "engineering",
       "implementation_state": "not_started",
@@ -121047,7 +121047,7 @@
         "Полный паспорт уровня docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/levels/W01_Лес_за_спиной_RU.md реализован: узлы/физические связи/действия/существо или человеческая сцена/созерцание/возврат/кадры; схема не заменяет проходимый runtime.",
         "Шурале выглядит современно устрашающе в духе психологического авторского хоррора (уточнение автора: злодеи A24): оригинальная цельная анатомия/силуэт, тревожные лицо/взгляд/длинные руки и сдержанная неестественная пластика; без игрушечного добродушия. Оценка по актуальным игровым кадрам и движению, не по числу полигонов."
       ],
-      "next_action": "Inspect ordinary current W01 encounter/close/motion when owned foreground is available; art/culture/author acceptance still open. Reuse accepted native import; do not repeat unchanged BeatState scenario failure.",
+      "next_action": "Review one coherent v8 full/face sculpt study before any canonical promotion; integrate source-confirmed W01 process/queued-D07 fixes after narrow compile.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -121332,7 +121332,17 @@
         "native_limits": "Build/content/document-images/import exit0; importlog explicitly reimports both canonical ShuraleGLBs. Gameexit1 at existing FullGameFlowSmokeTest.BeatState line773 before D01-07 creates warm-arrival beat; no ordinary/nativeW01 motion or art acceptance. No unchanged repeat.",
         "userdata": "Restored=true; finaldoctorready/idle, noorphan/recovery."
       },
-      "source_recipe_snapshot": "assets/source/blender/photoworlds/W01/shurale_character_v6/prepare-character-look-v6.source-used.py (byte-identical historical generator matching frozen v6 manifest; active local v7 study not promoted)"
+      "source_recipe_snapshot": "assets/source/blender/photoworlds/W01/shurale_character_v6/prepare-character-look-v6.source-used.py (byte-identical historical generator matching frozen v6 manifest; active local v7 study not promoted)",
+      "whole_actor_art_step_2026_10_18": {
+        "finding": "Exact canonical work-full remains gray smooth bald human/hourglass; lighting cannot substitute for anatomy. V7 scalar/profile studies rejected.",
+        "scope": "One v8 source-only whole-anatomy sculpt/look pass from frozen v6, preserve53bones/weights/hand-support contacts; full3q and face review before runtime export. No scalar-variant churn.",
+        "acceptance": "Root visual source review is engineering/art-direction only; native movement and author/cultural acceptance remain mandatory."
+      },
+      "process_handoff_fix_2026_10_18": {
+        "result": "DELIVERED_SOURCE: hiding the prologue skip button no longer disables the whole W01 controller Process, so forest Bag placement/pending dialogue and Shurale proximity/dialogue drivers remain scheduled. Pending D07 is preserved during same-session deferred load projection and cleared on actual kernel identity change.",
+        "verification": "Independent source reviews found both causal paths; root inspected final diff, affected Game compile16.59s with0warnings/errors. No new tests or native repeat.",
+        "limits": "Current ordinary forest approach/Bag/D07 runtime unverified due owned-foreground gate. Pending D07 is intentionally not transferred through rollback creating a different kernel identity."
+      }
     },
     {
       "id": "PW-048",
@@ -122794,7 +122804,7 @@
       "title": "W02: связать отражение с настоящим подходом",
       "milestone": "PW-M3",
       "status": "in_progress",
-      "active_owner": null,
+      "active_owner": "Codex / gamefeel + persistence",
       "owner": "gameplay",
       "priority": "P1",
       "complexity": "complex",
@@ -122931,8 +122941,8 @@
       },
       "assigned_owner": "gameplay",
       "activity": {
-        "state": "not_active",
-        "reason": "R04 contact/open source and R03 earned journal payoff delivered; runtime route/visual/world remainder remains open."
+        "state": "confirmed_active",
+        "reason": "Bounded R03 natural observation: gamefeel owns controller design; persistence independently checks existing geometry and clear LOS; root sole tracker/Git writer."
       },
       "task_type": "engineering",
       "implementation_state": "not_started",
@@ -122942,7 +122952,7 @@
         "Внутреннее наблюдение не является внешним подтверждением.",
         "Полный паспорт уровня docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/levels/W02_Мостки_RU.md реализован: узлы/физические связи/действия/существо или человеческая сцена/созерцание/возврат/кадры; схема не заменяет проходимый runtime."
       ],
-      "next_action": "Verify current-source R03 earned journal sketch/remark and physical R04 opening on ordinary native W02 route when owned foreground is available; retain full W02 art/encounter acceptance.",
+      "next_action": "Resolve safe R03 observation geometry, then recognize actual framed/clear relation through existing pw-water-reflection transaction and shared earned notebook feedback.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -123135,6 +123145,12 @@
         "verification_question": "Does the source card show the learned relation only after observed water_reflection_relation_seen, survive load, and disappear in unrelated sessions without fact while personal notes stay untouched?",
         "remaining": "Native Godot SVG import/in-journal appearance and ordinary R03→R04→R05 route still open.",
         "verification": "Root viewed native Mac SVG thumbnail/source, checked XML/viewBox; independent source review found no duplicate card, external confirmed promotion or session callback leak; affected Game compile14.96s0/0, diffcheck PASS."
+      },
+      "r03_observation_2026_10_18": {
+        "finding": "Current E sphere at(6.4,2.1,31.6) is4.03m from authored R03 eye, beyond2.7m ray/3m cap. At reachable outcrop start it sits≈16degrees above actual middle support aim. Broad outcrop deck can occlude actual low supports; do not auto-complete through deck or by proximity.",
+        "result": "IN_PROGRESS: bounded geometry/LOS investigation before implementing natural camera observation.",
+        "verification_question": "Can grounded nonmodal player see the actual three-support/hidden-deck relationship from a safe generous zone, then earn the existing fact/sketch without invisible target hunting or repeated failed dispatch?",
+        "remaining": "Source implementation/review/affected compile, native ordinary route and full W02 art/external acceptance."
       }
     },
     {

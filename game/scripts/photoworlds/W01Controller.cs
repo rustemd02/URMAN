@@ -1482,7 +1482,6 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         _prologueSkipTarget?.SetPresentationEnabled(visible);
         button.Text = bridge.ResolveText(PrologueSkipLabelTextId);
         button.Visible = visible;
-        SetProcess(visible);
         RefreshPrologueSkipButtonState();
     }
 

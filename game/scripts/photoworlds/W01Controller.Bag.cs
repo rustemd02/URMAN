@@ -406,9 +406,19 @@ public partial class W01Controller
             return false;
         }
 
+        if (!ReferenceEquals(session, bridge.SessionIdentity))
+        {
+            ClearPendingBagDialogue();
+            return false;
+        }
+
+        // During the pre-projection part of a load, the old kernel still owns
+        // this pending response. Keep it if that load fails and returns to the
+        // same session; a later session identity change clears it above.
+        if (bridge.IsW01PresentationDeferred) return false;
+
         var projection = bridge.CurrentW01BranchProjection();
-        if (projection is null || !ReferenceEquals(session, bridge.SessionIdentity)
-            || !ReferenceEquals(projection.SessionIdentity, session)
+        if (projection is null || !ReferenceEquals(projection.SessionIdentity, session)
             || projection.ActiveSceneId != sceneId
             || !bridge.PhotoWorldFactObserved(BagEncounterFactId))
         {
