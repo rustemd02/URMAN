@@ -1498,6 +1498,8 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
 
         var recipe = JsonNode.Parse(_recipeText ?? throw new InvalidOperationException("Снимок рецепта больше не доступен."))!.AsObject();
         var capturedWidths = _capturedWidths ?? throw new InvalidOperationException("Снимок ширины окон больше не доступен.");
+        var sourceModelPath = (string?)recipe["modelPath"];
+        var sourceWidths = (JsonObject)capturedWidths.DeepClone();
         if (request.PartId is { } partId)
         {
             var widths = (JsonObject)capturedWidths.DeepClone();
@@ -1519,7 +1521,7 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
         File.WriteAllText(Path.Combine(stage, "recipe.json"), recipe.ToJsonString(new() { WriteIndented = true }));
 
         _status.Text = "Создаю настоящий проём и согласованный интерьер…";
-        await GenerateAsync(stage, cancellation);
+        await GenerateAsync(stage, cancellation, sourceModelPath, sourceWidths);
         cancellation.ThrowIfCancellationRequested();
         HouseWindowProposalValidator.Validate(request, proposal);
         EnsurePreparedRequestCurrent(request);
@@ -1669,7 +1671,8 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
         catch (UnauthorizedAccessException) { }
     }
 
-    private async Task GenerateAsync(string stage, CancellationToken cancellation)
+    private async Task GenerateAsync(string stage, CancellationToken cancellation,
+                                     string? sourceModelPath, JsonObject sourceWidths)
     {
         var blender = OperatingSystem.IsWindows()
             ? Path.Combine(StudioRoot.ToolsRoot, ".tools", "blender", "windows", "blender-4.5.12-windows-x64", "blender.exe")
@@ -1677,6 +1680,23 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
         if (!File.Exists(blender)) throw new InvalidOperationException("Нет закреплённого Blender. Запрос и исходный дом сохранены.");
         var start = new ProcessStartInfo(blender) { UseShellExecute = false, RedirectStandardOutput = true, RedirectStandardError = true, WorkingDirectory = _studio.Workspace.Root };
         foreach (var argument in new[] { "--background", "--factory-startup", "--python", GeneratorPath, "--", "--root", _studio.Workspace.Root, "--component-only", "hero-house", "--recipe", Path.Combine(stage, "recipe.json"), "--output-dir", stage }) start.ArgumentList.Add(argument);
+        if (sourceModelPath is not null)
+        {
+            const string prefix = "res://assets/models/studio/hero-house-";
+            if (!sourceModelPath.StartsWith(prefix, StringComparison.Ordinal)
+                || !sourceModelPath.EndsWith(".glb", StringComparison.Ordinal)
+                || sourceModelPath.AsSpan(prefix.Length).Contains('/')
+                || sourceModelPath.Contains("..", StringComparison.Ordinal)
+                || sourceModelPath.Contains('\\'))
+                throw new InvalidDataException("Текущая PBR-модель дома имеет недопустимый путь.");
+            var sourceModelFile = Path.Combine(_studio.Workspace.Root, "game", sourceModelPath["res://".Length..]);
+            if (!File.Exists(sourceModelFile))
+                throw new FileNotFoundException("Текущая PBR-модель не найдена; предпросмотр не заменит её пересборкой без материалов.", sourceModelFile);
+            start.ArgumentList.Add("--template-model");
+            start.ArgumentList.Add(sourceModelFile);
+            start.ArgumentList.Add("--source-window-widths-json");
+            start.ArgumentList.Add(sourceWidths.ToJsonString());
+        }
         using var process = Process.Start(start) ?? throw new IOException("Blender не запустился.");
         var output = process.StandardOutput.ReadToEndAsync(cancellation);
         var errors = process.StandardError.ReadToEndAsync(cancellation);
@@ -2004,6 +2024,22 @@ public partial class StudioAiPanel : AcceptDialog, IProgress<CodexProposalProgre
         foreach (var (key, path) in new[] { ("generator", GeneratorPath), ("baselineBlend", "assets/source/blender/act1/urman_village_exterior_kit.blend") })
             if ((string?)manifest["source"]?[key]?["sha256"] != AtomicFile.Sha256OfFile(Path.Combine(_studio.Workspace.Root, path)))
                 throw new InvalidDataException("Исходник изменился после сборки: " + path);
+        var sourceModelPath = (string?)JsonNode.Parse(_recipeText!)!["modelPath"];
+        if (sourceModelPath is not null)
+        {
+            var sourceModelFile = Path.Combine(_studio.Workspace.Root, "game", sourceModelPath["res://".Length..]);
+            var expectedTemplatePath = Path.GetRelativePath(_studio.Workspace.Root, sourceModelFile)
+                .Replace(Path.DirectorySeparatorChar, '/');
+            var templateModel = manifest["source"]?["templateModel"];
+            if ((string?)templateModel?["path"] != expectedTemplatePath
+                || (string?)templateModel?["sha256"] != AtomicFile.Sha256OfFile(sourceModelFile)
+                || templateModel?["windowWidths"] is not JsonObject sourceWidths
+                || sourceWidths.Count != HeroHouseRecipe.WindowIds.Count)
+                throw new InvalidDataException("Сборка не сохранила исходную PBR-модель и её ширины окон.");
+            foreach (var id in HeroHouseRecipe.WindowIds)
+                if ((decimal?)sourceWidths[id] != (decimal)_capturedWidths![id]!)
+                    throw new InvalidDataException("Сборка использовала не ту исходную ширину окна: " + id);
+        }
     }
 
     private void SetBusy(bool busy)

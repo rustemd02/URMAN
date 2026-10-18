@@ -62651,7 +62651,7 @@
             "active_owner": null,
             "activity": {
               "state": "released",
-              "reason": "Finite nativepreview finished and stationfreed. Sourcehouseinventory retained; artnotaccepted becauseactualcloseview shows triangular/star facets. Authorfacepriority nowactive; no repeatedhouse variants."
+              "reason": "UVv3 native cap artifact fix accepted; Studio PBR source width-edit finite source stage completed, Blender roundtrip and affected C# build passed. Default promotion/native Studio cycle and author art remain open."
             },
             "task_type": "engineering",
             "status": "in_progress",
@@ -62660,7 +62660,7 @@
             "remaining": [
               "Согласовать цвет дерева/наличников, свет окон и снег эталонного дома с существующими материалами; собственного целевого receipt пока нет."
             ],
-            "next_action": "По фактическому normal-on/off сравнению пятна остаются. Установить конкретный source-дефект atlas/UV либо cap normals, не запускать третий слепой shader-вариант. Canonical дом и художественная приёмка остаются открытыми.",
+            "next_action": "Продвинуть native-проверенный UVv3/PBR дом через существующий private model/recipe контракт с явными восемью ширинами; подтвердить native Studio Preview→Apply→Undo. Сравнение UVv3 уже показало исчезновение cap-stars, одинаковый normal-off прогон не повторять.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -62739,6 +62739,18 @@
               "technical": "All receipt steps exit0, gameExitCode0, userdataRestoredtrue, snapshot hashes verified. Fresh doctor ready/idle, no orphan or recovery. Default recipe restored byte-identical and owned temporary model removed.",
               "root_art_review": "Personally compared both front/porch pairs: triangular/star facets on logs and corner caps persist without normal map. Normal map alone does not explain the visible defect. Candidate not promoted; missing tangents remain an unproved risk, not an established cause.",
               "stop": "No third blind shader trial. Inspect one concrete source atlas/UV or cap-normal fact; keep default source and art gate open."
+            },
+            "studio_pbr_preservation_2026_10_19": {
+              "source": [
+                "game/studio/StudioAiPanel.cs",
+                "assets/source/blender/act1/urman_village_exterior_kit.py"
+              ],
+              "result": "Existing PBR GLB and captured source widths are passed into the existing generator before recipe mutation. Width edit deforms semantic window family and pierced shell/log crowns in place; neighboring door/window cut edges are immutable anchors. Legacy null-template generation retained. Explicit 8-width PBR recipe required when promoted; SeniOuter fallback restored after independent review found all8 regression.",
+              "verification": "Blender4.5.12LTS Front0 1.06→1.20m stage plus GLB roundtrip:579mesh nodes; pane.96→1.10m; non-target geometry maxdelta0; door/Front1 bounds, UV/material bindings/transforms retained; jamb.095m and sill.075m unchanged. Export normalizes topology of two target ornamental meshes only. One affected Game compile18.53s0/0, independent review and root diff/frame inspection passed.",
+              "evidence": "evidence/ACT1-DEPTH.12/studio-pbr-front0-2026-10-19",
+              "template_sha256": "dca96d3ded71c6de37f2f03927c08de72ab3c35b35881bfbe815baba9739de4b",
+              "output_sha256": "b6dc4bce60ac5f48c08bbb967c58f9408334db6f085ae6a54b39171cb1fc96a6",
+              "remaining": "Native Studio Preview→Apply→Undo with PBR source is not run; default house still unchanged. Source roundtrip does not replace native UI or final art acceptance."
             }
           }
         ]

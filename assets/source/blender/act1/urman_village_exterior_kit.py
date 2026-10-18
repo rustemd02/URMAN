@@ -17,6 +17,7 @@ import bmesh
 import hashlib
 import json
 import math
+import struct
 import sys
 from pathlib import Path
 
@@ -190,6 +191,8 @@ def arguments() -> argparse.Namespace:
                         help="Update only one component while preserving the canonical kit")
     parser.add_argument("--recipe", help="Typed component recipe JSON")
     parser.add_argument("--output-dir", help="Write staged blend, GLB, and manifest here")
+    parser.add_argument("--template-model", help="Preserve an existing hero-house GLB while applying a window width edit")
+    parser.add_argument("--source-window-widths-json", help="Captured source widths for an existing hero-house GLB")
     tokens: list[str] = []
     if "--" in sys.argv:
         tokens = sys.argv[sys.argv.index("--") + 1 :]
@@ -197,6 +200,11 @@ def arguments() -> argparse.Namespace:
 
 
 HERO_WINDOW_IDS = ("Front0", "Front1", "Front2", "Rear0", "Rear1", "Left0", "Right0", "SeniOuter0")
+HERO_TEMPLATE_WINDOWS = {
+    "Front0": ("Street", 1, 0), "Front1": ("Street", 2, 0), "Front2": ("Street", 3, 0),
+    "Rear0": ("Rear", 0, 0), "Rear1": ("Rear", 1, 0),
+    "Left0": ("Left", 0, 1), "Right0": ("Right", 0, 1), "SeniOuter0": ("SeniOuter", 0, 1),
+}
 
 
 def hero_window_widths(recipe: dict) -> dict:
@@ -209,6 +217,345 @@ def hero_window_widths(recipe: dict) -> dict:
         )
         for window_id in HERO_WINDOW_IDS
     }
+
+
+def load_source_window_widths(value: str | None) -> dict[str, float] | None:
+    if value is None:
+        return None
+    widths = json.loads(value)
+    if not isinstance(widths, dict) or set(widths) != set(HERO_WINDOW_IDS):
+        raise ValueError("Source PBR model requires the exact eight captured window widths")
+    if any(isinstance(width, bool) or not isinstance(width, (int, float)) or not math.isfinite(width)
+           or not 0.65 <= width <= 1.35 for width in widths.values()):
+        raise ValueError("Source PBR window widths must be finite values within 0.65..1.35 metres")
+    return {window_id: float(widths[window_id]) for window_id in HERO_WINDOW_IDS}
+
+
+def hero_template_snapshot(hero: bpy.types.Object) -> dict[str, dict]:
+    snapshot = {}
+    for obj in hero.children_recursive:
+        if obj.type != "MESH":
+            continue
+        positions = hashlib.sha256()
+        for vertex in obj.data.vertices:
+            positions.update(struct.pack("<fff", *vertex.co))
+        topology = hashlib.sha256()
+        for polygon in obj.data.polygons:
+            topology.update(struct.pack("<I", len(polygon.vertices)))
+            for index in polygon.vertices:
+                topology.update(struct.pack("<I", index))
+        uv_layers = []
+        for layer in obj.data.uv_layers:
+            uv_hash = hashlib.sha256()
+            for item in layer.data:
+                uv_hash.update(struct.pack("<ff", item.uv.x, item.uv.y))
+            uv_layers.append((layer.name, len(layer.data), uv_hash.hexdigest()))
+        snapshot[obj.name] = {
+            "positions": positions.hexdigest(),
+            "topology": (len(obj.data.vertices), len(obj.data.polygons), topology.hexdigest()),
+            "materials": tuple(slot.material.name if slot.material else None for slot in obj.material_slots),
+            "materialIndices": tuple(polygon.material_index for polygon in obj.data.polygons),
+            "uv": tuple(uv_layers),
+            "transform": tuple(float(value) for row in obj.matrix_local for value in row),
+        }
+    return snapshot
+
+
+def hero_template_points(root: bpy.types.Object, obj: bpy.types.Object) -> list[Vector]:
+    to_component = root.matrix_world.inverted() @ obj.matrix_world
+    return [to_component @ vertex.co for vertex in obj.data.vertices]
+
+
+def hero_template_bounds(root: bpy.types.Object, obj: bpy.types.Object) -> tuple[Vector, Vector]:
+    points = hero_template_points(root, obj)
+    if not points:
+        raise RuntimeError(f"Empty PBR template mesh: {obj.name}")
+    return (Vector(tuple(min(point[axis] for point in points) for axis in range(3))),
+            Vector(tuple(max(point[axis] for point in points) for axis in range(3))))
+
+
+def hero_template_window(root: bpy.types.Object, window_id: str, width: float) -> dict:
+    side, ordinal, axis = HERO_TEMPLATE_WINDOWS[window_id]
+    prefix = f"HeroHouse_{side}_Window{ordinal}_"
+    glass = bpy.data.objects.get(prefix + "Glass_LOD0")
+    recess = bpy.data.objects.get(prefix + "Recess_LOD0")
+    if glass is None or recess is None or glass.parent is not root or recess.parent is not root:
+        raise RuntimeError(f"PBR template is missing the semantic aperture nodes for {window_id}")
+    glass_min, glass_max = hero_template_bounds(root, glass)
+    recess_min, recess_max = hero_template_bounds(root, recess)
+    pane_width = glass_max[axis] - glass_min[axis]
+    opening_width = recess_max[axis] - recess_min[axis]
+    center = (glass_min[axis] + glass_max[axis]) / 2.0
+    if abs(pane_width - (width - 0.10)) > 0.02 or abs(opening_width - width) > 0.01:
+        raise RuntimeError(f"PBR template source width does not match captured recipe for {window_id}")
+    if abs((recess_min[axis] + recess_max[axis]) / 2.0 - center) > 0.01:
+        raise RuntimeError(f"PBR template window center differs between glass and aperture for {window_id}")
+    return {"id": window_id, "side": side, "ordinal": ordinal, "axis": axis,
+            "center": center, "left": recess_min[axis], "right": recess_max[axis],
+            "paneWidth": pane_width, "zMin": recess_min.z, "zMax": recess_max.z,
+            "depthMin": recess_min[1 - axis], "depthMax": recess_max[1 - axis],
+            "glassZMin": glass_min.z, "glassZMax": glass_max.z, "familyPrefix": prefix}
+
+
+def hero_template_features(root: bpy.types.Object, side: str, source_widths: dict[str, float]) -> list[dict]:
+    features = [hero_template_window(root, window_id, source_widths[window_id])
+                for window_id, (window_side, _ordinal, _axis) in HERO_TEMPLATE_WINDOWS.items()
+                if window_side == side]
+    if side == "Street":
+        door = bpy.data.objects.get("HeroHouse_StreetDoorClosed_LOD0")
+        if door is None or door.parent is not root:
+            raise RuntimeError("PBR template is missing the fixed street doorway")
+        minimum, maximum = hero_template_bounds(root, door)
+        center = (minimum.x + maximum.x) / 2.0
+        features.append({"id": "Door", "side": side, "axis": 0,
+                         "center": center, "left": center - 0.65, "right": center + 0.65,
+                         "depthMin": minimum.y, "depthMax": maximum.y,
+                         "zMin": HERO_HOUSE_CONTRACT["floor_above_component_ground"],
+                         "zMax": HERO_HOUSE_CONTRACT["floor_above_component_ground"] + 2.25})
+    return features
+
+
+def hero_template_crown_edge(points: list[Vector], feature: dict, edge: str) -> float:
+    axis = feature["axis"]
+    depth_axis = 1 - axis
+    nominal = feature[edge]
+    lower_z = feature["zMin"] - 0.03
+    upper_z = feature["zMax"] + 0.03
+    candidates = [point[axis] for point in points if lower_z <= point.z <= upper_z
+                  and feature["depthMin"] - 0.18 <= point[depth_axis] <= feature["depthMax"] + 0.18
+                  and (point[axis] <= nominal + 1e-6 if edge == "left" else point[axis] >= nominal - 1e-6)]
+    if not candidates:
+        raise RuntimeError(f"PBR rounded-log crown does not expose the {feature['id']} {edge} cut edge")
+    actual = max(candidates) if edge == "left" else min(candidates)
+    if abs(actual - nominal) > 0.15:
+        raise RuntimeError(f"Rounded-log crown edge is not aligned with the {feature['id']} wall aperture")
+    return actual
+
+
+def hero_template_interval_delta(value: float, spec: dict) -> float:
+    left_anchor, left, right, right_anchor = (spec["leftAnchor"], spec["left"],
+                                               spec["right"], spec["rightAnchor"])
+    half_delta = (spec["targetWidth"] - spec["sourceWidth"]) / 2.0
+    if value < left_anchor or value > right_anchor:
+        return 0.0
+    if value <= left:
+        return -half_delta * (value - left_anchor) / (left - left_anchor)
+    if value <= right:
+        return -half_delta + 2.0 * half_delta * (value - left) / (right - left)
+    return half_delta * (right_anchor - value) / (right_anchor - right)
+
+
+def hero_template_family_delta(value: float, spec: dict) -> float:
+    half_delta = (spec["targetWidth"] - spec["sourceWidth"]) / 2.0
+    offset = value - spec["center"]
+    if offset <= -0.06:
+        return -half_delta
+    if offset >= 0.06:
+        return half_delta
+    return half_delta * offset / 0.06
+
+
+def hero_template_apply_map(root: bpy.types.Object, obj: bpy.types.Object,
+                            axis: int, delta_for_value) -> list[Vector]:
+    if obj.data.users > 1:
+        obj.data = obj.data.copy()
+    transform = root.matrix_world.inverted() @ obj.matrix_world
+    inverse = transform.inverted()
+    original_points = [transform @ vertex.co for vertex in obj.data.vertices]
+    for vertex, point in zip(obj.data.vertices, original_points):
+        point[axis] += delta_for_value(point[axis])
+        vertex.co = inverse @ point
+    obj.data.update()
+    return original_points
+
+
+def hero_template_assert_stable_payload(before: dict[str, dict], after: dict[str, dict],
+                                        movable_names: set[str]) -> None:
+    if set(before) != set(after):
+        raise RuntimeError("PBR width edit changed the hero-house semantic mesh-node inventory")
+    for name, source in before.items():
+        result = after[name]
+        for key in ("topology", "materials", "materialIndices", "uv", "transform"):
+            if source[key] != result[key]:
+                raise RuntimeError(f"PBR width edit changed {key} on {name}")
+        if name not in movable_names and source["positions"] != result["positions"]:
+            raise RuntimeError(f"PBR width edit moved a non-target semantic node: {name}")
+
+
+def hero_template_deform(root: bpy.types.Object, source_widths: dict[str, float],
+                         target_widths: dict[str, float]) -> tuple[set[str], dict]:
+    windows = {window_id: hero_template_window(root, window_id, source_widths[window_id])
+               for window_id in HERO_WINDOW_IDS}
+    changed = {window_id for window_id in HERO_WINDOW_IDS
+               if abs(source_widths[window_id] - target_widths[window_id]) > 1e-6}
+    affected: set[str] = set()
+    specs_by_side: dict[str, list[dict]] = {}
+    family_heights: dict[str, tuple[float, float]] = {}
+    all_features = {side: hero_template_features(root, side, source_widths)
+                    for side in {value[0] for value in HERO_TEMPLATE_WINDOWS.values()}}
+    for window_id in changed:
+        window = windows[window_id]
+        side, axis = window["side"], window["axis"]
+        wall = bpy.data.objects.get(f"HeroHouse_{side}_Wall_LOD0")
+        if wall is None or wall.parent is not root:
+            raise RuntimeError(f"PBR template is missing the {side} pierced shell")
+        wall_points = hero_template_points(root, wall)
+        wall_min = min(point[axis] for point in wall_points)
+        wall_max = max(point[axis] for point in wall_points)
+        feature_neighbors = [feature for feature in all_features[side] if feature["id"] != window_id]
+        left_anchor = max((feature["right"] for feature in feature_neighbors
+                           if feature["right"] <= window["left"] + 1e-5), default=wall_min)
+        right_anchor = min((feature["left"] for feature in feature_neighbors
+                            if feature["left"] >= window["right"] - 1e-5), default=wall_max)
+        if left_anchor >= window["left"] or right_anchor <= window["right"]:
+            raise RuntimeError(f"Could not find stable neighboring aperture edges for {window_id}")
+        target_left = window["center"] - target_widths[window_id] / 2.0
+        target_right = window["center"] + target_widths[window_id] / 2.0
+        if target_left - left_anchor < 0.10 or right_anchor - target_right < 0.10:
+            raise ValueError(f"Requested width would close the physical bridge beside {window_id}")
+        wall_spec = {"id": window_id, "axis": axis, "left": window["left"], "right": window["right"],
+                     "leftAnchor": left_anchor, "rightAnchor": right_anchor,
+                     "sourceWidth": source_widths[window_id], "targetWidth": target_widths[window_id]}
+        specs_by_side.setdefault(side, []).append(wall_spec)
+
+        family = [obj for obj in root.children_recursive if obj.type == "MESH"
+                  and obj.name.startswith(window["familyPrefix"])]
+        if not family:
+            raise RuntimeError(f"PBR template is missing the window family for {window_id}")
+        family_spec = {"center": window["center"], "sourceWidth": source_widths[window_id],
+                       "targetWidth": target_widths[window_id]}
+        for obj in family:
+            before_min, before_max = hero_template_bounds(root, obj)
+            family_heights[obj.name] = (before_min.z, before_max.z)
+            hero_template_apply_map(root, obj, axis,
+                                    lambda value, current=family_spec: hero_template_family_delta(value, current))
+            affected.add(obj.name)
+
+    for side, specs in specs_by_side.items():
+        crown = bpy.data.objects.get(f"HeroHouse_{side}_LogCrown")
+        owner_names = [f"HeroHouse_{side}_Wall_LOD0"]
+        crown_specs = []
+        if crown is not None:
+            if crown.parent is not root:
+                raise RuntimeError(f"PBR rounded-log crown is outside the {side} component")
+            crown_points = hero_template_points(root, crown)
+            features = all_features[side]
+            crown_edges = {feature["id"]: (hero_template_crown_edge(crown_points, feature, "left"),
+                                             hero_template_crown_edge(crown_points, feature, "right"))
+                           for feature in features}
+            for spec in specs:
+                feature = windows[spec["id"]]
+                left_neighbors = [crown_edges[item["id"]][1] for item in features
+                                  if item["id"] != feature["id"] and crown_edges[item["id"]][1] <= crown_edges[feature["id"]][0] + 1e-5]
+                right_neighbors = [crown_edges[item["id"]][0] for item in features
+                                   if item["id"] != feature["id"] and crown_edges[item["id"]][0] >= crown_edges[feature["id"]][1] - 1e-5]
+                axis = spec["axis"]
+                crown_min = min(point[axis] for point in crown_points)
+                crown_max = max(point[axis] for point in crown_points)
+                left = crown_edges[feature["id"]][0]
+                right = crown_edges[feature["id"]][1]
+                anchor_left = max(left_neighbors, default=crown_min)
+                anchor_right = min(right_neighbors, default=crown_max)
+                half_delta = (spec["targetWidth"] - spec["sourceWidth"]) / 2.0
+                target_left = left - half_delta
+                target_right = right + half_delta
+                if target_left - anchor_left < 0.10 or anchor_right - target_right < 0.10:
+                    raise ValueError(f"Requested width would close the rounded-log bridge beside {spec['id']}")
+                crown_specs.append({**spec, "left": left, "right": right,
+                                    "sourceCrownLeft": left, "sourceCrownRight": right,
+                                    "leftAnchor": anchor_left, "rightAnchor": anchor_right})
+            owner_names.append(crown.name)
+
+        source_owner_points = {}
+        for owner_name in owner_names:
+            owner = bpy.data.objects[owner_name]
+            axis = specs[0]["axis"]
+            source_owner_points[owner_name] = hero_template_points(root, owner)
+            mapping_specs = crown_specs if owner is crown else specs
+            if any(spec["axis"] != axis for spec in mapping_specs):
+                raise RuntimeError(f"Mixed aperture axes in the {side} wall template")
+            hero_template_apply_map(root, owner, axis,
+                                    lambda value, current=mapping_specs:
+                                    sum(hero_template_interval_delta(value, spec) for spec in current))
+            affected.add(owner.name)
+
+        # Neighbor cut planes are hard anchors: no door or unselected window edge may drift.
+        neighbors = [feature for feature in all_features[side] if feature["id"] not in changed]
+        for owner_name in owner_names:
+            owner = bpy.data.objects[owner_name]
+            axis = specs[0]["axis"]
+            after_points = hero_template_points(root, owner)
+            before_points = source_owner_points[owner_name]
+            is_crown = owner is crown
+            crown_edges = None
+            if is_crown:
+                crown_edges = {feature["id"]: (hero_template_crown_edge(before_points, feature, "left"),
+                                                hero_template_crown_edge(before_points, feature, "right"))
+                               for feature in all_features[side]}
+            for feature in neighbors:
+                depth_axis = 1 - axis
+                cut_bounds = crown_edges[feature["id"]] if crown_edges else (feature["left"], feature["right"])
+                cut_vertices = [index for index, point in enumerate(before_points)
+                                if cut_bounds[0] - 1e-5 <= point[axis] <= cut_bounds[1] + 1e-5
+                                and feature["zMin"] - 0.03 <= point.z <= feature["zMax"] + 0.03
+                                and feature["depthMin"] - 0.18 <= point[depth_axis] <= feature["depthMax"] + 0.18]
+                if not cut_vertices:
+                    raise RuntimeError(f"PBR template has no {feature['id']} {owner_name} cut vertices")
+                if any(abs(after_points[index][axis] - before_points[index][axis]) > 1e-7
+                       for index in cut_vertices):
+                    raise RuntimeError(f"Width edit moved a vertex on the neighboring {feature['id']} cut")
+                for edge in cut_bounds:
+                    indices = [index for index, point in enumerate(before_points)
+                               if abs(point[axis] - edge) < 1e-5
+                               and feature["zMin"] - 0.03 <= point.z <= feature["zMax"] + 0.03
+                               and feature["depthMin"] - 0.18 <= point[depth_axis] <= feature["depthMax"] + 0.18]
+                    if not indices:
+                        raise RuntimeError(f"PBR template has no {feature['id']} {owner_name} aperture-edge vertices")
+                    if any(abs(after_points[index][axis] - before_points[index][axis]) > 1e-7
+                           for index in indices):
+                        raise RuntimeError(f"Width edit moved the neighboring {feature['id']} {owner_name} aperture edge")
+
+        wall = bpy.data.objects[f"HeroHouse_{side}_Wall_LOD0"]
+        wall_points = hero_template_points(root, wall)
+        for spec in specs:
+            target_window = windows[spec["id"]]
+            target_left = target_window["center"] - spec["targetWidth"] / 2.0
+            target_right = target_window["center"] + spec["targetWidth"] / 2.0
+            for edge in (target_left, target_right):
+                if not any(abs(point[spec["axis"]] - edge) < 1e-5
+                           and target_window["zMin"] - 0.02 <= point.z <= target_window["zMax"] + 0.02
+                           for point in wall_points):
+                    raise RuntimeError(f"Width edit did not carry the {spec['id']} pierced shell edge")
+            glass = bpy.data.objects[target_window["familyPrefix"] + "Glass_LOD0"]
+            glass_min, glass_max = hero_template_bounds(root, glass)
+            if (abs((glass_min[spec["axis"]] + glass_max[spec["axis"]]) / 2.0 - target_window["center"]) > 1e-5
+                    or abs(glass_max[spec["axis"]] - glass_min[spec["axis"]]
+                           - (target_window["paneWidth"] + spec["targetWidth"] - spec["sourceWidth"])) > 1e-5
+                    or abs(glass_min.z - target_window["glassZMin"]) > 1e-5
+                    or abs(glass_max.z - target_window["glassZMax"]) > 1e-5):
+                raise RuntimeError(f"Width edit moved or changed the height of {spec['id']} window family")
+            if crown is not None:
+                crown_before = source_owner_points[crown.name]
+                crown_after = hero_template_points(root, crown)
+                depth_axis = 1 - spec["axis"]
+                crown_spec = next(item for item in crown_specs if item["id"] == spec["id"])
+                half_delta = (spec["targetWidth"] - spec["sourceWidth"]) / 2.0
+                for source_edge, expected_edge in ((crown_spec["sourceCrownLeft"], crown_spec["sourceCrownLeft"] - half_delta),
+                                                   (crown_spec["sourceCrownRight"], crown_spec["sourceCrownRight"] + half_delta)):
+                    indices = [index for index, point in enumerate(crown_before)
+                               if abs(point[spec["axis"]] - source_edge) < 1e-5
+                               and target_window["zMin"] - 0.03 <= point.z <= target_window["zMax"] + 0.03
+                               and target_window["depthMin"] - 0.18 <= point[depth_axis] <= target_window["depthMax"] + 0.18]
+                    if not indices or any(abs(crown_after[index][spec["axis"]] - expected_edge) > 1e-5
+                                          for index in indices):
+                        raise RuntimeError(f"Width edit did not carry the {spec['id']} rounded-log cut edge")
+            for family_name, original_height in family_heights.items():
+                if not family_name.startswith(target_window["familyPrefix"]):
+                    continue
+                family_min, family_max = hero_template_bounds(root, bpy.data.objects[family_name])
+                if abs(family_min.z - original_height[0]) > 1e-6 or abs(family_max.z - original_height[1]) > 1e-6:
+                    raise RuntimeError(f"Width edit changed the height of {family_name}")
+    return affected, windows
 
 
 def load_hero_house_recipe(path: Path) -> dict:
@@ -3952,7 +4299,9 @@ def path_label(path: Path, root: Path) -> str:
 def save_hero_house_stage(hero: bpy.types.Object,
                           source_blend: Path, generator_path: Path,
                           recipe_path: Path, recipe: dict,
-                          output_dir: Path, project_root: Path) -> None:
+                          output_dir: Path, project_root: Path,
+                          template_model_path: Path | None = None,
+                          source_window_widths: dict[str, float] | None = None) -> None:
     output_dir.mkdir(parents=True, exist_ok=True)
     blend_path = output_dir / "hero_house.blend"
     glb_path = output_dir / "hero_house.glb"
@@ -4006,6 +4355,14 @@ def save_hero_house_stage(hero: bpy.types.Object,
             "glb": {"path": glb_path.name, "sha256": sha256_file(glb_path)},
         },
     }
+    if template_model_path is not None:
+        if source_window_widths is None:
+            raise ValueError("PBR template staging requires the captured source window widths")
+        manifest["source"]["templateModel"] = {
+            "path": path_label(template_model_path, project_root),
+            "sha256": sha256_file(template_model_path),
+            "windowWidths": source_window_widths,
+        }
     manifest_path.write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     print(f"hero-house-stage: blend={blend_path} glb={glb_path} manifest={manifest_path}")
 
@@ -4074,6 +4431,57 @@ def save_house_variant_stage(parcel: bpy.types.Object, component: str,
     print(f"house-variant-stage: blend={blend_path} glb={glb_path} manifest={manifest_path}")
 
 
+def build_hero_template_stage(root_path: Path, blend_path: Path, recipe_path: Path,
+                              output_dir: Path, template_model_path: Path,
+                              source_widths_json: str) -> None:
+    if not template_model_path.is_file():
+        raise FileNotFoundError(f"Existing PBR hero-house model is missing: {template_model_path}")
+    recipe = load_hero_house_recipe(recipe_path)
+    source_widths = load_source_window_widths(source_widths_json)
+    if source_widths is None:
+        raise ValueError("Existing PBR hero-house generation requires captured source window widths")
+    target_widths = {window_id: float(width)
+                     for window_id, width in hero_window_widths(recipe).items()}
+
+    bpy.ops.wm.read_factory_settings(use_empty=True)
+    result = bpy.ops.import_scene.gltf(filepath=str(template_model_path))
+    if "FINISHED" not in result:
+        raise RuntimeError("Blender did not import the existing PBR hero-house model")
+    hero = bpy.data.objects.get(HERO_DWELLING_ROOT)
+    if hero is None or hero.type != "EMPTY":
+        raise RuntimeError("PBR template must retain the semantic HeroHouse_TimberPlaster component root")
+    component_world = hero.matrix_world.copy()
+    root = bpy.data.objects.new(KIT_ROOT, None)
+    bpy.context.scene.collection.objects.link(root)
+    root.location = (0.0, 0.0, 0.0)
+    root.rotation_euler = (0.0, 0.0, 0.0)
+    root.scale = (1.0, 1.0, 1.0)
+    hero.parent = root
+    hero.matrix_world = component_world
+    bpy.context.view_layer.update()
+    if hero.parent is not root:
+        raise RuntimeError("Imported PBR component hierarchy could not be retained")
+
+    before = hero_template_snapshot(hero)
+    if not before:
+        raise RuntimeError("PBR template contains no semantic mesh nodes")
+    affected, _windows = hero_template_deform(hero, source_widths, target_widths)
+    bpy.context.view_layer.update()
+    validate_hero_house(root)
+    after = hero_template_snapshot(hero)
+    hero_template_assert_stable_payload(before, after, affected)
+    changed = [window_id for window_id in HERO_WINDOW_IDS
+               if abs(source_widths[window_id] - target_widths[window_id]) > 1e-6]
+    if not changed:
+        raise ValueError("PBR template width edit has no effective changed windows")
+    print("hero-house-pbr-template-pass: "
+          f"source={template_model_path} meshes={len(before)} changed={','.join(changed)} "
+          f"widths=" + ",".join(f"{item}:{source_widths[item]:.3f}->{target_widths[item]:.3f}" for item in changed)
+          + f" preserved_non_target={len(before) - len(affected)} UV/topology/materials/transforms=exact")
+    save_hero_house_stage(hero, blend_path, Path(__file__).resolve(), recipe_path, recipe,
+                          output_dir, root_path, template_model_path, source_widths)
+
+
 def main() -> None:
     args = arguments()
     root_path = Path(args.root).resolve()
@@ -4083,6 +4491,18 @@ def main() -> None:
         raise ValueError("--output-dir requires a staged house component mode")
     if args.recipe and args.component_only not in {"hero-house", "house-variant"}:
         raise ValueError("--recipe requires a staged house component mode")
+    if args.template_model is not None or args.source_window_widths_json is not None:
+        if (args.component_only != "hero-house" or not args.recipe or not args.output_dir
+                or args.template_model is None or args.source_window_widths_json is None):
+            raise ValueError("PBR template mode requires hero-house, --recipe, --output-dir, and captured source widths")
+        recipe_arg = Path(args.recipe)
+        recipe_path = (recipe_arg if recipe_arg.is_absolute() else root_path / recipe_arg).resolve()
+        template_model_path = Path(args.template_model).resolve()
+        output_arg = Path(args.output_dir)
+        output_dir = (output_arg if output_arg.is_absolute() else root_path / output_arg).resolve()
+        build_hero_template_stage(root_path, blend_path, recipe_path, output_dir,
+                                  template_model_path, args.source_window_widths_json)
+        return
     house_variant_inputs = None
     if args.component_only == "house-variant":
         if not args.recipe or not args.output_dir:
