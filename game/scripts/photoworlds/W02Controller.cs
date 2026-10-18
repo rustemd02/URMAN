@@ -22,7 +22,6 @@ public partial class W02Controller : Node3D
     private const string EncounterInteractionId = "urman.fullgame:interaction/pw-water-encounter";
     private const string DampPrintInteractionId = "urman.fullgame:interaction/pw-water-damp-print";
     private const string ReturnInteractionId = "urman.fullgame:interaction/pw-water-return";
-    private const string ReflectionLabelTextId = "urman.fullgame:text/pw-label-water-reflection";
     private const string BypassLabelTextId = "urman.fullgame:text/pw-label-water-bypass";
     private const string OldApproachLabelTextId = "urman.fullgame:text/pw-label-water-old-approach";
     private const string EncounterLabelTextId = "urman.fullgame:text/pw-label-water-encounter";
@@ -56,6 +55,8 @@ public partial class W02Controller : Node3D
     private const float TerrainMaxX = 96f;
     private const float TerrainMinZ = -28f;
     private const float TerrainMaxZ = 148f;
+    private static readonly Vector3 ReflectionStandCenter = new(9.4f, 1.26f, 29.8f);
+    private static readonly Vector2 ReflectionStandSize = new(3.2f, 2.6f);
 
     private RuntimeBridge? _bridge;
     private Node3D? _world;
@@ -77,8 +78,6 @@ public partial class W02Controller : Node3D
     private object? _reedCurtainSessionIdentity;
     private Tween? _reedCurtainTween;
     private int _reedCurtainTweenGeneration;
-    private bool _firstProjection = true;
-    private float _suAnasyTargetY = -1.35f;
     private float _suAnasyY = -1.35f;
     private float _ringClock;
 
@@ -111,13 +110,7 @@ public partial class W02Controller : Node3D
         TryBindRuntimeBridge();
         var dt = (float)delta;
 
-        // The water answers only while the answer is live; a restored save snaps.
-        if (_suAnasy is { } presence && GodotObject.IsInstanceValid(presence))
-        {
-            _suAnasyY = Mathf.MoveToward(_suAnasyY, _suAnasyTargetY, dt * 0.55f);
-            var bob = Mathf.Sin((float)Time.GetTicksMsec() * 0.0004f) * 0.045f;
-            presence.Position = new Vector3(presence.Position.X, _suAnasyY + bob, presence.Position.Z);
-        }
+        ProcessEncounterPresentation(delta);
 
         _ringClock += dt;
         for (var index = 0; index < _encounterRings.Count; index++)
@@ -132,14 +125,19 @@ public partial class W02Controller : Node3D
         }
     }
 
+    public override void _PhysicsProcess(double delta) => ProcessReflectionObservation(delta);
+
     public override void _ExitTree()
     {
         SetProcess(false);
+        SetPhysicsProcess(false);
         if (_bridge is { } bridge && GodotObject.IsInstanceValid(bridge))
             bridge.RuntimeStateChanged -= ApplyProjection;
         CancelReedCurtainTween();
         _reedCurtainSessionIdentity = null;
         _reedCurtainProjectionInitialized = false;
+        ResetReflectionObservation(null);
+        ExitEncounterPresentation();
         _bridge = null;
     }
 
@@ -166,7 +164,10 @@ public partial class W02Controller : Node3D
 
         var sessionIdentity = bridge.SessionIdentity;
         if (!ReferenceEquals(_reedCurtainSessionIdentity, sessionIdentity))
+        {
             ResetReedCurtainSession(sessionIdentity);
+            ResetReflectionObservation(sessionIdentity);
+        }
 
         var projection = bridge.CurrentW02WaterProjection();
         if (projection is not null && !ReferenceEquals(projection.SessionIdentity, sessionIdentity))
@@ -181,7 +182,7 @@ public partial class W02Controller : Node3D
         if (projection is null)
         {
             SnapReedCurtain(_reedCurtainProjectionInitialized && _reedCurtainOpened);
-            _firstProjection = false;
+            ApplyEncounterProjection(null, visible);
             return;
         }
 
@@ -190,35 +191,7 @@ public partial class W02Controller : Node3D
         // The reeds answer the authored fact once; a restored save stands open.
         ApplyReedCurtainProjection(projection.ReedOpened);
 
-        if (_encounterTarget is { } encounterTarget)
-        {
-            encounterTarget.PresentationGate = projection.EncounterResolved ? static () => false : null;
-            encounterTarget.PresentationGateHint = string.Empty;
-        }
-
-        // The loose board: the first press is local, the second commits once.
-        if (projection.EncounterResolved)
-        {
-            if (!_encounterWasResolved)
-            {
-                _encounterWasResolved = true;
-                _boardLifted = false;
-                SettleLooseBoard(animated: !_firstProjection);
-                _suAnasyTargetY = 0.15f;
-                if (_firstProjection) _suAnasyY = _suAnasyTargetY;
-            }
-
-            UpdateEncounterPrompt(encounterResolved: true);
-        }
-        else
-        {
-            _encounterWasResolved = false;
-            _suAnasyTargetY = -1.35f;
-            if (_firstProjection) _suAnasyY = _suAnasyTargetY;
-            UpdateEncounterPrompt(encounterResolved: false);
-        }
-
-        _firstProjection = false;
+        ApplyEncounterProjection(projection, visible);
     }
 
     private void SetWorldPresentationVisible(bool visible)
@@ -584,10 +557,19 @@ public partial class W02Controller : Node3D
 
     private void BuildReflectionOutcrop()
     {
-        BuildBoardwalk("ReflectionOutcrop", [
-            new Vector3(8.9f, 1.26f, 30.6f),
-            new Vector3(5.8f, 1.26f, 32.3f)
-        ], 2f, DeckMaterial());
+        // Stand beside the composition rather than covering its low supports.
+        // R03 and the incoming bank remain on this physical, supported pad.
+        var standCenter = ReflectionStandCenter;
+        var standSize = ReflectionStandSize;
+        BuildPlatform("ReflectionOutcrop", standCenter, standSize.X, standSize.Y, DeckMaterial());
+        _reflectionObservationStand = new Marker3D
+        {
+            Name = "ReflectionObservationStand",
+            Position = standCenter
+        };
+        _world!.AddChild(_reflectionObservationStand);
+        // Keep the complete player capsule on the actual pad, with 5cm margin.
+        _reflectionObservationStandHalfExtents = standSize * 0.5f - Vector2.One * 0.4f;
 
         // The source composition: chipped left post, two standing posts and a
         // diagonal board, with the old approach line kept right of the frame.
@@ -608,7 +590,7 @@ public partial class W02Controller : Node3D
         // line read only under the water surface, aligned to the R03 view.
         var reflected = Snowless("8fa694", "wood_cut");
         float Mirrored(float top) => WaterLevel - (top - WaterLevel);
-        void MirrorPost(string name, float x, float z, float top, float length, Vector3? tilt)
+        MeshInstance3D MirrorPost(string name, float x, float z, float top, float length, Vector3? tilt)
         {
             var post = new MeshInstance3D
             {
@@ -620,11 +602,13 @@ public partial class W02Controller : Node3D
             };
             if (tilt is { } rotation) post.RotationDegrees = rotation;
             _world.AddChild(post);
+            return post;
         }
 
-        MirrorPost("MirrorPostChipped", 6.18f, 33.0f, WaterLevel + 0.72f, 0.72f, new Vector3(-6f, 0f, -7f));
-        MirrorPost("MirrorPostMid", 5.8f, 32.3f, WaterLevel + 0.55f, 0.55f, null);
-        MirrorPost("MirrorPostOuter", 5.42f, 31.6f, WaterLevel + 0.66f, 0.66f, null);
+        var chippedReflection = MirrorPost("MirrorPostChipped", 6.18f, 33.0f,
+            WaterLevel + 0.72f, 0.72f, new Vector3(-6f, 0f, -7f));
+        var midReflection = MirrorPost("MirrorPostMid", 5.8f, 32.3f, WaterLevel + 0.55f, 0.55f, null);
+        var outerReflection = MirrorPost("MirrorPostOuter", 5.42f, 31.6f, WaterLevel + 0.66f, 0.66f, null);
         _world.AddChild(new MeshInstance3D
         {
             Name = "MirrorDiagonalBoard",
@@ -646,7 +630,7 @@ public partial class W02Controller : Node3D
                 new Vector3(0f, step * 14f, -4f + step * 2f));
         }
 
-        _world.AddChild(new MeshInstance3D
+        var approachReflection = new MeshInstance3D
         {
             Name = "HiddenApproachWalkway",
             Mesh = new BoxMesh { Size = new Vector3(0.36f, 0.06f, 2.9f) },
@@ -654,7 +638,15 @@ public partial class W02Controller : Node3D
             RotationDegrees = new Vector3(0f, 28f, -3f),
             MaterialOverride = reflected,
             CastShadow = GeometryInstance3D.ShadowCastingSetting.Off
-        });
+        };
+        _world.AddChild(approachReflection);
+        _reflectionObservationPoints =
+        [
+            chippedReflection.GlobalPosition,
+            midReflection.GlobalPosition,
+            outerReflection.GlobalPosition,
+            approachReflection.GlobalPosition
+        ];
 
         // Two reed heights kept at the same edge, as in the source print.
         AddReedClump("ReflectionReedTall", new Vector3(6.9f, 0f, 34.1f), 2.25f, 6, 77);
@@ -946,6 +938,10 @@ public partial class W02Controller : Node3D
 
     private static bool ReedBlocked(float x, float z)
     {
+        if (Math.Abs(x - ReflectionStandCenter.X) < ReflectionStandSize.X * 0.5f + 0.5f
+            && Math.Abs(z - ReflectionStandCenter.Z) < ReflectionStandSize.Y * 0.5f + 0.5f)
+            return true;
+
         foreach (var (cx, cz, radius) in ReedExclusionCircles)
             if ((x - cx) * (x - cx) + (z - cz) * (z - cz) < radius * radius) return true;
         foreach (var (a, b) in ReedExclusionSegments)
@@ -1264,45 +1260,6 @@ public partial class W02Controller : Node3D
         }
     }
 
-    private void SettleLooseBoard(bool animated)
-    {
-        if (_looseBoard is not { } board || !GodotObject.IsInstanceValid(board)) return;
-        var restRotation = new Vector3(0f, -128f, 0f);
-        if (!animated)
-        {
-            board.RotationDegrees = restRotation;
-            board.Position = new Vector3(board.Position.X, 1.42f, board.Position.Z);
-            if (_boardMark is { } mark) mark.Visible = false;
-            return;
-        }
-
-        var tween = CreateTween();
-        tween.SetTrans(Tween.TransitionType.Sine).SetEase(Tween.EaseType.InOut);
-        tween.TweenProperty(board, "rotation_degrees", restRotation, 0.9f);
-        tween.Parallel().TweenProperty(board, "position",
-            new Vector3(board.Position.X, 1.42f, board.Position.Z), 0.9f);
-        if (_boardMark is { } markToHide)
-        {
-            var markTween = CreateTween();
-            markTween.TweenInterval(0.7);
-            markTween.TweenCallback(Callable.From(() =>
-            {
-                if (GodotObject.IsInstanceValid(markToHide)) markToHide.Visible = false;
-            }));
-        }
-    }
-
-    private void LiftLooseBoard()
-    {
-        if (_looseBoard is not { } board || !GodotObject.IsInstanceValid(board)) return;
-        if (_boardMark is { } mark) mark.Visible = true;
-        var tween = CreateTween();
-        tween.SetTrans(Tween.TransitionType.Sine).SetEase(Tween.EaseType.Out);
-        tween.TweenProperty(board, "rotation_degrees", new Vector3(-7f, -128f, 3f), 0.7f);
-        tween.Parallel().TweenProperty(board, "position",
-            new Vector3(board.Position.X, 1.47f, board.Position.Z), 0.7f);
-    }
-
     // ------------------------------------------------------------------
     // Interaction targets
     // ------------------------------------------------------------------
@@ -1333,29 +1290,6 @@ public partial class W02Controller : Node3D
     {
         if (_targets.Count == 0)
         {
-            var reflectionTarget = EnsureTarget("WaterReflectionTarget", ReflectionInteractionId,
-                bridge.ResolveText(ReflectionLabelTextId), new Vector3(6.4f, 2.1f, 31.6f), 0.62f);
-            reflectionTarget.AfterDispatch = () =>
-            {
-                if (!ReferenceEquals(GetTree().GetFirstNodeInGroup("runtime_bridge"), bridge)
-                    || bridge.SessionIdentity is null)
-                    return Task.FromResult(true);
-
-                var reflectionRecorded = bridge.PhotoWorldKnowledgeEntries().Any(entry =>
-                    entry.SourceId == ReflectionInteractionId
-                    && entry.Images?.Any(image => image.AssetId
-                        == "urman.fullgame:asset/w02-water-reflection-relation-sketch") == true);
-                if (reflectionRecorded
-                    && GetTree().GetFirstNodeInGroup("player_controller") is FirstPersonController player)
-                {
-                    var journalHint = InputBindingService.ActionHint(
-                        "journal", player.CurrentInputDevice == "gamepad");
-                    player.ShowRemark("Айдар",
-                        $"Край настила теряется за камышом. Я набросал его в книжке — обойду и проверю доски. {journalHint} — открыть записную книжку.");
-                }
-
-                return Task.FromResult(true);
-            };
             EnsureTarget("WaterBypassTarget", BypassInteractionId,
                 bridge.ResolveText(BypassLabelTextId), new Vector3(25f, 2.2f, 42f), 0.7f);
             EnsureTarget("WaterOldApproachTarget", OldApproachInteractionId,
@@ -1372,14 +1306,7 @@ public partial class W02Controller : Node3D
 
         if (_encounterTarget is { } encounter)
         {
-            encounter.PresentationBeforeDispatch = () =>
-            {
-                if (_boardLifted) return true;
-                _boardLifted = true;
-                LiftLooseBoard();
-                UpdateEncounterPrompt(encounterResolved: false);
-                return false;
-            };
+            encounter.PresentationBeforeDispatch = BeginEncounterAction;
         }
 
         UpdateEncounterPrompt(_encounterWasResolved);
@@ -1783,8 +1710,8 @@ public partial class W02Controller : Node3D
         {
             _encounterWasResolved = true;
             _boardLifted = false;
-            SettleLooseBoard(animated: false);
-            _suAnasyY = _suAnasyTargetY = 0.15f;
+            SetEncounterBoardRestPose();
+            SetEncounterPresenceHeight(0.15f);
             UpdateEncounterPrompt(encounterResolved: true);
         }
     }

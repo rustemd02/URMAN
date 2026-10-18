@@ -121336,7 +121336,9 @@
       "whole_actor_art_step_2026_10_18": {
         "finding": "Exact canonical work-full remains gray smooth bald human/hourglass; lighting cannot substitute for anatomy. V7 scalar/profile studies rejected.",
         "scope": "One v8 source-only whole-anatomy sculpt/look pass from frozen v6, preserve53bones/weights/hand-support contacts; full3q and face review before runtime export. No scalar-variant churn.",
-        "acceptance": "Root visual source review is engineering/art-direction only; native movement and author/cultural acceptance remain mandatory."
+        "acceptance": "Root visual source review is engineering/art-direction only; native movement and author/cultural acceptance remain mandatory.",
+        "v8_review": "REJECTED by root after personally viewing full3q/face: rib/neck forms still unreadable, cheeks became bumps, smooth human/hourglass and UV stripes remain. Preserve source study, no canonical promotion; repeated field-displacement method stopped.",
+        "next": "One bounded eye-gaze source-only study from exact v3 geometry: investigate real eye aperture/UV and restrained wet iris/pupil/sclera; do not infer placement defect merely from most sphere vertices behind skin. Whole-actor sculpt/art/native acceptance still open."
       },
       "process_handoff_fix_2026_10_18": {
         "result": "DELIVERED_SOURCE: hiding the prologue skip button no longer disables the whole W01 controller Process, so forest Bag placement/pending dialogue and Shurale proximity/dialogue drivers remain scheduled. Pending D07 is preserved during same-session deferred load projection and cleared on actual kernel identity change.",
@@ -122804,7 +122806,7 @@
       "title": "W02: связать отражение с настоящим подходом",
       "milestone": "PW-M3",
       "status": "in_progress",
-      "active_owner": "Codex / gamefeel + persistence",
+      "active_owner": null,
       "owner": "gameplay",
       "priority": "P1",
       "complexity": "complex",
@@ -122941,18 +122943,18 @@
       },
       "assigned_owner": "gameplay",
       "activity": {
-        "state": "confirmed_active",
-        "reason": "Bounded R03 natural observation: gamefeel owns controller design; persistence independently checks existing geometry and clear LOS; root sole tracker/Git writer."
+        "state": "not_active",
+        "reason": "Finite R03 natural-observation source stage delivered/reviewed/compiled; native ordinary route and full W02 acceptance remain open."
       },
       "task_type": "engineering",
-      "implementation_state": "not_started",
+      "implementation_state": "partial",
       "technical_verification_state": "not_run",
       "remaining": [
         "Нет невидимого пола и магического разрешения идти по воде.",
         "Внутреннее наблюдение не является внешним подтверждением.",
         "Полный паспорт уровня docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/levels/W02_Мостки_RU.md реализован: узлы/физические связи/действия/существо или человеческая сцена/созерцание/возврат/кадры; схема не заменяет проходимый runtime."
       ],
-      "next_action": "Resolve safe R03 observation geometry, then recognize actual framed/clear relation through existing pw-water-reflection transaction and shared earned notebook feedback.",
+      "next_action": "Inspect current native R03 view and ordinary approach→framed relation→earned sketch/remark→R04→R05 once owned foreground is available; no unchanged failed full-flow or broad capture rerun.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -122965,7 +122967,8 @@
           "game/scripts/photoworlds/W02Controller.cs",
           "assets/source/blender/photoworlds/W02/",
           "game/scripts/RuntimeBridge.Notebook.cs",
-          "game/assets/photoworlds/W02/water-reflection-relation-sketch.svg"
+          "game/assets/photoworlds/W02/water-reflection-relation-sketch.svg",
+          "game/scripts/photoworlds/W02Controller.Reflection.cs"
         ],
         "required_inputs": [
           {
@@ -123148,16 +123151,18 @@
       },
       "r03_observation_2026_10_18": {
         "finding": "Current E sphere at(6.4,2.1,31.6) is4.03m from authored R03 eye, beyond2.7m ray/3m cap. At reachable outcrop start it sits≈16degrees above actual middle support aim. Broad outcrop deck can occlude actual low supports; do not auto-complete through deck or by proximity.",
-        "result": "IN_PROGRESS: bounded geometry/LOS investigation before implementing natural camera observation.",
+        "result": "DELIVERED_SOURCE: replaced occluding outcrop with supported3.2x2.6m pad at(9.4,1.26,29.8), R03 unchanged. Removed floating E target; grounded/nonmodal/current-camera observation frames three actual mirrored posts plus hidden deck and requires clear physical LOS, then existing interaction/fact/sketch payoff. Failure retry suppression and same-session modal-deferred remark included.",
         "verification_question": "Can grounded nonmodal player see the actual three-support/hidden-deck relationship from a safe generous zone, then earn the existing fact/sketch without invisible target hunting or repeated failed dispatch?",
-        "remaining": "Source implementation/review/affected compile, native ordinary route and full W02 art/external acceptance."
+        "remaining": "Current native Low/High reflection readability, physical approach/recognition/feedback/save/revisit and complete PW051 art/ordinary runtime acceptance remain open.",
+        "geometry_evidence": "Source replay of actual1.5m terrain triangle grid: R03 and3neighbor poses to.707m clear pad+terrain rays to4mesh centers; R03 minimum post terrain clearances.0795/.1123/.0460m. Recognition accepts entire capsule-safe footprint1.2x.9halfextents with real rays, not a .45m positional gate. Native/render visibility not proved.",
+        "verification": "Independent partial/integration review found and corrected modal-lost payoff plus undisposed ray Dictionary; root also preserved same-kernel deferredLoad payoff. Final affected Game compile15.52s0warnings/errors; diffcheckPASS. No new tests/native capture."
       }
     },
     {
       "id": "PW-052",
       "title": "W02: произвести и поставить Су анасы",
       "milestone": "PW-M3",
-      "status": "todo",
+      "status": "in_progress",
       "active_owner": null,
       "owner": "character_art",
       "priority": "P1",
@@ -123303,17 +123308,17 @@
       "assigned_owner": "character_art",
       "activity": {
         "state": "not_active",
-        "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+        "reason": "Finite R06 return/witness/commit sequence source delivered/reviewed/compiled; actual Su anasy character and full native/art/culture acceptance not delivered."
       },
       "task_type": "engineering",
-      "implementation_state": "not_started",
+      "implementation_state": "partial",
       "technical_verification_state": "not_run",
       "remaining": [
         "Фигура читается в движении без светящейся маски.",
         "Встреча проходится без звука и озвучки.",
         "Полный паспорт уровня docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/levels/W02_Мостки_RU.md реализован: узлы/физические связи/действия/существо или человеческая сцена/созерцание/возврат/кадры; схема не заменяет проходимый runtime."
       ],
-      "next_action": "Произвести оригинальную фигуру Су анасы с шестью клипами.",
+      "next_action": "Verify ordinary R06 two presses/board return/framed answer/commit and interruption/save behavior when native ownership is available; produce real Su anasy character under full existing contract.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -123324,7 +123329,8 @@
           "game/scenes/photoworlds/W02/W02.tscn",
           "game/content/photoworlds/W02/W02.world.json",
           "game/scripts/photoworlds/W02Controller.cs",
-          "assets/source/blender/photoworlds/W02/"
+          "assets/source/blender/photoworlds/W02/",
+          "game/scripts/photoworlds/W02Controller.Encounter.cs"
         ],
         "required_inputs": [
           {
@@ -123498,7 +123504,16 @@
           "evidence_ref": "PW-052.evidence and named history progress; source_review shows available/missing inputs"
         }
       ],
-      "assignment_state": "preserved_person_or_existing_role; activity separate"
+      "assignment_state": "preserved_person_or_existing_role; activity separate",
+      "encounter_slice_2026_10_18": {
+        "finding": "Current second press commits water_encounter_resolved before board-return tween and Su anasy response. Exiting/loading in that window awards an unseen response, contrary to passport sections3/10.",
+        "scope": "Existing fact/reducer unchanged; local precommit board-return + actual framed/clear response observation. Reset safe unresolved pose on precommit load/session/hide/modal interruption. No new fact/UI/test.",
+        "verification_question": "Does the same-session live interaction commit only after board is returned and player actually sees the answer, while interrupted unresolved sequences cannot award completion?",
+        "remaining": "Native ordinary path/load/modal/save interruption, Low/readability and actual character/art/audio/culture/author acceptance.",
+        "result": "DELIVERED_SOURCE: first press lifts board locally; second returns board and raises water-answer pose, existing interaction dispatch starts only after both complete and current grounded player frames torso+head within8m with clear physics rays. Local precommit interruption resets safe unresolved state; reducedmotion snaps movement but retains observation. Existing saved resolved fact projects exact final pose.",
+        "verification": "Root removed old competing direct-dispatch/tween/free-motion/projection paths, wired Process/Apply/Exit; independent final integration review clean after camera/current/LOS/reducedmotion fixes. Final affected Game compile15.52s0/0 and diffcheckPASS. No new tests/native run.",
+        "limits": "Visibility uses physical blockers; render-only occluders not proved. Current Su anasy remains geometric placeholder, not accepted character/art. Forced semantic test dispatch is not ordinary camera observation."
+      }
     },
     {
       "id": "PW-053",
