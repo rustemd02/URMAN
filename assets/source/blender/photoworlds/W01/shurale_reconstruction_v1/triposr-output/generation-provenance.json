@@ -1,0 +1,180 @@
+{
+  "schema": "urman.shurale.triposr-generation-provenance.v1",
+  "generated_at_local": "2026-10-18T10:18:50.953+03:00",
+  "path_base": "repository_root",
+  "input": {
+    "path": "assets/source/blender/photoworlds/W01/shurale_reconstruction_v1/input-head-v1.png",
+    "sha256": "909a6ca80c425ac4a2bea864a13e9165328873073ecf57ea56991d92660b8b82",
+    "format": "PNG",
+    "mode": "RGBA",
+    "size_px": [
+      1312,
+      1199
+    ],
+    "alpha_extrema": [
+      0,
+      255
+    ]
+  },
+  "source": {
+    "project": "VAST-AI-Research/TripoSR",
+    "revision": "107cefdc244c39106fa830359024f6a2f1c78871",
+    "archive_path": ".tools/shurale-triposr-v1/downloads/TripoSR-107cefdc244c39106fa830359024f6a2f1c78871.tar.gz",
+    "archive_sha256": "bcb414550dcfcb9f5ea6a7b9c12f2bbff889f5b4a564a493178393360d9034ec",
+    "license": "MIT",
+    "license_copy_path": "assets/source/blender/photoworlds/W01/shurale_reconstruction_v1/triposr-output/LICENSE-TripoSR-MIT.txt",
+    "license_copy_sha256": "ade0a66629bdd7e01e46b3296b3851cff0fd27989bca53da470ad6e96ed620fb",
+    "mesh_only_patch_path": "assets/source/blender/photoworlds/W01/shurale_reconstruction_v1/triposr-output/mesh-only-cli.patch",
+    "mesh_only_patch_sha256": "8b0a0d3626a7d48f539f71e983113c31da7682cac5cb8e419b15cc6a17116e42",
+    "patch_scope": [
+      "Move xatlas and tsr.bake_texture imports into the existing --bake-texture branch.",
+      "The isolated mesh-only requirements omit gradio, xatlas, and moderngl; gradio was omitted before this patch, which removes only xatlas and moderngl from that file."
+    ],
+    "url": "https://github.com/VAST-AI-Research/TripoSR"
+  },
+  "model": {
+    "repository": "stabilityai/TripoSR",
+    "revision": "5b521936b01fbe1890f6f9baed0254ab6351c04a",
+    "snapshot_path": ".tools/shurale-triposr-v1/model-snapshot/5b521936b01fbe1890f6f9baed0254ab6351c04a",
+    "files": [
+      {
+        "path": ".tools/shurale-triposr-v1/model-snapshot/5b521936b01fbe1890f6f9baed0254ab6351c04a/config.yaml",
+        "sha256": "74ca708ce086bf68e97709ea6b3d91f14717921c04691e84043f0eb8fcc68e62"
+      },
+      {
+        "path": ".tools/shurale-triposr-v1/model-snapshot/5b521936b01fbe1890f6f9baed0254ab6351c04a/model.ckpt",
+        "bytes": 1677246742,
+        "sha256": "429e2c6b22a0923967459de24d67f05962b235f79cde6b032aa7ed2ffcd970ee"
+      }
+    ],
+    "license": "MIT"
+  },
+  "mesh_extractor": {
+    "project": "tatsy/torchmcubes",
+    "revision": "879926d0ef58e6ce0ac2630fdecb5e53af7ed3ff",
+    "archive_path": ".tools/shurale-triposr-v1/downloads/torchmcubes-879926d0ef58e6ce0ac2630fdecb5e53af7ed3ff.tar.gz",
+    "archive_sha256": "ad821f4258b1cc327f75f28fcb289644d1e699007d295eb8ece297cae1dfc59c",
+    "installed_version": "0.1.0",
+    "license": "MPL-2.0"
+  },
+  "runtime": {
+    "platform": "macOS 27.0, arm64",
+    "python": "3.12.14",
+    "pytorch": "2.14.1",
+    "device_used": "cpu",
+    "thread_limit": 8,
+    "installed_versions_path": "assets/source/blender/photoworlds/W01/shurale_reconstruction_v1/triposr-output/installed-versions.txt",
+    "installed_versions_sha256": "f64be7b26f016fa81c9886380edf1f7d3c3ba75679a98c0e7a543bcc66ab470f",
+    "auxiliary_dino_config": {
+      "repository": "facebook/dino-vitb16",
+      "revision": "f205d5d8e640a89a2b8ef0369670dfc37cc07fc2",
+      "config_path": ".tools/shurale-triposr-v1/hf-cache/hub/models--facebook--dino-vitb16/snapshots/f205d5d8e640a89a2b8ef0369670dfc37cc07fc2/config.json",
+      "config_sha256": "b87c0270b97db085fd82cf114a761fd0f62ae7914fbd407c752a2260646b689c"
+    },
+    "rembg_auxiliary_download": {
+      "packages": [
+        "rembg 2.0.69",
+        "onnxruntime 1.31.0"
+      ],
+      "path": ".tools/shurale-triposr-v1/rembg-cache/u2net.onnx",
+      "bytes": 175997641,
+      "sha256": "8d10d2f3bb75ae3b6d527c77944fc5e7dcd94b29809d47a739a7a728a912b491",
+      "reason": "Pinned CLI calls rembg.new_session() before preprocessing even for RGBA. The existing alpha check skipped rembg inference; existing foreground resize/composite preprocessing still ran."
+    },
+    "installed_versions_note": "Version list copied from actual isolated environment; only local file URI for pinned torchmcubes build normalized to its version plus source revision. Raw list remains in .tools logs."
+  },
+  "invocation": {
+    "cwd": ". (repository root)",
+    "argv": [
+      ".tools/shurale-triposr-v1/venv/bin/python",
+      ".tools/shurale-triposr-v1/source/TripoSR-107cefdc244c39106fa830359024f6a2f1c78871/run.py",
+      "--pretrained-model-name-or-path",
+      ".tools/shurale-triposr-v1/model-snapshot/5b521936b01fbe1890f6f9baed0254ab6351c04a",
+      "--device",
+      "cpu",
+      "--mc-resolution",
+      "256",
+      "--model-save-format",
+      "obj",
+      "--output-dir",
+      "assets/source/blender/photoworlds/W01/shurale_reconstruction_v1/triposr-output/head_mesh",
+      "assets/source/blender/photoworlds/W01/shurale_reconstruction_v1/input-head-v1.png"
+    ],
+    "path_arguments_note": "Path arguments are repository-relative equivalents of the executed argv; the model/output flags received expanded absolute paths from $PWD.",
+    "launcher": [
+      "/usr/bin/time",
+      "-lp",
+      "env"
+    ],
+    "environment": {
+      "HF_HOME": ".tools/shurale-triposr-v1/hf-cache",
+      "HUGGINGFACE_HUB_CACHE": ".tools/shurale-triposr-v1/hf-cache/hub",
+      "TRANSFORMERS_CACHE": ".tools/shurale-triposr-v1/hf-cache/transformers",
+      "U2NET_HOME": ".tools/shurale-triposr-v1/rembg-cache",
+      "SSL_CERT_FILE": ".tools/shurale-triposr-v1/venv/lib/python3.12/site-packages/certifi/cacert.pem",
+      "REQUESTS_CA_BUNDLE": ".tools/shurale-triposr-v1/venv/lib/python3.12/site-packages/certifi/cacert.pem",
+      "OMP_NUM_THREADS": "8",
+      "OPENBLAS_NUM_THREADS": "8",
+      "VECLIB_MAXIMUM_THREADS": "8"
+    },
+    "bake_texture": false,
+    "render": false,
+    "timing_seconds": {
+      "initialization": 4.89892,
+      "preprocessing": 0.45786,
+      "model_inference": 2.33108,
+      "mesh_extraction": 6.40483,
+      "mesh_export": 0.1709,
+      "process_wall": 16.1,
+      "process_user_cpu": 26.3,
+      "process_system_cpu": 7.28
+    },
+    "raw_log_path": ".tools/shurale-triposr-v1/logs/generate-head.log"
+  },
+  "output": {
+    "path": "assets/source/blender/photoworlds/W01/shurale_reconstruction_v1/triposr-output/head_mesh/0/mesh.obj",
+    "format": "Wavefront OBJ with per-vertex RGB values",
+    "bytes": 7503374,
+    "sha256": "e770cd1dbd54a337ee2249b0720222345ffde4d119007eebd2cb0e30b8486455",
+    "vertex_count": 69159,
+    "face_count": 138084,
+    "non_triangle_face_count": 0,
+    "rgb_vertex_record_count": 69159,
+    "bounds_model_units": {
+      "min": [
+        -0.38368264,
+        -0.32972324,
+        -0.49304408
+      ],
+      "max": [
+        0.35603535,
+        0.37616122,
+        0.49133396
+      ]
+    },
+    "watertight_by_trimesh_4_0_5": false,
+    "blender_import": {
+      "vertices": 69159,
+      "polygons": 138074,
+      "difference": "10 OBJ triangles have repeatedvertexIDs; nativeBlender importer drops those degenerates. RawOBJ unchanged.",
+      "front_axis": "+X",
+      "up_axis": "+Z",
+      "units": "normalizedsourceunits, not bodyfit yet"
+    }
+  },
+  "compatibility_notes": [
+    {
+      "attempted_format": "glb",
+      "failure": "AttributeError: 'numpy.ndarray' object has no attribute 'ptp'",
+      "context": "trimesh==4.0.5 GLB exporter calls ndarray.ptp(), removed in NumPy 2; environment had numpy==2.5.4.",
+      "resolution": "Used the existing --model-save-format obj option; no dependency or model change."
+    }
+  ],
+  "acceptance": {
+    "visual_dcc_review": "ROOT_SOURCE_BASE_ACCEPTED: personally viewed actual neutralfront/3q/profile/back andvertex-colorfront. Brow/socket/cheek/jaw/back volumeexists; surfaceripple/closedlookingeyes/secondaryspikes/neckcap remain. Notfinalart orruntime acceptance.",
+    "author_art_acceptance": "pending",
+    "runtime_promotion": false,
+    "review_folder": "assets/source/blender/photoworlds/W01/shurale_reconstruction_v1/review",
+    "next": "One controlled cleanup/retopology and embeddedlivingeyes fromsameactualmesh; then bodyfit/rig/LOD/sourceframes before nativepromotion."
+  }
+}

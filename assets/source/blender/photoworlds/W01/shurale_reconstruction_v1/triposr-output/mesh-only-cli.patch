@@ -1,0 +1,35 @@
+diff --git a/.tools/shurale-triposr-v1/source/TripoSR-107cefdc244c39106fa830359024f6a2f1c78871/run.py b/.tools/shurale-triposr-v1/source/TripoSR-107cefdc244c39106fa830359024f6a2f1c78871/run.py
+--- a/.tools/shurale-triposr-v1/source/TripoSR-107cefdc244c39106fa830359024f6a2f1c78871/run.py
++++ b/.tools/shurale-triposr-v1/source/TripoSR-107cefdc244c39106fa830359024f6a2f1c78871/run.py
+@@ -6,12 +6,10 @@
+ import numpy as np
+ import rembg
+ import torch
+-import xatlas
+ from PIL import Image
+ 
+ from tsr.system import TSR
+ from tsr.utils import remove_background, resize_foreground, save_video
+-from tsr.bake_texture import bake_texture
+ 
+ 
+ class Timer:
+@@ -175,6 +173,9 @@
+ 
+     out_mesh_path = os.path.join(output_dir, str(i), f"mesh.{args.model_save_format}")
+     if args.bake_texture:
++        import xatlas
++        from tsr.bake_texture import bake_texture
++
+         out_texture_path = os.path.join(output_dir, str(i), "texture.png")
+ 
+         timer.start("Baking texture")
+diff --git a/.tools/shurale-triposr-v1/tripo-cli-requirements.txt b/.tools/shurale-triposr-v1/tripo-cli-requirements.txt
+--- a/.tools/shurale-triposr-v1/tripo-cli-requirements.txt
++++ b/.tools/shurale-triposr-v1/tripo-cli-requirements.txt
+@@ -6,5 +6,3 @@
+ rembg
+ huggingface-hub
+ imageio[ffmpeg]
+-xatlas==0.0.9
+-moderngl==5.10.0

@@ -25,7 +25,7 @@
     "model_revision": "5b521936b01fbe1890f6f9baed0254ab6351c04a",
     "expected_checkpoint_sha256": "429e2c6b22a0923967459de24d67f05962b235f79cde6b032aa7ed2ffcd970ee",
     "license_source": "https://github.com/VAST-AI-Research/TripoSR/blob/107cefdc244c39106fa830359024f6a2f1c78871/LICENSE",
-    "availability": "Public ungated; setup started, inference and quality not yet verified.",
+    "availability": "CPU generation succeeded with verified publicpinnedmodel; rawmesh reviewed byroot as improved anatomicalsourcebase only. Canonicalgameactor unchanged.",
     "scope": "One CPU source study; preserve notices; no runtime/canonical promotion."
   },
   "acceptance": "Neutral untextured front/3q/profile must show actual brow/socket/cheek/jaw depth and no protruding toy eyeballs or texture-only relief; then fit existing v6 neck/rig, retopology/LOD/contact/export and native/author/cultural acceptance separately."

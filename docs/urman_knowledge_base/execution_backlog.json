@@ -121144,7 +121144,7 @@
       "assigned_owner": "character_art",
       "activity": {
         "state": "confirmed_active",
-        "reason": "Native performance worker started actual pinnedCPU reconstruction setup; root reviewed originalinput, owns sourceprovenance/integration/visualacceptance. No canonicalpromotion."
+        "reason": "Root accepted the viewed raw mesh as an anatomical source base. The visual worker owns one controlled cleanup, retopology and embedded-eye candidate; the canonical actor is unchanged."
       },
       "task_type": "engineering",
       "implementation_state": "not_started",
@@ -121155,7 +121155,7 @@
         "Полный паспорт уровня docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/levels/W01_Лес_за_спиной_RU.md реализован: узлы/физические связи/действия/существо или человеческая сцена/созерцание/возврат/кадры; схема не заменяет проходимый runtime.",
         "Шурале выглядит современно устрашающе в духе психологического авторского хоррора (уточнение автора: злодеи A24): оригинальная цельная анатомия/силуэт, тревожные лицо/взгляд/длинные руки и сдержанная неестественная пластика; без игрушечного добродушия. Оценка по актуальным игровым кадрам и движению, не по числу полигонов."
       ],
-      "next_action": "Complete one pinnedCPU TripoSR source reconstruction; inspect actual untextured front/3q/profile before any integration, then exact source-fit/rig/contact/LOD/export and native/author/culture acceptance.",
+      "next_action": "View one refined head in neutral and color front, three-quarter and profile views. Then fit the accepted source to the existing v6 neck and rig, preserve contact, produce LODs/export, and complete native/author/cultural acceptance.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -121474,12 +121474,17 @@
         "next": "Parameter generation stopped. Bounded read-only investigation of exact authored-cage failure and existing licensed source; independent primary-source feasibility/licensing check of local original-image→3D reconstruction. No installations/weight downloads/runtime changes until concrete route exists."
       },
       "reconstruction_stage_2026_10_18": {
-        "result": "IN_PROGRESS: one publicMIT pinnedTripoSR CPU source generation from original single-head input, isolated .tools environment, no global/station/runtime changes.",
+        "result": "SOURCE_BASE_ACCEPTED: CPU TripoSR produced a mesh from the fixed original input. Root personally viewed neutral front, three-quarter, profile and back, plus the vertex-color front. Brow, sockets, cheeks, jaw and rear volume are real geometry. This is an anatomical source improvement, not finished art or an accepted runtime actor.",
         "input": "assets/source/blender/photoworlds/W01/shurale_reconstruction_v1/input-head-v1.png",
         "provenance": "assets/source/blender/photoworlds/W01/shurale_reconstruction_v1/input-provenance.json",
         "verification_question": "Neutral untextured front/3q/profile must show actual brow/socket/cheek/jaw depth and no protruding toy eyeballs or texture-only relief; then fit existing v6 neck/rig, retopology/LOD/contact/export and native/author/cultural acceptance separately.",
-        "remaining": "Setup/actual generation unverified; do not confuse generated reference or model training claims with production sculpt. Original authored-head v1 remains rejected.",
-        "limits": "One generation, max2 causal installation hypotheses; no parameter/model churn. Stop and record exactblocker if tool or actualclay forms fail."
+        "remaining": "Raw surface ripple, closed-looking eyes, secondary pointed growths and the broad neck cap need controlled source cleanup and a living gaze. Body fit, skinning, contact, LOD, export, native review and author/cultural acceptance remain open.",
+        "limits": "One unique geometry candidate. Failed GLB serialization justified a retry with the existing OBJ exporter on the same input and model. Next: one controlled refinement of this raw mesh, with no further inference variants.",
+        "source": "assets/source/blender/photoworlds/W01/shurale_reconstruction_v1/triposr-output/head_mesh/0/mesh.obj",
+        "generation_provenance": "assets/source/blender/photoworlds/W01/shurale_reconstruction_v1/triposr-output/generation-provenance.json",
+        "review": "assets/source/blender/photoworlds/W01/shurale_reconstruction_v1/review/",
+        "verification": "Successful CPU OBJ run:16.1s (inference2.33, extraction6.40, export0.17).69159 vertices and138084 face records; Blender drops10 degenerate triangles. Source, model, checkpoint, extractor and patch hashes are pinned. Root inspected all five DCC views. The GLB exporter hit a known NumPy API incompatibility; the same input and model succeeded with the existing OBJ option. No runtime files changed.",
+        "setup_resolution": "Initial setup exposed an optional Gradio resolver conflict and an xatlas build failure. Inspection proved texture-baking imports are optional; a small mesh-only CLI patch avoids those dependencies. Required ONNX Runtime and the pinned CPU mesh extractor installed successfully. All caches remain in .tools; no account, global package install, station run or local Godot was used."
       }
     },
     {
