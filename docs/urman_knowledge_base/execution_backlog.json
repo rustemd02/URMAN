@@ -62627,6 +62627,15 @@
                 "root_review": "Personally compared current front/porch: log end caps now show coherent round endgrain, prior triangular/star patches are gone on the observed caps. Wood remains brown/readable in native despite darkDCC. Close wall/porch texture is still soft/patchy, final whole-house reference art remains unaccepted.",
                 "technical": "All receipt steps0, gameExit0, snapshot hashes verified, userdataRestoredtrue. Fresh doctor ready/idle/no orphan or recovery. Defaultrecipe byte-restored; temporary model removed.",
                 "acceptance": "UV cap fix accepted as bounded source engineering/observed visual improvement. Default house/PBR Studio persistence remains separate, not promoted."
+              },
+              "default_promotion": {
+                "model_path": "game/assets/models/studio/hero-house-dca96d3ded71c6de37f2f03927c08de7.glb",
+                "recipe": "game/content/studio/hero_house.recipe.json",
+                "sha256": "dca96d3ded71c6de37f2f03927c08de72ab3c35b35881bfbe815baba9739de4b",
+                "result": "The exact native-reviewed UVv3 PBR house is now the default house recipe input for ordinary startup. Full eight-window widths explicit, SeniOuter0=.80; semantic root, door and eight glass IDs inspected. Runtime loader and Studio material owner unchanged.",
+                "verification": "Same GLB bytes as Windows jobfdc5f5ef62fc4554ad107b9d9bef31ef (native front/porch root-reviewed, build/import/game0, userdataRestored). No duplicate unchanged station run. Root checked recipe/path/header/content hash/semantic IDs and diff; resource-only promotion introduces no C# change.",
+                "receipt": "evidence/ACT1-DEPTH.12/native_uv_v3_fdc5f5ef62fc4554ad107b9d9bef31ef/receipt.json",
+                "remaining": "Native Studio Preview/Apply/Undo and full author house art/reference acceptance remain open; no claim that all house textures/lighting or ordinary gameplay are release ready."
               }
             },
             "pbr_persistence_slice_2026_10_19": {
@@ -62651,7 +62660,7 @@
             "active_owner": null,
             "activity": {
               "state": "released",
-              "reason": "UVv3 native cap artifact fix accepted; Studio PBR source width-edit finite source stage completed, Blender roundtrip and affected C# build passed. Default promotion/native Studio cycle and author art remain open."
+              "reason": "Finite source persistence and exact native-reviewed UVv3 default promotion completed. Native Studio cycle and full author art remain open."
             },
             "task_type": "engineering",
             "status": "in_progress",
@@ -62660,7 +62669,7 @@
             "remaining": [
               "Согласовать цвет дерева/наличников, свет окон и снег эталонного дома с существующими материалами; собственного целевого receipt пока нет."
             ],
-            "next_action": "Продвинуть native-проверенный UVv3/PBR дом через существующий private model/recipe контракт с явными восемью ширинами; подтвердить native Studio Preview→Apply→Undo. Сравнение UVv3 уже показало исчезновение cap-stars, одинаковый normal-off прогон не повторять.",
+            "next_action": "Проверить native Studio Preview→Apply→Undo на новом default PBR доме при доступном защищённом UI; довести заметные расхождения дерева/окон/света по авторским reference кадрам. Не повторять прежний normal-off или идентичный UVv3 import.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -62751,6 +62760,15 @@
               "template_sha256": "dca96d3ded71c6de37f2f03927c08de72ab3c35b35881bfbe815baba9739de4b",
               "output_sha256": "b6dc4bce60ac5f48c08bbb967c58f9408334db6f085ae6a54b39171cb1fc96a6",
               "remaining": "Native Studio Preview→Apply→Undo with PBR source is not run; default house still unchanged. Source roundtrip does not replace native UI or final art acceptance."
+            },
+            "default_pbr_promotion_2026_10_19": {
+              "model_path": "game/assets/models/studio/hero-house-dca96d3ded71c6de37f2f03927c08de7.glb",
+              "recipe": "game/content/studio/hero_house.recipe.json",
+              "sha256": "dca96d3ded71c6de37f2f03927c08de72ab3c35b35881bfbe815baba9739de4b",
+              "result": "The exact native-reviewed UVv3 PBR house is now the default house recipe input for ordinary startup. Full eight-window widths explicit, SeniOuter0=.80; semantic root, door and eight glass IDs inspected. Runtime loader and Studio material owner unchanged.",
+              "verification": "Same GLB bytes as Windows jobfdc5f5ef62fc4554ad107b9d9bef31ef (native front/porch root-reviewed, build/import/game0, userdataRestored). No duplicate unchanged station run. Root checked recipe/path/header/content hash/semantic IDs and diff; resource-only promotion introduces no C# change.",
+              "receipt": "evidence/ACT1-DEPTH.12/native_uv_v3_fdc5f5ef62fc4554ad107b9d9bef31ef/receipt.json",
+              "remaining": "Native Studio Preview/Apply/Undo and full author house art/reference acceptance remain open; no claim that all house textures/lighting or ordinary gameplay are release ready."
             }
           }
         ]
