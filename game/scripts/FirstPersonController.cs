@@ -509,6 +509,7 @@ public partial class FirstPersonController : CharacterBody3D, IAccessibilitySett
             {
                 GlobalPosition = GlobalPosition with { Y = detachedGround + 0.05f };
                 Velocity = Vector3.Zero;
+                ResetVisibleBodyMotion();
                 FallRecoveries++;
             }
             return;
@@ -528,6 +529,7 @@ public partial class FirstPersonController : CharacterBody3D, IAccessibilitySett
         {
             GlobalPosition = new Vector3(position.X, ground + 0.05f, position.Z);
             Velocity = Vector3.Zero;
+            ResetVisibleBodyMotion();
             FallRecoveries++;
             GD.Print(
                 $"act1-fall-recovery: count={FallRecoveries} was=({position.X:0.0},{position.Y:0.0},{position.Z:0.0}) "

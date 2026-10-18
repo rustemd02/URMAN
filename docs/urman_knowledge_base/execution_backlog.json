@@ -71099,6 +71099,12 @@
         "source_sha256": "49d410e7b875455f5cb566da777018b245601c11ec63ce4e790187bf076ff06b",
         "credit_total": 195,
         "remaining_authorized": 3805
+      },
+      "fall_recovery_reset_2026_10_19": {
+        "source": "game/scripts/FirstPersonController.cs",
+        "result": "Both authored-ground fall recovery branches call existing ResetVisibleBodyMotion immediately after teleport/zero velocity, preventing reuse of old world-space foot plant anchors. Existing spawn/traversal pattern reused.",
+        "verification": "Same affected Game build18.53s,0/0; root inspected exact two-call diff; no runtime recovery or ordinary gait claim.",
+        "remaining": "Runtime movement/jump/footplant acceptance remains open. Meshy FPS clothing adapter root rejected jagged camera-internal chest surfaces; owner correcting the same source without extra generation."
       }
     },
     {
@@ -134345,7 +134351,7 @@
         "Это один устойчивый внешний факт, не фарм предметов.",
         "Save/load и 20 повторных посещений не создают второй лист."
       ],
-      "next_action": "Поставить A-FINAL-BRANCH и A-FINAL-LEAF.",
+      "next_action": "Проверить обычный финальный путь и закрытие процесса → Continue → revisit после source-fix checkpoint, не повторяя прежний отказ UI focus без нового причинного факта.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -134542,6 +134548,13 @@
         ],
         "result": "Bare twig with one thin sourceleaf initially hidden; nearby≤6m broad framed+LOS view and physicallyreadynearbyAlsu gates reveal0.6s/fall2.7s, pauses when not framed, existingfact dispatched only after observed landing. Committedfact restores same leaf on snow, no item/collider/farm. ReducedMotion readable branch0.5s→snow0.5s equivalent without arcingfall. SameownerAlsu targetpath fixes stale pre-reparent lookup. Physical bank-to-epilogue target replacesordinaryreturn only when existingkernelconditionsready.",
         "root_corrections": "NPC+Z marker direction matches existinggait; proper nearbyviewbound; allow actualtwigcollider as endpoint inAlsu sight ray; old leaf E-target removed. Creation-time sharedtarget position is updated eachframe toactualAlsu, so overlappingreturn allegation notconfirmed."
+      },
+      "finale_autosave_source_2026_10_19": {
+        "source": "game/scripts/RuntimeBridge.cs",
+        "result": "Committed effectful PhotoWorld scene-owned non-transition interactions and effectful dialogue choices now request the existing forced checkpoint. Session identity, stable scene, loading/preparing guards retained; existing atomic store/physical flush/checkpoint queue remains sole writer. Leaf, Alsu agreement, S-NOW and family choice previously had no automatic save path.",
+        "verification": "One affected Game build --no-restore --disable-build-servers --verbosity quiet -nodeReuse:false -m:1 passed18.53s,0warnings/0errors. Independent read-only review found no concrete session/transition/deadlock regression; root traced SaveSlotAsync failure feedback and diff. No new tests/probes.",
+        "source_sha256": "aa42610c80ce79326f9ec8a46572dce51404e5ea76fc83b31f065c8bc9fc523c",
+        "remaining": "Actual ordinary action → close process → Continue → revisit must still be checked on Windows; compilation does not prove roundtrip or human acceptance."
       }
     },
     {
@@ -134704,7 +134717,7 @@
         "W05 остаётся доступен и не требуется для завершения.",
         "Внешний лист/Алсу и домашняя развязка доступны обычным действием; закрытие процесса → Continue → revisit сохраняет завершённость без повторной награды. Нет возврата старого демо-обрыва; понятность конца подтверждает человек отдельно от достижения узла."
       ],
-      "next_action": "После внешнего события вернуть обычный домашний ритм и короткий разговор.",
+      "next_action": "Проверить обычный финальный путь и закрытие процесса → Continue → revisit после source-fix checkpoint, не повторяя прежний отказ UI focus без нового причинного факта.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -134935,6 +134948,13 @@
           "game/scripts/StyleBenchmarkZone.cs"
         ],
         "result": "pw-epilogue now routes to real existinghouse_old_pc/entry, preserves already-valid house spawn. Family-table/tea/people framing gates prepared, currentabsentS-NOWfront blocksacquire honestly; Gulsina actualtalk/HouseExit return targets projectexistingactions afteracquiredphoto. No developer implementation blockers shown as player copy; no substitutephotofront."
+      },
+      "finale_autosave_source_2026_10_19": {
+        "source": "game/scripts/RuntimeBridge.cs",
+        "result": "Committed effectful PhotoWorld scene-owned non-transition interactions and effectful dialogue choices now request the existing forced checkpoint. Session identity, stable scene, loading/preparing guards retained; existing atomic store/physical flush/checkpoint queue remains sole writer. Leaf, Alsu agreement, S-NOW and family choice previously had no automatic save path.",
+        "verification": "One affected Game build --no-restore --disable-build-servers --verbosity quiet -nodeReuse:false -m:1 passed18.53s,0warnings/0errors. Independent read-only review found no concrete session/transition/deadlock regression; root traced SaveSlotAsync failure feedback and diff. No new tests/probes.",
+        "source_sha256": "aa42610c80ce79326f9ec8a46572dce51404e5ea76fc83b31f065c8bc9fc523c",
+        "remaining": "Actual ordinary action → close process → Continue → revisit must still be checked on Windows; compilation does not prove roundtrip or human acceptance."
       }
     },
     {

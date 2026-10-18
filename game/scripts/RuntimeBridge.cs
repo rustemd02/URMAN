@@ -567,7 +567,9 @@ public partial class RuntimeBridge : Node
     /// SAVE-004 writes one rolling checkpoint at stable investigation beats.
     /// Committed world consequences and excerpts selected in an existing
     /// source also save immediately, including while its reader remains open.
-    /// Merely opening a reader or choosing a dialogue line does not force a save.
+    /// PhotoWorld scene actions and dialogue choices with committed effects also
+    /// save without waiting for a scene transition. Opening a reader or choosing
+    /// a line without effects does not force a save.
     /// </summary>
     private static readonly string[] CheckpointScenes =
     [
@@ -612,18 +614,28 @@ public partial class RuntimeBridge : Node
 
     public async Task<bool> DispatchInteractionAsync(string interactionId)
     {
-        if (_kernel is null || !CanPhysicallyUseInteraction(interactionId))
+        var session = SessionIdentity;
+        if (session is null || !CanPhysicallyUseInteraction(interactionId))
         {
             return false;
         }
 
         if (_content.TryGetInteraction(interactionId, out var interaction))
         {
+            var sceneBeforeDispatch = ActiveSceneId;
             var dispatched = await DispatchCompiledInteractionAsync(interaction);
-            if (dispatched)
+            if (dispatched && ReferenceEquals(session, SessionIdentity) && !_loadingSlot && !_loadPreparing)
             {
-                await SaveCheckpointAsync(force: (interaction.WorldLocations is not null || IsSourceExcerptAction(interaction.Id))
-                    && interaction.Effects.GetArrayLength() > 0);
+                var hasEffects = interaction.Effects.GetArrayLength() > 0;
+                var committedPhotoWorldAction = _content.HasPhotoWorlds
+                    && interaction.WorldLocations is null
+                    && interaction.TargetSceneId is null
+                    && sceneBeforeDispatch is not null
+                    && ActiveSceneId == sceneBeforeDispatch
+                    && hasEffects;
+                await SaveCheckpointAsync(force: hasEffects
+                    && ((interaction.WorldLocations is not null || IsSourceExcerptAction(interaction.Id))
+                        || committedPhotoWorldAction));
             }
 
             return dispatched;
@@ -1206,6 +1218,7 @@ public partial class RuntimeBridge : Node
     {
         var session = SessionIdentity;
         if (session is null) return false;
+        var sceneBeforeDispatch = ActiveSceneId;
         var dialogue = _content.RequireDialogue(dialogueId);
         var node = dialogue.Nodes[nodeId];
         var choice = node.Choices.Single(item => item.Id == choiceId);
@@ -1230,7 +1243,12 @@ public partial class RuntimeBridge : Node
                 ["choiceId"] = choiceId
             },
             expectedSession: session);
-        return result.Status == CommandStatus.Committed;
+        if (result.Status != CommandStatus.Committed) return false;
+        if (effects.Count > 0 && _content.HasPhotoWorlds
+            && ReferenceEquals(session, SessionIdentity) && !_loadingSlot && !_loadPreparing
+            && sceneBeforeDispatch is not null && ActiveSceneId == sceneBeforeDispatch)
+            await SaveCheckpointAsync(force: true);
+        return true;
     }
 
     public async Task<CommandDispatchResult> DispatchQuestLifecycleAsync(
