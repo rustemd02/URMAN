@@ -1,0 +1,38 @@
+{
+  "asset_id": "AS-01",
+  "task_id": "ACT1-DEPTH.12/E01",
+  "tool": "built-in image_gen",
+  "output": "input-hero-house-v1.png",
+  "sha256": "1a7b80ec3bdc996d20114a542da29fcf3efa7aed994c30f736a5cdbddd7f70a3",
+  "references": [
+    {
+      "path": "evidence/PW-034/bough-thickness-20261014/native/frames/babai_shape_front_high.png",
+      "role": "Own game existing geometry/layout, actually viewed; datedOct14, not current native proof"
+    },
+    {
+      "path": "docs/URMAN_VISUAL_RESET_2026-10-07/references/P1_user_selected_painterly.png",
+      "role": "Selected only painterly material treatment, not architecture/setting; actually viewed"
+    }
+  ],
+  "requirements": {
+    "shell_size_xz_m": [
+      8.4,
+      7.4
+    ],
+    "eave_height_m": 3.05,
+    "ridge_height_m": 4.8,
+    "door_clear_m": [
+      1.3,
+      2.25
+    ],
+    "front_windows": 3,
+    "window_clear_m": [
+      1.06,
+      1.4
+    ],
+    "layout": "Front door at far left with coherent porch, three windows to right; original three-quarter whole house",
+    "construction": "Weathered grey-brown rounded log courses/interlocking ends; faded blue-green carved wooden casings, deep window glass/recess/sill; rust standing-seam roof with thin snow patches; real eaves/fascia/chimney; worn broad porch steps and free entry"
+  },
+  "rights": "Original generated concept using own game image and P1 only for selected surface-treatment properties. No literal copy of reference setting/architecture, no exactT2 photo uploaded or claimed viewed. Owner authorized selected own concepts→Meshy within total4000creditcap (owner increased authorization18.10).",
+  "root_review": "Actually viewed: coherent full envelope/porch, one entrance plus3frontwindows,2visible sidewindows. Current game contract hasone right window, so not a calibrated drop-in. Accept only as one visual donor generation; retain measured authored openings/collision/portal and reject incompatible generated wall fills. Not finalauthor acceptance."
+}

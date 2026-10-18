@@ -562,6 +562,10 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
         var forestQuestStatus = PhotoWorldQuestStatus(state, "urman.fullgame:quest/pw-w01");
         var waterQuestStatus = PhotoWorldQuestStatus(state, "urman.fullgame:quest/pw-w02");
         var houseQuestStatus = PhotoWorldQuestStatus(state, "urman.fullgame:quest/pw-w03");
+        if (bridge.IsInteractionAvailable("urman.fullgame:interaction/pw-alsu-before-w04-talk"))
+            return bridge.CurrentZoneId == "village_day"
+                ? "Перед общим снимком поговорить с Алсу на улице и договориться о встрече."
+                : "Выйти на улицу и поговорить с Алсу, прежде чем войти в общий снимок.";
         if (forestQuestStatus == "active"
             || waterQuestStatus == "active"
             || houseQuestStatus is "active" or "completed")

@@ -25549,8 +25549,16 @@
                 "eng/windows-game-ui.ps1",
                 "eng/windows_station_worker.py"
               ],
-              "verification": "Independent bounded source review CLEAN; in-memory Python compile passed. PowerShellparser not available locally; deployed Windows parsing and next ordinary owned UI attempt remain unverified. Prior628 cause stillUNKNOWN.",
+              "verification": "Independent bounded source review CLEAN; Python compile passed; current PS helper parsed by actual Windows PowerShell AST parser over SSH with0errors. Worker not yet updated/restarted; prior628cause remainsUNKNOWN.",
               "next": "Check idle/recovery, safeFF worker update and official restart, then one changed-source ordinaryplay with retained refusal diagnostics if guarded input is rejected."
+            },
+            "maintenance_2026_10_18": {
+              "result": "MacPython trust fixed per-process with existing/etc/ssl/cert.pem; HTTPSdoctor ready/idle/inputdesktoptrue/orphanfalse/recoveryfalse. SSH correct unterpc\\unterlantas works. Windows old main37bdeba with local modifications; entire tracked patch backed up before any alignment. Local reconstructed code comparison proves runner exactly currentMacmain and worker differs only new bounded diagnostics; unrelated historic docs and.gitattributes deletion preserved in backup.",
+              "backup_local": ".codex-captures/station-maintenance-20261018/tracked-before-sync.patch",
+              "backup_sha256": "0f33b76357b1ac093a30ac96e4029a88b875d65854e34905d8b0b95e30e92170",
+              "verified_wait": "Original git fetch remains live with owned git/index-pack PID141248; tmp_pack_RS0EjN grew from592486399 to1271234559bytes. SSH observation timeout did not end remote fetch; do not restart it. Origin/main still e97fb25f until fetch completes.",
+              "syntax": "Current helper sent as data to existing Windows PowerShell AST parser over authorized SSH:0parseerrors. Not executed or deployed.",
+              "next": "Revalidate same live fetch/process and pack progress, then fresh idle/recovery + unchanged sourcebackup hash; reconcile preserved dirty files and safeFF, official worker restart, one changed-source ordinaryplay. No reset/stash/guardbypass."
             }
           },
           {
@@ -62552,6 +62560,13 @@
                 ],
                 "remaining": "Comparable Windows frames/movement and author art acceptance; no game-ready claim."
               }
+            },
+            "meshy_visual_donor_stage_2026_10_18": {
+              "input": "assets/source/blender/act1/hero_house_meshy_v1/input-hero-house-v1.png",
+              "input_sha256": "1a7b80ec3bdc996d20114a542da29fcf3efa7aed994c30f736a5cdbddd7f70a3",
+              "reference_boundary": "OwnOct14gamefront+P1 viewed; exactT2unavailable, no substitute claimedselected. Original own image_gen fullhouse direction.",
+              "result": "One private7.1Standard geometry20credits and4KPBR texture10credits; normal exports downloaded and original neutral source reviewed. Actual geometry1462584tris, X1.3778/Y1.9242/Z.9101, opaque infills,3front+2right windows; donor only, no replacement of8.4x7.4contract or measured portals. PBR4Kbase+normal/2Kmetalrough actualDCC/rootviewed;100Kremesh actual88823tri with4KPNG maps retained but tornplinth/warpedroof rejectedforruntime.",
+              "remaining": "One nativeBlender reductionoforiginalhighsource inprogresswithoutMeshyspend; fit envelope/semanticassembly beforeWindows comparableviews andauthorartacceptance. No canonicalchange."
             }
           },
           {
@@ -133886,7 +133901,8 @@
           "game/scripts/RuntimeBridge.cs"
         ],
         "verification": "Existing ContentCli fullgame compilation succeeded; affected Game build15.73s,0errors/0warnings. Independent bounded D17 state/actor/source review; root fixed target lifecycle and legacy-target suppression independent of input modal.",
-        "remaining": "Ordinary native D17→W04→meeting→leaf→home/Continue and artistic/human acceptance unproved; authored homeward actor route remains open."
+        "remaining": "Ordinary native D17→W04→meeting→leaf→home/Continue and artistic/human acceptance unproved; authored homeward actor route remains open.",
+        "discoverability_followup": "Existing JournalUi.PhotoBookPreparationObjectiveText now directs player to soleAlsu beforeW04 while D17 available; village/home phrasing uses currentzone. AffectedGamecompilePASS16.68s/0errors/0warnings. Nativeordinaryflow remainsopen."
       }
     },
     {
@@ -157868,7 +157884,7 @@
     "deadline": "2026-10-18T10:00:00+03:00"
   },
   "author_meshy_asset_refresh_2026_10_18": {
-    "authority": "Owner live instruction: purchased Premium, use3000credits economically; own image_gen references then upload selected originals to Meshy; progressively remake all game assets.",
+    "authority": "Owner purchased Premium and increased total authorized asset budget to4000; Meshy quality tools allowed; prototype/reference images only built-in image_gen.",
     "scope": "Whole asset inventory remains in existing tasks/passports, no second backlog. Meshy for suitable3D/texture assets; own imagegen for raster/art inputs, existing owners for UI/audio/gameplay/scene assembly. No silent loss of non-Meshy media.",
     "priority": "Finish immediately visible MVP stages; character/hero architecture/large interactable props before minor clutter. Existing art/culture/rights/native/performance acceptance stays mandatory.",
     "pipeline": [
@@ -157879,12 +157895,12 @@
       "Integrate accepted compatible asset with existing collision/semantic/animation owners; native visible/performance verification before final art acceptance."
     ],
     "credits": {
-      "authorized_budget": 3000,
+      "authorized_budget": 4000,
       "ui_balance_observed": 4100,
-      "agent_spent_after_purchase": 25,
-      "authorized_budget_remaining": 2975,
-      "rule": "UI bonus/balance does not increase owner cap. Log exact per-operation observed cost/balance in owning task, no automatic repeated retries or blind batches; no new subscriptions/purchases authorized.",
-      "latest_ui_balance_observed": 4175,
+      "agent_spent_after_purchase": 55,
+      "authorized_budget_remaining": 3945,
+      "rule": "Total owner cap4000 including already spent operations. Use suitable Meshy texture/remesh/rig quality tools after actual source review; record displayed cost and result, no blind repeats. Own image_gen only for prototype images; no Meshy image-generation spend. UI bonuses do not expand cap; no additional purchase/subscription.",
+      "latest_ui_balance_observed": 4145,
       "balance_note": "UI balance observed 4100 → 4125 after generation, then 4175 after remesh; the source of increases is unverified. Charge quoted25 against authorized cap; quoted0 for remesh and no additional charge observed for normal humanoid rig/library/export. Bonuses do not expand allowance."
     },
     "first_input": "Existing own Shurale7.1 generated before subscription, now raw downloaded normally at zero added generation spend. Original freeCCBY4.0 provenance retained; no automatic private/ownership claim.",
@@ -157914,19 +157930,67 @@
         "cost_basis": "No addedcharge observed; UI4175 before/after; no paid motion generation or purchase",
         "output_sha256": "3eb6d7522ed67a2fda347b607568828c420ad0f50642d00eeb586c01d20121aa",
         "result": "Actual three clips imported. Walking sampled0/33/67% in Blender and observed in web viewer; no mesh collapse. Generic gait/hand-pelvis overlap, face reduction and incompatible runtime skeleton remain. No canonical promotion."
+      },
+      {
+        "task_id": "ACT1-DEPTH.12/E01",
+        "passport": "AS-01",
+        "input": "assets/source/blender/act1/hero_house_meshy_v1/input-hero-house-v1.png",
+        "input_sha256": "1a7b80ec3bdc996d20114a542da29fcf3efa7aed994c30f736a5cdbddd7f70a3",
+        "operation": "One image-to-3D Meshy7.1 Standard private geometry donor",
+        "cost_credits": 20,
+        "options": "Texture/pose/split/multiview/inputenhancement off; exact uploaded owninput verified onscreen",
+        "ui_balance_before_after": [
+          4175,
+          4155
+        ],
+        "result": "ActualGLB exported/imported in pinnedBlender4.5.12, SHA3337bff09f3f4902df7acb5b744ff3b1e507b6a39314e00dc2cbb1637fb9f45f.1462584tris, noUV, closed infilled windows/door and wrong plan ratio. Root viewed front/3q/porch. Accepted as visual donor only; original metric shell/door/window semantics retained."
+      },
+      {
+        "task_id": "ACT1-DEPTH.12/E01",
+        "passport": "AS-01",
+        "operation": "Texture existing inspected house donor from same own image_gen reference",
+        "model": "Meshy7 texture",
+        "resolution": "4K",
+        "pbr_maps": true,
+        "multiview": false,
+        "cost_credits": 10,
+        "cost_basis": "UI quoted10 with4Kselected andPBRon, success task created; observed4155→4145",
+        "prototype_source": "Own built-in image_gen, no Meshy image generation",
+        "result": "Actual texturedGLB SHA5831a8e2b78915c6aafcc1cccf66dd26c8c198dbb86825776524581d362d63e5,73977424bytes. PinnedBlender actualPBR:4Kbasecolor+normal,2Kmetalrough;1462584tris. Root viewed3q/porch neutralmaterialrenders: coherentweatheredwood/casings/roof; closeddoor/paintedwindowcontents/proportion remain. Donoronly."
+      },
+      {
+        "task_id": "ACT1-DEPTH.12/E01",
+        "operation": "Existing texturedhouse fixed100K triangle remesh via normalUI",
+        "cost_credits": 0,
+        "cost_basis": "Displayed0 beforeconfirm; UI4145 unchanged",
+        "output": "assets/source/blender/act1/hero_house_meshy_v1/meshy71-textured-100k.glb",
+        "output_sha256": "2026e2a3999affb67904ac3546ff6b190fbfc13b2f773a96667229b53240ac9c",
+        "bytes": 39550980,
+        "result": "Actual pinnedBlender88823tris,116539verts,oneUV/material; allPBRroles retained4KPNG. Rootpersonallyviewed3q/porch: mainforms survive but tornplinth/warpedroofedges; rejectedforruntime. One nativeBlenderreductionofhighsource underway withoutMeshyspend."
       }
     ],
     "next_large_static_candidate": {
       "task_id": "ACT1-DEPTH.12/E01",
       "passport": "AS-01",
       "registry_id": "urman.act1.village_exterior_kit",
-      "boundary": "Existing art/architecture assignment retained. One source facade candidate only after root reviews current8.4x7.4m HERO_HOUSE_CONTRACT and actual selected architecture references; keep runtime doors/windows/collisions/portal semantics. No generation spent yet.",
+      "boundary": "AS01 ownimage→Meshygeometry→PBR→100K donor produced; retain existing art/architecture owner and measured8.4x7.4 shell/door/window/collision/portal semantics for integration. Source candidate notfinalart/nativeacceptance.",
       "required_sources": [
         "assets/source/blender/act1/urman_village_exterior_kit.py",
         "docs/urman_knowledge_base/art/visual_reset_asset_passports_2026-10-07.json",
         "docs/URMAN_VISUAL_RESET_2026-10-07/REFERENCES_RU.md"
       ],
       "input_gap": "Independent read-only review found T2 referenced but absent from checkout. Do not pretend it was viewed or reuse superseded6.2x6m house dimensions."
+    },
+    "authorization_update": "Owner live instruction increased total authorized cap from3000 to4000 and permits Meshy quality tools such as texturing; prototypes/references must be generated by own built-in image_gen, not Meshy image generation. No new subscription/purchase authorized.",
+    "api_connection": {
+      "state": "connected",
+      "key_name": "URMAN Codex",
+      "key_monthly_limit": 2999,
+      "secret_storage": "Owner-only local configuration outside Git; no key value in repository or receipts",
+      "verification": "Authenticated GET https://api.meshy.ai/openapi/v1/balance returned HTTP200; actual balance4145/monthly3045/permanent1100. Read-only call, no added spend.",
+      "cost_boundary": "API prices differ from web: official remesh5 vs observedweb0; review endpointcost before paidcalls. Total campaign cap4000 includingweb+API persists; remaining3945.",
+      "authority": "Owner explicit action-time reply authorized creating and connecting API key.",
+      "client": "eng/meshy_assets.py: balance/list/status, explicitpricedsubmit-image/submit-retexture/submit-remesh, SUCCEEDED-onlyGLBdownload; no Meshyimagegeneration. Read-onlybalance/list3endpoints verified; existingwebtasks notreturnedbyAPIlist."
     }
   }
 }
