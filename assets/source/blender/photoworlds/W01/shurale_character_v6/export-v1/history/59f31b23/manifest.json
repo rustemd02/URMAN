@@ -1,0 +1,1321 @@
+{
+  "schema": "urman.asset_candidate.v1",
+  "asset_id": "photoworld.w01.shurale",
+  "version": "shurale_v1_source_stage_v6",
+  "status": "source-stage v6 engineering candidate; reviewed functional workbase only; right opposed-pad pinch, character art acceptance, and native runtime integration remain open; do not promote to runtime yet",
+  "source": {
+    "input_blend": "assets/source/blender/photoworlds/W01/shurale_surface_v1/shurale-surface-v3.blend",
+    "input_blend_sha256": "258f0cdb64d6d47f12cf25e56c4d7b781afc63110a2dd537d40a3222dcaaf335",
+    "input_material_manifest": "assets/source/blender/photoworlds/W01/shurale_surface_v1/manifest.json",
+    "base_asset_name": "MakeHuman Community MPFB2",
+    "source_version": "v2.0.17",
+    "source_commit": "80919fa",
+    "base_mesh_targets_rig_and_weights_license": "CC0 1.0 Universal",
+    "source_code_license_scope": "GPL-3.0-or-later (local generator/API source only)",
+    "generated_output_rights_note": "MPFB LICENSE.md section D treats generated graphical data and saved models as user data",
+    "source_archive_sha256": "c8ccfc6269f82cf95661ef81475ddd5a8586f70810ba58940a3d26f7fc281d17",
+    "authoring": "Derived from the frozen v6 same-topology sculpt/native 53-bone CC0 body and reviewed surface-v3 baked maps. The exporter retains the root-reviewed authored working pose and staging branch, changes only coordinate normalization, LOD preparation, material export compatibility, animation baking, and branch attachment to hand_l. No reference pixels or external model are copied.",
+    "external_rights_or_art_acceptance": "pending; this package is not final art acceptance",
+    "base_geometry_blend": "assets/source/blender/photoworlds/W01/shurale_character_v6/shurale-character-look-v6.blend",
+    "base_geometry_blend_sha256": "8c49565c415b416ca962259da7f8f43e617835ee746a91abade95fe2d56ef9f2",
+    "surface_material_blend": "assets/source/blender/photoworlds/W01/shurale_surface_v1/shurale-surface-v3.blend",
+    "surface_material_blend_sha256": "258f0cdb64d6d47f12cf25e56c4d7b781afc63110a2dd537d40a3222dcaaf335",
+    "surface_manifest": "assets/source/blender/photoworlds/W01/shurale_surface_v1/manifest.json"
+  },
+  "runtime_contract": {
+    "source_stage_glb": "assets/source/blender/photoworlds/W01/shurale_character_v6/export-v1/shurale_v1_candidate.glb",
+    "runtime_copy_target_after_root_review_only": "game/assets/photoworlds/shurale/shurale_v1.glb",
+    "root_node": "ShuraleRoot",
+    "root_transform": "identity scale/rotation/translation; feet rest at local z=0",
+    "rig_node": "ShuraleRig",
+    "rig_type": "native MPFB game_engine armature; 53 bones",
+    "visual_lod_nodes": [
+      "ShuraleBody_LOD0",
+      "ShuraleBody_LOD1"
+    ],
+    "lod_visibility_before_instance_is_shown": "Set ShuraleBody_LOD0.visible=true and ShuraleBody_LOD1.visible=false, then switch visibility so exactly one LOD renders.",
+    "origin": "feet at local z=0; neutral standing pose; metres in the root coordinate space",
+    "facing": "Godot -Z; source face is Blender -Y, corrected by a 180-degree Blender-Z yaw on ShuraleRig while ShuraleRoot remains identity",
+    "facing_correction": {
+      "node": "ShuraleRig",
+      "source_axis": "Blender -Y",
+      "export_yaw_degrees_about_Blender_Z": 180,
+      "target_axis": "Godot -Z"
+    },
+    "root_motion": "off; ShuraleRoot and the root rig bone have no translation or scale animation",
+    "animation_playback": {
+      "looping_clips": [
+        "work",
+        "idle"
+      ],
+      "one_shot_clips": [
+        "noticed",
+        "gesture",
+        "speak",
+        "yield",
+        "step"
+      ],
+      "handoff_contract": "Seven named actions are derived from the frozen v6 working pose. work and idle loop; noticed includes measured root-local head yaw toward the approach; step is a measured in-place right-foot settling step with the left support foot fixed. Gesture/speak/yield retain the authored work-arm channels; shoulder follow, hand indication/opening, and expressive right thumb/index opposition remain unresolved. Do not treat these limits as art acceptance.",
+      "note": "glTF animation clips do not carry Godot loop modes; set these modes on the imported AnimationPlayer during integration.",
+      "unresolved_motion": [
+        "noticed shoulder follow",
+        "gesture hand indication",
+        "yield open-hand release",
+        "expressive right thumb/index pinch and contact normals"
+      ]
+    },
+    "collision": "none in visual GLB; W01 runtime owns physical and interaction proxies",
+    "animation_player": "Godot importer creates it; integration should find the AnimationPlayer recursively under ShuraleRoot",
+    "work_prop": {
+      "node": "ShuraleWorkBranch",
+      "parent": "ShuraleRig/hand_l",
+      "intent": "visible thin work branch; the left hand supports it and the right hand touches/works on the side shoot in the root-reviewed frozen v6 workbase",
+      "visibility": "keep visible throughout the Shurale interaction; hide only when the actor is hidden",
+      "is_world_root_support": false,
+      "is_f14_bag_snag_anchor": false,
+      "right_hand_contact_status": "functional work contact only; expressive opposed thumb/index pad pinch is not verified",
+      "reviewed_pose_adjustments": {
+        "index_curl_additive_radians": {
+          "left": 0.15,
+          "right": 0.2
+        },
+        "side_shoot_endpoint_source_blender_m": [
+          -0.116686,
+          -0.41585,
+          1.314126
+        ],
+        "basis": "single root-reviewed measured v6 contact candidate; right expressive opposed-pad pinch remains unverified"
+      }
+    },
+    "clips": [
+      {
+        "name": "work",
+        "loop": true,
+        "intent": "retains the root-reviewed functional v6 workbase: left hand supports the visible branch; right hand works the thin side shoot; no verified dual-hand pinch claim"
+      },
+      {
+        "name": "noticed",
+        "loop": false,
+        "intent": "turns the head toward the measured F14 approach heading; shoulders remain on the workbase and shoulder follow is unresolved"
+      },
+      {
+        "name": "gesture",
+        "loop": false,
+        "intent": "glances toward the strap while retaining the workbase arm channels; hand indication is unresolved"
+      },
+      {
+        "name": "speak",
+        "loop": false,
+        "intent": "subtle head/neck cadence; no lip-sync dependency; arms retain the workbase"
+      },
+      {
+        "name": "yield",
+        "loop": false,
+        "intent": "turns toward the player while retaining the workbase arm channels; open-hand release is unresolved"
+      },
+      {
+        "name": "step",
+        "loop": false,
+        "intent": "measured short in-place right-foot step/lift/settle with left support foot fixed and no root motion; arms retain workbase"
+      },
+      {
+        "name": "idle",
+        "loop": true,
+        "intent": "small, restrained head/neck movement over the workbase"
+      }
+    ],
+    "clip_frames_at_fps": {
+      "work": [
+        1,
+        30
+      ],
+      "noticed": [
+        1,
+        32
+      ],
+      "gesture": [
+        1,
+        30
+      ],
+      "speak": [
+        1,
+        30
+      ],
+      "yield": [
+        1,
+        32
+      ],
+      "step": [
+        1,
+        32
+      ],
+      "idle": [
+        1,
+        32
+      ]
+    }
+  },
+  "geometry": {
+    "lod_triangles": {
+      "ShuraleBody_LOD0": 27036,
+      "ShuraleBody_LOD1": 11624
+    },
+    "lod0_target_triangles": 27000,
+    "native_bone_count": 53,
+    "maximum_skin_influences": 4,
+    "weights_normalized": true,
+    "weight_histograms": {
+      "ShuraleBody_LOD0": {
+        "1": 6732,
+        "2": 4144,
+        "4": 1287,
+        "3": 1361
+      },
+      "ShuraleBody_LOD1": {
+        "1": 2303,
+        "2": 1809,
+        "4": 895,
+        "3": 811
+      }
+    },
+    "uv_layer": "UVMap",
+    "skin_albedo": {
+      "file": "assets/source/blender/photoworlds/W01/shurale_surface_v1/shurale-surface-v3-albedo-2k.png",
+      "sha256": "755c37274b263a24d7495911934e9d6fcb22fbdf49f675ac80b2c67424a6c6bf",
+      "size": [
+        2048,
+        2048
+      ],
+      "color_space": "sRGB"
+    },
+    "eye_material": {
+      "emissive": false,
+      "roughness": 0.1
+    },
+    "tangent_normal": {
+      "file": "assets/source/blender/photoworlds/W01/shurale_surface_v1/shurale-surface-v3-normal-tangent-2k.png",
+      "sha256": "b1d88b88575e0d900077c7132324060b3510c041b4d1e9f565ee22a7caf79b9d",
+      "size": [
+        2048,
+        2048
+      ],
+      "color_space": "Non-Color, +Y tangent convention"
+    },
+    "ambient_occlusion": {
+      "file": "assets/source/blender/photoworlds/W01/shurale_surface_v1/shurale-surface-v3-ao-1k.png",
+      "sha256": "311b96d9580c035a381c0245077b4cc9f38f5ab27ab6eeaca31dabc5c1411b6d",
+      "size": [
+        1024,
+        1024
+      ],
+      "color_space": "Non-Color"
+    }
+  },
+  "verification": {
+    "sha256": "59f31b23b41c021935e5ca80606b659260c5c86beb09a6d557817f4b7ec4713e",
+    "bytes": 9980380,
+    "node_names": [
+      "Root",
+      "ShuraleBody_LOD0",
+      "ShuraleBody_LOD1",
+      "ShuraleRig",
+      "ShuraleRoot",
+      "ShuraleWorkBranch",
+      "ball_l",
+      "ball_r",
+      "calf_l",
+      "calf_r",
+      "clavicle_l",
+      "clavicle_r",
+      "foot_l",
+      "foot_r",
+      "hand_l",
+      "hand_r",
+      "head",
+      "index_01_l",
+      "index_01_r",
+      "index_02_l",
+      "index_02_r",
+      "index_03_l",
+      "index_03_r",
+      "lowerarm_l",
+      "lowerarm_r",
+      "middle_01_l",
+      "middle_01_r",
+      "middle_02_l",
+      "middle_02_r",
+      "middle_03_l",
+      "middle_03_r",
+      "neck_01",
+      "pelvis",
+      "pinky_01_l",
+      "pinky_01_r",
+      "pinky_02_l",
+      "pinky_02_r",
+      "pinky_03_l",
+      "pinky_03_r",
+      "ring_01_l",
+      "ring_01_r",
+      "ring_02_l",
+      "ring_02_r",
+      "ring_03_l",
+      "ring_03_r",
+      "spine_01",
+      "spine_02",
+      "spine_03",
+      "thigh_l",
+      "thigh_r",
+      "thumb_01_l",
+      "thumb_01_r",
+      "thumb_02_l",
+      "thumb_02_r",
+      "thumb_03_l",
+      "thumb_03_r",
+      "upperarm_l",
+      "upperarm_r"
+    ],
+    "animation_names": [
+      "gesture",
+      "idle",
+      "noticed",
+      "speak",
+      "step",
+      "work",
+      "yield"
+    ],
+    "animation_durations_seconds": {
+      "gesture": 1.25,
+      "idle": 1.3333,
+      "noticed": 1.3333,
+      "speak": 1.25,
+      "step": 1.3333,
+      "work": 1.25,
+      "yield": 1.3333
+    },
+    "skins": 1,
+    "joint_count": 53,
+    "node_transform_determinant_range": [
+      0.9999965429326778,
+      2.8071416591577534
+    ],
+    "inverse_bind_matrix_count": 53,
+    "inverse_bind_determinant_range": [
+      0.3562341034412384,
+      0.35623544454574585
+    ],
+    "embedded_images": 3,
+    "embedded_image_dimensions": [
+      [
+        2048,
+        2048
+      ],
+      [
+        1024,
+        1024
+      ],
+      [
+        2048,
+        2048
+      ]
+    ],
+    "material_count": 3,
+    "material_texture_roles": {
+      "base_color": true,
+      "normal": true,
+      "ambient_occlusion": true
+    },
+    "lod_runtime_selection": "Both visual LODs are present. Runtime must set ShuraleBody_LOD0.visible=true and ShuraleBody_LOD1.visible=false before showing the instance; later switch visibility so only one LOD is rendered.",
+    "branch_runtime_selection": "ShuraleWorkBranch is a child of ShuraleRig/hand_l; keep visible throughout the Shurale interaction and hide only when the actor is hidden. The reviewed left hand supports the branch; the right works the thin shoot, but expressive opposed-pad pinch is not verified. The prop is not a world-root or F14 bag-support anchor.",
+    "branch_parent_node": "hand_l",
+    "root_motion_tracks": [],
+    "constant_root_transform_tracks": [
+      [
+        "gesture",
+        "Root",
+        "translation"
+      ],
+      [
+        "gesture",
+        "Root",
+        "scale"
+      ],
+      [
+        "idle",
+        "Root",
+        "translation"
+      ],
+      [
+        "idle",
+        "Root",
+        "scale"
+      ],
+      [
+        "noticed",
+        "Root",
+        "translation"
+      ],
+      [
+        "noticed",
+        "Root",
+        "scale"
+      ],
+      [
+        "speak",
+        "Root",
+        "translation"
+      ],
+      [
+        "speak",
+        "Root",
+        "scale"
+      ],
+      [
+        "step",
+        "Root",
+        "translation"
+      ],
+      [
+        "step",
+        "Root",
+        "scale"
+      ],
+      [
+        "work",
+        "Root",
+        "translation"
+      ],
+      [
+        "work",
+        "Root",
+        "scale"
+      ],
+      [
+        "yield",
+        "Root",
+        "translation"
+      ],
+      [
+        "yield",
+        "Root",
+        "scale"
+      ]
+    ],
+    "lod_triangles": {
+      "ShuraleBody_LOD0": 27036,
+      "ShuraleBody_LOD1": 11624
+    },
+    "root_scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "rig_scale": [
+      1.4106570482254028,
+      1.4106570482254028,
+      1.4106570482254028
+    ],
+    "normalization_scale_absorbed_from_source_root": 1.4106570482254028,
+    "working_pose_bake_max_matrix_error": 8.344650268554688e-07,
+    "working_pose_channels": {
+      "spine_03": {
+        "rotation": [
+          0.04500000178813934,
+          -0.0,
+          0.0
+        ],
+        "location": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "clavicle_l": {
+        "rotation": [
+          -6.98631652529258e-10,
+          -0.019999995827674866,
+          1.490414014426733e-08
+        ],
+        "location": [
+          0.0,
+          -1.4901161193847656e-08,
+          -3.725290298461914e-09
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "upperarm_l": {
+        "rotation": [
+          0.40385350584983826,
+          -0.3813416063785553,
+          -1.2721168994903564
+        ],
+        "location": [
+          1.1920928955078125e-07,
+          5.960464477539063e-08,
+          -7.450580596923828e-09
+        ],
+        "scale": [
+          0.9999998807907104,
+          0.9999998211860657,
+          1.0
+        ]
+      },
+      "lowerarm_l": {
+        "rotation": [
+          1.023703932762146,
+          0.010194390080869198,
+          -0.018145743757486343
+        ],
+        "location": [
+          0.0,
+          2.9802322387695312e-08,
+          -1.7881393432617188e-07
+        ],
+        "scale": [
+          0.9999998807907104,
+          0.9999995827674866,
+          1.000000238418579
+        ]
+      },
+      "index_01_l": {
+        "rotation": [
+          0.7500000596046448,
+          -2.2351738238057806e-08,
+          5.960463766996327e-08
+        ],
+        "location": [
+          0.0,
+          0.0,
+          1.4901161193847656e-08
+        ],
+        "scale": [
+          1.0000001192092896,
+          1.0,
+          1.0000001192092896
+        ]
+      },
+      "index_02_l": {
+        "rotation": [
+          0.8700000047683716,
+          2.9802322387695312e-08,
+          0.0
+        ],
+        "location": [
+          5.960464477539063e-08,
+          -5.960464477539063e-08,
+          1.1920928955078125e-07
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0000001192092896
+        ]
+      },
+      "index_03_l": {
+        "rotation": [
+          0.7699999809265137,
+          2.9802322387695312e-08,
+          -7.450580596923828e-09
+        ],
+        "location": [
+          -5.960464477539063e-08,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "middle_01_l": {
+        "rotation": [
+          0.5199999213218689,
+          -1.4901161193847656e-08,
+          -2.9802322387695312e-08
+        ],
+        "location": [
+          1.1920928955078125e-07,
+          -1.1920928955078125e-07,
+          -1.4901161193847656e-08
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "middle_02_l": {
+        "rotation": [
+          0.6399999260902405,
+          -0.0,
+          2.9802322387695312e-08
+        ],
+        "location": [
+          -5.960464477539063e-08,
+          -1.1920928955078125e-07,
+          -5.960464477539063e-08
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          0.9999999403953552
+        ]
+      },
+      "middle_03_l": {
+        "rotation": [
+          0.5400000810623169,
+          2.9802322387695312e-08,
+          0.0
+        ],
+        "location": [
+          1.1920928955078125e-07,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          0.9999999403953552,
+          1.0
+        ]
+      },
+      "pinky_01_l": {
+        "rotation": [
+          0.5200000405311584,
+          -2.9802322387695312e-08,
+          0.0
+        ],
+        "location": [
+          0.0,
+          0.0,
+          -1.4901161193847656e-08
+        ],
+        "scale": [
+          1.0,
+          0.9999999403953552,
+          1.0
+        ]
+      },
+      "pinky_02_l": {
+        "rotation": [
+          0.6399999856948853,
+          1.4901161193847656e-08,
+          5.960464477539063e-08
+        ],
+        "location": [
+          0.0,
+          -1.1920928955078125e-07,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0000001192092896
+        ]
+      },
+      "pinky_03_l": {
+        "rotation": [
+          0.5400000810623169,
+          7.450580596923828e-09,
+          0.0
+        ],
+        "location": [
+          2.384185791015625e-07,
+          -5.960464477539063e-08,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "ring_01_l": {
+        "rotation": [
+          0.5199999809265137,
+          -0.0,
+          2.9802322387695312e-08
+        ],
+        "location": [
+          0.0,
+          -5.960464477539063e-08,
+          -3.166496753692627e-08
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "ring_02_l": {
+        "rotation": [
+          0.64000004529953,
+          -2.0489096641540527e-08,
+          0.0
+        ],
+        "location": [
+          0.0,
+          0.0,
+          2.9802322387695312e-08
+        ],
+        "scale": [
+          1.0,
+          1.0000001192092896,
+          1.0000001192092896
+        ]
+      },
+      "ring_03_l": {
+        "rotation": [
+          0.5400000214576721,
+          -0.0,
+          0.0
+        ],
+        "location": [
+          5.960464477539063e-08,
+          -2.9802322387695312e-08,
+          1.1920928955078125e-07
+        ],
+        "scale": [
+          1.0000001192092896,
+          1.0,
+          1.0
+        ]
+      },
+      "thumb_01_l": {
+        "rotation": [
+          0.550000011920929,
+          1.303851426825986e-08,
+          0.0
+        ],
+        "location": [
+          -5.960464477539063e-08,
+          0.0,
+          3.026798367500305e-08
+        ],
+        "scale": [
+          1.0000001192092896,
+          1.0000001192092896,
+          1.0
+        ]
+      },
+      "thumb_02_l": {
+        "rotation": [
+          0.6399999856948853,
+          -2.2351738238057806e-08,
+          3.7252898543727042e-09
+        ],
+        "location": [
+          -1.4901161193847656e-08,
+          1.1920928955078125e-07,
+          0.0
+        ],
+        "scale": [
+          1.0000001192092896,
+          1.000000238418579,
+          1.0000001192092896
+        ]
+      },
+      "thumb_03_l": {
+        "rotation": [
+          0.4400000274181366,
+          -7.450580596923828e-09,
+          -1.862645149230957e-09
+        ],
+        "location": [
+          -1.4901161193847656e-08,
+          1.4901161193847656e-08,
+          1.1920928955078125e-07
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "clavicle_r": {
+        "rotation": [
+          -6.98631652529258e-10,
+          0.019999995827674866,
+          -1.490414014426733e-08
+        ],
+        "location": [
+          0.0,
+          -1.4901161193847656e-08,
+          -3.725290298461914e-09
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "upperarm_r": {
+        "rotation": [
+          0.32288166880607605,
+          0.076249860227108,
+          1.1864392757415771
+        ],
+        "location": [
+          -1.1920928955078125e-07,
+          5.960464477539063e-08,
+          -7.450580596923828e-09
+        ],
+        "scale": [
+          0.9999998807907104,
+          0.9999998211860657,
+          0.9999999403953552
+        ]
+      },
+      "lowerarm_r": {
+        "rotation": [
+          1.0492628812789917,
+          -0.010661774314939976,
+          0.01842232421040535
+        ],
+        "location": [
+          5.960464477539063e-08,
+          5.960464477539063e-08,
+          -1.7881393432617188e-07
+        ],
+        "scale": [
+          0.9999999403953552,
+          0.9999996423721313,
+          1.0000004768371582
+        ]
+      },
+      "index_01_r": {
+        "rotation": [
+          0.8600000143051147,
+          -0.0,
+          0.0
+        ],
+        "location": [
+          -1.1920928955078125e-07,
+          -1.1920928955078125e-07,
+          1.4901161193847656e-08
+        ],
+        "scale": [
+          1.0000001192092896,
+          1.0000001192092896,
+          1.0000001192092896
+        ]
+      },
+      "index_02_r": {
+        "rotation": [
+          0.9599999189376831,
+          5.960465188081798e-08,
+          1.4901162970204496e-08
+        ],
+        "location": [
+          -5.960464477539063e-08,
+          -8.940696716308594e-08,
+          1.1920928955078125e-07
+        ],
+        "scale": [
+          0.9999999403953552,
+          1.0,
+          1.0
+        ]
+      },
+      "index_03_r": {
+        "rotation": [
+          0.8399999141693115,
+          -0.0,
+          0.0
+        ],
+        "location": [
+          -5.960464477539063e-08,
+          5.960464477539063e-08,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          0.9999999403953552
+        ]
+      },
+      "middle_01_r": {
+        "rotation": [
+          0.23999999463558197,
+          3.7252898543727042e-09,
+          2.9802318834981634e-08
+        ],
+        "location": [
+          -5.960464477539063e-08,
+          -1.1920928955078125e-07,
+          0.0
+        ],
+        "scale": [
+          1.0000001192092896,
+          1.0,
+          1.0
+        ]
+      },
+      "middle_02_r": {
+        "rotation": [
+          0.31999993324279785,
+          1.4901161193847656e-08,
+          0.0
+        ],
+        "location": [
+          0.0,
+          0.0,
+          2.9802322387695312e-08
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          0.9999999403953552
+        ]
+      },
+      "middle_03_r": {
+        "rotation": [
+          0.25999996066093445,
+          -0.0,
+          -2.980232594040899e-08
+        ],
+        "location": [
+          -5.960464477539063e-08,
+          -1.1920928955078125e-07,
+          0.0
+        ],
+        "scale": [
+          0.9999998807907104,
+          0.9999998807907104,
+          0.9999998211860657
+        ]
+      },
+      "pinky_01_r": {
+        "rotation": [
+          0.23999997973442078,
+          -0.0,
+          -2.9802322387695312e-08
+        ],
+        "location": [
+          1.1920928955078125e-07,
+          -5.960464477539063e-08,
+          -4.470348358154297e-08
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "pinky_02_r": {
+        "rotation": [
+          0.320000022649765,
+          1.4901162970204496e-08,
+          2.980232594040899e-08
+        ],
+        "location": [
+          -1.1920928955078125e-07,
+          5.960464477539063e-08,
+          2.9802322387695312e-08
+        ],
+        "scale": [
+          0.9999998807907104,
+          1.0,
+          1.0
+        ]
+      },
+      "pinky_03_r": {
+        "rotation": [
+          0.25999996066093445,
+          -1.6298145055770874e-08,
+          2.9802322387695312e-08
+        ],
+        "location": [
+          0.0,
+          -5.960464477539063e-08,
+          2.9802322387695312e-08
+        ],
+        "scale": [
+          1.0,
+          1.0000001192092896,
+          1.0
+        ]
+      },
+      "ring_01_r": {
+        "rotation": [
+          0.24000000953674316,
+          -0.0,
+          0.0
+        ],
+        "location": [
+          0.0,
+          -5.960464477539063e-08,
+          -2.2351741790771484e-08
+        ],
+        "scale": [
+          1.0,
+          0.9999999403953552,
+          1.0
+        ]
+      },
+      "ring_02_r": {
+        "rotation": [
+          0.31999993324279785,
+          -0.0,
+          -2.980232594040899e-08
+        ],
+        "location": [
+          -1.1920928955078125e-07,
+          -5.960464477539063e-08,
+          2.9802322387695312e-08
+        ],
+        "scale": [
+          0.9999999403953552,
+          1.0,
+          0.9999999403953552
+        ]
+      },
+      "ring_03_r": {
+        "rotation": [
+          0.2600000500679016,
+          1.4901159417490817e-08,
+          0.0
+        ],
+        "location": [
+          -1.1920928955078125e-07,
+          -1.1920928955078125e-07,
+          1.1920928955078125e-07
+        ],
+        "scale": [
+          1.0000001192092896,
+          1.0,
+          0.9999999403953552
+        ]
+      },
+      "thumb_01_r": {
+        "rotation": [
+          0.5200000405311584,
+          -2.60770320892334e-08,
+          2.9802322387695312e-08
+        ],
+        "location": [
+          5.960464477539063e-08,
+          0.0,
+          2.9802322387695312e-08
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "thumb_02_r": {
+        "rotation": [
+          0.6199999451637268,
+          -2.7939677238464355e-08,
+          -1.4901161193847656e-08
+        ],
+        "location": [
+          0.0,
+          -1.1920928955078125e-07,
+          5.960464477539063e-08
+        ],
+        "scale": [
+          1.0,
+          1.0000001192092896,
+          1.0000001192092896
+        ]
+      },
+      "thumb_03_r": {
+        "rotation": [
+          0.5000000596046448,
+          3.725290298461914e-09,
+          -4.6798959374427795e-08
+        ],
+        "location": [
+          1.4901161193847656e-08,
+          2.9802322387695312e-08,
+          1.1920928955078125e-07
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "neck_01": {
+        "rotation": [
+          0.054999981075525284,
+          -0.0,
+          0.0
+        ],
+        "location": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "head": {
+        "rotation": [
+          0.11000002175569534,
+          -0.0,
+          0.0
+        ],
+        "location": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          0.9999999403953552,
+          0.9999999403953552
+        ]
+      }
+    },
+    "working_ik_targets_root_local_m": {
+      "targets": {
+        "l": [
+          -0.3385576903820038,
+          0.479623407125473,
+          1.7210016250610352
+        ],
+        "r": [
+          0.21159856021404266,
+          0.49372994899749756,
+          1.7633212804794312
+        ]
+      },
+      "poles": {
+        "l": [
+          -0.479623407125473,
+          0.7053285241127014,
+          1.551722764968872
+        ],
+        "r": [
+          0.479623407125473,
+          0.7053285241127014,
+          1.551722764968872
+        ]
+      }
+    },
+    "branch_working_pose": {
+      "acceptance_decision": "functional_workbase_only",
+      "method": "Retained the root-reviewed frozen v6 authored pose and main-bough placement; applied only the reviewed index curls and measured side-shoot endpoint, with no hand-target solver or dual-hand pinch claim.",
+      "left_hand_role": "supports the work branch; prop is parented to hand_l so it follows the accepted support hand",
+      "right_hand_role": "touches/works on the thin side shoot; expressive thumb/index opposition remains an art review item",
+      "dual_hand_grip_verified": false,
+      "ik_targets_root_local_m": {
+        "targets": {
+          "l": [
+            -0.3385576903820038,
+            0.479623407125473,
+            1.7210016250610352
+          ],
+          "r": [
+            0.21159856021404266,
+            0.49372994899749756,
+            1.7633212804794312
+          ]
+        },
+        "poles": {
+          "l": [
+            -0.479623407125473,
+            0.7053285241127014,
+            1.551722764968872
+          ],
+          "r": [
+            0.479623407125473,
+            0.7053285241127014,
+            1.551722764968872
+          ]
+        }
+      },
+      "reviewed_pose_adjustments": {
+        "index_curl_additive_radians": {
+          "left": 0.15,
+          "right": 0.2
+        },
+        "side_shoot_endpoint_source_blender_m": [
+          -0.116686,
+          -0.41585,
+          1.314126
+        ],
+        "basis": "single root-reviewed measured v6 contact candidate; right expressive opposed-pad pinch remains unverified"
+      }
+    },
+    "branch_reparent_max_matrix_error": 4.470348358154297e-07,
+    "weight_limits": {
+      "ShuraleBody_LOD0": {
+        "max_influences": 4,
+        "histogram": {
+          "1": 6732,
+          "2": 4144,
+          "4": 1287,
+          "3": 1361
+        },
+        "normalized": true,
+        "max_sum_error": 4.842877388000488e-08,
+        "used_bones": [
+          "ball_l",
+          "ball_r",
+          "calf_l",
+          "calf_r",
+          "clavicle_l",
+          "clavicle_r",
+          "foot_l",
+          "foot_r",
+          "hand_l",
+          "hand_r",
+          "head",
+          "index_01_l",
+          "index_01_r",
+          "index_02_l",
+          "index_02_r",
+          "index_03_l",
+          "index_03_r",
+          "lowerarm_l",
+          "lowerarm_r",
+          "middle_01_l",
+          "middle_01_r",
+          "middle_02_l",
+          "middle_02_r",
+          "middle_03_l",
+          "middle_03_r",
+          "neck_01",
+          "pelvis",
+          "pinky_01_l",
+          "pinky_01_r",
+          "pinky_02_l",
+          "pinky_02_r",
+          "pinky_03_l",
+          "pinky_03_r",
+          "ring_01_l",
+          "ring_01_r",
+          "ring_02_l",
+          "ring_02_r",
+          "ring_03_l",
+          "ring_03_r",
+          "spine_01",
+          "spine_02",
+          "spine_03",
+          "thigh_l",
+          "thigh_r",
+          "thumb_01_l",
+          "thumb_01_r",
+          "thumb_02_l",
+          "thumb_02_r",
+          "thumb_03_l",
+          "thumb_03_r",
+          "upperarm_l",
+          "upperarm_r"
+        ]
+      },
+      "ShuraleBody_LOD1": {
+        "max_influences": 4,
+        "histogram": {
+          "1": 2303,
+          "2": 1809,
+          "4": 895,
+          "3": 811
+        },
+        "normalized": true,
+        "max_sum_error": 4.470348358154297e-08,
+        "used_bones": [
+          "ball_l",
+          "ball_r",
+          "calf_l",
+          "calf_r",
+          "clavicle_l",
+          "clavicle_r",
+          "foot_l",
+          "foot_r",
+          "hand_l",
+          "hand_r",
+          "head",
+          "index_01_l",
+          "index_01_r",
+          "index_02_l",
+          "index_02_r",
+          "index_03_l",
+          "index_03_r",
+          "lowerarm_l",
+          "lowerarm_r",
+          "middle_01_l",
+          "middle_01_r",
+          "middle_02_l",
+          "middle_02_r",
+          "middle_03_l",
+          "middle_03_r",
+          "neck_01",
+          "pelvis",
+          "pinky_01_l",
+          "pinky_01_r",
+          "pinky_02_l",
+          "pinky_02_r",
+          "pinky_03_l",
+          "pinky_03_r",
+          "ring_01_l",
+          "ring_01_r",
+          "ring_02_l",
+          "ring_02_r",
+          "ring_03_l",
+          "ring_03_r",
+          "spine_01",
+          "spine_02",
+          "spine_03",
+          "thigh_l",
+          "thigh_r",
+          "thumb_01_l",
+          "thumb_01_r",
+          "thumb_02_l",
+          "thumb_02_r",
+          "thumb_03_l",
+          "thumb_03_r",
+          "upperarm_l",
+          "upperarm_r"
+        ]
+      }
+    },
+    "root_bounds_m": {
+      "min": [
+        -0.839853,
+        -0.127864,
+        0.0
+      ],
+      "max": [
+        0.839853,
+        0.582279,
+        2.406479
+      ]
+    },
+    "step_motion": {
+      "support_side": "l",
+      "step_side": "r",
+      "leg_length_m": 0.9753637909889221,
+      "step_distance_m": 0.1,
+      "lift_m": 0.05,
+      "max_support_foot_drift_m": 1.3664101893873858e-06,
+      "max_step_foot_target_error_m": 0.001776997608130844,
+      "root_motion": false
+    }
+  },
+  "source_blend": "assets/source/blender/photoworlds/W01/shurale_character_v6/export-v1/shurale_v1_source.blend",
+  "offline_views": [
+    "assets/source/blender/photoworlds/W01/shurale_character_v6/export-v1/shurale_v1_working_full.png",
+    "assets/source/blender/photoworlds/W01/shurale_character_v6/export-v1/shurale_v1_working_three-quarter.png",
+    "assets/source/blender/photoworlds/W01/shurale_character_v6/export-v1/shurale_v1_working_face.png",
+    "assets/source/blender/photoworlds/W01/shurale_character_v6/export-v1/shurale_v1_working_hands.png",
+    "assets/source/blender/photoworlds/W01/shurale_character_v6/export-v1/shurale_v1_noticed_full.png",
+    "assets/source/blender/photoworlds/W01/shurale_character_v6/export-v1/shurale_v1_step_full.png"
+  ],
+  "candidate_review": "Engineering source package only. Root must review fresh GLB reimport full-figure, face, work-contact, noticed, and step views before runtime copy. Right expressive pinch, shoulder follow, gesture/yield hand articulation, character art, and final cultural/author acceptance remain open."
+}

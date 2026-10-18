@@ -1,0 +1,473 @@
+{
+  "candidateStatus": "v6 source-only silhouette study; review required; not final art acceptance or runtime",
+  "renderMode": "full-study",
+  "blenderVersion": "4.5.12 LTS",
+  "artDirection": {
+    "intent": "distinctly gaunt, asymmetric human-derived forest worker with long arms and hands; noncombat; no borrowed screen-creature design",
+    "internalConceptReference": "assets/source/blender/photoworlds/W01/shurale-concepts/modern-horror-anatomy-v1.png",
+    "internalConceptSHA256": "edc0ea02d013c8a4f42eac20ac74461d8e5f13d079c91646f35193d4ab3e59b7",
+    "referenceUse": "internal proportions and plane study only; no reference pixels or surface design copied into output"
+  },
+  "heightMeters": 2.39697,
+  "visibleBodyVertices": 13380,
+  "visibleEvaluatedVertices": 13524,
+  "visibleEvaluatedFaces": 13518,
+  "nativeEyeMaterialFaces": 140,
+  "boundsMeters": {
+    "min": [
+      -0.32563,
+      -0.71355,
+      -0.00435
+    ],
+    "max": [
+      0.42632,
+      0.11894,
+      2.39263
+    ]
+  },
+  "nativeRig": {
+    "name": "game_engine",
+    "boneCount": 53,
+    "fitOrder": "MPFB target mix baked into relative V6_Anatomy key + same-topology sculpt, then native game_engine fit and CC0 weights",
+    "restArmChainMeters": {
+      "l": {
+        "upperArmMeters": 0.41581,
+        "lowerArmMeters": 0.40558,
+        "upperPlusLowerMeters": 0.8214,
+        "handPlusMiddleFingerChainMeters": 1.03372,
+        "shoulderToMiddleFingertipStraightReachMeters": 1.04104
+      },
+      "r": {
+        "upperArmMeters": 0.41581,
+        "lowerArmMeters": 0.40558,
+        "upperPlusLowerMeters": 0.8214,
+        "handPlusMiddleFingerChainMeters": 1.03372,
+        "shoulderToMiddleFingertipStraightReachMeters": 1.04104
+      }
+    },
+    "headNeckFit": {
+      "measuredFrom": "evaluated body after MPFB fitting, before the working pose",
+      "headWeightThreshold": 0.5,
+      "neckWeightThreshold": 0.1,
+      "headSkinBounds": {
+        "vertexCount": 5195,
+        "minMeters": [
+          -0.1303,
+          -0.24899,
+          2.07039
+        ],
+        "maxMeters": [
+          0.1303,
+          0.09877,
+          2.41916
+        ]
+      },
+      "neckSkinBounds": {
+        "vertexCount": 763,
+        "minMeters": [
+          -0.19119,
+          -0.12917,
+          1.95982
+        ],
+        "maxMeters": [
+          0.19119,
+          0.09877,
+          2.25937
+        ]
+      },
+      "fittedNativeJoints": {
+        "neck_01": {
+          "headMeters": [
+            0.0,
+            -0.01029,
+            2.06645
+          ],
+          "tailMeters": [
+            0.0,
+            -0.04971,
+            2.18795
+          ],
+          "lengthMeters": 0.12774
+        },
+        "head": {
+          "headMeters": [
+            0.0,
+            -0.04971,
+            2.18795
+          ],
+          "tailMeters": [
+            0.0,
+            -0.05415,
+            2.41296
+          ],
+          "lengthMeters": 0.22505
+        }
+      }
+    },
+    "weightedMeshSHA256": "aab8a6adcf9ef45d8c545e85971baa8d06c37248de7d7e6681593c01fa935d43",
+    "weightsFile": "src/mpfb/data/rigs/standard/weights.game_engine.json",
+    "weightsSHA256": "9f4a773e74ce5ba08415b4f30070338e9f75bae5971b5075b10cd6b9caa58473",
+    "rig": "game_engine",
+    "rigBones": 53,
+    "workingPose": "planted stance; left thumb/index close around tapered bough while right thumb/index pinch a small side shoot; elbows forward/down",
+    "targetsLocalMeters": {
+      "l": [
+        0.23999999463558197,
+        -0.3400000035762787,
+        1.2200000286102295
+      ],
+      "r": [
+        -0.15000000596046448,
+        -0.3499999940395355,
+        1.25
+      ]
+    },
+    "poleTargetsLocalMeters": {
+      "l": [
+        0.3400000035762787,
+        -0.5,
+        1.100000023841858
+      ],
+      "r": [
+        -0.3400000035762787,
+        -0.5,
+        1.100000023841858
+      ]
+    },
+    "stagingBranch": {
+      "mainBoughDiameterMeters": 0.02,
+      "sideShootDiameterAtPinchMeters": 0.0085,
+      "leftGripCenterLocalMeters": [
+        0.2411,
+        -0.4274,
+        1.2803
+      ],
+      "rightPinchCenterLocalMeters": [
+        -0.1172,
+        -0.4209,
+        1.3145
+      ],
+      "geometry": "auto-handled Bezier splines with tapered point radii; source-preview only"
+    },
+    "indexCurlDeltaRadiansForMeasuredPadGap": {
+      "l": 0.08,
+      "r": 0.14
+    },
+    "poseNotAnimation": true
+  },
+  "meshIntegrity": {
+    "topologyBeforeSculptSHA256": "8298449a901127d6f967f94435f7bf9945b0fe2c53de6c1851502c7146c229bc",
+    "topologyAfterSculptSHA256": "8298449a901127d6f967f94435f7bf9945b0fe2c53de6c1851502c7146c229bc",
+    "topologyUnchanged": true,
+    "vertexCount": 19158,
+    "edgeCount": 37364,
+    "polygonCount": 18486,
+    "shapeBake": {
+      "name": "V6_Anatomy",
+      "relativeTo": "Basis",
+      "capturedMPFBShapeKeyCount": 58,
+      "capturedActiveMPFBShapeKeyCount": 57,
+      "activeMPFBShapeKeyNames": [
+        "$md-$as-$ma-$yn",
+        "$md-$as-$ma-old",
+        "$md-$ca-$ma-$yn",
+        "$md-$ca-$ma-old",
+        "$md-$af-$ma-$yn",
+        "$md-$af-$ma-old",
+        "$md-universal-$ma-$yn-min$mu-min$wg",
+        "$md-universal-$ma-$yn-min$mu-$av$wg",
+        "$md-universal-$ma-$yn-$av$mu-min$wg",
+        "$md-universal-$ma-old-min$mu-min$wg",
+        "$md-universal-$ma-old-min$mu-$av$wg",
+        "$md-universal-$ma-old-$av$mu-min$wg",
+        "$md-universal-$ma-old-$av$mu-$av$wg",
+        "head-fat-decr",
+        "head-age-incr",
+        "head-scale-vert-incr",
+        "l-cheek-volume-decr",
+        "r-cheek-volume-decr",
+        "l-cheek-bones-incr",
+        "r-cheek-bones-incr",
+        "l-eye-push1-in",
+        "r-eye-push1-in",
+        "nose-hump-incr",
+        "nose-scale-depth-incr",
+        "chin-width-decr",
+        "chin-bones-incr",
+        "eyebrows-angle-down",
+        "measure-shoulder-dist-decr",
+        "measure-waist-circ-incr",
+        "torso-muscle-dorsi-decr",
+        "torso-muscle-pectoral-decr",
+        "measure-upperarm-length-incr",
+        "measure-lowerarm-length-incr",
+        "measure-upperarm-circ-decr",
+        "l-upperarm-fat-decr",
+        "r-upperarm-fat-decr",
+        "l-upperarm-muscle-decr",
+        "r-upperarm-muscle-decr",
+        "l-upperarm-shoulder-muscle-decr",
+        "r-upperarm-shoulder-muscle-decr",
+        "l-lowerarm-scale-horiz-decr",
+        "r-lowerarm-scale-horiz-decr",
+        "l-lowerarm-scale-depth-decr",
+        "r-lowerarm-scale-depth-decr",
+        "measure-wrist-circ-decr",
+        "l-hand-fingers-length-incr",
+        "r-hand-fingers-length-incr",
+        "l-hand-scale-incr",
+        "r-hand-scale-incr",
+        "l-hand-fingers-diameter-incr",
+        "r-hand-fingers-diameter-incr",
+        "l-hand-fingers-distance-incr",
+        "r-hand-fingers-distance-incr",
+        "l-upperleg-fat-decr",
+        "r-upperleg-fat-decr",
+        "l-lowerleg-fat-decr",
+        "r-lowerleg-fat-decr"
+      ],
+      "allSourceMPFBKeysDisabledAfterBake": true
+    },
+    "sculpt": {
+      "operation": "same-topology sculpt in evaluated MPFB target mix stored as relative key V6_Anatomy before rig-fit",
+      "headWeightGroup": "head (game_engine weights > 0.5 define landmarks; smooth weighted falloff) ",
+      "neckWeightGroup": "neck_01 (game_engine weights; smooth weighted falloff)",
+      "nativeHeadLandmarkVertexCount": 5195,
+      "nativeNeckLandmarkVertexCount": 763,
+      "nativeHeadLandmarksPreScale": {
+        "minZ": 1.470761,
+        "maxZ": 1.717996,
+        "halfWidth": 0.09635
+      },
+      "nativeNeckLandmarksPreScale": {
+        "halfWidth": 0.137541
+      },
+      "shapeKey": "V6_Anatomy",
+      "movedEvaluatedVertices": 5538,
+      "maxEvaluatedVertexOffsetMetersPreScale": 0.026495,
+      "features": [
+        "tapered upper skull and recessed forehead",
+        "asymmetric brow and eye-socket planes",
+        "high cheek shelves, hollow cheeks, and tapered jaw",
+        "narrow neck with paired tendon ridges"
+      ]
+    }
+  },
+  "bodyTargets": [
+    {
+      "target": "head/head-fat-decr",
+      "weight": 0.92
+    },
+    {
+      "target": "head/head-age-incr",
+      "weight": 0.82
+    },
+    {
+      "target": "head/head-scale-vert-incr",
+      "weight": 0.02
+    },
+    {
+      "target": "cheek/l-cheek-volume-decr",
+      "weight": 0.88
+    },
+    {
+      "target": "cheek/r-cheek-volume-decr",
+      "weight": 0.97
+    },
+    {
+      "target": "cheek/l-cheek-bones-incr",
+      "weight": 0.72
+    },
+    {
+      "target": "cheek/r-cheek-bones-incr",
+      "weight": 0.88
+    },
+    {
+      "target": "eyes/l-eye-push1-in",
+      "weight": 0.48
+    },
+    {
+      "target": "eyes/r-eye-push1-in",
+      "weight": 0.3
+    },
+    {
+      "target": "nose/nose-hump-incr",
+      "weight": 0.4
+    },
+    {
+      "target": "nose/nose-scale-depth-incr",
+      "weight": 0.22
+    },
+    {
+      "target": "chin/chin-width-decr",
+      "weight": 0.28
+    },
+    {
+      "target": "chin/chin-bones-incr",
+      "weight": 0.26
+    },
+    {
+      "target": "eyebrows/eyebrows-angle-down",
+      "weight": 0.48
+    },
+    {
+      "target": "torso/measure-shoulder-dist-decr",
+      "weight": 0.1
+    },
+    {
+      "target": "torso/measure-waist-circ-incr",
+      "weight": 0.42
+    },
+    {
+      "target": "torso/torso-muscle-dorsi-decr",
+      "weight": 0.28
+    },
+    {
+      "target": "torso/torso-muscle-pectoral-decr",
+      "weight": 0.24
+    },
+    {
+      "target": "arms/measure-upperarm-length-incr",
+      "weight": 0.82
+    },
+    {
+      "target": "arms/measure-lowerarm-length-incr",
+      "weight": 0.9
+    },
+    {
+      "target": "arms/measure-upperarm-circ-decr",
+      "weight": 0.24
+    },
+    {
+      "target": "arms/l-upperarm-fat-decr",
+      "weight": 0.22
+    },
+    {
+      "target": "arms/r-upperarm-fat-decr",
+      "weight": 0.22
+    },
+    {
+      "target": "arms/l-upperarm-muscle-decr",
+      "weight": 0.2
+    },
+    {
+      "target": "arms/r-upperarm-muscle-decr",
+      "weight": 0.2
+    },
+    {
+      "target": "arms/l-upperarm-shoulder-muscle-decr",
+      "weight": 0.28
+    },
+    {
+      "target": "arms/r-upperarm-shoulder-muscle-decr",
+      "weight": 0.28
+    },
+    {
+      "target": "arms/l-lowerarm-scale-horiz-decr",
+      "weight": 0.16
+    },
+    {
+      "target": "arms/r-lowerarm-scale-horiz-decr",
+      "weight": 0.16
+    },
+    {
+      "target": "arms/l-lowerarm-scale-depth-decr",
+      "weight": 0.12
+    },
+    {
+      "target": "arms/r-lowerarm-scale-depth-decr",
+      "weight": 0.12
+    },
+    {
+      "target": "hands/measure-wrist-circ-decr",
+      "weight": 0.12
+    },
+    {
+      "target": "hands/l-hand-fingers-length-incr",
+      "weight": 0.72
+    },
+    {
+      "target": "hands/r-hand-fingers-length-incr",
+      "weight": 0.72
+    },
+    {
+      "target": "hands/l-hand-scale-incr",
+      "weight": 0.18
+    },
+    {
+      "target": "hands/r-hand-scale-incr",
+      "weight": 0.18
+    },
+    {
+      "target": "hands/l-hand-fingers-diameter-incr",
+      "weight": 0.08
+    },
+    {
+      "target": "hands/r-hand-fingers-diameter-incr",
+      "weight": 0.08
+    },
+    {
+      "target": "hands/l-hand-fingers-distance-incr",
+      "weight": 0.12
+    },
+    {
+      "target": "hands/r-hand-fingers-distance-incr",
+      "weight": 0.12
+    },
+    {
+      "target": "legs/l-upperleg-fat-decr",
+      "weight": 0.18
+    },
+    {
+      "target": "legs/r-upperleg-fat-decr",
+      "weight": 0.18
+    },
+    {
+      "target": "legs/l-lowerleg-fat-decr",
+      "weight": 0.18
+    },
+    {
+      "target": "legs/r-lowerleg-fat-decr",
+      "weight": 0.18
+    }
+  ],
+  "source": {
+    "name": "MakeHuman Community MPFB2",
+    "archiveSHA256": "c8ccfc6269f82cf95661ef81475ddd5a8586f70810ba58940a3d26f7fc281d17",
+    "tag": "v2.0.17",
+    "commit": "80919fa",
+    "sourceLicense": "GPL-3.0-or-later (local generator/API source only)",
+    "baseMeshTargetsRigAndWeightsLicense": "CC0 1.0 Universal",
+    "generatedOutputStatus": "MPFB LICENSE.md section D treats generated graphical data and saved models as user data",
+    "archiveUrl": "https://github.com/makehumancommunity/mpfb2/tree/v2.0.17",
+    "licenseFileSHA256": {
+      "LICENSE.md": "5cefb60680cb9efd4550a2e65d719021cfbec9dad3658481d11d48ae863ce04d",
+      "LICENSE.CODE.md": "26c03bc049c15fc5b9e52d791a06f1a6bc32f89edc8f8c701ab0aadf66e85b82",
+      "LICENSE.ASSETS.md": "f6089cba01cb570a24712b41ab8a586ccd3cc5ef53dc266ca50b95c288956d2c"
+    },
+    "archiveRootForReproduction": "/private/tmp/urman-shurale-mpfb-v2.0.17/source/makehumancommunity-mpfb2-80919fa"
+  },
+  "generator": {
+    "path": "prepare-character-look-v6.py",
+    "sha256": "0af497df55ad963178e8b9ce796ba81e8419a29ac4486eee95021b656b694f83"
+  },
+  "runtimePromotion": false,
+  "textures": null,
+  "clips": [],
+  "stagingOnlyObjects": [
+    "StagingOnly_Branch_ExcludeFromRuntime",
+    "PreviewStage_Floor_ExcludeFromRuntime"
+  ],
+  "outputs": [
+    "shurale-v6-working-front.png",
+    "shurale-v6-working-three-quarter.png",
+    "shurale-v6-face-hands-working.png",
+    "shurale-character-look-v6.blend"
+  ],
+  "outputSHA256": {
+    "shurale-v6-working-front.png": "ed5b8403d94603d53d69ca4c260ec02612553b0e46c5b08dc165185f4df0bcd7",
+    "shurale-v6-working-three-quarter.png": "c0c62f9625cf20716def6c3f0aa7542b9afbfc852c4cc5f00f8e535501c4472b",
+    "shurale-v6-face-hands-working.png": "529b4c8ec57251b0ef94d9b9bf290b8c7f082300f60ced26dbd9ee690400c2ff",
+    "shurale-character-look-v6.blend": "8c49565c415b416ca962259da7f8f43e617835ee746a91abade95fe2d56ef9f2"
+  }
+}

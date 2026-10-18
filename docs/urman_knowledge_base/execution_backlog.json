@@ -106088,6 +106088,13 @@
         "result": "DispatchCompiledInteractionAsync now appends existing location.is/locationId source guard to the SAME atomic command conditions for fixed-scene interactions. Cross-scene source-excerpt and WorldLocations interactions preserve their own existing authorization.",
         "verification": "Root checked OwnsInteraction, dispatch transaction and ContentRuleEngine.LocationEquals. Affected Game compile14.96s0warnings/errors; diffcheck PASS.",
         "remaining": "Native load/cancellation/input-recovery and visit-specific full DoD not declared complete."
+      },
+      "native_guard_check_2026_10_18": {
+        "job": "5d447b0022e741f2820b4509f16cfd6c",
+        "receipt": "evidence/PW-012/native_5d447b0022e741f2820b4509f16c/receipt.json",
+        "result": "FAIL_UNRELATED_EXISTING_SCENARIO_ASSERTION",
+        "detail": "Native build/content/import passed, game1: pre-D01-07 warm-arrival beat is legitimately absent, existing BeatState uses GetProperty and throws before W01. Full atomic route/race not proved. No unrelated test edits or retry.",
+        "userdata_restored": true
       }
     },
     {
@@ -120874,7 +120881,7 @@
       "title": "W01: произвести, оживить и поставить Шурале",
       "milestone": "PW-M3",
       "status": "in_progress",
-      "active_owner": "Codex/visual",
+      "active_owner": null,
       "owner": "character_art",
       "priority": "P1",
       "complexity": "complex",
@@ -121028,8 +121035,8 @@
       },
       "assigned_owner": "character_art",
       "activity": {
-        "state": "confirmed_active",
-        "reason": "Original Shurale asset stage; source/GLB/rig/7clips and offline views, production owns only shurale paths. Runtime/art/culture acceptance remains open."
+        "state": "not_active",
+        "reason": "Finite canonical actor/gesture/yield/rooted support integration delivered, source reviewed/compiled and native assets imported. Ordinary/art/native full encounter acceptance remains open; no unchanged semantic retry."
       },
       "task_type": "engineering",
       "implementation_state": "not_started",
@@ -121040,7 +121047,7 @@
         "Полный паспорт уровня docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/levels/W01_Лес_за_спиной_RU.md реализован: узлы/физические связи/действия/существо или человеческая сцена/созерцание/возврат/кадры; схема не заменяет проходимый runtime.",
         "Шурале выглядит современно устрашающе в духе психологического авторского хоррора (уточнение автора: злодеи A24): оригинальная цельная анатомия/силуэт, тревожные лицо/взгляд/длинные руки и сдержанная неестественная пластика; без игрушечного добродушия. Оценка по актуальным игровым кадрам и движению, не по числу полигонов."
       ],
-      "next_action": "Review exact v6 source package with true opposing-pad grip, coherent surface, actual restrained clips and rooted branch attachment; only then canonical GLB/five hooks and targeted native import. Art/human acceptance remains open.",
+      "next_action": "Inspect ordinary current W01 encounter/close/motion when owned foreground is available; art/culture/author acceptance still open. Reuse accepted native import; do not repeat unchanged BeatState scenario failure.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -121278,16 +121285,16 @@
         "remaining": "Character look/material/eyes/working pose, native rig and seven clips/LODs/cleanGLB/runtime; final modern horror visual/cultural/author acceptance remains open."
       },
       "character_package_2026_10_18": {
-        "source": "assets/source/blender/photoworlds/W01/shurale_character_v4/export-v1/",
-        "result": "MPFB-derived continuous53bone source, baked textures, staged7clips/2LODs. Earlier axis-preserving export stage accepted only; later waist candidate rejected for false grip. Canonical asset NOT_PROMOTED.",
+        "source": "assets/source/blender/photoworlds/W01/shurale_character_v6/export-v1/",
+        "result": "Final functional source package has seven actual derived clips with visible bag indication/open-palm yield, real step, stable left support, baked albedo/normal/AO, two LODs; canonical copy/five W01 hooks now integrated.",
         "remaining": "Produce genuine opposing thumb/index grip on corrected v6 engineering base; coherent woody surface and pose-derived motion; exact reimport review, physical rooted attachment, canonical asset/hooks, native movement and author/culture/art acceptance.",
         "verification_question": "Does the exact fresh GLB reimport preserve the source two-handed front working pose, feet, face orientation and restrained notice transition?",
-        "decision": "Historical axis-fixed export preserves source/reimport transforms; later fc342 waist candidate REJECTED: branch crosses wrists/hand backs, fingers hang below. Nearest weighted-skin distance is not opposed-pad contact. No whole-character grip/art acceptance.",
-        "candidate_sha256": "fc342d0b5a0333f60fae083a1d209688ba119572560c012abd6777ba6db4fed3",
+        "decision": "Root personally viewed exact fresh GLB work/face/hands, noticed/step and final gesture/yield, accepted ENGINEERING integration candidate only. Shape/look still not modern-horror art accepted.",
+        "candidate_sha256": "e4476b0e636f2e984bd436bbd878fe004b61cf451c5e0dc9c55942cfa846f191",
         "causal_finding": "normalize_root rotated rig alone; IK target/pole helpers and branch stayed on old side. Exporter now transforms the full pose setup consistently; original source and imported GLB bone matrices differ at most1.2e-6.",
         "source_review": "export-v1/reimport-review/axis-fixed source-work-full.png/reimport-work-full.png and reimport-work-contact.png personally viewed. Imported branch material became white because procedural graph was unsupported: exporter supported Principled material correction pending.",
         "code_stage": "W01 Shurale partial prepared without lifecyclehooks; manifest loopmodes, physicalbranch visibility, pairedLOD, D06/D07 modal/response flow. Independent review corrected Stop→Play snaps via0.18blend and per-node speaking response. Affected Game compile14.43s0warnings/errors. Native not exercised.",
-        "publication": "Prepared C# interaction/animation partial committed without lifecycle hooks; current Blender candidates remain local source-only until accepted exact package.",
+        "publication": "Canonical e4476b actor/25002f shoot and five lifecycle hooks accepted as engineering stage with exact source dependencies. Native build/import passed; full semantic scenario failed in existing unrelated pre-W01 BeatState assertion. Not release/art acceptance.",
         "placement": "Existing markergroundY4 exactlymatches actualf16terrain across.30m footprint, >1.74m walkribbonclearance. Current workprop is.6596m from exactsupportsurface; workpose/environmentcontact correction underway, no AABBcontactclaim."
       },
       "look_study_2026_10_18": {
@@ -121305,7 +121312,27 @@
         "motion_slice": "Pinned Blender v4 real leg IK step has left sole drift0, right lift.040975m/forward.099842m; noticed root-up head yaw40.22deg/updot.98784. Root viewed frames; methods only, must retarget/revalidate new true-grip v6. Shoulder follow unmeasured.",
         "surface": "Root viewed all3 v3 EEVEE views. Frozen whole-body wood base and selective plates accepted as material engineering input, not final horror art; original bark provenance preserved. No further texture variants requested.",
         "next": "One source package: corrected v6 + genuine opposed pads/full hand matrices + v3 wood + real derived clips. Exact fresh reimport full/face/hands review before canonical copy."
-      }
+      },
+      "integration_slice_2026_10_18": {
+        "actor_glb": "game/assets/photoworlds/shurale/shurale_v1.glb",
+        "actor_sha256": "e4476b0e636f2e984bd436bbd878fe004b61cf451c5e0dc9c55942cfa846f191",
+        "rooted_shoot_glb": "game/assets/photoworlds/shurale/shurale_rooted_work_shoot_v1.glb",
+        "shoot_sha256": "25002f87756a643a22380d73da31715cbf79ccbf5f007f12c1baee52fb7c1107",
+        "source_verification": "436 clip/LOD frame samples finite,316floataccessors finite, left hand/branch/root drift0. Root viewed final current reimport motion; no physical fingertip bag contact claim (.370mshort).",
+        "placement": "F14markerX2.9,Y0,Z.15,yaw90; terrain17samplesY4, routeclearance>1.45m, capsule/bagclearance.1656m by mesh-coordinate source only. Corrected tapered shoot caps connect actualsupport and left-supported branch; no collider.",
+        "lifecycle": "Five hooks build/process/projection/accessibility/exit. Review found ReducedMotion off left paused actor; root fixed live true→false resume. Final affected Game compile14.82s0/0, independent source integration review clean after correction.",
+        "lod": "BothSelf fades now common12m threshold/margins2m (10–14m opposing windows); previous14/10 mismatch doubleopacity source-confirmed via officialGodotcode. Other existing LOD examples not changed.",
+        "verification_question": "Does existing native full_game_flow_smoke instantiate imported W01 assets and retain common fixed-scene atomic campaign semantics? Not ordinary-gameplay/art acceptance.",
+        "native_job": "5d447b0022e741f2820b4509f16cfd6c",
+        "native_result": "PARTIAL_ENGINEERING_IMPORT; SCENARIO_FAIL",
+        "art_remainder": "V7 profile study rejected by root: only≈4%hip/waist shrink, ratio unchanged, weak ribplanes, flatcrown; no promotion. Need coherent original anatomy/style, native close/motion and author/culture acceptance. Revised custompelvis study reached ratio1.16 but root rejected new stepped/wavy waist contour; geometry parameter guessing stopped. Preserve functionalv6 and require coherent whole-scene art judgment.",
+        "native_snapshot": "ddeef930ebf22b95262b5edb66d111d65987516ed425a4204f9d5160da66cfe6",
+        "native_receipt": "evidence/PW-012/native_5d447b0022e741f2820b4509f16c/receipt.json",
+        "native_result_sha256": "6857bc1844dd0f31df6e4e3b48b799e5426a17acb9e6bb78fe9289ba1a8a6380",
+        "native_limits": "Build/content/document-images/import exit0; importlog explicitly reimports both canonical ShuraleGLBs. Gameexit1 at existing FullGameFlowSmokeTest.BeatState line773 before D01-07 creates warm-arrival beat; no ordinary/nativeW01 motion or art acceptance. No unchanged repeat.",
+        "userdata": "Restored=true; finaldoctorready/idle, noorphan/recovery."
+      },
+      "source_recipe_snapshot": "assets/source/blender/photoworlds/W01/shurale_character_v6/prepare-character-look-v6.source-used.py (byte-identical historical generator matching frozen v6 manifest; active local v7 study not promoted)"
     },
     {
       "id": "PW-048",

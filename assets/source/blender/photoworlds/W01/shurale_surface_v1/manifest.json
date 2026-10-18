@@ -1,0 +1,129 @@
+{
+  "candidateStatus": "source-only material pass for review; not runtime promotion or final art acceptance",
+  "blenderVersion": "4.5.12 LTS",
+  "source": {
+    "inputBlend": "shurale-character-look-v6-input.blend",
+    "inputBlendSHA256": "8c49565c415b416ca962259da7f8f43e617835ee746a91abade95fe2d56ef9f2",
+    "geometryOrRigModified": false,
+    "bodyObject": "ShuraleCharacterBodyV6",
+    "rigObject": "ShuraleCharacterRigV6",
+    "nativeRigData": "ShuraleCharacterRigV6Data",
+    "uvMap": "UVMap",
+    "vertexCount": 19158,
+    "polygonCount": 18486,
+    "conceptReference": "source/blender/photoworlds/W01/shurale-concepts/modern-horror-anatomy-v1.png",
+    "conceptSHA256": "edc0ea02d013c8a4f42eac20ac74461d8e5f13d079c91646f35193d4ab3e59b7",
+    "referencePixelsCopied": false
+  },
+  "generatedBarkImage": {
+    "file": "source/original-ashwood-bark-albedo.png",
+    "sha256": "adae33c905c2058d9fc9875e23f71a1da514ba8b961b05415b6292226db34420",
+    "resolutionPx": [
+      1254,
+      1254
+    ],
+    "generatedBy": "image_gen.imagegen, requested by root agent",
+    "generationDate": "2026-10-18",
+    "model": "not reported",
+    "seed": "not reported",
+    "prompt": "Create a production-ready original seamless tileable PBR ALBEDO texture of ancient grey ash-tree bark with restrained dark umber inner grain, for the woody skin of an original unsettling humanoid forest spirit in a grounded contemporary psychological horror game. Square flat texture swatch filling the entire image, perfectly front-on orthographic, even diffuse neutral illumination, NO shadows from lighting, NO highlights, NO perspective, NO text, NO border, NO character or face or branches. Large coherent longitudinal bark plates with irregular broken edges, a few deep branching fissures, coarse weathered cellulose fibers and worn smooth lighter ridge crests; muted ash grey / cool weathered taupe / near-black brown cavities with sparse desaturated olive patina. Material should be tactile, physically plausible and weathered, NOT glossy wood veneer, NOT marbling, NOT mushy noise, NOT uniform parallel stripes, NOT small all-over scale pattern. Readable medium and broad structures suitable for a 2K real-time character texture. Entire image is the material color only. Make all four edges tile naturally.",
+    "imageCopiedUnmodified": true,
+    "folkloreAuthority": false,
+    "licenseOrArtAcceptance": "not implied by image generation; project and art acceptance remain open"
+  },
+  "method": {
+    "description": "Original generated bark albedo is box-projected in one object-space direction and baked to the frozen v6 UVMap as low-strength ashwood grain across the whole body. Native head/neck/clavicle/arm/hand weights select a stronger ashwood-plate layer; posterior spine_03 and local height masks select the scapulae. The frontal face retains its planes over the shared textured base with restrained forehead creases. Image-derived relief is baked to tangent normals. No highpoly, runtime geometry, rig or pose changes.",
+    "regionMasks": {
+      "regionAttribute": "ShuraleSurfaceRegionsBakeOnly",
+      "handAttribute": "ShuraleSurfaceHandsBakeOnly",
+      "faceMaskAttribute": "ShuraleSurfaceFaceMasksBakeOnly",
+      "domain": "POINT",
+      "type": "FLOAT_COLOR",
+      "channels": {
+        "regions.R": "native head vertex group",
+        "regions.G": "native neck_01 vertex group",
+        "regions.B": "native clavicle/upperarm/lowerarm vertex groups",
+        "regions.A": "native spine_03 weight, masked in source coordinates to posterior shoulder height as scapula coverage",
+        "hands.RGB": "native hand and finger vertex groups",
+        "face.R": "head weight multiplied by front-plane and chin-to-brow source-coordinate masks",
+        "face.G": "face mask multiplied by narrow forehead source-coordinate mask"
+      },
+      "removedAfterBake": true
+    },
+    "bakePose": "native armature rest pose; original stored working-pose state restored before preview and save",
+    "normalConvention": "Tangent space, POS_X/POS_Y/POS_Z swizzle; +Y green channel; no normal channel flip",
+    "gltfOcclusionPath": "image red channel -> glTF Material Output group Occlusion input; grayscale cavities dark, exposed surfaces light",
+    "finalShader": "sRGB albedo -> Principled Base Color; Non-Color tangent normal -> NormalMap(TANGENT,+Y) -> Principled Normal; Non-Color AO -> glTF Material Output.Occlusion",
+    "coverageBlend": {
+      "wholeBodyBaseMix": 0.28,
+      "localizedPlateMixFactor": 0.78,
+      "maximumEffectiveBarkMix": 0.8416,
+      "localizedMaskInterpolation": "SMOOTHSTEP over native weight and source-coordinate masks from 0 to 1",
+      "faceUsesWholeBodyBase": true
+    },
+    "normalRelief": {
+      "wholeBodyHeightFactor": 0.24,
+      "localizedPlateHeightFactor": 0.62,
+      "bumpStrength": 0.6,
+      "bumpDistanceBlendUnits": 0.0055,
+      "normalConvention": "Tangent space POS_X/POS_Y/POS_Z; +Y green; no channel flip"
+    },
+    "coverageIntent": "low-strength aged ashwood grain across the whole body, with stronger broad plates on the outer head, neck, clavicle/scapula, arms and hands; face planes stay readable over the same textured base"
+  },
+  "textures": {
+    "albedo": {
+      "file": "shurale-surface-v3-albedo-2k.png",
+      "sizePx": [
+        2048,
+        2048
+      ],
+      "colorSpace": "sRGB",
+      "sha256": "755c37274b263a24d7495911934e9d6fcb22fbdf49f675ac80b2c67424a6c6bf"
+    },
+    "normal": {
+      "file": "shurale-surface-v3-normal-tangent-2k.png",
+      "sizePx": [
+        2048,
+        2048
+      ],
+      "colorSpace": "Non-Color",
+      "sha256": "b1d88b88575e0d900077c7132324060b3510c041b4d1e9f565ee22a7caf79b9d"
+    },
+    "ao": {
+      "file": "shurale-surface-v3-ao-1k.png",
+      "sizePx": [
+        1024,
+        1024
+      ],
+      "colorSpace": "Non-Color",
+      "sha256": "311b96d9580c035a381c0245077b4cc9f38f5ab27ab6eeaca31dabc5c1411b6d"
+    }
+  },
+  "previews": [
+    "shurale-surface-v3-overview.png",
+    "shurale-surface-v3-face.png",
+    "shurale-surface-v3-hands.png"
+  ],
+  "outputs": [
+    "source/original-ashwood-bark-albedo.png",
+    "shurale-surface-v3-albedo-2k.png",
+    "shurale-surface-v3-normal-tangent-2k.png",
+    "shurale-surface-v3-ao-1k.png",
+    "shurale-surface-v3-overview.png",
+    "shurale-surface-v3-face.png",
+    "shurale-surface-v3-hands.png",
+    "shurale-surface-v3.blend"
+  ],
+  "runtimePromotion": false,
+  "artAcceptance": "pending independent/root review; material appearance in previews only",
+  "outputSHA256": {
+    "source/original-ashwood-bark-albedo.png": "adae33c905c2058d9fc9875e23f71a1da514ba8b961b05415b6292226db34420",
+    "shurale-surface-v3-albedo-2k.png": "755c37274b263a24d7495911934e9d6fcb22fbdf49f675ac80b2c67424a6c6bf",
+    "shurale-surface-v3-normal-tangent-2k.png": "b1d88b88575e0d900077c7132324060b3510c041b4d1e9f565ee22a7caf79b9d",
+    "shurale-surface-v3-ao-1k.png": "311b96d9580c035a381c0245077b4cc9f38f5ab27ab6eeaca31dabc5c1411b6d",
+    "shurale-surface-v3-overview.png": "7adc598eca67193203fec85882b0e7a46b370a2aaafc422f1fb69f07af4294cb",
+    "shurale-surface-v3-face.png": "9554ec47410407f1f4b75f603f85e8f3c725f7f26add100a993011728ae79f20",
+    "shurale-surface-v3-hands.png": "2a0a269939d6b8a5f6f05efb5a441d520da4b43027cc00fc55446e6ce0c764e1",
+    "shurale-surface-v3.blend": "258f0cdb64d6d47f12cf25e56c4d7b781afc63110a2dd537d40a3222dcaaf335"
+  }
+}

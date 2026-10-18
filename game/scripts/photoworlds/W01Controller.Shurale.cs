@@ -9,6 +9,7 @@ namespace Urman.Godot;
 public partial class W01Controller
 {
     private const string ShuraleScenePath = "res://assets/photoworlds/shurale/shurale_v1.glb";
+    private const string ShuraleRootedShootScenePath = "res://assets/photoworlds/shurale/shurale_rooted_work_shoot_v1.glb";
     private const string ShuraleInteractionId = "urman.fullgame:interaction/pw-forest-shurale";
     private const string ShuraleDialogueId = "urman.fullgame:dialogue/pw-forest-shurale-d06";
     private const string ShuraleLabelTextId = "urman.fullgame:text/pw-label-forest-shurale-talk";
@@ -58,6 +59,13 @@ public partial class W01Controller
         root.Visible = false;
         AddChild(root);
         root.GlobalTransform = _shuraleAnchor.GlobalTransform;
+
+        // The shoot mesh is authored in F14 space; it joins the fixed root
+        // to the left-supported work branch without adding an interaction collider.
+        var rootedShoot = LoadScene(ShuraleRootedShootScenePath).Instantiate<Node3D>();
+        rootedShoot.Name = "ShuraleRootedWorkShoot";
+        root.AddChild(rootedShoot);
+        rootedShoot.GlobalTransform = GetNode<Marker3D>("Anchors/F14").GlobalTransform;
 
         _shuraleLod0 = RequireDescendant<MeshInstance3D>(root, "ShuraleBody_LOD0");
         _shuraleLod1 = RequireDescendant<MeshInstance3D>(root, "ShuraleBody_LOD1");
@@ -324,11 +332,24 @@ public partial class W01Controller
         _shuraleWasVisible = true;
     }
 
-    private void ApplyShuraleAccessibilitySettings(AccessibilitySettingsSnapshot settings)
+    private void ApplyShuraleAccessibilitySettings(AccessibilitySettingsSnapshot settings, bool wasReducedMotion)
     {
-        if (!settings.ReducedMotion || _shuraleRoot is not { Visible: true } root
-            || !GodotObject.IsInstanceValid(root))
+        if (_shuraleRoot is not { Visible: true } root || !GodotObject.IsInstanceValid(root)) return;
+
+        if (!settings.ReducedMotion)
+        {
+            if (!wasReducedMotion) return;
+            // Resume only on the live on→off transition. An unrelated settings
+            // refresh must not restart a response or replay a completed notice.
+            _shuraleActiveDialogueId = null;
+            _shuraleActiveDialogueNodeId = null;
+            var activeDialogue = GetShuraleDialogueUi()?.CurrentDialogueId;
+            if (activeDialogue == ShuraleDialogueId || activeDialogue == BagDialogueId)
+                ProcessShuraleDialogueAnimation();
+            else
+                SetShuraleRestPose(_shuraleInstructionsHeard, _shuraleEncounterResolved);
             return;
+        }
 
         var dialogueId = GetShuraleDialogueUi()?.CurrentDialogueId;
         if (dialogueId == ShuraleDialogueId)

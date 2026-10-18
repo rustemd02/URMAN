@@ -198,6 +198,7 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         BuildProloguePhotoSource();
         BuildPrologueUi();
         BuildBagPresentation();
+        BuildShuralePresentation();
         _forestExitFrame = GetNode<Marker3D>("Anchors/F16");
         SetProcess(true);
         SetPhysicsProcess(false);
@@ -212,6 +213,7 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         TryBindRuntimeBridge();
         RefreshPrologueSkipButtonState();
         ProcessBagPresentation(delta);
+        ProcessShuralePresentation(delta);
     }
 
     public override void _PhysicsProcess(double delta)
@@ -226,7 +228,9 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
 
     public void ApplyAccessibilitySettings(AccessibilitySettingsSnapshot settings)
     {
+        var wasReducedMotion = _accessibility.ReducedMotion;
         _accessibility = settings;
+        ApplyShuraleAccessibilitySettings(settings, wasReducedMotion);
         if (_prologueSkipButton is not { } button || !GodotObject.IsInstanceValid(button)) return;
         AccessibilityPresentation.ApplyToControl(button, settings);
         RefitPrologueSkipButton();
@@ -241,6 +245,7 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         if (_branchAnimation is { } animation && GodotObject.IsInstanceValid(animation))
             animation.AnimationFinished -= OnBranchAnimationFinished;
         ExitBagPresentation();
+        ExitShuralePresentation();
         _rootLinkExitSweep.Dispose();
         GetViewport().SizeChanged -= RefitPrologueSkipButton;
         _bridge = null;
@@ -1010,6 +1015,7 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         var projection = bridge.CurrentW01BranchProjection();
         ApplyRootPassageProjection(projection);
         ApplyBagProjection();
+        ApplyShuraleProjection();
         if (projection is null || projection.ActiveSceneId != ForestSceneId
             || !ReferenceEquals(_forestObservationFailedSession, projection.SessionIdentity))
             _forestObservationFailedSession = null;

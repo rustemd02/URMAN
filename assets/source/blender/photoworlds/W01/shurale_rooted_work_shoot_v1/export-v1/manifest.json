@@ -1,0 +1,298 @@
+{
+  "schema": 1,
+  "asset_id": "A-HERO-ROOT / W01 F14 Shurale rooted work shoot",
+  "version": "shurale-rooted-work-shoot-v2",
+  "status": "source-stage production candidate; no runtime promotion or art acceptance",
+  "supersedes_rejected_candidate": {
+    "path": "assets/source/blender/photoworlds/W01/shurale_rooted_work_shoot_v1/export-v1/rejected-v1",
+    "manifest_sha256": "7615953006877b6b87a392629db1634fac47664c8ea3385632da64a8a10a7305",
+    "reason": "review rejected the previous stem as too thick, capped, and visibly collared"
+  },
+  "source_script": "assets/source/blender/photoworlds/W01/shurale_rooted_work_shoot_v1/generate.py",
+  "source_script_sha256": "158b64195d55984a3539e1f2d9ce2779706a384652a589f1e4025c4134b9e030",
+  "inputs": {
+    "f14_support_blend": {
+      "path": "assets/source/blender/photoworlds/W01/f14-old-root-support-v1.blend",
+      "sha256": "f3feef414c349d14c6760c737da090b3fae9232327fc075e2a8f0b252cf2fbba"
+    },
+    "f14_support_manifest": {
+      "path": "assets/source/blender/photoworlds/W01/f14-old-root-support-v1.manifest.json",
+      "sha256": "9f0375dcb26a8c06a45bdfdf6b95916882a05cb95dfb6d514db49d628914a261"
+    },
+    "f14_support_mesh": "F14_OldRootSupport_LOD0 from the frozen support blend; exact source material reused",
+    "shurale_source_glb": {
+      "path": "assets/source/blender/photoworlds/W01/shurale_character_v6/export-v1/history/59f31b23/shurale_v1_candidate.glb",
+      "sha256": "59f31b23b41c021935e5ca80606b659260c5c86beb09a6d557817f4b7ec4713e",
+      "original_production_source_path": "assets/source/blender/photoworlds/W01/shurale_character_v6/export-v1/shurale_v1_candidate.glb"
+    },
+    "shurale_manifest": {
+      "path": "assets/source/blender/photoworlds/W01/shurale_character_v6/export-v1/history/59f31b23/manifest.json",
+      "sha256": "c2f1065c93cb1988877c38b1ff3cd6424b373acbad1189dceb43d5bdc71eb94e",
+      "original_production_manifest_path": "assets/source/blender/photoworlds/W01/shurale_character_v6/export-v1/manifest.json"
+    },
+    "shurale_expected_frozen_sha256": "59f31b23b41c021935e5ca80606b659260c5c86beb09a6d557817f4b7ec4713e"
+  },
+  "consumer": "W01 F14 visual-only rooted shoot connecting the existing old-root support to ShuraleWorkBranch",
+  "runtime_candidate": {
+    "prospective_path": "res://assets/photoworlds/shurale/shurale_rooted_work_shoot_v1.glb",
+    "runtime_copy_created": true,
+    "root_node": "W01_RootedWorkShoot_v2",
+    "mesh_node": "W01_RootedWorkShoot_Mesh_LOD0",
+    "coordinate_frame": "F14-local Godot metres; Blender source maps (X,-Z,Y)",
+    "root_transform_owner": "W01Controller.Shurale.cs parents under actor root and sets GlobalTransform to Anchors/F14; GLB coordinates remain F14-local.",
+    "collision": "none; visual GLB only",
+    "material": "exact Shurale | exportable darkwood branch Principled material reused from the frozen Shurale work-branch GLB; no new texture",
+    "stage": "root-reviewed corrected thin-shoot engineering integration; native/art pending"
+  },
+  "contacts": {
+    "f14_support_surface_f14_local_godot_xyz_m": [
+      2.220475197,
+      1.245729208,
+      0.451900005
+    ],
+    "support_surface_normal_f14_local_godot_xyz": [
+      0.653234,
+      0.064095,
+      -0.754438
+    ],
+    "shurale_work_branch_surface_f14_local_godot_xyz_m": [
+      2.304120779,
+      1.779515743,
+      0.402982324
+    ],
+    "shurale_branch_surface_normal_godot_xyz": [
+      -0.585439,
+      -0.806476,
+      0.082817
+    ],
+    "shurale_root_marker_f14_local_godot_xyz_m": [
+      2.9,
+      0.0,
+      0.15
+    ],
+    "shurale_root_yaw_deg": 90.0,
+    "shurale_branch_local_godot_xyz_m": [
+      -0.252982318,
+      1.779515743,
+      -0.595879197
+    ],
+    "endpoint_embedding_m": {
+      "old_root_center_below_surface": 0.055,
+      "shurale_work_branch_center_below_surface": 0.028,
+      "old_root_radius_m": 0.025,
+      "shurale_work_branch_radius_m": 0.008,
+      "old_root_cap_bury_clearance_m": 0.03,
+      "shurale_work_branch_cap_bury_clearance_m": 0.02
+    },
+    "measured": {
+      "support_source_mesh_nearest_distance_m": 0.0,
+      "support_source_mesh_nearest_polygon": 8005,
+      "support_normal_godot": [
+        0.653234,
+        0.064095,
+        -0.754438
+      ],
+      "support_shoot_surface_triangle_overlaps": 107,
+      "support_source_triangles": 34738,
+      "shoot_triangles": 4088,
+      "shurale_work_branch_nearest_surface_distance_m_at_frame16": 0.0,
+      "shurale_branch_shoot_surface_triangle_overlaps_at_frame16": 132,
+      "shurale_branch_source_triangles": 1120,
+      "old_root_embed_m": 0.055,
+      "shurale_branch_embed_m": 0.028
+    }
+  },
+  "geometry": {
+    "vertex_count": 2119,
+    "triangle_count": 4088,
+    "f14_local_godot_bounds_m": {
+      "x": [
+        2.168811,
+        2.356889
+      ],
+      "y": [
+        1.210388,
+        1.807203
+      ],
+      "z": [
+        0.377194,
+        0.506898
+      ]
+    },
+    "construction": "single thin Catmull-Rom swept shoot with a softly irregular centerline, small oval cross-section, smooth 0.025-to-0.008m taper, branch-matched dark Principled material, metric UVMap, and fully buried end caps",
+    "centerline_control_points_f14_local_godot_xyz_m": [
+      [
+        2.184547,
+        1.242204,
+        0.493394
+      ],
+      [
+        2.223742,
+        1.24605,
+        0.448128
+      ],
+      [
+        2.244,
+        1.39,
+        0.455
+      ],
+      [
+        2.304,
+        1.5,
+        0.425
+      ],
+      [
+        2.344,
+        1.625,
+        0.39
+      ],
+      [
+        2.282459,
+        1.749676,
+        0.406047
+      ],
+      [
+        2.320513,
+        1.802097,
+        0.400663
+      ]
+    ],
+    "radius_control_points_m": [
+      0.025,
+      0.023,
+      0.02,
+      0.017,
+      0.014,
+      0.01,
+      0.008
+    ],
+    "cross_section_minor_to_major_ratio": 0.82,
+    "motion_contact_drift_limit_m": 0.005,
+    "shurale_branch_fixed_contact_motion": {
+      "work": {
+        "frames_sampled": 30,
+        "nearest_contact_min_distance_m": 0.0,
+        "nearest_contact_min_frame": 1,
+        "nearest_contact_max_distance_m": 0.0,
+        "nearest_contact_max_frame": 1
+      },
+      "noticed": {
+        "frames_sampled": 32,
+        "nearest_contact_min_distance_m": 0.0,
+        "nearest_contact_min_frame": 1,
+        "nearest_contact_max_distance_m": 0.0,
+        "nearest_contact_max_frame": 1
+      },
+      "gesture": {
+        "frames_sampled": 30,
+        "nearest_contact_min_distance_m": 0.0,
+        "nearest_contact_min_frame": 1,
+        "nearest_contact_max_distance_m": 0.0,
+        "nearest_contact_max_frame": 1
+      },
+      "speak": {
+        "frames_sampled": 30,
+        "nearest_contact_min_distance_m": 0.0,
+        "nearest_contact_min_frame": 1,
+        "nearest_contact_max_distance_m": 0.0,
+        "nearest_contact_max_frame": 1
+      },
+      "yield": {
+        "frames_sampled": 32,
+        "nearest_contact_min_distance_m": 0.0,
+        "nearest_contact_min_frame": 1,
+        "nearest_contact_max_distance_m": 0.0,
+        "nearest_contact_max_frame": 1
+      },
+      "step": {
+        "frames_sampled": 32,
+        "nearest_contact_min_distance_m": 0.0,
+        "nearest_contact_min_frame": 1,
+        "nearest_contact_max_distance_m": 0.0,
+        "nearest_contact_max_frame": 1
+      },
+      "idle": {
+        "frames_sampled": 32,
+        "nearest_contact_min_distance_m": 0.0,
+        "nearest_contact_min_frame": 1,
+        "nearest_contact_max_distance_m": 0.0,
+        "nearest_contact_max_frame": 1
+      }
+    },
+    "maximum_sampled_branch_contact_gap_m": 0.0,
+    "branch_contact_stability_within_limit": true
+  },
+  "materials_provenance": {
+    "source_glb": "assets/source/blender/photoworlds/W01/shurale_character_v6/export-v1/history/59f31b23/shurale_v1_candidate.glb",
+    "original_production_source_glb": "assets/source/blender/photoworlds/W01/shurale_character_v6/export-v1/shurale_v1_candidate.glb",
+    "source_material": "Shurale | exportable darkwood branch",
+    "principled_base_color_linear": [
+      0.04891304,
+      0.03913043,
+      0.03,
+      1.0
+    ],
+    "source_surface_manifest": "assets/source/blender/photoworlds/W01/shurale_surface_v1/manifest.json",
+    "branch_material_has_texture": false,
+    "third_party_textures_added": false
+  },
+  "artifacts": {
+    "blend": {
+      "path": "shurale-rooted-work-shoot-v2.blend",
+      "sha256": "6f6dfe39dd61f6b7c0878b06884621af6033ad77e2d84337427734cbb1d6963f",
+      "bytes": 19530243
+    },
+    "glb": {
+      "path": "shurale-rooted-work-shoot-v2.glb",
+      "sha256": "25002f87756a643a22380d73da31715cbf79ccbf5f007f12c1baee52fb7c1107",
+      "bytes": 127760
+    },
+    "preview": {
+      "path": "shurale-rooted-work-shoot-v2-f14-contact-preview.png",
+      "sha256": "6f40ba0b99a210b10cc596e275da2bd52ebd4acf668f8d39ad2006aed5586580",
+      "bytes": 2734446
+    },
+    "relationship_preview": {
+      "path": "shurale-rooted-work-shoot-v2-f14-relationship-preview.png",
+      "sha256": "cc02cac4916c6ad48da5f3b79e06aee0f9f8a568865ac4d7ab9f1d43dd823ebb",
+      "bytes": 2391888
+    },
+    "reimported_glb_metrics": {
+      "vertex_count": 2119,
+      "triangle_count": 4088,
+      "f14_local_godot_bounds_m": {
+        "x": [
+          2.168811,
+          2.356889
+        ],
+        "y": [
+          1.210388,
+          1.807203
+        ],
+        "z": [
+          0.377194,
+          0.506898
+        ]
+      },
+      "root_transform_identity": true,
+      "material_count": 1,
+      "material_names": [
+        "Shurale | exportable darkwood branch"
+      ],
+      "uv_layers": [
+        "UVMap"
+      ],
+      "root_children": [
+        "W01_RootedWorkShoot_Mesh_LOD0"
+      ]
+    }
+  },
+  "verification": {
+    "source_stage_generation": "completed with pinned Blender",
+    "support_and_work_branch_contact": "closest surfaces and triangle overlaps measured against the actual imported source meshes",
+    "shurale_animation_contact": "all seven imported clips sampled over every integer frame; see geometry.shurale_branch_fixed_contact_motion",
+    "native_godot_import": "not run",
+    "runtime_visual_and_collision": "not run; candidate has no collision",
+    "full_shurale_art_acceptance": "pending; this adds only one rooted shoot and does not resolve the character art review"
+  }
+}

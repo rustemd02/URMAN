@@ -94,7 +94,7 @@ position = Vector3(2.45, 0, 0.46)
 
 ; Keep the NPC outside the 2.1 m route ribbon, beside the visible fork support, facing toward the path.
 [node name="ShuraleRoot" type="Marker3D" parent="Anchors/F14"]
-position = Vector3(3.2, 0, 0.15)
+position = Vector3(2.9, 0, 0.15)
 rotation_degrees = Vector3(0, 90, 0)
 
 ; F15/F16 retain passport X/Z and use the continuous F00–F03 terrain fit (Y=4).

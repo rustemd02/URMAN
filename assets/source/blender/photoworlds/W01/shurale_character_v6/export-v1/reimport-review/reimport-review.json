@@ -1,0 +1,84 @@
+{
+  "glb": "/Users/unterlantas/Documents/GitHub/URMAN/assets/source/blender/photoworlds/W01/shurale_character_v6/export-v1/shurale_v1_candidate.glb",
+  "glb_sha256": "e4476b0e636f2e984bd436bbd878fe004b61cf451c5e0dc9c55942cfa846f191",
+  "glb_bytes": 10007944,
+  "root_transform_error_max": 0.0,
+  "root_origin": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "root_determinant": 1.0,
+  "branch_parent_type": "BONE",
+  "branch_parent_bone": "hand_l",
+  "expected_clip_names": [
+    "work",
+    "noticed",
+    "gesture",
+    "speak",
+    "yield",
+    "step",
+    "idle"
+  ],
+  "clip_frame_ranges": {
+    "work": [
+      1,
+      30
+    ],
+    "noticed": [
+      1,
+      32
+    ],
+    "gesture": [
+      1,
+      30
+    ],
+    "speak": [
+      1,
+      30
+    ],
+    "yield": [
+      1,
+      32
+    ],
+    "step": [
+      1,
+      32
+    ],
+    "idle": [
+      1,
+      32
+    ]
+  },
+  "reimport_all_clip_all_frame_lod_samples": 436,
+  "nonfinite_mesh_samples": [],
+  "max_left_hand_matrix_drift_root_local": 0.0,
+  "max_branch_matrix_drift_root_local": 0.0,
+  "lods": {
+    "ShuraleBody_LOD0": {
+      "vertices": 14677,
+      "polygons": 27036,
+      "visible_in_source_render": true
+    },
+    "ShuraleBody_LOD1": {
+      "vertices": 6451,
+      "polygons": 11624,
+      "visible_in_source_render": false
+    }
+  },
+  "materials": [
+    "Shurale | ashwood plates and readable face | surface v3",
+    "Shurale | dark wet non-emissive eyes",
+    "Shurale | exportable darkwood branch"
+  ],
+  "review_images": {
+    "work": "/Users/unterlantas/Documents/GitHub/URMAN/assets/source/blender/photoworlds/W01/shurale_character_v6/export-v1/reimport-review/work-full.png",
+    "work_face": "/Users/unterlantas/Documents/GitHub/URMAN/assets/source/blender/photoworlds/W01/shurale_character_v6/export-v1/reimport-review/work-face.png",
+    "work_hands": "/Users/unterlantas/Documents/GitHub/URMAN/assets/source/blender/photoworlds/W01/shurale_character_v6/export-v1/reimport-review/work-hands.png",
+    "noticed": "/Users/unterlantas/Documents/GitHub/URMAN/assets/source/blender/photoworlds/W01/shurale_character_v6/export-v1/reimport-review/noticed-full.png",
+    "gesture": "/Users/unterlantas/Documents/GitHub/URMAN/assets/source/blender/photoworlds/W01/shurale_character_v6/export-v1/reimport-review/gesture-full.png",
+    "yield": "/Users/unterlantas/Documents/GitHub/URMAN/assets/source/blender/photoworlds/W01/shurale_character_v6/export-v1/reimport-review/yield-full.png",
+    "step": "/Users/unterlantas/Documents/GitHub/URMAN/assets/source/blender/photoworlds/W01/shurale_character_v6/export-v1/reimport-review/step-full.png"
+  },
+  "runtime_lod_contract_source": "game/scripts/photoworlds/W01Controller.ShuraleLod.cs; both LODs visible; Self fade; LOD0 0/0/14/2m, LOD1 10/2/0/0m"
+}
