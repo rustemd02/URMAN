@@ -10,6 +10,7 @@ public partial class JournalUi
     private const string SGardenPhotoId = "S-GARDEN";
     private const string SGardenPageId = "PAGE-GARDEN";
     private const string SGardenFrontImagePath = "res://assets/textures/photobook/s-garden-front-v1.png";
+    private const string SBankFrontImagePath = "res://assets/textures/photobook/s-bank-front-v1.png";
     private const string PForestFrontImagePath = "res://assets/textures/photobook/p-forest-front-v2.png";
     private const string PForestThumbnailPath = "res://assets/textures/photobook/p-forest-front-v2-thumbnail.png";
     private static readonly IReadOnlyDictionary<string, (string Path, string Caption)> PhotoBookBackImages =
@@ -468,6 +469,7 @@ public partial class JournalUi
         return photoId switch
         {
             SGardenPhotoId => SGardenFrontImagePath,
+            "S-BANK" => SBankFrontImagePath,
             "P-FOREST" or "S-SCHOOL" => thumbnail ? PForestThumbnailPath : PForestFrontImagePath,
             _ => null
         };

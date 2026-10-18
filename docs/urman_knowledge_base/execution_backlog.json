@@ -2672,7 +2672,7 @@
       "lesson": "A warning in an edited file can emit stale bytes under a fresh mtime. Byte-verify (utf8 methods, utf16-le literals) before any native verdict. Audit-20's anchor verdict is void; do not cite it."
     }
   },
-  "updated": "2026-10-17",
+  "updated": "2026-10-18",
   "goal_key": "urman-photoworlds-finished-game",
   "goal_statement": "Довести единую очередь до готовой игры «За краем снимка»: обычная зимняя Кара-Урман, физическая книга Тукая, 13 снимков, пять полноценных фотомиров, пролог W01, реальные внешние подтверждения, домашний эпилог и свободные возвращения. Все применимые требования Visual Reset и PhotoWorlds, сохранённые бытовые системы и выпускная приёмка обязательны; готовность принимается REL-003 на конкретной поставляемой сборке, а не по числу закрытых карточек.",
   "historical_execution_limits": "Предыдущий исполнитель останавливался по лимитам своего запуска и старому временному поручению 2026-09-12; эти условия сохранены в history/progress и не являются актуальным требованием данной сессии.",
@@ -116971,7 +116971,7 @@
             "technical_verification_state": "not_run",
             "remaining": [
               "13backSVG produced1800×1200 and Godot rendered; protected album view/authorart+language acceptance open.",
-              "12other fronts, S-GARDEN1800×1200final, all thumbnails и scene/identity alignment; full E02 остаётся открытым."
+              "Other required fronts, S-GARDEN1800×1200final, all thumbnails и scene/identity alignment; full E02 остаётся открытым."
             ],
             "next_action": "Finish named W02 portal camera/support alignment and its P-WATER front/thumbnail, then P-HOUSE; extend existing resolver only with exact produced owned artifacts. Keep all13 and final art acceptance open.",
             "blocker": null,
@@ -117228,14 +117228,14 @@
               "resolvable_source_ids": [
                 "P-FOREST",
                 "S-SCHOOL",
-                "S-GARDEN"
+                "S-GARDEN",
+                "S-BANK"
               ],
               "unresolved_front_ids": [
                 "P-WATER",
                 "P-HOUSE",
                 "P-COMMON",
                 "P-CELLAR",
-                "S-BANK",
                 "S-PHOTOGRAPHER",
                 "S-PRINT",
                 "S-MARAT",
@@ -117251,6 +117251,22 @@
               "finding": "Existing W02 staged views are actual Godot72degree1920x1080 SubViewport renders, not the required R00 camera1.45m/vFOV45/+Z/1800x1200 photo. Available entry/vista/summerbank views lack required chipped-left-post/diagonal-board/child echoes framing; answer contains SuAnasy, wrong photo.",
               "source": "content/campaigns/urman.fullgame/photoworlds-sources/photos.spec.json + W02 passport§6; game/tests/FullGameDressingCapture.cs; evidence/PW-050/w02-home-capture-20261016/",
               "limits": "Read-only primary source/image comparison; no native capture, newfixture/probe/API or photo binding. P-WATER remains text fallback and source camera/composition is still required."
+            },
+            "s_bank_front_stage_2026_10_18": {
+              "result": "SOURCE_PRINT_PRODUCED_AND_BOUND; NATIVE_ART_OPEN",
+              "files": [
+                "game/assets/textures/photobook/s-bank-front-v1.svg",
+                "game/assets/textures/photobook/s-bank-front-v1.png",
+                "game/assets/textures/photobook/s-bank-front-v1.provenance.json"
+              ],
+              "png_sha256": "219746dd69c30ff8e1bea5e1b2f6d4d0018e7a3abf692f079b5df167b9b61f0e",
+              "dimensions": [
+                1800,
+                1200
+              ],
+              "source": "Unchanged owned existing staged W02 R05 viewport plus original vector plan from exact seven posts/four broken boards and R05 coordinates; no crop/retouch or invented shoreline. Root personally reviewed final image; only in-world text remains.",
+              "consumer": "Council physical 150x100mm copy and JournalUi.PhotoBook existing front resolver share one PNG.",
+              "remaining": "Godot native import, readability in ordinary play, art/author acceptance and other required photo fronts remain open. Source spec historical SPECIFIED_NOT_PRODUCED inventory was not silently treated as release acceptance."
             }
           },
           {
@@ -121061,7 +121077,7 @@
       "title": "W01: произвести, оживить и поставить Шурале",
       "milestone": "PW-M3",
       "status": "in_progress",
-      "active_owner": "Codex/shurale_fit",
+      "active_owner": null,
       "owner": "character_art",
       "priority": "P1",
       "complexity": "complex",
@@ -121215,8 +121231,8 @@
       },
       "assigned_owner": "character_art",
       "activity": {
-        "state": "confirmed_active",
-        "reason": "One new authorized Meshy6Lite GLB downloaded; independent source import/views/metrics underway, no rig/runtime promotion."
+        "state": "released",
+        "reason": "Finite source comparisons complete; canonical actor unchanged. Root awaiting renewed Meshy session to inspect supported animation; native/art/cultural acceptance remains open."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -121641,15 +121657,19 @@
           "https://docs.meshy.ai/en/api/image-to-3d",
           "https://docs.meshy.ai/en/api/rigging"
         ],
-        "constraints": "Official free tier: CC BY4.0 commercial attribution, web-only, download model limits; paid output ownership subject to input rights. Auto-rig ordinary humanoids only, not proof of our long-finger/contact compatibility. No subscription purchase, upload or external generation performed.",
-        "next": "Await one authorized output, downloadactualGLB, source anatomy/topology/material/budget review; no repeatgenerations/canonicalpromotion without evidence.",
-        "state": "GLB_DOWNLOADED_SOURCE_REVIEW_ACTIVE",
+        "constraints": "Free generated output uses CC BY4.0 attribution; Meshy7.1 normal GLB export explicitly opens paid-subscription gate. No paywall bypass or subscription purchase. Free preview does not prove topology, rig, contact, animation or game performance.",
+        "next": "Restore existing account session; attempt supported normal viewer animation without buying or bypassing export. If unavailable, report exact blocker; do not call static preview a movement test or promise all assets can be replaced.",
+        "state": "7_1_PREVIEW_PROMISING; DOWNLOAD_REQUIRES_SUBSCRIPTION; MOVEMENT_NOT_VERIFIED",
         "authorization": "Owner explicitly approved free account registration and separately approved upload of shown original input-whole-body-v1.png +oneMeshy6Lite generation costing10freecredits/CCBY4.0; no subscription purchase.",
         "input": "assets/source/blender/photoworlds/W01/shurale_reconstruction_v1/whole-body-v1/input-whole-body-v1.png",
         "account_boundary": "Only generic workflow facts recorded; no email/code/token/profile identifiers in repository.",
         "output": "assets/source/blender/photoworlds/W01/shurale_meshy_v1/meshy6lite-original.glb",
         "output_sha256": "af76d066d0527e0c25707c04a42f293d5a5c4f5b6aab1167e64c490f508e5882",
-        "technical_preliminary": "Producer actual Blender import:1mesh,56242vertices/112508triangles,0source materialslots. Only neutral sourceviewreview; no readygameactorclaim."
+        "technical_preliminary": "Producer actual Blender import:1mesh,56242vertices/112508triangles,0source materialslots. Only neutral sourceviewreview; no readygameactorclaim.",
+        "root_review": "Root personally viewed actual 3q/profile/back/face/hands. Coherent wholebody and smallhorn, but fused fingertalons and greatly simplified generic face; rawsource is112508triangles with no UV/materials/skin/animations. Not a modern-horror runtime actor; no canonicalpromotion or repeatedrigtransfer.",
+        "views_local": "assets/source/blender/photoworlds/W01/shurale_meshy_v1/views/",
+        "next_authorized_comparison": "Owner-approved same-input Meshy7.1 standard preview for20freecredits completed. Root inspected front/profile/back: face, fingers and coherent back substantially more promising than6Lite. Normal GLB download blocked by subscription. No texture/rig/runtime acceptance yet.",
+        "movement_followup": "Owner asks to test motion before deciding on Premium for broader asset work. Current browser session was revoked with other-device-login notice; same-account re-login code requested, waiting for owner. Check available viewer rig/animation first; no paid purchase authorized."
       }
     },
     {
@@ -131680,7 +131700,7 @@
       "remaining": [
         "P-WATER поставлен и снят (см. evidence). Осталось: остальные источники P/S из 13 паспортов; D02 теперь подключён к content и настоящему домашнему target; обычная GUI/modal-приёмка пяти строк и двух ответов ещё NOT_RUN; обычный проход источник→копия в движении."
       ],
-      "next_action": "Accept D02 on next already-needed ordinary home water-source route: five exact lines/two replies/close/control restored, same existing permission/photo conditions. No unchanged compile or staged screenshot as dialogue proof; remaining photo sources stay open.",
+      "next_action": "Verify ordinary council S-BANK source → stamp permission → album/back-read together with physical bank inspection on next causally justified native run; native import and foreground issue remain unresolved. Other 13-photo sources and D02 GUI acceptance stay open.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -131903,6 +131923,36 @@
         ],
         "verification": "Independent source review no confirmed defect; affectedGamecompile16.41s0errors/warnings. Native visibility/interactions/Continue NOT_RUN.",
         "remaining": "P-HOUSE front not produced, existing back only; W03 pw-house routing/scene implementation remains separate and is not claimed playable."
+      },
+      "council_bank_copy_source_review_2026_10_18": {
+        "result": "PHYSICAL_LOCATION_AND_ACCESS_EXIST; REQUIRED_SOURCE_FRONT_MISSING",
+        "inputs": "Existing councilinterior/desk/entrance/public-use pattern verified; SchoolPhotoCopyRequest is established source+permission pattern. Current old village-plan/Sabantuyalbum are not S-BANK substitutes.",
+        "missing": "photos.spec S-BANK explicitlySPECIFIED_NOT_PRODUCED: required pilephoto+handdrawnshoreplan tiedlaterallytoR05. Need actualsourceconsistentfront, not fake copyelsewhere.",
+        "next": "Required source front produced as bounded engineering draft; see council_bank_copy_stage_2026_10_18. Native/art remains open."
+      },
+      "council_bank_copy_stage_2026_10_18": {
+        "result": "SOURCE_INTEGRATED_COMPILED; NATIVE_NOT_ACCEPTED",
+        "files": [
+          "game/scripts/CouncilPhotoCopyPresence.cs",
+          "game/scripts/Act1ConnectedWorld.PublicBuildings.cs",
+          "game/scripts/JournalUi.PhotoBook.cs"
+        ],
+        "source_asset": [
+          "game/assets/textures/photobook/s-bank-front-v1.svg",
+          "game/assets/textures/photobook/s-bank-front-v1.png",
+          "game/assets/textures/photobook/s-bank-front-v1.provenance.json"
+        ],
+        "flow": "Fullgame-only council desk print source target then existing stamp-pad permission target; exact kernel interactions own found/acquire/back-read state. Session/current bank scene, modal/vehicle/room/distance/LOS guards preserved.",
+        "root_corrections": "Desk targets enter tree before initial disable; sibling Ready reasserts ray-only layer after target Ready, preventing permanent zero-layer cache. Source and permission conditions close on committed facts.",
+        "verification": {
+          "command": ".tools/dotnet/dotnet build game/Urman.Game.csproj --no-restore --disable-build-servers --verbosity minimal -nodeReuse:false -m:1",
+          "exit_code": 0,
+          "warnings": 0,
+          "errors": 0,
+          "elapsed_seconds": 21.76,
+          "scope": "Affected Game compile after final Council ray-layer fix, S-BANK front resolver and seven-pile/four-board bank correction. Independent source review of target Ready lifecycle clean. No native import, traversal or art acceptance."
+        },
+        "remaining": "Ordinary council entry, print visibility and permission/back-read/album/save-return chain; existing D02 GUI and other photo-source obligations remain open."
       }
     },
     {
@@ -132400,7 +132450,7 @@
         "Можно закончить W02 первым или вторым.",
         "Финальный флаг не появляется из чтения картинки в инвентаре без посещения берега."
       ],
-      "next_action": "Согласовать S-BANK с зимними сваями и R05.",
+      "next_action": "Verify actual seven-pile/four-board bank against council S-BANK and W02 R05 in ordinary movement; prove E-BANK requires source document and physical inspection in both world orders. No identical foreground probe repeat.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -132616,6 +132666,24 @@
         "result": "SOURCE_INTEGRATED_COMPILED; NATIVE_NOT_ACCEPTED",
         "root_corrections": "Exact hyphenated spawn matched; -90yaw faces actual eastward piles; collider group toggling scoped to owning bank subtree. Props visible in fullgame village home/bank, entry home target enables bank beforeW04 prerequisite; chapter1 unaffected.",
         "remaining": "All remaining village semantic anchors, actual council S-BANK copy, native pile focus/traversal, completeAlsu/leaf/epilogue and externalart acceptance remain open."
+      },
+      "old_approach_source_alignment_2026_10_18": {
+        "result": "SOURCE_ALIGNED_COMPILED; NATIVE_NOT_ACCEPTED",
+        "files": [
+          "game/scripts/Act1ConnectedWorld.PhotoBank.cs"
+        ],
+        "source": "W02Controller.BuildOldApproach: exact seven diagonal posts and four broken boards. New winter geometry corrected from mistaken eight posts/two rows; W02 source unchanged.",
+        "mapping": "Source (34.6,63.5) maps to (RavineCentre(-52.5)-4.3,-52.5), reflect X and preserve Z offsets. Proper reflected basis, old-pile witness on actual rotated near-post top, static collision owned by bank subtree.",
+        "copy": "S-BANK source image/plan and physical council flow now share this source; PW-040/E02 and PW-071 describe produced engineering draft.",
+        "verification": {
+          "command": ".tools/dotnet/dotnet build game/Urman.Game.csproj --no-restore --disable-build-servers --verbosity minimal -nodeReuse:false -m:1",
+          "exit_code": 0,
+          "warnings": 0,
+          "errors": 0,
+          "elapsed_seconds": 21.76,
+          "scope": "Affected Game compile after final Council ray-layer fix, S-BANK front resolver and seven-pile/four-board bank correction. Independent source review of target Ready lifecycle clean. No native import, traversal or art acceptance."
+        },
+        "remaining": "Native pile focus/reachability/traversal, both W02 completion orders, strict E-BANK conjunction, ordinary save/return and art/author gates remain unverified."
       }
     },
     {

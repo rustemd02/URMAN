@@ -390,6 +390,14 @@ public partial class Act1ConnectedWorld
         PublicShelf(room, "CouncilArchive", new(-h.X + .20f, 0, -1.61f), .98f, 1.80f, .31f, goods: false, yaw: 90);
         PublicBox(room, "DocumentStampPad", new(.10f, .035f, .075f), new(-.75f, .785f, -1.54f), "494b44", "metal");
         FacilityRod(room, "DeskPen", new(-.77f, .787f, -1.74f), new(-.69f, .791f, -1.68f), .005f, "38433f");
+        if (GetTree().GetFirstNodeInGroup("runtime_bridge") is RuntimeBridge photoBridge
+            && photoBridge.IsPhotoWorldsCampaign)
+        {
+            var bankCopy = CouncilPhotoCopyPresence.Create(room.GetNode<Node3D>("CouncilDesk"));
+            RegisterPublicUse("council", bankCopy.SourceTarget, bankCopy.Desk);
+            RegisterPublicUse("council", bankCopy.PermissionTarget, bankCopy.Desk);
+            room.AddChild(bankCopy);
+        }
         var plan = PublicDocument(room, "council-village-plan", new(h.X - .035f, 1.49f, -.78f),
             new(0, -90, 0), new(1.24f, .94f));
         _publicPlanSurface = plan;

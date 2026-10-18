@@ -1,0 +1,116 @@
+{
+  "photo_id": "S-BANK",
+  "asset": "game/assets/textures/photobook/s-bank-front-v1.png",
+  "source_svg": "game/assets/textures/photobook/s-bank-front-v1.svg",
+  "source_kind": "fictional_game_print_layout",
+  "dimensions_px": [
+    1800,
+    1200
+  ],
+  "physical_size_mm": [
+    150,
+    100
+  ],
+  "source_viewport": "docs/urman_knowledge_base/art/fullgame_frames/godot_w02_old_approach_1080p.png",
+  "source_viewport_sha256": "5b0ca7a5ce0934cdae24bffc037d725e6e063e327bcb06a105d42c8bc36ba802",
+  "source_viewport_dimensions_px": [
+    1920,
+    1080
+  ],
+  "source_viewport_stage_limit": "Existing viewport-stage screenshot only; not final native-game capture or author art acceptance.",
+  "source_spec": "content/campaigns/urman.fullgame/photoworlds-sources/photos.spec.json#S-BANK",
+  "source_spec_sha256": "6127fe5180785ac303d4372b4537c38d253c255e88dc04a5d8c821e4a01bc2cc",
+  "plan_sources": [
+    {
+      "path": "game/scripts/photoworlds/W02Controller.cs",
+      "section": "BuildOldApproach",
+      "sha256": "28636ea0e15ef1347bdf012a3dae46853c5eeb43a4836b7c062f1952d0a52329"
+    },
+    {
+      "path": "game/scenes/photoworlds/W02/W02.tscn",
+      "anchor": "R05",
+      "coordinate_xyz": [
+        40,
+        1.38,
+        63
+      ],
+      "sha256": "d872ec61949bc8cb18d6f18568dd45da341cd1bbc71e75f7c8dd9bfc320a2f8c"
+    }
+  ],
+  "code_positions": {
+    "posts_xz": [
+      [
+        34.6,
+        63.5
+      ],
+      [
+        33.98,
+        64.35
+      ],
+      [
+        33.36,
+        65.2
+      ],
+      [
+        32.74,
+        66.05
+      ],
+      [
+        32.12,
+        66.9
+      ],
+      [
+        31.5,
+        67.75
+      ],
+      [
+        30.88,
+        68.6
+      ]
+    ],
+    "plank_centers_xz_yaw_degrees": [
+      [
+        33.2,
+        64.1,
+        24
+      ],
+      [
+        32.65,
+        64.45,
+        15
+      ],
+      [
+        32.1,
+        64.8,
+        6
+      ],
+      [
+        31.55,
+        65.15,
+        -3
+      ]
+    ],
+    "r05_anchor_xz": [
+      40,
+      63
+    ]
+  },
+  "image_processing": "Source PNG bytes embedded unchanged in SVG and uniformly scaled to 1056x594 for layout; no crop, retouch, recolor, or generation.",
+  "plan_limit": "The plan plots code-defined scene X/Z points only. Shoreline geometry is not placed because its coordinate is not defined in these sources.",
+  "rights_note": "Original game viewport and original code-derived vector layout; no claim of real archive authenticity or real-world map.",
+  "remaining": "Root reviewed final layout as engineering draft; native-game readability and final art/author acceptance remain open.",
+  "sha256_png": "219746dd69c30ff8e1bea5e1b2f6d4d0018e7a3abf692f079b5df167b9b61f0e",
+  "sha256_svg": "6b24fb44cecae6c5328a7186d7aa5c7c44aae5ed6fa9b09d50614761f2b9f793",
+  "visible_text": [
+    "КОПИЯ",
+    "Старая схема подхода",
+    "Сваи и остатки настила",
+    "План подхода",
+    "Место съёмки",
+    "Сваи — 7",
+    "Доски — 4",
+    "Ряд свай и наклонные доски у кромки воды.",
+    "Старый подход к мосткам."
+  ],
+  "render_method": "SVG source and PNG were authored in one pass from the same layout geometry; PNG rasterized with Pillow 12.2.0."
+}
