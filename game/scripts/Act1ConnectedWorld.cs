@@ -785,6 +785,29 @@ public partial class Act1ConnectedWorld : Node3D
             var isActiveZone = string.Equals(candidateZoneId, ActiveZoneId, StringComparison.Ordinal);
             foreach (var binding in bindings)
             {
+                if (_runtimeBridge?.IsPhotoWorldsCampaign == true
+                    && candidateZoneId == "house_old_pc"
+                    && binding.Node.Name == "GulsinaNpc")
+                {
+                    const string authorInteraction = "urman.fullgame:interaction/pw-gulsina-author-talk";
+                    var authorAvailable = _runtimeBridge.IsInteractionAvailable(authorInteraction);
+                    var interaction = authorAvailable
+                        ? authorInteraction
+                        : "urman.fullgame:interaction/pw-arrival-tea-talk";
+                    var prompt = authorAvailable
+                        ? "Уточнить у Гөлсинә, кто стоял за камерой"
+                        : "Поприветствовать әби и остаться на чай";
+                    var dialogue = authorAvailable
+                        ? "urman.fullgame:dialogue/pw-gulsina-author"
+                        : "urman.fullgame:dialogue/pw-arrival-tea";
+                    if (binding.Node.InteractionId != interaction
+                        || binding.Node.Prompt != prompt
+                        || binding.Node.DialogueId != dialogue)
+                    {
+                        binding.Node.SetAuthoredBinding(interaction, prompt, dialogue);
+                    }
+                }
+
                 // A suppressed legacy target keeps layer 0 for good: this pass
                 // re-applies the captured layer on every scene change, so a
                 // one-shot suppression is undone the next time the zone routes.

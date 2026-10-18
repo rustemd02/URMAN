@@ -44,6 +44,16 @@ public partial class InteractionTarget : StaticBody3D
         CollisionLayer = IsSemanticallyAvailable() ? _activeCollisionLayer : 0u;
     }
 
+    internal void SetAuthoredBinding(string interactionId, string prompt, string dialogueId)
+    {
+        if (InteractionId == interactionId && Prompt == prompt && DialogueId == dialogueId) return;
+        InteractionId = interactionId;
+        Prompt = prompt;
+        DialogueId = dialogueId;
+        _available = null;
+        RefreshAvailability();
+    }
+
     // A moving character owns its physical body separately. Keep this stable
     // interaction target on the ray layer, including future routing refreshes.
     internal void ConfigureRayOnly()
@@ -139,6 +149,9 @@ public partial class InteractionTarget : StaticBody3D
             return;
         }
 
+        var interactionId = InteractionId;
+        var dialogueId = DialogueId;
+
         if (PresentationBeforeDispatch is { } beforeDispatch && !beforeDispatch())
         {
             return;
@@ -150,7 +163,7 @@ public partial class InteractionTarget : StaticBody3D
             return;
         }
 
-        if (!await bridge.DispatchInteractionAsync(InteractionId)
+        if (!await bridge.DispatchInteractionAsync(interactionId)
             || !IsPresentationCurrent(bridge, session))
         {
             return;
@@ -164,14 +177,14 @@ public partial class InteractionTarget : StaticBody3D
             }
         }
 
-        if (InteractionId == "urman.chapter1:interaction/oldpc-power")
+        if (interactionId == "urman.chapter1:interaction/oldpc-power")
         {
             bridge.OpenOldPcUi();
         }
 
-        if (!string.IsNullOrWhiteSpace(DialogueId))
+        if (!string.IsNullOrWhiteSpace(dialogueId))
         {
-            bridge.OpenDialogueUi(DialogueId);
+            bridge.OpenDialogueUi(dialogueId);
         }
 
         if (!string.IsNullOrWhiteSpace(DocumentId))
@@ -207,8 +220,8 @@ public partial class InteractionTarget : StaticBody3D
             {
                 source = houseExit.GlobalPosition;
             }
-            else if ((InteractionId == "urman.chapter1:interaction/house-to-route"
-                    || InteractionId == "urman.fullgame:interaction/pw-home-exit-house")
+            else if ((interactionId == "urman.chapter1:interaction/house-to-route"
+                    || interactionId == "urman.fullgame:interaction/pw-home-exit-house")
                 && main?.FindChild("HouseDoor", true, false) is Node3D houseDoor)
             {
                 source = houseDoor.GlobalPosition;

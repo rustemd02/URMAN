@@ -62608,6 +62608,16 @@
               "technical": "All receipt steps exit0, gameExitCode0, userdataRestoredtrue, snapshot hashes verified. Fresh doctor ready/idle, no orphan or recovery. Default recipe restored byte-identical and owned temporary model removed.",
               "root_art_review": "Personally compared both front/porch pairs: triangular/star facets on logs and corner caps persist without normal map. Normal map alone does not explain the visible defect. Candidate not promoted; missing tangents remain an unproved risk, not an established cause.",
               "stop": "No third blind shader trial. Inspect one concrete source atlas/UV or cap-normal fact; keep default source and art gate open."
+            },
+            "corrected_uv_input_2026_10_19": {
+              "input_sha256": "cb14550008d3519bbf17aa35ac79333ea0a774e41e1a4ab0c6ddad8d3ff5b099",
+              "input": "assets/source/blender/act1/hero_house_pbr_v1/opaquehero-for-retexture-v3.glb",
+              "source_cause": "Measured cap fan triangles map to disconnected subpixel0.353texel² base-color regions with luma73..188; cap loop normals agree with outward normal. Normal-off native comparison retained starpatches.",
+              "fix": "Position sharing restricted to each semantic crown mesh, corner normals retained;198cap fans each contiguous after export/reimport. Minimum fan777.458px² / triangle55.53px² at4096atlas. Existing473nodes/19902tri preserved.",
+              "retexture_task": "01a150f9-6253-74de-9ac3-08fd3c718c09",
+              "consumed_credits": 10,
+              "result_sha256": "98320587d04f5a3dff8118036e7fa49ee1833fb12cb9330f919a8729436172b5",
+              "source_review": "Root viewed actual v3front3q: roof/trim readable, walls still dark inDCC. Not art accepted. Complete runtime assembly for one controlled native same-camera comparison is running; no blind material variants."
             }
           },
           {
@@ -121204,7 +121214,7 @@
       "title": "W01: произвести, оживить и поставить Шурале",
       "milestone": "PW-M3",
       "status": "in_progress",
-      "active_owner": "/root/whole_actor_route",
+      "active_owner": "/root",
       "owner": "character_art",
       "priority": "P1",
       "complexity": "complex",
@@ -121364,7 +121374,7 @@
           "assets/source/blender/photoworlds/W01/shurale_meshy_v4/",
           "game/scripts/photoworlds/W01Controller.Shurale.cs"
         ],
-        "last_update": "Web Mixamo66 source received; one seven-clip adaptation with actual review frames is running. Root owns integration and native station."
+        "last_update": "Root integrating verified source actor; protected import pending. Full native W01 approach/dialogue/grip/movement and author art remain open."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -121980,9 +121990,9 @@
           "triangles": 104090,
           "root_review": "Personally viewed actual v4 closePBR and directslotclay: focusedfacialplanes and continuous neck/clavicle, no graft collar. Accepted for one rig/motion source pilot only; no author/native art acceptance.",
           "rig_gap": "API GLB and FBX both contain24joints/no fingers; Web Mixamo export contains66joints including fingers. Use the verified Web export for one seven-clip adaptation; no speculative API options.",
-          "credit_total": 150,
+          "credit_total": 160,
           "credit_limit": 4000,
-          "remaining_authorized": 3850,
+          "remaining_authorized": 3840,
           "core24_motion_review": {
             "sha256": "edce3423cb033b6bf8a639048f8c1465c9a5b3031c9352019a34029d39e3fea7",
             "result": "Root inspected actual noticed/gesture PBR. Source pilot rejected for promotion: arms overlap torso, shoulders read poorly and unarticulated fingers cannot form a credible hold. Preserve scale fix, stop further core24 pose variants.",
@@ -122003,7 +122013,15 @@
             "observed_web_balance_before_after": 4100,
             "cost": "No additional debit observed; total authorized consumption remains150/4000.",
             "state": "Raw exported source, seven-game-clip adaptation in progress; no canonical or final art acceptance."
-          }
+          },
+          "motion_manifest": "assets/source/blender/photoworlds/W01/shurale_meshy_v4/runtime-motion/manifest_web_mixamo.json",
+          "runtime_candidate_sha256": "653f1692f3337d0b1af634c6b3751b6fcf9bb486bd0804224f114d6c65b9f032",
+          "runtime_candidate_bytes": 30761216,
+          "source_motion_review": "Root viewed actual work-full/work-hands/noticed/gesture/face PBR: coherent neck/face, hands wrap branch and one hand releases for gesture. Source engineering accepted. 2K face personally viewed; image-only downsample preserved all nonimagebuffers/mesh/skin/clip sections.",
+          "integration_state": "Replacement staged at existing game/assets/photoworlds/shurale/shurale_v1.glb for protected Windows import. Previous source byte copy retained locally. Not native movement/art accepted; no new loader or parallel actor flow.",
+          "importer_name_fix": "Official Godot GLTF importer replaces bone-name :/ with underscores. W01 gaze now looks for mixamorig_Head/Neck; legacy head/neck_01 supported.",
+          "native_path_limit": "Independent read-only search found no existing standalone Windows Shurale motion/LOD preview. Existing ordinary W01 route remains required; no new harness created.",
+          "physical_shoot_correspondence": "Pinned Blender independent source check work frame15: new moving branch meets fixed F14 shoot endpoint within0.071mm, old/newelement orientation<1.1e-6 and dimensiondelta<1µm; no placement fix needed. Native W01 view remains open."
         },
         "gaze_engineering": {
           "source": "game/scripts/photoworlds/W01Controller.Shurale.cs",
@@ -133031,7 +133049,7 @@
       "id": "PW-074",
       "title": "Сделать подтверждение авторства семейного снимка",
       "milestone": "PW-M3",
-      "status": "todo",
+      "status": "in_progress",
       "active_owner": null,
       "owner": "integration",
       "priority": "P1",
@@ -133171,16 +133189,16 @@
       "assigned_owner": "integration",
       "activity": {
         "state": "not_active",
-        "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+        "reason": "Finite physical-dialogue source link delivered and compiled; awaiting ordinary native story route."
       },
       "task_type": "engineering",
       "implementation_state": "not_started",
       "technical_verification_state": "not_run",
       "remaining": [
-        "E-PHOTOGRAPHER-OUTSIDE получается только из двух разных источников.",
-        "Әби не объясняет всё устройство книги."
+        "Обычным игровым маршрутом подтвердить H05/back-read/разговор и устойчивое сохранение E-PHOTOGRAPHER-OUTSIDE.",
+        "Отдельная авторская/языковая приёмка разговора сохраняется; source compile её не заменяет."
       ],
-      "next_action": "Связать позицию H05 с оборотом S-PHOTOGRAPHER.",
+      "next_action": "Пройти обычный H05 → чтение оборота S-PHOTOGRAPHER → тот же NPC Гөлсинә → подтверждение авторства и сохранение. Проверить единственный понятный prompt и отсутствие преждевременной выдачи evidence; source link уже реализован, не переписывать без дефекта.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -133190,7 +133208,9 @@
         "targets": [
           "content/campaigns/urman.fullgame/campaign.json",
           "game/scripts/Act1DemoRoot.cs",
-          "game/scripts/RuntimeBridge.cs"
+          "game/scripts/RuntimeBridge.cs",
+          "game/scripts/Act1ConnectedWorld.cs",
+          "game/scripts/InteractionTarget.cs"
         ],
         "required_inputs": [
           {
@@ -133359,7 +133379,16 @@
           "evidence_ref": "PW-074.evidence and named history progress; source_review shows available/missing inputs"
         }
       ],
-      "assignment_state": "preserved_person_or_existing_role; activity separate"
+      "assignment_state": "preserved_person_or_existing_role; activity separate",
+      "physical_author_dialogue_2026_10_19": {
+        "source": [
+          "game/scripts/Act1ConnectedWorld.cs",
+          "game/scripts/InteractionTarget.cs"
+        ],
+        "result": "Single existing GulsinaNpc target switches to authored pw-gulsina-author-talk when available, arrival-tea otherwise. No adjacent hitbox. Authored H05 and S-PHOTOGRAPHER back-read guards and minimumDistinctSources3 retained. Interaction/dialogue IDs captured before async dispatch; atomically updated target binding refreshes availability cache.",
+        "verification": "Affected Game build --no-restore --disable-build-servers --verbosity quiet -nodeReuse:false -m:1 passed in18.17s,0warnings/0errors; independent review found no concrete defect; root inspected final diff. No new tests.",
+        "native": "Not run; ordinary H05→S-PHOTOGRAPHER back→Gulsina conversation/evidence/save still required."
+      }
     },
     {
       "id": "PW-075",
