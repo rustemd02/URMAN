@@ -1,0 +1,154 @@
+{
+  "blender": {
+    "build_hash": "84afd5f785f7",
+    "version": "4.5.12 LTS"
+  },
+  "limitations": [
+    "The clay material was assigned directly to the imported mesh material slot for review and was not exported.",
+    "These source views do not establish rigging quality, motion quality, or author art acceptance."
+  ],
+  "schema": "urman.shurale-wholeactor-source-review.v1",
+  "source": {
+    "bytes": 66732320,
+    "mesh": {
+      "bounds_max_m": [
+        0.42442399,
+        0.21426804,
+        0.95101398
+      ],
+      "bounds_min_m": [
+        -0.42552,
+        -0.21054308,
+        -0.94904298
+      ],
+      "extent_m": [
+        0.849944,
+        0.42481112,
+        1.90005696
+      ],
+      "faces": 104090,
+      "material": {
+        "bindings": {
+          "Base Color": [
+            "texture_0"
+          ],
+          "Metallic": [
+            "texture_0_metallic_roughness"
+          ],
+          "Normal": [
+            "normal"
+          ],
+          "Roughness": [
+            "texture_0_metallic_roughness"
+          ]
+        },
+        "images": [
+          {
+            "channels": 4,
+            "colorspace": "Non-Color",
+            "name": "normal",
+            "size_px": [
+              4096,
+              4096
+            ],
+            "source": "FILE"
+          },
+          {
+            "channels": 4,
+            "colorspace": "sRGB",
+            "name": "texture_0",
+            "size_px": [
+              4096,
+              4096
+            ],
+            "source": "FILE"
+          },
+          {
+            "channels": 4,
+            "colorspace": "Non-Color",
+            "name": "texture_0_metallic_roughness",
+            "size_px": [
+              4096,
+              4096
+            ],
+            "source": "FILE"
+          }
+        ],
+        "material_name": "BakedMaterial",
+        "principled_bsdf": true
+      },
+      "mesh_data": "output_unwrapped",
+      "mesh_object": "output_unwrapped",
+      "triangles": 104090,
+      "vertices": 144663
+    },
+    "path": "meshy71-wholeactor-100k.glb",
+    "sha256": "31c56e2988756d148c356e42b36a3f51b6a2fefb4cd2d140af440ca982a56f32"
+  },
+  "status": "source-only review; no rigging, canonical promotion, or art acceptance",
+  "views": [
+    {
+      "bytes": 1971718,
+      "camera_direction": [
+        0.0,
+        -1.0,
+        0.0
+      ],
+      "condition": "Whole actor with imported PBR material",
+      "ortho_scale": 2.090063,
+      "path": "views/wholeactor-100k-full-pbr.png",
+      "resolution_px": [
+        1100,
+        1500
+      ],
+      "sha256": "c0a8b3dc774e4203497a8641a77530306366a707056c49c3223712d23ccc9bbc",
+      "target": [
+        -0.000548,
+        0.001862,
+        0.000986
+      ]
+    },
+    {
+      "bytes": 1573075,
+      "camera_direction": [
+        0.0,
+        -1.0,
+        0.0
+      ],
+      "condition": "Face, neck, and clavicle with imported PBR material",
+      "ortho_scale": 0.760023,
+      "path": "views/wholeactor-100k-face-neck-pbr.png",
+      "resolution_px": [
+        1200,
+        1000
+      ],
+      "sha256": "676393f85c49a35f0d8c8d37ea8f33f2c7f27cf2fc91d86582e87f5ae2517f2b",
+      "target": [
+        -0.000548,
+        0.001862,
+        0.704007
+      ]
+    },
+    {
+      "bytes": 1271170,
+      "camera_direction": [
+        0.0,
+        -1.0,
+        0.0
+      ],
+      "condition": "Same face/neck camera; direct material-slot clay replacement in review scene only",
+      "ortho_scale": 0.760023,
+      "path": "views/wholeactor-100k-face-neck-clay.png",
+      "resolution_px": [
+        1200,
+        1000
+      ],
+      "sha256": "1b08362e1c50a7b959af29445b1cb82cd6e6485e392ee738ecb77ed20f574305",
+      "target": [
+        -0.000548,
+        0.001862,
+        0.704007
+      ]
+    }
+  ]
+}

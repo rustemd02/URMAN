@@ -1,0 +1,18 @@
+{
+  "generator": "Codex built-in image_gen",
+  "mode": "edit with two project-owned references",
+  "image": "input-shurale-v4.png",
+  "sha256": "f363f31f6383951fb4fa8a2cc9a874319d78a4261ea53217c2b25d32efae053f",
+  "prompt": "Edit the two provided project-owned concepts into ONE coherent full-body Shurale production reference for a modern Tatar psychological folk-horror game. Image 1 (close face) is the PRIMARY identity: preserve its small focused intelligent eyes, heavy asymmetrical eyelids, real recessed orbital structure, crooked nose, compressed unsmiling lips, lean cheek planes and one short irregular forehead horn. Replace the wide-eyed passive expression of image 2 with this exact focused face. Image 2 is body/proportion reference only: tall slender 2.35m humanoid, unusually long arms and long anatomically articulated fingers, two grounded feet, fibrous skin subtly becoming weathered timber. Crucially author a single anatomically continuous head/neck/clavicle/shoulder region: supple narrow neck with real tendons entering clavicles, no wooden collar, skirt, flat frill, hard seam or separate bust; far fewer loose bark strips around the neck and shoulders so a 3D model can be built cleanly. The face must read as quietly calculating and unsettling, with a direct attentive gaze, never a blank wooden doll, cartoon goblin or friendly mascot. Original character, no imitation of any named film villain, no skull mask, antlers, glowing eyes or gore. Neutral practical A-pose: hands clearly separated from thighs, arms 20 degrees out, elbows and all long fingers readable and not overlapping, feet slightly apart. Natural restrained creature anatomy, not a muscular superhero. Full head-to-toe figure alone, 2:3 tall portrait at highest available detail, fills 92% height, sufficiently large sharp face; front view with only slight natural body asymmetry. Neutral medium-gray studio background, soft even three-point illumination with clearly visible facial planes and both eyes, warm desaturated fibrous skin/wood, sparse moss, physically believable material. No scene, props, text, panels, insets or turnaround board. This is a single full-character modeling image, not a pasted head or concept collage.",
+  "references": [
+    "assets/source/blender/photoworlds/W01/shurale_meshy_v3/face-redesign-v1/input-face-redesign-v1.png",
+    "assets/source/blender/photoworlds/W01/shurale_meshy_v3/input-shurale-v3.png"
+  ],
+  "root_review": "New focused face identity with coherent neck/clavicle and readable separated hands. Accepted as one wholeactor generation input only; no author final art or native acceptance.",
+  "reason": "Vertex projection failed; two cut-ring graft iterations retain a flat collar despite measured alignment and one neck-band correction. Stop surgery variants and produce one coherent wholeactor. Useful v3 rig/7clip/contact/LOD engineering preserved.",
+  "meshy_image_to_3d_task_id": "01a15063-80ea-75e6-b79b-86480e2a8831",
+  "meshy_image_consumed_credits": 30,
+  "remesh_task_id": "01a1506c-64c9-741e-91d1-1f88bb752acb",
+  "remesh_estimated_credits": 5,
+  "canonical_promotion": false
+}

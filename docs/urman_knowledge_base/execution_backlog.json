@@ -62505,7 +62505,7 @@
             "remaining": [
               "Согласовать силуэт, цоколь, вынос кровли и глубину проёмов эталонного дома с выбранным reference ID; собственного целевого receipt пока нет."
             ],
-            "next_action": "После текущего приоритета лица Шурале разобрать конкретные facets в native closeview у существующего producer: UV islands disconnected crown triangles / tangent-normal correspondence. Не повторять обычный запуск/focus и не менять шейдеры наугад; defaultrecipe/sourcekit остаются прежними.",
+            "next_action": "По фактическому normal-on/off сравнению пятна остаются. Установить конкретный source-дефект atlas/UV либо cap normals, не запускать третий слепой shader-вариант. Canonical дом и художественная приёмка остаются открытыми.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -62597,6 +62597,17 @@
               "receipt": "evidence/ACT1-DEPTH.12/native_pbr_candidate_0dd9c3434cea4e819a47fc089a0a8fa5/receipt.json",
               "root_review": "Personally viewed actualfront+porch nativeGTX970: woodbrown/readable, so DCCflatblack notsolematerialtruth. Obvious triangular/star facets andnoisypatches onlogs/cornercuts remain; notartaccepted/notdefaultpromoted. Import/build/gameexit0, userdataRestoredtrue; freshdoctorready/idle,recovery/orphanfalse. Staticpreviewnotordinaryinput/StudioUVacceptance.",
               "archive_verification": "All6archived receipt/frame/meta files byte-identical fetched originals. RawWindowsCRLF preserved. Context diff with core.whitespace=cr-at-eol PASS; ordinary diffcheck flags CRLF, not content edits."
+            },
+            "native_normal_isolation_2026_10_19": {
+              "job_id": "54713b4c325f431483e23470b59625d6",
+              "snapshot_id": "6ede2040b7aabd8ff723ca007f234d0cbde9fd2e40ebf9727aa1ba546d63f822",
+              "candidate_sha256": "70ce3f244b088e621068fd5c2f6e61bbee34db3a9b67750e02a6365033d897ce",
+              "control_job": "0dd9c3434cea4e819a47fc089a0a8fa5",
+              "receipt": "evidence/ACT1-DEPTH.12/native_normal_off_54713b4c325f431483e23470b59625d6/receipt.json",
+              "controlled_change": "Only URMAN_Hero_PBR_v2.normalTexture removed; other JSON and all binary chunks/579meshes preserved. Same two cameras and FOV70.",
+              "technical": "All receipt steps exit0, gameExitCode0, userdataRestoredtrue, snapshot hashes verified. Fresh doctor ready/idle, no orphan or recovery. Default recipe restored byte-identical and owned temporary model removed.",
+              "root_art_review": "Personally compared both front/porch pairs: triangular/star facets on logs and corner caps persist without normal map. Normal map alone does not explain the visible defect. Candidate not promoted; missing tangents remain an unproved risk, not an established cause.",
+              "stop": "No third blind shader trial. Inspect one concrete source atlas/UV or cap-normal fact; keep default source and art gate open."
             }
           },
           {
@@ -62619,7 +62630,7 @@
             "remaining": [
               "Согласовать цвет дерева/наличников, свет окон и снег эталонного дома с существующими материалами; собственного целевого receipt пока нет."
             ],
-            "next_action": "После текущего приоритета лица Шурале разобрать конкретные facets в native closeview у существующего producer: UV islands disconnected crown triangles / tangent-normal correspondence. Не повторять обычный запуск/focus и не менять шейдеры наугад; defaultrecipe/sourcekit остаются прежними.",
+            "next_action": "По фактическому normal-on/off сравнению пятна остаются. Установить конкретный source-дефект atlas/UV либо cap normals, не запускать третий слепой shader-вариант. Canonical дом и художественная приёмка остаются открытыми.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -62687,6 +62698,17 @@
               "receipt": "evidence/ACT1-DEPTH.12/native_pbr_candidate_0dd9c3434cea4e819a47fc089a0a8fa5/receipt.json",
               "root_review": "Personally viewed actualfront+porch nativeGTX970: woodbrown/readable, so DCCflatblack notsolematerialtruth. Obvious triangular/star facets andnoisypatches onlogs/cornercuts remain; notartaccepted/notdefaultpromoted. Import/build/gameexit0, userdataRestoredtrue; freshdoctorready/idle,recovery/orphanfalse. Staticpreviewnotordinaryinput/StudioUVacceptance.",
               "archive_verification": "All6archived receipt/frame/meta files byte-identical fetched originals. RawWindowsCRLF preserved. Context diff with core.whitespace=cr-at-eol PASS; ordinary diffcheck flags CRLF, not content edits."
+            },
+            "native_normal_isolation_2026_10_19": {
+              "job_id": "54713b4c325f431483e23470b59625d6",
+              "snapshot_id": "6ede2040b7aabd8ff723ca007f234d0cbde9fd2e40ebf9727aa1ba546d63f822",
+              "candidate_sha256": "70ce3f244b088e621068fd5c2f6e61bbee34db3a9b67750e02a6365033d897ce",
+              "control_job": "0dd9c3434cea4e819a47fc089a0a8fa5",
+              "receipt": "evidence/ACT1-DEPTH.12/native_normal_off_54713b4c325f431483e23470b59625d6/receipt.json",
+              "controlled_change": "Only URMAN_Hero_PBR_v2.normalTexture removed; other JSON and all binary chunks/579meshes preserved. Same two cameras and FOV70.",
+              "technical": "All receipt steps exit0, gameExitCode0, userdataRestoredtrue, snapshot hashes verified. Fresh doctor ready/idle, no orphan or recovery. Default recipe restored byte-identical and owned temporary model removed.",
+              "root_art_review": "Personally compared both front/porch pairs: triangular/star facets on logs and corner caps persist without normal map. Normal map alone does not explain the visible defect. Candidate not promoted; missing tangents remain an unproved risk, not an established cause.",
+              "stop": "No third blind shader trial. Inspect one concrete source atlas/UV or cap-normal fact; keep default source and art gate open."
             }
           }
         ]
@@ -70837,7 +70859,7 @@
       "milestone": "M5",
       "status": "in_progress",
       "complexity": "simple",
-      "active_owner": "Codex/root",
+      "active_owner": null,
       "owner": "finished-act1",
       "depends_on": [],
       "scope": [
@@ -70893,8 +70915,8 @@
       },
       "assigned_owner": "finished-act1",
       "activity": {
-        "state": "confirmed_active",
-        "reason": "Root принимает revised rocker/settle candidate: existing gait jobd36157940f3441c98d57ec7b3d82ce27, snapshot a7f87f1c087186fa869dd42c44af1f44807096094bac8a73d6281bd436f129d9."
+        "state": "released",
+        "reason": "Finite source-only body preview reviewed and rejected artistically; no further primitive garment polishing. Existing movement/runtime acceptance unchanged."
       },
       "task_type": "integration_check",
       "implementation_state": "partial",
@@ -70902,7 +70924,7 @@
       "remaining": [
         "Приёмка походки (ходьба/бег/присед/повороты); отсутствует подтверждение собственного конечного DoD, перечисленного ниже."
       ],
-      "next_action": "Предметно проверить first-person mesh/boot/coat proportions and weights: silhouette remains weak after gait tuning. Native ordinary input diagnosis needed for jump/landing/manual path.",
+      "next_action": "Подготовить убедительный clothing asset для собственного тела Айдара с сохранёнными sole/knee/ankle contracts; примитивный opt-in source preview не внедрять. Для gait/jump/manual acceptance нужен новый причинный факт по native input focus, прежний отказ не повторять.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -71019,6 +71041,16 @@
         ],
         "view": "Root viewed existing 01_standing_look_down.png from evidence/ACT1-PLAYER/jump-envelope-20261018/player: coat occupies most lower view, narrow dark legs/boots. Prior capture5b0a7cc remains relevant only standing/ordinarywalking, not new mid-swing reversal.",
         "next_input": "Dedicated authored neutral and rigged lower-body source for Aidar; no more gait coefficient guesses. Native jump/landing/manual movement still open."
+      },
+      "source_body_preview_2026_10_18": {
+        "owner": "luna_fast / aidar_body",
+        "files_local": [
+          "tools/blender/generate_character_kit.py",
+          "assets/source/blender/act1/aidar_player_body_v1/"
+        ],
+        "result": "Finite opt-in AidarPlayer source profile and actual standing/lookdown PNGs exported with Blender4.5.12. Existing NPC defaults, source bones, four trouser rings/7-point cross-section and bootsole baseline preserved. Source-only engineering, not accepted art or runtime.",
+        "root_review": "Root personally viewed both PNGs: coat remains a smooth plastic panel, zipper resembles floating diamond, trousers/boots remain primitive cone shapes. This does not satisfy visible quality upgrade; no runtime integration or completed claim. Local tracked generator patch intentionally preserved uncommitted, not included in accepted source commits.",
+        "remaining": "Use convincing authored/licensed clothing geometry and material for first-person body; native gait/jump/landing/ordinary input still open. Do not iterate more buttons/rings on rejected primitive style."
       }
     },
     {
@@ -121172,7 +121204,7 @@
       "title": "W01: произвести, оживить и поставить Шурале",
       "milestone": "PW-M3",
       "status": "in_progress",
-      "active_owner": "Codex/root + shurale_fit",
+      "active_owner": "/root/whole_actor_route",
       "owner": "character_art",
       "priority": "P1",
       "complexity": "complex",
@@ -121327,11 +121359,12 @@
       "assigned_owner": "character_art",
       "activity": {
         "state": "confirmed_active",
-        "reason": "First nearest-surface fit rejected by actual material-independent clay. shurale_fit owns a real head/neck graft-v1; whole_actor_route owns connected-topology LOD1 rebuild from unchanged LOD0 after UV-split seam cause proved. No new paid calls or canonical promotion.",
+        "reason": "Coherentv4source root-reviewed, APIrig24 and finite core24motion pilot readyforactualreview; Webrig detailedfinger route independent. W01boundedheadgaze implemented and independently corrected axis/Relative/Active; compile/native remains pending.",
         "files": [
-          "assets/source/blender/photoworlds/W01/shurale_meshy_v3/face-redesign-v1/graft-v1/",
-          "assets/source/blender/photoworlds/W01/shurale_meshy_v3/pbr-v1/lod1-rebuild-v1/"
-        ]
+          "assets/source/blender/photoworlds/W01/shurale_meshy_v4/",
+          "game/scripts/photoworlds/W01Controller.Shurale.cs"
+        ],
+        "last_update": "Web Mixamo66 source received; one seven-clip adaptation with actual review frames is running. Root owns integration and native station."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -121342,7 +121375,7 @@
         "Полный паспорт уровня docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/levels/W01_Лес_за_спиной_RU.md реализован: узлы/физические связи/действия/существо или человеческая сцена/созерцание/возврат/кадры; схема не заменяет проходимый runtime.",
         "Шурале выглядит современно устрашающе в духе психологического авторского хоррора (уточнение автора: злодеи A24): оригинальная цельная анатомия/силуэт, тревожные лицо/взгляд/длинные руки и сдержанная неестественная пластика; без игрушечного добродушия. Оценка по актуальным игровым кадрам и движению, не по числу полигонов."
       ],
-      "next_action": "В graft-v1 заменить фактическую геометрию старой головы новым donor head/upperneck через очищенный замкнутый шейный шов. Сохранить лицо/UV донора, основное тело, 66-joint rig/7clips/ветку; принять реальный clay/PBR noticed/hold. Параллельно исправить LOD1 producer: positional seam weld перед Collapse, без изменения LOD0/rig. Canonical остаётся прежним до приёмки.",
+      "next_action": "Принять фактические позы и удержание ветки после одного переноса семи клипов на полученный Web Mixamo rig; затем существующий целевой native-просмотр. Новый взгляд головы скомпилирован, его движение ещё требует native-приёмки.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -121889,13 +121922,19 @@
           "producer_fact": "LOD0 23878 renderverts but15402 exactpositions;6282duplicate groups/8476redundantverts, all UVseams and identical namedskinweights. Components1013→1 afterpositionweld. make_lod1 copiesrawsplitverts thenCollapse.43 withoutweld; one connectedtopology rebuild nowactive, no repeated bake until clayreview.",
           "connected_rebuild_root_review": "Root compared actual new connectedLOD1 neutral to oldLOD1 neutral and originalLOD0 white: central surface/limbs visibly more continuous; remaining bark protrusions also exist in LOD0 source. Not accepted as final art; one existing-producer PBR bake on this specific newLOD1 allowed, no new geometry hypothesis or paidcall.",
           "connected_rebuild_local": "assets/source/blender/photoworlds/W01/shurale_meshy_v3/pbr-v1/lod1-rebuild-v1/manifest.json"
+        },
+        "connected_lod1_material_candidate": {
+          "manifest_local": "assets/source/blender/photoworlds/W01/shurale_meshy_v3/pbr-v1/lod1-rebuild-v1/material-v1/manifest.json",
+          "sha256": "d12ae64c461897ced484ac916d2614ed2f8de84ed00a08bc261722f58f94f3d1",
+          "root_review": "Root personally viewed connectedLOD1 PBR work15 and sourceLOD0 control. Connectedshape more continuous; close material detail visibly lower/darker than31KLOD0, barkplates also present in source. Finite source only; actual runtime distance/LOD transition and art acceptance still required. No further source variant authorized in this stage.",
+          "producer_fix": "runtime-motion/retarget_meshy_v3_motion.py make_lod1 now exact-position welds beforeCollapse.43, refuses inconsistent namedweights and preserves facecornerUV. Python compile/source review only after ownerfix; full retarget was not re-exported. Executed sibling candidate supports weld method."
         }
       },
       "author_face_feedback_2026_10_18": {
         "source": "Live author reply",
         "quote": "у шурале лицо тупое как у болвана",
         "result": "Current Meshy v3 face art rejected. Technical rig, measured jointlength and sourcecontact work remain useful engineering evidence; no canonical/finalactor acceptance.",
-        "next_action": "В graft-v1 заменить фактическую геометрию старой головы новым donor head/upperneck через очищенный замкнутый шейный шов. Сохранить лицо/UV донора, основное тело, 66-joint rig/7clips/ветку; принять реальный clay/PBR noticed/hold. Параллельно исправить LOD1 producer: positional seam weld перед Collapse, без изменения LOD0/rig. Canonical остаётся прежним до приёмки.",
+        "next_action": "Принять фактические позы и удержание ветки после одного переноса семи клипов на полученный Web Mixamo rig; затем существующий целевой native-просмотр. Новый взгляд головы скомпилирован, его движение ещё требует native-приёмки.",
         "new_reference": "assets/source/blender/photoworlds/W01/shurale_meshy_v3/face-redesign-v1/input-face-redesign-v1.png",
         "actual_source_review": "Root personally viewed actual PBR3q and neutral front/3q/profile: physicalorbitaldepth/lids/nose/lips andsinglehorn coherent, stronger than oldmask. Source-direction accepted for reducedhead/neckfit only; no finalauthorapproval or canonicalpromotion. Raw6.116Mtri/5819components/nonmanifold source notgame-ready. Existingbody is connectedskin, so newhead mustreplace oldhead acrossclosedneckseam with explicitHead/Neckblend, no overlapmask or wholebodyheattransfer.",
         "presentation_gap": "Actual W01 only plays7clips; no live head/eye tracking, blink or facialdriver. Fixed noticedyaw alone cannotprovideattentivegaze. Reuse existing after-animation boneaim pattern only whennewsemantichead available; respectReducedMotion andexistinggesture/yield, do not claim eyecontrols onunsegmentedmesh.",
@@ -121915,6 +121954,62 @@
           "verification_limit": "Finite buffers, unchanged outside-mask weights/positions, 66 joints and seven clips do not prove facial shape or PBR presentation. Manifest creation also stopped on stale Blender RNA handle after completed render; do not re-export merely to write metadata.",
           "cause": "Donor import matrix identity and local/world landmarks numerically agree; coordinate-frame hypothesis ruled out. Direct per-mesh slot-clay views of unchanged exported fit still show flat blank head/projected sheets. Nearest-surface deformation of old facial topology is rejected. Earlier EEVEE override neutral frames are invalid: support added only in Blender5.0; pinned4.5.12 needs Cycles or actual slot replacement.",
           "actual_clay": "assets/source/blender/photoworlds/W01/shurale_meshy_v3/face-redesign-v1/fit-v1/views/head-neutral-close-slot-clay.png"
+        },
+        "graft_v1_review": {
+          "path_local": "assets/source/blender/photoworlds/W01/shurale_meshy_v3/face-redesign-v1/graft-v1/manifest.json",
+          "sha256": "90ffbf5fd474ce84148dc3a80ab2c6e490b663e6f6727b378a3acddfe12b1f98",
+          "root_review": "Root personally viewed actual PBR/clay face and noticed-full: new facial shape is present but chin/neck transition fans out; whole head sits down inside chest. Candidate rejected, no runtime promotion.",
+          "root_cause_fact": "Pinned Blender import of frozen actor: body.matrix_world is yaw180 with unit scale; localcut1.460312 is worldz1.460312, not Neck. Actual Neckworldz1.905334234 and Headworldz2.074105024, bodyvertexz0..2.3500006. Hardcoded cut removed body at chest. Donor+.10 also differs from researched upperneck-.10 and risks clipping chin.",
+          "next": "One graft-v2 correcting measured cut coordinates: target Neckworld transformed by actual body inverse, donor upperneck-.10; no legacy scale inference, preserve whole face/chin. Actual export/reimport clay/PBR and fullpose before acceptance.",
+          "input_incident": "Initial helper import executed unguarded oldmain and regenerated rejected untracked fit-v1 outputs. Fixed at helper owner with standard __main__ guard; no accepted canonical/evidence data was overwritten."
+        },
+        "graft_v2_review": {
+          "manifest_local": "assets/source/blender/photoworlds/W01/shurale_meshy_v3/face-redesign-v1/graft-v2/manifest.json",
+          "sha256": "64831e2a5413e4d95f570b3078de668ad86532c6e463b9580e6c2d8cf29a8f09",
+          "root_review": "Actual PBR/clay/wholepose inspected: coordinate correction restores whole face/chin at correct height, but flat collar remains after one lower75mm XY neckfit. Graft art rejected; stop further shape variants. No canonical change.",
+          "decision": "Produce one coherent wholeactor from focused own face concept instead of continuing head surgery; preserve useful 7clip/rig/contact/LOD work."
+        },
+        "coherent_v4": {
+          "provenance": "assets/source/blender/photoworlds/W01/shurale_meshy_v4/input-shurale-v4.provenance.json",
+          "review": "assets/source/blender/photoworlds/W01/shurale_meshy_v4/source-review-v1.json",
+          "image_to_3d_task": "01a15063-80ea-75e6-b79b-86480e2a8831",
+          "remesh_task": "01a1506c-64c9-741e-91d1-1f88bb752acb",
+          "rig_task": "01a15085-3432-74e9-bfdd-7ac905f7a0c4",
+          "raw_remesh_sha256": "31c56e2988756d148c356e42b36a3f51b6a2fefb4cd2d140af440ca982a56f32",
+          "raw_rig_sha256": "aa2e7d9490083de2b429e1f31bad191062c93668d9e70f09a655ebaf4674559f",
+          "triangles": 104090,
+          "root_review": "Personally viewed actual v4 closePBR and directslotclay: focusedfacialplanes and continuous neck/clavicle, no graft collar. Accepted for one rig/motion source pilot only; no author/native art acceptance.",
+          "rig_gap": "API GLB and FBX both contain24joints/no fingers; Web Mixamo export contains66joints including fingers. Use the verified Web export for one seven-clip adaptation; no speculative API options.",
+          "credit_total": 150,
+          "credit_limit": 4000,
+          "remaining_authorized": 3850,
+          "core24_motion_review": {
+            "sha256": "edce3423cb033b6bf8a639048f8c1465c9a5b3031c9352019a34029d39e3fea7",
+            "result": "Root inspected actual noticed/gesture PBR. Source pilot rejected for promotion: arms overlap torso, shoulders read poorly and unarticulated fingers cannot form a credible hold. Preserve scale fix, stop further core24 pose variants.",
+            "serialized_lod1": "Independent raw GLB inspection: named LOD1 and 24-joint skin present; 44753 triangles, all indices/float accessors finite and weights normalized. Manifest says44757; exporter repaired source mesh. Godot import remains unverified."
+          },
+          "web_mixamo_rig": {
+            "input_sha256": "31c56e2988756d148c356e42b36a3f51b6a2fefb4cd2d140af440ca982a56f32",
+            "path_local": "assets/source/blender/photoworlds/W01/shurale_meshy_v4/web-rig/meshy71-wholeactor-web-mixamo-walking.glb",
+            "sha256": "e30e979a3dbc3bc0130a8f07ffcebf1349ef0a1d84f430ae2b7944137f5cb864",
+            "bytes": 70098932,
+            "joints": 66,
+            "finger_chains": true,
+            "clips": [
+              "Running",
+              "Walking"
+            ],
+            "method": "Existing authenticated in-app Meshy browser; private upload, humanoid2.35m rig and ordinary Mixamo GLB export. No Chrome login required.",
+            "observed_web_balance_before_after": 4100,
+            "cost": "No additional debit observed; total authorized consumption remains150/4000.",
+            "state": "Raw exported source, seven-game-clip adaptation in progress; no canonical or final art acceptance."
+          }
+        },
+        "gaze_engineering": {
+          "source": "game/scripts/photoworlds/W01Controller.Shurale.cs",
+          "result": "Existing LookAtModifier3D pattern reused for bounded attentive head/neck gaze. Independent review corrected forward/primary axis collision for incoming Mixamo rig; Relative preserves animation pose, zero influence disables modifiers, reset/hide/ReducedMotion clear gaze.",
+          "compile_receipt": "evidence/ACT1-DEPTH.12/native_normal_off_54713b4c325f431483e23470b59625d6/receipt.json",
+          "native_motion": "not verified; static house capture only proves affected source builds/imports successfully."
         }
       }
     },

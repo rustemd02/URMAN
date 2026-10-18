@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
-"""Small, explicit Meshy API client for local image/GLB assets.
+"""Small, explicit Meshy API client for local image/GLB assets and rigging.
 
 Expected paid usage (official API pricing checked 2026-10-18):
   submit-image: 30 credits — meshy-7.1, standard geometry, 4K PBR texture;
     --geometry-only costs 20 credits.
   submit-retexture: 10 credits — 4K PBR; optional 8K costs 15 credits.
   submit-remesh: 5 credits — one 100,000-face remesh task by default.
-One image model plus one default remesh and one default retexture is 45 credits.
+  submit-rig: 5 credits — rig one successful textured model task.
+One image model plus one default remesh, retexture and rig is 50 credits.
 Each submit verb prints its estimate and requires the matching
 --spend-credits value before its single POST. Meshy reports actual
 consumed_credits on task status. No retries.
@@ -20,6 +21,7 @@ import argparse
 import base64
 import hashlib
 import json
+import math
 import os
 import re
 import ssl
@@ -38,9 +40,14 @@ REQUEST_TIMEOUT_SECONDS = 60
 MAX_JSON_BYTES = 8 * 1024 * 1024
 MAX_IMAGE_BYTES = 20_000_000
 MAX_MODEL_DATA_URI_BYTES = 100_000_000
-TASK_TYPES = ("image-to-3d", "retexture", "remesh")
+TASK_TYPES = ("image-to-3d", "retexture", "remesh", "rigging")
+TASK_OBJECT_TYPES = {*TASK_TYPES, "rig"}
 TASK_STATUSES = {"PENDING", "IN_PROGRESS", "SUCCEEDED", "FAILED", "CANCELED"}
 FORMATS = {"glb", "gltf", "obj", "fbx", "stl", "usdz", "blend", "3mf", "pre_remeshed_glb"}
+DOWNLOAD_FORMATS = {
+    "glb": ("model/gltf-binary, application/octet-stream", (b"glTF",)),
+    "fbx": ("application/octet-stream", (b"Kaydara FBX Binary  \x00\x1a\x00", b"; FBX")),
+}
 TASK_ID_RE = re.compile(r"[A-Za-z0-9_-]{1,128}")
 
 
@@ -153,16 +160,20 @@ class MeshyClient:
         except (UnicodeDecodeError, json.JSONDecodeError):
             raise ClientError("Meshy API response was not valid JSON") from None
 
-    def download(self, signed_url, destination):
+    def download(self, signed_url, destination, file_format="glb"):
         if not is_trusted_meshy_https_url(signed_url):
             raise ClientError("Meshy returned a model URL outside the trusted HTTPS Meshy domain")
+        download_format = DOWNLOAD_FORMATS.get(file_format)
+        if download_format is None:
+            raise ClientError("unsupported model download format")
+        accept, signatures = download_format
         if os.path.lexists(destination):
             raise ClientError("download destination already exists")
         if not destination.parent.is_dir():
             raise ClientError("download destination parent directory does not exist")
         request = urllib.request.Request(
             signed_url,
-            headers={"Accept": "model/gltf-binary, application/octet-stream", "User-Agent": "urman-meshy-assets/1.0"},
+            headers={"Accept": accept, "User-Agent": "urman-meshy-assets/1.0"},
         )
         digest = hashlib.sha256()
         byte_count = 0
@@ -171,9 +182,9 @@ class MeshyClient:
             with self.download_opener.open(request, timeout=REQUEST_TIMEOUT_SECONDS) as response:
                 with destination.open("xb") as output:
                     created = True
-                    first = response.read(4)
-                    if first != b"glTF":
-                        raise ClientError("downloaded asset is not a GLB file")
+                    first = response.read(max(map(len, signatures)))
+                    if not any(first.startswith(signature) for signature in signatures):
+                        raise ClientError(f"downloaded asset is not a valid {file_format.upper()} file")
                     output.write(first)
                     digest.update(first)
                     byte_count = len(first)
@@ -228,7 +239,7 @@ def safe_task(task):
     if isinstance(task_id, str) and TASK_ID_RE.fullmatch(task_id):
         result["id"] = task_id
     task_type = task.get("type")
-    if isinstance(task_type, str) and task_type in TASK_TYPES:
+    if isinstance(task_type, str) and task_type in TASK_OBJECT_TYPES:
         result["type"] = task_type
     status = task.get("status")
     if isinstance(status, str) and status in TASK_STATUSES:
@@ -264,8 +275,17 @@ def require_spend_ack(operation, credits, acknowledged):
         raise ClientError(f"paid POST refused; pass --spend-credits {credits} to match this estimate")
 
 
-def add_task_type_argument(parser):
-    parser.add_argument("task_type", choices=TASK_TYPES)
+def add_task_type_argument(parser, choices=TASK_TYPES):
+    parser.add_argument("task_type", choices=choices)
+
+
+def get_download_url(task, task_type, file_format):
+    if task_type == "rigging":
+        result = task.get("result")
+        key = {"glb": "rigged_character_glb_url", "fbx": "rigged_character_fbx_url"}.get(file_format)
+        return result.get(key) if isinstance(result, dict) and key else None
+    model_urls = task.get("model_urls")
+    return model_urls.get(file_format) if isinstance(model_urls, dict) else None
 
 
 def build_parser():
@@ -303,10 +323,20 @@ def build_parser():
     remesh_parser.add_argument("--target-polycount", type=int, default=100000)
     remesh_parser.add_argument("--spend-credits", type=int, help="must equal the printed estimate before a paid task is created")
 
+    rig_parser = commands.add_parser("submit-rig", help="create a rigging task from a successful textured Meshy task")
+    rig_parser.add_argument("--input-task-id", required=True, help="successful textured model task ID; model must have at most 300,000 faces")
+    rig_parser.add_argument("--height-meters", required=True, type=float, help="approximate character height; must be positive")
+    rig_parser.add_argument("--spend-credits", type=int, help="must equal the 5-credit estimate before a paid task is created")
+
     download_parser = commands.add_parser("download-glb", help="download GLB only after task status is SUCCEEDED")
     add_task_type_argument(download_parser)
     download_parser.add_argument("task_id")
     download_parser.add_argument("--output", type=Path, required=True, help="new local file path; existing files are never overwritten")
+
+    fbx_parser = commands.add_parser("download-fbx", help="download rigged FBX only after task status is SUCCEEDED")
+    add_task_type_argument(fbx_parser, choices=("rigging",))
+    fbx_parser.add_argument("task_id")
+    fbx_parser.add_argument("--output", type=Path, required=True, help="new local file path; existing files are never overwritten")
     return parser
 
 
@@ -318,13 +348,17 @@ def run(args):
             raise ClientError("style-prompt must be non-empty and at most 800 characters")
     if args.command == "submit-remesh" and not 100 <= args.target_polycount <= 300000:
         raise ClientError("target-polycount must be from 100 to 300000")
+    if args.command == "submit-rig":
+        args.input_task_id = require_task_id(args.input_task_id)
+        if not math.isfinite(args.height_meters) or args.height_meters <= 0:
+            raise ClientError("height-meters must be a positive finite number")
     if args.command == "submit-remesh":
         if (args.model is None) == (args.input_task_id is None):
             raise ClientError("provide exactly one local model or --input-task-id")
         if args.input_task_id is not None:
             args.input_task_id = require_task_id(args.input_task_id)
 
-    if args.command == "download-glb":
+    if args.command in ("download-glb", "download-fbx"):
         args.task_id = require_task_id(args.task_id)
         destination = args.output.expanduser().absolute()
         if os.path.lexists(destination):
@@ -387,6 +421,20 @@ def run(args):
         print_json({"task_id": task_id, "estimated_credits": credits})
         return 0
 
+    if args.command == "submit-rig":
+        credits = 5
+        require_spend_ack("automatic rigging", credits, args.spend_credits)
+        task = client.request_json("POST", "/rigging", {
+            "input_task_id": args.input_task_id,
+            "height_meters": args.height_meters,
+        })
+        result = task.get("result") if isinstance(task, dict) else None
+        task_id = require_task_id(result) if isinstance(result, str) else None
+        if task_id is None:
+            raise ClientError("Meshy accepted no recognizable task ID; response details were not logged")
+        print_json({"task_id": task_id, "estimated_credits": credits})
+        return 0
+
     if args.command == "submit-retexture":
         model = data_uri(args.model, ".glb", "application/octet-stream", MAX_MODEL_DATA_URI_BYTES,
                          signature=b"glTF")
@@ -432,16 +480,16 @@ def run(args):
         print_json({"task_id": task_id, "estimated_credits": credits})
         return 0
 
-    if args.command == "download-glb":
+    if args.command in ("download-glb", "download-fbx"):
         task = client.request_json("GET", "/" + args.task_type + "/" + args.task_id)
         safe_task(task)
         if task.get("status") != "SUCCEEDED":
             raise ClientError("task must be SUCCEEDED before model download")
-        urls = task.get("model_urls")
-        signed_url = urls.get("glb") if isinstance(urls, dict) else None
+        file_format = "glb" if args.command == "download-glb" else "fbx"
+        signed_url = get_download_url(task, args.task_type, file_format)
         if not isinstance(signed_url, str):
-            raise ClientError("successful task has no GLB output")
-        byte_count, digest = client.download(signed_url, destination)
+            raise ClientError(f"successful task has no {file_format.upper()} output")
+        byte_count, digest = client.download(signed_url, destination, file_format)
         print_json({"path": str(destination), "bytes": byte_count, "sha256": digest})
         return 0
 

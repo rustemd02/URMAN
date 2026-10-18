@@ -18,6 +18,8 @@ public partial class W01Controller
     private const string ShuraleSpeakerRole = "shurale";
     private const string ShuraleAnchorPath = "Anchors/F14/ShuraleRoot";
     private const float ShuraleNoticeDistance = 5f;
+    private const float ShuraleHeadGazeInfluence = 0.58f;
+    private const float ShuraleNeckGazeInfluence = 0.22f;
 
     private enum ShuraleAnimationPhase
     {
@@ -36,6 +38,9 @@ public partial class W01Controller
     private StaticBody3D? _shuraleContact;
     private InteractionTarget? _shuraleTarget;
     private AnimationPlayer? _shuraleAnimation;
+    private Node3D? _shuraleGazeTarget;
+    private LookAtModifier3D? _shuraleHeadGaze;
+    private LookAtModifier3D? _shuraleNeckGaze;
     private object? _shuraleSessionIdentity;
     private bool _shuraleProjectionInitialized;
     private bool _shuraleWasVisible;
@@ -71,6 +76,23 @@ public partial class W01Controller
         _shuraleLod1 = RequireDescendant<MeshInstance3D>(root, "ShuraleBody_LOD1");
         ConfigureShuraleLod(_shuraleLod0, _shuraleLod1);
         _shuraleWorkBranch = RequireDescendant<Node3D>(root, "ShuraleWorkBranch");
+
+        var skeleton = _shuraleLod0.GetNodeOrNull<Skeleton3D>(_shuraleLod0.Skeleton)
+            ?? throw new InvalidOperationException("W01 Shurale LOD0 is missing its imported Skeleton3D.");
+        // The v6 source rig uses head/neck_01; the approved Meshy source uses Mixamo names.
+        var headBone = FindShuraleBone(skeleton, "head", "mixamorig:Head");
+        var neckBone = FindShuraleBone(skeleton, "neck_01", "mixamorig:Neck");
+        if (headBone < 0)
+            throw new InvalidOperationException("W01 Shurale rig is missing head or mixamorig:Head.");
+        _shuraleGazeTarget = new Node3D { Name = "W01Shurale_GazeTarget" };
+        root.AddChild(_shuraleGazeTarget);
+        _shuraleGazeTarget.GlobalPosition = root.GlobalPosition + Vector3.Up * 1.9f
+            + root.GlobalBasis * Vector3.Forward * 2f;
+        if (neckBone >= 0)
+            _shuraleNeckGaze = AddShuraleLookModifier(
+                root, skeleton, neckBone, _shuraleGazeTarget, "W01Shurale_NeckGaze", 15f, 8f);
+        _shuraleHeadGaze = AddShuraleLookModifier(
+            root, skeleton, headBone, _shuraleGazeTarget, "W01Shurale_HeadGaze", 24f, 12f);
 
         var animation = Descendants<AnimationPlayer>(root).FirstOrDefault()
             ?? throw new InvalidOperationException("W01 Shurale asset is missing its imported AnimationPlayer.");
@@ -144,10 +166,12 @@ public partial class W01Controller
             || !ReferenceEquals(current.SessionIdentity, _shuraleSessionIdentity))
         {
             _shuraleHasDistanceSample = false;
+            ResetShuraleGaze();
             return;
         }
 
         ProcessShuraleDialogueAnimation();
+        ProcessShuraleGaze(delta, root);
         if (_shuraleApproachTriggered || _shuraleInstructionsHeard || _shuraleEncounterResolved)
             return;
 
@@ -339,6 +363,8 @@ public partial class W01Controller
     {
         if (_shuraleRoot is not { Visible: true } root || !GodotObject.IsInstanceValid(root)) return;
 
+        if (settings.ReducedMotion) ResetShuraleGaze();
+
         if (!settings.ReducedMotion)
         {
             if (!wasReducedMotion) return;
@@ -374,6 +400,7 @@ public partial class W01Controller
             animation.Stop();
         }
 
+        ResetShuraleGaze();
         _shuraleRoot = null;
         _shuraleAnchor = null;
         _shuraleLod0 = null;
@@ -382,6 +409,9 @@ public partial class W01Controller
         _shuraleContact = null;
         _shuraleTarget = null;
         _shuraleAnimation = null;
+        _shuraleGazeTarget = null;
+        _shuraleHeadGaze = null;
+        _shuraleNeckGaze = null;
         _shuraleSessionIdentity = null;
         _shuraleProjectionInitialized = false;
         _shuraleWasVisible = false;
@@ -398,6 +428,7 @@ public partial class W01Controller
     private void ResetShuraleSession(object sessionIdentity)
     {
         StopShuraleClip();
+        ResetShuraleGaze();
         _shuraleSessionIdentity = sessionIdentity;
         _shuraleProjectionInitialized = false;
         _shuraleWasVisible = false;
@@ -412,6 +443,7 @@ public partial class W01Controller
     private void HideShuralePresentation()
     {
         if (_shuraleRoot is { } root && GodotObject.IsInstanceValid(root)) root.Visible = false;
+        ResetShuraleGaze();
         _shuraleTarget?.SetPresentationEnabled(false);
         SetCollisionLayer(_shuraleContact, 0u);
         StopShuraleClip();
@@ -573,6 +605,128 @@ public partial class W01Controller
         MainMenuUi.AnyUndismissed(GetTree())
         || GetTree().GetFirstNodeInGroup("pause_menu") is PauseMenuUi { IsOpen: true }
         || GetTree().GetFirstNodeInGroup("player_controller") is FirstPersonController { ModalOpen: true };
+
+    private void ProcessShuraleGaze(double delta, Node3D root)
+    {
+        if (_shuraleGazeTarget is not { } target || !GodotObject.IsInstanceValid(target)) return;
+        var attentiveIdle = _shuraleInstructionsHeard && !_shuraleEncounterResolved
+            && _shuraleActiveDialogueId is null && _shuraleCurrentAnimation == "gesture"
+            && _shuraleAnimationPhase == ShuraleAnimationPhase.Resting;
+        var gazeState = _shuraleCurrentAnimation is "noticed" or "speak" || attentiveIdle;
+        var player = GetTree().GetFirstNodeInGroup("player_controller") as FirstPersonController;
+        var inRange = player is not null && GodotObject.IsInstanceValid(player)
+            && new Vector2(player.GlobalPosition.X - root.GlobalPosition.X,
+                player.GlobalPosition.Z - root.GlobalPosition.Z).Length() <= ShuraleNoticeDistance;
+        var gazeActive = !_accessibility.ReducedMotion && gazeState && inRange;
+        var focus = gazeActive
+            ? player!.GlobalPosition + Vector3.Up * 1.55f
+            : root.GlobalPosition + Vector3.Up * 1.9f + root.GlobalBasis * Vector3.Forward * 2f;
+        target.GlobalPosition = target.GlobalPosition.Lerp(focus,
+            1f - Mathf.Exp(-8f * Mathf.Max(0f, (float)delta)));
+
+        var rate = Mathf.Max(0f, (float)delta) * 3.5f;
+        if (_shuraleHeadGaze is { } head && GodotObject.IsInstanceValid(head))
+        {
+            if (gazeActive) head.Active = true;
+            head.Influence = Mathf.MoveToward(head.Influence,
+                gazeActive ? ShuraleHeadGazeInfluence : 0f, rate);
+            if (!gazeActive && head.Influence <= 0f) head.Active = false;
+        }
+        if (_shuraleNeckGaze is { } neck && GodotObject.IsInstanceValid(neck))
+        {
+            if (gazeActive) neck.Active = true;
+            neck.Influence = Mathf.MoveToward(neck.Influence,
+                gazeActive ? ShuraleNeckGazeInfluence : 0f, rate);
+            if (!gazeActive && neck.Influence <= 0f) neck.Active = false;
+        }
+    }
+
+    private void ResetShuraleGaze()
+    {
+        if (_shuraleHeadGaze is { } head && GodotObject.IsInstanceValid(head))
+        {
+            head.Influence = 0f;
+            head.Active = false;
+        }
+        if (_shuraleNeckGaze is { } neck && GodotObject.IsInstanceValid(neck))
+        {
+            neck.Influence = 0f;
+            neck.Active = false;
+        }
+        if (_shuraleGazeTarget is { } target && GodotObject.IsInstanceValid(target)
+            && _shuraleRoot is { } root && GodotObject.IsInstanceValid(root))
+            target.GlobalPosition = root.GlobalPosition + Vector3.Up * 1.9f
+                + root.GlobalBasis * Vector3.Forward * 2f;
+    }
+
+    private static int FindShuraleBone(Skeleton3D skeleton, string v6Name, string meshyName)
+    {
+        var index = skeleton.FindBone(v6Name);
+        return index >= 0 ? index : skeleton.FindBone(meshyName);
+    }
+
+    private static LookAtModifier3D AddShuraleLookModifier(
+        Node3D actorRoot, Skeleton3D skeleton, int bone, Node3D target,
+        string name, float yawLimitDegrees, float pitchLimitDegrees)
+    {
+        var restBasis = (skeleton.GlobalBasis * skeleton.GetBoneGlobalRest(bone).Basis).Orthonormalized();
+        var facing = (actorRoot.GlobalBasis * Vector3.Forward).Normalized();
+        var axes = new[]
+        {
+            (SkeletonModifier3D.BoneAxis.PlusX, restBasis.X),
+            (SkeletonModifier3D.BoneAxis.MinusX, -restBasis.X),
+            (SkeletonModifier3D.BoneAxis.PlusY, restBasis.Y),
+            (SkeletonModifier3D.BoneAxis.MinusY, -restBasis.Y),
+            (SkeletonModifier3D.BoneAxis.PlusZ, restBasis.Z),
+            (SkeletonModifier3D.BoneAxis.MinusZ, -restBasis.Z)
+        };
+        var forwardAxis = axes.MaxBy(axis => axis.Item2.Normalized().Dot(facing)).Item1;
+        var forwardLocalAxis = forwardAxis switch
+        {
+            SkeletonModifier3D.BoneAxis.PlusX or SkeletonModifier3D.BoneAxis.MinusX => Vector3.Axis.X,
+            SkeletonModifier3D.BoneAxis.PlusY or SkeletonModifier3D.BoneAxis.MinusY => Vector3.Axis.Y,
+            _ => Vector3.Axis.Z
+        };
+        var actorUp = (actorRoot.GlobalBasis * Vector3.Up).Normalized();
+        var primaryAxis = Vector3.Axis.X;
+        var primaryAlignment = -1f;
+        for (var axisIndex = 0; axisIndex < 3; axisIndex++)
+        {
+            var candidateAxis = (Vector3.Axis)axisIndex;
+            if (candidateAxis == forwardLocalAxis) continue;
+            var restAxis = candidateAxis switch
+            {
+                Vector3.Axis.X => restBasis.X,
+                Vector3.Axis.Y => restBasis.Y,
+                _ => restBasis.Z
+            };
+            var alignment = Mathf.Abs(restAxis.Normalized().Dot(actorUp));
+            if (alignment <= primaryAlignment) continue;
+            primaryAlignment = alignment;
+            primaryAxis = candidateAxis;
+        }
+        var modifier = new LookAtModifier3D
+        {
+            Name = name,
+            BoneName = skeleton.GetBoneName(bone).ToString(),
+            ForwardAxis = forwardAxis,
+            PrimaryRotationAxis = primaryAxis,
+            UseSecondaryRotation = true,
+            UseAngleLimitation = true,
+            SymmetryLimitation = true,
+            PrimaryLimitAngle = Mathf.DegToRad(yawLimitDegrees),
+            SecondaryLimitAngle = Mathf.DegToRad(pitchLimitDegrees),
+            Duration = .24f,
+            TransitionType = Tween.TransitionType.Sine,
+            EaseType = Tween.EaseType.InOut,
+            Relative = true,
+            Influence = 0f
+        };
+        modifier.Active = false;
+        skeleton.AddChild(modifier);
+        modifier.TargetNode = modifier.GetPathTo(target);
+        return modifier;
+    }
 
     private void SetShuraleWorkBranchVisible(bool visible)
     {
