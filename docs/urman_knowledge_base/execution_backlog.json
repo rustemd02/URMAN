@@ -70919,7 +70919,7 @@
       "milestone": "M5",
       "status": "in_progress",
       "complexity": "simple",
-      "active_owner": null,
+      "active_owner": "/root/aidar_body",
       "owner": "finished-act1",
       "depends_on": [],
       "scope": [
@@ -70975,8 +70975,8 @@
       },
       "assigned_owner": "finished-act1",
       "activity": {
-        "state": "released",
-        "reason": "Bounded Meshy clothing source stage stopped after actual-eye review confirmed remaining camera-internal coat occlusion. No runtime promotion; canonical gait/body remains unchanged except separately accepted fall-recovery resets."
+        "state": "confirmed_active",
+        "reason": "Owner ACKed a new closed waist/hem construction after root-approved geometric diagnosis; source trousers/boots and existing rig unchanged. Runtime wiring waits accepted actual-eye frame."
       },
       "task_type": "integration_check",
       "implementation_state": "partial",
@@ -122125,6 +122125,12 @@
           "compile_receipt": "evidence/ACT1-DEPTH.12/native_normal_off_54713b4c325f431483e23470b59625d6/receipt.json",
           "native_motion": "not verified; static house capture only proves affected source builds/imports successfully."
         }
+      },
+      "gaze_teardown_source_fix_2026_10_19": {
+        "source": "game/scripts/photoworlds/W01Controller.Shurale.cs",
+        "confirmed_defect": "Canonical export headless package bootstrap emitted three get/set global transform errors at ResetShuraleGaze during _ExitTree; detached nodes were valid objects but no longer inside SceneTree.",
+        "result": "Require both gaze target and actor root IsInsideTree before global target reposition. Modifier deactivation still always occurs for valid head/neck; all five reset callers preserved.",
+        "verification": "Affected Game build18.20s0warnings/0errors and independent five-caller review passed. Exported package bootstrap rerun required; no ordinary W01 motion/art claim."
       }
     },
     {
@@ -141260,8 +141266,8 @@
       "id": "PW-095",
       "title": "Собрать самостоятельный релизный кандидат",
       "milestone": "PW-M5",
-      "status": "todo",
-      "active_owner": null,
+      "status": "in_progress",
+      "active_owner": "/root",
       "owner": "release",
       "priority": "P1",
       "complexity": "complex",
@@ -141400,18 +141406,18 @@
       },
       "assigned_owner": "release",
       "activity": {
-        "state": "not_active",
-        "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+        "state": "confirmed_active",
+        "reason": "Actual canonical standalone export process is live, protected_run handle9695; preparation only, full host/performance/rights/ordinary acceptance remain open."
       },
       "task_type": "engineering",
-      "implementation_state": "not_started",
+      "implementation_state": "partial",
       "technical_verification_state": "not_run",
       "remaining": [
         "Сборка запускается без Blender, сети и рабочего checkout.",
         "Ресурсы находятся по относительным res://путям.",
         "Проверены точные bootstrap/preset/manifest и содержимое выбранного fullgame-пакета: его путь поставки включает всю обязательную новую кампанию. Если используется Act I Release, соответствующие фильтры согласованы с fullgame; отдельно сохраняемый исторический демо-preset менять не требуется. Чистый desktop-запуск с New Game/Save/Continue и ресурсами подтверждён отдельно на Windows и macOS."
       ],
-      "next_action": "Экспортировать рабочую сборку с нужными runtime-ресурсами и лицензиями.",
+      "next_action": "Повторить canonical export после подтверждённого gaze teardown source-fix; не считать ранее отклонённый/удалённый набор доставленной сборкой. Windows/macOS ordinary host acceptance и performance/rights gates остаются открытыми.",
       "blocker": null,
       "external_gates": [
         {
@@ -141634,7 +141640,15 @@
           "evidence_ref": "PW-095.evidence and named history progress; source_review shows available/missing inputs"
         }
       ],
-      "assignment_state": "preserved_person_or_existing_role; activity separate"
+      "assignment_state": "preserved_person_or_existing_role; activity separate",
+      "package_export_2026_10_19": {
+        "state": "failed_package_bootstrap",
+        "source_head": "01814e45",
+        "command": "python3 eng/protected_run.py --clean --timeout900 -- sh eng/export-desktop-release.sh build/releases/act1-20261019-01814e45",
+        "log": ".codex-captures/export-20261019-01814e45.log",
+        "scope": "Produce actual unsigned standalone desktop packages using existing canonical exporter; no new exporter or test harness. Local headless packaging is not Windows gameplay validation. Required performance/rights/ordinary-route acceptance remains open.",
+        "result": "Both native exports and provenance complete43e854a7 succeeded; built-in package bootstrap rejected three W01 gaze teardown errors. Exporter removed incomplete published set; output empty. protected_run restored and verified original userdata/permissions. Concrete source fix now compiled/reviewed; fresh export required."
+      }
     },
     {
       "id": "PW-096",

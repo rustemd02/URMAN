@@ -654,7 +654,8 @@ public partial class W01Controller
             neck.Active = false;
         }
         if (_shuraleGazeTarget is { } target && GodotObject.IsInstanceValid(target)
-            && _shuraleRoot is { } root && GodotObject.IsInstanceValid(root))
+            && target.IsInsideTree()
+            && _shuraleRoot is { } root && GodotObject.IsInstanceValid(root) && root.IsInsideTree())
             target.GlobalPosition = root.GlobalPosition + Vector3.Up * 1.9f
                 + root.GlobalBasis * Vector3.Forward * 2f;
     }
