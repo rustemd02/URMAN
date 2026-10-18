@@ -207,8 +207,14 @@ public partial class Act1ConnectedWorld
             if (hero)
             {
                 // The old slender courses of this side would poke through as rods.
-                var sideLogs = sidePrefix + "Log_";
-                foreach (var oldCourse in houseParts.Where(m => m.Name.ToString().StartsWith(sideLogs, StringComparison.Ordinal)))
+                var sideLogs = sidePrefix + "Log";
+                foreach (var oldCourse in houseParts.Where(m =>
+                {
+                    var sourceName = m.Name.ToString();
+                    return sourceName.StartsWith(sideLogs, StringComparison.Ordinal)
+                        && sourceName.Length > sideLogs.Length
+                        && sourceName[sideLogs.Length] is >= '0' and <= '9';
+                }))
                 {
                     oldCourse.Visible = false;
                     oldCourse.SetMeta("suppressionReason", "hero wall crown replaces the slender course (ACT1-DEPTH.9/T2)");

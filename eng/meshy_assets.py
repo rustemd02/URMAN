@@ -294,6 +294,7 @@ def build_parser():
     style.add_argument("--style-prompt", help="Meshy retexture style prompt, up to 800 characters")
     style.add_argument("--style-image", type=Path, help="local PNG style reference (maximum 20 MB)")
     retexture_parser.add_argument("--texture-resolution", choices=("4k", "8k"), default="4k")
+    retexture_parser.add_argument("--keep-uv", action="store_true", help="preserve the input model's UV layout")
     retexture_parser.add_argument("--spend-credits", type=int, help="must equal the printed estimate before a paid task is created")
 
     remesh_parser = commands.add_parser("submit-remesh", help="create a 100K triangle remesh task from a local GLB")
@@ -395,6 +396,7 @@ def run(args):
             "ai_model": "meshy-7",
             "texture_resolution": args.texture_resolution,
             "enable_pbr": True,
+            "enable_original_uv": args.keep_uv,
             "target_formats": ["glb"],
         }
         task = client.request_json("POST", "/retexture", payload)

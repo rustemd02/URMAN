@@ -1,0 +1,22 @@
+{
+  "task_id": "ACT1-DEPTH.12/E02",
+  "asset_id": "AS-01",
+  "tool": "built-in image_gen",
+  "output": "input-own-geometry-material-reference.png",
+  "output_sha256": "54d8bf0193029db30a8930c60d40902a8bb25a8d8c1d056d1435a842f2275ee1",
+  "source_geometry": "opaquehero-for-retexture.glb",
+  "source_geometry_sha256": "25dd74e96d2c19720187a9644dceb7f95ad405a6ea72419d5590d4677f68d2cc",
+  "references": [
+    {
+      "path": "assets/source/blender/act1/hero_house_pbr_v1/before-imported-materials-pre-runtime-regrade-front-three-quarter.png",
+      "role": "Own shipped geometry plus staged current roundedcrowns, actuallyviewed; exactcamera/construction reference, notnativeproof"
+    },
+    {
+      "path": "assets/source/blender/act1/hero_house_meshy_v1/input-hero-house-v1.png",
+      "role": "Own priorgeneratedconcept, material treatment only; differentarchitecture/windowcountnotcopied"
+    }
+  ],
+  "requirements": "Preserve ownhouse silhouette/camera/openings/porch/chimney; replace ungradedblacklogswithweatheredgrey-brown timber, fadedblue-green/ivorycasings, mutedrustred standingseamiron. No addedwindow/plants/text/scenery; plainplaceholderglass andnosnowblanket (separateowners).",
+  "root_review": "Actuallyviewed generatedwholehouse: ownfrontthreewindows/onevisiblesidewindow, sameporch/roof/flue placement, coherentweatheredmateriallanguage. Imageconceptonly; semanticgeometry/UV remainownedsource, actualPBRtexture/reimport/runtimeacceptancepending.",
+  "rights": "Original ownasset inputs and built-inimage_gen output; owner authorizedupload selectedownreferences toMeshy within total4000 cap."
+}

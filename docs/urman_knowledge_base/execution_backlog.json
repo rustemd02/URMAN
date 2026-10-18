@@ -62493,10 +62493,13 @@
             "owner": "art/architecture",
             "evidence": [],
             "assigned_owner": "art/architecture",
-            "active_owner": null,
+            "active_owner": "Codex/root + w03_geometry",
             "activity": {
-              "state": "not_active",
-              "reason": "Запуск прерван17.10; субагенты остановлены, source/evidence сохранены, completion не заявлен."
+              "state": "confirmed_active",
+              "reason": "Prepare exact current hero component for whole-asset material production; preserve measured openings/names/transforms, use existing runtime-rounded shapes before API texture. Wrongshape Meshydonor notpromoted.",
+              "files": [
+                "assets/source/blender/act1/hero_house_pbr_v1/"
+              ]
             },
             "task_type": "engineering",
             "status": "in_progress",
@@ -62505,7 +62508,7 @@
             "remaining": [
               "Согласовать силуэт, цоколь, вынос кровли и глубину проёмов эталонного дома с выбранным reference ID; собственного целевого receipt пока нет."
             ],
-            "next_action": "Довести цельный вид эталонного дома с ближайшим двором на обычном игровом подходе: форма/масштаб/свет/читаемый вход. Использовать уже имеющиеся roof ribs; отдельную итерацию мелкой кровельной детали не назначать без доказанного вклада в целую сцену.",
+            "next_action": "Prepare exact current HeroHouse_TimberPlaster opaquegeometry withsemanticnodes forone4KPBR retexture10credits fromownImageGenreference; compare actualgeometry+materials beforeintegration through existingmodelPath/kitowner.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -62533,7 +62536,7 @@
               ],
               "verification": {
                 "method": "targeted_runtime_scenario",
-                "question": "Идут ли фальцевые рёбра обоих скатов вдоль плоскости кровли, с правдоподобным шагом, без изменения существующих roof/snow/root/recipe и проходов?",
+                "question": "Сохраняет ли цельный кандидат измеренные проёмы, имена частей и положение дома; стали ли дерево, наличники и кровля убедительнее на общем и близком виде без нарушения входа?",
                 "scenario": "ART",
                 "success": "Наблюдаемый результат этой единицы и обратное действие/восстановление там, где меняются данные. Для ассета — импорт выбранного файла и целевой вид/движение; для кода — узкая компиляция только затронутого модуля, затем указанный пользовательский сценарий. Компиляция не доказывает изображение или GUI.",
                 "repeat_only_if": "Изменился покрываемый вход/consumer/контракт; без этого уже принятая проверка используется повторно без запуска."
@@ -62581,6 +62584,12 @@
               "reference_boundary": "OwnOct14gamefront+P1 viewed; exactT2unavailable, no substitute claimedselected. Original own image_gen fullhouse direction.",
               "result": "One private7.1Standard geometry20credits and4KPBR texture10credits; normal exports downloaded and original neutral source reviewed. Actual geometry1462584tris, X1.3778/Y1.9242/Z.9101, opaque infills,3front+2right windows; donor only, no replacement of8.4x7.4contract or measured portals. PBR4Kbase+normal/2Kmetalrough actualDCC/rootviewed;100Kremesh actual88823tri with4KPNG maps retained but tornplinth/warpedroof rejectedforruntime.",
               "remaining": "One nativeBlender reductionoforiginalhighsource inprogresswithoutMeshyspend; fit envelope/semanticassembly beforeWindows comparableviews andauthorartacceptance. No canonicalchange."
+            },
+            "source_overlap_fix_2026_10_18": {
+              "cause": "Existing runtime roundedwallcrown addsgeometry but obsoleteherosidecourse suppressionusesLog_ whileactualGLBnamesuseLog00_0; oldselector0,newstrictASCII-numberedselector91namesacross4sides.",
+              "result": "Hero-onlysuppressionnowrecognizesnumberedLog; excludesLogCrown,cornerends,joinery/otherhouses. Existingcrown/door/windowboundsunchanged; no globalgeometrycleanup.",
+              "verification": "ActualcanonicalGLB1528nodeJSON inspection; affectedGamecompilePASS19.27s,0errors/0warnings; rootdiffreview; no newtests. TargetednativehouseframeafterPBRcandidate stillpending.",
+              "file": "game/scripts/Act1ConnectedWorld.DwellingLogWalls.cs"
             }
           },
           {
@@ -62591,10 +62600,14 @@
             "owner": "art/architecture",
             "evidence": [],
             "assigned_owner": "art/architecture",
-            "active_owner": null,
+            "active_owner": "Codex/root",
             "activity": {
-              "state": "not_active",
-              "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+              "state": "confirmed_active",
+              "reason": "Root owns one pricedAPI4KPBR material request on exact authoredhero geometry after source preparation. Existingglass/recess/snow owners retained, no wrongMeshymonolithpromotion.",
+              "files": [
+                "assets/source/blender/act1/hero_house_pbr_v1/",
+                "eng/meshy_assets.py"
+              ]
             },
             "task_type": "engineering",
             "status": "todo",
@@ -62645,7 +62658,15 @@
               "verification": [],
               "acceptance": []
             },
-            "depends_on": []
+            "depends_on": [],
+            "whole_hero_pbr_stage_2026_10_18": {
+              "input": "assets/source/blender/act1/hero_house_pbr_v1/opaquehero-for-retexture.glb",
+              "input_sha256": "25dd74e96d2c19720187a9644dceb7f95ad405a6ea72419d5590d4677f68d2cc",
+              "source": "Currentcanonicalkitfdc69de9f580276f6a9c831bde60a0dad1728acdc533f00320e8a9009c233bf8; pinnedBlender4.5.12",
+              "result": "473namednodes,19902triangles,517primitivesallUV;4bakedruntimecrowns;91oldoverlappingcoursesexcluded;666originalsemanticnodespreservedinfullhero source. RootviewedbeforeandownImageGenpaintover. APIretxtureoneacceptedtask10, originalUVon.",
+              "api_task_id": "01a14faa-f5af-7514-8370-55fc06a99b58",
+              "remaining": "Retrieveactualterminaloutput; verifyUVandPBRonownedsemanticgeometry, preserveglass/snow/door/interior/Studio behavior beforecanonicalpromotion andWindowswholehouseframe."
+            }
           }
         ]
       },
@@ -121130,7 +121151,7 @@
       "title": "W01: произвести, оживить и поставить Шурале",
       "milestone": "PW-M3",
       "status": "in_progress",
-      "active_owner": null,
+      "active_owner": "Codex/shurale_fit",
       "owner": "character_art",
       "priority": "P1",
       "complexity": "complex",
@@ -121284,8 +121305,11 @@
       },
       "assigned_owner": "character_art",
       "activity": {
-        "state": "released",
-        "reason": "Finite Meshy6Lite source and7.1 free viewer Walk/Run comparison complete. Exact export blocked by paid tier; purchase decision external. Canonical actor unchanged; independent release work remains authorized."
+        "state": "confirmed_active",
+        "reason": "Bounded existing53clip→actual66skin movement sourcecandidate in runtime-motion only; currentgenericgait failedneutralreview. Canonicalactor/skin remainfrozen pendingcontract+pose review.",
+        "files": [
+          "assets/source/blender/photoworlds/W01/shurale_meshy_v3/runtime-motion/"
+        ]
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -121810,6 +121834,10 @@
             "acceptance": "Technical source detail retention only; coherent horror art, custom motion, runtime contacts/LOD/native gates remain open."
           }
         }
+      },
+      "runtime_motion_stage_2026_10_18": {
+        "question": "Can the existing named work/step/idle behavior be retargeted on actual Meshyskin withoutcollapsinghands/feet/workbranch andwithoutnewgaitgeneration?",
+        "boundary": "No canonicalpromotion, no paidMeshymotion; exactcallercontract first. Full7clip+runtime/artacceptance stillrequired."
       }
     },
     {
@@ -157911,11 +157939,12 @@
     "credits": {
       "authorized_budget": 4000,
       "ui_balance_observed": 4100,
-      "agent_spent_after_purchase": 55,
-      "authorized_budget_remaining": 3945,
+      "agent_spent_after_purchase": 65,
+      "authorized_budget_remaining": 3935,
       "rule": "Total owner cap4000 including already spent operations. Use suitable Meshy texture/remesh/rig quality tools after actual source review; record displayed cost and result, no blind repeats. Own image_gen only for prototype images; no Meshy image-generation spend. UI bonuses do not expand cap; no additional purchase/subscription.",
       "latest_ui_balance_observed": 4145,
-      "balance_note": "UI balance observed 4100 → 4125 after generation, then 4175 after remesh; the source of increases is unverified. Charge quoted25 against authorized cap; quoted0 for remesh and no additional charge observed for normal humanoid rig/library/export. Bonuses do not expand allowance."
+      "balance_note": "Authorizedcap4000includesweb/API. ActualAPIretxtureconsumed10; monthly3045→3035. Totalbalance4145→4185becausepermanent1100→1150; sourceofbonusunverified. Bonusesdonotexpandcap.",
+      "latest_api_balance_observed": 4185
     },
     "first_input": "Existing own Shurale7.1 generated before subscription, now raw downloaded normally at zero added generation spend. Original freeCCBY4.0 provenance retained; no automatic private/ownership claim.",
     "operations": [
@@ -157990,6 +158019,26 @@
         "output_sha256": "235ab2f554575e145e30a8e3fe18f55d1709c1d9cfb5f5f606572475d30f7a80",
         "bytes": 34257712,
         "result": "Actual99998tris,afterreimport+weld3closedcomponents/0boundaries/nonmanifold;UV+4Kbase/2KMR/4Knormalretained. Rootviewedsame3q:plinthnowintact,roof/gablewavyrelativehighsource. BetterthanMeshy100Kbutdonoronly;stopvariants,no canonicalpromotion."
+      },
+      {
+        "task_id": "ACT1-DEPTH.12/E02",
+        "passport": "AS-01",
+        "operation": "API retexture exact ownhero opaquegeometry, originalglobalUV retained",
+        "api_task_id": "01a14faa-f5af-7514-8370-55fc06a99b58",
+        "model": "meshy-7",
+        "resolution": "4k",
+        "enable_pbr": true,
+        "enable_original_uv": true,
+        "cost_credits": 10,
+        "cost_basis": "OfficialAPIstatus consumed_credits10; onePOSTonly, terminalSUCCEEDED. Monthlycreditsdecreased10.",
+        "input": "assets/source/blender/act1/hero_house_pbr_v1/opaquehero-for-retexture.glb",
+        "input_sha256": "25dd74e96d2c19720187a9644dceb7f95ad405a6ea72419d5590d4677f68d2cc",
+        "reference": "assets/source/blender/act1/hero_house_pbr_v1/input-own-geometry-material-reference.png",
+        "reference_sha256": "54d8bf0193029db30a8930c60d40902a8bb25a8d8c1d056d1435a842f2275ee1",
+        "prototype_source": "Built-inimage_gen paintoverofownexactDCCgeometry, priorownconceptmaterialonly. NoMeshyimagegeneration.",
+        "result": "ActualAPI SUCCEEDED/consumed10/oneTextureSet. Downloaded21,869,464B GLB SHA203e4a372d42730086c2a484c1b001b273e2d0640a0e9d5b5c4d35a4ed86a945. PinnedDCC UV/PBR-on-owned-geometry review underway, notcanonicalpromoted.",
+        "output": "assets/source/blender/act1/hero_house_pbr_v1/meshy-retxt-4k-keepuv.glb",
+        "output_sha256": "203e4a372d42730086c2a484c1b001b273e2d0640a0e9d5b5c4d35a4ed86a945"
       }
     ],
     "next_large_static_candidate": {
