@@ -62610,13 +62610,13 @@
               ]
             },
             "task_type": "engineering",
-            "status": "todo",
+            "status": "in_progress",
             "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
               "Согласовать цвет дерева/наличников, свет окон и снег эталонного дома с существующими материалами; собственного целевого receipt пока нет."
             ],
-            "next_action": "Сопоставить текущий результат: Согласовать цвет дерева/наличников, свет окон и снег эталонного дома с существующими материалами. Затем изменить только установленный остаток.",
+            "next_action": "Проверить фактические atlas pixels и COLOR_0/material multiplication чёрных стен; исправлять только доказанную причину. После принятого вида сохранить PBR через существующие канонические .py/.blend и Studio rebuild, затем сравнимый Windows кадр. Исходный GLB Meshy нормализован, его геометрия не используется.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -62665,7 +62665,15 @@
               "source": "Currentcanonicalkitfdc69de9f580276f6a9c831bde60a0dad1728acdc533f00320e8a9009c233bf8; pinnedBlender4.5.12",
               "result": "473namednodes,19902triangles,517primitivesallUV;4bakedruntimecrowns;91oldoverlappingcoursesexcluded;666originalsemanticnodespreservedinfullhero source. RootviewedbeforeandownImageGenpaintover. APIretxtureoneacceptedtask10, originalUVon.",
               "api_task_id": "01a14faa-f5af-7514-8370-55fc06a99b58",
-              "remaining": "Retrieveactualterminaloutput; verifyUVandPBRonownedsemanticgeometry, preserveglass/snow/door/interior/Studio behavior beforecanonicalpromotion andWindowswholehouseframe."
+              "remaining": "Проверить фактические atlas pixels и COLOR_0/material multiplication чёрных стен; исправлять только доказанную причину. После принятого вида сохранить PBR через существующие канонические .py/.blend и Studio rebuild, затем сравнимый Windows кадр. Исходный GLB Meshy нормализован, его геометрия не используется.",
+              "output": {
+                "path_local": "assets/source/blender/act1/hero_house_pbr_v1/hero-house-semantic-pbr-v1.glb",
+                "sha256": "24296f1dc225e8f33499facec76d4c59c6752b1f7574ba98e9dc0b01deffb6bc",
+                "state": "source_review_rejected_pending_material_cause",
+                "verification": "Pinned Blender re-import: 473 semantic nodes / 19902 triangles; exact source world-position+UV paired triangles and all 59706 UV loops retained. Meshy omitted four UV triangles on two thin cap quads; exact source faces/materials preserved, no geometry dropped. Root personally viewed front-three-quarter: roof and joinery read, broad walls black. Not promoted."
+              },
+              "material_cause_review": "Pinned Blender actual UV samples are mid-gray wood (wall mean118/115/110), correct glTF V flip and active UVMap, baseColor factorwhite, no COLOR_0. Source already has inward exteriorwall winding; street/left crown customloop normals oppose trianglewinding on100% sampled corners (median dot−.977), roof/jamb dot+1. Source and attached normals identical. One controlled source orientation correction + samecamera render authorized, no new credits.",
+              "studio_preservation_boundary": "Existing author_hero_house deletes/rebuilds geometry and UV/material slots; new atlas is SmartUV/globalpacked over runtime-roundedgeometry+four crowns. No proven generic UV transfer for all legal width edits; do not claim ModelPath alone preserves Studio appearance or promote blind normalized-bounds transfer."
             }
           }
         ]
@@ -121837,7 +121845,22 @@
       },
       "runtime_motion_stage_2026_10_18": {
         "question": "Can the existing named work/step/idle behavior be retargeted on actual Meshyskin withoutcollapsinghands/feet/workbranch andwithoutnewgaitgeneration?",
-        "boundary": "No canonicalpromotion, no paidMeshymotion; exactcallercontract first. Full7clip+runtime/artacceptance stillrequired."
+        "boundary": "No canonicalpromotion, no paidMeshymotion; exactcallercontract first. Full7clip+runtime/artacceptance stillrequired.",
+        "contract": "Runtime consumes seven named clips, ShuraleBody_LOD0/LOD1 and ShuraleWorkBranch. No 53-bone count requirement in W01Controller; actual Meshy 66-joint rig may be retained.",
+        "first_candidate": {
+          "state": "rejected",
+          "path_local": "assets/source/blender/photoworlds/W01/shurale_meshy_v3/runtime-motion/shurale_meshy_v3_motion_candidate.glb",
+          "sha256": "f7ff17c0dfaee6bf88002599f4777ca2e06f32ad9534410fb86137eea752275a",
+          "root_review": "Work re-import shows severe triangular fans across pelvis from stretched hand segments. Seven clips, finite accessors and branch parent alone do not prove usable deformation."
+        },
+        "cause": "Independent existing-GLB read-only audit: work RightHandIndex2 rest local translation (0,.04294,0) becomes (.02814,-.57494,.20666), segment .616m; RightForeArm .37339→.526m. Raw Meshy Walking preserves these rest offsets; candidate scales unit±1e-6. Full source world matrix delta incorrectly keys target joint translations; prior yaw-alignment hypothesis disproved.",
+        "next_action": "Author complete restrained work hold/action on actual66rig using existing production two-armIK and actual-skin contact pattern; branch anchored toLeftHand actualworld grip with bone-tail convention, oppositehand support andgroundedfeet. One sourceexport/reimport wholepose+contact review; canonical unchanged.",
+        "joint_length_correction": {
+          "path_local": "assets/source/blender/photoworlds/W01/shurale_meshy_v3/runtime-motion/shurale_meshy_v3_motion_candidate.glb",
+          "sha256": "46aaf3893441a89a99917e88134500a193b2e1dfb6323ab2d09df82ab3157d9a",
+          "verification": "One corrected export/reimport: non-Hips translation max4.84e−7m; finger length .0423509904→.0423509501m, forearm .4659966319→.4659962442m; 66joints/7clips/398finite floataccessors. Root viewed work+step: blowups gone, but branchfloats acrosschest awayfromhands. No actorpromotion. Twelve pinnedBlender exporter RuntimeWarnings persist; finitebuffers do not prove art/contact."
+        },
+        "input_motion_fact": "Read-only fiveframes/clip across52mappedjoints: source has0constraints, oneassignedslot/action, matrix_basis matches evaluatedparentrelativepose within2.98e−7. Work/step source arms static; gesture/yield actuallyvary. Staticwork motion is content, not hiddenIK/slotloss."
       }
     },
     {
@@ -157939,12 +157962,12 @@
     "credits": {
       "authorized_budget": 4000,
       "ui_balance_observed": 4100,
-      "agent_spent_after_purchase": 65,
-      "authorized_budget_remaining": 3935,
+      "agent_spent_after_purchase": 75,
+      "authorized_budget_remaining": 3925,
       "rule": "Total owner cap4000 including already spent operations. Use suitable Meshy texture/remesh/rig quality tools after actual source review; record displayed cost and result, no blind repeats. Own image_gen only for prototype images; no Meshy image-generation spend. UI bonuses do not expand cap; no additional purchase/subscription.",
       "latest_ui_balance_observed": 4145,
-      "balance_note": "Authorizedcap4000includesweb/API. ActualAPIretxtureconsumed10; monthly3045→3035. Totalbalance4145→4185becausepermanent1100→1150; sourceofbonusunverified. Bonusesdonotexpandcap.",
-      "latest_api_balance_observed": 4185
+      "balance_note": "Actual latest API balance4175: monthly3025/permanent1150 after two10-credit retxtures. Total authorizedspend75/4000, remaining3925. Prior unexplained50-credit permanent bonus is not additional authorization.",
+      "latest_api_balance_observed": 4175
     },
     "first_input": "Existing own Shurale7.1 generated before subscription, now raw downloaded normally at zero added generation spend. Original freeCCBY4.0 provenance retained; no automatic private/ownership claim.",
     "operations": [
@@ -158039,6 +158062,25 @@
         "result": "ActualAPI SUCCEEDED/consumed10/oneTextureSet. Downloaded21,869,464B GLB SHA203e4a372d42730086c2a484c1b001b273e2d0640a0e9d5b5c4d35a4ed86a945. PinnedDCC UV/PBR-on-owned-geometry review underway, notcanonicalpromoted.",
         "output": "assets/source/blender/act1/hero_house_pbr_v1/meshy-retxt-4k-keepuv.glb",
         "output_sha256": "203e4a372d42730086c2a484c1b001b273e2d0640a0e9d5b5c4d35a4ed86a945"
+      },
+      {
+        "task_id": "PW-047",
+        "operation": "One API4KPBR retexture of exact existing Meshy66-joint source, keep originalUV",
+        "api_task_id": "01a14fc8-8be4-717c-8004-b234c88d43fd",
+        "resolution": "4k",
+        "enable_pbr": true,
+        "enable_original_uv": true,
+        "cost_credits": 10,
+        "cost_basis": "Official API terminal SUCCEEDED/progress100/consumed_credits10 in33.8s. One POST only.",
+        "input": "assets/source/blender/photoworlds/W01/shurale_meshy_v3/meshy71-rigged-all.glb",
+        "input_sha256": "3eb6d7522ed67a2fda347b607568828c420ad0f50642d00eeb586c01d20121aa",
+        "reference": "assets/source/blender/photoworlds/W01/shurale_meshy_v3/input-shurale-v3.png",
+        "reference_sha256": "ab77f4055e112388458f2425be915714061ff272912deae29b091440f204ee41",
+        "prototype_source": "Own built-in image_gen input, personally viewed. No Meshy image generation.",
+        "result": "Actual SUCCEEDED/one texture set; original-UV material validation and original66-joint skin attachment delegated source-only to whole_actor_route. Geometry/rig from normalized donor ignored; no canonical replacement.",
+        "output": "assets/source/blender/photoworlds/W01/shurale_meshy_v3/pbr-v1/meshy-retxt-4k-keepuv.glb",
+        "output_sha256": "b86fd7d83c93c3eef4c14555d1f94cda9f54f8a98cbf88b8d97b605e69a19917",
+        "bytes": 34025420
       }
     ],
     "next_large_static_candidate": {
@@ -158060,7 +158102,7 @@
       "key_monthly_limit": 2999,
       "secret_storage": "Owner-only local configuration outside Git; no key value in repository or receipts",
       "verification": "Authenticated GET https://api.meshy.ai/openapi/v1/balance returned HTTP200; actual balance4145/monthly3045/permanent1100. Read-only call, no added spend.",
-      "cost_boundary": "API prices differ from web: official remesh5 vs observedweb0; review endpointcost before paidcalls. Total campaign cap4000 includingweb+API persists; remaining3945.",
+      "cost_boundary": "API prices differ from web: official remesh5 vs observedweb0; review endpoint cost before paid calls. Total campaign cap4000 including web+API; current remaining3925.",
       "authority": "Owner explicit action-time reply authorized creating and connecting API key.",
       "client": "eng/meshy_assets.py: balance/list/status, explicitpricedsubmit-image/submit-retexture/submit-remesh, SUCCEEDED-onlyGLBdownload; no Meshyimagegeneration. Read-onlybalance/list3endpoints verified; existingwebtasks notreturnedbyAPIlist."
     }
