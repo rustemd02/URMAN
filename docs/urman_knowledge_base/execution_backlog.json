@@ -62493,10 +62493,10 @@
             "owner": "art/architecture",
             "evidence": [],
             "assigned_owner": "art/architecture",
-            "active_owner": null,
+            "active_owner": "/root/w03_geometry",
             "activity": {
-              "state": "released",
-              "reason": "Finite nativepreview finished and stationfreed. Sourcehouseinventory retained; artnotaccepted becauseactualcloseview shows triangular/star facets. Authorfacepriority nowactive; no repeatedhouse variants."
+              "state": "confirmed_active",
+              "reason": "Confirmed bounded source implementation to preserve reviewed PBR/UV on one existing Studio window-width edit."
             },
             "task_type": "engineering",
             "status": "in_progress",
@@ -62513,7 +62513,8 @@
               "result": "Согласовать силуэт, цоколь, вынос кровли и глубину проёмов эталонного дома с выбранным reference ID",
               "targets": [
                 "assets/source/blender/act1/urman_village_exterior_kit.py",
-                "game/assets/models/act1/urman_village_exterior_kit.glb"
+                "game/assets/models/act1/urman_village_exterior_kit.glb",
+                "game/studio/StudioAiPanel.cs"
               ],
               "required_inputs": [],
               "scope_in": [
@@ -62627,6 +62628,16 @@
                 "technical": "All receipt steps0, gameExit0, snapshot hashes verified, userdataRestoredtrue. Fresh doctor ready/idle/no orphan or recovery. Defaultrecipe byte-restored; temporary model removed.",
                 "acceptance": "UV cap fix accepted as bounded source engineering/observed visual improvement. Default house/PBR Studio persistence remains separate, not promoted."
               }
+            },
+            "pbr_persistence_slice_2026_10_19": {
+              "targets": [
+                "game/studio/StudioAiPanel.cs",
+                "assets/source/blender/act1/urman_village_exterior_kit.py"
+              ],
+              "cause": "Studio replaces modelPath with newly rebuilt raw geometry, losing current PBR/UV. Existing width editor supports8fixedIDs .65..1.35, fixedheight/centers/count.",
+              "result_requested": "Existing generator uses explicit currentmodel source/template for one window-width edit, preserving semanticnodes/UV/materials and neighborwindows; no newloader/materialowner/fallback. Preserve SeniOuter0=.80 whennonnullmodelPath.",
+              "verification": "One actual v3Front0 width edit exported/reimported in pinned Blender; actualwidth/node/UV/materialpreservation andoneframe, then affectedGamecompile. NativeStudioApply/Undo separately pending.",
+              "state": "in_progress"
             }
           },
           {
@@ -70878,7 +70889,7 @@
       "milestone": "M5",
       "status": "in_progress",
       "complexity": "simple",
-      "active_owner": "/root",
+      "active_owner": "/root/aidar_body",
       "owner": "finished-act1",
       "depends_on": [],
       "scope": [
@@ -70935,7 +70946,7 @@
       "assigned_owner": "finished-act1",
       "activity": {
         "state": "confirmed_active",
-        "reason": "Root producing the named Meshy input; aidar_body confirmed exact adapter contract and awaits actual remesh. No source body claimed finished."
+        "reason": "Actual remesh delivered with SHA; aidar_body accepted bounded source adapter and actual review views."
       },
       "task_type": "integration_check",
       "implementation_state": "partial",
@@ -71078,12 +71089,16 @@
         "root_review": "Original built-inimage_gen reference has substantial winter jacket/real trouser drape/flat winter boots; accepted for one Meshy source input, no gait or final art claim.",
         "image_task": "01a1510f-be3b-74d1-996d-4ab1e315a3ce",
         "consumed_credits": 30,
-        "remesh": "One100K request5 submitted; actual task result pending.",
+        "remesh": "Succeeded, consumed5; downloaded100Ksource.",
         "contract": "Existing gait/footIK retained. Requires six semantic clothing meshes on current rig; source adapter then small existing loader/body consumer extension. No NPC CouncilWitness overwrite, no new gait controller, no arbitrary7point ring reconstruction of authored trousers.",
         "owner": "/root/aidar_body",
         "remesh_task": "01a15112-a9a4-74cb-a3cc-9f1b2ff096cc",
         "credit_total_before_remesh_result": 190,
-        "remaining_authorized_before_remesh_result": 3810
+        "remaining_authorized_before_remesh_result": 3810,
+        "source_glb": "assets/source/blender/act1/aidar_meshy_v1/meshy71-aidar-100k.glb",
+        "source_sha256": "49d410e7b875455f5cb566da777018b245601c11ec63ce4e790187bf076ff06b",
+        "credit_total": 195,
+        "remaining_authorized": 3805
       }
     },
     {
@@ -158170,12 +158185,12 @@
     "credits": {
       "authorized_budget": 4000,
       "ui_balance_observed": 4100,
-      "agent_spent_after_purchase": 110,
-      "authorized_budget_remaining": 3890,
+      "agent_spent_after_purchase": 195,
+      "authorized_budget_remaining": 3805,
       "rule": "Total owner cap4000 including already spent operations. Use suitable Meshy texture/remesh/rig quality tools after actual source review; record displayed cost and result, no blind repeats. Own image_gen only for prototype images; no Meshy image-generation spend. UI bonuses do not expand cap; no additional purchase/subscription.",
-      "latest_ui_balance_observed": 4145,
-      "balance_note": "Latest API balance4140: monthly2990/permanent1150 afterhead30+remesh5. Total authorizedspend110/4000, remaining3890; permanentbonus doesnotexpandcap.",
-      "latest_api_balance_observed": 4140
+      "latest_ui_balance_observed": 4100,
+      "balance_note": "Actual API GETbalance4055 (monthly2905/permanent1150), matching total paidoperations195. Last observed IABbalance4100 preceded newesthouse10/body35. Authorized remaining3805; accountbonuses do notexpandowner4000cap.",
+      "latest_api_balance_observed": 4055
     },
     "first_input": "Existing own Shurale7.1 generated before subscription, now raw downloaded normally at zero added generation spend. Original freeCCBY4.0 provenance retained; no automatic private/ownership claim.",
     "operations": [
@@ -158315,6 +158330,61 @@
         "output": "assets/source/blender/photoworlds/W01/shurale_meshy_v3/face-redesign-v1/meshy71-face-redesign-remesh-100k.glb",
         "output_sha256": "a7f3dc948440a6169d4c223201882cce6e3084b3ff1546e54fcaf3735102e162",
         "bytes": 70572860
+      },
+      {
+        "task_id": "PW-047",
+        "operation": "One coherent wholeactor7.1/4KPBR from ownfocusedface/body image_gen reference; stops rejected neck-graft variants",
+        "api_task_id": "01a15063-80ea-75e6-b79b-86480e2a8831",
+        "cost_credits": 30,
+        "input": "assets/source/blender/photoworlds/W01/shurale_meshy_v4/input-shurale-v4.png",
+        "result": "Source face/neck PBR and realclay viewed; continuous neck accepted for motion engineering."
+      },
+      {
+        "task_id": "PW-047",
+        "operation": "Fixed100K remesh of coherent v4; actual104090tri",
+        "api_task_id": "01a1506c-64c9-741e-91d1-1f88bb752acb",
+        "cost_credits": 5,
+        "output_sha256": "31c56e2988756d148c356e42b36a3f51b6a2fefb4cd2d140af440ca982a56f32"
+      },
+      {
+        "task_id": "PW-047",
+        "operation": "API humanoidrig2.35m with normal GLB/FBX download",
+        "api_task_id": "01a15085-3432-74e9-bfdd-7ac905f7a0c4",
+        "cost_credits": 5,
+        "result": "Both24joints/no fingers; core24motion poses rejected, not promoted."
+      },
+      {
+        "task_id": "PW-047",
+        "operation": "Private upload samev4 to existing IAB session, web humanoidrig and Mixamo GLB export with Walking/Running",
+        "cost_credits": 0,
+        "cost_basis": "Observed UIbalance4100before/after; no added debit observed.",
+        "result": "66joints includingfingers. One7clip source adaptation, 2KPBR reduction; installedexistinggameasset and Windowsimport PASS. NativeW01/finalart remainopen.",
+        "output_sha256": "653f1692f3337d0b1af634c6b3751b6fcf9bb486bd0804224f114d6c65b9f032"
+      },
+      {
+        "task_id": "ACT1-DEPTH.12/E01",
+        "operation": "One corrected globalUV keep-UV4KPBR retexture after proven disconnected subpixel cap basecolor defect",
+        "api_task_id": "01a150f9-6253-74de-9ac3-08fd3c718c09",
+        "cost_credits": 10,
+        "input": "assets/source/blender/act1/hero_house_pbr_v1/opaquehero-for-retexture-v3.glb",
+        "output_sha256": "98320587d04f5a3dff8118036e7fa49ee1833fb12cb9330f919a8729436172b5",
+        "result": "Actual nativefdc front/porch caps no longer star-faceted. Bounded UV-fix accepted; defaultPBR/Studio persistence and finalart open."
+      },
+      {
+        "task_id": "ACT1-LEGS.2",
+        "operation": "One Meshy7.1/4KPBR body source from original winter outfit image_gen concept",
+        "api_task_id": "01a1510f-be3b-74d1-996d-4ab1e315a3ce",
+        "cost_credits": 30,
+        "input": "assets/source/blender/act1/aidar_meshy_v1/input-aidar-v1.png",
+        "result": "API succeeded; actualbody source review/adaptation pending."
+      },
+      {
+        "task_id": "ACT1-LEGS.2",
+        "operation": "Fixed100K remesh Aidar outfit source for existing firstperson rig adapter",
+        "api_task_id": "01a15112-a9a4-74cb-a3cc-9f1b2ff096cc",
+        "cost_credits": 5,
+        "output_sha256": "49d410e7b875455f5cb566da777018b245601c11ec63ce4e790187bf076ff06b",
+        "result": "Downloaded48.68MB; aidar_body owns one sourcegeometry/semantic/rig adaptation. No canonicalbody or walking acceptance."
       }
     ],
     "next_large_static_candidate": {
@@ -158336,9 +158406,9 @@
       "key_monthly_limit": 2999,
       "secret_storage": "Owner-only local configuration outside Git; no key value in repository or receipts",
       "verification": "Authenticated GET https://api.meshy.ai/openapi/v1/balance returned HTTP200; actual balance4145/monthly3045/permanent1100. Read-only call, no added spend.",
-      "cost_boundary": "Total authorized cap4000 includingweb/API. Current spent110, remaining3890. One-shot pricedcalls; no newpurchase.",
+      "cost_boundary": "Total authorized cap4000 includingweb/API. Actualspent195, remaining3805; limited key2999/month unchanged. No newpurchase.",
       "authority": "Owner explicit action-time reply authorized creating and connecting API key.",
-      "client": "eng/meshy_assets.py: balance/list/status, explicitpricedsubmit-image/submit-retexture/submit-remesh, SUCCEEDED-onlyGLBdownload; no Meshyimagegeneration. Read-onlybalance/list3endpoints verified; existingwebtasks notreturnedbyAPIlist."
+      "client": "eng/meshy_assets.py: sanitizedbalance/list/status; pricedimage/retexture/remesh/rig POST; SUCCEEDED-onlyGLB/rigFBXdownload. RealAPIrig and bothdownloads exercised; rig24/no-finger limitation documented. No Meshyimagegeneration."
     }
   }
 }
