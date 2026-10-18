@@ -32,10 +32,12 @@ public partial class RuntimeBridge
 
     private RuntimeKernel? _photoBookBusySession;
 
+    internal bool IsPhotoBookProjectionDeferred => _loadingSlot || _loadPreparing;
+
     /// <summary>Projects only acquired photos from the validated live session.</summary>
     internal IReadOnlyList<PhotoBookPhoto> PhotoBookPhotos()
     {
-        if (_loadingSlot || _loadPreparing
+        if (IsPhotoBookProjectionDeferred
             || SessionIdentity is not { } session
             || !_content.HasPhotoWorlds
             || _content.PhotoWorldDefinitions is not { } catalog)

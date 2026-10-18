@@ -15,6 +15,7 @@ namespace Urman.Godot;
 internal partial class HomePrinterPresence : Node3D
 {
     internal Node3D Sheet = null!;
+    internal InteractionTarget? EntryTarget;
     internal float SheetInLocalZ = .075f;
     internal float SheetOutLocalZ = .215f;
 
@@ -28,7 +29,8 @@ internal partial class HomePrinterPresence : Node3D
     {
         if (_bridge is null && !TryBindBridge())
             return;
-        if (!GodotObject.IsInstanceValid(Sheet) || !Sheet.IsNodeReady())
+        if (!GodotObject.IsInstanceValid(Sheet) || !Sheet.IsNodeReady()
+            || _bridge!.IsPhotoBookProjectionDeferred)
             return;
 
         Apply();
@@ -49,11 +51,13 @@ internal partial class HomePrinterPresence : Node3D
     private void Apply()
     {
         if (_captureStaged || _bridge is not { } bridge || !GodotObject.IsInstanceValid(bridge)
+            || bridge.IsPhotoBookProjectionDeferred
             || !IsInsideTree() || !GodotObject.IsInstanceValid(this)
             || !GodotObject.IsInstanceValid(Sheet))
             return;
 
         var mounted = bridge.PhotoBookPhotos().Any(photo => photo.PhotoId == "P-COMMON" && photo.Mounted);
+        EntryTarget?.SetPresentationEnabled(mounted);
         if (!mounted)
         {
             Sheet.Visible = false;
@@ -84,6 +88,7 @@ internal partial class HomePrinterPresence : Node3D
     internal void ApplyCaptureFacts(bool sheetInTray)
     {
         _captureStaged = true;
+        EntryTarget?.SetPresentationEnabled(false);
         Sheet.Visible = sheetInTray;
         Sheet.Position = new Vector3(Sheet.Position.X, Sheet.Position.Y,
             sheetInTray ? SheetOutLocalZ : SheetInLocalZ);

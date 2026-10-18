@@ -1,17 +1,75 @@
-[gd_scene load_steps=1 format=3]
+[gd_scene load_steps=5 format=3]
+
+[ext_resource path="res://scripts/photoworlds/W04Controller.cs" type="Script" id="1_w04"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_W04Common"]
+sky_top_color = Color(0.31, 0.39, 0.56, 1)
+sky_horizon_color = Color(0.79, 0.68, 0.72, 1)
+ground_bottom_color = Color(0.25, 0.31, 0.31, 1)
+ground_horizon_color = Color(0.55, 0.51, 0.57, 1)
+
+[sub_resource type="Sky" id="Sky_W04Common"]
+sky_material = SubResource("ProceduralSkyMaterial_W04Common")
+
+[sub_resource type="Environment" id="Environment_W04Common"]
+background_mode = 2
+sky = SubResource("Sky_W04Common")
+ambient_light_source = 3
+ambient_light_color = Color(0.77, 0.71, 0.77, 1)
+ambient_light_energy = 0.86
+tonemap_mode = 3
+tonemap_exposure = 1.0
+fog_enabled = true
+fog_light_color = Color(0.73, 0.69, 0.77, 1)
+fog_density = 0.0012
+fog_height = 2.0
+fog_height_density = 0.014
+fog_aerial_perspective = 0.36
+fog_sky_affect = 0.24
+fog_sun_scatter = 0.12
 
 [node name="W04" type="Node3D"]
+script = ExtResource("1_w04")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_W04Common")
+
+[node name="Daylight" type="DirectionalLight3D" parent="."]
+rotation_degrees = Vector3(-32, -38, 0)
+light_color = Color(1, 0.9, 0.88, 1)
+light_energy = 1.08
+shadow_enabled = true
+shadow_opacity = 0.34
 
 [node name="Anchors" type="Node3D" parent="."]
 
-; C00: common entry spawn.
+; Entry forward is +Z. The panorama is the same read from the far C05 stance.
 [node name="C00" type="Marker3D" parent="Anchors"]
-position = Vector3(0, 0, 0)
+rotation_degrees = Vector3(0, 180, 0)
 
-; C08: common exit.
+[node name="C01" type="Marker3D" parent="Anchors"]
+position = Vector3(-25, 3, 25)
+
+[node name="C02" type="Marker3D" parent="Anchors"]
+position = Vector3(24, 2, 30)
+
+[node name="C03" type="Marker3D" parent="Anchors"]
+position = Vector3(0, 4, 54)
+
+[node name="C04" type="Marker3D" parent="Anchors"]
+position = Vector3(0, 5, 83)
+
+[node name="C05" type="Marker3D" parent="Anchors"]
+position = Vector3(0, 7, 112)
+
+[node name="C06" type="Marker3D" parent="Anchors"]
+position = Vector3(-22, 6, 140)
+
+[node name="C07" type="Marker3D" parent="Anchors"]
+position = Vector3(25, 6, 143)
+
 [node name="C08" type="Marker3D" parent="Anchors"]
-position = Vector3(2, 0, 0)
+position = Vector3(0, 5, 170)
 
-; PW_COMMON_ENTRY: semantic alias for C00 (PhotoWorlds W04 entry anchor).
 [node name="PW_COMMON_ENTRY" type="Marker3D" parent="Anchors"]
-position = Vector3(0, 0, 0)
+rotation_degrees = Vector3(0, 180, 0)

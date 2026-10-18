@@ -53,6 +53,9 @@ public static class Act1WorldLayout
                 ("from_house", new SpawnTransform(AgentBAct1Layout.HouseDoorApproach, AgentBAct1Layout.HouseDoorYawDegrees + 180f)),
                 ("from_fap", new SpawnTransform(new(28f, 0.05f, -25f), 80f)),
                 ("from_forest", new SpawnTransform(new(1.8f, 0.05f, -12.5f), 180f)),
+                ("pw-bank-approach", new SpawnTransform(
+                    Act1ConnectedWorld.PhotoBankApproachEntryPosition,
+                    Act1ConnectedWorld.PhotoBankApproachEntryYawDegrees)),
                 ("default", new SpawnTransform(new(0f, 0.05f, 9f), 0f)))),
         new(
             "house_old_pc",

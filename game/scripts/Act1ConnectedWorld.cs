@@ -1164,6 +1164,13 @@ public partial class Act1ConnectedWorld : Node3D
         // The ravine east of the FAP splits the village in two; its bridge has
         // lost the middle span (author, 2026-09-25).
         AddVillageRavine(core);
+        // This is the separate full-game PhotoWorlds destination. Keep it out
+        // of the original Chapter I build; in the full-game campaign its
+        // physical approach is present in the village before the bank route is
+        // entered.
+        if (GetTree().GetFirstNodeInGroup("runtime_bridge") is RuntimeBridge bridge
+            && bridge.IsPhotoWorldsCampaign)
+            AddPhotoBankApproach(core);
 
         // Unreachable background layers (T3): mid woodland bands and far snow
         // ridges, all beyond the walkable envelope. The near village rows that

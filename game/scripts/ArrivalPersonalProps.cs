@@ -661,7 +661,7 @@ internal partial class ArrivalPersonalProps : Node3D
         led.SetMeta("visualOnly", true);
         printer.AddChild(led);
 
-        var sheet = new Node3D { Name = "PrinterSheet", Visible = false };
+        var sheet = new Node3D { Name = "PrinterSheet", Position = new(0f, .049f, .075f), Visible = false };
         printer.AddChild(sheet);
         var sheetPaper = new MeshInstance3D
         {
@@ -696,10 +696,17 @@ internal partial class ArrivalPersonalProps : Node3D
             sheet.AddChild(back);
         }
 
+        var entryPosition = things.Transform * printer.Transform * new Vector3(0f, .08f, .215f);
+        var entry = house.MakeInteractionBox("CommonPhotoEntryTarget", new(.22f, .14f, .18f),
+            entryPosition, "8fa694", "urman.fullgame:interaction/pw-enter-common",
+            "Войти в общий кадр с распечатанного снимка", rayOnly: true);
+        entry.SetPresentationEnabled(false);
+
         printer.AddChild(new HomePrinterPresence
         {
             Name = "HomePrinterPresence",
             Sheet = sheet,
+            EntryTarget = entry,
             SheetInLocalZ = .075f,
             SheetOutLocalZ = .215f
         });

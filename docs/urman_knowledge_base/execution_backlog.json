@@ -70928,6 +70928,17 @@
         "result": "16 walk frames saved and personally viewed by root. Alternating poses/no obvious seam or support break; dark-column silhouette remains similar. This does not resolve author movement complaint.",
         "userdata": "original files restored by rename and verified; Windows ACLs not compared",
         "limits": "Only walk sampling; jump/landing/stop/audio/other modes and subjective satisfaction remain open."
+      },
+      "body_source_review_2026_10_18": {
+        "finding": "Current aidar-first-person body uses legacy CouncilWitness prefix/urman_character_kit.glb NPC meshes, rebuilds pants and reweights coat at runtime; this is a source mismatch, not proof gait solver causes all reported motion issues.",
+        "paths": [
+          "game/scripts/FirstPersonController.Body.cs",
+          "game/scripts/GeneratedCharacterKitDressing.cs",
+          "tools/blender/generate_character_kit.py",
+          "assets/source/blender/urman_character_kit.blend"
+        ],
+        "view": "Root viewed existing 01_standing_look_down.png from evidence/ACT1-PLAYER/jump-envelope-20261018/player: coat occupies most lower view, narrow dark legs/boots. Prior capture5b0a7cc remains relevant only standing/ordinarywalking, not new mid-swing reversal.",
+        "next_input": "Dedicated authored neutral and rigged lower-body source for Aidar; no more gait coefficient guesses. Native jump/landing/manual movement still open."
       }
     },
     {
@@ -121205,7 +121216,7 @@
       "assigned_owner": "character_art",
       "activity": {
         "state": "confirmed_active",
-        "reason": "Frozen licensed source base accepted only for proper rig-fit; worker started one isolated rig-v1 stage, preserving canonical and base files."
+        "reason": "One new authorized Meshy6Lite GLB downloaded; independent source import/views/metrics underway, no rig/runtime promotion."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -121615,7 +121626,30 @@
         "owner": "Codex/shurale_fit",
         "folder": "assets/source/blender/photoworlds/W01/shurale_anatomy_base_v1/rig-v1",
         "inputs": "Frozen accepted hm08 anatomical source above; frozen canonical v6 packaged blend SHA5ecb9e1572f5b5f3671c1a1b5a0331cbd003f78f3a938a73df99822990559620, existing53bone/7clip/branch/contact/export contracts.",
-        "scope": "One actual proper armature/skin fit and source pose review, with fixed coordinates/scale/yaw and normalized<=4weights. No canonical changes, newgeometry presets/test/probes/Windows run."
+        "scope": "One actual proper armature/skin fit and source pose review, with fixed coordinates/scale/yaw and normalized<=4weights. No canonical changes, newgeometry presets/test/probes/Windows run.",
+        "result": "REJECTED_DIAGNOSTIC_SOURCE_ONLY; STOPPED",
+        "observed": "Root personally viewed noticed-full: shoulder tears/head collapse. Barycentric transfer work hand-branch gap66.110mm vs initial64.263mm. ARMATURE_AUTO yielded17groups, missing required arm/hand/finger groups; no usable new fit.",
+        "evidence": "Owned untracked rig-v1 manifest/source/views retained locally, not promoted or committed as production.",
+        "next": "Do not repeat scalar/transfer/heat variants. Need an anatomically compatible authored skin/rig or separately accepted generated actor and explicit retarget strategy; keep canonical functional v6."
+      },
+      "meshy_route_review_2026_10_18": {
+        "trigger": "Author asks why Meshy is not used; prior local source studies not accepted as finished actor.",
+        "finding": "No Meshy pipeline found in searched repository engineering/tools/tracker/spec files, no exposed Meshy tool or MESHY environment key configured. Fresh in-app browser shows public signup, not authenticated workspace. Existing external account/subscription unknown; owner question pending.",
+        "official_sources": [
+          "https://www.meshy.ai/terms-of-use",
+          "https://help.meshy.ai/en/articles/15696428-what-is-included-on-the-free-plan",
+          "https://docs.meshy.ai/en/api/image-to-3d",
+          "https://docs.meshy.ai/en/api/rigging"
+        ],
+        "constraints": "Official free tier: CC BY4.0 commercial attribution, web-only, download model limits; paid output ownership subject to input rights. Auto-rig ordinary humanoids only, not proof of our long-finger/contact compatibility. No subscription purchase, upload or external generation performed.",
+        "next": "Await one authorized output, downloadactualGLB, source anatomy/topology/material/budget review; no repeatgenerations/canonicalpromotion without evidence.",
+        "state": "GLB_DOWNLOADED_SOURCE_REVIEW_ACTIVE",
+        "authorization": "Owner explicitly approved free account registration and separately approved upload of shown original input-whole-body-v1.png +oneMeshy6Lite generation costing10freecredits/CCBY4.0; no subscription purchase.",
+        "input": "assets/source/blender/photoworlds/W01/shurale_reconstruction_v1/whole-body-v1/input-whole-body-v1.png",
+        "account_boundary": "Only generic workflow facts recorded; no email/code/token/profile identifiers in repository.",
+        "output": "assets/source/blender/photoworlds/W01/shurale_meshy_v1/meshy6lite-original.glb",
+        "output_sha256": "af76d066d0527e0c25707c04a42f293d5a5c4f5b6aab1167e64c490f508e5882",
+        "technical_preliminary": "Producer actual Blender import:1mesh,56242vertices/112508triangles,0source materialslots. Only neutral sourceviewreview; no readygameactorclaim."
       }
     },
     {
@@ -126974,10 +127008,10 @@
             "owner": "world_art",
             "evidence": [],
             "assigned_owner": "world_art",
-            "active_owner": "Codex/w03_geometry",
+            "active_owner": null,
             "activity": {
-              "state": "confirmed_active",
-              "reason": "Worker confirmed geometry/controller interface with separate gameplay owner and began actual C00–C08 source stage."
+              "state": "idle",
+              "reason": "Finite source world geometry integrated and compiled; actual native/art and whole card remain open."
             },
             "task_type": "engineering",
             "status": "in_progress",
@@ -127076,14 +127110,24 @@
               "game/scripts/HomePrinterPresence.cs"
             ],
             "source_stage_2026_10_18": {
-              "result": "STARTED; NOT_COMPILED_OR_NATIVE",
+              "result": "SOURCE_INTEGRATED_COMPILED; NATIVE_ART_NOT_ACCEPTED",
               "geometry_owner": "Codex/w03_geometry",
               "gameplay_owner": "Codex/product_entrypoint",
               "route_owner": "Codex/root",
               "named_inputs": "Exact W04 passport + campaign worlds.spec C00–C08/10links; existing compiled fouractions/facts/gate; existing W01/W02/W03 architectural/terrain motifs. W04 currently only17line markers and no controller; missingrequested dedicated assetfamilies remain E02/art, not claimed.",
               "geometry_interface": "BuildCommonWorld sets _world=W04World; CommonGroundHeightAt(x,z); direct W04GroundSurface/W04GroundBody/C04ClothPanel/C04ClothFoldSupport/C01FrameWitness/C02FrameWitness/C03FrameWitness/CommonHorizonWitness. Scene Anchors/C00–C08 exactpassport.",
               "result_required": "Real continuous guarded walkable C00–C08 +3physical nearframes viewing ONE inaccessible horizon; C04 sightlinecloth physicalfold onactualsupport; four content-owned actions, save/load and actual P-COMMON print entry/home return. No duplicateworldJSON, newframework or bypassedentrygate.",
-              "verification": "Root one affected compile after coupled source freeze, then named native/art checks when owned host input works. No new tests/probes/harness/captureAPI."
+              "verification": {
+                "command": ".tools/dotnet/dotnet build game/Urman.Game.csproj --no-restore --disable-build-servers --verbosity minimal -nodeReuse:false -m:1",
+                "exit_code": 0,
+                "warnings": 0,
+                "errors": 0,
+                "elapsed_seconds": 15.35,
+                "scope": "Current coupled W04/worldguard/actions/Main/Bridge/printer and actualbankgeometry/presence/spawn after source corrections. Independent read-only lifecycle/return/LOS review; pile reachability concern withdrawn as unproved, native interaction remains unverified.",
+                "uncovered": "No current native traversal/visuals/art/complete story: owned foreground issue remains local to Windows input; S-BANK council copy and physical epilogue target remain separate open work.",
+                "confidence": "C; compiled/source-reviewed only"
+              },
+              "numeric_geometry": "Exact passportC00–C08/10links, continuous ground/collision; C03 rays hit actual forest/water/house throughframes; C05point actualpanoramamesh, offpathcloth intercepts until folded onto realtable."
             }
           },
           {
@@ -127529,7 +127573,7 @@
       "title": "W04: условия входа и четыре содержательных действия",
       "milestone": "PW-M3",
       "status": "in_progress",
-      "active_owner": "Codex/product_entrypoint",
+      "active_owner": null,
       "owner": "gameplay",
       "priority": "P1",
       "complexity": "complex",
@@ -127668,8 +127712,8 @@
       },
       "assigned_owner": "gameplay",
       "activity": {
-        "state": "confirmed_active",
-        "reason": "Gameplay worker confirmed exact geometry interface and started four existing reducer-owned physical actions/controller lifecycle; root owns route integration."
+        "state": "idle",
+        "reason": "W04 gameplay finite source frozen and compiled; root integrates independently found bank destination blocker via PW070/PW073, native/art remain open."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -127865,7 +127909,36 @@
         ],
         "gate": "Keep existing W01/W02/W03 questcomplete, E-BANK-OUTSIDE/E-PHOTOGRAPHER-OUTSIDE, P-COMMON captionpreparedbyMarat+mounted. Fouractions/facts existing truth; no translation/loreinvented.",
         "scope": "Actual frame/horizon witnesses; C04cloth folded ontoactualsupport; note/caption/finalreturn existing IDs, session/modal/load/restore guards, own realterrain worldguard.",
-        "verification": "NOT_RUN; wait named geometry artifacts for coupled source inspection/compile; native/art gates separate."
+        "verification": {
+          "command": ".tools/dotnet/dotnet build game/Urman.Game.csproj --no-restore --disable-build-servers --verbosity minimal -nodeReuse:false -m:1",
+          "exit_code": 0,
+          "warnings": 0,
+          "errors": 0,
+          "elapsed_seconds": 15.35,
+          "scope": "Current coupled W04/worldguard/actions/Main/Bridge/printer and actualbankgeometry/presence/spawn after source corrections. Independent read-only lifecycle/return/LOS review; pile reachability concern withdrawn as unproved, native interaction remains unverified.",
+          "uncovered": "No current native traversal/visuals/art/complete story: owned foreground issue remains local to Windows input; S-BANK council copy and physical epilogue target remain separate open work.",
+          "confidence": "C; compiled/source-reviewed only"
+        },
+        "root_integration": {
+          "files": [
+            "game/scripts/Main.cs",
+            "game/scripts/RuntimeBridge.PhotoWorldScene.cs",
+            "game/scripts/ArrivalPersonalProps.cs",
+            "game/scripts/HomePrinterPresence.cs"
+          ],
+          "result": "W04 scene route/mount/load/return and physical P-COMMON entry on printer tray; sheet raised onto tray surface. Existing kernel entry requirements retained.",
+          "verification": {
+            "command": ".tools/dotnet/dotnet build game/Urman.Game.csproj --no-restore --disable-build-servers --verbosity minimal -nodeReuse:false -m:1",
+            "exit_code": 0,
+            "warnings": 0,
+            "errors": 0,
+            "elapsed_seconds": 15.35,
+            "scope": "Current coupled W04/worldguard/actions/Main/Bridge/printer and actualbankgeometry/presence/spawn after source corrections. Independent read-only lifecycle/return/LOS review; pile reachability concern withdrawn as unproved, native interaction remains unverified.",
+            "uncovered": "No current native traversal/visuals/art/complete story: owned foreground issue remains local to Windows input; S-BANK council copy and physical epilogue target remain separate open work.",
+            "confidence": "C; compiled/source-reviewed only"
+          },
+          "known_issue": "Physical bank destination now bound via PW070/PW073 named spawn; native traversal/art still unverified. Remaining council-owned S-BANK copy and physicalepilogue target are explicit follow-ups."
+        }
       }
     },
     {
@@ -131049,7 +131122,7 @@
       "id": "PW-070",
       "title": "Разместить и проверить семь деревенских якорей",
       "milestone": "PW-M3",
-      "status": "todo",
+      "status": "in_progress",
       "active_owner": null,
       "owner": "integration",
       "priority": "P1",
@@ -131211,8 +131284,8 @@
       },
       "assigned_owner": "integration",
       "activity": {
-        "state": "not_active",
-        "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+        "state": "idle",
+        "reason": "Finite physicalbank source stage integrated/compiled; remaining whole-card/native/art acceptance not complete."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -131405,7 +131478,37 @@
           "evidence_ref": "PW-070.evidence and named history progress; source_review shows available/missing inputs"
         }
       ],
-      "assignment_state": "preserved_person_or_existing_role; activity separate"
+      "assignment_state": "preserved_person_or_existing_role; activity separate",
+      "bank_destination_stage_2026_10_18": {
+        "source": "Existing grounded ravine/frozenstream east of FAP + W02 oldapproach facts; new real oldpiles do not claim old collapsed bridge equals canonriver.",
+        "owners": {
+          "geometry": "Codex/w03_geometry",
+          "presence": "Codex/product_entrypoint",
+          "route": "Codex/root"
+        },
+        "files": [
+          "game/scripts/Act1ConnectedWorld.PhotoBank.cs",
+          "game/scripts/Act1ConnectedWorld.cs",
+          "game/scripts/Act1WorldLayout.cs",
+          "game/scripts/PhotoBankApproachPresence.cs",
+          "game/scripts/Main.cs",
+          "game/scripts/RuntimeBridge.PhotoWorldScene.cs"
+        ],
+        "result_required": "Real supported bank entry/path and visible oldpiles, physical inspection/strictverify from existing sourceevidence, stable bank-return; no S-BANK magicalsource, no kernel bypass.",
+        "verification": {
+          "command": ".tools/dotnet/dotnet build game/Urman.Game.csproj --no-restore --disable-build-servers --verbosity minimal -nodeReuse:false -m:1",
+          "exit_code": 0,
+          "warnings": 0,
+          "errors": 0,
+          "elapsed_seconds": 15.35,
+          "scope": "Current coupled W04/worldguard/actions/Main/Bridge/printer and actualbankgeometry/presence/spawn after source corrections. Independent read-only lifecycle/return/LOS review; pile reachability concern withdrawn as unproved, native interaction remains unverified.",
+          "uncovered": "No current native traversal/visuals/art/complete story: owned foreground issue remains local to Windows input; S-BANK council copy and physical epilogue target remain separate open work.",
+          "confidence": "C; compiled/source-reviewed only"
+        },
+        "result": "SOURCE_INTEGRATED_COMPILED; NATIVE_NOT_ACCEPTED",
+        "root_corrections": "Exact hyphenated spawn matched; -90yaw faces actual eastward piles; collider group toggling scoped to owning bank subtree. Props visible in fullgame village home/bank, entry home target enables bank beforeW04 prerequisite; chapter1 unaffected.",
+        "remaining": "All remaining village semantic anchors, actual council S-BANK copy, native pile focus/traversal, completeAlsu/leaf/epilogue and externalart acceptance remain open."
+      }
     },
     {
       "id": "PW-071",
@@ -132145,7 +132248,7 @@
       "id": "PW-073",
       "title": "Сделать внешнюю проверку старого речного подхода",
       "milestone": "PW-M3",
-      "status": "todo",
+      "status": "in_progress",
       "active_owner": null,
       "owner": "integration",
       "priority": "P1",
@@ -132287,11 +132390,11 @@
       },
       "assigned_owner": "integration",
       "activity": {
-        "state": "not_active",
-        "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+        "state": "idle",
+        "reason": "Finite physicalbank source stage integrated/compiled; remaining whole-card/native/art acceptance not complete."
       },
       "task_type": "engineering",
-      "implementation_state": "not_started",
+      "implementation_state": "partial",
       "technical_verification_state": "not_run",
       "remaining": [
         "Можно закончить W02 первым или вторым.",
@@ -132483,7 +132586,37 @@
           "evidence_ref": "PW-073.evidence and named history progress; source_review shows available/missing inputs"
         }
       ],
-      "assignment_state": "preserved_person_or_existing_role; activity separate"
+      "assignment_state": "preserved_person_or_existing_role; activity separate",
+      "bank_destination_stage_2026_10_18": {
+        "source": "Existing grounded ravine/frozenstream east of FAP + W02 oldapproach facts; new real oldpiles do not claim old collapsed bridge equals canonriver.",
+        "owners": {
+          "geometry": "Codex/w03_geometry",
+          "presence": "Codex/product_entrypoint",
+          "route": "Codex/root"
+        },
+        "files": [
+          "game/scripts/Act1ConnectedWorld.PhotoBank.cs",
+          "game/scripts/Act1ConnectedWorld.cs",
+          "game/scripts/Act1WorldLayout.cs",
+          "game/scripts/PhotoBankApproachPresence.cs",
+          "game/scripts/Main.cs",
+          "game/scripts/RuntimeBridge.PhotoWorldScene.cs"
+        ],
+        "result_required": "Real supported bank entry/path and visible oldpiles, physical inspection/strictverify from existing sourceevidence, stable bank-return; no S-BANK magicalsource, no kernel bypass.",
+        "verification": {
+          "command": ".tools/dotnet/dotnet build game/Urman.Game.csproj --no-restore --disable-build-servers --verbosity minimal -nodeReuse:false -m:1",
+          "exit_code": 0,
+          "warnings": 0,
+          "errors": 0,
+          "elapsed_seconds": 15.35,
+          "scope": "Current coupled W04/worldguard/actions/Main/Bridge/printer and actualbankgeometry/presence/spawn after source corrections. Independent read-only lifecycle/return/LOS review; pile reachability concern withdrawn as unproved, native interaction remains unverified.",
+          "uncovered": "No current native traversal/visuals/art/complete story: owned foreground issue remains local to Windows input; S-BANK council copy and physical epilogue target remain separate open work.",
+          "confidence": "C; compiled/source-reviewed only"
+        },
+        "result": "SOURCE_INTEGRATED_COMPILED; NATIVE_NOT_ACCEPTED",
+        "root_corrections": "Exact hyphenated spawn matched; -90yaw faces actual eastward piles; collider group toggling scoped to owning bank subtree. Props visible in fullgame village home/bank, entry home target enables bank beforeW04 prerequisite; chapter1 unaffected.",
+        "remaining": "All remaining village semantic anchors, actual council S-BANK copy, native pile focus/traversal, completeAlsu/leaf/epilogue and externalart acceptance remain open."
+      }
     },
     {
       "id": "PW-074",
