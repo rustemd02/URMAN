@@ -1,0 +1,587 @@
+{
+  "schema_version": 1,
+  "artifact": "Shurale face redesign v1 | Meshy 100K remesh comparison",
+  "status": "single source-only remesh import; not fitted, sculpted, rigged, or accepted as final art",
+  "created_at_utc": "2026-10-18T17:01:44Z",
+  "remesh_operation": {
+    "service": "Meshy",
+    "model": "7.1",
+    "root_reported_mode": "100K target remesh of the accepted high-source face/bust",
+    "credits_spent": 5,
+    "task_id": "01a14fea-cd85-7470-aeb2-1ac6b4914405",
+    "seed": null,
+    "parent_source": {
+      "path": "meshy71-face-redesign-original.glb",
+      "sha256": "4a2ff86ad0e0add821c7e657ed24592a3d94b34f3e187bcef6412661507f2edc",
+      "manifest_path": "manifest.json",
+      "manifest_sha256": "8bcf1432c3168aeec3a733ce29a4415326aaf2e2fd87a93d8f2a7de0d594f1e4"
+    },
+    "requested_target_triangles": 100000,
+    "privacy_and_export_rights": "Not asserted by this import. Remesh task ID and five-credit cost are root-reported; account/plan rights are not inferred here. This local review does not publish the output."
+  },
+  "input": {
+    "path": "input-face-redesign-v1.png",
+    "sha256": "d8d504c193ea29731a8c4d0c059e9501770305d7b81df72ac206d4f02d8909f9",
+    "bytes": 2308612,
+    "provenance_path": "input-face-redesign-v1.provenance.json",
+    "provenance_sha256": "ce7a6695831729123e6fab93b0950e3f3c27d038ae059a88f1033689f52beea4",
+    "source_references": [
+      "assets/source/blender/photoworlds/W01/shurale_meshy_v3/input-shurale-v3.png",
+      "assets/source/blender/photoworlds/W01/shurale_meshy_v3/pbr-v1/views/pbr-v1-face.png"
+    ]
+  },
+  "source": {
+    "path": "meshy71-face-redesign-remesh-100k.glb",
+    "sha256": "a7f3dc948440a6169d4c223201882cce6e3084b3ff1546e54fcaf3735102e162",
+    "bytes": 70572860,
+    "source_mesh_modified": false
+  },
+  "high_source_comparison": {
+    "manifest_path": "manifest.json",
+    "manifest_sha256": "8bcf1432c3168aeec3a733ce29a4415326aaf2e2fd87a93d8f2a7de0d594f1e4",
+    "source_sha256": "4a2ff86ad0e0add821c7e657ed24592a3d94b34f3e187bcef6412661507f2edc",
+    "metrics": {
+      "triangles": 6116400,
+      "vertices": 3323194,
+      "connected_components_raw": 5819,
+      "boundary_edges_raw": 518350,
+      "dimensions": [
+        1.901546,
+        1.53261399,
+        1.7879889
+      ]
+    },
+    "matched_camera_and_light_reference": {
+      "bust_three_quarter_pbr": {
+        "path": "views/bust-three-quarter-pbr.png",
+        "sha256": "7c79650ccd96b0483a8160c3851e35cdfc3d79cfbeb4111519dba4686c6274de",
+        "resolution": [
+          1200,
+          1400
+        ],
+        "camera_direction": [
+          0.42357308,
+          -0.88748646,
+          0.18153134
+        ],
+        "target": [
+          -0.00146103,
+          0.012988,
+          -0.0173755
+        ],
+        "ortho_scale": 2.3198861
+      },
+      "face_close_pbr_uses_high_source_close_neutral_camera": {
+        "path": "views/face-front-neutral.png",
+        "sha256": "7836600b7708a59ddf1632c83fc4c9eb8652b5278584fad7fe586a11743ad382",
+        "resolution": [
+          1400,
+          1200
+        ],
+        "camera_direction": [
+          0.0,
+          -1.0,
+          0.0
+        ],
+        "target": [
+          -0.00146103,
+          0.012988,
+          0.46538147
+        ],
+        "ortho_scale": 1.4832059
+      },
+      "bust_front_neutral": {
+        "path": "views/bust-front-neutral.png",
+        "sha256": "013cb8a5aa07d5f1dfd253ee12cbe5e4770c3de5bce9de75ee0aa7531470707b",
+        "resolution": [
+          1200,
+          1400
+        ],
+        "camera_direction": [
+          0.0,
+          -1.0,
+          0.0
+        ],
+        "target": [
+          -0.00146103,
+          0.012988,
+          -0.0173755
+        ],
+        "ortho_scale": 2.3198861
+      },
+      "bust_profile_neutral": {
+        "path": "views/bust-profile-neutral.png",
+        "sha256": "8b169da83d53252e6232ce71c52561d5f27e61ed6eec378e309b080c549ca256",
+        "resolution": [
+          1200,
+          1400
+        ],
+        "camera_direction": [
+          1.0,
+          0.0,
+          0.0
+        ],
+        "target": [
+          -0.00146103,
+          0.012988,
+          -0.0173755
+        ],
+        "ortho_scale": 2.3198861
+      },
+      "light_radius_from_high_source_dimensions_meters": 3.0268279,
+      "lights": "Same three area-light offsets, powers, sizes, world, and render settings from the high-source producer; no per-view lighting changes."
+    }
+  },
+  "import": {
+    "blender_version": "4.5.12 LTS",
+    "blender_build_hash": "84afd5f785f7",
+    "method": "Pinned Blender glTF importer; source mesh topology, transforms, material graphs, UV/color attributes, and normals were not changed. Position-weld metrics use an ephemeral scratch mesh only. Clay is only a view-layer override for neutral anatomy views.",
+    "review_material_override": {
+      "name": "FACE REDESIGN REVIEW ONLY | neutral gray clay",
+      "scope": "Cycles view-layer override; imported PBR material slots and textures remain intact",
+      "base_color": [
+        0.3,
+        0.31,
+        0.32,
+        1.0
+      ],
+      "roughness": 0.86,
+      "samples": 32,
+      "denoising": true
+    },
+    "authoring_script": {
+      "path": "import_face_redesign_remesh_100k.py",
+      "sha256": "c907253c4c07c969e55088f9fa5dd941408c9837bd481083213911a348cfac30",
+      "bytes": 27786
+    },
+    "gltf_asset": {
+      "generator": "Khronos glTF Blender I/O v4.4.55",
+      "version": "2.0"
+    },
+    "gltf_json_top_level_keys": [
+      "accessors",
+      "asset",
+      "bufferViews",
+      "buffers",
+      "images",
+      "materials",
+      "meshes",
+      "nodes",
+      "samplers",
+      "scene",
+      "scenes",
+      "textures"
+    ],
+    "gltf_primitive_attributes": [
+      {
+        "mesh_index": 0,
+        "mesh_name": "output_unwrapped",
+        "primitive_index": 0,
+        "material_index": 0,
+        "attributes": {
+          "POSITION": {
+            "accessor": 0,
+            "count": 203020,
+            "type": "VEC3",
+            "component_type": 5126,
+            "min": [
+              -0.951714038848877,
+              -0.9098310470581055,
+              -0.77885901927948
+            ],
+            "max": [
+              0.9491509795188904,
+              0.8764780759811401,
+              0.7525089383125305
+            ]
+          },
+          "NORMAL": {
+            "accessor": 1,
+            "count": 203020,
+            "type": "VEC3",
+            "component_type": 5126,
+            "min": null,
+            "max": null
+          },
+          "TEXCOORD_0": {
+            "accessor": 2,
+            "count": 203020,
+            "type": "VEC2",
+            "component_type": 5126,
+            "min": null,
+            "max": null
+          }
+        },
+        "index_count": 311148,
+        "morph_target_count": 0
+      }
+    ],
+    "source_scene_content": {
+      "object_type_counts": {
+        "MESH": 1
+      },
+      "armature_objects": [],
+      "actions": [],
+      "skin_count": 0,
+      "animation_count": 0
+    },
+    "saved_blend": {
+      "path": "shurale_face_redesign_remesh_100k.blend",
+      "sha256": "828685983b694a266135ce81f440f7ac5963662f8a78b554b3554e5f8131fb29",
+      "bytes": 68569770
+    }
+  },
+  "geometry": {
+    "totals": {
+      "mesh_objects": 1,
+      "vertices": 203020,
+      "edges": 257950,
+      "faces": 103716,
+      "triangles": 103716,
+      "uv_layer_count": 1,
+      "material_slot_count": 1,
+      "connected_component_count": 48809,
+      "boundary_edge_count": 204752,
+      "wire_edge_count": 0,
+      "nonmanifold_edge_count": 204752,
+      "all_vertex_positions_finite": true,
+      "all_imported_loop_normals_finite": true,
+      "world_bounds_min": [
+        -0.95171404,
+        -0.75250894,
+        -0.90983105
+      ],
+      "world_bounds_max": [
+        0.94915098,
+        0.77885902,
+        0.87647808
+      ],
+      "dimensions": [
+        1.90086508,
+        1.53136802,
+        1.78630912
+      ]
+    },
+    "meshes": [
+      {
+        "object": "output_unwrapped",
+        "mesh": "output_unwrapped",
+        "vertices": 203020,
+        "edges": 257950,
+        "faces": 103716,
+        "triangles": 103716,
+        "all_vertex_positions_finite": true,
+        "components": {
+          "count": 48809,
+          "largest": [
+            {
+              "vertices": 111,
+              "faces": 148,
+              "triangles": 148
+            },
+            {
+              "vertices": 116,
+              "faces": 144,
+              "triangles": 144
+            },
+            {
+              "vertices": 88,
+              "faces": 113,
+              "triangles": 113
+            },
+            {
+              "vertices": 79,
+              "faces": 98,
+              "triangles": 98
+            },
+            {
+              "vertices": 66,
+              "faces": 81,
+              "triangles": 81
+            },
+            {
+              "vertices": 69,
+              "faces": 79,
+              "triangles": 79
+            },
+            {
+              "vertices": 69,
+              "faces": 70,
+              "triangles": 70
+            },
+            {
+              "vertices": 58,
+              "faces": 69,
+              "triangles": 69
+            },
+            {
+              "vertices": 57,
+              "faces": 69,
+              "triangles": 69
+            },
+            {
+              "vertices": 51,
+              "faces": 63,
+              "triangles": 63
+            },
+            {
+              "vertices": 51,
+              "faces": 62,
+              "triangles": 62
+            },
+            {
+              "vertices": 55,
+              "faces": 61,
+              "triangles": 61
+            }
+          ],
+          "isolated_vertices": 0
+        },
+        "edge_boundaries": {
+          "boundary_edges_one_face": 204752,
+          "wire_edges_zero_faces": 0,
+          "nonmanifold_edges_not_two_faces": 204752
+        },
+        "local_bounds_min": [
+          -0.95171404,
+          -0.75250894,
+          -0.90983105
+        ],
+        "local_bounds_max": [
+          0.94915098,
+          0.77885902,
+          0.87647808
+        ],
+        "world_dimensions": [
+          1.90086508,
+          1.53136802,
+          1.78630912
+        ],
+        "world_matrix": [
+          [
+            1.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "material_slots": [
+          "BakedMaterial"
+        ],
+        "uv_layers": [
+          "UVMap"
+        ],
+        "color_attributes": [],
+        "shape_keys": [],
+        "modifiers": [],
+        "normals": {
+          "imported_loop_normal_count": 311148,
+          "finite": true,
+          "length_min": 0.9999998,
+          "length_max": 1.0000002,
+          "smooth_polygon_count": 81470,
+          "flat_polygon_count": 22246
+        },
+        "position_welded_topology_1e_6m": {
+          "tolerance_meters": 1e-06,
+          "method": "temporary scratch mesh built from world-space vertices welded within Euclidean 1e-6 m; source mesh unchanged",
+          "source_vertex_count": 203020,
+          "position_welded_vertex_count": 49724,
+          "position_weld_removed_vertices": 153296,
+          "source_face_count": 103716,
+          "position_weld_collapsed_face_count": 0,
+          "position_weld_face_count": 103716,
+          "position_weld_triangle_count": 103716,
+          "connected_components": {
+            "count": 1,
+            "largest": [
+              {
+                "vertices": 49724,
+                "faces": 103716,
+                "triangles": 103716
+              }
+            ],
+            "isolated_vertices": 0
+          },
+          "edge_boundaries": {
+            "boundary_edges_one_face": 540,
+            "wire_edges_zero_faces": 0,
+            "nonmanifold_edges_not_two_faces": 1126
+          }
+        }
+      }
+    ]
+  },
+  "materials": [
+    {
+      "name": "BakedMaterial",
+      "use_nodes": true,
+      "diffuse_color": [
+        0.8,
+        0.8,
+        0.8,
+        1.0
+      ],
+      "blend_method": "DITHERED",
+      "images": [
+        {
+          "node": "Image Texture",
+          "name": "texture_0",
+          "size": [
+            4096,
+            4096
+          ],
+          "channels": 4,
+          "source": "FILE",
+          "packed": true,
+          "colorspace": "sRGB"
+        },
+        {
+          "node": "Image Texture.001",
+          "name": "texture_0_metallic_roughness",
+          "size": [
+            4096,
+            4096
+          ],
+          "channels": 4,
+          "source": "FILE",
+          "packed": true,
+          "colorspace": "Non-Color"
+        },
+        {
+          "node": "Image Texture.002",
+          "name": "normal",
+          "size": [
+            4096,
+            4096
+          ],
+          "channels": 4,
+          "source": "FILE",
+          "packed": true,
+          "colorspace": "Non-Color"
+        }
+      ],
+      "node_types": [
+        "BSDF_PRINCIPLED",
+        "OUTPUT_MATERIAL",
+        "TEX_IMAGE",
+        "SEPARATE_COLOR",
+        "TEX_IMAGE",
+        "NORMAL_MAP",
+        "TEX_IMAGE"
+      ],
+      "principled": {
+        "base_color": [
+          0.800000011920929,
+          0.800000011920929,
+          0.800000011920929,
+          1.0
+        ],
+        "metallic": 0.0,
+        "roughness": 0.5
+      }
+    }
+  ],
+  "views": {
+    "bust-three-quarter-pbr.png": {
+      "path": "remesh-100k/views/bust-three-quarter-pbr.png",
+      "sha256": "8cea43168d970ee3add82cefbcefcd1157f4e9283175cdd4ea85199f677198fb",
+      "resolution": [
+        1200,
+        1400
+      ],
+      "camera_direction": [
+        0.42357308,
+        -0.88748646,
+        0.18153134
+      ],
+      "target": [
+        -0.00146103,
+        0.012988,
+        -0.0173755
+      ],
+      "ortho_scale": 2.3198861
+    },
+    "face-front-pbr.png": {
+      "path": "remesh-100k/views/face-front-pbr.png",
+      "sha256": "250dbf746f1287bf999535d7b860fa83028723f13df44034d760805d0934741f",
+      "resolution": [
+        1400,
+        1200
+      ],
+      "camera_direction": [
+        0.0,
+        -1.0,
+        0.0
+      ],
+      "target": [
+        -0.00146103,
+        0.012988,
+        0.46538147
+      ],
+      "ortho_scale": 1.4832059
+    },
+    "bust-front-neutral.png": {
+      "path": "remesh-100k/views/bust-front-neutral.png",
+      "sha256": "05f789a427dde32224b88c851313e4d78e87c781f1367d3a00bef321220b0f39",
+      "resolution": [
+        1200,
+        1400
+      ],
+      "camera_direction": [
+        0.0,
+        -1.0,
+        0.0
+      ],
+      "target": [
+        -0.00146103,
+        0.012988,
+        -0.0173755
+      ],
+      "ortho_scale": 2.3198861
+    },
+    "bust-profile-neutral.png": {
+      "path": "remesh-100k/views/bust-profile-neutral.png",
+      "sha256": "f75332b95ca50ce519e6a6f973b4d3bf51181a7ddc30155470327469815fc24d",
+      "resolution": [
+        1200,
+        1400
+      ],
+      "camera_direction": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "target": [
+        -0.00146103,
+        0.012988,
+        -0.0173755
+      ],
+      "ortho_scale": 2.3198861
+    }
+  },
+  "limitations": [
+    "The service target is 100K triangles; actual imported triangle counts are recorded rather than assumed to equal the requested target.",
+    "PBR bust and close-face images use imported materials. Neutral front/profile views use only a view-layer clay override and high-source camera/light settings.",
+    "No source texture, topology, normals, proportions, or transforms were edited. Position-weld counts describe a temporary scratch mesh and do not replace raw GLB counts.",
+    "This comparison does not constitute a retopology decision, rig, fit, or canonical actor acceptance; task privacy and plan-specific rights are not inferred."
+  ]
+}

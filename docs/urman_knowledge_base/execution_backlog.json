@@ -62595,7 +62595,8 @@
               "candidate_sha256": "fbd9d32dc8d4d5035094a9390921685a942e856efde73eff223ff190387e50d9",
               "boundary": "Existing staticcapture two70FOVpoints, no key/mouseinjection. One temporary recipe modelPath inimmutable snapshot only; localdefaultrecipe SHA2bcbc3ad88f8ecec5473a7ed9b5d144f649c9d7cf90c0212ec34a6cafb0aa4b4 restored; ownedgame stagingfile removed. Doctor before ready/idle,recovery/orphanfalse. Actual result pending.",
               "receipt": "evidence/ACT1-DEPTH.12/native_pbr_candidate_0dd9c3434cea4e819a47fc089a0a8fa5/receipt.json",
-              "root_review": "Personally viewed actualfront+porch nativeGTX970: woodbrown/readable, so DCCflatblack notsolematerialtruth. Obvious triangular/star facets andnoisypatches onlogs/cornercuts remain; notartaccepted/notdefaultpromoted. Import/build/gameexit0, userdataRestoredtrue; freshdoctorready/idle,recovery/orphanfalse. Staticpreviewnotordinaryinput/StudioUVacceptance."
+              "root_review": "Personally viewed actualfront+porch nativeGTX970: woodbrown/readable, so DCCflatblack notsolematerialtruth. Obvious triangular/star facets andnoisypatches onlogs/cornercuts remain; notartaccepted/notdefaultpromoted. Import/build/gameexit0, userdataRestoredtrue; freshdoctorready/idle,recovery/orphanfalse. Staticpreviewnotordinaryinput/StudioUVacceptance.",
+              "archive_verification": "All6archived receipt/frame/meta files byte-identical fetched originals. RawWindowsCRLF preserved. Context diff with core.whitespace=cr-at-eol PASS; ordinary diffcheck flags CRLF, not content edits."
             }
           },
           {
@@ -62684,7 +62685,8 @@
               "candidate_sha256": "fbd9d32dc8d4d5035094a9390921685a942e856efde73eff223ff190387e50d9",
               "boundary": "Existing staticcapture two70FOVpoints, no key/mouseinjection. One temporary recipe modelPath inimmutable snapshot only; localdefaultrecipe SHA2bcbc3ad88f8ecec5473a7ed9b5d144f649c9d7cf90c0212ec34a6cafb0aa4b4 restored; ownedgame stagingfile removed. Doctor before ready/idle,recovery/orphanfalse. Actual result pending.",
               "receipt": "evidence/ACT1-DEPTH.12/native_pbr_candidate_0dd9c3434cea4e819a47fc089a0a8fa5/receipt.json",
-              "root_review": "Personally viewed actualfront+porch nativeGTX970: woodbrown/readable, so DCCflatblack notsolematerialtruth. Obvious triangular/star facets andnoisypatches onlogs/cornercuts remain; notartaccepted/notdefaultpromoted. Import/build/gameexit0, userdataRestoredtrue; freshdoctorready/idle,recovery/orphanfalse. Staticpreviewnotordinaryinput/StudioUVacceptance."
+              "root_review": "Personally viewed actualfront+porch nativeGTX970: woodbrown/readable, so DCCflatblack notsolematerialtruth. Obvious triangular/star facets andnoisypatches onlogs/cornercuts remain; notartaccepted/notdefaultpromoted. Import/build/gameexit0, userdataRestoredtrue; freshdoctorready/idle,recovery/orphanfalse. Staticpreviewnotordinaryinput/StudioUVacceptance.",
+              "archive_verification": "All6archived receipt/frame/meta files byte-identical fetched originals. RawWindowsCRLF preserved. Context diff with core.whitespace=cr-at-eol PASS; ordinary diffcheck flags CRLF, not content edits."
             }
           }
         ]
@@ -121325,9 +121327,10 @@
       "assigned_owner": "character_art",
       "activity": {
         "state": "confirmed_active",
-        "reason": "Author rejected currentface. New owncloseportrait generated and one Meshy7.1head/bust+4KPBR produced; actualanatomy review before localhead/neckfit. Oldbody/holdfrozen, no canonicalpromotion.",
+        "reason": "First nearest-surface fit rejected by actual material-independent clay. shurale_fit owns a real head/neck graft-v1; whole_actor_route owns connected-topology LOD1 rebuild from unchanged LOD0 after UV-split seam cause proved. No new paid calls or canonical promotion.",
         "files": [
-          "assets/source/blender/photoworlds/W01/shurale_meshy_v3/face-redesign-v1/"
+          "assets/source/blender/photoworlds/W01/shurale_meshy_v3/face-redesign-v1/graft-v1/",
+          "assets/source/blender/photoworlds/W01/shurale_meshy_v3/pbr-v1/lod1-rebuild-v1/"
         ]
       },
       "task_type": "engineering",
@@ -121339,7 +121342,7 @@
         "Полный паспорт уровня docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/levels/W01_Лес_за_спиной_RU.md реализован: узлы/физические связи/действия/существо или человеческая сцена/созерцание/возврат/кадры; схема не заменяет проходимый runtime.",
         "Шурале выглядит современно устрашающе в духе психологического авторского хоррора (уточнение автора: злодеи A24): оригинальная цельная анатомия/силуэт, тревожные лицо/взгляд/длинные руки и сдержанная неестественная пластика; без игрушечного добродушия. Оценка по актуальным игровым кадрам и движению, не по числу полигонов."
       ],
-      "next_action": "Переделать собственный image_gen-референс лица по прямому отказу автора; после фактического просмотра выбрать целую 3D-коррекцию головы, сохраняя полезный риг/движения. Текущую голову не переносить в canonical.",
+      "next_action": "В graft-v1 заменить фактическую геометрию старой головы новым donor head/upperneck через очищенный замкнутый шейный шов. Сохранить лицо/UV донора, основное тело, 66-joint rig/7clips/ветку; принять реальный clay/PBR noticed/hold. Параллельно исправить LOD1 producer: positional seam weld перед Collapse, без изменения LOD0/rig. Canonical остаётся прежним до приёмки.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -121877,16 +121880,42 @@
           "sha256": "a26f4f786484f2946e6ed47b1bef30003487cb40e0c02cc8abb8480932ea49bb",
           "result": "Two-armIK and actual-skin contact source work hold. Root viewed white full/hands: branch now reaches both hands, but readable opposed grip/movement not accepted from skin distances alone. 66joints/7clips, finite reimport, unchanged bone lengths, groundedfeet. Source only, current face explicitly rejected by author."
         },
-        "motion_pbr_composition_blocker": "Actual material binding stopped before export: LOD1 UV domain coverage85852/93184 checked points;2outsideunitUV. No combined candidate exists. Current highqualityLOD0 maps valid, LOD1 decimation/UV needs actualproducer correction before any runtimepromotion; no blindbinding/UVfallback."
+        "motion_pbr_composition_blocker": "Single LOD1 atlas bake/export completed locally; previous no-combined-candidate state is superseded. Root viewed motion-work-15-full: shard/fold appearance remains. Causal material/normal/pose audit pending; do not promote or claim geometry failure solely from textured frame.",
+        "lod1_uv_cause": "Independent existingartifact/sourceaudit: maxU1.00043165684 atv.94372040033(~1.77pixels4K), twooccurrences;7332coveragepointsoutsideLOD0UVdomain, selectedtri3913 bridgesUVcomponent305 toward678. CollapseDecimate .43 interpolatesloopcustomdatawithoutseamchecking; delimit UV is notsupported forCollapse. No toleranceclamp.",
+        "lod1_material_next": "Use existing selected-to-activeproductionbake: ownLOD1UV+ownmaps/material, unchangedgeometry/skin/clips; LOD0retainsvalidatedoriginalUV/PBR. Rootheadreplacementseparate; bakingoldheadaspartofbodyisnotartacceptance.",
+        "lod1_material_causal_review": {
+          "manifest_local": "assets/source/blender/photoworlds/W01/shurale_meshy_v3/pbr-v1/motion-pbr-v1-manifest.json",
+          "root_review": "Actual same-camera work15: shard/fold forms persist in direct neutral LOD1 and PBR without normal; LOD0 PBR visibly cleaner. Evaluated triangle positions/skin pose match frozen input within measured roundtrip error, so source LOD1 geometry is the dominant cause, not PBR export.",
+          "producer_fact": "LOD0 23878 renderverts but15402 exactpositions;6282duplicate groups/8476redundantverts, all UVseams and identical namedskinweights. Components1013→1 afterpositionweld. make_lod1 copiesrawsplitverts thenCollapse.43 withoutweld; one connectedtopology rebuild nowactive, no repeated bake until clayreview.",
+          "connected_rebuild_root_review": "Root compared actual new connectedLOD1 neutral to oldLOD1 neutral and originalLOD0 white: central surface/limbs visibly more continuous; remaining bark protrusions also exist in LOD0 source. Not accepted as final art; one existing-producer PBR bake on this specific newLOD1 allowed, no new geometry hypothesis or paidcall.",
+          "connected_rebuild_local": "assets/source/blender/photoworlds/W01/shurale_meshy_v3/pbr-v1/lod1-rebuild-v1/manifest.json"
+        }
       },
       "author_face_feedback_2026_10_18": {
         "source": "Live author reply",
         "quote": "у шурале лицо тупое как у болвана",
         "result": "Current Meshy v3 face art rejected. Technical rig, measured jointlength and sourcecontact work remain useful engineering evidence; no canonical/finalactor acceptance.",
-        "next_action": "Actually inspect new geometry from close face reference, fit whole head/neck with explicit existingHead/Neck ownership only if anatomy is acceptable; no assumed humanapproval or blind heattransfer.",
+        "next_action": "В graft-v1 заменить фактическую геометрию старой головы новым donor head/upperneck через очищенный замкнутый шейный шов. Сохранить лицо/UV донора, основное тело, 66-joint rig/7clips/ветку; принять реальный clay/PBR noticed/hold. Параллельно исправить LOD1 producer: positional seam weld перед Collapse, без изменения LOD0/rig. Canonical остаётся прежним до приёмки.",
         "new_reference": "assets/source/blender/photoworlds/W01/shurale_meshy_v3/face-redesign-v1/input-face-redesign-v1.png",
         "actual_source_review": "Root personally viewed actual PBR3q and neutral front/3q/profile: physicalorbitaldepth/lids/nose/lips andsinglehorn coherent, stronger than oldmask. Source-direction accepted for reducedhead/neckfit only; no finalauthorapproval or canonicalpromotion. Raw6.116Mtri/5819components/nonmanifold source notgame-ready. Existingbody is connectedskin, so newhead mustreplace oldhead acrossclosedneckseam with explicitHead/Neckblend, no overlapmask or wholebodyheattransfer.",
-        "presentation_gap": "Actual W01 only plays7clips; no live head/eye tracking, blink or facialdriver. Fixed noticedyaw alone cannotprovideattentivegaze. Reuse existing after-animation boneaim pattern only whennewsemantichead available; respectReducedMotion andexistinggesture/yield, do not claim eyecontrols onunsegmentedmesh."
+        "presentation_gap": "Actual W01 only plays7clips; no live head/eye tracking, blink or facialdriver. Fixed noticedyaw alone cannotprovideattentivegaze. Reuse existing after-animation boneaim pattern only whennewsemantichead available; respectReducedMotion andexistinggesture/yield, do not claim eyecontrols onunsegmentedmesh.",
+        "remesh_comparison": {
+          "source": "assets/source/blender/photoworlds/W01/shurale_meshy_v3/face-redesign-v1/remesh-100k/manifest.json",
+          "actual_triangles": 103716,
+          "raw_render_vertex_components": 48809,
+          "position_weld_epsilon_m": 1e-06,
+          "position_weld_components": 1,
+          "position_weld_boundary_edges": 540,
+          "position_weld_non_two_face_edges": 1126,
+          "root_review": "Personally viewed reducedclosePBR andneutralfront: orbital/lid/nose/lips remaincoherent, textureexpression focused; neutralfacehasvisiblefaceting. Direction accepted foroneheadfit only. RawUV/normalsplits do notprovegeometricalholes; weldedmesh stillnotfullywatertight. No nativehead/authorfinalapproval."
+        },
+        "first_fit_review": {
+          "path_local": "assets/source/blender/photoworlds/W01/shurale_meshy_v3/face-redesign-v1/fit-v1/shurale_meshy_v3_face_fit_v1.glb",
+          "result": "Root personally viewed exported/reimported close and full frames: current projection produces flat/shard-like face appearance, unusable for promotion. Frame named head-neutral-close still visibly contains texture, so it does not establish a material-independent geometry failure. Original runtime actor unchanged.",
+          "verification_limit": "Finite buffers, unchanged outside-mask weights/positions, 66 joints and seven clips do not prove facial shape or PBR presentation. Manifest creation also stopped on stale Blender RNA handle after completed render; do not re-export merely to write metadata.",
+          "cause": "Donor import matrix identity and local/world landmarks numerically agree; coordinate-frame hypothesis ruled out. Direct per-mesh slot-clay views of unchanged exported fit still show flat blank head/projected sheets. Nearest-surface deformation of old facial topology is rejected. Earlier EEVEE override neutral frames are invalid: support added only in Blender5.0; pinned4.5.12 needs Cycles or actual slot replacement.",
+          "actual_clay": "assets/source/blender/photoworlds/W01/shurale_meshy_v3/face-redesign-v1/fit-v1/views/head-neutral-close-slot-clay.png"
+        }
       }
     },
     {
@@ -158129,7 +158158,10 @@
         "input_task_id": "01a14fd9-9cf9-7129-b3a9-64ad7a8b5202",
         "cost_credits": 5,
         "cost_basis": "Actual API SUCCEEDED/progress100/consumed5 in320s; onePOST usinginput_task_id. Outputdownload/geometryreviewpending.",
-        "result": "Pending actual reducedface comparison; target100000 is a request, not measuredoutput or runtimeclaim. Source had6116400tris/5819components/518350boundaryedges, no skin/actions."
+        "result": "PinnedBlender actual103716tri; rootviewed closePBR+neutralfront. Orbital/lid/nose/lip preserved, faceting visible. Positionalweld1e-6 proves1component vs48809render-split components,540boundaryedges stillnotwatertight. One localheadfit sourcecandidateactive; no canonicalpromotion.",
+        "output": "assets/source/blender/photoworlds/W01/shurale_meshy_v3/face-redesign-v1/meshy71-face-redesign-remesh-100k.glb",
+        "output_sha256": "a7f3dc948440a6169d4c223201882cce6e3084b3ff1546e54fcaf3735102e162",
+        "bytes": 70572860
       }
     ],
     "next_large_static_candidate": {
