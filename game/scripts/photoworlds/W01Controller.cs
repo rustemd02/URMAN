@@ -225,6 +225,7 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         if (_forestObservationPollElapsed < ForestObservationPollSeconds) return;
         _forestObservationPollElapsed = 0;
         TryObserveForestCameraBack();
+        TryObserveRootPassageBack();
     }
 
     public void ApplyAccessibilitySettings(AccessibilitySettingsSnapshot settings)
@@ -324,6 +325,7 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         var scene = LoadScene(HeroRootTurnScenePath);
         (_heroRootAtF12, _heroRootContactAtF12) = BuildRootPassageCopy(scene, _rootLinkFrameF12, "F12");
         (_heroRootAtF13, _heroRootContactAtF13) = BuildRootPassageCopy(scene, _rootLinkFrameF13, "F13");
+        BuildRootPassageObservationSubjects();
     }
 
     private void BuildF14OldRootSupport()
@@ -401,6 +403,7 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
 
     private void ResetRootPassageTracking(object? sessionIdentity)
     {
+        ResetRootPassageObservation();
         _rootPassageSessionIdentity = sessionIdentity;
         _rootLinkTrackedPortal = -1;
         _rootLinkCooldownPortal = -1;
@@ -584,12 +587,13 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
             return;
 
         var relativeVelocity = sourceFrame.GlobalBasis.Orthonormalized().Inverse() * player.Velocity;
-        player.GlobalTransform = destinationTransform;
-        player.Velocity = destinationFrame.GlobalBasis.Orthonormalized() * relativeVelocity;
+        player.ApplyTraversalTransform(destinationTransform,
+            destinationFrame.GlobalBasis.Orthonormalized() * relativeVelocity);
         _rootLinkCooldownPortal = 1 - portal;
         _rootLinkTrackedPortal = 1 - portal;
         _rootLinkPreviousSignedDistance = signedDistance;
         _rootLinkPreviousPlaneSide = currentSide;
+        ArmRootPassageObservation(portal == 0 ? crossingDirection : 0f, player);
     }
 
     private static int RootPassagePlaneSide(float signedDistance)
@@ -1180,7 +1184,7 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
             return false;
 
         using var ray = PhysicsRayQueryParameters3D.Create(eye, point, 3u, _forestObservationRayExclusions);
-        var hit = space.IntersectRay(ray);
+        using var hit = space.IntersectRay(ray);
         if (hit.Count == 0 || hit["collider"].AsGodotObject() is not CollisionObject3D collider
             || !ReferenceEquals(collider, tableauBody))
             return false;

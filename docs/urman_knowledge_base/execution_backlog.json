@@ -18940,6 +18940,11 @@
         "movement_receipt": "evidence/ACT1-PLAYER/jump-envelope-20261018/player/player-movement-receipt.json",
         "restoration": "userdataRestored=true, doctor ready/idle/no orphan/recovery",
         "limits": "Existing scenario does not capture jump phases/foot pose; natural gait/jump/fun and external visual acceptance remain open."
+      },
+      "passage_discontinuity_2026_10_18": {
+        "source": "game/scripts/FirstPersonController.cs",
+        "result": "ApplyTraversalTransform retains destination momentum/local view/stance; resets step and world-space foot history after placement, increments presentation revision, clears old-world interaction focus.",
+        "verification": "Independent source review and affected Game14.85s0/0; native traversal/gait acceptance still open."
       }
     },
     {
@@ -120709,7 +120714,7 @@
       "assigned_owner": "gameplay",
       "activity": {
         "state": "not_active",
-        "reason": "Finite source stage implemented, independently reviewed and affected Game compiled; ordinary native/full-card acceptance remains open."
+        "reason": "Bounded source stage independently reviewed and compiled14.85s0/0; ordinary native/full-card art and human acceptance remain open."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -120719,7 +120724,7 @@
         "После возврата сохраняются правильное положение ветки и один набор знаний.",
         "Полный паспорт уровня docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/levels/W01_Лес_за_спиной_RU.md реализован: узлы/физические связи/действия/существо или человеческая сцена/созерцание/возврат/кадры; схема не заменяет проходимый runtime."
       ],
-      "next_action": "Integrate separately confirmed missing physical passage→forest_beyond_frame_seen and body anchor discontinuity reset; then ordinary F11→F12/F13→Shurale→F16 acceptance.",
+      "next_action": "Ordinary native F11→root passage→F13 look-back→D06→physical bag→D07→F16 with current source; current foreground gate blocks this acceptance, not independent source work.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -120731,7 +120736,9 @@
           "game/content/photoworlds/W01/W01.world.json",
           "game/scripts/photoworlds/W01Controller.cs",
           "assets/source/blender/photoworlds/W01/",
-          "game/scripts/photoworlds/W01Controller.WorldGuard.cs"
+          "game/scripts/photoworlds/W01Controller.WorldGuard.cs",
+          "game/scripts/photoworlds/W01Controller.PassageObservation.cs",
+          "game/scripts/FirstPersonController.cs"
         ],
         "required_inputs": [
           {
@@ -120928,6 +120935,17 @@
         "verification_question": "Can ordinary F15→F16 reach/cross its accepted envelope, while save/scene transitions release only the current world owner?",
         "verification": "Independent source integration review clean; final affected Game compile15.34s0warnings/errors, all changed sources older than compiled DLL, diffcheckPASS. No new tests or native run.",
         "remaining": "Ordinary native F16 crossing and restore/scene transitions with current source; full W01 route/art/human gates."
+      },
+      "passage_observation_2026_10_18": {
+        "result": "DELIVERED_SOURCE: swept physical F12→F13 arms observation only; leaving exit-plane plus all3 actual F13 trunk shapes framed/clear awards existing forest_beyond_frame_seen. Reverse crossing disarms. Grounded/current-camera/exactbridge/session/modal/generation guards; failed same-pose retry suppressed. Entry cue plus existing path hint explain look-back. Traversal retains transformed momentum/view/stance while resetting old step/foot/focus history.",
+        "sources": [
+          "game/scripts/photoworlds/W01Controller.PassageObservation.cs",
+          "game/scripts/photoworlds/W01Controller.cs",
+          "game/scripts/FirstPersonController.cs",
+          "game/scripts/RuntimeBridge.PhotoWorldHints.cs"
+        ],
+        "verification": "Independent source reviews: traversal/aim integration and passage state/LOS guards; canonical GLB triangle geometry confirms 6m-long ordinary route viewing strip (z14–20, lateral±.7m), 22–40° span within75° FOV. Final affected Game compile14.85s,0warnings/errors; no new tests or native run. Unrelated forest colliders/ordinary controls remain native acceptance.",
+        "remaining": "Ordinary native F11→F12/F13 actual look-back→Shurale→bag→F16 and save/revisit acceptance; full-card art/human gates remain open. Cue is UI-only so content fingerprint is unchanged."
       }
     },
     {
@@ -121090,7 +121108,7 @@
       "assigned_owner": "character_art",
       "activity": {
         "state": "not_active",
-        "reason": "Functional actor integrated; v8 anatomy and eye material studies reviewed and not promoted. Current procedural shape-field method does not deliver requested art, no repeated variants authorized."
+        "reason": "Bounded source stage independently reviewed and compiled14.85s0/0; ordinary native/full-card art and human acceptance remain open."
       },
       "task_type": "engineering",
       "implementation_state": "not_started",
@@ -121399,6 +121417,12 @@
         "result": "DELIVERED_SOURCE: hiding the prologue skip button no longer disables the whole W01 controller Process, so forest Bag placement/pending dialogue and Shurale proximity/dialogue drivers remain scheduled. Pending D07 is preserved during same-session deferred load projection and cleared on actual kernel identity change.",
         "verification": "Independent source reviews found both causal paths; root inspected final diff, affected Game compile16.59s with0warnings/errors. No new tests or native repeat.",
         "limits": "Current ordinary forest approach/Bag/D07 runtime unverified due owned-foreground gate. Pending D07 is intentionally not transferred through rollback creating a different kernel identity."
+      },
+      "interaction_aim_2026_10_18": {
+        "finding": "Tiny talk sphere y1.62 missed aimed face≈2.2 and own layer2 capsule intercepted raymask7.",
+        "result": "Centered layer4 upper-body capsule y1.95,r.36,height1.3 covers face/upper torso from all azimuths (~.10m beyond physical capsule at face); existing world occlusion/presentation gates retained.",
+        "verification": "Independent source geometry/ray-mask review; final affected Game14.85s0/0. Native aim/motion/art not accepted.",
+        "source": "game/scripts/photoworlds/W01Controller.Shurale.cs"
       }
     },
     {
@@ -123373,7 +123397,7 @@
       "assigned_owner": "character_art",
       "activity": {
         "state": "not_active",
-        "reason": "Finite R06 return/witness/commit sequence source delivered/reviewed/compiled; actual Su anasy character and full native/art/culture acceptance not delivered."
+        "reason": "Bounded source stage independently reviewed and compiled14.85s0/0; ordinary native/full-card art and human acceptance remain open."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -123578,6 +123602,12 @@
         "result": "DELIVERED_SOURCE: first press lifts board locally; second returns board and raises water-answer pose, existing interaction dispatch starts only after both complete and current grounded player frames torso+head within8m with clear physics rays. Local precommit interruption resets safe unresolved state; reducedmotion snaps movement but retains observation. Existing saved resolved fact projects exact final pose.",
         "verification": "Root removed old competing direct-dispatch/tween/free-motion/projection paths, wired Process/Apply/Exit; independent final integration review clean after camera/current/LOS/reducedmotion fixes. Final affected Game compile15.52s0/0 and diffcheckPASS. No new tests/native run.",
         "limits": "Visibility uses physical blockers; render-only occluders not proved. Current Su anasy remains geometric placeholder, not accepted character/art. Forced semantic test dispatch is not ordinary camera observation."
+      },
+      "visible_board_target_2026_10_18": {
+        "finding": "Existing r.55 sphere was .88m above visible board; board-aim ray at ordinary2m misses despite being within nominal reach.",
+        "result": "Existing target/prompt/dictionary retained, sphere parented to actual FarPierLooseBoard localY.2; follows lift/return/rotation and existing projection/modal/reset gating.",
+        "verification": "Independent source review, affected Game14.85s0/0; native ordinary action still open.",
+        "source": "game/scripts/photoworlds/W02Controller.cs"
       }
     },
     {

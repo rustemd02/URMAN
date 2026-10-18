@@ -1300,8 +1300,13 @@ public partial class W02Controller : Node3D
                 bridge.ResolveText(BypassLabelTextId), new Vector3(25f, 2.2f, 42f), 0.7f);
             EnsureTarget("WaterOldApproachTarget", OldApproachInteractionId,
                 bridge.ResolveText(OldApproachLabelTextId), new Vector3(35.4f, 2.1f, 63.7f), 0.7f);
-            _encounterTarget = EnsureTarget("WaterEncounterTarget", EncounterInteractionId,
-                "Осмотреть край дощечки", new Vector3(33.4f, 2.3f, 83.9f), 0.55f);
+            if (_looseBoard is { } board && GodotObject.IsInstanceValid(board))
+            {
+                _encounterTarget = EnsureTarget("WaterEncounterTarget", EncounterInteractionId,
+                    "Осмотреть край дощечки", ToLocal(board.GlobalPosition), 0.55f);
+                _encounterTarget.Reparent(board, keepGlobalTransform: true);
+                _encounterTarget.Position = new Vector3(0f, 0.2f, 0f);
+            }
             EnsureTarget("WaterDampPrintTarget", DampPrintInteractionId,
                 bridge.ResolveText(DampPrintLabelTextId),
                 new Vector3(79.3f, TerrainHeight(79.3f, 117.4f) + 1.15f, 117.4f), 0.55f);

@@ -2,6 +2,7 @@ namespace Urman.Godot;
 
 public partial class RuntimeBridge
 {
+    internal const string ForestBackInspectionCue = "Выйдите из поворота и оглянитесь на три ствола.";
     internal sealed record PhotoWorldHintProjection(string Key, string Question, string Area, string Action);
 
     /// <summary>Projects the next authored W01 forest hint without changing campaign state.</summary>
@@ -51,10 +52,14 @@ public partial class RuntimeBridge
             || _loadingSlot || _loadPreparing || !ReferenceEquals(session, SessionIdentity))
             return null;
 
+        var action = ResolveText($"urman.fullgame:text/pw-hint-forest-{key}-action");
+        if (key == "path")
+            action += " " + ForestBackInspectionCue;
+
         return new PhotoWorldHintProjection(
             key,
             ResolveText($"urman.fullgame:text/pw-hint-forest-{key}-question"),
             ResolveText($"urman.fullgame:text/pw-hint-forest-{key}-area"),
-            ResolveText($"urman.fullgame:text/pw-hint-forest-{key}-action"));
+            action);
     }
 }

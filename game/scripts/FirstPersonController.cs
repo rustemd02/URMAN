@@ -279,6 +279,26 @@ public partial class FirstPersonController : CharacterBody3D, IAccessibilitySett
     }
 
     /// <summary>
+    /// Applies a physical traversal discontinuity while retaining the caller's
+    /// transformed momentum and the player's current local view and stance.
+    /// World-space foot plants, step interpolation, and focus belong to the
+    /// source side and must not follow the player through a passage.
+    /// </summary>
+    internal void ApplyTraversalTransform(Transform3D destination, Vector3 velocity)
+    {
+        GlobalTransform = destination;
+        Velocity = velocity;
+        PresentationTransformRevision++;
+        ResetStepMotion();
+        ResetVisibleBodyMotion();
+
+        _worldInteractionNeedsRelease = true;
+        _focusedTarget = _focusCandidate = _promptTarget = null;
+        _focusCandidateFrames = 0;
+        SetInteractionPrompt(string.Empty);
+    }
+
+    /// <summary>
     /// Test-only look setter for Godot smoke scenes that have no real mouse
     /// device. It deliberately leaves position, velocity and collision state
     /// untouched; production input remains the only player-facing look path.

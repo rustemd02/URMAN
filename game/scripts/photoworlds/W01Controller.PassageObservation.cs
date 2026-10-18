@@ -1,0 +1,182 @@
+using System;
+using System.Threading.Tasks;
+using Godot;
+
+namespace Urman.Godot;
+
+public partial class W01Controller
+{
+    private const string ForestBeyondFrameInteractionId = "urman.fullgame:interaction/pw-forest-photographer";
+    private const string ForestBeyondFrameFactId = "forest_beyond_frame_seen";
+
+    private bool _rootPassageObservationDispatching;
+    private long _rootPassageObservationGeneration;
+    private float _rootPassageObservedExitSide;
+    private (Vector3 Point, CollisionShape3D Contact)[] _rootPassageObservationSubjects = [];
+    private bool _rootPassageObservationFailed;
+    private Vector3 _rootPassageObservationFailedPosition;
+    private Vector3 _rootPassageObservationFailedForward;
+
+    private void BuildRootPassageObservationSubjects()
+    {
+        if (_heroRootAtF13 is not { } visual || _heroRootContactAtF13 is not { } contact)
+            return;
+
+        var names = new[] { "HeroRoot_Trunk_Center_LOD0", "HeroRoot_Trunk_Left_LOD0", "HeroRoot_Trunk_Right_LOD0" };
+        _rootPassageObservationSubjects = new (Vector3, CollisionShape3D)[names.Length];
+        for (var index = 0; index < names.Length; index++)
+        {
+            var mesh = RequireDescendant<MeshInstance3D>(visual, names[index]);
+            var bounds = mesh.GetAabb();
+            // These are solid trunks, not an arch: a point inside each lower
+            // bole lets the ray prove that its actual visible surface is clear.
+            var point = bounds.Position + bounds.Size * new Vector3(0.5f, 0.35f, 0.5f);
+            _rootPassageObservationSubjects[index] = (mesh.ToGlobal(point),
+                RequireDescendant<CollisionShape3D>(contact, $"{names[index]}_Contact"));
+        }
+    }
+
+    /// <summary>Crossing arms inspection; it does not itself award the finding.</summary>
+    private void ArmRootPassageObservation(float exitSide, FirstPersonController player)
+    {
+        _rootPassageObservedExitSide = exitSide;
+        _rootPassageObservationFailed = false;
+        if (exitSide != 0f && _bridge is { } bridge
+            && bridge.PhotoWorldFactObserved(ForestCameraBackFactId)
+            && !bridge.PhotoWorldFactObserved(ForestBeyondFrameFactId))
+            player.NotifyTraversal(RuntimeBridge.ForestBackInspectionCue);
+    }
+
+    private void TryObserveRootPassageBack()
+    {
+        if (_rootPassageObservedExitSide == 0f || _rootPassageObservationDispatching
+            || !IsInsideTree() || IsQueuedForDeletion()
+            || _bridge is not { } bridge || !IsValidCurrentBridge(bridge)
+            || bridge.SessionIdentity is not { } session
+            || GetTree().GetFirstNodeInGroup("player_controller") is not FirstPersonController player
+            || !GodotObject.IsInstanceValid(player)
+            || player.ModalOpen || player.VehicleControlled || player.IsClimbingLadder || !player.IsOnFloor()
+            || MainMenuUi.AnyUndismissed(GetTree())
+            || player.GetNodeOrNull<Camera3D>("Head/Camera3D") is not { Current: true } camera
+            || _rootLinkFrameF13 is not { } exitFrame
+            || _heroRootContactAtF13 is not { } contact
+            || _heroRootAtF13 is not { } visual || !visual.IsVisibleInTree()
+            || _rootPassageObservationSubjects.Length != 3)
+        {
+            return;
+        }
+
+        var projection = bridge.CurrentW01BranchProjection();
+        if (projection is not { ActiveSceneId: ForestSceneId }
+            || !ReferenceEquals(projection.SessionIdentity, session)
+            || !ReferenceEquals(session, bridge.SessionIdentity)
+            || !bridge.PhotoWorldFactObserved(ForestCameraBackFactId)
+            || bridge.PhotoWorldFactObserved(ForestBeyondFrameFactId)
+            || !bridge.IsInteractionAvailable(ForestBeyondFrameInteractionId))
+        {
+            return;
+        }
+
+        var position = player.GlobalPosition;
+        var exitLocal = exitFrame.ToLocal(position);
+        // Walk out of the bend on the crossed side, then inspect freely from
+        // its surroundings; there is no hidden E target or exact stand point.
+        if (exitLocal.Z * _rootPassageObservedExitSide <= RootPassagePlaneHalfDepth
+            || new Vector2(exitLocal.X, exitLocal.Z).LengthSquared() > 24f * 24f)
+            return;
+
+        var forward = (-camera.GlobalBasis.Z).Normalized();
+        if (_rootPassageObservationFailed
+            && position.DistanceSquaredTo(_rootPassageObservationFailedPosition) < 0.2f * 0.2f
+            && forward.Dot(_rootPassageObservationFailedForward) > 0.99f)
+            return;
+
+        if (!_forestObservationRayExclusions.Contains(player.GetRid()))
+        {
+            _forestObservationRayExclusions.Clear();
+            _forestObservationRayExclusions.Add(player.GetRid());
+        }
+        var space = GetWorld3D().DirectSpaceState;
+        foreach (var subject in _rootPassageObservationSubjects)
+            if (!ForestLandmarkFramedAndVisible(camera, camera.GlobalPosition, subject.Point,
+                    subject.Contact, contact, space))
+                return;
+
+        var generation = _rootPassageObservationGeneration;
+        _rootPassageObservationDispatching = true;
+        _ = DispatchRootPassageObservationAsync(bridge, session, player, position, forward, generation);
+    }
+
+    /// <summary>Invalidates pending passage feedback when its W01 presentation/session is reset or exits.</summary>
+    private void ResetRootPassageObservation()
+    {
+        unchecked
+        {
+            _rootPassageObservationGeneration++;
+        }
+
+        _rootPassageObservationDispatching = false;
+        _rootPassageObservedExitSide = 0f;
+        _rootPassageObservationFailed = false;
+    }
+
+    private async Task DispatchRootPassageObservationAsync(
+        RuntimeBridge bridge,
+        object session,
+        FirstPersonController player,
+        Vector3 position,
+        Vector3 forward,
+        long generation)
+    {
+        var committed = false;
+        try
+        {
+            committed = await bridge.DispatchInteractionAsync(ForestBeyondFrameInteractionId);
+        }
+        catch (Exception error)
+        {
+            GD.PushWarning($"W01 root-passage observation failed before commit: {error.Message}");
+        }
+        finally
+        {
+            if (generation == _rootPassageObservationGeneration)
+                _rootPassageObservationDispatching = false;
+        }
+
+        if (!IsCurrentRootPassageObservation(bridge, session, generation)) return;
+        if (!committed)
+        {
+            _rootPassageObservationFailed = true;
+            _rootPassageObservationFailedPosition = position;
+            _rootPassageObservationFailedForward = forward;
+            return;
+        }
+
+        if (!bridge.PhotoWorldFactObserved(ForestBeyondFrameFactId)
+            || !GodotObject.IsInstanceValid(player)
+            || !ReferenceEquals(GetTree().GetFirstNodeInGroup("player_controller"), player)
+            || player.ModalOpen || MainMenuUi.AnyUndismissed(GetTree()))
+        {
+            return;
+        }
+
+        player.NotifyTraversal("Проход вывел меня за край снимка.");
+    }
+
+    private bool IsCurrentRootPassageObservation(RuntimeBridge bridge, object session, long generation)
+    {
+        if (generation != _rootPassageObservationGeneration
+            || !GodotObject.IsInstanceValid(this) || !IsInsideTree() || IsQueuedForDeletion()
+            || !GodotObject.IsInstanceValid(bridge) || bridge.IsQueuedForDeletion() || !bridge.IsInsideTree()
+            || !IsValidCurrentBridge(bridge)
+            || !ReferenceEquals(bridge.SessionIdentity, session))
+        {
+            return false;
+        }
+
+        var projection = bridge.CurrentW01BranchProjection();
+        return projection is { ActiveSceneId: ForestSceneId }
+            && ReferenceEquals(projection.SessionIdentity, session)
+            && ReferenceEquals(session, bridge.SessionIdentity);
+    }
+}

@@ -106,7 +106,7 @@ public partial class W01Controller
             Prompt = _bridge?.ResolveText(ShuraleLabelTextId) ?? string.Empty,
             CollisionLayer = 4u,
             CollisionMask = 0u,
-            Position = new Vector3(0f, 1.62f, -0.16f)
+            Position = new Vector3(0f, 1.95f, 0f)
         };
         target.ConfigureRayOnly();
         target.PresentationGate = IsShuraleInteractionGateOpen;
@@ -114,7 +114,10 @@ public partial class W01Controller
         target.AddChild(new CollisionShape3D
         {
             Name = "W01Shurale_InteractionRayShape",
-            Shape = new SphereShape3D { Radius = 0.18f }
+            // The player's interaction ray also sees the layer-2 body capsule.
+            // Cover the visible upper torso and face, extending just beyond
+            // that body's upper cross-section from every approach direction.
+            Shape = new CapsuleShape3D { Radius = 0.36f, Height = 1.3f }
         });
         root.AddChild(target);
         target.SetPresentationEnabled(false);
