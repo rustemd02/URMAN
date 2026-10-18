@@ -545,14 +545,12 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
             return null;
 
         var state = bridge.SelectRuntimeState();
-        if (state.TryGetProperty("quests", out var quests)
-            && quests.ValueKind == System.Text.Json.JsonValueKind.Object
-            && quests.TryGetProperty("urman.fullgame:quest/pw-w01", out var forestQuest)
-            && forestQuest.ValueKind == System.Text.Json.JsonValueKind.Object
-            && forestQuest.TryGetProperty("status", out var forestQuestStatus)
-            && forestQuestStatus.ValueKind == System.Text.Json.JsonValueKind.String
-            && forestQuestStatus.GetString() is "active" or "completed")
+        var forestQuestStatus = PhotoWorldQuestStatus(state, "urman.fullgame:quest/pw-w01");
+        var waterQuestStatus = PhotoWorldQuestStatus(state, "urman.fullgame:quest/pw-w02");
+        if (forestQuestStatus == "active" || waterQuestStatus is "active" or "completed")
             return null;
+        if (forestQuestStatus == "completed")
+            return PhotoBookWaterHandoffObjectiveText(bridge);
 
         var photos = bridge.PhotoBookPhotos();
         var forestPhoto = photos.FirstOrDefault(photo => photo.PhotoId == "P-FOREST");
@@ -588,6 +586,101 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
         return canEnterForest
             ? "Сопоставить школьную копию со снимком «Люди у леса», затем войти в этот лесной снимок."
             : "Сопоставить школьную копию со снимком «Люди у леса» в семейной книге.";
+    }
+
+    private static string? PhotoWorldQuestStatus(System.Text.Json.JsonElement state, string questId)
+    {
+        if (!state.TryGetProperty("quests", out var quests)
+            || quests.ValueKind != System.Text.Json.JsonValueKind.Object
+            || !quests.TryGetProperty(questId, out var quest)
+            || quest.ValueKind != System.Text.Json.JsonValueKind.Object
+            || !quest.TryGetProperty("status", out var status)
+            || status.ValueKind != System.Text.Json.JsonValueKind.String)
+            return null;
+
+        return status.GetString();
+    }
+
+    private static string? PhotoBookWaterHandoffObjectiveText(RuntimeBridge bridge)
+    {
+        var atHome = bridge.ActiveSceneId == "urman.fullgame:scene/pw-home"
+            && bridge.CurrentZoneId == "house_old_pc";
+        if (!bridge.PhotoWorldFactObserved("first_world_home_talk"))
+        {
+            if (!atHome)
+                return "Вернуться домой и поговорить с Гульсиной о первом возвращении из снимка.";
+            return bridge.IsInteractionAvailable("urman.fullgame:interaction/pw-first-world-home-talk")
+                ? "Поговорить с Гульсиной о первом возвращении из снимка."
+                : null;
+        }
+
+        var photos = bridge.PhotoBookPhotos();
+        var waterPhoto = photos.FirstOrDefault(photo => photo.PhotoId == "P-WATER");
+        var housePhoto = photos.FirstOrDefault(photo => photo.PhotoId == "P-HOUSE");
+        var waterFound = bridge.PhotoWorldFactObserved("water_photo_found");
+        var placeTold = bridge.PhotoWorldFactObserved("home_water_place_told");
+        var housePhotoPending = bridge.PhotoWorldFactObserved("house_print_found") && housePhoto is null;
+        var housePermissionPending = atHome
+            && housePhotoPending
+            && bridge.IsInteractionAvailable("urman.fullgame:interaction/pw-house-photo-permission");
+
+        if (!atHome)
+        {
+            if (housePhotoPending && waterFound)
+                return "Вернуться домой и попросить у Гульсины копию семейного снимка двора.";
+            if (housePhotoPending && !waterFound)
+                return "Вернуться домой и найти в семейном конверте снимок у мостков.";
+            if (!placeTold)
+                return "Вернуться домой и спросить Гульсину, как она называет старые мостки.";
+            if (!waterFound)
+                return "Вернуться домой и найти в семейном конверте снимок у мостков.";
+            if (waterPhoto is null)
+                return "Вернуться домой и попросить разрешение на копию снимка у мостков.";
+            if (!waterPhoto.Mounted)
+                return "Вернуться домой и вклеить снимок у мостков в семейную книгу.";
+            if (!waterPhoto.BackRead)
+                return "Вернуться домой и прочитать оборот снимка у мостков.";
+            return "Вернуться домой и открыть снимок у мостков.";
+        }
+
+        if (!placeTold
+            && !housePermissionPending
+            && bridge.IsInteractionAvailable("urman.fullgame:interaction/pw-water-place-talk"))
+            return "Спросить Гульсину, как она называет старые мостки.";
+
+        if (!waterFound
+            && bridge.IsInteractionAvailable("urman.fullgame:interaction/pw-water-photo-source"))
+            return "Найти в семейном конверте снимок у мостков.";
+
+        if (!placeTold)
+        {
+            if (housePermissionPending)
+                return "Попросить у Гульсины копию семейного снимка двора.";
+            return null;
+        }
+
+        if (waterPhoto is null)
+        {
+            if (housePermissionPending)
+                return "Попросить у Гульсины копию семейного снимка двора.";
+            return bridge.IsInteractionAvailable("urman.fullgame:interaction/pw-water-photo-permission")
+                ? "Попросить у Гульсины разрешение на копию снимка у мостков."
+                : null;
+        }
+
+        if (!waterPhoto.Mounted)
+            return waterPhoto.CanMount
+                ? "Вклеить снимок у мостков в семейную книгу."
+                : null;
+
+        if (!waterPhoto.BackRead)
+            return waterPhoto.CanReadBack
+                ? "Прочитать оборот снимка у мостков."
+                : null;
+
+        return bridge.IsInteractionAvailable("urman.fullgame:interaction/pw-enter-river")
+            ? "Открыть снимок у мостков."
+            : null;
     }
 
     private void SelectEntry(long index)

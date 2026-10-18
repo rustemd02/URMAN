@@ -92572,7 +92572,7 @@
       "assigned_owner": "unassigned",
       "activity": {
         "state": "not_active",
-        "reason": "Finite source stage implemented, independently reviewed and affected Game compiled; ordinary native/full-card acceptance remains open."
+        "reason": "Finite forest→water source guidance implemented/reviewed/compiled18.32s0/0; next P-HOUSE handoff and native/full-card acceptance remain."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -92582,7 +92582,7 @@
         "Сохраняются источник, найденные сведения и сюжетные условия; не выдавать вывод за открытие UI. Все существующие обязательные сравнения имеют понятное действие-замену, без потери сейва.",
         "Показать действующий интерфейс, ввод и возвращение после перерыва; imagegen-макет не приёмка."
       ],
-      "next_action": "Verify first handoff PhotoBook/Journal school→home→forest guidance in ordinary native/gamepad/layout when owned foreground is available; maintain full notebook contract.",
+      "next_action": "Add separate finite postW02→P-HOUSE handoff via existing projection/facts/available source-permission-photo actions, then native UI/ordinary route acceptance when station gate allows.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -92700,6 +92700,12 @@
         "verification_question": "Does first auto-open PhotoBook show the actionable school lead, update after actual acquisition, and hide in PhotoWorlds/after W01 starts/completes without stale cross-session text?",
         "remaining": "Independent final review/affected compile and ordinary native first-book/menu/gamepad/layout acceptance. Spoken D01lead deferred toPW025 revision compatibility.",
         "verification": "Independent source integration review clean; final affected Game compile15.34s0warnings/errors, all changed sources older than compiled DLL, diffcheckPASS. No new tests or native run."
+      },
+      "water_handoff_2026_10_18": {
+        "result": "DELIVERED_SOURCE: after completedW01 beforeW02, existing tasklist and physicalbook header project actual next first-return talk, water-place talk, photo source/permission, mount/back-read/riverentry. Existing P-HOUSE permission priority is respected; activeW01/W02 suppress duplicateobjectives.",
+        "source": "game/scripts/JournalUi.cs",
+        "verification": "Independent source review confirms current forest→water branches match actual target priority/capabilities; affected Game18.32s0warnings/errors and diffcheckPASS. No content/fact/fingerprint change or newtest. Native UI/route not accepted.",
+        "remaining": "Full-card/nativeUI/novice acceptance; separate next mandatory handoff P-HOUSE after completedW02 currently has no guidance and was intentionally outside this finite forest→water unit."
       }
     },
     {
@@ -120953,7 +120959,7 @@
       "title": "W01: произвести, оживить и поставить Шурале",
       "milestone": "PW-M3",
       "status": "in_progress",
-      "active_owner": null,
+      "active_owner": "Codex",
       "owner": "character_art",
       "priority": "P1",
       "complexity": "complex",
@@ -121107,8 +121113,8 @@
       },
       "assigned_owner": "character_art",
       "activity": {
-        "state": "not_active",
-        "reason": "Bounded source stage independently reviewed and compiled14.85s0/0; ordinary native/full-card art and human acceptance remain open."
+        "state": "confirmed_active",
+        "reason": "Native visual worker started one genuinely different explicit authored-topology head source candidate; root owns integration/visual review, no canonical promotion without viewed quality."
       },
       "task_type": "engineering",
       "implementation_state": "not_started",
@@ -121423,6 +121429,13 @@
         "result": "Centered layer4 upper-body capsule y1.95,r.36,height1.3 covers face/upper torso from all azimuths (~.10m beyond physical capsule at face); existing world occlusion/presentation gates retained.",
         "verification": "Independent source geometry/ray-mask review; final affected Game14.85s0/0. Native aim/motion/art not accepted.",
         "source": "game/scripts/photoworlds/W01Controller.Shurale.cs"
+      },
+      "authored_head_stage_2026_10_18": {
+        "scope": "One source-only coherent original head built from explicit anatomical cage/loops, not field/UV/scalar variants of existing human head. Preserve frozen v6 neck/worldscale/attachment; neutral full-face+profile review before any rig/runtime promotion.",
+        "target": "assets/source/blender/photoworlds/W01/shurale_authored_head_v1/",
+        "verification_question": "Does new actual 3D silhouette, recessed eye socket/living gaze, continuous cheek/jaw and one horn visibly meet modern disturbing psychological-horror direction at 2–3m without hiding in darkness?",
+        "result": "IN_PROGRESS; no art/runtime acceptance.",
+        "stop": "After one coherent candidate review, either accept finite source improvement or record exact quality/tool constraint; no endless parameter churn."
       }
     },
     {
