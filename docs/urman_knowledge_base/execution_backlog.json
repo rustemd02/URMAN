@@ -25430,12 +25430,14 @@
             "title": "Подключить NewGame выбранной кампании с отказом при invalid content",
             "result": "Подключить NewGame выбранной кампании с отказом при invalid content",
             "owner": "finished-act1",
-            "evidence": [],
+            "evidence": [
+              "evidence/FINISH-06/native_6280675a75da42fa98e8bf8e957ea1e4/receipt.json"
+            ],
             "assigned_owner": "finished-act1",
             "active_owner": null,
             "activity": {
               "state": "not_active",
-              "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+              "reason": "One owned ordinary job completed with exact first-refusal and actual delayed menu frame archived. No Enter injected; native NewGame remains unproved. Station doctor ready/idle/no orphan/recovery."
             },
             "task_type": "engineering",
             "status": "todo",
@@ -25444,8 +25446,8 @@
             "remaining": [
               "Подключить NewGame выбранной кампании с отказом при invalid content; собственного целевого receipt пока нет."
             ],
-            "next_action": "Проверить обычный New Game текущей кампании через photoworlds_game (source9ec59428): меню → authored pw-prologue → доступное управление; compile уже passed, повторять её без изменений не нужно.",
-            "blocker": null,
+            "next_action": "Resolve the actual owned-window focus condition before further ordinary NewGame/Continue checks; retained first-refusal proves other_or_none, not same-PID dialog, but cannot identify foreign owner or distinguish absent foreground. No unchanged activation workaround/relaunch. Current compile/import and actual menu frame are reusable evidence; independent art/MVP source work continues.",
+            "blocker": "Ordinary input refused before Enter: post_activation foreground category other_or_none. Cause not established. capture504 was delayed response, not proof that menu processing is disabled.",
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
             "work_contract": {
@@ -25513,15 +25515,28 @@
               "limits": "Read-only source/log inspection by independent native luna_fast; no guard weakening, source fix or Windows action. A bounded review of retaining the existing helper result is next; no new probe/API or unchanged focus workaround."
             },
             "ui_refusal_evidence_fix_2026_10_18": {
-              "result": "SOURCE_DELIVERED; STATION_NOT_UPDATED",
+              "result": "DEPLOYED_AND_ARTIFACT_RETENTION_VERIFIED; PRODUCT_ENTRY_NOT_ACCEPTED",
               "files": [
                 "eng/windows-game-ui.ps1",
                 "eng/windows_station_worker.py"
               ],
               "change": "Persist first bounded allowlisted2KiB UI refusal under existing job artifacts, retaining only selected owned HWND and foreground category/phase from existing checks. Drain in-flight UI/capture before archive; keep busy until finish. Existing reserved regular filename is atomically replaced by bounded record, not treated as trusted evidence. No raw foreign-window data, action payload or guard weakening.",
               "verification": "Root diff/caller/path review and independent review; reserved existing-filename bypass corrected. In-memory Python syntax PASS. Windows PowerShell Parser.ParseFile on exact incoming source PASS0errors; both incoming SHA256 match local files. No game run or cause resolution claimed.",
-              "deployment_input": "Readonly SSH confirmed dirty Windows37bdeba1 checkout must not pull/reset/stash. BOTH target eng files exactly match prechange Mac HEAD SHA cf6974df… and2fbe7fbb…; a compare-and-swap update of only these owned maintenance files can preserve all other dirty state. Station doctor ready/idle, no orphan/recovery."
-            }
+              "deployment_input": "Readonly SSH confirmed dirty Windows37bdeba1 checkout must not pull/reset/stash. BOTH target eng files exactly match prechange Mac HEAD SHA cf6974df… and2fbe7fbb…; a compare-and-swap update of only these owned maintenance files can preserve all other dirty state. Station doctor ready/idle, no orphan/recovery.",
+              "deployment": "DEPLOYED via exact SHA compare-and-swap of two files only; managed stop/start passed, original files backed up outside checkout. Foreign dirty Windows37bdeba1 state preserved; no pull/reset/stash.",
+              "ordinary_job": {
+                "job_id": "6280675a75da42fa98e8bf8e957ea1e4",
+                "snapshot_id": "d3344f752011e01f2b1cbd835c74807161967a3b5d452719e06228409c16c130",
+                "status": "FAIL",
+                "timeout_seconds": 240,
+                "source_commit": "daed1f61",
+                "limit": "One menu/NewGame owned action or first causal failure artifact; no unchanged focus retry.",
+                "result": "Build/content/import0; game240s timeout124. One Enter refused before injection. First refusal artifact archived with post_activation/other_or_none and selected owned HWND. Viewport request API504 but same request eventually wrote actual current PWmenu frame; no repeated capture/input.",
+                "evidence": "evidence/FINISH-06/native_6280675a75da42fa98e8bf8e957ea1e4",
+                "userdata": "game.log: original files restored by rename and verified; doctor idle/ready,no orphan or pending recovery."
+              }
+            },
+            "verification_question_current": "One current-source ordinary play-product launch: is its menu usable through guarded owned input and does Enter reach authored PhotoWorlds prologue? If refused, did first bounded failure evidence survive normal archive with actual owned foreground category/phase? Do not repeat refusal inputs or claim W03/native art acceptance."
           },
           {
             "id": "FINISH-06/E02",
@@ -121023,7 +121038,7 @@
       "title": "W01: произвести, оживить и поставить Шурале",
       "milestone": "PW-M3",
       "status": "in_progress",
-      "active_owner": null,
+      "active_owner": "Codex/shurale_fit",
       "owner": "character_art",
       "priority": "P1",
       "complexity": "complex",
@@ -121177,8 +121192,8 @@
       },
       "assigned_owner": "character_art",
       "activity": {
-        "state": "not_active",
-        "reason": "Finite whole-body source reconstruction reviewed and rejected for actor production. Both head graft and whole-body feed-forward inference fail art requirements; no canonical promotion or repeated variants."
+        "state": "confirmed_active",
+        "reason": "One authored continuous whole-anatomy source candidate on verified official CC0 hm08 data topology, replacing the failed inference/field-displacement method. No canonical or rig changes before root review."
       },
       "task_type": "engineering",
       "implementation_state": "not_started",
@@ -121560,6 +121575,14 @@
         "technical": "One pinned CPU run18.60s,peak RSS3.65GB;24550vertices/49036faces. Root viewed actual front/front3q/profile after correcting camera axes and OBJ missing normals with display-only smooth shading; immutable geometry hash unchanged.",
         "review": "More anatomical ribcage/scapula silhouette than smooth v6, but face is unresolved, fingers fused into claws/mitten masses, legs/shoulders/back have large inconsistent lumps and deformations. This is not credible modern horror art, and no retopology/rig/runtime promotion is accepted.",
         "next": "Stop repeated feed-forward inference/scalar studies. Keep canonical functional v6 until a coherent authored whole-actor replacement satisfies anatomy/material/contact/motion and native visual review. Existing PW-047 criteria remain mandatory; independent MVP work continues."
+      },
+      "authored_anatomy_source_2026_10_18": {
+        "folder": "assets/source/blender/photoworlds/W01/shurale_anatomy_base_v1/",
+        "named_input": "Official MPFB2.0.18 hm08 base.obj, direct public raw file; OBJ header CC0, code addon GPL excluded. Primary-source license/topology research completed, actual download header/hash must be checked before production.",
+        "source_url": "https://raw.githubusercontent.com/makehumancommunity/mpfb2/v2.0.18/src/mpfb/data/3dobjs/base.obj",
+        "license_source": "https://github.com/makehumancommunity/mpfb2/blob/v2.0.18/LICENSE.md",
+        "scope": "One actual authored continuous gaunt adult whole anatomy using original Shurale concept: ribcage/scapula/pelvis/joints, long arms/slender fingers, recessed living face and one horn. Exclude helpers/jointcubes; do not import addon code or repeat prior scalar/TripoSR methods.",
+        "verification": "Root neutral-clay full/front3q/profile/back and face review before any PBR/rig/contact/LOD/runtime stage; authored candidate may still fail art. License/provenance and whole-game author/cultural/native gates remain required."
       }
     },
     {
@@ -124784,7 +124807,8 @@
               "verification": "Affected Game compile: .tools/dotnet/dotnet build game/Urman.Game.csproj --no-restore --nologo -v:minimal;14.56s,0 warnings,0 errors. Root inspected route and critical controller flow; git diff --check passed for tracked sources. No new tests/probes/native run.",
               "delivered": "Actual H00–H08 scene, guarded matching ground, imported HeroHouse and one shared apple-tree/chair courtyard; physical P-HOUSE entry, mounted session/load/return lifecycle; two reversible view passages, shutter/cloth motion, real photographer witnesses, frame/return reducer gates.",
               "limits": "Compilation is not visual/traversal/restore proof. E02 authored asset families/provenance, source art and ordinary native acceptance remain open. No whole-card completion.",
-              "review": "Independent native luna_fast source review found no confirmed W03 lifecycle/session/restore/return blocker. Producer read-only collision-path pass found door clearance1.30x2.25m vs player radius.35/height1.8, interior ground matches.331m floor. H06 sill.21m vs stepcap.22m remains a specific native uncertainty, not proof of safe traversal."
+              "review": "Independent native luna_fast source review found no confirmed W03 lifecycle/session/restore/return blocker. Producer read-only collision-path pass found door clearance1.30x2.25m vs player radius.35/height1.8, interior ground matches.331m floor. H06 sill.21m vs stepcap.22m remains a specific native uncertainty, not proof of safe traversal.",
+              "native_import": "Current d334 ordinary job6280675a: Windows build/content/import exit0; W03 traversal/actions not reached. Use existing receipt evidence/FINISH-06/native_6280675a75da42fa98e8bf8e957ea1e4/receipt.json; no repeated unchanged compile/import needed."
             }
           },
           {
@@ -125639,7 +125663,8 @@
         "verification": "Affected Game compile: .tools/dotnet/dotnet build game/Urman.Game.csproj --no-restore --nologo -v:minimal;14.56s,0 warnings,0 errors. Root inspected route and critical controller flow; git diff --check passed for tracked sources. No new tests/probes/native run.",
         "delivered": "Actual H00–H08 scene, guarded matching ground, imported HeroHouse and one shared apple-tree/chair courtyard; physical P-HOUSE entry, mounted session/load/return lifecycle; two reversible view passages, shutter/cloth motion, real photographer witnesses, frame/return reducer gates.",
         "limits": "Compilation is not visual/traversal/restore proof. E02 authored asset families/provenance, source art and ordinary native acceptance remain open. No whole-card completion.",
-        "review": "Independent native luna_fast source review found no confirmed W03 lifecycle/session/restore/return blocker. Producer read-only collision-path pass found door clearance1.30x2.25m vs player radius.35/height1.8, interior ground matches.331m floor. H06 sill.21m vs stepcap.22m remains a specific native uncertainty, not proof of safe traversal."
+        "review": "Independent native luna_fast source review found no confirmed W03 lifecycle/session/restore/return blocker. Producer read-only collision-path pass found door clearance1.30x2.25m vs player radius.35/height1.8, interior ground matches.331m floor. H06 sill.21m vs stepcap.22m remains a specific native uncertainty, not proof of safe traversal.",
+        "native_import": "Current d334 ordinary job6280675a: Windows build/content/import exit0; W03 traversal/actions not reached. Use existing receipt evidence/FINISH-06/native_6280675a75da42fa98e8bf8e957ea1e4/receipt.json; no repeated unchanged compile/import needed."
       }
     },
     {
@@ -126028,7 +126053,8 @@
         "verification": "Affected Game compile: .tools/dotnet/dotnet build game/Urman.Game.csproj --no-restore --nologo -v:minimal;14.56s,0 warnings,0 errors. Root inspected route and critical controller flow; git diff --check passed for tracked sources. No new tests/probes/native run.",
         "delivered": "Actual H00–H08 scene, guarded matching ground, imported HeroHouse and one shared apple-tree/chair courtyard; physical P-HOUSE entry, mounted session/load/return lifecycle; two reversible view passages, shutter/cloth motion, real photographer witnesses, frame/return reducer gates.",
         "limits": "Compilation is not visual/traversal/restore proof. E02 authored asset families/provenance, source art and ordinary native acceptance remain open. No whole-card completion.",
-        "review": "Independent native luna_fast source review found no confirmed W03 lifecycle/session/restore/return blocker. Producer read-only collision-path pass found door clearance1.30x2.25m vs player radius.35/height1.8, interior ground matches.331m floor. H06 sill.21m vs stepcap.22m remains a specific native uncertainty, not proof of safe traversal."
+        "review": "Independent native luna_fast source review found no confirmed W03 lifecycle/session/restore/return blocker. Producer read-only collision-path pass found door clearance1.30x2.25m vs player radius.35/height1.8, interior ground matches.331m floor. H06 sill.21m vs stepcap.22m remains a specific native uncertainty, not proof of safe traversal.",
+        "native_import": "Current d334 ordinary job6280675a: Windows build/content/import exit0; W03 traversal/actions not reached. Use existing receipt evidence/FINISH-06/native_6280675a75da42fa98e8bf8e957ea1e4/receipt.json; no repeated unchanged compile/import needed."
       }
     },
     {
