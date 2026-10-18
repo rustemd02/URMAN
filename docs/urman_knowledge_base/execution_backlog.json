@@ -62505,7 +62505,7 @@
             "remaining": [
               "Согласовать силуэт, цоколь, вынос кровли и глубину проёмов эталонного дома с выбранным reference ID; собственного целевого receipt пока нет."
             ],
-            "next_action": "По фактическому normal-on/off сравнению пятна остаются. Установить конкретный source-дефект atlas/UV либо cap normals, не запускать третий слепой shader-вариант. Canonical дом и художественная приёмка остаются открытыми.",
+            "next_action": "Сохранить принятый UV-fix; встроить PBR через канонический source/Studio pipeline так, чтобы редактирование окна не сбрасывало материал. Общая art-приёмка дома и остаток мягкой/пятнистой фактуры открыты; не повторять уже принятые cap A/B.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -62617,7 +62617,16 @@
               "retexture_task": "01a150f9-6253-74de-9ac3-08fd3c718c09",
               "consumed_credits": 10,
               "result_sha256": "98320587d04f5a3dff8118036e7fa49ee1833fb12cb9330f919a8729436172b5",
-              "source_review": "Root viewed actual v3front3q: roof/trim readable, walls still dark inDCC. Not art accepted. Complete runtime assembly for one controlled native same-camera comparison is running; no blind material variants."
+              "source_review": "Root viewed actual v3front3q: roof/trim readable, walls still dark inDCC. Not art accepted. Complete runtime assembly for one controlled native same-camera comparison is running; no blind material variants.",
+              "native_result": {
+                "job_id": "fdc5f5ef62fc4554ad107b9d9bef31ef",
+                "snapshot_id": "3463025e136b455907e0b9269b82580a867b12b6438a81985877db2c17179819",
+                "candidate_sha256": "dca96d3ded71c6de37f2f03927c08de72ab3c35b35881bfbe815baba9739de4b",
+                "receipt": "evidence/ACT1-DEPTH.12/native_uv_v3_fdc5f5ef62fc4554ad107b9d9bef31ef/receipt.json",
+                "root_review": "Personally compared current front/porch: log end caps now show coherent round endgrain, prior triangular/star patches are gone on the observed caps. Wood remains brown/readable in native despite darkDCC. Close wall/porch texture is still soft/patchy, final whole-house reference art remains unaccepted.",
+                "technical": "All receipt steps0, gameExit0, snapshot hashes verified, userdataRestoredtrue. Fresh doctor ready/idle/no orphan or recovery. Defaultrecipe byte-restored; temporary model removed.",
+                "acceptance": "UV cap fix accepted as bounded source engineering/observed visual improvement. Default house/PBR Studio persistence remains separate, not promoted."
+              }
             }
           },
           {
@@ -70869,7 +70878,7 @@
       "milestone": "M5",
       "status": "in_progress",
       "complexity": "simple",
-      "active_owner": null,
+      "active_owner": "/root",
       "owner": "finished-act1",
       "depends_on": [],
       "scope": [
@@ -70925,8 +70934,8 @@
       },
       "assigned_owner": "finished-act1",
       "activity": {
-        "state": "released",
-        "reason": "Finite source-only body preview reviewed and rejected artistically; no further primitive garment polishing. Existing movement/runtime acceptance unchanged."
+        "state": "confirmed_active",
+        "reason": "Root producing the named Meshy input; aidar_body confirmed exact adapter contract and awaits actual remesh. No source body claimed finished."
       },
       "task_type": "integration_check",
       "implementation_state": "partial",
@@ -71061,6 +71070,20 @@
         "result": "Finite opt-in AidarPlayer source profile and actual standing/lookdown PNGs exported with Blender4.5.12. Existing NPC defaults, source bones, four trouser rings/7-point cross-section and bootsole baseline preserved. Source-only engineering, not accepted art or runtime.",
         "root_review": "Root personally viewed both PNGs: coat remains a smooth plastic panel, zipper resembles floating diamond, trousers/boots remain primitive cone shapes. This does not satisfy visible quality upgrade; no runtime integration or completed claim. Local tracked generator patch intentionally preserved uncommitted, not included in accepted source commits.",
         "remaining": "Use convincing authored/licensed clothing geometry and material for first-person body; native gait/jump/landing/ordinary input still open. Do not iterate more buttons/rings on rejected primitive style."
+      },
+      "meshy_body_input_2026_10_19": {
+        "reference": "assets/source/blender/act1/aidar_meshy_v1/input-aidar-v1.png",
+        "reference_sha256": "683528302b607c69ee80b3ff9775e98edc92672053461c57d0bb9ac3896d1715",
+        "provenance": "assets/source/blender/act1/aidar_meshy_v1/input-aidar-v1.provenance.json",
+        "root_review": "Original built-inimage_gen reference has substantial winter jacket/real trouser drape/flat winter boots; accepted for one Meshy source input, no gait or final art claim.",
+        "image_task": "01a1510f-be3b-74d1-996d-4ab1e315a3ce",
+        "consumed_credits": 30,
+        "remesh": "One100K request5 submitted; actual task result pending.",
+        "contract": "Existing gait/footIK retained. Requires six semantic clothing meshes on current rig; source adapter then small existing loader/body consumer extension. No NPC CouncilWitness overwrite, no new gait controller, no arbitrary7point ring reconstruction of authored trousers.",
+        "owner": "/root/aidar_body",
+        "remesh_task": "01a15112-a9a4-74cb-a3cc-9f1b2ff096cc",
+        "credit_total_before_remesh_result": 190,
+        "remaining_authorized_before_remesh_result": 3810
       }
     },
     {
@@ -121214,7 +121237,7 @@
       "title": "W01: произвести, оживить и поставить Шурале",
       "milestone": "PW-M3",
       "status": "in_progress",
-      "active_owner": "/root",
+      "active_owner": null,
       "owner": "character_art",
       "priority": "P1",
       "complexity": "complex",
@@ -121368,13 +121391,8 @@
       },
       "assigned_owner": "character_art",
       "activity": {
-        "state": "confirmed_active",
-        "reason": "Coherentv4source root-reviewed, APIrig24 and finite core24motion pilot readyforactualreview; Webrig detailedfinger route independent. W01boundedheadgaze implemented and independently corrected axis/Relative/Active; compile/native remains pending.",
-        "files": [
-          "assets/source/blender/photoworlds/W01/shurale_meshy_v4/",
-          "game/scripts/photoworlds/W01Controller.Shurale.cs"
-        ],
-        "last_update": "Root integrating verified source actor; protected import pending. Full native W01 approach/dialogue/grip/movement and author art remain open."
+        "state": "not_active",
+        "reason": "Finite actor source/7clip/runtime installation and Windows import delivered; ordinary W01 motion requires owned foreground gate."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -121385,7 +121403,7 @@
         "Полный паспорт уровня docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/levels/W01_Лес_за_спиной_RU.md реализован: узлы/физические связи/действия/существо или человеческая сцена/созерцание/возврат/кадры; схема не заменяет проходимый runtime.",
         "Шурале выглядит современно устрашающе в духе психологического авторского хоррора (уточнение автора: злодеи A24): оригинальная цельная анатомия/силуэт, тревожные лицо/взгляд/длинные руки и сдержанная неестественная пластика; без игрушечного добродушия. Оценка по актуальным игровым кадрам и движению, не по числу полигонов."
       ],
-      "next_action": "Принять фактические позы и удержание ветки после одного переноса семи клипов на полученный Web Mixamo rig; затем существующий целевой native-просмотр. Новый взгляд головы скомпилирован, его движение ещё требует native-приёмки.",
+      "next_action": "Проверить заменённого Шурале обычным W01 подходом: work→noticed→D06→gesture/speak→освобождение→yield, руки/фиксированная ветка/взгляд/LOD. Пакет уже импортирован в Windows, не повторять build/import без изменённого входа. Авторская art-приёмка отдельно.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -122018,10 +122036,21 @@
           "runtime_candidate_sha256": "653f1692f3337d0b1af634c6b3751b6fcf9bb486bd0804224f114d6c65b9f032",
           "runtime_candidate_bytes": 30761216,
           "source_motion_review": "Root viewed actual work-full/work-hands/noticed/gesture/face PBR: coherent neck/face, hands wrap branch and one hand releases for gesture. Source engineering accepted. 2K face personally viewed; image-only downsample preserved all nonimagebuffers/mesh/skin/clip sections.",
-          "integration_state": "Replacement staged at existing game/assets/photoworlds/shurale/shurale_v1.glb for protected Windows import. Previous source byte copy retained locally. Not native movement/art accepted; no new loader or parallel actor flow.",
+          "integration_state": "Engineering runtime revision installed; protected Windows build/import PASS. Ordinary native W01 motion and final author art remain open.",
           "importer_name_fix": "Official Godot GLTF importer replaces bone-name :/ with underscores. W01 gaze now looks for mixamorig_Head/Neck; legacy head/neck_01 supported.",
           "native_path_limit": "Independent read-only search found no existing standalone Windows Shurale motion/LOD preview. Existing ordinary W01 route remains required; no new harness created.",
-          "physical_shoot_correspondence": "Pinned Blender independent source check work frame15: new moving branch meets fixed F14 shoot endpoint within0.071mm, old/newelement orientation<1.1e-6 and dimensiondelta<1µm; no placement fix needed. Native W01 view remains open."
+          "physical_shoot_correspondence": "Pinned Blender independent source check work frame15: new moving branch meets fixed F14 shoot endpoint within0.071mm, old/newelement orientation<1.1e-6 and dimensiondelta<1µm; no placement fix needed. Native W01 view remains open.",
+          "native_import": {
+            "job_id": "fdc5f5ef62fc4554ad107b9d9bef31ef",
+            "snapshot_id": "3463025e136b455907e0b9269b82580a867b12b6438a81985877db2c17179819",
+            "receipt": "evidence/ACT1-DEPTH.12/native_uv_v3_fdc5f5ef62fc4554ad107b9d9bef31ef/receipt.json",
+            "import_log": "evidence/ACT1-DEPTH.12/native_uv_v3_fdc5f5ef62fc4554ad107b9d9bef31ef/import.log",
+            "build": "33.66s,0warnings/errors",
+            "import": "shurale_v1.glb imported, importExit0,engine-errors.log empty",
+            "game_exit_code": 0,
+            "userdata_restored": true,
+            "limitation": "House static capture; does not instantiate/play W01 encounter or establish gait/LOD/art performance."
+          }
         },
         "gaze_engineering": {
           "source": "game/scripts/photoworlds/W01Controller.Shurale.cs",

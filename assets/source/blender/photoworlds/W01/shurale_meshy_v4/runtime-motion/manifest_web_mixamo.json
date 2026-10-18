@@ -1,0 +1,6197 @@
+{
+  "schema": "urman.shurale-meshy-motion-candidate.v1",
+  "status": "2K sibling installed at existing game asset path and imported by Windows Godot4.7.1; 4K predecessor remains source-only. Native W01 motion/final author art not accepted.",
+  "created_at_utc": "2026-10-18T21:34:20.138141+00:00",
+  "authoring_environment": {
+    "blender_version": "4.5.12 LTS",
+    "script": "retarget_meshy_v3_motion.py",
+    "method": "The existing v4 measured-contact path aligns the source work branch to the evaluated Meshy left-index skin, solves the right forearm IK target from actual thumb-surface gaps, and bakes the two-arm hold into Meshy-local pose bases. The branch is parented to mixamorig:LeftHand with matrix_world preserved. Work samples add a restrained right-hand stroke along the measured line between both contact points. The seven frozen clips apply hierarchical local-rotation deltas from the sampled source work reference onto this target hold, retaining Meshy rest offsets and unit scales; only explicit Hips translation deltas transfer. Source Root remains excluded.",
+    "source_to_target_rotation_degrees": 0.0
+  },
+  "inputs": {
+    "meshy_rigged_glb": {
+      "path": "assets/source/blender/photoworlds/W01/shurale_meshy_v4/web-rig/meshy71-wholeactor-web-mixamo-walking.glb",
+      "sha256": "e30e979a3dbc3bc0130a8f07ffcebf1349ef0a1d84f430ae2b7944137f5cb864",
+      "bytes": 70098932,
+      "read_only": true,
+      "source_skin": {
+        "armature": "target_character",
+        "bones": 66,
+        "mesh": "output_unwrapped",
+        "raw_source_metrics": {
+          "object": "output_unwrapped",
+          "vertex_count": 145085,
+          "edge_count": 226083,
+          "face_count": 104090,
+          "triangle_count": 104090,
+          "all_positions_finite": true,
+          "influence_count_histogram": {
+            "1": 29271,
+            "2": 51058,
+            "3": 27236,
+            "4": 37520
+          },
+          "vertices_without_influences": 0,
+          "maximum_influences": 4,
+          "weight_sum_min": 0.999999865423888,
+          "weight_sum_max": 1.0000001192092896,
+          "vertex_group_count": 66
+        },
+        "weight_pruning": {
+          "policy": "highest four influences per vertex, sorted by descending weight then group name, normalized",
+          "selected_top_four_histogram": {
+            "1": 29271,
+            "2": 51058,
+            "3": 27236,
+            "4": 37520
+          },
+          "after_histogram": {
+            "1": 29271,
+            "2": 51058,
+            "3": 27236,
+            "4": 37520
+          },
+          "maximum_influences": 4,
+          "max_weight_sum_error": 4.470348358154297e-08,
+          "normalized": true
+        },
+        "object": "output_unwrapped",
+        "vertex_count": 145085,
+        "edge_count": 226083,
+        "face_count": 104090,
+        "triangle_count": 104090,
+        "all_positions_finite": true,
+        "influence_count_histogram": {
+          "1": 29271,
+          "2": 51058,
+          "3": 27236,
+          "4": 37520
+        },
+        "vertices_without_influences": 0,
+        "maximum_influences": 4,
+        "weight_sum_min": 0.9999999552965164,
+        "weight_sum_max": 1.0000000409781933,
+        "vertex_group_count": 65
+      }
+    },
+    "canonical_motion_glb": {
+      "path": "game/assets/photoworlds/shurale/shurale_v1.glb",
+      "sha256": "e4476b0e636f2e984bd436bbd878fe004b61cf451c5e0dc9c55942cfa846f191",
+      "bytes": 10007944,
+      "read_only": true,
+      "current_rig": {
+        "armature": "ShuraleRig",
+        "bones": 53
+      },
+      "clips": [
+        "work",
+        "noticed",
+        "gesture",
+        "speak",
+        "yield",
+        "step",
+        "idle"
+      ]
+    }
+  },
+  "retarget": {
+    "mapped_source_bones": 52,
+    "unmapped_source_bones": [
+      "Root"
+    ],
+    "unmapped_target_bones": [
+      "headfront",
+      "mixamorig:HeadTop_End",
+      "mixamorig:LeftHandIndex4",
+      "mixamorig:LeftHandMiddle4",
+      "mixamorig:LeftHandPinky4",
+      "mixamorig:LeftHandRing4",
+      "mixamorig:LeftHandThumb4",
+      "mixamorig:LeftToe_End",
+      "mixamorig:RightHandIndex4",
+      "mixamorig:RightHandMiddle4",
+      "mixamorig:RightHandPinky4",
+      "mixamorig:RightHandRing4",
+      "mixamorig:RightHandThumb4",
+      "mixamorig:RightToe_End"
+    ],
+    "bone_map_source_to_target": {
+      "pelvis": "mixamorig:Hips",
+      "spine_01": "mixamorig:Spine",
+      "spine_02": "mixamorig:Spine1",
+      "spine_03": "mixamorig:Spine2",
+      "neck_01": "mixamorig:Neck",
+      "head": "mixamorig:Head",
+      "clavicle_l": "mixamorig:LeftShoulder",
+      "upperarm_l": "mixamorig:LeftArm",
+      "lowerarm_l": "mixamorig:LeftForeArm",
+      "hand_l": "mixamorig:LeftHand",
+      "thigh_l": "mixamorig:LeftUpLeg",
+      "calf_l": "mixamorig:LeftLeg",
+      "foot_l": "mixamorig:LeftFoot",
+      "ball_l": "mixamorig:LeftToeBase",
+      "thumb_01_l": "mixamorig:LeftHandThumb1",
+      "thumb_02_l": "mixamorig:LeftHandThumb2",
+      "thumb_03_l": "mixamorig:LeftHandThumb3",
+      "index_01_l": "mixamorig:LeftHandIndex1",
+      "index_02_l": "mixamorig:LeftHandIndex2",
+      "index_03_l": "mixamorig:LeftHandIndex3",
+      "middle_01_l": "mixamorig:LeftHandMiddle1",
+      "middle_02_l": "mixamorig:LeftHandMiddle2",
+      "middle_03_l": "mixamorig:LeftHandMiddle3",
+      "ring_01_l": "mixamorig:LeftHandRing1",
+      "ring_02_l": "mixamorig:LeftHandRing2",
+      "ring_03_l": "mixamorig:LeftHandRing3",
+      "pinky_01_l": "mixamorig:LeftHandPinky1",
+      "pinky_02_l": "mixamorig:LeftHandPinky2",
+      "pinky_03_l": "mixamorig:LeftHandPinky3",
+      "clavicle_r": "mixamorig:RightShoulder",
+      "upperarm_r": "mixamorig:RightArm",
+      "lowerarm_r": "mixamorig:RightForeArm",
+      "hand_r": "mixamorig:RightHand",
+      "thigh_r": "mixamorig:RightUpLeg",
+      "calf_r": "mixamorig:RightLeg",
+      "foot_r": "mixamorig:RightFoot",
+      "ball_r": "mixamorig:RightToeBase",
+      "thumb_01_r": "mixamorig:RightHandThumb1",
+      "thumb_02_r": "mixamorig:RightHandThumb2",
+      "thumb_03_r": "mixamorig:RightHandThumb3",
+      "index_01_r": "mixamorig:RightHandIndex1",
+      "index_02_r": "mixamorig:RightHandIndex2",
+      "index_03_r": "mixamorig:RightHandIndex3",
+      "middle_01_r": "mixamorig:RightHandMiddle1",
+      "middle_02_r": "mixamorig:RightHandMiddle2",
+      "middle_03_r": "mixamorig:RightHandMiddle3",
+      "ring_01_r": "mixamorig:RightHandRing1",
+      "ring_02_r": "mixamorig:RightHandRing2",
+      "ring_03_r": "mixamorig:RightHandRing3",
+      "pinky_01_r": "mixamorig:RightHandPinky1",
+      "pinky_02_r": "mixamorig:RightHandPinky2",
+      "pinky_03_r": "mixamorig:RightHandPinky3"
+    },
+    "local_transform_policy": {
+      "rotation": "Hierarchical local rotations mapped through per-bone source/target rest-frame axes.",
+      "translation": "The work hold retains evaluated two-bone IK bake translations; other clip deltas keep those target work-basis translations and transfer only source Hips translation deltas.",
+      "scale": "Meshy rest scales remain unit for mapped bone channels.",
+      "joint_rest_offsets": "Preserved from the original Meshy rig."
+    },
+    "coordinate_alignment": {
+      "root_translation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "rig_scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rig_yaw_degrees": 180.00001
+    },
+    "work_pose_authoring": {
+      "source_work_reference_frame": 1,
+      "measured_contact_solve": {
+        "contact_groups": {
+          "left": "mixamorig:LeftHandIndex1",
+          "right": "mixamorig:RightHandThumb2"
+        },
+        "left_gap_before_m": 8.25896713649854e-05,
+        "right_gap_before_m": 0.002165288897231221,
+        "left_gap_after_m": 0.0,
+        "right_gap_after_m": 0.00034773655352182686,
+        "branch_translation_world_m": [
+          6.6e-06,
+          4.08e-05,
+          -7.15e-05
+        ],
+        "right_ik_target_solved_root_local_m": [
+          0.2129896,
+          0.4934958,
+          1.7648917
+        ],
+        "right_thumb_surface_offset_before_m": [
+          -0.0454956,
+          0.0914276,
+          0.0354908
+        ],
+        "right_ik_target_corrections": 0,
+        "work_stroke_axis_world": [
+          0.9998188,
+          -0.0151827,
+          -0.0114811
+        ],
+        "method": "Rigidly aligns the real branch mesh to the evaluated left index skin, then moves only the right IK target using measured thumb-surface offset and bounded closest-surface corrections, matching the existing v4 contact solver.",
+        "left_gap_after_ik_bake_m": 2.4575624024691933e-07,
+        "right_gap_after_ik_bake_m": 0.0003480914165265858,
+        "branch_parent_bone": "mixamorig:LeftHand",
+        "branch_parent_matrix_error": 4.619355991053453e-07,
+        "ik_bake_max_pose_matrix_error": 7.152557373046875e-07,
+        "stroke_frames": [
+          1,
+          8,
+          15,
+          22,
+          30
+        ],
+        "stroke_offsets_m": [
+          0.0,
+          0.012,
+          0.0,
+          -0.012,
+          0.0
+        ],
+        "right_target_motion_axis_root_local": [
+          0.9998188,
+          -0.0151827,
+          -0.0114811
+        ],
+        "pose_bake_policy": "Evaluated 2-bone arm IK is snapshotted into target-local pose bases and then the constraints/helpers are removed; original Meshy joint rest offsets and segment lengths remain unchanged."
+      },
+      "stroke_frames": [
+        1,
+        8,
+        15,
+        22,
+        30
+      ],
+      "right_hand_stroke_offsets_m_along_measured_contact_axis": [
+        0.0,
+        0.012,
+        0.0,
+        -0.012,
+        0.0
+      ],
+      "left_hand_role": "fixed branch support; branch follows evaluated LeftHand matrix",
+      "right_hand_role": "opposed thumb/index support with a small stroke along the branch contact axis",
+      "transition_basis": "noticed, gesture, speak, yield, step, and idle start from the same authored work-hold basis, then receive their matching source clip local-rotation/explicit-Hips deltas; distinct action names remain available to the existing runtime transition path."
+    },
+    "work_branch_attachment": {
+      "copied_geometry_from": "ShuraleWorkBranch",
+      "source_parent_bone": "hand_l",
+      "target_parent_bone": "mixamorig:LeftHand",
+      "target_relative_transform": [
+        [
+          -1.3352781534194946,
+          0.013972532004117966,
+          0.4547420144081116,
+          -0.22431282699108124
+        ],
+        [
+          0.1793842911720276,
+          -1.2795941829681396,
+          0.5660508275032043,
+          -1.1857653856277466
+        ],
+        [
+          0.4180990159511566,
+          0.5936303734779358,
+          1.2094420194625854,
+          -1.380303144454956
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ]
+    },
+    "clips": {
+      "work": {
+        "frame_range": [
+          1,
+          30
+        ],
+        "root_delta_samples": [
+          {
+            "frame": 1,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 2,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 3,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 4,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 5,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 6,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 7,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 8,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 9,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 10,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 11,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 12,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 13,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 14,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 15,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 16,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 17,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 18,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 19,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 20,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 21,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 22,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 23,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 24,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 25,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 26,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 27,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 28,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 29,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 30,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          }
+        ],
+        "work_pose_transition_samples": [
+          {
+            "frame": 1,
+            "max_mapped_rotation_delta_rad_from_work_base": 0.0
+          },
+          {
+            "frame": 30,
+            "max_mapped_rotation_delta_rad_from_work_base": 0.0
+          }
+        ],
+        "hips_location_policy": "The baked IK work basis is retained for all mapped bones; only source Hips matrix_basis translation deltas from the work reference are transferred with the source/target armature world-scale ratio.",
+        "source_to_target_distance_scale": 1.4106570482254028
+      },
+      "noticed": {
+        "frame_range": [
+          1,
+          32
+        ],
+        "root_delta_samples": [
+          {
+            "frame": 1,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 2,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 3,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 4,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 5,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 6,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 7,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 8,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 9,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 10,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 11,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 12,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 13,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 14,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 15,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 16,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 17,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 18,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 19,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 20,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 21,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 22,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 23,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 24,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 25,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 26,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 27,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 28,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 29,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 30,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 31,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 32,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          }
+        ],
+        "work_pose_transition_samples": [
+          {
+            "frame": 1,
+            "max_mapped_rotation_delta_rad_from_work_base": 0.0
+          },
+          {
+            "frame": 32,
+            "max_mapped_rotation_delta_rad_from_work_base": 0.7051438093185425
+          }
+        ],
+        "hips_location_policy": "The baked IK work basis is retained for all mapped bones; only source Hips matrix_basis translation deltas from the work reference are transferred with the source/target armature world-scale ratio.",
+        "source_to_target_distance_scale": 1.4106570482254028
+      },
+      "gesture": {
+        "frame_range": [
+          1,
+          30
+        ],
+        "root_delta_samples": [
+          {
+            "frame": 1,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 2,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 3,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 4,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 5,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 6,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 7,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 8,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 9,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 10,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 11,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 12,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 13,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 14,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 15,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 16,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 17,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 18,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 19,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 20,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 21,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 22,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 23,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 24,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 25,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 26,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 27,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 28,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 29,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 30,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          }
+        ],
+        "work_pose_transition_samples": [
+          {
+            "frame": 1,
+            "max_mapped_rotation_delta_rad_from_work_base": 0.7051438093185425
+          },
+          {
+            "frame": 30,
+            "max_mapped_rotation_delta_rad_from_work_base": 1.6030057668685913
+          }
+        ],
+        "hips_location_policy": "The baked IK work basis is retained for all mapped bones; only source Hips matrix_basis translation deltas from the work reference are transferred with the source/target armature world-scale ratio.",
+        "source_to_target_distance_scale": 1.4106570482254028
+      },
+      "speak": {
+        "frame_range": [
+          1,
+          30
+        ],
+        "root_delta_samples": [
+          {
+            "frame": 1,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 2,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 3,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 4,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 5,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 6,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 7,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 8,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 9,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 10,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 11,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 12,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 13,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 14,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 15,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 16,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 17,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 18,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 19,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 20,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 21,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 22,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 23,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 24,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 25,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 26,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 27,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 28,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 29,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 30,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          }
+        ],
+        "work_pose_transition_samples": [
+          {
+            "frame": 1,
+            "max_mapped_rotation_delta_rad_from_work_base": 0.7042487859725952
+          },
+          {
+            "frame": 30,
+            "max_mapped_rotation_delta_rad_from_work_base": 0.7042487859725952
+          }
+        ],
+        "hips_location_policy": "The baked IK work basis is retained for all mapped bones; only source Hips matrix_basis translation deltas from the work reference are transferred with the source/target armature world-scale ratio.",
+        "source_to_target_distance_scale": 1.4106570482254028
+      },
+      "yield": {
+        "frame_range": [
+          1,
+          32
+        ],
+        "root_delta_samples": [
+          {
+            "frame": 1,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 2,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 3,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 4,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 5,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 6,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 7,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 8,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 9,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 10,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 11,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 12,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 13,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 14,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 15,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 16,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 17,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 18,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 19,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 20,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 21,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 22,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 23,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 24,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 25,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 26,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 27,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 28,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 29,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 30,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 31,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 32,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          }
+        ],
+        "work_pose_transition_samples": [
+          {
+            "frame": 1,
+            "max_mapped_rotation_delta_rad_from_work_base": 1.6030057668685913
+          },
+          {
+            "frame": 32,
+            "max_mapped_rotation_delta_rad_from_work_base": 1.9978500604629517
+          }
+        ],
+        "hips_location_policy": "The baked IK work basis is retained for all mapped bones; only source Hips matrix_basis translation deltas from the work reference are transferred with the source/target armature world-scale ratio.",
+        "source_to_target_distance_scale": 1.4106570482254028
+      },
+      "step": {
+        "frame_range": [
+          1,
+          32
+        ],
+        "root_delta_samples": [
+          {
+            "frame": 1,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 2,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 3,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 4,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 5,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 6,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 7,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 8,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 9,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 10,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 11,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 12,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 13,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 14,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 15,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 16,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 17,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 18,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 19,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 20,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 21,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 22,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 23,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 24,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 25,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 26,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 27,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 28,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 29,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 30,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 31,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 32,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          }
+        ],
+        "work_pose_transition_samples": [
+          {
+            "frame": 1,
+            "max_mapped_rotation_delta_rad_from_work_base": 0.0
+          },
+          {
+            "frame": 32,
+            "max_mapped_rotation_delta_rad_from_work_base": 0.0
+          }
+        ],
+        "hips_location_policy": "The baked IK work basis is retained for all mapped bones; only source Hips matrix_basis translation deltas from the work reference are transferred with the source/target armature world-scale ratio.",
+        "source_to_target_distance_scale": 1.4106570482254028
+      },
+      "idle": {
+        "frame_range": [
+          1,
+          32
+        ],
+        "root_delta_samples": [
+          {
+            "frame": 1,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 2,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 3,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 4,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 5,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 6,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 7,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 8,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 9,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 10,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 11,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 12,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 13,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 14,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 15,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 16,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 17,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 18,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 19,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 20,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 21,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 22,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 23,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 24,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 25,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 26,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 27,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 28,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 29,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 30,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 31,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 32,
+            "translation_m": [
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "scale": [
+              1.0,
+              1.0,
+              1.0
+            ]
+          }
+        ],
+        "work_pose_transition_samples": [
+          {
+            "frame": 1,
+            "max_mapped_rotation_delta_rad_from_work_base": 0.0
+          },
+          {
+            "frame": 32,
+            "max_mapped_rotation_delta_rad_from_work_base": 0.0
+          }
+        ],
+        "hips_location_policy": "The baked IK work basis is retained for all mapped bones; only source Hips matrix_basis translation deltas from the work reference are transferred with the source/target armature world-scale ratio.",
+        "source_to_target_distance_scale": 1.4106570482254028
+      }
+    },
+    "root_motion": "No actor-root transform animation; source Root is excluded. Target ShuraleRoot remains identity and target rig has unit scale."
+  },
+  "candidate": {
+    "glb": {
+      "path": "assets/source/blender/photoworlds/W01/shurale_meshy_v4/runtime-motion/shurale_meshy_v4_web_mixamo_motion_candidate.glb",
+      "sha256": "ff577ac486e2339933b89aaeaabde910915cb040901ec1f33c8c5474099b1432",
+      "bytes": 72646712,
+      "verification": {
+        "node_names": [
+          "ShuraleBody_LOD0",
+          "ShuraleBody_LOD1",
+          "ShuraleRig",
+          "ShuraleRoot",
+          "ShuraleWorkBranch"
+        ],
+        "animation_names": [
+          "gesture",
+          "idle",
+          "noticed",
+          "speak",
+          "step",
+          "work",
+          "yield"
+        ],
+        "animation_channel_counts": {
+          "gesture": 198,
+          "idle": 198,
+          "noticed": 198,
+          "speak": 198,
+          "step": 198,
+          "work": 198,
+          "yield": 198
+        },
+        "skin_joint_counts": [
+          66
+        ],
+        "branch_parent": "mixamorig:LeftHand",
+        "root_translation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "root_scale": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "accessors": {
+          "float_accessor_count": 400,
+          "non_finite_float_values": 0
+        },
+        "triangles_by_mesh": {
+          "ShuraleBody_LOD0Mesh": 104090,
+          "ShuraleWorkBranchMesh.001": 1120,
+          "ShuraleBody_LOD1Mesh.001": 44753
+        }
+      }
+    },
+    "blend": {
+      "path": "assets/source/blender/photoworlds/W01/shurale_meshy_v4/runtime-motion/shurale_meshy_v4_web_mixamo_motion_candidate.blend",
+      "sha256": "30e36f745c4c0216e9c15a98e872899ed94d06be657f96ac12becb04facc9598",
+      "bytes": 78535025
+    },
+    "mesh_lods": {
+      "LOD0": {
+        "object": "ShuraleBody_LOD0",
+        "vertex_count": 145085,
+        "edge_count": 226083,
+        "face_count": 104090,
+        "triangle_count": 104090,
+        "all_positions_finite": true,
+        "influence_count_histogram": {
+          "1": 29271,
+          "2": 51058,
+          "3": 27236,
+          "4": 37520
+        },
+        "vertices_without_influences": 0,
+        "maximum_influences": 4,
+        "weight_sum_min": 0.9999999552965164,
+        "weight_sum_max": 1.0000000409781933,
+        "vertex_group_count": 65
+      },
+      "LOD1": {
+        "object": "ShuraleBody_LOD1",
+        "vertex_count": 21654,
+        "edge_count": 67108,
+        "face_count": 44757,
+        "triangle_count": 44757,
+        "all_positions_finite": true,
+        "influence_count_histogram": {
+          "1": 4144,
+          "2": 7447,
+          "3": 4115,
+          "4": 5948
+        },
+        "vertices_without_influences": 0,
+        "maximum_influences": 4,
+        "weight_sum_min": 0.9999999534338713,
+        "weight_sum_max": 1.0000000465661287,
+        "vertex_group_count": 65
+      },
+      "LOD1_decimate_ratio": 0.43,
+      "LOD1_exact_position_weld": {
+        "vertices_before": 145085,
+        "vertices_after": 51321,
+        "duplicate_position_groups": 39564,
+        "merged_vertices": 93764,
+        "named_weight_mismatch_groups": 0,
+        "maximum_named_weight_delta": 0.0,
+        "faces_before": 104090,
+        "faces_after": 104090,
+        "connected_components_before": 23302,
+        "connected_components_after": 1,
+        "per_face_corner_uv_signature_unchanged": true,
+        "per_face_corner_uv_signature_sha256": "0936ff7a20f4199092e5ea82199280410d8ad8a2191e63df9a2a421cd6fde43f"
+      },
+      "LOD1_weight_pruning": {
+        "policy": "highest four influences per vertex, sorted by descending weight then group name, normalized",
+        "selected_top_four_histogram": {
+          "1": 4144,
+          "2": 7447,
+          "3": 4115,
+          "4": 5948
+        },
+        "after_histogram": {
+          "1": 4144,
+          "2": 7447,
+          "3": 4115,
+          "4": 5948
+        },
+        "maximum_influences": 4,
+        "max_weight_sum_error": 4.6566128730773926e-08,
+        "normalized": true
+      }
+    },
+    "exporter_runtime_warnings": [
+      {
+        "category": "RuntimeWarning",
+        "message": "divide by zero encountered in matmul",
+        "file": "/Users/unterlantas/Documents/GitHub/URMAN/.tools/blender/Blender.app/Contents/Resources/4.5/scripts/addons_core/io_scene_gltf2/blender/exp/primitive_extract.py",
+        "line": 73,
+        "source_line": null
+      },
+      {
+        "category": "RuntimeWarning",
+        "message": "overflow encountered in matmul",
+        "file": "/Users/unterlantas/Documents/GitHub/URMAN/.tools/blender/Blender.app/Contents/Resources/4.5/scripts/addons_core/io_scene_gltf2/blender/exp/primitive_extract.py",
+        "line": 73,
+        "source_line": null
+      },
+      {
+        "category": "RuntimeWarning",
+        "message": "invalid value encountered in matmul",
+        "file": "/Users/unterlantas/Documents/GitHub/URMAN/.tools/blender/Blender.app/Contents/Resources/4.5/scripts/addons_core/io_scene_gltf2/blender/exp/primitive_extract.py",
+        "line": 73,
+        "source_line": null
+      },
+      {
+        "category": "RuntimeWarning",
+        "message": "divide by zero encountered in matmul",
+        "file": "/Users/unterlantas/Documents/GitHub/URMAN/.tools/blender/Blender.app/Contents/Resources/4.5/scripts/addons_core/io_scene_gltf2/blender/exp/primitive_extract.py",
+        "line": 73,
+        "source_line": null
+      },
+      {
+        "category": "RuntimeWarning",
+        "message": "overflow encountered in matmul",
+        "file": "/Users/unterlantas/Documents/GitHub/URMAN/.tools/blender/Blender.app/Contents/Resources/4.5/scripts/addons_core/io_scene_gltf2/blender/exp/primitive_extract.py",
+        "line": 73,
+        "source_line": null
+      },
+      {
+        "category": "RuntimeWarning",
+        "message": "invalid value encountered in matmul",
+        "file": "/Users/unterlantas/Documents/GitHub/URMAN/.tools/blender/Blender.app/Contents/Resources/4.5/scripts/addons_core/io_scene_gltf2/blender/exp/primitive_extract.py",
+        "line": 73,
+        "source_line": null
+      },
+      {
+        "category": "RuntimeWarning",
+        "message": "divide by zero encountered in matmul",
+        "file": "/Users/unterlantas/Documents/GitHub/URMAN/.tools/blender/Blender.app/Contents/Resources/4.5/scripts/addons_core/io_scene_gltf2/blender/exp/primitive_extract.py",
+        "line": 73,
+        "source_line": null
+      },
+      {
+        "category": "RuntimeWarning",
+        "message": "overflow encountered in matmul",
+        "file": "/Users/unterlantas/Documents/GitHub/URMAN/.tools/blender/Blender.app/Contents/Resources/4.5/scripts/addons_core/io_scene_gltf2/blender/exp/primitive_extract.py",
+        "line": 73,
+        "source_line": null
+      },
+      {
+        "category": "RuntimeWarning",
+        "message": "invalid value encountered in matmul",
+        "file": "/Users/unterlantas/Documents/GitHub/URMAN/.tools/blender/Blender.app/Contents/Resources/4.5/scripts/addons_core/io_scene_gltf2/blender/exp/primitive_extract.py",
+        "line": 73,
+        "source_line": null
+      },
+      {
+        "category": "RuntimeWarning",
+        "message": "divide by zero encountered in matmul",
+        "file": "/Users/unterlantas/Documents/GitHub/URMAN/.tools/blender/Blender.app/Contents/Resources/4.5/scripts/addons_core/io_scene_gltf2/blender/exp/primitive_extract.py",
+        "line": 73,
+        "source_line": null
+      },
+      {
+        "category": "RuntimeWarning",
+        "message": "overflow encountered in matmul",
+        "file": "/Users/unterlantas/Documents/GitHub/URMAN/.tools/blender/Blender.app/Contents/Resources/4.5/scripts/addons_core/io_scene_gltf2/blender/exp/primitive_extract.py",
+        "line": 73,
+        "source_line": null
+      },
+      {
+        "category": "RuntimeWarning",
+        "message": "invalid value encountered in matmul",
+        "file": "/Users/unterlantas/Documents/GitHub/URMAN/.tools/blender/Blender.app/Contents/Resources/4.5/scripts/addons_core/io_scene_gltf2/blender/exp/primitive_extract.py",
+        "line": 73,
+        "source_line": null
+      }
+    ],
+    "rendered_candidate_review": {
+      "frame_metrics": {
+        "work": {
+          "frame": 15,
+          "evaluated_vertices": 145187,
+          "evaluated_triangles": 104090,
+          "all_positions_finite": true,
+          "all_pose_matrices_finite": true,
+          "mapped_bone_local_transform_health": {
+            "mapped_bones": 52,
+            "max_nonhips_local_translation_m": 7.174454660981457e-07,
+            "max_mapped_scale_error_from_one": 8.821487426757812e-06,
+            "selected_bone_segments": {
+              "mixamorig:RightHandIndex2": {
+                "rest_length_m": 0.040887649664916814,
+                "evaluated_length_m": 0.04088757739490336,
+                "local_location": [
+                  -0.0,
+                  -0.0,
+                  2e-07
+                ],
+                "local_scale": [
+                  1.0000001,
+                  0.9999998,
+                  1.0000001
+                ]
+              },
+              "mixamorig:RightForeArm": {
+                "rest_length_m": 0.38361706410353924,
+                "evaluated_length_m": 0.3836170094793805,
+                "local_location": [
+                  2e-07,
+                  -1e-07,
+                  2e-07
+                ],
+                "local_scale": [
+                  1.0,
+                  0.9999999,
+                  0.9999995
+                ]
+              },
+              "mixamorig:Hips": {
+                "rest_length_m": 0.16357787025547424,
+                "evaluated_length_m": 0.1635778805136936,
+                "local_location": [
+                  -0.0,
+                  2e-07,
+                  0.0
+                ],
+                "local_scale": [
+                  1.0,
+                  0.9999999,
+                  1.0
+                ]
+              }
+            }
+          },
+          "world_bounds_min": [
+            -0.4184607,
+            -0.2607757,
+            1.4e-06
+          ],
+          "world_bounds_max": [
+            0.4078696,
+            0.8053793,
+            2.2907019
+          ],
+          "world_dimensions": [
+            0.8263302,
+            1.066155,
+            2.2907004
+          ],
+          "minimum_triangle_area_m2": 1.3739140613648364e-07,
+          "degenerate_triangles_area_le_1e_minus_12_m2": 0,
+          "left_hand_world": [
+            -0.3385578,
+            0.4796234,
+            1.721001
+          ],
+          "right_hand_world": [
+            0.2129896,
+            0.4934954,
+            1.7648914
+          ],
+          "pelvis_world": [
+            -0.0101026,
+            0.0034739,
+            1.299749
+          ],
+          "left_hand_to_pelvis_m": 0.7155797796246294,
+          "right_hand_to_pelvis_m": 0.7115115216807437,
+          "left_toe_world": [
+            -0.2966963,
+            0.1325936,
+            0.044968
+          ],
+          "right_toe_world": [
+            0.2945662,
+            0.1578785,
+            0.0356965
+          ],
+          "left_foot_world": [
+            -0.2405676,
+            -0.0909948,
+            0.2019156
+          ],
+          "right_foot_world": [
+            0.2317817,
+            -0.0923017,
+            0.1963711
+          ],
+          "mesh_ground_clearance_m": 1.4015638498676708e-06,
+          "branch_world_matrix": [
+            [
+              -1.410658359527588,
+              9.685754776000977e-07,
+              8.046627044677734e-07,
+              0.009003981947898865
+            ],
+            [
+              -7.450580596923828e-07,
+              -1.410658359527588,
+              -6.556510925292969e-07,
+              -0.012894034385681152
+            ],
+            [
+              5.662441253662109e-07,
+              -1.7285346984863281e-06,
+              1.410657286643982,
+              -0.010536611080169678
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "measured_hand_branch_contact": {
+            "left": {
+              "vertex_group": "mixamorig:LeftHandIndex1",
+              "distance_m": 3.7814908182554063e-07,
+              "branch_point_world": [
+                -0.3527662,
+                0.5900331,
+                1.8062624
+              ],
+              "hand_surface_point_world": [
+                -0.3527662,
+                0.590033,
+                1.8062627
+              ]
+            },
+            "right": {
+              "vertex_group": "mixamorig:RightHandThumb2",
+              "distance_m": 0.00034905929351225495,
+              "branch_point_world": [
+                0.1686423,
+                0.5821152,
+                1.8002752
+              ],
+              "hand_surface_point_world": [
+                0.1683006,
+                0.5820693,
+                1.8003297
+              ]
+            }
+          }
+        },
+        "noticed": {
+          "frame": 18,
+          "evaluated_vertices": 145187,
+          "evaluated_triangles": 104090,
+          "all_positions_finite": true,
+          "all_pose_matrices_finite": true,
+          "mapped_bone_local_transform_health": {
+            "mapped_bones": 52,
+            "max_nonhips_local_translation_m": 6.551970568502172e-07,
+            "max_mapped_scale_error_from_one": 8.821487426757812e-06,
+            "selected_bone_segments": {
+              "mixamorig:RightHandIndex2": {
+                "rest_length_m": 0.040887649664916814,
+                "evaluated_length_m": 0.0408875679246085,
+                "local_location": [
+                  -0.0,
+                  -0.0,
+                  2e-07
+                ],
+                "local_scale": [
+                  1.0000001,
+                  0.9999998,
+                  1.0000001
+                ]
+              },
+              "mixamorig:RightForeArm": {
+                "rest_length_m": 0.38361706410353924,
+                "evaluated_length_m": 0.3836169263292572,
+                "local_location": [
+                  2e-07,
+                  -1e-07,
+                  2e-07
+                ],
+                "local_scale": [
+                  1.0,
+                  0.9999999,
+                  0.9999995
+                ]
+              },
+              "mixamorig:Hips": {
+                "rest_length_m": 0.16357787025547424,
+                "evaluated_length_m": 0.1635778805136936,
+                "local_location": [
+                  -0.0,
+                  2e-07,
+                  0.0
+                ],
+                "local_scale": [
+                  1.0,
+                  0.9999999,
+                  1.0
+                ]
+              }
+            }
+          },
+          "world_bounds_min": [
+            -0.4184607,
+            -0.2607473,
+            1.4e-06
+          ],
+          "world_bounds_max": [
+            0.4078696,
+            0.8053792,
+            2.2962141
+          ],
+          "world_dimensions": [
+            0.8263302,
+            1.0661265,
+            2.2962127
+          ],
+          "minimum_triangle_area_m2": 1.3772927906226622e-07,
+          "degenerate_triangles_area_le_1e_minus_12_m2": 0,
+          "left_hand_world": [
+            -0.3385578,
+            0.4796234,
+            1.721001
+          ],
+          "right_hand_world": [
+            0.2129894,
+            0.4934953,
+            1.7648916
+          ],
+          "pelvis_world": [
+            -0.0101026,
+            0.0034739,
+            1.299749
+          ],
+          "left_hand_to_pelvis_m": 0.7155797796246294,
+          "right_hand_to_pelvis_m": 0.711511534770097,
+          "left_toe_world": [
+            -0.2966963,
+            0.1325936,
+            0.044968
+          ],
+          "right_toe_world": [
+            0.2945662,
+            0.1578785,
+            0.0356965
+          ],
+          "left_foot_world": [
+            -0.2405676,
+            -0.0909948,
+            0.2019156
+          ],
+          "right_foot_world": [
+            0.2317817,
+            -0.0923017,
+            0.1963711
+          ],
+          "mesh_ground_clearance_m": 1.4015638498676708e-06,
+          "branch_world_matrix": [
+            [
+              -1.410658359527588,
+              9.685754776000977e-07,
+              8.046627044677734e-07,
+              0.009003981947898865
+            ],
+            [
+              -7.450580596923828e-07,
+              -1.410658359527588,
+              -6.556510925292969e-07,
+              -0.012894034385681152
+            ],
+            [
+              5.662441253662109e-07,
+              -1.7285346984863281e-06,
+              1.410657286643982,
+              -0.010536611080169678
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "measured_hand_branch_contact": {
+            "left": {
+              "vertex_group": "mixamorig:LeftHandIndex1",
+              "distance_m": 3.7814908182554063e-07,
+              "branch_point_world": [
+                -0.3527662,
+                0.5900331,
+                1.8062624
+              ],
+              "hand_surface_point_world": [
+                -0.3527662,
+                0.590033,
+                1.8062627
+              ]
+            },
+            "right": {
+              "vertex_group": "mixamorig:RightHandThumb2",
+              "distance_m": 0.00034927946398966014,
+              "branch_point_world": [
+                0.1686423,
+                0.5821152,
+                1.8002752
+              ],
+              "hand_surface_point_world": [
+                0.1683004,
+                0.5820692,
+                1.8003299
+              ]
+            }
+          }
+        },
+        "gesture": {
+          "frame": 15,
+          "evaluated_vertices": 145187,
+          "evaluated_triangles": 104090,
+          "all_positions_finite": true,
+          "all_pose_matrices_finite": true,
+          "mapped_bone_local_transform_health": {
+            "mapped_bones": 52,
+            "max_nonhips_local_translation_m": 6.267024198600977e-07,
+            "max_mapped_scale_error_from_one": 8.821487426757812e-06,
+            "selected_bone_segments": {
+              "mixamorig:RightHandIndex2": {
+                "rest_length_m": 0.040887649664916814,
+                "evaluated_length_m": 0.040887576633053535,
+                "local_location": [
+                  0.0,
+                  1e-07,
+                  0.0
+                ],
+                "local_scale": [
+                  1.0,
+                  0.9999998,
+                  1.0
+                ]
+              },
+              "mixamorig:RightForeArm": {
+                "rest_length_m": 0.38361706410353924,
+                "evaluated_length_m": 0.3836169439303797,
+                "local_location": [
+                  3e-07,
+                  -1e-07,
+                  1e-07
+                ],
+                "local_scale": [
+                  1.0,
+                  0.9999999,
+                  0.9999996
+                ]
+              },
+              "mixamorig:Hips": {
+                "rest_length_m": 0.16357787025547424,
+                "evaluated_length_m": 0.1635778805136936,
+                "local_location": [
+                  -0.0,
+                  2e-07,
+                  0.0
+                ],
+                "local_scale": [
+                  1.0,
+                  0.9999999,
+                  1.0
+                ]
+              }
+            }
+          },
+          "world_bounds_min": [
+            -0.4184607,
+            -0.2608173,
+            1.4e-06
+          ],
+          "world_bounds_max": [
+            0.5123081,
+            0.743506,
+            2.2856147
+          ],
+          "world_dimensions": [
+            0.9307687,
+            1.0043232,
+            2.2856133
+          ],
+          "minimum_triangle_area_m2": 1.3785057637704605e-07,
+          "degenerate_triangles_area_le_1e_minus_12_m2": 0,
+          "left_hand_world": [
+            -0.3385578,
+            0.4796234,
+            1.721001
+          ],
+          "right_hand_world": [
+            0.276651,
+            0.4962073,
+            1.651914
+          ],
+          "pelvis_world": [
+            -0.0101026,
+            0.0034739,
+            1.299749
+          ],
+          "left_hand_to_pelvis_m": 0.7155797796246294,
+          "right_hand_to_pelvis_m": 0.670100002129607,
+          "left_toe_world": [
+            -0.2966963,
+            0.1325936,
+            0.044968
+          ],
+          "right_toe_world": [
+            0.2945662,
+            0.1578785,
+            0.0356965
+          ],
+          "left_foot_world": [
+            -0.2405676,
+            -0.0909948,
+            0.2019156
+          ],
+          "right_foot_world": [
+            0.2317817,
+            -0.0923017,
+            0.1963711
+          ],
+          "mesh_ground_clearance_m": 1.4015638498676708e-06,
+          "branch_world_matrix": [
+            [
+              -1.410658359527588,
+              9.685754776000977e-07,
+              8.046627044677734e-07,
+              0.009003981947898865
+            ],
+            [
+              -7.450580596923828e-07,
+              -1.410658359527588,
+              -6.556510925292969e-07,
+              -0.012894034385681152
+            ],
+            [
+              5.662441253662109e-07,
+              -1.7285346984863281e-06,
+              1.410657286643982,
+              -0.010536611080169678
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "measured_hand_branch_contact": {
+            "left": {
+              "vertex_group": "mixamorig:LeftHandIndex1",
+              "distance_m": 3.7814908182554063e-07,
+              "branch_point_world": [
+                -0.3527662,
+                0.5900331,
+                1.8062624
+              ],
+              "hand_surface_point_world": [
+                -0.3527662,
+                0.590033,
+                1.8062627
+              ]
+            },
+            "right": {
+              "vertex_group": "mixamorig:RightHandThumb2",
+              "distance_m": 0.16394880414009094,
+              "branch_point_world": [
+                0.2591237,
+                0.583924,
+                1.7799784
+              ],
+              "hand_surface_point_world": [
+                0.291545,
+                0.5694725,
+                1.6199183
+              ]
+            }
+          }
+        },
+        "step": {
+          "frame": 17,
+          "evaluated_vertices": 145187,
+          "evaluated_triangles": 104090,
+          "all_positions_finite": true,
+          "all_pose_matrices_finite": true,
+          "mapped_bone_local_transform_health": {
+            "mapped_bones": 52,
+            "max_nonhips_local_translation_m": 7.174454660981457e-07,
+            "max_mapped_scale_error_from_one": 8.821487426757812e-06,
+            "selected_bone_segments": {
+              "mixamorig:RightHandIndex2": {
+                "rest_length_m": 0.040887649664916814,
+                "evaluated_length_m": 0.0408875679246085,
+                "local_location": [
+                  -0.0,
+                  -0.0,
+                  2e-07
+                ],
+                "local_scale": [
+                  1.0000001,
+                  0.9999998,
+                  1.0000001
+                ]
+              },
+              "mixamorig:RightForeArm": {
+                "rest_length_m": 0.38361706410353924,
+                "evaluated_length_m": 0.3836169263292572,
+                "local_location": [
+                  2e-07,
+                  -1e-07,
+                  2e-07
+                ],
+                "local_scale": [
+                  1.0,
+                  0.9999999,
+                  0.9999995
+                ]
+              },
+              "mixamorig:Hips": {
+                "rest_length_m": 0.16357787025547424,
+                "evaluated_length_m": 0.1635778805136936,
+                "local_location": [
+                  -0.0,
+                  2e-07,
+                  0.0
+                ],
+                "local_scale": [
+                  1.0,
+                  0.9999999,
+                  1.0
+                ]
+              }
+            }
+          },
+          "world_bounds_min": [
+            -0.4184607,
+            -0.2607969,
+            1.6e-06
+          ],
+          "world_bounds_max": [
+            0.405142,
+            0.8053792,
+            2.2879686
+          ],
+          "world_dimensions": [
+            0.8236027,
+            1.0661761,
+            2.287967
+          ],
+          "minimum_triangle_area_m2": 1.3763491404309927e-07,
+          "degenerate_triangles_area_le_1e_minus_12_m2": 0,
+          "left_hand_world": [
+            -0.3385578,
+            0.4796234,
+            1.721001
+          ],
+          "right_hand_world": [
+            0.2129894,
+            0.4934953,
+            1.7648916
+          ],
+          "pelvis_world": [
+            -0.0101026,
+            0.0034739,
+            1.299749
+          ],
+          "left_hand_to_pelvis_m": 0.7155797796246294,
+          "right_hand_to_pelvis_m": 0.711511534770097,
+          "left_toe_world": [
+            -0.2967116,
+            0.1326048,
+            0.0449681
+          ],
+          "right_toe_world": [
+            0.2918387,
+            0.2203315,
+            0.0703202
+          ],
+          "left_foot_world": [
+            -0.2405817,
+            -0.0909837,
+            0.2019152
+          ],
+          "right_foot_world": [
+            0.2290529,
+            -0.029849,
+            0.2309942
+          ],
+          "mesh_ground_clearance_m": 1.6407434486609418e-06,
+          "branch_world_matrix": [
+            [
+              -1.410658359527588,
+              9.685754776000977e-07,
+              8.046627044677734e-07,
+              0.009003981947898865
+            ],
+            [
+              -7.450580596923828e-07,
+              -1.410658359527588,
+              -6.556510925292969e-07,
+              -0.012894034385681152
+            ],
+            [
+              5.662441253662109e-07,
+              -1.7285346984863281e-06,
+              1.410657286643982,
+              -0.010536611080169678
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "measured_hand_branch_contact": {
+            "left": {
+              "vertex_group": "mixamorig:LeftHandIndex1",
+              "distance_m": 3.7814908182554063e-07,
+              "branch_point_world": [
+                -0.3527662,
+                0.5900331,
+                1.8062624
+              ],
+              "hand_surface_point_world": [
+                -0.3527662,
+                0.590033,
+                1.8062627
+              ]
+            },
+            "right": {
+              "vertex_group": "mixamorig:RightHandThumb2",
+              "distance_m": 0.00034927946398966014,
+              "branch_point_world": [
+                0.1686423,
+                0.5821152,
+                1.8002752
+              ],
+              "hand_surface_point_world": [
+                0.1683004,
+                0.5820692,
+                1.8003299
+              ]
+            }
+          }
+        },
+        "idle": {
+          "frame": 17,
+          "evaluated_vertices": 145187,
+          "evaluated_triangles": 104090,
+          "all_positions_finite": true,
+          "all_pose_matrices_finite": true,
+          "mapped_bone_local_transform_health": {
+            "mapped_bones": 52,
+            "max_nonhips_local_translation_m": 7.174454660981457e-07,
+            "max_mapped_scale_error_from_one": 8.821487426757812e-06,
+            "selected_bone_segments": {
+              "mixamorig:RightHandIndex2": {
+                "rest_length_m": 0.040887649664916814,
+                "evaluated_length_m": 0.0408875679246085,
+                "local_location": [
+                  -0.0,
+                  -0.0,
+                  2e-07
+                ],
+                "local_scale": [
+                  1.0000001,
+                  0.9999998,
+                  1.0000001
+                ]
+              },
+              "mixamorig:RightForeArm": {
+                "rest_length_m": 0.38361706410353924,
+                "evaluated_length_m": 0.3836169263292572,
+                "local_location": [
+                  2e-07,
+                  -1e-07,
+                  2e-07
+                ],
+                "local_scale": [
+                  1.0,
+                  0.9999999,
+                  0.9999995
+                ]
+              },
+              "mixamorig:Hips": {
+                "rest_length_m": 0.16357787025547424,
+                "evaluated_length_m": 0.1635778805136936,
+                "local_location": [
+                  -0.0,
+                  2e-07,
+                  0.0
+                ],
+                "local_scale": [
+                  1.0,
+                  0.9999999,
+                  1.0
+                ]
+              }
+            }
+          },
+          "world_bounds_min": [
+            -0.4184607,
+            -0.2607969,
+            1.4e-06
+          ],
+          "world_bounds_max": [
+            0.4078696,
+            0.8053792,
+            2.2879686
+          ],
+          "world_dimensions": [
+            0.8263302,
+            1.0661761,
+            2.2879672
+          ],
+          "minimum_triangle_area_m2": 1.3763491404309927e-07,
+          "degenerate_triangles_area_le_1e_minus_12_m2": 0,
+          "left_hand_world": [
+            -0.3385578,
+            0.4796234,
+            1.721001
+          ],
+          "right_hand_world": [
+            0.2129894,
+            0.4934953,
+            1.7648916
+          ],
+          "pelvis_world": [
+            -0.0101026,
+            0.0034739,
+            1.299749
+          ],
+          "left_hand_to_pelvis_m": 0.7155797796246294,
+          "right_hand_to_pelvis_m": 0.711511534770097,
+          "left_toe_world": [
+            -0.2966963,
+            0.1325936,
+            0.044968
+          ],
+          "right_toe_world": [
+            0.2945662,
+            0.1578785,
+            0.0356965
+          ],
+          "left_foot_world": [
+            -0.2405676,
+            -0.0909948,
+            0.2019156
+          ],
+          "right_foot_world": [
+            0.2317817,
+            -0.0923017,
+            0.1963711
+          ],
+          "mesh_ground_clearance_m": 1.4015638498676708e-06,
+          "branch_world_matrix": [
+            [
+              -1.410658359527588,
+              9.685754776000977e-07,
+              8.046627044677734e-07,
+              0.009003981947898865
+            ],
+            [
+              -7.450580596923828e-07,
+              -1.410658359527588,
+              -6.556510925292969e-07,
+              -0.012894034385681152
+            ],
+            [
+              5.662441253662109e-07,
+              -1.7285346984863281e-06,
+              1.410657286643982,
+              -0.010536611080169678
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "measured_hand_branch_contact": {
+            "left": {
+              "vertex_group": "mixamorig:LeftHandIndex1",
+              "distance_m": 3.7814908182554063e-07,
+              "branch_point_world": [
+                -0.3527662,
+                0.5900331,
+                1.8062624
+              ],
+              "hand_surface_point_world": [
+                -0.3527662,
+                0.590033,
+                1.8062627
+              ]
+            },
+            "right": {
+              "vertex_group": "mixamorig:RightHandThumb2",
+              "distance_m": 0.00034927946398966014,
+              "branch_point_world": [
+                0.1686423,
+                0.5821152,
+                1.8002752
+              ],
+              "hand_surface_point_world": [
+                0.1683004,
+                0.5820692,
+                1.8003299
+              ]
+            }
+          }
+        }
+      },
+      "work_stroke_frame_metrics": {
+        "1": {
+          "frame": 1,
+          "evaluated_vertices": 145187,
+          "evaluated_triangles": 104090,
+          "all_positions_finite": true,
+          "all_pose_matrices_finite": true,
+          "mapped_bone_local_transform_health": {
+            "mapped_bones": 52,
+            "max_nonhips_local_translation_m": 7.174454660981457e-07,
+            "max_mapped_scale_error_from_one": 8.821487426757812e-06,
+            "selected_bone_segments": {
+              "mixamorig:RightHandIndex2": {
+                "rest_length_m": 0.040887649664916814,
+                "evaluated_length_m": 0.0408875679246085,
+                "local_location": [
+                  -0.0,
+                  -0.0,
+                  2e-07
+                ],
+                "local_scale": [
+                  1.0000001,
+                  0.9999998,
+                  1.0000001
+                ]
+              },
+              "mixamorig:RightForeArm": {
+                "rest_length_m": 0.38361706410353924,
+                "evaluated_length_m": 0.3836169263292572,
+                "local_location": [
+                  2e-07,
+                  -1e-07,
+                  2e-07
+                ],
+                "local_scale": [
+                  1.0,
+                  0.9999999,
+                  0.9999995
+                ]
+              },
+              "mixamorig:Hips": {
+                "rest_length_m": 0.16357787025547424,
+                "evaluated_length_m": 0.1635778805136936,
+                "local_location": [
+                  -0.0,
+                  2e-07,
+                  0.0
+                ],
+                "local_scale": [
+                  1.0,
+                  0.9999999,
+                  1.0
+                ]
+              }
+            }
+          },
+          "world_bounds_min": [
+            -0.4184607,
+            -0.2607969,
+            1.4e-06
+          ],
+          "world_bounds_max": [
+            0.4078696,
+            0.8053792,
+            2.2879686
+          ],
+          "world_dimensions": [
+            0.8263302,
+            1.0661761,
+            2.2879672
+          ],
+          "minimum_triangle_area_m2": 1.3763491404309927e-07,
+          "degenerate_triangles_area_le_1e_minus_12_m2": 0,
+          "left_hand_world": [
+            -0.3385578,
+            0.4796234,
+            1.721001
+          ],
+          "right_hand_world": [
+            0.2129894,
+            0.4934953,
+            1.7648916
+          ],
+          "pelvis_world": [
+            -0.0101026,
+            0.0034739,
+            1.299749
+          ],
+          "left_hand_to_pelvis_m": 0.7155797796246294,
+          "right_hand_to_pelvis_m": 0.711511534770097,
+          "left_toe_world": [
+            -0.2966963,
+            0.1325936,
+            0.044968
+          ],
+          "right_toe_world": [
+            0.2945662,
+            0.1578785,
+            0.0356965
+          ],
+          "left_foot_world": [
+            -0.2405676,
+            -0.0909948,
+            0.2019156
+          ],
+          "right_foot_world": [
+            0.2317817,
+            -0.0923017,
+            0.1963711
+          ],
+          "mesh_ground_clearance_m": 1.4015638498676708e-06,
+          "branch_world_matrix": [
+            [
+              -1.410658359527588,
+              9.685754776000977e-07,
+              8.046627044677734e-07,
+              0.009003981947898865
+            ],
+            [
+              -7.450580596923828e-07,
+              -1.410658359527588,
+              -6.556510925292969e-07,
+              -0.012894034385681152
+            ],
+            [
+              5.662441253662109e-07,
+              -1.7285346984863281e-06,
+              1.410657286643982,
+              -0.010536611080169678
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "measured_hand_branch_contact": {
+            "left": {
+              "vertex_group": "mixamorig:LeftHandIndex1",
+              "distance_m": 3.7814908182554063e-07,
+              "branch_point_world": [
+                -0.3527662,
+                0.5900331,
+                1.8062624
+              ],
+              "hand_surface_point_world": [
+                -0.3527662,
+                0.590033,
+                1.8062627
+              ]
+            },
+            "right": {
+              "vertex_group": "mixamorig:RightHandThumb2",
+              "distance_m": 0.00034927946398966014,
+              "branch_point_world": [
+                0.1686423,
+                0.5821152,
+                1.8002752
+              ],
+              "hand_surface_point_world": [
+                0.1683004,
+                0.5820692,
+                1.8003299
+              ]
+            }
+          }
+        },
+        "8": {
+          "frame": 8,
+          "evaluated_vertices": 145187,
+          "evaluated_triangles": 104090,
+          "all_positions_finite": true,
+          "all_pose_matrices_finite": true,
+          "mapped_bone_local_transform_health": {
+            "mapped_bones": 52,
+            "max_nonhips_local_translation_m": 7.174454660981457e-07,
+            "max_mapped_scale_error_from_one": 8.821487426757812e-06,
+            "selected_bone_segments": {
+              "mixamorig:RightHandIndex2": {
+                "rest_length_m": 0.040887649664916814,
+                "evaluated_length_m": 0.0408875800141096,
+                "local_location": [
+                  -0.0,
+                  -0.0,
+                  2e-07
+                ],
+                "local_scale": [
+                  1.0000001,
+                  0.9999998,
+                  1.0000001
+                ]
+              },
+              "mixamorig:RightForeArm": {
+                "rest_length_m": 0.38361706410353924,
+                "evaluated_length_m": 0.38361702586662894,
+                "local_location": [
+                  2e-07,
+                  -1e-07,
+                  2e-07
+                ],
+                "local_scale": [
+                  1.0,
+                  0.9999999,
+                  0.9999995
+                ]
+              },
+              "mixamorig:Hips": {
+                "rest_length_m": 0.16357787025547424,
+                "evaluated_length_m": 0.1635778805136936,
+                "local_location": [
+                  -0.0,
+                  2e-07,
+                  0.0
+                ],
+                "local_scale": [
+                  1.0,
+                  0.9999999,
+                  1.0
+                ]
+              }
+            }
+          },
+          "world_bounds_min": [
+            -0.4184607,
+            -0.2607864,
+            1.4e-06
+          ],
+          "world_bounds_max": [
+            0.4078696,
+            0.8065754,
+            2.2893271
+          ],
+          "world_dimensions": [
+            0.8263302,
+            1.0673618,
+            2.2893257
+          ],
+          "minimum_triangle_area_m2": 1.3761182615954398e-07,
+          "degenerate_triangles_area_le_1e_minus_12_m2": 0,
+          "left_hand_world": [
+            -0.3385578,
+            0.4796234,
+            1.721001
+          ],
+          "right_hand_world": [
+            0.2249874,
+            0.4933132,
+            1.7647536
+          ],
+          "pelvis_world": [
+            -0.0101026,
+            0.0034739,
+            1.299749
+          ],
+          "left_hand_to_pelvis_m": 0.7155797796246294,
+          "right_hand_to_pelvis_m": 0.7151496915201905,
+          "left_toe_world": [
+            -0.2966963,
+            0.1325936,
+            0.044968
+          ],
+          "right_toe_world": [
+            0.2945662,
+            0.1578785,
+            0.0356965
+          ],
+          "left_foot_world": [
+            -0.2405676,
+            -0.0909948,
+            0.2019156
+          ],
+          "right_foot_world": [
+            0.2317817,
+            -0.0923017,
+            0.1963711
+          ],
+          "mesh_ground_clearance_m": 1.4015638498676708e-06,
+          "branch_world_matrix": [
+            [
+              -1.410658359527588,
+              9.685754776000977e-07,
+              8.046627044677734e-07,
+              0.009003981947898865
+            ],
+            [
+              -7.450580596923828e-07,
+              -1.410658359527588,
+              -6.556510925292969e-07,
+              -0.012894034385681152
+            ],
+            [
+              5.662441253662109e-07,
+              -1.7285346984863281e-06,
+              1.410657286643982,
+              -0.010536611080169678
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "measured_hand_branch_contact": {
+            "left": {
+              "vertex_group": "mixamorig:LeftHandIndex1",
+              "distance_m": 3.7814908182554063e-07,
+              "branch_point_world": [
+                -0.3527662,
+                0.5900331,
+                1.8062624
+              ],
+              "hand_surface_point_world": [
+                -0.3527662,
+                0.590033,
+                1.8062627
+              ]
+            },
+            "right": {
+              "vertex_group": "mixamorig:RightHandThumb2",
+              "distance_m": 2.4346800273633562e-05,
+              "branch_point_world": [
+                0.1772873,
+                0.582894,
+                1.7977149
+              ],
+              "hand_surface_point_world": [
+                0.1772991,
+                0.5829061,
+                1.7976974
+              ]
+            }
+          }
+        },
+        "15": {
+          "frame": 15,
+          "evaluated_vertices": 145187,
+          "evaluated_triangles": 104090,
+          "all_positions_finite": true,
+          "all_pose_matrices_finite": true,
+          "mapped_bone_local_transform_health": {
+            "mapped_bones": 52,
+            "max_nonhips_local_translation_m": 7.174454660981457e-07,
+            "max_mapped_scale_error_from_one": 8.821487426757812e-06,
+            "selected_bone_segments": {
+              "mixamorig:RightHandIndex2": {
+                "rest_length_m": 0.040887649664916814,
+                "evaluated_length_m": 0.04088757739490336,
+                "local_location": [
+                  -0.0,
+                  -0.0,
+                  2e-07
+                ],
+                "local_scale": [
+                  1.0000001,
+                  0.9999998,
+                  1.0000001
+                ]
+              },
+              "mixamorig:RightForeArm": {
+                "rest_length_m": 0.38361706410353924,
+                "evaluated_length_m": 0.3836170094793805,
+                "local_location": [
+                  2e-07,
+                  -1e-07,
+                  2e-07
+                ],
+                "local_scale": [
+                  1.0,
+                  0.9999999,
+                  0.9999995
+                ]
+              },
+              "mixamorig:Hips": {
+                "rest_length_m": 0.16357787025547424,
+                "evaluated_length_m": 0.1635778805136936,
+                "local_location": [
+                  -0.0,
+                  2e-07,
+                  0.0
+                ],
+                "local_scale": [
+                  1.0,
+                  0.9999999,
+                  1.0
+                ]
+              }
+            }
+          },
+          "world_bounds_min": [
+            -0.4184607,
+            -0.2607757,
+            1.4e-06
+          ],
+          "world_bounds_max": [
+            0.4078696,
+            0.8053793,
+            2.2907019
+          ],
+          "world_dimensions": [
+            0.8263302,
+            1.066155,
+            2.2907004
+          ],
+          "minimum_triangle_area_m2": 1.3739140613648364e-07,
+          "degenerate_triangles_area_le_1e_minus_12_m2": 0,
+          "left_hand_world": [
+            -0.3385578,
+            0.4796234,
+            1.721001
+          ],
+          "right_hand_world": [
+            0.2129896,
+            0.4934954,
+            1.7648914
+          ],
+          "pelvis_world": [
+            -0.0101026,
+            0.0034739,
+            1.299749
+          ],
+          "left_hand_to_pelvis_m": 0.7155797796246294,
+          "right_hand_to_pelvis_m": 0.7115115216807437,
+          "left_toe_world": [
+            -0.2966963,
+            0.1325936,
+            0.044968
+          ],
+          "right_toe_world": [
+            0.2945662,
+            0.1578785,
+            0.0356965
+          ],
+          "left_foot_world": [
+            -0.2405676,
+            -0.0909948,
+            0.2019156
+          ],
+          "right_foot_world": [
+            0.2317817,
+            -0.0923017,
+            0.1963711
+          ],
+          "mesh_ground_clearance_m": 1.4015638498676708e-06,
+          "branch_world_matrix": [
+            [
+              -1.410658359527588,
+              9.685754776000977e-07,
+              8.046627044677734e-07,
+              0.009003981947898865
+            ],
+            [
+              -7.450580596923828e-07,
+              -1.410658359527588,
+              -6.556510925292969e-07,
+              -0.012894034385681152
+            ],
+            [
+              5.662441253662109e-07,
+              -1.7285346984863281e-06,
+              1.410657286643982,
+              -0.010536611080169678
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "measured_hand_branch_contact": {
+            "left": {
+              "vertex_group": "mixamorig:LeftHandIndex1",
+              "distance_m": 3.7814908182554063e-07,
+              "branch_point_world": [
+                -0.3527662,
+                0.5900331,
+                1.8062624
+              ],
+              "hand_surface_point_world": [
+                -0.3527662,
+                0.590033,
+                1.8062627
+              ]
+            },
+            "right": {
+              "vertex_group": "mixamorig:RightHandThumb2",
+              "distance_m": 0.00034905929351225495,
+              "branch_point_world": [
+                0.1686423,
+                0.5821152,
+                1.8002752
+              ],
+              "hand_surface_point_world": [
+                0.1683006,
+                0.5820693,
+                1.8003297
+              ]
+            }
+          }
+        },
+        "22": {
+          "frame": 22,
+          "evaluated_vertices": 145187,
+          "evaluated_triangles": 104090,
+          "all_positions_finite": true,
+          "all_pose_matrices_finite": true,
+          "mapped_bone_local_transform_health": {
+            "mapped_bones": 52,
+            "max_nonhips_local_translation_m": 7.174454660981457e-07,
+            "max_mapped_scale_error_from_one": 8.821487426757812e-06,
+            "selected_bone_segments": {
+              "mixamorig:RightHandIndex2": {
+                "rest_length_m": 0.040887649664916814,
+                "evaluated_length_m": 0.04088761076057536,
+                "local_location": [
+                  -0.0,
+                  -0.0,
+                  2e-07
+                ],
+                "local_scale": [
+                  1.0000001,
+                  0.9999998,
+                  1.0000001
+                ]
+              },
+              "mixamorig:RightForeArm": {
+                "rest_length_m": 0.38361706410353924,
+                "evaluated_length_m": 0.38361702040421286,
+                "local_location": [
+                  2e-07,
+                  -1e-07,
+                  2e-07
+                ],
+                "local_scale": [
+                  1.0,
+                  0.9999999,
+                  0.9999995
+                ]
+              },
+              "mixamorig:Hips": {
+                "rest_length_m": 0.16357787025547424,
+                "evaluated_length_m": 0.1635778805136936,
+                "local_location": [
+                  -0.0,
+                  2e-07,
+                  0.0
+                ],
+                "local_scale": [
+                  1.0,
+                  0.9999999,
+                  1.0
+                ]
+              }
+            }
+          },
+          "world_bounds_min": [
+            -0.4184607,
+            -0.2607853,
+            1.4e-06
+          ],
+          "world_bounds_max": [
+            0.4078696,
+            0.8040768,
+            2.2894669
+          ],
+          "world_dimensions": [
+            0.8263302,
+            1.0648621,
+            2.2894654
+          ],
+          "minimum_triangle_area_m2": 1.3762292706044447e-07,
+          "degenerate_triangles_area_le_1e_minus_12_m2": 0,
+          "left_hand_world": [
+            -0.3385578,
+            0.4796234,
+            1.721001
+          ],
+          "right_hand_world": [
+            0.2009918,
+            0.4936776,
+            1.7650291
+          ],
+          "pelvis_world": [
+            -0.0101026,
+            0.0034739,
+            1.299749
+          ],
+          "left_hand_to_pelvis_m": 0.7155797796246294,
+          "right_hand_to_pelvis_m": 0.7080578884963195,
+          "left_toe_world": [
+            -0.2966963,
+            0.1325936,
+            0.044968
+          ],
+          "right_toe_world": [
+            0.2945662,
+            0.1578785,
+            0.0356965
+          ],
+          "left_foot_world": [
+            -0.2405676,
+            -0.0909948,
+            0.2019156
+          ],
+          "right_foot_world": [
+            0.2317817,
+            -0.0923017,
+            0.1963711
+          ],
+          "mesh_ground_clearance_m": 1.4015638498676708e-06,
+          "branch_world_matrix": [
+            [
+              -1.410658359527588,
+              9.685754776000977e-07,
+              8.046627044677734e-07,
+              0.009003981947898865
+            ],
+            [
+              -7.450580596923828e-07,
+              -1.410658359527588,
+              -6.556510925292969e-07,
+              -0.012894034385681152
+            ],
+            [
+              5.662441253662109e-07,
+              -1.7285346984863281e-06,
+              1.410657286643982,
+              -0.010536611080169678
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "measured_hand_branch_contact": {
+            "left": {
+              "vertex_group": "mixamorig:LeftHandIndex1",
+              "distance_m": 3.7814908182554063e-07,
+              "branch_point_world": [
+                -0.3527662,
+                0.5900331,
+                1.8062624
+              ],
+              "hand_surface_point_world": [
+                -0.3527662,
+                0.590033,
+                1.8062627
+              ]
+            },
+            "right": {
+              "vertex_group": "mixamorig:RightHandThumb2",
+              "distance_m": 0.00017716446018312126,
+              "branch_point_world": [
+                0.1309829,
+                0.5978996,
+                1.7726567
+              ],
+              "hand_surface_point_world": [
+                0.1309391,
+                0.5978509,
+                1.7724921
+              ]
+            }
+          }
+        },
+        "30": {
+          "frame": 30,
+          "evaluated_vertices": 145187,
+          "evaluated_triangles": 104090,
+          "all_positions_finite": true,
+          "all_pose_matrices_finite": true,
+          "mapped_bone_local_transform_health": {
+            "mapped_bones": 52,
+            "max_nonhips_local_translation_m": 7.174454660981457e-07,
+            "max_mapped_scale_error_from_one": 8.821487426757812e-06,
+            "selected_bone_segments": {
+              "mixamorig:RightHandIndex2": {
+                "rest_length_m": 0.040887649664916814,
+                "evaluated_length_m": 0.0408875679246085,
+                "local_location": [
+                  -0.0,
+                  -0.0,
+                  2e-07
+                ],
+                "local_scale": [
+                  1.0000001,
+                  0.9999998,
+                  1.0000001
+                ]
+              },
+              "mixamorig:RightForeArm": {
+                "rest_length_m": 0.38361706410353924,
+                "evaluated_length_m": 0.3836169263292572,
+                "local_location": [
+                  2e-07,
+                  -1e-07,
+                  2e-07
+                ],
+                "local_scale": [
+                  1.0,
+                  0.9999999,
+                  0.9999995
+                ]
+              },
+              "mixamorig:Hips": {
+                "rest_length_m": 0.16357787025547424,
+                "evaluated_length_m": 0.1635778805136936,
+                "local_location": [
+                  -0.0,
+                  2e-07,
+                  0.0
+                ],
+                "local_scale": [
+                  1.0,
+                  0.9999999,
+                  1.0
+                ]
+              }
+            }
+          },
+          "world_bounds_min": [
+            -0.4184607,
+            -0.2607969,
+            1.4e-06
+          ],
+          "world_bounds_max": [
+            0.4078696,
+            0.8053792,
+            2.2879686
+          ],
+          "world_dimensions": [
+            0.8263302,
+            1.0661761,
+            2.2879672
+          ],
+          "minimum_triangle_area_m2": 1.3763491404309927e-07,
+          "degenerate_triangles_area_le_1e_minus_12_m2": 0,
+          "left_hand_world": [
+            -0.3385578,
+            0.4796234,
+            1.721001
+          ],
+          "right_hand_world": [
+            0.2129894,
+            0.4934953,
+            1.7648916
+          ],
+          "pelvis_world": [
+            -0.0101026,
+            0.0034739,
+            1.299749
+          ],
+          "left_hand_to_pelvis_m": 0.7155797796246294,
+          "right_hand_to_pelvis_m": 0.711511534770097,
+          "left_toe_world": [
+            -0.2966963,
+            0.1325936,
+            0.044968
+          ],
+          "right_toe_world": [
+            0.2945662,
+            0.1578785,
+            0.0356965
+          ],
+          "left_foot_world": [
+            -0.2405676,
+            -0.0909948,
+            0.2019156
+          ],
+          "right_foot_world": [
+            0.2317817,
+            -0.0923017,
+            0.1963711
+          ],
+          "mesh_ground_clearance_m": 1.4015638498676708e-06,
+          "branch_world_matrix": [
+            [
+              -1.410658359527588,
+              9.685754776000977e-07,
+              8.046627044677734e-07,
+              0.009003981947898865
+            ],
+            [
+              -7.450580596923828e-07,
+              -1.410658359527588,
+              -6.556510925292969e-07,
+              -0.012894034385681152
+            ],
+            [
+              5.662441253662109e-07,
+              -1.7285346984863281e-06,
+              1.410657286643982,
+              -0.010536611080169678
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          ],
+          "measured_hand_branch_contact": {
+            "left": {
+              "vertex_group": "mixamorig:LeftHandIndex1",
+              "distance_m": 3.7814908182554063e-07,
+              "branch_point_world": [
+                -0.3527662,
+                0.5900331,
+                1.8062624
+              ],
+              "hand_surface_point_world": [
+                -0.3527662,
+                0.590033,
+                1.8062627
+              ]
+            },
+            "right": {
+              "vertex_group": "mixamorig:RightHandThumb2",
+              "distance_m": 0.00034927946398966014,
+              "branch_point_world": [
+                0.1686423,
+                0.5821152,
+                1.8002752
+              ],
+              "hand_surface_point_world": [
+                0.1683004,
+                0.5820692,
+                1.8003299
+              ]
+            }
+          }
+        }
+      },
+      "rendered_views": {
+        "work-full.png": {
+          "path": "views_web_mixamo/work-full.png",
+          "sha256": "fb8f8282974a9969e27457f2e4a973a6ff040de64e9a34e19b1670de2e57e8b5",
+          "clip": "work",
+          "frame": 15,
+          "evaluated_mesh": {
+            "frame": 15,
+            "evaluated_vertices": 145187,
+            "evaluated_triangles": 104090,
+            "all_positions_finite": true,
+            "all_pose_matrices_finite": true,
+            "mapped_bone_local_transform_health": {
+              "mapped_bones": 52,
+              "max_nonhips_local_translation_m": 7.174454660981457e-07,
+              "max_mapped_scale_error_from_one": 8.821487426757812e-06,
+              "selected_bone_segments": {
+                "mixamorig:RightHandIndex2": {
+                  "rest_length_m": 0.040887649664916814,
+                  "evaluated_length_m": 0.04088757739490336,
+                  "local_location": [
+                    -0.0,
+                    -0.0,
+                    2e-07
+                  ],
+                  "local_scale": [
+                    1.0000001,
+                    0.9999998,
+                    1.0000001
+                  ]
+                },
+                "mixamorig:RightForeArm": {
+                  "rest_length_m": 0.38361706410353924,
+                  "evaluated_length_m": 0.3836170094793805,
+                  "local_location": [
+                    2e-07,
+                    -1e-07,
+                    2e-07
+                  ],
+                  "local_scale": [
+                    1.0,
+                    0.9999999,
+                    0.9999995
+                  ]
+                },
+                "mixamorig:Hips": {
+                  "rest_length_m": 0.16357787025547424,
+                  "evaluated_length_m": 0.1635778805136936,
+                  "local_location": [
+                    -0.0,
+                    2e-07,
+                    0.0
+                  ],
+                  "local_scale": [
+                    1.0,
+                    0.9999999,
+                    1.0
+                  ]
+                }
+              }
+            },
+            "world_bounds_min": [
+              -0.4184607,
+              -0.2607757,
+              1.4e-06
+            ],
+            "world_bounds_max": [
+              0.4078696,
+              0.8053793,
+              2.2907019
+            ],
+            "world_dimensions": [
+              0.8263302,
+              1.066155,
+              2.2907004
+            ],
+            "minimum_triangle_area_m2": 1.3739140613648364e-07,
+            "degenerate_triangles_area_le_1e_minus_12_m2": 0,
+            "left_hand_world": [
+              -0.3385578,
+              0.4796234,
+              1.721001
+            ],
+            "right_hand_world": [
+              0.2129896,
+              0.4934954,
+              1.7648914
+            ],
+            "pelvis_world": [
+              -0.0101026,
+              0.0034739,
+              1.299749
+            ],
+            "left_hand_to_pelvis_m": 0.7155797796246294,
+            "right_hand_to_pelvis_m": 0.7115115216807437,
+            "left_toe_world": [
+              -0.2966963,
+              0.1325936,
+              0.044968
+            ],
+            "right_toe_world": [
+              0.2945662,
+              0.1578785,
+              0.0356965
+            ],
+            "left_foot_world": [
+              -0.2405676,
+              -0.0909948,
+              0.2019156
+            ],
+            "right_foot_world": [
+              0.2317817,
+              -0.0923017,
+              0.1963711
+            ],
+            "mesh_ground_clearance_m": 1.4015638498676708e-06,
+            "branch_world_matrix": [
+              [
+                -1.410658359527588,
+                9.685754776000977e-07,
+                8.046627044677734e-07,
+                0.009003981947898865
+              ],
+              [
+                -7.450580596923828e-07,
+                -1.410658359527588,
+                -6.556510925292969e-07,
+                -0.012894034385681152
+              ],
+              [
+                5.662441253662109e-07,
+                -1.7285346984863281e-06,
+                1.410657286643982,
+                -0.010536611080169678
+              ],
+              [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ]
+            ],
+            "measured_hand_branch_contact": {
+              "left": {
+                "vertex_group": "mixamorig:LeftHandIndex1",
+                "distance_m": 3.7814908182554063e-07,
+                "branch_point_world": [
+                  -0.3527662,
+                  0.5900331,
+                  1.8062624
+                ],
+                "hand_surface_point_world": [
+                  -0.3527662,
+                  0.590033,
+                  1.8062627
+                ]
+              },
+              "right": {
+                "vertex_group": "mixamorig:RightHandThumb2",
+                "distance_m": 0.00034905929351225495,
+                "branch_point_world": [
+                  0.1686423,
+                  0.5821152,
+                  1.8002752
+                ],
+                "hand_surface_point_world": [
+                  0.1683006,
+                  0.5820693,
+                  1.8003297
+                ]
+              }
+            }
+          }
+        },
+        "noticed-full.png": {
+          "path": "views_web_mixamo/noticed-full.png",
+          "sha256": "d351b2a5d8eda58e88a5f1607e54eb9523941e3f46d11f32536831826553246c",
+          "clip": "noticed",
+          "frame": 18,
+          "evaluated_mesh": {
+            "frame": 18,
+            "evaluated_vertices": 145187,
+            "evaluated_triangles": 104090,
+            "all_positions_finite": true,
+            "all_pose_matrices_finite": true,
+            "mapped_bone_local_transform_health": {
+              "mapped_bones": 52,
+              "max_nonhips_local_translation_m": 6.551970568502172e-07,
+              "max_mapped_scale_error_from_one": 8.821487426757812e-06,
+              "selected_bone_segments": {
+                "mixamorig:RightHandIndex2": {
+                  "rest_length_m": 0.040887649664916814,
+                  "evaluated_length_m": 0.0408875679246085,
+                  "local_location": [
+                    -0.0,
+                    -0.0,
+                    2e-07
+                  ],
+                  "local_scale": [
+                    1.0000001,
+                    0.9999998,
+                    1.0000001
+                  ]
+                },
+                "mixamorig:RightForeArm": {
+                  "rest_length_m": 0.38361706410353924,
+                  "evaluated_length_m": 0.3836169263292572,
+                  "local_location": [
+                    2e-07,
+                    -1e-07,
+                    2e-07
+                  ],
+                  "local_scale": [
+                    1.0,
+                    0.9999999,
+                    0.9999995
+                  ]
+                },
+                "mixamorig:Hips": {
+                  "rest_length_m": 0.16357787025547424,
+                  "evaluated_length_m": 0.1635778805136936,
+                  "local_location": [
+                    -0.0,
+                    2e-07,
+                    0.0
+                  ],
+                  "local_scale": [
+                    1.0,
+                    0.9999999,
+                    1.0
+                  ]
+                }
+              }
+            },
+            "world_bounds_min": [
+              -0.4184607,
+              -0.2607473,
+              1.4e-06
+            ],
+            "world_bounds_max": [
+              0.4078696,
+              0.8053792,
+              2.2962141
+            ],
+            "world_dimensions": [
+              0.8263302,
+              1.0661265,
+              2.2962127
+            ],
+            "minimum_triangle_area_m2": 1.3772927906226622e-07,
+            "degenerate_triangles_area_le_1e_minus_12_m2": 0,
+            "left_hand_world": [
+              -0.3385578,
+              0.4796234,
+              1.721001
+            ],
+            "right_hand_world": [
+              0.2129894,
+              0.4934953,
+              1.7648916
+            ],
+            "pelvis_world": [
+              -0.0101026,
+              0.0034739,
+              1.299749
+            ],
+            "left_hand_to_pelvis_m": 0.7155797796246294,
+            "right_hand_to_pelvis_m": 0.711511534770097,
+            "left_toe_world": [
+              -0.2966963,
+              0.1325936,
+              0.044968
+            ],
+            "right_toe_world": [
+              0.2945662,
+              0.1578785,
+              0.0356965
+            ],
+            "left_foot_world": [
+              -0.2405676,
+              -0.0909948,
+              0.2019156
+            ],
+            "right_foot_world": [
+              0.2317817,
+              -0.0923017,
+              0.1963711
+            ],
+            "mesh_ground_clearance_m": 1.4015638498676708e-06,
+            "branch_world_matrix": [
+              [
+                -1.410658359527588,
+                9.685754776000977e-07,
+                8.046627044677734e-07,
+                0.009003981947898865
+              ],
+              [
+                -7.450580596923828e-07,
+                -1.410658359527588,
+                -6.556510925292969e-07,
+                -0.012894034385681152
+              ],
+              [
+                5.662441253662109e-07,
+                -1.7285346984863281e-06,
+                1.410657286643982,
+                -0.010536611080169678
+              ],
+              [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ]
+            ],
+            "measured_hand_branch_contact": {
+              "left": {
+                "vertex_group": "mixamorig:LeftHandIndex1",
+                "distance_m": 3.7814908182554063e-07,
+                "branch_point_world": [
+                  -0.3527662,
+                  0.5900331,
+                  1.8062624
+                ],
+                "hand_surface_point_world": [
+                  -0.3527662,
+                  0.590033,
+                  1.8062627
+                ]
+              },
+              "right": {
+                "vertex_group": "mixamorig:RightHandThumb2",
+                "distance_m": 0.00034927946398966014,
+                "branch_point_world": [
+                  0.1686423,
+                  0.5821152,
+                  1.8002752
+                ],
+                "hand_surface_point_world": [
+                  0.1683004,
+                  0.5820692,
+                  1.8003299
+                ]
+              }
+            }
+          }
+        },
+        "gesture-full.png": {
+          "path": "views_web_mixamo/gesture-full.png",
+          "sha256": "d77b17023e985443015ff8c59b4ab131e8d69e28da5c7a928a07e829b34a589b",
+          "clip": "gesture",
+          "frame": 15,
+          "evaluated_mesh": {
+            "frame": 15,
+            "evaluated_vertices": 145187,
+            "evaluated_triangles": 104090,
+            "all_positions_finite": true,
+            "all_pose_matrices_finite": true,
+            "mapped_bone_local_transform_health": {
+              "mapped_bones": 52,
+              "max_nonhips_local_translation_m": 6.267024198600977e-07,
+              "max_mapped_scale_error_from_one": 8.821487426757812e-06,
+              "selected_bone_segments": {
+                "mixamorig:RightHandIndex2": {
+                  "rest_length_m": 0.040887649664916814,
+                  "evaluated_length_m": 0.040887576633053535,
+                  "local_location": [
+                    0.0,
+                    1e-07,
+                    0.0
+                  ],
+                  "local_scale": [
+                    1.0,
+                    0.9999998,
+                    1.0
+                  ]
+                },
+                "mixamorig:RightForeArm": {
+                  "rest_length_m": 0.38361706410353924,
+                  "evaluated_length_m": 0.3836169439303797,
+                  "local_location": [
+                    3e-07,
+                    -1e-07,
+                    1e-07
+                  ],
+                  "local_scale": [
+                    1.0,
+                    0.9999999,
+                    0.9999996
+                  ]
+                },
+                "mixamorig:Hips": {
+                  "rest_length_m": 0.16357787025547424,
+                  "evaluated_length_m": 0.1635778805136936,
+                  "local_location": [
+                    -0.0,
+                    2e-07,
+                    0.0
+                  ],
+                  "local_scale": [
+                    1.0,
+                    0.9999999,
+                    1.0
+                  ]
+                }
+              }
+            },
+            "world_bounds_min": [
+              -0.4184607,
+              -0.2608173,
+              1.4e-06
+            ],
+            "world_bounds_max": [
+              0.5123081,
+              0.743506,
+              2.2856147
+            ],
+            "world_dimensions": [
+              0.9307687,
+              1.0043232,
+              2.2856133
+            ],
+            "minimum_triangle_area_m2": 1.3785057637704605e-07,
+            "degenerate_triangles_area_le_1e_minus_12_m2": 0,
+            "left_hand_world": [
+              -0.3385578,
+              0.4796234,
+              1.721001
+            ],
+            "right_hand_world": [
+              0.276651,
+              0.4962073,
+              1.651914
+            ],
+            "pelvis_world": [
+              -0.0101026,
+              0.0034739,
+              1.299749
+            ],
+            "left_hand_to_pelvis_m": 0.7155797796246294,
+            "right_hand_to_pelvis_m": 0.670100002129607,
+            "left_toe_world": [
+              -0.2966963,
+              0.1325936,
+              0.044968
+            ],
+            "right_toe_world": [
+              0.2945662,
+              0.1578785,
+              0.0356965
+            ],
+            "left_foot_world": [
+              -0.2405676,
+              -0.0909948,
+              0.2019156
+            ],
+            "right_foot_world": [
+              0.2317817,
+              -0.0923017,
+              0.1963711
+            ],
+            "mesh_ground_clearance_m": 1.4015638498676708e-06,
+            "branch_world_matrix": [
+              [
+                -1.410658359527588,
+                9.685754776000977e-07,
+                8.046627044677734e-07,
+                0.009003981947898865
+              ],
+              [
+                -7.450580596923828e-07,
+                -1.410658359527588,
+                -6.556510925292969e-07,
+                -0.012894034385681152
+              ],
+              [
+                5.662441253662109e-07,
+                -1.7285346984863281e-06,
+                1.410657286643982,
+                -0.010536611080169678
+              ],
+              [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ]
+            ],
+            "measured_hand_branch_contact": {
+              "left": {
+                "vertex_group": "mixamorig:LeftHandIndex1",
+                "distance_m": 3.7814908182554063e-07,
+                "branch_point_world": [
+                  -0.3527662,
+                  0.5900331,
+                  1.8062624
+                ],
+                "hand_surface_point_world": [
+                  -0.3527662,
+                  0.590033,
+                  1.8062627
+                ]
+              },
+              "right": {
+                "vertex_group": "mixamorig:RightHandThumb2",
+                "distance_m": 0.16394880414009094,
+                "branch_point_world": [
+                  0.2591237,
+                  0.583924,
+                  1.7799784
+                ],
+                "hand_surface_point_world": [
+                  0.291545,
+                  0.5694725,
+                  1.6199183
+                ]
+              }
+            }
+          }
+        },
+        "step-full.png": {
+          "path": "views_web_mixamo/step-full.png",
+          "sha256": "3c361095f4b33ecf2067f3680d9ed50f1f502673baa50a0cada479654184137f",
+          "clip": "step",
+          "frame": 17,
+          "evaluated_mesh": {
+            "frame": 17,
+            "evaluated_vertices": 145187,
+            "evaluated_triangles": 104090,
+            "all_positions_finite": true,
+            "all_pose_matrices_finite": true,
+            "mapped_bone_local_transform_health": {
+              "mapped_bones": 52,
+              "max_nonhips_local_translation_m": 7.174454660981457e-07,
+              "max_mapped_scale_error_from_one": 8.821487426757812e-06,
+              "selected_bone_segments": {
+                "mixamorig:RightHandIndex2": {
+                  "rest_length_m": 0.040887649664916814,
+                  "evaluated_length_m": 0.0408875679246085,
+                  "local_location": [
+                    -0.0,
+                    -0.0,
+                    2e-07
+                  ],
+                  "local_scale": [
+                    1.0000001,
+                    0.9999998,
+                    1.0000001
+                  ]
+                },
+                "mixamorig:RightForeArm": {
+                  "rest_length_m": 0.38361706410353924,
+                  "evaluated_length_m": 0.3836169263292572,
+                  "local_location": [
+                    2e-07,
+                    -1e-07,
+                    2e-07
+                  ],
+                  "local_scale": [
+                    1.0,
+                    0.9999999,
+                    0.9999995
+                  ]
+                },
+                "mixamorig:Hips": {
+                  "rest_length_m": 0.16357787025547424,
+                  "evaluated_length_m": 0.1635778805136936,
+                  "local_location": [
+                    -0.0,
+                    2e-07,
+                    0.0
+                  ],
+                  "local_scale": [
+                    1.0,
+                    0.9999999,
+                    1.0
+                  ]
+                }
+              }
+            },
+            "world_bounds_min": [
+              -0.4184607,
+              -0.2607969,
+              1.6e-06
+            ],
+            "world_bounds_max": [
+              0.405142,
+              0.8053792,
+              2.2879686
+            ],
+            "world_dimensions": [
+              0.8236027,
+              1.0661761,
+              2.287967
+            ],
+            "minimum_triangle_area_m2": 1.3763491404309927e-07,
+            "degenerate_triangles_area_le_1e_minus_12_m2": 0,
+            "left_hand_world": [
+              -0.3385578,
+              0.4796234,
+              1.721001
+            ],
+            "right_hand_world": [
+              0.2129894,
+              0.4934953,
+              1.7648916
+            ],
+            "pelvis_world": [
+              -0.0101026,
+              0.0034739,
+              1.299749
+            ],
+            "left_hand_to_pelvis_m": 0.7155797796246294,
+            "right_hand_to_pelvis_m": 0.711511534770097,
+            "left_toe_world": [
+              -0.2967116,
+              0.1326048,
+              0.0449681
+            ],
+            "right_toe_world": [
+              0.2918387,
+              0.2203315,
+              0.0703202
+            ],
+            "left_foot_world": [
+              -0.2405817,
+              -0.0909837,
+              0.2019152
+            ],
+            "right_foot_world": [
+              0.2290529,
+              -0.029849,
+              0.2309942
+            ],
+            "mesh_ground_clearance_m": 1.6407434486609418e-06,
+            "branch_world_matrix": [
+              [
+                -1.410658359527588,
+                9.685754776000977e-07,
+                8.046627044677734e-07,
+                0.009003981947898865
+              ],
+              [
+                -7.450580596923828e-07,
+                -1.410658359527588,
+                -6.556510925292969e-07,
+                -0.012894034385681152
+              ],
+              [
+                5.662441253662109e-07,
+                -1.7285346984863281e-06,
+                1.410657286643982,
+                -0.010536611080169678
+              ],
+              [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ]
+            ],
+            "measured_hand_branch_contact": {
+              "left": {
+                "vertex_group": "mixamorig:LeftHandIndex1",
+                "distance_m": 3.7814908182554063e-07,
+                "branch_point_world": [
+                  -0.3527662,
+                  0.5900331,
+                  1.8062624
+                ],
+                "hand_surface_point_world": [
+                  -0.3527662,
+                  0.590033,
+                  1.8062627
+                ]
+              },
+              "right": {
+                "vertex_group": "mixamorig:RightHandThumb2",
+                "distance_m": 0.00034927946398966014,
+                "branch_point_world": [
+                  0.1686423,
+                  0.5821152,
+                  1.8002752
+                ],
+                "hand_surface_point_world": [
+                  0.1683004,
+                  0.5820692,
+                  1.8003299
+                ]
+              }
+            }
+          }
+        },
+        "idle-full.png": {
+          "path": "views_web_mixamo/idle-full.png",
+          "sha256": "9b9a20c358bd96e8ef421cc7f6daa3071e3c7ad86a0245c3d9ea7c621746e64e",
+          "clip": "idle",
+          "frame": 17,
+          "evaluated_mesh": {
+            "frame": 17,
+            "evaluated_vertices": 145187,
+            "evaluated_triangles": 104090,
+            "all_positions_finite": true,
+            "all_pose_matrices_finite": true,
+            "mapped_bone_local_transform_health": {
+              "mapped_bones": 52,
+              "max_nonhips_local_translation_m": 7.174454660981457e-07,
+              "max_mapped_scale_error_from_one": 8.821487426757812e-06,
+              "selected_bone_segments": {
+                "mixamorig:RightHandIndex2": {
+                  "rest_length_m": 0.040887649664916814,
+                  "evaluated_length_m": 0.0408875679246085,
+                  "local_location": [
+                    -0.0,
+                    -0.0,
+                    2e-07
+                  ],
+                  "local_scale": [
+                    1.0000001,
+                    0.9999998,
+                    1.0000001
+                  ]
+                },
+                "mixamorig:RightForeArm": {
+                  "rest_length_m": 0.38361706410353924,
+                  "evaluated_length_m": 0.3836169263292572,
+                  "local_location": [
+                    2e-07,
+                    -1e-07,
+                    2e-07
+                  ],
+                  "local_scale": [
+                    1.0,
+                    0.9999999,
+                    0.9999995
+                  ]
+                },
+                "mixamorig:Hips": {
+                  "rest_length_m": 0.16357787025547424,
+                  "evaluated_length_m": 0.1635778805136936,
+                  "local_location": [
+                    -0.0,
+                    2e-07,
+                    0.0
+                  ],
+                  "local_scale": [
+                    1.0,
+                    0.9999999,
+                    1.0
+                  ]
+                }
+              }
+            },
+            "world_bounds_min": [
+              -0.4184607,
+              -0.2607969,
+              1.4e-06
+            ],
+            "world_bounds_max": [
+              0.4078696,
+              0.8053792,
+              2.2879686
+            ],
+            "world_dimensions": [
+              0.8263302,
+              1.0661761,
+              2.2879672
+            ],
+            "minimum_triangle_area_m2": 1.3763491404309927e-07,
+            "degenerate_triangles_area_le_1e_minus_12_m2": 0,
+            "left_hand_world": [
+              -0.3385578,
+              0.4796234,
+              1.721001
+            ],
+            "right_hand_world": [
+              0.2129894,
+              0.4934953,
+              1.7648916
+            ],
+            "pelvis_world": [
+              -0.0101026,
+              0.0034739,
+              1.299749
+            ],
+            "left_hand_to_pelvis_m": 0.7155797796246294,
+            "right_hand_to_pelvis_m": 0.711511534770097,
+            "left_toe_world": [
+              -0.2966963,
+              0.1325936,
+              0.044968
+            ],
+            "right_toe_world": [
+              0.2945662,
+              0.1578785,
+              0.0356965
+            ],
+            "left_foot_world": [
+              -0.2405676,
+              -0.0909948,
+              0.2019156
+            ],
+            "right_foot_world": [
+              0.2317817,
+              -0.0923017,
+              0.1963711
+            ],
+            "mesh_ground_clearance_m": 1.4015638498676708e-06,
+            "branch_world_matrix": [
+              [
+                -1.410658359527588,
+                9.685754776000977e-07,
+                8.046627044677734e-07,
+                0.009003981947898865
+              ],
+              [
+                -7.450580596923828e-07,
+                -1.410658359527588,
+                -6.556510925292969e-07,
+                -0.012894034385681152
+              ],
+              [
+                5.662441253662109e-07,
+                -1.7285346984863281e-06,
+                1.410657286643982,
+                -0.010536611080169678
+              ],
+              [
+                0.0,
+                0.0,
+                0.0,
+                1.0
+              ]
+            ],
+            "measured_hand_branch_contact": {
+              "left": {
+                "vertex_group": "mixamorig:LeftHandIndex1",
+                "distance_m": 3.7814908182554063e-07,
+                "branch_point_world": [
+                  -0.3527662,
+                  0.5900331,
+                  1.8062624
+                ],
+                "hand_surface_point_world": [
+                  -0.3527662,
+                  0.590033,
+                  1.8062627
+                ]
+              },
+              "right": {
+                "vertex_group": "mixamorig:RightHandThumb2",
+                "distance_m": 0.00034927946398966014,
+                "branch_point_world": [
+                  0.1686423,
+                  0.5821152,
+                  1.8002752
+                ],
+                "hand_surface_point_world": [
+                  0.1683004,
+                  0.5820692,
+                  1.8003299
+                ]
+              }
+            }
+          }
+        },
+        "work-hands.png": {
+          "path": "views_web_mixamo/work-hands.png",
+          "sha256": "8c725fa3e97e29f003152808eae934358e6e9f5d5b4a6233ac5139301378f26b",
+          "clip": "work",
+          "frame": 15,
+          "target": "both hands, pelvis, and attached work branch"
+        },
+        "noticed-face-pbr.png": {
+          "path": "views_web_mixamo/noticed-face-pbr.png",
+          "sha256": "d10fdcb5d302c34ed4669876f9cfd192d1b31964fea3a2b7900f34eb83b9919a",
+          "clip": "noticed",
+          "frame": 18,
+          "pbr": true,
+          "target": "head, face, eyes, and forehead"
+        }
+      },
+      "rendered_actor": {
+        "armature": "ShuraleRig",
+        "bone_count": 66,
+        "mesh_objects": [
+          "Icosphere",
+          "ShuraleBody_LOD0",
+          "ShuraleBody_LOD1",
+          "ShuraleWorkBranch"
+        ],
+        "branch_parent_type": "BONE",
+        "branch_parent_bone": "mixamorig:LeftHand"
+      },
+      "material_mode": "Source PBR materials retained; no clay override."
+    },
+    "limitations": [
+      "The output is a source candidate only; it has not been installed into the game or reviewed in the native runtime.",
+      "The Meshy model's face, surface, proportions, material fit, and overall horror art remain unaccepted.",
+      "The target skeleton retains all 66 Meshy bones; 52 canonical bones are explicitly mapped, while its 14 extra helper/end-segment bones remain on their own rest transforms.",
+      "Both hand-surface contacts are measured against the imported Meshy LOD0 skin and branch mesh; root visual review is still required for grip readability, stroke, and clip transitions."
+    ]
+  },
+  "retarget_implementation_reuse": {
+    "source_path": "assets/source/blender/photoworlds/W01/shurale_meshy_v3/runtime-motion/retarget_meshy_v3_motion.py",
+    "source_sha256": "7361b8f37010da55d1858d065e2fb0331d14842e37f90d9190081592fbdce353",
+    "input_sha256_pin": "e30e979a3dbc3bc0130a8f07ffcebf1349ef0a1d84f430ae2b7944137f5cb864",
+    "adaptation": "Imported the pinned v3 implementation without invoking its entry point, redirected input/output paths, and reused its retarget, LOD, branch, and review steps. The v4 review keeps source PBR materials and adds a noticed close-face render."
+  },
+  "incoming_walk_preflight": {
+    "input_sha256": "e30e979a3dbc3bc0130a8f07ffcebf1349ef0a1d84f430ae2b7944137f5cb864",
+    "animations": {
+      "Walking": [
+        0,
+        25
+      ],
+      "Running": [
+        0,
+        16
+      ]
+    },
+    "inspected_walking_frames": [
+      {
+        "frame": 1,
+        "bounds_min_m": [
+          -0.46355,
+          -0.40168,
+          -0.00293
+        ],
+        "bounds_max_m": [
+          0.44297,
+          0.27808,
+          2.3809
+        ],
+        "path": "assets/source/blender/photoworlds/W01/shurale_meshy_v4/runtime-motion/web_mixamo_walk_review/walking-raw-frame01-pbr.png",
+        "sha256": "57e7a16e8d4d6359f2c3b8f4fd8d4b5f33f06aa0b3307e0255b786e4a2766c82"
+      },
+      {
+        "frame": 13,
+        "bounds_min_m": [
+          -0.46448,
+          -0.40313,
+          0.02846
+        ],
+        "bounds_max_m": [
+          0.42717,
+          0.21952,
+          2.37011
+        ],
+        "path": "assets/source/blender/photoworlds/W01/shurale_meshy_v4/runtime-motion/web_mixamo_walk_review/walking-raw-frame13-pbr.png",
+        "sha256": "7402d38e2af27f5ecd993ab172e90738d0ce0158ae940d845f91bc0eafb3fddc"
+      },
+      {
+        "frame": 25,
+        "bounds_min_m": [
+          -0.46638,
+          -0.405,
+          -0.0085
+        ],
+        "bounds_max_m": [
+          0.45765,
+          0.29556,
+          2.37187
+        ],
+        "path": "assets/source/blender/photoworlds/W01/shurale_meshy_v4/runtime-motion/web_mixamo_walk_review/walking-raw-frame25-pbr.png",
+        "sha256": "1e647b3207d455bd9ba732f338fdf56d5a9ab1b84c105ac2cdfdc19f9e84ed59"
+      }
+    ],
+    "visual_finding": "The raw 66-joint rig shows ordinary weight transfer and limb articulation across the inspected walk phases without gross skin collapse. The raw review camera sees its back; the existing retarget alignment rotates the target rig 180 degrees to match the canonical actor orientation."
+  },
+  "root_visual_review_2026_10_19": {
+    "views": [
+      "views_web_mixamo/work-full.png",
+      "views_web_mixamo/work-hands.png",
+      "views_web_mixamo/noticed-full.png",
+      "views_web_mixamo/gesture-full.png",
+      "views_web_mixamo/noticed-face-pbr.png"
+    ],
+    "result": "Root personally inspected all five views. Focused face and continuous neck/clavicle retained; arms no longer fold across torso as in core24. Fingers visibly wrap branch in work, gesture releases one hand. Accepted as source engineering for native import/preview; no final author art or runtime movement acceptance."
+  },
+  "runtime_2k_sibling": {
+    "path": "assets/source/blender/photoworlds/W01/shurale_meshy_v4/runtime-motion/shurale_meshy_v4_web_mixamo_motion_candidate_2k.glb",
+    "bytes": 30761216,
+    "sha256": "653f1692f3337d0b1af634c6b3751b6fcf9bb486bd0804224f114d6c65b9f032",
+    "change": "Only embedded base/normal/metallic-roughness PNGs resized4096 to2048. Mesh/skin/node/animation/accessor/material/texture JSON sections unchanged; nonimagebufferViews byte-identical.",
+    "nonimage_buffer_views_aggregate_sha256": "49862f1f39f6c9b3dd7e0c5d27eead0eb588c6de1185ba24774dc547cb578dfa",
+    "blender_reimport": "4.5.12LTS,66bones,7clips,104090LOD0tri,scale1,grounded finite mesh. LOD1 source export warning remains; native import unverified.",
+    "root_review": "Personally viewed actual2KfacePBR: focused face/neck retained, lower texture detail is acceptable for native candidate.",
+    "frame": {
+      "path": "assets/source/blender/photoworlds/W01/shurale_meshy_v4/runtime-motion/views_web_mixamo_2k/noticed-face-pbr-2k.png",
+      "sha256": "1fef006cb648a664675b9dda46283456e93a660145e2e2c69d225b0ac7057966"
+    }
+  },
+  "runtime_installation": {
+    "path": "game/assets/photoworlds/shurale/shurale_v1.glb",
+    "sha256": "653f1692f3337d0b1af634c6b3751b6fcf9bb486bd0804224f114d6c65b9f032",
+    "previous_sha256": "e4476b0e636f2e984bd436bbd878fe004b61cf451c5e0dc9c55942cfa846f191",
+    "state": "Engineering runtime revision installed; protected Windows build/import PASS. Ordinary native W01 motion and final author art remain open.",
+    "source": "runtime_2k_sibling",
+    "root_reason": "Actual source work/grip/gesture/face is a visible improvement over rejected prior face; exact existing actor node/LOD/7clip contract preserved, no parallel actor loader. Godot Mixamo bone names corrected to importer-sanitized underscores.",
+    "rooted_shoot_correspondence": {
+      "method": "Independent read-only pinned Blender4.5.12 import old canonical SHAe4476b0e and new2K SHA653f1692, work frame15; transform branch surfaces through actual F14/ShuraleRoot markers.",
+      "fixed_f14_endpoint_godot_m": [
+        2.304120779,
+        1.779515743,
+        0.402982324
+      ],
+      "old_surface_gap_m": 2.5e-08,
+      "new_surface_gap_m": 7.0621e-05,
+      "old_to_new_surface_delta_m": 7.0621e-05,
+      "branch_dimensions_delta_m_max": 1e-06,
+      "result": "Fixed rooted shoot and moving work branch remain connected within sub-millimeter export rounding; no geometry/placement correction required. Native visual gate still open."
+    },
+    "native_import": {
+      "job_id": "fdc5f5ef62fc4554ad107b9d9bef31ef",
+      "snapshot_id": "3463025e136b455907e0b9269b82580a867b12b6438a81985877db2c17179819",
+      "receipt": "evidence/ACT1-DEPTH.12/native_uv_v3_fdc5f5ef62fc4554ad107b9d9bef31ef/receipt.json",
+      "import_log": "evidence/ACT1-DEPTH.12/native_uv_v3_fdc5f5ef62fc4554ad107b9d9bef31ef/import.log",
+      "build": "33.66s,0warnings/errors",
+      "import": "shurale_v1.glb imported, importExit0,engine-errors.log empty",
+      "game_exit_code": 0,
+      "userdata_restored": true,
+      "limitation": "House static capture; does not instantiate/play W01 encounter or establish gait/LOD/art performance."
+    }
+  }
+}

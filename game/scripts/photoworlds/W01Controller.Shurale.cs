@@ -79,11 +79,11 @@ public partial class W01Controller
 
         var skeleton = _shuraleLod0.GetNodeOrNull<Skeleton3D>(_shuraleLod0.Skeleton)
             ?? throw new InvalidOperationException("W01 Shurale LOD0 is missing its imported Skeleton3D.");
-        // The v6 source rig uses head/neck_01; the approved Meshy source uses Mixamo names.
-        var headBone = FindShuraleBone(skeleton, "head", "mixamorig:Head");
-        var neckBone = FindShuraleBone(skeleton, "neck_01", "mixamorig:Neck");
+        // Godot replaces glTF bone-name colons with underscores during import.
+        var headBone = FindShuraleBone(skeleton, "head", "mixamorig_Head");
+        var neckBone = FindShuraleBone(skeleton, "neck_01", "mixamorig_Neck");
         if (headBone < 0)
-            throw new InvalidOperationException("W01 Shurale rig is missing head or mixamorig:Head.");
+            throw new InvalidOperationException("W01 Shurale rig is missing head or mixamorig_Head.");
         _shuraleGazeTarget = new Node3D { Name = "W01Shurale_GazeTarget" };
         root.AddChild(_shuraleGazeTarget);
         _shuraleGazeTarget.GlobalPosition = root.GlobalPosition + Vector3.Up * 1.9f
