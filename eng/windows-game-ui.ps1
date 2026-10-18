@@ -19,6 +19,7 @@ public static class UrmanGameUiNative {
  [DllImport("user32.dll", CharSet=CharSet.Unicode)] public static extern int GetWindowText(IntPtr h,System.Text.StringBuilder text,int length);
  [DllImport("user32.dll")] public static extern uint GetWindowThreadProcessId(IntPtr h,out uint processId);
  [DllImport("user32.dll")] public static extern bool GetWindowRect(IntPtr h,out Rect r);
+ [DllImport("user32.dll")] public static extern bool IsWindow(IntPtr h);
  [DllImport("user32.dll")] public static extern bool IsWindowVisible(IntPtr h);
  [DllImport("user32.dll")] public static extern bool IsIconic(IntPtr h);
  [DllImport("user32.dll")] public static extern IntPtr GetForegroundWindow();
@@ -67,6 +68,33 @@ $script:InitialRect = $null
 $script:FocusAcquisitionAttempted = $false
 $script:ForegroundRelation = 'unknown'
 $script:FocusPhase = 'unknown'
+$script:ActivationBranches = [ordered]@{
+    first_set_foreground_attempted = $false
+    first_set_foreground_succeeded = $false
+    first_foreground_check_owned = $false
+    attach_input_attempted = $false
+    attach_input_succeeded = $false
+    detach_input_attempted = $false
+    detach_input_succeeded = $false
+    retry_set_foreground_attempted = $false
+    retry_set_foreground_succeeded = $false
+    retry_foreground_check_attempted = $false
+    retry_foreground_check_owned = $false
+    caption_activation_attempted = $false
+    caption_activation_returned = $false
+    caption_initial_foreground_check_attempted = $false
+    caption_initial_foreground_check_owned = $false
+    caption_post_position_foreground_check_attempted = $false
+    caption_post_position_foreground_check_owned = $false
+    caption_raise_attempted = $false
+    caption_raise_succeeded = $false
+    caption_click_attempted = $false
+    caption_click_succeeded = $false
+}
+$script:PostActivationForegroundHwndIsNull = $null
+$script:PostActivationForegroundHwnd = $null
+$script:PostActivationForegroundPid = $null
+$script:PostActivationDiagnostics = $null
 $script:Request = $null
 $script:ResultPath = $null
 $script:ImagePath = $null
@@ -74,12 +102,20 @@ $script:ImageCaptured = $false
 
 function Test-OwnedForeground {
     $foreground = [UrmanGameUiNative]::GetForegroundWindow()
+    if ($script:FocusPhase -eq 'post_activation') {
+        $script:PostActivationForegroundHwndIsNull = $foreground -eq [IntPtr]::Zero
+        $script:PostActivationForegroundHwnd = if ($foreground -eq [IntPtr]::Zero) { $null } else { $foreground.ToInt64() }
+        $script:PostActivationForegroundPid = $null
+    }
     if ($foreground -eq $script:TargetHandle) {
         $script:ForegroundRelation = 'owned'
         return $true
     }
     [uint32]$owner = 0
     [void][UrmanGameUiNative]::GetWindowThreadProcessId($foreground,[ref]$owner)
+    if ($script:FocusPhase -eq 'post_activation' -and $foreground -ne [IntPtr]::Zero -and $owner -ne 0) {
+        $script:PostActivationForegroundPid = [long]$owner
+    }
     if ($foreground -eq [IntPtr]::Zero) {
         $script:ForegroundRelation = 'other_or_none'
         return $false
@@ -98,6 +134,27 @@ function Test-OwnedForeground {
     }
     $script:ForegroundRelation = 'same_pid_other_window'
     return $false
+}
+
+function New-PostActivationDiagnostics {
+    $targetIsWindow = [UrmanGameUiNative]::IsWindow($script:TargetHandle)
+    $targetPidQuerySucceeded = $false
+    $targetPidMatchesJob = $false
+    if ($targetIsWindow) {
+        [uint32]$targetOwnerPid = 0
+        $targetThread = [UrmanGameUiNative]::GetWindowThreadProcessId($script:TargetHandle,[ref]$targetOwnerPid)
+        $targetPidQuerySucceeded = $targetThread -ne 0
+        $targetPidMatchesJob = $targetPidQuerySucceeded -and [int]$targetOwnerPid -eq $script:TargetPid
+    }
+    return [ordered]@{
+        target_is_window = [bool]$targetIsWindow
+        target_pid_query_succeeded = [bool]$targetPidQuerySucceeded
+        target_pid_matches_job = [bool]$targetPidMatchesJob
+        foreground_hwnd_is_null = [bool]$script:PostActivationForegroundHwndIsNull
+        foreground_hwnd = $script:PostActivationForegroundHwnd
+        foreground_pid = $script:PostActivationForegroundPid
+        activation_branches = $script:ActivationBranches
+    }
 }
 
 function Assert-TargetWindow([switch]$RequireForeground) {
@@ -202,7 +259,9 @@ function Assert-VerifiedCaptionHit([object]$Point) {
 }
 
 function Invoke-VerifiedCaptionActivation {
-    if (Test-OwnedForeground) { return }
+    $script:ActivationBranches.caption_initial_foreground_check_attempted = $true
+    $script:ActivationBranches.caption_initial_foreground_check_owned = Test-OwnedForeground
+    if ($script:ActivationBranches.caption_initial_foreground_check_owned) { return }
 
     $originalPointer = New-Object UrmanGameUiNative+Point
     if (-not [UrmanGameUiNative]::GetCursorPos([ref]$originalPointer)) {
@@ -261,7 +320,9 @@ function Invoke-VerifiedCaptionActivation {
                     if (-not [UrmanGameUiNative]::IsWindowVisible($script:TargetHandle)) {
                         throw 'The owned game window is hidden.'
                     }
-                    if (-not [UrmanGameUiNative]::BringWindowToTop($script:TargetHandle)) {
+                    $script:ActivationBranches.caption_raise_attempted = $true
+                    $script:ActivationBranches.caption_raise_succeeded = [UrmanGameUiNative]::BringWindowToTop($script:TargetHandle)
+                    if (-not $script:ActivationBranches.caption_raise_succeeded) {
                         throw 'Windows refused to raise the owned game window.'
                     }
                     return
@@ -269,7 +330,9 @@ function Invoke-VerifiedCaptionActivation {
             }
             throw 'The pointer moved after caption positioning.'
         }
-        if (Test-OwnedForeground) { return }
+        $script:ActivationBranches.caption_post_position_foreground_check_attempted = $true
+        $script:ActivationBranches.caption_post_position_foreground_check_owned = Test-OwnedForeground
+        if ($script:ActivationBranches.caption_post_position_foreground_check_owned) { return }
 
         $inputs = [UrmanGameUiNative]::LeftClickInputs()
         Assert-TargetWindow
@@ -287,9 +350,11 @@ function Invoke-VerifiedCaptionActivation {
             throw 'The owned game caption input was refused.'
         }
         $sendInputAttempted = $true
+        $script:ActivationBranches.caption_click_attempted = $true
         $inserted = [UrmanGameUiNative]::SendInput([uint32]$inputs.Length,$inputs,[UrmanGameUiNative]::InputSize())
         $sendInputAttempted = $false
         if ($inserted -gt 0) { $buttonMayBeDown = $true }
+        $script:ActivationBranches.caption_click_succeeded = $inserted -eq 2
         if ($inserted -ne 2) { throw 'The owned game caption input was refused.' }
         $buttonMayBeDown = $false
         Start-Sleep -Milliseconds 50
@@ -313,8 +378,10 @@ function Focus-VerifiedTarget {
     if (Test-OwnedForeground) { return }
     $script:FocusPhase = 'activation'
     $script:FocusAcquisitionAttempted = $true
-    [void][UrmanGameUiNative]::SetForegroundWindow($script:TargetHandle)
-    if (Test-OwnedForeground) { return }
+    $script:ActivationBranches.first_set_foreground_attempted = $true
+    $script:ActivationBranches.first_set_foreground_succeeded = [UrmanGameUiNative]::SetForegroundWindow($script:TargetHandle)
+    $script:ActivationBranches.first_foreground_check_owned = Test-OwnedForeground
+    if ($script:ActivationBranches.first_foreground_check_owned) { return }
 
     $foreground = [UrmanGameUiNative]::GetForegroundWindow()
     $currentThread = [UrmanGameUiNative]::GetCurrentThreadId()
@@ -331,22 +398,37 @@ function Focus-VerifiedTarget {
     $activationRefused = $false
     try {
         if ($foregroundThread -ne 0 -and $foregroundThread -ne $currentThread) {
+            $script:ActivationBranches.attach_input_attempted = $true
             $attached = [UrmanGameUiNative]::AttachThreadInput($currentThread,$foregroundThread,$true)
+            $script:ActivationBranches.attach_input_succeeded = $attached
             if (-not $attached) { throw 'The helper could not attach to the foreground input thread.' }
         }
         if ($foreground -ne [IntPtr]::Zero -and
             [UrmanGameUiNative]::GetForegroundWindow() -ne $foreground) {
             throw 'The foreground window changed during focus acquisition.'
         }
-        $activationRefused = -not [UrmanGameUiNative]::SetForegroundWindow($script:TargetHandle)
+        $script:ActivationBranches.retry_set_foreground_attempted = $true
+        $retrySetForegroundSucceeded = [UrmanGameUiNative]::SetForegroundWindow($script:TargetHandle)
+        $script:ActivationBranches.retry_set_foreground_succeeded = $retrySetForegroundSucceeded
+        $activationRefused = -not $retrySetForegroundSucceeded
     } finally {
         # Detach before any injected input; AttachThreadInput resets shared key state.
-        if ($attached -and -not [UrmanGameUiNative]::AttachThreadInput($currentThread,$foregroundThread,$false)) {
-            throw 'The helper could not detach from the foreground input thread.'
+        if ($attached) {
+            $script:ActivationBranches.detach_input_attempted = $true
+            $script:ActivationBranches.detach_input_succeeded = [UrmanGameUiNative]::AttachThreadInput($currentThread,$foregroundThread,$false)
+            if (-not $script:ActivationBranches.detach_input_succeeded) {
+                throw 'The helper could not detach from the foreground input thread.'
+            }
         }
     }
-    if ($activationRefused -and -not (Test-OwnedForeground)) {
-        Invoke-VerifiedCaptionActivation
+    if ($activationRefused) {
+        $script:ActivationBranches.retry_foreground_check_attempted = $true
+        $script:ActivationBranches.retry_foreground_check_owned = Test-OwnedForeground
+        if (-not $script:ActivationBranches.retry_foreground_check_owned) {
+            $script:ActivationBranches.caption_activation_attempted = $true
+            Invoke-VerifiedCaptionActivation
+            $script:ActivationBranches.caption_activation_returned = $true
+        }
     }
 }
 
@@ -562,6 +644,9 @@ function Write-Result([bool]$Ok,[string]$ErrorText) {
         image = $(if ($Ok -and $script:ImageCaptured) { $script:ImagePath } else { $null })
         error = $ErrorText
     }
+    if ($null -ne $script:PostActivationDiagnostics) {
+        $report['postActivationDiagnostics'] = $script:PostActivationDiagnostics
+    }
     $json = ConvertTo-Json -InputObject $report -Compress -Depth 4
     $bytes = [Text.UTF8Encoding]::new($false).GetBytes($json)
     $stream = [IO.File]::Open($script:ResultPath,[IO.FileMode]::CreateNew,[IO.FileAccess]::Write,[IO.FileShare]::None)
@@ -670,6 +755,9 @@ try {
     if ($script:FocusAcquisitionAttempted) {
         $script:FocusPhase = 'post_activation'
         if (-not (Test-OwnedForeground)) {
+            if ($script:ForegroundRelation -eq 'other_or_none') {
+                try { $script:PostActivationDiagnostics = New-PostActivationDiagnostics } catch { }
+            }
             throw 'The owned game window lost foreground focus after activation.'
         }
     }

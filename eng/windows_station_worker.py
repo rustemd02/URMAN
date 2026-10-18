@@ -2664,6 +2664,7 @@ class Station:
         if type(exit_code) is int and 0 <= exit_code <= 0xFFFFFFFF:
             record['helper_exit_code'] = exit_code
         if isinstance(report, dict):
+            helper_pid_matches_job = type(report.get('pid')) is int and report['pid'] == expected_pid
             if type(report.get('ok')) is bool:
                 record['helper_ok'] = report['ok']
             relation = report.get('foregroundRelation')
@@ -2674,13 +2675,69 @@ class Station:
             if (isinstance(phase, str)
                     and phase in {'pre_activation', 'activation', 'post_activation', 'action', 'unknown'}):
                 record['focus_phase'] = phase
-            # The helper reports only its selected target handle. Require its
-            # PID to match the already-verified job PID, but never persist PID,
-            # title, rectangle, image path, raw error, or action fields.
+            # Require the helper PID to match the already-verified job PID, but
+            # never persist that PID, title, rectangle, image path, raw error,
+            # or action fields. The narrow post-activation allowlist below may
+            # retain only the numeric foreground PID and HWND.
             target_handle = report.get('targetHwnd')
-            if (type(report.get('pid')) is int and report['pid'] == expected_pid
+            if (helper_pid_matches_job
                     and type(target_handle) is int and 0 < target_handle <= 0x7FFFFFFFFFFFFFFF):
                 record['target_hwnd'] = target_handle
+
+            if (helper_pid_matches_job
+                    and reason_code == 'ui_focus_post_activation_lost'
+                    and report.get('focusPhase') == 'post_activation'
+                    and report.get('foregroundRelation') == 'other_or_none'):
+                diagnostics = report.get('postActivationDiagnostics')
+                if isinstance(diagnostics, dict):
+                    target_is_window = diagnostics.get('target_is_window')
+                    target_pid_query_succeeded = diagnostics.get('target_pid_query_succeeded')
+                    target_pid_matches_job = diagnostics.get('target_pid_matches_job')
+                    foreground_is_null = diagnostics.get('foreground_hwnd_is_null')
+                    foreground_handle = diagnostics.get('foreground_hwnd')
+                    foreground_pid = diagnostics.get('foreground_pid')
+                    branches = diagnostics.get('activation_branches')
+                    branch_names = (
+                        'first_set_foreground_attempted', 'first_set_foreground_succeeded',
+                        'first_foreground_check_owned', 'attach_input_attempted',
+                        'attach_input_succeeded', 'detach_input_attempted',
+                        'detach_input_succeeded', 'retry_set_foreground_attempted',
+                        'retry_set_foreground_succeeded', 'retry_foreground_check_attempted',
+                        'retry_foreground_check_owned', 'caption_activation_attempted',
+                        'caption_activation_returned', 'caption_initial_foreground_check_attempted',
+                        'caption_initial_foreground_check_owned',
+                        'caption_post_position_foreground_check_attempted',
+                        'caption_post_position_foreground_check_owned', 'caption_raise_attempted',
+                        'caption_raise_succeeded', 'caption_click_attempted', 'caption_click_succeeded',
+                    )
+                    branches_valid = (isinstance(branches, dict)
+                                      and all(type(branches.get(name)) is bool for name in branch_names))
+                    target_valid = (type(target_is_window) is bool
+                                    and type(target_pid_query_succeeded) is bool
+                                    and type(target_pid_matches_job) is bool
+                                    and (not target_pid_query_succeeded or target_is_window)
+                                    and (not target_pid_matches_job or target_pid_query_succeeded))
+                    if foreground_is_null is True:
+                        foreground_valid = foreground_handle is None and foreground_pid is None
+                    elif foreground_is_null is False:
+                        foreground_valid = (
+                            type(foreground_handle) is int
+                            and 0 < foreground_handle <= 0x7FFFFFFFFFFFFFFF
+                            and type(foreground_pid) is int
+                            and 0 < foreground_pid <= 0xFFFFFFFF
+                            and foreground_pid != expected_pid)
+                    else:
+                        foreground_valid = False
+                    if target_valid and foreground_valid and branches_valid:
+                        record['post_activation_diagnostics'] = {
+                            'target_is_window': target_is_window,
+                            'target_pid_query_succeeded': target_pid_query_succeeded,
+                            'target_pid_matches_job': target_pid_matches_job,
+                            'foreground_hwnd_is_null': foreground_is_null,
+                            'foreground_hwnd': foreground_handle,
+                            'foreground_pid': foreground_pid,
+                            'activation_branches': {name: branches[name] for name in branch_names},
+                        }
 
         payload = canonical(record)
         if len(payload) > 2048:

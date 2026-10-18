@@ -25542,7 +25542,16 @@
                 "userdata": "game.log: original files restored by rename and verified; doctor idle/ready,no orphan or pending recovery."
               }
             },
-            "verification_question_current": "One current-source ordinary play-product launch: is its menu usable through guarded owned input and does Enter reach authored PhotoWorlds prologue? If refused, did first bounded failure evidence survive normal archive with actual owned foreground category/phase? Do not repeat refusal inputs or claim W03/native art acceptance."
+            "verification_question_current": "One current-source ordinary play-product launch: is its menu usable through guarded owned input and does Enter reach authored PhotoWorlds prologue? If refused, did first bounded failure evidence survive normal archive with actual owned foreground category/phase? Do not repeat refusal inputs or claim W03/native art acceptance.",
+            "refusal_diagnostics_stage_2026_10_18": {
+              "result": "Existing post_activation/other_or_none refusal now retains strict numeric/boolean target-window validity/PID match, null-vs-numeric foreground HWND/PID and actual existing activation branch flags; helper PID must exactly match ownedjobPID. No newmode/probe/activation/input/timing/guardpolicy.",
+              "files": [
+                "eng/windows-game-ui.ps1",
+                "eng/windows_station_worker.py"
+              ],
+              "verification": "Independent bounded source review CLEAN; in-memory Python compile passed. PowerShellparser not available locally; deployed Windows parsing and next ordinary owned UI attempt remain unverified. Prior628 cause stillUNKNOWN.",
+              "next": "Check idle/recovery, safeFF worker update and official restart, then one changed-source ordinaryplay with retained refusal diagnostics if guarded input is rejected."
+            }
           },
           {
             "id": "FINISH-06/E02",
