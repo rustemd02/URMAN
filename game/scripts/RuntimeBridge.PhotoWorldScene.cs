@@ -47,7 +47,8 @@ public partial class RuntimeBridge
                 or "urman.fullgame:scene/pw-river"
                 or "urman.fullgame:scene/pw-house"
                 or "urman.fullgame:scene/pw-common"
-                or "urman.fullgame:scene/pw-bank-approach"))
+                or "urman.fullgame:scene/pw-bank-approach"
+                or "urman.fullgame:scene/pw-epilogue"))
             return null;
 
         return new FullGamePhotoWorldRouteProjection(session, sceneId);

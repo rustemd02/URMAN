@@ -718,6 +718,8 @@ public partial class StyleBenchmarkZone : Node3D
         });
 
         ArrivalPersonalProps.AddFamilyBook(this, photoWorlds);
+        if (photoWorlds)
+            PhotoWorldEpiloguePresence.Attach(this);
     }
 
     private void BuildKaraUrmanNight()

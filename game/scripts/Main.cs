@@ -17,6 +17,7 @@ public partial class Main : Node3D
     private const string HousePhotoSceneId = "urman.fullgame:scene/pw-house";
     private const string CommonPhotoSceneId = "urman.fullgame:scene/pw-common";
     private const string BankApproachSceneId = "urman.fullgame:scene/pw-bank-approach";
+    private const string PhotoEpilogueSceneId = "urman.fullgame:scene/pw-epilogue";
 
     private static readonly IReadOnlyDictionary<string, string> ZoneScenes = new Dictionary<string, string>(StringComparer.Ordinal)
     {
@@ -221,6 +222,10 @@ public partial class Main : Node3D
             if (GetTree().GetFirstNodeInGroup("runtime_bridge") is RuntimeBridge connectedBridge)
             {
                 connectedBridge.SetWorldLocation(zoneId, spawnPointId);
+                if (connectedBridge.IsPhotoWorldsCampaign
+                    && connectedBridge.ActiveSceneId == BankApproachSceneId
+                    && zoneId == "village_day" && spawnPointId == "pw-bank-approach")
+                    AlsuStreetWalkPresentation.SessionOwner(GetTree())?.StagePhotoBankMeeting();
             }
 
             if (GetTree().GetFirstNodeInGroup("ambient_audio") is AmbientAudioDirector connectedAmbience)
@@ -385,13 +390,16 @@ public partial class Main : Node3D
                 return;
             }
 
-            var targetZone = projection.ActiveSceneId is NivaArrivalSceneId or BankApproachSceneId
+            var targetZone = projection.ActiveSceneId == PhotoEpilogueSceneId
+                ? "house_old_pc"
+                : projection.ActiveSceneId is NivaArrivalSceneId or BankApproachSceneId
                 ? "village_day"
                 : bridge.CurrentZoneId == "house_old_pc" ? "house_old_pc" : "village_day";
             var targetSpawn = projection.ActiveSceneId == BankApproachSceneId
                 ? "pw-bank-approach"
                 : targetZone == "house_old_pc"
-                ? (string.IsNullOrWhiteSpace(bridge.CurrentSpawnPointId) ? "entry" : bridge.CurrentSpawnPointId)
+                ? (bridge.CurrentZoneId != targetZone || string.IsNullOrWhiteSpace(bridge.CurrentSpawnPointId)
+                    ? "entry" : bridge.CurrentSpawnPointId)
                 : projection.ActiveSceneId == HomeSceneId && bridge.CurrentZoneId == "village_day"
                     ? (string.IsNullOrWhiteSpace(bridge.CurrentSpawnPointId) ? "arrival" : bridge.CurrentSpawnPointId)
                     : "arrival";

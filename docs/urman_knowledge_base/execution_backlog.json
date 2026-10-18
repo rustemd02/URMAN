@@ -117267,6 +117267,11 @@
               "source": "Unchanged owned existing staged W02 R05 viewport plus original vector plan from exact seven posts/four broken boards and R05 coordinates; no crop/retouch or invented shoreline. Root personally reviewed final image; only in-world text remains.",
               "consumer": "Council physical 150x100mm copy and JournalUi.PhotoBook existing front resolver share one PNG.",
               "remaining": "Godot native import, readability in ordinary play, art/author acceptance and other required photo fronts remain open. Source spec historical SPECIFIED_NOT_PRODUCED inventory was not silently treated as release acceptance."
+            },
+            "front_producer_boundary_2026_10_18": {
+              "result": "NO_EXISTING_EXACT_FRONT_PRODUCER",
+              "source": "eng/capture-fullgame-frames.sh invokes existing FullGameDressingCapture fixedW02camera/FOV72/1920x1080; no CLI override; no W03H00front. Production R00/H00 are markers, not required photo cameras.",
+              "remaining": "P-WATER/R00 vFOV45/1.45m and P-HOUSE/H00 vFOV50/1.5m/1800x1200 fronts require actual source-aligned production; do not substitute staged unrelated captures or call old image a required front. No new test/fixture/probe produced."
             }
           },
           {
@@ -121658,8 +121663,8 @@
           "https://docs.meshy.ai/en/api/rigging"
         ],
         "constraints": "Free generated output uses CC BY4.0 attribution; Meshy7.1 normal GLB export explicitly opens paid-subscription gate. No paywall bypass or subscription purchase. Free preview does not prove topology, rig, contact, animation or game performance.",
-        "next": "Owner purchase decision remains external. If a paid export becomes available, obtain through normal download, inspect actual rig/material/geometry, adapt original restrained choreography/contact, then native scene/performance. Keep canonical functional actor until replacement accepted; no more free variants merely to wait.",
-        "state": "FREE_VIEWER_WALK_AND_RUN_REVIEWED; NOT_GAME_ACCEPTED",
+        "next": "Review actual downloaded7.1 DCC input and existing rig exports, then select bounded source-consistent texture/rig stage or one improved own reference; no blind regeneration.",
+        "state": "PREMIUM_OWNER_PURCHASED; RAW_7_1_DOWNLOADED_FOR_DCC_REVIEW",
         "authorization": "Owner explicitly approved free account registration and separately approved upload of shown original input-whole-body-v1.png +oneMeshy6Lite generation costing10freecredits/CCBY4.0; no subscription purchase.",
         "input": "assets/source/blender/photoworlds/W01/shurale_reconstruction_v1/whole-body-v1/input-whole-body-v1.png",
         "account_boundary": "Only generic workflow facts recorded; no email/code/token/profile identifiers in repository.",
@@ -121691,7 +121696,24 @@
           ],
           "recommendation": "One monthly Pro pilot for real GLB/FBX/DCC/Godot verification before committing to Premium volume; owner has not approved purchase. Static/motion preview does not justify remaking every asset."
         },
-        "broader_asset_review": "Independent bounded source review: NPC such as Alsu requires clip/bone/LOD/footplant contracts; H040 council facade requires measured openings/named wall nodes/door and interior access; bathhouse stove requires stove-face LOS and state/effects. Meshy geometry/textures cannot replace existing collision, interaction, progression or save owners. No mass production approved by this research."
+        "broader_asset_review": "Independent bounded source review: NPC such as Alsu requires clip/bone/LOD/footplant contracts; H040 council facade requires measured openings/named wall nodes/door and interior access; bathhouse stove requires stove-face LOS and state/effects. Meshy geometry/textures cannot replace existing collision, interaction, progression or save owners. No mass production approved by this research.",
+        "paid_followup": {
+          "authorization": "Owner purchased Premium and authorized economic budget3000, own image_gen inputs then Meshy. UI currently4100 but cap3000 unchanged.",
+          "raw_path": "assets/source/blender/photoworlds/W01/shurale_meshy_v2/meshy71-original.glb",
+          "raw_sha256": "6883ce9649b33cb2b3335570adcd6219d02c220f6554e4969cc88a57e66bb253",
+          "download": "Normal web UI GLB export after upgrade; no new generation/texture credit spend.",
+          "license_boundary": "Generated before Premium as freeCCBY4.0; download after purchase does not establish changed license or privacy.",
+          "next": "Immutable import/neutral views/real topology-material-rig review before further generation or canonical replacement."
+        },
+        "paid_v3_candidate": {
+          "input": "assets/source/blender/photoworlds/W01/shurale_meshy_v3/input-shurale-v3.png",
+          "input_sha256": "ab77f4055e112388458f2425be915714061ff272912deae29b091440f204ee41",
+          "generation": "PrivateMeshy7.1Ultra2K25credits; own built-in imagegen single-horn/aged-face/low-A reference accepted for one productioncandidate, not finalart.",
+          "output": "assets/source/blender/photoworlds/W01/shurale_meshy_v3/meshy71-original.glb",
+          "output_sha256": "917d008e2db785f38777e1e16829a565e4262a24fabddf4bca55335ebca05343",
+          "state": "DOWNLOADED_DCC_REVIEW_RUNNING",
+          "canonical": "Unchanged. No rig/texture/refinement spend before actualnewgeometry review."
+        }
       }
     },
     {
@@ -133405,7 +133427,7 @@
       "id": "PW-076",
       "title": "Поставить Алсу перед финальным внешним событием",
       "milestone": "PW-M3",
-      "status": "todo",
+      "status": "in_progress",
       "active_owner": null,
       "owner": "integration",
       "priority": "P1",
@@ -133551,11 +133573,11 @@
       },
       "assigned_owner": "integration",
       "activity": {
-        "state": "not_active",
-        "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+        "state": "released",
+        "reason": "Finite coupled source stage integrated and affected compile passed; native/art/story remainder open, no whole-card completion."
       },
       "task_type": "engineering",
-      "implementation_state": "not_started",
+      "implementation_state": "partial",
       "technical_verification_state": "not_run",
       "remaining": [
         "Нет внезапного спавна внутри камеры и дублированной Алсу.",
@@ -133754,13 +133776,44 @@
           "evidence_ref": "PW-076.evidence and named history progress; source_review shows available/missing inputs"
         }
       ],
-      "assignment_state": "preserved_person_or_existing_role; activity separate"
+      "assignment_state": "preserved_person_or_existing_role; activity separate",
+      "finale_source_stage_2026_10_18": {
+        "coordinator": "Codex/root",
+        "source_owners": {
+          "geometry": "Codex/w03_geometry",
+          "leaf_presence": "Codex/whole_actor_route",
+          "alsu_pose": "Codex/save_recovery_ux",
+          "home_presence": "Codex/product_entrypoint",
+          "routing": "Codex/root"
+        },
+        "scope": "One physical late-game slice: hidden→observed single winterleaf→existing dialogue→physical home epilogue route; same existing Alsu owner with tagged non-destructive pose, no new state owner.",
+        "verification_question": "Does current coupled source compile and preserve exact session/load/physical witness gates and old untagged Alsu save validation? Native movement/story/art remains separate.",
+        "verification_state": "SOURCE_INTEGRATED_COMPILED; NATIVE_NOT_ACCEPTED",
+        "remaining": "Pre-arranged D17 and full visible Alsu homeward staging, accepted S-NOW front/camera, native Continue/revisit and required art/human gates are not delivered by source compile.",
+        "verification": {
+          "command": ".tools/dotnet/dotnet build game/Urman.Game.csproj --no-restore --disable-build-servers --verbosity minimal -nodeReuse:false -m:1",
+          "exit_code": 0,
+          "warnings": 0,
+          "errors": 0,
+          "elapsed_seconds": 17.66,
+          "scope": "Current coupled leafgeometry/observed-event, same-ownerAlsu taggedpose/strictsnapshot, physical bank→home epilogue targets and Main/Bridge routing.",
+          "uncovered": "No native movement/Continue/art; D17 prearrangement, Alsu visible homeward travel and S-NOW actual front/mapping remain open."
+        },
+        "files": [
+          "game/scripts/AlsuStreetWalkPresentation.cs",
+          "game/scripts/AlsuStreetWalkPresentation.PhotoBank.cs",
+          "game/scripts/Act1ConnectedWorld.PhotoBank.cs",
+          "game/scripts/Main.cs"
+        ],
+        "result": "Same soleAlsu actor staged synchronously at grounded-off-camera marker after W04, uses actualNPC+Z convention and existing physicalbody/feet support barriers. Taggedworld.props pose bank-meeting-v1 survives Bank/Home/Epilogue; absent/legacy tags retain old waypointvalidation. Explicit pending-ground-snap flag only allows authoredY before first validatedsupport; false/absent keeps strictsavedY. No legacy pendingcheckpoint commits inbankmode.",
+        "source_review": "Independent save/route review clean in bounds; root additionally retained strict arrived/checkpoint consistency and corrected nullable flow. Source-space capsule clearances checked, actualphysics remains open."
+      }
     },
     {
       "id": "PW-077",
       "title": "Реализовать единственный летний лист снаружи",
       "milestone": "PW-M3",
-      "status": "todo",
+      "status": "in_progress",
       "active_owner": null,
       "owner": "integration",
       "priority": "P1",
@@ -133898,11 +133951,11 @@
       },
       "assigned_owner": "integration",
       "activity": {
-        "state": "not_active",
-        "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+        "state": "released",
+        "reason": "Finite coupled source stage integrated and affected compile passed; native/art/story remainder open, no whole-card completion."
       },
       "task_type": "engineering",
-      "implementation_state": "not_started",
+      "implementation_state": "partial",
       "technical_verification_state": "not_run",
       "remaining": [
         "Это один устойчивый внешний факт, не фарм предметов.",
@@ -134075,13 +134128,43 @@
           "evidence_ref": "PW-077.evidence and named history progress; source_review shows available/missing inputs"
         }
       ],
-      "assignment_state": "preserved_person_or_existing_role; activity separate"
+      "assignment_state": "preserved_person_or_existing_role; activity separate",
+      "finale_source_stage_2026_10_18": {
+        "coordinator": "Codex/root",
+        "source_owners": {
+          "geometry": "Codex/w03_geometry",
+          "leaf_presence": "Codex/whole_actor_route",
+          "alsu_pose": "Codex/save_recovery_ux",
+          "home_presence": "Codex/product_entrypoint",
+          "routing": "Codex/root"
+        },
+        "scope": "One physical late-game slice: hidden→observed single winterleaf→existing dialogue→physical home epilogue route; same existing Alsu owner with tagged non-destructive pose, no new state owner.",
+        "verification_question": "Does current coupled source compile and preserve exact session/load/physical witness gates and old untagged Alsu save validation? Native movement/story/art remains separate.",
+        "verification_state": "SOURCE_INTEGRATED_COMPILED; NATIVE_NOT_ACCEPTED",
+        "remaining": "Pre-arranged D17 and full visible Alsu homeward staging, accepted S-NOW front/camera, native Continue/revisit and required art/human gates are not delivered by source compile.",
+        "verification": {
+          "command": ".tools/dotnet/dotnet build game/Urman.Game.csproj --no-restore --disable-build-servers --verbosity minimal -nodeReuse:false -m:1",
+          "exit_code": 0,
+          "warnings": 0,
+          "errors": 0,
+          "elapsed_seconds": 17.66,
+          "scope": "Current coupled leafgeometry/observed-event, same-ownerAlsu taggedpose/strictsnapshot, physical bank→home epilogue targets and Main/Bridge routing.",
+          "uncovered": "No native movement/Continue/art; D17 prearrangement, Alsu visible homeward travel and S-NOW actual front/mapping remain open."
+        },
+        "files": [
+          "game/scripts/Act1ConnectedWorld.PhotoBank.cs",
+          "game/scripts/PhotoBankApproachPresence.cs",
+          "game/scripts/PhotoBankApproachPresence.Leaf.cs"
+        ],
+        "result": "Bare twig with one thin sourceleaf initially hidden; nearby≤6m broad framed+LOS view and physicallyreadynearbyAlsu gates reveal0.6s/fall2.7s, pauses when not framed, existingfact dispatched only after observed landing. Committedfact restores same leaf on snow, no item/collider/farm. ReducedMotion readable branch0.5s→snow0.5s equivalent without arcingfall. SameownerAlsu targetpath fixes stale pre-reparent lookup. Physical bank-to-epilogue target replacesordinaryreturn only when existingkernelconditionsready.",
+        "root_corrections": "NPC+Z marker direction matches existinggait; proper nearbyviewbound; allow actualtwigcollider as endpoint inAlsu sight ray; old leaf E-target removed. Creation-time sharedtarget position is updated eachframe toactualAlsu, so overlappingreturn allegation notconfirmed."
+      }
     },
     {
       "id": "PW-078",
       "title": "Закончить домашний эпилог и открыть свободное возвращение",
       "milestone": "PW-M3",
-      "status": "todo",
+      "status": "in_progress",
       "active_owner": null,
       "owner": "integration",
       "priority": "P1",
@@ -134226,11 +134309,11 @@
       },
       "assigned_owner": "integration",
       "activity": {
-        "state": "not_active",
-        "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+        "state": "released",
+        "reason": "Finite coupled source stage integrated and affected compile passed; native/art/story remainder open, no whole-card completion."
       },
       "task_type": "engineering",
-      "implementation_state": "not_started",
+      "implementation_state": "partial",
       "technical_verification_state": "not_run",
       "remaining": [
         "У истории есть настоящий конец без пустого обещания «акт 2 потом».",
@@ -134438,7 +134521,37 @@
           "evidence_ref": "PW-078.evidence and named history progress; source_review shows available/missing inputs"
         }
       ],
-      "assignment_state": "preserved_person_or_existing_role; activity separate"
+      "assignment_state": "preserved_person_or_existing_role; activity separate",
+      "finale_source_stage_2026_10_18": {
+        "coordinator": "Codex/root",
+        "source_owners": {
+          "geometry": "Codex/w03_geometry",
+          "leaf_presence": "Codex/whole_actor_route",
+          "alsu_pose": "Codex/save_recovery_ux",
+          "home_presence": "Codex/product_entrypoint",
+          "routing": "Codex/root"
+        },
+        "scope": "One physical late-game slice: hidden→observed single winterleaf→existing dialogue→physical home epilogue route; same existing Alsu owner with tagged non-destructive pose, no new state owner.",
+        "verification_question": "Does current coupled source compile and preserve exact session/load/physical witness gates and old untagged Alsu save validation? Native movement/story/art remains separate.",
+        "verification_state": "SOURCE_INTEGRATED_COMPILED; NATIVE_NOT_ACCEPTED",
+        "remaining": "Pre-arranged D17 and full visible Alsu homeward staging, accepted S-NOW front/camera, native Continue/revisit and required art/human gates are not delivered by source compile.",
+        "verification": {
+          "command": ".tools/dotnet/dotnet build game/Urman.Game.csproj --no-restore --disable-build-servers --verbosity minimal -nodeReuse:false -m:1",
+          "exit_code": 0,
+          "warnings": 0,
+          "errors": 0,
+          "elapsed_seconds": 17.66,
+          "scope": "Current coupled leafgeometry/observed-event, same-ownerAlsu taggedpose/strictsnapshot, physical bank→home epilogue targets and Main/Bridge routing.",
+          "uncovered": "No native movement/Continue/art; D17 prearrangement, Alsu visible homeward travel and S-NOW actual front/mapping remain open."
+        },
+        "files": [
+          "game/scripts/Main.cs",
+          "game/scripts/RuntimeBridge.PhotoWorldScene.cs",
+          "game/scripts/PhotoWorldEpiloguePresence.cs",
+          "game/scripts/StyleBenchmarkZone.cs"
+        ],
+        "result": "pw-epilogue now routes to real existinghouse_old_pc/entry, preserves already-valid house spawn. Family-table/tea/people framing gates prepared, currentabsentS-NOWfront blocksacquire honestly; Gulsina actualtalk/HouseExit return targets projectexistingactions afteracquiredphoto. No developer implementation blockers shown as player copy; no substitutephotofront."
+      }
     },
     {
       "id": "PW-079",
@@ -157673,5 +157786,39 @@
     "source": "Live author goal update",
     "instruction": "Continue at least until 10:00 Europe/Moscow 2026-10-18; prioritize compelling clear player loop, substantial visible scenes, story and performance; max independent subagents and regular verified commit/push. Deadline is duration of work, not release proof.",
     "deadline": "2026-10-18T10:00:00+03:00"
+  },
+  "author_meshy_asset_refresh_2026_10_18": {
+    "authority": "Owner live instruction: purchased Premium, use3000credits economically; own image_gen references then upload selected originals to Meshy; progressively remake all game assets.",
+    "scope": "Whole asset inventory remains in existing tasks/passports, no second backlog. Meshy for suitable3D/texture assets; own imagegen for raster/art inputs, existing owners for UI/audio/gameplay/scene assembly. No silent loss of non-Meshy media.",
+    "priority": "Finish immediately visible MVP stages; character/hero architecture/large interactable props before minor clutter. Existing art/culture/rights/native/performance acceptance stays mandatory.",
+    "pipeline": [
+      "Read exact existing asset passport/reference and runtime consumer contracts.",
+      "Generate or reuse one original approved image_gen concept; keep input/provenance local to project.",
+      "Upload selected own concept to Meshy under owner authorization.",
+      "One bounded candidate then actual export/neutral review before spending on texture/rig/refinement.",
+      "Integrate accepted compatible asset with existing collision/semantic/animation owners; native visible/performance verification before final art acceptance."
+    ],
+    "credits": {
+      "authorized_budget": 3000,
+      "ui_balance_observed": 4100,
+      "agent_spent_after_purchase": 25,
+      "authorized_budget_remaining": 2975,
+      "rule": "UI bonus/balance does not increase owner cap. Log exact per-operation observed cost/balance in owning task, no automatic repeated retries or blind batches; no new subscriptions/purchases authorized.",
+      "latest_ui_balance_observed": 4125,
+      "balance_note": "First new generation displayed cost25, task successfully created; UI balance4100→4125 includes an unexplained credit increase. Charge conservative25 against authorizedcap; no inference of a free operation or extra allowance."
+    },
+    "first_input": "Existing own Shurale7.1 generated before subscription, now raw downloaded normally at zero added generation spend. Original freeCCBY4.0 provenance retained; no automatic private/ownership claim.",
+    "operations": [
+      {
+        "task_id": "PW-047",
+        "input": "assets/source/blender/photoworlds/W01/shurale_meshy_v3/input-shurale-v3.png",
+        "model": "Meshy7.1",
+        "resolution": "Ultra2K",
+        "cost_credits": 25,
+        "options": "Private; texture/pose/multiview/split off; image-enhancement off to preserve original concept.",
+        "result": "Generated and normally downloaded actualGLB; DCC neutral review underway.",
+        "output_sha256": "917d008e2db785f38777e1e16829a565e4262a24fabddf4bca55335ebca05343"
+      }
+    ]
   }
 }

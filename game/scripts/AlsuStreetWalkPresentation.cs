@@ -89,7 +89,7 @@ public partial class AlsuStreetWalkPresentation : Node3D
     public InteractionTarget Target => _target;
     public int Checkpoint => _checkpoint;
     public bool Arrived => _arrived;
-    public bool ControlsFacing => _stepping || (_requested && !_arrived);
+    public bool ControlsFacing => _photoBankMeetingMode || _stepping || (_requested && !_arrived);
     public float SessionWalkedMetres { get; private set; }
 
     public static AlsuStreetWalkPresentation? Current(SceneTree tree) =>
@@ -153,12 +153,7 @@ public partial class AlsuStreetWalkPresentation : Node3D
 
     public override void _PhysicsProcess(double delta)
     {
-        if (_bridge is null)
-        {
-            _bridge = GetTree().GetFirstNodeInGroup("runtime_bridge") as RuntimeBridge;
-            if (_bridge is null) return;
-            _bridge.RuntimeStateChanged += ReadRuntimeState;
-        }
+        if (!EnsureRuntimeStateSubscription() || _bridge is null) return;
         _player ??= GetTree().GetFirstNodeInGroup("player_controller") as FirstPersonController;
         if (!ReferenceEquals(_session, _bridge.SessionIdentity)) ReadRuntimeState();
         SynchronizeTarget();
@@ -184,6 +179,7 @@ public partial class AlsuStreetWalkPresentation : Node3D
         }
         _stepSound.StreamPaused = false;
         if (_committing || _saving) return;
+        if (_photoBankMeetingMode) { PlayGait(false); return; }
         if (_pendingCheckpoint > _checkpoint)
         {
             if (CanCommitCheckpoint(_pendingCheckpoint)) CommitCheckpoint(_pendingCheckpoint);
@@ -303,7 +299,7 @@ public partial class AlsuStreetWalkPresentation : Node3D
         {
             _physicalValidationPending = true;
             PhysicalPlacementFailure = null;
-            _requireMatchingSupportHeight = _session is not null;
+            _requireMatchingSupportHeight = _session is not null && !_photoBankGroundSnapPending;
             _validationAfterPhysicsFrame = Engine.GetPhysicsFrames() + 2;
             _stepping = false;
             ReleaseSupportedFeet();
@@ -328,9 +324,8 @@ public partial class AlsuStreetWalkPresentation : Node3D
             }
             ReadRuntimeState();
             // A fresh session or an exterior zone return can still be waiting
-            // for its real support/body barrier. Persist only the validated
-            // pose; the existing projection method intentionally preserves
-            // the exact pose while the exterior floor is disabled indoors.
+            // for its real support/body barrier. Keep validated poses exact;
+            // an unvalidated bank marker remains tagged until its barrier runs.
             await CompleteLoadedPhysicalProjectionAsync();
             if (!ReferenceEquals(session, _bridge.SessionIdentity) || !IsLiveOwner(this)) return false;
             var position = _actor.GlobalPosition;
@@ -339,7 +334,9 @@ public partial class AlsuStreetWalkPresentation : Node3D
                 ["propId"] = SavePropId, ["schemaVersion"] = 1, ["checkpoint"] = _checkpoint,
                 ["position"] = new JsonObject { ["x"] = position.X, ["y"] = position.Y, ["z"] = position.Z },
                 ["yaw"] = CaptureYaw(), ["segmentTravel"] = _segmentTravel,
-                ["pendingCheckpoint"] = _pendingCheckpoint
+                ["pendingCheckpoint"] = _pendingCheckpoint,
+                ["photoWorldPose"] = PhotoWorldPoseForSave,
+                ["photoBankGroundSnapPending"] = _photoBankMeetingMode && _photoBankGroundSnapPending
             };
             return await _bridge.DispatchWorldPropsAsync(new JsonArray(record))
                 && ReferenceEquals(session, _bridge.SessionIdentity);
@@ -369,6 +366,7 @@ public partial class AlsuStreetWalkPresentation : Node3D
         var state = _bridge.SelectRuntimeState();
         var person = state.TryGetProperty("npc", out var people) && people.TryGetProperty(CharacterId, out var alsu)
             ? alsu : default;
+        if (ProjectLoadedPhotoBankMeetingPose(state, person, session, deferValidation)) return;
         var checkpoint = 0;
         if (person.ValueKind == JsonValueKind.Object && person.TryGetProperty("walk_checkpoint", out var savedCheckpoint)
             && (savedCheckpoint.ValueKind != JsonValueKind.Number || !savedCheckpoint.TryGetInt32(out checkpoint)
@@ -521,8 +519,8 @@ public partial class AlsuStreetWalkPresentation : Node3D
         if (!GroundAt(position, out var support, out _)
             || _requireMatchingSupportHeight && Math.Abs(position.Y - support.Y) > .04f)
             throw new InvalidDataException("Alsu's saved feet have no matching physical support.");
-        // Only old saves without an actual pose use the authored anchor until
-        // its real street support is available. Current saves keep their exact Y.
+        // Legacy saves without a pose and an unvalidated bank stage use their
+        // authored point until support is available; validated saves keep Y.
         if (!_requireMatchingSupportHeight)
         {
             position.Y = support.Y;
@@ -538,6 +536,7 @@ public partial class AlsuStreetWalkPresentation : Node3D
         }
         _physicalValidationPending = false;
         _requireMatchingSupportHeight = true;
+        _photoBankGroundSnapPending = false;
         PhysicalPlacementFailure = null;
         if (HasMeta("walkBlockedOwner")) RemoveMeta("walkBlockedOwner");
         if (HasMeta("physicalPlacementFailure")) RemoveMeta("physicalPlacementFailure");
@@ -991,6 +990,7 @@ public partial class AlsuStreetWalkPresentation : Node3D
     public override void _ExitTree()
     {
         if (_bridge is not null && IsInstanceValid(_bridge)) _bridge.RuntimeStateChanged -= ReadRuntimeState;
+        _runtimeStateSubscribed = false;
         ReleaseSupportedFeet();
         if (_stepSound is not null && IsInstanceValid(_stepSound)) { _stepSound.Stop(); _stepSound.Stream = null; }
         // The one retained ray query is a C#-owned RefCounted; release it last, after

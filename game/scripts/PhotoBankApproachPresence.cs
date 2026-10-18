@@ -14,6 +14,7 @@ public partial class PhotoBankApproachPresence : Node3D
     private const string WinterPilesInteractionId = "urman.fullgame:interaction/pw-winter-piles-inspected";
     private const string VerifyBankInteractionId = "urman.fullgame:interaction/pw-verify-bank-evidence";
     private const string BankReturnInteractionId = "urman.fullgame:interaction/pw-bank-return";
+    private const string BankToEpilogueInteractionId = "urman.fullgame:interaction/pw-bank-to-epilogue";
     private const string LeafWitnessInteractionId = "urman.fullgame:interaction/pw-witness-summer-leaf";
     private const string AlsuLeafInteractionId = "urman.fullgame:interaction/pw-alsu-leaf-talk";
     private const string WinterPilesFactId = "winter_piles_inspected";
@@ -29,7 +30,7 @@ public partial class PhotoBankApproachPresence : Node3D
     private InteractionTarget? _winterPilesTarget;
     private InteractionTarget? _verifyBankTarget;
     private InteractionTarget? _bankReturnTarget;
-    private InteractionTarget? _leafWitnessTarget;
+    private InteractionTarget? _bankToEpilogueTarget;
     private InteractionTarget? _alsuLeafTarget;
     private InteractionTarget? _enterBankTarget;
     private InteractionTarget? _legacyAlsuTarget;
@@ -49,6 +50,7 @@ public partial class PhotoBankApproachPresence : Node3D
             return;
         }
         ApplyProjection();
+        ProcessLeafWitness(delta);
     }
 
     private bool TryBindBridge()
@@ -90,26 +92,28 @@ public partial class PhotoBankApproachPresence : Node3D
         if (_bankReturnTarget is null && _bankReturnWitness is { } bankReturn)
             _bankReturnTarget = CreateTarget("BankReturnTarget", BankReturnInteractionId,
                 "urman.fullgame:text/pw-label-bank-return", bankReturn, .55f, .82f);
-        if (_leafWitnessTarget is null && _leafWitness is { } leaf)
-            _leafWitnessTarget = CreateTarget("SummerLeafWitnessTarget", LeafWitnessInteractionId,
-                "urman.fullgame:text/pw-label-witness-summer-leaf", leaf, .40f, .02f);
+        if (_bankToEpilogueTarget is null && _bankReturnWitness is { } epilogue)
+            _bankToEpilogueTarget = CreateTarget("BankToEpilogueTarget", BankToEpilogueInteractionId,
+                "urman.fullgame:text/pw-label-bank-to-epilogue", epilogue, .55f, .82f);
 
         EnsureAlsuTarget();
+        EnsureLeafPresentationNodes();
         return _enterBankTarget is not null && _winterPilesTarget is not null && _verifyBankTarget is not null
-            && _bankReturnTarget is not null && _leafWitnessTarget is not null;
+            && _bankReturnTarget is not null && _bankToEpilogueTarget is not null;
     }
 
     private void EnsureAlsuTarget()
     {
-        var world = GetTree().GetFirstNodeInGroup("act1_connected_world") as Act1ConnectedWorld;
-        var village = world?.GetZoneInstance("village_day");
-        var actor = village?.GetNodeOrNull<Node3D>("Act1NpcPresentation/Npc_alsu");
-        var legacyTarget = village?.GetNodeOrNull<InteractionTarget>("AlsuNpc");
-        if (actor is null || legacyTarget is null)
+        var walk = AlsuStreetWalkPresentation.SessionOwner(GetTree());
+        var actor = walk?.Actor;
+        var village = (GetTree().GetFirstNodeInGroup("act1_connected_world") as Act1ConnectedWorld)
+            ?.GetZoneInstance("village_day");
+        var legacyTarget = walk?.Target ?? village?.GetNodeOrNull<InteractionTarget>("AlsuNpc");
+        if (walk is null || actor is null || legacyTarget is null)
         {
             RestoreLegacyAlsuTarget();
             _alsuActor = null;
-            _legacyAlsuTarget = null;
+            _legacyAlsuTarget = legacyTarget;
             return;
         }
 
@@ -192,11 +196,12 @@ public partial class PhotoBankApproachPresence : Node3D
                 && IsInteractionReady(bridge, WinterPilesInteractionId));
         SetTarget(_verifyBankTarget, bridge, "urman.fullgame:text/pw-label-verify-bank-evidence",
             bankRouteActive && interactionWindowOpen && IsInteractionReady(bridge, VerifyBankInteractionId));
+        var epilogueReady = bankRouteActive && interactionWindowOpen
+            && IsInteractionReady(bridge, BankToEpilogueInteractionId);
+        SetTarget(_bankToEpilogueTarget, bridge, "urman.fullgame:text/pw-label-bank-to-epilogue", epilogueReady);
         SetTarget(_bankReturnTarget, bridge, "urman.fullgame:text/pw-label-bank-return",
-            bankRouteActive && interactionWindowOpen && IsInteractionReady(bridge, BankReturnInteractionId));
-        SetTarget(_leafWitnessTarget, bridge, "urman.fullgame:text/pw-label-witness-summer-leaf",
-            bankRouteActive && interactionWindowOpen && !bridge.PhotoWorldFactObserved(LeafWitnessFactId)
-                && IsInteractionReady(bridge, LeafWitnessInteractionId));
+            bankRouteActive && interactionWindowOpen && !epilogueReady
+                && IsInteractionReady(bridge, BankReturnInteractionId));
 
         var alsuReady = _alsuActor is { } actor && GodotObject.IsInstanceValid(actor)
             && actor.IsVisibleInTree()
@@ -241,7 +246,7 @@ public partial class PhotoBankApproachPresence : Node3D
         foreach (var target in new[]
         {
             _enterBankTarget, _winterPilesTarget, _verifyBankTarget,
-            _bankReturnTarget, _leafWitnessTarget, _alsuLeafTarget
+            _bankReturnTarget, _bankToEpilogueTarget, _alsuLeafTarget
         })
         {
             if (target is { } current && GodotObject.IsInstanceValid(current) && !current.IsQueuedForDeletion())
