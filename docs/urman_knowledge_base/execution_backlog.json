@@ -25493,7 +25493,25 @@
               "verification": [],
               "acceptance": []
             },
-            "depends_on": []
+            "depends_on": [],
+            "entrypoint_source_review_2026_10_18": {
+              "result": "CLEAN_SOURCE_CONFIGURATION",
+              "evidence": [
+                "game/project.godot:14",
+                "game/scenes/photoworlds_game.tscn:3",
+                "game/scenes/full_game.tscn:14",
+                "eng/export-desktop-release.sh:178",
+                "eng/verify-act1-release-package.sh:383"
+              ],
+              "finding": "Default project/export entrypoint is PhotoWorlds; full_game scene uses current urman.fullgame compiled campaign and physical routing. New Game/Continue handlers use campaign session/save lifecycle. Legacy class/scene names do not indicate a stale campaign.",
+              "limits": "Independent read-only source check. No produced binary inspected, exported or launched; ordinary runtime acceptance remains open.",
+              "next": "Use the actual current product binary and compatible real player slot in the already-authorized ordinary native route when owned foreground is available; do not repeat configuration audit without a changed input."
+            },
+            "focus_cause_review_2026_10_18": {
+              "result": "UNKNOWN_CAUSE; NO_STATION_RETRY",
+              "finding": "4f86e4fca4b5404f8e015cb55e5ded01 refused before Enter injection. New Game callback therefore cannot explain this attempt. A fresh helper enumerates the owned HWND per request; no cross-request stale handle. Existing evidence does not retain foreground HWND/PID or before/after window snapshots. No game window-mode/size/position calls were found.",
+              "limits": "Read-only source/log inspection by independent native luna_fast; no guard weakening, source fix or Windows action. A bounded review of retaining the existing helper result is next; no new probe/API or unchanged focus workaround."
+            }
           },
           {
             "id": "FINISH-06/E02",
@@ -110895,6 +110913,12 @@
           "game/scripts/RuntimeBridge.cs",
           "tests-dotnet/Urman.Core.Tests/DeterminismAndSaveTests.cs"
         ]
+      },
+      "menu_recovery_copy_2026_10_18": {
+        "result": "DELIVERED_SOURCE",
+        "file": "game/scripts/MainMenuUi.cs",
+        "change": "Existing-save/no-readable-Continue branch now explains possible different version or corruption and explicitly states files were not changed. No codec/store/hash/allowlist changes.",
+        "verification": "One-branch diff inspection, diff --check and coupled affected Game compile0/0. Actual old-slot ordinary Continue remains unproved."
       }
     },
     {
@@ -120989,7 +121013,7 @@
       "title": "W01: произвести, оживить и поставить Шурале",
       "milestone": "PW-M3",
       "status": "in_progress",
-      "active_owner": "Codex",
+      "active_owner": "Codex/whole_actor_route",
       "owner": "character_art",
       "priority": "P1",
       "complexity": "complex",
@@ -121144,7 +121168,7 @@
       "assigned_owner": "character_art",
       "activity": {
         "state": "confirmed_active",
-        "reason": "Root accepted corrected refine-v3 only for source fitting. Performance owns isolated integration-v1; canonical actor remains unchanged. Root owns tracker/Git and visual acceptance."
+        "reason": "One source-only full-body input/reconstruction on the already installed pinned CPU TripoSR. Whole actor graft study rejected as art; no runtime promotion."
       },
       "task_type": "engineering",
       "implementation_state": "not_started",
@@ -121494,6 +121518,33 @@
         "refine_v3_sha256": "96feac05595aa5fcf445657dc2e7ee270f0e007d80de02da1c059ebb95ba22dc",
         "refine_v3_verification": "Pinned Blender4.5.12 generation; manually inverted front-camera landmarks round-trip within0.00006px. Measured source boundary loops of3–6edges repaired before Boolean; final head-body topology has0 nonmanifold edges. Total head+eyes8452tri. Color-only repair preserved exact vertex positions/faces; root inspected updated color views.",
         "refine_v3_art_remaining": "Faceted/reconstruction-noisy forms and secondary silhouette spikes remain visible. Whole-actor proportions, neck seam, palette, movement and author/cultural/native acceptance remain open; this source-fit approval does not establish the requested final A24-like horror quality."
+      },
+      "whole_actor_route_review_2026_10_18": {
+        "result": "NO_GO_FOR_CURRENT_MAC_ROUTE",
+        "candidate": "Official VAST-AI TripoSG; whole static mesh from concept image, not a rigged actor.",
+        "reason": "Official main requires CUDA and CUDA-specific decoder/preprocess paths; MPS adaptations are unmerged and have no actual M4Pro24GiB performance proof. Default RMBG1.4 is gated/noncommercial; bundled default FlashVDM license has separate restrictions. No new software/model/downloads or runtime asset change.",
+        "sources": [
+          "https://github.com/VAST-AI-Research/TripoSG/blob/main/scripts/inference_triposg.py",
+          "https://github.com/VAST-AI-Research/TripoSG/blob/main/triposg/inference_utils.py",
+          "https://github.com/VAST-AI-Research/TripoSG/pull/44",
+          "https://huggingface.co/briaai/RMBG-1.4",
+          "https://github.com/VAST-AI-Research/TripoSG/blob/main/triposg/LICENSE"
+        ],
+        "next": "Finish the one existing source graft technical correction and review its actual full-actor views. Do not equate local mesh inference availability with coherent horror art or install an uncertain route."
+      },
+      "source_graft_review_2026_10_18": {
+        "result": "REJECTED_FOR_CANONICAL_PROMOTION; FINITE_STUDY_STOPPED",
+        "source": "assets/source/blender/photoworlds/W01/shurale_reconstruction_v1/integration-v1/",
+        "candidate_glb_sha256": "1d77c459 (prefix; full hash in owned manifest)",
+        "root_review": "Root personally viewed final close-front, close-profile, work-full and earlier full3q. Pale faceted collar, peach rough head over gray smooth hourglass torso and unreadable gaze remain. Whole actor does not satisfy modern horror direction.",
+        "technical_result": "26508/11395 LOD triangles,0 graft boundary/nonmanifold edges,53 joints,7 clips,3380 preserved hand/finger faces;350 finite float accessors.3 duplicate LOD1 triangles repaired before export.",
+        "unresolved": "Blender glTF exporter apply_mat_to_all RuntimeWarnings persist despite finite source positions/normals/transforms and finite packed attributes; tangent input cause unproven. No further scalar/material variants. Source candidate remains untracked and canonical actor unchanged."
+      },
+      "whole_body_source_stage_2026_10_18": {
+        "owner": "Codex/whole_actor_route",
+        "scope": "One isolated full-body original concept input, then exactly one raw OBJ inference with already installed pinned TripoSR CPU. Target actual ribcage/scapula/pelvis and continuous whole silhouette; no v6 field-displacement rerun, new model dependencies, rig or canonical edits.",
+        "folder": "assets/source/blender/photoworlds/W01/shurale_reconstruction_v1/whole-body-v1/",
+        "acceptance": "Actual neutral source front/3q/profile review for coherent anatomy. Unknown hidden surfaces, retopology/rig/contact/native/art/cultural acceptance stay open. An image or successful inference is not accepted game art."
       }
     },
     {
@@ -124585,19 +124636,19 @@
             "owner": "world_art",
             "evidence": [],
             "assigned_owner": "world_art",
-            "active_owner": "Codex/gamefeel",
+            "active_owner": null,
             "activity": {
-              "state": "confirmed_active",
-              "reason": "Native worker accepted the bounded H00–H08 physical world assembly. Root owns shared tracker/Git. Geometry source only; entry/routing waits for a real scene."
+              "state": "not_active",
+              "reason": "Finite coupled source stage delivered and affected Game compile passed; native observation/restore and art acceptance remain open. Bounded read-only collision/lifecycle reviews are separate from production ownership."
             },
             "task_type": "engineering",
             "status": "in_progress",
             "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
-              "Собрать узлы H00, H01, H02, H03, H04, H05, H06, H07, H08 и все связи из level-паспорта.; собственного целевого receipt пока нет."
+              "Actual ordinary traversal and safe landings across H00–H08 are not observed; scene/import/art alignment remains unaccepted."
             ],
-            "next_action": "Build and review the actual H00–H08 world using named authored architectural inputs and the exact W03 passport. Connect physical entry/return after the world artifact exists; preserve separate interaction, spatial-law and art acceptance criteria.",
+            "next_action": "Inspect the bounded collision/lifecycle review results, then prove physical P-HOUSE entry → H00–H08 actions/two views → return → save/Continue in an owned ordinary native session once the foreground blocker has a causal resolution. Do not repeat unchanged compile or substitute an old W02 capture.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -124701,6 +124752,24 @@
               "owner": "Codex/persistence",
               "scope": "Reuse W02 entry/mount/session/save-transform/home-return lifecycle for actual pw-house scene and physical P-HOUSE home target; no compiled content edits.",
               "limit": "Atomic source integration only after the actual W03 scene is present. An entry target into empty markers is not accepted."
+            },
+            "source_integration_2026_10_18": {
+              "result": "ACCEPTED_FINITE_SOURCE_STAGE; NATIVE_NOT_RUN",
+              "files": [
+                "game/scenes/photoworlds/W03/W03.tscn",
+                "game/scripts/photoworlds/W03Controller.cs",
+                "game/scripts/photoworlds/W03Controller.Geometry.cs",
+                "game/scripts/photoworlds/W03Controller.Interactions.cs",
+                "game/scripts/photoworlds/W03Controller.SpatialLinks.cs",
+                "game/scripts/photoworlds/W03Controller.WorldGuard.cs",
+                "game/scripts/Main.cs",
+                "game/scripts/ArrivalPersonalProps.cs",
+                "game/scripts/RuntimeBridge.PhotoWorldScene.cs"
+              ],
+              "verification": "Affected Game compile: .tools/dotnet/dotnet build game/Urman.Game.csproj --no-restore --nologo -v:minimal;14.56s,0 warnings,0 errors. Root inspected route and critical controller flow; git diff --check passed for tracked sources. No new tests/probes/native run.",
+              "delivered": "Actual H00–H08 scene, guarded matching ground, imported HeroHouse and one shared apple-tree/chair courtyard; physical P-HOUSE entry, mounted session/load/return lifecycle; two reversible view passages, shutter/cloth motion, real photographer witnesses, frame/return reducer gates.",
+              "limits": "Compilation is not visual/traversal/restore proof. E02 authored asset families/provenance, source art and ordinary native acceptance remain open. No whole-card completion.",
+              "review": "Independent native luna_fast source review found no confirmed W03 lifecycle/session/restore/return blocker. Producer read-only collision-path pass found door clearance1.30x2.25m vs player radius.35/height1.8, interior ground matches.331m floor. H06 sill.21m vs stepcap.22m remains a specific native uncertainty, not proof of safe traversal."
             }
           },
           {
@@ -125205,7 +125274,7 @@
       "title": "W03: реализовать два вида одного двора",
       "milestone": "PW-M3",
       "status": "in_progress",
-      "active_owner": "Codex/story",
+      "active_owner": null,
       "owner": "gameplay",
       "priority": "P1",
       "complexity": "complex",
@@ -125342,18 +125411,18 @@
       },
       "assigned_owner": "gameplay",
       "activity": {
-        "state": "confirmed_active",
-        "reason": "Native worker started the bounded W03 physical interaction/spatial-link stage. Existing compiled interaction/fact IDs are verified; exact geometry endpoints are being agreed with the world producer before binding."
+        "state": "not_active",
+        "reason": "Finite coupled source stage delivered and affected Game compile passed; native observation/restore and art acceptance remain open. Bounded read-only collision/lifecycle reviews are separate from production ownership."
       },
       "task_type": "engineering",
-      "implementation_state": "not_started",
+      "implementation_state": "partial",
       "technical_verification_state": "not_run",
       "remaining": [
         "Невозможность осмысленна, а не является парой несвязанных картинок.",
         "Шов не меняет поле зрения и наклон камеры.",
         "Полный паспорт уровня docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/levels/W03_Дом_на_просвет_RU.md реализован: узлы/физические связи/действия/существо или человеческая сцена/созерцание/возврат/кадры; схема не заменяет проходимый runtime."
       ],
-      "next_action": "Bind the concrete W03 geometry endpoints after checking their authored transforms. Implement the existing reducer-owned actions and reversible passage, then perform the narrow combined source check; no native/art completion claim.",
+      "next_action": "Inspect the bounded collision/lifecycle review results, then prove physical P-HOUSE entry → H00–H08 actions/two views → return → save/Continue in an owned ordinary native session once the foreground blocker has a causal resolution. Do not repeat unchanged compile or substitute an old W02 capture.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -125528,6 +125597,34 @@
         "named_inputs": "Existing compiled W03 interactions/facts and W01 physical crossing/ApplyTraversalTransform patterns are present. W03 producer owns actual world/endpoint geometry; endpoint availability must be checked before binding, not inferred from task status.",
         "scope": "Two separate witnessed door views plus their reducer aggregate; shutter motion, photographer stance with actual visible evidence, cloth hook-to-shelf motion/frame inspection and kernel-gated physical return. Session/load/modal guards and restored fact projection remain required.",
         "verification": "NOT_RUN; implementation started, source interfaces are being reconciled."
+      },
+      "source_review_2026_10_18": {
+        "result": "DELIVERED_SOURCE_FIX; NOT_COMPILED_OR_NATIVE",
+        "portal_fix": "Tracking previously reset after every no-crossing physics tick, preventing normal passage. It now persists while in the frame volume and retains the last nonzero side through the5cm dead zone, then recognizes a real sign change.",
+        "photographer_fix": "H05 shared witness rays now exclude the current player RID even when a loaded save already has both doorway facts.",
+        "verification": "Independent native luna_fast worker read back the final flow, checked for stale plane-distance references and matched compiled reducer gates. No tests/probes/build/station run; geometry remains a named pending input.",
+        "files": [
+          "game/scripts/photoworlds/W03Controller.SpatialLinks.cs",
+          "game/scripts/photoworlds/W03Controller.Interactions.cs"
+        ]
+      },
+      "source_integration_2026_10_18": {
+        "result": "ACCEPTED_FINITE_SOURCE_STAGE; NATIVE_NOT_RUN",
+        "files": [
+          "game/scenes/photoworlds/W03/W03.tscn",
+          "game/scripts/photoworlds/W03Controller.cs",
+          "game/scripts/photoworlds/W03Controller.Geometry.cs",
+          "game/scripts/photoworlds/W03Controller.Interactions.cs",
+          "game/scripts/photoworlds/W03Controller.SpatialLinks.cs",
+          "game/scripts/photoworlds/W03Controller.WorldGuard.cs",
+          "game/scripts/Main.cs",
+          "game/scripts/ArrivalPersonalProps.cs",
+          "game/scripts/RuntimeBridge.PhotoWorldScene.cs"
+        ],
+        "verification": "Affected Game compile: .tools/dotnet/dotnet build game/Urman.Game.csproj --no-restore --nologo -v:minimal;14.56s,0 warnings,0 errors. Root inspected route and critical controller flow; git diff --check passed for tracked sources. No new tests/probes/native run.",
+        "delivered": "Actual H00–H08 scene, guarded matching ground, imported HeroHouse and one shared apple-tree/chair courtyard; physical P-HOUSE entry, mounted session/load/return lifecycle; two reversible view passages, shutter/cloth motion, real photographer witnesses, frame/return reducer gates.",
+        "limits": "Compilation is not visual/traversal/restore proof. E02 authored asset families/provenance, source art and ordinary native acceptance remain open. No whole-card completion.",
+        "review": "Independent native luna_fast source review found no confirmed W03 lifecycle/session/restore/return blocker. Producer read-only collision-path pass found door clearance1.30x2.25m vs player radius.35/height1.8, interior ground matches.331m floor. H06 sill.21m vs stepcap.22m remains a specific native uncertainty, not proof of safe traversal."
       }
     },
     {
@@ -125535,7 +125632,7 @@
       "title": "W03: бытовые действия и позиция фотографа",
       "milestone": "PW-M3",
       "status": "in_progress",
-      "active_owner": "Codex/story",
+      "active_owner": null,
       "owner": "character_art",
       "priority": "P1",
       "complexity": "complex",
@@ -125683,18 +125780,18 @@
       },
       "assigned_owner": "character_art",
       "activity": {
-        "state": "confirmed_active",
-        "reason": "Native worker started the bounded W03 physical interaction/spatial-link stage. Existing compiled interaction/fact IDs are verified; exact geometry endpoints are being agreed with the world producer before binding."
+        "state": "not_active",
+        "reason": "Finite coupled source stage delivered and affected Game compile passed; native observation/restore and art acceptance remain open. Bounded read-only collision/lifecycle reviews are separate from production ownership."
       },
       "task_type": "engineering",
-      "implementation_state": "not_started",
+      "implementation_state": "partial",
       "technical_verification_state": "not_run",
       "remaining": [
         "Положение фотографа выясняется пространственным исследованием.",
         "Авторство Гөлсинә подтверждается только снаружи по обороту и разговору.",
         "Полный паспорт уровня docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/levels/W03_Дом_на_просвет_RU.md реализован: узлы/физические связи/действия/существо или человеческая сцена/созерцание/возврат/кадры; схема не заменяет проходимый runtime."
       ],
-      "next_action": "Bind the concrete W03 geometry endpoints after checking their authored transforms. Implement the existing reducer-owned actions and reversible passage, then perform the narrow combined source check; no native/art completion claim.",
+      "next_action": "Inspect the bounded collision/lifecycle review results, then prove physical P-HOUSE entry → H00–H08 actions/two views → return → save/Continue in an owned ordinary native session once the foreground blocker has a causal resolution. Do not repeat unchanged compile or substitute an old W02 capture.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -125889,6 +125986,34 @@
         "named_inputs": "Existing compiled W03 interactions/facts and W01 physical crossing/ApplyTraversalTransform patterns are present. W03 producer owns actual world/endpoint geometry; endpoint availability must be checked before binding, not inferred from task status.",
         "scope": "Two separate witnessed door views plus their reducer aggregate; shutter motion, photographer stance with actual visible evidence, cloth hook-to-shelf motion/frame inspection and kernel-gated physical return. Session/load/modal guards and restored fact projection remain required.",
         "verification": "NOT_RUN; implementation started, source interfaces are being reconciled."
+      },
+      "source_review_2026_10_18": {
+        "result": "DELIVERED_SOURCE_FIX; NOT_COMPILED_OR_NATIVE",
+        "portal_fix": "Tracking previously reset after every no-crossing physics tick, preventing normal passage. It now persists while in the frame volume and retains the last nonzero side through the5cm dead zone, then recognizes a real sign change.",
+        "photographer_fix": "H05 shared witness rays now exclude the current player RID even when a loaded save already has both doorway facts.",
+        "verification": "Independent native luna_fast worker read back the final flow, checked for stale plane-distance references and matched compiled reducer gates. No tests/probes/build/station run; geometry remains a named pending input.",
+        "files": [
+          "game/scripts/photoworlds/W03Controller.SpatialLinks.cs",
+          "game/scripts/photoworlds/W03Controller.Interactions.cs"
+        ]
+      },
+      "source_integration_2026_10_18": {
+        "result": "ACCEPTED_FINITE_SOURCE_STAGE; NATIVE_NOT_RUN",
+        "files": [
+          "game/scenes/photoworlds/W03/W03.tscn",
+          "game/scripts/photoworlds/W03Controller.cs",
+          "game/scripts/photoworlds/W03Controller.Geometry.cs",
+          "game/scripts/photoworlds/W03Controller.Interactions.cs",
+          "game/scripts/photoworlds/W03Controller.SpatialLinks.cs",
+          "game/scripts/photoworlds/W03Controller.WorldGuard.cs",
+          "game/scripts/Main.cs",
+          "game/scripts/ArrivalPersonalProps.cs",
+          "game/scripts/RuntimeBridge.PhotoWorldScene.cs"
+        ],
+        "verification": "Affected Game compile: .tools/dotnet/dotnet build game/Urman.Game.csproj --no-restore --nologo -v:minimal;14.56s,0 warnings,0 errors. Root inspected route and critical controller flow; git diff --check passed for tracked sources. No new tests/probes/native run.",
+        "delivered": "Actual H00–H08 scene, guarded matching ground, imported HeroHouse and one shared apple-tree/chair courtyard; physical P-HOUSE entry, mounted session/load/return lifecycle; two reversible view passages, shutter/cloth motion, real photographer witnesses, frame/return reducer gates.",
+        "limits": "Compilation is not visual/traversal/restore proof. E02 authored asset families/provenance, source art and ordinary native acceptance remain open. No whole-card completion.",
+        "review": "Independent native luna_fast source review found no confirmed W03 lifecycle/session/restore/return blocker. Producer read-only collision-path pass found door clearance1.30x2.25m vs player radius.35/height1.8, interior ground matches.331m floor. H06 sill.21m vs stepcap.22m remains a specific native uncertainty, not proof of safe traversal."
       }
     },
     {

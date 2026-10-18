@@ -7,11 +7,13 @@ public partial class Main : Node3D
 {
     private const string W01ScenePath = "res://scenes/photoworlds/W01/W01.tscn";
     private const string W02ScenePath = "res://scenes/photoworlds/W02/W02.tscn";
+    private const string W03ScenePath = "res://scenes/photoworlds/W03/W03.tscn";
     private const string PrologueSceneId = "urman.fullgame:scene/pw-prologue";
     private const string NivaArrivalSceneId = "urman.fullgame:scene/pw-niva-arrival";
     private const string HomeSceneId = "urman.fullgame:scene/pw-home";
     private const string ForestSceneId = "urman.fullgame:scene/pw-forest";
     private const string RiverSceneId = "urman.fullgame:scene/pw-river";
+    private const string HousePhotoSceneId = "urman.fullgame:scene/pw-house";
 
     private static readonly IReadOnlyDictionary<string, string> ZoneScenes = new Dictionary<string, string>(StringComparer.Ordinal)
     {
@@ -43,6 +45,7 @@ public partial class Main : Node3D
     private RuntimeBridge? _fullGameRouteBridge;
     private Node3D? _mountedW01;
     private Node3D? _mountedW02;
+    private Node3D? _mountedW03;
     private object? _lastFullGameRouteSession;
     private string? _lastFullGameRouteScene;
     private bool _routingFullGameScene;
@@ -115,6 +118,7 @@ public partial class Main : Node3D
         _fullGameRouteBridge = null;
         _mountedW01 = null;
         _mountedW02 = null;
+        _mountedW03 = null;
     }
 
     internal static bool IsKnownZone(string zoneId) => ZoneScenes.ContainsKey(zoneId);
@@ -248,6 +252,7 @@ public partial class Main : Node3D
         }
         _mountedW01 = null;
         _mountedW02 = null;
+        _mountedW03 = null;
         foreach (var child in _zoneHost.GetChildren())
         {
             if (child is Node3D oldZone) oldZone.Visible = false;
@@ -296,6 +301,7 @@ public partial class Main : Node3D
         AlsuStreetWalkPresentation.SessionOwner(GetTree())?.DisableContactForZoneDisposal();
         _mountedW01 = null;
         _mountedW02 = null;
+        _mountedW03 = null;
         foreach (var child in _zoneHost.GetChildren())
         {
             if (child is Node3D oldZone) oldZone.Visible = false;
@@ -360,6 +366,12 @@ public partial class Main : Node3D
                 return;
             }
 
+            if (projection.ActiveSceneId == HousePhotoSceneId)
+            {
+                MountW03(projection, bridge);
+                return;
+            }
+
             var targetZone = projection.ActiveSceneId == NivaArrivalSceneId
                 ? "village_day"
                 : bridge.CurrentZoneId == "house_old_pc" ? "house_old_pc" : "village_day";
@@ -374,6 +386,7 @@ public partial class Main : Node3D
             // returning from W01 or from a different compact zone.
             var needsZonePresentation = IsMountedW01()
                 || IsMountedW02()
+                || IsMountedW03()
                 || bridge.CurrentZoneId != targetZone
                 || bridge.CurrentSpawnPointId != targetSpawn
                 || (EnableAct1ConnectedWorld && Act1WorldLayout.ContainsZone(targetZone)
@@ -450,6 +463,8 @@ public partial class Main : Node3D
 
         RetireConnectedWorld();
         AlsuStreetWalkPresentation.SessionOwner(GetTree())?.DisableContactForZoneDisposal();
+        _mountedW02 = null;
+        _mountedW03 = null;
         foreach (var child in _zoneHost.GetChildren())
         {
             if (child is Node3D oldZone) oldZone.Visible = false;
@@ -498,7 +513,8 @@ public partial class Main : Node3D
     {
         if (EnableAct1ConnectedWorld && Act1WorldLayout.ContainsZone(zoneId))
             return _connectedWorld?.ActiveZoneId == zoneId;
-        return !IsMountedW01() && !IsMountedW02() && ZoneScenes.TryGetValue(zoneId, out var path)
+        return !IsMountedW01() && !IsMountedW02() && !IsMountedW03()
+            && ZoneScenes.TryGetValue(zoneId, out var path)
             && string.Equals(ActiveZoneScenePath, path, StringComparison.Ordinal);
     }
 
@@ -563,6 +579,8 @@ public partial class Main : Node3D
 
         RetireConnectedWorld();
         AlsuStreetWalkPresentation.SessionOwner(GetTree())?.DisableContactForZoneDisposal();
+        _mountedW01 = null;
+        _mountedW03 = null;
         foreach (var child in _zoneHost.GetChildren())
         {
             if (child is Node3D oldZone) oldZone.Visible = false;
@@ -604,6 +622,92 @@ public partial class Main : Node3D
         // W02 is the summer bank inside the water print: the manifest's
         // water-edge bed owns this zone key.
         ambience.SetZone("fullgame_act2_river");
+    }
+
+    private void MountW03(RuntimeBridge.FullGamePhotoWorldRouteProjection projection, RuntimeBridge bridge)
+    {
+        const string entryAnchorId = "H00";
+        const string fallbackAnchorId = "PW_HOME_PHOTO_ENTRY";
+        var alreadyMounted = IsMountedW03();
+        var routeSceneChanged = !string.Equals(_lastFullGameRouteScene, projection.ActiveSceneId, StringComparison.Ordinal);
+        var sameSession = ReferenceEquals(_lastFullGameRouteSession, projection.SessionIdentity);
+
+        if (alreadyMounted)
+        {
+            if (routeSceneChanged && sameSession)
+            {
+                var resolved = ResolveEntryAnchor(_mountedW03!, entryAnchorId, fallbackAnchorId);
+                PlacePlayerAtW01Entry(_mountedW03!, resolved);
+            }
+            _preserveLoadedPhotoWorldTransform = false;
+            _loadedPhotoWorldTransformSession = null;
+            SetW03Ambience();
+            _hasLoadedInitialZone = true;
+            _lastFullGameRouteSession = projection.SessionIdentity;
+            _lastFullGameRouteScene = projection.ActiveSceneId;
+            return;
+        }
+
+        var packed = ResourceLoader.Load<PackedScene>(W03ScenePath);
+        if (packed is null)
+        {
+            GD.PushError($"Full-game W03 presentation is missing: {W03ScenePath}.");
+            return;
+        }
+
+        var world = packed.Instantiate<Node3D>();
+        var resolvedAnchorId = ResolveEntryAnchor(world, entryAnchorId, fallbackAnchorId);
+        if (world.GetNodeOrNull<Node3D>($"Anchors/{resolvedAnchorId}") is null)
+        {
+            world.Free();
+            GD.PushError($"Full-game W03 presentation has no authored Anchors/{entryAnchorId} entry point or named fallback Anchors/{fallbackAnchorId}.");
+            return;
+        }
+
+        RetireConnectedWorld();
+        AlsuStreetWalkPresentation.SessionOwner(GetTree())?.DisableContactForZoneDisposal();
+        _mountedW01 = null;
+        _mountedW02 = null;
+        foreach (var child in _zoneHost.GetChildren())
+        {
+            if (child is Node3D oldZone) oldZone.Visible = false;
+            child.QueueFree();
+        }
+        _zoneHost.AddChild(world);
+        _mountedW03 = world;
+        ActiveZoneScenePath = W03ScenePath;
+
+        var preserveLoadedTransform = _preserveLoadedPhotoWorldTransform
+            && ReferenceEquals(_loadedPhotoWorldTransformSession, projection.SessionIdentity);
+        var placeAtEntry = !preserveLoadedTransform
+            && (_lastFullGameRouteSession is null
+                || (sameSession && routeSceneChanged)
+                || (!sameSession && bridge.CurrentZoneId == "village_day"
+                    && bridge.CurrentSpawnPointId == "arrival"));
+        _preserveLoadedPhotoWorldTransform = false;
+        _loadedPhotoWorldTransformSession = null;
+        if (placeAtEntry)
+            PlacePlayerAtW01Entry(world, resolvedAnchorId);
+        SetW03Ambience();
+
+        _lastFullGameRouteSession = projection.SessionIdentity;
+        _lastFullGameRouteScene = projection.ActiveSceneId;
+        if (_hasLoadedInitialZone)
+            PlayZoneTransition();
+        _hasLoadedInitialZone = true;
+        GD.Print($"fullgame-scene-loaded: {projection.ActiveSceneId} physical=W03 entry={resolvedAnchorId}");
+    }
+
+    private bool IsMountedW03() => _mountedW03 is { } world
+        && GodotObject.IsInstanceValid(world) && !world.IsQueuedForDeletion()
+        && ReferenceEquals(world.GetParent(), _zoneHost);
+
+    private void SetW03Ambience()
+    {
+        if (GetTree().GetFirstNodeInGroup("ambient_audio") is not AmbientAudioDirector ambience) return;
+        ambience.SetPhysicalShelter(false);
+        // The courtyard uses the existing full-game house ambience key.
+        ambience.SetZone("fullgame_act2_house");
     }
 
     private void PlacePlayerAtW01Entry(Node3D world, string anchorId)

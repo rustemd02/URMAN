@@ -433,6 +433,12 @@ internal partial class ArrivalPersonalProps : Node3D
         back.SetMeta("assetStatus", "authored back face only; P-HOUSE front remains specified, not produced");
         print.AddChild(back);
 
+        var entryTargetPosition = things.Transform * envelope.Transform
+            * new Vector3(0f, .06f, presence.PrintOutLocalZ);
+        house.MakeInteractionBox("HousePhotoEntryTarget", new(.30f, .16f, .26f),
+            entryTargetPosition, "8fa694", "urman.fullgame:interaction/pw-enter-house",
+            "Войти в знакомый двор со снимка", rayOnly: true);
+
         var source = house.MakeInteractionBox("HousePhotoSourceTarget", new(.26f, .14f, .24f),
             envelopePosition + Vector3.Up * .06f, "cfc4a8",
             "urman.fullgame:interaction/pw-house-photo-source", "Узнать старый снимок собственного двора",

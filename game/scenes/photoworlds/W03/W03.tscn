@@ -1,17 +1,85 @@
-[gd_scene load_steps=1 format=3]
+[gd_scene load_steps=5 format=3]
+
+[ext_resource path="res://scripts/photoworlds/W03Controller.cs" type="Script" id="1_w03"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_W03Summer"]
+sky_top_color = Color(0.32, 0.48, 0.62, 1)
+sky_horizon_color = Color(0.83, 0.75, 0.64, 1)
+ground_bottom_color = Color(0.24, 0.3, 0.24, 1)
+ground_horizon_color = Color(0.57, 0.55, 0.43, 1)
+
+[sub_resource type="Sky" id="Sky_W03Summer"]
+sky_material = SubResource("ProceduralSkyMaterial_W03Summer")
+
+[sub_resource type="Environment" id="Environment_W03Summer"]
+background_mode = 2
+sky = SubResource("Sky_W03Summer")
+ambient_light_source = 3
+ambient_light_color = Color(0.79, 0.73, 0.65, 1)
+ambient_light_energy = 0.82
+tonemap_mode = 3
+tonemap_exposure = 1.0
+fog_enabled = true
+fog_light_color = Color(0.76, 0.73, 0.64, 1)
+fog_density = 0.0016
+fog_height = 1.5
+fog_height_density = 0.018
+fog_aerial_perspective = 0.42
+fog_sky_affect = 0.20
+fog_sun_scatter = 0.16
 
 [node name="W03" type="Node3D"]
+script = ExtResource("1_w03")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_W03Summer")
+
+[node name="Daylight" type="DirectionalLight3D" parent="."]
+rotation_degrees = Vector3(-38, -50, 0)
+light_color = Color(1, 0.94, 0.82, 1)
+light_energy = 1.12
+shadow_enabled = true
+shadow_opacity = 0.38
 
 [node name="Anchors" type="Node3D" parent="."]
 
-; H00: home photo entry spawn.
+; H00 is the initial photo imprint. Forward is +Z, while camera forward is -Z.
 [node name="H00" type="Marker3D" parent="Anchors"]
-position = Vector3(0, 0, 0)
+rotation_degrees = Vector3(0, 180, 0)
 
-; H08: home photo exit.
+; H01 is the real porch threshold at the imported hero-house doorway.
+[node name="H01" type="Marker3D" parent="Anchors"]
+position = Vector3(0, 0.3, 10)
+rotation_degrees = Vector3(0, 180, 0)
+
+; H02 and H03 are the two authored door planes beside the house.
+[node name="H02" type="Marker3D" parent="Anchors"]
+position = Vector3(-10, 0.3, 20)
+
+[node name="H03" type="Marker3D" parent="Anchors"]
+position = Vector3(10, 0.3, 20)
+
+; H04 is the single shared apple-tree and chair composition.
+[node name="H04" type="Marker3D" parent="Anchors"]
+position = Vector3(-25, 0, 38)
+
+; H05 is the photographer's stance, facing back toward the real house window.
+[node name="H05" type="Marker3D" parent="Anchors"]
+position = Vector3(28, 0.2, 40)
+rotation_degrees = Vector3(0, 40, 0)
+
+[node name="H06" type="Marker3D" parent="Anchors"]
+position = Vector3(30, 0.2, 53)
+
+[node name="H07" type="Marker3D" parent="Anchors"]
+position = Vector3(12, 0, 72)
+rotation_degrees = Vector3(0, 45, 0)
+
+; H08 is the shared yard return marker and final authored waypoint.
 [node name="H08" type="Marker3D" parent="Anchors"]
-position = Vector3(2, 0, 0)
+position = Vector3(0, 0, 83)
+rotation_degrees = Vector3(0, -47, 0)
 
-; PW_HOME_PHOTO_ENTRY: semantic alias for H00 (PhotoWorlds W03 entry anchor).
+; Semantic alias for H00, used by PhotoWorld routing.
 [node name="PW_HOME_PHOTO_ENTRY" type="Marker3D" parent="Anchors"]
-position = Vector3(0, 0, 0)
+rotation_degrees = Vector3(0, 180, 0)

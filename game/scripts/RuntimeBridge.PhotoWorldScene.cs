@@ -12,14 +12,15 @@ public partial class RuntimeBridge
     /// New-game setup and save restoration call Main.SwitchZone before the
     /// PhotoWorld scene is ready to own the physical presentation. In that
     /// window, keep the requested runtime location but do not eagerly build
-    /// and immediately discard the heavier connected village for a W01 scene.
+    /// and immediately discard another physical zone for a photo scene.
     /// </summary>
     internal bool IsW01PresentationDeferred => (_loadingSlot || _loadPreparing)
         && _content is { HasPhotoWorlds: true }
         && ActiveSceneId is (
             "urman.fullgame:scene/pw-prologue"
             or "urman.fullgame:scene/pw-forest"
-            or "urman.fullgame:scene/pw-river");
+            or "urman.fullgame:scene/pw-river"
+            or "urman.fullgame:scene/pw-house");
 
     internal sealed record W01BranchProjection(object SessionIdentity, string ActiveSceneId, bool Moved);
 
@@ -42,7 +43,8 @@ public partial class RuntimeBridge
                 or "urman.fullgame:scene/pw-niva-arrival"
                 or "urman.fullgame:scene/pw-home"
                 or "urman.fullgame:scene/pw-forest"
-                or "urman.fullgame:scene/pw-river"))
+                or "urman.fullgame:scene/pw-river"
+                or "urman.fullgame:scene/pw-house"))
             return null;
 
         return new FullGamePhotoWorldRouteProjection(session, sceneId);
