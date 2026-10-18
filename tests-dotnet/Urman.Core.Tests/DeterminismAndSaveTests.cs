@@ -97,8 +97,22 @@ public sealed class DeterminismAndSaveTests
     {
         var codec = new SaveGameV3Codec();
         var bytes = codec.Encode(CreateSave("house", 1));
+        var expectedTextRevisionFingerprint = new string('0', 64);
+        var exactCompatibility = new[]
+        {
+            new SaveGameFingerprintCompatibility(CampaignFingerprint, expectedTextRevisionFingerprint)
+        };
 
-        Assert.Throws<InvalidDataException>(() => codec.Decode(bytes, new string('0', 64)));
+        Assert.Throws<InvalidDataException>(() => codec.Decode(bytes, expectedTextRevisionFingerprint));
+        Assert.Equal(
+            CampaignFingerprint,
+            codec.Decode(bytes, expectedTextRevisionFingerprint, exactCompatibility).CampaignFingerprint);
+        Assert.Throws<InvalidDataException>(
+            () => codec.Decode(bytes, new string('2', 64), exactCompatibility));
+        Assert.Throws<InvalidDataException>(() => codec.Decode(
+            bytes,
+            expectedTextRevisionFingerprint,
+            [new SaveGameFingerprintCompatibility(new string('1', 64), expectedTextRevisionFingerprint)]));
     }
 
     [Fact]

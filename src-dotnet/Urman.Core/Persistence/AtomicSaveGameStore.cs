@@ -6,12 +6,17 @@ public sealed partial class AtomicSaveGameStore
 {
     private readonly string _directory;
     private readonly SaveGameV3Codec _codec;
+    private readonly IReadOnlyCollection<SaveGameFingerprintCompatibility> _fingerprintCompatibility;
 
-    public AtomicSaveGameStore(string directory, SaveGameV3Codec? codec = null)
+    public AtomicSaveGameStore(
+        string directory,
+        SaveGameV3Codec? codec = null,
+        IReadOnlyCollection<SaveGameFingerprintCompatibility>? fingerprintCompatibility = null)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(directory);
         _directory = Path.GetFullPath(directory);
         _codec = codec ?? new SaveGameV3Codec();
+        _fingerprintCompatibility = fingerprintCompatibility?.ToArray() ?? Array.Empty<SaveGameFingerprintCompatibility>();
     }
 
     public async Task SaveAsync(string slot, SaveGameV3 save, CancellationToken cancellationToken = default)
@@ -66,7 +71,7 @@ public sealed partial class AtomicSaveGameStore
         try
         {
             var primary = await File.ReadAllBytesAsync(SlotPath(slot), cancellationToken);
-            return new(_codec.Decode(primary, expectedCampaignFingerprint), false);
+            return new(_codec.Decode(primary, expectedCampaignFingerprint, _fingerprintCompatibility), false);
         }
         catch (Exception exception) when (exception is IOException or InvalidDataException or UnauthorizedAccessException)
         {
@@ -76,7 +81,7 @@ public sealed partial class AtomicSaveGameStore
         try
         {
             var backup = await File.ReadAllBytesAsync(BackupPath(slot), cancellationToken);
-            return new(_codec.Decode(backup, expectedCampaignFingerprint), true);
+            return new(_codec.Decode(backup, expectedCampaignFingerprint, _fingerprintCompatibility), true);
         }
         catch (Exception backupFailure) when (backupFailure is IOException or InvalidDataException or UnauthorizedAccessException)
         {

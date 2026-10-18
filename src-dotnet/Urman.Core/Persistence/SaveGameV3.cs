@@ -65,6 +65,15 @@ public sealed record SaveGameV3(
 
 public sealed record SaveLoadResult(SaveGameV3 Save, bool RecoveredFromBackup);
 
+/// <summary>
+/// One explicitly accepted content-only save revision. A save carrying
+/// <see cref="PreviousFingerprint"/> may load only when the caller expects
+/// <see cref="ExpectedFingerprint"/>; this is not a general migration rule.
+/// </summary>
+public sealed record SaveGameFingerprintCompatibility(
+    string PreviousFingerprint,
+    string ExpectedFingerprint);
+
 public sealed class SaveGameV3Codec
 {
     private static readonly JsonSerializerOptions Options = new()
@@ -86,7 +95,10 @@ public sealed class SaveGameV3Codec
         return JsonSerializer.SerializeToUtf8Bytes(save, Options);
     }
 
-    public SaveGameV3 Decode(ReadOnlySpan<byte> bytes, string? expectedCampaignFingerprint = null)
+    public SaveGameV3 Decode(
+        ReadOnlySpan<byte> bytes,
+        string? expectedCampaignFingerprint = null,
+        IReadOnlyCollection<SaveGameFingerprintCompatibility>? fingerprintCompatibility = null)
     {
         SaveGameV3 save;
         try
@@ -103,12 +115,32 @@ public sealed class SaveGameV3Codec
 
         Validate(save);
         if (expectedCampaignFingerprint is not null &&
-            !StringComparer.Ordinal.Equals(save.CampaignFingerprint, expectedCampaignFingerprint))
+            !MatchesExpectedFingerprint(save.CampaignFingerprint, expectedCampaignFingerprint, fingerprintCompatibility))
         {
             throw new InvalidDataException("SaveGameV3 campaign fingerprint does not match the loaded campaign.");
         }
 
         return save;
+    }
+
+    private static bool MatchesExpectedFingerprint(
+        string savedFingerprint,
+        string expectedFingerprint,
+        IReadOnlyCollection<SaveGameFingerprintCompatibility>? fingerprintCompatibility)
+    {
+        if (StringComparer.Ordinal.Equals(savedFingerprint, expectedFingerprint)) return true;
+        if (fingerprintCompatibility is null) return false;
+
+        foreach (var compatibility in fingerprintCompatibility)
+        {
+            if (StringComparer.Ordinal.Equals(savedFingerprint, compatibility.PreviousFingerprint) &&
+                StringComparer.Ordinal.Equals(expectedFingerprint, compatibility.ExpectedFingerprint))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private static void Validate(SaveGameV3 save)

@@ -88,8 +88,8 @@ public partial class RuntimeBridge : Node
         if (_content.PhotoWorldNamespaceId == PhotoWorldState.NamespaceId)
         {
             _incompatiblePhotoWorldSaveStore = existingPlayerStore;
-            _saveStore = new AtomicSaveGameStore(Path.Combine(playerSaveRoot, PhotoWorldState.NamespaceId));
-            _debugSaveStore = new AtomicSaveGameStore(Path.Combine(debugSaveRoot, PhotoWorldState.NamespaceId));
+            _saveStore = CreateCampaignSaveStore(Path.Combine(playerSaveRoot, PhotoWorldState.NamespaceId));
+            _debugSaveStore = CreateCampaignSaveStore(Path.Combine(debugSaveRoot, PhotoWorldState.NamespaceId));
         }
         else
         {

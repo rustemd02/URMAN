@@ -110572,7 +110572,7 @@
       "id": "PW-025",
       "title": "Сделать миграции safe nodes и защиту старых слотов",
       "milestone": "PW-M1",
-      "status": "todo",
+      "status": "in_progress",
       "active_owner": null,
       "owner": "integration",
       "priority": "P0",
@@ -110706,7 +110706,7 @@
       "assigned_owner": "integration",
       "activity": {
         "state": "not_active",
-        "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+        "reason": "Finite exacttextrevision compatibility source stage implemented/reviewed;7 existingnarrowchecksPASS+Game15.15s0/0. Broaderstate/content migrations and ordinaryhost acceptance remain."
       },
       "task_type": "engineering",
       "implementation_state": "not_started",
@@ -110715,7 +110715,7 @@
         "Изменение арта не требует New Game.",
         "Повреждённая запись не затирает последнюю целую резервную копию."
       ],
-      "next_action": "Define and implement explicit bounded compatibility/remap for named prior fullgame revision, preserving unknown-fingerprint rejection/backup and explaining version mismatch; verify under PW-024/REL-003 before revising D01 spoken lead.",
+      "next_action": "Ordinaryhost proof ofknowncompatible slotwhenavailable; retainexactpaironly. A futuretext edit needs separatelyprovedpre/postpack andexplicitupdatedpairs; generalgraphremaps/unknownrevisionUIexplanation/fullPW025 acceptance remainopen.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -110725,7 +110725,11 @@
         "targets": [
           "src-dotnet/Urman.Core/Narrative/PhotoWorldState.cs",
           "src-dotnet/Urman.Core/Narrative/PhotoWorldCommandHandler.cs",
-          "game/scripts/RuntimeBridge.cs"
+          "game/scripts/RuntimeBridge.cs",
+          "src-dotnet/Urman.Core/Persistence/SaveGameV3.cs",
+          "src-dotnet/Urman.Core/Persistence/AtomicSaveGameStore.cs",
+          "game/scripts/RuntimeBridge.ContentCompatibility.cs",
+          "tests-dotnet/Urman.Core.Tests/DeterminismAndSaveTests.cs"
         ],
         "required_inputs": [
           {
@@ -110872,8 +110876,25 @@
         "player_effect": "Older same-namespace fullgame primary+backup can be rejected; menu hides Continue while preserving files. Current generic message does not name content revision. A later explicitly started new game/save can replace that slot under existing atomic store behavior.",
         "decision": "Do not edit D01.07 or regenerate content solely for onboarding until this existing migration contract covers text/content revisions. UI-only next-action projection uses current state and leaves fingerprint/save files unchanged. No guard bypass, automatic migration or user-save access performed.",
         "existing_contract": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/docs/07_SAVE_LOAD_FAILURES_RU.md sections1/6 distinguishes content hash/schema, requires preserved visible/explained old slots, no automatic overwrite; previous decision history records incompatibility, not an approved migration.",
-        "next_action": "Define and implement explicit bounded compatibility/remap for named prior fullgame revision, preserving unknown-fingerprint rejection/backup and explaining version mismatch; verify under PW-024/REL-003 before revising D01 spoken lead.",
-        "verification": "Independent read-only trace ContentCompiler135-215, SaveGameV3Codec89-109, AtomicSaveGameStore59-83, RuntimeBridge282-310/428-432 and MainMenu141-170. No files/saves/tests accessed or changed."
+        "next_action": "Ordinaryhost proof ofknowncompatible slotwhenavailable; retainexactpaironly. A futuretext edit needs separatelyprovedpre/postpack andexplicitupdatedpairs; generalgraphremaps/unknownrevisionUIexplanation/fullPW025 acceptance remainopen.",
+        "verification": "Independent source review clean. Narrow EXISTING codeccompatibility +AtomicStore backup checks:7 passed0errors/failed; only original Codec_RejectsWrongCampaignFingerprint minimally extended using sameexistingbytes. Affected Game15.15s0warnings/errors; no newtests/fixtures/probes. Historical real60fdd slotbytes notretained, so ordinaryactualslotacceptance notclaimed.",
+        "named_inputs": {
+          "previous_pack": "git:802669830e31180e2a070ad2cd322b5ab7791049:game/content/urman.fullgame.compiled.v1.json",
+          "previous_pack_sha256": "a4b679daa3341e524bf8dccde628839a3c1793e9d1bc41c3616361845cbade06",
+          "previous_fingerprint": "60fdd3bc0ef9c12c5c022e804b01c28e71fddf48bcf8490bc68303b593d7b7a2",
+          "current_pack": "git:5b0a7ccf53265f22f07cc20afb916b7fc1310726:game/content/urman.fullgame.compiled.v1.json (unchanged atHEAD)",
+          "current_pack_sha256": "49ab4d143baacacbd2c4c505b1c0bf5f5f06560173b4d284e81af3f01adcf4ac",
+          "current_fingerprint": "0b1a4c3e32b374360f4aebda32d524362862b9f1c171b3f7ec69422f09a8cb1d",
+          "comparison": "Only18texts/providesIDsadded; all otherregistries, campaignmetadata/dependencyGraph equal; compiler/corepersistence unchanged. No oldslotbytesretained; olderPW005save is NOT thispair."
+        },
+        "implementation": "DELIVERED_BOUNDED_SOURCE: explicit exactpair at codec/store commonboundary; opt-in onlynamespacedurman.fullgame AND exactcurrent0b1. Rawlegacy/othercampaign/futurehashes strict. Validate preserved, sameimmutablecopiedpolicyprimary+backup, no loadwrites/hashrewrites; existingcaptureSave currentfingerprint.",
+        "sources": [
+          "src-dotnet/Urman.Core/Persistence/SaveGameV3.cs",
+          "src-dotnet/Urman.Core/Persistence/AtomicSaveGameStore.cs",
+          "game/scripts/RuntimeBridge.ContentCompatibility.cs",
+          "game/scripts/RuntimeBridge.cs",
+          "tests-dotnet/Urman.Core.Tests/DeterminismAndSaveTests.cs"
+        ]
       }
     },
     {
