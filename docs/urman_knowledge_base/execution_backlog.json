@@ -2815,7 +2815,12 @@
       }
     },
     "current_contract_2026_10_11": "Полная конечная декомпозиция; собственное инженерное завершение отдельно от продуктовой приёмки. Source/story/art/culture/data requirements не сокращены.",
-    "current_authority": "Живое возобновление B20 после миграции; первым native AI12/CODEX-UI. Regular commit/push checked stages main authorized."
+    "current_authority": "Живое возобновление B20 после миграции; первым native AI12/CODEX-UI. Regular commit/push checked stages main authorized.",
+    "asset_reuse_authority_2026_10_18": {
+      "source": "Live author message2026-10-18: may download open assets and modify them when license permits.",
+      "rule": "Use suitable licensed existing assets for major visible MVP improvements; verify actual asset-data commercial/modification/game-redistribution rights, keep exact source/version/hash/license notices and required attribution. Addon/code licenses are separate.",
+      "limits": "Does not authorize paid services, account creation/terms acceptance, unknown licenses, copying reference art as owned assets, or declaring art/native acceptance from download."
+    }
   },
   "milestones": [
     {
@@ -25512,7 +25517,8 @@
             "focus_cause_review_2026_10_18": {
               "result": "UNKNOWN_CAUSE; NO_STATION_RETRY",
               "finding": "4f86e4fca4b5404f8e015cb55e5ded01 refused before Enter injection. New Game callback therefore cannot explain this attempt. A fresh helper enumerates the owned HWND per request; no cross-request stale handle. Existing evidence does not retain foreground HWND/PID or before/after window snapshots. No game window-mode/size/position calls were found.",
-              "limits": "Read-only source/log inspection by independent native luna_fast; no guard weakening, source fix or Windows action. A bounded review of retaining the existing helper result is next; no new probe/API or unchanged focus workaround."
+              "limits": "Read-only source/log inspection by independent native luna_fast; no guard weakening, source fix or Windows action. A bounded review of retaining the existing helper result is next; no new probe/API or unchanged focus workaround.",
+              "new_evidence": "6280675a first refusal archives actual post_activation/other_or_none. Independent review stillUNKNOWN: no evidence identifies activation branch/initial success or exact foreign/absent foreground. Same job later rendered current menu. Readonly Windows query user after job shows console session1 active, matching worker session1; disconnected console hypothesis not supported. No further launch/input workaround."
             },
             "ui_refusal_evidence_fix_2026_10_18": {
               "result": "DEPLOYED_AND_ARTIFACT_RETENTION_VERIFIED; PRODUCT_ENTRY_NOT_ACCEPTED",
@@ -110752,7 +110758,7 @@
         "reason": "Finite exacttextrevision compatibility source stage implemented/reviewed;7 existingnarrowchecksPASS+Game15.15s0/0. Broaderstate/content migrations and ordinaryhost acceptance remain."
       },
       "task_type": "engineering",
-      "implementation_state": "not_started",
+      "implementation_state": "partial",
       "technical_verification_state": "not_run",
       "remaining": [
         "Изменение арта не требует New Game.",
@@ -117228,6 +117234,12 @@
               "provenance": "P-FORESTv2 has current source provenance and native album view; S-SCHOOL deliberately uses exact same pixels. S-GARDENv1 exists but final dimensions/thumbnail/art acceptance remain open. Back SVGs are not front images; old unrelated art not substituted.",
               "priority_reason": "Core physical reward/portal front missing is a major visible MVP blocker; produce P-WATER/P-HOUSE front chain before small environment polish.",
               "next_input": "Existing PW-040/E01 named portal camera/support alignment; actual original front and thumbnail with provenance, not independently unrelated pretty image."
+            },
+            "p_water_existing_input_review_2026_10_18": {
+              "result": "EXACT_INPUT_MISSING; NO_SUBSTITUTION",
+              "finding": "Existing W02 staged views are actual Godot72degree1920x1080 SubViewport renders, not the required R00 camera1.45m/vFOV45/+Z/1800x1200 photo. Available entry/vista/summerbank views lack required chipped-left-post/diagonal-board/child echoes framing; answer contains SuAnasy, wrong photo.",
+              "source": "content/campaigns/urman.fullgame/photoworlds-sources/photos.spec.json + W02 passport§6; game/tests/FullGameDressingCapture.cs; evidence/PW-050/w02-home-capture-20261016/",
+              "limits": "Read-only primary source/image comparison; no native capture, newfixture/probe/API or photo binding. P-WATER remains text fallback and source camera/composition is still required."
             }
           },
           {
@@ -121193,10 +121205,10 @@
       "assigned_owner": "character_art",
       "activity": {
         "state": "confirmed_active",
-        "reason": "One authored continuous whole-anatomy source candidate on verified official CC0 hm08 data topology, replacing the failed inference/field-displacement method. No canonical or rig changes before root review."
+        "reason": "Frozen licensed source base accepted only for proper rig-fit; worker started one isolated rig-v1 stage, preserving canonical and base files."
       },
       "task_type": "engineering",
-      "implementation_state": "not_started",
+      "implementation_state": "partial",
       "technical_verification_state": "not_run",
       "remaining": [
         "У персонажа есть самостоятельное поведение до и после действия игрока.",
@@ -121582,7 +121594,28 @@
         "source_url": "https://raw.githubusercontent.com/makehumancommunity/mpfb2/v2.0.18/src/mpfb/data/3dobjs/base.obj",
         "license_source": "https://github.com/makehumancommunity/mpfb2/blob/v2.0.18/LICENSE.md",
         "scope": "One actual authored continuous gaunt adult whole anatomy using original Shurale concept: ribcage/scapula/pelvis/joints, long arms/slender fingers, recessed living face and one horn. Exclude helpers/jointcubes; do not import addon code or repeat prior scalar/TripoSR methods.",
-        "verification": "Root neutral-clay full/front3q/profile/back and face review before any PBR/rig/contact/LOD/runtime stage; authored candidate may still fail art. License/provenance and whole-game author/cultural/native gates remain required."
+        "verification": "Root neutral-clay full/front3q/profile/back and face review before any PBR/rig/contact/LOD/runtime stage; authored candidate may still fail art. License/provenance and whole-game author/cultural/native gates remain required.",
+        "rights_result": "ACTUAL_INPUTS_VERIFIED_CC0: pinned hm08 OBJ +14target.gz and2license files hash-match; independent review found no addon code in inputs and confirmed asset/code license split. Missing main LICENSE URL corrected in manifest.",
+        "technical_result": "Body-only topology13380V/13378F/26756E:1connected component,0boundary/nonmanifold. Root found causal generator defects: raw horn radii used as meters, and capsule-weighted static arm rotation collapsed arms/fingers. Producer corrected radius/tip scale, removed custompose/headtilt, rerendered original restpose with post-morph helper points. Finite coordinates and manifest hashes verified.",
+        "root_review": "Accepted as a real licensed anatomical base for subsequent rig/sculpt, not final modern-horror art. Rest-pose neutral clay retains smooth torso/hourglass and generic features. Wood/flesh material, distinct creature face/ears, motion/contact and native/author/cultural acceptance remain open.",
+        "next_question": "One isolated rig-v1 fit to frozen canonical v6 53bones/7clips/branch contact, with actual rest/work/noticed/gesture source views and normalized skin weights; no capsule-pose distortions, no base mutation or runtime promotion. Stop on exact incompatibility instead of repeated shape variants.",
+        "macro_contract_finding": "CONFIRMED incomplete recipe: pinned TargetService constructs both universal gender×age×muscle×weight and race×gender×age stacks. Single universal-male-old-minmuscle-minweight omits the latter. Detail arm .85 targets are valid bilateral symmetric data, not a confirmed asymmetry cause. No claim that missing stack alone explains the art appearance.",
+        "macro_contract_source": "https://github.com/makehumancommunity/mpfb2/blob/v2.0.18/src/mpfb/services/targetservice.py#L755-L905",
+        "result": "ACCEPTED_LICENSED_ANATOMY_SOURCE_BASE_FOR_RIG_FIT_ONLY",
+        "macro_contract_result": "Full pinned service stack applied:4universal +3race-male-old targets from explicit male/old/minmuscle/minweight and default neutral race mix. Exact component/target weights, URLs and hashes in manifest. Existing direct detail arm weights were valid and retained. Root viewed corrected full3q/profile/back/face after this data correction; visibly aged face, coherent separate fingers/joints and small horn.",
+        "source_files": [
+          "assets/source/blender/photoworlds/W01/shurale_anatomy_base_v1/build_anatomy_base_v1.py",
+          "assets/source/blender/photoworlds/W01/shurale_anatomy_base_v1/manifest.json",
+          "assets/source/blender/photoworlds/W01/shurale_anatomy_base_v1/shurale_anatomy_base_v1.blend",
+          "assets/source/blender/photoworlds/W01/shurale_anatomy_base_v1/inputs",
+          "assets/source/blender/photoworlds/W01/shurale_anatomy_base_v1/views"
+        ]
+      },
+      "source_rig_fit_2026_10_18": {
+        "owner": "Codex/shurale_fit",
+        "folder": "assets/source/blender/photoworlds/W01/shurale_anatomy_base_v1/rig-v1",
+        "inputs": "Frozen accepted hm08 anatomical source above; frozen canonical v6 packaged blend SHA5ecb9e1572f5b5f3671c1a1b5a0331cbd003f78f3a938a73df99822990559620, existing53bone/7clip/branch/contact/export contracts.",
+        "scope": "One actual proper armature/skin fit and source pose review, with fixed coordinates/scale/yaw and normalized<=4weights. No canonical changes, newgeometry presets/test/probes/Windows run."
       }
     },
     {
@@ -126941,19 +126974,19 @@
             "owner": "world_art",
             "evidence": [],
             "assigned_owner": "world_art",
-            "active_owner": null,
+            "active_owner": "Codex/w03_geometry",
             "activity": {
-              "state": "not_active",
-              "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+              "state": "confirmed_active",
+              "reason": "Worker confirmed geometry/controller interface with separate gameplay owner and began actual C00–C08 source stage."
             },
             "task_type": "engineering",
-            "status": "todo",
-            "implementation_state": "not_started",
+            "status": "in_progress",
+            "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
               "Собрать узлы C00, C01, C02, C03, C04, C05, C06, C07, C08 и все связи из level-паспорта.; собственного целевого receipt пока нет."
             ],
-            "next_action": "Сопоставить текущий результат: Собрать узлы C00, C01, C02, C03, C04, C05, C06, C07, C08 и все связи из level-паспорта.. Затем изменить только установленный остаток.",
+            "next_action": "Finish the named coupled W04 source stage with agreed geometry/gameplay/route owners, inspect exact entry/restore/action guards, and run one affected Game compile. Do not mark native/art complete or treat missing W04 asset families as delivered.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -127032,7 +127065,26 @@
             },
             "depends_on": [
               "PW-010"
-            ]
+            ],
+            "implementation_targets_current": [
+              "game/scenes/photoworlds/W04/W04.tscn",
+              "game/scripts/photoworlds/W04Controller.Geometry.cs",
+              "game/scripts/photoworlds/W04Controller.cs",
+              "game/scripts/Main.cs",
+              "game/scripts/RuntimeBridge.PhotoWorldScene.cs",
+              "game/scripts/ArrivalPersonalProps.cs",
+              "game/scripts/HomePrinterPresence.cs"
+            ],
+            "source_stage_2026_10_18": {
+              "result": "STARTED; NOT_COMPILED_OR_NATIVE",
+              "geometry_owner": "Codex/w03_geometry",
+              "gameplay_owner": "Codex/product_entrypoint",
+              "route_owner": "Codex/root",
+              "named_inputs": "Exact W04 passport + campaign worlds.spec C00–C08/10links; existing compiled fouractions/facts/gate; existing W01/W02/W03 architectural/terrain motifs. W04 currently only17line markers and no controller; missingrequested dedicated assetfamilies remain E02/art, not claimed.",
+              "geometry_interface": "BuildCommonWorld sets _world=W04World; CommonGroundHeightAt(x,z); direct W04GroundSurface/W04GroundBody/C04ClothPanel/C04ClothFoldSupport/C01FrameWitness/C02FrameWitness/C03FrameWitness/CommonHorizonWitness. Scene Anchors/C00–C08 exactpassport.",
+              "result_required": "Real continuous guarded walkable C00–C08 +3physical nearframes viewing ONE inaccessible horizon; C04 sightlinecloth physicalfold onactualsupport; four content-owned actions, save/load and actual P-COMMON print entry/home return. No duplicateworldJSON, newframework or bypassedentrygate.",
+              "verification": "Root one affected compile after coupled source freeze, then named native/art checks when owned host input works. No new tests/probes/harness/captureAPI."
+            }
           },
           {
             "id": "PW-060/E02",
@@ -127476,8 +127528,8 @@
       "id": "PW-061",
       "title": "W04: условия входа и четыре содержательных действия",
       "milestone": "PW-M3",
-      "status": "todo",
-      "active_owner": null,
+      "status": "in_progress",
+      "active_owner": "Codex/product_entrypoint",
       "owner": "gameplay",
       "priority": "P1",
       "complexity": "complex",
@@ -127616,11 +127668,11 @@
       },
       "assigned_owner": "gameplay",
       "activity": {
-        "state": "not_active",
-        "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+        "state": "confirmed_active",
+        "reason": "Gameplay worker confirmed exact geometry interface and started four existing reducer-owned physical actions/controller lifecycle; root owns route integration."
       },
       "task_type": "engineering",
-      "implementation_state": "not_started",
+      "implementation_state": "partial",
       "technical_verification_state": "not_run",
       "remaining": [
         "Финал не открывается от одного факта владения красивой картинкой.",
@@ -127804,7 +127856,17 @@
           "evidence_ref": "PW-061.evidence and named history progress; source_review shows available/missing inputs"
         }
       ],
-      "assignment_state": "preserved_person_or_existing_role; activity separate"
+      "assignment_state": "preserved_person_or_existing_role; activity separate",
+      "source_stage_2026_10_18": {
+        "files": [
+          "game/scripts/photoworlds/W04Controller.cs",
+          "game/scripts/photoworlds/W04Controller.Gameplay.cs",
+          "game/scripts/photoworlds/W04Controller.WorldGuard.cs"
+        ],
+        "gate": "Keep existing W01/W02/W03 questcomplete, E-BANK-OUTSIDE/E-PHOTOGRAPHER-OUTSIDE, P-COMMON captionpreparedbyMarat+mounted. Fouractions/facts existing truth; no translation/loreinvented.",
+        "scope": "Actual frame/horizon witnesses; C04cloth folded ontoactualsupport; note/caption/finalreturn existing IDs, session/modal/load/restore guards, own realterrain worldguard.",
+        "verification": "NOT_RUN; wait named geometry artifacts for coupled source inspection/compile; native/art gates separate."
+      }
     },
     {
       "id": "PW-062",

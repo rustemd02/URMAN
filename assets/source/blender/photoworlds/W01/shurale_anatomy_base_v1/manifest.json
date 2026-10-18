@@ -1,0 +1,506 @@
+{
+  "candidate": "Shurale anatomy base v1",
+  "status": "source-only candidate for art-direction review; not canonical or runtime-ready",
+  "authored_with": {
+    "blender_version": "4.5.12 LTS",
+    "generator": "build_anatomy_base_v1.py",
+    "python_runtime": "4.5.12 LTS",
+    "render_engine": "BLENDER_EEVEE_NEXT"
+  },
+  "source_scope": "One HM08 body-group-derived static anatomy source with official CC0 morph target data, the source rest/A-pose, two deep clay eyes placed from post-morph helper markers, and one short horn with dimensions converted from raw hm08 units to meters. No MPFB code/addon, runtime, rig, animation, PBR, or LOD was used or authored.",
+  "license_provenance": {
+    "repository": "https://github.com/makehumancommunity/mpfb2",
+    "pinned_release": "v2.0.18",
+    "asset_license": "CC0 1.0 Universal",
+    "asset_license_file": "inputs/licenses/MPFB2-LICENSE.ASSETS.md",
+    "asset_license_file_url": "https://raw.githubusercontent.com/makehumancommunity/mpfb2/v2.0.18/LICENSE.ASSETS.md",
+    "asset_license_file_sha256": "f6089cba01cb570a24712b41ab8a586ccd3cc5ef53dc266ca50b95c288956d2c",
+    "release_license_file": "inputs/licenses/MPFB2-LICENSE.md",
+    "release_license_file_url": "https://raw.githubusercontent.com/makehumancommunity/mpfb2/v2.0.18/LICENSE.md",
+    "release_license_file_sha256": "5cefb60680cb9efd4550a2e65d719021cfbec9dad3658481d11d48ae863ce04d",
+    "code_license_note": "The pinned release lists MPFB Python, shell, and configuration source as GPLv3. No MPFB executable/addon/code/dependencies were downloaded or used; this generator is newly authored for URMAN and uses Blender's bundled bpy API.",
+    "attribution_from_obj_header": [
+      "Data Collection AB (2020)",
+      "Joel Palmius (2020)",
+      "Jonas Hauquier (2020)"
+    ]
+  },
+  "inputs": [
+    {
+      "path": "inputs/hm08_base.obj",
+      "source_url": "https://raw.githubusercontent.com/makehumancommunity/mpfb2/v2.0.18/src/mpfb/data/3dobjs/base.obj",
+      "sha256": "8e761e6624b8f54536409135d1636da63b32486a90d4897f84e121d144f6fb4c",
+      "license": "CC0 1.0 Universal; explicitly stated in the OBJ header and pinned release LICENSE.ASSETS.md",
+      "used_groups": {
+        "body": 13378
+      },
+      "excluded_groups": {
+        "helper-tights": 2650,
+        "joint-l-eye": 6,
+        "joint-r-eye": 6,
+        "joint-pelvis": 6,
+        "joint-spine-4": 6,
+        "joint-spine-3": 6,
+        "joint-spine-2": 6,
+        "joint-spine-1": 6,
+        "joint-l-foot-2": 6,
+        "joint-l-foot-1": 6,
+        "joint-l-toe-5-3": 6,
+        "joint-l-toe-5-4": 6,
+        "joint-l-toe-4-3": 6,
+        "joint-l-toe-4-4": 6,
+        "joint-l-toe-3-3": 6,
+        "joint-l-toe-3-4": 6,
+        "joint-l-toe-2-4": 6,
+        "joint-l-toe-2-3": 6,
+        "joint-l-toe-2-2": 6,
+        "joint-l-toe-3-2": 6,
+        "joint-l-toe-4-2": 6,
+        "joint-l-toe-5-2": 6,
+        "joint-l-toe-5-1": 6,
+        "joint-l-toe-4-1": 6,
+        "joint-l-toe-3-1": 6,
+        "joint-l-toe-2-1": 6,
+        "joint-l-toe-1-3": 6,
+        "joint-l-toe-1-2": 6,
+        "joint-l-toe-1-1": 6,
+        "joint-l-ankle": 6,
+        "joint-l-knee": 6,
+        "joint-l-upper-leg": 6,
+        "joint-l-finger-2-4": 6,
+        "joint-l-finger-3-4": 6,
+        "joint-l-finger-4-4": 6,
+        "joint-l-finger-5-4": 6,
+        "joint-l-finger-5-3": 6,
+        "joint-l-finger-4-3": 6,
+        "joint-l-finger-3-3": 6,
+        "joint-l-finger-2-3": 6,
+        "joint-l-finger-2-2": 6,
+        "joint-l-finger-3-2": 6,
+        "joint-l-finger-4-2": 6,
+        "joint-l-finger-5-2": 6,
+        "joint-l-finger-5-1": 6,
+        "joint-l-finger-4-1": 6,
+        "joint-l-finger-3-1": 6,
+        "joint-l-finger-2-1": 6,
+        "joint-l-finger-1-4": 6,
+        "joint-l-finger-1-3": 6,
+        "joint-l-finger-1-2": 6,
+        "joint-l-finger-1-1": 6,
+        "joint-l-hand-3": 6,
+        "joint-l-hand-2": 6,
+        "joint-l-hand": 6,
+        "joint-l-elbow": 6,
+        "joint-l-shoulder": 6,
+        "joint-l-clavicle": 6,
+        "joint-l-scapula": 6,
+        "joint-head": 6,
+        "joint-l-lowerlid": 6,
+        "joint-l-eye-target": 6,
+        "joint-l-upperlid": 6,
+        "joint-r-foot-2": 6,
+        "joint-r-foot-1": 6,
+        "joint-r-toe-5-3": 6,
+        "joint-r-toe-5-4": 6,
+        "joint-r-toe-4-3": 6,
+        "joint-r-toe-4-4": 6,
+        "joint-r-toe-3-3": 6,
+        "joint-r-toe-3-4": 6,
+        "joint-r-toe-2-4": 6,
+        "joint-r-toe-2-3": 6,
+        "joint-r-toe-2-2": 6,
+        "joint-r-toe-3-2": 6,
+        "joint-r-toe-4-2": 6,
+        "joint-r-toe-5-2": 6,
+        "joint-r-toe-5-1": 6,
+        "joint-r-toe-4-1": 6,
+        "joint-r-toe-3-1": 6,
+        "joint-r-toe-2-1": 6,
+        "joint-r-toe-1-3": 6,
+        "joint-r-toe-1-2": 6,
+        "joint-r-toe-1-1": 6,
+        "joint-r-ankle": 6,
+        "joint-r-knee": 6,
+        "joint-r-upper-leg": 6,
+        "joint-r-finger-2-4": 6,
+        "joint-r-finger-3-4": 6,
+        "joint-r-finger-4-4": 6,
+        "joint-r-finger-5-4": 6,
+        "joint-r-finger-5-3": 6,
+        "joint-r-finger-4-3": 6,
+        "joint-r-finger-3-3": 6,
+        "joint-r-finger-2-3": 6,
+        "joint-r-finger-2-2": 6,
+        "joint-r-finger-3-2": 6,
+        "joint-r-finger-4-2": 6,
+        "joint-r-finger-5-2": 6,
+        "joint-r-finger-5-1": 6,
+        "joint-r-finger-4-1": 6,
+        "joint-r-finger-3-1": 6,
+        "joint-r-finger-2-1": 6,
+        "joint-r-finger-1-4": 6,
+        "joint-r-finger-1-3": 6,
+        "joint-r-finger-1-2": 6,
+        "joint-r-finger-1-1": 6,
+        "joint-r-hand-3": 6,
+        "joint-r-hand-2": 6,
+        "joint-r-hand": 6,
+        "joint-r-elbow": 6,
+        "joint-r-shoulder": 6,
+        "joint-r-clavicle": 6,
+        "joint-r-scapula": 6,
+        "joint-r-lowerlid": 6,
+        "joint-r-eye-target": 6,
+        "joint-r-upperlid": 6,
+        "joint-neck": 6,
+        "joint-jaw": 6,
+        "joint-tongue-4": 6,
+        "joint-tongue-3": 6,
+        "joint-head-2": 6,
+        "joint-tongue-2": 6,
+        "joint-tongue-1": 6,
+        "joint-mouth": 6,
+        "helper-skirt": 684,
+        "helper-hair": 198,
+        "helper-l-eye": 70,
+        "helper-r-eye": 70,
+        "helper-genital": 182,
+        "helper-upper-teeth": 48,
+        "helper-lower-teeth": 48,
+        "helper-l-eyelashes-2": 48,
+        "helper-l-eyelashes-1": 44,
+        "helper-r-eyelashes-2": 48,
+        "helper-r-eyelashes-1": 44,
+        "helper-tongue": 224,
+        "joint-ground": 6
+      }
+    },
+    {
+      "path": "inputs/targets/macrodetails/universal-male-old-minmuscle-minweight.target.gz",
+      "source_url": "https://raw.githubusercontent.com/makehumancommunity/mpfb2/v2.0.18/src/mpfb/data/targets/macrodetails/universal-male-old-minmuscle-minweight.target.gz",
+      "sha256": "0d5e260cedd07cd8bacd14f74a5cda27977051cae413906996c59527f372ee42",
+      "weight": 0.9331099699,
+      "license": "CC0 1.0 Universal; pinned release LICENSE.ASSETS.md covers targets"
+    },
+    {
+      "path": "inputs/targets/macrodetails/universal-male-old-minmuscle-averageweight.target.gz",
+      "source_url": "https://raw.githubusercontent.com/makehumancommunity/mpfb2/v2.0.18/src/mpfb/data/targets/macrodetails/universal-male-old-minmuscle-averageweight.target.gz",
+      "sha256": "8c7923d2afd0a53f317a89aa9a71f8ae57e0a7172ef3b577d4db7fd06c6a7a80",
+      "weight": 0.0186545853,
+      "license": "CC0 1.0 Universal; pinned release LICENSE.ASSETS.md covers targets"
+    },
+    {
+      "path": "inputs/targets/macrodetails/universal-male-old-averagemuscle-minweight.target.gz",
+      "source_url": "https://raw.githubusercontent.com/makehumancommunity/mpfb2/v2.0.18/src/mpfb/data/targets/macrodetails/universal-male-old-averagemuscle-minweight.target.gz",
+      "sha256": "c9698e079ab31870666948b804c1f3b633338c16a216e2494ede7809969dee40",
+      "weight": 0.0186545853,
+      "license": "CC0 1.0 Universal; pinned release LICENSE.ASSETS.md covers targets"
+    },
+    {
+      "path": "inputs/targets/macrodetails/universal-male-young-minmuscle-minweight.target.gz",
+      "source_url": "https://raw.githubusercontent.com/makehumancommunity/mpfb2/v2.0.18/src/mpfb/data/targets/macrodetails/universal-male-young-minmuscle-minweight.target.gz",
+      "sha256": "166a31465a2790a321e55e274a7f43c56bfe58ad1cf443afacd45a7a23abf407",
+      "weight": 0.0186545853,
+      "license": "CC0 1.0 Universal; pinned release LICENSE.ASSETS.md covers targets"
+    },
+    {
+      "path": "inputs/targets/macrodetails/asian-male-old.target.gz",
+      "source_url": "https://raw.githubusercontent.com/makehumancommunity/mpfb2/v2.0.18/src/mpfb/data/targets/macrodetails/asian-male-old.target.gz",
+      "sha256": "8f931e96529904375a442c77be0c31d60ace6c0461645ed7ab1a43a3c378a247",
+      "weight": 0.3203613864,
+      "license": "CC0 1.0 Universal; pinned release LICENSE.ASSETS.md covers targets"
+    },
+    {
+      "path": "inputs/targets/macrodetails/caucasian-male-old.target.gz",
+      "source_url": "https://raw.githubusercontent.com/makehumancommunity/mpfb2/v2.0.18/src/mpfb/data/targets/macrodetails/caucasian-male-old.target.gz",
+      "sha256": "123cb7758c86aa2aa71d80ea0c8f5f4b3e96f394180edc1682e34720c4949df6",
+      "weight": 0.3203613864,
+      "license": "CC0 1.0 Universal; pinned release LICENSE.ASSETS.md covers targets"
+    },
+    {
+      "path": "inputs/targets/macrodetails/african-male-old.target.gz",
+      "source_url": "https://raw.githubusercontent.com/makehumancommunity/mpfb2/v2.0.18/src/mpfb/data/targets/macrodetails/african-male-old.target.gz",
+      "sha256": "fb3477ab3c05d6ea421d82717c3df89ff23f926d1e5148092e30c0efe2ea96de",
+      "weight": 0.3203613864,
+      "license": "CC0 1.0 Universal; pinned release LICENSE.ASSETS.md covers targets"
+    },
+    {
+      "path": "inputs/targets/head/head-age-incr.target.gz",
+      "source_url": "https://raw.githubusercontent.com/makehumancommunity/mpfb2/v2.0.18/src/mpfb/data/targets/head/head-age-incr.target.gz",
+      "sha256": "ea5b7b9404daa1f6b8ea14a11a0e8ae6a082e98d0d65f63cc2150057a168e396",
+      "weight": 0.45,
+      "license": "CC0 1.0 Universal; pinned release LICENSE.ASSETS.md covers targets"
+    },
+    {
+      "path": "inputs/targets/head/head-fat-decr.target.gz",
+      "source_url": "https://raw.githubusercontent.com/makehumancommunity/mpfb2/v2.0.18/src/mpfb/data/targets/head/head-fat-decr.target.gz",
+      "sha256": "6ef17a5ba87b23aa11746ac8c539fef70be5a8f89cae4abb2c2f3f32a9c6cc57",
+      "weight": 0.55,
+      "license": "CC0 1.0 Universal; pinned release LICENSE.ASSETS.md covers targets"
+    },
+    {
+      "path": "inputs/targets/eyes/l-eye-push1-in.target.gz",
+      "source_url": "https://raw.githubusercontent.com/makehumancommunity/mpfb2/v2.0.18/src/mpfb/data/targets/eyes/l-eye-push1-in.target.gz",
+      "sha256": "80658fd1ec6967bed34f04be1dcb2fa5cbabb8a17fdae2427e0735ff3474906d",
+      "weight": 0.35,
+      "license": "CC0 1.0 Universal; pinned release LICENSE.ASSETS.md covers targets"
+    },
+    {
+      "path": "inputs/targets/eyes/r-eye-push1-in.target.gz",
+      "source_url": "https://raw.githubusercontent.com/makehumancommunity/mpfb2/v2.0.18/src/mpfb/data/targets/eyes/r-eye-push1-in.target.gz",
+      "sha256": "7667d6d4ecfd2bec4f44ea842da3a849ca506378715fffcf39c380ae59d0582a",
+      "weight": 0.35,
+      "license": "CC0 1.0 Universal; pinned release LICENSE.ASSETS.md covers targets"
+    },
+    {
+      "path": "inputs/targets/cheek/l-cheek-bones-incr.target.gz",
+      "source_url": "https://raw.githubusercontent.com/makehumancommunity/mpfb2/v2.0.18/src/mpfb/data/targets/cheek/l-cheek-bones-incr.target.gz",
+      "sha256": "ea5aa60abcc2926e61cdabf5d40701c2b23b3f8027f949cea0b80bcbc55df301",
+      "weight": 0.35,
+      "license": "CC0 1.0 Universal; pinned release LICENSE.ASSETS.md covers targets"
+    },
+    {
+      "path": "inputs/targets/cheek/r-cheek-bones-incr.target.gz",
+      "source_url": "https://raw.githubusercontent.com/makehumancommunity/mpfb2/v2.0.18/src/mpfb/data/targets/cheek/r-cheek-bones-incr.target.gz",
+      "sha256": "c608528b9e5e1c670179cfb502dab3d9478a77bb942f7c8186cd072a7369e9b9",
+      "weight": 0.35,
+      "license": "CC0 1.0 Universal; pinned release LICENSE.ASSETS.md covers targets"
+    },
+    {
+      "path": "inputs/targets/cheek/l-cheek-volume-decr.target.gz",
+      "source_url": "https://raw.githubusercontent.com/makehumancommunity/mpfb2/v2.0.18/src/mpfb/data/targets/cheek/l-cheek-volume-decr.target.gz",
+      "sha256": "202ff036e39abea154e0896ad34641184c5e8b77610dca9e1e8e4ce4a5db1bc4",
+      "weight": 0.45,
+      "license": "CC0 1.0 Universal; pinned release LICENSE.ASSETS.md covers targets"
+    },
+    {
+      "path": "inputs/targets/cheek/r-cheek-volume-decr.target.gz",
+      "source_url": "https://raw.githubusercontent.com/makehumancommunity/mpfb2/v2.0.18/src/mpfb/data/targets/cheek/r-cheek-volume-decr.target.gz",
+      "sha256": "ea12455c7a85e7b3b5e6e4882b4b68823a00bcaef4ea048cc49be452a139c1bc",
+      "weight": 0.45,
+      "license": "CC0 1.0 Universal; pinned release LICENSE.ASSETS.md covers targets"
+    },
+    {
+      "path": "inputs/targets/arms/measure-upperarm-length-incr.target.gz",
+      "source_url": "https://raw.githubusercontent.com/makehumancommunity/mpfb2/v2.0.18/src/mpfb/data/targets/arms/measure-upperarm-length-incr.target.gz",
+      "sha256": "72890d3448778f6d25e3c9abd540582ad36598a832c28fd0b1e16073b1b3f962",
+      "weight": 0.85,
+      "license": "CC0 1.0 Universal; pinned release LICENSE.ASSETS.md covers targets"
+    },
+    {
+      "path": "inputs/targets/arms/measure-lowerarm-length-incr.target.gz",
+      "source_url": "https://raw.githubusercontent.com/makehumancommunity/mpfb2/v2.0.18/src/mpfb/data/targets/arms/measure-lowerarm-length-incr.target.gz",
+      "sha256": "d725e5b7a35dad30a2a68fae52ea0efad72ed8ac77b186409a2cdc59d3e2368d",
+      "weight": 0.85,
+      "license": "CC0 1.0 Universal; pinned release LICENSE.ASSETS.md covers targets"
+    },
+    {
+      "path": "inputs/targets/hands/l-hand-fingers-length-incr.target.gz",
+      "source_url": "https://raw.githubusercontent.com/makehumancommunity/mpfb2/v2.0.18/src/mpfb/data/targets/hands/l-hand-fingers-length-incr.target.gz",
+      "sha256": "37620de4a7d2f3c8f1b233fc42ebf6c6c6b100ce1aecfe4ed4ada2f0e4006637",
+      "weight": 1.0,
+      "license": "CC0 1.0 Universal; pinned release LICENSE.ASSETS.md covers targets"
+    },
+    {
+      "path": "inputs/targets/hands/r-hand-fingers-length-incr.target.gz",
+      "source_url": "https://raw.githubusercontent.com/makehumancommunity/mpfb2/v2.0.18/src/mpfb/data/targets/hands/r-hand-fingers-length-incr.target.gz",
+      "sha256": "ac90a1e7b1776bb41f896b2b5308ab791b860a3fbf4f854f17d56234b3da48a9",
+      "weight": 1.0,
+      "license": "CC0 1.0 Universal; pinned release LICENSE.ASSETS.md covers targets"
+    },
+    {
+      "path": "inputs/targets/asym/asym-brown-1-l.target.gz",
+      "source_url": "https://raw.githubusercontent.com/makehumancommunity/mpfb2/v2.0.18/src/mpfb/data/targets/asym/asym-brown-1-l.target.gz",
+      "sha256": "36b9dd9c8c96107bd1ba83c5629efd09efc4a3e337042bd27c894d16dd369ef9",
+      "weight": 0.32,
+      "license": "CC0 1.0 Universal; pinned release LICENSE.ASSETS.md covers targets"
+    }
+  ],
+  "macro_target_recipe": {
+    "pinned_targetservice_url": "https://github.com/makehumancommunity/mpfb2/blob/v2.0.18/src/mpfb/services/targetservice.py#L842-L905",
+    "pinned_macro_config_url": "https://raw.githubusercontent.com/makehumancommunity/mpfb2/v2.0.18/src/mpfb/data/targets/macrodetails/macro.json",
+    "macro_info": {
+      "gender": 1.0,
+      "age": 1.0,
+      "muscle": 0.0,
+      "weight": 0.0,
+      "proportions": 0.5,
+      "height": 0.5,
+      "cupsize": 0.5,
+      "firmness": 0.5,
+      "race": {
+        "asian": 0.33,
+        "caucasian": 0.33,
+        "african": 0.33
+      }
+    },
+    "interpolated_component_weights_rounded_to_4_decimals": {
+      "gender": {
+        "male": 0.9902
+      },
+      "age": {
+        "old": 0.9804,
+        "young": 0.0196
+      },
+      "muscle": {
+        "minmuscle": 0.9804,
+        "averagemuscle": 0.0196
+      },
+      "weight": {
+        "minweight": 0.9804,
+        "averageweight": 0.0196
+      }
+    },
+    "target_weights": {
+      "macrodetails/universal-male-old-minmuscle-minweight.target.gz": 0.9331099699,
+      "macrodetails/universal-male-old-minmuscle-averageweight.target.gz": 0.0186545853,
+      "macrodetails/universal-male-old-averagemuscle-minweight.target.gz": 0.0186545853,
+      "macrodetails/universal-male-young-minmuscle-minweight.target.gz": 0.0186545853,
+      "macrodetails/asian-male-old.target.gz": 0.3203613864,
+      "macrodetails/caucasian-male-old.target.gz": 0.3203613864,
+      "macrodetails/african-male-old.target.gz": 0.3203613864
+    },
+    "weight_basis": "TargetService calculates both universal gender-age-muscle-weight targets and race-gender-age targets, multiplying their interpolated component weights and retaining products above the 0.01 default cutoff. Component values above are rounded as pinned by its interpolation method. No hand-tuned race proportions or MPFB addon code are used.",
+    "service_cutoff": 0.01
+  },
+  "reference_guidance": {
+    "concept_image": "assets/source/blender/photoworlds/W01/shurale-concepts/modern-horror-anatomy-v1.png",
+    "use": "Used as anatomy and long-arm reference only; excluded its bark armor, spikes, and superhero muscle plating. The prior v6 smooth hourglass and raw TripoSR body/face/hand failures were read as rejection guidance."
+  },
+  "geometry": {
+    "coordinate_conversion": "HM08 raw (x, y-up, z-depth) to Blender (x, -z, y); front is raw +z / Blender -y.",
+    "body_group_topology_before_additions": {
+      "vertices_used": 13380,
+      "faces": 13378,
+      "edges": 26756,
+      "connected_components": 1,
+      "boundary_edges": 0,
+      "nonmanifold_edge_incidence_counts": {},
+      "all_face_edges_degree_two": true
+    },
+    "body_group_polygons_preserved": 13378,
+    "source_vertices_used": 13380,
+    "body_group_faces_from_obj": 13378,
+    "pose_state": "Original HM08 source rest/A-pose retained; custom static arm rotations and head field-tilt removed.",
+    "post_morph_helper_markers_raw": {
+      "joint-l-eye": {
+        "neighbor_body_vertices": 24,
+        "nearest_original_surface_distance_raw": 0.121287,
+        "source_raw": [
+          0.30775,
+          7.28415,
+          1.24535
+        ],
+        "morphed_raw": [
+          0.286251,
+          7.627694,
+          1.178724
+        ],
+        "weighted_delta_raw": [
+          -0.021499,
+          0.343543,
+          -0.066626
+        ]
+      },
+      "joint-r-eye": {
+        "neighbor_body_vertices": 24,
+        "nearest_original_surface_distance_raw": 0.121287,
+        "source_raw": [
+          -0.30775,
+          7.28415,
+          1.24535
+        ],
+        "morphed_raw": [
+          -0.286269,
+          7.627748,
+          1.178724
+        ],
+        "weighted_delta_raw": [
+          0.021481,
+          0.343598,
+          -0.066626
+        ]
+      },
+      "joint-neck": {
+        "neighbor_body_vertices": 24,
+        "nearest_original_surface_distance_raw": 0.299591,
+        "source_raw": [
+          0.0,
+          5.890249,
+          0.06805
+        ],
+        "morphed_raw": [
+          -0.001096,
+          6.315273,
+          0.108644
+        ],
+        "weighted_delta_raw": [
+          -0.001096,
+          0.425024,
+          0.040594
+        ]
+      }
+    },
+    "body_height_m_before_horn": 2.34,
+    "actor_mesh_objects": 1,
+    "scene_mesh_objects_including_floor": 2,
+    "joined_body_vertex_count_including_eye_and_horn_islands": 15651,
+    "joined_body_polygon_count_including_eye_and_horn_islands": 15781,
+    "modifier": "Catmull-Clark presentation smoothing, viewport level 1/render level 2; original HM08 body topology remains the editable base mesh.",
+    "horn": {
+      "count": 1,
+      "construction": "Closed swept low-poly horn intersected into the actual forehead surface and joined into the same source mesh object.",
+      "base_raw_hm08": [
+        -0.080881,
+        8.55205,
+        1.083526
+      ],
+      "raw_radii": [
+        0.105,
+        0.113,
+        0.098,
+        0.075,
+        0.048,
+        0.026,
+        0.012
+      ],
+      "radii_space": "All listed radii are hm08 raw units multiplied by body raw-to-meter scale before mesh construction.",
+      "tip_extension_raw_hm08": 0.018,
+      "tip_extension_m": 0.00248,
+      "no_second_horn": true
+    },
+    "eyes": "Eye centers use joint-eye point markers adjusted by inverse-distance-weighted nearby body morph deltas; neutral dark clay geometry is seated behind the lid line, with matte iris/pupil clay and no emission.",
+    "materials": "Neutral monochrome clay only; not PBR or final look development."
+  },
+  "verification": {
+    "input_hashes_matched_before_build": true,
+    "body_topology_count_matches_pinned_hm08_group": true,
+    "helper_or_joint_cube_geometry_imported": false,
+    "finite_joined_mesh_coordinates": true,
+    "actor_mesh_objects": 1,
+    "scene_mesh_objects_including_floor": 2,
+    "rendered_views": [
+      "views/full-front.png",
+      "views/full-three-quarter.png",
+      "views/profile.png",
+      "views/back.png",
+      "views/face-close.png"
+    ],
+    "saved_blend": "shurale_anatomy_base_v1.blend",
+    "build_seconds": 4.81,
+    "limitations": [
+      "This is a static source-art candidate, not rigged, animated, exported, or reviewed in runtime.",
+      "The horn and eye globes are intersecting closed islands within the same mesh object; body mesh topology itself remains the pinned hm08 body-group topology.",
+      "Neutral clay inspection does not establish final horror art direction, texture, lighting, or author acceptance."
+    ],
+    "saved_blend_sha256": "cc8d5827dffbd514794cc4a5c3958b595ea792f731d44fa0917e9eec510f02b8",
+    "generator_sha256": "cc743864870f859560fe3f57591a0299c457f2516f9a29fcbcc6e194e4fb0137",
+    "render_sha256": {
+      "views/full-front.png": "910e139ddba8f2f9648e3de006641274b481c402d426ff892980f44ae553ea56",
+      "views/full-three-quarter.png": "cd6fa38ab17ae22c1032c6fafc3c31f911f0600eb8d8a89849ad4488922ead7e",
+      "views/profile.png": "25bdcc0a3729f9a4d2e85d4358edea3396f6b8bfa6294a4b3493c7a62407398e",
+      "views/back.png": "4de40a0700498e2e2e088b0240e8ea06232dd4defb6e4fa29b37a059f34fffc5",
+      "views/face-close.png": "85dbc54e61220734d4fb7b4dee4c3c4dc7d2300bc6ce7cdaf1e896e97683952c"
+    }
+  }
+}
