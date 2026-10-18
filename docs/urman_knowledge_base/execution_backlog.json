@@ -121663,8 +121663,8 @@
           "https://docs.meshy.ai/en/api/rigging"
         ],
         "constraints": "Free generated output uses CC BY4.0 attribution; Meshy7.1 normal GLB export explicitly opens paid-subscription gate. No paywall bypass or subscription purchase. Free preview does not prove topology, rig, contact, animation or game performance.",
-        "next": "Review actual downloaded7.1 DCC input and existing rig exports, then select bounded source-consistent texture/rig stage or one improved own reference; no blind regeneration.",
-        "state": "PREMIUM_OWNER_PURCHASED; RAW_7_1_DOWNLOADED_FOR_DCC_REVIEW",
+        "next": "Evaluate actual30K motion/export against fixed53bone/7clip/LOD/branch/height contract before runtime promotion; no blind repeated generations.",
+        "state": "PREMIUM_PILOT_IN_PROGRESS",
         "authorization": "Owner explicitly approved free account registration and separately approved upload of shown original input-whole-body-v1.png +oneMeshy6Lite generation costing10freecredits/CCBY4.0; no subscription purchase.",
         "input": "assets/source/blender/photoworlds/W01/shurale_reconstruction_v1/whole-body-v1/input-whole-body-v1.png",
         "account_boundary": "Only generic workflow facts recorded; no email/code/token/profile identifiers in repository.",
@@ -121711,8 +121711,50 @@
           "generation": "PrivateMeshy7.1Ultra2K25credits; own built-in imagegen single-horn/aged-face/low-A reference accepted for one productioncandidate, not finalart.",
           "output": "assets/source/blender/photoworlds/W01/shurale_meshy_v3/meshy71-original.glb",
           "output_sha256": "917d008e2db785f38777e1e16829a565e4262a24fabddf4bca55335ebca05343",
-          "state": "DOWNLOADED_DCC_REVIEW_RUNNING",
-          "canonical": "Unchanged. No rig/texture/refinement spend before actualnewgeometry review."
+          "state": "SOURCE_PIPELINE_VERIFIED; ART_AND_RUNTIME_NOT_ACCEPTED",
+          "canonical": "Unchanged. This is a source-only geometry/motion pilot; final art, matching runtime rig/LOD/interaction contacts and native performance remain unaccepted.",
+          "technical": {
+            "vertices": 917232,
+            "triangles": 1834984,
+            "connected_components": 1,
+            "boundary_edges": 0,
+            "uv": false,
+            "rig": false,
+            "animations": false,
+            "manifest_local": "assets/source/blender/photoworlds/W01/shurale_meshy_v3/asset_manifest.json"
+          },
+          "root_review": "Root personally viewed actual Cycles full3q/face/hands. Clear onehorn and separated elongated digits, coherent body; face remains too calm and woody protrusions overdesigned for desired psychological-horror art. Accepted only for bounded motion/fit evaluation, not final art or canonical promotion.",
+          "remesh": {
+            "ui_request": "30K triangular, displayed0credits; normalGLBexport",
+            "path": "assets/source/blender/photoworlds/W01/shurale_meshy_v3/meshy71-remesh30k.glb",
+            "sha256": "1b9ecf1005a4f835572f86b3737b4cd83136b6d7140044a45c29f055ce84e64e",
+            "imported_triangles": 30960,
+            "uv": true,
+            "topology_note": "At1e-6m temporary in-memory weld:15394verts/30960tris,1component,0boundary/nonmanifold/wire. All6286duplicatepositiongroups differ inUV+normal signatures. Raw1013components/14770boundaryedges are attribute splits, not geometric holes. OriginalGLB unchanged.",
+            "root_visual_review": "Root viewed matchedfull3q/face/hands. Mainhorn and separated fingers retained; face becomes severely faceted/eye-mouth detail lost in30K clay. Requires high-to-low normal transfer/face-aware topology before close-up art acceptance; no automatic promotion."
+          },
+          "rig_preview": "Humanoid at2.35m, manual chin/groin/wrist markers. ActualUI Added hasRun/Walk/RedcarpetWalk (last inadvertently added neighboring card, not selectedproductionbehavior). Root personally observedWalk in2phases/orbit aftertemporaryblackviewport recovered. No global collapse; longhands swing through/obscure pelvis, generic human gait not desired restrained creature movement. No addedcharge observed(balance4175 unchanged).",
+          "rig_export": {
+            "path": "assets/source/blender/photoworlds/W01/shurale_meshy_v3/meshy71-rigged-all.glb",
+            "sha256": "3eb6d7522ed67a2fda347b607568828c420ad0f50642d00eeb586c01d20121aa",
+            "bytes": 3254648,
+            "settings": "Normal GLB / Mixamo / AllAdded / OneFile, scripted character off. Actual clips: Running, Walking, Red_Carpet_Walk.66-bone imported skeleton differs from existing53-bone runtime contract.",
+            "dcc_result": {
+              "manifest_local": "assets/source/blender/photoworlds/W01/shurale_meshy_v3/rigged-all-manifest.json",
+              "actor_height_at_walk_start_m": 2.3571,
+              "triangles": 30960,
+              "weighted_vertices": 23878,
+              "max_weight_sum_error": 1.34e-07,
+              "max_influences": 7,
+              "vertices_with_7_influences": 6,
+              "walk_samples": "0%,33%,67% actual Walking action: finite, no collapsed bounds, zero degenerate triangles. Root viewed corrected full0/67 and shoulder/hand crop; browser two phases/orbit also inspected.",
+              "art_result": "Technical motion succeeds, but generic human walk and longhand/forearm crossing in front of pelvis remain unsuitable. Close face detail reduced severely. No final horror art/native contact/performance acceptance.",
+              "import_helper": "Blender import contains unskinned Icosphere; separate GLB JSON has no corresponding mesh/node. Excluded from actor bounds; unresolved importer-side source, not asserted as a GLB runtime node."
+            }
+          },
+          "next": "Use the completed pilot to correct coherent horror art direction and preserve close face geometry/normal details; author restrained creature motion and retarget to existing53-bone/7-clip/LOD/branch contract before canonical replacement. No automatic new generation or final texture spend.",
+          "storage": "Raw highpoly/Blender studies/remesh/rig exports remain local review sources, not shipped canonical assets. Selected original image_gen input, exact prompt/provenance and its own earlier source reference are committed for reproducible art direction; paths/hashes of local outputs are recorded.",
+          "input_provenance": "assets/source/blender/photoworlds/W01/shurale_meshy_v3/input-shurale-v3.provenance.json"
         }
       }
     },
@@ -157804,8 +157846,8 @@
       "agent_spent_after_purchase": 25,
       "authorized_budget_remaining": 2975,
       "rule": "UI bonus/balance does not increase owner cap. Log exact per-operation observed cost/balance in owning task, no automatic repeated retries or blind batches; no new subscriptions/purchases authorized.",
-      "latest_ui_balance_observed": 4125,
-      "balance_note": "First new generation displayed cost25, task successfully created; UI balance4100→4125 includes an unexplained credit increase. Charge conservative25 against authorizedcap; no inference of a free operation or extra allowance."
+      "latest_ui_balance_observed": 4175,
+      "balance_note": "UI balance observed 4100 → 4125 after generation, then 4175 after remesh; the source of increases is unverified. Charge quoted25 against authorized cap; quoted0 for remesh and no additional charge observed for normal humanoid rig/library/export. Bonuses do not expand allowance."
     },
     "first_input": "Existing own Shurale7.1 generated before subscription, now raw downloaded normally at zero added generation spend. Original freeCCBY4.0 provenance retained; no automatic private/ownership claim.",
     "operations": [
@@ -157816,9 +157858,37 @@
         "resolution": "Ultra2K",
         "cost_credits": 25,
         "options": "Private; texture/pose/multiview/split off; image-enhancement off to preserve original concept.",
-        "result": "Generated and normally downloaded actualGLB; DCC neutral review underway.",
+        "result": "Own image_gen input → private7.1 Ultra2K → normal raw export → actual neutral review completed.30K remesh/UV and rig/clip export verified separately; final art/runtime not accepted.",
         "output_sha256": "917d008e2db785f38777e1e16829a565e4262a24fabddf4bca55335ebca05343"
+      },
+      {
+        "task_id": "PW-047",
+        "operation": "Remesh existing v3 to fixed30K triangles",
+        "cost_credits": 0,
+        "cost_basis": "Displayed0 at selected30K before confirmation",
+        "output_sha256": "1b9ecf1005a4f835572f86b3737b4cd83136b6d7140044a45c29f055ce84e64e",
+        "result": "Normal GLB downloaded; actual30960triangles with UV. Source-only, close-face detail lost."
+      },
+      {
+        "task_id": "PW-047",
+        "operation": "Existing v3 humanoid rig at2.35m and normal library clip export",
+        "cost_credits": 0,
+        "cost_basis": "No addedcharge observed; UI4175 before/after; no paid motion generation or purchase",
+        "output_sha256": "3eb6d7522ed67a2fda347b607568828c420ad0f50642d00eeb586c01d20121aa",
+        "result": "Actual three clips imported. Walking sampled0/33/67% in Blender and observed in web viewer; no mesh collapse. Generic gait/hand-pelvis overlap, face reduction and incompatible runtime skeleton remain. No canonical promotion."
       }
-    ]
+    ],
+    "next_large_static_candidate": {
+      "task_id": "ACT1-DEPTH.12/E01",
+      "passport": "AS-01",
+      "registry_id": "urman.act1.village_exterior_kit",
+      "boundary": "Existing art/architecture assignment retained. One source facade candidate only after root reviews current8.4x7.4m HERO_HOUSE_CONTRACT and actual selected architecture references; keep runtime doors/windows/collisions/portal semantics. No generation spent yet.",
+      "required_sources": [
+        "assets/source/blender/act1/urman_village_exterior_kit.py",
+        "docs/urman_knowledge_base/art/visual_reset_asset_passports_2026-10-07.json",
+        "docs/URMAN_VISUAL_RESET_2026-10-07/REFERENCES_RU.md"
+      ],
+      "input_gap": "Independent read-only review found T2 referenced but absent from checkout. Do not pretend it was viewed or reuse superseded6.2x6m house dimensions."
+    }
   }
 }
