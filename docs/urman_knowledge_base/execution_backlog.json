@@ -121232,7 +121232,7 @@
       "assigned_owner": "character_art",
       "activity": {
         "state": "released",
-        "reason": "Finite source comparisons complete; canonical actor unchanged. Root awaiting renewed Meshy session to inspect supported animation; native/art/cultural acceptance remains open."
+        "reason": "Finite Meshy6Lite source and7.1 free viewer Walk/Run comparison complete. Exact export blocked by paid tier; purchase decision external. Canonical actor unchanged; independent release work remains authorized."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -121658,8 +121658,8 @@
           "https://docs.meshy.ai/en/api/rigging"
         ],
         "constraints": "Free generated output uses CC BY4.0 attribution; Meshy7.1 normal GLB export explicitly opens paid-subscription gate. No paywall bypass or subscription purchase. Free preview does not prove topology, rig, contact, animation or game performance.",
-        "next": "Restore existing account session; attempt supported normal viewer animation without buying or bypassing export. If unavailable, report exact blocker; do not call static preview a movement test or promise all assets can be replaced.",
-        "state": "7_1_PREVIEW_PROMISING; DOWNLOAD_REQUIRES_SUBSCRIPTION; MOVEMENT_NOT_VERIFIED",
+        "next": "Owner purchase decision remains external. If a paid export becomes available, obtain through normal download, inspect actual rig/material/geometry, adapt original restrained choreography/contact, then native scene/performance. Keep canonical functional actor until replacement accepted; no more free variants merely to wait.",
+        "state": "FREE_VIEWER_WALK_AND_RUN_REVIEWED; NOT_GAME_ACCEPTED",
         "authorization": "Owner explicitly approved free account registration and separately approved upload of shown original input-whole-body-v1.png +oneMeshy6Lite generation costing10freecredits/CCBY4.0; no subscription purchase.",
         "input": "assets/source/blender/photoworlds/W01/shurale_reconstruction_v1/whole-body-v1/input-whole-body-v1.png",
         "account_boundary": "Only generic workflow facts recorded; no email/code/token/profile identifiers in repository.",
@@ -121669,7 +121669,29 @@
         "root_review": "Root personally viewed actual 3q/profile/back/face/hands. Coherent wholebody and smallhorn, but fused fingertalons and greatly simplified generic face; rawsource is112508triangles with no UV/materials/skin/animations. Not a modern-horror runtime actor; no canonicalpromotion or repeatedrigtransfer.",
         "views_local": "assets/source/blender/photoworlds/W01/shurale_meshy_v1/views/",
         "next_authorized_comparison": "Owner-approved same-input Meshy7.1 standard preview for20freecredits completed. Root inspected front/profile/back: face, fingers and coherent back substantially more promising than6Lite. Normal GLB download blocked by subscription. No texture/rig/runtime acceptance yet.",
-        "movement_followup": "Owner asks to test motion before deciding on Premium for broader asset work. Current browser session was revoked with other-device-login notice; same-account re-login code requested, waiting for owner. Check available viewer rig/animation first; no paid purchase authorized."
+        "movement_followup": "Same-account session restored. Supported free preparation produced10K triangular candidate, then normal humanoid auto-rig with2.35m height and manually corrected groin/wrist markers. No upload beyond already-approved concept; balance100credits unchanged; no subscription.",
+        "movement_review": {
+          "result": "TECHNICAL_PREVIEW_ONLY; NOT_ALL_NORMAL_OR_RELEASE_READY",
+          "visible_geometry": {
+            "faces": 10355,
+            "vertices": 5058
+          },
+          "observed_clips": [
+            "Walk / Прогулка",
+            "Run / Бег"
+          ],
+          "method": "Actual running 3D viewer, multiple phases/orbits/screenshots personally inspected; browser preview only, no model-data extraction or claimed Godot motion.",
+          "findings": "Basic articulated locomotion plays without whole-body collapse. Default human run reads as caricature for restrained Shurale;10K reduction visibly coarsens face. Long hands, shoulder/hip deformations, own working/contact choreography and one-horn identity need exact export/DCC/native evaluation; no finished horror-art or usable contact claim.",
+          "limits": "Idle addition did not appear in actual Added list after request; only Walk/Run accepted as observed. Normal animated FBX download settings also show PRO. No export bypass, engine import, gameplay contact, FPS/memory or final material quality verification.",
+          "local_preview_refs": [
+            ".codex-captures/meshy-20261018/meshy71-walk-01.jpg",
+            ".codex-captures/meshy-20261018/meshy71-walk-02.jpg",
+            ".codex-captures/meshy-20261018/meshy71-run-01.jpg",
+            ".codex-captures/meshy-20261018/meshy71-motion-final.jpg"
+          ],
+          "recommendation": "One monthly Pro pilot for real GLB/FBX/DCC/Godot verification before committing to Premium volume; owner has not approved purchase. Static/motion preview does not justify remaking every asset."
+        },
+        "broader_asset_review": "Independent bounded source review: NPC such as Alsu requires clip/bone/LOD/footplant contracts; H040 council facade requires measured openings/named wall nodes/door and interior access; bathhouse stove requires stove-face LOS and state/effects. Meshy geometry/textures cannot replace existing collision, interaction, progression or save owners. No mass production approved by this research."
       }
     },
     {
