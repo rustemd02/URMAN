@@ -25436,13 +25436,14 @@
             "result": "Подключить NewGame выбранной кампании с отказом при invalid content",
             "owner": "finished-act1",
             "evidence": [
-              "evidence/FINISH-06/native_6280675a75da42fa98e8bf8e957ea1e4/receipt.json"
+              "evidence/FINISH-06/native_6280675a75da42fa98e8bf8e957ea1e4/receipt.json",
+              "evidence/FINISH-06/native_5952e534bf574551856f728c6e08b1f5/receipt.json"
             ],
             "assigned_owner": "finished-act1",
             "active_owner": null,
             "activity": {
               "state": "not_active",
-              "reason": "One owned ordinary job completed with exact first-refusal and actual delayed menu frame archived. No Enter injected; native NewGame remains unproved. Station doctor ready/idle/no orphan/recovery."
+              "reason": "Ownedjob5952e534bf574551856f728c6e08b1f5 terminalgame timeout124; oneEnterrefused beforeinput. Receipt/currentmenu/firstrefusal archived; userdataRestoredtrue and freshdoctorready/idle,noorphan/recovery. No repeatinput or releaseclaim."
             },
             "task_type": "engineering",
             "status": "todo",
@@ -25451,8 +25452,8 @@
             "remaining": [
               "Подключить NewGame выбранной кампании с отказом при invalid content; собственного целевого receipt пока нет."
             ],
-            "next_action": "Resolve the actual owned-window focus condition before further ordinary NewGame/Continue checks; retained first-refusal proves other_or_none, not same-PID dialog, but cannot identify foreign owner or distinguish absent foreground. No unchanged activation workaround/relaunch. Current compile/import and actual menu frame are reusable evidence; independent art/MVP source work continues.",
-            "blocker": "Ordinary input refused before Enter: post_activation foreground category other_or_none. Cause not established. capture504 was delayed response, not proof that menu processing is disabled.",
+            "next_action": "Resolve confirmedhostforeground/captionclipprecondition using existingstationowner before another ordinarylaunch; validownedwindow stays behindChatGPT.exe despiteownedraise. Reuse5952menu/firstrefusal/receipt, do notrepeatunchangedinput or weakenownership/clipping guards.",
+            "blocker": "CurrentordinaryNewGame input stillrefused: validownedtarget, butnonnullforegroundbelongsChatGPT.exe(session1); captionclipbranchonlyraisedownedwindow anddidnotclick. Gameflow notentered; actualreasonforOSfocusretention unresolved.",
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
             "work_contract": {
@@ -25549,16 +25550,29 @@
                 "eng/windows-game-ui.ps1",
                 "eng/windows_station_worker.py"
               ],
-              "verification": "Independent bounded source review CLEAN; Python compile passed; current PS helper parsed by actual Windows PowerShell AST parser over SSH with0errors. Worker not yet updated/restarted; prior628cause remainsUNKNOWN.",
-              "next": "Check idle/recovery, safeFF worker update and official restart, then one changed-source ordinaryplay with retained refusal diagnostics if guarded input is rejected."
+              "verification": "Independent bounded source review CLEAN; Python compile passed; current PS helper parsed by actual Windows PowerShell AST parser over SSH with0errors. Worker not yet updated/restarted; prior628cause remainsUNKNOWN. DeployedonWindowsmain=df982443 viaofficialrestart; freshdoctorready. Original628cause remainsUNKNOWN.",
+              "next": "Check idle/recovery, safeFF worker update and official restart, then one changed-source ordinaryplay with retained refusal diagnostics if guarded input is rejected.",
+              "actual_native_result": "Job5952e534bf574551856f728c6e08b1f5 snapshot71520a77: actual highlightedNewGame menu PNG obtained. OneEnter refused post_activation. TargetHWND valid/PIDmatchtrue; nonnullforegroundHWND8980148/PID85600. First/retrySetForegroundfalse; attach/detachtrue; captionraiseBringWindowToToptrue, captionclicknotattempted. ExactPIDread-onlylookup identifiedChatGPT.exe/session1. No staleownedtarget or nullforeground; focusretention/clipcondition unresolved. Normalgame420stimeout124; receiptuserdataRestoredtrue; freshdoctorready/idle,noorphan/recovery.",
+              "evidence": [
+                "evidence/FINISH-06/native_5952e534bf574551856f728c6e08b1f5/ui-first-refusal.json",
+                "evidence/FINISH-06/native_5952e534bf574551856f728c6e08b1f5/receipt.json",
+                "evidence/FINISH-06/native_5952e534bf574551856f728c6e08b1f5/frames/interactive-9439094954504e9699be37d564f770ee.png"
+              ]
             },
             "maintenance_2026_10_18": {
-              "result": "MacPython trust fixed per-process with existing/etc/ssl/cert.pem; HTTPSdoctor ready/idle/inputdesktoptrue/orphanfalse/recoveryfalse. SSH correct unterpc\\unterlantas works. Windows old main37bdeba with local modifications; entire tracked patch backed up before any alignment. Local reconstructed code comparison proves runner exactly currentMacmain and worker differs only new bounded diagnostics; unrelated historic docs and.gitattributes deletion preserved in backup.",
+              "result": "MacPython trust fixed per-process with existing/etc/ssl/cert.pem; HTTPSdoctor ready/idle/inputdesktoptrue/orphanfalse/recoveryfalse. SSH correct unterpc\\unterlantas works. Windows old main37bdeba with local modifications; entire tracked patch backed up before any alignment. Local reconstructed code comparison proves runner exactly currentMacmain and worker differs only new bounded diagnostics; unrelated historic docs and.gitattributes deletion preserved in backup. Windowsmain fast-forwarded498commits todf982443; priortrackedpatch unchangedSHA verifiedbeforealignment. Fouruntrackedcollisionfiles individuallybyte-backedup; preserved historicdocs reapplied viaEOL-normalizedclean3waymerge. Old.gitattributesdeletion retained. Officialmanageworkerstop/start exited0; freshHTTPSdoctor ready/idle,inputdesktoptrue,orphanfalse,recoveryfalse.",
               "backup_local": ".codex-captures/station-maintenance-20261018/tracked-before-sync.patch",
               "backup_sha256": "0f33b76357b1ac093a30ac96e4029a88b875d65854e34905d8b0b95e30e92170",
-              "verified_wait": "Original git fetch remains live with owned git/index-pack PID141248; tmp_pack_RS0EjN grew from592486399 to1271234559bytes. SSH observation timeout did not end remote fetch; do not restart it. Origin/main still e97fb25f until fetch completes.",
+              "verified_wait": "Fetchcompleted: origin/main=df982443, index-pack andtemporarypackgone. One owned maintenanceSSH stalledinConsole.In.ReadToEnd before mutations; verifiedexactPIDpair stopped, no gameprocess touched. SCP replacedstdintransport.",
               "syntax": "Current helper sent as data to existing Windows PowerShell AST parser over authorized SSH:0parseerrors. Not executed or deployed.",
-              "next": "Revalidate same live fetch/process and pack progress, then fresh idle/recovery + unchanged sourcebackup hash; reconcile preserved dirty files and safeFF, official worker restart, one changed-source ordinaryplay. No reset/stash/guardbypass."
+              "next": "One changed-source ordinary play-product with current source snapshot; record first owned-input result and bounded diagnostics ifrefused. No guardpolicychange."
+            },
+            "native_stage_2026_10_18": {
+              "job_id": "5952e534bf574551856f728c6e08b1f5",
+              "snapshot": "71520a77e19147fbba10b7cc934f7f1df911e4dc1169e86504be570e35205c9d",
+              "result": "Build/content/documentimages/importexit0; ordinarymenuactualPNG, backgroundprologuephysicalW01/F00 initialized. NewGame Enter wasnotinjected. Gameguardtimeout124; userdataRestoredtrue. Two existingPainterlyMaterialLibrary mode warnings; no engineerrorlines.",
+              "evidence": "evidence/FINISH-06/native_5952e534bf574551856f728c6e08b1f5/receipt.json",
+              "remaining": "OrdinaryNewGame/firstwalk/Continue/motion/art stillopen. No unchangedrerun; resolve confirmedhostforeground/captionclipprecondition first."
             }
           },
           {
@@ -157967,6 +157981,15 @@
         "output_sha256": "2026e2a3999affb67904ac3546ff6b190fbfc13b2f773a96667229b53240ac9c",
         "bytes": 39550980,
         "result": "Actual pinnedBlender88823tris,116539verts,oneUV/material; allPBRroles retained4KPNG. Rootpersonallyviewed3q/porch: mainforms survive but tornplinth/warpedroofedges; rejectedforruntime. One nativeBlenderreductionofhighsource underway withoutMeshyspend."
+      },
+      {
+        "task_id": "ACT1-DEPTH.12/E01",
+        "operation": "One pinnedBlender nativeUV-preserving source reduction of4KPBR highdonor",
+        "cost_credits": 0,
+        "output": "assets/source/blender/act1/hero_house_meshy_v1/blender-reduced-100k.glb",
+        "output_sha256": "235ab2f554575e145e30a8e3fe18f55d1709c1d9cfb5f5f606572475d30f7a80",
+        "bytes": 34257712,
+        "result": "Actual99998tris,afterreimport+weld3closedcomponents/0boundaries/nonmanifold;UV+4Kbase/2KMR/4Knormalretained. Rootviewedsame3q:plinthnowintact,roof/gablewavyrelativehighsource. BetterthanMeshy100Kbutdonoronly;stopvariants,no canonicalpromotion."
       }
     ],
     "next_large_static_candidate": {
