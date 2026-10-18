@@ -70919,7 +70919,7 @@
       "milestone": "M5",
       "status": "in_progress",
       "complexity": "simple",
-      "active_owner": "/root/aidar_body",
+      "active_owner": null,
       "owner": "finished-act1",
       "depends_on": [],
       "scope": [
@@ -70975,8 +70975,8 @@
       },
       "assigned_owner": "finished-act1",
       "activity": {
-        "state": "confirmed_active",
-        "reason": "Actual remesh delivered with SHA; aidar_body accepted bounded source adapter and actual review views."
+        "state": "released",
+        "reason": "Bounded Meshy clothing source stage stopped after actual-eye review confirmed remaining camera-internal coat occlusion. No runtime promotion; canonical gait/body remains unchanged except separately accepted fall-recovery resets."
       },
       "task_type": "integration_check",
       "implementation_state": "partial",
@@ -70984,7 +70984,7 @@
       "remaining": [
         "Приёмка походки (ходьба/бег/присед/повороты); отсутствует подтверждение собственного конечного DoD, перечисленного ниже."
       ],
-      "next_action": "Подготовить убедительный clothing asset для собственного тела Айдара с сохранёнными sole/knee/ankle contracts; примитивный opt-in source preview не внедрять. Для gait/jump/manual acceptance нужен новый причинный факт по native input focus, прежний отказ не повторять.",
+      "next_action": "Пересмотреть FPS clothing adapter: сохранить Meshy брюки/ботинки и изготовить корректную для фактической камеры геометрию пояса/подола вместо серии срезов полного торса. Затем один source actual-eye кадр; runtime gait/jump приёмка отдельно после решения native input focus.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -71138,8 +71138,9 @@
       },
       "mesh_body_source_rejection_2026_10_19": {
         "source": "assets/source/blender/act1/aidar_meshy_v1/prepare_aidar_player_meshy_source.py",
-        "result": "Root rejected camera-internal chest triangles. Waist crop removed them but latest displayed frame used an external camera1.55m in front, so it is not actual FPS evidence. Source remains isolated/untracked, no C# runtime integration. Owner now only correcting preview to actual camera anchor/FOV; no more geometry masks in this stage.",
-        "remaining": "Need honest actual-eye source frame and explicit remaining blocker before further body integration; ordinary gait/jump remain unverified."
+        "result": "Root viewed corrected actual-eye source frame: eye1.70m, forward.24m relative body, FOV75,pitch-82°,16:9. Cropped internal jacket/hem surface still occludes lower view; floating scan fragments remain. External view honestly renamed. Source isolated, not runtime integrated; repeated mask iteration stopped.",
+        "remaining": "Change approach: retain useful Meshy trousers/boots, design a correct first-person waist/coat silhouette around the actual eye anchor; do not continue blind whole-torso slicing. No ordinary gait/jump/foot-contact acceptance yet; protected native input still requires new causal fact.",
+        "frame": "assets/source/blender/act1/aidar_meshy_v1/renders-aidar-meshy-player-body-v1/aidar-first-person-lookdown.png"
       }
     },
     {
