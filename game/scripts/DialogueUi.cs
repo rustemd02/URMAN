@@ -14,10 +14,18 @@ public partial class DialogueUi : CanvasLayer, IAccessibilitySettingsTarget
     private RuntimeBridge? _bridge;
     private CompiledDialogueContent? _dialogue;
     private CompiledDialogueNodeContent? _node;
+    private object? _dialogueSessionIdentity;
     private Viewport? _refitViewport;
     private AccessibilitySettingsSnapshot _accessibility = AccessibilitySettingsSnapshot.Default;
 
     public bool IsOpen => _screen.Visible;
+    public string? CurrentDialogueId => IsOpen && _node is not null
+        && _dialogueSessionIdentity is { } session
+        && ReferenceEquals(session, _bridge?.SessionIdentity)
+        ? _dialogue?.Id
+        : null;
+    public string? CurrentSpeakerRole => CurrentDialogueId is not null ? _node?.SpeakerRole : null;
+    public string? CurrentNodeId => CurrentDialogueId is not null ? _node?.Id : null;
 
     /// <summary>Raised after the runtime accepted a dialogue answer (dialogue id, choice id).</summary>
     internal static event Action<string, string>? ChoiceAccepted;
@@ -141,7 +149,9 @@ public partial class DialogueUi : CanvasLayer, IAccessibilitySettingsTarget
     public async void Open(RuntimeBridge bridge, string dialogueId)
     {
         _bridge = bridge;
+        _dialogueSessionIdentity = bridge.SessionIdentity;
         _dialogue = bridge.RequireDialogue(dialogueId);
+        _node = null;
         _continue.Visible = false;
         UiFoley.Play(_foley, "ui_click");
         _screen.Visible = true;
@@ -248,6 +258,7 @@ public partial class DialogueUi : CanvasLayer, IAccessibilitySettingsTarget
         _bridge = null;
         _dialogue = null;
         _node = null;
+        _dialogueSessionIdentity = null;
         SetPlayerModal(false);
     }
 

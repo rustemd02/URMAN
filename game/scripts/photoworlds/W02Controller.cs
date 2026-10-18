@@ -72,6 +72,11 @@ public partial class W02Controller : Node3D
     private bool _boardLifted;
     private bool _encounterWasResolved;
     private bool _reedCurtainOpened;
+    private bool _reedCurtainProjectionInitialized;
+    private bool _reedCurtainOpening;
+    private object? _reedCurtainSessionIdentity;
+    private Tween? _reedCurtainTween;
+    private int _reedCurtainTweenGeneration;
     private bool _firstProjection = true;
     private float _suAnasyTargetY = -1.35f;
     private float _suAnasyY = -1.35f;
@@ -132,6 +137,9 @@ public partial class W02Controller : Node3D
         SetProcess(false);
         if (_bridge is { } bridge && GodotObject.IsInstanceValid(bridge))
             bridge.RuntimeStateChanged -= ApplyProjection;
+        CancelReedCurtainTween();
+        _reedCurtainSessionIdentity = null;
+        _reedCurtainProjectionInitialized = false;
         _bridge = null;
     }
 
@@ -156,7 +164,13 @@ public partial class W02Controller : Node3D
         if (_bridge is not { } bridge || !GodotObject.IsInstanceValid(bridge))
             return;
 
+        var sessionIdentity = bridge.SessionIdentity;
+        if (!ReferenceEquals(_reedCurtainSessionIdentity, sessionIdentity))
+            ResetReedCurtainSession(sessionIdentity);
+
         var projection = bridge.CurrentW02WaterProjection();
+        if (projection is not null && !ReferenceEquals(projection.SessionIdentity, sessionIdentity))
+            projection = null;
         var visible = projection is not null && projection.ActiveSceneId == RiverSceneId;
         SetWorldPresentationVisible(visible);
         foreach (var target in _targets)
@@ -166,6 +180,7 @@ public partial class W02Controller : Node3D
 
         if (projection is null)
         {
+            SnapReedCurtain(_reedCurtainProjectionInitialized && _reedCurtainOpened);
             _firstProjection = false;
             return;
         }
@@ -173,11 +188,7 @@ public partial class W02Controller : Node3D
         EnsureTargets(bridge);
 
         // The reeds answer the authored fact once; a restored save stands open.
-        if (projection.ReedOpened && !_reedCurtainOpened)
-        {
-            _reedCurtainOpened = true;
-            PartReedCurtain(animated: !_firstProjection);
-        }
+        ApplyReedCurtainProjection(projection.ReedOpened);
 
         if (_encounterTarget is { } encounterTarget)
         {
@@ -214,7 +225,69 @@ public partial class W02Controller : Node3D
     {
         if (_world is { } world && GodotObject.IsInstanceValid(world)) world.Visible = visible;
         foreach (var body in _worldBodies)
-            if (GodotObject.IsInstanceValid(body)) body.CollisionLayer = visible ? 1u : 0u;
+        {
+            if (!GodotObject.IsInstanceValid(body)) continue;
+            var reedCanBlock = !ReferenceEquals(body, _reedCurtainBody)
+                || !_reedCurtainOpened || _reedCurtainOpening;
+            body.CollisionLayer = visible && reedCanBlock ? 1u : 0u;
+        }
+    }
+
+    private void ResetReedCurtainSession(object? sessionIdentity)
+    {
+        _reedCurtainSessionIdentity = sessionIdentity;
+        _reedCurtainProjectionInitialized = false;
+        _reedCurtainOpened = false;
+        SnapReedCurtain(opened: false);
+    }
+
+    private void ApplyReedCurtainProjection(bool opened)
+    {
+        if (!_reedCurtainProjectionInitialized)
+        {
+            _reedCurtainProjectionInitialized = true;
+            _reedCurtainOpened = opened;
+            SnapReedCurtain(opened);
+            return;
+        }
+
+        if (_reedCurtainOpened == opened) return;
+
+        _reedCurtainOpened = opened;
+        if (opened)
+            PartReedCurtain(animated: true);
+        else
+            SnapReedCurtain(opened: false);
+    }
+
+    private void SnapReedCurtain(bool opened)
+    {
+        CancelReedCurtainTween();
+        var leftGoal = opened ? new Vector3(-1.35f, 0f, 1.15f) : Vector3.Zero;
+        var rightGoal = opened ? new Vector3(1.35f, 0f, 1.15f) : Vector3.Zero;
+        if (_reedCurtainLeft is { } left && GodotObject.IsInstanceValid(left))
+        {
+            left.Position = leftGoal;
+            left.RotationDegrees = opened ? new Vector3(0f, -14f, -6f) : Vector3.Zero;
+        }
+        if (_reedCurtainRight is { } right && GodotObject.IsInstanceValid(right))
+        {
+            right.Position = rightGoal;
+            right.RotationDegrees = opened ? new Vector3(0f, 14f, 6f) : Vector3.Zero;
+        }
+
+        SetReedCurtainCollision(blocking: !opened);
+    }
+
+    private void SetReedCurtainCollision(bool blocking)
+    {
+        if (_reedCurtainBody is not { } body || !GodotObject.IsInstanceValid(body)) return;
+        body.CollisionLayer = blocking && _world is { } world && GodotObject.IsInstanceValid(world) && world.Visible
+            ? 1u
+            : 0u;
+        foreach (var child in body.GetChildren())
+            if (child is CollisionShape3D shape && GodotObject.IsInstanceValid(shape))
+                shape.Disabled = !blocking;
     }
 
     private StaticBody3D TrackBody(StaticBody3D body)
@@ -604,7 +677,7 @@ public partial class W02Controller : Node3D
         var random = new Random(20261016);
         for (var blade = 0; blade < 16; blade++)
         {
-            var side = blade % 2 == 0 ? _reedCurtainLeft : _reedCurtainRight;
+            var side = blade < 8 ? _reedCurtainLeft : _reedCurtainRight;
             var height = 1.9f + (float)random.NextDouble() * 0.55f;
             side.AddChild(new MeshInstance3D
             {
@@ -653,31 +726,72 @@ public partial class W02Controller : Node3D
 
     private void PartReedCurtain(bool animated)
     {
-        if (_reedCurtainBody is { } body && GodotObject.IsInstanceValid(body))
-        {
-            body.CollisionLayer = 0u;
-            foreach (var child in body.GetChildren())
-                if (child is CollisionShape3D shape) shape.Disabled = true;
-        }
-
         var leftGoal = new Vector3(-1.35f, 0f, 1.15f);
         var rightGoal = new Vector3(1.35f, 0f, 1.15f);
         if (!animated)
         {
-            if (_reedCurtainLeft is { } left) left.Position = leftGoal;
-            if (_reedCurtainRight is { } right) right.Position = rightGoal;
+            SnapReedCurtain(opened: true);
             return;
         }
 
-        foreach (var (side, goal) in new[] { (_reedCurtainLeft, leftGoal), (_reedCurtainRight, rightGoal) })
+        CancelReedCurtainTween();
+        if (_reedCurtainLeft is not { } left || !GodotObject.IsInstanceValid(left)
+            || _reedCurtainRight is not { } right || !GodotObject.IsInstanceValid(right))
         {
-            if (side is not { } node || !GodotObject.IsInstanceValid(node)) continue;
-            var tween = CreateTween();
-            tween.SetTrans(Tween.TransitionType.Sine).SetEase(Tween.EaseType.InOut);
-            tween.TweenProperty(node, "position", goal, 1.4f);
-            tween.Parallel().TweenProperty(node, "rotation_degrees",
-                new Vector3(0f, node.RotationDegrees.Y + (goal.X < 0f ? -14f : 14f), goal.X < 0f ? -6f : 6f), 1.4f);
+            SnapReedCurtain(opened: true);
+            return;
         }
+
+        _reedCurtainOpening = true;
+        SetReedCurtainCollision(blocking: true);
+        var generation = _reedCurtainTweenGeneration;
+        var sessionIdentity = _reedCurtainSessionIdentity;
+        var tween = CreateTween();
+        _reedCurtainTween = tween;
+        tween.SetTrans(Tween.TransitionType.Sine).SetEase(Tween.EaseType.InOut);
+        tween.TweenProperty(left, "position", leftGoal, 1.4f);
+        tween.Parallel().TweenProperty(left, "rotation_degrees", new Vector3(0f, -14f, -6f), 1.4f);
+        tween.Parallel().TweenProperty(right, "position", rightGoal, 1.4f);
+        tween.Parallel().TweenProperty(right, "rotation_degrees", new Vector3(0f, 14f, 6f), 1.4f);
+        tween.Finished += () => FinishReedCurtainOpening(tween, generation, sessionIdentity);
+    }
+
+    private void FinishReedCurtainOpening(Tween tween, int generation, object? sessionIdentity)
+    {
+        if (generation != _reedCurtainTweenGeneration || !ReferenceEquals(_reedCurtainTween, tween)) return;
+
+        _reedCurtainTween = null;
+        _reedCurtainOpening = false;
+        var bridge = _bridge;
+        var projection = bridge is { } currentBridge && GodotObject.IsInstanceValid(currentBridge)
+            ? currentBridge.CurrentW02WaterProjection()
+            : null;
+        if (bridge is null || !GodotObject.IsInstanceValid(bridge))
+        {
+            SnapReedCurtain(_reedCurtainProjectionInitialized && _reedCurtainOpened);
+            return;
+        }
+
+        if (sessionIdentity is null
+            || !ReferenceEquals(sessionIdentity, bridge.SessionIdentity)
+            || projection is null
+            || !ReferenceEquals(projection.SessionIdentity, sessionIdentity)
+            || !projection.ReedOpened)
+        {
+            ApplyProjection();
+            return;
+        }
+
+        SetReedCurtainCollision(blocking: false);
+    }
+
+    private void CancelReedCurtainTween()
+    {
+        _reedCurtainTweenGeneration++;
+        if (_reedCurtainTween is { } tween && GodotObject.IsInstanceValid(tween) && tween.IsValid())
+            tween.Kill();
+        _reedCurtainTween = null;
+        _reedCurtainOpening = false;
     }
 
     private void BuildOldApproach()
@@ -1641,7 +1755,9 @@ public partial class W02Controller : Node3D
     /// <summary>Capture-only state switch; the running game always projects runtime facts.</summary>
     internal void ApplyCaptureFacts(bool reedOpened, bool encounterResolved)
     {
-        if (reedOpened) PartReedCurtain(animated: false);
+        _reedCurtainOpened = reedOpened;
+        _reedCurtainProjectionInitialized = true;
+        SnapReedCurtain(reedOpened);
         if (encounterResolved)
         {
             _encounterWasResolved = true;

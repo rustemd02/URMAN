@@ -18931,7 +18931,16 @@
           "evidence_ref": "ACT1-PLAYER.evidence and named history progress; source_review shows available/missing inputs"
         }
       ],
-      "assignment_state": "preserved_person_or_existing_role; activity separate"
+      "assignment_state": "preserved_person_or_existing_role; activity separate",
+      "jump_envelope_native_2026_10_18": {
+        "job_id": "34426dccec5d4c7c9055e26f129b4ead",
+        "snapshot_id": "1c23310784833bda6ff3fe52e1bb4eb6de2481381afefdbb6a10aba9cb7eec54",
+        "result": "PASS169 checks, gameExit0, peak0.643m; no midair/held repeatjump; lowroof/modal/vehicle existingchecks passed.",
+        "receipt": "evidence/ACT1-PLAYER/jump-envelope-20261018/receipt.json",
+        "movement_receipt": "evidence/ACT1-PLAYER/jump-envelope-20261018/player/player-movement-receipt.json",
+        "restoration": "userdataRestored=true, doctor ready/idle/no orphan/recovery",
+        "limits": "Existing scenario does not capture jump phases/foot pose; natural gait/jump/fun and external visual acceptance remain open."
+      }
     },
     {
       "id": "ACT1-ADDR",
@@ -121011,7 +121020,7 @@
         "Нет полосы босса, оленьего черепа и копии чужого маскота.",
         "Полный паспорт уровня docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/levels/W01_Лес_за_спиной_RU.md реализован: узлы/физические связи/действия/существо или человеческая сцена/созерцание/возврат/кадры; схема не заменяет проходимый runtime."
       ],
-      "next_action": "Переработать rejected mannequin в цельного современно устрашающего оригинального Шурале по live author direction; проверить skin/weights и полный силуэт/рабочую позу до runtime promotion.",
+      "next_action": "Accept corrected material/pose-preserving motion package and original character look; then integrate exact canonical GLB and five W01 hooks with targeted native import/ordinary-route acceptance.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -121251,7 +121260,21 @@
       "character_package_2026_10_18": {
         "source": "assets/source/blender/photoworlds/W01/shurale_character_v4/export-v1/",
         "result": "MPFB-derived continuous53bonebody with verifiedphysicalbranchcontact, baked2Kalbedo/1Kmask, staged7clips/2LODs. Runtimepartial prepared separately, canonicalasset NOT_PROMOTED.",
-        "remaining": "ExactGLBreimport/axis/skin/fullfigure review due exporter warnings; source/runtimeasset and lifecyclehooks, nativevisual/motion/cultural/author acceptance. Current smoothhumanlook is not finalA24styleacceptance."
+        "remaining": "Exact supported branch material and pose-preserving real clips; serious original v5 character-look study and textured art review; canonical asset/lifecyclehooks; native visual/motion and cultural/author acceptance.",
+        "verification_question": "Does the exact fresh GLB reimport preserve the source two-handed front working pose, feet, face orientation and restrained notice transition?",
+        "decision": "Axis/IK-helper cause corrected in source exporter; root personally viewed exact paired source/reimport full figure and grip. Finite working-pose export stage accepted; canonical runtime not yet promoted. Original horror look and remaining clips are not accepted.",
+        "candidate_sha256": "a9510f602e9d25bae3216f519144f74d93a08eaf88040e4264bc8a26599ea39b",
+        "causal_finding": "normalize_root rotated rig alone; IK target/pole helpers and branch stayed on old side. Exporter now transforms the full pose setup consistently; original source and imported GLB bone matrices differ at most1.2e-6.",
+        "source_review": "export-v1/reimport-review/axis-fixed source-work-full.png/reimport-work-full.png and reimport-work-contact.png personally viewed. Imported branch material became white because procedural graph was unsupported: exporter supported Principled material correction pending.",
+        "code_stage": "W01 Shurale partial prepared without lifecyclehooks; manifest loopmodes, physicalbranch visibility, pairedLOD, D06/D07 modal/response flow. Independent review corrected Stop→Play snaps via0.18blend and per-node speaking response. Affected Game compile14.43s0warnings/errors. Native not exercised.",
+        "publication": "Prepared C# interaction/animation partial committed without lifecycle hooks; current Blender candidates remain local source-only until accepted exact package.",
+        "placement": "Existing markergroundY4 exactlymatches actualf16terrain across.30m footprint, >1.74m walkribbonclearance. Current workprop is.6596m from exactsupportsurface; workpose/environmentcontact correction underway, no AABBcontactclaim."
+      },
+      "look_study_2026_10_18": {
+        "candidate": "assets/source/blender/photoworlds/W01/shurale_character_v5/",
+        "decision": "REJECT_RUNTIME_PROMOTION",
+        "review": "Root personally viewed whole-front/threequarter/facehands EEVEE. Generic bald human, enlarged smoothforehead, hourglassbody and angular brownmask do not meet original modern horror look. Stop color-mask variants; actual silhouette/head form needed.",
+        "causal_input": "Measured current rig armchain≈.71m at2.35m body cannot reach actualroot surface. Inspect stronger native MPFB limb/finger targets before rigfit, preserving valid anatomy/skin; no postrigstretching shortcut."
       }
     },
     {
@@ -122713,7 +122736,7 @@
       "id": "PW-051",
       "title": "W02: связать отражение с настоящим подходом",
       "milestone": "PW-M3",
-      "status": "todo",
+      "status": "in_progress",
       "active_owner": null,
       "owner": "gameplay",
       "priority": "P1",
@@ -122852,7 +122875,7 @@
       "assigned_owner": "gameplay",
       "activity": {
         "state": "not_active",
-        "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+        "reason": "Finite R04 source slice accepted after independent lifecycle/geometry review and affected Game compile; native/art remainder remains open."
       },
       "task_type": "engineering",
       "implementation_state": "not_started",
@@ -122862,7 +122885,7 @@
         "Внутреннее наблюдение не является внешним подтверждением.",
         "Полный паспорт уровня docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/levels/W02_Мостки_RU.md реализован: узлы/физические связи/действия/существо или человеческая сцена/созерцание/возврат/кадры; схема не заменяет проходимый runtime."
       ],
-      "next_action": "Реализовать наблюдение R03, отведение камыша R04 и осмотр R05.",
+      "next_action": "Verify actual ordinary R03→R04→R05 route and visible physical opening when native foreground is available; retain reflection/art/full PW051 remainder.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -122880,19 +122903,22 @@
             "task_id": "PW-050",
             "artifact": "W02: произвести и собрать всю проходимую геометрию «Мостки»",
             "requires": "relevant_artifact_not_full_parent",
-            "availability": "not_confirmed"
+            "availability": "available",
+            "availability_scope": "Named source/API only for finite R04 transition/contact projection slice; full geometry/reflection/save-roundtrip acceptance remains open."
           },
           {
             "task_id": "PW-029",
             "artifact": "Сохранять предметные действия и пространственные связи",
             "requires": "relevant_artifact_not_full_parent",
-            "availability": "not_confirmed"
+            "availability": "available",
+            "availability_scope": "Named source/API only for finite R04 transition/contact projection slice; full geometry/reflection/save-roundtrip acceptance remains open."
           },
           {
             "task_id": "PW-035",
             "artifact": "Реализовать ограниченный отражённый вид W02",
             "requires": "relevant_artifact_not_full_parent",
-            "availability": "not_confirmed"
+            "availability": "available",
+            "availability_scope": "Named source/API only for finite R04 transition/contact projection slice; full geometry/reflection/save-roundtrip acceptance remains open."
           }
         ],
         "scope_in": [
@@ -122979,19 +123005,22 @@
             "task_id": "PW-050",
             "artifact": "W02: произвести и собрать всю проходимую геометрию «Мостки»",
             "requires": "relevant_artifact_not_full_parent",
-            "availability": "not_confirmed"
+            "availability": "available",
+            "availability_scope": "Named source/API only for finite R04 transition/contact projection slice; full geometry/reflection/save-roundtrip acceptance remains open."
           },
           {
             "task_id": "PW-029",
             "artifact": "Сохранять предметные действия и пространственные связи",
             "requires": "relevant_artifact_not_full_parent",
-            "availability": "not_confirmed"
+            "availability": "available",
+            "availability_scope": "Named source/API only for finite R04 transition/contact projection slice; full geometry/reflection/save-roundtrip acceptance remains open."
           },
           {
             "task_id": "PW-035",
             "artifact": "Реализовать ограниченный отражённый вид W02",
             "requires": "relevant_artifact_not_full_parent",
-            "availability": "not_confirmed"
+            "availability": "available",
+            "availability_scope": "Named source/API only for finite R04 transition/contact projection slice; full geometry/reflection/save-roundtrip acceptance remains open."
           }
         ],
         "verification": [],
@@ -123027,7 +123056,18 @@
           "evidence_ref": "PW-051.evidence and named history progress; source_review shows available/missing inputs"
         }
       ],
-      "assignment_state": "preserved_person_or_existing_role; activity separate"
+      "assignment_state": "preserved_person_or_existing_role; activity separate",
+      "source_slice_2026_10_18": {
+        "result": "SOURCE_PARTIAL: R04 now blocks through1.4s visual opening, disables only on exact live-session completion; restored/session/hide projection cancels stale tweens and snaps committed state. Contiguous blade halves leave≈2.495m visible clearance for1.9m walking ribbon.",
+        "targets": [
+          "game/scripts/photoworlds/W02Controller.cs"
+        ],
+        "inputs": "Existing W02 generated route/curtain/contact, CurrentW02WaterProjection and authored water_reed_opened; existing saved reducer fact is sufficient for this bounded source slice, no full parent completion required.",
+        "finding": "Current animated PartReedCurtain disables collision before1.4s visual opening. Current boolean guards also need checking for same-controller new session/reentry.",
+        "verification_question": "Does physical crossing remain blocked while visible reeds obstruct it, and do restore/session/scene transitions project exact closed/open state without stale tween callbacks?",
+        "remaining": "Native R03→R04→R05 ordinary route, reflection motion/cost, remaining PW051 DoD and art/external gates.",
+        "verification": "Affected Game compile14.63s0warnings/errors; final one-line contiguous-half grouping inspected after independent review. No new tests. No native W02 acceptance."
+      }
     },
     {
       "id": "PW-052",
@@ -140996,6 +141036,16 @@
         "native_snapshot": "2cd7f5efc010616eabfbb3283d3ddc5985ff80a93cfd2168d41ab6221849f8f5",
         "observed_result": "Release operator personally viewed actualmenu; oneEnter refused409 ui_focus_post_activation_lost. No furtherinput. OrdinaryNewGame still NOT_VERIFIED.",
         "release_condition": "Interactive station desktop must keep verified game HWND foreground through existing guard. No further focus workaround/clip-owner mutation; independent implementation continues."
+      },
+      "owned_raise_result_2026_10_18": {
+        "job_id": "4f86e4fca4b5404f8e015cb55e5ded01",
+        "snapshot_id": "2cd7f5efc010616eabfbb3283d3ddc5985ff80a93cfd2168d41ab6221849f8f5",
+        "result_sha256": "f98c62e2c4ff98064d9677a6b538b2614620582d288d93babb76298078d4abf9",
+        "receipt": "evidence/PW-097/owned-raise-20261018/native/receipt.json",
+        "result": "FAIL game timeout124; menu observed, one Enter refused ui_focus_post_activation_lost. Build/import/content/document-image exit0 do not prove ordinary NewGame/Continue.",
+        "userdata": "restored=true; recovery pending=false; doctor ready/idle/no orphan",
+        "release_condition": "Interactive station desktop must retain verified own game HWND foreground through existing guard. No repeated input/new focus workarounds without changed input or causal fact.",
+        "menu_frame": "evidence/PW-097/owned-raise-20261018/native/frames/interactive-7a441e5cf70c442084cac02fb360a2e9.png"
       }
     },
     {
