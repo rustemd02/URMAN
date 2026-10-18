@@ -62769,6 +62769,16 @@
               "verification": "Same GLB bytes as Windows jobfdc5f5ef62fc4554ad107b9d9bef31ef (native front/porch root-reviewed, build/import/game0, userdataRestored). No duplicate unchanged station run. Root checked recipe/path/header/content hash/semantic IDs and diff; resource-only promotion introduces no C# change.",
               "receipt": "evidence/ACT1-DEPTH.12/native_uv_v3_fdc5f5ef62fc4554ad107b9d9bef31ef/receipt.json",
               "remaining": "Native Studio Preview/Apply/Undo and full author house art/reference acceptance remain open; no claim that all house textures/lighting or ordinary gameplay are release ready."
+            },
+            "uv_v3_producer_sources_2026_10_19": {
+              "sources": [
+                "assets/source/blender/act1/hero_house_pbr_v1/prepare_hero_house_retexture.py",
+                "assets/source/blender/act1/hero_house_pbr_v1/attach_hero_house_retexture.py",
+                "assets/source/blender/act1/hero_house_pbr_v1/assemble_hero_house_native_candidate.py"
+              ],
+              "material_input": "assets/source/blender/act1/hero_house_pbr_v1/meshy-retxt-4k-keepuv-v3.glb",
+              "result": "Persist existing accepted UVv3 producer source and offline returned PBR input; exact per-crown position weld,198continuous capfans,4position-keyed thin face exceptions, excluded mesh restoration retained. Early Blender4.5.12 guards added to prepare/attach matching assembler; geometry algorithms unchanged. Prior native receipts predate guard sourcehash edit. No canonical writes/API calls/new generator run.",
+              "verification": "Independent v3-only source review plus root Python AST parsing and guard/read/write-boundary inspection. Runtime artifact remains same native-reviewed SHA dca96d3d; full Blender regeneration of guard revision not run."
             }
           }
         ]
@@ -122130,7 +122140,8 @@
         "source": "game/scripts/photoworlds/W01Controller.Shurale.cs",
         "confirmed_defect": "Canonical export headless package bootstrap emitted three get/set global transform errors at ResetShuraleGaze during _ExitTree; detached nodes were valid objects but no longer inside SceneTree.",
         "result": "Require both gaze target and actor root IsInsideTree before global target reposition. Modifier deactivation still always occurs for valid head/neck; all five reset callers preserved.",
-        "verification": "Affected Game build18.20s0warnings/0errors and independent five-caller review passed. Exported package bootstrap rerun required; no ordinary W01 motion/art claim."
+        "verification": "Affected Game build18.20s0warnings/0errors and independent five-caller review passed. Exported package bootstrap rerun required; no ordinary W01 motion/art claim.",
+        "package_verification": "Canonical fresh export f62bf22b exited0; both built-in headless/Dummy package bootstraps passed with no prior off-tree gaze errors. evidence/PW-095/desktop_candidate_f62bf22b/export.log. Windows native W01 gaze motion still open."
       }
     },
     {
@@ -141417,7 +141428,7 @@
         "Ресурсы находятся по относительным res://путям.",
         "Проверены точные bootstrap/preset/manifest и содержимое выбранного fullgame-пакета: его путь поставки включает всю обязательную новую кампанию. Если используется Act I Release, соответствующие фильтры согласованы с fullgame; отдельно сохраняемый исторический демо-preset менять не требуется. Чистый desktop-запуск с New Game/Save/Continue и ресурсами подтверждён отдельно на Windows и macOS."
       ],
-      "next_action": "Повторить canonical export после подтверждённого gaze teardown source-fix; не считать ранее отклонённый/удалённый набор доставленной сборкой. Windows/macOS ordinary host acceptance и performance/rights gates остаются открытыми.",
+      "next_action": "Проверить именно экспортированный Windows EXE вне checkout существующим сериализованным протоколом станции. Текущий station client запускает source-снимок, не EXE; готовится минимальное расширение существующего production пути с прежними hash/owner/userdata guards. Затем ordinary NewGame/Save/Continue и обязательные host/performance/rights gates.",
       "blocker": null,
       "external_gates": [
         {
@@ -141642,12 +141653,16 @@
       ],
       "assignment_state": "preserved_person_or_existing_role; activity separate",
       "package_export_2026_10_19": {
-        "state": "failed_package_bootstrap",
+        "state": "packaged_structural_pass_host_open",
         "source_head": "01814e45",
         "command": "python3 eng/protected_run.py --clean --timeout900 -- sh eng/export-desktop-release.sh build/releases/act1-20261019-01814e45",
         "log": ".codex-captures/export-20261019-01814e45.log",
         "scope": "Produce actual unsigned standalone desktop packages using existing canonical exporter; no new exporter or test harness. Local headless packaging is not Windows gameplay validation. Required performance/rights/ordinary-route acceptance remains open.",
-        "result": "Both native exports and provenance complete43e854a7 succeeded; built-in package bootstrap rejected three W01 gaze teardown errors. Exporter removed incomplete published set; output empty. protected_run restored and verified original userdata/permissions. Concrete source fix now compiled/reviewed; fresh export required."
+        "result": "Fresh canonical export exited0: unsigned native macOS appZIP556910282B; Windows ZIP492014904B+PE32EXE528592720B. Export-time source-before/after provenance and dependency/PCK/archive guards PASS; headless/Dummy package content bootstraps PASS after gaze fix. protected_run verified original userdata and permissions restored. Receipt windowsHostExecution explicitly OPEN; no ordinary host/gameplay/performance/art acceptance claimed.",
+        "accepted_source_head": "f62bf22b",
+        "accepted_output": "build/releases/act1-20261019-f62bf22b",
+        "accepted_receipt": "evidence/PW-095/desktop_candidate_f62bf22b/desktop-artifact-receipt.json",
+        "accepted_log": "evidence/PW-095/desktop_candidate_f62bf22b/export.log"
       }
     },
     {

@@ -1,0 +1,1174 @@
+{
+  "attached_material": {
+    "image_bindings": {
+      "Base Color": [
+        {
+          "channels": 4,
+          "colorspace": "sRGB",
+          "name": "Image_0",
+          "size": [
+            4096,
+            4096
+          ]
+        }
+      ],
+      "Metallic": [
+        {
+          "channels": 4,
+          "colorspace": "Non-Color",
+          "name": "Image_1",
+          "size": [
+            2048,
+            2048
+          ]
+        }
+      ],
+      "Normal": [
+        {
+          "channels": 4,
+          "colorspace": "Non-Color",
+          "name": "Image_2",
+          "size": [
+            4096,
+            4096
+          ]
+        }
+      ],
+      "Roughness": [
+        {
+          "channels": 4,
+          "colorspace": "Non-Color",
+          "name": "Image_1",
+          "size": [
+            2048,
+            2048
+          ]
+        }
+      ]
+    },
+    "images": [
+      {
+        "channels": 4,
+        "colorspace": "sRGB",
+        "name": "Image_0",
+        "size": [
+          4096,
+          4096
+        ]
+      },
+      {
+        "channels": 4,
+        "colorspace": "Non-Color",
+        "name": "Image_1",
+        "size": [
+          2048,
+          2048
+        ]
+      },
+      {
+        "channels": 4,
+        "colorspace": "Non-Color",
+        "name": "Image_2",
+        "size": [
+          4096,
+          4096
+        ]
+      }
+    ],
+    "name": "Material_0",
+    "principled_bsdf": true
+  },
+  "blender": {
+    "build_hash": "84afd5f785f7",
+    "version": "4.5.12 LTS"
+  },
+  "decision": "Returned PBR material was attached to the v3 semantic geometry over every covered UV-space triangle. The source slots remain on the four exact triangles of two verified thin end-cap quads omitted by Meshy. Returned geometry was ignored; v3 input transforms, positions, faces, and UV loops remain authoritative.",
+  "derived_output": {
+    "blend": "hero-house-semantic-pbr-v3.blend",
+    "blend_sha256": "b84820c8a494629547301613a0a6f7590be4aeacb19ba278f67cdcba64c16509",
+    "glb": "hero-house-semantic-pbr-v3.glb",
+    "glb_bytes": 22689696,
+    "glb_sha256": "13ba1b04fbf1561bcdf08e5d491babcde1395a8c5c90a0ea7633926827f18611",
+    "material_name": "URMAN_Hero_PBR_v3",
+    "mesh_nodes": 473,
+    "triangles": 19902,
+    "world_bounds": [
+      [
+        -3.2970006,
+        -2.217,
+        0.0
+      ],
+      [
+        7.9280005,
+        7.0190001,
+        5.25
+      ]
+    ]
+  },
+  "normal_correction": {
+    "crown_winding_conversion": {
+      "HeroHouse_Left_LogCrown": {
+        "corrected_face_winding": {
+          "cap_axial_dot_min": 1.0,
+          "side_radial_dot_min": 0.993347
+        },
+        "faces_reversed": 896,
+        "preserved_custom_normals": {
+          "cap_axial_dot_min": 1.0,
+          "side_radial_dot_min": 0.999232
+        },
+        "source_custom_normals": {
+          "cap_axial_dot_min": 1.0,
+          "side_radial_dot_median": 0.999516,
+          "side_radial_dot_min": 0.999234
+        },
+        "source_face_winding": {
+          "cap_axial_dot_min": -1.0,
+          "side_radial_dot_median": -0.99734
+        }
+      },
+      "HeroHouse_Rear_LogCrown": {
+        "corrected_face_winding": {
+          "cap_axial_dot_min": 1.0,
+          "side_radial_dot_min": 0.993349
+        },
+        "faces_reversed": 1400,
+        "preserved_custom_normals": {
+          "cap_axial_dot_min": 1.0,
+          "side_radial_dot_min": 0.99923
+        },
+        "source_custom_normals": {
+          "cap_axial_dot_min": 1.0,
+          "side_radial_dot_median": 0.999516,
+          "side_radial_dot_min": 0.999232
+        },
+        "source_face_winding": {
+          "cap_axial_dot_min": -1.0,
+          "side_radial_dot_median": -0.99734
+        }
+      },
+      "HeroHouse_Right_LogCrown": {
+        "corrected_face_winding": {
+          "cap_axial_dot_min": 1.0,
+          "side_radial_dot_min": 0.993349
+        },
+        "faces_reversed": 896,
+        "preserved_custom_normals": {
+          "cap_axial_dot_min": 1.0,
+          "side_radial_dot_min": 0.999231
+        },
+        "source_custom_normals": {
+          "cap_axial_dot_min": 1.0,
+          "side_radial_dot_median": 0.999517,
+          "side_radial_dot_min": 0.999233
+        },
+        "source_face_winding": {
+          "cap_axial_dot_min": -1.0,
+          "side_radial_dot_median": -0.99734
+        }
+      },
+      "HeroHouse_Street_LogCrown": {
+        "corrected_face_winding": {
+          "cap_axial_dot_min": 1.0,
+          "side_radial_dot_min": 0.993349
+        },
+        "faces_reversed": 2352,
+        "preserved_custom_normals": {
+          "cap_axial_dot_min": 1.0,
+          "side_radial_dot_min": 0.999231
+        },
+        "source_custom_normals": {
+          "cap_axial_dot_min": 1.0,
+          "side_radial_dot_median": 0.999515,
+          "side_radial_dot_min": 0.999232
+        },
+        "source_face_winding": {
+          "cap_axial_dot_min": -1.0,
+          "side_radial_dot_median": -0.99734
+        }
+      }
+    },
+    "main_shell_body_center_source_world": [
+      1.658001,
+      2.634,
+      1.648
+    ],
+    "method": "guarded GLB conversion repair in staged Blender copy; no Godot/C# runtime geometry changed",
+    "preserved": {
+      "per_node_world_vertex_positions_exact": true,
+      "position_uv_triangle_signatures_exact": true,
+      "semantic_node_transforms_exact": true,
+      "window_door_reveal_winding_and_loop_data_exact": true
+    },
+    "source_glb_geometry_sha256": "cb14550008d3519bbf17aa35ac79333ea0a774e41e1a4ab0c6ddad8d3ff5b099",
+    "wall_skins": {
+      "HeroHouse_Left_Wall_LOD0": {
+        "corrected_skin_normal_dot_min": 1.0,
+        "outward_world_normal": [
+          -1.0,
+          0.0,
+          0.0
+        ],
+        "skin_plane_source_world": -2.341999,
+        "skin_triangles_reversed": 16,
+        "untouched_window_door_reveal_faces": 8
+      },
+      "HeroHouse_Rear_Wall_LOD0": {
+        "corrected_skin_normal_dot_min": 1.0,
+        "outward_world_normal": [
+          0.0,
+          1.0,
+          0.0
+        ],
+        "skin_plane_source_world": 6.134,
+        "skin_triangles_reversed": 26,
+        "untouched_window_door_reveal_faces": 16
+      },
+      "HeroHouse_Right_Wall_LOD0": {
+        "corrected_skin_normal_dot_min": 1.0,
+        "outward_world_normal": [
+          1.0,
+          0.0,
+          0.0
+        ],
+        "skin_plane_source_world": 5.658001,
+        "skin_triangles_reversed": 16,
+        "untouched_window_door_reveal_faces": 8
+      },
+      "HeroHouse_Street_Wall_LOD0": {
+        "corrected_skin_normal_dot_min": 1.0,
+        "outward_world_normal": [
+          0.0,
+          -1.0,
+          0.0
+        ],
+        "skin_plane_source_world": -0.866,
+        "skin_triangles_reversed": 60,
+        "untouched_window_door_reveal_faces": 32
+      }
+    }
+  },
+  "render_files": [
+    {
+      "bytes": 1733023,
+      "path": "hero-house-semantic-pbr-v3-front-three-quarter.png",
+      "sha256": "8b38f84c07a96307b4dce01ed808b42541ffd94f0b4aa3d9b93a6ae86944efe9"
+    }
+  ],
+  "returned_retexture": {
+    "approved_original_material_cap_triangles": [
+      {
+        "polygon_index": 4,
+        "reason": "The returned v3 atlas omits this exact thin semantic end-cap triangle; preserve its source material slot.",
+        "semantic_node": "HeroHouse_PorchRoof1_LOD0",
+        "source_material_name": "URMAN_Roof_WetSlate",
+        "source_material_slot": 0,
+        "uv_area_pixels_at_4096": 116.45,
+        "uv_triangle": [
+          [
+            0.2880291,
+            0.7514508
+          ],
+          [
+            0.2889073,
+            0.7514508
+          ],
+          [
+            0.2889073,
+            0.7672581
+          ]
+        ],
+        "world_position_triangle": [
+          [
+            -1.164399,
+            -2.166,
+            2.8
+          ],
+          [
+            -1.164399,
+            -1.086,
+            2.8
+          ],
+          [
+            -1.164399,
+            -1.086,
+            2.86
+          ]
+        ],
+        "world_triangle_area_m2": 0.032399968
+      },
+      {
+        "polygon_index": 5,
+        "reason": "The returned v3 atlas omits this exact thin semantic end-cap triangle; preserve its source material slot.",
+        "semantic_node": "HeroHouse_PorchRoof1_LOD0",
+        "source_material_name": "URMAN_Roof_WetSlate",
+        "source_material_slot": 0,
+        "uv_area_pixels_at_4096": 116.45,
+        "uv_triangle": [
+          [
+            0.2880291,
+            0.7514508
+          ],
+          [
+            0.2880291,
+            0.7672581
+          ],
+          [
+            0.2889073,
+            0.7672581
+          ]
+        ],
+        "world_position_triangle": [
+          [
+            -1.164399,
+            -2.166,
+            2.8
+          ],
+          [
+            -1.164399,
+            -2.166,
+            2.86
+          ],
+          [
+            -1.164399,
+            -1.086,
+            2.86
+          ]
+        ],
+        "world_triangle_area_m2": 0.032399968
+      },
+      {
+        "polygon_index": 6,
+        "reason": "The returned v3 atlas omits this exact thin semantic end-cap triangle; preserve its source material slot.",
+        "semantic_node": "HeroHouse_Prichelina1_LOD0",
+        "source_material_name": "URMAN_Hero_Trim_Teal",
+        "source_material_slot": 0,
+        "uv_area_pixels_at_4096": 4.053,
+        "uv_triangle": [
+          [
+            0.0157239,
+            0.9911959
+          ],
+          [
+            0.0159777,
+            0.9911959
+          ],
+          [
+            0.0159777,
+            0.9930998
+          ]
+        ],
+        "world_position_triangle": [
+          [
+            1.658001,
+            -1.651,
+            4.9
+          ],
+          [
+            1.658001,
+            -1.611,
+            4.6
+          ],
+          [
+            1.658001,
+            -1.611,
+            4.9
+          ]
+        ],
+        "world_triangle_area_m2": 0.006000016
+      },
+      {
+        "polygon_index": 7,
+        "reason": "The returned v3 atlas omits this exact thin semantic end-cap triangle; preserve its source material slot.",
+        "semantic_node": "HeroHouse_Prichelina1_LOD0",
+        "source_material_name": "URMAN_Hero_Trim_Teal",
+        "source_material_slot": 0,
+        "uv_area_pixels_at_4096": 4.053,
+        "uv_triangle": [
+          [
+            0.0157239,
+            0.9911959
+          ],
+          [
+            0.0157239,
+            0.9930998
+          ],
+          [
+            0.0159777,
+            0.9930998
+          ]
+        ],
+        "world_position_triangle": [
+          [
+            1.658001,
+            -1.651,
+            4.6
+          ],
+          [
+            1.658001,
+            -1.651,
+            4.9
+          ],
+          [
+            1.658001,
+            -1.611,
+            4.6
+          ]
+        ],
+        "world_triangle_area_m2": 0.006000016
+      }
+    ],
+    "bytes": 22447348,
+    "cap_exception_validation_error": null,
+    "geometry_triangle_match": {
+      "exact": false,
+      "extra": 19898,
+      "missing": 19902
+    },
+    "glb_mesh_node_count": 1,
+    "glb_node_names": [
+      null
+    ],
+    "imported_mesh_object_count": 1,
+    "material": {
+      "image_bindings": {
+        "Base Color": [
+          {
+            "channels": 4,
+            "colorspace": "sRGB",
+            "name": "Image_0",
+            "size": [
+              4096,
+              4096
+            ]
+          }
+        ],
+        "Metallic": [
+          {
+            "channels": 4,
+            "colorspace": "Non-Color",
+            "name": "Image_1",
+            "size": [
+              2048,
+              2048
+            ]
+          }
+        ],
+        "Normal": [
+          {
+            "channels": 4,
+            "colorspace": "Non-Color",
+            "name": "Image_2",
+            "size": [
+              4096,
+              4096
+            ]
+          }
+        ],
+        "Roughness": [
+          {
+            "channels": 4,
+            "colorspace": "Non-Color",
+            "name": "Image_1",
+            "size": [
+              2048,
+              2048
+            ]
+          }
+        ]
+      },
+      "images": [
+        {
+          "channels": 4,
+          "colorspace": "sRGB",
+          "name": "Image_0",
+          "size": [
+            4096,
+            4096
+          ]
+        },
+        {
+          "channels": 4,
+          "colorspace": "Non-Color",
+          "name": "Image_1",
+          "size": [
+            2048,
+            2048
+          ]
+        },
+        {
+          "channels": 4,
+          "colorspace": "Non-Color",
+          "name": "Image_2",
+          "size": [
+            4096,
+            4096
+          ]
+        }
+      ],
+      "name": "Material_0",
+      "principled_bsdf": true
+    },
+    "path": "meshy-retxt-4k-keepuv-v3.glb",
+    "position_uv_triangle_match": {
+      "exact": false,
+      "extra": 19898,
+      "missing": 19902
+    },
+    "sha256": "98320587d04f5a3dff8118036e7fa49ee1833fb12cb9330f919a8729436172b5",
+    "triangles": 19898,
+    "uv_coordinates": 59694,
+    "uv_space_triangle_match": {
+      "exact": false,
+      "extra": 0,
+      "missing": 4
+    },
+    "uv_space_triangles_missing_from_returned": [
+      {
+        "semantic_node": "HeroHouse_PorchRoof1_LOD0",
+        "uv_triangle": [
+          [
+            0.2880291,
+            0.7514508
+          ],
+          [
+            0.2889073,
+            0.7514508
+          ],
+          [
+            0.2889073,
+            0.7672581
+          ]
+        ],
+        "world_position_triangle": [
+          [
+            -1.164399,
+            -2.166,
+            2.8
+          ],
+          [
+            -1.164399,
+            -1.086,
+            2.8
+          ],
+          [
+            -1.164399,
+            -1.086,
+            2.86
+          ]
+        ]
+      },
+      {
+        "semantic_node": "HeroHouse_PorchRoof1_LOD0",
+        "uv_triangle": [
+          [
+            0.2880291,
+            0.7514508
+          ],
+          [
+            0.2880291,
+            0.7672581
+          ],
+          [
+            0.2889073,
+            0.7672581
+          ]
+        ],
+        "world_position_triangle": [
+          [
+            -1.164399,
+            -2.166,
+            2.8
+          ],
+          [
+            -1.164399,
+            -2.166,
+            2.86
+          ],
+          [
+            -1.164399,
+            -1.086,
+            2.86
+          ]
+        ]
+      },
+      {
+        "semantic_node": "HeroHouse_Prichelina1_LOD0",
+        "uv_triangle": [
+          [
+            0.0157239,
+            0.9911959
+          ],
+          [
+            0.0159777,
+            0.9911959
+          ],
+          [
+            0.0159777,
+            0.9930998
+          ]
+        ],
+        "world_position_triangle": [
+          [
+            1.658001,
+            -1.651,
+            4.9
+          ],
+          [
+            1.658001,
+            -1.611,
+            4.6
+          ],
+          [
+            1.658001,
+            -1.611,
+            4.9
+          ]
+        ]
+      },
+      {
+        "semantic_node": "HeroHouse_Prichelina1_LOD0",
+        "uv_triangle": [
+          [
+            0.0157239,
+            0.9911959
+          ],
+          [
+            0.0157239,
+            0.9930998
+          ],
+          [
+            0.0159777,
+            0.9930998
+          ]
+        ],
+        "world_position_triangle": [
+          [
+            1.658001,
+            -1.651,
+            4.6
+          ],
+          [
+            1.658001,
+            -1.651,
+            4.9
+          ],
+          [
+            1.658001,
+            -1.611,
+            4.6
+          ]
+        ]
+      }
+    ],
+    "world_bounds": [
+      [
+        -0.9999999,
+        -0.8228062,
+        -0.467706
+      ],
+      [
+        0.9999999,
+        0.8228062,
+        0.467706
+      ]
+    ]
+  },
+  "source_input": {
+    "bytes": 1724568,
+    "glb_mesh_node_count": 473,
+    "glb_node_names": [
+      "HeroHouse_Back_BoardedGable_LOD0",
+      "HeroHouse_Back_VergeLeft_LOD0",
+      "HeroHouse_Back_VergeRight_LOD0",
+      "HeroHouse_BackGableEnd00_-1_LOD0",
+      "HeroHouse_BackGableEnd00_1_LOD0",
+      "HeroHouse_BackGableEnd01_-1_LOD0",
+      "HeroHouse_BackGableEnd01_1_LOD0",
+      "HeroHouse_BackGableEnd02_-1_LOD0",
+      "HeroHouse_BackGableEnd02_1_LOD0",
+      "HeroHouse_BackGableEnd03_-1_LOD0",
+      "HeroHouse_BackGableEnd03_1_LOD0",
+      "HeroHouse_BackGableEnd04_-1_LOD0",
+      "HeroHouse_BackGableEnd04_1_LOD0",
+      "HeroHouse_BackGableEnd05_-1_LOD0",
+      "HeroHouse_BackGableEnd05_1_LOD0",
+      "HeroHouse_BackGableLog00_LOD0",
+      "HeroHouse_BackGableLog01_LOD0",
+      "HeroHouse_BackGableLog02_LOD0",
+      "HeroHouse_BackGableLog03_LOD0",
+      "HeroHouse_BackGableLog04_LOD0",
+      "HeroHouse_BackGableLog05_LOD0",
+      "HeroHouse_ChimneyCap_LOD0",
+      "HeroHouse_ChimneyFlashing_LOD0",
+      "HeroHouse_ChimneyStack_LOD0",
+      "HeroHouse_CornerEnd-1_-1_Log00_LOD0",
+      "HeroHouse_CornerEnd-1_-1_Log01_LOD0",
+      "HeroHouse_CornerEnd-1_-1_Log02_LOD0",
+      "HeroHouse_CornerEnd-1_-1_Log03_LOD0",
+      "HeroHouse_CornerEnd-1_-1_Log04_LOD0",
+      "HeroHouse_CornerEnd-1_-1_Log05_LOD0",
+      "HeroHouse_CornerEnd-1_-1_Log06_LOD0",
+      "HeroHouse_CornerEnd-1_-1_Log07_LOD0",
+      "HeroHouse_CornerEnd-1_-1_Log08_LOD0",
+      "HeroHouse_CornerEnd-1_-1_Log09_LOD0",
+      "HeroHouse_CornerEnd-1_1_Log00_LOD0",
+      "HeroHouse_CornerEnd-1_1_Log01_LOD0",
+      "HeroHouse_CornerEnd-1_1_Log02_LOD0",
+      "HeroHouse_CornerEnd-1_1_Log03_LOD0",
+      "HeroHouse_CornerEnd-1_1_Log04_LOD0",
+      "HeroHouse_CornerEnd-1_1_Log05_LOD0",
+      "HeroHouse_CornerEnd-1_1_Log06_LOD0",
+      "HeroHouse_CornerEnd-1_1_Log07_LOD0",
+      "HeroHouse_CornerEnd-1_1_Log08_LOD0",
+      "HeroHouse_CornerEnd-1_1_Log09_LOD0",
+      "HeroHouse_CornerEnd1_-1_Log00_LOD0",
+      "HeroHouse_CornerEnd1_-1_Log01_LOD0",
+      "HeroHouse_CornerEnd1_-1_Log02_LOD0",
+      "HeroHouse_CornerEnd1_-1_Log03_LOD0",
+      "HeroHouse_CornerEnd1_-1_Log04_LOD0",
+      "HeroHouse_CornerEnd1_-1_Log05_LOD0",
+      "HeroHouse_CornerEnd1_-1_Log06_LOD0",
+      "HeroHouse_CornerEnd1_-1_Log07_LOD0",
+      "HeroHouse_CornerEnd1_-1_Log08_LOD0",
+      "HeroHouse_CornerEnd1_-1_Log09_LOD0",
+      "HeroHouse_CornerEnd1_1_Log00_LOD0",
+      "HeroHouse_CornerEnd1_1_Log01_LOD0",
+      "HeroHouse_CornerEnd1_1_Log02_LOD0",
+      "HeroHouse_CornerEnd1_1_Log03_LOD0",
+      "HeroHouse_CornerEnd1_1_Log04_LOD0",
+      "HeroHouse_CornerEnd1_1_Log05_LOD0",
+      "HeroHouse_CornerEnd1_1_Log06_LOD0",
+      "HeroHouse_CornerEnd1_1_Log07_LOD0",
+      "HeroHouse_CornerEnd1_1_Log08_LOD0",
+      "HeroHouse_CornerEnd1_1_Log09_LOD0",
+      "HeroHouse_DownpipeClamp_LOD0",
+      "HeroHouse_Eave_-4.79_LOD0",
+      "HeroHouse_Eave_4.79_LOD0",
+      "HeroHouse_FootingCap_LOD0",
+      "HeroHouse_Foundation_LOD0",
+      "HeroHouse_Front_BoardedGable_LOD0",
+      "HeroHouse_Front_VergeLeft_LOD0",
+      "HeroHouse_Front_VergeRight_LOD0",
+      "HeroHouse_FrontGableEnd00_-1_LOD0",
+      "HeroHouse_FrontGableEnd00_1_LOD0",
+      "HeroHouse_FrontGableEnd01_-1_LOD0",
+      "HeroHouse_FrontGableEnd01_1_LOD0",
+      "HeroHouse_FrontGableEnd02_-1_LOD0",
+      "HeroHouse_FrontGableEnd02_1_LOD0",
+      "HeroHouse_FrontGableEnd03_-1_LOD0",
+      "HeroHouse_FrontGableEnd03_1_LOD0",
+      "HeroHouse_FrontGableEnd04_-1_LOD0",
+      "HeroHouse_FrontGableEnd04_1_LOD0",
+      "HeroHouse_FrontGableEnd05_-1_LOD0",
+      "HeroHouse_FrontGableEnd05_1_LOD0",
+      "HeroHouse_FrontGableLog00_LOD0",
+      "HeroHouse_FrontGableLog01_LOD0",
+      "HeroHouse_FrontGableLog02_LOD0",
+      "HeroHouse_FrontGableLog03_LOD0",
+      "HeroHouse_FrontGableLog04_LOD0",
+      "HeroHouse_FrontGableLog05_LOD0",
+      "HeroHouse_GableTowel_LOD0",
+      "HeroHouse_GableTowelRosette_LOD0",
+      "HeroHouse_Gutter_+1_LOD0",
+      "HeroHouse_Gutter_-1_LOD0",
+      "HeroHouse_GutterBracket_LOD0",
+      "HeroHouse_GutterDownpipe_LOD0",
+      "HeroHouse_GutterDownpipeSplash_LOD0",
+      "HeroHouse_Left_LogCrown",
+      "HeroHouse_Left_Wall_LOD0",
+      "HeroHouse_Left_Window0_Ear-1_LOD0",
+      "HeroHouse_Left_Window0_Ear1_LOD0",
+      "HeroHouse_Left_Window0_Jamb-1_LOD0",
+      "HeroHouse_Left_Window0_Jamb1_LOD0",
+      "HeroHouse_Left_Window0_Kokoshnik_LOD0",
+      "HeroHouse_Left_Window0_KokoshnikDrop-1_LOD0",
+      "HeroHouse_Left_Window0_KokoshnikDrop1_LOD0",
+      "HeroHouse_Left_Window0_KokoshnikRosette_LOD0",
+      "HeroHouse_Left_Window0_Mullion_LOD0",
+      "HeroHouse_Left_Window0_Rail-1_LOD0",
+      "HeroHouse_Left_Window0_Rail1_LOD0",
+      "HeroHouse_Left_Window0_Sill_LOD0",
+      "HeroHouse_Left_Window0_SillDrip_LOD0",
+      "HeroHouse_Left_Window0_Towel_LOD0",
+      "HeroHouse_Left_Window0_TowelDiamond_LOD0",
+      "HeroHouse_PlinthFacing_LOD0",
+      "HeroHouse_Podzor-1_LOD0",
+      "HeroHouse_Podzor-1Tooth00_LOD0",
+      "HeroHouse_Podzor-1Tooth01_LOD0",
+      "HeroHouse_Podzor-1Tooth02_LOD0",
+      "HeroHouse_Podzor-1Tooth03_LOD0",
+      "HeroHouse_Podzor-1Tooth04_LOD0",
+      "HeroHouse_Podzor-1Tooth05_LOD0",
+      "HeroHouse_Podzor-1Tooth06_LOD0",
+      "HeroHouse_Podzor-1Tooth07_LOD0",
+      "HeroHouse_Podzor-1Tooth08_LOD0",
+      "HeroHouse_Podzor-1Tooth09_LOD0",
+      "HeroHouse_Podzor-1Tooth10_LOD0",
+      "HeroHouse_Podzor-1Tooth11_LOD0",
+      "HeroHouse_Podzor-1Tooth12_LOD0",
+      "HeroHouse_Podzor-1Tooth13_LOD0",
+      "HeroHouse_Podzor-1Tooth14_LOD0",
+      "HeroHouse_Podzor-1Tooth15_LOD0",
+      "HeroHouse_Podzor-1Tooth16_LOD0",
+      "HeroHouse_Podzor-1Tooth17_LOD0",
+      "HeroHouse_Podzor-1Tooth18_LOD0",
+      "HeroHouse_Podzor-1Tooth19_LOD0",
+      "HeroHouse_Podzor-1Tooth20_LOD0",
+      "HeroHouse_Podzor-1Tooth21_LOD0",
+      "HeroHouse_Podzor-1Tooth22_LOD0",
+      "HeroHouse_Podzor-1Tooth23_LOD0",
+      "HeroHouse_Podzor-1Tooth24_LOD0",
+      "HeroHouse_Podzor-1Tooth25_LOD0",
+      "HeroHouse_Podzor-1Tooth26_LOD0",
+      "HeroHouse_Podzor-1Tooth27_LOD0",
+      "HeroHouse_Podzor-1Tooth28_LOD0",
+      "HeroHouse_Podzor-1Tooth29_LOD0",
+      "HeroHouse_Podzor-1Tooth30_LOD0",
+      "HeroHouse_Podzor1_LOD0",
+      "HeroHouse_Podzor1Tooth00_LOD0",
+      "HeroHouse_Podzor1Tooth01_LOD0",
+      "HeroHouse_Podzor1Tooth02_LOD0",
+      "HeroHouse_Podzor1Tooth03_LOD0",
+      "HeroHouse_Podzor1Tooth04_LOD0",
+      "HeroHouse_Podzor1Tooth05_LOD0",
+      "HeroHouse_Podzor1Tooth06_LOD0",
+      "HeroHouse_Podzor1Tooth07_LOD0",
+      "HeroHouse_Podzor1Tooth08_LOD0",
+      "HeroHouse_Podzor1Tooth09_LOD0",
+      "HeroHouse_Podzor1Tooth10_LOD0",
+      "HeroHouse_Podzor1Tooth11_LOD0",
+      "HeroHouse_Podzor1Tooth12_LOD0",
+      "HeroHouse_Podzor1Tooth13_LOD0",
+      "HeroHouse_Podzor1Tooth14_LOD0",
+      "HeroHouse_Podzor1Tooth15_LOD0",
+      "HeroHouse_Podzor1Tooth16_LOD0",
+      "HeroHouse_Podzor1Tooth17_LOD0",
+      "HeroHouse_Podzor1Tooth18_LOD0",
+      "HeroHouse_Podzor1Tooth19_LOD0",
+      "HeroHouse_Podzor1Tooth20_LOD0",
+      "HeroHouse_Podzor1Tooth21_LOD0",
+      "HeroHouse_Podzor1Tooth22_LOD0",
+      "HeroHouse_Podzor1Tooth23_LOD0",
+      "HeroHouse_Podzor1Tooth24_LOD0",
+      "HeroHouse_Podzor1Tooth25_LOD0",
+      "HeroHouse_Podzor1Tooth26_LOD0",
+      "HeroHouse_Podzor1Tooth27_LOD0",
+      "HeroHouse_Podzor1Tooth28_LOD0",
+      "HeroHouse_Podzor1Tooth29_LOD0",
+      "HeroHouse_Podzor1Tooth30_LOD0",
+      "HeroHouse_PodzorRear_LOD0",
+      "HeroHouse_PodzorRearTooth00_LOD0",
+      "HeroHouse_PodzorRearTooth01_LOD0",
+      "HeroHouse_PodzorRearTooth02_LOD0",
+      "HeroHouse_PodzorRearTooth03_LOD0",
+      "HeroHouse_PodzorRearTooth04_LOD0",
+      "HeroHouse_PodzorRearTooth05_LOD0",
+      "HeroHouse_PodzorRearTooth06_LOD0",
+      "HeroHouse_PodzorRearTooth07_LOD0",
+      "HeroHouse_PodzorRearTooth08_LOD0",
+      "HeroHouse_PodzorRearTooth09_LOD0",
+      "HeroHouse_PodzorRearTooth10_LOD0",
+      "HeroHouse_PodzorRearTooth11_LOD0",
+      "HeroHouse_PodzorRearTooth12_LOD0",
+      "HeroHouse_PodzorRearTooth13_LOD0",
+      "HeroHouse_PodzorRearTooth14_LOD0",
+      "HeroHouse_PodzorRearTooth15_LOD0",
+      "HeroHouse_PodzorRearTooth16_LOD0",
+      "HeroHouse_PodzorRearTooth17_LOD0",
+      "HeroHouse_PodzorRearTooth18_LOD0",
+      "HeroHouse_PodzorRearTooth19_LOD0",
+      "HeroHouse_PodzorRearTooth20_LOD0",
+      "HeroHouse_PodzorRearTooth21_LOD0",
+      "HeroHouse_PodzorRearTooth22_LOD0",
+      "HeroHouse_PodzorRearTooth23_LOD0",
+      "HeroHouse_PodzorRearTooth24_LOD0",
+      "HeroHouse_PodzorRearTooth25_LOD0",
+      "HeroHouse_PodzorRearTooth26_LOD0",
+      "HeroHouse_PodzorRearTooth27_LOD0",
+      "HeroHouse_PodzorRearTooth28_LOD0",
+      "HeroHouse_PodzorRearTooth29_LOD0",
+      "HeroHouse_PodzorRearTooth30_LOD0",
+      "HeroHouse_PodzorRearTooth31_LOD0",
+      "HeroHouse_PodzorRearTooth32_LOD0",
+      "HeroHouse_PodzorRearTooth33_LOD0",
+      "HeroHouse_PodzorRearTooth34_LOD0",
+      "HeroHouse_PodzorStreet_LOD0",
+      "HeroHouse_PodzorStreetTooth00_LOD0",
+      "HeroHouse_PodzorStreetTooth01_LOD0",
+      "HeroHouse_PodzorStreetTooth02_LOD0",
+      "HeroHouse_PodzorStreetTooth03_LOD0",
+      "HeroHouse_PodzorStreetTooth04_LOD0",
+      "HeroHouse_PodzorStreetTooth05_LOD0",
+      "HeroHouse_PodzorStreetTooth06_LOD0",
+      "HeroHouse_PodzorStreetTooth07_LOD0",
+      "HeroHouse_PodzorStreetTooth08_LOD0",
+      "HeroHouse_PodzorStreetTooth09_LOD0",
+      "HeroHouse_PodzorStreetTooth10_LOD0",
+      "HeroHouse_PodzorStreetTooth11_LOD0",
+      "HeroHouse_PodzorStreetTooth12_LOD0",
+      "HeroHouse_PodzorStreetTooth13_LOD0",
+      "HeroHouse_PodzorStreetTooth14_LOD0",
+      "HeroHouse_PodzorStreetTooth15_LOD0",
+      "HeroHouse_PodzorStreetTooth16_LOD0",
+      "HeroHouse_PodzorStreetTooth17_LOD0",
+      "HeroHouse_PodzorStreetTooth18_LOD0",
+      "HeroHouse_PodzorStreetTooth19_LOD0",
+      "HeroHouse_PodzorStreetTooth20_LOD0",
+      "HeroHouse_PodzorStreetTooth21_LOD0",
+      "HeroHouse_PodzorStreetTooth22_LOD0",
+      "HeroHouse_PodzorStreetTooth23_LOD0",
+      "HeroHouse_PodzorStreetTooth24_LOD0",
+      "HeroHouse_PodzorStreetTooth25_LOD0",
+      "HeroHouse_PodzorStreetTooth26_LOD0",
+      "HeroHouse_PodzorStreetTooth27_LOD0",
+      "HeroHouse_PodzorStreetTooth28_LOD0",
+      "HeroHouse_PodzorStreetTooth29_LOD0",
+      "HeroHouse_PodzorStreetTooth30_LOD0",
+      "HeroHouse_PodzorStreetTooth31_LOD0",
+      "HeroHouse_PodzorStreetTooth32_LOD0",
+      "HeroHouse_PodzorStreetTooth33_LOD0",
+      "HeroHouse_PodzorStreetTooth34_LOD0",
+      "HeroHouse_PorchBeam_LOD0",
+      "HeroHouse_PorchDeck_LOD0",
+      "HeroHouse_PorchDeckBearer-1_LOD0",
+      "HeroHouse_PorchDeckBearer1_LOD0",
+      "HeroHouse_PorchDeckSeam0_LOD0",
+      "HeroHouse_PorchDeckSeam1_LOD0",
+      "HeroHouse_PorchDeckSeam2_LOD0",
+      "HeroHouse_PorchDeckSeam3_LOD0",
+      "HeroHouse_PorchDeckSeam4_LOD0",
+      "HeroHouse_PorchDeckSeam5_LOD0",
+      "HeroHouse_PorchDeckSeam6_LOD0",
+      "HeroHouse_PorchPost-1_LOD0",
+      "HeroHouse_PorchPost1_LOD0",
+      "HeroHouse_PorchPostBase-1_LOD0",
+      "HeroHouse_PorchPostBase1_LOD0",
+      "HeroHouse_PorchPostRing-1_0.35_LOD0",
+      "HeroHouse_PorchPostRing-1_1.00_LOD0",
+      "HeroHouse_PorchPostRing-1_1.90_LOD0",
+      "HeroHouse_PorchPostRing1_0.35_LOD0",
+      "HeroHouse_PorchPostRing1_1.00_LOD0",
+      "HeroHouse_PorchPostRing1_1.90_LOD0",
+      "HeroHouse_PorchPrichelina_LOD0",
+      "HeroHouse_PorchRoof-1_LOD0",
+      "HeroHouse_PorchRoof1_LOD0",
+      "HeroHouse_PorchScallop-1_0_LOD0",
+      "HeroHouse_PorchScallop-1_1_LOD0",
+      "HeroHouse_PorchScallop-1_2_LOD0",
+      "HeroHouse_PorchScallop-1_3_LOD0",
+      "HeroHouse_PorchScallop-1_4_LOD0",
+      "HeroHouse_PorchScallop-1_5_LOD0",
+      "HeroHouse_PorchScallop1_0_LOD0",
+      "HeroHouse_PorchScallop1_1_LOD0",
+      "HeroHouse_PorchScallop1_2_LOD0",
+      "HeroHouse_PorchScallop1_3_LOD0",
+      "HeroHouse_PorchScallop1_4_LOD0",
+      "HeroHouse_PorchScallop1_5_LOD0",
+      "HeroHouse_PorchSideBeam-1_LOD0",
+      "HeroHouse_PorchSideBeam1_LOD0",
+      "HeroHouse_PorchTowel_LOD0",
+      "HeroHouse_PorchTowelDiamond_LOD0",
+      "HeroHouse_PortalHeader_LOD0",
+      "HeroHouse_Prichelina-1_LOD0",
+      "HeroHouse_Prichelina-1Scallop00_LOD0",
+      "HeroHouse_Prichelina-1Scallop01_LOD0",
+      "HeroHouse_Prichelina-1Scallop02_LOD0",
+      "HeroHouse_Prichelina-1Scallop03_LOD0",
+      "HeroHouse_Prichelina-1Scallop04_LOD0",
+      "HeroHouse_Prichelina-1Scallop05_LOD0",
+      "HeroHouse_Prichelina-1Scallop06_LOD0",
+      "HeroHouse_Prichelina-1Scallop07_LOD0",
+      "HeroHouse_Prichelina-1Scallop08_LOD0",
+      "HeroHouse_Prichelina-1Scallop09_LOD0",
+      "HeroHouse_Prichelina-1Scallop10_LOD0",
+      "HeroHouse_Prichelina-1Scallop11_LOD0",
+      "HeroHouse_Prichelina-1Scallop12_LOD0",
+      "HeroHouse_Prichelina-1Scallop13_LOD0",
+      "HeroHouse_Prichelina-1Scallop14_LOD0",
+      "HeroHouse_Prichelina-1Scallop15_LOD0",
+      "HeroHouse_Prichelina1_LOD0",
+      "HeroHouse_Prichelina1Scallop00_LOD0",
+      "HeroHouse_Prichelina1Scallop01_LOD0",
+      "HeroHouse_Prichelina1Scallop02_LOD0",
+      "HeroHouse_Prichelina1Scallop03_LOD0",
+      "HeroHouse_Prichelina1Scallop04_LOD0",
+      "HeroHouse_Prichelina1Scallop05_LOD0",
+      "HeroHouse_Prichelina1Scallop06_LOD0",
+      "HeroHouse_Prichelina1Scallop07_LOD0",
+      "HeroHouse_Prichelina1Scallop08_LOD0",
+      "HeroHouse_Prichelina1Scallop09_LOD0",
+      "HeroHouse_Prichelina1Scallop10_LOD0",
+      "HeroHouse_Prichelina1Scallop11_LOD0",
+      "HeroHouse_Prichelina1Scallop12_LOD0",
+      "HeroHouse_Prichelina1Scallop13_LOD0",
+      "HeroHouse_Prichelina1Scallop14_LOD0",
+      "HeroHouse_Prichelina1Scallop15_LOD0",
+      "HeroHouse_RafterTail_+1_00_LOD0",
+      "HeroHouse_RafterTail_+1_01_LOD0",
+      "HeroHouse_RafterTail_+1_02_LOD0",
+      "HeroHouse_RafterTail_-1_00_LOD0",
+      "HeroHouse_RafterTail_-1_01_LOD0",
+      "HeroHouse_RafterTail_-1_02_LOD0",
+      "HeroHouse_Rear_LogCrown",
+      "HeroHouse_Rear_Wall_LOD0",
+      "HeroHouse_Rear_Window0_Ear-1_LOD0",
+      "HeroHouse_Rear_Window0_Ear1_LOD0",
+      "HeroHouse_Rear_Window0_Jamb-1_LOD0",
+      "HeroHouse_Rear_Window0_Jamb1_LOD0",
+      "HeroHouse_Rear_Window0_Kokoshnik_LOD0",
+      "HeroHouse_Rear_Window0_KokoshnikDrop-1_LOD0",
+      "HeroHouse_Rear_Window0_KokoshnikDrop1_LOD0",
+      "HeroHouse_Rear_Window0_KokoshnikRosette_LOD0",
+      "HeroHouse_Rear_Window0_Mullion_LOD0",
+      "HeroHouse_Rear_Window0_Rail-1_LOD0",
+      "HeroHouse_Rear_Window0_Rail1_LOD0",
+      "HeroHouse_Rear_Window0_Sill_LOD0",
+      "HeroHouse_Rear_Window0_SillDrip_LOD0",
+      "HeroHouse_Rear_Window0_Towel_LOD0",
+      "HeroHouse_Rear_Window0_TowelDiamond_LOD0",
+      "HeroHouse_Rear_Window1_Ear-1_LOD0",
+      "HeroHouse_Rear_Window1_Ear1_LOD0",
+      "HeroHouse_Rear_Window1_Jamb-1_LOD0",
+      "HeroHouse_Rear_Window1_Jamb1_LOD0",
+      "HeroHouse_Rear_Window1_Kokoshnik_LOD0",
+      "HeroHouse_Rear_Window1_KokoshnikDrop-1_LOD0",
+      "HeroHouse_Rear_Window1_KokoshnikDrop1_LOD0",
+      "HeroHouse_Rear_Window1_KokoshnikRosette_LOD0",
+      "HeroHouse_Rear_Window1_Mullion_LOD0",
+      "HeroHouse_Rear_Window1_Rail-1_LOD0",
+      "HeroHouse_Rear_Window1_Rail1_LOD0",
+      "HeroHouse_Rear_Window1_Sill_LOD0",
+      "HeroHouse_Rear_Window1_SillDrip_LOD0",
+      "HeroHouse_Rear_Window1_Towel_LOD0",
+      "HeroHouse_Rear_Window1_TowelDiamond_LOD0",
+      "HeroHouse_RidgeBeam_LOD0",
+      "HeroHouse_Right_LogCrown",
+      "HeroHouse_Right_Wall_LOD0",
+      "HeroHouse_Right_Window0_Ear-1_LOD0",
+      "HeroHouse_Right_Window0_Ear1_LOD0",
+      "HeroHouse_Right_Window0_Jamb-1_LOD0",
+      "HeroHouse_Right_Window0_Jamb1_LOD0",
+      "HeroHouse_Right_Window0_Kokoshnik_LOD0",
+      "HeroHouse_Right_Window0_KokoshnikDrop-1_LOD0",
+      "HeroHouse_Right_Window0_KokoshnikDrop1_LOD0",
+      "HeroHouse_Right_Window0_KokoshnikRosette_LOD0",
+      "HeroHouse_Right_Window0_Mullion_LOD0",
+      "HeroHouse_Right_Window0_Rail-1_LOD0",
+      "HeroHouse_Right_Window0_Rail1_LOD0",
+      "HeroHouse_Right_Window0_Sill_LOD0",
+      "HeroHouse_Right_Window0_SillDrip_LOD0",
+      "HeroHouse_Right_Window0_Towel_LOD0",
+      "HeroHouse_Right_Window0_TowelDiamond_LOD0",
+      "HeroHouse_Roof_LOD0",
+      "HeroHouse_RoofStandingSeams_LOD0",
+      "HeroHouse_SeniEntry_Door0_Handle_LOD0",
+      "HeroHouse_SeniEntry_Door0_Jamb-1_LOD0",
+      "HeroHouse_SeniEntry_Door0_Jamb1_LOD0",
+      "HeroHouse_SeniEntry_Door0_Leaf_LOD0",
+      "HeroHouse_SeniEntry_Door0_Rail-1_LOD0",
+      "HeroHouse_SeniEntry_Door0_Rail1_LOD0",
+      "HeroHouse_SeniEntry_Wall_LOD0",
+      "HeroHouse_SeniFooting_LOD0",
+      "HeroHouse_SeniFrontRoofInfill_LOD0",
+      "HeroHouse_SeniOuter_Wall_LOD0",
+      "HeroHouse_SeniOuter_Window0_Ear-1_LOD0",
+      "HeroHouse_SeniOuter_Window0_Ear1_LOD0",
+      "HeroHouse_SeniOuter_Window0_Jamb-1_LOD0",
+      "HeroHouse_SeniOuter_Window0_Jamb1_LOD0",
+      "HeroHouse_SeniOuter_Window0_Kokoshnik_LOD0",
+      "HeroHouse_SeniOuter_Window0_KokoshnikDrop-1_LOD0",
+      "HeroHouse_SeniOuter_Window0_KokoshnikDrop1_LOD0",
+      "HeroHouse_SeniOuter_Window0_KokoshnikRosette_LOD0",
+      "HeroHouse_SeniOuter_Window0_Mullion_LOD0",
+      "HeroHouse_SeniOuter_Window0_Rail-1_LOD0",
+      "HeroHouse_SeniOuter_Window0_Rail1_LOD0",
+      "HeroHouse_SeniOuter_Window0_Sill_LOD0",
+      "HeroHouse_SeniOuter_Window0_SillDrip_LOD0",
+      "HeroHouse_SeniOuter_Window0_Towel_LOD0",
+      "HeroHouse_SeniOuter_Window0_TowelDiamond_LOD0",
+      "HeroHouse_SeniRear_Wall_LOD0",
+      "HeroHouse_SeniRearRoofInfill_LOD0",
+      "HeroHouse_SeniRoof_LOD0",
+      "HeroHouse_SeniSplashStone_LOD0",
+      "HeroHouse_SeniSpout_LOD0",
+      "HeroHouse_SeniStep_LOD0",
+      "HeroHouse_SeniTrough_LOD0",
+      "HeroHouse_ServiceDrop_LOD0",
+      "HeroHouse_ServiceDropInsulator_LOD0",
+      "HeroHouse_SillRepair_LOD0",
+      "HeroHouse_StoveFlueFlashing_LOD0",
+      "HeroHouse_Street_LogCrown",
+      "HeroHouse_Street_Portal0_Jamb-1_LOD0",
+      "HeroHouse_Street_Portal0_Jamb1_LOD0",
+      "HeroHouse_Street_Portal0_Rail-1_LOD0",
+      "HeroHouse_Street_Portal0_Rail1_LOD0",
+      "HeroHouse_Street_Wall_LOD0",
+      "HeroHouse_Street_Window1_Ear-1_LOD0",
+      "HeroHouse_Street_Window1_Ear1_LOD0",
+      "HeroHouse_Street_Window1_Jamb-1_LOD0",
+      "HeroHouse_Street_Window1_Jamb1_LOD0",
+      "HeroHouse_Street_Window1_Kokoshnik_LOD0",
+      "HeroHouse_Street_Window1_KokoshnikDrop-1_LOD0",
+      "HeroHouse_Street_Window1_KokoshnikDrop1_LOD0",
+      "HeroHouse_Street_Window1_KokoshnikRosette_LOD0",
+      "HeroHouse_Street_Window1_Mullion_LOD0",
+      "HeroHouse_Street_Window1_Rail-1_LOD0",
+      "HeroHouse_Street_Window1_Rail1_LOD0",
+      "HeroHouse_Street_Window1_Sill_LOD0",
+      "HeroHouse_Street_Window1_SillDrip_LOD0",
+      "HeroHouse_Street_Window1_Towel_LOD0",
+      "HeroHouse_Street_Window1_TowelDiamond_LOD0",
+      "HeroHouse_Street_Window2_Ear-1_LOD0",
+      "HeroHouse_Street_Window2_Ear1_LOD0",
+      "HeroHouse_Street_Window2_Jamb-1_LOD0",
+      "HeroHouse_Street_Window2_Jamb1_LOD0",
+      "HeroHouse_Street_Window2_Kokoshnik_LOD0",
+      "HeroHouse_Street_Window2_KokoshnikDrop-1_LOD0",
+      "HeroHouse_Street_Window2_KokoshnikDrop1_LOD0",
+      "HeroHouse_Street_Window2_KokoshnikRosette_LOD0",
+      "HeroHouse_Street_Window2_Mullion_LOD0",
+      "HeroHouse_Street_Window2_Rail-1_LOD0",
+      "HeroHouse_Street_Window2_Rail1_LOD0",
+      "HeroHouse_Street_Window2_Sill_LOD0",
+      "HeroHouse_Street_Window2_SillDrip_LOD0",
+      "HeroHouse_Street_Window2_Towel_LOD0",
+      "HeroHouse_Street_Window2_TowelDiamond_LOD0",
+      "HeroHouse_Street_Window3_Ear-1_LOD0",
+      "HeroHouse_Street_Window3_Ear1_LOD0",
+      "HeroHouse_Street_Window3_Jamb-1_LOD0",
+      "HeroHouse_Street_Window3_Jamb1_LOD0",
+      "HeroHouse_Street_Window3_Kokoshnik_LOD0",
+      "HeroHouse_Street_Window3_KokoshnikDrop-1_LOD0",
+      "HeroHouse_Street_Window3_KokoshnikDrop1_LOD0",
+      "HeroHouse_Street_Window3_KokoshnikRosette_LOD0",
+      "HeroHouse_Street_Window3_Mullion_LOD0",
+      "HeroHouse_Street_Window3_Rail-1_LOD0",
+      "HeroHouse_Street_Window3_Rail1_LOD0",
+      "HeroHouse_Street_Window3_Sill_LOD0",
+      "HeroHouse_Street_Window3_SillDrip_LOD0",
+      "HeroHouse_Street_Window3_Towel_LOD0",
+      "HeroHouse_Street_Window3_TowelDiamond_LOD0",
+      "HeroHouse_StreetDoorClosed_LOD0",
+      "HeroHouse_StreetStep_LOD0"
+    ],
+    "imported_mesh_object_count": 473,
+    "path": "opaquehero-for-retexture-v3.glb",
+    "sha256": "cb14550008d3519bbf17aa35ac79333ea0a774e41e1a4ab0c6ddad8d3ff5b099",
+    "triangles": 19902,
+    "uv_coordinates": 59706,
+    "world_bounds": [
+      [
+        -3.2970006,
+        -2.217,
+        0.0
+      ],
+      [
+        7.9280005,
+        7.0190001,
+        5.25
+      ]
+    ]
+  },
+  "status": "pbr_attached_to_semantic_geometry"
+}
