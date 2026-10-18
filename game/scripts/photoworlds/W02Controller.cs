@@ -1333,8 +1333,29 @@ public partial class W02Controller : Node3D
     {
         if (_targets.Count == 0)
         {
-            EnsureTarget("WaterReflectionTarget", ReflectionInteractionId,
+            var reflectionTarget = EnsureTarget("WaterReflectionTarget", ReflectionInteractionId,
                 bridge.ResolveText(ReflectionLabelTextId), new Vector3(6.4f, 2.1f, 31.6f), 0.62f);
+            reflectionTarget.AfterDispatch = () =>
+            {
+                if (!ReferenceEquals(GetTree().GetFirstNodeInGroup("runtime_bridge"), bridge)
+                    || bridge.SessionIdentity is null)
+                    return Task.FromResult(true);
+
+                var reflectionRecorded = bridge.PhotoWorldKnowledgeEntries().Any(entry =>
+                    entry.SourceId == ReflectionInteractionId
+                    && entry.Images?.Any(image => image.AssetId
+                        == "urman.fullgame:asset/w02-water-reflection-relation-sketch") == true);
+                if (reflectionRecorded
+                    && GetTree().GetFirstNodeInGroup("player_controller") is FirstPersonController player)
+                {
+                    var journalHint = InputBindingService.ActionHint(
+                        "journal", player.CurrentInputDevice == "gamepad");
+                    player.ShowRemark("Айдар",
+                        $"Край настила теряется за камышом. Я набросал его в книжке — обойду и проверю доски. {journalHint} — открыть записную книжку.");
+                }
+
+                return Task.FromResult(true);
+            };
             EnsureTarget("WaterBypassTarget", BypassInteractionId,
                 bridge.ResolveText(BypassLabelTextId), new Vector3(25f, 2.2f, 42f), 0.7f);
             EnsureTarget("WaterOldApproachTarget", OldApproachInteractionId,

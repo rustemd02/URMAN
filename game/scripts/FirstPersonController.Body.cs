@@ -37,6 +37,9 @@ public partial class FirstPersonController
         public float TurnProgress = 1f;
         public Transform3D? GaitPlant;
         public Transform3D SwingFrom, SwingTarget;
+        public Vector2 SwingDirection;
+        public float SwingStartRock, SwingStartLift;
+        public bool PreserveSwingStartPose;
         public Transform3D? LastFootPose;
         public float FootRockRadians, FootLiftMeters;
         public bool IsFootSettling;
@@ -378,6 +381,9 @@ public partial class FirstPersonController
             leg.AirPoseProgress = 1;
             leg.AirPoseBlendActive = leg.AirPoseJustStarted = false;
             leg.SwingTravelMeters = leg.StanceTravelMeters = 0;
+            leg.SwingDirection = Vector2.Zero;
+            leg.SwingStartRock = leg.SwingStartLift = 0;
+            leg.PreserveSwingStartPose = false;
             leg.PlantStartTravel = 0;
             leg.TurnProgress = 1;
         }
@@ -513,7 +519,7 @@ public partial class FirstPersonController
         _bodyFootContactCount++;
     }
 
-    private void UpdateGroundFootCycle(Vector3 hipShift, Vector3 travelDirection)
+    private void UpdateGroundFootCycle(Vector3 hipShift, Vector3 travelDirection, Vector2 actualMovement)
     {
         if (_bodyLegs.Count != 2 || !_bodyTraveling || _bodyLegs.Any(leg => leg.IsFootSettling)) return;
         var activeSwingIndex = _bodyLegs.FindIndex(leg => leg.IsSwinging);
@@ -521,6 +527,39 @@ public partial class FirstPersonController
         {
             var swinging = _bodyLegs[activeSwingIndex];
             var travel = (float)Math.Max(0, _bodyGroundTravelMeters - swinging.SwingStartTravel);
+            var actualDirection = actualMovement.Normalized();
+            if (swinging.SwingDirection.LengthSquared() > .000001f
+                && actualDirection.LengthSquared() > .000001f
+                && swinging.SwingDirection.Dot(actualDirection) < 0f)
+            {
+                var reversalSupportWindow = BodyStanceTravel(_bodyLegs[1 - activeSwingIndex], hipShift, travelDirection);
+                var reversalDistance = Mathf.Max(.02f, Math.Min(.55f, reversalSupportWindow * .85f));
+
+                // Start the reversed arc from the ankle pose the skeleton is
+                // displaying now. Remove this swing's lift/rock from its base
+                // pose, then carry those offsets into the new arc exactly once.
+                var visibleFoot = _bodySkeleton.GlobalTransform
+                    * _bodySkeleton.GetBoneGlobalPose(swinging.Ankle);
+                var visibleLocal = _bodySkeleton.GlobalTransform.AffineInverse() * visibleFoot;
+                var soleOffset = swinging.AnkleRest.AffineInverse() * swinging.Sole;
+                var neutralBasis = visibleLocal.Basis
+                    * new Basis(Vector3.Right, -swinging.FootRockRadians);
+                var neutralOrigin = visibleLocal.Origin + visibleLocal.Basis * soleOffset
+                    - neutralBasis * soleOffset - Vector3.Up * swinging.FootLiftMeters;
+                swinging.SwingFrom = _bodySkeleton.GlobalTransform
+                    * new Transform3D(neutralBasis, neutralOrigin);
+                swinging.SwingStartLift = swinging.FootLiftMeters;
+                swinging.SwingStartRock = swinging.FootRockRadians;
+                swinging.PreserveSwingStartPose = true;
+                swinging.SwingStartTravel = _bodyGroundTravelMeters;
+                swinging.SwingTravelMeters = reversalDistance;
+                swinging.SwingDirection = actualDirection;
+                var reversalLead = BodyForwardLead(swinging, hipShift, travelDirection);
+                var reversalTargetLocal = swinging.AnkleRest.Origin + travelDirection * (reversalDistance + reversalLead);
+                swinging.SwingTarget = _bodySkeleton.GlobalTransform
+                    * new Transform3D(Basis.Identity, ProjectBodyFoot(reversalTargetLocal));
+                travel = 0;
+            }
             var progress = Mathf.Clamp(travel / Math.Max(.02f, swinging.SwingTravelMeters), 0f, 1f);
             if (progress < 1f) return;
 
@@ -553,6 +592,9 @@ public partial class FirstPersonController
         step.SwingFrom = step.GaitPlant.Value;
         step.SwingStartTravel = _bodyGroundTravelMeters;
         step.SwingTravelMeters = swingDistance;
+        step.SwingDirection = actualMovement.Normalized();
+        step.SwingStartLift = step.SwingStartRock = 0;
+        step.PreserveSwingStartPose = false;
         var lead = BodyForwardLead(step, hipShift, travelDirection);
         var targetLocal = step.AnkleRest.Origin + travelDirection * (swingDistance + lead);
         step.SwingTarget = _bodySkeleton.GlobalTransform
@@ -700,7 +742,7 @@ public partial class FirstPersonController
         _bodySkeleton.SetBonePosePosition(_bodySpine, _bodySpineRest + hipShift);
         SetBodyGlobalPose(_bodyUpperCoat, new(Basis.Identity.Scaled(new Vector3(1, 1f - .60f * _bodyCrouch, 1)),
             _bodyUpperCoatRest.Origin + hipShift));
-        if (grounded) UpdateGroundFootCycle(hipShift, localTravelDirection);
+        if (grounded) UpdateGroundFootCycle(hipShift, localTravelDirection, movement);
         foreach (var leg in _bodyLegs)
         {
             var footBasis = Basis.Identity;
@@ -757,9 +799,16 @@ public partial class FirstPersonController
                     var eased = 1f - (1f - progress) * (1f - progress);
                     var swingWorld = leg.SwingFrom.InterpolateWith(leg.SwingTarget, eased);
                     var neutralLocal = _bodySkeleton.GlobalTransform.AffineInverse() * swingWorld;
-                    neutralLocal.Origin = ProjectBodyFoot(neutralLocal.Origin);
-                    leg.FootLiftMeters = Mathf.Sin(progress * Mathf.Pi) * .065f;
-                    leg.FootRockRadians = Mathf.Sin(progress * Mathf.Tau) * .10f;
+                    if (leg.PreserveSwingStartPose)
+                        leg.PreserveSwingStartPose = false;
+                    else
+                        neutralLocal.Origin = ProjectBodyFoot(neutralLocal.Origin);
+                    var liftWave = Mathf.Sin(progress * Mathf.Pi);
+                    var rockWave = Mathf.Sin(progress * Mathf.Tau);
+                    leg.FootLiftMeters = liftWave * .065f + leg.SwingStartLift
+                        * (1f - progress) * (1f - Mathf.Abs(liftWave));
+                    leg.FootRockRadians = rockWave * .10f + leg.SwingStartRock
+                        * (1f - progress) * (1f - Mathf.Abs(rockWave));
                     var sole = neutralLocal.Origin + neutralLocal.Basis * soleOffset
                         + Vector3.Up * leg.FootLiftMeters;
                     footBasis = neutralLocal.Basis * new Basis(Vector3.Right, leg.FootRockRadians);

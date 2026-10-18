@@ -201,6 +201,18 @@ public partial class RuntimeBridge
             || facts.ValueKind != JsonValueKind.Object)
             return [];
 
+        const string reflectionFactId = "water_reflection_relation_seen";
+        const string reflectionSourceId = "urman.fullgame:interaction/pw-water-reflection";
+        var savedReflectionObservation = facts.TryGetProperty(reflectionFactId, out var reflectionFact)
+            && reflectionFact.ValueKind == JsonValueKind.Object
+            && reflectionFact.TryGetProperty("sources", out var reflectionSources)
+            && reflectionSources.ValueKind == JsonValueKind.Array
+            && reflectionSources.EnumerateArray().Any(savedSource =>
+                savedSource.ValueKind == JsonValueKind.Object
+                && savedSource.TryGetProperty("sourceId", out var sourceId)
+                && sourceId.ValueKind == JsonValueKind.String
+                && StringComparer.Ordinal.Equals(sourceId.GetString(), reflectionSourceId));
+
         // One card per actual source. A source that contributed more than one
         // saved fact keeps its authored title and shows each saved provenance
         // category without exposing internal fact/source IDs.
@@ -239,12 +251,31 @@ public partial class RuntimeBridge
         var entries = sourceEntries
             .OrderBy(pair => pair.Value.Title, StringComparer.CurrentCulture)
             .ThenBy(pair => pair.Key, StringComparer.Ordinal)
-            .Select(pair => new ResolvedJournalEntry(
-                "notebook/photoworlds/source/" + pair.Key,
-                pair.Key,
-                pair.Value.Title,
-                "Происхождение: " + string.Join("; ", pair.Value.Categories.OrderBy(category => category, StringComparer.CurrentCulture)) + ".",
-                pair.Value.Title))
+            .Select(pair =>
+            {
+                var includesReflectionSketch = savedReflectionObservation
+                    && StringComparer.Ordinal.Equals(pair.Key, reflectionSourceId);
+                var body = "Происхождение: " + string.Join("; ",
+                    pair.Value.Categories.OrderBy(category => category, StringComparer.CurrentCulture)) + ".";
+                IReadOnlyList<DocumentImageContent>? images = null;
+                if (includesReflectionSketch)
+                {
+                    const string sketchDescription = "В отражении рядом с тремя стойками виден край настила. Дальше он теряется за камышом. Я обойду и проверю, продолжаются ли доски на самом деле. Набросок показывает только взаимное положение стоек и края, не карту пути.";
+                    body += "\n\n" + sketchDescription + " Рисунок можно открыть во вкладке «Изображение».";
+                    images = [new DocumentImageContent(
+                        "urman.fullgame:asset/w02-water-reflection-relation-sketch",
+                        "res://assets/photoworlds/W02/water-reflection-relation-sketch.svg",
+                        sketchDescription)];
+                }
+
+                return new ResolvedJournalEntry(
+                    "notebook/photoworlds/source/" + pair.Key,
+                    pair.Key,
+                    pair.Value.Title,
+                    body,
+                    pair.Value.Title,
+                    images);
+            })
             .ToList();
 
         // Only the kernel's separately persisted confirmed status is shown.

@@ -70412,7 +70412,7 @@
       "assigned_owner": "finished-act1",
       "activity": {
         "state": "not_active",
-        "reason": "Body.cs source frozen; affected Game compile0/0 and independent review passed. Root handles new native gait candidate."
+        "reason": "Finite reversal source patch accepted after root+independent review and affected Game compile; native reversal/natural movement remains open."
       },
       "task_type": "engineering",
       "implementation_state": "implemented",
@@ -70422,7 +70422,7 @@
         "Ноги, звук шагов и restrained bob используют фактическое post-move горизонтальное перемещение, включая strafe/backwards; у стены/остановки нет шага на месте и ретракционного скольжения.",
         "Взлёт/полёт/приземление и crouch/stand переходят согласованно без скачка глаза; сохраняются roof/grounded/input/modal/reduced-motion guards и достижимость IK."
       ],
-      "next_action": "Добавить физически правдоподобную артикуляцию свободной стопы/колена в существующий contact gait и осмотреть изменённое движение; не завышать подъём ради заметности.",
+      "next_action": "Inspect current-source walking/reversal in native movement when owned station route is available; preserve accepted support/swing bounds, do not infer natural motion from compile.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -70646,6 +70646,13 @@
         "result": "JumpHeight .42→.60m and air acceleration5→7.5m/s². Source-derived airtime .394→.471s; walking momentum can reverse before landing. Existing exact smoke peak range intentionally updated to .56–.68m.",
         "verification": "Game affected compile PASS16.52s 0 errors/warnings; native3169a0f2 build/importexit0 reachedmenu but refusedinput, jump itself NOT_RUN.",
         "remaining": "Compile/native jump/air steering/held-jump/roof/crouch check and subjective movement acceptance. No claim natural or satisfying."
+      },
+      "reversal_slice_2026_10_18": {
+        "finding": "Swing target fixed at step start while travel accrues absolute displacement: mid-step reversal carries foot toward old direction. Current native snapshots do not show reversal sequence.",
+        "result": "DELIVERED_SOURCE: actual direction reversal retargets the free foot from displayed ankle world pose, carries lift/rock within original envelope, preserves first retarget pose and opposing planted sole; no teleport/contact increment.",
+        "verification_question": "Does current-pose reversal preserve the opposite planted sole and original normal swing envelope without double lift/contact?",
+        "remaining": "Native reversal sequence/overall gait and author-perceived natural movement still unverified; previous PLAYER34426 snapshot receipt does not cover this new retarget.",
+        "verification": "Root caught and corrected normal sine-wave scaling; final zero-start formula is identical to old normal waveform. Independent final review clean; affected Game compile14.96s0warnings/errors and scoped diffcheck PASS."
       }
     },
     {
@@ -105800,7 +105807,7 @@
       "id": "PW-012",
       "title": "Ввести session generation и отмену переходов",
       "milestone": "PW-M1",
-      "status": "todo",
+      "status": "in_progress",
       "active_owner": null,
       "owner": "integration",
       "priority": "P0",
@@ -105931,7 +105938,7 @@
       "assigned_owner": "integration",
       "activity": {
         "state": "not_active",
-        "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+        "reason": "Finite atomic source-scene guard delivered/reviewed/compiled; wider session/visit/native acceptance remains open."
       },
       "task_type": "engineering",
       "implementation_state": "not_started",
@@ -105940,7 +105947,7 @@
         "Загрузка другой игры во время входа не меняет новый слот.",
         "После отказа управление и меню остаются работоспособными."
       ],
-      "next_action": "Отслеживать session identity, visit ID и cancellation generation.",
+      "next_action": "Verify remaining actual session/load/visit cancellation and input recovery using existing targeted path; retain new atomic fixed-scene guard, no new Coordinator abstraction.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -106075,7 +106082,13 @@
           "evidence_ref": "PW-012.evidence and named history progress; source_review shows available/missing inputs"
         }
       ],
-      "assignment_state": "preserved_person_or_existing_role; activity separate"
+      "assignment_state": "preserved_person_or_existing_role; activity separate",
+      "source_guard_2026_10_18": {
+        "finding": "Session reference checks already exist. Fixed-scene ownership was only preflight; a queued command could commit after another command changed activeScene if progression conditions stayed true. Source-confirmed window, no reproduced native failure.",
+        "result": "DispatchCompiledInteractionAsync now appends existing location.is/locationId source guard to the SAME atomic command conditions for fixed-scene interactions. Cross-scene source-excerpt and WorldLocations interactions preserve their own existing authorization.",
+        "verification": "Root checked OwnsInteraction, dispatch transaction and ContentRuleEngine.LocationEquals. Affected Game compile14.96s0warnings/errors; diffcheck PASS.",
+        "remaining": "Native load/cancellation/input-recovery and visit-specific full DoD not declared complete."
+      }
     },
     {
       "id": "PW-013",
@@ -121288,9 +121301,9 @@
         "v6_sha256": "8c49565c415b416ca962259da7f8f43e617835ee746a91abade95fe2d56ef9f2",
         "sculpt_cause": "Raw mesh edits were overridden by active MPFB shape keys; fixed relative V6_Anatomy captures evaluated donor mix before weighted head/neck sculpt and rig fitting. Evaluated coordinates match key within7.45e-9m;5538 vertices changed, max.026495m. Arm chain.8214m.",
         "geometry_acceptance": "Engineering topology/rig base only. Root viewed corrected head: generic bald donor/hourglass still not final horror art.",
-        "grip_rejection": "Root personally viewed exact waist reimport work-full/work-contact: no actual two-handed grip. Export manifest now labels nearest-skin numbers proximity only, not grip.",
+        "grip_rejection": "Root personally viewed exact waist reimport work-full/work-contact: no actual two-handed grip. Export manifest now labels nearest-skin numbers proximity only, not grip. New v6 curl15/20+measuredshootshift reviewed: left physically supports bough, right contact geometry measured but expressive pinch not visually proven; functional left-support workbase allowed, right readability remains art remainder. Stop millimetric variants; produce whole live character.",
         "motion_slice": "Pinned Blender v4 real leg IK step has left sole drift0, right lift.040975m/forward.099842m; noticed root-up head yaw40.22deg/updot.98784. Root viewed frames; methods only, must retarget/revalidate new true-grip v6. Shoulder follow unmeasured.",
-        "surface": "Soft marbling v1 and binary bark-cap/armour v2 rejected. Original generated bark image available with generation provenance; single coherent whole-body v3 correction in progress. No runtime promotion.",
+        "surface": "Root viewed all3 v3 EEVEE views. Frozen whole-body wood base and selective plates accepted as material engineering input, not final horror art; original bark provenance preserved. No further texture variants requested.",
         "next": "One source package: corrected v6 + genuine opposed pads/full hand matrices + v3 wood + real derived clips. Exact fresh reimport full/face/hands review before canonical copy."
       }
     },
@@ -122754,7 +122767,7 @@
       "title": "W02: связать отражение с настоящим подходом",
       "milestone": "PW-M3",
       "status": "in_progress",
-      "active_owner": "Codex/story",
+      "active_owner": null,
       "owner": "gameplay",
       "priority": "P1",
       "complexity": "complex",
@@ -122891,8 +122904,8 @@
       },
       "assigned_owner": "gameplay",
       "activity": {
-        "state": "confirmed_active",
-        "reason": "Finite R03 player payoff: existing passport promises learned relation sketch; source observation currently has no visible notebook result. Own notebook projection + authored SVG only."
+        "state": "not_active",
+        "reason": "R04 contact/open source and R03 earned journal payoff delivered; runtime route/visual/world remainder remains open."
       },
       "task_type": "engineering",
       "implementation_state": "not_started",
@@ -122902,7 +122915,7 @@
         "Внутреннее наблюдение не является внешним подтверждением.",
         "Полный паспорт уровня docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/levels/W02_Мостки_RU.md реализован: узлы/физические связи/действия/существо или человеческая сцена/созерцание/возврат/кадры; схема не заменяет проходимый runtime."
       ],
-      "next_action": "Deliver existing R03 journal sketch after saved reflection observation, reusing current image reader and preserving inside-photo provenance; then native R03→R04→R05 acceptance when foreground is available.",
+      "next_action": "Verify current-source R03 earned journal sketch/remark and physical R04 opening on ordinary native W02 route when owned foreground is available; retain full W02 art/encounter acceptance.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -123091,9 +123104,10 @@
       },
       "r03_payoff_2026_10_18": {
         "finding": "Passport water_reflection feedback promises notebook relation sketch; current savedfact produces generic source provenance only, no visible learned relation. R04/R05 structural links already exist.",
-        "result": "IN_PROGRESS: one original incomplete three-support/deck relation sketch on existing source card through ResolvedJournalEntry.Images; no new lore/map or external confirmation.",
+        "result": "DELIVERED_SOURCE: exact saved reflection source enriches existing card with original three-support/deck SVG and readable note; successful current-session dispatch shows existing nonmodal remark with live journal binding, leading to physical reed bypass/board check.",
         "verification_question": "Does the source card show the learned relation only after observed water_reflection_relation_seen, survive load, and disappear in unrelated sessions without fact while personal notes stay untouched?",
-        "remaining": "Source/compiled check and native journal current-frame acceptance; no current runtime claim."
+        "remaining": "Native Godot SVG import/in-journal appearance and ordinary R03→R04→R05 route still open.",
+        "verification": "Root viewed native Mac SVG thumbnail/source, checked XML/viewBox; independent source review found no duplicate card, external confirmed promotion or session callback leak; affected Game compile14.96s0/0, diffcheck PASS."
       }
     },
     {

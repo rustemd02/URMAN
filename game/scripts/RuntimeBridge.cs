@@ -1517,6 +1517,15 @@ public partial class RuntimeBridge : Node
         }
 
         var conditions = Elements(interaction.Conditions).ToList();
+        if (interaction.WorldLocations is null && !IsSourceExcerptAction(interaction.Id))
+        {
+            conditions.Add(JsonSerializer.SerializeToElement(new
+            {
+                op = "location.is",
+                locationId = interaction.SourceSceneId
+            }));
+        }
+
         var effects = new List<JsonElement>();
         if (interaction.WorldLocations is null && state.GetProperty("activeScene").GetString() == interaction.SourceSceneId)
             effects.AddRange(Elements(_content.RequireScene(interaction.SourceSceneId).OnExit));

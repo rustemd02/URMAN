@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="720" viewBox="0 0 1000 720" role="img" aria-labelledby="title description">
+  <title id="title">Набросок отражения</title>
+  <desc id="description">В отражении видны три стойки рядом с диагональным краем настила. Набросок показывает только их взаимное положение, не маршрут.</desc>
+
+  <rect width="1000" height="720" fill="#f4efdf"/>
+  <path d="M54 86 C246 79 420 91 606 84 S844 82 948 88" fill="none" stroke="#d8d0bd" stroke-width="2" opacity=".48"/>
+  <path d="M54 632 C260 626 449 638 631 630 S853 629 948 634" fill="none" stroke="#d8d0bd" stroke-width="2" opacity=".48"/>
+
+  <!-- A quiet water line; the lower forms are the reflection the player inspected. -->
+  <path d="M123 214 C171 205 211 222 259 213 S350 204 399 214 S491 222 540 213 S632 204 680 214 S774 222 822 213 S890 207 920 213"
+        fill="none" stroke="#70827c" stroke-width="3" stroke-linecap="round" opacity=".72"/>
+  <path d="M155 225 C199 220 228 231 267 224 M708 226 C754 221 792 232 830 225"
+        fill="none" stroke="#9aa79c" stroke-width="2" stroke-linecap="round" opacity=".58"/>
+
+  <!-- One diagonal deck edge, sketched as a single broad plank edge, with no route beyond it. -->
+  <path d="M183 471 C323 438 446 403 583 370 S776 321 833 302 L841 326 C775 348 646 379 590 394 S327 459 191 493 Z"
+        fill="#b69a73" opacity=".46"/>
+  <path d="M183 471 C323 438 446 403 583 370 S776 321 833 302"
+        fill="none" stroke="#594938" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M191 479 C325 447 448 412 585 379 S772 332 826 314"
+        fill="none" stroke="#806a50" stroke-width="2.5" stroke-linecap="round" opacity=".8"/>
+
+  <!-- Three reflected posts only. Uneven outlines and sparse grain keep the page hand-drawn. -->
+  <g stroke="#594938" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M253 218 L250 272 Q253 291 247 315 L251 474 Q272 480 290 471 L288 315 Q283 292 287 272 L283 218 Q270 225 253 218 Z"
+          fill="#a98a60" fill-opacity=".58" stroke-width="4"/>
+    <path d="M255 223 Q269 230 283 224 M258 249 Q269 254 282 249 M260 330 Q270 335 282 329 M259 389 Q270 385 281 390"
+          fill="none" stroke-width="2.5" opacity=".7"/>
+    <path d="M266 286 C263 317 272 344 267 365" fill="none" stroke="#806746" stroke-width="2" opacity=".58"/>
+  </g>
+
+  <g stroke="#594938" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M445 216 Q463 221 482 216 L479 264 Q476 283 482 305 L480 456 Q461 463 441 456 L444 306 Q449 285 443 264 Z"
+          fill="#a98a60" fill-opacity=".58" stroke-width="4"/>
+    <path d="M447 226 Q462 231 479 225 M448 261 Q462 266 477 260 M447 338 Q460 333 477 339 M446 404 Q460 409 477 403"
+          fill="none" stroke-width="2.5" opacity=".7"/>
+    <path d="M467 295 C462 324 471 347 466 374" fill="none" stroke="#806746" stroke-width="2" opacity=".58"/>
+  </g>
+
+  <g stroke="#594938" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M641 215 L638 258 Q643 278 637 298 L641 434 Q662 441 681 432 L678 298 Q672 278 676 258 L672 214 Q659 221 641 215 Z"
+          fill="#a98a60" fill-opacity=".58" stroke-width="4"/>
+    <path d="M643 221 Q659 226 673 220 M645 257 Q658 262 672 256 M644 324 Q658 329 675 323 M645 385 Q657 380 675 386"
+          fill="none" stroke-width="2.5" opacity=".7"/>
+    <path d="M658 286 C655 309 663 333 657 354" fill="none" stroke="#806746" stroke-width="2" opacity=".58"/>
+  </g>
+
+  <!-- A few short, broken water marks suggest a reflection without adding another object. -->
+  <path d="M208 523 C242 518 270 527 303 520 M413 494 C443 489 473 498 505 491 M615 469 C644 464 673 473 705 466"
+        fill="none" stroke="#70827c" stroke-width="2.5" stroke-linecap="round" opacity=".62"/>
+</svg>
