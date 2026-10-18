@@ -125,7 +125,11 @@ public partial class W02Controller : Node3D
         }
     }
 
-    public override void _PhysicsProcess(double delta) => ProcessReflectionObservation(delta);
+    public override void _PhysicsProcess(double delta)
+    {
+        ProcessWaterSafety();
+        ProcessReflectionObservation(delta);
+    }
 
     public override void _ExitTree()
     {
@@ -138,6 +142,7 @@ public partial class W02Controller : Node3D
         _reedCurtainProjectionInitialized = false;
         ResetReflectionObservation(null);
         ExitEncounterPresentation();
+        ReleaseWaterSafety();
         _bridge = null;
     }
 
@@ -174,6 +179,7 @@ public partial class W02Controller : Node3D
             projection = null;
         var visible = projection is not null && projection.ActiveSceneId == RiverSceneId;
         SetWorldPresentationVisible(visible);
+        ApplyWaterSafetyProjection(projection, visible);
         foreach (var target in _targets)
             if (GodotObject.IsInstanceValid(target)) target.SetPresentationEnabled(visible);
         foreach (var ring in _encounterRings)
@@ -1437,6 +1443,7 @@ public partial class W02Controller : Node3D
         var posts = new List<Transform3D>();
         var body = TrackBody(new StaticBody3D { Name = name + "Contact", CollisionLayer = 1u, CollisionMask = 1u });
         _world.AddChild(body);
+        RegisterWaterSafetyDeck(body);
         var postMesh = new CylinderMesh { TopRadius = 0.07f, BottomRadius = 0.085f, Height = 1f, RadialSegments = 6 };
         for (var leg = 0; leg + 1 < nodes.Length; leg++)
         {
@@ -1588,6 +1595,7 @@ public partial class W02Controller : Node3D
 
         var body = TrackBody(new StaticBody3D { Name = name + "Contact", CollisionLayer = 1u, CollisionMask = 1u });
         _world.AddChild(body);
+        RegisterWaterSafetyDeck(body);
         body.AddChild(new CollisionShape3D
         {
             Name = name + "Pad",

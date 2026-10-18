@@ -211,6 +211,7 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
     public override void _Process(double delta)
     {
         TryBindRuntimeBridge();
+        ProcessForestWorldGuard();
         RefreshPrologueSkipButtonState();
         ProcessBagPresentation(delta);
         ProcessShuralePresentation(delta);
@@ -240,6 +241,7 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
     {
         SetProcess(false);
         SetPhysicsProcess(false);
+        ReleaseForestWorldGuard();
         if (_bridge is { } bridge && GodotObject.IsInstanceValid(bridge))
             bridge.RuntimeStateChanged -= ApplyProjection;
         if (_branchAnimation is { } animation && GodotObject.IsInstanceValid(animation))
@@ -1033,6 +1035,7 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
             _branchTarget?.SetPresentationEnabled(false);
             SetPrologueEndVisible(bridge, false);
             SetPrologueSkipVisible(bridge, false);
+            ApplyForestWorldGuardProjection(null);
             SetPhysicsProcess(false);
             return;
         }
@@ -1057,6 +1060,7 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
             _branchTarget?.SetPresentationEnabled(false);
             SetPrologueEndVisible(bridge, false);
             SetPrologueSkipVisible(bridge, false);
+            ApplyForestWorldGuardProjection(null);
             SetPhysicsProcess(false);
             return;
         }
@@ -1078,6 +1082,7 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         _branchTarget?.SetPresentationEnabled(!projection.Moved);
         SetPrologueEndVisible(bridge, projection.ActiveSceneId == PrologueSceneId);
         SetPrologueSkipVisible(bridge, projection.ActiveSceneId == PrologueSceneId);
+        ApplyForestWorldGuardProjection(projection);
         SetPhysicsProcess(projection.ActiveSceneId == ForestSceneId);
     }
 

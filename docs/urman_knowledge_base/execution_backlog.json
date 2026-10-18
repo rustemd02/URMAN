@@ -92452,7 +92452,7 @@
       "progress_2026_10_04": "2026-10-04: книжка разобрана по коду: docs/production/act1_notebook_2026-10-04.md. Реализовано: JournalUi с вкладкой JournalUi.Notebook.cs, заголовок «ЗАПИСНАЯ КНИЖКА», шесть разделов (Все записи/Люди/Адреса/Источники/Места/Наблюдения) плюс свободный текст «Имена, вопросы, приметы по дороге…». Критерий: наблюдение — раздел Наблюдения и 36 discover/observe-записей; открытый вопрос — свободный текст (журнал не диктует ответ раньше находки); место проверки — раздел Места и адреса. Записи приходят из контента через RuntimeBridge.Notebook.cs, интерфейс их не выдумывает. Текст масштабируется (IAccessibilitySettingsTarget и явный font_size), закрытие — Close/Escape с RefreshCloseHint. Smartgraph и комбинаторной панели нет, как и требует критерий. Открыто: рукописность как художественный шрифт (текущий PT Sans читаемый, не рукописный) и вид страницы в кадре — not-run.",
       "title": "Простая личная книжка и понятный переход от наблюдения к действию",
       "milestone": "M5",
-      "status": "todo",
+      "status": "in_progress",
       "complexity": "medium",
       "active_owner": null,
       "owner": "unassigned",
@@ -92567,17 +92567,17 @@
       "assigned_owner": "unassigned",
       "activity": {
         "state": "not_active",
-        "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+        "reason": "Finite source stage implemented, independently reviewed and affected Game compiled; ordinary native/full-card acceptance remains open."
       },
       "task_type": "engineering",
-      "implementation_state": "not_started",
+      "implementation_state": "partial",
       "technical_verification_state": "not_run",
       "remaining": [
         "Рукописная личная книжка с масштабируемым читаемым текстом: наблюдение, открытый вопрос, место проверки. Нет обязательного smartgraph/комбинаторной панели.",
         "Сохраняются источник, найденные сведения и сюжетные условия; не выдавать вывод за открытие UI. Все существующие обязательные сравнения имеют понятное действие-замену, без потери сейва.",
         "Показать действующий интерфейс, ввод и возвращение после перерыва; imagegen-макет не приёмка."
       ],
-      "next_action": "Прочитать действующий контракт и владельца; зафиксировать исходное состояние только выбранного участка. Сохранить чужие изменения и пользовательские данные.",
+      "next_action": "Verify first handoff PhotoBook/Journal school→home→forest guidance in ordinary native/gamepad/layout when owned foreground is available; maintain full notebook contract.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -92588,7 +92588,8 @@
           "game/scripts/JournalUi.cs",
           "game/scripts/JournalUi.Notebook.cs",
           "game/scripts/RuntimeBridge.cs",
-          "docs/urman_knowledge_base/gameplay.md"
+          "docs/urman_knowledge_base/gameplay.md",
+          "game/scripts/JournalUi.PhotoBook.cs"
         ],
         "required_inputs": [],
         "scope_in": [
@@ -92687,7 +92688,14 @@
           "evidence_ref": "ACT1-NOTEBOOK.DESIGN.evidence and named history progress; source_review shows available/missing inputs"
         }
       ],
-      "assignment_state": "unassigned_explicit_not_active"
+      "assignment_state": "unassigned_explicit_not_active",
+      "first_book_loop_2026_10_18": {
+        "finding": "After D01 handoff P-FOREST is already acquired/mounted, but mandatory S-SCHOOL not yet obtained; W01 quest starts only inside, unavailable physical entry target hidden. Player receives no clear next step.",
+        "result": "DELIVERED_UI_SOURCE: received-book preparation intent in tasklist and auto-open PhotoBook header, actual identified-source permission/acquisition/home availability progression, hides/clears on world/W01/session boundaries. No new fact/quest/contentpack.",
+        "verification_question": "Does first auto-open PhotoBook show the actionable school lead, update after actual acquisition, and hide in PhotoWorlds/after W01 starts/completes without stale cross-session text?",
+        "remaining": "Independent final review/affected compile and ordinary native first-book/menu/gamepad/layout acceptance. Spoken D01lead deferred toPW025 revision compatibility.",
+        "verification": "Independent source integration review clean; final affected Game compile15.34s0warnings/errors, all changed sources older than compiled DLL, diffcheckPASS. No new tests or native run."
+      }
     },
     {
       "id": "ACT1-LANG.APPLY",
@@ -106740,6 +106748,11 @@
         "verification": "Affected Game build exit0/warnings0/errors0,50.13s; diff/whitespace clean. No new tests/probes/native run.",
         "evidence": "evidence/PW-014/front-image-reader-20261015/game-build.log",
         "limits": "Source/compile only; actual reader framing/readability,720p and lifecycle criteria not accepted until current native view."
+      },
+      "missing_front_consumer_2026_10_18": {
+        "finding": "Only P-FOREST/S-SCHOOL/S-GARDEN resolve front artwork. Acquired/mounted P-WATER/P-HOUSE and8otherIDs can display blank physical pages; source art production belongsPW-040/E01/E02.",
+        "next_action": "Consume exact produced front/thumbnail IDs fromPW040, no generic substitution or implementation-status text in player flow.",
+        "verification": "gamefeel+visual independently traced real resolver/files/provenance; no native run or new tests."
       }
     },
     {
@@ -110682,7 +110695,7 @@
         "Изменение арта не требует New Game.",
         "Повреждённая запись не затирает последнюю целую резервную копию."
       ],
-      "next_action": "Старая кампания остаётся отдельной, без автоматического переноса plotflags.",
+      "next_action": "Define and implement explicit bounded compatibility/remap for named prior fullgame revision, preserving unknown-fingerprint rejection/backup and explaining version mismatch; verify under PW-024/REL-003 before revising D01 spoken lead.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -110719,7 +110732,8 @@
         ],
         "done_when": [
           "Изменение арта не требует New Game.",
-          "Повреждённая запись не затирает последнюю целую резервную копию."
+          "Повреждённая запись не затирает последнюю целую резервную копию.",
+          "Текстовая revision того же fullgame имеет явную политику для конкретной пары версий: совместимость/миграция или понятное объяснение несовместимости с сохранённым исходным слотом; неизвестные fingerprint не принимаются автоматически, backup не перезаписывается без явного нового сохранения."
         ],
         "verification": {
           "method": "targeted_runtime_scenario",
@@ -110832,7 +110846,15 @@
           "evidence_ref": "PW-025.evidence and named history progress; source_review shows available/missing inputs"
         }
       ],
-      "assignment_state": "preserved_person_or_existing_role; activity separate"
+      "assignment_state": "preserved_person_or_existing_role; activity separate",
+      "text_revision_compatibility_2026_10_18": {
+        "finding": "Normalized module source hash changes even for D01.07 text-only revision; campaignFingerprint changes. Both normal Continue/load pass exact current fingerprint to outer SaveGameV3 decode before nested PhotoWorld schema migration. No live known-fingerprint compatibility route found.",
+        "player_effect": "Older same-namespace fullgame primary+backup can be rejected; menu hides Continue while preserving files. Current generic message does not name content revision. A later explicitly started new game/save can replace that slot under existing atomic store behavior.",
+        "decision": "Do not edit D01.07 or regenerate content solely for onboarding until this existing migration contract covers text/content revisions. UI-only next-action projection uses current state and leaves fingerprint/save files unchanged. No guard bypass, automatic migration or user-save access performed.",
+        "existing_contract": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/docs/07_SAVE_LOAD_FAILURES_RU.md sections1/6 distinguishes content hash/schema, requires preserved visible/explained old slots, no automatic overwrite; previous decision history records incompatibility, not an approved migration.",
+        "next_action": "Define and implement explicit bounded compatibility/remap for named prior fullgame revision, preserving unknown-fingerprint rejection/backup and explaining version mismatch; verify under PW-024/REL-003 before revising D01 spoken lead.",
+        "verification": "Independent read-only trace ContentCompiler135-215, SaveGameV3Codec89-109, AtomicSaveGameStore59-83, RuntimeBridge282-310/428-432 and MainMenu141-170. No files/saves/tests accessed or changed."
+      }
     },
     {
       "id": "PW-026",
@@ -116844,7 +116866,7 @@
               "13backSVG produced1800×1200 and Godot rendered; protected album view/authorart+language acceptance open.",
               "12other fronts, S-GARDEN1800×1200final, all thumbnails и scene/identity alignment; full E02 остаётся открытым."
             ],
-            "next_action": "Первый P-FOREST v2/front/thumbnail и horizontal heading приняты по actual acquired PhotoBook. Далее произвести остальные фронты по их camera/support inputs; native school contact-copy/back и W01/F10 likeness остаются открытыми.",
+            "next_action": "Finish named W02 portal camera/support alignment and its P-WATER front/thumbnail, then P-HOUSE; extend existing resolver only with exact produced owned artifacts. Keep all13 and final art acceptance open.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -117092,6 +117114,30 @@
                 "evidence/PW-043/release-path-20261015/frames/d884-root/10-new-album.png",
                 "evidence/PW-043/release-path-20261015/frames/d884-root/11-album-detail.png"
               ]
+            },
+            "priority": "P0",
+            "current_front_inventory_2026_10_18": {
+              "consumer": "JournalUi.PhotoBook.cs resolver and physical inspection clear a mounted insert when front texture is null. Earned P-WATER/P-HOUSE therefore render blank.",
+              "resolvable_source_ids": [
+                "P-FOREST",
+                "S-SCHOOL",
+                "S-GARDEN"
+              ],
+              "unresolved_front_ids": [
+                "P-WATER",
+                "P-HOUSE",
+                "P-COMMON",
+                "P-CELLAR",
+                "S-BANK",
+                "S-PHOTOGRAPHER",
+                "S-PRINT",
+                "S-MARAT",
+                "S-HAND",
+                "S-NOW"
+              ],
+              "provenance": "P-FORESTv2 has current source provenance and native album view; S-SCHOOL deliberately uses exact same pixels. S-GARDENv1 exists but final dimensions/thumbnail/art acceptance remain open. Back SVGs are not front images; old unrelated art not substituted.",
+              "priority_reason": "Core physical reward/portal front missing is a major visible MVP blocker; produce P-WATER/P-HOUSE front chain before small environment polish.",
+              "next_input": "Existing PW-040/E01 named portal camera/support alignment; actual original front and thumbnail with provenance, not independently unrelated pretty image."
             }
           },
           {
@@ -120662,18 +120708,18 @@
       },
       "assigned_owner": "gameplay",
       "activity": {
-        "state": "not_confirmed",
-        "reason": "Конечный F11 source-stage frozen; compilation 0 errors/warnings, independent review layer finding withdrawn after full caller-path. Native path not yet accepted."
+        "state": "not_active",
+        "reason": "Finite source stage implemented, independently reviewed and affected Game compiled; ordinary native/full-card acceptance remains open."
       },
       "task_type": "engineering",
-      "implementation_state": "not_started",
+      "implementation_state": "partial",
       "technical_verification_state": "not_run",
       "remaining": [
         "Нельзя получить встречу простой выдачей скрытого флага.",
         "После возврата сохраняются правильное положение ветки и один набор знаний.",
         "Полный паспорт уровня docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/levels/W01_Лес_за_спиной_RU.md реализован: узлы/физические связи/действия/существо или человеческая сцена/созерцание/возврат/кадры; схема не заменяет проходимый runtime."
       ],
-      "next_action": "Принять native F11-наблюдение и законченный физический F12→F13→F14 проход; после готовности authored Shurale/bag подключить D06→физический ремень→D07, без скрытой выдачи результатов.",
+      "next_action": "Integrate separately confirmed missing physical passage→forest_beyond_frame_seen and body anchor discontinuity reset; then ordinary F11→F12/F13→Shurale→F16 acceptance.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -120684,7 +120730,8 @@
           "game/scenes/photoworlds/W01/W01.tscn",
           "game/content/photoworlds/W01/W01.world.json",
           "game/scripts/photoworlds/W01Controller.cs",
-          "assets/source/blender/photoworlds/W01/"
+          "assets/source/blender/photoworlds/W01/",
+          "game/scripts/photoworlds/W01Controller.WorldGuard.cs"
         ],
         "required_inputs": [
           {
@@ -120874,6 +120921,13 @@
         "verification": "Source review + strict markers/support mesh contact; Game compile PASS16.52s. Native physical action/save/reentry NOT_RUN.",
         "remaining": "Shurale/D06 encounter binding and native action/placement/save/return acceptance; no hidden fact bypass.",
         "modal_correction_2026_10_18": "Pause/player modal cancels pre-commit release/placement and reprojects snagged pose; committed fact survives, pending D07 opens only in same modal-free forest session. Source reviewed and compiled16.41s; native interruption/save still unverified."
+      },
+      "f16_world_guard_2026_10_18": {
+        "finding": "Village fallback clamps X<=147. F16 marker149/4/190 and yaw38.9909 give accepted return envelope minworldX≈147.717; current W01 ground supports throughX156. Thus fallback clamp prevents ordinary return crossing, separate from authored exit reducer.",
+        "result": "DELIVERED_SOURCE: W01 owns existing DetachedWorldGuard from active geometry AABB union and ForestGroundHeight, so F16 is inside its own bounds instead of villageX147. Installed after enabled ground, exactbridge/session/scene callback, own-delegate release, active Process reassert.",
+        "verification_question": "Can ordinary F15→F16 reach/cross its accepted envelope, while save/scene transitions release only the current world owner?",
+        "verification": "Independent source integration review clean; final affected Game compile15.34s0warnings/errors, all changed sources older than compiled DLL, diffcheckPASS. No new tests or native run.",
+        "remaining": "Ordinary native F16 crossing and restore/scene transitions with current source; full W01 route/art/human gates."
       }
     },
     {
@@ -120881,7 +120935,7 @@
       "title": "W01: произвести, оживить и поставить Шурале",
       "milestone": "PW-M3",
       "status": "in_progress",
-      "active_owner": "Codex / visual",
+      "active_owner": null,
       "owner": "character_art",
       "priority": "P1",
       "complexity": "complex",
@@ -121035,8 +121089,8 @@
       },
       "assigned_owner": "character_art",
       "activity": {
-        "state": "confirmed_active",
-        "reason": "Bounded v8 whole-anatomy source study, plus source-confirmed W01 process lifecycle correction; root owns integration/tracker."
+        "state": "not_active",
+        "reason": "Functional actor integrated; v8 anatomy and eye material studies reviewed and not promoted. Current procedural shape-field method does not deliver requested art, no repeated variants authorized."
       },
       "task_type": "engineering",
       "implementation_state": "not_started",
@@ -121047,7 +121101,7 @@
         "Полный паспорт уровня docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/levels/W01_Лес_за_спиной_RU.md реализован: узлы/физические связи/действия/существо или человеческая сцена/созерцание/возврат/кадры; схема не заменяет проходимый runtime.",
         "Шурале выглядит современно устрашающе в духе психологического авторского хоррора (уточнение автора: злодеи A24): оригинальная цельная анатомия/силуэт, тревожные лицо/взгляд/длинные руки и сдержанная неестественная пластика; без игрушечного добродушия. Оценка по актуальным игровым кадрам и движению, не по числу полигонов."
       ],
-      "next_action": "Review one coherent v8 full/face sculpt study before any canonical promotion; integrate source-confirmed W01 process/queued-D07 fixes after narrow compile.",
+      "next_action": "Produce coherent original full-character sculpt/face/gaze using a genuinely different mesh-authoring approach or a suitable authored source; then exact rig/contact/export and native/author/cultural acceptance. Do not repeat rejected field-displacement/UV-color variants.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -121338,7 +121392,8 @@
         "scope": "One v8 source-only whole-anatomy sculpt/look pass from frozen v6, preserve53bones/weights/hand-support contacts; full3q and face review before runtime export. No scalar-variant churn.",
         "acceptance": "Root visual source review is engineering/art-direction only; native movement and author/cultural acceptance remain mandatory.",
         "v8_review": "REJECTED by root after personally viewing full3q/face: rib/neck forms still unreadable, cheeks became bumps, smooth human/hourglass and UV stripes remain. Preserve source study, no canonical promotion; repeated field-displacement method stopped.",
-        "next": "One bounded eye-gaze source-only study from exact v3 geometry: investigate real eye aperture/UV and restrained wet iris/pupil/sclera; do not infer placement defect merely from most sphere vertices behind skin. Whole-actor sculpt/art/native acceptance still open."
+        "next": "One bounded eye-gaze source-only study from exact v3 geometry: investigate real eye aperture/UV and restrained wet iris/pupil/sclera; do not infer placement defect merely from most sphere vertices behind skin. Whole-actor sculpt/art/native acceptance still open.",
+        "eye_review": "Root viewed source-only eye material study: no clear readable iris/pupil/living gaze, insufficient visible improvement, no canonical promotion. Eye GLB primitives are present; geometry omission hypothesis rejected. Most sphere vertices being hidden is not by itself a placement defect. Preserve study, stop parameter variants."
       },
       "process_handoff_fix_2026_10_18": {
         "result": "DELIVERED_SOURCE: hiding the prologue skip button no longer disables the whole W01 controller Process, so forest Bag placement/pending dialogue and Shurale proximity/dialogue drivers remain scheduled. Pending D07 is preserved during same-session deferred load projection and cleared on actual kernel identity change.",
@@ -122572,8 +122627,8 @@
       },
       "assigned_owner": "world_art",
       "activity": {
-        "state": "released",
-        "reason": "Конечная процедурная сборка «Мостки» поставлена и снята существующим защищённым захватом (12 кадров); активной заявки нет, остаток — приёмка PW-054 и станционный receipt."
+        "state": "not_active",
+        "reason": "Finite source stage implemented, independently reviewed and affected Game compiled; ordinary native/full-card acceptance remains open."
       },
       "task_type": "aggregate",
       "implementation_state": "partial",
@@ -122581,7 +122636,7 @@
       "remaining": [
         "Проходимая геометрия собрана процедурно и снята 12 кадрами (см. evidence). Осталось: приёмка обычного маршрута/изображений/повторного посещения — PW-054; станционный receipt. Родителя как разработку не вести — закрывать конкретные остатки."
       ],
-      "next_action": "Следующий конечный шаг: обычный маршрут W02 — книга→вход→камыш/отражение/старый подход→ответ→возврат, с отличением найденного действия от фактов, выставленных захватом (PW-054); станционный receipt при следующем слоте.",
+      "next_action": "Verify ordinary W02 shallows/fall recovery/deep-water restore and scene transitions, then full PW050 route/art; do not infer current native from compiled source.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -122592,7 +122647,8 @@
           "game/scenes/photoworlds/W02/W02.tscn",
           "game/content/photoworlds/W02/W02.world.json",
           "game/scripts/photoworlds/W02Controller.cs",
-          "assets/source/blender/photoworlds/W02/"
+          "assets/source/blender/photoworlds/W02/",
+          "game/scripts/photoworlds/W02Controller.WaterSafety.cs"
         ],
         "required_inputs": [
           {
@@ -122799,7 +122855,16 @@
         "verification_limits": "Root reviewed existing PNGs only; FullGameDressingCapture uses an isolated 1920x1080 SubViewport/fixed camera, with ApplyCaptureFacts for reed_open/answer. These are staged render views, not ordinary player traversal, true main viewport, native station proof or acquired-state/persistence acceptance. Existing raw capture stdout/terminal/renderer/restore evidence requested; no rerun.",
         "visual_remaining": "Repeated simple ellipsoid tree crowns, rod-like sedge and uniform banks/boards remain coarse; finished painted world/material diversity and finished Su anasy image not accepted. Physical supports/passability/state changes, normal return/revisit PW054 and author/art/culture/audio gates remain open."
       },
-      "raw_log_handoff_check_2026_10_17": "README delivered for W02/home capture, but both named capture.stdout.log and capture.godot.log are absent from this checkout after9d2dd6bb. Root cannot yet independently confirm renderer/guard from raw stdout; exact existing logs requested via AGENT_CHAT, no repeated capture. Prior staged-view acceptance limits unchanged."
+      "raw_log_handoff_check_2026_10_17": "README delivered for W02/home capture, but both named capture.stdout.log and capture.godot.log are absent from this checkout after9d2dd6bb. Root cannot yet independently confirm renderer/guard from raw stdout; exact existing logs requested via AGENT_CHAT, no repeated capture. Prior staged-view acceptance limits unchanged.",
+      "water_safety_slice_2026_10_18": {
+        "finding": "W02 full terrain collider includes riverbed≈-1.9m; water mesh has no collision. FPC uses unrelated village bounds/heightfield because W02 never installs existing DetachedWorldGuard. Riverbed can support underwater walking and save/load transform; no last-board safety exists.",
+        "scope": "Reuse existing world-specific guard while current W02; session-local last verified dry terrain/registered deck pose, R00 fallback for unsafe restored position, existing ApplyZoneSpawn recovery; no save/schema/narrative changes or new global provider layer.",
+        "engineering_default": "Recovery when feet below waterline by0.5m; dry tracking requires actual dry support above waterline by0.1m. These chosen defaults preserve shallows and remain subject to native/author acceptance.",
+        "verification_question": "Does active W02 use its own bounds/terrain, preserve genuine dry/deck last-safe pose, reject bed as safe, and release only its own existing guard on hide/session/exit?",
+        "result": "DELIVERED_SOURCE: session-local last verified deck/dry-bank pose with0.5m water-depth recovery; underwater restore falls back to actual R00 or existing Main-compatible R08. Active River reuses existing DetachedWorldGuard for W02 bounds/terrain; stale bridge/session/scene callback no-op and own-delegate release. All parenthooks and2deck registrations integrated.",
+        "remaining": "Implementation/review/affected compile, native edge/fall/shallow/restore/scene transition path and full PW050 route/art acceptance.",
+        "verification": "Independent source integration review clean; final affected Game compile15.34s0warnings/errors, all changed sources older than compiled DLL, diffcheckPASS. No new tests or native run."
+      }
     },
     {
       "id": "PW-051",

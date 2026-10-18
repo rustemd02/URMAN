@@ -38,6 +38,7 @@ public partial class JournalUi
     private Button _photoBookZoomOut = null!;
     private Label _photoBookZoomValue = null!;
     private Button _photoBookZoomIn = null!;
+    private Label _photoBookPreparation = null!;
     private Label _photoBookTitle = null!;
     private Label _photoBookPlacement = null!;
     private PanelContainer _photoBookFrontCard = null!;
@@ -77,6 +78,13 @@ public partial class JournalUi
             SizeFlagsVertical = Control.SizeFlags.ExpandFill };
         _photoBookPage.AddChild(new Label { Text = "Найденные снимки и записи на обороте",
             AutowrapMode = TextServer.AutowrapMode.WordSmart });
+        _photoBookPreparation = new Label
+        {
+            Name = "PreparationObjective",
+            AutowrapMode = TextServer.AutowrapMode.WordSmart,
+            Visible = false
+        };
+        _photoBookPage.AddChild(_photoBookPreparation);
         _photoBookPage.AddChild(spread);
         layout.AddChild(_photoBookPage);
 
@@ -323,6 +331,8 @@ public partial class JournalUi
             return;
         }
 
+        RefreshPhotoBookPreparation();
+
         if (!ReferenceEquals(_photoBookSession, session))
         {
             CancelPhotoBookPlacementAnimation();
@@ -405,6 +415,8 @@ public partial class JournalUi
         _photoBookProjection = [];
         _photoBookRefreshing = true;
         _photoBookList.Clear();
+        _photoBookPreparation.Text = string.Empty;
+        _photoBookPreparation.Visible = false;
         _photoBookInspectFrontButton.Visible = false;
         _photoBookInspectBackButton.Visible = false;
         _photoBookInspectBackButton.Disabled = true;
@@ -423,6 +435,13 @@ public partial class JournalUi
         _photoBookActionStatus.Text = string.Empty;
         _photoBookRefreshing = false;
         RefreshPhotoBookActionButtons();
+    }
+
+    private void RefreshPhotoBookPreparation()
+    {
+        var text = PhotoBookPreparationObjectiveText();
+        _photoBookPreparation.Text = text ?? string.Empty;
+        _photoBookPreparation.Visible = text is not null;
     }
 
     private void SelectPhotoBookPhoto(long index)

@@ -229,7 +229,10 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
         }
         // The arrival is still a personal scene. Present its authored next action
         // before the investigation objective, without creating another quest state.
-        if (FamilyHomeObjectiveText() is { } familyObjective) objectiveTitles.Insert(0, familyObjective);
+        var familyObjective = FamilyHomeObjectiveText();
+        if (familyObjective is not null) objectiveTitles.Insert(0, familyObjective);
+        if (PhotoBookPreparationObjectiveText() is { } photoBookPreparationObjective)
+            objectiveTitles.Insert(familyObjective is null ? 0 : 1, photoBookPreparationObjective);
         // The arrival is still a personal scene: the investigation objective it
         // would otherwise drag in is not offered before the house is found. The
         // fence quest keeps its own rows below, because that accident has
@@ -530,6 +533,61 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
         if (!invitationRead && !earlierInvitation) return null;
         return bridge.ResolveText("urman.chapter1:text/objective-family-home-"
             + (bridge.CurrentZoneId == "house_old_pc" ? "inside" : "outside"));
+    }
+
+    private string? PhotoBookPreparationObjectiveText()
+    {
+        var bridge = _bridge;
+        if (bridge is null || !bridge.IsPhotoWorldsCampaign || !bridge.CanInspectReceivedPhotoBook
+            || bridge.ActiveSceneId is not { } activeSceneId
+            || (activeSceneId.StartsWith("urman.fullgame:scene/pw-", StringComparison.Ordinal)
+                && activeSceneId is not ("urman.fullgame:scene/pw-home" or "urman.fullgame:scene/pw-niva-arrival")))
+            return null;
+
+        var state = bridge.SelectRuntimeState();
+        if (state.TryGetProperty("quests", out var quests)
+            && quests.ValueKind == System.Text.Json.JsonValueKind.Object
+            && quests.TryGetProperty("urman.fullgame:quest/pw-w01", out var forestQuest)
+            && forestQuest.ValueKind == System.Text.Json.JsonValueKind.Object
+            && forestQuest.TryGetProperty("status", out var forestQuestStatus)
+            && forestQuestStatus.ValueKind == System.Text.Json.JsonValueKind.String
+            && forestQuestStatus.GetString() is "active" or "completed")
+            return null;
+
+        var photos = bridge.PhotoBookPhotos();
+        var forestPhoto = photos.FirstOrDefault(photo => photo.PhotoId == "P-FOREST");
+        if (forestPhoto is null) return null;
+
+        var schoolPhoto = photos.FirstOrDefault(photo => photo.PhotoId == "S-SCHOOL");
+        if (schoolPhoto is null)
+        {
+            return bridge.PhotoWorldFactObserved("school_copy_identified")
+                ? "В школе попросить у сотрудницы разрешение на копию найденного отпечатка с теми же людьми и узнаваемой стороной стволов."
+                : "Проверить школьный альбом: поискать снимок тех же людей у леса и спросить, можно ли получить копию.";
+        }
+
+        if (bridge.CurrentZoneId != "house_old_pc")
+            return "Вернуться домой и сопоставить школьную копию со снимком «Люди у леса».";
+
+        if (!forestPhoto.Mounted)
+        {
+            return forestPhoto.CanMount
+                ? "Сопоставить школьную копию со снимком «Люди у леса» и вклеить лесной снимок в семейную книгу."
+                : null;
+        }
+
+        const string enterForestInteractionId = "urman.fullgame:interaction/pw-enter-forest";
+        var canEnterForest = bridge.IsInteractionAvailable(enterForestInteractionId);
+        if (!forestPhoto.BackRead && forestPhoto.CanReadBack)
+        {
+            return canEnterForest
+                ? "Прочитать помету на обороте и сопоставить школьную копию со снимком «Люди у леса», затем войти в лесной снимок."
+                : "Прочитать помету на обороте и сопоставить школьную копию со снимком «Люди у леса».";
+        }
+
+        return canEnterForest
+            ? "Сопоставить школьную копию со снимком «Люди у леса», затем войти в этот лесной снимок."
+            : "Сопоставить школьную копию со снимком «Люди у леса» в семейной книге.";
     }
 
     private void SelectEntry(long index)
