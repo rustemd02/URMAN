@@ -150,13 +150,21 @@ public partial class RuntimeBridge
 
             if (_loadingSlot || _loadPreparing || !ReferenceEquals(session, SessionIdentity))
                 return false;
+            var sceneBeforeDispatch = ActiveSceneId;
             var result = await DispatchContentApplyAsync(
                 $"photo-book:{(mount ? "mount" : "back-read")}:{photoId}:{Interlocked.Increment(ref _interactionSequence):D8}",
                 conditions,
                 effects,
                 activeSceneId: null,
                 expectedSession: session);
-            return result.Status == CommandStatus.Committed && ReferenceEquals(session, SessionIdentity);
+            if (result.Status != CommandStatus.Committed || !ReferenceEquals(session, SessionIdentity))
+                return false;
+
+            if (!_loadingSlot && !_loadPreparing && sceneBeforeDispatch is not null
+                && ActiveSceneId == sceneBeforeDispatch)
+                await SaveCheckpointAsync(force: true);
+
+            return ReferenceEquals(session, SessionIdentity);
         }
         finally
         {

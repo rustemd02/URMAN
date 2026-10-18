@@ -71135,6 +71135,11 @@
         "result": "Both authored-ground fall recovery branches call existing ResetVisibleBodyMotion immediately after teleport/zero velocity, preventing reuse of old world-space foot plant anchors. Existing spawn/traversal pattern reused.",
         "verification": "Same affected Game build18.53s,0/0; root inspected exact two-call diff; no runtime recovery or ordinary gait claim.",
         "remaining": "Runtime movement/jump/footplant acceptance remains open. Meshy FPS clothing adapter root rejected jagged camera-internal chest surfaces; owner correcting the same source without extra generation."
+      },
+      "mesh_body_source_rejection_2026_10_19": {
+        "source": "assets/source/blender/act1/aidar_meshy_v1/prepare_aidar_player_meshy_source.py",
+        "result": "Root rejected camera-internal chest triangles. Waist crop removed them but latest displayed frame used an external camera1.55m in front, so it is not actual FPS evidence. Source remains isolated/untracked, no C# runtime integration. Owner now only correcting preview to actual camera anchor/FOV; no more geometry masks in this stage.",
+        "remaining": "Need honest actual-eye source frame and explicit remaining blocker before further body integration; ordinary gait/jump remain unverified."
       }
     },
     {
@@ -107035,7 +107040,7 @@
       "id": "PW-015",
       "title": "Реализовать вклейку и её сохранение",
       "milestone": "PW-M1",
-      "status": "todo",
+      "status": "in_progress",
       "active_owner": null,
       "owner": "integration",
       "priority": "P0",
@@ -107173,17 +107178,17 @@
       },
       "assigned_owner": "integration",
       "activity": {
-        "state": "not_active",
-        "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+        "state": "released",
+        "reason": "Finite book/caption checkpoint source-fix accepted after affected compile and independent review; actual Continue/visual timing acceptance remains open."
       },
       "task_type": "engineering",
-      "implementation_state": "not_started",
+      "implementation_state": "partial",
       "technical_verification_state": "not_run",
       "remaining": [
         "Монтаж 0.8–1.3 с, reducedmotion≤0.2 с.",
         "После save/load кадр находится на том же развороте."
       ],
-      "next_action": "Единый PhotoId на физической и UI-версии.",
+      "next_action": "Проверить обычную вклейку/оборот/подпись → полное закрытие → Continue с новым source checkpoint, сохранив прежние требования монтажа/reducedmotion. Не повторять прежний отказ защищённого UI без нового факта.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -107344,7 +107349,17 @@
           "evidence_ref": "PW-015.evidence and named history progress; source_review shows available/missing inputs"
         }
       ],
-      "assignment_state": "preserved_person_or_existing_role; activity separate"
+      "assignment_state": "preserved_person_or_existing_role; activity separate",
+      "book_autosave_source_2026_10_19": {
+        "source": [
+          "game/scripts/RuntimeBridge.PhotoBook.cs",
+          "game/scripts/RuntimeBridge.cs"
+        ],
+        "confirmed_gap": "Ordinary book caller only updated UI after committed mount/back-read; caption.prepared committed separately from persisted desktop note without checkpoint. Closing before later save could lose mounted/backRead/pageId/prepared state.",
+        "result": "Both committed book actions and prepared caption request existing forced checkpoint only with same session, no pending load and unchanged non-null active scene. No extra saver/schema or UI selection/zoom persistence. Disk failure retains committed action and existing SaveFeedback; session checked again after await.",
+        "verification": "One affected Game compile18.16s,0warnings/0errors; independent review of two diff paths and ordinary UI callers found no reachable player-path regression; root inspected diff and save policy. No new tests/probes.",
+        "remaining": "Ordinary photo→mount/back-read/caption→close process→Continue not yet run. Mount animation timing/reducedmotion and external acceptance unchanged."
+      }
     },
     {
       "id": "PW-016",

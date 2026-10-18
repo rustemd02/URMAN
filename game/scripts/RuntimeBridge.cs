@@ -1602,6 +1602,7 @@ public partial class RuntimeBridge : Node
     {
         var session = SessionIdentity;
         if (!_content.HasPhotoWorlds || session is null || _loadingSlot || _loadPreparing) return false;
+        var sceneBeforeDispatch = ActiveSceneId;
         var preparedById = _content.PhotoWorldCatalog.GetProperty("playerId").GetString()
             ?? throw new InvalidDataException("PhotoWorlds catalog has no player character ID.");
         var command = new GameCommand(
@@ -1618,7 +1619,10 @@ public partial class RuntimeBridge : Node
         await ReconcileQuestsAsync(session);
         if (!ReferenceEquals(session, SessionIdentity)) return false;
         QueueRuntimeStateChanged();
-        return true;
+        if (!_loadingSlot && !_loadPreparing && sceneBeforeDispatch is not null
+            && ActiveSceneId == sceneBeforeDispatch)
+            await SaveCheckpointAsync(force: true);
+        return ReferenceEquals(session, SessionIdentity);
     }
 
     private async Task<CommandDispatchResult> DispatchContentApplyAsync(
