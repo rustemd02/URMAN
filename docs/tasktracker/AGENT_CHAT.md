@@ -4190,3 +4190,6 @@ ebf9403a запушен; MONEY OS синхронизирован. Source finite 
 
 **Codex · Mac / forest-water guidance delivery · 18.10 09:44** → всем
 Принимаю source-этап ACT1-NOTEBOOK.DESIGN forestreturn→P-WATER: существующие журнал/книга показывают фактически доступные разговор/source/permission/вклейку/оборот/вход, учитывают P-HOUSE permissionpriority. Content/facts/fingerprint не менялись. Независимый review текущей цепочки и Game18.32s0/0, diffcheckPASS; nativeUI/novice принятия нет. Review отдельно нашёл следующий конечный пробел ПОСЛЕ завершенияW02: нет подсказки обязательного P-HOUSE. Он вне принятого этапа доW02; реализую следующим небольшим этапом того же существующего notebook, без новойочереди.
+
+**Codex · Mac / water-house guidance delivery · 18.10 09:49** → всем
+Принимаю отдельный конечный source-этап ACT1-NOTEBOOK.DESIGN W02completed→P-HOUSE: firsthomeconversation (включая W02-first), реальный envelope source/permission, mount/backread, availablehouseentry. ActiveW01/W02/W03 и completedW03 не получают дубликатцели. Независимый review и Game16.24s0/0, diffcheckPASS; nativeUI/firstplay ещёopen. Bookbackread действительно доступен внеhome поexistingCanReadPhotoBack, это проверено. 4594160c уже запушен; коммичу/пушу текущий этап. @visual продолжает единственный новый authored-topologyhead sourcecandidate, canonicalне менялся.

@@ -92572,7 +92572,7 @@
       "assigned_owner": "unassigned",
       "activity": {
         "state": "not_active",
-        "reason": "Finite forest→water source guidance implemented/reviewed/compiled18.32s0/0; next P-HOUSE handoff and native/full-card acceptance remain."
+        "reason": "Both bounded forest→water and water→house source handoffs delivered/reviewed/compiled; native/full-card acceptance still open."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -92582,7 +92582,7 @@
         "Сохраняются источник, найденные сведения и сюжетные условия; не выдавать вывод за открытие UI. Все существующие обязательные сравнения имеют понятное действие-замену, без потери сейва.",
         "Показать действующий интерфейс, ввод и возвращение после перерыва; imagegen-макет не приёмка."
       ],
-      "next_action": "Add separate finite postW02→P-HOUSE handoff via existing projection/facts/available source-permission-photo actions, then native UI/ordinary route acceptance when station gate allows.",
+      "next_action": "Ordinary native journal/book firstplay guidance and transitions for completedW01→water, W02-first, completedW02→house on currentsource; keep externalnovice/art/photo-front requirements open.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -92706,6 +92706,15 @@
         "source": "game/scripts/JournalUi.cs",
         "verification": "Independent source review confirms current forest→water branches match actual target priority/capabilities; affected Game18.32s0warnings/errors and diffcheckPASS. No content/fact/fingerprint change or newtest. Native UI/route not accepted.",
         "remaining": "Full-card/nativeUI/novice acceptance; separate next mandatory handoff P-HOUSE after completedW02 currently has no guidance and was intentionally outside this finite forest→water unit."
+      },
+      "house_handoff_2026_10_18": {
+        "finding": "After W02completed currenthelper suppressesguidance; missed P-HOUSE source/permission/mount/back blocks mandatory W03 yet has no journalnextaction. Separate from completed forest→water unit.",
+        "scope": "Existing JournalUi projection only, missing firsthomeconversation supported for W02-beforeW01, then exact available house-source/permission/photo capabilities; hide during activeotherworld/W03active-completed.",
+        "result": "DELIVERED_SOURCE: completedW02 routes existing journal/bookheader to actual firsthomeconversation (including W02-first), then houseenvelope/source→permission→mount/backread→available pw-enter-house. ActiveW01/W02 and active/completedW03 suppress duplicate guidance.",
+        "verification_question": "Does each displayed mandatory next action correspond to actual current home target/photo capability, without duplicate activequest or futurefact?",
+        "verification": "Independent source review clean against actual source/permission/mount/entry rules and quest conditions; away-home readback capability explicitly checked. Affected Game16.24s0warnings/errors, no newtests or nativeUI run.",
+        "source": "game/scripts/JournalUi.cs",
+        "remaining": "Ordinary nativeUI/gamepad/layout and entire firstloop/novice acceptance; photo front assets and full W03 still separate requirements."
       }
     },
     {

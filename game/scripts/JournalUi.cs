@@ -547,8 +547,13 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
         var state = bridge.SelectRuntimeState();
         var forestQuestStatus = PhotoWorldQuestStatus(state, "urman.fullgame:quest/pw-w01");
         var waterQuestStatus = PhotoWorldQuestStatus(state, "urman.fullgame:quest/pw-w02");
-        if (forestQuestStatus == "active" || waterQuestStatus is "active" or "completed")
+        var houseQuestStatus = PhotoWorldQuestStatus(state, "urman.fullgame:quest/pw-w03");
+        if (forestQuestStatus == "active"
+            || waterQuestStatus == "active"
+            || houseQuestStatus is "active" or "completed")
             return null;
+        if (waterQuestStatus == "completed")
+            return PhotoBookHouseHandoffObjectiveText(bridge);
         if (forestQuestStatus == "completed")
             return PhotoBookWaterHandoffObjectiveText(bridge);
 
@@ -680,6 +685,59 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
 
         return bridge.IsInteractionAvailable("urman.fullgame:interaction/pw-enter-river")
             ? "Открыть снимок у мостков."
+            : null;
+    }
+
+    private static string? PhotoBookHouseHandoffObjectiveText(RuntimeBridge bridge)
+    {
+        var atHome = bridge.ActiveSceneId == "urman.fullgame:scene/pw-home"
+            && bridge.CurrentZoneId == "house_old_pc";
+        if (!bridge.PhotoWorldFactObserved("first_world_home_talk"))
+        {
+            if (!atHome)
+                return "Вернуться домой и поговорить о первом возвращении из снимка.";
+            return bridge.IsInteractionAvailable("urman.fullgame:interaction/pw-first-world-home-talk")
+                ? bridge.ResolveText("urman.fullgame:text/pw-label-first-world-home-talk")
+                : null;
+        }
+
+        var housePhoto = bridge.PhotoBookPhotos().FirstOrDefault(photo => photo.PhotoId == "P-HOUSE");
+        if (!bridge.PhotoWorldFactObserved("house_print_found"))
+        {
+            if (!atHome)
+                return "Вернуться домой и проверить семейный конверт на снимок двора.";
+            return bridge.IsInteractionAvailable("urman.fullgame:interaction/pw-house-photo-source")
+                ? bridge.ResolveText("urman.fullgame:text/pw-label-house-photo-source")
+                : null;
+        }
+
+        if (housePhoto is null)
+        {
+            if (!atHome)
+                return "Вернуться домой и попросить семейную копию снимка двора.";
+            return bridge.IsInteractionAvailable("urman.fullgame:interaction/pw-house-photo-permission")
+                ? bridge.ResolveText("urman.fullgame:text/pw-label-house-photo-permission")
+                : null;
+        }
+
+        if (!housePhoto.Mounted)
+        {
+            if (!atHome)
+                return "Вернуться домой и вклеить снимок двора, прочитав его оборот.";
+            return housePhoto.CanMount
+                ? bridge.ResolveText("urman.fullgame:text/pw-label-mount-house-photo")
+                : null;
+        }
+
+        if (!housePhoto.BackRead)
+            return housePhoto.CanReadBack
+                ? "Прочитать оборот снимка двора."
+                : null;
+
+        if (!atHome)
+            return "Вернуться домой и войти в знакомый двор со снимка.";
+        return bridge.IsInteractionAvailable("urman.fullgame:interaction/pw-enter-house")
+            ? bridge.ResolveText("urman.fullgame:text/pw-label-enter-house")
             : null;
     }
 
