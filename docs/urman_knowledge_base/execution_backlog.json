@@ -111439,7 +111439,7 @@
       "id": "PW-028",
       "title": "Сделать необязательные запросные подсказки",
       "milestone": "PW-M1",
-      "status": "todo",
+      "status": "in_progress",
       "active_owner": null,
       "owner": "integration",
       "priority": "P0",
@@ -111575,16 +111575,16 @@
       "assigned_owner": "integration",
       "activity": {
         "state": "not_active",
-        "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+        "reason": "W01 optional hint source slice implemented/compiled; root native UI integration and other worlds remain open."
       },
       "task_type": "engineering",
-      "implementation_state": "not_started",
+      "implementation_state": "partial",
       "technical_verification_state": "not_run",
       "remaining": [
         "Пять минут неподвижности не вызывают наказание или окрик.",
         "Последний уровень снимает технический тупик, но не завершает главу автоматически."
       ],
-      "next_action": "Создать три уровня подсказки: человеческий вопрос, область поиска, конкретное действие.",
+      "next_action": "Native W01 book hint disclosure on valid current session, then remaining world-specific stages against their own available inputs; do not mark full PW028 complete from W01 source.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -111690,13 +111690,23 @@
             "task_id": "PW-008",
             "artifact": "Разделить впечатление и доказанное знание",
             "requires": "relevant_artifact_not_full_parent",
-            "availability": "not_confirmed"
+            "availability": "available",
+            "availability_scope": "Named existing provenance/book-objective APIs sufficient for bounded W01 hint slice; not parent completion or all-world acceptance.",
+            "artifact_refs": [
+              "game/scripts/RuntimeBridge.PhotoBook.cs",
+              "game/scripts/JournalUi.cs"
+            ]
           },
           {
             "task_id": "PW-016",
             "artifact": "Переработать журнал в семейную книгу без потери функций",
             "requires": "relevant_artifact_not_full_parent",
-            "availability": "not_confirmed"
+            "availability": "available",
+            "availability_scope": "Named existing provenance/book-objective APIs sufficient for bounded W01 hint slice; not parent completion or all-world acceptance.",
+            "artifact_refs": [
+              "game/scripts/RuntimeBridge.PhotoBook.cs",
+              "game/scripts/JournalUi.cs"
+            ]
           }
         ],
         "verification": [],
@@ -111746,7 +111756,19 @@
           "evidence_ref": "PW-028.evidence and named history progress; source_review shows available/missing inputs"
         }
       ],
-      "assignment_state": "preserved_person_or_existing_role; activity separate"
+      "assignment_state": "preserved_person_or_existing_role; activity separate",
+      "w01_hint_source_2026_10_18": {
+        "source": [
+          "game/scripts/RuntimeBridge.PhotoWorldHints.cs",
+          "game/scripts/JournalUi.cs",
+          "content/modules/urman-fullgame/definitions.json",
+          "content/modules/urman-fullgame/module.json",
+          "game/content/urman.fullgame.compiled.v1.json"
+        ],
+        "result": "Explicit book-page request cycles human question→area→concrete action→hide, chosen from live W01 facts/available authored interaction. Disclosure resets on stage/session/reopen. Completed quest has explicit exit context. No state effects, penalty, idle prompts or new input action.",
+        "verification": "18 authored Russian IDs compiled into canonical pack; source/UI review corrected completed-exit hint gate. Game affected compile14.49s0errors/warnings. Native UI NOT_RUN.",
+        "remaining": "Native book/focus/layout/disclosure/return/save behavior; other PhotoWorld hint stages and external language/author acceptance remain open."
+      }
     },
     {
       "id": "PW-029",
@@ -121225,6 +121247,11 @@
         ],
         "verification": "Exact MPFB2v2.0.17 archive SHA verified against prior receipt; real morph targets validated, isolated pinnedBlender generation; head4453verts/4426faces, body13380verts/13378faces at2.35m. CC0 assets/output versus GPLaddoncode distinguished in manifests.",
         "remaining": "Character look/material/eyes/working pose, native rig and seven clips/LODs/cleanGLB/runtime; final modern horror visual/cultural/author acceptance remains open."
+      },
+      "character_package_2026_10_18": {
+        "source": "assets/source/blender/photoworlds/W01/shurale_character_v4/export-v1/",
+        "result": "MPFB-derived continuous53bonebody with verifiedphysicalbranchcontact, baked2Kalbedo/1Kmask, staged7clips/2LODs. Runtimepartial prepared separately, canonicalasset NOT_PROMOTED.",
+        "remaining": "ExactGLBreimport/axis/skin/fullfigure review due exporter warnings; source/runtimeasset and lifecyclehooks, nativevisual/motion/cultural/author acceptance. Current smoothhumanlook is not finalA24styleacceptance."
       }
     },
     {
@@ -140956,6 +140983,19 @@
         "result": "Actualmenu captured, oneEnter refused ui_focus_caption_pointer_moved_post_move: pre-move own HWND/HTCAPTION passed, SetCursorPostrue but observed pointer differed. No gameplayinputaccepted.",
         "terminal_result_sha256": "2a28301be331487c2dab804c3b47f9c9f2e59b7b7dad259c913de1df93f4857d",
         "remaining": "Distinguish causal clip from intervening warp using only bounded read-only GetClipCursor in existing refusal path; no clip clear or focus guard relaxation."
+      },
+      "owned_raise_2026_10_18": {
+        "source": [
+          "eng/windows-game-ui.ps1",
+          "eng/windows_station_worker.py"
+        ],
+        "cause": "771143e9 actualmenu Enter refused ui_focus_pointer_clipped: verified caption outside active clip, observed cursor on clip edge.",
+        "change": "One BringWindowToTop only for that confirmed clipped branch, after own PID/title/bounds/visible/noniconic recheck. No clip clear or input; existing200ms owned-foreground guard mandatory.",
+        "verification": "Independent source review clean; Windows PSparser + extractedC#AddType compilePASS; exact deployed/stagedSHA and idle scheduled restart verified. A first baseline mismatch safely stopped before copying; read-only hashes showed installed files matched known stagedclip baseline, then exact expected SHA reconciled.",
+        "native_job": "4f86e4fca4b5404f8e015cb55e5ded01",
+        "native_snapshot": "2cd7f5efc010616eabfbb3283d3ddc5985ff80a93cfd2168d41ab6221849f8f5",
+        "observed_result": "Release operator personally viewed actualmenu; oneEnter refused409 ui_focus_post_activation_lost. No furtherinput. OrdinaryNewGame still NOT_VERIFIED.",
+        "release_condition": "Interactive station desktop must keep verified game HWND foreground through existing guard. No further focus workaround/clip-owner mutation; independent implementation continues."
       }
     },
     {

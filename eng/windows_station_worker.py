@@ -60,6 +60,7 @@ UI_HELPER_FAILURE_CODES = {
     'The pointer moved during the pre-move caption check.': 'ui_focus_caption_pointer_moved_pre_move',
     'The owned game caption point changed after positioning.': 'ui_focus_caption_point_changed_post_move',
     'The pointer moved after caption positioning.': 'ui_focus_caption_pointer_moved_post_move',
+    'Windows refused to raise the owned game window.': 'ui_focus_raise_refused',
     'The pointer moved during the caption hit test.': 'ui_focus_caption_pointer_moved_post_hit_test',
     'The owned game caption pointer is unavailable.': 'ui_focus_caption_pointer_unavailable',
     'The owned game caption input was refused.': 'ui_focus_caption_input_refused',

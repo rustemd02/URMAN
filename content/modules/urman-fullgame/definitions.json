@@ -6392,5 +6392,203 @@
       }
     },
     "purpose": "dialogue"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-hint-forest-camera-question",
+    "value": {
+      "default": "Почему люди на снимке смотрят мимо объектива?",
+      "translations": {
+        "ru": "Почему люди на снимке смотрят мимо объектива?"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-hint-forest-camera-area",
+    "value": {
+      "default": "Осмотри место за группой, куда направлены взгляды людей.",
+      "translations": {
+        "ru": "Осмотри место за группой, куда направлены взгляды людей."
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-hint-forest-camera-action",
+    "value": {
+      "default": "От места, где стояла семья, выйди за край снимка и осмотри три опоры.",
+      "translations": {
+        "ru": "От места, где стояла семья, выйди за край снимка и осмотри три опоры."
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-hint-forest-path-question",
+    "value": {
+      "default": "Куда продолжается путь, на который указывали люди?",
+      "translations": {
+        "ru": "Куда продолжается путь, на который указывали люди?"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-hint-forest-path-area",
+    "value": {
+      "default": "За закрытым поворотом у старого корня ищи продолжение тропы.",
+      "translations": {
+        "ru": "За закрытым поворотом у старого корня ищи продолжение тропы."
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-hint-forest-path-action",
+    "value": {
+      "default": "Пройди пешком через открытый проход у старого корня.",
+      "translations": {
+        "ru": "Пройди пешком через открытый проход у старого корня."
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-hint-forest-talk-question",
+    "value": {
+      "default": "Кто занят работой у старого корня?",
+      "translations": {
+        "ru": "Кто занят работой у старого корня?"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-hint-forest-talk-area",
+    "value": {
+      "default": "Ищи площадку у старого корня, откуда доносится стук.",
+      "translations": {
+        "ru": "Ищи площадку у старого корня, откуда доносится стук."
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-hint-forest-talk-action",
+    "value": {
+      "default": "Подойди к работающему Шурале и выслушай его.",
+      "translations": {
+        "ru": "Подойди к работающему Шурале и выслушай его."
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-hint-forest-bag-question",
+    "value": {
+      "default": "Что зацепилось за корень и мешает пройти?",
+      "translations": {
+        "ru": "Что зацепилось за корень и мешает пройти?"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-hint-forest-bag-area",
+    "value": {
+      "default": "Осмотри ремень старой сумки, зацепившийся за корень.",
+      "translations": {
+        "ru": "Осмотри ремень старой сумки, зацепившийся за корень."
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-hint-forest-bag-action",
+    "value": {
+      "default": "После разговора с Шурале освободи ремень и уложи сумку сбоку.",
+      "translations": {
+        "ru": "После разговора с Шурале освободи ремень и уложи сумку сбоку."
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-hint-forest-exit-question",
+    "value": {
+      "default": "Что из этой прогулки ты хочешь принести домой?",
+      "translations": {
+        "ru": "Что из этой прогулки ты хочешь принести домой?"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-hint-forest-exit-area",
+    "value": {
+      "default": "Ищи просвет под кронами, откуда начинается тропа домой.",
+      "translations": {
+        "ru": "Ищи просвет под кронами, откуда начинается тропа домой."
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-hint-forest-exit-action",
+    "value": {
+      "default": "Пройди по тропе под кронами к дому.",
+      "translations": {
+        "ru": "Пройди по тропе под кронами к дому."
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-hint-show",
+    "value": {
+      "default": "Показать подсказку",
+      "translations": {
+        "ru": "Показать подсказку"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-hint-more",
+    "value": {
+      "default": "Подсказать точнее",
+      "translations": {
+        "ru": "Подсказать точнее"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-hint-hide",
+    "value": {
+      "default": "Скрыть подсказку",
+      "translations": {
+        "ru": "Скрыть подсказку"
+      }
+    },
+    "purpose": "ui"
   }
 ]

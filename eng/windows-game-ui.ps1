@@ -25,12 +25,14 @@ public static class UrmanGameUiNative {
  [DllImport("user32.dll")] public static extern IntPtr GetAncestor(IntPtr h,uint flags);
  [DllImport("user32.dll")] public static extern bool SetProcessDPIAware();
  [DllImport("user32.dll")] public static extern bool SetForegroundWindow(IntPtr h);
+ [DllImport("user32.dll")] public static extern bool BringWindowToTop(IntPtr h);
  [DllImport("user32.dll")] public static extern bool AttachThreadInput(uint attach,uint attachTo,bool attachState);
  [DllImport("kernel32.dll")] public static extern uint GetCurrentThreadId();
  [DllImport("user32.dll")] public static extern uint MapVirtualKey(uint code,uint mapType);
  [DllImport("user32.dll")] public static extern void keybd_event(byte key,byte scan,uint flags,UIntPtr extra);
  [DllImport("user32.dll")] public static extern bool SetCursorPos(int x,int y);
  [DllImport("user32.dll")] public static extern bool GetCursorPos(out Point p);
+ [DllImport("user32.dll")] public static extern bool GetClipCursor(out Rect r);
  [DllImport("user32.dll")] public static extern bool GetClientRect(IntPtr h,out Rect r);
  [DllImport("user32.dll")] public static extern bool ClientToScreen(IntPtr h,ref Point p);
  [DllImport("user32.dll")] public static extern IntPtr WindowFromPoint(Point p);
@@ -219,6 +221,31 @@ function Invoke-VerifiedCaptionActivation {
             throw 'The owned game caption pointer is unavailable.'
         }
         if ($currentPointer.X -ne $captionPoint.X -or $currentPointer.Y -ne $captionPoint.Y) {
+            $clip = New-Object UrmanGameUiNative+Rect
+            if ([UrmanGameUiNative]::GetClipCursor([ref]$clip) -and
+                $clip.Right -gt $clip.Left -and $clip.Bottom -gt $clip.Top) {
+                $captionOutsideClip = $captionPoint.X -lt $clip.Left -or $captionPoint.X -ge $clip.Right -or
+                    $captionPoint.Y -lt $clip.Top -or $captionPoint.Y -ge $clip.Bottom
+                $pointerWithinClip = $currentPointer.X -ge $clip.Left -and $currentPointer.X -le $clip.Right -and
+                    $currentPointer.Y -ge $clip.Top -and $currentPointer.Y -le $clip.Bottom
+                $pointerOnClipEdge = ($currentPointer.X -ge $clip.Left -and $currentPointer.X -le ($clip.Left + 1)) -or
+                    ($currentPointer.X -ge ($clip.Right - 2) -and $currentPointer.X -le $clip.Right) -or
+                    ($currentPointer.Y -ge $clip.Top -and $currentPointer.Y -le ($clip.Top + 1)) -or
+                    ($currentPointer.Y -ge ($clip.Bottom - 2) -and $currentPointer.Y -le $clip.Bottom)
+                if ($captionOutsideClip -and $pointerWithinClip -and $pointerOnClipEdge) {
+                    Assert-TargetWindow
+                    if ([UrmanGameUiNative]::IsIconic($script:TargetHandle)) {
+                        throw 'The owned game window is minimized.'
+                    }
+                    if (-not [UrmanGameUiNative]::IsWindowVisible($script:TargetHandle)) {
+                        throw 'The owned game window is hidden.'
+                    }
+                    if (-not [UrmanGameUiNative]::BringWindowToTop($script:TargetHandle)) {
+                        throw 'Windows refused to raise the owned game window.'
+                    }
+                    return
+                }
+            }
             throw 'The pointer moved after caption positioning.'
         }
         if (Test-OwnedForeground) { return }

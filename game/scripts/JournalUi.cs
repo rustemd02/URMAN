@@ -19,6 +19,8 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
     private Label _objective = null!;
     private Label _vocabularySummary = null!;
     private VBoxContainer _tasks = null!;
+    private Button _photoWorldHintButton = null!;
+    private Label _photoWorldHintText = null!;
     private Button _close = null!;
     private SourceExcerptSelection _excerpts = null!;
     private TabBar _tabs = null!;
@@ -33,6 +35,10 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
     private Label _comparisonFeedback = null!;
     private bool _comparing;
     private RuntimeBridge? _bridge;
+    private object? _photoWorldHintSession;
+    private string? _photoWorldHintKey;
+    private string? _photoWorldHintContextKey;
+    private int _photoWorldHintLevel;
     private IReadOnlyList<ResolvedJournalEntry> _projection = [];
     private Viewport? _refitViewport;
     private AccessibilitySettingsSnapshot _accessibility = AccessibilitySettingsSnapshot.Default;
@@ -82,6 +88,7 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
         BuildVocabularyUi();
         BuildInventoryUi();
         BuildPhotoBookUi();
+        BuildPhotoWorldHintUi();
         _close.Pressed += Close;
         _entries.ItemSelected += SelectEntry;
         BindRefitSignal();
@@ -149,6 +156,7 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
         if (_bridge is not null) _bridge.RuntimeStateChanged -= OnRuntimeStateChanged;
         _bridge = bridge;
         _bridge.RuntimeStateChanged += OnRuntimeStateChanged;
+        ResetPhotoWorldHintDisclosure();
         if (selectedEntryId is not null)
         {
             _notebookSection.Select(0);
@@ -178,6 +186,10 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
 
     private void OnRuntimeStateChanged()
     {
+        if (_bridge?.SessionIdentity is null)
+        {
+            ResetPhotoWorldHintDisclosure();
+        }
         if (IsInsideTree() && _screen.Visible && !_comparing) Refresh();
     }
 
@@ -191,6 +203,11 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
         RefreshNotebookPages();
         RefreshPhotoBookPage();
         var objectives = _bridge?.ActiveObjectives() ?? [];
+        var photoWorldObjective = objectives.FirstOrDefault(objective =>
+            objective.QuestId == "urman.fullgame:quest/pw-w01");
+        var photoWorldHint = _bridge?.CurrentPhotoWorldHint();
+        var photoWorldHintContextKey = PhotoWorldHintContextKey(
+            _bridge, photoWorldObjective, photoWorldHint?.Key);
         // An active investigation is not yet an actionable source comparison.
         // Use the same readiness gate as the comparison tab, including both sources.
         var canCompareRecords = (_bridge?.JournalActions([AlsuAccountId, MaratNoticeId]).Count ?? 0) > 0;
@@ -218,7 +235,11 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
         // fence quest keeps its own rows below, because that accident has
         // already happened.
         if (ArrivalObjectiveText() is { } arrivalObjective) objectiveTitles = [arrivalObjective];
-        RefreshTaskList(objectiveTitles, _bridge?.TamaraFenceSnapshotNow());
+        RefreshTaskList(
+            objectiveTitles,
+            _bridge?.TamaraFenceSnapshotNow(),
+            photoWorldHint,
+            photoWorldHintContextKey);
         RefreshVocabularyPage();
         _vocabularySummary.Text = BuildWordSummary();
         _entries.Clear();
@@ -263,7 +284,11 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
     /// counter and a struck-through line once it is done. Rows are Labels, so
     /// the long ones wrap like every other page of the book.
     /// </summary>
-    private void RefreshTaskList(IReadOnlyList<string> titles, RuntimeBridge.TamaraFenceSnapshot? fence)
+    private void RefreshTaskList(
+        IReadOnlyList<string> titles,
+        RuntimeBridge.TamaraFenceSnapshot? fence,
+        RuntimeBridge.PhotoWorldHintProjection? photoWorldHint,
+        string? photoWorldHintContextKey)
     {
         var gamepad = GetTree().GetFirstNodeInGroup("player_controller") is FirstPersonController player
             && player.CurrentInputDevice == "gamepad";
@@ -299,6 +324,15 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
                     ? $"Целых досок при себе: {fence.Carried} — отнести Тамаре Геннадьевне."
                     : $"При себе: {fence.Carried}. Ищите доски у сараев и у придорожной поленницы по пути к дому бабая.",
                 new Color(.66f, .62f, .52f), 16, indent: 26);
+        }
+
+        SyncPhotoWorldHint(photoWorldHint, photoWorldHintContextKey);
+        // Append after the task rows. In the completed W01 exit context there
+        // is no active W01 row, so this must not look like another quest's cue.
+        if (IsInstanceValid(_photoWorldHintButton) && IsInstanceValid(_photoWorldHintText))
+        {
+            _tasks.MoveChild(_photoWorldHintButton, _tasks.GetChildCount() - 1);
+            _tasks.MoveChild(_photoWorldHintText, _tasks.GetChildCount() - 1);
         }
     }
 
@@ -336,6 +370,139 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
         textLabel.AddThemeColorOverride("font_color", colour);
         row.AddChild(textLabel);
         _taskRows.Add(row);
+    }
+
+    private void BuildPhotoWorldHintUi()
+    {
+        _photoWorldHintButton = new Button
+        {
+            Name = "PhotoWorldHintRequest",
+            FocusMode = Control.FocusModeEnum.All,
+            SizeFlagsHorizontal = Control.SizeFlags.ExpandFill,
+            Visible = false
+        };
+        _photoWorldHintButton.Pressed += OnPhotoWorldHintPressed;
+        _tasks.AddChild(_photoWorldHintButton);
+
+        _photoWorldHintText = new Label
+        {
+            Name = "PhotoWorldHintText",
+            AutowrapMode = TextServer.AutowrapMode.WordSmart,
+            SizeFlagsHorizontal = Control.SizeFlags.ExpandFill,
+            MouseFilter = Control.MouseFilterEnum.Ignore,
+            Visible = false
+        };
+        _photoWorldHintText.AddThemeFontSizeOverride("font_size", 17);
+        _tasks.AddChild(_photoWorldHintText);
+    }
+
+    private void OnPhotoWorldHintPressed()
+    {
+        var bridge = _bridge;
+        if (bridge is null || bridge.SessionIdentity is null) return;
+        var hint = bridge.CurrentPhotoWorldHint();
+        var activeObjective = bridge.ActiveObjectives().FirstOrDefault(entry =>
+            entry.QuestId == "urman.fullgame:quest/pw-w01");
+        var contextKey = PhotoWorldHintContextKey(bridge, activeObjective, hint?.Key);
+        SyncPhotoWorldHint(hint, contextKey);
+        if (hint is null || string.IsNullOrWhiteSpace(hint.Question)
+            || string.IsNullOrWhiteSpace(hint.Area) || string.IsNullOrWhiteSpace(hint.Action))
+        {
+            return;
+        }
+
+        _photoWorldHintLevel = _photoWorldHintLevel >= 3 ? 0 : _photoWorldHintLevel + 1;
+        PresentPhotoWorldHint(hint);
+        _photoWorldHintButton.GrabFocus();
+    }
+
+    private void SyncPhotoWorldHint(RuntimeBridge.PhotoWorldHintProjection? hint, string? contextKey)
+    {
+        var session = _bridge?.SessionIdentity;
+        if (hint is null || session is null || contextKey is null)
+        {
+            ResetPhotoWorldHintDisclosure();
+            return;
+        }
+
+        if (!ReferenceEquals(session, _photoWorldHintSession)
+            || !string.Equals(hint.Key, _photoWorldHintKey, StringComparison.Ordinal)
+            || !string.Equals(contextKey, _photoWorldHintContextKey, StringComparison.Ordinal))
+        {
+            _photoWorldHintSession = session;
+            _photoWorldHintKey = hint.Key;
+            _photoWorldHintContextKey = contextKey;
+            _photoWorldHintLevel = 0;
+        }
+
+        _photoWorldHintButton.Visible = true;
+        PresentPhotoWorldHint(hint);
+    }
+
+    private void PresentPhotoWorldHint(RuntimeBridge.PhotoWorldHintProjection hint)
+    {
+        var bridge = _bridge;
+        if (bridge is null || !IsInstanceValid(_photoWorldHintButton)
+            || !IsInstanceValid(_photoWorldHintText)) return;
+
+        _photoWorldHintButton.Text = bridge.ResolveText(_photoWorldHintLevel switch
+        {
+            0 => "urman.fullgame:text/pw-hint-show",
+            3 => "urman.fullgame:text/pw-hint-hide",
+            _ => "urman.fullgame:text/pw-hint-more"
+        });
+        _photoWorldHintText.Text = _photoWorldHintLevel switch
+        {
+            1 => hint.Question,
+            2 => hint.Area,
+            3 => hint.Action,
+            _ => string.Empty
+        };
+        _photoWorldHintText.Visible = _photoWorldHintLevel > 0;
+    }
+
+    private void ResetPhotoWorldHintDisclosure()
+    {
+        _photoWorldHintSession = null;
+        _photoWorldHintKey = null;
+        _photoWorldHintContextKey = null;
+        _photoWorldHintLevel = 0;
+        if (IsInstanceValid(_photoWorldHintButton))
+        {
+            _photoWorldHintButton.Visible = false;
+            _photoWorldHintButton.Text = _bridge?.ResolveText("urman.fullgame:text/pw-hint-show") ?? string.Empty;
+        }
+        if (IsInstanceValid(_photoWorldHintText))
+        {
+            _photoWorldHintText.Text = string.Empty;
+            _photoWorldHintText.Visible = false;
+        }
+    }
+
+    private static string? PhotoWorldHintContextKey(
+        RuntimeBridge? bridge,
+        ResolvedObjectiveEntry? activeObjective,
+        string? hintKey)
+    {
+        if (bridge is null || hintKey is null) return null;
+        if (hintKey == "exit")
+        {
+            var state = bridge.SelectRuntimeState();
+            if (state.TryGetProperty("quests", out var quests)
+                && quests.ValueKind == System.Text.Json.JsonValueKind.Object
+                && quests.TryGetProperty("urman.fullgame:quest/pw-w01", out var quest)
+                && quest.ValueKind == System.Text.Json.JsonValueKind.Object
+                && quest.TryGetProperty("status", out var status)
+                && status.GetString() == "completed")
+            {
+                return "urman.fullgame:quest/pw-w01\u001fcompleted-context";
+            }
+            return null;
+        }
+
+        return activeObjective is null
+            ? null
+            : $"{activeObjective.QuestId}\u001factive\u001f{activeObjective.ObjectiveId}";
     }
 
     private string? ArrivalObjectiveText() =>
@@ -500,7 +667,9 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
         else if (_tabs.CurrentTab == 2)
         {
             var scrollBar = _overview.GetVScrollBar();
-            if (scrollBar.IsVisibleInTree()) scrollBar.GrabFocus();
+            if (IsInstanceValid(_photoWorldHintButton) && _photoWorldHintButton.Visible)
+                _photoWorldHintButton.GrabFocus();
+            else if (scrollBar.IsVisibleInTree()) scrollBar.GrabFocus();
             else _tabs.GrabFocus();
         }
         else (_projection.Count > 0 ? (Control)_entries : _close).GrabFocus();
