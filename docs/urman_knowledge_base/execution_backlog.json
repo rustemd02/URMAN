@@ -70929,7 +70929,7 @@
       "milestone": "M5",
       "status": "in_progress",
       "complexity": "simple",
-      "active_owner": "/root",
+      "active_owner": null,
       "owner": "finished-act1",
       "depends_on": [],
       "scope": [
@@ -70985,8 +70985,8 @@
       },
       "assigned_owner": "finished-act1",
       "activity": {
-        "state": "confirmed_active",
-        "reason": "Root integrating finite body/physical book entry slices on 19 October; source workers frozen and independently reviewed, affected game compile PASS15.34s0warnings0errors; native acceptance pending."
+        "state": "not_confirmed",
+        "reason": "19October owner rejected isolated photoreal model/style focus; finite model work stopped, unshipped runtime consumer restored to main. No live art worker."
       },
       "task_type": "integration_check",
       "implementation_state": "partial",
@@ -70994,7 +70994,7 @@
       "remaining": [
         "Приёмка походки (ходьба/бег/присед/повороты); отсутствует подтверждение собственного конечного DoD, перечисленного ниже."
       ],
-      "next_action": "Finish diagnosed Boot lower-cloth skin binding fix; verify changed source with existing movement scenario and inspect backward diagonal/wall-stop cuffs. Do not guess gait constants or close art gate.",
+      "next_action": "Prioritize current ordinary prologue/photo→book→world→meaningful action→return→Continue delivery. No further isolated Meshy body work; existing movement and final gait acceptance remain required.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -71153,15 +71153,15 @@
         "frame": "assets/source/blender/act1/aidar_meshy_v1/renders-aidar-meshy-player-body-v1/aidar-first-person-lookdown.png"
       },
       "meshy_player_body_2026_10_19": {
-        "state": "native_motion_technical_pass_visual_cuff_fix_in_progress",
+        "state": "withdrawn_from_runtime_owner_style_rejection",
         "runtime_asset": "game/assets/generated/aidar-player-body-meshy-v1.glb",
         "sha256": "ec586a9ec7701f17ee62f9ed0bcc4cb958215212c07f051f83a255755acef182",
         "bytes": 16540240,
         "producer": "assets/source/blender/act1/aidar_meshy_v1/prepare_aidar_player_meshy_source.py",
         "manifest": "assets/source/blender/act1/aidar_meshy_v1/aidar-meshy-player-body-v1.manifest.json",
         "result": "Original PBR torso/hem/trousers/boots retained; eight disconnected hand islands34tri removed; texture-only2K conversion preserves73 nonimage bufferViews and geometry/rig/UV/material JSON. Actual-eye vertical75/-Y view root inspected. Body consumer retains all source trouser surfaces and PBR, changing skin binds/weights only; compile ArrayMesh type error fixed, affected compile PASS15.34s0/0; independent source/raw GLB/footwear review no finding.",
-        "remaining": "Complete cloth Knee / leather Ankle skin blend on Boot shared cuff without geometry/UV/PBR changes, then same changed-source native movement frames. Separately repair source coat centroid-cut jagged edge; final motion/ordinary play/art remain open.",
-        "publication": "Working-tree candidate only; native import/movement and source/runtime asset commit pending. Do not treat this state record as delivered body.",
+        "remaining": "Do not spend more on this isolated candidate. Preserve native172 proof as rejected candidate history, not art acceptance. Future body work must support coherent whole-scene style and playable loop; existing movement/ordinary control goals remain open.",
+        "publication": "Not shipped. All five candidate-owned consumer/test/registry changes restored to main; generated runtime GLB removed. Original Meshy input, producers and exact rejected-runtime-integration.patch retained locally as offline draft.",
         "native_initial_check": {
           "job_id": "fcb35a2eec734fc8baf1244dcd10cb59",
           "snapshot_id": "f426e07b4b510c9b5a2759ed5f8021f725a8cfeff5fb88c515f2e1d54f718939",
@@ -71182,7 +71182,8 @@
           "evidence": "evidence/ACT1-LEGS/meshy-body-20261019/native-09a4507f",
           "result": "PASS172checks, gameExit0, engine-errors empty, userdataRestoredtrue; source pelvis62 joined in standing/walking/crouched/turned. Root personally viewed all9 frames. Human art not-run.",
           "visual_defect": "Root motion frames show open trouser-to-boot cuff and ragged coat side edges. L58/R61 original shared cuff positions Knee1 in trousers versus Ankle1 in Boot, which includes lower trouser cloth. Runtime skin fix in progress; technical PASS is not art acceptance."
-        }
+        },
+        "owner_feedback_2026_10_19": "Автор: слишком много времени уходит на модели, показанные модели не подходят стилю игры. Не продолжать изолированную полировку этого тела."
       }
     },
     {
@@ -111865,7 +111866,7 @@
       "title": "Сделать необязательные запросные подсказки",
       "milestone": "PW-M1",
       "status": "in_progress",
-      "active_owner": "/root",
+      "active_owner": null,
       "owner": "integration",
       "priority": "P0",
       "complexity": "medium",
@@ -111999,8 +112000,8 @@
       },
       "assigned_owner": "integration",
       "activity": {
-        "state": "confirmed_active",
-        "reason": "Finite source prologue hint worker frozen; root integrating checked result and canonical compiled content."
+        "state": "not_confirmed",
+        "reason": "Finite prologue source slice committed e695653e with canonical fullgame compile/affected Game14.37s0/0 and independent review. Native UI acceptance remains separate."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -112211,7 +112212,8 @@
         "source_owner": "/root/gamefeel_slice",
         "verification": "Canonical fullgame ContentCli compile and affected Game build14.37s0warnings0errors; independent source review no actionable finding; git diff check. Native journal/input/disclosure/skip route not run.",
         "result": "Actual prebook prologue journal opens existing Дела tab and displays optional3level branch/exit hints, no syntheticquest/fact/progression. Existing PrologueUI shows mapped journal keyboard/gamepad binding. Six RU authored rows and canonical fullgame compiled output.",
-        "evidence": "evidence/PW-028/prologue-help-20261019/affected-build.log"
+        "evidence": "evidence/PW-028/prologue-help-20261019/affected-build.log",
+        "source_commit": "e695653e"
       }
     },
     {
@@ -140941,11 +140943,12 @@
       ],
       "assignment_state": "preserved_person_or_existing_role; activity separate",
       "meshy_runtime_ingest_2026_10_19": {
-        "state": "partial_manifest_registered_rights_acceptance_open",
-        "aidar_registry_id": "character.aidar.meshy.player.v1",
+        "state": "offline_draft_not_registered_after_owner_style_rejection",
         "registry": "assets/asset_registry.json",
-        "evidence": "Raw source/derived/runtime/producers hash-bound and original reference provenance linked; no CC license or completed commercial rights acceptance asserted.",
-        "remaining": "Complete actual Premium commercial terms/receipt evidence and inventory coverage. Existing Shurale v4 canonical runtime GLB is absent from registry; register its exact source/derived chain before closing PW-093. Other 48 families/13photos remain covered by original contract."
+        "evidence": "Historical raw/derived/producers hash inspection only. Aidar row is not in current registry and runtime is not integrated; original input and recipe remain offline draft. No CC/commercial rights completion asserted.",
+        "remaining": "Complete actual Premium commercial terms/receipt evidence and inventory coverage. Existing Shurale v4 canonical runtime GLB is absent from registry; register its exact source/derived chain before closing PW-093. Other 48 families/13photos remain covered by original contract.",
+        "owner_style_withdrawal": "Aidar candidate not shipped: candidate-only registry row removed, runtime consumer reverted, generated GLB deleted after preserving rawinput/producer/patch. Meshy195/4000 unchanged. Earlier source/runtime binding inspection is historical draft evidence, not current integrated row.",
+        "withdrawn_aidar_registry_id": "character.aidar.meshy.player.v1"
       }
     },
     {
@@ -155113,20 +155116,21 @@
       "integration": "Регулярный отдельный commit/push каждого проверенного этапа, не копить большой незакоммиченный пакет. Source/compile этап не выдавать за native acceptance; включать только свои проверенные файлы/хунки, сохранять чужие изменения.",
       "mvp_selection_rule": "Сначала законченные, сразу заметные игроку этапы: обычный запуск и Continue; цельный пролог и первая прогулка; фото → физическая книга → вход → содержательное действие → возврат → сохранённое продолжение; убедительная сцена деревни; самостоятельный релизный кандидат. Мелкие веточки, кусты, фактуры и локальная полировка идут после этих результатов, кроме доказанного блокера проходимости, читаемости, стабильности или производительности выбранного этапа.",
       "mvp_delivery_order": [
-        "ACT1-LEGS.1",
-        "ACT1-PLAYER/E02",
-        "ACT1-LEGS.2",
         "PW-097",
         "PW-043",
-        "PW-041",
+        "PW-028",
         "PW-019",
         "PW-045",
-        "PW-046",
-        "PW-047",
+        "PW-041",
         "ACT1-MECH-AUDIT.3",
         "FINISH-06/E01",
         "FINISH-06/E02",
         "UXA-001/READY",
+        "ACT1-LEGS.1",
+        "ACT1-PLAYER/E02",
+        "ACT1-LEGS.2",
+        "PW-046",
+        "PW-047",
         "PW-013",
         "PW-014",
         "PW-017",
@@ -155177,6 +155181,17 @@
         "narrative": "Семейная просьба закончить работу Марата и восстановить связи людей/мест; Айдар знает о смерти Марата. Не вводить детектив об убийстве.",
         "visual": "Принимать целую сцену с понятным направлением движения, глубиной и архитектурой; одиночные веточки/фактуры не заменяют результат.",
         "acceptance": "Техническая проверка не доказывает удовольствие. Непрерывное движение и обычный цикл требуют просмотра; авторская и newcomer-приёмка остаются открытыми."
+      },
+      "owner_priority_2026_10_19": "Owner criticized excessive isolated model work and mismatch with game style. Dispatch complete playable loop/story/whole scene before model polish; preserve all release/art/culture/audio/rights gates and existing movement requirements. Evaluate assets in actual scene, no more this withdrawn photoreal FPS-body.",
+      "temporary_artifact_cleanup_2026_10_19": {
+        "removed_logical_bytes": 4136721578,
+        "counts": {
+          "obsolete_local_model_cache_dirs": 4,
+          "blender_auto_backups": 17,
+          "verified_duplicate_result_archives": 52,
+          "rejected_regenerable_body_outputs": 3
+        },
+        "preserved": "Unique original inputs/producer/rejected consumer patch, raw extracted receipt/logs/frames, pinned tools, userdata and latest f62 desktop package. One differing/unique archive retained."
       }
     }
   },
