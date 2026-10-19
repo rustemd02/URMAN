@@ -1,0 +1,39 @@
+{
+  "source": "meshy71-neighbor-house-original.glb",
+  "source_sha256": "325c095cf1a39d5a8ec0391c2501951e1a0d77549a579831ed29a0298e80a1d5",
+  "source_bytes": 63789956,
+  "bounds_blenderXYZ": [
+    [
+      -0.6395959854125977,
+      0.6268860101699829
+    ],
+    [
+      -0.9507899880409241,
+      0.9520909786224365
+    ],
+    [
+      -0.5916129946708679,
+      0.5891280174255371
+    ]
+  ],
+  "triangles": 1227202,
+  "mesh_objects": 1,
+  "materials": [
+    "Material_0"
+  ],
+  "status": "Source3D inspection only; log-course/corner/opening/roof gates require actual image review, not these counts.",
+  "comparison": "Same camera target, offset and ortho scale as actual-geometry-clay-actual-front-corner.png from25K; original1.2M geometry, no texture/normal maps, no geometry modification.",
+  "renders": [
+    "negative-y.png",
+    "front-right-quarter.png",
+    "positive-x.png",
+    "positive-y.png",
+    "actual-geometry-clay-three-quarter.png",
+    "actual-geometry-clay-front-right-corner.png",
+    "negative-x-actual-front.png",
+    "negative-x-negative-y-actual-front-quarter.png",
+    "actual-geometry-clay-actual-front-corner.png",
+    "original-actual-geometry-clay-actual-front-corner.png"
+  ],
+  "geometry_review_method": "Two clay views use materialoverride with no albedo/normaltexture, so painted circles cannot by themselves prove interlocking log geometry."
+}

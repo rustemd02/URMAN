@@ -1,4 +1,6 @@
 using Godot;
+using System.Text.Json;
+using Urman.Core.Persistence;
 using Urman.Experiments.AgentBAct1;
 
 namespace Urman.Godot;
@@ -67,6 +69,63 @@ public partial class Main : Node3D
     public float LastSpawnYawDegrees { get; private set; }
 
     public Act1ConnectedWorld? ConnectedWorld => _connectedWorld;
+
+    internal bool CanPrepareW01Visit(FirstPersonController player, string zoneId, string spawnId)
+    {
+        return _connectedWorld is { ActiveZoneId: "house_old_pc" } world && zoneId == "house_old_pc"
+            && Act1WorldLayout.TryGetPlacement(zoneId, out var placement) && placement.SpawnPoints.ContainsKey(spawnId)
+            && world.TryGetWorldSpawn(zoneId, spawnId, out _)
+            && player.IsOnFloor() && PhotoVisitPoseHasSupport(player, player.GlobalPosition);
+    }
+
+    private static bool PhotoVisitPoseHasSupport(FirstPersonController player, Vector3 position)
+    {
+        if (!player.CanStandAt(position)) return false;
+        var from = player.GlobalTransform;
+        from.Origin = position + Vector3.Up * .03f;
+        using var contact = new KinematicCollision3D();
+        return player.TestMove(from, Vector3.Down * .20f, contact, .001f, true, 4)
+            && contact.GetCollisionCount() > 0 && contact.GetNormal().Dot(Vector3.Up) >= .7f;
+    }
+
+    internal async Task<bool> CompleteW01VisitProjectionAsync(object session, JsonElement? originTicket = null)
+    {
+        var bridge = _fullGameRouteBridge;
+        bool Current() => GodotObject.IsInstanceValid(this) && IsInsideTree() && !IsQueuedForDeletion()
+            && bridge is not null && GodotObject.IsInstanceValid(bridge)
+            && ReferenceEquals(session, bridge.SessionIdentity) && !bridge.IsPhotoBookProjectionDeferred;
+        if (!Current()) return false;
+        ReconcileFullGameScenePresentation();
+        await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
+        if (!Current()) return false;
+        await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
+        if (!Current() || GetTree().GetFirstNodeInGroup("player_controller") is not FirstPersonController player) return false;
+        if (originTicket is not { } ticket)
+            return bridge!.ActiveSceneId == ForestSceneId && IsMountedW01()
+                && PhotoVisitPoseHasSupport(player, player.GlobalPosition);
+
+        var zone = ticket.GetProperty("originWorldId").GetString()!;
+        var safeNode = ticket.GetProperty("originSafeNode").GetString()!;
+        if (bridge!.ActiveSceneId != HomeSceneId || _connectedWorld is not { } world
+            || world.ActiveZoneId != zone || !Act1WorldLayout.TryGetPlacement(zone, out var placement)
+            || !placement.SpawnPoints.ContainsKey(safeNode) || !world.TryGetWorldSpawn(zone, safeNode, out var fallback)) return false;
+        var position = ticket.GetProperty("position");
+        var original = new Vector3(position.GetProperty("x").GetSingle(), position.GetProperty("y").GetSingle(), position.GetProperty("z").GetSingle());
+        var anchor = world.GetZoneInstance(zone)?.GetNodeOrNull<InteractionTarget>("PhotoWorldForestEntryTarget");
+        var originalSafe = anchor is not null && anchor.GlobalPosition.DistanceSquaredTo(original) <= 36f
+            && PhotoVisitPoseHasSupport(player, original);
+        if (!originalSafe && !PhotoVisitPoseHasSupport(player, fallback.Position)) return false;
+        var chosen = originalSafe ? original : fallback.Position;
+        player.ApplyPortableTransform(new PlayerTransform(new(chosen.X, chosen.Y, chosen.Z),
+            new(ticket.GetProperty("pitch").GetDouble(), originalSafe ? ticket.GetProperty("rotationY").GetDouble() : fallback.YawDegrees, 0)));
+        if (!originalSafe) player.NotifyTraversal("Вернулся к безопасному месту рядом.");
+        if (AtmosphereProfiles.AppliedProfileId != ticket.GetProperty("originProfileId").GetString()) return false;
+        if (GetTree().GetFirstNodeInGroup("ambient_audio") is not AmbientAudioDirector audio) return false;
+        var snapshot = ticket.GetProperty("originAudioSnapshot");
+        audio.SetPhysicalShelter(snapshot.GetProperty("physicalSheltered").GetBoolean());
+        audio.SetZone(snapshot.GetProperty("zoneId").GetString()!, snapshot.GetProperty("spawnPointId").GetString());
+        return audio.CurrentStemId == snapshot.GetProperty("stemId").GetString();
+    }
 
     [Export]
     public string InitialZoneId { get; set; } = "village_day";

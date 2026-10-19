@@ -21,6 +21,14 @@ public static class PhotoWorldCommandHandler
     public const string PrologueEnter = "pw1.prologue.enter";
     public const string PrologueComplete = "pw1.prologue.complete";
     public const string EpilogueFinish = "pw1.epilogue.finish";
+    public const string VisitPrepare = "pw1.visit.prepare";
+    public const string VisitCommit = "pw1.visit.commit";
+    public const string VisitReturn = "pw1.visit.return";
+    public const string VisitFinishReturn = "pw1.visit.finish-return";
+    public const string VisitAbort = "pw1.visit.abort";
+    public const string VisitCancelReturn = "pw1.visit.cancel-return";
+
+    private static readonly string[] VisitCommands = [VisitPrepare, VisitCommit, VisitReturn, VisitFinishReturn, VisitAbort, VisitCancelReturn];
 
     private static readonly IReadOnlyDictionary<string, string> CommandByOperation =
         new Dictionary<string, string>(StringComparer.Ordinal)
@@ -54,11 +62,34 @@ public static class PhotoWorldCommandHandler
             handlers.Add(commandType, (command, context) => HandleNamedCommand(expectedType, command, context));
         }
 
+        foreach (var commandType in VisitCommands) handlers.Add(commandType, HandleVisitCommand);
+
         return handlers;
     }
 
     public static bool IsCommandType(string commandType) =>
-        commandType == InteractionApply || OperationsByCommand.ContainsKey(commandType);
+        commandType == InteractionApply || OperationsByCommand.ContainsKey(commandType) || VisitCommands.Contains(commandType);
+
+    private static CommandPlan HandleVisitCommand(GameCommand command, RuntimeCommandContext context)
+    {
+        if (!IdentityMatches(command.Payload, context.State, out var rejection)) return new(Rejection: rejection);
+        try
+        {
+            var updated = PhotoWorldState.ApplyVisitCommand(context.State, command.Type, command.Payload);
+            var effects = new List<StateEffect> { new(StateEffectOperation.Set, "photoworlds", updated) };
+            if (command.Type == VisitAbort || (command.Type == VisitReturn
+                    && command.Payload.TryGetProperty("recoverOrigin", out var recovering) && recovering.ValueKind == JsonValueKind.True))
+                effects.Add(new(StateEffectOperation.Set, "activeScene", JsonSerializer.SerializeToElement("urman.fullgame:scene/pw-home")));
+            return new(Effects: effects,
+                Events: [new(command.Type, JsonSerializer.SerializeToElement(new { visitId = command.Payload.GetProperty("visitId").GetString() }))],
+                Value: updated);
+        }
+        catch (Exception error) when (error is InvalidOperationException or InvalidDataException or KeyNotFoundException
+                                     or ArgumentException or JsonException or FormatException or OverflowException)
+        {
+            return Reject("PhotoWorldVisitRejected", error.Message);
+        }
+    }
 
     /// <summary>
     /// Chooses the explicit command name when an authored transaction contains

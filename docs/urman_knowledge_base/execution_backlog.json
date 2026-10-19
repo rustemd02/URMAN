@@ -109382,7 +109382,7 @@
       "title": "Реализовать prepare и возвратный билет",
       "milestone": "PW-M1",
       "status": "in_progress",
-      "active_owner": "/root/book_entry",
+      "active_owner": "/root",
       "owner": "integration",
       "priority": "P0",
       "complexity": "medium",
@@ -109405,7 +109405,14 @@
       "verify": [
         "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-020/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
       ],
-      "evidence": [],
+      "evidence": [
+        {
+          "date": "2026-10-19",
+          "kind": "source_compile_review",
+          "path": "evidence/PW-020/source_return_ticket_20261019/affected-game-build.log",
+          "result": "Fourexistingowners implement schema2 fullReturnTicket prepare/commit/return/abort/recovery; earnedfacts preserved, NewGame/Load cancel/join old I/O; initialreviewP2 durablecancelReturn compensation fixed and independentFast review clean. FinalaffectedGamecompile14.97s0warnings0errors at /private/tmp/urman-pw020-return-cancel-compile.log. Native ordinarycycle/Continue/cancel/diskfail matrix NOT_RUN. Frozen source SHA256:{\"src-dotnet/Urman.Core/Narrative/PhotoWorldState.cs\": \"28a74e231b7848628c0e7c39713387f0d7432d2f82065fc3f104c12a28867938\", \"src-dotnet/Urman.Core/Narrative/PhotoWorldCommandHandler.cs\": \"2f58acb9aa430f854645c8cb683e0048f5c7cf36eb9eb977e7231a108f7a08c6\", \"game/scripts/RuntimeBridge.cs\": \"ef5e8d81fca4b57d43dc2bfd7aea3c20697937effbeba0ea51a87570b94480df\", \"game/scripts/Main.cs\": \"017b1558ba9b6972de81be7ad839ec8b3783732a66aae04f57264cf671a88055\"}"
+        }
+      ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-020",
       "source_requirements": [
         "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/docs/11_TASKS_RU.md",
@@ -109523,16 +109530,15 @@
       "assigned_owner": "integration",
       "activity": {
         "state": "confirmed_active",
-        "reason": "book_entry accepted exact existing kernel/RuntimeBridge/Main W01 returnticket slice after source-readiness proved named inputs; root serializes native verification."
+        "reason": "Worker sourcefreeze accepted after finalcompile/independentFastreview; root owns ordinarynative job1a4dca07 and current UI-blocker observation."
       },
       "task_type": "engineering",
-      "implementation_state": "partial",
+      "implementation_state": "implemented",
       "technical_verification_state": "not_run",
       "remaining": [
-        "Implementation of finite W01 lifecycle in existing owners.",
-        "Affected compile and independent review; existing targeted native early/F16return and Continue evidence, no full campaign acceptance substitution."
+        "Native ordinarycycle/Continue/support/fallback/props/audio/profile/cancel/failure acceptance remains; compile/source review does not close PW-020."
       ],
-      "next_action": "Implement durable W01 prepare/commit/return/abort in existing four owners; failed preparation keeps home; preserve earnedfacts and actual safe origin pose.",
+      "next_action": "Resolve ordinarynative1a4d pause/input blocker via existing guarded UI/artifacts; currentNewGame showsprologue+pause, EnterResume/ESC notvisiblyunpaused. No same-input retries; Down-onlyfocuscheck distinguishesdelivery from resume→focusout. FullW01return/Continue notaccepted.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -109615,7 +109621,7 @@
           ],
           "repeat_only_if": "Изменился покрываемый вход/consumer/контракт; без этого уже принятая проверка используется повторно без запуска."
         },
-        "actual_result": "NOT_RUN",
+        "actual_result": "Source implementation + affectedcompile14.97s0/0 + independentFast review accepted after durable compensation fix. Native NOT_RUN.",
         "evidence_refs": [
           "tasks[id=PW-020].evidence"
         ],
@@ -109729,6 +109735,17 @@
           "Reject entry on failed durable preparation; never save home with stale forest transform.",
           "Audio director semantic state capture/apply needed; portable pitch/yaw are degrees."
         ]
+      },
+      "ordinary_native_2026_10_19": {
+        "job_id": "1a4dca07ea54416aae23a0812f4d2543",
+        "snapshot": "428f4ca5bf679a8ad78d890717442825c3a51e2bd160751007a20d94ce92c231",
+        "state": "running_partial_UI_blocker",
+        "evidence": "evidence/PW-020/native_1a4dca07ea54416aae23a0812f4d2543/frames/ordinary-new-game.png",
+        "observed": "Menu actual1280x720,NewGameEnteroktrue→prologue+pause. ResumeEnteroktrue andESCoktrue stillshowpause. NoW01entry/return/Continue accepted. OneDownfocusobservation pending, nofocus/autopauseguard disable. Initialcapturetimedoutwhileimportstage, lateractualgameframevalid. Newcausalobservation: DOWN moved actualfocus Resume→Save, so genericmenu keydelivery works; afterResume/ESCstillpause notcausallyresolved. HealthafterDown foregroundPID141904/HWND73074182; compareactualgamePIDwhenrawframeJSONavailable. No moreunpause retries.",
+        "duplicate_frame_aliases": {
+          "ordinary-after-resume.png": "ordinary-new-game.png",
+          "ordinary-after-unpause-escape.png": "ordinary-new-game.png"
+        }
       }
     },
     {
@@ -140742,13 +140759,14 @@
               "assets/source/blender/act1/winter_spruce_meshy_v1/input-winter-pine-v1.png",
               "assets/source/blender/act1/winter_spruce_meshy_v1/winter-pine-v1.manifest.json",
               "game/assets/models/act1/urman_winter_pine_meshy_v1.glb",
-              "evidence/PW-093/native_conifer_87a441090b044b74b46ea54e5915cdf0/receipt.json"
+              "evidence/PW-093/native_conifer_87a441090b044b74b46ea54e5915cdf0/receipt.json",
+              "assets/source/blender/act1/winter_spruce_meshy_v1/raw-original-6945750tris.png"
             ],
             "remaining": [
-              "Whole-scene review found sharper fragmented snow-branch silhouettes; source cause requires decision before art acceptance, no additional pine paidgeneration authorized.",
+              "Verifiedcausal: raw7M has roundersnowvolumes; Meshy6Kremesh introduces paperlikefacets. One25Kremeshpreview authorized, newnear25K/mid6K/far4budget requires nativeperformance acceptance.",
               "W01 context, motion/LOD transition and sustained performance not verified; parent author art gate remains open."
             ],
-            "next_action": "Preserve verified native/import integration stage and diagnose native silhouette source from existing artifacts; no model-polish loop or repeated capture without changed input.",
+            "next_action": "After currenthouseinspection, dedicatedassetagent makes ONE25Kremesh of SAMEpineoriginal for5credits within oldfamilycap90; rootinspectssourcepreview before newruntimepromotion. No newImageGen/image3D.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "After own source/runtime DoD and sufficient evidence, release active claim and commit accepted stage; author whole-scene art/motion gates stay with parent. No isolated detail/model polish loop.",
@@ -140781,7 +140799,8 @@
                 "Existingasset→built-inimagegen→Meshy→normalizedruntimeLOD",
                 "Separate visualPBR cache and legacyphysics mesh through existing provider",
                 "Sharedmaterials/instances/culling and broad whole-scene style comparison",
-                "Accepted free local far-impostor budget:4tris and extra1Ksharedalpha atlas instead of rejected599tri shredded far mesh; source highpoly never runtime."
+                "Accepted free local far-impostor budget:4tris and extra1Ksharedalpha atlas instead of rejected599tri shredded far mesh; source highpoly never runtime.",
+                "One causallyjustified25Kremesh of same original after raw-vs6K inspection proved destructive simplification; free localreduction/preview before promotion. No repeated paidgeneration/modelpolish loop."
               ],
               "scope_out": [
                 "Otherfamilies thisstage",
@@ -140842,10 +140861,10 @@
             "result": "One neighboring VariantA visiblehouse replacement matches selected hero-house material language and actual3D log construction, while preserving existing placement/door/collision.",
             "owner": "generated-assets",
             "assigned_owner": "/root/generated_asset_rework",
-            "active_owner": "/root/generated_asset_rework",
+            "active_owner": null,
             "activity": {
-              "state": "confirmed_active",
-              "reason": "Dedicated worker completed one Meshy house image3D30 and submitted one25Kremesh5task01a153ce; house35/60, actualGLB construction gate pending. No other POST."
+              "state": "not_confirmed",
+              "reason": "Dedicatedworker finished boundedsourceattempt and releasedhouseclaim: actual25KGLBconstructionFAIL, no runtimecandidate. Originalcornerbetter; no more housepaidgeneration authorized."
             },
             "task_type": "engineering",
             "status": "in_progress",
@@ -140855,10 +140874,10 @@
               "assets/source/blender/act1/neighbor_log_house_a_meshy_v1/neighbor-log-house-a-v1.manifest.json"
             ],
             "remaining": [
-              "Meshy house task01a153c5 source download, bounded25Kremesh if needed, actual front/side/back/threequarter construction and layout acceptance.",
-              "Root existing-placement visualintegration and matched Windows houseview; author whole-scene gate remains."
+              "Generated25K20297tri house rejected: flattenedwallcourses/diagonalcollapse, cornerinterlock notaccepted. Originalraw1.227Mclaycornerbetter, otherhiddenrawsides unverified.",
+              "ExistingactiveVariantA isfunctionalCouncil with namedwalls/door/collisioncontracts; combinedstaticMeshyasset isnotdropin. H023leastcoupledVariantB stillneeds explicitdoor/geometryvalidation, no safeexistingreplacementcontract."
             ],
-            "next_action": "Inspect actual generated houseGLB, not only reference; reject bad logcourses/corners/openings/roof before runtime integration.",
+            "next_action": "Preserve rejectsource/provenance and actualcause; choose concrete geometry-preserving housepreparation before further generation, no repeated paidhousePOST.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "After own source/runtime DoD and sufficient evidence, release active claim and commit accepted stage; author whole-scene art/motion gates stay with parent. No isolated detail/model polish loop.",
@@ -140931,7 +140950,7 @@
                 ],
                 "repeat_only_if": "Changed candidate/provider/covered input or incomplete required observation."
               },
-              "actual_result": "ImageGen v2layout input root/worker viewed: threefrontwindows+rightwindow+recessedseni. Meshyimage3D task01a153c5 SUCCEEDED30, actualGLBpending. No construction/runtime/art acceptance asserted.",
+              "actual_result": "ONEimage3D30+ONE25Kremesh5, house35/60,total270/4000afterseparatepine5. Root/worker viewedactualGLB4sides/clay: source25KconstructionFAIL. Oneoriginalrawclay exactcorner retainsroundedcourses/staggeredendgrain, establishesremeshdamagebutnotfullhouseacceptance. No runtimehouseintegration. Sourcearchive losslessverified11.26MBsaved.",
               "evidence_refs": [
                 "tasks[id=PW-093].execution.units[id=PW-093/E02].evidence"
               ],
@@ -141303,10 +141322,10 @@
         ],
         "budget": {
           "author_cap": 4000,
-          "actual_consumed": 265,
-          "remaining_author_cap": 3735,
+          "actual_consumed": 270,
+          "remaining_author_cap": 3730,
           "first_family_cap": 90,
-          "first_family_consumed": 35,
+          "first_family_consumed": 40,
           "active_task_id": "01a1539f-c9cb-7389-bae9-71b8cc11748e",
           "active_task_state": "SUCCEEDED, actual30credits",
           "live_balance_observed": 4050,
@@ -141318,10 +141337,13 @@
           "next_house_task_id": "01a153c5-1ea8-7776-baf7-9c64b1807233",
           "next_house_task_state": "SUCCEEDED actual30credits",
           "next_house_remesh_task_id": "01a153ce-9f73-7000-9a61-310b54fbb325",
-          "next_house_remesh_task_state": "IN_PROGRESS observed90percent; actual5credits"
+          "next_house_remesh_task_state": "SUCCEEDED actual5credits;20,297tris candidate constructiongateFAIL",
+          "pine_recovery_remesh_task_id": "01a153dd-e80f-754e-95ce-bf919b3f0011",
+          "pine_recovery_remesh_task_state": "IN_PROGRESS observed90percent, actual5credits"
         },
         "current_artifact": "Conifer source/runtime candidate frozen5015/1999/4tris, native87a441pending; nexthouse reference one layout edit inspected by dedicated agent and one authorized Meshy30POST in progress, actualGLB construction gate pending.",
-        "log_house_acceptance": "Для нового generated-сруба проверены actualGLB front/side/three-quarter и крупно углы/проёмы: венцы опираются друг на друга, угловые соединения и торцы правдоподобны, проёмы/перемычки/опора крыши корректны; нет парящих брёвен, случайных пересечений и неестественных цокольных наплывов. ImageGen reference не заменяет post-Meshy проверку."
+        "log_house_acceptance": "Для нового generated-сруба проверены actualGLB front/side/three-quarter и крупно углы/проёмы: венцы опираются друг на друга, угловые соединения и торцы правдоподобны, проёмы/перемычки/опора крыши корректны; нет парящих брёвен, случайных пересечений и неестественных цокольных наплывов. ImageGen reference не заменяет post-Meshy проверку.",
+        "pine_remesh_recovery": "Rootactuallyviewed rawpreview(6,945,750tris) against6K; raw snowvolumes/crown intact,6K paperfacets. One5credit25Kremesh authorized but not consumedyet, existingfamilycap90unchanged, nearup25K/mid6K/far4conditionalnativecost. Currentcommitted6Kcandidate remainsnotartaccepted."
       }
     },
     {

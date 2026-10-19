@@ -1,0 +1,37 @@
+{
+  "source": "meshy71-neighbor-house-remesh-25k.glb",
+  "source_sha256": "9e133a7a7ca36cd6f1867284de24b8d195339e25532f81dbc26b3805d2806fcb",
+  "source_bytes": 43854324,
+  "bounds_blenderXYZ": [
+    [
+      -0.6382369995117188,
+      0.6264010667800903
+    ],
+    [
+      -0.9506571292877197,
+      0.9516530632972717
+    ],
+    [
+      -0.591158926486969,
+      0.5888800621032715
+    ]
+  ],
+  "triangles": 20297,
+  "mesh_objects": 1,
+  "materials": [
+    "BakedMaterial"
+  ],
+  "status": "Source3D inspection only; log-course/corner/opening/roof gates require actual image review, not these counts.",
+  "renders": [
+    "negative-y.png",
+    "front-right-quarter.png",
+    "positive-x.png",
+    "positive-y.png",
+    "actual-geometry-clay-three-quarter.png",
+    "actual-geometry-clay-front-right-corner.png",
+    "negative-x-actual-front.png",
+    "negative-x-negative-y-actual-front-quarter.png",
+    "actual-geometry-clay-actual-front-corner.png"
+  ],
+  "geometry_review_method": "Two clay views use materialoverride with no albedo/normaltexture, so painted circles cannot by themselves prove interlocking log geometry."
+}

@@ -1,0 +1,193 @@
+{
+  "asset_id": "ACT1-GENERATED-NEIGHBOR-LOG-HOUSE-A-V1",
+  "status": "house25Kconstructiongate_rejected_source_stage_frozen_no_runtime",
+  "tool": "built-in image_gen",
+  "output": "input-neighbor-log-house-a-v1.png",
+  "imagegen_output_file": "exec-29a0aab8-0907-4063-9a05-6cf67579be52.png",
+  "references": [
+    {
+      "path": "game/assets/models/act1/urman_village_exterior_kit.glb",
+      "component": "VillageParcel_VariantA_TimberGable_Dwelling",
+      "renders": [
+        "existing-front-right.png",
+        "existing-front.png"
+      ],
+      "role": "Actual current runtime source rendered and viewed; measured envelope and opening plan only, flat shell is not log joinery precedent."
+    },
+    {
+      "path": "evidence/ACT1-DEPTH.12/native_uv_v3_fdc5f5ef62fc4554ad107b9d9bef31ef/frames/babai_shape_front_high.png",
+      "role": "Owner-approved own game house material/rendering family, not its door layout or a replacement of that successful house."
+    }
+  ],
+  "prompt": "Use case: stylized-concept. Create ONE original 3D-game-asset reference of a modest inhabited timber log house in a snowy Tatar village, for URMAN. Input image 1 is our exact current Variant A house, front-right view; image 2 is its front elevation. They define the plan, envelope and openings ONLY. Input image 3 is our owner-approved game scene: use the central dark timber house ONLY as the material/rendering family (tactile believable weathered wood, restrained carved casings, snow, soft real-time winter light). Do not import its front door or change the Variant A plan.\nPreserve a main gabled body approximately 6.0m wide x5.8m deep, eave2.85m, ridge4.55m, modest30cm foundation, roof overhang36cm. The main street-facing gable has EXACTLY THREE evenly spaced tall narrow windows, NO DOOR. Window clear sizes about0.96x1.45m, sill0.93m, heads2.38m, centers at-1.74/0/+1.74m. Keep the modest enclosed lean-to vestibule on the RIGHT SIDE toward the REAR, as in image1: its entry door is set back in that small side vestibule and FACES FORWARD parallel to the main front, not on the main facade and not on the outer right wall. Keep a clear0.94x2.02m doorway with a step, and one window on the vestibule's outer right wall. Keep the main right-wall window ahead of the vestibule.\nReplace the plain flat wall panels with a CONSTRUCTIVELY CREDIBLE srub: continuous level horizontal log courses of consistent~23cm pitch actually resting on the course below. Use ONE coherent saddle-notched projecting-end corner system, with perpendicular wall logs interlocking in alternate courses, short readable round log ends at both front corners. No vertical corner posts covering incorrect joints. Cut complete rectangular window openings into the courses; use proper jambs, seated sills and supported headers, and two intact bearing courses above the windows. No logs floating across glass, hanging cut ends, diagonal random logs or loose stacked sticks. Roof rafters and wall plates visibly bear on the walls; real fascias, closed eaves and plausible chimney/roof contact. Small plain boarded upper gable as in the existing house. No fantasy carvings.\nWeathered grey-brown rounded/hewn logs, subtle end grain, restrained faded blue-green and off-white wooden window casings in the family of the approved house, deep readable glass recesses and sills. Muted aged metal gabled roof with settled snow on upper surfaces and clean thin eaves; one restrained chimney as in the actual existing asset. The vestibule is subordinate weathered boarding with a lower lean-to roof. Keep an ordinary inhabited house, not a monumental cabin, medieval hut or luxury chalet. A clean straight shallow rectangular foundation, no organic Meshy pedestal or root-like base.\nShow the COMPLETE single house, all roof edges, side vestibule and foundation, centered, front-right three-quarter view with the three front windows and side entry visible, enough surrounding margin. Neutral light grey empty studio background and even neutral daylight; no terrain slab, yard props, fence, trees, people, text or watermark. Material-rich real-time 3D appearance matching the approved house; avoid toy-like flat panels, hyperphotographic grunge and excessive ornamental noise. This is a reference for later3D generation, so all construction and openings must be unambiguous.",
+  "constraints": {
+    "main_body_m": [
+      6,
+      5.8
+    ],
+    "eave_m": 2.85,
+    "ridge_m": 4.55,
+    "foundation_m": 0.3,
+    "roof_overhang_m": 0.36,
+    "front_windows": {
+      "count": 3,
+      "centers_x": [
+        -1.74,
+        0,
+        1.74
+      ],
+      "clear_width_m": 0.96,
+      "sill_y_m": 0.93,
+      "head_y_m": 2.38
+    },
+    "main_front_door": false,
+    "entry": "Right+X enclosed side seni, set back toward rear; SeniEntry faces forward parallel to main facade, not outer right wall; clear door0.94x2.02m/step and outer seni window remain.",
+    "right_main_wall_window": "Required ahead of seni; present in actual existing GLB.",
+    "joinery": "One saddle-notched projecting-end system; level bearing log courses; real corner interlock; complete framed openings and supported headers; roof seated on walls; straight shallow foundation; no floating logs or organic Meshy pedestal.",
+    "post_meshy_gate": "Actual GLB front/side/three-quarter plus corner/opening closeups must prove plausible log courses, joints, openings and roof support; this image is not3D acceptance."
+  },
+  "budget": {
+    "user_total_cap": 4000,
+    "prior_accounted_consumed": 230,
+    "additional_meshy_credits": 35,
+    "meshy_post_performed": true,
+    "house_family_cap": 60,
+    "pre_house_post_api_balance": 4050,
+    "house_family_actual_consumed": 35,
+    "accounted_consumed_including_this_family": 265,
+    "pre_remesh_api_balance": 4020,
+    "house_family_remaining": 25
+  },
+  "rights": "Own currentgame/render references and built-inimagegen EDIT; owner-authorized30credit Meshy upload through paidPremium API. No Community publishing performed. Paidplan output ownership subject to applicable terms, not CC0/freeplanCCBY.",
+  "ownership": "Only new source folder. Existing hero house, pine folder, runtime, registry, shared tracker, Git and Windows station unchanged.",
+  "sha256": "a9b345b89c3e7085b821564d14e1bc30b19aa5a935af40e14b5877d5416009d0",
+  "reference_bytes": 2154268,
+  "existing_source_structure": {
+    "source": "game/assets/models/act1/urman_village_exterior_kit.glb",
+    "source_sha256": "fdc69de9f580276f6a9c831bde60a0dad1728acdc533f00320e8a9009c233bf8",
+    "component": "VillageParcel_VariantA_TimberGable_Dwelling",
+    "mesh_objects": 122,
+    "component_local_bounds_blenderXYZ": [
+      [
+        -3.4950006008148193,
+        5.069998741149902
+      ],
+      [
+        -1.709999918937683,
+        4.909999847412109
+      ],
+      [
+        0.0,
+        5.230000019073486
+      ]
+    ],
+    "triangles": 3676,
+    "renders": [
+      "existing-front-right.png",
+      "existing-front.png"
+    ],
+    "status": "Own actual currentGLB reference only, not generatedcandidate or finalart acceptance."
+  },
+  "edited_reference": {
+    "file": "input-neighbor-log-house-a-v2-layout-edit.png",
+    "sha256": "dc0515a078cf1cd0f2ac4f81ae8e164667f0503b0b221dd1150906fc8ca40e17",
+    "tool": "built-in image_gen EDIT",
+    "prompt": "layout-edit-prompt.json",
+    "worker_review": "Actually viewed output. One separate mainrightwall window restored ahead of seni. Vestibule now visibly farther recessed, entryfacesforward, outerwall hasonewindowandboarding. Mainthreewindowfacade/roof/logmaterial preserved. It is still a concept, not measured3Dgeometry or truecornerinterlock proof.",
+    "root_authorization": "One targeted edit; if visibleopenings/setback/structure corrected, oneMeshy7.1POST30+remesh5ifneeded without waiting, housefamilycap60 within remainingtotal3770.",
+    "actual_post_input": true
+  },
+  "meshy_tasks": [
+    {
+      "type": "image-to-3d",
+      "task_id": "01a153c5-1ea8-7776-baf7-9c64b1807233",
+      "estimated_credits": 30,
+      "actual_consumed_credits": 30,
+      "input_reference": "input-neighbor-log-house-a-v2-layout-edit.png",
+      "status": "SUCCEEDED"
+    },
+    {
+      "type": "remesh",
+      "task_id": "01a153ce-9f73-7000-9a61-310b54fbb325",
+      "estimated_credits": 5,
+      "actual_consumed_credits": 5,
+      "target_polycount": 25000,
+      "reason": "Actual rawsource has1,227,202triangles; preserve rounded log corners at25K near rather than forest6Kbudget.",
+      "status": "SUCCEEDED"
+    }
+  ],
+  "license": {
+    "verified_on": "2026-10-19",
+    "official_sources": [
+      "https://www.meshy.ai/terms-of-use",
+      "https://help.meshy.ai/en/articles/10137554-what-is-the-ownership-of-the-generated-models"
+    ]
+  },
+  "source_original": {
+    "file": "meshy71-neighbor-house-original.glb",
+    "bytes": 63789956,
+    "sha256": "325c095cf1a39d5a8ec0391c2501951e1a0d77549a579831ed29a0298e80a1d5",
+    "triangles": 1227202,
+    "lossless_archive": {
+      "file": "meshy71-neighbor-house-original.glb.zip",
+      "bytes": 52530892,
+      "uncompressed_sha256": "325c095cf1a39d5a8ec0391c2501951e1a0d77549a579831ed29a0298e80a1d5",
+      "decoded_hash_verified": true,
+      "rehydrate_command": "python3 -m zipfile -e assets/source/blender/act1/neighbor_log_house_a_meshy_v1/meshy71-neighbor-house-original.glb.zip assets/source/blender/act1/neighbor_log_house_a_meshy_v1/",
+      "retention": "Unique generatedoriginal preservedlosslessly; no activeBlender reader. Inspector --original-clay-cause requiresrehydration; regular25Kinspection reads retainedremeshGLB."
+    }
+  },
+  "integration_warning": {
+    "binding": "Existing active VariantA is Council functional interior, not merely a decorative house.",
+    "required_owners": "Existing namedStreet/Rear/Right/SeniEntry/SeniOuter/SeniRear wall meshes, holes, door/windowparts and oldcollision/door/interior owners remain authoritative.",
+    "not_drop_in": "A combined static Meshybody cannot satisfy namedwall or opening/door lifecycle contracts by changingparams.assetSource.",
+    "scope": "Only source3D construction/layout inspection now; no runtimeconsumer, physics, entry or activeplacement changes authorized to this worker.",
+    "mandatory_review": "Explicitly report whether the generatedseni entry is a staticclosedleaf/solidvolume and whether logcornersareactualinterlocksorpaintedcircledecoration."
+  },
+  "initial_reference_review": {
+    "actually_viewed": "Both current GLB renders and this single generated image.",
+    "positive": "Three main front windows/no mainfront door, coherent weathered timber+muted teal/ivory trim, right enclosed entry and outer window, shallow foundation, whole roof and chimney contact; material family is close to approved house.",
+    "limitations": [
+      "Generated image omits the existing main right-wall window ahead of the seni.",
+      "Seni entry reads farther forward than measured existing layout; image is not calibrated geometry.",
+      "Seni outer wall became log-faced rather than subordinate boarding.",
+      "Corner end logs are visually present, but true3D interlock and bearing cannot be proved from this image."
+    ],
+    "decision": "Do not submit to Meshy until root reviews concept and measured opening/entry constraints. No second imagegen polishing pass made."
+  },
+  "remeshed_source": {
+    "file": "meshy71-neighbor-house-remesh-25k.glb",
+    "bytes": 43854324,
+    "sha256": "9e133a7a7ca36cd6f1867284de24b8d195339e25532f81dbc26b3805d2806fcb",
+    "triangles": 20297
+  },
+  "actual3D_review": {
+    "state": "25KcandidateFAIL; originalfrontcorner better, fulloriginalgateopen",
+    "inspected": [
+      "inspection/negative-y.png",
+      "inspection/positive-x.png",
+      "inspection/positive-y.png",
+      "inspection/negative-x-actual-front.png",
+      "inspection/negative-x-negative-y-actual-front-quarter.png",
+      "inspection/actual-geometry-clay-three-quarter.png",
+      "inspection/actual-geometry-clay-actual-front-corner.png",
+      "inspection/original-actual-geometry-clay-actual-front-corner.png"
+    ],
+    "actual_orientation_blender": "Main3windowgablefront -X; sidewithseni -Y; opposite2windowside +Y; reargable +X. Earlyfront-right-quarter.png was a coordinate-assumedrearquarter, not proof ofactualfront.",
+    "visible_openings": "Actualfront3windows, rightmainwindowahead of seni, vestibuleouterwindow and recessedforward-facingdoor are present; opposite side has2windows and generatedreargable isblank. Exactauthoredaperturemetrics are not calibrated.",
+    "construction_failures": [
+      "25Kclayview exposes diagonal triangular collapses/creases underwindows and acrosswall surfaces.",
+      "Roundendcaps exist involume, but complete interlocking/bearing logconstruction across allwalls is not established.",
+      "Singlecombinedopaque staticbody has a visiblecloseddoor surface, no namedseparabledoor/wallparts or authoredopenpassage. It is not accepted as a walkable/opening Council shell."
+    ],
+    "raw_vs_remesh": "Same exactcamera claypair: original1,227,202trianglefrontcorner has roundedcontinuouscourses and offset alternatingends without the25K diagonalcollapses. Therefore those localartifacts were introduced/amplified by25Kremesh. Only oneoriginalcornerwas viewed, so fulloriginalhiddenwall/construction acceptance is not inferred.",
+    "root_decision": "Root rejected25K construction/runtimegate; no furtherhousegeneration/geometrypolish in this finite stage.",
+    "remaining": "A later explicit finite approach must preserve actuallogvolumes and Councilnamedwall/opening/door/interior contracts; rootselects visualbinding without replacing existingphysicalowners. Currentgeneratedsource is not dropin."
+  },
+  "freeze": {
+    "runtime_candidate_exported": false,
+    "runtime_registry_physics_or_consumer_changed": false,
+    "further_house_posts": false,
+    "next_worker_action": "One separately authorized pine25Kremesh5 and a sourcepreview only; no changes to currentruntimepinefamily before rootreview."
+  }
+}

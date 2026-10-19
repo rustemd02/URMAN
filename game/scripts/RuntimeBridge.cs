@@ -179,7 +179,7 @@ public partial class RuntimeBridge : Node
 
     private void AttachExplorationFeedback() => AddChild(new ExplorationFeedbackUi { Name = "ExplorationFeedback" });
 
-    public async Task<bool> SaveSlotAsync(string slot)
+    public async Task<bool> SaveSlotAsync(string slot, CancellationToken cancellationToken = default)
     {
         // Capture the store with this session before awaiting disk I/O. A menu
         // transition must never redirect an in-flight debug save into player slots.
@@ -210,8 +210,9 @@ public partial class RuntimeBridge : Node
             if (AlsuStreetWalkPresentation.SessionOwner(GetTree()) is { } companion
                 && !await companion.FlushForSaveAsync()) return false;
             if (!ReferenceEquals(session, _kernel) || _loadingSlot || _loadPreparing) return false;
+            cancellationToken.ThrowIfCancellationRequested();
             var save = CaptureSessionSave(player);
-            await store.SaveAsync(slot, save);
+            await store.SaveAsync(slot, save, cancellationToken);
             saved = true;
             GD.Print($"SaveGameV3 written to {store.SlotPath(slot)}");
             return true;
@@ -327,12 +328,13 @@ public partial class RuntimeBridge : Node
     private async Task<bool> StartSessionAsync(bool debugSession)
     {
         var player = FindPlayer();
-        if (_loadingSlot || _loadPreparing || _content is null || player is null)
+        if (_loadingSlot || _loadPreparing || _photoVisitCanceling || _content is null || player is null)
         {
             GD.PushWarning("New game is unavailable before the runtime and player are ready.");
             return false;
         }
 
+        await CancelPhotoVisitTransitionAsync();
         CancelQueuedForcedCheckpoint();
         if (NeedsPhysicalRecovery) return await StartRecoverySessionAsync(debugSession, player);
         _loadPreparing = true;
@@ -394,14 +396,16 @@ public partial class RuntimeBridge : Node
     private async Task<bool> LoadFromStoreAsync(string slot, AtomicSaveGameStore? store, bool debugSession)
     {
         if (FindPlayer()?.InIntro == true) return false;
-        if (_loadingSlot || _loadPreparing || store is null || FindPlayer() is not { } player)
+        if (_loadingSlot || _loadPreparing || _photoVisitCanceling || store is null || FindPlayer() is not { } player)
         {
             GD.PushWarning("Quick load is unavailable before the runtime and player are ready.");
             return false;
         }
 
+        await CancelPhotoVisitTransitionAsync();
         var sessionBeforeLoad = _kernel;
         var loadSucceeded = false;
+        var recoveredFromBackup = false;
         SaveGameV3? previousSave = _physicalRecoverySave;
         var previousDebugSession = IsDebugSession;
         var projectionApplied = false;
@@ -426,6 +430,7 @@ public partial class RuntimeBridge : Node
             await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
             await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
             var result = await store.LoadAsync(slot, _content.CampaignFingerprint);
+            recoveredFromBackup = result.RecoveredFromBackup;
             // Preflight the nested campaign schema before flushing or
             // projecting any live world owners. A migration remains in memory
             // until a later ordinary save atomically writes the new version.
@@ -455,10 +460,6 @@ public partial class RuntimeBridge : Node
             _physicalRecoverySave = null;
             // Current profile settings remain authoritative across story loads.
             loadSucceeded = true;
-            GD.Print(result.RecoveredFromBackup
-                ? "SaveGameV3 restored from the last working backup."
-                : "SaveGameV3 restored.");
-            return true;
         }
         catch (Exception exception)
         {
@@ -485,7 +486,6 @@ public partial class RuntimeBridge : Node
                     GD.PushError($"SaveGameV3 could not restore the previous physical placement: {rollbackException.Message}");
                 }
             }
-            return false;
         }
         finally
         {
@@ -495,6 +495,25 @@ public partial class RuntimeBridge : Node
             SampleLoadingTime();
             _loadingSlot = false;
             _loadPreparing = false;
+            if (!NeedsPhysicalRecovery && ActivePhotoVisit() is not null && _kernel is { } visitSession)
+            {
+                _photoVisitCanceling = true;
+                try
+                {
+                    if (!await RecoverPhotoVisitAsync(visitSession))
+                    {
+                        NeedsPhysicalRecovery = true;
+                        loadSucceeded = false;
+                    }
+                }
+                catch (Exception error)
+                {
+                    NeedsPhysicalRecovery = true;
+                    loadSucceeded = false;
+                    GD.PushError($"PhotoWorld load recovery failed: {error.Message}");
+                }
+                finally { _photoVisitCanceling = false; }
+            }
             player.SetSessionTransition(NeedsPhysicalRecovery);
             QueueRuntimeStateChanged();
             PlayTimeBoundary?.Invoke(loadSucceeded ? "load-restored" : "load-failed");
@@ -516,6 +535,10 @@ public partial class RuntimeBridge : Node
                 ReplayIncompleteFinale();
             }
         }
+        if (loadSucceeded) GD.Print(recoveredFromBackup
+            ? "SaveGameV3 restored from the last working backup."
+            : "SaveGameV3 restored.");
+        return loadSucceeded;
     }
 
     private async Task RestoreLoadedWorldAsync(SaveGameV3 save, bool debugSession, FirstPersonController player)
@@ -585,6 +608,214 @@ public partial class RuntimeBridge : Node
     private RuntimeKernel? _queuedForcedCheckpointSession;
     private bool _loadingSlot;
     private bool _loadPreparing;
+    private CancellationTokenSource? _photoVisitCancellation;
+    private TaskCompletionSource<bool>? _photoVisitCompletion;
+    private bool _photoVisitCanceling;
+
+    private JsonElement? ActivePhotoVisit() => _content is { HasPhotoWorlds: true } && _kernel?.SelectState().GetProperty("photoworlds")
+        .GetProperty("visits").GetProperty("active") is { ValueKind: JsonValueKind.Object } visit ? visit.Clone() : null;
+
+    private async Task CancelPhotoVisitTransitionAsync()
+    {
+        if (_photoVisitCompletion is not { } completion) return;
+        _photoVisitCanceling = true;
+        try
+        {
+            _photoVisitCancellation?.Cancel();
+            await completion.Task;
+        }
+        finally { _photoVisitCanceling = false; }
+    }
+
+    private async Task<bool> DispatchPhotoVisitCommandAsync(RuntimeKernel session, string type, string visitId, object? data = null)
+    {
+        if (!ReferenceEquals(session, _kernel) || _loadingSlot || _loadPreparing) return false;
+        var payload = data is null ? new JsonObject() : JsonSerializer.SerializeToNode(data)!.AsObject();
+        payload["namespaceId"] = PhotoWorldState.NamespaceId;
+        payload["campaignId"] = _content.CampaignId;
+        payload["campaignExactVersion"] = _content.CampaignExactVersion;
+        payload["visitId"] = visitId;
+        var result = await session.DispatchAsync(new GameCommand(
+            $"{type}:{visitId}:{Interlocked.Increment(ref _interactionSequence):D8}", type, JsonSerializer.SerializeToElement(payload)));
+        if (!ReferenceEquals(session, _kernel) || _loadingSlot || _loadPreparing) return false;
+        if (result.Status != CommandStatus.Committed)
+        {
+            GD.PushWarning($"PhotoWorld visit rejected: {result.Error?.Code} {result.Error?.Message}");
+            return false;
+        }
+        QueueRuntimeStateChanged();
+        return true;
+    }
+
+    private JsonElement CaptureW01ReturnTicket(RuntimeKernel session, FirstPersonController player)
+    {
+        var pose = player.CapturePortableTransform();
+        var audio = GetTree().GetFirstNodeInGroup("ambient_audio") as AmbientAudioDirector
+            ?? throw new InvalidOperationException("The origin audio owner is not ready.");
+        if (string.IsNullOrWhiteSpace(AtmosphereProfiles.AppliedProfileId) || string.IsNullOrWhiteSpace(audio.CurrentStemId))
+            throw new InvalidOperationException("The origin atmosphere and ambience must be applied before preparing a visit.");
+        var carry = GetTree().GetFirstNodeInGroup("carry_coordinator") as CarryCoordinator;
+        return JsonSerializer.SerializeToElement(new
+        {
+            ticketId = Guid.NewGuid().ToString("N"), campaignId = _content.CampaignId, contentVersion = _content.CampaignExactVersion,
+            originWorldId = CurrentZoneId, originAnchorId = "PW_HOME_TABLE", originSafeNode = CurrentSpawnPointId,
+            position = new { x = pose.Position.X, y = pose.Position.Y, z = pose.Position.Z },
+            rotationY = pose.RotationDegrees.Y, pitch = pose.RotationDegrees.X, movementMode = "pedestrian",
+            worldClock = new { tick = _clock.Tick },
+            activeQuestContext = new { activeSceneId = ActiveSceneId, objectives = ActiveObjectives() },
+            placedCarryableIds = carry?.Items.Where(item => item.State is CarryableProp.CarryState.Placed or CarryableProp.CarryState.Combined)
+                .Select(item => item.ItemId).OrderBy(id => id, StringComparer.Ordinal).ToArray() ?? [],
+            originProfileId = AtmosphereProfiles.AppliedProfileId,
+            originAudioSnapshot = new { zoneId = audio.CurrentZoneId, stemId = audio.CurrentStemId,
+                spawnPointId = CurrentSpawnPointId, physicalSheltered = audio.HasMeta("physicalSheltered") && audio.GetMeta("physicalSheltered").AsBool() },
+            preparedAtRevision = session.CaptureSnapshot().EventSequence
+        });
+    }
+
+    private async Task<bool> RecoverPhotoVisitAsync(RuntimeKernel session, bool abortActive = false)
+    {
+        if (!ReferenceEquals(session, _kernel) || _loadingSlot || _loadPreparing) return false;
+        if (ActivePhotoVisit() is not { } visit) return true;
+        if (GetTree().GetFirstNodeInGroup("zone_manager") is not Main main) return false;
+        var id = visit.GetProperty("visitId").GetString()!;
+        var status = visit.GetProperty("status").GetString();
+        var ticket = visit.GetProperty("returnTicket").Clone();
+        if (status == "active" && !abortActive)
+            return await main.CompleteW01VisitProjectionAsync(session);
+        if (status is "prepared" or "active")
+        {
+            if (!await DispatchPhotoVisitCommandAsync(session, PhotoWorldCommandHandler.VisitAbort, id)) return false;
+        }
+        else if (status == "returning")
+        {
+            if (!await DispatchPhotoVisitCommandAsync(session, PhotoWorldCommandHandler.VisitReturn, id, new { recoverOrigin = true })) return false;
+        }
+        else return false;
+        if (!ReferenceEquals(session, _kernel) || _loadingSlot || _loadPreparing) return false;
+        if (!await main.CompleteW01VisitProjectionAsync(session, ticket)
+            || !ReferenceEquals(session, _kernel) || _loadingSlot || _loadPreparing) return false;
+        _clock = LogicalClock.Restore(new(ticket.GetProperty("worldClock").GetProperty("tick").GetInt64()));
+        if (status == "returning"
+            && !await DispatchPhotoVisitCommandAsync(session, PhotoWorldCommandHandler.VisitFinishReturn, id)) return false;
+        if (!ReferenceEquals(session, _kernel) || _loadingSlot || _loadPreparing) return false;
+        await SaveCheckpointAsync(force: true);
+        return ReferenceEquals(session, _kernel) && !_loadingSlot && !_loadPreparing;
+    }
+
+    private async Task<bool> DispatchW01VisitInteractionAsync(CompiledInteractionContent interaction, Main main, RuntimeKernel session)
+    {
+        if (_photoVisitCompletion is not null || _photoVisitCanceling || FindPlayer() is not { } player) return false;
+        var entering = interaction.Id == PhotoBookForestEntryInteractionId;
+        // Older W01 checkpoints have no invented ticket. Their existing authored
+        // exit remains available; new visits always prepare the full ticket.
+        if (!entering && ActivePhotoVisit() is null) return await DispatchCompiledInteractionAsync(interaction);
+        if (entering && (!IsInteractionAvailable(interaction.Id) || PhotoBookForestPhysicalBlockReason(requirePhysicalWorld: true) is not null
+            || !main.CanPrepareW01Visit(player, CurrentZoneId, CurrentSpawnPointId))) return false;
+        var completion = new TaskCompletionSource<bool>();
+        using var cancellation = new CancellationTokenSource();
+        _photoVisitCancellation = cancellation;
+        _photoVisitCompletion = completion;
+        bool Current() => ReferenceEquals(session, _kernel) && !_loadingSlot && !_loadPreparing
+            && !cancellation.IsCancellationRequested && !NeedsPhysicalRecovery;
+        var succeeded = false;
+        var returnCheckpointSaved = false;
+        string? ownedVisitId = null;
+        player.SetSessionTransition(true);
+        try
+        {
+            if (entering)
+            {
+                var ticket = CaptureW01ReturnTicket(session, player);
+                var id = Guid.NewGuid().ToString("N");
+                ownedVisitId = id;
+                if (!await DispatchPhotoVisitCommandAsync(session, PhotoWorldCommandHandler.VisitPrepare, id,
+                        new { worldId = "W01", returnTicket = ticket }) || !Current()) return false;
+                if (!await SaveCheckpointAsync(force: true, cancellationToken: cancellation.Token) || !Current()) return false;
+                if (!await DispatchCompiledInteractionAsync(interaction) || !Current()) return false;
+                if (!await main.CompleteW01VisitProjectionAsync(session) || !Current()) return false;
+                var seedBytes = System.Security.Cryptography.SHA256.HashData(System.Text.Encoding.UTF8.GetBytes(
+                    $"{_content.CampaignId}:{_content.CampaignExactVersion}:W01"));
+                var seed = System.Buffers.Binary.BinaryPrimitives.ReadUInt32LittleEndian(seedBytes);
+                if (!await DispatchPhotoVisitCommandAsync(session, PhotoWorldCommandHandler.VisitCommit, id,
+                        new { safeNodeId = "F10", seed }) || !Current()) return false;
+                if (!await SaveCheckpointAsync(force: true, cancellationToken: cancellation.Token) || !Current()) return false;
+            }
+            else
+            {
+                var visit = ActivePhotoVisit()!.Value;
+                var id = visit.GetProperty("visitId").GetString()!;
+                ownedVisitId = id;
+                var ticket = visit.GetProperty("returnTicket").Clone();
+                if (!await DispatchPhotoVisitCommandAsync(session, PhotoWorldCommandHandler.VisitReturn, id) || !Current()) return false;
+                returnCheckpointSaved = await SaveCheckpointAsync(force: true, cancellationToken: cancellation.Token);
+                if (!returnCheckpointSaved || !Current()) return false;
+                if (!await DispatchCompiledInteractionAsync(interaction) || !Current()) return false;
+                if (!await main.CompleteW01VisitProjectionAsync(session, ticket) || !Current()) return false;
+                _clock = LogicalClock.Restore(new(ticket.GetProperty("worldClock").GetProperty("tick").GetInt64()));
+                if (!await DispatchPhotoVisitCommandAsync(session, PhotoWorldCommandHandler.VisitFinishReturn, id) || !Current()) return false;
+                // The book caller already writes its post-projection checkpoint.
+                if (interaction.Id == "urman.fullgame:interaction/pw-forest-return")
+                {
+                    await SaveCheckpointAsync(force: true, cancellationToken: cancellation.Token);
+                    if (!Current()) return false;
+                }
+            }
+            succeeded = true;
+            return true;
+        }
+        catch (Exception error)
+        {
+            GD.PushWarning($"W01 visit transition failed: {error.GetType().Name}: {error.Message}");
+            return false;
+        }
+        finally
+        {
+            try
+            {
+                if (!succeeded && ReferenceEquals(session, _kernel) && !_loadingSlot && !_loadPreparing)
+                {
+                    var visit = ActivePhotoVisit();
+                    if (visit is { } existing && existing.GetProperty("visitId").GetString() != ownedVisitId)
+                        visit = null;
+                    var returning = visit?.GetProperty("status").GetString() == "returning";
+                    var cancelledAtSource = returning && !cancellation.IsCancellationRequested
+                        && ActiveSceneId == "urman.fullgame:scene/pw-forest";
+                    var recovered = visit is null;
+                    if (cancelledAtSource)
+                    {
+                        recovered = await DispatchPhotoVisitCommandAsync(session, PhotoWorldCommandHandler.VisitCancelReturn,
+                            visit!.Value.GetProperty("visitId").GetString()!);
+                        // A confirmed returning snapshot must not survive the
+                        // cancelled return. Do not retry an already failed disk.
+                        if (recovered && returnCheckpointSaved)
+                            recovered = await SaveCheckpointAsync(force: true)
+                                && ReferenceEquals(session, _kernel) && !_loadingSlot && !_loadPreparing;
+                    }
+                    else if (visit is not null && (!returning || cancellation.IsCancellationRequested))
+                        recovered = await RecoverPhotoVisitAsync(session, abortActive: entering);
+                    if (!recovered && ReferenceEquals(session, _kernel) && !_loadingSlot && !_loadPreparing)
+                        NeedsPhysicalRecovery = true;
+                }
+            }
+            catch (Exception error)
+            {
+                if (ReferenceEquals(session, _kernel)) NeedsPhysicalRecovery = true;
+                GD.PushError($"W01 visit recovery failed: {error.Message}");
+            }
+            finally
+            {
+                if (ReferenceEquals(_photoVisitCompletion, completion))
+                {
+                    _photoVisitCancellation = null;
+                    _photoVisitCompletion = null;
+                    if (ReferenceEquals(session, _kernel) && !_loadingSlot && !_loadPreparing
+                        && GodotObject.IsInstanceValid(player)) player.SetSessionTransition(NeedsPhysicalRecovery);
+                }
+                completion.TrySetResult(true);
+                if (ReferenceEquals(session, _kernel) && NeedsPhysicalRecovery) ShowPhysicalRecoveryMenu();
+            }
+        }
+    }
 
     // Pose is checked at the instant of the attempt, not cached with narrative
     // state. Technical runtimes without a connected world retain their contract.
@@ -626,6 +857,10 @@ public partial class RuntimeBridge : Node
 
         if (_content.TryGetInteraction(interactionId, out var interaction))
         {
+            if (_content.HasPhotoWorlds && interactionId is (PhotoBookForestEntryInteractionId or PhotoBookForestReturnInteractionId
+                    or "urman.fullgame:interaction/pw-forest-return")
+                && GetTree().GetFirstNodeInGroup("zone_manager") is Main { EnableFullGamePhotoWorldRouting: true } main)
+                return await DispatchW01VisitInteractionAsync(interaction, main, session);
             var sceneBeforeDispatch = ActiveSceneId;
             var dispatched = await DispatchCompiledInteractionAsync(interaction);
             if (dispatched && ReferenceEquals(session, SessionIdentity) && !_loadingSlot && !_loadPreparing)
@@ -649,7 +884,7 @@ public partial class RuntimeBridge : Node
         return false;
     }
 
-    internal async Task<bool> SaveCheckpointAsync(bool force = false)
+    internal async Task<bool> SaveCheckpointAsync(bool force = false, CancellationToken cancellationToken = default)
     {
         if (_loadingSlot || _loadPreparing || _content is null || ActiveSceneId is not { } scene
             || _kernel is not { } session)
@@ -696,7 +931,7 @@ public partial class RuntimeBridge : Node
 
         try
         {
-            var saved = await WriteCheckpointForSessionAsync(session, scene);
+            var saved = await WriteCheckpointForSessionAsync(session, scene, cancellationToken);
             queuedOnEntry?.TrySetResult(saved);
 
             while (_queuedForcedCheckpoint is { } pending)
@@ -750,7 +985,7 @@ public partial class RuntimeBridge : Node
         }
     }
 
-    private async Task<bool> WriteCheckpointForSessionAsync(RuntimeKernel session, string scene)
+    private async Task<bool> WriteCheckpointForSessionAsync(RuntimeKernel session, string scene, CancellationToken cancellationToken = default)
     {
         if (!ReferenceEquals(session, _kernel) || _loadingSlot || _loadPreparing || _content is null)
             return false;
@@ -760,7 +995,7 @@ public partial class RuntimeBridge : Node
             return false;
         }
 
-        var saved = await SaveSlotAsync(CheckpointSlot);
+        var saved = await SaveSlotAsync(CheckpointSlot, cancellationToken);
         if (!saved || !ReferenceEquals(session, _kernel) || _loadingSlot || _loadPreparing)
             return false;
 

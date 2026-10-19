@@ -1,0 +1,26 @@
+{
+  "source": "game/assets/models/act1/urman_village_exterior_kit.glb",
+  "source_sha256": "fdc69de9f580276f6a9c831bde60a0dad1728acdc533f00320e8a9009c233bf8",
+  "component": "VillageParcel_VariantA_TimberGable_Dwelling",
+  "mesh_objects": 122,
+  "component_local_bounds_blenderXYZ": [
+    [
+      -3.4950006008148193,
+      5.069998741149902
+    ],
+    [
+      -1.709999918937683,
+      4.909999847412109
+    ],
+    [
+      0.0,
+      5.230000019073486
+    ]
+  ],
+  "triangles": 3676,
+  "renders": [
+    "existing-front-right.png",
+    "existing-front.png"
+  ],
+  "status": "Own actual currentGLB reference only, not generatedcandidate or finalart acceptance."
+}

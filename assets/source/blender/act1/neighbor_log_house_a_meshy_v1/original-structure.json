@@ -1,0 +1,57 @@
+{
+  "file": "meshy71-neighbor-house-original.glb",
+  "bytes": 63789956,
+  "sha256": "325c095cf1a39d5a8ec0391c2501951e1a0d77549a579831ed29a0298e80a1d5",
+  "triangles": 1227202,
+  "materials": [
+    {
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "metallicFactor": 1.0,
+        "roughnessFactor": 1.0,
+        "baseColorTexture": {
+          "index": 0,
+          "texCoord": 0
+        },
+        "metallicRoughnessTexture": {
+          "index": 1,
+          "texCoord": 0
+        }
+      },
+      "normalTexture": {
+        "index": 2,
+        "texCoord": 0
+      },
+      "alphaMode": "OPAQUE",
+      "doubleSided": true
+    }
+  ],
+  "images": [
+    {
+      "size": [
+        4096,
+        4096
+      ],
+      "mime": "image/jpeg"
+    },
+    {
+      "size": [
+        2048,
+        2048
+      ],
+      "mime": "image/jpeg"
+    },
+    {
+      "size": [
+        4096,
+        4096
+      ],
+      "mime": "image/jpeg"
+    }
+  ]
+}
