@@ -1,0 +1,103 @@
+{
+  "file": "meshy71-pine-original.glb",
+  "bytes": 235281564,
+  "triangles": 6945750,
+  "mesh_names": [
+    null
+  ],
+  "materials": [
+    {
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "metallicFactor": 1.0,
+        "roughnessFactor": 1.0,
+        "baseColorTexture": {
+          "index": 0,
+          "texCoord": 0
+        },
+        "metallicRoughnessTexture": {
+          "index": 1,
+          "texCoord": 0
+        }
+      },
+      "normalTexture": {
+        "index": 2,
+        "texCoord": 0
+      },
+      "alphaMode": "OPAQUE",
+      "doubleSided": true
+    }
+  ],
+  "images": [
+    {
+      "mimeType": "image/jpeg",
+      "bufferView": 4
+    },
+    {
+      "mimeType": "image/jpeg",
+      "bufferView": 5
+    },
+    {
+      "mimeType": "image/jpeg",
+      "bufferView": 6
+    }
+  ],
+  "accessor_bounds": [
+    [
+      [
+        -0.4123519957065582,
+        -0.9524520039558411,
+        -0.416144996881485
+      ],
+      [
+        0.43078601360321045,
+        0.9507399797439575,
+        0.41686901450157166
+      ]
+    ],
+    [
+      [
+        -1.0,
+        -1.0,
+        -0.9999982118606567
+      ],
+      [
+        0.9999996423721313,
+        0.999999463558197,
+        1.0
+      ]
+    ]
+  ],
+  "texture_images": [
+    {
+      "mime": "image/jpeg",
+      "dimensions": [
+        4096,
+        4096
+      ],
+      "bytes": 15324048
+    },
+    {
+      "mime": "image/jpeg",
+      "dimensions": [
+        2048,
+        2048
+      ],
+      "bytes": 2615784
+    },
+    {
+      "mime": "image/jpeg",
+      "dimensions": [
+        4096,
+        4096
+      ],
+      "bytes": 12016142
+    }
+  ],
+  "sha256": "c2a85c93d058f36bceb495071ff74e8011966f502d31e8a6b51e1068c60ee255"
+}

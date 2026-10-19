@@ -1,0 +1,29 @@
+{
+  "file": "meshy71-pine-remesh-6k.glb",
+  "bytes": 56220216,
+  "sha256": "90dc6c4850e07c55ef1194c5b6a9314774d6372110ee81e6adf7a041be3934ed",
+  "triangles": 5015,
+  "materials": [
+    {
+      "doubleSided": true,
+      "name": "BakedMaterial",
+      "normalTexture": {
+        "index": 0
+      },
+      "pbrMetallicRoughness": {
+        "baseColorTexture": {
+          "index": 1
+        },
+        "metallicRoughnessTexture": {
+          "index": 2
+        }
+      }
+    }
+  ],
+  "node_transforms": [
+    {
+      "mesh": 0,
+      "name": "output_unwrapped"
+    }
+  ]
+}

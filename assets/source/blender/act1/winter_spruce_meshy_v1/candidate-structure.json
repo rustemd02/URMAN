@@ -1,0 +1,240 @@
+{
+  "source": "meshy71-pine-remesh-6k.glb",
+  "source_sha256": "90dc6c4850e07c55ef1194c5b6a9314774d6372110ee81e6adf7a041be3934ed",
+  "source_triangles": 5015,
+  "output": "winter-pine-meshy-v1.glb",
+  "output_sha256": "0b7e30f9ce170e53b318e6e195a8236a5082f7a01e2f65adc8e9ba7bdfbed720",
+  "bytes": 12287292,
+  "normalization": {
+    "source_bounds_blender": [
+      [
+        -0.3979960083961487,
+        0.427715003490448
+      ],
+      [
+        -0.4126819968223572,
+        0.41369500756263733
+      ],
+      [
+        -0.9517310261726379,
+        0.9507139921188354
+      ]
+    ],
+    "source_height": 1.9024450182914734,
+    "source_foot_center": [
+      -0.01788347400724888,
+      0.016348926350474358,
+      -0.9517310261726379
+    ],
+    "method": "World transforms applied to vertices; lower1.2% source vertex centroid rooted atXZ0; source ground0,height1; all LODs share coordinate system and materials, no perLOD translation/scale."
+  },
+  "lods": [
+    {
+      "node": "WinterPine_LOD0",
+      "triangles": 5015,
+      "bounds_blender": [
+        [
+          -0.19980210065841675,
+          0.2342240959405899
+        ],
+        [
+          -0.22551554441452026,
+          0.20886074006557465
+        ],
+        [
+          0.0,
+          1.0
+        ]
+      ],
+      "matrix_world": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "node": "WinterPine_LOD1",
+      "triangles": 1999,
+      "bounds_blender": [
+        [
+          -0.19980210065841675,
+          0.2342240959405899
+        ],
+        [
+          -0.22551554441452026,
+          0.21971695125102997
+        ],
+        [
+          0.0,
+          1.0
+        ]
+      ],
+      "matrix_world": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "node": "WinterPine_LOD2",
+      "triangles": 4,
+      "bounds_blender": [
+        [
+          -0.25,
+          0.25
+        ],
+        [
+          -0.25,
+          0.25
+        ],
+        [
+          0,
+          1
+        ]
+      ],
+      "matrix_world": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "method": "Two crossed opaque-test cards with shared two-view neutral-albedo atlas; generated LOD0 is the only visual source."
+    }
+  ],
+  "materials": [
+    {
+      "name": "URMAN_WinterPine_Meshy_v1_PBR_0",
+      "blend_mode": "DITHERED"
+    },
+    {
+      "name": "URMAN_WinterPine_Meshy_v1_FarMask",
+      "alpha_mode": "MASK",
+      "alpha_cutoff": 0.5,
+      "lit": true,
+      "emission_strength": 0
+    }
+  ],
+  "images": [
+    {
+      "name": "texture_0",
+      "role": "basecolor",
+      "before": [
+        4096,
+        4096
+      ],
+      "after": [
+        2048,
+        2048
+      ]
+    },
+    {
+      "name": "texture_0_metallic_roughness",
+      "role": "data",
+      "before": [
+        4096,
+        4096
+      ],
+      "after": [
+        1024,
+        1024
+      ]
+    },
+    {
+      "name": "normal",
+      "role": "data",
+      "before": [
+        4096,
+        4096
+      ],
+      "after": [
+        1024,
+        1024
+      ]
+    }
+  ],
+  "additional_meshy_credits": 0,
+  "status": "prepared_far_corrected_candidate_native_and_author_art_acceptance_open",
+  "far_impostor": {
+    "producer": "prepare_far_impostor.py",
+    "source": "WinterPine_LOD0 from same generated candidate",
+    "atlas": "far-albedo-atlas.png",
+    "atlas_dimensions": [
+      1024,
+      1024
+    ],
+    "alpha_mode": "MASK",
+    "alpha_cutoff": 0.5,
+    "roughness": 1,
+    "metallic": 0,
+    "emissive": false,
+    "view_angles_degrees": [
+      0,
+      90
+    ],
+    "transparent_blending": false,
+    "additional_meshy_credits": 0,
+    "budget_exception": "Root approved19Oct: one extra shared1Katlas, at most2materials; replaces rejected fragmenting599-triangleLOD2."
+  }
+}

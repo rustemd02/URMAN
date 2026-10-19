@@ -77,24 +77,91 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         building.SetMeta("roofSuppressedFoliageContacts", contacts.ToArray());
     }
 
-    internal ArrayMesh FoliageMesh(string variant, string region)
+    internal ArrayMesh FoliageMesh(string variant, string region) =>
+        LoadFoliageMesh(variant, region, generatedPine: true);
+
+    private static bool IsWinterSpruceVariant(string variant) =>
+        variant.StartsWith("WinterSpruce_", StringComparison.Ordinal)
+        || variant.StartsWith("WinterLightSpruce_", StringComparison.Ordinal)
+        || variant.StartsWith("WinterFarSpruce_", StringComparison.Ordinal);
+
+    private static string PineVisualTier(string variant) =>
+        variant.StartsWith("WinterLightSpruce_", StringComparison.Ordinal) ? "WinterLightPine"
+        : variant.StartsWith("WinterFarSpruce_", StringComparison.Ordinal) ? "WinterFarPine"
+        : "WinterPine";
+
+    private ArrayMesh LoadFoliageMesh(string variant, string region, bool generatedPine)
     {
-        if (_foliageMeshes.TryGetValue((variant, region), out var cached)) return cached;
+        if (generatedPine && IsWinterSpruceVariant(variant))
+        {
+            // Spruce aliases keep their authored dimensions and physical source;
+            // every visible tier uses the generated family, including distant bands.
+            var visualKey = (variant, region);
+            if (_foliageMeshes.TryGetValue(visualKey, out var fitted)) return fitted;
+            if (!_foliageMeshes.TryGetValue(("physical/" + variant, region), out var physical))
+                throw new InvalidOperationException($"Missing winter foliage envelope: {variant}");
+            var pineVisual = LoadFoliageMesh(PineVisualTier(variant), region, generatedPine: true);
+            var physicalSize = physical.GetAabb().Size;
+            var visualSize = pineVisual.GetAabb().Size;
+            fitted = FitMeshFromRoot(pineVisual, new Vector3(physicalSize.X / visualSize.X,
+                physicalSize.Y / visualSize.Y, physicalSize.Z / visualSize.Z));
+            _foliageMeshes[visualKey] = fitted;
+            return fitted;
+        }
         var pine = variant is "WinterPine" or "WinterLightPine" or "WinterFarPine";
+        generatedPine &= pine;
+        var cacheVariant = pine && !generatedPine ? "physical/" + variant : variant;
+        if (_foliageMeshes.TryGetValue((cacheVariant, region), out var cached)) return cached;
         if (!pine && variant is not ("WinterDeadTree" or "WinterLightDeadTree" or "WinterFarDeadTree"))
             throw new InvalidOperationException($"Missing winter foliage geometry: {variant}");
-        var source = ResourceLoader.Load<PackedScene>(pine ? "res://assets/models/act1/urman_winter_pine.glb" : "res://assets/models/act1/urman_winter_dead_tree.glb").Instantiate<Node3D>();
+        var path = generatedPine ? "res://assets/models/act1/urman_winter_pine_meshy_v1.glb"
+            : pine ? "res://assets/models/act1/urman_winter_pine.glb"
+            : "res://assets/models/act1/urman_winter_dead_tree.glb";
+        var source = ResourceLoader.Load<PackedScene>(path).Instantiate<Node3D>();
         try
         {
             var names = pine ? new[] { "WinterPine", "WinterLightPine", "WinterFarPine" }
                 : new[] { "WinterDeadTree", "WinterLightDeadTree", "WinterFarDeadTree" };
+            var visualScale = Vector3.One;
+            if (generatedPine)
+            {
+                // One root-preserving fit for every LOD. The old mesh remains
+                // authoritative for planting clearance and physical stem faces.
+                var envelope = LoadFoliageMesh("WinterPine", region, generatedPine: false).GetAabb();
+                var visualBounds = EnumerateDescendants<MeshInstance3D>(source)
+                    .Single(node => node.Name == "WinterPine_LOD0").Mesh!.GetAabb();
+                static float FitAxis(float minimum, float maximum, float limitMinimum, float limitMaximum)
+                {
+                    var scale = float.PositiveInfinity;
+                    if (minimum < 0f) scale = Mathf.Min(scale, limitMinimum / minimum);
+                    if (maximum > 0f) scale = Mathf.Min(scale, limitMaximum / maximum);
+                    if (!float.IsFinite(scale) || scale <= 0f)
+                        throw new InvalidOperationException("Generated pine must have usable rooted geometry on every axis.");
+                    return scale;
+                }
+                visualScale = new Vector3(
+                    FitAxis(visualBounds.Position.X, visualBounds.End.X, envelope.Position.X, envelope.End.X),
+                    FitAxis(visualBounds.Position.Y, visualBounds.End.Y, envelope.Position.Y, envelope.End.Y),
+                    FitAxis(visualBounds.Position.Z, visualBounds.End.Z, envelope.Position.Z, envelope.End.Z));
+            }
             for (var lod = 0; lod < names.Length; lod++)
             {
                 var template = EnumerateDescendants<MeshInstance3D>(source).Single(node => node.Name == $"{(pine ? "WinterPine" : "WinterDeadTree")}_LOD{lod}");
-                var mesh = (ArrayMesh)template.Mesh!.Duplicate();
+                var mesh = generatedPine ? FitMeshFromRoot((ArrayMesh)template.Mesh!, visualScale)
+                    : (ArrayMesh)template.Mesh!.Duplicate();
+                if (generatedPine && mesh.GetSurfaceCount() is < 1 or > 2)
+                    throw new InvalidOperationException("Generated pine requires one or two shared PBR surfaces.");
                 for (var surface = 0; surface < mesh.GetSurfaceCount(); surface++)
                 {
                     var imported = mesh.SurfaceGetMaterial(surface) as StandardMaterial3D;
+                    if (generatedPine)
+                    {
+                        if (imported is null)
+                            throw new InvalidOperationException("Generated pine is missing its imported PBR material.");
+                        // Keep the imported texture set, UVs and shared materials;
+                        // the old regional colour/cutout pass would erase them.
+                        continue;
+                    }
                     if (pine && (imported is null || imported.ResourceName is not ("AB_bark" or "AB_needles")))
                         throw new InvalidOperationException("Pine material names must remain AB_bark and AB_needles after import.");
                     if (pine && imported!.ResourceName == "AB_needles")
@@ -109,11 +176,11 @@ public partial class AgentBAct1ExteriorLayer : Node3D
                         mesh.SurfaceSetMaterial(surface, RegionalFoliageMaterial(variant, "bark", region));
                     }
                 }
-                _foliageMeshes[(names[lod], region)] = mesh;
+                _foliageMeshes[(pine && !generatedPine ? "physical/" + names[lod] : names[lod], region)] = mesh;
             }
         }
         finally { source.Free(); }
-        return _foliageMeshes[(variant, region)];
+        return _foliageMeshes[(cacheVariant, region)];
     }
     private bool _built;
     private bool _exteriorPresentationEnabled;
@@ -1334,7 +1401,7 @@ public partial class AgentBAct1ExteriorLayer : Node3D
             if (geometry.TryGetValue(variant, out var cached)) return cached;
             if (variant is "WinterPine" or "WinterLightPine" or "WinterFarPine")
             {
-                var mesh = FoliageMesh(variant, "kara");
+                var mesh = LoadFoliageMesh(variant, "kara", generatedPine: false);
                 var lowVertices = Enumerable.Range(0, mesh.GetSurfaceCount()).SelectMany(surface =>
                     SurfaceVertices(mesh, surface)).Distinct().ToArray();
                 cached = (mesh, Enumerable.Range(0, mesh.GetSurfaceCount()).Select(mesh.SurfaceGetName).ToArray(),
@@ -1397,21 +1464,12 @@ public partial class AgentBAct1ExteriorLayer : Node3D
             geometry[variant] = cached;
             return cached;
         }
-        ArrayMesh RegionalMesh(string variant, string region, bool forestRimPineVisual = false)
+        ArrayMesh RegionalMesh(string variant, string region)
         {
-            if (forestRimPineVisual)
+            if (IsWinterSpruceVariant(variant))
             {
-                var pineVariant = PineVisualTier(variant);
-                var fittedVariant = variant.Replace("Spruce_", "PineForSpruce_", StringComparison.Ordinal);
-                if (graded.TryGetValue((fittedVariant, region), out var fitted)) return fitted;
-                var pine = FoliageMesh(pineVariant, region);
-                var sourceSize = Geometry(variant).Mesh.GetAabb().Size;
-                var pineSize = pine.GetAabb().Size;
-                var fit = new Vector3(sourceSize.X / pineSize.X, sourceSize.Y / pineSize.Y,
-                    sourceSize.Z / pineSize.Z);
-                fitted = FitMeshFromRoot(pine, fit);
-                graded[(fittedVariant, region)] = fitted;
-                return fitted;
+                graded[("physical/" + variant, region)] = Geometry(variant).Mesh;
+                return FoliageMesh(variant, region);
             }
             if (variant is "WinterPine" or "WinterLightPine" or "WinterFarPine") return FoliageMesh(variant, region);
             if (graded.TryGetValue((variant, region), out var cached)) return cached;
@@ -1425,11 +1483,6 @@ public partial class AgentBAct1ExteriorLayer : Node3D
             graded[(variant, region)] = result;
             return result;
         }
-        static string PineVisualTier(string variant) =>
-            variant.StartsWith("WinterLightSpruce_", StringComparison.Ordinal) ? "WinterLightPine"
-            : variant.StartsWith("WinterFarSpruce_", StringComparison.Ordinal) ? "WinterFarPine"
-            : "WinterPine";
-
         var plants = new Node3D { Name = "AgentB_PlantedFoliage" };
         AddChild(plants);
         plants.SetMeta("presentationOnly", true);
@@ -1604,8 +1657,7 @@ public partial class AgentBAct1ExteriorLayer : Node3D
             }
             var region = forestRim || variant == "FallenBranch_2" || position.Y <= -86f ? "kara" : position.Y <= -58f ? "zirat" : "village";
             var hasLods = variant.StartsWith("Winter", StringComparison.Ordinal);
-            var forestRimPineVisual = forestRim && variant is
-                ("WinterSpruce_3" or "WinterSpruce_4" or "WinterSpruce_5" or "WinterSpruce_6");
+            var generatedConiferVisual = IsWinterSpruceVariant(variant);
             var tiers = hasLods ? new[] { variant, variant.Replace("Winter", "WinterLight", StringComparison.Ordinal), variant.Replace("Winter", "WinterFar", StringComparison.Ordinal) }
                 : new[] { variant };
             var tree = groundCover ? null : new Node3D { Name = $"{variant}_Plant{plants.GetChildCount()}", Position = target, Basis = basis };
@@ -1614,12 +1666,12 @@ public partial class AgentBAct1ExteriorLayer : Node3D
                 plants.AddChild(tree);
                 tree.SetMeta("presentationOnly", true);
                 tree.SetMeta("plantVariant", variant);
-                tree.SetMeta("plantVisualVariant", forestRimPineVisual ? "WinterPine" : variant);
+                tree.SetMeta("plantVisualVariant", generatedConiferVisual ? "WinterPine" : variant);
                 tree.SetMeta("plantPosition", target);
             }
             for (var lod = 0; lod < tiers.Length; lod++)
             {
-                var mesh = RegionalMesh(tiers[lod], region, forestRimPineVisual);
+                var mesh = RegionalMesh(tiers[lod], region);
                 if (groundCover)
                 {
                     var cell = new Vector2I(Mathf.FloorToInt(position.X / 12f), Mathf.FloorToInt(position.Y / 12f));
@@ -1630,7 +1682,7 @@ public partial class AgentBAct1ExteriorLayer : Node3D
                 else
                 {
                     var instance = new MeshInstance3D { Name = $"{variant}_LOD{lod}", Mesh = mesh };
-                    instance.SetMeta("visualMeshVariant", forestRimPineVisual ? PineVisualTier(tiers[lod]) : tiers[lod]);
+                    instance.SetMeta("visualMeshVariant", generatedConiferVisual ? PineVisualTier(tiers[lod]) : tiers[lod]);
                     // VIS-029: the far tier only ever exists beyond its own begin
                     // distance, and on every authored profile that is inside fog the
                     // shadow of that trunk cannot be read. The near silhouette the
@@ -1732,7 +1784,8 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         foreach (var variant in new[] { "WinterBirch_1", "WinterLinden_1", "WinterBirdCherry_1",
                      "WinterLightBirch_1", "WinterLightLinden_1", "WinterLightBirdCherry_1",
                      "WinterFarBirch_1", "WinterFarLinden_1", "WinterFarBirdCherry_1",
-                     "WinterSpruce_1", "WinterLightSpruce_1", "WinterFarSpruce_1" })
+                     "WinterSpruce_1", "WinterLightSpruce_1", "WinterFarSpruce_1",
+                     "WinterSpruce_2", "WinterLightSpruce_2", "WinterFarSpruce_2" })
             RegionalMesh(variant, region);
         // VIS-027/029/030: silhouette parity across every authored tier switch, the
         // measured culling volume of every plant cell and the structural census of

@@ -4560,6 +4560,26 @@
       ],
       "collision": "Geometry, vehicle/controller/physics/custody unchanged.",
       "qa": "evidence/ACT1-TEXTURE.03/niva-m09-20261016/native_ab6fb5/frames/m09_niva_passenger.png: root accepted named passenger seat-back/headrest static worn-grain hookup at actualHigh/comparable/scale1. No obvious seam/collapse/doubled darkening; no matched before-after or all-seat/motion/art claim. Remaining task state only ACT1-TEXTURE.03/E08."
+    },
+    {
+      "id": "winter.pine.meshy.v1",
+      "source": "assets/source/blender/act1/winter_spruce_meshy_v1/winter-pine-v1.manifest.json",
+      "derived": "game/assets/models/act1/urman_winter_pine_meshy_v1.glb",
+      "generator": "built-in image_gen reference → Meshy7.1 image-to3D +6k remesh → Blender4.5.12 normalized sharedLOD+farimpostor; existing source→reference pipeline",
+      "license": "Owner generated from own-game/ImageGen inputs under paid Meshy plan; subject to applicable Meshy terms; not CC0/free-planCCBY. See source manifest official references.",
+      "scale": 1.0,
+      "triangleBudget": 5015,
+      "textureBudget": 2048,
+      "materials": [
+        "Meshy shared PBR (OPAQUE)",
+        "Far atlas lit alpha MASK, no emission/BLEND"
+      ],
+      "collision": "visual-only replacement; existing winter.pine.v1 GLB remains authoritative for AgentB stem/contact/clearance geometry; placement/collisionowners unchanged",
+      "lod": "LOD0 5015;LOD1 1999;LOD2 4-triangle crossed-card fromsamegeneratedmodel;2sharedmaterials,2Kbase+1Knormal/ORM+extra1Kfaralbedoatlas. Identity transforms/base0/height1, one provider fit to old root envelope.",
+      "status": "Native87a441 import/affectedcompile and matchedvillage frame PASS, userdata restored, no engine-errors; root actually viewed before/after. Sharper fragmented branch silhouettes not artistically accepted. W01/motion/sustainedperformance/ownerart open;7TextureRIDshutdownwarnings causeunknown.",
+      "releaseDisposition": "technical-integration-verified-art-and-motion-pending",
+      "sourceSha256": "0b7e30f9ce170e53b318e6e195a8236a5082f7a01e2f65adc8e9ba7bdfbed720",
+      "derivedSha256": "0b7e30f9ce170e53b318e6e195a8236a5082f7a01e2f65adc8e9ba7bdfbed720"
     }
   ]
 }

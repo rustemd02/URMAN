@@ -109381,8 +109381,8 @@
       "id": "PW-020",
       "title": "Реализовать prepare и возвратный билет",
       "milestone": "PW-M1",
-      "status": "todo",
-      "active_owner": null,
+      "status": "in_progress",
+      "active_owner": "/root/book_entry",
       "owner": "integration",
       "priority": "P0",
       "complexity": "medium",
@@ -109522,28 +109522,28 @@
       },
       "assigned_owner": "integration",
       "activity": {
-        "state": "not_active",
-        "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+        "state": "confirmed_active",
+        "reason": "book_entry accepted exact existing kernel/RuntimeBridge/Main W01 returnticket slice after source-readiness proved named inputs; root serializes native verification."
       },
       "task_type": "engineering",
-      "implementation_state": "not_started",
+      "implementation_state": "partial",
       "technical_verification_state": "not_run",
       "remaining": [
-        "До commit существует подтверждённая точка возврата.",
-        "Ссылки Node/GodotObject не сериализуются как save.",
-        "ReturnTicket подтверждён до подготовки назначения; совместно с PW-021–023 обычный якорь ведёт на безопасную опору и обратно. Ошибка/отмена/устаревший callback не завершают визит и не меняют другой сеанс; guard connected-router и отказ вместо центра карты сохраняются."
+        "Implementation of finite W01 lifecycle in existing owners.",
+        "Affected compile and independent review; existing targeted native early/F16return and Continue evidence, no full campaign acceptance substitution."
       ],
-      "next_action": "Сохранить полный семантический ReturnTicket из 06 до загрузки нового мира.",
+      "next_action": "Implement durable W01 prepare/commit/return/abort in existing four owners; failed preparation keeps home; preserve earnedfacts and actual safe origin pose.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
       "execution_mode": "production_paused_during_tracker_migration",
       "work_contract": {
-        "result": "Реализовать prepare и возвратный билет",
+        "result": "W01 fullReturnTicket lifecycle: durable preparation before departure, failed-save refusal at home, safe original pose return/Continue preserving earned facts; retain all existing acceptance requirements.",
         "targets": [
           "src-dotnet/Urman.Core/Narrative/PhotoWorldState.cs",
           "src-dotnet/Urman.Core/Narrative/PhotoWorldCommandHandler.cs",
-          "game/scripts/RuntimeBridge.cs"
+          "game/scripts/RuntimeBridge.cs",
+          "game/scripts/Main.cs"
         ],
         "required_inputs": [
           {
@@ -109566,14 +109566,16 @@
           }
         ],
         "scope_in": [
-          "PhotoReturnTicket.cs",
-          "PhotoWorldCoordinator.cs",
-          "persistence owner"
+          "Existing schema2 fullReturnTicket/visit/history transitions without new save owner or coordinator",
+          "Existing central interaction dispatch for pw-enter-forest / pw-forest-book-return / pw-forest-return",
+          "Durable prepare checkpoint, safe origin transform/semantic audio capture, commit and return/abort preserving earnedfacts"
         ],
         "scope_out": [
           "Контент соседнего блока, кроме указанного артефакта-входа.",
           "Новые защитные слои/абстракции вне собственного результата.",
-          "Человеческое одобрение учитывается отдельными gates."
+          "Человеческое одобрение учитывается отдельными gates.",
+          "Other world content or fresh test/probe infrastructure",
+          "Restore entire stale origin RuntimeSnapshot over earned progression"
         ],
         "steps": [
           "Сохранить полный семантический ReturnTicket из 06 до загрузки нового мира.",
@@ -140727,24 +140729,26 @@
             "result": "Generated conifer near/mid/far family visible in village and W01, own PBR/UV, sharedLOD/cache; old physical support retained.",
             "owner": "generated-assets",
             "assigned_owner": "/root/generated_asset_rework",
-            "active_owner": "/root/generated_asset_rework",
+            "active_owner": "/root",
             "activity": {
               "state": "confirmed_active",
-              "reason": "Dedicated agent explicitly accepted sourcefamily, viewed actualdonor+selectedhouse, generated/inspected built-in ImageGen reference; one Meshy POST task01a1539f actual30 consumed. performance_slice has frozen bounded consumer draft."
+              "reason": "Root received terminal PASS native87a441 and actually inspected matched whole frame; art concern about fragmented branch silhouette, W01/motion remain open."
             },
             "task_type": "engineering",
             "status": "in_progress",
             "implementation_state": "partial",
-            "technical_verification_state": "not_run",
+            "technical_verification_state": "passed",
             "evidence": [
-              "assets/source/blender/act1/winter_spruce_meshy_v1/input-winter-pine-v1.png"
+              "assets/source/blender/act1/winter_spruce_meshy_v1/input-winter-pine-v1.png",
+              "assets/source/blender/act1/winter_spruce_meshy_v1/winter-pine-v1.manifest.json",
+              "game/assets/models/act1/urman_winter_pine_meshy_v1.glb",
+              "evidence/PW-093/native_conifer_87a441090b044b74b46ea54e5915cdf0/receipt.json"
             ],
             "remaining": [
-              "Meshy task succeeds and sourceGLB downloaded once; provenance/credits saved.",
-              "Candidate WinterPine_LOD0/1/2 at root/base0, bounded6k/2k/600tris and ≤2sharedPBR, common2Kcolor/1KnormalORM.",
-              "Root promotes separate visualGLB; actualimport/affectedcompile and matched village/W01 Windowsframes+movement/performance acceptance."
+              "Whole-scene review found sharper fragmented snow-branch silhouettes; source cause requires decision before art acceptance, no additional pine paidgeneration authorized.",
+              "W01 context, motion/LOD transition and sustained performance not verified; parent author art gate remains open."
             ],
-            "next_action": "Poll existing Meshy task01a1539f-c9cb-7389-bae9-71b8cc11748e, no POST retry; prepare finite family candidate and coordinate existing renderer consumer.",
+            "next_action": "Preserve verified native/import integration stage and diagnose native silhouette source from existing artifacts; no model-polish loop or repeated capture without changed input.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "After own source/runtime DoD and sufficient evidence, release active claim and commit accepted stage; author whole-scene art/motion gates stay with parent. No isolated detail/model polish loop.",
@@ -140776,7 +140780,8 @@
               "scope_in": [
                 "Existingasset→built-inimagegen→Meshy→normalizedruntimeLOD",
                 "Separate visualPBR cache and legacyphysics mesh through existing provider",
-                "Sharedmaterials/instances/culling and broad whole-scene style comparison"
+                "Sharedmaterials/instances/culling and broad whole-scene style comparison",
+                "Accepted free local far-impostor budget:4tris and extra1Ksharedalpha atlas instead of rejected599tri shredded far mesh; source highpoly never runtime."
               ],
               "scope_out": [
                 "Otherfamilies thisstage",
@@ -140817,9 +140822,118 @@
                 ],
                 "repeat_only_if": "Changed candidate/provider/covered input or incomplete required observation."
               },
-              "actual_result": "NOT_RUN",
+              "actual_result": "Source/runtime family5015/1999/4tri,2sharedOPAQUE/MASKPBR,2Kbase/1Knormal/1KORM+1Kfaratlas. SHA0b7e30f9ce170e53b318e6e195a8236a5082f7a01e2f65adc8e9ba7bdfbed720. Old physical meshes retained. Native exact latest3literalprewarm delta compilation/import/capture pending. Original59MB compression gain verified; huge raw source archives remain local-only. Native87a441 PASS: exactsnapshot9601f9c8, import/content/affectedGamecompile0errors, current matchedhigh1920x1080 village-winter-crisp, userdataRestoredtrue, drawCalls21285→20177. Root viewed before+after and has NOT accepted sharp fragmented branch silhouettes. Single62.5msframe is not FPSbenchmark.7TextureRIDshutdownwarnings provenance unknown.",
               "evidence_refs": [
                 "tasks[id=PW-093].execution.units[id=PW-093/E01].evidence"
+              ],
+              "engineering_completion_excludes_external_gates": true
+            },
+            "dependencies": {
+              "implementation": [],
+              "verification": [],
+              "acceptance": []
+            },
+            "depends_on": []
+          },
+          {
+            "id": "PW-093/E02",
+            "parent_id": "PW-093",
+            "title": "Заменить соседский сруб VariantA generated-моделью с достоверной конструкцией",
+            "result": "One neighboring VariantA visiblehouse replacement matches selected hero-house material language and actual3D log construction, while preserving existing placement/door/collision.",
+            "owner": "generated-assets",
+            "assigned_owner": "/root/generated_asset_rework",
+            "active_owner": "/root/generated_asset_rework",
+            "activity": {
+              "state": "confirmed_active",
+              "reason": "Dedicated worker rendered actual VariantA donor, generated one ImageGen reference+singlelayoutedit, root also viewed edit; oneMeshy7.1task consumed30 succeeded, source download in progress. House cap60, optionalremesh5 allowed."
+            },
+            "task_type": "engineering",
+            "status": "in_progress",
+            "implementation_state": "partial",
+            "technical_verification_state": "not_run",
+            "evidence": [
+              "assets/source/blender/act1/neighbor_log_house_a_meshy_v1/neighbor-log-house-a-v1.manifest.json"
+            ],
+            "remaining": [
+              "Meshy house task01a153c5 source download, bounded25Kremesh if needed, actual front/side/back/threequarter construction and layout acceptance.",
+              "Root existing-placement visualintegration and matched Windows houseview; author whole-scene gate remains."
+            ],
+            "next_action": "Inspect actual generated houseGLB, not only reference; reject bad logcourses/corners/openings/roof before runtime integration.",
+            "blocker": null,
+            "external_gates": [],
+            "stop_condition": "After own source/runtime DoD and sufficient evidence, release active claim and commit accepted stage; author whole-scene art/motion gates stay with parent. No isolated detail/model polish loop.",
+            "work_contract": {
+              "result": "One neighboring VariantA visiblehouse replacement matches selected hero-house material language and actual3D log construction, while preserving existing placement/door/collision.",
+              "targets": [
+                "assets/source/blender/act1/neighbor_log_house_a_meshy_v1/",
+                "game/assets/models/act1/urman_neighbor_log_house_a_meshy_v1.glb",
+                "game/content/world/act1_village_kit.world.v1.json",
+                "assets/asset_registry.json"
+              ],
+              "required_inputs": [
+                {
+                  "path": "game/content/world/act1_village_kit.world.v1.json",
+                  "artifact": "ActualVariantA placement and existing collision/door/layout contracts",
+                  "availability": "available"
+                },
+                {
+                  "path": "evidence/ACT1-DEPTH.12/native_uv_v3_fdc5f5ef62fc4554ad107b9d9bef31ef/frames/babai_shape_front_high.png",
+                  "artifact": "Owner-selected actualruntimehouse style/material target",
+                  "availability": "available"
+                },
+                {
+                  "path": "eng/meshy_assets.py",
+                  "artifact": "Existing authorized API pipeline; userbudget4000 and boundedfirstfamily90",
+                  "availability": "available"
+                }
+              ],
+              "scope_in": [
+                "Actual source asset→built-inImageGen layout/material reference→MeshyAPI candidate",
+                "Preserve VariantA6x5.8mainbody, threefrontwindows, rightmainwindow and recessed+Xseni with forwarddoor/outerwindow",
+                "ActualGLB logconstruction gate: supportedcourses/interlockingcorners/correspondingendgrain, openings/headers/roofbearing; all4sides",
+                "Root integration into existing visible placement without changing physical/door/gameplay owner"
+              ],
+              "scope_out": [
+                "Other families or hero-house replacement in this unit",
+                "New placement/collision/save owner or coordinator",
+                "Art acceptance inferred from 2Dreference only"
+              ],
+              "steps": [
+                "Inspect exactdonor/layout and ownerselected successfulhouse frame",
+                "Generate built-inImageGen input and onebounded Meshy model",
+                "Inspect actualGLB 4sides/corners/openings/roof support before integration",
+                "Optimize only to meaningful budgets without destroying logcourses; retain source/provenance/credits",
+                "Integrate existing visible placement and run one matched narrow nativeview"
+              ],
+              "done_when": [
+                "Actual generated neighboringhouse replaces existing selected visiblecomponent, keeps placement/door/collision contracts",
+                "ActualGLB allside/logconstruction inspection passes, defects explicitly rejected rather than hidden by reference",
+                "Affectedimport/compile/nativeframe evidence and rightsprovenance recorded; whole-scene author gate stays parent"
+              ],
+              "verification": {
+                "method": "targeted_runtime_scenario",
+                "question": "Actual neighboring house keeps source layout and plausible interlocking log construction in runtime?",
+                "scenario": {
+                  "targets": [
+                    "ActualGLB front/side/back/threequarter and corner/openingdetails",
+                    "Existing VariantA runtimeplacement"
+                  ],
+                  "actions": [
+                    "Inspect real3D geometry and matched Windows frame"
+                  ],
+                  "observations": [
+                    "Supported logcourses/corners/openings/roof and preserved placement/door/collision, no guessed hidden geometry"
+                  ],
+                  "bound": "One named candidate and changed provider only; no broad smoke or new test harness."
+                },
+                "success": [
+                  "Actual3D construction/layout accepted and sufficient affected native evidence, remaining art gates explicit"
+                ],
+                "repeat_only_if": "Changed candidate/provider/covered input or incomplete required observation."
+              },
+              "actual_result": "ImageGen v2layout input root/worker viewed: threefrontwindows+rightwindow+recessedseni. Meshyimage3D task01a153c5 SUCCEEDED30, actualGLBpending. No construction/runtime/art acceptance asserted.",
+              "evidence_refs": [
+                "tasks[id=PW-093].execution.units[id=PW-093/E02].evidence"
               ],
               "engineering_completion_excludes_external_gates": true
             },
@@ -141189,18 +141303,22 @@
         ],
         "budget": {
           "author_cap": 4000,
-          "actual_consumed": 230,
-          "remaining_author_cap": 3770,
+          "actual_consumed": 260,
+          "remaining_author_cap": 3740,
           "first_family_cap": 90,
           "first_family_consumed": 35,
           "active_task_id": "01a1539f-c9cb-7389-bae9-71b8cc11748e",
           "active_task_state": "SUCCEEDED, actual30credits",
-          "live_balance_observed": 4085,
+          "live_balance_observed": 4050,
           "balance_is_not_author_budget": true,
           "active_remesh_task_id": "01a153a5-6669-7608-af5d-4ac72650653d",
-          "active_remesh_task_state": "IN_PROGRESS observed90percent"
+          "active_remesh_task_state": "SUCCEEDED, actual5credits",
+          "next_house_family_cap": 60,
+          "next_house_family_consumed": 30,
+          "next_house_task_id": "01a153c5-1ea8-7776-baf7-9c64b1807233",
+          "next_house_task_state": "IN_PROGRESS observed15percent; actual30credits"
         },
-        "current_artifact": "assets/source/blender/act1/winter_spruce_meshy_v1/input-winter-pine-v1.png; Meshy image-to3d30 credits; finalGLB pending",
+        "current_artifact": "Conifer source/runtime candidate frozen5015/1999/4tris, native87a441pending; nexthouse reference one layout edit inspected by dedicated agent and one authorized Meshy30POST in progress, actualGLB construction gate pending.",
         "log_house_acceptance": "Для нового generated-сруба проверены actualGLB front/side/three-quarter и крупно углы/проёмы: венцы опираются друг на друга, угловые соединения и торцы правдоподобны, проёмы/перемычки/опора крыши корректны; нет парящих брёвен, случайных пересечений и неестественных цокольных наплывов. ImageGen reference не заменяет post-Meshy проверку."
       }
     },

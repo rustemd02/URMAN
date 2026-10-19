@@ -1,0 +1,136 @@
+{
+  "asset_id": "ACT1-GENERATED-WINTER-PINE-V1",
+  "status": "source_candidate_frozen_for_root_native_whole_scene_review",
+  "tool": "built-in image_gen",
+  "imagegen_output_id": "01a1539c-b7b4-7c61-a311-41c3174a47f2",
+  "output": "input-winter-pine-v1.png",
+  "sha256": "0f3c98f12ea4ad7e16c299fbcdc9898eb088ea706314fdfe5e438b0a267f0a2a",
+  "references": [
+    {
+      "path": "evidence/ACT1-DEPTH.12/native_uv_v3_fdc5f5ef62fc4554ad107b9d9bef31ef/frames/babai_shape_front_high.png",
+      "role": "Owner selected own runtime screenshot: central house material and rendering family; actually viewed."
+    },
+    {
+      "path": "game/assets/models/act1/urman_winter_pine.glb",
+      "sha256": "1c38f7ea2e5788576a8ee3e9270191fd505933b73f3e8f6646af2ec6fe16f91f",
+      "render": "existing-winter-pine-lod0.png",
+      "role": "Actual existing LOD0 geometry, rendered and actually viewed. ForestRim WinterSpruce3–6 map to this visual donor."
+    }
+  ],
+  "prompt": "Use case: stylized-concept. Create one original production reference image for a 3D winter conifer asset for URMAN. Input 1 is our own existing game screenshot: use the central timber house as the MATERIAL AND RENDERING FAMILY reference (weathered tactile surfaces, restrained believable detail, soft winter sunlight). Input 2 is the existing game pine asset as a FUNCTIONAL form reference only: upright single tree, straight narrow visible lower bole with small dead branches, crown occupying upper 58 percent, base at ground. Redesign its coarse folded flat fans into a believable mature winter pine with irregular layered boughs, finely broken needle silhouettes grouped in substantial connected clusters, restrained snow settled only on upper surfaces, warm grey-brown fissured bark and muted deep blue-green needles. Keep a slender bole and airy spaces between asymmetrical branches; no giant Christmas-tree bottom skirt, no broad roots. Full tree, three-quarter view, complete base and tip, no cropping, centered and large in frame, neutral even studio lighting, muted light grey background. This is a material-rich real-time 3D game asset matching the house, neither photographic scanning nor a cartoon toy; small convincing detail with clear large shapes. No environment, ground plane, pot, people, labels, watermark or cast scene shadows. Show exactly one tree, not a sheet of views. The snow, bark and needles should be spatially distinct. Do not reproduce the old coarse triangular blade silhouette.",
+  "reference_review": "Actually viewed generated image: convincing snowy boughs and bark; isolated reference only, not game art acceptance. Lower branches begin around one third of height, so runtime adaptation must preserve existing contact envelope.",
+  "rights": "Original built-in imagegen reference based only on own game images; owner explicitly authorized uploading own references to Meshy and shared4000creditcap. No third-party photograph uploaded. Paid Meshy account terms need provenance preserved, not inferred CC0.",
+  "budget": {
+    "user_total_cap": 4000,
+    "prior_accounted_consumed": 195,
+    "first_family_max": 90,
+    "pre_post_api_balance": 4085,
+    "monthly_credits": 2935,
+    "permanent_credits": 1150,
+    "accounted_consumed_including_this_family": 230,
+    "pre_remesh_api_balance": 4055,
+    "final_api_balance": 4050,
+    "final_monthly_credits": 2900,
+    "final_permanent_credits": 1150
+  },
+  "runtime_contract": {
+    "source_candidate": "winter-pine-meshy-v1.glb",
+    "future_promotion_path": "game/assets/models/act1/urman_winter_pine_meshy_v1.glb",
+    "nodes": [
+      "WinterPine_LOD0",
+      "WinterPine_LOD1",
+      "WinterPine_LOD2"
+    ],
+    "max_triangles": [
+      6000,
+      2000,
+      12
+    ],
+    "max_shared_materials": 2,
+    "textures": "One shared2K PBRbasecolor+1Knormal+1KORM, plus root-approved one extra shared1K far albedo alpha atlas",
+    "normalization": "Mesh vertex base0,height1; identity transforms; rootedXZ0; no collision/rig/animation",
+    "actual_triangles": [
+      5015,
+      1999,
+      4
+    ],
+    "far_alpha": "glTF MASK with default alphaCutoff0.5; ordinary lit PBR, no emissiveFactor/KHR_unlit, not alphaBLEND"
+  },
+  "meshy_tasks": [
+    {
+      "type": "image-to-3d",
+      "task_id": "01a1539f-c9cb-7389-bae9-71b8cc11748e",
+      "estimated_credits": 30,
+      "actual_consumed_credits": 30,
+      "status": "SUCCEEDED"
+    },
+    {
+      "type": "remesh",
+      "task_id": "01a153a5-6669-7608-af5d-4ac72650653d",
+      "estimated_credits": 5,
+      "actual_consumed_credits": 5,
+      "target_polycount": 6000,
+      "status": "SUCCEEDED"
+    }
+  ],
+  "license": {
+    "basis": "Owner-confirmed paid Premium account; original own-game/imagegen inputs; no Meshy Community publishing performed. Paid-plan output ownership subject to applicable terms; not labelled CC0 or free-plan CC BY.",
+    "verified_on": "2026-10-19",
+    "official_sources": [
+      "https://www.meshy.ai/terms-of-use",
+      "https://help.meshy.ai/en/articles/10137554-what-is-the-ownership-of-the-generated-models"
+    ]
+  },
+  "source_original": {
+    "file": "meshy71-pine-original.glb",
+    "bytes": 235281564,
+    "sha256": "c2a85c93d058f36bceb495071ff74e8011966f502d31e8a6b51e1068c60ee255",
+    "triangles": 6945750,
+    "retention": "Unique original generated source, not an intermediate duplicate; never promoted as runtime.",
+    "lossless_archive": {
+      "file": "meshy71-pine-original.glb.zip",
+      "bytes": 175904108,
+      "sha256": "66874f1dfe8ad2402b45023d31d8fac8c37400eb7bfcdf4187a29d292c03e4f1",
+      "member": "meshy71-pine-original.glb",
+      "uncompressed_bytes": 235281564,
+      "uncompressed_sha256": "c2a85c93d058f36bceb495071ff74e8011966f502d31e8a6b51e1068c60ee255",
+      "decompressed_hash_verified": true,
+      "rehydrate_command": "python3 -m zipfile -e assets/source/blender/act1/winter_spruce_meshy_v1/meshy71-pine-original.glb.zip assets/source/blender/act1/winter_spruce_meshy_v1/",
+      "producer_dependency": "prepare_candidate.py reads retained6KremeshGLB; it does not need the7Mraw archive extracted."
+    }
+  },
+  "remeshed_source": {
+    "file": "meshy71-pine-remesh-6k.glb",
+    "bytes": 56220216,
+    "sha256": "90dc6c4850e07c55ef1194c5b6a9314774d6372110ee81e6adf7a041be3934ed",
+    "triangles": 5015
+  },
+  "candidate": {
+    "glb": "winter-pine-meshy-v1.glb",
+    "sha256": "0b7e30f9ce170e53b318e6e195a8236a5082f7a01e2f65adc8e9ba7bdfbed720",
+    "bytes": 12287292,
+    "structure": "candidate-structure.json",
+    "previews": [
+      "candidate-lod0.png",
+      "candidate-lod1.png",
+      "candidate-lod2.png"
+    ],
+    "worker_review": "Actually viewed all3 sourceLODs and faratlas. First599tri decimatedfar was fragmented and rejected. Finalfar uses2crossedcards/4tri withneutralalbedo fromsameLOD0, preserving intacttree silhouette. LOD0 remains angular at close range; do not spend moregeneration/polish before nativewholehouse/W01 comparison.",
+    "native_and_art_acceptance": "Native87a441090b044b74b46ea54e5915cdf0 technicalPASS, matchedvillage1920x1080/high/GTX970 actualframe inspectedbyroot. New sharp fragmented branch silhouette remains artconcern; W01/motion/sustainedperformance notaccepted.",
+    "next_action": "Preserve verified source/runtimeintegration, diagnose sharp silhouettes from existing sources before more modelwork; no additional pine paidgeneration authorized.",
+    "rebuild_command": ".tools/blender/Blender.app/Contents/MacOS/Blender --background --threads 2 --python-exit-code 1 --python assets/source/blender/act1/winter_spruce_meshy_v1/prepare_candidate.py",
+    "source_required": "Retained meshy71-pine-remesh-6k.glb; raw7Marchive need not be extracted.",
+    "far_geometry_note": "Crosscards geometry spans normalizedXZ±0.25/base0height1; transparent atlas margins contain no visible geometry. ActualcullingAABB is wider than nearcrown; physicalcontacts remainoldpine, and rootusescommonnearLOD0scale. NativeLODpop/occlusion staysopen."
+  },
+  "verification": {
+    "producer_ast": "PASS",
+    "exported_glb_structure": "Actual3identitynodes,norigs/animations,5015/1999/4tri,2materialsOPAQUE/MASK,4embeddedPNGtextures2048/1024/1024/1024",
+    "source_previews": "Actually viewed; finalfar is coherent, without trianglefragments",
+    "source_vs_approved_house": "Retains approvedhouse material-rich rendering direction: tactilebark/snow, mutedwinterpalette. Actualscene coherence remainsrootnativeandownerartgate.",
+    "additional_tests": "None; no testsuites added/run",
+    "additional_meshy_credits_after_first35": 0,
+    "native_receipt": "evidence/PW-093/native_conifer_87a441090b044b74b46ea54e5915cdf0/receipt.json",
+    "native_frame": "evidence/PW-093/native_conifer_87a441090b044b74b46ea54e5915cdf0/frames/babai_shape_front_high.png",
+    "native_result": "Import/content/Gamecompile0warnings0errors; engine-errors empty; userdataRestoredtrue. Samecamera/profile/high drawCalls21285→20177; singleframe62.5ms is not a sustained FPS benchmark.7TextureRIDshutdownwarnings causeunknown."
+  }
+}
