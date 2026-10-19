@@ -109801,6 +109801,11 @@
         "receipt": "evidence/PW-020/native_route_232b0ded47d64b95a868949cd7f85827/receipt.json",
         "result": "FAILtimeout124 elapsed1367.7878s/restoredtrue/engineerrors0; actualworker981ffe23. NewGameframe withoutPause, realESCskip. Singlevillagezone-loaded+checkpoint then92streetbankpasses(first50reworked,next91zero). No provenbook/W01roundtrip; notrecursiveBuild.",
         "source_fix": "OnlySnowRelief.cs caches50StreetBankrefs afteroneshotBuild; sameorder/liveeligibility/geometry/collision. IndependentFastreviewclean, affectedGame20.48s0/0. Native d14e26a5 delegatedto book_entry before userartrejection; awaitingauthoritativeterminal."
+      },
+      "native_snowcache_d14_2026_10_19": {
+        "receipt": "evidence/PW-020/native_route_snowcache_d14e26a5378c49969d9c1866de75fc77/receipt.json",
+        "root_viewed_frame": "evidence/PW-020/native_route_snowcache_d14e26a5378c49969d9c1866de75fc77/06_arrival_ready.png",
+        "result": "OrdinaryNewGame/noPause/ESCskip→actualvillagearrival/checkpoint; rootviewedactualstreet. Terminal124/restoredtrue, elapsed1370.198. Nohome/book/W01return. 92Reworklogs(91noop) expected becausefixcachesbankrefs, doesnotremoveinvocations; no measuredspeedclaim."
       }
     },
     {
@@ -119119,7 +119124,7 @@
         "Игрок не обязан повторять тизер; объяснение «просто сон» не закрывает интригу.",
         "Обычный New Game без override использует актуальный pack, ставит физический W01 и передаёт управление семейному прибытию; skip не выдаёт необязательное знание, Replay не меняет основной сеанс, Continue не запускает New Game."
       ],
-      "next_action": "Finish frozen wholeW01forest composition candidate; one matched ordinaryNewGameF00 frame +shortactualmovement after currentstationjob terminal. Judge scene against rejected232bframe, not isolatedmodel orcompile.",
+      "next_action": "Accept actualca9 F00+walk+look frame against rejected747e/232b; ifsceneimproves, continue ordinary meaningfulprologue/bookloop without moreisolatedassetwork. Keep nativecollision/performance/authorart gatesopen.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -119636,6 +119641,45 @@
         ],
         "required_result": "Whole first-person F00→F03 forest composition: asymmetrical coherent near/mid/far groups, visibly readable natural narrowtrail/snowshoulders, daylight and depth matching accepted artfamily; preserveanchors/story/standingclearance/physicalterrain and nativecost.",
         "implementation": "Inprogress existingW01Controller BuildForest+groundshader and W01.tscn soleenvironment; no newMeshy/paidgeneration. Source-only pending actualmatchedF00nativeframe/movement."
+      },
+      "forest_composition_native_review_2026_10_19": {
+        "job_id": "747e5e4e19c4495ab42b5a58c3bfdb9b",
+        "snapshot": "50ac7956e1d81fef20de8b6771c4c02901c458e2f990360ef8db9ed3a3700af5",
+        "root_actually_viewed": [
+          "evidence/PW-043/forest-composition-20261019/native_747e5e4e19c4495ab42b5a58c3bfdb9b/02-f00-new-game.png",
+          "evidence/PW-043/forest-composition-20261019/native_747e5e4e19c4495ab42b5a58c3bfdb9b/03-forward-2000ms.png",
+          "evidence/PW-043/forest-composition-20261019/native_747e5e4e19c4495ab42b5a58c3bfdb9b/04-look-dx80.png"
+        ],
+        "verdict": "Root rejects this candidate: planted rows gone but340roots over wholeterrain reads sparsepark; flatunbrokenwhiteground remains; whole sky green. This is not authoracceptance and not scene-ready.",
+        "technical": "OrdinaryNewGame→F00, actualW2000ms+lookdx80 seen. game124 dueboundedtimeout, userdataRestoredtrue, engine/lifecycledata recordedraw. NoFPS/fullroute/artclaim.",
+        "next_result": "DenseirregularsharedLOD1forestgroups(nearLOD0budgetunchanged), actualasymmetricsnowshoulderterrain aroundpreservedphysicalpath, naturalbluegrayacceptedvillagefamily. OneImageGenlayoutreference only, not gameframe/Meshy."
+      },
+      "ready_cleanup_fix_2026_10_19": {
+        "source": "AGENT_CHAT КодексКадыра19.10 and evidence/PW-014/mac-native-20261017/game.log",
+        "confirmed_bug": "IfReadythrows beforeBuildPrologueUi, oldExitTreeunsubscribesviewportSizeChangedthatwasneverconnected, maskingoriginalfailure.",
+        "source_fix": "W01Controller tracksactualViewport aftersuccessfulSizeChangedsubscription andonlyunsubscribesvalidstoredinstance. IndependentLunaFast lifecycle reviewclean; currentwholeaffectedGame18.13s0/0. Originalimportprerequisite separate; no geometry/guard weakening."
+      },
+      "first_minute_discoverability_2026_10_19": {
+        "state": "read_only_findings_followup_not_implemented",
+        "result": "F00photo34x22.7cm lies offcenter/atfeet fordownwardinspection, firstforwardview hasnoimmediateactioncue. F01requiredbranch51maway has .16m gripraytarget; journalhints exist. Risksfromsource, not provenhardlocks.",
+        "next_action": "After currentwholeforestscene accepted, improve existingphoto/branchcue andvisiblebranchapproach underPW043/PW046; no newquestorhintsystem."
+      },
+      "forest_composition_candidate_2_2026_10_19": {
+        "state": "runtime_candidate_frozen_native_ca9_running_not_artaccepted",
+        "targets": [
+          "game/scripts/photoworlds/W01Controller.cs",
+          "game/scenes/photoworlds/W01/W01.tscn",
+          "game/assets/photoworlds/forest_ground/prologue-ground-f00-f16-v1.glb"
+        ],
+        "source_result": "1300target irregularclusteredmiddlepines, sharedcellLOD1/far pairs/no nearvisibilitygap; existing55authoredLOD0cap retained. NaturalbluegrayW01lighting replacesgreen. Existingvertexmask makespackedtrackvisible. Actualfirst32mterrainshoulders delta[-.241288,+.765137]m; same236817verts/471680triangles andphysicalcontactowner.",
+        "ground_source": "assets/source/blender/photoworlds/W01/prologue-ground-f00-f16-v1/prologue-ground-f00-f16-v1.manifest.json",
+        "ground_registry_id": "photoworlds.w01.route-ground-f00-f16.v1",
+        "ground_sha256": "57771c8ece812bbc004f0de15e02ea926fffadcf6520f764f092272e049bca92",
+        "verification": "AffectedGame18.13s0warnings0errors; producergeometry/11anchor/maxlaneDelta0/2.1mgridtrianglesproof/receipts/hashbindings PASS; changedrow existingasset-registry-preflightPASS. No newtests. EarlierstandardBlenderin sandboxcrashedbeforePython; sameproducerrequire_escalatedsucceeded, no backendreplacement.",
+        "art_reference_only": "assets/source/blender/photoworlds/W01/forest_composition_reference_20261019/forest_composition_reference.png",
+        "native_job": "ca9b33b8a1dc4c06a49a8e7d53a8e29a",
+        "native_snapshot": "b026617fe46679b15b27359be3e331380dccd7a239ab19f617e86fdec6bdd8e8",
+        "native_remaining": "Root must view actualNewGameF00/W2000ms/lookdx80 afterallchanges; nativecollision/performance/authoracceptance stillnotproven. soleWindowsownerfast_forest_native; no concurrentlaunch."
       }
     },
     {
@@ -120305,7 +120349,7 @@
       "title": "W01: произвести и собрать всю проходимую геометрию «Лес за спиной»",
       "milestone": "PW-M3",
       "status": "in_progress",
-      "active_owner": "Codex",
+      "active_owner": null,
       "owner": "world_art",
       "priority": "P1",
       "complexity": "complex",
@@ -120338,7 +120382,8 @@
         "A-FOREST-GROUND",
         "A-BRANCH",
         "A-BAG",
-        "A-FOREST-SKY"
+        "A-FOREST-SKY",
+        "photoworlds.w01.route-ground-f00-f16.v1"
       ],
       "reference_ids": [
         "ART01",
@@ -120543,10 +120588,10 @@
               "evidence/PW-045/physical-input-20261012/"
             ],
             "assigned_owner": "world_art",
-            "active_owner": null,
+            "active_owner": "Codex",
             "activity": {
-              "state": "not_active",
-              "reason": "F12–F14 technical source slice integrated and affected compile passed; root native integration pending. Existing assigned owner preserved."
+              "state": "confirmed_active",
+              "reason": "Finite F00first32m actualterrain plus clusteredmiddleforest andpairedLODscene under existingfamily task; nativeca9pending, otherfamily/fullchildrequirements retained."
             },
             "task_type": "engineering",
             "status": "in_progress",
@@ -120557,7 +120602,7 @@
               "F01/F03 authored graph gap исправлен в 5f1d9e98; существующий semantic route обновлён, ещё NOT_RUN. Нужен physical binding обоих endpoints и основного forest move, не ранний выход вместо полного пролога.",
               "W01 source consumer ground/F01 принят24.38s compile; real scene runtime/material/contacts/capsule/save/мovedbranchinspect NOT_RUN. Forestkit stage2 и isolatedbirch stage8 root rejected; untracked source/tmp сохранены, assetsнепубликовались."
             ],
-            "next_action": "Native import and F11→F12→F13→F14 round trip/capsule/save on frozen candidate; repair hero-root forms, then F15/F16. Do not close whole unit with this source slice.",
+            "next_action": "Rootaccept actualca9F00+movement againstroot-rejected747eparkframe; source/unit not fullfamily completion. Keepothernamedfamilies/UV/support/art/performancecriteria open.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -120800,6 +120845,23 @@
               ],
               "verification": "Pinned Blender generated/exported; source-stage/runtime GLB SHA matched; root viewed offline previews; independent traversal review and bug corrections; affected Game compile PASS 16.52s, 0 warnings/errors. Native import/traversal NOT_RUN.",
               "remaining": "Portal art rejected as cones/pipes and needs coherent organic forms; runtime collision/motion/return/save and F15/F16 still open. Terrain-fit F14Y4 differs from designY7; local terrain-consistent placement only, not final composition acceptance."
+            },
+            "current_scene_candidate_2026_10_19": {
+              "state": "runtime_candidate_frozen_native_ca9_running_not_artaccepted",
+              "targets": [
+                "game/scripts/photoworlds/W01Controller.cs",
+                "game/scenes/photoworlds/W01/W01.tscn",
+                "game/assets/photoworlds/forest_ground/prologue-ground-f00-f16-v1.glb"
+              ],
+              "source_result": "1300target irregularclusteredmiddlepines, sharedcellLOD1/far pairs/no nearvisibilitygap; existing55authoredLOD0cap retained. NaturalbluegrayW01lighting replacesgreen. Existingvertexmask makespackedtrackvisible. Actualfirst32mterrainshoulders delta[-.241288,+.765137]m; same236817verts/471680triangles andphysicalcontactowner.",
+              "ground_source": "assets/source/blender/photoworlds/W01/prologue-ground-f00-f16-v1/prologue-ground-f00-f16-v1.manifest.json",
+              "ground_registry_id": "photoworlds.w01.route-ground-f00-f16.v1",
+              "ground_sha256": "57771c8ece812bbc004f0de15e02ea926fffadcf6520f764f092272e049bca92",
+              "verification": "AffectedGame18.13s0warnings0errors; producergeometry/11anchor/maxlaneDelta0/2.1mgridtrianglesproof/receipts/hashbindings PASS; changedrow existingasset-registry-preflightPASS. No newtests. EarlierstandardBlenderin sandboxcrashedbeforePython; sameproducerrequire_escalatedsucceeded, no backendreplacement.",
+              "art_reference_only": "assets/source/blender/photoworlds/W01/forest_composition_reference_20261019/forest_composition_reference.png",
+              "native_job": "ca9b33b8a1dc4c06a49a8e7d53a8e29a",
+              "native_snapshot": "b026617fe46679b15b27359be3e331380dccd7a239ab19f617e86fdec6bdd8e8",
+              "native_remaining": "Root must view actualNewGameF00/W2000ms/lookdx80 afterallchanges; nativecollision/performance/authoracceptance stillnotproven. soleWindowsownerfast_forest_native; no concurrentlaunch."
             }
           },
           {
@@ -120943,8 +121005,8 @@
       },
       "assigned_owner": "world_art",
       "activity": {
-        "state": "confirmed_active",
-        "reason": "Root accepted ownerrejection of actualF00frame and coordinates existingforestcomposition/ground/light candidates; placementworker rig_contract andW01lightingworker gamefeel source owners, root integration/nativeacceptance pending."
+        "state": "not_active",
+        "reason": "Aggregate coordinates existing children; finite F00scene source/result owner is PW-045/E02, not unlimited aggregate development."
       },
       "task_type": "aggregate",
       "implementation_state": "not_started",
@@ -120952,7 +121014,7 @@
       "remaining": [
         "Не выполнять родитель как разработку: закрыть конкретные children и их внешние gates."
       ],
-      "next_action": "Finish frozen wholeW01forest composition candidate; one matched ordinaryNewGameF00 frame +shortactualmovement after currentstationjob terminal. Judge scene against rejected232bframe, not isolatedmodel orcompile.",
+      "next_action": "Accept actualca9 F00+walk+look frame against rejected747e/232b; ifsceneimproves, continue ordinary meaningfulprologue/bookloop without moreisolatedassetwork. Keep nativecollision/performance/authorart gatesopen.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -121177,6 +121239,35 @@
         ],
         "required_result": "Whole first-person F00→F03 forest composition: asymmetrical coherent near/mid/far groups, visibly readable natural narrowtrail/snowshoulders, daylight and depth matching accepted artfamily; preserveanchors/story/standingclearance/physicalterrain and nativecost.",
         "implementation": "Inprogress existingW01Controller BuildForest+groundshader and W01.tscn soleenvironment; no newMeshy/paidgeneration. Source-only pending actualmatchedF00nativeframe/movement."
+      },
+      "forest_composition_native_review_2026_10_19": {
+        "job_id": "747e5e4e19c4495ab42b5a58c3bfdb9b",
+        "snapshot": "50ac7956e1d81fef20de8b6771c4c02901c458e2f990360ef8db9ed3a3700af5",
+        "root_actually_viewed": [
+          "evidence/PW-043/forest-composition-20261019/native_747e5e4e19c4495ab42b5a58c3bfdb9b/02-f00-new-game.png",
+          "evidence/PW-043/forest-composition-20261019/native_747e5e4e19c4495ab42b5a58c3bfdb9b/03-forward-2000ms.png",
+          "evidence/PW-043/forest-composition-20261019/native_747e5e4e19c4495ab42b5a58c3bfdb9b/04-look-dx80.png"
+        ],
+        "verdict": "Root rejects this candidate: planted rows gone but340roots over wholeterrain reads sparsepark; flatunbrokenwhiteground remains; whole sky green. This is not authoracceptance and not scene-ready.",
+        "technical": "OrdinaryNewGame→F00, actualW2000ms+lookdx80 seen. game124 dueboundedtimeout, userdataRestoredtrue, engine/lifecycledata recordedraw. NoFPS/fullroute/artclaim.",
+        "next_result": "DenseirregularsharedLOD1forestgroups(nearLOD0budgetunchanged), actualasymmetricsnowshoulderterrain aroundpreservedphysicalpath, naturalbluegrayacceptedvillagefamily. OneImageGenlayoutreference only, not gameframe/Meshy."
+      },
+      "forest_composition_candidate_2_2026_10_19": {
+        "state": "runtime_candidate_frozen_native_ca9_running_not_artaccepted",
+        "targets": [
+          "game/scripts/photoworlds/W01Controller.cs",
+          "game/scenes/photoworlds/W01/W01.tscn",
+          "game/assets/photoworlds/forest_ground/prologue-ground-f00-f16-v1.glb"
+        ],
+        "source_result": "1300target irregularclusteredmiddlepines, sharedcellLOD1/far pairs/no nearvisibilitygap; existing55authoredLOD0cap retained. NaturalbluegrayW01lighting replacesgreen. Existingvertexmask makespackedtrackvisible. Actualfirst32mterrainshoulders delta[-.241288,+.765137]m; same236817verts/471680triangles andphysicalcontactowner.",
+        "ground_source": "assets/source/blender/photoworlds/W01/prologue-ground-f00-f16-v1/prologue-ground-f00-f16-v1.manifest.json",
+        "ground_registry_id": "photoworlds.w01.route-ground-f00-f16.v1",
+        "ground_sha256": "57771c8ece812bbc004f0de15e02ea926fffadcf6520f764f092272e049bca92",
+        "verification": "AffectedGame18.13s0warnings0errors; producergeometry/11anchor/maxlaneDelta0/2.1mgridtrianglesproof/receipts/hashbindings PASS; changedrow existingasset-registry-preflightPASS. No newtests. EarlierstandardBlenderin sandboxcrashedbeforePython; sameproducerrequire_escalatedsucceeded, no backendreplacement.",
+        "art_reference_only": "assets/source/blender/photoworlds/W01/forest_composition_reference_20261019/forest_composition_reference.png",
+        "native_job": "ca9b33b8a1dc4c06a49a8e7d53a8e29a",
+        "native_snapshot": "b026617fe46679b15b27359be3e331380dccd7a239ab19f617e86fdec6bdd8e8",
+        "native_remaining": "Root must view actualNewGameF00/W2000ms/lookdx80 afterallchanges; nativecollision/performance/authoracceptance stillnotproven. soleWindowsownerfast_forest_native; no concurrentlaunch."
       }
     },
     {
@@ -122553,7 +122644,7 @@
         "Не протекают чужая погода, радиосеть и обработка интерфейса.",
         "Полный паспорт уровня docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/levels/W01_Лес_за_спиной_RU.md реализован: узлы/физические связи/действия/существо или человеческая сцена/созерцание/возврат/кадры; схема не заменяет проходимый runtime."
       ],
-      "next_action": "Finish frozen wholeW01forest composition candidate; one matched ordinaryNewGameF00 frame +shortactualmovement after currentstationjob terminal. Judge scene against rejected232bframe, not isolatedmodel orcompile.",
+      "next_action": "Accept actualca9 F00+walk+look frame against rejected747e/232b; ifsceneimproves, continue ordinary meaningfulprologue/bookloop without moreisolatedassetwork. Keep nativecollision/performance/authorart gatesopen.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -122742,6 +122833,35 @@
         ],
         "required_result": "Whole first-person F00→F03 forest composition: asymmetrical coherent near/mid/far groups, visibly readable natural narrowtrail/snowshoulders, daylight and depth matching accepted artfamily; preserveanchors/story/standingclearance/physicalterrain and nativecost.",
         "implementation": "Inprogress existingW01Controller BuildForest+groundshader and W01.tscn soleenvironment; no newMeshy/paidgeneration. Source-only pending actualmatchedF00nativeframe/movement."
+      },
+      "forest_composition_native_review_2026_10_19": {
+        "job_id": "747e5e4e19c4495ab42b5a58c3bfdb9b",
+        "snapshot": "50ac7956e1d81fef20de8b6771c4c02901c458e2f990360ef8db9ed3a3700af5",
+        "root_actually_viewed": [
+          "evidence/PW-043/forest-composition-20261019/native_747e5e4e19c4495ab42b5a58c3bfdb9b/02-f00-new-game.png",
+          "evidence/PW-043/forest-composition-20261019/native_747e5e4e19c4495ab42b5a58c3bfdb9b/03-forward-2000ms.png",
+          "evidence/PW-043/forest-composition-20261019/native_747e5e4e19c4495ab42b5a58c3bfdb9b/04-look-dx80.png"
+        ],
+        "verdict": "Root rejects this candidate: planted rows gone but340roots over wholeterrain reads sparsepark; flatunbrokenwhiteground remains; whole sky green. This is not authoracceptance and not scene-ready.",
+        "technical": "OrdinaryNewGame→F00, actualW2000ms+lookdx80 seen. game124 dueboundedtimeout, userdataRestoredtrue, engine/lifecycledata recordedraw. NoFPS/fullroute/artclaim.",
+        "next_result": "DenseirregularsharedLOD1forestgroups(nearLOD0budgetunchanged), actualasymmetricsnowshoulderterrain aroundpreservedphysicalpath, naturalbluegrayacceptedvillagefamily. OneImageGenlayoutreference only, not gameframe/Meshy."
+      },
+      "forest_composition_candidate_2_2026_10_19": {
+        "state": "runtime_candidate_frozen_native_ca9_running_not_artaccepted",
+        "targets": [
+          "game/scripts/photoworlds/W01Controller.cs",
+          "game/scenes/photoworlds/W01/W01.tscn",
+          "game/assets/photoworlds/forest_ground/prologue-ground-f00-f16-v1.glb"
+        ],
+        "source_result": "1300target irregularclusteredmiddlepines, sharedcellLOD1/far pairs/no nearvisibilitygap; existing55authoredLOD0cap retained. NaturalbluegrayW01lighting replacesgreen. Existingvertexmask makespackedtrackvisible. Actualfirst32mterrainshoulders delta[-.241288,+.765137]m; same236817verts/471680triangles andphysicalcontactowner.",
+        "ground_source": "assets/source/blender/photoworlds/W01/prologue-ground-f00-f16-v1/prologue-ground-f00-f16-v1.manifest.json",
+        "ground_registry_id": "photoworlds.w01.route-ground-f00-f16.v1",
+        "ground_sha256": "57771c8ece812bbc004f0de15e02ea926fffadcf6520f764f092272e049bca92",
+        "verification": "AffectedGame18.13s0warnings0errors; producergeometry/11anchor/maxlaneDelta0/2.1mgridtrianglesproof/receipts/hashbindings PASS; changedrow existingasset-registry-preflightPASS. No newtests. EarlierstandardBlenderin sandboxcrashedbeforePython; sameproducerrequire_escalatedsucceeded, no backendreplacement.",
+        "art_reference_only": "assets/source/blender/photoworlds/W01/forest_composition_reference_20261019/forest_composition_reference.png",
+        "native_job": "ca9b33b8a1dc4c06a49a8e7d53a8e29a",
+        "native_snapshot": "b026617fe46679b15b27359be3e331380dccd7a239ab19f617e86fdec6bdd8e8",
+        "native_remaining": "Root must view actualNewGameF00/W2000ms/lookdx80 afterallchanges; nativecollision/performance/authoracceptance stillnotproven. soleWindowsownerfast_forest_native; no concurrentlaunch."
       }
     },
     {

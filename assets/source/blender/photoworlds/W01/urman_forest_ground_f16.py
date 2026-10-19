@@ -33,6 +33,26 @@ BAKE_SIZE = 2048
 BAKED_ALBEDO_FILENAME = "prologue-ground-f00-f16-baked-albedo-2k.png"
 METRES_PER_REPEAT = 8.0
 FPS = 24
+MACRO_RELIEF_FEATURES = (
+    {"name": "left_snow_shoulder", "center_xz_m": (-4.0, 12.0), "amplitude_m": 0.70, "sigma_xz_m": (5.0, 7.0)},
+    {"name": "right_snow_shoulder", "center_xz_m": (11.0, 23.0), "amplitude_m": 0.85, "sigma_xz_m": (5.0, 8.0)},
+    {"name": "side_hollow", "center_xz_m": (-10.0, 25.0), "amplitude_m": -0.30, "sigma_xz_m": (6.0, 8.0)},
+)
+MACRO_RELIEF_WINDOW_Z_M = (0.0, 6.0, 24.0, 32.0)
+MACRO_RELIEF_ROUTE_CLEARANCE_M = (1.8, 8.0)
+BASELINE_ANCHOR_TERRAIN_Y_M = {
+    "F00": 0.0,
+    "F01": 1.0,
+    "F02": 3.0,
+    "F03": 4.0,
+    "F10": 0.6569429025655424,
+    "F11": 0.9681820758217896,
+    "F12": 1.8900625310535752,
+    "F13": 3.5555555555555554,
+    "F14": 4.0,
+    "F15": 4.0,
+    "F16": 4.0,
+}
 
 NODES = {
     "F00": {"label": "Тропа пролога", "xyz": (0.0, 0.0, 0.0), "role": "spawn_prologue"},
@@ -238,11 +258,38 @@ def terrain_relief(x: float, z: float):
     return 0.16 * shoulder_left + 0.12 * shoulder_right - 0.06 * shallow_hollow
 
 
+def prologue_lane_distance(x: float, z: float):
+    first = NODES["F00"]["xyz"]
+    second = NODES["F01"]["xyz"]
+    dx, dz = second[0] - first[0], second[2] - first[2]
+    t = clamp01(((x - first[0]) * dx + (z - first[2]) * dz) / (dx * dx + dz * dz))
+    qx, qz = first[0] + t * dx, first[2] + t * dz
+    return point_distance(x, z, qx, qz)
+
+
+def terrain_macro_relief(x: float, z: float):
+    # Real asymmetric snow shoulders and a shallow side hollow are limited to
+    # the first 32 m. The route clearance preserves all triangles intersecting
+    # the 2.1 m F00→F01 walk lane on this 0.5 m grid.
+    fade_in_start, fade_in_end, fade_out_start, fade_out_end = MACRO_RELIEF_WINDOW_Z_M
+    zero_radius, full_relief_radius = MACRO_RELIEF_ROUTE_CLEARANCE_M
+    window = smoothstep(fade_in_start, fade_in_end, z) * (1.0 - smoothstep(fade_out_start, fade_out_end, z))
+    route_clearance = smoothstep(zero_radius, full_relief_radius, prologue_lane_distance(x, z))
+    feature_sum = 0.0
+    for feature in MACRO_RELIEF_FEATURES:
+        center_x, center_z = feature["center_xz_m"]
+        sigma_x, sigma_z = feature["sigma_xz_m"]
+        gaussian = math.exp(-0.5 * (((x - center_x) / sigma_x) ** 2 + ((z - center_z) / sigma_z) ** 2))
+        feature_sum += feature["amplitude_m"] * gaussian
+    return window * route_clearance * feature_sum
+
+
 def surface_height_and_masks(x: float, z: float):
-    # Height continues to follow the established F00→F03 centerline. Additional
-    # route links change only the route mask, not the established terrain profile.
+    # The base height follows the established F00→F03 centerline; bounded macro
+    # relief adds shoulders beside the first 32 m while preserving anchors/lane.
+    # Additional route links change only the route mask, not the base profile.
     route_x, route_y = route_height_and_x(z)
-    height = route_y + terrain_relief(x, z) - terrain_relief(route_x, z)
+    height = route_y + terrain_relief(x, z) - terrain_relief(route_x, z) + terrain_macro_relief(x, z)
 
     route_mask = clamp01(1.0 - smoothstep(ROUTE_HALF_WIDTH, 4.3, route_distance(x, z)))
     for node_id in PAD_ROUTE_NODE_IDS:
@@ -718,7 +765,89 @@ def verify_mesh(verts, xs, zs):
         actual[node_id] = verts[index][2]
         if node_id in PROLOGUE_ROUTE_NODE_IDS and abs(actual[node_id] - y) > 1e-6:
             raise RuntimeError(f"Authored height mismatch at {node_id}: {actual[node_id]} vs {y}")
+        if node_id in BASELINE_ANCHOR_TERRAIN_Y_M:
+            baseline_y = BASELINE_ANCHOR_TERRAIN_Y_M[node_id]
+            if abs(actual[node_id] - baseline_y) > 1e-6:
+                raise RuntimeError(
+                    f"Macro relief changed the protected {node_id} anchor: "
+                    f"{actual[node_id]} vs {baseline_y}"
+                )
     return actual
+
+
+def terrain_relief_contract(xs, zs, node_heights):
+    zero_radius, full_relief_radius = MACRO_RELIEF_ROUTE_CLEARANCE_M
+    samples = [terrain_macro_relief(x, z) for z in zs for x in xs]
+    significant_delta_threshold = 1e-12
+    lane_vertex_deltas = [
+        abs(terrain_macro_relief(x, z))
+        for z in zs for x in xs
+        if prologue_lane_distance(x, z) <= zero_radius
+    ]
+    triangle_diameter = math.sqrt(2.0) * GRID_STEP
+    required_zero_radius = ROUTE_HALF_WIDTH + triangle_diameter
+    anchor_deltas = {}
+    for node_id, baseline_y in BASELINE_ANCHOR_TERRAIN_Y_M.items():
+        if node_id not in node_heights:
+            raise RuntimeError(f"Protected terrain anchor {node_id} is missing from the mesh")
+        node = NODES[node_id]
+        x, _, z = node["xyz"]
+        delta = terrain_macro_relief(x, z)
+        height_delta = node_heights[node_id] - baseline_y
+        if abs(delta) > 1e-9 or abs(height_delta) > 1e-6:
+            raise RuntimeError(
+                f"Macro relief moved protected {node_id}: field delta {delta}, "
+                f"mesh height delta {height_delta}"
+            )
+        anchor_deltas[node_id] = {
+            "baseline_y_m": baseline_y,
+            "current_y_m": node_heights[node_id],
+            "height_delta_m": height_delta,
+            "macro_relief_delta_m": delta,
+        }
+    if zero_radius < required_zero_radius:
+        raise RuntimeError(
+            f"Macro relief zero radius {zero_radius} m does not protect the "
+            f"{ROUTE_HALF_WIDTH * 2.0} m lane plus one grid-triangle diameter "
+            f"({required_zero_radius} m required)"
+        )
+    if lane_vertex_deltas and max(lane_vertex_deltas) > 1e-9:
+        raise RuntimeError(f"Macro relief intrudes into the F00→F01 lane: {max(lane_vertex_deltas)} m")
+    return {
+        "formula": "bounded Gaussian shoulder/hollow sum multiplied by a Z window and F00→F01 segment clearance",
+        "equation": "W(z) * C(d_F00F01(x,z)) * sum_i(A_i * exp(-0.5 * (((x-x_i)/sigma_x_i)^2 + ((z-z_i)/sigma_z_i)^2)))",
+        "features": [
+            {
+                "name": feature["name"],
+                "center_xz_m": list(feature["center_xz_m"]),
+                "amplitude_m": feature["amplitude_m"],
+                "sigma_xz_m": list(feature["sigma_xz_m"]),
+            }
+            for feature in MACRO_RELIEF_FEATURES
+        ],
+        "window_z_m": list(MACRO_RELIEF_WINDOW_Z_M),
+        "route_clearance_m": {
+            "zero_through": zero_radius,
+            "full_from": full_relief_radius,
+            "physical_lane_width": ROUTE_HALF_WIDTH * 2.0,
+            "grid_step": GRID_STEP,
+            "maximum_grid_triangle_diameter": triangle_diameter,
+            "required_zero_radius_for_all_lane_triangles": required_zero_radius,
+            "margin_m": zero_radius - required_zero_radius,
+            "proof": "Distance-to-segment is 1-Lipschitz; each lane-intersecting grid triangle's vertices are within lane half-width plus the triangle diameter, inside the zero-relief radius.",
+            "max_abs_vertex_delta_inside_zero_radius_m": max(lane_vertex_deltas, default=0.0),
+        },
+        "sampled_grid_delta_m": {
+            "sample_count": len(samples),
+            "significant_delta_threshold": significant_delta_threshold,
+            "changed_vertex_count": sum(abs(delta) > significant_delta_threshold for delta in samples),
+            "minimum": min(samples),
+            "maximum": max(samples),
+        },
+        "protected_anchor_heights": anchor_deltas,
+        "outside_window_delta_m": 0.0,
+        "engine_collision_contact_verified": False,
+    }
 
 
 def make_manifest(root, output_dir, ground, verts, xs, zs, node_heights, image_paths, bake_path):
@@ -763,6 +892,7 @@ def make_manifest(root, output_dir, ground, verts, xs, zs, node_heights, image_p
         "provenance": "Blender Cycles EMIT bake from the three project-original 1K tiles blended by ForestMasks vertex channels",
         "sRGB": True,
     }
+    relief_contract = terrain_relief_contract(xs, zs, node_heights)
     preview_files = ["W01_ForestGround_F00_to_F16_Overview.png", "W01_ForestGround_F11_to_F16_Routes.png"]
     return {
         "asset_id": "A-FOREST-GROUND",
@@ -828,12 +958,14 @@ def make_manifest(root, output_dir, ground, verts, xs, zs, node_heights, image_p
         "coverage_scope": "authored F00→F01→F02→F03 prologue route; F10→F11→transformed WalkEntry approach; transformed WalkExit→F14→F15→F16 reversible forest route; the F12↔F13 opaque bent passage is a separate hero-root asset",
         "unproduced_authored_nodes": [node_id for node_id in NODES if node_id not in BUILD_NODE_IDS],
         "terrain_anchor_height_note": (
-            "F10–F16 X/Z retain the W01 passport values. Their Y values are design-local; "
-            "the existing continuous ground preserves the authored F00→F03 height profile, so "
-            "these markers use sampled ground heights instead ("
+            "All produced anchor terrain heights remain equal to the pre-relief profile; "
+            "the bounded F00 macro relief has zero field delta at F00–F03, F10–F16 and "
+            "zero delta over every grid vertex within its 1.8 m F00→F01 lane clearance. "
+            "F10–F16 Y values are design-local, so the markers use sampled ground heights ("
             + ", ".join(f"{node_id}={node_heights[node_id]:.9f} m" for node_id in ("F10", "F11", "F12", "F13", "F14", "F15", "F16"))
-            + "). This keeps every anchor on the unchanged shared surface while extending only the readable route mask and the eastern terrain edge needed by F16."
+            + "). The explicit field, lane-triangle and anchor deltas are recorded in terrain_relief_contract."
         ),
+        "terrain_relief_contract": relief_contract,
         "authored_nodes": {
             node_id: {
                 "label": node["label"],
@@ -887,8 +1019,8 @@ def make_manifest(root, output_dir, ground, verts, xs, zs, node_heights, image_p
             "bake_input": "three shared 1K albedo maps and ForestMasks vertex channels",
         },
         "production_defaults": [
-            "A continuous, low-relief surface follows the exact F00→F01→F02→F03 node heights; its shallow shoulders are a production default.",
-            "A 2.1 m readable ground track connects F10→F11→transformed WalkEntry, transformed WalkExit→F14, and F14→F15→F16 on the same continuous surface; no terrain height profile is introduced beyond F03.",
+            "A continuous surface follows the exact authored F00→F01→F02→F03 profile and includes bounded asymmetric snow shoulders beside the first 32 m; the F00→F01 lane and every produced anchor height are protected.",
+            "A 2.1 m readable ground track connects F10→F11→transformed WalkEntry, transformed WalkExit→F14, and F14→F15→F16 on the same continuous surface; no macro-relief height delta is introduced beyond z=32 m.",
             "F12↔F13 uses a separate opaque, walk-through paired hero-root asset with one mid-bend SpatialLinkFrame and distinct WalkEntry/WalkExit endpoints.",
             "Leaf and root fields are terrain materials/masks; no separate debris, fence, tree, or gameplay prop is included.",
         ],

@@ -4580,6 +4580,25 @@
       "releaseDisposition": "v2-technical-integration-verified-art-motion-performance-pending",
       "sourceSha256": "785c8f6f99e5d650c6f07028a2e2cff5eec5dd83b3cce60b99ad2ede40894afd",
       "derivedSha256": "8c5a9e19f9b4c379f3e30a1a33e88c5c02017224dafdcd487837917ba2cc7755"
+    },
+    {
+      "id": "photoworlds.w01.route-ground-f00-f16.v1",
+      "source": "assets/source/blender/photoworlds/W01/urman_forest_ground_f16.py",
+      "derived": "game/assets/photoworlds/forest_ground/prologue-ground-f00-f16-v1.glb",
+      "generator": "Existing Blender4.5.12 W01 F00–F16 terrain generator; bounded first32m Gaussian snow shoulders, same grid/masks/route and single visual/contact surface",
+      "license": "Original code-authored terrain; texture inputs retain their existing individual registry/provenance terms. No Meshy generation or new credit spend.",
+      "scale": 1.0,
+      "triangleBudget": 471680,
+      "textureBudget": 2048,
+      "materials": [
+        "W01 authored vertex masks COLOR_0 and MetricUV/UV2; existing shared snow/packed track/forest roots/leaves shader"
+      ],
+      "collision": "Existing W01 AuthoredSurfaceContact from same terrain mesh; all11 anchors unchanged and route-intersecting0.5m-grid triangles preserve heights by1.8m zero-delta buffer. Native contact/movement acceptance remains open.",
+      "lod": "Existing0.5m singleterrain grid;236817vertices/471680triangles. No new terrain/collision owner.",
+      "status": "Boundedreliefsource exported; measured delta[-.2413,+.7652]m outside protectedlane; producer guards/receipts pass, affectedGame18.13s0/0. WholeF00native/art review pending.",
+      "releaseDisposition": "candidate-native-scene-and-contact-review-pending",
+      "sourceSha256": "d30ff585e2b08617a8deb095f7eadcb33870b960226bdd04707062ba8a1d8ebd",
+      "derivedSha256": "57771c8ece812bbc004f0de15e02ea926fffadcf6520f764f092272e049bca92"
     }
   ]
 }

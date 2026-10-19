@@ -54,16 +54,20 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         void fragment() {
             // ForestMasks is exported as COLOR_0; R is the packed walking track.
             float track = smoothstep(0.16, 0.78, COLOR.r);
-            vec3 snow = mix(texture(fresh_snow, UV2).rgb, texture(trampled_snow, UV2).rgb, track * 0.88);
-            float root_cover = clamp(COLOR.b * 0.22, 0.0, 0.18) * (1.0 - track);
-            float leaf_cover = clamp(COLOR.g * 0.12, 0.0, 0.10) * (1.0 - track);
-            vec3 roots = texture(forest_roots, UV2).rgb * vec3(0.62, 0.75, 0.91);
-            vec3 leaves = texture(forest_leaves, UV2).rgb * vec3(0.82, 0.88, 1.0);
+            // Packed snow records the narrow walked route; the surrounding snow
+            // stays pale. This is authored vertex coverage, not a new path mesh.
+            vec3 fresh = texture(fresh_snow, UV2).rgb * vec3(0.94, 0.97, 0.91);
+            vec3 packed = texture(trampled_snow, UV2).rgb * vec3(0.68, 0.75, 0.72);
+            vec3 snow = mix(fresh, packed, track * 0.94);
+            float root_cover = clamp(COLOR.b * 0.48, 0.0, 0.38) * (1.0 - track);
+            float leaf_cover = clamp(COLOR.g * 0.30, 0.0, 0.24) * (1.0 - track);
+            vec3 roots = texture(forest_roots, UV2).rgb * vec3(0.84, 0.83, 0.76);
+            vec3 leaves = texture(forest_leaves, UV2).rgb * vec3(0.90, 0.83, 0.69);
             snow = mix(snow, roots, root_cover);
             snow = mix(snow, leaves, leaf_cover);
-            ALBEDO = snow * mix(1.0, 0.92, COLOR.a);
-            ROUGHNESS = 0.94;
-            SPECULAR = 0.18;
+            ALBEDO = snow * mix(1.0, 0.88, COLOR.a);
+            ROUGHNESS = mix(0.94, 0.86, track);
+            SPECULAR = 0.16;
         }
         """;
     private static readonly Vector3 BranchF01 = new(12f, 1f, 50f);
@@ -129,6 +133,25 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         (new(53.8f, 123.4f), 256f),
         (new(64.8f, 137.6f), 143f)
     };
+    private static readonly (string Variant, Vector2 Position, float YawDegrees)[] PrologueForestMidPines =
+    {
+        ("WinterSpruce_5", new(-11f, 18f), 19f),
+        ("WinterSpruce_4", new(16f, 26f), 241f),
+        ("WinterSpruce_6", new(-13f, 35f), 327f),
+        ("WinterSpruce_3", new(23f, 50f), 97f),
+        ("WinterSpruce_5", new(-10f, 59f), 164f),
+        ("WinterSpruce_4", new(32f, 68f), 18f),
+        ("WinterSpruce_6", new(7f, 74f), 286f),
+        ("WinterSpruce_3", new(54f, 72f), 133f),
+        ("WinterSpruce_5", new(20f, 88f), 54f),
+        ("WinterSpruce_4", new(63f, 89f), 221f),
+        ("WinterSpruce_6", new(24f, 105f), 349f),
+        ("WinterSpruce_3", new(72f, 103f), 74f),
+        ("WinterSpruce_5", new(38f, 125f), 198f),
+        ("WinterSpruce_4", new(84f, 129f), 22f),
+        ("WinterSpruce_6", new(16f, 108f), 271f),
+        ("WinterSpruce_3", new(69f, 138f), 112f)
+    };
 
     private RuntimeBridge? _bridge;
     private Node3D? _branchVisual;
@@ -184,6 +207,7 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
     private object? _branchMoveSession;
     private bool _branchMoveInProgress;
     private Button? _prologueSkipButton;
+    private Viewport? _prologueUiViewport;
     private Label? _prologueHintAccessLabel;
     private bool _prologueHintAvailable;
     private AccessibilitySettingsSnapshot _accessibility = AccessibilitySettingsSnapshot.Default;
@@ -254,7 +278,9 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         ExitBagPresentation();
         ExitShuralePresentation();
         _rootLinkExitSweep.Dispose();
-        GetViewport().SizeChanged -= RefitPrologueSkipButton;
+        if (_prologueUiViewport is { } viewport && GodotObject.IsInstanceValid(viewport))
+            viewport.SizeChanged -= RefitPrologueSkipButton;
+        _prologueUiViewport = null;
         _bridge = null;
         _branchTarget = null;
         _prologueEndTarget = null;
@@ -622,15 +648,17 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         _forestVisual = new Node3D { Name = "F00F03ForestVisual", Visible = false };
         _forestVisual.SetMeta("presentationOnly", true);
         _forestVisual.SetMeta("sourceAssets", "urman.act1.agentb.foliage_kit; winter.pine.v1");
-        _forestVisual.SetMeta("routeClearance", "2.1 m authored path retained using scaled foliage AABB; presentation only");
+        _forestVisual.SetMeta("routeClearance", "2.1 m standing lane retained from measured lower-2m triangles for every pine tier; presentation only");
         AddChild(_forestVisual);
 
         var pineProvider = new AgentBAct1ExteriorLayer();
         ArrayMesh pineMesh;
+        ArrayMesh lightPineMesh;
         ArrayMesh farPineMesh;
         try
         {
             pineMesh = pineProvider.FoliageMesh("WinterPine", "kara");
+            lightPineMesh = pineProvider.FoliageMesh("WinterLightPine", "kara");
             farPineMesh = pineProvider.FoliageMesh("WinterFarPine", "kara");
         }
         finally
@@ -639,8 +667,10 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         }
 
         var pineSourceBounds = pineMesh.GetAabb();
+        var lightPineSourceBounds = lightPineMesh.GetAabb();
         var farPineSourceBounds = farPineMesh.GetAabb();
-        if (pineSourceBounds.Size.Y <= 0f || farPineSourceBounds.Size.Y <= 0f)
+        if (pineSourceBounds.Size.Y <= 0f || lightPineSourceBounds.Size.Y <= 0f
+            || farPineSourceBounds.Size.Y <= 0f)
             throw new InvalidOperationException("Registered winter pine has no normalized height.");
 
         var kit = AgentBKitMaterials.InstantiateKit(this, FoliageKitScenePath, "W01FoliageTemplateSource");
@@ -654,6 +684,78 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         var groundToForest = _forestVisual.GlobalTransform.AffineInverse() * groundMesh.GlobalTransform;
         var groundBounds = groundToForest * groundMesh.Mesh!.GetAabb();
         var placedTreeRoots = new List<Vector2>();
+
+        // Clip imported triangles at capsule height so low branches count, but crowns do not widen the walk lane.
+        float MeasurePineStandingFootprintRadius(
+            ArrayMesh sourceMesh, Aabb rootScaleBounds, float minimumTreeHeight, float standingHeight)
+        {
+            var localTop = rootScaleBounds.Position.Y
+                + rootScaleBounds.Size.Y * standingHeight / minimumTreeHeight;
+            var maxRadiusSquared = 0f;
+
+            void IncludeBelow(Vector3 point)
+            {
+                if (point.Y <= localTop)
+                    maxRadiusSquared = Mathf.Max(maxRadiusSquared, point.X * point.X + point.Z * point.Z);
+            }
+
+            void IncludeCrossing(Vector3 first, Vector3 second)
+            {
+                var firstBelow = first.Y <= localTop;
+                var secondBelow = second.Y <= localTop;
+                if (firstBelow == secondBelow) return;
+                var t = (localTop - first.Y) / (second.Y - first.Y);
+                var point = first.Lerp(second, t);
+                maxRadiusSquared = Mathf.Max(maxRadiusSquared, point.X * point.X + point.Z * point.Z);
+            }
+
+            void IncludeTriangle(Vector3 first, Vector3 second, Vector3 third)
+            {
+                IncludeBelow(first);
+                IncludeBelow(second);
+                IncludeBelow(third);
+                IncludeCrossing(first, second);
+                IncludeCrossing(second, third);
+                IncludeCrossing(third, first);
+            }
+
+            for (var surfaceIndex = 0; surfaceIndex < sourceMesh.GetSurfaceCount(); surfaceIndex++)
+            {
+                using var arrays = sourceMesh.SurfaceGetArrays(surfaceIndex);
+                var vertices = arrays[(int)Mesh.ArrayType.Vertex].AsVector3Array();
+                var indexData = arrays[(int)Mesh.ArrayType.Index];
+                var indices = indexData.VariantType == Variant.Type.PackedInt32Array
+                    ? indexData.AsInt32Array()
+                    : Array.Empty<int>();
+                if (indices.Length > 0)
+                {
+                    if (indices.Length % 3 != 0)
+                        throw new InvalidOperationException("Generated pine surface is not a triangle list.");
+                    for (var index = 0; index < indices.Length; index += 3)
+                        IncludeTriangle(vertices[indices[index]], vertices[indices[index + 1]], vertices[indices[index + 2]]);
+                }
+                else
+                {
+                    if (vertices.Length % 3 != 0)
+                        throw new InvalidOperationException("Generated pine surface has an incomplete triangle.");
+                    for (var index = 0; index < vertices.Length; index += 3)
+                        IncludeTriangle(vertices[index], vertices[index + 1], vertices[index + 2]);
+                }
+            }
+
+            if (maxRadiusSquared <= 0f)
+                throw new InvalidOperationException("Generated pine has no geometry in the standing-height band.");
+            return Mathf.Sqrt(maxRadiusSquared);
+        }
+
+        const float minimumPineHeight = 9f;
+        const float minimumClusterPineHeight = 12f;
+        const float standingLaneHalfWidth = 1.05f;
+        var pineStandingFootprintRadius = MeasurePineStandingFootprintRadius(
+            pineMesh, pineSourceBounds, minimumPineHeight, 2f);
+        var clusteredPineStandingFootprintRadius = Mathf.Max(
+            MeasurePineStandingFootprintRadius(lightPineMesh, pineSourceBounds, minimumClusterPineHeight, 2f),
+            MeasurePineStandingFootprintRadius(farPineMesh, pineSourceBounds, minimumClusterPineHeight, 2f));
 
         float RouteDistance(Vector2 point)
         {
@@ -700,15 +802,24 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
 
             if (variant.StartsWith("WinterSpruce_", StringComparison.Ordinal) || variant == "WinterPine")
             {
-                var targetHeight = 12f + (index % 4) * 2f;
+                var variationColumn = index;
+                var variationRow = string.Equals(layer, "near", StringComparison.Ordinal) ? 0 : 1;
+                var targetHeight = Mathf.Lerp(
+                    string.Equals(layer, "near", StringComparison.Ordinal) ? 12f : minimumPineHeight,
+                    string.Equals(layer, "near", StringComparison.Ordinal) ? 19f : 15f,
+                    CoordinateHash(variationColumn, variationRow, 0xD1B54A35u) / (float)uint.MaxValue);
+                var girthScale = Mathf.Lerp(0.76f, 0.91f,
+                    CoordinateHash(variationColumn, variationRow, 0x94D049BBu) / (float)uint.MaxValue);
+                var yawOffset = (CoordinateHash(variationColumn, variationRow, 0x369DEA0Fu)
+                    / (float)uint.MaxValue - 0.5f) * 32f;
                 var heightScale = targetHeight / pineSourceBounds.Size.Y;
-                var horizontalScale = heightScale * 0.82f;
+                var horizontalScale = heightScale * girthScale;
                 var pine = new MeshInstance3D
                 {
                     Name = $"PrologueForest_{layer}_{variant}_{index + 1:00}",
                     Mesh = pineMesh,
                     Position = new Vector3(position.X, groundY - pineSourceBounds.Position.Y * heightScale, position.Y),
-                    RotationDegrees = new Vector3(0f, yawDegrees, 0f),
+                    RotationDegrees = new Vector3(0f, yawDegrees + yawOffset, 0f),
                     Scale = new Vector3(horizontalScale, heightScale, horizontalScale)
                 };
                 pine.SetMeta("presentationOnly", true);
@@ -717,12 +828,8 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
                 if (variant != "WinterPine") pine.SetMeta("replacesVariant", variant);
                 pine.SetMeta("forestLayer", layer);
 
-                var maxX = Mathf.Max(Mathf.Abs(pineSourceBounds.Position.X),
-                    Mathf.Abs(pineSourceBounds.End.X)) * horizontalScale;
-                var maxZ = Mathf.Max(Mathf.Abs(pineSourceBounds.Position.Z),
-                    Mathf.Abs(pineSourceBounds.End.Z)) * horizontalScale;
-                var aabbRadius = Mathf.Sqrt(maxX * maxX + maxZ * maxZ);
-                if (RouteDistance(position) < aabbRadius + 1.05f)
+                var standingFootprintRadius = pineStandingFootprintRadius * horizontalScale;
+                if (RouteDistance(position) < standingFootprintRadius + standingLaneHalfWidth)
                     throw new InvalidOperationException($"W01 pine violates the 2.1 m route clearance: {position}.");
 
                 _forestVisual.AddChild(pine);
@@ -751,39 +858,25 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
             AddTree(placement.Variant, placement.Position, placement.YawDegrees, index, "near");
         }
 
-        var edgeTreeIndex = PrologueForestTrees.Length;
-        for (var row = 0; row < 20; row++)
+        var forestTreeIndex = PrologueForestTrees.Length;
+        foreach (var placement in PrologueForestMidPines)
         {
-            var z = 2f + row * 7.3f;
-            foreach (var (position, side) in new[]
-                     {
-                         (new Vector2(-8f, z), 0),
-                         (new Vector2(88f, z + 3.4f), 1)
-                     })
-            {
-                if (NearExistingTree(position)) continue;
-                var variant = ((row + side) % 5) switch
-                {
-                    0 => "WinterBirch_2",
-                    1 => "WinterSpruce_5",
-                    2 => "WinterSpruce_6",
-                    3 => "WinterLinden_2",
-                    _ => "WinterSpruce_4"
-                };
-                AddTree(variant, position, (row * 59f + side * 137f) % 360f, edgeTreeIndex++, "edge");
-            }
+            if (NearExistingTree(placement.Position)) continue;
+            AddTree(placement.Variant, placement.Position, placement.YawDegrees, forestTreeIndex++, "mid");
         }
 
         foreach (var (position, yawDegrees) in PrologueForestCorridorPines)
         {
             if (NearExistingTree(position, 8f)) continue;
-            AddTree("WinterPine", position, yawDegrees, edgeTreeIndex++, "corridor");
+            AddTree("WinterPine", position, yawDegrees, forestTreeIndex++, "corridor");
         }
 
         var existingForestRoots = placedTreeRoots.ToArray();
-        const float forestSpacing = 6f;
-        const float jitterRadius = 1.1f;
         const float forestCellSize = 24f;
+        const float clusterHeightStep = 1.5f;
+        const float minimumClusterPineSpacing = 2.9f;
+        const float minimumExistingPineSpacing = 3.5f;
+        const int clusteredPineRootBudget = 1300;
         static uint CoordinateHash(int column, int row, uint salt)
         {
             unchecked
@@ -797,59 +890,107 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
             }
         }
 
-        float SignedJitter(int column, int row, uint salt)
-            => (CoordinateHash(column, row, salt) / (float)uint.MaxValue * 2f - 1f) * jitterRadius;
+        float UnitHash(int column, int row, uint salt)
+            => CoordinateHash(column, row, salt) / (float)uint.MaxValue;
 
-        float HorizontalAabbRadius(Aabb bounds, float scale)
-        {
-            var x = Mathf.Max(Mathf.Abs(bounds.Position.X), Mathf.Abs(bounds.End.X)) * scale;
-            var z = Mathf.Max(Mathf.Abs(bounds.Position.Z), Mathf.Abs(bounds.End.Z)) * scale;
-            return Mathf.Sqrt(x * x + z * z);
-        }
+        float SignedJitter(int column, int row, uint salt, float radius)
+            => (UnitHash(column, row, salt) * 2f - 1f) * radius;
 
-        var farPineCells = new Dictionary<Vector2I, List<Transform3D>>();
-        var gridRow = 0;
-        for (var z = groundBounds.Position.Z + 3f; z <= groundBounds.End.Z - 3f; z += forestSpacing, gridRow++)
+        var clusteredPineCells = new Dictionary<(Vector2I Cell, int HeightBand), List<Transform3D>>();
+        var clusteredPineRoots = new List<Vector2>();
+        var clusteredPineCandidates = new List<(Vector2 Position, Transform3D Transform, Vector2I Cell, int HeightBand)>();
+        var cellColumns = Mathf.CeilToInt(groundBounds.Size.X / forestCellSize);
+        var cellRows = Mathf.CeilToInt(groundBounds.Size.Z / forestCellSize);
+        for (var cellX = 0; cellX < cellColumns; cellX++)
         {
-            var gridColumn = 0;
-            for (var x = groundBounds.Position.X + 3f; x <= groundBounds.End.X - 3f; x += forestSpacing, gridColumn++)
+            for (var cellZ = 0; cellZ < cellRows; cellZ++)
             {
-                var position = new Vector2(
-                    x + SignedJitter(gridColumn, gridRow, 0xA511E9B3u),
-                    z + SignedJitter(gridColumn, gridRow, 0x63D83595u));
-                if (position.X < groundBounds.Position.X || position.X > groundBounds.End.X
-                    || position.Y < groundBounds.Position.Z || position.Y > groundBounds.End.Z
-                    || existingForestRoots.Any(existing => existing.DistanceSquaredTo(position) < 36f))
-                    continue;
+                var cellSeed = CoordinateHash(cellX, cellZ, 0xA511E9B3u);
+                // Leave occasional whole-cell gaps, then scatter a varying number of clumps inside every other cell.
+                if (cellSeed % 11u == 0u) continue;
+                var clusters = 4 + (int)(cellSeed % 2u);
+                for (var cluster = 0; cluster < clusters; cluster++)
+                {
+                    var clusterColumn = cellX * 5 + cluster;
+                    var clusterRow = cellZ * 5 + cluster;
+                    var center = new Vector2(
+                        groundBounds.Position.X + cellX * forestCellSize
+                            + Mathf.Lerp(3f, forestCellSize - 3f,
+                                UnitHash(clusterColumn, clusterRow, 0x63D83595u)),
+                        groundBounds.Position.Z + cellZ * forestCellSize
+                            + Mathf.Lerp(3f, forestCellSize - 3f,
+                                UnitHash(clusterColumn, clusterRow, 0xB5297A4Du)));
+                    var treesInCluster = 5 + (int)(CoordinateHash(clusterColumn, clusterRow, 0xC2B2AE35u) % 3u);
+                    var heightBand = (int)(CoordinateHash(clusterColumn, clusterRow, 0x7F4A7C15u) % 8u);
+                    var clusterMinimumHeight = minimumClusterPineHeight + heightBand * clusterHeightStep;
+                    for (var treeIndex = 0; treeIndex < treesInCluster; treeIndex++)
+                    {
+                        var keyColumn = clusterColumn * 7 + treeIndex;
+                        var keyRow = clusterRow * 7 + treeIndex * 3;
+                        var position = center + new Vector2(
+                            SignedJitter(keyColumn, keyRow, 0x9E3779B9u, 4.4f),
+                            SignedJitter(keyColumn, keyRow, 0x85EBCA6Bu, 4.4f));
+                        if (position.X < groundBounds.Position.X || position.X > groundBounds.End.X
+                            || position.Y < groundBounds.Position.Z || position.Y > groundBounds.End.Z
+                            || existingForestRoots.Any(existing => existing.DistanceSquaredTo(position)
+                                < minimumExistingPineSpacing * minimumExistingPineSpacing)
+                            || clusteredPineRoots.Any(existing => existing.DistanceSquaredTo(position)
+                                < minimumClusterPineSpacing * minimumClusterPineSpacing))
+                            continue;
 
-                var height = 20f + (CoordinateHash(gridColumn, gridRow, 0xC2B2AE35u) % 7u) * 2f;
-                var heightScale = height / farPineSourceBounds.Size.Y;
-                var horizontalScale = heightScale * 0.82f;
-                if (RouteDistance(position) < HorizontalAabbRadius(farPineSourceBounds, horizontalScale) + 1.05f)
-                    continue;
+                        var height = Mathf.Lerp(clusterMinimumHeight, clusterMinimumHeight + clusterHeightStep,
+                            UnitHash(keyColumn, keyRow, 0xD1B54A35u));
+                        var heightScale = height / pineSourceBounds.Size.Y;
+                        var horizontalScale = heightScale * Mathf.Lerp(0.72f, 0.98f,
+                            UnitHash(keyColumn, keyRow, 0x94D049BBu));
+                        var standingFootprintRadius = clusteredPineStandingFootprintRadius * horizontalScale;
+                        if (RouteDistance(position) < standingFootprintRadius + standingLaneHalfWidth)
+                            continue;
 
-                var groundY = ForestGroundHeight(position.X, position.Y)
-                    - farPineSourceBounds.Position.Y * heightScale;
-                var yaw = CoordinateHash(gridColumn, gridRow, 0xB5297A4Du) / (float)uint.MaxValue * Mathf.Tau;
-                var basis = new Basis(Vector3.Up, yaw)
-                    * Basis.FromScale(new Vector3(horizontalScale, heightScale, horizontalScale));
-                var transform = new Transform3D(basis, new Vector3(position.X, groundY, position.Y));
-                var cell = new Vector2I(Mathf.FloorToInt(position.X / forestCellSize),
-                    Mathf.FloorToInt(position.Y / forestCellSize));
-                if (!farPineCells.TryGetValue(cell, out var transforms))
-                    farPineCells[cell] = transforms = new List<Transform3D>();
-                transforms.Add(transform);
+                        var groundY = ForestGroundHeight(position.X, position.Y)
+                            - pineSourceBounds.Position.Y * heightScale;
+                        var yaw = UnitHash(keyColumn, keyRow, 0x369DEA0Fu) * Mathf.Tau;
+                        var basis = new Basis(Vector3.Up, yaw)
+                            * Basis.FromScale(new Vector3(horizontalScale, heightScale, horizontalScale));
+                        var transform = new Transform3D(basis, new Vector3(position.X, groundY, position.Y));
+                        var cell = new Vector2I(Mathf.FloorToInt(position.X / forestCellSize),
+                            Mathf.FloorToInt(position.Y / forestCellSize));
+                        clusteredPineCandidates.Add((position, transform, cell, heightBand));
+                        clusteredPineRoots.Add(position);
+                    }
+                }
             }
         }
 
-        foreach (var (cell, transforms) in farPineCells)
+        // Scan the full bounds first; if necessary, stride-sample the full deterministic list instead of filling the first x-major edge.
+        var selectedClusterCandidates = clusteredPineCandidates;
+        if (clusteredPineCandidates.Count > clusteredPineRootBudget)
         {
-            var origin = new Vector3(cell.X * forestCellSize + forestCellSize * 0.5f, 0f,
-                cell.Y * forestCellSize + forestCellSize * 0.5f);
+            selectedClusterCandidates = new List<(Vector2 Position, Transform3D Transform, Vector2I Cell, int HeightBand)>(
+                clusteredPineRootBudget);
+            for (var sample = 0; sample < clusteredPineRootBudget; sample++)
+            {
+                var candidateIndex = (int)((long)sample * clusteredPineCandidates.Count / clusteredPineRootBudget);
+                selectedClusterCandidates.Add(clusteredPineCandidates[candidateIndex]);
+            }
+        }
+
+        foreach (var candidate in selectedClusterCandidates)
+        {
+            var groupKey = (candidate.Cell, candidate.HeightBand);
+            if (!clusteredPineCells.TryGetValue(groupKey, out var transforms))
+                clusteredPineCells[groupKey] = transforms = new List<Transform3D>();
+            transforms.Add(candidate.Transform);
+        }
+
+        void AddClusteredPineTier(
+            ArrayMesh mesh, int lod, string variant, Vector3 origin, float treeHeight,
+            IReadOnlyList<Transform3D> transforms, Vector2I cell, int heightBand)
+        {
             var multi = new MultiMesh
             {
                 TransformFormat = MultiMesh.TransformFormatEnum.Transform3D,
-                Mesh = farPineMesh,
+                Mesh = mesh,
                 InstanceCount = transforms.Count
             };
             for (var index = 0; index < transforms.Count; index++)
@@ -859,17 +1000,47 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
                 multi.SetInstanceTransform(index, transform);
             }
 
+            var meshTop = Mathf.Max(0f, mesh.GetAabb().End.Y);
+            var sway = 0f;
+            for (var surfaceIndex = 0; surfaceIndex < mesh.GetSurfaceCount(); surfaceIndex++)
+                if (mesh.SurfaceGetMaterial(surfaceIndex) is ShaderMaterial material)
+                    sway = Mathf.Max(sway, material.GetShaderParameter("wind_sway").AsSingle());
+            var displacement = new Vector3(meshTop * sway, 0f, meshTop * sway * 0.6f);
             var forestCell = new MultiMeshInstance3D
             {
-                Name = $"PrologueForest_FarCell_{cell.X}_{cell.Y}",
+                Name = $"PrologueForest_{variant}Cell_{cell.X}_{cell.Y}_H{heightBand}",
                 Position = origin,
                 Multimesh = multi,
-                CastShadow = GeometryInstance3D.ShadowCastingSetting.Off
+                CastShadow = lod == 2
+                    ? GeometryInstance3D.ShadowCastingSetting.Off
+                    : GeometryInstance3D.ShadowCastingSetting.On,
+                ExtraCullMargin = transforms.Max(transform => (transform.Basis * displacement).Length())
             };
             forestCell.SetMeta("presentationOnly", true);
-            forestCell.SetMeta("sourceVariant", "WinterFarPine");
-            forestCell.SetMeta("forestLayer", "far");
+            forestCell.SetMeta("sourceVariant", variant);
+            forestCell.SetMeta("forestLayer", lod == 1 ? "clustered-mid" : "far");
+            forestCell.SetMeta("windCullMargin", forestCell.ExtraCullMargin);
+            AgentBAct1ExteriorLayer.ConfigureFoliageRange(forestCell, lod, false, treeHeight);
+            if (lod == 1)
+            {
+                // Cluster cells have no LOD0 twin; keep their light mesh visible up close and hand it to LOD2 at the normal 60 m crossover.
+                forestCell.VisibilityRangeBegin = 0f;
+                forestCell.VisibilityRangeBeginMargin = 0f;
+            }
             _forestVisual.AddChild(forestCell);
+        }
+
+        foreach (var (groupKey, transforms) in clusteredPineCells)
+        {
+            var (cell, heightBand) = groupKey;
+            var origin = new Vector3(cell.X * forestCellSize + forestCellSize * 0.5f, 0f,
+                cell.Y * forestCellSize + forestCellSize * 0.5f);
+            var representativeHeight = Mathf.Min(24f, minimumClusterPineHeight
+                + (heightBand + 0.5f) * clusterHeightStep);
+            AddClusteredPineTier(lightPineMesh, 1, "WinterLightPine",
+                origin, representativeHeight, transforms, cell, heightBand);
+            AddClusteredPineTier(farPineMesh, 2, "WinterFarPine",
+                origin, representativeHeight, transforms, cell, heightBand);
         }
 
         kit.QueueFree();
@@ -1492,7 +1663,9 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         _prologueHintAccessLabel.AddThemeConstantOverride("shadow_offset_x", 2);
         _prologueHintAccessLabel.AddThemeConstantOverride("shadow_offset_y", 2);
         _prologueSkipButton.GetParent().AddChild(_prologueHintAccessLabel);
-        GetViewport().SizeChanged += RefitPrologueSkipButton;
+        var viewport = GetViewport();
+        viewport.SizeChanged += RefitPrologueSkipButton;
+        _prologueUiViewport = viewport;
     }
 
     private void SetPrologueSkipVisible(RuntimeBridge bridge, bool visible)
@@ -1645,7 +1818,7 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
             break;
         }
 
-        return routeY + TerrainRelief(x, z) - TerrainRelief(routeX, z);
+        return routeY + TerrainRelief(x, z) - TerrainRelief(routeX, z) + TerrainMacroRelief(x, z);
     }
 
     private static float TerrainRelief(float x, float z)
@@ -1656,6 +1829,32 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         return 0.16f * MathF.Exp(-left * 0.5f)
             + 0.12f * MathF.Exp(-right * 0.5f)
             - 0.06f * MathF.Exp(-hollow * 0.5f);
+    }
+
+    private static float TerrainMacroRelief(float x, float z)
+    {
+        var left = MathF.Pow((x + 4f) / 5f, 2f) + MathF.Pow((z - 12f) / 7f, 2f);
+        var right = MathF.Pow((x - 11f) / 5f, 2f) + MathF.Pow((z - 23f) / 8f, 2f);
+        var hollow = MathF.Pow((x + 10f) / 6f, 2f) + MathF.Pow((z - 25f) / 8f, 2f);
+        var window = TerrainSmoothStep(0f, 6f, z) * (1f - TerrainSmoothStep(24f, 32f, z));
+        var routeClearance = TerrainSmoothStep(1.8f, 8f, PrologueLaneDistance(x, z));
+        return window * routeClearance * (0.70f * MathF.Exp(-left * 0.5f)
+            + 0.85f * MathF.Exp(-right * 0.5f)
+            - 0.30f * MathF.Exp(-hollow * 0.5f));
+    }
+
+    private static float PrologueLaneDistance(float x, float z)
+    {
+        var point = new Vector2(x, z);
+        var segment = new Vector2(BranchF01.X, BranchF01.Z);
+        var t = Mathf.Clamp(point.Dot(segment) / segment.LengthSquared(), 0f, 1f);
+        return point.DistanceTo(segment * t);
+    }
+
+    private static float TerrainSmoothStep(float edge0, float edge1, float value)
+    {
+        var t = Mathf.Clamp((value - edge0) / (edge1 - edge0), 0f, 1f);
+        return t * t * (3f - 2f * t);
     }
 
     private static T RequireDescendant<T>(Node root, string name) where T : Node
