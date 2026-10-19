@@ -111180,7 +111180,13 @@
           "evidence_ref": "PW-024.evidence and named history progress; source_review shows available/missing inputs"
         }
       ],
-      "assignment_state": "preserved_person_or_existing_role; activity separate"
+      "assignment_state": "preserved_person_or_existing_role; activity separate",
+      "safe_node_source_inventory_2026_10_20": {
+        "state": "research_checked_implementation_pending",
+        "finding": "Canonical world.safeNodeId + active.safeNodeId already exist in schema2, but only VisitCommit writes them. PhotoWorldCatalog node.id/role has no per-node safe certification; global source collision safe_node_radius_m1.2 is SPECIFIED_NOT_IMPLEMENTED, not physical evidence. Ordinary Main mount chooses entry; actual loaded pose is separately protected and must remain so. PhotoAnchorResolver only maps main/exit nodes and has no runtimecaller; do not add second progress owner or assume nearest marker safe.",
+        "next_action": "Produce one explicit supported resume node under actual W01 physical support/clearance and local action constraints, then extend existing typedvisit reducer and Main reentry projection at that same owner. Do not automatically use F16: it is the exitplane, not a proven stable reentry. Preserve loaded actualpose path and fallback to verified F10. Native blocked by existing e79 claim; no new probe/build justified by this read-only inventory.",
+        "limits": "No implementation/slotwrites/newtests; full PW024 remains todo."
+      }
     },
     {
       "id": "PW-025",
