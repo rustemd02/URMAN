@@ -109434,7 +109434,7 @@
       "title": "Реализовать prepare и возвратный билет",
       "milestone": "PW-M1",
       "status": "in_progress",
-      "active_owner": null,
+      "active_owner": "Codex",
       "owner": "integration",
       "priority": "P0",
       "complexity": "medium",
@@ -109581,8 +109581,8 @@
       },
       "assigned_owner": "integration",
       "activity": {
-        "state": "not_active",
-        "reason": "Source return-save feedback stage e652c219 integrated/reviewed/compiled; no currentbook-loop nativeprocess. ca9/3c919 prologue+arrival jobs terminal/restored. Nextready ordinarybookroute prepared independently; fullacceptanceopen."
+        "state": "confirmed_active",
+        "reason": "Human explicitly authorized protected-test prologue skip; root serializes next ordinary village/home/book route, no facts/devspawn. Previous pause/quit fix verified2c5835cd."
       },
       "task_type": "engineering",
       "implementation_state": "implemented",
@@ -109869,6 +109869,11 @@
         "verification": "Independent source callgraph review: initialattach, deferred new/load notifications, scenechangehide, modalpause/resume, homeentry worldLocations village_day guard. Game20.22s0/0, diffcheck. No newtests.",
         "evidence": "evidence/PW-043/forest-composition-20261019/affected-game-build-arrival-cue.log",
         "remaining": "Next ordinary bookroute must show actualarrival/home cues and complete book-world-return-save-Continue. Current b6dc snapshot predates thiscue and cannot verify it."
+      },
+      "protected_test_skip_authorization_2026_10_20": {
+        "state": "explicit_human_authorized",
+        "answer": "Да, пропустить пролог в тестовом запуске",
+        "scope": "Remaining prologue in protected test to reach village/book. No user-save bypass or facts. Previous aff33 automatic review hold remains historical; now resolved for next test."
       }
     },
     {
@@ -112093,7 +112098,7 @@
       "title": "Сделать необязательные запросные подсказки",
       "milestone": "PW-M1",
       "status": "in_progress",
-      "active_owner": "Codex",
+      "active_owner": null,
       "owner": "integration",
       "priority": "P0",
       "complexity": "medium",
@@ -112227,8 +112232,8 @@
       },
       "assigned_owner": "integration",
       "activity": {
-        "state": "confirmed_active",
-        "reason": "Root starts finite configuredPause-priority correction inW01; independentreview/affectedcompile then ordinaryPause/Quit only, no prologueskip."
+        "state": "not_active",
+        "reason": "Finite configuredPause-priority slice verified in ordinary native2c5835cd; normalQuit0/restored. Full hint/prologue acceptance remains."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -112449,11 +112454,20 @@
         "limits": "Tea remains replayable per authored content; reminder switches to handoff once warm-arrival beat completed."
       },
       "pause_priority_2026_10_20": {
-        "state": "source_compile_done_native_pending",
+        "state": "verified_native_bounded_pause_quit",
         "file": "game/scripts/photoworlds/W01Controller.cs",
         "result": "Configured pause action returns before cancel-to-skip path. DefaultEscape reachesnormalPause, existingButtonand cancel-only controls unchanged; if Pause remappedawayfromEscape oldcancel semantics remain.",
-        "dod": "ActualNewGameW01→configuredPauseopensPausewithoutskip/statechange→normalQuit0; keep explicitSkipButton/gamepadcancel flow. No testing of rejected skip untilhumanapproval.",
-        "verification": "Game17.82s0/0. Independentcallerreviewpending. NextjobonlyPause/Quit; notbookroute, notguardbypass."
+        "dod": "ActualNewGameW01→configuredPauseopensPausewithoutskip/statechange→normalQuit0: satisfied for bounded slice. Existing explicitSkipButton retained; full PW-028 remains open.",
+        "verification": "AffectedGame17.82s0/0; independent caller/source review clean. Actual native NewGame→F00→Escape Pause without skipping→six Down→Exit→visible Exit confirmation→second Enter; PASS/gameExit0/userdataRestoredtrue. Root viewed actual08-pause-menu.png.",
+        "job_id": "2c5835cd994548f0b6ecae90d02bb53b",
+        "snapshot_id": "71a53c3e707311a72307e8fd8f42ddf5c2c57c836356ce5dca91b4b86c5c6d31",
+        "receipt": "evidence/PW-043/forest-composition-20261019/native_2c5835cd994548f0b6ecae90d02bb53b/fetched/receipt.json",
+        "archive_integrity": {
+          "sha256": "1cb4919b7cd3dc0ec7de68f47d40c9b18d00450ca9fded30b5ea8cdf42eaf929",
+          "entries": 25,
+          "all_entries_byte_verified": true,
+          "duplicate_zip_removed": true
+        }
       }
     },
     {
