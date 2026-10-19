@@ -25452,8 +25452,8 @@
             "remaining": [
               "Подключить NewGame выбранной кампании с отказом при invalid content; собственного целевого receipt пока нет."
             ],
-            "next_action": "Await own d581dcfcbc7944afb502691de5884b5a bounded game exit and final receipt/userdata restore. Ordinary NewGame/Continue input remains blocked by persistent foreign foreground; require actual host focus precondition change before any new launch/input. No guard weakening or same-state rerun.",
-            "blocker": "Actual current-source menu loaded, but first native Enter refused ui_focus_post_activation_lost; target75497540 valid/PIDmatch, foreground8980148/PID85600 unchanged. Full-desktop prelaunch clip did not resolve foreground activation. No actual NewGame route accepted.",
+            "next_action": "Reuse2c4d accepted project-defaultwindow/NewGame proof. Next ordinary route must resume actualpause, then verify prologue J/help/branch/F03 and arrival→book; do not rerun size/focus proof alone. Full Continue and release remain open.",
+            "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
             "work_contract": {
@@ -25583,19 +25583,44 @@
             "native_stage_2026_10_19": {
               "job": "d581dcfcbc7944afb502691de5884b5a",
               "snapshot": "95a2030147a48a37ee76e40e6717ec186d266a92201fdb399949622f923f3917",
-              "state": "actual_menu_seen_first_guarded_input_refused_no_retry",
-              "evidence": "evidence/FINISH-06/native_d581dcfcbc7944afb502691de5884b5a/frames/menu.png; ui-first-refusal.json; stdout-active.log",
+              "state": "terminal_timeout_first_input_refused_userdata_restored",
+              "evidence": "evidence/FINISH-06/native_d581dcfcbc7944afb502691de5884b5a/frames/menu.png; ui-first-refusal.json; receipt.json; stdout.log",
               "result": "Actual native menu received/inspected after current-source affected build/import; first Enter refused ui_focus_post_activation_lost, target75497540 valid/PIDmatch, foreground8980148/PID85600 unchanged. No further input. Await bounded exit/finalreceipt/userdata restoration.",
               "source_hypothesis": "Initial FPCReady captured mouse, but synchronous main-menu SetModalOpen(true) and MainMenuReady release it; no periodic recapture found. This does not prove cause of persistent menu caption refusal; no speculative source fix.",
-              "limits": "No NewGame route, prologue/F03, arrival goal, book earlyreturn/reentry or Continue acceptance. Active log includes2 preexisting PainterlyMaterialLibrary missingmode warnings; no ERROR: at observation. Terminal run/engine errors/userdata restore not yet claimed.",
-              "post_refusal_desktop": "ActualSession1 afterrefusal: clipstillfullvirtual1920x1080, sameforeignforegroundPID85600. Does not support persistent clientrect cursorcapture hypothesis."
+              "limits": "No NewGame route, prologue/F03, arrival goal, book earlyreturn/reentry or Continue acceptance; two existing materialmode warnings. Timed guard closed own game and restored user data, ACLs not compared.",
+              "post_refusal_desktop": "ActualSession1 afterrefusal: clipstillfullvirtual1920x1080, sameforeignforegroundPID85600. Does not support persistent clientrect cursorcapture hypothesis.",
+              "terminal": {
+                "status": "FAIL",
+                "game_exit": 124,
+                "userdataRestored": true,
+                "engine_errors_bytes": 0,
+                "worker_elapsed_seconds": 1098.406,
+                "evidence": "evidence/FINISH-06/native_d581dcfcbc7944afb502691de5884b5a/receipt.json"
+              }
             },
             "ordinary_window_policy_2026_10_19": {
-              "state": "source_reviewed_windows_parser_pass_staged_not_deployed",
+              "state": "actual_1280x720_menu_and_guarded_new_game_accepted",
               "source": "eng/run-windows-check.ps1 SHA42dd8f13f59c333cad638e05a6cd748aebcc4f15161db589802d02a12784f817",
               "result": "Exact ordinary modeplay+photoworlds_game.tscn now honors project windowoverride1280x720 instead of forcing1920x1080 client on1920x1080desktop; receipt nativeWindowSizePolicy=project-default. Capture/smoke/otherplay remain1920, clean/timeout/headlesspolicy/alwaysontop/focus/ownership guards unchanged.",
               "verification": "Independent Fast review no findings; actual Windows PowerShell Parser on staged exact source PASS. Not deployed while own old job active.",
-              "causality_limit": "Prelaunch AND postrefusal clip remainfull1920x1080; target bounds not observed, so forcedoversize is launch semantics mismatch and possible caption-offscreen cause, not proven cause/resolved focus."
+              "causality_limit": "Prelaunch AND postrefusal clip remainfull1920x1080; target bounds not observed, so forcedoversize is launch semantics mismatch and possible caption-offscreen cause, not proven cause/resolved focus.",
+              "verification_job": "2c4dddf5c57e4ea9aae449f8177629f1 / snapshot244c7074eb3cd0ad77ab5f0c6bb4e11ab94ae8d8924075ab1a5fb4c6f73f0776; native menu/input not yet accepted",
+              "verification_result": "Current2c4d native viewport1280x720; first guardedEnter oktrue, actualprologue with automaticpause visible. Unlike prior1920 attempt no focusrefusal. Full route/Continue not covered."
+            },
+            "native_window_stage_2026_10_19": {
+              "job": "2c4dddf5c57e4ea9aae449f8177629f1",
+              "snapshot": "244c7074eb3cd0ad77ab5f0c6bb4e11ab94ae8d8924075ab1a5fb4c6f73f0776",
+              "evidence": "evidence/FINISH-06/native_2c4dddf5c57e4ea9aae449f8177629f1/receipt.json; new-game-input.json; frames/after-new-game-pause.png",
+              "actual_result": "Guarded Enter oktrue and NewGame menuclosed→actualW01prologue seen, automaticpause. Jinputtransportok but journal not visuallyaccepted whilepause. Initialframevalidationrefusal causeunconfirmed; latercurrentcapture passed.",
+              "terminal": {
+                "status": "FAIL",
+                "game_exit": 124,
+                "userdataRestored": true,
+                "engine_errors_bytes": 0,
+                "nativeWindowSizePolicy": "project-default",
+                "worker_elapsed_seconds": 473.047
+              },
+              "limits": "FiniteNewGame/windowstage accepted, not full release route/Continue. Boundedtime ended before unpause/help/branch/F03/book. Do not call timeout overallPASS."
             }
           },
           {
@@ -61520,7 +61545,12 @@
           "evidence_ref": "ACT1-DEPTH.9.evidence and named history progress; source_review shows available/missing inputs"
         }
       ],
-      "assignment_state": "preserved_person_or_existing_role; activity separate"
+      "assignment_state": "preserved_person_or_existing_role; activity separate",
+      "log_house_gate_2026_10_19": {
+        "source": "Direct owner request19.10: verify realistic log stacking in generated log houses",
+        "requirement": "Для нового generated-сруба проверены actualGLB front/side/three-quarter и крупно углы/проёмы: венцы опираются друг на друга, угловые соединения и торцы правдоподобны, проёмы/перемычки/опора крыши корректны; нет парящих брёвен, случайных пересечений и неестественных цокольных наплывов. ImageGen reference не заменяет post-Meshy проверку.",
+        "applicability": "Every new generated log-house candidate; does not claim existing houses failed or restart accepted model polishing."
+      }
     },
     {
       "id": "ACT1-DEPTH.10",
@@ -62214,7 +62244,12 @@
           "evidence_ref": "ACT1-DEPTH.10.evidence and named history progress; source_review shows available/missing inputs"
         }
       ],
-      "assignment_state": "preserved_person_or_existing_role; activity separate"
+      "assignment_state": "preserved_person_or_existing_role; activity separate",
+      "log_house_gate_2026_10_19": {
+        "source": "Direct owner request19.10: verify realistic log stacking in generated log houses",
+        "requirement": "Для нового generated-сруба проверены actualGLB front/side/three-quarter и крупно углы/проёмы: венцы опираются друг на друга, угловые соединения и торцы правдоподобны, проёмы/перемычки/опора крыши корректны; нет парящих брёвен, случайных пересечений и неестественных цокольных наплывов. ImageGen reference не заменяет post-Meshy проверку.",
+        "applicability": "Every new generated log-house candidate; does not claim existing houses failed or restart accepted model polishing."
+      }
     },
     {
       "id": "ACT1-DEPTH.11",
@@ -62457,7 +62492,12 @@
           "ACT1-DEPTH.12"
         ]
       },
-      "assignment_state": "preserved_person_or_existing_role; activity separate"
+      "assignment_state": "preserved_person_or_existing_role; activity separate",
+      "log_house_gate_2026_10_19": {
+        "source": "Direct owner request19.10: verify realistic log stacking in generated log houses",
+        "requirement": "Для нового generated-сруба проверены actualGLB front/side/three-quarter и крупно углы/проёмы: венцы опираются друг на друга, угловые соединения и торцы правдоподобны, проёмы/перемычки/опора крыши корректны; нет парящих брёвен, случайных пересечений и неестественных цокольных наплывов. ImageGen reference не заменяет post-Meshy проверку.",
+        "applicability": "Every new generated log-house candidate; does not claim existing houses failed or restart accepted model polishing."
+      }
     },
     {
       "id": "ACT1-DEPTH.12",
@@ -63185,7 +63225,12 @@
           "evidence_ref": "ACT1-DEPTH.12.evidence and named history progress; source_review shows available/missing inputs"
         }
       ],
-      "assignment_state": "preserved_person_or_existing_role; activity separate"
+      "assignment_state": "preserved_person_or_existing_role; activity separate",
+      "log_house_gate_2026_10_19": {
+        "source": "Direct owner request19.10: verify realistic log stacking in generated log houses",
+        "requirement": "Для нового generated-сруба проверены actualGLB front/side/three-quarter и крупно углы/проёмы: венцы опираются друг на друга, угловые соединения и торцы правдоподобны, проёмы/перемычки/опора крыши корректны; нет парящих брёвен, случайных пересечений и неестественных цокольных наплывов. ImageGen reference не заменяет post-Meshy проверку.",
+        "applicability": "Every new generated log-house candidate; does not claim existing houses failed or restart accepted model polishing."
+      }
     },
     {
       "id": "ACT1-VILLAGE-COMPOSITION",
@@ -114748,7 +114793,7 @@
         "Не создаются сотни уникальных текстур одинаковых досок.",
         "Уточнение автора 09.10.2026: материалы и растительные формы наружной деревни проверены в составе домов и окружения по выбранным автором скриншотам. Сопоставимы масштаб фактур, материальность дерева/земли/снега, объём и плотность растительности, свет и цветовые отношения. Новые текстуры поверх примитивных форм и отдельный образец материала не доказывают соответствие целой игровой сцены."
       ],
-      "next_action": "Deliver one coherent ordinary day arrival→street→home scene using existing models and current exact P1: shared light/depth/material scale and readable background composition; compare matched Windows frames+movement. No isolated model polishing; current whole-scene mismatch evidence is in whole_scene_style_review_2026_10_19.",
+      "next_action": "Deliver first whole generated conifer family matching owner-selected current housefront via dedicated source→image_gen→Meshy worker; then neighboring houses/outbuildings and fences/gates. Preserve useful current house, physics and performance. Full visual asset coverage remains PW093.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -115308,14 +115353,15 @@
         "root_visual_review": "Просмотрены C1/C2 evidence/PW-034/current-baseline-20261017: повторяющиеся острые ели и плоские снежные ярусы; текущий конечный этап исправляет геометрию, авторская приёмка остаётся открыта."
       },
       "whole_scene_style_review_2026_10_19": {
-        "state": "runtime_reference_mismatch_confirmed_not_fixed",
+        "state": "owner_selected_current_house_target_other_assets_need_consistency",
         "evidence": [
           "evidence/ACT1-DEPTH.12/native_uv_v3_fdc5f5ef62fc4554ad107b9d9bef31ef/frames/babai_shape_front_high.png",
           "docs/URMAN_VISUAL_RESET_2026-10-07/references/P1_user_selected_painterly.png"
         ],
         "result": "Root and independent agent viewed actual19Oct front and exactP1: detailed PBR house vs flat character/faceted conifer wall and noisy snow do not form one style. Background high-contrast crowns compete with house; street-to-warm-home light/focal hierarchy missing.14Oct street is historical baseline, not currentmain proof. ExactT2 file missing; architectural acceptance not inferred.",
         "next_result": "One coherent ordinary day arrival→street→home scene using existing models: authored light/depth planes and shared large-scale pigment/material response, with background composition subordinated to route/home; same-camera Windows comparison+movement. No more isolated models, unique detail textures or credit spend before whole-scene result.",
-        "limits": "No scene/art acceptance delivered by this assessment; preserve all art/culture/reference rights gates and existing owners."
+        "limits": "No scene/art acceptance delivered by this assessment; preserve all art/culture/reference rights gates and existing owners.",
+        "owner_clarification": "Author subsequently selected this exact current housefront as generally normal/appropriate and requested other visual assets be generated to match it. Earlier interpretation that the house should be pushed back toward flatP1 is superseded; preserve the successful house material/form target. Full-scene/movement acceptance still separate."
       }
     },
     {
@@ -140673,7 +140719,118 @@
           "repeat_only_if": "Изменился покрываемый вход/consumer/контракт; без этого уже принятая проверка используется повторно без запуска."
         },
         "stop_if": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
-        "units": []
+        "units": [
+          {
+            "id": "PW-093/E01",
+            "parent_id": "PW-093",
+            "title": "Заменить видимое хвойное семейство generated-моделями в стиле принятого дома",
+            "result": "Generated conifer near/mid/far family visible in village and W01, own PBR/UV, sharedLOD/cache; old physical support retained.",
+            "owner": "generated-assets",
+            "assigned_owner": "/root/generated_asset_rework",
+            "active_owner": "/root/generated_asset_rework",
+            "activity": {
+              "state": "confirmed_active",
+              "reason": "Dedicated agent explicitly accepted sourcefamily, viewed actualdonor+selectedhouse, generated/inspected built-in ImageGen reference; one Meshy POST task01a1539f actual30 consumed. performance_slice has frozen bounded consumer draft."
+            },
+            "task_type": "engineering",
+            "status": "in_progress",
+            "implementation_state": "partial",
+            "technical_verification_state": "not_run",
+            "evidence": [
+              "assets/source/blender/act1/winter_spruce_meshy_v1/input-winter-pine-v1.png"
+            ],
+            "remaining": [
+              "Meshy task succeeds and sourceGLB downloaded once; provenance/credits saved.",
+              "Candidate WinterPine_LOD0/1/2 at root/base0, bounded6k/2k/600tris and ≤2sharedPBR, common2Kcolor/1KnormalORM.",
+              "Root promotes separate visualGLB; actualimport/affectedcompile and matched village/W01 Windowsframes+movement/performance acceptance."
+            ],
+            "next_action": "Poll existing Meshy task01a1539f-c9cb-7389-bae9-71b8cc11748e, no POST retry; prepare finite family candidate and coordinate existing renderer consumer.",
+            "blocker": null,
+            "external_gates": [],
+            "stop_condition": "After own source/runtime DoD and sufficient evidence, release active claim and commit accepted stage; author whole-scene art/motion gates stay with parent. No isolated detail/model polish loop.",
+            "work_contract": {
+              "result": "One coherent generated conifer family matching the owner-selected in-engine house target",
+              "targets": [
+                "assets/source/blender/act1/winter_spruce_meshy_v1/",
+                "game/assets/models/act1/urman_winter_pine_meshy_v1.glb",
+                "game/scripts/experiments/agent_b_act1/AgentBAct1ExteriorLayer.cs",
+                "assets/asset_registry.json"
+              ],
+              "required_inputs": [
+                {
+                  "path": "evidence/ACT1-DEPTH.12/native_uv_v3_fdc5f5ef62fc4554ad107b9d9bef31ef/frames/babai_shape_front_high.png",
+                  "artifact": "Owner-selected actualruntimehouse style/material target",
+                  "availability": "available"
+                },
+                {
+                  "path": "game/assets/models/act1/urman_winter_pine.glb",
+                  "artifact": "Existing runtime donor/old physicalsupportgeometry andCC0sourceprovenance",
+                  "availability": "available"
+                },
+                {
+                  "path": "eng/meshy_assets.py",
+                  "artifact": "Existing authorized API pipeline; userbudget4000 and boundedfirstfamily90",
+                  "availability": "available"
+                }
+              ],
+              "scope_in": [
+                "Existingasset→built-inimagegen→Meshy→normalizedruntimeLOD",
+                "Separate visualPBR cache and legacyphysics mesh through existing provider",
+                "Sharedmaterials/instances/culling and broad whole-scene style comparison"
+              ],
+              "scope_out": [
+                "Otherfamilies thisstage",
+                "Old physicalGLB overwrite, collision/router/quest changes",
+                "New coordinator/fallback/save owner or test/probe suite",
+                "Declare whole art/release ready from Blender/source"
+              ],
+              "steps": [
+                "Inspect actualdonor and ownerselectedruntimeframe.",
+                "Generate one built-in ImageGen reference, inspect it, submit bounded Meshy task once.",
+                "Normalize/optimize staticLODfamily with sharedPBR and sourceprovenance.",
+                "Integrate existing provider retaining old support geometry and placement.",
+                "Use existing narrow Windows import/frame/movement route, record actualresult and remaining art/performance gates."
+              ],
+              "done_when": [
+                "Actual generated runtime family replaces old visible conifers in both target contexts.",
+                "LOD/material/texture budgets and old physical support source preserved.",
+                "Sufficient existing import/affectedcompile/native evidence; whole-scene author acceptance remains parent gate."
+              ],
+              "verification": {
+                "method": "targeted_runtime_scenario",
+                "question": "Generated conifer family matches selected house material/form language while preserving traversal, batching and performance?",
+                "scenario": {
+                  "targets": [
+                    "Existing village housefront view",
+                    "Existing W01 conifer view and ordinary movement"
+                  ],
+                  "actions": [
+                    "Compare current source candidate with existing matched Windowshousefront and W01views after import."
+                  ],
+                  "observations": [
+                    "NewPBRfamily actuallyrendered, oldphysicalsupport/placement retained, no visual/performance regressions in covered route."
+                  ],
+                  "bound": "One named candidate and changed provider only; no broad smoke or new test harness."
+                },
+                "success": [
+                  "Candidate actually rendered and source budgets verified; native limits/art gates recorded honestly."
+                ],
+                "repeat_only_if": "Changed candidate/provider/covered input or incomplete required observation."
+              },
+              "actual_result": "NOT_RUN",
+              "evidence_refs": [
+                "tasks[id=PW-093].execution.units[id=PW-093/E01].evidence"
+              ],
+              "engineering_completion_excludes_external_gates": true
+            },
+            "dependencies": {
+              "implementation": [],
+              "verification": [],
+              "acceptance": []
+            },
+            "depends_on": []
+          }
+        ]
       },
       "visual_asset_passport_ids": [
         "AS-17",
@@ -140733,7 +140890,7 @@
         "Reference URL не считается лицензией игрового ассета.",
         "Нет ресурса с неизвестным происхождением, скрытого под generated."
       ],
-      "next_action": "Сопоставить фактические файлы со всеми 48 семействами и 13 фото.",
+      "next_action": "Finish finite PW-093/E01 generated conifer source→reference→Meshy→runtime family, preserve separate old collision source; then continue remaining existing visual inventory including neighboring houses with actual log-stacking gate.",
       "blocker": null,
       "external_gates": [
         {
@@ -141011,6 +141168,40 @@
         "remaining": "Complete actual Premium commercial terms/receipt evidence and inventory coverage. Existing Shurale v4 canonical runtime GLB is absent from registry; register its exact source/derived chain before closing PW-093. Other 48 families/13photos remain covered by original contract.",
         "owner_style_withdrawal": "Aidar candidate not shipped: candidate-only registry row removed, runtime consumer reverted, generated GLB deleted after preserving rawinput/producer/patch. Meshy195/4000 unchanged. Earlier source/runtime binding inspection is historical draft evidence, not current integrated row.",
         "withdrawn_aidar_registry_id": "character.aidar.meshy.player.v1"
+      },
+      "log_house_gate_2026_10_19": {
+        "source": "Direct owner request19.10: verify realistic log stacking in generated log houses",
+        "requirement": "Для нового generated-сруба проверены actualGLB front/side/three-quarter и крупно углы/проёмы: венцы опираются друг на друга, угловые соединения и торцы правдоподобны, проёмы/перемычки/опора крыши корректны; нет парящих брёвен, случайных пересечений и неестественных цокольных наплывов. ImageGen reference не заменяет post-Meshy проверку.",
+        "applicability": "Every new generated log-house candidate; does not claim existing houses failed or restart accepted model polishing."
+      },
+      "author_asset_replacement_2026_10_19": {
+        "scope": "All visual game asset families replaced through coherent generated production, within existing48families+13photo coverage; generated candidates do not erase culture/rights/runtime gates. This is existing campaign scope, no separate tracker.",
+        "owner_selected_runtime_reference": "evidence/ACT1-DEPTH.12/native_uv_v3_fdc5f5ef62fc4554ad107b9d9bef31ef/frames/babai_shape_front_high.png",
+        "owner_attachment_sha256": "ec2e84ec3fff52c79f006a96e653e712057199bf492ebfee263ff5dd6211d87e",
+        "reference_pixel_identity": "Root compared decoded RGBA pixels with user attachment: exact equality; reuse existing runtimePNG, no duplicate reference image.",
+        "dedicated_agent": "/root/generated_asset_rework",
+        "pipeline": "Actual existing runtime asset as example → built-in image_gen reference → existing MeshyAPI CLI → source candidate/LOD/PBR/provenance → root runtime integration/native acceptance. No browser or Meshy image generation.",
+        "family_order": [
+          "Conifer whole family near/mid/far",
+          "Neighboring houses and outbuildings, preserve successful hero house and log construction",
+          "Fences/gates with existing boundaries/openings",
+          "Remaining existing visual asset inventory"
+        ],
+        "budget": {
+          "author_cap": 4000,
+          "actual_consumed": 230,
+          "remaining_author_cap": 3770,
+          "first_family_cap": 90,
+          "first_family_consumed": 35,
+          "active_task_id": "01a1539f-c9cb-7389-bae9-71b8cc11748e",
+          "active_task_state": "SUCCEEDED, actual30credits",
+          "live_balance_observed": 4085,
+          "balance_is_not_author_budget": true,
+          "active_remesh_task_id": "01a153a5-6669-7608-af5d-4ac72650653d",
+          "active_remesh_task_state": "IN_PROGRESS observed90percent"
+        },
+        "current_artifact": "assets/source/blender/act1/winter_spruce_meshy_v1/input-winter-pine-v1.png; Meshy image-to3d30 credits; finalGLB pending",
+        "log_house_acceptance": "Для нового generated-сруба проверены actualGLB front/side/three-quarter и крупно углы/проёмы: венцы опираются друг на друга, угловые соединения и торцы правдоподобны, проёмы/перемычки/опора крыши корректны; нет парящих брёвен, случайных пересечений и неестественных цокольных наплывов. ImageGen reference не заменяет post-Meshy проверку."
       }
     },
     {
