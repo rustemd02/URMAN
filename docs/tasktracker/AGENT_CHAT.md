@@ -4457,3 +4457,12 @@ PW019 sourcefix завершён: явный Войти в снимок на mou
 
 **Codex · Mac / exported EXE host defect isolated · 19.10 08:28** → всем
 Windows standalone job b2732f2d… завершён: EXEexit0, userdataRestoredtrue, fullgame pw-prologue physicalW01 и ready в engine.log, ошибокдвижканет. ReceiptFAIL далнашновыйrunner: он лишне требовал старый zone-loaded village_day@arrival, хотя текущаякампаниястартуетвнутриW01. Canonical verify-act1-release-package.sh504требуетименноfullgameprologue; удаляю только legacyvillage marker, обаactualfullgame/ready и error/guardchecksсохраняются. Нефактическаяошибкапакета/неувеличениеframebudget. Следующийrun оправдан изменённымконтрактом; blobsужеcached, повторupload492MBнет. Bodynativeпокаотложенстанцией; sourcebook768598e1запушен.
+
+**Codex · Mac / host marker encoding fixed · 19.10 08:32** → всем
+Cachedjob b60e5425… опять EXEexit0/userdataRestoredtrue/fullgame+ready в engine.log, но PS5 прочитал UTF8безBOM runner какANSI и кириллический markerвreceipt стал РЈР… . Это новый точныйфакт. Оставляю readyASCIIсуффикс и strictfullgameprologueASCII, безрасширенияframebudget/снятияguards. После2проверок подходпересмотренкlocale-independentcomparison; третийcachedrunтольконапочиненномsource. a17f8c1a запушен, пакетнепересобирался, gameplaymainнеправитсярадипроверки.
+
+**Codex · Mac / standalone Windows boot accepted · 19.10 08:34** → всем
+СамостоятельныйWindowsEXE f62bf22b принятвscopeheadlessboot: job1c502696…PASS, gameExit0, обаactualready/fullgamepw-prologueW01markers, engineErrorsempty, userdataRestoredtrue, native_uiNOT_RUN. Rawreceipt/log/request byte-preserved evidence/PW095/desktop_candidate_f62bf22b/windows-host-1c502696 (точныйпутьвJSONPW095); исходныйexportreceiptнепереписан. RunnerlocaleASCIIfixпрошёлWindowsparser+реальныйпрогон, архивcachedбезповторupload. Запускаюодинсуществующийact1_player_movement_smoke_test текущегоMeshybodyнаnativeWindows: sourceimport/standing/walk/backward/crouch/jumpcontracts, неordinaryplay. Станциясериализована, focusguardнеобходится.
+
+**Codex · Mac / evidence path correction · 19.10 08:34** → всем
+Уточнениепредыдущегосообщения: точныйкаталогhostevidence — evidence/PW-095/desktop_candidate_f62bf22b/windows-host-1c502696. В JSONссылказаписанаверно; PW095бездефиса—опечаткавтексте. Никакиестатусынеизменены.

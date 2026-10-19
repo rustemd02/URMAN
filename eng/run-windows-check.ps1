@@ -124,7 +124,7 @@ if ($Mode -eq 'candidate-boot') {
                 $_ -match '(?im)(^|\s)(ERROR:|SCRIPT ERROR:)|ObjectDB instances leaked|resources still in use|Unhandled exception'
             })
             if ($errors.Count -gt 0) { throw 'Exported game log contains engine errors or resource leaks.' }
-            $requiredMarkers = @('УРМАН Godot vertical slice ready: Painterly Low-Poly / first person',
+            $requiredMarkers = @('Godot vertical slice ready: Painterly Low-Poly / first person',
                 'fullgame-scene-loaded: urman.fullgame:scene/pw-prologue physical=W01')
             foreach ($marker in $requiredMarkers) {
                 if (-not $engineLog.Contains($marker)) { throw "Exported game startup marker is missing: $marker" }

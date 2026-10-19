@@ -141687,10 +141687,15 @@
         "accepted_source_head": "f62bf22b",
         "accepted_output": "build/releases/act1-20261019-f62bf22b",
         "accepted_receipt": "evidence/PW-095/desktop_candidate_f62bf22b/desktop-artifact-receipt.json",
-        "accepted_log": "evidence/PW-095/desktop_candidate_f62bf22b/export.log"
+        "accepted_log": "evidence/PW-095/desktop_candidate_f62bf22b/export.log",
+        "windows_host_execution": {
+          "state": "headless_package_boot_pass_native_ui_open",
+          "receipt": "evidence/PW-095/desktop_candidate_f62bf22b/windows-host-1c502696/receipt.json",
+          "job_id": "1c502696358f433f941113c1efb415f9"
+        }
       },
       "candidate_boot_route_2026_10_19": {
-        "state": "host_exe_exited_zero_wrong_legacy_marker_fixed",
+        "state": "headless_windows_package_boot_pass_native_ui_open",
         "targets": [
           "eng/remote-check.py",
           "eng/remote_common.py",
@@ -141700,14 +141705,23 @@
         "scope": "Fixed exported windows/URMAN.exe only; same authenticated station, protected_run, bounded launch and userdata restoration; headless/Dummy boot is not ordinary UI acceptance.",
         "verification": "Python AST PASS; Windows PowerShell Parser.ParseInput PASS on exact compressed source; independent review of ownership/archive/cleanup and newest3 + 24h/active upload retention.",
         "station_update": "Installed four clean owned files via SFTP staging and SHA256/backup guards; exact parser PASS, managed worker stop/start succeeded. Windows main remains df982443; unrelated .gitattributes unmerged and two local documentation changes preserved. Backup C:/Users/ruste/Documents/GitHub/URMAN/.tools/station-update-c7898456/backup. Initial git archive staging produced zero-byte ZIP and no surviving exact deployment process; no replacement occurred in that attempt.",
-        "next_action": "Deploy the one-line runner marker correction with exact previous SHA and backup; one cached-blob boot using same package and corrected fullgame launch contract, then existing player movement native check.",
+        "next_action": "Ordinary standalone New Game/Save/Continue and mandatory platform/performance/rights/art/human gates remain open; native body movement import is the next independent stage.",
         "source_commit": "c7898456",
         "first_host_job": {
           "job_id": "b2732f2d502144b497692b7c2a9d7fca",
           "result": "FAIL acceptance: exported Windows executable exit0, userdataRestored true, no recovery; real fullgame pw-prologue physicalW01 and ready markers present, but runner incorrectly required village_day@arrival, which is not the PhotoWorlds startup.",
           "artifacts": ".codex-captures/remote/candidate-f62bf22b-host-20261019",
           "correction": "Remove only the legacy village marker. Canonical existing release verifier requires actual fullgame prologue marker, and both fullgame/ready markers remain mandatory. No increased frame budget or weakened engine-error/userdata guards."
-        }
+        },
+        "second_host_job": {
+          "job_id": "b60e542546ff4943b97e316af94b6c34",
+          "artifacts": ".codex-captures/remote/candidate-f62bf22b-host-marker-fixed-20261019",
+          "result": "EXEexit0/userdataRestoredtrue/fullgame+ready present; checker FAIL because Windows PowerShell5 decodes UTF8 noBOM source as ANSI and corrupts Cyrillic marker literal. Exact receipt shows mojibake, not a missing engine event.",
+          "correction": "Use ASCII ready-event suffix plus exact ASCII fullgame prologue marker, preserving both readiness requirements; no frame budget/error/guard changes. New causal fact justifies one cached-blob check, not an unchanged retry."
+        },
+        "accepted_job_id": "1c502696358f433f941113c1efb415f9",
+        "accepted_receipt": "evidence/PW-095/desktop_candidate_f62bf22b/windows-host-1c502696/receipt.json",
+        "result": "Actual exported windows/URMAN.exe hash986215d7…14932b launched on UNTERPC outside source snapshot, exact fullgame pw-prologue/W01+ready markers present, engineErrors empty, gameExitCode0/userdataRestoredtrue/native_ui not-run. Original export receipt remains unchanged; this host receipt is separate proof. Windows ACL comparison not performed by guard; no claim of ordinary UI/performance/art/complete release."
       }
     },
     {
