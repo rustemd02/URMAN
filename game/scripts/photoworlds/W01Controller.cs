@@ -184,6 +184,8 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
     private object? _branchMoveSession;
     private bool _branchMoveInProgress;
     private Button? _prologueSkipButton;
+    private Label? _prologueHintAccessLabel;
+    private bool _prologueHintAvailable;
     private AccessibilitySettingsSnapshot _accessibility = AccessibilitySettingsSnapshot.Default;
 
     public override void _Ready()
@@ -235,6 +237,8 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         ApplyShuraleAccessibilitySettings(settings, wasReducedMotion);
         if (_prologueSkipButton is not { } button || !GodotObject.IsInstanceValid(button)) return;
         AccessibilityPresentation.ApplyToControl(button, settings);
+        if (_prologueHintAccessLabel is { } hintLabel)
+            AccessibilityPresentation.ApplyToControl(hintLabel, settings);
         RefitPrologueSkipButton();
     }
 
@@ -258,6 +262,8 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         _prologuePhotoTarget = null;
         _prologuePhotoCard = null;
         _prologueSkipButton = null;
+        _prologueHintAccessLabel = null;
+        _prologueHintAvailable = false;
         _branchAnimation = null;
         _branchMoveInteractionId = null;
         _branchMoveSceneId = null;
@@ -1469,6 +1475,20 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         _prologueSkipButton.Pressed += OnPrologueSkipPressed;
         _prologueSkipButton.Visible = false;
         _prologueSkipButton.Disabled = true;
+        _prologueHintAccessLabel = new Label
+        {
+            Name = "HintAccess",
+            AutowrapMode = TextServer.AutowrapMode.WordSmart,
+            HorizontalAlignment = HorizontalAlignment.Right,
+            MouseFilter = Control.MouseFilterEnum.Ignore,
+            Visible = false
+        };
+        _prologueHintAccessLabel.AddThemeFontSizeOverride("font_size", 18);
+        _prologueHintAccessLabel.AddThemeColorOverride("font_color", new Color("f0e3c2"));
+        _prologueHintAccessLabel.AddThemeColorOverride("font_shadow_color", Colors.Black);
+        _prologueHintAccessLabel.AddThemeConstantOverride("shadow_offset_x", 2);
+        _prologueHintAccessLabel.AddThemeConstantOverride("shadow_offset_y", 2);
+        _prologueSkipButton.GetParent().AddChild(_prologueHintAccessLabel);
         GetViewport().SizeChanged += RefitPrologueSkipButton;
     }
 
@@ -1489,6 +1509,7 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         }
 
         _prologueSkipTarget?.SetPresentationEnabled(visible);
+        _prologueHintAvailable = visible && bridge.CurrentPhotoWorldHint() is not null;
         button.Text = bridge.ResolveText(PrologueSkipLabelTextId);
         button.Visible = visible;
         RefreshPrologueSkipButtonState();
@@ -1509,6 +1530,13 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         button.Disabled = !button.Visible
             || GetTree().GetFirstNodeInGroup("player_controller") is not FirstPersonController { ModalOpen: false }
             || _prologueSkipTarget?.IsAvailable() != true;
+        if (_prologueHintAccessLabel is { } hintLabel && GodotObject.IsInstanceValid(hintLabel))
+        {
+            hintLabel.Visible = !button.Disabled && _prologueHintAvailable;
+            var gamepad = GetTree().GetFirstNodeInGroup("player_controller") is FirstPersonController player
+                && player.CurrentInputDevice == "gamepad";
+            hintLabel.Text = $"Нужна подсказка — {InputBindingService.ActionHint("journal", gamepad)}";
+        }
     }
 
     private void RefitPrologueSkipButton()
@@ -1524,6 +1552,15 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         button.OffsetTop = 24f;
         button.OffsetBottom = 24f + height;
         button.CustomMinimumSize = new Vector2(width, height);
+        if (_prologueHintAccessLabel is { } hintLabel && GodotObject.IsInstanceValid(hintLabel))
+        {
+            hintLabel.AnchorLeft = hintLabel.AnchorRight = 1f;
+            hintLabel.AnchorTop = hintLabel.AnchorBottom = 0f;
+            hintLabel.OffsetLeft = button.OffsetLeft;
+            hintLabel.OffsetRight = button.OffsetRight;
+            hintLabel.OffsetTop = button.OffsetBottom + 12f;
+            hintLabel.OffsetBottom = hintLabel.OffsetTop + Mathf.Max(56f, 54f * (float)_accessibility.TextScale);
+        }
     }
 
     private void EnsureBranchTarget(string interactionId, string prompt)

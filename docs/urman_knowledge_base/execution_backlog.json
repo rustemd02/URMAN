@@ -70994,7 +70994,7 @@
       "remaining": [
         "Приёмка походки (ходьба/бег/присед/повороты); отсутствует подтверждение собственного конечного DoD, перечисленного ниже."
       ],
-      "next_action": "One existing native player movement scenario on current candidate: inspect standing/walking/backward-diagonal/crouch frames and receipt; no new harness. Do not equate scripted smoke with ordinary play or final feel.",
+      "next_action": "Finish diagnosed Boot lower-cloth skin binding fix; verify changed source with existing movement scenario and inspect backward diagonal/wall-stop cuffs. Do not guess gait constants or close art gate.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -71153,15 +71153,36 @@
         "frame": "assets/source/blender/act1/aidar_meshy_v1/renders-aidar-meshy-player-body-v1/aidar-first-person-lookdown.png"
       },
       "meshy_player_body_2026_10_19": {
-        "state": "source_integrated_native_import_motion_pending",
+        "state": "native_motion_technical_pass_visual_cuff_fix_in_progress",
         "runtime_asset": "game/assets/generated/aidar-player-body-meshy-v1.glb",
         "sha256": "ec586a9ec7701f17ee62f9ed0bcc4cb958215212c07f051f83a255755acef182",
         "bytes": 16540240,
         "producer": "assets/source/blender/act1/aidar_meshy_v1/prepare_aidar_player_meshy_source.py",
         "manifest": "assets/source/blender/act1/aidar_meshy_v1/aidar-meshy-player-body-v1.manifest.json",
         "result": "Original PBR torso/hem/trousers/boots retained; eight disconnected hand islands34tri removed; texture-only2K conversion preserves73 nonimage bufferViews and geometry/rig/UV/material JSON. Actual-eye vertical75/-Y view root inspected. Body consumer retains all source trouser surfaces and PBR, changing skin binds/weights only; compile ArrayMesh type error fixed, affected compile PASS15.34s0/0; independent source/raw GLB/footwear review no finding.",
-        "remaining": "Native Godot import and existing movement captures; rough shoulder cut edges and author motion/art acceptance remain open.",
-        "publication": "Working-tree candidate only; native import/movement and source/runtime asset commit pending. Do not treat this state record as delivered body."
+        "remaining": "Complete cloth Knee / leather Ankle skin blend on Boot shared cuff without geometry/UV/PBR changes, then same changed-source native movement frames. Separately repair source coat centroid-cut jagged edge; final motion/ordinary play/art remain open.",
+        "publication": "Working-tree candidate only; native import/movement and source/runtime asset commit pending. Do not treat this state record as delivered body.",
+        "native_initial_check": {
+          "job_id": "fcb35a2eec734fc8baf1244dcd10cb59",
+          "snapshot_id": "f426e07b4b510c9b5a2759ed5f8021f725a8cfeff5fb88c515f2e1d54f718939",
+          "artifacts": ".codex-captures/remote/aidar-meshy-movement-20261019/",
+          "result": "Build/content/import PASS; game FAIL before captures: legacy indoor footwear profile rejects new taller player boots. userdataRestored true; Windows ACLs not compared."
+        },
+        "footwear_fix": "Separate player-only L/R imported local AABB X/Y profiles with 2mm tolerance; existing Timur guard and shared sock geometry unchanged. Source review no actionable finding; affected game build18.43s0warnings0errors. Native recheck pending.",
+        "native_recheck": {
+          "job_id": "b511c9a0eebb496c8b177db148f63559",
+          "snapshot_id": "b4bec3944a012d4e9167cacaa178aade88ee60ab0fa5ef193e5c49e4dcfe3142",
+          "evidence": "evidence/ACT1-LEGS/meshy-body-20261019/native-b511c9a0",
+          "result": "Build/import/init PASS; engineErrors empty, userdataRestored true. Walk/sprint travel .760/1.180m per30ticks, analogue .150, diagonal .760; standing game-camera frame saved and root viewed. Scenario FAIL before motion frames: old WaistSeam selector names CouncilWitness meshes, yields empty arrays for AidarPlayer source. Existing check being minimally adapted to intentional source contract, not bypassed."
+        },
+        "existing_visibility_contract_update": "Existing check now selects AidarPlayer, checks actual imported skin-bind resolution/normalization and all62 reviewed shared source pelvis positions with unchanged posed2mm tolerance. Same visibility pixel thresholds,4samples andphysicsrays. Exact conservative16px screen bins replace up to7.06B full-scan calls for56841LOD0tri; unsafe near/projection global and outsideviewport fullscan. Affected Game compile17.10s0/0 before root literal62 guard strengthening; independent review no actionable finding. Native runtime pending.",
+        "native_motion_check": {
+          "job_id": "09a4507f02e0448cbbb7b6755eda4290",
+          "snapshot_id": "8789751dd3c623ea97de2de99849d70548cb33abfd2083856de7ecfc6ac37dcc",
+          "evidence": "evidence/ACT1-LEGS/meshy-body-20261019/native-09a4507f",
+          "result": "PASS172checks, gameExit0, engine-errors empty, userdataRestoredtrue; source pelvis62 joined in standing/walking/crouched/turned. Root personally viewed all9 frames. Human art not-run.",
+          "visual_defect": "Root motion frames show open trouser-to-boot cuff and ragged coat side edges. L58/R61 original shared cuff positions Knee1 in trousers versus Ankle1 in Boot, which includes lower trouser cloth. Runtime skin fix in progress; technical PASS is not art acceptance."
+        }
       }
     },
     {
@@ -111844,7 +111865,7 @@
       "title": "Сделать необязательные запросные подсказки",
       "milestone": "PW-M1",
       "status": "in_progress",
-      "active_owner": null,
+      "active_owner": "/root",
       "owner": "integration",
       "priority": "P0",
       "complexity": "medium",
@@ -111978,8 +111999,8 @@
       },
       "assigned_owner": "integration",
       "activity": {
-        "state": "not_active",
-        "reason": "W01 optional hint source slice implemented/compiled; root native UI integration and other worlds remain open."
+        "state": "confirmed_active",
+        "reason": "Finite source prologue hint worker frozen; root integrating checked result and canonical compiled content."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -111988,7 +112009,7 @@
         "Пять минут неподвижности не вызывают наказание или окрик.",
         "Последний уровень снимает технический тупик, но не завершает главу автоматически."
       ],
-      "next_action": "Native W01 book hint disclosure on valid current session, then remaining world-specific stages against their own available inputs; do not mark full PW028 complete from W01 source.",
+      "next_action": "Verify actual prologue mapped shortcut→Дела→three optional hint levels before/after branch→F03, plus skip/session resets when guarded ordinary foreground is available; retain other world stages.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -112182,6 +112203,15 @@
         ],
         "verification": "Independent source review CLEAN for actual fact/action pairs, scene→quest mapping, objective counters and resource coverage; compiled fullgame and affectedGame15.73s/0errors/warnings.",
         "remaining": "Actual ordinary GUI readability/disclosure in all worlds and native lifecycle checks remain open."
+      },
+      "prologue_help_2026_10_19": {
+        "state": "source_integrated_compiled_native_ui_pending",
+        "defect": "Current ordinary pw-prologue supports journal but CurrentPhotoWorldHint blocks before book.received, has no prologue projection/context, and PrologueUI exposes no journal binding. F03 exit requires interaction, not automatic path completion. Source-confirmed help gap; not native softlock proof.",
+        "result_contract": "Three request-only existing hint levels before/after actual prologue_branch_moved; mapped journal shortcut in existing PrologueUI, ordinary prologue journal opens Дела. No newquest/fact/autoprogression; F00 remains optional.",
+        "source_owner": "/root/gamefeel_slice",
+        "verification": "Canonical fullgame ContentCli compile and affected Game build14.37s0warnings0errors; independent source review no actionable finding; git diff check. Native journal/input/disclosure/skip route not run.",
+        "result": "Actual prebook prologue journal opens existing Дела tab and displays optional3level branch/exit hints, no syntheticquest/fact/progression. Existing PrologueUI shows mapped journal keyboard/gamepad binding. Six RU authored rows and canonical fullgame compiled output.",
+        "evidence": "evidence/PW-028/prologue-help-20261019/affected-build.log"
       }
     },
     {

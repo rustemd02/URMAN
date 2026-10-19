@@ -6600,6 +6600,72 @@
   },
   {
     "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-hint-prologue-branch-question",
+    "value": {
+      "default": "Что мешает пройти дальше по тропе?",
+      "translations": {
+        "ru": "Что мешает пройти дальше по тропе?"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-hint-prologue-branch-area",
+    "value": {
+      "default": "Ветка поперёк тропы не обязательно означает конец пути.",
+      "translations": {
+        "ru": "Ветка поперёк тропы не обязательно означает конец пути."
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-hint-prologue-branch-action",
+    "value": {
+      "default": "Следуй по тропе до ветки. Подойди к ней, наведи взгляд и выбери «Отвести ветку».",
+      "translations": {
+        "ru": "Следуй по тропе до ветки. Подойди к ней, наведи взгляд и выбери «Отвести ветку»."
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-hint-prologue-exit-question",
+    "value": {
+      "default": "Куда ведёт освободившаяся тропа?",
+      "translations": {
+        "ru": "Куда ведёт освободившаяся тропа?"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-hint-prologue-exit-area",
+    "value": {
+      "default": "За светлой расщелиной тропа продолжается к дальнему краю леса.",
+      "translations": {
+        "ru": "За светлой расщелиной тропа продолжается к дальнему краю леса."
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-hint-prologue-exit-action",
+    "value": {
+      "default": "Пройди по тропе через светлую расщелину до самого конца. Там осмотрись и выбери «Выйти из леса и продолжить путь».",
+      "translations": {
+        "ru": "Пройди по тропе через светлую расщелину до самого конца. Там осмотрись и выбери «Выйти из леса и продолжить путь»."
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
     "id": "urman.fullgame:text/pw-hint-forest-camera-question",
     "value": {
       "default": "Почему люди на снимке смотрят мимо объектива?",

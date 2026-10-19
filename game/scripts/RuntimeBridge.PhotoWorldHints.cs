@@ -8,14 +8,37 @@ public partial class RuntimeBridge
     internal PhotoWorldHintProjection? CurrentPhotoWorldHint()
     {
         if (_loadingSlot || _loadPreparing || !_content.HasPhotoWorlds
-            || SessionIdentity is not { } session
-            || !CanInspectReceivedPhotoBook)
+            || SessionIdentity is not { } session)
             return null;
 
         var route = CurrentFullGamePhotoWorldRouteProjection();
         if (route is null || !ReferenceEquals(route.SessionIdentity, session)
             || !ReferenceEquals(session, SessionIdentity))
             return null;
+
+        if (route.ActiveSceneId == "urman.fullgame:scene/pw-prologue")
+        {
+            var branch = CurrentW01BranchProjection();
+            if (branch is not { ActiveSceneId: "urman.fullgame:scene/pw-prologue" }
+                || !ReferenceEquals(branch.SessionIdentity, session))
+                return null;
+
+            var key = branch.Moved ? "prologue-exit" : "prologue-branch";
+            var interactionId = branch.Moved
+                ? "urman.fullgame:interaction/pw-prologue-f03-end"
+                : "urman.fullgame:interaction/pw-prologue-branch-move";
+            if (!IsInteractionAvailable(interactionId)
+                || _loadingSlot || _loadPreparing || !ReferenceEquals(session, SessionIdentity))
+                return null;
+
+            return new PhotoWorldHintProjection(
+                key,
+                ResolveText($"urman.fullgame:text/pw-hint-{key}-question"),
+                ResolveText($"urman.fullgame:text/pw-hint-{key}-area"),
+                ResolveText($"urman.fullgame:text/pw-hint-{key}-action"));
+        }
+
+        if (!CanInspectReceivedPhotoBook) return null;
 
         if (route.ActiveSceneId == "urman.fullgame:scene/pw-forest")
         {

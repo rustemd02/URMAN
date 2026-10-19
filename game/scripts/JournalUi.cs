@@ -131,6 +131,8 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
             else if (FindPlayer() is not { ModalOpen: true }
                      && GetTree().GetFirstNodeInGroup("runtime_bridge") is RuntimeBridge bridge)
             {
+                if (bridge.ActiveSceneId == "urman.fullgame:scene/pw-prologue")
+                    _tabs.CurrentTab = 2;
                 Open(bridge);
             }
 
@@ -492,6 +494,10 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
         string? hintKey)
     {
         if (bridge is null || hintKey is null) return null;
+        if (hintKey is "prologue-branch" or "prologue-exit")
+            return bridge.ActiveSceneId == "urman.fullgame:scene/pw-prologue"
+                ? $"{bridge.ActiveSceneId}\u001f{hintKey}"
+                : null;
         if (hintKey == "exit")
         {
             if (bridge.ActiveSceneId != "urman.fullgame:scene/pw-forest") return null;
