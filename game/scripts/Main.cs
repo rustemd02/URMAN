@@ -73,7 +73,7 @@ public partial class Main : Node3D
 
     public Act1ConnectedWorld? ConnectedWorld => _connectedWorld;
 
-    internal bool CanPrepareW01Visit(FirstPersonController player, string zoneId, string spawnId)
+    internal bool CanPreparePhotoVisit(FirstPersonController player, string zoneId, string spawnId)
     {
         return _connectedWorld is { ActiveZoneId: "house_old_pc" } world && zoneId == "house_old_pc"
             && Act1WorldLayout.TryGetPlacement(zoneId, out var placement) && placement.SpawnPoints.ContainsKey(spawnId)
@@ -91,8 +91,10 @@ public partial class Main : Node3D
             && contact.GetCollisionCount() > 0 && contact.GetNormal().Dot(Vector3.Up) >= .7f;
     }
 
-    internal async Task<bool> CompleteW01VisitProjectionAsync(object session, JsonElement? originTicket = null)
+    internal async Task<bool> CompletePhotoVisitProjectionAsync(
+        object session, string worldId, JsonElement? originTicket = null, bool completedBankReturn = false)
     {
+        if (worldId is not ("W01" or "W02" or "W03" or "W04" or "W05")) return false;
         var bridge = _fullGameRouteBridge;
         bool Current() => GodotObject.IsInstanceValid(this) && IsInsideTree() && !IsQueuedForDeletion()
             && bridge is not null && GodotObject.IsInstanceValid(bridge)
@@ -103,9 +105,25 @@ public partial class Main : Node3D
         if (!Current()) return false;
         await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
         if (!Current() || GetTree().GetFirstNodeInGroup("player_controller") is not FirstPersonController player) return false;
-        if (originTicket is not { } ticket)
-            return bridge!.ActiveSceneId == ForestSceneId && IsMountedW01()
+        if (completedBankReturn)
+            return worldId == "W04" && bridge!.ActiveSceneId == BankApproachSceneId
+                && _connectedWorld is { ActiveZoneId: "village_day" }
+                && bridge.CurrentZoneId == "village_day" && bridge.CurrentSpawnPointId == "pw-bank-approach"
+                && IsMountedZone("village_day") && ActiveZoneScenePath == ZoneScenes["village_day"]
                 && PhotoVisitPoseHasSupport(player, player.GlobalPosition);
+        if (originTicket is not { } ticket)
+        {
+            var targetMounted = worldId switch
+            {
+                "W01" => bridge!.ActiveSceneId == ForestSceneId && IsMountedW01() && ActiveZoneScenePath == W01ScenePath,
+                "W02" => bridge!.ActiveSceneId == RiverSceneId && IsMountedW02() && ActiveZoneScenePath == W02ScenePath,
+                "W03" => bridge!.ActiveSceneId == HousePhotoSceneId && IsMountedW03() && ActiveZoneScenePath == W03ScenePath,
+                "W04" => bridge!.ActiveSceneId == CommonPhotoSceneId && IsMountedW04() && ActiveZoneScenePath == W04ScenePath,
+                "W05" => bridge!.ActiveSceneId == CellarPhotoSceneId && IsMountedW05() && ActiveZoneScenePath == W05ScenePath,
+                _ => false
+            };
+            return targetMounted && PhotoVisitPoseHasSupport(player, player.GlobalPosition);
+        }
 
         var zone = ticket.GetProperty("originWorldId").GetString()!;
         var safeNode = ticket.GetProperty("originSafeNode").GetString()!;

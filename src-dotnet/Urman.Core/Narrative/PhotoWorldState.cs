@@ -50,6 +50,45 @@ public static class PhotoWorldState
     public static bool IsConditionOperation(string operation) => ConditionOperations.Contains(operation);
     public static bool IsEffectOperation(string operation) => EffectOperations.Contains(operation);
 
+    /// <summary>The authored physical entry used by the existing visit transaction.</summary>
+    public static bool TryGetVisitRoute(string worldId, out string sceneId, out string entrySafeNodeId)
+    {
+        (sceneId, entrySafeNodeId) = worldId switch
+        {
+            "W01" => ("urman.fullgame:scene/pw-forest", "F10"),
+            "W02" => ("urman.fullgame:scene/pw-river", "R00"),
+            "W03" => ("urman.fullgame:scene/pw-house", "H00"),
+            "W04" => ("urman.fullgame:scene/pw-common", "C00"),
+            "W05" => ("urman.fullgame:scene/pw-cellar", "B00"),
+            _ => (string.Empty, string.Empty)
+        };
+        return sceneId.Length != 0;
+    }
+
+    private static bool VisitEntryPrerequisitesMet(JsonElement state, JsonElement world, string worldId)
+    {
+        bool Quest(string id, string status = "completed") => ContentRuleEngine.Evaluate(
+            JsonSerializer.SerializeToElement(new { op = "quest.status", questId = "urman.fullgame:quest/" + id, status }), state);
+        bool Book() => world.GetProperty("book").GetProperty("received").GetBoolean();
+        bool Prologue() => world.GetProperty("prologue").GetProperty("completed").GetBoolean();
+        return worldId switch
+        {
+            "W01" => Book() && PhotoStateIs(world, "P-FOREST", "mounted")
+                && PhotoStateIs(world, "S-SCHOOL", "acquired") && Prologue(),
+            "W02" => Book() && PhotoStateIs(world, "P-WATER", "mounted")
+                && PhotoStateIs(world, "P-WATER", "back-read") && HasFact(world, "home_water_place_told") && Prologue(),
+            "W03" => (Quest("pw-w01") || Quest("pw-w02")) && HasFact(world, "first_world_home_talk")
+                && PhotoStateIs(world, "P-HOUSE", "mounted") && PhotoStateIs(world, "P-HOUSE", "back-read"),
+            "W04" => Quest("pw-w01") && Quest("pw-w02") && Quest("pw-w03")
+                && HasEvidence(world, "E-BANK-OUTSIDE") && HasEvidence(world, "E-PHOTOGRAPHER-OUTSIDE")
+                && CaptionPrepared(world, "P-COMMON", "urman.chapter1:character/marat")
+                && PhotoStateIs(world, "P-COMMON", "mounted")
+                && (HasFact(world, "alsu_bank_meeting_planned") || Quest("pw-w04", "active") || Quest("pw-w04")),
+            "W05" => Book() && PhotoStateIs(world, "P-CELLAR", "mounted") && PhotoStateIs(world, "S-HAND", "acquired"),
+            _ => false
+        };
+    }
+
     public static JsonElement ApplyVisitCommand(JsonElement state, string operation, JsonElement payload)
     {
         var world = JsonNode.Parse(World(state).GetRawText())!.AsObject();
@@ -63,9 +102,10 @@ public static class PhotoWorldState
                 throw new InvalidOperationException("A PhotoWorld visit is already pending or active.");
             if (history.ContainsKey(visitId))
                 throw new InvalidOperationException("A completed visit ID cannot be reused.");
-            if (RequiredString(payload, "worldId") != "W01"
+            var worldId = RequiredString(payload, "worldId");
+            if (!TryGetVisitRoute(worldId, out _, out _)
                 || RequiredString(state, "activeScene") != "urman.fullgame:scene/pw-home")
-                throw new InvalidOperationException("This visit preparation requires the authored home-to-W01 route.");
+                throw new InvalidOperationException("This visit preparation requires an authored home-to-photo route.");
             var ticket = RequiredProperty(payload, "returnTicket");
             ValidateReturnTicket(ticket, RequiredString(campaign, "id"), RequiredString(campaign, "exactVersion"));
             if (RequiredString(ticket, "movementMode") != "pedestrian"
@@ -73,19 +113,17 @@ public static class PhotoWorldState
                 || RequiredString(ticket, "originAnchorId") != "PW_HOME_TABLE")
                 throw new InvalidOperationException("The return ticket must describe the current pedestrian origin.");
             var currentWorld = JsonSerializer.SerializeToElement(world);
-            if (!currentWorld.GetProperty("book").GetProperty("received").GetBoolean()
-                || !PhotoStateIs(currentWorld, "P-FOREST", "mounted") || !PhotoStateIs(currentWorld, "S-SCHOOL", "acquired")
-                || !currentWorld.GetProperty("prologue").GetProperty("completed").GetBoolean())
-                throw new InvalidOperationException("The authored forest entry prerequisites are not satisfied.");
+            if (!VisitEntryPrerequisitesMet(state, currentWorld, worldId))
+                throw new InvalidOperationException("The authored photo entry prerequisites are not satisfied.");
             visits["active"] = new JsonObject
             {
-                ["visitId"] = visitId, ["worldId"] = "W01", ["status"] = "prepared",
+                ["visitId"] = visitId, ["worldId"] = worldId, ["status"] = "prepared",
                 ["safeNodeId"] = null, ["returnTicket"] = JsonNode.Parse(ticket.GetRawText())
             };
             world["transition"] = new JsonObject
             {
                 ["transitionId"] = visitId, ["visitId"] = visitId, ["kind"] = "enter",
-                ["phase"] = "preparing", ["targetWorldId"] = "W01", ["failureCode"] = null
+                ["phase"] = "preparing", ["targetWorldId"] = worldId, ["failureCode"] = null
             };
         }
         else
@@ -93,34 +131,37 @@ public static class PhotoWorldState
             if (visits["active"] is not JsonObject active || RequiredString(active, "visitId") != visitId)
                 throw new InvalidOperationException("The command does not own the active visit.");
             var status = RequiredString(active, "status");
+            var worldId = RequiredString(active, "worldId");
+            if (!TryGetVisitRoute(worldId, out var sceneId, out var entrySafeNodeId))
+                throw new InvalidOperationException("The visit has no authored physical route.");
             switch (operation)
             {
                 case PhotoWorldCommandHandler.VisitCommit:
-                    if (status != "prepared" || RequiredString(state, "activeScene") != "urman.fullgame:scene/pw-forest"
-                        || RequiredString(payload, "safeNodeId") != "F10")
-                        throw new InvalidOperationException("Only a prepared W01 visit at its verified F10 node can commit.");
+                    if (status != "prepared" || RequiredString(state, "activeScene") != sceneId
+                        || RequiredString(payload, "safeNodeId") != entrySafeNodeId)
+                        throw new InvalidOperationException("Only a prepared visit at its authored, verified entry node can commit.");
                     var worlds = world["worlds"]!.AsObject();
-                    if (worlds["W01"] is not JsonObject savedWorld)
+                    if (worlds[worldId] is not JsonObject savedWorld)
                     {
                         savedWorld = new JsonObject
                         {
-                            ["worldId"] = "W01", ["seed"] = RequiredUInt32(payload, "seed"),
-                            ["safeNodeId"] = "F10", ["actions"] = new JsonObject(),
+                            ["worldId"] = worldId, ["seed"] = RequiredUInt32(payload, "seed"),
+                            ["safeNodeId"] = entrySafeNodeId, ["actions"] = new JsonObject(),
                             ["observations"] = new JsonObject(), ["deltas"] = new JsonObject()
                         };
-                        worlds["W01"] = savedWorld;
+                        worlds[worldId] = savedWorld;
                     }
                     savedWorld["seed"] ??= RequiredUInt32(payload, "seed");
-                    savedWorld["safeNodeId"] = "F10";
-                    active["safeNodeId"] = "F10";
+                    savedWorld["safeNodeId"] = entrySafeNodeId;
+                    active["safeNodeId"] = entrySafeNodeId;
                     active["status"] = "active";
                     world["transition"]!["phase"] = "photo-active";
                     break;
                 case PhotoWorldCommandHandler.VisitReturn:
                     if (status == "returning" && payload.TryGetProperty("recoverOrigin", out var recover) && recover.ValueKind == JsonValueKind.True)
                         break;
-                    if (status != "active" || RequiredString(state, "activeScene") != "urman.fullgame:scene/pw-forest")
-                        throw new InvalidOperationException("Only the active W01 visit can begin returning.");
+                    if (status != "active" || RequiredString(state, "activeScene") != sceneId)
+                        throw new InvalidOperationException("Only the active visit in its own photo world can begin returning.");
                     active["status"] = "returning";
                     world["transition"] = new JsonObject
                     {
@@ -130,21 +171,26 @@ public static class PhotoWorldState
                     };
                     break;
                 case PhotoWorldCommandHandler.VisitFinishReturn:
-                    if (status != "returning" || RequiredString(state, "activeScene") != "urman.fullgame:scene/pw-home")
-                        throw new InvalidOperationException("The returning visit requires its verified village destination.");
+                    var completedBankRoute = payload.TryGetProperty("completedRoute", out var completedRoute)
+                        && completedRoute.ValueKind == JsonValueKind.True;
+                    var destination = completedBankRoute ? "urman.fullgame:scene/pw-bank-approach" : "urman.fullgame:scene/pw-home";
+                    if (status != "returning" || RequiredString(state, "activeScene") != destination
+                        || (completedBankRoute && (worldId != "W04" || !ContentRuleEngine.Evaluate(
+                            JsonSerializer.SerializeToElement(new { op = "quest.status", questId = "urman.fullgame:quest/pw-w04", status = "completed" }), state))))
+                        throw new InvalidOperationException("The returning visit requires its verified origin or the completed W04 bank destination.");
                     active["status"] = "returned";
                     history[visitId] = active.DeepClone();
                     visits["active"] = null;
                     world["transition"] = null;
                     break;
                 case PhotoWorldCommandHandler.VisitCancelReturn:
-                    if (status != "returning" || RequiredString(state, "activeScene") != "urman.fullgame:scene/pw-forest")
+                    if (status != "returning" || RequiredString(state, "activeScene") != sceneId)
                         throw new InvalidOperationException("Only a return still at its original photo world can be cancelled.");
                     active["status"] = "active";
                     world["transition"] = new JsonObject
                     {
                         ["transitionId"] = visitId, ["visitId"] = visitId, ["kind"] = "enter",
-                        ["phase"] = "photo-active", ["targetWorldId"] = "W01", ["failureCode"] = null
+                        ["phase"] = "photo-active", ["targetWorldId"] = worldId, ["failureCode"] = null
                     };
                     break;
                 case PhotoWorldCommandHandler.VisitAbort:

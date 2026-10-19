@@ -60,6 +60,12 @@ public partial class W02Controller
     private Vector3[] _encounterCurrentSettleScales = [];
     private Color[] _encounterCurrentSettleColors = [];
 
+    public bool PhotoBookReturnActionInProgress => _reedCurtainOpening
+        || _reflectionObservationDispatching
+        || (_encounterPresentationPhase is EncounterPresentationPhase.LiftingBoard
+            or EncounterPresentationPhase.ReturningBoard
+            or EncounterPresentationPhase.Committing);
+
     private bool _encounterCurrentRingsCalming =>
         _encounterCurrentPhase is EncounterCurrentPhase.Settling or EncounterCurrentPhase.Settled;
 

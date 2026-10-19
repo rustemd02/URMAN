@@ -64,6 +64,11 @@ public partial class W03Controller
     private bool _houseSawPhotographerWindow;
     private bool _houseMissingMarkerWarningSent;
 
+    public bool PhotoBookReturnActionInProgress => _housePhysicalPhase != HousePhysicalPhase.Idle
+        || _houseViewDispatching
+        || _twoViewsDispatching
+        || _housePhotographerDispatching;
+
     private void BuildHouseGameplay()
     {
         _shutterPivot = RequireHouseMarker("W03World/ShutterPivot");

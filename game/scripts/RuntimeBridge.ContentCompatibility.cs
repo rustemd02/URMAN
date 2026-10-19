@@ -14,6 +14,8 @@ public partial class RuntimeBridge
 
     private const string FullGameCellarReturnFingerprint =
         "7ce8098560641ed5c6c3e292f58442823afe8593afd1f23bac4e193ea46e5d2f";
+    private const string FullGameAllWorldBookReturnFingerprint =
+        "0819edb45a8083bb69b5c01cf9923eee32de518d4ab81a3eff7e36c632a5222a";
 
     private static readonly IReadOnlyCollection<SaveGameFingerprintCompatibility> FullGameTextRevisionCompatibility =
     [
@@ -29,7 +31,12 @@ public partial class RuntimeBridge
         new(FullGameTeaTextRevisionFingerprint, FullGameCellarReturnFingerprint),
         // The prior accepted text-only predecessor remains readable without transitive matching.
         new("441a862cce6ad7c3fc9f8c566ba81ed03e44d32ae98b7298b7e589169b533257",
-            FullGameCellarReturnFingerprint)
+            FullGameCellarReturnFingerprint),
+        // W02-W04 add optional early returns only; exact pack comparison in PW-023.
+        new(FullGameCellarReturnFingerprint, FullGameAllWorldBookReturnFingerprint),
+        new(FullGameTeaTextRevisionFingerprint, FullGameAllWorldBookReturnFingerprint),
+        new("441a862cce6ad7c3fc9f8c566ba81ed03e44d32ae98b7298b7e589169b533257",
+            FullGameAllWorldBookReturnFingerprint)
     ];
 
     private AtomicSaveGameStore CreateCampaignSaveStore(string directory)
@@ -37,7 +44,8 @@ public partial class RuntimeBridge
         if (!StringComparer.Ordinal.Equals(_content.CampaignId, FullGameCampaignId) ||
             (!StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameTextRevisionFingerprint) &&
              !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameTeaTextRevisionFingerprint) &&
-             !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameCellarReturnFingerprint)))
+             !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameCellarReturnFingerprint) &&
+             !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameAllWorldBookReturnFingerprint)))
         {
             return new AtomicSaveGameStore(directory);
         }

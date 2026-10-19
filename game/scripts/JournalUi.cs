@@ -1068,11 +1068,12 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
 
     private async void Close() => await CloseAsync();
 
-    private async Task<bool> CloseAsync(object? expectedSession = null)
+    private async Task<bool> CloseAsync(object? expectedSession = null, long? expectedPhotoBookGeneration = null)
     {
-        bool SessionStillMatches() => expectedSession is null
-            || (_bridge is { IsPhotoBookProjectionDeferred: false } bridge
-                && ReferenceEquals(bridge.SessionIdentity, expectedSession));
+        bool SessionStillMatches() => (!expectedPhotoBookGeneration.HasValue
+                || expectedPhotoBookGeneration.Value == _photoBookVisibilityGeneration)
+            && (expectedSession is null || (_bridge is { IsPhotoBookProjectionDeferred: false } bridge
+                && ReferenceEquals(bridge.SessionIdentity, expectedSession)));
         if (!SessionStillMatches()) return false;
         if (_notesSaving)
         {

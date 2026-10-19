@@ -9,7 +9,7 @@ namespace Urman.Godot;
 
 public partial class RuntimeBridge
 {
-    internal enum PhotoBookForestReturnOutcome
+    internal enum PhotoBookReturnOutcome
     {
         Failed,
         ReturnedAndSaved,
@@ -21,32 +21,72 @@ public partial class RuntimeBridge
 
     internal const string PhotoBookCellarEntryInteractionId = "urman.fullgame:interaction/pw-enter-cellar";
     internal const string PhotoBookCellarReturnInteractionId = "urman.fullgame:interaction/pw-cellar-book-return";
-    internal bool IsPhotoBookReturnScene => ActiveSceneId is "urman.fullgame:scene/pw-forest" or "urman.fullgame:scene/pw-cellar";
-    private string CurrentPhotoBookReturnInteractionId => ActiveSceneId == "urman.fullgame:scene/pw-cellar"
-        ? PhotoBookCellarReturnInteractionId : PhotoBookForestReturnInteractionId;
+    internal const string PhotoBookRiverReturnInteractionId = "urman.fullgame:interaction/pw-river-book-return";
+    internal const string PhotoBookHouseReturnInteractionId = "urman.fullgame:interaction/pw-house-book-return";
+    internal const string PhotoBookCommonReturnInteractionId = "urman.fullgame:interaction/pw-common-book-return";
 
-    internal bool CanReturnFromPhotoBookForest(out string reason)
+    internal bool IsPhotoBookReturnScene => CurrentPhotoBookReturnInteractionId is not null;
+    private string? CurrentPhotoBookReturnInteractionId => ActiveSceneId switch
+    {
+        "urman.fullgame:scene/pw-forest" => PhotoBookForestReturnInteractionId,
+        "urman.fullgame:scene/pw-river" => PhotoBookRiverReturnInteractionId,
+        "urman.fullgame:scene/pw-house" => PhotoBookHouseReturnInteractionId,
+        "urman.fullgame:scene/pw-common" => PhotoBookCommonReturnInteractionId,
+        "urman.fullgame:scene/pw-cellar" => PhotoBookCellarReturnInteractionId,
+        _ => null
+    };
+
+    private static string? PhotoVisitWorldForInteraction(string interactionId) => interactionId switch
+    {
+        PhotoBookForestEntryInteractionId or PhotoBookForestReturnInteractionId
+            or "urman.fullgame:interaction/pw-forest-return" => "W01",
+        "urman.fullgame:interaction/pw-enter-river" or PhotoBookRiverReturnInteractionId
+            or "urman.fullgame:interaction/pw-water-return" => "W02",
+        "urman.fullgame:interaction/pw-enter-house" or PhotoBookHouseReturnInteractionId
+            or "urman.fullgame:interaction/pw-house-return" => "W03",
+        "urman.fullgame:interaction/pw-enter-common" or PhotoBookCommonReturnInteractionId
+            or "urman.fullgame:interaction/pw-common-return" => "W04",
+        PhotoBookCellarEntryInteractionId or PhotoBookCellarReturnInteractionId
+            or "urman.fullgame:interaction/pw-cellar-return" => "W05",
+        _ => null
+    };
+
+    private static bool IsPhotoVisitEntry(string interactionId) => interactionId is
+        PhotoBookForestEntryInteractionId or "urman.fullgame:interaction/pw-enter-river"
+        or "urman.fullgame:interaction/pw-enter-house" or "urman.fullgame:interaction/pw-enter-common"
+        or PhotoBookCellarEntryInteractionId;
+
+    internal bool CanReturnFromPhotoBook(out string reason)
     {
         reason = _loadingSlot || _loadPreparing || NeedsPhysicalRecovery || SessionIdentity is null
             ? "Дождитесь завершения перехода."
             : ReferenceEquals(_photoBookBusySession, SessionIdentity)
                 ? "Дождитесь завершения действия с книгой."
-                : !IsPhotoBookReturnScene || !IsInteractionAvailable(CurrentPhotoBookReturnInteractionId)
+                : CurrentPhotoBookReturnInteractionId is not { } returnId || !IsInteractionAvailable(returnId)
                     ? "Вернуться через книгу можно из открытого снимка."
-                    : PhotoBookForestReturnPhysicalBlockReason(requirePhysicalWorld: true) ?? string.Empty;
+                    : PhotoBookReturnPhysicalBlockReason(requirePhysicalWorld: true) ?? string.Empty;
         return reason.Length == 0;
     }
 
-    private string? PhotoBookForestReturnPhysicalBlockReason(bool requirePhysicalWorld)
+    private string? PhotoBookReturnPhysicalBlockReason(bool requirePhysicalWorld)
     {
         var main = GetTree().GetFirstNodeInGroup("zone_manager") as Main;
         if (main is null) return requirePhysicalWorld ? "Дождитесь завершения перехода." : null;
         var forest = main.GetNodeOrNull<W01Controller>("ZoneHost/W01");
+        var river = main.GetNodeOrNull<W02Controller>("ZoneHost/W02");
+        var house = main.GetNodeOrNull<W03Controller>("ZoneHost/W03");
+        var common = main.GetNodeOrNull<W04Controller>("ZoneHost/W04");
         var cellar = main.GetNodeOrNull<W05Controller>("ZoneHost/W05");
         var presentationReady = ActiveSceneId switch
         {
             "urman.fullgame:scene/pw-forest" => main.ActiveZoneScenePath == "res://scenes/photoworlds/W01/W01.tscn"
                 && forest is not null && GodotObject.IsInstanceValid(forest) && forest.IsInsideTree() && !forest.IsQueuedForDeletion(),
+            "urman.fullgame:scene/pw-river" => main.ActiveZoneScenePath == "res://scenes/photoworlds/W02/W02.tscn"
+                && river is not null && GodotObject.IsInstanceValid(river) && river.IsInsideTree() && !river.IsQueuedForDeletion(),
+            "urman.fullgame:scene/pw-house" => main.ActiveZoneScenePath == "res://scenes/photoworlds/W03/W03.tscn"
+                && house is not null && GodotObject.IsInstanceValid(house) && house.IsInsideTree() && !house.IsQueuedForDeletion(),
+            "urman.fullgame:scene/pw-common" => main.ActiveZoneScenePath == "res://scenes/photoworlds/W04/W04.tscn"
+                && common is not null && GodotObject.IsInstanceValid(common) && common.IsInsideTree() && !common.IsQueuedForDeletion(),
             "urman.fullgame:scene/pw-cellar" => main.ActiveZoneScenePath == "res://scenes/photoworlds/W05/W05.tscn"
                 && cellar is not null && GodotObject.IsInstanceValid(cellar) && cellar.IsInsideTree() && !cellar.IsQueuedForDeletion(),
             _ => false
@@ -60,6 +100,9 @@ public partial class RuntimeBridge
         if (player.IsClimbingLadder) return "Сначала сойдите с лестницы.";
         var carry = GetTree().GetFirstNodeInGroup("carry_coordinator") as CarryCoordinator;
         if (carry is { ActionInProgress: true } || (ActiveSceneId == "urman.fullgame:scene/pw-forest" && forest!.PhotoBookReturnActionInProgress)
+            || (ActiveSceneId == "urman.fullgame:scene/pw-river" && river!.PhotoBookReturnActionInProgress)
+            || (ActiveSceneId == "urman.fullgame:scene/pw-house" && house!.PhotoBookReturnActionInProgress)
+            || (ActiveSceneId == "urman.fullgame:scene/pw-common" && common!.PhotoBookReturnActionInProgress)
             || (ActiveSceneId == "urman.fullgame:scene/pw-cellar" && cellar!.ActionInProgress))
             return "Сначала закончите действие в снимке.";
         if (carry is { HeldItem: not null }) return "Сначала поставьте предмет из рук.";
@@ -68,17 +111,18 @@ public partial class RuntimeBridge
         return null;
     }
 
-    internal async Task<PhotoBookForestReturnOutcome> ReturnFromPhotoBookForestAsync()
+    internal async Task<PhotoBookReturnOutcome> ReturnFromPhotoBookAsync()
     {
-        if (!CanReturnFromPhotoBookForest(out _) || SessionIdentity is not { } session)
-            return PhotoBookForestReturnOutcome.Failed;
+        if (!CanReturnFromPhotoBook(out _) || SessionIdentity is not { } session
+            || CurrentPhotoBookReturnInteractionId is not { } returnId)
+            return PhotoBookReturnOutcome.Failed;
         _photoBookBusySession = session;
         try
         {
-            if (!await DispatchInteractionAsync(CurrentPhotoBookReturnInteractionId)
+            if (!await DispatchInteractionAsync(returnId)
                 || !ReferenceEquals(session, SessionIdentity) || _loadingSlot || _loadPreparing
                 || ActiveSceneId != "urman.fullgame:scene/pw-home")
-                return PhotoBookForestReturnOutcome.Failed;
+                return PhotoBookReturnOutcome.Failed;
 
             return await CompletePhotoBookHomeReturnAsync(session);
         }
@@ -88,14 +132,14 @@ public partial class RuntimeBridge
         }
     }
 
-    private async Task<PhotoBookForestReturnOutcome> CompletePhotoBookHomeReturnAsync(RuntimeKernel session)
+    private async Task<PhotoBookReturnOutcome> CompletePhotoBookHomeReturnAsync(RuntimeKernel session)
     {
         // Main projects its committed destination from the deferred state
         // notification. Save the actual home pose, never the old photo-world pose.
         await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
         if (!IsInsideTree() || IsQueuedForDeletion() || _loadingSlot || _loadPreparing
             || !ReferenceEquals(session, SessionIdentity) || ActiveSceneId != "urman.fullgame:scene/pw-home")
-            return PhotoBookForestReturnOutcome.Failed;
+            return PhotoBookReturnOutcome.Failed;
         await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
         if (!IsInsideTree() || IsQueuedForDeletion() || _loadingSlot || _loadPreparing
             || !ReferenceEquals(session, SessionIdentity) || ActiveSceneId != "urman.fullgame:scene/pw-home"
@@ -103,7 +147,7 @@ public partial class RuntimeBridge
             || world.ActiveZoneId != CurrentZoneId
             || FindPlayer() is not { SessionTransitionActive: false } player
             || !player.CanStandAt(player.GlobalPosition))
-            return PhotoBookForestReturnOutcome.Failed;
+            return PhotoBookReturnOutcome.Failed;
 
         var checkpointSaved = false;
         try
@@ -117,10 +161,10 @@ public partial class RuntimeBridge
 
         if (!ReferenceEquals(session, SessionIdentity) || _loadingSlot || _loadPreparing
             || ActiveSceneId != "urman.fullgame:scene/pw-home")
-            return PhotoBookForestReturnOutcome.Failed;
+            return PhotoBookReturnOutcome.Failed;
         return checkpointSaved
-            ? PhotoBookForestReturnOutcome.ReturnedAndSaved
-            : PhotoBookForestReturnOutcome.ReturnedSaveFailed;
+            ? PhotoBookReturnOutcome.ReturnedAndSaved
+            : PhotoBookReturnOutcome.ReturnedSaveFailed;
     }
 
     internal bool CanEnterPhotoBookCellar(out string reason)
@@ -175,15 +219,24 @@ public partial class RuntimeBridge
         return reason.Length == 0;
     }
 
-    private string? PhotoBookForestPhysicalBlockReason(bool requirePhysicalWorld)
+    private string? PhotoBookForestPhysicalBlockReason(bool requirePhysicalWorld, string interactionId = PhotoBookForestEntryInteractionId)
     {
         var world = GetTree().GetFirstNodeInGroup("act1_connected_world") as Act1ConnectedWorld;
         if (world is null)
             return requirePhysicalWorld ? "Вернитесь к домашнему столу с книгой." : null;
+        var anchorName = interactionId switch
+        {
+            "urman.fullgame:interaction/pw-enter-river" => "WaterRiverEntryTarget",
+            "urman.fullgame:interaction/pw-enter-house" => "HousePhotoEntryTarget",
+            "urman.fullgame:interaction/pw-enter-common" => "CommonPhotoEntryTarget",
+            _ => "PhotoWorldForestEntryTarget"
+        };
+        var anchorInteraction = interactionId == PhotoBookCellarEntryInteractionId
+            ? PhotoBookForestEntryInteractionId : interactionId;
         if (CurrentZoneId != "house_old_pc" || world.ActiveZoneId != "house_old_pc"
-            || world.GetZoneInstance("house_old_pc")?.GetNodeOrNull<InteractionTarget>("PhotoWorldForestEntryTarget") is not { } anchor
+            || world.GetZoneInstance("house_old_pc")?.GetNodeOrNull<InteractionTarget>(anchorName) is not { } anchor
             || !GodotObject.IsInstanceValid(anchor) || !anchor.IsInsideTree() || anchor.IsQueuedForDeletion()
-            || anchor.InteractionId != PhotoBookForestEntryInteractionId)
+            || anchor.InteractionId != anchorInteraction)
             return "Вернитесь к домашнему столу с книгой.";
         if (FindPlayer() is not { } player || !player.IsInsideTree() || player.IsQueuedForDeletion())
             return "Дождитесь завершения перехода.";

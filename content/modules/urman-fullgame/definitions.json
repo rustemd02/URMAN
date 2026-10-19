@@ -3158,6 +3158,13 @@
         ]
       },
       {
+        "id": "urman.fullgame:interaction/pw-river-book-return",
+        "labelTextId": "urman.fullgame:text/pw-label-forest-book-return",
+        "conditions": [],
+        "effects": [],
+        "targetSceneId": "urman.fullgame:scene/pw-home"
+      },
+      {
         "id": "urman.fullgame:interaction/pw-water-return",
         "labelTextId": "urman.fullgame:text/pw-label-water-return",
         "conditions": [
@@ -3351,6 +3358,13 @@
         ]
       },
       {
+        "id": "urman.fullgame:interaction/pw-house-book-return",
+        "labelTextId": "urman.fullgame:text/pw-label-forest-book-return",
+        "conditions": [],
+        "effects": [],
+        "targetSceneId": "urman.fullgame:scene/pw-home"
+      },
+      {
         "id": "urman.fullgame:interaction/pw-house-return",
         "labelTextId": "urman.fullgame:text/pw-label-house-return",
         "conditions": [
@@ -3510,6 +3524,13 @@
             "sourceId": "urman.fullgame:interaction/pw-common-note"
           }
         ]
+      },
+      {
+        "id": "urman.fullgame:interaction/pw-common-book-return",
+        "labelTextId": "urman.fullgame:text/pw-label-forest-book-return",
+        "conditions": [],
+        "effects": [],
+        "targetSceneId": "urman.fullgame:scene/pw-home"
       },
       {
         "id": "urman.fullgame:interaction/pw-common-return",

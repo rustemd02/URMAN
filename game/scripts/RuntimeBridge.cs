@@ -647,7 +647,7 @@ public partial class RuntimeBridge : Node
         return true;
     }
 
-    private JsonElement CaptureW01ReturnTicket(RuntimeKernel session, FirstPersonController player)
+    private JsonElement CapturePhotoReturnTicket(RuntimeKernel session, FirstPersonController player)
     {
         var pose = player.CapturePortableTransform();
         var audio = GetTree().GetFirstNodeInGroup("ambient_audio") as AmbientAudioDirector
@@ -679,9 +679,10 @@ public partial class RuntimeBridge : Node
         if (GetTree().GetFirstNodeInGroup("zone_manager") is not Main main) return false;
         var id = visit.GetProperty("visitId").GetString()!;
         var status = visit.GetProperty("status").GetString();
+        var worldId = visit.GetProperty("worldId").GetString()!;
         var ticket = visit.GetProperty("returnTicket").Clone();
         if (status == "active" && !abortActive)
-            return await main.CompleteW01VisitProjectionAsync(session);
+            return await main.CompletePhotoVisitProjectionAsync(session, worldId);
         if (status is "prepared" or "active")
         {
             if (!await DispatchPhotoVisitCommandAsync(session, PhotoWorldCommandHandler.VisitAbort, id)) return false;
@@ -692,7 +693,7 @@ public partial class RuntimeBridge : Node
         }
         else return false;
         if (!ReferenceEquals(session, _kernel) || _loadingSlot || _loadPreparing) return false;
-        if (!await main.CompleteW01VisitProjectionAsync(session, ticket)
+        if (!await main.CompletePhotoVisitProjectionAsync(session, worldId, ticket)
             || !ReferenceEquals(session, _kernel) || _loadingSlot || _loadPreparing) return false;
         _clock = LogicalClock.Restore(new(ticket.GetProperty("worldClock").GetProperty("tick").GetInt64()));
         if (status == "returning"
@@ -702,15 +703,39 @@ public partial class RuntimeBridge : Node
         return ReferenceEquals(session, _kernel) && !_loadingSlot && !_loadPreparing;
     }
 
-    private async Task<bool> DispatchW01VisitInteractionAsync(CompiledInteractionContent interaction, Main main, RuntimeKernel session)
+    private async Task<bool> DispatchPhotoVisitInteractionAsync(CompiledInteractionContent interaction, Main main, RuntimeKernel session)
     {
         if (_photoVisitCompletion is not null || _photoVisitCanceling || FindPlayer() is not { } player) return false;
-        var entering = interaction.Id == PhotoBookForestEntryInteractionId;
-        // Older W01 checkpoints have no invented ticket. Their existing authored
-        // exit remains available; new visits always prepare the full ticket.
-        if (!entering && ActivePhotoVisit() is null) return await DispatchCompiledInteractionAsync(interaction);
-        if (entering && (!IsInteractionAvailable(interaction.Id) || PhotoBookForestPhysicalBlockReason(requirePhysicalWorld: true) is not null
-            || !main.CanPrepareW01Visit(player, CurrentZoneId, CurrentSpawnPointId))) return false;
+        var worldId = PhotoVisitWorldForInteraction(interaction.Id);
+        if (worldId is null || !PhotoWorldState.TryGetVisitRoute(worldId, out var sourceScene, out var entrySafeNodeId)) return false;
+        var entering = IsPhotoVisitEntry(interaction.Id);
+        var completedBankReturn = interaction.Id == "urman.fullgame:interaction/pw-common-return";
+        var bookReturn = interaction.Id == CurrentPhotoBookReturnInteractionId;
+        // Legacy checkpoints have no invented ticket. Retain their authored
+        // exit, but verify and save the actual destination after projection.
+        if (!entering && ActivePhotoVisit() is null)
+        {
+            if (!await DispatchCompiledInteractionAsync(interaction) || !ReferenceEquals(session, _kernel)
+                || _loadingSlot || _loadPreparing) return false;
+            if (completedBankReturn)
+            {
+                if (!await main.CompletePhotoVisitProjectionAsync(session, worldId, completedBankReturn: true)) return false;
+                var saved = await SaveCheckpointAsync(force: true);
+                if (!ReferenceEquals(session, _kernel) || _loadingSlot || _loadPreparing) return false;
+                if (!saved) player.NotifyTraversal("Вы вернулись, но автосохранение не удалось. Сохранитесь через меню.");
+                return true;
+            }
+            if (bookReturn) return true;
+            // The early book caller saves after the same supported home check.
+            var outcome = await CompletePhotoBookHomeReturnAsync(session);
+            if (outcome == PhotoBookReturnOutcome.ReturnedSaveFailed)
+                FindPlayer()?.NotifyTraversal("Вы вернулись домой, но автосохранение не удалось. Сохранитесь через меню.");
+            return outcome != PhotoBookReturnOutcome.Failed;
+        }
+        if (!entering && ActivePhotoVisit() is { } activeVisit
+            && activeVisit.GetProperty("worldId").GetString() != worldId) return false;
+        if (entering && (!IsInteractionAvailable(interaction.Id) || PhotoBookForestPhysicalBlockReason(requirePhysicalWorld: true, interaction.Id) is not null
+            || !main.CanPreparePhotoVisit(player, CurrentZoneId, CurrentSpawnPointId))) return false;
         var completion = new TaskCompletionSource<bool>();
         using var cancellation = new CancellationTokenSource();
         _photoVisitCancellation = cancellation;
@@ -725,19 +750,19 @@ public partial class RuntimeBridge : Node
         {
             if (entering)
             {
-                var ticket = CaptureW01ReturnTicket(session, player);
+                var ticket = CapturePhotoReturnTicket(session, player);
                 var id = Guid.NewGuid().ToString("N");
                 ownedVisitId = id;
                 if (!await DispatchPhotoVisitCommandAsync(session, PhotoWorldCommandHandler.VisitPrepare, id,
-                        new { worldId = "W01", returnTicket = ticket }) || !Current()) return false;
+                        new { worldId, returnTicket = ticket }) || !Current()) return false;
                 if (!await SaveCheckpointAsync(force: true, cancellationToken: cancellation.Token) || !Current()) return false;
                 if (!await DispatchCompiledInteractionAsync(interaction) || !Current()) return false;
-                if (!await main.CompleteW01VisitProjectionAsync(session) || !Current()) return false;
+                if (!await main.CompletePhotoVisitProjectionAsync(session, worldId) || !Current()) return false;
                 var seedBytes = System.Security.Cryptography.SHA256.HashData(System.Text.Encoding.UTF8.GetBytes(
-                    $"{_content.CampaignId}:{_content.CampaignExactVersion}:W01"));
+                    $"{_content.CampaignId}:{_content.CampaignExactVersion}:{worldId}"));
                 var seed = System.Buffers.Binary.BinaryPrimitives.ReadUInt32LittleEndian(seedBytes);
                 if (!await DispatchPhotoVisitCommandAsync(session, PhotoWorldCommandHandler.VisitCommit, id,
-                        new { safeNodeId = "F10", seed }) || !Current()) return false;
+                        new { safeNodeId = entrySafeNodeId, seed }) || !Current()) return false;
                 if (!await SaveCheckpointAsync(force: true, cancellationToken: cancellation.Token) || !Current()) return false;
             }
             else
@@ -750,14 +775,18 @@ public partial class RuntimeBridge : Node
                 returnCheckpointSaved = await SaveCheckpointAsync(force: true, cancellationToken: cancellation.Token);
                 if (!returnCheckpointSaved || !Current()) return false;
                 if (!await DispatchCompiledInteractionAsync(interaction) || !Current()) return false;
-                if (!await main.CompleteW01VisitProjectionAsync(session, ticket) || !Current()) return false;
-                _clock = LogicalClock.Restore(new(ticket.GetProperty("worldClock").GetProperty("tick").GetInt64()));
-                if (!await DispatchPhotoVisitCommandAsync(session, PhotoWorldCommandHandler.VisitFinishReturn, id) || !Current()) return false;
+                if (!await main.CompletePhotoVisitProjectionAsync(session, worldId,
+                    completedBankReturn ? null : ticket, completedBankReturn) || !Current()) return false;
+                if (!completedBankReturn)
+                    _clock = LogicalClock.Restore(new(ticket.GetProperty("worldClock").GetProperty("tick").GetInt64()));
+                if (!await DispatchPhotoVisitCommandAsync(session, PhotoWorldCommandHandler.VisitFinishReturn, id,
+                    completedBankReturn ? new { completedRoute = true } : null) || !Current()) return false;
                 // The book caller already writes its post-projection checkpoint.
-                if (interaction.Id == "urman.fullgame:interaction/pw-forest-return")
+                if (!bookReturn)
                 {
-                    await SaveCheckpointAsync(force: true, cancellationToken: cancellation.Token);
+                    var saved = await SaveCheckpointAsync(force: true, cancellationToken: cancellation.Token);
                     if (!Current()) return false;
+                    if (!saved) player.NotifyTraversal("Вы вернулись, но автосохранение не удалось. Сохранитесь через меню.");
                 }
             }
             succeeded = true;
@@ -765,7 +794,7 @@ public partial class RuntimeBridge : Node
         }
         catch (Exception error)
         {
-            GD.PushWarning($"W01 visit transition failed: {error.GetType().Name}: {error.Message}");
+            GD.PushWarning($"PhotoWorld visit transition failed: {error.GetType().Name}: {error.Message}");
             return false;
         }
         finally
@@ -779,7 +808,7 @@ public partial class RuntimeBridge : Node
                         visit = null;
                     var returning = visit?.GetProperty("status").GetString() == "returning";
                     var cancelledAtSource = returning && !cancellation.IsCancellationRequested
-                        && ActiveSceneId == "urman.fullgame:scene/pw-forest";
+                        && ActiveSceneId == sourceScene;
                     var recovered = visit is null;
                     if (cancelledAtSource)
                     {
@@ -800,7 +829,7 @@ public partial class RuntimeBridge : Node
             catch (Exception error)
             {
                 if (ReferenceEquals(session, _kernel)) NeedsPhysicalRecovery = true;
-                GD.PushError($"W01 visit recovery failed: {error.Message}");
+                GD.PushError($"PhotoWorld visit recovery failed: {error.Message}");
             }
             finally
             {
@@ -823,11 +852,14 @@ public partial class RuntimeBridge : Node
     {
         if (_loadingSlot || _loadPreparing || NeedsPhysicalRecovery) return false;
         if (!HasRequiredWorldState(interactionId)) return false;
-        if (interactionId is (PhotoBookForestEntryInteractionId or PhotoBookCellarEntryInteractionId)
-            && PhotoBookForestPhysicalBlockReason(requirePhysicalWorld: false) is not null) return false;
-        if (interactionId is (PhotoBookForestReturnInteractionId or PhotoBookCellarReturnInteractionId
-                or "urman.fullgame:interaction/pw-cellar-return")
-            && PhotoBookForestReturnPhysicalBlockReason(requirePhysicalWorld: false) is not null) return false;
+        if (PhotoVisitWorldForInteraction(interactionId) is not null)
+        {
+            if (IsPhotoVisitEntry(interactionId))
+            {
+                if (PhotoBookForestPhysicalBlockReason(requirePhysicalWorld: false, interactionId) is not null) return false;
+            }
+            else if (PhotoBookReturnPhysicalBlockReason(requirePhysicalWorld: false) is not null) return false;
+        }
         if ((interactionId is "urman.chapter1:interaction/talk-alsu"
                 or "urman.fullgame:interaction/pw-alsu-before-w04-talk"
                 or "urman.fullgame:interaction/pw-alsu-leaf-talk")
@@ -858,21 +890,13 @@ public partial class RuntimeBridge : Node
 
         if (_content.TryGetInteraction(interactionId, out var interaction))
         {
-            if (_content.HasPhotoWorlds && interactionId is (PhotoBookForestEntryInteractionId or PhotoBookForestReturnInteractionId
-                    or "urman.fullgame:interaction/pw-forest-return")
+            if (_content.HasPhotoWorlds && PhotoVisitWorldForInteraction(interactionId) is not null
                 && GetTree().GetFirstNodeInGroup("zone_manager") is Main { EnableFullGamePhotoWorldRouting: true } main)
-                return await DispatchW01VisitInteractionAsync(interaction, main, session);
+                return await DispatchPhotoVisitInteractionAsync(interaction, main, session);
             var sceneBeforeDispatch = ActiveSceneId;
             var dispatched = await DispatchCompiledInteractionAsync(interaction);
             if (dispatched && ReferenceEquals(session, SessionIdentity) && !_loadingSlot && !_loadPreparing)
             {
-                if (interactionId == "urman.fullgame:interaction/pw-cellar-return")
-                {
-                    var outcome = await CompletePhotoBookHomeReturnAsync(session);
-                    if (outcome == PhotoBookForestReturnOutcome.ReturnedSaveFailed)
-                        FindPlayer()?.NotifyTraversal("Вы вернулись домой, но автосохранение не удалось. Сохранитесь через меню.");
-                    return outcome != PhotoBookForestReturnOutcome.Failed;
-                }
                 var hasEffects = interaction.Effects.GetArrayLength() > 0;
                 var committedPhotoWorldAction = _content.HasPhotoWorlds
                     && interaction.WorldLocations is null

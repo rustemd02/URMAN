@@ -110674,8 +110674,8 @@
       },
       "assigned_owner": "integration",
       "activity": {
-        "state": "not_confirmed",
-        "reason": "19.10 finite source slice accepted: canonical content + affected Game compile21.65s0/0 and independent review; source owners released. Native ordinary early-return/reentry/Continue and F03 approach acceptance remains open."
+        "state": "not_active",
+        "reason": "20.10 ограниченный all-world source stage интегрирован и affected Game compile17.22s0warnings0errors; writers released. Native early-return/reentry/Continue и все обязательные runtime критерии остаются открыты."
       },
       "task_type": "engineering",
       "implementation_state": "not_started",
@@ -110684,7 +110684,7 @@
         "Незавершённая глава сохраняет выполненные действия.",
         "Не создаются новые NPC/машины вместо прежних экземпляров."
       ],
-      "next_action": "Verify normal W01 book earlyreturn beforecompletion, retainedfacts and reentry, successfulreturn checkpoint/Continue and stale/session/busy rejection when owned native input available. Full otherworlds/ReturnTicket criteria remain open.",
+      "next_action": "When existing protected stationclaim restored, verify each earlyexit after firstobservation/midaction/aftercompletion + reentry/Continue, W04 completedbank, supportedhomefallback/audio/profile/carry/session/load cases. Separately implement actual laststablesafenode contract at canonical owner.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -110749,7 +110749,7 @@
           ],
           "repeat_only_if": "Изменился покрываемый вход/consumer/контракт; без этого уже принятая проверка используется повторно без запуска."
         },
-        "actual_result": "NOT_RUN",
+        "actual_result": "PARTIAL: all-world earlybookreturn source integrated/compiled, native/reentry/Continue and midworld safe-node persistence pending; see all_world_book_return_2026_10_20.",
         "evidence_refs": [
           "tasks[id=PW-023].evidence"
         ],
@@ -110841,6 +110841,19 @@
         "result": "Actual W01 book action Вернуться домой independent of selectedphoto; separate scene-owned authored return→pw-home with empty conditions/effects, no quest/fact completion. ExistingF16 completedquest gate unchanged. Realbag/branch/dialogue/carry/traversal/session/load guards coverUI anddirectdispatch.",
         "checkpoint": "After accepted return, wait2ProcessFrames with identity/load checks, assert Main.ConnectedWorld logicalzone and safehomeplayerpose, then forcecheckpoint; diskfailure existingSaveFeedback, no rollback/falsein-sessionfailure. FullReturnTicket/PW020 remainsopen; existinghomezone/authoredspawn used, no exactoriginalpose claim.",
         "verification": "Canonical fullgame ContentCli compile + affectedGame21.65s0warnings0errors; independent source review no actionable findings; gitdiffcheck. No newtests/probes. Actual UI/physical return/Continue not run."
+      },
+      "all_world_book_return_2026_10_20": {
+        "state": "source_integrated_compiled_native_pending",
+        "question": "Есть ли независимый ранний выход W01–W05 без chapter.complete, с durable visit, исходным домашним ReturnTicket и безопасным terminal recovery?",
+        "success": "Все5 ранних book-exit ведут домой без effects/quest completion; новые входы готовят ticket до projection, подтверждённый возврат закрывает visit после физической проверки. W04 completed authored bank route неизменен. Блокируются только короткие atomic actions/commits, не неполная фотографическая рамка.",
+        "verification": "Existing ContentCli exit0; structured fullpack comparison equals after removing exactly3 optional interactions+derivedhashes; exactoneway compatibility7ce8/6f47/441a→0819edb4, unknownstrict. One affected Game build17.22s0warnings0errors. Independent reviews caught/fixed W02water-return ID/R00 entry, entry-facing actualtarget, postreturnautosave warning, reopenedbook/CloseAsync generation. Source diffcheck; no tests/probes added or run.",
+        "next_action": "When existing protected stationclaim restored, verify each earlyexit after firstobservation/midaction/aftercompletion + reentry/Continue, W04 completedbank, supportedhomefallback/audio/profile/carry/session/load cases. Separately implement actual laststablesafenode contract at canonical owner.",
+        "result": "All5 ранних bookreturn независимы от завершения главы. W02–W04 получили3 interactions с пустымиconditions/effects. Canonical durable visit теперь strict W01–W05, билет готовится и сохраняется до входа, точный world/scene/node проверяется на commit (F10/R00/H00/C00/B00). Исходный домашний pose/support fallback/audio/profile восстанавливаются тем же owner; W04 completed route остаётся bank с отдельной проверкой и строгим completedRoute. Legacy snapshots без выдуманного ticket выходят по существующему authored route. Подтверждение книги Найденное сохранится с отменой; source/session/open-generation проверяются повторно. W02–W04 блокируют лишь активные короткие physical phases/commits, не незавершённый framing. Ошибка финального autosave сообщает игроку, не выдаётся за провал физического возврата.",
+        "evidence": [
+          "evidence/PW-023/all-world-return-20261020/pack-comparison.json",
+          "evidence/PW-023/all-world-return-20261020/affected-game-build.log"
+        ],
+        "limits": "Windows/native/Continue not run. Reentry still authored entry safe node, not produced mid-world safe-node persistence. Partial uncommitted framing may cancel on opening modal; committed facts retained. W02 alreadycommitted deferredplayerremark can be skipped on return, no invented fact. Crash after W04 bank projection before final durable write recovers original home ticket by existing safety policy. Full PW023 remainsinprogress."
       }
     },
     {

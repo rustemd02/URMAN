@@ -21547,6 +21547,13 @@
             ]
           },
           {
+            "id": "urman.fullgame:interaction/pw-common-book-return",
+            "labelTextId": "urman.fullgame:text/pw-label-forest-book-return",
+            "conditions": [],
+            "effects": [],
+            "targetSceneId": "urman.fullgame:scene/pw-home"
+          },
+          {
             "id": "urman.fullgame:interaction/pw-common-return",
             "labelTextId": "urman.fullgame:text/pw-label-common-return",
             "conditions": [
@@ -22942,6 +22949,13 @@
             ]
           },
           {
+            "id": "urman.fullgame:interaction/pw-house-book-return",
+            "labelTextId": "urman.fullgame:text/pw-label-forest-book-return",
+            "conditions": [],
+            "effects": [],
+            "targetSceneId": "urman.fullgame:scene/pw-home"
+          },
+          {
             "id": "urman.fullgame:interaction/pw-house-return",
             "labelTextId": "urman.fullgame:text/pw-label-house-return",
             "conditions": [
@@ -23212,6 +23226,13 @@
                 "sourceId": "urman.fullgame:interaction/pw-water-damp-print"
               }
             ]
+          },
+          {
+            "id": "urman.fullgame:interaction/pw-river-book-return",
+            "labelTextId": "urman.fullgame:text/pw-label-forest-book-return",
+            "conditions": [],
+            "effects": [],
+            "targetSceneId": "urman.fullgame:scene/pw-home"
           },
           {
             "id": "urman.fullgame:interaction/pw-water-return",
@@ -32734,7 +32755,7 @@
     {
       "moduleId": "urman.fullgame",
       "exactVersion": "1.0.0",
-      "sha256": "0d39eb22d2b4f1db666bd887625408043359ab0f5d318252e0f6c59166942c4a"
+      "sha256": "fd6b245a60851d154bcee2e53e760758d496cdecf503b476abf46e243655975e"
     },
     {
       "moduleId": "urman.oldpc",
@@ -32742,5 +32763,5 @@
       "sha256": "a3cd65ca0fa229fb9162081dcb579945c63e78f2a72939c473f477b54067b292"
     }
   ],
-  "campaignFingerprint": "7ce8098560641ed5c6c3e292f58442823afe8593afd1f23bac4e193ea46e5d2f"
+  "campaignFingerprint": "0819edb45a8083bb69b5c01cf9923eee32de518d4ab81a3eff7e36c632a5222a"
 }

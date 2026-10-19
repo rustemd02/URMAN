@@ -63,6 +63,10 @@ public partial class W04Controller
     private bool _horizonArmed;
     private bool _commonMissingMarkerWarningSent;
 
+    public bool PhotoBookReturnActionInProgress => _clothPhase != ClothPhase.Idle
+        || _relationsDispatching
+        || _horizonDispatching;
+
     private void BuildCommonGameplay()
     {
         _relationsAnchor = RequireCommonMarker("Anchors/C03");
