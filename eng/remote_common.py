@@ -16,6 +16,9 @@ MAX_ARCHIVE = 2 * 1024**3
 MAX_SOURCE = 5 * 1024**3
 MAX_RESULT_BYTES = MAX_ARCHIVE
 MAX_RESULT_FILES = 4096
+MAX_BLOB = 512 * 1024**2
+MAX_CANDIDATE_RECEIPT = 8 * 1024**2
+CANDIDATE_SCHEMA = 'urman.windows_candidate_upload.v1'
 STUDIO_AUTHORING_FILES = frozenset({
     'assets/source/blender/act1/urman_village_exterior_kit.py',
     'assets/source/blender/act1/urman_village_exterior_kit.blend',
@@ -204,6 +207,145 @@ def verify_source(root, manifest):
     for name, meta in manifest['files'].items():
         if (root / name).stat().st_size != meta['bytes'] or digest(root / name) != meta['sha256']:
             raise ValueError('source changed after upload: ' + name)
+
+
+def validate_candidate_manifest(manifest):
+    fields = {'schema', 'receipt_sha256', 'receipt_bytes', 'windows_zip_sha256',
+              'windows_zip_bytes', 'windows_exe_sha256', 'windows_exe_bytes'}
+    if not isinstance(manifest, dict) or set(manifest) != fields or manifest.get('schema') != CANDIDATE_SCHEMA:
+        raise ValueError('unsupported Windows candidate manifest')
+    for name, maximum in (('receipt', MAX_CANDIDATE_RECEIPT), ('windows_zip', MAX_BLOB),
+                          ('windows_exe', MAX_ARCHIVE)):
+        sha, size = manifest.get(name + '_sha256'), manifest.get(name + '_bytes')
+        if (not isinstance(sha, str) or not re.fullmatch('[a-f0-9]{64}', sha)
+                or type(size) is not int or not 0 < size <= maximum):
+            raise ValueError('invalid Windows candidate ' + name + ' binding')
+    return hashlib.sha256(canonical(manifest)).hexdigest()
+
+
+def validate_candidate_receipt(receipt, manifest):
+    validate_candidate_manifest(manifest)
+    if (not isinstance(receipt, dict) or receipt.get('schema') != 'urman.desktop_artifact_receipt.v1'
+            or receipt.get('status') != 'PASS' or receipt.get('windowsHostExecution') != 'OPEN'):
+        raise ValueError('candidate must have a passing desktop export receipt with host execution still open')
+    from act1_candidate_identity import artifact_bindings, validate_build_provenance
+    provenance = receipt.get('buildProvenance')
+    validate_build_provenance(provenance, receipt.get('artifacts'))
+    if (provenance.get('producer', {}).get('mode') != 'release'
+            or artifact_bindings(receipt['artifacts'])[('Windows', 'zip')] !=
+                (manifest['windows_zip_bytes'], manifest['windows_zip_sha256'])
+            or artifact_bindings(receipt['artifacts'])[('Windows', 'executable')] !=
+                (manifest['windows_exe_bytes'], manifest['windows_exe_sha256'])):
+        raise ValueError('candidate Windows artifacts do not match completed release provenance')
+
+
+def _candidate_file(root, relative):
+    root = Path(root).resolve(strict=True)
+    path = root
+    reparse_point = getattr(stat, 'FILE_ATTRIBUTE_REPARSE_POINT', 0x0400)
+    for index, part in enumerate(PurePosixPath(relative).parts):
+        path = path / part
+        info = path.lstat()
+        if stat.S_ISLNK(info.st_mode) or getattr(info, 'st_file_attributes', 0) & reparse_point:
+            raise ValueError('candidate contains a symlink or reparse point: ' + relative)
+        if index < len(PurePosixPath(relative).parts) - 1 and not stat.S_ISDIR(info.st_mode):
+            raise ValueError('candidate path parent is not a directory: ' + relative)
+    if (not stat.S_ISREG(path.lstat().st_mode) or root not in path.resolve(strict=True).parents):
+        raise ValueError('candidate file is not a regular file inside its release directory: ' + relative)
+    return path
+
+
+def make_candidate_upload(release_dir):
+    release_dir = Path(release_dir)
+    info = release_dir.lstat()
+    if stat.S_ISLNK(info.st_mode) or getattr(info, 'st_file_attributes', 0) & getattr(stat, 'FILE_ATTRIBUTE_REPARSE_POINT', 0x0400):
+        raise ValueError('candidate release directory cannot be a symlink or reparse point')
+    root = release_dir.resolve(strict=True)
+    if not stat.S_ISDIR(root.lstat().st_mode):
+        raise ValueError('candidate release path is not a directory')
+    receipt_path = _candidate_file(root, 'desktop-artifact-receipt.json')
+    zip_path = _candidate_file(root, 'URMAN-windows-x86_64.zip')
+    exe_path = _candidate_file(root, 'windows/URMAN.exe')
+    if receipt_path.stat().st_size > MAX_CANDIDATE_RECEIPT:
+        raise ValueError('desktop artifact receipt exceeds its size limit')
+    receipt_bytes = receipt_path.read_bytes()
+    receipt = json.loads(receipt_bytes.decode('utf-8-sig'))
+    manifest = {
+        'schema': CANDIDATE_SCHEMA,
+        'receipt_sha256': hashlib.sha256(receipt_bytes).hexdigest(),
+        'receipt_bytes': len(receipt_bytes),
+        'windows_zip_sha256': digest(zip_path),
+        'windows_zip_bytes': zip_path.stat().st_size,
+        'windows_exe_sha256': digest(exe_path),
+        'windows_exe_bytes': exe_path.stat().st_size,
+    }
+    validate_candidate_receipt(receipt, manifest)
+    return manifest, {'receipt': receipt_path, 'windows_zip': zip_path}
+
+
+def unpack_candidate(archive, destination, manifest):
+    validate_candidate_manifest(manifest)
+    archive = Path(archive)
+    if archive.stat().st_size != manifest['windows_zip_bytes'] or digest(archive) != manifest['windows_zip_sha256']:
+        raise ValueError('Windows candidate ZIP hash or size mismatch')
+    destination = Path(destination)
+    if destination.exists() or destination.is_symlink() or getattr(destination, 'is_junction', lambda: False)():
+        raise ValueError('candidate extraction destination already exists')
+    destination.mkdir(parents=True)
+    with zipfile.ZipFile(archive) as z:
+        entries = z.infolist()
+        if not entries or len(entries) > MAX_RESULT_FILES:
+            raise ValueError('Windows candidate ZIP entry count is invalid')
+        names = set()
+        total = 0
+        exe_entry = None
+        for entry in entries:
+            mode = entry.external_attr >> 16
+            directory = entry.is_dir() or stat.S_ISDIR(mode)
+            name = entry.filename[:-1] if directory else entry.filename
+            if (not allowed(name) or PurePosixPath(name).parts[0] != 'windows'
+                    or name.casefold() in names or stat.S_ISLNK(mode)
+                    or entry.flag_bits & 0x1 or entry.external_attr & 0x0400
+                    or (stat.S_IFMT(mode) not in (0, stat.S_IFREG, stat.S_IFDIR))
+                    or (directory and (not entry.filename.endswith('/') or entry.file_size != 0))):
+                raise ValueError('Windows candidate ZIP contains an unsafe or duplicate path')
+            names.add(name.casefold())
+            if not directory:
+                total += entry.file_size
+                if total > MAX_ARCHIVE:
+                    raise ValueError('Windows candidate ZIP expands beyond its size limit')
+                if name.casefold() == 'windows/urman.exe':
+                    exe_entry = entry
+        if (exe_entry is None or exe_entry.file_size != manifest['windows_exe_bytes']
+                or not any(name == 'windows/urman.exe' for name in names)):
+            raise ValueError('Windows candidate ZIP is missing its bound executable')
+        exe_hash = hashlib.sha256()
+        actual_total = 0
+        for entry in entries:
+            mode = entry.external_attr >> 16
+            directory = entry.is_dir() or stat.S_ISDIR(mode)
+            name = entry.filename[:-1] if directory else entry.filename
+            target = destination.joinpath(*PurePosixPath(name).parts)
+            if destination.resolve() not in target.resolve().parents and target.resolve() != destination.resolve():
+                raise ValueError('Windows candidate ZIP path escapes extraction root')
+            if directory:
+                target.mkdir(parents=True, exist_ok=True)
+                continue
+            target.parent.mkdir(parents=True, exist_ok=True)
+            actual_size = 0
+            with z.open(entry) as source, target.open('xb') as output:
+                for chunk in iter(lambda: source.read(1024**2), b''):
+                    actual_size += len(chunk)
+                    actual_total += len(chunk)
+                    if actual_size > entry.file_size or actual_total > MAX_ARCHIVE:
+                        raise ValueError('Windows candidate ZIP expanded beyond its declared bounds')
+                    if entry is exe_entry:
+                        exe_hash.update(chunk)
+                    output.write(chunk)
+            if actual_size != entry.file_size:
+                raise ValueError('Windows candidate ZIP entry size mismatch: ' + entry.filename)
+        if exe_hash.hexdigest() != manifest['windows_exe_sha256']:
+            raise ValueError('Windows candidate executable hash mismatch')
 
 def bounded_command(command, timeout):
     """Used by the existing runner; arguments never pass through a shell."""

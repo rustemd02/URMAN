@@ -20,14 +20,15 @@ import time
 import uuid
 import zipfile
 
-from remote_common import (MAX_ARCHIVE, MAX_RESULT_BYTES, MAX_RESULT_FILES,
-                           STUDIO_AUTHORING_FILES, canonical, digest, unpack_snapshot,
-                           validate_manifest, verify_source)
+from remote_common import (MAX_ARCHIVE, MAX_BLOB, MAX_CANDIDATE_RECEIPT, MAX_RESULT_BYTES,
+                           MAX_RESULT_FILES, STUDIO_AUTHORING_FILES, canonical, digest,
+                           unpack_candidate, unpack_snapshot, validate_candidate_manifest,
+                           validate_candidate_receipt, validate_manifest, verify_source)
 
 # Incremental snapshots: the station keeps one blob per distinct file content, so a
 # new build sends only the files that actually changed instead of the whole tree.
-MAX_BLOB = 512 * 1024**2
 KEEP_MANIFESTS = 50
+KEEP_CANDIDATES = 3
 KEEP_ARCHIVES = 1        # the newest archive is what an empty blob store is seeded from
 BLOB_GRACE = 24 * 3600   # content a client may still be uploading is not collected
 STUDIO_SCENE = 'res://studio/studio_main.tscn'
@@ -1846,6 +1847,7 @@ class Station:
         self.jobs = self.data / 'runs'; self.jobs.mkdir(exist_ok=True)
         self.blobs = self.data / 'blobs'; self.blobs.mkdir(exist_ok=True)
         self.manifests = self.data / 'manifests'; self.manifests.mkdir(exist_ok=True)
+        self.candidates = self.data / 'candidates'; self.candidates.mkdir(exist_ok=True)
         self.seeded = False
         # One worker instance per account, including startup/restart races.
         import msvcrt
@@ -1864,6 +1866,47 @@ class Station:
     def manifest_for(self, sid):
         path = self.manifests / (sid + '.json')
         return json.loads(path.read_text(encoding='utf-8-sig')) if path.is_file() else None
+
+    def candidate_for(self, candidate_id):
+        path = self.candidates / (candidate_id + '.json')
+        if not path.is_file():
+            return None
+        record = json.loads(path.read_text(encoding='utf-8-sig'))
+        if (not isinstance(record, dict) or record.get('candidate_id') != candidate_id
+                or validate_candidate_manifest(record.get('manifest', {})) != candidate_id
+                or not isinstance(record.get('owner'), str) or not record['owner']):
+            raise ValueError('stored Windows candidate manifest is invalid')
+        return record
+
+    def plan_candidate(self, manifest, principal):
+        if not isinstance(principal, str) or not principal:
+            return 401, {'error': 'unambiguous candidate owner required'}
+        candidate_id = validate_candidate_manifest(manifest)
+        path = self.candidates / (candidate_id + '.json')
+        with self.lock:
+            if self.busy:
+                return 409, {'error': 'station busy', 'job_id': self.busy}
+            health = self.health(candidate_boot=True)
+            if not health['ready']:
+                return 503, {'error': 'station not ready', 'health': health}
+            if path.is_file():
+                record = self.candidate_for(candidate_id)
+                if record['owner'] != principal:
+                    return 403, {'error': 'candidate belongs to another principal'}
+                if record['manifest'] != manifest:
+                    return 409, {'error': 'candidate identity collision'}
+                record['last_used'] = time.time()
+            else:
+                now = time.time()
+                record = {'candidate_id': candidate_id, 'manifest': manifest,
+                          'owner': principal, 'created': now, 'last_used': now}
+            _studio_write_durable_json(path, record)
+            # Drop stale rebuildable candidate upload cache before the next large blob
+            # upload reaches the disk-space guard. The new plan is kept by its fresh mtime.
+            self.reclaim(None)
+        missing = sorted({manifest[name + '_sha256'] for name in ('receipt', 'windows_zip')
+                          if not blob_path(self.blobs, manifest[name + '_sha256']).is_file()})
+        return 200, {'candidate_id': candidate_id, 'known': not missing, 'missing': missing}
 
     def verified_snapshot_manifest(self, sid):
         manifest = self.manifest_for(sid)
@@ -1937,6 +1980,24 @@ class Station:
                          json.loads(manifest.read_text(encoding='utf-8-sig'))['files'].values()}
             except (ValueError, KeyError, OSError):
                 continue
+        candidate_plans = sorted(self.candidates.glob('*.json'),
+                                 key=lambda path: path.stat().st_mtime, reverse=True)
+        newest_candidates = {path.name for path in candidate_plans[:KEEP_CANDIDATES]}
+        active_candidate = (self.active_spec.get('candidate_id')
+                            if isinstance(self.active_spec, dict)
+                            and self.active_spec.get('mode') == 'candidate-boot' else None)
+        for candidate in candidate_plans:
+            if (candidate.name in newest_candidates or candidate.stem == active_candidate
+                    or candidate.stat().st_mtime >= cutoff):
+                continue
+            candidate.unlink(missing_ok=True)
+        for candidate in self.candidates.glob('*.json'):
+            try:
+                manifest = json.loads(candidate.read_text(encoding='utf-8-sig'))['manifest']
+                validate_candidate_manifest(manifest)
+                live |= {manifest[name + '_sha256'] for name in ('receipt', 'windows_zip')}
+            except (ValueError, KeyError, OSError):
+                continue
         archives = sorted(self.snapshots.glob('*.zip'), key=lambda p: p.stat().st_mtime, reverse=True)
         for path in archives[KEEP_ARCHIVES:]:
             if path.stem == used_snapshot or path.stat().st_mtime > cutoff:
@@ -1965,15 +2026,28 @@ class Station:
             stream.seek(1)
             return bool(stream.read().strip())
 
-    def health(self):
-        pins = json.loads((self.repo / 'eng/toolchain.json').read_text(encoding='utf-8-sig'))
-        v = pins['godot']['version'].split('.stable')[0]
-        godot = self.repo / f'.tools/godot/windows/Godot_v{v}-stable_mono_win64/Godot_v{v}-stable_mono_win64_console.exe'
-        dotnet = self.repo / '.tools/dotnet/dotnet.exe'
-        tools = (godot.is_file() and dotnet.is_file() and Path(self.config['python']).is_file()
-                 and all((self.repo/'eng'/name).is_file() for name in
-                         ('run-windows-check.ps1','protected_run.py','remote_common.py','windows-game-ui.ps1')))
-        d = desktop(); pending = self.recovery()
+    def health(self, candidate_boot=False):
+        if candidate_boot:
+            python = str(self.config['python'])
+            python_path = Path(python) if Path(python).is_file() else shutil.which(python)
+            system_root = os.environ.get('SystemRoot', '')
+            powershell = Path(system_root) / 'System32/WindowsPowerShell/v1.0/powershell.exe'
+            tools = (python_path is not None and powershell.is_file() and (self.repo / '.tools').is_dir()
+                     and all((self.repo/'eng'/name).is_file() for name in
+                             ('run-windows-check.ps1','protected_run.py','remote_common.py')))
+            d = {'interactive': None, 'input_desktop': None, 'required': False}
+            pins = None
+            godot = None
+        else:
+            pins = json.loads((self.repo / 'eng/toolchain.json').read_text(encoding='utf-8-sig'))
+            v = pins['godot']['version'].split('.stable')[0]
+            godot = self.repo / f'.tools/godot/windows/Godot_v{v}-stable_mono_win64/Godot_v{v}-stable_mono_win64_console.exe'
+            dotnet = self.repo / '.tools/dotnet/dotnet.exe'
+            tools = (godot.is_file() and dotnet.is_file() and Path(self.config['python']).is_file()
+                     and all((self.repo/'eng'/name).is_file() for name in
+                             ('run-windows-check.ps1','protected_run.py','remote_common.py','windows-game-ui.ps1')))
+            d = desktop()
+        pending = self.recovery()
         pipeline_locked = False
         try:
             with (self.repo/'.tools/windows-station.lock').open('ab'):
@@ -1981,18 +2055,39 @@ class Station:
         except OSError:
             pipeline_locked = True
         # Restart with an orphan runner is blocked even if the source lock is gone.
-        orphan = subprocess.run(['tasklist','/FI','IMAGENAME eq '+godot.name,'/FO','CSV','/NH'],capture_output=True,text=True).stdout
-        main_name = godot.name.replace('_console.exe', '.exe')
-        orphan += subprocess.run(['tasklist','/FI','IMAGENAME eq '+main_name,'/FO','CSV','/NH'],capture_output=True,text=True).stdout
-        orphaned = (godot.name.lower() in orphan.lower() or main_name.lower() in orphan.lower() or pipeline_locked) and not self.busy
-        return {'ready': bool(tools and d['interactive'] and d['input_desktop'] and not pending and not orphaned),
-                'host': os.environ['COMPUTERNAME'], 'desktop': d, 'tools': tools,
-                'userdata_recovery_pending': pending, 'orphan_game_process': bool(orphaned),
-                'busy_job': self.busy, 'godot': pins['godot']['version'],
-                'normal_ui_transport_version': NORMAL_UI_TRANSPORT_VERSION,
-                'sdk': json.loads((self.repo/'global.json').read_text(encoding='utf-8-sig'))['sdk']['version'],
-                'blob_store': self.blob_usage(), 'disk': self.disk(),
-                'gpu_acceptance': self.config.get('gpu_acceptance', 'not-run')}
+        if candidate_boot:
+            orphaned = pipeline_locked and not self.busy
+        else:
+            orphan = subprocess.run(['tasklist','/FI','IMAGENAME eq '+godot.name,'/FO','CSV','/NH'],capture_output=True,text=True).stdout
+            main_name = godot.name.replace('_console.exe', '.exe')
+            orphan += subprocess.run(['tasklist','/FI','IMAGENAME eq '+main_name,'/FO','CSV','/NH'],capture_output=True,text=True).stdout
+            orphaned = (godot.name.lower() in orphan.lower() or main_name.lower() in orphan.lower() or pipeline_locked) and not self.busy
+        candidate_exes = list(self.jobs.glob('*/candidate/windows/URMAN.exe'))
+        candidate_orphaned = False
+        if candidate_exes and not self.busy:
+            for pid, (_, name) in _windows_process_table().items():
+                if name.lower() != 'urman.exe':
+                    continue
+                image = _windows_process_image(pid)
+                image_path = os.path.normcase(os.path.abspath(image)) if image else None
+                if image_path is None or any(
+                        image_path == os.path.normcase(str(path.resolve(strict=False)))
+                        for path in candidate_exes):
+                    candidate_orphaned = True
+                    break
+        orphaned = orphaned or candidate_orphaned
+        ready = bool(tools and not pending and not orphaned
+                     and (candidate_boot or (d['interactive'] and d['input_desktop'])))
+        result = {'ready': ready, 'host': os.environ['COMPUTERNAME'], 'desktop': d, 'tools': tools,
+                  'userdata_recovery_pending': pending, 'orphan_game_process': bool(orphaned),
+                  'orphan_candidate_process': candidate_orphaned, 'busy_job': self.busy,
+                  'blob_store': self.blob_usage(), 'disk': self.disk()}
+        if not candidate_boot:
+            result.update(godot=pins['godot']['version'],
+                          normal_ui_transport_version=NORMAL_UI_TRANSPORT_VERSION,
+                          sdk=json.loads((self.repo/'global.json').read_text(encoding='utf-8-sig'))['sdk']['version'],
+                          gpu_acceptance=self.config.get('gpu_acceptance', 'not-run'))
+        return result
 
     def studio_readiness(self):
         result = {
@@ -2122,6 +2217,8 @@ class Station:
             self.lock.release()
 
     def submit(self, spec, principal):
+        if isinstance(spec, dict) and spec.get('mode') == 'candidate-boot':
+            return self.submit_candidate(spec, principal)
         if not isinstance(principal, str) or not principal:
             raise ValueError('authenticated job principal required')
         if set(spec) - {'job_id','snapshot_id','mode','scene','timeout','headless','points','phase','fov','studio_restarts'}:
@@ -2226,6 +2323,57 @@ class Station:
             self.active_source = path/'source'
             self.active_runner = None
             threading.Thread(target=self.execute, args=(path,spec,status), daemon=False).start()
+            return 202, status
+
+    def submit_candidate(self, spec, principal):
+        if not isinstance(principal, str) or not principal:
+            return 401, {'error': 'unambiguous candidate job principal required'}
+        if (set(spec) != {'job_id', 'mode', 'candidate_id', 'timeout'}
+                or spec.get('mode') != 'candidate-boot'):
+            raise ValueError('candidate-boot accepts only job_id, mode, candidate_id, and timeout')
+        jid = spec.get('job_id', '')
+        candidate_id = spec.get('candidate_id', '')
+        if not re.fullmatch('[a-f0-9]{32}', jid) or not re.fullmatch('[a-f0-9]{64}', candidate_id):
+            raise ValueError('invalid candidate job or candidate ID')
+        if type(spec.get('timeout')) is not int or not 1 <= spec['timeout'] <= 300:
+            raise ValueError('candidate boot timeout must be 1..300 seconds')
+        record = self.candidate_for(candidate_id)
+        if record is None:
+            raise ValueError('unknown Windows candidate')
+        if record['owner'] != principal:
+            return 403, {'error': 'candidate belongs to another principal'}
+        manifest = record['manifest']
+        for name in ('receipt', 'windows_zip'):
+            path = blob_path(self.blobs, manifest[name + '_sha256'])
+            if not path.is_file() or path.stat().st_size != manifest[name + '_bytes']:
+                raise ValueError('candidate upload is incomplete; re-run candidate-boot')
+        with self.lock:
+            path = self.jobs / jid
+            if path.exists():
+                if not (path/'request.json').is_file() or not (path/'status.json').is_file():
+                    return 409, {'error': 'incomplete existing job; source is preserved', 'job_id': jid}
+                owner_path = path / 'owner.json'
+                if not owner_path.is_file() or json.loads(owner_path.read_text(encoding='utf-8-sig')).get('principal') != principal:
+                    return 403, {'error': 'candidate job belongs to another principal'}
+                if json.loads((path/'request.json').read_text(encoding='utf-8-sig')) != spec:
+                    raise ValueError('job_id reused with different parameters')
+                return 200, json.loads((path/'status.json').read_text(encoding='utf-8-sig'))
+            if self.busy:
+                return 409, {'error': 'station busy', 'job_id': self.busy}
+            health = self.health(candidate_boot=True)
+            if not health['ready']:
+                return 503, {'error': 'station not ready', 'health': health}
+            path.mkdir()
+            write_json(path/'request.json', spec)
+            _studio_write_durable_json(path/'owner.json', {'principal': principal})
+            status = {'job_id': jid, 'candidate_id': candidate_id, 'status': 'RUNNING', 'started': time.time()}
+            write_json(path/'status.json', status)
+            self.busy = jid
+            self.job_owners[jid] = principal
+            self.active_spec = dict(spec)
+            self.active_source = None
+            self.active_runner = None
+            threading.Thread(target=self.execute, args=(path, spec, status), daemon=False).start()
             return 202, status
 
     def _active_game_pid(self, jid):
@@ -2802,7 +2950,105 @@ class Station:
             self.active_source = None
             self.active_runner = None
 
+    def execute_candidate(self, path, spec, status):
+        output = path / 'artifacts'
+        candidate_root = path / 'candidate'
+        started = time.monotonic()
+        output.mkdir()
+        receipt = {}
+        preserve_candidate = False
+        try:
+            record = self.candidate_for(spec['candidate_id'])
+            owner = json.loads((path / 'owner.json').read_text(encoding='utf-8-sig')).get('principal')
+            if record is None or record['owner'] != owner:
+                raise ValueError('candidate ownership changed before execution')
+            manifest = record['manifest']
+            receipt_path = blob_path(self.blobs, manifest['receipt_sha256'])
+            archive_path = blob_path(self.blobs, manifest['windows_zip_sha256'])
+            for blob, key in ((receipt_path, 'receipt'), (archive_path, 'windows_zip')):
+                if not blob.is_file() or blob.stat().st_size != manifest[key + '_bytes'] or digest(blob) != manifest[key + '_sha256']:
+                    raise ValueError('candidate upload blob failed its saved hash/size check')
+            if manifest['receipt_bytes'] > MAX_CANDIDATE_RECEIPT:
+                raise ValueError('candidate receipt exceeds its size limit')
+            candidate_receipt = json.loads(receipt_path.read_text(encoding='utf-8-sig'))
+            validate_candidate_receipt(candidate_receipt, manifest)
+            unpack_candidate(archive_path, candidate_root, manifest)
+
+            execution_names = ('eng/run-windows-check.ps1', 'eng/protected_run.py', 'eng/remote_common.py')
+            execution_files = {name: {'station_sha256': digest(self.repo / name)} for name in execution_names}
+            system_root = os.environ.get('SystemRoot', '')
+            powershell = Path(system_root) / 'System32/WindowsPowerShell/v1.0/powershell.exe'
+            if not powershell.is_file():
+                raise ValueError('Windows PowerShell runner is unavailable')
+            command = [str(powershell), '-NoProfile', '-ExecutionPolicy', 'Bypass', '-File',
+                       str(self.repo / 'eng/run-windows-check.ps1'), '-Root', str(self.repo),
+                       '-ToolsRoot', str(self.repo), '-CandidateRoot', str(candidate_root),
+                       '-Output', str(output), '-Mode', 'candidate-boot',
+                       '-TimeoutSeconds', str(spec['timeout']), '-Python', self.config['python']]
+            with (output / 'stdout.log').open('wb') as out, (output / 'stderr.log').open('wb') as err:
+                process = subprocess.Popen(command, stdout=out, stderr=err,
+                                           creationflags=subprocess.CREATE_NO_WINDOW)
+                try:
+                    code = process.wait(timeout=spec['timeout'] + 120)
+                except subprocess.TimeoutExpired:
+                    subprocess.run(['taskkill', '/PID', str(process.pid), '/T', '/F'], capture_output=True)
+                    process.wait(timeout=10)
+                    raise RuntimeError('candidate job deadline exceeded; inspect the userdata recovery marker')
+            receipt = json.loads((output / 'receipt.json').read_text(encoding='utf-8-sig'))
+            receipt.update(schema='urman.windows_candidate_boot_receipt.v1',
+                           evidence_scope='headless-windows-package-boot',
+                           native_ui='not-run', station=os.environ['COMPUTERNAME'], job_id=spec['job_id'],
+                           candidate_id=spec['candidate_id'], candidate_manifest=manifest,
+                           execution_files=execution_files, worker_code_sha256=self.worker_code_sha256,
+                           runner_exit_code=code, worker_elapsed_seconds=round(time.monotonic() - started, 3))
+            write_json(output / 'receipt.json', receipt)
+            if code != 0 or receipt.get('status') != 'PASS' or self.recovery():
+                raise RuntimeError(receipt.get('error', f'candidate runner failed with exit {code}'))
+            status.update(status='PASS', exit_code=0)
+        except Exception as error:
+            status.update(status='FAIL', exit_code=1, error=str(error)[:2048])
+            try:
+                current = json.loads((output / 'receipt.json').read_text(encoding='utf-8-sig')) if (output / 'receipt.json').is_file() else {}
+                current.update(schema='urman.windows_candidate_boot_receipt.v1', status='FAIL',
+                               job_id=spec['job_id'], candidate_id=spec['candidate_id'],
+                               candidate_manifest=(record.get('manifest') if 'record' in locals() and record else None),
+                               error=str(error)[:2048], userdata_recovery_pending=self.recovery())
+                write_json(output / 'receipt.json', current)
+            except Exception as receipt_error:
+                print('candidate receipt write failed:', receipt_error, file=sys.stderr)
+            preserve_candidate = self.recovery()
+
+        write_json(output / 'request.json', spec)
+        status['finished'] = time.time()
+        if candidate_root.exists() and not preserve_candidate:
+            shutil.rmtree(candidate_root, ignore_errors=True)
+        try:
+            status['result_sha256'] = _archive_result(path, output)
+            status['result_unavailable'] = False
+        except Exception as error:
+            _write_result_unavailable(path, status, 'result archive failed: ' + str(error)[:1800])
+            with self.lock:
+                self._clear_active_job(spec['job_id'])
+            return
+        with self.lock:
+            try:
+                status['station_freed_bytes'] = self.reclaim(None)
+                _studio_write_durable_json(path / 'status.json', status)
+            except OSError as error:
+                print('candidate station reclaim/status write failed:', error, file=sys.stderr)
+                _studio_write_durable_json(path / 'status.json', status)
+            finally:
+                self._clear_active_job(spec['job_id'])
+
     def execute(self, path, spec, status):
+        if spec.get('mode') == 'candidate-boot':
+            try:
+                self.execute_candidate(path, spec, status)
+            except Exception as error:
+                _write_result_unavailable(path, status, error)
+                with self.lock:
+                    self._clear_active_job(spec['job_id'])
+            return
         output = path/'artifacts'
         source = path/'source'
         is_studio = spec.get('scene') == STUDIO_SCENE
@@ -3002,11 +3248,24 @@ class Handler(BaseHTTPRequestHandler):
         station = self.server.station
         if self.path == '/health':
             return self.respond(200,station.health())
+        if self.path == '/health/candidate':
+            return self.respond(200, station.health(candidate_boot=True))
         if self.path == '/health/studio':
             return self.respond(200,station.studio_readiness())
         m = re.fullmatch(r'/jobs/([a-zA-Z0-9_-]{8,64})(/result)?',self.path)
         if not m or not (station.jobs/m[1]/'status.json').is_file():
             return self.respond(404,{'error':'unknown job'})
+        request_path = station.jobs / m[1] / 'request.json'
+        request = (json.loads(request_path.read_text(encoding='utf-8-sig'))
+                   if request_path.is_file() else {})
+        owner_path = station.jobs / m[1] / 'owner.json'
+        if request.get('mode') == 'candidate-boot' or owner_path.exists():
+            principal = self.authenticated_principal()
+            if principal is None:
+                return self.respond(401, {'error': 'unambiguous candidate job principal required'})
+            if (not owner_path.is_file()
+                    or json.loads(owner_path.read_text(encoding='utf-8-sig')).get('principal') != principal):
+                return self.respond(403, {'error': 'candidate job belongs to another principal'})
         status = json.loads((station.jobs/m[1]/'status.json').read_text(encoding='utf-8-sig'))
         if not m[2]:
             return self.respond(200,status)
@@ -3089,6 +3348,11 @@ class Handler(BaseHTTPRequestHandler):
                                   if not blob_path(station.blobs, meta['sha256']).is_file()})
                 return self.respond(200,{'snapshot_id':sid,'known':not missing,
                                          'missing':missing,'files':len(manifest['files'])})
+            if self.path == '/candidates/plan' and size <= 16384:
+                if principal is None:
+                    return self.respond(401, {'error': 'unambiguous candidate owner required'})
+                code, value = station.plan_candidate(json.loads(self.rfile.read(size)), principal)
+                return self.respond(code, value)
             if self.path == '/jobs' and size <= 16384:
                 if principal is None:
                     return self.respond(401, {'error':'unambiguous job principal required'})

@@ -141663,6 +141663,19 @@
         "accepted_output": "build/releases/act1-20261019-f62bf22b",
         "accepted_receipt": "evidence/PW-095/desktop_candidate_f62bf22b/desktop-artifact-receipt.json",
         "accepted_log": "evidence/PW-095/desktop_candidate_f62bf22b/export.log"
+      },
+      "candidate_boot_route_2026_10_19": {
+        "state": "source_reviewed_host_execution_pending",
+        "targets": [
+          "eng/remote-check.py",
+          "eng/remote_common.py",
+          "eng/windows_station_worker.py",
+          "eng/run-windows-check.ps1"
+        ],
+        "scope": "Fixed exported windows/URMAN.exe only; same authenticated station, protected_run, bounded launch and userdata restoration; headless/Dummy boot is not ordinary UI acceptance.",
+        "verification": "Python AST PASS; Windows PowerShell Parser.ParseInput PASS on exact compressed source; independent review of ownership/archive/cleanup and newest3 + 24h/active upload retention.",
+        "station_update": "Doctor ready idle/no recovery/no orphan. Windows main df982443 has unrelated unmerged .gitattributes and two locally modified documentation files; no pull/reset/stash/checkout attempted. Deploy only clean owned execution files with exact hash guards and preserve other work.",
+        "next_action": "Install the reviewed route on idle station, then run one candidate-boot using the actual f62bf22b Windows ZIP/receipt; retain receipt and keep ordinary UI/art/performance gates open."
       }
     },
     {

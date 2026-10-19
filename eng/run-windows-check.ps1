@@ -1,5 +1,5 @@
 param(
-    [ValidateSet('build', 'prepare', 'play', 'smoke', 'capture')][string]$Mode = 'smoke',
+    [ValidateSet('build', 'prepare', 'play', 'smoke', 'capture', 'candidate-boot')][string]$Mode = 'smoke',
     [string]$Scene,
     [ValidateRange(1, 86400)][int]$TimeoutSeconds = 300,
     [ValidateRange(0, 2)][int]$StudioRestarts = 0,
@@ -10,6 +10,7 @@ param(
     [string]$Root = (Split-Path $PSScriptRoot -Parent),
     [string]$ToolsRoot,
     [string]$Provenance,
+    [string]$CandidateRoot,
     [string]$Output,
     [string]$Python = 'python'
 )
@@ -20,15 +21,29 @@ if ($env:OS -ne 'Windows_NT') { throw 'Game checks belong on the Windows station
 $Root = (Resolve-Path $Root).Path
 if (-not $ToolsRoot) { $ToolsRoot = $Root }
 $ToolsRoot = (Resolve-Path $ToolsRoot).Path
-if ($Mode -eq 'smoke' -and (-not $Scene -or $Scene -notlike 'res://tests/*.tscn')) {
-    throw 'Select exactly one existing res://tests/*.tscn scene.'
+if ($Mode -eq 'candidate-boot') {
+    if (-not $CandidateRoot -or $Scene -or $Headless -or $ViewPoints -or $AtmospherePhase -or $ViewFov -or $StudioRestarts) {
+        throw 'candidate-boot requires only the worker-owned extracted candidate root and timeout.'
+    }
+    $candidateItem = Get-Item -LiteralPath $CandidateRoot -Force -ErrorAction Stop
+    if (-not $candidateItem.PSIsContainer -or ($candidateItem.Attributes -band [IO.FileAttributes]::ReparsePoint)) {
+        throw 'Candidate root must be a real worker-owned directory.'
+    }
+    $CandidateRoot = $candidateItem.FullName
+    $candidateExe = Join-Path $CandidateRoot 'windows/URMAN.exe'
+    if (-not (Test-Path -LiteralPath $candidateExe -PathType Leaf)) { throw 'Candidate package has no windows/URMAN.exe.' }
+} else {
+    if ($CandidateRoot) { throw 'CandidateRoot is only valid for candidate-boot.' }
+    if ($Mode -eq 'smoke' -and (-not $Scene -or $Scene -notlike 'res://tests/*.tscn')) {
+        throw 'Select exactly one existing res://tests/*.tscn scene.'
+    }
+    if ($Mode -eq 'smoke' -and $Scene -eq 'res://tests/gait_capture_probe.tscn' -and $Headless) {
+        throw 'The existing gait capture requires the native renderer.'
+    }
+    if (-not $Scene) { $Scene = 'res://scenes/act1_demo.tscn' }
+    if ($Scene -notmatch '^res://[\w/.-]+\.tscn$' -or $Scene.Contains('..') -or
+        -not (Test-Path (Join-Path "$Root/game" $Scene.Substring(6)))) { throw 'Invalid or missing scene.' }
 }
-if ($Mode -eq 'smoke' -and $Scene -eq 'res://tests/gait_capture_probe.tscn' -and $Headless) {
-    throw 'The existing gait capture requires the native renderer.'
-}
-if (-not $Scene) { $Scene = 'res://scenes/act1_demo.tscn' }
-if ($Scene -notmatch '^res://[\w/.-]+\.tscn$' -or $Scene.Contains('..') -or
-    -not (Test-Path (Join-Path "$Root/game" $Scene.Substring(6)))) { throw 'Invalid or missing scene.' }
 $studioPlay = $Mode -eq 'play' -and $Scene -eq 'res://studio/studio_main.tscn'
 if ($PSBoundParameters.ContainsKey('StudioRestarts') -and -not $studioPlay) {
     throw 'StudioRestarts is only valid for a native Studio play run.'
@@ -37,21 +52,28 @@ if ($Mode -eq 'capture' -and (-not $ViewPoints -or $Headless)) { throw 'Capture 
 if ($AtmospherePhase -and $Mode -ne 'capture') { throw 'An atmosphere phase only applies to a capture.' }
 if ($ViewFov -and $Mode -ne 'capture') { throw 'A view FOV only applies to a capture.' }
 if ($Mode -eq 'play' -and $Headless) { throw 'Play requires a native window.' }
-$manifest = Get-Content "$Root/eng/toolchain.json" -Raw | ConvertFrom-Json
-$version = $manifest.godot.version -replace '\.stable.*$', ''
-$godot = "$ToolsRoot/.tools/godot/windows/Godot_v$version-stable_mono_win64/Godot_v$version-stable_mono_win64_console.exe"
-$dotnet = "$ToolsRoot/.tools/dotnet/dotnet.exe"
 $guard = "$ToolsRoot/eng/protected_run.py"
 $bounded = "$ToolsRoot/eng/remote_common.py"
-foreach ($path in @($godot, $dotnet, $guard)) {
+if ($Mode -eq 'candidate-boot') {
+    $requiredTools = @($guard, $bounded)
+} else {
+    $manifest = Get-Content "$Root/eng/toolchain.json" -Raw | ConvertFrom-Json
+    $version = $manifest.godot.version -replace '\.stable.*$', ''
+    $godot = "$ToolsRoot/.tools/godot/windows/Godot_v$version-stable_mono_win64/Godot_v$version-stable_mono_win64_console.exe"
+    $dotnet = "$ToolsRoot/.tools/dotnet/dotnet.exe"
+    $requiredTools = @($godot, $dotnet, $guard, $bounded)
+}
+foreach ($path in $requiredTools) {
     if (-not (Test-Path $path)) { throw "Missing $path; run eng/setup-windows-station.ps1 first." }
 }
-$env:DOTNET_ROOT = "$ToolsRoot/.tools/dotnet"
-$env:DOTNET_ROOT_X64 = $env:DOTNET_ROOT
-$env:DOTNET_CLI_HOME = "$ToolsRoot/.tools/dotnet-home"
-$env:NUGET_PACKAGES = "$ToolsRoot/.tools/nuget"
-$env:MSBUILDUSESERVER = '0'
-$env:PATH = "$env:DOTNET_ROOT;$env:PATH"
+if ($Mode -ne 'candidate-boot') {
+    $env:DOTNET_ROOT = "$ToolsRoot/.tools/dotnet"
+    $env:DOTNET_ROOT_X64 = $env:DOTNET_ROOT
+    $env:DOTNET_CLI_HOME = "$ToolsRoot/.tools/dotnet-home"
+    $env:NUGET_PACKAGES = "$ToolsRoot/.tools/nuget"
+    $env:MSBUILDUSESERVER = '0'
+    $env:PATH = "$env:DOTNET_ROOT;$env:PATH"
+}
 # ponytail: one station run at a time; separate workers only if another PC is added.
 $runLock = [IO.File]::Open("$ToolsRoot/.tools/windows-station.lock", 'OpenOrCreate', 'ReadWrite', 'None')
 if (-not $Output) { $Output = "$Root/.codex-captures/windows/$((Get-Date).ToString('yyyyMMdd-HHmmss'))-$([guid]::NewGuid().ToString('N').Substring(0,8))" }
@@ -81,6 +103,54 @@ function Invoke-Logged([string]$Name, [string]$Exe, [string[]]$Arguments, [int]$
     if ($Arguments -contains $guard -and $log -notmatch 'userdata guard: original files.*restored.*verified') {
         throw "$Name did not confirm userdata restoration."
     }
+}
+if ($Mode -eq 'candidate-boot') {
+    $receipt.mode = 'candidate-boot'
+    $receipt.headless = $true
+    $receipt.evidenceScope = 'headless-windows-package-boot'
+    $receipt.nativeUi = 'not-run'
+    $candidateExeItem = Get-Item -LiteralPath $candidateExe -Force -ErrorAction Stop
+    if ($candidateExeItem.Attributes -band [IO.FileAttributes]::ReparsePoint) { throw 'Candidate executable cannot be a reparse point.' }
+    $candidateExe = $candidateExeItem.FullName
+    $godotLog = Join-Path ([IO.Path]::GetFullPath($output)) 'candidate-engine.log'
+    try {
+        Push-Location (Split-Path -Parent $candidateExe)
+        try {
+            Invoke-Logged 'candidate-boot' $Python @($guard, '--clean', '--timeout', "$TimeoutSeconds",
+                $candidateExe, '--headless', '--audio-driver', 'Dummy', '--quit-after', '4', '--log-file', $godotLog) ($TimeoutSeconds + 30)
+            if (-not (Test-Path -LiteralPath $godotLog -PathType Leaf)) { throw 'Exported game did not write its engine log.' }
+            $engineLog = [Text.Encoding]::UTF8.GetString([IO.File]::ReadAllBytes($godotLog))
+            $errors = @($engineLog -split '\r?\n' | Where-Object {
+                $_ -match '(?im)(^|\s)(ERROR:|SCRIPT ERROR:)|ObjectDB instances leaked|resources still in use|Unhandled exception'
+            })
+            if ($errors.Count -gt 0) { throw 'Exported game log contains engine errors or resource leaks.' }
+            $requiredMarkers = @('zone-loaded: village_day@arrival',
+                'УРМАН Godot vertical slice ready: Painterly Low-Poly / first person',
+                'fullgame-scene-loaded: urman.fullgame:scene/pw-prologue physical=W01')
+            foreach ($marker in $requiredMarkers) {
+                if (-not $engineLog.Contains($marker)) { throw "Exported game startup marker is missing: $marker" }
+            }
+            $receipt.startupMarkers = $requiredMarkers
+            $receipt.engineErrors = @()
+            $receipt.gameExitCode = $receipt.steps['candidate-boot'].exitCode
+            $receipt.status = 'PASS'
+        } finally {
+            Pop-Location
+        }
+    } catch {
+        $receipt.status = 'FAIL'
+        $receipt.error = $_.Exception.Message
+        Write-Host $receipt.error
+    } finally {
+        $receipt.elapsedSeconds = ((Get-Date).ToUniversalTime() - [datetimeoffset]::Parse($receipt.started).UtcDateTime).TotalSeconds
+        $receipt.finished = (Get-Date).ToUniversalTime().ToString('o')
+        $receipt.exitCode = if ($receipt.status -eq 'PASS') { 0 } else { 1 }
+        $receipt | ConvertTo-Json -Depth 5 | Set-Content "$output/receipt.json" -Encoding UTF8
+        $runLock.Dispose()
+    }
+    Write-Host "Windows candidate boot: $($receipt.status); receipt: $output/receipt.json"
+    if ($receipt.status -ne 'PASS') { exit 1 }
+    exit 0
 }
 Push-Location $Root
 $savedCapture = $env:URMAN_VIEW_CAPTURE
