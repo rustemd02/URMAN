@@ -109582,7 +109582,7 @@
       "assigned_owner": "integration",
       "activity": {
         "state": "confirmed_active",
-        "reason": "Human explicitly authorized protected-test prologue skip; root serializes next ordinary village/home/book route, no facts/devspawn. Previous pause/quit fix verified2c5835cd."
+        "reason": "Ordinary protected native e79adf9f submitted. No input sent; status/capture blocked by confirmed Tailscale transport outage. Keep existing job/userdata guard; no duplicate jobs or TLS weakening."
       },
       "task_type": "engineering",
       "implementation_state": "implemented",
@@ -109874,6 +109874,13 @@
         "state": "explicit_human_authorized",
         "answer": "Да, пропустить пролог в тестовом запуске",
         "scope": "Remaining prologue in protected test to reach village/book. No user-save bypass or facts. Previous aff33 automatic review hold remains historical; now resolved for next test."
+      },
+      "ordinary_book_native_e79_2026_10_20": {
+        "state": "submitted_transport_unavailable_no_input",
+        "job_id": "e79adf9f932a4d74b4aec64d7565c6a4",
+        "snapshot_id": "27626713c7807ded8c64bdd12b3b446b914019c99e73c54534fb916aaaeeaba9",
+        "evidence": "evidence/PW-020/native_book_e79adf9f932a4d74b4aec64d7565c6a4/",
+        "observed": "Submit succeeded; later single bounded status returned urlopen timed out; no actual menu/frame, no input. Root Tailscale health reports encrypted relay certificate rejected as self-signed; same-station bounded ping no reply. No TLS/hostkey bypass, forced kill, additional job or userdata manipulation. Terminal receipt/restoration pending until transport recovers. Human skip approval remains valid."
       }
     },
     {
