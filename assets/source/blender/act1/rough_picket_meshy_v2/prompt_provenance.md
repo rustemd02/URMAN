@@ -27,4 +27,3 @@ Exclude text, labels, logo, UI, characters, monsters, buildings, gates, hinges, 
 ## Assessment limitation
 
 A single generated bitmap cannot prove member dimensions, gaps, joinery or runtime performance. The actual candidate still needs a 3D metric check and a native-game frame before acceptance.
-
