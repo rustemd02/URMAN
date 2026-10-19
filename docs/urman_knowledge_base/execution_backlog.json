@@ -109927,7 +109927,7 @@
       "id": "PW-021",
       "title": "Загрузить фотомир без блокирующей сцены на main loop",
       "milestone": "PW-M1",
-      "status": "todo",
+      "status": "in_progress",
       "active_owner": null,
       "owner": "integration",
       "priority": "P0",
@@ -110063,16 +110063,16 @@
       "assigned_owner": "integration",
       "activity": {
         "state": "not_active",
-        "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+        "reason": "20.10 finite source stage checked/compiled and handed off; native acceptance pending. Source writer claims released."
       },
       "task_type": "engineering",
-      "implementation_state": "not_started",
+      "implementation_state": "partial",
       "technical_verification_state": "not_run",
       "remaining": [
         "Cancel возвращает управление во внешнем мире.",
         "Loading failure указывает ресурс; фоновые потоки не меняют physics server."
       ],
-      "next_action": "Использовать request/status/get по поддерживаемой engine API; не вызывать blocking get до готовности.",
+      "next_action": "Finish initial cold-bootstrap preload and awaited supported physical projection before control; retain protected Load/NewGame recovery boundaries. Then native normalentry/cancel/failedresource/retry/Continue with actualinput/frameevidence after authoritative e79terminal+userdatarestore.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -110136,7 +110136,7 @@
           ],
           "repeat_only_if": "Изменился покрываемый вход/consumer/контракт; без этого уже принятая проверка используется повторно без запуска."
         },
-        "actual_result": "NOT_RUN",
+        "actual_result": "PARTIAL source stage compiled, full native criteria pending; see source_stage_2026_10_20.",
         "evidence_refs": [
           "tasks[id=PW-021].evidence"
         ],
@@ -110221,7 +110221,24 @@
           "evidence_ref": "PW-021.evidence and named history progress; source_review shows available/missing inputs"
         }
       ],
-      "assignment_state": "preserved_person_or_existing_role; activity separate"
+      "assignment_state": "preserved_person_or_existing_role; activity separate",
+      "source_stage_2026_10_20": {
+        "state": "source_integrated_compiled_native_pending",
+        "question": "PW021: request/status/get onlyLoaded + cancel before scenecommit with home/ticket intact; PW026: photovisit preserves actual bath remainingtime once and pause stops NPC routines.",
+        "success": "No worker SceneTree/physics mutations; Cancel/failure recovers original ticket; newgame/loadedphoto resource preflight; input/mouse owned until recovery. Canonical finite positive entry/returnplaytime, no duplicate offset, expired bath fire not revived; actualPlayTime metric includes photo gameplay.",
+        "next_action": "Finish initial cold-bootstrap preload and awaited supported physical projection before control; retain protected Load/NewGame recovery boundaries. Then native normalentry/cancel/failedresource/retry/Continue with actualinput/frameevidence after authoritative e79terminal+userdatarestore.",
+        "verification": "One affected Game build16.87s0warnings0errors; installedGodot4.7.1 API XML and officialResourceLoaderdocs/source read; independent Main/Bridge lifecycle, UI/input and Coredeadline reviews. Source whitespace checks and tracker308/20/679 PASS. No newtests/probes/fixtures, no runtime tests run.",
+        "evidence": [
+          "evidence/PW-021/resource-loading-20261020/affected-game-build.log"
+        ],
+        "api_sources": [
+          "https://docs.godotengine.org/en/stable/classes/class_resourceloader.html",
+          "https://github.com/godotengine/godot/blob/4.7-stable/core/io/resource_loader.cpp#L3336-L3373",
+          "https://github.com/godotengine/godot/blob/4.7-stable/core/io/resource_loader.cpp#L3724-L3827"
+        ],
+        "result": "Main owns request/status/across-frame wait/Get only terminal; normal5photoentries await resource after durableprepare checkpoint BEFORE narrativeentry. Main mount/SceneTree/physics remain mainthread; one preparedPackedScene consumed by5existingmounts. NewGame/loadedphoto preflight before physical projection. Existing LoadingScreen shows actualprogress and one-shot keyboard/controller/mouse Cancel; cancel recovers originalticket/keepshome, propercursor/focus/sessiongeneration ownership, no fake entry or falseerror oncancel. MainExit/generation/cancellation protects staleresults; perpathownership drains abandoned loaded/failed enginetokens without Get duringInProgress and permits freshretry afterFailed.",
+        "limits": "Cold automatic application bootstrap still uses synchronous fallback; this card remains partial. Instantiation/procedural scene construction remain mainthread, no frametime/FPS claims. Actual cancel/failure/Continue/native not run; existing e79 status timedout, terminal/userdata restorationunknown, no duplicatejob."
+      }
     },
     {
       "id": "PW-022",
@@ -111527,7 +111544,7 @@
       "id": "PW-026",
       "title": "Приостановить внешние часы и бытовые процессы на время визита",
       "milestone": "PW-M1",
-      "status": "todo",
+      "status": "in_progress",
       "active_owner": null,
       "owner": "integration",
       "priority": "P0",
@@ -111666,16 +111683,16 @@
       "assigned_owner": "integration",
       "activity": {
         "state": "not_active",
-        "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+        "reason": "20.10 finite source stage checked/compiled and handed off; native acceptance pending. Source writer claims released."
       },
       "task_type": "engineering",
-      "implementation_state": "not_started",
+      "implementation_state": "partial",
       "technical_verification_state": "not_run",
       "remaining": [
         "Десять минут в W02 не пропускают деревенский диалог.",
         "Пауза не продвигает сюжетные таймеры."
       ],
-      "next_action": "Сохранить часы и остановить внешний сюжетный счётчик при входе.",
+      "next_action": "Native finite scenario: ignitebath, note remainingfire/heat, visitW02+save/load/recover, returnonce withsame remainder and nosecondoffset/extra log; pause/resumeNPCmovement. Fullschedulephase/identity acceptance remains separate existing requirement.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -111746,7 +111763,7 @@
           ],
           "repeat_only_if": "Изменился покрываемый вход/consumer/контракт; без этого уже принятая проверка используется повторно без запуска."
         },
-        "actual_result": "NOT_RUN",
+        "actual_result": "PARTIAL source stage compiled, full native criteria pending; see source_stage_2026_10_20.",
         "evidence_refs": [
           "tasks[id=PW-026].evidence"
         ],
@@ -111844,7 +111861,24 @@
           "evidence_ref": "PW-026.evidence and named history progress; source_review shows available/missing inputs"
         }
       ],
-      "assignment_state": "preserved_person_or_existing_role; activity separate"
+      "assignment_state": "preserved_person_or_existing_role; activity separate",
+      "source_stage_2026_10_20": {
+        "state": "source_integrated_compiled_native_pending",
+        "question": "PW021: request/status/get onlyLoaded + cancel before scenecommit with home/ticket intact; PW026: photovisit preserves actual bath remainingtime once and pause stops NPC routines.",
+        "success": "No worker SceneTree/physics mutations; Cancel/failure recovers original ticket; newgame/loadedphoto resource preflight; input/mouse owned until recovery. Canonical finite positive entry/returnplaytime, no duplicate offset, expired bath fire not revived; actualPlayTime metric includes photo gameplay.",
+        "next_action": "Native finite scenario: ignitebath, note remainingfire/heat, visitW02+save/load/recover, returnonce withsame remainder and nosecondoffset/extra log; pause/resumeNPCmovement. Fullschedulephase/identity acceptance remains separate existing requirement.",
+        "verification": "One affected Game build16.87s0warnings0errors; installedGodot4.7.1 API XML and officialResourceLoaderdocs/source read; independent Main/Bridge lifecycle, UI/input and Coredeadline reviews. Source whitespace checks and tracker308/20/679 PASS. No newtests/probes/fixtures, no runtime tests run.",
+        "evidence": [
+          "evidence/PW-021/resource-loading-20261020/affected-game-build.log"
+        ],
+        "api_sources": [
+          "https://docs.godotengine.org/en/stable/classes/class_resourceloader.html",
+          "https://github.com/godotengine/godot/blob/4.7-stable/core/io/resource_loader.cpp#L3336-L3373",
+          "https://github.com/godotengine/godot/blob/4.7-stable/core/io/resource_loader.cpp#L3724-L3827"
+        ],
+        "result": "Realbathstove uses PlayTime (180sfire/600sheat), LogicalClock has no game Advance. Optional ReturnTicket.entryPlayTimeSeconds + requiredclosing returnPlayTimeSeconds rebase ONLY unexpired burnUntil/heatUntil by visitduration in SAME canonical FinishReturn/Abort transaction, once; unrelatedprops/logs/facts retained. Expiredfire notrevived, legacyticket withoutentrytime unchanged ratherthan inventedelapsed, nonfinite/negative/overflow rejected. Actualphoto gameplay stillcountsPlayTime, transitionresourcewaiting excluded. Authored StepRoutines freezes on playerModal/SessionTransition while no-playerStudio behavior retained.",
+        "limits": "Full10minW02/dialogue and pause/native timing scenario not run; legacytickets cannotreconstructhistoricalentrytime. Village/directors are rebuilt after detachedworld return, full runtimeidentity/schedulephase stillnotverified. No claimofnewglobalclock or fullPW026completion."
+      }
     },
     {
       "id": "PW-027",

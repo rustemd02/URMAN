@@ -1,4 +1,5 @@
 using System.Text.Json;
+using System.Text.Json.Nodes;
 using Urman.Core.Contracts;
 
 namespace Urman.Core.Narrative;
@@ -77,6 +78,9 @@ public static class PhotoWorldCommandHandler
         {
             var updated = PhotoWorldState.ApplyVisitCommand(context.State, command.Type, command.Payload);
             var effects = new List<StateEffect> { new(StateEffectOperation.Set, "photoworlds", updated) };
+            if (command.Type is VisitFinishReturn or VisitAbort
+                && RebaseBathDeadlines(context.State, command.Payload) is { } props)
+                effects.Add(new(StateEffectOperation.Set, "world.props", props));
             if (command.Type == VisitAbort || (command.Type == VisitReturn
                     && command.Payload.TryGetProperty("recoverOrigin", out var recovering) && recovering.ValueKind == JsonValueKind.True))
                 effects.Add(new(StateEffectOperation.Set, "activeScene", JsonSerializer.SerializeToElement("urman.fullgame:scene/pw-home")));
@@ -89,6 +93,49 @@ public static class PhotoWorldCommandHandler
         {
             return Reject("PhotoWorldVisitRejected", error.Message);
         }
+    }
+
+    // Household deadlines use the existing play-time metric. Closing the visit
+    // rebases only their unexpired remainder in the same kernel transaction as
+    // the visit closure, so a retry or loaded return cannot apply it twice.
+    private static JsonElement? RebaseBathDeadlines(JsonElement state, JsonElement payload)
+    {
+        var ticket = state.GetProperty("photoworlds").GetProperty("visits").GetProperty("active").GetProperty("returnTicket");
+        if (!ticket.TryGetProperty("entryPlayTimeSeconds", out var entryValue)) return null;
+        var entry = NonNegativeSeconds(entryValue, "entryPlayTimeSeconds");
+        if (!payload.TryGetProperty("returnPlayTimeSeconds", out var returnValue))
+            throw new InvalidDataException("Closing this visit requires the current return play time.");
+        var returned = NonNegativeSeconds(returnValue, "returnPlayTimeSeconds");
+        if (returned < entry)
+            throw new InvalidDataException("The visit return play time cannot precede its entry.");
+        var elapsed = returned - entry;
+        if (!state.TryGetProperty("world.props", out var props)) return null;
+        if (props.ValueKind != JsonValueKind.Object)
+            throw new InvalidDataException("World prop state must be an object.");
+        if (!props.TryGetProperty("bathhouse/stove", out var stove)) return null;
+        if (stove.ValueKind != JsonValueKind.Object)
+            throw new InvalidDataException("The bathhouse stove state must be an object.");
+        JsonObject? rebased = null;
+        foreach (var key in new[] { "burnUntil", "heatUntil" })
+        {
+            if (!stove.TryGetProperty(key, out var value)) continue;
+            var deadline = NonNegativeSeconds(value, key);
+            if (deadline <= entry || elapsed == 0) continue;
+            var extended = deadline + elapsed;
+            if (!double.IsFinite(extended))
+                throw new InvalidDataException("The rebased bathhouse deadline must be finite.");
+            rebased ??= JsonNode.Parse(props.GetRawText())!.AsObject();
+            rebased["bathhouse/stove"]![key] = extended;
+        }
+        return rebased is null ? null : JsonSerializer.SerializeToElement(rebased);
+    }
+
+    private static double NonNegativeSeconds(JsonElement value, string name)
+    {
+        if (value.ValueKind != JsonValueKind.Number || !value.TryGetDouble(out var seconds)
+            || !double.IsFinite(seconds) || seconds < 0)
+            throw new InvalidDataException($"{name} must be a finite, non-negative time.");
+        return seconds;
     }
 
     /// <summary>

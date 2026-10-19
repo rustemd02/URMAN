@@ -724,6 +724,9 @@ public static class PhotoWorldState
         var worldClock = ObjectProperty(ticket, "worldClock");
         if (RequiredInt64(worldClock, "tick") < 0)
             throw new InvalidDataException("PhotoWorlds ReturnTicket logical clock tick must be non-negative.");
+        if (ticket.TryGetProperty("entryPlayTimeSeconds", out _)
+            && FiniteNumber(ticket, "entryPlayTimeSeconds") < 0)
+            throw new InvalidDataException("PhotoWorlds ReturnTicket entry play time must be non-negative.");
     }
 
     public static bool EvaluateCondition(JsonElement condition, JsonElement state)

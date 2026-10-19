@@ -169,7 +169,8 @@ public partial class AuthoredWorldDirector
 
     private void StepRoutines(float delta)
     {
-        Node3D? player = null;
+        Node3D? player = GetTree().GetFirstNodeInGroup("player_controller") as FirstPersonController;
+        if (player is FirstPersonController { ModalOpen: true } or FirstPersonController { SessionTransitionActive: true }) return;
         foreach (var run in _routines.Values)
         {
             if (run.Claim is not null || !run.Item.Root.Visible) continue;

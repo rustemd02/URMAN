@@ -120,7 +120,7 @@ public partial class RuntimeBridge : Node
     {
         var blocks = PlayTimeBlock.None;
         if (_kernel is null || FindPlayer() is null || NeedsPhysicalRecovery) blocks |= PlayTimeBlock.NotReady;
-        if (_loadingSlot || _loadPreparing) blocks |= PlayTimeBlock.Loading;
+        if (_loadingSlot || _loadPreparing || _photoVisitCompletion is not null) blocks |= PlayTimeBlock.Loading;
         var demo = GetParent()?.GetParent() as Act1DemoRoot;
         if (demo?.MainMenuVisible == true || (demo is null && HasActiveMainMenu()))
             blocks |= PlayTimeBlock.MainMenu;
@@ -136,7 +136,7 @@ public partial class RuntimeBridge : Node
 
     private void SampleLoadingTime()
     {
-        if (!_loadingSlot && !_loadPreparing) return;
+        if (!_loadingSlot && !_loadPreparing && _photoVisitCompletion is null) return;
         var now = Time.GetTicksUsec();
         _loadingSecondsSinceProcess += (now - _loadingTimeSampleUsec) / 1_000_000.0;
         _loadingTimeSampleUsec = now;
@@ -350,6 +350,12 @@ public partial class RuntimeBridge : Node
             sessionStarted = await CreateFreshSessionAsync(debugSession, player);
             return sessionStarted;
         }
+        catch (Exception error)
+        {
+            NeedsPhysicalRecovery = true;
+            GD.PushError($"New game physical preparation failed: {error.Message}");
+            return false;
+        }
         finally
         {
             loadingScreen.Hide();
@@ -357,6 +363,7 @@ public partial class RuntimeBridge : Node
             _loadPreparing = false;
             player.SetSessionTransition(NeedsPhysicalRecovery);
             PlayTimeBoundary?.Invoke(sessionStarted ? "load-restored" : "load-failed");
+            if (NeedsPhysicalRecovery) ShowPhysicalRecoveryMenu();
         }
     }
 
@@ -372,6 +379,10 @@ public partial class RuntimeBridge : Node
 
         if (GetTree().GetFirstNodeInGroup("zone_manager") is Main main)
         {
+            var session = SessionIdentity;
+            if (!await main.PreloadPhotoSceneAsync(ActiveSceneId ?? string.Empty)
+                || !ReferenceEquals(session, SessionIdentity))
+                throw new InvalidDataException("The new game's photo scene resource could not be prepared.");
             main.SwitchZone(CurrentZoneId, CurrentSpawnPointId);
         }
 
@@ -543,6 +554,11 @@ public partial class RuntimeBridge : Node
 
     private async Task RestoreLoadedWorldAsync(SaveGameV3 save, bool debugSession, FirstPersonController player)
     {
+        // Resolve the candidate resource before replacing the current session
+        // or testing a loaded pose. The existing projection/load guards remain.
+        if (GetTree().GetFirstNodeInGroup("zone_manager") is Main resourceOwner
+            && !await resourceOwner.PreloadPhotoSceneAsync(save.Runtime.State.GetProperty("activeScene").GetString()!))
+            throw new InvalidDataException("The saved photo scene resource could not be prepared.");
         ResetAudioCuePresentation();
         RestoreSession(save);
         IsDebugSession = debugSession;
@@ -611,6 +627,7 @@ public partial class RuntimeBridge : Node
     private CancellationTokenSource? _photoVisitCancellation;
     private TaskCompletionSource<bool>? _photoVisitCompletion;
     private bool _photoVisitCanceling;
+    internal bool PhotoVisitPreparationCancelled { get; private set; }
 
     private JsonElement? ActivePhotoVisit() => _content is { HasPhotoWorlds: true } && _kernel?.SelectState().GetProperty("photoworlds")
         .GetProperty("visits").GetProperty("active") is { ValueKind: JsonValueKind.Object } visit ? visit.Clone() : null;
@@ -668,6 +685,7 @@ public partial class RuntimeBridge : Node
             originProfileId = AtmosphereProfiles.AppliedProfileId,
             originAudioSnapshot = new { zoneId = audio.CurrentZoneId, stemId = audio.CurrentStemId,
                 spawnPointId = CurrentSpawnPointId, physicalSheltered = audio.HasMeta("physicalSheltered") && audio.GetMeta("physicalSheltered").AsBool() },
+            entryPlayTimeSeconds = _playTimeSeconds,
             preparedAtRevision = session.CaptureSnapshot().EventSequence
         });
     }
@@ -685,7 +703,8 @@ public partial class RuntimeBridge : Node
             return await main.CompletePhotoVisitProjectionAsync(session, worldId);
         if (status is "prepared" or "active")
         {
-            if (!await DispatchPhotoVisitCommandAsync(session, PhotoWorldCommandHandler.VisitAbort, id)) return false;
+            if (!await DispatchPhotoVisitCommandAsync(session, PhotoWorldCommandHandler.VisitAbort, id,
+                new { returnPlayTimeSeconds = _playTimeSeconds })) return false;
         }
         else if (status == "returning")
         {
@@ -697,7 +716,8 @@ public partial class RuntimeBridge : Node
             || !ReferenceEquals(session, _kernel) || _loadingSlot || _loadPreparing) return false;
         _clock = LogicalClock.Restore(new(ticket.GetProperty("worldClock").GetProperty("tick").GetInt64()));
         if (status == "returning"
-            && !await DispatchPhotoVisitCommandAsync(session, PhotoWorldCommandHandler.VisitFinishReturn, id)) return false;
+            && !await DispatchPhotoVisitCommandAsync(session, PhotoWorldCommandHandler.VisitFinishReturn, id,
+                new { returnPlayTimeSeconds = _playTimeSeconds })) return false;
         if (!ReferenceEquals(session, _kernel) || _loadingSlot || _loadPreparing) return false;
         await SaveCheckpointAsync(force: true);
         return ReferenceEquals(session, _kernel) && !_loadingSlot && !_loadPreparing;
@@ -739,12 +759,15 @@ public partial class RuntimeBridge : Node
         var completion = new TaskCompletionSource<bool>();
         using var cancellation = new CancellationTokenSource();
         _photoVisitCancellation = cancellation;
+        PhotoVisitPreparationCancelled = false;
         _photoVisitCompletion = completion;
+        _loadingTimeSampleUsec = Time.GetTicksUsec();
         bool Current() => ReferenceEquals(session, _kernel) && !_loadingSlot && !_loadPreparing
             && !cancellation.IsCancellationRequested && !NeedsPhysicalRecovery;
         var succeeded = false;
         var returnCheckpointSaved = false;
         string? ownedVisitId = null;
+        LoadingScreenUi? resourceLoading = null;
         player.SetSessionTransition(true);
         try
         {
@@ -756,6 +779,13 @@ public partial class RuntimeBridge : Node
                 if (!await DispatchPhotoVisitCommandAsync(session, PhotoWorldCommandHandler.VisitPrepare, id,
                         new { worldId, returnTicket = ticket }) || !Current()) return false;
                 if (!await SaveCheckpointAsync(force: true, cancellationToken: cancellation.Token) || !Current()) return false;
+                resourceLoading = LoadingScreenUi.Show(this, "Открываем снимок", "Подготавливаем место прогулки", cancellation.Cancel);
+                if (!await main.PreloadPhotoSceneAsync(sourceScene, cancellation.Token,
+                        resourceLoading.SetResourceProgress) || !Current()) return false;
+                // Cancellation owns only this preparation. Once narrative entry
+                // begins, finish the normal projection/recovery transaction.
+                resourceLoading.Hide();
+                resourceLoading = null;
                 if (!await DispatchCompiledInteractionAsync(interaction) || !Current()) return false;
                 if (!await main.CompletePhotoVisitProjectionAsync(session, worldId) || !Current()) return false;
                 var seedBytes = System.Security.Cryptography.SHA256.HashData(System.Text.Encoding.UTF8.GetBytes(
@@ -780,7 +810,7 @@ public partial class RuntimeBridge : Node
                 if (!completedBankReturn)
                     _clock = LogicalClock.Restore(new(ticket.GetProperty("worldClock").GetProperty("tick").GetInt64()));
                 if (!await DispatchPhotoVisitCommandAsync(session, PhotoWorldCommandHandler.VisitFinishReturn, id,
-                    completedBankReturn ? new { completedRoute = true } : null) || !Current()) return false;
+                    new { completedRoute = completedBankReturn, returnPlayTimeSeconds = _playTimeSeconds }) || !Current()) return false;
                 // The book caller already writes its post-projection checkpoint.
                 if (!bookReturn)
                 {
@@ -833,12 +863,21 @@ public partial class RuntimeBridge : Node
             }
             finally
             {
+                if (resourceLoading is not null && GodotObject.IsInstanceValid(resourceLoading)) resourceLoading.Hide();
                 if (ReferenceEquals(_photoVisitCompletion, completion))
                 {
+                    SampleLoadingTime();
                     _photoVisitCancellation = null;
                     _photoVisitCompletion = null;
                     if (ReferenceEquals(session, _kernel) && !_loadingSlot && !_loadPreparing
-                        && GodotObject.IsInstanceValid(player)) player.SetSessionTransition(NeedsPhysicalRecovery);
+                        && GodotObject.IsInstanceValid(player))
+                    {
+                        PhotoVisitPreparationCancelled = entering && cancellation.IsCancellationRequested && !NeedsPhysicalRecovery;
+                        player.SetSessionTransition(NeedsPhysicalRecovery);
+                        if (PhotoVisitPreparationCancelled) player.NotifyTraversal("Переход отменён. Вы остались дома.");
+                        Input.MouseMode = player.ModalOpen || NeedsPhysicalRecovery || HasActiveMainMenu()
+                            ? Input.MouseModeEnum.Visible : Input.MouseModeEnum.Captured;
+                    }
                 }
                 completion.TrySetResult(true);
                 if (ReferenceEquals(session, _kernel) && NeedsPhysicalRecovery) ShowPhysicalRecoveryMenu();
@@ -2426,6 +2465,7 @@ public partial class RuntimeBridge : Node
 
     private void ReplaceKernel(RuntimeKernel kernel)
     {
+        PhotoVisitPreparationCancelled = false;
         CancelQueuedForcedCheckpoint();
         _checkpointAfterLadder = false;
         _kernel?.Dispose();

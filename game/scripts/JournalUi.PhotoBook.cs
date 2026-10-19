@@ -750,6 +750,11 @@ public partial class JournalUi
                 _photoBookActionStatus.Text = "Не удалось подготовить место возвращения. Сохранение не обновлено.";
                 return;
             }
+            if (!returning && bridge.PhotoVisitPreparationCancelled)
+            {
+                _photoBookActionStatus.Text = "Переход отменён. Можно продолжить рассматривать книгу.";
+                return;
+            }
             canAct = returning
                 ? bridge.CanReturnFromPhotoBook(out reason)
                 : cellarEntry ? bridge.CanEnterPhotoBookCellar(out reason) : bridge.CanEnterPhotoBookForest(out reason);
@@ -770,7 +775,12 @@ public partial class JournalUi
         finally
         {
             _photoBookActionBusy = false;
-            if (GodotObject.IsInstanceValid(this) && IsInsideTree()) RefreshPhotoBookActionButtons();
+            if (GodotObject.IsInstanceValid(this) && IsInsideTree())
+            {
+                RefreshPhotoBookActionButtons();
+                if (CurrentUi() && _screen.Visible && _photoBookEnterButton.IsVisibleInTree()
+                    && !_photoBookEnterButton.Disabled) _photoBookEnterButton.GrabFocus();
+            }
         }
     }
 
