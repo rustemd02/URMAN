@@ -112093,7 +112093,7 @@
       "title": "Сделать необязательные запросные подсказки",
       "milestone": "PW-M1",
       "status": "in_progress",
-      "active_owner": null,
+      "active_owner": "Codex",
       "owner": "integration",
       "priority": "P0",
       "complexity": "medium",
@@ -112227,8 +112227,8 @@
       },
       "assigned_owner": "integration",
       "activity": {
-        "state": "not_confirmed",
-        "reason": "Finite prologue source slice committed e695653e with canonical fullgame compile/affected Game14.37s0/0 and independent review. Native UI acceptance remains separate."
+        "state": "confirmed_active",
+        "reason": "Root starts finite configuredPause-priority correction inW01; independentreview/affectedcompile then ordinaryPause/Quit only, no prologueskip."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -112447,6 +112447,13 @@
         "result": "Existing JournalUi ArrivalObjectiveText now projects actual pw-niva stop → pw-home tea → table book handoff from existing interaction availability. Inside/outside home wording, handoff before repeatable tea; clears on actual book receipt and preserves chapter1. No progress effects/new quest/model.",
         "verification": "Affected Game compile19.38s0warnings0errors + independent Fast source review no findings; evidence/PW-028/arrival-guidance-20261019/affected-build.log. Actual ordinary native route not accepted.",
         "limits": "Tea remains replayable per authored content; reminder switches to handoff once warm-arrival beat completed."
+      },
+      "pause_priority_2026_10_20": {
+        "state": "source_compile_done_native_pending",
+        "file": "game/scripts/photoworlds/W01Controller.cs",
+        "result": "Configured pause action returns before cancel-to-skip path. DefaultEscape reachesnormalPause, existingButtonand cancel-only controls unchanged; if Pause remappedawayfromEscape oldcancel semantics remain.",
+        "dod": "ActualNewGameW01→configuredPauseopensPausewithoutskip/statechange→normalQuit0; keep explicitSkipButton/gamepadcancel flow. No testing of rejected skip untilhumanapproval.",
+        "verification": "Game17.82s0/0. Independentcallerreviewpending. NextjobonlyPause/Quit; notbookroute, notguardbypass."
       }
     },
     {
@@ -115504,6 +115511,14 @@
         "next_result": "One coherent ordinary day arrival→street→home scene using existing models: authored light/depth planes and shared large-scale pigment/material response, with background composition subordinated to route/home; same-camera Windows comparison+movement. No more isolated models, unique detail textures or credit spend before whole-scene result.",
         "limits": "No scene/art acceptance delivered by this assessment; preserve all art/culture/reference rights gates and existing owners.",
         "owner_clarification": "Author subsequently selected this exact current housefront as generally normal/appropriate and requested other visual assets be generated to match it. Earlier interpretation that the house should be pushed back toward flatP1 is superseded; preserve the successful house material/form target. Full-scene/movement acceptance still separate."
+      },
+      "neighbor_reference_2026_10_20": {
+        "state": "concept_only_not_accepted_no_meshy",
+        "image": "assets/source/blender/act1/neighbor_house_a_meshy_v3/reference.png",
+        "provenance": "assets/source/blender/act1/neighbor_house_a_meshy_v3/prompt_provenance.md",
+        "sha256": "1ce6241ea6590bc353785abe3d87d7d194ab19e8b29d7bc39f71a9d24762053a",
+        "root_review": "Personallyviewed: readable wholehouse/courses/sidevestibule; missingmainrightwindow and actualcornerbearing unproven. More naturalistic than gameplay. Do not generatepaidMeshy orreplace runtime fromthisreference.",
+        "credits": "Built-inImageGen oneoutput only; Meshy remains305/4000; source/refonly while nativebookroute holds for skipapproval."
       }
     },
     {
@@ -121413,7 +121428,7 @@
       "title": "W01: действия за рамкой и состояние ветки",
       "milestone": "PW-M3",
       "status": "in_progress",
-      "active_owner": "Codex",
+      "active_owner": null,
       "owner": "gameplay",
       "priority": "P1",
       "complexity": "complex",
@@ -121557,8 +121572,8 @@
       },
       "assigned_owner": "gameplay",
       "activity": {
-        "state": "confirmed_active",
-        "reason": "Root selects one whole visible first-action restaging from actual3c919 near-groundgrip geometry; distinct sourceproducer/runtime/contentreview owners start now, no blanketwholecardcompletion."
+        "state": "not_active",
+        "reason": "Bounded first-action/grip/stale-collider stage delivered and nativewalk verified aff33. FullW01/art/otheractions remainopen; root moves to PW028 pause-priority slice."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -121568,7 +121583,7 @@
         "После возврата сохраняются правильное положение ветки и один набор знаний.",
         "Полный паспорт уровня docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/levels/W01_Лес_за_спиной_RU.md реализован: узлы/физические связи/действия/существо или человеческая сцена/созерцание/возврат/кадры; схема не заменяет проходимый runtime."
       ],
-      "next_action": "Verify changed SyncToPhysics=false in ordinary NewGame: visible E action then actual camera movement pastF01; ifpasses proceed ordinaryNiva→home/book→world→return/save/Continue. PreservefullW01/art gates.",
+      "next_action": "Reuse aff33 accepted firstaction+12.9m walk proof. Remaining W01 encounter/bag/F16/art gates are separate; ordinarybookroute inPW020 waits directskipapproval, do not rerununchangedF01.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -121876,7 +121891,7 @@
         }
       },
       "branch_parent_contact_fix_2026_10_19": {
-        "state": "source_compile_reviewed_native_pending",
+        "state": "verified_native_bounded_first_action_fix",
         "file": "game/scripts/photoworlds/W01Controller.cs",
         "cause": "Godot4.7 AnimatableBody3D default sync_to_physics=true responds to LOCAL transform notifications, while W01 moves only its parent root; child collider can remain at oldblockingpose. PostE frozen camera matches this path. Branch-control-lock hypothesis independentlyrejected: no player gate owned bybranchaction.",
         "change": "Only animatablebranch init SyncToPhysics=false, existingAlsu/Rinat pattern. InheritedCollisionObject globalnotifications updatephysics on parentmotion; static supportsunchanged.",
@@ -121886,6 +121901,51 @@
           "https://github.com/godotengine/godot/blob/4.7/scene/3d/physics/animatable_body_3d.cpp",
           "https://github.com/godotengine/godot/blob/4.7/scene/3d/physics/collision_object_3d.cpp"
         ]
+      },
+      "first_action_native_aff33_2026_10_19": {
+        "state": "first_action_and_walk_verified_bounded_slice",
+        "job_id": "aff33a3875d54c1bb56d03007d2cfd36",
+        "snapshot_id": "518085cee856539f626fcf048bcbb9afe00bf990d6b9a48892e63b7901549786",
+        "source_candidate": "6857463a matching dirtysnapshot (W01 contact fix) +a432d667 arrivalcue",
+        "timeout_seconds": 1200,
+        "owner": "fast_forest_native",
+        "verification_question": "After actual E/goal change can camera cross oldF01 blocker? Then ordinary Niva/home/tea/book/world-return-save-Continue as time allows; reserve120s fornormalQuit.",
+        "limits": "Startup409/504 are not gameplayfailure; no input until actualframe. Do not claim artifact/action/normalexit/restore before receipt. Root holds sharedJSON/Git, no other stationowner.",
+        "root_viewed_frames": [
+          "evidence/PW-043/forest-composition-20261019/native_aff33a3875d54c1bb56d03007d2cfd36/09-branch-prompt.png",
+          "evidence/PW-043/forest-composition-20261019/native_aff33a3875d54c1bb56d03007d2cfd36/10-after-e-walk4.png"
+        ],
+        "observed": "Actual visible E prompt; after E +fourW2000 camera advances beyond oldblockingposition and nextquestion isshown. Rootpersonallyviewed both actualframes. Thisfixes b6stale-collider behavior for thisordinary path.",
+        "remaining": "Bookroute/normalQuit notexecuted afterautomaticapproval rejectedskip. No bypass. Guard124doesnot negateobserved firstactionwalk; wholeW01/art/externalgates remainopen.",
+        "approval_block": "Auto-review rejected ESC prologue skip: trusted user text didnot explicitly authorize skipping; no bypass withanotherbutton/key/indirectexecution. No skipinput sent. Root asyncquestion asks explicit skip approval or fullprologue. Keepguardactive, noinputpendinganswer; source/artworkcontinues, goalnotpaused. Terminalrestore notyetknown.",
+        "terminal": {
+          "status": "FAIL",
+          "game_exit_code": 124,
+          "userdata_restored": true,
+          "recovery_pending": false,
+          "snapshot_hashes_verified": true,
+          "receipt": "evidence/PW-043/forest-composition-20261019/native_aff33a3875d54c1bb56d03007d2cfd36/fetched/receipt.json"
+        },
+        "motion_metadata": {
+          "before": [
+            11.945964,
+            2.6920815,
+            49.73977
+          ],
+          "after": [
+            14.961442,
+            3.2513232,
+            62.27796
+          ],
+          "yaw_degrees": -166.49997,
+          "proof": "Raw frameJSON matched localPNG SHA; afterE+fourW horizontalmovement≈12.9m. No camerateleport/probe/autofacts."
+        },
+        "archive_integrity": {
+          "sha256": "178461ad38a2deacb9a352ff6b2e9622c57185e35321795d2c4ee54449678436",
+          "all_entries_byte_equal": 22,
+          "zip_duplicate_removed_bytes": 6545919,
+          "png_aliases_hardlinked": 4
+        }
       }
     },
     {

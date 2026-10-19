@@ -1596,7 +1596,10 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
 
     public override void _Input(InputEvent inputEvent)
     {
+        // A configured Pause binding belongs to the normal pause shell, even
+        // when it shares a key with cancel. Other explicit cancel controls keep skipping.
         if (inputEvent is InputEventKey { Echo: true }
+            || inputEvent.IsActionPressed("pause")
             || !inputEvent.IsActionPressed("ui_cancel")
             || GetTree().GetFirstNodeInGroup("player_controller") is not FirstPersonController { ModalOpen: false }
             || _prologueSkipButton is not { Visible: true, Disabled: false }
