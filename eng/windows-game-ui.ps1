@@ -466,6 +466,12 @@ function Send-StudioChord([string]$Keys) {
         'z' { 90 }
         default { throw 'Unsupported game UI key.' }
     }
+    $physicalMainKey = $plain -notin @('{DOWN}','{UP}','{LEFT}','{RIGHT}')
+    $scanCode = 0
+    if ($physicalMainKey) {
+        $scanCode = [UrmanGameUiNative]::MapVirtualKey([uint32]$vk,0)
+        if ($scanCode -eq 0) { throw 'The game UI key has no platform scan code.' }
+    }
 
     $controlDown = $false
     $shiftDown = $false
@@ -483,14 +489,29 @@ function Send-StudioChord([string]$Keys) {
         }
         Start-Sleep -Milliseconds 200
         Assert-InputTarget
-        [UrmanGameUiNative]::keybd_event([byte]$vk,0,0,[UIntPtr]::Zero)
+        [UrmanGameUiNative]::keybd_event([byte]$vk,[byte]$scanCode,0,[UIntPtr]::Zero)
         $keyDown = $true
-        Start-Sleep -Milliseconds 200
-        Release-KeySafely ([byte]$vk)
+        $holdTimer = [Diagnostics.Stopwatch]::StartNew()
+        while ($holdTimer.ElapsedMilliseconds -lt 200) {
+            Assert-InputTarget
+            $remaining = 200 - [int]$holdTimer.ElapsedMilliseconds
+            if ($remaining -gt 0) { Start-Sleep -Milliseconds ([Math]::Min(50,$remaining)) }
+        }
+        if ($physicalMainKey) {
+            Release-PhysicalKeySafely ([byte]$vk) ([byte]$scanCode)
+        } else {
+            Release-KeySafely ([byte]$vk)
+        }
         $keyDown = $false
         Start-Sleep -Milliseconds 200
     } finally {
-        if ($keyDown) { Release-KeySafely ([byte]$vk) }
+        if ($keyDown) {
+            if ($physicalMainKey) {
+                Release-PhysicalKeySafely ([byte]$vk) ([byte]$scanCode)
+            } else {
+                Release-KeySafely ([byte]$vk)
+            }
+        }
         if ($shiftDown) { Release-KeySafely 16 }
         if ($controlDown) { Release-KeySafely 17 }
     }
