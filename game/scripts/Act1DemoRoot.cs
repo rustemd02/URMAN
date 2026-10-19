@@ -325,7 +325,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
         }
 
         BuildPauseMenu();
-        if (!UsesPhotoWorldsCampaign) BuildRouteCue();
+        BuildRouteCue();
         CallDeferred(nameof(AttachRuntimeBridge));
         if (!UsesPhotoWorldsCampaign
             && StudioPlayRequest.Parse([.. commandLine, .. OS.GetCmdlineUserArgs()]) is { } studioPlay)
@@ -441,6 +441,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
             RecordM10Timing("runtime-ready", force: true);
             RefreshMenuContinueAvailability();
             EvaluateEndingState();
+            if (UsesPhotoWorldsCampaign) UpdateRouteCue();
             return;
         }
 
@@ -457,6 +458,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
             {
                 ReturnFromPhotoWorldReplay();
             }
+            UpdateRouteCue();
             return;
         }
 
@@ -1739,7 +1741,10 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
             return;
         }
 
-        var text = (OpeningRouteCue(bridge) ?? RouteCueText(bridge))?.Replace("[J]",
+        var routeText = UsesPhotoWorldsCampaign
+            ? PhotoWorldRouteCue(bridge)
+            : OpeningRouteCue(bridge) ?? RouteCueText(bridge);
+        var text = routeText?.Replace("[J]",
             InputBindingService.ActionHint("journal", _player?.CurrentInputDevice == "gamepad"), StringComparison.Ordinal);
         if (string.Equals(text, _lastRouteCue, StringComparison.Ordinal))
         {
@@ -1853,6 +1858,19 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
         _ => null
     };
 
+    private static string? PhotoWorldRouteCue(RuntimeBridge bridge) => bridge.ActiveSceneId switch
+    {
+        "urman.fullgame:scene/pw-niva-arrival" => PhotoWorldAvailableCue(
+            bridge,
+            "pw-niva-stop",
+            "Сначала подойти к Ниве. Потом — в дом Гөлсинә и Мансура."),
+        "urman.fullgame:scene/pw-home" => PhotoWorldAvailableCue(
+            bridge,
+            "pw-home-enter-house",
+            "Войти в дом Гөлсинә и Мансура."),
+        _ => null
+    };
+
     private static string? SavedMessageRouteCue(RuntimeBridge bridge)
     {
         if (!KnowledgeConfirmed(bridge, "clue_marat_message_read"))
@@ -1907,6 +1925,9 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
 
     private static string? AvailableCue(RuntimeBridge bridge, string localInteractionId, string text) =>
         bridge.IsInteractionAvailable($"urman.chapter1:interaction/{localInteractionId}") ? text : null;
+
+    private static string? PhotoWorldAvailableCue(RuntimeBridge bridge, string localInteractionId, string text) =>
+        bridge.IsInteractionAvailable($"urman.fullgame:interaction/{localInteractionId}") ? text : null;
 
     private static string? LastInteraction(RuntimeBridge bridge)
     {
