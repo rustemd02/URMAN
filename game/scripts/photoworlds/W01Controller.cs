@@ -210,6 +210,8 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
     private bool _branchMoveInProgress;
     private Button? _prologueSkipButton;
     private Viewport? _prologueUiViewport;
+    private PanelContainer? _prologueHintPanel;
+    private Label? _prologueHintQuestionLabel;
     private Label? _prologueHintAccessLabel;
     private string? _prologueHintQuestion;
     private bool _prologueHintAvailable;
@@ -264,8 +266,8 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         ApplyShuraleAccessibilitySettings(settings, wasReducedMotion);
         if (_prologueSkipButton is not { } button || !GodotObject.IsInstanceValid(button)) return;
         AccessibilityPresentation.ApplyToControl(button, settings);
-        if (_prologueHintAccessLabel is { } hintLabel)
-            AccessibilityPresentation.ApplyToControl(hintLabel, settings);
+        if (_prologueHintPanel is { } hintPanel && GodotObject.IsInstanceValid(hintPanel))
+            AccessibilityPresentation.ApplyToControl(hintPanel, settings);
         RefitPrologueSkipButton();
     }
 
@@ -291,6 +293,8 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         _prologuePhotoTarget = null;
         _prologuePhotoCard = null;
         _prologueSkipButton = null;
+        _prologueHintPanel = null;
+        _prologueHintQuestionLabel = null;
         _prologueHintAccessLabel = null;
         _prologueHintQuestion = null;
         _prologueHintAvailable = false;
@@ -1647,26 +1651,43 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
     private void BuildPrologueUi()
     {
         _prologueSkipButton = GetNode<Button>("PrologueUI/SkipButton");
-        _prologueSkipButton.ThemeTypeVariation = UrmanUiTheme.MenuButton;
+        _prologueSkipButton.ThemeTypeVariation = UrmanUiTheme.QuietButton;
         _prologueSkipButton.FocusMode = Control.FocusModeEnum.All;
         _prologueSkipButton.AutowrapMode = TextServer.AutowrapMode.WordSmart;
         _prologueSkipButton.Pressed += OnPrologueSkipPressed;
         _prologueSkipButton.Visible = false;
         _prologueSkipButton.Disabled = true;
-        _prologueHintAccessLabel = new Label
+        _prologueHintPanel = new PanelContainer
         {
-            Name = "HintAccess",
-            AutowrapMode = TextServer.AutowrapMode.WordSmart,
-            HorizontalAlignment = HorizontalAlignment.Right,
+            Name = "HintAccessPanel",
+            ThemeTypeVariation = UrmanUiTheme.SubtitlePanel,
             MouseFilter = Control.MouseFilterEnum.Ignore,
             Visible = false
         };
-        _prologueHintAccessLabel.AddThemeFontSizeOverride("font_size", 18);
-        _prologueHintAccessLabel.AddThemeColorOverride("font_color", new Color("f0e3c2"));
-        _prologueHintAccessLabel.AddThemeColorOverride("font_shadow_color", Colors.Black);
-        _prologueHintAccessLabel.AddThemeConstantOverride("shadow_offset_x", 2);
-        _prologueHintAccessLabel.AddThemeConstantOverride("shadow_offset_y", 2);
-        _prologueSkipButton.GetParent().AddChild(_prologueHintAccessLabel);
+        var hintLayout = new VBoxContainer { Name = "HintAccess", SizeFlagsHorizontal = Control.SizeFlags.ExpandFill };
+        hintLayout.AddThemeConstantOverride("separation", UrmanUiTheme.Space.Xs);
+        _prologueHintQuestionLabel = new Label
+        {
+            Name = "Question",
+            ThemeTypeVariation = UrmanUiTheme.Subtitle,
+            AutowrapMode = TextServer.AutowrapMode.WordSmart,
+            HorizontalAlignment = HorizontalAlignment.Left,
+            SizeFlagsHorizontal = Control.SizeFlags.ExpandFill,
+            MouseFilter = Control.MouseFilterEnum.Ignore
+        };
+        _prologueHintAccessLabel = new Label
+        {
+            Name = "Access",
+            ThemeTypeVariation = UrmanUiTheme.Hint,
+            AutowrapMode = TextServer.AutowrapMode.WordSmart,
+            HorizontalAlignment = HorizontalAlignment.Left,
+            SizeFlagsHorizontal = Control.SizeFlags.ExpandFill,
+            MouseFilter = Control.MouseFilterEnum.Ignore
+        };
+        hintLayout.AddChild(_prologueHintQuestionLabel);
+        hintLayout.AddChild(_prologueHintAccessLabel);
+        _prologueHintPanel.AddChild(hintLayout);
+        _prologueSkipButton.GetParent().AddChild(_prologueHintPanel);
         var viewport = GetViewport();
         viewport.SizeChanged += RefitPrologueSkipButton;
         _prologueUiViewport = viewport;
@@ -1712,14 +1733,21 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         button.Disabled = !button.Visible
             || GetTree().GetFirstNodeInGroup("player_controller") is not FirstPersonController { ModalOpen: false }
             || _prologueSkipTarget?.IsAvailable() != true;
-        if (_prologueHintAccessLabel is { } hintLabel && GodotObject.IsInstanceValid(hintLabel))
+        if (_prologueHintPanel is { } hintPanel && GodotObject.IsInstanceValid(hintPanel))
         {
-            hintLabel.Visible = !button.Disabled && _prologueHintAvailable;
+            hintPanel.Visible = !button.Disabled && _prologueHintAvailable;
             var gamepad = GetTree().GetFirstNodeInGroup("player_controller") is FirstPersonController player
                 && player.CurrentInputDevice == "gamepad";
-            var text = $"{_prologueHintQuestion}\nПодробнее — {InputBindingService.ActionHint("journal", gamepad)}";
-            if (!string.Equals(hintLabel.Text, text, StringComparison.Ordinal))
-                hintLabel.Text = text;
+            var question = _prologueHintQuestion ?? string.Empty;
+            var access = _prologueHintAvailable
+                ? $"Подробнее — {InputBindingService.ActionHint("journal", gamepad)}"
+                : string.Empty;
+            if (_prologueHintQuestionLabel is { } questionLabel
+                && !string.Equals(questionLabel.Text, question, StringComparison.Ordinal))
+                questionLabel.Text = question;
+            if (_prologueHintAccessLabel is { } hintLabel
+                && !string.Equals(hintLabel.Text, access, StringComparison.Ordinal))
+                hintLabel.Text = access;
         }
     }
 
@@ -1727,7 +1755,8 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
     {
         if (_prologueSkipButton is not { } button || !GodotObject.IsInstanceValid(button)) return;
         var viewport = GetViewport().GetVisibleRect().Size;
-        var width = Mathf.Clamp(viewport.X * .42f, 280f, 560f);
+        var width = Mathf.Clamp(viewport.X * .25f, 220f, 320f);
+        var hintWidth = Mathf.Clamp(viewport.X * .42f, 280f, 560f);
         var height = Mathf.Max(56f, 52f * (float)_accessibility.TextScale);
         button.AnchorLeft = button.AnchorRight = 1f;
         button.AnchorTop = button.AnchorBottom = 0f;
@@ -1736,14 +1765,14 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         button.OffsetTop = 24f;
         button.OffsetBottom = 24f + height;
         button.CustomMinimumSize = new Vector2(width, height);
-        if (_prologueHintAccessLabel is { } hintLabel && GodotObject.IsInstanceValid(hintLabel))
+        if (_prologueHintPanel is { } hintPanel && GodotObject.IsInstanceValid(hintPanel))
         {
-            hintLabel.AnchorLeft = hintLabel.AnchorRight = 1f;
-            hintLabel.AnchorTop = hintLabel.AnchorBottom = 0f;
-            hintLabel.OffsetLeft = button.OffsetLeft;
-            hintLabel.OffsetRight = button.OffsetRight;
-            hintLabel.OffsetTop = button.OffsetBottom + 12f;
-            hintLabel.OffsetBottom = hintLabel.OffsetTop + Mathf.Max(96f, 96f * (float)_accessibility.TextScale);
+            hintPanel.AnchorLeft = hintPanel.AnchorRight = 1f;
+            hintPanel.AnchorTop = hintPanel.AnchorBottom = 0f;
+            hintPanel.OffsetLeft = -hintWidth - 24f;
+            hintPanel.OffsetRight = -24f;
+            hintPanel.OffsetTop = button.OffsetBottom + 12f;
+            hintPanel.OffsetBottom = hintPanel.OffsetTop + Mathf.Max(152f, 152f * (float)_accessibility.TextScale);
         }
     }
 

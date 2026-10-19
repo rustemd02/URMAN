@@ -119734,7 +119734,20 @@
         "snapshot": "ac7df968b24dd460069ea653bcdf4b87fee2dff901faccf2bd71e9fb435deebe",
         "source_commit": "5f9ad590",
         "scope": "Ordinary NewGame→F00authoredquestion+narrowtrack→F01approach/prompt/E/lift_and_place→nextquestion. One600sbounded job, no devspawn/facts/forcedscene; Windowsownerfast_forest_native.",
-        "limits": "Newshader/nativeUI/body feel notyetaccepted. Only4sourcefiles0.2MBtransferred, no terrainregen/newMeshy. Two snow hotpathhypotheses independently rejected as unproven: markedbanks skippedbeforeexpensivework; heapcounts cumulative, onlynewmesh refined. No speculativeoptimization or newprobe."
+        "limits": "Newshader/nativeUI/body feel notyetaccepted. Only4sourcefiles0.2MBtransferred, no terrainregen/newMeshy. Two snow hotpathhypotheses independently rejected as unproven: markedbanks skippedbeforeexpensivework; heapcounts cumulative, onlynewmesh refined. No speculativeoptimization or newprobe.",
+        "root_actually_viewed": [
+          "evidence/PW-043/forest-composition-20261019/native_3c91948543604961a40b39b77e5f416d/02-f00-question.png",
+          "evidence/PW-043/forest-composition-20261019/native_3c91948543604961a40b39b77e5f416d/03-corridor-after-4xW2000.png",
+          "evidence/PW-043/forest-composition-20261019/native_3c91948543604961a40b39b77e5f416d/05-corridor-after-12xW2000.png",
+          "evidence/PW-043/forest-composition-20261019/native_3c91948543604961a40b39b77e5f416d/06-corridor-after-16xW2000.png"
+        ],
+        "observed_scope": "Actual1280x720 authored initialquestion andJbinding visible; ordinaryforwardmovement throughforestseen. At16→18segments no forwardprogress/no prompt inforwardview; owner checkingdownwardaim, not yetdeclaredhardlock. No post-action/nextquestion/fullbookacceptance."
+      },
+      "question_readability_2026_10_19": {
+        "state": "source_compiled_reviewed_native_pending",
+        "cause": "Root viewed actual3c919 F00: question present but tiny overbusybrighttrees under dominantSkipbutton. Existing questioncontent/availability contract retained.",
+        "result": "Existing SubtitlePanel/Subtitle22/Hint15 tokens and sharedaccessibility, quieternarrowSkipbutton samehandler/ESC; questionplate hidesonmodal/disabled/nohint, storedviewport lifecycle unchanged. No newquest/helpframework orsolutiondisclosure.",
+        "verification": "Independent LunaFast source/theme/lifecycle review found no concreteissue; affectedGame18.90s0warnings0errors; diffcheck. Current3c919remote snapshot predatespanelchange, so itsframes DO NOT prove newplate/nativecontrast/accessibility."
       }
     },
     {
