@@ -53,7 +53,9 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
 
         void fragment() {
             // ForestMasks is exported as COLOR_0; R is the packed walking track.
-            float track = smoothstep(0.16, 0.78, COLOR.r);
+            // Keep the authored 2.1 m packed core; lower mask coverage belongs
+            // to soft snowy shoulders, not another full-strength lane.
+            float track = smoothstep(0.72, 1.0, COLOR.r);
             // Packed snow records the narrow walked route; the surrounding snow
             // stays pale. This is authored vertex coverage, not a new path mesh.
             vec3 fresh = texture(fresh_snow, UV2).rgb * vec3(0.94, 0.97, 0.91);

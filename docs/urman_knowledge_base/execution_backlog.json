@@ -119710,6 +119710,12 @@
           "evidence/PW-043/forest-composition-20261019/native_ca9b33b8a1dc4c06a49a8e7d53a8e29a/04-look-dx80.png"
         ],
         "native_result": "Ordinary NewGame F00, W2000ms and lookdx80 frames received and personally viewed. Root sees stronger enclosure, naturalbluegray sky and actual asymmetric snow shoulders. Broad empty center and weak path/action legibility remain; no wholeart/authoracceptance or sustainedFPS proof."
+      },
+      "route_mask_readability_2026_10_19": {
+        "state": "source_corrected_native_pending",
+        "confirmed_cause": "Current matchingGLB COLOR_0 intact; centerlineR1,2.06m lateralR~.770. Shader remapped .16→.78 so lateral2.06m became track~.999, widening fullpackedcore beyond authored2.1m. Notmissingmask/import.",
+        "correction": "Existing shader remap .72→1.0 retains fullstrengthonlyR1/authored2.1mcore and softens shouldercoverage. No terrain/sourceGLB/geometry/texture/physics/gates change.",
+        "verification": "Binary/source inspection and arithmetic, diffcheck. Shader/native appearance requires next changedcandidate, not proven by C#compile."
       }
     },
     {
@@ -121314,6 +121320,12 @@
           "evidence/PW-043/forest-composition-20261019/native_ca9b33b8a1dc4c06a49a8e7d53a8e29a/04-look-dx80.png"
         ],
         "native_result": "Ordinary NewGame F00, W2000ms and lookdx80 frames received and personally viewed. Root sees stronger enclosure, naturalbluegray sky and actual asymmetric snow shoulders. Broad empty center and weak path/action legibility remain; no wholeart/authoracceptance or sustainedFPS proof."
+      },
+      "route_mask_readability_2026_10_19": {
+        "state": "source_corrected_native_pending",
+        "confirmed_cause": "Current matchingGLB COLOR_0 intact; centerlineR1,2.06m lateralR~.770. Shader remapped .16→.78 so lateral2.06m became track~.999, widening fullpackedcore beyond authored2.1m. Notmissingmask/import.",
+        "correction": "Existing shader remap .72→1.0 retains fullstrengthonlyR1/authored2.1mcore and softens shouldercoverage. No terrain/sourceGLB/geometry/texture/physics/gates change.",
+        "verification": "Binary/source inspection and arithmetic, diffcheck. Shader/native appearance requires next changedcandidate, not proven by C#compile."
       }
     },
     {
@@ -122919,6 +122931,12 @@
           "evidence/PW-043/forest-composition-20261019/native_ca9b33b8a1dc4c06a49a8e7d53a8e29a/04-look-dx80.png"
         ],
         "native_result": "Ordinary NewGame F00, W2000ms and lookdx80 frames received and personally viewed. Root sees stronger enclosure, naturalbluegray sky and actual asymmetric snow shoulders. Broad empty center and weak path/action legibility remain; no wholeart/authoracceptance or sustainedFPS proof."
+      },
+      "route_mask_readability_2026_10_19": {
+        "state": "source_corrected_native_pending",
+        "confirmed_cause": "Current matchingGLB COLOR_0 intact; centerlineR1,2.06m lateralR~.770. Shader remapped .16→.78 so lateral2.06m became track~.999, widening fullpackedcore beyond authored2.1m. Notmissingmask/import.",
+        "correction": "Existing shader remap .72→1.0 retains fullstrengthonlyR1/authored2.1mcore and softens shouldercoverage. No terrain/sourceGLB/geometry/texture/physics/gates change.",
+        "verification": "Binary/source inspection and arithmetic, diffcheck. Shader/native appearance requires next changedcandidate, not proven by C#compile."
       }
     },
     {
