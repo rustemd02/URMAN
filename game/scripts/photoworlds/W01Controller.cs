@@ -209,6 +209,7 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
     private Button? _prologueSkipButton;
     private Viewport? _prologueUiViewport;
     private Label? _prologueHintAccessLabel;
+    private string? _prologueHintQuestion;
     private bool _prologueHintAvailable;
     private AccessibilitySettingsSnapshot _accessibility = AccessibilitySettingsSnapshot.Default;
 
@@ -289,6 +290,7 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         _prologuePhotoCard = null;
         _prologueSkipButton = null;
         _prologueHintAccessLabel = null;
+        _prologueHintQuestion = null;
         _prologueHintAvailable = false;
         _branchAnimation = null;
         _branchMoveInteractionId = null;
@@ -1685,7 +1687,9 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         }
 
         _prologueSkipTarget?.SetPresentationEnabled(visible);
-        _prologueHintAvailable = visible && bridge.CurrentPhotoWorldHint() is not null;
+        var hint = visible ? bridge.CurrentPhotoWorldHint() : null;
+        _prologueHintQuestion = string.IsNullOrWhiteSpace(hint?.Question) ? null : hint.Question;
+        _prologueHintAvailable = _prologueHintQuestion is not null;
         button.Text = bridge.ResolveText(PrologueSkipLabelTextId);
         button.Visible = visible;
         RefreshPrologueSkipButtonState();
@@ -1711,7 +1715,9 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
             hintLabel.Visible = !button.Disabled && _prologueHintAvailable;
             var gamepad = GetTree().GetFirstNodeInGroup("player_controller") is FirstPersonController player
                 && player.CurrentInputDevice == "gamepad";
-            hintLabel.Text = $"Нужна подсказка — {InputBindingService.ActionHint("journal", gamepad)}";
+            var text = $"{_prologueHintQuestion}\nПодробнее — {InputBindingService.ActionHint("journal", gamepad)}";
+            if (!string.Equals(hintLabel.Text, text, StringComparison.Ordinal))
+                hintLabel.Text = text;
         }
     }
 
@@ -1735,7 +1741,7 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
             hintLabel.OffsetLeft = button.OffsetLeft;
             hintLabel.OffsetRight = button.OffsetRight;
             hintLabel.OffsetTop = button.OffsetBottom + 12f;
-            hintLabel.OffsetBottom = hintLabel.OffsetTop + Mathf.Max(56f, 54f * (float)_accessibility.TextScale);
+            hintLabel.OffsetBottom = hintLabel.OffsetTop + Mathf.Max(96f, 96f * (float)_accessibility.TextScale);
         }
     }
 
@@ -1765,7 +1771,7 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         target.AddChild(new CollisionShape3D
         {
             Name = "Branch_GripRayShape",
-            Shape = new SphereShape3D { Radius = 0.16f }
+            Shape = new SphereShape3D { Radius = 0.30f }
         });
         grip.AddChild(target);
         _branchTarget = target;

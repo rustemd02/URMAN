@@ -665,12 +665,11 @@ public partial class FirstPersonController
             (float)delta * (grounded ? 8f : 5f));
         _bodyLandingCompression = Mathf.MoveToward(_bodyLandingCompression, 0f, (float)delta * .20f);
         _bodyCrouch = Mathf.MoveToward(_bodyCrouch, IsCrouching ? 1 : 0, (float)delta * 3.8f);
-        // Carry the gait dip through a takeoff/stop instead of returning the
-        // pelvis to neutral in only a few frames; the planted-foot IK still
-        // owns the same reach envelope throughout the slower transition.
+        // Keep a subtle gait dip through takeoff/stop; planted-foot reach is
+        // recalculated from this same hip shift during the transition.
         _bodyLocomotionDip = Mathf.MoveToward(_bodyLocomotionDip,
             _bodyTraveling && !IsCrouching ? 1f : 0f, (float)delta * 7f);
-        var hipShift = new Vector3(0, -.27f * _bodyCrouch - .15f * _bodyLocomotionDip
+        var hipShift = new Vector3(0, -.27f * _bodyCrouch - .02f * _bodyLocomotionDip
                 - .018f * _bodyAirBlend - _bodyLandingCompression,
             -.10f * _bodyCrouch);
         var localTravelDirection = BodyDirectionInSkeleton(movement);

@@ -664,10 +664,22 @@ public partial class JournalUi
         RefreshPhotoBookActionButtons();
         try
         {
-            var entered = returning
+            var returnOutcome = returning
                 ? await bridge.ReturnFromPhotoBookForestAsync()
+                : RuntimeBridge.PhotoBookForestReturnOutcome.Failed;
+            var entered = returning
+                ? returnOutcome == RuntimeBridge.PhotoBookForestReturnOutcome.ReturnedAndSaved
                 : await bridge.EnterPhotoBookForestAsync();
             if (!IsCurrentPhotoBookOperation(bridge, session) || bridge.IsPhotoBookProjectionDeferred) return;
+            if (returning && returnOutcome == RuntimeBridge.PhotoBookForestReturnOutcome.ReturnedSaveFailed)
+            {
+                RefreshPhotoBookPage();
+                var gamepad = FindPlayer()?.CurrentInputDevice == "gamepad";
+                var closeHint = InputBindingService.ActionHint("ui_cancel", gamepad);
+                var pauseHint = InputBindingService.ActionHint("pause", gamepad);
+                _photoBookActionStatus.Text = $"Вы вернулись домой, но автосохранение не удалось. Закройте альбом {closeHint}, откройте меню {pauseHint} и выберите «Сохранить».";
+                return;
+            }
             if (entered)
             {
                 await CloseAsync(session);

@@ -9,6 +9,13 @@ namespace Urman.Godot;
 
 public partial class RuntimeBridge
 {
+    internal enum PhotoBookForestReturnOutcome
+    {
+        Failed,
+        ReturnedAndSaved,
+        ReturnedSaveFailed
+    }
+
     internal const string PhotoBookForestEntryInteractionId = "urman.fullgame:interaction/pw-enter-forest";
     internal const string PhotoBookForestReturnInteractionId = "urman.fullgame:interaction/pw-forest-book-return";
 
@@ -47,32 +54,49 @@ public partial class RuntimeBridge
         return null;
     }
 
-    internal async Task<bool> ReturnFromPhotoBookForestAsync()
+    internal async Task<PhotoBookForestReturnOutcome> ReturnFromPhotoBookForestAsync()
     {
-        if (!CanReturnFromPhotoBookForest(out _) || SessionIdentity is not { } session) return false;
+        if (!CanReturnFromPhotoBookForest(out _) || SessionIdentity is not { } session)
+            return PhotoBookForestReturnOutcome.Failed;
         _photoBookBusySession = session;
         try
         {
             if (!await DispatchInteractionAsync(PhotoBookForestReturnInteractionId)
                 || !ReferenceEquals(session, SessionIdentity) || _loadingSlot || _loadPreparing
-                || ActiveSceneId != "urman.fullgame:scene/pw-home") return false;
+                || ActiveSceneId != "urman.fullgame:scene/pw-home")
+                return PhotoBookForestReturnOutcome.Failed;
 
             // Main projects its committed destination from the deferred state
             // notification. Save the actual home pose, never the old forest pose.
             await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
             if (!IsInsideTree() || IsQueuedForDeletion() || _loadingSlot || _loadPreparing
-                || !ReferenceEquals(session, SessionIdentity) || ActiveSceneId != "urman.fullgame:scene/pw-home") return false;
+                || !ReferenceEquals(session, SessionIdentity) || ActiveSceneId != "urman.fullgame:scene/pw-home")
+                return PhotoBookForestReturnOutcome.Failed;
             await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
             if (!IsInsideTree() || IsQueuedForDeletion() || _loadingSlot || _loadPreparing
                 || !ReferenceEquals(session, SessionIdentity) || ActiveSceneId != "urman.fullgame:scene/pw-home"
                 || GetTree().GetFirstNodeInGroup("zone_manager") is not Main { ConnectedWorld: { } world }
                 || world.ActiveZoneId != CurrentZoneId
                 || FindPlayer() is not { SessionTransitionActive: false } player
-                || !player.CanStandAt(player.GlobalPosition)) return false;
+                || !player.CanStandAt(player.GlobalPosition))
+                return PhotoBookForestReturnOutcome.Failed;
 
-            await SaveCheckpointAsync(force: true);
-            return ReferenceEquals(session, SessionIdentity) && !_loadingSlot && !_loadPreparing
-                && ActiveSceneId == "urman.fullgame:scene/pw-home";
+            var checkpointSaved = false;
+            try
+            {
+                checkpointSaved = await SaveCheckpointAsync(force: true);
+            }
+            catch (Exception exception)
+            {
+                GD.PushWarning($"Photo book return checkpoint failed: {exception.GetType().Name}");
+            }
+
+            if (!ReferenceEquals(session, SessionIdentity) || _loadingSlot || _loadPreparing
+                || ActiveSceneId != "urman.fullgame:scene/pw-home")
+                return PhotoBookForestReturnOutcome.Failed;
+            return checkpointSaved
+                ? PhotoBookForestReturnOutcome.ReturnedAndSaved
+                : PhotoBookForestReturnOutcome.ReturnedSaveFailed;
         }
         finally
         {

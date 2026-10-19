@@ -2672,7 +2672,7 @@
       "lesson": "A warning in an edited file can emit stale bytes under a fresh mtime. Byte-verify (utf8 methods, utf16-le literals) before any native verdict. Audit-20's anchor verdict is void; do not cite it."
     }
   },
-  "updated": "2026-10-18",
+  "updated": "2026-10-19",
   "goal_key": "urman-photoworlds-finished-game",
   "goal_statement": "Довести единую очередь до готовой игры «За краем снимка»: обычная зимняя Кара-Урман, физическая книга Тукая, 13 снимков, пять полноценных фотомиров, пролог W01, реальные внешние подтверждения, домашний эпилог и свободные возвращения. Все применимые требования Visual Reset и PhotoWorlds, сохранённые бытовые системы и выпускная приёмка обязательны; готовность принимается REL-003 на конкретной поставляемой сборке, а не по числу закрытых карточек.",
   "historical_execution_limits": "Предыдущий исполнитель останавливался по лимитам своего запуска и старому временному поручению 2026-09-12; эти условия сохранены в history/progress и не являются актуальным требованием данной сессии.",
@@ -70965,6 +70965,12 @@
         "verification_question": "Does current-pose reversal preserve the opposite planted sole and original normal swing envelope without double lift/contact?",
         "remaining": "Native reversal sequence/overall gait and author-perceived natural movement still unverified; previous PLAYER34426 snapshot receipt does not cover this new retarget.",
         "verification": "Root caught and corrected normal sine-wave scaling; final zero-start formula is identical to old normal waveform. Independent final review clean; affected Game compile14.96s0warnings/errors and scoped diffcheck PASS."
+      },
+      "walking_hip_dip_2026_10_19": {
+        "state": "source_integrated_compiled_native_pending",
+        "result": "Ordinary walking hip dip15→2cm; crouch/air/landing/camera/capsule physics unchanged. Existing footreach/stride/lead/IK derive samecurrenthipShift, no stale15cm assumption found.",
+        "verification": "Independent LunaFast source review and root inspection; affectedGame18.39s0/0. Higher hip narrows reachable stancewindow; visual cadence/takeoff/body clipping still require ordinary motion capture.",
+        "next_action": "One changedcandidate ordinary movement/stop/jump observation with visiblebody, before claiming gait fixed."
       }
     },
     {
@@ -95122,7 +95128,14 @@
           "evidence_ref": "ACT1-FENCE-KIT.evidence and named history progress; source_review shows available/missing inputs"
         }
       ],
-      "assignment_state": "unassigned_explicit_not_active"
+      "assignment_state": "unassigned_explicit_not_active",
+      "consumer_mapping_2026_10_19": {
+        "state": "read_only_source_mapping_no_runtime_change",
+        "consumer": "Act1ConnectedWorld.YardFences.cs RebuildYardFences→BuildFenceRun rough-picket, visualArrayMeshbatches; YardFenceBody/gates remain separateowners.",
+        "metric": "2.35m postcenters,1.18m boards,1.29m posttops,13x95x28mm pickets,~85.8mm daylight. Current isolatedbay384tri/sharedrun~360additional.",
+        "existing_candidate": "rough_picket_meshy_v1 remesh21718tri,1.903x.164x.757m,monolithic. Uniformscale cannotfit bothheightandwidth;~56.6x currentisolatedtrianglecost, no acceptedLOD/consumer. Existing constructiveproducer doesnotnormalizeMeshy.",
+        "decision": "Do not integratebadmetrics/highcost or returnto primitiveboxstyle as fulfilledgeneratedasset. Keep existingcandidate/materialreference, no newspend. Next realstage needs metric geometry+LOD preserving acceptedmaterial/silhouette in existingfamilycontract. Top-levelwork_contract exists; absentnestedexecution.work_contract isnot ablocker."
+      }
     },
     {
       "id": "ACT1-RIVER-BRIDGE",
@@ -109561,7 +109574,7 @@
       "assigned_owner": "integration",
       "activity": {
         "state": "confirmed_active",
-        "reason": "Root ordinary changedworker job232b0ded47d64b95a868949cd7f85827, snapshot81eb400b06b539003fcfd105ce2c4e8a086582229a2777d9f76639cdbadc0783; Windows health tasklistchildren hidden. Book/W01return/Continue still unaccepted."
+        "reason": "Root integrates finite returncheckpoint outcome fix and prepares ordinary bookloop. ca9 is forest/arrival check, not book-return acceptance; old232b no longer active."
       },
       "task_type": "engineering",
       "implementation_state": "implemented",
@@ -109806,6 +109819,16 @@
         "receipt": "evidence/PW-020/native_route_snowcache_d14e26a5378c49969d9c1866de75fc77/receipt.json",
         "root_viewed_frame": "evidence/PW-020/native_route_snowcache_d14e26a5378c49969d9c1866de75fc77/06_arrival_ready.png",
         "result": "OrdinaryNewGame/noPause/ESCskip→actualvillagearrival/checkpoint; rootviewedactualstreet. Terminal124/restoredtrue, elapsed1370.198. Nohome/book/W01return. 92Reworklogs(91noop) expected becausefixcachesbankrefs, doesnotremoveinvocations; no measuredspeedclaim."
+      },
+      "return_checkpoint_outcome_2026_10_19": {
+        "state": "source_integrated_compiled_ui_pending",
+        "result": "Return method distinguishes Failed/ReturnedAndSaved/ReturnedSaveFailed; finalforceSave bool/exception cannot silently closealbum as success. After validhome+savefailure journal remains open with retry instructions using live close/pause binding. Entry/ticket/reducer/session/placementguards unchanged.",
+        "targets": [
+          "game/scripts/RuntimeBridge.PhotoBook.cs",
+          "game/scripts/JournalUi.PhotoBook.cs"
+        ],
+        "verification": "Independent LunaFast outcome/caller/session review, root source inspection and affectedGame18.39s0/0. Subsequent binding-onlycopy fix inspected+diffcheck; realfailure/Continue matrix not exercised.",
+        "remaining": "Ordinary homebook→W01→return→manualsave/status→MainMenu→Continue and existingfailure acceptance remain open."
       }
     },
     {
@@ -119660,12 +119683,13 @@
         "source_fix": "W01Controller tracksactualViewport aftersuccessfulSizeChangedsubscription andonlyunsubscribesvalidstoredinstance. IndependentLunaFast lifecycle reviewclean; currentwholeaffectedGame18.13s0/0. Originalimportprerequisite separate; no geometry/guard weakening."
       },
       "first_minute_discoverability_2026_10_19": {
-        "state": "read_only_findings_followup_not_implemented",
-        "result": "F00photo34x22.7cm lies offcenter/atfeet fordownwardinspection, firstforwardview hasnoimmediateactioncue. F01requiredbranch51maway has .16m gripraytarget; journalhints exist. Risksfromsource, not provenhardlocks.",
-        "next_action": "After currentwholeforestscene accepted, improve existingphoto/branchcue andvisiblebranchapproach underPW043/PW046; no newquestorhintsystem."
+        "state": "source_integrated_compiled_native_pending",
+        "result": "Existing HintAccess label shows only authored non-solution Question and currentjournal binding; branch→exit updates via existing projection. Area/Action remain progressive in journal. Optional groundphoto/facts/skip unchanged. Existinglabel height accommodates wrapping/textscale; no newUIowner.",
+        "verification": "Independent exactprojection/source review; affectedGame18.39s0warnings0errors and diffcheck. Actual720p/accessibility and ordinary F01/F03 still open.",
+        "next_action": "Next changedcandidate native: read initialquestion, ordinary approach/interact withbranch, observe animation and nextquestion. No artacceptance dependency on completing wholeforestpolish."
       },
       "forest_composition_candidate_2_2026_10_19": {
-        "state": "runtime_candidate_frozen_native_ca9_running_not_artaccepted",
+        "state": "native_frames_reviewed_root_art_not_accepted_terminal_pending",
         "targets": [
           "game/scripts/photoworlds/W01Controller.cs",
           "game/scenes/photoworlds/W01/W01.tscn",
@@ -119679,7 +119703,13 @@
         "art_reference_only": "assets/source/blender/photoworlds/W01/forest_composition_reference_20261019/forest_composition_reference.png",
         "native_job": "ca9b33b8a1dc4c06a49a8e7d53a8e29a",
         "native_snapshot": "b026617fe46679b15b27359be3e331380dccd7a239ab19f617e86fdec6bdd8e8",
-        "native_remaining": "Root must view actualNewGameF00/W2000ms/lookdx80 afterallchanges; nativecollision/performance/authoracceptance stillnotproven. soleWindowsownerfast_forest_native; no concurrentlaunch."
+        "native_remaining": "ca9 terminalreceipt/userdata restore pending. Ordinary skip reached village, camera responded look; ESC did not show pause. Do not call this freeze or sourcepausebug before rawlog/focus/input evidence. No new timed repeat without causal fact.",
+        "root_actually_viewed": [
+          "evidence/PW-043/forest-composition-20261019/native_ca9b33b8a1dc4c06a49a8e7d53a8e29a/02-f00-new-game.png",
+          "evidence/PW-043/forest-composition-20261019/native_ca9b33b8a1dc4c06a49a8e7d53a8e29a/03-forward-2000ms.png",
+          "evidence/PW-043/forest-composition-20261019/native_ca9b33b8a1dc4c06a49a8e7d53a8e29a/04-look-dx80.png"
+        ],
+        "native_result": "Ordinary NewGame F00, W2000ms and lookdx80 frames received and personally viewed. Root sees stronger enclosure, naturalbluegray sky and actual asymmetric snow shoulders. Broad empty center and weak path/action legibility remain; no wholeart/authoracceptance or sustainedFPS proof."
       }
     },
     {
@@ -120862,6 +120892,16 @@
               "native_job": "ca9b33b8a1dc4c06a49a8e7d53a8e29a",
               "native_snapshot": "b026617fe46679b15b27359be3e331380dccd7a239ab19f617e86fdec6bdd8e8",
               "native_remaining": "Root must view actualNewGameF00/W2000ms/lookdx80 afterallchanges; nativecollision/performance/authoracceptance stillnotproven. soleWindowsownerfast_forest_native; no concurrentlaunch."
+            },
+            "forest_composition_candidate_2_2026_10_19": {
+              "state": "native_frames_reviewed_root_art_not_accepted_terminal_pending",
+              "root_actually_viewed": [
+                "evidence/PW-043/forest-composition-20261019/native_ca9b33b8a1dc4c06a49a8e7d53a8e29a/02-f00-new-game.png",
+                "evidence/PW-043/forest-composition-20261019/native_ca9b33b8a1dc4c06a49a8e7d53a8e29a/03-forward-2000ms.png",
+                "evidence/PW-043/forest-composition-20261019/native_ca9b33b8a1dc4c06a49a8e7d53a8e29a/04-look-dx80.png"
+              ],
+              "native_result": "Ordinary NewGame F00, W2000ms and lookdx80 frames received and personally viewed. Root sees stronger enclosure, naturalbluegray sky and actual asymmetric snow shoulders. Broad empty center and weak path/action legibility remain; no wholeart/authoracceptance or sustainedFPS proof.",
+              "native_remaining": "ca9 terminalreceipt/userdata restore pending. Ordinary skip reached village, camera responded look; ESC did not show pause. Do not call this freeze or sourcepausebug before rawlog/focus/input evidence. No new timed repeat without causal fact."
             }
           },
           {
@@ -121253,7 +121293,7 @@
         "next_result": "DenseirregularsharedLOD1forestgroups(nearLOD0budgetunchanged), actualasymmetricsnowshoulderterrain aroundpreservedphysicalpath, naturalbluegrayacceptedvillagefamily. OneImageGenlayoutreference only, not gameframe/Meshy."
       },
       "forest_composition_candidate_2_2026_10_19": {
-        "state": "runtime_candidate_frozen_native_ca9_running_not_artaccepted",
+        "state": "native_frames_reviewed_root_art_not_accepted_terminal_pending",
         "targets": [
           "game/scripts/photoworlds/W01Controller.cs",
           "game/scenes/photoworlds/W01/W01.tscn",
@@ -121267,7 +121307,13 @@
         "art_reference_only": "assets/source/blender/photoworlds/W01/forest_composition_reference_20261019/forest_composition_reference.png",
         "native_job": "ca9b33b8a1dc4c06a49a8e7d53a8e29a",
         "native_snapshot": "b026617fe46679b15b27359be3e331380dccd7a239ab19f617e86fdec6bdd8e8",
-        "native_remaining": "Root must view actualNewGameF00/W2000ms/lookdx80 afterallchanges; nativecollision/performance/authoracceptance stillnotproven. soleWindowsownerfast_forest_native; no concurrentlaunch."
+        "native_remaining": "ca9 terminalreceipt/userdata restore pending. Ordinary skip reached village, camera responded look; ESC did not show pause. Do not call this freeze or sourcepausebug before rawlog/focus/input evidence. No new timed repeat without causal fact.",
+        "root_actually_viewed": [
+          "evidence/PW-043/forest-composition-20261019/native_ca9b33b8a1dc4c06a49a8e7d53a8e29a/02-f00-new-game.png",
+          "evidence/PW-043/forest-composition-20261019/native_ca9b33b8a1dc4c06a49a8e7d53a8e29a/03-forward-2000ms.png",
+          "evidence/PW-043/forest-composition-20261019/native_ca9b33b8a1dc4c06a49a8e7d53a8e29a/04-look-dx80.png"
+        ],
+        "native_result": "Ordinary NewGame F00, W2000ms and lookdx80 frames received and personally viewed. Root sees stronger enclosure, naturalbluegray sky and actual asymmetric snow shoulders. Broad empty center and weak path/action legibility remain; no wholeart/authoracceptance or sustainedFPS proof."
       }
     },
     {
@@ -121652,6 +121698,11 @@
         ],
         "verification": "Independent source reviews: traversal/aim integration and passage state/LOS guards; canonical GLB triangle geometry confirms 6m-long ordinary route viewing strip (z14–20, lateral±.7m), 22–40° span within75° FOV. Final affected Game compile14.85s,0warnings/errors; no new tests or native run. Unrelated forest colliders/ordinary controls remain native acceptance.",
         "remaining": "Ordinary native F11→F12/F13 actual look-back→Shurale→bag→F16 and save/revisit acceptance; full-card art/human gates remain open. Cue is UI-only so content fingerprint is unchanged."
+      },
+      "branch_grip_2026_10_19": {
+        "state": "source_integrated_compiled_native_pending",
+        "result": "EnsureBranchTarget ray-onlysphere0.16→0.30m at same Branch_GripCenter, following existing bagtarget size. No collision/pose/landmark/factgate change; commit only afterexisting lift_and_place animation.",
+        "verification": "Worker+root source inspection; affectedGame18.39s0/0. Actual feel/occlusion/animation not yet accepted."
       }
     },
     {
@@ -122847,7 +122898,7 @@
         "next_result": "DenseirregularsharedLOD1forestgroups(nearLOD0budgetunchanged), actualasymmetricsnowshoulderterrain aroundpreservedphysicalpath, naturalbluegrayacceptedvillagefamily. OneImageGenlayoutreference only, not gameframe/Meshy."
       },
       "forest_composition_candidate_2_2026_10_19": {
-        "state": "runtime_candidate_frozen_native_ca9_running_not_artaccepted",
+        "state": "native_frames_reviewed_root_art_not_accepted_terminal_pending",
         "targets": [
           "game/scripts/photoworlds/W01Controller.cs",
           "game/scenes/photoworlds/W01/W01.tscn",
@@ -122861,7 +122912,13 @@
         "art_reference_only": "assets/source/blender/photoworlds/W01/forest_composition_reference_20261019/forest_composition_reference.png",
         "native_job": "ca9b33b8a1dc4c06a49a8e7d53a8e29a",
         "native_snapshot": "b026617fe46679b15b27359be3e331380dccd7a239ab19f617e86fdec6bdd8e8",
-        "native_remaining": "Root must view actualNewGameF00/W2000ms/lookdx80 afterallchanges; nativecollision/performance/authoracceptance stillnotproven. soleWindowsownerfast_forest_native; no concurrentlaunch."
+        "native_remaining": "ca9 terminalreceipt/userdata restore pending. Ordinary skip reached village, camera responded look; ESC did not show pause. Do not call this freeze or sourcepausebug before rawlog/focus/input evidence. No new timed repeat without causal fact.",
+        "root_actually_viewed": [
+          "evidence/PW-043/forest-composition-20261019/native_ca9b33b8a1dc4c06a49a8e7d53a8e29a/02-f00-new-game.png",
+          "evidence/PW-043/forest-composition-20261019/native_ca9b33b8a1dc4c06a49a8e7d53a8e29a/03-forward-2000ms.png",
+          "evidence/PW-043/forest-composition-20261019/native_ca9b33b8a1dc4c06a49a8e7d53a8e29a/04-look-dx80.png"
+        ],
+        "native_result": "Ordinary NewGame F00, W2000ms and lookdx80 frames received and personally viewed. Root sees stronger enclosure, naturalbluegray sky and actual asymmetric snow shoulders. Broad empty center and weak path/action legibility remain; no wholeart/authoracceptance or sustainedFPS proof."
       }
     },
     {
