@@ -109434,7 +109434,7 @@
       "title": "Реализовать prepare и возвратный билет",
       "milestone": "PW-M1",
       "status": "in_progress",
-      "active_owner": "Codex",
+      "active_owner": null,
       "owner": "integration",
       "priority": "P0",
       "complexity": "medium",
@@ -109581,8 +109581,8 @@
       },
       "assigned_owner": "integration",
       "activity": {
-        "state": "confirmed_active",
-        "reason": "Root integrates finite returncheckpoint outcome fix and prepares ordinary bookloop. ca9 is forest/arrival check, not book-return acceptance; old232b no longer active."
+        "state": "not_active",
+        "reason": "Source return-save feedback stage e652c219 integrated/reviewed/compiled; no currentbook-loop nativeprocess. ca9/3c919 prologue+arrival jobs terminal/restored. Nextready ordinarybookroute prepared independently; fullacceptanceopen."
       },
       "task_type": "engineering",
       "implementation_state": "implemented",
@@ -119155,7 +119155,7 @@
         "Игрок не обязан повторять тизер; объяснение «просто сон» не закрывает интригу.",
         "Обычный New Game без override использует актуальный pack, ставит физический W01 и передаёт управление семейному прибытию; skip не выдаёт необязательное знание, Replay не меняет основной сеанс, Continue не запускает New Game."
       ],
-      "next_action": "Native current question at F00→ordinary F01 approach/grip/animation→new exit question→F03 or optional skip. Current shader trackmask corrected from confirmed broadremap in5f9ad590; preserve optionalphoto and fullguards, no blind repeated arrival.",
+      "next_action": "Finish one visible ordinary first-action stage from confirmed F01 stop/grip geometry (PW-046); preserve optional skip and authored state. Reuse actual F00 question/walk/arrival evidence; book-loop work in PW-020 does not wait for whole forest art acceptance.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -119729,7 +119729,7 @@
         "verification": "Binary/source inspection and arithmetic, diffcheck. Shader/native appearance requires next changedcandidate, not proven by C#compile."
       },
       "first_actions_native_2026_10_19": {
-        "state": "running",
+        "state": "terminal_initialquestion_and_walk_observed_branch_action_not_verified",
         "job_id": "3c91948543604961a40b39b77e5f416d",
         "snapshot": "ac7df968b24dd460069ea653bcdf4b87fee2dff901faccf2bd71e9fb435deebe",
         "source_commit": "5f9ad590",
@@ -119741,13 +119741,23 @@
           "evidence/PW-043/forest-composition-20261019/native_3c91948543604961a40b39b77e5f416d/05-corridor-after-12xW2000.png",
           "evidence/PW-043/forest-composition-20261019/native_3c91948543604961a40b39b77e5f416d/06-corridor-after-16xW2000.png"
         ],
-        "observed_scope": "Actual1280x720 authored initialquestion andJbinding visible; ordinaryforwardmovement throughforestseen. At16→18segments no forwardprogress/no prompt inforwardview; owner checkingdownwardaim, not yetdeclaredhardlock. No post-action/nextquestion/fullbookacceptance."
+        "observed_scope": "Actual1280x720 authored initialquestion andJbinding visible; ordinaryforwardmovement throughforestseen. At16→18segments no forwardprogress/no prompt inforwardview; owner checkingdownwardaim, not yetdeclaredhardlock. No post-action/nextquestion/fullbookacceptance.",
+        "receipt": "evidence/PW-043/forest-composition-20261019/native_3c91948543604961a40b39b77e5f416d/receipt.json",
+        "terminal": "FAIL/game124 at600s guard;worker830.0s; userdataRestoredtrue/recoveryPendingfalse/sourcehashesverified; engine-errors empty. Ordinaryskip→arrival checkpoint preserved. Stationreleased.",
+        "limit": "At18W cap operator sentESC before rootdownlook arrived; laterdy160 capturedvillage, so no branchaim/animation/fact/nextquestion acceptance. Do not repeat sameblindwalk or label this hardlock.",
+        "archive_cleanup": "ZIP SHA0329ed0f845e17dc9d8f3b5c6562488dc9a1447bd3cee3461b1acddcc9c6e296 verified; root compared ALL30 entries byte-for-byte to extraction and canonicalevidence.8identicalPNGcopies linked;33,622,016logicalbytes duplicatecache+ZIP removed, unique rawfiles retained."
       },
       "question_readability_2026_10_19": {
         "state": "source_compiled_reviewed_native_pending",
         "cause": "Root viewed actual3c919 F00: question present but tiny overbusybrighttrees under dominantSkipbutton. Existing questioncontent/availability contract retained.",
         "result": "Existing SubtitlePanel/Subtitle22/Hint15 tokens and sharedaccessibility, quieternarrowSkipbutton samehandler/ESC; questionplate hidesonmodal/disabled/nohint, storedviewport lifecycle unchanged. No newquest/helpframework orsolutiondisclosure.",
         "verification": "Independent LunaFast source/theme/lifecycle review found no concreteissue; affectedGame18.90s0warnings0errors; diffcheck. Current3c919remote snapshot predatespanelchange, so itsframes DO NOT prove newplate/nativecontrast/accessibility."
+      },
+      "first_branch_standing_view_2026_10_19": {
+        "state": "confirmed_geometry_readability_issue_no_gameplay_fix_yet",
+        "facts": "MatchingGLB branchbody1.10mwide/0.148721mhigh withbottomworldY1.0=terrain; gripworld[11.9992,1.0342,49.9966], no sink/scaleerror. ActualW16/W18 identicalframes withcamera[11.952178,2.6925597,49.76567],pitch0; horizontalgripdistance~.236m, vertical~1.658m.",
+        "implication": "Gripcenter~82degbelowhorizontal; .30mray sphere atthispose requiresroughly72degdown. CurrentforwardlookcannotshowE. Causeofstoppedtranslation notproven; downtestinterruptedbyskip. Merelyraisingfork149→300mm wouldnotresolve gripdiscovery.",
+        "next_result": "A whole clearfirstaction/physicalpresentation atstandingview usingexisting source/contact/animation/factowners. Evaluate groundedraisedbough/support geometry or existinginteractionpattern; nofloatinggeometry/invisiblewall/giantairtarget/autofacts. Keep broadMVPbookloop priority, no more modeltexturepolish."
       }
     },
     {
@@ -121753,6 +121763,12 @@
         "state": "source_integrated_compiled_native_pending",
         "result": "EnsureBranchTarget ray-onlysphere0.16→0.30m at same Branch_GripCenter, following existing bagtarget size. No collision/pose/landmark/factgate change; commit only afterexisting lift_and_place animation.",
         "verification": "Worker+root source inspection; affectedGame18.39s0/0. Actual feel/occlusion/animation not yet accepted."
+      },
+      "first_branch_standing_view_2026_10_19": {
+        "state": "confirmed_geometry_readability_issue_no_gameplay_fix_yet",
+        "facts": "MatchingGLB branchbody1.10mwide/0.148721mhigh withbottomworldY1.0=terrain; gripworld[11.9992,1.0342,49.9966], no sink/scaleerror. ActualW16/W18 identicalframes withcamera[11.952178,2.6925597,49.76567],pitch0; horizontalgripdistance~.236m, vertical~1.658m.",
+        "implication": "Gripcenter~82degbelowhorizontal; .30mray sphere atthispose requiresroughly72degdown. CurrentforwardlookcannotshowE. Causeofstoppedtranslation notproven; downtestinterruptedbyskip. Merelyraisingfork149→300mm wouldnotresolve gripdiscovery.",
+        "next_result": "A whole clearfirstaction/physicalpresentation atstandingview usingexisting source/contact/animation/factowners. Evaluate groundedraisedbough/support geometry or existinginteractionpattern; nofloatinggeometry/invisiblewall/giantairtarget/autofacts. Keep broadMVPbookloop priority, no more modeltexturepolish."
       }
     },
     {
