@@ -1,0 +1,115 @@
+{
+  "asset_id": "ACT1-GENERATED-WINTER-PINE-V2",
+  "status": "native_import_compile_matched_village_frame_verified_wholeart_motion_performance_open",
+  "source_input": {
+    "file": "../winter_spruce_meshy_v1/remesh25k/meshy71-pine-remesh-25k.glb",
+    "sha256": "e3ec5b1c0056a5c4cb3eaee91ebc974916bea1801517a2c943c4460c18b376bd",
+    "paid_source_task_id": "01a153dd-e80f-754e-95ce-bf919b3f0011",
+    "credit_accounting": "Already accounted in v1/remesh25k/manifest.json; no newpaidoperation in this stage."
+  },
+  "root_authorization": "One free localversionedruntimefamily after rootactuallyviewed25Ksourcepreview: nearexisting25508(max26000),mid<=6000,far4crosscardsfromsame25KLOD0,2sharedPBR/MASK,2Kbase+1KnormalORM+1Kfaratlas,identity/base0height1/same3node names; noPOST orreference orhousework.",
+  "reference_provenance": "../winter_spruce_meshy_v1/winter-pine-v1.manifest.json",
+  "license_provenance": "../winter_spruce_meshy_v1/winter-pine-v1.manifest.json",
+  "producer": "prepare_candidate.py invokes prepare_far_impostor.py",
+  "output": "winter-pine-meshy-v2.glb",
+  "runtime_contract": {
+    "nodes": [
+      "WinterPine_LOD0",
+      "WinterPine_LOD1",
+      "WinterPine_LOD2"
+    ],
+    "max_triangles": [
+      26000,
+      6000,
+      4
+    ],
+    "shared_materials": 2,
+    "textures": "2Kbasecolor,1Knormal,1KORM and1Kfarneutralalbedoatlas",
+    "normalization": "Vertex-bakedidentity; baseY0,height1,rootXZ0; allLODs share sameorigin/scale; collider remainsoldasset owner."
+  },
+  "budget": {
+    "additional_meshy_credits_this_stage": 0,
+    "new_post_performed": false,
+    "accounted_overall_unchanged": 270,
+    "pine_family_accounted_unchanged": 40,
+    "house_family_accounted_unchanged": 35
+  },
+  "ownership": "Only newwinter_spruce_meshy_v2folder; v1source/currentcandidate/runtime/registry/physics/sharedJSON/Git/Windows unchanged by this worker.",
+  "acceptance": "Only sourceLOD0/1/farviews andstructure now; rootwillpromoteafteractivecampaignjob; nativeart/performance remainopen.",
+  "candidate": {
+    "file": "winter-pine-meshy-v2.glb",
+    "bytes": 16186160,
+    "sha256": "8c5a9e19f9b4c379f3e30a1a33e88c5c02017224dafdcd487837917ba2cc7755",
+    "actual_triangles": [
+      25508,
+      5999,
+      4
+    ],
+    "node_names": [
+      "WinterPine_LOD0",
+      "WinterPine_LOD1",
+      "WinterPine_LOD2"
+    ],
+    "identity_nodes_no_ancestor_transform": true,
+    "actual_material_modes": [
+      "OPAQUE",
+      "MASK"
+    ],
+    "actual_image_sizes": [
+      [
+        1024,
+        1024
+      ],
+      [
+        2048,
+        2048
+      ],
+      [
+        1024,
+        1024
+      ],
+      [
+        1024,
+        1024
+      ]
+    ],
+    "near_mid_shared_bounds": "Both have normalizedbase0,height1 and same nearXYZenvelope. Midmodifierovershootclamped percoordinate, noLODtranslation/rescale. Farcards have transparent margin across±.25XZ, visiblepixels fromsame25Knear.",
+    "rebuild_command": ".tools/blender/Blender.app/Contents/MacOS/Blender --background --threads 2 --python-exit-code 1 --python assets/source/blender/act1/winter_spruce_meshy_v2/prepare_candidate.py"
+  },
+  "source_review": {
+    "views": [
+      "candidate-lod0.png",
+      "candidate-lod1.png",
+      "candidate-lod2.png"
+    ],
+    "actually_viewed": true,
+    "result": "Near retains the rootaccepted25K roundedsnowmass. Mid5999 remains visibly moreangular and has sharper/fragmentedtips in isolatedview; its original tinyboundsovershoot is fixed. Far4card silhouette usesnew25Kneutralalbedo, not old6Kfragmentedatlas. No furtherisolatedpolish done.",
+    "neutral_far": "Emission shader onlyforneutralalbedobake; exportedfar is litPBR/MASK,zeroemissive,noKHR_unlit,notBLEND.",
+    "remaining": "RootwholeWindowsvillage+W01,LODtransitions/forestart andnativeperformance before acceptance; currentgameloopjob mustfinish before promotion."
+  },
+  "verification": {
+    "Blender_prepare_and_export": "PASS",
+    "exported_glb_contract_receipt": "exported-glb-structure.json",
+    "source_producer_receipt": "candidate-structure.json",
+    "producer_ast": "PASS",
+    "new_test_suites_or_tests": "None",
+    "native_Godot_import_or_art_performance": "Notrun by thisworker"
+  },
+  "freeze": {
+    "old_v1_candidate_and_producers_changed_by_worker": false,
+    "runtime_or_sharedregistry_JSON_Git_Windows_changed_by_worker": false,
+    "credits_this_local_stage": 0,
+    "further_generation_or_polish": false
+  },
+  "runtime_promotion": {
+    "path": "game/assets/models/act1/urman_winter_pine_meshy_v1.glb",
+    "sha256": "8c5a9e19f9b4c379f3e30a1a33e88c5c02017224dafdcd487837917ba2cc7755",
+    "bytes": 16186160,
+    "state": "Root sourceLOD0/1/2 actuallyviewed and promoted after1a4dterminal/userdatarestored; nativepending. LogicalassetID/canonicalpath retained, oldv1source/Gitblob available."
+  },
+  "native_evidence": {
+    "receipt": "evidence/PW-093/native_conifer_v2_d61c8308450142b79ec381cb772a295e/receipt.json",
+    "frame": "evidence/PW-093/native_conifer_v2_d61c8308450142b79ec381cb772a295e/frames/babai_shape_front_high.png",
+    "result": "NativePASS exactfc03f682 snapshot; import/affectedcompile33.81s0/0, userdataRestoredtrue, engineerrors0. Rootactuallyviewedframe atmatchedhigh/currentday/samecamera. drawCalls20174, singleframe80ms vsoldV162.5ms; notmatchedFPSbenchmark and NOT performanceacceptance.7TextureRIDshutdownwarning repeated. Nearroundervolume, midstillsharp; authorart/motion/W01open."
+  }
+}

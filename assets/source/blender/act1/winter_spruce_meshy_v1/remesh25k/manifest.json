@@ -1,0 +1,71 @@
+{
+  "asset_id": "ACT1-GENERATED-WINTER-PINE-V1-REMESH25K",
+  "status": "single25Ksourcepreview_frozen_for_root_review_no_runtime_family_rebuild",
+  "source_original_task_id": "01a1539f-c9cb-7389-bae9-71b8cc11748e",
+  "root_authorization": "After houseinspection, one25KMeshyremesh5 from sameoriginaltask; one sourcepreview only, no newImageGen/image3D or runtimefamily rebuild before rootreview.",
+  "causal_reason": "Root compared actualraw7M and6Ksource; rounded snowybranchvolumes present inoriginal are fragmented by6Kremesh, not by localLOD0decimation. CurrentnativeforestartgateFAIL.",
+  "budget": {
+    "user_total_cap": 4000,
+    "accounted_before_this_post": 265,
+    "new_operation_estimate": 5,
+    "pine_family_consumed_before": 35,
+    "pine_family_cap": 90,
+    "pre_post_api_balance": 4015,
+    "accounted_including_this_post": 270,
+    "pine_family_consumed_including_this_post": 40
+  },
+  "ownership": "Only newremesh25k sourcefolder. ExistingfrozenruntimeGLB/producer/manifest/consumer/registry/JSON/Git/Windows not changed.",
+  "runtime_policy": "Sourcepreview gate before any preparation of25Knear/6Kmid/samefar4 cards; performance/art acceptance remainopen.",
+  "meshy_task": {
+    "type": "remesh",
+    "task_id": "01a153dd-e80f-754e-95ce-bf919b3f0011",
+    "estimated_credits": 5,
+    "actual_consumed_credits": 5,
+    "target_polycount": 25000,
+    "status": "SUCCEEDED"
+  },
+  "source": {
+    "source": "meshy71-pine-remesh-25k.glb",
+    "sha256": "e3ec5b1c0056a5c4cb3eaee91ebc974916bea1801517a2c943c4460c18b376bd",
+    "bytes": 64100856,
+    "triangles": 25508,
+    "images": [
+      {
+        "dimensions": [
+          4096,
+          4096
+        ],
+        "mime": "image/png"
+      },
+      {
+        "dimensions": [
+          4096,
+          4096
+        ],
+        "mime": "image/png"
+      },
+      {
+        "dimensions": [
+          4096,
+          4096
+        ],
+        "mime": "image/png"
+      }
+    ]
+  },
+  "preview": {
+    "file": "pine-25k-source-preview.png",
+    "sha256": "29486bc49f71e6e4d03e87e1cccb208a9e2df09370c74e9c2add2a4ee5da202e",
+    "actually_viewed": true,
+    "worker_review": "Compared visually with prior6Kcandidate: snowbough masses are more rounded and fewer large whitefragments; sharpneedle/boughends remain. No wholeWindowsframe, gameplaystyle orperformance acceptance inferred.",
+    "triangle_budget_note": "Actualsource25508triangles, about2percent above requested25K. No localdecimation performed in this sourcepreview stage.",
+    "comparison_limits": "Samecamera/world/light/normalization as6Kpreview; this source retains fullMeshyPBR textures instead of preparedruntime2K/1K maps."
+  },
+  "freeze": {
+    "old_runtime_glb_unchanged_by_worker": true,
+    "old_candidate_producer_and_manifest_unchanged_by_worker": true,
+    "new_family_LODs_or_atlas_built": false,
+    "next_action": "Rootcompare25Ksourcepreview with6K/raw; only after explicitrootapproval prepare nextbudgetedruntimefamily and wholeWindowsperformance/artcheck.",
+    "further_posts": false
+  }
+}

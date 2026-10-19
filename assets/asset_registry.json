@@ -4563,23 +4563,23 @@
     },
     {
       "id": "winter.pine.meshy.v1",
-      "source": "assets/source/blender/act1/winter_spruce_meshy_v1/winter-pine-v1.manifest.json",
+      "source": "assets/source/blender/act1/winter_spruce_meshy_v2/winter-pine-v2.manifest.json",
       "derived": "game/assets/models/act1/urman_winter_pine_meshy_v1.glb",
-      "generator": "built-in image_gen reference → Meshy7.1 image-to3D +6k remesh → Blender4.5.12 normalized sharedLOD+farimpostor; existing source→reference pipeline",
+      "generator": "built-in image_gen reference → Meshy7.1 image-to3D +25K remesh → Blender4.5.12 normalized sharedLOD+farimpostor; source revision2, stable logicalassetID/runtimepath",
       "license": "Owner generated from own-game/ImageGen inputs under paid Meshy plan; subject to applicable Meshy terms; not CC0/free-planCCBY. See source manifest official references.",
       "scale": 1.0,
-      "triangleBudget": 5015,
+      "triangleBudget": 25508,
       "textureBudget": 2048,
       "materials": [
         "Meshy shared PBR (OPAQUE)",
         "Far atlas lit alpha MASK, no emission/BLEND"
       ],
       "collision": "visual-only replacement; existing winter.pine.v1 GLB remains authoritative for AgentB stem/contact/clearance geometry; placement/collisionowners unchanged",
-      "lod": "LOD0 5015;LOD1 1999;LOD2 4-triangle crossed-card fromsamegeneratedmodel;2sharedmaterials,2Kbase+1Knormal/ORM+extra1Kfaralbedoatlas. Identity transforms/base0/height1, one provider fit to old root envelope.",
-      "status": "Native87a441 import/affectedcompile and matchedvillage frame PASS, userdata restored, no engine-errors; root actually viewed before/after. Sharper fragmented branch silhouettes not artistically accepted. W01/motion/sustainedperformance/ownerart open;7TextureRIDshutdownwarnings causeunknown.",
-      "releaseDisposition": "technical-integration-verified-art-and-motion-pending",
-      "sourceSha256": "0b7e30f9ce170e53b318e6e195a8236a5082f7a01e2f65adc8e9ba7bdfbed720",
-      "derivedSha256": "0b7e30f9ce170e53b318e6e195a8236a5082f7a01e2f65adc8e9ba7bdfbed720"
+      "lod": "Source revision2:LOD0 25508,LOD1 5999,LOD2 4crosscards fromsamegeneratedLOD0;2sharedOPAQUE/MASKPBR,2Kbase/1Knormal/1KORM+1Kfaratlas. LogicalassetID/canonicalruntimepathstable; prior6Ksource retained inhistory.",
+      "status": "V2native d61c830 import/compile0/0+matchedvillageframePASS, rootviewed. Nearroundersnow, mid stillsharp. drawCalls20174; single80msvsV162.5ms, sustainedcostunverified. W01/motion/authorartopen.",
+      "releaseDisposition": "v2-technical-integration-verified-art-motion-performance-pending",
+      "sourceSha256": "785c8f6f99e5d650c6f07028a2e2cff5eec5dd83b3cce60b99ad2ede40894afd",
+      "derivedSha256": "8c5a9e19f9b4c379f3e30a1a33e88c5c02017224dafdcd487837917ba2cc7755"
     }
   ]
 }

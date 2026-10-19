@@ -1,0 +1,24 @@
+{
+  "source": "meshy71-pine-remesh-25k.glb",
+  "sha256": "e3ec5b1c0056a5c4cb3eaee91ebc974916bea1801517a2c943c4460c18b376bd",
+  "bytes": 64100856,
+  "triangles": 25508,
+  "source_bounds_blenderXYZ": [
+    [
+      -0.4117400050163269,
+      0.42959800362586975
+    ],
+    [
+      -0.4164249897003174,
+      0.41369500756263733
+    ],
+    [
+      -0.9517289996147156,
+      0.9477400779724121
+    ]
+  ],
+  "preview": "pine-25k-source-preview.png",
+  "camera": "Same(1.9,-2.8,1),target(0,0,.5),ortho1.25,720x960,AgX,worldstrength.65,area450/size4 as6Kcandidate",
+  "render_normalization": "In-memory only: applyworldT/R/S, rootlower1.2%centroid, base0height1; no sourceGLB or runtimefamily mutation, no decimation/UVbake.",
+  "status": "Single25Ksourcepreview forrootreview; not runtime/art/performance accepted."
+}

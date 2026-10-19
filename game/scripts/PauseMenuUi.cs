@@ -162,6 +162,7 @@ public partial class PauseMenuUi : CanvasLayer, IAccessibilitySettingsTarget
         SetStatus(string.Empty);
         if (_panel is not null) UrmanUiTheme.PlayOpen(_panel, _reducedMotion);
         _resumeButton?.GrabFocus();
+        GD.Print($"pause-menu: opened reason={reason} frame={LastTransitionFrame} focused={DisplayServer.WindowIsFocused()} mouseMode={Input.MouseMode}");
     }
 
     public void Resume()
@@ -176,6 +177,7 @@ public partial class PauseMenuUi : CanvasLayer, IAccessibilitySettingsTarget
         PauseChanged?.Invoke(false);
         FindPlayer()?.SetModalOpen(false);
         Input.MouseMode = Input.MouseModeEnum.Captured;
+        GD.Print($"pause-menu: resumed frame={LastTransitionFrame} focused={DisplayServer.WindowIsFocused()} mouseMode={Input.MouseMode}");
     }
 
     private void BuildLayout()

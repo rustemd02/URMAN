@@ -1,0 +1,102 @@
+{
+  "asset_id": "ACT1-NEIGHBOR-HOUSE-A-BLENDER-DERIVED-V2",
+  "status": "frozen_rejected_for_production_promotion_after_local_99k_inspection",
+  "source_archive": "neighbor_log_house_a_meshy_v1/meshy71-neighbor-house-original.glb.zip",
+  "source_archive_sha256": "66e629ef8c27c2044cb2e31213ccc5ec98f61c523fc68897f7343249e7c031a0",
+  "source_member": "meshy71-neighbor-house-original.glb",
+  "source_original_sha256": "325c095cf1a39d5a8ec0391c2501951e1a0d77549a579831ed29a0298e80a1d5",
+  "reference_provenance": "../neighbor_log_house_a_meshy_v1/neighbor-log-house-a-v1.manifest.json",
+  "authorization": "One local derived candidate from original raw through existing Blender collapse <=100K; exact front clay corner plus four whole views, followed by one requested missing rear-left clay control view. No Meshy POST, new reference, semantic rebuild, runtime or Council integration. Stop after inspection.",
+  "additional_meshy_credits": 0,
+  "new_post_performed": false,
+  "accounted_overall_unchanged": 270,
+  "raw_triangles": 1227202,
+  "raw_vertices": 690484,
+  "raw_uv": [
+    {
+      "name": "UVMap",
+      "loops": 3681606
+    }
+  ],
+  "raw_bounds_blender": [
+    [
+      -0.6395959854125977,
+      0.6268860101699829
+    ],
+    [
+      -0.9507899880409241,
+      0.9520909786224365
+    ],
+    [
+      -0.5916129946708679,
+      0.5891280174255371
+    ]
+  ],
+  "weld": {
+    "distance": 1e-06,
+    "vertices_before": 690484,
+    "vertices_after": 613207,
+    "uv_after": [
+      {
+        "name": "UVMap",
+        "loops": 3681606
+      }
+    ]
+  },
+  "collapse": {
+    "source_triangles": 1227202,
+    "target_triangles": 99000,
+    "maximum_triangles": 100000,
+    "ratio": 0.08067131787538528,
+    "method_reference": "../hero_house_meshy_v1/reduce_meshy71_textured_native_100k.py"
+  },
+  "derived_triangles": 99000,
+  "derived_uv": [
+    {
+      "name": "UVMap",
+      "loops": 297000
+    }
+  ],
+  "derived_bounds_blender": [
+    [
+      -0.6396079659461975,
+      0.6267315745353699
+    ],
+    [
+      -0.9506998062133789,
+      0.9521164298057556
+    ],
+    [
+      -0.5915162563323975,
+      0.5890737175941467
+    ]
+  ],
+  "output": {
+    "file": "neighbor-house-a-blender100k.glb",
+    "sha256": "8fa611c74d0fad04798ede1779063a60476fd44a441a9ee956f464e053dde810",
+    "bytes": 30834136,
+    "disposition": "Rejected rebuildable localderived GLB removed after freeze/hash/sourcearchive verification; producer+sourcehash+allpreviews retained; no runtimeconsumer."
+  },
+  "reimport_triangles": 99000,
+  "renders": [
+    "actual-front-corner-clay.png",
+    "actual-front-negative-x.png",
+    "right-side-negative-y.png",
+    "rear-gable-positive-x.png",
+    "left-side-positive-y.png",
+    "actual-rear-left-quarter-clay.png"
+  ],
+  "clay_comparison": "Exact same front camera, target, offset, ortho size and grey material as the original/25K front-corner pair from neighbor_log_house_a_meshy_v1; no albedo or normal map. Additional rear-left clay view inspects previously hidden geometry in the same exported artifact.",
+  "temporary_expanded_raw_removed": true,
+  "scope": "Only new house_a_meshy_v2 folder. Original archive, frozen 25K reject, Council named walls/doors, physics, runtime, Git, shared tracker and Windows remain unchanged.",
+  "remaining": "Candidate frozen and not eligible for runtime promotion. Parent owns final source review and the existing open house task; no additional generation, reduction or repair attempted.",
+  "inspection": {
+    "reviewed_actual_export": true,
+    "geometry_result": "Rounded log-course volume is retained better than the rejected Meshy 20,297-triangle output. Rear-left clay confirms real rounded horizontal courses on both hidden walls, not merely a flat textured wall.",
+    "construction_gate": "FAIL: strict whole-house construction acceptance is not demonstrated. Paired rounded corner ends remain fused/irregular with no convincingly readable interlocking notch; a long open seam is visible beneath the rear gable. Do not promote based only on the improved front corner.",
+    "surface_gate": "FAIL: four textured views show conspicuous diagonal stretching/smearing across wall courses, glazing and foundation; this local collapse is not a production-ready textured LOD.",
+    "limits": "This is visual source inspection of the exported combined mesh, not a physical construction audit, native art acceptance, passability check or Council integration. No further geometry or texture attempts are authorized in this stage.",
+    "functional_contract": "Still one opaque combined mesh with a static closed door surface; no authored named wall/opening/door parts. Existing Council functional building and physics remain unchanged."
+  },
+  "cleanup_rejected_derived_bytes": 30834136
+}
