@@ -5,6 +5,7 @@ namespace Urman.Godot;
 
 public partial class W05Controller
 {
+    private const string CellarWoodTexturePath = "res://assets/textures/painterly/urman_w05_v02_basecolor.png";
     private const float FloorMinX = -42.5f;
     private const float FloorMaxX = 42.5f;
     private const float FloorMinZ = -8f;
@@ -47,17 +48,16 @@ public partial class W05Controller
 
     private static StandardMaterial3D CellarWood(string name, string tint)
     {
-        const string texturePath = "res://assets/textures/painterly/urman_w05_v02_basecolor.png";
         var material = new StandardMaterial3D
         {
             ResourceName = name,
             AlbedoColor = Color.FromHtml(tint),
-            AlbedoTexture = ResourceLoader.Load<Texture2D>(texturePath),
+            AlbedoTexture = ResourceLoader.Load<Texture2D>(CellarWoodTexturePath),
             Roughness = .88f,
             MetallicSpecular = .18f,
             Uv1Scale = new Vector3(.34f, .34f, 1f)
         };
-        material.SetMeta("sourceTexture", texturePath);
+        material.SetMeta("sourceTexture", CellarWoodTexturePath);
         return material;
     }
 

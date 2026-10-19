@@ -17,6 +17,27 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
     private const string PhotoTableauScenePath = "res://assets/photoworlds/forest_entry/pforest-tableau-v1.glb";
     private const string FoliageKitScenePath = "res://assets/models/agent_b_act1/agentb_foliage_kit.glb";
     private const string ProloguePhotoTexturePath = "res://assets/textures/photobook/p-forest-front-v2.png";
+    /// <summary>Dynamic imports owned by the builders below, before main-thread scene construction.</summary>
+    internal static IEnumerable<string> DynamicResourcePaths()
+    {
+        yield return GroundScenePath;
+        yield return HeroRootTurnScenePath;
+        yield return F14OldRootSupportScenePath;
+        yield return BranchScenePath;
+        yield return PhotoTableauScenePath;
+        yield return FoliageKitScenePath;
+        yield return BagScenePath;
+        yield return ShuraleScenePath;
+        yield return ShuraleRootedShootScenePath;
+        yield return ProloguePhotoTexturePath;
+        yield return FreshSnowTexturePath;
+        yield return TrampledSnowTexturePath;
+        yield return ForestRootsTexturePath;
+        yield return ForestLeavesTexturePath;
+        foreach (var path in AgentBAct1ExteriorLayer.WinterPineResourcePaths) yield return path;
+        foreach (var path in AgentBKitMaterials.DynamicResourcePaths()) yield return path;
+    }
+
     private const string PrologueSceneId = "urman.fullgame:scene/pw-prologue";
     private const string ForestSceneId = "urman.fullgame:scene/pw-forest";
     private const string ForestReturnInteractionId = "urman.fullgame:interaction/pw-forest-return";

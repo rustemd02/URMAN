@@ -22,6 +22,18 @@ public partial class AgentBAct1ExteriorLayer : Node3D
     };
 
     private const string KitDirectory = "res://assets/models/agent_b_act1/";
+    private const string GeneratedWinterPinePath = "res://assets/models/act1/urman_winter_pine_meshy_v1.glb";
+    private const string PhysicalWinterPinePath = "res://assets/models/act1/urman_winter_pine.glb";
+
+    internal static IEnumerable<string> WinterPineResourcePaths
+    {
+        get
+        {
+            yield return GeneratedWinterPinePath;
+            yield return PhysicalWinterPinePath;
+        }
+    }
+
     private WorldEnvironment? _environment;
     private global::Godot.Environment? _environmentResource;
     private DirectionalLight3D? _sun;
@@ -114,8 +126,8 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         if (_foliageMeshes.TryGetValue((cacheVariant, region), out var cached)) return cached;
         if (!pine && variant is not ("WinterDeadTree" or "WinterLightDeadTree" or "WinterFarDeadTree"))
             throw new InvalidOperationException($"Missing winter foliage geometry: {variant}");
-        var path = generatedPine ? "res://assets/models/act1/urman_winter_pine_meshy_v1.glb"
-            : pine ? "res://assets/models/act1/urman_winter_pine.glb"
+        var path = generatedPine ? GeneratedWinterPinePath
+            : pine ? PhysicalWinterPinePath
             : "res://assets/models/act1/urman_winter_dead_tree.glb";
         var source = ResourceLoader.Load<PackedScene>(path).Instantiate<Node3D>();
         try

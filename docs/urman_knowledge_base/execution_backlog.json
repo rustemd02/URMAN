@@ -109435,6 +109435,16 @@
         "result": "Mounted P-FOREST now exposes Enter in selected book page using existing authored dispatch. One common physical gate reads live home target,6m/yaw40/safe support/carry/vehicle/ladder/dialogue/transition for UI and world interaction; concrete refusal hints. Same-session/load guard protects async close and notes.",
         "verification": "Independent source async/physical/narrative review no finding; affected game compile PASS15.34s0/0. Ordinary native transition and720p layout not yet verified.",
         "layout": "Root found original bottom-of-page placement would hide primary action under230pxfront+200pxback at720p; identical Enter+hint block moved directly below title/placement, before images. Source layout inspection+diffcheck; native720p remains pending."
+      },
+      "route_cue_2026_10_20": {
+        "state": "source_integrated_compiled_native_pending",
+        "result": "Ordinary pw-home route cue reuses Journal canonical book progress: missing school copy points to school, acquired copy points to home spread, completed W01 uses existing next-world handoff. Initial house cue only before book acquisition; house interaction unchanged. Removed obsolete instruction to turn precisely toward table; actual entry remains near-table guarded.",
+        "verification": "Affected Game build14.62s0warnings0errors after correcting existing partial caller; all3callers checked across game. No new test/scenario.",
+        "evidence": [
+          "evidence/PW-021/dynamic-resources-20261020/affected-game-build-initial-failure.log",
+          "evidence/PW-021/dynamic-resources-20261020/affected-game-build.log"
+        ],
+        "next_action": "Protected ordinary tea/book→school→home→entry walkthrough; PW-019 full criteria and UXA-001/ROUTE integration remain pending."
       }
     },
     {
@@ -109920,7 +109930,8 @@
         "state": "station offline; relay TLSselfsigned unchanged",
         "job": "e79adf9f932a4d74b4aec64d7565c6a4",
         "terminal_restoration": "not_confirmed",
-        "new_job_submitted": false
+        "new_job_submitted": false,
+        "last_status_query": "20.10 about02:43 Moscow: same e79 status only, CLI exit1 urlopen timed out; no terminal/restoration evidence, no duplicate job."
       }
     },
     {
@@ -110063,7 +110074,7 @@
       "assigned_owner": "integration",
       "activity": {
         "state": "not_active",
-        "reason": "Coldbootstrap source slice integrated, independently reviewed and compiled; native station remains unavailable."
+        "reason": "Dynamic resource source slice compiled and independently reviewed; native station unavailable."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -110072,7 +110083,7 @@
         "Cancel возвращает управление во внешнем мире.",
         "Loading failure указывает ресурс; фоновые потоки не меняют physics server."
       ],
-      "next_action": "Preload actual controller-owned dynamic assets through existing request/status/get lifecycle, retain references until mount, then native protected ordinary launch/entry/cancel/Continue after e79 terminal and user-data restoration are confirmed.",
+      "next_action": "Verify current ordinary protected startup/entry/cancel/failure/Continue and resource error reporting, then measure remaining procedural Ready cost after e79 authoritative terminal/userdata restoration.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -110136,7 +110147,7 @@
           ],
           "repeat_only_if": "Изменился покрываемый вход/consumer/контракт; без этого уже принятая проверка используется повторно без запуска."
         },
-        "actual_result": "PARTIAL source stages compiled; cold_bootstrap_2026_10_20 records awaited physical readiness. Native/loading performance criteria remain open.",
+        "actual_result": "PARTIAL: cold bootstrap and actual dynamic resource source slices compiled, independent ownership review. Full native loading/cancel/error/performance criteria open.",
         "evidence_refs": [
           "tasks[id=PW-021].evidence"
         ],
@@ -110243,13 +110254,26 @@
         "state": "source_integrated_compiled_native_pending",
         "question": "Дожидается ли реальный обычный photoworlds_game запуск и прямой full_game ресурсной/физической готовности прежде меню и управления; NewGame/Continue сохраняют тот же барьер и loadedpose?",
         "success": "MainReady не загружает W01 синхронно, пролог не создаёт fakeCorevisit, RootMenu ждёт фактический bootstrap. Reservedload keeps dispatch/save/input guards while explicitly projecting real loadedphoto before capsule/support validation.",
-        "next_action": "Preload actual controller-owned dynamic assets through existing request/status/get lifecycle, retain references until mount, then native protected ordinary launch/entry/cancel/Continue after e79 terminal and user-data restoration are confirmed.",
+        "next_action": "Verify current ordinary protected startup/entry/cancel/failure/Continue and resource error reporting, then measure remaining procedural Ready cost after e79 authoritative terminal/userdata restoration.",
         "result": "Ordinary root awaits bootstrap Task; direct full_game holds input. Entry command rejection propagates. Explicit prepared mount and scoped readonly physical projection preserve public dispatch/save locks; loaded pose and held-object projection precede capsule/support barrier. Two physics frames validate actual destination support. NewGame resets same-world entry; Continue preserves loaded pose. Held item binds player/camera before projection; automatic standing preserves crouch when held sweep is blocked.",
         "verification": "One affected Game build 16.88s, 0 warnings/errors. Independent bootstrap/failure/session/data and readonly observation/carry reviews; source whitespace checked. Four existing consumers minimally await the changed readiness contract; compiled only, no tests executed or added.",
         "evidence": [
           "evidence/PW-021/cold-bootstrap-20261020/affected-game-build.log"
         ],
-        "limits": "Native ordinary launch/Continue not verified. Dynamic GLB/textures loaded by controllers are not yet preloaded by the script-only tscn request; host shell synchronous load and five exceptional fallback loads remain. Procedural Ready geometry/physics cost unmeasured; no FPS or hitch claim."
+        "limits": "Dynamic controller/material assets are now preloaded; see dynamic_preload_2026_10_20. Host-shell synchronous load and exceptional fallback mounts remain. Native and procedural Ready cost still unverified."
+      },
+      "dynamic_preload_2026_10_20": {
+        "state": "source_integrated_compiled_native_pending",
+        "question": "Are dynamic GLB and texture resources actually used by W01–W05 requested and retained before Ready, with honest progress/cancel and no cross-Main engine token race?",
+        "success": "Existing resource path owners supply paths; ResourceLoader Get only terminal, loaded resources retained through synchronous mount/Ready; actual owner protects cancellation and retry; no worker SceneTree/physics.",
+        "next_action": "Verify current ordinary protected startup/entry/cancel/failure/Continue and resource error reporting, then measure remaining procedural Ready cost after e79 authoritative terminal/userdata restoration.",
+        "result": "Controller/material/pine owners enumerate existing runtime constants/maps. Main preloads scene plus distinct dynamic GLB/textures sequentially with actual count-weighted progress; strongly holds resources through synchronous mount/Ready. Shared per-path engine token ownership and global unique generations protect adoption, cancellation, old Main exit and Failed retry. No blocking Get during InProgress, no worker SceneTree/physics.",
+        "verification": "Affected Game compile initially found one omitted UI partial caller (CS7036); exact caller corrected. Recompile14.62s0warnings0errors. Independent Fast source review found no remaining token ownership/ref retention bug; targeted source whitespace checks. No new tests/probes/fixtures or runtime tests.",
+        "evidence": [
+          "evidence/PW-021/dynamic-resources-20261020/affected-game-build-initial-failure.log",
+          "evidence/PW-021/dynamic-resources-20261020/affected-game-build.log"
+        ],
+        "limits": "No current native proof: same e79 status-only query again timed out. Procedural geometry/collisions, material/shader creation and GPU uploads still main thread; no FPS/hitch improvement claimed. Five exceptional synchronous fallback mounts and host-shell load remain."
       }
     },
     {
@@ -145921,7 +145945,12 @@
               ],
               "acceptance": []
             },
-            "depends_on": []
+            "depends_on": [],
+            "route_cue_source_2026_10_20": {
+              "producer": "PW-019.route_cue_2026_10_20",
+              "state": "compiled_source_only_native_not_run",
+              "remaining": "Run ordinary full route; source correction is not integration acceptance."
+            }
           },
           {
             "id": "UXA-001/CONTINUE",

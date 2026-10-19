@@ -823,6 +823,11 @@ public static class PainterlyMaterialLibrary
     // eng/verify-painterly-textures.sh --contract fails if a declared path is neither
     // on disk nor registered there.
     private const string ResponseRoot = "res://assets/textures/response/";
+    private static readonly (string Uniform, string Path)[] SnowMicroTextures =
+    [
+        ("snow_micro_response", "res://assets/textures/painterly/snow_micro_response.png"),
+        ("snow_micro_normal", "res://assets/textures/painterly/snow_micro_normal.png")
+    ];
 
     private sealed record FamilyResponse
     {
@@ -2094,9 +2099,8 @@ public static class PainterlyMaterialLibrary
             if (surface == "ice") material.SetShaderParameter("snow_sparkle", 0f);
             if (!SuppressTextureLoadsForHeadlessTests)
             {
-                foreach (var textureName in new[] { "snow_micro_response", "snow_micro_normal" })
+                foreach (var (textureName, path) in SnowMicroTextures)
                 {
-                    var path = $"res://assets/textures/painterly/{textureName}.png";
                     material.SetShaderParameter(textureName, ResourceLoader.Load<Texture2D>(path)
                         ?? throw new InvalidOperationException($"Snow response texture missing: {path}"));
                 }
@@ -2190,6 +2194,40 @@ public static class PainterlyMaterialLibrary
         if (texture is null) return false;
         material.SetShaderParameter(uniformName, texture);
         return true;
+    }
+
+    /// <summary>Resources used by the requested material families, without loading or creating materials.</summary>
+    internal static IEnumerable<string> DynamicResourcePaths(IEnumerable<string> surfaces)
+    {
+        var paths = new HashSet<string>(StringComparer.Ordinal);
+        foreach (var requestedSurface in surfaces)
+        {
+            var surface = requestedSurface == "fabric" ? "cloth" : requestedSurface;
+            if (SurfaceTextures.TryGetValue(surface, out var texture))
+            {
+                if (paths.Add(texture.Path)) yield return texture.Path;
+            }
+            else if (WinterTextures.TryGetValue(surface, out var winterTexture)
+                     && ResourceLoader.Exists(winterTexture.Path) && paths.Add(winterTexture.Path))
+            {
+                yield return winterTexture.Path;
+            }
+
+            if (FamilyResponses.TryGetValue(surface, out var response))
+            {
+                foreach (var path in new[] { response.NormalMap, response.RoughnessMap, response.WearMap })
+                {
+                    if (!string.IsNullOrEmpty(path) && ResourceLoader.Exists(path) && paths.Add(path))
+                        yield return path;
+                }
+            }
+
+            if (surface is "snow_ground" or "snow_road" or "snow_trampled" or "snow_grass" or "snow_roof" or "ice")
+            {
+                foreach (var (_, path) in SnowMicroTextures)
+                    if (paths.Add(path)) yield return path;
+            }
+        }
     }
 
 }

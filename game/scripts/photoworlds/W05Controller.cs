@@ -20,6 +20,11 @@ public partial class W05Controller : Node3D
         || HasPendingEarnedBoxPlacement;
     internal bool IsCarryingFamilyBox => _carryAttached && _carryCoordinator.HeldItem is not null;
 
+    internal static IEnumerable<string> DynamicResourcePaths()
+    {
+        yield return CellarWoodTexturePath;
+    }
+
     public override void _Ready()
     {
         AddToGroup("w05_presentation");

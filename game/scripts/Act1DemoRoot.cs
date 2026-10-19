@@ -1873,10 +1873,10 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
             bridge,
             "pw-niva-stop",
             "Сначала подойти к Ниве. Потом — в дом Гөлсинә и Мансура."),
-        "urman.fullgame:scene/pw-home" => PhotoWorldAvailableCue(
-            bridge,
-            "pw-home-enter-house",
-            "Войти в дом Гөлсинә и Мансура."),
+        "urman.fullgame:scene/pw-home" => JournalUi.PhotoBookPreparationObjectiveText(bridge)
+            ?? (bridge.CanShowFamilyBookOnTable
+                ? PhotoWorldAvailableCue(bridge, "pw-home-enter-house", "Войти в дом Гөлсинә и Мансура.")
+                : null),
         _ => null
     };
 

@@ -73,6 +73,11 @@ public static class AgentBKitMaterials
 
     public static int ReboundMaterialCount { get; private set; }
 
+    internal static IEnumerable<string> DynamicResourcePaths() =>
+        Urman.Godot.PainterlyMaterialLibrary.DynamicResourcePaths(
+            Map.Where(entry => entry.Value.Emission <= 0f && entry.Key != "AB_water_dark")
+                .Select(entry => entry.Value.Surface));
+
     public static Material MaterialFor(string name)
     {
         if (Cache.TryGetValue(name, out var cached))

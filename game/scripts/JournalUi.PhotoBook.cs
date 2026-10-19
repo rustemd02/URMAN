@@ -499,7 +499,7 @@ public partial class JournalUi
 
     private void RefreshPhotoBookPreparation()
     {
-        var text = PhotoBookPreparationObjectiveText();
+        var text = PhotoBookPreparationObjectiveText(_bridge);
         _photoBookPreparation.Text = text ?? string.Empty;
         _photoBookPreparation.Visible = text is not null;
     }

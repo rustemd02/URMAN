@@ -10,6 +10,11 @@ public partial class W03Controller : Node3D
     private RuntimeBridge? _bridge;
     private readonly Dictionary<CollisionObject3D, uint> _worldCollisionLayers = [];
 
+    internal static IEnumerable<string> DynamicResourcePaths()
+    {
+        yield return HouseKitScenePath;
+    }
+
     public override void _Ready()
     {
         AddToGroup("w03_presentation");

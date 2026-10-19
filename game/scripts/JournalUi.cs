@@ -235,7 +235,7 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
         // before the investigation objective, without creating another quest state.
         var familyObjective = FamilyHomeObjectiveText();
         if (familyObjective is not null) objectiveTitles.Insert(0, familyObjective);
-        if (PhotoBookPreparationObjectiveText() is { } photoBookPreparationObjective)
+        if (PhotoBookPreparationObjectiveText(_bridge) is { } photoBookPreparationObjective)
             objectiveTitles.Insert(familyObjective is null ? 0 : 1, photoBookPreparationObjective);
         // The arrival is still a personal scene: the investigation objective it
         // would otherwise drag in is not offered before the house is found. The
@@ -577,9 +577,8 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
             + (bridge.CurrentZoneId == "house_old_pc" ? "inside" : "outside"));
     }
 
-    private string? PhotoBookPreparationObjectiveText()
+    internal static string? PhotoBookPreparationObjectiveText(RuntimeBridge? bridge)
     {
-        var bridge = _bridge;
         if (bridge is null || !bridge.IsPhotoWorldsCampaign || !bridge.CanInspectReceivedPhotoBook
             || bridge.ActiveSceneId is not { } activeSceneId
             || (activeSceneId.StartsWith("urman.fullgame:scene/pw-", StringComparison.Ordinal)
@@ -635,7 +634,7 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
         }
 
         return canEnterForest
-            ? "У домашнего стола открыть разворот «Люди у леса» и выбрать «Войти в снимок». Для входа повернуться к столу."
+            ? "У домашнего стола открыть разворот «Люди у леса» и выбрать «Войти в снимок»."
             : "Сопоставить школьную копию со снимком «Люди у леса» в семейной книге.";
     }
 

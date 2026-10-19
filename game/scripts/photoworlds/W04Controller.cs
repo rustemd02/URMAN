@@ -10,6 +10,12 @@ public partial class W04Controller : Node3D
     private RuntimeBridge? _bridge;
     private readonly Dictionary<CollisionObject3D, uint> _worldCollisionLayers = [];
 
+    internal static IEnumerable<string> DynamicResourcePaths()
+    {
+        yield return KaraForestKitPath;
+        yield return HouseKitPath;
+    }
+
     public override void _Ready()
     {
         AddToGroup("w04_presentation");

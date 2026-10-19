@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Godot;
@@ -8,10 +9,13 @@ namespace Urman.Godot;
 
 public partial class Main
 {
+    private static int _photoSceneRequestSequence;
     private int _photoScenePreloadGeneration;
     private string? _preparedPhotoScenePath;
     private PackedScene? _preparedPhotoScene;
-    private readonly Dictionary<string, int> _photoSceneRequests = new(StringComparer.Ordinal);
+    private int _preparedPhotoGeneration;
+    private readonly List<Resource> _preparedPhotoResources = new();
+    private static readonly Dictionary<string, int> _photoSceneRequests = new(StringComparer.Ordinal);
 
     private static string? PhotoScenePath(string sceneId) => sceneId switch
     {
@@ -68,15 +72,28 @@ public partial class Main
 
     private bool TryMountPhotoScene(RuntimeBridge.FullGamePhotoWorldRouteProjection projection, RuntimeBridge bridge)
     {
-        switch (projection.ActiveSceneId)
+        var path = PhotoScenePath(projection.ActiveSceneId);
+        var preparedGeneration = _preparedPhotoGeneration;
+        try
         {
-            case PrologueSceneId:
-            case ForestSceneId: MountW01(projection, bridge); return true;
-            case RiverSceneId: MountW02(projection, bridge); return true;
-            case HousePhotoSceneId: MountW03(projection, bridge); return true;
-            case CommonPhotoSceneId: MountW04(projection, bridge); return true;
-            case CellarPhotoSceneId: MountW05(projection, bridge); return true;
-            default: return false;
+            switch (projection.ActiveSceneId)
+            {
+                case PrologueSceneId:
+                case ForestSceneId: MountW01(projection, bridge); return true;
+                case RiverSceneId: MountW02(projection, bridge); return true;
+                case HousePhotoSceneId: MountW03(projection, bridge); return true;
+                case CommonPhotoSceneId: MountW04(projection, bridge); return true;
+                case CellarPhotoSceneId: MountW05(projection, bridge); return true;
+                default: return false;
+            }
+        }
+        finally
+        {
+            // AddChild runs the controller's synchronous _Ready builders. Hold
+            // their resources until those builders have taken their own refs.
+            if (path is not null && _preparedPhotoScenePath == path
+                && _preparedPhotoGeneration == preparedGeneration)
+                ClearPreparedPhotoScene();
         }
     }
 
@@ -95,84 +112,152 @@ public partial class Main
         string sceneId, CancellationToken cancellationToken = default, Action<float>? progress = null)
     {
         var path = PhotoScenePath(sceneId);
-        if (path is null) return true;
-
-        var generation = ++_photoScenePreloadGeneration;
+        var generation = Interlocked.Increment(ref _photoSceneRequestSequence);
+        _photoScenePreloadGeneration = generation;
+        if (path is null)
+        {
+            ClearPreparedPhotoScene();
+            return true;
+        }
         bool Current() => GodotObject.IsInstanceValid(this) && IsInsideTree() && !IsQueuedForDeletion()
             && generation == _photoScenePreloadGeneration && !cancellationToken.IsCancellationRequested;
-        if (!Current()) return false;
+        if (!Current())
+        {
+            ClearPreparedPhotoScene();
+            return false;
+        }
         var tree = GetTree();
+        var succeeded = false;
+        var resources = new List<Resource>();
         try
         {
             if (_preparedPhotoScenePath == path && _preparedPhotoScene is { } prepared
-                && GodotObject.IsInstanceValid(prepared))
+                && GodotObject.IsInstanceValid(prepared)
+                && _preparedPhotoResources.All(resource => GodotObject.IsInstanceValid(resource)))
             {
+                _preparedPhotoGeneration = generation;
                 progress?.Invoke(1f);
-                return Current();
+                succeeded = Current();
+                return succeeded;
             }
 
-            // Keep only the next scene alive through this owner. ResourceLoader
-            // owns its thread request, which cannot be cancelled by this task.
-            _preparedPhotoScene = null;
-            _preparedPhotoScenePath = null;
+            ClearPreparedPhotoScene();
+            var paths = PhotoSceneResourcePaths(sceneId, path).Distinct(StringComparer.Ordinal).ToArray();
+            resources.Capacity = paths.Length;
+            for (var index = 0; index < paths.Length; index++)
+            {
+                var completed = index;
+                var resource = await PreloadPhotoResourceAsync(paths[index], index == 0 ? "PackedScene" : string.Empty,
+                    generation, tree, Current, ratio => progress?.Invoke((completed + ratio) / paths.Length));
+                if (resource is null || !Current()) return false;
+                resources.Add(resource);
+            }
+            if (resources[0] is not PackedScene packed)
+            {
+                GD.PushWarning($"Photo scene preload did not return a PackedScene: {path}.");
+                return false;
+            }
+            _preparedPhotoResources.AddRange(resources);
+            _preparedPhotoScene = packed;
+            _preparedPhotoScenePath = path;
+            _preparedPhotoGeneration = generation;
+            progress?.Invoke(1f);
+            succeeded = Current();
+            return succeeded;
+        }
+        catch (Exception error)
+        {
+            if (Current()) GD.PushWarning($"Photo scene preload failed: {path} ({error.GetType().Name}: {error.Message}).");
+            return false;
+        }
+        finally
+        {
+            resources.Clear();
+            if (!succeeded && _preparedPhotoGeneration == generation) ClearPreparedPhotoScene();
+        }
+    }
+
+    private static IEnumerable<string> PhotoSceneResourcePaths(string sceneId, string scenePath)
+    {
+        yield return scenePath;
+        var dynamicPaths = sceneId switch
+        {
+            PrologueSceneId or ForestSceneId => W01Controller.DynamicResourcePaths(),
+            RiverSceneId => PainterlyMaterialLibrary.DynamicResourcePaths(new[]
+                { "grass", "wood_cut", "grass_tuft", "wood_carved", "leaf_birch", "cloth", "paper" }),
+            HousePhotoSceneId => W03Controller.DynamicResourcePaths(),
+            CommonPhotoSceneId => W04Controller.DynamicResourcePaths(),
+            CellarPhotoSceneId => W05Controller.DynamicResourcePaths(),
+            _ => Array.Empty<string>()
+        };
+        foreach (var path in dynamicPaths) yield return path;
+    }
+
+    private async Task<Resource?> PreloadPhotoResourceAsync(string path, string typeHint, int generation,
+        SceneTree tree, Func<bool> current, Action<float> progress)
+    {
+        if (!current()) return null;
+        try
+        {
             _photoSceneRequests[path] = generation;
             var status = ResourceLoader.LoadThreadedGetStatus(path);
             if (status == ResourceLoader.ThreadLoadStatus.Failed)
             {
                 // A failed engine token must be consumed before requesting a
                 // retry; otherwise Godot retains the failed request.
+                if (!OwnsPhotoSceneRequest(path, generation)) return null;
                 ResourceLoader.LoadThreadedGet(path);
                 status = ResourceLoader.ThreadLoadStatus.InvalidResource;
             }
             if (status is not (ResourceLoader.ThreadLoadStatus.InProgress or ResourceLoader.ThreadLoadStatus.Loaded))
             {
-                var error = ResourceLoader.LoadThreadedRequest(path, "PackedScene", useSubThreads: false);
+                var error = ResourceLoader.LoadThreadedRequest(path, typeHint, useSubThreads: false);
                 if (error != Error.Ok)
                 {
-                    GD.PushWarning($"Photo scene preload request failed: {path} ({error}).");
-                    return false;
+                    GD.PushWarning($"Photo resource preload request failed: {path} ({error}).");
+                    return null;
                 }
             }
 
             using var loadProgress = new global::Godot.Collections.Array();
-            while (Current())
+            while (current())
             {
+                if (!OwnsPhotoSceneRequest(path, generation)) return null;
                 status = ResourceLoader.LoadThreadedGetStatus(path, loadProgress);
                 if (status == ResourceLoader.ThreadLoadStatus.Loaded)
                 {
                     // Get would block before Loaded; scene instantiation and
                     // all SceneTree changes remain in the ordinary mount.
-                    var packed = ResourceLoader.LoadThreadedGet(path) as PackedScene;
+                    if (!OwnsPhotoSceneRequest(path, generation)) return null;
+                    var resource = ResourceLoader.LoadThreadedGet(path);
                     ForgetPhotoSceneRequest(path, generation);
-                    if (!Current()) return false;
-                    if (packed is null || !GodotObject.IsInstanceValid(packed))
+                    if (!current()) return null;
+                    if (resource is null || !GodotObject.IsInstanceValid(resource))
                     {
-                        GD.PushWarning($"Photo scene preload did not return a PackedScene: {path}.");
-                        return false;
+                        GD.PushWarning($"Photo resource preload returned no resource: {path}.");
+                        return null;
                     }
-                    _preparedPhotoScene = packed;
-                    _preparedPhotoScenePath = path;
-                    progress?.Invoke(1f);
-                    return Current();
+                    progress(1f);
+                    return current() ? resource : null;
                 }
                 if (status != ResourceLoader.ThreadLoadStatus.InProgress)
                 {
-                    if (status == ResourceLoader.ThreadLoadStatus.Failed)
+                    if (status == ResourceLoader.ThreadLoadStatus.Failed && OwnsPhotoSceneRequest(path, generation))
                         ResourceLoader.LoadThreadedGet(path);
                     ForgetPhotoSceneRequest(path, generation);
-                    GD.PushWarning($"Photo scene preload failed: {path} ({status}).");
-                    return false;
+                    GD.PushWarning($"Photo resource preload failed: {path} ({status}).");
+                    return null;
                 }
-                progress?.Invoke(loadProgress.Count > 0 ? Mathf.Clamp(loadProgress[0].AsSingle(), 0f, 1f) : 0f);
-                if (!Current()) return false;
+                progress(loadProgress.Count > 0 ? Mathf.Clamp(loadProgress[0].AsSingle(), 0f, 1f) : 0f);
+                if (!current()) return null;
                 await tree.ToSignal(tree, SceneTree.SignalName.ProcessFrame);
             }
-            return false;
+            return null;
         }
         catch (Exception error)
         {
-            if (Current()) GD.PushWarning($"Photo scene preload failed: {path} ({error.GetType().Name}: {error.Message}).");
-            return false;
+            if (current()) GD.PushWarning($"Photo resource preload failed: {path} ({error.GetType().Name}: {error.Message}).");
+            return null;
         }
         finally
         {
@@ -202,7 +287,8 @@ public partial class Main
                 var status = ResourceLoader.LoadThreadedGetStatus(path);
                 if (status != ResourceLoader.ThreadLoadStatus.InProgress)
                 {
-                    if (status is ResourceLoader.ThreadLoadStatus.Loaded or ResourceLoader.ThreadLoadStatus.Failed)
+                    if (OwnsPhotoSceneRequest(path, generation)
+                        && (status is ResourceLoader.ThreadLoadStatus.Loaded or ResourceLoader.ThreadLoadStatus.Failed))
                         ResourceLoader.LoadThreadedGet(path);
                     ForgetPhotoSceneRequest(path, generation);
                     return;
@@ -222,14 +308,19 @@ public partial class Main
         if (_preparedPhotoScenePath != path) return null;
         var packed = _preparedPhotoScene;
         _preparedPhotoScene = null;
-        _preparedPhotoScenePath = null;
         return packed is not null && GodotObject.IsInstanceValid(packed) ? packed : null;
+    }
+
+    private void ClearPreparedPhotoScene()
+    {
+        _preparedPhotoScene = null;
+        _preparedPhotoScenePath = null;
+        _preparedPhotoResources.Clear();
     }
 
     private void InvalidatePhotoScenePreload()
     {
-        _photoScenePreloadGeneration++;
-        _preparedPhotoScene = null;
-        _preparedPhotoScenePath = null;
+        _photoScenePreloadGeneration = Interlocked.Increment(ref _photoSceneRequestSequence);
+        ClearPreparedPhotoScene();
     }
 }

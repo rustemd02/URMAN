@@ -1,0 +1,12 @@
+  Urman.Core -> /Users/unterlantas/Documents/GitHub/URMAN/src-dotnet/Urman.Core/bin/Debug/net10.0/Urman.Core.dll
+  Urman.Content -> /Users/unterlantas/Documents/GitHub/URMAN/src-dotnet/Urman.Content/bin/Debug/net10.0/Urman.Content.dll
+  Urman.Studio.Core -> /Users/unterlantas/Documents/GitHub/URMAN/src-dotnet/Urman.Studio.Core/bin/Debug/net10.0/Urman.Studio.Core.dll
+/Users/unterlantas/Documents/GitHub/URMAN/game/scripts/JournalUi.PhotoBook.cs(502,20): error CS7036: Отсутствует аргумент, соответствующий требуемому параметру "bridge" из "JournalUi.PhotoBookPreparationObjectiveText(RuntimeBridge?)". [/Users/unterlantas/Documents/GitHub/URMAN/game/Urman.Game.csproj]
+
+Ошибка сборки.
+
+/Users/unterlantas/Documents/GitHub/URMAN/game/scripts/JournalUi.PhotoBook.cs(502,20): error CS7036: Отсутствует аргумент, соответствующий требуемому параметру "bridge" из "JournalUi.PhotoBookPreparationObjectiveText(RuntimeBridge?)". [/Users/unterlantas/Documents/GitHub/URMAN/game/Urman.Game.csproj]
+    Предупреждений: 0
+    Ошибок: 1
+
+Прошло времени 00:00:15.24
