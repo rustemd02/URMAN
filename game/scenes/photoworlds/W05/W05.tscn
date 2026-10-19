@@ -1,17 +1,35 @@
-[gd_scene load_steps=1 format=3]
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/photoworlds/W05Controller.cs" id="1_w05"]
 
 [node name="W05" type="Node3D"]
+script = ExtResource("1_w05")
 
 [node name="Anchors" type="Node3D" parent="."]
 
-; B00: cellar entry spawn.
 [node name="B00" type="Marker3D" parent="Anchors"]
 position = Vector3(0, 0, 0)
 
-; B07: cellar exit.
-[node name="B07" type="Marker3D" parent="Anchors"]
-position = Vector3(2, 0, 0)
+[node name="B01" type="Marker3D" parent="Anchors"]
+position = Vector3(0, 0, 10)
 
-; PW_CELLAR_ENTRY: semantic alias for B00 (PhotoWorlds W05 entry anchor).
+[node name="B02" type="Marker3D" parent="Anchors"]
+position = Vector3(-12, 0, 22)
+
+[node name="B03" type="Marker3D" parent="Anchors"]
+position = Vector3(12, 0, 22)
+
+[node name="B04" type="Marker3D" parent="Anchors"]
+position = Vector3(0, 0.2, 40)
+
+[node name="B05" type="Marker3D" parent="Anchors"]
+position = Vector3(-15, 0.2, 53)
+
+[node name="B06" type="Marker3D" parent="Anchors"]
+position = Vector3(15, 0.2, 56)
+
+[node name="B07" type="Marker3D" parent="Anchors"]
+position = Vector3(0, 0, 76)
+
 [node name="PW_CELLAR_ENTRY" type="Marker3D" parent="Anchors"]
 position = Vector3(0, 0, 0)

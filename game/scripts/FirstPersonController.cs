@@ -72,6 +72,25 @@ public partial class FirstPersonController : CharacterBody3D, IAccessibilitySett
     private bool _smoothStancePresentation;
     private CarryCoordinator? _carryCoordinator;
 
+    private void RefreshCarryCoordinator()
+    {
+        if (_carryCoordinator is { } current
+            && GodotObject.IsInstanceValid(current)
+            && current.IsInsideTree()
+            && !current.IsQueuedForDeletion()) return;
+
+        _carryCoordinator = null;
+        foreach (var node in GetTree().GetNodesInGroup("carry_coordinator"))
+        {
+            if (node is not CarryCoordinator candidate
+                || !GodotObject.IsInstanceValid(candidate)
+                || !candidate.IsInsideTree()
+                || candidate.IsQueuedForDeletion()) continue;
+            _carryCoordinator = candidate;
+            return;
+        }
+    }
+
     public bool ModalOpen => _modalOpen || _sessionTransition;
     internal bool SessionTransitionActive => _sessionTransition;
     internal string ModalDiagnostic => $"modalFlag={_modalOpen} sessionTransition={_sessionTransition}";
@@ -419,6 +438,7 @@ public partial class FirstPersonController : CharacterBody3D, IAccessibilitySett
         // The world guard runs before the modal gate: a modal (dialogue, menu,
         // ending) suspends movement, and a player parked outside the world during
         // one of those must still be brought back instead of waiting for input.
+        RefreshCarryCoordinator();
         ClampToAuthoredWorld();
         ResolveRestoredStance();
         if (_modalOpen)
@@ -455,7 +475,7 @@ public partial class FirstPersonController : CharacterBody3D, IAccessibilitySett
             Velocity = new Vector3(Velocity.X, Velocity.Y - _gravity * (float)delta, Velocity.Z);
         }
 
-        _carryCoordinator ??= GetTree().GetFirstNodeInGroup("carry_coordinator") as CarryCoordinator;
+        RefreshCarryCoordinator();
         if (_carryCoordinator is not null)
         {
             var requested = Velocity;
@@ -627,8 +647,7 @@ public partial class FirstPersonController : CharacterBody3D, IAccessibilitySett
             SetInteractionPrompt(string.Empty);
             return;
         }
-        if (_carryCoordinator is null || !GodotObject.IsInstanceValid(_carryCoordinator))
-            _carryCoordinator = GetTree().GetFirstNodeInGroup("carry_coordinator") as CarryCoordinator;
+        RefreshCarryCoordinator();
         if (OfferLadderInteraction()) return;
         if (Time.GetTicksMsec() < _traversalNoticeUntil)
         {

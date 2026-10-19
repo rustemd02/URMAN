@@ -3634,6 +3634,13 @@
         ]
       },
       {
+        "id": "urman.fullgame:interaction/pw-cellar-book-return",
+        "labelTextId": "urman.fullgame:text/pw-label-forest-book-return",
+        "conditions": [],
+        "effects": [],
+        "targetSceneId": "urman.fullgame:scene/pw-home"
+      },
+      {
         "id": "urman.fullgame:interaction/pw-cellar-return",
         "labelTextId": "urman.fullgame:text/pw-label-cellar-return",
         "conditions": [

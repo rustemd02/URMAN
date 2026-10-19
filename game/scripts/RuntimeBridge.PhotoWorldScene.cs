@@ -21,7 +21,8 @@ public partial class RuntimeBridge
             or "urman.fullgame:scene/pw-forest"
             or "urman.fullgame:scene/pw-river"
             or "urman.fullgame:scene/pw-house"
-            or "urman.fullgame:scene/pw-common");
+            or "urman.fullgame:scene/pw-common"
+            or "urman.fullgame:scene/pw-cellar");
 
     internal sealed record W01BranchProjection(object SessionIdentity, string ActiveSceneId, bool Moved);
 
@@ -47,6 +48,7 @@ public partial class RuntimeBridge
                 or "urman.fullgame:scene/pw-river"
                 or "urman.fullgame:scene/pw-house"
                 or "urman.fullgame:scene/pw-common"
+                or "urman.fullgame:scene/pw-cellar"
                 or "urman.fullgame:scene/pw-bank-approach"
                 or "urman.fullgame:scene/pw-epilogue"))
             return null;

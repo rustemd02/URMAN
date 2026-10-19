@@ -1,0 +1,14 @@
+{
+  "baseline": "8f39bd82",
+  "previous_fingerprint": "6f47e78bc728d70ea36362c046d9f6c71bf76577c1db49a84f141e1cef3c451c",
+  "new_fingerprint": "7ce8098560641ed5c6c3e292f58442823afe8593afd1f23bac4e193ea46e5d2f",
+  "sole_non_hash_addition": {
+    "id": "urman.fullgame:interaction/pw-cellar-book-return",
+    "labelTextId": "urman.fullgame:text/pw-label-forest-book-return",
+    "conditions": [],
+    "effects": [],
+    "targetSceneId": "urman.fullgame:scene/pw-home"
+  },
+  "remainder_entire_pack_equal": true,
+  "compiled_sha256": "98ffaa0bf2f5c4b41d2a1acbbd86f4e09a09b281ab9c9e79e20d4863b7590ffa"
+}

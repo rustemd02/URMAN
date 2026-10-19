@@ -823,9 +823,10 @@ public partial class RuntimeBridge : Node
     {
         if (_loadingSlot || _loadPreparing || NeedsPhysicalRecovery) return false;
         if (!HasRequiredWorldState(interactionId)) return false;
-        if (interactionId == PhotoBookForestEntryInteractionId
+        if (interactionId is (PhotoBookForestEntryInteractionId or PhotoBookCellarEntryInteractionId)
             && PhotoBookForestPhysicalBlockReason(requirePhysicalWorld: false) is not null) return false;
-        if (interactionId == PhotoBookForestReturnInteractionId
+        if (interactionId is (PhotoBookForestReturnInteractionId or PhotoBookCellarReturnInteractionId
+                or "urman.fullgame:interaction/pw-cellar-return")
             && PhotoBookForestReturnPhysicalBlockReason(requirePhysicalWorld: false) is not null) return false;
         if ((interactionId is "urman.chapter1:interaction/talk-alsu"
                 or "urman.fullgame:interaction/pw-alsu-before-w04-talk"
@@ -865,6 +866,13 @@ public partial class RuntimeBridge : Node
             var dispatched = await DispatchCompiledInteractionAsync(interaction);
             if (dispatched && ReferenceEquals(session, SessionIdentity) && !_loadingSlot && !_loadPreparing)
             {
+                if (interactionId == "urman.fullgame:interaction/pw-cellar-return")
+                {
+                    var outcome = await CompletePhotoBookHomeReturnAsync(session);
+                    if (outcome == PhotoBookForestReturnOutcome.ReturnedSaveFailed)
+                        FindPlayer()?.NotifyTraversal("Вы вернулись домой, но автосохранение не удалось. Сохранитесь через меню.");
+                    return outcome != PhotoBookForestReturnOutcome.Failed;
+                }
                 var hasEffects = interaction.Effects.GetArrayLength() > 0;
                 var committedPhotoWorldAction = _content.HasPhotoWorlds
                     && interaction.WorldLocations is null

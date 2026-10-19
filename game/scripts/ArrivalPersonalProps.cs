@@ -193,6 +193,7 @@ internal partial class ArrivalPersonalProps : Node3D
         var waterChain = BuildWaterChain(house, things, paper);
         BuildHomePrinter(house, things, paper);
         BuildHousePhotoChain(house, things, paper, waterChain);
+        BuildCellarPhotoChain(house, things, paper, waterChain);
     }
 
     // The family envelope with the second print of the old footbridges lies one

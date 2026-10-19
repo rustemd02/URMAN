@@ -12,6 +12,11 @@ public partial class W02Controller
     private const float EncounterPresenceAnswerY = 0.15f;
     private const float EncounterLiftSeconds = 0.7f;
     private const float EncounterReturnSeconds = 0.9f;
+    private const float EncounterCurrentFlowSeconds = 2.6f;
+    private const float EncounterCurrentSettleSeconds = 1.1f;
+    private const float EncounterCurrentCalmAlpha = 0.12f;
+    private static readonly Vector3 EncounterCurrentFlowOffset = new(12f, 0f, -0.5f);
+    private static readonly Vector3 EncounterCurrentCalmScale = new(1f, 0.35f, 1f);
 
     private enum EncounterPresentationPhase
     {
@@ -20,6 +25,14 @@ public partial class W02Controller
         ReturningBoard,
         AwaitingObservation,
         Committing
+    }
+
+    private enum EncounterCurrentPhase
+    {
+        Ambient,
+        Flowing,
+        Settling,
+        Settled
     }
 
     private EncounterPresentationPhase _encounterPresentationPhase;
@@ -38,6 +51,17 @@ public partial class W02Controller
     private readonly global::Godot.Collections.Array<Rid> _encounterRayExclusions = new();
     private FirstPersonController? _encounterRayExcludedPlayer;
     private bool? _encounterLastModalOpen;
+    private EncounterCurrentPhase _encounterCurrentPhase;
+    private object? _encounterCurrentSession;
+    private string? _encounterCurrentSceneId;
+    private bool _encounterCurrentAnswerArrived;
+    private float _encounterCurrentElapsed;
+    private Vector3[] _encounterCurrentOrigins = [];
+    private Vector3[] _encounterCurrentSettleScales = [];
+    private Color[] _encounterCurrentSettleColors = [];
+
+    private bool _encounterCurrentRingsCalming =>
+        _encounterCurrentPhase is EncounterCurrentPhase.Settling or EncounterCurrentPhase.Settled;
 
     /// <summary>
     /// Called by the W02 encounter target before its ordinary interaction
@@ -105,6 +129,7 @@ public partial class W02Controller
                 else
                     RefreshEncounterTargetAvailability();
             }
+            ProcessEncounterCurrentRings(delta);
             return;
         }
 
@@ -119,6 +144,7 @@ public partial class W02Controller
                 return;
             }
 
+            ProcessEncounterCurrentRings(delta);
             if (committingProjection.EncounterResolved)
                 ProjectResolvedEncounterPose();
             return;
@@ -132,6 +158,8 @@ public partial class W02Controller
             CancelEncounterAction(resetUnresolvedPose: true);
             return;
         }
+
+        ProcessEncounterCurrentRings(delta);
 
         if (_encounterPresentationPhase is EncounterPresentationPhase.LiftingBoard
             or EncounterPresentationPhase.ReturningBoard)
@@ -174,6 +202,9 @@ public partial class W02Controller
         }
 
         _encounterWasResolved = false;
+        if (_encounterPresentationPhase == EncounterPresentationPhase.Idle
+            && (_encounterCurrentPhase is EncounterCurrentPhase.Settling or EncounterCurrentPhase.Settled))
+            ResetEncounterCurrentRings();
         if (_encounterPresentationPhase != EncounterPresentationPhase.Idle)
         {
             _encounterTarget?.SetPresentationEnabled(false);
@@ -219,6 +250,9 @@ public partial class W02Controller
         _encounterActionElapsed = 0f;
         _encounterPresenceStartY = _suAnasyY;
         _encounterPresenceEndY = movePresence ? EncounterPresenceAnswerY : _suAnasyY;
+
+        if (phase == EncounterPresentationPhase.ReturningBoard)
+            BeginEncounterCurrentFlow();
 
         if (phase == EncounterPresentationPhase.LiftingBoard && _boardMark is { } mark)
             mark.Visible = true;
@@ -368,12 +402,18 @@ public partial class W02Controller
     private void ProjectResolvedEncounterPose()
     {
         CancelEncounterAction(resetUnresolvedPose: false);
+        MarkEncounterCurrentAnswerArrived();
         _encounterWasResolved = true;
         _boardLifted = false;
         SetEncounterBoardRestPose();
         SetEncounterPresenceHeight(EncounterPresenceAnswerY);
         UpdateEncounterPrompt(encounterResolved: true);
         _encounterTarget?.SetPresentationEnabled(false);
+        if (_encounterCurrentPhase == EncounterCurrentPhase.Settled)
+            ApplyEncounterCurrentCalmPose();
+        else
+            foreach (var ring in _encounterRings)
+                if (GodotObject.IsInstanceValid(ring)) ring.Visible = true;
     }
 
     private void CancelEncounterAction(bool resetUnresolvedPose)
@@ -387,12 +427,236 @@ public partial class W02Controller
 
         if (!resetUnresolvedPose) return;
 
+        ResetEncounterCurrentRings();
         _encounterWasResolved = false;
         _boardLifted = false;
         SetEncounterBoardRestPose();
         SetEncounterPresenceHeight(EncounterPresenceRestY);
         UpdateEncounterPrompt(encounterResolved: false);
         RefreshEncounterTargetAvailability();
+    }
+
+    private void BeginEncounterCurrentFlow()
+    {
+        ResetEncounterCurrentRings();
+        if (_encounterActionSession is null || _encounterActionSceneId != RiverSceneId)
+            return;
+
+        CaptureEncounterCurrentOrigins();
+        _encounterCurrentSession = _encounterActionSession;
+        _encounterCurrentSceneId = _encounterActionSceneId;
+        _encounterCurrentPhase = EncounterCurrentPhase.Flowing;
+        _encounterCurrentElapsed = 0f;
+        if (CurrentPlayerUsesReducedMotion())
+        {
+            _encounterCurrentElapsed = EncounterCurrentFlowSeconds;
+            ApplyEncounterCurrentFlowPose(1f);
+        }
+    }
+
+    private void ProcessEncounterCurrentRings(double delta)
+    {
+        if (_encounterCurrentPhase == EncounterCurrentPhase.Ambient)
+            return;
+
+        if (EncounterModalOpen())
+            return;
+
+        if (_world is not { } world || !GodotObject.IsInstanceValid(world) || !world.Visible
+            || _bridge is not { } bridge || !GodotObject.IsInstanceValid(bridge))
+        {
+            if (!_encounterWasResolved)
+                ResetEncounterCurrentRings();
+            return;
+        }
+
+        var projection = bridge.CurrentW02WaterProjection();
+        if (projection is null
+            || !ReferenceEquals(projection.SessionIdentity, _encounterCurrentSession)
+            || !ReferenceEquals(projection.SessionIdentity, bridge.SessionIdentity)
+            || projection.ActiveSceneId != _encounterCurrentSceneId
+            || projection.ActiveSceneId != RiverSceneId)
+        {
+            if (!_encounterWasResolved)
+                ResetEncounterCurrentRings();
+            return;
+        }
+
+        if (CurrentPlayerUsesReducedMotion())
+        {
+            if (_encounterCurrentPhase == EncounterCurrentPhase.Flowing)
+            {
+                _encounterCurrentElapsed = EncounterCurrentFlowSeconds;
+                ApplyEncounterCurrentFlowPose(1f);
+                if (_encounterCurrentAnswerArrived)
+                    BeginEncounterCurrentSettle();
+            }
+            if (_encounterCurrentPhase == EncounterCurrentPhase.Settling)
+                CompleteEncounterCurrentSettle();
+            if (_encounterCurrentPhase == EncounterCurrentPhase.Settled)
+                ApplyEncounterCurrentCalmPose();
+            return;
+        }
+
+        if (_encounterCurrentPhase == EncounterCurrentPhase.Flowing)
+        {
+            _encounterCurrentElapsed = Mathf.Min(
+                EncounterCurrentFlowSeconds,
+                _encounterCurrentElapsed + (float)Math.Max(0d, delta));
+            var progress = Mathf.Clamp(_encounterCurrentElapsed / EncounterCurrentFlowSeconds, 0f, 1f);
+            ApplyEncounterCurrentFlowPose(Mathf.SmoothStep(0f, 1f, progress));
+            if (progress >= 1f && _encounterCurrentAnswerArrived)
+                BeginEncounterCurrentSettle();
+            return;
+        }
+
+        if (_encounterCurrentPhase == EncounterCurrentPhase.Settling)
+        {
+            _encounterCurrentElapsed = Mathf.Min(
+                EncounterCurrentSettleSeconds,
+                _encounterCurrentElapsed + (float)Math.Max(0d, delta));
+            var progress = Mathf.Clamp(_encounterCurrentElapsed / EncounterCurrentSettleSeconds, 0f, 1f);
+            ApplyEncounterCurrentSettlePose(Mathf.SmoothStep(0f, 1f, progress));
+            if (progress >= 1f)
+                CompleteEncounterCurrentSettle();
+            return;
+        }
+
+        if (_encounterCurrentPhase == EncounterCurrentPhase.Settled)
+            ApplyEncounterCurrentCalmPose();
+    }
+
+    private void MarkEncounterCurrentAnswerArrived()
+    {
+        if (_encounterCurrentPhase == EncounterCurrentPhase.Ambient
+            || !ReferenceEquals(_encounterCurrentSession, _bridge?.SessionIdentity)
+            || _encounterCurrentSceneId != RiverSceneId)
+        {
+            SnapEncounterCurrentSettled();
+            return;
+        }
+
+        _encounterCurrentAnswerArrived = true;
+        if (_encounterCurrentPhase == EncounterCurrentPhase.Flowing
+            && _encounterCurrentElapsed >= EncounterCurrentFlowSeconds)
+            BeginEncounterCurrentSettle();
+    }
+
+    private void BeginEncounterCurrentSettle()
+    {
+        _encounterCurrentSettleScales = new Vector3[_encounterRings.Count];
+        _encounterCurrentSettleColors = new Color[_encounterRings.Count];
+        for (var index = 0; index < _encounterRings.Count; index++)
+        {
+            var ring = _encounterRings[index];
+            if (!GodotObject.IsInstanceValid(ring)) continue;
+            _encounterCurrentSettleScales[index] = ring.Scale;
+            if (ring.MaterialOverride is StandardMaterial3D material)
+                _encounterCurrentSettleColors[index] = material.AlbedoColor;
+        }
+
+        _encounterCurrentPhase = EncounterCurrentPhase.Settling;
+        _encounterCurrentElapsed = 0f;
+        if (CurrentPlayerUsesReducedMotion())
+            CompleteEncounterCurrentSettle();
+    }
+
+    private void ApplyEncounterCurrentFlowPose(float easedProgress)
+    {
+        for (var index = 0; index < _encounterRings.Count; index++)
+        {
+            var ring = _encounterRings[index];
+            if (!GodotObject.IsInstanceValid(ring) || index >= _encounterCurrentOrigins.Length) continue;
+            var origin = _encounterCurrentOrigins[index];
+            ring.Position = origin.Lerp(origin + EncounterCurrentFlowOffset, easedProgress);
+        }
+    }
+
+    private void ApplyEncounterCurrentSettlePose(float easedProgress)
+    {
+        for (var index = 0; index < _encounterRings.Count; index++)
+        {
+            var ring = _encounterRings[index];
+            if (!GodotObject.IsInstanceValid(ring)) continue;
+            ring.Visible = true;
+            if (index < _encounterCurrentSettleScales.Length)
+                ring.Scale = _encounterCurrentSettleScales[index].Lerp(EncounterCurrentCalmScale, easedProgress);
+            if (ring.MaterialOverride is StandardMaterial3D material
+                && index < _encounterCurrentSettleColors.Length)
+            {
+                var start = _encounterCurrentSettleColors[index];
+                material.AlbedoColor = new Color(start.R, start.G, start.B,
+                    Mathf.Lerp(start.A, EncounterCurrentCalmAlpha, easedProgress));
+            }
+        }
+    }
+
+    private void CompleteEncounterCurrentSettle()
+    {
+        _encounterCurrentPhase = EncounterCurrentPhase.Settled;
+        _encounterCurrentElapsed = EncounterCurrentSettleSeconds;
+        ApplyEncounterCurrentCalmPose();
+    }
+
+    private void ApplyEncounterCurrentCalmPose()
+    {
+        CaptureEncounterCurrentOrigins();
+        for (var index = 0; index < _encounterRings.Count; index++)
+        {
+            var ring = _encounterRings[index];
+            if (!GodotObject.IsInstanceValid(ring)) continue;
+            ring.Visible = true;
+            if (index < _encounterCurrentOrigins.Length)
+                ring.Position = _encounterCurrentOrigins[index] + EncounterCurrentFlowOffset;
+            ring.Scale = EncounterCurrentCalmScale;
+            if (ring.MaterialOverride is StandardMaterial3D material)
+            {
+                var color = material.AlbedoColor;
+                material.AlbedoColor = new Color(color.R, color.G, color.B, EncounterCurrentCalmAlpha);
+            }
+        }
+    }
+
+    private void SnapEncounterCurrentSettled()
+    {
+        CaptureEncounterCurrentOrigins();
+        _encounterCurrentSession = _bridge?.SessionIdentity;
+        _encounterCurrentSceneId = RiverSceneId;
+        _encounterCurrentAnswerArrived = true;
+        CompleteEncounterCurrentSettle();
+    }
+
+    private void CaptureEncounterCurrentOrigins()
+    {
+        if (_encounterCurrentOrigins.Length == _encounterRings.Count)
+            return;
+
+        _encounterCurrentOrigins = new Vector3[_encounterRings.Count];
+        for (var index = 0; index < _encounterRings.Count; index++)
+        {
+            var ring = _encounterRings[index];
+            if (GodotObject.IsInstanceValid(ring))
+                _encounterCurrentOrigins[index] = ring.Position;
+        }
+    }
+
+    private void ResetEncounterCurrentRings()
+    {
+        for (var index = 0; index < _encounterRings.Count; index++)
+        {
+            var ring = _encounterRings[index];
+            if (!GodotObject.IsInstanceValid(ring)) continue;
+            if (index < _encounterCurrentOrigins.Length)
+                ring.Position = _encounterCurrentOrigins[index];
+        }
+
+        _encounterCurrentPhase = EncounterCurrentPhase.Ambient;
+        _encounterCurrentSession = null;
+        _encounterCurrentSceneId = null;
+        _encounterCurrentAnswerArrived = false;
+        _encounterCurrentElapsed = 0f;
+        _encounterCurrentSettleScales = [];
+        _encounterCurrentSettleColors = [];
     }
 
     private void SetEncounterBoardRestPose()

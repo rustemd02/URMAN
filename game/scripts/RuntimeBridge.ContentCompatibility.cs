@@ -4,13 +4,16 @@ namespace Urman.Godot;
 
 public partial class RuntimeBridge
 {
-    // Only proven presentation-only revisions may accept an exact one-way pair.
+    // Only proven state-compatible revisions may accept an exact one-way pair.
     // Unknown current fingerprints keep the store's default strict validation.
     private const string FullGameCampaignId = "urman.fullgame";
     private const string FullGameTextRevisionFingerprint =
         "0b1a4c3e32b374360f4aebda32d524362862b9f1c171b3f7ec69422f09a8cb1d";
     private const string FullGameTeaTextRevisionFingerprint =
         "6f47e78bc728d70ea36362c046d9f6c71bf76577c1db49a84f141e1cef3c451c";
+
+    private const string FullGameCellarReturnFingerprint =
+        "7ce8098560641ed5c6c3e292f58442823afe8593afd1f23bac4e193ea46e5d2f";
 
     private static readonly IReadOnlyCollection<SaveGameFingerprintCompatibility> FullGameTextRevisionCompatibility =
     [
@@ -21,14 +24,20 @@ public partial class RuntimeBridge
         // D01: three dialogue text values only; exact pack comparison in PW-043.
         new(
             "441a862cce6ad7c3fc9f8c566ba81ed03e44d32ae98b7298b7e589169b533257",
-            FullGameTeaTextRevisionFingerprint)
+            FullGameTeaTextRevisionFingerprint),
+        // W05 adds one optional early-return interaction, with no effects or saved schema changes.
+        new(FullGameTeaTextRevisionFingerprint, FullGameCellarReturnFingerprint),
+        // The prior accepted text-only predecessor remains readable without transitive matching.
+        new("441a862cce6ad7c3fc9f8c566ba81ed03e44d32ae98b7298b7e589169b533257",
+            FullGameCellarReturnFingerprint)
     ];
 
     private AtomicSaveGameStore CreateCampaignSaveStore(string directory)
     {
         if (!StringComparer.Ordinal.Equals(_content.CampaignId, FullGameCampaignId) ||
             (!StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameTextRevisionFingerprint) &&
-             !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameTeaTextRevisionFingerprint)))
+             !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameTeaTextRevisionFingerprint) &&
+             !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameCellarReturnFingerprint)))
         {
             return new AtomicSaveGameStore(directory);
         }

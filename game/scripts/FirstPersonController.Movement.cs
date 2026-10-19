@@ -30,7 +30,7 @@ public partial class FirstPersonController
     private void TryJumpFromGround()
     {
         if (_worldInteractionNeedsRelease || !Input.IsActionJustPressed("jump") || !IsOnFloor()) return;
-        _carryCoordinator ??= GetTree().GetFirstNodeInGroup("carry_coordinator") as CarryCoordinator;
+        RefreshCarryCoordinator();
         if (_carryCoordinator is { HeldItem: not null } or { ActionInProgress: true })
         {
             NotifyTraversal("Сначала поставьте предмет и освободите руки для прыжка.");
@@ -53,7 +53,7 @@ public partial class FirstPersonController
 
     public bool CanEnterVehicle(out string reason)
     {
-        _carryCoordinator ??= GetTree().GetFirstNodeInGroup("carry_coordinator") as CarryCoordinator;
+        RefreshCarryCoordinator();
         reason = VehicleControlled ? "Сначала выйдите из транспорта."
             : ModalOpen ? "Сначала закончите открытое действие."
             : IsClimbingLadder ? "Сначала сойдите с лестницы."

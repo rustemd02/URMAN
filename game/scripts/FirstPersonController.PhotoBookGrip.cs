@@ -73,8 +73,7 @@ public partial class FirstPersonController
         if (GetTree().GetFirstNodeInGroup("runtime_bridge") is not RuntimeBridge bridge
             || !bridge.CanInspectReceivedPhotoBook || bridge.SessionIdentity is null) return false;
 
-        if (_carryCoordinator is null || !GodotObject.IsInstanceValid(_carryCoordinator) || !_carryCoordinator.IsInsideTree())
-            _carryCoordinator = GetTree().GetFirstNodeInGroup("carry_coordinator") as CarryCoordinator;
+        RefreshCarryCoordinator();
         return _carryCoordinator is not { HeldItem: not null }
             && _carryCoordinator is not { ActionInProgress: true };
     }
@@ -172,8 +171,7 @@ public partial class FirstPersonController
     private void RefreshPhotoBookGripPresentation(RuntimeBridge bridge)
     {
         if (_photoBookGripAnchor is not { } anchor || !GodotObject.IsInstanceValid(anchor)) return;
-        if (_carryCoordinator is null || !GodotObject.IsInstanceValid(_carryCoordinator) || !_carryCoordinator.IsInsideTree())
-            _carryCoordinator = GetTree().GetFirstNodeInGroup("carry_coordinator") as CarryCoordinator;
+        RefreshCarryCoordinator();
         anchor.Visible = !ModalOpen && !VehicleControlled && !IsClimbingLadder
             && _carryCoordinator is not { HeldItem: not null }
             && _carryCoordinator is not { ActionInProgress: true }

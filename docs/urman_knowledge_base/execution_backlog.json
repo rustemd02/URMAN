@@ -109911,6 +109911,12 @@
           "elapsed_seconds": 16.08,
           "independent_source_review": "Actual CanEnter + RuntimeBridge.IsInteractionAvailable + JournalUi caller + dispatch guards inspected; no conditions added/removed. No new tests. Native not run: station transport unavailable; e79 snapshot predates this hint change."
         }
+      },
+      "transport_recheck_2026_10_20": {
+        "state": "station offline; relay TLSselfsigned unchanged",
+        "job": "e79adf9f932a4d74b4aec64d7565c6a4",
+        "terminal_restoration": "not_confirmed",
+        "new_job_submitted": false
       }
     },
     {
@@ -124748,6 +124754,16 @@
         "remaining": "Current native Low/High reflection readability, physical approach/recognition/feedback/save/revisit and complete PW051 art/ordinary runtime acceptance remain open.",
         "geometry_evidence": "Source replay of actual1.5m terrain triangle grid: R03 and3neighbor poses to.707m clear pad+terrain rays to4mesh centers; R03 minimum post terrain clearances.0795/.1123/.0460m. Recognition accepts entire capsule-safe footprint1.2x.9halfextents with real rays, not a .45m positional gate. Native/render visibility not proved.",
         "verification": "Independent partial/integration review found and corrected modal-lost payoff plus undisposed ray Dictionary; root also preserved same-kernel deferredLoad payoff. Final affected Game compile15.52s0warnings/errors; diffcheckPASS. No new tests/native capture."
+      },
+      "current_ring_response_2026_10_20": {
+        "state": "source_checked_native_pending",
+        "files": [
+          "game/scripts/photoworlds/W02Controller.Encounter.cs",
+          "game/scripts/photoworlds/W02Controller.cs"
+        ],
+        "behavior": "Ambient→Flowing atboardreturn; rings move+12X/-.5Z2.6s acrossfarpier, then settled1.1s afterauthoredresponse; load/revisitcalm/sessionreset/modal/reducedmotion preserved.",
+        "verification": "Independentactualsource/piercoordinate review; integratedGame15.15s0/0; native NOT_RUN.",
+        "evidence": "evidence/PW-065/cellar-source-20261020/affected-game-build-after-shelf-fix.log"
       }
     },
     {
@@ -130336,7 +130352,7 @@
       "id": "PW-065",
       "title": "W05: произвести и собрать всю проходимую геометрию «Тёплое подполье»",
       "milestone": "PW-M3",
-      "status": "todo",
+      "status": "in_progress",
       "active_owner": null,
       "owner": "world_art",
       "priority": "P1",
@@ -130432,21 +130448,25 @@
             "title": "Собрать узлы B00, B01, B02, B03, B04, B05, B06, B07 и все связи из level-паспорта.",
             "result": "Собрать узлы B00, B01, B02, B03, B04, B05, B06, B07 и все связи из level-паспорта.",
             "owner": "world_art",
-            "evidence": [],
+            "evidence": [
+              "game/scenes/photoworlds/W05/W05.tscn",
+              "game/scripts/photoworlds/W05Controller.cs",
+              "evidence/PW-065/cellar-source-20261020/affected-game-build-after-shelf-fix.log"
+            ],
             "assigned_owner": "world_art",
             "active_owner": null,
             "activity": {
               "state": "not_active",
-              "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+              "reason": "Конечный source-этап проверен и передан; целевой native traverse ждёт восстановления станции."
             },
             "task_type": "engineering",
-            "status": "todo",
-            "implementation_state": "not_started",
+            "status": "in_progress",
+            "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
-              "Собрать узлы B00, B01, B02, B03, B04, B05, B06, B07 и все связи из level-паспорта.; собственного целевого receipt пока нет."
+              "Обычный Windows traverse B00–B07 и обратно, capsule fit/геометрия/арт — NOT_RUN до восстановления станции."
             ],
-            "next_action": "Сопоставить текущий результат: Собрать узлы B00, B01, B02, B03, B04, B05, B06, B07 и все связи из level-паспорта.. Затем изменить только установленный остаток.",
+            "next_action": "Получить целевой W05 native receipt после terminal+restore e79; source не пересобирать без нового входа.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -130762,10 +130782,10 @@
       "assigned_owner": "world_art",
       "activity": {
         "state": "not_active",
-        "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+        "reason": "Aggregate не назначается как разработка; конечный source-этап выполняется PW-065/E01."
       },
       "task_type": "aggregate",
-      "implementation_state": "not_started",
+      "implementation_state": "partial",
       "technical_verification_state": "not_run",
       "remaining": [
         "Не выполнять родитель как разработку: закрыть конкретные children и их внешние gates."
@@ -130963,14 +130983,60 @@
           "evidence_ref": "PW-065.evidence and named history progress; source_review shows available/missing inputs"
         }
       ],
-      "assignment_state": "preserved_person_or_existing_role; activity separate"
+      "assignment_state": "preserved_person_or_existing_role; activity separate",
+      "source_stage_2026_10_20": {
+        "baseline": "8f39bd82",
+        "state": "source_checked_native_pending",
+        "result": "W05 B00–B07 физическая сцена и обычный route; art/native/культурная приёмка отдельно",
+        "owners": {
+          "cellar_playable_scene": [
+            "game/scripts/photoworlds/W05Controller*.cs",
+            "game/scenes/photoworlds/W05/W05.tscn"
+          ],
+          "rig_contract": [
+            "game/scripts/Main.cs",
+            "game/scripts/RuntimeBridge.PhotoWorldScene.cs"
+          ],
+          "Codex": [
+            "game/scripts/RuntimeBridge.PhotoBook.cs",
+            "game/scripts/JournalUi.PhotoBook.cs",
+            "content/modules/urman-fullgame",
+            "tracker/Git/builds"
+          ],
+          "forest_art_reference": [
+            "один ImageGen→Meshy rigged Бичура; до paid GO root смотрит reference; максимум100кредитов кандидату"
+          ]
+        },
+        "verification_question": "После интеграции компилируется ли целый маршрут без обхода authored facts, можно ли выйти раньше завершения встречи, сохраняется ли canonical carry custody?",
+        "runtime": "NOT_RUN: e79 transport outage; новый job до terminal/restoration запрещён",
+        "mesh_spend_before": 305,
+        "mesh_budget_total": 4000,
+        "source_result": "W05B00–B07/9links, supported85x95mboards, canonicalcarry familybox,3distincttraces,actualniche,ordinaryrouteandbookearlyreturn; Bichura response remains explicitlygated awaitingrealrig/hand/clips.",
+        "geometry_review": "All9 corridor source-centrelines clearance≥.75m per side; tightest .913m. B06 safe radius1.62m; tableZ15.4 clearsdiagonals. Capsule/native traversal NOT_RUN.",
+        "home_chain": "FamilyPhotoShelf/Visible supportedphysicalbox→authoredsource/permissionS-HAND→P-CELLARsource/permission, existing WaterChainHomePresence arbitrates Gulsina; exact lookup fixed after source review.",
+        "source_verification": {
+          "initial_game": "17.56s/0warnings/0errors; later source review caught fatal shelf lookup not covered by compilation",
+          "final_game": "15.15s/0warnings/0errors after lookup+normalreturncheckpoint fix",
+          "content_compile": "exit0; fingerprint7ce8098560641ed5c6c3e292f58442823afe8593afd1f23bac4e193ea46e5d2f",
+          "pack_proof": "evidence/PW-065/cellar-source-20261020/pack-comparison.log: entire6f47pack equal after removing exactlyoneoptionalcellarreturninteraction+derivedhashes",
+          "independent_reviews": [
+            "W05passport+clearancefindings repaired byowner",
+            "canonicalcarry/staleplayercache+bookgrip/stance paths",
+            "bookentry/earlyreturn/sharednormalreturncheckpoint+exactsavecompat",
+            "homeboxsupport/framegap/authoredIDs/NPCarbitration"
+          ],
+          "logs": "evidence/PW-065/cellar-source-20261020/",
+          "new_tests": false
+        },
+        "credits_spent_total": 305
+      }
     },
     {
       "id": "PW-066",
       "title": "W05: произвести и оживить Бичуру",
       "milestone": "PW-M3",
-      "status": "todo",
-      "active_owner": null,
+      "status": "in_progress",
+      "active_owner": "Codex/forest_art_reference",
       "owner": "gameplay",
       "priority": "P1",
       "complexity": "complex",
@@ -131108,18 +131174,18 @@
       },
       "assigned_owner": "gameplay",
       "activity": {
-        "state": "not_active",
-        "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+        "state": "confirmed_active",
+        "reason": "Root и подтверждённые независимые исполнители начали ограниченный source этап; JSON/Git/builds сериализует root."
       },
       "task_type": "engineering",
-      "implementation_state": "not_started",
+      "implementation_state": "partial",
       "technical_verification_state": "not_run",
       "remaining": [
         "Персонаж не является неподвижной куклой или магазинным питомцем.",
         "Деформация рига подтверждена отдельной проверкой поз.",
         "Полный паспорт уровня docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/levels/W05_Тёплое_подполье_RU.md реализован: узлы/физические связи/действия/существо или человеческая сцена/созерцание/возврат/кадры; схема не заменяет проходимый runtime."
       ],
-      "next_action": "Произвести оригинальный домашний образ Бичуры и шесть клипов.",
+      "next_action": "После явного согласия на exact v2 PNG получить один Meshy rigged кандидат и передать реальные hand/clip пути runtime-владельцу.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -131279,13 +131345,25 @@
           "evidence_ref": "PW-066.evidence and named history progress; source_review shows available/missing inputs"
         }
       ],
-      "assignment_state": "preserved_person_or_existing_role; activity separate"
+      "assignment_state": "preserved_person_or_existing_role; activity separate",
+      "source_stage_2026_10_20": {
+        "integration": "PW-065.source_stage_2026_10_20",
+        "state": "in_progress",
+        "runtime": "NOT_RUN",
+        "reference_v1": "Отклонён root: реалистичный обычный человек",
+        "reference_v2": "assets/source/blender/photoworlds/W05/bichura_meshy_v2/imagegen-reference-v2-review.png",
+        "reference_v2_state": "candidate-only, root просмотрел; художественная/культурная приёмка открыта",
+        "provider_balance_readonly": 3975,
+        "paid_post": "Авто-review дважды отклонил exact PNG external upload; taskID нет, POST не выполнен; explicit user question pending. Обходов нет.",
+        "credits_spent_total": 305,
+        "candidate_cap": 100
+      }
     },
     {
       "id": "PW-067",
       "title": "W05: порядок вещей и необязательное внешнее открытие",
       "milestone": "PW-M3",
-      "status": "todo",
+      "status": "in_progress",
       "active_owner": null,
       "owner": "character_art",
       "priority": "P1",
@@ -131428,17 +131506,18 @@
       "assigned_owner": "character_art",
       "activity": {
         "state": "not_active",
-        "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+        "reason": "Source действий/возврата проверен; response требует реального A-BICHURA input, native отдельно."
       },
       "task_type": "engineering",
-      "implementation_state": "not_started",
+      "implementation_state": "partial",
       "technical_verification_state": "not_run",
       "remaining": [
         "W05 завершается полноценно, но не требуется для финала.",
         "Нет авторского подношения, выданного за обязательный народный обряд.",
-        "Полный паспорт уровня docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/levels/W05_Тёплое_подполье_RU.md реализован: узлы/физические связи/действия/существо или человеческая сцена/созерцание/возврат/кадры; схема не заменяет проходимый runtime."
+        "Полный паспорт уровня docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/levels/W05_Тёплое_подполье_RU.md реализован: узлы/физические связи/действия/существо или человеческая сцена/созерцание/возврат/кадры; схема не заменяет проходимый runtime.",
+        "Видимый ответ Бичуры, его hand contact и запись cellar_response_seen остаются заблокированными до реального asset/rig/clips; весь паспорт/native DoD открыт."
       ],
-      "next_action": "Реализовать осмотр следов, возврат коробки, ответ существа и нишу.",
+      "next_action": "Принять canonical carry/три следа/нишу и earlyreturn по source compile; response дописать только по реальному rig/hand/clip input.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -131616,7 +131695,12 @@
           "evidence_ref": "PW-067.evidence and named history progress; source_review shows available/missing inputs"
         }
       ],
-      "assignment_state": "preserved_person_or_existing_role; activity separate"
+      "assignment_state": "preserved_person_or_existing_role; activity separate",
+      "source_stage_2026_10_20": {
+        "integration": "PW-065.source_stage_2026_10_20",
+        "state": "source_checked_response_pending",
+        "runtime": "NOT_RUN"
+      }
     },
     {
       "id": "PW-068",

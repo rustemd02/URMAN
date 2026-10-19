@@ -47,7 +47,7 @@ public partial class FirstPersonController
         if (!crouched && !CanStandAt(GlobalPosition)) return;
         var targetHead = _standingHeadPosition
             - Vector3.Up * (crouched ? _standingHeight - CrouchedHeight : 0);
-        _carryCoordinator ??= GetTree().GetFirstNodeInGroup("carry_coordinator") as CarryCoordinator;
+        RefreshCarryCoordinator();
         // Changing the eye height also moves the actual held object. Reject a
         // blocked sweep before changing either stance: retaining an overhead
         // lantern after crouching leaves its light and the player's hand apart.

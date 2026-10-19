@@ -24,8 +24,17 @@ internal partial class WaterChainHomePresence : Node3D
     internal Node3D? Print;
     internal Node3D? HousePhotoEnvelope;
     internal Node3D? HousePhotoPrint;
+    internal InteractionTarget? FamilyBoxSourceTarget;
+    internal InteractionTarget? FamilyBoxPermissionTarget;
+    internal InteractionTarget? CellarPhotoSourceTarget;
+    internal InteractionTarget? CellarPhotoPermissionTarget;
+    internal Node3D? FamilyBoxLid;
+    internal Node3D? HandPhotoCard;
+    internal Node3D? CellarPhotoCard;
     internal float PrintInLocalZ = .024f;
     internal float PrintOutLocalZ = .085f;
+    internal float CellarPhotoInLocalZ = .055f;
+    internal float CellarPhotoOutLocalZ = .17f;
 
     private RuntimeBridge? _bridge;
     private bool _appliedOnce;
@@ -42,6 +51,10 @@ internal partial class WaterChainHomePresence : Node3D
             || !IsReady(PermissionTarget) || !IsReady(CommonFilePermissionTarget)
             || !IsReady(HomeReturnTarget) || !IsReady(HousePhotoSourceTarget)
             || !IsReady(HousePhotoPermissionTarget)
+            || (FamilyBoxSourceTarget is { } familyBoxSource && !IsReady(familyBoxSource))
+            || (FamilyBoxPermissionTarget is { } familyBoxPermission && !IsReady(familyBoxPermission))
+            || (CellarPhotoSourceTarget is { } cellarPhotoSource && !IsReady(cellarPhotoSource))
+            || (CellarPhotoPermissionTarget is { } cellarPhotoPermission && !IsReady(cellarPhotoPermission))
             || (TeaTarget is { } tea && !IsReady(tea)))
             return;
 
@@ -80,6 +93,10 @@ internal partial class WaterChainHomePresence : Node3D
         var firstHomeTalk = bridge.PhotoWorldFactObserved("first_world_home_talk");
         var housePrintFound = bridge.PhotoWorldFactObserved("house_print_found");
         var houseAcquired = bridge.PhotoBookPhotos().Any(photo => photo.PhotoId == "P-HOUSE");
+        var handAcquired = bridge.PhotoBookPhotos().Any(photo => photo.PhotoId == "S-HAND");
+        var cellarFound = bridge.PhotoWorldFactObserved("cellar_photo_found");
+        var cellarAcquired = bridge.PhotoBookPhotos().Any(photo => photo.PhotoId == "P-CELLAR");
+        var familyBoxOpened = bridge.PhotoWorldFactObserved("family_box_opened");
 
         var homeReturnLive = bookReceived && !firstHomeTalk
             && bridge.IsInteractionAvailable(HomeReturnTarget.InteractionId);
@@ -95,9 +112,47 @@ internal partial class WaterChainHomePresence : Node3D
         var houseSourceLive = bookReceived && firstHomeTalk && !housePrintFound
             && bridge.IsInteractionAvailable(HousePhotoSourceTarget.InteractionId);
 
+        var cellarHomeActive = bridge.ActiveSceneId == "urman.fullgame:scene/pw-home";
+        var otherHomeWindowLive = homeReturnLive || housePermissionLive || talkLive
+            || permissionLive || filePermissionLive;
+        var familyBoxSourceLive = cellarHomeActive && bookReceived && !familyBoxOpened
+            && FamilyBoxSourceTarget is { } familySource
+            && bridge.IsInteractionAvailable(familySource.InteractionId);
+        var familyBoxPermissionLive = cellarHomeActive && bookReceived && familyBoxOpened
+            && !handAcquired && !otherHomeWindowLive
+            && FamilyBoxPermissionTarget is { } familyPermission
+            && bridge.IsInteractionAvailable(familyPermission.InteractionId);
+        var cellarPhotoSourceLive = cellarHomeActive && bookReceived && handAcquired && !cellarFound
+            && CellarPhotoSourceTarget is { } cellarSource
+            && bridge.IsInteractionAvailable(cellarSource.InteractionId);
+        var cellarPhotoPermissionLive = cellarHomeActive && bookReceived && cellarFound && !cellarAcquired
+            && !otherHomeWindowLive
+            && CellarPhotoPermissionTarget is { } cellarPermission
+            && bridge.IsInteractionAvailable(cellarPermission.InteractionId);
+
         HomeReturnTarget.Prompt = bridge.ResolveText("urman.fullgame:text/pw-label-first-world-home-talk");
         HousePhotoSourceTarget.Prompt = bridge.ResolveText("urman.fullgame:text/pw-label-house-photo-source");
         HousePhotoPermissionTarget.Prompt = bridge.ResolveText("urman.fullgame:text/pw-label-house-photo-permission");
+        if (FamilyBoxSourceTarget is { } familySourceTarget)
+        {
+            familySourceTarget.Prompt = bridge.ResolveText("urman.fullgame:text/pw-label-family-box-source");
+            familySourceTarget.SetPresentationEnabled(familyBoxSourceLive);
+        }
+        if (FamilyBoxPermissionTarget is { } familyPermissionTarget)
+        {
+            familyPermissionTarget.Prompt = bridge.ResolveText("urman.fullgame:text/pw-label-family-box-permission");
+            familyPermissionTarget.SetPresentationEnabled(familyBoxPermissionLive);
+        }
+        if (CellarPhotoSourceTarget is { } cellarSourceTarget)
+        {
+            cellarSourceTarget.Prompt = bridge.ResolveText("urman.fullgame:text/pw-label-cellar-photo-source");
+            cellarSourceTarget.SetPresentationEnabled(cellarPhotoSourceLive);
+        }
+        if (CellarPhotoPermissionTarget is { } cellarPermissionTarget)
+        {
+            cellarPermissionTarget.Prompt = bridge.ResolveText("urman.fullgame:text/pw-label-cellar-photo-permission");
+            cellarPermissionTarget.SetPresentationEnabled(cellarPhotoPermissionLive);
+        }
         HomeReturnTarget.SetPresentationEnabled(homeReturnLive);
         TalkTarget.SetPresentationEnabled(talkLive);
         PermissionTarget.SetPresentationEnabled(permissionLive);
@@ -108,7 +163,8 @@ internal partial class WaterChainHomePresence : Node3D
         HousePhotoPermissionTarget.SetPresentationEnabled(housePermissionLive);
         // әби keeps her greeting whenever the chain is not asking a question.
         TeaTarget?.SetPresentationEnabled(!bookReceived || (!homeReturnLive && !talkLive
-            && !permissionLive && !filePermissionLive && !housePermissionLive));
+            && !permissionLive && !filePermissionLive && !housePermissionLive
+            && !familyBoxPermissionLive && !cellarPhotoPermissionLive));
 
         if (HousePhotoEnvelope is { } houseEnvelope)
             houseEnvelope.Visible = bridge.ActiveSceneId == "urman.fullgame:scene/pw-home"
@@ -141,6 +197,36 @@ internal partial class WaterChainHomePresence : Node3D
                 var tween = CreateTween();
                 tween.SetTrans(Tween.TransitionType.Sine).SetEase(Tween.EaseType.InOut);
                 tween.TweenProperty(housePrint, "position:z", goal, .9f);
+            }
+        }
+
+        if (FamilyBoxLid is { } familyLid)
+        {
+            var goal = familyBoxOpened ? -105f : 0f;
+            if (!_appliedOnce || Mathf.IsEqualApprox(familyLid.RotationDegrees.X, goal))
+                familyLid.RotationDegrees = new Vector3(goal, familyLid.RotationDegrees.Y, familyLid.RotationDegrees.Z);
+            else
+            {
+                var tween = CreateTween();
+                tween.SetTrans(Tween.TransitionType.Sine).SetEase(Tween.EaseType.InOut);
+                tween.TweenProperty(familyLid, "rotation_degrees:x", goal, .7f);
+            }
+        }
+
+        if (HandPhotoCard is { } handCard)
+            handCard.Visible = cellarHomeActive && handAcquired;
+
+        if (CellarPhotoCard is { } cellarCard)
+        {
+            cellarCard.Visible = cellarHomeActive && handAcquired;
+            var goal = cellarFound || cellarAcquired ? CellarPhotoOutLocalZ : CellarPhotoInLocalZ;
+            if (!_appliedOnce || Mathf.IsEqualApprox(cellarCard.Position.Z, goal))
+                cellarCard.Position = new Vector3(cellarCard.Position.X, cellarCard.Position.Y, goal);
+            else
+            {
+                var tween = CreateTween();
+                tween.SetTrans(Tween.TransitionType.Sine).SetEase(Tween.EaseType.InOut);
+                tween.TweenProperty(cellarCard, "position:z", goal, .9f);
             }
         }
 

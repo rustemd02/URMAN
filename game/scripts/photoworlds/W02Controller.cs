@@ -112,16 +112,19 @@ public partial class W02Controller : Node3D
 
         ProcessEncounterPresentation(delta);
 
-        _ringClock += dt;
-        for (var index = 0; index < _encounterRings.Count; index++)
+        if (!_encounterCurrentRingsCalming)
         {
-            var ring = _encounterRings[index];
-            if (!GodotObject.IsInstanceValid(ring)) continue;
-            var cycle = Mathf.PosMod(_ringClock * 0.22f + index * 0.37f, 1f);
-            var scale = Mathf.Lerp(0.5f, 2.6f, cycle);
-            ring.Scale = new Vector3(scale, 1f, scale);
-            if (ring.MaterialOverride is StandardMaterial3D material)
-                material.AlbedoColor = new Color(material.AlbedoColor, (1f - cycle) * 0.30f);
+            _ringClock += dt;
+            for (var index = 0; index < _encounterRings.Count; index++)
+            {
+                var ring = _encounterRings[index];
+                if (!GodotObject.IsInstanceValid(ring)) continue;
+                var cycle = Mathf.PosMod(_ringClock * 0.22f + index * 0.37f, 1f);
+                var scale = Mathf.Lerp(0.5f, 2.6f, cycle);
+                ring.Scale = new Vector3(scale, 1f, scale);
+                if (ring.MaterialOverride is StandardMaterial3D material)
+                    material.AlbedoColor = new Color(material.AlbedoColor, (1f - cycle) * 0.30f);
+            }
         }
     }
 
