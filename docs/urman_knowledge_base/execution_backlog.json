@@ -107164,6 +107164,14 @@
         "finding": "Only P-FOREST/S-SCHOOL/S-GARDEN resolve front artwork. Acquired/mounted P-WATER/P-HOUSE and8otherIDs can display blank physical pages; source art production belongsPW-040/E01/E02.",
         "next_action": "Consume exact produced front/thumbnail IDs fromPW040, no generic substitution or implementation-status text in player flow.",
         "verification": "gamefeel+visual independently traced real resolver/files/provenance; no native run or new tests."
+      },
+      "mac_native_attempt_2026_10_17": {
+        "source_commit": "53a47b72",
+        "log": "evidence/PW-014/mac-native-20261017/game.log",
+        "log_sha256": "db42b6cc31f02e63464fa6f1a00d0e18012c2d7bc07ce8b2cfd29fc542850d1b",
+        "result": "NOT_ACCEPTED: single protected clean full_game attempt at1280x720/Metal AppleM1; no UI action executed/reader or D02 reached. Native app bind hung and was interrupted. Missing local Godot GLB import caused W01 BuildGround load exception and1173 fall recoveries; teardown also reports unsubscribing nonexistent size_changed connection.",
+        "safety": "Raw log ends original files and permissions restored and verified; resumed19Oct process inventory has no Godot/protected_run. No blanket kill/recovery bypass.",
+        "next_action": "Complete existing Godot import prerequisite for current checkout, review latest owner results for existing W01 lifecycle fix; only retry actual UI after app-control becomes available. No repeated unimported run or claim of Windows/art/reader readiness."
       }
     },
     {
