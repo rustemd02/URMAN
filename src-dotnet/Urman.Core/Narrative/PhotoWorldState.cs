@@ -65,6 +65,17 @@ public static class PhotoWorldState
         return sceneId.Length != 0;
     }
 
+    /// <summary>Authored checkpoint IDs only; the caller must verify the actual physical pose and support.</summary>
+    public static bool IsVisitSafeNode(string worldId, string safeNodeId) => worldId switch
+    {
+        "W01" => safeNodeId is "F10" or "F11",
+        "W02" => safeNodeId is "R00" or "R01",
+        "W03" => safeNodeId is "H00" or "H05",
+        "W04" => safeNodeId is "C00" or "C03",
+        "W05" => safeNodeId is "B00" or "B01",
+        _ => false
+    };
+
     private static bool VisitEntryPrerequisitesMet(JsonElement state, JsonElement world, string worldId)
     {
         bool Quest(string id, string status = "completed") => ContentRuleEngine.Evaluate(
@@ -156,6 +167,24 @@ public static class PhotoWorldState
                     active["safeNodeId"] = entrySafeNodeId;
                     active["status"] = "active";
                     world["transition"]!["phase"] = "photo-active";
+                    break;
+                case PhotoWorldCommandHandler.VisitSafeNode:
+                    var safeNodeId = RequiredString(payload, "safeNodeId");
+                    if (status != "active" || RequiredString(payload, "worldId") != worldId
+                        || RequiredString(state, "activeScene") != sceneId || !IsVisitSafeNode(worldId, safeNodeId)
+                        || world["transition"] is not JsonObject activeTransition
+                        || RequiredString(activeTransition, "transitionId") != visitId
+                        || RequiredString(activeTransition, "visitId") != visitId
+                        || RequiredString(activeTransition, "kind") != "enter"
+                        || RequiredString(activeTransition, "phase") != "photo-active"
+                        || RequiredString(activeTransition, "targetWorldId") != worldId)
+                        throw new InvalidOperationException("Only the active visit in its own world can confirm an authored safe node.");
+                    if (world["worlds"]![worldId] is not JsonObject checkpointWorld
+                        || RequiredString(checkpointWorld, "worldId") != worldId
+                        || RequiredString(checkpointWorld, "safeNodeId") != RequiredString(active, "safeNodeId"))
+                        throw new InvalidOperationException("The safe-node update requires coherent existing world and visit state.");
+                    checkpointWorld["safeNodeId"] = safeNodeId;
+                    active["safeNodeId"] = safeNodeId;
                     break;
                 case PhotoWorldCommandHandler.VisitReturn:
                     if (status == "returning" && payload.TryGetProperty("recoverOrigin", out var recover) && recover.ValueKind == JsonValueKind.True)

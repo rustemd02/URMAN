@@ -1,4 +1,5 @@
 using Godot;
+using Urman.Core.Narrative;
 using Urman.Core.Runtime;
 
 namespace Urman.Godot;
@@ -93,7 +94,22 @@ public partial class RuntimeBridge
                 throw new InvalidDataException("The restored cellar's canonical carry owner is not ready.");
             if (carry is not null && GodotObject.IsInstanceValid(carry) && !carry.IsQueuedForDeletion())
                 carry.ProjectLoadedState();
-            if (!await main.CompletePhotoSceneProjectionAsync(session, sceneId, preserveLoadedTransform) || !Current()) return false;
+            if (!await main.CompletePhotoSceneProjectionAsync(session, sceneId, preserveLoadedTransform))
+            {
+                if (!Current() || !preserveLoadedTransform
+                    || !TryGetLoadedPhotoSafeNode(session, sceneId, out var worldId, out var safeNodeId)
+                    || !main.TryPlacePlayerAtPhotoSafeNode(session, worldId, safeNodeId))
+                    return false;
+                // Restore the same saved carry owner at the verified fallback.
+                // A blocked item alone never triggers this relocation; failure
+                // here retains the ordinary load rollback and untouched slot.
+                if (carry is not null && GodotObject.IsInstanceValid(carry) && !carry.IsQueuedForDeletion())
+                    carry.ProjectLoadedState();
+                if (!await main.CompletePhotoSceneProjectionAsync(session, sceneId, allowCrouched: true)
+                    || !Current()) return false;
+                GD.Print($"urman-photo-loaded-safe-node: world={worldId} node={safeNodeId}");
+            }
+            if (!Current()) return false;
             if (carry is not null && GodotObject.IsInstanceValid(carry)
                 && carry.HeldItem is not null && !carry.HasValidHeldPose)
                 throw new InvalidDataException("The loaded carried item has no free physical pose.");
@@ -104,5 +120,33 @@ public partial class RuntimeBridge
             if (ReferenceEquals(_photoWorldPhysicalProjectionSession, session))
                 _photoWorldPhysicalProjectionSession = previousProjection;
         }
+    }
+
+    private static bool TryGetLoadedPhotoSafeNode(RuntimeKernel session, string sceneId,
+        out string worldId, out string safeNodeId)
+    {
+        worldId = safeNodeId = string.Empty;
+        foreach (var candidateWorld in new[] { "W01", "W02", "W03", "W04", "W05" })
+        {
+            if (!PhotoWorldState.TryGetVisitRoute(candidateWorld, out var candidateScene, out var entryNode)
+                || candidateScene != sceneId) continue;
+            var visit = session.SelectState().GetProperty("photoworlds").GetProperty("visits").GetProperty("active");
+            if (visit.ValueKind == System.Text.Json.JsonValueKind.Object)
+            {
+                if (visit.GetProperty("worldId").GetString() != candidateWorld
+                    || visit.GetProperty("status").GetString() is not ("active" or "returning")
+                    || visit.GetProperty("safeNodeId").GetString() is not { } node
+                    || !PhotoWorldState.IsVisitSafeNode(candidateWorld, node)) return false;
+                worldId = candidateWorld;
+                safeNodeId = node;
+                return true;
+            }
+            // Schema-1 and legacy photo saves have no visit ticket. Their
+            // explicit authored entry is the only supported fallback.
+            worldId = candidateWorld;
+            safeNodeId = entryNode;
+            return true;
+        }
+        return false;
     }
 }

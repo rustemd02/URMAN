@@ -109931,7 +109931,7 @@
         "job": "e79adf9f932a4d74b4aec64d7565c6a4",
         "terminal_restoration": "not_confirmed",
         "new_job_submitted": false,
-        "last_status_query": "20.10 about02:43 Moscow: same e79 status only, CLI exit1 urlopen timed out; no terminal/restoration evidence, no duplicate job."
+        "last_status_query": "20.10 about02:58 Moscow: same e79 status query exit1 urlopen timeout. Read-only VPN health still Running with intercepted/self-signed DERP TLS, station offline lastSeen19.10 21:46:54UTC. No terminal/restoration evidence or new job."
       }
     },
     {
@@ -110597,6 +110597,11 @@
           "evidence/PW-021/cold-bootstrap-20261020/affected-game-build.log"
         ],
         "limits": "No native gameplay proof yet; one-player/one-environment and supported cold/loaded destination require current protected Windows run. Existing BoundaryRuntimeCapture assumes an act5 override incompatible with the authored prologue and was not changed."
+      },
+      "environment_handoff_2026_10_20": {
+        "producer": "PW-031.environment_handoff_2026_10_20",
+        "state": "compiled_source_only_native_pending",
+        "result": "All retiring Main-owned world Environment bindings removed synchronously before replacement, including photo return."
       }
     },
     {
@@ -110922,7 +110927,7 @@
       "id": "PW-024",
       "title": "Сохранение и загрузка внутри фотомира",
       "milestone": "PW-M1",
-      "status": "todo",
+      "status": "in_progress",
       "active_owner": null,
       "owner": "integration",
       "priority": "P0",
@@ -111061,7 +111066,7 @@
       "assigned_owner": "integration",
       "activity": {
         "state": "not_active",
-        "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+        "reason": "Safe-resume source slice integrated, compiled and independently reviewed; protected native roundtrip pending."
       },
       "task_type": "engineering",
       "implementation_state": "not_started",
@@ -111071,7 +111076,7 @@
         "Глава не сбрасывается и не завершается просто фактом загрузки.",
         "Save внутри после предметного действия → полное закрытие процесса → Continue → выход восстанавливает домен, safe node, билет возврата, предметные последствия, вклейку и собственный текст. Несовместимый/повреждённый тестовый слот объясняется без молчаливой перезаписи; один roundtrip не закрывает PW-085/086."
       ],
-      "next_action": "Сохранить world ID/safe node/дельты/visit state через основной persistence.",
+      "next_action": "On restored Windows transport, verify exact normal pose and valid crouched save, action→save→full process exit→Continue→return, invalid physical-pose fallback including returning checkpoint, held-item-only refusal and unchanged original slots. First obtain e79 terminal/user-data restoration; no duplicate job.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -111144,7 +111149,7 @@
           ],
           "repeat_only_if": "Изменился покрываемый вход/consumer/контракт; без этого уже принятая проверка используется повторно без запуска."
         },
-        "actual_result": "NOT_RUN",
+        "actual_result": "PARTIAL: safe_resume_2026_10_20 source compiled/reviewed; full persistence/native criteria remain open.",
         "evidence_refs": [
           "tasks[id=PW-024].evidence"
         ],
@@ -111248,6 +111253,19 @@
         "finding": "Canonical world.safeNodeId + active.safeNodeId already exist in schema2, but only VisitCommit writes them. PhotoWorldCatalog node.id/role has no per-node safe certification; global source collision safe_node_radius_m1.2 is SPECIFIED_NOT_IMPLEMENTED, not physical evidence. Ordinary Main mount chooses entry; actual loaded pose is separately protected and must remain so. PhotoAnchorResolver only maps main/exit nodes and has no runtimecaller; do not add second progress owner or assume nearest marker safe.",
         "next_action": "Produce one explicit supported resume node under actual W01 physical support/clearance and local action constraints, then extend existing typedvisit reducer and Main reentry projection at that same owner. Do not automatically use F16: it is the exitplane, not a proven stable reentry. Preserve loaded actualpose path and fallback to verified F10. Native blocked by existing e79 claim; no new probe/build justified by this read-only inventory.",
         "limits": "No implementation/slotwrites/newtests; full PW024 remains todo."
+      },
+      "safe_resume_2026_10_20": {
+        "state": "source_integrated_compiled_native_pending",
+        "question": "Does a valid midworld/crouched save keep its actual pose; invalid photo capsule/support recovers only to a physically verified canonical checkpoint without losing actions, visit or held-item custody?",
+        "success": "Exact pose remains first choice. New canonical safe-node command atomically mirrors world/visit after actual near supported standing pose; one Bridge poll not five controller loops. Loaded invalid pose tests current node, reprojects same item and waits physics; blocked held item alone rejects without teleport. Schema1/legacy no-ticket uses only authored entry; unknown active node is not guessed. Crouched valid photo does not fail later standing-only recovery.",
+        "next_action": "On restored Windows transport, verify exact normal pose and valid crouched save, action→save→full process exit→Continue→return, invalid physical-pose fallback including returning checkpoint, held-item-only refusal and unchanged original slots. First obtain e79 terminal/user-data restoration; no duplicate job.",
+        "result": "Existing exact PlayerTransform remains normal Continue. One .5s Bridge observer confirms only reached F11/R01/H05/C03/B01: standing, slow, on floor, XZ≤1.2m/Y≤.15m, supported/free player and marker capsules, unobstructed capsule sweep, no modal/action/carry/transition. New visit.safe-node command atomically mirrors world/visit; same-node is a validated no-op. Invalid loaded capsule/support may use its explicit known node after restored props, then reproject same carry and await physics; held-item-only failure still rejects. Valid crouched restore survives final active-visit recovery. Returning checkpoint also permits its known safe node before normal origin recovery. Legacy no-ticket saves derive only authored entry. No narrative actions/deltas/custody/ReturnTicket/slots are reset.",
+        "verification": "Affected Game initial15.95s0warnings0errors; independent Fast review identified returning-checkpoint edge. Final affected build after correction and capsule reachability13.42s0warnings0errors. Targeted whitespace and tracker308/20/679 PASS. Independent canonical transaction, async poll/save/session/return, crouch/held-pose and schema review found no blocker. No tests/probes/fixtures created or run.",
+        "evidence": [
+          "evidence/PW-024/safe-resume-20261020/affected-game-build-before-review.log",
+          "evidence/PW-024/safe-resume-20261020/affected-game-build.log"
+        ],
+        "limits": "No current protected native save→full exit→Continue→return evidence. Disk-save failure keeps last durable checkpoint intact and notifies player; in-memory node persists until later save. Conservative sweep may suppress a new checkpoint. Unknown active nodes reject rather than guess. Full PW024 and PW085/086 remain open."
       }
     },
     {
@@ -113310,7 +113328,7 @@
       "id": "PW-031",
       "title": "Зафиксировать colorscript и значения профилей",
       "milestone": "PW-M2",
-      "status": "todo",
+      "status": "in_progress",
       "active_owner": null,
       "owner": "art",
       "priority": "P0",
@@ -113515,9 +113533,8 @@
       },
       "assigned_owner": "claude/visual-reset-2026-10-09",
       "activity": {
-        "state": "not_confirmed",
-        "last_recorded_owner": "claude/visual-reset-2026-10-09",
-        "reason": "Историческое поле не доказывает работу сейчас; назначение сохранено. Подтверждение берётся из нового ответа/живого сеанса, не из возраста записи."
+        "state": "not_active",
+        "reason": "Immediate retiring environment handoff compiled; full world colorscript/art checks remain open."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -113526,7 +113543,7 @@
         "Миры различаются, но принадлежат одной художественной системе.",
         "Наружная деревня не перекрашивается при изменении внутреннего профиля."
       ],
-      "next_action": "Ввести отдельные профили Village и W01–W05 через единого владельца атмосферы.",
+      "next_action": "Native entry/return confirms one active Environment and profile handoff. Full Village/W01–W05 profile data/colorscript still requires preserving existing distinct fog/sky/ambient parameters and actual control views; no arbitrary swatch conversion.",
       "blocker": null,
       "external_gates": [
         {
@@ -113632,7 +113649,7 @@
           ],
           "repeat_only_if": "Изменился покрываемый вход/consumer/контракт; без этого уже принятая проверка используется повторно без запуска."
         },
-        "actual_result": "NOT_RUN",
+        "actual_result": "PARTIAL environment ownership handoff only. Full profiles/colorscript and visual acceptance remain open.",
         "evidence_refs": [
           "tasks[id=PW-031].evidence"
         ],
@@ -113799,6 +113816,21 @@
         "preservation_inputs": "W01usesexactfloatcolors,AmbientSourceSky3,ACES3,depthfog(mode1,density.68,begin24,end155,curve1.35),sun1.08/shadow.68/rotation(-38,-35). CurrentJSONcannotrepresentthese fieldslosslessly; currentTunealsochangesquality/globalSnow.",
         "save_boundary": "AtmosphereProfiles.AppliedProfileId meanslastoutdoorprofile; CaptureW01ReturnTicket/Main exactorigincheckmustpreserve meaningorrestorecorrectly.",
         "next_action": "Unifyonlywithlosslessworldprofilefields andactualsixworldnativecomparisons; do notfunnelW01throughoutdoorTune. W05missingEnvironment isboundedPW065followup, notfullPW031completion."
+      },
+      "environment_handoff_2026_10_20": {
+        "state": "source_integrated_compiled_native_pending",
+        "question": "Does the retiring world release its Environment binding before replacement WorldEnvironment is registered, both photo entry and return?",
+        "result": "One existing Main retirement helper clears only retiring WorldEnvironment bindings before QueueFree; used by compact zone changes, connected-world replacement/retirement and all five photo mounts. Palette/resources/profiles unchanged.",
+        "verification_sources": [
+          "https://raw.githubusercontent.com/godotengine/godot/4.7/scene/3d/world_environment.cpp"
+        ],
+        "limits": "Source handoff only; no captured flash or full shared colorscript acceptance.",
+        "verification": "Matching Godot4.7 source verified: parent visibility does not unregister WorldEnvironment; Environment=null does. One affected Game final13.42s0warnings0errors; source whitespace clean.",
+        "evidence": [
+          "evidence/PW-024/safe-resume-20261020/affected-game-build-before-review.log",
+          "evidence/PW-024/safe-resume-20261020/affected-game-build.log"
+        ],
+        "next_action": "Native entry/return confirms one active Environment and profile handoff. Full Village/W01–W05 profile data/colorscript still requires preserving existing distinct fog/sky/ambient parameters and actual control views; no arbitrary swatch conversion."
       }
     },
     {

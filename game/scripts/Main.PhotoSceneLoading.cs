@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Godot;
+using Urman.Core.Narrative;
 
 namespace Urman.Godot;
 
@@ -68,6 +69,73 @@ public partial class Main
         return Current() && tree.GetFirstNodeInGroup("player_controller") is FirstPersonController player
             && GodotObject.IsInstanceValid(player) && player.IsInsideTree() && !player.IsQueuedForDeletion()
             && PhotoVisitPoseHasSupport(player, player.GlobalPosition, allowCrouched);
+    }
+
+    internal bool TryPlacePlayerAtPhotoSafeNode(object session, string worldId, string safeNodeId)
+    {
+        if (!TryGetMountedPhotoSafeNode(session, worldId, safeNodeId, out var player, out var anchor)
+            || !player.SessionTransitionActive || player.VehicleControlled || player.IsClimbingLadder)
+            return false;
+
+        // A blocked held item alone must reject the load, not relocate a valid
+        // player pose. The caller projects the same item again after moving.
+        if (PhotoVisitPoseHasSupport(player, player.GlobalPosition, allowCrouched: true)
+            || !PhotoVisitPoseHasSupport(player, anchor.GlobalPosition, allowCrouched: true))
+            return false;
+
+        player.ApplyZoneSpawn(anchor.GlobalPosition, anchor.GlobalRotationDegrees.Y);
+        LastSpawnYawDegrees = anchor.GlobalRotationDegrees.Y;
+        return true;
+    }
+
+    internal bool CanObservePhotoSafeNode(object session, string worldId, string safeNodeId)
+    {
+        if (!TryGetMountedPhotoSafeNode(session, worldId, safeNodeId, out var player, out var anchor)
+            || _fullGameRouteBridge is not { IsPhotoBookProjectionDeferred: false } bridge
+            || !ReferenceEquals(session, bridge.SessionIdentity)
+            || player.ModalOpen || player.SessionTransitionActive || player.VehicleControlled || player.IsClimbingLadder
+            || player.IsCrouching || !player.IsOnFloor() || player.Velocity.LengthSquared() > .35f * .35f)
+            return false;
+        var offset = player.GlobalPosition - anchor.GlobalPosition;
+        const float reachRadius = 1.2f;
+        using var pathCollision = new KinematicCollision3D();
+        return offset.X * offset.X + offset.Z * offset.Z <= reachRadius * reachRadius && Mathf.Abs(offset.Y) <= .15f
+            && PhotoVisitPoseHasSupport(player, player.GlobalPosition)
+            && PhotoVisitPoseHasSupport(player, anchor.GlobalPosition)
+            // Nearby on the other side of a wall is not a reached checkpoint.
+            && !player.TestMove(player.GlobalTransform, -offset, pathCollision, .001f);
+    }
+
+    private bool TryGetMountedPhotoSafeNode(object session, string worldId, string safeNodeId,
+        out FirstPersonController player, out Marker3D anchor)
+    {
+        player = null!;
+        anchor = null!;
+        if (!PhotoWorldState.IsVisitSafeNode(worldId, safeNodeId)
+            || !PhotoWorldState.TryGetVisitRoute(worldId, out var sceneId, out _)
+            || !GodotObject.IsInstanceValid(this) || !IsInsideTree() || IsQueuedForDeletion()
+            || _fullGameRouteBridge is not { } bridge || !GodotObject.IsInstanceValid(bridge)
+            || !bridge.IsInsideTree() || bridge.IsQueuedForDeletion()
+            || !ReferenceEquals(session, bridge.ProjectionSessionIdentity) || bridge.ActiveSceneId != sceneId
+            || !IsPhotoSceneMounted(sceneId)
+            || GetTree().GetFirstNodeInGroup("player_controller") is not FirstPersonController currentPlayer
+            || !GodotObject.IsInstanceValid(currentPlayer) || !currentPlayer.IsInsideTree() || currentPlayer.IsQueuedForDeletion())
+            return false;
+        var world = worldId switch
+        {
+            "W01" => _mountedW01,
+            "W02" => _mountedW02,
+            "W03" => _mountedW03,
+            "W04" => _mountedW04,
+            "W05" => _mountedW05,
+            _ => null
+        };
+        if (world?.GetNodeOrNull<Marker3D>($"Anchors/{safeNodeId}") is not { } currentAnchor
+            || !GodotObject.IsInstanceValid(currentAnchor) || !currentAnchor.IsInsideTree() || currentAnchor.IsQueuedForDeletion())
+            return false;
+        player = currentPlayer;
+        anchor = currentAnchor;
+        return true;
     }
 
     private bool TryMountPhotoScene(RuntimeBridge.FullGamePhotoWorldRouteProjection projection, RuntimeBridge bridge)

@@ -24,12 +24,13 @@ public static class PhotoWorldCommandHandler
     public const string EpilogueFinish = "pw1.epilogue.finish";
     public const string VisitPrepare = "pw1.visit.prepare";
     public const string VisitCommit = "pw1.visit.commit";
+    public const string VisitSafeNode = "pw1.visit.safe-node";
     public const string VisitReturn = "pw1.visit.return";
     public const string VisitFinishReturn = "pw1.visit.finish-return";
     public const string VisitAbort = "pw1.visit.abort";
     public const string VisitCancelReturn = "pw1.visit.cancel-return";
 
-    private static readonly string[] VisitCommands = [VisitPrepare, VisitCommit, VisitReturn, VisitFinishReturn, VisitAbort, VisitCancelReturn];
+    private static readonly string[] VisitCommands = [VisitPrepare, VisitCommit, VisitSafeNode, VisitReturn, VisitFinishReturn, VisitAbort, VisitCancelReturn];
 
     private static readonly IReadOnlyDictionary<string, string> CommandByOperation =
         new Dictionary<string, string>(StringComparer.Ordinal)
@@ -77,6 +78,10 @@ public static class PhotoWorldCommandHandler
         try
         {
             var updated = PhotoWorldState.ApplyVisitCommand(context.State, command.Type, command.Payload);
+            if (command.Type == VisitSafeNode
+                && context.State.GetProperty("photoworlds").GetProperty("visits").GetProperty("active")
+                    .GetProperty("safeNodeId").GetString() == command.Payload.GetProperty("safeNodeId").GetString())
+                return new(Effects: [], Events: [], Value: updated);
             var effects = new List<StateEffect> { new(StateEffectOperation.Set, "photoworlds", updated) };
             if (command.Type is VisitFinishReturn or VisitAbort
                 && RebaseBathDeadlines(context.State, command.Payload) is { } props)
@@ -84,9 +89,15 @@ public static class PhotoWorldCommandHandler
             if (command.Type == VisitAbort || (command.Type == VisitReturn
                     && command.Payload.TryGetProperty("recoverOrigin", out var recovering) && recovering.ValueKind == JsonValueKind.True))
                 effects.Add(new(StateEffectOperation.Set, "activeScene", JsonSerializer.SerializeToElement("urman.fullgame:scene/pw-home")));
-            return new(Effects: effects,
-                Events: [new(command.Type, JsonSerializer.SerializeToElement(new { visitId = command.Payload.GetProperty("visitId").GetString() }))],
-                Value: updated);
+            var eventPayload = command.Type == VisitSafeNode
+                ? JsonSerializer.SerializeToElement(new
+                {
+                    visitId = command.Payload.GetProperty("visitId").GetString(),
+                    worldId = command.Payload.GetProperty("worldId").GetString(),
+                    safeNodeId = command.Payload.GetProperty("safeNodeId").GetString()
+                })
+                : JsonSerializer.SerializeToElement(new { visitId = command.Payload.GetProperty("visitId").GetString() });
+            return new(Effects: effects, Events: [new(command.Type, eventPayload)], Value: updated);
         }
         catch (Exception error) when (error is InvalidOperationException or InvalidDataException or KeyNotFoundException
                                      or ArgumentException or JsonException or FormatException or OverflowException)

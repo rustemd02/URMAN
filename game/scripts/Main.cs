@@ -92,7 +92,8 @@ public partial class Main : Node3D
     }
 
     internal async Task<bool> CompletePhotoVisitProjectionAsync(
-        object session, string worldId, JsonElement? originTicket = null, bool completedBankReturn = false)
+        object session, string worldId, JsonElement? originTicket = null, bool completedBankReturn = false,
+        bool allowCrouchedPhotoPose = false)
     {
         if (worldId is not ("W01" or "W02" or "W03" or "W04" or "W05")) return false;
         var bridge = _fullGameRouteBridge;
@@ -122,7 +123,7 @@ public partial class Main : Node3D
                 "W05" => bridge!.ActiveSceneId == CellarPhotoSceneId && IsMountedW05() && ActiveZoneScenePath == W05ScenePath,
                 _ => false
             };
-            return targetMounted && PhotoVisitPoseHasSupport(player, player.GlobalPosition);
+            return targetMounted && PhotoVisitPoseHasSupport(player, player.GlobalPosition, allowCrouchedPhotoPose);
         }
 
         var zone = ticket.GetProperty("originWorldId").GetString()!;
@@ -362,10 +363,7 @@ public partial class Main : Node3D
         _mountedW04 = null;
         _mountedW05 = null;
         foreach (var child in _zoneHost.GetChildren())
-        {
-            if (child is Node3D oldZone) oldZone.Visible = false;
-            child.QueueFree();
-        }
+            RetireWorldPresentation(child);
 
         var zone = packed.Instantiate<Node3D>();
         if (zone is FullGameZone fullGameZone)
@@ -413,10 +411,7 @@ public partial class Main : Node3D
         _mountedW04 = null;
         _mountedW05 = null;
         foreach (var child in _zoneHost.GetChildren())
-        {
-            if (child is Node3D oldZone) oldZone.Visible = false;
-            child.QueueFree();
-        }
+            RetireWorldPresentation(child);
 
         _connectedWorld = new Act1ConnectedWorld
         {
@@ -430,8 +425,20 @@ public partial class Main : Node3D
         if (_connectedWorld is not { } retiringWorld) return;
         AlsuStreetWalkPresentation.SessionOwner(GetTree())?.DisableContactForZoneDisposal();
         _connectedWorld = null;
-        retiringWorld.Visible = false;
-        retiringWorld.QueueFree();
+        RetireWorldPresentation(retiringWorld);
+    }
+
+    private static void RetireWorldPresentation(Node retiringRoot)
+    {
+        // Visibility does not unregister a WorldEnvironment. Release only the
+        // retiring nodes' bindings now, before the replacement enters the same
+        // World3D; QueueFree otherwise keeps the old environment until frame end.
+        if (retiringRoot is WorldEnvironment rootEnvironment)
+            rootEnvironment.Environment = null;
+        foreach (var child in retiringRoot.FindChildren("*", nameof(WorldEnvironment), true, false))
+            if (child is WorldEnvironment environment) environment.Environment = null;
+        if (retiringRoot is Node3D oldWorld) oldWorld.Visible = false;
+        retiringRoot.QueueFree();
     }
 
     private void AttachFullGameRouteBridge()
@@ -571,10 +578,7 @@ public partial class Main : Node3D
         _mountedW04 = null;
         _mountedW05 = null;
         foreach (var child in _zoneHost.GetChildren())
-        {
-            if (child is Node3D oldZone) oldZone.Visible = false;
-            child.QueueFree();
-        }
+            RetireWorldPresentation(child);
         _zoneHost.AddChild(world);
         _mountedW01 = world;
         ActiveZoneScenePath = W01ScenePath;
@@ -690,10 +694,7 @@ public partial class Main : Node3D
         _mountedW04 = null;
         _mountedW05 = null;
         foreach (var child in _zoneHost.GetChildren())
-        {
-            if (child is Node3D oldZone) oldZone.Visible = false;
-            child.QueueFree();
-        }
+            RetireWorldPresentation(child);
         _zoneHost.AddChild(world);
         _mountedW02 = world;
         ActiveZoneScenePath = W02ScenePath;
@@ -780,10 +781,7 @@ public partial class Main : Node3D
         _mountedW04 = null;
         _mountedW05 = null;
         foreach (var child in _zoneHost.GetChildren())
-        {
-            if (child is Node3D oldZone) oldZone.Visible = false;
-            child.QueueFree();
-        }
+            RetireWorldPresentation(child);
         _zoneHost.AddChild(world);
         _mountedW03 = world;
         ActiveZoneScenePath = W03ScenePath;
@@ -869,10 +867,7 @@ public partial class Main : Node3D
         _mountedW03 = null;
         _mountedW05 = null;
         foreach (var child in _zoneHost.GetChildren())
-        {
-            if (child is Node3D oldZone) oldZone.Visible = false;
-            child.QueueFree();
-        }
+            RetireWorldPresentation(child);
         _zoneHost.AddChild(world);
         _mountedW04 = world;
         ActiveZoneScenePath = W04ScenePath;
@@ -958,10 +953,7 @@ public partial class Main : Node3D
         _mountedW03 = null;
         _mountedW04 = null;
         foreach (var child in _zoneHost.GetChildren())
-        {
-            if (child is Node3D oldZone) oldZone.Visible = false;
-            child.QueueFree();
-        }
+            RetireWorldPresentation(child);
         _zoneHost.AddChild(world);
         _mountedW05 = world;
         ActiveZoneScenePath = W05ScenePath;

@@ -110,6 +110,7 @@ public partial class RuntimeBridge : Node
 
     public override void _Process(double delta)
     {
+        ProcessPhotoSafeNodeObservation(delta);
         SampleLoadingTime();
         if (CapturePlayTimeBlocks() == PlayTimeBlock.None)
             _playTimeSeconds += Math.Max(0, delta - _loadingSecondsSinceProcess);
@@ -729,7 +730,7 @@ public partial class RuntimeBridge : Node
         var worldId = visit.GetProperty("worldId").GetString()!;
         var ticket = visit.GetProperty("returnTicket").Clone();
         if (status == "active" && !abortActive)
-            return await main.CompletePhotoVisitProjectionAsync(session, worldId);
+            return await main.CompletePhotoVisitProjectionAsync(session, worldId, allowCrouchedPhotoPose: true);
         if (status is "prepared" or "active")
         {
             if (!await DispatchPhotoVisitCommandAsync(session, PhotoWorldCommandHandler.VisitAbort, id,

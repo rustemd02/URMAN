@@ -1,4 +1,6 @@
 using System.Text.Json;
+using Godot;
+using Urman.Core.Narrative;
 using Urman.Core.Runtime;
 
 namespace Urman.Godot;
@@ -12,6 +14,101 @@ public partial class RuntimeBridge
     // session gate remains closed. The owner must restore this field in a
     // finally block after mounting/projecting the candidate world.
     private RuntimeKernel? _photoWorldPhysicalProjectionSession;
+    private double _photoSafeNodePollElapsed;
+    private bool _photoSafeNodeObservationPending;
+
+    private void ProcessPhotoSafeNodeObservation(double delta)
+    {
+        _photoSafeNodePollElapsed += Math.Max(0, delta);
+        if (_photoSafeNodePollElapsed < .5) return;
+        _photoSafeNodePollElapsed = 0;
+        if (_photoSafeNodeObservationPending || ActivePhotoVisit() is not { } visit
+            || visit.GetProperty("status").GetString() != "active") return;
+        var worldId = visit.GetProperty("worldId").GetString();
+        var safeNodeId = worldId switch
+        {
+            "W01" => "F11",
+            "W02" => "R01",
+            "W03" => "H05",
+            "W04" => "C03",
+            "W05" => "B01",
+            _ => null
+        };
+        if (worldId is not null && safeNodeId is not null
+            && visit.GetProperty("safeNodeId").GetString() != safeNodeId)
+            _ = ObservePhotoSafeNodeAsync(worldId, safeNodeId);
+    }
+
+    internal async Task<bool> ObservePhotoSafeNodeAsync(string worldId, string safeNodeId)
+    {
+        if (_photoSafeNodeObservationPending || SessionIdentity is not { } session
+            || !CanObservePhotoSafeNode(session, worldId, safeNodeId, out var visitId))
+            return false;
+
+        _photoSafeNodeObservationPending = true;
+        try
+        {
+            if (!await DispatchPhotoVisitCommandAsync(session, PhotoWorldCommandHandler.VisitSafeNode,
+                    visitId, new { worldId, safeNodeId })
+                || !IsCurrentObservedPhotoSafeNode(session, worldId, safeNodeId, visitId)
+                || !PhotoSafeNodePlayerReady(session, worldId, safeNodeId))
+                return false;
+
+            var saved = await SaveCheckpointAsync(force: true);
+            if (!saved && ReferenceEquals(session, SessionIdentity))
+                FindPlayer()?.NotifyTraversal("Продвижение в снимке не удалось сохранить. Повторите сохранение.");
+            return saved && IsCurrentObservedPhotoSafeNode(session, worldId, safeNodeId, visitId);
+        }
+        catch (Exception error)
+        {
+            GD.PushWarning($"PhotoWorld safe-node observation failed: {error.Message}");
+            return false;
+        }
+        finally
+        {
+            _photoSafeNodeObservationPending = false;
+        }
+    }
+
+    private bool CanObservePhotoSafeNode(RuntimeKernel session, string worldId, string safeNodeId,
+        out string visitId)
+    {
+        visitId = string.Empty;
+        if (!PhotoWorldState.IsVisitSafeNode(worldId, safeNodeId)
+            || !PhotoSafeNodePlayerReady(session, worldId, safeNodeId)
+            || ActivePhotoVisit() is not { } visit
+            || visit.GetProperty("status").GetString() != "active"
+            || visit.GetProperty("worldId").GetString() != worldId
+            || visit.GetProperty("safeNodeId").GetString() == safeNodeId)
+            return false;
+        visitId = visit.GetProperty("visitId").GetString()!;
+        return true;
+    }
+
+    private bool PhotoSafeNodePlayerReady(RuntimeKernel session, string worldId, string safeNodeId) =>
+        IsInsideTree() && !IsQueuedForDeletion()
+        && ReferenceEquals(session, _kernel) && ReferenceEquals(session, SessionIdentity)
+        && !_loadingSlot && !_loadPreparing && !NeedsPhysicalRecovery
+        && _photoVisitCompletion is null && !_photoVisitCanceling && _photoBookBusySession is null
+        && PhotoWorldState.TryGetVisitRoute(worldId, out var sceneId, out _)
+        && ActiveSceneId == sceneId && !HasActiveMainMenu()
+        && GetTree().GetFirstNodeInGroup("pause_menu") is not PauseMenuUi { IsOpen: true }
+        && GetTree().GetFirstNodeInGroup("settings_ui") is not SettingsUi { IsOpen: true }
+        && PhotoBookReturnPhysicalBlockReason(requirePhysicalWorld: true) is null
+        && GetTree().GetFirstNodeInGroup("zone_manager") is Main main
+        && GodotObject.IsInstanceValid(main) && main.IsInsideTree() && !main.IsQueuedForDeletion()
+        && main.CanObservePhotoSafeNode(session, worldId, safeNodeId);
+
+    private bool IsCurrentObservedPhotoSafeNode(RuntimeKernel session, string worldId, string safeNodeId,
+        string visitId) => ReferenceEquals(session, _kernel) && ReferenceEquals(session, SessionIdentity)
+        && !_loadingSlot && !_loadPreparing && !NeedsPhysicalRecovery
+        && PhotoWorldState.TryGetVisitRoute(worldId, out var sceneId, out _)
+        && ActiveSceneId == sceneId
+        && ActivePhotoVisit() is { } visit
+        && visit.GetProperty("visitId").GetString() == visitId
+        && visit.GetProperty("status").GetString() == "active"
+        && visit.GetProperty("worldId").GetString() == worldId
+        && visit.GetProperty("safeNodeId").GetString() == safeNodeId;
 
     internal bool IsPhotoWorldPresentationDeferred =>
         _loadingSlot || _loadPreparing || NeedsPhysicalRecovery;
