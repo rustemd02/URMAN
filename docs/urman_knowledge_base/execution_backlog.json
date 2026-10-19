@@ -103329,6 +103329,10 @@
           "PW-003/GRAPH-CHECK": "completed 2026-10-16"
         },
         "not_run": "native/visual receipt, физические миры, внешние приёмки."
+      },
+      "presentation_revision_2026_10_20": {
+        "ref": "tasks[PW-043].tea_scene_hook_2026_10_20",
+        "scope": "Three D01 text values only; no graph/status/owner reassignment. New compiled non-text payload equals preceding main; pack SHA a5c56e75546b85064c6478be7e9113ca108b8e410189c4ce3079303b2b9860dd, fingerprint6f47e78bc728d70ea36362c046d9f6c71bf76577c1db49a84f141e1cef3c451c. Native and all physical producer gates remain open."
       }
     },
     {
@@ -118876,7 +118880,7 @@
       "title": "Перенести пролог внутрь W01",
       "milestone": "PW-M3",
       "status": "in_progress",
-      "active_owner": "Codex",
+      "active_owner": null,
       "owner": "narrative",
       "priority": "P1",
       "complexity": "complex",
@@ -119238,8 +119242,8 @@
       },
       "assigned_owner": "narrative",
       "activity": {
-        "state": "confirmed_active",
-        "reason": "Root accepted ownerrejection of actualF00frame and coordinates existingforestcomposition/ground/light candidates; placementworker rig_contract andW01lightingworker gamefeel source owners, root integration/nativeacceptance pending."
+        "state": "not_active",
+        "reason": "Finite D01 copy/pack/exact-save-compat stage reviewed/compiled; full prologue/forest/native/human acceptance remains open. Existing e79 station claim stays with PW020 until terminal/restoration."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -119249,7 +119253,7 @@
         "Игрок не обязан повторять тизер; объяснение «просто сон» не закрывает интригу.",
         "Обычный New Game без override использует актуальный pack, ставит физический W01 и передаёт управление семейному прибытию; skip не выдаёт необязательное знание, Replay не меняет основной сеанс, Continue не запускает New Game."
       ],
-      "next_action": "Finish one visible ordinary first-action stage from confirmed F01 stop/grip geometry (PW-046); preserve optional skip and authored state. Reuse actual F00 question/walk/arrival evidence; book-loop work in PW-020 does not wait for whole forest art acceptance.",
+      "next_action": "After existing e79 terminal/restoration and transport recovery, verify ordinary explicit prologue SkipButton→Niva arrival→home tea D01/book handoff on current candidate; retain full forest art/hints/optional skip and D00 arrival acceptance. Reuse accepted aff33 first-action/walk and2c pause/quit, no unchanged reruns.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -119852,6 +119856,45 @@
         "facts": "MatchingGLB branchbody1.10mwide/0.148721mhigh withbottomworldY1.0=terrain; gripworld[11.9992,1.0342,49.9966], no sink/scaleerror. ActualW16/W18 identicalframes withcamera[11.952178,2.6925597,49.76567],pitch0; horizontalgripdistance~.236m, vertical~1.658m.",
         "implication": "Gripcenter~82degbelowhorizontal; .30mray sphere atthispose requiresroughly72degdown. CurrentforwardlookcannotshowE. Causeofstoppedtranslation notproven; downtestinterruptedbyskip. Merelyraisingfork149→300mm wouldnotresolve gripdiscovery.",
         "next_result": "A whole clearfirstaction/physicalpresentation atstandingview usingexisting source/contact/animation/factowners. Evaluate groundedraisedbough/support geometry or existinginteractionpattern; nofloatinggeometry/invisiblewall/giantairtarget/autofacts. Keep broadMVPbookloop priority, no more modeltexturepolish."
+      },
+      "tea_scene_hook_2026_10_20": {
+        "state": "source_compiled_reviewed_native_pending",
+        "scope": "Only existing D01 text IDs d01-05/choice-d01-06/d01-07; sync working dialogue15 and compiledfullgame. No choices/effects/conditions/narrative graph changes.",
+        "purpose": "Give Aidar a concrete voluntary family task: continue Marat unfinished photo identification; warm promise to review together, free first-world order retained.",
+        "authority": [
+          "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/docs/02_NARRATIVE_BIBLE_RU.md:21-25",
+          "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/docs/15_DIALOGUES_RU.md:3",
+          "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/docs/16_AGENT_DELIVERY_RU.md:short-line clarification permission"
+        ],
+        "verification_question": "Three source/ru/default strings equal scenario+compiled pack; graph/choices/conditions/effects unchanged; exact source+compiled fingerprint recorded. Native delivery/human story-quality acceptance separate, pending transport.",
+        "result": "D01 explains unfinished Marat photo work; Aidar volunteers to finish, Gulsina invites shared review. Three existing localized text values only; IDs/choices/effects/conditions/order unchanged. Source+compiled+working dialogue15+data/dialogues.spec.json aligned; dated original full-spec reading exports not regenerated.",
+        "verification": {
+          "source_review": "Independent Luna Fast reviewed actual lines and canon; no blocking continuity issue. Identifying people inferred from existing caption work, no new plot/state fact.",
+          "compiled_non_text_contract_identical": true,
+          "compiled_comparison": "After replacing exactly three expected texts.value plus moduleFingerprints/campaignFingerprint in preceding main pack, complete JSON equal to new pack. All state/graph/other registries/dependency data identical.",
+          "compiled_pack_sha256": "a5c56e75546b85064c6478be7e9113ca108b8e410189c4ce3079303b2b9860dd",
+          "campaign_fingerprint": "6f47e78bc728d70ea36362c046d9f6c71bf76577c1db49a84f141e1cef3c451c",
+          "source_definitions_sha256": "d5e8d47a85c4ce7bdc948d621dfd68abc117e3149878ab32d03cfad6b5e33345",
+          "content_compile_exit": 0,
+          "affected_game_build": "evidence/PW-043/tea-hook-20261020/affected-game-build.log",
+          "affected_game_build_seconds": 15.38,
+          "build_warnings": 0,
+          "build_errors": 0,
+          "strict_codec_existing_test": "Urman.Core.Tests.DeterminismAndSaveTests.Codec_RejectsWrongCampaignFingerprint",
+          "test_result": "1 total,0failed,0errors; evidence/PW-043/tea-hook-20261020/codec-fingerprint-test.log",
+          "native": "NOT_RUN; current e79 snapshot predates all D01 changes and remains transport-inaccessible."
+        },
+        "save_compatibility": {
+          "class": "contract-carrying code; no data deletion or live-state mutation",
+          "path": "bounded exact compatibility in existing canonical store owner",
+          "owner": "game/scripts/RuntimeBridge.ContentCompatibility.cs",
+          "previous_fingerprint": "441a862cce6ad7c3fc9f8c566ba81ed03e44d32ae98b7298b7e589169b533257",
+          "expected_fingerprint": "6f47e78bc728d70ea36362c046d9f6c71bf76577c1db49a84f141e1cef3c451c",
+          "basis": "Previous published main SaveGameV3 contract; compiled non-text payload equality proves text-only revision. No claim made about contents of actual owner slots.",
+          "preserved": "Only exact one-way predecessor→current accepted for urman.fullgame, through same store for Continue discovery and player/debug load. Other fingerprints/campaigns strict; prior text-only pair retained unchanged. No rewrites of slot files.",
+          "retirement_boundary": "A different current campaign fingerprint automatically disables this pair; after ordinary save slot uses current fingerprint. No general wildcard or transitive compatibility.",
+          "review": "Independent actual source review verified collection, expected-fingerprint guard, codec and Continue/load callers."
+        }
       }
     },
     {
