@@ -106,13 +106,25 @@ public partial class RuntimeBridge
 
     internal bool CanEnterPhotoBookForest(out string reason)
     {
-        reason = _loadingSlot || _loadPreparing || NeedsPhysicalRecovery || SessionIdentity is null
-            ? "Дождитесь завершения перехода."
-            : ReferenceEquals(_photoBookBusySession, SessionIdentity)
-                ? "Дождитесь завершения действия с книгой."
-                : !IsInteractionAvailable(PhotoBookForestEntryInteractionId)
-                    ? "Сначала сопоставьте школьную копию со снимком «Люди у леса» и вклейте снимок."
-                    : PhotoBookForestPhysicalBlockReason(requirePhysicalWorld: true) ?? string.Empty;
+        var session = SessionIdentity;
+        if (_loadingSlot || _loadPreparing || NeedsPhysicalRecovery || session is null)
+            reason = "Дождитесь завершения перехода.";
+        else if (ReferenceEquals(_photoBookBusySession, session))
+            reason = "Дождитесь завершения действия с книгой.";
+        else if (!IsInteractionAvailable(PhotoBookForestEntryInteractionId))
+        {
+            var state = session.SelectState();
+            reason = !BookReceived(state)
+                ? "Примите семейную книгу у Гөлсинә."
+                : !PhotoFlag(state, "P-FOREST", "mounted")
+                    ? "Вклейте снимок «Люди у леса»."
+                    : !PhotoFlag(state, "S-SCHOOL", "acquired")
+                        ? "Получите разрешённую копию школьного альбома в старой школе."
+                        : PhotoBookForestPhysicalBlockReason(requirePhysicalWorld: true)
+                            ?? "Сейчас вход в лесной снимок недоступен.";
+        }
+        else
+            reason = PhotoBookForestPhysicalBlockReason(requirePhysicalWorld: true) ?? string.Empty;
         return reason.Length == 0;
     }
 

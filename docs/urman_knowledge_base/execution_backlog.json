@@ -109590,7 +109590,7 @@
       "remaining": [
         "Native ordinarycycle/Continue/support/fallback/props/audio/profile/cancel/failure acceptance remains; compile/source review does not close PW-020."
       ],
-      "next_action": "Native changedcandidate ordinary NewGame→home/book→school copy→W01 entry→bookreturn→save status→MainMenu→Continue. Reuse ca9 forest/arrival frames; resolve only observed input/foreground cause before another unchanged arrival route. Return-checkpoint failure feedback source stage e652c219 retained.",
+      "next_action": "Recover transport for existing protected e79 job, obtain authoritative terminal/userdata restoration before any new job. Then authorized explicit prologueSkip→Niva→home/tea→automatic album→authorized schoolcopy acquisition→PFORESTentry→meaningful W01action→bookreturn→save/MainMenu/Continue. Reuse accepted pause/first-action proof; no unchanged F01 rerun or guessed mandatory comparison/mount.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -109849,7 +109849,17 @@
         ],
         "guards": "Nivaarrivalbeatdone beforehomedoor; teatalk andwarmarrivaldone beforehandoff. Sourceauthoredpoints/availability only, actualmovements/prompts mustberead, no blindtimedmacro/devspawn/facts.",
         "source": "Current StyleBenchmarkZone/AgentBAct1Layout/Act1WorldLayout/ArrivalPersonalProps/JournalUi + fullgamecompiledinteractioncontracts. ExistingphysicalNICAPStopcaption not necessarily visible fromarrivalforwardview; deliberateordinaryturn/target necessary.",
-        "next_action": "After producer/runtimecandidatefrozen, ordinaryNewGame→acceptedprologueskip→turntowardNiva/visibleprompt→home/tea/book→schoolcopy→W01entry/return→save/MainMenu/Continue; branchprologueartnot aprerequisite."
+        "next_action": "After producer/runtimecandidatefrozen, ordinaryNewGame→acceptedprologueskip→turntowardNiva/visibleprompt→home/tea/book→schoolcopy→W01entry/return→save/MainMenu/Continue; branchprologueartnot aprerequisite.",
+        "book_ui_source_2026_10_20": {
+          "state": "source_ready_not_native_proven",
+          "handoff": "pw-book-handoff opens PhotoBook tab7 automatically and focuses acquired list; no guessed tab count. Arrow selection; Tab to visibly focused enabled button; Enter.",
+          "correction": "P-FOREST starts acquired+mounted; its mount is disabled. Actual entry gate needs book received/PFOREST mounted/SSCHOOL acquired/prologue completed. S-SCHOOL readback/mount and comparison are optional, NOT prerequisites. After authorized schoolcopy acquisition select enabled PFOREST Войти в снимок at physical home table. J reopens album in W01; authored return uses safety/checkpoint guards.",
+          "sources": [
+            "game/scripts/ArrivalPersonalProps.cs",
+            "game/scripts/JournalUi.PhotoBook.cs",
+            "game/scripts/RuntimeBridge.PhotoBook.cs"
+          ]
+        }
       },
       "physical_ui_transport_2026_10_19": {
         "state": "source_reviewed_native_pending",
@@ -109881,6 +109891,22 @@
         "snapshot_id": "27626713c7807ded8c64bdd12b3b446b914019c99e73c54534fb916aaaeeaba9",
         "evidence": "evidence/PW-020/native_book_e79adf9f932a4d74b4aec64d7565c6a4/",
         "observed": "Submit succeeded; later single bounded status returned urlopen timed out; no actual menu/frame, no input. Root Tailscale health reports encrypted relay certificate rejected as self-signed; same-station bounded ping no reply. No TLS/hostkey bypass, forced kill, additional job or userdata manipulation. Terminal receipt/restoration pending until transport recovers. Human skip approval remains valid."
+      },
+      "entry_hint_2026_10_20": {
+        "state": "source_verified_native_pending",
+        "file": "game/scripts/RuntimeBridge.PhotoBook.cs",
+        "question": "Does unavailable entry explain the first missing authored condition rather than require optional comparison/readback or re-mounting initial PFOREST?",
+        "success": "Source slice satisfied: loading/busy/authoritative interaction/physical gates unchanged. Hint names missing book, PFORESTmount or SSCHOOL acquisition; after those progression flags uses existing physical helper (outside→home table), otherwise neutral unavailable reason. Does not claim incomplete prologue solely from unavailable interaction; scene ownership also matters.",
+        "source_contract": "content/modules/urman-fullgame/definitions.json: pw-enter-forest has exactly four conditions; comparison/readback/SSCHOOLmount optional, not entry prerequisites.",
+        "remaining": "Native ordinary book-loop still required; source hint correction does not close PW020.",
+        "verification": {
+          "affected_game_build": "evidence/PW-020/entry-hint-20261020/affected-game-build.log",
+          "exit_code": 0,
+          "warnings": 0,
+          "errors": 0,
+          "elapsed_seconds": 16.08,
+          "independent_source_review": "Actual CanEnter + RuntimeBridge.IsInteractionAvailable + JournalUi caller + dispatch guards inspected; no conditions added/removed. No new tests. Native not run: station transport unavailable; e79 snapshot predates this hint change."
+        }
       }
     },
     {
