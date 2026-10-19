@@ -25452,8 +25452,8 @@
             "remaining": [
               "Подключить NewGame выбранной кампании с отказом при invalid content; собственного целевого receipt пока нет."
             ],
-            "next_action": "Accept exactly one current-source ordinary play-product attempt after actual worker Session1 doctor reports full-desktop clip; inspect own menu/guarded input/receipt. On repeated foreground refusal preserve evidence and stop input; do not bypass guards or close foreign foreground app.",
-            "blocker": "CurrentordinaryNewGame input stillrefused: validownedtarget, butnonnullforegroundbelongsChatGPT.exe(session1); captionclipbranchonlyraisedownedwindow anddidnotclick. Gameflow notentered; actualreasonforOSfocusretention unresolved.",
+            "next_action": "Await own d581dcfcbc7944afb502691de5884b5a bounded game exit and final receipt/userdata restore. Ordinary NewGame/Continue input remains blocked by persistent foreign foreground; require actual host focus precondition change before any new launch/input. No guard weakening or same-state rerun.",
+            "blocker": "Actual current-source menu loaded, but first native Enter refused ui_focus_post_activation_lost; target75497540 valid/PIDmatch, foreground8980148/PID85600 unchanged. Full-desktop prelaunch clip did not resolve foreground activation. No actual NewGame route accepted.",
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
             "work_contract": {
@@ -25575,10 +25575,27 @@
               "remaining": "OrdinaryNewGame/firstwalk/Continue/motion/art stillopen. No unchangedrerun; resolve confirmedhostforeground/captionclipprecondition first."
             },
             "readonly_host_observation_2026_10_19": {
-              "state": "interactive_worker_observation_available_native_attempt_pending",
+              "state": "current_ordinary_menu_loaded_first_input_refused",
               "result": "Existing desktop()/health adds four nullable read-only Win32 observations with correct HWND/DWORD/RECT signatures; no focus/cursor/input/ownership changes. Independent Fast review and Python AST PASS. Exact worker SHA92ccc5a4 deployed alone via backup+hash guards+managedstop/start; existing Windows unresolved merge and dirty docs preserved.",
               "evidence": "evidence/FINISH-06/desktop-health-20261019/health.json: actualworker Session1 inputdesktoptrue, foreground8980148/PID85600; cursor_clip_rect equals full virtual screen [0,0,1920,1080]. Earlier SSH Session0 observations remain invalid for Session1.",
               "decision": "One new ordinary current-source play-product asks whether full-desktop cursor bounds permit existing guarded owned-caption activation. If refusal repeats, stop input and preserve receipt; never weaken guard or close foreign ChatGPT."
+            },
+            "native_stage_2026_10_19": {
+              "job": "d581dcfcbc7944afb502691de5884b5a",
+              "snapshot": "95a2030147a48a37ee76e40e6717ec186d266a92201fdb399949622f923f3917",
+              "state": "actual_menu_seen_first_guarded_input_refused_no_retry",
+              "evidence": "evidence/FINISH-06/native_d581dcfcbc7944afb502691de5884b5a/frames/menu.png; ui-first-refusal.json; stdout-active.log",
+              "result": "Actual native menu received/inspected after current-source affected build/import; first Enter refused ui_focus_post_activation_lost, target75497540 valid/PIDmatch, foreground8980148/PID85600 unchanged. No further input. Await bounded exit/finalreceipt/userdata restoration.",
+              "source_hypothesis": "Initial FPCReady captured mouse, but synchronous main-menu SetModalOpen(true) and MainMenuReady release it; no periodic recapture found. This does not prove cause of persistent menu caption refusal; no speculative source fix.",
+              "limits": "No NewGame route, prologue/F03, arrival goal, book earlyreturn/reentry or Continue acceptance. Active log includes2 preexisting PainterlyMaterialLibrary missingmode warnings; no ERROR: at observation. Terminal run/engine errors/userdata restore not yet claimed.",
+              "post_refusal_desktop": "ActualSession1 afterrefusal: clipstillfullvirtual1920x1080, sameforeignforegroundPID85600. Does not support persistent clientrect cursorcapture hypothesis."
+            },
+            "ordinary_window_policy_2026_10_19": {
+              "state": "source_reviewed_windows_parser_pass_staged_not_deployed",
+              "source": "eng/run-windows-check.ps1 SHA42dd8f13f59c333cad638e05a6cd748aebcc4f15161db589802d02a12784f817",
+              "result": "Exact ordinary modeplay+photoworlds_game.tscn now honors project windowoverride1280x720 instead of forcing1920x1080 client on1920x1080desktop; receipt nativeWindowSizePolicy=project-default. Capture/smoke/otherplay remain1920, clean/timeout/headlesspolicy/alwaysontop/focus/ownership guards unchanged.",
+              "verification": "Independent Fast review no findings; actual Windows PowerShell Parser on staged exact source PASS. Not deployed while own old job active.",
+              "causality_limit": "Prelaunch AND postrefusal clip remainfull1920x1080; target bounds not observed, so forcedoversize is launch semantics mismatch and possible caption-offscreen cause, not proven cause/resolved focus."
             }
           },
           {
@@ -109494,13 +109511,13 @@
             "task_id": "PW-012",
             "artifact": "Ввести session generation и отмену переходов",
             "requires": "relevant_artifact_not_full_parent",
-            "availability": "not_confirmed"
+            "availability": "available"
           },
           {
             "task_id": "PW-019",
             "artifact": "Реализовать условия первого сознательного входа",
             "requires": "relevant_artifact_not_full_parent",
-            "availability": "not_confirmed"
+            "availability": "available"
           }
         ],
         "scope_in": [
@@ -109592,13 +109609,13 @@
             "task_id": "PW-012",
             "artifact": "Ввести session generation и отмену переходов",
             "requires": "relevant_artifact_not_full_parent",
-            "availability": "not_confirmed"
+            "availability": "available"
           },
           {
             "task_id": "PW-019",
             "artifact": "Реализовать условия первого сознательного входа",
             "requires": "relevant_artifact_not_full_parent",
-            "availability": "not_confirmed"
+            "availability": "available"
           }
         ],
         "verification": [],
@@ -109655,7 +109672,17 @@
           "evidence_ref": "PW-020.evidence and named history progress; source_review shows available/missing inputs"
         }
       ],
-      "assignment_state": "preserved_person_or_existing_role; activity separate"
+      "assignment_state": "preserved_person_or_existing_role; activity separate",
+      "return_ticket_source_readiness_2026_10_19": {
+        "state": "named_inputs_available_implementation_pending",
+        "result": "PW012 live session/load/atomiclocation guards and PW019 mountedbook/liveanchor entry exist in source; parent completion is not required for this implementation input. PhotoWorldState schema2 already validates full ticket/visit transitions but production prepare/commit/return/abort commands are absent; activevisit/history remain unpopulated. Extend existing kernel+RuntimeBridge+Main router, no separate Coordinator/save schema.",
+        "next_result": "Finite PW_HOME_TABLE→W01→early/F16return: durable prepare checkpoint before source disposal, actual safe origin pose on return and recovery/Continue; preserve earned facts instead of restoring origin runtime snapshot. Full otherworld/art acceptance remains separate.",
+        "risks": [
+          "House table anchor Y.95 is tabletop, not proven foot safe node; origin pose requires live CanStandAt/floor and existing authoredspawn fallback validation.",
+          "Reject entry on failed durable preparation; never save home with stale forest transform.",
+          "Audio director semantic state capture/apply needed; portable pitch/yaw are degrees."
+        ]
+      }
     },
     {
       "id": "PW-021",
@@ -114721,7 +114748,7 @@
         "Не создаются сотни уникальных текстур одинаковых досок.",
         "Уточнение автора 09.10.2026: материалы и растительные формы наружной деревни проверены в составе домов и окружения по выбранным автором скриншотам. Сопоставимы масштаб фактур, материальность дерева/земли/снега, объём и плотность растительности, свет и цветовые отношения. Новые текстуры поверх примитивных форм и отдельный образец материала не доказывают соответствие целой игровой сцены."
       ],
-      "next_action": "Возвращаться к материалам/растительности только как части выбранной целой сцены PW-044/045 или при доказанном блокере восприятия; отдельную полировку ели сейчас не запускать.",
+      "next_action": "Deliver one coherent ordinary day arrival→street→home scene using existing models and current exact P1: shared light/depth/material scale and readable background composition; compare matched Windows frames+movement. No isolated model polishing; current whole-scene mismatch evidence is in whole_scene_style_review_2026_10_19.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -115279,6 +115306,16 @@
         "result": "C1/C2 village-winter-crisp High FOV70 baseline job59ce9e23c0774a98b256c773eb431172 PASS; artifacts fetched. Root ещё не просмотрел PNG, art acceptance не заявлена. Snapshot2aea2f3d6d35ab604126e087634cc6eac08a8b0496406a55afc9e572d9b3a1db предшествует RoadGraph patch.",
         "evidence": "evidence/PW-034/current-baseline-20261017/receipt.json",
         "root_visual_review": "Просмотрены C1/C2 evidence/PW-034/current-baseline-20261017: повторяющиеся острые ели и плоские снежные ярусы; текущий конечный этап исправляет геометрию, авторская приёмка остаётся открыта."
+      },
+      "whole_scene_style_review_2026_10_19": {
+        "state": "runtime_reference_mismatch_confirmed_not_fixed",
+        "evidence": [
+          "evidence/ACT1-DEPTH.12/native_uv_v3_fdc5f5ef62fc4554ad107b9d9bef31ef/frames/babai_shape_front_high.png",
+          "docs/URMAN_VISUAL_RESET_2026-10-07/references/P1_user_selected_painterly.png"
+        ],
+        "result": "Root and independent agent viewed actual19Oct front and exactP1: detailed PBR house vs flat character/faceted conifer wall and noisy snow do not form one style. Background high-contrast crowns compete with house; street-to-warm-home light/focal hierarchy missing.14Oct street is historical baseline, not currentmain proof. ExactT2 file missing; architectural acceptance not inferred.",
+        "next_result": "One coherent ordinary day arrival→street→home scene using existing models: authored light/depth planes and shared large-scale pigment/material response, with background composition subordinated to route/home; same-camera Windows comparison+movement. No more isolated models, unique detail textures or credit spend before whole-scene result.",
+        "limits": "No scene/art acceptance delivered by this assessment; preserve all art/culture/reference rights gates and existing owners."
       }
     },
     {

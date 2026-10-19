@@ -239,7 +239,14 @@ try {
         }
     }
     if ($Mode -in @('play', 'smoke', 'capture')) {
-        $baseArguments = @($guard, '--clean', '--timeout', "$TimeoutSeconds", $godot, '--path', "$Root/game", '--resolution', '1920x1080')
+        $baseArguments = @($guard, '--clean', '--timeout', "$TimeoutSeconds", $godot, '--path', "$Root/game")
+        # Ordinary PhotoWorlds play uses the same window settings as the shipped
+        # project. A forced desktop-sized client can put its caption off-screen.
+        if ($Mode -eq 'play' -and $Scene -eq 'res://scenes/photoworlds_game.tscn') {
+            $receipt.nativeWindowSizePolicy = 'project-default'
+        } else {
+            $baseArguments += @('--resolution', '1920x1080')
+        }
         if ($Headless) { $baseArguments += '--headless' } else { $baseArguments += '--always-on-top' }
         if ($studioPlay) { $baseArguments += '--verbose' }
         if ($Mode -eq 'capture') {
