@@ -113690,6 +113690,13 @@
           "game/scripts/Main.cs",
           "game/scenes/photoworlds/W01/W01.tscn"
         ]
+      },
+      "current_world_owner_review_2026_10_20": {
+        "state": "full_unification_open",
+        "actual_owner": "Village:Act1ConnectedWorld.TuneConnectedAct1Atmosphere; W01-W04:scene-ownedWorldEnvironment+Daylight; W05addsownEnvironmentonly.",
+        "preservation_inputs": "W01usesexactfloatcolors,AmbientSourceSky3,ACES3,depthfog(mode1,density.68,begin24,end155,curve1.35),sun1.08/shadow.68/rotation(-38,-35). CurrentJSONcannotrepresentthese fieldslosslessly; currentTunealsochangesquality/globalSnow.",
+        "save_boundary": "AtmosphereProfiles.AppliedProfileId meanslastoutdoorprofile; CaptureW01ReturnTicket/Main exactorigincheckmustpreserve meaningorrestorecorrectly.",
+        "next_action": "Unifyonlywithlosslessworldprofilefields andactualsixworldnativecomparisons; do notfunnelW01throughoutdoorTune. W05missingEnvironment isboundedPW065followup, notfullPW031completion."
       }
     },
     {
@@ -131028,7 +131035,15 @@
           "logs": "evidence/PW-065/cellar-source-20261020/",
           "new_tests": false
         },
-        "credits_spent_total": 305
+        "credits_spent_total": 305,
+        "environment_followup": {
+          "state": "source_resource_authored_native_pending",
+          "finding": "After connectedworld retirement W05 had no WorldEnvironment; no inheritedcoldVillage profile can be claimed. OnlysixwarmOmniandcoolslitSpot existed.",
+          "file": "game/scenes/photoworlds/W05/W05.tscn",
+          "result": "Scene-owned explicitinteriorEnvironment/colorambient0.42/ACES/noheightorvolumetricfog; existinglamps/slit unchanged. Numericvaluesproductioncandidate, notartacceptance.",
+          "verification": "Resourceinspection+diffcheck; sameexistingW01-W04 scene pattern; noC#orengine/build/test run. GodotEnvironment official enumdocs:BG_COLOR1,AMBIENT_SOURCE_COLOR2,ACES3.",
+          "doc": "https://docs.godotengine.org/en/stable/classes/class_environment.html#enum-environment-ambientsource"
+        }
       }
     },
     {
@@ -131036,7 +131051,7 @@
       "title": "W05: произвести и оживить Бичуру",
       "milestone": "PW-M3",
       "status": "in_progress",
-      "active_owner": "Codex/forest_art_reference",
+      "active_owner": null,
       "owner": "gameplay",
       "priority": "P1",
       "complexity": "complex",
@@ -131174,8 +131189,8 @@
       },
       "assigned_owner": "gameplay",
       "activity": {
-        "state": "confirmed_active",
-        "reason": "Root и подтверждённые независимые исполнители начали ограниченный source этап; JSON/Git/builds сериализует root."
+        "state": "not_active",
+        "reason": "Референсы и CLI source-этап завершены; новый MeshyPOST заблокирован exactPNGconsent, ответ пользователя ожидается."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -131356,7 +131371,15 @@
         "provider_balance_readonly": 3975,
         "paid_post": "Авто-review дважды отклонил exact PNG external upload; taskID нет, POST не выполнен; explicit user question pending. Обходов нет.",
         "credits_spent_total": 305,
-        "candidate_cap": 100
+        "candidate_cap": 100,
+        "animation_api_source": {
+          "file": "eng/meshy_assets.py",
+          "state": "source_checked_no_provider_execution",
+          "result": "submit-animation exact3×NcreditACK; 1..10unique nonnegativepresetIDs; officialplural/animations status/list/downloadGLB/FBX; safeURLredaction/exclusivefilewrites/singlePOST/noautoretry.",
+          "verification": "ASTparse + fourCLIhelpcommands exit0; independentsecurity/code review. action_id0 admitted becauseofficialintegercontracthasnominimum; actualIDmustexistinproviderlibrary.",
+          "provider_calls": 0,
+          "paid_post_authorization": "Still awaiting human exactv2PNGconsent afterautomaticapprovalreviewrejection; no upload/model/rig/animation tasks created."
+        }
       }
     },
     {

@@ -1,9 +1,26 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=3 format=3]
 
 [ext_resource type="Script" path="res://scripts/photoworlds/W05Controller.cs" id="1_w05"]
 
+; Interior baseline. Local warm lamps and the cool daylight slit own the key light.
+; The explicit resource follows the current W01-W04 scene pattern; no outdoor
+; profile or global weather/material state is overwritten by this scene.
+[sub_resource type="Environment" id="Environment_W05Cellar"]
+background_mode = 1
+background_color = Color(0.47, 0.55, 0.57, 1)
+ambient_light_source = 2
+ambient_light_color = Color(0.73, 0.69, 0.60, 1)
+ambient_light_energy = 0.42
+tonemap_mode = 3
+tonemap_exposure = 1.0
+fog_enabled = false
+volumetric_fog_enabled = false
+
 [node name="W05" type="Node3D"]
 script = ExtResource("1_w05")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_W05Cellar")
 
 [node name="Anchors" type="Node3D" parent="."]
 

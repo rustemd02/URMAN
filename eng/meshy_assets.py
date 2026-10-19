@@ -1,13 +1,15 @@
 #!/usr/bin/env python3
-"""Small, explicit Meshy API client for local image/GLB assets and rigging.
+"""Small, explicit Meshy API client for local image/GLB assets, rigging, and animation.
 
-Expected paid usage (official API pricing checked 2026-10-18):
+Expected paid usage (official API pricing checked 2026-10-20):
   submit-image: 30 credits — meshy-7.1, standard geometry, 4K PBR texture;
     --geometry-only costs 20 credits.
   submit-retexture: 10 credits — 4K PBR; optional 8K costs 15 credits.
   submit-remesh: 5 credits — one 100,000-face remesh task by default.
   submit-rig: 5 credits — rig one successful textured model task.
 One image model plus one default remesh, retexture and rig is 50 credits.
+Animation applies 1–10 unique preset actions to a successful rig task in one
+file, with one clip per action at 3 credits per action.
 Each submit verb prints its estimate and requires the matching
 --spend-credits value before its single POST. Meshy reports actual
 consumed_credits on task status. No retries.
@@ -15,6 +17,7 @@ consumed_credits on task status. No retries.
 The CLI intentionally has no text-to-3D or image-generation commands.
 API reference: https://docs.meshy.ai/en/api
 Pricing: https://docs.meshy.ai/en/api/pricing
+Animation: https://docs.meshy.ai/en/api/animation
 """
 
 import argparse
@@ -41,7 +44,10 @@ MAX_JSON_BYTES = 8 * 1024 * 1024
 MAX_IMAGE_BYTES = 20_000_000
 MAX_MODEL_DATA_URI_BYTES = 100_000_000
 TASK_TYPES = ("image-to-3d", "retexture", "remesh", "rigging")
-TASK_OBJECT_TYPES = {*TASK_TYPES, "rig"}
+TASK_ENDPOINTS = {task_type: task_type for task_type in TASK_TYPES}
+TASK_ENDPOINTS["animation"] = "animations"
+TASK_CHOICES = tuple(TASK_ENDPOINTS)
+TASK_OBJECT_TYPES = {*TASK_TYPES, "rig", "animate"}
 TASK_STATUSES = {"PENDING", "IN_PROGRESS", "SUCCEEDED", "FAILED", "CANCELED"}
 FORMATS = {"glb", "gltf", "obj", "fbx", "stl", "usdz", "blend", "3mf", "pre_remeshed_glb"}
 DOWNLOAD_FORMATS = {
@@ -253,6 +259,21 @@ def safe_task(task):
         result["available_formats"] = sorted(
             name for name in model_urls if isinstance(name, str) and name in FORMATS
         )
+    result_urls = task.get("result")
+    if isinstance(result_urls, dict):
+        output_keys = {
+            "rigged_character_glb_url": "glb",
+            "rigged_character_fbx_url": "fbx",
+            "animation_glb_url": "glb",
+            "animation_fbx_url": "fbx",
+        }
+        available = set(result.get("available_formats", []))
+        available.update(
+            format_name for key, format_name in output_keys.items()
+            if isinstance(result_urls.get(key), str)
+        )
+        if available:
+            result["available_formats"] = sorted(available)
     texture_urls = task.get("texture_urls")
     if isinstance(texture_urls, list):
         result["texture_set_count"] = len(texture_urls)
@@ -275,7 +296,7 @@ def require_spend_ack(operation, credits, acknowledged):
         raise ClientError(f"paid POST refused; pass --spend-credits {credits} to match this estimate")
 
 
-def add_task_type_argument(parser, choices=TASK_TYPES):
+def add_task_type_argument(parser, choices=TASK_CHOICES):
     parser.add_argument("task_type", choices=choices)
 
 
@@ -283,6 +304,10 @@ def get_download_url(task, task_type, file_format):
     if task_type == "rigging":
         result = task.get("result")
         key = {"glb": "rigged_character_glb_url", "fbx": "rigged_character_fbx_url"}.get(file_format)
+        return result.get(key) if isinstance(result, dict) and key else None
+    if task_type == "animation":
+        result = task.get("result")
+        key = {"glb": "animation_glb_url", "fbx": "animation_fbx_url"}.get(file_format)
         return result.get(key) if isinstance(result, dict) and key else None
     model_urls = task.get("model_urls")
     return model_urls.get(file_format) if isinstance(model_urls, dict) else None
@@ -328,13 +353,21 @@ def build_parser():
     rig_parser.add_argument("--height-meters", required=True, type=float, help="approximate character height; must be positive")
     rig_parser.add_argument("--spend-credits", type=int, help="must equal the 5-credit estimate before a paid task is created")
 
+    animation_parser = commands.add_parser("submit-animation", help="apply 1–10 preset clips to a successful rig task")
+    animation_parser.add_argument("--rig-task-id", required=True, help="successful rigging task ID")
+    animation_parser.add_argument(
+        "--action-ids", required=True, nargs="+", type=int,
+        help="1–10 unique IDs from GET /animations/library; one clip is added per ID in this order",
+    )
+    animation_parser.add_argument("--spend-credits", type=int, help="must equal 3 credits per requested action")
+
     download_parser = commands.add_parser("download-glb", help="download GLB only after task status is SUCCEEDED")
     add_task_type_argument(download_parser)
     download_parser.add_argument("task_id")
     download_parser.add_argument("--output", type=Path, required=True, help="new local file path; existing files are never overwritten")
 
-    fbx_parser = commands.add_parser("download-fbx", help="download rigged FBX only after task status is SUCCEEDED")
-    add_task_type_argument(fbx_parser, choices=("rigging",))
+    fbx_parser = commands.add_parser("download-fbx", help="download rigged or animated FBX only after task status is SUCCEEDED")
+    add_task_type_argument(fbx_parser, choices=("rigging", "animation"))
     fbx_parser.add_argument("task_id")
     fbx_parser.add_argument("--output", type=Path, required=True, help="new local file path; existing files are never overwritten")
     return parser
@@ -352,6 +385,14 @@ def run(args):
         args.input_task_id = require_task_id(args.input_task_id)
         if not math.isfinite(args.height_meters) or args.height_meters <= 0:
             raise ClientError("height-meters must be a positive finite number")
+    if args.command == "submit-animation":
+        args.rig_task_id = require_task_id(args.rig_task_id)
+        if not 1 <= len(args.action_ids) <= 10:
+            raise ClientError("animation requires from 1 to 10 action IDs")
+        if any(action_id < 0 for action_id in args.action_ids):
+            raise ClientError("animation action IDs must be non-negative integers")
+        if len(set(args.action_ids)) != len(args.action_ids):
+            raise ClientError("animation action IDs must be unique")
     if args.command == "submit-remesh":
         if (args.model is None) == (args.input_task_id is None):
             raise ClientError("provide exactly one local model or --input-task-id")
@@ -387,13 +428,13 @@ def run(args):
             "page_size": args.page_size,
             "sort_by": args.sort_by,
         })
-        tasks = client.request_json("GET", "/" + args.task_type + "?" + query)
+        tasks = client.request_json("GET", "/" + TASK_ENDPOINTS[args.task_type] + "?" + query)
         print_json(safe_task_list(tasks))
         return 0
 
     if args.command == "status":
         task_id = require_task_id(args.task_id)
-        task = client.request_json("GET", "/" + args.task_type + "/" + task_id)
+        task = client.request_json("GET", "/" + TASK_ENDPOINTS[args.task_type] + "/" + task_id)
         print_json(safe_task(task))
         return 0
 
@@ -433,6 +474,20 @@ def run(args):
         if task_id is None:
             raise ClientError("Meshy accepted no recognizable task ID; response details were not logged")
         print_json({"task_id": task_id, "estimated_credits": credits})
+        return 0
+
+    if args.command == "submit-animation":
+        credits = 3 * len(args.action_ids)
+        require_spend_ack(f"{len(args.action_ids)} preset animation clip(s)", credits, args.spend_credits)
+        task = client.request_json("POST", "/animations", {
+            "rig_task_id": args.rig_task_id,
+            "action_ids": args.action_ids,
+        })
+        result = task.get("result") if isinstance(task, dict) else None
+        task_id = require_task_id(result) if isinstance(result, str) else None
+        if task_id is None:
+            raise ClientError("Meshy accepted no recognizable animation task ID; response details were not logged")
+        print_json({"task_id": task_id, "estimated_credits": credits, "action_ids": args.action_ids})
         return 0
 
     if args.command == "submit-retexture":
@@ -481,7 +536,7 @@ def run(args):
         return 0
 
     if args.command in ("download-glb", "download-fbx"):
-        task = client.request_json("GET", "/" + args.task_type + "/" + args.task_id)
+        task = client.request_json("GET", "/" + TASK_ENDPOINTS[args.task_type] + "/" + args.task_id)
         safe_task(task)
         if task.get("status") != "SUCCEEDED":
             raise ClientError("task must be SUCCEEDED before model download")
