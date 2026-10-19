@@ -26049,7 +26049,7 @@
       "remaining": [
         "Не выполнять родитель как разработку: закрыть конкретные children и их внешние gates."
       ],
-      "next_action": "Выбрать один dependency-ready child; принятую передачу ревьюить до новой разработки.",
+      "next_action": "Resolve nativecurrentcampaign arrival post-buildcost, retain healthfocusfix. Wholeprologueart explicitlyrejected; do not treat ordinarymenu/NewGametechnicalevidence as pleasingintro/releaseacceptance.",
       "blocker": null,
       "external_gates": [
         {
@@ -109783,6 +109783,11 @@
         "receipt": "evidence/PW-020/native_route_7b03dd14971048949a7961e693bc2830/receipt.json",
         "result": "Terminal PASS/gameExit0 after ordinaryPauseQuitconfirmation, elapsed765.0534s, userdataRestoredtrue, engine-errors0. ActualNewGame→Resume→secondfocusOut, route not traversed. QuitfinalUI409processchanged because game exited; receipt/log confirms shutdown.",
         "archive_cleanup_bytes": 3256230
+      },
+      "ordinary_route_232b_2026_10_19": {
+        "receipt": "evidence/PW-020/native_route_232b0ded47d64b95a868949cd7f85827/receipt.json",
+        "result": "FAILtimeout124 elapsed1367.7878s/restoredtrue/engineerrors0; actualworker981ffe23. NewGameframe withoutPause, realESCskip. Singlevillagezone-loaded+checkpoint then92streetbankpasses(first50reworked,next91zero). No provenbook/W01roundtrip; notrecursiveBuild.",
+        "source_fix": "OnlySnowRelief.cs caches50StreetBankrefs afteroneshotBuild; sameorder/liveeligibility/geometry/collision. IndependentFastreviewclean, affectedGame20.48s0/0. Native d14e26a5 delegatedto book_entry before userartrejection; awaitingauthoritativeterminal."
       }
     },
     {
@@ -118728,7 +118733,7 @@
       "title": "Перенести пролог внутрь W01",
       "milestone": "PW-M3",
       "status": "in_progress",
-      "active_owner": null,
+      "active_owner": "Codex",
       "owner": "narrative",
       "priority": "P1",
       "complexity": "complex",
@@ -118979,7 +118984,7 @@
         "REQ"
       ],
       "runtime_evidence": "NOT_RUN",
-      "author_acceptance": "PENDING",
+      "author_acceptance": "REJECTED_CURRENT_PROLOGUE_FRAME",
       "mvp_priority": 40,
       "mvp_packet": "PW3",
       "delivery": {
@@ -119090,8 +119095,8 @@
       },
       "assigned_owner": "narrative",
       "activity": {
-        "state": "not_confirmed",
-        "reason": "19.10 finite source slice accepted: canonical content + affected Game compile21.65s0/0 and independent review; source owners released. Native ordinary early-return/reentry/Continue and F03 approach acceptance remains open."
+        "state": "confirmed_active",
+        "reason": "Root accepted ownerrejection of actualF00frame and coordinates existingforestcomposition/ground/light candidates; placementworker rig_contract andW01lightingworker gamefeel source owners, root integration/nativeacceptance pending."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -119101,7 +119106,7 @@
         "Игрок не обязан повторять тизер; объяснение «просто сон» не закрывает интригу.",
         "Обычный New Game без override использует актуальный pack, ставит физический W01 и передаёт управление семейному прибытию; skip не выдаёт необязательное знание, Replay не меняет основной сеанс, Continue не запускает New Game."
       ],
-      "next_action": "On owned ordinary route verify actualprologue help→branch→F03normalapproach prompt→explicitend→Niva, includingoptionalphoto/skip/save continuation; sourcefix alone not fullPW043acceptance.",
+      "next_action": "Finish frozen wholeW01forest composition candidate; one matched ordinaryNewGameF00 frame +shortactualmovement after currentstationjob terminal. Judge scene against rejected232bframe, not isolatedmodel orcompile.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -119607,6 +119612,17 @@
         "defect": "Only invisible radius.55 sphere atF03+Y1.2; eye1.7 yields only~.229m horizontal crosssection, ordinary lane approach can missprompt. Source legibility defect, not provennative softlock.",
         "result": "Ray-only2.1x2.4x.6 box across authoredpath, Yaw fromlastF02→F03segment. Samecentre/layer4/mask0/ConfigureRayOnly, sameauthoredbranchcondition/explicitinteract andoptionalphoto/skip. No asset/newUI/autoprogression.",
         "verification": "AffectedGame21.65s0/0; sourcegeometry/guardinspection. ActualordinaryF03approach notrun."
+      },
+      "author_prologue_rejection_2026_10_19": {
+        "source": "Owner actual screenshot codex-clipboard-c28f6e8b-d5be-4097-94d7-ab90e68c95e6.png on2026-10-19; image matches native232b02-new-game.",
+        "verdict": "Author explicitly rejects current prologue forest as disastrously bad. Prior conifer native/import technical PASS is not forest art acceptance.",
+        "causes_confirmed_in_source": [
+          "Two fixededge columns and nearregular6mfar grid.",
+          "Same generatednear model repeated with4heightsteps; broad fullcrownAABB exclusion removes framing near route.",
+          "Own W01groundoverride weakly distinguishes walkedtrack; scene uses darkblue sky/coldlight."
+        ],
+        "required_result": "Whole first-person F00→F03 forest composition: asymmetrical coherent near/mid/far groups, visibly readable natural narrowtrail/snowshoulders, daylight and depth matching accepted artfamily; preserveanchors/story/standingclearance/physicalterrain and nativecost.",
+        "implementation": "Inprogress existingW01Controller BuildForest+groundshader and W01.tscn soleenvironment; no newMeshy/paidgeneration. Source-only pending actualmatchedF00nativeframe/movement."
       }
     },
     {
@@ -120275,8 +120291,8 @@
       "id": "PW-045",
       "title": "W01: произвести и собрать всю проходимую геометрию «Лес за спиной»",
       "milestone": "PW-M3",
-      "status": "todo",
-      "active_owner": null,
+      "status": "in_progress",
+      "active_owner": "Codex",
       "owner": "world_art",
       "priority": "P1",
       "complexity": "complex",
@@ -120316,7 +120332,7 @@
         "ART02"
       ],
       "runtime_evidence": "NOT_RUN",
-      "author_acceptance": "PENDING",
+      "author_acceptance": "REJECTED_CURRENT_PROLOGUE_FRAME",
       "mvp_priority": 40,
       "mvp_packet": "PW3",
       "delivery": {
@@ -120914,8 +120930,8 @@
       },
       "assigned_owner": "world_art",
       "activity": {
-        "state": "not_active",
-        "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+        "state": "confirmed_active",
+        "reason": "Root accepted ownerrejection of actualF00frame and coordinates existingforestcomposition/ground/light candidates; placementworker rig_contract andW01lightingworker gamefeel source owners, root integration/nativeacceptance pending."
       },
       "task_type": "aggregate",
       "implementation_state": "not_started",
@@ -120923,7 +120939,7 @@
       "remaining": [
         "Не выполнять родитель как разработку: закрыть конкретные children и их внешние gates."
       ],
-      "next_action": "Выбрать один dependency-ready child; принятую передачу ревьюить до новой разработки.",
+      "next_action": "Finish frozen wholeW01forest composition candidate; one matched ordinaryNewGameF00 frame +shortactualmovement after currentstationjob terminal. Judge scene against rejected232bframe, not isolatedmodel orcompile.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -121137,7 +121153,18 @@
           "evidence_ref": "PW-045.evidence and named history progress; source_review shows available/missing inputs"
         }
       ],
-      "assignment_state": "preserved_person_or_existing_role; activity separate"
+      "assignment_state": "preserved_person_or_existing_role; activity separate",
+      "author_prologue_rejection_2026_10_19": {
+        "source": "Owner actual screenshot codex-clipboard-c28f6e8b-d5be-4097-94d7-ab90e68c95e6.png on2026-10-19; image matches native232b02-new-game.",
+        "verdict": "Author explicitly rejects current prologue forest as disastrously bad. Prior conifer native/import technical PASS is not forest art acceptance.",
+        "causes_confirmed_in_source": [
+          "Two fixededge columns and nearregular6mfar grid.",
+          "Same generatednear model repeated with4heightsteps; broad fullcrownAABB exclusion removes framing near route.",
+          "Own W01groundoverride weakly distinguishes walkedtrack; scene uses darkblue sky/coldlight."
+        ],
+        "required_result": "Whole first-person F00→F03 forest composition: asymmetrical coherent near/mid/far groups, visibly readable natural narrowtrail/snowshoulders, daylight and depth matching accepted artfamily; preserveanchors/story/standingclearance/physicalterrain and nativecost.",
+        "implementation": "Inprogress existingW01Controller BuildForest+groundshader and W01.tscn soleenvironment; no newMeshy/paidgeneration. Source-only pending actualmatchedF00nativeframe/movement."
+      }
     },
     {
       "id": "PW-046",
@@ -122362,8 +122389,8 @@
       "id": "PW-048",
       "title": "W01: закончить звуковую и световую постановку",
       "milestone": "PW-M3",
-      "status": "todo",
-      "active_owner": null,
+      "status": "in_progress",
+      "active_owner": "Codex",
       "owner": "audio",
       "priority": "P1",
       "complexity": "medium",
@@ -122402,7 +122429,7 @@
         "REQ"
       ],
       "runtime_evidence": "NOT_RUN",
-      "author_acceptance": "PENDING",
+      "author_acceptance": "REJECTED_CURRENT_PROLOGUE_FRAME",
       "mvp_priority": 40,
       "mvp_packet": "PW3",
       "delivery": {
@@ -122502,8 +122529,8 @@
       },
       "assigned_owner": "audio",
       "activity": {
-        "state": "not_active",
-        "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+        "state": "confirmed_active",
+        "reason": "Root accepted ownerrejection of actualF00frame and coordinates existingforestcomposition/ground/light candidates; placementworker rig_contract andW01lightingworker gamefeel source owners, root integration/nativeacceptance pending."
       },
       "task_type": "engineering",
       "implementation_state": "not_started",
@@ -122513,7 +122540,7 @@
         "Не протекают чужая погода, радиосеть и обработка интерфейса.",
         "Полный паспорт уровня docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/levels/W01_Лес_за_спиной_RU.md реализован: узлы/физические связи/действия/существо или человеческая сцена/созерцание/возврат/кадры; схема не заменяет проходимый runtime."
       ],
-      "next_action": "Создать слои A-FOREST-AUDIO по паспорту и разместить настоящие пространственные источники.",
+      "next_action": "Finish frozen wholeW01forest composition candidate; one matched ordinaryNewGameF00 frame +shortactualmovement after currentstationjob terminal. Judge scene against rejected232bframe, not isolatedmodel orcompile.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -122691,7 +122718,18 @@
           "evidence_ref": "PW-048.evidence and named history progress; source_review shows available/missing inputs"
         }
       ],
-      "assignment_state": "preserved_person_or_existing_role; activity separate"
+      "assignment_state": "preserved_person_or_existing_role; activity separate",
+      "author_prologue_rejection_2026_10_19": {
+        "source": "Owner actual screenshot codex-clipboard-c28f6e8b-d5be-4097-94d7-ab90e68c95e6.png on2026-10-19; image matches native232b02-new-game.",
+        "verdict": "Author explicitly rejects current prologue forest as disastrously bad. Prior conifer native/import technical PASS is not forest art acceptance.",
+        "causes_confirmed_in_source": [
+          "Two fixededge columns and nearregular6mfar grid.",
+          "Same generatednear model repeated with4heightsteps; broad fullcrownAABB exclusion removes framing near route.",
+          "Own W01groundoverride weakly distinguishes walkedtrack; scene uses darkblue sky/coldlight."
+        ],
+        "required_result": "Whole first-person F00→F03 forest composition: asymmetrical coherent near/mid/far groups, visibly readable natural narrowtrail/snowshoulders, daylight and depth matching accepted artfamily; preserveanchors/story/standingclearance/physicalterrain and nativecost.",
+        "implementation": "Inprogress existingW01Controller BuildForest+groundshader and W01.tscn soleenvironment; no newMeshy/paidgeneration. Source-only pending actualmatchedF00nativeframe/movement."
+      }
     },
     {
       "id": "PW-049",

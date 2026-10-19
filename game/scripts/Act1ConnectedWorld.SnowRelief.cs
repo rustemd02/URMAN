@@ -13,6 +13,7 @@ namespace Urman.Godot;
 public partial class Act1ConnectedWorld
 {
     private bool _snowReliefClipped;
+    private MeshInstance3D[]? _streetSnowBanks;
     // Real interior volumes registered by hollow civic buildings. The plinth box
     // below the floor cannot catch a drift that leans over the floor line and is
     // visible inside the room; the vertical window below has the same shape as
@@ -251,14 +252,21 @@ public partial class Act1ConnectedWorld
         var reworked = 0; var apertures = 0; var residualCrossings = 0; var unparsed = 0;
         var bankVerticesBefore = 0; var bankVerticesAfter = 0;
         SnowRefineSkips.Clear();
-        foreach (var mesh in FindDescendants<MeshInstance3D>(this).ToArray())
+        // Build creates every street bank before this first-frame pass. Later
+        // verified routes add paths and shovel heaps, never more street banks.
+        // Retain hidden and currently ineligible banks too: their live relief
+        // predicates below still decide whether a later pass may shape them.
+        _streetSnowBanks ??= FindDescendants<MeshInstance3D>(this)
+            .Where(mesh => mesh.Name.ToString().StartsWith("StreetBank", StringComparison.Ordinal)).ToArray();
+        foreach (var mesh in _streetSnowBanks)
         {
+            if (!IsInstanceValid(mesh) || !IsAncestorOf(mesh)) continue;
             if (!mesh.Name.ToString().StartsWith("StreetBank", StringComparison.Ordinal)) continue;
-            if (mesh.Mesh is not ArrayMesh source || source.GetSurfaceCount() == 0 || !IsSnowRelief(mesh)) continue;
             // One shaping per bank. The pass is re-entered when a route is verified after
             // the first frame; a bank that has already been read is left as it stands, so
             // the thrown heaps and the slump never compound into a wall of noise.
             if (mesh.HasMeta("streetBankReworked")) continue;
+            if (mesh.Mesh is not ArrayMesh source || source.GetSurfaceCount() == 0 || !IsSnowRelief(mesh)) continue;
             using var arrays = source.SurfaceGetArrays(0);
             var vertices = arrays[(int)Mesh.ArrayType.Vertex].AsVector3Array();
             var columns = BankProfileColumns.Length;
