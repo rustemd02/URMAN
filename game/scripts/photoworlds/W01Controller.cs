@@ -1812,8 +1812,9 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
     {
         var sourceMesh = mesh.Mesh
             ?? throw new InvalidOperationException($"W01 contact mesh is missing: {mesh.Name}");
+        // The parent root owns this motion; child-local sync would leave its collider behind.
         StaticBody3D body = animatable
-            ? new AnimatableBody3D { Name = name, CollisionLayer = 0u, CollisionMask = 0u }
+            ? new AnimatableBody3D { Name = name, CollisionLayer = 0u, CollisionMask = 0u, SyncToPhysics = false }
             : new StaticBody3D { Name = name, CollisionLayer = 0u, CollisionMask = 0u };
         owner.AddChild(body);
         body.Transform = owner.GlobalTransform.AffineInverse() * mesh.GlobalTransform;

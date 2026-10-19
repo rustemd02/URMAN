@@ -121568,7 +121568,7 @@
         "После возврата сохраняются правильное положение ветки и один набор знаний.",
         "Полный паспорт уровня docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/levels/W01_Лес_за_спиной_RU.md реализован: узлы/физические связи/действия/существо или человеческая сцена/созерцание/возврат/кадры; схема не заменяет проходимый runtime."
       ],
-      "next_action": "Deliver first_action_restage_work_contract_2026_10_19: visible raisedbough/groundedsupports/unchangedstatecontract, then ordinary action+clearpath native. Keep otherW01 actions/fullworld and author gates open.",
+      "next_action": "Verify changed SyncToPhysics=false in ordinary NewGame: visible E action then actual camera movement pastF01; ifpasses proceed ordinaryNiva→home/book→world→return/save/Continue. PreservefullW01/art gates.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -121844,6 +121844,48 @@
         "compile_evidence": "assets/source/blender/photoworlds/W01/prologue-branch-v1/affected-game-build.log",
         "actual_glb_check": "Canonical hash matches export, decoded defaultroot0/gripGodotY1.452312827/rest_moved+lift_and_place endpointY.850000024/all mesh scales1; read-only existingparser+accessor decoding.",
         "cleanup": "6,226,896 logicalbytes matchingtemp export duplicates/obsolete croppedpreviews removed after canonicalhashproof; canonicalblend/GLB/source/receipt retained."
+      },
+      "first_action_native_b6dc_2026_10_19": {
+        "state": "prompt_action_transition_seen_walk_blocked",
+        "job_id": "b6dcf05af2824e6186bfae6b7012e8fe",
+        "snapshot_id": "890d8d1b68b27956471133113d57e961b6106113b9e3f34153ab6e88610342e9",
+        "source_candidate": "0d0e1bc7 (snapshot submitted before commit, matching export/controller/helper)",
+        "root_viewed_frames": [
+          "evidence/PW-043/forest-composition-20261019/native_b6dcf05af2824e6186bfae6b7012e8fe/09-f00.png",
+          "evidence/PW-043/forest-composition-20261019/native_b6dcf05af2824e6186bfae6b7012e8fe/17-after-w12.png",
+          "evidence/PW-043/forest-composition-20261019/native_b6dcf05af2824e6186bfae6b7012e8fe/18-after-w16.png",
+          "evidence/PW-043/forest-composition-20261019/native_b6dcf05af2824e6186bfae6b7012e8fe/20-after-e.png"
+        ],
+        "observed": "F00 questionpanel readable. Raised bough seen ahead atW12; W16 actual [E] prompt. Physical E then bough absent from blocking view and authored nextquestion present.",
+        "limits": "Actual Pause seen/rootviewed23-pause-menu.png; normalExitnotproved: selectedQuit/Enter attempt ended withguard124. Jnotchecked. Smoothanimation/art/full W01/bookloopnotaccepted.",
+        "terminal": {
+          "status": "FAIL",
+          "game_exit_code": 124,
+          "userdata_restored": true,
+          "recovery_pending": false,
+          "snapshot_hashes_verified": true,
+          "receipt": "evidence/PW-043/forest-composition-20261019/native_b6dcf05af2824e6186bfae6b7012e8fe/fetched/receipt.json"
+        },
+        "walk_clear_evidence": "20-after-e and21-walk-clear exactsameSHA63339264b37fde32c9f08da203ea4065835e4af10d150aab9be91b415025209c; metadata unchangedcamera[11.945979,2.692081,49.739746]. FourW inputs didnotadvance. Do not acceptclearedpath from absentvisualbough.",
+        "archive_integrity": {
+          "sha256": "50af90439ad5a3f58499829ef9ae99cea1b8bbf61c11afe02edce5ce8b8e4718",
+          "entry_count": 38,
+          "byte_comparisons": "All38 matched extracted files; worker and root independently checked before deleting exactZIPduplicate. Raw extracted artifacts retained; no source/playerdata removed.",
+          "deleted_duplicate_zip_bytes": 14998578,
+          "identical_png_aliases_hardlinked": 12
+        }
+      },
+      "branch_parent_contact_fix_2026_10_19": {
+        "state": "source_compile_reviewed_native_pending",
+        "file": "game/scripts/photoworlds/W01Controller.cs",
+        "cause": "Godot4.7 AnimatableBody3D default sync_to_physics=true responds to LOCAL transform notifications, while W01 moves only its parent root; child collider can remain at oldblockingpose. PostE frozen camera matches this path. Branch-control-lock hypothesis independentlyrejected: no player gate owned bybranchaction.",
+        "change": "Only animatablebranch init SyncToPhysics=false, existingAlsu/Rinat pattern. InheritedCollisionObject globalnotifications updatephysics on parentmotion; static supportsunchanged.",
+        "verification": "Independent engine/source review, actualGLB pose alreadybound. AffectedGame18.76s0/0; no newtests. Changed ordinary firstaction→walkclear next; thenbookroute withcuea432; guard1200 fornormalexitbudget.",
+        "evidence": "evidence/PW-043/forest-composition-20261019/affected-game-build-branch-contact.log",
+        "primary_sources": [
+          "https://github.com/godotengine/godot/blob/4.7/scene/3d/physics/animatable_body_3d.cpp",
+          "https://github.com/godotengine/godot/blob/4.7/scene/3d/physics/collision_object_3d.cpp"
+        ]
       }
     },
     {
