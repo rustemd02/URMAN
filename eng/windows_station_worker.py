@@ -2091,9 +2091,11 @@ class Station:
         if candidate_boot:
             orphaned = pipeline_locked and not self.busy
         else:
-            orphan = subprocess.run(['tasklist','/FI','IMAGENAME eq '+godot.name,'/FO','CSV','/NH'],capture_output=True,text=True).stdout
+            # The scheduled worker runs through pythonw: health must not create a
+            # console window that steals focus and auto-pauses the owned game.
+            orphan = subprocess.run(['tasklist','/FI','IMAGENAME eq '+godot.name,'/FO','CSV','/NH'],capture_output=True,text=True,creationflags=subprocess.CREATE_NO_WINDOW).stdout
             main_name = godot.name.replace('_console.exe', '.exe')
-            orphan += subprocess.run(['tasklist','/FI','IMAGENAME eq '+main_name,'/FO','CSV','/NH'],capture_output=True,text=True).stdout
+            orphan += subprocess.run(['tasklist','/FI','IMAGENAME eq '+main_name,'/FO','CSV','/NH'],capture_output=True,text=True,creationflags=subprocess.CREATE_NO_WINDOW).stdout
             orphaned = (godot.name.lower() in orphan.lower() or main_name.lower() in orphan.lower() or pipeline_locked) and not self.busy
         candidate_exes = list(self.jobs.glob('*/candidate/windows/URMAN.exe'))
         candidate_orphaned = False

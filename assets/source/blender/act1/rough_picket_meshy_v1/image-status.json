@@ -1,0 +1,15 @@
+{
+  "available_formats": [
+    "glb"
+  ],
+  "consumed_credits": 30,
+  "created_at": 1792412460452,
+  "expires_at": 1792671713256,
+  "finished_at": 1792412513256,
+  "id": "01a1541b-9f22-71fb-b51d-6950f6a2b28d",
+  "progress": 100,
+  "started_at": 1792412460461,
+  "status": "SUCCEEDED",
+  "texture_set_count": 1,
+  "type": "image-to-3d"
+}

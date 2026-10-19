@@ -26290,9 +26290,20 @@
       "native_pause_observation_2026_10_19": {
         "source": "Ordinary1a4d actualNewGame/Resume/ESC/DOWN frames+rawlogs",
         "result": "Existingcallbacklog resolved currentcausalquestion: OpenFrom(window-focus-out) focusedFalse frame16300, then realResume callback focusedTrue/MouseCaptured frame22655. No subsequentOpenFrom before420stimeout. AfterResumecapture404becausejobended; no movement/W01/Continue accepted. No demonstrated sourceResume bug, guardskept.",
-        "next_action": "Nextordinaryplay with sufficientroutebudget: observe/unpausefirstwindowfocuslosspause, then actualprologueskip→home/book/school→W01return→Continue. Reuseexistingcallbacklog, no repeatedsourcehypothesiswithoutnewfacts.",
+        "next_action": "On native232b0ded actualNewGame→Resume→verify no newFocusOut on existinghealth/capture→ordinaryprologueskip/home/book/school→W01earlyreturn→Continue; preserve all game/input guards.",
         "job_id": "9bfba4f28e1d43039d7745f3f7da2e55",
-        "snapshot": "f036857c1b3712581338394eb5975c1b9ac56be29c689949cb4b77afd2b05d03"
+        "snapshot": "f036857c1b3712581338394eb5975c1b9ac56be29c689949cb4b77afd2b05d03",
+        "changed_input_7b03": {
+          "job_id": "7b03dd14971048949a7961e693bc2830",
+          "observed": "Resume frame8913 focused=true/Captured, then second OpenFrom(window-focus-out) frame9620. Current root defect: everyui/capture preflight health launches two tasklist consolechildren from pythonw without CREATE_NO_WINDOW. Exact transient HWND not identified; source defect confirmed independentreview.",
+          "source_fix": "eng/windows_station_worker.py: two tasklist calls add CREATE_NO_WINDOW; same arguments/capturedstdout/orphan/busy/security predicates. AST/diffcheck and independent review clean; stationdeploy/native recheck pending activeguard finish.",
+          "next_action": "Exit current game through existing pause Quit confirmation, wait userdata restore, deploy onlyworker with hashguards/backup, managedrestart then currentcampaign ordinaryUI recheck."
+        },
+        "worker_fix_deployment": {
+          "sha256": "981ffe23c954b65cb3b0be3340965c6e5787a162f2ba6f802ed735bba8a43e55",
+          "previous_sha256": "92ccc5a4bc33be97ad426ecd49ff7d5e816de76a49e77776886d6f63b44cd7f8",
+          "result": "Idle after7b03 normalquit/userdataRestored. Exactsinglefile SFTP+backup/SHAguards/WindowsAST/managedstop-start; unrelateddirtymerge/docs preserved. Doctorreadytrue/no recovery. SourceFastreviewclean; actual focuscausality/native232b0ded pending."
+        }
       }
     },
     {
@@ -109537,7 +109548,7 @@
       "assigned_owner": "integration",
       "activity": {
         "state": "confirmed_active",
-        "reason": "Root owns ordinary currentcampaign native job7b03dd14971048949a7961e693bc2830, snapshot6046a0a03dfbbf9ca59677effc1323550801abe64be5c37db3e5665be1ac329b. Source frozen; actual route entry/book/earlyreturn/Continue remains unaccepted."
+        "reason": "Root ordinary changedworker job232b0ded47d64b95a868949cd7f85827, snapshot81eb400b06b539003fcfd105ce2c4e8a086582229a2777d9f76639cdbadc0783; Windows health tasklistchildren hidden. Book/W01return/Continue still unaccepted."
       },
       "task_type": "engineering",
       "implementation_state": "implemented",
@@ -109545,7 +109556,7 @@
       "remaining": [
         "Native ordinarycycle/Continue/support/fallback/props/audio/profile/cancel/failure acceptance remains; compile/source review does not close PW-020."
       ],
-      "next_action": "Ordinary 1200s job7b03dd14971048949a7961e693bc2830: actualNewGame/initial focusPause Resume→prologue skip→home/book/schoolphoto→W01 earlyreturn→Continue; no devspawn/directdispatch substitute.",
+      "next_action": "On native232b0ded actualNewGame→Resume→verify no newFocusOut on existinghealth/capture→ordinaryprologueskip/home/book/school→W01earlyreturn→Continue; preserve all game/input guards.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -109765,6 +109776,13 @@
         "log": "evidence/PW-020/native_pause_9bfba4f28e1d43039d7745f3f7da2e55/stdout.log",
         "result": "Actual NewGame; OpenFrom(window-focus-out) frame16300 focused=false; Resume frame22655 focused=true mouseCaptured. No subsequent OpenFrom before timeout. Resume-source bug not proven; no postResume frame obtained. gameExit124 after420s, userdataRestored=true, engine-errors0. No W01/Continue acceptance.",
         "duplicate_zip_cleanup_bytes": 2888663
+      },
+      "ordinary_route_focus_2026_10_19": {
+        "job_id": "7b03dd14971048949a7961e693bc2830",
+        "snapshot": "6046a0a03dfbbf9ca59677effc1323550801abe64be5c37db3e5665be1ac329b",
+        "receipt": "evidence/PW-020/native_route_7b03dd14971048949a7961e693bc2830/receipt.json",
+        "result": "Terminal PASS/gameExit0 after ordinaryPauseQuitconfirmation, elapsed765.0534s, userdataRestoredtrue, engine-errors0. ActualNewGame→Resume→secondfocusOut, route not traversed. QuitfinalUI409processchanged because game exited; receipt/log confirms shutdown.",
+        "archive_cleanup_bytes": 3256230
       }
     },
     {
@@ -141344,8 +141362,8 @@
         ],
         "budget": {
           "author_cap": 4000,
-          "actual_consumed": 270,
-          "remaining_author_cap": 3730,
+          "actual_consumed": 305,
+          "remaining_author_cap": 3695,
           "first_family_cap": 90,
           "first_family_consumed": 40,
           "active_task_id": "01a1539f-c9cb-7389-bae9-71b8cc11748e",
@@ -141361,11 +141379,23 @@
           "next_house_remesh_task_id": "01a153ce-9f73-7000-9a61-310b54fbb325",
           "next_house_remesh_task_state": "SUCCEEDED actual5credits;20,297tris candidate constructiongateFAIL",
           "pine_recovery_remesh_task_id": "01a153dd-e80f-754e-95ce-bf919b3f0011",
-          "pine_recovery_remesh_task_state": "IN_PROGRESS observed90percent, actual5credits"
+          "pine_recovery_remesh_task_state": "SUCCEEDED actual5credits;V2source25508/5999/4 runtimecanonicalpromoted; natived61c830PASS, fullart/motion/performanceopen",
+          "next_fence_family_cap": 45,
+          "next_fence_family_consumed": 35,
+          "next_fence_task_id": "01a1541b-9f22-71fb-b51d-6950f6a2b28d",
+          "next_fence_task_state": "SUCCEEDED actual30credits",
+          "next_fence_remesh_task_id": "01a1541e-35a4-76b3-910a-0489a8cdf855",
+          "next_fence_remesh_task_state": "SUCCEEDED actual5credits,21718tri source frozen"
         },
-        "current_artifact": "V2 runtimepromotedSHA8c5a9e19…25508/5999/4tri after root3sourceviews, newnativepending. House25Kreject retained, onefreegeometrypreserving100Ksourcepreparation authorized, noextraPOST.",
+        "current_artifact": "V2conifer native import/compile/matchedframe PASS; art/motion/performance open. House25K and99Ksource candidates constructiongateFAIL; no runtimehouse replacement or furtherPOST. Dedicated roughpicket existingasset→built-inImageGen→Meshy source inprogress, no runtimeconsumer change.",
         "log_house_acceptance": "Для нового generated-сруба проверены actualGLB front/side/three-quarter и крупно углы/проёмы: венцы опираются друг на друга, угловые соединения и торцы правдоподобны, проёмы/перемычки/опора крыши корректны; нет парящих брёвен, случайных пересечений и неестественных цокольных наплывов. ImageGen reference не заменяет post-Meshy проверку.",
-        "pine_remesh_recovery": "Rootactuallyviewed rawpreview(6,945,750tris) against6K; raw snowvolumes/crown intact,6K paperfacets. One5credit25Kremesh authorized but not consumedyet, existingfamilycap90unchanged, nearup25K/mid6K/far4conditionalnativecost. Currentcommitted6Kcandidate remainsnotartaccepted."
+        "pine_remesh_recovery": "Completed source revision2 fromone25Kremesh; actual5credits already in305total. Runtime16.19MB canonicalpathstable, native d61c830PASS, art/performance still open.",
+        "rough_picket_source_2026_10_19": {
+          "manifest": "assets/source/blender/act1/rough_picket_meshy_v1/rough-picket-v1.manifest.json",
+          "state": "generated_source_frozen_not_runtime_integrated",
+          "result": "Existing BuildFenceRun roughpicket donor→onebuilt-inImageGen ref rootviewed→Meshy7.1 30+remesh5. Rootviewed actualwholeface+opaqueclaycloseup: realthroughgaps/tworails, no backplate/ground. Source21718tri/45.95MB has diagonalrailtear, not metricallynormalized; runtimebudget/fit/consumerintegration andnative unaccepted. No furtherPOSTs. Worker6views+receipts/producer retained.",
+          "next_action": "Next finitefamily step onlyafter gameplay priority: metric+cost adaptation through existingBuildFenceRun visualgeometry while preservingcollision/support/openspans; no gateowner swap. Source not artcomplete."
+        }
       }
     },
     {
@@ -159022,7 +159052,7 @@
       "key_monthly_limit": 2999,
       "secret_storage": "Owner-only local configuration outside Git; no key value in repository or receipts",
       "verification": "Authenticated GET https://api.meshy.ai/openapi/v1/balance returned HTTP200; actual balance4145/monthly3045/permanent1100. Read-only call, no added spend.",
-      "cost_boundary": "Total authorized cap4000 includingweb/API. Actualspent195, remaining3805; limited key2999/month unchanged. No newpurchase.",
+      "cost_boundary": "Total authorizedcap4000 includingweb/API; actualspent305, remaining3695 as2026-10-19. Limitedkey2999/month unchanged; no newpurchase. Exactcurrentfamilyledger tasks[PW-093].author_asset_replacement_2026_10_19.budget.",
       "authority": "Owner explicit action-time reply authorized creating and connecting API key.",
       "client": "eng/meshy_assets.py: sanitizedbalance/list/status; pricedimage/retexture/remesh/rig POST; SUCCEEDED-onlyGLB/rigFBXdownload. RealAPIrig and bothdownloads exercised; rig24/no-finger limitation documented. No Meshyimagegeneration."
     }

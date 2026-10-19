@@ -1,0 +1,15 @@
+{
+  "available_formats": [
+    "glb"
+  ],
+  "consumed_credits": 5,
+  "created_at": 1792412628427,
+  "expires_at": 1792671952774,
+  "finished_at": 1792412752774,
+  "id": "01a1541e-35a4-76b3-910a-0489a8cdf855",
+  "progress": 100,
+  "started_at": 1792412628437,
+  "status": "SUCCEEDED",
+  "texture_set_count": 1,
+  "type": "remesh"
+}

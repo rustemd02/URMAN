@@ -1,0 +1,68 @@
+{
+  "source": "meshy71-rough-picket-remesh-25k.glb",
+  "source_sha256": "33a0157c831a6533a214cc6d12da6f4e3f96901fc5214c23f1ff07e6f8bba7c9",
+  "source_bytes": 45946540,
+  "triangles": 21718,
+  "mesh_objects": 1,
+  "bounds_blenderXYZ": [
+    [
+      -0.9524449706077576,
+      0.9503790140151978
+    ],
+    [
+      -0.08062301576137543,
+      0.08376903086900711
+    ],
+    [
+      -0.3803749978542328,
+      0.37642401456832886
+    ]
+  ],
+  "long_axis": [
+    1.0,
+    0.0,
+    0.0
+  ],
+  "depth_axis": [
+    -0.0,
+    1.0,
+    0.0
+  ],
+  "materials": [
+    {
+      "name": "BakedMaterial",
+      "alphaMode": "OPAQUE",
+      "doubleSided": true
+    }
+  ],
+  "images": [
+    {
+      "name": "normal",
+      "mimeType": "image/png",
+      "embedded": true
+    },
+    {
+      "name": "texture_0",
+      "mimeType": "image/png",
+      "embedded": true
+    },
+    {
+      "name": "texture_0_metallic_roughness",
+      "mimeType": "image/png",
+      "embedded": true
+    }
+  ],
+  "skins": 0,
+  "animations": 0,
+  "geometry_modified": false,
+  "renders": [
+    "face-positive-depth.png",
+    "face-negative-depth.png",
+    "quarter-positive-depth.png",
+    "quarter-negative-depth.png",
+    "gap-clay-positive-depth.png",
+    "rail-clay-negative-depth.png"
+  ],
+  "inspection_method": "Four whole views on both depth faces and two opaque clay closeups without albedo/normal/alpha textures. Actual gaps/rail backing must be judged from these, not alphaMode alone.",
+  "status": "Awaiting actual source view review; not runtime, metric or art acceptance."
+}

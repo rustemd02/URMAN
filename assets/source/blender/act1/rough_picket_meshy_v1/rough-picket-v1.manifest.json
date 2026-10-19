@@ -1,0 +1,201 @@
+{
+  "asset_id": "ACT1-ROUGH-PICKET-MESHY-V1",
+  "status": "frozen_source_candidate_pending_parent_review_not_runtime_or_metric_accepted",
+  "method": "built-in image_gen; one generation only; no CLI fallback",
+  "generated_artifact": {
+    "path": "assets/source/blender/act1/rough_picket_meshy_v1/input-rough-picket-v1.png",
+    "sha256": "2c782fd91fb66b6e38407e0e67fdcf65e84e8eb614224e336c043a14def3306e",
+    "bytes": 1668286
+  },
+  "image": {
+    "size": [
+      1672,
+      941
+    ],
+    "mode": "RGBA",
+    "alpha_extrema": [
+      0,
+      255
+    ]
+  },
+  "imagegen_output_origin": "/Users/unterlantas/.codex/generated_images/01a1539c-b7b4-7c61-a311-41c3174a47f2/exec-31bfca40-98d9-4a70-b210-176656d71576.png",
+  "prompt": "reference-prompt.json",
+  "references": [
+    {
+      "path": "evidence/PW-043/release-path-20261015/frames/bf3c-route/09-house-gate-approach.png",
+      "sha256": "f04742c3a7372a8a6b4b6b56357d7834d8b101d2f13cf9b60894c904f03ca78f",
+      "bytes": 1770285
+    },
+    {
+      "path": "evidence/ACT1-DEPTH.12/native_uv_v3_fdc5f5ef62fc4554ad107b9d9bef31ef/frames/babai_shape_front_high.png",
+      "sha256": "146035efec8364cf654d773259d17a3dd538acb4cba3549e1a85204a50239adb",
+      "bytes": 2135213
+    }
+  ],
+  "reference_rights": "Own project runtime screenshots, used as source/layout/style references; no third-party image newly downloaded. ImageGen output is a new project-bound concept, not a claimed production asset or cultural approval.",
+  "existing_source": {
+    "consumer": "game/scripts/Act1ConnectedWorld.YardFences.cs:85,715",
+    "analogous_source_generator": "assets/source/blender/act1/urman_village_fence_kit.py",
+    "geometry_contract": {
+      "post_centres_m": 2.35,
+      "picket_crown_m": 1.18,
+      "picket_count": 13,
+      "picket_width_m": 0.095,
+      "picket_thickness_m": 0.028,
+      "approx_daylight_gap_m": 0.086,
+      "posts_section_m": [
+        0.12,
+        0.12
+      ],
+      "posts_crown_m": 1.29,
+      "rail_section_m": [
+        0.045,
+        0.075
+      ],
+      "rail_heights_m": [
+        0.27,
+        0.95
+      ]
+    },
+    "current_visual_owner": "YardFences builds and batches visual boxes by material into ArrayMesh; no named per-bay GLB loader exists.",
+    "preserved_physics_owner": "YardFences/YardFenceBody with original bay collision metadata and terrain supports. Gate/hinge/interaction ownership remains separate and untouched."
+  },
+  "meshy_post_performed": true,
+  "additional_meshy_credits": 35,
+  "scope": "Only this new source/reference folder; no shared JSON, Git, agent chat, runtime, Windows or house changes.",
+  "remaining": "Parent personally reviews named source views and chooses a later bounded integration/metric decision. Dedicated worker stops this finite source step. No new Meshy, ImageGen, runtime, shared JSON or Git changes.",
+  "accounted_overall_consumed": 305,
+  "meshy_tasks": [
+    {
+      "type": "image-to-3d",
+      "task_id": "01a1541b-9f22-71fb-b51d-6950f6a2b28d",
+      "status": "SUCCEEDED",
+      "consumed_credits": 30,
+      "status_receipt": "image-status.json",
+      "submit_receipt": "submit-image-receipt.json"
+    },
+    {
+      "type": "remesh",
+      "task_id": "01a1541e-35a4-76b3-910a-0489a8cdf855",
+      "input_task_id": "01a1541b-9f22-71fb-b51d-6950f6a2b28d",
+      "estimated_credits": 5,
+      "target_polycount": 25000,
+      "submit_receipt": "submit-remesh-receipt.json",
+      "reason": "167036-triangle raw is too heavy for one repeated fence bay.",
+      "status": "SUCCEEDED",
+      "consumed_credits": 5,
+      "status_receipt": "remesh-status.json",
+      "download_receipt": "download-remesh.json"
+    }
+  ],
+  "authorization_update": "Parent personally reviewed reference material/family fit and authorized one <=30-credit image-to-3D candidate despite non-metric reference gaps; one <=5-credit remesh to25K only if raw is too large; family cap45. No other POSTs or retries.",
+  "original_source": {
+    "file": "meshy71-rough-picket-original.glb",
+    "indexed_triangles": 167036,
+    "primitives": 1,
+    "materials": 1,
+    "download_receipt": "download-original.json",
+    "receipt": {
+      "bytes": 30631952,
+      "path": "/Users/unterlantas/Documents/GitHub/URMAN/assets/source/blender/act1/rough_picket_meshy_v1/meshy71-rough-picket-original.glb",
+      "sha256": "c831739b2544ea362fad1688eb9f80f5babfa7b4d2a68ad21cf5dc684648ab93"
+    },
+    "storage": {
+      "member": "meshy71-rough-picket-original.glb",
+      "decompressed_sha256": "c831739b2544ea362fad1688eb9f80f5babfa7b4d2a68ad21cf5dc684648ab93",
+      "bytes_saved": 1822388,
+      "decompression_verified": true,
+      "archive": "meshy71-rough-picket-original.glb.zip",
+      "archive_bytes": 28809564,
+      "archive_sha256": "12d9a904e38fa2d64512bad232eda8868a514dbf65c86595b08e0edbceab3524",
+      "expanded_raw_removed": true
+    },
+    "rehydration": "python3 -m zipfile -e assets/source/blender/act1/rough_picket_meshy_v1/meshy71-rough-picket-original.glb.zip assets/source/blender/act1/rough_picket_meshy_v1/ ; verify expanded SHA against download-original.json before optional --original inspection. Remove expanded duplicate only after the read is complete."
+  },
+  "family_cap": 45,
+  "family_remaining_unspent": 10,
+  "reference_inspection_before_parent_review": {
+    "actual_image_seen": true,
+    "positive": "One isolated ochre weathered timber bay, thirteen distinct pointed pickets, two posts and two rear bearing rails; no snow, ground platform, environment, gate or solid backing. Material direction resembles the scene timber family.",
+    "deviation": "Visible gaps are substantially narrower relative to board widths than the intended approximately 86 mm gap beside a 95 mm board; crown variation also appears larger than the requested 50 mm. The image is not metric geometry proof.",
+    "disposition": "Do not submit to Meshy until parent reviews the metric mismatch; no second ImageGen or edit is authorized in this stage."
+  },
+  "parent_reference_review": "Material/ochre tone/family fit accepted for one Meshy source candidate; metric readiness explicitly not accepted.",
+  "frozen_source": {
+    "file": "meshy71-rough-picket-remesh-25k.glb",
+    "sha256": "33a0157c831a6533a214cc6d12da6f4e3f96901fc5214c23f1ff07e6f8bba7c9",
+    "bytes": 45946540,
+    "triangles": 21718,
+    "mesh_objects": 1,
+    "bounds_blenderXYZ": [
+      [
+        -0.9524449706077576,
+        0.9503790140151978
+      ],
+      [
+        -0.08062301576137543,
+        0.08376903086900711
+      ],
+      [
+        -0.3803749978542328,
+        0.37642401456832886
+      ]
+    ],
+    "materials": [
+      {
+        "name": "BakedMaterial",
+        "alphaMode": "OPAQUE",
+        "doubleSided": true
+      }
+    ],
+    "images": [
+      {
+        "name": "normal",
+        "mimeType": "image/png",
+        "embedded": true
+      },
+      {
+        "name": "texture_0",
+        "mimeType": "image/png",
+        "embedded": true
+      },
+      {
+        "name": "texture_0_metallic_roughness",
+        "mimeType": "image/png",
+        "embedded": true
+      }
+    ],
+    "skins": 0,
+    "animations": 0,
+    "structure_receipt": "inspection/source-structure.json"
+  },
+  "source_inspection": {
+    "actually_viewed": [
+      "face-positive-depth.png",
+      "face-negative-depth.png",
+      "quarter-positive-depth.png",
+      "quarter-negative-depth.png",
+      "gap-clay-positive-depth.png",
+      "rail-clay-negative-depth.png"
+    ],
+    "confirmed": "Both faces and opaque clay closeups show actual open gaps between thirteen pickets, two three-dimensional rails meeting the pickets/posts, thickness and end faces. No alpha-cutout sheet, solid backing, ground plinth, gate or environment was found in these views.",
+    "limitations": "Gaps remain narrower relative to board width than the 95/86 mm target. The source is not normalized to runtime metres. A diagonal raised crease and thin seams are visible on the positive-depth upper rail in opaque clay. Source fit, material acceptance in the full game frame, LOD/performance and exact metric geometry remain unaccepted.",
+    "disposition": "Frozen for parent source review; no repair, further generation, runtime preparation or consumer modification authorized."
+  },
+  "cleanup": {
+    "raw_archive_receipt": "original-storage-receipt.json",
+    "verified_decompressed_sha256": "c831739b2544ea362fad1688eb9f80f5babfa7b4d2a68ad21cf5dc684648ab93",
+    "expanded_raw_removed": true,
+    "bytes_saved": 1822388,
+    "unique_remesh_and_six_views_preserved": true,
+    "active_processes": false
+  },
+  "verification": {
+    "source_import": "The first import started before the download completed and exited1 with BadGLB length, producing no frames; completed download byte count/SHA was then checked. Inspector now guards receipt byte count/SHA and GLB length before creating inspection output.",
+    "valid_inspection_run": "Exit0, six images; /private/tmp/urman-rough-picket-inspection-complete-20261019.log",
+    "geometry_mutation": false,
+    "new_meshy_posts": 2,
+    "retries": 0
+  },
+  "rights": "Generated through owner-authorized paid Meshy account from own ImageGen/reference screenshots. Preserve paid-generation ownership terms/provenance, no CC0 or free-plan CC BY claim. Official terms/ownership sources are recorded in previous retained neighbor-house manifest; no Community publication performed."
+}
