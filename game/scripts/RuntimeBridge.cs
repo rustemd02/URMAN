@@ -97,7 +97,13 @@ public partial class RuntimeBridge : Node
             _debugSaveStore = existingDebugStore;
         }
         CreateNewSession();
-        _ = InitializeEntrypointAsync();
+        if (_content.HasPhotoWorlds)
+        {
+            _photoWorldBootstrapCompletion = new(TaskCreationOptions.RunContinuationsAsynchronously);
+            _loadPreparing = true;
+            _loadingTimeSampleUsec = Time.GetTicksUsec();
+        }
+        else _ = InitializeEntrypointAsync();
         CallDeferred(nameof(AttachAudioCueUi));
         CallDeferred(nameof(AttachExplorationFeedback));
     }
@@ -159,6 +165,7 @@ public partial class RuntimeBridge : Node
 
     public override void _ExitTree()
     {
+        _photoWorldBootstrapCompletion?.TrySetResult(false);
         CancelQueuedForcedCheckpoint();
         if (_audioCueUi is not null) _audioCueUi.CueStarted -= OnAudioCueStarted;
         _audioCueUi = null;
@@ -375,18 +382,26 @@ public partial class RuntimeBridge : Node
         CreateNewSession();
         CurrentZoneId = "village_day";
         CurrentSpawnPointId = "arrival";
-        await InitializeEntrypointAsync();
+        if (!await InitializeEntrypointAsync())
+            throw new InvalidDataException("The new session entrypoint was rejected.");
 
+        var projectedPhoto = false;
         if (GetTree().GetFirstNodeInGroup("zone_manager") is Main main)
         {
-            var session = SessionIdentity;
-            if (!await main.PreloadPhotoSceneAsync(ActiveSceneId ?? string.Empty)
-                || !ReferenceEquals(session, SessionIdentity))
+            var session = _kernel!;
+            var sceneId = ActiveSceneId ?? string.Empty;
+            if (!await main.PreloadPhotoSceneAsync(sceneId) || !ReferenceEquals(session, _kernel))
                 throw new InvalidDataException("The new game's photo scene resource could not be prepared.");
-            main.SwitchZone(CurrentZoneId, CurrentSpawnPointId);
+            if (Main.IsPhotoWorldScene(sceneId))
+            {
+                if (!await ProjectReservedPhotoWorldAsync(main, session, sceneId))
+                    throw new InvalidDataException("The new game's photo scene or supported player pose could not be prepared.");
+                projectedPhoto = true;
+            }
+            else main.SwitchZone(CurrentZoneId, CurrentSpawnPointId);
         }
 
-        await ProjectPhysicalWorldAsync();
+        if (!projectedPhoto) await ProjectPhysicalWorldAsync();
         player.ApplySettings(preservedSettings);
         QueueRuntimeStateChanged();
         GD.Print(debugSession
@@ -562,10 +577,24 @@ public partial class RuntimeBridge : Node
         ResetAudioCuePresentation();
         RestoreSession(save);
         IsDebugSession = debugSession;
+        var projectedPhoto = false;
         if (GetTree().GetFirstNodeInGroup("zone_manager") is Main main)
-            main.SwitchZone(save.CurrentZone.Value, save.SpawnPoint.Value);
-        player.ApplyPortableTransform(save.PlayerTransform);
-        await ProjectPhysicalWorldAsync();
+        {
+            var sceneId = ActiveSceneId ?? string.Empty;
+            if (Main.IsPhotoWorldScene(sceneId))
+            {
+                player.ApplyPortableTransform(save.PlayerTransform);
+                if (!await ProjectReservedPhotoWorldAsync(main, _kernel!, sceneId, preserveLoadedTransform: true))
+                    throw new InvalidDataException("The loaded photo scene or supported player pose could not be prepared.");
+                projectedPhoto = true;
+            }
+            else main.SwitchZone(save.CurrentZone.Value, save.SpawnPoint.Value);
+        }
+        if (!projectedPhoto)
+        {
+            player.ApplyPortableTransform(save.PlayerTransform);
+            await ProjectPhysicalWorldAsync();
+        }
         if (!player.VehicleControlled && !player.CanCrouchAt(player.GlobalPosition)
             && GetTree().GetFirstNodeInGroup("act1_connected_world") is Act1ConnectedWorld restoredWorld
             && restoredWorld.TryResolveLegacyMosqueCarpetFeet(player, out var carpetFeet))
@@ -1803,11 +1832,11 @@ public partial class RuntimeBridge : Node
         }
     }
 
-    private async Task InitializeEntrypointAsync()
+    private async Task<bool> InitializeEntrypointAsync()
     {
         if (_kernel is null)
         {
-            return;
+            return false;
         }
 
         var scene = _content.RequireScene(_content.Entrypoint);
@@ -1819,7 +1848,9 @@ public partial class RuntimeBridge : Node
         if (result.Status != CommandStatus.Committed)
         {
             GD.PushError($"Campaign entrypoint rejected: {result.Error?.Message}");
+            return false;
         }
+        return true;
     }
 
     private bool OwnsInteraction(CompiledInteractionContent interaction, JsonElement state) =>

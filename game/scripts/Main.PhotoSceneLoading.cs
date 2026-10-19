@@ -13,18 +13,88 @@ public partial class Main
     private PackedScene? _preparedPhotoScene;
     private readonly Dictionary<string, int> _photoSceneRequests = new(StringComparer.Ordinal);
 
+    private static string? PhotoScenePath(string sceneId) => sceneId switch
+    {
+        PrologueSceneId or ForestSceneId => W01ScenePath,
+        RiverSceneId => W02ScenePath,
+        HousePhotoSceneId => W03ScenePath,
+        CommonPhotoSceneId => W04ScenePath,
+        CellarPhotoSceneId => W05ScenePath,
+        _ => null
+    };
+
+    internal static bool IsPhotoWorldScene(string sceneId) => PhotoScenePath(sceneId) is not null;
+
+    internal bool MountPreparedPhotoScene(object session, string sceneId, bool preserveLoadedTransform = false)
+    {
+        if (!GodotObject.IsInstanceValid(this) || !IsInsideTree() || IsQueuedForDeletion()
+            || !EnableFullGamePhotoWorldRouting || _routingFullGameScene || PhotoScenePath(sceneId) is null)
+            return false;
+        AttachFullGameRouteBridge();
+        if (_fullGameRouteBridge is not { } bridge || !GodotObject.IsInstanceValid(bridge)
+            || !ReferenceEquals(session, bridge.ProjectionSessionIdentity) || bridge.ActiveSceneId != sceneId)
+            return false;
+
+        if (preserveLoadedTransform)
+        {
+            _preserveLoadedPhotoWorldTransform = true;
+            _loadedPhotoWorldTransformSession = session;
+        }
+        _routingFullGameScene = true;
+        try
+        {
+            TryMountPhotoScene(new RuntimeBridge.FullGamePhotoWorldRouteProjection(session, sceneId), bridge);
+            return IsPhotoSceneMounted(sceneId);
+        }
+        finally { _routingFullGameScene = false; }
+    }
+
+    internal async Task<bool> CompletePhotoSceneProjectionAsync(object session, string sceneId, bool allowCrouched = false)
+    {
+        var bridge = _fullGameRouteBridge;
+        bool Current() => GodotObject.IsInstanceValid(this) && IsInsideTree() && !IsQueuedForDeletion()
+            && bridge is not null && GodotObject.IsInstanceValid(bridge)
+            && ReferenceEquals(session, bridge.ProjectionSessionIdentity) && bridge.ActiveSceneId == sceneId
+            && IsPhotoSceneMounted(sceneId);
+        if (!Current()) return false;
+        var tree = GetTree();
+        await tree.ToSignal(tree, SceneTree.SignalName.PhysicsFrame);
+        if (!Current()) return false;
+        await tree.ToSignal(tree, SceneTree.SignalName.PhysicsFrame);
+        return Current() && tree.GetFirstNodeInGroup("player_controller") is FirstPersonController player
+            && GodotObject.IsInstanceValid(player) && player.IsInsideTree() && !player.IsQueuedForDeletion()
+            && PhotoVisitPoseHasSupport(player, player.GlobalPosition, allowCrouched);
+    }
+
+    private bool TryMountPhotoScene(RuntimeBridge.FullGamePhotoWorldRouteProjection projection, RuntimeBridge bridge)
+    {
+        switch (projection.ActiveSceneId)
+        {
+            case PrologueSceneId:
+            case ForestSceneId: MountW01(projection, bridge); return true;
+            case RiverSceneId: MountW02(projection, bridge); return true;
+            case HousePhotoSceneId: MountW03(projection, bridge); return true;
+            case CommonPhotoSceneId: MountW04(projection, bridge); return true;
+            case CellarPhotoSceneId: MountW05(projection, bridge); return true;
+            default: return false;
+        }
+    }
+
+    private bool IsPhotoSceneMounted(string sceneId) => ActiveZoneScenePath == PhotoScenePath(sceneId)
+        && (sceneId switch
+        {
+            PrologueSceneId or ForestSceneId => IsMountedW01(),
+            RiverSceneId => IsMountedW02(),
+            HousePhotoSceneId => IsMountedW03(),
+            CommonPhotoSceneId => IsMountedW04(),
+            CellarPhotoSceneId => IsMountedW05(),
+            _ => false
+        });
+
     internal async Task<bool> PreloadPhotoSceneAsync(
         string sceneId, CancellationToken cancellationToken = default, Action<float>? progress = null)
     {
-        var path = sceneId switch
-        {
-            PrologueSceneId or ForestSceneId => W01ScenePath,
-            RiverSceneId => W02ScenePath,
-            HousePhotoSceneId => W03ScenePath,
-            CommonPhotoSceneId => W04ScenePath,
-            CellarPhotoSceneId => W05ScenePath,
-            _ => null
-        };
+        var path = PhotoScenePath(sceneId);
         if (path is null) return true;
 
         var generation = ++_photoScenePreloadGeneration;

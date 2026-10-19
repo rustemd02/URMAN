@@ -56,6 +56,14 @@ public partial class SceneSmokeTest : Node
 
             var instance = packed.Instantiate();
             AddChild(instance);
+            if (path == "res://scenes/full_game.tscn"
+                && !await instance.GetNode<RuntimeBridge>("RuntimeBridge").PhotoWorldBootstrapCompletion)
+            {
+                await GodotSmokeCleanup.ReleaseAsync(instance);
+                GD.PushError("Scene smoke full-game bootstrap did not finish.");
+                GetTree().Quit(1);
+                return;
+            }
             // Let _Ready run before releasing the scene. This matters for scenes
             // that create presentation resources (audio players, materials, etc.)
             // during startup; an immediate Free leaves them alive at process exit.

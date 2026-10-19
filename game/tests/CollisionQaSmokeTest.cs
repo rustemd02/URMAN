@@ -38,6 +38,11 @@ public partial class CollisionQaSmokeTest : Node
         }
 
         AddChild(main);
+        if (!await main.GetNode<RuntimeBridge>("RuntimeBridge").PhotoWorldBootstrapCompletion)
+        {
+            Fail("Collision QA full-game bootstrap did not finish.");
+            return;
+        }
         await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
         await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
 

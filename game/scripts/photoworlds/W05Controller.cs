@@ -91,7 +91,7 @@ public partial class W05Controller : Node3D
         if (!IsInsideTree() || IsQueuedForDeletion() || _bridge is not { } owner
             || !GodotObject.IsInstanceValid(owner) || owner.IsQueuedForDeletion() || !owner.IsInsideTree()
             || !ReferenceEquals(GetTree().GetFirstNodeInGroup("runtime_bridge"), owner)
-            || owner.SessionIdentity is not { } identity
+            || owner.PhotoWorldPresentationIdentity is not { } identity
             || owner.CurrentFullGamePhotoWorldRouteProjection() is not { ActiveSceneId: CellarSceneId } route
             || !ReferenceEquals(route.SessionIdentity, identity)) return false;
         bridge = owner;

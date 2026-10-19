@@ -38,7 +38,15 @@ public partial class FirstPersonController
     {
         if (!_restoreStancePending) return;
         _restoreStancePending = false;
-        SetCrouched(!CanStandAt(GlobalPosition), smoothPresentation: false);
+        var crouched = !CanStandAt(GlobalPosition);
+        if (!crouched)
+        {
+            RefreshCarryCoordinator();
+            if (_carryCoordinator is not null
+                && !_carryCoordinator.TryMoveHeldForStanceChange(GlobalBasis * (_standingHeadPosition - _head.Position)))
+                crouched = true;
+        }
+        SetCrouched(crouched, smoothPresentation: false);
     }
 
     private void ToggleCrouch()

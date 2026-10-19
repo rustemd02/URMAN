@@ -1,10 +1,29 @@
 using System.Text.Json;
+using Urman.Core.Runtime;
 
 namespace Urman.Godot;
 
 public partial class RuntimeBridge
 {
     internal sealed record FullGamePhotoWorldRouteProjection(object SessionIdentity, string ActiveSceneId);
+
+    // RuntimeBridge's save-restore owner may temporarily authorize physical
+    // PhotoWorld projection for this exact restored kernel while the ordinary
+    // session gate remains closed. The owner must restore this field in a
+    // finally block after mounting/projecting the candidate world.
+    private RuntimeKernel? _photoWorldPhysicalProjectionSession;
+
+    internal bool IsPhotoWorldPresentationDeferred =>
+        _loadingSlot || _loadPreparing || NeedsPhysicalRecovery;
+
+    /// <summary>
+    /// Session identity for read-only physical projections. During a load this
+    /// is non-null only for the exact kernel explicitly scoped by the restore
+    /// owner; gameplay commands continue to use SessionIdentity.
+    /// </summary>
+    internal RuntimeKernel? PhotoWorldPresentationIdentity => IsPhotoWorldPresentationDeferred
+        ? ReferenceEquals(_photoWorldPhysicalProjectionSession, _kernel) ? _kernel : null
+        : SessionIdentity;
 
     internal bool IsPhotoWorldSaveRestoreInProgress => _loadingSlot;
 
@@ -32,7 +51,7 @@ public partial class RuntimeBridge
     /// </summary>
     internal FullGamePhotoWorldRouteProjection? CurrentFullGamePhotoWorldRouteProjection()
     {
-        if (_loadingSlot || _loadPreparing || SessionIdentity is not { } session
+        if (PhotoWorldPresentationIdentity is not { } session
             || _content is not { HasPhotoWorlds: true })
             return null;
 
@@ -59,7 +78,7 @@ public partial class RuntimeBridge
     /// <summary>Scene presentation reads the existing committed fact only after load validation.</summary>
     internal W01BranchProjection? CurrentW01BranchProjection()
     {
-        if (_loadingSlot || _loadPreparing || SessionIdentity is not { } session
+        if (PhotoWorldPresentationIdentity is not { } session
             || _content is not { HasPhotoWorlds: true })
             return null;
 
@@ -87,7 +106,7 @@ public partial class RuntimeBridge
     /// </summary>
     internal bool PhotoWorldFactObserved(string factId)
     {
-        if (_loadingSlot || _loadPreparing || SessionIdentity is not { } session
+        if (PhotoWorldPresentationIdentity is not { } session
             || _content is not { HasPhotoWorlds: true })
             return false;
 
@@ -111,7 +130,7 @@ public partial class RuntimeBridge
     /// </summary>
     internal W02WaterProjection? CurrentW02WaterProjection()
     {
-        if (_loadingSlot || _loadPreparing || SessionIdentity is not { } session
+        if (PhotoWorldPresentationIdentity is not { } session
             || _content is not { HasPhotoWorlds: true })
             return null;
 

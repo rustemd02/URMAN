@@ -219,14 +219,14 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
         {
             if (DisplayServer.GetName() == "headless")
             {
-                InitializeDemo();
+                await InitializeDemoAsync();
                 return;
             }
 
             loading = LoadingScreenUi.Show(this, "УРМАН", "Подготавливаем игровой мир");
             await ToSignal(RenderingServer.Singleton, RenderingServer.SignalName.FramePostDraw);
             if (!IsInsideTree()) return;
-            InitializeDemo();
+            await InitializeDemoAsync();
         }
         catch (Exception exception)
         {
@@ -252,7 +252,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
         }
     }
 
-    private void InitializeDemo()
+    private async Task InitializeDemoAsync()
     {
         AddToGroup(AccessibilityPresentation.TargetGroup);
         AddToGroup("act1_demo_root");
@@ -292,6 +292,15 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
         // through AddChild. The current campaign projects PhotoWorld routes;
         // ActiveZoneScenePath is assigned only after Main mounts that world.
         var bridge = _main.GetNodeOrNull<RuntimeBridge>("RuntimeBridge");
+        if (UsesPhotoWorldsCampaign && bridge is not null)
+        {
+            var bootstrapReady = await bridge.PhotoWorldBootstrapCompletion;
+            if (!GodotObject.IsInstanceValid(this) || !IsInsideTree() || IsQueuedForDeletion()
+                || _main is null || !GodotObject.IsInstanceValid(_main)
+                || !_main.IsInsideTree() || _main.IsQueuedForDeletion()) return;
+            if (!bootstrapReady)
+                throw new InvalidOperationException("Campaign photo world did not finish loading.");
+        }
         var presentationReady = UsesPhotoWorldsCampaign
             ? !string.IsNullOrWhiteSpace(_main.ActiveZoneScenePath)
             : _main.ConnectedWorld?.IsBuilt == true;

@@ -31,7 +31,9 @@ public partial class W05Controller
 
     private void EnsureCellarGuard()
     {
-        if (!CellarFloorEnabled() || !TryCurrentCellar(out _, out var session))
+        if (!CellarFloorEnabled() || !TryCurrentCellar(out var bridge, out var session)
+            || bridge.IsPhotoWorldPresentationDeferred
+            || !ReferenceEquals(bridge.SessionIdentity, session))
         {
             ReleaseCellarGuard();
             return;

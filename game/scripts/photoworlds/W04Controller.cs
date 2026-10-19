@@ -51,7 +51,7 @@ public partial class W04Controller : Node3D
         if (_bridge is not { } bridge || !GodotObject.IsInstanceValid(bridge)) return;
         var route = bridge.CurrentFullGamePhotoWorldRouteProjection();
         var visible = route is not null
-            && ReferenceEquals(route.SessionIdentity, bridge.SessionIdentity)
+            && ReferenceEquals(route.SessionIdentity, bridge.PhotoWorldPresentationIdentity)
             && route.ActiveSceneId == CommonSceneId;
         _world.Visible = visible;
         foreach (var (body, layer) in _worldCollisionLayers)

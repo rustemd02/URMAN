@@ -527,6 +527,11 @@ public partial class CarryCoordinator : Node
     // before vehicle validation without registration or any new game command.
     internal void ProjectLoadedState()
     {
+        if (!IsInsideTree()) return;
+        var player = GetTree().GetFirstNodeInGroup("player_controller") as FirstPersonController;
+        _player = player is not null && GodotObject.IsInstanceValid(player)
+            && player.IsInsideTree() && !player.IsQueuedForDeletion() ? player : null;
+        _camera = _player?.GetNodeOrNull<Camera3D>("Head/Camera3D");
         _lastProjection = null;
         _movementObstructedUntil = 0;
         _heldPoseValid = false;

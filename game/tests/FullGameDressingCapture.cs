@@ -114,6 +114,11 @@ public partial class FullGameDressingCapture : Node
         bridge.CurrentZoneId = "house_old_pc";
         bridge.CurrentSpawnPointId = "entry";
         viewport.AddChild(main);
+        if (!await bridge.PhotoWorldBootstrapCompletion)
+        {
+            Fail("The runtime-backed home capture bootstrap did not finish.");
+            return false;
+        }
 
         for (var frame = 0; frame < 14; frame++)
         {

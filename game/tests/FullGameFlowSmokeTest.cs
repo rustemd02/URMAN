@@ -42,6 +42,8 @@ public partial class FullGameFlowSmokeTest : Node
             main = ResourceLoader.Load<PackedScene>("res://scenes/full_game.tscn")?.Instantiate<Main>();
             Require(main is not null, "The full-game scene could not be instantiated.");
             AddChild(main!);
+            Require(await main!.GetNode<RuntimeBridge>("RuntimeBridge").PhotoWorldBootstrapCompletion,
+                "The full-game physical bootstrap did not finish.");
 
             await WaitFor(() => Bridge() is { IsPhotoWorldsCampaign: true } bridge
                 && bridge.ActiveSceneId == Scene("pw-prologue"),

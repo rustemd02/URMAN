@@ -428,7 +428,7 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
     {
         var enabled = projection is { ActiveSceneId: ForestSceneId }
             && _bridge is { } bridge && GodotObject.IsInstanceValid(bridge)
-            && ReferenceEquals(projection.SessionIdentity, bridge.SessionIdentity);
+            && ReferenceEquals(projection.SessionIdentity, bridge.PhotoWorldPresentationIdentity);
         var sessionIdentity = enabled ? projection!.SessionIdentity : null;
         if (!enabled || !ReferenceEquals(_rootPassageSessionIdentity, sessionIdentity))
             ResetRootPassageTracking(sessionIdentity);

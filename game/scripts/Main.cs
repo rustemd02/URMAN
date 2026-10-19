@@ -81,9 +81,9 @@ public partial class Main : Node3D
             && player.IsOnFloor() && PhotoVisitPoseHasSupport(player, player.GlobalPosition);
     }
 
-    private static bool PhotoVisitPoseHasSupport(FirstPersonController player, Vector3 position)
+    private static bool PhotoVisitPoseHasSupport(FirstPersonController player, Vector3 position, bool allowCrouched = false)
     {
-        if (!player.CanStandAt(position)) return false;
+        if (allowCrouched ? !player.CanCrouchAt(position) : !player.CanStandAt(position)) return false;
         var from = player.GlobalTransform;
         from.Origin = position + Vector3.Up * .03f;
         using var contact = new KinematicCollision3D();
@@ -187,7 +187,14 @@ public partial class Main : Node3D
         if (EnableFullGamePhotoWorldRouting)
         {
             AttachFullGameRouteBridge();
-            ReconcileFullGameScenePresentation();
+            if (_fullGameRouteBridge is { IsPhotoWorldsCampaign: true } bridge)
+            {
+                if (GetTree().GetFirstNodeInGroup("player_controller") is FirstPersonController player)
+                    player.SetSessionTransition(true);
+                bridge.BeginPhotoWorldBootstrap(this);
+            }
+            else
+                ReconcileFullGameScenePresentation();
         }
         else
         {
@@ -195,7 +202,9 @@ public partial class Main : Node3D
                 EnsureConnectedWorld();
             SwitchZone(InitialZoneId, InitialSpawnPointId);
         }
-        GD.Print("УРМАН Godot vertical slice ready: Painterly Low-Poly / first person");
+        GD.Print(EnableFullGamePhotoWorldRouting && _fullGameRouteBridge is { IsPhotoWorldsCampaign: true }
+            ? "УРМАН PhotoWorld bootstrap started; waiting for physical presentation."
+            : "УРМАН Godot vertical slice ready: Painterly Low-Poly / first person");
     }
 
     public override void _ExitTree()
@@ -455,35 +464,7 @@ public partial class Main : Node3D
         _routingFullGameScene = true;
         try
         {
-            if (projection.ActiveSceneId is PrologueSceneId or ForestSceneId)
-            {
-                MountW01(projection, bridge);
-                return;
-            }
-
-            if (projection.ActiveSceneId == RiverSceneId)
-            {
-                MountW02(projection, bridge);
-                return;
-            }
-
-            if (projection.ActiveSceneId == HousePhotoSceneId)
-            {
-                MountW03(projection, bridge);
-                return;
-            }
-
-            if (projection.ActiveSceneId == CommonPhotoSceneId)
-            {
-                MountW04(projection, bridge);
-                return;
-            }
-
-            if (projection.ActiveSceneId == CellarPhotoSceneId)
-            {
-                MountW05(projection, bridge);
-                return;
-            }
+            if (TryMountPhotoScene(projection, bridge)) return;
 
             var targetZone = projection.ActiveSceneId == PhotoEpilogueSceneId
                 ? "house_old_pc"
@@ -538,7 +519,9 @@ public partial class Main : Node3D
 
         if (alreadyMounted)
         {
-            if (routeSceneChanged && sameSession)
+            if ((routeSceneChanged || !sameSession)
+                && !(_preserveLoadedPhotoWorldTransform
+                    && ReferenceEquals(_loadedPhotoWorldTransformSession, projection.SessionIdentity)))
             {
                 var resolved = ResolveEntryAnchor(_mountedW01!, entryAnchorId, "F00");
                 PlacePlayerAtW01Entry(_mountedW01!, resolved);
@@ -660,7 +643,9 @@ public partial class Main : Node3D
 
         if (alreadyMounted)
         {
-            if (routeSceneChanged && sameSession)
+            if ((routeSceneChanged || !sameSession)
+                && !(_preserveLoadedPhotoWorldTransform
+                    && ReferenceEquals(_loadedPhotoWorldTransformSession, projection.SessionIdentity)))
             {
                 var resolved = ResolveEntryAnchor(_mountedW02!, entryAnchorId, "R08");
                 PlacePlayerAtW01Entry(_mountedW02!, resolved);
@@ -756,7 +741,9 @@ public partial class Main : Node3D
 
         if (alreadyMounted)
         {
-            if (routeSceneChanged && sameSession)
+            if ((routeSceneChanged || !sameSession)
+                && !(_preserveLoadedPhotoWorldTransform
+                    && ReferenceEquals(_loadedPhotoWorldTransformSession, projection.SessionIdentity)))
             {
                 var resolved = ResolveEntryAnchor(_mountedW03!, entryAnchorId, fallbackAnchorId);
                 PlacePlayerAtW01Entry(_mountedW03!, resolved);
@@ -843,7 +830,9 @@ public partial class Main : Node3D
 
         if (alreadyMounted)
         {
-            if (routeSceneChanged && sameSession)
+            if ((routeSceneChanged || !sameSession)
+                && !(_preserveLoadedPhotoWorldTransform
+                    && ReferenceEquals(_loadedPhotoWorldTransformSession, projection.SessionIdentity)))
             {
                 var resolved = ResolveEntryAnchor(_mountedW04!, entryAnchorId, fallbackAnchorId);
                 PlacePlayerAtW01Entry(_mountedW04!, resolved);
@@ -930,7 +919,9 @@ public partial class Main : Node3D
 
         if (alreadyMounted)
         {
-            if (routeSceneChanged && sameSession)
+            if ((routeSceneChanged || !sameSession)
+                && !(_preserveLoadedPhotoWorldTransform
+                    && ReferenceEquals(_loadedPhotoWorldTransformSession, projection.SessionIdentity)))
             {
                 var resolved = ResolveEntryAnchor(_mountedW05!, entryAnchorId, fallbackAnchorId);
                 PlacePlayerAtW01Entry(_mountedW05!, resolved);

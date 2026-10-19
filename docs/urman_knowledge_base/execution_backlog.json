@@ -110063,7 +110063,7 @@
       "assigned_owner": "integration",
       "activity": {
         "state": "not_active",
-        "reason": "20.10 finite source stage checked/compiled and handed off; native acceptance pending. Source writer claims released."
+        "reason": "Coldbootstrap source slice integrated, independently reviewed and compiled; native station remains unavailable."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -110072,7 +110072,7 @@
         "Cancel возвращает управление во внешнем мире.",
         "Loading failure указывает ресурс; фоновые потоки не меняют physics server."
       ],
-      "next_action": "Finish initial cold-bootstrap preload and awaited supported physical projection before control; retain protected Load/NewGame recovery boundaries. Then native normalentry/cancel/failedresource/retry/Continue with actualinput/frameevidence after authoritative e79terminal+userdatarestore.",
+      "next_action": "Preload actual controller-owned dynamic assets through existing request/status/get lifecycle, retain references until mount, then native protected ordinary launch/entry/cancel/Continue after e79 terminal and user-data restoration are confirmed.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -110136,7 +110136,7 @@
           ],
           "repeat_only_if": "Изменился покрываемый вход/consumer/контракт; без этого уже принятая проверка используется повторно без запуска."
         },
-        "actual_result": "PARTIAL source stage compiled, full native criteria pending; see source_stage_2026_10_20.",
+        "actual_result": "PARTIAL source stages compiled; cold_bootstrap_2026_10_20 records awaited physical readiness. Native/loading performance criteria remain open.",
         "evidence_refs": [
           "tasks[id=PW-021].evidence"
         ],
@@ -110238,13 +110238,25 @@
         ],
         "result": "Main owns request/status/across-frame wait/Get only terminal; normal5photoentries await resource after durableprepare checkpoint BEFORE narrativeentry. Main mount/SceneTree/physics remain mainthread; one preparedPackedScene consumed by5existingmounts. NewGame/loadedphoto preflight before physical projection. Existing LoadingScreen shows actualprogress and one-shot keyboard/controller/mouse Cancel; cancel recovers originalticket/keepshome, propercursor/focus/sessiongeneration ownership, no fake entry or falseerror oncancel. MainExit/generation/cancellation protects staleresults; perpathownership drains abandoned loaded/failed enginetokens without Get duringInProgress and permits freshretry afterFailed.",
         "limits": "Cold automatic application bootstrap still uses synchronous fallback; this card remains partial. Instantiation/procedural scene construction remain mainthread, no frametime/FPS claims. Actual cancel/failure/Continue/native not run; existing e79 status timedout, terminal/userdata restorationunknown, no duplicatejob."
+      },
+      "cold_bootstrap_2026_10_20": {
+        "state": "source_integrated_compiled_native_pending",
+        "question": "Дожидается ли реальный обычный photoworlds_game запуск и прямой full_game ресурсной/физической готовности прежде меню и управления; NewGame/Continue сохраняют тот же барьер и loadedpose?",
+        "success": "MainReady не загружает W01 синхронно, пролог не создаёт fakeCorevisit, RootMenu ждёт фактический bootstrap. Reservedload keeps dispatch/save/input guards while explicitly projecting real loadedphoto before capsule/support validation.",
+        "next_action": "Preload actual controller-owned dynamic assets through existing request/status/get lifecycle, retain references until mount, then native protected ordinary launch/entry/cancel/Continue after e79 terminal and user-data restoration are confirmed.",
+        "result": "Ordinary root awaits bootstrap Task; direct full_game holds input. Entry command rejection propagates. Explicit prepared mount and scoped readonly physical projection preserve public dispatch/save locks; loaded pose and held-object projection precede capsule/support barrier. Two physics frames validate actual destination support. NewGame resets same-world entry; Continue preserves loaded pose. Held item binds player/camera before projection; automatic standing preserves crouch when held sweep is blocked.",
+        "verification": "One affected Game build 16.88s, 0 warnings/errors. Independent bootstrap/failure/session/data and readonly observation/carry reviews; source whitespace checked. Four existing consumers minimally await the changed readiness contract; compiled only, no tests executed or added.",
+        "evidence": [
+          "evidence/PW-021/cold-bootstrap-20261020/affected-game-build.log"
+        ],
+        "limits": "Native ordinary launch/Continue not verified. Dynamic GLB/textures loaded by controllers are not yet preloaded by the script-only tscn request; host shell synchronous load and five exceptional fallback loads remain. Procedural Ready geometry/physics cost unmeasured; no FPS or hitch claim."
       }
     },
     {
       "id": "PW-022",
       "title": "Проверить spawn и завершить commit",
       "milestone": "PW-M1",
-      "status": "todo",
+      "status": "in_progress",
       "active_owner": null,
       "owner": "integration",
       "priority": "P0",
@@ -110381,7 +110393,7 @@
       "assigned_owner": "integration",
       "activity": {
         "state": "not_active",
-        "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+        "reason": "Explicit destination projection/support barrier compiled; native collision/player/environment checks pending."
       },
       "task_type": "engineering",
       "implementation_state": "not_started",
@@ -110390,7 +110402,7 @@
         "Нельзя провалиться через ещё не импортированный пол.",
         "Ровно один активный игрок и один Environment на gameplayviewport."
       ],
-      "next_action": "Дождаться регистрации collision и свободной капсулы в safe node.",
+      "next_action": "Verify ordinary cold bootstrap and loaded photo world support/held-item/capsule before input, then one player/environment on protected Windows after e79 terminal/restoration.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -110461,7 +110473,7 @@
           ],
           "repeat_only_if": "Изменился покрываемый вход/consumer/контракт; без этого уже принятая проверка используется повторно без запуска."
         },
-        "actual_result": "NOT_RUN",
+        "actual_result": "PARTIAL: explicit prepared scene and physical support/capsule barrier compiled; full native criteria remain open.",
         "evidence_refs": [
           "tasks[id=PW-022].evidence"
         ],
@@ -110552,7 +110564,16 @@
           "evidence_ref": "PW-022.evidence and named history progress; source_review shows available/missing inputs"
         }
       ],
-      "assignment_state": "preserved_person_or_existing_role; activity separate"
+      "assignment_state": "preserved_person_or_existing_role; activity separate",
+      "source_stage_2026_10_20": {
+        "state": "source_integrated_compiled_native_pending",
+        "result": "Ordinary root awaits bootstrap Task; direct full_game holds input. Entry command rejection propagates. Explicit prepared mount and scoped readonly physical projection preserve public dispatch/save locks; loaded pose and held-object projection precede capsule/support barrier. Two physics frames validate actual destination support. NewGame resets same-world entry; Continue preserves loaded pose. Held item binds player/camera before projection; automatic standing preserves crouch when held sweep is blocked.",
+        "verification": "One affected Game build 16.88s, 0 warnings/errors. Independent bootstrap/failure/session/data and readonly observation/carry reviews; source whitespace checked. Four existing consumers minimally await the changed readiness contract; compiled only, no tests executed or added.",
+        "evidence": [
+          "evidence/PW-021/cold-bootstrap-20261020/affected-game-build.log"
+        ],
+        "limits": "No native gameplay proof yet; one-player/one-environment and supported cold/loaded destination require current protected Windows run. Existing BoundaryRuntimeCapture assumes an act5 override incompatible with the authored prologue and was not changed."
+      }
     },
     {
       "id": "PW-023",

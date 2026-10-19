@@ -77,7 +77,11 @@ public partial class W05Controller
 
     private bool CanUseCellarAction(string interactionId, out RuntimeBridge bridge, out object session)
     {
-        if (!TryCurrentCellar(out bridge, out session) || !_active || CellarModalOpen()
+        if (!TryCurrentCellar(out bridge, out session) || !_active
+            || bridge.IsPhotoWorldPresentationDeferred
+            || bridge.SessionIdentity is not { } activeSession
+            || !ReferenceEquals(activeSession, session)
+            || CellarModalOpen()
             || !bridge.IsInteractionAvailable(interactionId)
             || GetTree().GetFirstNodeInGroup("player_controller") is not FirstPersonController player
             || !GodotObject.IsInstanceValid(player) || player.VehicleControlled || player.IsClimbingLadder
@@ -110,7 +114,8 @@ public partial class W05Controller
 
     private void ProcessCellarGameplay(double delta)
     {
-        if (!TryCurrentCellar(out var bridge, out var session) || !ReferenceEquals(_session, session))
+        if (!TryCurrentCellar(out var bridge, out var session) || bridge.IsPhotoWorldPresentationDeferred
+            || !ReferenceEquals(_session, session))
         {
             if (_actionSession is not null) CancelCellarActions();
             CancelCellarAudio();

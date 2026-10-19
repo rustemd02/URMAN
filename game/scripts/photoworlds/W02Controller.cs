@@ -170,7 +170,7 @@ public partial class W02Controller : Node3D
         if (_bridge is not { } bridge || !GodotObject.IsInstanceValid(bridge))
             return;
 
-        var sessionIdentity = bridge.SessionIdentity;
+        var sessionIdentity = bridge.PhotoWorldPresentationIdentity;
         if (!ReferenceEquals(_reedCurtainSessionIdentity, sessionIdentity))
         {
             ResetReedCurtainSession(sessionIdentity);

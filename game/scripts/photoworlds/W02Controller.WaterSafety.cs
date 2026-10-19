@@ -48,10 +48,12 @@ public partial class W02Controller
 
         if (!_waterSafetyActive)
         {
-            if (projection is null && bridge?.ActiveSceneId == RiverSceneId)
+            if ((projection is null || session is null) && bridge?.ActiveSceneId == RiverSceneId)
             {
                 // ApplyProjection can observe a save/load transition before the
-                // next physics tick; never reuse a pre-restore support point.
+                // next physics tick; the restore-only scene projection may be
+                // present while the ordinary session and guard remain closed.
+                // Never reuse a pre-restore support point in that window.
                 _waterSafetyHasLastSafePosition = false;
                 _waterSafetyRestorePending = true;
             }
