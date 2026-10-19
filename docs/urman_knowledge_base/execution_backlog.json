@@ -25452,7 +25452,7 @@
             "remaining": [
               "Подключить NewGame выбранной кампании с отказом при invalid content; собственного целевого receipt пока нет."
             ],
-            "next_action": "Resolve confirmedhostforeground/captionclipprecondition using existingstationowner before another ordinarylaunch; validownedwindow stays behindChatGPT.exe despiteownedraise. Reuse5952menu/firstrefusal/receipt, do notrepeatunchangedinput or weakenownership/clipping guards.",
+            "next_action": "Accept exactly one current-source ordinary play-product attempt after actual worker Session1 doctor reports full-desktop clip; inspect own menu/guarded input/receipt. On repeated foreground refusal preserve evidence and stop input; do not bypass guards or close foreign foreground app.",
             "blocker": "CurrentordinaryNewGame input stillrefused: validownedtarget, butnonnullforegroundbelongsChatGPT.exe(session1); captionclipbranchonlyraisedownedwindow anddidnotclick. Gameflow notentered; actualreasonforOSfocusretention unresolved.",
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -25575,9 +25575,10 @@
               "remaining": "OrdinaryNewGame/firstwalk/Continue/motion/art stillopen. No unchangedrerun; resolve confirmedhostforeground/captionclipprecondition first."
             },
             "readonly_host_observation_2026_10_19": {
-              "state": "foreground_precondition_unresolved",
-              "evidence": "Doctorreadyidle/norecovery/orphan. SSH GetForegroundWindow/GetClipCursor executed in service session0 (HWND0,virtual1024x768); this does NOT observe interactiveworker session1 and is not resolution evidence. Separate process query confirms priorforeign ChatGPT PID85600 stilllive in session1.",
-              "decision": "No unchanged ordinary input retry, no focus/cursor ownership guard weakening, no unrelatedapp close. Sourcegameplay fixes proceed independently; interactive desktop owner observation/action remains required."
+              "state": "interactive_worker_observation_available_native_attempt_pending",
+              "result": "Existing desktop()/health adds four nullable read-only Win32 observations with correct HWND/DWORD/RECT signatures; no focus/cursor/input/ownership changes. Independent Fast review and Python AST PASS. Exact worker SHA92ccc5a4 deployed alone via backup+hash guards+managedstop/start; existing Windows unresolved merge and dirty docs preserved.",
+              "evidence": "evidence/FINISH-06/desktop-health-20261019/health.json: actualworker Session1 inputdesktoptrue, foreground8980148/PID85600; cursor_clip_rect equals full virtual screen [0,0,1920,1080]. Earlier SSH Session0 observations remain invalid for Session1.",
+              "decision": "One new ordinary current-source play-product asks whether full-desktop cursor bounds permit existing guarded owned-caption activation. If refusal repeats, stop input and preserve receipt; never weaken guard or close foreign ChatGPT."
             }
           },
           {
@@ -112226,6 +112227,12 @@
         "result": "Actual prebook prologue journal opens existing Дела tab and displays optional3level branch/exit hints, no syntheticquest/fact/progression. Existing PrologueUI shows mapped journal keyboard/gamepad binding. Six RU authored rows and canonical fullgame compiled output.",
         "evidence": "evidence/PW-028/prologue-help-20261019/affected-build.log",
         "source_commit": "e695653e"
+      },
+      "arrival_goal_projection_2026_10_19": {
+        "state": "source_integrated_compiled_native_pending",
+        "result": "Existing JournalUi ArrivalObjectiveText now projects actual pw-niva stop → pw-home tea → table book handoff from existing interaction availability. Inside/outside home wording, handoff before repeatable tea; clears on actual book receipt and preserves chapter1. No progress effects/new quest/model.",
+        "verification": "Affected Game compile19.38s0warnings0errors + independent Fast source review no findings; evidence/PW-028/arrival-guidance-20261019/affected-build.log. Actual ordinary native route not accepted.",
+        "limits": "Tea remains replayable per authored content; reminder switches to handoff once warm-arrival beat completed."
       }
     },
     {

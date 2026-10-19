@@ -528,10 +528,32 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
         _ => null
     };
 
-    private string? ArrivalObjectiveText() =>
-        _bridge is { ActiveSceneId: "urman.chapter1:scene/arrival_vehicle_dusk" }
-            ? "Бабай довёз меня домой. Зайти к нему и әби — они ждут к чаю."
-            : null;
+    private string? ArrivalObjectiveText()
+    {
+        if (_bridge is not { } bridge) return null;
+        if (bridge.ActiveSceneId == "urman.chapter1:scene/arrival_vehicle_dusk")
+            return "Бабай довёз меня домой. Зайти к нему и әби — они ждут к чаю.";
+        if (!bridge.IsPhotoWorldsCampaign || bridge.IsPhotoBookProjectionDeferred
+            || bridge.SessionIdentity is null || !bridge.CanShowFamilyBookOnTable)
+            return null;
+
+        if (bridge.ActiveSceneId == "urman.fullgame:scene/pw-niva-arrival")
+            return bridge.IsInteractionAvailable("urman.fullgame:interaction/pw-niva-stop")
+                ? bridge.ResolveText("urman.fullgame:text/pw-label-niva-stop")
+                : null;
+        if (bridge.ActiveSceneId != "urman.fullgame:scene/pw-home") return null;
+
+        var atHome = bridge.CurrentZoneId == "house_old_pc";
+        if (bridge.IsInteractionAvailable("urman.fullgame:interaction/pw-book-handoff"))
+            return atHome
+                ? bridge.ResolveText("urman.fullgame:text/pw-label-book-handoff")
+                : "Вернуться в дом Гөлсинә и Мансура и принять семейную книгу.";
+        if (bridge.IsInteractionAvailable("urman.fullgame:interaction/pw-arrival-tea-talk"))
+            return atHome
+                ? bridge.ResolveText("urman.fullgame:text/pw-label-arrival-tea-talk")
+                : "Зайти к Гөлсинә и Мансуру — они ждут к чаю.";
+        return null;
+    }
 
     private string? FamilyHomeObjectiveText()
     {

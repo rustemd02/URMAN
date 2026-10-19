@@ -1732,6 +1732,8 @@ def write_json(path, value):
     tmp.write_bytes(canonical(value)); tmp.replace(path)
 
 def desktop():
+    from ctypes import wintypes
+
     session = ctypes.c_ulong()
     ctypes.windll.kernel32.ProcessIdToSessionId(os.getpid(), ctypes.byref(session))
     user32 = ctypes.windll.user32
@@ -1740,7 +1742,38 @@ def desktop():
     unlocked = bool(handle)
     if handle:
         user32.CloseDesktop.argtypes = [ctypes.c_void_p]; user32.CloseDesktop(handle)
-    return {'session_id': session.value, 'interactive': session.value != 0, 'input_desktop': unlocked}
+    result = {'session_id': session.value, 'interactive': session.value != 0, 'input_desktop': unlocked,
+              'foreground_hwnd': None, 'foreground_pid': None,
+              'cursor_clip_rect': None, 'virtual_screen_rect': None}
+    # Observe this worker session's desktop only; these calls never activate a
+    # window, move input, or change cursor confinement. Missing data stays unknown.
+    try:
+        user32.GetForegroundWindow.argtypes = []
+        user32.GetForegroundWindow.restype = wintypes.HWND
+        user32.GetWindowThreadProcessId.argtypes = [wintypes.HWND, ctypes.POINTER(wintypes.DWORD)]
+        user32.GetWindowThreadProcessId.restype = wintypes.DWORD
+        foreground = user32.GetForegroundWindow()
+        if foreground:
+            result['foreground_hwnd'] = int(foreground)
+            pid = wintypes.DWORD()
+            if user32.GetWindowThreadProcessId(foreground, ctypes.byref(pid)) and pid.value:
+                result['foreground_pid'] = pid.value
+    except (OSError, AttributeError, ctypes.ArgumentError):
+        pass
+    try:
+        user32.GetClipCursor.argtypes = [ctypes.POINTER(wintypes.RECT)]
+        user32.GetClipCursor.restype = wintypes.BOOL
+        clip = wintypes.RECT()
+        if user32.GetClipCursor(ctypes.byref(clip)):
+            result['cursor_clip_rect'] = [clip.left, clip.top, clip.right, clip.bottom]
+        user32.GetSystemMetrics.argtypes = [ctypes.c_int]
+        user32.GetSystemMetrics.restype = ctypes.c_int
+        x, y, width, height = (user32.GetSystemMetrics(index) for index in (76, 77, 78, 79))
+        if width > 0 and height > 0:
+            result['virtual_screen_rect'] = [x, y, x + width, y + height]
+    except (OSError, AttributeError, ctypes.ArgumentError):
+        pass
+    return result
 
 
 def _windows_process_table():
