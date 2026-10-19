@@ -432,6 +432,7 @@ public partial class W02Controller : Node3D
             MaterialOverride = Snowless("6f7f52", "grass")
         };
         terrain.SetMeta("presentationRole", "walking summer bank; one river west of the route");
+        terrain.SetMeta("footstepSurface", "grass");
         _world!.AddChild(terrain);
 
         var body = TrackBody(new StaticBody3D
@@ -440,6 +441,7 @@ public partial class W02Controller : Node3D
             CollisionLayer = 1u,
             CollisionMask = 1u
         });
+        body.SetMeta("footstepSurface", "grass");
         _world.AddChild(body);
         body.AddChild(new CollisionShape3D
         {
@@ -1450,6 +1452,7 @@ public partial class W02Controller : Node3D
         var planks = new List<Transform3D>();
         var posts = new List<Transform3D>();
         var body = TrackBody(new StaticBody3D { Name = name + "Contact", CollisionLayer = 1u, CollisionMask = 1u });
+        body.SetMeta("footstepSurface", "wood");
         _world.AddChild(body);
         RegisterWaterSafetyDeck(body);
         var postMesh = new CylinderMesh { TopRadius = 0.07f, BottomRadius = 0.085f, Height = 1f, RadialSegments = 6 };
@@ -1602,6 +1605,7 @@ public partial class W02Controller : Node3D
         });
 
         var body = TrackBody(new StaticBody3D { Name = name + "Contact", CollisionLayer = 1u, CollisionMask = 1u });
+        body.SetMeta("footstepSurface", "wood");
         _world.AddChild(body);
         RegisterWaterSafetyDeck(body);
         body.AddChild(new CollisionShape3D

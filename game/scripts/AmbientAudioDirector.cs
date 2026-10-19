@@ -148,6 +148,12 @@ public partial class AmbientAudioDirector : Node
             return;
         }
 
+        if (!UsesWeatherBreath(CurrentStemId))
+        {
+            player.VolumeDb = _bedEnabled ? _activeStemVolumeDb : MutedVolumeDb;
+            return;
+        }
+
         _breathTime += delta;
         var baseDb = _bedEnabled ? _activeStemVolumeDb : MutedVolumeDb;
         if (baseDb <= MutedVolumeDb + 1f)
@@ -199,7 +205,7 @@ public partial class AmbientAudioDirector : Node
         _physicalShelter = sheltered;
         SetMeta("physicalSheltered", sheltered);
         if (_requestedZone.Length > 0 && CurrentStemId.Length > 0)
-            SetZone(_requestedZone, _requestedSubKey);
+            ApplyZone(_requestedZone, _requestedSubKey);
     }
 
     /// <summary>
@@ -270,6 +276,30 @@ public partial class AmbientAudioDirector : Node
 
         _requestedZone = zoneId;
         _requestedSubKey = subKey;
+        ApplyZone(zoneId, subKey);
+    }
+
+    /// <summary>
+    /// Changes the route and the physical shelter state as one selection, so
+    /// callers leaving or entering a shelter do not schedule an intermediate
+    /// bed transition for the old route.
+    /// </summary>
+    public void SetZone(string zoneId, string? subKey, bool physicalShelter)
+    {
+        _physicalShelter = physicalShelter;
+        SetMeta("physicalSheltered", physicalShelter);
+        if (!_lifecycleReady)
+        {
+            return;
+        }
+
+        _requestedZone = zoneId;
+        _requestedSubKey = subKey;
+        ApplyZone(zoneId, subKey);
+    }
+
+    private void ApplyZone(string zoneId, string? subKey)
+    {
         var bedKey = _physicalShelter ? ResolveBedKey("house_old_pc", null) : ResolveBedKey(zoneId, subKey);
         if (!_stemsByZone.TryGetValue(bedKey, out var stem))
         {
@@ -339,6 +369,14 @@ public partial class AmbientAudioDirector : Node
         _crossfadeTween.SetParallel(false);
         _crossfadeTween.TweenCallback(Callable.From(() => ReleasePlayer(activePlayer)));
     }
+
+    private static bool UsesWeatherBreath(string stemId) => stemId is
+        "ambient.village-day" or
+        "ambient.kara-urman-edge" or
+        "ambient.zirat-wind" or
+        "ambient.village-arrival" or
+        "ambient.village-yard" or
+        "ambient.village-return";
 
     private string ResolveBedKey(string zoneId, string? subKey)
     {

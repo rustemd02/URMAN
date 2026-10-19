@@ -154,9 +154,13 @@ public partial class FootstepAudioController : Node
 
         // The prologue's deep forest: deep snow swallows each step, so they are
         // softer and duller than on the village paths (author feedback 2026-09-29).
-        var deepForest = FirstPersonController.DetachedWorldGuard is not null;
-        _stepPlayer.VolumeDb = deepForest ? -26f : -14f;
-        _stepPlayer.PitchScale = deepForest ? .88f : 1f;
+        // Detached guards are also used by house, common, cellar and water
+        // worlds. Preserve the deep-forest dampening only for real snow steps;
+        // authored wood/grass contacts keep their normal impact sound.
+        var deepForestSnow = FirstPersonController.DetachedWorldGuard is not null
+            && (surface == "snow_soft" || surface == "snow_packed");
+        _stepPlayer.VolumeDb = deepForestSnow ? -26f : -14f;
+        _stepPlayer.PitchScale = deepForestSnow ? .88f : 1f;
         _stepPlayer.Play();
     }
 

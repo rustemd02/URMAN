@@ -113,15 +113,18 @@ public partial class W05Controller
         if (!TryCurrentCellar(out var bridge, out var session) || !ReferenceEquals(_session, session))
         {
             if (_actionSession is not null) CancelCellarActions();
+            CancelCellarAudio();
             return;
         }
         if (_actionSession is not null && !ReferenceEquals(_actionSession, session)) CancelCellarActions();
+        ProcessCellarAudio(delta, bridge, session);
         ProcessCellarBox(bridge, session);
         ProcessCellarResponse(delta, bridge, session);
     }
 
     private void CancelCellarActions()
     {
+        CancelCellarAudio();
         _actionGeneration++;
         _actionSession = null;
         _committing = false;

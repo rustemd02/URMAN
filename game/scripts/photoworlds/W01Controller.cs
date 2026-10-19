@@ -348,6 +348,7 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
             CollisionLayer = 0u,
             CollisionMask = 3u
         };
+        _groundBody.SetMeta("footstepSurface", "snow_soft");
         AddChild(_groundBody);
         var snowMaterial = CreatePrologueGroundMaterial();
         foreach (var mesh in Descendants<MeshInstance3D>(_groundVisual))

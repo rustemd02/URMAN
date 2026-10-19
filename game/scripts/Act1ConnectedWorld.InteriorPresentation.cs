@@ -16,6 +16,19 @@ public partial class Act1ConnectedWorld
     private AgentBAct1ExteriorLayer? _physicalWeather;
     private AmbientAudioDirector? _physicalAmbience;
 
+    internal bool? PhysicalShelterForCurrentView
+    {
+        get
+        {
+            if (!IsBuilt || LifePlayer() is not { } player) return null;
+            // Keep routing aligned with the presentation owner: a protected
+            // capture follows its DevViewCamera; ordinary play follows the player.
+            var viewer = GetViewport().GetCamera3D() is { } camera && camera.Name == "DevViewCamera"
+                ? camera.GlobalPosition : player.GlobalPosition;
+            return FacilityInteriorAt(viewer).Length > 0;
+        }
+    }
+
     private void UpdatePhysicalInteriorPresentation()
     {
         // Uses the Act1ConnectedWorld._lifePlayer cache through LifePlayer(): the same

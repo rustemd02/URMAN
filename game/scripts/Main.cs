@@ -125,8 +125,10 @@ public partial class Main : Node3D
         if (AtmosphereProfiles.AppliedProfileId != ticket.GetProperty("originProfileId").GetString()) return false;
         if (GetTree().GetFirstNodeInGroup("ambient_audio") is not AmbientAudioDirector audio) return false;
         var snapshot = ticket.GetProperty("originAudioSnapshot");
-        audio.SetPhysicalShelter(snapshot.GetProperty("physicalSheltered").GetBoolean());
-        audio.SetZone(snapshot.GetProperty("zoneId").GetString()!, snapshot.GetProperty("spawnPointId").GetString());
+        audio.SetZone(
+            snapshot.GetProperty("zoneId").GetString()!,
+            snapshot.GetProperty("spawnPointId").GetString(),
+            snapshot.GetProperty("physicalSheltered").GetBoolean());
         return audio.CurrentStemId == snapshot.GetProperty("stemId").GetString();
     }
 
@@ -293,7 +295,10 @@ public partial class Main : Node3D
 
             if (GetTree().GetFirstNodeInGroup("ambient_audio") is AmbientAudioDirector connectedAmbience)
             {
-                connectedAmbience.SetZone(zoneId, spawnPointId);
+                if (_connectedWorld.PhysicalShelterForCurrentView is { } sheltered)
+                    connectedAmbience.SetZone(zoneId, spawnPointId, sheltered);
+                else
+                    connectedAmbience.SetZone(zoneId, spawnPointId);
             }
 
             if (_hasLoadedInitialZone)
@@ -357,7 +362,7 @@ public partial class Main : Node3D
 
         if (GetTree().GetFirstNodeInGroup("ambient_audio") is AmbientAudioDirector ambience)
         {
-            ambience.SetZone(zoneId, spawnPointId);
+            ambience.SetZone(zoneId, spawnPointId, physicalShelter: false);
         }
 
         if (_hasLoadedInitialZone)
@@ -619,9 +624,8 @@ public partial class Main : Node3D
     private void SetW01Ambience()
     {
         if (GetTree().GetFirstNodeInGroup("ambient_audio") is not AmbientAudioDirector ambience) return;
-        ambience.SetPhysicalShelter(false);
         // W01 is outdoors in the same winter pine air as the existing village bed.
-        ambience.SetZone("village_day");
+        ambience.SetZone("village_day", subKey: null, physicalShelter: false);
     }
 
     private bool IsMountedW01() => _mountedW01 is { } world
@@ -718,10 +722,9 @@ public partial class Main : Node3D
     private void SetW02Ambience()
     {
         if (GetTree().GetFirstNodeInGroup("ambient_audio") is not AmbientAudioDirector ambience) return;
-        ambience.SetPhysicalShelter(false);
         // W02 is the summer bank inside the water print: the manifest's
         // water-edge bed owns this zone key.
-        ambience.SetZone("fullgame_act2_river");
+        ambience.SetZone("fullgame_act2_river", subKey: null, physicalShelter: false);
     }
 
     private void MountW03(RuntimeBridge.FullGamePhotoWorldRouteProjection projection, RuntimeBridge bridge)
@@ -807,9 +810,8 @@ public partial class Main : Node3D
     private void SetW03Ambience()
     {
         if (GetTree().GetFirstNodeInGroup("ambient_audio") is not AmbientAudioDirector ambience) return;
-        ambience.SetPhysicalShelter(false);
         // The courtyard uses the existing full-game house ambience key.
-        ambience.SetZone("fullgame_act2_house");
+        ambience.SetZone("fullgame_act2_house", subKey: null, physicalShelter: false);
     }
 
     private void MountW04(RuntimeBridge.FullGamePhotoWorldRouteProjection projection, RuntimeBridge bridge)
@@ -895,9 +897,8 @@ public partial class Main : Node3D
     private void SetW04Ambience()
     {
         if (GetTree().GetFirstNodeInGroup("ambient_audio") is not AmbientAudioDirector ambience) return;
-        ambience.SetPhysicalShelter(false);
         // Reuse the quiet outdoor bed until the dedicated common-frame audio is accepted.
-        ambience.SetZone("village_day");
+        ambience.SetZone("village_day", subKey: null, physicalShelter: false);
     }
 
     private void MountW05(RuntimeBridge.FullGamePhotoWorldRouteProjection projection, RuntimeBridge bridge)
@@ -983,9 +984,8 @@ public partial class Main : Node3D
     private void SetW05Ambience()
     {
         if (GetTree().GetFirstNodeInGroup("ambient_audio") is not AmbientAudioDirector ambience) return;
-        ambience.SetPhysicalShelter(true);
         // W05 is an indoor cellar; reuse the existing warm sheltered house bed.
-        ambience.SetZone("fullgame_act2_house");
+        ambience.SetZone("fullgame_act2_house", subKey: null, physicalShelter: true);
     }
 
     private void PlacePlayerAtW01Entry(Node3D world, string anchorId)
