@@ -107171,7 +107171,12 @@
         "log_sha256": "db42b6cc31f02e63464fa6f1a00d0e18012c2d7bc07ce8b2cfd29fc542850d1b",
         "result": "NOT_ACCEPTED: single protected clean full_game attempt at1280x720/Metal AppleM1; no UI action executed/reader or D02 reached. Native app bind hung and was interrupted. Missing local Godot GLB import caused W01 BuildGround load exception and1173 fall recoveries; teardown also reports unsubscribing nonexistent size_changed connection.",
         "safety": "Raw log ends original files and permissions restored and verified; resumed19Oct process inventory has no Godot/protected_run. No blanket kill/recovery bypass.",
-        "next_action": "Complete existing Godot import prerequisite for current checkout, review latest owner results for existing W01 lifecycle fix; only retry actual UI after app-control becomes available. No repeated unimported run or claim of Windows/art/reader readiness."
+        "next_action": "Local GLB import prerequisite repaired19Oct; actual GUI reader/D02 route still awaits a working app-control channel or current owner Windows route. Do not repeat failed getApp/unimported run; current W01 cleanup finding handed to existing owner.",
+        "import_prerequisite_2026_10_19": {
+          "log": "evidence/PW-014/mac-native-20261017/import-20261019.log",
+          "result": "Existing protected_run --clean Godot --headless --import exit0, zero ERROR lines, original files and permissions restored and verified. Previously missing prologue-ground-f00-f03-v1.glb.import now maps to an existing .godot imported scene. No gameplay/native UI rerun or reader/D02 acceptance.",
+          "cache": ".godot/imported/prologue-ground-f00-f03-v1.glb-d81bc39b455be2936c01477aac4bce7b.scn"
+        }
       }
     },
     {
@@ -141404,6 +141409,15 @@
           "result": "Existing BuildFenceRun roughpicket donor→onebuilt-inImageGen ref rootviewed→Meshy7.1 30+remesh5. Rootviewed actualwholeface+opaqueclaycloseup: realthroughgaps/tworails, no backplate/ground. Source21718tri/45.95MB has diagonalrailtear, not metricallynormalized; runtimebudget/fit/consumerintegration andnative unaccepted. No furtherPOSTs. Worker6views+receipts/producer retained.",
           "next_action": "Next finitefamily step onlyafter gameplay priority: metric+cost adaptation through existingBuildFenceRun visualgeometry while preservingcollision/support/openspans; no gateowner swap. Source not artcomplete."
         }
+      },
+      "root_conifer_frame_review_2026_10_19": {
+        "reviewer": "Кодекс Кадыра / root",
+        "frame": "evidence/PW-093/native_conifer_v2_d61c8308450142b79ec381cb772a295e/frames/babai_shape_front_high.png",
+        "frame_sha256": "ba08ee20b7573eb71f76a3657562be606bdadba58b01c095d8e9bfc8f6c5602c",
+        "reference": "evidence/ACT1-DEPTH.12/native_uv_v3_fdc5f5ef62fc4554ad107b9d9bef31ef/frames/babai_shape_front_high.png",
+        "accepted_scope": "Root personally viewed author-accepted house reference and V2 whole-scene frame. Exact same spec/FOV70/High/comparabletrue/scale1. Current pine GLB SHA8c5a9e19f9b4c379f3e30a1a33e88c5c02017224dafdcd487837917ba2cc7755 matches source manifest in native d61c receipt; build/import/game0, restored/hashverified reported by original receipt. Accept only current source binding/static tree replacement in this composed village frame, not overall asset family or author art.",
+        "visual_readback": "Tree crowns show finer branching and snowy volume against the accepted house; middle-distance outlines still sharp/busy. Existing log-house visual retained. No rawZIP independently hashed by this reviewer.",
+        "remaining": "Ordinary motion/performance and final author/art acceptance remain open;20174 draw calls/single-frame metric not FPS or performance closure. No new capture, generation or Meshy spending."
       }
     },
     {
