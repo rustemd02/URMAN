@@ -82,6 +82,26 @@ SSH служит для обслуживания; игровые запуски 
 `eng/remote-check.py` и защиту userdata. Успешный SSH не доказывает готовность
 интерактивного desktop после перезагрузки.
 
+## Проверка готового Windows-пакета
+
+После обновления worker команда принимает один результат канонического desktop-exporter:
+
+```sh
+SSL_CERT_FILE=/etc/ssl/cert.pem python3 eng/remote-check.py candidate-boot \
+  --candidate-dir build/releases/act1-20261019-f62bf22b
+```
+
+Каталог должен быть непосредственным потомком `build/releases` и содержать PASS
+`desktop-artifact-receipt.json`, `URMAN-windows-x86_64.zip` и `windows/URMAN.exe`.
+Клиент и worker сверяют размеры, SHA256 и release provenance. Передаются только receipt
+и ZIP; worker запускает единственный извлечённый `windows/URMAN.exe` с фиксированными
+`--headless --audio-driver Dummy --quit-after 4` через обычную защиту userdata.
+Receipt подтверждает только `headless-windows-package-boot`: обычные New Game,
+Continue, графика, звук и производительность требуют своей проверки. Для прерванного
+ожидания использовать `status`/`fetch` с уже выданным job ID, не создавать второй запуск.
+Кэш хранит последние три candidate plans, планы моложе суток и активный кандидат;
+результаты и сведения восстановления пользовательских данных не удаляются.
+
 ## Настроенная станция
 
 - Checkout: `C:\Users\ruste\Documents\GitHub\URMAN` (приоритетное поручение автора).

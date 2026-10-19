@@ -602,12 +602,12 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
         if (!forestPhoto.BackRead && forestPhoto.CanReadBack)
         {
             return canEnterForest
-                ? "Прочитать помету на обороте и сопоставить школьную копию со снимком «Люди у леса», затем войти в лесной снимок."
+                ? "У домашнего стола прочитать помету на обороте, затем выбрать «Войти в снимок» на развороте «Люди у леса»."
                 : "Прочитать помету на обороте и сопоставить школьную копию со снимком «Люди у леса».";
         }
 
         return canEnterForest
-            ? "Сопоставить школьную копию со снимком «Люди у леса», затем войти в этот лесной снимок."
+            ? "У домашнего стола открыть разворот «Люди у леса» и выбрать «Войти в снимок». Для входа повернуться к столу."
             : "Сопоставить школьную копию со снимком «Люди у леса» в семейной книге.";
     }
 
@@ -1040,13 +1040,18 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
 
     private async void Close() => await CloseAsync();
 
-    private async Task<bool> CloseAsync()
+    private async Task<bool> CloseAsync(object? expectedSession = null)
     {
+        bool SessionStillMatches() => expectedSession is null
+            || (_bridge is { IsPhotoBookProjectionDeferred: false } bridge
+                && ReferenceEquals(bridge.SessionIdentity, expectedSession));
+        if (!SessionStillMatches()) return false;
         if (_notesSaving)
         {
-            if (!await _notesSaveCompletion!.Task || !IsInsideTree() || !_screen.Visible) return false;
+            if (!await _notesSaveCompletion!.Task || !IsInsideTree() || !_screen.Visible
+                || !SessionStillMatches()) return false;
         }
-        if (!await SaveNotebookDraftAsync()) return false;
+        if (!await SaveNotebookDraftAsync() || !SessionStillMatches()) return false;
         _screen.Visible = false;
         _excerpts.Clear();
         _images.SetImages(null);

@@ -1,5 +1,6 @@
 using System.Text.Json;
 using System.Threading;
+using Godot;
 using Urman.Core.Contracts;
 using Urman.Core.Narrative;
 using Urman.Core.Runtime;
@@ -8,6 +9,73 @@ namespace Urman.Godot;
 
 public partial class RuntimeBridge
 {
+    internal const string PhotoBookForestEntryInteractionId = "urman.fullgame:interaction/pw-enter-forest";
+
+    internal bool CanEnterPhotoBookForest(out string reason)
+    {
+        reason = _loadingSlot || _loadPreparing || NeedsPhysicalRecovery || SessionIdentity is null
+            ? "Дождитесь завершения перехода."
+            : ReferenceEquals(_photoBookBusySession, SessionIdentity)
+                ? "Дождитесь завершения действия с книгой."
+                : !IsInteractionAvailable(PhotoBookForestEntryInteractionId)
+                    ? "Сначала сопоставьте школьную копию со снимком «Люди у леса» и вклейте снимок."
+                    : PhotoBookForestPhysicalBlockReason(requirePhysicalWorld: true) ?? string.Empty;
+        return reason.Length == 0;
+    }
+
+    private string? PhotoBookForestPhysicalBlockReason(bool requirePhysicalWorld)
+    {
+        var world = GetTree().GetFirstNodeInGroup("act1_connected_world") as Act1ConnectedWorld;
+        if (world is null)
+            return requirePhysicalWorld ? "Вернитесь к домашнему столу с книгой." : null;
+        if (CurrentZoneId != "house_old_pc" || world.ActiveZoneId != "house_old_pc"
+            || world.GetZoneInstance("house_old_pc")?.GetNodeOrNull<InteractionTarget>("PhotoWorldForestEntryTarget") is not { } anchor
+            || !GodotObject.IsInstanceValid(anchor) || !anchor.IsInsideTree() || anchor.IsQueuedForDeletion()
+            || anchor.InteractionId != PhotoBookForestEntryInteractionId)
+            return "Вернитесь к домашнему столу с книгой.";
+        if (FindPlayer() is not { } player || !player.IsInsideTree() || player.IsQueuedForDeletion())
+            return "Дождитесь завершения перехода.";
+        if (player.SessionTransitionActive || player.InIntro)
+            return "Дождитесь завершения перехода.";
+        if (GetTree().GetFirstNodeInGroup("dialogue_ui") is DialogueUi { IsOpen: true })
+            return "Сначала закончите разговор.";
+        if (player.VehicleControlled) return "Сначала выйдите из транспорта.";
+        if (player.IsClimbingLadder) return "Сначала сойдите с лестницы.";
+        var carry = GetTree().GetFirstNodeInGroup("carry_coordinator") as CarryCoordinator;
+        if (carry is { ActionInProgress: true }) return "Дождитесь завершения действия с предметом.";
+        if (carry is { HeldItem: not null }) return "Сначала поставьте предмет из рук.";
+        if (!player.IsOnFloor() || !player.CanStandAt(player.GlobalPosition))
+            return "Встаньте на свободное место у домашнего стола.";
+        var toAnchor = anchor.GlobalPosition - player.GlobalPosition;
+        if (toAnchor.LengthSquared() > 36f) return "Подойдите ближе к домашнему столу с книгой.";
+        toAnchor.Y = 0f;
+        if (toAnchor.LengthSquared() > .0001f)
+        {
+            var forward = -player.GlobalBasis.Z;
+            forward.Y = 0f;
+            if (forward.LengthSquared() < .0001f
+                || forward.Normalized().Dot(toAnchor.Normalized()) < Mathf.Cos(Mathf.DegToRad(40f)))
+                return "Закройте альбом и повернитесь к домашнему столу с книгой.";
+        }
+        return null;
+    }
+
+    internal async Task<bool> EnterPhotoBookForestAsync()
+    {
+        if (!CanEnterPhotoBookForest(out _) || SessionIdentity is not { } session) return false;
+        _photoBookBusySession = session;
+        try
+        {
+            return await DispatchInteractionAsync(PhotoBookForestEntryInteractionId)
+                && ReferenceEquals(session, SessionIdentity) && !_loadingSlot && !_loadPreparing
+                && ActiveSceneId == "urman.fullgame:scene/pw-forest";
+        }
+        finally
+        {
+            if (ReferenceEquals(_photoBookBusySession, session)) _photoBookBusySession = null;
+        }
+    }
+
     internal bool CanInspectReceivedPhotoBook => !_loadingSlot && !_loadPreparing
         && _content.HasPhotoWorlds && SessionIdentity is { } session
         && BookReceived(session.SelectState());

@@ -73,6 +73,7 @@ public partial class FirstPersonController : CharacterBody3D, IAccessibilitySett
     private CarryCoordinator? _carryCoordinator;
 
     public bool ModalOpen => _modalOpen || _sessionTransition;
+    internal bool SessionTransitionActive => _sessionTransition;
     internal string ModalDiagnostic => $"modalFlag={_modalOpen} sessionTransition={_sessionTransition}";
     internal bool InIntro => GetParent()?.GetParent() is Act1DemoRoot { IntroVisible: true };
     internal bool InteractionNoticeActive => Time.GetTicksMsec() < _traversalNoticeUntil;

@@ -54,6 +54,8 @@ public partial class JournalUi
     private Button _photoBookReadBackButton = null!;
     private Button _photoBookInspectBackButton = null!;
     private Button _photoBookMountButton = null!;
+    private Button _photoBookEnterButton = null!;
+    private Label _photoBookEntryHint = null!;
     private Label _photoBookActionStatus = null!;
     private IReadOnlyList<RuntimeBridge.PhotoBookPhoto> _photoBookProjection = [];
     private string? _photoBookSelectedId;
@@ -162,6 +164,24 @@ public partial class JournalUi
         _photoBookSpread.AddChild(_photoBookTitle);
         _photoBookPlacement = new Label { Name = "Placement", AutowrapMode = TextServer.AutowrapMode.WordSmart };
         _photoBookSpread.AddChild(_photoBookPlacement);
+        _photoBookEnterButton = new Button
+        {
+            Name = "EnterPhoto",
+            Text = "Войти в снимок",
+            Visible = false,
+            Disabled = true,
+            FocusMode = Control.FocusModeEnum.All
+        };
+        _photoBookSpread.AddChild(_photoBookEnterButton);
+        _photoBookEnterButton.Pressed += () => _ = EnterSelectedPhotoBookAsync();
+        _photoBookEntryHint = new Label
+        {
+            Name = "EntryHint",
+            AutowrapMode = TextServer.AutowrapMode.WordSmart,
+            Visible = false
+        };
+        _photoBookSpread.AddChild(_photoBookEntryHint);
+
         _photoBookFrontCard = new PanelContainer
         {
             Name = "FrontDescriptionCard",
@@ -597,6 +617,61 @@ public partial class JournalUi
             : null;
         _photoBookReadBackButton.Disabled = _photoBookActionBusy || selected?.CanReadBack != true;
         _photoBookMountButton.Disabled = _photoBookActionBusy || selected?.CanMount != true;
+        var showEntry = selected is { PhotoId: "P-FOREST", Mounted: true };
+        _photoBookEnterButton.Visible = showEntry;
+        _photoBookEnterButton.Disabled = true;
+        _photoBookEntryHint.Visible = false;
+        _photoBookEntryHint.Text = string.Empty;
+        if (showEntry && _bridge is { } entryBridge)
+        {
+            var canEnter = entryBridge.CanEnterPhotoBookForest(out var reason);
+            _photoBookEnterButton.Disabled = _photoBookActionBusy || !canEnter;
+            _photoBookEntryHint.Text = reason;
+            _photoBookEntryHint.Visible = !canEnter && reason.Length > 0;
+        }
+    }
+
+    private async Task EnterSelectedPhotoBookAsync()
+    {
+        if (_photoBookActionBusy || _notesLoadInProgress
+            || _bridge is not { } bridge || bridge.SessionIdentity is not { } session
+            || !IsCurrentMountedPhotoCard(bridge, session, "P-FOREST")) return;
+        if (!bridge.CanEnterPhotoBookForest(out var reason))
+        {
+            RefreshPhotoBookActionButtons();
+            _photoBookActionStatus.Text = reason;
+            return;
+        }
+
+        _photoBookActionBusy = true;
+        _photoBookActionStatus.Text = "Вхожу в снимок…";
+        RefreshPhotoBookActionButtons();
+        try
+        {
+            var entered = await bridge.EnterPhotoBookForestAsync();
+            if (!IsCurrentPhotoBookOperation(bridge, session) || bridge.IsPhotoBookProjectionDeferred) return;
+            if (entered)
+            {
+                await CloseAsync(session);
+                return;
+            }
+            RefreshPhotoBookPage();
+            _photoBookActionStatus.Text = bridge.CanEnterPhotoBookForest(out reason)
+                ? "Не удалось войти в снимок. Попробуйте ещё раз."
+                : reason;
+        }
+        catch (Exception exception)
+        {
+            GD.PushWarning($"Photo book entry failed: {exception.GetType().Name}");
+            if (!IsCurrentPhotoBookOperation(bridge, session)) return;
+            RefreshPhotoBookPage();
+            _photoBookActionStatus.Text = "Не удалось войти в снимок. Попробуйте ещё раз.";
+        }
+        finally
+        {
+            _photoBookActionBusy = false;
+            if (GodotObject.IsInstanceValid(this) && IsInsideTree()) RefreshPhotoBookActionButtons();
+        }
     }
 
     private bool IsCurrentPhotoBookOperation(RuntimeBridge bridge, object session) =>

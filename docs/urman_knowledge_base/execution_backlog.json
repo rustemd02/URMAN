@@ -70929,7 +70929,7 @@
       "milestone": "M5",
       "status": "in_progress",
       "complexity": "simple",
-      "active_owner": "/root/aidar_body",
+      "active_owner": "/root",
       "owner": "finished-act1",
       "depends_on": [],
       "scope": [
@@ -70986,7 +70986,7 @@
       "assigned_owner": "finished-act1",
       "activity": {
         "state": "confirmed_active",
-        "reason": "Owner ACKed a new closed waist/hem construction after root-approved geometric diagnosis; source trousers/boots and existing rig unchanged. Runtime wiring waits accepted actual-eye frame."
+        "reason": "Root integrating finite body/physical book entry slices on 19 October; source workers frozen and independently reviewed, affected game compile PASS15.34s0warnings0errors; native acceptance pending."
       },
       "task_type": "integration_check",
       "implementation_state": "partial",
@@ -70994,7 +70994,7 @@
       "remaining": [
         "Приёмка походки (ходьба/бег/присед/повороты); отсутствует подтверждение собственного конечного DoD, перечисленного ниже."
       ],
-      "next_action": "Пересмотреть FPS clothing adapter: сохранить Meshy брюки/ботинки и изготовить корректную для фактической камеры геометрию пояса/подола вместо серии срезов полного торса. Затем один source actual-eye кадр; runtime gait/jump приёмка отдельно после решения native input focus.",
+      "next_action": "One existing native player movement scenario on current candidate: inspect standing/walking/backward-diagonal/crouch frames and receipt; no new harness. Do not equate scripted smoke with ordinary play or final feel.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -71151,6 +71151,17 @@
         "result": "Root viewed corrected actual-eye source frame: eye1.70m, forward.24m relative body, FOV75,pitch-82°,16:9. Cropped internal jacket/hem surface still occludes lower view; floating scan fragments remain. External view honestly renamed. Source isolated, not runtime integrated; repeated mask iteration stopped.",
         "remaining": "Change approach: retain useful Meshy trousers/boots, design a correct first-person waist/coat silhouette around the actual eye anchor; do not continue blind whole-torso slicing. No ordinary gait/jump/foot-contact acceptance yet; protected native input still requires new causal fact.",
         "frame": "assets/source/blender/act1/aidar_meshy_v1/renders-aidar-meshy-player-body-v1/aidar-first-person-lookdown.png"
+      },
+      "meshy_player_body_2026_10_19": {
+        "state": "source_integrated_native_import_motion_pending",
+        "runtime_asset": "game/assets/generated/aidar-player-body-meshy-v1.glb",
+        "sha256": "ec586a9ec7701f17ee62f9ed0bcc4cb958215212c07f051f83a255755acef182",
+        "bytes": 16540240,
+        "producer": "assets/source/blender/act1/aidar_meshy_v1/prepare_aidar_player_meshy_source.py",
+        "manifest": "assets/source/blender/act1/aidar_meshy_v1/aidar-meshy-player-body-v1.manifest.json",
+        "result": "Original PBR torso/hem/trousers/boots retained; eight disconnected hand islands34tri removed; texture-only2K conversion preserves73 nonimage bufferViews and geometry/rig/UV/material JSON. Actual-eye vertical75/-Y view root inspected. Body consumer retains all source trouser surfaces and PBR, changing skin binds/weights only; compile ArrayMesh type error fixed, affected compile PASS15.34s0/0; independent source/raw GLB/footwear review no finding.",
+        "remaining": "Native Godot import and existing movement captures; rough shoulder cut edges and author motion/art acceptance remain open.",
+        "publication": "Working-tree candidate only; native import/movement and source/runtime asset commit pending. Do not treat this state record as delivered body."
       }
     },
     {
@@ -108729,7 +108740,7 @@
       "title": "Реализовать условия первого сознательного входа",
       "milestone": "PW-M1",
       "status": "in_progress",
-      "active_owner": null,
+      "active_owner": "/root",
       "owner": "integration",
       "priority": "P0",
       "complexity": "medium",
@@ -108877,8 +108888,8 @@
       },
       "assigned_owner": "integration",
       "activity": {
-        "state": "not_active",
-        "reason": "Root принял конечный current first-front/heading UI этап по actual native acquired PhotoBook и логbook.received; свой ввод освобождён, assigned owner сохранён. Full card/art/F10/shutdown gates открыты."
+        "state": "confirmed_active",
+        "reason": "Root integrating finite body/physical book entry slices on 19 October; source workers frozen and independently reviewed, affected game compile PASS15.34s0warnings0errors; native acceptance pending."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -108888,7 +108899,7 @@
         "Вне якоря есть чтение без ложной кнопки входа.",
         "Первый якорь проверен до контекста, с нужным и чужим снимком и после визита: применимая причина отказа понятна без спойлера, пиксель-хантинга и выдачи знания. Недостаток подачи сначала подтверждён в обычном маршруте, затем исправлен существующим gate/hint owner."
       ],
-      "next_action": "Use already accepted 2903 ordinary route and confirmed book pose; require actual visible dialogue before Enter, then exact book aim (yaw84.2/pitch-36.3 from cc83 final pose) or original 2903 pose/yaw90/pitch-41.92. Do not reuse failed shallow-26 aim or claim source image is a game frame. No broad lighting/forest recheck.",
+      "next_action": "Verify actual mounted P-FOREST page and Enter→W01 at home, refused wrong anchor/carry/pose and safe notes/session close with the existing runtime path; stop requiring pixel-precise aim at an invisible tabletop target.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -109267,6 +109278,13 @@
           "evidence/PW-043/release-path-20261015/frames/d884-root/10-new-album.png",
           "evidence/PW-043/release-path-20261015/frames/d884-root/11-album-detail.png"
         ]
+      },
+      "book_entry_2026_10_19": {
+        "state": "source_fixed_native_ui_pending",
+        "defect": "After book handoff, table book hides but forest target remains at its old empty position; no Enter action existed in mounted photo UI.",
+        "result": "Mounted P-FOREST now exposes Enter in selected book page using existing authored dispatch. One common physical gate reads live home target,6m/yaw40/safe support/carry/vehicle/ladder/dialogue/transition for UI and world interaction; concrete refusal hints. Same-session/load guard protects async close and notes.",
+        "verification": "Independent source async/physical/narrative review no finding; affected game compile PASS15.34s0/0. Ordinary native transition and720p layout not yet verified.",
+        "layout": "Root found original bottom-of-page placement would hide primary action under230pxfront+200pxback at720p; identical Enter+hint block moved directly below title/placement, before images. Source layout inspection+diffcheck; native720p remains pending."
       }
     },
     {
@@ -140438,7 +140456,7 @@
       "id": "PW-093",
       "title": "Закрыть происхождение и права каждого runtime-ресурса",
       "milestone": "PW-M4",
-      "status": "todo",
+      "status": "in_progress",
       "active_owner": null,
       "owner": "production",
       "priority": "P1",
@@ -140891,7 +140909,14 @@
           "evidence_ref": "PW-093.evidence and named history progress; source_review shows available/missing inputs"
         }
       ],
-      "assignment_state": "preserved_person_or_existing_role; activity separate"
+      "assignment_state": "preserved_person_or_existing_role; activity separate",
+      "meshy_runtime_ingest_2026_10_19": {
+        "state": "partial_manifest_registered_rights_acceptance_open",
+        "aidar_registry_id": "character.aidar.meshy.player.v1",
+        "registry": "assets/asset_registry.json",
+        "evidence": "Raw source/derived/runtime/producers hash-bound and original reference provenance linked; no CC license or completed commercial rights acceptance asserted.",
+        "remaining": "Complete actual Premium commercial terms/receipt evidence and inventory coverage. Existing Shurale v4 canonical runtime GLB is absent from registry; register its exact source/derived chain before closing PW-093. Other 48 families/13photos remain covered by original contract."
+      }
     },
     {
       "id": "PW-094",
@@ -141665,7 +141690,7 @@
         "accepted_log": "evidence/PW-095/desktop_candidate_f62bf22b/export.log"
       },
       "candidate_boot_route_2026_10_19": {
-        "state": "source_reviewed_host_execution_pending",
+        "state": "installed_host_job_uploading",
         "targets": [
           "eng/remote-check.py",
           "eng/remote_common.py",
@@ -141674,8 +141699,9 @@
         ],
         "scope": "Fixed exported windows/URMAN.exe only; same authenticated station, protected_run, bounded launch and userdata restoration; headless/Dummy boot is not ordinary UI acceptance.",
         "verification": "Python AST PASS; Windows PowerShell Parser.ParseInput PASS on exact compressed source; independent review of ownership/archive/cleanup and newest3 + 24h/active upload retention.",
-        "station_update": "Doctor ready idle/no recovery/no orphan. Windows main df982443 has unrelated unmerged .gitattributes and two locally modified documentation files; no pull/reset/stash/checkout attempted. Deploy only clean owned execution files with exact hash guards and preserve other work.",
-        "next_action": "Install the reviewed route on idle station, then run one candidate-boot using the actual f62bf22b Windows ZIP/receipt; retain receipt and keep ordinary UI/art/performance gates open."
+        "station_update": "Installed four clean owned files via SFTP staging and SHA256/backup guards; exact parser PASS, managed worker stop/start succeeded. Windows main remains df982443; unrelated .gitattributes unmerged and two local documentation changes preserved. Backup C:/Users/ruste/Documents/GitHub/URMAN/.tools/station-update-c7898456/backup. Initial git archive staging produced zero-byte ZIP and no surviving exact deployment process; no replacement occurred in that attempt.",
+        "next_action": "Install the reviewed route on idle station, then run one candidate-boot using the actual f62bf22b Windows ZIP/receipt; retain receipt and keep ordinary UI/art/performance gates open.",
+        "source_commit": "c7898456"
       }
     },
     {
