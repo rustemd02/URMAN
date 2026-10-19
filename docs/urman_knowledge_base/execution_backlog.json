@@ -141690,7 +141690,7 @@
         "accepted_log": "evidence/PW-095/desktop_candidate_f62bf22b/export.log"
       },
       "candidate_boot_route_2026_10_19": {
-        "state": "installed_host_job_uploading",
+        "state": "host_exe_exited_zero_wrong_legacy_marker_fixed",
         "targets": [
           "eng/remote-check.py",
           "eng/remote_common.py",
@@ -141700,8 +141700,14 @@
         "scope": "Fixed exported windows/URMAN.exe only; same authenticated station, protected_run, bounded launch and userdata restoration; headless/Dummy boot is not ordinary UI acceptance.",
         "verification": "Python AST PASS; Windows PowerShell Parser.ParseInput PASS on exact compressed source; independent review of ownership/archive/cleanup and newest3 + 24h/active upload retention.",
         "station_update": "Installed four clean owned files via SFTP staging and SHA256/backup guards; exact parser PASS, managed worker stop/start succeeded. Windows main remains df982443; unrelated .gitattributes unmerged and two local documentation changes preserved. Backup C:/Users/ruste/Documents/GitHub/URMAN/.tools/station-update-c7898456/backup. Initial git archive staging produced zero-byte ZIP and no surviving exact deployment process; no replacement occurred in that attempt.",
-        "next_action": "Install the reviewed route on idle station, then run one candidate-boot using the actual f62bf22b Windows ZIP/receipt; retain receipt and keep ordinary UI/art/performance gates open.",
-        "source_commit": "c7898456"
+        "next_action": "Deploy the one-line runner marker correction with exact previous SHA and backup; one cached-blob boot using same package and corrected fullgame launch contract, then existing player movement native check.",
+        "source_commit": "c7898456",
+        "first_host_job": {
+          "job_id": "b2732f2d502144b497692b7c2a9d7fca",
+          "result": "FAIL acceptance: exported Windows executable exit0, userdataRestored true, no recovery; real fullgame pw-prologue physicalW01 and ready markers present, but runner incorrectly required village_day@arrival, which is not the PhotoWorlds startup.",
+          "artifacts": ".codex-captures/remote/candidate-f62bf22b-host-20261019",
+          "correction": "Remove only the legacy village marker. Canonical existing release verifier requires actual fullgame prologue marker, and both fullgame/ready markers remain mandatory. No increased frame budget or weakened engine-error/userdata guards."
+        }
       }
     },
     {
