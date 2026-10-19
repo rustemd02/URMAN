@@ -4,7 +4,7 @@ Run with:
   blender --background --python assets/source/blender/photoworlds/W01/urman_prologue_branch.py \
     -- --output-dir /private/tmp/urman-prologue-branch-YYYYMMDD
 
-The exported asset is a single moving 1.1 m branch, a center-grip anchor,
+The exported asset is a single moving 2.9 m bough, a center-grip anchor,
 and two static side-root supports. Preview ground/camera/lights are never
 exported. The clips describe object transforms only; they do not implement
 gameplay state or a prologue skip path.
@@ -24,11 +24,16 @@ import bpy
 from mathutils import Vector
 
 
-BRANCH_LENGTH = 1.100
+BRANCH_LENGTH = 2.900
 PATH_WIDTH = 1.500
-SIDE_CENTER_X = 1.400
-SIDE_SUPPORT_TOP = 0.140
-REST_BLOCKING_Z = 0.050
+SIDE_CENTER_X = 1.300
+LOWER_SEAT_Z = 1.350
+UPPER_SEAT_Z = 2.200
+SUPPORT_LIFT_DELTA_Z = 0.850
+SUPPORT_TRUNK_TOP_Z = 2.320
+SUPPORT_ARM_HALF_SPAN_X = 0.050
+BRANCH_CENTER_Z = 1.402
+SUPPORT_INNER_EDGE_MIN_X = PATH_WIDTH * 0.5 + 0.350
 FPS = 24
 TEXTURE_REPEAT_METRES = 1.0
 
@@ -66,7 +71,7 @@ def reset_scene():
     scene.frame_start = 0
     scene.frame_end = 26
     scene.frame_set(0)
-    scene.render.engine = "BLENDER_EEVEE"
+    scene.render.engine = "BLENDER_EEVEE_NEXT"
     scene.render.resolution_x = 1100
     scene.render.resolution_y = 600
     scene.render.resolution_percentage = 100
@@ -134,10 +139,10 @@ def bark_material(texture_path: Path):
 
 
 def branch_profile(x: float):
-    """Smooth irregular taper in metres, with the ground-facing surface at z=0."""
+    """Smooth irregular taper in metres, raised to its authored blocking height."""
     t = (x + BRANCH_LENGTH * 0.5) / BRANCH_LENGTH
-    keys = ((0.0, 0.010), (0.10, 0.032), (0.25, 0.037), (0.45, 0.031),
-            (0.68, 0.025), (0.86, 0.017), (1.0, 0.008))
+    keys = ((0.0, 0.008), (0.010, 0.030), (0.025, 0.050), (0.975, 0.050),
+            (0.990, 0.028), (1.0, 0.008))
     for index in range(len(keys) - 1):
         ta, ra = keys[index]
         tb, rb = keys[index + 1]
@@ -152,7 +157,7 @@ def branch_profile(x: float):
     radius = max(0.007, base + ripple)
     y = 0.010 * math.sin(5.1 * x + 0.3) + 0.004 * math.sin(13.0 * x)
     y += 0.0025 * math.sin(27.0 * x + 0.2)
-    z = radius - REST_BLOCKING_Z + 0.0025 * math.sin(8.0 * x + 0.6)
+    z = BRANCH_CENTER_Z + 0.0005 * math.sin(8.0 * x + 0.6)
     return y, z, radius
 
 
@@ -171,7 +176,9 @@ def sweep_component(vertices, faces, uv_data, points, radii, sides=12, texture_r
             tangent = (points[-1] - points[-2]).normalized()
         else:
             tangent = (points[index + 1] - points[index - 1]).normalized()
-        reference = Vector((0.0, 0.0, 1.0))
+        # A near-vertical support stem needs a horizontal reference to keep
+        # its circular sweep frame finite.
+        reference = Vector((0.0, 1.0, 0.0)) if abs(tangent.z) > 0.95 else Vector((0.0, 0.0, 1.0))
         normal = tangent.cross(reference).normalized()
         binormal = tangent.cross(normal).normalized()
         for side in range(sides + 1):
@@ -206,7 +213,10 @@ def sweep_component(vertices, faces, uv_data, points, radii, sides=12, texture_r
 
 def make_branch_mesh(material):
     vertices, faces, uv_data = [], [], []
-    sample_count = 65
+    # 58 equal intervals put the ±1.30 m supports and their ±0.05 m fork
+    # contacts directly on authored cross-section rings.
+    sample_count = 59
+    ring_vertex_count = 17
     xs = [-BRANCH_LENGTH * 0.5 + BRANCH_LENGTH * index / (sample_count - 1)
           for index in range(sample_count)]
     radii = []
@@ -217,16 +227,38 @@ def make_branch_mesh(material):
         radii.append(radius)
     sweep_component(vertices, faces, uv_data, points, radii, sides=16)
 
+    def ring_vertices(target_x):
+        index = round((target_x + BRANCH_LENGTH * 0.5) / BRANCH_LENGTH * (sample_count - 1))
+        if abs(xs[index] - target_x) > 1e-7:
+            raise RuntimeError(f"Bough sample ring does not meet required contact x={target_x} m")
+        start = index * ring_vertex_count
+        return vertices[start:start + ring_vertex_count]
+
+    center_ring = ring_vertices(0.0)
+    grip_location = max(center_ring, key=lambda point: point[2])
+    support_contacts = {"Left": [], "Right": []}
+    for label, support_x in (("Left", -SIDE_CENTER_X), ("Right", SIDE_CENTER_X)):
+        for arm_sign in (-1, 1):
+            target_x = support_x + arm_sign * SUPPORT_ARM_HALF_SPAN_X
+            contact = min(ring_vertices(target_x), key=lambda point: point[2])
+            support_contacts[label].append({
+                "arm_sign": arm_sign,
+                "x": contact[0] - support_x,
+                "y": contact[1],
+                "z": contact[2],
+                "branch_contact_xyz_m": list(contact),
+            })
+
     # One natural fork grows from the upper surface; it belongs to this same mesh/object.
     fork_x = 0.055
     fork_y, fork_z, fork_r = branch_profile(fork_x)
     fork_points = [
         (fork_x, fork_y, fork_z + fork_r * 0.78),
         (fork_x + 0.016, fork_y + 0.035, fork_z + fork_r * 1.35),
-        (fork_x + 0.025, fork_y + 0.081, fork_z + 0.080),
-        (fork_x + 0.011, fork_y + 0.121, fork_z + 0.112),
+        (fork_x + 0.025, fork_y + 0.081, fork_z + 0.200),
+        (fork_x + 0.011, fork_y + 0.121, fork_z + 0.245),
     ]
-    fork_radii = (0.0105, 0.0090, 0.0062, 0.0028)
+    fork_radii = (0.0240, 0.0190, 0.0120, 0.0060)
     sweep_component(vertices, faces, uv_data, fork_points, fork_radii, sides=10)
 
     mesh = bpy.data.meshes.new("PrologueBranch_BodyMesh")
@@ -241,7 +273,7 @@ def make_branch_mesh(material):
             layer.data[loop_index].uv = uv_data[vertex_index]
     mesh["uv_units"] = "metres; project bark receipt repeats every 1.0 m"
     mesh.materials.append(material)
-    return mesh
+    return mesh, grip_location, support_contacts
 
 
 def make_swept_object(name, vertices, faces, uv_data, material, location=(0.0, 0.0, 0.0)):
@@ -293,29 +325,90 @@ def catmull_rom_samples(points, radii, subdivisions=6):
     return smooth_points, smooth_radii
 
 
-def make_support(material, name, location, side):
+def make_support(material, name, location, side, lower_contacts):
     vertices, faces, uv_data = [], [], []
-    if side == "Left":
-        points = [(-0.200, 0.045, 0.003), (-0.145, 0.034, 0.015),
-                  (-0.080, 0.017, 0.036), (-0.035, 0.004, 0.074),
-                  (0.000, 0.000, 0.132), (0.025, -0.011, 0.104),
-                  (0.077, -0.027, 0.061), (0.140, -0.047, 0.021),
-                  (0.195, -0.065, 0.003)]
-        radii = (0.0025, 0.010, 0.016, 0.015, 0.010, 0.013, 0.017, 0.011, 0.0025)
+    side_sign = -1.0 if side == "Left" else 1.0
+
+    # Rooted crooked sapling just beyond the lane. Its open forks reach toward
+    # the bough at both the blocking and overhead resting heights.
+    depth_bias = -0.030 if side == "Left" else 0.040
+    trunk_points = [
+        (0.000, 0.340 + depth_bias, 0.000),
+        (0.018 * side_sign, 0.300 + depth_bias, 0.260),
+        (0.055 * side_sign, 0.230 + depth_bias, 0.690),
+        (0.015 * side_sign, 0.150 + depth_bias, 1.120),
+        (-0.045 * side_sign, 0.120 + depth_bias, 1.560),
+        (-0.020 * side_sign, 0.200 + depth_bias, 1.980),
+        (0.035 * side_sign, 0.280 + depth_bias, 2.200),
+        (0.060 * side_sign, 0.300 + depth_bias, SUPPORT_TRUNK_TOP_Z),
+    ]
+    trunk_radii = (0.112, 0.096, 0.077, 0.064, 0.052, 0.042, 0.034, 0.024)
+    control_points, control_radii = trunk_points, trunk_radii
+    root_x, root_y, root_z = control_points[0]
+    # Keep the authored curved root while tilting its end cap only enough for
+    # the lowest vertex of the first ring to touch local ground at z=0.
+    for _ in range(24):
+        adjusted_points = list(control_points)
+        adjusted_points[0] = (root_x, root_y, root_z)
+        sampled_points, sampled_radii = catmull_rom_samples(
+            adjusted_points, control_radii, subdivisions=5)
+        tangent = (Vector(sampled_points[1]) - Vector(sampled_points[0])).normalized()
+        reference = Vector((0.0, 1.0, 0.0)) if abs(tangent.z) > 0.95 else Vector((0.0, 0.0, 1.0))
+        normal = tangent.cross(reference).normalized()
+        binormal = tangent.cross(normal).normalized()
+        ground_contact_z = -min(
+            control_radii[0] * (math.cos(math.tau * side / 16) * normal.z
+                                + math.sin(math.tau * side / 16) * binormal.z)
+            for side in range(17))
+        if abs(ground_contact_z - root_z) <= 1e-12:
+            trunk_points, trunk_radii = sampled_points, sampled_radii
+            break
+        root_z = ground_contact_z
     else:
-        points = [(-0.195, -0.052, 0.003), (-0.150, -0.043, 0.014),
-                  (-0.105, -0.022, 0.034), (-0.045, -0.006, 0.083),
-                  (0.000, 0.000, 0.133), (0.035, 0.015, 0.100),
-                  (0.088, 0.031, 0.052), (0.150, 0.049, 0.019),
-                  (0.205, 0.061, 0.003)]
-        radii = (0.0025, 0.009, 0.014, 0.015, 0.009, 0.012, 0.016, 0.010, 0.0025)
-    points, radii = catmull_rom_samples(points, radii)
-    sweep_component(vertices, faces, uv_data, points, radii, sides=12)
-    z_min = min(vertex[2] for vertex in vertices)
-    z_max = max(vertex[2] for vertex in vertices)
-    z_scale = SIDE_SUPPORT_TOP / (z_max - z_min)
-    vertices = [(x, y, (z - z_min) * z_scale) for x, y, z in vertices]
-    return make_swept_object(name, vertices, faces, uv_data, material, location)
+        raise RuntimeError(f"{name} root-endcap ground contact did not converge")
+    sweep_component(vertices, faces, uv_data, trunk_points, trunk_radii, sides=16)
+
+    expected_contacts = []
+
+    def add_seat_fork(contact, lift_delta):
+        seat_z = contact["z"] + lift_delta
+        origin_z = seat_z - 0.245
+        start_point = None
+        for first, second in zip(trunk_points, trunk_points[1:]):
+            if first[2] <= origin_z <= second[2]:
+                ratio = (origin_z - first[2]) / (second[2] - first[2])
+                start_point = Vector(first).lerp(Vector(second), ratio)
+                break
+        if start_point is None:
+            raise RuntimeError(f"No trunk section supports the {seat_z} m fork seat")
+        start_x, start_y, _ = start_point
+        arm_sign = float(contact["arm_sign"])
+        tip_x, tip_y = contact["x"], contact["y"]
+        points = [
+            (start_x, start_y, origin_z),
+            (start_x + arm_sign * 0.025, start_y * 0.65 + tip_y * 0.35, seat_z - 0.140),
+            (tip_x, tip_y, seat_z - 0.060),
+            (tip_x, tip_y, seat_z),
+        ]
+        radii = (0.044, 0.032, 0.020, 0.014)
+        points, radii = catmull_rom_samples(points, radii, subdivisions=5)
+        sweep_component(vertices, faces, uv_data, points, radii, sides=12)
+        expected_contacts.append((tip_x, tip_y, seat_z))
+
+    for contact in lower_contacts:
+        add_seat_fork(contact, 0.0)
+        add_seat_fork(contact, SUPPORT_LIFT_DELTA_Z)
+
+    obj = make_swept_object(name, vertices, faces, uv_data, material, location)
+    base_min_z = min(vertex.co.z for vertex in obj.data.vertices)
+    if abs(base_min_z) > 1e-6:
+        raise RuntimeError(f"{name} swept root base does not touch local ground at z=0: {base_min_z} m")
+    # Each fork has a flat-ended terminal vertex at an actual underside vertex
+    # from the branch mesh; the moved copy is exactly the authored .85 m higher.
+    for expected in expected_contacts:
+        if min((vertex.co - Vector(expected)).length for vertex in obj.data.vertices) > 1e-6:
+            raise RuntimeError(f"{name} fork does not touch its measured branch contact {expected}")
+    return obj
 
 
 def new_empty(name, location=(0.0, 0.0, 0.0), parent=None):
@@ -396,7 +489,8 @@ def add_render_fixture():
     camera = bpy.data.objects.new("RenderOnly_Camera", camera_data)
     scene.collection.objects.link(camera)
     camera_data.type = "ORTHO"
-    camera_data.ortho_scale = 2.25
+    # Frame the complete bough, both rooted supports, and ground with margin.
+    camera_data.ortho_scale = 4.80
     camera_data.lens = 45.0
     scene.camera = camera
     camera.location = (0.9, -3.2, 1.48)
@@ -430,7 +524,8 @@ def render_pose(root, output_dir, pose_name, location):
     bpy.context.scene.frame_set(0)
     bpy.context.view_layer.update()
     camera = bpy.context.scene.camera
-    target = Vector((location[0], 0.0, 0.11))
+    highest_part = max(SUPPORT_TRUNK_TOP_Z, BRANCH_CENTER_Z + 0.250 + location[2])
+    target = Vector((location[0], 0.0, highest_part * 0.5))
     camera.location = (location[0] + 0.78, -3.2, 1.48)
     camera.rotation_euler = (target - camera.location).to_track_quat("-Z", "Y").to_euler()
     bpy.context.scene.render.filepath = str(output_dir / f"{pose_name}.png")
@@ -476,15 +571,12 @@ def build(output_dir: Path):
 
     reset_scene()
     material = bark_material(texture_path)
-    branch_mesh = make_branch_mesh(material)
-    mesh_vertical_offset = -min(vertex.co.z for vertex in branch_mesh.vertices)
-    for vertex in branch_mesh.vertices:
-        vertex.co.z += mesh_vertical_offset
+    branch_mesh, grip_location, support_contacts = make_branch_mesh(material)
+    # Preserve the authored rest height; normalizing this mesh to its floor
+    # would erase the head-height blocking pose and move the grip to ground.
     branch_mesh.update()
     blocking_root = (0.0, 0.0, 0.0)
-    moved_root = (SIDE_CENTER_X, 0.0, SIDE_SUPPORT_TOP)
-    center_y, center_z, _ = branch_profile(0.0)
-    grip_location = (0.0, center_y, center_z + mesh_vertical_offset)
+    moved_root = (0.0, 0.0, SUPPORT_LIFT_DELTA_Z)
     moving_root = new_empty("PrologueBranch_MovingRoot", blocking_root)
     moving_root["part_role"] = "single moving branch owner; object transforms only"
     body = bpy.data.objects.new("PrologueBranch_Body", branch_mesh)
@@ -492,43 +584,59 @@ def build(output_dir: Path):
     body.parent = moving_root
     body.matrix_parent_inverse.identity()
     body.location = (0.0, 0.0, 0.0)
-    body["part_role"] = "one tapered 1.1 m irregular branch mesh, including one natural fork"
+    body["part_role"] = "one tapered 2.9 m irregular bough, including one natural fork"
     grip = new_empty("Branch_GripCenter", grip_location, moving_root)
-    grip["part_role"] = "single center-grip pivot on the branch centerline at mid-length"
+    grip["part_role"] = "visible upper-surface grip point near the bough centerline"
 
-    support_locations = []
-    for label, local_x in (("Left", -0.34), ("Right", 0.34)):
-        x = SIDE_CENTER_X + local_x
-        path_y, _, _ = branch_profile(local_x)
-        support_locations.append((label, local_x, x, path_y))
-        support = make_support(material, f"SIDE_RootSupport_{label}", (x, path_y, 0.0), label)
-        support["contact_top_z_m"] = SIDE_SUPPORT_TOP
+    for label, x in (("Left", -SIDE_CENTER_X), ("Right", SIDE_CENTER_X)):
+        contacts = support_contacts[label]
+        support = make_support(material, f"SIDE_RootSupport_{label}", (x, 0.0, 0.0), label, contacts)
+        support["lower_seat_z_m"] = [round(contact["z"], 6) for contact in contacts]
+        support["upper_seat_z_m"] = [round(contact["z"] + SUPPORT_LIFT_DELTA_Z, 6) for contact in contacts]
+        support["branch_contact_points_local_m"] = [contact["branch_contact_xyz_m"] for contact in contacts]
+        support["part_role"] = "rooted forked sapling with lower blocking and upper moved-branch seats"
+
+    seat_contact_contract = {
+        side: {
+            "lower_contact_z_m": [round(contact["z"], 6) for contact in contacts],
+            "upper_contact_z_m": [round(contact["z"] + SUPPORT_LIFT_DELTA_Z, 6) for contact in contacts],
+            "lower_contact_points_local_m": [contact["branch_contact_xyz_m"] for contact in contacts],
+            "upper_contact_points_local_m": [
+                [contact["branch_contact_xyz_m"][0],
+                 contact["branch_contact_xyz_m"][1],
+                 contact["branch_contact_xyz_m"][2] + SUPPORT_LIFT_DELTA_Z]
+                for contact in contacts
+            ],
+        }
+        for side, contacts in support_contacts.items()
+    }
 
     clip_records = []
     clip_records.append(add_clip(moving_root, "rest_blocking", [
         (1, blocking_root), (12, blocking_root)], {
-            "precondition": "branch begins across the 1.5 m route",
-            "result": "branch rests on the route surface; grip anchor is on the branch centerline",
+            "precondition": "bough begins across the 1.5 m route at head height",
+            "result": "bough rests in two grounded lower fork seats; grip anchor is on the visible upper surface near centerline",
             "root_xyz_m": [0.0, 0.0, 0.0],
+            "measured_support_contacts": seat_contact_contract,
         }))
     clip_records.append(add_clip(moving_root, "rest_moved", [
         (1, moved_root), (12, moved_root)], {
-            "precondition": "branch has been lifted clear of the route",
-            "result": "branch rests on two static side-root supports beyond the route edge",
+            "precondition": "bough has been lifted above the standing lane",
+            "result": "bough rests in two grounded upper fork seats beyond the lane edges",
             "root_xyz_m": list(moved_root),
-            "path_clearance_m": round(SIDE_CENTER_X - BRANCH_LENGTH * 0.5 - PATH_WIDTH * 0.5, 3),
+            "measured_support_contacts": seat_contact_contract,
     }))
     clip_records.append(add_clip(moving_root, "lift_and_place", [
         (1, blocking_root),
-        (8, (0.06, 0.0, 0.31)),
-        (18, (SIDE_CENTER_X, 0.0, 0.31)),
+        (8, (0.0, 0.0, 0.50)),
+        (18, (0.0, 0.0, 1.10)),
         (26, moved_root),
     ], {
-        "precondition": "branch is in the blocking rest pose; center grip anchor is used by a later runtime owner",
-        "result": "lift, clear the route edge, then lower onto the side-root supports",
-        "root_xyz_m": [list(blocking_root), [0.06, 0.0, 0.31],
-                       [SIDE_CENTER_X, 0.0, 0.31], list(moved_root)],
-        "support_contact_top_z_m": SIDE_SUPPORT_TOP,
+        "precondition": "bough is in the blocking rest pose; runtime uses the visible center grip anchor",
+        "result": "lift above the standing lane, then lower into the upper rooted fork seats",
+        "root_xyz_m": [list(blocking_root), [0.0, 0.0, 0.50],
+                       [0.0, 0.0, 1.10], list(moved_root)],
+        "measured_support_contacts": seat_contact_contract,
         "gameplay_effect": "none; no quest flag or skip behavior is implemented in this asset",
     }))
 
@@ -553,18 +661,42 @@ def build(output_dir: Path):
     branch_bounds = evaluated_bounds([body])
     branch_size = branch_bounds["size_blender_xyz_m"]
     if abs(branch_size[0] - BRANCH_LENGTH) > 0.003:
-        raise RuntimeError(f"Branch evaluated length {branch_size[0]} m is not 1.1 m")
+        raise RuntimeError(f"Bough evaluated length {branch_size[0]} m is not 2.9 m")
+    if abs(branch_bounds["min_blender_xyz_m"][2] - LOWER_SEAT_Z) > 0.015:
+        raise RuntimeError("Blocking bough bottom no longer meets its 1.35 m lower-seat profile")
+    if not 1.60 <= branch_bounds["max_blender_xyz_m"][2] <= 1.70:
+        raise RuntimeError("Blocking bough and fork must remain within the authored 1.60-1.70 m top band")
     if any(abs(s - 0.0) < 1e-9 for s in branch_size):
         raise RuntimeError(f"Branch has a degenerate mesh bounds: {branch_size}")
     if any(abs(actual - expected) > 1e-8 for actual, expected in zip(grip.location, grip_location)):
         raise RuntimeError("The grip anchor moved away from the measured centerline point")
+    if abs(grip.location.z - 1.45) > 0.02:
+        raise RuntimeError("The visible center grip must remain near local height 1.45 m")
+    if not any(math.dist(grip.location, vertex.co) <= 1e-6 for vertex in branch_mesh.vertices):
+        raise RuntimeError("The grip anchor is not on a source bough vertex")
     support_bounds = {obj.name: evaluated_bounds([obj]) for obj in bpy.context.scene.objects
                       if obj.name.startswith("SIDE_RootSupport_")}
     if len(support_bounds) != 2:
         raise RuntimeError("Expected exactly two static side-root support meshes")
     for name, bounds in support_bounds.items():
-        if abs(bounds["max_blender_xyz_m"][2] - SIDE_SUPPORT_TOP) > 0.001:
-            raise RuntimeError(f"{name} top is not at {SIDE_SUPPORT_TOP} m")
+        root_min_z = bounds["min_blender_xyz_m"][2]
+        if abs(root_min_z) > 0.002:
+            raise RuntimeError(f"{name} root base must touch local ground at z=0; measured {root_min_z} m")
+        if abs(bounds["max_blender_xyz_m"][2] - SUPPORT_TRUNK_TOP_Z) > 0.025:
+            raise RuntimeError(f"{name} rooted sapling does not reach its authored top")
+    left_inner_edge = abs(support_bounds["SIDE_RootSupport_Left"]["max_blender_xyz_m"][0])
+    right_inner_edge = support_bounds["SIDE_RootSupport_Right"]["min_blender_xyz_m"][0]
+    if min(left_inner_edge, right_inner_edge) < SUPPORT_INNER_EDGE_MIN_X:
+        raise RuntimeError("A rooted support enters the standing-lane clearance band")
+    for side_contacts in support_contacts.values():
+        for contact in side_contacts:
+            if abs(contact["z"] - LOWER_SEAT_Z) > 0.015:
+                raise RuntimeError(f"Measured lower bough contact {contact['z']} m drifted from the 1.35 m blocking seat")
+            if abs((contact["z"] + SUPPORT_LIFT_DELTA_Z) - UPPER_SEAT_Z) > 0.015:
+                raise RuntimeError("Upper support contact is not exactly the lower seat plus the .85 m lift")
+    final_bough_min = branch_bounds["min_blender_xyz_m"][2] + moved_root[2]
+    if final_bough_min < 2.15:
+        raise RuntimeError(f"Final bough underside {final_bough_min} m is below the 2.15 m clearance passport")
 
     bpy.ops.file.pack_all()
     blend_path = output_dir / "urman_prologue_branch.blend"
@@ -609,18 +741,33 @@ def build(output_dir: Path):
     manifest = {
         "schema": 1,
         "asset": "A-BRANCH / W01 F01",
-        "stage_status": "offline asset export; runtime NOT_RUN; author review pending",
+        "stage_status": "offline PW-046 restage export; runtime NOT_RUN; author review pending",
+        "production_metric_delta": {
+            "supersedes": "PW-045 1.10 m light-branch production metric",
+            "previous_centerline_length_m": 1.100,
+            "current_centerline_length_m": BRANCH_LENGTH,
+            "reason": "intentional first-action restage: visible head-height bough with a raised, physically supported final pose",
+            "previous_metric_pass_reused": False,
+        },
         "source": str(Path(__file__).resolve()),
         "source_sha256": sha256(Path(__file__).resolve()),
         "textures": [texture_provenance],
         "coordinate_contract": {
             "authoring": "Blender metres, X is branch length, Z is up; glTF exported Y-up",
+            "asset_local_ground_z_m": 0.0,
+            "F01_scene_anchor_world_y_m": 1.0,
             "branch_centerline_length_m": BRANCH_LENGTH,
             "route_clear_width_m": PATH_WIDTH,
+            "blocking_bough_z_m": [round(branch_bounds["min_blender_xyz_m"][2], 3), round(branch_bounds["max_blender_xyz_m"][2], 3)],
+            "grip_center_z_m": round(grip.location.z, 3),
+            "nominal_lower_support_seat_z_m": LOWER_SEAT_Z,
+            "nominal_upper_support_seat_z_m": UPPER_SEAT_Z,
+            "support_seat_contacts": seat_contact_contract,
             "blocking_root_blender_xyz_m": list(blocking_root),
             "moved_root_blender_xyz_m": list(moved_root),
-            "moved_path_clearance_m": round(SIDE_CENTER_X - BRANCH_LENGTH * 0.5 - PATH_WIDTH * 0.5, 3),
-            "side_support_contact_top_z_m": SIDE_SUPPORT_TOP,
+            "final_bough_bottom_z_m": round(final_bough_min, 3),
+            "final_standing_clearance_m": round(final_bough_min, 3),
+            "support_inner_edge_min_x_m": round(min(left_inner_edge, right_inner_edge), 3),
             "grip_anchor": {"node": "Branch_GripCenter",
                             "root_local_xyz_m": [round(value, 6) for value in grip_location]},
         },
@@ -629,7 +776,7 @@ def build(output_dir: Path):
             "mesh_node": "PrologueBranch_Body",
             "mesh_count": 1,
             "evaluated_blocking_bounds": branch_bounds,
-            "shape": "one irregular tapered branch with one small natural fork; no heavy log or duplicate branch",
+            "shape": "one light irregular 2.9 m bough with one natural fork; geometry rests at local 1.35-1.65 m in the blocking pose",
         },
         "static_supports": support_bounds,
         "clips": clip_records,

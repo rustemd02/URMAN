@@ -4599,6 +4599,22 @@
       "releaseDisposition": "candidate-native-scene-and-contact-review-pending",
       "sourceSha256": "d30ff585e2b08617a8deb095f7eadcb33870b960226bdd04707062ba8a1d8ebd",
       "derivedSha256": "57771c8ece812bbc004f0de15e02ea926fffadcf6520f764f092272e049bca92"
+    },
+    {
+      "id": "photoworlds.w01.first-action-bough.v1",
+      "source": "assets/source/blender/photoworlds/W01/urman_prologue_branch.py",
+      "derived": "game/assets/photoworlds/branch/prologue-branch-v1.glb",
+      "generator": "Existing project-original Blender W01 branch producer, raised whole first-action object; no Meshy spend",
+      "license": "Project-original procedural bark/geometry; bark provenance retained in producer manifest",
+      "scale": 1.0,
+      "triangleBudget": 7344,
+      "textureBudget": 2048,
+      "collision": "Existing W01 one moving body convex hull and two separate static support hulls from same exported meshes; no new owner",
+      "status": "Offline producer assertions and root preview inspection only. Functional candidate: geometry is overly symmetrical and branch too straight for final art; actual scene/action/physics review pending.",
+      "releaseDisposition": "candidate-native-action-and-art-review-pending",
+      "sourceSha256": "78c0d316ce07f6ae360973e79a62f824e06e28717c470c3c4a8cedc49a1017c9",
+      "derivedSha256": "7ab2f9997b3991fa83546b388a996284ef0e31f47f11b0d03b018032c3afa2d8",
+      "receipt": "assets/source/blender/photoworlds/W01/prologue-branch-v1/manifest.json"
     }
   ]
 }

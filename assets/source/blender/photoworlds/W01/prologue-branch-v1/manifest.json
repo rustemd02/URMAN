@@ -1,0 +1,509 @@
+{
+  "schema": 1,
+  "asset": "A-BRANCH / W01 F01",
+  "stage_status": "offline PW-046 restage export; runtime NOT_RUN; author review pending",
+  "production_metric_delta": {
+    "supersedes": "PW-045 1.10 m light-branch production metric",
+    "previous_centerline_length_m": 1.1,
+    "current_centerline_length_m": 2.9,
+    "reason": "intentional first-action restage: visible head-height bough with a raised, physically supported final pose",
+    "previous_metric_pass_reused": false
+  },
+  "source": "/Users/unterlantas/Documents/GitHub/URMAN/assets/source/blender/photoworlds/W01/urman_prologue_branch.py",
+  "source_sha256": "78c0d316ce07f6ae360973e79a62f824e06e28717c470c3c4a8cedc49a1017c9",
+  "textures": [
+    {
+      "path": "game/assets/textures/painterly/bark_spruce_v1_albedo.png",
+      "sha256": "3a526b203d11df79eb7c99bb2317f84fd60f58978cf0ce54e6f94be7efc66acf",
+      "receipt": "game/assets/textures/painterly/procedural_bake_receipt_v1.json#textures.F03",
+      "licence": "project-original procedural (no third-party source)",
+      "metres_per_repeat": 1.0
+    }
+  ],
+  "coordinate_contract": {
+    "authoring": "Blender metres, X is branch length, Z is up; glTF exported Y-up",
+    "asset_local_ground_z_m": 0.0,
+    "F01_scene_anchor_world_y_m": 1.0,
+    "branch_centerline_length_m": 2.9,
+    "route_clear_width_m": 1.5,
+    "blocking_bough_z_m": [
+      1.35,
+      1.651
+    ],
+    "grip_center_z_m": 1.452,
+    "nominal_lower_support_seat_z_m": 1.35,
+    "nominal_upper_support_seat_z_m": 2.2,
+    "support_seat_contacts": {
+      "Left": {
+        "lower_contact_z_m": [
+          1.351334,
+          1.353378
+        ],
+        "upper_contact_z_m": [
+          2.201334,
+          2.203378
+        ],
+        "lower_contact_points_local_m": [
+          [
+            -1.3501412868499756,
+            0.0033532651141285896,
+            1.3513340950012207
+          ],
+          [
+            -1.250189185142517,
+            0.0020200370345264673,
+            1.3533776998519897
+          ]
+        ],
+        "upper_contact_points_local_m": [
+          [
+            -1.3501412868499756,
+            0.0033532651141285896,
+            2.201334095001221
+          ],
+          [
+            -1.250189185142517,
+            0.0020200370345264673,
+            2.20337769985199
+          ]
+        ]
+      },
+      "Right": {
+        "lower_contact_z_m": [
+          1.35108,
+          1.352622
+        ],
+        "upper_contact_z_m": [
+          2.20108,
+          2.202622
+        ],
+        "lower_contact_points_local_m": [
+          [
+            1.2499243021011353,
+            0.003184855915606022,
+            1.3510799407958984
+          ],
+          [
+            1.3500746488571167,
+            0.0018284452380612493,
+            1.3526217937469482
+          ]
+        ],
+        "upper_contact_points_local_m": [
+          [
+            1.2499243021011353,
+            0.003184855915606022,
+            2.2010799407958985
+          ],
+          [
+            1.3500746488571167,
+            0.0018284452380612493,
+            2.2026217937469483
+          ]
+        ]
+      }
+    },
+    "blocking_root_blender_xyz_m": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "moved_root_blender_xyz_m": [
+      0.0,
+      0.0,
+      0.85
+    ],
+    "final_bough_bottom_z_m": 2.2,
+    "final_standing_clearance_m": 2.2,
+    "support_inner_edge_min_x_m": 1.188,
+    "grip_anchor": {
+      "node": "Branch_GripCenter",
+      "root_local_xyz_m": [
+        -0.000158,
+        0.003429,
+        1.452313
+      ]
+    }
+  },
+  "moving_geometry": {
+    "root_node": "PrologueBranch_MovingRoot",
+    "mesh_node": "PrologueBranch_Body",
+    "mesh_count": 1,
+    "evaluated_blocking_bounds": {
+      "min_blender_xyz_m": [
+        -1.45115,
+        -0.067203,
+        1.350201
+      ],
+      "max_blender_xyz_m": [
+        1.450779,
+        0.136124,
+        1.651343
+      ],
+      "size_blender_xyz_m": [
+        2.901929,
+        0.203327,
+        0.301143
+      ]
+    },
+    "shape": "one light irregular 2.9 m bough with one natural fork; geometry rests at local 1.35-1.65 m in the blocking pose"
+  },
+  "static_supports": {
+    "SIDE_RootSupport_Left": {
+      "min_blender_xyz_m": [
+        -1.432561,
+        -0.022435,
+        0.0
+      ],
+      "max_blender_xyz_m": [
+        -1.188293,
+        0.420466,
+        2.325364
+      ],
+      "size_blender_xyz_m": [
+        0.244268,
+        0.442901,
+        2.325364
+      ]
+    },
+    "SIDE_RootSupport_Right": {
+      "min_blender_xyz_m": [
+        1.188293,
+        -0.025868,
+        0.0
+      ],
+      "max_blender_xyz_m": [
+        1.432561,
+        0.490466,
+        2.325364
+      ],
+      "size_blender_xyz_m": [
+        0.244268,
+        0.516334,
+        2.325364
+      ]
+    }
+  },
+  "clips": [
+    {
+      "name": "rest_blocking",
+      "node": "PrologueBranch_MovingRoot",
+      "start_frame": 1,
+      "end_frame": 12,
+      "duration_seconds": 0.4583,
+      "contract": {
+        "precondition": "bough begins across the 1.5 m route at head height",
+        "result": "bough rests in two grounded lower fork seats; grip anchor is on the visible upper surface near centerline",
+        "root_xyz_m": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "measured_support_contacts": {
+          "Left": {
+            "lower_contact_z_m": [
+              1.351334,
+              1.353378
+            ],
+            "upper_contact_z_m": [
+              2.201334,
+              2.203378
+            ],
+            "lower_contact_points_local_m": [
+              [
+                -1.3501412868499756,
+                0.0033532651141285896,
+                1.3513340950012207
+              ],
+              [
+                -1.250189185142517,
+                0.0020200370345264673,
+                1.3533776998519897
+              ]
+            ],
+            "upper_contact_points_local_m": [
+              [
+                -1.3501412868499756,
+                0.0033532651141285896,
+                2.201334095001221
+              ],
+              [
+                -1.250189185142517,
+                0.0020200370345264673,
+                2.20337769985199
+              ]
+            ]
+          },
+          "Right": {
+            "lower_contact_z_m": [
+              1.35108,
+              1.352622
+            ],
+            "upper_contact_z_m": [
+              2.20108,
+              2.202622
+            ],
+            "lower_contact_points_local_m": [
+              [
+                1.2499243021011353,
+                0.003184855915606022,
+                1.3510799407958984
+              ],
+              [
+                1.3500746488571167,
+                0.0018284452380612493,
+                1.3526217937469482
+              ]
+            ],
+            "upper_contact_points_local_m": [
+              [
+                1.2499243021011353,
+                0.003184855915606022,
+                2.2010799407958985
+              ],
+              [
+                1.3500746488571167,
+                0.0018284452380612493,
+                2.2026217937469483
+              ]
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "rest_moved",
+      "node": "PrologueBranch_MovingRoot",
+      "start_frame": 1,
+      "end_frame": 12,
+      "duration_seconds": 0.4583,
+      "contract": {
+        "precondition": "bough has been lifted above the standing lane",
+        "result": "bough rests in two grounded upper fork seats beyond the lane edges",
+        "root_xyz_m": [
+          0.0,
+          0.0,
+          0.85
+        ],
+        "measured_support_contacts": {
+          "Left": {
+            "lower_contact_z_m": [
+              1.351334,
+              1.353378
+            ],
+            "upper_contact_z_m": [
+              2.201334,
+              2.203378
+            ],
+            "lower_contact_points_local_m": [
+              [
+                -1.3501412868499756,
+                0.0033532651141285896,
+                1.3513340950012207
+              ],
+              [
+                -1.250189185142517,
+                0.0020200370345264673,
+                1.3533776998519897
+              ]
+            ],
+            "upper_contact_points_local_m": [
+              [
+                -1.3501412868499756,
+                0.0033532651141285896,
+                2.201334095001221
+              ],
+              [
+                -1.250189185142517,
+                0.0020200370345264673,
+                2.20337769985199
+              ]
+            ]
+          },
+          "Right": {
+            "lower_contact_z_m": [
+              1.35108,
+              1.352622
+            ],
+            "upper_contact_z_m": [
+              2.20108,
+              2.202622
+            ],
+            "lower_contact_points_local_m": [
+              [
+                1.2499243021011353,
+                0.003184855915606022,
+                1.3510799407958984
+              ],
+              [
+                1.3500746488571167,
+                0.0018284452380612493,
+                1.3526217937469482
+              ]
+            ],
+            "upper_contact_points_local_m": [
+              [
+                1.2499243021011353,
+                0.003184855915606022,
+                2.2010799407958985
+              ],
+              [
+                1.3500746488571167,
+                0.0018284452380612493,
+                2.2026217937469483
+              ]
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "lift_and_place",
+      "node": "PrologueBranch_MovingRoot",
+      "start_frame": 1,
+      "end_frame": 26,
+      "duration_seconds": 1.0417,
+      "contract": {
+        "precondition": "bough is in the blocking rest pose; runtime uses the visible center grip anchor",
+        "result": "lift above the standing lane, then lower into the upper rooted fork seats",
+        "root_xyz_m": [
+          [
+            0.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            0.5
+          ],
+          [
+            0.0,
+            0.0,
+            1.1
+          ],
+          [
+            0.0,
+            0.0,
+            0.85
+          ]
+        ],
+        "measured_support_contacts": {
+          "Left": {
+            "lower_contact_z_m": [
+              1.351334,
+              1.353378
+            ],
+            "upper_contact_z_m": [
+              2.201334,
+              2.203378
+            ],
+            "lower_contact_points_local_m": [
+              [
+                -1.3501412868499756,
+                0.0033532651141285896,
+                1.3513340950012207
+              ],
+              [
+                -1.250189185142517,
+                0.0020200370345264673,
+                1.3533776998519897
+              ]
+            ],
+            "upper_contact_points_local_m": [
+              [
+                -1.3501412868499756,
+                0.0033532651141285896,
+                2.201334095001221
+              ],
+              [
+                -1.250189185142517,
+                0.0020200370345264673,
+                2.20337769985199
+              ]
+            ]
+          },
+          "Right": {
+            "lower_contact_z_m": [
+              1.35108,
+              1.352622
+            ],
+            "upper_contact_z_m": [
+              2.20108,
+              2.202622
+            ],
+            "lower_contact_points_local_m": [
+              [
+                1.2499243021011353,
+                0.003184855915606022,
+                1.3510799407958984
+              ],
+              [
+                1.3500746488571167,
+                0.0018284452380612493,
+                1.3526217937469482
+              ]
+            ],
+            "upper_contact_points_local_m": [
+              [
+                1.2499243021011353,
+                0.003184855915606022,
+                2.2010799407958985
+              ],
+              [
+                1.3500746488571167,
+                0.0018284452380612493,
+                2.2026217937469483
+              ]
+            ]
+          }
+        },
+        "gameplay_effect": "none; no quest flag or skip behavior is implemented in this asset"
+      }
+    }
+  ],
+  "render_previews": [
+    {
+      "path": "branch_blocking.png",
+      "sha256": "d164c400224b4d5ba5201f7f698b44b0f81298ffae6dea07481d34d10a7d3cfd"
+    },
+    {
+      "path": "branch_moved.png",
+      "sha256": "4fb5f118d25d4a7d2987fa723d0fa446c871085141f4aaaf184ba5fafd3541e1"
+    }
+  ],
+  "artifacts": {
+    "blend": {
+      "path": "urman_prologue_branch.blend",
+      "sha256": "0dece1b61106196660a01d9bbfbb9500bd4af9df9cab7eccec36bea819e59984",
+      "bytes": 2544093
+    },
+    "glb": {
+      "path": "urman_prologue_branch.glb",
+      "sha256": "7ab2f9997b3991fa83546b388a996284ef0e31f47f11b0d03b018032c3afa2d8",
+      "bytes": 1829024
+    },
+    "glb_node_names": [
+      "Branch_GripCenter",
+      "PrologueBranch_Body",
+      "PrologueBranch_MovingRoot",
+      "SIDE_RootSupport_Left",
+      "SIDE_RootSupport_Right"
+    ],
+    "glb_animation_names": [
+      "lift_and_place",
+      "rest_blocking",
+      "rest_moved"
+    ],
+    "glb_default_moving_root_translation_yup_m": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  "scope_limits": [
+    "Render-only ground, route swatch, camera, and lights are absent from the GLB.",
+    "No gameplay flag, prologue interaction, save/load behavior, or early-skip behavior is implemented.",
+    "No runtime import, station run, or author visual acceptance is claimed."
+  ]
+}

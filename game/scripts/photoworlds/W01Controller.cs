@@ -75,7 +75,7 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
     private static readonly Vector3 BranchF01 = new(12f, 1f, 50f);
     private static readonly Vector3 PrologueF02 = new(45f, 3f, 95f);
     private static readonly Vector3 PrologueF03 = new(80f, 4f, 140f);
-    private static readonly Vector3 BranchMovedRootPosition = new(1.4f, 0.14f, 0f);
+    private static readonly Vector3 BranchMovedRootPosition = new(0f, 0.85f, 0f);
     // Hints follow authored landmark centerlines; startup resolves them onto each mesh's triangles.
     private static readonly Vector3 ForestSplitBirchObservationHint = new(4.25f, 2.2f, 46.1f);
     private static readonly Vector3 ForestCrossbarObservationHint = new(3.6f, 1.15f, 45.975f);

@@ -109859,7 +109859,7 @@
         "cause": "Send-StudioChord used zero scan codes while Move-Game maps platform scan codes; physical Escape/J bindings may explain village Pause/album failures. Native event cause not yet proven.",
         "change": "Map non-arrow main keys using existing MapVirtualKey and symmetric physical release; preserve arrow/modifier semantics and finally cleanup. Poll existing Assert-InputTarget at most every50ms during200ms hold.",
         "verification": "Root diff inspection and independent safety review; no Mac PowerShell available. Narrow parser and actual ordinary Pause/J/normal Quit remain Windows acceptance.",
-        "deployment": "Helper executes from station checkout, not uploaded snapshot; commit/push and idle safe fast-forward/worker restart required before ordinary run. Never bypass hash/focus/userdata guards."
+        "deployment": "c59db0e6 pushed. Windows checkout has pre-existing foreign .gitattributes merge/docs/infra; preserved. Applied only committed helper patch via documented git apply --check/apply, guarded worker stop/start. Windows Parser passed, normalized helper SHA7e65fcfa205d23e697d7a122e97ab9f805f48851a74a1485558f649bb3cd7fbc matched, doctor ready=true/busy=null/recovery=false/orphans=false. Native Pause/J/normalQuit still pending."
       }
     },
     {
@@ -121820,6 +121820,20 @@
           "AffectedGamecompile and targetednative initialstandingview→prompt/E→animation→clearpath→projection/save restore; native/authoracceptance trackedseparately ifnotavailable"
         ],
         "verification": "Producerexport/source inspect + existingnarrowassetregistry + affectedGamecompile + onechangednative ordinaryfirstaction. Sourcealone notart/nativepass. Rootownsregistry/sharedJSON/Git/native; workerownsproducer, separateworkercontrollerconstant; contentreviewreadonly."
+      },
+      "first_action_restage_export_2026_10_19": {
+        "state": "offline_candidate_native_pending",
+        "source": "assets/source/blender/photoworlds/W01/urman_prologue_branch.py",
+        "blend": "assets/source/blender/photoworlds/W01/prologue-branch-v1.blend",
+        "derived": "game/assets/photoworlds/branch/prologue-branch-v1.glb",
+        "receipt": "assets/source/blender/photoworlds/W01/prologue-branch-v1/manifest.json",
+        "derived_sha256": "7ab2f9997b3991fa83546b388a996284ef0e31f47f11b0d03b018032c3afa2d8",
+        "measured": "7344tri; body localZ1.350201–1.651343, grip1.452313; supports base0, inneredge1.188; lift.85=>underside2.200201. Three expectedclips/defaultroot0 preserved.",
+        "review": "Root personally viewed both whole-object previews. Functional candidate only: too straight/symmetrical for final art; scene/action/contact not accepted. Independent source consumers review found no pose/clearance mismatch; SyncToPhysics native stillunproven.",
+        "producer_failures_resolved": "Bundled4.5 enum EEVEE_NEXT; measured base-ring contact corrected without relaxing guard; entireobject framing fixed. No runtimeclaim from firstfailed exit0/tracebacks.",
+        "compile": "affected Game18.58s zero warnings/errors; repository dotnet-env, no tests/full build",
+        "compile_evidence": "assets/source/blender/photoworlds/W01/prologue-branch-v1/affected-game-build.log",
+        "actual_glb_check": "Canonical hash matches export, decoded defaultroot0/gripGodotY1.452312827/rest_moved+lift_and_place endpointY.850000024/all mesh scales1; read-only existingparser+accessor decoding."
       }
     },
     {
