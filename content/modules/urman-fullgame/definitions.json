@@ -3004,6 +3004,13 @@
         "targetDialogueId": "urman.fullgame:dialogue/pw-forest-shurale-d07"
       },
       {
+        "id": "urman.fullgame:interaction/pw-forest-book-return",
+        "labelTextId": "urman.fullgame:text/pw-label-forest-book-return",
+        "conditions": [],
+        "effects": [],
+        "targetSceneId": "urman.fullgame:scene/pw-home"
+      },
+      {
         "id": "urman.fullgame:interaction/pw-forest-return",
         "labelTextId": "urman.fullgame:text/pw-label-forest-return",
         "conditions": [
@@ -4630,6 +4637,17 @@
       "default": "Подойти к Шурале",
       "translations": {
         "ru": "Подойти к Шурале"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-label-forest-book-return",
+    "value": {
+      "default": "Вернуться домой",
+      "translations": {
+        "ru": "Вернуться домой"
       }
     },
     "purpose": "ui"

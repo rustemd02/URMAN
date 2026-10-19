@@ -21788,6 +21788,13 @@
             "targetDialogueId": "urman.fullgame:dialogue/pw-forest-shurale-d07"
           },
           {
+            "id": "urman.fullgame:interaction/pw-forest-book-return",
+            "labelTextId": "urman.fullgame:text/pw-label-forest-book-return",
+            "conditions": [],
+            "effects": [],
+            "targetSceneId": "urman.fullgame:scene/pw-home"
+          },
+          {
             "id": "urman.fullgame:interaction/pw-forest-return",
             "labelTextId": "urman.fullgame:text/pw-label-forest-return",
             "conditions": [
@@ -30677,6 +30684,17 @@
       },
       {
         "schemaVersion": 1,
+        "id": "urman.fullgame:text/pw-label-forest-book-return",
+        "value": {
+          "default": "\u0412\u0435\u0440\u043D\u0443\u0442\u044C\u0441\u044F \u0434\u043E\u043C\u043E\u0439",
+          "translations": {
+            "ru": "\u0412\u0435\u0440\u043D\u0443\u0442\u044C\u0441\u044F \u0434\u043E\u043C\u043E\u0439"
+          }
+        },
+        "purpose": "ui"
+      },
+      {
+        "schemaVersion": 1,
         "id": "urman.fullgame:text/pw-label-forest-branch-move",
         "value": {
           "default": "\u0423\u043B\u043E\u0436\u0438\u0442\u044C \u0432\u0435\u0442\u043A\u0443 \u043D\u0430 \u0431\u043E\u043A\u043E\u0432\u044B\u0435 \u043A\u043E\u0440\u043D\u0438",
@@ -32709,7 +32727,7 @@
     {
       "moduleId": "urman.fullgame",
       "exactVersion": "1.0.0",
-      "sha256": "74e8b6a920327e526453594efe5d076407ab69f37d507e533db13a1bfabaf850"
+      "sha256": "298ff699b63708bfd6db8dc24fab165c6eadf54621667e25cf3f0fea05f0bbdf"
     },
     {
       "moduleId": "urman.oldpc",
@@ -32717,5 +32735,5 @@
       "sha256": "a3cd65ca0fa229fb9162081dcb579945c63e78f2a72939c473f477b54067b292"
     }
   ],
-  "campaignFingerprint": "09146ca581fa8b07f2beb40f701c7ea8604e229c0b5bea554bf914a61ceb26f5"
+  "campaignFingerprint": "441a862cce6ad7c3fc9f8c566ba81ed03e44d32ae98b7298b7e589169b533257"
 }

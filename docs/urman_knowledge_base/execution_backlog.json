@@ -25573,6 +25573,11 @@
               "result": "Build/content/documentimages/importexit0; ordinarymenuactualPNG, backgroundprologuephysicalW01/F00 initialized. NewGame Enter wasnotinjected. Gameguardtimeout124; userdataRestoredtrue. Two existingPainterlyMaterialLibrary mode warnings; no engineerrorlines.",
               "evidence": "evidence/FINISH-06/native_5952e534bf574551856f728c6e08b1f5/receipt.json",
               "remaining": "OrdinaryNewGame/firstwalk/Continue/motion/art stillopen. No unchangedrerun; resolve confirmedhostforeground/captionclipprecondition first."
+            },
+            "readonly_host_observation_2026_10_19": {
+              "state": "foreground_precondition_unresolved",
+              "evidence": "Doctorreadyidle/norecovery/orphan. SSH GetForegroundWindow/GetClipCursor executed in service session0 (HWND0,virtual1024x768); this does NOT observe interactiveworker session1 and is not resolution evidence. Separate process query confirms priorforeign ChatGPT PID85600 stilllive in session1.",
+              "decision": "No unchanged ordinary input retry, no focus/cursor ownership guard weakening, no unrelatedapp close. Sourcegameplay fixes proceed independently; interactive desktop owner observation/action remains required."
             }
           },
           {
@@ -110269,7 +110274,7 @@
       "id": "PW-023",
       "title": "Вернуться из любой нормальной точки мира",
       "milestone": "PW-M1",
-      "status": "todo",
+      "status": "in_progress",
       "active_owner": null,
       "owner": "integration",
       "priority": "P0",
@@ -110402,8 +110407,8 @@
       },
       "assigned_owner": "integration",
       "activity": {
-        "state": "not_active",
-        "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+        "state": "not_confirmed",
+        "reason": "19.10 finite source slice accepted: canonical content + affected Game compile21.65s0/0 and independent review; source owners released. Native ordinary early-return/reentry/Continue and F03 approach acceptance remains open."
       },
       "task_type": "engineering",
       "implementation_state": "not_started",
@@ -110412,7 +110417,7 @@
         "Незавершённая глава сохраняет выполненные действия.",
         "Не создаются новые NPC/машины вместо прежних экземпляров."
       ],
-      "next_action": "Обеспечить досрочный выход книгой и авторский выход уровня.",
+      "next_action": "Verify normal W01 book earlyreturn beforecompletion, retainedfacts and reentry, successfulreturn checkpoint/Continue and stale/session/busy rejection when owned native input available. Full otherworlds/ReturnTicket criteria remain open.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -110562,7 +110567,14 @@
           "evidence_ref": "PW-023.evidence and named history progress; source_review shows available/missing inputs"
         }
       ],
-      "assignment_state": "preserved_person_or_existing_role; activity separate"
+      "assignment_state": "preserved_person_or_existing_role; activity separate",
+      "early_book_return_2026_10_19": {
+        "state": "source_integrated_compiled_native_pending",
+        "requirement": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/levels/W01_Лес_за_спиной_RU.md§2: book provides early exit separately from F16.",
+        "result": "Actual W01 book action Вернуться домой independent of selectedphoto; separate scene-owned authored return→pw-home with empty conditions/effects, no quest/fact completion. ExistingF16 completedquest gate unchanged. Realbag/branch/dialogue/carry/traversal/session/load guards coverUI anddirectdispatch.",
+        "checkpoint": "After accepted return, wait2ProcessFrames with identity/load checks, assert Main.ConnectedWorld logicalzone and safehomeplayerpose, then forcecheckpoint; diskfailure existingSaveFeedback, no rollback/falsein-sessionfailure. FullReturnTicket/PW020 remainsopen; existinghomezone/authoredspawn used, no exactoriginalpose claim.",
+        "verification": "Canonical fullgame ContentCli compile + affectedGame21.65s0warnings0errors; independent source review no actionable findings; gitdiffcheck. No newtests/probes. Actual UI/physical return/Continue not run."
+      }
     },
     {
       "id": "PW-024",
@@ -118932,8 +118944,8 @@
       },
       "assigned_owner": "narrative",
       "activity": {
-        "state": "not_active",
-        "reason": "17.10: persistence передал source этап ветки/фотографии; независимый source review пройден, compile/runtime принимает root."
+        "state": "not_confirmed",
+        "reason": "19.10 finite source slice accepted: canonical content + affected Game compile21.65s0/0 and independent review; source owners released. Native ordinary early-return/reentry/Continue and F03 approach acceptance remains open."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -118943,7 +118955,7 @@
         "Игрок не обязан повторять тизер; объяснение «просто сон» не закрывает интригу.",
         "Обычный New Game без override использует актуальный pack, ставит физический W01 и передаёт управление семейному прибытию; skip не выдаёт необязательное знание, Replay не меняет основной сеанс, Continue не запускает New Game."
       ],
-      "next_action": "Root: узкая Game compile и текущий Windows пролог с видимой карточкой/движением ветки; не считать source diff готовым игровым прологом.",
+      "next_action": "On owned ordinary route verify actualprologue help→branch→F03normalapproach prompt→explicitend→Niva, includingoptionalphoto/skip/save continuation; sourcefix alone not fullPW043acceptance.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -119443,6 +119455,12 @@
         ],
         "verification": "Affected Game compile0warnings/0errors15.43с, независимые source reviews branch+reader/skip/session PASS. Native анимация/видимость/осмотр NOT_RUN.",
         "remaining": "Обычный пролог/skip/Replay/Continue и rendered движение; этап не закрывает PW-043."
+      },
+      "f03_exit_2026_10_19": {
+        "state": "source_integrated_compiled_native_pending",
+        "defect": "Only invisible radius.55 sphere atF03+Y1.2; eye1.7 yields only~.229m horizontal crosssection, ordinary lane approach can missprompt. Source legibility defect, not provennative softlock.",
+        "result": "Ray-only2.1x2.4x.6 box across authoredpath, Yaw fromlastF02→F03segment. Samecentre/layer4/mask0/ConfigureRayOnly, sameauthoredbranchcondition/explicitinteract andoptionalphoto/skip. No asset/newUI/autoprogression.",
+        "verification": "AffectedGame21.65s0/0; sourcegeometry/guardinspection. ActualordinaryF03approach notrun."
       }
     },
     {

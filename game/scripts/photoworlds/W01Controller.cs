@@ -1444,11 +1444,13 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
         if (endTarget is null || !GodotObject.IsInstanceValid(endTarget))
         {
             var marker = GetNode<Marker3D>("Anchors/F03");
+            var approach = PrologueRouteNodes[^1] - PrologueRouteNodes[^2];
             var target = new InteractionTarget
             {
                 Name = "PrologueEnd_InteractionTarget",
                 InteractionId = PrologueEndInteractionId,
                 Prompt = bridge.ResolveText(PrologueEndLabelTextId),
+                Rotation = new Vector3(0f, Mathf.Atan2(approach.X, approach.Z), 0f),
                 CollisionLayer = 4u,
                 CollisionMask = 0u
             };
@@ -1456,7 +1458,8 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
             target.AddChild(new CollisionShape3D
             {
                 Name = "PrologueEnd_RayShape",
-                Shape = new SphereShape3D { Radius = 0.55f }
+                // Cover the authored 2.1 m lane at eye height without blocking the player.
+                Shape = new BoxShape3D { Size = new Vector3(2.1f, 2.4f, .6f) }
             });
             AddChild(target);
             target.GlobalPosition = marker.GlobalPosition + Vector3.Up * 1.2f;

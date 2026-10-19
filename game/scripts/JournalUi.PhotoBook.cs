@@ -617,15 +617,24 @@ public partial class JournalUi
             : null;
         _photoBookReadBackButton.Disabled = _photoBookActionBusy || selected?.CanReadBack != true;
         _photoBookMountButton.Disabled = _photoBookActionBusy || selected?.CanMount != true;
-        var showEntry = selected is { PhotoId: "P-FOREST", Mounted: true };
-        _photoBookEnterButton.Visible = showEntry;
+        var showReturn = currentProjection && _bridge?.ActiveSceneId == "urman.fullgame:scene/pw-forest";
+        var showEntry = !showReturn && selected is { PhotoId: "P-FOREST", Mounted: true };
+        _photoBookEnterButton.Text = showReturn && _bridge is { } returnBridge
+            ? returnBridge.ResolveText("urman.fullgame:text/pw-label-forest-book-return")
+            : "Войти в снимок";
+        _photoBookEnterButton.Visible = showEntry || showReturn;
         _photoBookEnterButton.Disabled = true;
         _photoBookEntryHint.Visible = false;
         _photoBookEntryHint.Text = string.Empty;
-        if (showEntry && _bridge is { } entryBridge)
+        if ((showEntry || showReturn) && _bridge is { } entryBridge)
         {
-            var canEnter = entryBridge.CanEnterPhotoBookForest(out var reason);
-            _photoBookEnterButton.Disabled = _photoBookActionBusy || !canEnter;
+            string reason;
+            var canEnter = showReturn
+                ? entryBridge.CanReturnFromPhotoBookForest(out reason)
+                : entryBridge.CanEnterPhotoBookForest(out reason);
+            // A world action may finish while the reader stays open; retry
+            // rechecks its live guards without polling narrative rules per frame.
+            _photoBookEnterButton.Disabled = _photoBookActionBusy || (!showReturn && !canEnter);
             _photoBookEntryHint.Text = reason;
             _photoBookEntryHint.Visible = !canEnter && reason.Length > 0;
         }
@@ -635,8 +644,15 @@ public partial class JournalUi
     {
         if (_photoBookActionBusy || _notesLoadInProgress
             || _bridge is not { } bridge || bridge.SessionIdentity is not { } session
-            || !IsCurrentMountedPhotoCard(bridge, session, "P-FOREST")) return;
-        if (!bridge.CanEnterPhotoBookForest(out var reason))
+            || !IsCurrentPhotoBookOperation(bridge, session)
+            || !_screen.Visible || _tabs.CurrentTab != PhotoBookTabIndex || !_photoBookPage.Visible) return;
+        var returning = bridge.ActiveSceneId == "urman.fullgame:scene/pw-forest";
+        if (!returning && !IsCurrentMountedPhotoCard(bridge, session, "P-FOREST")) return;
+        string reason;
+        var canAct = returning
+            ? bridge.CanReturnFromPhotoBookForest(out reason)
+            : bridge.CanEnterPhotoBookForest(out reason);
+        if (!canAct)
         {
             RefreshPhotoBookActionButtons();
             _photoBookActionStatus.Text = reason;
@@ -644,11 +660,13 @@ public partial class JournalUi
         }
 
         _photoBookActionBusy = true;
-        _photoBookActionStatus.Text = "Вхожу в снимок…";
+        _photoBookActionStatus.Text = returning ? "Возвращаюсь домой…" : "Вхожу в снимок…";
         RefreshPhotoBookActionButtons();
         try
         {
-            var entered = await bridge.EnterPhotoBookForestAsync();
+            var entered = returning
+                ? await bridge.ReturnFromPhotoBookForestAsync()
+                : await bridge.EnterPhotoBookForestAsync();
             if (!IsCurrentPhotoBookOperation(bridge, session) || bridge.IsPhotoBookProjectionDeferred) return;
             if (entered)
             {
@@ -656,8 +674,17 @@ public partial class JournalUi
                 return;
             }
             RefreshPhotoBookPage();
-            _photoBookActionStatus.Text = bridge.CanEnterPhotoBookForest(out reason)
-                ? "Не удалось войти в снимок. Попробуйте ещё раз."
+            if (returning && bridge.ActiveSceneId == "urman.fullgame:scene/pw-home")
+            {
+                _photoBookActionStatus.Text = "Не удалось подготовить место возвращения. Сохранение не обновлено.";
+                return;
+            }
+            canAct = returning
+                ? bridge.CanReturnFromPhotoBookForest(out reason)
+                : bridge.CanEnterPhotoBookForest(out reason);
+            _photoBookActionStatus.Text = canAct
+                ? returning ? "Не удалось вернуться домой. Попробуйте ещё раз."
+                    : "Не удалось войти в снимок. Попробуйте ещё раз."
                 : reason;
         }
         catch (Exception exception)
@@ -665,7 +692,9 @@ public partial class JournalUi
             GD.PushWarning($"Photo book entry failed: {exception.GetType().Name}");
             if (!IsCurrentPhotoBookOperation(bridge, session)) return;
             RefreshPhotoBookPage();
-            _photoBookActionStatus.Text = "Не удалось войти в снимок. Попробуйте ещё раз.";
+            _photoBookActionStatus.Text = returning
+                ? "Не удалось вернуться домой. Попробуйте ещё раз."
+                : "Не удалось войти в снимок. Попробуйте ещё раз.";
         }
         finally
         {

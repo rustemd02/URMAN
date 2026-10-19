@@ -30,6 +30,8 @@ public partial class W01Controller
     private object? _bagPendingDialogueSession;
     private string? _bagPendingDialogueSceneId;
     private BagActionPhase _bagActionPhase;
+    internal bool PhotoBookReturnActionInProgress => _bagActionPhase != BagActionPhase.Idle
+        || _branchMoveInProgress || _bagPendingDialogueSession is not null;
     private Transform3D _bagPlacementStart;
     private Transform3D _bagPlacementEnd;
     private double _bagPlacementElapsed;

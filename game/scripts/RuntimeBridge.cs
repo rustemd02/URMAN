@@ -594,6 +594,8 @@ public partial class RuntimeBridge : Node
         if (!HasRequiredWorldState(interactionId)) return false;
         if (interactionId == PhotoBookForestEntryInteractionId
             && PhotoBookForestPhysicalBlockReason(requirePhysicalWorld: false) is not null) return false;
+        if (interactionId == PhotoBookForestReturnInteractionId
+            && PhotoBookForestReturnPhysicalBlockReason(requirePhysicalWorld: false) is not null) return false;
         if ((interactionId is "urman.chapter1:interaction/talk-alsu"
                 or "urman.fullgame:interaction/pw-alsu-before-w04-talk"
                 or "urman.fullgame:interaction/pw-alsu-leaf-talk")
