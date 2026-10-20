@@ -27904,7 +27904,19 @@
           "evidence_ref": "FINISH-01.evidence and named history progress; source_review shows available/missing inputs"
         }
       ],
-      "assignment_state": "preserved_person_or_existing_role; activity separate"
+      "assignment_state": "preserved_person_or_existing_role; activity separate",
+      "release_source_preflight_2026_10_20": {
+        "state": "reviewed_no_source_blocker_native_export_not_run",
+        "result": "Existing Windows release preset exports all_resources without excluding fullgame. Entry point remains photoworlds_game.tscn. Existing release producer compiles both campaign packs, uses release presets and verifies extracted Windows PCK for fullgame/pw-prologue. No consumer fix justified by this bounded review.",
+        "source_refs": [
+          "game/export_presets.cfg:107",
+          "game/project.godot:14",
+          "eng/export-desktop-release.sh:194",
+          "eng/export-desktop-release.sh:258",
+          "eng/verify-act1-release-package.sh:379"
+        ],
+        "remaining": "Actual current native export/PCK contents, standalone launch and package/performance baseline remain unverified; no export/build/engine/test/probe run."
+      }
     },
     {
       "id": "BASE-001",
@@ -110033,7 +110045,7 @@
         "job": "e79adf9f932a4d74b4aec64d7565c6a4",
         "terminal_restoration": "not_confirmed",
         "new_job_submitted": false,
-        "last_status_query": "20.10 04:23 Moscow: same e79 status exit1 urlopen timeout; terminal/userdata restoration still not confirmed. No new job or input.",
+        "last_status_query": "20.10 04:43 Moscow: same e79 status exit1 urlopen timeout. Current Tailscale Running but encrypted DERP connection rejected for SSLA self-signed certificate; cached UnterPC offline/lastSeen19Oct21:46:54UTC, which is not authoritative game terminal. No new job/input or TLS weakening.",
         "local_diagnosis": "Existing local VPN carries default route; system proxy/CA overrides absent. This is a concrete network-path lead, not proof of which hop intercepts TLS. Temporary path change requires owner consent, pending; no VPN/cert/daemon settings changed."
       },
       "player_facing_source_2026_10_20": {
@@ -142588,6 +142600,18 @@
         ],
         "result": "Two independent source reviews confirm prior Village belt cell batching was measured and reverted (historical108→95fps,p95 9.9→13.0ms; nodes30237→27591). Raw receipt and original cell size not established; these are not current V2 measurements and culling loss remains explanatory candidate. Current V2 replaces shared meshes/materials but not tree/LOD topology. Late per-tree roof/square suppression and LOD audit consume original nodes; merely retaining identity roots does not propagate visibility to sibling batches. Named KaraBranchProfileTrunk and prologue branch are separate owners. W01 grouped LOD1/2 range policy is not Village 3-tier equivalent. No production batching change, new test/probe or performance claim.",
         "next_action": "Use current native renderer/culling view after authoritative e79 terminal/userdata restoration. Choose a changed mechanism with source-matched A/B before replacing Village tree submission topology; never treat 3N→3G node arithmetic as FPS proof."
+      },
+      "release_attribution_review_2026_10_20": {
+        "state": "source_records_consistent_no_required_attribution_gap_proven",
+        "result": "Generated pine V2 manifest and winter.pine.meshy.v1 registry agree on promoted path/hash and paid Meshy provenance, distinct from free-plan CC BY/CC0. Original Quaternius donor remains physical/contact source and has existing production credit. MainMenu About reads credits.ru.txt and export presets include it. Account/billing not independently reverified; whole asset rights/external acceptance are not closed.",
+        "source_refs": [
+          "assets/source/blender/act1/winter_spruce_meshy_v2/winter-pine-v2.manifest.json",
+          "assets/asset_registry.json",
+          "game/content/credits.ru.txt",
+          "game/scripts/MainMenuUi.cs",
+          "game/export_presets.cfg"
+        ],
+        "verification": "Independent bounded read-only source/consumer review; no generated asset replacement, export or runtime claim."
       }
     },
     {
