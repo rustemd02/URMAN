@@ -37,7 +37,7 @@ public partial class RuntimeBridge
             Action<float>? reportProgress = loading is null ? null : loading.SetResourceProgress;
             if (!Current() || ActiveSceneId is not { } sceneId
                 || !await main.PreloadPhotoSceneAsync(sceneId, progress: reportProgress)) return;
-            if (!Current() || !await ProjectReservedPhotoWorldAsync(main, session, sceneId)) return;
+            if (!Current() || !(await ProjectReservedPhotoWorldAsync(main, session, sceneId)).Ready) return;
             succeeded = true;
             GD.Print($"urman-photoworld-bootstrap-ready: scene={sceneId} supported=true");
         }
@@ -64,8 +64,9 @@ public partial class RuntimeBridge
         }
     }
 
-    private async Task<bool> ProjectReservedPhotoWorldAsync(
-        Main main, RuntimeKernel session, string sceneId, bool preserveLoadedTransform = false)
+    private async Task<(bool Ready, string? VisitStartNode)> ProjectReservedPhotoWorldAsync(
+        Main main, RuntimeKernel session, string sceneId, bool preserveLoadedTransform = false,
+        bool prepareVisitStart = false)
     {
         var previousProjection = _photoWorldPhysicalProjectionSession;
         _photoWorldPhysicalProjectionSession = session;
@@ -76,44 +77,93 @@ public partial class RuntimeBridge
             && ActiveSceneId == sceneId;
         try
         {
-            if (!Current() || !main.MountPreparedPhotoScene(session, sceneId, preserveLoadedTransform)) return false;
+            if (!Current() || !main.MountPreparedPhotoScene(session, sceneId, preserveLoadedTransform)) return (false, null);
             // Retire old physical owners and let the new scene attach its own
             // carry owner before projecting saved props. Do not validate against
             // authored props that the saved state is about to move.
             await tree.ToSignal(tree, SceneTree.SignalName.ProcessFrame);
-            if (!Current()) return false;
+            if (!Current()) return (false, null);
             await tree.ToSignal(tree, SceneTree.SignalName.ProcessFrame);
-            if (!Current()) return false;
+            if (!Current()) return (false, null);
             await ProjectPhysicalWorldAsync();
-            if (!Current()) return false;
+            if (!Current()) return (false, null);
             var carry = tree.GetFirstNodeInGroup("carry_coordinator") as CarryCoordinator;
             if (sceneId == "urman.fullgame:scene/pw-cellar"
                 && (carry is null || !GodotObject.IsInstanceValid(carry) || carry.IsQueuedForDeletion()
                     || main.GetNodeOrNull<W05Controller>("ZoneHost/W05") is not { } cellar
                     || !cellar.IsAncestorOf(carry)))
                 throw new InvalidDataException("The restored cellar's canonical carry owner is not ready.");
+            if (prepareVisitStart && carry is not null && GodotObject.IsInstanceValid(carry))
+            {
+                var registrationDeadline = Time.GetTicksMsec() + 5000;
+                while (Current() && GodotObject.IsInstanceValid(carry) && !carry.IsQueuedForDeletion()
+                    && carry.ActionInProgress && Time.GetTicksMsec() < registrationDeadline)
+                    await tree.ToSignal(tree, SceneTree.SignalName.ProcessFrame);
+                if (!Current() || !GodotObject.IsInstanceValid(carry) || carry.IsQueuedForDeletion()
+                    || !carry.IsRegisteredForSession(session))
+                    throw new InvalidDataException("The photo world's canonical item owner is not ready.");
+            }
             if (carry is not null && GodotObject.IsInstanceValid(carry) && !carry.IsQueuedForDeletion())
                 carry.ProjectLoadedState();
-            if (!await main.CompletePhotoSceneProjectionAsync(session, sceneId, preserveLoadedTransform))
+            string? visitStartNode = null;
+            string? visitStartWorld = null;
+            string? entryNode = null;
+            if (prepareVisitStart)
             {
-                if (!Current() || !preserveLoadedTransform
-                    || !TryGetLoadedPhotoSafeNode(session, sceneId, out var worldId, out var safeNodeId)
-                    || !main.TryPlacePlayerAtPhotoSafeNode(session, worldId, safeNodeId))
-                    return false;
-                // Restore the same saved carry owner at the verified fallback.
-                // A blocked item alone never triggers this relocation; failure
-                // here retains the ordinary load rollback and untouched slot.
+                if (ActivePhotoVisit() is not { } visit || visit.GetProperty("status").GetString() != "prepared")
+                    return (false, null);
+                visitStartWorld = visit.GetProperty("worldId").GetString()!;
+                if (!PhotoWorldState.TryGetVisitRoute(visitStartWorld, out var expectedScene, out entryNode)
+                    || expectedScene != sceneId
+                    || !PhotoWorldState.TryGetVisitStartNode(session.SelectState(), visitStartWorld, out visitStartNode))
+                    return (false, null);
+                // The previous visit's placed props are already projected.
+                // Select the actual start before requiring its floor support;
+                // a clear authored entrance is only an explicit fallback.
+                if (!main.TryPlacePlayerAtPhotoVisitStart(session, visitStartWorld, visitStartNode))
+                {
+                    if (visitStartNode == entryNode
+                        || !main.TryPlacePlayerAtPhotoVisitStart(session, visitStartWorld, entryNode))
+                        return (false, null);
+                    visitStartNode = entryNode;
+                }
                 if (carry is not null && GodotObject.IsInstanceValid(carry) && !carry.IsQueuedForDeletion())
                     carry.ProjectLoadedState();
-                if (!await main.CompletePhotoSceneProjectionAsync(session, sceneId, allowCrouched: true)
-                    || !Current()) return false;
-                GD.Print($"urman-photo-loaded-safe-node: world={worldId} node={safeNodeId}");
             }
-            if (!Current()) return false;
+            if (!await main.CompletePhotoSceneProjectionAsync(session, sceneId, preserveLoadedTransform))
+            {
+                if (prepareVisitStart)
+                {
+                    if (!Current() || visitStartNode == entryNode
+                        || !main.TryPlacePlayerAtPhotoVisitStart(session, visitStartWorld!, entryNode!))
+                        return (false, null);
+                    visitStartNode = entryNode;
+                    if (carry is not null && GodotObject.IsInstanceValid(carry) && !carry.IsQueuedForDeletion())
+                        carry.ProjectLoadedState();
+                    if (!await main.CompletePhotoSceneProjectionAsync(session, sceneId) || !Current())
+                        return (false, null);
+                }
+                else
+                {
+                    if (!Current() || !preserveLoadedTransform
+                        || !TryGetLoadedPhotoSafeNode(session, sceneId, out var worldId, out var safeNodeId)
+                        || !main.TryPlacePlayerAtPhotoSafeNode(session, worldId, safeNodeId))
+                        return (false, null);
+                    // Restore the same saved carry owner at the verified fallback.
+                    // A blocked item alone never triggers this relocation; failure
+                    // here retains the ordinary load rollback and untouched slot.
+                    if (carry is not null && GodotObject.IsInstanceValid(carry) && !carry.IsQueuedForDeletion())
+                        carry.ProjectLoadedState();
+                    if (!await main.CompletePhotoSceneProjectionAsync(session, sceneId, allowCrouched: true)
+                        || !Current()) return (false, null);
+                    GD.Print($"urman-photo-loaded-safe-node: world={worldId} node={safeNodeId}");
+                }
+            }
+            if (!Current()) return (false, null);
             if (carry is not null && GodotObject.IsInstanceValid(carry)
                 && carry.HeldItem is not null && !carry.HasValidHeldPose)
                 throw new InvalidDataException("The loaded carried item has no free physical pose.");
-            return true;
+            return (true, visitStartNode);
         }
         finally
         {

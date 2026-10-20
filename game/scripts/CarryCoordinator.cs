@@ -1,6 +1,7 @@
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using Godot;
+using Urman.Core.World;
 
 namespace Urman.Godot;
 
@@ -50,6 +51,25 @@ public partial class CarryCoordinator : Node
     internal CarryableProp? HeldItem => _held;
     internal IReadOnlyList<CarryableProp> Items => _props;
     internal bool ActionInProgress => _busy || _registering;
+    internal bool IsRegisteredForSession(object session)
+    {
+        if (_registering || !ReferenceEquals(_registeredSession, session)
+            || _bridge is not { } bridge || !GodotObject.IsInstanceValid(bridge)
+            || !ReferenceEquals(session, bridge.SessionIdentity))
+            return false;
+        if (_props.Count == 0) return true;
+
+        var state = bridge.SelectRuntimeState();
+        if (!state.TryGetProperty(CustodyStore.DefaultStateKey, out var custody)
+            || custody.ValueKind != JsonValueKind.Array)
+            return false;
+        var registeredIds = custody.EnumerateArray()
+            .Where(item => item.ValueKind == JsonValueKind.Object
+                && item.TryGetProperty("itemId", out var id) && id.ValueKind == JsonValueKind.String)
+            .Select(item => item.GetProperty("itemId").GetString()!)
+            .ToHashSet(StringComparer.Ordinal);
+        return _props.All(prop => registeredIds.Contains(prop.ItemId));
+    }
     internal Task<bool> PendingAction { get; private set; } = Task.FromResult(true);
     internal int InteractionPresses => _interactionPresses;
     internal bool HasValidHeldPose => _held is null || (_heldPoseValid && _heldPoseItem == _held.ItemId

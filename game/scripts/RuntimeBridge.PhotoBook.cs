@@ -305,6 +305,7 @@ public partial class RuntimeBridge
         public bool CanReadBack { get; init; }
         public bool CanMount { get; init; }
         public bool WorldCompleted { get; init; }
+        public bool HasResumePoint { get; init; }
     }
 
     private RuntimeKernel? _photoBookBusySession;
@@ -343,6 +344,13 @@ public partial class RuntimeBridge
                 && savedPhoto.TryGetProperty("pageId", out var pageState)
                 && pageState.ValueKind == JsonValueKind.String
                 && StringComparer.Ordinal.Equals(pageState.GetString(), definition.PageId);
+            var worldId = PhotoBookEntryInteractionForPhoto(definition.Id) is { } entryInteractionId
+                ? PhotoVisitWorldForInteraction(entryInteractionId) : null;
+            var worldCompleted = worldId is not null && PhotoWorldState.IsWorldCompleted(state, worldId);
+            var hasResumePoint = !worldCompleted && worldId is not null
+                && PhotoWorldState.TryGetVisitRoute(worldId, out _, out var entryNode)
+                && PhotoWorldState.TryGetVisitStartNode(state, worldId, out var startNode)
+                && startNode != entryNode;
             var photo = new PhotoBookPhoto(
                 definition.Id,
                 string.IsNullOrWhiteSpace(definition.Title) ? "Найденный снимок" : definition.Title.Trim(),
@@ -352,9 +360,8 @@ public partial class RuntimeBridge
                 mounted)
             {
                 PageId = definition.PageId,
-                WorldCompleted = PhotoBookEntryInteractionForPhoto(definition.Id) is { } entryInteractionId
-                    && PhotoVisitWorldForInteraction(entryInteractionId) is { } worldId
-                    && PhotoWorldState.IsWorldCompleted(state, worldId),
+                WorldCompleted = worldCompleted,
+                HasResumePoint = hasResumePoint,
                 OriginLabel = definition.ProvenanceKind switch
                 {
                     "family-book-print" => "Снимок из семейной книги",

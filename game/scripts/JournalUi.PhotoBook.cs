@@ -663,7 +663,8 @@ public partial class JournalUi
         _photoBookEnterButton.Text = showReturn && _bridge is { } returnBridge
             ? _photoBookReturnSession is not null ? "Подтвердить возвращение"
                 : returnBridge.ResolveText("urman.fullgame:text/pw-label-forest-book-return")
-            : selected?.WorldCompleted == true ? "Вернуться в снимок" : "Войти в снимок";
+            : selected?.WorldCompleted == true ? "Вернуться в снимок"
+                : selected?.HasResumePoint == true ? "Продолжить снимок" : "Войти в снимок";
         _photoBookEnterButton.Visible = showEntry || showReturn;
         _photoBookEnterButton.Disabled = true;
         _photoBookEntryHint.Visible = false;
@@ -677,8 +678,12 @@ public partial class JournalUi
             // A world action may finish while the reader stays open; retry
             // rechecks its live guards without polling narrative rules per frame.
             _photoBookEnterButton.Disabled = _photoBookActionBusy || (!showReturn && !canEnter);
-            _photoBookEntryHint.Text = canEnter && !showReturn && selected?.WorldCompleted == true
-                ? "Знакомый мир. Сделанное сохранится; вернётесь к этому столу."
+            _photoBookEntryHint.Text = canEnter && !showReturn
+                ? selected?.WorldCompleted == true
+                    ? "Знакомый мир. Сделанное сохранится; вернётесь к этому столу."
+                    : selected?.HasResumePoint == true
+                        ? "Сделанное сохранено. Продолжите с последней доступной точки."
+                        : reason
                 : reason;
             _photoBookEntryHint.Visible = _photoBookEntryHint.Text.Length > 0;
         }

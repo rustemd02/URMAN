@@ -395,7 +395,7 @@ public partial class RuntimeBridge : Node
                 throw new InvalidDataException("The new game's photo scene resource could not be prepared.");
             if (Main.IsPhotoWorldScene(sceneId))
             {
-                if (!await ProjectReservedPhotoWorldAsync(main, session, sceneId))
+                if (!(await ProjectReservedPhotoWorldAsync(main, session, sceneId)).Ready)
                     throw new InvalidDataException("The new game's photo scene or supported player pose could not be prepared.");
                 projectedPhoto = true;
             }
@@ -585,7 +585,7 @@ public partial class RuntimeBridge : Node
             if (Main.IsPhotoWorldScene(sceneId))
             {
                 player.ApplyPortableTransform(save.PlayerTransform);
-                if (!await ProjectReservedPhotoWorldAsync(main, _kernel!, sceneId, preserveLoadedTransform: true))
+                if (!(await ProjectReservedPhotoWorldAsync(main, _kernel!, sceneId, preserveLoadedTransform: true)).Ready)
                     throw new InvalidDataException("The loaded photo scene or supported player pose could not be prepared.");
                 projectedPhoto = true;
             }
@@ -757,7 +757,7 @@ public partial class RuntimeBridge : Node
     {
         if (_photoVisitCompletion is not null || _photoVisitCanceling || FindPlayer() is not { } player) return false;
         var worldId = PhotoVisitWorldForInteraction(interaction.Id);
-        if (worldId is null || !PhotoWorldState.TryGetVisitRoute(worldId, out var sourceScene, out var entrySafeNodeId)) return false;
+        if (worldId is null || !PhotoWorldState.TryGetVisitRoute(worldId, out var sourceScene, out _)) return false;
         var entering = IsPhotoVisitEntry(interaction.Id);
         var completedBankReturn = interaction.Id == "urman.fullgame:interaction/pw-common-return";
         var bookReturn = interaction.Id == CurrentPhotoBookReturnInteractionId;
@@ -833,14 +833,16 @@ public partial class RuntimeBridge : Node
                 // Cancellation owns only this preparation. Once narrative entry
                 // begins, finish the normal projection/recovery transaction.
                 resourceLoading.Hide();
-                resourceLoading = null;
+                resourceLoading = LoadingScreenUi.Show(this, "Открываем снимок",
+                    "Восстанавливаем сделанное и проверяем место входа");
                 if (!await DispatchCompiledInteractionAsync(interaction) || !Current()) return false;
-                if (!await main.CompletePhotoVisitProjectionAsync(session, worldId) || !Current()) return false;
+                var projection = await ProjectReservedPhotoWorldAsync(main, session, sourceScene, prepareVisitStart: true);
+                if (!projection.Ready || projection.VisitStartNode is not { } actualStartNode || !Current()) return false;
                 var seedBytes = System.Security.Cryptography.SHA256.HashData(System.Text.Encoding.UTF8.GetBytes(
                     $"{_content.CampaignId}:{_content.CampaignExactVersion}:{worldId}"));
                 var seed = System.Buffers.Binary.BinaryPrimitives.ReadUInt32LittleEndian(seedBytes);
                 if (!await DispatchPhotoVisitCommandAsync(session, PhotoWorldCommandHandler.VisitCommit, id,
-                        new { safeNodeId = entrySafeNodeId, seed }) || !Current()) return false;
+                        new { safeNodeId = actualStartNode, seed }) || !Current()) return false;
                 if (!await SaveCheckpointAsync(force: true, cancellationToken: cancellation.Token) || !Current()) return false;
             }
             else

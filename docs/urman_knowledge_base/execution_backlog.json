@@ -109445,6 +109445,16 @@
           "evidence/PW-021/dynamic-resources-20261020/affected-game-build.log"
         ],
         "next_action": "Protected ordinary tea/book→school→home→entry walkthrough; PW-019 full criteria and UXA-001/ROUTE integration remain pending."
+      },
+      "first_river_place_2026_10_20": {
+        "state": "existing_physical_input_identified_read_only",
+        "result": "W02 first-place candidate already exists: village_day PhotoBankApproach/BankEntry, safe spawn pw-bank-approach, seven old piles/four boards; geometry visible during ordinary pw-home village exploration. Existing pw-enter-bank-approach requires completedW02 and cannot gate first W02 entry. Home WaterRiverEntryTarget is photo acquisition, not the shore entry.",
+        "source_paths": [
+          "game/scripts/Act1ConnectedWorld.PhotoBank.cs",
+          "game/scripts/Act1WorldLayout.cs",
+          "game/scripts/PhotoBankApproachPresence.cs"
+        ],
+        "next_action": "Implement strict W02 first/unfinished entry at actual PW_RIVER_ENTRY bank with explicit ticket origin/fallback and Main return placement; keep completed home-book convenience. W03/W04 unique first-entry transforms still unconfirmed; do not invent."
       }
     },
     {
@@ -109931,7 +109941,8 @@
         "job": "e79adf9f932a4d74b4aec64d7565c6a4",
         "terminal_restoration": "not_confirmed",
         "new_job_submitted": false,
-        "last_status_query": "20.10 about02:58 Moscow: same e79 status query exit1 urlopen timeout. Read-only VPN health still Running with intercepted/self-signed DERP TLS, station offline lastSeen19.10 21:46:54UTC. No terminal/restoration evidence or new job."
+        "last_status_query": "20.10 about03:08 Moscow: same e79 status exit1 urlopen timeout, no terminal/restoration evidence or new job.",
+        "local_diagnosis": "Existing local VPN carries default route; system proxy/CA overrides absent. This is a concrete network-path lead, not proof of which hop intercepts TLS. Temporary path change requires owner consent, pending; no VPN/cert/daemon settings changed."
       }
     },
     {
@@ -111066,7 +111077,7 @@
       "assigned_owner": "integration",
       "activity": {
         "state": "not_active",
-        "reason": "Safe-resume source slice integrated, compiled and independently reviewed; protected native roundtrip pending."
+        "reason": "Unfinished reentry source slice compiled and independently reviewed; ordinary protected native verification pending."
       },
       "task_type": "engineering",
       "implementation_state": "not_started",
@@ -111076,7 +111087,7 @@
         "Глава не сбрасывается и не завершается просто фактом загрузки.",
         "Save внутри после предметного действия → полное закрытие процесса → Continue → выход восстанавливает домен, safe node, билет возврата, предметные последствия, вклейку и собственный текст. Несовместимый/повреждённый тестовый слот объясняется без молчаливой перезаписи; один roundtrip не закрывает PW-085/086."
       ],
-      "next_action": "On restored Windows transport, verify exact normal pose and valid crouched save, action→save→full process exit→Continue→return, invalid physical-pose fallback including returning checkpoint, held-item-only refusal and unchanged original slots. First obtain e79 terminal/user-data restoration; no duplicate job.",
+      "next_action": "After e79 authoritative terminal/user-data restoration, ordinary unfinished action→bookreturn→newentry must preserve actions and reach saved node; occupied node may use only verified entry; continue/load unchanged, no extra reward or camera jump. Native full PW024/PW027 remains open.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -111149,7 +111160,7 @@
           ],
           "repeat_only_if": "Изменился покрываемый вход/consumer/контракт; без этого уже принятая проверка используется повторно без запуска."
         },
-        "actual_result": "PARTIAL: safe_resume_2026_10_20 source compiled/reviewed; full persistence/native criteria remain open.",
+        "actual_result": "PARTIAL compiled/reviewed safe-resume and unfinished new-visit reentry source slices; full native persistence criteria open.",
         "evidence_refs": [
           "tasks[id=PW-024].evidence"
         ],
@@ -111268,9 +111279,16 @@
         "limits": "No current protected native save→full exit→Continue→return evidence. Disk-save failure keeps last durable checkpoint intact and notifies player; in-memory node persists until later save. Conservative sweep may suppress a new checkpoint. Unknown active nodes reject rather than guess. Full PW024 and PW085/086 remain open."
       },
       "unfinished_reentry_2026_10_20": {
-        "state": "confirmed_source_gap",
-        "result": "Save/Continue within one active visit preserves actual pose and fallback node, but new unfinished visit still mounts entry and VisitCommit resets world.safeNodeId to entry. Spec03:85 last stable reentry not yet implemented.",
-        "next_action": "Main physically verifies existing saved stable node before Core VisitCommit accepts it; no nearest marker or fact-based teleport, preserve actual visit entry guards and saved world actions."
+        "state": "source_integrated_compiled_native_pending",
+        "result": "New unfinished visit now chooses its saved supported node; missing legacy node uses authored entry, completed calm visit uses entry, unsupported unfinished ID refuses. CoreCommit accepts only expected node or physically checked authored-entry fallback and preserves seed/actions/observations/deltas. Existing shared projection mounts actual scene, retires owners, restores saved props/custody, then places player and reprojects same carry before final physics/support/held-pose check. Prepared entry verifies exact registered carry session and actual custody IDs, bounded5s wait; empty owner is valid after real registration. A blocked saved point may use only supported authored entry, never nearest-marker guessing or prop deletion. Loading overlay covers the physical phase through checkpoint, without cancel after narrative entry. Book displays Continue photo where supported saved point exists. Normal save-load exact pose/crouched behavior remains separate.",
+        "next_action": "After e79 authoritative terminal/user-data restoration, ordinary unfinished action→bookreturn→newentry must preserve actions and reach saved node; occupied node may use only verified entry; continue/load unchanged, no extra reward or camera jump. Native full PW024/PW027 remains open.",
+        "question": "Does a new visit to an unfinished world restore its physically valid saved checkpoint after saved props, while a blocked node can only use a supported authored entry and never reset actions?",
+        "verification": "Initial affected Game16.84s0warnings0errors. Review/root inspection found empty owner readiness requires no custody array; exact one-line guard corrected. Final affected Game13.96s0warnings0errors; independent Fast selected-node, props/carry, phase/session/cancel/recovery, legacy/seed/delta review found no blocker; project-wide projection callers and whitespace checked. No new tests/probes/fixtures or runtime tests.",
+        "evidence": [
+          "evidence/PW-024/unfinished-reentry-20261020/affected-game-build-before-readiness-fix.log",
+          "evidence/PW-024/unfinished-reentry-20261020/affected-game-build.log"
+        ],
+        "limits": "Source only, protected ordinary leave→reenter/blocked-node/Continue/return and visual camera handoff not run. Current node whitelist is the explicit producer-confirmed subset; full per-world safe anchors/art/hearing remain open. First non-home world-opening places remain separate unfinished work."
       }
     },
     {
@@ -112265,12 +112283,17 @@
         "question": "Can each actually completed photo world be reopened from its mounted home-book page and return to its original table, preserving completed actions and without replaying W04 bank finale or repeated object actions?",
         "success": "Reuse five existing entry/return compiled interactions and generic durablevisit lifecycle; canonical completion only. New derived saved worldCompletedOnEntry distinguishes firstW04story exit vs calmhomeexit. W02–W04 book CTA aftercompletion only; firstW01/W05 eligibility unchanged. Perfact actionguards preserve still-unperformed optionalpostcompletion finds.",
         "next_action": "Protected ordinary completed-world homebook→revisit→physical/book exit→samehomepose→save/Continue verification after authoritative e79 terminal/user-data restoration. W04 first story still bank; calm C08 home, no leaf/fact/item duplication. Before then implement supported unfinished-world last-safe reentry as PW024/PW027 related source slice without resetting actions.",
-        "limits": "Native actual completed-page CTA/gamepad/focus, firstW04 bank vs calmC08home, Continue during calmvisit and no repeated reward remain unverified. W05 completion is not manufactured; real asset/encounter gate remains. Legacy active W04 without flag cannot distinguish visit mode and keeps old bank route. First other-world openings at actual outside places and unfinished-world last-node reentry remain separate unfinished contracts.",
+        "limits": "Native completed-page CTA/gamepad/focus, firstW04 bank vs calmC08home, Continue and no duplicate reward remain unverified. W05 real completion not manufactured. Legacy activeW04 missing mode preserves old bank route. Unfinished reentry source now implemented in PW024; first other-world openings at actual places remain separate unfinished contract.",
         "result": "Existing mounted completed family-photo pages now expose generic five-world entry through one book button; W02/W03/W04 only after actual canonical quest completion, firstW01/W05 conditions unchanged. Completed pages use actual family-book anchor and no obsolete facing-angle gate; home/support/carry/dialogue/session checks retained. Prepare derives durable worldCompletedOnEntry from canonical quest state, ignores caller mode. W04 calm C08 uses existing zero-effect compiled home return, checking both original and replacement availability; original physical-exit checkpoint owner retained. First completion still uses bank scene. Same flag survives save/history; legacy absence preserves old bank behavior. W02/W03 performed object actions disable by their own facts, with start/commit/cancel guards; still-unperformed optional print remains available after quest completion. No content/fingerprint changes, new route manager or quest reset.",
         "verification": "One affected Game compile17.32s0warnings0errors. Independent Fast Core/return lifecycle review and separate UI/controller review found no blocker; project-wide callers and targeted whitespace inspected. Tracker308/20/679 PASS. No new or executed tests/probes/fixtures; no native run.",
         "evidence": [
           "evidence/PW-027/calm-book-revisit-20261020/affected-game-build.log"
         ]
+      },
+      "unfinished_reentry_2026_10_20": {
+        "producer": "PW-024.unfinished_reentry_2026_10_20",
+        "state": "compiled_source_only_native_pending",
+        "result": "New unfinished visit preserves supported last safe node instead of resetting to entry, while completed calm visit intentionally starts at authored frame; actions retained."
       }
     },
     {

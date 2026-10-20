@@ -88,6 +88,30 @@ public partial class Main
         return true;
     }
 
+    internal bool TryPlacePlayerAtPhotoVisitStart(object session, string worldId, string safeNodeId)
+    {
+        if (!TryGetMountedPhotoSafeNode(session, worldId, safeNodeId, out var player, out var anchor)
+            || !player.SessionTransitionActive || player.VehicleControlled || player.IsClimbingLadder
+            || _fullGameRouteBridge is not { } bridge
+            || !PhotoWorldState.TryGetVisitRoute(worldId, out _, out var entryNodeId))
+            return false;
+        var state = bridge.SelectRuntimeState();
+        var activeVisit = state.GetProperty("photoworlds").GetProperty("visits").GetProperty("active");
+        if (activeVisit.ValueKind != System.Text.Json.JsonValueKind.Object
+            || activeVisit.GetProperty("status").GetString() != "prepared"
+            || activeVisit.GetProperty("worldId").GetString() != worldId
+            || !PhotoWorldState.TryGetVisitStartNode(state, worldId, out var selectedNodeId)
+            || (safeNodeId != selectedNodeId && safeNodeId != entryNodeId)
+            || !PhotoVisitPoseHasSupport(player, anchor.GlobalPosition))
+            return false;
+
+        // Entry placement follows the canonical saved node after actual props
+        // have been restored. It does not depend on the old entry pose fitting.
+        player.ApplyZoneSpawn(anchor.GlobalPosition, anchor.GlobalRotationDegrees.Y);
+        LastSpawnYawDegrees = anchor.GlobalRotationDegrees.Y;
+        return true;
+    }
+
     internal bool CanObservePhotoSafeNode(object session, string worldId, string safeNodeId)
     {
         if (!TryGetMountedPhotoSafeNode(session, worldId, safeNodeId, out var player, out var anchor)

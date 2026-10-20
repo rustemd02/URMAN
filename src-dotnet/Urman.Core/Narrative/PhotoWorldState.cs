@@ -85,6 +85,23 @@ public static class PhotoWorldState
                 status = "completed"
             }), state);
 
+    /// <summary>Chooses an authored start ID; physical placement and its entry fallback still require validation.</summary>
+    public static bool TryGetVisitStartNode(JsonElement state, string worldId, out string safeNodeId)
+    {
+        if (!TryGetVisitRoute(worldId, out _, out safeNodeId)) return false;
+        if (IsWorldCompleted(state, worldId)) return true;
+        if (!World(state).GetProperty("worlds").TryGetProperty(worldId, out var savedWorld)) return true;
+        var savedSafeNodeId = NullableString(savedWorld, "safeNodeId");
+        if (savedSafeNodeId is null) return true;
+        if (!IsVisitSafeNode(worldId, savedSafeNodeId))
+        {
+            safeNodeId = string.Empty;
+            return false;
+        }
+        safeNodeId = savedSafeNodeId;
+        return true;
+    }
+
     private static bool VisitEntryPrerequisitesMet(JsonElement state, JsonElement world, string worldId)
     {
         bool Quest(string id, string status = "completed") => ContentRuleEngine.Evaluate(
@@ -158,23 +175,25 @@ public static class PhotoWorldState
             switch (operation)
             {
                 case PhotoWorldCommandHandler.VisitCommit:
+                    var committedSafeNodeId = RequiredString(payload, "safeNodeId");
                     if (status != "prepared" || RequiredString(state, "activeScene") != sceneId
-                        || RequiredString(payload, "safeNodeId") != entrySafeNodeId)
-                        throw new InvalidOperationException("Only a prepared visit at its authored, verified entry node can commit.");
+                        || !TryGetVisitStartNode(state, worldId, out var expectedStartNodeId)
+                        || (committedSafeNodeId != expectedStartNodeId && committedSafeNodeId != entrySafeNodeId))
+                        throw new InvalidOperationException("Only a prepared visit at its selected, verified start or authored entry fallback can commit.");
                     var worlds = world["worlds"]!.AsObject();
                     if (worlds[worldId] is not JsonObject savedWorld)
                     {
                         savedWorld = new JsonObject
                         {
                             ["worldId"] = worldId, ["seed"] = RequiredUInt32(payload, "seed"),
-                            ["safeNodeId"] = entrySafeNodeId, ["actions"] = new JsonObject(),
+                            ["safeNodeId"] = committedSafeNodeId, ["actions"] = new JsonObject(),
                             ["observations"] = new JsonObject(), ["deltas"] = new JsonObject()
                         };
                         worlds[worldId] = savedWorld;
                     }
                     savedWorld["seed"] ??= RequiredUInt32(payload, "seed");
-                    savedWorld["safeNodeId"] = entrySafeNodeId;
-                    active["safeNodeId"] = entrySafeNodeId;
+                    savedWorld["safeNodeId"] = committedSafeNodeId;
+                    active["safeNodeId"] = committedSafeNodeId;
                     active["status"] = "active";
                     world["transition"]!["phase"] = "photo-active";
                     break;
