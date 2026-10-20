@@ -108923,7 +108923,8 @@
         "evidence/PW-043/release-path-20261015/frames/d884-root/08-tea-dialog.png",
         "evidence/PW-043/release-path-20261015/frames/d884-root/10-new-album.png",
         "evidence/PW-043/release-path-20261015/frames/d884-root/11-album-detail.png",
-        "evidence/PW-019/first-river-origin-20261020/affected-game-build.log"
+        "evidence/PW-019/first-river-origin-20261020/affected-game-build.log",
+        "evidence/PW-019/first-common-origin-20261020/affected-game-build.log"
       ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-019",
       "source_requirements": [
@@ -109040,7 +109041,7 @@
       "assigned_owner": "integration",
       "activity": {
         "state": "idle",
-        "reason": "Finite first-W02 shore source stage compiled and independently reviewed; native verification awaits station transport and authoritative previous job restoration."
+        "reason": "Finite W04 shore-origin source stage compiled/reviewed; native and exact composition pending station recovery."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -109050,7 +109051,7 @@
         "Вне якоря есть чтение без ложной кнопки входа.",
         "Первый якорь проверен до контекста, с нужным и чужим снимком и после визита: применимая причина отказа понятна без спойлера, пиксель-хантинга и выдачи знания. Недостаток подачи сначала подтверждён в обычном маршруте, затем исправлен существующим gate/hint owner."
       ],
-      "next_action": "After authoritative e79 terminal receipt and user-data restoration, verify protected ordinary first/unfinished W02 book entry at the shore, actual action/return to captured bank origin, Continue, and completed home-book revisit. First W03/W04 anchor contracts and full PW-019 remain open.",
+      "next_action": "After authoritative e79 terminal/restoration, use protected ordinary W04 first entry and return walkthrough; inspect actual three-landmark composition and bank-meeting placement. Implement first W03 exterior anchor separately using real village geometry.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -109467,6 +109468,19 @@
         "evidence": [
           "evidence/PW-019/first-river-origin-20261020/affected-game-build.log"
         ]
+      },
+      "first_common_place_2026_10_20": {
+        "state": "source_integrated_compiled_native_pending",
+        "question": "Does first/unfinished W04 require its real outdoor shore witness, preserve early ticket return, and retain first completed bank-story exit versus completed calm home revisit?",
+        "production_default": "Reuse actual BankReturnWitness for PW_COMMON_ENTRY and supported BankEntry fallback. Spec requires a meadow/river approach with forest/shore/village landmark; exact three-landmark composition and native movement are not yet accepted.",
+        "result": "First/unfinished W04 now enters from real BankReturnWitness/PW_COMMON_ENTRY with the original interaction and shared physical book guard. Core enforces new shore origin; early return/cancel/recovery use immutable outside ticket, while first normal exit still reaches the authored bank story and completed calm revisits return home. Overlapping EnterBank target is suppressed only while common entry is available; printer sheet/printing stay intact and printer entry is completed-only. Book exposes first Enter/Continue and ready shore guidance. Cancellation text no longer incorrectly says home.",
+        "next_action": "After authoritative e79 terminal/restoration, use protected ordinary W04 first entry and return walkthrough; inspect actual three-landmark composition and bank-meeting placement. Implement first W03 exterior anchor separately using real village geometry.",
+        "verification": "Affected Game compile PASS17.06s0warnings0errors. Independent luna_fast source review: no blocking route/ticket/session mismatch; unchanged semantic smoke contracts need no update. Final cancellation-copy edit inspected and diff checked, no rebuild needed. No tests added/changed/run; native not run.",
+        "evidence": [
+          "evidence/PW-019/first-common-origin-20261020/affected-game-build.log"
+        ],
+        "remaining": "Native triple-landmark composition, first/unfinished entry, early bank return, first normal bank meeting/leaf route, Continue and completed home revisit. First W03 still uses interior print instead of required exterior window/yard; front production and actual outdoor anchor remain open.",
+        "review_constraint": "Normal bank-story SwitchZone stages a transient Alsu meeting pose. Do not run full saved companion reprojection after staging: it could overwrite this pose with old saved state. Existing normal support check preserved; no observed native failure claimed."
       }
     },
     {
@@ -142355,7 +142369,14 @@
         "reference": "evidence/ACT1-DEPTH.12/native_uv_v3_fdc5f5ef62fc4554ad107b9d9bef31ef/frames/babai_shape_front_high.png",
         "accepted_scope": "Root personally viewed author-accepted house reference and V2 whole-scene frame. Exact same spec/FOV70/High/comparabletrue/scale1. Current pine GLB SHA8c5a9e19f9b4c379f3e30a1a33e88c5c02017224dafdcd487837917ba2cc7755 matches source manifest in native d61c receipt; build/import/game0, restored/hashverified reported by original receipt. Accept only current source binding/static tree replacement in this composed village frame, not overall asset family or author art.",
         "visual_readback": "Tree crowns show finer branching and snowy volume against the accepted house; middle-distance outlines still sharp/busy. Existing log-house visual retained. No rawZIP independently hashed by this reviewer.",
-        "remaining": "Ordinary motion/performance and final author/art acceptance remain open;20174 draw calls/single-frame metric not FPS or performance closure. No new capture, generation or Meshy spending."
+        "remaining": "Ordinary motion/performance and final author/art acceptance remain open;20174 draw calls/single-frame metric not FPS or performance closure. No new capture, generation or Meshy spending.",
+        "duplicate_cleanup_2026_10_20": {
+          "deleted": "assets/source/blender/act1/winter_spruce_meshy_v2/winter-pine-meshy-v2.glb",
+          "retained": "game/assets/models/act1/urman_winter_pine_meshy_v1.glb",
+          "bytes": 16186160,
+          "sha256": "8c5a9e19f9b4c379f3e30a1a33e88c5c02017224dafdcd487837917ba2cc7755",
+          "verification": "Untracked exact SHA/size duplicate; lsof no open handles immediately before deletion; canonical retained. Unique inputs/recipes/atlas/manifest/receipts preserved."
+        }
       }
     },
     {

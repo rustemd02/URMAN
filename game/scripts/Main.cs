@@ -99,6 +99,8 @@ public partial class Main : Node3D
                 ?.GetNodeOrNull<Node3D>("PhotoWorldForestEntryTarget"),
             ("village_day", "PW_RIVER_ENTRY") => world
                 .GetNodeOrNull<Node3D>("Act1CoreWorldGreybox/PhotoBankApproach/BankEntry"),
+            ("village_day", "PW_COMMON_ENTRY") => world
+                .GetNodeOrNull<Node3D>("Act1CoreWorldGreybox/PhotoBankApproach/BankReturnWitness"),
             _ => null
         };
         if (candidate is null || !GodotObject.IsInstanceValid(candidate)
@@ -115,8 +117,9 @@ public partial class Main : Node3D
         anchorId = ticket.GetProperty("originAnchorId").GetString()!;
         safeNodeId = ticket.GetProperty("originSafeNode").GetString()!;
         return (zoneId == "house_old_pc" && anchorId == "PW_HOME_TABLE")
-            || (worldId == "W02" && zoneId == "village_day" && anchorId == "PW_RIVER_ENTRY"
-                && safeNodeId == "pw-bank-approach");
+            || (zoneId == "village_day" && safeNodeId == "pw-bank-approach"
+                && ((worldId == "W02" && anchorId == "PW_RIVER_ENTRY")
+                    || (worldId == "W04" && anchorId == "PW_COMMON_ENTRY")));
     }
 
     private static bool PhotoVisitPoseHasSupport(FirstPersonController player, Vector3 position, bool allowCrouched = false)

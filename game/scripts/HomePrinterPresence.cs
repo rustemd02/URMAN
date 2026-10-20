@@ -1,5 +1,6 @@
 using System.Linq;
 using Godot;
+using Urman.Core.Narrative;
 
 namespace Urman.Godot;
 
@@ -57,7 +58,10 @@ internal partial class HomePrinterPresence : Node3D
             return;
 
         var mounted = bridge.PhotoBookPhotos().Any(photo => photo.PhotoId == "P-COMMON" && photo.Mounted);
-        EntryTarget?.SetPresentationEnabled(mounted);
+        var commonCompleted = bridge.SessionIdentity is { } session
+            && PhotoWorldState.IsWorldCompleted(session.SelectState(), "W04");
+        // The paper stays here; unfinished visits begin at the real common view.
+        EntryTarget?.SetPresentationEnabled(mounted && commonCompleted);
         if (!mounted)
         {
             Sheet.Visible = false;

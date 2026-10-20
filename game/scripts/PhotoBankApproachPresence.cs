@@ -12,6 +12,7 @@ public partial class PhotoBankApproachPresence : Node3D
     private const string HomeSceneId = "urman.fullgame:scene/pw-home";
     private const string BankSceneId = "urman.fullgame:scene/pw-bank-approach";
     private const string RiverPhotoEntryInteractionId = "urman.fullgame:interaction/pw-enter-river";
+    private const string CommonPhotoEntryInteractionId = "urman.fullgame:interaction/pw-enter-common";
     private const string EnterBankInteractionId = "urman.fullgame:interaction/pw-enter-bank-approach";
     private const string WinterPilesInteractionId = "urman.fullgame:interaction/pw-winter-piles-inspected";
     private const string VerifyBankInteractionId = "urman.fullgame:interaction/pw-verify-bank-evidence";
@@ -39,6 +40,7 @@ public partial class PhotoBankApproachPresence : Node3D
     private InteractionTarget? _alsuBeforeW04Target;
     private InteractionTarget? _enterBankTarget;
     private InteractionTarget? _riverPhotoEntryTarget;
+    private InteractionTarget? _commonPhotoEntryTarget;
     private InteractionTarget? _legacyAlsuTarget;
     private Node3D? _alsuActor;
     private bool _legacyAlsuSuppressed;
@@ -89,6 +91,9 @@ public partial class PhotoBankApproachPresence : Node3D
         if (_riverPhotoEntryTarget is null && _bankEntryWitness is { } riverEntry)
             _riverPhotoEntryTarget = CreateTarget("RiverPhotoEntryTarget", RiverPhotoEntryInteractionId,
                 "urman.fullgame:text/pw-label-enter-river", riverEntry, .58f, .82f);
+        if (_commonPhotoEntryTarget is null && _bankReturnWitness is { } commonEntry)
+            _commonPhotoEntryTarget = CreateTarget("CommonPhotoEntryTarget", CommonPhotoEntryInteractionId,
+                "urman.fullgame:text/pw-label-enter-common", commonEntry, .58f, .82f);
         if (_enterBankTarget is null && _bankEntryWitness is { } entry)
             _enterBankTarget = CreateTarget("EnterBankApproachTarget", EnterBankInteractionId,
                 "urman.fullgame:text/pw-label-enter-bank-approach", entry, .58f, .82f);
@@ -107,7 +112,8 @@ public partial class PhotoBankApproachPresence : Node3D
 
         EnsureAlsuTarget();
         EnsureLeafPresentationNodes();
-        return _riverPhotoEntryTarget is not null && _enterBankTarget is not null && _winterPilesTarget is not null && _verifyBankTarget is not null
+        return _riverPhotoEntryTarget is not null && _commonPhotoEntryTarget is not null
+            && _enterBankTarget is not null && _winterPilesTarget is not null && _verifyBankTarget is not null
             && _bankReturnTarget is not null && _bankToEpilogueTarget is not null;
     }
 
@@ -205,8 +211,15 @@ public partial class PhotoBankApproachPresence : Node3D
         SetTarget(_riverPhotoEntryTarget, bridge, "urman.fullgame:text/pw-label-enter-river",
             homeRouteActive && interactionWindowOpen && !waterCompleted
                 && IsInteractionReady(bridge, RiverPhotoEntryInteractionId));
+        var commonCompleted = session is not null && PhotoWorldState.IsWorldCompleted(session.SelectState(), "W04");
+        var commonEntryReady = homeRouteActive && interactionWindowOpen && !commonCompleted
+            && IsInteractionReady(bridge, CommonPhotoEntryInteractionId);
+        SetTarget(_commonPhotoEntryTarget, bridge, "urman.fullgame:text/pw-label-enter-common", commonEntryReady);
+        // The two bank witnesses are close enough that their ray spheres overlap.
+        // Prefer the unfinished photo only while its real entry is available.
         SetTarget(_enterBankTarget, bridge, "urman.fullgame:text/pw-label-enter-bank-approach",
-            homeRouteActive && interactionWindowOpen && IsInteractionReady(bridge, EnterBankInteractionId));
+            homeRouteActive && interactionWindowOpen && !commonEntryReady
+                && IsInteractionReady(bridge, EnterBankInteractionId));
 
         SetTarget(_winterPilesTarget, bridge, "urman.fullgame:text/pw-label-winter-piles-inspected",
             bankRouteActive && interactionWindowOpen && !bridge.PhotoWorldFactObserved(WinterPilesFactId)
@@ -271,7 +284,7 @@ public partial class PhotoBankApproachPresence : Node3D
         SetBankCollisionLayers(false);
         foreach (var target in new[]
         {
-            _riverPhotoEntryTarget, _enterBankTarget, _winterPilesTarget, _verifyBankTarget,
+            _riverPhotoEntryTarget, _commonPhotoEntryTarget, _enterBankTarget, _winterPilesTarget, _verifyBankTarget,
             _bankReturnTarget, _bankToEpilogueTarget, _alsuLeafTarget, _alsuBeforeW04Target
         })
         {

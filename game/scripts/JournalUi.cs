@@ -593,6 +593,13 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
             return bridge.CurrentZoneId == "village_day"
                 ? "Перед общим снимком поговорить с Алсу на улице и договориться о встрече."
                 : "Выйти на улицу и поговорить с Алсу, прежде чем войти в общий снимок.";
+        var commonPhoto = bridge.PhotoBookPhotos().FirstOrDefault(photo => photo.PhotoId == "P-COMMON");
+        if (commonPhoto is { Mounted: true, WorldCompleted: false }
+            && bridge.IsInteractionAvailable("urman.fullgame:interaction/pw-enter-common"))
+        {
+            var entryAction = commonPhoto.HasResumePoint ? "Продолжить снимок" : "Войти в снимок";
+            return $"Дойти до места общего снимка у берега, открыть в книге разворот «{commonPhoto.Title}» и выбрать «{entryAction}».";
+        }
         if (waterQuestStatus == "active")
             return PhotoBookWaterHandoffObjectiveText(bridge);
         if (forestQuestStatus == "active")

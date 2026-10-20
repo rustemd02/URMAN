@@ -659,7 +659,7 @@ public partial class JournalUi
         var showReturn = currentProjection && _bridge?.IsPhotoBookReturnScene == true;
         if (!showReturn || !IsPhotoBookReturnConfirmationCurrent()) ClearPhotoBookReturnConfirmation();
         var showEntry = !showReturn && selected is { Mounted: true }
-            && (selected.PhotoId is "P-FOREST" or "P-WATER" or "P-CELLAR" || selected.WorldCompleted);
+            && (selected.PhotoId is "P-FOREST" or "P-WATER" or "P-COMMON" or "P-CELLAR" || selected.WorldCompleted);
         _photoBookEnterButton.Text = showReturn && _bridge is { } returnBridge
             ? _photoBookReturnSession is not null ? "Подтвердить возвращение"
                 : returnBridge.ResolveText("urman.fullgame:text/pw-label-forest-book-return")

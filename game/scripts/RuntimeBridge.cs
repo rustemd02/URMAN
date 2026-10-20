@@ -931,7 +931,7 @@ public partial class RuntimeBridge : Node
                     {
                         PhotoVisitPreparationCancelled = entering && cancellation.IsCancellationRequested && !NeedsPhysicalRecovery;
                         player.SetSessionTransition(NeedsPhysicalRecovery);
-                        if (PhotoVisitPreparationCancelled) player.NotifyTraversal("Переход отменён. Вы остались дома.");
+                        if (PhotoVisitPreparationCancelled) player.NotifyTraversal("Переход отменён. Вы остались у точки входа.");
                         Input.MouseMode = player.ModalOpen || NeedsPhysicalRecovery || HasActiveMainMenu()
                             ? Input.MouseModeEnum.Visible : Input.MouseModeEnum.Captured;
                     }
