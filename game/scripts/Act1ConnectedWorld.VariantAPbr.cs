@@ -71,18 +71,29 @@ public partial class Act1ConnectedWorld
 
         var sourceGlass = sourceBaseNames.Where(name => name.Contains("Glass", StringComparison.Ordinal)).ToArray();
         var sourceSnow = sourceBaseNames.Where(name => name.Contains("Snow", StringComparison.Ordinal)).ToArray();
-        var sourcePosts = sourceBaseNames.Where(name => name.Contains("Post", StringComparison.Ordinal)).ToArray();
+        var expectedCornerNames = new HashSet<string>(StringComparer.Ordinal)
+        {
+            "VariantA_TimberGable_Dwelling_Corner_-3.0_-1.3_LOD0",
+            "VariantA_TimberGable_Dwelling_Corner_-3.0_4.5_LOD0",
+            "VariantA_TimberGable_Dwelling_Corner_3.0_-1.3_LOD0",
+            "VariantA_TimberGable_Dwelling_Corner_3.0_4.5_LOD0",
+        };
+        var sourceCorners = sourceBaseNames
+            .Where(name => name.StartsWith("VariantA_TimberGable_Dwelling_Corner_", StringComparison.Ordinal))
+            .ToArray();
+        var sourceCornerNames = sourceCorners.ToHashSet(StringComparer.Ordinal);
         var excludedNames = new HashSet<string>(StringComparer.Ordinal);
-        foreach (var excluded in sourceGlass.Concat(sourceSnow).Concat(sourcePosts))
+        foreach (var excluded in sourceGlass.Concat(sourceSnow).Concat(sourceCorners))
         {
             if (!excludedNames.Add(excluded))
-                throw new InvalidDataException("The original addressed Variant A glass, snow and post exclusions overlap.");
+                throw new InvalidDataException("The original addressed Variant A glass, snow and corner exclusions overlap.");
         }
-        if (sourceGlass.Length != 9 || sourceSnow.Length != 1 || sourcePosts.Length != 4
+        if (sourceGlass.Length != 9 || sourceSnow.Length != 1 || sourceCorners.Length != 4
+            || !sourceCornerNames.SetEquals(expectedCornerNames)
             || excludedNames.Count != 14)
         {
             throw new InvalidDataException(
-                $"The original addressed Variant A preserved layer contract changed (glass={sourceGlass.Length}, snow={sourceSnow.Length}, posts={sourcePosts.Length}).");
+                $"The original addressed Variant A preserved layer contract changed (glass={sourceGlass.Length}, snow={sourceSnow.Length}, corners={sourceCorners.Length}).");
         }
 
         var opaqueNames = sourceBaseNames.Where(name => !excludedNames.Contains(name))
@@ -132,9 +143,9 @@ public partial class Act1ConnectedWorld
                 throw new InvalidDataException("The Variant A PBR candidate contains a mesh outside its authored semantic prefix.");
             if (candidateNames.Any(name => name.Contains("Glass", StringComparison.Ordinal)
                     || name.Contains("Snow", StringComparison.Ordinal)
-                    || name.Contains("Post", StringComparison.Ordinal)))
+                    || expectedCornerNames.Contains(name)))
             {
-                throw new InvalidDataException("The Variant A PBR candidate must leave the existing glass, snow and posts visible.");
+                throw new InvalidDataException("The Variant A PBR candidate must leave the existing glass, snow and corners visible.");
             }
 
             var candidateCrowns = candidateNames
@@ -233,7 +244,7 @@ public partial class Act1ConnectedWorld
             sourceComponent.SetMeta("variantAPbrGeneratedCrownCount", candidateCrowns.Count);
             sourceComponent.SetMeta("variantAPbrPreservedGlassCount", sourceGlass.Length);
             sourceComponent.SetMeta("variantAPbrPreservedSnowCount", sourceSnow.Length);
-            sourceComponent.SetMeta("variantAPbrPreservedPostCount", sourcePosts.Length);
+            sourceComponent.SetMeta("variantAPbrPreservedCornerCount", sourceCorners.Length);
             candidateRoot = null;
         }
         catch

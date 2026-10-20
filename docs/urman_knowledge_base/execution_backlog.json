@@ -63704,6 +63704,16 @@
         "source": "Direct owner request19.10: verify realistic log stacking in generated log houses",
         "requirement": "Для нового generated-сруба проверены actualGLB front/side/three-quarter и крупно углы/проёмы: венцы опираются друг на друга, угловые соединения и торцы правдоподобны, проёмы/перемычки/опора крыши корректны; нет парящих брёвен, случайных пересечений и неестественных цокольных наплывов. ImageGen reference не заменяет post-Meshy проверку.",
         "applicability": "Every new generated log-house candidate; does not claim existing houses failed or restart accepted model polishing."
+      },
+      "variant_a_preserved_layer_fix_2026_10_21": {
+        "state": "engineering_source_verified_native_pending",
+        "targets": [
+          "game/scripts/Act1ConnectedWorld.VariantAPbr.cs"
+        ],
+        "cause": "Native aef2 twice rejected existing Dwelling glass9/snow1/posts0 before graft; intended four preserved meshes are Corner_*; actual Yard posts are out of scope.",
+        "change": "Exact four-corner set and count4 required; glass9/snow1/exclusions14/opaque108/crowns7 and candidate115 exact semantic sets remain strict; no collider or Yard changes. Diagnostic metadata renamed to preservedCornerCount; repo callers of old key absent.",
+        "verification": "Personal Fast read-only real GLB hierarchy+name-set comparison; root exact source/callchain/diff review; affected Game17.73s0/0.",
+        "remaining": "Actual Godot import/graft/house-family scene/motion/performance/art acceptance pending; compile does not prove current runtime graft."
       }
     },
     {
@@ -110707,7 +110717,7 @@
       "remaining": [
         "Native ordinarycycle/Continue/support/fallback/props/audio/profile/cancel/failure acceptance remains; compile/source review does not close PW-020."
       ],
-      "next_action": "Reuse accepted keyboard Skip and ordinary Niva→home→tea→book proof. Fix observed album header mismatch (river instruction while first school-copy gate active), diagnose VariantA preserved-layer native errors; then ordinary school-copy→forest W01 action→return→save/MainMenu/Continue. Keep full visual F03/path and external gates open.",
+      "next_action": "Reuse accepted aef2 ordinary Niva→home→tea→book/checkpoint and faf1274a keyboard Skip. Verify changed album selected-P-FOREST school/resume header and strict VariantA graft, then ordinary school-copy→forest W01 action→return→save/MainMenu/Continue. Correct shared HUD/general Journal priority from real readiness while preserving alternate W01/W02 order; full visual/external gates remain open.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -120919,7 +120929,7 @@
       "assigned_owner": "narrative",
       "activity": {
         "state": "not_active",
-        "reason": "Root implementing finite dedicated keyboard Skip action after c2a captured-mouse Tab/Enter failure; separate read-only mask/F03 investigation delegated. Root owns all input/controller changes and serializes Windows."
+        "reason": "Finite keyboard Skip source/native evidence accepted in faf1274a; station freed after restored aef2. Full opening/ordinary cycle and visual gates remain open."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -120929,7 +120939,7 @@
         "Игрок не обязан повторять тизер; объяснение «просто сон» не закрывает интригу.",
         "Обычный New Game без override использует актуальный pack, ставит физический W01 и передаёт управление семейному прибытию; skip не выдаёт необязательное знание, Replay не меняет основной сеанс, Continue не запускает New Game."
       ],
-      "next_action": "Reuse accepted keyboard Skip and ordinary Niva→home→tea→book proof. Fix observed album header mismatch (river instruction while first school-copy gate active), diagnose VariantA preserved-layer native errors; then ordinary school-copy→forest W01 action→return→save/MainMenu/Continue. Keep full visual F03/path and external gates open.",
+      "next_action": "Reuse accepted aef2 ordinary Niva→home→tea→book/checkpoint and faf1274a keyboard Skip. Verify changed album selected-P-FOREST school/resume header and strict VariantA graft, then ordinary school-copy→forest W01 action→return→save/MainMenu/Continue. Correct shared HUD/general Journal priority from real readiness while preserving alternate W01/W02 order; full visual/external gates remain open.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -121641,6 +121651,19 @@
         ],
         "result": "Removed expected overlap candidate PushWarning in printer grid search; collision predicates, candidate selection and final no-space exception unchanged. Prior log614candidate warnings with stack traces.",
         "verification": "Personal luna_fast source review + root exact diff inspection; no measured speedup or runtime proof (change not in aef2 snapshot)."
+      },
+      "album_first_route_hint_2026_10_21": {
+        "state": "engineering_source_verified_native_pending",
+        "owner": "Codex + personal luna_fast",
+        "targets": [
+          "game/scripts/JournalUi.cs",
+          "game/scripts/JournalUi.PhotoBook.cs"
+        ],
+        "input": "Actual book-received aef2 frame: selected incomplete P-FOREST, S-SCHOOL missing; top goal incorrectly river, entry reason correctly school copy.",
+        "cause": "Global root quest status active is registration, not objective readiness; album reused this global priority before resolving selection.",
+        "change": "Album passes restored/current selected ID, refreshes header on selection; incomplete selected P-FOREST reuses existing school/mount/read/entry instructions. Mounted+S-SCHOOL+HasResumePoint keeps forest resume route even away from entry. No change to entry authorization/quest/state.",
+        "verification": "Root exact source+caller review, two personal Fast source iterations including partial resume; affected Game compile17.73s0warnings/0errors with cached dependencies; scoped diffcheck.",
+        "remaining": "Native changed header/selection and Save/Continue not verified. Shared HUD/general Journal still use root-status priority; global readiness must be separately corrected using objective/earned photo state while preserving free W01/W02 order, not blindly forcing school."
       }
     },
     {

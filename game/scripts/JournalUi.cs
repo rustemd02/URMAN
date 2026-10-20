@@ -581,7 +581,7 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
             + (bridge.CurrentZoneId == "house_old_pc" ? "inside" : "outside"));
     }
 
-    internal static string? PhotoBookPreparationObjectiveText(RuntimeBridge? bridge)
+    internal static string? PhotoBookPreparationObjectiveText(RuntimeBridge? bridge, string? selectedPhotoId = null)
     {
         if (bridge is null || !bridge.IsPhotoWorldsCampaign || !bridge.CanInspectReceivedPhotoBook
             || bridge.ActiveSceneId is not { } activeSceneId
@@ -593,44 +593,53 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
         var forestQuestStatus = PhotoWorldQuestStatus(state, "urman.fullgame:quest/pw-w01");
         var waterQuestStatus = PhotoWorldQuestStatus(state, "urman.fullgame:quest/pw-w02");
         var houseQuestStatus = PhotoWorldQuestStatus(state, "urman.fullgame:quest/pw-w03");
-        if (bridge.IsInteractionAvailable("urman.fullgame:interaction/pw-alsu-before-w04-talk"))
+        var photos = bridge.PhotoBookPhotos();
+        var forestPhoto = photos.FirstOrDefault(photo => photo.PhotoId == "P-FOREST");
+        var schoolPhoto = photos.FirstOrDefault(photo => photo.PhotoId == "S-SCHOOL");
+        var selectedForestPhotoIsIncomplete = selectedPhotoId == "P-FOREST"
+            && forestPhoto is { WorldCompleted: false };
+        var selectedForestPhotoCanResume = selectedForestPhotoIsIncomplete
+            && forestPhoto is { Mounted: true, HasResumePoint: true }
+            && schoolPhoto is not null;
+        if (!selectedForestPhotoIsIncomplete
+            && bridge.IsInteractionAvailable("urman.fullgame:interaction/pw-alsu-before-w04-talk"))
             return bridge.CurrentZoneId == "village_day"
                 ? "Перед общим снимком поговорить с Алсу на улице и договориться о встрече."
                 : "Выйти на улицу и поговорить с Алсу, прежде чем войти в общий снимок.";
-        var commonPhoto = bridge.PhotoBookPhotos().FirstOrDefault(photo => photo.PhotoId == "P-COMMON");
-        if (commonPhoto is { Mounted: true, WorldCompleted: false }
+        var commonPhoto = photos.FirstOrDefault(photo => photo.PhotoId == "P-COMMON");
+        if (!selectedForestPhotoIsIncomplete
+            && commonPhoto is { Mounted: true, WorldCompleted: false }
             && bridge.IsInteractionAvailable("urman.fullgame:interaction/pw-enter-common"))
         {
             var entryAction = commonPhoto.HasResumePoint ? "Продолжить снимок" : "Войти в снимок";
             return $"Дойти до места общего снимка у берега, открыть в книге разворот «{commonPhoto.Title}» и выбрать «{entryAction}».";
         }
-        if (waterQuestStatus == "active")
+        if (!selectedForestPhotoIsIncomplete && waterQuestStatus == "active")
         {
-            var resumePhoto = bridge.PhotoBookPhotos().FirstOrDefault(photo => photo.PhotoId == "P-WATER");
+            var resumePhoto = photos.FirstOrDefault(photo => photo.PhotoId == "P-WATER");
             var entryAction = resumePhoto?.HasResumePoint == true ? "Продолжить снимок" : "Войти в снимок";
             return $"Дойти до старого подхода к мосткам на берегу, открыть в книге снимок у мостков и выбрать «{entryAction}».";
         }
-        if (forestQuestStatus == "active")
+        if (selectedForestPhotoCanResume
+            || (!selectedForestPhotoIsIncomplete && forestQuestStatus == "active"))
         {
-            var resumePhoto = bridge.PhotoBookPhotos().FirstOrDefault(photo => photo.PhotoId == "P-FOREST");
+            var resumePhoto = forestPhoto;
             var entryAction = resumePhoto?.HasResumePoint == true ? "Продолжить снимок" : "Войти в снимок";
             return $"Дойти до опушки у трёх стволов со снимка, открыть в книге разворот «Люди у леса» и выбрать «{entryAction}».";
         }
-        if (houseQuestStatus == "completed")
+        if (!selectedForestPhotoIsIncomplete && houseQuestStatus == "completed")
             return null;
-        if (houseQuestStatus == "active"
-            || bridge.IsInteractionAvailable("urman.fullgame:interaction/pw-enter-house"))
+        if (!selectedForestPhotoIsIncomplete
+            && (houseQuestStatus == "active"
+                || bridge.IsInteractionAvailable("urman.fullgame:interaction/pw-enter-house")))
             return PhotoBookHouseHandoffObjectiveText(bridge);
-        if (waterQuestStatus == "completed")
+        if (!selectedForestPhotoIsIncomplete && waterQuestStatus == "completed")
             return PhotoBookHouseHandoffObjectiveText(bridge);
-        if (forestQuestStatus == "completed")
+        if (!selectedForestPhotoIsIncomplete && forestQuestStatus == "completed")
             return PhotoBookWaterHandoffObjectiveText(bridge);
 
-        var photos = bridge.PhotoBookPhotos();
-        var forestPhoto = photos.FirstOrDefault(photo => photo.PhotoId == "P-FOREST");
         if (forestPhoto is null) return null;
 
-        var schoolPhoto = photos.FirstOrDefault(photo => photo.PhotoId == "S-SCHOOL");
         if (schoolPhoto is null)
         {
             return bridge.PhotoWorldFactObserved("school_copy_identified")

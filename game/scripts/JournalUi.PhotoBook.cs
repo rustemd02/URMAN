@@ -428,8 +428,6 @@ public partial class JournalUi
             return;
         }
 
-        RefreshPhotoBookPreparation();
-
         if (!ReferenceEquals(_photoBookSession, session))
         {
             CancelPhotoBookPlacementAnimation();
@@ -493,6 +491,7 @@ public partial class JournalUi
         }
 
         _photoBookRefreshing = false;
+        RefreshPhotoBookPreparation();
         RefreshPhotoBookActionButtons();
         RefreshBookInspection();
     }
@@ -540,7 +539,7 @@ public partial class JournalUi
 
     private void RefreshPhotoBookPreparation()
     {
-        var text = PhotoBookPreparationObjectiveText(_bridge);
+        var text = PhotoBookPreparationObjectiveText(_bridge, _photoBookSelectedId);
         _photoBookPreparation.Text = text ?? string.Empty;
         _photoBookPreparation.Visible = text is not null;
     }
@@ -557,6 +556,7 @@ public partial class JournalUi
         }
         _photoBookSelectedId = selected.PhotoId;
         ShowPhotoBookPhoto(selected);
+        RefreshPhotoBookPreparation();
         RefreshPhotoBookActionButtons();
         RefreshBookInspection();
     }
