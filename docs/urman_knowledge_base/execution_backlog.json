@@ -108112,7 +108112,8 @@
           "log": "evidence/PW-014/mac-native-20261017/import-20261019.log",
           "result": "Existing protected_run --clean Godot --headless --import exit0, zero ERROR lines, original files and permissions restored and verified. Previously missing prologue-ground-f00-f03-v1.glb.import now maps to an existing .godot imported scene. No gameplay/native UI rerun or reader/D02 acceptance.",
           "cache": ".godot/imported/prologue-ground-f00-f03-v1.glb-d81bc39b455be2936c01477aac4bce7b.scn"
-        }
+        },
+        "cleanup_handoff_resolved_2026_10_20": "Current W01Controller uses nullable _prologueUiViewport; subscribes and stores actual viewport in BuildPrologueUi, unsubscribes only if nonnull/valid in ExitTree and clears it. Root source-confirmed; no new patch/build/run. Original failed Mac attempt remains NOT_ACCEPTED; working native UI channel still needed."
       }
     },
     {
@@ -113700,6 +113701,25 @@
           "evidence/PW-020/player-facing-fixes-20261020/affected-game-build-before-hint-duplication-fix.log",
           "evidence/PW-020/player-facing-fixes-20261020/affected-game-build.log"
         ]
+      },
+      "root_readback_2026_10_20": {
+        "reviewer": "Кодекс Кадыра / root",
+        "scope": "Bounded prologue Pause→normal Quit accepted. Root personally viewed Pause and visible Exit confirmation; original receipt PASS/gameExit0/userdataRestored/snapshot_hashes_verified=true. PNG SHA/job/PID matched fetched metadata. No new run.",
+        "frames": [
+          {
+            "frame": "evidence/PW-043/forest-composition-20261019/native_2c5835cd994548f0b6ecae90d02bb53b/08-pause-menu.png",
+            "metadata": "evidence/PW-043/forest-composition-20261019/native_2c5835cd994548f0b6ecae90d02bb53b/fetched/frames/interactive-283d7d863cff4b6f815c67cc2e45d4ff.json",
+            "png_sha256": "d4d41b1a2a943e86bc0b1996e9f25ad1b8ab2632fdff0383b6db5233354decb9",
+            "pid": 123448
+          },
+          {
+            "frame": "evidence/PW-043/forest-composition-20261019/native_2c5835cd994548f0b6ecae90d02bb53b/12-exit-confirm.png",
+            "metadata": "evidence/PW-043/forest-composition-20261019/native_2c5835cd994548f0b6ecae90d02bb53b/fetched/frames/interactive-b8379a10b13f4b5e8a1c70dd12aece82.json",
+            "png_sha256": "d1918efda21e168c070b5a0370e4b4195665e898dbfe3e15a9eb2625f3bc14ea",
+            "pid": 123448
+          }
+        ],
+        "limits": "No whole PW028, book/modal/control remapping matrix, Continue, art or campaign acceptance. Original archive byte-check remains producer evidence; duplicate ZIP already removed."
       }
     },
     {
@@ -123524,6 +123544,25 @@
           "zip_duplicate_removed_bytes": 6545919,
           "png_aliases_hardlinked": 4
         }
+      },
+      "root_readback_2026_10_20": {
+        "reviewer": "Кодекс Кадыра / root",
+        "scope": "First branch-action stale-contact fix accepted only. Root personally compared visible E prompt before with changed question/scene after E+four ordinary W inputs; same job/PID, PNG SHA bindings verified against original metadata. Horizontal camera delta12.8957m beyond prior blocker.",
+        "frames": [
+          {
+            "frame": "evidence/PW-043/forest-composition-20261019/native_aff33a3875d54c1bb56d03007d2cfd36/09-branch-prompt.png",
+            "metadata": "evidence/PW-043/forest-composition-20261019/native_aff33a3875d54c1bb56d03007d2cfd36/fetched/frames/interactive-7f5648db39aa4484a8d81d012dff3b23.json",
+            "png_sha256": "2c59beea2d998ee8a6853532ac66717e5fc07c4b34453fcaffb7d63c40400cc8",
+            "pid": 121508
+          },
+          {
+            "frame": "evidence/PW-043/forest-composition-20261019/native_aff33a3875d54c1bb56d03007d2cfd36/10-after-e-walk4.png",
+            "metadata": "evidence/PW-043/forest-composition-20261019/native_aff33a3875d54c1bb56d03007d2cfd36/fetched/frames/interactive-377f76ba66294d609889732531a75d5b.json",
+            "png_sha256": "95f03e6d0e6e495d97d72c308e36e4cfbf85aef6ea4a49381df63079ff5005d1",
+            "pid": 121508
+          }
+        ],
+        "terminal": "Original receipt FAIL/game124; userdataRestored/snapshot_hashes_verified=true. Accepted bounded action is not normal exit, complete W01/book-loop/Continue/art or continuous animation review. No rerun."
       }
     },
     {
