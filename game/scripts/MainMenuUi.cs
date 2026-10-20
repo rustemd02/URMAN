@@ -37,10 +37,14 @@ public partial class MainMenuUi : CanvasLayer, IAccessibilitySettingsTarget
     private ScrollContainer? _scroll;
     private AccessibilitySettingsSnapshot _accessibility = AccessibilitySettingsSnapshot.Default;
     private bool _continueAvailable;
+    private bool _resumeAvailable;
+    private bool _saveLookupPending;
+    private bool _sessionBusy;
     private bool _existingSavePresent;
     private bool _incompatiblePhotoWorldSavePresent;
     private bool _newGameArmed;
     private string? _continueDescription;
+    private string? _activeBusyStatus;
 
     // Development aid, not part of the game: jumping straight into an authored
     // zone so the author can look at a place without walking the route. The entry
@@ -81,6 +85,7 @@ public partial class MainMenuUi : CanvasLayer, IAccessibilitySettingsTarget
     public Button? SettingsButton => _settingsButton;
     public Button? AboutButton => _aboutButton;
     public bool IsDismissed { get; private set; }
+    public bool IsSaveLookupPending => _saveLookupPending;
 
     /// <summary>Selects the current campaign's subtitle and replay wording.</summary>
     public bool IsPhotoWorldsCampaign { get; set; }
@@ -143,10 +148,9 @@ public partial class MainMenuUi : CanvasLayer, IAccessibilitySettingsTarget
 
     public void SetResumeAvailable(bool available)
     {
-        if (_resumeButton is null || _resumeButton.Visible == available && _resumeButton.Disabled == !available) return;
-        _resumeButton.Visible = available;
-        _resumeButton.Disabled = !available;
-        _resumeButton.FocusMode = available ? Control.FocusModeEnum.All : Control.FocusModeEnum.None;
+        if (_resumeAvailable == available) return;
+        _resumeAvailable = available;
+        RefreshInteractionState(refreshContinueHint: false);
     }
 
     public void SetContinueAvailable(
@@ -159,27 +163,94 @@ public partial class MainMenuUi : CanvasLayer, IAccessibilitySettingsTarget
         _existingSavePresent = existingSavePresent || available;
         _incompatiblePhotoWorldSavePresent = incompatiblePhotoWorldSavePresent;
         _continueDescription = description;
-        if (_continueButton is not null)
+        RefreshInteractionState();
+    }
+
+    public void SetSaveLookupPending(bool pending)
+    {
+        _saveLookupPending = pending;
+        SetContinueAvailable(_continueAvailable, _continueDescription, _existingSavePresent, _incompatiblePhotoWorldSavePresent);
+    }
+
+    public void SetSessionBusy(bool busy, string? status = null)
+    {
+        var wasBusy = _sessionBusy;
+        if (busy && !wasBusy)
         {
-            _continueButton.Visible = available;
-            _continueButton.Disabled = !available;
-            _continueButton.FocusMode = available
-                ? Control.FocusModeEnum.All
-                : Control.FocusModeEnum.None;
+            DisarmNewGame();
+            if (_about is not null) CloseAbout();
+            if (_debugZones is not null) CloseDebugZones();
         }
 
-        if (_continueHint is not null)
+        _sessionBusy = busy;
+        _activeBusyStatus = busy
+            ? (string.IsNullOrWhiteSpace(status) ? "Подождите…" : status)
+            : null;
+        SetContinueAvailable(_continueAvailable, _continueDescription, _existingSavePresent, _incompatiblePhotoWorldSavePresent);
+        if (wasBusy && !busy)
         {
-            _continueHint.Visible = true;
-            var hint = available
-                ? description ?? "Последнее сохранение"
-                : existingSavePresent
-                    ? "Не удалось загрузить найденное сохранение.\nВозможно, оно от другой версии игры или повреждено.\nФайлы сохранений не изменены."
-                    : "Продолжить · подходящее сохранение не найдено";
-            if (incompatiblePhotoWorldSavePresent)
-                hint += "\nСохранения прежней кампании сохранены отдельно и несовместимы с этой историей.";
-            _continueHint.Text = hint;
+            if (_saveLookupPending) _settingsButton?.GrabFocus();
+            else if (_resumeAvailable) _resumeButton?.GrabFocus();
+            else if (_continueAvailable) _continueButton?.GrabFocus();
+            else _newGameButton?.GrabFocus();
         }
+    }
+
+    private void RefreshInteractionState(bool refreshContinueHint = true)
+    {
+        var focusedSaveAction = _newGameButton?.HasFocus() == true || _continueButton?.HasFocus() == true;
+        var saveActionsAvailable = !_sessionBusy && !_saveLookupPending;
+        SetButtonAvailable(_newGameButton, saveActionsAvailable);
+
+        if (_continueButton is not null)
+        {
+            _continueButton.Visible = _continueAvailable;
+            SetButtonAvailable(_continueButton, _continueAvailable && saveActionsAvailable);
+        }
+
+        if (_resumeButton is not null)
+        {
+            _resumeButton.Visible = _resumeAvailable;
+            SetButtonAvailable(_resumeButton, _resumeAvailable && !_sessionBusy);
+        }
+
+        SetButtonAvailable(_replayIntroButton, !_sessionBusy);
+        SetButtonAvailable(_settingsButton, !_sessionBusy);
+        SetButtonAvailable(_aboutButton, !_sessionBusy);
+        SetButtonAvailable(_debugButton, !_sessionBusy);
+        SetButtonAvailable(_quitButton, true);
+        if (_sessionBusy) _quitButton?.GrabFocus();
+        else if (_saveLookupPending && focusedSaveAction) _settingsButton?.GrabFocus();
+
+        if (!refreshContinueHint || _continueHint is null) return;
+        _continueHint.Visible = true;
+        if (_sessionBusy)
+        {
+            _continueHint.Text = _activeBusyStatus ?? "Подождите…";
+            return;
+        }
+
+        if (_saveLookupPending)
+        {
+            _continueHint.Text = "Проверяем сохранения…";
+            return;
+        }
+
+        var hint = _continueAvailable
+            ? _continueDescription ?? "Последнее сохранение"
+            : _existingSavePresent
+                ? "Не удалось загрузить найденное сохранение.\nВозможно, оно от другой версии игры или повреждено.\nФайлы сохранений не изменены."
+                : "Продолжить · подходящее сохранение не найдено";
+        if (_incompatiblePhotoWorldSavePresent)
+            hint += "\nСохранения прежней кампании сохранены отдельно и несовместимы с этой историей.";
+        _continueHint.Text = hint;
+    }
+
+    private static void SetButtonAvailable(Button? button, bool available)
+    {
+        if (button is null) return;
+        button.Disabled = !available;
+        button.FocusMode = available ? Control.FocusModeEnum.All : Control.FocusModeEnum.None;
     }
 
     public void ShowStatus(string text)
@@ -386,7 +457,7 @@ public partial class MainMenuUi : CanvasLayer, IAccessibilitySettingsTarget
 
     private void OpenAbout()
     {
-        if (_about is not null || _scroll is null || _layout is null) return;
+        if (_sessionBusy || _about is not null || _scroll is null || _layout is null) return;
         DisarmNewGame();
         _layout.Hide();        _about = new VBoxContainer { Name = "About", SizeFlagsHorizontal = Control.SizeFlags.ExpandFill };
         _layout.GetParent().AddChild(_about);
@@ -427,7 +498,7 @@ public partial class MainMenuUi : CanvasLayer, IAccessibilitySettingsTarget
     /// </summary>
     private void OpenDebugZones()
     {
-        if (IsPhotoWorldsCampaign || _debugZones is not null || _scroll is null || _layout is null) return;
+        if (_sessionBusy || IsPhotoWorldsCampaign || _debugZones is not null || _scroll is null || _layout is null) return;
         DisarmNewGame();
         _layout.Hide();
         _debugZones = new VBoxContainer { Name = "DebugZones", SizeFlagsHorizontal = Control.SizeFlags.ExpandFill };
@@ -453,6 +524,7 @@ public partial class MainMenuUi : CanvasLayer, IAccessibilitySettingsTarget
             var button = MenuButton($"DebugZone_{zone}_{spawn}", label);
             button.Pressed += () =>
             {
+                if (_sessionBusy) return;
                 CloseDebugZones();
                 DebugZoneRequested?.Invoke(zone, spawn);
             };

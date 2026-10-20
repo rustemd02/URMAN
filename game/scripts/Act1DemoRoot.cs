@@ -48,6 +48,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
     private bool _endingShown;
     private bool _endingPending;
     private bool _menuBusy;
+    private MainMenuUi? _menuLookupMenu;
     private RuntimeBridge? _bridge;
     private bool _performanceProbe;
     private bool _performanceTimingStarted;
@@ -1394,7 +1395,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
         _mainMenu.DebugZoneRequested += (zoneId, spawnPointId) => _ = OnMenuStartDebugZoneAsync(zoneId, spawnPointId);
         _mainMenu.SettingsRequested += () =>
         {
-            if (_main.GetNodeOrNull<SettingsUi>("SettingsUi") is { } settings && player is not null)
+            if (!_menuBusy && _main.GetNodeOrNull<SettingsUi>("SettingsUi") is { } settings && player is not null)
             {
                 settings.Open(player);
             }
@@ -1407,59 +1408,85 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
 
         // Initial lookup begins when the bridge attaches. Do not allow a
         // fresh start before we know whether the confirmation is needed.
-        if (_mainMenu.NewGameButton is { } newGame) newGame.Disabled = true;
+        _mainMenu.SetSaveLookupPending(true);
         if (_bridge is not null) CallDeferred(nameof(RefreshMenuContinueAvailability));
         RecordM10Timing("main-menu", force: true);
     }
 
+    private bool OwnsMenuOperation(MainMenuUi menu, RuntimeBridge bridge) =>
+        IsInstanceValid(this) && IsInsideTree() && !IsQueuedForDeletion()
+        && ReferenceEquals(_mainMenu, menu) && IsInstanceValid(menu)
+        && menu.IsInsideTree() && !menu.IsQueuedForDeletion() && !menu.IsDismissed
+        && ReferenceEquals(_bridge, bridge) && IsInstanceValid(bridge)
+        && bridge.IsInsideTree() && !bridge.IsQueuedForDeletion();
+
     private async void RefreshMenuContinueAvailability()
     {
-        if (_mainMenu is { IsDismissed: false } menu)
+        if (_mainMenu is not { IsDismissed: false } menu || _bridge is not { } bridge
+            || ReferenceEquals(_menuLookupMenu, menu)) return;
+        _menuLookupMenu = menu;
+        menu.SetSaveLookupPending(true);
+        string? failure = null;
+        try
         {
-            var bridge = _bridge;
-            var candidate = bridge is null ? null : await bridge.FindContinueAsync();
-            var existingSavePresent = bridge is not null
-                && (bridge.IsPlayerSlotAvailable(MainMenuUi.ContinueSlot)
-                    || bridge.IsPlayerSlotAvailable(RuntimeBridge.CheckpointSlot));
-            if (IsInstanceValid(menu) && !menu.IsDismissed)
+            var candidate = await bridge.FindContinueAsync();
+            if (!OwnsMenuOperation(menu, bridge)) return;
+            var existingSavePresent = bridge.IsPlayerSlotAvailable(MainMenuUi.ContinueSlot)
+                || bridge.IsPlayerSlotAvailable(RuntimeBridge.CheckpointSlot);
+            menu.SetContinueAvailable(candidate is not null, candidate?.Description, existingSavePresent,
+                bridge.HasIncompatiblePhotoWorldSaves);
+            if (bridge.NeedsPhysicalRecovery) failure = LoadPlacementFailureStatus;
+        }
+        catch (Exception error)
+        {
+            GD.PushWarning($"Main menu save lookup failed: {error.Message}");
+            if (OwnsMenuOperation(menu, bridge))
+                menu.SetContinueAvailable(false, existingSavePresent: true);
+            failure = "Не удалось проверить сохранения. Новая игра требует подтверждения.";
+        }
+        finally
+        {
+            if (ReferenceEquals(_menuLookupMenu, menu)) _menuLookupMenu = null;
+            if (OwnsMenuOperation(menu, bridge))
             {
-                menu.SetContinueAvailable(candidate is not null, candidate?.Description, existingSavePresent,
-                    bridge?.HasIncompatiblePhotoWorldSaves == true);
-                if (bridge?.NeedsPhysicalRecovery == true) menu.ShowStatus(LoadPlacementFailureStatus);
-                if (menu.NewGameButton is { } newGame) newGame.Disabled = false;
+                menu.SetSaveLookupPending(false);
                 RefreshMenuResumeAvailability();
-                if (GetTree().GetFirstNodeInGroup("settings_ui") is SettingsUi { IsOpen: true }) return;
-                if (menu.ResumeButton is { Visible: true, Disabled: false } resume) resume.GrabFocus();
-                else menu.NewGameButton?.GrabFocus();
+                if (!_menuBusy)
+                {
+                    if (failure is not null) menu.ShowStatus(failure);
+                    if (GetTree().GetFirstNodeInGroup("settings_ui") is not SettingsUi { IsOpen: true })
+                    {
+                        if (menu.ResumeButton is { Visible: true, Disabled: false } resume) resume.GrabFocus();
+                        else menu.NewGameButton?.GrabFocus();
+                    }
+                }
             }
         }
     }
 
     private async Task OnMenuStartSessionAsync(bool startNewGame)
     {
-        if (_menuBusy || _mainMenu is null || !MainMenuVisible)
-        {
-            return;
-        }
-
-        var bridge = _bridge ?? GetTree().GetFirstNodeInGroup("runtime_bridge") as RuntimeBridge;
-        if (bridge is null)
-        {
-            return;
-        }
+        if (_menuBusy || _mainMenu is not { } menu || !MainMenuVisible || menu.IsSaveLookupPending
+            || GetTree().GetFirstNodeInGroup("settings_ui") is SettingsUi { IsOpen: true }) return;
+        var bridge = _bridge;
+        if (bridge is null || !OwnsMenuOperation(menu, bridge)) return;
 
         _menuBusy = true;
+        menu.SetSessionBusy(true, startNewGame ? "Начинаем новую игру…" : "Открываем последнее сохранение…");
+        string? failure = null;
         try
         {
             var candidate = startNewGame ? null : await bridge.FindContinueAsync();
+            if (!OwnsMenuOperation(menu, bridge)) return;
             var success = startNewGame
                 ? await bridge.StartNewGameAsync()
                 : candidate is { } save && await bridge.LoadPlayerSlotAsync(save.Slot);
+            if (!OwnsMenuOperation(menu, bridge)) return;
             if (!success)
             {
-                _mainMenu?.ShowStatus(bridge.NeedsPhysicalRecovery
+                failure = bridge.NeedsPhysicalRecovery
                     ? LoadPlacementFailureStatus
-                    : "Не удалось загрузить сеанс. Сохранения оставлены без изменений.");
+                    : "Не удалось загрузить сеанс. Попробуйте ещё раз.";
                 return;
             }
             _playerSessionSelected = true;
@@ -1471,7 +1498,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
             if (startNewGame && !UsesPhotoWorldsCampaign) await ShowIntroAfterMenuAsync();
             else
             {
-                _mainMenu?.Dismiss();
+                menu.Dismiss();
                 _mainMenu = null;
                 _player?.SetModalOpen(false);
                 RefreshGameplayAudioPauseState();
@@ -1479,23 +1506,41 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
             }
             RecordM10Timing(startNewGame ? "new-game" : "continue", force: true);
         }
-        finally { _menuBusy = false; }
+        catch (Exception error)
+        {
+            GD.PushWarning($"Main menu session start failed: {error.Message}");
+            failure = "Не удалось открыть сеанс. Попробуйте ещё раз.";
+        }
+        finally
+        {
+            _menuBusy = false;
+            if (OwnsMenuOperation(menu, bridge))
+            {
+                menu.SetSessionBusy(false);
+                RefreshMenuResumeAvailability();
+                if (failure is not null) menu.ShowStatus(failure);
+            }
+        }
     }
 
     private async Task OnMenuReplayIntroAsync()
     {
         if (_menuBusy || _playerSessionSelected || !MainMenuVisible || _bridge is not { } bridge) return;
+        var menu = _mainMenu!;
         _menuBusy = true;
+        menu.SetSessionBusy(true, "Открываем пролог…");
+        string? failure = null;
         try
         {
             // A separate debug session supplies the arrival world without changing player saves.
             if (!await bridge.StartDebugSessionAsync())
             {
-                _mainMenu?.ShowStatus(UsesPhotoWorldsCampaign
+                failure = UsesPhotoWorldsCampaign
                     ? "Не удалось запустить пролог."
-                    : "Не удалось показать вступление.");
+                    : "Не удалось показать вступление.";
                 return;
             }
+            if (!OwnsMenuOperation(menu, bridge)) return;
             if (UsesPhotoWorldsCampaign)
             {
                 _photoWorldReplay = true;
@@ -1510,7 +1555,16 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
                 await ShowIntroAfterMenuAsync();
             }
         }
-        finally { _menuBusy = false; }
+        finally
+        {
+            _menuBusy = false;
+            if (OwnsMenuOperation(menu, bridge))
+            {
+                menu.SetSessionBusy(false);
+                RefreshMenuResumeAvailability();
+                if (failure is not null) menu.ShowStatus(failure);
+            }
+        }
     }
 
     private void ReturnFromPhotoWorldReplay()
@@ -1654,7 +1708,9 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
             return false;
         }
 
+        var menu = _mainMenu;
         _menuBusy = true;
+        menu?.SetSessionBusy(true, "Открываем отладочный сеанс…");
         var started = false;
         try
         {
@@ -1684,7 +1740,15 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
             GD.Print($"act1-debug-zone: {zoneId}@{spawnPointId}{(position is { } p ? $" at {p}" : "")}");
             started = true;
         }
-        finally { _menuBusy = false; }
+        finally
+        {
+            _menuBusy = false;
+            if (menu is not null && OwnsMenuOperation(menu, bridge))
+            {
+                menu.SetSessionBusy(false);
+                RefreshMenuResumeAvailability();
+            }
+        }
 
         // Outside the busy window: while it is open a menu press is dropped
         // without a word, so nothing may wait inside. A jump that lands in the

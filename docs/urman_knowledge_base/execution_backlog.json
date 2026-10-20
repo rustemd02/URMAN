@@ -100887,7 +100887,7 @@
       "progress_2026_10_04": "2026-10-04: состояния загрузки инвентаризированы по коду: docs/production/act1_loading_states_2026-10-04.md. Настоящие состояния есть: MainMenuUi как вход, пауза/настройки, точные сообщения об ошибке (LoadPlacementFailureStatus и NotifyTraversal в LoadRecovery), системный алерт при провале старта, мгновенное пере-представление зоны с учётом PlayTimeBlock.Loading. Выдуманных процентов/полос нет (поиск percent/bar/fill в загрузочных путях пуст) — критерий done_when выполнен. Незакрыт один пункт: видимое состояние ожидания между «Новая игра» и появлением места — по коду его нет, но что именно на экране в этом окне, статически не доказывается; синхронная часть InitializeDemo() в _Ready выполняется до первого кадра. Три варианта (держать меню видимым; короткое текстовое состояние; обоснованное исключение) оставлены автору/UX; новый imagegen-фон условием закрытия не является (U3/R003). Визуальная проверка — not-run.",
       "title": "Понятные реальные состояния загрузки без новой обязательной иллюстрации",
       "milestone": "M5",
-      "status": "todo",
+      "status": "in_progress",
       "complexity": "medium",
       "active_owner": null,
       "owner": "unassigned",
@@ -100907,7 +100907,9 @@
       ],
       "evidence": [
         "docs/production/act1_loading_states_2026-10-04.md",
-        "docs/production/act1_ui_family_2026-10-04.md"
+        "docs/production/act1_ui_family_2026-10-04.md",
+        "game/scripts/MainMenuUi.cs",
+        "game/scripts/Act1DemoRoot.cs"
       ],
       "deliverable": "Понятные реальные состояния загрузки без новой обязательной иллюстрации",
       "done_when": [
@@ -101000,10 +101002,10 @@
           "stop_if": "После приёмки выбранной единицы остановиться. Две итерации без заметного улучшения — пересмотреть сигнал/действие/масштаб, не продолжать полировку. Не расширять задачу на весь акт."
         }
       },
-      "assigned_owner": "unassigned",
+      "assigned_owner": "Codex",
       "activity": {
         "state": "not_active",
-        "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+        "reason": "Finite source stage accepted by independent inspection and affected compile; native verification waits for existing protected station job terminal/restored receipt."
       },
       "task_type": "engineering",
       "implementation_state": "not_started",
@@ -101012,7 +101014,7 @@
         "Вход, ожидание, завершение и ошибка загрузки не выглядят зависшей игрой; показывается реальное состояние без выдуманных процентов.",
         "Используется производимый UI/имеющийся пригодный ресурс; новый imagegen-фон не условие закрытия."
       ],
-      "next_action": "Прочитать действующий контракт и владельца; зафиксировать исходное состояние только выбранного участка. Сохранить чужие изменения и пользовательские данные.",
+      "next_action": "After authoritative terminal/restored receipt for the existing station job, run the named protected native menu scenario once on this candidate; do not recreate historical screenshot trees.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -101119,11 +101121,11 @@
           "evidence_ref": "ACT1-UI.LOADING.evidence and named history progress; source_review shows available/missing inputs"
         }
       ],
-      "assignment_state": "unassigned_explicit_not_active",
+      "assignment_state": "assigned_not_active",
       "ordinary_menu_pending_2026_10_20": {
-        "state": "implementation_not_started_owner_cleanup_preempts",
+        "state": "source_compile_verified_native_pending",
         "active_owner": null,
-        "baseline_commit": "b4311626",
+        "baseline_commit": "12bf6b8b",
         "question": "Does actual save discovery/Continue lookup show a truthful pending state and prevent opening Settings that would survive a successful load with player modal cleared?",
         "cause": "Act1DemoRoot RefreshMenuContinueAvailability/OnMenuStartSessionAsync await FindContinueAsync before existing load overlay; no pending status, SettingsRequested lacks busy guard. Existing startup/NewGame/Load/resource threaded indicators already exist; no confirmed generic return-loading defect.",
         "targets": [
@@ -101132,8 +101134,19 @@
         ],
         "scope": "Presentation-only pending save scan/start/Continue status, derive command availability from current source flags; active session change disables Settings/replay/resume/session/debug choices, Quit retained. Background scan and active transaction are distinct conditions; stale async menu/bridge work cannot reenable current controls or dismiss another menu. No new save/runtime coordinator, percent, background, gameplay/reward/schema change.",
         "verification": "Inspect actual callbacks and recovery/finally/stale ownership; independent spec/quality review, narrow affected Game compile after freeze. No new tests/probes/Godot/game; native ordinary lookup→Settings/load/failure/retry/focus remains open.",
-        "next_action": "Implement bounded MainMenuUi/Act1DemoRoot pending state and gates, review then compile once.",
-        "remaining": "No production edits to MainMenuUi/Act1DemoRoot were made before owner cleanup interrupted implementation; pending-state/modal-race fix and native checks remain open."
+        "next_action": "After authoritative terminal/restored receipt for the existing station job, run the named protected native menu scenario once on this candidate; do not recreate historical screenshot trees.",
+        "remaining": "Protected native ordinary-launch check: save discovery→Settings/focus; Continue/New Game/replay success, failure/retry and physical recovery. Whole card remains open; source/compile is not GUI acceptance.",
+        "result": "Truthful save scan and session-start status; active commands gated except Quit, Settings entry guarded; captured menu/bridge checked after awaits; failure restores actions/status; lookup errors conservatively require New Game confirmation; per-frame resume availability retains early return.",
+        "verification_result": {
+          "source_review": "Independent read-only review of the final two-file diff: no concrete defects; compile and native not inferred from inspection.",
+          "compile": "dotnet build game/Urman.Game.csproj --nologo -v:minimal --ignore-failed-sources -p:NuGetAudit=false; exit 0, 0 warnings, 0 errors, 18.85 s; dependency restore from existing cache.",
+          "native": "NOT_RUN: existing protected station job e79adf9f932a4d74b4aec64d7565c6a4 authoritative terminal/userdataRestored unknown; no new station job or VPN changes.",
+          "temporary_output": "No game/Godot launch, screenshots, new tests/probes or evidence directories; compile stdout kept in tool output; regenerated game/.godot/mono removed after process exit/open-file check."
+        },
+        "source_sha256": {
+          "game/scripts/MainMenuUi.cs": "17edd7735e15912fc25e7017d55c43807a6ae04287603e19e28624a9ace99542",
+          "game/scripts/Act1DemoRoot.cs": "895d476638cfefcfdaaef7af896cfad1083809c9b2f9925078ae7af3abd1a207"
+        }
       }
     },
     {
