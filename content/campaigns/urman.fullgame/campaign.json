@@ -78,7 +78,8 @@
     "urman.fullgame:quest/pw-w02",
     "urman.fullgame:quest/pw-w03",
     "urman.fullgame:quest/pw-w04",
-    "urman.fullgame:quest/pw-w05"
+    "urman.fullgame:quest/pw-w05",
+    "urman.chapter1:quest/quest_tamara_fence"
   ],
   "photoBook": {
     "schemaVersion": 1,

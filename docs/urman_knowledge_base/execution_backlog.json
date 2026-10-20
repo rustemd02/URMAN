@@ -111030,7 +111030,7 @@
         "job": "e79adf9f932a4d74b4aec64d7565c6a4",
         "terminal_restoration": "not_confirmed",
         "new_job_submitted": false,
-        "last_status_query": "2026-10-20 about13:14UTC/16:14Moscow: same e79 status CLIexit1 urlopen timed out. Tool stdout only; no new raw file. No authoritative terminal/restoration; no new job/input/restart/VPN changes.",
+        "last_status_query": "Recorded 2026-10-20T13:37:59+00:00: same e79 status CLIexit1 urlopen timed out after backoff. Tool stdout only, no new raw files. Authoritative terminal/restoration unknown; no new job/input/restart/VPN changes.",
         "local_diagnosis": "Happ default VPN route and Tailscale self-signed relay certificate are observed; causal hop is unproven. Owner explicitly answered VPN не трогать on20.10. No disconnect/reconnect or route/cert/daemon changes; previous permission request is resolved as DENIED.",
         "owner_network_constraint": "VPN не трогать. Preserve current Happ connection/configuration; do not re-request the same disconnect experiment without a new owner instruction."
       },
@@ -137937,7 +137937,7 @@
       "id": "PW-079",
       "title": "Переподключить бытовые механики к новой кампании",
       "milestone": "PW-M3",
-      "status": "todo",
+      "status": "in_progress",
       "active_owner": null,
       "owner": "integration",
       "priority": "P1",
@@ -137960,7 +137960,14 @@
       "verify": [
         "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-079/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
       ],
-      "evidence": [],
+      "evidence": [
+        "content/campaigns/urman.fullgame/campaign.json",
+        "game/content/urman.fullgame.compiled.v1.json",
+        "game/scripts/RuntimeBridge.TamaraFence.cs",
+        "game/scripts/RuntimeBridge.cs",
+        "game/scripts/QuestRuntimeCoordinator.cs",
+        "game/scripts/RuntimeBridge.ContentCompatibility.cs"
+      ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-079",
       "source_requirements": [
         "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/docs/11_TASKS_RU.md",
@@ -138119,7 +138126,7 @@
         "Бытовые механики проходят актуальные регрессионные тесты.",
         "Изменённые EX имеют новые проверяемые сценарии."
       ],
-      "next_action": "По таблице прежних функций сохранить или обоснованно переработать каждую действующую возможность.",
+      "next_action": "After existing protected e79 authoritative terminal/restoration, validate actual Tamara crash→partial/six-boarddelivery→physicalrepair→save/Continue and a predecessor six-delivered save; retain rest of PW079 criteria.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -138369,6 +138376,46 @@
           "game/scripts/VehicleRadioPlayer.cs"
         ],
         "remaining": "Native valid displaced/yawed parked car → photo → return, and save inside → full exit/Continue → return, same engine/radio/usable identity; invalid-placement authored fallback and full EX regression remain open. Do not duplicate accepted cloth/radio/safe-node owners."
+      },
+      "tamara_optional_quest_2026_10_20": {
+        "state": "source_content_compile_verified_native_pending",
+        "active_owner": null,
+        "baseline_commit": "42c6c513",
+        "cause": "Current fullgame activeQuestIds omits the existing optional Tamara quest while physical crash/pickup/delivery still work; only quest completion writes fence_repaired. Six delivered boards therefore stay unrepaired.",
+        "scope": "Enable only existing optional Tamara quest; prepare only its missing saved instance using existing CreateRun and saved flags; reconcile actual crash+6 delivered through existing quest owner on load. Preserve carried/taken/delivered/props and existing quest instances. Exact proven predecessor→new fingerprint pairs only; unknown saves stay rejected. No duplicate fence repair effect or legacy mainquest activation.",
+        "verification": "Independent lifecycle/compatibility review; compile affected fullgame content using existing CLI and inspect exact semantic pack delta; one affected Game compile. No newtests/probes/Godot/game/screenshots/logdirs; native crash→collect→delivery→repair→save/Continue plus preexisting six-delivered save remains open.",
+        "result": "Existing optional Tamara quest active in newcampaign; missing legacyrun initialized only from saved state, malformed touched state rejects to existing backup path. During reservedload, actual saved crash+6 delivered reconciles only Tamara on captured rawkernel before physicalprojection; normal questcompletion remains sole repair/knowledge/journal owner. Partial carried/delivered and existing quest state are preserved.",
+        "targets": [
+          "content/campaigns/urman.fullgame/campaign.json",
+          "game/content/urman.fullgame.compiled.v1.json",
+          "game/scripts/RuntimeBridge.TamaraFence.cs",
+          "game/scripts/RuntimeBridge.cs",
+          "game/scripts/QuestRuntimeCoordinator.cs",
+          "game/scripts/RuntimeBridge.ContentCompatibility.cs"
+        ],
+        "verification_result": {
+          "independent_review": "Two independent bounded source reviews: lifecycle/reservedload/rollback/malformedbackup and exactfingerprint gates clean after fixes. Source review is not native/savecycle evidence.",
+          "content": "Existing ContentCli affected tool compile exit0/0warnings/0errors3.08s; compile --campaign urman.fullgame exit0. Exact generatedpack semanticdiff against42c6c513 changes ONLY /campaign/activeQuestIds and /campaignFingerprint; Tamara occurs once, questdefinitions/scenes/modules identical.",
+          "game_compile": "Affected Game compile exit0/0warnings/0errors17.12s.",
+          "native": "NOT_RUN: crash→pickup→partialdelivery→sixthboard→physicalrepair/thanks/journal→Save/Continue; existing sixdelivered predecessor save; early no-crash/partial/oldcompleted and malformedprimary→backup require current protected native route. No newtests/probes/Godot/game/screenshots/reportdirs."
+        },
+        "fingerprints": {
+          "baseline": "e7eb22741ae47532667aaabbb439879a9efb5ff95919716c90b4d89d93290dc5",
+          "accepted_earlier": "0819edb45a8083bb69b5c01cf9923eee32de518d4ab81a3eff7e36c632a5222a",
+          "current": "d172b0d0c7b25d88bce45b978e2b3352e230baee912491305c044e20b08418f2",
+          "proof": "Direct exact baseline→current pair: sole optionalquest activation. Direct0819→current pair: committed447f1735→04bdef92 only split print/mount; savedfields/catalog/quests unchanged and current projection supports mountedlegacy. Unknown fingerprints strict; no implicit/transitive pairs."
+        },
+        "remaining": "Protected native Tamara completion/partial/oldsave/load/backup checks plus remaining household-mechanic breadth; not full PW079 completion.",
+        "next_action": "After existing protected e79 authoritative terminal/restoration, validate actual Tamara crash→partial/six-boarddelivery→physicalrepair→save/Continue and a predecessor six-delivered save; retain rest of PW079 criteria.",
+        "source_sha256": {
+          "content/campaigns/urman.fullgame/campaign.json": "16aecbb555e47f20f5386e0274561e9d47223bf1b2395ceda6dafee0cf96f0c1",
+          "game/content/urman.fullgame.compiled.v1.json": "fdfb94848fda61ea6123266902b9b6097d32066e79d9a1f5139e6bc13e767f15",
+          "game/scripts/RuntimeBridge.TamaraFence.cs": "a1ed69dbdabe0000ac63f923854cd5050bf889bf5ac8e82fec23f9e7b1909c30",
+          "game/scripts/RuntimeBridge.cs": "8e7634bdc11f7fad860a62740c4379c14208d0d19b327870ab76ff05ea48581b",
+          "game/scripts/QuestRuntimeCoordinator.cs": "1d4228503f61023f901f27caf9e69cbb2e4afc4310bfc85452a92c95c390a0a7",
+          "game/scripts/RuntimeBridge.ContentCompatibility.cs": "aee693bbc4344a0f7e87865d7656120752d9ddcf4a7cb16747d0bf7bd5e07701"
+        },
+        "temporary_output_removed_bytes": 48107533
       }
     },
     {
@@ -138917,7 +138964,7 @@
       "remaining": [
         "Проверить весь путь с клавиатурой и контроллером; отсутствует подтверждение собственного конечного DoD, перечисленного ниже."
       ],
-      "next_action": "Проверить весь путь с клавиатурой и контроллером",
+      "next_action": "Target controller native journaldefaultpage→photo-book tab→inspection/action→other tabs→cancel/reopen, mouse/controller switching. Godot ui_* defaults/navigation are not established by project bindings or codeinspection.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -139087,6 +139134,11 @@
         "state": "no_confirmed_source_blocker_native_required",
         "result": "Default A interact/Yjournal mappings preserved separately from ui_accept/cancel/navigation. Dialogue firstchoice/Continue grabsfocus, bookItemList + actionbuttons focusable; reader return and entryconfirm restore guardedcurrentUI focus. FPC releasegate and session/visibilitygeneration guards present. No controller-specific defect proven; no edits.",
         "remaining": "Ordinary controller-only interact→Dpad dialoguechoice→photo selection→frontreader/backreturn→mount→outdoorentry→bookearlyreturnconfirm and scene/load/devicefocus transitions. Sourceinspection does not prove physical automaticdirectionalnavigation."
+      },
+      "controller_source_readback_2026_10_20": {
+        "state": "source_only_native_required",
+        "result": "Independent primary+Luna audit: movement axes0/1, look2/3, interactJoy0, pauseJoy6, journalJoy3 and consumers present; menu/dialogue/Journal TabBar focusable. No proven corebinding deadend. Map/inventory keyboardonlyshortcuts also reachable as tabs. Do not invent duplicatebindings.",
+        "remaining": "Target controller native journaldefaultpage→photo-book tab→inspection/action→other tabs→cancel/reopen, mouse/controller switching. Godot ui_* defaults/navigation are not established by project bindings or codeinspection."
       }
     },
     {

@@ -17,6 +17,11 @@ public partial class RuntimeBridge
     private const string FullGameAllWorldBookReturnFingerprint =
         "0819edb45a8083bb69b5c01cf9923eee32de518d4ab81a3eff7e36c632a5222a";
 
+    private const string FullGamePhysicalPrintMountFingerprint =
+        "e7eb22741ae47532667aaabbb439879a9efb5ff95919716c90b4d89d93290dc5";
+    private const string FullGameTamaraQuestFingerprint =
+        "d172b0d0c7b25d88bce45b978e2b3352e230baee912491305c044e20b08418f2";
+
     private static readonly IReadOnlyCollection<SaveGameFingerprintCompatibility> FullGameTextRevisionCompatibility =
     [
         // 80266983 -> 5b0a7ccf: 18 UI texts/provides IDs only; proof in PW-025.
@@ -36,7 +41,11 @@ public partial class RuntimeBridge
         new(FullGameCellarReturnFingerprint, FullGameAllWorldBookReturnFingerprint),
         new(FullGameTeaTextRevisionFingerprint, FullGameAllWorldBookReturnFingerprint),
         new("441a862cce6ad7c3fc9f8c566ba81ed03e44d32ae98b7298b7e589169b533257",
-            FullGameAllWorldBookReturnFingerprint)
+            FullGameAllWorldBookReturnFingerprint),
+        // Only optional Tamara activation changed; prepareForLoad seeds its missing run.
+        new(FullGamePhysicalPrintMountFingerprint, FullGameTamaraQuestFingerprint),
+        // 447f1735 -> 04bdef92 only split print/mount; mounted legacy state stays valid (PW-079).
+        new(FullGameAllWorldBookReturnFingerprint, FullGameTamaraQuestFingerprint)
     ];
 
     private AtomicSaveGameStore CreateCampaignSaveStore(string directory)
@@ -45,7 +54,8 @@ public partial class RuntimeBridge
             (!StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameTextRevisionFingerprint) &&
              !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameTeaTextRevisionFingerprint) &&
              !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameCellarReturnFingerprint) &&
-             !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameAllWorldBookReturnFingerprint)))
+             !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameAllWorldBookReturnFingerprint) &&
+             !StringComparer.Ordinal.Equals(_content.CampaignFingerprint, FullGameTamaraQuestFingerprint)))
         {
             return new AtomicSaveGameStore(directory);
         }

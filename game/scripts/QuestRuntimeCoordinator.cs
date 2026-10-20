@@ -87,12 +87,13 @@ public sealed class QuestRuntimeCoordinator
         return reduction.Plan with { Effects = effects, Events = events };
     }
 
-    public async Task ReconcileAsync(RuntimeKernel kernel, Func<string, string> nextOccurrenceId)
+    public async Task ReconcileAsync(RuntimeKernel kernel, Func<string, string> nextOccurrenceId, string? questId = null)
     {
         ArgumentNullException.ThrowIfNull(kernel);
         ArgumentNullException.ThrowIfNull(nextOccurrenceId);
         foreach (var quest in _content.RuntimeQuests)
         {
+            if (questId is not null && quest.Id != questId) continue;
             var maximumPasses = quest.Definition.GetProperty("stages")
                 .EnumerateArray()
                 .Sum(stage => stage.GetProperty("objectives").GetArrayLength()) + 1;

@@ -10,7 +10,41 @@ namespace Urman.Godot;
 public partial class RuntimeBridge
 {
     public const string TamaraFenceStateId = "tamara/fence";
+    private const string TamaraQuestId = "urman.chapter1:quest/quest_tamara_fence";
     private const string TamaraCharacterId = "urman.chapter1:character/tamara";
+
+    // Early PhotoWorlds saves retained the physical job but omitted its quest run.
+    private JsonElement PrepareTamaraFenceQuestForLoad(JsonElement state)
+    {
+        var quest = _content.RuntimeQuests.FirstOrDefault(candidate => candidate.Id == TamaraQuestId);
+        if (quest is null) return state;
+        try
+        {
+            if (!state.TryGetProperty("npc", out var npc) || npc.ValueKind != JsonValueKind.Object
+                || npc.TryGetProperty(TamaraCharacterId, out var tamara) && tamara.ValueKind != JsonValueKind.Object)
+                throw new InvalidDataException("The saved fence character state is malformed.");
+            if (!state.TryGetProperty("quests", out var quests) || quests.ValueKind != JsonValueKind.Object)
+                throw new InvalidDataException("The saved quest state is malformed.");
+            if (quests.TryGetProperty(TamaraQuestId, out var existing))
+            {
+                if (existing.ValueKind != JsonValueKind.Object)
+                    throw new InvalidDataException("The saved fence quest is malformed.");
+                return state;
+            }
+
+            var run = Urman.Core.Quests.QuestLifecycleReducer.CreateRun(
+                quest.Definition, $"instance:{TamaraQuestId}",
+                evaluateCondition: ContentRuleEngine.Evaluate, evaluationContext: state);
+            var prepared = JsonNode.Parse(state.GetRawText())!.AsObject();
+            prepared["quests"]![TamaraQuestId] = JsonNode.Parse(run.Instance.GetRawText());
+            return JsonSerializer.SerializeToElement(prepared);
+        }
+        catch (Exception error) when (error is ArgumentException or InvalidOperationException
+            or KeyNotFoundException or JsonException or FormatException)
+        {
+            throw new InvalidDataException("The saved fence quest state is malformed.", error);
+        }
+    }
 
     public sealed record TamaraFenceSnapshot(
         bool Crashed,

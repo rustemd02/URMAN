@@ -925,7 +925,8 @@
       "urman.fullgame:quest/pw-w02",
       "urman.fullgame:quest/pw-w03",
       "urman.fullgame:quest/pw-w04",
-      "urman.fullgame:quest/pw-w05"
+      "urman.fullgame:quest/pw-w05",
+      "urman.chapter1:quest/quest_tamara_fence"
     ],
     "transitionOverrides": []
   },
@@ -32824,5 +32825,5 @@
       "sha256": "a3cd65ca0fa229fb9162081dcb579945c63e78f2a72939c473f477b54067b292"
     }
   ],
-  "campaignFingerprint": "e7eb22741ae47532667aaabbb439879a9efb5ff95919716c90b4d89d93290dc5"
+  "campaignFingerprint": "d172b0d0c7b25d88bce45b978e2b3352e230baee912491305c044e20b08418f2"
 }

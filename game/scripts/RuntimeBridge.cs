@@ -276,6 +276,7 @@ public partial class RuntimeBridge : Node
         if (!_content.HasPhotoWorlds) return save;
         var preparedState = PhotoWorldState.PrepareSnapshotForLoad(
             save.Runtime.State, _content.CampaignId, _content.CampaignExactVersion);
+        preparedState = PrepareTamaraFenceQuestForLoad(preparedState);
         return save with { Runtime = save.Runtime with { State = preparedState } };
     }
 
@@ -580,6 +581,15 @@ public partial class RuntimeBridge : Node
         ResetAudioCuePresentation();
         RestoreSession(save);
         IsDebugSession = debugSession;
+        if (_content.HasPhotoWorlds && TamaraFenceSnapshotNow() is { Crashed: true, Delivered: 6 })
+        {
+            // SessionIdentity stays hidden by the load reservation; reconcile only this saved sidequest.
+            var restoredSession = _kernel!;
+            await _questCoordinator.ReconcileAsync(restoredSession,
+                prefix => $"{prefix}:{Interlocked.Increment(ref _interactionSequence):D8}", TamaraQuestId);
+            if (!ReferenceEquals(restoredSession, _kernel))
+                throw new InvalidDataException("The runtime session changed while restoring the saved fence task.");
+        }
         var projectedPhoto = false;
         if (GetTree().GetFirstNodeInGroup("zone_manager") is Main main)
         {
