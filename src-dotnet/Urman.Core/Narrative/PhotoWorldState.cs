@@ -85,6 +85,28 @@ public static class PhotoWorldState
                 status = "completed"
             }), state);
 
+    /// <summary>Origin policy for a new visit; an existing visit always returns using its serialized ticket.</summary>
+    public static bool TryGetVisitOrigin(JsonElement state, string worldId, out string zoneId, out string anchorId,
+        out string? fixedSafeNodeId)
+    {
+        zoneId = string.Empty;
+        anchorId = string.Empty;
+        fixedSafeNodeId = null;
+        if (!TryGetVisitRoute(worldId, out _, out _)) return false;
+        if (worldId == "W02" && !IsWorldCompleted(state, worldId))
+        {
+            zoneId = "village_day";
+            anchorId = "PW_RIVER_ENTRY";
+            fixedSafeNodeId = "pw-bank-approach";
+        }
+        else
+        {
+            zoneId = "house_old_pc";
+            anchorId = "PW_HOME_TABLE";
+        }
+        return true;
+    }
+
     /// <summary>Chooses an authored start ID; physical placement and its entry fallback still require validation.</summary>
     public static bool TryGetVisitStartNode(JsonElement state, string worldId, out string safeNodeId)
     {
@@ -142,13 +164,15 @@ public static class PhotoWorldState
             var worldId = RequiredString(payload, "worldId");
             if (!TryGetVisitRoute(worldId, out _, out _)
                 || RequiredString(state, "activeScene") != "urman.fullgame:scene/pw-home")
-                throw new InvalidOperationException("This visit preparation requires an authored home-to-photo route.");
+                throw new InvalidOperationException("This visit preparation requires an authored photo route.");
             var ticket = RequiredProperty(payload, "returnTicket");
             ValidateReturnTicket(ticket, RequiredString(campaign, "id"), RequiredString(campaign, "exactVersion"));
-            if (RequiredString(ticket, "movementMode") != "pedestrian"
-                || RequiredString(ticket, "originWorldId") != "house_old_pc"
-                || RequiredString(ticket, "originAnchorId") != "PW_HOME_TABLE")
-                throw new InvalidOperationException("The return ticket must describe the current pedestrian origin.");
+            if (!TryGetVisitOrigin(state, worldId, out var originZoneId, out var originAnchorId, out var fixedOriginSafeNodeId)
+                || RequiredString(ticket, "movementMode") != "pedestrian"
+                || RequiredString(ticket, "originWorldId") != originZoneId
+                || RequiredString(ticket, "originAnchorId") != originAnchorId
+                || (fixedOriginSafeNodeId is not null && RequiredString(ticket, "originSafeNode") != fixedOriginSafeNodeId))
+                throw new InvalidOperationException("The return ticket must describe this visit's authored pedestrian origin.");
             var currentWorld = JsonSerializer.SerializeToElement(world);
             if (!VisitEntryPrerequisitesMet(state, currentWorld, worldId))
                 throw new InvalidOperationException("The authored photo entry prerequisites are not satisfied.");

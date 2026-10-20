@@ -1,5 +1,6 @@
 using Godot;
 using System.Text.Json;
+using Urman.Core.Narrative;
 using Urman.Core.Persistence;
 using Urman.Experiments.AgentBAct1;
 
@@ -73,12 +74,49 @@ public partial class Main : Node3D
 
     public Act1ConnectedWorld? ConnectedWorld => _connectedWorld;
 
-    internal bool CanPreparePhotoVisit(FirstPersonController player, string zoneId, string spawnId)
+    internal bool CanPreparePhotoVisit(FirstPersonController player, string worldId, string zoneId, string spawnId)
     {
-        return _connectedWorld is { ActiveZoneId: "house_old_pc" } world && zoneId == "house_old_pc"
-            && Act1WorldLayout.TryGetPlacement(zoneId, out var placement) && placement.SpawnPoints.ContainsKey(spawnId)
-            && world.TryGetWorldSpawn(zoneId, spawnId, out _)
+        if (_fullGameRouteBridge is not { } bridge || !GodotObject.IsInstanceValid(bridge)
+            || !PhotoWorldState.TryGetVisitOrigin(bridge.SelectRuntimeState(), worldId,
+                out var originZone, out var originAnchor, out var fixedSafeNode)) return false;
+        var safeNode = fixedSafeNode ?? spawnId;
+        return zoneId == originZone && bridge.CurrentZoneId == originZone && bridge.ActiveSceneId == HomeSceneId
+            && _connectedWorld is { } world && world.ActiveZoneId == originZone
+            && Act1WorldLayout.TryGetPlacement(originZone, out var placement) && placement.SpawnPoints.ContainsKey(safeNode)
+            && world.TryGetWorldSpawn(originZone, safeNode, out _)
+            && TryGetPhotoVisitOriginAnchor(originZone, originAnchor, out var anchor)
+            && anchor.GlobalPosition.DistanceSquaredTo(player.GlobalPosition) <= 36f
             && player.IsOnFloor() && PhotoVisitPoseHasSupport(player, player.GlobalPosition);
+    }
+
+    internal bool TryGetPhotoVisitOriginAnchor(string zoneId, string anchorId, out Node3D anchor)
+    {
+        anchor = null!;
+        if (_connectedWorld is not { } world || world.ActiveZoneId != zoneId) return false;
+        var candidate = (zoneId, anchorId) switch
+        {
+            ("house_old_pc", "PW_HOME_TABLE") => world.GetZoneInstance(zoneId)
+                ?.GetNodeOrNull<Node3D>("PhotoWorldForestEntryTarget"),
+            ("village_day", "PW_RIVER_ENTRY") => world
+                .GetNodeOrNull<Node3D>("Act1CoreWorldGreybox/PhotoBankApproach/BankEntry"),
+            _ => null
+        };
+        if (candidate is null || !GodotObject.IsInstanceValid(candidate)
+            || !candidate.IsInsideTree() || candidate.IsQueuedForDeletion())
+            return false;
+        anchor = candidate;
+        return true;
+    }
+
+    private static bool TryGetPhotoReturnOrigin(string worldId, JsonElement ticket,
+        out string zoneId, out string anchorId, out string safeNodeId)
+    {
+        zoneId = ticket.GetProperty("originWorldId").GetString()!;
+        anchorId = ticket.GetProperty("originAnchorId").GetString()!;
+        safeNodeId = ticket.GetProperty("originSafeNode").GetString()!;
+        return (zoneId == "house_old_pc" && anchorId == "PW_HOME_TABLE")
+            || (worldId == "W02" && zoneId == "village_day" && anchorId == "PW_RIVER_ENTRY"
+                && safeNodeId == "pw-bank-approach");
     }
 
     private static bool PhotoVisitPoseHasSupport(FirstPersonController player, Vector3 position, bool allowCrouched = false)
@@ -101,11 +139,30 @@ public partial class Main : Node3D
             && bridge is not null && GodotObject.IsInstanceValid(bridge)
             && ReferenceEquals(session, bridge.SessionIdentity) && !bridge.IsPhotoBookProjectionDeferred;
         if (!Current()) return false;
-        ReconcileFullGameScenePresentation();
+        if (originTicket is { } returnTicket)
+        {
+            if (bridge!.ActiveSceneId != HomeSceneId
+                || !TryGetPhotoReturnOrigin(worldId, returnTicket, out var originZone, out _, out var originSpawn)
+                || !Act1WorldLayout.TryGetPlacement(originZone, out var originPlacement)
+                || !originPlacement.SpawnPoints.ContainsKey(originSpawn)) return false;
+            // Aborted preparations no longer have an active visit. The passed
+            // ticket still owns their exact outside destination before a frame
+            // can project the generic logical home route.
+            if (!IsMountedZone(originZone) || bridge.CurrentZoneId != originZone
+                || bridge.CurrentSpawnPointId != originSpawn)
+                SwitchZone(originZone, originSpawn);
+        }
+        else ReconcileFullGameScenePresentation();
         await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
         if (!Current()) return false;
         await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
-        if (!Current() || GetTree().GetFirstNodeInGroup("player_controller") is not FirstPersonController player) return false;
+        if (!Current()) return false;
+        if (originTicket is not null)
+        {
+            await bridge!.ProjectPhysicalWorldAsync();
+            if (!Current()) return false;
+        }
+        if (GetTree().GetFirstNodeInGroup("player_controller") is not FirstPersonController player) return false;
         if (completedBankReturn)
             return worldId == "W04" && bridge!.ActiveSceneId == BankApproachSceneId
                 && _connectedWorld is { ActiveZoneId: "village_day" }
@@ -126,15 +183,14 @@ public partial class Main : Node3D
             return targetMounted && PhotoVisitPoseHasSupport(player, player.GlobalPosition, allowCrouchedPhotoPose);
         }
 
-        var zone = ticket.GetProperty("originWorldId").GetString()!;
-        var safeNode = ticket.GetProperty("originSafeNode").GetString()!;
+        if (!TryGetPhotoReturnOrigin(worldId, ticket, out var zone, out var anchorId, out var safeNode)) return false;
         if (bridge!.ActiveSceneId != HomeSceneId || _connectedWorld is not { } world
             || world.ActiveZoneId != zone || !Act1WorldLayout.TryGetPlacement(zone, out var placement)
             || !placement.SpawnPoints.ContainsKey(safeNode) || !world.TryGetWorldSpawn(zone, safeNode, out var fallback)) return false;
         var position = ticket.GetProperty("position");
         var original = new Vector3(position.GetProperty("x").GetSingle(), position.GetProperty("y").GetSingle(), position.GetProperty("z").GetSingle());
-        var anchor = world.GetZoneInstance(zone)?.GetNodeOrNull<InteractionTarget>("PhotoWorldForestEntryTarget");
-        var originalSafe = anchor is not null && anchor.GlobalPosition.DistanceSquaredTo(original) <= 36f
+        var originalSafe = TryGetPhotoVisitOriginAnchor(zone, anchorId, out var anchor)
+            && anchor.GlobalPosition.DistanceSquaredTo(original) <= 36f
             && PhotoVisitPoseHasSupport(player, original);
         if (!originalSafe && !PhotoVisitPoseHasSupport(player, fallback.Position)) return false;
         var chosen = originalSafe ? original : fallback.Position;
@@ -486,6 +542,17 @@ public partial class Main : Node3D
                 : projection.ActiveSceneId == HomeSceneId && bridge.CurrentZoneId == "village_day"
                     ? (string.IsNullOrWhiteSpace(bridge.CurrentSpawnPointId) ? "arrival" : bridge.CurrentSpawnPointId)
                     : "arrival";
+            if (projection.ActiveSceneId == HomeSceneId)
+            {
+                var visit = bridge.SelectRuntimeState().GetProperty("photoworlds").GetProperty("visits").GetProperty("active");
+                if (visit.ValueKind == JsonValueKind.Object && visit.GetProperty("status").GetString() == "returning"
+                    && TryGetPhotoReturnOrigin(visit.GetProperty("worldId").GetString()!, visit.GetProperty("returnTicket"),
+                        out var originZone, out _, out var originSpawn))
+                {
+                    targetZone = originZone;
+                    targetSpawn = originSpawn;
+                }
+            }
 
             // Home and bank share the connected village. Rebuild it when
             // returning from a detached photo world or changing the requested

@@ -1,4 +1,5 @@
 using Godot;
+using Urman.Core.Narrative;
 
 namespace Urman.Godot;
 
@@ -10,6 +11,7 @@ public partial class PhotoBankApproachPresence : Node3D
 {
     private const string HomeSceneId = "urman.fullgame:scene/pw-home";
     private const string BankSceneId = "urman.fullgame:scene/pw-bank-approach";
+    private const string RiverPhotoEntryInteractionId = "urman.fullgame:interaction/pw-enter-river";
     private const string EnterBankInteractionId = "urman.fullgame:interaction/pw-enter-bank-approach";
     private const string WinterPilesInteractionId = "urman.fullgame:interaction/pw-winter-piles-inspected";
     private const string VerifyBankInteractionId = "urman.fullgame:interaction/pw-verify-bank-evidence";
@@ -36,6 +38,7 @@ public partial class PhotoBankApproachPresence : Node3D
     private InteractionTarget? _alsuLeafTarget;
     private InteractionTarget? _alsuBeforeW04Target;
     private InteractionTarget? _enterBankTarget;
+    private InteractionTarget? _riverPhotoEntryTarget;
     private InteractionTarget? _legacyAlsuTarget;
     private Node3D? _alsuActor;
     private bool _legacyAlsuSuppressed;
@@ -83,6 +86,9 @@ public partial class PhotoBankApproachPresence : Node3D
         _markersChecked = _bankEntryWitness is not null && _oldPilesWitness is not null && _bankReturnWitness is not null
             && _leafWitness is not null && bankEntry is not null;
 
+        if (_riverPhotoEntryTarget is null && _bankEntryWitness is { } riverEntry)
+            _riverPhotoEntryTarget = CreateTarget("RiverPhotoEntryTarget", RiverPhotoEntryInteractionId,
+                "urman.fullgame:text/pw-label-enter-river", riverEntry, .58f, .82f);
         if (_enterBankTarget is null && _bankEntryWitness is { } entry)
             _enterBankTarget = CreateTarget("EnterBankApproachTarget", EnterBankInteractionId,
                 "urman.fullgame:text/pw-label-enter-bank-approach", entry, .58f, .82f);
@@ -101,7 +107,7 @@ public partial class PhotoBankApproachPresence : Node3D
 
         EnsureAlsuTarget();
         EnsureLeafPresentationNodes();
-        return _enterBankTarget is not null && _winterPilesTarget is not null && _verifyBankTarget is not null
+        return _riverPhotoEntryTarget is not null && _enterBankTarget is not null && _winterPilesTarget is not null && _verifyBankTarget is not null
             && _bankReturnTarget is not null && _bankToEpilogueTarget is not null;
     }
 
@@ -195,6 +201,10 @@ public partial class PhotoBankApproachPresence : Node3D
             bankApproach.Visible = villagePhotoWorldRouteActive;
         SetBankCollisionLayers(villagePhotoWorldRouteActive);
 
+        var waterCompleted = session is not null && PhotoWorldState.IsWorldCompleted(session.SelectState(), "W02");
+        SetTarget(_riverPhotoEntryTarget, bridge, "urman.fullgame:text/pw-label-enter-river",
+            homeRouteActive && interactionWindowOpen && !waterCompleted
+                && IsInteractionReady(bridge, RiverPhotoEntryInteractionId));
         SetTarget(_enterBankTarget, bridge, "urman.fullgame:text/pw-label-enter-bank-approach",
             homeRouteActive && interactionWindowOpen && IsInteractionReady(bridge, EnterBankInteractionId));
 
@@ -261,7 +271,7 @@ public partial class PhotoBankApproachPresence : Node3D
         SetBankCollisionLayers(false);
         foreach (var target in new[]
         {
-            _enterBankTarget, _winterPilesTarget, _verifyBankTarget,
+            _riverPhotoEntryTarget, _enterBankTarget, _winterPilesTarget, _verifyBankTarget,
             _bankReturnTarget, _bankToEpilogueTarget, _alsuLeafTarget, _alsuBeforeW04Target
         })
         {

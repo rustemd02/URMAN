@@ -593,8 +593,9 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
             return bridge.CurrentZoneId == "village_day"
                 ? "Перед общим снимком поговорить с Алсу на улице и договориться о встрече."
                 : "Выйти на улицу и поговорить с Алсу, прежде чем войти в общий снимок.";
+        if (waterQuestStatus == "active")
+            return PhotoBookWaterHandoffObjectiveText(bridge);
         if (forestQuestStatus == "active"
-            || waterQuestStatus == "active"
             || houseQuestStatus is "active" or "completed")
             return null;
         if (waterQuestStatus == "completed")
@@ -674,6 +675,12 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
             && housePhotoPending
             && bridge.IsInteractionAvailable("urman.fullgame:interaction/pw-house-photo-permission");
 
+        if (placeTold && waterPhoto is { Mounted: true, BackRead: true })
+        {
+            var entryAction = waterPhoto.HasResumePoint ? "Продолжить снимок" : "Войти в снимок";
+            return $"Дойти до старого подхода к мосткам на берегу, открыть в книге снимок у мостков и выбрать «{entryAction}».";
+        }
+
         if (!atHome)
         {
             if (housePhotoPending && waterFound)
@@ -690,7 +697,7 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
                 return "Вернуться домой и вклеить снимок у мостков в семейную книгу.";
             if (!waterPhoto.BackRead)
                 return "Вернуться домой и прочитать оборот снимка у мостков.";
-            return "Вернуться домой и открыть снимок у мостков.";
+            return null;
         }
 
         if (!placeTold
@@ -728,9 +735,7 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
                 ? "Прочитать оборот снимка у мостков."
                 : null;
 
-        return bridge.IsInteractionAvailable("urman.fullgame:interaction/pw-enter-river")
-            ? "Открыть снимок у мостков."
-            : null;
+        return null;
     }
 
     private static string? PhotoBookHouseHandoffObjectiveText(RuntimeBridge bridge)

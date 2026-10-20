@@ -108890,7 +108890,7 @@
       "title": "Реализовать условия первого сознательного входа",
       "milestone": "PW-M1",
       "status": "in_progress",
-      "active_owner": "/root",
+      "active_owner": null,
       "owner": "integration",
       "priority": "P0",
       "complexity": "medium",
@@ -108922,7 +108922,8 @@
         "evidence/PW-043/release-path-20261015/native_d884/game.log",
         "evidence/PW-043/release-path-20261015/frames/d884-root/08-tea-dialog.png",
         "evidence/PW-043/release-path-20261015/frames/d884-root/10-new-album.png",
-        "evidence/PW-043/release-path-20261015/frames/d884-root/11-album-detail.png"
+        "evidence/PW-043/release-path-20261015/frames/d884-root/11-album-detail.png",
+        "evidence/PW-019/first-river-origin-20261020/affected-game-build.log"
       ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-019",
       "source_requirements": [
@@ -109038,8 +109039,8 @@
       },
       "assigned_owner": "integration",
       "activity": {
-        "state": "confirmed_active",
-        "reason": "Root integrating finite body/physical book entry slices on 19 October; source workers frozen and independently reviewed, affected game compile PASS15.34s0warnings0errors; native acceptance pending."
+        "state": "idle",
+        "reason": "Finite first-W02 shore source stage compiled and independently reviewed; native verification awaits station transport and authoritative previous job restoration."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -109049,7 +109050,7 @@
         "Вне якоря есть чтение без ложной кнопки входа.",
         "Первый якорь проверен до контекста, с нужным и чужим снимком и после визита: применимая причина отказа понятна без спойлера, пиксель-хантинга и выдачи знания. Недостаток подачи сначала подтверждён в обычном маршруте, затем исправлен существующим gate/hint owner."
       ],
-      "next_action": "Verify actual mounted P-FOREST page and Enter→W01 at home, refused wrong anchor/carry/pose and safe notes/session close with the existing runtime path; stop requiring pixel-precise aim at an invisible tabletop target.",
+      "next_action": "After authoritative e79 terminal receipt and user-data restoration, verify protected ordinary first/unfinished W02 book entry at the shore, actual action/return to captured bank origin, Continue, and completed home-book revisit. First W03/W04 anchor contracts and full PW-019 remain open.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -109447,14 +109448,24 @@
         "next_action": "Protected ordinary tea/book→school→home→entry walkthrough; PW-019 full criteria and UXA-001/ROUTE integration remain pending."
       },
       "first_river_place_2026_10_20": {
-        "state": "existing_physical_input_identified_read_only",
-        "result": "W02 first-place candidate already exists: village_day PhotoBankApproach/BankEntry, safe spawn pw-bank-approach, seven old piles/four boards; geometry visible during ordinary pw-home village exploration. Existing pw-enter-bank-approach requires completedW02 and cannot gate first W02 entry. Home WaterRiverEntryTarget is photo acquisition, not the shore entry.",
+        "state": "source_integrated_compiled_native_pending",
+        "result": "First/unfinished W02 uses actual village BankEntry, strict Core origin village_day/PW_RIVER_ENTRY/pw-bank-approach, and original pw-enter-river interaction. Home entry is reserved for completed revisits. Book CTA and ready guidance use the same physical gate. Immutable ticket preserves precise original pose/audio and the supported bank fallback even if W02 completes during the visit; legacy home tickets remain valid. Return switches to the serialized origin and awaits restored carry/facilities/fleet/companion projection before capsule/support checks. Load overlay covers recovery.",
         "source_paths": [
-          "game/scripts/Act1ConnectedWorld.PhotoBank.cs",
-          "game/scripts/Act1WorldLayout.cs",
-          "game/scripts/PhotoBankApproachPresence.cs"
+          "src-dotnet/Urman.Core/Narrative/PhotoWorldState.cs",
+          "game/scripts/Main.cs",
+          "game/scripts/RuntimeBridge.cs",
+          "game/scripts/RuntimeBridge.PhotoBook.cs",
+          "game/scripts/PhotoBankApproachPresence.cs",
+          "game/scripts/WaterChainHomePresence.cs",
+          "game/scripts/JournalUi.cs",
+          "game/scripts/JournalUi.PhotoBook.cs"
         ],
-        "next_action": "Implement strict W02 first/unfinished entry at actual PW_RIVER_ENTRY bank with explicit ticket origin/fallback and Main return placement; keep completed home-book convenience. W03/W04 unique first-entry transforms still unconfirmed; do not invent."
+        "next_action": "After authoritative e79 terminal receipt and user-data restoration, verify protected ordinary first/unfinished W02 book entry at the shore, actual action/return to captured bank origin, Continue, and completed home-book revisit. First W03/W04 anchor contracts and full PW-019 remain open.",
+        "question": "Does first/unfinished W02 require its real bank and return there by original ticket even when W02 completes during the visit, while completed home-book revisit stays home?",
+        "verification": "Affected Game compile PASS 17.17s, 0 warnings/errors. Independent luna_fast source review found no remaining blocker in origin/cancel/return/audio/session paths. Existing smoke tests cover unchanged semantic scene routes, not this physical origin; no tests changed or run. Native shore entry/return/Continue not run.",
+        "evidence": [
+          "evidence/PW-019/first-river-origin-20261020/affected-game-build.log"
+        ]
       }
     },
     {

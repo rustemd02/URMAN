@@ -516,7 +516,6 @@ public partial class RuntimeBridge : Node
         }
         finally
         {
-            loadingScreen.Hide();
             // A short async load may begin and end between two process frames.
             // Subtract that measured interval from the next accrual as well.
             SampleLoadingTime();
@@ -541,6 +540,9 @@ public partial class RuntimeBridge : Node
                 }
                 finally { _photoVisitCanceling = false; }
             }
+            // Pending photo visits may still recover their recorded exterior
+            // origin. Keep that physical handoff covered until it is settled.
+            loadingScreen.Hide();
             player.SetSessionTransition(NeedsPhysicalRecovery);
             QueueRuntimeStateChanged();
             PlayTimeBoundary?.Invoke(loadSucceeded ? "load-restored" : "load-failed");
@@ -615,7 +617,7 @@ public partial class RuntimeBridge : Node
             throw new InvalidDataException("The loaded player's physical position is blocked.");
     }
 
-    private async Task ProjectPhysicalWorldAsync()
+    internal async Task ProjectPhysicalWorldAsync()
     {
         if (GetTree().GetFirstNodeInGroup("act1_connected_world") is Act1ConnectedWorld world)
             world.ProjectLoadedPhysicalState();
@@ -694,8 +696,12 @@ public partial class RuntimeBridge : Node
         return true;
     }
 
-    private JsonElement CapturePhotoReturnTicket(RuntimeKernel session, FirstPersonController player)
+    private JsonElement CapturePhotoReturnTicket(RuntimeKernel session, FirstPersonController player, string worldId)
     {
+        if (!PhotoWorldState.TryGetVisitOrigin(session.SelectState(), worldId,
+                out var originZone, out var originAnchor, out var fixedSafeNode)
+            || CurrentZoneId != originZone)
+            throw new InvalidOperationException("The photo visit's authored physical origin is not active.");
         var pose = player.CapturePortableTransform();
         var audio = GetTree().GetFirstNodeInGroup("ambient_audio") as AmbientAudioDirector
             ?? throw new InvalidOperationException("The origin audio owner is not ready.");
@@ -705,7 +711,7 @@ public partial class RuntimeBridge : Node
         return JsonSerializer.SerializeToElement(new
         {
             ticketId = Guid.NewGuid().ToString("N"), campaignId = _content.CampaignId, contentVersion = _content.CampaignExactVersion,
-            originWorldId = CurrentZoneId, originAnchorId = "PW_HOME_TABLE", originSafeNode = CurrentSpawnPointId,
+            originWorldId = originZone, originAnchorId = originAnchor, originSafeNode = fixedSafeNode ?? CurrentSpawnPointId,
             position = new { x = pose.Position.X, y = pose.Position.Y, z = pose.Position.Z },
             rotationY = pose.RotationDegrees.Y, pitch = pose.RotationDegrees.X, movementMode = "pedestrian",
             worldClock = new { tick = _clock.Tick },
@@ -803,7 +809,7 @@ public partial class RuntimeBridge : Node
         if (!entering && ActivePhotoVisit() is { } activeVisit
             && activeVisit.GetProperty("worldId").GetString() != worldId) return false;
         if (entering && (!IsInteractionAvailable(interaction.Id) || PhotoBookForestPhysicalBlockReason(requirePhysicalWorld: true, interaction.Id) is not null
-            || !main.CanPreparePhotoVisit(player, CurrentZoneId, CurrentSpawnPointId))) return false;
+            || !main.CanPreparePhotoVisit(player, worldId, CurrentZoneId, CurrentSpawnPointId))) return false;
         var completion = new TaskCompletionSource<bool>();
         using var cancellation = new CancellationTokenSource();
         _photoVisitCancellation = cancellation;
@@ -821,7 +827,7 @@ public partial class RuntimeBridge : Node
         {
             if (entering)
             {
-                var ticket = CapturePhotoReturnTicket(session, player);
+                var ticket = CapturePhotoReturnTicket(session, player, worldId);
                 var id = Guid.NewGuid().ToString("N");
                 ownedVisitId = id;
                 if (!await DispatchPhotoVisitCommandAsync(session, PhotoWorldCommandHandler.VisitPrepare, id,

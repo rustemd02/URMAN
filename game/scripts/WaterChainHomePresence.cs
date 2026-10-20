@@ -1,5 +1,6 @@
 using System.Linq;
 using Godot;
+using Urman.Core.Narrative;
 
 namespace Urman.Godot;
 
@@ -105,7 +106,11 @@ internal partial class WaterChainHomePresence : Node3D
         var talkLive = bookReceived && !told && !homeReturnLive && !housePermissionLive;
         var permissionLive = bookReceived && told && found && !acquired && !homeReturnLive && !housePermissionLive;
         var sourceLive = bookReceived && !found;
-        var riverLive = told && mountedAndRead;
+        // Unfinished visits begin at the real bank. Only the completed world
+        // keeps its home convenience; acquisition and permission stay here.
+        var waterCompleted = bridge.SessionIdentity is { } session
+            && PhotoWorldState.IsWorldCompleted(session.SelectState(), "W02");
+        var riverLive = told && mountedAndRead && waterCompleted;
         // The family file question only exists once the file was found on the
         // PC and the family copy is not saved yet.
         var filePermissionLive = fileFound && !commonAcquired && !homeReturnLive && !housePermissionLive;

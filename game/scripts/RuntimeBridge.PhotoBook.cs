@@ -195,7 +195,7 @@ public partial class RuntimeBridge
             reason = "Дождитесь завершения действия с книгой.";
         else if (PhotoBookEntryInteractionForPhoto(photoId) is not { } interactionId)
             reason = "В этот снимок нельзя войти.";
-        else if (photoId is not ("P-FOREST" or "P-CELLAR") && !IsCompletedPhotoBookEntry(interactionId))
+        else if (photoId is not ("P-FOREST" or "P-WATER" or "P-CELLAR") && !IsCompletedPhotoBookEntry(interactionId))
             reason = "Сначала пройдите этот мир через его первоначальный вход.";
         else if (!IsInteractionAvailable(interactionId))
         {
@@ -220,24 +220,47 @@ public partial class RuntimeBridge
 
     private string? PhotoBookForestPhysicalBlockReason(bool requirePhysicalWorld, string interactionId = PhotoBookForestEntryInteractionId)
     {
+        if (_kernel is not { } session || PhotoVisitWorldForInteraction(interactionId) is not { } worldId
+            || !PhotoWorldState.TryGetVisitOrigin(session.SelectState(), worldId, out var originZone, out var originAnchor, out _))
+            return "Дождитесь завершения перехода.";
+        var riverOrigin = originAnchor == "PW_RIVER_ENTRY";
+        var returnToOrigin = riverOrigin
+            ? "Вернитесь к старому подходу к мосткам на берегу."
+            : "Вернитесь к домашнему столу с книгой.";
         var world = GetTree().GetFirstNodeInGroup("act1_connected_world") as Act1ConnectedWorld;
         if (world is null)
-            return requirePhysicalWorld ? "Вернитесь к домашнему столу с книгой." : null;
+            return requirePhysicalWorld ? returnToOrigin : null;
         var revisit = IsCompletedPhotoBookEntry(interactionId);
-        var anchorName = revisit ? "PhotoWorldForestEntryTarget" : interactionId switch
+        Node3D anchor;
+        if (riverOrigin)
         {
-            "urman.fullgame:interaction/pw-enter-river" => "WaterRiverEntryTarget",
-            "urman.fullgame:interaction/pw-enter-house" => "HousePhotoEntryTarget",
-            "urman.fullgame:interaction/pw-enter-common" => "CommonPhotoEntryTarget",
-            _ => "PhotoWorldForestEntryTarget"
-        };
-        var anchorInteraction = revisit || interactionId == PhotoBookCellarEntryInteractionId
-            ? PhotoBookForestEntryInteractionId : interactionId;
-        if (CurrentZoneId != "house_old_pc" || world.ActiveZoneId != "house_old_pc"
-            || world.GetZoneInstance("house_old_pc")?.GetNodeOrNull<InteractionTarget>(anchorName) is not { } anchor
-            || !GodotObject.IsInstanceValid(anchor) || !anchor.IsInsideTree() || anchor.IsQueuedForDeletion()
-            || anchor.InteractionId != anchorInteraction)
-            return "Вернитесь к домашнему столу с книгой.";
+            if (CurrentZoneId != originZone || world.ActiveZoneId != originZone
+                || GetTree().GetFirstNodeInGroup("zone_manager") is not Main main
+                || !main.TryGetPhotoVisitOriginAnchor(originZone, originAnchor, out var riverAnchor)
+                || world.GetNodeOrNull<InteractionTarget>(
+                    "Act1CoreWorldGreybox/PhotoBankApproach/PhotoBankApproachPresence/RiverPhotoEntryTarget") is not { } target
+                || !GodotObject.IsInstanceValid(target) || !target.IsInsideTree() || target.IsQueuedForDeletion()
+                || !target.IsVisibleInTree() || target.InteractionId != interactionId)
+                return returnToOrigin;
+            anchor = riverAnchor;
+        }
+        else
+        {
+            var anchorName = revisit ? "PhotoWorldForestEntryTarget" : interactionId switch
+            {
+                "urman.fullgame:interaction/pw-enter-house" => "HousePhotoEntryTarget",
+                "urman.fullgame:interaction/pw-enter-common" => "CommonPhotoEntryTarget",
+                _ => "PhotoWorldForestEntryTarget"
+            };
+            var anchorInteraction = revisit || interactionId == PhotoBookCellarEntryInteractionId
+                ? PhotoBookForestEntryInteractionId : interactionId;
+            if (CurrentZoneId != originZone || world.ActiveZoneId != originZone
+                || world.GetZoneInstance(originZone)?.GetNodeOrNull<InteractionTarget>(anchorName) is not { } homeAnchor
+                || !GodotObject.IsInstanceValid(homeAnchor) || !homeAnchor.IsInsideTree() || homeAnchor.IsQueuedForDeletion()
+                || homeAnchor.InteractionId != anchorInteraction)
+                return returnToOrigin;
+            anchor = homeAnchor;
+        }
         if (FindPlayer() is not { } player || !player.IsInsideTree() || player.IsQueuedForDeletion())
             return "Дождитесь завершения перехода.";
         if (player.SessionTransitionActive || player.InIntro)
@@ -250,9 +273,12 @@ public partial class RuntimeBridge
         if (carry is { ActionInProgress: true }) return "Дождитесь завершения действия с предметом.";
         if (carry is { HeldItem: not null }) return "Сначала поставьте предмет из рук.";
         if (!player.IsOnFloor() || !player.CanStandAt(player.GlobalPosition))
-            return "Встаньте на свободное место у домашнего стола.";
+            return riverOrigin ? "Встаньте на свободное место у старого подхода к мосткам."
+                : "Встаньте на свободное место у домашнего стола.";
         var toAnchor = anchor.GlobalPosition - player.GlobalPosition;
-        if (toAnchor.LengthSquared() > 36f) return "Подойдите ближе к домашнему столу с книгой.";
+        if (toAnchor.LengthSquared() > 36f) return riverOrigin
+            ? "Подойдите ближе к старому подходу к мосткам на берегу."
+            : "Подойдите ближе к домашнему столу с книгой.";
         toAnchor.Y = 0f;
         if (!revisit && toAnchor.LengthSquared() > .0001f)
         {
@@ -260,7 +286,8 @@ public partial class RuntimeBridge
             forward.Y = 0f;
             if (forward.LengthSquared() < .0001f
                 || forward.Normalized().Dot(toAnchor.Normalized()) < Mathf.Cos(Mathf.DegToRad(40f)))
-                return "Закройте альбом и повернитесь к домашнему столу с книгой.";
+                return riverOrigin ? "Закройте альбом и повернитесь к старому подходу к мосткам."
+                    : "Закройте альбом и повернитесь к домашнему столу с книгой.";
         }
         return null;
     }
