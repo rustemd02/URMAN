@@ -121940,6 +121940,27 @@
           "evidence/ACT1-ATMOSPHERE/crisp-day-20261013/before/frames/C2_house_high.png"
         ],
         "source_coordinate_correction": "B02 source reconciliation05:52 identifies(-28,0,-3.4)/yaw64.722 as pre-relocation authored input, not confirmed current runtime pose. Prior candidate remains historical/uncertain and must not be used as a camera anchor or material-edit target. Exact owner-resolved current input still required."
+      },
+      "window_fade_stage_2026_10_20": {
+        "state": "source_fix_accepted_native_pending",
+        "targets": [
+          "game/scripts/VillageHouseholdDirector.cs:254",
+          "game/scripts/WindowSilhouettes.cs:318"
+        ],
+        "before": "Godot C#SmoothStep interpolatesfrom/to, notGLSLedge API. Unnormalizeddistance causednegative lightenergy and silhouettefade; silhouettevisibilitycondition therefore false. No native negative-light renderingclaim.",
+        "result": "Exactly2expressions normalized/clamped intoSmoothStep0..1. Spill12/15/18m=1/.5/0, silhouettesday7/11/15m andnight11/16.5/22m=1/.5/0. Existing energies/opacities/selectors/budgets/motion/callers unchanged.",
+        "verification": "Independent personal luna_fast source review clean; sharedONEGamecompile16.27s0/0. No new tests/probes/native/art/perfacceptance.",
+        "evidence_refs": [
+          "evidence/PW-062/panorama-river-source-20261020/game-build-final.log"
+        ],
+        "next_action": "Ordinary native approach→turn→retreat at existingoccupiedhousewindow: realwarmlight andsilhouette fade, preservedbudget/presets; do not rewrite source withoutnewdefect."
+      },
+      "yard_terrain_weight_followup_2026_10_20": {
+        "state": "read_only_confirmed_coefficient_defect_no_production_change",
+        "source": "game/scripts/experiments/agent_b_act1/AgentBAct1HeightField.cs:680",
+        "result": "At actualBabai door(-9.5,-1.88315), yardoutside0/toMain>=8.3/Nivablend0: currentyardtransfercoefficient3.85insteadintended1. Groundfeeds actualcollisionvertices; nearbygrid(-10,-2)andjitter staybranch. Heightdifference/nativewalkingimpactnotmeasured; this does notexplain allreportedgait/jumps.",
+        "candidate": "Only Ground yardfeather680/roadsuppression685 need normalizedSmoothStep0..1; separate finite follow-up, not part of this accepted block. No global replacement or territory rebuild proposed.",
+        "next_action": "Determine actualground/targetdelta and door/approach consumers before separatebounded2expressionfix; native approach/collision check afterstationreturns."
       }
     },
     {
@@ -127608,7 +127629,7 @@
             "remaining": [
               "Actual ordinary traversal and safe landings across H00–H08 are not observed; scene/import/art alignment remains unaccepted."
             ],
-            "next_action": "Inspect the bounded collision/lifecycle review results, then prove physical P-HOUSE entry → H00–H08 actions/two views → return → save/Continue in an owned ordinary native session once the foreground blocker has a causal resolution. Do not repeat unchanged compile or substitute an old W02 capture.",
+            "next_action": "After authoritative e79 terminal/restoration verify actual W03 H00–H08 terrain/roomfloor/collision/actions andreturn/Continue with normalizedheight source; reuse acceptedreview/shared16.27scompile, no unchanged rerun.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -127731,6 +127752,16 @@
               "limits": "Compilation is not visual/traversal/restore proof. E02 authored asset families/provenance, source art and ordinary native acceptance remain open. No whole-card completion.",
               "review": "Independent native luna_fast source review found no confirmed W03 lifecycle/session/restore/return blocker. Producer read-only collision-path pass found door clearance1.30x2.25m vs player radius.35/height1.8, interior ground matches.331m floor. H06 sill.21m vs stepcap.22m remains a specific native uncertainty, not proof of safe traversal.",
               "native_import": "Current d334 ordinary job6280675a: Windows build/content/import exit0; W03 traversal/actions not reached. Use existing receipt evidence/FINISH-06/native_6280675a75da42fa98e8bf8e957ea1e4/receipt.json; no repeated unchanged compile/import needed."
+            },
+            "ground_threshold_stage_2026_10_20": {
+              "state": "source_fix_accepted_native_pending",
+              "target": "game/scripts/photoworlds/W03Controller.Geometry.cs",
+              "result": "One privateHouseSmoothRange normalizes/clamps13thresholdcalls(10height+3routecolor). Previouslyroomblend extrapolated calculatedfloor to~519k–4millionmetres; samefunction drivesvisual/concavecollision/playerguard. Sourceafter H00/H04/H07/H08=0,H01/H02/H03=.3,H05/H06=.2,roomcentre.331. Anchors/routes/assets/guard/Interactions unchanged.",
+              "verification": "Root inspected exact13+helperdiff; independent personal luna_fast reviewedcalls/nonzeroascendingranges/collision/guard. SharedONEGamecompile16.27s0/0; no newtests/probes/Godot/native.",
+              "evidence_refs": [
+                "evidence/PW-062/panorama-river-source-20261020/game-build-final.log"
+              ],
+              "remaining": "ActualordinaryW03entry→H00–H08/roomfloor/steps/actions/return/Continue andartpass remainopen."
             }
           },
           {
@@ -130851,7 +130882,8 @@
         "compile_result": "Initial16.80s0/0; final14.15s0warnings/0errors after partial-save fix. No newtests/Godot/native.",
         "independent_review": "Runtime-confirmed personal luna_fast /root/continue_backup_review: full source pass found retry lost after close/reopen when checkpoint failed; focused finalfix re-review clean.",
         "review_fix": "Confirmed nonempty reopen is readonly and offers existing same-text checkpoint SaveGame with neutral status; legacyfact-onlyempty remains noauthoring. No dirtytracker/schema, duplicatefact/text or PCcaption/notebook mutations.",
-        "source_result": "Actual C07 editor shows preparedPCcaption and default/own1–120plainline; one ContextObserve/reducer CommandPlan atomically appends text+fact. Cancel no action, current session/visit/scene/modal/request guards, readback atC07 and selectedP-COMMON bookspread. Native UI/layout/file-save/safety not run."
+        "source_result": "Actual C07 editor shows preparedPCcaption and default/own1–120plainline; one ContextObserve/reducer CommandPlan atomically appends text+fact. Cancel no action, current session/visit/scene/modal/request guards, readback atC07 and selectedP-COMMON bookspread. Native UI/layout/file-save/safety not run.",
+        "final_condition_review": "Independent personal luna_fast review: supported path requires chained common_three_relations_seen→common_view_uncovered→common_horizon_seen; narrow command rechecks currentW04visit/scene/authoredconditions/location and atomicallycommits fact+text. FullW04quest still checks allfourfacts/outsideevidence/caption/mountedphoto; retry same text saves without redispatch. Source-only, no supported-path bypass found."
       }
     },
     {
@@ -130883,7 +130915,9 @@
       "verify": [
         "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-062/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
       ],
-      "evidence": [],
+      "evidence": [
+        "evidence/PW-062/panorama-river-source-20261020/game-build-final.log"
+      ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-062",
       "source_requirements": [
         "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/docs/11_TASKS_RU.md",
@@ -131001,17 +131035,17 @@
       "assigned_owner": "character_art",
       "activity": {
         "state": "not_active",
-        "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+        "reason": "Finite source river/range/path-color result independently reviewed and affected compile passed; full native/art unit remains open."
       },
       "task_type": "engineering",
-      "implementation_state": "not_started",
+      "implementation_state": "partial",
       "technical_verification_state": "not_run",
       "remaining": [
         "Виды C01/C02/C03/C05 геометрически согласованы.",
         "Во всех трёх точках созерцания интересно оставаться без катсцены.",
         "Полный паспорт уровня docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/levels/W04_Общий_кадр_RU.md реализован: узлы/физические связи/действия/существо или человеческая сцена/созерцание/возврат/кадры; схема не заменяет проходимый runtime."
       ],
-      "next_action": "Построить единый дальний пейзаж за тремя ближними обрамлениями.",
+      "next_action": "After authoritative e79 terminal/restoration verify ordinary W04 C02-through-C03 water, C05/C06 sharedpanorama/motion/path legibility and Far320→exactoriginal restoration onreturn/Continue; reuse source review/16.27scompile, no unchanged rerun.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -131189,7 +131223,24 @@
           "evidence_ref": "PW-062.evidence and named history progress; source_review shows available/missing inputs"
         }
       ],
-      "assignment_state": "preserved_person_or_existing_role; activity separate"
+      "assignment_state": "preserved_person_or_existing_role; activity separate",
+      "panorama_river_stage_2026_10_20": {
+        "state": "source_fix_accepted_native_pending",
+        "owner": "/root",
+        "targets": [
+          "game/scripts/photoworlds/W04Controller.Geometry.cs",
+          "game/scripts/Main.cs"
+        ],
+        "question": "Does actual water centre(117,1.55,-63), through C02 from C03 and in C05 whole landscape, sit visibly in a connected basin rather than under opaque panorama?",
+        "before": "Existing shared panorama source y≈5.63 at rivercentre, water y1.55; centre buried≈4.08m. Water x108.5..125.5 extends beyond original panorama maxX120. Mesh-only occlusion is not caught by physics raycast; no fullinvisibility/artclaim.",
+        "scope": "One continuous-panorama local riverbasin/banks and fullwatereextent support; preserve otherframes/markers/cloth/routes/collision. No witness-only move/floatingwater/newmodels/newtests/probes. One affectedGamecompile after freeze+indepreview; nativevisual/movement remainsrequired.",
+        "verification": "Root caught wrong GLSL-style SmoothStep beforecompile; normalizedfix independentlyreviewed by runtime-confirmed personal luna_fast, including actualshoretriangleclipping/seams/viewrays/cameralifecycle. ONEaffectedGamecompile16.27s0warnings0errors; rawlog retained. No newtests/probes/Godot/native or art/performancePASS.",
+        "result": "Actual sharedterrain carved into connected curved riverbasin; clipped water uses exactterrain triangles for groundedshoreline, existingwaternode/witness unchanged. Local eastapron covers old unsupportedwaterextents. Correct normalizedGodot SmoothStep weights for basin/apron and existingroutecolor; sourcebedcentre.85 vsold5.6287 atwater1.55. W04-only Far320 covers authoredpanorama up to~290m, captures/restores exactoriginalcamera Far synchronously beforeworldretirement and Mainexit; no FOV/save/globalcamera changes.",
+        "evidence_refs": [
+          "evidence/PW-062/panorama-river-source-20261020/game-build-final.log"
+        ],
+        "remaining": "Native C02 viewfromC03, C05/C06 wholepanorama, actualriverbanksinmotion/routecolor, Farentry/return/loadrestore andrendercost. Protected e79 terminal/restoration unknown; no newjob/input. Full W04passport/externalartacceptance remainopen."
+      }
     },
     {
       "id": "PW-063",
@@ -134541,6 +134592,20 @@
         "result": "Core/Main now distinguish first/unfinished physical origins from completed home convenience. W02 BankEntry/PW_RIVER_ENTRY, W03 live family-house exterior window/PW_HOME_PHOTO_ENTRY, W04 BankReturnWitness/PW_COMMON_ENTRY. Current stage adds W01 existing forest-road stance/PW_FOREST_ENTRY with named normal village spawn and W05 actual family-house SeniDoor/PW_CELLAR_ENTRY. Original camera position and safe fallback remain ticket-owned.",
         "remaining": "Native unique NodePaths/worldcoordinates/height/support and three-direction approach validation, actual matching photograph framing, canonical runtime_anchor_map.json and full7anchor acceptance are NOT produced by this source change. No graveyard/prayer/ice substitution.",
         "verification": "Same16.16s affectedGamecompile and independentfirst-place review; native anchors/capsules/map/framing not produced."
+      },
+      "actual_anchor_source_review_2026_10_20": {
+        "state": "bounded_source_mapping_native_open",
+        "bindings": {
+          "PW_HOME_TABLE": "house_old_pc/PhotoWorldForestEntryTarget; real table triangles support Y; ArrivalPersonalProps.cs:189",
+          "PW_FOREST_ENTRY": "Act1CoreWorldGreybox/PhotoForestEntry/ForestPhotoEntryAnchor; KaraRoadAxis end-2.4m, ground+.05; PhotoForestEntry.cs:69",
+          "PW_RIVER_ENTRY": "Act1CoreWorldGreybox/PhotoBankApproach/BankEntry; (44.531712,ground+.05,-52.5); PhotoBank.cs:100",
+          "PW_HOME_PHOTO_ENTRY": "BabaiApproachDwellingFacade/HousePhotoEntryAnchor; actualStreetWindow2Glass centre+front1.2-side2.4, ground+.05; ImageDiscoveries.cs:335",
+          "PW_COMMON_ENTRY": "Act1CoreWorldGreybox/PhotoBankApproach/BankReturnWitness; (44.694698,ground+.05,-51.55); distinctfromBankEntry; PhotoBank.cs:110",
+          "PW_CELLAR_ENTRY": "BabaiApproachDwellingFacade/CellarPhotoEntryAnchor; actualSeniStepfrontdepth+.40, ground+.05; PhotoCellarEntry.cs:65",
+          "PW_PROLOGUE_ROAD": "CompiledsupportID; currentMain.MountW01 explicitlyselects existingW01/Anchors/F00 forprologue, F10forforest. Literallegacy night.tscn marker notconsumed; no brokenstartupclaim and no unusedaliasadded."
+        },
+        "remaining": "Runtime seven-anchor map with actualtransforms/NodePaths/currentframes, approaches and protected-place exclusions remainsopen. Current six originbindings use distinctnodes; internalSafeNodeIDs are not village transforms. Resolve support-ID artifactmapping using actualcurrentF00 without route rewrite/newportal.",
+        "limits": "Read-only source slice; no geometric non-overlap/native/art claim, no new document/probe/test/build."
       }
     },
     {
@@ -137971,6 +138036,20 @@
         "source_task": "FINISH-09/E05",
         "artifact": "work_contract.actual_result actual26finds/3loops/EX05 mapping and current full_game→sharedvillage binding",
         "use": "Bounded compatibility/interaction/contact checks when native owned route available; source existence is not native readiness. Historical24 subset unresolved; preserve26."
+      },
+      "carry_cloth_return_review_2026_10_20": {
+        "state": "source_path_reviewed_no_confirmed_defect",
+        "scope": "One existing carry-cloth placement→W01→return/save/Continue path; not allEX regression or native acceptance.",
+        "result": "CarryCoordinator Take/Place emits custody plus world.props placement(state,x,y,z,yaw,zone); atomic custody handler merges props. Entry rejects held/pendingcarrier. PhotoWorld visit retains kernel and only touches ownstate/bathstovedeadline; checkpoints snapshot allstate. New village resets authoredpresentation then reapplies saved placed pose/zone. Registration is idempotent and does not resetplacement.",
+        "source_refs": [
+          "game/scripts/CarryCoordinator.cs:392",
+          "game/scripts/CarryCoordinator.cs:414",
+          "game/scripts/CarryCoordinator.cs:563",
+          "game/scripts/RuntimeBridge.cs:2203",
+          "game/scripts/RuntimeBridge.cs:2251",
+          "game/scripts/Main.cs:366"
+        ],
+        "remaining": "Native distinctclothposition/yaw→W01→return/revisit; saveinsideW01→Continue→return samepose/collision/pickup. No codechanges/build/tests."
       }
     },
     {
@@ -143975,6 +144054,23 @@
             "publication": "Recipes, receipts and five reviewed views committed; rejected candidate/raw model remain out of runtime. Unique returned GLB retained locally, not published."
           }
         }
+      },
+      "h049_outbuilding_input_2026_10_20": {
+        "state": "source_and_material_reference_frozen_root_reviewed",
+        "owner": "/root/all_world_book_content",
+        "folder": "assets/source/blender/act1/h049_outbuilding_reference_v1/",
+        "runtime_target": "Act1CoreWorldGreybox/AuthoredWorldDirector/h049-house/Visual/VillageParcel_VariantA_TimberGable/VillageParcel_VariantA_TimberGable_Outbuilding",
+        "source": "game/assets/models/act1/urman_village_exterior_kit.glb",
+        "source_sha256": "fdc69de9f580276f6a9c831bde60a0dad1728acdc533f00320e8a9009c233bf8",
+        "input": "Existing project-original author_variant_shed_a subtree,21meshes/524tri/27materialsurfaces,1glass/20opaque; NO UVs. Director live H049 oppositeBabai, retired legacy sheds excluded. VariantAPBR replaces dwellingonly; actualbarn remainsseparate. W07 notbound.",
+        "scope": "One source-only subtree extraction/5views then one built-inimage_gen reference matching acceptedhouse. No UVatlas/meshypaidcall/runtimebinding untilrootreview; ground/clamp/currentcamera notnativeverified.",
+        "spend_authorized_this_stage": 0,
+        "next_action": "Prepare one bounded game candidate through authorized source→ImageGen→Meshy lane after concrete UV/topology/material-role input contract; current donor has no UV and is not keepUV ready. No paid call/runtime promotion implied by this source/reference acceptance.",
+        "receipt": "assets/source/blender/act1/h049_outbuilding_reference_v1/source-receipt.json",
+        "source_glb_sha256": "67fc359b6536ae801bfd84428b00780e918491d8ed11ec27365956bef1600ea3",
+        "reference_sha256": "4511d043c56f36f87a2a3cfa9b49baf5bfeaeb03e33124dd947c8a3ad31335d9",
+        "root_review": "Root personally viewed5sourceviews+oneImageGenreference: existing boardedgablebarn withseparateroof/base/door/sidewindow. Reference weatheredwood, quietgreyroof anddistinctiron/glass materiallycoherent withacceptedhouse; grainfinerthanacceptedscene. Doorbattenrelief/windowjoints differ fromsource, bitmapnotgeometryauthority. Source21mesh/524tri/27surfaces/noUV/4.14x2.8757482x3.10m retained. No actualnativecamera/placement/art acceptance.",
+        "active_owner": null
       }
     },
     {

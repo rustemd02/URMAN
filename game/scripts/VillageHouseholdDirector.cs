@@ -251,7 +251,7 @@ public partial class VillageHouseholdDirector : Node3D
             var w=_windows[index]; light.GlobalPosition=w.Centre+w.Normal*.13f;
             light.LookAt(light.GlobalPosition+w.Normal+Vector3.Down*.22f);
             // Fade distant spill before the material-only handoff; no global glow.
-            light.LightEnergy=(night?1.25f:.78f)*(1-Mathf.SmoothStep(12,18,Mathf.Sqrt(_distances[slot])));
+            light.LightEnergy=(night?1.25f:.78f)*(1-Mathf.SmoothStep(0f,1f,Mathf.Clamp((Mathf.Sqrt(_distances[slot])-12f)/6f,0f,1f)));
             light.Visible=true;
             if(_boundWindows[slot]!=index) {light.SetMeta("sourcePane",w.Path);_boundWindows[slot]=index;}
         }

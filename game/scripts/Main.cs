@@ -13,6 +13,8 @@ public partial class Main : Node3D
     private const string W03ScenePath = "res://scenes/photoworlds/W03/W03.tscn";
     private const string W04ScenePath = "res://scenes/photoworlds/W04/W04.tscn";
     private const string W05ScenePath = "res://scenes/photoworlds/W05/W05.tscn";
+    // The shared C00–C08 panorama reaches roughly 290 m at its far edge.
+    private const float W04SharedPanoramaCameraFar = 320f;
     private const string PrologueSceneId = "urman.fullgame:scene/pw-prologue";
     private const string NivaArrivalSceneId = "urman.fullgame:scene/pw-niva-arrival";
     private const string HomeSceneId = "urman.fullgame:scene/pw-home";
@@ -57,6 +59,9 @@ public partial class Main : Node3D
     private Node3D? _mountedW03;
     private Node3D? _mountedW04;
     private Node3D? _mountedW05;
+    private Node3D? _w04CameraFarProfileWorld;
+    private Camera3D? _w04CameraFarProfileCamera;
+    private float? _w04CameraFarBeforeProfile;
     private object? _lastFullGameRouteSession;
     private string? _lastFullGameRouteScene;
     private bool _routingFullGameScene;
@@ -281,6 +286,7 @@ public partial class Main : Node3D
 
     public override void _ExitTree()
     {
+        RestoreW04CameraFar();
         InvalidatePhotoScenePreload();
         if (_fullGameRouteBridge is { } bridge && GodotObject.IsInstanceValid(bridge))
             bridge.RuntimeStateChanged -= OnFullGameRuntimeStateChanged;
@@ -499,8 +505,14 @@ public partial class Main : Node3D
         RetireWorldPresentation(retiringWorld);
     }
 
-    private static void RetireWorldPresentation(Node retiringRoot)
+    private void RetireWorldPresentation(Node retiringRoot)
     {
+        // Restore the exact player-camera range before the old W04 world leaves.
+        // The mounted-world fields are cleared before some retirement loops, so
+        // bind this profile to the actual instance rather than `_mountedW04`.
+        if (ReferenceEquals(retiringRoot, _w04CameraFarProfileWorld))
+            RestoreW04CameraFar();
+
         // Visibility does not unregister a WorldEnvironment. Release only the
         // retiring nodes' bindings now, before the replacement enters the same
         // World3D; QueueFree otherwise keeps the old environment until frame end.
@@ -924,6 +936,7 @@ public partial class Main : Node3D
             _hasLoadedInitialZone = true;
             _lastFullGameRouteSession = projection.SessionIdentity;
             _lastFullGameRouteScene = projection.ActiveSceneId;
+            ApplyW04CameraFar(_mountedW04!);
             return;
         }
 
@@ -966,6 +979,7 @@ public partial class Main : Node3D
         _loadedPhotoWorldTransformSession = null;
         if (placeAtEntry)
             PlacePlayerAtW01Entry(world, resolvedAnchorId);
+        ApplyW04CameraFar(world);
         SetW04Ambience();
 
         _lastFullGameRouteSession = projection.SessionIdentity;
@@ -979,6 +993,51 @@ public partial class Main : Node3D
     private bool IsMountedW04() => _mountedW04 is { } world
         && GodotObject.IsInstanceValid(world) && !world.IsQueuedForDeletion()
         && ReferenceEquals(world.GetParent(), _zoneHost);
+
+    private void ApplyW04CameraFar(Node3D world)
+    {
+        if (!GodotObject.IsInstanceValid(world) || world.IsQueuedForDeletion()) return;
+        var camera = CurrentPlayerHeadCamera();
+        if (camera is null) return;
+
+        if (ReferenceEquals(_w04CameraFarProfileWorld, world)
+            && ReferenceEquals(_w04CameraFarProfileCamera, camera)
+            && _w04CameraFarBeforeProfile is { } originalFar)
+        {
+            // Same-world reconciliation must keep the original snapshot; reading
+            // `camera.Far` here would mistake the temporary profile value for base.
+            camera.Far = Math.Max(originalFar, W04SharedPanoramaCameraFar);
+            return;
+        }
+
+        RestoreW04CameraFar();
+        _w04CameraFarProfileWorld = world;
+        _w04CameraFarProfileCamera = camera;
+        _w04CameraFarBeforeProfile = camera.Far;
+        camera.Far = Math.Max(camera.Far, W04SharedPanoramaCameraFar);
+    }
+
+    private Camera3D? CurrentPlayerHeadCamera()
+    {
+        if (GetTree().GetFirstNodeInGroup("player_controller") is not FirstPersonController player
+            || !GodotObject.IsInstanceValid(player) || !player.IsInsideTree() || player.IsQueuedForDeletion()
+            || player.GetNodeOrNull<Camera3D>("Head/Camera3D") is not { } camera
+            || !GodotObject.IsInstanceValid(camera) || !camera.IsInsideTree() || camera.IsQueuedForDeletion())
+            return null;
+        return camera;
+    }
+
+    private void RestoreW04CameraFar()
+    {
+        var camera = _w04CameraFarProfileCamera;
+        var originalFar = _w04CameraFarBeforeProfile;
+        _w04CameraFarProfileWorld = null;
+        _w04CameraFarProfileCamera = null;
+        _w04CameraFarBeforeProfile = null;
+        if (camera is { } && GodotObject.IsInstanceValid(camera) && !camera.IsQueuedForDeletion()
+            && originalFar is { } far)
+            camera.Far = far;
+    }
 
     private void SetW04Ambience()
     {

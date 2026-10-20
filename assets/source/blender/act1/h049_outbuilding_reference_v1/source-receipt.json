@@ -1,0 +1,660 @@
+{
+  "schema": "h049-outbuilding-source-reference/v1",
+  "status": "source_example_not_actual_runtime_frame",
+  "source": {
+    "path": "game/assets/models/act1/urman_village_exterior_kit.glb",
+    "sha256": "fdc69de9f580276f6a9c831bde60a0dad1728acdc533f00320e8a9009c233bf8",
+    "bytes": 3132148,
+    "license": "Project-original per assets/asset_registry.json"
+  },
+  "entity": {
+    "id": "urman.world:act1/open-part/h049-house",
+    "kind": "prop",
+    "name": "h049-house",
+    "params": {
+      "catalogId": "urman.catalog:urman_village_exterior_kit/villageparcel-varianta-timbergable",
+      "position": [
+        10.872,
+        0,
+        -6.2
+      ],
+      "yawDegrees": -90.0,
+      "scale": 0.731,
+      "collision": "surfaces",
+      "address": {
+        "id": "ADR-H049",
+        "street": "tukay",
+        "number": "20",
+        "cadastral": "URM-Q02-P0148"
+      },
+      "terrainPad": {
+        "halfSize": [
+          5.453,
+          5.522
+        ],
+        "streetAnchor": [
+          0.0,
+          -6.2
+        ],
+        "feather": 2.25
+      }
+    },
+    "note": "Открытая часть: хозяйство, ворота к своей улице"
+  },
+  "catalog_entry": {
+    "id": "urman.catalog:urman_village_exterior_kit/villageparcel-varianta-timbergable",
+    "name": "Деревня участок вариант A бревенчатый фронтон",
+    "category": "Дома и постройки",
+    "source": {
+      "scene": "res://assets/models/act1/urman_village_exterior_kit.glb",
+      "node": "VillageParcel_VariantA_TimberGable"
+    },
+    "size": [
+      13.14,
+      5.23,
+      13.33
+    ],
+    "origin": [
+      26.5,
+      0,
+      1.76
+    ],
+    "collision": "box",
+    "kit": "деревня",
+    "license": "проектный ассет URMAN (см. assets/asset_registry.json)"
+  },
+  "component": "VillageParcel_VariantA_TimberGable_Outbuilding",
+  "mesh_nodes": 21,
+  "triangles": 524,
+  "material_surfaces": 27,
+  "materials": [
+    "URMAN_Stone_Mossy",
+    "URMAN_Roof_WetSlate",
+    "URMAN_Wood_Weathered",
+    "URMAN_Metal_Dulled",
+    "URMAN_Wood_WetShadow",
+    "URMAN_Plaster_Ochre",
+    "URMAN_Window_DimGlass",
+    "URMAN_Wood_Dark",
+    "URMAN_Roof_MossTone"
+  ],
+  "glass_node": "VariantA_Shed_SideWindow_Inset_LOD0",
+  "uv_surfaces": 0,
+  "keep_original_uv_ready": false,
+  "original_root_node_gltf_y_up": {
+    "children": [
+      1041,
+      1042,
+      1043,
+      1044,
+      1045,
+      1046,
+      1047,
+      1048,
+      1049,
+      1050,
+      1051,
+      1052,
+      1053,
+      1054,
+      1055,
+      1056,
+      1057,
+      1058,
+      1059,
+      1060,
+      1061
+    ],
+    "name": "VillageParcel_VariantA_TimberGable_Outbuilding",
+    "translation": [
+      -6,
+      0,
+      -2.299999952316284
+    ]
+  },
+  "extraction": "Only ancestor/preview translation removed. No scale baked, no new basis, no Blender geometry export. Names, child TRS, mesh data/accessors/normals and material roles retained literally; only JSON indices and buffer offsets compacted.",
+  "literal_referenced_bufferView_guards": [
+    {
+      "source_bufferView": 60,
+      "output_bufferView": 0,
+      "bytes": 168,
+      "sha256": "b5adf605e50cde18c602fea11f247062bd3e28132d44dce14c84195fcaa330f1"
+    },
+    {
+      "source_bufferView": 99,
+      "output_bufferView": 1,
+      "bytes": 132,
+      "sha256": "ed2deeb898f15d36d6d0c0fde0581475778e2e3f7f1e37287cf91e4c57e598d0"
+    },
+    {
+      "source_bufferView": 102,
+      "output_bufferView": 2,
+      "bytes": 36,
+      "sha256": "d7fc3eac8e278d491054429115455663c1b228ebf48bb68ef7e38c307dd9c0ae"
+    },
+    {
+      "source_bufferView": 2486,
+      "output_bufferView": 3,
+      "bytes": 12,
+      "sha256": "495ef570195d3ff069d4c4b5b6bf9d724dd2d2b2ce7b74e810601c0f86e62e1f"
+    },
+    {
+      "source_bufferView": 2489,
+      "output_bufferView": 4,
+      "bytes": 24,
+      "sha256": "3a82e803c6e455e1b1bebf9ca0077bd1b613803b881a59089bc95f81f0d40579"
+    },
+    {
+      "source_bufferView": 2492,
+      "output_bufferView": 5,
+      "bytes": 84,
+      "sha256": "bb4e74272b111401ae1f16a89b4d47855e693818a0c489fdf2bd408f79808ad2"
+    },
+    {
+      "source_bufferView": 2519,
+      "output_bufferView": 6,
+      "bytes": 12,
+      "sha256": "e3afebfbd2884fc3aad1731f08ed2d5e43e3d0625f461dd81ec6f46c69be3fcb"
+    },
+    {
+      "source_bufferView": 2522,
+      "output_bufferView": 7,
+      "bytes": 36,
+      "sha256": "04a73697694e860442e9a14c48dc04571864b58e52e627a98e8fa3fe3b70a79c"
+    },
+    {
+      "source_bufferView": 2555,
+      "output_bufferView": 8,
+      "bytes": 36,
+      "sha256": "2db273278e4276d484f0cd6f8e987a48903847ecd15a59031fb7ad363bdff349"
+    },
+    {
+      "source_bufferView": 2558,
+      "output_bufferView": 9,
+      "bytes": 36,
+      "sha256": "4dfed51edf1f26716be0fc2da8e1b565f5aa8313bb0e3116beaba7ba42e9cbb6"
+    },
+    {
+      "source_bufferView": 2823,
+      "output_bufferView": 10,
+      "bytes": 576,
+      "sha256": "e5458d67557f0fdac46889e116f00f13dc47d11f05575ea91b397ac7e4d1416b"
+    },
+    {
+      "source_bufferView": 2824,
+      "output_bufferView": 11,
+      "bytes": 576,
+      "sha256": "c9bcc03463da99f0cdbfc4ff5611b320aaad449cdfe8722c4f3775edf3d54a45"
+    },
+    {
+      "source_bufferView": 2825,
+      "output_bufferView": 12,
+      "bytes": 576,
+      "sha256": "feed3fec72c2b0434e1b4a5206d3bc9a07c7cf5349643860514a8c78715052e4"
+    },
+    {
+      "source_bufferView": 2826,
+      "output_bufferView": 13,
+      "bytes": 576,
+      "sha256": "c9bcc03463da99f0cdbfc4ff5611b320aaad449cdfe8722c4f3775edf3d54a45"
+    },
+    {
+      "source_bufferView": 2827,
+      "output_bufferView": 14,
+      "bytes": 576,
+      "sha256": "f0955e376096f38bb72fe171c5bed7b9be6a79df509cc386b3a54d0170d9655e"
+    },
+    {
+      "source_bufferView": 2828,
+      "output_bufferView": 15,
+      "bytes": 576,
+      "sha256": "c9bcc03463da99f0cdbfc4ff5611b320aaad449cdfe8722c4f3775edf3d54a45"
+    },
+    {
+      "source_bufferView": 2829,
+      "output_bufferView": 16,
+      "bytes": 576,
+      "sha256": "f0955e376096f38bb72fe171c5bed7b9be6a79df509cc386b3a54d0170d9655e"
+    },
+    {
+      "source_bufferView": 2830,
+      "output_bufferView": 17,
+      "bytes": 576,
+      "sha256": "c9bcc03463da99f0cdbfc4ff5611b320aaad449cdfe8722c4f3775edf3d54a45"
+    },
+    {
+      "source_bufferView": 2831,
+      "output_bufferView": 18,
+      "bytes": 576,
+      "sha256": "f0955e376096f38bb72fe171c5bed7b9be6a79df509cc386b3a54d0170d9655e"
+    },
+    {
+      "source_bufferView": 2832,
+      "output_bufferView": 19,
+      "bytes": 576,
+      "sha256": "c9bcc03463da99f0cdbfc4ff5611b320aaad449cdfe8722c4f3775edf3d54a45"
+    },
+    {
+      "source_bufferView": 2833,
+      "output_bufferView": 20,
+      "bytes": 576,
+      "sha256": "9503cc0587d48ced7ec88f42c519036c084f361c6264fc782693e7d1776a8e44"
+    },
+    {
+      "source_bufferView": 2834,
+      "output_bufferView": 21,
+      "bytes": 576,
+      "sha256": "c9bcc03463da99f0cdbfc4ff5611b320aaad449cdfe8722c4f3775edf3d54a45"
+    },
+    {
+      "source_bufferView": 2835,
+      "output_bufferView": 22,
+      "bytes": 480,
+      "sha256": "afdfb5030dd23c688fd8a9295696030e0c56fbbe9fecf9e3ccba77e0b95a3a49"
+    },
+    {
+      "source_bufferView": 2836,
+      "output_bufferView": 23,
+      "bytes": 480,
+      "sha256": "cb60633ecd756502cfc2eaf47bcb7f69a88d0f2e4cb94a50199d2fdfe074dfcc"
+    },
+    {
+      "source_bufferView": 2837,
+      "output_bufferView": 24,
+      "bytes": 96,
+      "sha256": "4302ec013033c6036a6deab82a15c6312f673f1c105f70a9a7a209d707efb785"
+    },
+    {
+      "source_bufferView": 2838,
+      "output_bufferView": 25,
+      "bytes": 96,
+      "sha256": "d11e8bde7c98cd813386e2d484d767c87d6aaa42d390fb15644027b368c607d0"
+    },
+    {
+      "source_bufferView": 2839,
+      "output_bufferView": 26,
+      "bytes": 72,
+      "sha256": "e7730420000342cac74294717100845ab588c6599ee31cfcc9ac7e29d0d158ed"
+    },
+    {
+      "source_bufferView": 2840,
+      "output_bufferView": 27,
+      "bytes": 72,
+      "sha256": "72354164f8069518b67719f0ef48c5468a8064e9fb92c1c4efa606de3c0560b5"
+    },
+    {
+      "source_bufferView": 2841,
+      "output_bufferView": 28,
+      "bytes": 144,
+      "sha256": "6028dd150054e684790919693aff6b9f310adaeb627d8ad5750e7af200a1f8e0"
+    },
+    {
+      "source_bufferView": 2842,
+      "output_bufferView": 29,
+      "bytes": 144,
+      "sha256": "983b791d795cc68fbea610cc2dcecda380caa4a74d34d5aa8107790ecbaa68c2"
+    },
+    {
+      "source_bufferView": 2843,
+      "output_bufferView": 30,
+      "bytes": 72,
+      "sha256": "dd025e331a13cad0edb2abc5cbcf709d5b44c4fd26dec425fe1890246b83c5bc"
+    },
+    {
+      "source_bufferView": 2844,
+      "output_bufferView": 31,
+      "bytes": 72,
+      "sha256": "72354164f8069518b67719f0ef48c5468a8064e9fb92c1c4efa606de3c0560b5"
+    },
+    {
+      "source_bufferView": 2845,
+      "output_bufferView": 32,
+      "bytes": 144,
+      "sha256": "0f73766cd53a1a0c91b93b42730a04e1cf469377be469c8cc17c4600cbca62be"
+    },
+    {
+      "source_bufferView": 2846,
+      "output_bufferView": 33,
+      "bytes": 144,
+      "sha256": "6eb655598b70dc47c8800edd3c5918ce9a74cd34e388787d4f0f8c277fb35102"
+    },
+    {
+      "source_bufferView": 2847,
+      "output_bufferView": 34,
+      "bytes": 576,
+      "sha256": "a3225a0e84c53f2c6d30a4b553375d2c618ca2200865bae582c930207acedb8b"
+    },
+    {
+      "source_bufferView": 2848,
+      "output_bufferView": 35,
+      "bytes": 576,
+      "sha256": "c9bcc03463da99f0cdbfc4ff5611b320aaad449cdfe8722c4f3775edf3d54a45"
+    },
+    {
+      "source_bufferView": 2849,
+      "output_bufferView": 36,
+      "bytes": 48,
+      "sha256": "4dbe5e9b8eae80d9e47c9bf896cbaeed2057b0c1ba3abf912e7512cafdf317af"
+    },
+    {
+      "source_bufferView": 2850,
+      "output_bufferView": 37,
+      "bytes": 48,
+      "sha256": "7484a9767a7167d72cc39c2a27faa5e99098deae8faa6ad92f1a6d3c82915637"
+    },
+    {
+      "source_bufferView": 2851,
+      "output_bufferView": 38,
+      "bytes": 96,
+      "sha256": "e83401baaa628b0a5e9346dc3e2df0648f609d57355dbc8774494912ec58db0e"
+    },
+    {
+      "source_bufferView": 2852,
+      "output_bufferView": 39,
+      "bytes": 96,
+      "sha256": "71231117ef1c8edf418feac599a0d261ec9b13925cf54d4e48e2b8bb8cb8471d"
+    },
+    {
+      "source_bufferView": 2853,
+      "output_bufferView": 40,
+      "bytes": 312,
+      "sha256": "8c9ab17c4919aa14a4af9728b92dd860999fb706f1ca2beee9b197aa063f72b2"
+    },
+    {
+      "source_bufferView": 2854,
+      "output_bufferView": 41,
+      "bytes": 312,
+      "sha256": "dd15b693918afa877e11104c238868dae278c88b6c3ef88af202318260508038"
+    },
+    {
+      "source_bufferView": 2855,
+      "output_bufferView": 42,
+      "bytes": 576,
+      "sha256": "74ff6a8174d16747d598c24ab0f28b6f4f27036d8b007fd6674fbc3bb8795176"
+    },
+    {
+      "source_bufferView": 2856,
+      "output_bufferView": 43,
+      "bytes": 576,
+      "sha256": "c9bcc03463da99f0cdbfc4ff5611b320aaad449cdfe8722c4f3775edf3d54a45"
+    },
+    {
+      "source_bufferView": 2857,
+      "output_bufferView": 44,
+      "bytes": 576,
+      "sha256": "ea833b634e555580b245dc453034f1e5e49e2c7bb6a9bb0b93d2664e54833eef"
+    },
+    {
+      "source_bufferView": 2858,
+      "output_bufferView": 45,
+      "bytes": 576,
+      "sha256": "c9bcc03463da99f0cdbfc4ff5611b320aaad449cdfe8722c4f3775edf3d54a45"
+    },
+    {
+      "source_bufferView": 2859,
+      "output_bufferView": 46,
+      "bytes": 576,
+      "sha256": "85ec8cf2b3b55d1b5c587578a948a5c961277a7b56737008a9dfab4d023dcfe1"
+    },
+    {
+      "source_bufferView": 2860,
+      "output_bufferView": 47,
+      "bytes": 576,
+      "sha256": "c9bcc03463da99f0cdbfc4ff5611b320aaad449cdfe8722c4f3775edf3d54a45"
+    },
+    {
+      "source_bufferView": 2861,
+      "output_bufferView": 48,
+      "bytes": 576,
+      "sha256": "8cdef48e7688dc7255d1a8dc91e8b61f11f755fa066487fa874425b2ef880e2d"
+    },
+    {
+      "source_bufferView": 2862,
+      "output_bufferView": 49,
+      "bytes": 576,
+      "sha256": "c9bcc03463da99f0cdbfc4ff5611b320aaad449cdfe8722c4f3775edf3d54a45"
+    },
+    {
+      "source_bufferView": 2863,
+      "output_bufferView": 50,
+      "bytes": 576,
+      "sha256": "d8312a89a578dcfa426e3d9ea9a36f5789f0f9a80d885d5bc543f09ce6bc34d8"
+    },
+    {
+      "source_bufferView": 2864,
+      "output_bufferView": 51,
+      "bytes": 576,
+      "sha256": "c9bcc03463da99f0cdbfc4ff5611b320aaad449cdfe8722c4f3775edf3d54a45"
+    },
+    {
+      "source_bufferView": 2865,
+      "output_bufferView": 52,
+      "bytes": 576,
+      "sha256": "fcc8d5f39ef63c0772db39158a9a478a750e8e6dd4512b54b01965db0b0bbc4c"
+    },
+    {
+      "source_bufferView": 2866,
+      "output_bufferView": 53,
+      "bytes": 576,
+      "sha256": "c9bcc03463da99f0cdbfc4ff5611b320aaad449cdfe8722c4f3775edf3d54a45"
+    },
+    {
+      "source_bufferView": 2867,
+      "output_bufferView": 54,
+      "bytes": 576,
+      "sha256": "8cdef48e7688dc7255d1a8dc91e8b61f11f755fa066487fa874425b2ef880e2d"
+    },
+    {
+      "source_bufferView": 2868,
+      "output_bufferView": 55,
+      "bytes": 576,
+      "sha256": "c9bcc03463da99f0cdbfc4ff5611b320aaad449cdfe8722c4f3775edf3d54a45"
+    },
+    {
+      "source_bufferView": 2869,
+      "output_bufferView": 56,
+      "bytes": 576,
+      "sha256": "59489cb49b8fab158b3e06758a9ec58c21b2dc92509e66c09dfa912774c9438d"
+    },
+    {
+      "source_bufferView": 2870,
+      "output_bufferView": 57,
+      "bytes": 576,
+      "sha256": "c9bcc03463da99f0cdbfc4ff5611b320aaad449cdfe8722c4f3775edf3d54a45"
+    },
+    {
+      "source_bufferView": 2871,
+      "output_bufferView": 58,
+      "bytes": 576,
+      "sha256": "ea833b634e555580b245dc453034f1e5e49e2c7bb6a9bb0b93d2664e54833eef"
+    },
+    {
+      "source_bufferView": 2872,
+      "output_bufferView": 59,
+      "bytes": 576,
+      "sha256": "c9bcc03463da99f0cdbfc4ff5611b320aaad449cdfe8722c4f3775edf3d54a45"
+    },
+    {
+      "source_bufferView": 2873,
+      "output_bufferView": 60,
+      "bytes": 144,
+      "sha256": "9656b9674e401d7949dbd6c17f3ed9a2592cb8fb43774fde8f8a0c8b2cfee8fe"
+    },
+    {
+      "source_bufferView": 2874,
+      "output_bufferView": 61,
+      "bytes": 144,
+      "sha256": "8649f2125949436f5118ac66bd7242c15fb65377af90b7d69202a22969bd2c6b"
+    },
+    {
+      "source_bufferView": 2875,
+      "output_bufferView": 62,
+      "bytes": 144,
+      "sha256": "a7d6d4081c09708a109df279bb40f133d92b684dd3c0fdae64a571963d58c0dd"
+    },
+    {
+      "source_bufferView": 2876,
+      "output_bufferView": 63,
+      "bytes": 144,
+      "sha256": "8877cee70dacc47252afe184bc752df1f571f8082ce02ed84bd5b72ad556c16b"
+    }
+  ],
+  "geometry_accessor_bytes_exact": true,
+  "world_bounds_blender_z_up_at_source_scale": [
+    [
+      -2.0699999,
+      -1.4449999,
+      0.02
+    ],
+    [
+      2.0699999,
+      1.4307481,
+      3.1199999
+    ]
+  ],
+  "dimensions_source_metres": [
+    4.139999866485596,
+    2.8757481575012207,
+    3.0999999046325684
+  ],
+  "render_root_scale": 1,
+  "runtime_not_reproduced": {
+    "root_position": [
+      10.872,
+      0,
+      -6.2
+    ],
+    "yaw_degrees": -90.0,
+    "visual_scale": 0.731,
+    "effective_outbuilding_scale": 0.9,
+    "edge_clamp": "BuildCollision computes whole-parcel Bounds, grows outbuilding about its base, then clamps within parcel plus .3m margins; not simulated",
+    "other": [
+      "catalog origin rebase",
+      "grounding/terrain",
+      "PainterlyMaterialLibrary bindings",
+      "world lighting",
+      "neighbors",
+      "runtime collision"
+    ]
+  },
+  "runtime_owner": "AuthoredWorldDirector.BuildVisual + BuildCollision(surfaces); static source triangles, no new door action",
+  "current_material_binding": "Wood_Weathered/WetShadow: wood_facade; Wood_Dark: wood; roof: roof_metal; stone: stone. Existing W07 wood_shed_dark not bound here.",
+  "outputs": [
+    {
+      "path": "h049-outbuilding-source.glb",
+      "sha256": "67fc359b6536ae801bfd84428b00780e918491d8ed11ec27365956bef1600ea3",
+      "bytes": 42880
+    },
+    {
+      "path": "h049-outbuilding-source.blend",
+      "sha256": "0a50209644ffcea79fa8e6e734a3e140f75fab22818feb5f9ba438870e9b447f",
+      "bytes": 729994
+    }
+  ],
+  "views": [
+    {
+      "path": "source-front-right.png",
+      "sha256": "a19c8754e78ce8442c2568149217676c79cc7091f242d0337dd1aae0cc4d0702",
+      "bytes": 1260233,
+      "target_blender_z_up": [
+        0.0,
+        -0.007125914096832275,
+        1.5699999332427979
+      ],
+      "direction": [
+        1.0,
+        -1.0,
+        0.550000011920929
+      ],
+      "ortho_scale": 6.2099997997283936
+    },
+    {
+      "path": "source-rear-left.png",
+      "sha256": "22e7e1e15a4a18f54e52cbe730ea1821fb7618874efcc5427cf1718916a70482",
+      "bytes": 1247784,
+      "target_blender_z_up": [
+        0.0,
+        -0.007125914096832275,
+        1.5699999332427979
+      ],
+      "direction": [
+        -1.0,
+        1.0,
+        0.5
+      ],
+      "ortho_scale": 6.2099997997283936
+    },
+    {
+      "path": "source-front.png",
+      "sha256": "a464960d0ee12cf89ec3687b557685cb548ef91df7d45ae570af205f05c3cde9",
+      "bytes": 1130179,
+      "target_blender_z_up": [
+        0.0,
+        -0.007125914096832275,
+        1.5699999332427979
+      ],
+      "direction": [
+        0.0,
+        -1.0,
+        0.15000000596046448
+      ],
+      "ortho_scale": 6.2099997997283936
+    },
+    {
+      "path": "source-left.png",
+      "sha256": "7dd9d90591ce548c0d4feb8c907d7eb98b048c2017672222a8e232ca0a78b39a",
+      "bytes": 1095451,
+      "target_blender_z_up": [
+        0.0,
+        -0.007125914096832275,
+        1.5699999332427979
+      ],
+      "direction": [
+        -1.0,
+        0.0,
+        0.15000000596046448
+      ],
+      "ortho_scale": 6.2099997997283936
+    },
+    {
+      "path": "source-window-opening.png",
+      "sha256": "71c390fcd157dba1901ed2c9b7fed80a37a109b39a50ea37a9695f254420c37c",
+      "bytes": 1207482,
+      "target_blender_z_up": [
+        -1.8575000762939453,
+        0.3399999737739563,
+        1.274999976158142
+      ],
+      "direction": [
+        -1.0,
+        -0.25,
+        0.18000000715255737
+      ],
+      "ortho_scale": 2.025000214576721
+    }
+  ],
+  "blender": "4.5.12 LTS",
+  "input_hashes": [
+    {
+      "path": "assets/source/blender/act1/h049_outbuilding_reference_v1/prepare_source.py",
+      "sha256": "a0a8ad5fd66c2ee9f3e891b71b9d6731269eb8dbac507ca6e7725c8f4a5d4bfa"
+    },
+    {
+      "path": "game/content/world/act1_open_part.world.v1.json",
+      "sha256": "21ad0abf1e1c2e10b7724912b8a28428bb19bcfd79258332bfdd01b93850ca06"
+    },
+    {
+      "path": "game/content/world/catalog.v1.json",
+      "sha256": "2cbfe4efc6de8428e57150908f4b9f9b35b4da20e3fb0194d49595da60742d1d"
+    },
+    {
+      "path": "game/scripts/AuthoredWorldDirector.cs",
+      "sha256": "64db6cdb0e8de94c6825a944d7e911c83fd897716ec7ecb30bc40f6fea380db6"
+    },
+    {
+      "path": "assets/source/blender/act1/hero_house_pbr_v1/attach_hero_house_retexture.py",
+      "sha256": "e75fd298da9a2f7a425c9be372974adc14342b18dfa929ee435360dafe6bf554"
+    }
+  ],
+  "next": "Inspect source views; one built-in ImageGen material reference. No atlas/UV/Meshy/runtime acceptance in this stage."
+}

@@ -315,7 +315,7 @@ public partial class WindowSilhouettes : Node3D
             if (index < 0) continue;
             var window = _windows[index];
             var node = _slots[slot];
-            var fade = 1f - Mathf.SmoothStep(fadeBegin, fadeEnd, viewer.DistanceTo(window.Centre));
+            var fade = 1f - Mathf.SmoothStep(0f, 1f, Mathf.Clamp((viewer.DistanceTo(window.Centre) - fadeBegin) / (fadeEnd - fadeBegin), 0f, 1f));
             var target = _life * window.Presence * opacity * fade;
             var next = Mathf.MoveToward(1f - node.Transparency, target, step * 2.2f);
             node.Transparency = 1f - next;

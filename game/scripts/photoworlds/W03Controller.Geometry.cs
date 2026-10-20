@@ -132,26 +132,29 @@ public partial class W03Controller
         });
     }
 
+    private static float HouseSmoothRange(float from, float to, float value) =>
+        Mathf.SmoothStep(0f, 1f, Mathf.Clamp((value - from) / (to - from), 0f, 1f));
+
     private static float HouseGroundHeightAt(float x, float z)
     {
-        var frontRise = Mathf.SmoothStep(0f, 10f, z);
-        var frontFall = 1f - Mathf.SmoothStep(20f, 31f, z);
-        var houseReach = 1f - Mathf.SmoothStep(11f, 19f, Mathf.Abs(x));
+        var frontRise = HouseSmoothRange(0f, 10f, z);
+        var frontFall = 1f - HouseSmoothRange(20f, 31f, z);
+        var houseReach = 1f - HouseSmoothRange(11f, 19f, Mathf.Abs(x));
         var houseYard = .30f * frontRise * frontFall * houseReach;
 
         var eastwardYardGrade = .20f
-            * Mathf.SmoothStep(-25f, 28f, x)
-            * Mathf.SmoothStep(32f, 36f, z)
-            * (1f - Mathf.SmoothStep(56f, 64f, z));
+            * HouseSmoothRange(-25f, 28f, x)
+            * HouseSmoothRange(32f, 36f, z)
+            * (1f - HouseSmoothRange(56f, 64f, z));
         var ground = Mathf.Max(houseYard, eastwardYardGrade);
 
         // The shipped hero shell carries its own .246 m raised floor. Blend the
         // matching terrain beneath that real floor so the world guard never
         // drags a player through the house or creates a step through its walls.
-        var roomX = Mathf.SmoothStep(-2.90f, -2.30f, x)
-            * (1f - Mathf.SmoothStep(5.55f, 6.15f, x));
-        var roomZ = Mathf.SmoothStep(2.75f, 3.35f, z)
-            * (1f - Mathf.SmoothStep(8.45f, 9.05f, z));
+        var roomX = HouseSmoothRange(-2.90f, -2.30f, x)
+            * (1f - HouseSmoothRange(5.55f, 6.15f, x));
+        var roomZ = HouseSmoothRange(2.75f, 3.35f, z)
+            * (1f - HouseSmoothRange(8.45f, 9.05f, z));
         var roomFloor = roomX * roomZ;
         return Mathf.Lerp(ground, .331f, roomFloor);
     }
@@ -159,12 +162,12 @@ public partial class W03Controller
     private static Color HouseGroundColor(float x, float z)
     {
         var routeDistance = HouseWalkRouteDistance(new Vector2(x, z));
-        var path = 1f - Mathf.SmoothStep(1.12f, 2.15f, routeDistance);
+        var path = 1f - HouseSmoothRange(1.12f, 2.15f, routeDistance);
         var wash = .5f + .5f * Mathf.Sin(x * .095f + z * .073f) * Mathf.Sin(z * .12f - x * .047f);
         var meadow = new Color(.43f + wash * .035f, .49f + wash * .038f, .34f + wash * .030f);
         var earth = new Color(.59f + wash * .055f, .50f + wash * .045f, .38f + wash * .035f);
-        var frontApron = 1f - Mathf.SmoothStep(.85f, 2.4f, routeDistance);
-        var apronBlend = frontApron * (1f - Mathf.SmoothStep(10f, 14f, z));
+        var frontApron = 1f - HouseSmoothRange(.85f, 2.4f, routeDistance);
+        var apronBlend = frontApron * (1f - HouseSmoothRange(10f, 14f, z));
         var stone = new Color(.69f, .62f, .51f);
         return meadow.Lerp(earth, path * .78f).Lerp(stone, apronBlend * .44f);
     }

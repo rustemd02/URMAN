@@ -33,6 +33,7 @@ public partial class W04Controller
 
     private static readonly float[] GroundAnchorWeights = SolveGroundAnchorWeights();
     private Node3D _world = null!;
+    private ArrayMesh _commonRiverWaterMesh = null!;
 
     private void BuildCommonWorld()
     {
@@ -187,7 +188,7 @@ public partial class W04Controller
     private static Color CommonGroundColor(float x, float z)
     {
         var distance = CommonRouteDistance(new Vector2(x, z));
-        var track = 1f - Mathf.SmoothStep(1.2f, 3.2f, distance);
+        var track = 1f - Mathf.SmoothStep(0f, 1f, Mathf.Clamp((distance - 1.2f) / 2f, 0f, 1f));
         var brush = .5f + .5f * Mathf.Sin(x * .083f + z * .061f) * Mathf.Sin(z * .097f - x * .039f);
         var meadow = new Color(.38f + brush * .035f, .48f + brush * .035f, .36f + brush * .03f);
         var path = new Color(.56f + brush * .045f, .48f + brush * .035f, .37f + brush * .03f);
@@ -293,11 +294,13 @@ public partial class W04Controller
         BuildCommonDistantSubjects();
     }
 
-    private static ArrayMesh CreateCommonPanoramaMesh()
+    private ArrayMesh CreateCommonPanoramaMesh()
     {
         const int columns = 161;
         using var surface = new SurfaceTool();
         surface.Begin(Mesh.PrimitiveType.Triangles);
+        using var water = new SurfaceTool();
+        water.Begin(Mesh.PrimitiveType.Triangles);
         var ridge = new Vector3[columns, 4];
         var color = new Color[columns, 4];
         for (var column = 0; column < columns; column++)
@@ -316,14 +319,115 @@ public partial class W04Controller
             color[column, 3] = new Color(.25f + variation * .035f, .33f + variation * .035f, .38f + variation * .04f);
         }
 
+        float RiverRadius(Vector3 point)
+        {
+            var dz = point.Z + 63f;
+            var dx = point.X - 117f - .5f * Mathf.Sin(dz * .6f);
+            return Mathf.Sqrt(dx * dx / 64f + dz * dz / 16f);
+        }
+
+        Vector3 CarveRiver(Vector3 point)
+        {
+            var radius = RiverRadius(point);
+            if (radius >= 2.5f) return point;
+            var bed = 1.55f + .12f * (radius - 1f) - .58f * Mathf.Pow(Mathf.Max(0f, 1f - radius), 2f);
+            point.Y = Mathf.Lerp(bed, point.Y,
+                Mathf.SmoothStep(0f, 1f, Mathf.Clamp((radius - 1.75f) / .75f, 0f, 1f)));
+            return point;
+        }
+
+        List<(Vector3 Point, Color Color)> Clip(
+            List<(Vector3 Point, Color Color)> polygon, int axis, float cut, bool below)
+        {
+            var clipped = new List<(Vector3 Point, Color Color)>();
+            var previous = polygon[^1];
+            var previousInside = below ? previous.Point[axis] <= cut : previous.Point[axis] >= cut;
+            foreach (var current in polygon)
+            {
+                var inside = below ? current.Point[axis] <= cut : current.Point[axis] >= cut;
+                if (inside != previousInside)
+                {
+                    var t = (cut - previous.Point[axis]) / (current.Point[axis] - previous.Point[axis]);
+                    var point = previous.Point.Lerp(current.Point, t);
+                    point[axis] = cut;
+                    clipped.Add((point, previous.Color.Lerp(current.Color, t)));
+                }
+                if (inside) clipped.Add(current);
+                previous = current;
+                previousInside = inside;
+            }
+            return clipped;
+        }
+
+        void Emit(List<(Vector3 Point, Color Color)> polygon)
+        {
+            var carved = polygon.Select(vertex => (Point: CarveRiver(vertex.Point), vertex.Color)).ToList();
+            for (var index = 1; index + 1 < carved.Count; index++)
+            {
+                var triangle = new List<(Vector3 Point, Color Color)> { carved[0], carved[index], carved[index + 1] };
+                if ((triangle[1].Point - triangle[0].Point).Cross(triangle[2].Point - triangle[0].Point).LengthSquared() < 1e-10f)
+                    continue;
+                foreach (var vertex in triangle)
+                {
+                    surface.SetColor(vertex.Color);
+                    surface.SetUV(new Vector2(vertex.Point.X, vertex.Point.Z) * .08f);
+                    surface.AddVertex(vertex.Point);
+                }
+                // Clip the water against these exact bed triangles: every shore
+                // vertex touches the same continuous landscape at water height.
+                if (!triangle.Any(vertex => RiverRadius(vertex.Point) < 1.25f)) continue;
+                var wet = Clip(triangle, 1, 1.55f, below: true);
+                for (var waterIndex = 1; waterIndex + 1 < wet.Count; waterIndex++)
+                {
+                    var points = new[] { wet[0], wet[waterIndex], wet[waterIndex + 1] }
+                        .Select(vertex => new Vector3(vertex.Point.X, 1.55f, vertex.Point.Z)).ToArray();
+                    if ((points[1] - points[0]).Cross(points[2] - points[0]).LengthSquared() < 1e-10f) continue;
+                    foreach (var point in points)
+                    {
+                        water.SetUV(new Vector2(point.X, point.Z) * .08f);
+                        water.AddVertex(point - new Vector3(117f, 1.55f, -63f));
+                    }
+                }
+            }
+        }
+
+        void SubdivideRiverTriangle(List<(Vector3 Point, Color Color)> triangle)
+        {
+            if (triangle.Max(vertex => vertex.Point.X) < 96f || triangle.Max(vertex => vertex.Point.Z) < -74f)
+            {
+                Emit(triangle);
+                return;
+            }
+            var pieces = new List<List<(Vector3 Point, Color Color)>> { triangle };
+            foreach (var axis in new[] { 0, 2 })
+            {
+                var step = axis == 0 ? 1.5f : 1f;
+                for (var cut = axis == 0 ? 96f : -74f; cut < (axis == 0 ? 138f : -55f); cut += step)
+                {
+                    var split = new List<List<(Vector3 Point, Color Color)>>();
+                    foreach (var piece in pieces)
+                    {
+                        if (piece.Min(vertex => vertex.Point[axis]) < cut
+                            && piece.Max(vertex => vertex.Point[axis]) > cut)
+                        {
+                            split.Add(Clip(piece, axis, cut, below: true));
+                            split.Add(Clip(piece, axis, cut, below: false));
+                        }
+                        else split.Add(piece);
+                    }
+                    pieces = split;
+                }
+            }
+            foreach (var piece in pieces) Emit(piece);
+        }
+
         void Triangle(int a, int layerA, int b, int layerB, int c, int layerC)
         {
-            foreach (var (column, layer) in new[] { (a, layerA), (b, layerB), (c, layerC) })
+            SubdivideRiverTriangle(new List<(Vector3 Point, Color Color)>
             {
-                surface.SetColor(color[column, layer]);
-                surface.SetUV(new Vector2(ridge[column, layer].X, ridge[column, layer].Z) * .08f);
-                surface.AddVertex(ridge[column, layer]);
-            }
+                (ridge[a, layerA], color[a, layerA]), (ridge[b, layerB], color[b, layerB]),
+                (ridge[c, layerC], color[c, layerC])
+            });
         }
 
         for (var column = 0; column + 1 < columns; column++)
@@ -332,7 +436,40 @@ public partial class W04Controller
             Triangle(column, layer, column + 1, layer, column + 1, layer + 1);
             Triangle(column, layer, column + 1, layer + 1, column, layer + 1);
         }
+
+        (Vector3 Point, Color Color) EastBank(float x, float z)
+        {
+            for (var layer = 0; layer < 3; layer++)
+            {
+                var near = ridge[columns - 1, layer];
+                var far = ridge[columns - 1, layer + 1];
+                if (z > near.Z || z < far.Z) continue;
+                var t = (z - near.Z) / (far.Z - near.Z);
+                var oldEdge = near.Lerp(far, t);
+                // Only the river apron extends past x=120; the old ridgeline
+                // and its silhouette remain at their original coordinates.
+                var height = Mathf.Lerp(oldEdge.Y, -3f,
+                    Mathf.SmoothStep(0f, 1f, Mathf.Clamp((x - 120f) / 18f, 0f, 1f)));
+                return (new Vector3(x, height, z), color[columns - 1, layer].Lerp(color[columns - 1, layer + 1], t));
+            }
+            throw new InvalidOperationException("The W04 river apron must join the existing panorama edge.");
+        }
+
+        var apronRows = Enumerable.Range(0, 20).Select(index => -74f + index)
+            .Append(ridge[columns - 1, 1].Z).OrderBy(z => z).ToArray();
+        for (var x = 120f; x < 138f; x += 1.5f)
+        for (var row = 0; row + 1 < apronRows.Length; row++)
+        {
+            var a = EastBank(x, apronRows[row]);
+            var b = EastBank(x + 1.5f, apronRows[row]);
+            var c = EastBank(x + 1.5f, apronRows[row + 1]);
+            var d = EastBank(x, apronRows[row + 1]);
+            Emit([a, c, b]);
+            Emit([a, d, c]);
+        }
         surface.GenerateNormals();
+        water.GenerateNormals();
+        _commonRiverWaterMesh = water.Commit();
         return surface.Commit();
     }
 
@@ -341,7 +478,7 @@ public partial class W04Controller
         var water = new MeshInstance3D
         {
             Name = "CommonDistantWater",
-            Mesh = new PlaneMesh { Size = new Vector2(17f, 8f), SubdivideWidth = 12, SubdivideDepth = 6 },
+            Mesh = _commonRiverWaterMesh,
             Position = new Vector3(117f, 1.55f, -63f),
             MaterialOverride = new StandardMaterial3D
             {
