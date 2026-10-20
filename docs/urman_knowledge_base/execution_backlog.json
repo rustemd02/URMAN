@@ -63706,14 +63706,22 @@
         "applicability": "Every new generated log-house candidate; does not claim existing houses failed or restart accepted model polishing."
       },
       "variant_a_preserved_layer_fix_2026_10_21": {
-        "state": "engineering_source_verified_native_pending",
+        "state": "source_revision_after_native_exact_set_failure",
         "targets": [
           "game/scripts/Act1ConnectedWorld.VariantAPbr.cs"
         ],
         "cause": "Native aef2 twice rejected existing Dwelling glass9/snow1/posts0 before graft; intended four preserved meshes are Corner_*; actual Yard posts are out of scope.",
         "change": "Exact four-corner set and count4 required; glass9/snow1/exclusions14/opaque108/crowns7 and candidate115 exact semantic sets remain strict; no collider or Yard changes. Diagnostic metadata renamed to preservedCornerCount; repo callers of old key absent.",
-        "verification": "Personal Fast read-only real GLB hierarchy+name-set comparison; root exact source/callchain/diff review; affected Game17.73s0/0.",
-        "remaining": "Actual Godot import/graft/house-family scene/motion/performance/art acceptance pending; compile does not prove current runtime graft."
+        "verification": "Personal Fast + root literal diff/source/API review and diffcheck; four string literals only, no new compilation risk; actual changed native remains pending.",
+        "remaining": "Actual Godot import/graft/house-family scene/motion/performance/art acceptance pending; compile does not prove current runtime graft.",
+        "native_c855": "Actual counts9glass/1snow/4corners still fail exact set. Previous static rawGLB/source+compile sufficiency was too narrow: engine glTF names have decimal points replaced by underscores. No runtime graft/art acceptance.",
+        "canonical_name_fix": "Expected exact four node-name literals now use Godot glTF imported underscores; count4/ordinal SetEquals/all other layer/opaque/crown/collision guards unchanged.",
+        "canonical_evidence": [
+          "GodotSharp4.7.1 Node.Name XML",
+          "Existing AuthoredWorldDirector.SafeName period→underscore pattern",
+          "https://github.com/godotengine/godot/blob/4.7-stable/modules/gltf/gltf_document.cpp#L7047",
+          "https://github.com/godotengine/godot/blob/4.7-stable/core/string/ustring.cpp#L4818"
+        ]
       }
     },
     {
@@ -110561,7 +110569,7 @@
       "title": "Реализовать prepare и возвратный билет",
       "milestone": "PW-M1",
       "status": "in_progress",
-      "active_owner": "Codex",
+      "active_owner": null,
       "owner": "integration",
       "priority": "P0",
       "complexity": "medium",
@@ -110708,8 +110716,8 @@
       },
       "assigned_owner": "integration",
       "activity": {
-        "state": "confirmed_active",
-        "reason": "Root owns one new changed-source protected ordinary c855 pass after idle/recoveryfalse doctor; exact header/graft + school/world/return/checkpoint acceptance."
+        "state": "not_active",
+        "reason": "c855 terminal; userdata restored and fresh doctor idle. Longer bounded route budget source task assigned independently; root retains JSON/Git/Windows."
       },
       "task_type": "engineering",
       "implementation_state": "implemented",
@@ -110717,7 +110725,7 @@
       "remaining": [
         "Native ordinarycycle/Continue/support/fallback/props/audio/profile/cancel/failure acceptance remains; compile/source review does not close PW-020."
       ],
-      "next_action": "Reuse accepted aef2 ordinary Niva→home→tea→book/checkpoint and faf1274a keyboard Skip. Verify changed album selected-P-FOREST school/resume header and strict VariantA graft, then ordinary school-copy→forest W01 action→return→save/MainMenu/Continue. Correct shared HUD/general Journal priority from real readiness while preserving alternate W01/W02 order; full visual/external gates remain open.",
+      "next_action": "Accept current changed album school hint and manual Save evidence without full-loop PASS. Integrate finite explicit native-play timeout support while keeping1200 default and guards, then one current ordinary school→world→action→return→save/MainMenu/Continue with correct two-step confirmation. Include new canonical VariantA corner names and shared readiness0be08445; no third identical1200s timeout run.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -111155,14 +111163,28 @@
         "cleanup": "58,360,744B temporary result ZIP/duplicate frames/logs removed after hash-linked raw proof preservation; retained8,021,596B ignored evidence. Full raw remains on station."
       },
       "ordinary_current_c855_2026_10_21": {
-        "state": "running",
+        "state": "terminal_partial_evidence",
         "owner": "Codex",
         "job_id": "c855c6aeb1d2478684e3908a771ef8c1",
         "snapshot_id": "ba0e6ba6b3a458098bcf6c79a845efe90591240171b868fb35d8f41211555ee5",
         "baseline": "11716463",
         "question": "Do changed selected-P-FOREST school/resume header and strict VariantA graft work in actual village, and can normal school-copy→forest action→return→save/MainMenu/Continue progress without debug/state injection?",
         "success": "Actual current frames/ordinary input + facts/checkpoint + normal menu and restored protected receipt. Full crossprocess Continue/export remains separate PW095; no full release from sourceplay.",
-        "deadline": "play-product max1200s; finish ordinary Exit by18min of actual child runtime, preserve partial proof without timeout if route cannot fit."
+        "deadline": "play-product max1200s; finish ordinary Exit by18min of actual child runtime, preserve partial proof without timeout if route cannot fit.",
+        "result": "Actual ordinary NewGame→EnterSkip→Niva→home→tea→physical book→album. Changed selected P-FOREST header now correctly asks school copy; manual Pause Save shows Saved and writes quick.savegame-v3.json. School/world/return/MainMenu/Continue not reached.",
+        "verification": {
+          "build": "Windows Game34.50s0warnings/0errors",
+          "import_exit": 0,
+          "job_status": "FAIL",
+          "game_exit": 124,
+          "userdataRestored": true,
+          "doctor_after": "ready=true,busy=null,recovery=false,orphans=false",
+          "engine_errors": "2x VariantA preserved-layer contract glass9/snow1/corners4; raw exact-set guard still rejected engine-normalized names.",
+          "proof": "evidence/PW-020/ordinary_c855c6aeb1d2478684e3908a771ef8c1"
+        },
+        "execution_correction": "Root planned Exit by18min but reached Save near1200s deadline. Reverse Tab plus one Enter did not establish Exit; PauseMenuUi.RunConfirmed requires second confirmation. No keyboard-navigation bug proven. Do not repeat unchanged1200s full loop; prepare bounded explicit longer play budget and use actual focus/confirm readback.",
+        "cleanup": "39,525,497B fetched ZIP/duplicate frames/logs removed after hash-linked raw proof preservation; retained4,091,917B ignored evidence. Full raw on station.",
+        "observed_additional": "Daylit wall discover-babai-yard-entry-wall-joint displays Too dark; source deliberately requires nearby lit portable lantern, not ambient light. Misleading hint remains; no daylight behavior gate silently removed."
       }
     },
     {
@@ -121673,7 +121695,8 @@
         "cause": "Global root quest status active is registration, not objective readiness; album reused this global priority before resolving selection.",
         "change": "Album passes restored/current selected ID, refreshes header on selection; incomplete selected P-FOREST reuses existing school/mount/read/entry instructions. Mounted+S-SCHOOL+HasResumePoint keeps forest resume route even away from entry. No change to entry authorization/quest/state.",
         "verification": "Root exact source+caller review, two personal Fast source iterations including partial resume; affected Game compile17.73s0warnings/0errors with cached dependencies; scoped diffcheck.",
-        "remaining": "Native changed header/selection and Save/Continue not verified. Shared HUD/general Journal still use root-status priority; global readiness must be separately corrected using objective/earned photo state while preserving free W01/W02 order, not blindly forcing school."
+        "remaining": "Native changed header/selection and Save/Continue not verified. Shared HUD/general Journal still use root-status priority; global readiness must be separately corrected using objective/earned photo state while preserving free W01/W02 order, not blindly forcing school.",
+        "native_c855": "Changed album header actual1280x720 after physical book receipt correctly asks school copy; entry reason matches. Manual Save confirmed. Resume/selection-switch/Continue native not exercised."
       },
       "shared_objective_readiness_2026_10_21": {
         "state": "engineering_source_verified_native_pending",

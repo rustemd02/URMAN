@@ -71,12 +71,13 @@ public partial class Act1ConnectedWorld
 
         var sourceGlass = sourceBaseNames.Where(name => name.Contains("Glass", StringComparison.Ordinal)).ToArray();
         var sourceSnow = sourceBaseNames.Where(name => name.Contains("Snow", StringComparison.Ordinal)).ToArray();
+        // Godot's glTF import validates node names, replacing decimal points with underscores.
         var expectedCornerNames = new HashSet<string>(StringComparer.Ordinal)
         {
-            "VariantA_TimberGable_Dwelling_Corner_-3.0_-1.3_LOD0",
-            "VariantA_TimberGable_Dwelling_Corner_-3.0_4.5_LOD0",
-            "VariantA_TimberGable_Dwelling_Corner_3.0_-1.3_LOD0",
-            "VariantA_TimberGable_Dwelling_Corner_3.0_4.5_LOD0",
+            "VariantA_TimberGable_Dwelling_Corner_-3_0_-1_3_LOD0",
+            "VariantA_TimberGable_Dwelling_Corner_-3_0_4_5_LOD0",
+            "VariantA_TimberGable_Dwelling_Corner_3_0_-1_3_LOD0",
+            "VariantA_TimberGable_Dwelling_Corner_3_0_4_5_LOD0",
         };
         var sourceCorners = sourceBaseNames
             .Where(name => name.StartsWith("VariantA_TimberGable_Dwelling_Corner_", StringComparison.Ordinal))
