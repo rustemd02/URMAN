@@ -24,6 +24,7 @@ public partial class MainMenuUi : CanvasLayer, IAccessibilitySettingsTarget
     private MarginContainer? _column;
     private PanelContainer? _panel;
     private Button? _newGameButton;
+    private Button? _resumeButton;
     private Button? _continueButton;
     private Button? _replayIntroButton;
     private Button? _settingsButton;
@@ -67,6 +68,7 @@ public partial class MainMenuUi : CanvasLayer, IAccessibilitySettingsTarget
 
     public event Action? NewGameRequested;
     public event Action? ContinueRequested;
+    public event Action? ResumeRequested;
     public event Action? ReplayIntroRequested;
     public event Action? SettingsRequested;
     public event Action? QuitRequested;
@@ -74,6 +76,7 @@ public partial class MainMenuUi : CanvasLayer, IAccessibilitySettingsTarget
 
     public Button? NewGameButton => _newGameButton;
     public Button? ContinueButton => _continueButton;
+    public Button? ResumeButton => _resumeButton;
     public Button? ReplayIntroButton => _replayIntroButton;
     public Button? SettingsButton => _settingsButton;
     public Button? AboutButton => _aboutButton;
@@ -136,6 +139,14 @@ public partial class MainMenuUi : CanvasLayer, IAccessibilitySettingsTarget
         if (_column is not null && _panel is not null)
             _column.AddThemeConstantOverride("margin_left",
                 Mathf.RoundToInt(Math.Clamp(size.X * .07f, 16f, Math.Max(16f, size.X - _panel.CustomMinimumSize.X - 16f))));
+    }
+
+    public void SetResumeAvailable(bool available)
+    {
+        if (_resumeButton is null || _resumeButton.Visible == available && _resumeButton.Disabled == !available) return;
+        _resumeButton.Visible = available;
+        _resumeButton.Disabled = !available;
+        _resumeButton.FocusMode = available ? Control.FocusModeEnum.All : Control.FocusModeEnum.None;
     }
 
     public void SetContinueAvailable(
@@ -288,6 +299,11 @@ public partial class MainMenuUi : CanvasLayer, IAccessibilitySettingsTarget
         layout.AddChild(_subtitle);
 
         layout.AddChild(new Control { CustomMinimumSize = new Vector2(0, 18) });
+
+        _resumeButton = MenuButton("ResumeButton", "Вернуться в игру");
+        _resumeButton.Pressed += () => { DisarmNewGame(); ResumeRequested?.Invoke(); };
+        _resumeButton.Visible = false;
+        layout.AddChild(_resumeButton);
 
         _newGameButton = MenuButton("NewGameButton", "Новая игра");
         _newGameButton.Pressed += () =>

@@ -64,14 +64,16 @@ public sealed partial class AtomicSaveGameStore
     public async Task<SaveLoadResult> LoadAsync(
         string slot,
         string expectedCampaignFingerprint,
-        CancellationToken cancellationToken = default)
+        CancellationToken cancellationToken = default,
+        Func<SaveGameV3, SaveGameV3>? prepareForLoad = null)
     {
         ValidateSlot(slot);
         Exception? primaryFailure = null;
         try
         {
             var primary = await File.ReadAllBytesAsync(SlotPath(slot), cancellationToken);
-            return new(_codec.Decode(primary, expectedCampaignFingerprint, _fingerprintCompatibility), false);
+            var save = _codec.Decode(primary, expectedCampaignFingerprint, _fingerprintCompatibility);
+            return new(prepareForLoad is null ? save : prepareForLoad(save), false);
         }
         catch (Exception exception) when (exception is IOException or InvalidDataException or UnauthorizedAccessException)
         {
@@ -81,7 +83,8 @@ public sealed partial class AtomicSaveGameStore
         try
         {
             var backup = await File.ReadAllBytesAsync(BackupPath(slot), cancellationToken);
-            return new(_codec.Decode(backup, expectedCampaignFingerprint, _fingerprintCompatibility), true);
+            var save = _codec.Decode(backup, expectedCampaignFingerprint, _fingerprintCompatibility);
+            return new(prepareForLoad is null ? save : prepareForLoad(save), true);
         }
         catch (Exception backupFailure) when (backupFailure is IOException or InvalidDataException or UnauthorizedAccessException)
         {

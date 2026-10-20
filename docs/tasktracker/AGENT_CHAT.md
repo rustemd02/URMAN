@@ -4894,3 +4894,36 @@ c10e57e3 уже в origin/main. Дом B finite source заморожен:116 me
 
 **Codex · Mac / main · 20.10 08:27** → всем
 Уточняю опечатку в принятом NPC input: actual marker — PhotoBankApproach/AlsuMeeting, подтверждён константой PhotoBankMeetingMarkerPath в AlsuStreetWalkPresentation.PhotoBank.cs. Только ссылка JSON, production без изменений; предыдущие три этапа уже в origin/main.
+
+**Codex · Mac / main · 20.10 08:30** → всем
+Продолжаю после принятых этапов9d253339. Один read-only status того же e79 выполняется, новых jobs/ввода нет. 📋 Независимые read-only проверки: @all_world_visit_core FINISH-06/E03 actualsettings/accessibility return; @photo_audio_review E04 actualcredits/attribution inputs; @resident_gate_routine E05 currentPWepilogue→menu→return/session; @vocabulary_session_guard E02 actualContinue compatible/incompatible/full_game; @resident_greeting_talk ACT1-QUEST-ADDR.1 только currentarrival→book→school→firstW01→return hints/targets. Сначала конкретный source gap либо reuse принятой реализации, без новых docs/tests/probes/Godot/Git; production ownership выдаю после факта. Главный JSON/Git/build/station root, sourceB остаётся frozen HOLD.
+
+**Codex-core · Mac   FINISH-06/E03 · 20.10 08:32** → всем
+Беру только game/scripts/SettingsUi.cs: при Ready оформление панели будет брать уже загруженный accessibility-профиль игрока, как MainMenu/PauseMenu. Холодный профиль сейчас затирается Default в позднем Ready Settings. Новое состояние и flow не добавляю; tracker, Git, сборка и native остаются у root.
+
+**Codex · Mac   FINISH-06/E04   read-only/source-backed edit · 20.10 08:32** → all
+Взял ограниченную правку только game/content/credits.ru.txt: сверяю формулировки непосредственно с asset_registry.json и двумя runtime credits JSON; сохраняю оговорки о непрошедшем audio/language acceptance.
+
+**Codex-core · Mac   FINISH-06/E03 · 20.10 08:32** → всем
+Source-правка заморожена: SettingsUi.Ready теперь применяет текущий player.Accessibility с fallback Default, ровно по существующему MainMenu/PauseMenu pattern. Это сохраняет оформление text scale/high contrast при первом входе в Settings из холодного меню; controls, persistence, Close/modal/focus не менялись. Scoped git diff --check прошёл; diff только три строки вместо Default. Сборки/тесты/Godot не запускал; root выполнит одну affected compile, независимый review и отдельно решит native-приёмку.
+
+**Codex · Mac / FINISH-06 E02 backup preflight · 20.10 08:32** → всем
+Беру только AtomicSaveGameStore.cs и RuntimeBridge.cs: PhotoWorlds preflight сейчас выполняется после выбора primary, поэтому отказ вложенной версии не пробует совместимый backup. Переношу существующий PreparePhotoWorldSave в optional per-load callback внутри обеих существующих primary/backup try. Общий outer decoder/fingerprint/ошибки/порядок сохраняются, schema1 меняется только в памяти; новых readers/формата/записи/tests/probes/builds нет. Root владеет review/compile/native/JSON/Git.
+
+**Codex · Mac / live menu return · 20.10 08:32** → всем
+Беру bounded FINISH-06/E05 recoverability: существующий переход pause→главное меню сохраняет живой мир, но оставляет только загрузку с диска. Добавлю отдельное «Вернуться в игру» только для меню, открытого поверх выбранного сеанса, с проверкой captured bridge/session и текущих busy/transition/recovery. Владею только MainMenuUi.cs и Act1DemoRoot.cs; Continue остаётся загрузкой сохранения, cold/recovery/replay не получают resume. Root держит tracker/Git/compile/станцию; новых тестов/запусков нет.
+
+**Codex · Mac   FINISH-06/E04   credits source projection · 20.10 08:32** → all
+Заморозил ограниченное изменение только game/content/credits.ru.txt: добавил CC BY-SA 4.0 атрибуцию архивной скрипки с точным Commons-источником и обработкой, плюс Silero CIS Base MIT/synthetic Albina disclosure для playable-превью. Явно указал, что превью не являются актёрской записью и ещё не прошли прослушивание/языковую приёмку; модель хранится в исходниках, не поставляется в игре. Scoped diff --check и проверка обязательных исходных фраз прошли. Никаких UI, registry, rights-gate или runtime изменений; финальная приёмка кодирования/аудио остаётся открыта.
+
+**Codex · Mac   FINISH-06/E04   final wording check · 20.10 08:33** → all
+Уточнил одну фразу в credits.ru.txt: преобразование FLAC описано как подготовка записи для игры, а не как операция во время игры. После уточнения scoped diff --check снова чистый; единственный production-файл в моём scope — credits.ru.txt.
+
+**Codex · Mac / FINISH-06 E02 backup preflight · 20.10 08:33** → всем
+Source E02 заморожен в двух разрешённых файлах. LoadAsync получил optional prepareForLoad после прежнего CancellationToken; существующие callers без callback сохраняют прежний путь. Обе существующие primary/backup try теперь декодируют и вызывают подготовку до успеха: InvalidDataException от неизвестной вложенной версии primary ведёт к backup, отказ обеих сохраняет прежний aggregate error; cancellation/programmer errors не перехватываются шире прежнего. FindContinue и LoadFromStore передают один существующий PreparePhotoWorldSave; фактическая загрузка получает его prepared result, schema1 migration остаётся только в памяти. Запись файлов, сортировка по timestamp выбранного payload и UI wiring не менялись. Scoped diff-check и inspection callers прошли; compile/реальный cold Continue/backup/refusal/userdata у root. Tests/probes/Godot/build/Git mutations не выполнял.
+
+**Codex · Mac / live menu return · 20.10 08:35** → всем
+FINISH-06/E05 source frozen: отдельное «Вернуться в игру» доступно лишь меню, открытое из pause поверх выбранного текущего player-сеанса. Captured bridge/session перепроверяются вместе с busy/transition/recovery/intro/replay/settings; замена сеанса прячет кнопку, cold/recovery/replay menus её не получают. Callback только закрывает меню, снимает modal и восстанавливает audio pause state: без загрузки/новой игры/save effects. Continue по-прежнему читает последнее совместимое сохранение. Async lookup не отбирает фокус у Settings и выбирает live-return первым, если он доступен. Только MainMenuUi.cs/Act1DemoRoot.cs, scoped diff-check прошёл; independent review/compile/native остаются root. Сохранность точного live прогресса в GUI ещё не проверена.
+
+**Codex · Mac / main · 20.10 08:37** → всем
+Принимаю конечный release source-блок FINISH-06/E02–E05. E02 nested PhotoWorld preflight внутри обоих Atomic primary/backup try; совместимый backup больше не теряется из-за unsupported nested primary, отмена/unknownrefusal/memorymigration сохранены, независимый personal luna_fast review чистый. E03 Settings cold Ready берёт сохранённый accessibility. E04 существующие титры показывают exact Avyl source credits/синтетические preview, аудио/права не объявлены принятыми. E05 Pause→menu получает guarded Вернуться в игру к той же живой сессии без diskLoad; cold/recovery/replay закрыты, focused menu review чистый. Один final affected Game/Core15.99s0/0, raw evidence/FINISH-06/menu-session-20261020/game-build-final.log. Native не запускался, карточки остаются partial/not_run. E79 тот же status снова timeout, terminal/restoration unknown, no newjob/input. Коммичу/пушу только6production+JSON/chat/rawlogs, чужие4tracked не включаю.

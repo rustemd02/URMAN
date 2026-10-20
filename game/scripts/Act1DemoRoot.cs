@@ -27,6 +27,8 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
     private Main _main = null!;
     private FirstPersonController? _player;
     private MainMenuUi? _mainMenu;
+    private RuntimeBridge? _menuReturnBridge;
+    private object? _menuReturnSession;
     private PauseMenuUi? _pauseMenu;
     private Control? _introScreen;
     private bool _introReplay;
@@ -364,6 +366,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
     public override void _Process(double delta)
     {
         if (StudioPreviewMode) return;
+        RefreshMenuResumeAvailability();
 
         RecordM10Timing();
         if (_performanceProbe)
@@ -1311,7 +1314,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
         {
             if (_mainMenu is null)
             {
-                BuildMainMenu();
+                BuildMainMenu(allowLiveReturn: true);
             }
         };
         AddChild(_pauseMenu);
@@ -1338,10 +1341,44 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
         (GetTree().GetFirstNodeInGroup("audio_cue_ui") as AudioCueUi)?.SetPaused(paused);
     }
 
-    private void BuildMainMenu()
+    private bool CanResumeMenuSession() => MainMenuVisible && _playerSessionSelected && !_menuBusy
+        && !IntroVisible && !DemoEnded && !_introReplay && !_photoWorldReplay
+        && _menuReturnSession is not null && _menuReturnBridge is { } bridge
+        && IsInstanceValid(bridge) && bridge.IsInsideTree() && ReferenceEquals(bridge, _bridge)
+        && !bridge.IsDebugSession && !bridge.NeedsPhysicalRecovery
+        && ReferenceEquals(bridge.SessionIdentity, _menuReturnSession)
+        && _player is { SessionTransitionActive: false }
+        && GetTree().GetFirstNodeInGroup("settings_ui") is not SettingsUi { IsOpen: true };
+
+    private void RefreshMenuResumeAvailability()
+    {
+        if (!MainMenuVisible)
+        {
+            _menuReturnBridge = null;
+            _menuReturnSession = null;
+            return;
+        }
+        _mainMenu!.SetResumeAvailable(CanResumeMenuSession());
+    }
+
+    private void OnMenuResume()
+    {
+        if (!CanResumeMenuSession()) { RefreshMenuResumeAvailability(); return; }
+        _mainMenu!.Dismiss();
+        _mainMenu = null;
+        _menuReturnBridge = null;
+        _menuReturnSession = null;
+        _player!.SetModalOpen(false);
+        RefreshGameplayAudioPauseState();
+    }
+
+    private void BuildMainMenu(bool allowLiveReturn = false)
     {
         (GetTree().GetFirstNodeInGroup("runtime_bridge") as RuntimeBridge)?.CancelRinatPresentation();
         var player = _player;
+        _menuReturnBridge = allowLiveReturn && _playerSessionSelected && !_introReplay && !_photoWorldReplay
+            && _bridge is { IsDebugSession: false, NeedsPhysicalRecovery: false } liveBridge ? liveBridge : null;
+        _menuReturnSession = _menuReturnBridge?.SessionIdentity;
         // UIUX-001: gameplay input stays gated behind the menu choice.
         player?.SetModalOpen(true);
 
@@ -1352,6 +1389,7 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
         };
         _mainMenu.NewGameRequested += () => _ = OnMenuStartSessionAsync(startNewGame: true);
         _mainMenu.ContinueRequested += () => _ = OnMenuStartSessionAsync(startNewGame: false);
+        _mainMenu.ResumeRequested += OnMenuResume;
         _mainMenu.ReplayIntroRequested += () => _ = OnMenuReplayIntroAsync();
         _mainMenu.DebugZoneRequested += (zoneId, spawnPointId) => _ = OnMenuStartDebugZoneAsync(zoneId, spawnPointId);
         _mainMenu.SettingsRequested += () =>
@@ -1363,6 +1401,8 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
         };
         _mainMenu.QuitRequested += () => GetTree().Quit();
         AddChild(_mainMenu);
+        RefreshMenuResumeAvailability();
+        if (_mainMenu.ResumeButton is { Visible: true, Disabled: false } resume) resume.GrabFocus();
         if (_mainMenu.ReplayIntroButton is { } replay) replay.Visible = !_playerSessionSelected;
 
         // Initial lookup begins when the bridge attaches. Do not allow a
@@ -1386,7 +1426,11 @@ public partial class Act1DemoRoot : Node, IAccessibilitySettingsTarget
                 menu.SetContinueAvailable(candidate is not null, candidate?.Description, existingSavePresent,
                     bridge?.HasIncompatiblePhotoWorldSaves == true);
                 if (bridge?.NeedsPhysicalRecovery == true) menu.ShowStatus(LoadPlacementFailureStatus);
-                if (menu.NewGameButton is { } newGame) { newGame.Disabled = false; newGame.GrabFocus(); }
+                if (menu.NewGameButton is { } newGame) newGame.Disabled = false;
+                RefreshMenuResumeAvailability();
+                if (GetTree().GetFirstNodeInGroup("settings_ui") is SettingsUi { IsOpen: true }) return;
+                if (menu.ResumeButton is { Visible: true, Disabled: false } resume) resume.GrabFocus();
+                else menu.NewGameButton?.GrabFocus();
             }
         }
     }

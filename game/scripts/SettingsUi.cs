@@ -95,7 +95,9 @@ public partial class SettingsUi : CanvasLayer, IAccessibilitySettingsTarget
         _load.Pressed += LoadQuickSlot;
         GetNode<Button>("Screen/Panel/Layout/Buttons/Apply").Pressed += Apply;
         GetNode<Button>("Screen/Panel/Layout/Buttons/Close").Pressed += Close;
-        ApplyAccessibilitySettings(AccessibilitySettingsSnapshot.Default);
+        ApplyAccessibilitySettings(
+            (GetTree().GetFirstNodeInGroup("player_controller") as FirstPersonController)?.Accessibility
+            ?? AccessibilitySettingsSnapshot.Default);
     }
 
     /// <summary>

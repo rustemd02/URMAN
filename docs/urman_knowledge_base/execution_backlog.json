@@ -25852,12 +25852,14 @@
             "title": "Подключить Continue самого свежего совместимого save с unknown-version refusal",
             "result": "Подключить Continue самого свежего совместимого save с unknown-version refusal",
             "owner": "finished-act1",
-            "evidence": [],
+            "evidence": [
+              "evidence/FINISH-06/menu-session-20261020/game-build-final.log"
+            ],
             "assigned_owner": "finished-act1",
             "active_owner": null,
             "activity": {
               "state": "not_active",
-              "reason": "Запуск прерван17.10; субагенты остановлены, source/evidence сохранены, completion не заявлен."
+              "reason": "Finite release source stage accepted/frozen after review; own native action/state acceptance remains open."
             },
             "task_type": "engineering",
             "status": "in_progress",
@@ -25866,7 +25868,7 @@
             "remaining": [
               "Подключить Continue самого свежего совместимого save с unknown-version refusal; собственного целевого receipt пока нет."
             ],
-            "next_action": "Проверить текущий PhotoWorlds menu Continue после полного закрытия игры: совместимый слот и сохранённая позиция, безопасный отказ несовместимой версии. Source9ec59428 подключил full_game к обычному меню; native evidence pending.",
+            "next_action": "После authoritative e79 terminal/restoration проверить cold Continue: актуальная позиция/состояние и совместимый backup при неподдерживаемой вложенной версии primary, оба неподдерживаемых кандидата безопасно отклоняются. Принятый source/callback не переписывать без нового дефекта.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -25915,7 +25917,22 @@
               "verification": [],
               "acceptance": []
             },
-            "depends_on": []
+            "depends_on": [],
+            "source_stage_2026_10_20": {
+              "stage": "nested-backup-20261020",
+              "state": "source_stage_accepted_native_not_run",
+              "baseline_commit": "9d253339",
+              "targets": [
+                "src-dotnet/Urman.Core/Persistence/AtomicSaveGameStore.cs",
+                "game/scripts/RuntimeBridge.cs"
+              ],
+              "result": "Outer-valid primary with unsupported nested PhotoWorld schema formerly rejected entire slot before trying compatible backup. Existing pure PreparePhotoWorldSave now runs inside each primary/backup try; samecallback in discovery+actualrestore. No diskwrite/newformat; cancellation/unknownrefusal preserved.",
+              "verification": "Independent personal luna_fast /root/continue_backup_review source pass clean; final affected compile pending, native cold Continue/file-safety acceptance not run.",
+              "native_result": "not_run",
+              "final_compile": "evidence/FINISH-06/menu-session-20261020/game-build-final.log",
+              "compile_result": "One affected Game/Core build15.99s,0warnings/0errors; no Godot/import/runtime/native.",
+              "independent_review": "Runtime-confirmed personal luna_fast /root/continue_backup_review finaltwofile source pass clean; backup mtime/label use selected backup, schema1 memory migration/unknown refusal/cancellation preserved."
+            }
           },
           {
             "id": "FINISH-06/E03",
@@ -25923,21 +25940,23 @@
             "title": "Подключить settings и возврат с сохранением accessibility",
             "result": "Подключить settings и возврат с сохранением accessibility",
             "owner": "finished-act1",
-            "evidence": [],
+            "evidence": [
+              "evidence/FINISH-06/menu-session-20261020/game-build-final.log"
+            ],
             "assigned_owner": "finished-act1",
             "active_owner": null,
             "activity": {
               "state": "not_active",
-              "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+              "reason": "Finite release source stage accepted/frozen after review; own native action/state acceptance remains open."
             },
             "task_type": "engineering",
-            "status": "todo",
+            "status": "in_progress",
             "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
               "Подключить settings и возврат с сохранением accessibility; собственного целевого receipt пока нет."
             ],
-            "next_action": "Сопоставить текущий результат: Подключить settings и возврат с сохранением accessibility. Затем изменить только установленный остаток.",
+            "next_action": "В protected native cold launch с сохранёнными textscale1.6/highcontrast открыть Settings из главного меню, закрыть/открыть; проверить оформление, Apply persistence, focus/modal. Source Ready fix принят, не повторять unchanged compile.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -25986,7 +26005,20 @@
               "verification": [],
               "acceptance": []
             },
-            "depends_on": []
+            "depends_on": [],
+            "source_stage_2026_10_20": {
+              "stage": "cold-settings-20261020",
+              "state": "source_stage_accepted_native_not_run",
+              "baseline_commit": "9d253339",
+              "targets": [
+                "game/scripts/SettingsUi.cs"
+              ],
+              "result": "Ready now applies actual player accessibility snapshot fallbackDefault like MainMenu/Pause; first Settings cold-open preserves stored textscale/highcontrast. Existing Apply/Close/modal/focus/persistence unchanged.",
+              "verification": "Independent /root/resident_greeting_talk source pass clean; affected compile pending; native cold1.6/highcontrast→open/close/reopen not run.",
+              "native_result": "not_run",
+              "final_compile": "evidence/FINISH-06/menu-session-20261020/game-build-final.log",
+              "compile_result": "One affected Game/Core build15.99s,0warnings/0errors; no Godot/import/runtime/native."
+            }
           },
           {
             "id": "FINISH-06/E04",
@@ -25994,21 +26026,23 @@
             "title": "Подключить credits из actual attribution sources",
             "result": "Подключить credits из actual attribution sources",
             "owner": "finished-act1",
-            "evidence": [],
+            "evidence": [
+              "evidence/FINISH-06/menu-session-20261020/game-build-final.log"
+            ],
             "assigned_owner": "finished-act1",
             "active_owner": null,
             "activity": {
               "state": "not_active",
-              "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+              "reason": "Finite release source stage accepted/frozen after review; own native action/state acceptance remains open."
             },
             "task_type": "engineering",
-            "status": "todo",
+            "status": "in_progress",
             "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
               "Подключить credits из actual attribution sources; собственного целевого receipt пока нет."
             ],
-            "next_action": "Сопоставить текущий результат: Подключить credits из actual attribution sources. Затем изменить только установленный остаток.",
+            "next_action": "При доступном native открыть существующий экран титров и проверить читаемость/прокрутку добавленной атрибуции Авыл FM. Actual source credit projection принята; listening/языковая/культурная/прочие права сохраняются отдельно.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -26057,7 +26091,20 @@
               "verification": [],
               "acceptance": []
             },
-            "depends_on": []
+            "depends_on": [],
+            "source_stage_2026_10_20": {
+              "stage": "radio-credit-20261020",
+              "state": "source_stage_accepted_native_not_run",
+              "baseline_commit": "9d253339",
+              "targets": [
+                "game/content/credits.ru.txt"
+              ],
+              "result": "Actual runtime Avyl source credits now visible through existing MainMenu text loader: exact Commons Hakimcan/Hakimdzhan CC BY-SA4.0/processing/source and Silero CIS Base MIT/synthetic Albina preview disclosure. No new UI/license decision or audio acceptance.",
+              "verification": "Root source comparison with asset_registry/archived LICENSE_CIS and scoped diffcheck; existing listening/culture/language/othermusic rights gates retained. Native credits display not run.",
+              "native_result": "not_run",
+              "final_compile": "evidence/FINISH-06/menu-session-20261020/game-build-final.log",
+              "compile_result": "One affected Game/Core build15.99s,0warnings/0errors; no Godot/import/runtime/native."
+            }
           },
           {
             "id": "FINISH-06/E05",
@@ -26065,21 +26112,23 @@
             "title": "Подключить эпилог→меню→возврат без второго session",
             "result": "Подключить эпилог→меню→возврат без второго session",
             "owner": "finished-act1",
-            "evidence": [],
+            "evidence": [
+              "evidence/FINISH-06/menu-session-20261020/game-build-final.log"
+            ],
             "assigned_owner": "finished-act1",
             "active_owner": null,
             "activity": {
               "state": "not_active",
-              "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+              "reason": "Finite release source stage accepted/frozen after review; own native action/state acceptance remains open."
             },
             "task_type": "engineering",
-            "status": "todo",
+            "status": "in_progress",
             "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
               "Подключить эпилог→меню→возврат без второго session; собственного целевого receipt пока нет."
             ],
-            "next_action": "Сопоставить текущий результат: Подключить эпилог→меню→возврат без второго session. Затем изменить только установленный остаток.",
+            "next_action": "В protected native current session с несохранённой позицией/состоянием проверить Pause→главное меню→Вернуться в игру без Load/NewGame/смены identity, input/audio/focus; затем actual PhotoWorlds эпилог→home и cold disk Continue. Cold/recovery/replay не получают live return.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -26128,7 +26177,22 @@
               "verification": [],
               "acceptance": []
             },
-            "depends_on": []
+            "depends_on": [],
+            "source_stage_2026_10_20": {
+              "stage": "live-menu-return-20261020",
+              "state": "source_stage_accepted_native_not_run",
+              "baseline_commit": "9d253339",
+              "targets": [
+                "game/scripts/MainMenuUi.cs",
+                "game/scripts/Act1DemoRoot.cs"
+              ],
+              "finding": "Pause→main menu retains unsaved current session/world; menu currently only offers disk Continue so exact live return requires loading older saved state. Legitimate Load identity replacement is not itself a bug.",
+              "result_contract": "Existing-style Вернуться в игру available only menu-created-over actually selected captured current session/bridge; current identity and busy/load/recovery/replay/ending guards; dismiss/modal/audio only, no Load/NewGame/state/save commands. Disk Continue retains cold semantics.",
+              "verification": "Independent focused source review then one affected Game compile; native pause→menu→return and epilogue/home/cold Continue still required.",
+              "final_compile": "evidence/FINISH-06/menu-session-20261020/game-build-final.log",
+              "compile_result": "One affected Game/Core build15.99s,0warnings/0errors; no Godot/import/runtime/native.",
+              "independent_review": "Focused /root/resident_greeting_talk finalmenu source pass clean; root source inspection. Late Continue lookup does not steal Settings focus, current session guard excludes cold/recovery/replay."
+            }
           }
         ]
       },
@@ -51981,7 +52045,7 @@
       "remaining": [
         "Аудит квестов на адресность; отсутствует подтверждение собственного конечного DoD, перечисленного ниже."
       ],
-      "next_action": "Ответить на конкретный вопрос: Аудит квестов на адресность",
+      "next_action": "Использовать current_loop_input_2026_10_20: current arrival/book/school/firstW01/return source targets сопоставлены без подтверждённого тупика. Следующая проверка — native понятность/достижимость этого пути и saved outside origin; затем отдельно остальное100%покрытие текущих целей, старый chapter1 audit не считать полным.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -52071,7 +52135,22 @@
           "evidence_ref": "ACT1-QUEST-ADDR.1.evidence and named history progress; source_review shows available/missing inputs"
         }
       ],
-      "assignment_state": "preserved_person_or_existing_role; activity separate"
+      "assignment_state": "preserved_person_or_existing_role; activity separate",
+      "current_loop_input_2026_10_20": {
+        "method": "Read-only /root/resident_greeting_talk scoped current PhotoWorlds arrival/book/school/firstW01/return; historical chapter1 audit not reused as current100%coverage.",
+        "result": "No confirmed dead/misaddressed source target in inspected loop. Journal arrival→PhotoWorldNivaStop; handoff→booktable; schoolcopy folder+staffpermission acquireS-SCHOOL/P-FORESTcontext; actual outdoor PhotoForestEntryTarget/3trunks firstentry, homeconvenience onlyafterW01complete; F16 pw-forest-return→home firstworldtalk target suppresses competing tea.",
+        "suppliers": [
+          "game/scripts/JournalUi.cs",
+          "game/scripts/StyleBenchmarkZone.cs",
+          "game/scripts/ArrivalPersonalProps.cs",
+          "game/scripts/Act1ConnectedWorld.SquareInteriors.School.cs",
+          "game/scripts/Act1ConnectedWorld.PhotoForestEntry.cs",
+          "game/scripts/RuntimeBridge.PhotoBook.cs",
+          "game/scripts/WaterChainHomePresence.cs",
+          "content/modules/urman-fullgame/definitions.json"
+        ],
+        "remaining": "Native journal human-findability schoolfolder→staff/outdoor3trunks, afterreturn Gulsina firstworldtalk nottea, saved outsideorigin. Source match does not prove visibility/collision/100%questgoalcoverage."
+      }
     },
     {
       "id": "ACT1-QUEST-ADDR.2",
@@ -110829,11 +110908,11 @@
         }
       },
       "transport_recheck_2026_10_20": {
-        "state": "station offline; relay TLSselfsigned unchanged",
+        "state": "same protected job status unavailable; authoritative terminal/restoration unknown",
         "job": "e79adf9f932a4d74b4aec64d7565c6a4",
         "terminal_restoration": "not_confirmed",
         "new_job_submitted": false,
-        "last_status_query": "20.10 07:04 Moscow: same e79 status exit1 urlopen timeout; raw status-20261020-0404.log retained. Authoritative terminal/userdata restoration still unknown. No new job/input/restart; author prologue-skip consent persists, not performed.",
+        "last_status_query": "20.10 query launched08:28Moscow; log closed 2026-10-20T05:28:58.222968+00:00: samee79 exit1 urlopen timeout; raw evidence/PW-020/native_book_e79adf9f932a4d74b4aec64d7565c6a4/status-20261020-0530.log retained. No newjob/input/restart; prologue-skip consent retained, not performed.",
         "local_diagnosis": "Existing local VPN carries default route; system proxy/CA overrides absent. This is a concrete network-path lead, not proof of which hop intercepts TLS. Temporary path change requires owner consent, pending; no VPN/cert/daemon settings changed."
       },
       "player_facing_source_2026_10_20": {

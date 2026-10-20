@@ -297,8 +297,8 @@ public partial class RuntimeBridge : Node
         {
             try
             {
-                var loaded = await _saveStore.LoadAsync(slot, _content.CampaignFingerprint);
-                _ = PreparePhotoWorldSave(loaded.Save);
+                var loaded = await _saveStore.LoadAsync(slot, _content.CampaignFingerprint,
+                    prepareForLoad: PreparePhotoWorldSave);
                 var path = loaded.RecoveredFromBackup ? _saveStore.BackupPath(slot) : _saveStore.SlotPath(slot);
                 var time = File.GetLastWriteTimeUtc(path);
                 if (time < latestTime) continue;
@@ -456,12 +456,12 @@ public partial class RuntimeBridge : Node
         {
             await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
             await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
-            var result = await store.LoadAsync(slot, _content.CampaignFingerprint);
+            // Preflight each primary/backup candidate before the store accepts
+            // it. A migration remains in memory until an ordinary save writes it.
+            var result = await store.LoadAsync(slot, _content.CampaignFingerprint,
+                prepareForLoad: PreparePhotoWorldSave);
             recoveredFromBackup = result.RecoveredFromBackup;
-            // Preflight the nested campaign schema before flushing or
-            // projecting any live world owners. A migration remains in memory
-            // until a later ordinary save atomically writes the new version.
-            var saveToRestore = PreparePhotoWorldSave(result.Save);
+            var saveToRestore = result.Save;
             // Preserve the live physical owners through the same snapshot used
             // by SaveSlotAsync. This rollback is in memory and never writes a slot.
             if (!NeedsPhysicalRecovery)
