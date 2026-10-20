@@ -110550,8 +110550,8 @@
       "id": "PW-020",
       "title": "Реализовать prepare и возвратный билет",
       "milestone": "PW-M1",
-      "status": "in_progress",
-      "active_owner": "Codex",
+      "status": "blocked",
+      "active_owner": null,
       "owner": "integration",
       "priority": "P0",
       "complexity": "medium",
@@ -110698,8 +110698,8 @@
       },
       "assigned_owner": "integration",
       "activity": {
-        "state": "confirmed_active",
-        "reason": "Ordinary protected native e79adf9f submitted. No input sent; status/capture blocked by confirmed Tailscale transport outage. Keep existing job/userdata guard; no duplicate jobs or TLS weakening."
+        "state": "not_active",
+        "reason": "No live work claimed from stale job/lock; assignment retained. Finite source stages committed, native integration blocked by fresh station offline evidence; reservation/job state not released or restarted."
       },
       "task_type": "engineering",
       "implementation_state": "implemented",
@@ -110708,7 +110708,10 @@
         "Native ordinarycycle/Continue/support/fallback/props/audio/profile/cancel/failure acceptance remains; compile/source review does not close PW-020."
       ],
       "next_action": "Recover transport for existing protected e79 job and obtain authoritative terminal/userdata restoration before any new job. Then authorized explicit prologueSkip→Niva→home/tea→album→schoolcopy→book preparation→actual daylight forestedge firstW01 entry→meaningfulaction→originaledge return→save/MainMenu/Continue. Completed home convenience is separate; do not replay obsolete first-home portal. Reuse accepted pause/first-action evidence.",
-      "blocker": null,
+      "blocker": {
+        "reason": "Protected ordinary Windows integration cannot proceed: same e79 job status requests time out, and fresh read-only tailnet status reports station offline while local backend is Running. Authoritative job terminal/userdataRestored remains unknown. Source review of current route/shop/remapped labels provides no additional justified patch; required next MVP evidence is actual ordinary play.",
+        "release_when": "Existing private transport reaches station without changing owner-forbidden VPN; authoritative existing e79 job terminal and userdataRestored=true confirmed before any new protected job/input. Then run the named ordinary book/entry/return/save/Continue route on current source."
+      },
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
       "execution_mode": "production_paused_during_tracker_migration",
@@ -111032,7 +111035,13 @@
         "new_job_submitted": false,
         "last_status_query": "Recorded 2026-10-20T13:37:59+00:00: same e79 status CLIexit1 urlopen timed out after backoff. Tool stdout only, no new raw files. Authoritative terminal/restoration unknown; no new job/input/restart/VPN changes.",
         "local_diagnosis": "Happ default VPN route and Tailscale self-signed relay certificate are observed; causal hop is unproven. Owner explicitly answered VPN не трогать on20.10. No disconnect/reconnect or route/cert/daemon changes; previous permission request is resolved as DENIED.",
-        "owner_network_constraint": "VPN не трогать. Preserve current Happ connection/configuration; do not re-request the same disconnect experiment without a new owner instruction."
+        "owner_network_constraint": "VPN не трогать. Preserve current Happ connection/configuration; do not re-request the same disconnect experiment without a new owner instruction.",
+        "latest_tailnet_readback": {
+          "recorded_at_utc": "2026-10-20T13:47:50+00:00",
+          "backend": "Running",
+          "station_online": false,
+          "method": "Existing tailscale socket status --json read-only, no IP/owner/token output, no process/route/cert/VPN change. Job status/restoration still unknown; offline is not a terminal receipt."
+        }
       },
       "player_facing_source_2026_10_20": {
         "state": "source_compiled_native_pending",
@@ -138416,6 +138425,17 @@
           "game/scripts/RuntimeBridge.ContentCompatibility.cs": "aee693bbc4344a0f7e87865d7656120752d9ddcf4a7cb16747d0bf7bd5e07701"
         },
         "temporary_output_removed_bytes": 48107533
+      },
+      "shop_source_readback_2026_10_20": {
+        "state": "source_only_native_required",
+        "question": "Does another physically available household/shop action omit its only completion quest, like the repaired Tamara defect?",
+        "result": "No such defect in scoped shop chain. Physical counter opens ShopUi, purchase/use commits custody/receipt/shop-used facts+checkpoint directly; actual tea placement/lantern brightness project those facts. Omitted old quests own story beats, not shop final state. No justified new source change.",
+        "inputs": [
+          "game/scripts/Act1ConnectedWorld.PublicBuildings.cs",
+          "game/scripts/RuntimeBridge.Shop.cs",
+          "game/scripts/Act1ConnectedWorld.ShopUses.cs"
+        ],
+        "remaining": "Native counter purchase→tea tray/lantern batteries→photo visit/return→Continue must prove physical use, no duplicate supplies and retained visible result. Existing source owner linkage is not a durable/native PASS."
       }
     },
     {
@@ -139139,6 +139159,18 @@
         "state": "source_only_native_required",
         "result": "Independent primary+Luna audit: movement axes0/1, look2/3, interactJoy0, pauseJoy6, journalJoy3 and consumers present; menu/dialogue/Journal TabBar focusable. No proven corebinding deadend. Map/inventory keyboardonlyshortcuts also reachable as tabs. Do not invent duplicatebindings.",
         "remaining": "Target controller native journaldefaultpage→photo-book tab→inspection/action→other tabs→cancel/reopen, mouse/controller switching. Godot ui_* defaults/navigation are not established by project bindings or codeinspection."
+      },
+      "binding_label_source_readback_2026_10_20": {
+        "state": "source_only_no_proven_default_key_leak",
+        "result": "Core fullgame world prompts use live interact ActionHint refreshed at binding/device boundaries. Journal objectives and routecue replace J with current journal binding. Fullgame pw-hint texts have no key tokens; following world hints and book return failure labels use current action/device. No bulk defaultkey replacement is justified.",
+        "inputs": [
+          "game/scripts/FirstPersonController.cs",
+          "game/scripts/JournalUi.cs",
+          "game/scripts/Act1DemoRoot.cs",
+          "game/scripts/RuntimeBridge.PhotoWorldHints.cs",
+          "game/scripts/JournalUi.PhotoBook.cs"
+        ],
+        "remaining": "Actual remap+device switch/native journal/book focus/navigation still required; no game/tests/build run for this readback."
       }
     },
     {
