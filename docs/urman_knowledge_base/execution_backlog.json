@@ -110926,8 +110926,9 @@
         "job": "e79adf9f932a4d74b4aec64d7565c6a4",
         "terminal_restoration": "not_confirmed",
         "new_job_submitted": false,
-        "last_status_query": "20.10 query launched08:50Moscow; log closed 2026-10-20T05:50:37.812044+00:00: samee79 exit1 urlopen timeout; raw evidence/PW-020/native_book_e79adf9f932a4d74b4aec64d7565c6a4/status-20261020-0550.log. Authoritative terminal/restoration unknown; no newjob/input/restart.",
-        "local_diagnosis": "Existing local VPN carries default route; system proxy/CA overrides absent. This is a concrete network-path lead, not proof of which hop intercepts TLS. Temporary path change requires owner consent, pending; no VPN/cert/daemon settings changed."
+        "last_status_query": "20.10 10:52 Moscow: same protected e79 status exit1 urlopen timeout; raw evidence/PW-044/household-pad-source-20261020/station-status-0752.log. Authoritative terminal/restoration still unknown; no newjob/input/restart.",
+        "local_diagnosis": "Happ default VPN route and Tailscale self-signed relay certificate are observed; causal hop is unproven. Owner explicitly answered VPN не трогать on20.10. No disconnect/reconnect or route/cert/daemon changes; previous permission request is resolved as DENIED.",
+        "owner_network_constraint": "VPN не трогать. Preserve current Happ connection/configuration; do not re-request the same disconnect experiment without a new owner instruction."
       },
       "player_facing_source_2026_10_20": {
         "state": "source_compiled_native_pending",
@@ -131598,6 +131599,15 @@
         "state": "finite_source_mapping_only_no_newaudio",
         "result": "Current softpinkhorizon/coolforeground light and dedicated119s CC0 meadowbed alreadypresent; no local cloth/paper/distantforest-bank-courtyard sources. Existing originalpaper_open reusable but paperfeedback deferred until real C07 note flow accepted; new C07 source now accepted separately underPW061. No clothrecording invented/no sharedfactory/profile/light changes.",
         "remaining": "Full A-COMMON-AUDIO including actuallocal sources/masters/provenance/5minlistening/native remains open."
+      },
+      "common_spatial_audio_input_2026_10_20": {
+        "state": "named_source_research_accepted_no_runtime_change",
+        "source": "game/assets/audio/water_edge_ambience.wav",
+        "provenance": "Existing ambient.water-edge in ambient_manifest.json118–128; project-original procedural generator seed4404,8sec24kHz; not field recording/voice and not accepted final mix. W02 existing one-shot reuse does not make it a W04 spatial loop.",
+        "placement": "Actual CommonDistantWater/C02FrameWitness=(117,1.55,-63), seen from C03=(0,4,54), C05=(0,7,112), ranges165.5/210.6m. C03 itself is not river source.",
+        "existing_owners": "photoworld_common globalmeadow already owned AmbientAudioDirector/Main.SetW04Ambience, no duplicatebed. UiFoley/WorldFoleyPlayer are one-shot, not continuousloop. AmbienceBus honors persistedvolume/mute; no invented reducedsoundsetting.",
+        "next_action": "One finite W04-owned actualriver spatialcandidate using existing source, session/visibility/teardown/pause+shortfade and correctlongrange. Implement only as whole-scene audio slice with actual native listening available; 0.22spaper cue alone is below current MVPpriority. No new audio generation or generic audio framework.",
+        "remaining": "Native spatial range/mix/hearing and full A-COMMON forest/bank/courtyard/cloth layers+5min listen remain open."
       }
     },
     {
@@ -138774,7 +138784,12 @@
           "evidence_ref": "PW-081.evidence and named history progress; source_review shows available/missing inputs"
         }
       ],
-      "assignment_state": "preserved_person_or_existing_role; activity separate"
+      "assignment_state": "preserved_person_or_existing_role; activity separate",
+      "controller_book_route_source_review_2026_10_20": {
+        "state": "no_confirmed_source_blocker_native_required",
+        "result": "Default A interact/Yjournal mappings preserved separately from ui_accept/cancel/navigation. Dialogue firstchoice/Continue grabsfocus, bookItemList + actionbuttons focusable; reader return and entryconfirm restore guardedcurrentUI focus. FPC releasegate and session/visibilitygeneration guards present. No controller-specific defect proven; no edits.",
+        "remaining": "Ordinary controller-only interact→Dpad dialoguechoice→photo selection→frontreader/backreturn→mount→outdoorentry→bookearlyreturnconfirm and scene/load/devicefocus transitions. Sourceinspection does not prove physical automaticdirectionalnavigation."
+      }
     },
     {
       "id": "PW-082",
@@ -143916,8 +143931,8 @@
         ],
         "budget": {
           "author_cap": 4000,
-          "actual_consumed": 390,
-          "remaining_author_cap": 3610,
+          "actual_consumed": 425,
+          "remaining_author_cap": 3575,
           "first_family_cap": 90,
           "first_family_consumed": 40,
           "active_task_id": "01a1539f-c9cb-7389-bae9-71b8cc11748e",
@@ -143954,11 +143969,17 @@
           "next_fence_retexture_reserved": 0,
           "next_fence_retexture_task_id": "01a157ec-cf3b-7606-800d-0cbc23c9c260",
           "next_fence_retexture_task_state": "SUCCEEDED100 consumed10; literalgeometrycandidate sourcePBRmaterialHOLD, no runtimepromote; receipts/views8aad23f2",
-          "h049_outbuilding_family_cap": 35,
+          "h049_outbuilding_family_cap": 65,
           "h049_outbuilding_family_reserved": 0,
-          "h049_outbuilding_family_consumed": 30,
+          "h049_outbuilding_family_consumed": 65,
           "h049_outbuilding_task_state": "SUCCEEDED100 actual30; rawJanus/depth+66.7%HOLD; no remesh,5reserve released",
-          "h049_outbuilding_task_id": "01a15823-02c4-765e-87a6-df6e30a748d4"
+          "h049_outbuilding_task_id": "01a15823-02c4-765e-87a6-df6e30a748d4",
+          "h049_multiview_cap": 35,
+          "h049_multiview_reserved": 0,
+          "h049_multiview_consumed": 35,
+          "h049_multiview_task_state": "RawSUCCEEDED30 sourceusable; remeshSUCCEEDED5 actual5538tri but rearplinth/gableholesHOLD; stage35/family65 frozen, no runtimepromote",
+          "h049_multiview_task_id": "01a15841-9e99-7197-aa52-5ae2e9786101",
+          "h049_multiview_remesh_task_id": "01a1584a-2d8b-75cc-8006-2c1e6b055329"
         },
         "current_artifact": "Conifer static native stage retained; full art/motion/performance open. VariantA V2 PBR integrated only into active residential H001 default nested dwelling; explicit Studio modelPath wins. W02 two near-only generated willows integrated into existing roots/prewarm. Both runtime bytes match source, Game17.39s0/0 and independent source review pass. Native/UVcoverage/art/performance and full asset family acceptance remain open; no council/retired-house replacement.",
         "log_house_acceptance": "Для нового generated-сруба проверены actualGLB front/side/three-quarter и крупно углы/проёмы: венцы опираются друг на друга, угловые соединения и торцы правдоподобны, проёмы/перемычки/опора крыши корректны; нет парящих брёвен, случайных пересечений и неестественных цокольных наплывов. ImageGen reference не заменяет post-Meshy проверку.",
@@ -144147,6 +144168,79 @@
           "input_receipt": "assets/source/blender/act1/h049_outbuilding_multiview_v1/input-receipt.json",
           "root_input_review": "Root лично просмотрел четыре PNG: одна frontdoor, одно leftwindow, back/right глухие; видимые с краю соседние рамы не являются дополнительными проёмами. Одинаковые ortho6.2099998/tilt.15/scale1/res1280x960/light/background. Исходный GLB67fc359b...неизменён42,880B, размеры4.14x2.8757482x3.10. TextureImageGen4511...отдельный, не копировался. Новых моделей/UV/ImageGen/расходов нет."
         }
+      },
+      "h049_outbuilding_multiview_generation_2026_10_20": {
+        "state": "source_raw_usable_but_remesh_construction_HOLD_no_runtime_promotion",
+        "active_owner": null,
+        "folder": "assets/source/blender/act1/h049_outbuilding_multiview_v1/generation/",
+        "client_commit": "9e4c04fe",
+        "input_receipt": "assets/source/blender/act1/h049_outbuilding_multiview_v1/input-receipt.json",
+        "image_order": [
+          "front.png",
+          "back.png",
+          "left.png",
+          "right.png"
+        ],
+        "texture_reference": "assets/source/blender/act1/h049_outbuilding_reference_v1/imagegen-reference-v1.png",
+        "texture_reference_sha256": "4511d043c56f36f87a2a3cfa9b49baf5bfeaeb03e33124dd947c8a3ad31335d9",
+        "plan": "После свежего успешного balanceGET один submit-multi-image из четырёх проверенных исходных PNG, отдельный принятый ImageGen для материалов; Meshy7.1standard/4KPBR/GLB/noEnhancement/noAutoRemesh за30. Только после пригодной raw-конструкции и при>10ktri один remesh того же taskID target8000 за5. Потолок35, no extraimagegen/texture/rig/paidretry.",
+        "gate": "Реальные пять видов и сравнение с canonical4.14x2.8757482x3.10: одна передняя дверь, одно левое окно, глухие back/right, опора крыши/стен/цоколя, разделение материалов; оценить пропорции при одном uniformscale безрастяжения. Janus/существенное расхождение/дырки→HOLD безremesh. После remesh проверить фактические triangles/PBR, не обещать8k.",
+        "spend_actual": 35,
+        "reserved": 0,
+        "limits": "Actual425/4000, remaining3575; stage35/35 and family65/65. No further paid calls. UnknownPOST→no resubmit. Runtime promotion awaits actual candidate metrics/views and fullscene/snow/physical/native acceptance; no claimed release.",
+        "task_id": "01a15841-9e99-7197-aa52-5ae2e9786101",
+        "submit_receipt": "assets/source/blender/act1/h049_outbuilding_multiview_v1/generation/submit.json",
+        "status_receipt": "assets/source/blender/act1/h049_outbuilding_multiview_v1/generation/status-04.json",
+        "download_receipt": "assets/source/blender/act1/h049_outbuilding_multiview_v1/generation/download-raw.json",
+        "raw_sha256": "1cea9044c9d124998d6ffa383d71bfb606947cc3a5263751659a5be4f825fdfa",
+        "raw_bytes": 39842984,
+        "remesh_task_id": "01a1584a-2d8b-75cc-8006-2c1e6b055329",
+        "remesh_status_receipt": "assets/source/blender/act1/h049_outbuilding_multiview_v1/generation/remesh-status-02.json",
+        "raw_root_review": "Root personally inspected all five actual raw PNGs: one front door/one left window, blank back/right. Roof/walls/plinth supported; visible plank/edge waviness kept as source candidate before native art. Uniformheight3.10 gives4.197423x2.946889x3.10 (+1.39%width/+2.47%depth), no stretch. Actual543840tri requires approved single remesh8000; actual output metrics and PBR pending. Snow and performance native acceptance open.",
+        "winter_material_gate": {
+          "state": "runtime_hold_missing_imported_pbr_snow_adapter",
+          "source_owner": "Act1ConnectedWorld.AuthoredWorld.cs → RegradeAct1DaylightKitMaterials → PainterlyMaterialLibrary.ForColor",
+          "facts": "Original Outbuilding has no separate snow meshes; PML replaces surface materials and gives roof coverage.88/wood.45/stone.50 with worldnormal/noise+SetSnowMood. Late imported PBR has no response; library detail normal/roughness slots are additive and not equivalent Meshy normal/MR. Existing opaque shader is not a snow-only overlay.",
+          "remaining": "Keep candidate source-only. Need explicit material solution preserving actual imported PBR and coherent winter scene before runtime promotion; native fullscene/performance acceptance separate. Do not silently globalregrade/drop maps or accept snowless standalone model as finished winter scene.",
+          "finite_input_after_geometry": "Actual generated GLB has one mesh/one opaque material across roof/wood/plinth/window; no roof-only slot. Roof-only NextPass recommendation withdrawn after exactinput review. First accepted hole-free lowpoly + stable roof region/surface or authored mask retainingPBR; then one bounded snow response and native winter/clear transition. Wholemesh normalmask is a separate shader/native gate, not existing ready API."
+        },
+        "remesh_download_receipt": "assets/source/blender/act1/h049_outbuilding_multiview_v1/generation/download-remesh.json",
+        "remesh_sha256": "179b7e3c308207a2b701216b816024ac3bc311657970145dcc9e8181d0a8a2bd",
+        "remesh_bytes": 38340704,
+        "remesh_actual_triangles": 5538,
+        "root_remesh_review": "Root personally inspected all five actual remesh PNGs: new black triangular void in rear plinth and open vertical front-gable slit above door are absent in corresponding raw views. Candidate fails exterior construction gate despite preserved one-door/one-window layout. No runtime promotion.",
+        "remaining": "Preserve usable raw and rejected remesh unique content/receipts; stop this paid35-credit stage. Do not repeat Meshy repair/remesh or micro-polish. Winter PBR material solution and later finite local geometry preparation from usable raw are separate named inputs; native whole-scene/collision/scale/performance/art remain open.",
+        "next_action": "Frozen paid stage stopped: source raw retained, remesh HOLD, no further paid calls. Resume only finite geometry/material preparation after accepted inputs; primary release priority remains ordinary book/play/save/Continue and native movement when protected station is available.",
+        "archive_cleanup": {
+          "state": "closed_unique_outputs_losslessly_archived_unpacked_duplicates_removed",
+          "no_open_handles": true,
+          "archives": [
+            {
+              "archive": "assets/source/blender/act1/h049_outbuilding_multiview_v1/generation/meshy-raw.glb.zip",
+              "archive_bytes": 34128000,
+              "archive_sha256": "509e13a61269688153ce1b26e50cd9726740720aab6d223c290c07f1013cac59",
+              "member": "meshy-raw.glb",
+              "member_bytes": 39842984,
+              "member_sha256": "1cea9044c9d124998d6ffa383d71bfb606947cc3a5263751659a5be4f825fdfa",
+              "verified_full_decompressed_stream": true,
+              "freed_bytes": 5714984
+            },
+            {
+              "archive": "assets/source/blender/act1/h049_outbuilding_multiview_v1/generation/meshy-remesh-8000.glb.zip",
+              "archive_bytes": 38034020,
+              "archive_sha256": "e33c87089ea22529e7ab933e44e23bf6a99fa0292a738bf8051b64dc7be2adf4",
+              "member": "meshy-remesh-8000.glb",
+              "member_bytes": 38340704,
+              "member_sha256": "179b7e3c308207a2b701216b816024ac3bc311657970145dcc9e8181d0a8a2bd",
+              "verified_full_decompressed_stream": true,
+              "freed_bytes": 306684
+            }
+          ],
+          "total_freed_bytes": 6021668,
+          "restore": "Extract each sole member to this generation folder at its original filename before running inspect_candidate.py. Archives remain local outside Git; unique source bytes preserved."
+        },
+        "raw_inspection_receipt": "assets/source/blender/act1/h049_outbuilding_multiview_v1/generation/raw-inspection.json",
+        "remesh_inspection_receipt": "assets/source/blender/act1/h049_outbuilding_multiview_v1/generation/remesh-inspection.json"
       }
     },
     {
@@ -144684,7 +144778,7 @@
         "Ресурсы находятся по относительным res://путям.",
         "Проверены точные bootstrap/preset/manifest и содержимое выбранного fullgame-пакета: его путь поставки включает всю обязательную новую кампанию. Если используется Act I Release, соответствующие фильтры согласованы с fullgame; отдельно сохраняемый исторический демо-preset менять не требуется. Чистый desktop-запуск с New Game/Save/Continue и ресурсами подтверждён отдельно на Windows и macOS."
       ],
-      "next_action": "Проверить именно экспортированный Windows EXE вне checkout существующим сериализованным протоколом станции. Текущий station client запускает source-снимок, не EXE; готовится минимальное расширение существующего production пути с прежними hash/owner/userdata guards. Затем ordinary NewGame/Save/Continue и обязательные host/performance/rights gates.",
+      "next_action": "Reuse accepted standalone exported Windows EXE boot c7898456 / host job1c502696 (exit0, userdataRestoredtrue); do not reimplement or repeat headless boot. After authoritative e79 terminal/restoration, verify exact release candidate ordinary New Game→Save→full close→Continue with book/firstentry and exact package identity. Current candidate-boot is intentionally headless, existing native play uses source snapshot; native exported-package control is a separate remaining input, not evidence already accepted. Required platform/performance/rights/art/human gates remain open.",
       "blocker": null,
       "external_gates": [
         {
@@ -144936,7 +145030,7 @@
         "scope": "Fixed exported windows/URMAN.exe only; same authenticated station, protected_run, bounded launch and userdata restoration; headless/Dummy boot is not ordinary UI acceptance.",
         "verification": "Python AST PASS; Windows PowerShell Parser.ParseInput PASS on exact compressed source; independent review of ownership/archive/cleanup and newest3 + 24h/active upload retention.",
         "station_update": "Installed four clean owned files via SFTP staging and SHA256/backup guards; exact parser PASS, managed worker stop/start succeeded. Windows main remains df982443; unrelated .gitattributes unmerged and two local documentation changes preserved. Backup C:/Users/ruste/Documents/GitHub/URMAN/.tools/station-update-c7898456/backup. Initial git archive staging produced zero-byte ZIP and no surviving exact deployment process; no replacement occurred in that attempt.",
-        "next_action": "Ordinary standalone New Game/Save/Continue and mandatory platform/performance/rights/art/human gates remain open; native body movement import is the next independent stage.",
+        "next_action": "Accepted headless source/host stage stopped. Ordinary exported-package New Game/Save/full close/Continue on Windows+macOS and platform/performance/rights/art/human gates remain open; current headless candidate-boot cannot substitute native UI.",
         "source_commit": "c7898456",
         "first_host_job": {
           "job_id": "b2732f2d502144b497692b7c2a9d7fca",

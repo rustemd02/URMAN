@@ -1,0 +1,359 @@
+{
+  "schema": "h049-multiview-generated-shed-source-inspection/v1",
+  "stage": "remesh",
+  "status": "HOLD_remesh_introduced_visible_plinth_and_gable_voids_no_runtime_promotion",
+  "source": {
+    "path": "meshy-remesh-8000.glb",
+    "bytes": 38340704,
+    "sha256": "179b7e3c308207a2b701216b816024ac3bc311657970145dcc9e8181d0a8a2bd"
+  },
+  "mesh_nodes": 1,
+  "triangles": 5538,
+  "mesh_inventory": [
+    {
+      "name": "output_unwrapped",
+      "vertices": 8549,
+      "triangles": 5538,
+      "uv_layers": [
+        "UVMap"
+      ],
+      "material_slots": [
+        "BakedMaterial"
+      ]
+    }
+  ],
+  "original_bounds_blender_z_up": [
+    [
+      -0.952642,
+      -0.658375,
+      -0.696306
+    ],
+    [
+      0.949993,
+      0.6779779,
+      0.7094831
+    ]
+  ],
+  "original_dimensions": [
+    1.902635097503662,
+    1.3363529443740845,
+    1.4057891368865967
+  ],
+  "inspection_uniform_scale": 2.2051671325797657,
+  "inspection_bounds_blender_z_up": [
+    [
+      -2.0978138,
+      -1.4734408,
+      0.0
+    ],
+    [
+      2.0978141,
+      1.4734408,
+      3.0999999
+    ]
+  ],
+  "inspection_dimensions": [
+    4.1956281661987305,
+    2.9468815326690674,
+    3.0999999046325684
+  ],
+  "canonical_source_dimensions": [
+    4.14,
+    2.8757482,
+    3.1
+  ],
+  "normalization_scope": "In-memory uniform scale to 3.10m height and footprint centering only; no warp, mesh edit, export, runtime placement or collision modification",
+  "materials_gltf": [
+    {
+      "doubleSided": true,
+      "emissiveFactor": [
+        1,
+        1,
+        1
+      ],
+      "emissiveTexture": {
+        "index": 0
+      },
+      "name": "BakedMaterial",
+      "normalTexture": {
+        "index": 1
+      },
+      "pbrMetallicRoughness": {
+        "baseColorTexture": {
+          "index": 2
+        },
+        "metallicRoughnessTexture": {
+          "index": 3
+        }
+      }
+    }
+  ],
+  "embedded_images": [
+    {
+      "name": "normal",
+      "size": [
+        4096,
+        4096
+      ],
+      "channels": 4,
+      "colorspace": "Non-Color"
+    },
+    {
+      "name": "texture_0",
+      "size": [
+        4096,
+        4096
+      ],
+      "channels": 4,
+      "colorspace": "sRGB"
+    },
+    {
+      "name": "texture_0_emit",
+      "size": [
+        4096,
+        4096
+      ],
+      "channels": 4,
+      "colorspace": "sRGB"
+    },
+    {
+      "name": "texture_0_metallic_roughness",
+      "size": [
+        4096,
+        4096
+      ],
+      "channels": 4,
+      "colorspace": "Non-Color"
+    }
+  ],
+  "gltf_texture_count": 4,
+  "views": [
+    {
+      "path": "remesh-front-left.png",
+      "sha256": "deebf68032c43d7e461bf25fcfe2d24859698b67cd71b46ab9694427c98ce4c3",
+      "bytes": 1908915,
+      "target": [
+        1.1920928955078125e-07,
+        0.0,
+        1.5499999523162842
+      ],
+      "direction": [
+        -1.0,
+        -1.0,
+        0.47999998927116394
+      ],
+      "ortho_scale": 6.3773548126220705
+    },
+    {
+      "path": "remesh-rear-right.png",
+      "sha256": "4b76112588048e89a5aa07d00abfa81efdb5be3c41db2f6069f5d3245009a6a1",
+      "bytes": 1931378,
+      "target": [
+        1.1920928955078125e-07,
+        0.0,
+        1.5499999523162842
+      ],
+      "direction": [
+        1.0,
+        1.0,
+        0.44999998807907104
+      ],
+      "ortho_scale": 6.3773548126220705
+    },
+    {
+      "path": "remesh-front.png",
+      "sha256": "d7ae4aeb419f4b6ce78c35f826b01de04dea956b39b0943032717b84464945d4",
+      "bytes": 1721290,
+      "target": [
+        1.1920928955078125e-07,
+        0.0,
+        1.5499999523162842
+      ],
+      "direction": [
+        0.0,
+        -1.0,
+        0.14000000059604645
+      ],
+      "ortho_scale": 6.3773548126220705
+    },
+    {
+      "path": "remesh-left.png",
+      "sha256": "13bca5e1d7b53173215062dd2546af57c41bbd2edaa7e4121729d73c6a8551ac",
+      "bytes": 1615427,
+      "target": [
+        1.1920928955078125e-07,
+        0.0,
+        1.5499999523162842
+      ],
+      "direction": [
+        -1.0,
+        0.0,
+        0.14000000059604645
+      ],
+      "ortho_scale": 6.3773548126220705
+    },
+    {
+      "path": "remesh-roof-and-openings.png",
+      "sha256": "5218be5df09e792b0a4d4475315507a5453507a018bcdd833e15d79b0d5262bd",
+      "bytes": 2099199,
+      "target": [
+        1.1920928955078125e-07,
+        -0.1599999964237213,
+        1.7999999523162842
+      ],
+      "direction": [
+        -0.6499999761581421,
+        -1.0,
+        0.699999988079071
+      ],
+      "ortho_scale": 5.548298686981202
+    }
+  ],
+  "limits": [
+    "Five exterior views do not prove an explorable interior or runtime performance",
+    "Multi-view reconstruction still infers 3D topology from the four source images; exterior images are not a topology proof",
+    "Original source glass remains separate and unchanged in the frozen reference folder"
+  ],
+  "producer_sha256": "a67217fcaaadbcfba504a05157dacf4c35d8c03a422767a569e47a8cadcaf11d",
+  "studio_helper_sha256": "e75fd298da9a2f7a425c9be372974adc14342b18dfa929ee435360dafe6bf554",
+  "blender": "4.5.12 LTS",
+  "embedded_texture_bindings": [
+    {
+      "role": "base_color",
+      "texture_index": 2,
+      "dimensions": [
+        4096,
+        4096
+      ],
+      "mime": "image/png",
+      "bytes": 16840775,
+      "sha256": "563049f73caaace8f3e62c7ec20032c071dd84774f2466788254429946ae098b"
+    },
+    {
+      "role": "metallic_roughness",
+      "texture_index": 3,
+      "dimensions": [
+        4096,
+        4096
+      ],
+      "mime": "image/png",
+      "bytes": 7793750,
+      "sha256": "dac4f7ada519c0b3d9c2503fbb228c5601a94d3872d14035c2c0c4b688ab1119"
+    },
+    {
+      "role": "normal",
+      "texture_index": 1,
+      "dimensions": [
+        4096,
+        4096
+      ],
+      "mime": "image/png",
+      "bytes": 13143303,
+      "sha256": "4e704d89891700ad5d0002c5a3ad7e6f5bf0d02dfe58d10195959e2c5cd3afb4"
+    },
+    {
+      "role": "emissive",
+      "texture_index": 0,
+      "dimensions": [
+        4096,
+        4096
+      ],
+      "mime": "image/png",
+      "bytes": 254126,
+      "sha256": "b9dcd13dd8e27ce630facc2acd325222e4fcd008914d771daa7a9663c739e23b",
+      "factor": [
+        1,
+        1,
+        1
+      ],
+      "rgb_extrema_0_255": [
+        [
+          0,
+          9
+        ],
+        [
+          0,
+          9
+        ],
+        [
+          0,
+          9
+        ]
+      ],
+      "rgb_mean_0_255": [
+        0.0032480955123901367,
+        0.003248453140258789,
+        0.0030705928802490234
+      ],
+      "nonzero_luma_pixels": 41317,
+      "total_pixels": 16777216,
+      "nonzero_luma_fraction": 0.0024626851081848145,
+      "luma_gt25_count": 0,
+      "luma_gt127_count": 0,
+      "interpretation": "Almost black, low-amplitude nonzero pixels; not mathematically zero. Binding and bytes preserved; no claim of runtime glow acceptance."
+    }
+  ],
+  "binding_count": 4,
+  "actual_gltf_nodes": [
+    {
+      "mesh": 0,
+      "name": "output_unwrapped"
+    }
+  ],
+  "actual_gltf_mesh_names": [
+    "output_unwrapped"
+  ],
+  "metadata_amendment": "Corrected multi-view limits and recorded actual fourth emissive binding after inspection; no rerun, geometry edit or PNG replacement.",
+  "future_source_frame_formula_not_applied": {
+    "axes": "Generated and original source semantic front is Blender -Y / glTF +Z; left is Blender -X / glTF -X. No additional yaw required by actual views.",
+    "uniform_scale": 2.2051671325797657,
+    "translate_blender_z_up": [
+      0.0029207438671019132,
+      -0.028739735391623923,
+      1.5554711054180863
+    ],
+    "formula": "p_source = uniform_scale*p_generated + translation. Target original footprint center(0,-.0071259) and source plinth lowZ .02. No model exported or nonuniform stretch.",
+    "preview_difference": "Actual renders centerXY at0 and put lowZ at0; source placement formula above adds source centerY and .02m lowZ separately."
+  },
+  "personal_review": {
+    "all_five_actual_views_inspected": true,
+    "root_also_confirmed": true,
+    "layout": "One front door, one left window, blank rear/right still retained; no Janus repetition in the five views.",
+    "defects": [
+      {
+        "view": "remesh-rear-right.png",
+        "location": "lower-left visible rear plinth corner",
+        "finding": "Large black triangular cutout/void appearance introduced by remesh, absent from corresponding raw view."
+      },
+      {
+        "view": "remesh-front.png / remesh-roof-and-openings.png",
+        "location": "front gable immediately above door header",
+        "finding": "Visible vertical dark slit/void introduced by remesh, absent from corresponding raw view."
+      }
+    ],
+    "classification_limit": "Visible defects are confirmed by the actual images; exact boundary-hole vs inward/degenerate surface mechanism was not diagnosed or repaired.",
+    "metric_dimensions_at_uniform_height3_10m": [
+      4.1956281661987305,
+      2.9468815326690674,
+      3.0999999046325684
+    ],
+    "width_relative_difference": 0.013436755120466382,
+    "depth_relative_difference": 0.02473559147809512,
+    "actual_triangle_count": 5538,
+    "requested_triangle_target": 8000,
+    "PBR": "Four bindings retained including almost-black emissive; maps rebaked by API, not byte-identical to raw. No map was discarded or changed.",
+    "snow_gate": "No snow treatment/native scene fit accepted. This lane did not add snow, retune texture/material or modify runtime.",
+    "stop": "No further paid task, repair, decimation, UV or tuning. Unique raw and remesh plus logs/receipts/views retained for root archive."
+  },
+  "credit_receipt": {
+    "generation_task_id": "01a15841-9e99-7197-aa52-5ae2e9786101",
+    "generation_consumed_credits": 30,
+    "remesh_task_id": "01a1584a-2d8b-75cc-8006-2c1e6b055329",
+    "remesh_consumed_credits": 5,
+    "authority": "API status-04.json and remesh-status-02.json consumed_credits",
+    "stage_actual": 35,
+    "family_actual_including_old_single_image_HOLD": 65,
+    "global_actual": 425,
+    "global_limit": 4000
+  }
+}

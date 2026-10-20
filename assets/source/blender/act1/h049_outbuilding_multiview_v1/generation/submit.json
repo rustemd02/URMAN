@@ -1,0 +1,31 @@
+{
+  "estimated_credits": 30,
+  "inputs": [
+    {
+      "bytes": 1130061,
+      "role": "geometry_view_front",
+      "sha256": "d1b8355e1207ab0d05c666c994be9f4369835d1059ea5a3d692cc479561f0aab"
+    },
+    {
+      "bytes": 1125679,
+      "role": "geometry_view_2",
+      "sha256": "99388ad665a2bef727920d1fb19ee557fb2d4b160614f3daec7536187d7288c2"
+    },
+    {
+      "bytes": 1095333,
+      "role": "geometry_view_3",
+      "sha256": "1c4a9b42a678500fc00e279cb054b8532f12d2d57e1298fdb85b89ef73b2e9b6"
+    },
+    {
+      "bytes": 1098579,
+      "role": "geometry_view_4",
+      "sha256": "4923c0a1a853a474982afbb540f200fb9694d1cbfd47e0d25a1a8335588e5fd5"
+    },
+    {
+      "bytes": 2134839,
+      "role": "texture_reference",
+      "sha256": "4511d043c56f36f87a2a3cfa9b49baf5bfeaeb03e33124dd947c8a3ad31335d9"
+    }
+  ],
+  "task_id": "01a15841-9e99-7197-aa52-5ae2e9786101"
+}

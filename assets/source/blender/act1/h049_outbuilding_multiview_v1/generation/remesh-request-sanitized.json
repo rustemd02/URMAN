@@ -1,0 +1,14 @@
+{
+  "endpoint": "POST /openapi/v1/remesh",
+  "payload": {
+    "input_task_id": "01a15841-9e99-7197-aa52-5ae2e9786101",
+    "target_formats": [
+      "glb"
+    ],
+    "topology": "triangle",
+    "target_polycount": 8000
+  },
+  "authorization": "root conditional GO within35; five raw views and currentraw543840tri satisfy condition",
+  "estimated_credits": 5,
+  "no_resubmit_on_unknown_outcome": true
+}
