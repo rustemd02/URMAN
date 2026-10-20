@@ -1,0 +1,40 @@
+{
+  "operation": "one POST /openapi/v1/retexture",
+  "prepared_at_utc": "2026-10-20T06:08:15.038260+00:00",
+  "ai_model": "meshy-7",
+  "texture_resolution": "4k",
+  "enable_pbr": true,
+  "enable_original_uv": true,
+  "target_formats": [
+    "glb"
+  ],
+  "model_url": "[local GLB data URI omitted from sanitized receipt]",
+  "image_style_url": "[local PNG data URI omitted from sanitized receipt]",
+  "inputs": [
+    {
+      "path": "assets/source/blender/act1/rough_picket_family_reference_v3/rough-picket-family-source.glb",
+      "sha256": "b0188bdb300a644126bbf495c4d4854aa4a11c0a5cd0485510297014a1a9e195",
+      "bytes": 187300
+    },
+    {
+      "path": "assets/source/blender/act1/rough_picket_family_reference_v3/imagegen-reference-v1.png",
+      "sha256": "c293359efe7c3489bd6ec049a36abe4964cbb2a5700870f01f4a50adc50bb94c",
+      "bytes": 1668738
+    }
+  ],
+  "client": {
+    "path": "eng/meshy_assets.py",
+    "sha256": "13a2638524cf0f2a04463fc6e34d2a7f60d4143dd8ca0878a81ba8cdf7e1ae35",
+    "submit_retries": 0
+  },
+  "budget": {
+    "author_global_cap": 4000,
+    "recorded_spend_before": 350,
+    "root_reserved_maximum_this_one_task": 20,
+    "quoted_estimated_credits": 10,
+    "source": "https://docs.meshy.ai/en/api/pricing",
+    "keep_original_uv_support": "https://docs.meshy.ai/en/api/retexture",
+    "current_docs_read_date": "2026-10-20"
+  },
+  "limits": "One task only. No remesh/image-to-3D/UV/geometry change. Returned geometry never authoritative. No material attachment until root GO."
+}

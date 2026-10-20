@@ -143809,8 +143809,8 @@
         ],
         "budget": {
           "author_cap": 4000,
-          "actual_consumed": 350,
-          "remaining_author_cap": 3650,
+          "actual_consumed": 360,
+          "remaining_author_cap": 3640,
           "first_family_cap": 90,
           "first_family_consumed": 40,
           "active_task_id": "01a1539f-c9cb-7389-bae9-71b8cc11748e",
@@ -143828,7 +143828,7 @@
           "pine_recovery_remesh_task_id": "01a153dd-e80f-754e-95ce-bf919b3f0011",
           "pine_recovery_remesh_task_state": "SUCCEEDED actual5credits;V2source25508/5999/4 runtimecanonicalpromoted; natived61c830PASS, fullart/motion/performanceopen",
           "next_fence_family_cap": 45,
-          "next_fence_family_consumed": 35,
+          "next_fence_family_consumed": 45,
           "next_fence_task_id": "01a1541b-9f22-71fb-b51d-6950f6a2b28d",
           "next_fence_task_state": "SUCCEEDED actual30credits",
           "next_fence_remesh_task_id": "01a1541e-35a4-76b3-910a-0489a8cdf855",
@@ -143843,7 +143843,10 @@
           "summer_willow_remesh_task_state": "SUCCEEDED100; actual5credits; downloaded19031tri",
           "neighbor_retexture_reserved": 0,
           "neighbor_retexture_task_id": "01a1574a-1612-7029-ba88-092a8a002a6e",
-          "neighbor_retexture_task_state": "SUCCEEDED100; actual10credits; maps-only attachment pending"
+          "neighbor_retexture_task_state": "SUCCEEDED100; actual10credits; maps-only attachment pending",
+          "next_fence_retexture_reserved": 0,
+          "next_fence_retexture_task_id": "01a157ec-cf3b-7606-800d-0cbc23c9c260",
+          "next_fence_retexture_task_state": "SUCCEEDED100; consumed_credits10 from sanitizedstatus-initial.json; maps inspection pending"
         },
         "current_artifact": "Conifer static native stage retained; full art/motion/performance open. VariantA V2 PBR integrated only into active residential H001 default nested dwelling; explicit Studio modelPath wins. W02 two near-only generated willows integrated into existing roots/prewarm. Both runtime bytes match source, Game17.39s0/0 and independent source review pass. Native/UVcoverage/art/performance and full asset family acceptance remain open; no council/retired-house replacement.",
         "log_house_acceptance": "Для нового generated-сруба проверены actualGLB front/side/three-quarter и крупно углы/проёмы: венцы опираются друг на друга, угловые соединения и торцы правдоподобны, проёмы/перемычки/опора крыши корректны; нет парящих брёвен, случайных пересечений и неестественных цокольных наплывов. ImageGen reference не заменяет post-Meshy проверку.",
@@ -143902,14 +143905,14 @@
         "verification": "Independent bounded read-only source/consumer review; no generated asset replacement, export or runtime claim."
       },
       "fence_family_input_2026_10_20": {
-        "state": "source_and_builtin_material_reference_accepted_one_maps_task_authorized",
+        "state": "maps_task_succeeded_download_inspection_pending",
         "agent": "/root/all_world_book_content",
         "target_folder": "assets/source/blender/act1/rough_picket_family_reference_v3/",
         "source_owner": "Act1ConnectedWorld.YardFences.cs batches FenceParts ArrayMesh/material and YardFenceBody collision, not oldGLB. Current84nonkeep lots10–19m do not enter4.4–5m BuildYardWicket branch; actual access doublecartleaves are baked open/static, not interactivewickets.",
         "specimen": "ActualADR-H015 rough-picket: nominal2.35m bay13boards95x28mm/post120mm/tworails; activecartgate postcentres±1.72m/clear3.27m/two1.30m leaves9boards each; keepcurrentcollision/opening/no protectedBabai/Tamara scope.",
         "reuse": "Existing rough_picket_meshy_v1 topology rejected; removedbigbinaries stayremoved, uniquesources/receipts retained. Existingv2ref layoutonly/notfinalstyle. New source-only current-C# reconstructed semantic donor, existing originalfencekit primitives with explicit parity overrides; noMacruntime capture claim.",
-        "limits": "Oneatlas/actualsourceviews/receipt, stoptechnicalfail/no microiterations; noImageGen/Meshy/API/spend/runtime/Godot/Git yet. Rootview acceptance first, then built-inImageGen ref+onekeepUVmaps-only retx proposal, no thirdwhole-topology purchase. Runtime batch/UV/performance integration remains future explicit stage.",
-        "new_meshy_spend": 0,
+        "limits": "Source/ref finiteinputs accepted in c71f47e4. Exactlyone keepUV PBR maps task succeeded10credits; canonical79mesh/2212tri remainsauthority. No new paidcalls/remesh/topology/UVgeometry edits/runtimebinding. Downloadedmaps must be inspected before one maps-only attachment; no microiterations.",
+        "new_meshy_spend": 10,
         "source_receipt": "assets/source/blender/act1/rough_picket_family_reference_v3/source-receipt.json",
         "source_glb_sha256": "b0188bdb300a644126bbf495c4d4854aa4a11c0a5cd0485510297014a1a9e195",
         "root_review": "Root viewed all5sourceviews; visible inheritedfloatinghandle rejected. Root runtime cart-only .10→.04normaloffset seats handle2.5mm into40mmboard; one causal sourceparityrun changedonly2handlepositions. Root personallyreviewedfixedopening,79mesh/2212tri/UVselector0beforeafter/clear3.27m/boardgap85.77mm retained. Notnative/art/runtimeassetreplacement.",
@@ -143919,13 +143922,19 @@
         "reference_provenance": "assets/source/blender/act1/rough_picket_family_reference_v3/provenance.md",
         "reference_root_review": "Root personallyviewed quietivorywashedpine/matteiron family: coherentwithacceptedhouse, openleaves/clearpassage retained inreference; exactboards/geometry remainfrozenGLBauthority.",
         "maps_stage": {
-          "state": "one_submission_authorized_pending_actual_receipt",
+          "state": "SUCCEEDED_download_inspection_pending",
           "folder": "assets/source/blender/act1/rough_picket_family_reference_v3/retexture_maps_v1/",
           "credit_ceiling": 20,
           "known_global_spent_before": 350,
           "known_global_remaining_before": 3650,
           "limits": "OnekeepUVPBRretexture/maps-only, no remesh/newtopology/secondpaidattempt/auto-resubmit; source79semantic/2212tri stayscanonical. ActualtaskID/chargedcredits must replacependingdata. No runtime/Git/sharedJSON byworker; sanitizedrawreceipts only, no keys/signedURLs.",
-          "rights_limit": "PaidMeshyterms/ownsource+ImageGen; no CC0 claim or fullrights/art/native acceptance."
+          "rights_limit": "PaidMeshyterms/ownsource+ImageGen; no CC0 claim or fullrights/art/native acceptance.",
+          "task_id": "01a157ec-cf3b-7606-800d-0cbc23c9c260",
+          "actual_consumed_credits": 10,
+          "reserved_remaining": 0,
+          "status_receipt": "assets/source/blender/act1/rough_picket_family_reference_v3/retexture_maps_v1/status-initial.json",
+          "submit_receipt": "assets/source/blender/act1/rough_picket_family_reference_v3/retexture_maps_v1/submit-receipt.json",
+          "source_runtime_binding": "not_started; returnedgeometry mustnotreplacecanonicaldonor, no artwork/native/performance acceptance"
         }
       }
     },

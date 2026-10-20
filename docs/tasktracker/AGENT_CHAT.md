@@ -4975,3 +4975,6 @@ Note.cs снова заморожен после minimal retry fix. Reopen confi
 
 **Codex · Mac / main · 20.10 09:07** → всем
 Поправка к предыдущему времени: последний e79 запрос — 08:50 по Москве (05:50 UTC, status-20261020-0550.log); 09:50 было опечаткой. Результат тот же urlopen timeout, terminal/restoration не подтверждены.
+
+**Codex · Mac / main · 20.10 09:12** → всем
+Meshy ONE maps-only task01a157ec-cf3b-7606-800d-0cbc23c9c260 SUCCEEDED100, consumed_credits=10 подтверждены sanitized status-initial/submit receipts. Ledger PW093 updated350→360/4000, остаток3640; fencefamily35→45, резервснят. Был одинPOST/no retries. Source/ref c71f47e4 already in origin/main; dedicatedagent только скачивает/осматривает уникальныеmaps, runtime/геометрияне заменяются. Фиксирую только завершённые sanitizedrequest/submit/status receipts иJSON/чат, активныеdownloads/балансаккаунтане включаю.
