@@ -2678,6 +2678,61 @@
             "op": "photoworlds.photo.state",
             "photoId": "P-COMMON",
             "state": "acquired"
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "beat.state",
+              "beatId": "urman.fullgame:beat/pw-b06-authored-caption-and-print",
+              "state": "completed"
+            }
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "photoworlds.photo.state",
+              "photoId": "P-COMMON",
+              "state": "mounted"
+            }
+          }
+        ],
+        "effects": [
+          {
+            "op": "beat.set-state",
+            "beatId": "urman.fullgame:beat/pw-b06-authored-caption-and-print",
+            "state": "completed"
+          }
+        ]
+      },
+      {
+        "id": "urman.fullgame:interaction/pw-mount-common-photo",
+        "labelTextId": "urman.fullgame:text/pw-label-mount-common-photo",
+        "conditions": [
+          {
+            "op": "photoworlds.book.received"
+          },
+          {
+            "op": "photoworlds.caption.prepared",
+            "photoId": "P-COMMON",
+            "sourceAuthorId": "urman.chapter1:character/marat"
+          },
+          {
+            "op": "photoworlds.photo.state",
+            "photoId": "P-COMMON",
+            "state": "acquired"
+          },
+          {
+            "op": "beat.state",
+            "beatId": "urman.fullgame:beat/pw-b06-authored-caption-and-print",
+            "state": "completed"
+          },
+          {
+            "op": "not",
+            "condition": {
+              "op": "photoworlds.photo.state",
+              "photoId": "P-COMMON",
+              "state": "mounted"
+            }
           }
         ],
         "effects": [
@@ -2685,11 +2740,6 @@
             "op": "photoworlds.photo.mount",
             "photoId": "P-COMMON",
             "pageId": "PAGE-COMMON"
-          },
-          {
-            "op": "beat.set-state",
-            "beatId": "urman.fullgame:beat/pw-b06-authored-caption-and-print",
-            "state": "completed"
           }
         ]
       },
@@ -5007,6 +5057,17 @@
       "default": "Напечатать подписанный снимок для книги",
       "translations": {
         "ru": "Напечатать подписанный снимок для книги"
+      }
+    },
+    "purpose": "ui"
+  },
+  {
+    "schemaVersion": 1,
+    "id": "urman.fullgame:text/pw-label-mount-common-photo",
+    "value": {
+      "default": "Вклеить распечатанный общий кадр",
+      "translations": {
+        "ru": "Вклеить распечатанный общий кадр"
       }
     },
     "purpose": "ui"

@@ -366,6 +366,21 @@ public partial class RuntimeBridge
 
     internal bool IsPhotoBookProjectionDeferred => _loadingSlot || _loadPreparing;
 
+    private static readonly JsonElement CommonPhotoPrintedCondition = JsonSerializer.SerializeToElement(new
+    {
+        op = "beat.state",
+        beatId = "urman.fullgame:beat/pw-b06-authored-caption-and-print",
+        state = "completed"
+    });
+
+    internal bool HasPrintedCommonPhoto => !IsPhotoBookProjectionDeferred && _content.HasPhotoWorlds
+        && SessionIdentity is { } session && CommonPhotoPrinted(session.SelectState());
+
+    private static bool CommonPhotoPrinted(JsonElement state) =>
+        ContentRuleEngine.Evaluate(CommonPhotoPrintedCondition, state)
+        // Older book mounting could precede the print beat; keep its paper visible.
+        || PhotoFlag(state, "P-COMMON", "mounted");
+
     /// <summary>Projects only acquired photos from the validated live session.</summary>
     internal IReadOnlyList<PhotoBookPhoto> PhotoBookPhotos()
     {
@@ -421,7 +436,8 @@ public partial class RuntimeBridge
                     "family-book-print" => "Снимок из семейной книги",
                     "family-envelope-print" => "Снимок из семейного конверта",
                     "family-yard-print" => "Семейный отпечаток",
-                    "authorized-marat-file" => "Копия файла",
+                    "authorized-marat-file" => CommonPhotoPrinted(state)
+                        ? "Бумажная распечатка" : "Разрешённая копия файла",
                     "family-box-print" => "Снимок из семейной коробки",
                     "family-pc-contact-sheet" => "Семейный контактный лист",
                     "school-album-copy" => "Копия из школьного альбома",

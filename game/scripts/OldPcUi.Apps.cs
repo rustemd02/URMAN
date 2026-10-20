@@ -271,16 +271,21 @@ public partial class OldPcUi
         if (bridge.PhotoWorldFactObserved("common_marat_file_found"))
             AddFileRow(list, FamilyMaratFileName, "family:marat-file");
         var sheetSaved = bridge.PhotoBookPhotos().Any(photo => photo.PhotoId == "S-PRINT");
-        var copyAcquired = bridge.PhotoBookPhotos().Any(photo => photo.PhotoId == "P-COMMON");
+        var commonPhoto = bridge.PhotoBookPhotos().FirstOrDefault(photo => photo.PhotoId == "P-COMMON");
+        var copyAcquired = commonPhoto is not null;
         _fileStatus.Text = list.ItemCount == 0
             ? "Семейная папка. Сохранённые снимки появятся здесь."
-            : copyAcquired
-                ? "Семья разрешила копию файла. Подпишите снимок в блокноте — и его можно напечатать."
-                : bridge.PhotoWorldFactObserved("common_marat_file_found")
-                    ? "Файл «" + FamilyMaratFileName + "» найден. Копию можно сохранить только с разрешения семьи."
-                    : sheetSaved
-                        ? "Копия контактного листа сохранена в книгу. Имя нужного файла — на самом листе."
-                        : "Дважды нажмите файл, чтобы открыть его. Часть файлов ищется по имени с контактного листа.";
+            : commonPhoto?.Mounted == true
+                ? "Общий кадр уже вклеен в семейную книгу. Исходный файл остаётся здесь."
+                : bridge.HasPrintedCommonPhoto
+                    ? "Лист лежит в лотке принтера. Вклейте снимок в семейную книгу."
+                    : copyAcquired
+                        ? "Семья разрешила копию файла. Подпишите снимок в блокноте — и его можно напечатать."
+                        : bridge.PhotoWorldFactObserved("common_marat_file_found")
+                            ? "Файл «" + FamilyMaratFileName + "» найден. Копию можно сохранить только с разрешения семьи."
+                            : sheetSaved
+                                ? "Копия контактного листа сохранена в книгу. Имя нужного файла — на самом листе."
+                                : "Дважды нажмите файл, чтобы открыть его. Часть файлов ищется по имени с контактного листа.";
     }
 
     private void RefreshFamilyCopyAction()
@@ -374,7 +379,8 @@ public partial class OldPcUi
     private void ShowFamilyMaratFile(RuntimeBridge bridge)
     {
         _familyShownFile = "marat-file";
-        var copyAcquired = bridge.PhotoBookPhotos().Any(photo => photo.PhotoId == "P-COMMON");
+        var commonPhoto = bridge.PhotoBookPhotos().FirstOrDefault(photo => photo.PhotoId == "P-COMMON");
+        var copyAcquired = commonPhoto is not null;
         _familyReader.Text = string.Join('\n', new List<string>
         {
             FamilyMaratFileName,
@@ -383,9 +389,13 @@ public partial class OldPcUi
             "Общий кадр с плёнки «лето»: проём, берег и дальний дом.",
             "На файле черновая подпись: «Черновик. Подпись не закончена».",
             "",
-            copyAcquired
-                ? "Семья разрешила копию. Составьте свою подпись в блокноте — и снимок можно напечатать."
-                : "Копию можно сохранить только с разрешения семьи. Поговорите с әби."
+            commonPhoto?.Mounted == true
+                ? "Общий кадр уже вклеен в семейную книгу. Исходный файл сохранён."
+                : bridge.HasPrintedCommonPhoto
+                    ? "Лист лежит в лотке принтера. Вклейте снимок в семейную книгу."
+                    : copyAcquired
+                        ? "Семья разрешила копию. Составьте свою подпись в блокноте — и снимок можно напечатать."
+                        : "Копию можно сохранить только с разрешения семьи. Поговорите с әби."
         });
     }
 
@@ -636,9 +646,13 @@ public partial class OldPcUi
 
         var ready = _bridge!.CanPreparePhotoWorldCaption("P-COMMON");
         _photoCaptionButton.Disabled = _photoCaptionPending || !ready || !_editors["notepad"].Editable;
-        _photoCaptionHint.Text = ready
-            ? "Разрешённый файл Марата найден. Составь собственную подпись; бумажный отпечаток можно будет напечатать отдельно."
-            : "Подпись откроется после получения разрешённого файла Марата.";
+        _photoCaptionHint.Text = _bridge.PhotoBookPhotos().Any(photo => photo.PhotoId == "P-COMMON" && photo.Mounted)
+            ? "Снимок уже вклеен в семейную книгу. Исходный файл и подпись сохранены."
+            : _bridge.HasPrintedCommonPhoto
+                ? "Лист лежит в лотке принтера. Вклейте снимок в семейную книгу."
+                : ready
+                    ? "Разрешённый файл Марата найден. Составь собственную подпись; бумажный отпечаток можно будет напечатать отдельно."
+                    : "Подпись откроется после получения разрешённого файла Марата.";
     }
 
     private async void PreparePhotoCaptionFromNote()
@@ -685,7 +699,9 @@ public partial class OldPcUi
             return;
         }
 
-        _editorStatuses["notepad"].Text = "Подпись сохранена отдельно от исходного файла Марата. Её можно напечатать позднее.";
+        _editorStatuses["notepad"].Text = bridge.HasPrintedCommonPhoto
+            ? "Подпись сохранена отдельно от исходного файла Марата."
+            : "Подпись сохранена отдельно от исходного файла Марата. Её можно напечатать позднее.";
         RefreshPhotoCaptionAction();
     }
 
@@ -694,9 +710,8 @@ public partial class OldPcUi
         && _windows.TryGetValue("notepad", out var window) && window.Open
         && ReferenceEquals(session, bridge.SessionIdentity);
 
-    // The digital half of the print: the authored interaction mounts the
-    // authored page and completes its beat; the physical sheet is the same
-    // PhotoId projected by the home printer presence, never a second source.
+    // Printing produces the paper for the existing PhotoId. Its placement in
+    // the book remains a separate authored action owned by the book controls.
     private void RefreshPhotoPrintAction()
     {
         if (_photoPrintButton is null) return;
@@ -706,26 +721,35 @@ public partial class OldPcUi
             _photoPrintButton.Visible = false;
             return;
         }
-        var printed = bridge.PhotoBookPhotos().Any(photo => photo.PhotoId == "P-COMMON" && photo.Mounted);
+        var printed = bridge.HasPrintedCommonPhoto;
         var available = bridge.IsInteractionAvailable("urman.fullgame:interaction/pw-print-common-photo");
         _photoPrintButton.Visible = available && !printed;
-        _photoPrintButton.Disabled = !available;
+        _photoPrintButton.Disabled = printed || !available;
     }
 
     private async void PrintCommonPhotoFromNote()
     {
         if (_bridge is not { } bridge || _photoPrintButton is null) return;
+        if (bridge.HasPrintedCommonPhoto)
+        {
+            RefreshPhotoPrintAction();
+            _editorStatuses["notepad"].Text = bridge.PhotoBookPhotos().Any(photo => photo.PhotoId == "P-COMMON" && photo.Mounted)
+                ? "Снимок уже вклеен в семейную книгу."
+                : "Лист уже лежит в лотке принтера. Вклейте снимок в семейную книгу.";
+            return;
+        }
         if (!bridge.IsInteractionAvailable("urman.fullgame:interaction/pw-print-common-photo"))
         {
             _editorStatuses["notepad"].Text = "Печать откроется после собственной подписи и разрешённого файла.";
             return;
         }
+        var session = bridge.SessionIdentity;
         _photoPrintButton.Disabled = true;
         var printed = await DispatchFamilyStepAsync(bridge, "urman.fullgame:interaction/pw-print-common-photo");
-        if (!IsInsideTree() || _bridge != bridge) return;
+        if (!IsInsideTree() || _bridge != bridge || !ReferenceEquals(session, bridge.SessionIdentity)) return;
         RefreshPhotoPrintAction();
-        _editorStatuses["notepad"].Text = printed
-            ? "Снимок напечатан: страница вложена в книгу."
+        _editorStatuses["notepad"].Text = printed && bridge.HasPrintedCommonPhoto
+            ? "Лист лежит в лотке принтера. Вклейте снимок в семейную книгу."
             : "Напечатать не удалось — попробуйте ещё раз.";
     }
 

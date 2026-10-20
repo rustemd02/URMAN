@@ -227,9 +227,14 @@ public partial class FullGameFlowSmokeTest : Node
 
         await PrintCommonPhotoThroughOldPcAsync(bridge);
         var printed = Photo(World(bridge.SelectRuntimeState()), "P-COMMON");
+        Require(bridge.HasPrintedCommonPhoto && !printed.GetProperty("mounted").GetBoolean()
+                && printed.GetProperty("pageId").ValueKind == JsonValueKind.Null,
+            "Printing must produce the physical print before explicit book mounting.");
+        await InteractAsync(bridge, "pw-mount-common-photo");
+        printed = Photo(World(bridge.SelectRuntimeState()), "P-COMMON");
         Require(printed.GetProperty("mounted").GetBoolean()
                 && printed.GetProperty("pageId").GetString() == "PAGE-COMMON",
-            "Printing did not mount the authored page for the same PhotoId.");
+            "Explicit book mounting did not mount the printed page for the same PhotoId.");
         await InteractAsync(bridge, "pw-enter-common", Scene("pw-common"));
         await ExpectBlockedAsync(bridge, "pw-common-horizon");
         await InteractAsync(bridge, "pw-common-three-places");
@@ -471,8 +476,8 @@ public partial class FullGameFlowSmokeTest : Node
         await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
     }
 
-    // The print is the visible digital half of the paper photo: the notepad
-    // button must be the one that mounts the authored page.
+    // The notepad button produces the paper print. Book mounting is a separate
+    // authored action after this existing UI flow has completed.
     private async Task PrintCommonPhotoThroughOldPcAsync(RuntimeBridge bridge)
     {
         var ui = GetTree().GetFirstNodeInGroup("old_pc_ui") as OldPcUi;
@@ -485,8 +490,8 @@ public partial class FullGameFlowSmokeTest : Node
         Require(print.Visible && !print.Disabled,
             "The visible print action did not enable after the authored caption was prepared.");
         print.EmitSignal(BaseButton.SignalName.Pressed);
-        await WaitFor(() => Photo(World(bridge.SelectRuntimeState()), "P-COMMON").GetProperty("mounted").GetBoolean(),
-            "The visible print action did not mount the authored page.");
+        await WaitFor(() => bridge.HasPrintedCommonPhoto,
+            "The visible print action did not complete the authored print.");
         ui.GetNode<Button>("Screen/Computer/Layout/Header/Close").EmitSignal(Button.SignalName.Pressed);
         await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
     }

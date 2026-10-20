@@ -22600,6 +22600,61 @@
                 "op": "photoworlds.photo.state",
                 "photoId": "P-COMMON",
                 "state": "acquired"
+              },
+              {
+                "op": "not",
+                "condition": {
+                  "op": "beat.state",
+                  "beatId": "urman.fullgame:beat/pw-b06-authored-caption-and-print",
+                  "state": "completed"
+                }
+              },
+              {
+                "op": "not",
+                "condition": {
+                  "op": "photoworlds.photo.state",
+                  "photoId": "P-COMMON",
+                  "state": "mounted"
+                }
+              }
+            ],
+            "effects": [
+              {
+                "op": "beat.set-state",
+                "beatId": "urman.fullgame:beat/pw-b06-authored-caption-and-print",
+                "state": "completed"
+              }
+            ]
+          },
+          {
+            "id": "urman.fullgame:interaction/pw-mount-common-photo",
+            "labelTextId": "urman.fullgame:text/pw-label-mount-common-photo",
+            "conditions": [
+              {
+                "op": "photoworlds.book.received"
+              },
+              {
+                "op": "photoworlds.caption.prepared",
+                "photoId": "P-COMMON",
+                "sourceAuthorId": "urman.chapter1:character/marat"
+              },
+              {
+                "op": "photoworlds.photo.state",
+                "photoId": "P-COMMON",
+                "state": "acquired"
+              },
+              {
+                "op": "beat.state",
+                "beatId": "urman.fullgame:beat/pw-b06-authored-caption-and-print",
+                "state": "completed"
+              },
+              {
+                "op": "not",
+                "condition": {
+                  "op": "photoworlds.photo.state",
+                  "photoId": "P-COMMON",
+                  "state": "mounted"
+                }
               }
             ],
             "effects": [
@@ -22607,11 +22662,6 @@
                 "op": "photoworlds.photo.mount",
                 "photoId": "P-COMMON",
                 "pageId": "PAGE-COMMON"
-              },
-              {
-                "op": "beat.set-state",
-                "beatId": "urman.fullgame:beat/pw-b06-authored-caption-and-print",
-                "state": "completed"
               }
             ]
           },
@@ -30998,6 +31048,17 @@
       },
       {
         "schemaVersion": 1,
+        "id": "urman.fullgame:text/pw-label-mount-common-photo",
+        "value": {
+          "default": "\u0412\u043A\u043B\u0435\u0438\u0442\u044C \u0440\u0430\u0441\u043F\u0435\u0447\u0430\u0442\u0430\u043D\u043D\u044B\u0439 \u043E\u0431\u0449\u0438\u0439 \u043A\u0430\u0434\u0440",
+          "translations": {
+            "ru": "\u0412\u043A\u043B\u0435\u0438\u0442\u044C \u0440\u0430\u0441\u043F\u0435\u0447\u0430\u0442\u0430\u043D\u043D\u044B\u0439 \u043E\u0431\u0449\u0438\u0439 \u043A\u0430\u0434\u0440"
+          }
+        },
+        "purpose": "ui"
+      },
+      {
+        "schemaVersion": 1,
         "id": "urman.fullgame:text/pw-label-mount-house-photo",
         "value": {
           "default": "\u0412\u043A\u043B\u0435\u0438\u0442\u044C \u0441\u043D\u0438\u043C\u043E\u043A \u0434\u0432\u043E\u0440\u0430 \u0438 \u043F\u0440\u043E\u0447\u0438\u0442\u0430\u0442\u044C \u043E\u0431\u043E\u0440\u043E\u0442",
@@ -32755,7 +32816,7 @@
     {
       "moduleId": "urman.fullgame",
       "exactVersion": "1.0.0",
-      "sha256": "fd6b245a60851d154bcee2e53e760758d496cdecf503b476abf46e243655975e"
+      "sha256": "3cc1daa52ef532ce7baf4e19079f168b20cacba692c0a8e1175d1145b8d41087"
     },
     {
       "moduleId": "urman.oldpc",
@@ -32763,5 +32824,5 @@
       "sha256": "a3cd65ca0fa229fb9162081dcb579945c63e78f2a72939c473f477b54067b292"
     }
   ],
-  "campaignFingerprint": "0819edb45a8083bb69b5c01cf9923eee32de518d4ab81a3eff7e36c632a5222a"
+  "campaignFingerprint": "e7eb22741ae47532667aaabbb439879a9efb5ff95919716c90b4d89d93290dc5"
 }

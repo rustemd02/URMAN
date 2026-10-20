@@ -539,6 +539,10 @@ internal partial class ArrivalPersonalProps : Node3D
         const float bodyWidth = .36f;
         const float bodyDepth = .30f;
         const float bodyHeight = .15f;
+        const float placementMargin = .01f;
+        const float footprintHalfWidth = bodyWidth * .5f + placementMargin;
+        const float footprintBack = -bodyDepth * .5f - placementMargin;
+        const float footprintFront = bodyDepth * .5f + .12f + placementMargin;
         var table = house.GetNode<Node3D>("GeneratedHouseInteriorAct1")
             .FindChildren("*", nameof(MeshInstance3D), true, false)
             .OfType<MeshInstance3D>().Single(mesh => mesh.Name == "HouseInterior_TableTop_LOD0");
@@ -546,30 +550,28 @@ internal partial class ArrivalPersonalProps : Node3D
         var faceTransform = house.GlobalTransform.AffineInverse() * table.GlobalTransform;
         var faces = table.Mesh!.GetFaces().Select(face => faceTransform * face).ToArray();
 
-        // Pick the free patch closest to the old PC: the CRT, the paper stack,
-        // the cup and the lamp own the rest of the west stretch, and the sheet
-        // slides forward, so the tray needs open table in front of it.
+        // Keep the full tray supported and prefer the front-left patch, where
+        // the CRT is less likely to hide the sheet. Other clear patches remain valid.
+        var preferredPosition = new Vector2(-.55f, -2.08f);
         var chosen = Vector3.Zero;
         var placed = false;
         var bestDistance = float.PositiveInfinity;
         var gridStep = .06f;
         var xs = new List<float>();
         var zs = new List<float>();
-        for (var x = support.Position.X + .32f; x <= support.End.X - .32f; x += gridStep)
+        for (var x = support.Position.X + footprintHalfWidth; x <= support.End.X - footprintHalfWidth; x += gridStep)
             xs.Add(x);
-        for (var z = support.Position.Z + .22f; z <= support.End.Z - .22f; z += gridStep)
+        for (var z = support.Position.Z - footprintBack; z <= support.End.Z - footprintFront; z += gridStep)
             zs.Add(z);
 
         foreach (var x in xs)
         foreach (var z in zs)
         {
             var candidate = new Vector2(x, z);
-            var halfWidth = bodyWidth * .5f + .01f;
-            var halfDepth = bodyDepth * .5f + .01f;
             var points = new List<Vector2> { candidate };
             foreach (var signX in new[] { -1f, 1f })
-            foreach (var signZ in new[] { -1f, 1f })
-                points.Add(candidate + new Vector2(signX * halfWidth, signZ * halfDepth));
+            foreach (var offsetZ in new[] { footprintBack, footprintFront })
+                points.Add(candidate + new Vector2(signX * footprintHalfWidth, offsetZ));
             var heights = points.Select(point => TableTopHeightAt(
                 point, faces, support.Position.Y - .01f, support.End.Y + .01f)).ToArray();
             if (heights.Any(float.IsNaN) || heights.Max() - heights.Min() > .002f)
@@ -590,9 +592,7 @@ internal partial class ArrivalPersonalProps : Node3D
                 continue;
             }
 
-            // Prefer a patch near the old PC anchor instead of the far west
-            // corner of the table.
-            var distance = (x - 0f) * (x - 0f) + (z + 2.68f) * (z + 2.68f);
+            var distance = (candidate - preferredPosition).LengthSquared();
             if (distance >= bestDistance) continue;
             bestDistance = distance;
             chosen = new Vector3(x, heights.Max() + .004f, z);
