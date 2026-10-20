@@ -76,6 +76,15 @@ public static class PhotoWorldState
         _ => false
     };
 
+    public static bool IsWorldCompleted(JsonElement state, string worldId) =>
+        TryGetVisitRoute(worldId, out _, out _) && ContentRuleEngine.Evaluate(
+            JsonSerializer.SerializeToElement(new
+            {
+                op = "quest.status",
+                questId = "urman.fullgame:quest/pw-" + worldId.ToLowerInvariant(),
+                status = "completed"
+            }), state);
+
     private static bool VisitEntryPrerequisitesMet(JsonElement state, JsonElement world, string worldId)
     {
         bool Quest(string id, string status = "completed") => ContentRuleEngine.Evaluate(
@@ -129,6 +138,7 @@ public static class PhotoWorldState
             visits["active"] = new JsonObject
             {
                 ["visitId"] = visitId, ["worldId"] = worldId, ["status"] = "prepared",
+                ["worldCompletedOnEntry"] = IsWorldCompleted(state, worldId),
                 ["safeNodeId"] = null, ["returnTicket"] = JsonNode.Parse(ticket.GetRawText())
             };
             world["transition"] = new JsonObject
@@ -204,7 +214,7 @@ public static class PhotoWorldState
                         && completedRoute.ValueKind == JsonValueKind.True;
                     var destination = completedBankRoute ? "urman.fullgame:scene/pw-bank-approach" : "urman.fullgame:scene/pw-home";
                     if (status != "returning" || RequiredString(state, "activeScene") != destination
-                        || (completedBankRoute && (worldId != "W04" || !ContentRuleEngine.Evaluate(
+                        || (completedBankRoute && (worldId != "W04" || Bool(active, "worldCompletedOnEntry") || !ContentRuleEngine.Evaluate(
                             JsonSerializer.SerializeToElement(new { op = "quest.status", questId = "urman.fullgame:quest/pw-w04", status = "completed" }), state))))
                         throw new InvalidOperationException("The returning visit requires its verified origin or the completed W04 bank destination.");
                     active["status"] = "returned";
@@ -708,6 +718,9 @@ public static class PhotoWorldState
         var worldId = RequiredString(visit, "worldId");
         if (!CurrentWorldIds.Contains(worldId))
             throw new InvalidDataException($"Unknown PhotoWorlds visit WorldId {worldId}.");
+        if (visit.TryGetProperty("worldCompletedOnEntry", out var completedOnEntry)
+            && completedOnEntry.ValueKind is not (JsonValueKind.True or JsonValueKind.False))
+            throw new InvalidDataException("A visit's worldCompletedOnEntry value must be boolean when present.");
         var status = RequiredString(visit, "status");
         if (active
                 ? status is not ("prepared" or "active" or "returning")

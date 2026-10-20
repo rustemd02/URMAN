@@ -111266,6 +111266,11 @@
           "evidence/PW-024/safe-resume-20261020/affected-game-build.log"
         ],
         "limits": "No current protected native save→full exit→Continue→return evidence. Disk-save failure keeps last durable checkpoint intact and notifies player; in-memory node persists until later save. Conservative sweep may suppress a new checkpoint. Unknown active nodes reject rather than guess. Full PW024 and PW085/086 remain open."
+      },
+      "unfinished_reentry_2026_10_20": {
+        "state": "confirmed_source_gap",
+        "result": "Save/Continue within one active visit preserves actual pose and fallback node, but new unfinished visit still mounts entry and VisitCommit resets world.safeNodeId to entry. Spec03:85 last stable reentry not yet implemented.",
+        "next_action": "Main physically verifies existing saved stable node before Core VisitCommit accepts it; no nearest marker or fact-based teleport, preserve actual visit entry guards and saved world actions."
       }
     },
     {
@@ -111947,7 +111952,7 @@
       "id": "PW-027",
       "title": "Разрешить спокойные повторные посещения",
       "milestone": "PW-M1",
-      "status": "todo",
+      "status": "in_progress",
       "active_owner": null,
       "owner": "integration",
       "priority": "P0",
@@ -112083,7 +112088,7 @@
       "assigned_owner": "integration",
       "activity": {
         "state": "not_active",
-        "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+        "reason": "Calm completed-world book revisit source slice compiled and independently reviewed; actual ordinary native route pending."
       },
       "task_type": "engineering",
       "implementation_state": "not_started",
@@ -112092,7 +112097,7 @@
         "После финала все открытые миры доступны.",
         "Нельзя фармить лист/квестовый предмет повторным выходом."
       ],
-      "next_action": "Завершённые миры доступны с домашнего стола, новые впервые только с места.",
+      "next_action": "Protected ordinary completed-world homebook→revisit→physical/book exit→samehomepose→save/Continue verification after authoritative e79 terminal/user-data restoration. W04 first story still bank; calm C08 home, no leaf/fact/item duplication. Before then implement supported unfinished-world last-safe reentry as PW024/PW027 related source slice without resetting actions.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -112163,7 +112168,7 @@
           ],
           "repeat_only_if": "Изменился покрываемый вход/consumer/контракт; без этого уже принятая проверка используется повторно без запуска."
         },
-        "actual_result": "NOT_RUN",
+        "actual_result": "PARTIAL: calm_book_revisit_2026_10_20 compiled source and independent review. Full ordinary native/all-world/anti-farm criteria remain open.",
         "evidence_refs": [
           "tasks[id=PW-027].evidence"
         ],
@@ -112254,7 +112259,19 @@
           "evidence_ref": "PW-027.evidence and named history progress; source_review shows available/missing inputs"
         }
       ],
-      "assignment_state": "preserved_person_or_existing_role; activity separate"
+      "assignment_state": "preserved_person_or_existing_role; activity separate",
+      "calm_book_revisit_2026_10_20": {
+        "state": "source_integrated_compiled_native_pending",
+        "question": "Can each actually completed photo world be reopened from its mounted home-book page and return to its original table, preserving completed actions and without replaying W04 bank finale or repeated object actions?",
+        "success": "Reuse five existing entry/return compiled interactions and generic durablevisit lifecycle; canonical completion only. New derived saved worldCompletedOnEntry distinguishes firstW04story exit vs calmhomeexit. W02–W04 book CTA aftercompletion only; firstW01/W05 eligibility unchanged. Perfact actionguards preserve still-unperformed optionalpostcompletion finds.",
+        "next_action": "Protected ordinary completed-world homebook→revisit→physical/book exit→samehomepose→save/Continue verification after authoritative e79 terminal/user-data restoration. W04 first story still bank; calm C08 home, no leaf/fact/item duplication. Before then implement supported unfinished-world last-safe reentry as PW024/PW027 related source slice without resetting actions.",
+        "limits": "Native actual completed-page CTA/gamepad/focus, firstW04 bank vs calmC08home, Continue during calmvisit and no repeated reward remain unverified. W05 completion is not manufactured; real asset/encounter gate remains. Legacy active W04 without flag cannot distinguish visit mode and keeps old bank route. First other-world openings at actual outside places and unfinished-world last-node reentry remain separate unfinished contracts.",
+        "result": "Existing mounted completed family-photo pages now expose generic five-world entry through one book button; W02/W03/W04 only after actual canonical quest completion, firstW01/W05 conditions unchanged. Completed pages use actual family-book anchor and no obsolete facing-angle gate; home/support/carry/dialogue/session checks retained. Prepare derives durable worldCompletedOnEntry from canonical quest state, ignores caller mode. W04 calm C08 uses existing zero-effect compiled home return, checking both original and replacement availability; original physical-exit checkpoint owner retained. First completion still uses bank scene. Same flag survives save/history; legacy absence preserves old bank behavior. W02/W03 performed object actions disable by their own facts, with start/commit/cancel guards; still-unperformed optional print remains available after quest completion. No content/fingerprint changes, new route manager or quest reset.",
+        "verification": "One affected Game compile17.32s0warnings0errors. Independent Fast Core/return lifecycle review and separate UI/controller review found no blocker; project-wide callers and targeted whitespace inspected. Tracker308/20/679 PASS. No new or executed tests/probes/fixtures; no native run.",
+        "evidence": [
+          "evidence/PW-027/calm-book-revisit-20261020/affected-game-build.log"
+        ]
+      }
     },
     {
       "id": "PW-028",

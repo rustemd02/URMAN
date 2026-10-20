@@ -56,6 +56,20 @@ public partial class RuntimeBridge
         or "urman.fullgame:interaction/pw-enter-house" or "urman.fullgame:interaction/pw-enter-common"
         or PhotoBookCellarEntryInteractionId;
 
+    private static string? PhotoBookEntryInteractionForPhoto(string photoId) => photoId switch
+    {
+        "P-FOREST" => PhotoBookForestEntryInteractionId,
+        "P-WATER" => "urman.fullgame:interaction/pw-enter-river",
+        "P-HOUSE" => "urman.fullgame:interaction/pw-enter-house",
+        "P-COMMON" => "urman.fullgame:interaction/pw-enter-common",
+        "P-CELLAR" => PhotoBookCellarEntryInteractionId,
+        _ => null
+    };
+
+    private bool IsCompletedPhotoBookEntry(string interactionId) => IsPhotoVisitEntry(interactionId)
+        && _kernel is { } session && PhotoVisitWorldForInteraction(interactionId) is { } worldId
+        && PhotoWorldState.IsWorldCompleted(session.SelectState(), worldId);
+
     internal bool CanReturnFromPhotoBook(out string reason)
     {
         reason = _loadingSlot || _loadPreparing || NeedsPhysicalRecovery || SessionIdentity is null
@@ -167,55 +181,40 @@ public partial class RuntimeBridge
             : PhotoBookReturnOutcome.ReturnedSaveFailed;
     }
 
-    internal bool CanEnterPhotoBookCellar(out string reason)
-    {
-        reason = _loadingSlot || _loadPreparing || NeedsPhysicalRecovery || SessionIdentity is null
-            ? "Дождитесь завершения перехода."
-            : ReferenceEquals(_photoBookBusySession, SessionIdentity)
-                ? "Дождитесь завершения действия с книгой."
-                : !IsInteractionAvailable(PhotoBookCellarEntryInteractionId)
-                    ? "Получите разрешённый снимок подполья и семейный комментарий, затем вклейте снимок в книгу."
-                    : PhotoBookForestPhysicalBlockReason(requirePhysicalWorld: true) ?? string.Empty;
-        return reason.Length == 0;
-    }
+    internal bool CanEnterPhotoBookCellar(out string reason) => CanEnterPhotoBookPhoto("P-CELLAR", out reason);
+    internal Task<bool> EnterPhotoBookCellarAsync() => EnterPhotoBookPhotoAsync("P-CELLAR");
+    internal bool CanEnterPhotoBookForest(out string reason) => CanEnterPhotoBookPhoto("P-FOREST", out reason);
+    internal Task<bool> EnterPhotoBookForestAsync() => EnterPhotoBookPhotoAsync("P-FOREST");
 
-    internal async Task<bool> EnterPhotoBookCellarAsync()
-    {
-        if (!CanEnterPhotoBookCellar(out _) || SessionIdentity is not { } session) return false;
-        _photoBookBusySession = session;
-        try
-        {
-            return await DispatchInteractionAsync(PhotoBookCellarEntryInteractionId)
-                && ReferenceEquals(session, SessionIdentity) && !_loadingSlot && !_loadPreparing
-                && ActiveSceneId == "urman.fullgame:scene/pw-cellar";
-        }
-        finally
-        {
-            if (ReferenceEquals(_photoBookBusySession, session)) _photoBookBusySession = null;
-        }
-    }
-
-    internal bool CanEnterPhotoBookForest(out string reason)
+    internal bool CanEnterPhotoBookPhoto(string photoId, out string reason)
     {
         var session = SessionIdentity;
         if (_loadingSlot || _loadPreparing || NeedsPhysicalRecovery || session is null)
             reason = "Дождитесь завершения перехода.";
         else if (ReferenceEquals(_photoBookBusySession, session))
             reason = "Дождитесь завершения действия с книгой.";
-        else if (!IsInteractionAvailable(PhotoBookForestEntryInteractionId))
+        else if (PhotoBookEntryInteractionForPhoto(photoId) is not { } interactionId)
+            reason = "В этот снимок нельзя войти.";
+        else if (photoId is not ("P-FOREST" or "P-CELLAR") && !IsCompletedPhotoBookEntry(interactionId))
+            reason = "Сначала пройдите этот мир через его первоначальный вход.";
+        else if (!IsInteractionAvailable(interactionId))
         {
             var state = session.SelectState();
-            reason = !BookReceived(state)
+            reason = photoId == "P-CELLAR"
+                ? "Получите разрешённый снимок подполья и семейный комментарий, затем вклейте снимок в книгу."
+                : !BookReceived(state)
                 ? "Примите семейную книгу у Гөлсинә."
-                : !PhotoFlag(state, "P-FOREST", "mounted")
+                : photoId == "P-FOREST" && !PhotoFlag(state, "P-FOREST", "mounted")
                     ? "Вклейте снимок «Люди у леса»."
-                    : !PhotoFlag(state, "S-SCHOOL", "acquired")
+                    : photoId == "P-FOREST" && !PhotoFlag(state, "S-SCHOOL", "acquired")
                         ? "Получите разрешённую копию школьного альбома в старой школе."
-                        : PhotoBookForestPhysicalBlockReason(requirePhysicalWorld: true)
-                            ?? "Сейчас вход в лесной снимок недоступен.";
+                        : PhotoBookForestPhysicalBlockReason(requirePhysicalWorld: true, interactionId)
+                            ?? "Сейчас вход в этот снимок недоступен.";
         }
+        else if (!PhotoBookPhotos().Any(photo => photo.PhotoId == photoId && photo.Mounted))
+            reason = "Вклейте снимок на его разворот в семейной книге.";
         else
-            reason = PhotoBookForestPhysicalBlockReason(requirePhysicalWorld: true) ?? string.Empty;
+            reason = PhotoBookForestPhysicalBlockReason(requirePhysicalWorld: true, interactionId) ?? string.Empty;
         return reason.Length == 0;
     }
 
@@ -224,14 +223,15 @@ public partial class RuntimeBridge
         var world = GetTree().GetFirstNodeInGroup("act1_connected_world") as Act1ConnectedWorld;
         if (world is null)
             return requirePhysicalWorld ? "Вернитесь к домашнему столу с книгой." : null;
-        var anchorName = interactionId switch
+        var revisit = IsCompletedPhotoBookEntry(interactionId);
+        var anchorName = revisit ? "PhotoWorldForestEntryTarget" : interactionId switch
         {
             "urman.fullgame:interaction/pw-enter-river" => "WaterRiverEntryTarget",
             "urman.fullgame:interaction/pw-enter-house" => "HousePhotoEntryTarget",
             "urman.fullgame:interaction/pw-enter-common" => "CommonPhotoEntryTarget",
             _ => "PhotoWorldForestEntryTarget"
         };
-        var anchorInteraction = interactionId == PhotoBookCellarEntryInteractionId
+        var anchorInteraction = revisit || interactionId == PhotoBookCellarEntryInteractionId
             ? PhotoBookForestEntryInteractionId : interactionId;
         if (CurrentZoneId != "house_old_pc" || world.ActiveZoneId != "house_old_pc"
             || world.GetZoneInstance("house_old_pc")?.GetNodeOrNull<InteractionTarget>(anchorName) is not { } anchor
@@ -254,7 +254,7 @@ public partial class RuntimeBridge
         var toAnchor = anchor.GlobalPosition - player.GlobalPosition;
         if (toAnchor.LengthSquared() > 36f) return "Подойдите ближе к домашнему столу с книгой.";
         toAnchor.Y = 0f;
-        if (toAnchor.LengthSquared() > .0001f)
+        if (!revisit && toAnchor.LengthSquared() > .0001f)
         {
             var forward = -player.GlobalBasis.Z;
             forward.Y = 0f;
@@ -265,15 +265,18 @@ public partial class RuntimeBridge
         return null;
     }
 
-    internal async Task<bool> EnterPhotoBookForestAsync()
+    internal async Task<bool> EnterPhotoBookPhotoAsync(string photoId)
     {
-        if (!CanEnterPhotoBookForest(out _) || SessionIdentity is not { } session) return false;
+        if (!CanEnterPhotoBookPhoto(photoId, out _) || SessionIdentity is not { } session
+            || PhotoBookEntryInteractionForPhoto(photoId) is not { } interactionId
+            || PhotoVisitWorldForInteraction(interactionId) is not { } worldId
+            || !PhotoWorldState.TryGetVisitRoute(worldId, out var sceneId, out _)) return false;
         _photoBookBusySession = session;
         try
         {
-            return await DispatchInteractionAsync(PhotoBookForestEntryInteractionId)
+            return await DispatchInteractionAsync(interactionId)
                 && ReferenceEquals(session, SessionIdentity) && !_loadingSlot && !_loadPreparing
-                && ActiveSceneId == "urman.fullgame:scene/pw-forest";
+                && ActiveSceneId == sceneId;
         }
         finally
         {
@@ -301,6 +304,7 @@ public partial class RuntimeBridge
         public string? OriginLabel { get; init; }
         public bool CanReadBack { get; init; }
         public bool CanMount { get; init; }
+        public bool WorldCompleted { get; init; }
     }
 
     private RuntimeKernel? _photoBookBusySession;
@@ -348,6 +352,9 @@ public partial class RuntimeBridge
                 mounted)
             {
                 PageId = definition.PageId,
+                WorldCompleted = PhotoBookEntryInteractionForPhoto(definition.Id) is { } entryInteractionId
+                    && PhotoVisitWorldForInteraction(entryInteractionId) is { } worldId
+                    && PhotoWorldState.IsWorldCompleted(state, worldId),
                 OriginLabel = definition.ProvenanceKind switch
                 {
                     "family-book-print" => "Снимок из семейной книги",

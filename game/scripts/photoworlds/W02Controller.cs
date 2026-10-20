@@ -183,8 +183,19 @@ public partial class W02Controller : Node3D
         var visible = projection is not null && projection.ActiveSceneId == RiverSceneId;
         SetWorldPresentationVisible(visible);
         ApplyWaterSafetyProjection(projection, visible);
+        if (projection is not null) EnsureTargets(bridge);
         foreach (var target in _targets)
-            if (GodotObject.IsInstanceValid(target)) target.SetPresentationEnabled(visible);
+        {
+            if (!GodotObject.IsInstanceValid(target)) continue;
+            var alreadyCommitted = target.InteractionId switch
+            {
+                BypassInteractionId => bridge.PhotoWorldFactObserved("water_reed_opened"),
+                OldApproachInteractionId => bridge.PhotoWorldFactObserved("water_old_approach_seen"),
+                DampPrintInteractionId => bridge.PhotoWorldFactObserved("water_damp_print"),
+                _ => false
+            };
+            target.SetPresentationEnabled(visible && !alreadyCommitted);
+        }
         foreach (var ring in _encounterRings)
             if (GodotObject.IsInstanceValid(ring)) ring.Visible = visible && projection?.EncounterResolved != true;
 
@@ -194,8 +205,6 @@ public partial class W02Controller : Node3D
             ApplyEncounterProjection(null, visible);
             return;
         }
-
-        EnsureTargets(bridge);
 
         // The reeds answer the authored fact once; a restored save stands open.
         ApplyReedCurtainProjection(projection.ReedOpened);

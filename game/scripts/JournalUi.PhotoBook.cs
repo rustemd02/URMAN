@@ -658,11 +658,12 @@ public partial class JournalUi
         _photoBookMountButton.Disabled = _photoBookActionBusy || selected?.CanMount != true;
         var showReturn = currentProjection && _bridge?.IsPhotoBookReturnScene == true;
         if (!showReturn || !IsPhotoBookReturnConfirmationCurrent()) ClearPhotoBookReturnConfirmation();
-        var showEntry = !showReturn && selected is { PhotoId: "P-FOREST" or "P-CELLAR", Mounted: true };
+        var showEntry = !showReturn && selected is { Mounted: true }
+            && (selected.PhotoId is "P-FOREST" or "P-CELLAR" || selected.WorldCompleted);
         _photoBookEnterButton.Text = showReturn && _bridge is { } returnBridge
             ? _photoBookReturnSession is not null ? "Подтвердить возвращение"
                 : returnBridge.ResolveText("urman.fullgame:text/pw-label-forest-book-return")
-            : "Войти в снимок";
+            : selected?.WorldCompleted == true ? "Вернуться в снимок" : "Войти в снимок";
         _photoBookEnterButton.Visible = showEntry || showReturn;
         _photoBookEnterButton.Disabled = true;
         _photoBookEntryHint.Visible = false;
@@ -672,13 +673,14 @@ public partial class JournalUi
             string reason;
             var canEnter = showReturn
                 ? entryBridge.CanReturnFromPhotoBook(out reason)
-                : selected?.PhotoId == "P-CELLAR" ? entryBridge.CanEnterPhotoBookCellar(out reason)
-                    : entryBridge.CanEnterPhotoBookForest(out reason);
+                : entryBridge.CanEnterPhotoBookPhoto(selected!.PhotoId, out reason);
             // A world action may finish while the reader stays open; retry
             // rechecks its live guards without polling narrative rules per frame.
             _photoBookEnterButton.Disabled = _photoBookActionBusy || (!showReturn && !canEnter);
-            _photoBookEntryHint.Text = reason;
-            _photoBookEntryHint.Visible = !canEnter && reason.Length > 0;
+            _photoBookEntryHint.Text = canEnter && !showReturn && selected?.WorldCompleted == true
+                ? "Знакомый мир. Сделанное сохранится; вернётесь к этому столу."
+                : reason;
+            _photoBookEntryHint.Visible = _photoBookEntryHint.Text.Length > 0;
         }
     }
 
@@ -689,12 +691,12 @@ public partial class JournalUi
             || !IsCurrentPhotoBookOperation(bridge, session)
             || !_screen.Visible || _tabs.CurrentTab != PhotoBookTabIndex || !_photoBookPage.Visible) return;
         var returning = bridge.IsPhotoBookReturnScene;
-        var cellarEntry = _photoBookSelectedId == "P-CELLAR";
-        if (!returning && !IsCurrentMountedPhotoCard(bridge, session, cellarEntry ? "P-CELLAR" : "P-FOREST")) return;
+        var entryPhotoId = _photoBookSelectedId;
+        if (!returning && (entryPhotoId is null || !IsCurrentMountedPhotoCard(bridge, session, entryPhotoId))) return;
         string reason;
         var canAct = returning
             ? bridge.CanReturnFromPhotoBook(out reason)
-            : cellarEntry ? bridge.CanEnterPhotoBookCellar(out reason) : bridge.CanEnterPhotoBookForest(out reason);
+            : bridge.CanEnterPhotoBookPhoto(entryPhotoId!, out reason);
         if (!canAct)
         {
             RefreshPhotoBookActionButtons();
@@ -728,7 +730,7 @@ public partial class JournalUi
                 : RuntimeBridge.PhotoBookReturnOutcome.Failed;
             var entered = returning
                 ? returnOutcome == RuntimeBridge.PhotoBookReturnOutcome.ReturnedAndSaved
-                : cellarEntry ? await bridge.EnterPhotoBookCellarAsync() : await bridge.EnterPhotoBookForestAsync();
+                : await bridge.EnterPhotoBookPhotoAsync(entryPhotoId!);
             if (!CurrentUi() || bridge.IsPhotoBookProjectionDeferred) return;
             if (returning && returnOutcome == RuntimeBridge.PhotoBookReturnOutcome.ReturnedSaveFailed)
             {
@@ -757,7 +759,7 @@ public partial class JournalUi
             }
             canAct = returning
                 ? bridge.CanReturnFromPhotoBook(out reason)
-                : cellarEntry ? bridge.CanEnterPhotoBookCellar(out reason) : bridge.CanEnterPhotoBookForest(out reason);
+                : bridge.CanEnterPhotoBookPhoto(entryPhotoId!, out reason);
             _photoBookActionStatus.Text = canAct
                 ? returning ? "Не удалось вернуться домой. Попробуйте ещё раз."
                     : "Не удалось войти в снимок. Попробуйте ещё раз."

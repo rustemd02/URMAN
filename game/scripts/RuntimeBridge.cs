@@ -761,6 +761,24 @@ public partial class RuntimeBridge : Node
         var entering = IsPhotoVisitEntry(interaction.Id);
         var completedBankReturn = interaction.Id == "urman.fullgame:interaction/pw-common-return";
         var bookReturn = interaction.Id == CurrentPhotoBookReturnInteractionId;
+        var visitOnEntry = ActivePhotoVisit();
+        var returnInteraction = interaction;
+        if (completedBankReturn && visitOnEntry is { } calmVisit
+            && calmVisit.GetProperty("worldId").GetString() == "W04"
+            && calmVisit.TryGetProperty("worldCompletedOnEntry", out var completedOnEntry)
+            && completedOnEntry.ValueKind == JsonValueKind.True)
+        {
+            // Keep the physical exit's own availability and checkpoint owner.
+            // A calm revisit uses the existing home route instead of replaying
+            // the first completion's authored meeting at the bank.
+            if (!IsInteractionAvailable(interaction.Id)
+                || !_content.TryGetInteraction(PhotoBookCommonReturnInteractionId, out var homeReturn)
+                || homeReturn.SourceSceneId != sourceScene || homeReturn.TargetSceneId != "urman.fullgame:scene/pw-home"
+                || homeReturn.Effects.GetArrayLength() != 0 || !IsInteractionAvailable(homeReturn.Id))
+                return false;
+            returnInteraction = homeReturn;
+            completedBankReturn = false;
+        }
         // Legacy checkpoints have no invented ticket. Retain their authored
         // exit, but verify and save the actual destination after projection.
         if (!entering && ActivePhotoVisit() is null)
@@ -834,7 +852,8 @@ public partial class RuntimeBridge : Node
                 if (!await DispatchPhotoVisitCommandAsync(session, PhotoWorldCommandHandler.VisitReturn, id) || !Current()) return false;
                 returnCheckpointSaved = await SaveCheckpointAsync(force: true, cancellationToken: cancellation.Token);
                 if (!returnCheckpointSaved || !Current()) return false;
-                if (!await DispatchCompiledInteractionAsync(interaction) || !Current()) return false;
+                if (!IsInteractionAvailable(interaction.Id) || !IsInteractionAvailable(returnInteraction.Id)
+                    || !await DispatchCompiledInteractionAsync(returnInteraction) || !Current()) return false;
                 if (!await main.CompletePhotoVisitProjectionAsync(session, worldId,
                     completedBankReturn ? null : ticket, completedBankReturn) || !Current()) return false;
                 if (!completedBankReturn)

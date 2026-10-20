@@ -189,7 +189,15 @@ public partial class W03Controller
         {
             if (!GodotObject.IsInstanceValid(target)) continue;
             target.Prompt = bridge.ResolveText(GetHouseLabelForInteraction(target.InteractionId));
-            target.SetPresentationEnabled(!ReferenceEquals(target, _housePhysicalActionTarget));
+            var alreadyCommitted = target.InteractionId switch
+            {
+                ShutterInteractionId => bridge.PhotoWorldFactObserved(ShutterFactId),
+                ClothInteractionId => bridge.PhotoWorldFactObserved(ClothFactId),
+                FrameInteractionId => bridge.PhotoWorldFactObserved(FrameFactId),
+                _ => false
+            };
+            target.SetPresentationEnabled(!ReferenceEquals(target, _housePhysicalActionTarget)
+                && !alreadyCommitted);
         }
 
         var actionStillOwnsPose = _housePhysicalPhase != HousePhysicalPhase.Idle
@@ -255,6 +263,7 @@ public partial class W03Controller
         if (action == HousePhysicalAction.None || target is null
             || _housePhysicalPhase != HousePhysicalPhase.Idle
             || !CanBeginHouseAction(interactionId, out var bridge, out var session)
+            || bridge.PhotoWorldFactObserved(action == HousePhysicalAction.Shutter ? ShutterFactId : ClothFactId)
             || !GodotObject.IsInstanceValid(target))
             return false;
 
@@ -416,7 +425,7 @@ public partial class W03Controller
         ApplyCommittedHousePose();
         _housePhysicalPhase = HousePhysicalPhase.Idle;
         _housePhysicalAction = HousePhysicalAction.None;
-        _housePhysicalActionTarget?.SetPresentationEnabled(true);
+        _housePhysicalActionTarget?.SetPresentationEnabled(false);
         _housePhysicalActionTarget = null;
         _housePhysicalActionSession = null;
         _housePhysicalActionSceneId = null;
@@ -451,7 +460,12 @@ public partial class W03Controller
         if (restoreCommittedPose) ApplyCommittedHousePose();
         else if (_housePhysicalAction != HousePhysicalAction.None) RestoreHouseActionStartPose();
         if (_housePhysicalActionTarget is { } target && GodotObject.IsInstanceValid(target))
-            target.SetPresentationEnabled(true);
+        {
+            var factId = _housePhysicalAction == HousePhysicalAction.Shutter ? ShutterFactId : ClothFactId;
+            var alreadyCommitted = _bridge is { } bridge && GodotObject.IsInstanceValid(bridge)
+                && bridge.PhotoWorldFactObserved(factId);
+            target.SetPresentationEnabled(!alreadyCommitted);
+        }
         _housePhysicalAction = HousePhysicalAction.None;
         _housePhysicalPhase = HousePhysicalPhase.Idle;
         _housePhysicalActionTarget = null;
