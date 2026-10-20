@@ -56733,7 +56733,7 @@
       "remaining": [
         "Одинаковое действие на подходящих объектах предсказуемо; полезность доказана решением/открытием, не квотой ≥3 нажатия. Снег/палка/табличка не одиночные магические triggers; каждый интерактив сообщает результат."
       ],
-      "next_action": "Понятная бытовая/сюжетная роль сохранённого механизма и общий закон результата.",
+      "next_action": "В рамках обычного защищённого деревенского маршрута проверить уже существующее правило лопаты на двух разных результатах: tool/shovel/fence открывает необязательный служебный проход, tool/shovel/woodpile освобождает топорик; результат и custody сохраняются через save/visit/return. Source YardTool/YardUseTarget/CarryCoordinator уже использует один world.props owner; не добавлять три одинаковых нажатия ради старой отменённой квоты. Полная бытовая роль остальных механизмов и приёмка полезности остаются открытыми.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -110963,7 +110963,7 @@
         "job": "e79adf9f932a4d74b4aec64d7565c6a4",
         "terminal_restoration": "not_confirmed",
         "new_job_submitted": false,
-        "last_status_query": "20.10 query launched2026-10-20T08:26:23.377139Z/11:26Moscow: sameprotected e79 exit1 urlopen timeout; raw evidence/PW-095/native-candidate-source-20261020/station-status-0826.log. Terminal/restoration unknown; no newjob/input/restart. VPN untouched asownerordered.",
+        "last_status_query": "20.10 query launched2026-10-20T09:29:28.361489Z/12:29Moscow after23min backoff: same e79 CLIexit1 urlopen timed out; raw evidence/PW-020/player-facing-fixes-20261020/station-status-0929.log. Authoritative terminal/restoration still unknown; no new job/input/restart/VPN changes.",
         "local_diagnosis": "Happ default VPN route and Tailscale self-signed relay certificate are observed; causal hop is unproven. Owner explicitly answered VPN не трогать on20.10. No disconnect/reconnect or route/cert/daemon changes; previous permission request is resolved as DENIED.",
         "owner_network_constraint": "VPN не трогать. Preserve current Happ connection/configuration; do not re-request the same disconnect experiment without a new owner instruction."
       },
@@ -111814,7 +111814,7 @@
         "Незавершённая глава сохраняет выполненные действия.",
         "Не создаются новые NPC/машины вместо прежних экземпляров."
       ],
-      "next_action": "When existing protected stationclaim restored, verify each earlyexit after firstobservation/midaction/aftercompletion + reentry/Continue, W04 completedbank, supportedhomefallback/audio/profile/carry/session/load cases. Separately implement actual laststablesafenode contract at canonical owner.",
+      "next_action": "После authoritative e79 terminal/userdata restoration проверить ранний выход каждого мира → новый вход/Continue с действиями и последним подтверждённым узлом текущего whitelist. Safe-node producer и unfinished reentry уже приняты по PW-024.safe_resume_2026_10_20 / unfinished_reentry_2026_10_20; не реализовывать повторно. Сохранить blocked-node→verified entry fallback, carry/session/audio/profile и W04 completed bank gates.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -111879,7 +111879,7 @@
           ],
           "repeat_only_if": "Изменился покрываемый вход/consumer/контракт; без этого уже принятая проверка используется повторно без запуска."
         },
-        "actual_result": "PARTIAL: all-world earlybookreturn source integrated/compiled, native/reentry/Continue and midworld safe-node persistence pending; see all_world_book_return_2026_10_20.",
+        "actual_result": "PARTIAL: all-world early book return source integrated/compiled. Mid-world safe-node producer and unfinished reentry later implemented at existing owner, accepted source/compile under PW-024.safe_resume_2026_10_20 and unfinished_reentry_2026_10_20. Actual ordinary return/reentry/Continue still pending; full waypoint coverage is not claimed.",
         "evidence_refs": [
           "tasks[id=PW-023].evidence"
         ],
@@ -111977,13 +111977,13 @@
         "question": "Есть ли независимый ранний выход W01–W05 без chapter.complete, с durable visit, исходным домашним ReturnTicket и безопасным terminal recovery?",
         "success": "Все5 ранних book-exit ведут домой без effects/quest completion; новые входы готовят ticket до projection, подтверждённый возврат закрывает visit после физической проверки. W04 completed authored bank route неизменен. Блокируются только короткие atomic actions/commits, не неполная фотографическая рамка.",
         "verification": "Existing ContentCli exit0; structured fullpack comparison equals after removing exactly3 optional interactions+derivedhashes; exactoneway compatibility7ce8/6f47/441a→0819edb4, unknownstrict. One affected Game build17.22s0warnings0errors. Independent reviews caught/fixed W02water-return ID/R00 entry, entry-facing actualtarget, postreturnautosave warning, reopenedbook/CloseAsync generation. Source diffcheck; no tests/probes added or run.",
-        "next_action": "When existing protected stationclaim restored, verify each earlyexit after firstobservation/midaction/aftercompletion + reentry/Continue, W04 completedbank, supportedhomefallback/audio/profile/carry/session/load cases. Separately implement actual laststablesafenode contract at canonical owner.",
+        "next_action": "После authoritative e79 terminal/userdata restoration проверить ранний выход каждого мира → новый вход/Continue с действиями и последним подтверждённым узлом текущего whitelist. Safe-node producer и unfinished reentry уже приняты по PW-024.safe_resume_2026_10_20 / unfinished_reentry_2026_10_20; не реализовывать повторно. Сохранить blocked-node→verified entry fallback, carry/session/audio/profile и W04 completed bank gates.",
         "result": "All5 ранних bookreturn независимы от завершения главы. W02–W04 получили3 interactions с пустымиconditions/effects. Canonical durable visit теперь strict W01–W05, билет готовится и сохраняется до входа, точный world/scene/node проверяется на commit (F10/R00/H00/C00/B00). Исходный домашний pose/support fallback/audio/profile восстанавливаются тем же owner; W04 completed route остаётся bank с отдельной проверкой и строгим completedRoute. Legacy snapshots без выдуманного ticket выходят по существующему authored route. Подтверждение книги Найденное сохранится с отменой; source/session/open-generation проверяются повторно. W02–W04 блокируют лишь активные короткие physical phases/commits, не незавершённый framing. Ошибка финального autosave сообщает игроку, не выдаётся за провал физического возврата.",
         "evidence": [
           "evidence/PW-023/all-world-return-20261020/pack-comparison.json",
           "evidence/PW-023/all-world-return-20261020/affected-game-build.log"
         ],
-        "limits": "Windows/native/Continue not run. Reentry still authored entry safe node, not produced mid-world safe-node persistence. Partial uncommitted framing may cancel on opening modal; committed facts retained. W02 alreadycommitted deferredplayerremark can be skipped on return, no invented fact. Crash after W04 bank projection before final durable write recovers original home ticket by existing safety policy. Full PW023 remainsinprogress."
+        "limits": "At this initial early-return slice, reentry still used authored entry. That source limitation was subsequently superseded by accepted PW-024.safe_resume_2026_10_20 and unfinished_reentry_2026_10_20: confirmed whitelist F11/R01/H05/C03/B01 only, not arbitrary last-action position/full anchor coverage. All ordinary/native/Continue/support/fallback/carry acceptance remains open. Partial uncommitted framing may cancel on modal; committed facts retained. W02 deferred player remark can be skipped on return. Crash during W04 bank projection before durable write recovers original ticket by safety policy. Full PW023 remains in progress."
       }
     },
     {
@@ -144345,7 +144345,7 @@
         }
       },
       "h049_outbuilding_multiview_generation_2026_10_20": {
-        "state": "source_raw_usable_but_remesh_construction_HOLD_no_runtime_promotion",
+        "state": "local_derived_source_prepared_winter_material_runtime_HOLD",
         "active_owner": null,
         "folder": "assets/source/blender/act1/h049_outbuilding_multiview_v1/generation/",
         "client_commit": "9e4c04fe",
@@ -144384,8 +144384,8 @@
         "remesh_bytes": 38340704,
         "remesh_actual_triangles": 5538,
         "root_remesh_review": "Root personally inspected all five actual remesh PNGs: new black triangular void in rear plinth and open vertical front-gable slit above door are absent in corresponding raw views. Candidate fails exterior construction gate despite preserved one-door/one-window layout. No runtime promotion.",
-        "remaining": "Preserve usable raw and rejected remesh unique content/receipts; stop this paid35-credit stage. Do not repeat Meshy repair/remesh or micro-polish. Winter PBR material solution and later finite local geometry preparation from usable raw are separate named inputs; native whole-scene/collision/scale/performance/art remain open.",
-        "next_action": "Frozen paid stage stopped: source raw retained, remesh HOLD, no further paid calls. Resume only finite geometry/material preparation after accepted inputs; primary release priority remains ordinary book/play/save/Continue and native movement when protected station is available.",
+        "remaining": "Original paid remesh remains rejected and immutable; one derived two-face local candidate now accepted only as source preparation under local_repair_stage_2026_10_20. Unique raw/remesh archives and derived source retained; no more paid calls. Need stable roof region/mask, PBR-preserving winter response, runtime texture/mesh budget and whole-scene/support/collision/LOD/performance/art/movement acceptance.",
+        "next_action": "Use accepted local derived SHA33c5358d as finite geometry input. Next prepare a stable roof surface/region or authored mask preserving four PBR maps before any bounded snow adapter; no unchanged remesh/paid repair or global regrade. Ordinary current book/play/save/Continue remains primary release priority when protected station is restored.",
         "archive_cleanup": {
           "state": "closed_unique_outputs_losslessly_archived_unpacked_duplicates_removed",
           "no_open_handles": true,
@@ -144415,7 +144415,29 @@
           "restore": "Extract each sole member to this generation folder at its original filename before running inspect_candidate.py. Archives remain local outside Git; unique source bytes preserved."
         },
         "raw_inspection_receipt": "assets/source/blender/act1/h049_outbuilding_multiview_v1/generation/raw-inspection.json",
-        "remesh_inspection_receipt": "assets/source/blender/act1/h049_outbuilding_multiview_v1/generation/remesh-inspection.json"
+        "remesh_inspection_receipt": "assets/source/blender/act1/h049_outbuilding_multiview_v1/generation/remesh-inspection.json",
+        "local_repair_stage_2026_10_20": {
+          "state": "local_source_candidate_accepted_for_next_preparation_not_runtime",
+          "assigned_owner": "/root/all_world_book_content",
+          "active_owner": null,
+          "question": "Can the two rejected exterior artifacts be repaired locally without another generation, triangle-count increase or PBR/source mutation?",
+          "input_sha256": "179b7e3c308207a2b701216b816024ac3bc311657970145dcc9e8181d0a8a2bd",
+          "targets": [
+            "assets/source/blender/act1/h049_outbuilding_multiview_v1/generation/guarded local GLB asset producer",
+            "assets/source/blender/act1/h049_outbuilding_multiview_v1/generation/new derived candidate+receipt+five source studio views"
+          ],
+          "causal_findings": "Front gable face3366 exists with outward-consistent normals but collapsed three UV=(0,0) sampling black. Previous visual wording open gable slit was not a topology diagnosis; corrected by actual face/UV read. Rear plinth has missing outside coverage: ray reaches bottom face5001; corresponding raw ray hits exterior side ~.428m earlier. Boundary is4edges, not a blind triangle fill.",
+          "scope": "One guarded derived input-SHA-bound candidate: replace only geometry face5354 DBC→ACB using proven local boundary; face3366 UV-only, both use verified nearby matching coplanar atlas charts. Retain5538tri, all4embedded image bytes/material bindings, other geometry/corner attributes. If safeUV/boundary cannot be established, HOLD. No global repair/decimate/paint/bake or paid calls.",
+          "verification": "OneBlender4.5.12sourceimport+5renders exit0; raw local-candidate-v1-prepare.log retained. Independent personal luna_fast producer/index/UV/PBR/metadata review accepted; index min/max suspicion resolved by actual GLBaccessor absence. Root independent ZIP/source/output/producerSHA, literalBINprefix,4maps/bindings/nodes and5PNG hashes all match. Source AST/JSON/scoped diffcheck; no test/game/Godot/build/native.",
+          "budget": "Additional credits0, actual425/4000 unchanged. Frozen paid stage35/35 remains closed.",
+          "remaining": "Source GLB retained locally at output path and not promoted/published as runtime. Next prepare stable roof region/mask and snow response preservingPBR, plus runtime texture/mesh budget; then actual winter whole-scene/support/collision/clearance/LOD/performance/art/movement acceptance on protectedWindows. FullPW093 and fullassetreplacement remain open.",
+          "result": "One5354 geometry replacement closes identified rear-plinth exterior gap;3366 collapsed-UV gable face now maps existing wood.5538tri unchanged; sixnewcornervertices only, other5537geometry/5536faceattributes preserved, literaloldBINprefix and4embedded image bytes/material bindings unchanged. TANGENT absent. No broad manifold cleanup; counts300→296 boundary,378nonmanifold retained with explicit scope.",
+          "output": "assets/source/blender/act1/h049_outbuilding_multiview_v1/generation/meshy-remesh-local-candidate-v1.glb",
+          "output_sha256": "33c5358d476ed76a8aa608ec03feead72486088f0bef04a6686b355ff24821be",
+          "receipt": "assets/source/blender/act1/h049_outbuilding_multiview_v1/generation/local-candidate-v1-receipt.json",
+          "root_review": "Root personally viewed all5local-v1PNG against rejected remesh: rear triangle void and front-gable black face absent, no obvious new gross seam; front door/oneleftwindow/blankbackright/proportions unchanged. Source visual acceptance only. Previous claimed open gable slit corrected: actual BlenderUV0,0 / GLTFUV0,1 collapsed black material sample, not missing geometry.",
+          "cleanup": "Deleted only two fullZIP/memberSHA verified, closed working GLB duplicates,78183688bytes; unique archives/derivedcandidate/recipes/receipt/rawlog/views retained. Restore path+hash recorded in receipt."
+        }
       }
     },
     {

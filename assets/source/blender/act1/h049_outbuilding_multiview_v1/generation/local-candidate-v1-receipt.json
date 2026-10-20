@@ -1,0 +1,663 @@
+{
+  "schema": "h049-two-face-local-source-candidate/v1",
+  "status": "local_source_candidate_accepted_for_next_preparation_not_runtime",
+  "input": {
+    "path": ".tools/h049-topology/meshy-remesh-8000.glb",
+    "bytes": 38340704,
+    "sha256": "179b7e3c308207a2b701216b816024ac3bc311657970145dcc9e8181d0a8a2bd"
+  },
+  "archive": {
+    "path": "meshy-remesh-8000.glb.zip",
+    "sha256": "e33c87089ea22529e7ab933e44e23bf6a99fa0292a738bf8051b64dc7be2adf4",
+    "immutable": true
+  },
+  "producer_sha256": "33af913b21c45ed3d22808adbd536d32e7c9dc8d9d0bc97be03b1402bb39862b",
+  "paid_calls": 0,
+  "authority": "Original H049 multi-view remesh source only; no runtime, collision or placement changes",
+  "texture_source_provenance": [
+    "submit.json",
+    "status-02.json",
+    "remesh-submit.json",
+    "remesh-status-01.json"
+  ],
+  "limits": [
+    "Only two identified defects are addressed; this is not a global manifold/watertight repair",
+    "Material chart reuse can leave a seam or lower local texel density; actual five-view acceptance remains open",
+    "Source preview is not a native game frame; winter/snow and runtime performance gates remain open"
+  ],
+  "source_bin_sha256": "33e103a3855ce24662609226a563f978912f9cfc827def46e81adbc9f5b33984",
+  "output_original_bin_prefix_sha256": "33e103a3855ce24662609226a563f978912f9cfc827def46e81adbc9f5b33984",
+  "original_binary_bytes_literal": true,
+  "embedded_images_byte_identical": [
+    {
+      "image": 0,
+      "name": "texture_0_emit",
+      "bytes": 254126,
+      "sha256": "b9dcd13dd8e27ce630facc2acd325222e4fcd008914d771daa7a9663c739e23b"
+    },
+    {
+      "image": 1,
+      "name": "normal",
+      "bytes": 13143303,
+      "sha256": "4e704d89891700ad5d0002c5a3ad7e6f5bf0d02dfe58d10195959e2c5cd3afb4"
+    },
+    {
+      "image": 2,
+      "name": "texture_0",
+      "bytes": 16840775,
+      "sha256": "563049f73caaace8f3e62c7ec20032c071dd84774f2466788254429946ae098b"
+    },
+    {
+      "image": 3,
+      "name": "texture_0_metallic_roughness",
+      "bytes": 7793750,
+      "sha256": "dac4f7ada519c0b3d9c2503fbb228c5601a94d3872d14035c2c0c4b688ab1119"
+    }
+  ],
+  "all_four_material_bindings_nodes_meshes_samplers_unchanged": true,
+  "tangent_attribute_present": false,
+  "source_interleaved": false,
+  "output_interleaved": false,
+  "triangles_before": 5538,
+  "triangles_after": 5538,
+  "vertices_before": 8549,
+  "vertices_after": 8555,
+  "geometry_changed_face_ids": [
+    5354
+  ],
+  "uv_changed_face_ids": [
+    3366,
+    5354
+  ],
+  "normal_changed_face_ids": [
+    5354
+  ],
+  "index_repointed_face_ids": [
+    3366,
+    5354
+  ],
+  "unchanged_face_attributes_digest": "94ddcc79d1a82c6656b531df2fe062095d255c6ef50c683c768fe3d81232732b",
+  "other_5537_triangle_geometry_unchanged": true,
+  "other_5536_triangle_all_attributes_unchanged": true,
+  "bounds_gltf_before_and_after": [
+    [
+      -0.952642023563385,
+      -0.6963059902191162,
+      -0.6779779195785522
+    ],
+    [
+      0.9499929547309875,
+      0.7094830870628357,
+      0.6583750247955322
+    ]
+  ],
+  "face_repairs": [
+    {
+      "face_zero_based": 3366,
+      "donor_chart_face": 3315,
+      "original_indices": [
+        1166,
+        1167,
+        1168
+      ],
+      "new_indices": [
+        8549,
+        8550,
+        8551
+      ],
+      "position_source_indices": [
+        1166,
+        1167,
+        1168
+      ],
+      "old_positions_gltf": [
+        [
+          0.2610029876232147,
+          0.2616270184516907,
+          0.5414419770240784
+        ],
+        [
+          0.2913050055503845,
+          0.2621780335903168,
+          0.5405229926109314
+        ],
+        [
+          0.2922320067882538,
+          0.4717170000076294,
+          0.5403979420661926
+        ]
+      ],
+      "new_positions_gltf": [
+        [
+          0.2610029876232147,
+          0.2616270184516907,
+          0.5414419770240784
+        ],
+        [
+          0.2913050055503845,
+          0.2621780335903168,
+          0.5405229926109314
+        ],
+        [
+          0.2922320067882538,
+          0.4717170000076294,
+          0.5403979420661926
+        ]
+      ],
+      "old_positions_preview_metres": [
+        [
+          0.5784759536789384,
+          -1.2155838873241303,
+          2.1124024075025947
+        ],
+        [
+          0.6452969676627761,
+          -1.2135573731009055,
+          2.1136174879758465
+        ],
+        [
+          0.6473411603243862,
+          -1.2132816157497364,
+          2.57568592971404
+        ]
+      ],
+      "new_positions_preview_metres": [
+        [
+          0.5784759536789384,
+          -1.2155838873241303,
+          2.1124024075025947
+        ],
+        [
+          0.6452969676627761,
+          -1.2135573731009055,
+          2.1136174879758465
+        ],
+        [
+          0.6473411603243862,
+          -1.2132816157497364,
+          2.57568592971404
+        ]
+      ],
+      "old_normals_gltf": [
+        [
+          0.030301235616207123,
+          0.0005000203964300454,
+          0.9995407462120056
+        ],
+        [
+          0.030301235616207123,
+          0.0005000203964300454,
+          0.9995407462120056
+        ],
+        [
+          0.030301235616207123,
+          0.0005000203964300454,
+          0.9995407462120056
+        ]
+      ],
+      "new_normals_gltf": [
+        [
+          0.030301235616207123,
+          0.0005000203964300454,
+          0.9995407462120056
+        ],
+        [
+          0.030301235616207123,
+          0.0005000203964300454,
+          0.9995407462120056
+        ],
+        [
+          0.030301235616207123,
+          0.0005000203964300454,
+          0.9995407462120056
+        ]
+      ],
+      "old_uv_gltf_v_down": [
+        [
+          0.0,
+          1.0
+        ],
+        [
+          0.0,
+          1.0
+        ],
+        [
+          0.0,
+          1.0
+        ]
+      ],
+      "new_uv_gltf_v_down": [
+        [
+          0.9780026078224182,
+          0.409135103225708
+        ],
+        [
+          0.9812552332878113,
+          0.40457403659820557
+        ],
+        [
+          0.9502367377281189,
+          0.38136929273605347
+        ]
+      ],
+      "uv_fit": {
+        "donor_uv_gltf_v_down": [
+          [
+            0.9828060269355774,
+            0.40508902072906494
+          ],
+          [
+            0.9494490027427673,
+            0.3717319965362549
+          ],
+          [
+            0.9498419761657715,
+            0.44019901752471924
+          ]
+        ],
+        "positive_uniform_uv_scale": 0.8323834094226719,
+        "translation_in_donor_barycentric_coordinates": [
+          0.022084166789691856,
+          0.015533692028606732,
+          0.12999873175902954
+        ],
+        "donor_normal_angle_degrees": 2.00639227892198,
+        "minimum_actual_float32_inset_texels_4096": 2.9999459570193805,
+        "new_uv_area_texels_4096": 1819.9400948882103,
+        "basecolor_grid_samples": 66,
+        "black_samples_below_12_of_255": 0,
+        "basecolor_mean_RGB_255": [
+          109.27272727272727,
+          94.8030303030303,
+          83.10606060606061
+        ],
+        "mapping_scope": "Intentional reuse of an existing same-surface triangle material patch; not a unique UV atlas. No texture editing, mirroring, painting or baking."
+      },
+      "tangent": "TANGENT attribute absent in source and output; no stale tangent copied",
+      "scope": "UV only; ordered positions/normals exact"
+    },
+    {
+      "face_zero_based": 5354,
+      "donor_chart_face": 5360,
+      "original_indices": [
+        2106,
+        2107,
+        2108
+      ],
+      "new_indices": [
+        8552,
+        8553,
+        8554
+      ],
+      "position_source_indices": [
+        2091,
+        2108,
+        2107
+      ],
+      "old_positions_gltf": [
+        [
+          0.8481630086898804,
+          -0.6957880258560181,
+          -0.08277494460344315
+        ],
+        [
+          0.8476539850234985,
+          -0.5659809708595276,
+          0.34881001710891724
+        ],
+        [
+          0.8465830087661743,
+          -0.6963059902191162,
+          0.3216850459575653
+        ]
+      ],
+      "new_positions_gltf": [
+        [
+          0.8481459617614746,
+          -0.566805899143219,
+          0.5277379751205444
+        ],
+        [
+          0.8465830087661743,
+          -0.6963059902191162,
+          0.3216850459575653
+        ],
+        [
+          0.8476539850234985,
+          -0.5659809708595276,
+          0.34881001710891724
+        ]
+      ],
+      "old_positions_preview_metres": [
+        [
+          1.8732619336999923,
+          0.16091875184899976,
+          0.0011422195578350003
+        ],
+        [
+          1.872139451441182,
+          -0.7907982206347939,
+          0.28738847081306984
+        ],
+        [
+          1.8697777697987572,
+          -0.7309831257796583,
+          2.1568483443701325e-08
+        ]
+      ],
+      "new_positions_preview_metres": [
+        [
+          1.8732243423737605,
+          -1.1853642727416467,
+          0.28556936607513816
+        ],
+        [
+          1.8697777697987572,
+          -0.7309831257796583,
+          2.1568483443701325e-08
+        ],
+        [
+          1.872139451441182,
+          -0.7907982206347939,
+          0.28738847081306984
+        ]
+      ],
+      "old_normals_gltf": [
+        [
+          0.999951958656311,
+          -0.008999567478895187,
+          0.003899812465533614
+        ],
+        [
+          0.999951958656311,
+          -0.008999567478895187,
+          0.003899812465533614
+        ],
+        [
+          0.999951958656311,
+          -0.008999567478895187,
+          0.003899812465533614
+        ]
+      ],
+      "new_normals_gltf": [
+        [
+          0.9999669536209688,
+          -0.007637872516951186,
+          -0.0027847027514861624
+        ],
+        [
+          0.9999669536209688,
+          -0.007637872516951186,
+          -0.0027847027514861624
+        ],
+        [
+          0.9999669536209688,
+          -0.007637872516951186,
+          -0.0027847027514861624
+        ]
+      ],
+      "old_uv_gltf_v_down": [
+        [
+          0.6237469911575317,
+          0.2836480140686035
+        ],
+        [
+          0.5886769890785217,
+          0.3132699728012085
+        ],
+        [
+          0.6013079881668091,
+          0.3181999921798706
+        ]
+      ],
+      "new_uv_gltf_v_down": [
+        [
+          0.5986410975456238,
+          0.31794530153274536
+        ],
+        [
+          0.5889304280281067,
+          0.3282793462276459
+        ],
+        [
+          0.5982373952865601,
+          0.33191198110580444
+        ]
+      ],
+      "uv_fit": {
+        "donor_uv_gltf_v_down": [
+          [
+            0.5855559706687927,
+            0.41099298000335693
+          ],
+          [
+            0.6013079881668091,
+            0.3181999921798706
+          ],
+          [
+            0.5886769890785217,
+            0.3132699728012085
+          ]
+        ],
+        "positive_uniform_uv_scale": 0.7368375252081897,
+        "translation_in_donor_barycentric_coordinates": [
+          0.15070032594281252,
+          0.05730133460965699,
+          0.05516081423934085
+        ],
+        "donor_normal_angle_degrees": 1.0848202827306865,
+        "minimum_actual_float32_inset_texels_4096": 2.9999687959188694,
+        "new_uv_area_texels_4096": 1102.7155089825392,
+        "basecolor_grid_samples": 66,
+        "black_samples_below_12_of_255": 0,
+        "basecolor_mean_RGB_255": [
+          121.77272727272727,
+          123.54545454545455,
+          114.77272727272727
+        ],
+        "mapping_scope": "Intentional reuse of an existing same-surface triangle material patch; not a unique UV atlas. No texture editing, mirroring, painting or baking."
+      },
+      "tangent": "TANGENT attribute absent in source and output; no stale tangent copied",
+      "scope": "DBC to ACB; positions copied from existing A,C,B; new flat outward face normal; UV chart mapping"
+    }
+  ],
+  "local_topology": {
+    "coordinate_key": "Preview metre positions rounded to 6 decimals; no mesh welding performed",
+    "boundary_before": 300,
+    "boundary_after": 296,
+    "nonmanifold_before_and_after": 378,
+    "repaired_AB_AC_BC_edge_owner_counts": [
+      2,
+      2,
+      2
+    ],
+    "interpretation": "Identified four-edge boundary removed by replacing one misconnected face; unrelated defects remain. Not a full watertight claim."
+  },
+  "output": {
+    "path": "meshy-remesh-local-candidate-v1.glb",
+    "bytes": 38647972,
+    "sha256": "33c5358d476ed76a8aa608ec03feead72486088f0bef04a6686b355ff24821be"
+  },
+  "actual_views": [
+    {
+      "path": "local-v1-front-left.png",
+      "sha256": "d7844103bd57ac6ba918f27299a10299be0cd681f8e57ff2085dc9875937154a",
+      "bytes": 1909556,
+      "target": [
+        1.1920928955078125e-07,
+        0.0,
+        1.5500000715255737
+      ],
+      "direction": [
+        -1.0,
+        -1.0,
+        0.47999998927116394
+      ],
+      "ortho_scale": 6.3773548126220705
+    },
+    {
+      "path": "local-v1-rear-right.png",
+      "sha256": "e65e5b407c1934c222391b0837e9f5e8767e86809383e47a2abdd6126eff49d5",
+      "bytes": 1931016,
+      "target": [
+        1.1920928955078125e-07,
+        0.0,
+        1.5500000715255737
+      ],
+      "direction": [
+        1.0,
+        1.0,
+        0.44999998807907104
+      ],
+      "ortho_scale": 6.3773548126220705
+    },
+    {
+      "path": "local-v1-front.png",
+      "sha256": "d31041895c1e14b521d0c568514644ce7db0ba2b45895e5ef9d41b834b8cc6ff",
+      "bytes": 1722041,
+      "target": [
+        1.1920928955078125e-07,
+        0.0,
+        1.5500000715255737
+      ],
+      "direction": [
+        0.0,
+        -1.0,
+        0.14000000059604645
+      ],
+      "ortho_scale": 6.3773548126220705
+    },
+    {
+      "path": "local-v1-left.png",
+      "sha256": "1c672cda75dff558baf646f7ba902c8b0d7c2dbcce319d2d9595a111b8a2eb21",
+      "bytes": 1615861,
+      "target": [
+        1.1920928955078125e-07,
+        0.0,
+        1.5500000715255737
+      ],
+      "direction": [
+        -1.0,
+        0.0,
+        0.14000000059604645
+      ],
+      "ortho_scale": 6.3773548126220705
+    },
+    {
+      "path": "local-v1-roof-and-openings.png",
+      "sha256": "f471464377687507fd286b25ff02bc9a48d0454a2feb5056801b8d8b62479eba",
+      "bytes": 2099787,
+      "target": [
+        1.1920928955078125e-07,
+        -0.1599999964237213,
+        1.8000000715255737
+      ],
+      "direction": [
+        -0.6499999761581421,
+        -1.0,
+        0.699999988079071
+      ],
+      "ortho_scale": 5.548298686981202
+    }
+  ],
+  "blender": "4.5.12 LTS",
+  "studio_helper_sha256": "e75fd298da9a2f7a425c9be372974adc14342b18dfa929ee435360dafe6bf554",
+  "actual_imported_triangles": 5538,
+  "preview_uniform_scale": 2.2051672260775783,
+  "preview_bounds_blender_z_up": [
+    [
+      -2.0978141,
+      -1.4734409,
+      0.0
+    ],
+    [
+      2.0978143,
+      1.4734409,
+      3.1000001
+    ]
+  ],
+  "preview_dimensions": [
+    4.1956281661987305,
+    2.9468817710876465,
+    3.1000001430511475
+  ],
+  "normalization_scope": "Same in-memory height3.10m/footprint-centering convention as frozen remesh inspection; no transform baked/exported",
+  "cleanup": {
+    "scope": "Only exact restored working duplicates, after final render exited; unique archives/candidate/receipts/views retained",
+    "planned": [
+      {
+        "path": ".tools/h049-topology/meshy-raw.glb",
+        "bytes": 39842984,
+        "sha256": "1cea9044c9d124998d6ffa383d71bfb606947cc3a5263751659a5be4f825fdfa",
+        "retained_archive": "meshy-raw.glb.zip",
+        "archive_sha256": "509e13a61269688153ce1b26e50cd9726740720aab6d223c290c07f1013cac59",
+        "same_uncompressed_member_verified": true,
+        "lsof_no_handles": true
+      },
+      {
+        "path": ".tools/h049-topology/meshy-remesh-8000.glb",
+        "bytes": 38340704,
+        "sha256": "179b7e3c308207a2b701216b816024ac3bc311657970145dcc9e8181d0a8a2bd",
+        "retained_archive": "meshy-remesh-8000.glb.zip",
+        "archive_sha256": "e33c87089ea22529e7ab933e44e23bf6a99fa0292a738bf8051b64dc7be2adf4",
+        "same_uncompressed_member_verified": true,
+        "lsof_no_handles": true
+      }
+    ],
+    "deleted": [
+      {
+        "path": ".tools/h049-topology/meshy-raw.glb",
+        "bytes": 39842984,
+        "sha256": "1cea9044c9d124998d6ffa383d71bfb606947cc3a5263751659a5be4f825fdfa",
+        "retained_archive": "meshy-raw.glb.zip",
+        "archive_sha256": "509e13a61269688153ce1b26e50cd9726740720aab6d223c290c07f1013cac59",
+        "same_uncompressed_member_verified": true,
+        "lsof_no_handles": true
+      },
+      {
+        "path": ".tools/h049-topology/meshy-remesh-8000.glb",
+        "bytes": 38340704,
+        "sha256": "179b7e3c308207a2b701216b816024ac3bc311657970145dcc9e8181d0a8a2bd",
+        "retained_archive": "meshy-remesh-8000.glb.zip",
+        "archive_sha256": "e33c87089ea22529e7ab933e44e23bf6a99fa0292a738bf8051b64dc7be2adf4",
+        "same_uncompressed_member_verified": true,
+        "lsof_no_handles": true
+      }
+    ],
+    "deleted_bytes": 78183688
+  },
+  "reproduction_input_restore": {
+    "archive": "meshy-remesh-8000.glb.zip",
+    "member": "meshy-remesh-8000.glb",
+    "destination": ".tools/h049-topology/meshy-remesh-8000.glb",
+    "required_uncompressed_sha256": "179b7e3c308207a2b701216b816024ac3bc311657970145dcc9e8181d0a8a2bd",
+    "required_uncompressed_bytes": 38340704,
+    "note": "Verify archive SHA and sole member SHA/size, restore this exact member to ignored working directory before --prepare. Frozen existing output/receipt refuse overwrite."
+  },
+  "local_visual_observation": {
+    "reviewer": "Codex-Asset",
+    "views_seen": [
+      "local-v1-front-left.png",
+      "local-v1-rear-right.png",
+      "local-v1-front.png",
+      "local-v1-left.png",
+      "local-v1-roof-and-openings.png"
+    ],
+    "observed": "Target black plinth triangle and collapsed-UV gable black strip are absent in the five inspected views; no obvious new gross seam in these views. Single front door, left window and blank rear/right retained.",
+    "acceptance": "Root personal source-view review pending. Native, snow/PBR-in-scene, art and performance gates not claimed."
+  },
+  "root_review": {
+    "reviewer": "Codex root",
+    "views_seen": [
+      "local-v1-front-left.png",
+      "local-v1-rear-right.png",
+      "local-v1-front.png",
+      "local-v1-left.png",
+      "local-v1-roof-and-openings.png"
+    ],
+    "result": "All five actual source views personally inspected. Target rear-plinth triangle gap and front-gable black material face absent; no obvious new gross seam in these views. Single front door/left window, blank rear/right and source proportions retained.",
+    "independent_source_review": "Personal luna_fast accepted bounded producer/PBR/index/UV scope. Conditional stale index min/max concern resolved by actual original/output index accessor having no min/max or byteOffset.",
+    "independent_binary_readback": "Root read original ZIP member and output: source/output/producer SHA match receipt; old BIN literal prefix, all4image bytes, images/textures/samplers/materials/meshes/nodes bindings, and all5PNG hashes match.",
+    "acceptance": "Accepted only as local derived source for next preparation; no runtime promotion, full watertight, winter, optimization, movement, art or release acceptance."
+  }
+}
