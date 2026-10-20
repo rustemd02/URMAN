@@ -1,0 +1,134 @@
+{
+  "schema": "h002-variant-b-opaque-donor/v1",
+  "status": "source_preparation_failed_stop",
+  "source": {
+    "path": "game/assets/models/act1/urman_village_exterior_kit.glb",
+    "sha256": "fdc69de9f580276f6a9c831bde60a0dad1728acdc533f00320e8a9009c233bf8",
+    "bytes": 3132148,
+    "rights": "Project-original per assets/asset_registry.json urman.act1.village_exterior_kit"
+  },
+  "dependencies": [
+    {
+      "path": "assets/source/blender/act1/neighbor_house_a_retexture_v2/prepare_variant_a_retexture.py",
+      "sha256": "2b1e06161736af7a1863f7a03728499e813e348fb6af3ef3b0c7c4a36dc0dece"
+    },
+    {
+      "path": "assets/source/blender/act1/hero_house_pbr_v1/attach_hero_house_retexture.py",
+      "sha256": "e75fd298da9a2f7a425c9be372974adc14342b18dfa929ee435360dafe6bf554"
+    },
+    {
+      "path": "assets/source/blender/act1/hero_house_pbr_v1/prepare_hero_house_retexture.py",
+      "sha256": "525c05a2bdbf58c1a44443339e7f4a01e641924ec62cab48763be42536439902"
+    },
+    {
+      "path": "game/scripts/Act1ConnectedWorld.DwellingLogWalls.cs",
+      "sha256": "be02a751e1f7959aa6f0a67806aa459da1262d23dc42e302397ab26c381d7929"
+    }
+  ],
+  "material_reference": {
+    "path": "assets/source/blender/act1/neighbor_house_b_reference_v1/imagegen-reference-v1.png",
+    "sha256": "a53bdb1407061568b786d76cef2017fc9971b49feff51a2ade7820e3c3b7d341",
+    "role": "Accepted built-in ImageGen material/style only; no geometry from concept roof/steps"
+  },
+  "source_reference_receipt": {
+    "path": "assets/source/blender/act1/neighbor_house_b_reference_v1/source-receipt.json",
+    "sha256": "3b934b716eae73dbd8d4b2d9e600aa955a4d64595b86889ed837173f911540de"
+  },
+  "scope": "Source-only private H002 VariantB. No upload, paid call, runtime file, source helper edit, LOD or material attachment.",
+  "component": "VillageParcel_VariantB_PlasterAnnex_Dwelling",
+  "blender": "4.5.12 LTS",
+  "phase": "constructive_seni",
+  "preview_translation_removed": [
+    41.0,
+    0.0,
+    0.0
+  ],
+  "root_scale": [
+    1.0,
+    1.0,
+    1.0
+  ],
+  "centre_source": "VariantB_PlasterAnnex_Dwelling_FootingCap_LOD0",
+  "seni_wall_transforms": {
+    "VariantB_PlasterAnnex_Dwelling_SeniEntry_Wall_LOD0": [
+      [
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        1.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        1.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    ],
+    "VariantB_PlasterAnnex_Dwelling_SeniOuter_Wall_LOD0": [
+      [
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        1.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        1.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    ],
+    "VariantB_PlasterAnnex_Dwelling_SeniRear_Wall_LOD0": [
+      [
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        1.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        1.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    ]
+  },
+  "failure": "AssertionError()",
+  "traceback": "Traceback (most recent call last):\n  File \"/Users/unterlantas/Documents/GitHub/URMAN/assets/source/blender/act1/neighbor_house_b_retexture_v1/prepare_variant_b_retexture.py\", line 261, in <module>\n    main()\n  File \"/Users/unterlantas/Documents/GitHub/URMAN/assets/source/blender/act1/neighbor_house_b_retexture_v1/prepare_variant_b_retexture.py\", line 177, in main\n    assert len(next(ob for ob in included if ob.name == PREFIX+\"Roof_LOD0\").data.materials) == 5\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n"
+}

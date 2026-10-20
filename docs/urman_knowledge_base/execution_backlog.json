@@ -62124,12 +62124,20 @@
                 "new_meshy_spend": 0
               },
               "next_donor_input_research_2026_10_20": {
-                "state": "finite116source_candidate_preparation_started",
+                "state": "finite_source_candidate_frozen_technical_hold",
                 "agent": "/root/all_world_book_content",
                 "scope": "One source-only116semantic candidate with113originalopaque+3constructivelysupportedSeni crowns; removepreview41 only/nobake.9. No newMeshy/spend/Godot/runtime/helperA edits. Actualunsupported/UV/normals/exportfailure stops, noV1fallback.",
                 "target_folder": "assets/source/blender/act1/neighbor_house_b_retexture_v1/",
                 "source_contract": "123base→113opaque/3296tri/117primitives: exclude9Glass+RoofSnow, retain4Corner+10Recess+multimatRoof. NooriginalUV. Runtimeadds3Seniwoodcrowns, main4wallsplaster.",
-                "method_choice": "V1nonhero rejected byroot: oldcrownconstruction notaccepted fornewhouse. ReuseV2constructivecrownfunc only3equalidentityTRSwoodSeni; ignorehiddenCornerlist, module.HERE scopedB output. OneexistingV2atlas, actualexport/sourceviews/support/UVmetrics; no iterations/paidpreview."
+                "method_choice": "V1nonhero rejected byroot: oldcrownconstruction notaccepted fornewhouse. ReuseV2constructivecrownfunc only3equalidentityTRSwoodSeni; ignorehiddenCornerlist, module.HERE scopedB output. OneexistingV2atlas, actualexport/sourceviews/support/UVmetrics; no iterations/paidpreview.",
+                "source_receipt": "assets/source/blender/act1/neighbor_house_b_retexture_v1/candidate-receipt.json",
+                "source_glb": "assets/source/blender/act1/neighbor_house_b_retexture_v1/variant-b-opaque-for-retexture.glb",
+                "source_glb_sha256": "529d39a8341e54ceb4cf61156ebc2d4a1a794106526018af61f4fbf21ee89508",
+                "actual_result": "116 semantic meshes / 7566 triangles. Original113 retained with material surfaces/TRS; 3 constructive Seni crowns /37logs/4270tri; 63 actual contact samples, max gap 5.36e-7m.",
+                "technical_hold": "Strict overlap selector12 faces before/after GLB reimport. Numerical normal max component delta .000136052765 exceeds fixed .0001; visible defect not proven. UV/transform roundtrip/root-scale gates pass. No tolerance rewrite, further iterations or paid calls.",
+                "root_review": "Root personally inspected actualGLB front/right/rear/left and both corner/opening closeups; existing plaster/main roof/steps retained and Seni crown courses supported. These are source views without runtime weather/glass/carving/world; no artwork/native acceptance.",
+                "next_action": "Frozen source candidate only. Before any paid transfer, decide a bounded hold-resolution check on actual affected UV area/numerical normals; do not regenerate/iterate without new causal evidence. Current main priority remains native playable route and movement; no paid or runtime binding now.",
+                "new_meshy_spend": 0
               }
             }
           },
@@ -71736,6 +71744,11 @@
           "evidence/PW-020/player-facing-fixes-20261020/affected-game-build-before-hint-duplication-fix.log",
           "evidence/PW-020/player-facing-fixes-20261020/affected-game-build.log"
         ]
+      },
+      "current_input_confirmation_2026_10_20": {
+        "method": "Scoped read-only /root/all_world_visit_core source check, no execution.",
+        "result": "Current BodyPrefixCouncilWitness attaches own urman_character_kit.glb sixLOD0 body surfaces. AnimationPlayer stopped/removed; gait is existing post-move knee/ankle IK with2cm hipdip, footstep sound from actual body contacts. Revoked Meshy body has no live consumer. No new proved source defect in jump/postmove/IK/contact seams.",
+        "next_action": "Current protected native continuous walk→stop→takeoff→landing with ordinary/down camera. Review one actual defect or accept finite slice, retain full LEGS.2 criteria. No blind tuning/new probe."
       }
     },
     {
