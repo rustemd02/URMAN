@@ -143905,7 +143905,7 @@
         "verification": "Independent bounded read-only source/consumer review; no generated asset replacement, export or runtime claim."
       },
       "fence_family_input_2026_10_20": {
-        "state": "maps_task_succeeded_download_inspection_pending",
+        "state": "source_candidate_material_hold_no_runtime",
         "agent": "/root/all_world_book_content",
         "target_folder": "assets/source/blender/act1/rough_picket_family_reference_v3/",
         "source_owner": "Act1ConnectedWorld.YardFences.cs batches FenceParts ArrayMesh/material and YardFenceBody collision, not oldGLB. Current84nonkeep lots10–19m do not enter4.4–5m BuildYardWicket branch; actual access doublecartleaves are baked open/static, not interactivewickets.",
@@ -143922,7 +143922,7 @@
         "reference_provenance": "assets/source/blender/act1/rough_picket_family_reference_v3/provenance.md",
         "reference_root_review": "Root personallyviewed quietivorywashedpine/matteiron family: coherentwithacceptedhouse, openleaves/clearpassage retained inreference; exactboards/geometry remainfrozenGLBauthority.",
         "maps_stage": {
-          "state": "SUCCEEDED_download_inspection_pending",
+          "state": "SUCCEEDED_maps_inspected_candidate_material_hold",
           "folder": "assets/source/blender/act1/rough_picket_family_reference_v3/retexture_maps_v1/",
           "credit_ceiling": 20,
           "known_global_spent_before": 350,
@@ -143935,6 +143935,45 @@
           "status_receipt": "assets/source/blender/act1/rough_picket_family_reference_v3/retexture_maps_v1/status-initial.json",
           "submit_receipt": "assets/source/blender/act1/rough_picket_family_reference_v3/retexture_maps_v1/submit-receipt.json",
           "source_runtime_binding": "not_started; returnedgeometry mustnotreplacecanonicaldonor, no artwork/native/performance acceptance"
+        },
+        "candidate_stage": {
+          "state": "material_hold",
+          "folder": "assets/source/blender/act1/rough_picket_family_reference_v3/pbr_candidate_v3",
+          "receipt": "assets/source/blender/act1/rough_picket_family_reference_v3/pbr_candidate_v3/candidate-receipt.json",
+          "root_review": "Root personally viewed all5 actual PBR candidate views. Cart gate straps/wraps/handles and brown braces become ivory, gate textures much poorer than bay; material separation fails accepted family. Not runtime accepted. Literal geometry/UV/79semanticmesh/2212tri retained; technical preservation is not art acceptance.",
+          "next_action": "Stop this material candidate; no repeat paid call or role-paint microiterations. Continue visible playable stages; future whole-family replacement needs coherent material roles and native scene/motion/performance acceptance.",
+          "spend_attachment": 0,
+          "cleanup": {
+            "freed_bytes": 22837192,
+            "deleted_recreatable_or_exact_duplicates": [
+              {
+                "path": "assets/source/blender/act1/rough_picket_family_reference_v3/retexture_maps_v1/base-color.jpg",
+                "bytes": 5483117,
+                "sha256": "376074aff85186a1e9fc20c4ded03765be38a8a7414024f243b8d09183d86704",
+                "reason": "exact embedded JPEG duplicate; unique Meshy GLB retained locally"
+              },
+              {
+                "path": "assets/source/blender/act1/rough_picket_family_reference_v3/retexture_maps_v1/metallic-roughness.jpg",
+                "bytes": 1003687,
+                "sha256": "99b6782102b23872fedf8ed99526d28cfcb1a89b85997959f7e18b3440206f86",
+                "reason": "exact embedded JPEG duplicate; unique Meshy GLB retained locally"
+              },
+              {
+                "path": "assets/source/blender/act1/rough_picket_family_reference_v3/retexture_maps_v1/normal.jpg",
+                "bytes": 4837640,
+                "sha256": "1c91fca242daf10194fa2708367cba48e566ecf66fd2805e7e38c57cbf290cf9",
+                "reason": "exact embedded JPEG duplicate; unique Meshy GLB retained locally"
+              },
+              {
+                "path": "assets/source/blender/act1/rough_picket_family_reference_v3/pbr_candidate_v3/rough-picket-family-semantic-pbr-v3.glb",
+                "bytes": 11512748,
+                "sha256": "8954cbdad9a17e767c78a8da7a4970f35b2d817d918249e362a3ad264d84f358",
+                "reason": "recreatable rejected material-only export; canonical source, unique returned GLB, exact recipe and frozen receipt retained"
+              }
+            ],
+            "retained_local_unique_input": "assets/source/blender/act1/rough_picket_family_reference_v3/retexture_maps_v1/meshy-returned.glb",
+            "publication": "Recipes, receipts and five reviewed views committed; rejected candidate/raw model remain out of runtime. Unique returned GLB retained locally, not published."
+          }
         }
       }
     },

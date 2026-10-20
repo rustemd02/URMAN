@@ -1,0 +1,300 @@
+{
+  "schema": "rough-picket-literal-source-pbr/v3",
+  "status": "source_pbr_material_hold_no_runtime",
+  "source": {
+    "path": "assets/source/blender/act1/rough_picket_family_reference_v3/rough-picket-family-source.glb",
+    "sha256": "b0188bdb300a644126bbf495c4d4854aa4a11c0a5cd0485510297014a1a9e195"
+  },
+  "returned": {
+    "path": "assets/source/blender/act1/rough_picket_family_reference_v3/retexture_maps_v1/meshy-returned.glb",
+    "sha256": "23af51c6a821c512ae293a8f0dc3921b748a9a9b5be5548de46f00477cbde03d",
+    "geometry_authority": false
+  },
+  "dependencies": [
+    {
+      "path": "assets/source/blender/act1/neighbor_house_a_retexture_v2/attach_variant_a_retexture.py",
+      "sha256": "da1f054a7fb5032e39ce1b9d020892e489568f6820af077a394d07322ba44ec6"
+    },
+    {
+      "path": "assets/source/blender/act1/hero_house_pbr_v1/attach_hero_house_retexture.py",
+      "sha256": "e75fd298da9a2f7a425c9be372974adc14342b18dfa929ee435360dafe6bf554"
+    },
+    {
+      "path": "assets/source/blender/act1/rough_picket_family_reference_v3/source-receipt.json",
+      "sha256": "703dd6d255878c30b27e5e03a9e51bd743f37d927a44dd500e571bb2798eb190"
+    },
+    {
+      "path": "assets/source/blender/act1/rough_picket_family_reference_v3/retexture_maps_v1/maps-inspection-receipt.json",
+      "sha256": "e369c3442dd7788cf42cebc42412b58d2e9e29e5b653cb62ca7e2dd1f2167803"
+    }
+  ],
+  "spend_this_attachment": 0,
+  "material_policy": "One uncorrected generated PBR across the original five semantic role materials; no per-role artistic adjustments, flips or normal-map corrections.",
+  "literal_byte_proof": {
+    "literal_source_bin_bytes": 121512,
+    "literal_source_bin_sha256": "378d8f3773e1a7a6a4bd02159d96c47a2535cad1c7d525bf39bb1fc493385c9c",
+    "candidate_original_bin_prefix_sha256": "378d8f3773e1a7a6a4bd02159d96c47a2535cad1c7d525bf39bb1fc493385c9c",
+    "source_mesh_json_material_assignments_identical": true,
+    "source_nodes_accessors_transforms_indices_normals_uv_literal_identical": true,
+    "all_source_material_names_and_indices_retained": [
+      {
+        "index": 0,
+        "name": "Source_dcd6c8_wood_painted_trim",
+        "old_pbr_factors": {
+          "baseColorFactor": [
+            0.715693473815918,
+            0.672443151473999,
+            0.577580451965332,
+            1
+          ],
+          "metallicFactor": 0,
+          "roughnessFactor": 0.8500000238418579
+        },
+        "new_pbr_factors_and_bindings": {
+          "baseColorFactor": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "metallicFactor": 1.0,
+          "roughnessFactor": 1.0,
+          "baseColorTexture": {
+            "index": 0,
+            "texCoord": 0
+          },
+          "metallicRoughnessTexture": {
+            "index": 1,
+            "texCoord": 0
+          }
+        }
+      },
+      {
+        "index": 1,
+        "name": "Source_e6dfc6_wood_painted_trim",
+        "old_pbr_factors": {
+          "baseColorFactor": [
+            0.7912979125976562,
+            0.7379103899002075,
+            0.5647115111351013,
+            1
+          ],
+          "metallicFactor": 0,
+          "roughnessFactor": 0.8500000238418579
+        },
+        "new_pbr_factors_and_bindings": {
+          "baseColorFactor": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "metallicFactor": 1.0,
+          "roughnessFactor": 1.0,
+          "baseColorTexture": {
+            "index": 0,
+            "texCoord": 0
+          },
+          "metallicRoughnessTexture": {
+            "index": 1,
+            "texCoord": 0
+          }
+        }
+      },
+      {
+        "index": 2,
+        "name": "Source_6f5b45_wood_fence",
+        "old_pbr_factors": {
+          "baseColorFactor": [
+            0.15896083414554596,
+            0.10461648553609848,
+            0.05951123684644699,
+            1
+          ],
+          "metallicFactor": 0,
+          "roughnessFactor": 0.8500000238418579
+        },
+        "new_pbr_factors_and_bindings": {
+          "baseColorFactor": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "metallicFactor": 1.0,
+          "roughnessFactor": 1.0,
+          "baseColorTexture": {
+            "index": 0,
+            "texCoord": 0
+          },
+          "metallicRoughnessTexture": {
+            "index": 1,
+            "texCoord": 0
+          }
+        }
+      },
+      {
+        "index": 3,
+        "name": "Source_4a4d4a_metal",
+        "old_pbr_factors": {
+          "baseColorFactor": [
+            0.06847816705703735,
+            0.07421357184648514,
+            0.06847816705703735,
+            1
+          ],
+          "metallicFactor": 0,
+          "roughnessFactor": 0.8500000238418579
+        },
+        "new_pbr_factors_and_bindings": {
+          "baseColorFactor": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "metallicFactor": 1.0,
+          "roughnessFactor": 1.0,
+          "baseColorTexture": {
+            "index": 0,
+            "texCoord": 0
+          },
+          "metallicRoughnessTexture": {
+            "index": 1,
+            "texCoord": 0
+          }
+        }
+      },
+      {
+        "index": 4,
+        "name": "Source_eadcc0_wood_painted_trim",
+        "old_pbr_factors": {
+          "baseColorFactor": [
+            0.8227857351303101,
+            0.715693473815918,
+            0.5271151065826416,
+            1
+          ],
+          "metallicFactor": 0,
+          "roughnessFactor": 0.8500000238418579
+        },
+        "new_pbr_factors_and_bindings": {
+          "baseColorFactor": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "metallicFactor": 1.0,
+          "roughnessFactor": 1.0,
+          "baseColorTexture": {
+            "index": 0,
+            "texCoord": 0
+          },
+          "metallicRoughnessTexture": {
+            "index": 1,
+            "texCoord": 0
+          }
+        }
+      }
+    ],
+    "returned_image_bytes_identical": [
+      {
+        "returned_image_index": 0,
+        "output_buffer_view": 238,
+        "mime_type": "image/jpeg",
+        "bytes": 5483117,
+        "sha256": "376074aff85186a1e9fc20c4ded03765be38a8a7414024f243b8d09183d86704"
+      },
+      {
+        "returned_image_index": 1,
+        "output_buffer_view": 239,
+        "mime_type": "image/jpeg",
+        "bytes": 1003687,
+        "sha256": "99b6782102b23872fedf8ed99526d28cfcb1a89b85997959f7e18b3440206f86"
+      },
+      {
+        "returned_image_index": 2,
+        "output_buffer_view": 240,
+        "mime_type": "image/jpeg",
+        "bytes": 4837640,
+        "sha256": "1c91fca242daf10194fa2708367cba48e566ecf66fd2805e7e38c57cbf290cf9"
+      }
+    ],
+    "returned_geometry_incorporated": false,
+    "changed_json_scope": "Append image bufferViews/images/samplers/textures, replace only PBR map bindings/factors and normalTexture within the existing five named materials; update BIN byteLength. No mesh/node/accessor edits."
+  },
+  "output": {
+    "path": "rough-picket-family-semantic-pbr-v3.glb",
+    "bytes": 11512748,
+    "sha256": "8954cbdad9a17e767c78a8da7a4970f35b2d817d918249e362a3ad264d84f358"
+  },
+  "phase": "actual_candidate_render",
+  "actual_candidate_views": [
+    {
+      "path": "actual-pbr-front.png",
+      "sha256": "3a8d40645e317983add5fc90e7f147fa6e8d9465f21354f0d8124597c909702c",
+      "bytes": 1176517,
+      "same_camera_as_source": "actual-source-front.png"
+    },
+    {
+      "path": "actual-pbr-front-right.png",
+      "sha256": "cabb07fab48eee62009f47c2488df05e1ff7714c363d5193438114fb43479058",
+      "bytes": 1259423,
+      "same_camera_as_source": "actual-source-front-right.png"
+    },
+    {
+      "path": "actual-pbr-rear.png",
+      "sha256": "6520c6d83e767ebac033cd6571e363794760a1776bd05b26be23a4e4d39e8302",
+      "bytes": 1195099,
+      "same_camera_as_source": "actual-source-rear.png"
+    },
+    {
+      "path": "actual-pbr-side.png",
+      "sha256": "927f2a34ecd03bcf0a78054c66ef646439024898d6c87a6e49456d846fbeca2e",
+      "bytes": 1297728,
+      "same_camera_as_source": "actual-source-side.png"
+    },
+    {
+      "path": "actual-pbr-cart-opening.png",
+      "sha256": "aa7c81999b5fba2f72cbc6ec79def1d2dec78a3c876f3b4d83d4e348ce56f109",
+      "bytes": 1315490,
+      "same_camera_as_source": "actual-source-cart-opening.png"
+    }
+  ],
+  "technical_scope": {
+    "literal_geometry_byteguard": true,
+    "source_mesh_count": 79,
+    "source_triangle_count": 2212,
+    "frozen_source_material_role_indices_preserved": 5,
+    "new_paid_calls": 0,
+    "runtime_files_changed": false,
+    "Blender_geometry_reexport": false
+  },
+  "remaining": "Material HOLD. No additional paid calls, image variants, texture flips, source geometry/UV edits, per-role material correction or runtime promotion authorized/performed.",
+  "actual_material_review": {
+    "all_five_actual_candidate_views_inspected": true,
+    "result": "HOLD",
+    "failed_visible_criteria": [
+      {
+        "criterion": "iron separation",
+        "observation": "Hinge straps, wraps and seated handles render ivory like painted timber instead of matte dark iron. Source material role names and assignments remain preserved; generated PBR texture appearance loses the separation.",
+        "views": [
+          "actual-pbr-cart-opening.png",
+          "actual-pbr-front-right.png"
+        ]
+      },
+      {
+        "criterion": "brace and whole-family material coherence",
+        "observation": "The two original brown wood braces also render ivory; gate timber is substantially more uniform/less legible than the generated bay.",
+        "views": [
+          "actual-pbr-side.png",
+          "actual-pbr-front-right.png"
+        ]
+      }
+    ],
+    "grain_and_frame_markings": "Bay timber shows grain/edge markings; no independent pass is claimed for every face direction or baked frame-like markings. Whole-family appearance fails on iron/brace separation already.",
+    "geometry": "Original thirteen-board bay, two open nine-board leaves, seated handles, all semantic pivots and opening remain from literal source bytes. No topology/material micro-variant attempted.",
+    "next_action": "Root reviews the frozen actual opening/front-right and decides the next bounded art route; current whole-family material candidate must not be promoted as accepted runtime art."
+  }
+}

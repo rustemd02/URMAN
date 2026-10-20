@@ -1,0 +1,123 @@
+{
+  "schema": "rough-picket-pbr-maps-only/v1",
+  "status": "maps_extracted_parent_inspection_required_no_attachment",
+  "task_id": "01a157ec-cf3b-7606-800d-0cbc23c9c260",
+  "task_status": "SUCCEEDED",
+  "consumed_credits_reported": 10,
+  "balance_before": 3930,
+  "balance_after": 3920,
+  "observed_balance_delta": 10,
+  "author_ledger_before": 350,
+  "author_ledger_after_this_one_task": 360,
+  "author_cap": 4000,
+  "source": {
+    "path": "rough-picket-family-source.glb",
+    "sha256": "b0188bdb300a644126bbf495c4d4854aa4a11c0a5cd0485510297014a1a9e195",
+    "semantic_meshes": 79,
+    "triangles": 2212
+  },
+  "returned_artifact": {
+    "path": "meshy-returned.glb",
+    "sha256": "23af51c6a821c512ae293a8f0dc3921b748a9a9b5be5548de46f00477cbde03d",
+    "bytes": 11483568,
+    "meshes": 1,
+    "nodes": 1,
+    "triangles": 2212,
+    "geometry_authority": false
+  },
+  "maps": [
+    {
+      "role": "base-color",
+      "path": "base-color.jpg",
+      "mime_type": "image/jpeg",
+      "dimensions": [
+        4096,
+        4096
+      ],
+      "bytes": 5483117,
+      "sha256": "376074aff85186a1e9fc20c4ded03765be38a8a7414024f243b8d09183d86704",
+      "embedded_image_index": 0,
+      "texcoord": 0,
+      "texture_transform_extension_present": false
+    },
+    {
+      "role": "metallic-roughness",
+      "path": "metallic-roughness.jpg",
+      "mime_type": "image/jpeg",
+      "dimensions": [
+        2048,
+        2048
+      ],
+      "bytes": 1003687,
+      "sha256": "99b6782102b23872fedf8ed99526d28cfcb1a89b85997959f7e18b3440206f86",
+      "embedded_image_index": 1,
+      "texcoord": 0,
+      "texture_transform_extension_present": false
+    },
+    {
+      "role": "normal",
+      "path": "normal.jpg",
+      "mime_type": "image/jpeg",
+      "dimensions": [
+        4096,
+        4096
+      ],
+      "bytes": 4837640,
+      "sha256": "1c91fca242daf10194fa2708367cba48e566ecf66fd2805e7e38c57cbf290cf9",
+      "embedded_image_index": 2,
+      "texcoord": 0,
+      "texture_transform_extension_present": false
+    }
+  ],
+  "material_chain": {
+    "alpha_mode": "OPAQUE",
+    "double_sided": true,
+    "metallic_factor": 1.0,
+    "roughness_factor": 1.0,
+    "base_color_factor": [
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ],
+    "normal_scale": 1,
+    "samplers": [
+      {
+        "magFilter": 9729,
+        "minFilter": 9987,
+        "wrapS": 10497,
+        "wrapT": 10497
+      },
+      {
+        "magFilter": 9729,
+        "minFilter": 9987,
+        "wrapS": 10497,
+        "wrapT": 10497
+      },
+      {
+        "magFilter": 9729,
+        "minFilter": 9987,
+        "wrapS": 10497,
+        "wrapT": 10497
+      }
+    ]
+  },
+  "uv_coverage": {
+    "method": "UV triangle multiset rounded to7 decimal places; preserves triangle multiplicity independently of returned node merging",
+    "source_triangle_count": 2212,
+    "returned_triangle_count": 2212,
+    "missing_triangles": 0,
+    "extra_triangles": 0,
+    "equal": true,
+    "missing_first8": [],
+    "extra_first8": []
+  },
+  "orientation": "Standard unmodified glTF TEXCOORD_0 and image bytes; no image flips, UV remap, texture transforms or tangent-normal correction performed. Actual applied material orientation not yet previewed.",
+  "rights": "Owner-authorized paid Meshy retexture of project-original source and own accepted ImageGen reference. No Community publication or new external license asserted.",
+  "limits": "Exactly one paid retexture task. Returned merged geometry is NOT canonical. No Blender attachment/runtime/UV changes. Root reviews raw maps before any source candidate attachment.",
+  "raw_map_visual_review": {
+    "review": "All three extracted JPEG maps inspected with view_image",
+    "observed": "Pale ivory/wood base atlas, low-relief tangent-space normal atlas, packed metallic/roughness atlas. No applied-model view yet. Small iron-island color separation, grain orientation, paint continuity and in-scene fit remain unverified until a separately authorized frozen-geometry attachment preview.",
+    "attachment_performed": false
+  }
+}

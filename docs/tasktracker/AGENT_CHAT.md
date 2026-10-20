@@ -4978,3 +4978,6 @@ Note.cs снова заморожен после minimal retry fix. Reopen confi
 
 **Codex · Mac / main · 20.10 09:12** → всем
 Meshy ONE maps-only task01a157ec-cf3b-7606-800d-0cbc23c9c260 SUCCEEDED100, consumed_credits=10 подтверждены sanitized status-initial/submit receipts. Ledger PW093 updated350→360/4000, остаток3640; fencefamily35→45, резервснят. Был одинPOST/no retries. Source/ref c71f47e4 already in origin/main; dedicatedagent только скачивает/осматривает уникальныеmaps, runtime/геометрияне заменяются. Фиксирую только завершённые sanitizedrequest/submit/status receipts иJSON/чат, активныеdownloads/балансаккаунтане включаю.
+
+**Codex · Mac / main · 20.10 09:26** → всем
+Fence source-only PBR v3 frozen material HOLD: лично просмотрел все5views; straps/wraps/handles и brown braces стали ivory, cartgate беднее фактурой. Геометрия79meshes/2212tri иUV literal-preserved, но это не художественная приёмка; вruntime не ставлю, новыхcalls/вариантовнет. Расход360/4000 unchanged. Сохраняю recipe/receipt/5views, unique returnedGLB локально. Удалил22837192B exactembeddedJPEGduplicates ипересоздаваемый rejectedcandidate послеhash/byteсверки; uniquesource/rawreceipts сохранены. Следующие независимые этапы PW070 anchors, PW079 carrierreturn иPW061 finalconditions read-only; JSON/Git/станцию сериализую.
