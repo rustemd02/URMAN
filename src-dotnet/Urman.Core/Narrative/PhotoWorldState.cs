@@ -285,7 +285,7 @@ public static class PhotoWorldState
                             JsonSerializer.SerializeToElement(new { op = "quest.status", questId = "urman.fullgame:quest/pw-w04", status = "completed" }), state))))
                         throw new InvalidOperationException("The returning visit requires its verified origin or the completed W04 bank destination.");
                     active["status"] = "returned";
-                    history[visitId] = active.DeepClone();
+                    history[visitId] = ArchiveVisit(active);
                     visits["active"] = null;
                     world["transition"] = null;
                     break;
@@ -303,7 +303,7 @@ public static class PhotoWorldState
                     if (status is not ("prepared" or "active"))
                         throw new InvalidOperationException("A returning visit must finish its safe return, not abort its earned state.");
                     active["status"] = "aborted";
-                    history[visitId] = active.DeepClone();
+                    history[visitId] = ArchiveVisit(active);
                     visits["active"] = null;
                     world["transition"] = null;
                     break;
@@ -802,6 +802,43 @@ public static class PhotoWorldState
             throw new InvalidDataException("A live PhotoWorlds visit requires its serialized return ticket.");
     }
 
+    private static JsonObject ArchiveVisit(JsonObject active)
+    {
+        var archived = active.DeepClone().AsObject();
+        if (archived["returnTicket"] is JsonObject ticket
+            && ticket["originAudioSnapshot"] is JsonObject audioSnapshot)
+            audioSnapshot.Remove("householdSchedule");
+        return archived;
+    }
+
+    public static void ValidateHouseholdAudioSnapshot(JsonElement snapshot)
+    {
+        RequireObject(snapshot, "PhotoWorlds household audio snapshot");
+        if (RequiredInt32(snapshot, "version") != 1)
+            throw new InvalidDataException("The PhotoWorlds household audio snapshot version is unsupported.");
+        var rngState = RequiredProperty(snapshot, "rngState");
+        if (rngState.ValueKind != JsonValueKind.Number || !rngState.TryGetUInt64(out _))
+            throw new InvalidDataException("The household audio RNG state must be an unsigned 64-bit integer.");
+        if (FiniteNumber(snapshot, "nextEventRemainingSeconds") < 0)
+            throw new InvalidDataException("The household audio event delay must be non-negative.");
+        var remainder = FiniteNumber(snapshot, "tickRemainderSeconds");
+        if (remainder < 0 || remainder >= .25)
+            throw new InvalidDataException("The household audio tick remainder must be between zero and a quarter second, excluding the upper bound.");
+        var houses = RequiredProperty(snapshot, "houses");
+        if (houses.ValueKind != JsonValueKind.Array)
+            throw new InvalidDataException("The household audio houses must be an array.");
+        var identities = new HashSet<string>(StringComparer.Ordinal);
+        foreach (var house in houses.EnumerateArray())
+        {
+            RequireObject(house, "PhotoWorlds household audio house");
+            if (!identities.Add(RequiredString(house, "identity")))
+                throw new InvalidDataException("The household audio snapshot repeats a house identity.");
+            _ = RequiredString(house, "motifId");
+            if (FiniteNumber(house, "waitSeconds") < 0)
+                throw new InvalidDataException("The household audio house delay must be non-negative.");
+        }
+    }
+
     private static void ValidateReturnTicket(JsonElement ticket, string campaignId, string campaignExactVersion)
     {
         RequireObject(ticket, "PhotoWorlds ReturnTicket");
@@ -823,7 +860,8 @@ public static class PhotoWorldState
         var questContext = ObjectProperty(ticket, "activeQuestContext");
         var audioSnapshot = ObjectProperty(ticket, "originAudioSnapshot");
         _ = questContext;
-        _ = audioSnapshot;
+        if (audioSnapshot.TryGetProperty("householdSchedule", out var householdSchedule))
+            ValidateHouseholdAudioSnapshot(householdSchedule);
         var carryables = RequiredProperty(ticket, "placedCarryableIds");
         if (carryables.ValueKind != JsonValueKind.Array
             || carryables.EnumerateArray().Any(item => item.ValueKind != JsonValueKind.String || string.IsNullOrWhiteSpace(item.GetString())))

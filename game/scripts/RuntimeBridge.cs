@@ -696,7 +696,7 @@ public partial class RuntimeBridge : Node
         return true;
     }
 
-    private JsonElement CapturePhotoReturnTicket(RuntimeKernel session, FirstPersonController player, string worldId)
+    private JsonElement CapturePhotoReturnTicket(RuntimeKernel session, FirstPersonController player, string worldId, Main main)
     {
         if (!PhotoWorldState.TryGetVisitOrigin(session.SelectState(), worldId,
                 out var originZone, out var originAnchor, out var fixedSafeNode)
@@ -707,6 +707,9 @@ public partial class RuntimeBridge : Node
             ?? throw new InvalidOperationException("The origin audio owner is not ready.");
         if (string.IsNullOrWhiteSpace(AtmosphereProfiles.AppliedProfileId) || string.IsNullOrWhiteSpace(audio.CurrentStemId))
             throw new InvalidOperationException("The origin atmosphere and ambience must be applied before preparing a visit.");
+        if (main.ConnectedWorld is not { } world
+            || !world.TryCaptureHouseholdAudioSchedule(out var householdSchedule))
+            throw new InvalidOperationException("The origin household audio schedule is not ready.");
         var carry = GetTree().GetFirstNodeInGroup("carry_coordinator") as CarryCoordinator;
         return JsonSerializer.SerializeToElement(new
         {
@@ -720,10 +723,33 @@ public partial class RuntimeBridge : Node
                 .Select(item => item.ItemId).OrderBy(id => id, StringComparer.Ordinal).ToArray() ?? [],
             originProfileId = AtmosphereProfiles.AppliedProfileId,
             originAudioSnapshot = new { zoneId = audio.CurrentZoneId, stemId = audio.CurrentStemId,
-                spawnPointId = CurrentSpawnPointId, physicalSheltered = audio.HasMeta("physicalSheltered") && audio.GetMeta("physicalSheltered").AsBool() },
+                spawnPointId = CurrentSpawnPointId, physicalSheltered = audio.HasMeta("physicalSheltered") && audio.GetMeta("physicalSheltered").AsBool(),
+                householdSchedule },
             entryPlayTimeSeconds = _playTimeSeconds,
             preparedAtRevision = session.CaptureSnapshot().EventSequence
         });
+    }
+
+    private async Task<bool> RestorePhotoHouseholdScheduleAsync(
+        RuntimeKernel session, Main main, JsonElement ticket, CancellationToken cancellationToken = default)
+    {
+        if (!ticket.GetProperty("originAudioSnapshot").TryGetProperty("householdSchedule", out var schedule))
+            return true; // Historical tickets predate this presentation snapshot.
+        var world = main.ConnectedWorld;
+        var deadline = Time.GetTicksMsec() + 5000;
+        while (true)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            if (!GodotObject.IsInstanceValid(this) || !IsInsideTree() || IsQueuedForDeletion()
+                || !ReferenceEquals(session, _kernel) || _loadingSlot || _loadPreparing
+                || !GodotObject.IsInstanceValid(main) || !main.IsInsideTree() || main.IsQueuedForDeletion()
+                || world is null || !GodotObject.IsInstanceValid(world) || !world.IsInsideTree()
+                || world.IsQueuedForDeletion() || !ReferenceEquals(world, main.ConnectedWorld)) return false;
+            if (world.TryRestoreHouseholdAudioSchedule(session, ticket.GetProperty("ticketId").GetString()!, schedule))
+                return true;
+            if (Time.GetTicksMsec() >= deadline) return false;
+            await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+        }
     }
 
     private async Task<bool> RecoverPhotoVisitAsync(RuntimeKernel session, bool abortActive = false)
@@ -749,6 +775,8 @@ public partial class RuntimeBridge : Node
         else return false;
         if (!ReferenceEquals(session, _kernel) || _loadingSlot || _loadPreparing) return false;
         if (!await main.CompletePhotoVisitProjectionAsync(session, worldId, ticket)
+            || !ReferenceEquals(session, _kernel) || _loadingSlot || _loadPreparing) return false;
+        if (!await RestorePhotoHouseholdScheduleAsync(session, main, ticket)
             || !ReferenceEquals(session, _kernel) || _loadingSlot || _loadPreparing) return false;
         _clock = LogicalClock.Restore(new(ticket.GetProperty("worldClock").GetProperty("tick").GetInt64()));
         if (status == "returning"
@@ -827,7 +855,7 @@ public partial class RuntimeBridge : Node
         {
             if (entering)
             {
-                var ticket = CapturePhotoReturnTicket(session, player, worldId);
+                var ticket = CapturePhotoReturnTicket(session, player, worldId, main);
                 var id = Guid.NewGuid().ToString("N");
                 ownedVisitId = id;
                 if (!await DispatchPhotoVisitCommandAsync(session, PhotoWorldCommandHandler.VisitPrepare, id,
@@ -864,6 +892,7 @@ public partial class RuntimeBridge : Node
                     || !await DispatchCompiledInteractionAsync(returnInteraction) || !Current()) return false;
                 if (!await main.CompletePhotoVisitProjectionAsync(session, worldId,
                     completedBankReturn ? null : ticket, completedBankReturn) || !Current()) return false;
+                if (!await RestorePhotoHouseholdScheduleAsync(session, main, ticket, cancellation.Token) || !Current()) return false;
                 if (!completedBankReturn)
                     _clock = LogicalClock.Restore(new(ticket.GetProperty("worldClock").GetProperty("tick").GetInt64()));
                 if (!await DispatchPhotoVisitCommandAsync(session, PhotoWorldCommandHandler.VisitFinishReturn, id,

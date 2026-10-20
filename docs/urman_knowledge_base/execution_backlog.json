@@ -117234,7 +117234,10 @@
       "verify": [
         "Точный сценарий этой карточки + docs/12_QA_RU.md; результаты в evidence/PW-039/receipt.json, ссылка на commit, путь сцены, фактический профиль и кадры/лог."
       ],
-      "evidence": [],
+      "evidence": [
+        "evidence/PW-039/household-schedule-20261020/affected-game-build-before-session-reference-fix.log",
+        "evidence/PW-039/household-schedule-20261020/affected-game-build.log"
+      ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-039",
       "source_requirements": [
         "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/docs/11_TASKS_RU.md",
@@ -117344,8 +117347,8 @@
       },
       "assigned_owner": "audio",
       "activity": {
-        "state": "not_active",
-        "reason": "Ограниченный source-этап интегрирован, проверен и передан; обычная нативная проверка/слуховая приёмка остаются открыты."
+        "state": "idle",
+        "reason": "Finite household schedule source stage compiled/reviewed; full audio/hearing/native gates remain open."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -117354,7 +117357,7 @@
         "Возврат восстанавливает правильную деревенскую среду.",
         "Нет дублированных эмиттеров и одинакового тревожного гула во всех мирах."
       ],
-      "next_action": "На следующем доступном защищённом обычном запуске проверить шаги снег/доски/трава и W05→home→Village/ticket audio return; полный AudioDomainSnapshot продолжать отдельным конечным этапом по реальным inputs.",
+      "next_action": "After authoritative station terminal/restoration, hear one existing household motif, enter/return or cancel and verify remaining pause rather than startup2–8sec replay; check active-visit Continue and normalW04bank meeting unaffected. Reuse compiled source evidence; no unchanged rebuild. Full PW039 audio-domain/hearing acceptance remains open.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -117556,9 +117559,23 @@
         "remaining": "Полный AudioDomainSnapshot loopoffset/mood/radiophase/schedule и штатное слуховое/нативное восстановление ещё не подтверждены. Текущий crossfade остаётся .65s; полный паспорт аудио не закрыт."
       },
       "household_snapshot_research_2026_10_20": {
-        "state": "confirmed_source_gap_not_implemented",
+        "state": "source_integrated_compiled_native_hearing_pending",
         "finding": "Photo return rebuilds VillageHouseholdDirector, resetting eachhouse wait to2–8seconds instead of the remaining20+second cooldown after a sound. Ticket currently stores zone/stem/spawn/shelter only. docs09 requires restoring logical schedule and avoiding repeated one-shot starts.",
-        "next_action": "Finite existing-owner schedule capture/restore in optional originAudioSnapshot with stablehouseIDs and remaining waits; preserve RNG and next-event remainder; no in-flight one-shot replay/newmanager/assets. Handle first W04 normal bank return without overwriting transient Alsu stage. Ordinary outside-photo Continue/fullmood/radio offsets remain separate. First-place W01/W05 stage has immediate priority."
+        "next_action": "After authoritative station terminal/restoration, hear one existing household motif, enter/return or cancel and verify remaining pause rather than startup2–8sec replay; check active-visit Continue and normalW04bank meeting unaffected. Reuse compiled source evidence; no unchanged rebuild. Full PW039 audio-domain/hearing acceptance remains open.",
+        "question": "Does a photo visit preserve remaining household pauses/RNG/globalgap across rebuilt-world return, sameworldcancel and active-visit Continue, including normalW04 bank return, without replaying voices or overwriting staged Alsu?",
+        "result": "Existing ReturnTicket now captures optional version1 household schedule before VisitPrepare: stable relative owner identity, motifID, remaining perhouse/globaldelay, tickfraction and RNGstate. Existing director validates/stages all changes before applying, stops rather than restarts voices, preserves existing style identities and handles removed/new houses. World readiness is explicit, transitions freeze actual scheduling time, restore is idempotent per owner+session+ticket and uses weak session reference. Both real return and prepared/returning recovery restore before FinishReturn/checkpoint, including W04 bank story without touching staged Alsu/ambientzone. Only NEW optional payload is removed from closed archived deep copies; active/local tickets remain complete and old records/basefields unchanged.",
+        "verification": "Final affected Game compile PASS14.58s0warnings0errors. Initial17.54s raw retained before fixing source-proven disposed-kernel strong-reference retention. Independent luna_fast reviewed validation/atomicapply/5sreadiness/session/cancel/restoreordering/archive and finalweakreference fix, no remaining codeblocker. Scoped diffcheck, tracker validate PASS. No tests/probes added/run; no hearing/native claim.",
+        "evidence": [
+          "evidence/PW-039/household-schedule-20261020/affected-game-build-before-session-reference-fix.log",
+          "evidence/PW-039/household-schedule-20261020/affected-game-build.log"
+        ],
+        "source_paths": [
+          "game/scripts/VillageHouseholdDirector.cs",
+          "game/scripts/Act1ConnectedWorld.Households.cs",
+          "game/scripts/RuntimeBridge.cs",
+          "src-dotnet/Urman.Core/Narrative/PhotoWorldState.cs"
+        ],
+        "remaining": "Actual hearing across first/quiet returns, cancel and active-visit Continue, native source-matched soundscape. Ordinary outside-photo save/Continue, fullradio/mood/loopoffset and allworld sound passports remain separate; in-flight voice playback is intentionally not resumed."
       }
     },
     {

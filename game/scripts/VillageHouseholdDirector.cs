@@ -1,10 +1,11 @@
 using System.Text.Json;
 using Godot;
+using Urman.Core.Narrative;
 using FileAccess = Godot.FileAccess;
 
 namespace Urman.Godot;
 
-/// <summary>Presentation only: no per-house players, NPC simulation, or save state.</summary>
+/// <summary>Presentation only: pooled household voices with a restorable logical schedule.</summary>
 public partial class VillageHouseholdDirector : Node3D
 {
     public const int SpillBudget = 6;
@@ -36,6 +37,7 @@ public partial class VillageHouseholdDirector : Node3D
     public int PlayingVoiceCount => _voices.Count(v => v is not null && v.Playing);
     public int VisibleSpillCount => _lights.Count(l => l is not null && l.Visible);
     public int EventsStarted { get; private set; }
+    internal bool IsScheduleInitialized { get; private set; }
 
     /// <summary>
     /// 1 = the authored ordinary living village; 0 = the village has gone
@@ -79,7 +81,7 @@ public partial class VillageHouseholdDirector : Node3D
             _windows.Add(new Window(pane, centre, normal, pane.GetPath().ToString()));
             if (!owners.TryGetValue(owner.GetInstanceId(),out var house))
             {
-                house=new House(owner,identity,centre-normal*.65f,centre+normal*.7f);
+                house=new House(owner,identity,world.GetPathTo(owner).ToString(),centre-normal*.65f,centre+normal*.7f);
                 owners.Add(owner.GetInstanceId(),house);
             }
         }
@@ -114,6 +116,59 @@ public partial class VillageHouseholdDirector : Node3D
         SetMeta("lightBudget",SpillBudget);SetMeta("voiceBudget",VoiceBudget);
         SetMeta("clipBudget",ClipBudget); SetMeta("pcmBudgetBytes",PcmBudget);
         GD.Print($"village-households: {HouseCount} homes, {WindowCount} warm panes, {MotifCount} events; budgets lights={SpillBudget}, voices={VoiceBudget}, clips={ClipBudget}, PCM={PcmBudget}");
+        IsScheduleInitialized = true;
+    }
+
+    internal JsonElement CaptureScheduleSnapshot()
+    {
+        if (!IsScheduleInitialized) throw new InvalidOperationException("The household sound schedule is not initialized.");
+        var snapshot = JsonSerializer.SerializeToElement(new
+        {
+            version = 1,
+            rngState = _random.State,
+            nextEventRemainingSeconds = Math.Max(0, _nextEvent - _now),
+            tickRemainderSeconds = _tick,
+            houses = _houses.Select(house => new
+            {
+                identity = house.ScheduleIdentity,
+                motifId = _motifs[house.Motif].Id,
+                waitSeconds = Math.Max(0, house.Wait)
+            }).ToArray()
+        });
+        PhotoWorldState.ValidateHouseholdAudioSnapshot(snapshot);
+        return snapshot;
+    }
+
+    internal void RestoreScheduleSnapshot(JsonElement snapshot)
+    {
+        PhotoWorldState.ValidateHouseholdAudioSnapshot(snapshot);
+        if (!IsScheduleInitialized) throw new InvalidOperationException("The household sound schedule is not initialized.");
+        var rngState = snapshot.GetProperty("rngState").GetUInt64();
+        var tickRemainder = snapshot.GetProperty("tickRemainderSeconds").GetDouble();
+        var nextEvent = _now + snapshot.GetProperty("nextEventRemainingSeconds").GetDouble();
+        if (!double.IsFinite(nextEvent))
+            throw new InvalidDataException("The restored household sound deadline must be finite.");
+        var knownHouses = _houses.ToDictionary(house => house.ScheduleIdentity, StringComparer.Ordinal);
+        var knownMotifs = _motifs.Select((motif, index) => (motif.Id, Index: index))
+            .ToDictionary(motif => motif.Id, motif => motif.Index, StringComparer.Ordinal);
+        var changes = new List<(House House, int Motif, double Wait)>();
+        foreach (var record in snapshot.GetProperty("houses").EnumerateArray())
+        {
+            if (!knownHouses.TryGetValue(record.GetProperty("identity").GetString()!, out var house)) continue;
+            var motif = knownMotifs.TryGetValue(record.GetProperty("motifId").GetString()!, out var index)
+                ? index : house.Motif;
+            changes.Add((house, motif, record.GetProperty("waitSeconds").GetDouble()));
+        }
+
+        StopVoices();
+        _random.State = rngState;
+        _nextEvent = nextEvent;
+        _tick = tickRemainder;
+        foreach (var change in changes)
+        {
+            change.House.Motif = change.Motif;
+            change.House.Wait = change.Wait;
+        }
     }
 
     /// <summary>The residential owner rule shared with the chimney smoke pool: a
@@ -248,13 +303,15 @@ public partial class VillageHouseholdDirector : Node3D
     }
     public override void _ExitTree()
     {
+        IsScheduleInitialized = false;
         if(_voices[0] is null)return;
         StopVoices();foreach(var clip in _clips.Values)clip.Stream.Dispose();_clips.Clear();_clipBytes=0;
     }
     private sealed record Window(MeshInstance3D Pane,Vector3 Centre,Vector3 Normal,string Path);
-    private sealed class House(Node3D owner,string identity,Vector3 inside,Vector3 outside)
+    private sealed class House(Node3D owner,string identity,string scheduleIdentity,Vector3 inside,Vector3 outside)
     {
         public Node3D Owner=owner;public string Identity=identity;public Vector3 Inside=inside,Outside=outside;
+        public string ScheduleIdentity=scheduleIdentity;
         public int Motif;public double Wait;
     }
     private sealed class Clip(AudioStream stream,int bytes,long access)

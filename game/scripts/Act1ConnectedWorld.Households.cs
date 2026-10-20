@@ -1,3 +1,5 @@
+using System;
+using System.Text.Json;
 using Godot;
 
 namespace Urman.Godot;
@@ -5,6 +7,37 @@ namespace Urman.Godot;
 public partial class Act1ConnectedWorld
 {
     private VillageHouseholdDirector? _households;
+    private WeakReference<object>? _lastRestoredHouseholdAudioSession;
+    private string? _lastRestoredHouseholdAudioTicketId;
+
+    internal bool TryCaptureHouseholdAudioSchedule(out JsonElement snapshot)
+    {
+        snapshot = default;
+        if (!IsInsideTree() || IsQueuedForDeletion()
+            || _households is not { } households || !GodotObject.IsInstanceValid(households)
+            || !households.IsInsideTree() || households.IsQueuedForDeletion()
+            || !households.IsScheduleInitialized) return false;
+        snapshot = households.CaptureScheduleSnapshot();
+        return true;
+    }
+
+    internal bool TryRestoreHouseholdAudioSchedule(object session, string ticketId, JsonElement snapshot)
+    {
+        if (session is null || !ReferenceEquals(_runtimeBridge?.SessionIdentity, session)
+            || string.IsNullOrWhiteSpace(ticketId) || !IsInsideTree() || IsQueuedForDeletion()
+            || _households is not { } households || !GodotObject.IsInstanceValid(households)
+            || !households.IsInsideTree() || households.IsQueuedForDeletion()
+            || !households.IsScheduleInitialized) return false;
+        if (_lastRestoredHouseholdAudioSession is { } restoredSessionReference
+            && restoredSessionReference.TryGetTarget(out var restoredSession)
+            && ReferenceEquals(restoredSession, session)
+            && _lastRestoredHouseholdAudioTicketId == ticketId) return true;
+        households.RestoreScheduleSnapshot(snapshot);
+        _lastRestoredHouseholdAudioSession = new WeakReference<object>(session);
+        _lastRestoredHouseholdAudioTicketId = ticketId;
+        return true;
+    }
+
     private VillageSoundMoodDirector? _soundMood;
     private ForestEdgePresence? _forestEdge;
     private ClubGramophone? _gramophone;
@@ -41,7 +74,7 @@ public partial class Act1ConnectedWorld
     {
         if(_households is null || LifePlayer() is not { } player)return;
         var camera=GetViewport().GetCamera3D();
-        var contextAudible=_physicalInterior.Length==0 && !player.ModalOpen
+        var contextAudible=_physicalInterior.Length==0 && !player.ModalOpen && !player.SessionTransitionActive
             && _lifeCue?.IsPresenting!=true && !GetTree().Paused && !ArrivalFlyoverCameraActive();
         // The Kara night zone is the authored night state of the same village,
         // so it gets its own audible path instead of the director going fully
@@ -52,7 +85,10 @@ public partial class Act1ConnectedWorld
         var dayAudible=ActiveZoneId=="village_day" && contextAudible;
         var night=ActiveZoneId=="kara_urman_night";
         var villageAudible=dayAudible || (night && contextAudible);
-        _households.Tick(delta,camera?.GlobalPosition??player.GlobalPosition,player.GlobalPosition,villageAudible,night);
+        // Inaudible Tick still advances the director's clock. A transition
+        // must also preserve its remaining deadline and fractional tick.
+        _households.Tick(player.SessionTransitionActive ? 0d : delta,
+            camera?.GlobalPosition??player.GlobalPosition,player.GlobalPosition,villageAudible,night);
         _soundMood?.Tick(delta,ActiveZoneId,villageAudible);
         // Smoke follows the zone gate, not the audio gate: it stays alive during
         // dialogue and the arrival flyover, and freezes under reduced motion
