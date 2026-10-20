@@ -305,7 +305,11 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
             if (GodotObject.IsInstanceValid(row)) row.QueueFree();
         }
         _taskRows.Clear();
-        if (titles.Count == 0)
+        if (titles.Count == 0
+            && !(photoWorldHint is { Key: "prologue-branch" or "prologue-exit" } prologueHint
+                && _bridge?.SessionIdentity is not null
+                && photoWorldHintContextKey is not null
+                && photoWorldHintContextKey == PhotoWorldHintContextKey(_bridge, null, prologueHint.Key)))
         {
             AddTaskRow("—", "Пока никаких дел.", new Color(.62f, .58f, .48f), 18);
         }

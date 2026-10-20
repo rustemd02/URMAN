@@ -70723,8 +70723,8 @@
       },
       "assigned_owner": "finished-act1",
       "activity": {
-        "state": "not_active",
-        "reason": "Finite reversal source patch accepted after root+independent review and affected Game compile; native reversal/natural movement remains open."
+        "state": "idle",
+        "reason": "Finite source slice reviewed and compiled; own native motion/UI/hearing and whole-task acceptance remain open."
       },
       "task_type": "engineering",
       "implementation_state": "implemented",
@@ -70975,6 +70975,20 @@
       "footstep_feedback_2026_10_20": {
         "integration": "PW-039.audio_feedback_stage_2026_10_20",
         "result": "Fullcampaign gaitfootcontact consumer connected; this does not prove native gait/jump/IK/bodymotion quality."
+      },
+      "smooth_stance_gait_2026_10_20": {
+        "state": "source_integrated_compiled_native_motion_pending",
+        "finding": "ToggleCrouch and jump auto-stand called UpdateVisibleBody(0) before MoveAndSlide. With zero displacement the active swing became a 120ms settle despite continued walking.",
+        "result": "Smooth stance now defers body presentation to the existing same-frame post-move update. Unsmoothed initialization/load/teleport and capsule/clearance behavior remain unchanged.",
+        "source_paths": [
+          "game/scripts/FirstPersonController.Stance.cs"
+        ],
+        "remaining": "Native walking+crouch/stand and crouched jump takeoff, foot contact cadence and body clipping remain open.",
+        "verification": "Final affected Game compile PASS14.34s, 0 warnings/errors. Initial17.49s raw retained before real Journal question-duplication fix. Independent luna_fast reviewed all three source paths and approved final Journal follow-up. Scoped diffcheck passed; no new tests/probes added or run. Native visual/motion/hearing not run.",
+        "evidence": [
+          "evidence/PW-020/player-facing-fixes-20261020/affected-game-build-before-hint-duplication-fix.log",
+          "evidence/PW-020/player-facing-fixes-20261020/affected-game-build.log"
+        ]
       }
     },
     {
@@ -110019,8 +110033,22 @@
         "job": "e79adf9f932a4d74b4aec64d7565c6a4",
         "terminal_restoration": "not_confirmed",
         "new_job_submitted": false,
-        "last_status_query": "20.10 about03:08 Moscow: same e79 status exit1 urlopen timeout, no terminal/restoration evidence or new job.",
+        "last_status_query": "20.10 04:23 Moscow: same e79 status exit1 urlopen timeout; terminal/userdata restoration still not confirmed. No new job or input.",
         "local_diagnosis": "Existing local VPN carries default route; system proxy/CA overrides absent. This is a concrete network-path lead, not proof of which hop intercepts TLS. Temporary path change requires owner consent, pending; no VPN/cert/daemon settings changed."
+      },
+      "player_facing_source_2026_10_20": {
+        "state": "source_compiled_native_pending",
+        "slices": [
+          "ACT1-LEGS.1.smooth_stance_gait_2026_10_20",
+          "PW-028.prologue_empty_tasks_2026_10_20",
+          "PW-039.radio_station_phase_2026_10_20"
+        ],
+        "evidence": [
+          "evidence/PW-020/player-facing-fixes-20261020/affected-game-build-before-hint-duplication-fix.log",
+          "evidence/PW-020/player-facing-fixes-20261020/affected-game-build.log"
+        ],
+        "verification": "Final affected Game compile PASS14.34s, 0 warnings/errors. Initial17.49s raw retained before real Journal question-duplication fix. Independent luna_fast reviewed all three source paths and approved final Journal follow-up. Scoped diffcheck passed; no new tests/probes added or run. Native visual/motion/hearing not run.",
+        "remaining": "Current native snapshot e79 predates these changes; must first obtain authoritative terminal/userdata restoration, then use current source in one guarded route. Skip permission persists, but skip has not been performed."
       }
     },
     {
@@ -112528,8 +112556,8 @@
       },
       "assigned_owner": "integration",
       "activity": {
-        "state": "not_active",
-        "reason": "Finite configuredPause-priority slice verified in ordinary native2c5835cd; normalQuit0/restored. Full hint/prologue acceptance remains."
+        "state": "idle",
+        "reason": "Finite source slice reviewed and compiled; own native motion/UI/hearing and whole-task acceptance remain open."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -112764,6 +112792,20 @@
           "all_entries_byte_verified": true,
           "duplicate_zip_removed": true
         }
+      },
+      "prologue_empty_tasks_2026_10_20": {
+        "state": "source_integrated_compiled_native_ui_pending",
+        "finding": "Normal full_game prologue has no active quest objectives; HUD says open J for help but the task list claimed there was nothing to do despite a valid branch/F03 hint.",
+        "result": "Suppress the false empty-task row only for a current-session matching prologue-branch/prologue-exit context. Existing HUD action and explicit Question→Area→Action control remain unchanged; no automatic question duplication or spoiler. Other empty task screens retain their original row.",
+        "source_paths": [
+          "game/scripts/JournalUi.cs"
+        ],
+        "remaining": "Actual prologue J/help before and after branch/F03 and session/skip resets remain native acceptance.",
+        "verification": "Final affected Game compile PASS14.34s, 0 warnings/errors. Initial17.49s raw retained before real Journal question-duplication fix. Independent luna_fast reviewed all three source paths and approved final Journal follow-up. Scoped diffcheck passed; no new tests/probes added or run. Native visual/motion/hearing not run.",
+        "evidence": [
+          "evidence/PW-020/player-facing-fixes-20261020/affected-game-build-before-hint-duplication-fix.log",
+          "evidence/PW-020/player-facing-fixes-20261020/affected-game-build.log"
+        ]
       }
     },
     {
@@ -117348,7 +117390,7 @@
       "assigned_owner": "audio",
       "activity": {
         "state": "idle",
-        "reason": "Finite household schedule source stage compiled/reviewed; full audio/hearing/native gates remain open."
+        "reason": "Finite source slice reviewed and compiled; own native motion/UI/hearing and whole-task acceptance remain open."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -117576,6 +117618,20 @@
           "src-dotnet/Urman.Core/Narrative/PhotoWorldState.cs"
         ],
         "remaining": "Actual hearing across first/quiet returns, cancel and active-visit Continue, native source-matched soundscape. Ordinary outside-photo save/Continue, fullradio/mood/loopoffset and allworld sound passports remain separate; in-flight voice playback is intentionally not resumed."
+      },
+      "radio_station_phase_2026_10_20": {
+        "state": "source_integrated_compiled_native_hearing_pending",
+        "finding": "A→B→photo entry/return rebuild→A restarted A because only the tuned station phase was serialized, while live dial switching explicitly remembers each station.",
+        "result": "Existing radio record optionally stores known station phases; selected timeline is authoritative. Restore reuses Timeline.Restore for valid known rows and mirrors normalized phases to dial memory; legacy top-level tuned fields retain priority and old saves work without the map. Wrong-kind/nonfinite optional map entries are ignored. No new audio owner/ticket/framework.",
+        "source_paths": [
+          "game/scripts/VehicleRadioPlayer.cs"
+        ],
+        "remaining": "Native audible A→B→photo/rebuild→A and ordinary save/Continue, disabled/paused behavior, full audio-domain/hearing acceptance remain open.",
+        "verification": "Final affected Game compile PASS14.34s, 0 warnings/errors. Initial17.49s raw retained before real Journal question-duplication fix. Independent luna_fast reviewed all three source paths and approved final Journal follow-up. Scoped diffcheck passed; no new tests/probes added or run. Native visual/motion/hearing not run.",
+        "evidence": [
+          "evidence/PW-020/player-facing-fixes-20261020/affected-game-build-before-hint-duplication-fix.log",
+          "evidence/PW-020/player-facing-fixes-20261020/affected-game-build.log"
+        ]
       }
     },
     {
@@ -142447,14 +142503,20 @@
           "next_fence_remesh_task_id": "01a1541e-35a4-76b3-910a-0489a8cdf855",
           "next_fence_remesh_task_state": "SUCCEEDED actual5credits,21718tri source frozen"
         },
-        "current_artifact": "V2conifer native import/compile/matchedframe PASS; art/motion/performance open. House25K and99Ksource candidates constructiongateFAIL; no runtimehouse replacement or furtherPOST. Dedicated roughpicket existingasset→built-inImageGen→Meshy source inprogress, no runtimeconsumer change.",
+        "current_artifact": "Conifer source/native static stage retained; full art/motion/performance open. Generated houses rejected for construction; fence rejected after two metric preparations. No house/fence runtime replacement. No additional paid calls.",
         "log_house_acceptance": "Для нового generated-сруба проверены actualGLB front/side/three-quarter и крупно углы/проёмы: венцы опираются друг на друга, угловые соединения и торцы правдоподобны, проёмы/перемычки/опора крыши корректны; нет парящих брёвен, случайных пересечений и неестественных цокольных наплывов. ImageGen reference не заменяет post-Meshy проверку.",
         "pine_remesh_recovery": "Completed source revision2 fromone25Kremesh; actual5credits already in305total. Runtime16.19MB canonicalpathstable, native d61c830PASS, art/performance still open.",
         "rough_picket_source_2026_10_19": {
           "manifest": "assets/source/blender/act1/rough_picket_meshy_v1/rough-picket-v1.manifest.json",
-          "state": "generated_source_frozen_not_runtime_integrated",
-          "result": "Existing BuildFenceRun roughpicket donor→onebuilt-inImageGen ref rootviewed→Meshy7.1 30+remesh5. Rootviewed actualwholeface+opaqueclaycloseup: realthroughgaps/tworails, no backplate/ground. Source21718tri/45.95MB has diagonalrailtear, not metricallynormalized; runtimebudget/fit/consumerintegration andnative unaccepted. No furtherPOSTs. Worker6views+receipts/producer retained.",
-          "next_action": "Next finitefamily step onlyafter gameplay priority: metric+cost adaptation through existingBuildFenceRun visualgeometry while preservingcollision/support/openspans; no gateowner swap. Source not artcomplete."
+          "state": "structural_reject_after_two_metric_preparations",
+          "result": "Root viewed actual textured front and clay rear-quarter. Exact vertex welding preserved original through-gaps and removed UV-seam tears, but collapse LOD deforms planks/rails: LOD0 2798tri gap42.62mm below45mm; LOD1 1000tri gap16.96mm; low LOD542tri/14solids gap0.391mm also exceeds500tri target. No runtime integration or new Meshy calls; original generated source/provenance retained.",
+          "next_action": "Stop blind decimation. Future fence production requires structure-aware retopology retaining generated UV/surface and existing batched fence consumer, openings and collision. Gameplay/native release path remains first; no third preparation or duplicate generation.",
+          "metric_evidence": [
+            "assets/source/blender/act1/rough_picket_meshy_v1/prepare_metric_candidate.py",
+            "assets/source/blender/act1/rough_picket_meshy_v1/metric_candidate_v1/candidate-receipt.json",
+            "assets/source/blender/act1/rough_picket_meshy_v1/metric_candidate_v1/welded/candidate-receipt.json"
+          ],
+          "cleanup": "Removed four closed recreatable rejected binary intermediates, 20625548 bytes. Exact paths/hashes recorded in existing receipts; producer, both receipts, four actual renders and unique original Meshy GLB/ZIP retained. Raw prep stdout only exists in tool transcript, no fabricated logfile."
         }
       },
       "root_conifer_frame_review_2026_10_19": {

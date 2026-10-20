@@ -260,9 +260,20 @@ public partial class VehicleRadioPlayer : Node3D
     private void StopPlayers()
     {foreach(var player in _players)if(player is not null)player.Stop();_active=-1;_fade=0;}
 
-    public JsonObject Capture()=>new(){["enabled"]=Enabled,["stationId"]=_station.Id,
-        ["segmentId"]=_station.Timeline.Current.Id,
-        ["offsetSeconds"]=_station.Timeline.Offset,["volume"]=_volume};
+    public JsonObject Capture()
+    {
+        var phases=new JsonObject();
+        foreach(var entry in _stations)
+        {
+            var current=ReferenceEquals(entry,_station);
+            phases[entry.Id]=new JsonObject{
+                ["segmentId"]=current?entry.Timeline.Current.Id:entry.SavedSegmentId??entry.Timeline.Current.Id,
+                ["offsetSeconds"]=current||entry.SavedSegmentId is null?entry.Timeline.Offset:entry.SavedOffset};
+        }
+        return new JsonObject{["enabled"]=Enabled,["stationId"]=_station.Id,
+            ["segmentId"]=_station.Timeline.Current.Id,
+            ["offsetSeconds"]=_station.Timeline.Offset,["volume"]=_volume,["stationPhases"]=phases};
+    }
 
     public void Restore(JsonElement? record)
     {
@@ -275,17 +286,29 @@ public partial class VehicleRadioPlayer : Node3D
             ?stored.GetString():null;
         StationIndex=Math.Max(0,_stations.FindIndex(entry=>entry.Id==stationId));
         _station=_stations[StationIndex];
-        foreach(var entry in _stations){entry.SavedSegmentId=null;entry.SavedOffset=0;entry.Timeline.Restore(null,0);}
+        foreach(var entry in _stations)entry.Timeline.Restore(null,0);
         _volume=.65f;
         if(record is {} value&&value.ValueKind==JsonValueKind.Object)
         {
+            if(value.TryGetProperty("stationPhases",out var phases)&&phases.ValueKind==JsonValueKind.Object)
+                foreach(var entry in _stations)
+                    if(phases.TryGetProperty(entry.Id,out var phase)&&phase.ValueKind==JsonValueKind.Object
+                        &&phase.TryGetProperty("segmentId",out var savedSegment)&&savedSegment.ValueKind==JsonValueKind.String
+                        &&phase.TryGetProperty("offsetSeconds",out var savedOffset)&&savedOffset.ValueKind==JsonValueKind.Number
+                        &&savedOffset.TryGetDouble(out var secondsOffset)&&double.IsFinite(secondsOffset))
+                        entry.Timeline.Restore(savedSegment.GetString(),secondsOffset);
+            // The original tuned-station fields remain authoritative for old
+            // records and for records that also carry all station phases.
             var id=value.TryGetProperty("segmentId",out var segment)&&segment.ValueKind==JsonValueKind.String?segment.GetString():null;
-            var offset=value.TryGetProperty("offsetSeconds",out var seconds)&&seconds.TryGetDouble(out var parsed)?parsed:0;
+            var offset=value.TryGetProperty("offsetSeconds",out var seconds)&&seconds.ValueKind==JsonValueKind.Number
+                &&seconds.TryGetDouble(out var parsed)?parsed:0;
             _station.Timeline.Restore(id,offset);
-            if(value.TryGetProperty("volume",out var volume)&&volume.TryGetSingle(out var level))SetVolume(level);
+            if(value.TryGetProperty("volume",out var volume)&&volume.ValueKind==JsonValueKind.Number
+                &&volume.TryGetSingle(out var level))SetVolume(level);
             Enabled=value.TryGetProperty("enabled",out var enabled)&&enabled.ValueKind==JsonValueKind.True;
         }
-        RememberStationPhase();
+        foreach(var entry in _stations)
+        {entry.SavedSegmentId=entry.Timeline.Current.Id;entry.SavedOffset=entry.Timeline.Offset;}
         PublishStationMeta();
         if(Enabled)StartCurrent();
     }

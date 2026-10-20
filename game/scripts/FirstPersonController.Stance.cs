@@ -135,8 +135,13 @@ public partial class FirstPersonController
         // Capsule and eye height change together. The lower-body pose must use
         // the same target stance. The capsule changes immediately; only the
         // non-colliding eye/body presentation blends when clearance is known.
-        if (!smoothPresentation) _bodyCrouch = crouched ? 1f : 0f;
-        UpdateVisibleBody(0, moving: false);
+        if (!smoothPresentation)
+        {
+            _bodyCrouch = crouched ? 1f : 0f;
+            UpdateVisibleBody(0, moving: false);
+        }
+        // Smooth runtime changes wait for the post-move body update; a zero-time
+        // update here would mistake the pending movement for a stop mid-stride.
     }
 
     private void KeepCrouchCameraClearBeforeMove(Vector2 horizontalVelocity, float delta)

@@ -1,0 +1,448 @@
+{
+  "status": "structural_reject",
+  "source": "meshy71-rough-picket-remesh-25k.glb",
+  "source_sha256": "33a0157c831a6533a214cc6d12da6f4e3f96901fc5214c23f1ff07e6f8bba7c9",
+  "source_geometry_preserved": "Measured monotone vertex fit and collapse LODs; no replacement boxes",
+  "split_geometry_repair": {
+    "vertices_before": 23791,
+    "unique_exact_positions": 10869,
+    "exact_coincident_vertex_excess": 12922,
+    "coincident_position_groups_with_uv_seams": 3797,
+    "merge_distance_source_units": 1e-06,
+    "minimum_actual_gap_source_units": 0.0009004473686218262,
+    "vertices_after": 10869,
+    "source_section_solids_before_after": [
+      15,
+      15
+    ],
+    "section_endpoint_max_change": 0.0
+  },
+  "post_centres_target_m": [
+    -1.175,
+    1.175
+  ],
+  "picket_count": 13,
+  "picket_width_target_m": 0.095,
+  "picket_pitch_m": 0.17,
+  "post_height_target_m": 1.29,
+  "depth_scale": 1.2320019826920947,
+  "lods": [
+    {
+      "name": "RoughPicketGenerated_LOD0",
+      "triangles": 2798,
+      "bounds_blenderXYZ_m": [
+        [
+          -1.2480885982513428,
+          1.244757056236267
+        ],
+        [
+          -0.10281340032815933,
+          0.09982989728450775
+        ],
+        [
+          0.0009119309252128005,
+          1.2904431819915771
+        ]
+      ],
+      "reading_band_height_m": 0.7,
+      "solid_intervals": [
+        [
+          -1.2344825267791748,
+          -1.1155221462249756
+        ],
+        [
+          -1.0728975534439087,
+          -0.9725631475448608
+        ],
+        [
+          -0.8972597122192383,
+          -0.8028370141983032
+        ],
+        [
+          -0.7269585132598877,
+          -0.6332626342773438
+        ],
+        [
+          -0.5568294525146484,
+          -0.4631849527359009
+        ],
+        [
+          -0.3863216042518616,
+          -0.2933206558227539
+        ],
+        [
+          -0.216811865568161,
+          -0.12231425195932388
+        ],
+        [
+          -0.04623875766992569,
+          0.046080298721790314
+        ],
+        [
+          0.12276281416416168,
+          0.2178613394498825
+        ],
+        [
+          0.29263022541999817,
+          0.386842280626297
+        ],
+        [
+          0.46336010098457336,
+          0.5574971437454224
+        ],
+        [
+          0.6323946714401245,
+          0.7267675995826721
+        ],
+        [
+          0.8024533987045288,
+          0.8978747725486755
+        ],
+        [
+          0.9730885624885559,
+          1.0670779943466187
+        ],
+        [
+          1.115705966949463,
+          1.2344081401824951
+        ]
+      ],
+      "through_gap_count": 14,
+      "minimum_through_gap_m": 0.042624592781066895,
+      "picket_widths_m": [
+        0.10033440589904785,
+        0.09442269802093506,
+        0.09369587898254395,
+        0.09364449977874756,
+        0.09300094842910767,
+        0.09449761360883713,
+        0.092319056391716,
+        0.09509852528572083,
+        0.09421205520629883,
+        0.094137042760849,
+        0.09437292814254761,
+        0.09542137384414673,
+        0.09398943185806274
+      ],
+      "picket_depths_m": [
+        0.026860453188419342,
+        0.025692127645015717,
+        0.026314519345760345,
+        0.025703899562358856,
+        0.024642713367938995,
+        0.027153797447681427,
+        0.02576884627342224,
+        0.02796272188425064,
+        0.028294719755649567,
+        0.024336285889148712,
+        0.028481431305408478,
+        0.027927786111831665,
+        0.02622833475470543
+      ],
+      "metric_gate": false
+    },
+    {
+      "name": "RoughPicketGenerated_LOD1",
+      "triangles": 1000,
+      "bounds_blenderXYZ_m": [
+        [
+          -1.2447445392608643,
+          1.242832899093628
+        ],
+        [
+          -0.1018327921628952,
+          0.09852958470582962
+        ],
+        [
+          0.0013861114857718349,
+          1.2904431819915771
+        ]
+      ],
+      "reading_band_height_m": 0.7,
+      "solid_intervals": [
+        [
+          -1.2362124919891357,
+          -1.1154508590698242
+        ],
+        [
+          -1.09849214553833,
+          -0.9721050262451172
+        ],
+        [
+          -0.9006574153900146,
+          -0.797726035118103
+        ],
+        [
+          -0.7306768894195557,
+          -0.6297520995140076
+        ],
+        [
+          -0.5592061281204224,
+          -0.4628656804561615
+        ],
+        [
+          -0.39004576206207275,
+          -0.29373684525489807
+        ],
+        [
+          -0.2179715633392334,
+          -0.11886873096227646
+        ],
+        [
+          -0.046021200716495514,
+          0.04975602775812149
+        ],
+        [
+          0.12224888801574707,
+          0.2197420299053192
+        ],
+        [
+          0.29210424423217773,
+          0.38577911257743835
+        ],
+        [
+          0.46177440881729126,
+          0.558840274810791
+        ],
+        [
+          0.6309990882873535,
+          0.7295740246772766
+        ],
+        [
+          0.7996978759765625,
+          0.8985252380371094
+        ],
+        [
+          0.9704540967941284,
+          1.0684016942977905
+        ],
+        [
+          1.116729974746704,
+          1.2327327728271484
+        ]
+      ],
+      "through_gap_count": 14,
+      "minimum_through_gap_m": 0.01695871353149414,
+      "picket_widths_m": [
+        0.1263871192932129,
+        0.10293138027191162,
+        0.1009247899055481,
+        0.09634044766426086,
+        0.09630891680717468,
+        0.09910283237695694,
+        0.095777228474617,
+        0.09749314188957214,
+        0.09367486834526062,
+        0.09706586599349976,
+        0.0985749363899231,
+        0.09882736206054688,
+        0.09794759750366211
+      ],
+      "picket_depths_m": [
+        0.032320261001586914,
+        0.029929544776678085,
+        0.031600333750247955,
+        0.026506364345550537,
+        0.02609272301197052,
+        0.02413647621870041,
+        0.02527293562889099,
+        0.03692799434065819,
+        0.03669247776269913,
+        0.02431664615869522,
+        0.029619570821523666,
+        0.024261780083179474,
+        0.024905771017074585
+      ],
+      "metric_gate": false
+    },
+    {
+      "name": "RoughPicketGenerated_LOD2",
+      "triangles": 542,
+      "bounds_blenderXYZ_m": [
+        [
+          -1.284555196762085,
+          1.2416315078735352
+        ],
+        [
+          -0.09851336479187012,
+          0.0911693274974823
+        ],
+        [
+          0.0013861114857718349,
+          1.2848398685455322
+        ]
+      ],
+      "reading_band_height_m": 0.7,
+      "solid_intervals": [
+        [
+          -1.2481377124786377,
+          -0.996259331703186
+        ],
+        [
+          -0.9237159490585327,
+          -0.7803592681884766
+        ],
+        [
+          -0.721420168876648,
+          -0.6294502019882202
+        ],
+        [
+          -0.5876219272613525,
+          -0.44574058055877686
+        ],
+        [
+          -0.4065033197402954,
+          -0.25600528717041016
+        ],
+        [
+          -0.22894734144210815,
+          -0.10158085823059082
+        ],
+        [
+          -0.0659697949886322,
+          0.06164449453353882
+        ],
+        [
+          0.12224888801574707,
+          0.22636376321315765
+        ],
+        [
+          0.27887392044067383,
+          0.4348229169845581
+        ],
+        [
+          0.43521398305892944,
+          0.5676781535148621
+        ],
+        [
+          0.5788443088531494,
+          0.7547029852867126
+        ],
+        [
+          0.8000739812850952,
+          0.8975079655647278
+        ],
+        [
+          0.9781235456466675,
+          1.0690768957138062
+        ],
+        [
+          1.104657769203186,
+          1.240822196006775
+        ]
+      ],
+      "through_gap_count": 13,
+      "minimum_through_gap_m": 0.0003910660743713379,
+      "picket_widths_m": [
+        0.14335668087005615,
+        0.09196996688842773,
+        0.14188134670257568,
+        0.15049803256988525,
+        0.12736648321151733,
+        0.12761428952217102,
+        0.10411487519741058,
+        0.15594899654388428,
+        0.13246417045593262,
+        0.17585867643356323,
+        0.09743398427963257,
+        0.09095335006713867
+      ],
+      "picket_depths_m": [
+        0.029561147093772888,
+        0.024715490639209747,
+        0.025109723210334778,
+        0.029949747025966644,
+        0.02875632792711258,
+        0.03040890395641327,
+        0.032934337854385376,
+        0.025534197688102722,
+        0.012667160481214523,
+        0.03173879161477089,
+        0.022989362478256226,
+        0.024346597492694855
+      ],
+      "metric_gate": false
+    }
+  ],
+  "renders": [
+    "front-generated-textured.png",
+    "rear-quarter-actual-clay.png"
+  ],
+  "output": "rough-picket-generated-metric-v1.glb",
+  "output_bytes": 4850692,
+  "output_sha256": "e2953003081d251a0472cac8d8fefdfa45ccf45e8c0e6f980292b06199935c4e",
+  "collision_policy": "Visual only. Existing YardFences/YardFenceBody terrain/contact owner is unchanged; no gate or hinge.",
+  "remaining": [
+    "Source crown variation and upper-rail crease are retained, not repaired or accepted.",
+    "Final metric/shape review and export reimport inspection required.",
+    "Existing batched ArrayMesh/MultiMesh consumer, native framing/motion and performance proof remain future work."
+  ],
+  "new_meshy_calls": 0,
+  "new_meshy_credits": 0,
+  "structural_rejection": {
+    "decision": "Root personally reviewed both final renders and accepted rejection. Stop after two preparations; no third trial or runtime promotion.",
+    "required_minimum_gap_m": 0.045,
+    "lod_budget_triangles": [
+      2800,
+      1000,
+      500
+    ],
+    "measured_lods": [
+      {
+        "name": "RoughPicketGenerated_LOD0",
+        "triangles": 2798,
+        "solid_intervals_at_reading_band": 15,
+        "minimum_gap_m": 0.042624592781066895,
+        "metric_gate": false
+      },
+      {
+        "name": "RoughPicketGenerated_LOD1",
+        "triangles": 1000,
+        "solid_intervals_at_reading_band": 15,
+        "minimum_gap_m": 0.01695871353149414,
+        "metric_gate": false
+      },
+      {
+        "name": "RoughPicketGenerated_LOD2",
+        "triangles": 542,
+        "solid_intervals_at_reading_band": 14,
+        "minimum_gap_m": 0.0003910660743713379,
+        "metric_gate": false
+      }
+    ],
+    "visible_cause": "Faceted/deformed pickets and rail surfaces remain in actual textured/clay views; metric gap gate fails. The welded lower LOD also loses an occupied interval and exceeds its 500 triangle target.",
+    "next_result": "Requires structure-aware retopology preserving generated UV provenance; another blind decimation is not authorized."
+  },
+  "cleanup": {
+    "open_file_check": {
+      "command": "lsof -F pfn -- four exact candidate binary paths",
+      "exit_code": 1,
+      "stdout": "",
+      "stderr": "",
+      "result": "No open file handles found before deletion"
+    },
+    "removed_recreatable_binaries": [
+      {
+        "path": "assets/source/blender/act1/rough_picket_meshy_v1/metric_candidate_v1/welded/rough-picket-generated-metric-v1.glb",
+        "bytes": 4850692,
+        "sha256": "e2953003081d251a0472cac8d8fefdfa45ccf45e8c0e6f980292b06199935c4e"
+      },
+      {
+        "path": "assets/source/blender/act1/rough_picket_meshy_v1/metric_candidate_v1/welded/rough-picket-generated-metric-v1.blend",
+        "bytes": 5230878,
+        "sha256": "adad37adf6ee9076d46bc712393b18ecde5a9b453b7b73feac81a479bdd86e53"
+      }
+    ],
+    "bytes_removed": 10081570,
+    "retained": "Original Meshy remesh GLB and raw GLB ZIP, provenance, prepare producer, all original machine measurements, both receipts and four actual renders.",
+    "output_binary_deleted": true
+  },
+  "preparation_execution": {
+    "blender_version": "4.5.12 LTS 84afd5f785f7",
+    "tool_session_id": 42820,
+    "exit_code": 0,
+    "stdout_log_file_created": false,
+    "raw_stdout_location": "Retained in the Codex execution transcript; no standalone log file was captured and no log was reconstructed.",
+    "machine_measurements_retained_in_this_receipt": true
+  }
+}
