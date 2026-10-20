@@ -1,0 +1,13 @@
+{
+  "schema": "urman.public-audio-source-license.v1",
+  "sourceUrl": "https://freesound.org/people/noisetinker/sounds/695526/",
+  "author": "noisetinker",
+  "title": "Garden Window",
+  "license": "CC0-1.0",
+  "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "publishedHqPreviewUrl": "https://cdn.freesound.org/previews/695/695526_14902901-hq.mp3",
+  "primaryPageSha256": "856bd4c82321b8244335ab1ae6d0e64c75addbc67d0f00d7760fbd35b8b35818",
+  "verification": "CC0 deed path and exact HQ preview URL found in the public primary HTML fetched with TLS hostname/certificate verification using system trust. Only explicit public asset facts retained; page scripts/embedded service keys excluded.",
+  "retrievedDateUtc": "2026-10-20",
+  "audition": "NOT_RUN; license provenance does not certify audible content or native mix."
+}

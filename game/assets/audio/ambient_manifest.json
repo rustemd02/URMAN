@@ -281,6 +281,104 @@
       },
       "volumeDb": -14,
       "gainNote": "-3 -> -10 (2026-10-04) -> -14 dB (author: blizzard quieter overall, 2026-10-04 evening)"
+    },
+    {
+      "id": "ambient.photoworld-forest",
+      "file": "res://assets/audio/kara_urman_edge_ambience.wav",
+      "zones": [
+        "photoworld_forest"
+      ],
+      "loop": true,
+      "source": "https://freesound.org/people/bruno.auzet/sounds/670307/",
+      "license": "CC0-1.0",
+      "status": "recorded CC0 preview reused; PhotoWorld listening/mix acceptance pending",
+      "sourcePreviewUrl": "https://cdn.freesound.org/previews/670/670307_11519060-hq.mp3",
+      "sourcePreviewSha256": "a2ead39d080b346c46ed237adc46e83f747d19a81345f74a5e5d115be5f131ac",
+      "sourceLicenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "sourcePreviewOnly": true,
+      "sourceProof": "Official Freesound page declares Creative Commons 0 and links the CC0 deed; documented public HQ preview.",
+      "design": "W01 canopy bed reuses the licensed pine recording without village blizzard gain modulation; sparse local forest events remain separate. Listening/world mix acceptance pending.",
+      "conversion": "tools/audio/generate_act1_ambience_layers.py; native afconvert mono PCM16 24 kHz, declared source slice, 1 s equal-power loop join, RMS gain with peak ceiling 0.70",
+      "preparedSha256": "a11cbbe1fd2afcb60e22972012863c184a84d6cd5eaf040d4cae9a9d47c0fc87",
+      "preparedMetrics": {
+        "durationSeconds": 119.0,
+        "gainDb": -1.7472863722836254,
+        "peak": 0.26776123046875,
+        "rms": 0.03499893252398677,
+        "loopBoundaryDelta": 0.00299072265625
+      },
+      "volumeDb": -14
+    },
+    {
+      "id": "ambient.photoworld-house-courtyard",
+      "file": "res://assets/audio/photoworld_house_courtyard.wav",
+      "zones": [
+        "photoworld_house_courtyard"
+      ],
+      "loop": true,
+      "source": "https://freesound.org/people/noisetinker/sounds/695526/",
+      "license": "CC0-1.0",
+      "status": "recorded CC0 preview candidate; native listening/mix/cultural review and full-resolution source master open",
+      "sourcePreviewUrl": "https://cdn.freesound.org/previews/695/695526_14902901-hq.mp3",
+      "sourcePreviewSha256": "de02f7e9b16df3bffa81e464b4eee951f45ef1323a8ba08e8d9a215f33c1ff2a",
+      "sourceLicenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "sourcePreviewOnly": true,
+      "sourceProof": "Official public Freesound page declares CC0; exact published HQ preview URL extracted from that page with verified TLS.",
+      "sourceProofFile": "assets/source/audio/photoworlds/ambient_cc0/695526.source-license.json",
+      "sourceProofSha256": "165d66d357b3ba36c50e9b9630f592fe321f536d79f949e73e27e3ddd6fa58c0",
+      "design": "Garden-facing window on a summer day; birds and quiet outdoor air. Window perspective, species, unwanted sounds and final indoor/outdoor balance require hearing approval.",
+      "conversion": "tools/audio/generate_act1_ambience_layers.py; native afconvert mono PCM16 24 kHz, declared source slice, 1 s equal-power loop join, RMS gain with peak ceiling 0.70",
+      "preparation": {
+        "startSeconds": 15,
+        "durationSeconds": 150,
+        "crossfadeSeconds": 1,
+        "targetRms": 0.018
+      },
+      "volumeDb": -12,
+      "preparedSha256": "d3e3ae541d8d7f38a515851d51a77301faa9a5956bd514c761241934ed0cdd26",
+      "preparedMetrics": {
+        "durationSeconds": 149.0,
+        "gainDb": 15.176811100442544,
+        "peak": 0.14605712890625,
+        "rms": 0.017999403992392558,
+        "loopBoundaryDelta": 0.00018310546875
+      }
+    },
+    {
+      "id": "ambient.photoworld-common",
+      "file": "res://assets/audio/photoworld_common_meadow.wav",
+      "zones": [
+        "photoworld_common"
+      ],
+      "loop": true,
+      "source": "https://freesound.org/people/Garuda1982/sounds/639459/",
+      "license": "CC0-1.0",
+      "status": "recorded CC0 preview candidate; native listening/mix/cultural review and full-resolution source master open",
+      "sourcePreviewUrl": "https://cdn.freesound.org/previews/639/639459_2061858-hq.mp3",
+      "sourcePreviewSha256": "487d80453e75619c5ec34fc450f92ef167f4fd1803a0b50729d69e055c77949a",
+      "sourceLicenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "sourcePreviewOnly": true,
+      "sourceProof": "Official public Freesound page declares CC0; exact published HQ preview URL extracted from that page with verified TLS.",
+      "sourceProofFile": "assets/source/audio/photoworlds/ambient_cc0/639459.source-license.json",
+      "sourceProofSha256": "df3b99f5b4e727399bf15cda88045c721c03901ddb95547dda36b362e27f6cb4",
+      "design": "Summer meadow wind, birds and insects; source is tagged storm as well as summer. Intensity, regional fauna, unwanted sounds and whole-scene balance require hearing approval.",
+      "conversion": "tools/audio/generate_act1_ambience_layers.py; native afconvert mono PCM16 24 kHz, declared source slice, 1 s equal-power loop join, RMS gain with peak ceiling 0.70",
+      "preparation": {
+        "startSeconds": 5,
+        "durationSeconds": 120,
+        "crossfadeSeconds": 1,
+        "targetRms": 0.024
+      },
+      "volumeDb": -14,
+      "preparedSha256": "bba0d596b4dcf0318f4f06599d7e8d50a1bb705abe961481958c6be1052cfc1b",
+      "preparedMetrics": {
+        "durationSeconds": 119.0,
+        "gainDb": 3.1092410296910042,
+        "peak": 0.1776123046875,
+        "rms": 0.02399928370900781,
+        "loopBoundaryDelta": 0.007843017578125
+      }
     }
-  ]
+  ],
+  "notes": "Existing Act I recorded beds retained. Dedicated PhotoWorld keys keep forest free from village blizzard gain modulation and route W03/W04 to separate recorded summer candidates; W03 actual room uses the existing shelter bed. Source-preview PCM preparation does not satisfy the full-resolution master, five-minute native listening, mix or cultural acceptance gates; local expressive sources remain separate."
 }

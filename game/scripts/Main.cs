@@ -712,8 +712,7 @@ public partial class Main : Node3D
     private void SetW01Ambience()
     {
         if (GetTree().GetFirstNodeInGroup("ambient_audio") is not AmbientAudioDirector ambience) return;
-        // W01 is outdoors in the same winter pine air as the existing village bed.
-        ambience.SetZone("village_day", subKey: null, physicalShelter: false);
+        ambience.SetZone("photoworld_forest", subKey: null, physicalShelter: false);
     }
 
     private bool IsMountedW01() => _mountedW01 is { } world
@@ -889,15 +888,17 @@ public partial class Main : Node3D
         GD.Print($"fullgame-scene-loaded: {projection.ActiveSceneId} physical=W03 entry={resolvedAnchorId}");
     }
 
-    private bool IsMountedW03() => _mountedW03 is { } world
+    internal bool IsMountedW03(Node3D? expectedWorld = null) => _mountedW03 is { } world
         && GodotObject.IsInstanceValid(world) && !world.IsQueuedForDeletion()
-        && ReferenceEquals(world.GetParent(), _zoneHost);
+        && ReferenceEquals(world.GetParent(), _zoneHost)
+        && (expectedWorld is null || ReferenceEquals(world, expectedWorld));
 
     private void SetW03Ambience()
     {
         if (GetTree().GetFirstNodeInGroup("ambient_audio") is not AmbientAudioDirector ambience) return;
-        // The courtyard uses the existing full-game house ambience key.
-        ambience.SetZone("fullgame_act2_house", subKey: null, physicalShelter: false);
+        var sheltered = _mountedW03 is W03Controller house
+            && house.PhysicalShelterForCurrentView == true;
+        ambience.SetZone(W03Controller.CourtyardAmbienceZoneId, subKey: null, physicalShelter: sheltered);
     }
 
     private void MountW04(RuntimeBridge.FullGamePhotoWorldRouteProjection projection, RuntimeBridge bridge)
@@ -982,8 +983,7 @@ public partial class Main : Node3D
     private void SetW04Ambience()
     {
         if (GetTree().GetFirstNodeInGroup("ambient_audio") is not AmbientAudioDirector ambience) return;
-        // Reuse the quiet outdoor bed until the dedicated common-frame audio is accepted.
-        ambience.SetZone("village_day", subKey: null, physicalShelter: false);
+        ambience.SetZone("photoworld_common", subKey: null, physicalShelter: false);
     }
 
     private void MountW05(RuntimeBridge.FullGamePhotoWorldRouteProjection projection, RuntimeBridge bridge)

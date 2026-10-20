@@ -1,0 +1,22 @@
+[
+  {
+    "id": "ambient.photoworld-house-courtyard",
+    "file": "res://assets/audio/photoworld_house_courtyard.wav",
+    "sha256": "d3e3ae541d8d7f38a515851d51a77301faa9a5956bd514c761241934ed0cdd26",
+    "durationSeconds": 149.0,
+    "gainDb": 15.176811100442544,
+    "peak": 0.14605712890625,
+    "rms": 0.017999403992392558,
+    "loopBoundaryDelta": 0.00018310546875
+  },
+  {
+    "id": "ambient.photoworld-common",
+    "file": "res://assets/audio/photoworld_common_meadow.wav",
+    "sha256": "bba0d596b4dcf0318f4f06599d7e8d50a1bb705abe961481958c6be1052cfc1b",
+    "durationSeconds": 119.0,
+    "gainDb": 3.1092410296910042,
+    "peak": 0.1776123046875,
+    "rms": 0.02399928370900781,
+    "loopBoundaryDelta": 0.007843017578125
+  }
+]

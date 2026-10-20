@@ -7,6 +7,7 @@ namespace Urman.Godot;
 public partial class W03Controller : Node3D
 {
     private const string HouseSceneId = "urman.fullgame:scene/pw-house";
+    internal const string CourtyardAmbienceZoneId = "photoworld_house_courtyard";
     private RuntimeBridge? _bridge;
     private readonly Dictionary<CollisionObject3D, uint> _worldCollisionLayers = [];
 
@@ -30,6 +31,7 @@ public partial class W03Controller : Node3D
         TryBindRuntimeBridge();
         ProcessHouseWorldGuard();
         ProcessHouseGameplay(delta);
+        UpdateHousePhysicalShelter();
     }
 
     public override void _PhysicsProcess(double delta)
@@ -54,6 +56,35 @@ public partial class W03Controller : Node3D
         _bridge = bridge;
         bridge.RuntimeStateChanged += ApplyProjection;
         ApplyProjection();
+    }
+
+    internal bool? PhysicalShelterForCurrentView
+    {
+        get
+        {
+            if (_bridge is not { } bridge || !IsValidHouseWorldBridge(bridge)
+                || !IsCurrentHouseWorldProjection(bridge.CurrentFullGamePhotoWorldRouteProjection(), out _)
+                || _houseRoomBounds is not { } roomBounds
+                || GetTree().GetFirstNodeInGroup("zone_manager") is not Main main
+                || !main.IsMountedW03(this)
+                || GetTree().GetFirstNodeInGroup("player_controller") is not FirstPersonController player)
+                return null;
+            var listener = GetViewport().GetCamera3D() is { } camera && camera.Name == "DevViewCamera"
+                ? camera : player.GetNodeOrNull<Camera3D>("Head/Camera3D");
+            if (listener is null || !GodotObject.IsInstanceValid(listener)
+                || !listener.IsInsideTree() || listener.IsQueuedForDeletion())
+                return null;
+            return roomBounds.HasPoint(_world.ToLocal(listener.GlobalPosition));
+        }
+    }
+
+    private void UpdateHousePhysicalShelter()
+    {
+        if (PhysicalShelterForCurrentView is not { } sheltered
+            || GetTree().GetFirstNodeInGroup("ambient_audio") is not AmbientAudioDirector ambience
+            || ambience.CurrentZoneId != CourtyardAmbienceZoneId)
+            return;
+        ambience.SetPhysicalShelter(sheltered);
     }
 
     private void ApplyProjection()

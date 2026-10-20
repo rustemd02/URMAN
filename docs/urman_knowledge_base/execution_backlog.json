@@ -117332,7 +117332,11 @@
       ],
       "evidence": [
         "evidence/PW-039/household-schedule-20261020/affected-game-build-before-session-reference-fix.log",
-        "evidence/PW-039/household-schedule-20261020/affected-game-build.log"
+        "evidence/PW-039/household-schedule-20261020/affected-game-build.log",
+        "evidence/PW-039/distinct-world-beds-20261020/affected-game-build.log",
+        "evidence/PW-039/distinct-world-beds-20261020/pcm-preparation.log",
+        "evidence/PW-039/distinct-world-beds-20261020/pcm-preparation-sandbox-format-error.log",
+        "evidence/PW-039/distinct-world-beds-20261020/existing-station-job-status.log"
       ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-039",
       "source_requirements": [
@@ -117444,7 +117448,7 @@
       "assigned_owner": "audio",
       "activity": {
         "state": "idle",
-        "reason": "Finite source slice reviewed and compiled; own native motion/UI/hearing and whole-task acceptance remain open."
+        "reason": "Finite distinct bed source/compile stage accepted; actual native hearing, source masters and whole-task gates remain open."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -117453,7 +117457,7 @@
         "Возврат восстанавливает правильную деревенскую среду.",
         "Нет дублированных эмиттеров и одинакового тревожного гула во всех мирах."
       ],
-      "next_action": "After authoritative station terminal/restoration, hear one existing household motif, enter/return or cancel and verify remaining pause rather than startup2–8sec replay; check active-visit Continue and normalW04bank meeting unaffected. Reuse compiled source evidence; no unchanged rebuild. Full PW039 audio-domain/hearing acceptance remains open.",
+      "next_action": "After authoritative e79 terminal/userdata restoration, import the current source and hear W03 courtyard↔real room/Continue, W04 meadow and W01 forest; no new job until old protected run is resolved.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -117686,6 +117690,40 @@
           "evidence/PW-020/player-facing-fixes-20261020/affected-game-build-before-hint-duplication-fix.log",
           "evidence/PW-020/player-facing-fixes-20261020/affected-game-build.log"
         ]
+      },
+      "distinct_world_beds_2026_10_20": {
+        "state": "source_integrated_compiled_native_hearing_pending",
+        "finding": "W01/W03/W04 route to the same January pine-wind recording; W02 uses procedural water. Existing audio passports require distinct canopy, garden/house and broad common landscape.",
+        "scope": [
+          "game/scripts/Main.cs",
+          "game/assets/audio/ambient_manifest.json",
+          "tools/audio/generate_act1_ambience_layers.py",
+          "new hash-verified licensed bed source/candidate only"
+        ],
+        "question": "Do the mounted worlds select appropriate separate recorded beds through the existing crossfade owner, without winter weather modulation, duplicate emitters or invented shelter volumes? Source preparation/compile only; actual hearing and return remain native gates.",
+        "next_action": "After authoritative e79 terminal/userdata restoration, import the current source and hear W03 courtyard↔real room/Continue, W04 meadow and W01 forest; no new job until old protected run is resolved.",
+        "result": "W01 has a dedicated PhotoWorld key reusing its licensed pine recording without village blizzard modulation. W03 and W04 have distinct CC0 recorded summer candidates via the existing two-player ambient crossfade owner. W03 shelter derives from actual four imported wall inner faces and the real listener camera, not feet/soft terrain floor or garden passage frames. Main atomic route+shelter and exact mounted/session checks preserve return ownership; no new emitters/director.",
+        "source_paths": [
+          "game/scripts/Main.cs",
+          "game/scripts/photoworlds/W03Controller.cs",
+          "game/scripts/photoworlds/W03Controller.Geometry.cs",
+          "game/assets/audio/ambient_manifest.json",
+          "tools/audio/generate_act1_ambience_layers.py",
+          "assets/source/audio/photoworlds/ambient_cc0/",
+          "assets/asset_registry.json"
+        ],
+        "preparation": "Existing producer adds repeatable --stem-id; filters and validates IDs before source checks/decode/write, preparing only two new beds. Credential-free extracted primary-page CC0 license receipts/HQ MP3 retained with hashes. Raw public HTML excluded: embedded third-party Mapbox token caused GitHub push-protection rejection; no bypass, unpublished commit corrected. Native afconvert sandbox failed cfmt; same verified inputs outside sandbox exit0. W03 149s/.018RMS/peak.14606; W04 119s/.024RMS/peak.17761, monoPCM16/24k; raw metrics retained.",
+        "verification": "Affected Game PASS16.58s,0warnings/errors. Independent luna_fast reviewed source wall transforms/session/mount/return/subset; root found real terrain-floor-vs-wall-base listener mismatch, final listener-camera correction independently re-reviewed. Scoped diffcheck passed. No tests/probes/game/native audition.",
+        "evidence": [
+          "evidence/PW-039/distinct-world-beds-20261020/affected-game-build.log",
+          "evidence/PW-039/distinct-world-beds-20261020/pcm-preparation.log",
+          "evidence/PW-039/distinct-world-beds-20261020/pcm-preparation-sandbox-format-error.log",
+          "evidence/PW-039/distinct-world-beds-20261020/existing-station-job-status.log"
+        ],
+        "remaining": "Native scene-matched hearing of W01/W03 courtyard↔room/W04, pause/mute/duck/Continue/first and quiet return, five-minute loop and spatial/mix/cultural acceptance. HQ MP3 previews are not required full-resolution masters. W04 source storm/insect tags and W03 window perspective require listening, not inferred absence of unwanted sounds. Full world audio passports and local expressive sources remain open.",
+        "cleanup": "Closed incomplete unselected810415download deleted6946816bytes; metadata flags sheepbell/cisticola, not used. Source recordings/pages for selected candidates retained.",
+        "station": "Same e79 status rechecked after backoff: CLI exit1 urlopen timedout. No authoritative terminal/userdata restoration; prologue skip permission persists but no input/new job sent.",
+        "publication": "Initial push rejected for third-party token embedded in upstream public HTML. Full HTML removed from unpublished commit; only explicit public license/asset facts and page SHA retained, no executable scripts or service keys."
       }
     },
     {
@@ -142137,8 +142175,8 @@
             "assigned_owner": "/root/generated_asset_rework",
             "active_owner": null,
             "activity": {
-              "state": "not_confirmed",
-              "reason": "Two boundedhousepreparations ended: Meshy25K20297tri rejected; ONEfreeBlender99Kactual4sides+front/rearclay rejected. Dedicatedworker releasedhouseclaim, no more attempts/paidhousegeneration."
+              "state": "idle",
+              "reason": "Unique-atlas donor prepared and reviewed; exact runtime-crown construction fails corner gate, no paid retexture or runtime integration. Claim released."
             },
             "task_type": "engineering",
             "status": "in_progress",
@@ -142152,7 +142190,7 @@
               "99Kfreecandidate retainsrealroundedcourses onhiddenwalls but cornerinterlock/gablejoint and diagonalUVstretches fail strictproductiongate; no runtimehouseintegrated.",
               "ActivefunctionalCouncil requires realnamedwalls/door/openings/collisioncontracts; neithercombinedMeshy candidate isdropin. No safeH023replacementwithoutdoor/geometryrevalidation."
             ],
-            "next_action": "Aftertwofailedpreparations, reconsider architectural production: preserve constructive geometry/semanticparts at existing houseowner and use generated surface/detail inputs; choose concretefunctional consumer before more housegeneration. No repeatedwholehousePOST/remesh/polish.",
+            "next_action": "Use the identified existing parcel owner and explicit corner geometry cause to choose one bounded constructive source fix, preserving apertures/roof/placement; no blind wholehousePOST/remesh or paint over bad join.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "After own source/runtime DoD and sufficient evidence, release active claim and commit accepted stage; author whole-scene art/motion gates stay with parent. No isolated detail/model polish loop.",
@@ -142236,7 +142274,19 @@
               "verification": [],
               "acceptance": []
             },
-            "depends_on": []
+            "depends_on": [],
+            "variant_a_atlas_preparation_2026_10_20": {
+              "state": "source_prepared_construction_hold_before_paid_retexture",
+              "consumer": "Existing EastStreetMidFacade VariantA dwelling subtree, yaw−82deg/scale.88, same AttachAct1ExteriorKitComponent/TimberHomeStyle owner.",
+              "finding": "Raw exteriorGLB113opaque meshes lackUV; runtime logcrowns have repeatingworldmetricUV, so direct keepUV is invalid. Dedicated source donor reuses existing hero preparation/helpers and nonhero runtime geometry, uniqueglobalUVatlas, semantic names/openings/transforms retained.",
+              "result": "115opaque nodes/10324tri,7crowns128spans; UVoverlap0, exportedUVerror2.98e-8. Root viewed actualGLB front-right and corner/openings: paired thin elliptic logends/darkdiamondvoids are not credible interlocking corner join. No Meshy POST/ImageGen/spend/runtime integration; exact donor is HOLD, not correctloghouse.",
+              "source": "assets/source/blender/act1/neighbor_house_a_retexture_v1/",
+              "receipt": "assets/source/blender/act1/neighbor_house_a_retexture_v1/candidate-receipt.json",
+              "glb_sha256": "6cb00cdb7f510a714120040053768fcfb1c2f66c6b01aa583cb4dcdbb11559ec",
+              "cleanup_bytes": 6585128,
+              "remaining": "Actual plausible supported/interlocked corner construction and existing-consumer integration avoiding duplicate runtime crowns BEFORE paid retexture; style/construction/native whole-scene gates remain.",
+              "next_action": "Use the identified existing parcel owner and explicit corner geometry cause to choose one bounded constructive source fix, preserving apertures/roof/placement; no blind wholehousePOST/remesh or paint over bad join."
+            }
           }
         ]
       },

@@ -29,6 +29,7 @@ public partial class W03Controller
     ];
 
     private Node3D _world = null!;
+    private Aabb? _houseRoomBounds;
 
     private void BuildHouseWorld()
     {
@@ -212,6 +213,29 @@ public partial class W03Controller
         _world!.AddChild(placement);
         component.Transform = new Transform3D(importedBasis, Vector3.Zero);
         placement.AddChild(component);
+
+        // Only the actual main room is enclosed. The porch and the two garden
+        // passage frames remain outdoors; terrain's soft floor blend is not a
+        // room boundary. Inner wall faces also follow this imported placement.
+        Aabb RoomWall(string side)
+        {
+            var mesh = FindNamedNode<MeshInstance3D>(component, $"HeroHouse_{side}_Wall_LOD0")
+                ?? throw new InvalidOperationException($"The W03 room is missing its authored {side} wall.");
+            return PublicBuildingShell.Bounds(_world, mesh);
+        }
+        var leftWall = RoomWall("Left");
+        var rightWall = RoomWall("Right");
+        var rearWall = RoomWall("Rear");
+        var streetWall = RoomWall("Street");
+        var roomMin = new Vector3(leftWall.End.X,
+            Mathf.Max(Mathf.Max(leftWall.Position.Y, rightWall.Position.Y),
+                Mathf.Max(rearWall.Position.Y, streetWall.Position.Y)), rearWall.End.Z);
+        var roomMax = new Vector3(rightWall.Position.X,
+            Mathf.Min(Mathf.Min(leftWall.End.Y, rightWall.End.Y),
+                Mathf.Min(rearWall.End.Y, streetWall.End.Y)), streetWall.Position.Z);
+        if (roomMax.X <= roomMin.X || roomMax.Y <= roomMin.Y || roomMax.Z <= roomMin.Z)
+            throw new InvalidOperationException("The W03 authored walls do not enclose a valid room.");
+        _houseRoomBounds = new Aabb(roomMin, roomMax - roomMin);
 
         foreach (var mesh in FindNamedNodes<MeshInstance3D>(component))
         {

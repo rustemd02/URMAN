@@ -1,0 +1,13 @@
+{
+  "schema": "urman.public-audio-source-license.v1",
+  "sourceUrl": "https://freesound.org/people/Garuda1982/sounds/639459/",
+  "author": "Garuda1982",
+  "title": "summer meadow with wind",
+  "license": "CC0-1.0",
+  "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "publishedHqPreviewUrl": "https://cdn.freesound.org/previews/639/639459_2061858-hq.mp3",
+  "primaryPageSha256": "a8f0418c76e078b7b6309735659bf6db49d9820d12db8f55913001b5d551191b",
+  "verification": "CC0 deed path and exact HQ preview URL found in the public primary HTML fetched with TLS hostname/certificate verification using system trust. Only explicit public asset facts retained; page scripts/embedded service keys excluded.",
+  "retrievedDateUtc": "2026-10-20",
+  "audition": "NOT_RUN; license provenance does not certify audible content or native mix."
+}

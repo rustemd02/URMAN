@@ -4,6 +4,8 @@
 Usage: python3 tools/audio/generate_act1_ambience_layers.py SOURCE_DIRECTORY
 The directory contains the unmodified sourcePreviewUrl basenames declared in
 ambient_manifest.json. No downloads or procedural fallback are performed.
+Use --stem-id ID (repeatable) to prepare only named beds without replacing
+unchanged assets or requiring their source recordings again.
 Listening and final mix acceptance remain separate from PCM preparation.
 """
 from __future__ import annotations
@@ -60,9 +62,17 @@ def prepare(samples: array, settings: dict) -> tuple[array, dict]:
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("source_directory", type=Path)
+    parser.add_argument("--stem-id", action="append", default=[],
+                        help="Prepare only this manifest stem (repeatable)")
     args = parser.parse_args()
     manifest = json.loads((OUT / "ambient_manifest.json").read_text())
     stems = [stem for stem in manifest["stems"] if "preparation" in stem]
+    if args.stem_id:
+        requested = set(args.stem_id)
+        unknown = requested - {stem["id"] for stem in stems}
+        if unknown:
+            raise ValueError(f"No recorded preparation for stems: {', '.join(sorted(unknown))}")
+        stems = [stem for stem in stems if stem["id"] in requested]
     if not stems:
         raise ValueError("No recorded preparations are declared")
     sources = {}

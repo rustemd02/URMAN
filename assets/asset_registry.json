@@ -4615,6 +4615,68 @@
       "sourceSha256": "78c0d316ce07f6ae360973e79a62f824e06e28717c470c3c4a8cedc49a1017c9",
       "derivedSha256": "7ab2f9997b3991fa83546b388a996284ef0e31f47f11b0d03b018032c3afa2d8",
       "receipt": "assets/source/blender/photoworlds/W01/prologue-branch-v1/manifest.json"
+    },
+    {
+      "id": "audio.ambient.photoworld-house-courtyard",
+      "source": "https://freesound.org/people/noisetinker/sounds/695526/",
+      "derived": "game/assets/audio/photoworld_house_courtyard.wav",
+      "derivedSha256": "d3e3ae541d8d7f38a515851d51a77301faa9a5956bd514c761241934ed0cdd26",
+      "generator": "tools/audio/generate_act1_ambience_layers.py; native afconvert mono PCM16 24 kHz, declared source slice, 1 s equal-power loop join, RMS gain with peak ceiling 0.70",
+      "license": "CC0-1.0",
+      "scale": 1.0,
+      "triangleBudget": 0,
+      "textureBudget": 0,
+      "materials": [],
+      "collision": "not applicable",
+      "lod": "not applicable",
+      "audio": "149s PCM16 RIFF/WAVE; mono24kHz; peak 0.1460571; RMS 0.0179994; 1s equal-power loop join; native audition pending",
+      "status": "recorded CC0 preview candidate; native listening/mix/cultural review and full-resolution source master open",
+      "releaseDisposition": "runtime-referenced PhotoWorld candidate; final native hearing/mix/cultural and source-master approval open",
+      "sourcePreviewUrl": "https://cdn.freesound.org/previews/695/695526_14902901-hq.mp3",
+      "sourcePreviewSha256": "de02f7e9b16df3bffa81e464b4eee951f45ef1323a8ba08e8d9a215f33c1ff2a",
+      "sourceLicenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "sourcePreviewOnly": true,
+      "sourceProof": "Official public Freesound page declares CC0; exact published HQ preview URL extracted from that page with verified TLS.",
+      "preparation": {
+        "startSeconds": 15,
+        "durationSeconds": 150,
+        "crossfadeSeconds": 1,
+        "targetRms": 0.018
+      },
+      "sourceSha256": "de02f7e9b16df3bffa81e464b4eee951f45ef1323a8ba08e8d9a215f33c1ff2a",
+      "sourceProofFile": "assets/source/audio/photoworlds/ambient_cc0/695526.source-license.json",
+      "sourceProofSha256": "165d66d357b3ba36c50e9b9630f592fe321f536d79f949e73e27e3ddd6fa58c0"
+    },
+    {
+      "id": "audio.ambient.photoworld-common",
+      "source": "https://freesound.org/people/Garuda1982/sounds/639459/",
+      "derived": "game/assets/audio/photoworld_common_meadow.wav",
+      "derivedSha256": "bba0d596b4dcf0318f4f06599d7e8d50a1bb705abe961481958c6be1052cfc1b",
+      "generator": "tools/audio/generate_act1_ambience_layers.py; native afconvert mono PCM16 24 kHz, declared source slice, 1 s equal-power loop join, RMS gain with peak ceiling 0.70",
+      "license": "CC0-1.0",
+      "scale": 1.0,
+      "triangleBudget": 0,
+      "textureBudget": 0,
+      "materials": [],
+      "collision": "not applicable",
+      "lod": "not applicable",
+      "audio": "119s PCM16 RIFF/WAVE; mono24kHz; peak 0.1776123; RMS 0.0239993; 1s equal-power loop join; native audition pending",
+      "status": "recorded CC0 preview candidate; native listening/mix/cultural review and full-resolution source master open",
+      "releaseDisposition": "runtime-referenced PhotoWorld candidate; final native hearing/mix/cultural and source-master approval open",
+      "sourcePreviewUrl": "https://cdn.freesound.org/previews/639/639459_2061858-hq.mp3",
+      "sourcePreviewSha256": "487d80453e75619c5ec34fc450f92ef167f4fd1803a0b50729d69e055c77949a",
+      "sourceLicenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "sourcePreviewOnly": true,
+      "sourceProof": "Official public Freesound page declares CC0; exact published HQ preview URL extracted from that page with verified TLS.",
+      "preparation": {
+        "startSeconds": 5,
+        "durationSeconds": 120,
+        "crossfadeSeconds": 1,
+        "targetRms": 0.024
+      },
+      "sourceSha256": "487d80453e75619c5ec34fc450f92ef167f4fd1803a0b50729d69e055c77949a",
+      "sourceProofFile": "assets/source/audio/photoworlds/ambient_cc0/639459.source-license.json",
+      "sourceProofSha256": "df3b99f5b4e727399bf15cda88045c721c03901ddb95547dda36b362e27f6cb4"
     }
   ]
 }
