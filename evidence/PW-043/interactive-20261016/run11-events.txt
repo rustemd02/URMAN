@@ -1,5 +1,0 @@
-374:zone-loaded: village_day@arrival connected-world=371967659578
-395:checkpoint: auto-saved at urman.fullgame:scene/pw-home
-490:checkpoint: auto-saved at urman.fullgame:scene/pw-home
-567:zone-loaded: house_old_pc@entry connected-world=371967659578
-569:[67] photoworlds.book.received: urman.fullgame:interaction/pw-book-handoff

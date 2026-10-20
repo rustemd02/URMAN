@@ -1,8 +1,0 @@
-{
-  "requestId": "86183a4f21744e528cdbcb9b5a78cd3b",
-  "snapshotHash": "fd3aef1dae54f9ef7b661413f0a3534c370fa57564e81c19b6bcb16a49cdc278",
-  "entityId": "urman.world:act1/kit/house-old-pc-babai-approach",
-  "expectedWidth": 1.06,
-  "windowWidth": 1.30,
-  "summary": "Set all eight windows, including the entry-hall window, to 1.30 m while keeping their heights unchanged."
-}

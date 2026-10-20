@@ -1,9 +1,0 @@
-Error: ExtAudioFileSetProperty ('cfmt') failed ('fmt?')
-Traceback (most recent call last):
-  File "/Users/unterlantas/Documents/GitHub/URMAN/tools/audio/generate_act1_ambience_layers.py", line 124, in <module>
-    main()
-  File "/Users/unterlantas/Documents/GitHub/URMAN/tools/audio/generate_act1_ambience_layers.py", line 92, in main
-    subprocess.run(['afconvert', '-f', 'WAVE', '-d', f'LEI16@{RATE}', '-c', '1',
-  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/subprocess.py", line 571, in run
-    raise CalledProcessError(retcode, process.args,
-subprocess.CalledProcessError: Command '['afconvert', '-f', 'WAVE', '-d', 'LEI16@24000', '-c', '1', 'assets/source/audio/photoworlds/ambient_cc0/695526_14902901-hq.mp3', '/var/folders/j_/jbw_g7qj2g9gg4l_142f7pm00000gn/T/urman-ambience-zd5o_nhw/695526_14902901-hq.mp3.stage.wav']' returned non-zero exit status 1.

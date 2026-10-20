@@ -1,9 +1,0 @@
-{
-    "startedUtc":  "2026-10-13T23:55:10.1705386Z",
-    "output":  "{\r\n    \"obsHwnd\":  20384032,\r\n    \"bytes\":  9612441,\r\n    \"recordingRelative\":  \"recordings\\\\PW089-2026-10-14_02-49-03.mp4\",\r\n    \"stopUtc\":  \"2026-10-13T23:55:12.8809627Z\",\r\n    \"sha256\":  \"E6307415F0023DD158019FD54BA0814A18FD370DD151B2D9AF9F27AA5545D221\",\r\n    \"waitSecondsMax\":  180,\r\n    \"obsPid\":  115468,\r\n    \"processExited\":  true,\r\n    \"stopMethod\":  \"WM_CLOSE to unique owned OBS HWND\",\r\n    \"note\":  \"Container decode/duration must still be verified on Mac before cleanup.\"\r\n}",
-    "finishedUtc":  "2026-10-13T23:55:12.9125349Z",
-    "ok":  true,
-    "obsPid":  115468,
-    "obsHwnd":  20384032,
-    "stage":  "invoke_guarded_stop"
-}

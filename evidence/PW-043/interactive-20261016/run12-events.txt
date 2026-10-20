@@ -1,5 +1,0 @@
-54:[8] photoworlds.prologue.completed: urman.fullgame:interaction/pw-prologue-skip
-55:[9] scene.entered: urman.fullgame:interaction/pw-prologue-skip
-374:zone-loaded: village_day@arrival connected-world=326803393044
-393:checkpoint: auto-saved at urman.fullgame:scene/pw-niva-arrival
-471:checkpoint: auto-saved at urman.fullgame:scene/pw-niva-arrival

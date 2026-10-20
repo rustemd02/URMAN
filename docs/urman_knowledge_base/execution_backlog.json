@@ -101119,7 +101119,22 @@
           "evidence_ref": "ACT1-UI.LOADING.evidence and named history progress; source_review shows available/missing inputs"
         }
       ],
-      "assignment_state": "unassigned_explicit_not_active"
+      "assignment_state": "unassigned_explicit_not_active",
+      "ordinary_menu_pending_2026_10_20": {
+        "state": "implementation_not_started_owner_cleanup_preempts",
+        "active_owner": null,
+        "baseline_commit": "b4311626",
+        "question": "Does actual save discovery/Continue lookup show a truthful pending state and prevent opening Settings that would survive a successful load with player modal cleared?",
+        "cause": "Act1DemoRoot RefreshMenuContinueAvailability/OnMenuStartSessionAsync await FindContinueAsync before existing load overlay; no pending status, SettingsRequested lacks busy guard. Existing startup/NewGame/Load/resource threaded indicators already exist; no confirmed generic return-loading defect.",
+        "targets": [
+          "game/scripts/MainMenuUi.cs",
+          "game/scripts/Act1DemoRoot.cs"
+        ],
+        "scope": "Presentation-only pending save scan/start/Continue status, derive command availability from current source flags; active session change disables Settings/replay/resume/session/debug choices, Quit retained. Background scan and active transaction are distinct conditions; stale async menu/bridge work cannot reenable current controls or dismiss another menu. No new save/runtime coordinator, percent, background, gameplay/reward/schema change.",
+        "verification": "Inspect actual callbacks and recovery/finally/stale ownership; independent spec/quality review, narrow affected Game compile after freeze. No new tests/probes/Godot/game; native ordinary lookup→Settings/load/failure/retry/focus remains open.",
+        "next_action": "Implement bounded MainMenuUi/Act1DemoRoot pending state and gates, review then compile once.",
+        "remaining": "No production edits to MainMenuUi/Act1DemoRoot were made before owner cleanup interrupted implementation; pending-state/modal-race fix and native checks remain open."
+      }
     },
     {
       "id": "ACT1-AUDIO.MAP",
@@ -162308,5 +162323,47 @@
       "authority": "Owner explicit action-time reply authorized creating and connecting API key.",
       "client": "eng/meshy_assets.py: sanitizedbalance/list/status; pricedimage/retexture/remesh/rig POST; SUCCEEDED-onlyGLB/rigFBXdownload. RealAPIrig and bothdownloads exercised; rig24/no-finger limitation documented. No Meshyimagegeneration."
     }
+  },
+  "artifact_cleanup_2026_10_20": {
+    "authority": "Owner explicitly requested removing URMAN junk/temp files, duplicate repo copies, screenshots/runs and Meshy Downloads",
+    "state": "filesystem_cleanup_complete",
+    "net_removed_bytes_measured": 9913228576,
+    "meshy_downloads_deleted": 9,
+    "meshy_download_bytes": 303692732,
+    "generated_godot_cache_bytes": 1186665792,
+    "screenshot_and_video_files_removed_from_evidence_and_captures": 3135,
+    "legacy_production_media_and_source_copies_removed": 2846,
+    "git_backed_source_snapshot_copies_removed": 966,
+    "result_zip_packages_removed": 72,
+    "obsolete_studio_test_outputs_removed": 49,
+    "system_temp_entries_removed": 258,
+    "git_garbage_temp_files_removed": 3,
+    "git_garbage_bytes_removed": 209760255,
+    "retained_archives": [
+      {
+        "path": ".tools/retained-sources/urman-historical-run-receipts.tar.xz",
+        "bytes": 40476448,
+        "sha256": "70c8985af21390723710f80e060859a92ae9def611a6fcb30e961fd929e3daae",
+        "verification": "Every archived member read back with exact size/SHA before original loose files were removed; manifest retains original paths",
+        "disposition": "local ignored retention of unique source/raw receipts, not public output or disposable scratch"
+      },
+      {
+        "path": ".tools/retained-sources/urman-legacy-production-inputs-and-receipts.tar.xz",
+        "bytes": 9738152,
+        "sha256": "bf78c1066921d636cfa13c675ded6c6555bef307126c300876d80d0eb198bffc",
+        "verification": "Every archived member read back with exact size/SHA before original loose files were removed; manifest retains original paths",
+        "disposition": "local ignored retention of unique source/raw receipts, not public output or disposable scratch"
+      },
+      {
+        "path": ".tools/retained-sources/urman-unique-capture-inputs-and-receipts.tar.xz",
+        "bytes": 9315760,
+        "sha256": "67ad29800d0325421e110e219f8868aa4d369b3f9cd24cc13d1668ea3f1df6fb",
+        "verification": "Every archived member read back with exact size/SHA before original loose files were removed; manifest retains original paths",
+        "disposition": "local ignored retention of unique source/raw receipts, not public output or disposable scratch"
+      }
+    ],
+    "historical_evidence_policy": "Old run screenshots/videos/packages deliberately removed by owner; historical receipt/log/source links are archived members, not freshly verified native evidence. Keep original paths inside retention archives and retrieve one member when needed; do not regenerate all old run directories. Current release, live project/source assets, user saves/configuration and selected art inputs retained.",
+    "orphan_copy_observation": "URMAN-v11 initially observed as599296149B orphan worktree; disappeared before this agent could archive its7reported unique source files or remove directory. Its bytes are NOT counted in measured cleanup; old-copy unique-source preservation not confirmed. Primary working repository preserved.",
+    "limits": "Git history/packs retained; no history rewrite/force push, no game/build/import/generation/VPN/station restart or new job. The12GB Git store is retained version history, not deleted as a cache."
   }
 }

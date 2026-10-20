@@ -1,5 +1,0 @@
-# Preserve exact Windows artifact bytes and literal unified-diff context.
-* -text
-*.json whitespace=cr-at-eol
-*.log whitespace=cr-at-eol
-*.patch -whitespace
