@@ -1005,6 +1005,88 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
             }
         }
 
+        // Compose the hollow from the already selected forest. Only roots in
+        // this local circle may be replaced; the global seed/stride and every
+        // selected transform outside it retain their original order and ranges.
+        var f15 = ForestExitRouteNodes[1];
+        const float f15CompositionRadius = 24f;
+        var f15LocalIndices = Enumerable.Range(0, selectedClusterCandidates.Count)
+            .Where(index => selectedClusterCandidates[index].Position.DistanceSquaredTo(f15)
+                <= f15CompositionRadius * f15CompositionRadius).ToArray();
+        var f15LocalSet = f15LocalIndices.ToHashSet();
+        var f15StandingRadius = Mathf.Max(
+            MeasurePineStandingFootprintRadius(lightPineMesh, pineSourceBounds, minimumClusterPineHeight, 2.15f),
+            MeasurePineStandingFootprintRadius(farPineMesh, pineSourceBounds, minimumClusterPineHeight, 2.15f));
+        var f15Placements = new (Vector2 Position, float Height, float YawDegrees, float Girth)[]
+        {
+            (new(124f, 174f), 17.2f, 34f, .82f),
+            (new(128f, 181f), 19.6f, 213f, .78f),
+            (new(149f, 174f), 18.4f, 107f, .85f),
+            (new(154f, 162f), 21.5f, 281f, .90f),
+            (new(150f, 154f), 18.8f, 158f, .76f),
+            (new(141f, 151f), 16.2f, 329f, .82f),
+            (new(133f, 151f), 14.4f, 69f, .74f),
+            (new(137f, 160f), 15.8f, 242f, .80f)
+        };
+        var f15Replacements = new Dictionary<int,
+            (Vector2 Position, Transform3D Transform, Vector2I Cell, int HeightBand)>();
+        var f15Removed = new HashSet<int>();
+        float F15RootRadius(Transform3D transform) => f15StandingRadius * transform.Basis.X.Length();
+        bool F15RootsOverlap(Vector2 point, float radius,
+            (Vector2 Position, Transform3D Transform, Vector2I Cell, int HeightBand) other) =>
+            point.DistanceTo(other.Position) < Mathf.Max(minimumClusterPineSpacing,
+                radius + F15RootRadius(other.Transform));
+        foreach (var placement in f15Placements)
+        {
+            if (f15Replacements.Count == f15LocalIndices.Length) break;
+            var position = placement.Position;
+            var heightScale = placement.Height / pineSourceBounds.Size.Y;
+            var horizontalScale = heightScale * placement.Girth;
+            var radius = f15StandingRadius * horizontalScale;
+            if (position.X < groundBounds.Position.X || position.X > groundBounds.End.X
+                || position.Y < groundBounds.Position.Z || position.Y > groundBounds.End.Z
+                || position.DistanceSquaredTo(f15) > f15CompositionRadius * f15CompositionRadius
+                || ForestExitRouteDistance(position) < radius + standingLaneHalfWidth
+                || position.DistanceTo(f15) < radius + 1.2f
+                || NearExistingTree(position, radius + minimumExistingPineSpacing)
+                || f15Replacements.Values.Any(other => F15RootsOverlap(position, radius, other))
+                || selectedClusterCandidates.Where((_, index) => !f15LocalSet.Contains(index))
+                    .Any(other => F15RootsOverlap(position, radius, other)))
+                continue;
+
+            var slot = f15LocalIndices.Where(index => !f15Replacements.ContainsKey(index))
+                .OrderBy(index => selectedClusterCandidates[index].Position.DistanceSquaredTo(position)).First();
+            var basis = new Basis(Vector3.Up, Mathf.DegToRad(placement.YawDegrees))
+                * Basis.FromScale(new Vector3(horizontalScale, heightScale, horizontalScale));
+            var groundY = ForestGroundHeight(position.X, position.Y) - pineSourceBounds.Position.Y * heightScale;
+            var cell = new Vector2I(Mathf.FloorToInt(position.X / forestCellSize),
+                Mathf.FloorToInt(position.Y / forestCellSize));
+            var heightBand = Mathf.Clamp(Mathf.FloorToInt((placement.Height - minimumClusterPineHeight)
+                / clusterHeightStep), 0, 7);
+            f15Replacements.Add(slot, (position, new Transform3D(basis, new Vector3(position.X, groundY, position.Y)),
+                cell, heightBand));
+        }
+        foreach (var index in f15LocalIndices)
+        {
+            var candidate = selectedClusterCandidates[index];
+            var radius = F15RootRadius(candidate.Transform);
+            if (ForestExitRouteDistance(candidate.Position) < radius + standingLaneHalfWidth
+                || candidate.Position.DistanceTo(f15) < radius + 1.2f
+                || f15Replacements.Values.Any(other => F15RootsOverlap(candidate.Position, radius, other)))
+                f15Removed.Add(index);
+        }
+        if (f15Replacements.Count > 0 || f15Removed.Count > 0)
+        {
+            var composedCandidates = new List<(Vector2 Position, Transform3D Transform, Vector2I Cell, int HeightBand)>(
+                selectedClusterCandidates.Count);
+            for (var index = 0; index < selectedClusterCandidates.Count; index++)
+            {
+                if (f15Replacements.TryGetValue(index, out var replacement)) composedCandidates.Add(replacement);
+                else if (!f15Removed.Contains(index)) composedCandidates.Add(selectedClusterCandidates[index]);
+            }
+            selectedClusterCandidates = composedCandidates;
+        }
+
         float ClusterRepresentativeHeight(int heightBand) => Mathf.Min(24f, minimumClusterPineHeight
             + (heightBand + 0.5f) * clusterHeightStep);
 
@@ -1893,7 +1975,31 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
             break;
         }
 
-        return routeY + TerrainRelief(x, z) - TerrainRelief(routeX, z) + TerrainMacroRelief(x, z);
+        return routeY + TerrainRelief(x, z) - TerrainRelief(routeX, z) + TerrainMacroRelief(x, z)
+            + F15HollowRelief(x, z);
+    }
+
+    private static float F15HollowRelief(float x, float z)
+    {
+        var normalizedX = (x - 144f) / 10f;
+        var normalizedZ = (z - 163f) / 11f;
+        var radius = Mathf.Sqrt(normalizedX * normalizedX + normalizedZ * normalizedZ);
+        if (radius >= 1f) return 0f;
+        return -1.4f * (1f - TerrainSmoothStep(0f, 1f, radius))
+            * TerrainSmoothStep(2f, 5f, ForestExitRouteDistance(new Vector2(x, z)));
+    }
+
+    private static float ForestExitRouteDistance(Vector2 point)
+    {
+        var laneDistance = float.MaxValue;
+        for (var index = 1; index < ForestExitRouteNodes.Length; index++)
+        {
+            var start = ForestExitRouteNodes[index - 1];
+            var segment = ForestExitRouteNodes[index] - start;
+            var t = Mathf.Clamp((point - start).Dot(segment) / segment.LengthSquared(), 0f, 1f);
+            laneDistance = Mathf.Min(laneDistance, point.DistanceTo(start + segment * t));
+        }
+        return laneDistance;
     }
 
     private static float TerrainRelief(float x, float z)

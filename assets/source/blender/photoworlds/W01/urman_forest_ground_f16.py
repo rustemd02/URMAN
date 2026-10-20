@@ -1,7 +1,7 @@
 """Build an original, finite W01 F00→F16 route-ground terrain asset.
 
 Run with Blender 4.5+:
-  blender --background --python assets/source/blender/photoworlds/W01/urman_forest_ground.py \
+  blender --background --python assets/source/blender/photoworlds/W01/urman_forest_ground_f16.py \
     -- --output-dir /private/tmp/urman-forest-ground-YYYYMMDD
 
 Godot-authored coordinates are retained in the manifest as (X,Y,Z); Blender
@@ -40,6 +40,10 @@ MACRO_RELIEF_FEATURES = (
 )
 MACRO_RELIEF_WINDOW_Z_M = (0.0, 6.0, 24.0, 32.0)
 MACRO_RELIEF_ROUTE_CLEARANCE_M = (1.8, 8.0)
+F15_HOLLOW_CENTER_XZ_M = (144.0, 163.0)
+F15_HOLLOW_RADII_XZ_M = (10.0, 11.0)
+F15_HOLLOW_AMPLITUDE_M = -1.4
+F15_HOLLOW_ROUTE_CLEARANCE_M = (2.0, 5.0)
 BASELINE_ANCHOR_TERRAIN_Y_M = {
     "F00": 0.0,
     "F01": 1.0,
@@ -284,12 +288,34 @@ def terrain_macro_relief(x: float, z: float):
     return window * route_clearance * feature_sum
 
 
+def forest_exit_lane_distance(x: float, z: float):
+    nearest = math.inf
+    for first_id, second_id in zip(FOREST_EXIT_ROUTE_NODE_IDS, FOREST_EXIT_ROUTE_NODE_IDS[1:]):
+        first, second = NODES[first_id]["xyz"], NODES[second_id]["xyz"]
+        dx, dz = second[0] - first[0], second[2] - first[2]
+        t = clamp01(((x - first[0]) * dx + (z - first[2]) * dz) / (dx * dx + dz * dz))
+        nearest = min(nearest, point_distance(x, z, first[0] + t * dx, first[2] + t * dz))
+    return nearest
+
+
+def terrain_f15_hollow(x: float, z: float):
+    center_x, center_z = F15_HOLLOW_CENTER_XZ_M
+    radius_x, radius_z = F15_HOLLOW_RADII_XZ_M
+    radius = math.sqrt(((x - center_x) / radius_x) ** 2 + ((z - center_z) / radius_z) ** 2)
+    if radius >= 1.0:
+        return 0.0
+    zero_radius, full_radius = F15_HOLLOW_ROUTE_CLEARANCE_M
+    clearance = smoothstep(zero_radius, full_radius, forest_exit_lane_distance(x, z))
+    return F15_HOLLOW_AMPLITUDE_M * (1.0 - smoothstep(0.0, 1.0, radius)) * clearance
+
+
 def surface_height_and_masks(x: float, z: float):
     # The base height follows the established F00→F03 centerline; bounded macro
     # relief adds shoulders beside the first 32 m while preserving anchors/lane.
     # Additional route links change only the route mask, not the base profile.
     route_x, route_y = route_height_and_x(z)
-    height = route_y + terrain_relief(x, z) - terrain_relief(route_x, z) + terrain_macro_relief(x, z)
+    height = (route_y + terrain_relief(x, z) - terrain_relief(route_x, z)
+              + terrain_macro_relief(x, z) + terrain_f15_hollow(x, z))
 
     route_mask = clamp01(1.0 - smoothstep(ROUTE_HALF_WIDTH, 4.3, route_distance(x, z)))
     for node_id in PAD_ROUTE_NODE_IDS:
@@ -717,10 +743,10 @@ def add_preview_rig(scene):
     path_data = bpy.data.cameras.new("Preview_F11_to_F16_Route_Camera")
     path_camera = bpy.data.objects.new("Preview_F11_to_F16_Route_Camera", path_data)
     bpy.context.collection.objects.link(path_camera)
-    path_camera.location = (80.0, -280.0, 110.0)
-    look_at(path_camera, (80.0, -120.0, 2.0))
+    path_camera.location = (168.0, -190.0, 31.0)
+    look_at(path_camera, (143.0, -164.0, 3.0))
     path_data.type = "ORTHO"
-    path_data.ortho_scale = 220
+    path_data.ortho_scale = 43
     path_data.lens = 35
     return overview, path_camera
 
@@ -850,6 +876,53 @@ def terrain_relief_contract(xs, zs, node_heights):
     }
 
 
+def f15_hollow_contract(xs, zs):
+    zero_radius, full_radius = F15_HOLLOW_ROUTE_CLEARANCE_M
+    samples = [terrain_f15_hollow(x, z) for z in zs for x in xs]
+    lane_vertex_deltas = [abs(terrain_f15_hollow(x, z)) for z in zs for x in xs
+                          if forest_exit_lane_distance(x, z) <= zero_radius]
+    triangle_diameter = math.sqrt(2.0) * GRID_STEP
+    required_zero_radius = ROUTE_HALF_WIDTH + triangle_diameter
+    anchor_deltas = {node_id: terrain_f15_hollow(node["xyz"][0], node["xyz"][2])
+                     for node_id, node in NODES.items() if node_id in BUILD_NODE_IDS}
+    if zero_radius < required_zero_radius:
+        raise RuntimeError("F15 hollow clearance does not protect every exit-lane grid triangle")
+    if max(lane_vertex_deltas, default=0.0) > 1e-9 or any(abs(delta) > 1e-9 for delta in anchor_deltas.values()):
+        raise RuntimeError("F15 hollow changed a protected exit-lane vertex or produced anchor")
+    return {
+        "equation": "-1.4 * (1-S(r)) * S((d-2)/3); S(t)=clamp(t,0,1)^2*(3-2*clamp(t,0,1)); r=sqrt(((x-144)/10)^2+((z-163)/11)^2)",
+        "center_xz_m": list(F15_HOLLOW_CENTER_XZ_M),
+        "radii_xz_m": list(F15_HOLLOW_RADII_XZ_M),
+        "amplitude_m": F15_HOLLOW_AMPLITUDE_M,
+        "compact_support": "zero at and outside elliptical radius 1; C1 radial boundary",
+        "protected_route_segments_xz_m": [
+            [[NODES[first]["xyz"][0], NODES[first]["xyz"][2]],
+             [NODES[second]["xyz"][0], NODES[second]["xyz"][2]]]
+            for first, second in zip(FOREST_EXIT_ROUTE_NODE_IDS, FOREST_EXIT_ROUTE_NODE_IDS[1:])
+        ],
+        "route_clearance_m": {
+            "distance": "minimum clamped point-to-segment distance across both exit-route segments",
+            "zero_through": zero_radius,
+            "full_from": full_radius,
+            "physical_lane_width": ROUTE_HALF_WIDTH * 2.0,
+            "grid_step": GRID_STEP,
+            "maximum_grid_triangle_diameter": triangle_diameter,
+            "required_zero_radius_for_all_lane_triangles": required_zero_radius,
+            "margin_m": zero_radius - required_zero_radius,
+            "proof": "Distance to the segment union is 1-Lipschitz; every vertex of a lane-intersecting triangle is within lane half-width plus triangle diameter, inside the zero-delta radius.",
+            "max_abs_vertex_delta_inside_zero_radius_m": max(lane_vertex_deltas, default=0.0),
+        },
+        "protected_anchor_field_deltas_m": anchor_deltas,
+        "sampled_grid_delta_m": {
+            "sample_count": len(samples),
+            "changed_vertex_count": sum(abs(delta) > 1e-12 for delta in samples),
+            "minimum": min(samples),
+            "maximum": max(samples),
+        },
+        "engine_collision_contact_verified": False,
+    }
+
+
 def make_manifest(root, output_dir, ground, verts, xs, zs, node_heights, image_paths, bake_path):
     spec_path = root / "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/assets.spec.json"
     level_path = root / "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/levels/W01_Лес_за_спиной_RU.md"
@@ -963,9 +1036,11 @@ def make_manifest(root, output_dir, ground, verts, xs, zs, node_heights, image_p
             "zero delta over every grid vertex within its 1.8 m F00→F01 lane clearance. "
             "F10–F16 Y values are design-local, so the markers use sampled ground heights ("
             + ", ".join(f"{node_id}={node_heights[node_id]:.9f} m" for node_id in ("F10", "F11", "F12", "F13", "F14", "F15", "F16"))
-            + "). The explicit field, lane-triangle and anchor deltas are recorded in terrain_relief_contract."
+            + "). The F15 hollow also has zero delta on every produced anchor and its protected exit lane. "
+            "Explicit field, lane-triangle and anchor deltas are recorded in the two relief contracts."
         ),
         "terrain_relief_contract": relief_contract,
+        "f15_hollow_contract": f15_hollow_contract(xs, zs),
         "authored_nodes": {
             node_id: {
                 "label": node["label"],
@@ -1020,7 +1095,7 @@ def make_manifest(root, output_dir, ground, verts, xs, zs, node_heights, image_p
         },
         "production_defaults": [
             "A continuous surface follows the exact authored F00→F01→F02→F03 profile and includes bounded asymmetric snow shoulders beside the first 32 m; the F00→F01 lane and every produced anchor height are protected.",
-            "A 2.1 m readable ground track connects F10→F11→transformed WalkEntry, transformed WalkExit→F14, and F14→F15→F16 on the same continuous surface; no macro-relief height delta is introduced beyond z=32 m.",
+            "A 2.1 m readable ground track connects F10→F11→transformed WalkEntry, transformed WalkExit→F14, and F14→F15→F16 on the same continuous surface; the original F00 macro relief ends at z=32 m, and a separate compact F15 hollow preserves the exit-lane triangles.",
             "F12↔F13 uses a separate opaque, walk-through paired hero-root asset with one mid-bend SpatialLinkFrame and distinct WalkEntry/WalkExit endpoints.",
             "Leaf and root fields are terrain materials/masks; no separate debris, fence, tree, or gameplay prop is included.",
         ],
@@ -1031,6 +1106,7 @@ def make_manifest(root, output_dir, ground, verts, xs, zs, node_heights, image_p
             "authored_node_heights_checked": True,
             "textures_written_and_hashed": True,
             "blender_rendered_overview_and_f11_f16_route_view": True,
+            "route_preview_scope": "existing route-view output now frames the F15 hollow in three-quarter view; overview camera unchanged",
             "godot_import": "not run",
             "walk_and_collision_contact": "not run",
             "art_author_review": "pending",

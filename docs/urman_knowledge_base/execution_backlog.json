@@ -121566,17 +121566,17 @@
             "assigned_owner": "world_art",
             "active_owner": null,
             "activity": {
-              "state": "not_active",
-              "reason": "Живое исполнение этой единицы при миграции не подтверждено."
+              "state": "idle",
+              "reason": "Finite F15 terrain/framing source stage reviewed and compiled, canonical source/runtime model promoted. Native import/contact/readability/Continue and whole linger art remain open."
             },
             "task_type": "engineering",
-            "status": "todo",
-            "implementation_state": "not_started",
+            "status": "in_progress",
+            "implementation_state": "partial",
             "technical_verification_state": "not_run",
             "remaining": [
               "Авторить три linger-точки F11, F14, F15 с полноценным обратным обзором.; собственного целевого receipt пока нет."
             ],
-            "next_action": "Сопоставить текущий результат: Авторить три linger-точки F11, F14, F15 с полноценным обратным обзором.. Затем изменить только установленный остаток.",
+            "next_action": "After authoritative e79 terminal/userdata restoration, use current protected ordinary W01 route to inspect F15 hollow/crowns and actual authored-root count, walk both directions F14↔F15↔F16, verify current save/Continue/support and old-pose fallback. Reuse accepted source/compile; F11/F14/full linger art remain separate, no unchanged regeneration.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -121655,7 +121655,72 @@
             },
             "depends_on": [
               "PW-010"
-            ]
+            ],
+            "f15_scene_stage_2026_10_20": {
+              "state": "source_integrated_compiled_native_scene_pending",
+              "finding": "F11/F14 already have authored source subjects/support. F15 has marker, pad and generic scatter, while current height field afterZ140 stays near4m and has no hollow composition.",
+              "result_contract": "Create one bounded visible hollow and framing crowns beside F15 using the existing single terrain visual/contact mesh and generated pine provider, retaining original routes/pad/anchors and global forest placement outside F15. No new interaction, reward, timer or asset service call.",
+              "targets": [
+                "assets/source/blender/photoworlds/W01/urman_forest_ground_f16.py",
+                "assets/source/blender/photoworlds/W01/prologue-ground-f00-f16-v1/",
+                "game/scripts/photoworlds/W01Controller.cs"
+              ],
+              "terrain_contract": {
+                "center_xz": [
+                  144,
+                  163
+                ],
+                "radii_xz": [
+                  10,
+                  11
+                ],
+                "depth_m": 1.4,
+                "formula": "r=sqrt(((x-144)/10)^2+((z-163)/11)^2); d=min(distanceSegmentXZ(F14,F15),distanceSegmentXZ(F15,F16)); delta=-1.4*(1-S(r))*S((d-2)/3), S(t)=clamp(t,0,1)^2*(3-2*clamp(t,0,1))",
+                "protected_route_zero_radius_m": 2,
+                "full_relief_from_route_distance_m": 5,
+                "old_macro_relief": "unchanged; F14/F15/F16 anchors and lane triangles unchanged"
+              },
+              "framing_contract": "Up to8 authored generated pine roots through existing MultiMesh cells/actual effective range groups. Keep all selected seeded roots outside bounded F15 replacement neighborhood and total cluster roots<=1300; do not alter global stride selection or add custom renderer/material/LOD policy. Preserve measured standing footprint, 1.2m pad, 2.1m lane and 2.15m head clearance, reverse view toward F14.",
+              "save_compatibility": "An old exact feet pose inside newly lowered off-route bowl can lose physical support. Existing strict validation and known F10/F11 fallback remain, all facts/custody/userdata preserved; no new safe node, guessed migration or relaxed support acceptance. Must verify ordinary Continue/fallback natively; do not claim exact old bowl poses remain valid.",
+              "verification_question": "Does one real terrain mesh contain the hollow while all protected anchors/lane vertices retain their prior height, and do source framing/lifetime/budget keep the existing route and global forest intact?",
+              "verification_bound": "Existing Blender source producer/actual terrain views+affected compile+independent source review. No Godot Mac, station/new job, new tests/probes or API spend. Actual in-game framing/reverse walk/Continue/LowHigh/art remain required after e79 terminal/restoration.",
+              "result": "Same canonical single terrain visual/contact source now contains a compact off-route hollow to−1.4m; C# ground/guard/pine seating uses the same field. Existing selected forest is composed only inside24m ofF15: up to8 authored candidates consume distinct existing slots, conflicting local candidates can be removed, every nonlocal tuple/order remains and count never exceeds old≤1300. No new colliders/render owner/quest/timer/LOD/material policy. Actual authored count, whole-frame beauty and reverse view need native observation.",
+              "actual_geometry": {
+                "vertices": 236817,
+                "triangles": 471680,
+                "changed_existing_f16_vertices": 1369,
+                "unchanged_all_xz": true,
+                "unchanged_indices": true,
+                "changed_xz_bounds": [
+                  [
+                    134.5,
+                    153.5
+                  ],
+                  [
+                    152.5,
+                    173.5
+                  ]
+                ],
+                "actual_y_delta_min_max_m": [
+                  -1.4000000953674316,
+                  -6.67572021484375e-06
+                ],
+                "old_runtime_sha256": "57771c8ece812bbc004f0de15e02ea926fffadcf6520f764f092272e049bca92",
+                "new_runtime_sha256": "d787194398914ceca7412663e4b614b2190158f49ab4a85b8765c2f3ac6c2619",
+                "protected_anchors_and_lane_delta_m": 0,
+                "all_five_existing_terrain_textures_byte_identical": true
+              },
+              "verification": "Pinned Blender4.5.12 actual exit0 outside sandbox, unchanged236817/471680 mesh budget, existing producer guards/manifest passed. First sandbox launch crashed139 before Python/Metal init; no content generated by that attempt. Final affected Game compile PASS17.67s, 0 warnings/errors. Independent luna_fast reviewed exact field parity/one add, local selected-root replacement order/budget/standing footprint/lifetime, no code blocker. Root compared actual old/new current F16 GLB POSITION+indices: only1369 Y changed in stated bounds; this isolates F15 unlike legacy manifest comparison against F14. No Godot Mac/import/engine run, new test or probe files, or API spend.",
+              "source_view_review": "Root inspected both actual terrain source renders. Mild lighting/material makes the depression hard to read; neither source image proves finished F15 composition, crown framing or art quality. Do not market these as current gameplay frames. Native whole-scene view/motion remains mandatory.",
+              "evidence": [
+                "assets/source/blender/photoworlds/W01/prologue-ground-f00-f16-v1/prologue-ground-f00-f16-v1.manifest.json",
+                "assets/source/blender/photoworlds/W01/prologue-ground-f00-f16-v1/W01_ForestGround_F11_to_F16_Routes.png",
+                "evidence/PW-045/f15-hollow-20261020/blender-source.log",
+                "evidence/PW-045/f15-hollow-20261020/affected-game-build.log"
+              ],
+              "cleanup": "Removed exactly82888987bytes of closed byte-identical temporary staging after canonical10files and rawlog hashes matched. Canonical source blend/GLB/textures/manifest/views and original raw successful log retained; old tracked source preserved in Git history.",
+              "remaining": "Current native F15 framing and identifiable hollow/crowns, actual authored-root count, forward/reverse F14→F15→F16 walk/support, full saved-pose/known-safe fallback including old off-route bowl poses, Low/High and author art acceptance. Existing F11/F14 linger art/sound/5min criteria also remain; whole E03 not completed."
+            }
           }
         ]
       },

@@ -6,7 +6,7 @@
   "native_or_godot_import_verified": false,
   "collision_surface_generated_or_verified": false,
   "source_script": "/Users/unterlantas/Documents/GitHub/URMAN/assets/source/blender/photoworlds/W01/urman_forest_ground_f16.py",
-  "source_script_sha256": "d30ff585e2b08617a8deb095f7eadcb33870b960226bdd04707062ba8a1d8ebd",
+  "source_script_sha256": "d6e972fbf0f4cfcee916541f248e6d4f9f641aeb62b590296de04f95e7ca49ab",
   "input_specs": {
     "asset_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/assets.spec.json",
     "asset_spec_sha256": "b4aa6e775b2591e1cb56d0bf82ad19f0051a21ea6ebd96367839ea2f6f2847c1",
@@ -108,14 +108,217 @@
     },
     "visual_and_collision_surface_candidate": "same single terrain mesh; no separate height/normal-only relief",
     "collision_note": "candidate geometry only; no Godot collision resource or engine contact check in this stage",
-    "file_blend_sha256": "3234f550b132a1aa276fb04161d7d3f904bd540812127df1a9ba775434c917b7",
-    "file_glb_sha256": "57771c8ece812bbc004f0de15e02ea926fffadcf6520f764f092272e049bca92",
+    "file_blend_sha256": "00852b5c8cdcfd713555ae46be2ccc0f17cf64b6e7cfc20072e19d1e2c9e1f81",
+    "file_glb_sha256": "d787194398914ceca7412663e4b614b2190158f49ab4a85b8765c2f3ac6c2619",
     "file_blend_bytes": 54297717,
     "file_glb_bytes": 20849860
   },
   "coverage_scope": "authored F00→F01→F02→F03 prologue route; F10→F11→transformed WalkEntry approach; transformed WalkExit→F14→F15→F16 reversible forest route; the F12↔F13 opaque bent passage is a separate hero-root asset",
   "unproduced_authored_nodes": [],
-  "terrain_anchor_height_note": "All produced anchor terrain heights remain equal to the pre-relief profile; the bounded F00 macro relief has zero field delta at F00–F03, F10–F16 and zero delta over every grid vertex within its 1.8 m F00→F01 lane clearance. F10–F16 Y values are design-local, so the markers use sampled ground heights (F10=0.656942903 m, F11=0.968182076 m, F12=1.890062531 m, F13=3.555555556 m, F14=4.000000000 m, F15=4.000000000 m, F16=4.000000000 m). The explicit field, lane-triangle and anchor deltas are recorded in terrain_relief_contract.",
+  "terrain_anchor_height_note": "All produced anchor terrain heights remain equal to the pre-relief profile; the bounded F00 macro relief has zero field delta at F00–F03, F10–F16 and zero delta over every grid vertex within its 1.8 m F00→F01 lane clearance. F10–F16 Y values are design-local, so the markers use sampled ground heights (F10=0.656942903 m, F11=0.968182076 m, F12=1.890062531 m, F13=3.555555556 m, F14=4.000000000 m, F15=4.000000000 m, F16=4.000000000 m). The F15 hollow also has zero delta on every produced anchor and its protected exit lane. Explicit field, lane-triangle and anchor deltas are recorded in the two relief contracts.",
+  "terrain_relief_contract": {
+    "formula": "bounded Gaussian shoulder/hollow sum multiplied by a Z window and F00→F01 segment clearance",
+    "equation": "W(z) * C(d_F00F01(x,z)) * sum_i(A_i * exp(-0.5 * (((x-x_i)/sigma_x_i)^2 + ((z-z_i)/sigma_z_i)^2)))",
+    "features": [
+      {
+        "name": "left_snow_shoulder",
+        "center_xz_m": [
+          -4.0,
+          12.0
+        ],
+        "amplitude_m": 0.7,
+        "sigma_xz_m": [
+          5.0,
+          7.0
+        ]
+      },
+      {
+        "name": "right_snow_shoulder",
+        "center_xz_m": [
+          11.0,
+          23.0
+        ],
+        "amplitude_m": 0.85,
+        "sigma_xz_m": [
+          5.0,
+          8.0
+        ]
+      },
+      {
+        "name": "side_hollow",
+        "center_xz_m": [
+          -10.0,
+          25.0
+        ],
+        "amplitude_m": -0.3,
+        "sigma_xz_m": [
+          6.0,
+          8.0
+        ]
+      }
+    ],
+    "window_z_m": [
+      0.0,
+      6.0,
+      24.0,
+      32.0
+    ],
+    "route_clearance_m": {
+      "zero_through": 1.8,
+      "full_from": 8.0,
+      "physical_lane_width": 2.1,
+      "grid_step": 0.5,
+      "maximum_grid_triangle_diameter": 0.7071067811865476,
+      "required_zero_radius_for_all_lane_triangles": 1.7571067811865477,
+      "margin_m": 0.042893218813452316,
+      "proof": "Distance-to-segment is 1-Lipschitz; each lane-intersecting grid triangle's vertices are within lane half-width plus the triangle diameter, inside the zero-relief radius.",
+      "max_abs_vertex_delta_inside_zero_radius_m": 0.0
+    },
+    "sampled_grid_delta_m": {
+      "sample_count": 236817,
+      "significant_delta_threshold": 1e-12,
+      "changed_vertex_count": 12027,
+      "minimum": -0.24128802821921194,
+      "maximum": 0.7651368022176178
+    },
+    "protected_anchor_heights": {
+      "F00": {
+        "baseline_y_m": 0.0,
+        "current_y_m": 0.0,
+        "height_delta_m": 0.0,
+        "macro_relief_delta_m": 0.0
+      },
+      "F01": {
+        "baseline_y_m": 1.0,
+        "current_y_m": 1.0,
+        "height_delta_m": 0.0,
+        "macro_relief_delta_m": 0.0
+      },
+      "F02": {
+        "baseline_y_m": 3.0,
+        "current_y_m": 3.0,
+        "height_delta_m": 0.0,
+        "macro_relief_delta_m": 0.0
+      },
+      "F03": {
+        "baseline_y_m": 4.0,
+        "current_y_m": 4.0,
+        "height_delta_m": 0.0,
+        "macro_relief_delta_m": 0.0
+      },
+      "F10": {
+        "baseline_y_m": 0.6569429025655424,
+        "current_y_m": 0.6569429025655424,
+        "height_delta_m": 0.0,
+        "macro_relief_delta_m": -0.0
+      },
+      "F11": {
+        "baseline_y_m": 0.9681820758217896,
+        "current_y_m": 0.9681820758217896,
+        "height_delta_m": 0.0,
+        "macro_relief_delta_m": 0.0
+      },
+      "F12": {
+        "baseline_y_m": 1.8900625310535752,
+        "current_y_m": 1.8900625310535752,
+        "height_delta_m": 0.0,
+        "macro_relief_delta_m": 0.0
+      },
+      "F13": {
+        "baseline_y_m": 3.5555555555555554,
+        "current_y_m": 3.5555555555555554,
+        "height_delta_m": 0.0,
+        "macro_relief_delta_m": 0.0
+      },
+      "F14": {
+        "baseline_y_m": 4.0,
+        "current_y_m": 4.0,
+        "height_delta_m": 0.0,
+        "macro_relief_delta_m": -0.0
+      },
+      "F15": {
+        "baseline_y_m": 4.0,
+        "current_y_m": 4.0,
+        "height_delta_m": 0.0,
+        "macro_relief_delta_m": -0.0
+      },
+      "F16": {
+        "baseline_y_m": 4.0,
+        "current_y_m": 4.0,
+        "height_delta_m": 0.0,
+        "macro_relief_delta_m": -0.0
+      }
+    },
+    "outside_window_delta_m": 0.0,
+    "engine_collision_contact_verified": false
+  },
+  "f15_hollow_contract": {
+    "equation": "-1.4 * (1-S(r)) * S((d-2)/3); S(t)=clamp(t,0,1)^2*(3-2*clamp(t,0,1)); r=sqrt(((x-144)/10)^2+((z-163)/11)^2)",
+    "center_xz_m": [
+      144.0,
+      163.0
+    ],
+    "radii_xz_m": [
+      10.0,
+      11.0
+    ],
+    "amplitude_m": -1.4,
+    "compact_support": "zero at and outside elliptical radius 1; C1 radial boundary",
+    "protected_route_segments_xz_m": [
+      [
+        [
+          112.0,
+          148.0
+        ],
+        [
+          132.0,
+          169.0
+        ]
+      ],
+      [
+        [
+          132.0,
+          169.0
+        ],
+        [
+          149.0,
+          190.0
+        ]
+      ]
+    ],
+    "route_clearance_m": {
+      "distance": "minimum clamped point-to-segment distance across both exit-route segments",
+      "zero_through": 2.0,
+      "full_from": 5.0,
+      "physical_lane_width": 2.1,
+      "grid_step": 0.5,
+      "maximum_grid_triangle_diameter": 0.7071067811865476,
+      "required_zero_radius_for_all_lane_triangles": 1.7571067811865477,
+      "margin_m": 0.24289321881345227,
+      "proof": "Distance to the segment union is 1-Lipschitz; every vertex of a lane-intersecting triangle is within lane half-width plus triangle diameter, inside the zero-delta radius.",
+      "max_abs_vertex_delta_inside_zero_radius_m": 0.0
+    },
+    "protected_anchor_field_deltas_m": {
+      "F00": 0.0,
+      "F01": 0.0,
+      "F02": 0.0,
+      "F03": 0.0,
+      "F10": 0.0,
+      "F11": 0.0,
+      "F12": 0.0,
+      "F13": 0.0,
+      "F14": 0.0,
+      "F15": 0.0,
+      "F16": 0.0
+    },
+    "sampled_grid_delta_m": {
+      "sample_count": 236817,
+      "changed_vertex_count": 1369,
+      "minimum": -1.4,
+      "maximum": 0.0
+    },
+    "engine_collision_contact_verified": false
+  },
   "authored_nodes": {
     "F00": {
       "label": "Тропа пролога",
@@ -716,7 +919,7 @@
   },
   "production_defaults": [
     "A continuous surface follows the exact authored F00→F01→F02→F03 profile and includes bounded asymmetric snow shoulders beside the first 32 m; the F00→F01 lane and every produced anchor height are protected.",
-    "A 2.1 m readable ground track connects F10→F11→transformed WalkEntry, transformed WalkExit→F14, and F14→F15→F16 on the same continuous surface; no macro-relief height delta is introduced beyond z=32 m.",
+    "A 2.1 m readable ground track connects F10→F11→transformed WalkEntry, transformed WalkExit→F14, and F14→F15→F16 on the same continuous surface; the original F00 macro relief ends at z=32 m, and a separate compact F15 hollow preserves the exit-lane triangles.",
     "F12↔F13 uses a separate opaque, walk-through paired hero-root asset with one mid-bend SpatialLinkFrame and distinct WalkEntry/WalkExit endpoints.",
     "Leaf and root fields are terrain materials/masks; no separate debris, fence, tree, or gameplay prop is included."
   ],
@@ -730,154 +933,19 @@
     "authored_node_heights_checked": true,
     "textures_written_and_hashed": true,
     "blender_rendered_overview_and_f11_f16_route_view": true,
+    "route_preview_scope": "existing route-view output now frames the F15 hollow in three-quarter view; overview camera unchanged",
     "godot_import": "not run",
     "walk_and_collision_contact": "not run",
     "art_author_review": "pending"
   },
   "preview_receipts": {
     "W01_ForestGround_F00_to_F16_Overview.png": {
-      "sha256": "8d6e5b2795658f942466457e7329e87eb5d302d11742f50056df07a4fc286707",
-      "bytes": 1697691
+      "sha256": "e77571c2f18c09a3e825ec51ef2ddd3b35ec47288c1406c8e6cc9c97c25aa2c7",
+      "bytes": 1697851
     },
     "W01_ForestGround_F11_to_F16_Routes.png": {
-      "sha256": "f59774d5886f7f584502c125c4a150953cd6a6f13c42b008fcaed5bef4af2b63",
-      "bytes": 1619534
+      "sha256": "75af362dacd7f8beab84b4140cd869b2d2000503942b7fa8c23cc44361cd282b",
+      "bytes": 1454038
     }
-  },
-  "terrain_relief_contract": {
-    "formula": "bounded Gaussian shoulder/hollow sum multiplied by a Z window and F00→F01 segment clearance",
-    "features": [
-      {
-        "name": "left_snow_shoulder",
-        "center_xz_m": [
-          -4.0,
-          12.0
-        ],
-        "amplitude_m": 0.7,
-        "sigma_xz_m": [
-          5.0,
-          7.0
-        ]
-      },
-      {
-        "name": "right_snow_shoulder",
-        "center_xz_m": [
-          11.0,
-          23.0
-        ],
-        "amplitude_m": 0.85,
-        "sigma_xz_m": [
-          5.0,
-          8.0
-        ]
-      },
-      {
-        "name": "side_hollow",
-        "center_xz_m": [
-          -10.0,
-          25.0
-        ],
-        "amplitude_m": -0.3,
-        "sigma_xz_m": [
-          6.0,
-          8.0
-        ]
-      }
-    ],
-    "window_z_m": [
-      0.0,
-      6.0,
-      24.0,
-      32.0
-    ],
-    "route_clearance_m": {
-      "zero_through": 1.8,
-      "full_from": 8.0,
-      "physical_lane_width": 2.1,
-      "grid_step": 0.5,
-      "maximum_grid_triangle_diameter": 0.7071067811865476,
-      "required_zero_radius_for_all_lane_triangles": 1.7571067811865477,
-      "margin_m": 0.042893218813452316,
-      "proof": "Distance-to-segment is 1-Lipschitz; each lane-intersecting grid triangle's vertices are within lane half-width plus the triangle diameter, inside the zero-relief radius.",
-      "max_abs_vertex_delta_inside_zero_radius_m": 0.0
-    },
-    "sampled_grid_delta_m": {
-      "sample_count": 236817,
-      "significant_delta_threshold": 1e-12,
-      "changed_vertex_count": 12027,
-      "minimum": -0.24128802821921194,
-      "maximum": 0.7651368022176178
-    },
-    "protected_anchor_heights": {
-      "F00": {
-        "baseline_y_m": 0.0,
-        "current_y_m": 0.0,
-        "height_delta_m": 0.0,
-        "macro_relief_delta_m": 0.0
-      },
-      "F01": {
-        "baseline_y_m": 1.0,
-        "current_y_m": 1.0,
-        "height_delta_m": 0.0,
-        "macro_relief_delta_m": 0.0
-      },
-      "F02": {
-        "baseline_y_m": 3.0,
-        "current_y_m": 3.0,
-        "height_delta_m": 0.0,
-        "macro_relief_delta_m": 0.0
-      },
-      "F03": {
-        "baseline_y_m": 4.0,
-        "current_y_m": 4.0,
-        "height_delta_m": 0.0,
-        "macro_relief_delta_m": 0.0
-      },
-      "F10": {
-        "baseline_y_m": 0.6569429025655424,
-        "current_y_m": 0.6569429025655424,
-        "height_delta_m": 0.0,
-        "macro_relief_delta_m": 0.0
-      },
-      "F11": {
-        "baseline_y_m": 0.9681820758217896,
-        "current_y_m": 0.9681820758217896,
-        "height_delta_m": 0.0,
-        "macro_relief_delta_m": 0.0
-      },
-      "F12": {
-        "baseline_y_m": 1.8900625310535752,
-        "current_y_m": 1.8900625310535752,
-        "height_delta_m": 0.0,
-        "macro_relief_delta_m": 0.0
-      },
-      "F13": {
-        "baseline_y_m": 3.5555555555555554,
-        "current_y_m": 3.5555555555555554,
-        "height_delta_m": 0.0,
-        "macro_relief_delta_m": 0.0
-      },
-      "F14": {
-        "baseline_y_m": 4.0,
-        "current_y_m": 4.0,
-        "height_delta_m": 0.0,
-        "macro_relief_delta_m": 0.0
-      },
-      "F15": {
-        "baseline_y_m": 4.0,
-        "current_y_m": 4.0,
-        "height_delta_m": 0.0,
-        "macro_relief_delta_m": 0.0
-      },
-      "F16": {
-        "baseline_y_m": 4.0,
-        "current_y_m": 4.0,
-        "height_delta_m": 0.0,
-        "macro_relief_delta_m": 0.0
-      }
-    },
-    "outside_window_delta_m": 0.0,
-    "engine_collision_contact_verified": false,
-    "equation": "W(z) * C(d_F00F01(x,z)) * sum_i(A_i * exp(-0.5 * (((x-x_i)/sigma_x_i)^2 + ((z-z_i)/sigma_z_i)^2)))"
   }
 }
