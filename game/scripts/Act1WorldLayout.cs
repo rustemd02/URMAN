@@ -56,6 +56,9 @@ public static class Act1WorldLayout
                 ("pw-bank-approach", new SpawnTransform(
                     Act1ConnectedWorld.PhotoBankApproachEntryPosition,
                     Act1ConnectedWorld.PhotoBankApproachEntryYawDegrees)),
+                ("pw-forest-approach", new SpawnTransform(
+                    Act1ConnectedWorld.PhotoForestApproachEntryPosition,
+                    Act1ConnectedWorld.PhotoForestApproachEntryYawDegrees)),
                 ("default", new SpawnTransform(new(0f, 0.05f, 9f), 0f)))),
         new(
             "house_old_pc",

@@ -681,6 +681,10 @@ public partial class JournalUi
             _photoBookEntryHint.Text = canEnter && !showReturn
                 ? selected?.WorldCompleted == true
                     ? "Знакомый мир. Сделанное сохранится; вернётесь к этому столу."
+                    : selected?.PhotoId == "P-CELLAR"
+                        ? selected.HasResumePoint
+                            ? "У двери сухих сеней семейного дома выберите «Продолжить снимок». Сделанное сохранено."
+                            : "У двери сухих сеней семейного дома выберите «Войти в снимок»."
                     : selected?.HasResumePoint == true
                         ? "Сделанное сохранено. Продолжите с последней доступной точки."
                         : reason

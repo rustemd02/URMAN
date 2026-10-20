@@ -93,7 +93,13 @@ public static class PhotoWorldState
         anchorId = string.Empty;
         fixedSafeNodeId = null;
         if (!TryGetVisitRoute(worldId, out _, out _)) return false;
-        if (worldId == "W02" && !IsWorldCompleted(state, worldId))
+        if (worldId == "W01" && !IsWorldCompleted(state, worldId))
+        {
+            zoneId = "village_day";
+            anchorId = "PW_FOREST_ENTRY";
+            fixedSafeNodeId = "pw-forest-approach";
+        }
+        else if (worldId == "W02" && !IsWorldCompleted(state, worldId))
         {
             zoneId = "village_day";
             anchorId = "PW_RIVER_ENTRY";
@@ -110,6 +116,12 @@ public static class PhotoWorldState
             zoneId = "village_day";
             anchorId = "PW_COMMON_ENTRY";
             fixedSafeNodeId = "pw-bank-approach";
+        }
+        else if (worldId == "W05" && !IsWorldCompleted(state, worldId))
+        {
+            zoneId = "village_day";
+            anchorId = "PW_CELLAR_ENTRY";
+            fixedSafeNodeId = "from_house";
         }
         else
         {

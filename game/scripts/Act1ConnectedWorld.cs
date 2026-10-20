@@ -503,6 +503,10 @@ public partial class Act1ConnectedWorld : Node3D
                     .ToArray());
         }
         AttachRuntimeBridge();
+        // First photo entries use the final relocated world geometry. Their
+        // presentation remains owned by this connected world and its session.
+        BuildForestPhotoEntry();
+        BuildCellarPhotoEntry();
         UpdateAct1NpcStaging();
         UpdateAct1Discoveries();
         ConnectorCount = Act1WorldLayout.Connectors.Count;

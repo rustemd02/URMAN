@@ -392,6 +392,8 @@ public partial class Act1ConnectedWorld
     private void UpdateAct1ImageDiscoveries()
     {
         UpdateHousePhotoEntryPresentation();
+        UpdateForestPhotoEntryPresentation();
+        UpdateCellarPhotoEntryPresentation();
         _refreshSketchObservationMetadata?.Invoke();
         if (_observationTagSnow is not null)
             _observationTagSnow.Visible = !ObservationKnown("clue_sketch_tag_base_checked");

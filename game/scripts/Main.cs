@@ -97,12 +97,16 @@ public partial class Main : Node3D
         {
             ("house_old_pc", "PW_HOME_TABLE") => world.GetZoneInstance(zoneId)
                 ?.GetNodeOrNull<Node3D>("PhotoWorldForestEntryTarget"),
+            ("village_day", "PW_FOREST_ENTRY") => world.TryGetForestPhotoEntryAnchor(out var forestAnchor)
+                ? forestAnchor : null,
             ("village_day", "PW_RIVER_ENTRY") => world
                 .GetNodeOrNull<Node3D>("Act1CoreWorldGreybox/PhotoBankApproach/BankEntry"),
             ("village_day", "PW_COMMON_ENTRY") => world
                 .GetNodeOrNull<Node3D>("Act1CoreWorldGreybox/PhotoBankApproach/BankReturnWitness"),
             ("village_day", "PW_HOME_PHOTO_ENTRY") => world.TryGetHousePhotoEntryAnchor(out var houseAnchor)
                 ? houseAnchor : null,
+            ("village_day", "PW_CELLAR_ENTRY") => world.TryGetCellarPhotoEntryAnchor(out var cellarAnchor)
+                ? cellarAnchor : null,
             _ => null
         };
         if (candidate is null || !GodotObject.IsInstanceValid(candidate)
@@ -119,7 +123,11 @@ public partial class Main : Node3D
         anchorId = ticket.GetProperty("originAnchorId").GetString()!;
         safeNodeId = ticket.GetProperty("originSafeNode").GetString()!;
         return (zoneId == "house_old_pc" && anchorId == "PW_HOME_TABLE")
+            || (worldId == "W01" && zoneId == "village_day" && anchorId == "PW_FOREST_ENTRY"
+                && safeNodeId == "pw-forest-approach")
             || (worldId == "W03" && zoneId == "village_day" && anchorId == "PW_HOME_PHOTO_ENTRY"
+                && safeNodeId == "from_house")
+            || (worldId == "W05" && zoneId == "village_day" && anchorId == "PW_CELLAR_ENTRY"
                 && safeNodeId == "from_house")
             || (zoneId == "village_day" && safeNodeId == "pw-bank-approach"
                 && ((worldId == "W02" && anchorId == "PW_RIVER_ENTRY")

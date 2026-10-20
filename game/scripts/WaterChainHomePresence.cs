@@ -40,6 +40,7 @@ internal partial class WaterChainHomePresence : Node3D
     private RuntimeBridge? _bridge;
     private bool _appliedOnce;
     private InteractionTarget? _housePhotoEntryTarget;
+    private InteractionTarget? _forestPhotoEntryTarget;
 
     public override void _Ready() => SetProcess(true);
 
@@ -166,6 +167,10 @@ internal partial class WaterChainHomePresence : Node3D
         CommonFilePermissionTarget.SetPresentationEnabled(filePermissionLive);
         SourceTarget.SetPresentationEnabled(sourceLive);
         RiverEntryTarget.SetPresentationEnabled(riverLive);
+        if (_forestPhotoEntryTarget is null || !GodotObject.IsInstanceValid(_forestPhotoEntryTarget))
+            _forestPhotoEntryTarget = SourceTarget.GetParent()?.GetNodeOrNull<InteractionTarget>("PhotoWorldForestEntryTarget");
+        _forestPhotoEntryTarget?.SetPresentationEnabled(bridge.SessionIdentity is { } forestSession
+            && PhotoWorldState.IsWorldCompleted(forestSession.SelectState(), "W01"));
         if (_housePhotoEntryTarget is null || !GodotObject.IsInstanceValid(_housePhotoEntryTarget))
             _housePhotoEntryTarget = SourceTarget.GetParent()?.GetNodeOrNull<InteractionTarget>("HousePhotoEntryTarget");
         _housePhotoEntryTarget?.SetPresentationEnabled(housePhoto is { Mounted: true, WorldCompleted: true });

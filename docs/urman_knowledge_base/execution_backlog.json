@@ -108926,7 +108926,8 @@
         "evidence/PW-019/first-river-origin-20261020/affected-game-build.log",
         "evidence/PW-019/first-common-origin-20261020/affected-game-build.log",
         "evidence/PW-019/first-house-origin-20261020/affected-game-build-before-window-facing-fix.log",
-        "evidence/PW-019/first-house-origin-20261020/affected-game-build.log"
+        "evidence/PW-019/first-house-origin-20261020/affected-game-build.log",
+        "evidence/PW-019/first-forest-cellar-origins-20261020/affected-game-build.log"
       ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-019",
       "source_requirements": [
@@ -109043,7 +109044,7 @@
       "assigned_owner": "integration",
       "activity": {
         "state": "idle",
-        "reason": "Finite W03 exterior-window source stage compiled/reviewed, native/fullcard gates open."
+        "reason": "Finite W01/W05 actual-place source stage compiled/reviewed; full native/framing/Continue acceptance remains open."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -109053,7 +109054,7 @@
         "Вне якоря есть чтение без ложной кнопки входа.",
         "Первый якорь проверен до контекста, с нужным и чужим снимком и после визита: применимая причина отказа понятна без спойлера, пиксель-хантинга и выдачи знания. Недостаток подачи сначала подтверждён в обычном маршруте, затем исправлен существующим gate/hint owner."
       ],
-      "next_action": "After authoritative e79 terminal and protected-data restoration, verify actual outside-window book/ray entry, action/early or completed return, Continue, completed home revisit and authored front/framing. Until transport returns, do not replace native evidence with source compile.",
+      "next_action": "After authoritative e79 terminal/restoration: protected skip→Niva→house/tea/book→school permittedcopy→preparebook→ordinary forestedge→W01 meaningfulaction→originaledge return→save/MainMenu/Continue. Then firstW02shore/W03window/W04commonbank and optionalW05seny with actual support/framing and completedhome revisit; no unchanged old home-first scenario.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -109505,6 +109506,33 @@
           "game/scripts/JournalUi.PhotoBook.cs"
         ],
         "remaining": "Actual exterior capsule/support/ray, full ordinary source→print→window→W03→action→return→Continue and first-photo framing/art; P-HOUSE front remains unproduced. Whole PW019 and author gates not complete."
+      },
+      "first_forest_cellar_places_2026_10_20": {
+        "state": "source_integrated_compiled_native_pending",
+        "question": "Do first/unfinished W01 and W05 require actual exterior forest edge and own-home seny entrance, preserve old tickets and return to captured origin, while completed home-book convenience remains?",
+        "authority": "docs03 first entry at real place and home convenience only after completion; docs08 PW_FOREST_ENTRY and PW_CELLAR_ENTRY. No author override found. Earlier home-first implementation is an unfulfilled contract, not an authorized scope reduction.",
+        "production_default": "W01 uses existing Kara forest-approach road stance and new normal daylight village spawn pw-forest-approach; preserve old night/Rinat/graveyard routes. W05 uses current live family-house SeniDoor/Step approach and existing from_house safe fallback; actual step contact if previously missing. Neither innerF10/B00 nor source-print/table substitutes for outside origin.",
+        "next_action": "After authoritative e79 terminal/restoration: protected skip→Niva→house/tea/book→school permittedcopy→preparebook→ordinary forestedge→W01 meaningfulaction→originaledge return→save/MainMenu/Continue. Then firstW02shore/W03window/W04commonbank and optionalW05seny with actual support/framing and completedhome revisit; no unchanged old home-first scenario.",
+        "result": "First/unfinished W01 requires normal daylight village forest-road stance (PW_FOREST_ENTRY/pw-forest-approach) sourced from existing KaraRoadAxis; actual trunk is the facing/ray subject. Existing night/Rinat endpoint retains its coordinates and interaction. First/unfinished W05 requires live family-house SeniDoor/Step approach (PW_CELLAR_ENTRY/from_house); one exact missing step contact is source-keyed and uses existing architecture lifecycle. Separate foot anchors own6m/support/return; targets own first40deg facing. New partials remain in existing Act1ConnectedWorld, built after final relocation/bridge binding and updated by existing discovery owner. Old first-home forest ray disabled until W01 completion. Book/source/permissions/custody/realBichura gate unchanged; completed home convenience and historical tickets preserved.",
+        "verification": "Affected Game compile PASS16.16s0warnings0errors. Independent luna_fast reviewed ordinary day-path/legacy-night separation, positive trunk visibility through gorge cleanup, step collision/player mask/owner lifecycle, origin return/cancel/oldticket paths; no code blocker. Scoped diffcheck and tracker validate PASS. No new tests/probes or runtime checks.",
+        "evidence": [
+          "evidence/PW-019/first-forest-cellar-origins-20261020/affected-game-build.log"
+        ],
+        "remaining": "Actual ordinary traversal, current photograph/three-trunk framing, cellar approach capsule/support, all5 entry→action→return→save→Continue and completed revisits, plus required external art/cultural/language/hearing acceptance. No native/frame proof inferred from compile.",
+        "source_paths": [
+          "src-dotnet/Urman.Core/Narrative/PhotoWorldState.cs",
+          "game/scripts/Act1ConnectedWorld.PhotoForestEntry.cs",
+          "game/scripts/Act1ConnectedWorld.PhotoCellarEntry.cs",
+          "game/scripts/Act1ConnectedWorld.cs",
+          "game/scripts/Act1ConnectedWorld.ImageDiscoveries.cs",
+          "game/scripts/Act1ConnectedWorld.KaraOptionalDiscoveries.cs",
+          "game/scripts/Act1WorldLayout.cs",
+          "game/scripts/Main.cs",
+          "game/scripts/RuntimeBridge.PhotoBook.cs",
+          "game/scripts/WaterChainHomePresence.cs",
+          "game/scripts/JournalUi.cs",
+          "game/scripts/JournalUi.PhotoBook.cs"
+        ]
       }
     },
     {
@@ -109668,7 +109696,7 @@
       "remaining": [
         "Native ordinarycycle/Continue/support/fallback/props/audio/profile/cancel/failure acceptance remains; compile/source review does not close PW-020."
       ],
-      "next_action": "Recover transport for existing protected e79 job, obtain authoritative terminal/userdata restoration before any new job. Then authorized explicit prologueSkip→Niva→home/tea→automatic album→authorized schoolcopy acquisition→PFORESTentry→meaningful W01action→bookreturn→save/MainMenu/Continue. Reuse accepted pause/first-action proof; no unchanged F01 rerun or guessed mandatory comparison/mount.",
+      "next_action": "Recover transport for existing protected e79 job and obtain authoritative terminal/userdata restoration before any new job. Then authorized explicit prologueSkip→Niva→home/tea→album→schoolcopy→book preparation→actual daylight forestedge firstW01 entry→meaningfulaction→originaledge return→save/MainMenu/Continue. Completed home convenience is separate; do not replay obsolete first-home portal. Reuse accepted pause/first-action evidence.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -117526,6 +117554,11 @@
           "native": "NOT_RUN: same e79 status observation timed out; terminal/userdata restore not confirmed, new job not submitted."
         },
         "remaining": "Полный AudioDomainSnapshot loopoffset/mood/radiophase/schedule и штатное слуховое/нативное восстановление ещё не подтверждены. Текущий crossfade остаётся .65s; полный паспорт аудио не закрыт."
+      },
+      "household_snapshot_research_2026_10_20": {
+        "state": "confirmed_source_gap_not_implemented",
+        "finding": "Photo return rebuilds VillageHouseholdDirector, resetting eachhouse wait to2–8seconds instead of the remaining20+second cooldown after a sound. Ticket currently stores zone/stem/spawn/shelter only. docs09 requires restoring logical schedule and avoiding repeated one-shot starts.",
+        "next_action": "Finite existing-owner schedule capture/restore in optional originAudioSnapshot with stablehouseIDs and remaining waits; preserve RNG and next-event remainder; no in-flight one-shot replay/newmanager/assets. Handle first W04 normal bank return without overwriting transient Alsu stage. Ordinary outside-photo Continue/fullmood/radio offsets remain separate. First-place W01/W05 stage has immediate priority."
       }
     },
     {
@@ -128605,12 +128638,12 @@
             },
             "task_type": "engineering",
             "status": "in_progress",
-            "implementation_state": "partial",
+            "implementation_state": "implemented",
             "technical_verification_state": "not_run",
             "remaining": [
               "Собрать узлы C00, C01, C02, C03, C04, C05, C06, C07, C08 и все связи из level-паспорта.; собственного целевого receipt пока нет."
             ],
-            "next_action": "Finish the named coupled W04 source stage with agreed geometry/gameplay/route owners, inspect exact entry/restore/action guards, and run one affected Game compile. Do not mark native/art complete or treat missing W04 asset families as delivered.",
+            "next_action": "Use one existing protected native observation of C00–C08 and the10 authored links forward/reverse, then verify persistence/restoration of one chosen completed action. Source geometry/controller integration and affected compile are already accepted; do not reimplement or rebuild unchanged source. Whole art/linger/human acceptance remain separate; no completed until this own runtime result is recorded.",
             "blocker": null,
             "external_gates": [],
             "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -133207,6 +133240,12 @@
         "result": "SOURCE_INTEGRATED_COMPILED; NATIVE_NOT_ACCEPTED",
         "root_corrections": "Exact hyphenated spawn matched; -90yaw faces actual eastward piles; collider group toggling scoped to owning bank subtree. Props visible in fullgame village home/bank, entry home target enables bank beforeW04 prerequisite; chapter1 unaffected.",
         "remaining": "All remaining village semantic anchors, actual council S-BANK copy, native pile focus/traversal, completeAlsu/leaf/epilogue and externalart acceptance remain open."
+      },
+      "first_entry_bindings_2026_10_20": {
+        "state": "source_bindings_compiled_native_registry_pending",
+        "result": "Core/Main now distinguish first/unfinished physical origins from completed home convenience. W02 BankEntry/PW_RIVER_ENTRY, W03 live family-house exterior window/PW_HOME_PHOTO_ENTRY, W04 BankReturnWitness/PW_COMMON_ENTRY. Current stage adds W01 existing forest-road stance/PW_FOREST_ENTRY with named normal village spawn and W05 actual family-house SeniDoor/PW_CELLAR_ENTRY. Original camera position and safe fallback remain ticket-owned.",
+        "remaining": "Native unique NodePaths/worldcoordinates/height/support and three-direction approach validation, actual matching photograph framing, canonical runtime_anchor_map.json and full7anchor acceptance are NOT produced by this source change. No graveyard/prayer/ice substitution.",
+        "verification": "Same16.16s affectedGamecompile and independentfirst-place review; native anchors/capsules/map/framing not produced."
       }
     },
     {

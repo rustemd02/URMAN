@@ -606,9 +606,7 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
         {
             var resumePhoto = bridge.PhotoBookPhotos().FirstOrDefault(photo => photo.PhotoId == "P-FOREST");
             var entryAction = resumePhoto?.HasResumePoint == true ? "Продолжить снимок" : "Войти в снимок";
-            return bridge.CurrentZoneId == "house_old_pc"
-                ? $"У домашнего стола открыть в книге разворот «Люди у леса» и выбрать «{entryAction}»."
-                : $"Вернуться к домашнему столу с книгой, открыть разворот «Люди у леса» и выбрать «{entryAction}».";
+            return $"Дойти до опушки у трёх стволов со снимка, открыть в книге разворот «Люди у леса» и выбрать «{entryAction}».";
         }
         if (houseQuestStatus == "completed")
             return null;
@@ -632,6 +630,13 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
                 : "Проверить школьный альбом: поискать снимок тех же людей у леса и спросить, можно ли получить копию.";
         }
 
+        const string enterForestInteractionId = "urman.fullgame:interaction/pw-enter-forest";
+        var canEnterForest = bridge.IsInteractionAvailable(enterForestInteractionId);
+        var forestEntryAction = forestPhoto.HasResumePoint ? "Продолжить снимок" : "Войти в снимок";
+        var forestEntryObjective = $"Дойти до опушки у трёх стволов со снимка, открыть в книге разворот «Люди у леса» и выбрать «{forestEntryAction}».";
+        if (forestPhoto.Mounted && (forestPhoto.BackRead || !forestPhoto.CanReadBack) && canEnterForest)
+            return forestEntryObjective;
+
         if (bridge.CurrentZoneId != "house_old_pc")
             return "Вернуться домой и сопоставить школьную копию со снимком «Люди у леса».";
 
@@ -642,17 +647,15 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
                 : null;
         }
 
-        const string enterForestInteractionId = "urman.fullgame:interaction/pw-enter-forest";
-        var canEnterForest = bridge.IsInteractionAvailable(enterForestInteractionId);
         if (!forestPhoto.BackRead && forestPhoto.CanReadBack)
         {
             return canEnterForest
-                ? "У домашнего стола прочитать помету на обороте, затем выбрать «Войти в снимок» на развороте «Люди у леса»."
+                ? "У домашнего стола прочитать помету на обороте, затем дойти до опушки у трёх стволов со снимка и открыть разворот «Люди у леса»."
                 : "Прочитать помету на обороте и сопоставить школьную копию со снимком «Люди у леса».";
         }
 
         return canEnterForest
-            ? "У домашнего стола открыть разворот «Люди у леса» и выбрать «Войти в снимок»."
+            ? forestEntryObjective
             : "Сопоставить школьную копию со снимком «Люди у леса» в семейной книге.";
     }
 
