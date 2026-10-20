@@ -110561,7 +110561,7 @@
       "title": "Реализовать prepare и возвратный билет",
       "milestone": "PW-M1",
       "status": "in_progress",
-      "active_owner": null,
+      "active_owner": "Codex",
       "owner": "integration",
       "priority": "P0",
       "complexity": "medium",
@@ -110708,8 +110708,8 @@
       },
       "assigned_owner": "integration",
       "activity": {
-        "state": "not_active",
-        "reason": "Finite NewGame blocker fix verified in native play; station job terminal timeout and userdata restored. Station released; next bounded prologue navigation/keyboard Skip slice named in PW043, then remaining ordinary book route."
+        "state": "confirmed_active",
+        "reason": "Root owns one new changed-source protected ordinary c855 pass after idle/recoveryfalse doctor; exact header/graft + school/world/return/checkpoint acceptance."
       },
       "task_type": "engineering",
       "implementation_state": "implemented",
@@ -111153,6 +111153,16 @@
           "Village loading/arrival wayfinding and full loop/Continue remain unaccepted."
         ],
         "cleanup": "58,360,744B temporary result ZIP/duplicate frames/logs removed after hash-linked raw proof preservation; retained8,021,596B ignored evidence. Full raw remains on station."
+      },
+      "ordinary_current_c855_2026_10_21": {
+        "state": "running",
+        "owner": "Codex",
+        "job_id": "c855c6aeb1d2478684e3908a771ef8c1",
+        "snapshot_id": "ba0e6ba6b3a458098bcf6c79a845efe90591240171b868fb35d8f41211555ee5",
+        "baseline": "11716463",
+        "question": "Do changed selected-P-FOREST school/resume header and strict VariantA graft work in actual village, and can normal school-copy→forest action→return→save/MainMenu/Continue progress without debug/state injection?",
+        "success": "Actual current frames/ordinary input + facts/checkpoint + normal menu and restored protected receipt. Full crossprocess Continue/export remains separate PW095; no full release from sourceplay.",
+        "deadline": "play-product max1200s; finish ordinary Exit by18min of actual child runtime, preserve partial proof without timeout if route cannot fit."
       }
     },
     {
@@ -121664,6 +121674,16 @@
         "change": "Album passes restored/current selected ID, refreshes header on selection; incomplete selected P-FOREST reuses existing school/mount/read/entry instructions. Mounted+S-SCHOOL+HasResumePoint keeps forest resume route even away from entry. No change to entry authorization/quest/state.",
         "verification": "Root exact source+caller review, two personal Fast source iterations including partial resume; affected Game compile17.73s0warnings/0errors with cached dependencies; scoped diffcheck.",
         "remaining": "Native changed header/selection and Save/Continue not verified. Shared HUD/general Journal still use root-status priority; global readiness must be separately corrected using objective/earned photo state while preserving free W01/W02 order, not blindly forcing school."
+      },
+      "shared_objective_readiness_2026_10_21": {
+        "state": "engineering_source_verified_native_pending",
+        "targets": [
+          "game/scripts/JournalUi.cs"
+        ],
+        "cause": "QuestLifecycleReducer registers all campaign quest roots as active; objectives alone reflect actual stage/startConditions. Shared HUD/general Journal used root-active W02 and sent fresh book receipt to river before school prep.",
+        "change": "Use existing RuntimeBridge.ActiveObjectives for W01/W03 route readiness; W02 only activeobjective/earned P-WATER/home_water_place_told/water_photo_found and existing detailed water-prep helper without premature first-world-return-talk gate. Completed-world handoffs and selected unfinished P-FOREST prep/resume preserved; no forced W01/W02 order.",
+        "verification": "Personal luna_fast implementation+source scenario readbacks, root exact helper/caller/branch review, affected Game17.78s0warnings/0errors; no newtests.",
+        "remaining": "Not in already-running c855 snapshot11716463; current shared HUD native after patch, alternate W01/W02 orders, Save/Continue require later changed-source acceptance."
       }
     },
     {

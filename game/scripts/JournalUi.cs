@@ -593,9 +593,17 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
         var forestQuestStatus = PhotoWorldQuestStatus(state, "urman.fullgame:quest/pw-w01");
         var waterQuestStatus = PhotoWorldQuestStatus(state, "urman.fullgame:quest/pw-w02");
         var houseQuestStatus = PhotoWorldQuestStatus(state, "urman.fullgame:quest/pw-w03");
+        var activeObjectives = bridge.ActiveObjectives();
+        var forestObjectiveIsActive = activeObjectives.Any(objective => objective.QuestId == "urman.fullgame:quest/pw-w01");
+        var waterObjectiveIsActive = activeObjectives.Any(objective => objective.QuestId == "urman.fullgame:quest/pw-w02");
+        var houseObjectiveIsActive = activeObjectives.Any(objective => objective.QuestId == "urman.fullgame:quest/pw-w03");
         var photos = bridge.PhotoBookPhotos();
         var forestPhoto = photos.FirstOrDefault(photo => photo.PhotoId == "P-FOREST");
         var schoolPhoto = photos.FirstOrDefault(photo => photo.PhotoId == "S-SCHOOL");
+        var waterPhoto = photos.FirstOrDefault(photo => photo.PhotoId == "P-WATER");
+        var waterRouteHasProgress = waterPhoto is not null
+            || bridge.PhotoWorldFactObserved("home_water_place_told")
+            || bridge.PhotoWorldFactObserved("water_photo_found");
         var selectedForestPhotoIsIncomplete = selectedPhotoId == "P-FOREST"
             && forestPhoto is { WorldCompleted: false };
         var selectedForestPhotoCanResume = selectedForestPhotoIsIncomplete
@@ -614,14 +622,14 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
             var entryAction = commonPhoto.HasResumePoint ? "Продолжить снимок" : "Войти в снимок";
             return $"Дойти до места общего снимка у берега, открыть в книге разворот «{commonPhoto.Title}» и выбрать «{entryAction}».";
         }
-        if (!selectedForestPhotoIsIncomplete && waterQuestStatus == "active")
+        if (!selectedForestPhotoIsIncomplete
+            && waterQuestStatus != "completed"
+            && (waterObjectiveIsActive || waterRouteHasProgress))
         {
-            var resumePhoto = photos.FirstOrDefault(photo => photo.PhotoId == "P-WATER");
-            var entryAction = resumePhoto?.HasResumePoint == true ? "Продолжить снимок" : "Войти в снимок";
-            return $"Дойти до старого подхода к мосткам на берегу, открыть в книге снимок у мостков и выбрать «{entryAction}».";
+            return PhotoBookWaterHandoffObjectiveText(bridge, requireFirstWorldHomeTalk: false);
         }
         if (selectedForestPhotoCanResume
-            || (!selectedForestPhotoIsIncomplete && forestQuestStatus == "active"))
+            || (!selectedForestPhotoIsIncomplete && forestObjectiveIsActive))
         {
             var resumePhoto = forestPhoto;
             var entryAction = resumePhoto?.HasResumePoint == true ? "Продолжить снимок" : "Войти в снимок";
@@ -630,7 +638,7 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
         if (!selectedForestPhotoIsIncomplete && houseQuestStatus == "completed")
             return null;
         if (!selectedForestPhotoIsIncomplete
-            && (houseQuestStatus == "active"
+            && (houseObjectiveIsActive
                 || bridge.IsInteractionAvailable("urman.fullgame:interaction/pw-enter-house")))
             return PhotoBookHouseHandoffObjectiveText(bridge);
         if (!selectedForestPhotoIsIncomplete && waterQuestStatus == "completed")
@@ -689,11 +697,13 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
         return status.GetString();
     }
 
-    private static string? PhotoBookWaterHandoffObjectiveText(RuntimeBridge bridge)
+    private static string? PhotoBookWaterHandoffObjectiveText(
+        RuntimeBridge bridge,
+        bool requireFirstWorldHomeTalk = true)
     {
         var atHome = bridge.ActiveSceneId == "urman.fullgame:scene/pw-home"
             && bridge.CurrentZoneId == "house_old_pc";
-        if (!bridge.PhotoWorldFactObserved("first_world_home_talk"))
+        if (requireFirstWorldHomeTalk && !bridge.PhotoWorldFactObserved("first_world_home_talk"))
         {
             if (!atHome)
                 return "Вернуться домой и поговорить с Гульсиной о первом возвращении из снимка.";
