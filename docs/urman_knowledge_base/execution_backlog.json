@@ -67922,7 +67922,7 @@
       "remaining": [
         "Сюжетные обязанности NPC (диалоги, квесты) не ломаются от routine; миграция сейвов чистая."
       ],
-      "next_action": "Найти routine owner, временные интервалы, места и обязательные сюжетные обязанности NPC.",
+      "next_action": "Использовать principal_owner_input_2026_10_20: выбрать один конкретный переход у существующего principal presentation owner с сохранением обязательного разговора и save contract. Не добавлять generic schedule поверх Alsu/NpcStaging и не выдумывать часы из LogicalClock; native переход/диалог/save-load остаются обязательными.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -67996,7 +67996,32 @@
           "evidence_ref": "ACT1-NPC.1.evidence and named history progress; source_review shows available/missing inputs"
         }
       ],
-      "assignment_state": "preserved_person_or_existing_role; activity separate"
+      "assignment_state": "preserved_person_or_existing_role; activity separate",
+      "principal_owner_input_2026_10_20": {
+        "state": "finite_mapping_accepted_engineering_open",
+        "method": "Read-only /root/resident_gate_routine scoped current principal suppliers; no code/runtime/save migration. Old2026-10-04 ambient mapping does not satisfy principal routines.",
+        "suppliers": [
+          "game/scripts/Act1ConnectedWorld.NpcStaging.cs",
+          "game/scripts/StyleBenchmarkZone.cs",
+          "game/scripts/Act1ConnectedWorld.cs ApplyInteractionRouting",
+          "game/scripts/AlsuStreetWalkPresentation.cs",
+          "game/scripts/AlsuStreetWalkPresentation.PhotoBank.cs",
+          "game/scripts/PhotoBankApproachPresence.cs",
+          "game/scripts/Act1ConnectedWorld.MosqueInterior.cs",
+          "content/modules/urman-chapter1/definitions.json",
+          "content/modules/urman-fullgame/definitions.json"
+        ],
+        "principals": {
+          "Mansur": "MansurPresentation/Npc_mansur home MansurAnchor(1.20,0,.85); MansurNpc/talk-mansur/mansur_pc_request: PC access, household help and mosque address.",
+          "Gulsina": "Home Npc_gulsina at(-1.75,0,-.50), NpcStaging warning-facing owner. GulsinaNpc currentPW routing chooses eligible pw-gulsina-author-talk else pw-arrival-tea-talk; preserve warm arrival and S-PHOTOGRAPHER back-read+house-camera requirements.",
+          "Alsu": "Sole Npc_alsu physical owner AlsuStreetWalkPresentation, authored4point street route and walk_requested/checkpoint/arrived; currentPW PhotoBankApproachPresence conversations stage sameactor at AlsumMeeting via PhotoBank partial afterW04. Existing world.props npc/alsu-street-walk saves bank-meeting-v1/pose.",
+          "Rinat": "NpcStaging story predicates own village/house/roadside/forest placement; RinatPresencePresentation owns actual roadside/forest target. Naila record_access_granted, alerted, confirmed route/currentzone/roadside observation select stages. Legacy forest finale not current mandatoryPW ending.",
+          "Naila": "FAP Npc_naila local(1.8,0,0), NailaNpc/talk-naila/naila_medical_record; record_access_granted/pending record scope investigation.",
+          "TimurHazrat": "NpcStaging exterior creation is not final position: MosqueInterior moves sameactor+TimurHazratNpc target to mosque(-.55,carpetTop,-1.67), qibla facing; route-to-mosque/timur_restraint folklore-hypothesis obligations."
+        },
+        "clock_and_save": "None of six principals has generic schedule. No authored daily-hour intervals in inspected data; shared scheduler selects story predicates, night follows kara_urman_night. Existing saved LogicalClock/runtime state is not a current principal daily-hour supplier. Do not add second clock/motion owner or infer save migration.",
+        "next_action": "Select one specifically authored interval/activity transition within existing principal owner and anchors, preserving mandatory conversation and saved pose/state; then target transition/dialogue/save-load. Broad principal-routine engineering DoD stays open."
+      }
     },
     {
       "id": "ACT1-NPC.2",
@@ -70514,7 +70539,7 @@
       "remaining": [
         "Один маршрут: причина фактической остановки персонажа и её связь с жалобой.; нужна конкретная проверка: Подтверждённый механизм или честное отсутствие воспроизведения; человеческая слышимость остаётся отдельной непроведённой проверкой."
       ],
-      "next_action": "Ответить на конкретный вопрос: Что вызывает лаг шага на траве/снеге вне дороги: частота footstep events, активные голоса или GC у FootstepAudioController/FirstPersonController.Steps?",
+      "next_action": "Использовать current_source_confirmation_2026_10_20 и прежний probe04 без повторения того же маршрута. При доступном protected native воспроизвести фактический проблемный off-road участок и сопоставить контакты, аудио и время кадра; до причинного факта не менять cadence/voices/GC.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -70696,7 +70721,13 @@
           "evidence_ref": "ACT1-FOOTSTEP.1.evidence and named history progress; source_review shows available/missing inputs"
         }
       ],
-      "assignment_state": "preserved_person_or_existing_role; activity separate"
+      "assignment_state": "preserved_person_or_existing_role; activity separate",
+      "current_source_confirmation_2026_10_20": {
+        "method": "Read-only /root/photo_audio_review scoped current source/callers plus reuse existing probe04; no runtime/probe/build.",
+        "result": "BodyFootContactCount comes from actual post-move gait touchdown; FootstepAudioController triggers once per rendered Process on contact-count change, no surface-specific cadence. One AudioStreamPlayer MaxPolyphony4; actual active voice count not measured. Surface ray/exclude/query/result allocations are potential per-contact work across surfaces without floor metadata, not proved off-road GC/cost. FirstPersonController.Steps.cs is stair resolution, not audio trigger.",
+        "existing_evidence_limit": "2026-10-09 probe04 off-road max gaps207.653ms outbound/210.361ms return did not reproduce off-road lag on that candidate. Scripted route near-stop cause remained unknown. Do not replay unchanged route or claim current actor/human audibility acceptance.",
+        "next_action": "One current native observation of the actual reported off-road condition, correlating contact/audio/frame cost and existing profiling evidence before fixing a proved cause. No new tests/probes or blind tuning."
+      }
     },
     {
       "id": "ACT1-FOOTSTEP.2",
