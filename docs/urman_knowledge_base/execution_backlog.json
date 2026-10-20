@@ -138058,6 +138058,16 @@
           "game/scripts/Main.cs:366"
         ],
         "remaining": "Native distinctclothposition/yaw→W01→return/revisit; saveinsideW01→Continue→return samepose/collision/pickup. No codechanges/build/tests."
+      },
+      "board_crossing_profile_stage_2026_10_20": {
+        "state": "source_fix_accepted_native_pending",
+        "target": "game/scripts/Act1ConnectedWorld.BoardCrossing.cs",
+        "result": "ONEprivateCrossingSmoothRange+4replacements preservethresholds/relocation/custody/savedposes/contactowner. ActualNear/FarSnowSlope+shoulder now normalized: q1.52 .132321vsold2.40, centre shoulder1vs.68/edge0vsnegative. Committedvisible snowmesh stillcreatesitsowntrimesh. Conformbankweight1inside2.45m/0outside3.20m onlylowers oldbank, stillrender-only.",
+        "verification": "Root exactdiffinspection andindependentpersonal luna_fast review of fourranges/joins/physics/custody clean. ONEaffectedGamecompile16.96s0warnings0errors; no newtests/probes/Godot/native/artPASS.",
+        "evidence_refs": [
+          "evidence/PW-079/board-crossing-source-20261020/game-build-final.log"
+        ],
+        "remaining": "Ordinarynativeapproach→carryboardplacement→walkoverandback→save/Continue; actualcollision/stepheight/firewoodoverlap remainunknown. Old860f58staticobstruction didnotprovecurrenttraversability. Preserve separatelayoutgate; nounchangedreplayuntilstationstateknown."
       }
     },
     {
@@ -143935,9 +143945,9 @@
           "next_fence_retexture_task_id": "01a157ec-cf3b-7606-800d-0cbc23c9c260",
           "next_fence_retexture_task_state": "SUCCEEDED100 consumed10; literalgeometrycandidate sourcePBRmaterialHOLD, no runtimepromote; receipts/views8aad23f2",
           "h049_outbuilding_family_cap": 35,
-          "h049_outbuilding_family_reserved": 5,
+          "h049_outbuilding_family_reserved": 0,
           "h049_outbuilding_family_consumed": 30,
-          "h049_outbuilding_task_state": "IN_PROGRESS12; consumed_credits30 confirmedstatus-01.json; no secondsubmit",
+          "h049_outbuilding_task_state": "SUCCEEDED100 actual30; rawJanus/depth+66.7%HOLD; no remesh,5reserve released",
           "h049_outbuilding_task_id": "01a15823-02c4-765e-87a6-df6e30a748d4"
         },
         "current_artifact": "Conifer static native stage retained; full art/motion/performance open. VariantA V2 PBR integrated only into active residential H001 default nested dwelling; explicit Studio modelPath wins. W02 two near-only generated willows integrated into existing roots/prewarm. Both runtime bytes match source, Game17.39s0/0 and independent source review pass. Native/UVcoverage/art/performance and full asset family acceptance remain open; no council/retired-house replacement.",
@@ -144086,21 +144096,42 @@
         "active_owner": null
       },
       "h049_outbuilding_generation_2026_10_20": {
-        "state": "IN_PROGRESS12_consumed30_confirmed",
-        "active_owner": "/root/all_world_book_content",
+        "state": "root_reviewed_raw_construction_and_proportion_HOLD",
+        "active_owner": null,
         "folder": "assets/source/blender/act1/h049_outbuilding_meshy_v1/",
         "input": "assets/source/blender/act1/h049_outbuilding_reference_v1/imagegen-reference-v1.png",
         "input_sha256": "4511d043c56f36f87a2a3cfa9b49baf5bfeaeb03e33124dd947c8a3ad31335d9",
         "source_contract": "ExistingH049barn4.14x2.8757482x3.10m, boardedgable/notlogs, oneactualdoor+leftsidewindow; existingdonor21mesh/524tri/noUV. Newgeneratedgeometrycandidate mustretainconstructiveproportions/materialrole separation; collision/address/access/runtimeunchanged.",
         "paid_plan": "ONE Meshy7.1standard image→3D+4KPBR30credits, GLB, noUltra/noextraMeshyimagegen/noauto-remesh. Onlyifactualrawconstructivelyusableand>10ktri, ONEremeshsameIDtarget8000for5credits. Ceiling35, no extra texture/rig/generation/retry.",
         "spend_actual": 30,
-        "reserved": 5,
+        "reserved": 0,
         "limits": "PreflightGETbalancemustsucceed beforeonePOST; sanitizedfailureclassificationneedednow. RootGO given afterrecordedreserve andsuccessfulGET; ONEsubmit30 andonlyqualifiedconditionalremesh5. Unknownsubmitoutcome mustnotblindresubmit. Actualconsumedcredits/taskIDs replacependingdata; author360/4000unchangeduntilreceipt.",
         "verification": "ActualGLB5views/allroundroof/door/window/rear/materials, actualtriangle/PBRbindings afterremesh; noassumedPBRpreservation. HOLD ifbadconstruction/proportions, noart/runtime/perfclosurefromsource.",
         "preflight": "ExistingCLI sandboxDNSgaierrorerrno8/noHTTP; sameGETwithnetworkescalationSUCCEEDED balance3920 monthly2770/permanent1150. Notauthfailure. NoPOSTbeforeGO.",
         "task_id": "01a15823-02c4-765e-87a6-df6e30a748d4",
         "status_receipt": "assets/source/blender/act1/h049_outbuilding_meshy_v1/status-01.json",
-        "next_action": "Observe same task toterminal/download andactual5viewconstruction gate; onlyifusableand>10ktri oneconditional5creditremesh. No secondgeneration or blindPOSTretry."
+        "next_action": "Stop thissingle-imagecandidate, no paidretry. Dedicatedlanechecks exactofficialmultiviewinputcontract/CLIcompatibility before anynewsourceproduction; canonicalmetrics/blankrear andquietmaterialfamily required. No promiseofmetricpreservation byMeshy; fullfamily/native/perfgatesremainopen.",
+        "root_review": "Root personallyviewed5actualrawviews. Oppositegablesbothhave doors andbothsidewallswindows despitecanonical1door/1leftwindow. Heightmatcheduniformscale giveswidth4.073906/depth4.794279/height3.10 vs4.14/2.8757482/3.10; depth+66.7%. Opaque1mesh1material, raw940754tri. Shapeincompatible, no runtime/remesh/extraattempt.",
+        "archive_cleanup": {
+          "state": "verified_lossless_archive_original_bytes_preserved",
+          "archive": "assets/source/blender/act1/h049_outbuilding_meshy_v1/meshy-raw.glb.zip",
+          "archive_sha256": "db3e52b8846acc63b53776e5ff21879d5f1d86c469078494c138b292f19dfd9c",
+          "archive_bytes": 44292632,
+          "member": "meshy-raw.glb",
+          "uncompressed_bytes": 53269376,
+          "uncompressed_sha256": "62285cd95ce86c5ad7c6c80d3ab0cdff7563605f49e8aef12a7890047690731f",
+          "freed_bytes": 8976744,
+          "safety": "lsof showed noopenhandles after all5renders/workerfreeze. VerifiedfullstreamdecompressionSHA before removinguncompressedduplicate. Uniqueinputcontent preserved; rawinspection/provenance unchanged, futureinspectrecipe needs originalmember restored first. Archive keptlocally/outofruntime, notpublished."
+        },
+        "inspection_receipt": "assets/source/blender/act1/h049_outbuilding_meshy_v1/raw-inspection.json",
+        "next_input_contract": {
+          "state": "adopted_next_finite_input_not_yet_implemented_no_paid_authorization",
+          "geometry": "Four separate actualcanonical front/back/left/right source views, samecamera/scale/background; front1door, left1window, blankback/right. Existingfront/left present, sourceback/right toproduce.",
+          "material": "ExistingacceptedImageGenPNG4511d043... passedseparately as texture_image_url; no4newImageGen/no collage-as-one-view.",
+          "api": "Official multi-image-to-3D image_urls(1..4) separatefromtexture_image_url/texture_image_urls, meshy-7.1/standard/texture4k/PBR/noautoRemesh. Docs https://docs.meshy.ai/en/api/multi-image-to-3d and /pricing; currentCLIhasnoendpoint/taskkind/multi-inputsafehandling.",
+          "next_action": "Extend existing eng/meshy_assets.py throughitscurrentvalidation/sanitization/submit/status/download patterns, renderexactmissing2cardinalsourceviews, thenrootreviewinputs beforeanynewbudget/POST. No newtasklist/testharness.",
+          "limits": "Multiviewdoesnotguaranteemetrics/Janusabsence; actual5view/dimensions/PBR/performance acceptance stillrequired. No furtherpaidattemptcurrentlyreserved; authoractual390/4000."
+        }
       }
     },
     {

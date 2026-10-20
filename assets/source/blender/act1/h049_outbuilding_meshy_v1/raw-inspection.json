@@ -1,0 +1,242 @@
+{
+  "schema": "h049-generated-shed-source-inspection/v1",
+  "stage": "raw",
+  "status": "HOLD_generated_layout_and_depth_mismatch_no_remesh",
+  "source": {
+    "path": "meshy-raw.glb",
+    "bytes": 53269376,
+    "sha256": "62285cd95ce86c5ad7c6c80d3ab0cdff7563605f49e8aef12a7890047690731f"
+  },
+  "mesh_nodes": 1,
+  "triangles": 940754,
+  "mesh_inventory": [
+    {
+      "name": "Mesh_0",
+      "vertices": 516339,
+      "triangles": 940754,
+      "uv_layers": [
+        "UVMap"
+      ],
+      "material_slots": [
+        "Material_0"
+      ]
+    }
+  ],
+  "original_bounds_blender_z_up": [
+    [
+      -0.951121,
+      -0.811496,
+      -0.621669
+    ],
+    [
+      0.951023,
+      0.804838,
+      0.608265
+    ]
+  ],
+  "original_dimensions": [
+    1.902143955230713,
+    1.6163339614868164,
+    1.2299339771270752
+  ],
+  "inspection_uniform_scale": 2.520460494343846,
+  "inspection_bounds_blender_z_up": [
+    [
+      -2.3971395,
+      -2.036953,
+      -1e-07
+    ],
+    [
+      2.3971395,
+      2.0369532,
+      3.0999999
+    ]
+  ],
+  "inspection_dimensions": [
+    4.794279098510742,
+    4.073905944824219,
+    3.0999999046325684
+  ],
+  "canonical_source_dimensions": [
+    4.14,
+    2.8757482,
+    3.1
+  ],
+  "normalization_scope": "In-memory uniform scale to 3.10m height and footprint centering only; no warp, mesh edit, export, runtime placement or collision modification",
+  "materials_gltf": [
+    {
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "metallicFactor": 1.0,
+        "roughnessFactor": 1.0,
+        "baseColorTexture": {
+          "index": 0,
+          "texCoord": 0
+        },
+        "metallicRoughnessTexture": {
+          "index": 1,
+          "texCoord": 0
+        }
+      },
+      "normalTexture": {
+        "index": 2,
+        "texCoord": 0
+      },
+      "alphaMode": "OPAQUE",
+      "doubleSided": true
+    }
+  ],
+  "embedded_images": [
+    {
+      "name": "Image_0",
+      "size": [
+        4096,
+        4096
+      ],
+      "channels": 4,
+      "colorspace": "sRGB"
+    },
+    {
+      "name": "Image_1",
+      "size": [
+        2048,
+        2048
+      ],
+      "channels": 4,
+      "colorspace": "Non-Color"
+    },
+    {
+      "name": "Image_2",
+      "size": [
+        4096,
+        4096
+      ],
+      "channels": 4,
+      "colorspace": "Non-Color"
+    }
+  ],
+  "gltf_texture_count": 3,
+  "views": [
+    {
+      "path": "raw-front-left.png",
+      "sha256": "ac6a5a03ab23691c3a564a36c15686e17e361b28894ac24606c8b27a5eb4a578",
+      "bytes": 1935939,
+      "target": [
+        0.0,
+        1.1920928955078125e-07,
+        1.5499999523162842
+      ],
+      "direction": [
+        -1.0,
+        -1.0,
+        0.47999998927116394
+      ],
+      "ortho_scale": 7.287304229736328
+    },
+    {
+      "path": "raw-rear-right.png",
+      "sha256": "dfae8131799c599bda40b09afae9d594505e0f30519c20e3d44a2fa05cab121f",
+      "bytes": 1955571,
+      "target": [
+        0.0,
+        1.1920928955078125e-07,
+        1.5499999523162842
+      ],
+      "direction": [
+        1.0,
+        1.0,
+        0.44999998807907104
+      ],
+      "ortho_scale": 7.287304229736328
+    },
+    {
+      "path": "raw-front.png",
+      "sha256": "b59e8fb14889efbf105c690e7ea57a4b934654780d8c0ae189960fdbe62910de",
+      "bytes": 1663956,
+      "target": [
+        0.0,
+        1.1920928955078125e-07,
+        1.5499999523162842
+      ],
+      "direction": [
+        0.0,
+        -1.0,
+        0.14000000059604645
+      ],
+      "ortho_scale": 7.287304229736328
+    },
+    {
+      "path": "raw-left.png",
+      "sha256": "981d860fbf6be4d3c76c9e93e0e0ad1016a052fcb004b08f40f6d4a38e833be6",
+      "bytes": 1639170,
+      "target": [
+        0.0,
+        1.1920928955078125e-07,
+        1.5499999523162842
+      ],
+      "direction": [
+        -1.0,
+        0.0,
+        0.14000000059604645
+      ],
+      "ortho_scale": 7.287304229736328
+    },
+    {
+      "path": "raw-roof-and-openings.png",
+      "sha256": "adf774148091d8ec1fe6d35ceb72ce2de339562896ca69028522e8cf8d06cd76",
+      "bytes": 2191092,
+      "target": [
+        0.0,
+        -0.15999987721443176,
+        1.7999999523162842
+      ],
+      "direction": [
+        -0.6499999761581421,
+        -1.0,
+        0.699999988079071
+      ],
+      "ortho_scale": 6.339954679870606
+    }
+  ],
+  "limits": [
+    "Five exterior views do not prove an explorable interior or runtime performance",
+    "Single-image generated back/right surfaces are inferred; must be reviewed",
+    "Original source glass remains separate and unchanged in the frozen reference folder"
+  ],
+  "producer_sha256": "cd4f61151ad3fa5e10d72074d23448bc1011cf363b9863087fc0d370a859727d",
+  "studio_helper_sha256": "e75fd298da9a2f7a425c9be372974adc14342b18dfa929ee435360dafe6bf554",
+  "blender": "4.5.12 LTS",
+  "review": {
+    "all_five_actual_views_personally_inspected": true,
+    "layout_failure": "The two opposite three-quarter views each show a door on the opposite gable and a window on the opposite side. Current source has one front door and one left window; generated model repeats both features.",
+    "semantic_view_warning": "Filenames front/left name camera axes only. raw-front is actually a window side; raw-left is a door gable. Do not read camera names as canonical semantic facade labels.",
+    "alignment_to_source": "A 90-degree yaw maps generated gable-door direction onto the original facade axis; no transform/export was applied.",
+    "aligned_dimensions_at_uniform_height3_10m": [
+      4.073905944824219,
+      4.794279098510742,
+      3.0999999046325684
+    ],
+    "width_relative_difference": -0.015964747627000175,
+    "depth_relative_difference": 0.6671414759159868,
+    "proportion_failure": "At matched height the semantic depth exceeds the original by about66.7%; rejected as a placement-preserving source candidate, no nonuniform stretching attempted.",
+    "construction_observation": "Exterior appears as a complete supported timber-board volume with low plinth and gabled roof in these five views. This does not prove an explorable interior or hidden construction; repeated openings/depth already block this exact candidate.",
+    "material_observation": "Wood, gray-green roof, dim window panes and plinth are visually differentiated. One opaque double-sided PBR material; no separate glass primitive. Original source glass remains untouched.",
+    "paid_followup": "Conditional5-credit remesh NOT submitted because construction/layout suitability failed before optimization. No retexture/rig/secondgeneration/UVfix/modelrepair."
+  },
+  "credit_receipt": {
+    "generation_task_id": "01a15823-02c4-765e-87a6-df6e30a748d4",
+    "terminal_status": "SUCCEEDED",
+    "consumed_credits": 30,
+    "source": "status-02.json API consumed_credits, not balance delta",
+    "conditional_remesh_credits_spent": 0,
+    "total_stage_actual": 30,
+    "global_actual_before": 360,
+    "global_actual_after": 390,
+    "unused_reserved_credits": 5
+  }
+}

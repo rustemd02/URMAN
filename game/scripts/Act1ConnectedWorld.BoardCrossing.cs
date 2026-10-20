@@ -88,6 +88,9 @@ public partial class Act1ConnectedWorld
         crossing.SetMeta("runtimeStateOwner", "existing carry-board world.props transform and world.custody; no new progress flag");
     }
 
+    private static float CrossingSmoothRange(float from, float to, float value) =>
+        Mathf.SmoothStep(0f, 1f, Mathf.Clamp((value - from) / (to - from), 0f, 1f));
+
     private static float CrossingGround(Node3D crossing, float x, float z)
     {
         var p = crossing.ToGlobal(new(x, 0, z));
@@ -133,7 +136,7 @@ public partial class Act1ConnectedWorld
         {
             var world = bank.ToGlobal(point);
             var local = crossing.ToLocal(world);
-            var weight = 1f - Mathf.SmoothStep(2.45f, 3.20f, Math.Max(Math.Abs(local.X), Math.Abs(local.Z)));
+            var weight = 1f - CrossingSmoothRange(2.45f, 3.20f, Math.Max(Math.Abs(local.X), Math.Abs(local.Z)));
             var ground = AgentBAct1HeightField.CollisionGround(world.X, world.Z) - .025f;
             world.Y = Mathf.Lerp(world.Y, Math.Min(world.Y, ground), weight);
             return bank.ToLocal(world);
@@ -247,16 +250,16 @@ public partial class Act1ConnectedWorld
             var level = q switch
             {
                 <= .40f => ground,
-                < .66f => Mathf.Lerp(ground, seatY - .15f, Mathf.SmoothStep(.40f, .66f, q)),
+                < .66f => Mathf.Lerp(ground, seatY - .15f, CrossingSmoothRange(.40f, .66f, q)),
                 <= .80f => seatY - .15f,
                 < .91f => Mathf.Lerp(seatY - .15f, seatY - .010f, (q - .80f) / .11f),
                 < 1.08f => Mathf.Lerp(seatY - .010f, walkY, (q - .91f) / .17f),
                 <= 1.26f => walkY,
-                < 2.40f => Mathf.Lerp(walkY, ground, Mathf.SmoothStep(1.26f, 2.40f, q)),
+                < 2.40f => Mathf.Lerp(walkY, ground, CrossingSmoothRange(1.26f, 2.40f, q)),
                 _ => ground
             };
             var width = x < 0 ? leftWidth : rightWidth;
-            var shoulder = 1f - Mathf.SmoothStep(.32f, width, Math.Abs(x));
+            var shoulder = 1f - CrossingSmoothRange(.32f, width, Math.Abs(x));
             return Mathf.Lerp(ground, Math.Max(ground, level), shoulder);
         }
         var us = new[] { -1f, -.76f, -.50f, -.30f, -.15f, 0, .15f, .30f, .50f, .76f, 1f };
