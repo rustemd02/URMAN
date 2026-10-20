@@ -709,13 +709,13 @@ public static class AgentBAct1HeightField
             var outside = pad.Outside(x, z);
             if (outside >= pad.Feather) continue;
             if (double.IsNaN(pad.Target)) pad.Target = FieldSurface(pad.AnchorX, pad.AnchorZ, withLaneRelief: false);
-            var blend = 1 - Mathf.SmoothStep(0, pad.Feather, outside);
+            var blend = 1f - Mathf.SmoothStep(0f, 1f, Mathf.Clamp(outside / pad.Feather, 0f, 1f));
             // The plot feather must not raise a ramp through the carriageway.
             // The real parcel stays level; its exterior blend ends at the verge.
             if (outside > 0)
             {
                 var road = RoadInfo(x, z);
-                blend *= Mathf.SmoothStep((float)road.HalfWidth + .7f, (float)road.HalfWidth + pad.Feather, (float)road.Distance);
+                blend *= Mathf.SmoothStep(0f, 1f, Mathf.Clamp(((float)road.Distance - ((float)road.HalfWidth + .7f)) / (pad.Feather - .7f), 0f, 1f));
             }
             height += (pad.Target - height) * blend;
         }

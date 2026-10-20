@@ -121969,6 +121969,16 @@
         "evidence_refs": [
           "evidence/PW-044/yard-weight-source-20261020/game-build-final.log"
         ]
+      },
+      "household_pad_weight_stage_2026_10_20": {
+        "state": "source_fix_accepted_native_pending",
+        "target": "game/scripts/experiments/agent_b_act1/AgentBAct1HeightField.cs:712",
+        "result": "Ровно два нормализованных веса HouseholdPads: outside/feather и дорожный диапазон halfWidth+.7..halfWidth+feather. Clamp0..1 и SmoothStep0..1. В текущих runtime JSON79 площадок (35farbank+44openpart), все Feather2.25, northstreet0. В точке H001(-38.25,125.775) blend−5→.5; ошибочная полоса включает реальные вершины коллизии. Targets, порядок площадок, layout, river, parking и предыдущие пять правок не менялись.",
+        "verification": "Personal luna_fast независимо проверил два выражения и общую физическую поверхность для Feather2.25. Root прочитал три фактических JSON и подтвердил все79 значений2.25. Одна affectedGamecompile17.71s,0warnings0errors. Новых tests/probes/Godot/native не было.",
+        "evidence_refs": [
+          "evidence/PW-044/household-pad-source-20261020/game-build-final.log"
+        ],
+        "remaining": "Нужен обычный native-проход по краям дворов и кромке дороги, проверка опор дверей и контакта visible mesh/collision. Ограниченные коэффициенты не доказывают фактические высоты или проходимость."
       }
     },
     {
@@ -144125,12 +144135,17 @@
         },
         "inspection_receipt": "assets/source/blender/act1/h049_outbuilding_meshy_v1/raw-inspection.json",
         "next_input_contract": {
-          "state": "adopted_next_finite_input_not_yet_implemented_no_paid_authorization",
+          "state": "client_and_four_inputs_reviewed_source_ready",
           "geometry": "Four separate actualcanonical front/back/left/right source views, samecamera/scale/background; front1door, left1window, blankback/right. Existingfront/left present, sourceback/right toproduce.",
           "material": "ExistingacceptedImageGenPNG4511d043... passedseparately as texture_image_url; no4newImageGen/no collage-as-one-view.",
           "api": "Official multi-image-to-3D image_urls(1..4) separatefromtexture_image_url/texture_image_urls, meshy-7.1/standard/texture4k/PBR/noautoRemesh. Docs https://docs.meshy.ai/en/api/multi-image-to-3d and /pricing; currentCLIhasnoendpoint/taskkind/multi-inputsafehandling.",
-          "next_action": "Extend existing eng/meshy_assets.py throughitscurrentvalidation/sanitization/submit/status/download patterns, renderexactmissing2cardinalsourceviews, thenrootreviewinputs beforeanynewbudget/POST. No newtasklist/testharness.",
-          "limits": "Multiviewdoesnotguaranteemetrics/Janusabsence; actual5view/dimensions/PBR/performance acceptance stillrequired. No furtherpaidattemptcurrentlyreserved; authoractual390/4000."
+          "next_action": "Закоммитить проверенный CLI и входы; затем один отдельно ограниченный multiview-кандидат после свежего GETbalance. Native/art/performance остаются открыты.",
+          "limits": "Multiviewdoesnotguaranteemetrics/Janusabsence; actual5view/dimensions/PBR/performance acceptance stillrequired. No furtherpaidattemptcurrentlyreserved; authoractual390/4000.",
+          "client": "eng/meshy_assets.py submit-multi-image; новый taskkind для list/status/download. Один POST30, geometry-only20; отдельный optionaltexture-image; 1..4файла/signatures/size проверяются до ключа. В receipt нет base64/ключей/signedURLs.",
+          "review": "Независимый personal luna_fast source review чистый. Ключ читается после проверки входов, но до spendack, как у существующего клиента; HTTP не вызывается до точного ack. Worker проверил AST/help и локальные отказы count/format/incompatiblemode, root проверил AST/diff. Реального запроса новым endpoint пока не было.",
+          "input_folder": "assets/source/blender/act1/h049_outbuilding_multiview_v1/",
+          "input_receipt": "assets/source/blender/act1/h049_outbuilding_multiview_v1/input-receipt.json",
+          "root_input_review": "Root лично просмотрел четыре PNG: одна frontdoor, одно leftwindow, back/right глухие; видимые с краю соседние рамы не являются дополнительными проёмами. Одинаковые ortho6.2099998/tilt.15/scale1/res1280x960/light/background. Исходный GLB67fc359b...неизменён42,880B, размеры4.14x2.8757482x3.10. TextureImageGen4511...отдельный, не копировался. Новых моделей/UV/ImageGen/расходов нет."
         }
       }
     },

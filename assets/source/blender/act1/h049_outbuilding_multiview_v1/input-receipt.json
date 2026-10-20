@@ -1,0 +1,183 @@
+{
+  "schema": "h049-canonical-multiview-input/v1",
+  "status": "source_input_awaiting_root_review_no_api_task",
+  "source": {
+    "path": "assets/source/blender/act1/h049_outbuilding_reference_v1/h049-outbuilding-source.glb",
+    "sha256": "67fc359b6536ae801bfd84428b00780e918491d8ed11ec27365956bef1600ea3",
+    "bytes": 42880,
+    "rights": "Project-original per inherited source provenance and assets/asset_registry.json"
+  },
+  "component": "VillageParcel_VariantA_TimberGable_Outbuilding",
+  "mesh_nodes": 21,
+  "triangles": 524,
+  "material_surfaces": 27,
+  "uv_surfaces": 0,
+  "source_geometry_and_object_transforms_unchanged": true,
+  "source_material_roles_unchanged": true,
+  "source_file_still_exact_sha": true,
+  "bounds_blender_z_up": [
+    [
+      -2.0699999,
+      -1.4449999,
+      0.02
+    ],
+    [
+      2.0699999,
+      1.4307481,
+      3.1199999
+    ]
+  ],
+  "dimensions_metres": [
+    4.139999866485596,
+    2.8757481575012207,
+    3.0999999046325684
+  ],
+  "camera_contract": {
+    "projection": "ORTHO",
+    "ortho_scale": 6.2099997997283936,
+    "tilt_ratio_z_to_horizontal": 0.15,
+    "target_blender_z_up": [
+      0.0,
+      -0.007125914096832275,
+      1.5699999332427979
+    ],
+    "resolution": [
+      1280,
+      960
+    ],
+    "same_scale_target_background_lights_for_all_four": true,
+    "render_scale": 1,
+    "cycles_samples": 24,
+    "studio_helper": "assets/source/blender/act1/hero_house_pbr_v1/attach_hero_house_retexture.py",
+    "studio_helper_sha256": "e75fd298da9a2f7a425c9be372974adc14342b18dfa929ee435360dafe6bf554"
+  },
+  "image_urls_order_for_future_api": [
+    "assets/source/blender/act1/h049_outbuilding_multiview_v1/front.png",
+    "assets/source/blender/act1/h049_outbuilding_multiview_v1/back.png",
+    "assets/source/blender/act1/h049_outbuilding_multiview_v1/left.png",
+    "assets/source/blender/act1/h049_outbuilding_multiview_v1/right.png"
+  ],
+  "views": [
+    {
+      "semantic_view": "front",
+      "path": "assets/source/blender/act1/h049_outbuilding_multiview_v1/front.png",
+      "sha256": "d1b8355e1207ab0d05c666c994be9f4369835d1059ea5a3d692cc479561f0aab",
+      "bytes": 1130061,
+      "camera_position_blender_z_up": [
+        0.0,
+        -11.874361991882324,
+        3.350085496902466
+      ],
+      "target_blender_z_up": [
+        0.0,
+        -0.007125914096832275,
+        1.5699999332427979
+      ],
+      "direction": [
+        0.0,
+        -1.0,
+        0.15000000596046448
+      ],
+      "orthographic_scale": 6.2099997997283936,
+      "semantic_contract": "The actual source front gable, with the one door offset right; window is on the adjacent left wall"
+    },
+    {
+      "semantic_view": "back",
+      "path": "assets/source/blender/act1/h049_outbuilding_multiview_v1/back.png",
+      "sha256": "99388ad665a2bef727920d1fb19ee557fb2d4b160614f3daec7536187d7288c2",
+      "bytes": 1125679,
+      "camera_position_blender_z_up": [
+        0.0,
+        11.86011028289795,
+        3.350085496902466
+      ],
+      "target_blender_z_up": [
+        0.0,
+        -0.007125914096832275,
+        1.5699999332427979
+      ],
+      "direction": [
+        0.0,
+        1.0,
+        0.15000000596046448
+      ],
+      "orthographic_scale": 6.2099997997283936,
+      "semantic_contract": "Rear gable: no door or window; retains the existing repair batten"
+    },
+    {
+      "semantic_view": "left",
+      "path": "assets/source/blender/act1/h049_outbuilding_multiview_v1/left.png",
+      "sha256": "1c4a9b42a678500fc00e279cb054b8532f12d2d57e1298fdb85b89ef73b2e9b6",
+      "bytes": 1095333,
+      "camera_position_blender_z_up": [
+        -11.867236137390137,
+        -0.007125914096832275,
+        3.350085496902466
+      ],
+      "target_blender_z_up": [
+        0.0,
+        -0.007125914096832275,
+        1.5699999332427979
+      ],
+      "direction": [
+        -1.0,
+        0.0,
+        0.15000000596046448
+      ],
+      "orthographic_scale": 6.2099997997283936,
+      "semantic_contract": "Left side: one small four-pane window, no door"
+    },
+    {
+      "semantic_view": "right",
+      "path": "assets/source/blender/act1/h049_outbuilding_multiview_v1/right.png",
+      "sha256": "4923c0a1a853a474982afbb540f200fb9694d1cbfd47e0d25a1a8335588e5fd5",
+      "bytes": 1098579,
+      "camera_position_blender_z_up": [
+        11.867236137390137,
+        -0.007125914096832275,
+        3.350085496902466
+      ],
+      "target_blender_z_up": [
+        0.0,
+        -0.007125914096832275,
+        1.5699999332427979
+      ],
+      "direction": [
+        1.0,
+        0.0,
+        0.15000000596046448
+      ],
+      "orthographic_scale": 6.2099997997283936,
+      "semantic_contract": "Right side: blank boarded wall, no door or window"
+    }
+  ],
+  "texture_reference_separate": {
+    "path": "assets/source/blender/act1/h049_outbuilding_reference_v1/imagegen-reference-v1.png",
+    "sha256": "4511d043c56f36f87a2a3cfa9b49baf5bfeaeb03e33124dd947c8a3ad31335d9",
+    "bytes": 2134839,
+    "future_field": "texture_image_url",
+    "role": "Root-accepted ImageGen material family only; not an extra geometry view"
+  },
+  "topology_contract": "One front door, one left-side window, no rear/right openings. Four separate images, no collage.",
+  "not_reproduced": [
+    "runtime .731 parcel scale/.9 outbuilding compensation and edge-clamp",
+    "world grounding/light/material overrides",
+    "runtime collision/access"
+  ],
+  "limits": "Multi-view inputs reduce unobserved-side ambiguity; they do not guarantee generated geometry, exact metric proportions or native acceptance.",
+  "producer_sha256": "a6ac23bd1eaf295aa3485f62bbdcb23130fb400d23f923303e0437a5003667cc",
+  "blender": "4.5.12 LTS",
+  "new_meshy_api_calls": 0,
+  "new_imagegen_calls": 0,
+  "new_credit_spend": 0,
+  "no_exports_or_uv_work": true,
+  "personal_source_view_review": {
+    "all_four_inspected": true,
+    "front": "Confirmed gable facade with one closed door offset right.",
+    "back": "Confirmed rear gable face has no door/window; existing repair batten retained. Adjacent left-window extrusion can be seen edge-on at the right silhouette, not a rear opening.",
+    "left": "Confirmed one four-pane side window; no side door.",
+    "right": "Confirmed right wall face has no door/window. Adjacent front-door extrusion is edge-on at the left silhouette, not a right-wall opening.",
+    "source_limit": "Existing simple wall volumes, window-joint black caps and other canonical source details retained. These are geometry inputs, not material or runtime quality acceptance.",
+    "next": "Root reviews the four separate inputs before any API budget GO."
+  }
+}

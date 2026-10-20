@@ -4,6 +4,8 @@
 Expected paid usage (official API pricing checked 2026-10-20):
   submit-image: 30 credits — meshy-7.1, standard geometry, 4K PBR texture;
     --geometry-only costs 20 credits.
+  submit-multi-image: 30 credits — meshy-7.1, 1–4 geometry views, standard
+    geometry, 4K PBR texture; --geometry-only costs 20 credits.
   submit-retexture: 10 credits — 4K PBR; optional 8K costs 15 credits.
   submit-remesh: 5 credits — one 100,000-face remesh task by default.
   submit-rig: 5 credits — rig one successful textured model task.
@@ -43,7 +45,7 @@ REQUEST_TIMEOUT_SECONDS = 60
 MAX_JSON_BYTES = 8 * 1024 * 1024
 MAX_IMAGE_BYTES = 20_000_000
 MAX_MODEL_DATA_URI_BYTES = 100_000_000
-TASK_TYPES = ("image-to-3d", "retexture", "remesh", "rigging")
+TASK_TYPES = ("image-to-3d", "multi-image-to-3d", "retexture", "remesh", "rigging")
 TASK_ENDPOINTS = {task_type: task_type for task_type in TASK_TYPES}
 TASK_ENDPOINTS["animation"] = "animations"
 TASK_CHOICES = tuple(TASK_ENDPOINTS)
@@ -55,6 +57,12 @@ DOWNLOAD_FORMATS = {
     "fbx": ("application/octet-stream", (b"Kaydara FBX Binary  \x00\x1a\x00", b"; FBX")),
 }
 TASK_ID_RE = re.compile(r"[A-Za-z0-9_-]{1,128}")
+IMAGE_INPUTS = {
+    ".png": ("image/png", b"\x89PNG\r\n\x1a\n"),
+    ".jpg": ("image/jpeg", b"\xff\xd8\xff"),
+    ".jpeg": ("image/jpeg", b"\xff\xd8\xff"),
+    ".webp": ("image/webp", ((0, b"RIFF"), (8, b"WEBP"))),
+}
 
 
 class ClientError(Exception):
@@ -216,19 +224,41 @@ class MeshyClient:
         return byte_count, digest.hexdigest()
 
 
-def data_uri(path, expected_suffix, mime_type, maximum_bytes, signature=None):
+def data_uri(path, expected_suffix, mime_type, maximum_bytes, signature=None, include_metadata=False):
     source = Path(path).expanduser().resolve(strict=True)
     if not source.is_file() or source.suffix.lower() != expected_suffix:
         raise ClientError(f"input must be a local {expected_suffix} file")
+    try:
+        source_size = source.stat().st_size
+    except OSError as error:
+        raise ClientError("could not read local input file") from error
+    if source_size > maximum_bytes:
+        raise ClientError(f"local input must be non-empty and no larger than {maximum_bytes} bytes")
     try:
         payload = source.read_bytes()
     except OSError as error:
         raise ClientError("could not read local input file") from error
     if not payload or len(payload) > maximum_bytes:
         raise ClientError(f"local input must be non-empty and no larger than {maximum_bytes} bytes")
-    if signature is not None and not payload.startswith(signature):
-        raise ClientError(f"local input does not have a valid {expected_suffix} file signature")
-    return "data:" + mime_type + ";base64," + base64.b64encode(payload).decode("ascii")
+    if signature is not None:
+        signature_checks = ((0, signature),) if isinstance(signature, bytes) else signature
+        if not all(payload[offset:offset + len(marker)] == marker
+                   for offset, marker in signature_checks):
+            raise ClientError(f"local input does not have a valid {expected_suffix} file signature")
+    value = "data:" + mime_type + ";base64," + base64.b64encode(payload).decode("ascii")
+    if include_metadata:
+        return value, {"bytes": len(payload), "sha256": hashlib.sha256(payload).hexdigest()}
+    return value
+
+
+def mesh_image_data_uri(path):
+    suffix = Path(path).suffix.lower()
+    image_input = IMAGE_INPUTS.get(suffix)
+    if image_input is None:
+        raise ClientError("multi-image inputs must be local PNG, JPEG, or WebP files")
+    mime_type, signature = image_input
+    return data_uri(path, suffix, mime_type, MAX_IMAGE_BYTES, signature=signature,
+                    include_metadata=True)
 
 
 def require_task_id(value):
@@ -333,6 +363,26 @@ def build_parser():
     image_parser.add_argument("--geometry-only", action="store_true", help="skip texture generation; estimated cost 20 credits")
     image_parser.add_argument("--spend-credits", type=int, help="must equal the printed estimate before a paid task is created")
 
+    multi_image_parser = commands.add_parser(
+        "submit-multi-image", help="create a meshy-7.1 model from 1–4 local views"
+    )
+    multi_image_parser.add_argument(
+        "images", nargs="+", type=Path,
+        help="1–4 local PNG, JPEG, or WebP views; the first image is the front view (maximum 20 MB each)",
+    )
+    multi_image_parser.add_argument(
+        "--texture-image", type=Path,
+        help="optional single local PNG, JPEG, or WebP reference for generated textures (maximum 20 MB)",
+    )
+    multi_image_parser.add_argument(
+        "--geometry-only", action="store_true",
+        help="skip texture generation; estimated cost 20 credits and disallows --texture-image",
+    )
+    multi_image_parser.add_argument(
+        "--spend-credits", type=int,
+        help="must equal the printed estimate before a paid task is created",
+    )
+
     retexture_parser = commands.add_parser("submit-retexture", help="create a PBR retexture task from a local GLB")
     retexture_parser.add_argument("model", type=Path, help="local GLB model (maximum 100 MB)")
     style = retexture_parser.add_mutually_exclusive_group(required=True)
@@ -393,6 +443,42 @@ def run(args):
             raise ClientError("animation action IDs must be non-negative integers")
         if len(set(args.action_ids)) != len(args.action_ids):
             raise ClientError("animation action IDs must be unique")
+    if args.command == "submit-multi-image":
+        if not 1 <= len(args.images) <= 4:
+            raise ClientError("multi-image generation requires from 1 to 4 geometry views")
+        if args.geometry_only and args.texture_image is not None:
+            raise ClientError("--texture-image requires texturing and cannot be used with --geometry-only")
+        geometry_views = []
+        input_receipt = []
+        for index, image_path in enumerate(args.images):
+            image, metadata = mesh_image_data_uri(image_path)
+            geometry_views.append(image)
+            input_receipt.append({
+                "role": "geometry_view_front" if index == 0 else f"geometry_view_{index + 1}",
+                **metadata,
+            })
+        texture_image = None
+        if args.texture_image is not None:
+            texture_image, metadata = mesh_image_data_uri(args.texture_image)
+            input_receipt.append({"role": "texture_reference", **metadata})
+        args.multi_image_payload = {
+            "image_urls": geometry_views,
+            "ai_model": "meshy-7.1",
+            "geometry_resolution": "standard",
+            "should_texture": not args.geometry_only,
+            "should_remesh": False,
+            "target_formats": ["glb"],
+            "image_enhancement": False,
+        }
+        if not args.geometry_only:
+            args.multi_image_payload.update({
+                "enable_pbr": True,
+                "texture_resolution": "4k",
+            })
+            if texture_image is not None:
+                args.multi_image_payload["texture_image_url"] = texture_image
+        args.multi_image_credits = 20 if args.geometry_only else 30
+        args.multi_image_input_receipt = input_receipt
     if args.command == "submit-remesh":
         if (args.model is None) == (args.input_task_id is None):
             raise ClientError("provide exactly one local model or --input-task-id")
@@ -460,6 +546,22 @@ def run(args):
         if task_id is None:
             raise ClientError("Meshy accepted no recognizable task ID; response details were not logged")
         print_json({"task_id": task_id, "estimated_credits": credits})
+        return 0
+
+    if args.command == "submit-multi-image":
+        credits = args.multi_image_credits
+        mode = "geometry-only" if args.geometry_only else "4K PBR textures"
+        require_spend_ack(f"meshy-7.1 multi-image-to-3D with {mode}", credits, args.spend_credits)
+        task = client.request_json("POST", "/multi-image-to-3d", args.multi_image_payload)
+        result = task.get("result") if isinstance(task, dict) else None
+        task_id = require_task_id(result) if isinstance(result, str) else None
+        if task_id is None:
+            raise ClientError("Meshy accepted no recognizable task ID; response details were not logged")
+        print_json({
+            "task_id": task_id,
+            "estimated_credits": credits,
+            "inputs": args.multi_image_input_receipt,
+        })
         return 0
 
     if args.command == "submit-rig":
