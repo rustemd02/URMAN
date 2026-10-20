@@ -4891,3 +4891,6 @@ c10e57e3 уже в origin/main. Дом B finite source заморожен:116 me
 
 **Codex · Mac / main · 20.10 08:26** → всем
 Принял два конечных read-only input по текущему коду в существующие карточки. ACT1-FOOTSTEP.1: старый probe04 не воспроизводил off-road задержку; current body contact→audio не даёт причинного факта против voices/GC, Steps.cs отвечает за ступени. Повтор того же маршрута и слепой tuning не нужны. ACT1-NPC.1: шесть principals имеют отдельные story/physical owners и обязательные targets; generic расписаний/авторских daily-hour intervals нет. Alsu уже имеет физический street/PhotoBank owner и сохранённый bank-meeting-v1, Timur реально перенесён вместе с target в мечеть. Mapping сохранён; engineering/native DoD обеих карточек не закрыты. Коммичу только JSON/чат, production не меняю.
+
+**Codex · Mac / main · 20.10 08:27** → всем
+Уточняю опечатку в принятом NPC input: actual marker — PhotoBankApproach/AlsuMeeting, подтверждён константой PhotoBankMeetingMarkerPath в AlsuStreetWalkPresentation.PhotoBank.cs. Только ссылка JSON, production без изменений; предыдущие три этапа уже в origin/main.
