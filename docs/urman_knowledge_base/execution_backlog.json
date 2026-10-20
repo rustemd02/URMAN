@@ -138250,6 +138250,19 @@
           "evidence/PW-079/board-crossing-source-20261020/game-build-final.log"
         ],
         "remaining": "Ordinarynativeapproach→carryboardplacement→walkoverandback→save/Continue; actualcollision/stepheight/firewoodoverlap remainunknown. Old860f58staticobstruction didnotprovecurrenttraversability. Preserve separatelayoutgate; nounchangedreplayuntilstationstateknown."
+      },
+      "vehicle_return_source_2026_10_20": {
+        "state": "source_consistent_native_vehicle_return_pending",
+        "method": "Independent personal luna_fast bounded parked-vehicle → photo/return/Continue source trace, no edits/launch/tests.",
+        "result": "Before photo entry, forced checkpoint flushes fleet to canonical world.props under stable vehicle/<id> keys (pose/yaw/engine/radio). Save snapshot contains these props; ticket owns player/origin separately. Return rebuilds fleet then projects same stable logical IDs and saved records. Continue from inside photo restores runtime props before rebuilding on return. Native Godot nodes are rebuilt; stable logical vehicle identity persists. Rejected physical pose may use checked authored parking; radio resumes saved phase without claiming unbounded offscreen advancement.",
+        "source_paths": [
+          "game/scripts/RuntimeBridge.cs",
+          "game/scripts/Main.cs",
+          "game/scripts/VehicleFleet.cs",
+          "game/scripts/VehicleController.cs",
+          "game/scripts/VehicleRadioPlayer.cs"
+        ],
+        "remaining": "Native valid displaced/yawed parked car → photo → return, and save inside → full exit/Continue → return, same engine/radio/usable identity; invalid-placement authored fallback and full EX regression remain open. Do not duplicate accepted cloth/radio/safe-node owners."
       }
     },
     {
@@ -138412,7 +138425,7 @@
         "Нет псевдоцитат Тукая и критического текста внутри нерегулируемого изображения.",
         "Все текстовые задачи проходятся при выключенном VO."
       ],
-      "next_action": "Проверить Айдар, Мансур, Гөлсинә, Алсу и топоним Кара-Урман во всех новых текстах.",
+      "next_action": "Использовать bounded_text_source_2026_10_20 без повторного переименования согласованных активных ролей. На текущем защищённом обычном маршруте проверить читаемые реплики/описания/действия с выключенным VO и720p/масштабом; затем обязательные языковые/произносительные/литературные/культурные подтверждения. Legacy Тимур хәзрәт — отдельный персонаж, не автоматическая замена на Айдара.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -138630,7 +138643,24 @@
           "evidence_ref": "PW-080.evidence and named history progress; source_review shows available/missing inputs"
         }
       ],
-      "assignment_state": "preserved_person_or_existing_role; activity separate"
+      "assignment_state": "preserved_person_or_existing_role; activity separate",
+      "bounded_text_source_2026_10_20": {
+        "state": "source_identity_and_w02_muted_route_consistent_native_language_pending",
+        "identity": "Resident checked active PW roles against AUTHOR_FIXED canon: Айдар protagonist, Мансур/Гөлсинә/Алсу consistent; Тимур хәзрәт is separate human role, not a mistaken protagonist name. DialogueUi speaker map/new arrival, family-permission, school, leaf/epilogue texts and book author labels agree. Legacy non-PW Timur/pact strings were not renamed without active-consumer evidence; no invented Tatar translation.",
+        "muted_w02": "Independent Audio reviewer traced mandatory reflection/old approach/encounter/return. Readable targets/hints and sketch+notebook/Aidar remark carry required goals; Su Anasy response is visible physical motion/rings. Water/board SFX carry no exclusive required message. Post-completion damp print and winter-bank exit have readable targets. This is source availability, not an actual muted pass.",
+        "source_paths": [
+          "docs/urman_knowledge_base/canon.md",
+          "content/modules/urman-fullgame/definitions.json",
+          "game/scripts/DialogueUi.cs",
+          "game/scripts/RuntimeBridge.PhotoWorldHints.cs",
+          "game/scripts/RuntimeBridge.Notebook.cs",
+          "game/scripts/photoworlds/W02Controller.Reflection.cs",
+          "game/scripts/photoworlds/W02Controller.Encounter.cs",
+          "game/scripts/photoworlds/W02Controller.Audio.cs"
+        ],
+        "verification": "Two independent bounded source reads only; no confirmed defect, edits, test/probe/build/launch or native claims.",
+        "remaining": "Actual rendered text at720p/scaling with VO/mix muted, all mandatory world tasks, names/pronunciation/Tatar/literary/cultural human review remain open. Source review is not whole PW080 completion."
+      }
     },
     {
       "id": "PW-081",
@@ -139383,7 +139413,11 @@
           "evidence_ref": "PW-082.evidence and named history progress; source_review shows available/missing inputs"
         }
       ],
-      "assignment_state": "preserved_person_or_existing_role; activity separate"
+      "assignment_state": "preserved_person_or_existing_role; activity separate",
+      "w02_muted_source_input_2026_10_20": {
+        "source": "PW-080.bounded_text_source_2026_10_20",
+        "result": "No exclusive audio-only mandatory W02 clue found in bounded source trace; actual muted play remains NOT_RUN. ReducedMotion canonical contract covers forced zoom/book sway/camera roll/decorative swirl and ≤.2s book mount, not an unproven mandate to freeze all physical object movement. Existing .95normal/.15reduced book mount source remains; native full accessibility route still required."
+      }
     },
     {
       "id": "PW-083",
@@ -144345,7 +144379,7 @@
         }
       },
       "h049_outbuilding_multiview_generation_2026_10_20": {
-        "state": "local_derived_source_prepared_winter_material_runtime_HOLD",
+        "state": "two_surface_source_prepared_snow_adapter_runtime_HOLD",
         "active_owner": null,
         "folder": "assets/source/blender/act1/h049_outbuilding_multiview_v1/generation/",
         "client_commit": "9e4c04fe",
@@ -144373,11 +144407,11 @@
         "remesh_status_receipt": "assets/source/blender/act1/h049_outbuilding_multiview_v1/generation/remesh-status-02.json",
         "raw_root_review": "Root personally inspected all five actual raw PNGs: one front door/one left window, blank back/right. Roof/walls/plinth supported; visible plank/edge waviness kept as source candidate before native art. Uniformheight3.10 gives4.197423x2.946889x3.10 (+1.39%width/+2.47%depth), no stretch. Actual543840tri requires approved single remesh8000; actual output metrics and PBR pending. Snow and performance native acceptance open.",
         "winter_material_gate": {
-          "state": "runtime_hold_missing_imported_pbr_snow_adapter",
+          "state": "roof_surface_input_prepared_snow_only_adapter_native_pending",
           "source_owner": "Act1ConnectedWorld.AuthoredWorld.cs → RegradeAct1DaylightKitMaterials → PainterlyMaterialLibrary.ForColor",
           "facts": "Original Outbuilding has no separate snow meshes; PML replaces surface materials and gives roof coverage.88/wood.45/stone.50 with worldnormal/noise+SetSnowMood. Late imported PBR has no response; library detail normal/roughness slots are additive and not equivalent Meshy normal/MR. Existing opaque shader is not a snow-only overlay.",
           "remaining": "Keep candidate source-only. Need explicit material solution preserving actual imported PBR and coherent winter scene before runtime promotion; native fullscene/performance acceptance separate. Do not silently globalregrade/drop maps or accept snowless standalone model as finished winter scene.",
-          "finite_input_after_geometry": "Actual generated GLB has one mesh/one opaque material across roof/wood/plinth/window; no roof-only slot. Roof-only NextPass recommendation withdrawn after exactinput review. First accepted hole-free lowpoly + stable roof region/surface or authored mask retainingPBR; then one bounded snow response and native winter/clear transition. Wholemesh normalmask is a separate shader/native gate, not existing ready API."
+          "finite_input_after_geometry": "Original raw/remesh had oneopaque material and no roof-only slot, so earlier readyAPI recommendation was withdrawn. Accepted derived4e7c9d6c now has2surfaces, stableH049_Roof_PBR material1/123actual exterior slope triangles; see roof_region_source_stage_2026_10_20 archive/receipt. ExistingPML remainsopaque, not a snow-only overlay. Need bounded dedicated snowresponse preserving originalPBR under uncovered fragments; no globalregrade/drop maps. Native complete coverage/material/performance remains open."
         },
         "remesh_download_receipt": "assets/source/blender/act1/h049_outbuilding_multiview_v1/generation/download-remesh.json",
         "remesh_sha256": "179b7e3c308207a2b701216b816024ac3bc311657970145dcc9e8181d0a8a2bd",
@@ -144385,7 +144419,7 @@
         "remesh_actual_triangles": 5538,
         "root_remesh_review": "Root personally inspected all five actual remesh PNGs: new black triangular void in rear plinth and open vertical front-gable slit above door are absent in corresponding raw views. Candidate fails exterior construction gate despite preserved one-door/one-window layout. No runtime promotion.",
         "remaining": "Original paid remesh remains rejected and immutable; one derived two-face local candidate now accepted only as source preparation under local_repair_stage_2026_10_20. Unique raw/remesh archives and derived source retained; no more paid calls. Need stable roof region/mask, PBR-preserving winter response, runtime texture/mesh budget and whole-scene/support/collision/LOD/performance/art/movement acceptance.",
-        "next_action": "Use accepted local derived SHA33c5358d as finite geometry input. Next prepare a stable roof surface/region or authored mask preserving four PBR maps before any bounded snow adapter; no unchanged remesh/paid repair or global regrade. Ordinary current book/play/save/Continue remains primary release priority when protected station is restored.",
+        "next_action": "Restore derived4e7c9d6c from roof_region_source_stage_2026_10_20.archive and use stableH049_Roof_PBR surface as input to a bounded snow-only adapter preservingPBR. Do not redo roof selection/remesh/paidgeneration. Runtime budget and actual wholewinter scene/native/performance/art remain open; ordinary book/play/save/Continue stays primary release priority when protected station returns.",
         "archive_cleanup": {
           "state": "closed_unique_outputs_losslessly_archived_unpacked_duplicates_removed",
           "no_open_handles": true,
@@ -144436,7 +144470,55 @@
           "output_sha256": "33c5358d476ed76a8aa608ec03feead72486088f0bef04a6686b355ff24821be",
           "receipt": "assets/source/blender/act1/h049_outbuilding_multiview_v1/generation/local-candidate-v1-receipt.json",
           "root_review": "Root personally viewed all5local-v1PNG against rejected remesh: rear triangle void and front-gable black face absent, no obvious new gross seam; front door/oneleftwindow/blankbackright/proportions unchanged. Source visual acceptance only. Previous claimed open gable slit corrected: actual BlenderUV0,0 / GLTFUV0,1 collapsed black material sample, not missing geometry.",
-          "cleanup": "Deleted only two fullZIP/memberSHA verified, closed working GLB duplicates,78183688bytes; unique archives/derivedcandidate/recipes/receipt/rawlog/views retained. Restore path+hash recorded in receipt."
+          "cleanup": "Deleted only two fullZIP/memberSHA verified, closed working GLB duplicates,78183688bytes; unique archives/derivedcandidate/recipes/receipt/rawlog/views retained. Restore path+hash recorded in receipt.",
+          "source_storage": "Both unique derived GLBs now retained losslessly in roof_region_source_stage_2026_10_20.archive; full decompressed SHA verified, unpacked copies removed after closed-handle checks. Restore named member at original path before reusing producer/inspection."
+        },
+        "roof_region_source_stage_2026_10_20": {
+          "state": "two_surface_source_prepared_reviewed_next_snow_adapter_native_pending",
+          "active_owner": null,
+          "input_sha256": "33c5358d476ed76a8aa608ec03feead72486088f0bef04a6686b355ff24821be",
+          "question": "Can the actual two exterior roof slopes become a stable roof-only surface for a later PBR-preserving winter adapter, without altering per-triangle source geometry/UV/material maps?",
+          "selection": "Two edge-adjacent exterior slope components:61tri/6.4193987m² and62tri/6.1482569m². LeftactualZ2.0683871–3.09999989;right2.1642879–3.09999989. PlaneRMS.012519/.007006m andmaxresidual.036205/.014630m describe actual waviness, not a perfect plane. Lower upward-facing components are excluded; no blanket normal mask. Intercept proxy is not actual height.",
+          "intended_output": "After root visual GO only: one derived GLB with deterministic body/roof2primitives and sourceface→output mapping. All5538orderedtriangle corners XYZ/normal/UV unchanged, all4image bytes/bindings retained, no collider/node/transform/state change;1extra drawcall per visible instance. Global drawstream order may partition because this is opaque visual-only geometry, not a user-facing/collision invariant.",
+          "verification": "OneBlender4.5.12sourceimport/render exit0, imported material counts[5415,123]. Root personally read actual diagnostic and comparable texturedfront-left: same overall appearance/no obvious new gross artifact. Independent personal luna_fast producer/selection/hash/metadata read accepted. Root independently parsed actualGLB: exactmapped orderedindices/fullfacecoverage/sourceaccessors/literalBINprefix/materialcopies/maps/nodes/transforms andviewhash match. No game tests/probes/Godot/build/native/snow/performance claim.",
+          "remaining": "Restore exact h049-roof-body-surfaces-v1.glb member from recorded local archive before next preparation. Need snow-only adapter on stable roof surface preserving underlying PBR, runtime texture/mesh budget, and protected actual winter scene/support/collision/clearance/LOD/performance/art/movement acceptance. Grayedge facets/slivers/raisedstrip excluded; no full snow coverage acceptance.",
+          "root_region_review": "Root personally viewed actual source diagnostic: two contiguous exterior slopes, fascia/raisedstrip/walls/underside excluded; a few grayfrontedge facets/slivers explicitly remain, not claimed fullsnowcoverage. Region accepted only as stable preparedsurface input.",
+          "diagnostic": "assets/source/blender/act1/h049_outbuilding_multiview_v1/generation/roof-region-diagnostic-v1.png",
+          "diagnostic_sha256": "40bbd866a14a2675f7cf9ee2adfbff950024c60510ac1dcd900798dd1e905ea9",
+          "result": "Locked source partitioned into2opaque PBR surfaces: body5415 and roof123, total5538tri/8555vertices. Deterministic sourceface→primitive+ordinal mapping, ordered corners XYZ/normal/UV and allsourceaccessors/4images/BINprefix unchanged. Material0 remains original, material1H049_Roof_PBR exactPBR copy except name. Oneextra material surface/drawcall per visible instance; no shader/snow/collision/runtime change.",
+          "output_member": {
+            "path": "h049-roof-body-surfaces-v1.glb",
+            "bytes": 38681780,
+            "sha256": "4e7c9d6cedf4eba93beedcde2c7bb2c031c85ab4af7f2050e444de1773c8bd68"
+          },
+          "receipt": "assets/source/blender/act1/h049_outbuilding_multiview_v1/generation/roof-body-surfaces-v1-receipt.json",
+          "actual_view": "assets/source/blender/act1/h049_outbuilding_multiview_v1/generation/roof-body-v1-front-left.png",
+          "archive": {
+            "path": "assets/source/blender/act1/h049_outbuilding_multiview_v1/generation/h049-derived-source-v1.tar.xz",
+            "archive_bytes": 38015120,
+            "archive_sha256": "ecc1811b5fab0d2101637e4553b5026b4106e44ebdb0512dd0c247826b8a979f",
+            "members": [
+              {
+                "member": "meshy-remesh-local-candidate-v1.glb",
+                "bytes": 38647972,
+                "sha256": "33c5358d476ed76a8aa608ec03feead72486088f0bef04a6686b355ff24821be",
+                "full_decompressed_stream_verified": true
+              },
+              {
+                "member": "h049-roof-body-surfaces-v1.glb",
+                "bytes": 38681780,
+                "sha256": "4e7c9d6cedf4eba93beedcde2c7bb2c031c85ab4af7f2050e444de1773c8bd68",
+                "full_decompressed_stream_verified": true
+              }
+            ],
+            "unpacked_bytes": 77329752,
+            "net_freed_bytes": 39314632,
+            "compression": "solid tar.xz LZMA2 64MiB dictionary; standard Python/tar restore, no image/mesh modification",
+            "no_open_handles": true,
+            "restore": "Before the next asset producer/inspection, extract exactly the needed basename from this archive into the generation folder; verify recorded size/SHA. Never overwrite an existing source. Both unique derived GLBs are retained losslessly.",
+            "unpacked_duplicates_removed": true
+          },
+          "cleanup_attempt": "First archive attempt rejected filters keyword at tarfile wrapper before compression; sources preserved, owned tiny partial removed. Corrected filter owner to LZMAFile, full two-member decompression/SHA and no-open-handles checks passed before deleting unpacked duplicates. No model/render repeat."
         }
       }
     },
