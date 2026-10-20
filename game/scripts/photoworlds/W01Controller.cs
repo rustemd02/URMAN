@@ -1005,9 +1005,22 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
             }
         }
 
+        float ClusterRepresentativeHeight(int heightBand) => Mathf.Min(24f, minimumClusterPineHeight
+            + (heightBand + 0.5f) * clusterHeightStep);
+
+        // Bands clamped to the same range have identical LOD state. Share their
+        // batches within the same spatial cell; keep every authored transform.
+        var rangeHeightBands = new Dictionary<float, int>();
         foreach (var candidate in selectedClusterCandidates)
         {
-            var groupKey = (candidate.Cell, candidate.HeightBand);
+            var rangeScale = AgentBAct1ExteriorLayer.FoliageRangeScale(false,
+                ClusterRepresentativeHeight(candidate.HeightBand));
+            if (!rangeHeightBands.TryGetValue(rangeScale, out var rangeHeightBand))
+            {
+                rangeHeightBand = candidate.HeightBand;
+                rangeHeightBands.Add(rangeScale, rangeHeightBand);
+            }
+            var groupKey = (candidate.Cell, rangeHeightBand);
             if (!clusteredPineCells.TryGetValue(groupKey, out var transforms))
                 clusteredPineCells[groupKey] = transforms = new List<Transform3D>();
             transforms.Add(candidate.Transform);
@@ -1065,8 +1078,7 @@ public partial class W01Controller : Node3D, IAccessibilitySettingsTarget
             var (cell, heightBand) = groupKey;
             var origin = new Vector3(cell.X * forestCellSize + forestCellSize * 0.5f, 0f,
                 cell.Y * forestCellSize + forestCellSize * 0.5f);
-            var representativeHeight = Mathf.Min(24f, minimumClusterPineHeight
-                + (heightBand + 0.5f) * clusterHeightStep);
+            var representativeHeight = ClusterRepresentativeHeight(heightBand);
             AddClusteredPineTier(lightPineMesh, 1, "WinterLightPine",
                 origin, representativeHeight, transforms, cell, heightBand);
             AddClusteredPineTier(farPineMesh, 2, "WinterFarPine",

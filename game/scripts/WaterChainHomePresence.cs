@@ -39,6 +39,7 @@ internal partial class WaterChainHomePresence : Node3D
 
     private RuntimeBridge? _bridge;
     private bool _appliedOnce;
+    private InteractionTarget? _housePhotoEntryTarget;
 
     public override void _Ready() => SetProcess(true);
 
@@ -93,7 +94,8 @@ internal partial class WaterChainHomePresence : Node3D
         var commonAcquired = bridge.PhotoBookPhotos().Any(photo => photo.PhotoId == "P-COMMON");
         var firstHomeTalk = bridge.PhotoWorldFactObserved("first_world_home_talk");
         var housePrintFound = bridge.PhotoWorldFactObserved("house_print_found");
-        var houseAcquired = bridge.PhotoBookPhotos().Any(photo => photo.PhotoId == "P-HOUSE");
+        var housePhoto = bridge.PhotoBookPhotos().FirstOrDefault(photo => photo.PhotoId == "P-HOUSE");
+        var houseAcquired = housePhoto is not null;
         var handAcquired = bridge.PhotoBookPhotos().Any(photo => photo.PhotoId == "S-HAND");
         var cellarFound = bridge.PhotoWorldFactObserved("cellar_photo_found");
         var cellarAcquired = bridge.PhotoBookPhotos().Any(photo => photo.PhotoId == "P-CELLAR");
@@ -164,6 +166,9 @@ internal partial class WaterChainHomePresence : Node3D
         CommonFilePermissionTarget.SetPresentationEnabled(filePermissionLive);
         SourceTarget.SetPresentationEnabled(sourceLive);
         RiverEntryTarget.SetPresentationEnabled(riverLive);
+        if (_housePhotoEntryTarget is null || !GodotObject.IsInstanceValid(_housePhotoEntryTarget))
+            _housePhotoEntryTarget = SourceTarget.GetParent()?.GetNodeOrNull<InteractionTarget>("HousePhotoEntryTarget");
+        _housePhotoEntryTarget?.SetPresentationEnabled(housePhoto is { Mounted: true, WorldCompleted: true });
         HousePhotoSourceTarget.SetPresentationEnabled(houseSourceLive);
         HousePhotoPermissionTarget.SetPresentationEnabled(housePermissionLive);
         // әби keeps her greeting whenever the chain is not asking a question.

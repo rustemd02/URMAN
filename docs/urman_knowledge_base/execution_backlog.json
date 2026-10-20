@@ -108924,7 +108924,9 @@
         "evidence/PW-043/release-path-20261015/frames/d884-root/10-new-album.png",
         "evidence/PW-043/release-path-20261015/frames/d884-root/11-album-detail.png",
         "evidence/PW-019/first-river-origin-20261020/affected-game-build.log",
-        "evidence/PW-019/first-common-origin-20261020/affected-game-build.log"
+        "evidence/PW-019/first-common-origin-20261020/affected-game-build.log",
+        "evidence/PW-019/first-house-origin-20261020/affected-game-build-before-window-facing-fix.log",
+        "evidence/PW-019/first-house-origin-20261020/affected-game-build.log"
       ],
       "source_spec": "docs/URMAN_PHOTOWORLDS_SPEC_2026-10-08/data/tasks.spec.json#PW-019",
       "source_requirements": [
@@ -109041,7 +109043,7 @@
       "assigned_owner": "integration",
       "activity": {
         "state": "idle",
-        "reason": "Finite W04 shore-origin source stage compiled/reviewed; native and exact composition pending station recovery."
+        "reason": "Finite W03 exterior-window source stage compiled/reviewed, native/fullcard gates open."
       },
       "task_type": "engineering",
       "implementation_state": "partial",
@@ -109051,7 +109053,7 @@
         "Вне якоря есть чтение без ложной кнопки входа.",
         "Первый якорь проверен до контекста, с нужным и чужим снимком и после визита: применимая причина отказа понятна без спойлера, пиксель-хантинга и выдачи знания. Недостаток подачи сначала подтверждён в обычном маршруте, затем исправлен существующим gate/hint owner."
       ],
-      "next_action": "After authoritative e79 terminal/restoration, use protected ordinary W04 first entry and return walkthrough; inspect actual three-landmark composition and bank-meeting placement. Implement first W03 exterior anchor separately using real village geometry.",
+      "next_action": "After authoritative e79 terminal and protected-data restoration, verify actual outside-window book/ray entry, action/early or completed return, Continue, completed home revisit and authored front/framing. Until transport returns, do not replace native evidence with source compile.",
       "blocker": null,
       "external_gates": [],
       "stop_condition": "Собственный DoD + указанная проверка + evidence завершены: записать completed, освободить active_owner, принять/коммитить этап при разрешении и остановить эту единицу. Новый дефект вне границ — отдельная связанная единица. После двух неудачных гипотез без нового причинного факта пересмотреть подход; одинаковый прогон не повторять.",
@@ -109479,8 +109481,30 @@
         "evidence": [
           "evidence/PW-019/first-common-origin-20261020/affected-game-build.log"
         ],
-        "remaining": "Native triple-landmark composition, first/unfinished entry, early bank return, first normal bank meeting/leaf route, Continue and completed home revisit. First W03 still uses interior print instead of required exterior window/yard; front production and actual outdoor anchor remain open.",
+        "remaining": "Native triple-landmark composition, first/unfinished entry, early bank return, first normal bank meeting/leaf route, Continue and completed home revisit. W03 exterior source is tracked separately in first_house_place_2026_10_20; its native framing/front remains open.",
         "review_constraint": "Normal bank-story SwitchZone stages a transient Alsu meeting pose. Do not run full saved companion reprojection after staging: it could overwrite this pose with old saved state. Existing normal support check preserved; no observed native failure claimed."
+      },
+      "first_house_place_2026_10_20": {
+        "state": "source_integrated_compiled_native_pending",
+        "question": "Does first/unfinished W03 start at the actual family-house exterior window after print preparation, preserve historical tickets and restore its captured outside pose while completed visits remain home?",
+        "production_default": "Use live current hero facade windows and the existing gate-side observation formula; supported fallback is existing from_house ordinary exit. Do not read cached pre-relocation metadata or use inner H00 coordinates. Capsule/native framing and unproduced front remain open.",
+        "next_action": "After authoritative e79 terminal and protected-data restoration, verify actual outside-window book/ray entry, action/early or completed return, Continue, completed home revisit and authored front/framing. Until transport returns, do not replace native evidence with source compile.",
+        "result": "First/unfinished W03 requires actual family-house exterior window. Current live facade/window transforms determine supported gate-side foot marker and real window interaction target; old pre-relocation metadata is not reused. Exact Core origin village_day/PW_HOME_PHOTO_ENTRY/from_house, preserved serialized return/cancel/Continue and legacy home tickets. Source/envelope/permission/back/mount remain home; completed home-book revisit remains. Book now exposes first Enter/Continue for all5 mapped worlds. Window-facing check uses actual window target, while6m radius and safe return use foot marker, avoiding a proven reversed-facing failure near the marker.",
+        "verification": "Final affected Game compile PASS14.42s0warnings0errors; initial16.43s raw retained before correcting actual window-facing mismatch. Independent luna_fast reviewed bootstrap/lifecycle/tickets/batching and final two-file facing fix, no remaining source blocker. Scoped diffcheck. No tests/probes created/run; native framing/capsule/Continue not run.",
+        "evidence": [
+          "evidence/PW-019/first-house-origin-20261020/affected-game-build-before-window-facing-fix.log",
+          "evidence/PW-019/first-house-origin-20261020/affected-game-build.log"
+        ],
+        "source_paths": [
+          "src-dotnet/Urman.Core/Narrative/PhotoWorldState.cs",
+          "game/scripts/Act1ConnectedWorld.ImageDiscoveries.cs",
+          "game/scripts/WaterChainHomePresence.cs",
+          "game/scripts/Main.cs",
+          "game/scripts/RuntimeBridge.PhotoBook.cs",
+          "game/scripts/JournalUi.cs",
+          "game/scripts/JournalUi.PhotoBook.cs"
+        ],
+        "remaining": "Actual exterior capsule/support/ray, full ordinary source→print→window→W03→action→return→Continue and first-photo framing/art; P-HOUSE front remains unproduced. Whole PW019 and author gates not complete."
       }
     },
     {
@@ -110311,6 +110335,21 @@
           "evidence/PW-021/dynamic-resources-20261020/affected-game-build.log"
         ],
         "limits": "No current native proof: same e79 status-only query again timed out. Procedural geometry/collisions, material/shader creation and GPU uploads still main thread; no FPS/hitch improvement claimed. Five exceptional synchronous fallback mounts and host-shell load remain."
+      },
+      "forest_batching_2026_10_20": {
+        "state": "source_integrated_compiled_native_pending",
+        "question": "Can equal effective LOD groups share existing same-cell forest batches without changing transforms, geometry, materials or numeric ranges, reducing main-thread node construction and submissions?",
+        "result": "Shared existing FoliageRangeScale formula extracted without changing numeric output. W01 canonicalizes height groups by exact effective scale within unchanged24m cells. Default clamp1.6 coalesces7of8bands intoone, atmost2rangegroupspercell; budget-disabled distinctranges remain separate. Selectedtransforms retained exactlyonce,1300budget and36near trees unchanged.",
+        "verification": "Final affected Game compile14.42s0warnings0errors with W03stage; independent luna_fast review verified exact range-equivalence and transform retention, no source blocker. No new tests/probes/run. Native FPS and LOD transition assessment not performed.",
+        "evidence": [
+          "evidence/PW-019/first-house-origin-20261020/affected-game-build.log"
+        ],
+        "remaining": "Conservative union AABB changes within-cell culling granularity/possible bounds-center transition; inspect native motion and real engine drawcalls before performance acceptance. Villageconifers remain individual MeshInstance contributors;20174last-frame drawcalls is notFPS and notsolely caused bypines.",
+        "next_action": "After station restoration compare ordinary W01 movement/LOD transitions and raw engine frame metrics under same profile, preserving source art and collision. Source stage accepted; full loading/performance/native gates remain open.",
+        "source_paths": [
+          "game/scripts/photoworlds/W01Controller.cs",
+          "game/scripts/experiments/agent_b_act1/AgentBAct1ExteriorLayer.cs"
+        ]
       }
     },
     {

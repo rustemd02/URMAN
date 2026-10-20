@@ -195,8 +195,6 @@ public partial class RuntimeBridge
             reason = "Дождитесь завершения действия с книгой.";
         else if (PhotoBookEntryInteractionForPhoto(photoId) is not { } interactionId)
             reason = "В этот снимок нельзя войти.";
-        else if (photoId is not ("P-FOREST" or "P-WATER" or "P-COMMON" or "P-CELLAR") && !IsCompletedPhotoBookEntry(interactionId))
-            reason = "Сначала пройдите этот мир через его первоначальный вход.";
         else if (!IsInteractionAvailable(interactionId))
         {
             var state = session.SelectState();
@@ -225,27 +223,34 @@ public partial class RuntimeBridge
             return "Дождитесь завершения перехода.";
         var riverOrigin = originAnchor == "PW_RIVER_ENTRY";
         var commonOrigin = originAnchor == "PW_COMMON_ENTRY";
-        var returnToOrigin = commonOrigin
-            ? "Вернитесь к месту общего снимка у берега и найдите три ориентира."
-            : riverOrigin ? "Вернитесь к старому подходу к мосткам на берегу."
-                : "Вернитесь к домашнему столу с книгой.";
+        var houseOrigin = originAnchor == "PW_HOME_PHOTO_ENTRY";
+        var returnToOrigin = houseOrigin
+            ? "Вернитесь во двор семейного дома к наружному окну со снимка."
+            : commonOrigin ? "Вернитесь к месту общего снимка у берега и найдите три ориентира."
+                : riverOrigin ? "Вернитесь к старому подходу к мосткам на берегу."
+                    : "Вернитесь к домашнему столу с книгой.";
         var world = GetTree().GetFirstNodeInGroup("act1_connected_world") as Act1ConnectedWorld;
         if (world is null)
             return requirePhysicalWorld ? returnToOrigin : null;
         var revisit = IsCompletedPhotoBookEntry(interactionId);
         Node3D anchor;
-        if (riverOrigin || commonOrigin)
+        Vector3? facingPoint = null;
+        if (riverOrigin || commonOrigin || houseOrigin)
         {
-            var targetName = commonOrigin ? "CommonPhotoEntryTarget" : "RiverPhotoEntryTarget";
             if (CurrentZoneId != originZone || world.ActiveZoneId != originZone
                 || GetTree().GetFirstNodeInGroup("zone_manager") is not Main main
-                || !main.TryGetPhotoVisitOriginAnchor(originZone, originAnchor, out var outdoorAnchor)
-                || world.GetNodeOrNull<InteractionTarget>(
-                    "Act1CoreWorldGreybox/PhotoBankApproach/PhotoBankApproachPresence/" + targetName) is not { } target
-                || !GodotObject.IsInstanceValid(target) || !target.IsInsideTree() || target.IsQueuedForDeletion()
+                || !main.TryGetPhotoVisitOriginAnchor(originZone, originAnchor, out var outdoorAnchor))
+                return returnToOrigin;
+            var targetName = commonOrigin ? "CommonPhotoEntryTarget" : "RiverPhotoEntryTarget";
+            var target = houseOrigin
+                ? outdoorAnchor.GetNodeOrNull<InteractionTarget>("HousePhotoEntryTarget")
+                : world.GetNodeOrNull<InteractionTarget>(
+                    "Act1CoreWorldGreybox/PhotoBankApproach/PhotoBankApproachPresence/" + targetName);
+            if (target is null || !GodotObject.IsInstanceValid(target) || !target.IsInsideTree() || target.IsQueuedForDeletion()
                 || !target.IsVisibleInTree() || target.InteractionId != interactionId)
                 return returnToOrigin;
             anchor = outdoorAnchor;
+            if (houseOrigin) facingPoint = target.GlobalPosition;
         }
         else
         {
@@ -276,24 +281,28 @@ public partial class RuntimeBridge
         if (carry is { ActionInProgress: true }) return "Дождитесь завершения действия с предметом.";
         if (carry is { HeldItem: not null }) return "Сначала поставьте предмет из рук.";
         if (!player.IsOnFloor() || !player.CanStandAt(player.GlobalPosition))
-            return commonOrigin ? "Встаньте на свободное место у точки общего снимка на берегу."
-                : riverOrigin ? "Встаньте на свободное место у старого подхода к мосткам."
-                    : "Встаньте на свободное место у домашнего стола.";
+            return houseOrigin ? "Встаньте на свободное место во дворе у наружного окна семейного дома."
+                : commonOrigin ? "Встаньте на свободное место у точки общего снимка на берегу."
+                    : riverOrigin ? "Встаньте на свободное место у старого подхода к мосткам."
+                        : "Встаньте на свободное место у домашнего стола.";
         var toAnchor = anchor.GlobalPosition - player.GlobalPosition;
-        if (toAnchor.LengthSquared() > 36f) return commonOrigin
-            ? "Подойдите ближе к месту общего снимка у берега."
-            : riverOrigin ? "Подойдите ближе к старому подходу к мосткам на берегу."
-                : "Подойдите ближе к домашнему столу с книгой.";
-        toAnchor.Y = 0f;
-        if (!revisit && toAnchor.LengthSquared() > .0001f)
+        if (toAnchor.LengthSquared() > 36f) return houseOrigin
+            ? "Подойдите ближе к наружному окну семейного дома со стороны двора."
+            : commonOrigin ? "Подойдите ближе к месту общего снимка у берега."
+                : riverOrigin ? "Подойдите ближе к старому подходу к мосткам на берегу."
+                    : "Подойдите ближе к домашнему столу с книгой.";
+        var toFacing = facingPoint is { } point ? point - player.GlobalPosition : toAnchor;
+        toFacing.Y = 0f;
+        if (!revisit && toFacing.LengthSquared() > .0001f)
         {
             var forward = -player.GlobalBasis.Z;
             forward.Y = 0f;
             if (forward.LengthSquared() < .0001f
-                || forward.Normalized().Dot(toAnchor.Normalized()) < Mathf.Cos(Mathf.DegToRad(40f)))
-                return commonOrigin ? "Закройте альбом и повернитесь к месту общего снимка у берега."
-                    : riverOrigin ? "Закройте альбом и повернитесь к старому подходу к мосткам."
-                        : "Закройте альбом и повернитесь к домашнему столу с книгой.";
+                || forward.Normalized().Dot(toFacing.Normalized()) < Mathf.Cos(Mathf.DegToRad(40f)))
+                return houseOrigin ? "Закройте альбом и повернитесь к наружному окну семейного дома."
+                    : commonOrigin ? "Закройте альбом и повернитесь к месту общего снимка у берега."
+                        : riverOrigin ? "Закройте альбом и повернитесь к старому подходу к мосткам."
+                            : "Закройте альбом и повернитесь к домашнему столу с книгой.";
         }
         return null;
     }

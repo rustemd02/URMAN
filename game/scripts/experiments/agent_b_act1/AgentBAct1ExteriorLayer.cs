@@ -1902,6 +1902,9 @@ public partial class AgentBAct1ExteriorLayer : Node3D
             .ToArray();
     }
 
+    internal static float FoliageRangeScale(bool groundCover, float treeHeight) =>
+        groundCover ? 1f : Mathf.Clamp(treeHeight / 8f, 1f, LodRangeScaleCeiling);
+
     internal static void ConfigureFoliageRange(GeometryInstance3D instance, int lod, bool groundCover, float treeHeight)
     {
         // The same distance cannot serve a sapling and a thirty-metre canopy.
@@ -1917,7 +1920,7 @@ public partial class AgentBAct1ExteriorLayer : Node3D
         // meaningful: a tier swap cannot be hidden by moving only one band. The
         // crossover itself is verified per plant in AuditFoliageLodAndCullingBounds,
         // where all three instances of one tree are visible at once.
-        var rangeScale = groundCover ? 1f : Mathf.Clamp(treeHeight / 8f, 1f, LodRangeScaleCeiling);
+        var rangeScale = FoliageRangeScale(groundCover, treeHeight);
         instance.VisibilityRangeFadeMode = GeometryInstance3D.VisibilityRangeFadeModeEnum.Self;
         instance.VisibilityRangeBegin = rangeScale * (lod switch { 1 => 24, 2 => 60, _ => 0 });
         instance.VisibilityRangeBeginMargin = rangeScale * (lod switch { 1 => 2, 2 => 4, _ => 0 });

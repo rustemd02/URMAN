@@ -610,8 +610,11 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
                 ? $"У домашнего стола открыть в книге разворот «Люди у леса» и выбрать «{entryAction}»."
                 : $"Вернуться к домашнему столу с книгой, открыть разворот «Люди у леса» и выбрать «{entryAction}».";
         }
-        if (houseQuestStatus is "active" or "completed")
+        if (houseQuestStatus == "completed")
             return null;
+        if (houseQuestStatus == "active"
+            || bridge.IsInteractionAvailable("urman.fullgame:interaction/pw-enter-house"))
+            return PhotoBookHouseHandoffObjectiveText(bridge);
         if (waterQuestStatus == "completed")
             return PhotoBookHouseHandoffObjectiveText(bridge);
         if (forestQuestStatus == "completed")
@@ -798,11 +801,10 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
                 ? "Прочитать оборот снимка двора."
                 : null;
 
-        if (!atHome)
-            return "Вернуться домой и войти в знакомый двор со снимка.";
-        return bridge.IsInteractionAvailable("urman.fullgame:interaction/pw-enter-house")
-            ? bridge.ResolveText("urman.fullgame:text/pw-label-enter-house")
-            : null;
+        if (!bridge.IsInteractionAvailable("urman.fullgame:interaction/pw-enter-house"))
+            return null;
+        var entryAction = housePhoto.HasResumePoint ? "Продолжить снимок" : "Войти в снимок";
+        return $"Выйти во двор к наружному окну семейного дома, открыть в книге разворот «{housePhoto.Title}» и выбрать «{entryAction}».";
     }
 
     private void SelectEntry(long index)

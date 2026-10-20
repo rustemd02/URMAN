@@ -101,6 +101,8 @@ public partial class Main : Node3D
                 .GetNodeOrNull<Node3D>("Act1CoreWorldGreybox/PhotoBankApproach/BankEntry"),
             ("village_day", "PW_COMMON_ENTRY") => world
                 .GetNodeOrNull<Node3D>("Act1CoreWorldGreybox/PhotoBankApproach/BankReturnWitness"),
+            ("village_day", "PW_HOME_PHOTO_ENTRY") => world.TryGetHousePhotoEntryAnchor(out var houseAnchor)
+                ? houseAnchor : null,
             _ => null
         };
         if (candidate is null || !GodotObject.IsInstanceValid(candidate)
@@ -117,6 +119,8 @@ public partial class Main : Node3D
         anchorId = ticket.GetProperty("originAnchorId").GetString()!;
         safeNodeId = ticket.GetProperty("originSafeNode").GetString()!;
         return (zoneId == "house_old_pc" && anchorId == "PW_HOME_TABLE")
+            || (worldId == "W03" && zoneId == "village_day" && anchorId == "PW_HOME_PHOTO_ENTRY"
+                && safeNodeId == "from_house")
             || (zoneId == "village_day" && safeNodeId == "pw-bank-approach"
                 && ((worldId == "W02" && anchorId == "PW_RIVER_ENTRY")
                     || (worldId == "W04" && anchorId == "PW_COMMON_ENTRY")));

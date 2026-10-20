@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Godot;
+using Urman.Core.Narrative;
 using Urman.Experiments.AgentBAct1;
 
 namespace Urman.Godot;
@@ -14,6 +15,11 @@ public partial class Act1ConnectedWorld
     private MeshInstance3D? _observationTagSnow;
     private Node3D? _photoGateInsert;
     private Action? _refreshSketchObservationMetadata;
+    private const string HousePhotoEntryInteractionId = "urman.fullgame:interaction/pw-enter-house";
+    private Node3D? _housePhotoEntryFacade;
+    private MeshInstance3D? _housePhotoEntryWindow;
+    private Marker3D? _housePhotoEntryAnchor;
+    private InteractionTarget? _housePhotoEntryTarget;
 
     // Keep geometry out of the cached narrative availability. FPC checks this
     // live; RuntimeBridge checks the same predicate immediately before dispatch.
@@ -106,6 +112,8 @@ public partial class Act1ConnectedWorld
         var glasses = Enumerable.Range(1, 3).Select(index =>
             FindDescendants<MeshInstance3D>(facade).Single(mesh =>
                 mesh.Name == $"HeroHouse_Street_Window{index}_Glass_LOD0")).ToArray();
+        if (GetTree().GetFirstNodeInGroup("runtime_bridge") is RuntimeBridge { IsPhotoWorldsCampaign: true })
+            BuildHousePhotoEntry(facade, glasses[1]);
         var brace = FindDescendants<MeshInstance3D>(gate).Single(mesh => mesh.Name == "Gate_CrossBrace_LOD0");
         var front = ObservationHorizontal(facade.GlobalTransform.Basis.Z).Normalized();
         var gateCenter = ObservationMeshCenter(brace);
@@ -298,8 +306,92 @@ public partial class Act1ConnectedWorld
         yard.SetMeta("observationLookAt", sled.GlobalPosition);
     }
 
+    private void BuildHousePhotoEntry(Node3D facade, MeshInstance3D window)
+    {
+        _housePhotoEntryFacade = facade;
+        _housePhotoEntryWindow = window;
+        _housePhotoEntryAnchor = new Marker3D { Name = "HousePhotoEntryAnchor" };
+        facade.AddChild(_housePhotoEntryAnchor);
+        _housePhotoEntryTarget = new InteractionTarget
+        {
+            Name = "HousePhotoEntryTarget",
+            InteractionId = HousePhotoEntryInteractionId,
+            CollisionLayer = 4u,
+            CollisionMask = 0u,
+            Position = Vector3.Up * .82f,
+            PresentationGate = HousePhotoEntryInteractionWindowOpen
+        };
+        _housePhotoEntryTarget.ConfigureRayOnly();
+        _housePhotoEntryTarget.AddChild(new CollisionShape3D
+        {
+            Name = "HousePhotoEntryRay",
+            Shape = new SphereShape3D { Radius = .58f }
+        });
+        _housePhotoEntryAnchor.AddChild(_housePhotoEntryTarget);
+        _housePhotoEntryTarget.SetPresentationEnabled(false);
+        TryGetHousePhotoEntryAnchor(out _);
+    }
+
+    internal bool TryGetHousePhotoEntryAnchor(out Node3D anchor)
+    {
+        anchor = null!;
+        if (!IsInsideTree() || IsQueuedForDeletion()
+            || _housePhotoEntryFacade is not { } facade || !GodotObject.IsInstanceValid(facade)
+            || !facade.IsInsideTree() || facade.IsQueuedForDeletion()
+            || _housePhotoEntryAnchor is not { } marker || !GodotObject.IsInstanceValid(marker)
+            || !marker.IsInsideTree() || marker.IsQueuedForDeletion()) return false;
+        // A Studio replacement can replace the mesh below the stable facade.
+        if (_housePhotoEntryWindow is not { } window || !GodotObject.IsInstanceValid(window)
+            || !window.IsInsideTree() || window.IsQueuedForDeletion())
+            _housePhotoEntryWindow = FindDescendants<MeshInstance3D>(facade)
+                .SingleOrDefault(mesh => mesh.Name == "HeroHouse_Street_Window2_Glass_LOD0");
+        if (_housePhotoEntryWindow is not { Mesh: { } mesh } currentWindow) return false;
+        var center = currentWindow.GlobalTransform * mesh.GetAabb().GetCenter();
+        var front = ObservationHorizontal(facade.GlobalBasis.Z).Normalized();
+        var side = ObservationHorizontal(facade.GlobalBasis.X).Normalized();
+        if (front.LengthSquared() < .5f || side.LengthSquared() < .5f) return false;
+        // Same gate-side XZ as the existing three-window observation. Recompute
+        // from live geometry after relocation; saved metadata is in its old frame.
+        var foot = center + front * 1.2f - side * 2.4f;
+        foot.Y = AgentBAct1HeightField.CollisionGround(foot.X, foot.Z) + .05f;
+        var towardWindow = center - foot;
+        towardWindow.Y = 0f;
+        marker.GlobalPosition = foot;
+        marker.GlobalRotation = new Vector3(0f, Mathf.Atan2(-towardWindow.X, -towardWindow.Z), 0f);
+        if (_housePhotoEntryTarget is { } target && GodotObject.IsInstanceValid(target)
+            && target.IsInsideTree() && !target.IsQueuedForDeletion())
+            target.GlobalPosition = center + front * .08f;
+        anchor = marker;
+        return true;
+    }
+
+    private bool HousePhotoEntryProjectionReady() =>
+        !IsQueuedForDeletion() && ActiveZoneId == "village_day"
+        && _runtimeBridge is { IsPhotoWorldsCampaign: true } bridge && GodotObject.IsInstanceValid(bridge)
+        && bridge.CurrentZoneId == "village_day" && bridge.SessionIdentity is { } session
+        && bridge.CurrentFullGamePhotoWorldRouteProjection() is { ActiveSceneId: "urman.fullgame:scene/pw-home" } route
+        && ReferenceEquals(route.SessionIdentity, session)
+        && !PhotoWorldState.IsWorldCompleted(session.SelectState(), "W03")
+        && bridge.IsInteractionAvailable(HousePhotoEntryInteractionId);
+
+    private bool HousePhotoEntryInteractionWindowOpen() =>
+        HousePhotoEntryProjectionReady()
+        && !MainMenuUi.AnyUndismissed(GetTree())
+        && GetTree().GetFirstNodeInGroup("player_controller") is FirstPersonController
+            { ModalOpen: false, VehicleControlled: false, IsClimbingLadder: false, SessionTransitionActive: false };
+
+    private void UpdateHousePhotoEntryPresentation()
+    {
+        if (_housePhotoEntryTarget is not { } target || !GodotObject.IsInstanceValid(target)) return;
+        var ready = TryGetHousePhotoEntryAnchor(out _) && HousePhotoEntryProjectionReady();
+        if (_runtimeBridge is { } bridge && GodotObject.IsInstanceValid(bridge))
+            target.Prompt = bridge.ResolveText("urman.fullgame:text/pw-label-enter-house");
+        target.SetPresentationEnabled(ready);
+    }
+
     private void UpdateAct1ImageDiscoveries()
     {
+        UpdateHousePhotoEntryPresentation();
         _refreshSketchObservationMetadata?.Invoke();
         if (_observationTagSnow is not null)
             _observationTagSnow.Visible = !ObservationKnown("clue_sketch_tag_base_checked");

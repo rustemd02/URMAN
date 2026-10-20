@@ -99,6 +99,12 @@ public static class PhotoWorldState
             anchorId = "PW_RIVER_ENTRY";
             fixedSafeNodeId = "pw-bank-approach";
         }
+        else if (worldId == "W03" && !IsWorldCompleted(state, worldId))
+        {
+            zoneId = "village_day";
+            anchorId = "PW_HOME_PHOTO_ENTRY";
+            fixedSafeNodeId = "from_house";
+        }
         else if (worldId == "W04" && !IsWorldCompleted(state, worldId))
         {
             zoneId = "village_day";
