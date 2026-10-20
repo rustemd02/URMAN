@@ -605,7 +605,11 @@ public partial class JournalUi : CanvasLayer, IAccessibilitySettingsTarget
             return $"Дойти до места общего снимка у берега, открыть в книге разворот «{commonPhoto.Title}» и выбрать «{entryAction}».";
         }
         if (waterQuestStatus == "active")
-            return PhotoBookWaterHandoffObjectiveText(bridge);
+        {
+            var resumePhoto = bridge.PhotoBookPhotos().FirstOrDefault(photo => photo.PhotoId == "P-WATER");
+            var entryAction = resumePhoto?.HasResumePoint == true ? "Продолжить снимок" : "Войти в снимок";
+            return $"Дойти до старого подхода к мосткам на берегу, открыть в книге снимок у мостков и выбрать «{entryAction}».";
+        }
         if (forestQuestStatus == "active")
         {
             var resumePhoto = bridge.PhotoBookPhotos().FirstOrDefault(photo => photo.PhotoId == "P-FOREST");
